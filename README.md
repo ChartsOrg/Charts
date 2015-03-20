@@ -42,7 +42,7 @@ Features
  
 **Chart types:**
 
-***Screenshots are currently taken from the original repository, as they render exactly the same :-)***
+*Screenshots are currently taken from the original repository, as they render exactly the same :-)*
 
  - **LineChart (with legend, simple design)**
 ![alt tag](https://raw.github.com/PhilJay/MPChart/master/screenshots/simpledesign_linechart4.png)
