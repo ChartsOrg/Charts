@@ -1,26 +1,25 @@
 # ios-charts
 
-** Version ** 2.0.8, synced to [MPAndroidChart #633a531](https://github.com/PhilJay/MPAndroidChart/commit/633a5318f7b42af248509591ae91a87b200ec655)  
+**Version 2.0.8**, synced to [MPAndroidChart #633a531](https://github.com/PhilJay/MPAndroidChart/commit/633a5318f7b42af248509591ae91a87b200ec655)  
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/danielgindi/ios-charts/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
+![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
 
 Required **Swift 1.2**, introduced in Xcode 6.3.
 
-Okay so there's this beatiful library called [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) which has become very popular, and in the meanwhile there's no decent charting solution for iOS.
-
-I've [asked](https://github.com/PhilJay/MPAndroidChart/issues/384) Philipp Jahoda if he'll approve an iOS port - I got a YES - and got to work!
+Okay so there's this beatiful library called [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) by [Philipp Jahoda](https://www.linkedin.com/in/philippjahoda) which has become very popular amongst Android developers, and in the meanwhile there's no decent charting solution for iOS.
 
 I've chosen to write it in `Swift` as it can be highly optimized by the compiler, and can be used in both `Swift` and `ObjC` project. The demo project is written in `ObjC` to demonstrate how it works.
 
 ## Help
 
 If you like what you see here, and want to support the work being done in this repository, you could:
-* Actually code, and issue pull requests
-* Spread the word
+* Contribute code, issues and pull requests
+* Let people know this library exists (spread the word!)
 * 
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CHRDHZE79YTMQ)
 
-** Note: ** The author of [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) is the reason that this library exists, and is accepting donations on his page. He deserves them!
-
+**Note:** The author of [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) is the reason that this library exists, and is accepting [donations](https://github.com/PhilJay/MPAndroidChart#donations) on his page. He deserves them!
 
 
 Features
@@ -92,7 +91,7 @@ Features
 
 Documentation
 =======
-Currently there's no need for documentation for the iOS version, as the API is 95% the same.  
+Currently there's no need for documentation for the iOS version, as the API is **95% the same**.  
 You can read the official [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) documentation here: [**Wiki**](https://github.com/PhilJay/MPAndroidChart/wiki)
 
 Or you can see the [**ChartsDemo**](https://github.com/danielgindi/ios-charts/tree/master/ChartsDemo) project and learn the how-tos from it.
