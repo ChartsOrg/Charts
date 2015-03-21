@@ -3,6 +3,8 @@
 ** Version ** 2.0.8, synced to [MPAndroidChart #633a531](https://github.com/PhilJay/MPAndroidChart/commit/633a5318f7b42af248509591ae91a87b200ec655)  
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/danielgindi/ios-charts/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
+Required **Swift 1.2**, introduced in Xcode 6.3.
+
 Okay so there's this beatiful library called [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) which has become very popular, and in the meanwhile there's no decent charting solution for iOS.
 
 I've [asked](https://github.com/PhilJay/MPAndroidChart/issues/384) Philipp Jahoda if he'll approve an iOS port - I got a YES - and got to work!
