@@ -1,7 +1,4 @@
-# ios-charts
-
-**Version 2.0.8**, synced to [MPAndroidChart #633a531](https://github.com/PhilJay/MPAndroidChart/commit/633a5318f7b42af248509591ae91a87b200ec655)  
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/danielgindi/ios-charts/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+**Version 2.0.8**, synced to [MPAndroidChart #633a531](https://github.com/PhilJay/MPAndroidChart/commit/633a5318f7b42af248509591ae91a87b200ec655) [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/danielgindi/ios-charts/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
 
