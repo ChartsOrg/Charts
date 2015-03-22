@@ -25,7 +25,7 @@ If you are having questions or problems, you should:
 
  - Make sure you are using the latest version of the library. Check the [**release-section**](https://github.com/danielgindi/ios-charts/releases).
  - Study the [**Documentation-Wiki**](https://github.com/PhilJay/MPAndroidChart/wiki)
- - Search or open questions on [**stackoverflow**](https://stackoverflow.com/search?q=ios-charts) with the `ios-charts` tag
+ - Search or open questions on [**stackoverflow**](http://stackoverflow.com/questions/tagged/ios-charts) with the `ios-charts` tag
  - Search [**known issues**](https://github.com/danielgindi/ios-charts/issues) for your problem (open and closed)
  - Create new issues (please **search known issues before**, do not create duplicate issues)
 
