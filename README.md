@@ -18,6 +18,17 @@ If you like what you see here, and want to support the work being done in this r
 
 **Note:** The author of [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) is the reason that this library exists, and is accepting [donations](https://github.com/PhilJay/MPAndroidChart#donations) on his page. He deserves them!
 
+Questions & Issues
+-----
+
+If you are having questions or problems, you should:
+
+ - Make sure you are using the latest version of the library. Check the [**release-section**](https://github.com/danielgindi/ios-charts/releases).
+ - Study the [**Documentation-Wiki**](https://github.com/PhilJay/MPAndroidChart/wiki)
+ - Search or open questions on [**stackoverflow**](https://stackoverflow.com/search?q=ios-charts) with the `ios-charts` tag
+ - Search [**known issues**](https://github.com/danielgindi/ios-charts/issues) for your problem (open and closed)
+ - Create new issues (please **search known issues before**, do not create duplicate issues)
+
 
 Features
 =======
@@ -88,7 +99,7 @@ Features
 
 Documentation
 =======
-Currently there's no need for documentation for the iOS version, as the API is **95% the same**.  
+Currently there's no need for documentation for the iOS version, as the API is **95% the same** as on Android.  
 You can read the official [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) documentation here: [**Wiki**](https://github.com/PhilJay/MPAndroidChart/wiki)
 
 Or you can see the [**ChartsDemo**](https://github.com/danielgindi/ios-charts/tree/master/ChartsDemo) project and learn the how-tos from it.
