@@ -59,7 +59,7 @@ public class CombinedChartView: BarLineChartViewBase
         set
         {
             super.data = newValue;
-            (renderer as! CombinedChartRenderer?)?.createRenderers();
+            (renderer as! CombinedChartRenderer?)!.createRenderers();
         }
     }
     
