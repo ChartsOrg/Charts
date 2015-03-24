@@ -175,7 +175,7 @@ public class ChartLegend: ChartComponentBase
         var width = CGFloat(0.0);
         var height = CGFloat(0.0);
         
-        for (var i = 0; i < _labels.count; i++)
+        for (var i = 0, count = _labels.count; i < count; i++)
         {
             if (labels[i] != nil)
             {
@@ -188,14 +188,22 @@ public class ChartLegend: ChartComponentBase
                 var size = (_labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]);
                 
                 width += size.width;
-                width += xEntrySpace;
-                
                 height += size.height;
-                height += yEntrySpace;
+                
+                if (i < count - 1)
+                {
+                    width += xEntrySpace;
+                    height += yEntrySpace;
+                }
             }
             else
             {
                 width += formSize + stackSpace;
+                
+                if (i < count - 1)
+                {
+                    width += stackSpace;
+                }
             }
         }
         
