@@ -36,11 +36,19 @@ public class ChartLegend: ChartComponentBase
         case Circle
         case Line
     }
+    
+    @objc
+    public enum ChartLegendDirection: Int
+    {
+        case LeftToRight
+        case RightToLeft
+    }
 
     private var _colors = [UIColor?]()
     private var _labels = [String?]()
     
     public var position = ChartLegendPosition.BelowChartLeft
+    public var direction = ChartLegendDirection.LeftToRight
     
     public var font: UIFont = UIFont.systemFontOfSize(10.0)
     public var textColor = UIColor.blackColor()
@@ -147,6 +155,7 @@ public class ChartLegend: ChartComponentBase
     public func apply(legend: ChartLegend)
     {
         position = legend.position;
+        direction = legend.direction;
         font = legend.font;
         textColor = legend.textColor;
         form = legend.form;

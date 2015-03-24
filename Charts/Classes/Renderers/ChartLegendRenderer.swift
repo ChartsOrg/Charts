@@ -100,7 +100,7 @@ public class ChartLegendRenderer: ChartRendererBase
 
         return l;
     }
-
+    
     public func renderLegend(#context: CGContext, legend: ChartLegend!)
     {
         if (legend === nil || !legend.enabled)
@@ -113,11 +113,14 @@ public class ChartLegendRenderer: ChartRendererBase
         var labelLineHeight = labelFont.lineHeight;
 
         var labels = legend.labels;
-
+        
         var formSize = legend.formSize;
+        var formToTextSpace = legend.formToTextSpace;
+        var xEntrySpace = legend.xEntrySpace;
+        var direction = legend.direction;
 
         // space between text and shape/form of entry
-        var formTextSpaceAndForm = legend.formToTextSpace + formSize;
+        var formTextSpaceAndForm = formToTextSpace + formSize;
 
         // space between the entries
         var stackSpace = legend.stackSpace;
@@ -135,251 +138,309 @@ public class ChartLegendRenderer: ChartRendererBase
         
         switch (legend.position)
         {
-            case .BelowChartLeft:
-
-                var posX = viewPortHandler.contentLeft + xoffset;
-                var posY = viewPortHandler.chartHeight - yoffset;
-
-                for (var i = 0; i < labels.count; i++)
+        case .BelowChartLeft:
+            
+            var posX = viewPortHandler.contentLeft + xoffset;
+            var posY = viewPortHandler.chartHeight - yoffset;
+            
+            if (direction == .RightToLeft)
+            {
+                posX += legend.neededWidth;
+            }
+            
+            for (var i = 0, count = labels.count; i < count; i++)
+            {
+                var drawingForm = legend.colors[i] != UIColor.clearColor();
+                
+                if (drawingForm)
                 {
+                    if (direction == .RightToLeft)
+                    {
+                        posX -= formSize;
+                    }
+                    
                     drawForm(context, x: posX, y: posY - legend.textHeightMax / 2.0, colorIndex: i, legend: legend);
-
-                    // grouped forms have null labels
-                    if (labels[i] != nil)
+                    
+                    if (direction == .LeftToRight)
                     {
-                        // make a step to the left
-                        if (legend.colors[i] != UIColor.clearColor())
-                        {
-                            posX += formTextSpaceAndForm;
-                        }
-
-                        drawLabel(context, x: posX, y: posY - legend.textHeightMax, label: legend.getLabel(i)!, font: labelFont, textColor: labelTextColor);
-                        posX += (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width + legend.xEntrySpace;
-                    }
-                    else
-                    {
-                        posX += formSize + stackSpace;
+                        posX += formSize;
                     }
                 }
-
-                break;
-            case .BelowChartRight:
-
-                var posX = viewPortHandler.contentRight - xoffset;
-                var posY = viewPortHandler.chartHeight - yoffset;
-
-                for (var i = labels.count - 1; i >= 0; i--)
+                
+                // grouped forms have null labels
+                if (labels[i] != nil)
                 {
-                    if (labels[i] != nil)
+                    // spacing between form and label
+                    if (drawingForm)
                     {
-                        posX -= (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width + legend.xEntrySpace;
-                        drawLabel(context, x: posX, y: posY - legend.textHeightMax, label: legend.getLabel(i)!, font: labelFont, textColor: labelTextColor);
-                        if (legend.colors[i] != UIColor.clearColor())
-                        {
-                            posX -= formTextSpaceAndForm;
-                        }
+                        posX += direction == .RightToLeft ? -formToTextSpace : formToTextSpace;
                     }
-                    else
+                    
+                    if (direction == .RightToLeft)
                     {
-                        posX -= stackSpace + formSize;
+                        posX -= (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width;
                     }
-
+                    
+                    drawLabel(context, x: posX, y: posY - legend.textHeightMax, label: labels[i]!, font: labelFont, textColor: labelTextColor);
+                    
+                    if (direction == .LeftToRight)
+                    {
+                        posX += (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width;
+                    }
+                    
+                    posX += direction == .RightToLeft ? -xEntrySpace : xEntrySpace;
+                }
+                else
+                {
+                    posX += direction == .RightToLeft ? -stackSpace : stackSpace;
+                }
+            }
+            
+            break;
+        case .BelowChartRight:
+            
+            var posX = viewPortHandler.contentRight - xoffset;
+            var posY = viewPortHandler.chartHeight - yoffset;
+            
+            for (var i = labels.count - 1; i >= 0; i--)
+            {
+                var drawingForm = legend.colors[i] != UIColor.clearColor();
+                
+                if (direction == .RightToLeft && drawingForm)
+                {
+                    posX -= formSize;
+                    drawForm(context, x: posX, y: posY - legend.textHeightMax / 2.0, colorIndex: i, legend: legend);
+                    posX -= formToTextSpace;
+                }
+                
+                if (labels[i] != nil)
+                {
+                    posX -= (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width;
+                    drawLabel(context, x: posX, y: posY - legend.textHeightMax, label: labels[i]!, font: labelFont, textColor: labelTextColor);
+                }
+                
+                if (direction == .LeftToRight && drawingForm)
+                {
+                    posX -= formToTextSpace + formSize;
                     drawForm(context, x: posX, y: posY - legend.textHeightMax / 2.0, colorIndex: i, legend: legend);
                 }
-
-                break;
-            case .RightOfChart:
-
-                var posX = viewPortHandler.chartWidth - legend.textWidthMax - xoffset;
-                var posY = viewPortHandler.contentTop + yoffset;
-
-                for (var i = 0; i < labels.count; i++)
+                
+                posX -= labels[i] != nil ? xEntrySpace : stackSpace;
+            }
+            
+            break;
+        case .BelowChartCenter:
+            
+            var posX = viewPortHandler.chartWidth / 2.0 + (direction == .LeftToRight ? -legend.neededWidth / 2.0 : legend.neededWidth / 2.0);
+            var posY = viewPortHandler.chartHeight - yoffset;
+            
+            for (var i = 0; i < labels.count; i++)
+            {
+                var drawingForm = legend.colors[i] != UIColor.clearColor();
+                
+                if (drawingForm)
                 {
-                    drawForm(context, x: posX + stack, y: posY, colorIndex: i, legend: legend);
-
-                    if (labels[i] != nil)
+                    if (direction == .RightToLeft)
                     {
-                        if (!wasStacked)
-                        {
-                            var x = posX;
-
-                            if (legend.colors[i] != UIColor.clearColor())
-                            {
-                                x += formTextSpaceAndForm;
-                            }
-
-                            drawLabel(context, x: x, y: posY - legend.textHeightMax / 2.0, label: legend.getLabel(i)!, font: labelFont, textColor: labelTextColor);
-
-                            posY += textDrop;
-                        }
-                        else
-                        {
-                            posY += legend.textHeightMax * 3.0;
-                            drawLabel(context, x: posX, y: posY - legend.textHeightMax * 2.0, label: legend.getLabel(i)!, font: labelFont, textColor: labelTextColor);
-                        }
-
-                        // make a step down
-                        posY += legend.yEntrySpace;
-                        stack = 0.0;
+                        posX -= formSize;
                     }
-                    else
-                    {
-                        stack += formSize + stackSpace;
-                        wasStacked = true;
-                    }
-                }
-                break;
-            case .RightOfChartCenter:
-                var posX = viewPortHandler.chartWidth - legend.textWidthMax - xoffset;
-                var posY = viewPortHandler.chartHeight / 2.0 - legend.neededHeight / 2.0;
-
-                for (var i = 0; i < labels.count; i++)
-                {
-                    drawForm(context, x: posX + stack, y: posY, colorIndex: i, legend: legend);
-
-                    if (labels[i] != nil)
-                    {
-                        if (!wasStacked)
-                        {
-                            var x = posX;
-
-                            if (legend.colors[i] != UIColor.clearColor())
-                            {
-                                x += formTextSpaceAndForm;
-                            }
-
-                            drawLabel(context, x: x, y: posY - legend.textHeightMax / 2.0, label: legend.getLabel(i)!, font: labelFont, textColor: labelTextColor);
-
-                            posY += textDrop;
-                        }
-                        else
-                        {
-                            posY += legend.textHeightMax * 3.0;
-                            drawLabel(context, x: posX, y: posY - legend.textHeightMax * 2.0, label: legend.getLabel(i)!, font: labelFont, textColor: labelTextColor);
-                        }
-
-                        // make a step down
-                        posY += legend.yEntrySpace;
-                        stack = 0.0;
-                    }
-                    else
-                    {
-                        stack += formSize + stackSpace;
-                        wasStacked = true;
-                    }
-                }
-
-                break;
-            case .BelowChartCenter:
-
-                var posX = viewPortHandler.chartWidth / 2.0 - legend.neededWidth / 2.0;
-                var posY = viewPortHandler.chartHeight - yoffset;
-
-                for (var i = 0; i < labels.count; i++)
-                {
+                    
                     drawForm(context, x: posX, y: posY - legend.textHeightMax / 2.0, colorIndex: i, legend: legend);
-
-                    // grouped forms have null labels
-                    if (labels[i] != nil)
+                    
+                    if (direction == .LeftToRight)
                     {
-                        // make a step to the left
-                        if (legend.colors[i] != -2)
-                        {
-                            posX += formTextSpaceAndForm;
-                        }
-
-                        drawLabel(context, x: posX, y: posY - legend.textHeightMax, label: legend.getLabel(i)!, font: labelFont, textColor: labelTextColor);
-                        posX += (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width + legend.xEntrySpace;
-                    }
-                    else
-                    {
-                        posX += formSize + stackSpace;
+                        posX += formSize;
                     }
                 }
-
-                break;
-            case .PiechartCenter:
-
-                var posX = viewPortHandler.chartWidth / 2.0 - legend.textWidthMax / 2.0;
-                var posY = viewPortHandler.chartHeight / 2.0 - legend.neededHeight / 2.0;
-
-                for (var i = 0; i < labels.count; i++)
+                
+                // grouped forms have null labels
+                if (labels[i] != nil)
                 {
-                    drawForm(context, x: posX + stack, y: posY, colorIndex: i, legend: legend);
-
-                    if (labels[i] != nil)
+                    // spacing between form and label
+                    if (drawingForm)
                     {
-                        if (!wasStacked)
-                        {
-                            var x = posX;
-
-                            if (legend.colors[i] != UIColor.clearColor())
-                            {
-                                x += formTextSpaceAndForm;
-                            }
-
-                            drawLabel(context, x: x, y: posY - legend.textHeightMax / 2.0, label: legend.getLabel(i)!, font: labelFont, textColor: labelTextColor);
-
-                            posY += textDrop;
-                        }
-                        else
-                        {
-                            posY += legend.textHeightMax * 3.0;
-                            drawLabel(context, x: posX, y: posY - legend.textHeightMax * 2.0, label: legend.getLabel(i)!, font: labelFont, textColor: labelTextColor);
-                        }
-
-                        // make a step down
-                        posY += legend.yEntrySpace;
-                        stack = 0.0;
+                        posX += direction == .RightToLeft ? -formToTextSpace : formToTextSpace;
                     }
-                    else
+                    
+                    if (direction == .RightToLeft)
                     {
-                        stack += formSize + stackSpace;
-                        wasStacked = true;
+                        posX -= (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width;
                     }
+                    
+                    drawLabel(context, x: posX, y: posY - legend.textHeightMax, label: labels[i]!, font: labelFont, textColor: labelTextColor);
+                    
+                    if (direction == .LeftToRight)
+                    {
+                        posX += (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width;
+                    }
+                    
+                    posX += direction == .RightToLeft ? -xEntrySpace : xEntrySpace;
                 }
-
-                break;
-            case .RightOfChartInside:
-                var posX = viewPortHandler.chartWidth - legend.textWidthMax - xoffset;
-                var posY = viewPortHandler.contentTop + yoffset;
-
-                for (var i = 0; i < labels.count; i++)
+                else
                 {
-                    drawForm(context, x: posX + stack, y: posY, colorIndex: i, legend: legend);
-
-                    if (labels[i] != nil)
+                    posX += direction == .RightToLeft ? -stackSpace : stackSpace;
+                }
+            }
+            
+            break;
+        case .PiechartCenter:
+            
+            var posX = viewPortHandler.chartWidth / 2.0 + (direction == .LeftToRight ? -legend.textWidthMax / 2.0 : legend.textWidthMax / 2.0);
+            var posY = viewPortHandler.chartHeight / 2.0 - legend.neededHeight / 2.0;
+            
+            for (var i = 0; i < labels.count; i++)
+            {
+                var drawingForm = legend.colors[i] != UIColor.clearColor();
+                var x = posX;
+                
+                if (drawingForm)
+                {
+                    if (direction == .LeftToRight)
                     {
-                        if (!wasStacked)
-                        {
-                            var x = posX;
-
-                            if (legend.colors[i] != UIColor.clearColor())
-                            {
-                                x += formTextSpaceAndForm;
-                            }
-
-                            drawLabel(context, x: x, y: posY - legend.textHeightMax / 2.0, label: legend.getLabel(i)!, font: labelFont, textColor: labelTextColor);
-
-                            posY += textDrop;
-                        }
-                        else
-                        {
-                            posY += legend.textHeightMax * 3.0;
-                            drawLabel(context, x: posX, y: posY - legend.textHeightMax * 2.0, label: legend.getLabel(i)!, font: labelFont, textColor: labelTextColor);
-                        }
-
-                        // make a step down
-                        posY += legend.yEntrySpace;
-                        stack = 0.0;
+                        x += stack;
                     }
                     else
                     {
-                        stack += formSize + stackSpace;
-                        wasStacked = true;
+                        x -= formSize - stack;
+                    }
+                    
+                    drawForm(context, x: x, y: posY, colorIndex: i, legend: legend);
+                    
+                    if (direction == .LeftToRight)
+                    {
+                        x += formSize;
                     }
                 }
-                break;
+                
+                if (labels[i] != nil)
+                {
+                    if (drawingForm && !wasStacked)
+                    {
+                        x += direction == .LeftToRight ? formToTextSpace : -formToTextSpace;
+                    }
+                    else if (wasStacked)
+                    {
+                        x = posX;
+                    }
+                    
+                    if (direction == .RightToLeft)
+                    {
+                        x -= (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width;
+                    }
+                    
+                    if (!wasStacked)
+                    {
+                        drawLabel(context, x: x, y: posY - legend.textHeightMax / 2.0, label: labels[i]!, font: labelFont, textColor: labelTextColor);
+                        
+                        posY += textDrop;
+                    }
+                    else
+                    {
+                        posY += legend.textHeightMax * 3.0;
+                        drawLabel(context, x: x, y: posY - legend.textHeightMax * 2.0, label: labels[i]!, font: labelFont, textColor: labelTextColor);
+                    }
+                    
+                    // make a step down
+                    posY += legend.yEntrySpace;
+                    stack = 0.0;
+                }
+                else
+                {
+                    stack += formSize + stackSpace;
+                    wasStacked = true;
+                }
+            }
+            
+            break;
+        case .RightOfChart: fallthrough
+        case .RightOfChartCenter: fallthrough
+        case .RightOfChartInside:
+            
+            var posX: CGFloat = 0.0, posY: CGFloat = 0.0;
+            
+            posX = viewPortHandler.chartWidth - xoffset;
+            if (direction == .LeftToRight)
+            {
+                posX -= legend.textWidthMax;
+            }
+            
+            if (legend.position == .RightOfChart)
+            {
+                posY = viewPortHandler.contentTop + yoffset
+            }
+            else if (legend.position == .RightOfChartCenter)
+            {
+                posY = viewPortHandler.chartHeight / 2.0 - legend.neededHeight / 2.0;
+            }
+            else /*if (legend.position == .RightOfChartInside)*/
+            {
+                posY = viewPortHandler.contentTop + yoffset;
+            }
+            
+            for (var i = 0; i < labels.count; i++)
+            {
+                var drawingForm = legend.colors[i] != UIColor.clearColor();
+                var x = posX;
+                
+                if (drawingForm)
+                {
+                    if (direction == .LeftToRight)
+                    {
+                        x += stack;
+                    }
+                    else
+                    {
+                        x -= formSize - stack;
+                    }
+                    
+                    drawForm(context, x: x, y: posY, colorIndex: i, legend: legend);
+                    
+                    if (direction == .LeftToRight)
+                    {
+                        x += formSize;
+                    }
+                }
+                
+                if (labels[i] != nil)
+                {
+                    if (drawingForm && !wasStacked)
+                    {
+                        x += direction == .LeftToRight ? formToTextSpace : -formToTextSpace;
+                    }
+                    else if (wasStacked)
+                    {
+                        x = posX;
+                    }
+                    
+                    if (direction == .RightToLeft)
+                    {
+                        x -= (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width;
+                    }
+                    
+                    if (!wasStacked)
+                    {
+                        drawLabel(context, x: x, y: posY - legend.textHeightMax / 2.0, label: legend.getLabel(i)!, font: labelFont, textColor: labelTextColor);
+                        
+                        posY += textDrop;
+                    }
+                    else
+                    {
+                        posY += legend.textHeightMax * 3.0;
+                        drawLabel(context, x: x, y: posY - legend.textHeightMax * 2.0, label: legend.getLabel(i)!, font: labelFont, textColor: labelTextColor);
+                    }
+                    
+                    // make a step down
+                    posY += legend.yEntrySpace;
+                    stack = 0.0;
+                }
+                else
+                {
+                    stack += formSize + stackSpace;
+                    wasStacked = true;
+                }
+            }
+            
+            break;
         }
     }
 
