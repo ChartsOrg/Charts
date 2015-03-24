@@ -22,7 +22,7 @@ public class ChartDataSet: NSObject
     internal var _yMax = Float(0.0)
     internal var _yMin = Float(0.0)
     internal var _yValueSum = Float(0.0)
-    internal var _label = "DataSet"
+    public var label = "DataSet"
     public var visible = true;
     public var drawValuesEnabled = true;
     
@@ -42,7 +42,6 @@ public class ChartDataSet: NSObject
     public var yValueSum: Float { return _yValueSum }
     public var yMin: Float { return _yMin }
     public var yMax: Float { return _yMax }
-    public var label: String { return _label }
     
     public override init()
     {
@@ -53,7 +52,7 @@ public class ChartDataSet: NSObject
     {
         super.init();
         
-        _label = label;
+        self.label = label;
         _yVals = yVals == nil ? [ChartDataEntry]() : yVals;
         
         // default color
@@ -357,7 +356,7 @@ public class ChartDataSet: NSObject
     
     public override var description: String
     {
-        return String(format: "ChartDataSet, label: %@, %i entries", arguments: [_label, _yVals.count]);
+        return String(format: "ChartDataSet, label: %@, %i entries", arguments: [self.label, _yVals.count]);
     }
     
     public override var debugDescription: String
@@ -382,7 +381,7 @@ public class ChartDataSet: NSObject
         copy._yMax = _yMax;
         copy._yMin = _yMin;
         copy._yValueSum = _yValueSum;
-        copy._label = _label;
+        copy.label = self.label;
         return copy;
     }
 }
