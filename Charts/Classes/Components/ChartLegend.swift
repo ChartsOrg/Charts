@@ -23,6 +23,9 @@ public class ChartLegend: ChartComponentBase
         case RightOfChart
         case RightOfChartCenter
         case RightOfChartInside
+        case LeftOfChart
+        case LeftOfChartCenter
+        case LeftOfChartInside
         case BelowChartLeft
         case BelowChartRight
         case BelowChartCenter
@@ -222,6 +225,8 @@ public class ChartLegend: ChartComponentBase
         
         if (position == .RightOfChart
             || position == .RightOfChartCenter
+            || position == .LeftOfChart
+            || position == .LeftOfChartCenter
             || position == .PiechartCenter)
         {
             neededWidth = maxEntrySize.width;

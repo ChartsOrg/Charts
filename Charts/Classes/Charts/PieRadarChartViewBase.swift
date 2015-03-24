@@ -70,6 +70,7 @@ public class PieRadarChartViewBase: ChartViewBase
   
     internal override func calculateOffsets()
     {
+        var legendLeft = CGFloat(0.0);
         var legendRight = CGFloat(0.0);
         var legendBottom = CGFloat(0.0);
         var legendTop = CGFloat(0.0);
@@ -113,13 +114,51 @@ public class PieRadarChartViewBase: ChartViewBase
                     legendRight = legendWidth;
                 }
             }
+            else if (_legend.position == .LeftOfChartCenter)
+            {
+                // this is the space between the legend and the chart
+                var spacing = CGFloat(13.0);
+
+                legendLeft = self.fullLegendWidth + spacing;
+            }
+            else if (_legend.position == .LeftOfChart)
+            {
+
+                // this is the space between the legend and the chart
+                var spacing = CGFloat(8.0);
+                var legendWidth = self.fullLegendWidth + spacing;
+                var legendHeight = _legend.neededHeight + _legend.textHeightMax;
+
+                var c = self.center;
+
+                var bottomLeft = CGPoint(x: legendWidth - 15.0, y: legendHeight + 15);
+                var distLegend = distanceToCenter(x: bottomLeft.x, y: bottomLeft.y);
+
+                var reference = getPosition(center: c, dist: self.radius,
+                    angle: angleForPoint(x: bottomLeft.x, y: bottomLeft.y));
+
+                var distReference = distanceToCenter(x: reference.x, y: reference.y);
+                var min = CGFloat(5.0);
+
+                if (distLegend < distReference)
+                {
+                    var diff = distReference - distLegend;
+                    legendLeft = min + diff;
+                }
+
+                if (bottomLeft.y >= c.y && self.bounds.height - legendWidth > self.bounds.width)
+                {
+                    legendLeft = legendWidth;
+                }
+            }
             else if (_legend.position == .BelowChartLeft
                     || _legend.position == .BelowChartRight
                     || _legend.position == .BelowChartCenter)
             {
                 legendBottom = self.requiredBottomOffset;
             }
-
+            
+            legendLeft += self.requiredBaseOffset;
             legendRight += self.requiredBaseOffset;
             legendTop += self.requiredBaseOffset;
         }

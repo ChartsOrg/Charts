@@ -354,25 +354,46 @@ public class ChartLegendRenderer: ChartRendererBase
             break;
         case .RightOfChart: fallthrough
         case .RightOfChartCenter: fallthrough
-        case .RightOfChartInside:
+        case .RightOfChartInside: fallthrough
+        case .LeftOfChart: fallthrough
+        case .LeftOfChartCenter: fallthrough
+        case .LeftOfChartInside:
+            
+            var isRightAligned = legend.position == .RightOfChart ||
+                legend.position == .RightOfChartCenter ||
+                legend.position == .RightOfChartInside;
             
             var posX: CGFloat = 0.0, posY: CGFloat = 0.0;
             
-            posX = viewPortHandler.chartWidth - xoffset;
-            if (direction == .LeftToRight)
+            if (isRightAligned)
             {
-                posX -= legend.textWidthMax;
+                posX = viewPortHandler.chartWidth - xoffset;
+                if (direction == .LeftToRight)
+                {
+                    posX -= legend.textWidthMax;
+                }
+            }
+            else
+            {
+                posX = xoffset;
+                if (direction == .RightToLeft)
+                {
+                    posX += legend.textWidthMax;
+                }
             }
             
-            if (legend.position == .RightOfChart)
+            if (legend.position == .RightOfChart ||
+                legend.position == .LeftOfChart)
             {
                 posY = viewPortHandler.contentTop + yoffset
             }
-            else if (legend.position == .RightOfChartCenter)
+            else if (legend.position == .RightOfChartCenter ||
+                legend.position == .LeftOfChartCenter)
             {
                 posY = viewPortHandler.chartHeight / 2.0 - legend.neededHeight / 2.0;
             }
-            else /*if (legend.position == .RightOfChartInside)*/
+            else /*if (legend.position == .RightOfChartInside ||
+                legend.position == .LeftOfChartInside)*/
             {
                 posY = viewPortHandler.contentTop + yoffset;
             }

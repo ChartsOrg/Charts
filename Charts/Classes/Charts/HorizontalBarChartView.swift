@@ -41,6 +41,11 @@ public class HorizontalBarChartView: BarChartView
             {
                 offsetRight += _legend.textWidthMax + _legend.xOffset * 2.0;
             }
+            else if (_legend.position == .LeftOfChart
+                || _legend.position == .LeftOfChartCenter)
+            {
+                offsetLeft += _legend.textWidthMax + _legend.xOffset * 2.0;
+            }
             else if (_legend.position == .BelowChartLeft
                 || _legend.position == .BelowChartRight
                 || _legend.position == .BelowChartCenter)
