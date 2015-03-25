@@ -47,8 +47,8 @@ public class ChartLegend: ChartComponentBase
         case RightToLeft
     }
 
-    private var _colors = [UIColor?]()
-    private var _labels = [String?]()
+    public var colors = [UIColor?]()
+    public var labels = [String?]()
     
     public var position = ChartLegendPosition.BelowChartLeft
     public var direction = ChartLegendDirection.LeftToRight
@@ -76,10 +76,9 @@ public class ChartLegend: ChartComponentBase
     public init(colors: [UIColor?], labels: [String?])
     {
         super.init();
-        self._colors = colors;
-        self._labels = labels;
         
-        validateLabelsAndColors();
+        self.colors = colors;
+        self.labels = labels;
     }
     
     public func getMaximumEntrySize(font: UIFont) -> CGSize
@@ -87,14 +86,15 @@ public class ChartLegend: ChartComponentBase
         var maxW = CGFloat(0.0);
         var maxH = CGFloat(0.0);
         
-        for (var i = 0; i < _labels.count; i++)
+        var labels = self.labels;
+        for (var i = 0; i < labels.count; i++)
         {
-            if (_labels[i] == nil)
+            if (labels[i] == nil)
             {
                 continue;
             }
             
-            var size = (_labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: font]);
+            var size = (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: font]);
             
             if (size.width > maxW)
             {
@@ -112,65 +112,9 @@ public class ChartLegend: ChartComponentBase
         );
     }
     
-    public var colors: [UIColor?]
-    {
-        get
-        {
-            return _colors;
-        }
-    }
-    
-    public var labels: [String?]
-    {
-        get
-        {
-            return _labels;
-        }
-        set
-        {
-            _labels = newValue;
-            validateLabelsAndColors();
-        }
-    }
-    
-    private func validateLabelsAndColors()
-    {
-        if (_labels.count != _colors.count)
-        {
-            println("colors array and labels array need to be of same size");
-            
-            while (colors.count > labels.count)
-            {
-                self._colors.removeLast();
-            }
-            while (labels.count > colors.count)
-            {
-                self._labels.removeLast();
-            }
-        }
-    }
-    
     public func getLabel(index: Int) -> String?
     {
-        return _labels[index];
-    }
-    
-    public func apply(legend: ChartLegend)
-    {
-        position = legend.position;
-        direction = legend.direction;
-        font = legend.font;
-        textColor = legend.textColor;
-        form = legend.form;
-        formSize = legend.formSize;
-        formLineWidth = legend.formLineWidth;
-        xEntrySpace = legend.xEntrySpace;
-        yEntrySpace = legend.yEntrySpace;
-        formToTextSpace = legend.formToTextSpace;
-        stackSpace = legend.stackSpace;
-        enabled = legend.enabled;
-        xOffset = legend.xOffset;
-        yOffset = legend.yOffset;
+        return labels[index];
     }
     
     public func getFullSize(labelFont: UIFont) -> CGSize
@@ -178,17 +122,18 @@ public class ChartLegend: ChartComponentBase
         var width = CGFloat(0.0);
         var height = CGFloat(0.0);
         
-        for (var i = 0, count = _labels.count; i < count; i++)
+        var labels = self.labels;
+        for (var i = 0, count = labels.count; i < count; i++)
         {
             if (labels[i] != nil)
             {
                 // make a step to the left
-                if (_colors[i] != nil)
+                if (colors[i] != nil)
                 {
                     width += formSize + formToTextSpace;
                 }
                 
-                var size = (_labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]);
+                var size = (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]);
                 
                 width += size.width;
                 height += size.height;

@@ -124,7 +124,7 @@ public class RadarChartView: PieRadarChartViewBase
         _yAxisRenderer?.computeAxis(yMin: _yAxis.axisMinimum, yMax: _yAxis.axisMaximum);
         _xAxisRenderer?.computeAxis(xValAverageLength: _data.xValAverageLength, xValues: _data.xVals);
         
-        _legend = _legendRenderer?.computeLegend(_data, legend: _legend);
+        _legendRenderer?.computeLegend(_data);
         
         calculateOffsets();
         
@@ -162,7 +162,7 @@ public class RadarChartView: PieRadarChartViewBase
 
         renderer!.drawValues(context: context);
 
-        _legendRenderer.renderLegend(context: context, legend: _legend);
+        _legendRenderer.renderLegend(context: context);
 
         drawDescription(context: context);
 

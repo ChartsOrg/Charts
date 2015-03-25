@@ -68,7 +68,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     public var highlightEnabled = true
     
     /// the legend object containing all data associated with the legend
-    internal var _legend: ChartLegend! = ChartLegend();
+    internal var _legend: ChartLegend!;
     
     /// delegate to receive chart events
     public weak var delegate: ChartViewDelegate?
@@ -125,7 +125,9 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
 
         _viewPortHandler = ChartViewPortHandler();
         _viewPortHandler.setChartDimens(width: bounds.size.width, height: bounds.size.height);
-        _legendRenderer = ChartLegendRenderer(viewPortHandler: _viewPortHandler);
+        
+        _legend = ChartLegend();
+        _legendRenderer = ChartLegendRenderer(viewPortHandler: _viewPortHandler, legend: _legend);
         
         _defaultValueFormatter.maximumFractionDigits = 1;
         _defaultValueFormatter.minimumFractionDigits = 1;
@@ -529,11 +531,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         return _viewPortHandler.contentCenter;
     }
     
-    /// Returns the Legend object of the chart.
-    /// This property can be used to customize the automatically generated Legend.
-    /// IMPORTANT: Since the Legend is generated from data provided by the user (via setData(...) method),
-    /// this will return nil if no data has been set for the chart.
-    /// You need to set data for the chart before calling this method.
+    /// Returns the Legend object of the chart. This method can be used to get an instance of the legend in order to customize the automatically generated Legend.
     public var legend: ChartLegend
     {
         return _legend;

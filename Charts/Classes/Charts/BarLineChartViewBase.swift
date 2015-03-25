@@ -177,7 +177,7 @@ public class BarLineChartViewBase: ChartViewBase
 
         renderer!.drawValues(context: context);
 
-        _legendRenderer.renderLegend(context: context, legend: _legend);
+        _legendRenderer.renderLegend(context: context);
         // drawLegend();
 
         drawMarkers(context: context);
@@ -214,7 +214,7 @@ public class BarLineChartViewBase: ChartViewBase
         
         _xAxisRenderer?.computeAxis(xValAverageLength: _data.xValAverageLength, xValues: _data.xVals);
         
-        _legend = _legendRenderer?.computeLegend(_data, legend: _legend);
+        _legendRenderer?.computeLegend(_data);
         
         calculateOffsets();
         

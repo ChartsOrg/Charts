@@ -15,14 +15,18 @@ import Foundation
 import CoreGraphics;
 
 public class ChartLegendRenderer: ChartRendererBase
-{   
-    public override init(viewPortHandler: ChartViewPortHandler)
+{
+    /// the legend object this renderer renders
+    internal var _legend: ChartLegend!;
+
+    public init(viewPortHandler: ChartViewPortHandler, legend: ChartLegend?)
     {
         super.init(viewPortHandler: viewPortHandler);
+        _legend = legend;
     }
 
-    /// Prepares the legend and calculates all needed forms and colors.
-    public func computeLegend(data: ChartData, legend: ChartLegend!) -> ChartLegend
+    /// Prepares the legend and calculates all needed forms, labels and colors.
+    public func computeLegend(data: ChartData)
     {
         var labels = [String?]();
         var colors = [UIColor?]();
@@ -87,43 +91,36 @@ public class ChartLegendRenderer: ChartRendererBase
             }
         }
 
-        var l = ChartLegend(colors: colors, labels: labels);
-
-        if (legend !== nil)
-        {
-            // apply the old legend settings to a potential new legend
-            l.apply(legend);
-        }
-
+        _legend.colors = colors;
+        _legend.labels = labels;
+        
         // calculate all dimensions of the legend
-        l.calculateDimensions(l.font);
-
-        return l;
+        _legend.calculateDimensions(_legend.font);
     }
     
-    public func renderLegend(#context: CGContext, legend: ChartLegend!)
+    public func renderLegend(#context: CGContext)
     {
-        if (legend === nil || !legend.enabled)
+        if (_legend === nil || !_legend.enabled)
         {
             return;
         }
         
-        var labelFont = legend.font;
-        var labelTextColor = legend.textColor;
+        var labelFont = _legend.font;
+        var labelTextColor = _legend.textColor;
         var labelLineHeight = labelFont.lineHeight;
 
-        var labels = legend.labels;
+        var labels = _legend.labels;
         
-        var formSize = legend.formSize;
-        var formToTextSpace = legend.formToTextSpace;
-        var xEntrySpace = legend.xEntrySpace;
-        var direction = legend.direction;
+        var formSize = _legend.formSize;
+        var formToTextSpace = _legend.formToTextSpace;
+        var xEntrySpace = _legend.xEntrySpace;
+        var direction = _legend.direction;
 
         // space between text and shape/form of entry
         var formTextSpaceAndForm = formToTextSpace + formSize;
 
         // space between the entries
-        var stackSpace = legend.stackSpace;
+        var stackSpace = _legend.stackSpace;
 
         // the amount of pixels the text needs to be set down to be on the same height as the form
         var textDrop = (labelFont.lineHeight + formSize) / 2.0;
@@ -133,10 +130,10 @@ public class ChartLegendRenderer: ChartRendererBase
 
         var wasStacked = false;
 
-        var yoffset = legend.yOffset;
-        var xoffset = legend.xOffset;
+        var yoffset = _legend.yOffset;
+        var xoffset = _legend.xOffset;
         
-        switch (legend.position)
+        switch (_legend.position)
         {
         case .BelowChartLeft:
             
@@ -145,12 +142,12 @@ public class ChartLegendRenderer: ChartRendererBase
             
             if (direction == .RightToLeft)
             {
-                posX += legend.neededWidth;
+                posX += _legend.neededWidth;
             }
             
             for (var i = 0, count = labels.count; i < count; i++)
             {
-                var drawingForm = legend.colors[i] != UIColor.clearColor();
+                var drawingForm = _legend.colors[i] != UIColor.clearColor();
                 
                 if (drawingForm)
                 {
@@ -159,7 +156,7 @@ public class ChartLegendRenderer: ChartRendererBase
                         posX -= formSize;
                     }
                     
-                    drawForm(context, x: posX, y: posY - legend.textHeightMax / 2.0, colorIndex: i, legend: legend);
+                    drawForm(context, x: posX, y: posY - _legend.textHeightMax / 2.0, colorIndex: i, legend: _legend);
                     
                     if (direction == .LeftToRight)
                     {
@@ -181,7 +178,7 @@ public class ChartLegendRenderer: ChartRendererBase
                         posX -= (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width;
                     }
                     
-                    drawLabel(context, x: posX, y: posY - legend.textHeightMax, label: labels[i]!, font: labelFont, textColor: labelTextColor);
+                    drawLabel(context, x: posX, y: posY - _legend.textHeightMax, label: labels[i]!, font: labelFont, textColor: labelTextColor);
                     
                     if (direction == .LeftToRight)
                     {
@@ -204,25 +201,25 @@ public class ChartLegendRenderer: ChartRendererBase
             
             for (var i = labels.count - 1; i >= 0; i--)
             {
-                var drawingForm = legend.colors[i] != UIColor.clearColor();
+                var drawingForm = _legend.colors[i] != UIColor.clearColor();
                 
                 if (direction == .RightToLeft && drawingForm)
                 {
                     posX -= formSize;
-                    drawForm(context, x: posX, y: posY - legend.textHeightMax / 2.0, colorIndex: i, legend: legend);
+                    drawForm(context, x: posX, y: posY - _legend.textHeightMax / 2.0, colorIndex: i, legend: _legend);
                     posX -= formToTextSpace;
                 }
                 
                 if (labels[i] != nil)
                 {
                     posX -= (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width;
-                    drawLabel(context, x: posX, y: posY - legend.textHeightMax, label: labels[i]!, font: labelFont, textColor: labelTextColor);
+                    drawLabel(context, x: posX, y: posY - _legend.textHeightMax, label: labels[i]!, font: labelFont, textColor: labelTextColor);
                 }
                 
                 if (direction == .LeftToRight && drawingForm)
                 {
                     posX -= formToTextSpace + formSize;
-                    drawForm(context, x: posX, y: posY - legend.textHeightMax / 2.0, colorIndex: i, legend: legend);
+                    drawForm(context, x: posX, y: posY - _legend.textHeightMax / 2.0, colorIndex: i, legend: _legend);
                 }
                 
                 posX -= labels[i] != nil ? xEntrySpace : stackSpace;
@@ -231,12 +228,12 @@ public class ChartLegendRenderer: ChartRendererBase
             break;
         case .BelowChartCenter:
             
-            var posX = viewPortHandler.chartWidth / 2.0 + (direction == .LeftToRight ? -legend.neededWidth / 2.0 : legend.neededWidth / 2.0);
+            var posX = viewPortHandler.chartWidth / 2.0 + (direction == .LeftToRight ? -_legend.neededWidth / 2.0 : _legend.neededWidth / 2.0);
             var posY = viewPortHandler.chartHeight - yoffset;
             
             for (var i = 0; i < labels.count; i++)
             {
-                var drawingForm = legend.colors[i] != UIColor.clearColor();
+                var drawingForm = _legend.colors[i] != UIColor.clearColor();
                 
                 if (drawingForm)
                 {
@@ -245,7 +242,7 @@ public class ChartLegendRenderer: ChartRendererBase
                         posX -= formSize;
                     }
                     
-                    drawForm(context, x: posX, y: posY - legend.textHeightMax / 2.0, colorIndex: i, legend: legend);
+                    drawForm(context, x: posX, y: posY - _legend.textHeightMax / 2.0, colorIndex: i, legend: _legend);
                     
                     if (direction == .LeftToRight)
                     {
@@ -267,7 +264,7 @@ public class ChartLegendRenderer: ChartRendererBase
                         posX -= (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width;
                     }
                     
-                    drawLabel(context, x: posX, y: posY - legend.textHeightMax, label: labels[i]!, font: labelFont, textColor: labelTextColor);
+                    drawLabel(context, x: posX, y: posY - _legend.textHeightMax, label: labels[i]!, font: labelFont, textColor: labelTextColor);
                     
                     if (direction == .LeftToRight)
                     {
@@ -285,12 +282,12 @@ public class ChartLegendRenderer: ChartRendererBase
             break;
         case .PiechartCenter:
             
-            var posX = viewPortHandler.chartWidth / 2.0 + (direction == .LeftToRight ? -legend.textWidthMax / 2.0 : legend.textWidthMax / 2.0);
-            var posY = viewPortHandler.chartHeight / 2.0 - legend.neededHeight / 2.0;
+            var posX = viewPortHandler.chartWidth / 2.0 + (direction == .LeftToRight ? -_legend.textWidthMax / 2.0 : _legend.textWidthMax / 2.0);
+            var posY = viewPortHandler.chartHeight / 2.0 - _legend.neededHeight / 2.0;
             
             for (var i = 0; i < labels.count; i++)
             {
-                var drawingForm = legend.colors[i] != UIColor.clearColor();
+                var drawingForm = _legend.colors[i] != UIColor.clearColor();
                 var x = posX;
                 
                 if (drawingForm)
@@ -304,7 +301,7 @@ public class ChartLegendRenderer: ChartRendererBase
                         x -= formSize - stack;
                     }
                     
-                    drawForm(context, x: x, y: posY, colorIndex: i, legend: legend);
+                    drawForm(context, x: x, y: posY, colorIndex: i, legend: _legend);
                     
                     if (direction == .LeftToRight)
                     {
@@ -330,18 +327,18 @@ public class ChartLegendRenderer: ChartRendererBase
                     
                     if (!wasStacked)
                     {
-                        drawLabel(context, x: x, y: posY - legend.textHeightMax / 2.0, label: labels[i]!, font: labelFont, textColor: labelTextColor);
+                        drawLabel(context, x: x, y: posY - _legend.textHeightMax / 2.0, label: labels[i]!, font: labelFont, textColor: labelTextColor);
                         
                         posY += textDrop;
                     }
                     else
                     {
-                        posY += legend.textHeightMax * 3.0;
-                        drawLabel(context, x: x, y: posY - legend.textHeightMax * 2.0, label: labels[i]!, font: labelFont, textColor: labelTextColor);
+                        posY += _legend.textHeightMax * 3.0;
+                        drawLabel(context, x: x, y: posY - _legend.textHeightMax * 2.0, label: labels[i]!, font: labelFont, textColor: labelTextColor);
                     }
                     
                     // make a step down
-                    posY += legend.yEntrySpace;
+                    posY += _legend.yEntrySpace;
                     stack = 0.0;
                 }
                 else
@@ -359,9 +356,9 @@ public class ChartLegendRenderer: ChartRendererBase
         case .LeftOfChartCenter: fallthrough
         case .LeftOfChartInside:
             
-            var isRightAligned = legend.position == .RightOfChart ||
-                legend.position == .RightOfChartCenter ||
-                legend.position == .RightOfChartInside;
+            var isRightAligned = _legend.position == .RightOfChart ||
+                _legend.position == .RightOfChartCenter ||
+                _legend.position == .RightOfChartInside;
             
             var posX: CGFloat = 0.0, posY: CGFloat = 0.0;
             
@@ -370,7 +367,7 @@ public class ChartLegendRenderer: ChartRendererBase
                 posX = viewPortHandler.chartWidth - xoffset;
                 if (direction == .LeftToRight)
                 {
-                    posX -= legend.textWidthMax;
+                    posX -= _legend.textWidthMax;
                 }
             }
             else
@@ -378,19 +375,19 @@ public class ChartLegendRenderer: ChartRendererBase
                 posX = xoffset;
                 if (direction == .RightToLeft)
                 {
-                    posX += legend.textWidthMax;
+                    posX += _legend.textWidthMax;
                 }
             }
             
-            if (legend.position == .RightOfChart ||
-                legend.position == .LeftOfChart)
+            if (_legend.position == .RightOfChart ||
+                _legend.position == .LeftOfChart)
             {
                 posY = viewPortHandler.contentTop + yoffset
             }
-            else if (legend.position == .RightOfChartCenter ||
-                legend.position == .LeftOfChartCenter)
+            else if (_legend.position == .RightOfChartCenter ||
+                _legend.position == .LeftOfChartCenter)
             {
-                posY = viewPortHandler.chartHeight / 2.0 - legend.neededHeight / 2.0;
+                posY = viewPortHandler.chartHeight / 2.0 - _legend.neededHeight / 2.0;
             }
             else /*if (legend.position == .RightOfChartInside ||
                 legend.position == .LeftOfChartInside)*/
@@ -400,7 +397,7 @@ public class ChartLegendRenderer: ChartRendererBase
             
             for (var i = 0; i < labels.count; i++)
             {
-                var drawingForm = legend.colors[i] != UIColor.clearColor();
+                var drawingForm = _legend.colors[i] != UIColor.clearColor();
                 var x = posX;
                 
                 if (drawingForm)
@@ -414,7 +411,7 @@ public class ChartLegendRenderer: ChartRendererBase
                         x -= formSize - stack;
                     }
                     
-                    drawForm(context, x: x, y: posY, colorIndex: i, legend: legend);
+                    drawForm(context, x: x, y: posY, colorIndex: i, legend: _legend);
                     
                     if (direction == .LeftToRight)
                     {
@@ -440,18 +437,18 @@ public class ChartLegendRenderer: ChartRendererBase
                     
                     if (!wasStacked)
                     {
-                        drawLabel(context, x: x, y: posY - legend.textHeightMax / 2.0, label: legend.getLabel(i)!, font: labelFont, textColor: labelTextColor);
+                        drawLabel(context, x: x, y: posY - _legend.textHeightMax / 2.0, label: _legend.getLabel(i)!, font: labelFont, textColor: labelTextColor);
                         
                         posY += textDrop;
                     }
                     else
                     {
-                        posY += legend.textHeightMax * 3.0;
-                        drawLabel(context, x: x, y: posY - legend.textHeightMax * 2.0, label: legend.getLabel(i)!, font: labelFont, textColor: labelTextColor);
+                        posY += _legend.textHeightMax * 3.0;
+                        drawLabel(context, x: x, y: posY - _legend.textHeightMax * 2.0, label: _legend.getLabel(i)!, font: labelFont, textColor: labelTextColor);
                     }
                     
                     // make a step down
-                    posY += legend.yEntrySpace;
+                    posY += _legend.yEntrySpace;
                     stack = 0.0;
                 }
                 else
