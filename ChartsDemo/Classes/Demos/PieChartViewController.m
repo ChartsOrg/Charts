@@ -57,7 +57,7 @@
     _chartView.drawHoleEnabled = YES;
     _chartView.rotationAngle = 0.f;
     _chartView.rotationEnabled = YES;
-    _chartView.centerText = @"iOS Charts";
+    _chartView.centerText = @"iOS Charts\nby Daniel Cohen Gindi";
     
     ChartLegend *l = _chartView.legend;
     l.position = ChartLegendPositionRightOfChart;
