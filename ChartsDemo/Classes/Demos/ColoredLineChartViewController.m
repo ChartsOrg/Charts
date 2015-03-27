@@ -70,7 +70,7 @@
     
     chart.data = data;
     
-    [chart animateXWithDuration:2.5];
+    [chart animateWithXAxisDuration:2.5];
 }
 
 - (void)didReceiveMemoryWarning

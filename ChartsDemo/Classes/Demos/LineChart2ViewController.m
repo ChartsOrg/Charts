@@ -87,7 +87,8 @@
     _sliderX.value = 19.f;
     _sliderY.value = 30.f;
     [self slidersValueChanged:nil];
-    [_chartView animateXWithDuration:2.5];
+    
+    [_chartView animateWithXAxisDuration:2.5];
 }
 
 - (void)didReceiveMemoryWarning
@@ -215,17 +216,17 @@
     
     if ([key isEqualToString:@"animateX"])
     {
-        [_chartView animateXWithDuration:3.0];
+        [_chartView animateWithXAxisDuration:3.0];
     }
     
     if ([key isEqualToString:@"animateY"])
     {
-        [_chartView animateYWithDuration:3.0];
+        [_chartView animateWithYAxisDuration:3.0];
     }
     
     if ([key isEqualToString:@"animateXY"])
     {
-        [_chartView animateXYWithDurationX:3.0 durationY:3.0];
+        [_chartView animateWithXAxisDuration:3.0 yAxisDuration:3.0];
     }
     
     if ([key isEqualToString:@"toggleAdjustXLegend"])

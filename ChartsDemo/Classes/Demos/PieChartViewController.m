@@ -67,7 +67,8 @@
     _sliderX.value = 3.f;
     _sliderY.value = 100.f;
     [self slidersValueChanged:nil];
-    [_chartView animateXYWithDurationX:1.5 durationY:1.5];
+    
+    [_chartView animateWithXAxisDuration:1.5 yAxisDuration:1.5];
 }
 
 - (void)didReceiveMemoryWarning
@@ -167,17 +168,17 @@
     
     if ([key isEqualToString:@"animateX"])
     {
-        [_chartView animateXWithDuration:3.0];
+        [_chartView animateWithXAxisDuration:3.0];
     }
     
     if ([key isEqualToString:@"animateY"])
     {
-        [_chartView animateYWithDuration:3.0];
+        [_chartView animateWithYAxisDuration:3.0];
     }
     
     if ([key isEqualToString:@"animateXY"])
     {
-        [_chartView animateXYWithDurationX:3.0 durationY:3.0];
+        [_chartView animateWithXAxisDuration:3.0 yAxisDuration:3.0];
     }
     
     if ([key isEqualToString:@"spin"])

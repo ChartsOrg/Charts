@@ -95,15 +95,15 @@ public class ChartAnimator: NSObject
     /// Animates the drawing / rendering of the chart on both x- and y-axis with
     /// the specified animation time.
     /// If animate(...) is called, no further calling of invalidate() is necessary to refresh the chart.
-    public func animateXY(#durationX: NSTimeInterval, durationY: NSTimeInterval)
+    public func animate(#xAxisDuration: NSTimeInterval, yAxisDuration: NSTimeInterval)
     {
         stop();
         
         _displayLink = CADisplayLink(target: self, selector: Selector("animationLoop"));
         
         _startTime = CACurrentMediaTime();
-        _endTimeX = _startTime + durationX;
-        _endTimeY = _startTime + durationY;
+        _endTimeX = _startTime + xAxisDuration;
+        _endTimeY = _startTime + yAxisDuration;
         _endTime = _endTimeX > _endTimeY ? _endTimeX : _endTimeY;
         _enabledX = true;
         _enabledY = true;
@@ -114,14 +114,14 @@ public class ChartAnimator: NSObject
     /// Animates the drawing / rendering of the chart the x-axis with
     /// the specified animation time.
     /// If animate(...) is called, no further calling of invalidate() is necessary to refresh the chart.
-    public func animateX(#duration: NSTimeInterval)
+    public func animate(#xAxisDuration: NSTimeInterval)
     {
         stop();
         
         _displayLink = CADisplayLink(target: self, selector: Selector("animationLoop"));
         
         _startTime = CACurrentMediaTime();
-        _endTimeX = _startTime + duration;
+        _endTimeX = _startTime + xAxisDuration;
         _endTime = _endTimeX;
         _enabledX = true;
         _enabledY = false;
@@ -132,14 +132,14 @@ public class ChartAnimator: NSObject
     /// Animates the drawing / rendering of the chart the y-axis with
     /// the specified animation time.
     /// If animate(...) is called, no further calling of invalidate() is necessary to refresh the chart.
-    public func animateY(#duration: NSTimeInterval)
+    public func animate(#yAxisDuration: NSTimeInterval)
     {
         stop();
         
         _displayLink = CADisplayLink(target: self, selector: Selector("animationLoop"));
         
         _startTime = CACurrentMediaTime();
-        _endTimeY = _startTime + duration;
+        _endTimeY = _startTime + yAxisDuration;
         _endTime = _endTimeY;
         _enabledX = false;
         _enabledY = true;
