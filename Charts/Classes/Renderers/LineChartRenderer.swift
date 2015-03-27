@@ -518,7 +518,7 @@ public class LineChartRenderer: ChartDataRendererBase
             var circleHoleRadius = circleHoleDiameter / 2.0;
             var isDrawCircleHoleEnabled = dataSet.isDrawCircleHoleEnabled;
             
-            for (var j = 0, count = Int(ceil(CGFloat(entries.count) * _animator.phaseX)); j < count; j++)
+            for (var j = 0, count = Int(min(ceil(CGFloat(entries.count) * _animator.phaseX), CGFloat(entries.count))); j < count; j++)
             {
                 var e = entries[j];
                 pt.x = CGFloat(e.xIndex);

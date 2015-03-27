@@ -80,7 +80,7 @@ public class ScatterChartRenderer: ChartDataRendererBase
         
         CGContextSaveGState(context);
         
-        for (var j = 0, count = Int(ceil(CGFloat(entries.count) * _animator.phaseX)); j < count; j++)
+        for (var j = 0, count = Int(min(ceil(CGFloat(entries.count) * _animator.phaseX), CGFloat(entries.count))); j < count; j++)
         {
             var e = entries[j];
             point.x = CGFloat(e.xIndex);

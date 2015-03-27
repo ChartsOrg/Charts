@@ -168,7 +168,7 @@ public class PieChartRenderer: ChartDataRendererBase
             
             var entries = dataSet.yVals;
             
-            for (var j = 0, maxEntry = Int(CGFloat(entries.count) * _animator.phaseX); j < maxEntry; j++)
+            for (var j = 0, maxEntry = Int(min(ceil(CGFloat(entries.count) * _animator.phaseX), CGFloat(entries.count))); j < maxEntry; j++)
             {
                 // offset needed to center the drawn text in the slice
                 var offset = drawAngles[cnt] / 2.0;

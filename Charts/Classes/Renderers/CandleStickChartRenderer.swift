@@ -73,7 +73,7 @@ public class CandleStickChartRenderer: ChartDataRendererBase
         
         CGContextSetLineWidth(context, dataSet.shadowWidth);
         
-        for (var j = 0, count = Int(ceil(CGFloat(entries.count) * _animator.phaseX)); j < count; j++)
+        for (var j = 0, count = Int(min(ceil(CGFloat(entries.count) * _animator.phaseX), CGFloat(entries.count))); j < count; j++)
         {
             // get the color that is specified for this position from the DataSet, this will reuse colors, if the index is out of bounds
             CGContextSetFillColorWithColor(context, dataSet.colorAt(j).CGColor);
