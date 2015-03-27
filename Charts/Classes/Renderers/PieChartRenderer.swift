@@ -85,6 +85,10 @@ public class PieChartRenderer: ChartDataRendererBase
                     var startAngle = angle + sliceSpace / 2.0;
                     var sweepAngle = newangle * _animator.phaseY
                         - sliceSpace / 2.0;
+                    if (sweepAngle < 0.0)
+                    {
+                        sweepAngle = 0.0;
+                    }
                     var endAngle = startAngle + sweepAngle;
                     
                     var path = CGPathCreateMutable();
@@ -346,6 +350,10 @@ public class PieChartRenderer: ChartDataRendererBase
             
             var startAngle = angle + set.sliceSpace / 2.0;
             var sweepAngle = sliceDegrees * _animator.phaseY - set.sliceSpace / 2.0;
+            if (sweepAngle < 0.0)
+            {
+                sweepAngle = 0.0;
+            }
             var endAngle = startAngle + sweepAngle;
             
             var path = CGPathCreateMutable();
