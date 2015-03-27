@@ -231,6 +231,17 @@ public class BarLineChartViewBase: ChartViewBase
         var leftRange = abs(maxLeft - (_leftAxis.isStartAtZeroEnabled ? 0.0 : minLeft));
         var rightRange = abs(maxRight - (_rightAxis.isStartAtZeroEnabled ? 0.0 : minRight));
         
+        // in case all values are equal
+        if (leftRange == 0.0)
+        {
+            maxLeft = maxLeft + 1.0;
+        }
+        
+        if (rightRange == 0.0)
+        {
+            maxRight = maxRight + 1.0;
+        }
+        
         var topSpaceLeft = leftRange * Float(_leftAxis.spaceTop);
         var topSpaceRight = rightRange * Float(_rightAxis.spaceTop);
         var bottomSpaceLeft = leftRange * Float(_leftAxis.spaceBottom);
