@@ -89,6 +89,8 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
         }
     }
     
+    private var _gridLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint());
+    
     public override func renderGridLines(#context: CGContext)
     {
         if (!_xAxis.isDrawGridLinesEnabled || !_xAxis.isEnabled)
@@ -116,8 +118,6 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
         
         var position = CGPoint(x: 0.0, y: 0.0);
         
-        var lineSegments = UnsafeMutablePointer<CGPoint>.alloc(2)
-        
         var div = CGFloat(step) + (step > 1 ? barData.groupSpace : 0.0);
         var min = Int(CGFloat(_minX) / div);
         var max = Int(CGFloat(_maxX) / div);
@@ -130,15 +130,13 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
             
             if (viewPortHandler.isInBoundsX(position.x))
             {
-                lineSegments[0].x = position.x;
-                lineSegments[0].y = viewPortHandler.contentTop;
-                lineSegments[1].x = position.x;
-                lineSegments[1].y = viewPortHandler.contentBottom;
-                CGContextStrokeLineSegments(context, lineSegments, 2);
+                _gridLineSegmentsBuffer[0].x = position.x;
+                _gridLineSegmentsBuffer[0].y = viewPortHandler.contentTop;
+                _gridLineSegmentsBuffer[1].x = position.x;
+                _gridLineSegmentsBuffer[1].y = viewPortHandler.contentBottom;
+                CGContextStrokeLineSegments(context, _gridLineSegmentsBuffer, 2);
             }
         }
-        
-        lineSegments.dealloc(2);
         
         CGContextRestoreGState(context);
     }

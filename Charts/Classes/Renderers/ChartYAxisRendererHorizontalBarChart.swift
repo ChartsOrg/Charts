@@ -109,6 +109,8 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         drawYLabels(context: context, fixedPosition: yPos, positions: positions, offset: yoffset);
     }
     
+    private var _axisLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint());
+    
     internal override func renderAxisLine(#context: CGContext)
     {
         if (!_yAxis.isEnabled || !_yAxis.drawAxisLineEnabled)
@@ -128,27 +130,23 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         {
             CGContextSetLineDash(context, 0.0, nil, 0);
         }
-        
-        var lineSegments = UnsafeMutablePointer<CGPoint>.alloc(2)
 
         if (_yAxis.axisDependency == .Left)
         {
-            lineSegments[0].x = viewPortHandler.contentLeft;
-            lineSegments[0].y = viewPortHandler.contentTop;
-            lineSegments[1].x = viewPortHandler.contentRight;
-            lineSegments[1].y = viewPortHandler.contentTop;
-            CGContextStrokeLineSegments(context, lineSegments, 2);
+            _axisLineSegmentsBuffer[0].x = viewPortHandler.contentLeft;
+            _axisLineSegmentsBuffer[0].y = viewPortHandler.contentTop;
+            _axisLineSegmentsBuffer[1].x = viewPortHandler.contentRight;
+            _axisLineSegmentsBuffer[1].y = viewPortHandler.contentTop;
+            CGContextStrokeLineSegments(context, _axisLineSegmentsBuffer, 2);
         }
         else
         {
-            lineSegments[0].x = viewPortHandler.contentLeft;
-            lineSegments[0].y = viewPortHandler.contentBottom;
-            lineSegments[1].x = viewPortHandler.contentRight;
-            lineSegments[1].y = viewPortHandler.contentBottom;
-            CGContextStrokeLineSegments(context, lineSegments, 2);
+            _axisLineSegmentsBuffer[0].x = viewPortHandler.contentLeft;
+            _axisLineSegmentsBuffer[0].y = viewPortHandler.contentBottom;
+            _axisLineSegmentsBuffer[1].x = viewPortHandler.contentRight;
+            _axisLineSegmentsBuffer[1].y = viewPortHandler.contentBottom;
+            CGContextStrokeLineSegments(context, _axisLineSegmentsBuffer, 2);
         }
-        
-        lineSegments.dealloc(2);
         
         CGContextRestoreGState(context);
     }

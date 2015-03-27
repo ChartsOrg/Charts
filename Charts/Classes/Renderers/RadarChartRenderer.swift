@@ -158,6 +158,8 @@ public class RadarChartRenderer: ChartDataRendererBase
         drawWeb(context: context);
     }
     
+    private var _webLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint());
+    
     internal func drawWeb(#context: CGContext)
     {
         var sliceangle = _chart.sliceAngle;
@@ -171,8 +173,6 @@ public class RadarChartRenderer: ChartDataRendererBase
         
         var center = _chart.centerOffsets;
         
-        var lineSegments = UnsafeMutablePointer<CGPoint>.alloc(2)
-        
         // draw the web lines that come from the center
         CGContextSetLineWidth(context, _chart.webLineWidth);
         CGContextSetStrokeColorWithColor(context, _chart.webColor.CGColor);
@@ -182,12 +182,12 @@ public class RadarChartRenderer: ChartDataRendererBase
         {
             var p = ChartUtils.getPosition(center: center, dist: CGFloat(_chart.yRange) * factor, angle: sliceangle * CGFloat(i) + rotationangle);
             
-            lineSegments[0].x = center.x;
-            lineSegments[0].y = center.y;
-            lineSegments[1].x = p.x;
-            lineSegments[1].y = p.y;
+            _webLineSegmentsBuffer[0].x = center.x;
+            _webLineSegmentsBuffer[0].y = center.y;
+            _webLineSegmentsBuffer[1].x = p.x;
+            _webLineSegmentsBuffer[1].y = p.y;
             
-            CGContextStrokeLineSegments(context, lineSegments, 2);
+            CGContextStrokeLineSegments(context, _webLineSegmentsBuffer, 2);
         }
         
         // draw the inner-web
@@ -206,16 +206,14 @@ public class RadarChartRenderer: ChartDataRendererBase
                 var p1 = ChartUtils.getPosition(center: center, dist: r, angle: sliceangle * CGFloat(i) + rotationangle);
                 var p2 = ChartUtils.getPosition(center: center, dist: r, angle: sliceangle * CGFloat(i + 1) + rotationangle);
                 
-                lineSegments[0].x = p1.x;
-                lineSegments[0].y = p1.y;
-                lineSegments[1].x = p2.x;
-                lineSegments[1].y = p2.y;
+                _webLineSegmentsBuffer[0].x = p1.x;
+                _webLineSegmentsBuffer[0].y = p1.y;
+                _webLineSegmentsBuffer[1].x = p2.x;
+                _webLineSegmentsBuffer[1].y = p2.y;
                 
-                CGContextStrokeLineSegments(context, lineSegments, 2);
+                CGContextStrokeLineSegments(context, _webLineSegmentsBuffer, 2);
             }
         }
-        
-        lineSegments.dealloc(2);
         
         CGContextRestoreGState(context);
     }

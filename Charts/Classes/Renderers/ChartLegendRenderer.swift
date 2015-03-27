@@ -462,6 +462,8 @@ public class ChartLegendRenderer: ChartRendererBase
         }
     }
 
+    private var _formLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint());
+    
     /// Draws the Legend-form at the given position with the color at the given index.
     internal func drawForm(context: CGContext, x: CGFloat, y: CGFloat, colorIndex: Int, legend: ChartLegend)
     {
@@ -491,11 +493,11 @@ public class ChartLegendRenderer: ChartRendererBase
             CGContextSetLineWidth(context, legend.formLineWidth);
             CGContextSetStrokeColorWithColor(context, formColor!.CGColor);
             
-            var lineSegments = UnsafeMutablePointer<CGPoint>.alloc(2)
-            lineSegments[0] = CGPoint(x: x, y: y)
-            lineSegments[1] = CGPoint(x: x + formsize, y: y)
-            CGContextStrokeLineSegments(context, lineSegments, 2);
-            lineSegments.dealloc(2);
+            _formLineSegmentsBuffer[0].x = x;
+            _formLineSegmentsBuffer[0].y = y;
+            _formLineSegmentsBuffer[1].x = x + formsize;
+            _formLineSegmentsBuffer[1].y = y;
+            CGContextStrokeLineSegments(context, _formLineSegmentsBuffer, 2);
             
             break;
         }

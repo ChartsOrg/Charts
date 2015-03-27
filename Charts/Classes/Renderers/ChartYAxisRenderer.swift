@@ -167,6 +167,8 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
         drawYLabels(context: context, fixedPosition: xPos, offset: yoffset - _yAxis.labelFont.lineHeight, textAlign: textAlign);
     }
     
+    private var _axisLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint());
+    
     internal override func renderAxisLine(#context: CGContext)
     {
         if (!_yAxis.isEnabled || !_yAxis.drawAxisLineEnabled)
@@ -187,26 +189,22 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             CGContextSetLineDash(context, 0.0, nil, 0);
         }
         
-        var lineSegments = UnsafeMutablePointer<CGPoint>.alloc(2)
-        
         if (_yAxis.axisDependency == .Left)
         {
-            lineSegments[0].x = viewPortHandler.contentLeft;
-            lineSegments[0].y = viewPortHandler.contentTop;
-            lineSegments[1].x = viewPortHandler.contentLeft;
-            lineSegments[1].y = viewPortHandler.contentBottom;
-            CGContextStrokeLineSegments(context, lineSegments, 2);
+            _axisLineSegmentsBuffer[0].x = viewPortHandler.contentLeft;
+            _axisLineSegmentsBuffer[0].y = viewPortHandler.contentTop;
+            _axisLineSegmentsBuffer[1].x = viewPortHandler.contentLeft;
+            _axisLineSegmentsBuffer[1].y = viewPortHandler.contentBottom;
+            CGContextStrokeLineSegments(context, _axisLineSegmentsBuffer, 2);
         }
         else
         {
-            lineSegments[0].x = viewPortHandler.contentRight;
-            lineSegments[0].y = viewPortHandler.contentTop;
-            lineSegments[1].x = viewPortHandler.contentRight;
-            lineSegments[1].y = viewPortHandler.contentBottom;
-            CGContextStrokeLineSegments(context, lineSegments, 2);
+            _axisLineSegmentsBuffer[0].x = viewPortHandler.contentRight;
+            _axisLineSegmentsBuffer[0].y = viewPortHandler.contentTop;
+            _axisLineSegmentsBuffer[1].x = viewPortHandler.contentRight;
+            _axisLineSegmentsBuffer[1].y = viewPortHandler.contentBottom;
+            CGContextStrokeLineSegments(context, _axisLineSegmentsBuffer, 2);
         }
-        
-        lineSegments.dealloc(2);
         
         CGContextRestoreGState(context);
     }
@@ -284,6 +282,8 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
         CGContextRestoreGState(context);
     }
     
+    private var _limitLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint());
+    
     /// Draws the LimitLines associated with this axis to the screen.
     public func renderLimitLines(#context: CGContext)
     {
@@ -300,8 +300,6 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
         
         var position = CGPoint(x: 0.0, y: 0.0);
         
-        var lineSegments = UnsafeMutablePointer<CGPoint>.alloc(2)
-        
         for (var i = 0; i < limitLines.count; i++)
         {
             var l = limitLines[i];
@@ -310,10 +308,10 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             position.y = CGFloat(l.limit);
             position = CGPointApplyAffineTransform(position, trans);
             
-            lineSegments[0].x = viewPortHandler.contentLeft;
-            lineSegments[0].y = position.y;
-            lineSegments[1].x = viewPortHandler.contentRight;
-            lineSegments[1].y = position.y;
+            _limitLineSegmentsBuffer[0].x = viewPortHandler.contentLeft;
+            _limitLineSegmentsBuffer[0].y = position.y;
+            _limitLineSegmentsBuffer[1].x = viewPortHandler.contentRight;
+            _limitLineSegmentsBuffer[1].y = position.y;
             
             CGContextSetStrokeColorWithColor(context, l.lineColor.CGColor);
             CGContextSetLineWidth(context, l.lineWidth);
@@ -326,7 +324,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
                 CGContextSetLineDash(context, 0.0, nil, 0);
             }
             
-            CGContextStrokeLineSegments(context, lineSegments, 2);
+            CGContextStrokeLineSegments(context, _limitLineSegmentsBuffer, 2);
             
             var label = l.label;
             
@@ -347,8 +345,6 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
                 }
             }
         }
-        
-        lineSegments.dealloc(2);
         
         CGContextRestoreGState(context);
     }

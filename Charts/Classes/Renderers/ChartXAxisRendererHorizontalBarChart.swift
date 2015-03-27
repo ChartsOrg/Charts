@@ -96,6 +96,8 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         }
     }
     
+    private var _gridLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint());
+    
     public override func renderGridLines(#context: CGContext)
     {
         if (!_xAxis.isEnabled || !_xAxis.isDrawGridLinesEnabled || _chart.data === nil)
@@ -116,8 +118,6 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
             CGContextSetLineDash(context, 0.0, nil, 0);
         }
         
-        var lineSegments = UnsafeMutablePointer<CGPoint>.alloc(2)
-        
         var position = CGPoint(x: 0.0, y: 0.0);
         
         var bd = _chart.data as! BarChartData;
@@ -134,19 +134,19 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
             
             if (viewPortHandler.isInBoundsY(position.y))
             {
-                lineSegments[0].x = viewPortHandler.contentLeft;
-                lineSegments[0].y = position.y;
-                lineSegments[1].x = viewPortHandler.contentRight;
-                lineSegments[1].y = position.y;
-                CGContextStrokeLineSegments(context, lineSegments, 2);
+                _gridLineSegmentsBuffer[0].x = viewPortHandler.contentLeft;
+                _gridLineSegmentsBuffer[0].y = position.y;
+                _gridLineSegmentsBuffer[1].x = viewPortHandler.contentRight;
+                _gridLineSegmentsBuffer[1].y = position.y;
+                CGContextStrokeLineSegments(context, _gridLineSegmentsBuffer, 2);
             }
         }
         
-        lineSegments.dealloc(2);
-        
         CGContextRestoreGState(context);
     }
-
+    
+    private var _axisLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint());
+    
     internal override func renderAxisLine(#context: CGContext)
     {
         if (!_xAxis.isEnabled || !_xAxis.isDrawAxisLineEnabled)
@@ -167,28 +167,26 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
             CGContextSetLineDash(context, 0.0, nil, 0);
         }
         
-        var lineSegments = UnsafeMutablePointer<CGPoint>.alloc(2)
-        
         if (_xAxis.labelPosition == .Top
             || _xAxis.labelPosition == .TopInside
             || _xAxis.labelPosition == .BothSided)
         {
-            lineSegments[0].x = viewPortHandler.contentRight;
-            lineSegments[0].y = viewPortHandler.contentTop;
-            lineSegments[1].x = viewPortHandler.contentRight;
-            lineSegments[1].y = viewPortHandler.contentBottom;
-            CGContextStrokeLineSegments(context, lineSegments, 2);
+            _axisLineSegmentsBuffer[0].x = viewPortHandler.contentRight;
+            _axisLineSegmentsBuffer[0].y = viewPortHandler.contentTop;
+            _axisLineSegmentsBuffer[1].x = viewPortHandler.contentRight;
+            _axisLineSegmentsBuffer[1].y = viewPortHandler.contentBottom;
+            CGContextStrokeLineSegments(context, _axisLineSegmentsBuffer, 2);
         }
         
         if (_xAxis.labelPosition == .Bottom
             || _xAxis.labelPosition == .BottomInside
             || _xAxis.labelPosition == .BothSided)
         {
-            lineSegments[0].x = viewPortHandler.contentLeft;
-            lineSegments[0].y = viewPortHandler.contentTop;
-            lineSegments[1].x = viewPortHandler.contentLeft;
-            lineSegments[1].y = viewPortHandler.contentBottom;
-            CGContextStrokeLineSegments(context, lineSegments, 2);
+            _axisLineSegmentsBuffer[0].x = viewPortHandler.contentLeft;
+            _axisLineSegmentsBuffer[0].y = viewPortHandler.contentTop;
+            _axisLineSegmentsBuffer[1].x = viewPortHandler.contentLeft;
+            _axisLineSegmentsBuffer[1].y = viewPortHandler.contentBottom;
+            CGContextStrokeLineSegments(context, _axisLineSegmentsBuffer, 2);
         }
         
         CGContextRestoreGState(context);
