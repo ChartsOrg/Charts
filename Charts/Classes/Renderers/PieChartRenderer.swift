@@ -251,34 +251,37 @@ public class PieChartRenderer: ChartDataRendererBase
         }
     }
     
-    /// draws the description text in the center of the pie chart makes most
-    /// sense when center-hole is enabled
+    /// draws the description text in the center of the pie chart makes most sense when center-hole is enabled
     private func drawCenterText(#context: CGContext)
     {
-        if (drawCenterTextEnabled && centerText != nil)
+        if (drawCenterTextEnabled && centerText != nil && centerText.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) > 0)
         {
             var center = _chart.centerCircleBox;
+            var innerRadius = drawHoleEnabled && holeTransparent ? _chart.radius * holeRadiusPercent : _chart.radius;
+            var boundingRect = CGRect(x: center.x - innerRadius, y: center.y - innerRadius, width: innerRadius * 2.0, height: innerRadius * 2.0);
             
-            // get all lines from the text
-            var lines = centerText.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet());
+            var centerTextNs = self.centerText as NSString;
             
-            // calculate the height for each line
-            var lineHeight = centerTextFont.lineHeight;
+            var paragraphStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle;
+            paragraphStyle.lineBreakMode = .ByTruncatingTail;
+            paragraphStyle.alignment = .Center;
             
-            var totalheight = lineHeight * CGFloat(lines.count);
+            var textSize = centerTextNs.sizeWithAttributes([NSFontAttributeName: centerTextFont, NSParagraphStyleAttributeName: paragraphStyle]);
             
-            var cnt = lines.count;
+            var drawingRect = boundingRect;
+            drawingRect.origin.y += (boundingRect.size.height - textSize.height) / 2.0;
+            drawingRect.size.height = textSize.height;
             
-            var y = center.y;
+            CGContextSaveGState(context);
+
+            var clippingPath = CGPathCreateWithEllipseInRect(boundingRect, nil);
+            CGContextBeginPath(context);
+            CGContextAddPath(context, clippingPath);
+            CGContextClip(context);
             
-            for (var i = 0; i < lines.count; i++)
-            {
-                var line = lines[lines.count - i - 1];
-                
-                ChartUtils.drawText(context: context, text: line, point: CGPoint(x: center.x, y: y - lineHeight + lineHeight * CGFloat(cnt) - totalheight / 2.0), align: .Center, attributes: [NSFontAttributeName: centerTextFont, NSForegroundColorAttributeName: centerTextColor]);
-                
-                cnt--;
-            }
+            centerTextNs.drawInRect(drawingRect, withAttributes: [NSFontAttributeName: centerTextFont, NSParagraphStyleAttributeName: paragraphStyle, NSForegroundColorAttributeName: centerTextColor]);
+            
+            CGContextRestoreGState(context);
         }
     }
     
