@@ -68,7 +68,7 @@
     _sliderY.value = 100.f;
     [self slidersValueChanged:nil];
     
-    [_chartView animateWithXAxisDuration:1.5 yAxisDuration:1.5];
+    [_chartView animateWithXAxisDuration:1.5 yAxisDuration:1.5 easingOption:ChartEasingOptionEaseOutBack];
 }
 
 - (void)didReceiveMemoryWarning
