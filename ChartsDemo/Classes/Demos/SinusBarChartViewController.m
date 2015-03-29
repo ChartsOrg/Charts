@@ -198,12 +198,12 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(__nonnull ChartViewBase *)chartView entry:(__nonnull ChartDataEntry *)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(__nonnull ChartHighlight *)highlight
+- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
 {
     NSLog(@"chartValueSelected");
 }
 
-- (void)chartValueNothingSelected:(__nonnull ChartViewBase *)chartView
+- (void)chartValueNothingSelected:(ChartViewBase * __nonnull)chartView
 {
     NSLog(@"chartValueNothingSelected");
 }
