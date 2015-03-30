@@ -13,7 +13,7 @@
 
 import Foundation
 
-@objc
+//@objc
 public protocol LineChartRendererDelegate
 {
     func lineChartRendererData(renderer: LineChartRenderer) -> LineChartData!;
@@ -29,7 +29,7 @@ public protocol LineChartRendererDelegate
 
 public class LineChartRenderer: ChartDataRendererBase
 {
-    public weak var delegate: LineChartRendererDelegate?;
+    public var delegate: LineChartRendererDelegate?;
     
     public init(delegate: LineChartRendererDelegate?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
@@ -53,7 +53,7 @@ public class LineChartRenderer: ChartDataRendererBase
             
             if (set !== nil && set!.isVisible)
             {
-                drawDataSet(context: context, dataSet: set as! LineChartDataSet);
+                drawDataSet(context: context, dataSet: set as LineChartDataSet);
             }
         }
     }
@@ -93,7 +93,7 @@ public class LineChartRenderer: ChartDataRendererBase
         CGContextSetLineWidth(context, dataSet.lineWidth);
         if (dataSet.lineDashLengths != nil)
         {
-            CGContextSetLineDash(context, dataSet.lineDashPhase, dataSet.lineDashLengths, dataSet.lineDashLengths.count);
+            CGContextSetLineDash(context, dataSet.lineDashPhase, dataSet.lineDashLengths, UInt(dataSet.lineDashLengths.count));
         }
         else
         {
@@ -429,7 +429,7 @@ public class LineChartRenderer: ChartDataRendererBase
             
             for (var i = 0; i < dataSets.count; i++)
             {
-                var dataSet = dataSets[i] as! LineChartDataSet;
+                var dataSet = dataSets[i] as LineChartDataSet;
                 
                 if (!dataSet.isDrawValuesEnabled)
                 {
@@ -500,7 +500,7 @@ public class LineChartRenderer: ChartDataRendererBase
         
         for (var i = 0, count = dataSets.count; i < count; i++)
         {
-            var dataSet = lineData.getDataSetByIndex(i) as! LineChartDataSet!;
+            var dataSet = lineData.getDataSetByIndex(i) as LineChartDataSet!;
             
             if (!dataSet.isVisible || !dataSet.isDrawCirclesEnabled)
             {
@@ -573,7 +573,7 @@ public class LineChartRenderer: ChartDataRendererBase
         
         for (var i = 0; i < indices.count; i++)
         {
-            var set = lineData.getDataSetByIndex(indices[i].dataSetIndex) as! LineChartDataSet!;
+            var set = lineData.getDataSetByIndex(indices[i].dataSetIndex) as LineChartDataSet!;
             
             if (set === nil)
             {
@@ -584,7 +584,7 @@ public class LineChartRenderer: ChartDataRendererBase
             CGContextSetLineWidth(context, set.highlightLineWidth);
             if (set.highlightLineDashLengths != nil)
             {
-                CGContextSetLineDash(context, set.highlightLineDashPhase, set.highlightLineDashLengths!, set.highlightLineDashLengths!.count);
+                CGContextSetLineDash(context, set.highlightLineDashPhase, set.highlightLineDashLengths!, UInt(set.highlightLineDashLengths!.count));
             }
             else
             {

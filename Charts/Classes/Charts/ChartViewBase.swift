@@ -133,7 +133,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         _defaultValueFormatter.minimumFractionDigits = 1;
         _defaultValueFormatter.usesGroupingSeparator = true;
         
-        _valueFormatter = _defaultValueFormatter.copy() as! NSNumberFormatter;
+        _valueFormatter = _defaultValueFormatter.copy() as NSNumberFormatter;
     }
     
     // MARK: - ChartViewBase
@@ -620,7 +620,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         {
             if (newValue === nil)
             {
-                _valueFormatter = _defaultValueFormatter.copy() as! NSNumberFormatter;
+                _valueFormatter = _defaultValueFormatter.copy() as NSNumberFormatter;
             }
             else
             {
@@ -759,7 +759,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     
     // MARK: - Touches
     
-    public override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent)
+    public override func touchesBegan(touches: NSSet, withEvent event: UIEvent)
     {
         if (!_interceptTouchEvents)
         {
@@ -767,7 +767,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         }
     }
     
-    public override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent)
+    public override func touchesMoved(touches: NSSet, withEvent event: UIEvent)
     {
         if (!_interceptTouchEvents)
         {
@@ -775,7 +775,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         }
     }
     
-    public override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent)
+    public override func touchesEnded(touches: NSSet, withEvent event: UIEvent)
     {
         if (!_interceptTouchEvents)
         {
@@ -783,7 +783,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         }
     }
     
-    public override func touchesCancelled(touches: Set<NSObject>, withEvent event: UIEvent)
+    public override func touchesCancelled(touches: NSSet, withEvent event: UIEvent)
     {
         if (!_interceptTouchEvents)
         {

@@ -90,7 +90,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         CGContextSetLineWidth(context, _xAxis.axisLineWidth);
         if (_xAxis.axisLineDashLengths != nil)
         {
-            CGContextSetLineDash(context, _xAxis.axisLineDashPhase, _xAxis.axisLineDashLengths, _xAxis.axisLineDashLengths.count);
+            CGContextSetLineDash(context, _xAxis.axisLineDashPhase, _xAxis.axisLineDashLengths, UInt(_xAxis.axisLineDashLengths.count));
         }
         else
         {
@@ -196,7 +196,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         CGContextSetLineWidth(context, _xAxis.gridLineWidth);
         if (_xAxis.gridLineDashLengths != nil)
         {
-            CGContextSetLineDash(context, _xAxis.gridLineDashPhase, _xAxis.gridLineDashLengths, _xAxis.gridLineDashLengths.count);
+            CGContextSetLineDash(context, _xAxis.gridLineDashPhase, _xAxis.gridLineDashLengths, UInt(_xAxis.gridLineDashLengths.count));
         }
         else
         {

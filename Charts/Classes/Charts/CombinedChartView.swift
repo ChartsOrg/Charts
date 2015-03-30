@@ -20,7 +20,7 @@ public class CombinedChartView: BarLineChartViewBase
     internal var _fillFormatter: ChartFillFormatter!
     
     /// enum that allows to specify the order in which the different data objects for the combined-chart are drawn
-    @objc
+//    @objc
     public enum DrawOrder: Int
     {
         case Bar
@@ -59,7 +59,7 @@ public class CombinedChartView: BarLineChartViewBase
         set
         {
             super.data = newValue;
-            (renderer as! CombinedChartRenderer?)!.createRenderers();
+            (renderer as CombinedChartRenderer?)!.createRenderers();
         }
     }
     
@@ -87,7 +87,7 @@ public class CombinedChartView: BarLineChartViewBase
             {
                 return nil;
             }
-            return (_data as! CombinedChartData!).lineData;
+            return (_data as CombinedChartData!).lineData;
         }
     }
     
@@ -99,7 +99,7 @@ public class CombinedChartView: BarLineChartViewBase
             {
                 return nil;
             }
-            return (_data as! CombinedChartData!).barData;
+            return (_data as CombinedChartData!).barData;
         }
     }
     
@@ -111,7 +111,7 @@ public class CombinedChartView: BarLineChartViewBase
             {
                 return nil;
             }
-            return (_data as! CombinedChartData!).scatterData;
+            return (_data as CombinedChartData!).scatterData;
         }
     }
     
@@ -123,7 +123,7 @@ public class CombinedChartView: BarLineChartViewBase
             {
                 return nil;
             }
-            return (_data as! CombinedChartData!).candleData;
+            return (_data as CombinedChartData!).candleData;
         }
     }
     
@@ -132,42 +132,42 @@ public class CombinedChartView: BarLineChartViewBase
     /// flag that enables or disables the highlighting arrow
     public var drawHighlightArrowEnabled: Bool
     {
-        get { return (renderer as! CombinedChartRenderer!).drawHighlightArrowEnabled; }
-        set { (renderer as! CombinedChartRenderer!).drawHighlightArrowEnabled = newValue; }
+        get { return (renderer as CombinedChartRenderer!).drawHighlightArrowEnabled; }
+        set { (renderer as CombinedChartRenderer!).drawHighlightArrowEnabled = newValue; }
     }
     
     /// if set to true, all values are drawn above their bars, instead of below their top
     public var drawValueAboveBarEnabled: Bool
         {
-        get { return (renderer as! CombinedChartRenderer!).drawValueAboveBarEnabled; }
-        set { (renderer as! CombinedChartRenderer!).drawValueAboveBarEnabled = newValue; }
+        get { return (renderer as CombinedChartRenderer!).drawValueAboveBarEnabled; }
+        set { (renderer as CombinedChartRenderer!).drawValueAboveBarEnabled = newValue; }
     }
     
     /// if set to true, all values of a stack are drawn individually, and not just their sum
     public var drawValuesForWholeStackEnabled: Bool
     {
-        get { return (renderer as! CombinedChartRenderer!).drawValuesForWholeStackEnabled; }
-        set { (renderer as! CombinedChartRenderer!).drawValuesForWholeStackEnabled = newValue; }
+        get { return (renderer as CombinedChartRenderer!).drawValuesForWholeStackEnabled; }
+        set { (renderer as CombinedChartRenderer!).drawValuesForWholeStackEnabled = newValue; }
     }
     
     /// if set to true, a grey area is darawn behind each bar that indicates the maximum value
     public var drawBarShadowEnabled: Bool
     {
-        get { return (renderer as! CombinedChartRenderer!).drawBarShadowEnabled; }
-        set { (renderer as! CombinedChartRenderer!).drawBarShadowEnabled = newValue; }
+        get { return (renderer as CombinedChartRenderer!).drawBarShadowEnabled; }
+        set { (renderer as CombinedChartRenderer!).drawBarShadowEnabled = newValue; }
     }
     
     /// returns true if drawing the highlighting arrow is enabled, false if not
-    public var isDrawHighlightArrowEnabled: Bool { return (renderer as! CombinedChartRenderer!).drawHighlightArrowEnabled; }
+    public var isDrawHighlightArrowEnabled: Bool { return (renderer as CombinedChartRenderer!).drawHighlightArrowEnabled; }
     
     /// returns true if drawing values above bars is enabled, false if not
-    public var isDrawValueAboveBarEnabled: Bool { return (renderer as! CombinedChartRenderer!).drawValueAboveBarEnabled; }
+    public var isDrawValueAboveBarEnabled: Bool { return (renderer as CombinedChartRenderer!).drawValueAboveBarEnabled; }
     
     /// returns true if all values of a stack are drawn, and not just their sum
-    public var isDrawValuesForWholeStackEnabled: Bool { return (renderer as! CombinedChartRenderer!).drawValuesForWholeStackEnabled; }
+    public var isDrawValuesForWholeStackEnabled: Bool { return (renderer as CombinedChartRenderer!).drawValuesForWholeStackEnabled; }
     
     /// returns true if drawing shadows (maxvalue) for each bar is enabled, false if not
-    public var isDrawBarShadowEnabled: Bool { return (renderer as! CombinedChartRenderer!).drawBarShadowEnabled; }
+    public var isDrawBarShadowEnabled: Bool { return (renderer as CombinedChartRenderer!).drawBarShadowEnabled; }
     
     /// the order in which the provided data objects should be drawn.
     /// The earlier you place them in the provided array, the further they will be in the background. 
@@ -176,11 +176,11 @@ public class CombinedChartView: BarLineChartViewBase
     {
         get
         {
-            return (renderer as! CombinedChartRenderer!).drawOrder.map { $0.rawValue };
+            return (renderer as CombinedChartRenderer!).drawOrder.map { $0.rawValue };
         }
         set
         {
-            (renderer as! CombinedChartRenderer!).drawOrder = newValue.map { DrawOrder(rawValue: $0)! };
+            (renderer as CombinedChartRenderer!).drawOrder = newValue.map { DrawOrder(rawValue: $0)! };
         }
     }
 }

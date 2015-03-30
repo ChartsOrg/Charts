@@ -103,7 +103,7 @@ public class LineChartDataSet: LineRadarChartDataSet
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
-        var copy = super.copyWithZone(zone) as! LineChartDataSet;
+        var copy = super.copyWithZone(zone) as LineChartDataSet;
         copy.circleColors = circleColors;
         copy.circleRadius = circleRadius;
         copy.cubicIntensity = cubicIntensity;

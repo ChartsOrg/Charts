@@ -368,7 +368,7 @@ public class BarLineChartViewBase: ChartViewBase
         
         if (self.isKindOfClass(BarChartView))
         {
-            var bd = _data as! BarChartData;
+            var bd = _data as BarChartData;
             var space = bd.groupSpace;
             var j = _data.getDataSetByIndex(dataSetIndex)!.entryIndex(entry: entry, isEqual: true);
             
@@ -1155,7 +1155,7 @@ public class BarLineChartViewBase: ChartViewBase
         var h = getHighlightByTouchPoint(pt);
         if (h !== nil)
         {
-            return _data.getDataSetByIndex(h.dataSetIndex) as! BarLineScatterCandleChartDataSet!;
+            return _data.getDataSetByIndex(h.dataSetIndex) as BarLineScatterCandleChartDataSet!;
         }
         return nil;
     }

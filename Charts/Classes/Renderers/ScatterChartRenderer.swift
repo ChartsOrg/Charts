@@ -13,7 +13,7 @@
 
 import Foundation
 
-@objc
+//@objc
 public protocol ScatterChartRendererDelegate
 {
     func scatterChartRendererData(renderer: ScatterChartRenderer) -> ScatterChartData!;
@@ -28,7 +28,7 @@ public protocol ScatterChartRendererDelegate
 
 public class ScatterChartRenderer: ChartDataRendererBase
 {
-    public weak var delegate: ScatterChartRendererDelegate?;
+    public var delegate: ScatterChartRendererDelegate?;
     
     public init(delegate: ScatterChartRendererDelegate?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
@@ -52,7 +52,7 @@ public class ScatterChartRenderer: ChartDataRendererBase
             
             if (set !== nil && set!.isVisible)
             {
-                drawDataSet(context: context, dataSet: set as! ScatterChartDataSet);
+                drawDataSet(context: context, dataSet: set as ScatterChartDataSet);
             }
         }
     }
@@ -184,7 +184,7 @@ public class ScatterChartRenderer: ChartDataRendererBase
         // if values are drawn
         if (scatterData.yValCount < Int(ceil(CGFloat(delegate!.scatterChartRendererMaxVisibleValueCount(self)) * viewPortHandler.scaleX)))
         {
-            var dataSets = scatterData.dataSets as! [ScatterChartDataSet];
+            var dataSets = scatterData.dataSets as [ScatterChartDataSet];
             
             for (var i = 0; i < scatterData.dataSetCount; i++)
             {
@@ -253,7 +253,7 @@ public class ScatterChartRenderer: ChartDataRendererBase
         
         for (var i = 0; i < indices.count; i++)
         {
-            var set = scatterData.getDataSetByIndex(indices[i].dataSetIndex) as! ScatterChartDataSet!;
+            var set = scatterData.getDataSetByIndex(indices[i].dataSetIndex) as ScatterChartDataSet!;
             
             if (set === nil)
             {
@@ -264,7 +264,7 @@ public class ScatterChartRenderer: ChartDataRendererBase
             CGContextSetLineWidth(context, set.highlightLineWidth);
             if (set.highlightLineDashLengths != nil)
             {
-                CGContextSetLineDash(context, set.highlightLineDashPhase, set.highlightLineDashLengths!, set.highlightLineDashLengths!.count);
+                CGContextSetLineDash(context, set.highlightLineDashPhase, set.highlightLineDashLengths!, UInt(set.highlightLineDashLengths!.count));
             }
             else
             {
@@ -290,7 +290,7 @@ public class ScatterChartRenderer: ChartDataRendererBase
             trans.pointValuesToPixel(&pts);
             
             // draw the highlight lines
-            CGContextStrokeLineSegments(context, pts, pts.count);
+            CGContextStrokeLineSegments(context, pts, UInt(pts.count));
         }
         
         CGContextRestoreGState(context);

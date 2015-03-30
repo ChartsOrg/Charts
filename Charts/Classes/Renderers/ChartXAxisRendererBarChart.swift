@@ -35,7 +35,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
         var labelFont = _xAxis.labelFont;
         var labelTextColor = _xAxis.labelTextColor;
         
-        var barData = _chart.data as! BarChartData;
+        var barData = _chart.data as BarChartData;
         var step = barData.dataSetCount;
         
         var trans = transformer.valueToPixelMatrix;
@@ -98,7 +98,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
             return;
         }
         
-        var barData = _chart.data as! BarChartData;
+        var barData = _chart.data as BarChartData;
         var step = barData.dataSetCount;
         
         CGContextSaveGState(context);
@@ -107,7 +107,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
         CGContextSetLineWidth(context, _xAxis.gridLineWidth);
         if (_xAxis.gridLineDashLengths != nil)
         {
-            CGContextSetLineDash(context, _xAxis.gridLineDashPhase, _xAxis.gridLineDashLengths, _xAxis.gridLineDashLengths.count);
+            CGContextSetLineDash(context, _xAxis.gridLineDashPhase, _xAxis.gridLineDashLengths, UInt(_xAxis.gridLineDashLengths.count));
         }
         else
         {

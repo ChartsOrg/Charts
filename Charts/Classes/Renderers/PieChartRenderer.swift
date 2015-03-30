@@ -44,7 +44,7 @@ public class PieChartRenderer: ChartDataRendererBase
             
             if (pieData != nil)
             {
-                for set in pieData!.dataSets as! [PieChartDataSet]
+                for set in pieData!.dataSets as [PieChartDataSet]
                 {
                     if (set.isVisible)
                     {
@@ -150,7 +150,7 @@ public class PieChartRenderer: ChartDataRendererBase
         
         for (var i = 0; i < dataSets.count; i++)
         {
-            var dataSet = dataSets[i] as! PieChartDataSet;
+            var dataSet = dataSets[i] as PieChartDataSet;
             
             if (!dataSet.isDrawValuesEnabled)
             {
@@ -266,7 +266,7 @@ public class PieChartRenderer: ChartDataRendererBase
             
             var centerTextNs = self.centerText as NSString;
             
-            var paragraphStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle;
+            var paragraphStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as NSMutableParagraphStyle;
             paragraphStyle.lineBreakMode = .ByTruncatingTail;
             paragraphStyle.alignment = .Center;
             
@@ -328,7 +328,7 @@ public class PieChartRenderer: ChartDataRendererBase
             
             var sliceDegrees = drawAngles[xIndex];
             
-            var set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as! PieChartDataSet!;
+            var set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as PieChartDataSet!;
             
             if (set === nil)
             {

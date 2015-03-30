@@ -15,9 +15,10 @@
 import Foundation
 import UIKit
 
+//@objc
 public class ChartLimitLine: ChartComponentBase
 {
-    @objc
+    
     public enum LabelPosition: Int
     {
         case Left

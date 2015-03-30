@@ -398,14 +398,14 @@ public class PieRadarChartViewBase: ChartViewBase
     private var _isRotating = false;
     private var _startAngle = CGFloat(0.0)
     
-    public override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent)
+    public override func touchesBegan(touches: NSSet, withEvent event: UIEvent)
     {
         super.touchesBegan(touches, withEvent: event);
         
         // if rotation by touch is enabled
         if (rotationEnabled)
         {
-            var touch = touches.first as! UITouch!;
+            var touch = touches.objectEnumerator().nextObject() as UITouch!;
             
             var touchLocation = touch.locationInView(self);
             _touchStartPoint = touchLocation;
@@ -414,13 +414,13 @@ public class PieRadarChartViewBase: ChartViewBase
         }
     }
     
-    public override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent)
+    public override func touchesMoved(touches: NSSet, withEvent event: UIEvent)
     {
         super.touchesMoved(touches, withEvent: event);
         
         if (rotationEnabled)
         {
-            var touch = touches.first as! UITouch!;
+            var touch = touches.objectEnumerator().nextObject() as UITouch!;
             
             var touchLocation = touch.locationInView(self);
         
@@ -436,13 +436,13 @@ public class PieRadarChartViewBase: ChartViewBase
         }
     }
     
-    public override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent)
+    public override func touchesEnded(touches: NSSet, withEvent event: UIEvent)
     {
         super.touchesEnded(touches, withEvent: event);
         
         if (rotationEnabled)
         {
-            var touch = touches.first as! UITouch!;
+            var touch = touches.objectEnumerator().nextObject() as UITouch!;
             
             var touchLocation = touch.locationInView(self);
             _touchStartPoint = touchLocation;
@@ -521,7 +521,7 @@ public class PieRadarChartViewBase: ChartViewBase
                     // get the dataset that is closest to the selection (PieChart only has one DataSet)
                     if (self.isKindOfClass(RadarChartView))
                     {
-                        dataSetIndex = ChartUtils.closestDataSetIndex(valsAtIndex, value: Float(distance / (self as! RadarChartView).factor), axis: nil);
+                        dataSetIndex = ChartUtils.closestDataSetIndex(valsAtIndex, value: Float(distance / (self as RadarChartView).factor), axis: nil);
                     }
                     
                     var h = ChartHighlight(xIndex: index, dataSetIndex: dataSetIndex);

@@ -16,7 +16,7 @@ import Foundation
 
 public class ChartDataApproximatorFilter: ChartDataBaseFilter
 {
-    @objc
+//    @objc
     public enum ApproximatorType: Int
     {
         case None

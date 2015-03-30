@@ -40,9 +40,9 @@ public class ChartLegendRenderer: ChartRendererBase
             var entryCount = dataSet.entryCount;
             
             // if we have a barchart with stacked bars
-            if (dataSet.isKindOfClass(BarChartDataSet) && (dataSet as! BarChartDataSet).stackSize > 1)
+            if (dataSet.isKindOfClass(BarChartDataSet) && (dataSet as BarChartDataSet).stackSize > 1)
             {
-                var bds = dataSet as! BarChartDataSet;
+                var bds = dataSet as BarChartDataSet;
                 var sLabels = bds.stackLabels;
 
                 for (var j = 0; j < clrs.count && j < bds.stackSize; j++) 
@@ -59,7 +59,7 @@ public class ChartLegendRenderer: ChartRendererBase
             else if (dataSet.isKindOfClass(PieChartDataSet))
             {
                 var xVals = data.xVals;
-                var pds = dataSet as! PieChartDataSet;
+                var pds = dataSet as PieChartDataSet;
 
                 for (var j = 0; j < clrs.count && j < entryCount && j < xVals.count; j++)
                 {

@@ -14,7 +14,7 @@
 
 import Foundation
 
-@objc
+//@objc
 public enum ChartEasingOption: Int
 {
     case Linear

@@ -17,7 +17,7 @@ import UIKit
 
 public class ChartLegend: ChartComponentBase
 {
-    @objc
+//    @objc
     public enum ChartLegendPosition: Int
     {
         case RightOfChart
@@ -32,7 +32,7 @@ public class ChartLegend: ChartComponentBase
         case PiechartCenter
     }
     
-    @objc
+//    @objc
     public enum ChartLegendForm: Int
     {
         case Square
@@ -40,7 +40,7 @@ public class ChartLegend: ChartComponentBase
         case Line
     }
     
-    @objc
+//    @objc
     public enum ChartLegendDirection: Int
     {
         case LeftToRight

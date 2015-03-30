@@ -16,7 +16,7 @@ import Foundation
 
 public class ChartXAxis: ChartAxisBase
 {
-    @objc
+//    @objc
     public enum XAxisLabelPosition: Int
     {
         case Top

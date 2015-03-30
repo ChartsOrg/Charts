@@ -116,7 +116,7 @@ public class HorizontalBarChartView: BarChartView
     
     public override func getBarBounds(e: BarChartDataEntry) -> CGRect!
     {
-        var set = _data.getDataSetForEntry(e) as! BarChartDataSet!;
+        var set = _data.getDataSetForEntry(e) as BarChartDataSet!;
         
         if (set === nil)
         {
