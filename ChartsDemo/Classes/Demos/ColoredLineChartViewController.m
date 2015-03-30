@@ -59,7 +59,7 @@
     [chart setViewPortOffsetsWithLeft:10.f top:0.f right:10.f bottom:0.f];
     
     ChartLegend *l = chart.legend;
-    l.form = ChartLegendFormCircle;
+//    l.form = ChartLegendFormCircle;
     l.formSize = 6.f;
     l.textColor = UIColor.whiteColor;
     l.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
@@ -110,12 +110,12 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase *)chartView entry:(ChartDataEntry *)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight *)highlight
 {
     NSLog(@"chartValueSelected");
 }
 
-- (void)chartValueNothingSelected:(ChartViewBase * __nonnull)chartView
+- (void)chartValueNothingSelected:(ChartViewBase *)chartView
 {
     NSLog(@"chartValueNothingSelected");
 }

@@ -59,7 +59,7 @@
     yAxis.startAtZeroEnabled = YES;
     
     ChartLegend *l = _chartView.legend;
-    l.position = ChartLegendPositionRightOfChart;
+//    l.position = ChartLegendPositionRightOfChart;
     l.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     l.xEntrySpace = 7.f;
     l.yEntrySpace = 5.f;
@@ -170,12 +170,12 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase *)chartView entry:(ChartDataEntry *)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight *)highlight
 {
     NSLog(@"chartValueSelected");
 }
 
-- (void)chartValueNothingSelected:(ChartViewBase * __nonnull)chartView
+- (void)chartValueNothingSelected:(ChartViewBase *)chartView
 {
     NSLog(@"chartValueNothingSelected");
 }

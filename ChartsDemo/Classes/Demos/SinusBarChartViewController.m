@@ -55,7 +55,7 @@
     _chartView.drawGridBackgroundEnabled = NO;
     
     ChartXAxis *xAxis = _chartView.xAxis;
-    xAxis.labelPosition = XAxisLabelPositionBottom;
+//    xAxis.labelPosition = XAxisLabelPositionBottom;
     xAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     xAxis.drawGridLinesEnabled = NO;
     xAxis.enabled = NO;
@@ -76,8 +76,8 @@
     rightAxis.axisMaximum = 2.5f;
         
     ChartLegend *l = _chartView.legend;
-    l.position = ChartLegendPositionBelowChartLeft;
-    l.form = ChartLegendFormSquare;
+//    l.position = ChartLegendPositionBelowChartLeft;
+//    l.form = ChartLegendFormSquare;
     l.formSize = 9.f;
     l.font = [UIFont systemFontOfSize:11.f];
     l.xEntrySpace = 4.f;
@@ -198,12 +198,12 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase *)chartView entry:(ChartDataEntry *)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight *)highlight
 {
     NSLog(@"chartValueSelected");
 }
 
-- (void)chartValueNothingSelected:(ChartViewBase * __nonnull)chartView
+- (void)chartValueNothingSelected:(ChartViewBase *)chartView
 {
     NSLog(@"chartValueNothingSelected");
 }

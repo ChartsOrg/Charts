@@ -12,22 +12,22 @@
 //
 
 #import "DemoListViewController.h"
-//#import "LineChart1ViewController.h"
-//#import "LineChart2ViewController.h"
-//#import "BarChartViewController.h"
-//#import "HorizontalBarChartViewController.h"
-//#import "CombinedChartViewController.h"
-//#import "PieChartViewController.h"
-//#import "ScatterChartViewController.h"
-//#import "StackedBarChartViewController.h"
+#import "LineChart1ViewController.h"
+#import "LineChart2ViewController.h"
+#import "BarChartViewController.h"
+#import "HorizontalBarChartViewController.h"
+#import "CombinedChartViewController.h"
+#import "PieChartViewController.h"
+#import "ScatterChartViewController.h"
+#import "StackedBarChartViewController.h"
 #import "AnotherBarChartViewController.h"
-//#import "MultipleLinesChartViewController.h"
-//#import "MultipleBarChartViewController.h"
-//#import "CandleStickChartViewController.h"
-//#import "CubicLineChartViewController.h"
-//#import "RadarChartViewController.h"
-//#import "ColoredLineChartViewController.h"
-//#import "SinusBarChartViewController.h"
+#import "MultipleLinesChartViewController.h"
+#import "MultipleBarChartViewController.h"
+#import "CandleStickChartViewController.h"
+#import "CubicLineChartViewController.h"
+#import "RadarChartViewController.h"
+#import "ColoredLineChartViewController.h"
+#import "SinusBarChartViewController.h"
 
 @interface DemoListViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -45,90 +45,85 @@
 
     self.itemDefs = @[
                       @{
+                          @"title": @"Line Chart",
+                          @"subtitle": @"A simple demonstration of the linechart.",
+                          @"class": LineChart1ViewController.class
+                          },
+                      @{
+                          @"title": @"Line Chart (Dual YAxis)",
+                          @"subtitle": @"Demonstration of the linechart with dual y-axis.",
+                          @"class": LineChart2ViewController.class
+                          },
+                      @{
+                          @"title": @"Bar Chart",
+                          @"subtitle": @"A simple demonstration of the bar chart.",
+                          @"class": BarChartViewController.class
+                          },
+                      @{
+                          @"title": @"Horizontal Bar Chart",
+                          @"subtitle": @"A simple demonstration of the horizontal bar chart.",
+                          @"class": HorizontalBarChartViewController.class
+                          },
+                      @{
+                          @"title": @"Combined Chart",
+                          @"subtitle": @"Demonstrates how to create a combined chart (bar and line in this case).",
+                          @"class": CombinedChartViewController.class
+                          },
+                      @{
+                          @"title": @"Pie Chart",
+                          @"subtitle": @"A simple demonstration of the pie chart.",
+                          @"class": PieChartViewController.class
+                          },
+                      @{
+                          @"title": @"Scatter Chart",
+                          @"subtitle": @"A simple demonstration of the scatter chart.",
+                          @"class": ScatterChartViewController.class
+                          },
+                      @{
+                          @"title": @"Stacked Bar Chart",
+                          @"subtitle": @"A simple demonstration of a bar chart with stacked bars.",
+                          @"class": StackedBarChartViewController.class
+                          },
+                      @{
                           @"title": @"Another Bar Chart",
                           @"subtitle": @"Implementation of a BarChart that only shows values at the bottom.",
                           @"class": AnotherBarChartViewController.class
-                          }
-//                      @{
-//                          @"title": @"Line Chart",
-//                          @"subtitle": @"A simple demonstration of the linechart.",
-//                          @"class": LineChart1ViewController.class
-//                          },
-//                      @{
-//                          @"title": @"Line Chart (Dual YAxis)",
-//                          @"subtitle": @"Demonstration of the linechart with dual y-axis.",
-//                          @"class": LineChart2ViewController.class
-//                          },
-//                      @{
-//                          @"title": @"Bar Chart",
-//                          @"subtitle": @"A simple demonstration of the bar chart.",
-//                          @"class": BarChartViewController.class
-//                          },
-//                      @{
-//                          @"title": @"Horizontal Bar Chart",
-//                          @"subtitle": @"A simple demonstration of the horizontal bar chart.",
-//                          @"class": HorizontalBarChartViewController.class
-//                          },
-//                      @{
-//                          @"title": @"Combined Chart",
-//                          @"subtitle": @"Demonstrates how to create a combined chart (bar and line in this case).",
-//                          @"class": CombinedChartViewController.class
-//                          },
-//                      @{
-//                          @"title": @"Pie Chart",
-//                          @"subtitle": @"A simple demonstration of the pie chart.",
-//                          @"class": PieChartViewController.class
-//                          },
-//                      @{
-//                          @"title": @"Scatter Chart",
-//                          @"subtitle": @"A simple demonstration of the scatter chart.",
-//                          @"class": ScatterChartViewController.class
-//                          },
-//                      @{
-//                          @"title": @"Stacked Bar Chart",
-//                          @"subtitle": @"A simple demonstration of a bar chart with stacked bars.",
-//                          @"class": StackedBarChartViewController.class
-//                          },
-//                      @{
-//                          @"title": @"Another Bar Chart",
-//                          @"subtitle": @"Implementation of a BarChart that only shows values at the bottom.",
-//                          @"class": AnotherBarChartViewController.class
-//                          },
-//                      @{
-//                          @"title": @"Multiple Lines Chart",
-//                          @"subtitle": @"A line chart with multiple DataSet objects. One color per DataSet.",
-//                          @"class": MultipleLinesChartViewController.class
-//                          },
-//                      @{
-//                          @"title": @"Multiple Bars Chart",
-//                          @"subtitle": @"A bar chart with multiple DataSet objects. One multiple colors per DataSet.",
-//                          @"class": MultipleBarChartViewController.class
-//                          },
-//                      @{
-//                          @"title": @"Candle Stick Chart",
-//                          @"subtitle": @"Demonstrates usage of the CandleStickChart.",
-//                          @"class": CandleStickChartViewController.class
-//                          },
-//                      @{
-//                          @"title": @"Cubic Line Chart",
-//                          @"subtitle": @"Demonstrates cubic lines in a LineChart.",
-//                          @"class": CubicLineChartViewController.class
-//                          },
-//                      @{
-//                          @"title": @"Radar Chart",
-//                          @"subtitle": @"Demonstrates the use of a spider-web like (net) chart.",
-//                          @"class": RadarChartViewController.class
-//                          },
-//                      @{
-//                          @"title": @"Colored Line Chart",
-//                          @"subtitle": @"Shows a LineChart with different background and line color.",
-//                          @"class": ColoredLineChartViewController.class
-//                          },
-//                      @{
-//                          @"title": @"Sinus Bar Chart",
-//                          @"subtitle": @"A Bar Chart plotting the sinus function with 8.000 values.",
-//                          @"class": SinusBarChartViewController.class
-//                          },
+                          },
+                      @{
+                          @"title": @"Multiple Lines Chart",
+                          @"subtitle": @"A line chart with multiple DataSet objects. One color per DataSet.",
+                          @"class": MultipleLinesChartViewController.class
+                          },
+                      @{
+                          @"title": @"Multiple Bars Chart",
+                          @"subtitle": @"A bar chart with multiple DataSet objects. One multiple colors per DataSet.",
+                          @"class": MultipleBarChartViewController.class
+                          },
+                      @{
+                          @"title": @"Candle Stick Chart",
+                          @"subtitle": @"Demonstrates usage of the CandleStickChart.",
+                          @"class": CandleStickChartViewController.class
+                          },
+                      @{
+                          @"title": @"Cubic Line Chart",
+                          @"subtitle": @"Demonstrates cubic lines in a LineChart.",
+                          @"class": CubicLineChartViewController.class
+                          },
+                      @{
+                          @"title": @"Radar Chart",
+                          @"subtitle": @"Demonstrates the use of a spider-web like (net) chart.",
+                          @"class": RadarChartViewController.class
+                          },
+                      @{
+                          @"title": @"Colored Line Chart",
+                          @"subtitle": @"Shows a LineChart with different background and line color.",
+                          @"class": ColoredLineChartViewController.class
+                          },
+                      @{
+                          @"title": @"Sinus Bar Chart",
+                          @"subtitle": @"A Bar Chart plotting the sinus function with 8.000 values.",
+                          @"class": SinusBarChartViewController.class
+                          },
                       ];
 }
 

@@ -42,7 +42,7 @@
     _chartView.drawGridBackgroundEnabled = NO;
     _chartView.drawBarShadowEnabled = NO;
     
-    _chartView.drawOrder = @[@(DrawOrderBar), @(DrawOrderLine)];
+//    _chartView.drawOrder = @[@(DrawOrderBar), @(DrawOrderLine)];
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.drawGridLinesEnabled = NO;
@@ -50,8 +50,8 @@
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.drawGridLinesEnabled = NO;
     
-    ChartXAxis *xAxis = _chartView.xAxis;
-    xAxis.labelPosition = XAxisLabelPositionBothSided;
+//    ChartXAxis *xAxis = _chartView.xAxis;
+//    xAxis.labelPosition = XAxisLabelPositionBothSided;
     
     CombinedChartData *data = [[CombinedChartData alloc] initWithXVals:months];
     data.lineData = [self generateLineData];
@@ -121,7 +121,7 @@
     set.valueFont = [UIFont systemFontOfSize:10.f];
     set.valueTextColor = [UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f];
     
-    set.axisDependency = AxisDependencyLeft;
+//    set.axisDependency = AxisDependencyLeft;
     
     [d addDataSet:set];
     
@@ -144,7 +144,7 @@
     set.valueTextColor = [UIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f];
     set.valueFont = [UIFont systemFontOfSize:10.f];
     
-    set.axisDependency = AxisDependencyLeft;
+//    set.axisDependency = AxisDependencyLeft;
     
     [d addDataSet:set];
     
@@ -153,12 +153,12 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase *)chartView entry:(ChartDataEntry *)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight *)highlight
 {
     NSLog(@"chartValueSelected");
 }
 
-- (void)chartValueNothingSelected:(ChartViewBase * __nonnull)chartView
+- (void)chartValueNothingSelected:(ChartViewBase *)chartView
 {
     NSLog(@"chartValueNothingSelected");
 }

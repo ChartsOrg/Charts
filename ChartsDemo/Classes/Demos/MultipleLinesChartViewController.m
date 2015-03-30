@@ -58,7 +58,7 @@
     [_chartView setScaleEnabled:YES];
     _chartView.pinchZoomEnabled = NO;
     
-    _chartView.legend.position = ChartLegendPositionRightOfChart;
+//    _chartView.legend.position = ChartLegendPositionRightOfChart;
     
     _sliderX.value = 19.f;
     _sliderY.value = 10.f;
@@ -219,12 +219,12 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase *)chartView entry:(ChartDataEntry *)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight *)highlight
 {
     NSLog(@"chartValueSelected");
 }
 
-- (void)chartValueNothingSelected:(ChartViewBase * __nonnull)chartView
+- (void)chartValueNothingSelected:(ChartViewBase *)chartView
 {
     NSLog(@"chartValueNothingSelected");
 }

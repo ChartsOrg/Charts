@@ -59,7 +59,7 @@
     _chartView.marker = marker;
     
     ChartLegend *legend = _chartView.legend;
-    legend.position = ChartLegendPositionRightOfChartInside;
+//    legend.position = ChartLegendPositionRightOfChartInside;
     legend.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
     
     ChartXAxis *xAxis = _chartView.xAxis;
@@ -216,12 +216,12 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase *)chartView entry:(ChartDataEntry *)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight *)highlight
 {
     NSLog(@"chartValueSelected");
 }
 
-- (void)chartValueNothingSelected:(ChartViewBase * __nonnull)chartView
+- (void)chartValueNothingSelected:(ChartViewBase *)chartView
 {
     NSLog(@"chartValueNothingSelected");
 }

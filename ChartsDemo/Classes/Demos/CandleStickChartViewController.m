@@ -54,7 +54,7 @@
     _chartView.drawGridBackgroundEnabled = NO;
     
     ChartXAxis *xAxis = _chartView.xAxis;
-    xAxis.labelPosition = XAxisLabelPositionBottom;
+//    xAxis.labelPosition = XAxisLabelPositionBottom;
     xAxis.spaceBetweenLabels = 2.f;
     xAxis.drawGridLinesEnabled = NO;
     
@@ -104,7 +104,7 @@
     }
         
     CandleChartDataSet *set1 = [[CandleChartDataSet alloc] initWithYVals:yVals1 label:@"Data Set"];
-    set1.axisDependency = AxisDependencyLeft;
+//    set1.axisDependency = AxisDependencyLeft;
     [set1 setColor:[UIColor colorWithWhite:80/255.f alpha:1.f]];
     
     CandleChartData *data = [[CandleChartData alloc] initWithXVals:xVals dataSet:set1];
@@ -218,12 +218,12 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase *)chartView entry:(ChartDataEntry *)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight *)highlight
 {
     NSLog(@"chartValueSelected");
 }
 
-- (void)chartValueNothingSelected:(ChartViewBase * __nonnull)chartView
+- (void)chartValueNothingSelected:(ChartViewBase *)chartView
 {
     NSLog(@"chartValueNothingSelected");
 }

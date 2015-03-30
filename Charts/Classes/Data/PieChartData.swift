@@ -21,6 +21,11 @@ public class PieChartData: ChartData
         
     }
     
+    public init(xVals: [String]?, dataSet: ChartDataSet?)
+    {
+        super.init(xVals: xVals, dataSets: dataSet === nil ? nil : [dataSet!]);
+    }
+    
     var dataSet: PieChartDataSet?
     {
         get
