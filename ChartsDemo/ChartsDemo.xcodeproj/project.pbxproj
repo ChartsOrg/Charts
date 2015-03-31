@@ -28,6 +28,7 @@
 		5B8EAF281AB32CF5009697AA /* DemoBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8EAF261AB32CF5009697AA /* DemoBaseViewController.m */; };
 		5B8EAF301AB32E15009697AA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B8EAF2F1AB32E15009697AA /* Images.xcassets */; };
 		5B8EAF3D1AB32F27009697AA /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8EAF371AB32EA1009697AA /* Charts.framework */; };
+		5BB4B0721ACA710D00E2EF4D /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8EAF371AB32EA1009697AA /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5BD47E5B1ABB0263008FCEC6 /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD47E5A1ABB0263008FCEC6 /* BalloonMarker.swift */; };
 		5BD47E601ABB3C91008FCEC6 /* LineChart2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD47E5E1ABB3C91008FCEC6 /* LineChart2ViewController.m */; };
 		5BD47E611ABB3C91008FCEC6 /* LineChart2ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BD47E5F1ABB3C91008FCEC6 /* LineChart2ViewController.xib */; };
@@ -69,7 +70,28 @@
 			remoteGlobalIDString = 5BA8EC401A9D14DC00CE82E1;
 			remoteInfo = Charts;
 		};
+		5BB4B0731ACA710D00E2EF4D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5B8EAF321AB32EA0009697AA /* Charts.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5BA8EC3F1A9D14DC00CE82E1;
+			remoteInfo = Charts;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5BB4B0751ACA710D00E2EF4D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5BB4B0721ACA710D00E2EF4D /* Charts.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5B0CC7821ABB875400665592 /* PieChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieChartViewController.h; sourceTree = "<group>"; };
@@ -322,10 +344,12 @@
 				5B57BBAB1A9B26AA0036A6CC /* Sources */,
 				5B57BBAC1A9B26AA0036A6CC /* Frameworks */,
 				5B57BBAD1A9B26AA0036A6CC /* Resources */,
+				5BB4B0751ACA710D00E2EF4D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				5BB4B0741ACA710D00E2EF4D /* PBXTargetDependency */,
 			);
 			name = ChartsDemo;
 			productName = chartstest;
@@ -450,6 +474,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5BB4B0741ACA710D00E2EF4D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Charts;
+			targetProxy = 5BB4B0731ACA710D00E2EF4D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		5B57BBD01A9B26AA0036A6CC /* Debug */ = {
