@@ -37,6 +37,8 @@
 		5538DD8A1AC9EB7E006D10FD /* SinusBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5538DD6B1AC9EB7E006D10FD /* SinusBarChartViewController.xib */; };
 		5538DD8B1AC9EB7E006D10FD /* StackedBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5538DD6D1AC9EB7E006D10FD /* StackedBarChartViewController.m */; };
 		5538DD8C1AC9EB7E006D10FD /* StackedBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5538DD6E1AC9EB7E006D10FD /* StackedBarChartViewController.xib */; };
+		5592B18C1ACAEEDC002F2DDD /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8EAF371AB32EA1009697AA /* Charts.framework */; };
+		5592B18D1ACAEEDC002F2DDD /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8EAF371AB32EA1009697AA /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5B4316271AB8D8AE0009FCAA /* Icon-29@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B43161F1AB8D8AE0009FCAA /* Icon-29@2x.png */; };
 		5B4316281AB8D8AE0009FCAA /* Icon-29@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4316201AB8D8AE0009FCAA /* Icon-29@3x.png */; };
 		5B4316291AB8D8AE0009FCAA /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4316211AB8D8AE0009FCAA /* Icon-40@2x.png */; };
@@ -55,13 +57,19 @@
 		5B8EAF241AB3271B009697AA /* DemoListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B8EAF231AB3271B009697AA /* DemoListViewController.xib */; };
 		5B8EAF281AB32CF5009697AA /* DemoBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8EAF261AB32CF5009697AA /* DemoBaseViewController.m */; };
 		5B8EAF301AB32E15009697AA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B8EAF2F1AB32E15009697AA /* Images.xcassets */; };
-		5B8EAF3D1AB32F27009697AA /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8EAF371AB32EA1009697AA /* Charts.framework */; };
 		5BD47E5B1ABB0263008FCEC6 /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD47E5A1ABB0263008FCEC6 /* BalloonMarker.swift */; };
 		5BEAED121ABBFB2B0013F194 /* AnotherBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAED101ABBFB2B0013F194 /* AnotherBarChartViewController.m */; };
 		5BEAED131ABBFB2B0013F194 /* AnotherBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED111ABBFB2B0013F194 /* AnotherBarChartViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5592B18E1ACAEEDC002F2DDD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5B8EAF321AB32EA0009697AA /* Charts.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5BA8EC3F1A9D14DC00CE82E1;
+			remoteInfo = Charts;
+		};
 		5B8EAF361AB32EA1009697AA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5B8EAF321AB32EA0009697AA /* Charts.xcodeproj */;
@@ -70,6 +78,20 @@
 			remoteInfo = Charts;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5592B1901ACAEEDC002F2DDD /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5592B18D1ACAEEDC002F2DDD /* Charts.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5538DD421AC9EB7E006D10FD /* BarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarChartViewController.h; sourceTree = "<group>"; };
@@ -153,7 +175,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B8EAF3D1AB32F27009697AA /* Charts.framework in Frameworks */,
+				5592B18C1ACAEEDC002F2DDD /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,10 +344,12 @@
 				5B57BBAB1A9B26AA0036A6CC /* Sources */,
 				5B57BBAC1A9B26AA0036A6CC /* Frameworks */,
 				5B57BBAD1A9B26AA0036A6CC /* Resources */,
+				5592B1901ACAEEDC002F2DDD /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				5592B18F1ACAEEDC002F2DDD /* PBXTargetDependency */,
 			);
 			name = ChartsDemo;
 			productName = chartstest;
@@ -451,6 +475,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		5592B18F1ACAEEDC002F2DDD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Charts;
+			targetProxy = 5592B18E1ACAEEDC002F2DDD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		5B57BBD01A9B26AA0036A6CC /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -534,6 +566,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = ChartsDemo;
@@ -548,6 +581,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = ChartsDemo;
