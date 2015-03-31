@@ -17,7 +17,7 @@ import Foundation
 public protocol LineChartRendererDelegate
 {
     func lineChartRendererData(renderer: LineChartRenderer) -> LineChartData!;
-    func lineChartRenderer(renderer: LineChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!;
+    func lineChartRenderer(renderer: LineChartRenderer, transformerForAxis which: AxisDependency) -> ChartTransformer!;
     func lineChartRendererFillFormatter(renderer: LineChartRenderer) -> ChartFillFormatter;
     func lineChartDefaultRendererValueFormatter(renderer: LineChartRenderer) -> NSNumberFormatter!;
     func lineChartRendererChartYMax(renderer: LineChartRenderer) -> Float;

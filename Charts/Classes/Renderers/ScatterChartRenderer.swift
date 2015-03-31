@@ -17,7 +17,7 @@ import Foundation
 public protocol ScatterChartRendererDelegate
 {
     func scatterChartRendererData(renderer: ScatterChartRenderer) -> ScatterChartData!;
-    func scatterChartRenderer(renderer: ScatterChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!;
+    func scatterChartRenderer(renderer: ScatterChartRenderer, transformerForAxis which: AxisDependency) -> ChartTransformer!;
     func scatterChartDefaultRendererValueFormatter(renderer: ScatterChartRenderer) -> NSNumberFormatter!;
     func scatterChartRendererChartYMax(renderer: ScatterChartRenderer) -> Float;
     func scatterChartRendererChartYMin(renderer: ScatterChartRenderer) -> Float;

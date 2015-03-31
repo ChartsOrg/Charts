@@ -19,16 +19,6 @@ public class CombinedChartView: BarLineChartViewBase
     /// the fill-formatter used for determining the position of the fill-line
     internal var _fillFormatter: ChartFillFormatter!
     
-    /// enum that allows to specify the order in which the different data objects for the combined-chart are drawn
-//    @objc
-    public enum DrawOrder: Int
-    {
-        case Bar
-        case Line
-        case Candle
-        case Scatter
-    }
-    
     public override func initialize()
     {
         super.initialize();
@@ -172,6 +162,7 @@ public class CombinedChartView: BarLineChartViewBase
     /// the order in which the provided data objects should be drawn.
     /// The earlier you place them in the provided array, the further they will be in the background. 
     /// e.g. if you provide [DrawOrder.Bar, DrawOrder.Line], the bars will be drawn behind the lines.
+
     public var drawOrder: [Int]
     {
         get

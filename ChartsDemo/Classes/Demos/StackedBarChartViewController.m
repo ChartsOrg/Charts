@@ -67,11 +67,11 @@
     rightAxis.drawGridLinesEnabled = NO;
     
     ChartXAxis *xAxis = _chartView.xAxis;
-//    xAxis.labelPosition = XAxisLabelPositionTop;
+    xAxis.labelPosition = XAxisLabelPositionTop;
     
     ChartLegend *l = _chartView.legend;
-//    l.position = ChartLegendPositionBelowChartRight;
-//    l.form = ChartLegendFormSquare;
+    l.position = ChartLegendPositionBelowChartRight;
+    l.form = ChartLegendFormSquare;
     l.formSize = 8.f;
     l.formToTextSpace = 4.f;
     l.xEntrySpace = 6.f;

@@ -17,7 +17,7 @@ import Foundation
 public protocol BarChartRendererDelegate
 {
     func barChartRendererData(renderer: BarChartRenderer) -> BarChartData!;
-    func barChartRenderer(renderer: BarChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!;
+    func barChartRenderer(renderer: BarChartRenderer, transformerForAxis which: AxisDependency) -> ChartTransformer!;
     func barChartRendererMaxVisibleValueCount(renderer: BarChartRenderer) -> Int;
     func barChartDefaultRendererValueFormatter(renderer: BarChartRenderer) -> NSNumberFormatter!;
     func barChartRendererChartXMax(renderer: BarChartRenderer) -> Float;

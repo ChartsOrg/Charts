@@ -17,7 +17,7 @@ import Foundation
 public protocol CandleStickChartRendererDelegate
 {
     func candleStickChartRendererCandleData(renderer: CandleStickChartRenderer) -> CandleChartData!;
-    func candleStickChartRenderer(renderer: CandleStickChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!;
+    func candleStickChartRenderer(renderer: CandleStickChartRenderer, transformerForAxis which: AxisDependency) -> ChartTransformer!;
     func candleStickChartDefaultRendererValueFormatter(renderer: CandleStickChartRenderer) -> NSNumberFormatter!;
     func candleStickChartRendererChartYMax(renderer: CandleStickChartRenderer) -> Float;
     func candleStickChartRendererChartYMin(renderer: CandleStickChartRenderer) -> Float;

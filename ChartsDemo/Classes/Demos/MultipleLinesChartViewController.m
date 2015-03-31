@@ -58,7 +58,7 @@
     [_chartView setScaleEnabled:YES];
     _chartView.pinchZoomEnabled = NO;
     
-//    _chartView.legend.position = ChartLegendPositionRightOfChart;
+    _chartView.legend.position = ChartLegendPositionRightOfChart;
     
     _sliderX.value = 19.f;
     _sliderY.value = 10.f;

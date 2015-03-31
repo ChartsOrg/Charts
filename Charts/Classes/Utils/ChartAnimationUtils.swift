@@ -14,42 +14,6 @@
 
 import Foundation
 
-//@objc
-public enum ChartEasingOption: Int
-{
-    case Linear
-    case EaseInQuad
-    case EaseOutQuad
-    case EaseInOutQuad
-    case EaseInCubic
-    case EaseOutCubic
-    case EaseInOutCubic
-    case EaseInQuart
-    case EaseOutQuart
-    case EaseInOutQuart
-    case EaseInQuint
-    case EaseOutQuint
-    case EaseInOutQuint
-    case EaseInSine
-    case EaseOutSine
-    case EaseInOutSine
-    case EaseInExpo
-    case EaseOutExpo
-    case EaseInOutExpo
-    case EaseInCirc
-    case EaseOutCirc
-    case EaseInOutCirc
-    case EaseInElastic
-    case EaseOutElastic
-    case EaseInOutElastic
-    case EaseInBack
-    case EaseOutBack
-    case EaseInOutBack
-    case EaseInBounce
-    case EaseOutBounce
-    case EaseInOutBounce
-}
-
 internal func easingFunctionFromOption(easing: ChartEasingOption) -> ((elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat)
 {
     switch easing

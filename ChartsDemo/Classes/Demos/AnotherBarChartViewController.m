@@ -56,7 +56,7 @@
     _chartView.drawGridBackgroundEnabled = NO;
     
     ChartXAxis *xAxis = _chartView.xAxis;
-//    xAxis.labelPosition = XAxisLabelPositionBottom;
+    xAxis.labelPosition = XAxisLabelPositionBottom;
     xAxis.spaceBetweenLabels = 0.f;
     xAxis.drawGridLinesEnabled = NO;
     

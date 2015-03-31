@@ -16,16 +16,6 @@ import CoreGraphics;
 
 public class ScatterChartDataSet: BarLineScatterCandleChartDataSet
 {
-//    @objc
-    public enum ScatterShape: Int
-    {
-        case Cross
-        case Triangle
-        case Circle
-        case Square
-        case Custom
-    }
-    
     public var scatterShapeSize = CGFloat(15.0)
     public var scatterShape = ScatterShape.Square
     public var customScatterShape: CGPath?

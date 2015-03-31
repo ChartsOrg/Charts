@@ -58,7 +58,7 @@
     _chartView.drawGridBackgroundEnabled = NO;
     
     ChartXAxis *xAxis = _chartView.xAxis;
-//    xAxis.labelPosition = XAxisLabelPositionBottom;
+    xAxis.labelPosition = XAxisLabelPositionBottom;
     xAxis.labelFont = [UIFont systemFontOfSize:10.f];
     xAxis.drawAxisLineEnabled = YES;
     xAxis.drawGridLinesEnabled = YES;
@@ -75,8 +75,8 @@
     rightAxis.drawAxisLineEnabled = YES;
     rightAxis.drawGridLinesEnabled = NO;
     
-//    _chartView.legend.position = ChartLegendPositionBelowChartLeft;
-//    _chartView.legend.form = ChartLegendFormSquare;
+    _chartView.legend.position = ChartLegendPositionBelowChartLeft;
+    _chartView.legend.form = ChartLegendFormSquare;
     _chartView.legend.formSize = 8.f;
     _chartView.legend.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
     _chartView.legend.xEntrySpace = 4.f;

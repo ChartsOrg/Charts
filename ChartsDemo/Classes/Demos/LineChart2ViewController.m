@@ -60,10 +60,10 @@
     
     _chartView.backgroundColor = [UIColor colorWithWhite:204/255.f alpha:1.f];
     
-//    _chartView.legend.form = ChartLegendFormLine;
+    _chartView.legend.form = ChartLegendFormLine;
     _chartView.legend.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
     _chartView.legend.textColor = UIColor.whiteColor;
-//    _chartView.legend.position = ChartLegendPositionBelowChartLeft;
+    _chartView.legend.position = ChartLegendPositionBelowChartLeft;
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelFont = [UIFont systemFontOfSize:12.f];
@@ -116,7 +116,7 @@
     }
     
     LineChartDataSet *set1 = [[LineChartDataSet alloc] initWithYVals:yVals label:@"DataSet 1"];
-//    set1.axisDependency = AxisDependencyLeft;
+    set1.axisDependency = AxisDependencyLeft;
     [set1 setColor:[UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]];
     [set1 setCircleColor:UIColor.whiteColor];
     set1.lineWidth = 2.f;
@@ -136,7 +136,7 @@
     }
     
     LineChartDataSet *set2 = [[LineChartDataSet alloc] initWithYVals:yVals2 label:@"DataSet 2"];
-//    set2.axisDependency = AxisDependencyRight;
+    set2.axisDependency = AxisDependencyRight;
     [set2 setColor:UIColor.redColor];
     [set2 setCircleColor:UIColor.whiteColor];
     set2.lineWidth = 2.f;

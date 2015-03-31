@@ -58,7 +58,7 @@
     _chartView.drawGridBackgroundEnabled = NO;
     
     ChartXAxis *xAxis = _chartView.xAxis;
-//    xAxis.labelPosition = XAxisLabelPositionBottom;
+    xAxis.labelPosition = XAxisLabelPositionBottom;
     xAxis.labelFont = [UIFont systemFontOfSize:10.f];
     xAxis.drawGridLinesEnabled = NO;
     xAxis.spaceBetweenLabels = 2.f;
@@ -70,7 +70,7 @@
     leftAxis.valueFormatter.maximumFractionDigits = 1;
     leftAxis.valueFormatter.negativeSuffix = @" $";
     leftAxis.valueFormatter.positiveSuffix = @" $";
-//    leftAxis.labelPosition = YAxisLabelPositionOutsideChart;
+    leftAxis.labelPosition = YAxisLabelPositionOutsideChart;
     leftAxis.spaceTop = 0.15f;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
@@ -80,8 +80,8 @@
     rightAxis.valueFormatter = leftAxis.valueFormatter;
     rightAxis.spaceTop = 0.15f;
     
-//    _chartView.legend.position = ChartLegendPositionBelowChartLeft;
-//    _chartView.legend.form = ChartLegendFormSquare;
+    _chartView.legend.position = ChartLegendPositionBelowChartLeft;
+    _chartView.legend.form = ChartLegendFormSquare;
     _chartView.legend.formSize = 9.f;
     _chartView.legend.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
     _chartView.legend.xEntrySpace = 4.f;

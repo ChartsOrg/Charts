@@ -39,7 +39,7 @@ public class CandleStickChartView: BarLineChartViewBase, CandleStickChartRendere
         return _data as CandleChartData!;
     }
     
-    public func candleStickChartRenderer(renderer: CandleStickChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!
+    public func candleStickChartRenderer(renderer: CandleStickChartRenderer, transformerForAxis which: AxisDependency) -> ChartTransformer!
     {
         return self.getTransformer(which);
     }

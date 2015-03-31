@@ -59,7 +59,7 @@
     _chartView.marker = marker;
     
     ChartLegend *legend = _chartView.legend;
-//    legend.position = ChartLegendPositionRightOfChartInside;
+    legend.position = ChartLegendPositionRightOfChartInside;
     legend.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
     
     ChartXAxis *xAxis = _chartView.xAxis;

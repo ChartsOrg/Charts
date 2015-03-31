@@ -279,7 +279,7 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
         return _data as BarChartData!;
     }
     
-    public func barChartRenderer(renderer: BarChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!
+    public func barChartRenderer(renderer: BarChartRenderer, transformerForAxis which: AxisDependency) -> ChartTransformer!
     {
         return getTransformer(which);
     }

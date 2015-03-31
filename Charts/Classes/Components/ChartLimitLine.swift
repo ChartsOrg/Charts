@@ -15,16 +15,8 @@
 import Foundation
 import UIKit
 
-//@objc
 public class ChartLimitLine: ChartComponentBase
 {
-    
-    public enum LabelPosition: Int
-    {
-        case Left
-        case Right
-    }
-    
     public var limit = Float(0.0)
     private var _lineWidth = CGFloat(2.0)
     public var lineColor = UIColor(red: 237.0/255.0, green: 91.0/255.0, blue: 91.0/255.0, alpha: 1.0)

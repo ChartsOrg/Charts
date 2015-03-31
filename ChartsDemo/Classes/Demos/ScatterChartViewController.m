@@ -57,7 +57,7 @@
     _chartView.pinchZoomEnabled = YES;
     
     ChartLegend *l = _chartView.legend;
-//    l.position = ChartLegendPositionRightOfChart;
+    l.position = ChartLegendPositionRightOfChart;
     l.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     
     ChartYAxis *yl = _chartView.leftAxis;
@@ -106,13 +106,13 @@
     }
     
     ScatterChartDataSet *set1 = [[ScatterChartDataSet alloc] initWithYVals:yVals1 label:@"DS 1"];
-//    set1.scatterShape = ScatterShapeSquare;
+    set1.scatterShape = ScatterShapeSquare;
     [set1 setColor:ChartColorTemplates.colorful[0]];
     ScatterChartDataSet *set2 = [[ScatterChartDataSet alloc] initWithYVals:yVals2 label:@"DS 2"];
-//    set2.scatterShape = ScatterShapeCircle;
+    set2.scatterShape = ScatterShapeCircle;
     [set2 setColor:ChartColorTemplates.colorful[1]];
     ScatterChartDataSet *set3 = [[ScatterChartDataSet alloc] initWithYVals:yVals3 label:@"DS 3"];
-//    set3.scatterShape = ScatterShapeCross;
+    set3.scatterShape = ScatterShapeCross;
     [set3 setColor:ChartColorTemplates.colorful[2]];
     
     set1.scatterShapeSize = 8.f;
@@ -236,7 +236,7 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase *)chartView entry:(ChartDataEntry * )entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight *)highlight
+- (void)chartValueSelected:(ChartViewBase *)chartView entry:(ChartDataEntry *  )entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight *)highlight
 {
     NSLog(@"chartValueSelected");
 }

@@ -60,7 +60,7 @@
     _chartView.centerText = @"iOS Charts\nby Daniel Cohen Gindi";
     
     ChartLegend *l = _chartView.legend;
-//    l.position = ChartLegendPositionRightOfChart;
+    l.position = ChartLegendPositionRightOfChart;
     l.xEntrySpace = 7.f;
     l.yEntrySpace = 5.f;
     
@@ -68,7 +68,7 @@
     _sliderY.value = 100.f;
     [self slidersValueChanged:nil];
     
-//    [_chartView animateWithXAxisDuration:1.5 yAxisDuration:1.5 easingOption:ChartEasingOptionEaseOutBack];
+    [_chartView animateWithXAxisDuration:1.5 yAxisDuration:1.5 easingOption:ChartEasingOptionEaseOutBack];
 }
 
 - (void)didReceiveMemoryWarning

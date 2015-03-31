@@ -258,7 +258,7 @@ public class ChartData: NSObject
         return _yMin;
     }
     
-    public func getYMin(axis: ChartYAxis.AxisDependency) -> Float
+    public func getYMin(axis: AxisDependency) -> Float
     {
         if (axis == .Left)
         {
@@ -281,7 +281,7 @@ public class ChartData: NSObject
         return _yMax;
     }
     
-    public func getYMax(axis: ChartYAxis.AxisDependency) -> Float
+    public func getYMax(axis: AxisDependency) -> Float
     {
         if (axis == .Left)
         {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5595B79B1ACADC22007FD1A0 /* Enums.h in Headers */ = {isa = PBXBuildFile; fileRef = 5595B79A1ACADC22007FD1A0 /* Enums.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5B4BCD3E1AA9C0A60063F019 /* ChartFillFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4BCD3D1AA9C0A60063F019 /* ChartFillFormatter.swift */; };
 		5B4BCD401AA9C4930063F019 /* ChartTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4BCD3F1AA9C4930063F019 /* ChartTransformer.swift */; };
 		5B6556F71AB72BA000FFBFD3 /* ChartComponentBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6556F61AB72BA000FFBFD3 /* ChartComponentBase.swift */; };
@@ -81,6 +82,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5595B79A1ACADC22007FD1A0 /* Enums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enums.h; sourceTree = "<group>"; };
 		5B4BCD3D1AA9C0A60063F019 /* ChartFillFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartFillFormatter.swift; sourceTree = "<group>"; };
 		5B4BCD3F1AA9C4930063F019 /* ChartTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartTransformer.swift; sourceTree = "<group>"; };
 		5B6556F61AB72BA000FFBFD3 /* ChartComponentBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartComponentBase.swift; sourceTree = "<group>"; };
@@ -168,6 +170,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5595B7991ACADBE6007FD1A0 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				5595B79A1ACADC22007FD1A0 /* Enums.h */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
 		5B680D1E1A9D170B0026A057 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -244,6 +254,7 @@
 				5BA8EC661A9D151C00CE82E1 /* Charts */,
 				5BA8EC691A9D151C00CE82E1 /* Components */,
 				5BA8EC6F1A9D151C00CE82E1 /* Data */,
+				5595B7991ACADBE6007FD1A0 /* Enums */,
 				5BA8EC741A9D151C00CE82E1 /* Filters */,
 				5B759ED41A9F98A90039D97F /* Renderers */,
 				5BA8EC781A9D151C00CE82E1 /* Utils */,
@@ -343,6 +354,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B680D3D1A9D1AD90026A057 /* Charts.h in Headers */,
+				5595B79B1ACADC22007FD1A0 /* Enums.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

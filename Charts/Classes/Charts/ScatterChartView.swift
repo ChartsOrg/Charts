@@ -44,7 +44,7 @@ public class ScatterChartView: BarLineChartViewBase, ScatterChartRendererDelegat
         return _data as ScatterChartData!;
     }
     
-    public func scatterChartRenderer(renderer: ScatterChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!
+    public func scatterChartRenderer(renderer: ScatterChartRenderer, transformerForAxis which: AxisDependency) -> ChartTransformer!
     {
         return getTransformer(which);
     }

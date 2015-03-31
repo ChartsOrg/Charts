@@ -17,36 +17,6 @@ import UIKit
 
 public class ChartLegend: ChartComponentBase
 {
-//    @objc
-    public enum ChartLegendPosition: Int
-    {
-        case RightOfChart
-        case RightOfChartCenter
-        case RightOfChartInside
-        case LeftOfChart
-        case LeftOfChartCenter
-        case LeftOfChartInside
-        case BelowChartLeft
-        case BelowChartRight
-        case BelowChartCenter
-        case PiechartCenter
-    }
-    
-//    @objc
-    public enum ChartLegendForm: Int
-    {
-        case Square
-        case Circle
-        case Line
-    }
-    
-//    @objc
-    public enum ChartLegendDirection: Int
-    {
-        case LeftToRight
-        case RightToLeft
-    }
-
     public var colors = [UIColor?]()
     public var labels = [String?]()
     

@@ -686,13 +686,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         
         return image;
     }
-    
-    public enum ImageFormat
-    {
-        case JPEG;
-        case PNG;
-    }
-    
+
     /// Saves the current chart state with the given name to the given path on
     /// the sdcard leaving the path empty "" will put the saved file directly on
     /// the SD card chart is saved as a PNG image, example:

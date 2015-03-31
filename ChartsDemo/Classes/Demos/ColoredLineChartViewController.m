@@ -59,7 +59,7 @@
     [chart setViewPortOffsetsWithLeft:10.f top:0.f right:10.f bottom:0.f];
     
     ChartLegend *l = chart.legend;
-//    l.form = ChartLegendFormCircle;
+    l.form = ChartLegendFormCircle;
     l.formSize = 6.f;
     l.textColor = UIColor.whiteColor;
     l.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];

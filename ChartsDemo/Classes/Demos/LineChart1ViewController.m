@@ -62,7 +62,7 @@
     marker.minimumSize = CGSizeMake(80.f, 40.f);
     _chartView.marker = marker;
     
-//    _chartView.legend.form = ChartLegendFormLine;
+    _chartView.legend.form = ChartLegendFormLine;
     
     _sliderX.value = 44.f;
     _sliderY.value = 100.f;
@@ -115,13 +115,13 @@
     ChartLimitLine *ll1 = [[ChartLimitLine alloc] initWithLimit:130.f label:@"Upper Limit"];
     ll1.lineWidth = 4.f;
     ll1.lineDashLengths = @[@5.f, @5.f];
-//    ll1.labelPosition = LabelPositionRight;
+    ll1.labelPosition = LabelPositionRight;
     ll1.valueFont = [UIFont systemFontOfSize:10.f];
     
     ChartLimitLine *ll2 = [[ChartLimitLine alloc] initWithLimit:-30.f label:@"Lower Limit"];
     ll2.lineWidth = 4.f;
     ll2.lineDashLengths = @[@5.f, @5.f];
-//    ll2.labelPosition = LabelPositionRight;
+    ll2.labelPosition = LabelPositionRight;
     ll2.valueFont = [UIFont systemFontOfSize:10.f];
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
