@@ -283,7 +283,7 @@ public class BarChartRenderer: ChartDataRendererBase
                 var isInverted = delegate!.barChartIsInverted(self, axis: dataSet.axisDependency);
                 
                 // calculate the correct offset depending on the draw position of the value
-                let valueOffsetPlus: CGFloat = 6.0;
+                let valueOffsetPlus: CGFloat = 5.0;
                 var valueFont = dataSet.valueFont;
                 var valueTextHeight = valueFont.lineHeight;
                 var posOffset = (drawValueAboveBar ? -(valueTextHeight + valueOffsetPlus) : valueOffsetPlus);
