@@ -22,7 +22,7 @@ public class ChartTransformer: NSObject
     /// matrix for handling the different offsets of the chart
     internal var _matrixOffset = CGAffineTransformIdentity
 
-    private var _viewPortHandler: ChartViewPortHandler
+    internal var _viewPortHandler: ChartViewPortHandler
 
     public init(viewPortHandler: ChartViewPortHandler)
     {
@@ -46,12 +46,12 @@ public class ChartTransformer: NSObject
     {
         if (!inverted)
         {
-            _matrixOffset = CGAffineTransformTranslate(CGAffineTransformIdentity, _viewPortHandler.offsetLeft, _viewPortHandler.chartHeight - _viewPortHandler.offsetBottom);
+            _matrixOffset = CGAffineTransformMakeTranslation(_viewPortHandler.offsetLeft, _viewPortHandler.chartHeight - _viewPortHandler.offsetBottom);
         }
         else
         {
-            _matrixOffset = CGAffineTransformScale(_matrixOffset, 1.0, -1.0);
-            _matrixOffset = CGAffineTransformTranslate(CGAffineTransformIdentity, _viewPortHandler.offsetLeft, -_viewPortHandler.offsetTop);
+            _matrixOffset = CGAffineTransformMakeScale(1.0, -1.0);
+            _matrixOffset = CGAffineTransformTranslate(_matrixOffset, _viewPortHandler.offsetLeft, -_viewPortHandler.offsetTop);
         }
     }
     

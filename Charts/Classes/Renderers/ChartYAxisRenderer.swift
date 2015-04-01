@@ -41,15 +41,8 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             }
             else
             {
-                if (!_yAxis.isStartAtZeroEnabled)
-                {
-                    yMin = Float(min(p1.y, p2.y));
-                }
-                else
-                {
-                    yMin = 0.0;
-                }
-                yMax = Float(max(p1.y, p2.y));
+                yMin = Float(p1.y);
+                yMax = Float(p2.y);
             }
         }
         

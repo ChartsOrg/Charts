@@ -36,15 +36,8 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
             }
             else
             {
-                if (!_yAxis.isStartAtZeroEnabled)
-                {
-                    yMin = Float(min(p1.x, p2.x));
-                }
-                else
-                {
-                    yMin = 0.0;
-                }
-                yMax = Float(max(p1.x, p2.x));
+                yMin = Float(p2.x);
+                yMax = Float(p1.x);
             }
         }
         

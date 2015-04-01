@@ -39,6 +39,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
         var barSpace = dataSet.barSpace;
         var barSpaceHalf = barSpace / 2.0;
         var containsStacks = dataSet.isStacked;
+        var isInverted = delegate!.barChartIsInverted(self, axis: dataSet.axisDependency);
         var entries = dataSet.yVals as! [BarChartDataEntry];
         var barWidth: CGFloat = 0.5;
         var phaseY = _animator.phaseY;
@@ -62,8 +63,8 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                 
                 var bottom = x - barWidth + barSpaceHalf;
                 var top = x + barWidth - barSpaceHalf;
-                var right = y >= 0.0 ? CGFloat(y) : 0;
-                var left = y <= 0.0 ? CGFloat(y) : 0;
+                var right = isInverted ? (y <= 0.0 ? CGFloat(y) : 0) : (y >= 0.0 ? CGFloat(y) : 0);
+                var left = isInverted ? (y >= 0.0 ? CGFloat(y) : 0) : (y <= 0.0 ? CGFloat(y) : 0);
                 
                 // multiply the height of the rect with the phase
                 if (right > 0)
@@ -119,8 +120,8 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                     
                     var bottom = x - barWidth + barSpaceHalf;
                     var top = x + barWidth - barSpaceHalf;
-                    var right = y >= 0.0 ? CGFloat(y) : 0.0;
-                    var left = y <= 0.0 ? CGFloat(y) : 0.0;
+                    var right = isInverted ? (y <= 0.0 ? CGFloat(y) : 0) : (y >= 0.0 ? CGFloat(y) : 0);
+                    var left = isInverted ? (y >= 0.0 ? CGFloat(y) : 0) : (y <= 0.0 ? CGFloat(y) : 0);
                     
                     // multiply the height of the rect with the phase
                     if (right > 0)
@@ -234,11 +235,11 @@ public class HorizontalBarChartRenderer: BarChartRenderer
             var drawValueAboveBar = delegate!.barChartIsDrawValueAboveBarEnabled(self);
             var drawValuesForWholeStackEnabled = delegate!.barChartIsDrawValuesForWholeStackEnabled(self);
             
-            // calculate the correct offset depending on the draw position of the value
-            var negOffset: CGFloat = (drawValueAboveBar ? -5.0 : 5.0);
-            var posOffset: CGFloat = (drawValueAboveBar ? 5.0 : -5.0);
-            
             var textAlign = drawValueAboveBar ? NSTextAlignment.Left : NSTextAlignment.Right;
+            
+            let valueOffsetPlus: CGFloat = 5.0;
+            var posOffset: CGFloat;
+            var negOffset: CGFloat;
             
             for (var i = 0, count = barData.dataSetCount; i < count; i++)
             {
@@ -248,6 +249,8 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                 {
                     continue;
                 }
+                
+                var isInverted = delegate!.barChartIsInverted(self, axis: dataSet.axisDependency);
                 
                 var valueFont = dataSet.valueFont;
                 var valueTextColor = dataSet.valueTextColor;
@@ -286,13 +289,24 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                         }
                         
                         var val = entries[j].value;
+                        var valueText = formatter!.stringFromNumber(val)!;
+                        
+                        // calculate the correct offset depending on the draw position of the value
+                        var valueTextWidth = valueText.sizeWithAttributes([NSFontAttributeName: valueFont]).width;
+                        var posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus));
+                        var negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus);
+                        
+                        if (isInverted)
+                        {
+                            posOffset = -posOffset - valueTextWidth;
+                            negOffset = -negOffset - valueTextWidth;
+                        }
                         
                         drawValue(
                             context: context,
-                            val: val,
+                            value: valueText,
                             xPos: valuePoints[j].x + (val >= 0.0 ? posOffset : negOffset),
                             yPos: valuePoints[j].y + yOffset,
-                            formatter: formatter!,
                             font: valueFont,
                             align: .Left,
                             color: valueTextColor);
@@ -327,13 +341,24 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                             }
                             
                             var val = e.value;
+                            var valueText = formatter!.stringFromNumber(val)!;
+                            
+                            // calculate the correct offset depending on the draw position of the value
+                            var valueTextWidth = valueText.sizeWithAttributes([NSFontAttributeName: valueFont]).width;
+                            var posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus));
+                            var negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus);
+                            
+                            if (isInverted)
+                            {
+                                posOffset = -posOffset - valueTextWidth;
+                                negOffset = -negOffset - valueTextWidth;
+                            }
                             
                             drawValue(
                                 context: context,
-                                val: val,
+                                value: valueText,
                                 xPos: valuePoints[j].x + (val >= 0.0 ? posOffset : negOffset),
                                 yPos: valuePoints[j].y + yOffset,
-                                formatter: formatter!,
                                 font: valueFont,
                                 align: .Left,
                                 color: valueTextColor);
@@ -355,7 +380,21 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                             
                             for (var k = 0; k < transformed.count; k++)
                             {
-                                var x = transformed[k].x + (vals[k] >= 0 ? posOffset : negOffset);
+                                var val = vals[k];
+                                var valueText = formatter!.stringFromNumber(val)!;
+                                
+                                // calculate the correct offset depending on the draw position of the value
+                                var valueTextWidth = valueText.sizeWithAttributes([NSFontAttributeName: valueFont]).width;
+                                var posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus));
+                                var negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus);
+                                
+                                if (isInverted)
+                                {
+                                    posOffset = -posOffset - valueTextWidth;
+                                    negOffset = -negOffset - valueTextWidth;
+                                }
+                                
+                                var x = transformed[k].x + (val >= 0 ? posOffset : negOffset);
                                 var y = valuePoints[j].y;
                                 
                                 if (!viewPortHandler.isInBoundsX(x))
@@ -374,10 +413,9 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                                 }
                                 
                                 drawValue(context: context,
-                                    val: vals[k],
+                                    value: valueText,
                                     xPos: x,
                                     yPos: y,
-                                    formatter: formatter!,
                                     font: valueFont,
                                     align: .Left,
                                     color: valueTextColor);

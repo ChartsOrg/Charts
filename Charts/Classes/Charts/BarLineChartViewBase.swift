@@ -640,7 +640,14 @@ public class BarLineChartViewBase: ChartViewBase
                 if (isAnyAxisInverted && _closestDataSetToTouch !== nil
                     && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
                 {
-                    translation.y = -translation.y;
+                    if (self is HorizontalBarChartView)
+                    {
+                        translation.x = -translation.x;
+                    }
+                    else
+                    {
+                        translation.y = -translation.y;
+                    }
                 }
                 
                 _gesturePanMatrix = CGAffineTransformMakeTranslation(translation.x, translation.y);
@@ -679,7 +686,14 @@ public class BarLineChartViewBase: ChartViewBase
                 if (isAnyAxisInverted && _closestDataSetToTouch !== nil
                     && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
                 {
-                    translation.y = -translation.y;
+                    if (self is HorizontalBarChartView)
+                    {
+                        translation.x = -translation.x;
+                    }
+                    else
+                    {
+                        translation.y = -translation.y;
+                    }
                 }
                 
                 _gesturePanMatrix = CGAffineTransformMakeTranslation(translation.x, translation.y);

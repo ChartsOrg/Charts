@@ -25,6 +25,7 @@ public protocol BarChartRendererDelegate
     func barChartIsDrawValueAboveBarEnabled(renderer: BarChartRenderer) -> Bool;
     func barChartIsDrawValuesForWholeStackEnabled(renderer: BarChartRenderer) -> Bool;
     func barChartIsDrawBarShadowEnabled(renderer: BarChartRenderer) -> Bool;
+    func barChartIsInverted(renderer: BarChartRenderer, axis: ChartYAxis.AxisDependency) -> Bool;
 }
 
 public class BarChartRenderer: ChartDataRendererBase
@@ -74,6 +75,7 @@ public class BarChartRenderer: ChartDataRendererBase
         var barSpace = dataSet.barSpace;
         var barSpaceHalf = barSpace / 2.0;
         var containsStacks = dataSet.isStacked;
+        var isInverted = delegate!.barChartIsInverted(self, axis: dataSet.axisDependency);
         var entries = dataSet.yVals as! [BarChartDataEntry];
         var barWidth: CGFloat = 0.5;
         var phaseY = _animator.phaseY;
@@ -97,8 +99,8 @@ public class BarChartRenderer: ChartDataRendererBase
                 
                 var left = x - barWidth + barSpaceHalf;
                 var right = x + barWidth - barSpaceHalf;
-                var top = y >= 0.0 ? CGFloat(y) : 0;
-                var bottom = y <= 0.0 ? CGFloat(y) : 0;
+                var top = isInverted ? (y <= 0.0 ? CGFloat(y) : 0) : (y >= 0.0 ? CGFloat(y) : 0);
+                var bottom = isInverted ? (y >= 0.0 ? CGFloat(y) : 0) : (y <= 0.0 ? CGFloat(y) : 0);
                 
                 // multiply the height of the rect with the phase
                 if (top > 0)
@@ -154,8 +156,8 @@ public class BarChartRenderer: ChartDataRendererBase
                     
                     var left = x - barWidth + barSpaceHalf;
                     var right = x + barWidth - barSpaceHalf;
-                    var top = y >= 0.0 ? CGFloat(y) : 0;
-                    var bottom = y <= 0.0 ? CGFloat(y) : 0;
+                    var top = isInverted ? (y <= 0.0 ? CGFloat(y) : 0) : (y >= 0.0 ? CGFloat(y) : 0);
+                    var bottom = isInverted ? (y >= 0.0 ? CGFloat(y) : 0) : (y <= 0.0 ? CGFloat(y) : 0);
                     
                     // multiply the height of the rect with the phase
                     if (top > 0)
@@ -278,12 +280,20 @@ public class BarChartRenderer: ChartDataRendererBase
                     continue;
                 }
                 
+                var isInverted = delegate!.barChartIsInverted(self, axis: dataSet.axisDependency);
+                
                 // calculate the correct offset depending on the draw position of the value
-                let plus: CGFloat = 6.0;
+                let valueOffsetPlus: CGFloat = 6.0;
                 var valueFont = dataSet.valueFont;
                 var valueTextHeight = valueFont.lineHeight;
-                var posOffset = (drawValueAboveBar ? -(valueTextHeight + plus) : plus);
-                var negOffset = (drawValueAboveBar ? plus : -(valueTextHeight + plus));
+                var posOffset = (drawValueAboveBar ? -(valueTextHeight + valueOffsetPlus) : valueOffsetPlus);
+                var negOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextHeight + valueOffsetPlus));
+                
+                if (isInverted)
+                {
+                    posOffset = -posOffset - valueTextHeight;
+                    negOffset = -negOffset - valueTextHeight;
+                }
                 
                 var valueTextColor = dataSet.valueTextColor;
                 
@@ -316,12 +326,11 @@ public class BarChartRenderer: ChartDataRendererBase
                         }
                         
                         var val = entries[j].value;
-                        
+                    
                         drawValue(context: context,
-                            val: val,
+                            value: formatter!.stringFromNumber(val)!,
                             xPos: valuePoints[j].x,
                             yPos: valuePoints[j].y + (val >= 0.0 ? posOffset : negOffset),
-                            formatter: formatter!,
                             font: valueFont,
                             align: .Center,
                             color: valueTextColor);
@@ -352,10 +361,9 @@ public class BarChartRenderer: ChartDataRendererBase
                             }
                             
                             drawValue(context: context,
-                                val: e.value,
+                                value: formatter!.stringFromNumber(e.value)!,
                                 xPos: valuePoints[j].x,
                                 yPos: valuePoints[j].y + (e.value >= 0.0 ? posOffset : negOffset),
-                                formatter: formatter!,
                                 font: valueFont,
                                 align: .Center,
                                 color: valueTextColor);
@@ -391,10 +399,9 @@ public class BarChartRenderer: ChartDataRendererBase
                                 }
                                 
                                 drawValue(context: context,
-                                    val: vals[k],
+                                    value: formatter!.stringFromNumber(vals[k])!,
                                     xPos: x,
                                     yPos: y,
-                                    formatter: formatter!,
                                     font: valueFont,
                                     align: .Center,
                                     color: valueTextColor);
@@ -407,9 +414,8 @@ public class BarChartRenderer: ChartDataRendererBase
     }
     
     /// Draws a value at the specified x and y position.
-    internal func drawValue(#context: CGContext, val: Float, xPos: CGFloat, yPos: CGFloat, formatter: NSNumberFormatter, font: UIFont, align: NSTextAlignment, color: UIColor)
+    internal func drawValue(#context: CGContext, value: String, xPos: CGFloat, yPos: CGFloat, font: UIFont, align: NSTextAlignment, color: UIColor)
     {
-        var value = formatter.stringFromNumber(val)!;
         ChartUtils.drawText(context: context, text: value, point: CGPoint(x: xPos, y: yPos), align: align, attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: color]);
     }
     
