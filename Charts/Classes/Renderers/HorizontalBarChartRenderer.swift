@@ -198,13 +198,12 @@ public class HorizontalBarChartRenderer: BarChartRenderer
         CGContextRestoreGState(context);
     }
     
-    internal override func prepareBarHighlight(#x: CGFloat, y: Float, barspace: CGFloat, from: Float, trans: ChartTransformer, inout rect: CGRect)
+    internal override func prepareBarHighlight(#x: CGFloat, y: Float, barspacehalf: CGFloat, from: Float, trans: ChartTransformer, inout rect: CGRect)
     {
         var barWidth: CGFloat = 0.5;
         
-        var spaceHalf = barspace / 2.0;
-        var top = x - barWidth + spaceHalf;
-        var bottom = x + barWidth - spaceHalf;
+        var top = x - barWidth + barspacehalf;
+        var bottom = x + barWidth - barspacehalf;
         var left = y >= from ? CGFloat(y) : CGFloat(from);
         var right = y <= from ? CGFloat(y) : CGFloat(from);
         

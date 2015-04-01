@@ -234,13 +234,12 @@ public class BarChartRenderer: ChartDataRendererBase
     }
     
     /// Prepares a bar for being highlighted.
-    internal func prepareBarHighlight(#x: CGFloat, y: Float, barspace: CGFloat, from: Float, trans: ChartTransformer, inout rect: CGRect)
+    internal func prepareBarHighlight(#x: CGFloat, y: Float, barspacehalf: CGFloat, from: Float, trans: ChartTransformer, inout rect: CGRect)
     {
         var barWidth: CGFloat = 0.5;
         
-        var spaceHalf = barspace / 2.0;
-        var left = x - barWidth + spaceHalf;
-        var right = x + barWidth - spaceHalf;
+        var left = x - barWidth + barspacehalf;
+        var right = x + barWidth - barspacehalf;
         var top = y >= from ? CGFloat(y) : CGFloat(from);
         var bottom = y <= from ? CGFloat(y) : CGFloat(from);
         
@@ -448,6 +447,8 @@ public class BarChartRenderer: ChartDataRendererBase
                 continue;
             }
             
+            var barspaceHalf = set.barSpace / 2.0;
+            
             var trans = delegate!.barChartRenderer(self, transformerForAxis: set.axisDependency);
             
             CGContextSetFillColorWithColor(context, set.highlightColor.CGColor);
@@ -474,7 +475,7 @@ public class BarChartRenderer: ChartDataRendererBase
                 // this is where the bar starts
                 var from = isStack ? e.getBelowSum(h.stackIndex) : 0.0;
 
-                prepareBarHighlight(x: x, y: y, barspace: set.barSpace, from: from, trans: trans, rect: &barRect);
+                prepareBarHighlight(x: x, y: y, barspacehalf: barspaceHalf, from: from, trans: trans, rect: &barRect);
                 
                 CGContextFillRect(context, barRect);
                 
