@@ -415,7 +415,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                                 drawValue(context: context,
                                     value: valueText,
                                     xPos: x,
-                                    yPos: y,
+                                    yPos: y + yOffset,
                                     font: valueFont,
                                     align: .Left,
                                     color: valueTextColor);
