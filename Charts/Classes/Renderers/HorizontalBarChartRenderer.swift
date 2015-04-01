@@ -83,12 +83,12 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                 
                 trans.rectValueToPixel(&barRect);
                 
-                if (!viewPortHandler.isInBoundsTop(barRect.origin.y + barRect.size.height))
+                if (!viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width))
                 {
                     continue;
                 }
                 
-                if (!viewPortHandler.isInBoundsBottom(barRect.origin.y))
+                if (!viewPortHandler.isInBoundsRight(barRect.origin.x))
                 {
                     break;
                 }
@@ -177,14 +177,14 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                     
                     trans.rectValueToPixel(&barRect);
                     
-                    if (k == 0 && !viewPortHandler.isInBoundsTop(barRect.origin.y + barRect.size.height))
+                    if (k == 0 && !viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width))
                     {
                         // Skip to next bar
                         break;
                     }
                     
                     // avoid drawing outofbounds values
-                    if (!viewPortHandler.isInBoundsBottom(barRect.origin.y))
+                    if (!viewPortHandler.isInBoundsRight(barRect.origin.x))
                     {
                         break;
                     }
