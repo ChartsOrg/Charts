@@ -200,7 +200,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
     
     internal override func prepareBarHighlight(#x: CGFloat, y: Float, barspacehalf: CGFloat, from: Float, trans: ChartTransformer, inout rect: CGRect)
     {
-        var barWidth: CGFloat = 0.5;
+        let barWidth: CGFloat = 0.5;
         
         var top = x - barWidth + barspacehalf;
         var bottom = x + barWidth - barspacehalf;

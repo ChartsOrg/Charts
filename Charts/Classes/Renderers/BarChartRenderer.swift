@@ -236,7 +236,7 @@ public class BarChartRenderer: ChartDataRendererBase
     /// Prepares a bar for being highlighted.
     internal func prepareBarHighlight(#x: CGFloat, y: Float, barspacehalf: CGFloat, from: Float, trans: ChartTransformer, inout rect: CGRect)
     {
-        var barWidth: CGFloat = 0.5;
+        let barWidth: CGFloat = 0.5;
         
         var left = x - barWidth + barspacehalf;
         var right = x + barWidth - barspacehalf;
