@@ -212,7 +212,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
         rect.size.width = right - left;
         rect.size.height = bottom - top;
         
-        trans.rectValueToPixel(&rect, phaseY: _animator.phaseY);
+        trans.rectValueToPixelHorizontal(&rect, phaseY: _animator.phaseY);
     }
     
     public override func getTransformedValues(#trans: ChartTransformer, entries: [BarChartDataEntry], dataSetIndex: Int) -> [CGPoint]
