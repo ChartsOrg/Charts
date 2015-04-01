@@ -1,4 +1,4 @@
-**Version 2.0.8**, synced to [MPAndroidChart #e0ff2af](https://github.com/PhilJay/MPAndroidChart/commit/e0ff2af2f6521aac0cdc02b775b88c99e0762509)
+**Version 2.0.8**, synced to [MPAndroidChart #1000b5d](https://github.com/PhilJay/MPAndroidChart/commit/1000b5d9b1347cd8b626aa034866d17c3351cdef)
 
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
 
@@ -121,4 +121,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
