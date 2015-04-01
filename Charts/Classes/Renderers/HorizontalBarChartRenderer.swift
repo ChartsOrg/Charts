@@ -293,8 +293,8 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                         
                         // calculate the correct offset depending on the draw position of the value
                         var valueTextWidth = valueText.sizeWithAttributes([NSFontAttributeName: valueFont]).width;
-                        var posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus));
-                        var negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus);
+                        posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus));
+                        negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus);
                         
                         if (isInverted)
                         {
@@ -345,8 +345,8 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                             
                             // calculate the correct offset depending on the draw position of the value
                             var valueTextWidth = valueText.sizeWithAttributes([NSFontAttributeName: valueFont]).width;
-                            var posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus));
-                            var negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus);
+                            posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus));
+                            negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus);
                             
                             if (isInverted)
                             {
@@ -385,8 +385,8 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                                 
                                 // calculate the correct offset depending on the draw position of the value
                                 var valueTextWidth = valueText.sizeWithAttributes([NSFontAttributeName: valueFont]).width;
-                                var posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus));
-                                var negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus);
+                                posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus));
+                                negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus);
                                 
                                 if (isInverted)
                                 {

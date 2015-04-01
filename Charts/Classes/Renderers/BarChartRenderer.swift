@@ -286,8 +286,8 @@ public class BarChartRenderer: ChartDataRendererBase
                 let valueOffsetPlus: CGFloat = 5.0;
                 var valueFont = dataSet.valueFont;
                 var valueTextHeight = valueFont.lineHeight;
-                var posOffset = (drawValueAboveBar ? -(valueTextHeight + valueOffsetPlus) : valueOffsetPlus);
-                var negOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextHeight + valueOffsetPlus));
+                posOffset = (drawValueAboveBar ? -(valueTextHeight + valueOffsetPlus) : valueOffsetPlus);
+                negOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextHeight + valueOffsetPlus));
                 
                 if (isInverted)
                 {
