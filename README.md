@@ -10,6 +10,14 @@ I've chosen to write it in `Swift` as it can be highly optimized by the compiler
 
 **An amazing feature** of this library now, both Android and iOS, is the time it saves you when developing for both platforms, as the learning curve is singleton- it happens only once, and the code stays very similar so developers don't have to go around and re-invent the app to produce the same output with a different library. (And that's not even considering the fact that there's not really another good choice out there currently...)
 
+## Getting Noticed
+
+Since a few days ago when the library went live on GitHub it has received a lot of attention!  
+There are users coming here from blogs, stackoverflow, reddit etc.  
+Appreciation is show by newsletters like: https://darrellnicholas-com.curated.co/issues/3?#start. 
+So this means that a lot of people need this library, which is a big reason to contribute!
+Please see the "help" section :)
+
 ## Help
 
 If you like what you see here, and want to support the work being done in this repository, you could:
