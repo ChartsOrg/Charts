@@ -18,6 +18,12 @@ Appreciation is show by newsletters like: https://darrellnicholas-com.curated.co
 So this means that a lot of people need this library, which is a big reason to contribute!
 Please see the "help" section :)
 
+## Usage
+
+In order to correctly compile:
+1. Drag the `Charts.xcodeproj` to your project
+2. Go to your target's settings, hit the "+" under the "Embed Frameworks" section, and select the Charts.framework
+
 ## Help
 
 If you like what you see here, and want to support the work being done in this repository, you could:
