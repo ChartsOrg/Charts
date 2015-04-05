@@ -81,10 +81,6 @@ public class CandleStickChartRenderer: ChartDataRendererBase
         
         for (var j = minx, count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))); j < count; j++)
         {
-            // get the color that is specified for this position from the DataSet, this will reuse colors, if the index is out of bounds
-            CGContextSetFillColorWithColor(context, dataSet.colorAt(j).CGColor);
-            CGContextSetStrokeColorWithColor(context, dataSet.colorAt(j).CGColor);
-            
             // get the entry
             var e = entries[j];
             
@@ -104,6 +100,7 @@ public class CandleStickChartRenderer: ChartDataRendererBase
             
             // draw the shadow
             
+            CGContextSetStrokeColorWithColor(context, dataSet.shadowColor.CGColor);
             CGContextStrokeLineSegments(context, _shadowPoints, 2);
             
             // calculate the body
@@ -115,15 +112,18 @@ public class CandleStickChartRenderer: ChartDataRendererBase
             
             trans.rectValueToPixel(&_bodyRect);
             
+            
             // decide whether the body is hollow or filled
             if (_bodyRect.size.height > 0.0)
             {
                 // draw the body
+                CGContextSetFillColorWithColor(context, dataSet.colorAt(j).CGColor);
                 CGContextFillRect(context, _bodyRect);
             }
             else
             {
                 // draw the body
+                CGContextSetStrokeColorWithColor(context, dataSet.colorAt(j).CGColor);
                 CGContextStrokeRect(context, _bodyRect);
             }
         }

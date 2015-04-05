@@ -22,7 +22,10 @@ public class CandleChartDataSet: BarLineScatterCandleChartDataSet
     /// the space between the candle entries
     /// :default: 0.1 (10%)
     private var _bodySpace = CGFloat(0.1)
-
+    
+    /// the color of the shadow line
+    public var shadowColor = UIColor.darkGrayColor()
+    
     public override init(yVals: [ChartDataEntry]?, label: String)
     {
         super.init(yVals: yVals, label: label);
