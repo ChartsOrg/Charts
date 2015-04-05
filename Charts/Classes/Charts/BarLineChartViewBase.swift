@@ -767,7 +767,7 @@ public class BarLineChartViewBase: ChartViewBase
     /// x-axis can be viewed at once without scrolling.
     public func setVisibleXRange(xRange: CGFloat)
     {
-        var xScale = _deltaX / (xRange + 0.01);
+        var xScale = _deltaX / (xRange);
         _viewPortHandler.setMinimumScaleX(xScale);
     }
 
@@ -848,11 +848,13 @@ public class BarLineChartViewBase: ChartViewBase
         if (NSThread.isMainThread())
         {
             self._viewPortHandler.restrainViewPort(offsetLeft: left, offsetTop: top, offsetRight: right, offsetBottom: bottom);
+            prepareOffsetMatrix();
+            prepareValuePxMatrix();
         }
         else
         {
             dispatch_async(dispatch_get_main_queue(), {
-                self._viewPortHandler.restrainViewPort(offsetLeft: left, offsetTop: top, offsetRight: right, offsetBottom: bottom);
+                self.setViewPortOffsets(left: left, top: top, right: right, bottom: bottom);
             });
         }
     }

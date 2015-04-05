@@ -32,8 +32,8 @@ public class ChartTransformer: NSObject
     /// Prepares the matrix that transforms values to pixels. Calculates the scale factors from the charts size and offsets.
     public func prepareMatrixValuePx(#chartXMin: Float, deltaX: CGFloat, deltaY: CGFloat, chartYMin: Float)
     {
-        var scaleX = ((_viewPortHandler.chartWidth - _viewPortHandler.offsetRight - _viewPortHandler.offsetLeft) / deltaX);
-        var scaleY = ((_viewPortHandler.chartHeight - _viewPortHandler.offsetTop - _viewPortHandler.offsetBottom) / deltaY);
+        var scaleX = (_viewPortHandler.contentWidth / deltaX);
+        var scaleY = (_viewPortHandler.contentHeight / deltaY);
 
         // setup all matrices
         _matrixValueToPx = CGAffineTransformIdentity;
