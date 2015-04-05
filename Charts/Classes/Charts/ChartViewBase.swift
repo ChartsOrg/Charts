@@ -249,7 +249,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         let context = UIGraphicsGetCurrentContext();
         let frame = self.bounds;
         
-        if (_dataNotSet)
+        if (_dataNotSet || _data === nil || _data.yValCount == 0)
         { // check if there is data
             
             CGContextSaveGState(context);
