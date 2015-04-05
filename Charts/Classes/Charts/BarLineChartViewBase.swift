@@ -150,15 +150,30 @@ public class BarLineChartViewBase: ChartViewBase
         CGContextSaveGState(context);
 
         CGContextClipToRect(context, _viewPortHandler.contentRect);
-
+        
+        if (_leftAxis.isDrawLimitLinesBehindDataEnabled)
+        {
+            _leftYAxisRenderer?.renderLimitLines(context: context);
+        }
+        if (_rightAxis.isDrawLimitLinesBehindDataEnabled)
+        {
+            _rightYAxisRenderer?.renderLimitLines(context: context);
+        }
+        
         _xAxisRenderer?.renderGridLines(context: context);
         _leftYAxisRenderer?.renderGridLines(context: context);
         _rightYAxisRenderer?.renderGridLines(context: context);
         
         renderer?.drawData(context: context);
-
-        _leftYAxisRenderer?.renderLimitLines(context: context);
-        _rightYAxisRenderer?.renderLimitLines(context: context);
+        
+        if (!_leftAxis.isDrawLimitLinesBehindDataEnabled)
+        {
+            _leftYAxisRenderer?.renderLimitLines(context: context);
+        }
+        if (!_rightAxis.isDrawLimitLinesBehindDataEnabled)
+        {
+            _rightYAxisRenderer?.renderLimitLines(context: context);
+        }
 
         // if highlighting is enabled
         if (highlightEnabled && highlightIndicatorEnabled && valuesToHighlight())
