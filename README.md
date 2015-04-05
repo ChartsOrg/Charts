@@ -21,8 +21,9 @@ Please see the "help" section :)
 ## Usage
 
 In order to correctly compile:
-1. Drag the `Charts.xcodeproj` to your project
-2. Go to your target's settings, hit the "+" under the "Embed Frameworks" section, and select the Charts.framework
+
+1. Drag the `Charts.xcodeproj` to your project  
+2. Go to your target's settings, hit the "+" under the "Embed Frameworks" section, and select the Charts.framework  
 
 ## Help
 
