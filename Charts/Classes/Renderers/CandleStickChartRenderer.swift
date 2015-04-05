@@ -69,11 +69,17 @@ public class CandleStickChartRenderer: ChartDataRendererBase
         
         var entries = dataSet.yVals as! [CandleChartDataEntry];
         
+        var entryFrom = dataSet.entryForXIndex(_minX);
+        var entryTo = dataSet.entryForXIndex(_maxX);
+        
+        var minx = dataSet.entryIndex(entry: entryFrom, isEqual: true);
+        var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count);
+        
         CGContextSaveGState(context);
         
         CGContextSetLineWidth(context, dataSet.shadowWidth);
         
-        for (var j = 0, count = Int(min(ceil(CGFloat(entries.count) * _animator.phaseX), CGFloat(entries.count))); j < count; j++)
+        for (var j = minx, count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))); j < count; j++)
         {
             // get the color that is specified for this position from the DataSet, this will reuse colors, if the index is out of bounds
             CGContextSetFillColorWithColor(context, dataSet.colorAt(j).CGColor);
@@ -162,12 +168,18 @@ public class CandleStickChartRenderer: ChartDataRendererBase
                 
                 var entries = dataSet.yVals as! [CandleChartDataEntry];
                 
+                var entryFrom = dataSet.entryForXIndex(_minX);
+                var entryTo = dataSet.entryForXIndex(_maxX);
+                
+                var minx = dataSet.entryIndex(entry: entryFrom, isEqual: true);
+                var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count);
+                
                 var positions = trans.generateTransformedValuesCandle(entries, phaseY: _animator.phaseY);
                 
                 var lineHeight = valueFont.lineHeight;
                 var yOffset: CGFloat = lineHeight + 5.0;
                 
-                for (var j = 0, count = Int(ceil(CGFloat(positions.count) * _animator.phaseX)); j < count; j++)
+                for (var j = minx, count = Int(ceil(CGFloat(maxx - minx) * _animator.phaseX + CGFloat(minx))); j < count; j++)
                 {
                     var x = positions[j].x;
                     var y = positions[j].y;

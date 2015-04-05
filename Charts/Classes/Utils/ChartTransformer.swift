@@ -73,14 +73,16 @@ public class ChartTransformer: NSObject
     }
     
     /// Transforms an arraylist of Entry into a float array containing the x and y values transformed with all matrices for the LINECHART.
-    public func generateTransformedValuesLine(entries: [ChartDataEntry], phaseY: CGFloat) -> [CGPoint]
+    public func generateTransformedValuesLine(entries: [ChartDataEntry], phaseX: CGFloat, phaseY: CGFloat, from: Int, to: Int) -> [CGPoint]
     {
+        let count = Int(ceil(CGFloat(to - from) * phaseX));
+        
         var valuePoints = [CGPoint]();
-        valuePoints.reserveCapacity(entries.count);
+        valuePoints.reserveCapacity(count);
 
-        for (var j = 0; j < entries.count; j++)
+        for (var j = 0; j < count; j++)
         {
-            var e = entries[j];
+            var e = entries[j + from];
             valuePoints.append(CGPoint(x: CGFloat(e.xIndex), y: CGFloat(e.value) * phaseY));
         }
 
