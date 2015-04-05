@@ -147,7 +147,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         }
         set
         {
-            if (newValue == nil)
+            if (newValue == nil || newValue?.yValCount == 0)
             {
                 println("Charts: data argument is nil on setData()");
                 return;
