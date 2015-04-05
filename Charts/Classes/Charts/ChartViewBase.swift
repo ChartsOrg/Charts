@@ -728,6 +728,9 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         UIImageWriteToSavedPhotosAlbum(getChartImage(), nil, nil, nil);
     }
     
+    internal typealias VoidClosureType = () -> ()
+    internal var _sizeChangeEventActions = [VoidClosureType]()
+    
     public override var bounds: CGRect
     {
         get
@@ -741,10 +744,21 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             if (_viewPortHandler !== nil)
             {
                 _viewPortHandler.setChartDimens(width: newValue.size.width, height: newValue.size.height);
+                
+                // Finish any pending viewport changes
+                while (!_sizeChangeEventActions.isEmpty)
+                {
+                    _sizeChangeEventActions.removeAtIndex(0)();
+                }
             }
             
             notifyDataSetChanged();
         }
+    }
+    
+    public func clearPendingViewPortChanges()
+    {
+        _sizeChangeEventActions.removeAll(keepCapacity: false);
     }
     
     /// if true, value highlightning is enabled
