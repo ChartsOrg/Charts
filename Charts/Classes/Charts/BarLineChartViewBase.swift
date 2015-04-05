@@ -250,11 +250,19 @@ public class BarLineChartViewBase: ChartViewBase
         if (leftRange == 0.0)
         {
             maxLeft = maxLeft + 1.0;
+            if (!_leftAxis.isStartAtZeroEnabled)
+            {
+                minLeft = minLeft - 1.0;
+            }
         }
         
         if (rightRange == 0.0)
         {
             maxRight = maxRight + 1.0;
+            if (!_rightAxis.isStartAtZeroEnabled)
+            {
+                minRight = minRight - 1.0;
+            }
         }
         
         var topSpaceLeft = leftRange * Float(_leftAxis.spaceTop);

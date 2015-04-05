@@ -62,7 +62,7 @@
     leftAxis.labelCount = 7;
     leftAxis.drawGridLinesEnabled = NO;
     leftAxis.drawAxisLineEnabled = NO;
-    leftAxis.startAtZeroEnabled = YES;
+    leftAxis.startAtZeroEnabled = NO;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.enabled = NO;
