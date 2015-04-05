@@ -100,7 +100,8 @@ public class CandleStickChartRenderer: ChartDataRendererBase
             
             // draw the shadow
             
-            CGContextSetStrokeColorWithColor(context, dataSet.shadowColor.CGColor);
+            CGContextSetStrokeColorWithColor(context, (dataSet.shadowColor ?? dataSet.colorAt(j)).CGColor);
+
             CGContextStrokeLineSegments(context, _shadowPoints, 2);
             
             // calculate the body
@@ -112,19 +113,38 @@ public class CandleStickChartRenderer: ChartDataRendererBase
             
             trans.rectValueToPixel(&_bodyRect);
             
-            
-            // decide whether the body is hollow or filled
-            if (_bodyRect.size.height > 0.0)
+            // draw body differently for increasing and decreasing entry
+            if (e.open >= e.close)
             {
-                // draw the body
-                CGContextSetFillColorWithColor(context, dataSet.colorAt(j).CGColor);
-                CGContextFillRect(context, _bodyRect);
+                
+                var color = dataSet.decreasingColor ?? dataSet.colorAt(j);
+                
+                if (dataSet.isDecreasingFilled)
+                {
+                    CGContextSetFillColorWithColor(context, color.CGColor);
+                    CGContextFillRect(context, _bodyRect);
+                }
+                else
+                {
+                    CGContextSetStrokeColorWithColor(context, color.CGColor);
+                    CGContextStrokeRect(context, _bodyRect);
+                }
             }
             else
             {
-                // draw the body
-                CGContextSetStrokeColorWithColor(context, dataSet.colorAt(j).CGColor);
-                CGContextStrokeRect(context, _bodyRect);
+                
+                var color = dataSet.increasingColor ?? dataSet.colorAt(j);
+                
+                if (dataSet.isIncreasingFilled)
+                {
+                    CGContextSetFillColorWithColor(context, color.CGColor);
+                    CGContextFillRect(context, _bodyRect);
+                }
+                else
+                {
+                    CGContextSetStrokeColorWithColor(context, color.CGColor);
+                    CGContextStrokeRect(context, _bodyRect);
+                }
             }
         }
         

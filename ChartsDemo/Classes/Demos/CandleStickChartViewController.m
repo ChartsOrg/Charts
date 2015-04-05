@@ -106,7 +106,13 @@
     CandleChartDataSet *set1 = [[CandleChartDataSet alloc] initWithYVals:yVals1 label:@"Data Set"];
     set1.axisDependency = AxisDependencyLeft;
     [set1 setColor:[UIColor colorWithWhite:80/255.f alpha:1.f]];
-    set1.shadowColor = UIColor.redColor;
+    
+    set1.shadowColor = UIColor.darkGrayColor;
+    set1.shadowWidth = 0.7f;
+    set1.decreasingColor = UIColor.redColor;
+    set1.decreasingFilled = NO;
+    set1.increasingColor = [UIColor colorWithRed:122/255.f green:242/255.f blue:84/255.f alpha:1.f];
+    set1.increasingFilled = YES;
     
     CandleChartData *data = [[CandleChartData alloc] initWithXVals:xVals dataSet:set1];
     
