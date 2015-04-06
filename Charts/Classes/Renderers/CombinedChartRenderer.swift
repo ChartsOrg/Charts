@@ -223,6 +223,11 @@ public class CombinedChartRenderer: ChartDataRendererBase,
         return drawBarShadowEnabled;
     }
     
+    public func barChartIsInverted(renderer: BarChartRenderer, axis: AxisDependency) -> Bool
+    {
+        return _chart.getAxis(axis).isInverted;
+    }
+    
     // MARK: - ScatterChartRendererDelegate
     
     public func scatterChartRendererData(renderer: ScatterChartRenderer) -> ScatterChartData!

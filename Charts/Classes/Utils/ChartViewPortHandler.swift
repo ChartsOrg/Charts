@@ -66,6 +66,18 @@ public class ChartViewPortHandler
         }
     }
     
+    public var hasChartDimens: Bool
+    {
+        if (_chartHeight > 0.0 && _chartWidth > 0.0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public func restrainViewPort(#offsetLeft: CGFloat, offsetTop: CGFloat, offsetRight: CGFloat, offsetBottom: CGFloat)
     {
         _contentRect.origin.x = offsetLeft;

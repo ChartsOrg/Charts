@@ -40,7 +40,7 @@ public class ChartLegendRenderer: ChartRendererBase
             var entryCount = dataSet.entryCount;
             
             // if we have a barchart with stacked bars
-            if (dataSet.isKindOfClass(BarChartDataSet) && (dataSet as BarChartDataSet).stackSize > 1)
+            if (dataSet.isKindOfClass(BarChartDataSet) && (dataSet as BarChartDataSet).isStacked)
             {
                 var bds = dataSet as BarChartDataSet;
                 var sLabels = bds.stackLabels;

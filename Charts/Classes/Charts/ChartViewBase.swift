@@ -147,7 +147,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         }
         set
         {
-            if (newValue == nil)
+            if (newValue == nil || newValue?.yValCount == 0)
             {
                 println("Charts: data argument is nil on setData()");
                 return;
@@ -249,7 +249,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         let context = UIGraphicsGetCurrentContext();
         let frame = self.bounds;
         
-        if (_dataNotSet)
+        if (_dataNotSet || _data === nil || _data.yValCount == 0)
         { // check if there is data
             
             CGContextSaveGState(context);
@@ -722,6 +722,9 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         UIImageWriteToSavedPhotosAlbum(getChartImage(), nil, nil, nil);
     }
     
+    internal typealias VoidClosureType = () -> ()
+    internal var _sizeChangeEventActions = [VoidClosureType]()
+    
     public override var bounds: CGRect
     {
         get
@@ -735,10 +738,21 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             if (_viewPortHandler !== nil)
             {
                 _viewPortHandler.setChartDimens(width: newValue.size.width, height: newValue.size.height);
+                
+                // Finish any pending viewport changes
+                while (!_sizeChangeEventActions.isEmpty)
+                {
+                    _sizeChangeEventActions.removeAtIndex(0)();
+                }
             }
             
             notifyDataSetChanged();
         }
+    }
+    
+    public func clearPendingViewPortChanges()
+    {
+        _sizeChangeEventActions.removeAll(keepCapacity: false);
     }
     
     /// if true, value highlightning is enabled

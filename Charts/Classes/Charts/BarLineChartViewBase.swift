@@ -150,15 +150,30 @@ public class BarLineChartViewBase: ChartViewBase
         CGContextSaveGState(context);
 
         CGContextClipToRect(context, _viewPortHandler.contentRect);
-
+        
+        if (_leftAxis.isDrawLimitLinesBehindDataEnabled)
+        {
+            _leftYAxisRenderer?.renderLimitLines(context: context);
+        }
+        if (_rightAxis.isDrawLimitLinesBehindDataEnabled)
+        {
+            _rightYAxisRenderer?.renderLimitLines(context: context);
+        }
+        
         _xAxisRenderer?.renderGridLines(context: context);
         _leftYAxisRenderer?.renderGridLines(context: context);
         _rightYAxisRenderer?.renderGridLines(context: context);
         
         renderer?.drawData(context: context);
-
-        _leftYAxisRenderer?.renderLimitLines(context: context);
-        _rightYAxisRenderer?.renderLimitLines(context: context);
+        
+        if (!_leftAxis.isDrawLimitLinesBehindDataEnabled)
+        {
+            _leftYAxisRenderer?.renderLimitLines(context: context);
+        }
+        if (!_rightAxis.isDrawLimitLinesBehindDataEnabled)
+        {
+            _rightYAxisRenderer?.renderLimitLines(context: context);
+        }
 
         // if highlighting is enabled
         if (highlightEnabled && highlightIndicatorEnabled && valuesToHighlight())
@@ -235,11 +250,19 @@ public class BarLineChartViewBase: ChartViewBase
         if (leftRange == 0.0)
         {
             maxLeft = maxLeft + 1.0;
+            if (!_leftAxis.isStartAtZeroEnabled)
+            {
+                minLeft = minLeft - 1.0;
+            }
         }
         
         if (rightRange == 0.0)
         {
             maxRight = maxRight + 1.0;
+            if (!_rightAxis.isStartAtZeroEnabled)
+            {
+                minRight = minRight - 1.0;
+            }
         }
         
         var topSpaceLeft = leftRange * Float(_leftAxis.spaceTop);
@@ -640,7 +663,14 @@ public class BarLineChartViewBase: ChartViewBase
                 if (isAnyAxisInverted && _closestDataSetToTouch !== nil
                     && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
                 {
-                    translation.y = -translation.y;
+                    if (self is HorizontalBarChartView)
+                    {
+                        translation.x = -translation.x;
+                    }
+                    else
+                    {
+                        translation.y = -translation.y;
+                    }
                 }
                 
                 _gesturePanMatrix = CGAffineTransformMakeTranslation(translation.x, translation.y);
@@ -679,7 +709,14 @@ public class BarLineChartViewBase: ChartViewBase
                 if (isAnyAxisInverted && _closestDataSetToTouch !== nil
                     && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
                 {
-                    translation.y = -translation.y;
+                    if (self is HorizontalBarChartView)
+                    {
+                        translation.x = -translation.x;
+                    }
+                    else
+                    {
+                        translation.y = -translation.y;
+                    }
                 }
                 
                 _gesturePanMatrix = CGAffineTransformMakeTranslation(translation.x, translation.y);
@@ -738,7 +775,7 @@ public class BarLineChartViewBase: ChartViewBase
     /// x-axis can be viewed at once without scrolling.
     public func setVisibleXRange(xRange: CGFloat)
     {
-        var xScale = _deltaX / (xRange + 0.01);
+        var xScale = _deltaX / (xRange);
         _viewPortHandler.setMinimumScaleX(xScale);
     }
 
@@ -755,10 +792,17 @@ public class BarLineChartViewBase: ChartViewBase
     /// Moves the left side of the current viewport to the specified x-index.
     public func moveViewToX(xIndex: Int)
     {
-        var pt = CGPoint(x: CGFloat(xIndex), y: 0.0);
-
-        getTransformer(.Left).pointValueToPixel(&pt);
-        _viewPortHandler.centerViewPort(pt: pt, chart: self);
+        if (_viewPortHandler.hasChartDimens)
+        {
+            var pt = CGPoint(x: CGFloat(xIndex), y: 0.0);
+            
+            getTransformer(.Left).pointValueToPixel(&pt);
+            _viewPortHandler.centerViewPort(pt: pt, chart: self);
+        }
+        else
+        {
+            _sizeChangeEventActions.append({[weak self] () in self!.moveViewToX(xIndex); });
+        }
     }
 
     /// Centers the viewport to the specified y-value on the y-axis.
@@ -767,29 +811,41 @@ public class BarLineChartViewBase: ChartViewBase
     /// :param: axis - which axis should be used as a reference for the y-axis
     public func moveViewToY(yValue: CGFloat, axis: AxisDependency)
     {
-        var valsInView = getDeltaY(axis) / _viewPortHandler.scaleY;
-
-        var pt = CGPoint(x: 0.0, y: yValue + valsInView / 2.0);
-
-        getTransformer(axis).pointValueToPixel(&pt);
-        _viewPortHandler.centerViewPort(pt: pt, chart: self);
+        if (_viewPortHandler.hasChartDimens)
+        {
+            var valsInView = getDeltaY(axis) / _viewPortHandler.scaleY;
+            
+            var pt = CGPoint(x: 0.0, y: yValue + valsInView / 2.0);
+            
+            getTransformer(axis).pointValueToPixel(&pt);
+            _viewPortHandler.centerViewPort(pt: pt, chart: self);
+        }
+        else
+        {
+            _sizeChangeEventActions.append({[weak self] () in self!.moveViewToY(yValue, axis: axis); });
+        }
     }
 
-    /// This will move the left side of the current viewport to the specified
-    /// x-index on the x-axis, and center the viewport to the specified y-value
-    /// on the y-axis.
+    /// This will move the left side of the current viewport to the specified x-index on the x-axis, and center the viewport to the specified y-value on the y-axis.
     /// 
     /// :param: xIndex
     /// :param: yValue
     /// :param: axis - which axis should be used as a reference for the y-axis
-    public func moveViewTo(xIndex: Int, yValue: CGFloat, axis: AxisDependency)
+    public func moveViewTo(#xIndex: Int, yValue: CGFloat, axis: AxisDependency)
     {
-        var valsInView = getDeltaY(axis) / _viewPortHandler.scaleY;
-        
-        var pt = CGPoint(x: CGFloat(xIndex), y: yValue + valsInView / 2.0);
-        
-        getTransformer(axis).pointValueToPixel(&pt);
-        _viewPortHandler.centerViewPort(pt: pt, chart: self);
+        if (_viewPortHandler.hasChartDimens)
+        {
+            var valsInView = getDeltaY(axis) / _viewPortHandler.scaleY;
+            
+            var pt = CGPoint(x: CGFloat(xIndex), y: yValue + valsInView / 2.0);
+            
+            getTransformer(axis).pointValueToPixel(&pt);
+            _viewPortHandler.centerViewPort(pt: pt, chart: self);
+        }
+        else
+        {
+            _sizeChangeEventActions.append({[weak self] () in self!.moveViewTo(xIndex: xIndex, yValue: yValue, axis: axis); });
+        }
     }
 
     /// Sets custom offsets for the current ViewPort (the offsets on the sides of the actual chart window). Setting this will prevent the chart from automatically calculating it's offsets. Use resetViewPortOffsets() to undo this.
@@ -800,11 +856,13 @@ public class BarLineChartViewBase: ChartViewBase
         if (NSThread.isMainThread())
         {
             self._viewPortHandler.restrainViewPort(offsetLeft: left, offsetTop: top, offsetRight: right, offsetBottom: bottom);
+            prepareOffsetMatrix();
+            prepareValuePxMatrix();
         }
         else
         {
             dispatch_async(dispatch_get_main_queue(), {
-                self._viewPortHandler.restrainViewPort(offsetLeft: left, offsetTop: top, offsetRight: right, offsetBottom: bottom);
+                self.setViewPortOffsets(left: left, top: top, right: right, bottom: bottom);
             });
         }
     }

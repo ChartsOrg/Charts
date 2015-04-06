@@ -117,13 +117,11 @@ public class LineChartRenderer: ChartDataRendererBase
     {
         var trans = delegate?.lineChartRenderer(self, transformerForAxis: dataSet.axisDependency);
         
-        var minx = _minX;
-        var maxx = _maxX + 2;
+        var entryFrom = dataSet.entryForXIndex(_minX);
+        var entryTo = dataSet.entryForXIndex(_maxX);
         
-        if (maxx > entries.count)
-        {
-            maxx = entries.count;
-        }
+        var minx = dataSet.entryIndex(entry: entryFrom, isEqual: true);
+        var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count);
         
         var phaseX = _animator.phaseX;
         var phaseY = _animator.phaseY;
@@ -138,19 +136,22 @@ public class LineChartRenderer: ChartDataRendererBase
         
         var valueToPixelMatrix = trans!.valueToPixelMatrix;
         
-        var size = Int(ceil(CGFloat(entries.count) * phaseX));
+        var size = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx)));
         
-        if (entries.count > 2)
+        minx = max(minx - 2, 0); // Decrement by 2 as we always render two extra points to keep cubic flowing
+        size = min(size + 2, entries.count); // Increment by 1 as we always render two extra points to keep cubic flowing
+        
+        if (size - minx >= 4)
         {
             var prevDx: CGFloat = 0.0;
             var prevDy: CGFloat = 0.0;
             var curDx: CGFloat = 0.0;
             var curDy: CGFloat = 0.0;
             
-            var cur = entries[0];
-            var next = entries[1];
-            var prev = entries[0];
-            var prevPrev = entries[0];
+            var cur = entries[minx];
+            var next = entries[minx + 1];
+            var prev = entries[minx];
+            var prevPrev = entries[minx];
             
             // let the spline start
             CGPathMoveToPoint(cubicPath, &valueToPixelMatrix, CGFloat(cur.xIndex), CGFloat(cur.value) * phaseY);
@@ -166,7 +167,7 @@ public class LineChartRenderer: ChartDataRendererBase
             // the first cubic
             CGPathAddCurveToPoint(cubicPath, &valueToPixelMatrix, CGFloat(prev.xIndex) + prevDx, (CGFloat(prev.value) + prevDy) * phaseY, CGFloat(cur.xIndex) - curDx, (CGFloat(cur.value) - curDy) * phaseY, CGFloat(cur.xIndex), CGFloat(cur.value) * phaseY);
             
-            for (var j = 2; j < size - 1; j++)
+            for (var j = minx + 2; j < size - 1; j++)
             {
                 prevPrev = entries[j - 2];
                 prev = entries[j - 1];
@@ -207,7 +208,7 @@ public class LineChartRenderer: ChartDataRendererBase
         
         if (dataSet.isDrawFilledEnabled)
         {
-            drawCubicFill(context: context, dataSet: dataSet, spline: cubicPath, matrix: valueToPixelMatrix);
+            drawCubicFill(context: context, dataSet: dataSet, spline: cubicPath, matrix: valueToPixelMatrix, from: minx, to: maxx);
         }
         
         CGContextBeginPath(context);
@@ -218,7 +219,7 @@ public class LineChartRenderer: ChartDataRendererBase
         CGContextRestoreGState(context);
     }
     
-    internal func drawCubicFill(#context: CGContext, dataSet: LineChartDataSet, spline: CGMutablePath, var matrix: CGAffineTransform)
+    internal func drawCubicFill(#context: CGContext, dataSet: LineChartDataSet, spline: CGMutablePath, var matrix: CGAffineTransform, from: Int, to: Int)
     {
         CGContextSaveGState(context);
         
@@ -228,11 +229,8 @@ public class LineChartRenderer: ChartDataRendererBase
             chartMaxY: delegate!.lineChartRendererChartYMax(self),
             chartMinY: delegate!.lineChartRendererChartYMin(self));
         
-        var entryFrom = dataSet.entryForXIndex(_minX);
-        var entryTo = dataSet.entryForXIndex(_maxX + 1);
-        
-        var pt1 = CGPoint(x: CGFloat(entryTo.xIndex), y: fillMin);
-        var pt2 = CGPoint(x: CGFloat(entryFrom.xIndex), y: fillMin);
+        var pt1 = CGPoint(x: CGFloat(to - 1), y: fillMin);
+        var pt2 = CGPoint(x: CGFloat(from), y: fillMin);
         pt1 = CGPointApplyAffineTransform(pt1, matrix);
         pt2 = CGPointApplyAffineTransform(pt2, matrix);
         
@@ -266,10 +264,16 @@ public class LineChartRenderer: ChartDataRendererBase
         
         CGContextSaveGState(context);
         
+        var entryFrom = dataSet.entryForXIndex(_minX);
+        var entryTo = dataSet.entryForXIndex(_maxX);
+        
+        var minx = dataSet.entryIndex(entry: entryFrom, isEqual: true);
+        var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count);
+        
         // more than 1 color
         if (dataSet.colors.count > 1)
         {
-            for (var j = 0, count = Int(ceil(CGFloat(entries.count) * phaseX)); j < count; j++)
+            for (var j = minx, count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))); j < count; j++)
             {
                 if (count > 1 && j == count - 1)
                 { // Last point, we have already drawn a line to this point
@@ -315,12 +319,6 @@ public class LineChartRenderer: ChartDataRendererBase
         else
         { // only one color per dataset
             
-            var entryFrom = dataSet.entryForXIndex(_minX);
-            var entryTo = dataSet.entryForXIndex(_maxX);
-            
-            var minx = dataSet.entryIndex(entry: entryFrom, isEqual: true);
-            var maxx = dataSet.entryIndex(entry: entryTo, isEqual: true);
-            
             var point = CGPoint();
             point.x = CGFloat(entries[minx].xIndex);
             point.y = CGFloat(entries[minx].value) * phaseY;
@@ -330,7 +328,7 @@ public class LineChartRenderer: ChartDataRendererBase
             CGContextMoveToPoint(context, point.x, point.y);
             
             // create a new path
-            for (var x = minx + 1, count = Int(ceil(CGFloat(min(entries.count, maxx) + 1) * phaseX)); x < count; x++)
+            for (var x = minx + 1, count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))); x < count; x++)
             {
                 var e = entries[x];
                 
@@ -356,11 +354,11 @@ public class LineChartRenderer: ChartDataRendererBase
     
     internal func drawLinearFill(#context: CGContext, dataSet: LineChartDataSet, entries: [ChartDataEntry], trans: ChartTransformer)
     {
-        var entryFrom = dataSet.entryForXIndex(_minX - 2);
-        var entryTo = dataSet.entryForXIndex(_maxX + 2);
+        var entryFrom = dataSet.entryForXIndex(_minX);
+        var entryTo = dataSet.entryForXIndex(_maxX);
         
         var minx = dataSet.entryIndex(entry: entryFrom, isEqual: true);
-        var maxx = dataSet.entryIndex(entry: entryTo, isEqual: true);
+        var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, dataSet.yVals.count);
         
         CGContextSaveGState(context);
         
@@ -396,18 +394,18 @@ public class LineChartRenderer: ChartDataRendererBase
         var phaseY = _animator.phaseY;
         
         var filled = CGPathCreateMutable();
-        CGPathMoveToPoint(filled, &matrix, CGFloat(entries[from].xIndex), CGFloat(entries[from].value) * phaseY);
+        CGPathMoveToPoint(filled, &matrix, CGFloat(entries[from].xIndex), fillMin);
+        CGPathAddLineToPoint(filled, &matrix, CGFloat(entries[from].xIndex), CGFloat(entries[from].value) * phaseY);
         
         // create a new path
-        for (var x = from + 1, count = Int(ceil(CGFloat(to) * phaseX)); x <= count; x++)
+        for (var x = from + 1, count = Int(ceil(CGFloat(to - from) * phaseX + CGFloat(from))); x < count; x++)
         {
             var e = entries[x];
             CGPathAddLineToPoint(filled, &matrix, CGFloat(e.xIndex), CGFloat(e.value) * phaseY);
         }
         
         // close up
-        CGPathAddLineToPoint(filled, &matrix, CGFloat(entries[Int(CGFloat(to) * phaseX)].xIndex), fillMin);
-        CGPathAddLineToPoint(filled, &matrix, CGFloat(entries[from].xIndex), fillMin);
+        CGPathAddLineToPoint(filled, &matrix, CGFloat(entries[max(min(Int(ceil(CGFloat(to - from) * phaseX + CGFloat(from))) - 1, entries.count - 1), 0)].xIndex), fillMin);
         CGPathCloseSubpath(filled);
         
         return filled;
@@ -457,9 +455,20 @@ public class LineChartRenderer: ChartDataRendererBase
                 
                 var entries = dataSet.yVals;
                 
-                var positions = trans.generateTransformedValuesLine(entries, phaseY: _animator.phaseY);
+                var entryFrom = dataSet.entryForXIndex(_minX);
+                var entryTo = dataSet.entryForXIndex(_maxX);
                 
-                for (var j = 0, count = Int(ceil(CGFloat(positions.count) * _animator.phaseX)); j < count; j++)
+                var minx = dataSet.entryIndex(entry: entryFrom, isEqual: true);
+                var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count);
+                
+                var positions = trans.generateTransformedValuesLine(
+                    entries,
+                    phaseX: _animator.phaseX,
+                    phaseY: _animator.phaseY,
+                    from: minx,
+                    to: maxx);
+                
+                for (var j = 0, count = positions.count; j < count; j++)
                 {
                     if (!viewPortHandler.isInBoundsRight(positions[j].x))
                     {
@@ -471,7 +480,7 @@ public class LineChartRenderer: ChartDataRendererBase
                         continue;
                     }
                     
-                    var val = entries[j].value;
+                    var val = entries[j + minx].value;
                     
                     ChartUtils.drawText(context: context, text: formatter!.stringFromNumber(val)!, point: CGPoint(x: positions[j].x, y: positions[j].y - CGFloat(valOffset) - valueFont.lineHeight), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]);
                 }
@@ -518,7 +527,13 @@ public class LineChartRenderer: ChartDataRendererBase
             var circleHoleRadius = circleHoleDiameter / 2.0;
             var isDrawCircleHoleEnabled = dataSet.isDrawCircleHoleEnabled;
             
-            for (var j = 0, count = Int(min(ceil(CGFloat(entries.count) * _animator.phaseX), CGFloat(entries.count))); j < count; j++)
+            var entryFrom = dataSet.entryForXIndex(_minX);
+            var entryTo = dataSet.entryForXIndex(_maxX);
+            
+            var minx = dataSet.entryIndex(entry: entryFrom, isEqual: true);
+            var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count);
+            
+            for (var j = minx, count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))); j < count; j++)
             {
                 var e = entries[j];
                 pt.x = CGFloat(e.xIndex);

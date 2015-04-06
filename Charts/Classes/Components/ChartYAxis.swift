@@ -38,6 +38,10 @@ public class ChartYAxis: ChartAxisBase
     /// if true, the y-label entries will always start at zero
     public var startAtZeroEnabled = true
     
+    /// Are the LimitLines drawn behind the data or in front of the data?
+    /// :default: false
+    public var drawLimitLinesBehindDataEnabled = false
+    
     /// the formatter used to customly format the y-labels
     public var valueFormatter: NSNumberFormatter?
     
@@ -228,4 +232,8 @@ public class ChartYAxis: ChartAxisBase
     public var isShowOnlyMinMaxEnabled: Bool { return showOnlyMinMaxEnabled; }
     
     public var isDrawTopYLabelEntryEnabled: Bool { return drawTopYLabelEntryEnabled; }
+    
+    /// Are the LimitLines drawn behind the data or in front of the data?
+    /// :default: false
+    public var isDrawLimitLinesBehindDataEnabled: Bool { return drawLimitLinesBehindDataEnabled; }
 }

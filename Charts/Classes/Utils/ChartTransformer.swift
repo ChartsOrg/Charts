@@ -22,7 +22,7 @@ public class ChartTransformer: NSObject
     /// matrix for handling the different offsets of the chart
     internal var _matrixOffset = CGAffineTransformIdentity
 
-    private var _viewPortHandler: ChartViewPortHandler
+    internal var _viewPortHandler: ChartViewPortHandler
 
     public init(viewPortHandler: ChartViewPortHandler)
     {
@@ -32,8 +32,8 @@ public class ChartTransformer: NSObject
     /// Prepares the matrix that transforms values to pixels. Calculates the scale factors from the charts size and offsets.
     public func prepareMatrixValuePx(#chartXMin: Float, deltaX: CGFloat, deltaY: CGFloat, chartYMin: Float)
     {
-        var scaleX = ((_viewPortHandler.chartWidth - _viewPortHandler.offsetRight - _viewPortHandler.offsetLeft) / deltaX);
-        var scaleY = ((_viewPortHandler.chartHeight - _viewPortHandler.offsetTop - _viewPortHandler.offsetBottom) / deltaY);
+        var scaleX = (_viewPortHandler.contentWidth / deltaX);
+        var scaleY = (_viewPortHandler.contentHeight / deltaY);
 
         // setup all matrices
         _matrixValueToPx = CGAffineTransformIdentity;
@@ -46,12 +46,12 @@ public class ChartTransformer: NSObject
     {
         if (!inverted)
         {
-            _matrixOffset = CGAffineTransformTranslate(CGAffineTransformIdentity, _viewPortHandler.offsetLeft, _viewPortHandler.chartHeight - _viewPortHandler.offsetBottom);
+            _matrixOffset = CGAffineTransformMakeTranslation(_viewPortHandler.offsetLeft, _viewPortHandler.chartHeight - _viewPortHandler.offsetBottom);
         }
         else
         {
-            _matrixOffset = CGAffineTransformScale(_matrixOffset, 1.0, -1.0);
-            _matrixOffset = CGAffineTransformTranslate(CGAffineTransformIdentity, _viewPortHandler.offsetLeft, -_viewPortHandler.offsetTop);
+            _matrixOffset = CGAffineTransformMakeScale(1.0, -1.0);
+            _matrixOffset = CGAffineTransformTranslate(_matrixOffset, _viewPortHandler.offsetLeft, -_viewPortHandler.offsetTop);
         }
     }
     
@@ -73,14 +73,16 @@ public class ChartTransformer: NSObject
     }
     
     /// Transforms an arraylist of Entry into a float array containing the x and y values transformed with all matrices for the LINECHART.
-    public func generateTransformedValuesLine(entries: [ChartDataEntry], phaseY: CGFloat) -> [CGPoint]
+    public func generateTransformedValuesLine(entries: [ChartDataEntry], phaseX: CGFloat, phaseY: CGFloat, from: Int, to: Int) -> [CGPoint]
     {
+        let count = Int(ceil(CGFloat(to - from) * phaseX));
+        
         var valuePoints = [CGPoint]();
-        valuePoints.reserveCapacity(entries.count);
+        valuePoints.reserveCapacity(count);
 
-        for (var j = 0; j < entries.count; j++)
+        for (var j = 0; j < count; j++)
         {
-            var e = entries[j];
+            var e = entries[j + from];
             valuePoints.append(CGPoint(x: CGFloat(e.xIndex), y: CGFloat(e.value) * phaseY));
         }
 

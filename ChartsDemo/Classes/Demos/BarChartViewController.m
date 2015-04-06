@@ -50,7 +50,7 @@
     _chartView.descriptionText = @"";
     _chartView.noDataTextDescription = @"You need to provide data for the chart.";
     
-    _chartView.drawBarShadowEnabled = YES;
+    _chartView.drawBarShadowEnabled = NO;
     _chartView.drawValueAboveBarEnabled = YES;
     
     _chartView.maxVisibleValueCount = 60;

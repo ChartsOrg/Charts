@@ -1,4 +1,4 @@
-**Version 2.0.8**, synced to [MPAndroidChart #e0ff2af](https://github.com/PhilJay/MPAndroidChart/commit/e0ff2af2f6521aac0cdc02b775b88c99e0762509)
+**Version 2.0.8**, synced to [MPAndroidChart #d9ae5fa](https://github.com/PhilJay/MPAndroidChart/commit/d9ae5fae0a07bdbd526e9e89d32ba99cc7501935)
 
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
 
@@ -9,6 +9,21 @@ Okay so there's this beautiful library called [MPAndroidChart](https://github.co
 I've chosen to write it in `Swift` as it can be highly optimized by the compiler, and can be used in both `Swift` and `ObjC` project. The demo project is written in `ObjC` to demonstrate how it works.
 
 **An amazing feature** of this library now, both Android and iOS, is the time it saves you when developing for both platforms, as the learning curve is singleton- it happens only once, and the code stays very similar so developers don't have to go around and re-invent the app to produce the same output with a different library. (And that's not even considering the fact that there's not really another good choice out there currently...)
+
+## Getting Noticed
+
+Since a few days ago when the library went live on GitHub it has received a lot of attention!  
+There are users coming here from blogs, stackoverflow, reddit etc.  
+Appreciation is show by newsletters like: https://darrellnicholas-com.curated.co/issues/3?#start. 
+So this means that a lot of people need this library, which is a big reason to contribute!
+Please see the "help" section :)
+
+## Usage
+
+In order to correctly compile:
+
+1. Drag the `Charts.xcodeproj` to your project  
+2. Go to your target's settings, hit the "+" under the "Embed Frameworks" section, and select the Charts.framework  
 
 ## Help
 
@@ -121,4 +136,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-

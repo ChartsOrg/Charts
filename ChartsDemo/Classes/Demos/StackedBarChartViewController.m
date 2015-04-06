@@ -116,7 +116,6 @@
     [dataSets addObject:set1];
     
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-    formatter = [[NSNumberFormatter alloc] init];
     formatter.maximumFractionDigits = 1;
     formatter.negativeSuffix = @" $";
     formatter.positiveSuffix = @" $";

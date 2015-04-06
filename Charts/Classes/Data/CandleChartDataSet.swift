@@ -22,7 +22,22 @@ public class CandleChartDataSet: BarLineScatterCandleChartDataSet
     /// the space between the candle entries
     /// :default: 0.1 (10%)
     private var _bodySpace = CGFloat(0.1)
-
+    
+    /// the color of the shadow line
+    public var shadowColor: UIColor?
+    
+    /// color for open <= close
+    public var decreasingColor: UIColor?
+    
+    /// color for open > close
+    public var increasingColor: UIColor?
+    
+    /// Are decreasing values drawn as filled?
+    public var decreasingFilled = false
+    
+    /// Are increasing values drawn as filled?
+    public var increasingFilled = true
+    
     public override init(yVals: [ChartDataEntry]?, label: String)
     {
         super.init(yVals: yVals, label: label);
@@ -78,4 +93,10 @@ public class CandleChartDataSet: BarLineScatterCandleChartDataSet
             return _bodySpace;
         }
     }
+    
+    /// Are increasing values drawn as filled?
+    public var isIncreasingFilled: Bool { return increasingFilled; }
+    
+    /// Are decreasing values drawn as filled?
+    public var isDecreasingFilled: Bool { return decreasingFilled; }
 }

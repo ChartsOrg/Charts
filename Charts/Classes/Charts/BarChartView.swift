@@ -318,4 +318,9 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
     {
         return drawBarShadowEnabled;
     }
+    
+    public func barChartIsInverted(renderer: BarChartRenderer, axis: AxisDependency) -> Bool
+    {
+        return getAxis(axis).isInverted;
+    }
 }
