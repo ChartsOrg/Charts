@@ -203,6 +203,8 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
     }
     
     /// Draws the LimitLines associated with this axis to the screen.
+    private var _limitLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint());
+    
     public override func renderLimitLines(#context: CGContext)
     {
         var limitLines = _yAxis.limitLines;
@@ -211,23 +213,25 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         {
             return;
         }
-
-        var pts = [CGPoint](count: 2, repeatedValue: CGPoint());
-        var limitLinePath = CGPathCreateMutable();
         
         CGContextSaveGState(context);
+        
+        var trans = transformer.valueToPixelMatrix;
+        
+        var position = CGPoint(x: 0.0, y: 0.0);
         
         for (var i = 0; i < limitLines.count; i++)
         {
             var l = limitLines[i];
             
-            pts[0].x = CGFloat(l.limit);
-            pts[1].x = CGFloat(l.limit);
-
-            transformer.pointValuesToPixel(&pts);
-
-            pts[0].y = viewPortHandler.contentTop;
-            pts[1].y = viewPortHandler.contentBottom;
+            position.x = CGFloat(l.limit);
+            position.y = 0.0;
+            position = CGPointApplyAffineTransform(position, trans);
+            
+            _limitLineSegmentsBuffer[0].x = position.x;
+            _limitLineSegmentsBuffer[0].y = viewPortHandler.contentTop;
+            _limitLineSegmentsBuffer[1].x = position.x;
+            _limitLineSegmentsBuffer[1].y = viewPortHandler.contentBottom;
             
             CGContextSetStrokeColorWithColor(context, l.lineColor.CGColor);
             CGContextSetLineWidth(context, l.lineWidth);
@@ -240,26 +244,38 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
                 CGContextSetLineDash(context, 0.0, nil, 0);
             }
             
-            CGContextStrokeLineSegments(context, pts, 2);
+            CGContextStrokeLineSegments(context, _limitLineSegmentsBuffer, 2);
 
             var label = l.label;
 
             // if drawing the limit-value label is enabled
             if (label.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) > 0)
             {
-                var xOffset = l.lineWidth;
-                var add: CGFloat = 4.0;
+                var labelLineHeight = l.valueFont.lineHeight;
                 
-                var valueFont = l.valueFont;
-                var yOffset = valueFont.lineHeight + add / 2.0;
+                let add = CGFloat(4.0);
+                var xOffset: CGFloat = l.lineWidth;
+                var yOffset: CGFloat = add / 2.0;
 
                 if (l.labelPosition == .Right)
                 {
-                    ChartUtils.drawText(context: context, text: label, point: CGPoint(x: pts[0].x + xOffset - valueFont.lineHeight, y: viewPortHandler.contentBottom - add), align: .Left, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: l.valueTextColor]);
+                    ChartUtils.drawText(context: context,
+                        text: label,
+                        point: CGPoint(
+                            x: position.x + xOffset,
+                            y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
+                        align: .Left,
+                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor]);
                 }
                 else
                 {
-                    ChartUtils.drawText(context: context, text: label, point: CGPoint(x: pts[0].x + xOffset - valueFont.lineHeight, y: viewPortHandler.contentTop + yOffset), align: .Left, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: l.valueTextColor]);
+                    ChartUtils.drawText(context: context,
+                        text: label,
+                        point: CGPoint(
+                            x: position.x + xOffset,
+                            y: viewPortHandler.contentTop + yOffset),
+                        align: .Left,
+                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor]);
                 }
             }
         }
