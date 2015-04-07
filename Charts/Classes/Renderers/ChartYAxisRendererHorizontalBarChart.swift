@@ -104,7 +104,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
     
     private var _axisLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint());
     
-    internal override func renderAxisLine(#context: CGContext)
+    public override func renderAxisLine(#context: CGContext)
     {
         if (!_yAxis.isEnabled || !_yAxis.drawAxisLineEnabled)
         {
