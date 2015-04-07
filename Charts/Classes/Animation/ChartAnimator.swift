@@ -68,11 +68,11 @@ public class ChartAnimator: NSObject
     @objc private func animationLoop()
     {
         var currentTime: NSTimeInterval = CACurrentMediaTime();
-        var ellapsedTime: NSTimeInterval = currentTime - _startTime;
+        var elapsedTime: NSTimeInterval = currentTime - _startTime;
         if (_enabledX)
         {
             var duration: NSTimeInterval = _xDuration;
-            var elapsed: NSTimeInterval = ellapsedTime;
+            var elapsed: NSTimeInterval = elapsedTime;
             if (elapsed > duration)
             {
                 elapsed = duration;
@@ -90,7 +90,7 @@ public class ChartAnimator: NSObject
         if (_enabledY)
         {
             var duration: NSTimeInterval = _yDuration;
-            var elapsed: NSTimeInterval = ellapsedTime;
+            var elapsed: NSTimeInterval = elapsedTime;
             if (elapsed > duration)
             {
                 elapsed = duration;
