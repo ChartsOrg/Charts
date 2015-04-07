@@ -151,6 +151,10 @@ public class BarLineChartViewBase: ChartViewBase
 
         CGContextClipToRect(context, _viewPortHandler.contentRect);
         
+        if (_xAxis.isDrawLimitLinesBehindDataEnabled)
+        {
+            _xAxisRenderer?.renderLimitLines(context: context);
+        }
         if (_leftAxis.isDrawLimitLinesBehindDataEnabled)
         {
             _leftYAxisRenderer?.renderLimitLines(context: context);
@@ -166,6 +170,10 @@ public class BarLineChartViewBase: ChartViewBase
         
         renderer?.drawData(context: context);
         
+        if (!_xAxis.isDrawLimitLinesBehindDataEnabled)
+        {
+            _xAxisRenderer?.renderLimitLines(context: context);
+        }
         if (!_leftAxis.isDrawLimitLinesBehindDataEnabled)
         {
             _leftYAxisRenderer?.renderLimitLines(context: context);

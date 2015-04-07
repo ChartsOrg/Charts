@@ -277,8 +277,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
     
     private var _limitLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint());
     
-    /// Draws the LimitLines associated with this axis to the screen.
-    public func renderLimitLines(#context: CGContext)
+    public override func renderLimitLines(#context: CGContext)
     {
         var limitLines = _yAxis.limitLines;
         

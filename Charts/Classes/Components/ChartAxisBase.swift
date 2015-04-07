@@ -38,6 +38,13 @@ public class ChartAxisBase: ChartComponentBase
     
     public var xOffset = CGFloat(5.0)
     public var yOffset = CGFloat(5.0)
+    
+    /// array of limitlines that can be set for the axis
+    private var _limitLines = [ChartLimitLine]()
+    
+    /// Are the LimitLines drawn behind the data or in front of the data?
+    /// :default: false
+    public var drawLimitLinesBehindDataEnabled = false
 
     public override init()
     {
@@ -54,4 +61,39 @@ public class ChartAxisBase: ChartComponentBase
     public var isDrawAxisLineEnabled: Bool { return drawAxisLineEnabled; }
     
     public var isDrawLabelsEnabled: Bool { return drawLabelsEnabled; }
+    
+    /// Are the LimitLines drawn behind the data or in front of the data?
+    /// :default: false
+    public var isDrawLimitLinesBehindDataEnabled: Bool { return drawLimitLinesBehindDataEnabled; }
+    
+    /// Adds a new ChartLimitLine to this axis.
+    public func addLimitLine(line: ChartLimitLine)
+    {
+        _limitLines.append(line);
+    }
+    
+    /// Removes the specified ChartLimitLine from the axis.
+    public func removeLimitLine(line: ChartLimitLine)
+    {
+        for (var i = 0; i < _limitLines.count; i++)
+        {
+            if (_limitLines[i] === line)
+            {
+                _limitLines.removeAtIndex(i);
+                return;
+            }
+        }
+    }
+    
+    /// Removes all LimitLines from the axis.
+    public func removeAllLimitLines()
+    {
+        _limitLines.removeAll(keepCapacity: false);
+    }
+    
+    /// Returns the LimitLines of this axis.
+    public var limitLines : [ChartLimitLine]
+        {
+            return _limitLines;
+    }
 }

@@ -202,7 +202,6 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         CGContextRestoreGState(context);
     }
     
-    /// Draws the LimitLines associated with this axis to the screen.
     private var _limitLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint());
     
     public override func renderLimitLines(#context: CGContext)

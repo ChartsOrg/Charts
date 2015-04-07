@@ -47,4 +47,10 @@ public class ChartAxisRendererBase: ChartRendererBase
     {
         fatalError("renderAxisLine() cannot be called on ChartAxisRendererBase");
     }
+    
+    /// Draws the LimitLines associated with this axis to the screen.
+    public func renderLimitLines(#context: CGContext)
+    {
+        fatalError("renderLimitLines() cannot be called on ChartAxisRendererBase");
+    }
 }
