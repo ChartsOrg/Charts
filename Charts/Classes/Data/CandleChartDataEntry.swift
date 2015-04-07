@@ -76,7 +76,7 @@ public class CandleChartDataEntry: ChartDataEntry
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
-        var copy = super.copyWithZone(zone) as! CandleChartDataEntry;
+        var copy = super.copyWithZone(zone) as CandleChartDataEntry;
         copy.high = high;
         copy.high = low;
         copy.high = open;

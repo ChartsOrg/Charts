@@ -40,7 +40,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
         var barSpaceHalf = barSpace / 2.0;
         var containsStacks = dataSet.isStacked;
         var isInverted = delegate!.barChartIsInverted(self, axis: dataSet.axisDependency);
-        var entries = dataSet.yVals as! [BarChartDataEntry];
+        var entries = dataSet.yVals as [BarChartDataEntry];
         var barWidth: CGFloat = 0.5;
         var phaseY = _animator.phaseY;
         var barRect = CGRect();
@@ -264,7 +264,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                 
                 var trans = delegate!.barChartRenderer(self, transformerForAxis: dataSet.axisDependency);
                 
-                var entries = dataSet.yVals as! [BarChartDataEntry];
+                var entries = dataSet.yVals as [BarChartDataEntry];
                 
                 var valuePoints = getTransformedValues(trans: trans, entries: entries, dataSetIndex: i);
                 

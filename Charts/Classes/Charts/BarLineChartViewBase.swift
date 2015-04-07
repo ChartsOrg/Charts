@@ -399,7 +399,7 @@ public class BarLineChartViewBase: ChartViewBase
         
         if (self.isKindOfClass(BarChartView))
         {
-            var bd = _data as! BarChartData;
+            var bd = _data as BarChartData;
             var space = bd.groupSpace;
             var j = _data.getDataSetByIndex(dataSetIndex)!.entryIndex(entry: entry, isEqual: true);
             
@@ -447,7 +447,7 @@ public class BarLineChartViewBase: ChartViewBase
     /// Returns the Transformer class that contains all matrices and is
     /// responsible for transforming values into pixels on the screen and
     /// backwards.
-    public func getTransformer(which: ChartYAxis.AxisDependency) -> ChartTransformer
+    public func getTransformer(which: AxisDependency) -> ChartTransformer
     {
         if (which == .Left)
         {
@@ -791,7 +791,7 @@ public class BarLineChartViewBase: ChartViewBase
     /// 
     /// :param: yRange
     /// :param: axis - the axis for which this limit should apply
-    public func setVisibleYRange(yRange: CGFloat, axis: ChartYAxis.AxisDependency)
+    public func setVisibleYRange(yRange: CGFloat, axis: AxisDependency)
     {
         var yScale = getDeltaY(axis) / yRange;
         _viewPortHandler.setMinimumScaleY(yScale);
@@ -809,7 +809,7 @@ public class BarLineChartViewBase: ChartViewBase
         }
         else
         {
-            _sizeChangeEventActions.append({[weak self] () in self?.moveViewToX(xIndex); });
+            _sizeChangeEventActions.append({[weak self] () in self!.moveViewToX(xIndex); });
         }
     }
 
@@ -817,7 +817,7 @@ public class BarLineChartViewBase: ChartViewBase
     /// 
     /// :param: yValue
     /// :param: axis - which axis should be used as a reference for the y-axis
-    public func moveViewToY(yValue: CGFloat, axis: ChartYAxis.AxisDependency)
+    public func moveViewToY(yValue: CGFloat, axis: AxisDependency)
     {
         if (_viewPortHandler.hasChartDimens)
         {
@@ -830,7 +830,7 @@ public class BarLineChartViewBase: ChartViewBase
         }
         else
         {
-            _sizeChangeEventActions.append({[weak self] () in self?.moveViewToY(yValue, axis: axis); });
+            _sizeChangeEventActions.append({[weak self] () in self!.moveViewToY(yValue, axis: axis); });
         }
     }
 
@@ -839,7 +839,7 @@ public class BarLineChartViewBase: ChartViewBase
     /// :param: xIndex
     /// :param: yValue
     /// :param: axis - which axis should be used as a reference for the y-axis
-    public func moveViewTo(#xIndex: Int, yValue: CGFloat, axis: ChartYAxis.AxisDependency)
+    public func moveViewTo(#xIndex: Int, yValue: CGFloat, axis: AxisDependency)
     {
         if (_viewPortHandler.hasChartDimens)
         {
@@ -852,7 +852,7 @@ public class BarLineChartViewBase: ChartViewBase
         }
         else
         {
-            _sizeChangeEventActions.append({[weak self] () in self?.moveViewTo(xIndex: xIndex, yValue: yValue, axis: axis); });
+            _sizeChangeEventActions.append({[weak self] () in self!.moveViewTo(xIndex: xIndex, yValue: yValue, axis: axis); });
         }
     }
     
@@ -861,7 +861,7 @@ public class BarLineChartViewBase: ChartViewBase
     /// :param: xIndex
     /// :param: yValue
     /// :param: axis - which axis should be used as a reference for the y-axis
-    public func centerViewTo(#xIndex: Int, yValue: CGFloat, axis: ChartYAxis.AxisDependency)
+    public func centerViewTo(#xIndex: Int, yValue: CGFloat, axis: AxisDependency)
     {
         if (_viewPortHandler.hasChartDimens)
         {
@@ -875,7 +875,7 @@ public class BarLineChartViewBase: ChartViewBase
         }
         else
         {
-            _sizeChangeEventActions.append({[weak self] () in self?.centerViewTo(xIndex: xIndex, yValue: yValue, axis: axis); });
+            _sizeChangeEventActions.append({[weak self] () in self!.centerViewTo(xIndex: xIndex, yValue: yValue, axis: axis); });
         }
     }
 
@@ -908,7 +908,7 @@ public class BarLineChartViewBase: ChartViewBase
     // MARK: - Accessors
 
     /// Returns the delta-y value (y-value range) of the specified axis.
-    public func getDeltaY(axis: ChartYAxis.AxisDependency) -> CGFloat
+    public func getDeltaY(axis: AxisDependency) -> CGFloat
     {
         if (axis == .Left)
         {
@@ -921,7 +921,7 @@ public class BarLineChartViewBase: ChartViewBase
     }
 
     /// Returns the position (in pixels) the provided Entry has inside the chart view
-    public func getPosition(e: ChartDataEntry, axis: ChartYAxis.AxisDependency) -> CGPoint
+    public func getPosition(e: ChartDataEntry, axis: AxisDependency) -> CGPoint
     {
         var vals = CGPoint(x: CGFloat(e.xIndex), y: CGFloat(e.value));
 
@@ -1154,7 +1154,7 @@ public class BarLineChartViewBase: ChartViewBase
             leftdist = FLT_MAX;
         }
 
-        var axis: ChartYAxis.AxisDependency = leftdist < rightdist ? .Left : .Right;
+        var axis: AxisDependency = leftdist < rightdist ? .Left : .Right;
 
         var dataSetIndex = ChartUtils.closestDataSetIndex(valsAtIndex, value: Float(pt.y), axis: axis);
 
@@ -1202,7 +1202,7 @@ public class BarLineChartViewBase: ChartViewBase
     /// (encapsulated in a PointD). This method transforms pixel coordinates to
     /// coordinates / values in the chart. This is the opposite method to
     /// getPixelsForValues(...).
-    public func getValueByTouchPoint(var #pt: CGPoint, axis: ChartYAxis.AxisDependency) -> CGPoint
+    public func getValueByTouchPoint(var #pt: CGPoint, axis: AxisDependency) -> CGPoint
     {
         getTransformer(axis).pixelToValue(&pt);
 
@@ -1211,7 +1211,7 @@ public class BarLineChartViewBase: ChartViewBase
 
     /// Transforms the given chart values into pixels. This is the opposite
     /// method to getValueByTouchPoint(...).
-    public func getPixelForValue(x: Float, y: Float, axis: ChartYAxis.AxisDependency) -> CGPoint
+    public func getPixelForValue(x: Float, y: Float, axis: AxisDependency) -> CGPoint
     {
         var pt = CGPoint(x: CGFloat(x), y: CGFloat(y));
         
@@ -1222,7 +1222,7 @@ public class BarLineChartViewBase: ChartViewBase
 
     /// returns the y-value at the given touch position (must not necessarily be
     /// a value contained in one of the datasets)
-    public func getYValueByTouchPoint(#pt: CGPoint, axis: ChartYAxis.AxisDependency) -> CGFloat
+    public func getYValueByTouchPoint(#pt: CGPoint, axis: AxisDependency) -> CGFloat
     {
         return getValueByTouchPoint(pt: pt, axis: axis).y;
     }
@@ -1244,7 +1244,7 @@ public class BarLineChartViewBase: ChartViewBase
         var h = getHighlightByTouchPoint(pt);
         if (h !== nil)
         {
-            return _data.getDataSetByIndex(h.dataSetIndex) as! BarLineScatterCandleChartDataSet!;
+            return _data.getDataSetByIndex(h.dataSetIndex) as BarLineScatterCandleChartDataSet!;
         }
         return nil;
     }
@@ -1287,7 +1287,7 @@ public class BarLineChartViewBase: ChartViewBase
 
     /// Returns the y-axis object to the corresponding AxisDependency. In the
     /// horizontal bar-chart, LEFT == top, RIGHT == BOTTOM
-    public func getAxis(axis: ChartYAxis.AxisDependency) -> ChartYAxis
+    public func getAxis(axis: AxisDependency) -> ChartYAxis
     {
         if (axis == .Left)
         {

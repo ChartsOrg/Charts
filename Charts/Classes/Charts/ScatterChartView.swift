@@ -41,10 +41,10 @@ public class ScatterChartView: BarLineChartViewBase, ScatterChartRendererDelegat
     
     public func scatterChartRendererData(renderer: ScatterChartRenderer) -> ScatterChartData!
     {
-        return _data as! ScatterChartData!;
+        return _data as ScatterChartData!;
     }
     
-    public func scatterChartRenderer(renderer: ScatterChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!
+    public func scatterChartRenderer(renderer: ScatterChartRenderer, transformerForAxis which: AxisDependency) -> ChartTransformer!
     {
         return getTransformer(which);
     }

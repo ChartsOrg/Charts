@@ -20,21 +20,6 @@ import UIKit
 /// Customizations that affect the value range of the axis need to be applied before setting data for the chart.
 public class ChartYAxis: ChartAxisBase
 {
-    @objc
-    public enum YAxisLabelPosition: Int
-    {
-        case OutsideChart
-        case InsideChart
-    }
-    
-    ///  Enum that specifies the axis a DataSet should be plotted against, either Left or Right.
-    @objc
-    public enum AxisDependency: Int
-    {
-        case Left
-        case Right
-    }
-    
     public var entries = [Float]()
     public var entryCount: Int { return entries.count; }
     

@@ -32,7 +32,7 @@ public class RadarChartRenderer: ChartDataRendererBase
             
             if (radarData != nil)
             {
-                for set in radarData!.dataSets as! [RadarChartDataSet]
+                for set in radarData!.dataSets as [RadarChartDataSet]
                 {
                     if (set.isVisible)
                     {
@@ -124,7 +124,7 @@ public class RadarChartRenderer: ChartDataRendererBase
         
         for (var i = 0, count = data.dataSetCount; i < count; i++)
         {
-            var dataSet = data.getDataSetByIndex(i) as! RadarChartDataSet;
+            var dataSet = data.getDataSetByIndex(i) as RadarChartDataSet;
             
             if (!dataSet.isDrawValuesEnabled)
             {
@@ -227,13 +227,13 @@ public class RadarChartRenderer: ChartDataRendererBase
             return;
         }
         
-        var data = _chart.data as! RadarChartData;
+        var data = _chart.data as RadarChartData;
         
         CGContextSaveGState(context);
         CGContextSetLineWidth(context, data.highlightLineWidth);
         if (data.highlightLineDashLengths != nil)
         {
-            CGContextSetLineDash(context, data.highlightLineDashPhase, data.highlightLineDashLengths!, data.highlightLineDashLengths!.count);
+            CGContextSetLineDash(context, data.highlightLineDashPhase, data.highlightLineDashLengths!, UInt(data.highlightLineDashLengths!.count));
         }
         else
         {
@@ -247,7 +247,7 @@ public class RadarChartRenderer: ChartDataRendererBase
         
         for (var i = 0; i < indices.count; i++)
         {
-            var set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as! RadarChartDataSet!;
+            var set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as RadarChartDataSet!;
             
             if (set === nil)
             {

@@ -16,13 +16,6 @@ import Foundation
 
 public class ChartDataApproximatorFilter: ChartDataBaseFilter
 {
-    @objc
-    public enum ApproximatorType: Int
-    {
-        case None
-        case RamerDouglasPeucker
-    }
-    
     /// the type of filtering algorithm to use
     public var type = ApproximatorType.None
     

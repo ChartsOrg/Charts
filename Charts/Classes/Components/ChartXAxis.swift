@@ -16,16 +16,6 @@ import Foundation
 
 public class ChartXAxis: ChartAxisBase
 {
-    @objc
-    public enum XAxisLabelPosition: Int
-    {
-        case Top
-        case Bottom
-        case BothSided
-        case TopInside
-        case BottomInside
-    }
-    
     public var values = [String]()
     public var labelWidth = CGFloat(1.0)
     public var labelHeight = CGFloat(1.0)

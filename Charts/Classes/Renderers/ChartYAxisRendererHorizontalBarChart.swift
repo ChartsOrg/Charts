@@ -117,7 +117,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         CGContextSetLineWidth(context, _yAxis.axisLineWidth);
         if (_yAxis.axisLineDashLengths != nil)
         {
-            CGContextSetLineDash(context, _yAxis.axisLineDashPhase, _yAxis.axisLineDashLengths, _yAxis.axisLineDashLengths.count);
+            CGContextSetLineDash(context, _yAxis.axisLineDashPhase, _yAxis.axisLineDashLengths, UInt(_yAxis.axisLineDashLengths.count));
         }
         else
         {
@@ -179,7 +179,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         CGContextSetLineWidth(context, _yAxis.gridLineWidth);
         if (_yAxis.gridLineDashLengths != nil)
         {
-            CGContextSetLineDash(context, _yAxis.gridLineDashPhase, _yAxis.gridLineDashLengths, _yAxis.gridLineDashLengths.count);
+            CGContextSetLineDash(context, _yAxis.gridLineDashPhase, _yAxis.gridLineDashLengths, UInt(_yAxis.gridLineDashLengths.count));
         }
         else
         {
@@ -236,7 +236,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
             CGContextSetLineWidth(context, l.lineWidth);
             if (l.lineDashLengths != nil)
             {
-                CGContextSetLineDash(context, l.lineDashPhase, l.lineDashLengths!, l.lineDashLengths!.count);
+                CGContextSetLineDash(context, l.lineDashPhase, l.lineDashLengths!, UInt(l.lineDashLengths!.count));
             }
             else
             {

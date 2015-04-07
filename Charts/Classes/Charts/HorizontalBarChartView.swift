@@ -119,7 +119,7 @@ public class HorizontalBarChartView: BarChartView
     
     public override func getBarBounds(e: BarChartDataEntry) -> CGRect!
     {
-        var set = _data.getDataSetForEntry(e) as! BarChartDataSet!;
+        var set = _data.getDataSetForEntry(e) as BarChartDataSet!;
         
         if (set === nil)
         {
@@ -143,7 +143,7 @@ public class HorizontalBarChartView: BarChartView
         return bounds;
     }
     
-    public override func getPosition(e: ChartDataEntry, axis: ChartYAxis.AxisDependency) -> CGPoint
+    public override func getPosition(e: ChartDataEntry, axis: AxisDependency) -> CGPoint
     {
         var vals = CGPoint(x: CGFloat(e.value), y: CGFloat(e.xIndex));
         

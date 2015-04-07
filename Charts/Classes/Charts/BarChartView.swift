@@ -47,7 +47,7 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
             return;
         }
         
-        var barData = _data as! BarChartData;
+        var barData = _data as BarChartData;
         
         // increase deltax by 1 because the bars have a width of 1
         _deltaX += 0.5;
@@ -99,7 +99,7 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
             return nil;
         }
         
-        var barData = _data as! BarChartData!;
+        var barData = _data as BarChartData!;
         
         var setCount = barData.dataSetCount;
         var valCount = barData.xValCount;
@@ -157,7 +157,7 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
             }
         }
         
-        var dataSet = barData.getDataSetByIndex(dataSetIndex) as! BarChartDataSet!;
+        var dataSet = barData.getDataSetByIndex(dataSetIndex) as BarChartDataSet!;
         if (!dataSet.isStacked)
         {
             return ChartHighlight(xIndex: xIndex, dataSetIndex: dataSetIndex);
@@ -172,7 +172,7 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
     internal func getStackedHighlight(#xIndex: Int, dataSetIndex: Int, yValue: Float) -> ChartHighlight!
     {
         var dataSet = _data.getDataSetByIndex(dataSetIndex);
-        var entry = dataSet.entryForXIndex(xIndex) as! BarChartDataEntry!;
+        var entry = dataSet.entryForXIndex(xIndex) as BarChartDataEntry!;
 
         if (entry !== nil)
         {
@@ -188,7 +188,7 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
     /// Returns the bounding box of the specified Entry in the specified DataSet. Returns null if the Entry could not be found in the charts data.
     public func getBarBounds(e: BarChartDataEntry) -> CGRect!
     {
-        var set = _data.getDataSetForEntry(e) as! BarChartDataSet!;
+        var set = _data.getDataSetForEntry(e) as BarChartDataSet!;
         
         if (set === nil)
         {
@@ -276,10 +276,10 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
     
     public func barChartRendererData(renderer: BarChartRenderer) -> BarChartData!
     {
-        return _data as! BarChartData!;
+        return _data as BarChartData!;
     }
     
-    public func barChartRenderer(renderer: BarChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!
+    public func barChartRenderer(renderer: BarChartRenderer, transformerForAxis which: AxisDependency) -> ChartTransformer!
     {
         return getTransformer(which);
     }
@@ -319,7 +319,7 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
         return drawBarShadowEnabled;
     }
     
-    public func barChartIsInverted(renderer: BarChartRenderer, axis: ChartYAxis.AxisDependency) -> Bool
+    public func barChartIsInverted(renderer: BarChartRenderer, axis: AxisDependency) -> Bool
     {
         return getAxis(axis).isInverted;
     }

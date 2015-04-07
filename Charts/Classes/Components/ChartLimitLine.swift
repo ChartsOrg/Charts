@@ -19,13 +19,12 @@ import UIKit
 /// It allows the displaying of an additional line in the chart that marks a certain maximum / limit on the specified axis (x- or y-axis).
 public class ChartLimitLine: ChartComponentBase
 {
-    @objc
-    public enum ChartLimitLabelPosition: Int
-    {
-        case Left
-        case Right
-    }
-    
+//    @objc
+//    public enum ChartLimitLabelPosition: Int
+//    {
+//        case Left
+//        case Right
+//    }
     /// limit / maximum (the y-value or xIndex)
     public var limit = Float(0.0)
     

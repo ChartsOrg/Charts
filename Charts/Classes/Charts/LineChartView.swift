@@ -64,10 +64,10 @@ public class LineChartView: BarLineChartViewBase, LineChartRendererDelegate
     
     public func lineChartRendererData(renderer: LineChartRenderer) -> LineChartData!
     {
-        return _data as! LineChartData!;
+        return _data as LineChartData!;
     }
     
-    public func lineChartRenderer(renderer: LineChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!
+    public func lineChartRenderer(renderer: LineChartRenderer, transformerForAxis which: AxisDependency) -> ChartTransformer!
     {
         return self.getTransformer(which);
     }

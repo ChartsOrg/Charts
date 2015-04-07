@@ -71,7 +71,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         // pre allocate to save performance (dont allocate in loop)
         var position = CGPoint(x: 0.0, y: 0.0);
         
-        var bd = _chart.data as! BarChartData;
+        var bd = _chart.data as BarChartData;
         var step = bd.dataSetCount;
         
         for (var i = 0; i < _xAxis.values.count; i += _xAxis.axisLabelModulus)
@@ -111,7 +111,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         CGContextSetLineWidth(context, _xAxis.gridLineWidth);
         if (_xAxis.gridLineDashLengths != nil)
         {
-            CGContextSetLineDash(context, _xAxis.gridLineDashPhase, _xAxis.gridLineDashLengths, _xAxis.gridLineDashLengths.count);
+            CGContextSetLineDash(context, _xAxis.gridLineDashPhase, _xAxis.gridLineDashLengths, UInt(_xAxis.gridLineDashLengths.count));
         }
         else
         {
@@ -120,7 +120,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         
         var position = CGPoint(x: 0.0, y: 0.0);
         
-        var bd = _chart.data as! BarChartData;
+        var bd = _chart.data as BarChartData;
         
         // take into consideration that multiple DataSets increase _deltaX
         var step = bd.dataSetCount;
@@ -160,7 +160,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         CGContextSetLineWidth(context, _xAxis.axisLineWidth);
         if (_xAxis.axisLineDashLengths != nil)
         {
-            CGContextSetLineDash(context, _xAxis.axisLineDashPhase, _xAxis.axisLineDashLengths, _xAxis.axisLineDashLengths.count);
+            CGContextSetLineDash(context, _xAxis.axisLineDashPhase, _xAxis.axisLineDashLengths, UInt(_xAxis.axisLineDashLengths.count));
         }
         else
         {
@@ -226,7 +226,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
             CGContextSetLineWidth(context, l.lineWidth);
             if (l.lineDashLengths != nil)
             {
-                CGContextSetLineDash(context, l.lineDashPhase, l.lineDashLengths!, l.lineDashLengths!.count);
+                CGContextSetLineDash(context, l.lineDashPhase, l.lineDashLengths!, UInt(l.lineDashLengths!.count));
             }
             else
             {

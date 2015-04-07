@@ -40,15 +40,15 @@ public class BarChartDataSet: BarLineScatterCandleChartDataSet
         
         self.highlightColor = UIColor.blackColor();
         
-        self.calcStackSize(yVals as! [BarChartDataEntry]?);
-        self.calcEntryCountIncludingStacks(yVals as! [BarChartDataEntry]?);
+        self.calcStackSize(yVals as [BarChartDataEntry]?);
+        self.calcEntryCountIncludingStacks(yVals as [BarChartDataEntry]?);
     }
     
     // MARK: NSCopying
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
-        var copy = super.copyWithZone(zone) as! BarChartDataSet;
+        var copy = super.copyWithZone(zone) as BarChartDataSet;
         copy.barSpace = barSpace;
         copy._stackSize = _stackSize;
         copy.barShadowColor = barShadowColor;

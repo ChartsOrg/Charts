@@ -20,7 +20,7 @@ public class BalloonMarker: ChartMarker
     public var color: UIColor!;
     public var arrowSize = CGSize(width: 15, height: 11);
     public var font: UIFont!;
-    public var insets = UIEdgeInsets();
+    public var insets = UIEdgeInsetsZero;
     public var minimumSize = CGSize();
     
     private var labelns: NSString!;
@@ -36,7 +36,7 @@ public class BalloonMarker: ChartMarker
         self.font = font;
         self.insets = insets;
         
-        _paragraphStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle;
+        _paragraphStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as NSMutableParagraphStyle;
         _paragraphStyle.alignment = .Center;
     }
     

@@ -102,7 +102,7 @@ public class BarChartDataEntry: ChartDataEntry
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
-        var copy = super.copyWithZone(zone) as! BarChartDataEntry;
+        var copy = super.copyWithZone(zone) as BarChartDataEntry;
         copy.values = values;
         return copy;
     }

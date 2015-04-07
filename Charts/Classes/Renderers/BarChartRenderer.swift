@@ -13,11 +13,11 @@
 
 import Foundation
 
-@objc
+//@objc
 public protocol BarChartRendererDelegate
 {
     func barChartRendererData(renderer: BarChartRenderer) -> BarChartData!;
-    func barChartRenderer(renderer: BarChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!;
+    func barChartRenderer(renderer: BarChartRenderer, transformerForAxis which: AxisDependency) -> ChartTransformer!;
     func barChartRendererMaxVisibleValueCount(renderer: BarChartRenderer) -> Int;
     func barChartDefaultRendererValueFormatter(renderer: BarChartRenderer) -> NSNumberFormatter!;
     func barChartRendererChartXMax(renderer: BarChartRenderer) -> Float;
@@ -25,12 +25,12 @@ public protocol BarChartRendererDelegate
     func barChartIsDrawValueAboveBarEnabled(renderer: BarChartRenderer) -> Bool;
     func barChartIsDrawValuesForWholeStackEnabled(renderer: BarChartRenderer) -> Bool;
     func barChartIsDrawBarShadowEnabled(renderer: BarChartRenderer) -> Bool;
-    func barChartIsInverted(renderer: BarChartRenderer, axis: ChartYAxis.AxisDependency) -> Bool;
+    func barChartIsInverted(renderer: BarChartRenderer, axis: AxisDependency) -> Bool;
 }
 
 public class BarChartRenderer: ChartDataRendererBase
 {
-    public weak var delegate: BarChartRendererDelegate?;
+    public var delegate: BarChartRendererDelegate?;
     
     public init(delegate: BarChartRendererDelegate?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
@@ -54,7 +54,7 @@ public class BarChartRenderer: ChartDataRendererBase
             
             if (set !== nil && set!.isVisible)
             {
-                drawDataSet(context: context, dataSet: set as! BarChartDataSet, index: i);
+                drawDataSet(context: context, dataSet: set as BarChartDataSet, index: i);
             }
         }
     }
@@ -76,7 +76,7 @@ public class BarChartRenderer: ChartDataRendererBase
         var barSpaceHalf = barSpace / 2.0;
         var containsStacks = dataSet.isStacked;
         var isInverted = delegate!.barChartIsInverted(self, axis: dataSet.axisDependency);
-        var entries = dataSet.yVals as! [BarChartDataEntry];
+        var entries = dataSet.yVals as [BarChartDataEntry];
         var barWidth: CGFloat = 0.5;
         var phaseY = _animator.phaseY;
         var barRect = CGRect();
@@ -305,7 +305,7 @@ public class BarChartRenderer: ChartDataRendererBase
                 
                 var trans = delegate!.barChartRenderer(self, transformerForAxis: dataSet.axisDependency);
                 
-                var entries = dataSet.yVals as! [BarChartDataEntry];
+                var entries = dataSet.yVals as [BarChartDataEntry];
                 
                 var valuePoints = getTransformedValues(trans: trans, entries: entries, dataSetIndex: i);
                 
@@ -446,7 +446,7 @@ public class BarChartRenderer: ChartDataRendererBase
             var index = h.xIndex;
             
             var dataSetIndex = h.dataSetIndex;
-            var set = barData.getDataSetByIndex(dataSetIndex) as! BarChartDataSet!;
+            var set = barData.getDataSetByIndex(dataSetIndex) as BarChartDataSet!;
             
             if (set === nil)
             {
@@ -464,7 +464,7 @@ public class BarChartRenderer: ChartDataRendererBase
             if (index < barData.yValCount && index >= 0
                 && CGFloat(index) < (CGFloat(delegate!.barChartRendererChartXMax(self)) * _animator.phaseX) / CGFloat(setCount))
             {
-                var e = barData.getDataSetByIndex(dataSetIndex)!.entryForXIndex(index) as! BarChartDataEntry!;
+                var e = barData.getDataSetByIndex(dataSetIndex)!.entryForXIndex(index) as BarChartDataEntry!;
                 
                 if (e === nil)
                 {

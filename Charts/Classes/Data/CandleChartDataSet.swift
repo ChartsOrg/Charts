@@ -50,7 +50,7 @@ public class CandleChartDataSet: BarLineScatterCandleChartDataSet
             return;
         }
         
-        var entries = yVals as! [CandleChartDataEntry];
+        var entries = yVals as [CandleChartDataEntry];
 
         _yMin = entries[0].low;
         _yMax = entries[0].high;

@@ -35,7 +35,7 @@ public class CombinedChartRenderer: ChartDataRendererBase,
     
     internal var _renderers = [ChartDataRendererBase]();
     
-    internal var _drawOrder: [CombinedChartView.DrawOrder] = [.Bar, .Line, .Candle, .Scatter];
+    internal var _drawOrder: [DrawOrder] = [.Bar, .Line, .Candle, .Scatter];
     
     public init(chart: CombinedChartView, animator: ChartAnimator, viewPortHandler: ChartViewPortHandler)
     {
@@ -136,7 +136,7 @@ public class CombinedChartRenderer: ChartDataRendererBase,
         return _chart.lineData;
     }
     
-    public func lineChartRenderer(renderer: LineChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!
+    public func lineChartRenderer(renderer: LineChartRenderer, transformerForAxis which: AxisDependency) -> ChartTransformer!
     {
         return _chart.getTransformer(which);
     }
@@ -183,7 +183,7 @@ public class CombinedChartRenderer: ChartDataRendererBase,
         return _chart.barData;
     }
     
-    public func barChartRenderer(renderer: BarChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!
+    public func barChartRenderer(renderer: BarChartRenderer, transformerForAxis which: AxisDependency) -> ChartTransformer!
     {
         return _chart.getTransformer(which);
     }
@@ -223,7 +223,7 @@ public class CombinedChartRenderer: ChartDataRendererBase,
         return drawBarShadowEnabled;
     }
     
-    public func barChartIsInverted(renderer: BarChartRenderer, axis: ChartYAxis.AxisDependency) -> Bool
+    public func barChartIsInverted(renderer: BarChartRenderer, axis: AxisDependency) -> Bool
     {
         return _chart.getAxis(axis).isInverted;
     }
@@ -235,7 +235,7 @@ public class CombinedChartRenderer: ChartDataRendererBase,
         return _chart.scatterData;
     }
     
-    public func scatterChartRenderer(renderer: ScatterChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!
+    public func scatterChartRenderer(renderer: ScatterChartRenderer, transformerForAxis which: AxisDependency) -> ChartTransformer!
     {
         return _chart.getTransformer(which);
     }
@@ -277,7 +277,7 @@ public class CombinedChartRenderer: ChartDataRendererBase,
         return _chart.candleData;
     }
     
-    public func candleStickChartRenderer(renderer: CandleStickChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!
+    public func candleStickChartRenderer(renderer: CandleStickChartRenderer, transformerForAxis which: AxisDependency) -> ChartTransformer!
     {
         return _chart.getTransformer(which);
     }
@@ -329,7 +329,7 @@ public class CombinedChartRenderer: ChartDataRendererBase,
     /// the order in which the provided data objects should be drawn.
     /// The earlier you place them in the provided array, the further they will be in the background.
     /// e.g. if you provide [DrawOrder.Bar, DrawOrder.Line], the bars will be drawn behind the lines.
-    public var drawOrder: [CombinedChartView.DrawOrder]
+    public var drawOrder: [DrawOrder]
     {
         get
         {

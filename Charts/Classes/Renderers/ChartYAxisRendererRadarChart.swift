@@ -151,7 +151,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
             CGContextSetLineWidth(context, l.lineWidth);
             if (l.lineDashLengths != nil)
             {
-                CGContextSetLineDash(context, l.lineDashPhase, l.lineDashLengths!, l.lineDashLengths!.count);
+                CGContextSetLineDash(context, l.lineDashPhase, l.lineDashLengths!, UInt(l.lineDashLengths!.count));
             }
             else
             {

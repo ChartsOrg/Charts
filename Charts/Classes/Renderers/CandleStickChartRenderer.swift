@@ -13,11 +13,11 @@
 
 import Foundation
 
-@objc
+//@objc
 public protocol CandleStickChartRendererDelegate
 {
     func candleStickChartRendererCandleData(renderer: CandleStickChartRenderer) -> CandleChartData!;
-    func candleStickChartRenderer(renderer: CandleStickChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!;
+    func candleStickChartRenderer(renderer: CandleStickChartRenderer, transformerForAxis which: AxisDependency) -> ChartTransformer!;
     func candleStickChartDefaultRendererValueFormatter(renderer: CandleStickChartRenderer) -> NSNumberFormatter!;
     func candleStickChartRendererChartYMax(renderer: CandleStickChartRenderer) -> Float;
     func candleStickChartRendererChartYMin(renderer: CandleStickChartRenderer) -> Float;
@@ -28,7 +28,7 @@ public protocol CandleStickChartRendererDelegate
 
 public class CandleStickChartRenderer: ChartDataRendererBase
 {
-    public weak var delegate: CandleStickChartRendererDelegate?;
+    public var delegate: CandleStickChartRendererDelegate?;
     
     public init(delegate: CandleStickChartRendererDelegate?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
@@ -41,7 +41,7 @@ public class CandleStickChartRenderer: ChartDataRendererBase
     {
         var candleData = delegate!.candleStickChartRendererCandleData(self);
 
-        for set in candleData.dataSets as! [CandleChartDataSet]
+        for set in candleData.dataSets as [CandleChartDataSet]
         {
             if (set.isVisible)
             {
@@ -67,7 +67,7 @@ public class CandleStickChartRenderer: ChartDataRendererBase
         
         var dataSetIndex = candleData.indexOfDataSet(dataSet);
         
-        var entries = dataSet.yVals as! [CandleChartDataEntry];
+        var entries = dataSet.yVals as [CandleChartDataEntry];
         
         var entryFrom = dataSet.entryForXIndex(_minX);
         var entryTo = dataSet.entryForXIndex(_maxX);
@@ -186,7 +186,7 @@ public class CandleStickChartRenderer: ChartDataRendererBase
                 
                 var trans = delegate!.candleStickChartRenderer(self, transformerForAxis: dataSet.axisDependency);
                 
-                var entries = dataSet.yVals as! [CandleChartDataEntry];
+                var entries = dataSet.yVals as [CandleChartDataEntry];
                 
                 var entryFrom = dataSet.entryForXIndex(_minX);
                 var entryTo = dataSet.entryForXIndex(_maxX);
@@ -240,14 +240,14 @@ public class CandleStickChartRenderer: ChartDataRendererBase
         {
             var xIndex = indices[i].xIndex; // get the x-position
             
-            var set = candleData.getDataSetByIndex(indices[i].dataSetIndex) as! CandleChartDataSet!;
+            var set = candleData.getDataSetByIndex(indices[i].dataSetIndex) as CandleChartDataSet!;
             
             if (set === nil)
             {
                 continue;
             }
             
-            var e = set.entryForXIndex(xIndex) as! CandleChartDataEntry!;
+            var e = set.entryForXIndex(xIndex) as CandleChartDataEntry!;
             
             if (e === nil)
             {
@@ -260,7 +260,7 @@ public class CandleStickChartRenderer: ChartDataRendererBase
             CGContextSetLineWidth(context, set.highlightLineWidth);
             if (set.highlightLineDashLengths != nil)
             {
-                CGContextSetLineDash(context, set.highlightLineDashPhase, set.highlightLineDashLengths!, set.highlightLineDashLengths!.count);
+                CGContextSetLineDash(context, set.highlightLineDashPhase, set.highlightLineDashLengths!, UInt(set.highlightLineDashLengths!.count));
             }
             else
             {
