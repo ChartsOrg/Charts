@@ -20,7 +20,7 @@ import UIKit
 public class ChartLimitLine: ChartComponentBase
 {
     @objc
-    public enum LabelPosition: Int
+    public enum ChartLimitLabelPosition: Int
     {
         case Left
         case Right
@@ -36,7 +36,7 @@ public class ChartLimitLine: ChartComponentBase
     public var valueTextColor = UIColor.blackColor()
     public var valueFont = UIFont.systemFontOfSize(13.0)
     public var label = ""
-    public var labelPosition = LabelPosition.Right
+    public var labelPosition = ChartLimitLabelPosition.Right
     
     public override init()
     {
