@@ -57,9 +57,30 @@
     [_chartView setScaleEnabled:YES];
     _chartView.pinchZoomEnabled = YES;
     _chartView.highlightIndicatorEnabled = NO;
+
+    ChartLimitLine *ll1 = [[ChartLimitLine alloc] initWithLimit:130.f label:@"Upper Limit"];
+    ll1.lineWidth = 4.f;
+    ll1.lineDashLengths = @[@5.f, @5.f];
+    ll1.labelPosition = ChartLimitLabelPositionRight;
+    ll1.valueFont = [UIFont systemFontOfSize:10.0];
     
-    _chartView.leftAxis.gridLineDashLengths = @[@5.f, @5.f];
-    _chartView.leftAxis.drawLimitLinesBehindDataEnabled = YES;
+    ChartLimitLine *ll2 = [[ChartLimitLine alloc] initWithLimit:-30.f label:@"Lower Limit"];
+    ll2.lineWidth = 4.f;
+    ll2.lineDashLengths = @[@5.f, @5.f];
+    ll2.labelPosition = ChartLimitLabelPositionRight;
+    ll2.valueFont = [UIFont systemFontOfSize:10.0];
+    
+    ChartYAxis *leftAxis = _chartView.leftAxis;
+    [leftAxis removeAllLimitLines];
+    [leftAxis addLimitLine:ll1];
+    [leftAxis addLimitLine:ll2];
+    leftAxis.customAxisMax = 220.f;
+    leftAxis.customAxisMin = -50.f;
+    leftAxis.startAtZeroEnabled = NO;
+    leftAxis.gridLineDashLengths = @[@5.f, @5.f];
+    leftAxis.drawLimitLinesBehindDataEnabled = YES;
+    
+    _chartView.rightAxis.enabled = NO;
     
     BalloonMarker *marker = [[BalloonMarker alloc] initWithColor:[UIColor colorWithWhite:180/255. alpha:1.0] font:[UIFont systemFontOfSize:12.0] insets: UIEdgeInsetsMake(8.0, 8.0, 20.0, 8.0)];
     marker.minimumSize = CGSizeMake(80.f, 40.f);
@@ -114,28 +135,6 @@
     [dataSets addObject:set1];
     
     LineChartData *data = [[LineChartData alloc] initWithXVals:xVals dataSets:dataSets];
-    
-    ChartLimitLine *ll1 = [[ChartLimitLine alloc] initWithLimit:130.f label:@"Upper Limit"];
-    ll1.lineWidth = 4.f;
-    ll1.lineDashLengths = @[@5.f, @5.f];
-    ll1.labelPosition = ChartLimitLabelPositionRight;
-    ll1.valueFont = [UIFont systemFontOfSize:10.f];
-    
-    ChartLimitLine *ll2 = [[ChartLimitLine alloc] initWithLimit:-30.f label:@"Lower Limit"];
-    ll2.lineWidth = 4.f;
-    ll2.lineDashLengths = @[@5.f, @5.f];
-    ll2.labelPosition = ChartLimitLabelPositionRight;
-    ll2.valueFont = [UIFont systemFontOfSize:10.f];
-    
-    ChartYAxis *leftAxis = _chartView.leftAxis;
-    [leftAxis removeAllLimitLines];
-    [leftAxis addLimitLine:ll1];
-    [leftAxis addLimitLine:ll2];
-    leftAxis.customAxisMax = 220.f;
-    leftAxis.customAxisMin = -50.f;
-    leftAxis.startAtZeroEnabled = NO;
-    
-    _chartView.rightAxis.enabled = NO;
     
     _chartView.data = data;
 }
