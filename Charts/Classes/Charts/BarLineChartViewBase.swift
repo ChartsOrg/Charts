@@ -855,6 +855,29 @@ public class BarLineChartViewBase: ChartViewBase
             _sizeChangeEventActions.append({[weak self] () in self?.moveViewTo(xIndex: xIndex, yValue: yValue, axis: axis); });
         }
     }
+    
+    /// This will move the center of the current viewport to the specified x-index and y-value.
+    ///
+    /// :param: xIndex
+    /// :param: yValue
+    /// :param: axis - which axis should be used as a reference for the y-axis
+    public func centerViewTo(#xIndex: Int, yValue: CGFloat, axis: ChartYAxis.AxisDependency)
+    {
+        if (_viewPortHandler.hasChartDimens)
+        {
+            var valsInView = getDeltaY(axis) / _viewPortHandler.scaleY;
+            var xsInView = CGFloat(xAxis.values.count) / _viewPortHandler.scaleX;
+            
+            var pt = CGPoint(x: CGFloat(xIndex) - xsInView / 2.0, y: yValue + valsInView / 2.0);
+            
+            getTransformer(axis).pointValueToPixel(&pt);
+            _viewPortHandler.centerViewPort(pt: pt, chart: self);
+        }
+        else
+        {
+            _sizeChangeEventActions.append({[weak self] () in self?.centerViewTo(xIndex: xIndex, yValue: yValue, axis: axis); });
+        }
+    }
 
     /// Sets custom offsets for the current ViewPort (the offsets on the sides of the actual chart window). Setting this will prevent the chart from automatically calculating it's offsets. Use resetViewPortOffsets() to undo this.
     public func setViewPortOffsets(#left: CGFloat, top: CGFloat, right: CGFloat, bottom: CGFloat)
