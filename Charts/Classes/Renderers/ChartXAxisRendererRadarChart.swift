@@ -52,4 +52,9 @@ public class ChartXAxisRendererRadarChart: ChartXAxisRenderer
             ChartUtils.drawText(context: context, text: text, point: CGPoint(x: p.x, y: p.y - _xAxis.labelHeight / 2.0), align: .Center, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor]);
         }
     }
+    
+    public override func renderLimitLines(#context: CGContext)
+    {
+        /// XAxis LimitLines on RadarChart not yet supported.
+    }
 }

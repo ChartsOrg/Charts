@@ -38,18 +38,11 @@ public class ChartYAxis: ChartAxisBase
     /// if true, the y-label entries will always start at zero
     public var startAtZeroEnabled = true
     
-    /// Are the LimitLines drawn behind the data or in front of the data?
-    /// :default: false
-    public var drawLimitLinesBehindDataEnabled = false
-    
     /// the formatter used to customly format the y-labels
     public var valueFormatter: NSNumberFormatter?
     
     /// the formatter used to customly format the y-labels
     internal var _defaultValueFormatter = NSNumberFormatter()
-    
-    /// array of limitlines that can be set for the axis
-    private var _limitLines = [ChartLimitLine]()
     
     /// A custom minimum value for this axis. 
     /// If set, this value will not be calculated automatically depending on the provided data. 
@@ -132,37 +125,6 @@ public class ChartYAxis: ChartAxisBase
         }
     }
     
-    /// Adds a new ChartLimitLine to this axis.
-    public func addLimitLine(line: ChartLimitLine)
-    {
-        _limitLines.append(line);
-    }
-    
-    /// Removes the specified ChartLimitLine from the axis.
-    public func removeLimitLine(line: ChartLimitLine)
-    {
-        for (var i = 0; i < _limitLines.count; i++)
-        {
-            if (_limitLines[i] === line)
-            {
-                _limitLines.removeAtIndex(i);
-                return;
-            }
-        }
-    }
-    
-    /// Removes all LimitLines from the axis.
-    public func removeAllLimitLines()
-    {
-        _limitLines.removeAll(keepCapacity: false);
-    }
-    
-    /// Returns the LimitLines of this axis.
-    public var limitLines : [ChartLimitLine]
-    {
-        return _limitLines;
-    }
-    
     /// By calling this method, any custom minimum value that has been previously set is reseted, and the calculation is done automatically.
     public func resetcustomAxisMin()
     {
@@ -232,8 +194,4 @@ public class ChartYAxis: ChartAxisBase
     public var isShowOnlyMinMaxEnabled: Bool { return showOnlyMinMaxEnabled; }
     
     public var isDrawTopYLabelEntryEnabled: Bool { return drawTopYLabelEntryEnabled; }
-    
-    /// Are the LimitLines drawn behind the data or in front of the data?
-    /// :default: false
-    public var isDrawLimitLinesBehindDataEnabled: Bool { return drawLimitLinesBehindDataEnabled; }
 }

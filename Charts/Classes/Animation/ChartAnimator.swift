@@ -68,11 +68,11 @@ public class ChartAnimator: NSObject
     @objc private func animationLoop()
     {
         var currentTime: NSTimeInterval = CACurrentMediaTime();
-        var ellapsedTime: NSTimeInterval = currentTime - _startTime;
+        var elapsedTime: NSTimeInterval = currentTime - _startTime;
         if (_enabledX)
         {
             var duration: NSTimeInterval = _xDuration;
-            var elapsed: NSTimeInterval = ellapsedTime;
+            var elapsed: NSTimeInterval = elapsedTime;
             if (elapsed > duration)
             {
                 elapsed = duration;
@@ -90,7 +90,7 @@ public class ChartAnimator: NSObject
         if (_enabledY)
         {
             var duration: NSTimeInterval = _yDuration;
-            var elapsed: NSTimeInterval = ellapsedTime;
+            var elapsed: NSTimeInterval = elapsedTime;
             if (elapsed > duration)
             {
                 elapsed = duration;
@@ -159,7 +159,7 @@ public class ChartAnimator: NSObject
     /// :param: yAxisDuration duration for animating the y axis
     public func animate(#xAxisDuration: NSTimeInterval, yAxisDuration: NSTimeInterval)
     {
-        animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easing: nil);
+        animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easingOption: .EaseInOutSine);
     }
     
     /// Animates the drawing / rendering of the chart the x-axis with the specified animation time.
@@ -185,7 +185,7 @@ public class ChartAnimator: NSObject
     /// :param: xAxisDuration duration for animating the x axis
     public func animate(#xAxisDuration: NSTimeInterval)
     {
-        animate(xAxisDuration: xAxisDuration, yAxisDuration: 0.0, easing: nil);
+        animate(xAxisDuration: xAxisDuration, yAxisDuration: 0.0, easingOption: .EaseInOutSine);
     }
     
     /// Animates the drawing / rendering of the chart the y-axis with the specified animation time.
@@ -211,6 +211,6 @@ public class ChartAnimator: NSObject
     /// :param: yAxisDuration duration for animating the y axis
     public func animate(#yAxisDuration: NSTimeInterval)
     {
-        animate(xAxisDuration: 0.0, yAxisDuration: yAxisDuration, easing: nil);
+        animate(xAxisDuration: 0.0, yAxisDuration: yAxisDuration, easingOption: .EaseInOutSine);
     }
 }

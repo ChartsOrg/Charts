@@ -43,8 +43,14 @@ public class ChartAxisRendererBase: ChartRendererBase
     }
     
     /// Draws the line that goes alongside the axis.
-    internal func renderAxisLine(#context: CGContext)
+    public func renderAxisLine(#context: CGContext)
     {
         fatalError("renderAxisLine() cannot be called on ChartAxisRendererBase");
+    }
+    
+    /// Draws the LimitLines associated with this axis to the screen.
+    public func renderLimitLines(#context: CGContext)
+    {
+        fatalError("renderLimitLines() cannot be called on ChartAxisRendererBase");
     }
 }

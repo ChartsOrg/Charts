@@ -162,7 +162,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
     
     private var _axisLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint());
     
-    internal override func renderAxisLine(#context: CGContext)
+    public override func renderAxisLine(#context: CGContext)
     {
         if (!_yAxis.isEnabled || !_yAxis.drawAxisLineEnabled)
         {
@@ -277,8 +277,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
     
     private var _limitLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint());
     
-    /// Draws the LimitLines associated with this axis to the screen.
-    public func renderLimitLines(#context: CGContext)
+    public override func renderLimitLines(#context: CGContext)
     {
         var limitLines = _yAxis.limitLines;
         
@@ -324,17 +323,31 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             // if drawing the limit-value label is enabled
             if (label.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) > 0)
             {
-                var xOffset = CGFloat(4.0);
                 var labelLineHeight = l.valueFont.lineHeight;
-                var yOffset = l.lineWidth + labelLineHeight / 2.0;
+                
+                let add = CGFloat(4.0);
+                var xOffset: CGFloat = add;
+                var yOffset: CGFloat = l.lineWidth + labelLineHeight / 2.0;
                 
                 if (l.labelPosition == .Right)
                 {
-                    ChartUtils.drawText(context: context, text: label, point: CGPoint(x: viewPortHandler.contentRight - xOffset, y: position.y - yOffset - labelLineHeight), align: .Right, attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor]);
+                    ChartUtils.drawText(context: context,
+                        text: label,
+                        point: CGPoint(
+                            x: viewPortHandler.contentRight - xOffset,
+                            y: position.y - yOffset - labelLineHeight),
+                        align: .Right,
+                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor]);
                 }
                 else
                 {
-                    ChartUtils.drawText(context: context, text: label, point: CGPoint(x: viewPortHandler.contentLeft + xOffset, y: position.y - yOffset - labelLineHeight), align: .Left, attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor]);
+                    ChartUtils.drawText(context: context,
+                        text: label,
+                        point: CGPoint(
+                            x: viewPortHandler.contentLeft + xOffset,
+                            y: position.y - yOffset - labelLineHeight),
+                        align: .Left,
+                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor]);
                 }
             }
         }

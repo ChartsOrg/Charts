@@ -151,6 +151,10 @@ public class BarLineChartViewBase: ChartViewBase
 
         CGContextClipToRect(context, _viewPortHandler.contentRect);
         
+        if (_xAxis.isDrawLimitLinesBehindDataEnabled)
+        {
+            _xAxisRenderer?.renderLimitLines(context: context);
+        }
         if (_leftAxis.isDrawLimitLinesBehindDataEnabled)
         {
             _leftYAxisRenderer?.renderLimitLines(context: context);
@@ -166,6 +170,10 @@ public class BarLineChartViewBase: ChartViewBase
         
         renderer?.drawData(context: context);
         
+        if (!_xAxis.isDrawLimitLinesBehindDataEnabled)
+        {
+            _xAxisRenderer?.renderLimitLines(context: context);
+        }
         if (!_leftAxis.isDrawLimitLinesBehindDataEnabled)
         {
             _leftYAxisRenderer?.renderLimitLines(context: context);
@@ -845,6 +853,29 @@ public class BarLineChartViewBase: ChartViewBase
         else
         {
             _sizeChangeEventActions.append({[weak self] () in self!.moveViewTo(xIndex: xIndex, yValue: yValue, axis: axis); });
+        }
+    }
+    
+    /// This will move the center of the current viewport to the specified x-index and y-value.
+    ///
+    /// :param: xIndex
+    /// :param: yValue
+    /// :param: axis - which axis should be used as a reference for the y-axis
+    public func centerViewTo(#xIndex: Int, yValue: CGFloat, axis: AxisDependency)
+    {
+        if (_viewPortHandler.hasChartDimens)
+        {
+            var valsInView = getDeltaY(axis) / _viewPortHandler.scaleY;
+            var xsInView = CGFloat(xAxis.values.count) / _viewPortHandler.scaleX;
+            
+            var pt = CGPoint(x: CGFloat(xIndex) - xsInView / 2.0, y: yValue + valsInView / 2.0);
+            
+            getTransformer(axis).pointValueToPixel(&pt);
+            _viewPortHandler.centerViewPort(pt: pt, chart: self);
+        }
+        else
+        {
+            _sizeChangeEventActions.append({[weak self] () in self!.centerViewTo(xIndex: xIndex, yValue: yValue, axis: axis); });
         }
     }
 

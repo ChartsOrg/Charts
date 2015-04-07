@@ -115,4 +115,9 @@ typedef NS_ENUM(NSInteger, ScatterShape) {
     ScatterShapeCustom
 };
 
+typedef NS_ENUM(NSInteger, ChartLimitLabelPosition) {
+    ChartLimitLabelPositionLeft,
+    ChartLimitLabelPositionRight
+};
+
 #endif

@@ -77,7 +77,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
     
     private var _axisLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint());
     
-    internal override func renderAxisLine(#context: CGContext)
+    public override func renderAxisLine(#context: CGContext)
     {
         if (!_xAxis.isEnabled || !_xAxis.isDrawAxisLineEnabled)
         {
@@ -221,6 +221,86 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
                 _gridLineSegmentsBuffer[1].x = position.x;
                 _gridLineSegmentsBuffer[1].y = viewPortHandler.contentBottom;
                 CGContextStrokeLineSegments(context, _gridLineSegmentsBuffer, 2);
+            }
+        }
+        
+        CGContextRestoreGState(context);
+    }
+    
+    private var _limitLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint());
+    
+    public override func renderLimitLines(#context: CGContext)
+    {
+        var limitLines = _xAxis.limitLines;
+        
+        if (limitLines.count == 0)
+        {
+            return;
+        }
+        
+        CGContextSaveGState(context);
+        
+        var trans = transformer.valueToPixelMatrix;
+        
+        var position = CGPoint(x: 0.0, y: 0.0);
+        
+        for (var i = 0; i < limitLines.count; i++)
+        {
+            var l = limitLines[i];
+            
+            position.x = CGFloat(l.limit);
+            position.y = 0.0;
+            position = CGPointApplyAffineTransform(position, trans);
+            
+            _limitLineSegmentsBuffer[0].x = position.x;
+            _limitLineSegmentsBuffer[0].y = viewPortHandler.contentTop;
+            _limitLineSegmentsBuffer[1].x = position.y;
+            _limitLineSegmentsBuffer[1].y = viewPortHandler.contentBottom;
+            
+            CGContextSetStrokeColorWithColor(context, l.lineColor.CGColor);
+            CGContextSetLineWidth(context, l.lineWidth);
+            if (l.lineDashLengths != nil)
+            {
+                CGContextSetLineDash(context, l.lineDashPhase, l.lineDashLengths!, UInt(l.lineDashLengths!.count));
+            }
+            else
+            {
+                CGContextSetLineDash(context, 0.0, nil, 0);
+            }
+            
+            CGContextStrokeLineSegments(context, _limitLineSegmentsBuffer, 2);
+            
+            var label = l.label;
+            
+            // if drawing the limit-value label is enabled
+            if (label.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) > 0)
+            {
+                var labelLineHeight = l.valueFont.lineHeight;
+                
+                let add = CGFloat(4.0);
+                var xOffset: CGFloat = l.lineWidth;
+                var yOffset: CGFloat = add / 2.0;
+                
+                if (l.labelPosition == .Right)
+                {
+                    ChartUtils.drawText(context: context,
+                        text: label,
+                        point: CGPoint(
+                            x: position.x + xOffset,
+                            y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
+                        align: .Left,
+                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor]);
+                }
+                else
+                {
+                    ChartUtils.drawText(context: context,
+                        text: label,
+                        point: CGPoint(
+                            x: position.x + xOffset,
+                            y: viewPortHandler.contentTop + yOffset),
+                        align: .Left,
+                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor]);
+                }
             }
         }
         
