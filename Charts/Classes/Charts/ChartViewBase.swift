@@ -258,7 +258,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             
             ChartUtils.drawText(context: context, text: noDataText, point: CGPoint(x: frame.width / 2.0, y: frame.height / 2.0), align: .Center, attributes: [NSFontAttributeName: _infoFont, NSForegroundColorAttributeName: _infoTextColor]);
             
-            if (noDataTextDescription!.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) > 0)
+            if (noDataTextDescription?.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) > 0)
             {   
                 var textOffset = -_infoFont.lineHeight / 2.0;
                 
