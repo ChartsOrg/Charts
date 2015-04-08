@@ -2,7 +2,7 @@
 
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
 
-Requires **Swift 1.2**, introduced in Xcode 6.3. **Requires Xcode 6.3 beta 4!**
+Requires **Swift 1.2**, introduced in Xcode 6.3. **Requires Xcode 6.3!**
 
 Okay so there's this beautiful library called [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) by [Philipp Jahoda](https://www.linkedin.com/in/philippjahoda) which has become very popular amongst Android developers, and in the meanwhile there's no decent charting solution for iOS.
 
