@@ -165,7 +165,7 @@ public class PieRadarChartViewBase: ChartViewBase
 
         var min = CGFloat(10.0);
 
-        var offsetLeft = max(min, self.requiredBaseOffset);
+        var offsetLeft = max(min, legendLeft);
         var offsetTop = max(min, legendTop);
         var offsetRight = max(min, legendRight);
         var offsetBottom = max(min, max(self.requiredBaseOffset, legendBottom));
