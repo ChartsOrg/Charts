@@ -1,4 +1,4 @@
-**Version 2.0.8**, synced to [MPAndroidChart #6713dfc](https://github.com/PhilJay/MPAndroidChart/commit/6713dfc3525ae640b808f83465589932317fcca7)
+**Version 2.0.9**, synced to [MPAndroidChart #1b542a6](https://github.com/PhilJay/MPAndroidChart/commit/1b542a61f9a93360b27b6e927e184a07d3ea6f2e)
 
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
 
