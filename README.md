@@ -2,21 +2,16 @@
 
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
 
-Requires **Swift 1.2**, introduced in Xcode 6.3. **Requires Xcode 6.3!**
+**Requirements:**  
+* Xcode 6.3 / Swift 1.2
+* iOS 7.0 (Drag .swift files to your project)
+* iOS 8.0 (Use as a Framework)
 
 Okay so there's this beautiful library called [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) by [Philipp Jahoda](https://www.linkedin.com/in/philippjahoda) which has become very popular amongst Android developers, and in the meanwhile there's no decent charting solution for iOS.
 
 I've chosen to write it in `Swift` as it can be highly optimized by the compiler, and can be used in both `Swift` and `ObjC` project. The demo project is written in `ObjC` to demonstrate how it works.
 
 **An amazing feature** of this library now, both Android and iOS, is the time it saves you when developing for both platforms, as the learning curve is singleton- it happens only once, and the code stays very similar so developers don't have to go around and re-invent the app to produce the same output with a different library. (And that's not even considering the fact that there's not really another good choice out there currently...)
-
-## Getting Noticed
-
-Since a few days ago when the library went live on GitHub it has received a lot of attention!  
-There are users coming here from blogs, stackoverflow, reddit etc.  
-Appreciation is show by newsletters like: https://darrellnicholas-com.curated.co/issues/3?#start. 
-So this means that a lot of people need this library, which is a big reason to contribute!
-Please see the "help" section :)
 
 ## Usage
 
@@ -25,13 +20,15 @@ In order to correctly compile:
 1. Drag the `Charts.xcodeproj` to your project  
 2. Go to your target's settings, hit the "+" under the "Embed Frameworks" section, and select the Charts.framework  
 
+If you want to compile for iOS 7, then you just need to drag the code itself (.swift files) to your project. As sadly, Swift currently does not support compiling Frameworks for iOS 7.
+
 ## Help
 
 If you like what you see here, and want to support the work being done in this repository, you could:
 * Contribute code, issues and pull requests
 * Let people know this library exists (spread the word!)
 * 
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CHRDHZE79YTMQ)
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CHRDHZE79YTMQ) (As much or as little as you like/can.)
 
 **Note:** The author of [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) is the reason that this library exists, and is accepting [donations](https://github.com/PhilJay/MPAndroidChart#donations) on his page. He deserves them!
 
