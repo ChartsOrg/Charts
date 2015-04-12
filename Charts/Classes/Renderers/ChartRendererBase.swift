@@ -61,11 +61,11 @@ public class ChartRendererBase: NSObject
         
         if (!isinf(minx))
         {
-            _minX = Int(minx);
+            _minX = max(0, Int(minx));
         }
         if (!isinf(maxx))
         {
-            _maxX = Int(ceil(maxx));
+            _maxX = max(0, Int(ceil(maxx)));
         }
     }
 }
