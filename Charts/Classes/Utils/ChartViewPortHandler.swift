@@ -303,8 +303,9 @@ public class ChartViewPortHandler
         return _contentRect.origin.x <= x ? true : false;
     }
     
-    public func isInBoundsRight(x: CGFloat) -> Bool
+    public func isInBoundsRight(var x: CGFloat) -> Bool
     {
+        x = CGFloat(Int(x * 100.0)) / 100.0;
         return (_contentRect.origin.x + _contentRect.size.width) >= x ? true : false;
     }
     
@@ -313,8 +314,9 @@ public class ChartViewPortHandler
         return _contentRect.origin.y <= y ? true : false;
     }
     
-    public func isInBoundsBottom(y: CGFloat) -> Bool
+    public func isInBoundsBottom(var y: CGFloat) -> Bool
     {
+        y = CGFloat(Int(y * 100.0)) / 100.0;
         return (_contentRect.origin.y + _contentRect.size.height) >= y ? true : false;
     }
     
