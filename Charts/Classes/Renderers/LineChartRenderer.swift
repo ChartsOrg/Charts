@@ -348,18 +348,12 @@ public class LineChartRenderer: ChartDataRendererBase
         // if drawing filled is enabled
         if (dataSet.isDrawFilledEnabled && entries.count > 0)
         {
-            drawLinearFill(context: context, dataSet: dataSet, entries: entries, trans: trans);
+            drawLinearFill(context: context, dataSet: dataSet, entries: entries, minx: minx, maxx: maxx, trans: trans);
         }
     }
     
-    internal func drawLinearFill(#context: CGContext, dataSet: LineChartDataSet, entries: [ChartDataEntry], trans: ChartTransformer)
+    internal func drawLinearFill(#context: CGContext, dataSet: LineChartDataSet, entries: [ChartDataEntry], minx: Int, maxx: Int, trans: ChartTransformer)
     {
-        var entryFrom = dataSet.entryForXIndex(_minX);
-        var entryTo = dataSet.entryForXIndex(_maxX);
-        
-        var minx = dataSet.entryIndex(entry: entryFrom, isEqual: true);
-        var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, dataSet.yVals.count);
-        
         CGContextSaveGState(context);
         
         CGContextSetFillColorWithColor(context, dataSet.fillColor.CGColor);
