@@ -145,6 +145,7 @@ public class PieChartRenderer: ChartDataRendererBase
         var defaultValueFormatter = _chart.valueFormatter;
         
         var dataSets = data.dataSets;
+        var drawXVals = drawXLabelsEnabled;
         
         var cnt = 0;
         
@@ -152,7 +153,9 @@ public class PieChartRenderer: ChartDataRendererBase
         {
             var dataSet = dataSets[i] as! PieChartDataSet;
             
-            if (!dataSet.isDrawValuesEnabled)
+            var drawYVals = dataSet.isDrawValuesEnabled;
+            
+            if (!drawYVals && !drawXVals)
             {
                 continue;
             }
@@ -180,9 +183,6 @@ public class PieChartRenderer: ChartDataRendererBase
                 var value = usePercentValuesEnabled ? entries[j].value / _chart.yValueSum * 100.0 : entries[j].value;
                 
                 var val = formatter!.stringFromNumber(value)!;
-                
-                var drawXVals = drawXLabelsEnabled;
-                var drawYVals = dataSet.isDrawValuesEnabled;
                 
                 var lineHeight = valueFont.lineHeight;
                 y -= lineHeight;
