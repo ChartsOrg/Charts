@@ -451,8 +451,30 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     /// If animate(...) is called, no further calling of invalidate() is necessary to refresh the chart.
     /// :param: xAxisDuration duration for animating the x axis
     /// :param: yAxisDuration duration for animating the y axis
+    /// :param: easingX an easing function for the animation on the x axis
+    /// :param: easingY an easing function for the animation on the y axis
+    public func animate(#xAxisDuration: NSTimeInterval, yAxisDuration: NSTimeInterval, easingX: ChartEasingFunctionBlock?, easingY: ChartEasingFunctionBlock?)
+    {
+        _animator.animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easingX: easingX, easingY: easingY);
+    }
+    
+    /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
+    /// If animate(...) is called, no further calling of invalidate() is necessary to refresh the chart.
+    /// :param: xAxisDuration duration for animating the x axis
+    /// :param: yAxisDuration duration for animating the y axis
+    /// :param: easingOptionX the easing function for the animation on the x axis
+    /// :param: easingOptionY the easing function for the animation on the y axis
+    public func animate(#xAxisDuration: NSTimeInterval, yAxisDuration: NSTimeInterval, easingOptionX: ChartEasingOption, easingOptionY: ChartEasingOption)
+    {
+        _animator.animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easingOptionX: easingOptionX, easingOptionY: easingOptionY);
+    }
+    
+    /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
+    /// If animate(...) is called, no further calling of invalidate() is necessary to refresh the chart.
+    /// :param: xAxisDuration duration for animating the x axis
+    /// :param: yAxisDuration duration for animating the y axis
     /// :param: easing an easing function for the animation
-    public func animate(#xAxisDuration: NSTimeInterval, yAxisDuration: NSTimeInterval, easing: ((elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat)?)
+    public func animate(#xAxisDuration: NSTimeInterval, yAxisDuration: NSTimeInterval, easing: ChartEasingFunctionBlock?)
     {
         _animator.animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easing: easing);
     }
@@ -480,7 +502,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     /// If animate(...) is called, no further calling of invalidate() is necessary to refresh the chart.
     /// :param: xAxisDuration duration for animating the x axis
     /// :param: easing an easing function for the animation
-    public func animate(#xAxisDuration: NSTimeInterval, easing: ((elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat)?)
+    public func animate(#xAxisDuration: NSTimeInterval, easing: ChartEasingFunctionBlock?)
     {
         _animator.animate(xAxisDuration: xAxisDuration, easing: easing);
     }
@@ -506,7 +528,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     /// If animate(...) is called, no further calling of invalidate() is necessary to refresh the chart.
     /// :param: yAxisDuration duration for animating the y axis
     /// :param: easing an easing function for the animation
-    public func animate(#yAxisDuration: NSTimeInterval, easing: ((elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat)?)
+    public func animate(#yAxisDuration: NSTimeInterval, easing: ChartEasingFunctionBlock?)
     {
         _animator.animate(yAxisDuration: yAxisDuration, easing: easing);
     }
@@ -769,6 +791,11 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     public func chartAnimatorUpdated(chartAnimator: ChartAnimator)
     {
         setNeedsDisplay();
+    }
+    
+    public func chartAnimatorStopped(chartAnimator: ChartAnimator)
+    {
+        
     }
     
     // MARK: - Touches

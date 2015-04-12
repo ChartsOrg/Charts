@@ -34,11 +34,6 @@ public class PieRadarChartViewBase: ChartViewBase
         super.init(coder: aDecoder);
     }
     
-    deinit
-    {
-        spinAnimationLoop();
-    }
-    
     internal override func initialize()
     {
         super.initialize();
@@ -340,56 +335,46 @@ public class PieRadarChartViewBase: ChartViewBase
     
     // MARK: - Animation
     
-    private var _spinDisplayLink: CADisplayLink!;
+    private var _spinAnimator: ChartAnimator!;
     private var _spinFromAngle: CGFloat = 0.0;
     private var _spinToAngle: CGFloat = 0.0;
-    private var _spinStartTime: NSTimeInterval = 0.0;
-    private var _spinEndTime: NSTimeInterval = 0.0;
     
     /// Applys a spin animation to the Chart.
-    public func spin(duration: NSTimeInterval, fromAngle: CGFloat, toAngle: CGFloat)
+    public func spin(#duration: NSTimeInterval, fromAngle: CGFloat, toAngle: CGFloat, easing: ChartEasingFunctionBlock?)
     {
-        if (_spinDisplayLink != nil)
+        if (_spinAnimator != nil)
         {
-            _spinDisplayLink.removeFromRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes);
+            _spinAnimator.stop();
         }
         
-        self.rotationAngle = fromAngle;
-
-        _spinDisplayLink = CADisplayLink(target: self, selector: Selector("spinAnimationLoop"));
         _spinFromAngle = fromAngle;
         _spinToAngle = toAngle;
-        _spinStartTime = CACurrentMediaTime();
-        _spinEndTime = _spinStartTime + duration;
         
-        _spinDisplayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes);
+        _spinAnimator = ChartAnimator();
+        _spinAnimator.updateBlock = {
+            self.rotationAngle = (self._spinToAngle - self._spinFromAngle) * self._spinAnimator.phaseX + self._spinFromAngle;
+        };
+        _spinAnimator.stopBlock = { self._spinAnimator = nil; };
+        
+        _spinAnimator.animate(xAxisDuration: duration, easing: easing);
+    }
+    
+    public func spin(#duration: NSTimeInterval, fromAngle: CGFloat, toAngle: CGFloat, easingOption: ChartEasingOption)
+    {
+        spin(duration: duration, fromAngle: fromAngle, toAngle: toAngle, easing: easingFunctionFromOption(easingOption));
+    }
+    
+    public func spin(#duration: NSTimeInterval, fromAngle: CGFloat, toAngle: CGFloat)
+    {
+        spin(duration: duration, fromAngle: fromAngle, toAngle: toAngle, easing: nil);
     }
     
     public func stopSpinAnimation()
     {
-        if (_spinDisplayLink != nil)
+        if (_spinAnimator != nil)
         {
-            _spinDisplayLink.removeFromRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes);
-            _spinDisplayLink = nil;
+            _spinAnimator.stop();
         }
-    }
-    
-    @objc private func spinAnimationLoop()
-    {
-        var currentTime = CACurrentMediaTime();
-        var duration = _spinEndTime - _spinStartTime;
-        var value = duration == 0.0 ? 0.0 : CGFloat((currentTime - _spinStartTime) / duration);
-        if (value > 1.0)
-        {
-            value = 1.0;
-        }
-    
-        if (currentTime >= _spinEndTime)
-        {
-            stopSpinAnimation();
-        }
-        
-        self.rotationAngle = (_spinToAngle - _spinFromAngle) * value + _spinFromAngle;
     }
     
     // MARK: - Gestures
