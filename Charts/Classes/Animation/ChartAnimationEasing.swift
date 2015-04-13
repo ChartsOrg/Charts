@@ -50,7 +50,9 @@ public enum ChartEasingOption: Int
     case EaseInOutBounce
 }
 
-internal func easingFunctionFromOption(easing: ChartEasingOption) -> ((elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat)
+public typealias ChartEasingFunctionBlock = ((elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat);
+
+internal func easingFunctionFromOption(easing: ChartEasingOption) -> ChartEasingFunctionBlock
 {
     switch easing
     {

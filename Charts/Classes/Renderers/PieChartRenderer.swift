@@ -127,7 +127,7 @@ public class PieChartRenderer: ChartDataRendererBase
         var drawAngles = _chart.drawAngles;
         var absoluteAngles = _chart.absoluteAngles;
         
-        var off = r / 3.0;
+        var off = r / 10.0 * 3.0;
         
         if (drawHoleEnabled)
         {
@@ -145,6 +145,7 @@ public class PieChartRenderer: ChartDataRendererBase
         var defaultValueFormatter = _chart.valueFormatter;
         
         var dataSets = data.dataSets;
+        var drawXVals = drawXLabelsEnabled;
         
         var cnt = 0;
         
@@ -152,7 +153,9 @@ public class PieChartRenderer: ChartDataRendererBase
         {
             var dataSet = dataSets[i] as! PieChartDataSet;
             
-            if (!dataSet.isDrawValuesEnabled)
+            var drawYVals = dataSet.isDrawValuesEnabled;
+            
+            if (!drawYVals && !drawXVals)
             {
                 continue;
             }
@@ -181,34 +184,29 @@ public class PieChartRenderer: ChartDataRendererBase
                 
                 var val = formatter!.stringFromNumber(value)!;
                 
-                var drawXVals = drawXLabelsEnabled;
-                var drawYVals = dataSet.isDrawValuesEnabled;
-                
                 var lineHeight = valueFont.lineHeight;
                 y -= lineHeight;
                 
                 // draw everything, depending on settings
                 if (drawXVals && drawYVals)
                 {
-                    y += lineHeight / 2.0;
-                    
                     ChartUtils.drawText(context: context, text: val, point: CGPoint(x: x, y: y), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]);
                     
                     if (j < data.xValCount)
                     {
-                        ChartUtils.drawText(context: context, text: data.xVals[j], point: CGPoint(x: x, y: y - lineHeight), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]);
+                        ChartUtils.drawText(context: context, text: data.xVals[j], point: CGPoint(x: x, y: y + lineHeight), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]);
                     }
                 }
                 else if (drawXVals && !drawYVals)
                 {
                     if (j < data.xValCount)
                     {
-                        ChartUtils.drawText(context: context, text: data.xVals[j], point: CGPoint(x: x, y: y), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]);
+                        ChartUtils.drawText(context: context, text: data.xVals[j], point: CGPoint(x: x, y: y + lineHeight / 2.0), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]);
                     }
                 }
                 else if (!drawXVals && drawYVals)
                 {
-                    ChartUtils.drawText(context: context, text: val, point: CGPoint(x: x, y: y), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]);
+                    ChartUtils.drawText(context: context, text: val, point: CGPoint(x: x, y: y + lineHeight / 2.0), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]);
                 }
                 
                 cnt++;

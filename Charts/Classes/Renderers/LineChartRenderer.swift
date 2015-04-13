@@ -141,7 +141,7 @@ public class LineChartRenderer: ChartDataRendererBase
         minx = max(minx - 2, 0); // Decrement by 2 as we always render two extra points to keep cubic flowing
         size = min(size + 2, entries.count); // Increment by 1 as we always render two extra points to keep cubic flowing
         
-        if (size - minx >= 4)
+        if (size - minx >= 2)
         {
             var prevDx: CGFloat = 0.0;
             var prevDy: CGFloat = 0.0;
@@ -159,8 +159,8 @@ public class LineChartRenderer: ChartDataRendererBase
             prevDx = CGFloat(next.xIndex - cur.xIndex) * intensity;
             prevDy = CGFloat(next.value - cur.value) * intensity;
             
-            cur = entries[1];
-            next = entries[2];
+            cur = entries[minx + 1];
+            next = entries[minx + (size - minx > 2 ? 2 : 1)];
             curDx = CGFloat(next.xIndex - prev.xIndex) * intensity;
             curDy = CGFloat(next.value - prev.value) * intensity;
             
@@ -188,7 +188,7 @@ public class LineChartRenderer: ChartDataRendererBase
             {
                 cur = entries[entries.count - 1];
                 prev = entries[entries.count - 2];
-                prevPrev = entries[entries.count - 3];
+                prevPrev = entries[entries.count - (entries.count >= 3 ? 3 : 2)];
                 next = cur;
                 
                 prevDx = CGFloat(cur.xIndex - prevPrev.xIndex) * intensity;
@@ -208,7 +208,7 @@ public class LineChartRenderer: ChartDataRendererBase
         
         if (dataSet.isDrawFilledEnabled)
         {
-            drawCubicFill(context: context, dataSet: dataSet, spline: cubicPath, matrix: valueToPixelMatrix, from: minx, to: maxx);
+            drawCubicFill(context: context, dataSet: dataSet, spline: cubicPath, matrix: valueToPixelMatrix, from: minx, to: size);
         }
         
         CGContextBeginPath(context);
@@ -348,18 +348,12 @@ public class LineChartRenderer: ChartDataRendererBase
         // if drawing filled is enabled
         if (dataSet.isDrawFilledEnabled && entries.count > 0)
         {
-            drawLinearFill(context: context, dataSet: dataSet, entries: entries, trans: trans);
+            drawLinearFill(context: context, dataSet: dataSet, entries: entries, minx: minx, maxx: maxx, trans: trans);
         }
     }
     
-    internal func drawLinearFill(#context: CGContext, dataSet: LineChartDataSet, entries: [ChartDataEntry], trans: ChartTransformer)
+    internal func drawLinearFill(#context: CGContext, dataSet: LineChartDataSet, entries: [ChartDataEntry], minx: Int, maxx: Int, trans: ChartTransformer)
     {
-        var entryFrom = dataSet.entryForXIndex(_minX);
-        var entryTo = dataSet.entryForXIndex(_maxX);
-        
-        var minx = dataSet.entryIndex(entry: entryFrom, isEqual: true);
-        var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, dataSet.yVals.count);
-        
         CGContextSaveGState(context);
         
         CGContextSetFillColorWithColor(context, dataSet.fillColor.CGColor);

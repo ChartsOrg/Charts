@@ -240,9 +240,13 @@ public class ChartDataSet: NSObject
     {
         var val = e.value;
         
-        if (_yVals == nil || _yVals.count <= 0)
+        if (_yVals == nil)
         {
             _yVals = [ChartDataEntry]();
+        }
+        
+        if (_yVals.count == 0)
+        {
             _yMax = val;
             _yMin = val;
         }

@@ -50,8 +50,8 @@
     _chartView.usePercentValuesEnabled = YES;
     _chartView.holeTransparent = YES;
     _chartView.centerTextFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.f];
-    _chartView.holeRadiusPercent = 0.45f;
-    _chartView.transparentCircleRadiusPercent = 0.5f;
+    _chartView.holeRadiusPercent = 0.58f;
+    _chartView.transparentCircleRadiusPercent = 0.61f;
     _chartView.descriptionText = @"";
     _chartView.drawCenterTextEnabled = YES;
     _chartView.drawHoleEnabled = YES;
@@ -183,7 +183,7 @@
     
     if ([key isEqualToString:@"spin"])
     {
-        [_chartView spin:2.0 fromAngle:_chartView.rotationAngle toAngle:_chartView.rotationAngle + 360.f];
+        [_chartView spinWithDuration:2.0 fromAngle:_chartView.rotationAngle toAngle:_chartView.rotationAngle + 360.f];
     }
     
     if ([key isEqualToString:@"saveToGallery"])
