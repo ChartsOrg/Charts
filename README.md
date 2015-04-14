@@ -19,6 +19,7 @@ In order to correctly compile:
 
 1. Drag the `Charts.xcodeproj` to your project  
 2. Go to your target's settings, hit the "+" under the "Embed Frameworks" section, and select the Charts.framework  
+3. `@import Charts`  
 
 If you want to compile for iOS 7, then you just need to drag the code itself (.swift files) to your project. As sadly, Swift currently does not support compiling Frameworks for iOS 7.
 
