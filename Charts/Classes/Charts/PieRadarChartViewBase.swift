@@ -381,6 +381,7 @@ public class PieRadarChartViewBase: ChartViewBase
     
     private var _touchStartPoint: CGPoint!;
     private var _isRotating = false;
+    private var _defaultTouchesEventsWereEnabled = false;
     private var _startAngle = CGFloat(0.0)
     
     public override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent)
@@ -412,7 +413,9 @@ public class PieRadarChartViewBase: ChartViewBase
             if (!_isRotating && distance(eventX: touchLocation.x, startX: _touchStartPoint.x, eventY: touchLocation.y, startY: _touchStartPoint.y) > CGFloat(8.0))
             {
                 _isRotating = true;
-                self.disableScroll();
+                
+                _defaultTouchesEventsWereEnabled = self.defaultTouchEventsEnabled;
+                self.defaultTouchEventsEnabled = false;
             }
             else
             {
@@ -431,8 +434,21 @@ public class PieRadarChartViewBase: ChartViewBase
             
             var touchLocation = touch.locationInView(self);
             _touchStartPoint = touchLocation;
-            
-            self.enableScroll();
+        }
+        if (_isRotating)
+        {
+            self.defaultTouchEventsEnabled = _defaultTouchesEventsWereEnabled;
+            _isRotating = false;
+        }
+    }
+    
+    public override func touchesCancelled(touches: Set<NSObject>, withEvent event: UIEvent)
+    {
+        super.touchesCancelled(touches, withEvent: event);
+        
+        if (_isRotating)
+        {
+            self.defaultTouchEventsEnabled = _defaultTouchesEventsWereEnabled;
             _isRotating = false;
         }
     }
