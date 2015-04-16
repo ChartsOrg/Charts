@@ -14,7 +14,7 @@
 import Foundation
 
 /// Base-class of LineChart, BarChart, ScatterChart and CandleStickChart.
-public class BarLineChartViewBase: ChartViewBase
+public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
 {
     /// the maximum number of entried to which values will be drawn
     internal var _maxVisibleValueCount = 100
@@ -97,6 +97,9 @@ public class BarLineChartViewBase: ChartViewBase
         _doubleTapGestureRecognizer.numberOfTapsRequired = 2;
         _pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: Selector("pinchGestureRecognized:"));
         _panGestureRecognizer = UIPanGestureRecognizer(target: self, action: Selector("panGestureRecognized:"));
+        
+        _pinchGestureRecognizer.delegate = self;
+        _panGestureRecognizer.delegate = self;
         
         self.addGestureRecognizer(_tapGestureRecognizer);
         if (_doubleTapToZoomEnabled)
@@ -459,11 +462,7 @@ public class BarLineChartViewBase: ChartViewBase
         }
     }
     
-    // MARK: - Scaling and Gestures
-    
-    private var _gestureStartMatrix = CGAffineTransformIdentity;
-    private var _gestureScaleMatrix = CGAffineTransformIdentity;
-    private var _gesturePanMatrix = CGAffineTransformIdentity;
+    // MARK: - Gestures
     
     private enum GestureScaleAxis
     {
@@ -538,10 +537,6 @@ public class BarLineChartViewBase: ChartViewBase
         {
             if (!_dataNotSet && (_pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled))
             {
-                if (!_isDragging)
-                {
-                    _gestureStartMatrix = _viewPortHandler.touchMatrix;
-                }
                 _isScaling = true;
                 
                 if (_pinchZoomEnabled)
@@ -564,51 +559,11 @@ public class BarLineChartViewBase: ChartViewBase
                 }
             }
         }
-        else if (recognizer.state == UIGestureRecognizerState.Ended)
+        else if (recognizer.state == UIGestureRecognizerState.Ended || recognizer.state == UIGestureRecognizerState.Cancelled)
         {
             if (_isScaling)
             {
                 _isScaling = false;
-                
-                var location = recognizer.locationInView(self);
-                location.x = location.x - _viewPortHandler.offsetLeft;
-                
-                if (isAnyAxisInverted && _closestDataSetToTouch !== nil && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
-                {
-                    location.y = -(location.y - _viewPortHandler.offsetTop);
-                }
-                else
-                {
-                    location.y = -(self.bounds.size.height - location.y - _viewPortHandler.offsetBottom);
-                }
-                
-                _gestureScaleMatrix = CGAffineTransformMakeTranslation(location.x, location.y);
-                _gestureScaleMatrix = CGAffineTransformScale(_gestureScaleMatrix,
-                    (_gestureScaleAxis == .Both || _gestureScaleAxis == .X) && _scaleXEnabled ? recognizer.scale : 1.0,
-                    (_gestureScaleAxis == .Both || _gestureScaleAxis == .Y) && _scaleYEnabled ? recognizer.scale : 1.0);
-                _gestureScaleMatrix = CGAffineTransformTranslate(_gestureScaleMatrix,
-                    -location.x, -location.y);
-                
-                var matrix = CGAffineTransformConcat(_gestureStartMatrix, _gestureScaleMatrix);
-                if (_isDragging)
-                {
-                    matrix = CGAffineTransformConcat(matrix, _gesturePanMatrix);
-                }
-                
-                _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true);
-                
-                // Save the matrix changes to the _gestureStartMatrix
-                
-                _gestureStartMatrix = CGAffineTransformConcat(_gestureStartMatrix, _gestureScaleMatrix);
-            }
-        }
-        else if (recognizer.state == UIGestureRecognizerState.Cancelled)
-        {
-            if (_isScaling)
-            {
-                _isScaling = false;
-                
-                _viewPortHandler.refresh(newMatrix: _gestureStartMatrix, chart: self, invalidate: true);
             }
         }
         else if (recognizer.state == UIGestureRecognizerState.Changed)
@@ -617,7 +572,7 @@ public class BarLineChartViewBase: ChartViewBase
             {
                 var location = recognizer.locationInView(self);
                 location.x = location.x - _viewPortHandler.offsetLeft;
-                
+
                 if (isAnyAxisInverted && _closestDataSetToTouch !== nil && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
                 {
                     location.y = -(location.y - _viewPortHandler.offsetTop);
@@ -627,20 +582,19 @@ public class BarLineChartViewBase: ChartViewBase
                     location.y = -(_viewPortHandler.chartHeight - location.y - _viewPortHandler.offsetBottom);
                 }
                 
-                _gestureScaleMatrix = CGAffineTransformMakeTranslation(location.x, location.y);
-                _gestureScaleMatrix = CGAffineTransformScale(_gestureScaleMatrix,
-                    (_gestureScaleAxis == .Both || _gestureScaleAxis == .X) && _scaleXEnabled ? recognizer.scale : 1.0,
-                    (_gestureScaleAxis == .Both || _gestureScaleAxis == .Y) && _scaleYEnabled ? recognizer.scale : 1.0);
-                _gestureScaleMatrix = CGAffineTransformTranslate(_gestureScaleMatrix,
+                var scaleX = (_gestureScaleAxis == .Both || _gestureScaleAxis == .X) && _scaleXEnabled ? recognizer.scale : 1.0;
+                var scaleY = (_gestureScaleAxis == .Both || _gestureScaleAxis == .Y) && _scaleYEnabled ? recognizer.scale : 1.0;
+                
+                var matrix = CGAffineTransformMakeTranslation(location.x, location.y);
+                matrix = CGAffineTransformScale(matrix, scaleX, scaleY);
+                matrix = CGAffineTransformTranslate(matrix,
                     -location.x, -location.y);
                 
-                var matrix = CGAffineTransformConcat(_gestureStartMatrix, _gestureScaleMatrix);
-                if (_isDragging)
-                {
-                    matrix = CGAffineTransformConcat(matrix, _gesturePanMatrix);
-                }
+                matrix = CGAffineTransformConcat(_viewPortHandler.touchMatrix, matrix);
                 
                 _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true);
+                
+                recognizer.scale = 1.0;
             }
         }
     }
@@ -651,61 +605,16 @@ public class BarLineChartViewBase: ChartViewBase
         {
             if (!_dataNotSet && _dragEnabled && !self.hasNoDragOffset || !self.isFullyZoomedOut)
             {
-                if (!_isScaling)
-                {
-                    _gestureStartMatrix = _viewPortHandler.touchMatrix;
-                }
                 _isDragging = true;
                 
                 _closestDataSetToTouch = getDataSetByTouchPoint(recognizer.locationOfTouch(0, inView: self));
             }
         }
-        else if (recognizer.state == UIGestureRecognizerState.Ended)
+        else if (recognizer.state == UIGestureRecognizerState.Ended || recognizer.state == UIGestureRecognizerState.Cancelled)
         {
             if (_isDragging)
             {
                 _isDragging = false;
-                
-                var translation = recognizer.translationInView(self);
-                
-                if (isAnyAxisInverted && _closestDataSetToTouch !== nil
-                    && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
-                {
-                    if (self is HorizontalBarChartView)
-                    {
-                        translation.x = -translation.x;
-                    }
-                    else
-                    {
-                        translation.y = -translation.y;
-                    }
-                }
-                
-                _gesturePanMatrix = CGAffineTransformMakeTranslation(translation.x, translation.y);
-                
-                var matrix = _isScaling ? CGAffineTransformConcat(_gestureStartMatrix, _gestureScaleMatrix) : _gestureStartMatrix;
-                matrix = CGAffineTransformConcat(matrix, _gesturePanMatrix);
-                
-                _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true);
-                
-                // Save the matrix changes to the _gestureStartMatrix
-                
-                if (_isScaling)
-                {
-                    translation = CGPointApplyAffineTransform(translation, _gestureScaleMatrix);
-                    _gesturePanMatrix = CGAffineTransformMakeTranslation(translation.x, translation.y);
-                }
-                
-                _gestureStartMatrix = CGAffineTransformConcat(_gestureStartMatrix, _gesturePanMatrix);
-            }
-        }
-        else if (recognizer.state == UIGestureRecognizerState.Cancelled)
-        {
-            if (_isDragging)
-            {
-                _isDragging = false;
-                
-                _viewPortHandler.refresh(newMatrix: _gestureStartMatrix, chart: self, invalidate: true);
             }
         }
         else if (recognizer.state == UIGestureRecognizerState.Changed)
@@ -727,15 +636,27 @@ public class BarLineChartViewBase: ChartViewBase
                     }
                 }
                 
-                _gesturePanMatrix = CGAffineTransformMakeTranslation(translation.x, translation.y);
-                
-                var matrix = _isScaling ? CGAffineTransformConcat(_gestureStartMatrix, _gestureScaleMatrix) : _gestureStartMatrix;
-                matrix = CGAffineTransformConcat(matrix, _gesturePanMatrix);
+                var matrix = CGAffineTransformMakeTranslation(translation.x, translation.y);
+                matrix = CGAffineTransformConcat(_viewPortHandler.touchMatrix, matrix);
                 
                 _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true);
+                
+                recognizer.setTranslation(CGPoint(x: 0.0, y: 0.0), inView: self);
             }
         }
     }
+    
+    public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool
+    {
+        if ((gestureRecognizer.isKindOfClass(UIPinchGestureRecognizer) && otherGestureRecognizer.isKindOfClass(UIPanGestureRecognizer)) || (gestureRecognizer.isKindOfClass(UIPanGestureRecognizer) && otherGestureRecognizer.isKindOfClass(UIPinchGestureRecognizer)))
+        {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /// MARK: Viewport modifiers
     
     /// Zooms in by 1.4f, into the charts center. center.
     public func zoomIn()
