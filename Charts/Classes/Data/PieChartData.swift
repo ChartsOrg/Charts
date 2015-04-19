@@ -20,7 +20,17 @@ public class PieChartData: ChartData
         super.init();
         
     }
-    
+
+    public override init(xVals: [String]?, dataSets: [ChartDataSet]?)
+    {
+        super.init(xVals: xVals, dataSets: dataSets)
+    }
+
+    public convenience init(xVals: [String]?, dataSet: ChartDataSet?)
+    {
+        self.init(xVals: xVals, dataSets: dataSet === nil ? nil : [dataSet!]);
+    }
+
     var dataSet: PieChartDataSet?
     {
         get
