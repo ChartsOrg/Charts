@@ -130,7 +130,7 @@ public class CandleStickChartRenderer: ChartDataRendererBase
                     CGContextStrokeRect(context, _bodyRect);
                 }
             }
-            else
+            else if (e.open < e.close)
             {
                 
                 var color = dataSet.increasingColor ?? dataSet.colorAt(j);
@@ -145,6 +145,11 @@ public class CandleStickChartRenderer: ChartDataRendererBase
                     CGContextSetStrokeColorWithColor(context, color.CGColor);
                     CGContextStrokeRect(context, _bodyRect);
                 }
+            }
+            else
+            {
+                CGContextSetStrokeColorWithColor(context, UIColor.blackColor().CGColor);
+                CGContextStrokeRect(context, _bodyRect);
             }
         }
         
