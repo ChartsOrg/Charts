@@ -12,6 +12,7 @@
 //
 
 import Foundation
+import CoreGraphics.CGBase
 
 /// The ScatterChart. Draws dots, triangles, squares and custom shapes into the chartview.
 public class ScatterChartView: BarLineChartViewBase, ScatterChartRendererDelegate

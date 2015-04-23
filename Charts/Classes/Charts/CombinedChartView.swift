@@ -12,6 +12,7 @@
 //
 
 import Foundation
+import CoreGraphics.CGBase
 
 /// This chart class allows the combination of lines, bars, scatter and candle data all displayed in one chart area.
 public class CombinedChartView: BarLineChartViewBase

@@ -12,6 +12,8 @@
 //
 
 import Foundation
+import CoreGraphics.CGBase
+import UIKit.UIColor
 
 public class RadarChartData: ChartData
 {

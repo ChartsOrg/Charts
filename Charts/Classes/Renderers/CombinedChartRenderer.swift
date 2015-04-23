@@ -12,6 +12,7 @@
 //
 
 import Foundation
+import CoreGraphics.CGBase
 
 public class CombinedChartRenderer: ChartDataRendererBase,
     LineChartRendererDelegate,

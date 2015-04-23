@@ -12,6 +12,7 @@
 //
 
 import Foundation
+import CoreGraphics.CGBase
 
 /// Chart that draws lines, surfaces, circles, ...
 public class LineChartView: BarLineChartViewBase, LineChartRendererDelegate

@@ -12,6 +12,8 @@
 //
 
 import Foundation
+import CoreGraphics.CGBase
+import UIKit.UIFont
 
 public class RadarChartRenderer: ChartDataRendererBase
 {

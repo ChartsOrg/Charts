@@ -12,6 +12,8 @@
 //
 
 import Foundation
+import CoreGraphics.CGBase
+import UIKit.UIColor
 
 /// Implementation of the RadarChart, a "spidernet"-like chart. It works best
 /// when displaying 5-10 entries per DataSet.

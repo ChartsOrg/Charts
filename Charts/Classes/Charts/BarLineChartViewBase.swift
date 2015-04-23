@@ -12,6 +12,8 @@
 //
 
 import Foundation
+import CoreGraphics.CGBase
+import UIKit.UIGestureRecognizer
 
 /// Base-class of LineChart, BarChart, ScatterChart and CandleStickChart.
 public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
