@@ -12,6 +12,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// View that represents a pie chart. Draws cake like slices.
 public class PieChartView: PieRadarChartViewBase

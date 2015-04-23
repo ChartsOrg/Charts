@@ -12,7 +12,9 @@
 //
 
 import Foundation
-import CoreGraphics;
+import CoreGraphics.CGBase
+import UIKit.UIColor
+import UIKit.UIFont
 
 public class ChartLegendRenderer: ChartRendererBase
 {

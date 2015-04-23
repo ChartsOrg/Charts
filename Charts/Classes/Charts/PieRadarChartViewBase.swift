@@ -12,6 +12,8 @@
 //
 
 import Foundation
+import CoreGraphics.CGBase
+import UIKit.UIGestureRecognizer
 
 /// Base class of PieChartView and RadarChartView.
 public class PieRadarChartViewBase: ChartViewBase

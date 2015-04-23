@@ -12,6 +12,7 @@
 //
 
 import Foundation
+import CoreGraphics.CGBase
 
 /// Protocol for providing a custom logic to where the filling line of a DataSet should end. If setFillEnabled(...) is set to true.
 @objc

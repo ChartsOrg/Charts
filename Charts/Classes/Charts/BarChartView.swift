@@ -12,6 +12,7 @@
 //
 
 import Foundation
+import CoreGraphics.CGBase
 
 /// Chart that draws bars.
 public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
