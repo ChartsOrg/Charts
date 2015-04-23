@@ -138,9 +138,6 @@ public class LineChartRenderer: ChartDataRendererBase
         
         var size = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx)));
         
-        minx = max(minx - 2, 0); // Decrement by 2 as we always render two extra points to keep cubic flowing
-        size = min(size + 2, entries.count); // Increment by 1 as we always render two extra points to keep cubic flowing
-        
         if (size - minx >= 2)
         {
             var prevDx: CGFloat = 0.0;
@@ -160,14 +157,17 @@ public class LineChartRenderer: ChartDataRendererBase
             prevDy = CGFloat(next.value - cur.value) * intensity;
             
             cur = entries[minx + 1];
-            next = entries[minx + (size - minx > 2 ? 2 : 1)];
+            next = entries[minx + (entries.count - minx > 2 ? 2 : 1)];
             curDx = CGFloat(next.xIndex - prev.xIndex) * intensity;
             curDy = CGFloat(next.value - prev.value) * intensity;
             
             // the first cubic
-            CGPathAddCurveToPoint(cubicPath, &valueToPixelMatrix, CGFloat(prev.xIndex) + prevDx, (CGFloat(prev.value) + prevDy) * phaseY, CGFloat(cur.xIndex) - curDx, (CGFloat(cur.value) - curDy) * phaseY, CGFloat(cur.xIndex), CGFloat(cur.value) * phaseY);
+            CGPathAddCurveToPoint(cubicPath, &valueToPixelMatrix,
+                CGFloat(prev.xIndex) + prevDx, (CGFloat(prev.value) + prevDy) * phaseY,
+                CGFloat(cur.xIndex) - curDx, (CGFloat(cur.value) - curDy) * phaseY,
+                CGFloat(cur.xIndex), CGFloat(cur.value) * phaseY);
             
-            for (var j = minx + 2; j < size - 1; j++)
+            for (var j = minx + 2, count = min(size, entries.count - 1); j < count; j++)
             {
                 prevPrev = entries[j - 2];
                 prev = entries[j - 1];
@@ -186,9 +186,9 @@ public class LineChartRenderer: ChartDataRendererBase
             
             if (size > entries.count - 1)
             {
-                cur = entries[entries.count - 1];
-                prev = entries[entries.count - 2];
                 prevPrev = entries[entries.count - (entries.count >= 3 ? 3 : 2)];
+                prev = entries[entries.count - 2];
+                cur = entries[entries.count - 1];
                 next = cur;
                 
                 prevDx = CGFloat(cur.xIndex - prevPrev.xIndex) * intensity;
@@ -202,7 +202,6 @@ public class LineChartRenderer: ChartDataRendererBase
                     (CGFloat(cur.value) - curDy) * phaseY, CGFloat(cur.xIndex), CGFloat(cur.value) * phaseY);
             }
         }
-        
         
         CGContextSaveGState(context);
         
