@@ -283,7 +283,7 @@ public class ChartLegendRenderer: ChartRendererBase
         case .PiechartCenter:
             
             var posX = viewPortHandler.chartWidth / 2.0 + (direction == .LeftToRight ? -_legend.textWidthMax / 2.0 : _legend.textWidthMax / 2.0);
-            var posY = viewPortHandler.chartHeight / 2.0 - _legend.neededHeight / 2.0;
+            var posY = viewPortHandler.chartHeight / 2.0 - _legend.neededHeight / 2.0 + _legend.yOffset;
             
             for (var i = 0; i < labels.count; i++)
             {
