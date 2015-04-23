@@ -272,6 +272,11 @@ public class LineChartRenderer: ChartDataRendererBase
         // more than 1 color
         if (dataSet.colors.count > 1)
         {
+            if (_lineSegments.count != 2)
+            {
+                _lineSegments = [CGPoint](count: 2, repeatedValue: CGPoint());
+            }
+            
             for (var j = minx, count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))); j < count; j++)
             {
                 if (count > 1 && j == count - 1)
@@ -318,28 +323,30 @@ public class LineChartRenderer: ChartDataRendererBase
         else
         { // only one color per dataset
             
-            var point = CGPoint();
-            point.x = CGFloat(entries[minx].xIndex);
-            point.y = CGFloat(entries[minx].value) * phaseY;
-            point = CGPointApplyAffineTransform(point, valueToPixelMatrix)
+            var e1: ChartDataEntry!;
+            var e2: ChartDataEntry!;
             
-            CGContextBeginPath(context);
-            CGContextMoveToPoint(context, point.x, point.y);
-            
-            // create a new path
-            for (var x = minx + 1, count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))); x < count; x++)
+            if (_lineSegments.count != max((entries.count - 1) * 2, 2))
             {
-                var e = entries[x];
-                
-                point.x = CGFloat(e.xIndex);
-                point.y = CGFloat(e.value) * phaseY;
-                point = CGPointApplyAffineTransform(point, valueToPixelMatrix)
-                
-                CGContextAddLineToPoint(context, point.x, point.y);
+                _lineSegments = [CGPoint](count: max((entries.count - 1) * 2, 2), repeatedValue: CGPoint());
             }
             
+            e1 = entries[minx];
+            
+            var count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx)));
+            
+            for (var x = count > 1 ? minx + 1 : minx, j = 0; x < count; x++)
+            {
+                e1 = entries[x == 0 ? 0 : (x - 1)];
+                e2 = entries[x];
+                
+                _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e1.xIndex), y: CGFloat(e1.value) * phaseY), valueToPixelMatrix);
+                _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e2.xIndex), y: CGFloat(e2.value) * phaseY), valueToPixelMatrix);
+            }
+            
+            var size = max((count - minx - 1) * 2, 2)
             CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor);
-            CGContextStrokePath(context);
+            CGContextStrokeLineSegments(context, _lineSegments, size);
         }
         
         CGContextRestoreGState(context);
