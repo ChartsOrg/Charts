@@ -43,7 +43,7 @@ public class LineChartDataSet: LineRadarChartDataSet
     public override init(yVals: [ChartDataEntry]?, label: String)
     {
         super.init(yVals: yVals, label: label);
-        circleColors.append(UIColor(red: 140.0, green: 234.0, blue: 255.0, alpha: 1.0));
+        circleColors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0));
     }
 
     /// intensity for cubic lines (min = 0.05f, max = 1f)
