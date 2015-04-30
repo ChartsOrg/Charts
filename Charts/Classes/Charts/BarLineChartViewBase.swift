@@ -80,6 +80,11 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         super.init(coder: aDecoder);
     }
     
+    deinit
+    {
+        stopDeceleration();
+    }
+    
     internal override func initialize()
     {
         super.initialize();
