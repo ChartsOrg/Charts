@@ -149,7 +149,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
                         continue;
                     }
                     
-                    let entry = entries[j] as! BubbleChartDataEntry
+                    let entry = entries[j + minx] as! BubbleChartDataEntry
                     
                     let val = entry.size;
                     
