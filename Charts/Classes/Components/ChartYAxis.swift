@@ -115,7 +115,7 @@ public class ChartYAxis: ChartAxisBase
     }
     
     /// the number of label entries the y-axis should have
-    /// max = 15,
+    /// max = 25,
     /// min = 2,
     /// default = 6,
     /// be aware that this number is not fixed and can only be approximated
@@ -129,9 +129,9 @@ public class ChartYAxis: ChartAxisBase
         {
             _labelCount = newValue;
             
-            if (_labelCount > 15)
+            if (_labelCount > 25)
             {
-                _labelCount = 15;
+                _labelCount = 25;
             }
             if (_labelCount < 2)
             {

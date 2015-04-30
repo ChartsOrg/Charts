@@ -32,24 +32,23 @@ public class ChartXAxis: ChartAxisBase
     public var labelHeight = CGFloat(1.0)
     
     /// the space that should be left out (in characters) between the x-axis labels
+    /// This only applies if the number of labels that will be skipped in between drawn axis labels is not custom set.
+    /// :default: 4
     public var spaceBetweenLabels = Int(4)
     
     /// the modulus that indicates if a value at a specified index in an array(list) for the x-axis-labels is drawn or not. Draw when (index % modulus) == 0.
     public var axisLabelModulus = Int(1)
     
-    /// is axisLabelModulus a custom value or auto calculated? If false, then it's auto, if true, then custom.
+    /// Is axisLabelModulus a custom value or auto calculated? If false, then it's auto, if true, then custom.
     /// :default: false (automatic modulus)
-    public var axisLabelModulusCustom = false
-    
+    private var _isAxisModulusCustom = false
+
     /// the modulus that indicates if a value at a specified index in an array(list) for the y-axis-labels is drawn or not. Draw when (index % modulus) == 0.
     /// Used only for Horizontal BarChart
     public var yAxisLabelModulus = Int(1)
 
     /// if set to true, the chart will avoid that the first and last label entry in the chart "clip" off the edge of the chart
     public var avoidFirstLastClippingEnabled = false
-    
-    /// if set to true, the x-axis label entries will adjust themselves when scaling the graph
-    public var adjustXLabelsEnabled = true
     
     /// the position of the x-labels relative to the chart
     public var labelPosition = XAxisLabelPosition.Top;
@@ -80,9 +79,30 @@ public class ChartXAxis: ChartAxisBase
     {
         return avoidFirstLastClippingEnabled;
     }
-    
-    public var isAdjustXLabelsEnabled: Bool
+
+    /// Sets the number of labels that should be skipped on the axis before the next label is drawn. 
+    /// This will disable the feature that automatically calculates an adequate space between the axis labels and set the number of labels to be skipped to the fixed number provided by this method. 
+    /// Call resetLabelsToSkip(...) to re-enable automatic calculation.
+    public func setLabelsToSkip(var count: Int)
     {
-        return adjustXLabelsEnabled;
+        if (count < 0)
+        {
+            count = 0;
+        }
+        
+        _isAxisModulusCustom = true;
+        axisLabelModulus = count + 1;
+    }
+    
+    /// Calling this will disable a custom number of labels to be skipped (set by setLabelsToSkip(...)) while drawing the x-axis. Instead, the number of values to skip will again be calculated automatically.
+    public func resetLabelsToSkip()
+    {
+        _isAxisModulusCustom = false;
+    }
+    
+    /// Returns true if a custom axis-modulus has been set that determines the number of labels to skip when drawing.
+    public var isAxisModulusCustom: Bool
+    {
+        return _isAxisModulusCustom;
     }
 }

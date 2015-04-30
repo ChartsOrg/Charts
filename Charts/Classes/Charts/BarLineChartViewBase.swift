@@ -131,10 +131,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         
         let context = UIGraphicsGetCurrentContext();
         
-        if (xAxis.isAdjustXLabelsEnabled)
-        {
-            calcModulus();
-        }
+        calcModulus();
         
         if (_xAxisRenderer !== nil)
         {
@@ -395,12 +392,12 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     /// calculates the modulus for x-labels and grid
     internal func calcModulus()
     {
-        if (_xAxis === nil)
+        if (_xAxis === nil || !_xAxis.isEnabled)
         {
             return;
         }
         
-        if (!_xAxis.axisLabelModulusCustom)
+        if (!_xAxis.isAxisModulusCustom)
         {
             _xAxis.axisLabelModulus = Int(ceil((CGFloat(_data.xValCount) * _xAxis.labelWidth) / (_viewPortHandler.contentWidth * _viewPortHandler.touchMatrix.a)));
         }
