@@ -76,7 +76,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         var bd = _chart.data as! BarChartData;
         var step = bd.dataSetCount;
         
-        for (var i = 0; i < _xAxis.values.count; i += _xAxis.axisLabelModulus)
+        for (var i = _minX; i <= _maxX; i += _xAxis.axisLabelModulus)
         {
             position.x = 0.0;
             position.y = CGFloat(i * step) + CGFloat(i) * bd.groupSpace + bd.groupSpace / 2.0;
@@ -127,7 +127,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         // take into consideration that multiple DataSets increase _deltaX
         var step = bd.dataSetCount;
         
-        for (var i = 0; i < _xAxis.values.count; i += _xAxis.axisLabelModulus)
+        for (var i = _minX; i <= _maxX; i += _xAxis.axisLabelModulus)
         {
             position.x = 0.0;
             position.y = CGFloat(i * step) + CGFloat(i) * bd.groupSpace - 0.5;

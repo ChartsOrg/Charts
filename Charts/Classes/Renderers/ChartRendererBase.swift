@@ -18,7 +18,11 @@ public class ChartRendererBase: NSObject
 {
     /// the component that handles the drawing area of the chart and it's offsets
     public var viewPortHandler: ChartViewPortHandler!;
+    
+    /// the minimum value on the x-axis that should be plotted
     internal var _minX: Int = 0;
+    
+    /// the maximum value on the x-axis that should be plotted
     internal var _maxX: Int = 0;
     
     public override init()
@@ -46,27 +50,15 @@ public class ChartRendererBase: NSObject
     }
     
     /// Calculates the minimum and maximum x-value the chart can currently display (with the given zoom level).
-    internal func calcXBounds(trans: ChartTransformer!)
+    public func calcXBounds(#chart: BarLineChartViewBase, xAxisModulus: Int)
     {
-        var minx = trans.getValueByTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: 0.0)).x;
-        var maxx = trans.getValueByTouchPoint(CGPoint(x: viewPortHandler.contentRight, y: 0.0)).x;
+        let low = chart.lowestVisibleXIndex;
+        let high = chart.highestVisibleXIndex;
         
-        if (isnan(minx))
-        {
-            minx = 0;
-        }
-        if (isnan(maxx))
-        {
-            maxx = 0;
-        }
+        let subLow = (low % xAxisModulus == 0) ? xAxisModulus : 0;
         
-        if (!isinf(minx))
-        {
-            _minX = max(0, Int(minx));
-        }
-        if (!isinf(maxx))
-        {
-            _maxX = max(0, Int(ceil(maxx)));
-        }
+        _minX = max((low / xAxisModulus) * (xAxisModulus) - subLow, 0);
+        _maxX = min((high / xAxisModulus) * (xAxisModulus) + xAxisModulus, Int(chart.chartXMax));
     }
 }
+        

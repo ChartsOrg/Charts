@@ -215,6 +215,28 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
         return bounds;
     }
     
+    public override var lowestVisibleXIndex: Int
+    {
+        var step = CGFloat(_data.dataSetCount);
+        var div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace;
+        
+        var pt = CGPoint(x: _viewPortHandler.contentLeft, y: _viewPortHandler.contentBottom);
+        getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt);
+        
+        return Int(((pt.x <= 0.0) ? 0.0 : pt.x / div) + 1.0);
+    }
+
+    public override var highestVisibleXIndex: Int
+    {
+        var step = CGFloat(_data.dataSetCount);
+        var div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace;
+        
+        var pt = CGPoint(x: _viewPortHandler.contentRight, y: _viewPortHandler.contentBottom);
+        getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt);
+        
+        return Int((pt.x >= CGFloat(chartXMax)) ? CGFloat(chartXMax) / div : (pt.x / div));
+    }
+
     // MARK: Accessors
     
     /// flag that enables or disables the highlighting arrow

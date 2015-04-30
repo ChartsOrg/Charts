@@ -61,7 +61,6 @@ public class CandleStickChartRenderer: ChartDataRendererBase
         var candleData = delegate!.candleStickChartRendererCandleData(self);
         
         var trans = delegate!.candleStickChartRenderer(self, transformerForAxis: dataSet.axisDependency);
-        calcXBounds(trans);
         
         var phaseX = _animator.phaseX;
         var phaseY = _animator.phaseY;
@@ -285,11 +284,11 @@ public class CandleStickChartRenderer: ChartDataRendererBase
             _vertPtsBuffer[2] = CGPoint(x: CGFloat(xIndex) + 0.5, y: CGFloat(max));
             _vertPtsBuffer[3] = CGPoint(x: CGFloat(xIndex) + 0.5, y: CGFloat(min));
             
-            _horzPtsBuffer[0] = CGPoint(x: CGFloat(0.0), y: low);
+            _horzPtsBuffer[0] = CGPoint(x: CGFloat(delegate!.candleStickChartRendererChartXMin(self)), y: low);
             _horzPtsBuffer[1] = CGPoint(x: CGFloat(delegate!.candleStickChartRendererChartXMax(self)), y: low);
-            _horzPtsBuffer[2] = CGPoint(x: 0.0, y: high);
+            _horzPtsBuffer[2] = CGPoint(x: CGFloat(delegate!.candleStickChartRendererChartXMin(self)), y: high);
             _horzPtsBuffer[3] = CGPoint(x: CGFloat(delegate!.candleStickChartRendererChartXMax(self)), y: high);
-            
+
             trans.pointValuesToPixel(&_vertPtsBuffer);
             trans.pointValuesToPixel(&_horzPtsBuffer);
             

@@ -124,6 +124,15 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         {
             calcModulus();
         }
+        
+        if (_xAxisRenderer !== nil)
+        {
+            _xAxisRenderer!.calcXBounds(chart: self, xAxisModulus: _xAxis.axisLabelModulus);
+        }
+        if (renderer !== nil)
+        {
+            renderer!.calcXBounds(chart: self, xAxisModulus: _xAxis.axisLabelModulus);
+        }
 
         // execute all drawing commands
         drawGridBackground(context: context);
@@ -136,10 +145,6 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         {
             _rightYAxisRenderer?.computeAxis(yMin: _rightAxis.axisMinimum, yMax: _rightAxis.axisMaximum);
         }
-        
-        _xAxisRenderer?.calcXBounds(_xAxisRenderer.transformer);
-        _leftYAxisRenderer?.calcXBounds(_xAxisRenderer.transformer);
-        _rightYAxisRenderer?.calcXBounds(_xAxisRenderer.transformer);
         
         _xAxisRenderer?.renderAxisLine(context: context);
         _leftYAxisRenderer?.renderAxisLine(context: context);

@@ -32,7 +32,6 @@ public class HorizontalBarChartRenderer: BarChartRenderer
         var barData = delegate!.barChartRendererData(self);
         
         var trans = delegate!.barChartRenderer(self, transformerForAxis: dataSet.axisDependency);
-        calcXBounds(trans);
         
         var drawBarShadowEnabled: Bool = delegate!.barChartIsDrawBarShadowEnabled(self);
         var dataSetOffset = (barData.dataSetCount - 1);

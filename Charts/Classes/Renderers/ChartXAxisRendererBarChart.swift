@@ -44,11 +44,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
         
         var position = CGPoint(x: 0.0, y: 0.0);
         
-        var div = CGFloat(step) + (step > 1 ? barData.groupSpace : 0.0);
-        var min = Int(CGFloat(_minX) / div);
-        var max = Int(CGFloat(_maxX) / div);
-        
-        for (var i = min; i <= max; i += _xAxis.axisLabelModulus)
+        for (var i = _minX; i <= _maxX; i += _xAxis.axisLabelModulus)
         {
             position.x = CGFloat(i * step) + CGFloat(i) * barData.groupSpace + barData.groupSpace / 2.0;
             position.y = 0.0;
@@ -120,11 +116,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
         
         var position = CGPoint(x: 0.0, y: 0.0);
         
-        var div = CGFloat(step) + (step > 1 ? barData.groupSpace : 0.0);
-        var min = Int(CGFloat(_minX) / div);
-        var max = Int(CGFloat(_maxX) / div);
-        
-        for (var i = min; i <= max; i += _xAxis.axisLabelModulus)
+        for (var i = _minX; i < _maxX; i += _xAxis.axisLabelModulus)
         {
             position.x = CGFloat(i * step) + CGFloat(i) * barData.groupSpace - 0.5;
             position.y = 0.0;

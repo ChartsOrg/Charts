@@ -64,7 +64,6 @@ public class ScatterChartRenderer: ChartDataRendererBase
     internal func drawDataSet(#context: CGContext, dataSet: ScatterChartDataSet)
     {
         var trans = delegate!.scatterChartRenderer(self, transformerForAxis: dataSet.axisDependency);
-        calcXBounds(trans);
         
         var phaseX = _animator.phaseX;
         var phaseY = _animator.phaseY;

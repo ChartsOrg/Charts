@@ -134,19 +134,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         
         var position = CGPoint(x: 0.0, y: 0.0);
         
-        var maxx = self._maxX;
-        var minx = self._minX;
-        
-        if (maxx >= _xAxis.values.count)
-        {
-            maxx = _xAxis.values.count - 1;
-        }
-        if (minx < 0)
-        {
-            minx = 0;
-        }
-        
-        for (var i = minx; i <= maxx; i += _xAxis.axisLabelModulus)
+        for (var i = _minX; i <= _maxX; i += _xAxis.axisLabelModulus)
         {
             position.x = CGFloat(i);
             position.y = 0.0;

@@ -88,8 +88,6 @@ public class LineChartRenderer: ChartDataRendererBase
             return;
         }
         
-        calcXBounds(delegate!.lineChartRenderer(self, transformerForAxis: dataSet.axisDependency));
-        
         CGContextSaveGState(context);
         
         CGContextSetLineWidth(context, dataSet.lineWidth);
@@ -619,7 +617,7 @@ public class LineChartRenderer: ChartDataRendererBase
             
             _highlightPtsBuffer[0] = CGPoint(x: CGFloat(xIndex), y: CGFloat(chartYMax));
             _highlightPtsBuffer[1] = CGPoint(x: CGFloat(xIndex), y: CGFloat(chartYMin));
-            _highlightPtsBuffer[2] = CGPoint(x: 0.0, y: y);
+            _highlightPtsBuffer[2] = CGPoint(x: CGFloat(delegate!.lineChartRendererChartXMin(self)), y: y);
             _highlightPtsBuffer[3] = CGPoint(x: CGFloat(chartXMax), y: y);
             
             var trans = delegate!.lineChartRenderer(self, transformerForAxis: set.axisDependency);

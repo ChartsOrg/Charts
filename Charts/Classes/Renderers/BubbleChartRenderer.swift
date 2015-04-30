@@ -51,7 +51,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
     internal func drawDataSet(#context: CGContext, dataSet: BubbleChartDataSet)
     {
         let trans = delegate!.bubbleChartRenderer(self, transformerForAxis: dataSet.axisDependency);
-        calcXBounds(trans);
+        
         let bubbleData = delegate!.bubbleChartRendererData(self);
 
         let phaseX = _animator.phaseX;
@@ -207,7 +207,6 @@ public class BubbleChartRenderer: ChartDataRendererBase
             let entry = bubbleData.getEntryForHighlight(indice) as! BubbleChartDataEntry
             
             let trans = delegate!.bubbleChartRenderer(self, transformerForAxis: dataSet.axisDependency);
-            calcXBounds(trans);
 
             let valueToPixelMatrix = trans.valueToPixelMatrix;
             

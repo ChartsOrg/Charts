@@ -170,4 +170,26 @@ public class HorizontalBarChartView: BarChartView
         
         return getHighlight(xPosition: pt.y, yPosition: pt.x);
     }
+    
+    public override var lowestVisibleXIndex: Int
+    {
+        var step = CGFloat(_data.dataSetCount);
+        var div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace;
+        
+        var pt = CGPoint(x: _viewPortHandler.contentLeft, y: _viewPortHandler.contentBottom);
+        getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt);
+        
+        return Int(((pt.y <= 0.0) ? 0.0 : pt.y / div) + 1.0);
+    }
+    
+    public override var highestVisibleXIndex: Int
+    {
+        var step = CGFloat(_data.dataSetCount);
+        var div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace;
+        
+        var pt = CGPoint(x: _viewPortHandler.contentLeft, y: _viewPortHandler.contentTop);
+        getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt);
+        
+        return Int((pt.y >= CGFloat(chartXMax)) ? CGFloat(chartXMax) / div : (pt.y / div));
+    }
 }
