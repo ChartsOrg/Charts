@@ -70,23 +70,28 @@ public class BubbleChartDataSet: BarLineScatterCandleChartDataSet
         }
     }
     
-    private func yMin(entry: BubbleChartDataEntry) -> Float {
+    private func yMin(entry: BubbleChartDataEntry) -> Float
+    {
         return entry.value
     }
     
-    private func yMax(entry: BubbleChartDataEntry) -> Float {
+    private func yMax(entry: BubbleChartDataEntry) -> Float
+    {
         return entry.value
     }
     
-    private func xMin(entry: BubbleChartDataEntry) -> Float {
+    private func xMin(entry: BubbleChartDataEntry) -> Float
+    {
         return Float(entry.xIndex)
     }
     
-    private func xMax(entry: BubbleChartDataEntry) -> Float {
+    private func xMax(entry: BubbleChartDataEntry) -> Float
+    {
         return Float(entry.xIndex)
     }
     
-    private func largestSize(entry: BubbleChartDataEntry) -> Float {
+    private func largestSize(entry: BubbleChartDataEntry) -> Float
+    {
         return entry.size
     }
 }
