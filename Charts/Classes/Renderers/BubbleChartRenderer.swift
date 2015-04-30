@@ -137,7 +137,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
                 
                 let positions = delegate!.bubbleChartRenderer(self, transformerForAxis: dataSet.axisDependency).generateTransformedValuesBubble(entries, phaseX: phaseX, phaseY: phaseY, from: minx, to: maxx);
                 
-                for (var j = 0, count = Int(ceil(CGFloat(positions.count))); j < count; j++)
+                for (var j = 0, count = positions.count; j < count; j++)
                 {
                     if (!viewPortHandler.isInBoundsRight(positions[j].x))
                     {
