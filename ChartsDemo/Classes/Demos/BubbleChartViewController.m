@@ -53,8 +53,8 @@
     [_chartView setScaleEnabled:YES];
     _chartView.maxVisibleValueCount = 200;
     _chartView.pinchZoomEnabled = YES;
-    _chartView.leftAxis.startAtZeroEnabled = !_chartView.leftAxis.isStartAtZeroEnabled;
-    _chartView.rightAxis.startAtZeroEnabled = !_chartView.rightAxis.isStartAtZeroEnabled;
+    _chartView.leftAxis.startAtZeroEnabled = NO;
+    _chartView.rightAxis.startAtZeroEnabled = NO;
     
     ChartLegend *l = _chartView.legend;
     l.position = ChartLegendPositionRightOfChart;
