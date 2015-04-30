@@ -119,13 +119,13 @@ public class BubbleChartRenderer: ChartDataRendererBase
                     continue;
                 }
                 
-                let alpha = _animator.phaseX == 1 ? _animator.phaseY : _animator.phaseX
+                let phaseX = _animator.phaseX;
+                let phaseY = _animator.phaseY;
+                
+                let alpha = phaseX == 1 ? phaseY : phaseX
                 let valueTextColor = dataSet.valueTextColor.colorWithAlphaComponent(alpha);
                 
                 let formatter = dataSet.valueFormatter === nil ? defaultValueFormatter : dataSet.valueFormatter;
-                
-                let phaseX = _animator.phaseX;
-                let phaseY = _animator.phaseY;
                 
                 let entries = dataSet.yVals;
                 
