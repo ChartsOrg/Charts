@@ -34,9 +34,6 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     public var borderColor = UIColor.blackColor()
     public var borderLineWidth: CGFloat = 1.0
     
-    /// if set to true, the highlight indicator (lines for linechart, dark bar for barchart) will be drawn upon selecting values.
-    public var highlightIndicatorEnabled = true
-    
     /// flag indicating if the grid background should be drawn or not
     public var drawGridBackgroundEnabled = true
     
@@ -109,10 +106,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             self.addGestureRecognizer(_doubleTapGestureRecognizer);
         }
         updateScaleGestureRecognizers();
-        if (_dragEnabled)
-        {
-            self.addGestureRecognizer(_panGestureRecognizer);
-        }
+        self.addGestureRecognizer(_panGestureRecognizer);
     }
     
     public override func drawRect(rect: CGRect)
@@ -648,6 +642,18 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
                 
                 recognizer.setTranslation(CGPoint(x: 0.0, y: 0.0), inView: self);
             }
+            else if (isHighlightPerDragEnabled)
+            {
+                var h = getHighlightByTouchPoint(recognizer.locationInView(self));
+                
+                if ((h === nil && _lastHighlighted !== nil) ||
+                    (h !== nil && _lastHighlighted === nil) ||
+                    !h!.isEqual(_lastHighlighted))
+                {
+                    _lastHighlighted = h;
+                    self.highlightValue(highlight: h, callDelegate: true);
+                }
+            }
         }
     }
     
@@ -870,16 +876,6 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         }
     }
 
-    /// If set to true, the highlight indicators (cross of two lines for
-    /// LineChart and ScatterChart, dark bar overlay for BarChart) that give
-    /// visual indication that an Entry has been selected will be drawn upon
-    /// selecting values. This does not depend on the MarkerView. 
-    /// :default: true
-    public var isHighlightIndicatorEnabled: Bool
-    {
-        return highlightIndicatorEnabled;
-    }
-
     /// is dragging enabled? (moving the chart with the finger) for the chart (this does not affect scaling).
     public var dragEnabled: Bool
     {
@@ -892,24 +888,6 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             if (_dragEnabled != newValue)
             {
                 _dragEnabled = newValue;
-                if (_dragEnabled)
-                {
-                    self.addGestureRecognizer(_panGestureRecognizer);
-                }
-                else
-                {
-                    if (self.gestureRecognizers != nil)
-                    {
-                        for (var i = 0; i < self.gestureRecognizers!.count; i++)
-                        {
-                            if (self.gestureRecognizers?[i] === _panGestureRecognizer)
-                            {
-                                self.gestureRecognizers!.removeAtIndex(i);
-                                break;
-                            }
-                        }
-                    }
-                }
             }
         }
     }
@@ -1005,6 +983,29 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     public var isDoubleTapToZoomEnabled: Bool
     {
         return doubleTapToZoomEnabled;
+    }
+    
+    /// flag that indicates if highlighting per dragging over a fully zoomed out chart is enabled
+    public var highlightPerDragEnabled = true
+    
+    /// If set to true, highlighting per dragging over a fully zoomed out chart is enabled
+    /// :default: true
+    public var isHighlightPerDragEnabled: Bool
+    {
+        return highlightPerDragEnabled;
+    }
+    
+    /// if set to true, the highlight indicator (lines for linechart, dark bar for barchart) will be drawn upon selecting values.
+    public var highlightIndicatorEnabled = true
+    
+    /// If set to true, the highlight indicator (vertical line for LineChart and
+    /// ScatterChart, dark bar overlay for BarChart) that gives visual indication
+    /// that an Entry has been selected will be drawn upon selecting values. This
+    /// does not depend on the MarkerView.
+    /// :default: true
+    public var isHighlightIndicatorEnabled: Bool
+    {
+        return highlightIndicatorEnabled;
     }
     
     /// :returns: true if drawing the grid background is enabled, false if not.
