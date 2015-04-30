@@ -118,6 +118,11 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         initialize();
     }
     
+    deinit
+    {
+        self.removeObserver(self, forKeyPath: "bounds");
+    }
+    
     internal func initialize()
     {
         _animator = ChartAnimator();
@@ -134,6 +139,8 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         _defaultValueFormatter.usesGroupingSeparator = true;
         
         _valueFormatter = _defaultValueFormatter.copy() as! NSNumberFormatter;
+        
+        self.addObserver(self, forKeyPath: "bounds", options: .New, context: nil);
     }
     
     // MARK: - ChartViewBase
@@ -748,29 +755,22 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     internal typealias VoidClosureType = () -> ()
     internal var _sizeChangeEventActions = [VoidClosureType]()
     
-    public override var frame: CGRect
+    override public func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject: AnyObject], context: UnsafeMutablePointer<Void>)
     {
-        get
+        var bounds = (change[NSKeyValueChangeNewKey] as! NSValue).CGRectValue();
+        
+        if (_viewPortHandler !== nil)
         {
-            return super.frame;
-        }
-        set
-        {
-            super.frame = newValue;
+            _viewPortHandler.setChartDimens(width: self.bounds.size.width, height: self.bounds.size.height);
             
-            if (_viewPortHandler !== nil)
+            // Finish any pending viewport changes
+            while (!_sizeChangeEventActions.isEmpty)
             {
-                _viewPortHandler.setChartDimens(width: self.bounds.size.width, height: self.bounds.size.height);
-                
-                // Finish any pending viewport changes
-                while (!_sizeChangeEventActions.isEmpty)
-                {
-                    _sizeChangeEventActions.removeAtIndex(0)();
-                }
+                _sizeChangeEventActions.removeAtIndex(0)();
             }
-            
-            notifyDataSetChanged();
         }
+        
+        notifyDataSetChanged();
     }
     
     public func clearPendingViewPortChanges()
