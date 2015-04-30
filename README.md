@@ -120,6 +120,13 @@ You can read the official [MPAndroidChart](https://github.com/PhilJay/MPAndroidC
 
 Or you can see the [**ChartsDemo**](https://github.com/danielgindi/ios-charts/tree/master/ChartsDemo) project and learn the how-tos from it.
 
+
+Special Thanks
+=======
+
+Goes to @petester42 (Pierre-Marc Airoldi) for implementing a Bubble chart!  
+And of course thanks to all of those contibuting small fixes here and there! You are all appreciated!
+
 License
 =======
 Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
