@@ -22,7 +22,7 @@ public class CombinedChartView: BarLineChartViewBase
     
     /// enum that allows to specify the order in which the different data objects for the combined-chart are drawn
     @objc
-    public enum DrawOrder: Int
+    public enum CombinedChartDrawOrder: Int
     {
         case Bar
         case Line
@@ -181,7 +181,7 @@ public class CombinedChartView: BarLineChartViewBase
         }
         set
         {
-            (renderer as! CombinedChartRenderer!).drawOrder = newValue.map { DrawOrder(rawValue: $0)! };
+            (renderer as! CombinedChartRenderer!).drawOrder = newValue.map { CombinedChartDrawOrder(rawValue: $0)! };
         }
     }
 }

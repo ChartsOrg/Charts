@@ -42,7 +42,7 @@
     _chartView.drawGridBackgroundEnabled = NO;
     _chartView.drawBarShadowEnabled = NO;
     
-    _chartView.drawOrder = @[@(DrawOrderBar), @(DrawOrderLine)];
+    _chartView.drawOrder = @[@(CombinedChartDrawOrderBar), @(CombinedChartDrawOrderLine)];
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.drawGridLinesEnabled = NO;
