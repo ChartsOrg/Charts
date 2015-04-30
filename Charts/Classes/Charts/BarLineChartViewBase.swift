@@ -672,7 +672,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
                 
                 if ((h === nil && _lastHighlighted !== nil) ||
                     (h !== nil && _lastHighlighted === nil) ||
-                    !h!.isEqual(_lastHighlighted))
+                    (h !== nil && _lastHighlighted !== nil && !h!.isEqual(_lastHighlighted)))
                 {
                     _lastHighlighted = h;
                     self.highlightValue(highlight: h, callDelegate: true);
