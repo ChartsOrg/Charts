@@ -28,6 +28,7 @@
 #import "RadarChartViewController.h"
 #import "ColoredLineChartViewController.h"
 #import "SinusBarChartViewController.h"
+#import "BubbleChartViewController.h"
 
 @interface DemoListViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -78,6 +79,11 @@
                           @"title": @"Scatter Chart",
                           @"subtitle": @"A simple demonstration of the scatter chart.",
                           @"class": ScatterChartViewController.class
+                          },
+                      @{
+                          @"title": @"Bubble Chart",
+                          @"subtitle": @"A simple demonstration of the bubble chart.",
+                          @"class": BubbleChartViewController.class
                           },
                       @{
                           @"title": @"Stacked Bar Chart",
