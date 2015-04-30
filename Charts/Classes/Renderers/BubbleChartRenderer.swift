@@ -144,7 +144,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
                         break;
                     }
                     
-                    if (j != 0 && (!viewPortHandler.isInBoundsLeft(positions[j].x) || !viewPortHandler.isInBoundsY(positions[j].y)))
+                    if ((!viewPortHandler.isInBoundsLeft(positions[j].x) || !viewPortHandler.isInBoundsY(positions[j].y)))
                     {
                         continue;
                     }
