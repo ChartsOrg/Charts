@@ -40,6 +40,12 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     /// Sets drawing the borders rectangle to true. If this is enabled, there is no point drawing the axis-lines of x- and y-axis.
     public var drawBordersEnabled = false
     
+    /// If set to true, chart continues to scroll after touch up
+    public var dragDeccelarationEnabled = true
+    
+    /// Deccelaration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately, if set to 1, it will scroll with constant speed, until the last point
+    private var _dragDeccelarationFrictionCoef: CGFloat = 0.9
+    
     /// the object representing the labels on the y-axis, this object is prepared
     /// in the pepareYLabels() method
     internal var _leftAxis: ChartYAxis!
@@ -483,6 +489,12 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     /// the last highlighted object
     private var _lastHighlighted: ChartHighlight!;
     
+    private var _lastPanPoint = CGPoint() /// This is to prevent using setTranslation which resets velocity
+    
+    private var _deccelarationLastTime: NSTimeInterval = 0.0
+    private var _deccelarationDisplayLink: CADisplayLink!
+    private var _deccelarationVelocity = CGPoint()
+    
     @objc private func tapGestureRecognized(recognizer: UITapGestureRecognizer)
     {
         if (_dataNotSet)
@@ -539,6 +551,8 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     {
         if (recognizer.state == UIGestureRecognizerState.Began)
         {
+            stopDecceleration();
+            
             if (!_dataNotSet && (_pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled))
             {
                 _isScaling = true;
@@ -607,17 +621,32 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     {
         if (recognizer.state == UIGestureRecognizerState.Began)
         {
+            stopDecceleration();
+            
             if (!_dataNotSet && _dragEnabled && !self.hasNoDragOffset || !self.isFullyZoomedOut)
             {
                 _isDragging = true;
                 
                 _closestDataSetToTouch = getDataSetByTouchPoint(recognizer.locationOfTouch(0, inView: self));
+                
+                _lastPanPoint = recognizer.translationInView(self);
             }
         }
         else if (recognizer.state == UIGestureRecognizerState.Ended || recognizer.state == UIGestureRecognizerState.Cancelled)
         {
             if (_isDragging)
             {
+                if (recognizer.state == UIGestureRecognizerState.Ended && isDragDeccelarationEnabled)
+                {
+                    stopDecceleration();
+                    
+                    _deccelarationLastTime = CACurrentMediaTime();
+                    _deccelarationVelocity = recognizer.velocityInView(self);
+                    
+                    _deccelarationDisplayLink = CADisplayLink(target: self, selector: Selector("deccelerationLoop"));
+                    _deccelarationDisplayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes);
+                }
+                
                 _isDragging = false;
             }
         }
@@ -625,27 +654,12 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         {
             if (_isDragging)
             {
-                var translation = recognizer.translationInView(self);
+                var originalTranslation = recognizer.translationInView(self);
+                var translation = CGPoint(x: originalTranslation.x - _lastPanPoint.x, y: originalTranslation.y - _lastPanPoint.y);
                 
-                if (isAnyAxisInverted && _closestDataSetToTouch !== nil
-                    && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
-                {
-                    if (self is HorizontalBarChartView)
-                    {
-                        translation.x = -translation.x;
-                    }
-                    else
-                    {
-                        translation.y = -translation.y;
-                    }
-                }
+                performPanChange(translation: translation);
                 
-                var matrix = CGAffineTransformMakeTranslation(translation.x, translation.y);
-                matrix = CGAffineTransformConcat(_viewPortHandler.touchMatrix, matrix);
-                
-                _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true);
-                
-                recognizer.setTranslation(CGPoint(x: 0.0, y: 0.0), inView: self);
+                _lastPanPoint = originalTranslation;
             }
             else if (isHighlightPerDragEnabled)
             {
@@ -659,6 +673,60 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
                     self.highlightValue(highlight: h, callDelegate: true);
                 }
             }
+        }
+    }
+    
+    private func performPanChange(var #translation: CGPoint)
+    {
+        if (isAnyAxisInverted && _closestDataSetToTouch !== nil
+            && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
+        {
+            if (self is HorizontalBarChartView)
+            {
+                translation.x = -translation.x;
+            }
+            else
+            {
+                translation.y = -translation.y;
+            }
+        }
+        
+        var matrix = CGAffineTransformMakeTranslation(translation.x, translation.y);
+        matrix = CGAffineTransformConcat(_viewPortHandler.touchMatrix, matrix);
+        
+        _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true);
+    }
+    
+    public func stopDecceleration()
+    {
+        if (_deccelarationDisplayLink !== nil)
+        {
+            _deccelarationDisplayLink.removeFromRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes);
+            _deccelarationDisplayLink = nil;
+        }
+    }
+    
+    @objc private func deccelerationLoop()
+    {
+        var currentTime = CACurrentMediaTime();
+        
+        _deccelarationVelocity.x *= _dragDeccelarationFrictionCoef;
+        _deccelarationVelocity.y *= _dragDeccelarationFrictionCoef;
+        
+        var timeInterval = CGFloat(currentTime - _deccelarationLastTime);
+        
+        var distance = CGPoint(
+            x: _deccelarationVelocity.x * timeInterval,
+            y: _deccelarationVelocity.y * timeInterval
+        );
+        
+        performPanChange(translation: distance);
+        
+        _deccelarationLastTime = currentTime;
+        
+        if(abs(_deccelarationVelocity.x) < 0.001 && abs(_deccelarationVelocity.y) < 0.001)
+        {
+            stopDecceleration();
         }
     }
     
@@ -1026,7 +1094,38 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     {
         return drawBordersEnabled;
     }
-
+    
+    /// :returns: true if chart continues to scroll after touch up, false if not.
+    /// :default: true
+    public var isDragDeccelarationEnabled: Bool
+    {
+        return dragDeccelarationEnabled;
+    }
+    
+    /// Deccelaration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately, if set to 1, it will scroll with constant speed, until the last point
+    /// :default: true
+    public var dragDeccelarationFrictionCoef: CGFloat
+    {
+        get
+        {
+            return _dragDeccelarationFrictionCoef;
+        }
+        set
+        {
+            var val = newValue;
+            if (val > 1.0)
+            {
+                val = 1.0;
+            }
+            if (val < 0.0)
+            {
+                val = 0.0;
+            }
+            
+            _dragDeccelarationFrictionCoef = val;
+        }
+    }
+    
     /// Returns the Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the Line-, Scatter-, or CandleStick-Chart.
     public func getHighlightByTouchPoint(var pt: CGPoint) -> ChartHighlight!
     {
