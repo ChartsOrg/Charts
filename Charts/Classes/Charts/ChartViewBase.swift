@@ -748,19 +748,19 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     internal typealias VoidClosureType = () -> ()
     internal var _sizeChangeEventActions = [VoidClosureType]()
     
-    public override var bounds: CGRect
+    public override var frame: CGRect
     {
         get
         {
-            return super.bounds;
+            return super.frame;
         }
         set
         {
-            super.bounds = newValue;
+            super.frame = newValue;
             
             if (_viewPortHandler !== nil)
             {
-                _viewPortHandler.setChartDimens(width: newValue.size.width, height: newValue.size.height);
+                _viewPortHandler.setChartDimens(width: self.bounds.size.width, height: self.bounds.size.height);
                 
                 // Finish any pending viewport changes
                 while (!_sizeChangeEventActions.isEmpty)
