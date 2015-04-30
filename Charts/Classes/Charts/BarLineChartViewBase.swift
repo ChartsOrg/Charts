@@ -395,7 +395,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             return;
         }
         
-        if (_xAxis.axisLabelModulus == 1)
+        if (!_xAxis.axisLabelModulusCustom)
         {
             _xAxis.axisLabelModulus = Int(ceil((CGFloat(_data.xValCount) * _xAxis.labelWidth) / (_viewPortHandler.contentWidth * _viewPortHandler.touchMatrix.a)));
         }

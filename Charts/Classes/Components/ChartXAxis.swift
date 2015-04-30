@@ -37,6 +37,10 @@ public class ChartXAxis: ChartAxisBase
     /// the modulus that indicates if a value at a specified index in an array(list) for the x-axis-labels is drawn or not. Draw when (index % modulus) == 0.
     public var axisLabelModulus = Int(1)
     
+    /// is axisLabelModulus a custom value or auto calculated? If false, then it's auto, if true, then custom.
+    /// :default: false (automatic modulus)
+    public var axisLabelModulusCustom = false
+    
     /// the modulus that indicates if a value at a specified index in an array(list) for the y-axis-labels is drawn or not. Draw when (index % modulus) == 0.
     /// Used only for Horizontal BarChart
     public var yAxisLabelModulus = Int(1)
