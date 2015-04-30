@@ -120,7 +120,7 @@ public class LineChartRenderer: ChartDataRendererBase
         var entryFrom = dataSet.entryForXIndex(_minX);
         var entryTo = dataSet.entryForXIndex(_maxX);
         
-        var minx = dataSet.entryIndex(entry: entryFrom, isEqual: true);
+        var minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true), 0);
         var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count);
         
         var phaseX = _animator.phaseX;
@@ -266,7 +266,7 @@ public class LineChartRenderer: ChartDataRendererBase
         var entryFrom = dataSet.entryForXIndex(_minX);
         var entryTo = dataSet.entryForXIndex(_maxX);
         
-        var minx = dataSet.entryIndex(entry: entryFrom, isEqual: true);
+        var minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true), 0);
         var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count);
         
         // more than 1 color
@@ -458,7 +458,7 @@ public class LineChartRenderer: ChartDataRendererBase
                 var entryFrom = dataSet.entryForXIndex(_minX);
                 var entryTo = dataSet.entryForXIndex(_maxX);
                 
-                var minx = dataSet.entryIndex(entry: entryFrom, isEqual: true);
+                var minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true), 0);
                 var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count);
                 
                 var positions = trans.generateTransformedValuesLine(
@@ -530,7 +530,7 @@ public class LineChartRenderer: ChartDataRendererBase
             var entryFrom = dataSet.entryForXIndex(_minX);
             var entryTo = dataSet.entryForXIndex(_maxX);
             
-            var minx = dataSet.entryIndex(entry: entryFrom, isEqual: true);
+            var minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true), 0);
             var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count);
             
             for (var j = minx, count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))); j < count; j++)
