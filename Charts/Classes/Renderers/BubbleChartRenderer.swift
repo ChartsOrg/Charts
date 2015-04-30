@@ -63,26 +63,29 @@ public class BubbleChartRenderer: ChartDataRendererBase
         
         CGContextSaveGState(context);
         
-        for entry in entries
+        var entryFrom = dataSet.entryForXIndex(_minX);
+        var entryTo = dataSet.entryForXIndex(_maxX);
+        
+        var minx = dataSet.entryIndex(entry: entryFrom, isEqual: true);
+        var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count);
+        
         let chartSize: CGFloat = (self.viewPortHandler.contentWidth * self.viewPortHandler.scaleX) <= (self.viewPortHandler.contentHeight * self.viewPortHandler.scaleY) ?
             self.viewPortHandler.contentWidth * self.viewPortHandler.scaleX :
             self.viewPortHandler.contentHeight * self.viewPortHandler.scaleY;
         
         let bubbleSizeFactor: CGFloat = CGFloat(bubbleData.xVals.count > 0 ? bubbleData.xVals.count : 1);
         
+        for (var j = minx; j < maxx; j++)
         {
-            let rawPoint = CGPoint(x: CGFloat(entry.xIndex) * phaseX, y: CGFloat(entry.value) * phaseY);
+            var entry = entries[j];
+            
+            let rawPoint = CGPoint(x: CGFloat(entry.xIndex - minx) * phaseX + CGFloat(minx), y: CGFloat(entry.value) * phaseY);
             let point = CGPointApplyAffineTransform(rawPoint, valueToPixelMatrix);
             
             let shapeSize = (chartSize / bubbleSizeFactor) * CGFloat(sqrt(entry.size/dataSet.maxSize))
             let shapeHalf = shapeSize / 2.0
             
-            if (!viewPortHandler.isInBoundsRight(point.x))
-            {
-                break;
-            }
-            
-            if (!viewPortHandler.isInBoundsLeft(point.x) || !viewPortHandler.isInBoundsY(point.y))
+            if (!viewPortHandler.isInBoundsY(point.y))
             {
                 continue;
             }
@@ -125,9 +128,18 @@ public class BubbleChartRenderer: ChartDataRendererBase
                 
                 let formatter = dataSet.valueFormatter === nil ? defaultValueFormatter : dataSet.valueFormatter;
                 
+                let phaseX = _animator.phaseX;
+                let phaseY = _animator.phaseY;
+                
                 let entries = dataSet.yVals;
                 
-                let positions = delegate!.bubbleChartRenderer(self, transformerForAxis: dataSet.axisDependency).generateTransformedValuesBubble(entries, phaseX: _animator.phaseX, phaseY: _animator.phaseY);
+                var entryFrom = dataSet.entryForXIndex(_minX);
+                var entryTo = dataSet.entryForXIndex(_maxX);
+                
+                var minx = dataSet.entryIndex(entry: entryFrom, isEqual: true);
+                var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count);
+                
+                let positions = delegate!.bubbleChartRenderer(self, transformerForAxis: dataSet.axisDependency).generateTransformedValuesBubble(entries, phaseX: phaseX, phaseY: phaseY, from: minx, to: maxx);
                 
                 for (var j = 0, count = Int(ceil(CGFloat(positions.count))); j < count; j++)
                 {
@@ -136,7 +148,6 @@ public class BubbleChartRenderer: ChartDataRendererBase
                         break;
                     }
                     
-                    // make sure the lines don't do shitty things outside bounds
                     if (j != 0 && (!viewPortHandler.isInBoundsLeft(positions[j].x) || !viewPortHandler.isInBoundsY(positions[j].y)))
                     {
                         continue;
@@ -148,7 +159,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
                     
                     let text = formatter!.stringFromNumber(val);
                     
-                    //larger font for larger bubbles?
+                    // Larger font for larger bubbles?
                     let valueFont = dataSet.valueFont;
                     let lineHeight = valueFont.lineHeight;
 
@@ -187,30 +198,36 @@ public class BubbleChartRenderer: ChartDataRendererBase
                 continue
             }
             
-            let e = bubbleData.getEntryForHighlight(indice) as! BubbleChartDataEntry
+            var entryFrom = dataSet.entryForXIndex(_minX);
+            var entryTo = dataSet.entryForXIndex(_maxX);
+            
+            var minx = dataSet.entryIndex(entry: entryFrom, isEqual: true);
+            var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, dataSet.entryCount);
+            
+            let entry = bubbleData.getEntryForHighlight(indice) as! BubbleChartDataEntry
             
             let trans = delegate!.bubbleChartRenderer(self, transformerForAxis: dataSet.axisDependency);
             calcXBounds(trans);
 
             let valueToPixelMatrix = trans.valueToPixelMatrix;
-
-            let rawPoint = CGPoint(x: CGFloat(e.xIndex) * phaseX, y: CGFloat(e.value) * phaseY)
+            
+            let rawPoint = CGPoint(x: CGFloat(entry.xIndex - minx) * phaseX + CGFloat(minx), y: CGFloat(entry.value) * phaseY);
             let point = CGPointApplyAffineTransform(rawPoint, valueToPixelMatrix)
             
-            let shapeSize = (chartSize / bubbleSizeFactor) * CGFloat(sqrt(e.size/dataSet.maxSize))
+            let shapeSize = (chartSize / bubbleSizeFactor) * CGFloat(sqrt(entry.size/dataSet.maxSize))
             let shapeHalf = shapeSize / 2.0
             
-            if (!viewPortHandler.isInBoundsRight(point.x))
-            {
-                break;
-            }
-            
-            if (!viewPortHandler.isInBoundsLeft(point.x) || !viewPortHandler.isInBoundsY(point.y))
+            if (indice.xIndex < minx || indice.xIndex >= maxx)
             {
                 continue;
             }
             
-            let originalColor = dataSet.colorAt(e.xIndex)
+            if (!viewPortHandler.isInBoundsY(point.y))
+            {
+                continue;
+            }
+            
+            let originalColor = dataSet.colorAt(entry.xIndex)
             
             var h: CGFloat = 0.0
             var s: CGFloat = 0.0
