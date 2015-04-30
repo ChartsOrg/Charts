@@ -17,10 +17,6 @@ public protocol BubbleChartRendererDelegate
     func bubbleChartRendererData(renderer: BubbleChartRenderer) -> BubbleChartData!;
     func bubbleChartRenderer(renderer: BubbleChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!;
     func bubbleChartDefaultRendererValueFormatter(renderer: BubbleChartRenderer) -> NSNumberFormatter!;
-    func bubbleChartRendererChartYMax(renderer: BubbleChartRenderer) -> Float;
-    func bubbleChartRendererChartYMin(renderer: BubbleChartRenderer) -> Float;
-    func bubbleChartRendererChartXMax(renderer: BubbleChartRenderer) -> Float;
-    func bubbleChartRendererChartXMin(renderer: BubbleChartRenderer) -> Float;
     func bubbleChartRendererMaxVisibleValueCount(renderer: BubbleChartRenderer) -> Int;
 }
 

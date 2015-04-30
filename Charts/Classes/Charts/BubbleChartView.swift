@@ -32,7 +32,7 @@ public class BubbleChartView: BarLineChartViewBase, BubbleChartRendererDelegate
         _chartXMin = -0.5
         _chartXMax = Float(_data.xVals.count) - 0.5
         
-        if let r = renderer as? BubbleChartRenderer, sets = bubbleChartRendererData(r).dataSets as? [BubbleChartDataSet]
+        if let r = renderer as? BubbleChartRenderer, sets = _data.dataSets as? [BubbleChartDataSet]
         {
             for set in sets {
                 
@@ -69,26 +69,6 @@ public class BubbleChartView: BarLineChartViewBase, BubbleChartRendererDelegate
     public func bubbleChartDefaultRendererValueFormatter(renderer: BubbleChartRenderer) -> NSNumberFormatter!
     {
         return self._defaultValueFormatter;
-    }
-    
-    public func bubbleChartRendererChartYMax(renderer: BubbleChartRenderer) -> Float
-    {
-        return self.chartYMax;
-    }
-    
-    public func bubbleChartRendererChartYMin(renderer: BubbleChartRenderer) -> Float
-    {
-        return self.chartYMin;
-    }
-    
-    public func bubbleChartRendererChartXMax(renderer: BubbleChartRenderer) -> Float
-    {
-        return self.chartXMax;
-    }
-    
-    public func bubbleChartRendererChartXMin(renderer: BubbleChartRenderer) -> Float
-    {
-        return self.chartXMin;
     }
     
     public func bubbleChartRendererMaxVisibleValueCount(renderer: BubbleChartRenderer) -> Int
