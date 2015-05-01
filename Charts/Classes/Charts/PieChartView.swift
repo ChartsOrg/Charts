@@ -171,8 +171,7 @@ public class PieChartView: PieRadarChartViewBase
     public override func indexForAngle(angle: CGFloat) -> Int
     {
         // take the current angle of the chart into consideration
-        var a = (angle - _rotationAngle + 360) % 360.0;
-        
+        var a = ChartUtils.normalizedAngleFromAngle(angle - self.rotationAngle);
         for (var i = 0; i < _absoluteAngles.count; i++)
         {
             if (_absoluteAngles[i] > a)

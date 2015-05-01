@@ -41,6 +41,13 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     /// object that holds all data that was originally set for the chart, before it was modified or any filtering algorithms had been applied
     internal var _data: ChartData!
     
+    /// If set to true, chart continues to scroll after touch up
+    public var dragDecelerationEnabled = true
+    
+    /// Deceleration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately.
+    /// 1 is an invalid value, and will be converted to 0.999 automatically.
+    private var _dragDecelerationFrictionCoef: CGFloat = 0.9
+    
     /// font object used for drawing the description text in the bottom right corner of the chart
     public var descriptionFont: UIFont? = UIFont(name: "HelveticaNeue", size: 9.0)
     internal var _descriptionTextColor: UIColor! = UIColor.blackColor()
@@ -780,6 +787,38 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     
     /// if true, value highlightning is enabled
     public var isHighlightEnabled: Bool { return highlightEnabled; }
+    
+    /// :returns: true if chart continues to scroll after touch up, false if not.
+    /// :default: true
+    public var isDragDecelerationEnabled: Bool
+        {
+            return dragDecelerationEnabled;
+    }
+    
+    /// Deceleration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately.
+    /// 1 is an invalid value, and will be converted to 0.999 automatically.
+    /// :default: true
+    public var dragDecelerationFrictionCoef: CGFloat
+    {
+        get
+        {
+            return _dragDecelerationFrictionCoef;
+        }
+        set
+        {
+            var val = newValue;
+            if (val < 0.0)
+            {
+                val = 0.0;
+            }
+            if (val >= 1.0)
+            {
+                val = 0.999;
+            }
+            
+            _dragDecelerationFrictionCoef = val;
+        }
+    }
     
     // MARK: - ChartAnimatorDelegate
     

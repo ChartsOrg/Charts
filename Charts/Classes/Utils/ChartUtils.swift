@@ -133,4 +133,15 @@ internal class ChartUtils
         (text as NSString).drawAtPoint(point, withAttributes: attributes);
         UIGraphicsPopContext();
     }
+    
+    /// returns an angle between 0.0 < 360.0 (not less than zero, less than 360)
+    internal class func normalizedAngleFromAngle(var angle: CGFloat) -> CGFloat
+    {
+        while (angle < 0.0)
+        {
+            angle += 360.0;
+        }
+        
+        return angle % 360.0;
+    }
 }

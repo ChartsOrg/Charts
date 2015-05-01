@@ -18,18 +18,14 @@ import UIKit.UIGestureRecognizer
 /// Base class of PieChartView and RadarChartView.
 public class PieRadarChartViewBase: ChartViewBase
 {
-    /// holds the current rotation angle of the chart
-    internal var _rotationAngle = CGFloat(270.0)
+    /// holds the normalized version of the current rotation angle of the chart
+    private var _rotationAngle = CGFloat(270.0);
+    
+    /// holds the raw version of the current rotation angle of the chart
+    private var _rawRotationAngle = CGFloat(270.0);
     
     /// flag that indicates if rotation is enabled or not
     public var rotationEnabled = true
-    
-    /// If set to true, chart continues to scroll after touch up
-    public var dragDecelarationEnabled = true
-    
-    /// Decelaration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately.
-    /// 1 is an invalid value, and will be converted to 0 automatically.
-    private var _dragDecelarationFrictionCoef: CGFloat = 0.9
     
     private var _tapGestureRecognizer: UITapGestureRecognizer!
     
@@ -263,6 +259,7 @@ public class PieRadarChartViewBase: ChartViewBase
     }
 
     /// current rotation angle of the pie chart
+    /// :returns will always return a normalized value, which will be between 0.0 < 360.0
     /// :default: 270f --> top (NORTH)
     public var rotationAngle: CGFloat
     {
@@ -272,14 +269,17 @@ public class PieRadarChartViewBase: ChartViewBase
         }
         set
         {
-            var newRotation = newValue;
-            while (newRotation < 0.0)
-            {
-                newRotation += 360.0;
-            }
-            _rotationAngle = newRotation % 360.0;
+            _rawRotationAngle = newValue;
+            _rotationAngle = ChartUtils.normalizedAngleFromAngle(newValue);
             setNeedsDisplay();
         }
+    }
+    
+    /// gets the raw version of the current rotation angle of the pie chart the returned value could be any value, negative or positive, outside of the 360 degrees. 
+    /// this is used when working with rotation direction, mainly by gestures and animations.
+    public var rawRotationAngle: CGFloat
+    {
+        return _rawRotationAngle;
     }
 
     /// returns the diameter of the pie- or radar-chart
@@ -348,39 +348,9 @@ public class PieRadarChartViewBase: ChartViewBase
     
     public var isRotationEnabled: Bool { return rotationEnabled; }
     
-    /// :returns: true if chart continues to scroll after touch up, false if not.
-    /// :default: true
-    public var isDragDecelarationEnabled: Bool
-    {
-        return dragDecelarationEnabled;
-    }
-    
-    /// Decelaration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately.
-    /// 1 is an invalid value, and will be converted to 0 automatically.
-    /// :default: true
-    public var dragDecelarationFrictionCoef: CGFloat
-    {
-        get
-        {
-            return _dragDecelarationFrictionCoef;
-        }
-        set
-        {
-            var val = newValue;
-            if (val < 0.0 || val >= 1.0)
-            {
-                val = 0.0;
-            }
-            
-            _dragDecelarationFrictionCoef = val;
-        }
-    }
-    
     // MARK: - Animation
     
     private var _spinAnimator: ChartAnimator!;
-    private var _spinFromAngle: CGFloat = 0.0;
-    private var _spinToAngle: CGFloat = 0.0;
     
     /// Applys a spin animation to the Chart.
     public func spin(#duration: NSTimeInterval, fromAngle: CGFloat, toAngle: CGFloat, easing: ChartEasingFunctionBlock?)
@@ -390,12 +360,9 @@ public class PieRadarChartViewBase: ChartViewBase
             _spinAnimator.stop();
         }
         
-        _spinFromAngle = fromAngle;
-        _spinToAngle = toAngle;
-        
         _spinAnimator = ChartAnimator();
         _spinAnimator.updateBlock = {
-            self.rotationAngle = (self._spinToAngle - self._spinFromAngle) * self._spinAnimator.phaseX + self._spinFromAngle;
+            self.rotationAngle = (toAngle - fromAngle) * self._spinAnimator.phaseX + fromAngle;
         };
         _spinAnimator.stopBlock = { self._spinAnimator = nil; };
         
@@ -423,15 +390,21 @@ public class PieRadarChartViewBase: ChartViewBase
     // MARK: - Gestures
     
     private var _touchStartPoint: CGPoint!
-    private var _touchLastVelocityPoint: CGPoint!
-    private var _touchLastVelocityTime: NSTimeInterval = 0.0
     private var _isRotating = false
     private var _defaultTouchEventsWereEnabled = false
     private var _startAngle = CGFloat(0.0)
     
-    private var _decelarationLastTime: NSTimeInterval = 0.0
-    private var _decelarationDisplayLink: CADisplayLink!
-    private var _decelarationAngularVelocity: CGFloat = 0.0
+    private struct AngularVelocitySample
+    {
+        var time: NSTimeInterval;
+        var angle: CGFloat;
+    }
+    
+    private var _velocitySamples = [AngularVelocitySample]();
+    
+    private var _decelerationLastTime: NSTimeInterval = 0.0
+    private var _decelerationDisplayLink: CADisplayLink!
+    private var _decelerationAngularVelocity: CGFloat = 0.0
     
     public override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent)
     {
@@ -447,8 +420,7 @@ public class PieRadarChartViewBase: ChartViewBase
             var touchLocation = touch.locationInView(self);
             _touchStartPoint = touchLocation;
             
-            _touchLastVelocityPoint = touchLocation;
-            _touchLastVelocityTime = CACurrentMediaTime();
+            self.resetVelocity(touchLocation: touchLocation);
             
             self.setGestureStartAngle(x: touchLocation.x, y: touchLocation.y);
         }
@@ -464,19 +436,6 @@ public class PieRadarChartViewBase: ChartViewBase
             
             var touchLocation = touch.locationInView(self);
             
-            var currentTime = CACurrentMediaTime();
-            
-            let sampleTime: NSTimeInterval = 0.15,
-            stillTime: NSTimeInterval = 1.0,
-            stillTreshold: CGFloat = 15.0;
-            
-            if ((currentTime - _touchLastVelocityTime >= sampleTime) &&
-                (distance(from: _touchLastVelocityPoint, to: touchLocation) > stillTreshold || _touchLastVelocityTime >= stillTime))
-            {
-                _touchLastVelocityPoint = touchLocation;
-                _touchLastVelocityTime = currentTime;
-            }
-            
             if (!_isRotating && distance(eventX: touchLocation.x, startX: _touchStartPoint.x, eventY: touchLocation.y, startY: _touchStartPoint.y) > CGFloat(8.0))
             {
                 _isRotating = true;
@@ -487,6 +446,12 @@ public class PieRadarChartViewBase: ChartViewBase
             else
             {
                 self.updateGestureRotation(x: touchLocation.x, y: touchLocation.y);
+                setNeedsDisplay();
+                
+                if (isDragDecelerationEnabled)
+                {
+                    sampleVelocity(touchLocation: touchLocation);
+                }
             }
         }
     }
@@ -501,32 +466,17 @@ public class PieRadarChartViewBase: ChartViewBase
             
             var touchLocation = touch.locationInView(self);
             
-            if (isDragDecelarationEnabled)
+            if (isDragDecelerationEnabled)
             {
                 stopDeceleration();
                 
-                _decelarationLastTime = CACurrentMediaTime();
+                sampleVelocity(touchLocation: touchLocation);
                 
-                let deltaTime = CGFloat(_decelarationLastTime - _touchLastVelocityTime)
+                _decelerationAngularVelocity = calculateVelocity();
                 
-                var newAngle = angleForPoint(x: touchLocation.x, y: touchLocation.y);
-                var previousAngle = angleForPoint(x: _touchLastVelocityPoint.x, y: _touchLastVelocityPoint.y);
-                
-                if (previousAngle >= 270.0 && newAngle <= 90.0)
-                {
-                    // This is the wrapping point between 360 and 0, which prevents us from knowing if it's clockwise or counter.
-                    newAngle += 360.0;
-                }
-                else if (previousAngle <= 90.0 && newAngle >= 270.0)
-                {
-                    // This is the wrapping point between 0 and 360, which prevents us from knowing if it's clockwise or counter.
-                    previousAngle += 360.0;
-                }
-                
-                _decelarationAngularVelocity = (newAngle - previousAngle) / deltaTime;
-                
-                _decelarationDisplayLink = CADisplayLink(target: self, selector: Selector("decelerationLoop"));
-                _decelarationDisplayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes);
+                _decelerationLastTime = CACurrentMediaTime();
+                _decelerationDisplayLink = CADisplayLink(target: self, selector: Selector("decelerationLoop"));
+                _decelerationDisplayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes);
             }
         }
         if (_isRotating)
@@ -547,12 +497,108 @@ public class PieRadarChartViewBase: ChartViewBase
         }
     }
     
+    private func resetVelocity(#touchLocation: CGPoint)
+    {
+        _velocitySamples.removeAll(keepCapacity: false);
+        _velocitySamples.append(AngularVelocitySample(time: CACurrentMediaTime(), angle: angleForPoint(x: touchLocation.x, y: touchLocation.y)));
+    }
+    
+    private func sampleVelocity(#touchLocation: CGPoint)
+    {
+        var currentTime = CACurrentMediaTime();
+        
+        _velocitySamples.append(AngularVelocitySample(time: currentTime, angle: angleForPoint(x: touchLocation.x, y: touchLocation.y)));
+        
+        // Remove samples older than our sample time - 1 seconds
+        for (var i = 0, count = _velocitySamples.count; i < count - 2; i++)
+        {
+            if (currentTime - _velocitySamples[i].time > 1.0)
+            {
+                _velocitySamples.removeAtIndex(0);
+                i--;
+                count--;
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+    
+    private func calculateVelocity() -> CGFloat
+    {
+        var firstSample = _velocitySamples[0];
+        var lastSample = _velocitySamples[_velocitySamples.count - 1];
+        
+        // Look for a sample that's closest to the latest sample, but not the same, so we can deduce the direction
+        var beforeLastSample = AngularVelocitySample(time: 0.0, angle: 0.0);
+        for (var i = _velocitySamples.count - 1; i >= 0; i--)
+        {
+            beforeLastSample = _velocitySamples[i];
+            if (beforeLastSample.angle != lastSample.angle)
+            {
+                break;
+            }
+        }
+        
+        // Calculate the sampling time
+        var timeDelta = lastSample.time - firstSample.time;
+        if (timeDelta == 0.0)
+        {
+            timeDelta = 0.1;
+        }
+        
+        // Calculate clockwise/ccw by choosing two values that should be closest to each other,
+        // so if the angles are two far from each other we know they are inverted "for sure"
+        var clockwise = lastSample.angle >= beforeLastSample.angle;
+        if (abs(lastSample.angle - beforeLastSample.angle) > 270.0)
+        {
+            clockwise = !clockwise;
+        }
+        
+        // Now if the "gesture" is over a too big of an angle - then we know the angles are inverted, and we need to move them closer to each other from both sides of the 360.0 wrapping point
+        if (lastSample.angle - firstSample.angle > 180.0)
+        {
+            firstSample.angle += 360.0;
+        }
+        else if (firstSample.angle - lastSample.angle > 180.0)
+        {
+            lastSample.angle += 360.0;
+        }
+        
+        // The velocity
+        var velocity = abs((lastSample.angle - firstSample.angle) / CGFloat(timeDelta));
+        
+        // Direction?
+        if (!clockwise)
+        {
+            velocity = -velocity;
+        }
+        
+        return velocity;
+    }
+    
+    /// sets the starting angle of the rotation, this is only used by the touch listener, x and y is the touch position
+    private func setGestureStartAngle(#x: CGFloat, y: CGFloat)
+    {
+        _startAngle = angleForPoint(x: x, y: y);
+        
+        // take the current angle into consideration when starting a new drag
+        _startAngle -= _rotationAngle;
+    }
+    
+    /// updates the view rotation depending on the given touch position, also takes the starting angle into consideration
+    private func updateGestureRotation(#x: CGFloat, y: CGFloat)
+    {
+        self.rotationAngle = angleForPoint(x: x, y: y) - _startAngle;
+    }
+    
     public func stopDeceleration()
     {
-        if (_decelarationDisplayLink !== nil)
+        if (_decelerationDisplayLink !== nil)
         {
-            _decelarationDisplayLink.removeFromRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes);
-            _decelarationDisplayLink = nil;
+            _decelerationDisplayLink.removeFromRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes);
+            _decelerationDisplayLink = nil;
         }
     }
     
@@ -560,15 +606,15 @@ public class PieRadarChartViewBase: ChartViewBase
     {
         var currentTime = CACurrentMediaTime();
         
-        _decelarationAngularVelocity *= _dragDecelarationFrictionCoef;
+        _decelerationAngularVelocity *= self.dragDecelerationFrictionCoef;
         
-        var timeInterval = CGFloat(currentTime - _decelarationLastTime);
+        var timeInterval = CGFloat(currentTime - _decelerationLastTime);
         
-        self.rotationAngle += _decelarationAngularVelocity * timeInterval;
+        self.rotationAngle += _decelerationAngularVelocity * timeInterval;
         
-        _decelarationLastTime = currentTime;
+        _decelerationLastTime = currentTime;
         
-        if(abs(_decelarationAngularVelocity) < 0.001)
+        if(abs(_decelerationAngularVelocity) < 0.001)
         {
             stopDeceleration();
         }
@@ -588,23 +634,6 @@ public class PieRadarChartViewBase: ChartViewBase
         var dx = from.x - to.x;
         var dy = from.y - to.y;
         return sqrt(dx * dx + dy * dy);
-    }
-    
-    /// sets the starting angle of the rotation, this is only used by the touch listener, x and y is the touch position
-    private func setGestureStartAngle(#x: CGFloat, y: CGFloat)
-    {
-        _startAngle = angleForPoint(x: x, y: y);
-        
-        // take the current angle into consideration when starting a new drag
-        _startAngle -= _rotationAngle;
-        
-        setNeedsDisplay();
-    }
-    
-    /// updates the view rotation depending on the given touch position, also takes the starting angle into consideration
-    private func updateGestureRotation(#x: CGFloat, y: CGFloat)
-    {
-        self.rotationAngle = angleForPoint(x: x, y: y) - _startAngle;
     }
     
     /// reference to the last highlighted object

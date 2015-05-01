@@ -40,13 +40,6 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     /// Sets drawing the borders rectangle to true. If this is enabled, there is no point drawing the axis-lines of x- and y-axis.
     public var drawBordersEnabled = false
     
-    /// If set to true, chart continues to scroll after touch up
-    public var dragDecelarationEnabled = true
-    
-    /// Decelaration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately.
-    /// 1 is an invalid value, and will be converted to 0 automatically.
-    private var _dragDecelarationFrictionCoef: CGFloat = 0.9
-    
     /// the object representing the labels on the y-axis, this object is prepared
     /// in the pepareYLabels() method
     internal var _leftAxis: ChartYAxis!
@@ -494,9 +487,9 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     
     private var _lastPanPoint = CGPoint() /// This is to prevent using setTranslation which resets velocity
     
-    private var _decelarationLastTime: NSTimeInterval = 0.0
-    private var _decelarationDisplayLink: CADisplayLink!
-    private var _decelarationVelocity = CGPoint()
+    private var _decelerationLastTime: NSTimeInterval = 0.0
+    private var _decelerationDisplayLink: CADisplayLink!
+    private var _decelerationVelocity = CGPoint()
     
     @objc private func tapGestureRecognized(recognizer: UITapGestureRecognizer)
     {
@@ -639,15 +632,15 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         {
             if (_isDragging)
             {
-                if (recognizer.state == UIGestureRecognizerState.Ended && isDragDecelarationEnabled)
+                if (recognizer.state == UIGestureRecognizerState.Ended && isDragDecelerationEnabled)
                 {
                     stopDeceleration();
                     
-                    _decelarationLastTime = CACurrentMediaTime();
-                    _decelarationVelocity = recognizer.velocityInView(self);
+                    _decelerationLastTime = CACurrentMediaTime();
+                    _decelerationVelocity = recognizer.velocityInView(self);
                     
-                    _decelarationDisplayLink = CADisplayLink(target: self, selector: Selector("decelerationLoop"));
-                    _decelarationDisplayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes);
+                    _decelerationDisplayLink = CADisplayLink(target: self, selector: Selector("decelerationLoop"));
+                    _decelerationDisplayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes);
                 }
                 
                 _isDragging = false;
@@ -702,10 +695,10 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     
     public func stopDeceleration()
     {
-        if (_decelarationDisplayLink !== nil)
+        if (_decelerationDisplayLink !== nil)
         {
-            _decelarationDisplayLink.removeFromRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes);
-            _decelarationDisplayLink = nil;
+            _decelerationDisplayLink.removeFromRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes);
+            _decelerationDisplayLink = nil;
         }
     }
     
@@ -713,21 +706,21 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     {
         var currentTime = CACurrentMediaTime();
         
-        _decelarationVelocity.x *= _dragDecelarationFrictionCoef;
-        _decelarationVelocity.y *= _dragDecelarationFrictionCoef;
+        _decelerationVelocity.x *= self.dragDecelerationFrictionCoef;
+        _decelerationVelocity.y *= self.dragDecelerationFrictionCoef;
         
-        var timeInterval = CGFloat(currentTime - _decelarationLastTime);
+        var timeInterval = CGFloat(currentTime - _decelerationLastTime);
         
         var distance = CGPoint(
-            x: _decelarationVelocity.x * timeInterval,
-            y: _decelarationVelocity.y * timeInterval
+            x: _decelerationVelocity.x * timeInterval,
+            y: _decelerationVelocity.y * timeInterval
         );
         
         performPanChange(translation: distance);
         
-        _decelarationLastTime = currentTime;
+        _decelerationLastTime = currentTime;
         
-        if (abs(_decelarationVelocity.x) < 0.001 && abs(_decelarationVelocity.y) < 0.001)
+        if (abs(_decelerationVelocity.x) < 0.001 && abs(_decelerationVelocity.y) < 0.001)
         {
             stopDeceleration();
         }
@@ -1096,34 +1089,6 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     public var isDrawBordersEnabled: Bool
     {
         return drawBordersEnabled;
-    }
-    
-    /// :returns: true if chart continues to scroll after touch up, false if not.
-    /// :default: true
-    public var isDragDecelarationEnabled: Bool
-    {
-        return dragDecelarationEnabled;
-    }
-    
-    /// Decelaration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately.
-    /// 1 is an invalid value, and will be converted to 0 automatically.
-    /// :default: true
-    public var dragDecelarationFrictionCoef: CGFloat
-    {
-        get
-        {
-            return _dragDecelarationFrictionCoef;
-        }
-        set
-        {
-            var val = newValue;
-            if (val < 0.0 || val >= 1.0)
-            {
-                val = 0.0;
-            }
-            
-            _dragDecelarationFrictionCoef = val;
-        }
     }
     
     /// Returns the Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the Line-, Scatter-, or CandleStick-Chart.

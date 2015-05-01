@@ -78,7 +78,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
             let rawPoint = CGPoint(x: CGFloat(entry.xIndex - minx) * phaseX + CGFloat(minx), y: CGFloat(entry.value) * phaseY);
             let point = CGPointApplyAffineTransform(rawPoint, valueToPixelMatrix);
             
-            let shapeSize = (chartSize / bubbleSizeFactor) * CGFloat(sqrt(entry.size / (dataSet.maxSize ?? 1.0)))
+            let shapeSize = (chartSize / bubbleSizeFactor) * CGFloat(sqrt(entry.size / (dataSet.maxSize != 0.0 ? dataSet.maxSize : 1.0)))
             let shapeHalf = shapeSize / 2.0
             
             if (!viewPortHandler.isInBoundsY(point.y))
@@ -209,7 +209,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
             let rawPoint = CGPoint(x: CGFloat(entry.xIndex - minx) * phaseX + CGFloat(minx), y: CGFloat(entry.value) * phaseY);
             let point = CGPointApplyAffineTransform(rawPoint, valueToPixelMatrix)
             
-            let shapeSize = (chartSize / bubbleSizeFactor) * CGFloat(sqrt(entry.size / (dataSet.maxSize ?? 1.0)))
+            let shapeSize = (chartSize / bubbleSizeFactor) * CGFloat(sqrt(entry.size / (dataSet.maxSize != 0.0 ? dataSet.maxSize : 1.0)))
             let shapeHalf = shapeSize / 2.0
             
             if (indice.xIndex < minx || indice.xIndex >= maxx)
