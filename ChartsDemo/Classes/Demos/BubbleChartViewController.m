@@ -112,10 +112,10 @@
     [set1 setDrawValuesEnabled:YES];
     BubbleChartDataSet *set2 = [[BubbleChartDataSet alloc] initWithYVals:yVals2 label:@"DS 2"];
     [set2 setColor:ChartColorTemplates.colorful[1]];
-    [set2 setDrawValuesEnabled:NO];
+    [set2 setDrawValuesEnabled:YES];
     BubbleChartDataSet *set3 = [[BubbleChartDataSet alloc] initWithYVals:yVals3 label:@"DS 3"];
     [set3 setColor:ChartColorTemplates.colorful[2]];
-    [set3 setDrawValuesEnabled:NO];
+    [set3 setDrawValuesEnabled:YES];
     
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
     [dataSets addObject:set1];
@@ -124,6 +124,7 @@
     
     BubbleChartData *data = [[BubbleChartData alloc] initWithXVals:xVals dataSets:dataSets];
     [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:7.f]];
+    [data setHighlightCircleWidth: 1.5f];
     
     _chartView.data = data;
 }

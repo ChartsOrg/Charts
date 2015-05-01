@@ -78,7 +78,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
             let rawPoint = CGPoint(x: CGFloat(entry.xIndex - minx) * phaseX + CGFloat(minx), y: CGFloat(entry.value) * phaseY);
             let point = CGPointApplyAffineTransform(rawPoint, valueToPixelMatrix);
             
-            let shapeSize = (chartSize / bubbleSizeFactor) * CGFloat(sqrt(entry.size/dataSet.maxSize))
+            let shapeSize = (chartSize / bubbleSizeFactor) * CGFloat(sqrt(entry.size / (dataSet.maxSize ?? 1.0)))
             let shapeHalf = shapeSize / 2.0
             
             if (!viewPortHandler.isInBoundsY(point.y))
@@ -209,7 +209,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
             let rawPoint = CGPoint(x: CGFloat(entry.xIndex - minx) * phaseX + CGFloat(minx), y: CGFloat(entry.value) * phaseY);
             let point = CGPointApplyAffineTransform(rawPoint, valueToPixelMatrix)
             
-            let shapeSize = (chartSize / bubbleSizeFactor) * CGFloat(sqrt(entry.size/dataSet.maxSize))
+            let shapeSize = (chartSize / bubbleSizeFactor) * CGFloat(sqrt(entry.size / (dataSet.maxSize ?? 1.0)))
             let shapeHalf = shapeSize / 2.0
             
             if (indice.xIndex < minx || indice.xIndex >= maxx)
@@ -234,6 +234,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
             let color = UIColor(hue: h, saturation: s, brightness: b * 0.5, alpha: a)
             let rect = CGRect(x: point.x - shapeHalf, y: point.y - shapeHalf, width: shapeSize, height: shapeSize)
 
+            CGContextSetLineWidth(context, dataSet.highlightCircleWidth)
             CGContextSetStrokeColorWithColor(context, color.CGColor)
             CGContextStrokeEllipseInRect(context, rect)
         }

@@ -16,7 +16,7 @@ public class BubbleChartDataSet: BarLineScatterCandleChartDataSet
 {
     internal var _xMax = Float(0.0)
     internal var _xMin = Float(0.0)
-    internal var _maxSize = Float(1.0)
+    internal var _maxSize = Float(0.0)
 
     public var xMin: Float { return _xMin }
     public var xMax: Float { return _xMax }
@@ -31,7 +31,7 @@ public class BubbleChartDataSet: BarLineScatterCandleChartDataSet
     {
         let entries = yVals as! [BubbleChartDataEntry];
     
-        //need chart width to guess this properly
+        // need chart width to guess this properly
         
         for entry in entries
         {
@@ -69,6 +69,9 @@ public class BubbleChartDataSet: BarLineScatterCandleChartDataSet
             }
         }
     }
+    
+    /// Sets/gets the width of the circle that surrounds the bubble when highlighted
+    public var highlightCircleWidth: CGFloat = 2.5;
     
     private func yMin(entry: BubbleChartDataEntry) -> Float
     {
