@@ -27,7 +27,8 @@ public class PieRadarChartViewBase: ChartViewBase
     /// If set to true, chart continues to scroll after touch up
     public var dragDecelarationEnabled = true
     
-    /// Decelaration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately, if set to 1, it will scroll with constant speed, until the last point
+    /// Decelaration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately.
+    /// 1 is an invalid value, and will be converted to 0 automatically.
     private var _dragDecelarationFrictionCoef: CGFloat = 0.9
     
     private var _tapGestureRecognizer: UITapGestureRecognizer!
@@ -271,11 +272,12 @@ public class PieRadarChartViewBase: ChartViewBase
         }
         set
         {
-            while (_rotationAngle < 0.0)
+            var newRotation = newValue;
+            while (newRotation < 0.0)
             {
-                _rotationAngle += 360.0;
+                newRotation += 360.0;
             }
-            _rotationAngle = newValue % 360.0;
+            _rotationAngle = newRotation % 360.0;
             setNeedsDisplay();
         }
     }
@@ -353,7 +355,8 @@ public class PieRadarChartViewBase: ChartViewBase
         return dragDecelarationEnabled;
     }
     
-    /// Decelaration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately, if set to 1, it will scroll with constant speed, until the last point
+    /// Decelaration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately.
+    /// 1 is an invalid value, and will be converted to 0 automatically.
     /// :default: true
     public var dragDecelarationFrictionCoef: CGFloat
     {
@@ -364,11 +367,7 @@ public class PieRadarChartViewBase: ChartViewBase
         set
         {
             var val = newValue;
-            if (val > 1.0)
-            {
-                val = 1.0;
-            }
-            if (val < 0.0)
+            if (val < 0.0 || val >= 1.0)
             {
                 val = 0.0;
             }
@@ -512,6 +511,18 @@ public class PieRadarChartViewBase: ChartViewBase
                 
                 var newAngle = angleForPoint(x: touchLocation.x, y: touchLocation.y);
                 var previousAngle = angleForPoint(x: _touchLastVelocityPoint.x, y: _touchLastVelocityPoint.y);
+                
+                if (previousAngle >= 270.0 && newAngle <= 90.0)
+                {
+                    // This is the wrapping point between 360 and 0, which prevents us from knowing if it's clockwise or counter.
+                    newAngle += 360.0;
+                }
+                else if (previousAngle <= 90.0 && newAngle >= 270.0)
+                {
+                    // This is the wrapping point between 0 and 360, which prevents us from knowing if it's clockwise or counter.
+                    previousAngle += 360.0;
+                }
+                
                 _decelarationAngularVelocity = (newAngle - previousAngle) / deltaTime;
                 
                 _decelarationDisplayLink = CADisplayLink(target: self, selector: Selector("decelerationLoop"));

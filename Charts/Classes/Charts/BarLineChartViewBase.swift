@@ -43,7 +43,8 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     /// If set to true, chart continues to scroll after touch up
     public var dragDecelarationEnabled = true
     
-    /// Decelaration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately, if set to 1, it will scroll with constant speed, until the last point
+    /// Decelaration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately.
+    /// 1 is an invalid value, and will be converted to 0 automatically.
     private var _dragDecelarationFrictionCoef: CGFloat = 0.9
     
     /// the object representing the labels on the y-axis, this object is prepared
@@ -726,7 +727,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         
         _decelarationLastTime = currentTime;
         
-        if(abs(_decelarationVelocity.x) < 0.001 && abs(_decelarationVelocity.y) < 0.001)
+        if (abs(_decelarationVelocity.x) < 0.001 && abs(_decelarationVelocity.y) < 0.001)
         {
             stopDeceleration();
         }
@@ -1104,7 +1105,8 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         return dragDecelarationEnabled;
     }
     
-    /// Decelaration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately, if set to 1, it will scroll with constant speed, until the last point
+    /// Decelaration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately.
+    /// 1 is an invalid value, and will be converted to 0 automatically.
     /// :default: true
     public var dragDecelarationFrictionCoef: CGFloat
     {
@@ -1115,11 +1117,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         set
         {
             var val = newValue;
-            if (val > 1.0)
-            {
-                val = 1.0;
-            }
-            if (val < 0.0)
+            if (val < 0.0 || val >= 1.0)
             {
                 val = 0.0;
             }
