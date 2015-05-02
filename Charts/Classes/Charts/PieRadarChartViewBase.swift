@@ -410,19 +410,25 @@ public class PieRadarChartViewBase: ChartViewBase
     {
         super.touchesBegan(touches, withEvent: event);
         
-        stopDeceleration();
-        
         // if rotation by touch is enabled
         if (rotationEnabled)
         {
             var touch = touches.first as! UITouch!;
             
-            var touchLocation = touch.locationInView(self);
-            _touchStartPoint = touchLocation;
+            stopDeceleration();
             
-            self.resetVelocity(touchLocation: touchLocation);
+            var touchLocation = touch.locationInView(self);
+            
+            self.resetVelocity();
+            
+            if (rotationEnabled)
+            {
+                self.sampleVelocity(touchLocation: touchLocation);
+            }
             
             self.setGestureStartAngle(x: touchLocation.x, y: touchLocation.y);
+            
+            _touchStartPoint = touchLocation;
         }
     }
     
@@ -436,6 +442,11 @@ public class PieRadarChartViewBase: ChartViewBase
             
             var touchLocation = touch.locationInView(self);
             
+            if (isDragDecelerationEnabled)
+            {
+                sampleVelocity(touchLocation: touchLocation);
+            }
+            
             if (!_isRotating && distance(eventX: touchLocation.x, startX: _touchStartPoint.x, eventY: touchLocation.y, startY: _touchStartPoint.y) > CGFloat(8.0))
             {
                 _isRotating = true;
@@ -447,11 +458,6 @@ public class PieRadarChartViewBase: ChartViewBase
             {
                 self.updateGestureRotation(x: touchLocation.x, y: touchLocation.y);
                 setNeedsDisplay();
-                
-                if (isDragDecelerationEnabled)
-                {
-                    sampleVelocity(touchLocation: touchLocation);
-                }
             }
         }
     }
@@ -474,9 +480,12 @@ public class PieRadarChartViewBase: ChartViewBase
                 
                 _decelerationAngularVelocity = calculateVelocity();
                 
-                _decelerationLastTime = CACurrentMediaTime();
-                _decelerationDisplayLink = CADisplayLink(target: self, selector: Selector("decelerationLoop"));
-                _decelerationDisplayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes);
+                if (_decelerationAngularVelocity != 0.0)
+                {
+                    _decelerationLastTime = CACurrentMediaTime();
+                    _decelerationDisplayLink = CADisplayLink(target: self, selector: Selector("decelerationLoop"));
+                    _decelerationDisplayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes);
+                }
             }
         }
         if (_isRotating)
@@ -497,10 +506,9 @@ public class PieRadarChartViewBase: ChartViewBase
         }
     }
     
-    private func resetVelocity(#touchLocation: CGPoint)
+    private func resetVelocity()
     {
         _velocitySamples.removeAll(keepCapacity: false);
-        _velocitySamples.append(AngularVelocitySample(time: CACurrentMediaTime(), angle: angleForPoint(x: touchLocation.x, y: touchLocation.y)));
     }
     
     private func sampleVelocity(#touchLocation: CGPoint)
@@ -527,11 +535,16 @@ public class PieRadarChartViewBase: ChartViewBase
     
     private func calculateVelocity() -> CGFloat
     {
+        if (_velocitySamples.isEmpty)
+        {
+            return 0.0;
+        }
+        
         var firstSample = _velocitySamples[0];
         var lastSample = _velocitySamples[_velocitySamples.count - 1];
         
         // Look for a sample that's closest to the latest sample, but not the same, so we can deduce the direction
-        var beforeLastSample = AngularVelocitySample(time: 0.0, angle: 0.0);
+        var beforeLastSample = firstSample;
         for (var i = _velocitySamples.count - 1; i >= 0; i--)
         {
             beforeLastSample = _velocitySamples[i];
