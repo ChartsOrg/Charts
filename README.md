@@ -1,11 +1,13 @@
-**Version 2.0.9**, synced to [MPAndroidChart #aa7cbce](https://github.com/PhilJay/MPAndroidChart/commit/aa7cbce0330de983dac26bf0cda3a23b46b4df1d)
+**Version 2.0.9**, synced to [MPAndroidChart #aa7cbce](https://github.com/PhilJay/MPAndroidChart/commit/82d8881)
+
+** A version release is coming soon **
 
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
 
 **Requirements:**  
 * Xcode 6.3 / Swift 1.2
 * iOS 7.0 (Drag .swift files to your project)
-* iOS 8.0 (Use as a Framework)
+* iOS 8.0 (Use as an **Embedded** Framework)
 
 Okay so there's this beautiful library called [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) by [Philipp Jahoda](https://www.linkedin.com/in/philippjahoda) which has become very popular amongst Android developers, and in the meanwhile there's no decent charting solution for iOS.
 
