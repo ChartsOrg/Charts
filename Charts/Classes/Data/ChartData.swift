@@ -795,6 +795,7 @@ public class ChartData: NSObject
     }
     
     /// Clears this data object from all DataSets and removes all Entries.
+    /// Don't forget to invalidate the chart after this.
     public func clearValues()
     {
         dataSets.removeAll(keepCapacity: false);

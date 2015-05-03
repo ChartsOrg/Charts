@@ -67,6 +67,13 @@ public class ChartDataSet: NSObject
         self.init(yVals: yVals, label: "DataSet")
     }
     
+    /// Use this method to tell the data set that the underlying data has changed
+    public func notifyDataSetChanged()
+    {
+        calcMinMax();
+        calcYValueSum();
+    }
+    
     internal func calcMinMax()
     {
         if _yVals!.count == 0
@@ -354,6 +361,13 @@ public class ChartDataSet: NSObject
         }
         
         return false;
+    }
+    
+    /// Removes all values from this DataSet and recalculates min and max value.
+    public func clear()
+    {
+        _yVals.removeAll(keepCapacity: true);
+        notifyDataSetChanged();
     }
 
     // MARK: NSObject

@@ -14,6 +14,8 @@
 #import "CombinedChartViewController.h"
 #import "ChartsDemo-Swift.h"
 
+#define ITEM_COUNT 12
+
 @interface CombinedChartViewController () <ChartViewDelegate>
 
 @property (nonatomic, strong) IBOutlet CombinedChartView *chartView;
@@ -42,7 +44,13 @@
     _chartView.drawGridBackgroundEnabled = NO;
     _chartView.drawBarShadowEnabled = NO;
     
-    _chartView.drawOrder = @[@(CombinedChartDrawOrderBar), @(CombinedChartDrawOrderLine)];
+    _chartView.drawOrder = @[
+                             @(CombinedChartDrawOrderBar),
+                             @(CombinedChartDrawOrderBubble),
+                             @(CombinedChartDrawOrderCandle),
+                             @(CombinedChartDrawOrderLine),
+                             @(CombinedChartDrawOrderScatter)
+                             ];
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.drawGridLinesEnabled = NO;
@@ -56,6 +64,9 @@
     CombinedChartData *data = [[CombinedChartData alloc] initWithXVals:months];
     data.lineData = [self generateLineData];
     data.barData = [self generateBarData];
+    data.bubbleData = [self generateBubbleData];
+    //data.scatterData = [self generateScatterData];
+    //data.candleData = [self generateCandleData];
     
     _chartView.data = data;
 }
@@ -106,7 +117,7 @@
     
     NSMutableArray *entries = [[NSMutableArray alloc] init];
     
-    for (int index = 0; index < 12; index++)
+    for (int index = 0; index < ITEM_COUNT; index++)
     {
         [entries addObject:[[ChartDataEntry alloc] initWithValue:(arc4random_uniform(15) + 10) xIndex:index]];
     }
@@ -134,7 +145,7 @@
     
     NSMutableArray *entries = [[NSMutableArray alloc] init];
     
-    for (int index = 0; index < 12; index++)
+    for (int index = 0; index < ITEM_COUNT; index++)
     {
         [entries addObject:[[BarChartDataEntry alloc] initWithValue:(arc4random_uniform(15) + 30) xIndex:index]];
     }
@@ -149,6 +160,73 @@
     [d addDataSet:set];
     
     return d;
+}
+
+- (ScatterChartData *)generateScatterData
+{
+    ScatterChartData *d = [[ScatterChartData alloc] init];
+    
+    NSMutableArray *entries = [[NSMutableArray alloc] init];
+    
+    for (int index = 0; index < ITEM_COUNT; index++)
+    {
+        [entries addObject:[[ChartDataEntry alloc] initWithValue:(arc4random_uniform(20) + 15) xIndex:index]];
+    }
+    
+    ScatterChartDataSet *set = [[ScatterChartDataSet alloc] initWithYVals:entries label:@"Scatter DataSet"];
+    [set setColor:[UIColor greenColor]];
+    set.scatterShapeSize = 7.5f;
+    [set setDrawValuesEnabled:YES];
+    set.valueFont = [UIFont systemFontOfSize:10.f];
+    
+    [d addDataSet:set];
+    
+    return d;
+}
+
+- (CandleChartData *)generateCandleData
+{
+    CandleChartData *d = [[CandleChartData alloc] init];
+    
+    NSMutableArray *entries = [[NSMutableArray alloc] init];
+    
+    for (int index = 0; index < ITEM_COUNT; index++)
+    {
+        [entries addObject:[[CandleChartDataEntry alloc] initWithXIndex:index shadowH:20.f shadowL:10.f open:13.f close:17.f]];
+    }
+    
+    CandleChartDataSet *set = [[CandleChartDataSet alloc] initWithYVals:entries label:@"Candle DataSet"];
+    [set setColor:[UIColor colorWithRed:80/255.f green:80/255.f blue:80/255.f alpha:1.f]];
+    set.bodySpace = 0.3f;
+    set.valueFont = [UIFont systemFontOfSize:10.f];
+    [set setDrawValuesEnabled:NO];
+    
+    [d addDataSet:set];
+    
+    return d;
+}
+
+- (BubbleChartData *)generateBubbleData
+{
+    BubbleChartData *bd = [[BubbleChartData alloc] init];
+    
+    NSMutableArray *entries = [[NSMutableArray alloc] init];
+    
+    for (int index = 0; index < ITEM_COUNT; index++)
+    {
+        float rnd = arc4random_uniform(20) + 30.f;
+        [entries addObject:[[BubbleChartDataEntry alloc] initWithXIndex:index value:rnd size:rnd]];
+    }
+    
+    BubbleChartDataSet *set = [[BubbleChartDataSet alloc] initWithYVals:entries label:@"Bubble DataSet"];
+    [set setColors:ChartColorTemplates.vordiplom];
+    set.valueTextColor = UIColor.whiteColor;
+    set.valueFont = [UIFont systemFontOfSize:10.f];
+    [set setDrawValuesEnabled:YES];
+    
+    [bd addDataSet:set];
+    
+    return bd;
 }
 
 #pragma mark - ChartViewDelegate

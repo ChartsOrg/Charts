@@ -18,7 +18,8 @@ public class CombinedChartRenderer: ChartDataRendererBase,
     LineChartRendererDelegate,
     BarChartRendererDelegate,
     ScatterChartRendererDelegate,
-    CandleStickChartRendererDelegate
+    CandleStickChartRendererDelegate,
+    BubbleChartRendererDelegate
 {
     private weak var _chart: CombinedChartView!;
     
@@ -36,7 +37,7 @@ public class CombinedChartRenderer: ChartDataRendererBase,
     
     internal var _renderers = [ChartDataRendererBase]();
     
-    internal var _drawOrder: [CombinedChartView.CombinedChartDrawOrder] = [.Bar, .Line, .Candle, .Scatter];
+    internal var _drawOrder: [CombinedChartView.CombinedChartDrawOrder] = [.Bar, .Bubble, .Line, .Candle, .Scatter];
     
     public init(chart: CombinedChartView, animator: ChartAnimator, viewPortHandler: ChartViewPortHandler)
     {
@@ -62,22 +63,32 @@ public class CombinedChartRenderer: ChartDataRendererBase,
                     _renderers.append(BarChartRenderer(delegate: self, animator: _animator, viewPortHandler: viewPortHandler));
                 }
                 break;
+                
             case .Line:
                 if (_chart.lineData !== nil)
                 {
                     _renderers.append(LineChartRenderer(delegate: self, animator: _animator, viewPortHandler: viewPortHandler));
                 }
                 break;
+                
             case .Candle:
                 if (_chart.candleData !== nil)
                 {
                     _renderers.append(CandleStickChartRenderer(delegate: self, animator: _animator, viewPortHandler: viewPortHandler));
                 }
                 break;
+                
             case .Scatter:
                 if (_chart.scatterData !== nil)
                 {
                     _renderers.append(ScatterChartRenderer(delegate: self, animator: _animator, viewPortHandler: viewPortHandler));
+                }
+                break;
+                
+            case .Bubble:
+                if (_chart.bubbleData !== nil)
+                {
+                    _renderers.append(BubbleChartRenderer(delegate: self, animator: _animator, viewPortHandler: viewPortHandler));
                 }
                 break;
             }
@@ -319,6 +330,33 @@ public class CombinedChartRenderer: ChartDataRendererBase,
     public func candleStickChartRendererMaxVisibleValueCount(renderer: CandleStickChartRenderer) -> Int
     {
         return _chart.maxVisibleValueCount;
+    }
+    
+    // MARK: - BubbleChartRendererDelegate
+    
+    public func bubbleChartRendererData(renderer: BubbleChartRenderer) -> BubbleChartData!
+    {
+        return _chart.bubbleData;
+    }
+    
+    public func bubbleChartRenderer(renderer: BubbleChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!
+    {
+        return _chart.getTransformer(which);
+    }
+    
+    public func bubbleChartDefaultRendererValueFormatter(renderer: BubbleChartRenderer) -> NSNumberFormatter!
+    {
+        return _chart._defaultValueFormatter;
+    }
+    
+    public func bubbleChartRendererMaxVisibleValueCount(renderer: BubbleChartRenderer) -> Int
+    {
+        return _chart.maxVisibleValueCount;
+    }
+    
+    public func bubbleChartRendererXValCount(renderer: BubbleChartRenderer) -> Int
+    {
+        return _chart.data!.xValCount;
     }
     
     // MARK: Accessors

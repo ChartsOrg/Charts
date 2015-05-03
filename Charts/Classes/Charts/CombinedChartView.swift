@@ -25,6 +25,7 @@ public class CombinedChartView: BarLineChartViewBase
     public enum CombinedChartDrawOrder: Int
     {
         case Bar
+        case Bubble
         case Line
         case Candle
         case Scatter
@@ -43,10 +44,30 @@ public class CombinedChartView: BarLineChartViewBase
     {
         super.calcMinMax();
         
-        if (self.barData !== nil || self.candleData !== nil)
+        if (self.barData !== nil || self.candleData !== nil || self.bubbleData !== nil)
         {
             _chartXMin = -0.5;
             _chartXMax = Float(_data.xVals.count) - 0.5;
+            
+            if (self.bubbleData !== nil)
+            {
+                for set in self.bubbleData.dataSets as! [BubbleChartDataSet]
+                {
+                    let xmin = set.xMin;
+                    let xmax = set.xMax;
+                    
+                    if (xmin < chartXMin)
+                    {
+                        _chartXMin = xmin;
+                    }
+                    
+                    if (xmax > chartXMax)
+                    {
+                        _chartXMax = xmax;
+                    }
+                }
+            }
+
             _deltaX = CGFloat(abs(_chartXMax - _chartXMin));
         }
     }
@@ -125,6 +146,18 @@ public class CombinedChartView: BarLineChartViewBase
                 return nil;
             }
             return (_data as! CombinedChartData!).candleData;
+        }
+    }
+    
+    public var bubbleData: BubbleChartData!
+    {
+        get
+        {
+            if (_data === nil)
+            {
+                return nil;
+            }
+            return (_data as! CombinedChartData!).bubbleData;
         }
     }
     

@@ -19,6 +19,7 @@ public class CombinedChartData: BarLineScatterCandleChartData
     private var _barData: BarChartData!
     private var _scatterData: ScatterChartData!
     private var _candleData: CandleChartData!
+    private var _bubbleData: BubbleChartData!
     
     public override init()
     {
@@ -121,7 +122,31 @@ public class CombinedChartData: BarLineScatterCandleChartData
             calcMinMax();
             calcYValueSum();
             calcYValueCount();
-        
+            
+            calcXValAverageLength();
+        }
+    }
+    
+    public var bubbleData: BubbleChartData!
+    {
+        get
+        {
+            return _bubbleData;
+        }
+        set
+        {
+            _bubbleData = newValue;
+            for dataSet in newValue.dataSets
+            {
+                _dataSets.append(dataSet);
+            }
+            
+            checkIsLegal(newValue.dataSets);
+            
+            calcMinMax();
+            calcYValueSum();
+            calcYValueCount();
+            
             calcXValAverageLength();
         }
     }
@@ -130,7 +155,8 @@ public class CombinedChartData: BarLineScatterCandleChartData
     {
         _lineData.notifyDataChanged();
         _barData.notifyDataChanged();
-        _candleData.notifyDataChanged();
         _scatterData.notifyDataChanged();
+        _candleData.notifyDataChanged();
+        _bubbleData.notifyDataChanged();
     }
 }

@@ -75,4 +75,9 @@ public class BubbleChartView: BarLineChartViewBase, BubbleChartRendererDelegate
     {
         return self.maxVisibleValueCount;
     }
+    
+    public func bubbleChartRendererXValCount(renderer: BubbleChartRenderer) -> Int
+    {
+        return _data.xValCount;
+    }
 }

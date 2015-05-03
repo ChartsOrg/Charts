@@ -13,9 +13,12 @@ import Foundation
 
 public class BubbleChartDataEntry: ChartDataEntry
 {
-    /// size value
+    /// The size of the bubble.
     public var size = Float(0.0)
     
+    /// :xIndex: The index on the x-axis.
+    /// :val: The value on the y-axis.
+    /// :size: The size of the bubble.
     public init(xIndex: Int, value: Float, size: Float)
     {
         super.init(value: value, xIndex: xIndex)
@@ -23,6 +26,10 @@ public class BubbleChartDataEntry: ChartDataEntry
         self.size = size
     }
     
+    /// :xIndex: The index on the x-axis.
+    /// :val: The value on the y-axis.
+    /// :size: The size of the bubble.
+    /// :data: Spot for additional data this Entry represents.
     public init(xIndex: Int, value: Float, size: Float, data: AnyObject?)
     {
         super.init(value: value, xIndex: xIndex, data: data)

@@ -18,6 +18,7 @@ public protocol BubbleChartRendererDelegate
     func bubbleChartRenderer(renderer: BubbleChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!;
     func bubbleChartDefaultRendererValueFormatter(renderer: BubbleChartRenderer) -> NSNumberFormatter!;
     func bubbleChartRendererMaxVisibleValueCount(renderer: BubbleChartRenderer) -> Int;
+    func bubbleChartRendererXValCount(renderer: BubbleChartRenderer) -> Int;
 }
 
 public class BubbleChartRenderer: ChartDataRendererBase
@@ -69,7 +70,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
             self.viewPortHandler.contentWidth * self.viewPortHandler.scaleX :
             self.viewPortHandler.contentHeight * self.viewPortHandler.scaleY;
         
-        let bubbleSizeFactor: CGFloat = CGFloat(bubbleData.xVals.count > 0 ? bubbleData.xVals.count : 1);
+        let bubbleSizeFactor: CGFloat = CGFloat(max(delegate!.bubbleChartRendererXValCount(self), 1));
         
         for (var j = minx; j < maxx; j++)
         {
@@ -183,7 +184,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
             self.viewPortHandler.contentWidth * self.viewPortHandler.scaleX :
             self.viewPortHandler.contentHeight * self.viewPortHandler.scaleY;
         
-        let bubbleSizeFactor: CGFloat = CGFloat(bubbleData.xVals.count > 0 ? bubbleData.xVals.count : 1);
+        let bubbleSizeFactor: CGFloat = CGFloat(max(delegate!.bubbleChartRendererXValCount(self), 1));
         
         for indice in indices
         {
