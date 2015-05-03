@@ -145,21 +145,19 @@ public class LineChartRenderer: ChartDataRendererBase
             var curDx: CGFloat = 0.0;
             var curDy: CGFloat = 0.0;
             
+            var prevPrev = entries[minx];
+            var prev = entries[minx];
             var cur = entries[minx];
             var next = entries[minx + 1];
-            var prev = entries[minx];
-            var prevPrev = entries[minx];
             
             // let the spline start
             CGPathMoveToPoint(cubicPath, &valueToPixelMatrix, CGFloat(cur.xIndex), CGFloat(cur.value) * phaseY);
             
-            prevDx = CGFloat(next.xIndex - cur.xIndex) * intensity;
-            prevDy = CGFloat(next.value - cur.value) * intensity;
+            prevDx = CGFloat(cur.xIndex - prev.xIndex) * intensity;
+            prevDy = CGFloat(cur.value - prev.value) * intensity;
             
-            cur = entries[minx + 1];
-            next = entries[minx + (entries.count - minx > 2 ? 2 : 1)];
-            curDx = CGFloat(next.xIndex - prev.xIndex) * intensity;
-            curDy = CGFloat(next.value - prev.value) * intensity;
+            curDx = CGFloat(next.xIndex - cur.xIndex) * intensity;
+            curDy = CGFloat(next.value - cur.value) * intensity;
             
             // the first cubic
             CGPathAddCurveToPoint(cubicPath, &valueToPixelMatrix,
@@ -167,9 +165,9 @@ public class LineChartRenderer: ChartDataRendererBase
                 CGFloat(cur.xIndex) - curDx, (CGFloat(cur.value) - curDy) * phaseY,
                 CGFloat(cur.xIndex), CGFloat(cur.value) * phaseY);
             
-            for (var j = minx + 2, count = min(size, entries.count - 1); j < count; j++)
+            for (var j = minx + 1, count = min(size, entries.count - 1); j < count; j++)
             {
-                prevPrev = entries[j - 2];
+                prevPrev = entries[j == 1 ? 0 : j - 2];
                 prev = entries[j - 1];
                 cur = entries[j];
                 next = entries[j + 1];
