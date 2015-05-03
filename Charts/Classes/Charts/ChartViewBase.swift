@@ -705,9 +705,25 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     }
     
     /// Returns the bitmap that represents the chart.
-    public func getChartImage() -> UIImage
+    public func getChartImage(#transparent: Bool) -> UIImage
     {
-        UIGraphicsBeginImageContextWithOptions(bounds.size, opaque, UIScreen.mainScreen().scale);
+        UIGraphicsBeginImageContextWithOptions(bounds.size, opaque || !transparent, UIScreen.mainScreen().scale);
+        
+        var context = UIGraphicsGetCurrentContext();
+        var rect = CGRect(origin: CGPoint(x: 0, y: 0), size: bounds.size);
+        
+        if (opaque || !transparent)
+        {
+            // Background color may be partially transparent, we must fill with white if we want to output an opaque image
+            CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor);
+            CGContextFillRect(context, rect);
+            
+            if (self.backgroundColor !== nil)
+            {
+                CGContextSetFillColorWithColor(context, self.backgroundColor?.CGColor);
+                CGContextFillRect(context, rect);
+            }
+        }
         
         layer.renderInContext(UIGraphicsGetCurrentContext());
         
@@ -736,7 +752,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     /// :returns: true if the image was saved successfully
     public func saveToPath(path: String, format: ImageFormat, compressionQuality: Float) -> Bool
     {
-        var image = getChartImage();
+        var image = getChartImage(transparent: format != .JPEG);
 
         var imageData: NSData!;
         switch (format)
@@ -756,7 +772,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     /// Saves the current state of the chart to the camera roll
     public func saveToCameraRoll()
     {
-        UIImageWriteToSavedPhotosAlbum(getChartImage(), nil, nil, nil);
+        UIImageWriteToSavedPhotosAlbum(getChartImage(transparent: false), nil, nil, nil);
     }
     
     internal typealias VoidClosureType = () -> ()
