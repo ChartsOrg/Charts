@@ -22,7 +22,10 @@ In order to correctly compile:
 1. Drag the `Charts.xcodeproj` to your project  
 2. Go to your target's settings, hit the "+" under the "Embedded Binaries" section, and select the Charts.framework  
 3. `@import Charts`  
-4.  When using Swift in an ObjC project, you need to import your Bridging Header. Usually it is "*YourProject-Swift.h*", so in ChartsDemo it's "*ChartsDemo-Swift.h*". Do not try to actually include "*ChartsDemo-Swift.h*" in your project :-)
+4.  When using Swift in an ObjC project:
+   - You need to import your Bridging Header. Usually it is "*YourProject-Swift.h*", so in ChartsDemo it's "*ChartsDemo-Swift.h*". Do not try to actually include "*ChartsDemo-Swift.h*" in your project :-)
+   - Under "Build Options", mark "Embedded Content Contains Swift Code"
+
 
 If you want to compile for iOS 7, then you just need to drag the code itself (.swift files) to your project. As sadly, Swift currently does not support compiling Frameworks for iOS 7.
 
