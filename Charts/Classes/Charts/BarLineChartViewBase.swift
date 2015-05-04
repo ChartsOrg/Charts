@@ -1262,10 +1262,24 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     }
 
     /// returns the current x-scale factor
-    public var scaleX: CGFloat { return _viewPortHandler.scaleX; }
+    public var scaleX: CGFloat
+    {
+        if (_viewPortHandler === nil)
+        {
+            return 1.0;
+        }
+        return _viewPortHandler.scaleX;
+    }
 
     /// returns the current y-scale factor
-    public var scaleY: CGFloat { return _viewPortHandler.scaleY; }
+    public var scaleY: CGFloat
+    {
+        if (_viewPortHandler === nil)
+        {
+            return 1.0;
+        }
+        return _viewPortHandler.scaleY;
+    }
 
     /// if the chart is fully zoomed out, return true
     public var isFullyZoomedOut: Bool { return _viewPortHandler.isFullyZoomedOut; }
