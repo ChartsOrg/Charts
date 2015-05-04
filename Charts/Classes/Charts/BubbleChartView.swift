@@ -71,6 +71,26 @@ public class BubbleChartView: BarLineChartViewBase, BubbleChartRendererDelegate
         return self._defaultValueFormatter;
     }
     
+    public func bubbleChartRendererChartYMax(renderer: BubbleChartRenderer) -> Float
+    {
+        return self.chartYMax;
+    }
+    
+    public func bubbleChartRendererChartYMin(renderer: BubbleChartRenderer) -> Float
+    {
+        return self.chartYMin;
+    }
+    
+    public func bubbleChartRendererChartXMax(renderer: BubbleChartRenderer) -> Float
+    {
+        return self.chartXMax;
+    }
+    
+    public func bubbleChartRendererChartXMin(renderer: BubbleChartRenderer) -> Float
+    {
+        return self.chartXMin;
+    }
+    
     public func bubbleChartRendererMaxVisibleValueCount(renderer: BubbleChartRenderer) -> Int
     {
         return self.maxVisibleValueCount;

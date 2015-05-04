@@ -76,7 +76,7 @@ public class ChartTransformer: NSObject
     /// Transforms an arraylist of Entry into a float array containing the x and y values transformed with all matrices for the BUBBLECHART.
     public func generateTransformedValuesBubble(entries: [ChartDataEntry], phaseX: CGFloat, phaseY: CGFloat, from: Int, to: Int) -> [CGPoint]
     {
-        let count = Int(ceil(CGFloat(to - from) * phaseX));
+        let count = to - from;
         
         var valuePoints = [CGPoint]();
         valuePoints.reserveCapacity(count);

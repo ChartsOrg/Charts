@@ -349,6 +349,26 @@ public class CombinedChartRenderer: ChartDataRendererBase,
         return _chart._defaultValueFormatter;
     }
     
+    public func bubbleChartRendererChartYMax(renderer: BubbleChartRenderer) -> Float
+    {
+        return _chart.chartYMax;
+    }
+    
+    public func bubbleChartRendererChartYMin(renderer: BubbleChartRenderer) -> Float
+    {
+        return _chart.chartYMin;
+    }
+    
+    public func bubbleChartRendererChartXMax(renderer: BubbleChartRenderer) -> Float
+    {
+        return _chart.chartXMax;
+    }
+    
+    public func bubbleChartRendererChartXMin(renderer: BubbleChartRenderer) -> Float
+    {
+        return _chart.chartXMin;
+    }
+    
     public func bubbleChartRendererMaxVisibleValueCount(renderer: BubbleChartRenderer) -> Int
     {
         return _chart.maxVisibleValueCount;

@@ -16,15 +16,15 @@ public class BubbleChartDataSet: BarLineScatterCandleChartDataSet
 {
     internal var _xMax = Float(0.0)
     internal var _xMin = Float(0.0)
-    internal var _maxSize = Float(0.0)
+    internal var _maxSize = CGFloat(0.0)
 
     public var xMin: Float { return _xMin }
     public var xMax: Float { return _xMax }
-    public var maxSize: Float { return _maxSize }
+    public var maxSize: CGFloat { return _maxSize }
     
-    public override func setColor(color: UIColor)
+    public func setColor(color: UIColor, alpha: CGFloat)
     {
-        super.setColor(color.colorWithAlphaComponent(0.5))
+        super.setColor(color.colorWithAlphaComponent(alpha))
     }
     
     internal override func calcMinMax()
@@ -93,7 +93,7 @@ public class BubbleChartDataSet: BarLineScatterCandleChartDataSet
         return Float(entry.xIndex)
     }
     
-    private func largestSize(entry: BubbleChartDataEntry) -> Float
+    private func largestSize(entry: BubbleChartDataEntry) -> CGFloat
     {
         return entry.size
     }
