@@ -116,6 +116,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     public override init(frame: CGRect)
     {
         super.init(frame: frame);
+        self.backgroundColor = UIColor.clearColor();
         initialize();
     }
     
