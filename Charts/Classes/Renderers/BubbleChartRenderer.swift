@@ -79,15 +79,15 @@ public class BubbleChartRenderer: ChartDataRendererBase
         var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count);
         
         _sizeBuffer[0].x = 0.0;
-        _sizeBuffer[0].y = CGFloat(delegate!.bubbleChartRendererChartYMin(self));
+        _sizeBuffer[0].y = 0.0;
         _sizeBuffer[1].x = 1.0;
-        _sizeBuffer[1].y = CGFloat(delegate!.bubbleChartRendererChartYMax(self));
+        _sizeBuffer[1].y = 0.0;
         
         trans.pointValuesToPixel(&_sizeBuffer);
         
         // calcualte the full width of 1 step on the x-axis
         let maxBubbleWidth: CGFloat = abs(_sizeBuffer[1].x - _sizeBuffer[0].x);
-        let maxBubbleHeight: CGFloat = abs(_sizeBuffer[0].y - _sizeBuffer[1].y);
+        let maxBubbleHeight: CGFloat = abs(viewPortHandler.contentBottom - viewPortHandler.contentTop);
         let referenceSize: CGFloat = min(maxBubbleHeight, maxBubbleWidth);
         
         for (var j = minx; j < maxx; j++)
@@ -235,17 +235,17 @@ public class BubbleChartRenderer: ChartDataRendererBase
             let trans = delegate!.bubbleChartRenderer(self, transformerForAxis: dataSet.axisDependency);
             
             _sizeBuffer[0].x = 0.0;
-            _sizeBuffer[0].y = CGFloat(delegate!.bubbleChartRendererChartYMin(self));
+            _sizeBuffer[0].y = 0.0;
             _sizeBuffer[1].x = 1.0;
-            _sizeBuffer[1].y = CGFloat(delegate!.bubbleChartRendererChartYMax(self));
+            _sizeBuffer[1].y = 0.0;
             
             trans.pointValuesToPixel(&_sizeBuffer);
             
             // calcualte the full width of 1 step on the x-axis
             let maxBubbleWidth: CGFloat = abs(_sizeBuffer[1].x - _sizeBuffer[0].x);
-            let maxBubbleHeight: CGFloat = abs(_sizeBuffer[0].y - _sizeBuffer[1].y);
+            let maxBubbleHeight: CGFloat = abs(viewPortHandler.contentBottom - viewPortHandler.contentTop);
             let referenceSize: CGFloat = min(maxBubbleHeight, maxBubbleWidth);
-            
+
             _pointBuffer.x = CGFloat(entry.xIndex - minx) * phaseX + CGFloat(minx);
             _pointBuffer.y = CGFloat(entry.value) * phaseY;
             trans.pointValueToPixel(&_pointBuffer);
