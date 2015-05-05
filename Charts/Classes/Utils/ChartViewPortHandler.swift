@@ -49,22 +49,20 @@ public class ChartViewPortHandler
     
     public init(width: CGFloat, height: CGFloat)
     {
-        _chartHeight = height;
-        _chartWidth = width;
+        setChartDimens(width: width, height: height);
     }
     
     public func setChartDimens(#width: CGFloat, height: CGFloat)
     {
+        var offsetLeft = self.offsetLeft;
+        var offsetTop = self.offsetTop;
+        var offsetRight = self.offsetRight;
+        var offsetBottom = self.offsetBottom;
+        
         _chartHeight = height;
         _chartWidth = width;
         
-        if (_contentRect.size.width <= 0.0 || _contentRect.size.height <= 0.0)
-        {
-            _contentRect.origin.x = 0.0;
-            _contentRect.origin.y = 0.0;
-            _contentRect.size.width = width;
-            _contentRect.size.height = height;
-        }
+        restrainViewPort(offsetLeft: offsetLeft, offsetTop: offsetTop, offsetRight: offsetRight, offsetBottom: offsetBottom);
     }
     
     public var hasChartDimens: Bool
