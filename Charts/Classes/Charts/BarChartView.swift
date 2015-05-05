@@ -317,9 +317,24 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
         return valueFormatter;
     }
     
+    public func barChartRendererChartYMax(renderer: BarChartRenderer) -> Float
+    {
+        return chartYMax;
+    }
+    
+    public func barChartRendererChartYMin(renderer: BarChartRenderer) -> Float
+    {
+        return chartYMin;
+    }
+    
     public func barChartRendererChartXMax(renderer: BarChartRenderer) -> Float
     {
         return chartXMax;
+    }
+    
+    public func barChartRendererChartXMin(renderer: BarChartRenderer) -> Float
+    {
+        return chartXMin;
     }
     
     public func barChartIsDrawHighlightArrowEnabled(renderer: BarChartRenderer) -> Bool

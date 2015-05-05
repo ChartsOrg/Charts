@@ -22,7 +22,10 @@ public protocol BarChartRendererDelegate
     func barChartRenderer(renderer: BarChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!;
     func barChartRendererMaxVisibleValueCount(renderer: BarChartRenderer) -> Int;
     func barChartDefaultRendererValueFormatter(renderer: BarChartRenderer) -> NSNumberFormatter!;
+    func barChartRendererChartYMax(renderer: BarChartRenderer) -> Float;
+    func barChartRendererChartYMin(renderer: BarChartRenderer) -> Float;
     func barChartRendererChartXMax(renderer: BarChartRenderer) -> Float;
+    func barChartRendererChartXMin(renderer: BarChartRenderer) -> Float;
     func barChartIsDrawHighlightArrowEnabled(renderer: BarChartRenderer) -> Bool;
     func barChartIsDrawValueAboveBarEnabled(renderer: BarChartRenderer) -> Bool;
     func barChartIsDrawValuesForWholeStackEnabled(renderer: BarChartRenderer) -> Bool;

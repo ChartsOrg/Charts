@@ -218,9 +218,24 @@ public class CombinedChartRenderer: ChartDataRendererBase,
         return _chart._defaultValueFormatter;
     }
     
+    public func barChartRendererChartYMax(renderer: BarChartRenderer) -> Float
+    {
+        return _chart.chartYMax;
+    }
+    
+    public func barChartRendererChartYMin(renderer: BarChartRenderer) -> Float
+    {
+        return _chart.chartYMin;
+    }
+    
     public func barChartRendererChartXMax(renderer: BarChartRenderer) -> Float
     {
         return _chart.chartXMax;
+    }
+    
+    public func barChartRendererChartXMin(renderer: BarChartRenderer) -> Float
+    {
+        return _chart.chartXMin;
     }
     
     public func barChartIsDrawHighlightArrowEnabled(renderer: BarChartRenderer) -> Bool
