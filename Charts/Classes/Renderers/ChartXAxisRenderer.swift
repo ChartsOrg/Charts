@@ -244,7 +244,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
             
             _limitLineSegmentsBuffer[0].x = position.x;
             _limitLineSegmentsBuffer[0].y = viewPortHandler.contentTop;
-            _limitLineSegmentsBuffer[1].x = position.y;
+            _limitLineSegmentsBuffer[1].x = position.x;
             _limitLineSegmentsBuffer[1].y = viewPortHandler.contentBottom;
             
             CGContextSetStrokeColorWithColor(context, l.lineColor.CGColor);
