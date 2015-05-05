@@ -3,8 +3,7 @@
 ** A version release is coming soon **
 
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
-
-**Requirements:**  
+b
 * Xcode 6.3 / Swift 1.2
 * iOS 7.0 (Drag .swift files to your project)
 * iOS 8.0 (Use as an **Embedded** Framework)
@@ -55,14 +54,15 @@ Features
 =======
 
 **Core features:**
+ - 8 different chart types
  - Scaling on both axes (with touch-gesture, axes separately or pinch-zoom)
  - Dragging / Panning (with touch-gesture)
- - Combined-Charts (line-, bar-, scatter-, candle-data)
+ - Combined-Charts (line-, bar-, scatter-, candle-stick-, bubble-)
  - Dual (separate) Y-Axis
  - Finger drawing (draw values into the chart with touch-gesture)
  - Highlighting values (with customizeable popup-views)
  - Multiple / Separate Axes
- - Save chart to camera-roll
+ - Save chart to camera-roll / export to PNG/JPEG
  - Predefined color templates
  - Legends (generated automatically, customizeable)
  - Customizeable Axes (both x- and y-axis)
@@ -112,6 +112,10 @@ Features
  - **CandleStickChart** (for financial data)
 
 ![alt tag](https://raw.github.com/PhilJay/MPAndroidChart/master/screenshots/candlestickchart.png)
+
+ - **BubbleChart** (area covered by bubbles indicates the value)
+
+![alt tag](https://raw.github.com/PhilJay/MPAndroidChart/master/screenshots/bubblechart.png)
 
  - **RadarChart** (spider web chart)
 
