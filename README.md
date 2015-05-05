@@ -1,9 +1,7 @@
-**Version 2.0.9**, synced to [MPAndroidChart #aa7cbce](https://github.com/PhilJay/MPAndroidChart/commit/82d8881)
-
-** A version release is coming soon **
+**Version 2.1.0**, synced to [MPAndroidChart #aa7cbce](https://github.com/PhilJay/MPAndroidChart/commit/82d8881)
 
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
-b
+
 * Xcode 6.3 / Swift 1.2
 * iOS 7.0 (Drag .swift files to your project)
 * iOS 8.0 (Use as an **Embedded** Framework)
