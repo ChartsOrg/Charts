@@ -57,6 +57,15 @@
     _chartView.pinchZoomEnabled = YES;
     _chartView.highlightIndicatorEnabled = NO;
 
+    // x-axis limit line
+    ChartLimitLine *llXAxis = [[ChartLimitLine alloc] initWithLimit:10.f label:@"Index 10"];
+    llXAxis.lineWidth = 4.f;
+    llXAxis.lineDashLengths = @[@(10.f), @(10.f), @(0.f)];
+    llXAxis.labelPosition = ChartLimitLabelPositionRight;
+    llXAxis.valueFont = [UIFont systemFontOfSize:10.f];
+    
+    [_chartView.xAxis addLimitLine:llXAxis];
+    
     ChartLimitLine *ll1 = [[ChartLimitLine alloc] initWithLimit:130.f label:@"Upper Limit"];
     ll1.lineWidth = 4.f;
     ll1.lineDashLengths = @[@5.f, @5.f];
