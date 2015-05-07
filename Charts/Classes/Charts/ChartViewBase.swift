@@ -50,11 +50,11 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     
     /// font object used for drawing the description text in the bottom right corner of the chart
     public var descriptionFont: UIFont? = UIFont(name: "HelveticaNeue", size: 9.0)
-    internal var _descriptionTextColor: UIColor! = UIColor.blackColor()
+    public var descriptionTextColor: UIColor! = UIColor.blackColor()
     
     /// font object for drawing the information text when there are no values in the chart
-    internal var _infoFont: UIFont! = UIFont(name: "HelveticaNeue", size: 12.0)
-    internal var _infoTextColor: UIColor! = UIColor(red: 247.0/255.0, green: 189.0/255.0, blue: 51.0/255.0, alpha: 1.0) // orange
+    public var infoFont: UIFont! = UIFont(name: "HelveticaNeue", size: 12.0)
+    public var infoTextColor: UIColor! = UIColor(red: 247.0/255.0, green: 189.0/255.0, blue: 51.0/255.0, alpha: 1.0) // orange
     
     /// description text that appears in the bottom right corner of the chart
     public var descriptionText = "Description"
@@ -273,13 +273,13 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             
             // if no data, inform the user
             
-            ChartUtils.drawText(context: context, text: noDataText, point: CGPoint(x: frame.width / 2.0, y: frame.height / 2.0), align: .Center, attributes: [NSFontAttributeName: _infoFont, NSForegroundColorAttributeName: _infoTextColor]);
+            ChartUtils.drawText(context: context, text: noDataText, point: CGPoint(x: frame.width / 2.0, y: frame.height / 2.0), align: .Center, attributes: [NSFontAttributeName: infoFont, NSForegroundColorAttributeName: infoTextColor]);
             
             if (noDataTextDescription?.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) > 0)
             {   
-                var textOffset = -_infoFont.lineHeight / 2.0;
+                var textOffset = -infoFont.lineHeight / 2.0;
                 
-                ChartUtils.drawText(context: context, text: noDataTextDescription!, point: CGPoint(x: frame.width / 2.0, y: frame.height / 2.0 + textOffset), align: .Center, attributes: [NSFontAttributeName: _infoFont, NSForegroundColorAttributeName: _infoTextColor]);
+                ChartUtils.drawText(context: context, text: noDataTextDescription!, point: CGPoint(x: frame.width / 2.0, y: frame.height / 2.0 + textOffset), align: .Center, attributes: [NSFontAttributeName: infoFont, NSForegroundColorAttributeName: infoTextColor]);
             }
             
             return;
@@ -312,7 +312,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         }
         
         attrs[NSFontAttributeName] = font;
-        attrs[NSForegroundColorAttributeName] = UIColor.blackColor();
+        attrs[NSForegroundColorAttributeName] = descriptionTextColor;
         
         ChartUtils.drawText(context: context, text: descriptionText, point: CGPoint(x: frame.width - _viewPortHandler.offsetRight - 10.0, y: frame.height - _viewPortHandler.offsetBottom - 10.0 - font!.lineHeight), align: .Right, attributes: attrs);
     }
