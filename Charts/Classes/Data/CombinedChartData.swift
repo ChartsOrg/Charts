@@ -153,10 +153,25 @@ public class CombinedChartData: BarLineScatterCandleChartData
     
     public override func notifyDataChanged()
     {
-        _lineData.notifyDataChanged();
-        _barData.notifyDataChanged();
-        _scatterData.notifyDataChanged();
-        _candleData.notifyDataChanged();
-        _bubbleData.notifyDataChanged();
+        if (_lineData !== nil)
+        {
+            _lineData.notifyDataChanged();
+        }
+        if (_barData !== nil)
+        {
+            _barData.notifyDataChanged();
+        }
+        if (_scatterData !== nil)
+        {
+            _scatterData.notifyDataChanged();
+        }
+        if (_candleData !== nil)
+        {
+            _candleData.notifyDataChanged();
+        }
+        if (_bubbleData !== nil)
+        {
+            _bubbleData.notifyDataChanged();
+        }
     }
 }
