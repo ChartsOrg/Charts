@@ -317,13 +317,6 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         ChartUtils.drawText(context: context, text: descriptionText, point: CGPoint(x: frame.width - _viewPortHandler.offsetRight - 10.0, y: frame.height - _viewPortHandler.offsetBottom - 10.0 - font!.lineHeight), align: .Right, attributes: attrs);
     }
     
-    /// enables/disables defauilt touch events to be handled. When disable, touches are not passed to parent views so scrolling inside a UIScrollView won't work.
-    public var defaultTouchEventsEnabled: Bool
-    {
-        get { return _interceptTouchEvents; }
-        set { _interceptTouchEvents = true; }
-    }
-    
     // MARK: - Highlighting
     
     /// Returns the array of currently highlighted values. This might be null or empty if nothing is highlighted.

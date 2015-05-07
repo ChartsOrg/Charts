@@ -19,15 +19,18 @@ import UIKit.UIGestureRecognizer
 public class PieRadarChartViewBase: ChartViewBase
 {
     /// holds the normalized version of the current rotation angle of the chart
-    private var _rotationAngle = CGFloat(270.0);
+    private var _rotationAngle = CGFloat(270.0)
     
     /// holds the raw version of the current rotation angle of the chart
-    private var _rawRotationAngle = CGFloat(270.0);
+    private var _rawRotationAngle = CGFloat(270.0)
     
     /// flag that indicates if rotation is enabled or not
     public var rotationEnabled = true
     
+    private var _rotationWithTwoFingers = false
+    
     private var _tapGestureRecognizer: UITapGestureRecognizer!
+    private var _rotationGestureRecognizer: UIRotationGestureRecognizer!
     
     public override init(frame: CGRect)
     {
@@ -49,7 +52,14 @@ public class PieRadarChartViewBase: ChartViewBase
         super.initialize();
         
         _tapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("tapGestureRecognized:"));
+        _rotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: Selector("rotationGestureRecognized:"));
+        
         self.addGestureRecognizer(_tapGestureRecognizer);
+        
+        if (rotationWithTwoFingers)
+        {
+            self.addGestureRecognizer(_rotationGestureRecognizer);
+        }
     }
     
     internal override func calcMinMax()
@@ -348,6 +358,41 @@ public class PieRadarChartViewBase: ChartViewBase
     
     public var isRotationEnabled: Bool { return rotationEnabled; }
     
+    /// flag that indicates if rotation is done with two fingers or one.
+    /// when the chart is inside a scrollview, you need a two-finger rotation because a one-finger rotation eats up all touch events.
+    /// :default: false
+    public var rotationWithTwoFingers: Bool
+    {
+        get
+        {
+            return _rotationWithTwoFingers;
+        }
+        set
+        {
+            if (newValue != _rotationWithTwoFingers)
+            {
+                _rotationWithTwoFingers = newValue;
+                
+                if (_rotationWithTwoFingers)
+                {
+                    self.addGestureRecognizer(_rotationGestureRecognizer);
+                }
+                else
+                {
+                    self.removeGestureRecognizer(_rotationGestureRecognizer);
+                }
+            }
+        }
+    }
+    
+    /// flag that indicates if rotation is done with two fingers or one.
+    /// when the chart is inside a scrollview, you need a two-finger rotation because a one-finger rotation eats up all touch events.
+    /// :default: false
+    public var isRotationWithTwoFingers: Bool
+    {
+        return _rotationWithTwoFingers;
+    }
+    
     // MARK: - Animation
     
     private var _spinAnimator: ChartAnimator!;
@@ -408,35 +453,39 @@ public class PieRadarChartViewBase: ChartViewBase
     
     public override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent)
     {
-        super.touchesBegan(touches, withEvent: event);
-        
         // if rotation by touch is enabled
         if (rotationEnabled)
         {
-            var touch = touches.first as! UITouch!;
-            
             stopDeceleration();
             
-            var touchLocation = touch.locationInView(self);
-            
-            self.resetVelocity();
-            
-            if (rotationEnabled)
+            if (!rotationWithTwoFingers)
             {
-                self.sampleVelocity(touchLocation: touchLocation);
+                var touch = touches.first as! UITouch!;
+                
+                var touchLocation = touch.locationInView(self);
+                
+                self.resetVelocity();
+                
+                if (rotationEnabled)
+                {
+                    self.sampleVelocity(touchLocation: touchLocation);
+                }
+                
+                self.setGestureStartAngle(x: touchLocation.x, y: touchLocation.y);
+                
+                _touchStartPoint = touchLocation;
             }
-            
-            self.setGestureStartAngle(x: touchLocation.x, y: touchLocation.y);
-            
-            _touchStartPoint = touchLocation;
+        }
+        
+        if (!_isRotating)
+        {
+            super.touchesBegan(touches, withEvent: event);
         }
     }
     
     public override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent)
     {
-        super.touchesMoved(touches, withEvent: event);
-        
-        if (rotationEnabled)
+        if (rotationEnabled && !rotationWithTwoFingers)
         {
             var touch = touches.first as! UITouch!;
             
@@ -450,9 +499,6 @@ public class PieRadarChartViewBase: ChartViewBase
             if (!_isRotating && distance(eventX: touchLocation.x, startX: _touchStartPoint.x, eventY: touchLocation.y, startY: _touchStartPoint.y) > CGFloat(8.0))
             {
                 _isRotating = true;
-                
-                _defaultTouchEventsWereEnabled = self.defaultTouchEventsEnabled;
-                self.defaultTouchEventsEnabled = false;
             }
             else
             {
@@ -460,13 +506,21 @@ public class PieRadarChartViewBase: ChartViewBase
                 setNeedsDisplay();
             }
         }
+        
+        if (!_isRotating)
+        {
+            super.touchesMoved(touches, withEvent: event);
+        }
     }
     
     public override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent)
     {
-        super.touchesEnded(touches, withEvent: event);
+        if (!_isRotating)
+        {
+            super.touchesEnded(touches, withEvent: event);
+        }
         
-        if (rotationEnabled)
+        if (rotationEnabled && !rotationWithTwoFingers)
         {
             var touch = touches.first as! UITouch!;
             
@@ -488,9 +542,9 @@ public class PieRadarChartViewBase: ChartViewBase
                 }
             }
         }
+        
         if (_isRotating)
         {
-            self.defaultTouchEventsEnabled = _defaultTouchEventsWereEnabled;
             _isRotating = false;
         }
     }
@@ -501,7 +555,6 @@ public class PieRadarChartViewBase: ChartViewBase
         
         if (_isRotating)
         {
-            self.defaultTouchEventsEnabled = _defaultTouchEventsWereEnabled;
             _isRotating = false;
         }
     }
@@ -708,6 +761,45 @@ public class PieRadarChartViewBase: ChartViewBase
                         self.highlightValue(highlight: h, callDelegate: true);
                         _lastHighlight = h;
                     }
+                }
+            }
+        }
+    }
+    
+    @objc private func rotationGestureRecognized(recognizer: UIRotationGestureRecognizer)
+    {
+        if (recognizer.state == UIGestureRecognizerState.Began)
+        {
+            stopDeceleration();
+            
+            _startAngle = self.rawRotationAngle;
+        }
+        
+        if (recognizer.state == UIGestureRecognizerState.Began || recognizer.state == UIGestureRecognizerState.Changed)
+        {
+            var angle = ChartUtils.Math.FRAD2DEG * recognizer.rotation;
+            
+            self.rotationAngle = _startAngle + angle;
+            setNeedsDisplay();
+        }
+        else if (recognizer.state == UIGestureRecognizerState.Ended)
+        {
+            var angle = ChartUtils.Math.FRAD2DEG * recognizer.rotation;
+            
+            self.rotationAngle = _startAngle + angle;
+            setNeedsDisplay();
+            
+            if (isDragDecelerationEnabled)
+            {
+                stopDeceleration();
+                
+                _decelerationAngularVelocity = ChartUtils.Math.FRAD2DEG * recognizer.velocity;
+                
+                if (_decelerationAngularVelocity != 0.0)
+                {
+                    _decelerationLastTime = CACurrentMediaTime();
+                    _decelerationDisplayLink = CADisplayLink(target: self, selector: Selector("decelerationLoop"));
+                    _decelerationDisplayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes);
                 }
             }
         }
