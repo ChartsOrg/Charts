@@ -55,11 +55,9 @@ public class PieRadarChartViewBase: ChartViewBase
         _rotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: Selector("rotationGestureRecognized:"));
         
         self.addGestureRecognizer(_tapGestureRecognizer);
+        self.addGestureRecognizer(_rotationGestureRecognizer);
         
-        if (rotationWithTwoFingers)
-        {
-            self.addGestureRecognizer(_rotationGestureRecognizer);
-        }
+        _rotationGestureRecognizer.enabled = rotationWithTwoFingers;
     }
     
     internal override func calcMinMax()
@@ -369,19 +367,8 @@ public class PieRadarChartViewBase: ChartViewBase
         }
         set
         {
-            if (newValue != _rotationWithTwoFingers)
-            {
-                _rotationWithTwoFingers = newValue;
-                
-                if (_rotationWithTwoFingers)
-                {
-                    self.addGestureRecognizer(_rotationGestureRecognizer);
-                }
-                else
-                {
-                    self.removeGestureRecognizer(_rotationGestureRecognizer);
-                }
-            }
+            _rotationWithTwoFingers = newValue;
+            _rotationGestureRecognizer.enabled = _rotationWithTwoFingers;
         }
     }
     

@@ -106,12 +106,13 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         _panGestureRecognizer.delegate = self;
         
         self.addGestureRecognizer(_tapGestureRecognizer);
-        if (_doubleTapToZoomEnabled)
-        {
-            self.addGestureRecognizer(_doubleTapGestureRecognizer);
-        }
-        updateScaleGestureRecognizers();
+        self.addGestureRecognizer(_doubleTapGestureRecognizer);
+        self.addGestureRecognizer(_pinchGestureRecognizer);
         self.addGestureRecognizer(_panGestureRecognizer);
+        
+        _doubleTapGestureRecognizer.enabled = _doubleTapToZoomEnabled;
+        _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled;
+        _panGestureRecognizer.enabled = _dragEnabled;
     }
     
     public override func drawRect(rect: CGRect)
@@ -974,7 +975,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         {
             _scaleXEnabled = enabled;
             _scaleYEnabled = enabled;
-            updateScaleGestureRecognizers();
+            _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled;
         }
     }
     
@@ -989,7 +990,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             if (_scaleXEnabled != newValue)
             {
                 _scaleXEnabled = newValue;
-                updateScaleGestureRecognizers();
+                _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled;
             }
         }
     }
@@ -1005,7 +1006,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             if (_scaleYEnabled != newValue)
             {
                 _scaleYEnabled = newValue;
-                updateScaleGestureRecognizers();
+                _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled;
             }
         }
     }
@@ -1025,24 +1026,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             if (_doubleTapToZoomEnabled != newValue)
             {
                 _doubleTapToZoomEnabled = newValue;
-                if (_doubleTapToZoomEnabled)
-                {
-                    self.addGestureRecognizer(_doubleTapGestureRecognizer);
-                }
-                else
-                {
-                    if (self.gestureRecognizers != nil)
-                    {
-                        for (var i = 0; i < self.gestureRecognizers!.count; i++)
-                        {
-                            if (self.gestureRecognizers?[i] === _doubleTapGestureRecognizer)
-                            {
-                                self.gestureRecognizers!.removeAtIndex(i);
-                                break;
-                            }
-                        }
-                    }
-                }
+                _doubleTapGestureRecognizer.enabled = _doubleTapToZoomEnabled;
             }
         }
     }
@@ -1329,28 +1313,8 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             if (_pinchZoomEnabled != newValue)
             {
                 _pinchZoomEnabled = newValue;
-                updateScaleGestureRecognizers();
+                _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled;
             }
-        }
-    }
-    
-    private func updateScaleGestureRecognizers()
-    {
-        if (self.gestureRecognizers != nil)
-        {
-            for (var i = 0; i < self.gestureRecognizers!.count; i++)
-            {
-                if (self.gestureRecognizers![i] === _pinchGestureRecognizer)
-                {
-                    self.gestureRecognizers!.removeAtIndex(i);
-                    break;
-                }
-            }
-        }
-        
-        if (_pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled)
-        {
-            self.addGestureRecognizer(_pinchGestureRecognizer);
         }
     }
 
