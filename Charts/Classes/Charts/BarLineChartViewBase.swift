@@ -482,6 +482,8 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     private var _isScaling = false;
     private var _gestureScaleAxis = GestureScaleAxis.Both;
     private var _closestDataSetToTouch: ChartDataSet!;
+    private var _panGestureReachedEdge: Bool = false;
+    private weak var _outerScrollView: UIScrollView?;
     
     /// the last highlighted object
     private var _lastHighlighted: ChartHighlight!;
@@ -613,38 +615,40 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             }
         }
     }
-
+    
     @objc private func panGestureRecognized(recognizer: UIPanGestureRecognizer)
     {
         if (recognizer.state == UIGestureRecognizerState.Began)
         {
             stopDeceleration();
             
-            if (!_dataNotSet && _dragEnabled && !self.hasNoDragOffset || !self.isFullyZoomedOut)
+            if ((!_dataNotSet && _dragEnabled && !self.hasNoDragOffset) || !self.isFullyZoomedOut)
             {
                 _isDragging = true;
                 
                 _closestDataSetToTouch = getDataSetByTouchPoint(recognizer.locationOfTouch(0, inView: self));
                 
-                _lastPanPoint = recognizer.translationInView(self);
-            }
-        }
-        else if (recognizer.state == UIGestureRecognizerState.Ended || recognizer.state == UIGestureRecognizerState.Cancelled)
-        {
-            if (_isDragging)
-            {
-                if (recognizer.state == UIGestureRecognizerState.Ended && isDragDecelerationEnabled)
+                var translation = recognizer.translationInView(self);
+                
+                if (!performPanChange(translation: translation))
                 {
-                    stopDeceleration();
-                    
-                    _decelerationLastTime = CACurrentMediaTime();
-                    _decelerationVelocity = recognizer.velocityInView(self);
-                    
-                    _decelerationDisplayLink = CADisplayLink(target: self, selector: Selector("decelerationLoop"));
-                    _decelerationDisplayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes);
+                    if (_outerScrollView !== nil)
+                    {
+                        // We can stop dragging right now, and let the scroll view take control
+                        _outerScrollView = nil;
+                        _isDragging = false;
+                    }
+                }
+                else
+                {
+                    if (_outerScrollView !== nil)
+                    {
+                        // Prevent the parent scroll view from scrolling
+                        _outerScrollView?.scrollEnabled = false;
+                    }
                 }
                 
-                _isDragging = false;
+                _lastPanPoint = recognizer.translationInView(self);
             }
         }
         else if (recognizer.state == UIGestureRecognizerState.Changed)
@@ -671,9 +675,33 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
                 }
             }
         }
+        else if (recognizer.state == UIGestureRecognizerState.Ended || recognizer.state == UIGestureRecognizerState.Cancelled)
+        {
+            if (_isDragging)
+            {
+                if (recognizer.state == UIGestureRecognizerState.Ended && isDragDecelerationEnabled)
+                {
+                    stopDeceleration();
+                    
+                    _decelerationLastTime = CACurrentMediaTime();
+                    _decelerationVelocity = recognizer.velocityInView(self);
+                    
+                    _decelerationDisplayLink = CADisplayLink(target: self, selector: Selector("decelerationLoop"));
+                    _decelerationDisplayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes);
+                }
+                
+                _isDragging = false;
+            }
+            
+            if (_outerScrollView !== nil)
+            {
+                _outerScrollView?.scrollEnabled = true;
+                _outerScrollView = nil;
+            }
+        }
     }
     
-    private func performPanChange(var #translation: CGPoint)
+    private func performPanChange(var #translation: CGPoint) -> Bool
     {
         if (isAnyAxisInverted && _closestDataSetToTouch !== nil
             && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
@@ -688,10 +716,15 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             }
         }
         
-        var matrix = CGAffineTransformMakeTranslation(translation.x, translation.y);
-        matrix = CGAffineTransformConcat(_viewPortHandler.touchMatrix, matrix);
+        var originalMatrix = _viewPortHandler.touchMatrix;
         
-        _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true);
+        var matrix = CGAffineTransformMakeTranslation(translation.x, translation.y);
+        matrix = CGAffineTransformConcat(originalMatrix, matrix);
+        
+        matrix = _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true);
+        
+        // Did we managed to actually drag or did we reach the edge?
+        return matrix.tx != originalMatrix.tx || matrix.ty != originalMatrix.ty;
     }
     
     public func stopDeceleration()
@@ -717,7 +750,12 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             y: _decelerationVelocity.y * timeInterval
         );
         
-        performPanChange(translation: distance);
+        if (!performPanChange(translation: distance))
+        {
+            // We reached the edge, stop
+            _decelerationVelocity.x = 0.0;
+            _decelerationVelocity.y = 0.0;
+        }
         
         _decelerationLastTime = currentTime;
         
@@ -727,11 +765,79 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         }
     }
     
+    public override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool
+    {
+        if (!super.gestureRecognizerShouldBegin(gestureRecognizer))
+        {
+            return false;
+        }
+        
+        if (gestureRecognizer == _panGestureRecognizer)
+        {
+            if (_dataNotSet || !_dragEnabled || !self.hasNoDragOffset ||
+                (self.isFullyZoomedOut && !self.isHighlightPerDragEnabled))
+            {
+                return false;
+            }
+        }
+        else if (gestureRecognizer == _pinchGestureRecognizer)
+        {
+            if (_dataNotSet || (!_pinchZoomEnabled && !_scaleXEnabled && !_scaleYEnabled))
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
     public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool
     {
-        if ((gestureRecognizer.isKindOfClass(UIPinchGestureRecognizer) && otherGestureRecognizer.isKindOfClass(UIPanGestureRecognizer)) || (gestureRecognizer.isKindOfClass(UIPanGestureRecognizer) && otherGestureRecognizer.isKindOfClass(UIPinchGestureRecognizer)))
+        if ((gestureRecognizer.isKindOfClass(UIPinchGestureRecognizer) &&
+            otherGestureRecognizer.isKindOfClass(UIPanGestureRecognizer)) ||
+            (gestureRecognizer.isKindOfClass(UIPanGestureRecognizer) &&
+                otherGestureRecognizer.isKindOfClass(UIPinchGestureRecognizer)))
         {
             return true;
+        }
+        
+        if (gestureRecognizer.isKindOfClass(UIPanGestureRecognizer) &&
+            otherGestureRecognizer.isKindOfClass(UIPanGestureRecognizer) && (
+                gestureRecognizer == _panGestureRecognizer
+            ))
+        {
+            var scrollView = self.superview;
+            while (scrollView !== nil && !scrollView!.isKindOfClass(UIScrollView))
+            {
+                scrollView = scrollView?.superview;
+            }
+            var foundScrollView = scrollView as? UIScrollView;
+            
+            if (foundScrollView !== nil && !foundScrollView!.scrollEnabled)
+            {
+                foundScrollView = nil;
+            }
+            
+            var scrollViewPanGestureRecognizer: UIGestureRecognizer!;
+            
+            if (foundScrollView !== nil)
+            {
+                for scrollRecognizer in foundScrollView!.gestureRecognizers as! [UIGestureRecognizer]
+                {
+                    if (scrollRecognizer.isKindOfClass(UIPanGestureRecognizer))
+                    {
+                        scrollViewPanGestureRecognizer = scrollRecognizer as! UIPanGestureRecognizer;
+                        break;
+                    }
+                }
+            }
+            
+            if (otherGestureRecognizer === scrollViewPanGestureRecognizer)
+            {
+                _outerScrollView = foundScrollView;
+                
+                return true;
+            }
         }
         
         return false;
@@ -1042,6 +1148,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     public var highlightPerDragEnabled = true
     
     /// If set to true, highlighting per dragging over a fully zoomed out chart is enabled
+    /// You might want to disable this when using inside a UIScrollView
     /// :default: true
     public var isHighlightPerDragEnabled: Bool
     {
