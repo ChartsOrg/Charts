@@ -61,7 +61,7 @@ public class ChartHighlight: NSObject
     
     public override func isEqual(object: AnyObject?) -> Bool
     {
-        if (object == nil)
+        if (object === nil)
         {
             return false;
         }

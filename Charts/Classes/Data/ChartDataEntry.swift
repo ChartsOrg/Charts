@@ -51,7 +51,7 @@ public class ChartDataEntry: NSObject, Equatable
     
     public override func isEqual(object: AnyObject?) -> Bool
     {
-        if (object == nil)
+        if (object === nil)
         {
             return false;
         }
