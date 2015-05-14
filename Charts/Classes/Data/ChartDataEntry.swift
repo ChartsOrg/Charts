@@ -61,7 +61,7 @@ public class ChartDataEntry: NSObject, Equatable
             return false;
         }
         
-        if (object!.data !== data && !object!.isEqual(self))
+        if (object!.data !== data && !object!.data.isEqual(self.data))
         {
             return false;
         }
