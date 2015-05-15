@@ -50,6 +50,66 @@ public class ChartLegend: ChartComponentBase
     public var colors = [UIColor?]()
     public var labels = [String?]()
     
+    /// colors array is not accessible through ObjC as it contains Optional UIColor, and in Swift 1.2 it is not bridged. This is a workaround property, which uses NSNulls
+    public var colorsObjc: [NSObject]
+    {
+        get
+        {
+            var array = [NSObject]();
+            for color in colors
+            {
+                if (color == nil)
+                {
+                    array.append(NSNull());
+                }
+                else
+                {
+                    array.append(color!);
+                }
+            }
+            return array;
+        }
+        set
+        {
+            var array = [UIColor?]();
+            for object in newValue
+            {
+                array.append(object as? UIColor)
+            }
+            self.colors = array;
+        }
+    }
+    
+    /// labels array is not accessible through ObjC as it contains Optional String, and in Swift 1.2 it is not bridged. This is a workaround property, which uses NSNulls
+    public var labelsObjc: [NSObject]
+    {
+        get
+        {
+            var array = [NSObject]();
+            for label in labels
+            {
+                if (label == nil)
+                {
+                    array.append(NSNull());
+                }
+                else
+                {
+                    array.append(label!);
+                }
+            }
+            return array;
+        }
+        set
+        {
+            var array = [String?]();
+            for object in newValue
+            {
+                array.append(object as? String)
+            }
+            self.labels = array;
+        }
+    }
+    
     public var position = ChartLegendPosition.BelowChartLeft
     public var direction = ChartLegendDirection.LeftToRight
     
@@ -79,6 +139,14 @@ public class ChartLegend: ChartComponentBase
         
         self.colors = colors;
         self.labels = labels;
+    }
+    
+    public init(colors: [NSObject], labels: [NSObject])
+    {
+        super.init();
+        
+        self.colorsObjc = colors;
+        self.labelsObjc = labels;
     }
     
     public func getMaximumEntrySize(font: UIFont) -> CGSize
