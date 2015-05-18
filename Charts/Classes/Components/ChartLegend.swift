@@ -49,67 +49,21 @@ public class ChartLegend: ChartComponentBase
 
     public var colors = [UIColor?]()
     public var labels = [String?]()
-    
+
     /// colors array is not accessible through ObjC as it contains Optional UIColor, and in Swift 1.2 it is not bridged. This is a workaround property, which uses NSNulls
     public var colorsObjc: [NSObject]
     {
-        get
-        {
-            var array = [NSObject]();
-            for color in colors
-            {
-                if (color == nil)
-                {
-                    array.append(NSNull());
-                }
-                else
-                {
-                    array.append(color!);
-                }
-            }
-            return array;
-        }
-        set
-        {
-            var array = [UIColor?]();
-            for object in newValue
-            {
-                array.append(object as? UIColor)
-            }
-            self.colors = array;
-        }
+        get { return ChartUtils.bridgedObjCGetUIColorArray(swift: colors); }
+        set { self.colors = ChartUtils.bridgedObjCGetUIColorArray(objc: newValue); }
     }
-    
+
     /// labels array is not accessible through ObjC as it contains Optional String, and in Swift 1.2 it is not bridged. This is a workaround property, which uses NSNulls
     public var labelsObjc: [NSObject]
     {
-        get
-        {
-            var array = [NSObject]();
-            for label in labels
-            {
-                if (label == nil)
-                {
-                    array.append(NSNull());
-                }
-                else
-                {
-                    array.append(label!);
-                }
-            }
-            return array;
-        }
-        set
-        {
-            var array = [String?]();
-            for object in newValue
-            {
-                array.append(object as? String)
-            }
-            self.labels = array;
-        }
+        get { return ChartUtils.bridgedObjCGetStringArray(swift: labels); }
+        set { self.labels = ChartUtils.bridgedObjCGetStringArray(objc: newValue); }
     }
-    
+
     public var position = ChartLegendPosition.BelowChartLeft
     public var direction = ChartLegendDirection.LeftToRight
     
