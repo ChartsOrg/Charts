@@ -93,8 +93,8 @@ public class ChartLegendRenderer: ChartRendererBase
             }
         }
 
-        _legend.colors = colors;
-        _legend.labels = labels;
+        _legend.colors = colors + _legend.extraColors;
+        _legend.labels = labels + _legend.extraLabels;
         
         // calculate all dimensions of the legend
         _legend.calculateDimensions(_legend.font);

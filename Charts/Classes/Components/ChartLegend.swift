@@ -64,12 +64,29 @@ public class ChartLegend: ChartComponentBase
         set { self.labels = ChartUtils.bridgedObjCGetStringArray(objc: newValue); }
     }
 
+    public var extraColors = [UIColor?]()
+    public var extraLabels = [String?]()
+
+    /// colors array is not accessible through ObjC as it contains Optional UIColor, and in Swift 1.2 it is not bridged. This is a workaround property, which uses NSNulls
+    public var extraColorsObjc: [NSObject]
+    {
+        get { return ChartUtils.bridgedObjCGetUIColorArray(swift: extraColors); }
+        set { self.extraColors = ChartUtils.bridgedObjCGetUIColorArray(objc: newValue); }
+    }
+
+    /// labels array is not accessible through ObjC as it contains Optional String, and in Swift 1.2 it is not bridged. This is a workaround property, which uses NSNulls
+    public var extraLabelsObjc: [NSObject]
+    {
+        get { return ChartUtils.bridgedObjCGetStringArray(swift: extraLabels); }
+        set { self.extraLabels = ChartUtils.bridgedObjCGetStringArray(objc: newValue); }
+    }
+
     public var position = ChartLegendPosition.BelowChartLeft
     public var direction = ChartLegendDirection.LeftToRight
-    
+
     public var font: UIFont = UIFont.systemFontOfSize(10.0)
     public var textColor = UIColor.blackColor()
-    
+
     public var form = ChartLegendForm.Square
     public var formSize = CGFloat(8.0)
     public var formLineWidth = CGFloat(1.5)
