@@ -105,7 +105,7 @@ public class PieRadarChartViewBase: ChartViewBase
                 var legendWidth = self.fullLegendWidth + spacing;
                 var legendHeight = _legend.neededHeight + _legend.textHeightMax;
 
-                var c = self.center;
+                var c = self.midPoint;
 
                 var bottomRight = CGPoint(x: self.bounds.width - legendWidth + 15.0, y: legendHeight + 15);
                 var distLegend = distanceToCenter(x: bottomRight.x, y: bottomRight.y);
@@ -142,7 +142,7 @@ public class PieRadarChartViewBase: ChartViewBase
                 var legendWidth = self.fullLegendWidth + spacing;
                 var legendHeight = _legend.neededHeight + _legend.textHeightMax;
 
-                var c = self.center;
+                var c = self.midPoint;
 
                 var bottomLeft = CGPoint(x: legendWidth - 15.0, y: legendHeight + 15);
                 var distLegend = distanceToCenter(x: bottomLeft.x, y: bottomLeft.y);

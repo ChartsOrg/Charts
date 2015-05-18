@@ -609,6 +609,14 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         return _data.yValCount;
     }
     
+    /// Returns the center point of the chart (the whole View) in pixels.
+    /// Note: (Equivalent of getCenter() in MPAndroidChart, as center is already a standard in iOS that returns the center point relative to superview, and MPAndroidChart returns relative to self)
+    public var midPoint: CGPoint
+    {
+        var bounds = self.bounds;
+        return CGPoint(x: bounds.origin.x + bounds.size.width / 2.0, y: bounds.origin.y + bounds.size.height / 2.0);
+    }
+    
     /// Returns the center of the chart taking offsets under consideration. (returns the center of the content rectangle)
     public var centerOffsets: CGPoint
     {
