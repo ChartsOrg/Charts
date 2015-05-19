@@ -54,9 +54,11 @@ public class ChartLegend: ChartComponentBase
     public var labels = [String?]()
     
     /// colors that will be appended to the end of the colors array after calculating the legend.
+    /// (if the legend has already been calculated, you will need to call notifyDataSetChanged())
     public var extraColors = [UIColor?]()
     
     /// labels that will be appended to the end of the labels array after calculating the legend. a nil label will start a group.
+    /// (if the legend has already been calculated, you will need to call notifyDataSetChanged())
     public var extraLabels = [String?]()
     
     /// Are the legend labels/colors a custom value or auto calculated? If false, then it's auto, if true, then custom.
