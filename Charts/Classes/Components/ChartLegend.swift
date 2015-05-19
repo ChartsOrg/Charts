@@ -47,39 +47,17 @@ public class ChartLegend: ChartComponentBase
         case RightToLeft
     }
 
+    /// the legend colors array, each color is for the form drawn at the same index
     public var colors = [UIColor?]()
+
+    // the legend text array. a nil label will start a group.
     public var labels = [String?]()
 
-    /// colors array is not accessible through ObjC as it contains Optional UIColor, and in Swift 1.2 it is not bridged. This is a workaround property, which uses NSNulls
-    public var colorsObjc: [NSObject]
-    {
-        get { return ChartUtils.bridgedObjCGetUIColorArray(swift: colors); }
-        set { self.colors = ChartUtils.bridgedObjCGetUIColorArray(objc: newValue); }
-    }
-
-    /// labels array is not accessible through ObjC as it contains Optional String, and in Swift 1.2 it is not bridged. This is a workaround property, which uses NSNulls
-    public var labelsObjc: [NSObject]
-    {
-        get { return ChartUtils.bridgedObjCGetStringArray(swift: labels); }
-        set { self.labels = ChartUtils.bridgedObjCGetStringArray(objc: newValue); }
-    }
-
+    /// colors that will be appended to the end of the colors array after calculating the legend.
     public var extraColors = [UIColor?]()
+
+    /// labels that will be appended to the end of the labels array after calculating the legend. a nil label will start a group.
     public var extraLabels = [String?]()
-
-    /// colors array is not accessible through ObjC as it contains Optional UIColor, and in Swift 1.2 it is not bridged. This is a workaround property, which uses NSNulls
-    public var extraColorsObjc: [NSObject]
-    {
-        get { return ChartUtils.bridgedObjCGetUIColorArray(swift: extraColors); }
-        set { self.extraColors = ChartUtils.bridgedObjCGetUIColorArray(objc: newValue); }
-    }
-
-    /// labels array is not accessible through ObjC as it contains Optional String, and in Swift 1.2 it is not bridged. This is a workaround property, which uses NSNulls
-    public var extraLabelsObjc: [NSObject]
-    {
-        get { return ChartUtils.bridgedObjCGetStringArray(swift: extraLabels); }
-        set { self.extraLabels = ChartUtils.bridgedObjCGetStringArray(objc: newValue); }
-    }
 
     public var position = ChartLegendPosition.BelowChartLeft
     public var direction = ChartLegendDirection.LeftToRight
@@ -225,5 +203,41 @@ public class ChartLegend: ChartComponentBase
             textWidthMax = maxEntrySize.width;
             textHeightMax = maxEntrySize.height;
         }
+    }
+
+    /// MARK: - ObjC compatibility
+
+    /// the legend colors array, each color is for the form drawn at the same index
+    /// (ObjC bridging functions, as Swift 1.2 does not bridge optionals in array to NSNulls)
+    public var colorsObjc: [NSObject]
+    {
+        get { return ChartUtils.bridgedObjCGetUIColorArray(swift: colors); }
+        set { self.colors = ChartUtils.bridgedObjCGetUIColorArray(objc: newValue); }
+    }
+
+    // the legend text array. a nil label will start a group.
+    /// (ObjC bridging functions, as Swift 1.2 does not bridge optionals in array to NSNulls)
+    public var labelsObjc: [NSObject]
+    {
+        get { return ChartUtils.bridgedObjCGetStringArray(swift: labels); }
+        set { self.labels = ChartUtils.bridgedObjCGetStringArray(objc: newValue); }
+    }
+
+    /// colors that will be appended to the end of the colors array after calculating the legend.
+    /// this will not be used when using customLabels/customColors
+    /// (ObjC bridging functions, as Swift 1.2 does not bridge optionals in array to NSNulls)
+    public var extraColorsObjc: [NSObject]
+    {
+        get { return ChartUtils.bridgedObjCGetUIColorArray(swift: extraColors); }
+        set { self.extraColors = ChartUtils.bridgedObjCGetUIColorArray(objc: newValue); }
+    }
+
+    /// labels that will be appended to the end of the labels array after calculating the legend. a nil label will start a group.
+    /// this will not be used when using customLabels/customColors
+    /// (ObjC bridging functions, as Swift 1.2 does not bridge optionals in array to NSNulls)
+    public var extraLabelsObjc: [NSObject]
+    {
+        get { return ChartUtils.bridgedObjCGetStringArray(swift: extraLabels); }
+        set { self.extraLabels = ChartUtils.bridgedObjCGetStringArray(objc: newValue); }
     }
 }
