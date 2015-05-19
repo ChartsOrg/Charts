@@ -56,6 +56,7 @@
     [_chartView setScaleEnabled:YES];
     _chartView.pinchZoomEnabled = YES;
     _chartView.highlightIndicatorEnabled = NO;
+    _chartView.drawGridBackgroundEnabled = NO;
 
     // x-axis limit line
     ChartLimitLine *llXAxis = [[ChartLimitLine alloc] initWithLimit:10.f label:@"Index 10"];
