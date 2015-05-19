@@ -244,7 +244,10 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         
         _xAxisRenderer?.computeAxis(xValAverageLength: _data.xValAverageLength, xValues: _data.xVals);
         
-        _legendRenderer?.computeLegend(_data);
+        if (_legend !== nil && !_legend.isLegendCustom)
+        {
+            _legendRenderer?.computeLegend(_data);
+        }
         
         calculateOffsets();
         

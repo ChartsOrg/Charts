@@ -49,15 +49,19 @@ public class ChartLegend: ChartComponentBase
 
     /// the legend colors array, each color is for the form drawn at the same index
     public var colors = [UIColor?]()
-
+    
     // the legend text array. a nil label will start a group.
     public var labels = [String?]()
-
+    
     /// colors that will be appended to the end of the colors array after calculating the legend.
     public var extraColors = [UIColor?]()
-
+    
     /// labels that will be appended to the end of the labels array after calculating the legend. a nil label will start a group.
     public var extraLabels = [String?]()
+    
+    /// Are the legend labels/colors a custom value or auto calculated? If false, then it's auto, if true, then custom.
+    /// :default: false (automatic legend)
+    private var _isLegendCustom = false
 
     public var position = ChartLegendPosition.BelowChartLeft
     public var direction = ChartLegendDirection.LeftToRight
@@ -204,9 +208,38 @@ public class ChartLegend: ChartComponentBase
             textHeightMax = maxEntrySize.height;
         }
     }
-
+    
+    /// MARK: - Custom legend
+    
+    /// Sets a custom legend's labels and colors arrays.
+    /// The colors count should match the labels count.
+    /// * Each color is for the form drawn at the same index.
+    /// * A nil label will start a group.
+    /// * A nil color will avoid drawing a form, and a clearColor will leave a space for the form.
+    /// This will disable the feature that automatically calculates the legend labels and colors from the datasets.
+    /// Call resetLegendToAuto(...) to re-enable automatic calculation (and then notifyDataSetChanged() is needed). 
+    public func setLegend(#colors: [UIColor?], labels: [String?])
+    {
+        self.labels = labels;
+        self.colors = colors;
+        _isLegendCustom = true;
+    }
+    
+    /// Calling this will disable the custom legend labels (set by setLegend(...)). Instead, the labels will again be calculated automatically (after notifyDataSetChanged() is called).
+    public func resetLegendToAuto()
+    {
+        _isLegendCustom = false;
+    }
+    
+    /// Returns true if a custom legend labels and colors has been set
+    /// :default: false (automatic legend)
+    public var isLegendCustom: Bool
+    {
+        return _isLegendCustom;
+    }
+    
     /// MARK: - ObjC compatibility
-
+    
     /// the legend colors array, each color is for the form drawn at the same index
     /// (ObjC bridging functions, as Swift 1.2 does not bridge optionals in array to NSNulls)
     public var colorsObjc: [NSObject]
@@ -214,7 +247,7 @@ public class ChartLegend: ChartComponentBase
         get { return ChartUtils.bridgedObjCGetUIColorArray(swift: colors); }
         set { self.colors = ChartUtils.bridgedObjCGetUIColorArray(objc: newValue); }
     }
-
+    
     // the legend text array. a nil label will start a group.
     /// (ObjC bridging functions, as Swift 1.2 does not bridge optionals in array to NSNulls)
     public var labelsObjc: [NSObject]
@@ -222,7 +255,7 @@ public class ChartLegend: ChartComponentBase
         get { return ChartUtils.bridgedObjCGetStringArray(swift: labels); }
         set { self.labels = ChartUtils.bridgedObjCGetStringArray(objc: newValue); }
     }
-
+    
     /// colors that will be appended to the end of the colors array after calculating the legend.
     /// this will not be used when using customLabels/customColors
     /// (ObjC bridging functions, as Swift 1.2 does not bridge optionals in array to NSNulls)
@@ -231,7 +264,7 @@ public class ChartLegend: ChartComponentBase
         get { return ChartUtils.bridgedObjCGetUIColorArray(swift: extraColors); }
         set { self.extraColors = ChartUtils.bridgedObjCGetUIColorArray(objc: newValue); }
     }
-
+    
     /// labels that will be appended to the end of the labels array after calculating the legend. a nil label will start a group.
     /// this will not be used when using customLabels/customColors
     /// (ObjC bridging functions, as Swift 1.2 does not bridge optionals in array to NSNulls)
@@ -239,5 +272,19 @@ public class ChartLegend: ChartComponentBase
     {
         get { return ChartUtils.bridgedObjCGetStringArray(swift: extraLabels); }
         set { self.extraLabels = ChartUtils.bridgedObjCGetStringArray(objc: newValue); }
+    }
+    
+    /// Sets a custom legend's labels and colors arrays.
+    /// The colors count should match the labels count.
+    /// * Each color is for the form drawn at the same index.
+    /// * A nil label will start a group.
+    /// * A nil color will avoid drawing a form, and a clearColor will leave a space for the form.
+    /// This will disable the feature that automatically calculates the legend labels and colors from the datasets.
+    /// Call resetLegendToAuto(...) to re-enable automatic calculation, and then if needed - call notifyDataSetChanged() on the chart to make it refresh the data.
+    public func setLegend(#colors: [NSObject], labels: [NSObject])
+    {
+        self.labelsObjc = labels;
+        self.colorsObjc = colors;
+        _isLegendCustom = true;
     }
 }
