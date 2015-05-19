@@ -54,7 +54,7 @@ public class ChartLegendRenderer: ChartRendererBase
                 }
 
                 // add the legend description label
-                colors.append(UIColor.clearColor());
+                colors.append(nil);
                 labels.append(bds.label);
 
             }
@@ -70,7 +70,7 @@ public class ChartLegendRenderer: ChartRendererBase
                 }
 
                 // add the legend description label
-                colors.append(UIColor.clearColor());
+                colors.append(nil);
                 labels.append(pds.label);
             }
             else
@@ -149,7 +149,7 @@ public class ChartLegendRenderer: ChartRendererBase
             
             for (var i = 0, count = labels.count; i < count; i++)
             {
-                var drawingForm = _legend.colors[i] != UIColor.clearColor();
+                var drawingForm = _legend.colors[i] != nil;
                 
                 if (drawingForm)
                 {
@@ -203,7 +203,7 @@ public class ChartLegendRenderer: ChartRendererBase
             
             for (var i = labels.count - 1; i >= 0; i--)
             {
-                var drawingForm = _legend.colors[i] != UIColor.clearColor();
+                var drawingForm = _legend.colors[i] != nil;
                 
                 if (direction == .RightToLeft && drawingForm)
                 {
@@ -235,7 +235,7 @@ public class ChartLegendRenderer: ChartRendererBase
             
             for (var i = 0; i < labels.count; i++)
             {
-                var drawingForm = _legend.colors[i] != UIColor.clearColor();
+                var drawingForm = _legend.colors[i] != nil;
                 
                 if (drawingForm)
                 {
@@ -289,7 +289,7 @@ public class ChartLegendRenderer: ChartRendererBase
             
             for (var i = 0; i < labels.count; i++)
             {
-                var drawingForm = _legend.colors[i] != UIColor.clearColor();
+                var drawingForm = _legend.colors[i] != nil;
                 var x = posX;
                 
                 if (drawingForm)
@@ -399,7 +399,7 @@ public class ChartLegendRenderer: ChartRendererBase
             
             for (var i = 0; i < labels.count; i++)
             {
-                var drawingForm = _legend.colors[i] != UIColor.clearColor();
+                var drawingForm = _legend.colors[i] != nil;
                 var x = posX;
                 
                 if (drawingForm)
