@@ -83,15 +83,18 @@ public class ChartXAxis: ChartAxisBase
     /// Sets the number of labels that should be skipped on the axis before the next label is drawn. 
     /// This will disable the feature that automatically calculates an adequate space between the axis labels and set the number of labels to be skipped to the fixed number provided by this method. 
     /// Call resetLabelsToSkip(...) to re-enable automatic calculation.
-    public func setLabelsToSkip(var count: Int)
+    public func setLabelsToSkip(count: Int)
     {
+        _isAxisModulusCustom = true;
+
         if (count < 0)
         {
-            count = 0;
+            axisLabelModulus = 1;
         }
-        
-        _isAxisModulusCustom = true;
-        axisLabelModulus = count + 1;
+        else
+        {
+            axisLabelModulus = count + 1;
+        }
     }
     
     /// Calling this will disable a custom number of labels to be skipped (set by setLabelsToSkip(...)) while drawing the x-axis. Instead, the number of values to skip will again be calculated automatically.
