@@ -25,6 +25,8 @@ public class ChartData: NSObject
     internal var _rightAxisMin = Float(0.0)
     private var _yValueSum = Float(0.0)
     private var _yValCount = Int(0)
+    internal var _lastStart = Int(0);
+    internal var _lastEnd = Int(0);
     
     /// the average length (in characters) across all x-value strings
     private var _xValAverageLength = Float(0.0)
@@ -69,7 +71,7 @@ public class ChartData: NSObject
     {
         checkIsLegal(dataSets);
         
-        calcMinMax();
+        calcMinMax(start: _lastStart, end: _lastEnd);
         calcYValueSum();
         calcYValueCount();
         
@@ -120,8 +122,9 @@ public class ChartData: NSObject
     }
     
     /// calc minimum and maximum y value over all datasets
-    internal func calcMinMax()
+    internal func calcMinMax(#start: Int, end: Int)
     {
+        
         if (_dataSets == nil || _dataSets.count < 1)
         {
             _yMax = 0.0;
@@ -129,12 +132,17 @@ public class ChartData: NSObject
         }
         else
         {
+            _lastStart = start;
+            _lastEnd = end;
+            
             // calculate absolute min and max
             _yMin = _dataSets[0].yMin;
             _yMax = _dataSets[0].yMax;
             
             for (var i = 0; i < _dataSets.count; i++)
             {
+                _dataSets[i].calcMinMax(start: start, end: end);
+                
                 if (_dataSets[i].yMin < _yMin)
                 {
                     _yMin = _dataSets[i].yMin;
@@ -552,7 +560,7 @@ public class ChartData: NSObject
         _yValCount -= d.entryCount;
         _yValueSum -= d.yValueSum;
         
-        calcMinMax();
+        calcMinMax(start: _lastStart, end: _lastEnd);
         
         return true;
     }
@@ -629,7 +637,7 @@ public class ChartData: NSObject
             _yValCount -= 1;
             _yValueSum -= val;
             
-            calcMinMax();
+            calcMinMax(start: _lastStart, end: _lastEnd);
         }
         
         return removed;
