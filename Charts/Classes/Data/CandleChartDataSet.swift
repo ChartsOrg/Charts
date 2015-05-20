@@ -45,7 +45,7 @@ public class CandleChartDataSet: BarLineScatterCandleChartDataSet
         super.init(yVals: yVals, label: label);
     }
     
-    internal override func calcMinMax()
+    internal override func calcMinMax(#start: Int, end: Int)
     {
         if (yVals.count == 0)
         {
@@ -53,19 +53,33 @@ public class CandleChartDataSet: BarLineScatterCandleChartDataSet
         }
         
         var entries = yVals as! [CandleChartDataEntry];
-
-        _yMin = entries[0].low;
-        _yMax = entries[0].high;
-
-        for (var i = 0; i < entries.count; i++)
+        
+        var endValue : Int;
+        
+        if end == 0
+        {
+            endValue = entries.count - 1;
+        }
+        else
+        {
+            endValue = end;
+        }
+        
+        _lastStart = start;
+        _lastEnd = end;
+        
+        _yMin = entries[start].low;
+        _yMax = entries[start].high;
+        
+        for (var i = 0; i <= endValue; i++)
         {
             var e = entries[i];
-
+            
             if (e.low < _yMin)
             {
                 _yMin = e.low;
             }
-
+            
             if (e.high > _yMax)
             {
                 _yMax = e.high;
