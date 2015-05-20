@@ -83,10 +83,24 @@ public class ChartDataSet: NSObject
             return;
         }
         
-        _yMin = yVals[0].value;
-        _yMax = yVals[0].value;
+        var endValue : Int;
         
-        for var i = 0; i < _yVals.count; i++
+        if end == 0
+        {
+            endValue = _yVals.count - 1;
+        }
+        else
+        {
+            endValue = end;
+        }
+        
+        _lastStart = start;
+        _lastEnd = endValue;
+        
+        _yMin = yVals[start].value;
+        _yMax = yVals[start].value;
+        
+        for var i = start; i <= endValue; i++
         {
             let e = _yVals[i];
             if (e.value < _yMin)
