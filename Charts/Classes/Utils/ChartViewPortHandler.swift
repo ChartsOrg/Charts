@@ -14,7 +14,7 @@
 import Foundation
 import CoreGraphics.CGBase
 
-public class ChartViewPortHandler
+public class ChartViewPortHandler: NSObject
 {
     /// matrix used for touch events
     private var _touchMatrix = CGAffineTransformIdentity;
@@ -43,12 +43,14 @@ public class ChartViewPortHandler
     /// offset that allows the chart to be dragged over its bounds on the x-axis
     private var _transOffsetY = CGFloat(0.0);
     
-    public init()
+    public override init()
     {
     }
     
     public init(width: CGFloat, height: CGFloat)
     {
+        super.init();
+        
         setChartDimens(width: width, height: height);
     }
     
@@ -230,26 +232,30 @@ public class ChartViewPortHandler
         matrix.d = _scaleY;
     }
     
-    public func setMinimumScaleX(var xScale: CGFloat)
+    public func setMinimumScaleX(xScale: CGFloat)
     {
-        if (xScale < 1.0)
+        var newValue = xScale;
+        
+        if (newValue < 1.0)
         {
-            xScale = 1.0;
+            newValue = 1.0;
         }
         
-        _minScaleX = xScale;
+        _minScaleX = newValue;
         
         limitTransAndScale(matrix: &_touchMatrix, content: _contentRect);
     }
     
-    public func setMinimumScaleY(var yScale: CGFloat)
+    public func setMinimumScaleY(yScale: CGFloat)
     {
-        if (yScale < 1.0)
+        var newValue = yScale;
+        
+        if (newValue < 1.0)
         {
-            yScale = 1.0;
+            newValue = 1.0;
         }
         
-        _minScaleY = yScale;
+        _minScaleY = newValue;
         
         limitTransAndScale(matrix: &_touchMatrix, content: _contentRect);
     }
@@ -302,10 +308,10 @@ public class ChartViewPortHandler
         return _contentRect.origin.x <= x ? true : false;
     }
     
-    public func isInBoundsRight(var x: CGFloat) -> Bool
+    public func isInBoundsRight(x: CGFloat) -> Bool
     {
-        x = CGFloat(Int(x * 100.0)) / 100.0;
-        return (_contentRect.origin.x + _contentRect.size.width) >= x ? true : false;
+        let normalizedX = CGFloat(Int(x * 100.0)) / 100.0;
+        return (_contentRect.origin.x + _contentRect.size.width) >= normalizedX ? true : false;
     }
     
     public func isInBoundsTop(y: CGFloat) -> Bool
@@ -313,10 +319,10 @@ public class ChartViewPortHandler
         return _contentRect.origin.y <= y ? true : false;
     }
     
-    public func isInBoundsBottom(var y: CGFloat) -> Bool
+    public func isInBoundsBottom(y: CGFloat) -> Bool
     {
-        y = CGFloat(Int(y * 100.0)) / 100.0;
-        return (_contentRect.origin.y + _contentRect.size.height) >= y ? true : false;
+        let normalizedY = CGFloat(Int(y * 100.0)) / 100.0;
+        return (_contentRect.origin.y + _contentRect.size.height) >= normalizedY ? true : false;
     }
     
     /// returns the current x-scale factor
