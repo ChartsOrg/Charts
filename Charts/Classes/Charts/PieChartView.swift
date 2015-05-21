@@ -439,4 +439,34 @@ public class PieChartView: PieRadarChartViewBase
             return (renderer as! PieChartRenderer).usePercentValuesEnabled;
         }
     }
+    
+    
+    /// the line break mode for center text.
+    /// note that different line break modes give different performance results - Clipping being the fastest, WordWrapping being the slowst.
+    public var centerTextLineBreakMode: NSLineBreakMode
+    {
+        get
+        {
+            return (renderer as! PieChartRenderer).centerTextLineBreakMode;
+        }
+        set
+        {
+            (renderer as! PieChartRenderer).centerTextLineBreakMode = newValue;
+            setNeedsDisplay();
+        }
+    }
+    
+    /// the rectangular radius of the bounding box for the center text, as a percentage of the pie hole
+    public var centerTextRadiusPercent: CGFloat
+    {
+        get
+        {
+            return (renderer as! PieChartRenderer).centerTextRadiusPercent;
+        }
+        set
+        {
+            (renderer as! PieChartRenderer).centerTextRadiusPercent = newValue;
+            setNeedsDisplay();
+        }
+    }
 }

@@ -31,6 +31,8 @@ public class PieChartRenderer: ChartDataRendererBase
     public var usePercentValuesEnabled = false
     public var centerText: String!
     public var drawCenterTextEnabled = true
+    public var centerTextLineBreakMode = NSLineBreakMode.ByTruncatingTail
+    public var centerTextRadiusPercent: CGFloat = 1.0
     
     public init(chart: PieChartView, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
@@ -263,28 +265,37 @@ public class PieChartRenderer: ChartDataRendererBase
         {
             var center = _chart.centerCircleBox;
             var innerRadius = drawHoleEnabled && holeTransparent ? _chart.radius * holeRadiusPercent : _chart.radius;
-            var boundingRect = CGRect(x: center.x - innerRadius, y: center.y - innerRadius, width: innerRadius * 2.0, height: innerRadius * 2.0);
+            var holeRect = CGRect(x: center.x - innerRadius, y: center.y - innerRadius, width: innerRadius * 2.0, height: innerRadius * 2.0);
+            var boundingRect = holeRect;
+            
+            if (centerTextRadiusPercent > 0.0)
+            {
+                boundingRect = CGRectInset(boundingRect, (boundingRect.width - boundingRect.width * centerTextRadiusPercent) / 2.0, (boundingRect.height - boundingRect.height * centerTextRadiusPercent) / 2.0);
+            }
             
             var centerTextNs = self.centerText as NSString;
             
             var paragraphStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle;
-            paragraphStyle.lineBreakMode = .ByTruncatingTail;
+            paragraphStyle.lineBreakMode = centerTextLineBreakMode;
             paragraphStyle.alignment = .Center;
             
-            var textSize = centerTextNs.sizeWithAttributes([NSFontAttributeName: centerTextFont, NSParagraphStyleAttributeName: paragraphStyle]);
+            let drawingAttrs = [NSFontAttributeName: centerTextFont, NSParagraphStyleAttributeName: paragraphStyle, NSForegroundColorAttributeName: centerTextColor];
+            
+            var textBounds = centerTextNs.boundingRectWithSize(boundingRect.size, options: .UsesLineFragmentOrigin | .UsesFontLeading | .TruncatesLastVisibleLine, attributes: drawingAttrs, context: nil);
             
             var drawingRect = boundingRect;
-            drawingRect.origin.y += (boundingRect.size.height - textSize.height) / 2.0;
-            drawingRect.size.height = textSize.height;
+            drawingRect.origin.x += (boundingRect.size.width - textBounds.size.width) / 2.0;
+            drawingRect.origin.y += (boundingRect.size.height - textBounds.size.height) / 2.0;
+            drawingRect.size = textBounds.size;
             
             CGContextSaveGState(context);
 
-            var clippingPath = CGPathCreateWithEllipseInRect(boundingRect, nil);
+            var clippingPath = CGPathCreateWithEllipseInRect(holeRect, nil);
             CGContextBeginPath(context);
             CGContextAddPath(context, clippingPath);
             CGContextClip(context);
             
-            centerTextNs.drawInRect(drawingRect, withAttributes: [NSFontAttributeName: centerTextFont, NSParagraphStyleAttributeName: paragraphStyle, NSForegroundColorAttributeName: centerTextColor]);
+            centerTextNs.drawWithRect(drawingRect, options: .UsesLineFragmentOrigin | .UsesFontLeading | .TruncatesLastVisibleLine, attributes: drawingAttrs, context: nil);
             
             CGContextRestoreGState(context);
         }
