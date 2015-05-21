@@ -439,14 +439,14 @@ public class ChartLegendRenderer: ChartRendererBase
                     
                     if (!wasStacked)
                     {
-                        drawLabel(context, x: x, y: posY - _legend.textHeightMax / 2.0, label: _legend.getLabel(i)!, font: labelFont, textColor: labelTextColor);
+                        drawLabel(context, x: x, y: posY - _legend.textHeightMax / 2.0, label: labels[i]!, font: labelFont, textColor: labelTextColor);
                         
                         posY += textDrop;
                     }
                     else
                     {
                         posY += _legend.textHeightMax * 3.0;
-                        drawLabel(context, x: x, y: posY - _legend.textHeightMax * 2.0, label: _legend.getLabel(i)!, font: labelFont, textColor: labelTextColor);
+                        drawLabel(context, x: x, y: posY - _legend.textHeightMax * 2.0, label: labels[i]!, font: labelFont, textColor: labelTextColor);
                     }
                     
                     // make a step down
