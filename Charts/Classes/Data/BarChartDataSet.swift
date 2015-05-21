@@ -36,7 +36,7 @@ public class BarChartDataSet: BarLineScatterCandleChartDataSet
     /// array of labels used to describe the different values of the stacked bars
     public var stackLabels: [String] = ["Stack"]
     
-    public override init(yVals: [ChartDataEntry]?, label: String)
+    public override init(yVals: [ChartDataEntry]?, label: String?)
     {
         super.init(yVals: yVals, label: label);
         

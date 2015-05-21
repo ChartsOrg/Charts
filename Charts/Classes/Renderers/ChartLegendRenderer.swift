@@ -53,10 +53,12 @@ public class ChartLegendRenderer: ChartRendererBase
                     colors.append(clrs[j]);
                 }
 
-                // add the legend description label
-                colors.append(nil);
-                labels.append(bds.label);
-
+                if (bds.label != nil)
+                {
+                    // add the legend description label
+                    colors.append(nil);
+                    labels.append(bds.label);
+                }
             }
             else if (dataSet.isKindOfClass(PieChartDataSet))
             {
@@ -68,10 +70,13 @@ public class ChartLegendRenderer: ChartRendererBase
                     labels.append(xVals[j]);
                     colors.append(clrs[j]);
                 }
-
-                // add the legend description label
-                colors.append(nil);
-                labels.append(pds.label);
+                
+                if (pds.label != nil)
+                {
+                    // add the legend description label
+                    colors.append(nil);
+                    labels.append(pds.label);
+                }
             }
             else
             { // all others

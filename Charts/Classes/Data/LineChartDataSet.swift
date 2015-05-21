@@ -40,7 +40,7 @@ public class LineChartDataSet: LineRadarChartDataSet
         circleColors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0));
     }
     
-    public override init(yVals: [ChartDataEntry]?, label: String)
+    public override init(yVals: [ChartDataEntry]?, label: String?)
     {
         super.init(yVals: yVals, label: label);
         circleColors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0));

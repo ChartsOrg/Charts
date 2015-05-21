@@ -24,7 +24,7 @@ public class RadarChartDataSet: LineRadarChartDataSet
         self.valueFont = UIFont.systemFontOfSize(13.0);
     }
     
-    public override init(yVals: [ChartDataEntry]?, label: String)
+    public override init(yVals: [ChartDataEntry]?, label: String?)
     {
         super.init(yVals: yVals, label: label);
         

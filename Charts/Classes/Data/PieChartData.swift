@@ -61,14 +61,14 @@ public class PieChartData: ChartData
     
     public override func getDataSetByLabel(label: String, ignorecase: Bool) -> ChartDataSet?
     {
-        if (dataSets.count == 0)
+        if (dataSets.count == 0 || dataSets[0].label == nil)
         {
             return nil;
         }
         
         if (ignorecase)
         {
-            if (label.caseInsensitiveCompare(dataSets[0].label) == NSComparisonResult.OrderedSame)
+            if (label.caseInsensitiveCompare(dataSets[0].label!) == NSComparisonResult.OrderedSame)
             {
                 return dataSets[0];
             }

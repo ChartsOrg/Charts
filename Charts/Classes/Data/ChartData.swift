@@ -355,7 +355,11 @@ public class ChartData: NSObject
         {
             for (var i = 0; i < dataSets.count; i++)
             {
-                if (label.caseInsensitiveCompare(dataSets[i].label) == NSComparisonResult.OrderedSame)
+                if (dataSets[i].label == nil)
+                {
+                    continue;
+                }
+                if (label.caseInsensitiveCompare(dataSets[i].label!) == NSComparisonResult.OrderedSame)
                 {
                     return i;
                 }
@@ -388,7 +392,12 @@ public class ChartData: NSObject
         
         for (var i = 0; i < _dataSets.count; i++)
         {
-            types[i] = _dataSets[i].label;
+            if (dataSets[i].label == nil)
+            {
+                continue;
+            }
+            
+            types[i] = _dataSets[i].label!;
         }
         
         return types;
