@@ -15,8 +15,7 @@ import Foundation
 
 public class BarChartDataEntry: ChartDataEntry
 {
-    /// the values the stacked barchart holds
-    public var values: [Float]!
+    private var _values: [Float]!
     
     /// Constructor for stacked bar entries.
     public init(values: [Float], xIndex: Int)
@@ -98,12 +97,25 @@ public class BarChartDataEntry: ChartDataEntry
         return sum;
     }
     
+    // MARK: Accessors
+    
+    /// the values the stacked barchart holds
+    public var values: [Float]!
+    {
+        get { return self._values; }
+        set
+        {
+            self.value = BarChartDataEntry.calcSum(newValue);
+            self._values = newValue;
+        }
+    }
+    
     // MARK: NSCopying
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
         var copy = super.copyWithZone(zone) as! BarChartDataEntry;
-        copy.values = values;
+        copy._values = _values;
         return copy;
     }
 }
