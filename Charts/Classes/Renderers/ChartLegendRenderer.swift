@@ -30,76 +30,79 @@ public class ChartLegendRenderer: ChartRendererBase
     /// Prepares the legend and calculates all needed forms, labels and colors.
     public func computeLegend(data: ChartData)
     {
-        var labels = [String?]();
-        var colors = [UIColor?]();
-        
-        // loop for building up the colors and labels used in the legend
-        for (var i = 0, count = data.dataSetCount; i < count; i++)
+        if (!_legend.isLegendCustom)
         {
-            var dataSet = data.getDataSetByIndex(i)!;
-
-            var clrs: [UIColor] = dataSet.colors;
-            var entryCount = dataSet.entryCount;
+            var labels = [String?]();
+            var colors = [UIColor?]();
             
-            // if we have a barchart with stacked bars
-            if (dataSet.isKindOfClass(BarChartDataSet) && (dataSet as! BarChartDataSet).isStacked)
+            // loop for building up the colors and labels used in the legend
+            for (var i = 0, count = data.dataSetCount; i < count; i++)
             {
-                var bds = dataSet as! BarChartDataSet;
-                var sLabels = bds.stackLabels;
-
-                for (var j = 0; j < clrs.count && j < bds.stackSize; j++) 
-                {
-                    labels.append(sLabels[j % sLabels.count]);
-                    colors.append(clrs[j]);
-                }
-
-                if (bds.label != nil)
-                {
-                    // add the legend description label
-                    colors.append(nil);
-                    labels.append(bds.label);
-                }
-            }
-            else if (dataSet.isKindOfClass(PieChartDataSet))
-            {
-                var xVals = data.xVals;
-                var pds = dataSet as! PieChartDataSet;
-
-                for (var j = 0; j < clrs.count && j < entryCount && j < xVals.count; j++)
-                {
-                    labels.append(xVals[j]);
-                    colors.append(clrs[j]);
-                }
+                var dataSet = data.getDataSetByIndex(i)!;
                 
-                if (pds.label != nil)
+                var clrs: [UIColor] = dataSet.colors;
+                var entryCount = dataSet.entryCount;
+                
+                // if we have a barchart with stacked bars
+                if (dataSet.isKindOfClass(BarChartDataSet) && (dataSet as! BarChartDataSet).isStacked)
                 {
-                    // add the legend description label
-                    colors.append(nil);
-                    labels.append(pds.label);
-                }
-            }
-            else
-            { // all others
-
-                for (var j = 0; j < clrs.count && j < entryCount; j++)
-                {
-                    // if multiple colors are set for a DataSet, group them
-                    if (j < clrs.count - 1 && j < entryCount - 1)
+                    var bds = dataSet as! BarChartDataSet;
+                    var sLabels = bds.stackLabels;
+                    
+                    for (var j = 0; j < clrs.count && j < bds.stackSize; j++)
                     {
-                        labels.append(nil);
+                        labels.append(sLabels[j % sLabels.count]);
+                        colors.append(clrs[j]);
                     }
-                    else
-                    { // add label to the last entry
-                        labels.append(dataSet.label);
+                    
+                    if (bds.label != nil)
+                    {
+                        // add the legend description label
+                        colors.append(nil);
+                        labels.append(bds.label);
                     }
-
-                    colors.append(clrs[j]);
+                }
+                else if (dataSet.isKindOfClass(PieChartDataSet))
+                {
+                    var xVals = data.xVals;
+                    var pds = dataSet as! PieChartDataSet;
+                    
+                    for (var j = 0; j < clrs.count && j < entryCount && j < xVals.count; j++)
+                    {
+                        labels.append(xVals[j]);
+                        colors.append(clrs[j]);
+                    }
+                    
+                    if (pds.label != nil)
+                    {
+                        // add the legend description label
+                        colors.append(nil);
+                        labels.append(pds.label);
+                    }
+                }
+                else
+                { // all others
+                    
+                    for (var j = 0; j < clrs.count && j < entryCount; j++)
+                    {
+                        // if multiple colors are set for a DataSet, group them
+                        if (j < clrs.count - 1 && j < entryCount - 1)
+                        {
+                            labels.append(nil);
+                        }
+                        else
+                        { // add label to the last entry
+                            labels.append(dataSet.label);
+                        }
+                        
+                        colors.append(clrs[j]);
+                    }
                 }
             }
+            
+            _legend.colors = colors + _legend._extraColors;
+            _legend.labels = labels + _legend._extraLabels;
         }
-
-        _legend.colors = colors + _legend.extraColors;
-        _legend.labels = labels + _legend.extraLabels;
         
         // calculate all dimensions of the legend
         _legend.calculateDimensions(_legend.font);

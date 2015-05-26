@@ -74,7 +74,7 @@ public class PieRadarChartViewBase: ChartViewBase
         
         calcMinMax();
         
-        if (_legend !== nil && !_legend.isLegendCustom)
+        if (_legend !== nil)
         {
             _legendRenderer.computeLegend(_data);
         }

@@ -53,13 +53,14 @@ public class ChartLegend: ChartComponentBase
     // the legend text array. a nil label will start a group.
     public var labels = [String?]()
     
+    internal var _extraColors = [UIColor?]()
+    internal var _extraLabels = [String?]()
+    
     /// colors that will be appended to the end of the colors array after calculating the legend.
-    /// (if the legend has already been calculated, you will need to call notifyDataSetChanged())
-    public var extraColors = [UIColor?]()
+    public var extraColors: [UIColor?] { return _extraColors; }
     
     /// labels that will be appended to the end of the labels array after calculating the legend. a nil label will start a group.
-    /// (if the legend has already been calculated, you will need to call notifyDataSetChanged())
-    public var extraLabels = [String?]()
+    public var extraLabels: [String?] { return _extraLabels; }
     
     /// Are the legend labels/colors a custom value or auto calculated? If false, then it's auto, if true, then custom.
     /// :default: false (automatic legend)
@@ -213,6 +214,14 @@ public class ChartLegend: ChartComponentBase
     
     /// MARK: - Custom legend
     
+    /// colors and labels that will be appended to the end of the auto calculated colors and labels after calculating the legend.
+    /// (if the legend has already been calculated, you will need to call notifyDataSetChanged() to let the changes take effect)
+    public func setExtra(#colors: [UIColor?], labels: [String?])
+    {
+        self._extraLabels = labels;
+        self._extraColors = colors;
+    }
+    
     /// Sets a custom legend's labels and colors arrays.
     /// The colors count should match the labels count.
     /// * Each color is for the form drawn at the same index.
@@ -242,6 +251,12 @@ public class ChartLegend: ChartComponentBase
     
     /// MARK: - ObjC compatibility
     
+    /// colors that will be appended to the end of the colors array after calculating the legend.
+    public var extraColorsObjc: [NSObject] { return ChartUtils.bridgedObjCGetUIColorArray(swift: _extraColors); }
+    
+    /// labels that will be appended to the end of the labels array after calculating the legend. a nil label will start a group.
+    public var extraLabelsObjc: [NSObject] { return ChartUtils.bridgedObjCGetStringArray(swift: _extraLabels); }
+    
     /// the legend colors array, each color is for the form drawn at the same index
     /// (ObjC bridging functions, as Swift 1.2 does not bridge optionals in array to NSNulls)
     public var colorsObjc: [NSObject]
@@ -258,22 +273,17 @@ public class ChartLegend: ChartComponentBase
         set { self.labels = ChartUtils.bridgedObjCGetStringArray(objc: newValue); }
     }
     
-    /// colors that will be appended to the end of the colors array after calculating the legend.
-    /// this will not be used when using customLabels/customColors
-    /// (ObjC bridging functions, as Swift 1.2 does not bridge optionals in array to NSNulls)
-    public var extraColorsObjc: [NSObject]
+    /// colors and labels that will be appended to the end of the auto calculated colors and labels after calculating the legend.
+    /// (if the legend has already been calculated, you will need to call notifyDataSetChanged() to let the changes take effect)
+    public func setExtra(#colors: [NSObject], labels: [NSObject])
     {
-        get { return ChartUtils.bridgedObjCGetUIColorArray(swift: extraColors); }
-        set { self.extraColors = ChartUtils.bridgedObjCGetUIColorArray(objc: newValue); }
-    }
-    
-    /// labels that will be appended to the end of the labels array after calculating the legend. a nil label will start a group.
-    /// this will not be used when using customLabels/customColors
-    /// (ObjC bridging functions, as Swift 1.2 does not bridge optionals in array to NSNulls)
-    public var extraLabelsObjc: [NSObject]
-    {
-        get { return ChartUtils.bridgedObjCGetStringArray(swift: extraLabels); }
-        set { self.extraLabels = ChartUtils.bridgedObjCGetStringArray(objc: newValue); }
+        if (colors.count != labels.count)
+        {
+            fatalError("ChartLegend:setExtra() - colors array and labels array need to be of same size");
+        }
+        
+        self._extraLabels = ChartUtils.bridgedObjCGetStringArray(objc: labels);
+        self._extraColors = ChartUtils.bridgedObjCGetUIColorArray(objc: colors);
     }
     
     /// Sets a custom legend's labels and colors arrays.
