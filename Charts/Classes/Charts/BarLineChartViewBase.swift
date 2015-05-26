@@ -1514,6 +1514,33 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     /// returns true if autoScaleMinMax is enabled, false if no
     /// :default: false
     public var isAutoScaleMinMaxEnabled : Bool { return autoScaleMinMaxEnabled; }
+    
+    
+    /// Sets a custom width to the specified y axis.
+    public func setXAxisWidth(which: ChartYAxis.AxisDependency, width: CGFloat)
+    {
+        if (which == .Left)
+        {
+            _leftAxis.setCustomWidth(width);
+        }
+        else
+        {
+            _rightAxis.setCustomWidth(width);
+        }
+    }
+
+    /// Returns the width of the specified y axis.
+    public func getXAxisWidth(which: ChartYAxis.AxisDependency) -> CGFloat
+    {
+        if (which == .Left)
+        {
+            return _leftAxis.requiredSize().width;
+        }
+        else
+        {
+            return _rightAxis.requiredSize().width;
+        }
+    }
 }
 
 /// Default formatter that calculates the position of the filled line.
