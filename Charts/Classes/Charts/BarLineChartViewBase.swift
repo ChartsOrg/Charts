@@ -636,6 +636,11 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
                 
                 _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true);
                 
+                if (delegate !== nil)
+                {
+                    delegate?.chartScaled?(self, scaleX: scaleX, scaleY: scaleY);
+                }
+                
                 recognizer.scale = 1.0;
             }
         }
@@ -747,6 +752,11 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         matrix = CGAffineTransformConcat(originalMatrix, matrix);
         
         matrix = _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true);
+        
+        if (delegate !== nil)
+        {
+            delegate?.chartTranslated?(self, dX: translation.x, dY: translation.y);
+        }
         
         // Did we managed to actually drag or did we reach the edge?
         return matrix.tx != originalMatrix.tx || matrix.ty != originalMatrix.ty;

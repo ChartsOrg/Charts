@@ -26,6 +26,12 @@ public protocol ChartViewDelegate
     
     // Called when nothing has been selected or an "un-select" has been made.
     optional func chartValueNothingSelected(chartView: ChartViewBase);
+    
+    // Callbacks when the chart is scaled / zoomed via pinch zoom gesture.
+    optional func chartScaled(chartView: ChartViewBase, scaleX: CGFloat, scaleY: CGFloat);
+    
+    // Callbacks when the chart is moved / translated via drag gesture.
+    optional func chartTranslated(chartView: ChartViewBase, dX: CGFloat, dY: CGFloat);
 }
 
 public class ChartViewBase: UIView, ChartAnimatorDelegate
