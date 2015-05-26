@@ -1497,17 +1497,8 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     /// if yes, the y axis automatically adjusts to the min and max y values of the current x axis range
     public var autoScaleMinMaxEnabled: Bool
     {
-        get
-        {
-            return _autoScaleMinMaxEnabled;
-        }
-        set
-        {
-            if (_autoScaleMinMaxEnabled != newValue)
-            {
-                _autoScaleMinMaxEnabled = newValue;
-            }
-        }
+        get { return _autoScaleMinMaxEnabled; }
+        set { _autoScaleMinMaxEnabled = newValue; }
     }
     
     /// returns true if autoScaleMinMax is enabled, false if no
