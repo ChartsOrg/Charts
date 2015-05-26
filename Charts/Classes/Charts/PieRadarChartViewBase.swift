@@ -180,6 +180,17 @@ public class PieRadarChartViewBase: ChartViewBase
         }
 
         var min = CGFloat(10.0);
+        
+        if (self.isKindOfClass(RadarChartView))
+        {
+            let x = (self as! RadarChartView).xAxis;
+            
+            if (x.isEnabled)
+            {
+                min = max(10.0, x.labelWidth);
+            }
+        }
+        
 
         var offsetLeft = max(min, legendLeft);
         var offsetTop = max(min, legendTop);

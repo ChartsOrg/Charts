@@ -225,7 +225,7 @@ public class RadarChartView: PieRadarChartViewBase
 
     internal override var requiredBaseOffset: CGFloat
     {
-        return _xAxis.labelWidth;
+        return _xAxis.isEnabled ? _xAxis.labelWidth : 10.0;
     }
 
     public override var radius: CGFloat

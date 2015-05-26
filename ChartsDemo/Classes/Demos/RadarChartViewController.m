@@ -133,6 +133,8 @@
     if ([key isEqualToString:@"toggleXLabels"])
     {
         _chartView.xAxis.drawLabelsEnabled = !_chartView.xAxis.isDrawLabelsEnabled;
+        
+        [_chartView notifyDataSetChanged];
         [_chartView setNeedsDisplay];
     }
     
