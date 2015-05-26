@@ -24,6 +24,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     private var _pinchZoomEnabled = false
     private var _doubleTapToZoomEnabled = true
     private var _dragEnabled = true
+    private var _autoScaleMinMaxEnabled = false;
     
     private var _scaleXEnabled = true
     private var _scaleYEnabled = true
@@ -60,6 +61,9 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     private var _doubleTapGestureRecognizer: UITapGestureRecognizer!
     private var _pinchGestureRecognizer: UIPinchGestureRecognizer!
     private var _panGestureRecognizer: UIPanGestureRecognizer!
+    
+    internal var _lastLowestVisibleXIndex: Int!
+    internal var _lastHighestVisibleXIndex: Int!
     
     /// flag that indicates if a custom viewport offset has been set
     private var _customViewPortEnabled = false
@@ -153,6 +157,19 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         _leftYAxisRenderer?.renderAxisLine(context: context);
         _rightYAxisRenderer?.renderAxisLine(context: context);
 
+        if (_autoScaleMinMaxEnabled)
+        {
+            if (_lastLowestVisibleXIndex == nil || _lastLowestVisibleXIndex != lowestVisibleXIndex ||
+                _lastHighestVisibleXIndex == nil || _lastHighestVisibleXIndex != highestVisibleXIndex)
+            {
+                calcMinMax();
+                calculateOffsets();
+                
+                _lastLowestVisibleXIndex = lowestVisibleXIndex;
+                _lastHighestVisibleXIndex = highestVisibleXIndex;
+            }
+        }
+        
         // make sure the graph values and grid cannot be drawn outside the content-rect
         CGContextSaveGState(context);
 
@@ -256,6 +273,11 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     
     internal override func calcMinMax()
     {
+        if (_autoScaleMinMaxEnabled)
+        {
+            _data.calcMinMax(start: lowestVisibleXIndex, end: highestVisibleXIndex);
+        }
+        
         var minLeft = _data.getYMin(.Left);
         var maxLeft = _data.getYMax(.Left);
         var minRight = _data.getYMin(.Right);
@@ -864,7 +886,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
 
     /// Zooms in or out by the given scale factor. x and y are the coordinates
     /// (in pixels) of the zoom center.
-    /// 
+    ///
     /// :param: scaleX if < 1f --> zoom out, if > 1f --> zoom in
     /// :param: scaleY if < 1f --> zoom out, if > 1f --> zoom in
     /// :param: x
@@ -1470,6 +1492,27 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     {
         return _leftAxis.isInverted || _rightAxis.isInverted;
     }
+    
+    /// flat that indicates if auto scaling on the y axis is enabled.
+    /// if yes, the y axis automatically adjusts to the min and max y values of the current x axis range
+    public var autoScaleMinMaxEnabled: Bool
+    {
+        get
+        {
+            return _autoScaleMinMaxEnabled;
+        }
+        set
+        {
+            if (_autoScaleMinMaxEnabled != newValue)
+            {
+                _autoScaleMinMaxEnabled = newValue;
+            }
+        }
+    }
+    
+    /// returns true if autoScaleMinMax is enabled, false if no
+    /// :default: false
+    public var isAutoScaleMinMaxEnabled : Bool { return autoScaleMinMaxEnabled; }
 }
 
 /// Default formatter that calculates the position of the filled line.
