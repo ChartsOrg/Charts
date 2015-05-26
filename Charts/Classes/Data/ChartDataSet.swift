@@ -24,10 +24,10 @@ public class ChartDataSet: NSObject
     internal var _yValueSum = Float(0.0)
     
     /// the last start value used for calcMinMax
-    internal var _lastStart = 0
+    internal var _lastStart: Int = 0
     
     /// the last end value used for calcMinMax
-    internal var _lastEnd = 0
+    internal var _lastEnd: Int = 0
     
     public var label: String? = "DataSet"
     public var visible = true;

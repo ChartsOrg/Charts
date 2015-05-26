@@ -25,8 +25,12 @@ public class ChartData: NSObject
     internal var _rightAxisMin = Float(0.0)
     private var _yValueSum = Float(0.0)
     private var _yValCount = Int(0)
-    internal var _lastStart = Int(0);
-    internal var _lastEnd = Int(0);
+    
+    /// the last start value used for calcMinMax
+    internal var _lastStart: Int = 0
+    
+    /// the last end value used for calcMinMax
+    internal var _lastEnd: Int = 0
     
     /// the average length (in characters) across all x-value strings
     private var _xValAverageLength = Float(0.0)
