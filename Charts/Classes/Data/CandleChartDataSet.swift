@@ -68,10 +68,10 @@ public class CandleChartDataSet: BarLineScatterCandleChartDataSet
         _lastStart = start;
         _lastEnd = end;
         
-        _yMin = FLT_MAX;
-        _yMax = FLT_MIN;
+        _yMin = entries[start].low;
+        _yMax = entries[start].high;
         
-        for (var i = start; i <= endValue; i++)
+        for (var i = start + 1; i <= endValue; i++)
         {
             var e = entries[i];
             

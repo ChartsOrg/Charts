@@ -52,8 +52,8 @@ public class BubbleChartDataSet: BarLineScatterCandleChartDataSet
         _lastStart = start;
         _lastEnd = end;
         
-        _yMin = FLT_MAX;
-        _yMax = FLT_MIN;
+        _yMin = yMin(entries[start]);
+        _yMax = yMax(entries[start]);
         
         for (var i = start; i <= endValue; i++)
         {

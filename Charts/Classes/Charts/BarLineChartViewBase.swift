@@ -21,10 +21,14 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     /// the maximum number of entried to which values will be drawn
     internal var _maxVisibleValueCount = 100
     
+    /// flag that indicates if auto scaling on the y axis is enabled
+    private var _autoScaleMinMaxEnabled = false
+    private var _autoScaleLastLowestVisibleXIndex: Int!
+    private var _autoScaleLastHighestVisibleXIndex: Int!
+    
     private var _pinchZoomEnabled = false
     private var _doubleTapToZoomEnabled = true
     private var _dragEnabled = true
-    private var _autoScaleMinMaxEnabled = false;
     
     private var _scaleXEnabled = true
     private var _scaleYEnabled = true
@@ -61,9 +65,6 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     private var _doubleTapGestureRecognizer: UITapGestureRecognizer!
     private var _pinchGestureRecognizer: UIPinchGestureRecognizer!
     private var _panGestureRecognizer: UIPanGestureRecognizer!
-    
-    internal var _lastLowestVisibleXIndex: Int!
-    internal var _lastHighestVisibleXIndex: Int!
     
     /// flag that indicates if a custom viewport offset has been set
     private var _customViewPortEnabled = false
@@ -159,14 +160,17 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
 
         if (_autoScaleMinMaxEnabled)
         {
-            if (_lastLowestVisibleXIndex == nil || _lastLowestVisibleXIndex != lowestVisibleXIndex ||
-                _lastHighestVisibleXIndex == nil || _lastHighestVisibleXIndex != highestVisibleXIndex)
+            let lowestVisibleXIndex = self.lowestVisibleXIndex,
+                highestVisibleXIndex = self.highestVisibleXIndex;
+            
+            if (_autoScaleLastLowestVisibleXIndex == nil || _autoScaleLastLowestVisibleXIndex != lowestVisibleXIndex ||
+                _autoScaleLastHighestVisibleXIndex == nil || _autoScaleLastHighestVisibleXIndex != highestVisibleXIndex)
             {
                 calcMinMax();
                 calculateOffsets();
                 
-                _lastLowestVisibleXIndex = lowestVisibleXIndex;
-                _lastHighestVisibleXIndex = highestVisibleXIndex;
+                _autoScaleLastLowestVisibleXIndex = lowestVisibleXIndex;
+                _autoScaleLastHighestVisibleXIndex = highestVisibleXIndex;
             }
         }
         
@@ -1503,15 +1507,15 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         return _leftAxis.isInverted || _rightAxis.isInverted;
     }
     
-    /// flat that indicates if auto scaling on the y axis is enabled.
-    /// if yes, the y axis automatically adjusts to the min and max y values of the current x axis range
+    /// flag that indicates if auto scaling on the y axis is enabled.
+    /// if yes, the y axis automatically adjusts to the min and max y values of the current x axis range whenever the viewport changes
     public var autoScaleMinMaxEnabled: Bool
     {
         get { return _autoScaleMinMaxEnabled; }
         set { _autoScaleMinMaxEnabled = newValue; }
     }
     
-    /// returns true if autoScaleMinMax is enabled, false if no
+    /// returns true if auto scaling on the y axis is enabled.
     /// :default: false
     public var isAutoScaleMinMaxEnabled : Bool { return autoScaleMinMaxEnabled; }
 }
