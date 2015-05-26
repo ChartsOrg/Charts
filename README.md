@@ -72,6 +72,7 @@ Features
 
 *Screenshots are currently taken from the original repository, as they render exactly the same :-)*
 
+
  - **LineChart (with legend, simple design)**
 ![alt tag](https://raw.github.com/PhilJay/MPChart/master/screenshots/simpledesign_linechart4.png)
  - **LineChart (with legend, simple design)**
@@ -96,7 +97,7 @@ Features
 
  - **Horizontal-BarChart**
 
-![alt tag](https://raw.github.com/PhilJay/MPChart/master/screenshots/horizontal_barchart.jpg)
+![alt tag](https://raw.github.com/PhilJay/MPChart/master/screenshots/horizontal_barchart.png)
 
 
  - **PieChart (with selection, ...)**
