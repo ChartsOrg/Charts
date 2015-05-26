@@ -374,11 +374,11 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             {
                 offsetRight += rightAxis.requiredSize().width;
             }
-            
-            var xlabelheight = xAxis.labelHeight * 2.0;
-        
-            if (xAxis.isEnabled)
+
+            if (xAxis.isEnabled && xAxis.isDrawLabelsEnabled)
             {
+                var xlabelheight = xAxis.labelHeight * 2.0;
+                
                 // offsets for x-labels
                 if (xAxis.labelPosition == .Bottom)
                 {
