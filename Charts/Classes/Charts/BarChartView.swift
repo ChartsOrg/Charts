@@ -223,7 +223,7 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
         var pt = CGPoint(x: _viewPortHandler.contentLeft, y: _viewPortHandler.contentBottom);
         getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt);
         
-        return Int(((pt.x <= 0.0) ? 0.0 : pt.x / div) + 1.0);
+        return Int((pt.x <= CGFloat(chartXMin)) ? 0.0 : (pt.x / div) + 1.0);
     }
 
     public override var highestVisibleXIndex: Int

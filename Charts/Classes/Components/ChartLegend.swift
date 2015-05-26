@@ -219,8 +219,8 @@ public class ChartLegend: ChartComponentBase
     /// * A nil label will start a group.
     /// * A nil color will avoid drawing a form, and a clearColor will leave a space for the form.
     /// This will disable the feature that automatically calculates the legend labels and colors from the datasets.
-    /// Call resetLegendToAuto(...) to re-enable automatic calculation (and then notifyDataSetChanged() is needed). 
-    public func setLegend(#colors: [UIColor?], labels: [String?])
+    /// Call resetCustom(...) to re-enable automatic calculation (and then notifyDataSetChanged() is needed).
+    public func setCustom(#colors: [UIColor?], labels: [String?])
     {
         self.labels = labels;
         self.colors = colors;
@@ -228,7 +228,7 @@ public class ChartLegend: ChartComponentBase
     }
     
     /// Calling this will disable the custom legend labels (set by setLegend(...)). Instead, the labels will again be calculated automatically (after notifyDataSetChanged() is called).
-    public func resetLegendToAuto()
+    public func resetCustom()
     {
         _isLegendCustom = false;
     }
@@ -283,8 +283,13 @@ public class ChartLegend: ChartComponentBase
     /// * A nil color will avoid drawing a form, and a clearColor will leave a space for the form.
     /// This will disable the feature that automatically calculates the legend labels and colors from the datasets.
     /// Call resetLegendToAuto(...) to re-enable automatic calculation, and then if needed - call notifyDataSetChanged() on the chart to make it refresh the data.
-    public func setLegend(#colors: [NSObject], labels: [NSObject])
+    public func setCustom(#colors: [NSObject], labels: [NSObject])
     {
+        if (colors.count != labels.count)
+        {
+            fatalError("ChartLegend:setCustom() - colors array and labels array need to be of same size");
+        }
+        
         self.labelsObjc = labels;
         self.colorsObjc = colors;
         _isLegendCustom = true;
