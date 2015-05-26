@@ -27,14 +27,38 @@ public class BubbleChartDataSet: BarLineScatterCandleChartDataSet
         super.setColor(color.colorWithAlphaComponent(alpha))
     }
     
-    internal override func calcMinMax()
+    internal override func calcMinMax(#start: Int, end: Int)
     {
+        if (yVals.count == 0)
+        {
+            return;
+        }
+        
         let entries = yVals as! [BubbleChartDataEntry];
     
         // need chart width to guess this properly
         
-        for entry in entries
+        var endValue : Int;
+        
+        if end == 0
         {
+            endValue = entries.count - 1;
+        }
+        else
+        {
+            endValue = end;
+        }
+        
+        _lastStart = start;
+        _lastEnd = end;
+        
+        _yMin = FLT_MAX;
+        _yMax = FLT_MIN;
+        
+        for (var i = start; i <= endValue; i++)
+        {
+            let entry = entries[i];
+
             let ymin = yMin(entry)
             let ymax = yMax(entry)
             

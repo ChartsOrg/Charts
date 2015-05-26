@@ -47,7 +47,7 @@ public class CombinedChartData: BarLineScatterCandleChartData
             
             checkIsLegal(newValue.dataSets);
             
-            calcMinMax();
+            calcMinMax(start: _lastStart, end: _lastEnd);
             calcYValueSum();
             calcYValueCount();
             
@@ -71,7 +71,7 @@ public class CombinedChartData: BarLineScatterCandleChartData
             
             checkIsLegal(newValue.dataSets);
             
-            calcMinMax();
+            calcMinMax(start: _lastStart, end: _lastEnd);
             calcYValueSum();
             calcYValueCount();
             
@@ -95,7 +95,7 @@ public class CombinedChartData: BarLineScatterCandleChartData
             
             checkIsLegal(newValue.dataSets);
             
-            calcMinMax();
+            calcMinMax(start: _lastStart, end: _lastEnd);
             calcYValueSum();
             calcYValueCount();
         
@@ -119,7 +119,7 @@ public class CombinedChartData: BarLineScatterCandleChartData
             
             checkIsLegal(newValue.dataSets);
             
-            calcMinMax();
+            calcMinMax(start: _lastStart, end: _lastEnd);
             calcYValueSum();
             calcYValueCount();
             
@@ -143,7 +143,7 @@ public class CombinedChartData: BarLineScatterCandleChartData
             
             checkIsLegal(newValue.dataSets);
             
-            calcMinMax();
+            calcMinMax(start: _lastStart, end: _lastEnd);
             calcYValueSum();
             calcYValueCount();
             

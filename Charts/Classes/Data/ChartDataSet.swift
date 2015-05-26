@@ -22,6 +22,8 @@ public class ChartDataSet: NSObject
     internal var _yMax = Float(0.0)
     internal var _yMin = Float(0.0)
     internal var _yValueSum = Float(0.0)
+    internal var _lastStart = 0;
+    internal var _lastEnd = 0;
     public var label: String? = "DataSet"
     public var visible = true;
     public var drawValuesEnabled = true;
@@ -58,7 +60,7 @@ public class ChartDataSet: NSObject
         // default color
         colors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0));
         
-        self.calcMinMax();
+        self.calcMinMax(start: _lastStart, end: _lastEnd);
         self.calcYValueSum();
     }
     
@@ -70,21 +72,35 @@ public class ChartDataSet: NSObject
     /// Use this method to tell the data set that the underlying data has changed
     public func notifyDataSetChanged()
     {
-        calcMinMax();
+        calcMinMax(start: _lastStart, end: _lastEnd);
         calcYValueSum();
     }
     
-    internal func calcMinMax()
+    internal func calcMinMax(#start : Int, end: Int)
     {
         if _yVals!.count == 0
         {
             return;
         }
         
-        _yMin = yVals[0].value;
-        _yMax = yVals[0].value;
+        var endValue : Int;
         
-        for var i = 0; i < _yVals.count; i++
+        if end == 0
+        {
+            endValue = _yVals.count - 1;
+        }
+        else
+        {
+            endValue = end;
+        }
+        
+        _lastStart = start;
+        _lastEnd = endValue;
+        
+        _yMin = yVals[start].value;
+        _yMax = yVals[start].value;
+        
+        for (var i = start; i <= endValue; i++)
         {
             let e = _yVals[i];
             if (e.value < _yMin)
@@ -291,7 +307,7 @@ public class ChartDataSet: NSObject
         if (removed)
         {
             _yValueSum -= entry.value;
-            calcMinMax();
+            calcMinMax(start: _lastStart, end: _lastEnd);
         }
         
         return removed;
@@ -305,7 +321,7 @@ public class ChartDataSet: NSObject
             var e = _yVals.removeAtIndex(index);
             
             _yValueSum -= e.value;
-            calcMinMax();
+            calcMinMax(start: _lastStart, end: _lastEnd);
             
             return true;
         }
@@ -348,8 +364,8 @@ public class ChartDataSet: NSObject
         return drawValuesEnabled;
     }
     
-    /// Checks if this DataSet contains the specified Entry. 
-    /// :returns: true if contains the entry, false if not. 
+    /// Checks if this DataSet contains the specified Entry.
+    /// :returns: true if contains the entry, false if not.
     public func contains(e: ChartDataEntry) -> Bool
     {
         for entry in _yVals
@@ -367,6 +383,8 @@ public class ChartDataSet: NSObject
     public func clear()
     {
         _yVals.removeAll(keepCapacity: true);
+        _lastStart = 0;
+        _lastEnd = 0;
         notifyDataSetChanged();
     }
 
