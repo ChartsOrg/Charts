@@ -17,10 +17,6 @@ import CoreGraphics.CGBase
 /// Chart that draws lines, surfaces, circles, ...
 public class LineChartView: BarLineChartViewBase, LineChartRendererDelegate
 {
-    /// the width of the highlighning line
-    /// :default: 3.0
-    internal var highlightWidth: CGFloat = 3.0
-
     private var _fillFormatter: ChartFillFormatter!
     
     internal override func initialize()
