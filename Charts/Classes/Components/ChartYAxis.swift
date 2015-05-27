@@ -89,8 +89,14 @@ public class ChartYAxis: ChartAxisBase
     /// the side this axis object represents
     private var _axisDependency = AxisDependency.Left
     
-    /// the width the axis should take
-    private var _customWidth = CGFloat(0);
+    /// the minimum width that the axis should take
+    /// :default 0.0
+    public var minWidth = CGFloat(0)
+    
+    /// the maximum width that the axis can take.
+    /// use zero for disabling the maximum
+    /// :default 0.0 (no maximum specified)
+    public var maxWidth = CGFloat(0)
     
     public override init()
     {
@@ -161,7 +167,7 @@ public class ChartYAxis: ChartAxisBase
         var size = label.sizeWithAttributes([NSFontAttributeName: labelFont]);
         size.width += xOffset * 2.0;
         size.height += yOffset * 2.0;
-        size.width = max(_customWidth, size.width);
+        size.width = max(minWidth, min(size.width, maxWidth > 0.0 ? maxWidth : size.width));
         return size;
     }
 
@@ -204,12 +210,6 @@ public class ChartYAxis: ChartAxisBase
         {
             return false;
         }
-    }
-
-    /// Sets a custom width to the axis that can be bigger than the requried size of the longest label. Note: narrower axis widths are not supported.
-    public func setCustomWidth(width: CGFloat)
-    {
-        _customWidth = width;
     }
     
     public var isInverted: Bool { return inverted; }
