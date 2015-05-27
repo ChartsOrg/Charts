@@ -1523,6 +1523,74 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     /// returns true if auto scaling on the y axis is enabled.
     /// :default: false
     public var isAutoScaleMinMaxEnabled : Bool { return autoScaleMinMaxEnabled; }
+    
+    /// Sets a minimum width to the specified y axis.
+    public func setYAxisMinWidth(which: ChartYAxis.AxisDependency, width: CGFloat)
+    {
+        if (which == .Left)
+        {
+            _leftAxis.minWidth = width;
+        }
+        else
+        {
+            _rightAxis.minWidth = width;
+        }
+    }
+    
+    /// Returns the (custom) minimum width of the specified Y axis.
+    /// :default 0.0
+    public func getYAxisMinWidth(which: ChartYAxis.AxisDependency) -> CGFloat
+    {
+        if (which == .Left)
+        {
+            return _leftAxis.minWidth;
+        }
+        else
+        {
+            return _rightAxis.minWidth;
+        }
+    }
+    /// Sets a maximum width to the specified y axis.
+    /// Zero (0.0) means there's no maximum width
+    public func setYAxisMaxWidth(which: ChartYAxis.AxisDependency, width: CGFloat)
+    {
+        if (which == .Left)
+        {
+            _leftAxis.maxWidth = width;
+        }
+        else
+        {
+            _rightAxis.maxWidth = width;
+        }
+    }
+    
+    /// Returns the (custom) maximum width of the specified Y axis.
+    /// Zero (0.0) means there's no maximum width
+    /// :default 0.0 (no maximum specified)
+    public func getYAxisMaxWidth(which: ChartYAxis.AxisDependency) -> CGFloat
+    {
+        if (which == .Left)
+        {
+            return _leftAxis.maxWidth;
+        }
+        else
+        {
+            return _rightAxis.maxWidth;
+        }
+    }
+
+    /// Returns the width of the specified y axis.
+    public func getYAxisWidth(which: ChartYAxis.AxisDependency) -> CGFloat
+    {
+        if (which == .Left)
+        {
+            return _leftAxis.requiredSize().width;
+        }
+        else
+        {
+            return _rightAxis.requiredSize().width;
+        }
+    }
 }
 
 /// Default formatter that calculates the position of the filled line.
