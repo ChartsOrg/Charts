@@ -117,6 +117,18 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     
     private var _interceptTouchEvents = false
     
+    /// An extra offset to be appended to the viewport's top
+    public var extraTopOffset: CGFloat = 0.0
+    
+    /// An extra offset to be appended to the viewport's right
+    public var extraRightOffset: CGFloat = 0.0
+    
+    /// An extra offset to be appended to the viewport's bottom
+    public var extraBottomOffset: CGFloat = 0.0
+    
+    /// An extra offset to be appended to the viewport's left
+    public var extraLeftOffset: CGFloat = 0.0
+    
     // MARK: - Initializers
     
     public override init(frame: CGRect)

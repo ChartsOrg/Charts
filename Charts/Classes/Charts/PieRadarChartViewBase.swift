@@ -178,6 +178,11 @@ public class PieRadarChartViewBase: ChartViewBase
             legendRight += self.requiredBaseOffset;
             legendTop += self.requiredBaseOffset;
         }
+        
+        legendTop += self.extraTopOffset;
+        legendRight += self.extraRightOffset;
+        legendBottom += self.extraBottomOffset;
+        legendLeft += self.extraLeftOffset;
 
         var min = CGFloat(10.0);
         
@@ -190,7 +195,6 @@ public class PieRadarChartViewBase: ChartViewBase
                 min = max(10.0, x.labelWidth);
             }
         }
-        
 
         var offsetLeft = max(min, legendLeft);
         var offsetTop = max(min, legendTop);

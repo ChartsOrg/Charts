@@ -90,6 +90,11 @@ public class HorizontalBarChartView: BarChartView
             }
         }
         
+        offsetTop += self.extraTopOffset;
+        offsetRight += self.extraRightOffset;
+        offsetBottom += self.extraBottomOffset;
+        offsetLeft += self.extraLeftOffset;
+        
         var min: CGFloat = 10.0;
         
         _viewPortHandler.restrainViewPort(
