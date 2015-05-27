@@ -182,11 +182,18 @@ public class ChartLegend: ChartComponentBase
         return CGSize(width: width, height: height);
     }
 
-    public var neededWidth = CGFloat(0.0);
-    public var neededHeight = CGFloat(0.0);
-    public var textWidthMax = CGFloat(0.0);
-    public var textHeightMax = CGFloat(0.0);
-
+    public var neededWidth = CGFloat(0.0)
+    public var neededHeight = CGFloat(0.0)
+    public var textWidthMax = CGFloat(0.0)
+    public var textHeightMax = CGFloat(0.0)
+    
+    /// The maximum relative size out of the whole chart view.
+    /// If the legend is to the right/left of the chart, then this affects the width of the legend.
+    /// If the legend is to the top/bottom of the chart, then this affects the height of the legend.
+    /// If the legend is the center of the piechart, then this defines the size of the rectangular bounds out of the size of the "hole".
+    /// default: 1.0 (100%)
+    public var maxSizePercent: CGFloat = 1.0
+    
     public func calculateDimensions(labelFont: UIFont)
     {
         var maxEntrySize = getMaximumEntrySize(labelFont);
@@ -205,6 +212,7 @@ public class ChartLegend: ChartComponentBase
         }
         else
         {
+            /* BelowChartLeft. BelowChartRight, BelowChartCenter, RightOfChartInside, LeftOfChartInside */
             neededWidth = fullSize.width;
             neededHeight = maxEntrySize.height;
             textWidthMax = maxEntrySize.width;

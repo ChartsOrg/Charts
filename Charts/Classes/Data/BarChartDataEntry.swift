@@ -15,6 +15,7 @@ import Foundation
 
 public class BarChartDataEntry: ChartDataEntry
 {
+    /// the values the stacked barchart holds
     private var _values: [Float]!
     
     /// Constructor for stacked bar entries.
