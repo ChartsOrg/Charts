@@ -311,7 +311,7 @@ public class PieChartView: PieRadarChartViewBase
     
     internal override var requiredBottomOffset: CGFloat
     {
-        return _legend.font.pointSize * 4.0;
+        return _legend.font.pointSize * 2.0;
     }
     
     internal override var requiredBaseOffset: CGFloat

@@ -175,7 +175,8 @@ public class PieRadarChartViewBase: ChartViewBase
                     || _legend.position == .BelowChartRight
                     || _legend.position == .BelowChartCenter)
             {
-                legendBottom = self.requiredBottomOffset;
+                var yOffset = self.requiredBottomOffset; // It's possible that we do not need this offset anymore as it is available through the extraOffsets
+                legendBottom = min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent);
             }
             
             legendLeft += self.requiredBaseOffset;

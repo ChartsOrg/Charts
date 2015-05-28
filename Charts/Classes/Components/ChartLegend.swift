@@ -84,6 +84,10 @@ public class ChartLegend: ChartComponentBase
     public var xOffset = CGFloat(5.0)
     public var yOffset = CGFloat(6.0)
     
+    public var calculatedLabelSizes = [CGSize]()
+    public var calculatedLabelBreakPoints = [Bool]()
+    public var calculatedLineSizes = [CGSize]()
+    
     public override init()
     {
         super.init();
@@ -187,6 +191,16 @@ public class ChartLegend: ChartComponentBase
     public var textWidthMax = CGFloat(0.0)
     public var textHeightMax = CGFloat(0.0)
     
+    /// should the legend word wrap?
+    /// this is currently supported only for: BelowChartLeft, BelowChartRight, BelowChartCenter.
+    /// note that word wrapping a legend takes a toll on performance.
+    /// you may want to set maxSizePercent when word wrapping, to set the point where the text wraps.
+    /// default: false
+    public var wordWrapEnabled = false
+    
+    /// if this is set, then word wrapping the legend is enabled.
+    public var isWordWrapEnabled: Bool { return wordWrapEnabled }
+
     /// The maximum relative size out of the whole chart view.
     /// If the legend is to the right/left of the chart, then this affects the width of the legend.
     /// If the legend is to the top/bottom of the chart, then this affects the height of the legend.
@@ -194,25 +208,144 @@ public class ChartLegend: ChartComponentBase
     /// default: 1.0 (100%)
     public var maxSizePercent: CGFloat = 1.0
     
-    public func calculateDimensions(labelFont: UIFont)
+    public func calculateDimensions(#labelFont: UIFont, viewPortHandler: ChartViewPortHandler)
     {
-        var maxEntrySize = getMaximumEntrySize(labelFont);
-        var fullSize = getFullSize(labelFont);
-        
         if (position == .RightOfChart
             || position == .RightOfChartCenter
             || position == .LeftOfChart
             || position == .LeftOfChartCenter
             || position == .PiechartCenter)
         {
+            var maxEntrySize = getMaximumEntrySize(labelFont);
+            var fullSize = getFullSize(labelFont);
+            
             neededWidth = maxEntrySize.width;
             neededHeight = fullSize.height;
             textWidthMax = maxEntrySize.width;
             textHeightMax = maxEntrySize.height;
         }
+        else if (position == .BelowChartLeft
+            || position == .BelowChartRight
+            || position == .BelowChartCenter)
+        {
+            var labels = self.labels;
+            var colors = self.colors;
+            var labelCount = labels.count;
+            
+            var labelLineHeight = labelFont.lineHeight;
+            var formSize = self.formSize;
+            var formToTextSpace = self.formToTextSpace;
+            var xEntrySpace = self.xEntrySpace;
+            var direction = self.direction;
+            var stackSpace = self.stackSpace;
+            var wordWrapEnabled = self.wordWrapEnabled;
+            
+            var contentWidth: CGFloat = viewPortHandler.contentWidth;
+            
+            // Prepare arrays for calculated layout
+            if (calculatedLabelSizes.count != labelCount)
+            {
+                calculatedLabelSizes = [CGSize](count: labelCount, repeatedValue: CGSize());
+            }
+            
+            if (calculatedLabelBreakPoints.count != labelCount)
+            {
+                calculatedLabelBreakPoints = [Bool](count: labelCount, repeatedValue: false);
+            }
+            
+            calculatedLineSizes.removeAll(keepCapacity: true);
+            
+            // Start calculating layout
+            
+            var labelAttrs = [NSFontAttributeName: labelFont];
+            var maxLineWidth: CGFloat = 0.0;
+            var currentLineWidth: CGFloat = 0.0;
+            var requiredWidth: CGFloat = 0.0;
+            var stackedStartIndex: Int = -1;
+            
+            for (var i = 0; i < labelCount; i++)
+            {
+                var drawingForm = colors[i] != nil;
+                
+                calculatedLabelBreakPoints[i] = false;
+                
+                if (stackedStartIndex == -1)
+                {
+                    // we are not stacking, so required width is for this label only
+                    requiredWidth = 0.0;
+                }
+                else
+                {
+                    // add the spacing appropriate for stacked labels/forms
+                    requiredWidth += stackSpace;
+                }
+                
+                // grouped forms have null labels
+                if (labels[i] != nil)
+                {
+                    calculatedLabelSizes[i] = (labels[i] as NSString!).sizeWithAttributes(labelAttrs);
+                    requiredWidth += drawingForm ? formToTextSpace + formSize : 0.0;
+                    requiredWidth += calculatedLabelSizes[i].width;
+                }
+                else
+                {
+                    calculatedLabelSizes[i] = CGSize();
+                    requiredWidth += drawingForm ? formSize : 0.0;
+                    
+                    if (stackedStartIndex == -1)
+                    {
+                        // mark this index as we might want to break here later
+                        stackedStartIndex = i;
+                    }
+                }
+                
+                if (labels[i] != nil || i == labelCount - 1)
+                {
+                    var requiredSpacing = currentLineWidth == 0.0 ? 0.0 : xEntrySpace;
+                    
+                    if (!wordWrapEnabled || // No word wrapping, it must fit.
+                        currentLineWidth == 0.0 || // The line is empty, it must fit.
+                        (contentWidth - currentLineWidth >= requiredSpacing + requiredWidth)) // It simply fits
+                    {
+                        // Expand current line
+                        currentLineWidth += requiredSpacing + requiredWidth;
+                    }
+                    else
+                    { // It doesn't fit, we need to wrap a line
+                        
+                        // Add current line size to array
+                        calculatedLineSizes.append(CGSize(width: currentLineWidth, height: labelLineHeight));
+                        maxLineWidth = max(maxLineWidth, currentLineWidth);
+                        
+                        // Start a new line
+                        calculatedLabelBreakPoints[stackedStartIndex > -1 ? stackedStartIndex : i] = true;
+                        currentLineWidth = requiredWidth;
+                    }
+                    
+                    if (i == labelCount - 1)
+                    { // Add last line size to array
+                        calculatedLineSizes.append(CGSize(width: currentLineWidth, height: labelLineHeight));
+                        maxLineWidth = max(maxLineWidth, currentLineWidth);
+                    }
+                }
+                
+                stackedStartIndex = labels[i] != nil ? -1 : stackedStartIndex;
+            }
+            
+            var maxEntrySize = getMaximumEntrySize(labelFont);
+            
+            textWidthMax = maxEntrySize.width;
+            textHeightMax = maxEntrySize.height;
+            neededWidth = maxLineWidth;
+            neededHeight = labelLineHeight * CGFloat(calculatedLineSizes.count) +
+                yEntrySpace * CGFloat(calculatedLineSizes.count == 0 ? 0 : (calculatedLineSizes.count - 1));
+        }
         else
         {
-            /* BelowChartLeft. BelowChartRight, BelowChartCenter, RightOfChartInside, LeftOfChartInside */
+            var maxEntrySize = getMaximumEntrySize(labelFont);
+            var fullSize = getFullSize(labelFont);
+            
+            /* RightOfChartInside, LeftOfChartInside */
             neededWidth = fullSize.width;
             neededHeight = maxEntrySize.height;
             textWidthMax = maxEntrySize.width;
