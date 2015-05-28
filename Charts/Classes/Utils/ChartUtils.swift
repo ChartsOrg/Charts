@@ -134,6 +134,32 @@ internal class ChartUtils
         UIGraphicsPopContext();
     }
     
+    internal class func drawMultilineText(#context: CGContext, text: String, var knownTextSize: CGSize, point: CGPoint, align: NSTextAlignment, attributes: [NSObject : AnyObject]?, constrainedToSize: CGSize)
+    {
+        var rect = CGRect(origin: CGPoint(), size: knownTextSize);
+        rect.origin.x += point.x;
+        rect.origin.y += point.y;
+        
+        if (align == .Center)
+        {
+            rect.origin.x -= rect.size.width / 2.0;
+        }
+        else if (align == .Right)
+        {
+            rect.origin.x -= rect.size.width;
+        }
+        
+        UIGraphicsPushContext(context);
+        (text as NSString).drawWithRect(rect, options: .UsesLineFragmentOrigin, attributes: attributes, context: nil);
+        UIGraphicsPopContext();
+    }
+    
+    internal class func drawMultilineText(#context: CGContext, text: String, point: CGPoint, align: NSTextAlignment, attributes: [NSObject : AnyObject]?, constrainedToSize: CGSize)
+    {
+        var rect = text.boundingRectWithSize(constrainedToSize, options: .UsesLineFragmentOrigin, attributes: attributes, context: nil);
+        drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, align: align, attributes: attributes, constrainedToSize: constrainedToSize);
+    }
+    
     /// returns an angle between 0.0 < 360.0 (not less than zero, less than 360)
     internal class func normalizedAngleFromAngle(var angle: CGFloat) -> CGFloat
     {

@@ -34,15 +34,26 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
             return;
         }
         
-        var labelFont = _xAxis.labelFont;
-        var labelTextColor = _xAxis.labelTextColor;
+        var paraStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle;
+        paraStyle.alignment = .Center;
+        
+        var labelAttrs = [NSFontAttributeName: _xAxis.labelFont,
+            NSForegroundColorAttributeName: _xAxis.labelTextColor,
+            NSParagraphStyleAttributeName: paraStyle];
         
         var barData = _chart.data as! BarChartData;
         var step = barData.dataSetCount;
         
-        var trans = transformer.valueToPixelMatrix;
+        var valueToPixelMatrix = transformer.valueToPixelMatrix;
         
         var position = CGPoint(x: 0.0, y: 0.0);
+        
+        var labelMaxSize = CGSize();
+        
+        if (_xAxis.isWordWrapEnabled)
+        {
+            labelMaxSize.width = _xAxis.wordWrapWidthPercent * valueToPixelMatrix.a;
+        }
         
         for (var i = _minX; i <= _maxX; i += _xAxis.axisLabelModulus)
         {
@@ -61,7 +72,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
                 position.x += (CGFloat(step) - 1.0) / 2.0;
             }
             
-            position = CGPointApplyAffineTransform(position, trans);
+            position = CGPointApplyAffineTransform(position, valueToPixelMatrix);
             
             if (viewPortHandler.isInBoundsX(position.x))
             {
@@ -72,7 +83,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
                     // avoid clipping of the last
                     if (i == _xAxis.values.count - 1)
                     {
-                        var width = label!.sizeWithAttributes([NSFontAttributeName: _xAxis.labelFont]).width;
+                        var width = label!.sizeWithAttributes(labelAttrs).width;
                         
                         if (width > viewPortHandler.offsetRight * 2.0
                             && position.x + width > viewPortHandler.chartWidth)
@@ -82,12 +93,12 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
                     }
                     else if (i == 0)
                     { // avoid clipping of the first
-                        var width = label!.sizeWithAttributes([NSFontAttributeName: _xAxis.labelFont]).width;
+                        var width = label!.sizeWithAttributes(labelAttrs).width;
                         position.x += width / 2.0;
                     }
                 }
                 
-                ChartUtils.drawText(context: context, text: label!, point: CGPoint(x: position.x, y: pos), align: .Center, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor]);
+                ChartUtils.drawMultilineText(context: context, text: label!, point: CGPoint(x: position.x, y: pos), align: .Center, attributes: labelAttrs, constrainedToSize: labelMaxSize);
             }
         }
     }
@@ -117,7 +128,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
             CGContextSetLineDash(context, 0.0, nil, 0);
         }
         
-        var trans = transformer.valueToPixelMatrix;
+        var valueToPixelMatrix = transformer.valueToPixelMatrix;
         
         var position = CGPoint(x: 0.0, y: 0.0);
         
@@ -125,7 +136,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
         {
             position.x = CGFloat(i * step) + CGFloat(i) * barData.groupSpace - 0.5;
             position.y = 0.0;
-            position = CGPointApplyAffineTransform(position, trans);
+            position = CGPointApplyAffineTransform(position, valueToPixelMatrix);
             
             if (viewPortHandler.isInBoundsX(position.x))
             {

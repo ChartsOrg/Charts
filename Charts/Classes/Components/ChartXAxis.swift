@@ -53,6 +53,19 @@ public class ChartXAxis: ChartAxisBase
     /// the position of the x-labels relative to the chart
     public var labelPosition = XAxisLabelPosition.Top;
     
+    /// if set to true, word wrapping the labels will be enabled.
+    /// word wrapping is done using (value width * labelWidth)
+    /// NOTE: currently supports all charts except pie/radar/horizontal-bar
+    public var wordWrapEnabled = false
+    
+    /// :returns true if word wrapping the labels is enabled
+    public var isWordWrapEnabled: Bool { return wordWrapEnabled }
+    
+    /// the width for wrapping the labels, as percentage out of one value width.
+    /// used only when isWordWrapEnabled = true.
+    /// :default 1.0
+    public var wordWrapWidthPercent: CGFloat = 1.0;
+    
     public override init()
     {
         super.init();
