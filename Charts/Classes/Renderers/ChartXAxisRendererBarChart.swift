@@ -46,6 +46,12 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
         
         for (var i = _minX; i <= _maxX; i += _xAxis.axisLabelModulus)
         {
+            var label = i >= 0 && i < _xAxis.values.count ? _xAxis.values[i] : nil;
+            if (label == nil)
+            {
+                continue;
+            }
+            
             position.x = CGFloat(i * step) + CGFloat(i) * barData.groupSpace + barData.groupSpace / 2.0;
             position.y = 0.0;
             
@@ -57,17 +63,16 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
             
             position = CGPointApplyAffineTransform(position, trans);
             
-            if (viewPortHandler.isInBoundsX(position.x) && i >= 0 && i < _xAxis.values.count)
+            if (viewPortHandler.isInBoundsX(position.x))
             {
-                var label = _xAxis.values[i];
-                var labelns = label as NSString;
+                var labelns = label! as NSString;
                 
                 if (_xAxis.isAvoidFirstLastClippingEnabled)
                 {
                     // avoid clipping of the last
                     if (i == _xAxis.values.count - 1)
                     {
-                        var width = label.sizeWithAttributes([NSFontAttributeName: _xAxis.labelFont]).width;
+                        var width = label!.sizeWithAttributes([NSFontAttributeName: _xAxis.labelFont]).width;
                         
                         if (width > viewPortHandler.offsetRight * 2.0
                             && position.x + width > viewPortHandler.chartWidth)
@@ -77,12 +82,12 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
                     }
                     else if (i == 0)
                     { // avoid clipping of the first
-                        var width = label.sizeWithAttributes([NSFontAttributeName: _xAxis.labelFont]).width;
+                        var width = label!.sizeWithAttributes([NSFontAttributeName: _xAxis.labelFont]).width;
                         position.x += width / 2.0;
                     }
                 }
                 
-                ChartUtils.drawText(context: context, text: label, point: CGPoint(x: position.x, y: pos), align: .Center, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor]);
+                ChartUtils.drawText(context: context, text: label!, point: CGPoint(x: position.x, y: pos), align: .Center, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor]);
             }
         }
     }

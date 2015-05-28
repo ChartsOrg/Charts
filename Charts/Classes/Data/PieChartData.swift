@@ -18,17 +18,16 @@ public class PieChartData: ChartData
     public override init()
     {
         super.init();
-        
     }
-
-    public override init(xVals: [String]?, dataSets: [ChartDataSet]?)
+    
+    public override init(xVals: [String?]?, dataSets: [ChartDataSet]?)
     {
         super.init(xVals: xVals, dataSets: dataSets)
     }
 
-    public convenience init(xVals: [String]?, dataSet: ChartDataSet?)
+    public override init(xVals: [NSObject]?, dataSets: [ChartDataSet]?)
     {
-        self.init(xVals: xVals, dataSets: dataSet === nil ? nil : [dataSet!]);
+        super.init(xVals: xVals, dataSets: dataSets)
     }
 
     var dataSet: PieChartDataSet?

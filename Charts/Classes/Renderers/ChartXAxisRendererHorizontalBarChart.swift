@@ -22,7 +22,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: transformer, chart: chart);
     }
     
-    public override func computeAxis(#xValAverageLength: Float, xValues: [String])
+    public override func computeAxis(#xValAverageLength: Float, xValues: [String?])
     {
         _xAxis.values = xValues;
        
@@ -78,6 +78,13 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         
         for (var i = _minX; i <= _maxX; i += _xAxis.axisLabelModulus)
         {
+            var label = _xAxis.values[i];
+            
+            if (label == nil)
+            {
+                continue;
+            }
+            
             position.x = 0.0;
             position.y = CGFloat(i * step) + CGFloat(i) * bd.groupSpace + bd.groupSpace / 2.0;
             
@@ -91,9 +98,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
             
             if (viewPortHandler.isInBoundsY(position.y))
             {
-                var label = _xAxis.values[i];
-                
-                ChartUtils.drawText(context: context, text: label, point: CGPoint(x: pos, y: position.y - _xAxis.labelHeight / 2.0), align: align, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor]);
+                ChartUtils.drawText(context: context, text: label!, point: CGPoint(x: pos, y: position.y - _xAxis.labelHeight / 2.0), align: align, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor]);
             }
         }
     }

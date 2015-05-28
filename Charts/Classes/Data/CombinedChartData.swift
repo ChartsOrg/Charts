@@ -26,9 +26,14 @@ public class CombinedChartData: BarLineScatterCandleChartData
         super.init();
     }
     
-    public override init(xVals: [String]?)
+    public override init(xVals: [String?]?, dataSets: [ChartDataSet]?)
     {
-        super.init(xVals: xVals);
+        super.init(xVals: xVals, dataSets: dataSets);
+    }
+    
+    public override init(xVals: [NSObject]?, dataSets: [ChartDataSet]?)
+    {
+        super.init(xVals: xVals, dataSets: dataSets);
     }
     
     public var lineData: LineChartData!

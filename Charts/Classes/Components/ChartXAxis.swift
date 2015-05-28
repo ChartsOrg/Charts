@@ -27,7 +27,7 @@ public class ChartXAxis: ChartAxisBase
         case BottomInside
     }
     
-    public var values = [String]()
+    public var values = [String?]()
     public var labelWidth = CGFloat(1.0)
     public var labelHeight = CGFloat(1.0)
     
@@ -66,9 +66,9 @@ public class ChartXAxis: ChartAxisBase
         {
             var text = values[i];
             
-            if (longest.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) < text.lengthOfBytesUsingEncoding(NSUTF16StringEncoding))
+            if (text != nil && longest.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) < text!.lengthOfBytesUsingEncoding(NSUTF16StringEncoding))
             {
-                longest = text;
+                longest = text!;
             }
         }
         
@@ -107,5 +107,11 @@ public class ChartXAxis: ChartAxisBase
     public var isAxisModulusCustom: Bool
     {
         return _isAxisModulusCustom;
+    }
+    
+    public var valuesObjc: [NSObject]
+    {
+        get { return ChartUtils.bridgedObjCGetStringArray(swift: values); }
+        set { self.values = ChartUtils.bridgedObjCGetStringArray(objc: newValue); }
     }
 }

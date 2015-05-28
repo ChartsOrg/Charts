@@ -26,7 +26,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         _xAxis = xAxis;
     }
     
-    public func computeAxis(#xValAverageLength: Float, xValues: [String])
+    public func computeAxis(#xValAverageLength: Float, xValues: [String?])
     {
         var a = "";
         
@@ -136,21 +136,25 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         
         for (var i = _minX; i <= _maxX; i += _xAxis.axisLabelModulus)
         {
+            var label = _xAxis.values[i];
+            if (label == nil)
+            {
+                continue;
+            }
+            
             position.x = CGFloat(i);
             position.y = 0.0;
             position = CGPointApplyAffineTransform(position, valueToPixelMatrix);
             
             if (viewPortHandler.isInBoundsX(position.x))
             {
-                var label = _xAxis.values[i];
-                var labelns = label as NSString;
+                var labelns = label! as NSString;
                 
                 if (_xAxis.isAvoidFirstLastClippingEnabled)
                 {
                     // avoid clipping of the last
                     if (i == _xAxis.values.count - 1 && _xAxis.values.count > 1)
                     {
-                        
                         var width = labelns.sizeWithAttributes([NSFontAttributeName: _xAxis.labelFont]).width;
                         
                         if (width > viewPortHandler.offsetRight * 2.0
@@ -166,7 +170,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
                     }
                 }
                 
-                ChartUtils.drawText(context: context, text: label, point: CGPoint(x: position.x, y: pos), align: .Center, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor]);
+                ChartUtils.drawText(context: context, text: label!, point: CGPoint(x: position.x, y: pos), align: .Center, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor]);
             }
         }
     }

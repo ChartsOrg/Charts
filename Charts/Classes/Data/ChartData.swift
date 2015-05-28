@@ -35,40 +35,55 @@ public class ChartData: NSObject
     /// the average length (in characters) across all x-value strings
     private var _xValAverageLength = Float(0.0)
     
-    internal var _xVals: [String]!
+    internal var _xVals: [String?]!
     internal var _dataSets: [ChartDataSet]!
     
     public override init()
     {
         super.init();
         
-        _xVals = [String]();
+        _xVals = [String?]();
         _dataSets = [ChartDataSet]();
     }
     
-    public init(xVals: [String]?)
+    public init(xVals: [String?]?, dataSets: [ChartDataSet]?)
     {
-        super.init();
+        super.init()
         
-        _xVals = xVals == nil ? [String]() : xVals;
-        _dataSets = [ChartDataSet]();
+        _xVals = xVals == nil ? [String?]() : xVals;
+        _dataSets = dataSets == nil ? [ChartDataSet]() : dataSets;
         
-        self.initialize(_dataSets);
+        self.initialize(_dataSets)
     }
     
-    public convenience init(xVals: [String]?, dataSet: ChartDataSet?)
+    public init(xVals: [NSObject]?, dataSets: [ChartDataSet]?)
+    {
+        super.init()
+        
+        _xVals = xVals == nil ? [String?]() : ChartUtils.bridgedObjCGetStringArray(objc: xVals!);
+        _dataSets = dataSets == nil ? [ChartDataSet]() : dataSets;
+        
+        self.initialize(_dataSets)
+    }
+    
+    public convenience init(xVals: [String?]?)
+    {
+        self.init(xVals: xVals, dataSets: [ChartDataSet]());
+    }
+    
+    public convenience init(xVals: [NSObject]?)
+    {
+        self.init(xVals: xVals, dataSets: [ChartDataSet]());
+    }
+    
+    public convenience init(xVals: [String?]?, dataSet: ChartDataSet?)
     {
         self.init(xVals: xVals, dataSets: dataSet === nil ? nil : [dataSet!]);
     }
     
-    public init(xVals: [String]?, dataSets: [ChartDataSet]?)
+    public convenience init(xVals: [NSObject]?, dataSet: ChartDataSet?)
     {
-        super.init()
-        
-        _xVals = xVals == nil ? [String]() : xVals;
-        _dataSets = dataSets == nil ? [ChartDataSet]() : dataSets;
-        
-        self.initialize(_dataSets)
+        self.init(xVals: xVals, dataSets: dataSet === nil ? nil : [dataSet!]);
     }
     
     internal func initialize(dataSets: [ChartDataSet])
@@ -95,7 +110,7 @@ public class ChartData: NSObject
         
         for (var i = 0; i < _xVals.count; i++)
         {
-            sum += _xVals[i].lengthOfBytesUsingEncoding(NSUTF16StringEncoding);
+            sum += _xVals[i] == nil ? 0 : _xVals[i]!.lengthOfBytesUsingEncoding(NSUTF16StringEncoding);
         }
         
         _xValAverageLength = Float(sum) / Float(_xVals.count);
@@ -323,13 +338,13 @@ public class ChartData: NSObject
     }
     
     /// returns the x-values the chart represents
-    public var xVals: [String]
+    public var xVals: [String?]
     {
         return _xVals;
     }
     
     ///Adds a new x-value to the chart data.
-    public func addXValue(xVal: String)
+    public func addXValue(xVal: String?)
     {
         _xVals.append(xVal);
     }
@@ -849,4 +864,9 @@ public class ChartData: NSObject
         
         return false;
     }
+    
+    /// MARK: - ObjC compatibility
+    
+    /// returns the average length (in characters) across all values in the x-vals array
+    public var xValsObjc: [NSObject] { return ChartUtils.bridgedObjCGetStringArray(swift: _xVals); }
 }

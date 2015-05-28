@@ -178,6 +178,11 @@ public class PieChartRenderer: ChartDataRendererBase
             
             for (var j = 0, maxEntry = Int(min(ceil(CGFloat(entries.count) * _animator.phaseX), CGFloat(entries.count))); j < maxEntry; j++)
             {
+                if (drawXVals && !drawYVals && (j >= data.xValCount || data.xVals[j] == nil))
+                {
+                    continue;
+                }
+                
                 // offset needed to center the drawn text in the slice
                 var offset = drawAngles[cnt] / 2.0;
                 
@@ -197,17 +202,14 @@ public class PieChartRenderer: ChartDataRendererBase
                 {
                     ChartUtils.drawText(context: context, text: val, point: CGPoint(x: x, y: y), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]);
                     
-                    if (j < data.xValCount)
+                    if (j < data.xValCount && data.xVals[j] != nil)
                     {
-                        ChartUtils.drawText(context: context, text: data.xVals[j], point: CGPoint(x: x, y: y + lineHeight), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]);
+                        ChartUtils.drawText(context: context, text: data.xVals[j]!, point: CGPoint(x: x, y: y + lineHeight), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]);
                     }
                 }
                 else if (drawXVals && !drawYVals)
                 {
-                    if (j < data.xValCount)
-                    {
-                        ChartUtils.drawText(context: context, text: data.xVals[j], point: CGPoint(x: x, y: y + lineHeight / 2.0), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]);
-                    }
+                    ChartUtils.drawText(context: context, text: data.xVals[j]!, point: CGPoint(x: x, y: y + lineHeight / 2.0), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]);
                 }
                 else if (!drawXVals && drawYVals)
                 {
