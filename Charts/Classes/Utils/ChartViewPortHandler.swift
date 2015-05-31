@@ -31,6 +31,9 @@ public class ChartViewPortHandler: NSObject
     /// minimum scale value on the x-axis
     private var _minScaleX = CGFloat(1.0);
     
+    /// maximum scale value on the x-axis
+    private var _maxScaleX = CGFloat(FLT_MAX);
+    
     /// contains the current scale factor of the x-axis
     private var _scaleX = CGFloat(1.0);
     
@@ -207,6 +210,11 @@ public class ChartViewPortHandler: NSObject
     {
         // min scale-x is 1f
         _scaleX = max(_minScaleX, matrix.a);
+        
+        if (_scaleX > _maxScaleX)
+        {
+            _scaleX = _maxScaleX;
+        }
         
         // min scale-y is 1f
         _scaleY = max(_minScaleY, matrix.d);
@@ -392,5 +400,11 @@ public class ChartViewPortHandler: NSObject
     public var hasNoDragOffset: Bool
     {
         return _transOffsetX <= 0.0 && _transOffsetY <= 0.0 ? true : false;
+    }
+    
+    public func setScaleXRange(#minScaleX: CGFloat, maxScaleX: CGFloat)
+    {
+        _maxScaleX = maxScaleX;
+        setMinimumScaleX(minScaleX);
     }
 }
