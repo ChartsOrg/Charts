@@ -407,4 +407,14 @@ public class ChartViewPortHandler: NSObject
         _maxScaleX = maxScaleX;
         setMinimumScaleX(minScaleX);
     }
+    
+    public func canZoomOutMore() -> Bool
+    {
+        return (_scaleX > _minScaleX);
+    }
+    
+    public func canZoomInMore() -> Bool
+    {
+        return (_scaleX < _maxScaleX);
+    }
 }

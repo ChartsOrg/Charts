@@ -619,7 +619,9 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         }
         else if (recognizer.state == UIGestureRecognizerState.Changed)
         {
-            if (_isScaling)
+            var isZoomingOut = (recognizer.scale < 1);
+            var canZoomMore = isZoomingOut ? _viewPortHandler.canZoomOutMore() : _viewPortHandler.canZoomInMore();
+            if (_isScaling && canZoomMore)
             {
                 var location = recognizer.locationInView(self);
                 location.x = location.x - _viewPortHandler.offsetLeft;
