@@ -942,7 +942,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     public func setVisibleXRange(minScaleX: CGFloat)
     {
         var xScale = _deltaX / minScaleX;
-        _viewPortHandler.setMinimumScaleX(minScaleX);
+        _viewPortHandler.setMinimumScaleX(xScale);
     }
 
     /// Limits the maximum and minimum value count that can be visible by pinching and zooming.
@@ -950,9 +950,9 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     /// at once without scrolling
     public func setVisibleXRange(#minScaleX: CGFloat, maxScaleX: CGFloat)
     {
-        var maxScale = _deltaX / minScaleX;
-        var minScale = _deltaX / maxScaleX;
-        _viewPortHandler.setScaleXRange(minScaleX: minScaleX, maxScaleX: maxScaleX);
+        var minScale = _deltaX / minScaleX;
+        var maxScale = _deltaX / maxScaleX;
+        _viewPortHandler.setScaleXRange(minScaleX: minScale, maxScaleX: maxScale);
     }
     
     /// Sets the size of the area (range on the y-axis) that should be maximum visible at once.
