@@ -16,30 +16,30 @@ import Foundation
 public class BarChartDataEntry: ChartDataEntry
 {
     /// the values the stacked barchart holds
-    private var _values: [Float]!
+    private var _values: [Double]!
     
     /// Constructor for stacked bar entries.
-    public init(values: [Float], xIndex: Int)
+    public init(values: [Double], xIndex: Int)
     {
         super.init(value: BarChartDataEntry.calcSum(values), xIndex: xIndex);
         self.values = values;
     }
     
     /// Constructor for normal bars (not stacked).
-    public override init(value: Float, xIndex: Int)
+    public override init(value: Double, xIndex: Int)
     {
         super.init(value: value, xIndex: xIndex);
     }
     
     /// Constructor for stacked bar entries.
-    public init(values: [Float], xIndex: Int, label: String)
+    public init(values: [Double], xIndex: Int, label: String)
     {
         super.init(value: BarChartDataEntry.calcSum(values), xIndex: xIndex, data: label);
         self.values = values;
     }
     
     /// Constructor for normal bars (not stacked).
-    public override init(value: Float, xIndex: Int, data: AnyObject?)
+    public override init(value: Double, xIndex: Int, data: AnyObject?)
     {
         super.init(value: value, xIndex: xIndex, data: data)
     }
@@ -47,7 +47,7 @@ public class BarChartDataEntry: ChartDataEntry
     /// Returns the closest value inside the values array (for stacked barchart)
     /// to the value given as a parameter. The closest value must be higher
     /// (above) the provided value.
-    public func getClosestIndexAbove(value: Float) -> Int
+    public func getClosestIndexAbove(value: Double) -> Int
     {
         if (values == nil)
         {
@@ -55,7 +55,7 @@ public class BarChartDataEntry: ChartDataEntry
         }
         
         var index = values.count - 1;
-        var remainder: Float = 0.0;
+        var remainder: Double = 0.0;
         
         while (index > 0 && value > values[index] + remainder)
         {
@@ -66,14 +66,14 @@ public class BarChartDataEntry: ChartDataEntry
         return index;
     }
     
-    public func getBelowSum(stackIndex :Int) -> Float
+    public func getBelowSum(stackIndex :Int) -> Double
     {
         if (values == nil)
         {
             return 0;
         }
         
-        var remainder: Float = 0.0;
+        var remainder: Double = 0.0;
         var index = values.count - 1;
         
         while (index > stackIndex && index >= 0)
@@ -86,9 +86,9 @@ public class BarChartDataEntry: ChartDataEntry
     }
 
     /// Calculates the sum across all values.
-    private class func calcSum(values: [Float]) -> Float
+    private class func calcSum(values: [Double]) -> Double
     {
-        var sum = Float(0.0);
+        var sum = Double(0.0);
 
         for f in values
         {
@@ -101,7 +101,7 @@ public class BarChartDataEntry: ChartDataEntry
     // MARK: Accessors
     
     /// the values the stacked barchart holds
-    public var values: [Float]!
+    public var values: [Double]!
     {
         get { return self._values; }
         set

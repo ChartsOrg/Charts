@@ -79,22 +79,22 @@ public class LineChartView: BarLineChartViewBase, LineChartRendererDelegate
         return self._defaultValueFormatter;
     }
     
-    public func lineChartRendererChartYMax(renderer: LineChartRenderer) -> Float
+    public func lineChartRendererChartYMax(renderer: LineChartRenderer) -> Double
     {
         return self.chartYMax;
     }
     
-    public func lineChartRendererChartYMin(renderer: LineChartRenderer) -> Float
+    public func lineChartRendererChartYMin(renderer: LineChartRenderer) -> Double
     {
         return self.chartYMin;
     }
     
-    public func lineChartRendererChartXMax(renderer: LineChartRenderer) -> Float
+    public func lineChartRendererChartXMax(renderer: LineChartRenderer) -> Double
     {
         return self.chartXMax;
     }
     
-    public func lineChartRendererChartXMin(renderer: LineChartRenderer) -> Float
+    public func lineChartRendererChartXMin(renderer: LineChartRenderer) -> Double
     {
         return self.chartXMin;
     }

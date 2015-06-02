@@ -162,13 +162,13 @@ public class ChartViewPortHandler: NSObject
         return matrix;
     }
     
-    /// Zooms in by 1.4f, x and y are the coordinates (in pixels) of the zoom center.
+    /// Zooms in by 1.4, x and y are the coordinates (in pixels) of the zoom center.
     public func zoomIn(#x: CGFloat, y: CGFloat) -> CGAffineTransform
     {
         return zoom(scaleX: 1.4, scaleY: 1.4, x: x, y: y);
     }
     
-    /// Zooms out by 0.7f, x and y are the coordinates (in pixels) of the zoom center.
+    /// Zooms out by 0.7, x and y are the coordinates (in pixels) of the zoom center.
     public func zoomOut(#x: CGFloat, y: CGFloat) -> CGAffineTransform
     {
         return zoom(scaleX: 0.7, scaleY: 0.7, x: x, y: y);
@@ -211,10 +211,10 @@ public class ChartViewPortHandler: NSObject
     /// limits the maximum scale and X translation of the given matrix
     private func limitTransAndScale(inout #matrix: CGAffineTransform, content: CGRect?)
     {
-        // min scale-x is 1f, max is the max CGFloat
+        // min scale-x is 1, max is the max CGFloat
         _scaleX = min(max(_minScaleX, matrix.a), _maxScaleX);
         
-        // min scale-y is 1f
+        // min scale-y is 1
         _scaleY = max(_minScaleY, matrix.d);
         
         var width: CGFloat = 0.0;

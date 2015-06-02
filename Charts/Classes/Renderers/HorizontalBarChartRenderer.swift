@@ -46,7 +46,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
         var phaseY = _animator.phaseY;
         var barRect = CGRect();
         var barShadow = CGRect();
-        var y: Float;
+        var y: Double;
         
         // do the drawing
         for (var j = 0, count = Int(ceil(CGFloat(dataSet.entryCount) * _animator.phaseX)); j < count; j++)
@@ -200,7 +200,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
         CGContextRestoreGState(context);
     }
     
-    internal override func prepareBarHighlight(#x: CGFloat, y: Float, barspacehalf: CGFloat, from: Float, trans: ChartTransformer, inout rect: CGRect)
+    internal override func prepareBarHighlight(#x: CGFloat, y: Double, barspacehalf: CGFloat, from: Double, trans: ChartTransformer, inout rect: CGRect)
     {
         let barWidth: CGFloat = 0.5;
         

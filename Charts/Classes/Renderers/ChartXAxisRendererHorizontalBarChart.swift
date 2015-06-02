@@ -22,7 +22,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: transformer, chart: chart);
     }
     
-    public override func computeAxis(#xValAverageLength: Float, xValues: [String?])
+    public override func computeAxis(#xValAverageLength: Double, xValues: [String?])
     {
         _xAxis.values = xValues;
        

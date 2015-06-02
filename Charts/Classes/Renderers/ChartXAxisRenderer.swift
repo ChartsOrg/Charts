@@ -26,11 +26,11 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         _xAxis = xAxis;
     }
     
-    public func computeAxis(#xValAverageLength: Float, xValues: [String?])
+    public func computeAxis(#xValAverageLength: Double, xValues: [String?])
     {
         var a = "";
         
-        var max = Int(round(xValAverageLength + Float(_xAxis.spaceBetweenLabels)));
+        var max = Int(round(xValAverageLength + Double(_xAxis.spaceBetweenLabels)));
         
         for (var i = 0; i < max; i++)
         {

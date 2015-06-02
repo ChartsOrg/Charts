@@ -72,12 +72,12 @@
     ChartLegend *l = _chartView.legend;
     l.position = ChartLegendPositionBelowChartRight;
     l.form = ChartLegendFormSquare;
-    l.formSize = 8.f;
-    l.formToTextSpace = 4.f;
-    l.xEntrySpace = 6.f;
+    l.formSize = 8.0;
+    l.formToTextSpace = 4.0;
+    l.xEntrySpace = 6.0;
     
-    _sliderX.value = 11.f;
-    _sliderY.value = 100.f;
+    _sliderX.value = 11.0;
+    _sliderY.value = 100.0;
     [self slidersValueChanged:nil];
 }
 
@@ -87,7 +87,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setDataCount:(int)count range:(float)range
+- (void)setDataCount:(int)count range:(double)range
 {
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
     
@@ -100,10 +100,10 @@
     
     for (int i = 0; i < count; i++)
     {
-        float mult = (range + 1);
-        float val1 = (float) (arc4random_uniform(mult) + mult / 3);
-        float val2 = (float) (arc4random_uniform(mult) + mult / 3);
-        float val3 = (float) (arc4random_uniform(mult) + mult / 3);
+        double mult = (range + 1);
+        double val1 = (double) (arc4random_uniform(mult) + mult / 3);
+        double val2 = (double) (arc4random_uniform(mult) + mult / 3);
+        double val3 = (double) (arc4random_uniform(mult) + mult / 3);
         
         [yVals addObject:[[BarChartDataEntry alloc] initWithValues:@[@(val1), @(val2), @(val3)] xIndex:i]];
     }

@@ -26,23 +26,23 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         _chart = chart;
     }
  
-    public override func computeAxis(#yMin: Float, yMax: Float)
+    public override func computeAxis(#yMin: Double, yMax: Double)
     {
         computeAxisValues(min: yMin, max: yMax);
     }
     
-    internal override func computeAxisValues(min yMin: Float, max yMax: Float)
+    internal override func computeAxisValues(min yMin: Double, max yMax: Double)
     {
         var labelCount = _yAxis.labelCount;
         var range = abs(yMax - yMin);
         
         if (labelCount == 0 || range <= 0)
         {
-            _yAxis.entries = [Float]();
+            _yAxis.entries = [Double]();
             return;
         }
         
-        var rawInterval = range / Float(labelCount);
+        var rawInterval = range / Double(labelCount);
         var interval = ChartUtils.roundToNextSignificant(number: Double(rawInterval));
         var intervalMagnitude = pow(10.0, round(log10(interval)));
         var intervalSigDigit = Int(interval / intervalMagnitude);
@@ -57,7 +57,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         // if the labels should only show min and max
         if (_yAxis.isShowOnlyMinMaxEnabled)
         {
-            _yAxis.entries = [Float]();
+            _yAxis.entries = [Double]();
             _yAxis.entries.append(yMin);
             _yAxis.entries.append(yMax);
         }
@@ -82,12 +82,12 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
             if (_yAxis.entries.count < n)
             {
                 // Ensure stops contains at least numStops elements.
-                _yAxis.entries = [Float](count: n, repeatedValue: 0.0);
+                _yAxis.entries = [Double](count: n, repeatedValue: 0.0);
             }
 
             for (f = first, i = 0; i < n; f += interval, ++i)
             {
-                _yAxis.entries[i] = Float(f);
+                _yAxis.entries[i] = Double(f);
             }
         }
         

@@ -55,22 +55,22 @@ public class ScatterChartView: BarLineChartViewBase, ScatterChartRendererDelegat
         return self._defaultValueFormatter;
     }
     
-    public func scatterChartRendererChartYMax(renderer: ScatterChartRenderer) -> Float
+    public func scatterChartRendererChartYMax(renderer: ScatterChartRenderer) -> Double
     {
         return self.chartYMax;
     }
     
-    public func scatterChartRendererChartYMin(renderer: ScatterChartRenderer) -> Float
+    public func scatterChartRendererChartYMin(renderer: ScatterChartRenderer) -> Double
     {
         return self.chartYMin;
     }
     
-    public func scatterChartRendererChartXMax(renderer: ScatterChartRenderer) -> Float
+    public func scatterChartRendererChartXMax(renderer: ScatterChartRenderer) -> Double
     {
         return self.chartXMax;
     }
     
-    public func scatterChartRendererChartXMin(renderer: ScatterChartRenderer) -> Float
+    public func scatterChartRendererChartXMin(renderer: ScatterChartRenderer) -> Double
     {
         return self.chartXMin;
     }

@@ -77,7 +77,7 @@ public class RadarChartView: PieRadarChartViewBase
         var minLeft = _data.getYMin(.Left);
         var maxLeft = _data.getYMax(.Left);
         
-        _chartXMax = Float(_data.xVals.count) - 1.0;
+        _chartXMax = Double(_data.xVals.count) - 1.0;
         _deltaX = CGFloat(abs(_chartXMax - _chartXMin));
         
         var leftRange = CGFloat(abs(maxLeft - (_yAxis.isStartAtZeroEnabled ? 0.0 : minLeft)));
@@ -85,11 +85,11 @@ public class RadarChartView: PieRadarChartViewBase
         var topSpaceLeft = leftRange * _yAxis.spaceTop;
         var bottomSpaceLeft = leftRange * _yAxis.spaceBottom;
         
-        _chartXMax = Float(_data.xVals.count) - 1.0;
+        _chartXMax = Double(_data.xVals.count) - 1.0;
         _deltaX = CGFloat(abs(_chartXMax - _chartXMin));
         
-        _yAxis.axisMaximum = !isnan(_yAxis.customAxisMax) ? _yAxis.customAxisMax : maxLeft + Float(topSpaceLeft);
-        _yAxis.axisMinimum = !isnan(_yAxis.customAxisMin) ? _yAxis.customAxisMin : minLeft - Float(bottomSpaceLeft);
+        _yAxis.axisMaximum = !isnan(_yAxis.customAxisMax) ? _yAxis.customAxisMax : maxLeft + Double(topSpaceLeft);
+        _yAxis.axisMinimum = !isnan(_yAxis.customAxisMin) ? _yAxis.customAxisMin : minLeft - Double(bottomSpaceLeft);
         
         // consider starting at zero (0)
         if (_yAxis.isStartAtZeroEnabled)
@@ -235,11 +235,11 @@ public class RadarChartView: PieRadarChartViewBase
     }
 
     /// Returns the maximum value this chart can display on it's y-axis.
-    public override var chartYMax: Float { return _yAxis.axisMaximum; }
+    public override var chartYMax: Double { return _yAxis.axisMaximum; }
     
     /// Returns the minimum value this chart can display on it's y-axis.
-    public override var chartYMin: Float { return _yAxis.axisMinimum; }
+    public override var chartYMin: Double { return _yAxis.axisMinimum; }
     
     /// Returns the range of y-values this chart can display.
-    public var yRange: Float { return _yAxis.axisRange}
+    public var yRange: Double { return _yAxis.axisRange}
 }

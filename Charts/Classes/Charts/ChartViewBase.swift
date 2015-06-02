@@ -74,8 +74,8 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     /// the number of x-values the chart displays
     internal var _deltaX = CGFloat(1.0)
     
-    internal var _chartXMin = Float(0.0)
-    internal var _chartXMax = Float(0.0)
+    internal var _chartXMin = Double(0.0)
+    internal var _chartXMax = Double(0.0)
     
     /// the legend object containing all data associated with the legend
     internal var _legend: ChartLegend!;
@@ -263,10 +263,10 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     }
     
     /// calculates the required number of digits for the values that might be drawn in the chart (if enabled), and creates the default value formatter
-    internal func calculateFormatter(#min: Float, max: Float)
+    internal func calculateFormatter(#min: Double, max: Double)
     {
         // check if a custom formatter is set or not
-        var reference = Float(0.0);
+        var reference = Double(0.0);
         
         if (_data == nil || _data.xValCount < 2)
         {
@@ -582,41 +582,41 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     // MARK: - Accessors
 
     /// returns the total value (sum) of all y-values across all DataSets
-    public var yValueSum: Float
+    public var yValueSum: Double
     {
         return _data.yValueSum;
     }
 
     /// returns the current y-max value across all DataSets
-    public var chartYMax: Float
+    public var chartYMax: Double
     {
         return _data.yMax;
     }
 
     /// returns the current y-min value across all DataSets
-    public var chartYMin: Float
+    public var chartYMin: Double
     {
         return _data.yMin;
     }
     
-    public var chartXMax: Float
+    public var chartXMax: Double
     {
         return _chartXMax;
     }
     
-    public var chartXMin: Float
+    public var chartXMin: Double
     {
         return _chartXMin;
     }
     
     /// returns the average value of all values the chart holds
-    public func getAverage() -> Float
+    public func getAverage() -> Double
     {
-        return yValueSum / Float(_data.yValCount);
+        return yValueSum / Double(_data.yValCount);
     }
     
     /// returns the average value for a specific DataSet (with a specific label) in the chart
-    public func getAverage(#dataSetLabel: String) -> Float
+    public func getAverage(#dataSetLabel: String) -> Double
     {
         var ds = _data.getDataSetByLabel(dataSetLabel, ignorecase: true);
         if (ds == nil)
@@ -624,7 +624,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             return 0.0;
         }
         
-        return ds!.yValueSum / Float(ds!.entryCount);
+        return ds!.yValueSum / Double(ds!.entryCount);
     }
     
     /// returns the total number of values the chart holds (across all DataSets)
@@ -720,7 +720,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     }
     
     /// returns the percentage the given value has of the total y-value sum
-    public func percentOfTotal(val: Float) -> Float
+    public func percentOfTotal(val: Double) -> Double
     {
         return val / _data.yValueSum * 100.0;
     }
@@ -778,7 +778,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     /// :compressionQuality: compression quality for lossless formats (JPEG)
     ///
     /// :returns: true if the image was saved successfully
-    public func saveToPath(path: String, format: ImageFormat, compressionQuality: Float) -> Bool
+    public func saveToPath(path: String, format: ImageFormat, compressionQuality: Double) -> Bool
     {
         var image = getChartImage(transparent: format != .JPEG);
 

@@ -309,12 +309,12 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             }
         }
         
-        var topSpaceLeft = leftRange * Float(_leftAxis.spaceTop);
-        var topSpaceRight = rightRange * Float(_rightAxis.spaceTop);
-        var bottomSpaceLeft = leftRange * Float(_leftAxis.spaceBottom);
-        var bottomSpaceRight = rightRange * Float(_rightAxis.spaceBottom);
+        var topSpaceLeft = leftRange * Double(_leftAxis.spaceTop);
+        var topSpaceRight = rightRange * Double(_rightAxis.spaceTop);
+        var bottomSpaceLeft = leftRange * Double(_leftAxis.spaceBottom);
+        var bottomSpaceRight = rightRange * Double(_rightAxis.spaceBottom);
         
-        _chartXMax = Float(_data.xVals.count - 1);
+        _chartXMax = Double(_data.xVals.count - 1);
         _deltaX = CGFloat(abs(_chartXMax - _chartXMin));
         
         _leftAxis.axisMaximum = !isnan(_leftAxis.customAxisMax) ? _leftAxis.customAxisMax : (maxLeft + topSpaceLeft);
@@ -895,14 +895,14 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     
     /// MARK: Viewport modifiers
     
-    /// Zooms in by 1.4f, into the charts center. center.
+    /// Zooms in by 1.4, into the charts center. center.
     public func zoomIn()
     {
         var matrix = _viewPortHandler.zoomIn(x: self.bounds.size.width / 2.0, y: -(self.bounds.size.height / 2.0));
         _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true);
     }
 
-    /// Zooms out by 0.7f, from the charts center. center.
+    /// Zooms out by 0.7, from the charts center. center.
     public func zoomOut()
     {
         var matrix = _viewPortHandler.zoomOut(x: self.bounds.size.width / 2.0, y: -(self.bounds.size.height / 2.0));
@@ -912,8 +912,8 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     /// Zooms in or out by the given scale factor. x and y are the coordinates
     /// (in pixels) of the zoom center.
     ///
-    /// :param: scaleX if < 1f --> zoom out, if > 1f --> zoom in
-    /// :param: scaleY if < 1f --> zoom out, if > 1f --> zoom in
+    /// :param: scaleX if < 1 --> zoom out, if > 1 --> zoom in
+    /// :param: scaleY if < 1 --> zoom out, if > 1 --> zoom in
     /// :param: x
     /// :param: y
     public func zoom(scaleX: CGFloat, scaleY: CGFloat, x: CGFloat, y: CGFloat)
@@ -929,7 +929,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true);
     }
     
-    /// Sets the minimum scale value to which can be zoomed out. 1f = fitScreen
+    /// Sets the minimum scale value to which can be zoomed out. 1 = fitScreen
     public func setScaleMinima(scaleX: CGFloat, scaleY: CGFloat)
     {
         _viewPortHandler.setMinimumScaleX(scaleX);
@@ -1277,21 +1277,21 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
 
         var valsAtIndex = getYValsAtIndex(xIndex);
 
-        var leftdist = ChartUtils.getMinimumDistance(valsAtIndex, val: Float(pt.y), axis: .Left);
-        var rightdist = ChartUtils.getMinimumDistance(valsAtIndex, val: Float(pt.y), axis: .Right);
+        var leftdist = ChartUtils.getMinimumDistance(valsAtIndex, val: Double(pt.y), axis: .Left);
+        var rightdist = ChartUtils.getMinimumDistance(valsAtIndex, val: Double(pt.y), axis: .Right);
 
         if (_data!.getFirstRight() === nil)
         {
-            rightdist = FLT_MAX;
+            rightdist = DBL_MAX;
         }
         if (_data!.getFirstLeft() === nil)
         {
-            leftdist = FLT_MAX;
+            leftdist = DBL_MAX;
         }
 
         var axis: ChartYAxis.AxisDependency = leftdist < rightdist ? .Left : .Right;
 
-        var dataSetIndex = ChartUtils.closestDataSetIndex(valsAtIndex, value: Float(pt.y), axis: axis);
+        var dataSetIndex = ChartUtils.closestDataSetIndex(valsAtIndex, value: Double(pt.y), axis: axis);
 
         if (dataSetIndex == -1)
         {
@@ -1326,7 +1326,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
 
             if (!isnan(pt.y))
             {
-                vals.append(ChartSelInfo(value: Float(pt.y), dataSetIndex: i, dataSet: dataSet!));
+                vals.append(ChartSelInfo(value: Double(pt.y), dataSetIndex: i, dataSet: dataSet!));
             }
         }
 
@@ -1346,7 +1346,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
 
     /// Transforms the given chart values into pixels. This is the opposite
     /// method to getValueByTouchPoint(...).
-    public func getPixelForValue(x: Float, y: Float, axis: ChartYAxis.AxisDependency) -> CGPoint
+    public func getPixelForValue(x: Double, y: Double, axis: ChartYAxis.AxisDependency) -> CGPoint
     {
         var pt = CGPoint(x: CGFloat(x), y: CGFloat(y));
         
@@ -1500,12 +1500,12 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
 
     public var rightYAxisRenderer: ChartYAxisRenderer { return _rightYAxisRenderer; }
     
-    public override var chartYMax: Float
+    public override var chartYMax: Double
     {
         return max(leftAxis.axisMaximum, rightAxis.axisMaximum);
     }
 
-    public override var chartYMin: Float
+    public override var chartYMin: Double
     {
         return min(leftAxis.axisMinimum, rightAxis.axisMinimum);
     }
@@ -1607,7 +1607,7 @@ internal class BarLineChartFillFormatter: NSObject, ChartFillFormatter
         _chart = chart;
     }
     
-    internal func getFillLinePosition(#dataSet: LineChartDataSet, data: LineChartData, chartMaxY: Float, chartMinY: Float) -> CGFloat
+    internal func getFillLinePosition(#dataSet: LineChartDataSet, data: LineChartData, chartMaxY: Double, chartMinY: Double) -> CGFloat
     {
         var fillMin = CGFloat(0.0);
         
@@ -1619,7 +1619,7 @@ internal class BarLineChartFillFormatter: NSObject, ChartFillFormatter
         {
             if (!_chart.getAxis(dataSet.axisDependency).isStartAtZeroEnabled)
             {
-                var max: Float, min: Float;
+                var max: Double, min: Double;
                 
                 if (data.yMax > 0.0)
                 {

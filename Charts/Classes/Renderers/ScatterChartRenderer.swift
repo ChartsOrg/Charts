@@ -21,10 +21,10 @@ public protocol ScatterChartRendererDelegate
     func scatterChartRendererData(renderer: ScatterChartRenderer) -> ScatterChartData!;
     func scatterChartRenderer(renderer: ScatterChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!;
     func scatterChartDefaultRendererValueFormatter(renderer: ScatterChartRenderer) -> NSNumberFormatter!;
-    func scatterChartRendererChartYMax(renderer: ScatterChartRenderer) -> Float;
-    func scatterChartRendererChartYMin(renderer: ScatterChartRenderer) -> Float;
-    func scatterChartRendererChartXMax(renderer: ScatterChartRenderer) -> Float;
-    func scatterChartRendererChartXMin(renderer: ScatterChartRenderer) -> Float;
+    func scatterChartRendererChartYMax(renderer: ScatterChartRenderer) -> Double;
+    func scatterChartRendererChartYMin(renderer: ScatterChartRenderer) -> Double;
+    func scatterChartRendererChartXMax(renderer: ScatterChartRenderer) -> Double;
+    func scatterChartRendererChartXMin(renderer: ScatterChartRenderer) -> Double;
     func scatterChartRendererMaxVisibleValueCount(renderer: ScatterChartRenderer) -> Int;
 }
 

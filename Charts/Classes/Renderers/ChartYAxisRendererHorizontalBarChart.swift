@@ -23,7 +23,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
     }
 
     /// Computes the axis values.
-    public override func computeAxis(var #yMin: Float, var yMax: Float)
+    public override func computeAxis(var #yMin: Double, var yMax: Double)
     {
         // calculate the starting and entry point of the y-labels (depending on zoom / contentrect bounds)
         if (viewPortHandler.contentHeight > 10.0 && !viewPortHandler.isFullyZoomedOutX)
@@ -33,13 +33,13 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
             
             if (!_yAxis.isInverted)
             {
-                yMin = Float(p1.x);
-                yMax = Float(p2.x);
+                yMin = Double(p1.x);
+                yMax = Double(p2.x);
             }
             else
             {
-                yMin = Float(p2.x);
-                yMax = Float(p1.x);
+                yMin = Double(p2.x);
+                yMax = Double(p1.x);
             }
         }
         

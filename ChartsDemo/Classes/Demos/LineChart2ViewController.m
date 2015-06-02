@@ -74,18 +74,18 @@
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.labelTextColor = [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f];
-    leftAxis.customAxisMax = 200.f;
+    leftAxis.customAxisMax = 200.0;
     leftAxis.drawGridLinesEnabled = YES;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.labelTextColor = UIColor.redColor;
     rightAxis.customAxisMax = 900.0;
     rightAxis.startAtZeroEnabled = NO;
-    rightAxis.customAxisMin = -200.f;
+    rightAxis.customAxisMin = -200.0;
     rightAxis.drawGridLinesEnabled = NO;
     
-    _sliderX.value = 19.f;
-    _sliderY.value = 30.f;
+    _sliderX.value = 19.0;
+    _sliderY.value = 30.0;
     [self slidersValueChanged:nil];
     
     [_chartView animateWithXAxisDuration:2.5];
@@ -97,7 +97,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setDataCount:(int)count range:(float)range
+- (void)setDataCount:(int)count range:(double)range
 {
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
     
@@ -110,8 +110,8 @@
     
     for (int i = 0; i < count; i++)
     {
-        float mult = range / 2.f;
-        float val = (float) (arc4random_uniform(mult)) + 50;
+        double mult = range / 2.0;
+        double val = (double) (arc4random_uniform(mult)) + 50;
         [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
     
@@ -119,9 +119,9 @@
     set1.axisDependency = AxisDependencyLeft;
     [set1 setColor:[UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]];
     [set1 setCircleColor:UIColor.whiteColor];
-    set1.lineWidth = 2.f;
-    set1.circleRadius = 3.f;
-    set1.fillAlpha = 65/255.f;
+    set1.lineWidth = 2.0;
+    set1.circleRadius = 3.0;
+    set1.fillAlpha = 65/255.0;
     set1.fillColor = [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f];
     set1.highlightColor = [UIColor colorWithRed:244/255.f green:117/255.f blue:117/255.f alpha:1.f];
     set1.drawCircleHoleEnabled = NO;
@@ -130,8 +130,8 @@
     
     for (int i = 0; i < count; i++)
     {
-        float mult = range;
-        float val = (float) (arc4random_uniform(mult)) + 450;
+        double mult = range;
+        double val = (double) (arc4random_uniform(mult)) + 450;
         [yVals2 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
     
@@ -139,9 +139,9 @@
     set2.axisDependency = AxisDependencyRight;
     [set2 setColor:UIColor.redColor];
     [set2 setCircleColor:UIColor.whiteColor];
-    set2.lineWidth = 2.f;
-    set2.circleRadius = 3.f;
-    set2.fillAlpha = 65/255.f;
+    set2.lineWidth = 2.0;
+    set2.circleRadius = 3.0;
+    set2.fillAlpha = 65/255.0;
     set2.fillColor = UIColor.redColor;
     set2.highlightColor = [UIColor colorWithRed:244/255.f green:117/255.f blue:117/255.f alpha:1.f];
     set2.drawCircleHoleEnabled = NO;

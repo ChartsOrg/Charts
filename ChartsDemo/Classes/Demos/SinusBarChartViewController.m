@@ -64,23 +64,23 @@
     leftAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     leftAxis.labelCount = 6;
     leftAxis.startAtZeroEnabled = NO;
-    leftAxis.axisMinimum = -2.5f;
-    leftAxis.axisMaximum = 2.5f;
+    leftAxis.axisMinimum = -2.5;
+    leftAxis.axisMaximum = 2.5;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.drawGridLinesEnabled = NO;
     rightAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     rightAxis.labelCount = 6;
     rightAxis.startAtZeroEnabled = NO;
-    rightAxis.axisMinimum = -2.5f;
-    rightAxis.axisMaximum = 2.5f;
+    rightAxis.axisMinimum = -2.5;
+    rightAxis.axisMaximum = 2.5;
         
     ChartLegend *l = _chartView.legend;
     l.position = ChartLegendPositionBelowChartLeft;
     l.form = ChartLegendFormSquare;
-    l.formSize = 9.f;
+    l.formSize = 9.0;
     l.font = [UIFont systemFontOfSize:11.f];
-    l.xEntrySpace = 4.f;
+    l.xEntrySpace = 4.0;
     
     _sliderX.value = 150.0;
     [self slidersValueChanged:nil];
@@ -102,11 +102,11 @@
     for (int i = 0; i < count; i++)
     {
         [xVals addObject:[@(i) stringValue]];
-        [entries addObject:[[BarChartDataEntry alloc] initWithValue:sinf(M_PI * (i % 128) / 64.f) xIndex:i]];
+        [entries addObject:[[BarChartDataEntry alloc] initWithValue:sinf(M_PI * (i % 128) / 64.0) xIndex:i]];
     }
     
     BarChartDataSet *set = [[BarChartDataSet alloc] initWithYVals:entries label:@"Sinus Function"];
-    set.barSpace = .4f;
+    set.barSpace = 0.4;
     [set setColor:[UIColor colorWithRed:240/255.f green:120/255.f blue:124/255.f alpha:1.f]];
     
     BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSet:set];

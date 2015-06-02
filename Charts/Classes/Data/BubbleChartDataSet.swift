@@ -14,12 +14,12 @@ import CoreGraphics;
 
 public class BubbleChartDataSet: BarLineScatterCandleChartDataSet
 {
-    internal var _xMax = Float(0.0)
-    internal var _xMin = Float(0.0)
+    internal var _xMax = Double(0.0)
+    internal var _xMin = Double(0.0)
     internal var _maxSize = CGFloat(0.0)
 
-    public var xMin: Float { return _xMin }
-    public var xMax: Float { return _xMax }
+    public var xMin: Double { return _xMin }
+    public var xMax: Double { return _xMax }
     public var maxSize: CGFloat { return _maxSize }
     
     public func setColor(color: UIColor, alpha: CGFloat)
@@ -97,24 +97,24 @@ public class BubbleChartDataSet: BarLineScatterCandleChartDataSet
     /// Sets/gets the width of the circle that surrounds the bubble when highlighted
     public var highlightCircleWidth: CGFloat = 2.5;
     
-    private func yMin(entry: BubbleChartDataEntry) -> Float
+    private func yMin(entry: BubbleChartDataEntry) -> Double
     {
         return entry.value
     }
     
-    private func yMax(entry: BubbleChartDataEntry) -> Float
+    private func yMax(entry: BubbleChartDataEntry) -> Double
     {
         return entry.value
     }
     
-    private func xMin(entry: BubbleChartDataEntry) -> Float
+    private func xMin(entry: BubbleChartDataEntry) -> Double
     {
-        return Float(entry.xIndex)
+        return Double(entry.xIndex)
     }
     
-    private func xMax(entry: BubbleChartDataEntry) -> Float
+    private func xMax(entry: BubbleChartDataEntry) -> Double
     {
-        return Float(entry.xIndex)
+        return Double(entry.xIndex)
     }
     
     private func largestSize(entry: BubbleChartDataEntry) -> CGFloat

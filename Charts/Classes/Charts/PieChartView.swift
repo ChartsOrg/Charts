@@ -163,7 +163,7 @@ public class PieChartView: PieRadarChartViewBase
     }
     
     /// calculates the needed angle for a given value
-    private func calcAngle(value: Float) -> CGFloat
+    private func calcAngle(value: Double) -> CGFloat
     {
         return CGFloat(value) / CGFloat(_data.yValueSum) * 360.0;
     }

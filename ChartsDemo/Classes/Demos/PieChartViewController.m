@@ -50,23 +50,23 @@
     _chartView.usePercentValuesEnabled = YES;
     _chartView.holeTransparent = YES;
     _chartView.centerTextFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.f];
-    _chartView.holeRadiusPercent = 0.58f;
-    _chartView.transparentCircleRadiusPercent = 0.61f;
+    _chartView.holeRadiusPercent = 0.58;
+    _chartView.transparentCircleRadiusPercent = 0.61;
     _chartView.descriptionText = @"";
     _chartView.drawCenterTextEnabled = YES;
     _chartView.drawHoleEnabled = YES;
-    _chartView.rotationAngle = 0.f;
+    _chartView.rotationAngle = 0.0;
     _chartView.rotationEnabled = YES;
     _chartView.centerText = @"iOS Charts\nby Daniel Cohen Gindi";
     
     ChartLegend *l = _chartView.legend;
     l.position = ChartLegendPositionRightOfChart;
-    l.xEntrySpace = 7.f;
-    l.yEntrySpace = 0.f;
-    l.yOffset = 0.f;
+    l.xEntrySpace = 7.0;
+    l.yEntrySpace = 0.0;
+    l.yOffset = 0.0;
     
-    _sliderX.value = 3.f;
-    _sliderY.value = 100.f;
+    _sliderX.value = 3.0;
+    _sliderY.value = 100.0;
     [self slidersValueChanged:nil];
     
     [_chartView animateWithXAxisDuration:1.5 yAxisDuration:1.5 easingOption:ChartEasingOptionEaseOutBack];
@@ -78,9 +78,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setDataCount:(int)count range:(float)range
+- (void)setDataCount:(int)count range:(double)range
 {
-    float mult = range;
+    double mult = range;
     
     NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
     
@@ -98,7 +98,7 @@
     }
     
     PieChartDataSet *dataSet = [[PieChartDataSet alloc] initWithYVals:yVals1 label:@"Election Results"];
-    dataSet.sliceSpace = 3.f;
+    dataSet.sliceSpace = 3.0;
     
     // add a lot of colors
     

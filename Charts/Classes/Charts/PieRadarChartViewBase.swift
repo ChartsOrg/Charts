@@ -291,7 +291,7 @@ public class PieRadarChartViewBase: ChartViewBase
 
     /// current rotation angle of the pie chart
     /// :returns will always return a normalized value, which will be between 0.0 < 360.0
-    /// :default: 270f --> top (NORTH)
+    /// :default: 270 --> top (NORTH)
     public var rotationAngle: CGFloat
     {
         get
@@ -339,12 +339,12 @@ public class PieRadarChartViewBase: ChartViewBase
         fatalError("requiredBaseOffset cannot be called on PieRadarChartViewBase");
     }
     
-    public override var chartXMax: Float
+    public override var chartXMax: Double
     {
         return 0.0;
     }
     
-    public override var chartXMin: Float
+    public override var chartXMin: Double
     {
         return 0.0;
     }
@@ -750,7 +750,7 @@ public class PieRadarChartViewBase: ChartViewBase
                     // get the dataset that is closest to the selection (PieChart only has one DataSet)
                     if (self.isKindOfClass(RadarChartView))
                     {
-                        dataSetIndex = ChartUtils.closestDataSetIndex(valsAtIndex, value: Float(distance / (self as! RadarChartView).factor), axis: nil);
+                        dataSetIndex = ChartUtils.closestDataSetIndex(valsAtIndex, value: Double(distance / (self as! RadarChartView).factor), axis: nil);
                     }
                     
                     var h = ChartHighlight(xIndex: index, dataSetIndex: dataSetIndex);

@@ -22,10 +22,10 @@ public protocol LineChartRendererDelegate
     func lineChartRenderer(renderer: LineChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!;
     func lineChartRendererFillFormatter(renderer: LineChartRenderer) -> ChartFillFormatter;
     func lineChartDefaultRendererValueFormatter(renderer: LineChartRenderer) -> NSNumberFormatter!;
-    func lineChartRendererChartYMax(renderer: LineChartRenderer) -> Float;
-    func lineChartRendererChartYMin(renderer: LineChartRenderer) -> Float;
-    func lineChartRendererChartXMax(renderer: LineChartRenderer) -> Float;
-    func lineChartRendererChartXMin(renderer: LineChartRenderer) -> Float;
+    func lineChartRendererChartYMax(renderer: LineChartRenderer) -> Double;
+    func lineChartRendererChartYMin(renderer: LineChartRenderer) -> Double;
+    func lineChartRendererChartXMax(renderer: LineChartRenderer) -> Double;
+    func lineChartRendererChartXMin(renderer: LineChartRenderer) -> Double;
     func lineChartRendererMaxVisibleValueCount(renderer: LineChartRenderer) -> Int;
 }
 
