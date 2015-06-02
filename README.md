@@ -1,4 +1,4 @@
-**Version 2.1.0**, synced to [MPAndroidChart #aa7cbce](https://github.com/PhilJay/MPAndroidChart/commit/82d8881)
+**Version 2.1.0**, synced to [MPAndroidChart #f32cfd0](https://github.com/PhilJay/MPAndroidChart/commit/f32cfd0)
 
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
 
@@ -32,7 +32,7 @@ If you like what you see here, and want to support the work being done in this r
 * Contribute code, issues and pull requests
 * Let people know this library exists (spread the word!)
 * 
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CHRDHZE79YTMQ) (As much or as little as you like/can.)
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=68UL6Y8KUPS96) (You can buy me a beer, or you can buy me dinner :-)
 
 **Note:** The author of [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) is the reason that this library exists, and is accepting [donations](https://github.com/PhilJay/MPAndroidChart#donations) on his page. He deserves them!
 
