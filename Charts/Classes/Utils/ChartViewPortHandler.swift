@@ -254,7 +254,7 @@ public class ChartViewPortHandler: NSObject
     
     public func setMaximumScaleX(xScale: CGFloat)
     {
-        _minScaleX = xScale;
+        _maxScaleX = xScale;
         
         limitTransAndScale(matrix: &_touchMatrix, content: _contentRect);
     }
