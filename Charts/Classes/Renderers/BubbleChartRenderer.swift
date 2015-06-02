@@ -219,7 +219,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
         {
             let dataSet = bubbleData.getDataSetByIndex(indice.dataSetIndex) as! BubbleChartDataSet!;
             
-            if (dataSet === nil)
+            if (dataSet === nil || !dataSet.highlightEnabled)
             {
                 continue
             }

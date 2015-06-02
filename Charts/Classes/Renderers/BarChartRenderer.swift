@@ -452,7 +452,7 @@ public class BarChartRenderer: ChartDataRendererBase
             var dataSetIndex = h.dataSetIndex;
             var set = barData.getDataSetByIndex(dataSetIndex) as! BarChartDataSet!;
             
-            if (set === nil)
+            if (set === nil || !set.highlightEnabled)
             {
                 continue;
             }

@@ -248,7 +248,7 @@ public class CandleStickChartRenderer: ChartDataRendererBase
             
             var set = candleData.getDataSetByIndex(indices[i].dataSetIndex) as! CandleChartDataSet!;
             
-            if (set === nil)
+            if (set === nil || !set.highlightEnabled)
             {
                 continue;
             }

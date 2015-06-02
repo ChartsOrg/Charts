@@ -329,6 +329,13 @@ public class PieChartRenderer: ChartDataRendererBase
                 continue;
             }
             
+            var set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as! PieChartDataSet!;
+            
+            if (set === nil || !set.highlightEnabled)
+            {
+                continue;
+            }
+            
             if (xIndex == 0)
             {
                 angle = rotationAngle;
@@ -341,13 +348,6 @@ public class PieChartRenderer: ChartDataRendererBase
             angle *= _animator.phaseY;
             
             var sliceDegrees = drawAngles[xIndex];
-            
-            var set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as! PieChartDataSet!;
-            
-            if (set === nil)
-            {
-                continue;
-            }
             
             var shift = set.selectionShift;
             var circleBox = _chart.circleBox;

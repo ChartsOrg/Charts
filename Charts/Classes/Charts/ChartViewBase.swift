@@ -77,9 +77,6 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     internal var _chartXMin = Float(0.0)
     internal var _chartXMax = Float(0.0)
     
-    /// if true, value highlightning is enabled
-    public var highlightEnabled = true
-    
     /// the legend object containing all data associated with the legend
     internal var _legend: ChartLegend!;
     
@@ -837,8 +834,24 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         _sizeChangeEventActions.removeAll(keepCapacity: false);
     }
     
+    /// if true, value highlighting is enabled
+    public var highlightEnabled: Bool
+    {
+        get
+        {
+            return _data === nil ? true : _data.highlightEnabled
+        }
+        set
+        {
+            if (_data !== nil)
+            {
+                _data.highlightEnabled = newValue;
+            }
+        }
+    }
+    
     /// if true, value highlightning is enabled
-    public var isHighlightEnabled: Bool { return highlightEnabled; }
+    public var isHighlightEnabled: Bool { return highlightEnabled }
     
     /// :returns: true if chart continues to scroll after touch up, false if not.
     /// :default: true

@@ -56,7 +56,7 @@ public class PieChartView: PieRadarChartViewBase
         
         renderer!.drawData(context: context);
         
-        if (self.highlightEnabled && valuesToHighlight())
+        if (valuesToHighlight())
         {
             renderer!.drawHighlighted(context: context, indices: _indicesToHightlight);
         }

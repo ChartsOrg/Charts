@@ -52,11 +52,10 @@
     _chartView.descriptionText = @"";
     _chartView.noDataTextDescription = @"You need to provide data for the chart.";
     
-    _chartView.highlightEnabled = YES;
+    _chartView.highlightEnabled = NO;
     _chartView.dragEnabled = YES;
     [_chartView setScaleEnabled:YES];
     _chartView.pinchZoomEnabled = YES;
-    _chartView.highlightIndicatorEnabled = NO;
     _chartView.drawGridBackgroundEnabled = NO;
 
     // x-axis limit line

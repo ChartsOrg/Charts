@@ -50,6 +50,9 @@ public class ChartDataSet: NSObject
     public var yMin: Float { return _yMin }
     public var yMax: Float { return _yMax }
     
+    /// if true, value highlighting is enabled
+    public var highlightEnabled = true
+    
     public override init()
     {
         super.init();

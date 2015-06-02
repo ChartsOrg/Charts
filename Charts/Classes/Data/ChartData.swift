@@ -829,6 +829,33 @@ public class ChartData: NSObject
         }
     }
     
+    /// Enables / disables highlighting values for all DataSets this data object contains.
+    public var highlightEnabled: Bool
+    {
+        get
+        {
+            for set in dataSets
+            {
+                if (!set.highlightEnabled)
+                {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+        set
+        {
+            for set in dataSets
+            {
+                set.highlightEnabled = newValue;
+            }
+        }
+    }
+    
+    /// if true, value highlightning is enabled
+    public var isHighlightEnabled: Bool { return highlightEnabled }
+    
     /// Clears this data object from all DataSets and removes all Entries.
     /// Don't forget to invalidate the chart after this.
     public func clearValues()
