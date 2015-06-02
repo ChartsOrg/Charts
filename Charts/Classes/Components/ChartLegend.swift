@@ -77,12 +77,18 @@ public class ChartLegend: ChartComponentBase
     public var formLineWidth = CGFloat(1.5)
     
     public var xEntrySpace = CGFloat(6.0)
-    public var yEntrySpace = CGFloat(5.0)
+    public var yEntrySpace = CGFloat(0.0)
     public var formToTextSpace = CGFloat(5.0)
     public var stackSpace = CGFloat(3.0)
     
+    /// Sets the x offset fo the legend.
+    /// Higher offset means the legend as a whole will be placed further away from the left/right.
+    /// Positive value will move the legend to the right when LTR, and to the left when RTL.
     public var xOffset = CGFloat(5.0)
-    public var yOffset = CGFloat(6.0)
+    
+    /// Sets the y offset fo the legend.
+    /// Higher offset means the legend as a whole will be placed further away from the top.
+    public var yOffset = CGFloat(7.0)
     
     public var calculatedLabelSizes = [CGSize]()
     public var calculatedLabelBreakPoints = [Bool]()

@@ -118,6 +118,7 @@ public class ChartLegendRenderer: ChartRendererBase
         var labelFont = _legend.font;
         var labelTextColor = _legend.textColor;
         var labelLineHeight = labelFont.lineHeight;
+        var formYOffset = labelLineHeight / 2.0
 
         var labels = _legend.labels;
         var colors = _legend.colors;
@@ -132,9 +133,6 @@ public class ChartLegendRenderer: ChartRendererBase
 
         // space between the entries
         var stackSpace = _legend.stackSpace;
-
-        // the amount of pixels the text needs to be set down to be on the same height as the form
-        var textDrop = (labelFont.lineHeight + formSize) / 2.0;
 
         var yoffset = _legend.yOffset;
         var xoffset = _legend.xOffset;
@@ -207,7 +205,7 @@ public class ChartLegendRenderer: ChartRendererBase
                         posX -= formSize;
                     }
                     
-                    drawForm(context, x: posX, y: posY + labelLineHeight / 2.0, colorIndex: i, legend: _legend);
+                    drawForm(context, x: posX, y: posY + formYOffset, colorIndex: i, legend: _legend);
                     
                     if (direction == .LeftToRight)
                     {
@@ -318,7 +316,7 @@ public class ChartLegendRenderer: ChartRendererBase
                         x -= formSize - stack;
                     }
                     
-                    drawForm(context, x: x, y: posY, colorIndex: i, legend: _legend);
+                    drawForm(context, x: x, y: posY + formYOffset, colorIndex: i, legend: _legend);
                     
                     if (direction == .LeftToRight)
                     {
@@ -344,18 +342,16 @@ public class ChartLegendRenderer: ChartRendererBase
                     
                     if (!wasStacked)
                     {
-                        drawLabel(context, x: x, y: posY - _legend.textHeightMax / 2.0, label: labels[i]!, font: labelFont, textColor: labelTextColor);
-                        
-                        posY += textDrop;
+                        drawLabel(context, x: x, y: posY, label: labels[i]!, font: labelFont, textColor: labelTextColor);
                     }
                     else
                     {
-                        posY += _legend.textHeightMax * 3.0;
-                        drawLabel(context, x: x, y: posY - _legend.textHeightMax * 2.0, label: labels[i]!, font: labelFont, textColor: labelTextColor);
+                        posY += labelLineHeight;
+                        drawLabel(context, x: x, y: posY, label: labels[i]!, font: labelFont, textColor: labelTextColor);
                     }
                     
                     // make a step down
-                    posY += _legend.yEntrySpace;
+                    posY += labelLineHeight;
                     stack = 0.0;
                 }
                 else

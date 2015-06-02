@@ -363,7 +363,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
                     || _legend.position == .BelowChartRight
                     || _legend.position == .BelowChartCenter)
                 {
-                    var yOffset = _legend.textHeightMax * 2.0; // It's possible that we do not need this offset anymore as it is available through the extraOffsets
+                    var yOffset = _legend.textHeightMax; // It's possible that we do not need this offset anymore as it is available through the extraOffsets
                     offsetBottom += min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent);
                 }
             }

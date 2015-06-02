@@ -62,7 +62,8 @@
     ChartLegend *l = _chartView.legend;
     l.position = ChartLegendPositionRightOfChart;
     l.xEntrySpace = 7.f;
-    l.yEntrySpace = 5.f;
+    l.yEntrySpace = 0.f;
+    l.yOffset = 0.f;
     
     _sliderX.value = 3.f;
     _sliderY.value = 100.f;
