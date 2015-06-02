@@ -145,7 +145,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
             labelMaxSize.width = _xAxis.wordWrapWidthPercent * valueToPixelMatrix.a;
         }
         
-        for (var i = _minX; i <= _maxX; i += _xAxis.axisLabelModulus)
+        for (var i = _minX, maxX = min(_maxX + 1, _xAxis.values.count); i < maxX; i += _xAxis.axisLabelModulus)
         {
             var label = _xAxis.values[i];
             if (label == nil)
