@@ -110,7 +110,7 @@ public class ChartData: NSObject
         
         for (var i = 0; i < _xVals.count; i++)
         {
-            sum += _xVals[i] == nil ? 0 : _xVals[i]!.lengthOfBytesUsingEncoding(NSUTF16StringEncoding);
+            sum += _xVals[i] == nil ? 0 : count(_xVals[i]!);
         }
         
         _xValAverageLength = Float(sum) / Float(_xVals.count);

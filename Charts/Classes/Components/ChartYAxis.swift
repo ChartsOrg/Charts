@@ -179,7 +179,7 @@ public class ChartYAxis: ChartAxisBase
         {
             var text = getFormattedLabel(i);
             
-            if (longest.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) < text.lengthOfBytesUsingEncoding(NSUTF16StringEncoding))
+            if (count(longest) < count(text))
             {
                 longest = text;
             }

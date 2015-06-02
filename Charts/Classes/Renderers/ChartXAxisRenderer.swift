@@ -278,7 +278,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
             var label = l.label;
             
             // if drawing the limit-value label is enabled
-            if (label.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) > 0)
+            if (count(label) > 0)
             {
                 var labelLineHeight = l.valueFont.lineHeight;
                 
