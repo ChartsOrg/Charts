@@ -422,12 +422,12 @@ public class ChartViewPortHandler: NSObject
         limitTransAndScale(matrix: &_touchMatrix, content: _contentRect);
     }
     
-    public var canZoomOutMore: Bool
+    public var canZoomOutMoreX: Bool
     {
         return (_scaleX > _minScaleX);
     }
     
-    public var canZoomInMore: Bool
+    public var canZoomInMoreX: Bool
     {
         return (_scaleX < _maxScaleX);
     }
