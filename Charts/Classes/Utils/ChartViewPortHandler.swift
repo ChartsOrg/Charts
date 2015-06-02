@@ -259,6 +259,21 @@ public class ChartViewPortHandler: NSObject
         limitTransAndScale(matrix: &_touchMatrix, content: _contentRect);
     }
     
+    public func setMinMaxScaleX(#minScaleX: CGFloat, maxScaleX: CGFloat)
+    {
+        var newMin = minScaleX;
+        
+        if (newMin < 1.0)
+        {
+            newMin = 1.0;
+        }
+        
+        _minScaleX = newMin;
+        _maxScaleX = maxScaleX;
+        
+        limitTransAndScale(matrix: &_touchMatrix, content: _contentRect);
+    }
+    
     public func setMinimumScaleY(yScale: CGFloat)
     {
         var newValue = yScale;
@@ -405,21 +420,6 @@ public class ChartViewPortHandler: NSObject
     public var hasNoDragOffset: Bool
     {
         return _transOffsetX <= 0.0 && _transOffsetY <= 0.0 ? true : false;
-    }
-    
-    public func setScaleXRange(#minScaleX: CGFloat, maxScaleX: CGFloat)
-    {
-        var newMin = minScaleX;
-        
-        if (newMin < 1.0)
-        {
-            newMin = 1.0;
-        }
-        
-        _minScaleX = newMin;
-        _maxScaleX = maxScaleX;
-        
-        limitTransAndScale(matrix: &_touchMatrix, content: _contentRect);
     }
     
     public var canZoomOutMoreX: Bool
