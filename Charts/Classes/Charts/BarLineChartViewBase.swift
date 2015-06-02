@@ -619,7 +619,9 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         }
         else if (recognizer.state == UIGestureRecognizerState.Changed)
         {
-            if (_isScaling)
+            var isZoomingOut = (recognizer.scale < 1);
+            var canZoomMore = isZoomingOut ? _viewPortHandler.canZoomOutMore() : _viewPortHandler.canZoomInMore();
+            if (_isScaling && canZoomMore)
             {
                 var location = recognizer.locationInView(self);
                 location.x = location.x - _viewPortHandler.offsetLeft;
@@ -939,6 +941,16 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         _viewPortHandler.setMinimumScaleX(xScale);
     }
 
+    //Limits the maximal and minimal values count that can be visible by pinching and zooming.
+    //e.g. minRange=10, maxRange=100 no less than 10 values and no more that 100 values can be viewed
+    //at once without scrolling
+    public func setVisibleXRange(#minRange: CGFloat, maxRange: CGFloat)
+    {
+        var maxScale = _deltaX / (minRange);
+        var minScale = _deltaX / (maxRange);
+        _viewPortHandler.setScaleXRange(minScaleX: minScale, maxScaleX: maxScale);
+    }
+    
     /// Sets the size of the area (range on the y-axis) that should be maximum visible at once.
     /// 
     /// :param: yRange
