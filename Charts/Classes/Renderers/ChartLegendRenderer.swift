@@ -244,80 +244,7 @@ public class ChartLegendRenderer: ChartRendererBase
             
             break;
             
-        case .PiechartCenter:
-            
-            // contains the stacked legend size in pixels
-            var stack = CGFloat(0.0);
-            var wasStacked = false;
-            
-            var posX = viewPortHandler.chartWidth / 2.0 + (direction == .LeftToRight ? -_legend.textWidthMax / 2.0 : _legend.textWidthMax / 2.0);
-            var posY = viewPortHandler.chartHeight / 2.0 - _legend.neededHeight / 2.0 + _legend.yOffset;
-            
-            for (var i = 0; i < labels.count; i++)
-            {
-                var drawingForm = colors[i] != nil;
-                var x = posX;
-                
-                if (drawingForm)
-                {
-                    if (direction == .LeftToRight)
-                    {
-                        x += stack;
-                    }
-                    else
-                    {
-                        x -= formSize - stack;
-                    }
-                    
-                    drawForm(context, x: x, y: posY, colorIndex: i, legend: _legend);
-                    
-                    if (direction == .LeftToRight)
-                    {
-                        x += formSize;
-                    }
-                }
-                
-                if (labels[i] != nil)
-                {
-                    if (drawingForm && !wasStacked)
-                    {
-                        x += direction == .LeftToRight ? formToTextSpace : -formToTextSpace;
-                    }
-                    else if (wasStacked)
-                    {
-                        x = posX;
-                    }
-                    
-                    if (direction == .RightToLeft)
-                    {
-                        x -= (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width;
-                    }
-                    
-                    if (!wasStacked)
-                    {
-                        drawLabel(context, x: x, y: posY - _legend.textHeightMax / 2.0, label: labels[i]!, font: labelFont, textColor: labelTextColor);
-                        
-                        posY += textDrop;
-                    }
-                    else
-                    {
-                        posY += _legend.textHeightMax * 3.0;
-                        drawLabel(context, x: x, y: posY - _legend.textHeightMax * 2.0, label: labels[i]!, font: labelFont, textColor: labelTextColor);
-                    }
-                    
-                    // make a step down
-                    posY += _legend.yEntrySpace;
-                    stack = 0.0;
-                }
-                else
-                {
-                    stack += formSize + stackSpace;
-                    wasStacked = true;
-                }
-            }
-            
-            break;
-            
+        case .PiechartCenter: fallthrough
         case .RightOfChart: fallthrough
         case .RightOfChartCenter: fallthrough
         case .RightOfChartInside: fallthrough
@@ -328,44 +255,51 @@ public class ChartLegendRenderer: ChartRendererBase
             // contains the stacked legend size in pixels
             var stack = CGFloat(0.0);
             var wasStacked = false;
-            
-            var isRightAligned = legendPosition == .RightOfChart ||
-                legendPosition == .RightOfChartCenter ||
-                legendPosition == .RightOfChartInside;
-            
             var posX: CGFloat = 0.0, posY: CGFloat = 0.0;
             
-            if (isRightAligned)
+            if (legendPosition == .PiechartCenter)
             {
-                posX = viewPortHandler.chartWidth - xoffset;
-                if (direction == .LeftToRight)
-                {
-                    posX -= _legend.textWidthMax;
-                }
+                posX = viewPortHandler.chartWidth / 2.0 + (direction == .LeftToRight ? -_legend.textWidthMax / 2.0 : _legend.textWidthMax / 2.0);
+                posY = viewPortHandler.chartHeight / 2.0 - _legend.neededHeight / 2.0 + _legend.yOffset;
             }
             else
             {
-                posX = xoffset;
-                if (direction == .RightToLeft)
+                var isRightAligned = legendPosition == .RightOfChart ||
+                    legendPosition == .RightOfChartCenter ||
+                    legendPosition == .RightOfChartInside;
+                
+                if (isRightAligned)
                 {
-                    posX += _legend.textWidthMax;
+                    posX = viewPortHandler.chartWidth - xoffset;
+                    if (direction == .LeftToRight)
+                    {
+                        posX -= _legend.textWidthMax;
+                    }
                 }
-            }
-            
-            if (legendPosition == .RightOfChart ||
-                legendPosition == .LeftOfChart)
-            {
-                posY = viewPortHandler.contentTop + yoffset
-            }
-            else if (legendPosition == .RightOfChartCenter ||
-                legendPosition == .LeftOfChartCenter)
-            {
-                posY = viewPortHandler.chartHeight / 2.0 - _legend.neededHeight / 2.0;
-            }
-            else /*if (legend.position == .RightOfChartInside ||
-                legend.position == .LeftOfChartInside)*/
-            {
-                posY = viewPortHandler.contentTop + yoffset;
+                else
+                {
+                    posX = xoffset;
+                    if (direction == .RightToLeft)
+                    {
+                        posX += _legend.textWidthMax;
+                    }
+                }
+                
+                if (legendPosition == .RightOfChart ||
+                    legendPosition == .LeftOfChart)
+                {
+                    posY = viewPortHandler.contentTop + yoffset
+                }
+                else if (legendPosition == .RightOfChartCenter ||
+                    legendPosition == .LeftOfChartCenter)
+                {
+                    posY = viewPortHandler.chartHeight / 2.0 - _legend.neededHeight / 2.0;
+                }
+                else /*if (legend.position == .RightOfChartInside ||
+                    legend.position == .LeftOfChartInside)*/
+                {
+                    posY = viewPortHandler.contentTop + yoffset;
+                }
             }
             
             for (var i = 0; i < labels.count; i++)
