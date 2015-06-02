@@ -191,7 +191,7 @@ public class ChartLegend: ChartComponentBase
     public var textWidthMax = CGFloat(0.0)
     public var textHeightMax = CGFloat(0.0)
     
-    /// should the legend word wrap?
+    /// flag that indicates if word wrapping is enabled
     /// this is currently supported only for: BelowChartLeft, BelowChartRight, BelowChartCenter.
     /// note that word wrapping a legend takes a toll on performance.
     /// you may want to set maxSizePercent when word wrapping, to set the point where the text wraps.
@@ -201,12 +201,12 @@ public class ChartLegend: ChartComponentBase
     /// if this is set, then word wrapping the legend is enabled.
     public var isWordWrapEnabled: Bool { return wordWrapEnabled }
 
-    /// The maximum relative size out of the whole chart view.
+    /// The maximum relative size out of the whole chart view in percent.
     /// If the legend is to the right/left of the chart, then this affects the width of the legend.
     /// If the legend is to the top/bottom of the chart, then this affects the height of the legend.
     /// If the legend is the center of the piechart, then this defines the size of the rectangular bounds out of the size of the "hole".
-    /// default: 1.0 (100%)
-    public var maxSizePercent: CGFloat = 1.0
+    /// default: 0.95 (95%)
+    public var maxSizePercent: CGFloat = 0.95
     
     public func calculateDimensions(#labelFont: UIFont, viewPortHandler: ChartViewPortHandler)
     {

@@ -1032,6 +1032,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     }
 
     /// Sets custom offsets for the current ViewPort (the offsets on the sides of the actual chart window). Setting this will prevent the chart from automatically calculating it's offsets. Use resetViewPortOffsets() to undo this.
+    /// ONLY USE THIS WHEN YOU KNOW WHAT YOU ARE DOING, else use setExtraOffsets(...).
     public func setViewPortOffsets(#left: CGFloat, top: CGFloat, right: CGFloat, bottom: CGFloat)
     {
         _customViewPortEnabled = true;

@@ -129,6 +129,14 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     /// An extra offset to be appended to the viewport's left
     public var extraLeftOffset: CGFloat = 0.0
     
+    public func setExtraOffsets(#left: CGFloat, top: CGFloat, right: CGFloat, bottom: CGFloat)
+    {
+        extraLeftOffset = left;
+        extraTopOffset = top;
+        extraRightOffset = right;
+        extraBottomOffset = bottom;
+    }
+    
     // MARK: - Initializers
     
     public override init(frame: CGRect)
