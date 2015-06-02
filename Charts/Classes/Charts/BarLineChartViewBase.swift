@@ -620,36 +620,40 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         else if (recognizer.state == UIGestureRecognizerState.Changed)
         {
             var isZoomingOut = (recognizer.scale < 1);
-            var canZoomMore = isZoomingOut ? _viewPortHandler.canZoomOutMore() : _viewPortHandler.canZoomInMore();
-            if (_isScaling && canZoomMore)
+            var canZoomMore = isZoomingOut ? _viewPortHandler.canZoomOutMore : _viewPortHandler.canZoomInMore;
+            
+            if (_isScaling)
             {
-                var location = recognizer.locationInView(self);
-                location.x = location.x - _viewPortHandler.offsetLeft;
+                if (canZoomMore)
+                {
+                    var location = recognizer.locationInView(self);
+                    location.x = location.x - _viewPortHandler.offsetLeft;
 
-                if (isAnyAxisInverted && _closestDataSetToTouch !== nil && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
-                {
-                    location.y = -(location.y - _viewPortHandler.offsetTop);
-                }
-                else
-                {
-                    location.y = -(_viewPortHandler.chartHeight - location.y - _viewPortHandler.offsetBottom);
-                }
-                
-                var scaleX = (_gestureScaleAxis == .Both || _gestureScaleAxis == .X) && _scaleXEnabled ? recognizer.scale : 1.0;
-                var scaleY = (_gestureScaleAxis == .Both || _gestureScaleAxis == .Y) && _scaleYEnabled ? recognizer.scale : 1.0;
-                
-                var matrix = CGAffineTransformMakeTranslation(location.x, location.y);
-                matrix = CGAffineTransformScale(matrix, scaleX, scaleY);
-                matrix = CGAffineTransformTranslate(matrix,
-                    -location.x, -location.y);
-                
-                matrix = CGAffineTransformConcat(_viewPortHandler.touchMatrix, matrix);
-                
-                _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true);
-                
-                if (delegate !== nil)
-                {
-                    delegate?.chartScaled?(self, scaleX: scaleX, scaleY: scaleY);
+                    if (isAnyAxisInverted && _closestDataSetToTouch !== nil && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
+                    {
+                        location.y = -(location.y - _viewPortHandler.offsetTop);
+                    }
+                    else
+                    {
+                        location.y = -(_viewPortHandler.chartHeight - location.y - _viewPortHandler.offsetBottom);
+                    }
+                    
+                    var scaleX = (_gestureScaleAxis == .Both || _gestureScaleAxis == .X) && _scaleXEnabled ? recognizer.scale : 1.0;
+                    var scaleY = (_gestureScaleAxis == .Both || _gestureScaleAxis == .Y) && _scaleYEnabled ? recognizer.scale : 1.0;
+                    
+                    var matrix = CGAffineTransformMakeTranslation(location.x, location.y);
+                    matrix = CGAffineTransformScale(matrix, scaleX, scaleY);
+                    matrix = CGAffineTransformTranslate(matrix,
+                        -location.x, -location.y);
+                    
+                    matrix = CGAffineTransformConcat(_viewPortHandler.touchMatrix, matrix);
+                    
+                    _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true);
+                    
+                    if (delegate !== nil)
+                    {
+                        delegate?.chartScaled?(self, scaleX: scaleX, scaleY: scaleY);
+                    }
                 }
                 
                 recognizer.scale = 1.0;
@@ -935,19 +939,19 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     /// Sets the size of the area (range on the x-axis) that should be maximum
     /// visible at once. If this is e.g. set to 10, no more than 10 values on the
     /// x-axis can be viewed at once without scrolling.
-    public func setVisibleXRange(xRange: CGFloat)
+    public func setVisibleXRange(minRange: CGFloat)
     {
-        var xScale = _deltaX / (xRange);
-        _viewPortHandler.setMinimumScaleX(xScale);
+        var xScale = _deltaX / minRange;
+        _viewPortHandler.setMinimumScaleX(minRange);
     }
 
-    //Limits the maximal and minimal values count that can be visible by pinching and zooming.
-    //e.g. minRange=10, maxRange=100 no less than 10 values and no more that 100 values can be viewed
-    //at once without scrolling
+    /// Limits the maximum and minimum value count that can be visible by pinching and zooming.
+    /// e.g. minRange=10, maxRange=100 no less than 10 values and no more that 100 values can be viewed
+    /// at once without scrolling
     public func setVisibleXRange(#minRange: CGFloat, maxRange: CGFloat)
     {
-        var maxScale = _deltaX / (minRange);
-        var minScale = _deltaX / (maxRange);
+        var maxScale = _deltaX / minRange;
+        var minScale = _deltaX / maxRange;
         _viewPortHandler.setScaleXRange(minScaleX: minScale, maxScaleX: maxScale);
     }
     
