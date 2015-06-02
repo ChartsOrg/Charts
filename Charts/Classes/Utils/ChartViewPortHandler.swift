@@ -174,6 +174,9 @@ public class ChartViewPortHandler: NSObject
     /// Resets all zooming and dragging and makes the chart fit exactly it's bounds.
     public func fitScreen() -> CGAffineTransform
     {
+        _minScaleX = 1.0;
+        _minScaleY = 1.0;
+
         return CGAffineTransformIdentity;
     }
     
