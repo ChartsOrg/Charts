@@ -102,6 +102,7 @@ public class ChartYAxis: ChartAxisBase
     {
         super.init();
         
+        _defaultValueFormatter.minimumIntegerDigits = 1;
         _defaultValueFormatter.maximumFractionDigits = 1;
         _defaultValueFormatter.minimumFractionDigits = 1;
         _defaultValueFormatter.usesGroupingSeparator = true;
