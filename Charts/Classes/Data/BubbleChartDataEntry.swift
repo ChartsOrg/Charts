@@ -10,6 +10,7 @@
 //
 
 import Foundation
+import CoreGraphics.CGBase
 
 public class BubbleChartDataEntry: ChartDataEntry
 {

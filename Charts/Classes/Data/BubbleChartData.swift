@@ -8,6 +8,8 @@
 //
 //  https://github.com/danielgindi/ios-charts
 //
+import Foundation
+import CoreGraphics.CGBase
 
 public class BubbleChartData: BarLineScatterCandleChartData
 {

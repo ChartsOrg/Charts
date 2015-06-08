@@ -10,6 +10,8 @@
 //
 
 import Foundation
+import CoreGraphics
+import UIKit.UIColor
 
 @objc
 public protocol BubbleChartRendererDelegate
