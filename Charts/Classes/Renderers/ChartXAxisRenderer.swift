@@ -26,11 +26,11 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         _xAxis = xAxis;
     }
     
-    public func computeAxis(#xValAverageLength: Float, xValues: [String])
+    public func computeAxis(#xValAverageLength: Double, xValues: [String?])
     {
         var a = "";
         
-        var max = Int(round(xValAverageLength + Float(_xAxis.spaceBetweenLabels)));
+        var max = Int(round(xValAverageLength + Double(_xAxis.spaceBetweenLabels)));
         
         for (var i = 0; i < max; i++)
         {
@@ -127,31 +127,46 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
     /// draws the x-labels on the specified y-position
     internal func drawLabels(#context: CGContext, pos: CGFloat)
     {
-        var labelFont = _xAxis.labelFont;
-        var labelTextColor = _xAxis.labelTextColor;
+        var paraStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle;
+        paraStyle.alignment = .Center;
+        
+        var labelAttrs = [NSFontAttributeName: _xAxis.labelFont,
+            NSForegroundColorAttributeName: _xAxis.labelTextColor,
+            NSParagraphStyleAttributeName: paraStyle];
         
         var valueToPixelMatrix = transformer.valueToPixelMatrix;
         
         var position = CGPoint(x: 0.0, y: 0.0);
         
-        for (var i = _minX; i <= _maxX; i += _xAxis.axisLabelModulus)
+        var labelMaxSize = CGSize();
+        
+        if (_xAxis.isWordWrapEnabled)
         {
+            labelMaxSize.width = _xAxis.wordWrapWidthPercent * valueToPixelMatrix.a;
+        }
+        
+        for (var i = _minX, maxX = min(_maxX + 1, _xAxis.values.count); i < maxX; i += _xAxis.axisLabelModulus)
+        {
+            var label = _xAxis.values[i];
+            if (label == nil)
+            {
+                continue;
+            }
+            
             position.x = CGFloat(i);
             position.y = 0.0;
             position = CGPointApplyAffineTransform(position, valueToPixelMatrix);
             
             if (viewPortHandler.isInBoundsX(position.x))
             {
-                var label = _xAxis.values[i];
-                var labelns = label as NSString;
+                var labelns = label! as NSString;
                 
                 if (_xAxis.isAvoidFirstLastClippingEnabled)
                 {
                     // avoid clipping of the last
                     if (i == _xAxis.values.count - 1 && _xAxis.values.count > 1)
                     {
-                        
-                        var width = labelns.sizeWithAttributes([NSFontAttributeName: _xAxis.labelFont]).width;
+                        var width = labelns.boundingRectWithSize(labelMaxSize, options: .UsesLineFragmentOrigin, attributes: labelAttrs, context: nil).size.width;
                         
                         if (width > viewPortHandler.offsetRight * 2.0
                             && position.x + width > viewPortHandler.chartWidth)
@@ -161,12 +176,12 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
                     }
                     else if (i == 0)
                     { // avoid clipping of the first
-                        var width = labelns.sizeWithAttributes([NSFontAttributeName: _xAxis.labelFont]).width;
+                        var width = labelns.boundingRectWithSize(labelMaxSize, options: .UsesLineFragmentOrigin, attributes: labelAttrs, context: nil).size.width;
                         position.x += width / 2.0;
                     }
                 }
                 
-                ChartUtils.drawText(context: context, text: label, point: CGPoint(x: position.x, y: pos), align: .Center, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor]);
+                ChartUtils.drawMultilineText(context: context, text: label!, point: CGPoint(x: position.x, y: pos), align: .Center, attributes: labelAttrs, constrainedToSize: labelMaxSize);
             }
         }
     }
@@ -263,7 +278,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
             var label = l.label;
             
             // if drawing the limit-value label is enabled
-            if (label.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) > 0)
+            if (count(label) > 0)
             {
                 var labelLineHeight = l.valueFont.lineHeight;
                 

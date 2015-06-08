@@ -35,7 +35,7 @@ public class ChartYAxis: ChartAxisBase
         case Right
     }
     
-    public var entries = [Float]()
+    public var entries = [Double]()
     public var entryCount: Int { return entries.count; }
     
     /// the number of y-label entries the y-labels should have, default 6
@@ -64,12 +64,12 @@ public class ChartYAxis: ChartAxisBase
     /// Use resetcustomAxisMin() to undo this. 
     /// Do not forget to set startAtZeroEnabled = false if you use this method.
     /// Otherwise, the axis-minimum value will still be forced to 0.
-    public var customAxisMin = Float.NaN
+    public var customAxisMin = Double.NaN
         
     /// Set a custom maximum value for this axis. 
     /// If set, this value will not be calculated automatically depending on the provided data. 
     /// Use resetcustomAxisMax() to undo this.
-    public var customAxisMax = Float.NaN
+    public var customAxisMax = Double.NaN
 
     /// axis space from the largest value to the top in percent of the total axis range
     public var spaceTop = CGFloat(0.1)
@@ -77,11 +77,11 @@ public class ChartYAxis: ChartAxisBase
     /// axis space from the smallest value to the bottom in percent of the total axis range
     public var spaceBottom = CGFloat(0.1)
     
-    public var axisMaximum = Float(0)
-    public var axisMinimum = Float(0)
+    public var axisMaximum = Double(0)
+    public var axisMinimum = Double(0)
     
     /// the total range of values this axis covers
-    public var axisRange = Float(0)
+    public var axisRange = Double(0)
     
     /// the position of the y-labels relative to the chart
     public var labelPosition = YAxisLabelPosition.OutsideChart
@@ -89,10 +89,20 @@ public class ChartYAxis: ChartAxisBase
     /// the side this axis object represents
     private var _axisDependency = AxisDependency.Left
     
+    /// the minimum width that the axis should take
+    /// :default 0.0
+    public var minWidth = CGFloat(0)
+    
+    /// the maximum width that the axis can take.
+    /// use zero for disabling the maximum
+    /// :default 0.0 (no maximum specified)
+    public var maxWidth = CGFloat(0)
+    
     public override init()
     {
         super.init();
         
+        _defaultValueFormatter.minimumIntegerDigits = 1;
         _defaultValueFormatter.maximumFractionDigits = 1;
         _defaultValueFormatter.minimumFractionDigits = 1;
         _defaultValueFormatter.usesGroupingSeparator = true;
@@ -143,13 +153,13 @@ public class ChartYAxis: ChartAxisBase
     /// By calling this method, any custom minimum value that has been previously set is reseted, and the calculation is done automatically.
     public func resetcustomAxisMin()
     {
-        customAxisMin = Float.NaN;
+        customAxisMin = Double.NaN;
     }
     
     /// By calling this method, any custom maximum value that has been previously set is reseted, and the calculation is done automatically.
     public func resetcustomAxisMax()
     {
-        customAxisMax = Float.NaN;
+        customAxisMax = Double.NaN;
     }
     
     public func requiredSize() -> CGSize
@@ -158,6 +168,7 @@ public class ChartYAxis: ChartAxisBase
         var size = label.sizeWithAttributes([NSFontAttributeName: labelFont]);
         size.width += xOffset * 2.0;
         size.height += yOffset * 2.0;
+        size.width = max(minWidth, min(size.width, maxWidth > 0.0 ? maxWidth : size.width));
         return size;
     }
 
@@ -169,7 +180,7 @@ public class ChartYAxis: ChartAxisBase
         {
             var text = getFormattedLabel(i);
             
-            if (longest.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) < text.lengthOfBytesUsingEncoding(NSUTF16StringEncoding))
+            if (count(longest) < count(text))
             {
                 longest = text;
             }
@@ -201,7 +212,7 @@ public class ChartYAxis: ChartAxisBase
             return false;
         }
     }
-
+    
     public var isInverted: Bool { return inverted; }
     
     public var isStartAtZeroEnabled: Bool { return startAtZeroEnabled; }

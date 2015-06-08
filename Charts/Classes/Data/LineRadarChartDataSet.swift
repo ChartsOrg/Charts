@@ -22,7 +22,7 @@ public class LineRadarChartDataSet: BarLineScatterCandleChartDataSet
     private var _lineWidth = CGFloat(1.0)
     public var drawFilledEnabled = false
     
-    /// line width of the chart (min = 0.2f, max = 10f)
+    /// line width of the chart (min = 0.2, max = 10)
     /// :default: 1
     public var lineWidth: CGFloat
     {

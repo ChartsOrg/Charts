@@ -56,7 +56,7 @@ public class PieChartView: PieRadarChartViewBase
         
         renderer!.drawData(context: context);
         
-        if (self.highlightEnabled && valuesToHighlight())
+        if (valuesToHighlight())
         {
             renderer!.drawHighlighted(context: context, indices: _indicesToHightlight);
         }
@@ -163,7 +163,7 @@ public class PieChartView: PieRadarChartViewBase
     }
     
     /// calculates the needed angle for a given value
-    private func calcAngle(value: Float) -> CGFloat
+    private func calcAngle(value: Double) -> CGFloat
     {
         return CGFloat(value) / CGFloat(_data.yValueSum) * 360.0;
     }
@@ -311,7 +311,7 @@ public class PieChartView: PieRadarChartViewBase
     
     internal override var requiredBottomOffset: CGFloat
     {
-        return _legend.font.pointSize * 4.0;
+        return _legend.font.pointSize * 2.0;
     }
     
     internal override var requiredBaseOffset: CGFloat

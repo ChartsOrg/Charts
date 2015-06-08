@@ -21,10 +21,10 @@ public protocol CandleStickChartRendererDelegate
     func candleStickChartRendererCandleData(renderer: CandleStickChartRenderer) -> CandleChartData!;
     func candleStickChartRenderer(renderer: CandleStickChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!;
     func candleStickChartDefaultRendererValueFormatter(renderer: CandleStickChartRenderer) -> NSNumberFormatter!;
-    func candleStickChartRendererChartYMax(renderer: CandleStickChartRenderer) -> Float;
-    func candleStickChartRendererChartYMin(renderer: CandleStickChartRenderer) -> Float;
-    func candleStickChartRendererChartXMax(renderer: CandleStickChartRenderer) -> Float;
-    func candleStickChartRendererChartXMin(renderer: CandleStickChartRenderer) -> Float;
+    func candleStickChartRendererChartYMax(renderer: CandleStickChartRenderer) -> Double;
+    func candleStickChartRendererChartYMin(renderer: CandleStickChartRenderer) -> Double;
+    func candleStickChartRendererChartXMax(renderer: CandleStickChartRenderer) -> Double;
+    func candleStickChartRendererChartXMin(renderer: CandleStickChartRenderer) -> Double;
     func candleStickChartRendererMaxVisibleValueCount(renderer: CandleStickChartRenderer) -> Int;
 }
 
@@ -248,7 +248,7 @@ public class CandleStickChartRenderer: ChartDataRendererBase
             
             var set = candleData.getDataSetByIndex(indices[i].dataSetIndex) as! CandleChartDataSet!;
             
-            if (set === nil)
+            if (set === nil || !set.highlightEnabled)
             {
                 continue;
             }

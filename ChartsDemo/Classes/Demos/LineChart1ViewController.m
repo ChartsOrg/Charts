@@ -52,30 +52,29 @@
     _chartView.descriptionText = @"";
     _chartView.noDataTextDescription = @"You need to provide data for the chart.";
     
-    _chartView.highlightEnabled = YES;
+    _chartView.highlightEnabled = NO;
     _chartView.dragEnabled = YES;
     [_chartView setScaleEnabled:YES];
     _chartView.pinchZoomEnabled = YES;
-    _chartView.highlightIndicatorEnabled = NO;
     _chartView.drawGridBackgroundEnabled = NO;
 
     // x-axis limit line
-    ChartLimitLine *llXAxis = [[ChartLimitLine alloc] initWithLimit:10.f label:@"Index 10"];
-    llXAxis.lineWidth = 4.f;
+    ChartLimitLine *llXAxis = [[ChartLimitLine alloc] initWithLimit:10.0 label:@"Index 10"];
+    llXAxis.lineWidth = 4.0;
     llXAxis.lineDashLengths = @[@(10.f), @(10.f), @(0.f)];
     llXAxis.labelPosition = ChartLimitLabelPositionRight;
     llXAxis.valueFont = [UIFont systemFontOfSize:10.f];
     
     [_chartView.xAxis addLimitLine:llXAxis];
     
-    ChartLimitLine *ll1 = [[ChartLimitLine alloc] initWithLimit:130.f label:@"Upper Limit"];
-    ll1.lineWidth = 4.f;
+    ChartLimitLine *ll1 = [[ChartLimitLine alloc] initWithLimit:130.0 label:@"Upper Limit"];
+    ll1.lineWidth = 4.0;
     ll1.lineDashLengths = @[@5.f, @5.f];
     ll1.labelPosition = ChartLimitLabelPositionRight;
     ll1.valueFont = [UIFont systemFontOfSize:10.0];
     
-    ChartLimitLine *ll2 = [[ChartLimitLine alloc] initWithLimit:-30.f label:@"Lower Limit"];
-    ll2.lineWidth = 4.f;
+    ChartLimitLine *ll2 = [[ChartLimitLine alloc] initWithLimit:-30.0 label:@"Lower Limit"];
+    ll2.lineWidth = 4.0;
     ll2.lineDashLengths = @[@5.f, @5.f];
     ll2.labelPosition = ChartLimitLabelPositionRight;
     ll2.valueFont = [UIFont systemFontOfSize:10.0];
@@ -84,8 +83,8 @@
     [leftAxis removeAllLimitLines];
     [leftAxis addLimitLine:ll1];
     [leftAxis addLimitLine:ll2];
-    leftAxis.customAxisMax = 220.f;
-    leftAxis.customAxisMin = -50.f;
+    leftAxis.customAxisMax = 220.0;
+    leftAxis.customAxisMin = -50.0;
     leftAxis.startAtZeroEnabled = NO;
     leftAxis.gridLineDashLengths = @[@5.f, @5.f];
     leftAxis.drawLimitLinesBehindDataEnabled = YES;
@@ -98,8 +97,8 @@
     
     _chartView.legend.form = ChartLegendFormLine;
     
-    _sliderX.value = 44.f;
-    _sliderY.value = 100.f;
+    _sliderX.value = 44.0;
+    _sliderY.value = 100.0;
     [self slidersValueChanged:nil];
     
     [_chartView animateWithXAxisDuration:2.5 easingOption:ChartEasingOptionEaseInOutQuart];
@@ -111,7 +110,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setDataCount:(int)count range:(float)range
+- (void)setDataCount:(int)count range:(double)range
 {
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
     
@@ -124,8 +123,8 @@
     
     for (int i = 0; i < count; i++)
     {
-        float mult = (range + 1);
-        float val = (float) (arc4random_uniform(mult)) + 3;
+        double mult = (range + 1);
+        double val = (double) (arc4random_uniform(mult)) + 3;
         [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
     
@@ -134,11 +133,11 @@
     set1.lineDashLengths = @[@5.f, @2.5f];
     [set1 setColor:UIColor.blackColor];
     [set1 setCircleColor:UIColor.blackColor];
-    set1.lineWidth = 1.f;
-    set1.circleRadius = 3.f;
+    set1.lineWidth = 1.0;
+    set1.circleRadius = 3.0;
     set1.drawCircleHoleEnabled = NO;
     set1.valueFont = [UIFont systemFontOfSize:9.f];
-    set1.fillAlpha = 65/255.f;
+    set1.fillAlpha = 65/255.0;
     set1.fillColor = UIColor.blackColor;
     
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];

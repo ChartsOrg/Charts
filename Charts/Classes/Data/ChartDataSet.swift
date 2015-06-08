@@ -19,9 +19,9 @@ public class ChartDataSet: NSObject
 {
     public var colors = [UIColor]()
     internal var _yVals: [ChartDataEntry]!
-    internal var _yMax = Float(0.0)
-    internal var _yMin = Float(0.0)
-    internal var _yValueSum = Float(0.0)
+    internal var _yMax = Double(0.0)
+    internal var _yMin = Double(0.0)
+    internal var _yValueSum = Double(0.0)
     
     /// the last start value used for calcMinMax
     internal var _lastStart: Int = 0
@@ -46,9 +46,12 @@ public class ChartDataSet: NSObject
     public var axisDependency = ChartYAxis.AxisDependency.Left
 
     public var yVals: [ChartDataEntry] { return _yVals }
-    public var yValueSum: Float { return _yValueSum }
-    public var yMin: Float { return _yMin }
-    public var yMax: Float { return _yMax }
+    public var yValueSum: Double { return _yValueSum }
+    public var yMin: Double { return _yMin }
+    public var yMax: Double { return _yMax }
+    
+    /// if true, value highlighting is enabled
+    public var highlightEnabled = true
     
     public override init()
     {
@@ -125,18 +128,18 @@ public class ChartDataSet: NSObject
         
         for var i = 0; i < _yVals.count; i++
         {
-            _yValueSum += fabsf(_yVals[i].value);
+            _yValueSum += fabs(_yVals[i].value);
         }
     }
     
     public var entryCount: Int { return _yVals!.count; }
     
-    public func yValForXIndex(x: Int) -> Float
+    public func yValForXIndex(x: Int) -> Double
     {
         let e = self.entryForXIndex(x);
         
         if (e !== nil) { return e.value }
-        else { return Float.NaN }
+        else { return Double.NaN }
     }
     
     /// Returns the first Entry object found at the given xIndex with binary search. 

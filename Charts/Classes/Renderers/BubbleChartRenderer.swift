@@ -17,10 +17,10 @@ public protocol BubbleChartRendererDelegate
     func bubbleChartRendererData(renderer: BubbleChartRenderer) -> BubbleChartData!;
     func bubbleChartRenderer(renderer: BubbleChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!;
     func bubbleChartDefaultRendererValueFormatter(renderer: BubbleChartRenderer) -> NSNumberFormatter!;
-    func bubbleChartRendererChartYMax(renderer: BubbleChartRenderer) -> Float;
-    func bubbleChartRendererChartYMin(renderer: BubbleChartRenderer) -> Float;
-    func bubbleChartRendererChartXMax(renderer: BubbleChartRenderer) -> Float;
-    func bubbleChartRendererChartXMin(renderer: BubbleChartRenderer) -> Float;
+    func bubbleChartRendererChartYMax(renderer: BubbleChartRenderer) -> Double;
+    func bubbleChartRendererChartYMin(renderer: BubbleChartRenderer) -> Double;
+    func bubbleChartRendererChartXMax(renderer: BubbleChartRenderer) -> Double;
+    func bubbleChartRendererChartXMin(renderer: BubbleChartRenderer) -> Double;
     func bubbleChartRendererMaxVisibleValueCount(renderer: BubbleChartRenderer) -> Int;
     func bubbleChartRendererXValCount(renderer: BubbleChartRenderer) -> Int;
 }
@@ -219,7 +219,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
         {
             let dataSet = bubbleData.getDataSetByIndex(indice.dataSetIndex) as! BubbleChartDataSet!;
             
-            if (dataSet === nil)
+            if (dataSet === nil || !dataSet.highlightEnabled)
             {
                 continue
             }

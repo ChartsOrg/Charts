@@ -178,6 +178,11 @@ public class PieChartRenderer: ChartDataRendererBase
             
             for (var j = 0, maxEntry = Int(min(ceil(CGFloat(entries.count) * _animator.phaseX), CGFloat(entries.count))); j < maxEntry; j++)
             {
+                if (drawXVals && !drawYVals && (j >= data.xValCount || data.xVals[j] == nil))
+                {
+                    continue;
+                }
+                
                 // offset needed to center the drawn text in the slice
                 var offset = drawAngles[cnt] / 2.0;
                 
@@ -197,17 +202,14 @@ public class PieChartRenderer: ChartDataRendererBase
                 {
                     ChartUtils.drawText(context: context, text: val, point: CGPoint(x: x, y: y), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]);
                     
-                    if (j < data.xValCount)
+                    if (j < data.xValCount && data.xVals[j] != nil)
                     {
-                        ChartUtils.drawText(context: context, text: data.xVals[j], point: CGPoint(x: x, y: y + lineHeight), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]);
+                        ChartUtils.drawText(context: context, text: data.xVals[j]!, point: CGPoint(x: x, y: y + lineHeight), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]);
                     }
                 }
                 else if (drawXVals && !drawYVals)
                 {
-                    if (j < data.xValCount)
-                    {
-                        ChartUtils.drawText(context: context, text: data.xVals[j], point: CGPoint(x: x, y: y + lineHeight / 2.0), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]);
-                    }
+                    ChartUtils.drawText(context: context, text: data.xVals[j]!, point: CGPoint(x: x, y: y + lineHeight / 2.0), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]);
                 }
                 else if (!drawXVals && drawYVals)
                 {
@@ -261,7 +263,7 @@ public class PieChartRenderer: ChartDataRendererBase
     /// draws the description text in the center of the pie chart makes most sense when center-hole is enabled
     private func drawCenterText(#context: CGContext)
     {
-        if (drawCenterTextEnabled && centerText != nil && centerText.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) > 0)
+        if (drawCenterTextEnabled && centerText != nil && count(centerText) > 0)
         {
             var center = _chart.centerCircleBox;
             var innerRadius = drawHoleEnabled && holeTransparent ? _chart.radius * holeRadiusPercent : _chart.radius;
@@ -327,6 +329,13 @@ public class PieChartRenderer: ChartDataRendererBase
                 continue;
             }
             
+            var set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as! PieChartDataSet!;
+            
+            if (set === nil || !set.highlightEnabled)
+            {
+                continue;
+            }
+            
             if (xIndex == 0)
             {
                 angle = rotationAngle;
@@ -339,13 +348,6 @@ public class PieChartRenderer: ChartDataRendererBase
             angle *= _animator.phaseY;
             
             var sliceDegrees = drawAngles[xIndex];
-            
-            var set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as! PieChartDataSet!;
-            
-            if (set === nil)
-            {
-                continue;
-            }
             
             var shift = set.selectionShift;
             var circleBox = _chart.circleBox;

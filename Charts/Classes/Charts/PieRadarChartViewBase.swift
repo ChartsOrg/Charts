@@ -93,19 +93,22 @@ public class PieRadarChartViewBase: ChartViewBase
 
         if (_legend != nil && _legend.enabled)
         {
+            var fullLegendWidth = min(_legend.neededWidth, _viewPortHandler.chartWidth * _legend.maxSizePercent);
+            fullLegendWidth += _legend.formSize + _legend.formToTextSpace;
+            
             if (_legend.position == .RightOfChartCenter)
             {
                 // this is the space between the legend and the chart
-                var spacing = CGFloat(13.0);
+                let spacing = CGFloat(13.0);
 
-                legendRight = self.fullLegendWidth + spacing;
+                legendRight = fullLegendWidth + spacing;
             }
             else if (_legend.position == .RightOfChart)
             {
-
                 // this is the space between the legend and the chart
-                var spacing = CGFloat(8.0);
-                var legendWidth = self.fullLegendWidth + spacing;
+                let spacing = CGFloat(8.0);
+                
+                var legendWidth = fullLegendWidth + spacing;
                 var legendHeight = _legend.neededHeight + _legend.textHeightMax;
 
                 var c = self.midPoint;
@@ -117,12 +120,12 @@ public class PieRadarChartViewBase: ChartViewBase
                     angle: angleForPoint(x: bottomRight.x, y: bottomRight.y));
 
                 var distReference = distanceToCenter(x: reference.x, y: reference.y);
-                var min = CGFloat(5.0);
+                var minOffset = CGFloat(5.0);
 
                 if (distLegend < distReference)
                 {
                     var diff = distReference - distLegend;
-                    legendRight = min + diff;
+                    legendRight = minOffset + diff;
                 }
 
                 if (bottomRight.y >= c.y && self.bounds.height - legendWidth > self.bounds.width)
@@ -133,16 +136,17 @@ public class PieRadarChartViewBase: ChartViewBase
             else if (_legend.position == .LeftOfChartCenter)
             {
                 // this is the space between the legend and the chart
-                var spacing = CGFloat(13.0);
+                let spacing = CGFloat(13.0);
 
-                legendLeft = self.fullLegendWidth + spacing;
+                legendLeft = fullLegendWidth + spacing;
             }
             else if (_legend.position == .LeftOfChart)
             {
 
                 // this is the space between the legend and the chart
-                var spacing = CGFloat(8.0);
-                var legendWidth = self.fullLegendWidth + spacing;
+                let spacing = CGFloat(8.0);
+                
+                var legendWidth = fullLegendWidth + spacing;
                 var legendHeight = _legend.neededHeight + _legend.textHeightMax;
 
                 var c = self.midPoint;
@@ -171,15 +175,21 @@ public class PieRadarChartViewBase: ChartViewBase
                     || _legend.position == .BelowChartRight
                     || _legend.position == .BelowChartCenter)
             {
-                legendBottom = self.requiredBottomOffset;
+                var yOffset = self.requiredBottomOffset; // It's possible that we do not need this offset anymore as it is available through the extraOffsets
+                legendBottom = min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent);
             }
             
             legendLeft += self.requiredBaseOffset;
             legendRight += self.requiredBaseOffset;
             legendTop += self.requiredBaseOffset;
         }
+        
+        legendTop += self.extraTopOffset;
+        legendRight += self.extraRightOffset;
+        legendBottom += self.extraBottomOffset;
+        legendLeft += self.extraLeftOffset;
 
-        var min = CGFloat(10.0);
+        var minOffset = CGFloat(10.0);
         
         if (self.isKindOfClass(RadarChartView))
         {
@@ -187,15 +197,14 @@ public class PieRadarChartViewBase: ChartViewBase
             
             if (x.isEnabled)
             {
-                min = max(10.0, x.labelWidth);
+                minOffset = max(10.0, x.labelWidth);
             }
         }
-        
 
-        var offsetLeft = max(min, legendLeft);
-        var offsetTop = max(min, legendTop);
-        var offsetRight = max(min, legendRight);
-        var offsetBottom = max(min, max(self.requiredBaseOffset, legendBottom));
+        var offsetLeft = max(minOffset, legendLeft);
+        var offsetTop = max(minOffset, legendTop);
+        var offsetRight = max(minOffset, legendRight);
+        var offsetBottom = max(minOffset, max(self.requiredBaseOffset, legendBottom));
 
         _viewPortHandler.restrainViewPort(offsetLeft: offsetLeft, offsetTop: offsetTop, offsetRight: offsetRight, offsetBottom: offsetBottom);
     }
@@ -282,7 +291,7 @@ public class PieRadarChartViewBase: ChartViewBase
 
     /// current rotation angle of the pie chart
     /// :returns will always return a normalized value, which will be between 0.0 < 360.0
-    /// :default: 270f --> top (NORTH)
+    /// :default: 270 --> top (NORTH)
     public var rotationAngle: CGFloat
     {
         get
@@ -329,19 +338,13 @@ public class PieRadarChartViewBase: ChartViewBase
     {
         fatalError("requiredBaseOffset cannot be called on PieRadarChartViewBase");
     }
-
-    /// Returns the required right offset for the chart.
-    private var fullLegendWidth: CGFloat
-    {
-        return _legend.textWidthMax + _legend.formSize + _legend.formToTextSpace;
-    }
     
-    public override var chartXMax: Float
+    public override var chartXMax: Double
     {
         return 0.0;
     }
     
-    public override var chartXMin: Float
+    public override var chartXMin: Double
     {
         return 0.0;
     }
@@ -747,7 +750,7 @@ public class PieRadarChartViewBase: ChartViewBase
                     // get the dataset that is closest to the selection (PieChart only has one DataSet)
                     if (self.isKindOfClass(RadarChartView))
                     {
-                        dataSetIndex = ChartUtils.closestDataSetIndex(valsAtIndex, value: Float(distance / (self as! RadarChartView).factor), axis: nil);
+                        dataSetIndex = ChartUtils.closestDataSetIndex(valsAtIndex, value: Double(distance / (self as! RadarChartView).factor), axis: nil);
                     }
                     
                     var h = ChartHighlight(xIndex: index, dataSetIndex: dataSetIndex);

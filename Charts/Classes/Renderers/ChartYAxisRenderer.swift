@@ -27,7 +27,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
     }
     
     /// Computes the axis values.
-    public func computeAxis(var #yMin: Float, var yMax: Float)
+    public func computeAxis(var #yMin: Double, var yMax: Double)
     {
         // calculate the starting and entry point of the y-labels (depending on
         // zoom / contentrect bounds)
@@ -38,13 +38,13 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             
             if (!_yAxis.isInverted)
             {
-                yMin = Float(p2.y);
-                yMax = Float(p1.y);
+                yMin = Double(p2.y);
+                yMax = Double(p1.y);
             }
             else
             {
-                yMin = Float(p1.y);
-                yMax = Float(p2.y);
+                yMin = Double(p1.y);
+                yMax = Double(p2.y);
             }
         }
         
@@ -54,7 +54,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
     /// Sets up the y-axis labels. Computes the desired number of labels between
     /// the two given extremes. Unlike the papareXLabels() method, this method
     /// needs to be called upon every refresh of the view.
-    internal func computeAxisValues(#min: Float, max: Float)
+    internal func computeAxisValues(#min: Double, max: Double)
     {
         var yMin = min;
         var yMax = max;
@@ -64,11 +64,11 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
     
         if (labelCount == 0 || range <= 0)
         {
-            _yAxis.entries = [Float]();
+            _yAxis.entries = [Double]();
             return;
         }
         
-        var rawInterval = range / Float(labelCount);
+        var rawInterval = range / Double(labelCount);
         var interval = ChartUtils.roundToNextSignificant(number: Double(rawInterval));
         var intervalMagnitude = pow(10.0, round(log10(interval)));
         var intervalSigDigit = (interval / intervalMagnitude);
@@ -99,7 +99,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             if (_yAxis.entries.count < n)
             {
                 // Ensure stops contains at least numStops elements.
-                _yAxis.entries = [Float](count: n, repeatedValue: 0.0);
+                _yAxis.entries = [Double](count: n, repeatedValue: 0.0);
             }
             else if (_yAxis.entries.count > n)
             {
@@ -108,7 +108,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             
             for (f = first, i = 0; i < n; f += interval, ++i)
             {
-                _yAxis.entries[i] = Float(f);
+                _yAxis.entries[i] = Double(f);
             }
         }
     }
@@ -323,7 +323,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             var label = l.label;
             
             // if drawing the limit-value label is enabled
-            if (label.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) > 0)
+            if (count(label) > 0)
             {
                 var labelLineHeight = l.valueFont.lineHeight;
                 

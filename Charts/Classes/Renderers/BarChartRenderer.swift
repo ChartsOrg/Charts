@@ -22,10 +22,10 @@ public protocol BarChartRendererDelegate
     func barChartRenderer(renderer: BarChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!;
     func barChartRendererMaxVisibleValueCount(renderer: BarChartRenderer) -> Int;
     func barChartDefaultRendererValueFormatter(renderer: BarChartRenderer) -> NSNumberFormatter!;
-    func barChartRendererChartYMax(renderer: BarChartRenderer) -> Float;
-    func barChartRendererChartYMin(renderer: BarChartRenderer) -> Float;
-    func barChartRendererChartXMax(renderer: BarChartRenderer) -> Float;
-    func barChartRendererChartXMin(renderer: BarChartRenderer) -> Float;
+    func barChartRendererChartYMax(renderer: BarChartRenderer) -> Double;
+    func barChartRendererChartYMin(renderer: BarChartRenderer) -> Double;
+    func barChartRendererChartXMax(renderer: BarChartRenderer) -> Double;
+    func barChartRendererChartXMin(renderer: BarChartRenderer) -> Double;
     func barChartIsDrawHighlightArrowEnabled(renderer: BarChartRenderer) -> Bool;
     func barChartIsDrawValueAboveBarEnabled(renderer: BarChartRenderer) -> Bool;
     func barChartIsDrawValuesForWholeStackEnabled(renderer: BarChartRenderer) -> Bool;
@@ -85,7 +85,7 @@ public class BarChartRenderer: ChartDataRendererBase
         var phaseY = _animator.phaseY;
         var barRect = CGRect();
         var barShadow = CGRect();
-        var y: Float;
+        var y: Double;
         
         // do the drawing
         for (var j = 0, count = Int(ceil(CGFloat(dataSet.entryCount) * _animator.phaseX)); j < count; j++)
@@ -240,7 +240,7 @@ public class BarChartRenderer: ChartDataRendererBase
     }
     
     /// Prepares a bar for being highlighted.
-    internal func prepareBarHighlight(#x: CGFloat, y: Float, barspacehalf: CGFloat, from: Float, trans: ChartTransformer, inout rect: CGRect)
+    internal func prepareBarHighlight(#x: CGFloat, y: Double, barspacehalf: CGFloat, from: Double, trans: ChartTransformer, inout rect: CGRect)
     {
         let barWidth: CGFloat = 0.5;
         
@@ -452,7 +452,7 @@ public class BarChartRenderer: ChartDataRendererBase
             var dataSetIndex = h.dataSetIndex;
             var set = barData.getDataSetByIndex(dataSetIndex) as! BarChartDataSet!;
             
-            if (set === nil)
+            if (set === nil || !set.highlightEnabled)
             {
                 continue;
             }

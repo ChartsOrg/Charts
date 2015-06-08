@@ -16,6 +16,21 @@ import CoreGraphics.CGBase
 
 public class BarChartData: BarLineScatterCandleChartData
 {
+    public override init()
+    {
+        super.init();
+    }
+    
+    public override init(xVals: [String?]?, dataSets: [ChartDataSet]?)
+    {
+        super.init(xVals: xVals, dataSets: dataSets)
+    }
+    
+    public override init(xVals: [NSObject]?, dataSets: [ChartDataSet]?)
+    {
+        super.init(xVals: xVals, dataSets: dataSets)
+    }
+    
     private var _groupSpace = CGFloat(0.8)
     
     /// The spacing is relative to a full bar width

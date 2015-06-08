@@ -63,8 +63,8 @@
     _chartView.rightAxis.enabled = NO;
     _chartView.legend.enabled = NO;
     
-    _sliderX.value = 44.f;
-    _sliderY.value = 100.f;
+    _sliderX.value = 44.0;
+    _sliderY.value = 100.0;
     [self slidersValueChanged:nil];
     
     [_chartView animateWithXAxisDuration:2.0 yAxisDuration:2.0];
@@ -76,7 +76,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setDataCount:(int)count range:(float)range
+- (void)setDataCount:(int)count range:(double)range
 {
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
     
@@ -89,17 +89,17 @@
     
     for (int i = 0; i < count; i++)
     {
-        float mult = (range + 1);
-        float val = (float) (arc4random_uniform(mult)) + 20;
+        double mult = (range + 1);
+        double val = (double) (arc4random_uniform(mult)) + 20;
         [yVals1 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
     
     LineChartDataSet *set1 = [[LineChartDataSet alloc] initWithYVals:yVals1 label:@"DataSet 1"];
     set1.drawCubicEnabled = YES;
-    set1.cubicIntensity = 0.2f;
+    set1.cubicIntensity = 0.2;
     set1.drawCirclesEnabled = NO;
-    set1.lineWidth = 2.f;
-    set1.circleRadius = 5.f;
+    set1.lineWidth = 2.0;
+    set1.circleRadius = 5.0;
     set1.highlightColor = [UIColor colorWithRed:244/255.f green:117/255.f blue:117/255.f alpha:1.f];
     [set1 setColor:[UIColor colorWithRed:104/255.f green:241/255.f blue:175/255.f alpha:1.f]];
     set1.fillColor = [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f];

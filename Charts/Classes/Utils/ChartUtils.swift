@@ -40,7 +40,7 @@ internal class ChartUtils
         return shifted / magnitude;
     }
     
-    internal class func decimals(number: Float) -> Int
+    internal class func decimals(number: Double) -> Int
     {
         if (number == 0.0)
         {
@@ -64,10 +64,10 @@ internal class ChartUtils
     }
 
     /// Returns the index of the DataSet that contains the closest value on the y-axis. This is needed for highlighting.
-    internal class func closestDataSetIndex(valsAtIndex: [ChartSelInfo], value: Float, axis: ChartYAxis.AxisDependency?) -> Int
+    internal class func closestDataSetIndex(valsAtIndex: [ChartSelInfo], value: Double, axis: ChartYAxis.AxisDependency?) -> Int
     {
         var index = -1;
-        var distance = FLT_MAX;
+        var distance = DBL_MAX;
         
         for (var i = 0; i < valsAtIndex.count; i++)
         {
@@ -88,9 +88,9 @@ internal class ChartUtils
     }
     
     /// Returns the minimum distance from a touch-y-value (in pixels) to the closest y-value (in pixels) that is displayed in the chart.
-    internal class func getMinimumDistance(valsAtIndex: [ChartSelInfo], val: Float, axis: ChartYAxis.AxisDependency) -> Float
+    internal class func getMinimumDistance(valsAtIndex: [ChartSelInfo], val: Double, axis: ChartYAxis.AxisDependency) -> Double
     {
-        var distance = FLT_MAX;
+        var distance = DBL_MAX;
         
         for (var i = 0, count = valsAtIndex.count; i < count; i++)
         {
@@ -132,6 +132,32 @@ internal class ChartUtils
         UIGraphicsPushContext(context);
         (text as NSString).drawAtPoint(point, withAttributes: attributes);
         UIGraphicsPopContext();
+    }
+    
+    internal class func drawMultilineText(#context: CGContext, text: String, var knownTextSize: CGSize, point: CGPoint, align: NSTextAlignment, attributes: [NSObject : AnyObject]?, constrainedToSize: CGSize)
+    {
+        var rect = CGRect(origin: CGPoint(), size: knownTextSize);
+        rect.origin.x += point.x;
+        rect.origin.y += point.y;
+        
+        if (align == .Center)
+        {
+            rect.origin.x -= rect.size.width / 2.0;
+        }
+        else if (align == .Right)
+        {
+            rect.origin.x -= rect.size.width;
+        }
+        
+        UIGraphicsPushContext(context);
+        (text as NSString).drawWithRect(rect, options: .UsesLineFragmentOrigin, attributes: attributes, context: nil);
+        UIGraphicsPopContext();
+    }
+    
+    internal class func drawMultilineText(#context: CGContext, text: String, point: CGPoint, align: NSTextAlignment, attributes: [NSObject : AnyObject]?, constrainedToSize: CGSize)
+    {
+        var rect = text.boundingRectWithSize(constrainedToSize, options: .UsesLineFragmentOrigin, attributes: attributes, context: nil);
+        drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, align: align, attributes: attributes, constrainedToSize: constrainedToSize);
     }
     
     /// returns an angle between 0.0 < 360.0 (not less than zero, less than 360)

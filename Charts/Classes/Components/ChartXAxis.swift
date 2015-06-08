@@ -27,7 +27,7 @@ public class ChartXAxis: ChartAxisBase
         case BottomInside
     }
     
-    public var values = [String]()
+    public var values = [String?]()
     public var labelWidth = CGFloat(1.0)
     public var labelHeight = CGFloat(1.0)
     
@@ -53,6 +53,19 @@ public class ChartXAxis: ChartAxisBase
     /// the position of the x-labels relative to the chart
     public var labelPosition = XAxisLabelPosition.Top;
     
+    /// if set to true, word wrapping the labels will be enabled.
+    /// word wrapping is done using (value width * labelWidth)
+    /// NOTE: currently supports all charts except pie/radar/horizontal-bar
+    public var wordWrapEnabled = false
+    
+    /// :returns true if word wrapping the labels is enabled
+    public var isWordWrapEnabled: Bool { return wordWrapEnabled }
+    
+    /// the width for wrapping the labels, as percentage out of one value width.
+    /// used only when isWordWrapEnabled = true.
+    /// :default 1.0
+    public var wordWrapWidthPercent: CGFloat = 1.0;
+    
     public override init()
     {
         super.init();
@@ -66,9 +79,9 @@ public class ChartXAxis: ChartAxisBase
         {
             var text = values[i];
             
-            if (longest.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) < text.lengthOfBytesUsingEncoding(NSUTF16StringEncoding))
+            if (text != nil && count(longest) < count(text!))
             {
-                longest = text;
+                longest = text!;
             }
         }
         
@@ -107,5 +120,11 @@ public class ChartXAxis: ChartAxisBase
     public var isAxisModulusCustom: Bool
     {
         return _isAxisModulusCustom;
+    }
+    
+    public var valuesObjc: [NSObject]
+    {
+        get { return ChartUtils.bridgedObjCGetStringArray(swift: values); }
+        set { self.values = ChartUtils.bridgedObjCGetStringArray(objc: newValue); }
     }
 }

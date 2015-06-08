@@ -31,7 +31,7 @@ public class ChartTransformer: NSObject
     }
 
     /// Prepares the matrix that transforms values to pixels. Calculates the scale factors from the charts size and offsets.
-    public func prepareMatrixValuePx(#chartXMin: Float, deltaX: CGFloat, deltaY: CGFloat, chartYMin: Float)
+    public func prepareMatrixValuePx(#chartXMin: Double, deltaX: CGFloat, deltaY: CGFloat, chartYMin: Double)
     {
         var scaleX = (_viewPortHandler.contentWidth / deltaX);
         var scaleY = (_viewPortHandler.contentHeight / deltaY);
@@ -56,7 +56,7 @@ public class ChartTransformer: NSObject
         }
     }
     
-    /// Transforms an arraylist of Entry into a float array containing the x and y values transformed with all matrices for the SCATTERCHART.
+    /// Transforms an arraylist of Entry into a double array containing the x and y values transformed with all matrices for the SCATTERCHART.
     public func generateTransformedValuesScatter(entries: [ChartDataEntry], phaseY: CGFloat) -> [CGPoint]
     {
         var valuePoints = [CGPoint]();
@@ -73,7 +73,7 @@ public class ChartTransformer: NSObject
         return valuePoints;
     }
     
-    /// Transforms an arraylist of Entry into a float array containing the x and y values transformed with all matrices for the BUBBLECHART.
+    /// Transforms an arraylist of Entry into a double array containing the x and y values transformed with all matrices for the BUBBLECHART.
     public func generateTransformedValuesBubble(entries: [ChartDataEntry], phaseX: CGFloat, phaseY: CGFloat, from: Int, to: Int) -> [CGPoint]
     {
         let count = to - from;
@@ -92,7 +92,7 @@ public class ChartTransformer: NSObject
         return valuePoints;
     }
 
-    /// Transforms an arraylist of Entry into a float array containing the x and y values transformed with all matrices for the LINECHART.
+    /// Transforms an arraylist of Entry into a double array containing the x and y values transformed with all matrices for the LINECHART.
     public func generateTransformedValuesLine(entries: [ChartDataEntry], phaseX: CGFloat, phaseY: CGFloat, from: Int, to: Int) -> [CGPoint]
     {
         let count = Int(ceil(CGFloat(to - from) * phaseX));
@@ -111,7 +111,7 @@ public class ChartTransformer: NSObject
         return valuePoints;
     }
     
-    /// Transforms an arraylist of Entry into a float array containing the x and y values transformed with all matrices for the CANDLESTICKCHART.
+    /// Transforms an arraylist of Entry into a double array containing the x and y values transformed with all matrices for the CANDLESTICKCHART.
     public func generateTransformedValuesCandle(entries: [CandleChartDataEntry], phaseY: CGFloat) -> [CGPoint]
     {
         var valuePoints = [CGPoint]();
@@ -128,7 +128,7 @@ public class ChartTransformer: NSObject
         return valuePoints;
     }
     
-    /// Transforms an arraylist of Entry into a float array containing the x and y values transformed with all matrices for the BARCHART.
+    /// Transforms an arraylist of Entry into a double array containing the x and y values transformed with all matrices for the BARCHART.
     public func generateTransformedValuesBarChart(entries: [BarChartDataEntry], dataSet: Int, barData: BarChartData, phaseY: CGFloat) -> [CGPoint]
     {
         var valuePoints = [CGPoint]();
@@ -153,7 +153,7 @@ public class ChartTransformer: NSObject
         return valuePoints;
     }
     
-    /// Transforms an arraylist of Entry into a float array containing the x and y values transformed with all matrices for the BARCHART.
+    /// Transforms an arraylist of Entry into a double array containing the x and y values transformed with all matrices for the BARCHART.
     public func generateTransformedValuesHorizontalBarChart(entries: [ChartDataEntry], dataSet: Int, barData: BarChartData, phaseY: CGFloat) -> [CGPoint]
     {
         var valuePoints = [CGPoint]();

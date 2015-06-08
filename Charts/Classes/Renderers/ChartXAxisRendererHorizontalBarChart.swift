@@ -22,7 +22,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: transformer, chart: chart);
     }
     
-    public override func computeAxis(#xValAverageLength: Float, xValues: [String])
+    public override func computeAxis(#xValAverageLength: Double, xValues: [String?])
     {
         _xAxis.values = xValues;
        
@@ -76,8 +76,15 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         var bd = _chart.data as! BarChartData;
         var step = bd.dataSetCount;
         
-        for (var i = _minX; i <= _maxX; i += _xAxis.axisLabelModulus)
+        for (var i = _minX, maxX = min(_maxX + 1, _xAxis.values.count); i < maxX; i += _xAxis.axisLabelModulus)
         {
+            var label = _xAxis.values[i];
+            
+            if (label == nil)
+            {
+                continue;
+            }
+            
             position.x = 0.0;
             position.y = CGFloat(i * step) + CGFloat(i) * bd.groupSpace + bd.groupSpace / 2.0;
             
@@ -91,9 +98,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
             
             if (viewPortHandler.isInBoundsY(position.y))
             {
-                var label = _xAxis.values[i];
-                
-                ChartUtils.drawText(context: context, text: label, point: CGPoint(x: pos, y: position.y - _xAxis.labelHeight / 2.0), align: align, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor]);
+                ChartUtils.drawText(context: context, text: label!, point: CGPoint(x: pos, y: position.y - _xAxis.labelHeight / 2.0), align: align, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor]);
             }
         }
     }
@@ -127,7 +132,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         // take into consideration that multiple DataSets increase _deltaX
         var step = bd.dataSetCount;
         
-        for (var i = _minX; i <= _maxX; i += _xAxis.axisLabelModulus)
+        for (var i = _minX, maxX = min(_maxX + 1, _xAxis.values.count); i < maxX; i += _xAxis.axisLabelModulus)
         {
             position.x = 0.0;
             position.y = CGFloat(i * step) + CGFloat(i) * bd.groupSpace - 0.5;
@@ -240,7 +245,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
             var label = l.label;
             
             // if drawing the limit-value label is enabled
-            if (label.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) > 0)
+            if (count(label) > 0)
             {
                 var labelLineHeight = l.valueFont.lineHeight;
                 

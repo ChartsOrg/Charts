@@ -60,8 +60,8 @@
     
     _chartView.legend.position = ChartLegendPositionRightOfChart;
     
-    _sliderX.value = 19.f;
-    _sliderY.value = 10.f;
+    _sliderX.value = 19.0;
+    _sliderY.value = 10.0;
     [self slidersValueChanged:nil];
 }
 
@@ -71,7 +71,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setDataCount:(int)count range:(float)range
+- (void)setDataCount:(int)count range:(double)range
 {
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
     
@@ -90,13 +90,13 @@
         
         for (int i = 0; i < count; i++)
         {
-            float val = (float) (arc4random_uniform(range) + 3);
+            double val = (double) (arc4random_uniform(range) + 3);
             [values addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
         }
         
         LineChartDataSet *d = [[LineChartDataSet alloc] initWithYVals:values label:[NSString stringWithFormat:@"DataSet %d", z + 1]];
-        d.lineWidth = 2.5f;
-        d.circleRadius = 4.f;
+        d.lineWidth = 2.5;
+        d.circleRadius = 4.0;
         
         UIColor *color = colors[z % colors.count];
         [d setColor:color];

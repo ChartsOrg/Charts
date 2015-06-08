@@ -43,19 +43,19 @@ public class HorizontalBarChartView: BarChartView
             if (_legend.position == .RightOfChart
                 || _legend.position == .RightOfChartCenter)
             {
-                offsetRight += _legend.textWidthMax + _legend.xOffset * 2.0;
+                offsetRight += min(_legend.neededWidth, _viewPortHandler.chartWidth * _legend.maxSizePercent) + _legend.xOffset * 2.0;
             }
             else if (_legend.position == .LeftOfChart
                 || _legend.position == .LeftOfChartCenter)
             {
-                offsetLeft += _legend.textWidthMax + _legend.xOffset * 2.0;
+                offsetLeft += min(_legend.neededWidth, _viewPortHandler.chartWidth * _legend.maxSizePercent) + _legend.xOffset * 2.0;
             }
             else if (_legend.position == .BelowChartLeft
                 || _legend.position == .BelowChartRight
                 || _legend.position == .BelowChartCenter)
             {
-                
-                offsetBottom += _legend.textHeightMax * 3.0;
+                var yOffset = _legend.textHeightMax * 2.0; // It's possible that we do not need this offset anymore as it is available through the extraOffsets
+                offsetBottom += min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent);
             }
         }
         
@@ -90,13 +90,18 @@ public class HorizontalBarChartView: BarChartView
             }
         }
         
-        var min: CGFloat = 10.0;
+        offsetTop += self.extraTopOffset;
+        offsetRight += self.extraRightOffset;
+        offsetBottom += self.extraBottomOffset;
+        offsetLeft += self.extraLeftOffset;
+        
+        var minOffset: CGFloat = 10.0;
         
         _viewPortHandler.restrainViewPort(
-            offsetLeft: max(min, offsetLeft),
-            offsetTop: max(min, offsetTop),
-            offsetRight: max(min, offsetRight),
-            offsetBottom: max(min, offsetBottom));
+            offsetLeft: max(minOffset, offsetLeft),
+            offsetTop: max(minOffset, offsetTop),
+            offsetRight: max(minOffset, offsetRight),
+            offsetBottom: max(minOffset, offsetBottom));
         
         prepareOffsetMatrix();
         prepareValuePxMatrix();

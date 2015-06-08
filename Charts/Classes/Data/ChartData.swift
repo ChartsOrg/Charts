@@ -17,13 +17,13 @@ import UIKit
 
 public class ChartData: NSObject
 {
-    internal var _yMax = Float(0.0)
-    internal var _yMin = Float(0.0)
-    internal var _leftAxisMax = Float(0.0)
-    internal var _leftAxisMin = Float(0.0)
-    internal var _rightAxisMax = Float(0.0)
-    internal var _rightAxisMin = Float(0.0)
-    private var _yValueSum = Float(0.0)
+    internal var _yMax = Double(0.0)
+    internal var _yMin = Double(0.0)
+    internal var _leftAxisMax = Double(0.0)
+    internal var _leftAxisMin = Double(0.0)
+    internal var _rightAxisMax = Double(0.0)
+    internal var _rightAxisMin = Double(0.0)
+    private var _yValueSum = Double(0.0)
     private var _yValCount = Int(0)
     
     /// the last start value used for calcMinMax
@@ -33,42 +33,57 @@ public class ChartData: NSObject
     internal var _lastEnd: Int = 0
     
     /// the average length (in characters) across all x-value strings
-    private var _xValAverageLength = Float(0.0)
+    private var _xValAverageLength = Double(0.0)
     
-    internal var _xVals: [String]!
+    internal var _xVals: [String?]!
     internal var _dataSets: [ChartDataSet]!
     
     public override init()
     {
         super.init();
         
-        _xVals = [String]();
+        _xVals = [String?]();
         _dataSets = [ChartDataSet]();
     }
     
-    public init(xVals: [String]?)
+    public init(xVals: [String?]?, dataSets: [ChartDataSet]?)
     {
-        super.init();
+        super.init()
         
-        _xVals = xVals == nil ? [String]() : xVals;
-        _dataSets = [ChartDataSet]();
+        _xVals = xVals == nil ? [String?]() : xVals;
+        _dataSets = dataSets == nil ? [ChartDataSet]() : dataSets;
         
-        self.initialize(_dataSets);
+        self.initialize(_dataSets)
     }
     
-    public convenience init(xVals: [String]?, dataSet: ChartDataSet?)
+    public init(xVals: [NSObject]?, dataSets: [ChartDataSet]?)
+    {
+        super.init()
+        
+        _xVals = xVals == nil ? [String?]() : ChartUtils.bridgedObjCGetStringArray(objc: xVals!);
+        _dataSets = dataSets == nil ? [ChartDataSet]() : dataSets;
+        
+        self.initialize(_dataSets)
+    }
+    
+    public convenience init(xVals: [String?]?)
+    {
+        self.init(xVals: xVals, dataSets: [ChartDataSet]());
+    }
+    
+    public convenience init(xVals: [NSObject]?)
+    {
+        self.init(xVals: xVals, dataSets: [ChartDataSet]());
+    }
+    
+    public convenience init(xVals: [String?]?, dataSet: ChartDataSet?)
     {
         self.init(xVals: xVals, dataSets: dataSet === nil ? nil : [dataSet!]);
     }
     
-    public init(xVals: [String]?, dataSets: [ChartDataSet]?)
+    public convenience init(xVals: [NSObject]?, dataSet: ChartDataSet?)
     {
-        super.init()
-        
-        _xVals = xVals == nil ? [String]() : xVals;
-        _dataSets = dataSets == nil ? [ChartDataSet]() : dataSets;
-        
-        self.initialize(_dataSets)
+        self.init(xVals: xVals, dataSets: dataSet === nil ? nil : [dataSet!]);
     }
     
     internal func initialize(dataSets: [ChartDataSet])
@@ -95,10 +110,10 @@ public class ChartData: NSObject
         
         for (var i = 0; i < _xVals.count; i++)
         {
-            sum += _xVals[i].lengthOfBytesUsingEncoding(NSUTF16StringEncoding);
+            sum += _xVals[i] == nil ? 0 : count(_xVals[i]!);
         }
         
-        _xValAverageLength = Float(sum) / Float(_xVals.count);
+        _xValAverageLength = Double(sum) / Double(_xVals.count);
     }
     
     // Checks if the combination of x-values array and DataSet array is legal or not.
@@ -139,8 +154,8 @@ public class ChartData: NSObject
             _lastStart = start;
             _lastEnd = end;
             
-            _yMin = FLT_MAX;
-            _yMax = FLT_MIN;
+            _yMin = DBL_MAX;
+            _yMax = DBL_MIN;
             
             for (var i = 0; i < _dataSets.count; i++)
             {
@@ -224,7 +239,7 @@ public class ChartData: NSObject
         
         for (var i = 0; i < _dataSets.count; i++)
         {
-            _yValueSum += fabsf(_dataSets[i].yValueSum);
+            _yValueSum += fabs(_dataSets[i].yValueSum);
         }
     }
     
@@ -259,17 +274,17 @@ public class ChartData: NSObject
     }
     
     /// returns the smallest y-value the data object contains.
-    public var yMin: Float
+    public var yMin: Double
     {
         return _yMin;
     }
     
-    public func getYMin() -> Float
+    public func getYMin() -> Double
     {
         return _yMin;
     }
     
-    public func getYMin(axis: ChartYAxis.AxisDependency) -> Float
+    public func getYMin(axis: ChartYAxis.AxisDependency) -> Double
     {
         if (axis == .Left)
         {
@@ -282,17 +297,17 @@ public class ChartData: NSObject
     }
     
     /// returns the greatest y-value the data object contains.
-    public var yMax: Float
+    public var yMax: Double
     {
         return _yMax;
     }
     
-    public func getYMax() -> Float
+    public func getYMax() -> Double
     {
         return _yMax;
     }
     
-    public func getYMax(axis: ChartYAxis.AxisDependency) -> Float
+    public func getYMax(axis: ChartYAxis.AxisDependency) -> Double
     {
         if (axis == .Left)
         {
@@ -305,13 +320,13 @@ public class ChartData: NSObject
     }
     
     /// returns the average length (in characters) across all values in the x-vals array
-    public var xValAverageLength: Float
+    public var xValAverageLength: Double
     {
         return _xValAverageLength;
     }
     
     /// returns the total y-value sum across all DataSet objects the this object represents.
-    public var yValueSum: Float
+    public var yValueSum: Double
     {
         return _yValueSum;
     }
@@ -323,13 +338,13 @@ public class ChartData: NSObject
     }
     
     /// returns the x-values the chart represents
-    public var xVals: [String]
+    public var xVals: [String?]
     {
         return _xVals;
     }
     
     ///Adds a new x-value to the chart data.
-    public func addXValue(xVal: String)
+    public func addXValue(xVal: String?)
     {
         _xVals.append(xVal);
     }
@@ -814,6 +829,33 @@ public class ChartData: NSObject
         }
     }
     
+    /// Enables / disables highlighting values for all DataSets this data object contains.
+    public var highlightEnabled: Bool
+    {
+        get
+        {
+            for set in dataSets
+            {
+                if (!set.highlightEnabled)
+                {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+        set
+        {
+            for set in dataSets
+            {
+                set.highlightEnabled = newValue;
+            }
+        }
+    }
+    
+    /// if true, value highlightning is enabled
+    public var isHighlightEnabled: Bool { return highlightEnabled }
+    
     /// Clears this data object from all DataSets and removes all Entries.
     /// Don't forget to invalidate the chart after this.
     public func clearValues()
@@ -849,4 +891,9 @@ public class ChartData: NSObject
         
         return false;
     }
+    
+    /// MARK: - ObjC compatibility
+    
+    /// returns the average length (in characters) across all values in the x-vals array
+    public var xValsObjc: [NSObject] { return ChartUtils.bridgedObjCGetStringArray(swift: _xVals); }
 }

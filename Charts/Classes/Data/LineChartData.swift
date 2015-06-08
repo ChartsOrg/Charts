@@ -16,5 +16,18 @@ import Foundation
 /// Data object that encapsulates all data associated with a LineChart.
 public class LineChartData: ChartData
 {
+    public override init()
+    {
+        super.init();
+    }
     
+    public override init(xVals: [String?]?, dataSets: [ChartDataSet]?)
+    {
+        super.init(xVals: xVals, dataSets: dataSets)
+    }
+    
+    public override init(xVals: [NSObject]?, dataSets: [ChartDataSet]?)
+    {
+        super.init(xVals: xVals, dataSets: dataSets)
+    }
 }

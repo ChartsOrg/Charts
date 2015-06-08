@@ -11,6 +11,21 @@
 
 public class BubbleChartData: BarLineScatterCandleChartData
 {
+    public override init()
+    {
+        super.init();
+    }
+    
+    public override init(xVals: [String?]?, dataSets: [ChartDataSet]?)
+    {
+        super.init(xVals: xVals, dataSets: dataSets)
+    }
+    
+    public override init(xVals: [NSObject]?, dataSets: [ChartDataSet]?)
+    {
+        super.init(xVals: xVals, dataSets: dataSets)
+    }
+    
     /// Sets the width of the circle that surrounds the bubble when highlighted for all DataSet objects this data object contains
     public func setHighlightCircleWidth(width: CGFloat)
     {

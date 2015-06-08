@@ -16,18 +16,18 @@ import Foundation
 public class CandleChartDataEntry: ChartDataEntry
 {
     /// shadow-high value
-    public var high = Float(0.0)
+    public var high = Double(0.0)
     
     /// shadow-low value
-    public var low = Float(0.0)
+    public var low = Double(0.0)
     
     /// close value
-    public var close = Float(0.0)
+    public var close = Double(0.0)
     
     /// open value
-    public var open = Float(0.0)
+    public var open = Double(0.0)
     
-    public init(xIndex: Int, shadowH: Float, shadowL: Float, open: Float, close: Float)
+    public init(xIndex: Int, shadowH: Double, shadowL: Double, open: Double, close: Double)
     {
         super.init(value: (shadowH + shadowL) / 2.0, xIndex: xIndex);
         
@@ -37,7 +37,7 @@ public class CandleChartDataEntry: ChartDataEntry
         self.close = close;
     }
     
-    public init(xIndex: Int, shadowH: Float, shadowL: Float, open: Float, close: Float, data: AnyObject?)
+    public init(xIndex: Int, shadowH: Double, shadowL: Double, open: Double, close: Double, data: AnyObject?)
     {
         super.init(value: (shadowH + shadowL) / 2.0, xIndex: xIndex, data: data);
         
@@ -48,19 +48,19 @@ public class CandleChartDataEntry: ChartDataEntry
     }
     
     /// Returns the overall range (difference) between shadow-high and shadow-low.
-    public var shadowRange: Float
+    public var shadowRange: Double
     {
         return abs(high - low);
     }
     
     /// Returns the body size (difference between open and close).
-    public var bodyRange: Float
+    public var bodyRange: Double
     {
         return abs(open - close);
     }
     
     /// the center value of the candle. (Middle value between high and low)
-    public override var value: Float
+    public override var value: Double
     {
         get
         {

@@ -171,22 +171,22 @@ public class CombinedChartRenderer: ChartDataRendererBase,
         return _chart._defaultValueFormatter;
     }
     
-    public func lineChartRendererChartYMax(renderer: LineChartRenderer) -> Float
+    public func lineChartRendererChartYMax(renderer: LineChartRenderer) -> Double
     {
         return _chart.chartYMax;
     }
     
-    public func lineChartRendererChartYMin(renderer: LineChartRenderer) -> Float
+    public func lineChartRendererChartYMin(renderer: LineChartRenderer) -> Double
     {
         return _chart.chartYMin;
     }
     
-    public func lineChartRendererChartXMax(renderer: LineChartRenderer) -> Float
+    public func lineChartRendererChartXMax(renderer: LineChartRenderer) -> Double
     {
         return _chart.chartXMax;
     }
     
-    public func lineChartRendererChartXMin(renderer: LineChartRenderer) -> Float
+    public func lineChartRendererChartXMin(renderer: LineChartRenderer) -> Double
     {
         return _chart.chartXMin;
     }
@@ -218,22 +218,22 @@ public class CombinedChartRenderer: ChartDataRendererBase,
         return _chart._defaultValueFormatter;
     }
     
-    public func barChartRendererChartYMax(renderer: BarChartRenderer) -> Float
+    public func barChartRendererChartYMax(renderer: BarChartRenderer) -> Double
     {
         return _chart.chartYMax;
     }
     
-    public func barChartRendererChartYMin(renderer: BarChartRenderer) -> Float
+    public func barChartRendererChartYMin(renderer: BarChartRenderer) -> Double
     {
         return _chart.chartYMin;
     }
     
-    public func barChartRendererChartXMax(renderer: BarChartRenderer) -> Float
+    public func barChartRendererChartXMax(renderer: BarChartRenderer) -> Double
     {
         return _chart.chartXMax;
     }
     
-    public func barChartRendererChartXMin(renderer: BarChartRenderer) -> Float
+    public func barChartRendererChartXMin(renderer: BarChartRenderer) -> Double
     {
         return _chart.chartXMin;
     }
@@ -280,22 +280,22 @@ public class CombinedChartRenderer: ChartDataRendererBase,
         return _chart._defaultValueFormatter;
     }
     
-    public func scatterChartRendererChartYMax(renderer: ScatterChartRenderer) -> Float
+    public func scatterChartRendererChartYMax(renderer: ScatterChartRenderer) -> Double
     {
         return _chart.chartYMax;
     }
     
-    public func scatterChartRendererChartYMin(renderer: ScatterChartRenderer) -> Float
+    public func scatterChartRendererChartYMin(renderer: ScatterChartRenderer) -> Double
     {
         return _chart.chartYMin;
     }
     
-    public func scatterChartRendererChartXMax(renderer: ScatterChartRenderer) -> Float
+    public func scatterChartRendererChartXMax(renderer: ScatterChartRenderer) -> Double
     {
         return _chart.chartXMax;
     }
     
-    public func scatterChartRendererChartXMin(renderer: ScatterChartRenderer) -> Float
+    public func scatterChartRendererChartXMin(renderer: ScatterChartRenderer) -> Double
     {
         return _chart.chartXMin;
     }
@@ -322,22 +322,22 @@ public class CombinedChartRenderer: ChartDataRendererBase,
         return _chart._defaultValueFormatter;
     }
     
-    public func candleStickChartRendererChartYMax(renderer: CandleStickChartRenderer) -> Float
+    public func candleStickChartRendererChartYMax(renderer: CandleStickChartRenderer) -> Double
     {
         return _chart.chartYMax;
     }
     
-    public func candleStickChartRendererChartYMin(renderer: CandleStickChartRenderer) -> Float
+    public func candleStickChartRendererChartYMin(renderer: CandleStickChartRenderer) -> Double
     {
         return _chart.chartYMin;
     }
     
-    public func candleStickChartRendererChartXMax(renderer: CandleStickChartRenderer) -> Float
+    public func candleStickChartRendererChartXMax(renderer: CandleStickChartRenderer) -> Double
     {
         return _chart.chartXMax;
     }
     
-    public func candleStickChartRendererChartXMin(renderer: CandleStickChartRenderer) -> Float
+    public func candleStickChartRendererChartXMin(renderer: CandleStickChartRenderer) -> Double
     {
         return _chart.chartXMin;
     }
@@ -364,22 +364,22 @@ public class CombinedChartRenderer: ChartDataRendererBase,
         return _chart._defaultValueFormatter;
     }
     
-    public func bubbleChartRendererChartYMax(renderer: BubbleChartRenderer) -> Float
+    public func bubbleChartRendererChartYMax(renderer: BubbleChartRenderer) -> Double
     {
         return _chart.chartYMax;
     }
     
-    public func bubbleChartRendererChartYMin(renderer: BubbleChartRenderer) -> Float
+    public func bubbleChartRendererChartYMin(renderer: BubbleChartRenderer) -> Double
     {
         return _chart.chartYMin;
     }
     
-    public func bubbleChartRendererChartXMax(renderer: BubbleChartRenderer) -> Float
+    public func bubbleChartRendererChartXMax(renderer: BubbleChartRenderer) -> Double
     {
         return _chart.chartXMax;
     }
     
-    public func bubbleChartRendererChartXMin(renderer: BubbleChartRenderer) -> Float
+    public func bubbleChartRendererChartXMin(renderer: BubbleChartRenderer) -> Double
     {
         return _chart.chartXMin;
     }

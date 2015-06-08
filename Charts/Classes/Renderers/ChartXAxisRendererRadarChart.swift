@@ -47,11 +47,16 @@ public class ChartXAxisRendererRadarChart: ChartXAxisRenderer
         {
             var text = _xAxis.values[i];
             
+            if (text == nil)
+            {
+                continue;
+            }
+            
             var angle = (sliceangle * CGFloat(i) + _chart.rotationAngle) % 360.0;
             
             var p = ChartUtils.getPosition(center: center, dist: CGFloat(_chart.yRange) * factor + _xAxis.labelWidth / 2.0, angle: angle);
             
-            ChartUtils.drawText(context: context, text: text, point: CGPoint(x: p.x, y: p.y - _xAxis.labelHeight / 2.0), align: .Center, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor]);
+            ChartUtils.drawText(context: context, text: text!, point: CGPoint(x: p.x, y: p.y - _xAxis.labelHeight / 2.0), align: .Center, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor]);
         }
     }
     

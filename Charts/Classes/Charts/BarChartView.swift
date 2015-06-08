@@ -70,7 +70,7 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
         
         var groupSpace = barData.groupSpace;
         _deltaX += CGFloat(maxEntry) * groupSpace;
-        _chartXMax = Float(_deltaX) - _chartXMin;
+        _chartXMax = Double(_deltaX) - _chartXMin;
     }
     
     /// Returns the Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the BarChart.
@@ -165,12 +165,12 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
         }
         else
         {
-            return getStackedHighlight(xIndex: xIndex, dataSetIndex: dataSetIndex, yValue: Float(yPosition));
+            return getStackedHighlight(xIndex: xIndex, dataSetIndex: dataSetIndex, yValue: Double(yPosition));
         }
     }
     
     /// This method creates the Highlight object that also indicates which value of a stacked BarEntry has been selected.
-    internal func getStackedHighlight(#xIndex: Int, dataSetIndex: Int, yValue: Float) -> ChartHighlight!
+    internal func getStackedHighlight(#xIndex: Int, dataSetIndex: Int, yValue: Double) -> ChartHighlight!
     {
         var dataSet = _data.getDataSetByIndex(dataSetIndex);
         var entry = dataSet.entryForXIndex(xIndex) as! BarChartDataEntry!;
@@ -317,22 +317,22 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
         return valueFormatter;
     }
     
-    public func barChartRendererChartYMax(renderer: BarChartRenderer) -> Float
+    public func barChartRendererChartYMax(renderer: BarChartRenderer) -> Double
     {
         return chartYMax;
     }
     
-    public func barChartRendererChartYMin(renderer: BarChartRenderer) -> Float
+    public func barChartRendererChartYMin(renderer: BarChartRenderer) -> Double
     {
         return chartYMin;
     }
     
-    public func barChartRendererChartXMax(renderer: BarChartRenderer) -> Float
+    public func barChartRendererChartXMax(renderer: BarChartRenderer) -> Double
     {
         return chartXMax;
     }
     
-    public func barChartRendererChartXMin(renderer: BarChartRenderer) -> Float
+    public func barChartRendererChartXMin(renderer: BarChartRenderer) -> Double
     {
         return chartXMin;
     }

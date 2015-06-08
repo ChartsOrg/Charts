@@ -105,7 +105,7 @@ public class ChartLegendRenderer: ChartRendererBase
         }
         
         // calculate all dimensions of the legend
-        _legend.calculateDimensions(_legend.font);
+        _legend.calculateDimensions(labelFont: _legend.font, viewPortHandler: viewPortHandler);
     }
     
     public func renderLegend(#context: CGContext)
@@ -118,8 +118,10 @@ public class ChartLegendRenderer: ChartRendererBase
         var labelFont = _legend.font;
         var labelTextColor = _legend.textColor;
         var labelLineHeight = labelFont.lineHeight;
+        var formYOffset = labelLineHeight / 2.0
 
         var labels = _legend.labels;
+        var colors = _legend.colors;
         
         var formSize = _legend.formSize;
         var formToTextSpace = _legend.formToTextSpace;
@@ -132,32 +134,69 @@ public class ChartLegendRenderer: ChartRendererBase
         // space between the entries
         var stackSpace = _legend.stackSpace;
 
-        // the amount of pixels the text needs to be set down to be on the same height as the form
-        var textDrop = (labelFont.lineHeight + formSize) / 2.0;
-        
-        // contains the stacked legend size in pixels
-        var stack = CGFloat(0.0);
-
-        var wasStacked = false;
-
         var yoffset = _legend.yOffset;
         var xoffset = _legend.xOffset;
         
-        switch (_legend.position)
+        var legendPosition = _legend.position;
+        
+        switch (legendPosition)
         {
-        case .BelowChartLeft:
+        case .BelowChartLeft: fallthrough
+        case .BelowChartRight: fallthrough
+        case .BelowChartCenter:
             
-            var posX = viewPortHandler.contentLeft + xoffset;
-            var posY = viewPortHandler.chartHeight - yoffset;
+            var contentWidth: CGFloat = viewPortHandler.contentWidth;
             
-            if (direction == .RightToLeft)
+            var originPosX: CGFloat;
+            
+            if (legendPosition == .BelowChartLeft)
             {
-                posX += _legend.neededWidth;
+                originPosX = viewPortHandler.contentLeft + xoffset;
+                
+                if (direction == .RightToLeft)
+                {
+                    originPosX += _legend.neededWidth;
+                }
             }
+            else if (legendPosition == .BelowChartRight)
+            {
+                originPosX = viewPortHandler.contentRight - xoffset;
+                
+                if (direction == .LeftToRight)
+                {
+                    originPosX -= _legend.neededWidth;
+                }
+            }
+            else // if (legendPosition == .BelowChartCenter)
+            {
+                originPosX = viewPortHandler.contentLeft + contentWidth / 2.0;
+            }
+            
+            var calculatedLineSizes = _legend.calculatedLineSizes;
+            var calculatedLabelSizes = _legend.calculatedLabelSizes;
+            var calculatedLabelBreakPoints = _legend.calculatedLabelBreakPoints;
+            
+            var posX: CGFloat = originPosX;
+            var posY: CGFloat = viewPortHandler.chartHeight - yoffset - _legend.neededHeight;
+            
+            var lineIndex: Int = 0;
             
             for (var i = 0, count = labels.count; i < count; i++)
             {
-                var drawingForm = _legend.colors[i] != nil;
+                if (calculatedLabelBreakPoints[i])
+                {
+                    posX = originPosX;
+                    posY += labelLineHeight;
+                }
+                
+                if (posX == originPosX && legendPosition == .BelowChartCenter)
+                {
+                    posX += (direction == .RightToLeft ? calculatedLineSizes[lineIndex].width : -calculatedLineSizes[lineIndex].width) / 2.0;
+                    lineIndex++;
+                }
+                
+                var drawingForm = colors[i] != nil;
+                var isStacked = labels[i] == nil; // grouped forms have null labels
                 
                 if (drawingForm)
                 {
@@ -166,7 +205,7 @@ public class ChartLegendRenderer: ChartRendererBase
                         posX -= formSize;
                     }
                     
-                    drawForm(context, x: posX, y: posY - _legend.textHeightMax / 2.0, colorIndex: i, legend: _legend);
+                    drawForm(context, x: posX, y: posY + formYOffset, colorIndex: i, legend: _legend);
                     
                     if (direction == .LeftToRight)
                     {
@@ -174,10 +213,8 @@ public class ChartLegendRenderer: ChartRendererBase
                     }
                 }
                 
-                // grouped forms have null labels
-                if (labels[i] != nil)
+                if (!isStacked)
                 {
-                    // spacing between form and label
                     if (drawingForm)
                     {
                         posX += direction == .RightToLeft ? -formToTextSpace : formToTextSpace;
@@ -185,14 +222,14 @@ public class ChartLegendRenderer: ChartRendererBase
                     
                     if (direction == .RightToLeft)
                     {
-                        posX -= (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width;
+                        posX -= calculatedLabelSizes[i].width;
                     }
                     
-                    drawLabel(context, x: posX, y: posY - _legend.textHeightMax, label: labels[i]!, font: labelFont, textColor: labelTextColor);
+                    drawLabel(context, x: posX, y: posY, label: labels[i]!, font: labelFont, textColor: labelTextColor);
                     
                     if (direction == .LeftToRight)
                     {
-                        posX += (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width;
+                        posX += calculatedLabelSizes[i].width;
                     }
                     
                     posX += direction == .RightToLeft ? -xEntrySpace : xEntrySpace;
@@ -204,161 +241,8 @@ public class ChartLegendRenderer: ChartRendererBase
             }
             
             break;
-        case .BelowChartRight:
             
-            var posX = viewPortHandler.contentRight - xoffset;
-            var posY = viewPortHandler.chartHeight - yoffset;
-            
-            for (var i = labels.count - 1; i >= 0; i--)
-            {
-                var drawingForm = _legend.colors[i] != nil;
-                
-                if (direction == .RightToLeft && drawingForm)
-                {
-                    posX -= formSize;
-                    drawForm(context, x: posX, y: posY - _legend.textHeightMax / 2.0, colorIndex: i, legend: _legend);
-                    posX -= formToTextSpace;
-                }
-                
-                if (labels[i] != nil)
-                {
-                    posX -= (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width;
-                    drawLabel(context, x: posX, y: posY - _legend.textHeightMax, label: labels[i]!, font: labelFont, textColor: labelTextColor);
-                }
-                
-                if (direction == .LeftToRight && drawingForm)
-                {
-                    posX -= formToTextSpace + formSize;
-                    drawForm(context, x: posX, y: posY - _legend.textHeightMax / 2.0, colorIndex: i, legend: _legend);
-                }
-                
-                posX -= labels[i] != nil ? xEntrySpace : stackSpace;
-            }
-            
-            break;
-        case .BelowChartCenter:
-            
-            var posX = viewPortHandler.chartWidth / 2.0 + (direction == .LeftToRight ? -_legend.neededWidth / 2.0 : _legend.neededWidth / 2.0);
-            var posY = viewPortHandler.chartHeight - yoffset;
-            
-            for (var i = 0; i < labels.count; i++)
-            {
-                var drawingForm = _legend.colors[i] != nil;
-                
-                if (drawingForm)
-                {
-                    if (direction == .RightToLeft)
-                    {
-                        posX -= formSize;
-                    }
-                    
-                    drawForm(context, x: posX, y: posY - _legend.textHeightMax / 2.0, colorIndex: i, legend: _legend);
-                    
-                    if (direction == .LeftToRight)
-                    {
-                        posX += formSize;
-                    }
-                }
-                
-                // grouped forms have null labels
-                if (labels[i] != nil)
-                {
-                    // spacing between form and label
-                    if (drawingForm)
-                    {
-                        posX += direction == .RightToLeft ? -formToTextSpace : formToTextSpace;
-                    }
-                    
-                    if (direction == .RightToLeft)
-                    {
-                        posX -= (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width;
-                    }
-                    
-                    drawLabel(context, x: posX, y: posY - _legend.textHeightMax, label: labels[i]!, font: labelFont, textColor: labelTextColor);
-                    
-                    if (direction == .LeftToRight)
-                    {
-                        posX += (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width;
-                    }
-                    
-                    posX += direction == .RightToLeft ? -xEntrySpace : xEntrySpace;
-                }
-                else
-                {
-                    posX += direction == .RightToLeft ? -stackSpace : stackSpace;
-                }
-            }
-            
-            break;
-        case .PiechartCenter:
-            
-            var posX = viewPortHandler.chartWidth / 2.0 + (direction == .LeftToRight ? -_legend.textWidthMax / 2.0 : _legend.textWidthMax / 2.0);
-            var posY = viewPortHandler.chartHeight / 2.0 - _legend.neededHeight / 2.0 + _legend.yOffset;
-            
-            for (var i = 0; i < labels.count; i++)
-            {
-                var drawingForm = _legend.colors[i] != nil;
-                var x = posX;
-                
-                if (drawingForm)
-                {
-                    if (direction == .LeftToRight)
-                    {
-                        x += stack;
-                    }
-                    else
-                    {
-                        x -= formSize - stack;
-                    }
-                    
-                    drawForm(context, x: x, y: posY, colorIndex: i, legend: _legend);
-                    
-                    if (direction == .LeftToRight)
-                    {
-                        x += formSize;
-                    }
-                }
-                
-                if (labels[i] != nil)
-                {
-                    if (drawingForm && !wasStacked)
-                    {
-                        x += direction == .LeftToRight ? formToTextSpace : -formToTextSpace;
-                    }
-                    else if (wasStacked)
-                    {
-                        x = posX;
-                    }
-                    
-                    if (direction == .RightToLeft)
-                    {
-                        x -= (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width;
-                    }
-                    
-                    if (!wasStacked)
-                    {
-                        drawLabel(context, x: x, y: posY - _legend.textHeightMax / 2.0, label: labels[i]!, font: labelFont, textColor: labelTextColor);
-                        
-                        posY += textDrop;
-                    }
-                    else
-                    {
-                        posY += _legend.textHeightMax * 3.0;
-                        drawLabel(context, x: x, y: posY - _legend.textHeightMax * 2.0, label: labels[i]!, font: labelFont, textColor: labelTextColor);
-                    }
-                    
-                    // make a step down
-                    posY += _legend.yEntrySpace;
-                    stack = 0.0;
-                }
-                else
-                {
-                    stack += formSize + stackSpace;
-                    wasStacked = true;
-                }
-            }
-            
-            break;
+        case .PiechartCenter: fallthrough
         case .RightOfChart: fallthrough
         case .RightOfChartCenter: fallthrough
         case .RightOfChartInside: fallthrough
@@ -366,48 +250,59 @@ public class ChartLegendRenderer: ChartRendererBase
         case .LeftOfChartCenter: fallthrough
         case .LeftOfChartInside:
             
-            var isRightAligned = _legend.position == .RightOfChart ||
-                _legend.position == .RightOfChartCenter ||
-                _legend.position == .RightOfChartInside;
-            
+            // contains the stacked legend size in pixels
+            var stack = CGFloat(0.0);
+            var wasStacked = false;
             var posX: CGFloat = 0.0, posY: CGFloat = 0.0;
             
-            if (isRightAligned)
+            if (legendPosition == .PiechartCenter)
             {
-                posX = viewPortHandler.chartWidth - xoffset;
-                if (direction == .LeftToRight)
-                {
-                    posX -= _legend.textWidthMax;
-                }
+                posX = viewPortHandler.chartWidth / 2.0 + (direction == .LeftToRight ? -_legend.textWidthMax / 2.0 : _legend.textWidthMax / 2.0);
+                posY = viewPortHandler.chartHeight / 2.0 - _legend.neededHeight / 2.0 + _legend.yOffset;
             }
             else
             {
-                posX = xoffset;
-                if (direction == .RightToLeft)
+                var isRightAligned = legendPosition == .RightOfChart ||
+                    legendPosition == .RightOfChartCenter ||
+                    legendPosition == .RightOfChartInside;
+                
+                if (isRightAligned)
                 {
-                    posX += _legend.textWidthMax;
+                    posX = viewPortHandler.chartWidth - xoffset;
+                    if (direction == .LeftToRight)
+                    {
+                        posX -= _legend.textWidthMax;
+                    }
                 }
-            }
-            
-            if (_legend.position == .RightOfChart ||
-                _legend.position == .LeftOfChart)
-            {
-                posY = viewPortHandler.contentTop + yoffset
-            }
-            else if (_legend.position == .RightOfChartCenter ||
-                _legend.position == .LeftOfChartCenter)
-            {
-                posY = viewPortHandler.chartHeight / 2.0 - _legend.neededHeight / 2.0;
-            }
-            else /*if (legend.position == .RightOfChartInside ||
-                legend.position == .LeftOfChartInside)*/
-            {
-                posY = viewPortHandler.contentTop + yoffset;
+                else
+                {
+                    posX = xoffset;
+                    if (direction == .RightToLeft)
+                    {
+                        posX += _legend.textWidthMax;
+                    }
+                }
+                
+                if (legendPosition == .RightOfChart ||
+                    legendPosition == .LeftOfChart)
+                {
+                    posY = viewPortHandler.contentTop + yoffset
+                }
+                else if (legendPosition == .RightOfChartCenter ||
+                    legendPosition == .LeftOfChartCenter)
+                {
+                    posY = viewPortHandler.chartHeight / 2.0 - _legend.neededHeight / 2.0;
+                }
+                else /*if (legend.position == .RightOfChartInside ||
+                    legend.position == .LeftOfChartInside)*/
+                {
+                    posY = viewPortHandler.contentTop + yoffset;
+                }
             }
             
             for (var i = 0; i < labels.count; i++)
             {
-                var drawingForm = _legend.colors[i] != nil;
+                var drawingForm = colors[i] != nil;
                 var x = posX;
                 
                 if (drawingForm)
@@ -421,7 +316,7 @@ public class ChartLegendRenderer: ChartRendererBase
                         x -= formSize - stack;
                     }
                     
-                    drawForm(context, x: x, y: posY, colorIndex: i, legend: _legend);
+                    drawForm(context, x: x, y: posY + formYOffset, colorIndex: i, legend: _legend);
                     
                     if (direction == .LeftToRight)
                     {
@@ -447,18 +342,16 @@ public class ChartLegendRenderer: ChartRendererBase
                     
                     if (!wasStacked)
                     {
-                        drawLabel(context, x: x, y: posY - _legend.textHeightMax / 2.0, label: labels[i]!, font: labelFont, textColor: labelTextColor);
-                        
-                        posY += textDrop;
+                        drawLabel(context, x: x, y: posY, label: labels[i]!, font: labelFont, textColor: labelTextColor);
                     }
                     else
                     {
-                        posY += _legend.textHeightMax * 3.0;
-                        drawLabel(context, x: x, y: posY - _legend.textHeightMax * 2.0, label: labels[i]!, font: labelFont, textColor: labelTextColor);
+                        posY += labelLineHeight;
+                        drawLabel(context, x: x, y: posY, label: labels[i]!, font: labelFont, textColor: labelTextColor);
                     }
                     
                     // make a step down
-                    posY += _legend.yEntrySpace;
+                    posY += labelLineHeight;
                     stack = 0.0;
                 }
                 else
