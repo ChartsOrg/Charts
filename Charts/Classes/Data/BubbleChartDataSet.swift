@@ -10,7 +10,8 @@
 //
 
 import Foundation
-import CoreGraphics;
+import CoreGraphics
+import UIKit.UIColor
 
 public class BubbleChartDataSet: BarLineScatterCandleChartDataSet
 {
