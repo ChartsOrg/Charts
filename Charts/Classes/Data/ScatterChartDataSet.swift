@@ -29,6 +29,7 @@ public class ScatterChartDataSet: BarLineScatterCandleChartDataSet
     public var scatterShapeSize = CGFloat(15.0)
     public var scatterShape = ScatterShape.Square
     public var customScatterShape: CGPath?
+    public var valueIsIndex = false;
 
     // MARK: NSCopying
     
