@@ -131,6 +131,8 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
     
     public override func renderLimitLines(#context: CGContext)
     {
+        CGContextSaveGState(context);
+        
         var limitLines = _yAxis.limitLines;
         
         if (limitLines.count == 0)
@@ -182,5 +184,6 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
             
             CGContextStrokePath(context);
         }
+        CGContextRestoreGState(context);
     }
 }
