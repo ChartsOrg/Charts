@@ -87,12 +87,7 @@ public class ScatterChartRenderer: ChartDataRendererBase
             point.x = CGFloat(e.xIndex);
             point.y = CGFloat(e.value) * phaseY;
             point = CGPointApplyAffineTransform(point, valueToPixelMatrix);            
-            
-            if (!viewPortHandler.isInBoundsRight(point.x))
-            {
-                break;
-            }
-            
+
             if (!viewPortHandler.isInBoundsLeft(point.x) || !viewPortHandler.isInBoundsY(point.y))
             {
                 continue;
@@ -214,11 +209,6 @@ public class ScatterChartRenderer: ChartDataRendererBase
                 
                 for (var j = 0, count = Int(ceil(CGFloat(positions.count) * _animator.phaseX)); j < count; j++)
                 {
-                    if (!viewPortHandler.isInBoundsRight(positions[j].x))
-                    {
-                        break;
-                    }
-                    
                     // make sure the lines don't do shitty things outside bounds
                     if ((!viewPortHandler.isInBoundsLeft(positions[j].x)
                         || !viewPortHandler.isInBoundsY(positions[j].y)))
