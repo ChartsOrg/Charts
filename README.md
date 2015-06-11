@@ -24,7 +24,10 @@ In order to correctly compile:
    - Under "Build Options", mark "Embedded Content Contains Swift Code"
 
 
-If you want to compile for iOS 7, then you just need to drag the code itself (.swift files) to your project. As sadly, Swift currently does not support compiling Frameworks for iOS 7.
+If you want to compile for iOS 7:
+
+1. Drag the code itself (.swift files) to your project. As sadly, Swift currently does not support compiling Frameworks for iOS 7.
+2. Make sure that the files are added to the Target membership.
 
 ## Help
 
