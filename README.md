@@ -25,6 +25,7 @@ In order to correctly compile:
 
 
 If you want to compile for iOS 7:
+
 1. Drag the code itself (.swift files) to your project. As sadly, Swift currently does not support compiling Frameworks for iOS 7.
 2. Make sure that the files are added to the Target membership.
 
