@@ -397,12 +397,16 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         else
         {
             // set the indices to highlight
-            _indicesToHightlight = [h!];
             entry = _data.getEntryForHighlight(h!);
             if (entry === nil || entry!.xIndex != h?.xIndex)
             {
                 h = nil;
                 entry = nil;
+                _indicesToHightlight.removeAll(keepCapacity: false);
+            }
+            else
+            {
+                _indicesToHightlight = [h!];
             }
         }
 
@@ -443,7 +447,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             if (xIndex <= Int(_deltaX) && xIndex <= Int(_deltaX * _animator.phaseX))
             {
                 let e = _data.getEntryForHighlight(highlight);
-                if (e === nil)
+                if (e === nil || e!.xIndex != highlight.xIndex)
                 {
                     continue;
                 }
