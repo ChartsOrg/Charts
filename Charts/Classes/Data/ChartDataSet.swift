@@ -138,7 +138,7 @@ public class ChartDataSet: NSObject
     {
         let e = self.entryForXIndex(x);
         
-        if (e !== nil) { return e!.value }
+        if (e !== nil && e!.xIndex == x) { return e!.value }
         else { return Double.NaN }
     }
     
