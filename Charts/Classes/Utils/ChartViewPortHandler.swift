@@ -186,11 +186,10 @@ public class ChartViewPortHandler: NSObject
     /// Centers the viewport around the specified position (x-index and y-value) in the chart.
     public func centerViewPort(#pt: CGPoint, chart: ChartViewBase)
     {
-        var matrix = CGAffineTransformTranslate(
-            _touchMatrix,
-            -(pt.x - offsetLeft),
-            -(pt.y - offsetTop)
-        );
+        let translateX = pt.x - offsetLeft;
+        let translateY = pt.y - offsetTop;
+        
+        var matrix = CGAffineTransformConcat(_touchMatrix, CGAffineTransformMakeTranslation(-translateX, -translateY));
         
         refresh(newMatrix: matrix, chart: chart, invalidate: false);
     }
