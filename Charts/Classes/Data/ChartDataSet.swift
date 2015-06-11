@@ -138,14 +138,14 @@ public class ChartDataSet: NSObject
     {
         let e = self.entryForXIndex(x);
         
-        if (e !== nil) { return e.value }
+        if (e !== nil) { return e!.value }
         else { return Double.NaN }
     }
     
     /// Returns the first Entry object found at the given xIndex with binary search. 
     /// If the no Entry at the specifed x-index is found, this method returns the Entry at the closest x-index. 
     /// Returns nil if no Entry object at that index.
-    public func entryForXIndex(x: Int) -> ChartDataEntry!
+    public func entryForXIndex(x: Int) -> ChartDataEntry?
     {
         var index = self.entryIndex(xIndex: x);
         if (index > -1)

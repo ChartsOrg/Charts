@@ -73,8 +73,8 @@ public class CandleStickChartRenderer: ChartDataRendererBase
         var entryFrom = dataSet.entryForXIndex(_minX);
         var entryTo = dataSet.entryForXIndex(_maxX);
         
-        var minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true), 0);
-        var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count);
+        var minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0);
+        var maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count);
         
         CGContextSaveGState(context);
         
@@ -197,8 +197,8 @@ public class CandleStickChartRenderer: ChartDataRendererBase
                 var entryFrom = dataSet.entryForXIndex(_minX);
                 var entryTo = dataSet.entryForXIndex(_maxX);
                 
-                var minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true), 0);
-                var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count);
+                var minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0);
+                var maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count);
                 
                 var positions = trans.generateTransformedValuesCandle(entries, phaseY: _animator.phaseY);
                 
@@ -255,7 +255,7 @@ public class CandleStickChartRenderer: ChartDataRendererBase
             
             var e = set.entryForXIndex(xIndex) as! CandleChartDataEntry!;
             
-            if (e === nil)
+            if (e === nil || e.xIndex != xIndex)
             {
                 continue;
             }

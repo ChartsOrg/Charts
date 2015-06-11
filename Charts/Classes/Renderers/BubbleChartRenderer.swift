@@ -77,8 +77,8 @@ public class BubbleChartRenderer: ChartDataRendererBase
         var entryFrom = dataSet.entryForXIndex(_minX);
         var entryTo = dataSet.entryForXIndex(_maxX);
         
-        var minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true), 0);
-        var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count);
+        var minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0);
+        var maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count);
         
         _sizeBuffer[0].x = 0.0;
         _sizeBuffer[0].y = 0.0;
@@ -170,8 +170,8 @@ public class BubbleChartRenderer: ChartDataRendererBase
                 var entryFrom = dataSet.entryForXIndex(_minX);
                 var entryTo = dataSet.entryForXIndex(_maxX);
                 
-                var minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true), 0);
-                var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count);
+                var minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0);
+                var maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count);
                 
                 let positions = delegate!.bubbleChartRenderer(self, transformerForAxis: dataSet.axisDependency).generateTransformedValuesBubble(entries, phaseX: phaseX, phaseY: phaseY, from: minx, to: maxx);
                 
@@ -223,16 +223,20 @@ public class BubbleChartRenderer: ChartDataRendererBase
             
             if (dataSet === nil || !dataSet.highlightEnabled)
             {
-                continue
+                continue;
             }
             
             var entryFrom = dataSet.entryForXIndex(_minX);
             var entryTo = dataSet.entryForXIndex(_maxX);
             
-            var minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true), 0);
-            var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, dataSet.entryCount);
+            var minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0);
+            var maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, dataSet.entryCount);
             
-            let entry = bubbleData.getEntryForHighlight(indice) as! BubbleChartDataEntry
+            let entry: BubbleChartDataEntry! = bubbleData.getEntryForHighlight(indice) as! BubbleChartDataEntry;
+            if (entry === nil || entry.xIndex != indice.xIndex)
+            {
+                continue;
+            }
             
             let trans = delegate!.bubbleChartRenderer(self, transformerForAxis: dataSet.axisDependency);
             

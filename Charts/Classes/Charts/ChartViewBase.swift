@@ -387,14 +387,23 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     /// Highlights the value selected by touch gesture.
     public func highlightValue(#highlight: ChartHighlight?, callDelegate: Bool)
     {
-        if (highlight == nil)
+        var entry: ChartDataEntry?;
+        var h = highlight;
+        
+        if (h == nil)
         {
             _indicesToHightlight.removeAll(keepCapacity: false);
         }
         else
         {
             // set the indices to highlight
-            _indicesToHightlight = [highlight!];
+            _indicesToHightlight = [h!];
+            entry = _data.getEntryForHighlight(h!);
+            if (entry === nil || entry!.xIndex != h?.xIndex)
+            {
+                h = nil;
+                entry = nil;
+            }
         }
 
         // redraw the chart
@@ -402,16 +411,14 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         
         if (callDelegate && delegate != nil)
         {
-            if (highlight == nil)
+            if (h == nil)
             {
                 delegate!.chartValueNothingSelected!(self);
             }
             else
             {
-                var e = _data.getEntryForHighlight(highlight!);
-
                 // notify the listener
-                delegate!.chartValueSelected!(self, entry: e, dataSetIndex: highlight!.dataSetIndex, highlight: highlight!);
+                delegate!.chartValueSelected!(self, entry: entry!, dataSetIndex: h!.dataSetIndex, highlight: h!);
             }
         }
     }
@@ -436,8 +443,12 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             if (xIndex <= Int(_deltaX) && xIndex <= Int(_deltaX * _animator.phaseX))
             {
                 let e = _data.getEntryForHighlight(highlight);
-
-                var pos = getMarkerPosition(entry: e, dataSetIndex: dataSetIndex);
+                if (e === nil)
+                {
+                    continue;
+                }
+                
+                var pos = getMarkerPosition(entry: e!, dataSetIndex: dataSetIndex);
 
                 // check bounds
                 if (!_viewPortHandler.isInBounds(x: pos.x, y: pos.y))
@@ -446,7 +457,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
                 }
 
                 // callbacks to update the content
-                marker!.refreshContent(entry: e, dataSetIndex: dataSetIndex);
+                marker!.refreshContent(entry: e!, dataSetIndex: dataSetIndex);
 
                 let markerSize = marker!.size;
                 if (pos.y - markerSize.height <= 0.0)
@@ -709,10 +720,10 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         for (var i = 0, count = _data.dataSetCount; i < count; i++)
         {
             var set = _data.getDataSetByIndex(i);
-            var e = set!.entryForXIndex(xIndex);
+            var e = set.entryForXIndex(xIndex);
             if (e !== nil)
             {
-                vals.append(e);
+                vals.append(e!);
             }
         }
         

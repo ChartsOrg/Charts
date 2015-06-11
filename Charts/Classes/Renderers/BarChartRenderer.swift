@@ -468,9 +468,9 @@ public class BarChartRenderer: ChartDataRendererBase
             if (index < barData.yValCount && index >= 0
                 && CGFloat(index) < (CGFloat(delegate!.barChartRendererChartXMax(self)) * _animator.phaseX) / CGFloat(setCount))
             {
-                var e = barData.getDataSetByIndex(dataSetIndex)!.entryForXIndex(index) as! BarChartDataEntry!;
+                var e = set.entryForXIndex(index) as! BarChartDataEntry!;
                 
-                if (e === nil)
+                if (e === nil || e.xIndex != index)
                 {
                     continue;
                 }
