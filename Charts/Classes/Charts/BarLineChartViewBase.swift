@@ -575,7 +575,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
                     location.y = -(self.bounds.size.height - location.y - _viewPortHandler.offsetBottom);
                 }
                 
-                self.zoom(1.4, scaleY: 1.4, x: location.x, y: location.y);
+                self.zoom(isScaleXEnabled ? 1.4 : 1.0, scaleY: isScaleYEnabled ? 1.4 : 1.0, x: location.x, y: location.y);
             }
         }
     }
