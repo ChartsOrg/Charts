@@ -136,7 +136,8 @@ Or you can see the [**ChartsDemo**](https://github.com/danielgindi/ios-charts/tr
 Special Thanks
 =======
 
-Goes to @petester42 (Pierre-Marc Airoldi) for implementing a Bubble chart!  
+Goes to @petester42 (Pierre-Marc Airoldi) for implementing a Bubble chart!
+To @AlBirdie for his contributions and his involvement in our small community!
 And of course thanks to all of those contibuting small fixes here and there! You are all appreciated!
 
 License
