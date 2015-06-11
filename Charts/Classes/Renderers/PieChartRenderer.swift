@@ -12,9 +12,8 @@
 //
 
 import Foundation
-import CoreGraphics.CGBase
-import UIKit.UIColor
-import UIKit.UIFont
+import CoreGraphics
+import UIKit
 
 public class PieChartRenderer: ChartDataRendererBase
 {

@@ -12,8 +12,8 @@
 //
 
 import Foundation
-import CoreGraphics.CGBase
-import UIKit.UIColor
+import CoreGraphics
+import UIKit
 
 @objc
 public protocol CandleStickChartRendererDelegate

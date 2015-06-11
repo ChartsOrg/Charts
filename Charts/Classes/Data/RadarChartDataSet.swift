@@ -13,7 +13,7 @@
 //
 
 import Foundation
-import UIKit.UIFont
+import UIKit
 
 public class RadarChartDataSet: LineRadarChartDataSet
 {

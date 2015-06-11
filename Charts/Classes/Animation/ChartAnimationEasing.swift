@@ -13,7 +13,7 @@
 //
 
 import Foundation
-import CoreGraphics.CGBase
+import CoreGraphics
 
 @objc
 public enum ChartEasingOption: Int

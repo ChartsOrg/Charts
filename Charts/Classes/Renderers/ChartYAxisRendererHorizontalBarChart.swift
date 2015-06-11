@@ -12,8 +12,8 @@
 //
 
 import Foundation
-import CoreGraphics.CGBase
-import UIKit.UIFont
+import CoreGraphics
+import UIKit
 
 public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
 {

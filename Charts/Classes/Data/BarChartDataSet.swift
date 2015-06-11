@@ -12,8 +12,8 @@
 //
 
 import Foundation
-import CoreGraphics.CGBase
-import UIKit.UIColor
+import CoreGraphics
+import UIKit
 
 public class BarChartDataSet: BarLineScatterCandleChartDataSet
 {
