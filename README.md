@@ -18,8 +18,9 @@ In order to correctly compile:
 
 1. Drag the `Charts.xcodeproj` to your project  
 2. Go to your target's settings, hit the "+" under the "Embedded Binaries" section, and select the Charts.framework  
-3. `@import Charts`  
-4.  When using Swift in an ObjC project:
+3. Temporary fix: Xcode 6.3.1 has a bug, where you have to build your project once before actually writing the `@import` line. So hit "Build" now!  
+4. `@import Charts`  
+5.  When using Swift in an ObjC project:
    - You need to import your Bridging Header. Usually it is "*YourProject-Swift.h*", so in ChartsDemo it's "*ChartsDemo-Swift.h*". Do not try to actually include "*ChartsDemo-Swift.h*" in your project :-)
    - Under "Build Options", mark "Embedded Content Contains Swift Code"
 
