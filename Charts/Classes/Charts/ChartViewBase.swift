@@ -417,12 +417,12 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         {
             if (h == nil)
             {
-                delegate!.chartValueNothingSelected!(self);
+                delegate!.chartValueNothingSelected?(self);
             }
             else
             {
                 // notify the listener
-                delegate!.chartValueSelected!(self, entry: entry!, dataSetIndex: h!.dataSetIndex, highlight: h!);
+                delegate!.chartValueSelected?(self, entry: entry!, dataSetIndex: h!.dataSetIndex, highlight: h!);
             }
         }
     }
