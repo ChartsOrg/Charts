@@ -433,7 +433,7 @@ public class ChartData: NSObject
     ///
     /// :param: highlight
     /// :returns: the entry that is highlighted
-    public func getEntryForHighlight(highlight: ChartHighlight) -> ChartDataEntry
+    public func getEntryForHighlight(highlight: ChartHighlight) -> ChartDataEntry?
     {
         return _dataSets[highlight.dataSetIndex].entryForXIndex(highlight.xIndex);
     }

@@ -12,7 +12,7 @@
 //
 
 import Foundation
-import CoreGraphics.CGBase
+import CoreGraphics
 
 /// Financial chart type that draws candle-sticks.
 public class CandleStickChartView: BarLineChartViewBase, CandleStickChartRendererDelegate

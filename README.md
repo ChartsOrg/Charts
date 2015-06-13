@@ -1,4 +1,4 @@
-**Version 2.1.0**, synced to [MPAndroidChart #f32cfd0](https://github.com/PhilJay/MPAndroidChart/commit/f32cfd0)
+**Version 2.1.0**, synced to [MPAndroidChart #425cb61](https://github.com/PhilJay/MPAndroidChart/commit/425cb61)
 
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
 
@@ -18,13 +18,17 @@ In order to correctly compile:
 
 1. Drag the `Charts.xcodeproj` to your project  
 2. Go to your target's settings, hit the "+" under the "Embedded Binaries" section, and select the Charts.framework  
-3. `@import Charts`  
-4.  When using Swift in an ObjC project:
+3. **Temporary workaround**: Xcode 6.3.1 has a bug, where you have to build your project once before actually writing the `@import` line. So hit "Build" now!  
+4. `@import Charts`  
+5.  When using Swift in an ObjC project:
    - You need to import your Bridging Header. Usually it is "*YourProject-Swift.h*", so in ChartsDemo it's "*ChartsDemo-Swift.h*". Do not try to actually include "*ChartsDemo-Swift.h*" in your project :-)
    - Under "Build Options", mark "Embedded Content Contains Swift Code"
 
 
-If you want to compile for iOS 7, then you just need to drag the code itself (.swift files) to your project. As sadly, Swift currently does not support compiling Frameworks for iOS 7.
+If you want to compile for iOS 7:
+
+1. Drag the code itself (.swift files) to your project. As sadly, Swift currently does not support compiling Frameworks for iOS 7.
+2. Make sure that the files are added to the Target membership.
 
 ## Help
 
@@ -132,8 +136,9 @@ Or you can see the [**ChartsDemo**](https://github.com/danielgindi/ios-charts/tr
 Special Thanks
 =======
 
-Goes to @petester42 (Pierre-Marc Airoldi) for implementing a Bubble chart!  
-And of course thanks to all of those contibuting small fixes here and there! You are all appreciated!
+Goes to [@petester42](https://github.com/petester42) (Pierre-Marc Airoldi) for implementing a Bubble chart!  
+To [@AlBirdie](https://github.com/AlBirdie) for his contributions and his involvement in our small community!  
+And of course thanks to all of those contibuting small fixes here and there! You are all appreciated!  
 
 License
 =======

@@ -12,8 +12,8 @@
 //
 
 import Foundation
-import CoreGraphics.CGBase
-import UIKit.UIFont
+import CoreGraphics
+import UIKit
 
 @objc
 public protocol ScatterChartRendererDelegate
@@ -273,7 +273,13 @@ public class ScatterChartRenderer: ChartDataRendererBase
                 continue;
             }
             
-            var y = CGFloat(set.yValForXIndex(xIndex)) * _animator.phaseY; // get the y-position
+            let yValue = set.yValForXIndex(xIndex);
+            if (isnan(yValue))
+            {
+                continue;
+            }
+            
+            var y = CGFloat(yValue) * _animator.phaseY; // get the y-position
             
             pts[0] = CGPoint(x: CGFloat(xIndex), y: CGFloat(chartYMax));
             pts[1] = CGPoint(x: CGFloat(xIndex), y: CGFloat(chartYMin));

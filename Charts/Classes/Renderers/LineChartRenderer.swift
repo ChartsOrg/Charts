@@ -12,8 +12,8 @@
 //
 
 import Foundation
-import CoreGraphics.CGBase
-import UIKit.UIFont
+import CoreGraphics
+import UIKit
 
 @objc
 public protocol LineChartRendererDelegate
@@ -120,8 +120,8 @@ public class LineChartRenderer: ChartDataRendererBase
         var entryFrom = dataSet.entryForXIndex(_minX);
         var entryTo = dataSet.entryForXIndex(_maxX);
         
-        var minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true), 0);
-        var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count);
+        var minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0);
+        var maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count);
         
         var phaseX = _animator.phaseX;
         var phaseY = _animator.phaseY;
@@ -264,8 +264,8 @@ public class LineChartRenderer: ChartDataRendererBase
         var entryFrom = dataSet.entryForXIndex(_minX);
         var entryTo = dataSet.entryForXIndex(_maxX);
         
-        var minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true), 0);
-        var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count);
+        var minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0);
+        var maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count);
         
         // more than 1 color
         if (dataSet.colors.count > 1)
@@ -456,8 +456,8 @@ public class LineChartRenderer: ChartDataRendererBase
                 var entryFrom = dataSet.entryForXIndex(_minX);
                 var entryTo = dataSet.entryForXIndex(_maxX);
                 
-                var minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true), 0);
-                var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count);
+                var minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0);
+                var maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count);
                 
                 var positions = trans.generateTransformedValuesLine(
                     entries,
@@ -525,8 +525,8 @@ public class LineChartRenderer: ChartDataRendererBase
             var circleHoleRadius = circleHoleDiameter / 2.0;
             var isDrawCircleHoleEnabled = dataSet.isDrawCircleHoleEnabled;
             
-            var entryFrom = dataSet.entryForXIndex(_minX);
-            var entryTo = dataSet.entryForXIndex(_maxX);
+            var entryFrom = dataSet.entryForXIndex(_minX)!;
+            var entryTo = dataSet.entryForXIndex(_maxX)!;
             
             var minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true), 0);
             var maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count);
@@ -611,7 +611,13 @@ public class LineChartRenderer: ChartDataRendererBase
                 continue;
             }
             
-            var y = CGFloat(set.yValForXIndex(xIndex)) * _animator.phaseY; // get the y-position
+            let yValue = set.yValForXIndex(xIndex);
+            if (isnan(yValue))
+            {
+                continue;
+            }
+            
+            var y = CGFloat(yValue) * _animator.phaseY; // get the y-position
             
             _highlightPtsBuffer[0] = CGPoint(x: CGFloat(xIndex), y: CGFloat(chartYMax));
             _highlightPtsBuffer[1] = CGPoint(x: CGFloat(xIndex), y: CGFloat(chartYMin));

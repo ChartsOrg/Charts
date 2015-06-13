@@ -12,8 +12,8 @@
 //
 
 import Foundation
-import CoreGraphics.CGBase
-import UIKit.UIFont
+import CoreGraphics
+import UIKit
 
 public class RadarChartRenderer: ChartDataRendererBase
 {
@@ -262,8 +262,13 @@ public class RadarChartRenderer: ChartDataRendererBase
             var xIndex = indices[i].xIndex;
             
             var e = set.entryForXIndex(xIndex);
-            var j = set.entryIndex(entry: e, isEqual: true);
-            var y = (e.value - _chart.chartYMin);
+            if (e === nil || e!.xIndex != xIndex)
+            {
+                continue;
+            }
+            
+            var j = set.entryIndex(entry: e!, isEqual: true);
+            var y = (e!.value - _chart.chartYMin);
 
             var p = ChartUtils.getPosition(center: center, dist: CGFloat(y) * factor,
                 angle: sliceangle * CGFloat(j) + _chart.rotationAngle);

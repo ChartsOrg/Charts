@@ -12,7 +12,7 @@
 //
 
 import Foundation
-import CoreGraphics.CGBase
+import CoreGraphics
 
 /// Transformer class that contains all matrices and is responsible for transforming values into pixels on the screen and backwards.
 public class ChartTransformer: NSObject

@@ -12,8 +12,8 @@
 //
 
 import Foundation
-import CoreGraphics.CGBase
-import UIKit.UIFont
+import CoreGraphics
+import UIKit
 
 public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
 {
@@ -138,6 +138,8 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
             return;
         }
         
+        CGContextSaveGState(context);
+        
         var sliceangle = _chart.sliceAngle;
         
         // calculate the factor that is needed for transforming the value to pixels
@@ -182,5 +184,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
             
             CGContextStrokePath(context);
         }
+        
+        CGContextRestoreGState(context);
     }
 }
