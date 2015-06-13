@@ -216,14 +216,10 @@ public class ScatterChartRenderer: ChartDataRendererBase
                         continue;
                     }
                     
-                    var val = 0.0;
+                    var val = entries[j].value;
                     if ( dataSet.valueIsIndex )
                     {
                         val = (Double)(j);
-                    }
-                    else
-                    {
-                        val = entries[j].value;
                     }
                     
                     var text = formatter!.stringFromNumber(val);
