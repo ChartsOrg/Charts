@@ -56,7 +56,7 @@
     chart.dragEnabled = YES;
     [chart setScaleEnabled:YES];
     chart.pinchZoomEnabled = NO;
-    [chart setViewPortOffsetsWithLeft:10.f top:0.f right:10.f bottom:0.f];
+    [chart setViewPortOffsetsWithLeft:10.0 top:0.0 right:10.0 bottom:0.0];
     
     chart.legend.enabled = NO;
     
@@ -75,7 +75,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (LineChartData *)dataWithCount:(int)count range:(float)range
+- (LineChartData *)dataWithCount:(int)count range:(double)range
 {
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
     
@@ -88,14 +88,14 @@
     
     for (int i = 0; i < count; i++)
     {
-        float val = (float) (arc4random_uniform(range)) + 3;
+        double val = (double) (arc4random_uniform(range)) + 3;
         [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
     
     LineChartDataSet *set1 = [[LineChartDataSet alloc] initWithYVals:yVals label:@"DataSet 1"];
     
-    set1.lineWidth = 1.75f;
-    set1.circleRadius = 3.f;
+    set1.lineWidth = 1.75;
+    set1.circleRadius = 3.0;
     [set1 setColor:UIColor.whiteColor];
     [set1 setCircleColor:UIColor.whiteColor];
     set1.highlightColor = UIColor.whiteColor;

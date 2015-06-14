@@ -74,11 +74,8 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     /// the number of x-values the chart displays
     internal var _deltaX = CGFloat(1.0)
     
-    internal var _chartXMin = Float(0.0)
-    internal var _chartXMax = Float(0.0)
-    
-    /// if true, value highlightning is enabled
-    public var highlightEnabled = true
+    internal var _chartXMin = Double(0.0)
+    internal var _chartXMax = Double(0.0)
     
     /// the legend object containing all data associated with the legend
     internal var _legend: ChartLegend!;
@@ -129,6 +126,14 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     /// An extra offset to be appended to the viewport's left
     public var extraLeftOffset: CGFloat = 0.0
     
+    public func setExtraOffsets(#left: CGFloat, top: CGFloat, right: CGFloat, bottom: CGFloat)
+    {
+        extraLeftOffset = left;
+        extraTopOffset = top;
+        extraRightOffset = right;
+        extraBottomOffset = bottom;
+    }
+    
     // MARK: - Initializers
     
     public override init(frame: CGRect)
@@ -161,6 +166,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         _legend = ChartLegend();
         _legendRenderer = ChartLegendRenderer(viewPortHandler: _viewPortHandler, legend: _legend);
         
+        _defaultValueFormatter.minimumIntegerDigits = 1;
         _defaultValueFormatter.maximumFractionDigits = 1;
         _defaultValueFormatter.minimumFractionDigits = 1;
         _defaultValueFormatter.usesGroupingSeparator = true;
@@ -257,10 +263,10 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     }
     
     /// calculates the required number of digits for the values that might be drawn in the chart (if enabled), and creates the default value formatter
-    internal func calculateFormatter(#min: Float, max: Float)
+    internal func calculateFormatter(#min: Double, max: Double)
     {
         // check if a custom formatter is set or not
-        var reference = Float(0.0);
+        var reference = Double(0.0);
         
         if (_data == nil || _data.xValCount < 2)
         {
@@ -293,7 +299,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             
             ChartUtils.drawText(context: context, text: noDataText, point: CGPoint(x: frame.width / 2.0, y: frame.height / 2.0), align: .Center, attributes: [NSFontAttributeName: infoFont, NSForegroundColorAttributeName: infoTextColor]);
             
-            if (noDataTextDescription?.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) > 0)
+            if (noDataTextDescription != nil && count(noDataTextDescription!) > 0)
             {   
                 var textOffset = -infoFont.lineHeight / 2.0;
                 
@@ -381,14 +387,27 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     /// Highlights the value selected by touch gesture.
     public func highlightValue(#highlight: ChartHighlight?, callDelegate: Bool)
     {
-        if (highlight == nil)
+        var entry: ChartDataEntry?;
+        var h = highlight;
+        
+        if (h == nil)
         {
             _indicesToHightlight.removeAll(keepCapacity: false);
         }
         else
         {
             // set the indices to highlight
-            _indicesToHightlight = [highlight!];
+            entry = _data.getEntryForHighlight(h!);
+            if (entry === nil || entry!.xIndex != h?.xIndex)
+            {
+                h = nil;
+                entry = nil;
+                _indicesToHightlight.removeAll(keepCapacity: false);
+            }
+            else
+            {
+                _indicesToHightlight = [h!];
+            }
         }
 
         // redraw the chart
@@ -396,16 +415,14 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         
         if (callDelegate && delegate != nil)
         {
-            if (highlight == nil)
+            if (h == nil)
             {
-                delegate!.chartValueNothingSelected!(self);
+                delegate!.chartValueNothingSelected?(self);
             }
             else
             {
-                var e = _data.getEntryForHighlight(highlight!);
-
                 // notify the listener
-                delegate!.chartValueSelected!(self, entry: e, dataSetIndex: highlight!.dataSetIndex, highlight: highlight!);
+                delegate!.chartValueSelected?(self, entry: entry!, dataSetIndex: h!.dataSetIndex, highlight: h!);
             }
         }
     }
@@ -430,8 +447,12 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             if (xIndex <= Int(_deltaX) && xIndex <= Int(_deltaX * _animator.phaseX))
             {
                 let e = _data.getEntryForHighlight(highlight);
-
-                var pos = getMarkerPosition(entry: e, dataSetIndex: dataSetIndex);
+                if (e === nil || e!.xIndex != highlight.xIndex)
+                {
+                    continue;
+                }
+                
+                var pos = getMarkerPosition(entry: e!, dataSetIndex: dataSetIndex);
 
                 // check bounds
                 if (!_viewPortHandler.isInBounds(x: pos.x, y: pos.y))
@@ -440,7 +461,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
                 }
 
                 // callbacks to update the content
-                marker!.refreshContent(entry: e, dataSetIndex: dataSetIndex);
+                marker!.refreshContent(entry: e!, dataSetIndex: dataSetIndex);
 
                 let markerSize = marker!.size;
                 if (pos.y - markerSize.height <= 0.0)
@@ -576,41 +597,41 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     // MARK: - Accessors
 
     /// returns the total value (sum) of all y-values across all DataSets
-    public var yValueSum: Float
+    public var yValueSum: Double
     {
         return _data.yValueSum;
     }
 
     /// returns the current y-max value across all DataSets
-    public var chartYMax: Float
+    public var chartYMax: Double
     {
         return _data.yMax;
     }
 
     /// returns the current y-min value across all DataSets
-    public var chartYMin: Float
+    public var chartYMin: Double
     {
         return _data.yMin;
     }
     
-    public var chartXMax: Float
+    public var chartXMax: Double
     {
         return _chartXMax;
     }
     
-    public var chartXMin: Float
+    public var chartXMin: Double
     {
         return _chartXMin;
     }
     
     /// returns the average value of all values the chart holds
-    public func getAverage() -> Float
+    public func getAverage() -> Double
     {
-        return yValueSum / Float(_data.yValCount);
+        return yValueSum / Double(_data.yValCount);
     }
     
     /// returns the average value for a specific DataSet (with a specific label) in the chart
-    public func getAverage(#dataSetLabel: String) -> Float
+    public func getAverage(#dataSetLabel: String) -> Double
     {
         var ds = _data.getDataSetByLabel(dataSetLabel, ignorecase: true);
         if (ds == nil)
@@ -618,7 +639,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             return 0.0;
         }
         
-        return ds!.yValueSum / Float(ds!.entryCount);
+        return ds!.yValueSum / Double(ds!.entryCount);
     }
     
     /// returns the total number of values the chart holds (across all DataSets)
@@ -703,10 +724,10 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         for (var i = 0, count = _data.dataSetCount; i < count; i++)
         {
             var set = _data.getDataSetByIndex(i);
-            var e = set!.entryForXIndex(xIndex);
+            var e = set.entryForXIndex(xIndex);
             if (e !== nil)
             {
-                vals.append(e);
+                vals.append(e!);
             }
         }
         
@@ -714,7 +735,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     }
     
     /// returns the percentage the given value has of the total y-value sum
-    public func percentOfTotal(val: Float) -> Float
+    public func percentOfTotal(val: Double) -> Double
     {
         return val / _data.yValueSum * 100.0;
     }
@@ -772,7 +793,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     /// :compressionQuality: compression quality for lossless formats (JPEG)
     ///
     /// :returns: true if the image was saved successfully
-    public func saveToPath(path: String, format: ImageFormat, compressionQuality: Float) -> Bool
+    public func saveToPath(path: String, format: ImageFormat, compressionQuality: Double) -> Bool
     {
         var image = getChartImage(transparent: format != .JPEG);
 
@@ -828,8 +849,24 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         _sizeChangeEventActions.removeAll(keepCapacity: false);
     }
     
+    /// if true, value highlighting is enabled
+    public var highlightEnabled: Bool
+    {
+        get
+        {
+            return _data === nil ? true : _data.highlightEnabled
+        }
+        set
+        {
+            if (_data !== nil)
+            {
+                _data.highlightEnabled = newValue;
+            }
+        }
+    }
+    
     /// if true, value highlightning is enabled
-    public var isHighlightEnabled: Bool { return highlightEnabled; }
+    public var isHighlightEnabled: Bool { return highlightEnabled }
     
     /// :returns: true if chart continues to scroll after touch up, false if not.
     /// :default: true

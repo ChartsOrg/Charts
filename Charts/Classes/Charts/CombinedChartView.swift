@@ -12,7 +12,7 @@
 //
 
 import Foundation
-import CoreGraphics.CGBase
+import CoreGraphics
 
 /// This chart class allows the combination of lines, bars, scatter and candle data all displayed in one chart area.
 public class CombinedChartView: BarLineChartViewBase
@@ -47,7 +47,7 @@ public class CombinedChartView: BarLineChartViewBase
         if (self.barData !== nil || self.candleData !== nil || self.bubbleData !== nil)
         {
             _chartXMin = -0.5;
-            _chartXMax = Float(_data.xVals.count) - 0.5;
+            _chartXMax = Double(_data.xVals.count) - 0.5;
             
             if (self.bubbleData !== nil)
             {

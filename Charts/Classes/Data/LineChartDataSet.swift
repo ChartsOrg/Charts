@@ -12,8 +12,8 @@
 //
 
 import Foundation
-import CoreGraphics.CGBase
-import UIKit.UIColor
+import CoreGraphics
+import UIKit
 
 public class LineChartDataSet: LineRadarChartDataSet
 {
@@ -46,7 +46,7 @@ public class LineChartDataSet: LineRadarChartDataSet
         circleColors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0));
     }
 
-    /// intensity for cubic lines (min = 0.05f, max = 1f)
+    /// intensity for cubic lines (min = 0.05, max = 1)
     /// :default: 0.2
     public var cubicIntensity: CGFloat
     {

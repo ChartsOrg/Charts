@@ -12,8 +12,8 @@
 //
 
 import Foundation
-import CoreGraphics.CGBase
-import UIKit.UIFont
+import CoreGraphics
+import UIKit
 
 public class ChartXAxisRenderer: ChartAxisRendererBase
 {
@@ -26,11 +26,11 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         _xAxis = xAxis;
     }
     
-    public func computeAxis(#xValAverageLength: Float, xValues: [String?])
+    public func computeAxis(#xValAverageLength: Double, xValues: [String?])
     {
         var a = "";
         
-        var max = Int(round(xValAverageLength + Float(_xAxis.spaceBetweenLabels)));
+        var max = Int(round(xValAverageLength + Double(_xAxis.spaceBetweenLabels)));
         
         for (var i = 0; i < max; i++)
         {
@@ -145,7 +145,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
             labelMaxSize.width = _xAxis.wordWrapWidthPercent * valueToPixelMatrix.a;
         }
         
-        for (var i = _minX; i <= _maxX; i += _xAxis.axisLabelModulus)
+        for (var i = _minX, maxX = min(_maxX + 1, _xAxis.values.count); i < maxX; i += _xAxis.axisLabelModulus)
         {
             var label = _xAxis.values[i];
             if (label == nil)
@@ -278,7 +278,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
             var label = l.label;
             
             // if drawing the limit-value label is enabled
-            if (label.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) > 0)
+            if (count(label) > 0)
             {
                 var labelLineHeight = l.valueFont.lineHeight;
                 

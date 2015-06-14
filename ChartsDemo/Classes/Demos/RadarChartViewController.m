@@ -42,9 +42,9 @@
     _chartView.delegate = self;
     
     _chartView.descriptionText = @"";
-    _chartView.webLineWidth = .75f;
-    _chartView.innerWebLineWidth = 0.375f;
-    _chartView.webAlpha = 1.f;
+    _chartView.webLineWidth = .75;
+    _chartView.innerWebLineWidth = 0.375;
+    _chartView.webAlpha = 1.0;
     
     BalloonMarker *marker = [[BalloonMarker alloc] initWithColor:[UIColor colorWithWhite:180/255. alpha:1.0] font:[UIFont systemFontOfSize:12.0] insets: UIEdgeInsetsMake(8.0, 8.0, 20.0, 8.0)];
     marker.minimumSize = CGSizeMake(80.f, 40.f);
@@ -61,8 +61,8 @@
     ChartLegend *l = _chartView.legend;
     l.position = ChartLegendPositionRightOfChart;
     l.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
-    l.xEntrySpace = 7.f;
-    l.yEntrySpace = 5.f;
+    l.xEntrySpace = 7.0;
+    l.yEntrySpace = 5.0;
     
     [self setData];
 }
@@ -75,7 +75,7 @@
 
 - (void)setData
 {
-    float mult = 150.f;
+    double mult = 150.f;
     int count = 9;
     
     NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
@@ -97,12 +97,12 @@
     RadarChartDataSet *set1 = [[RadarChartDataSet alloc] initWithYVals:yVals1 label:@"Set 1"];
     [set1 setColor:ChartColorTemplates.vordiplom[0]];
     set1.drawFilledEnabled = YES;
-    set1.lineWidth = 2.f;
+    set1.lineWidth = 2.0;
     
     RadarChartDataSet *set2 = [[RadarChartDataSet alloc] initWithYVals:yVals2 label:@"Set 2"];
     [set2 setColor:ChartColorTemplates.vordiplom[4]];
     set2.drawFilledEnabled = YES;
-    set2.lineWidth = 2.f;
+    set2.lineWidth = 2.0;
     
     RadarChartData *data = [[RadarChartData alloc] initWithXVals:xVals dataSets:@[set1, set2]];
     [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:8.f]];

@@ -16,7 +16,7 @@ import Foundation
 
 public class ChartSelInfo: NSObject
 {
-    private var _value = Float(0)
+    private var _value = Double(0)
     private var _dataSetIndex = Int(0)
     private var _dataSet: ChartDataSet!
     
@@ -25,7 +25,7 @@ public class ChartSelInfo: NSObject
         super.init();
     }
     
-    public init(value: Float, dataSetIndex: Int, dataSet: ChartDataSet)
+    public init(value: Double, dataSetIndex: Int, dataSet: ChartDataSet)
     {
         super.init();
         
@@ -34,7 +34,7 @@ public class ChartSelInfo: NSObject
         _dataSet = dataSet;
     }
     
-    public var value: Float
+    public var value: Double
     {
         return _value;
     }

@@ -69,8 +69,8 @@
     xl.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     xl.drawGridLinesEnabled = NO;
     
-    _sliderX.value = 45.f;
-    _sliderY.value = 100.f;
+    _sliderX.value = 45.0;
+    _sliderY.value = 100.0;
     [self slidersValueChanged:nil];
 }
 
@@ -80,7 +80,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setDataCount:(int)count range:(float)range
+- (void)setDataCount:(int)count range:(double)range
 {
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
     
@@ -95,13 +95,13 @@
     
     for (int i = 0; i < count; i++)
     {
-        float val = (float) (arc4random_uniform(range)) + 3;
+        double val = (double) (arc4random_uniform(range)) + 3;
         [yVals1 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
         
-        val = (float) (arc4random_uniform(range)) + 3;
+        val = (double) (arc4random_uniform(range)) + 3;
         [yVals2 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
         
-        val = (float) (arc4random_uniform(range)) + 3;
+        val = (double) (arc4random_uniform(range)) + 3;
         [yVals3 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
     
@@ -115,9 +115,9 @@
     set3.scatterShape = ScatterShapeCross;
     [set3 setColor:ChartColorTemplates.colorful[2]];
     
-    set1.scatterShapeSize = 8.f;
-    set2.scatterShapeSize = 8.f;
-    set3.scatterShapeSize = 8.f;
+    set1.scatterShapeSize = 8.0;
+    set2.scatterShapeSize = 8.0;
+    set3.scatterShapeSize = 8.0;
     
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
     [dataSets addObject:set1];

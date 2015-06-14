@@ -124,7 +124,7 @@
     
     LineChartDataSet *set = [[LineChartDataSet alloc] initWithYVals:entries label:@"Line DataSet"];
     [set setColor:[UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f]];
-    set.lineWidth = 2.5f;
+    set.lineWidth = 2.5;
     [set setCircleColor:[UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f]];
     set.fillColor = [UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f];
     set.drawCubicEnabled = YES;
@@ -175,7 +175,7 @@
     
     ScatterChartDataSet *set = [[ScatterChartDataSet alloc] initWithYVals:entries label:@"Scatter DataSet"];
     [set setColor:[UIColor greenColor]];
-    set.scatterShapeSize = 7.5f;
+    set.scatterShapeSize = 7.5;
     [set setDrawValuesEnabled:YES];
     set.valueFont = [UIFont systemFontOfSize:10.f];
     
@@ -192,12 +192,12 @@
     
     for (int index = 0; index < ITEM_COUNT; index++)
     {
-        [entries addObject:[[CandleChartDataEntry alloc] initWithXIndex:index shadowH:20.f shadowL:10.f open:13.f close:17.f]];
+        [entries addObject:[[CandleChartDataEntry alloc] initWithXIndex:index shadowH:20.0 shadowL:10.0 open:13.0 close:17.0]];
     }
     
     CandleChartDataSet *set = [[CandleChartDataSet alloc] initWithYVals:entries label:@"Candle DataSet"];
     [set setColor:[UIColor colorWithRed:80/255.f green:80/255.f blue:80/255.f alpha:1.f]];
-    set.bodySpace = 0.3f;
+    set.bodySpace = 0.3;
     set.valueFont = [UIFont systemFontOfSize:10.f];
     [set setDrawValuesEnabled:NO];
     
@@ -214,7 +214,7 @@
     
     for (int index = 0; index < ITEM_COUNT; index++)
     {
-        float rnd = arc4random_uniform(20) + 30.f;
+        double rnd = arc4random_uniform(20) + 30.f;
         [entries addObject:[[BubbleChartDataEntry alloc] initWithXIndex:index value:rnd size:rnd]];
     }
     

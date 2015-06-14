@@ -12,9 +12,8 @@
 //
 
 import Foundation
-import CoreGraphics.CGBase
-import UIKit.UIColor
-import UIKit.UIFont
+import CoreGraphics
+import UIKit
 
 public class PieChartRenderer: ChartDataRendererBase
 {
@@ -263,7 +262,7 @@ public class PieChartRenderer: ChartDataRendererBase
     /// draws the description text in the center of the pie chart makes most sense when center-hole is enabled
     private func drawCenterText(#context: CGContext)
     {
-        if (drawCenterTextEnabled && centerText != nil && centerText.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) > 0)
+        if (drawCenterTextEnabled && centerText != nil && count(centerText) > 0)
         {
             var center = _chart.centerCircleBox;
             var innerRadius = drawHoleEnabled && holeTransparent ? _chart.radius * holeRadiusPercent : _chart.radius;
@@ -329,6 +328,13 @@ public class PieChartRenderer: ChartDataRendererBase
                 continue;
             }
             
+            var set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as! PieChartDataSet!;
+            
+            if (set === nil || !set.highlightEnabled)
+            {
+                continue;
+            }
+            
             if (xIndex == 0)
             {
                 angle = rotationAngle;
@@ -341,13 +347,6 @@ public class PieChartRenderer: ChartDataRendererBase
             angle *= _animator.phaseY;
             
             var sliceDegrees = drawAngles[xIndex];
-            
-            var set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as! PieChartDataSet!;
-            
-            if (set === nil)
-            {
-                continue;
-            }
             
             var shift = set.selectionShift;
             var circleBox = _chart.circleBox;

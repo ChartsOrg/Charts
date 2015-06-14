@@ -61,7 +61,7 @@
     xAxis.labelPosition = XAxisLabelPositionBottom;
     xAxis.labelFont = [UIFont systemFontOfSize:10.f];
     xAxis.drawGridLinesEnabled = NO;
-    xAxis.spaceBetweenLabels = 2.f;
+    xAxis.spaceBetweenLabels = 2.0;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.labelFont = [UIFont systemFontOfSize:10.f];
@@ -71,23 +71,23 @@
     leftAxis.valueFormatter.negativeSuffix = @" $";
     leftAxis.valueFormatter.positiveSuffix = @" $";
     leftAxis.labelPosition = YAxisLabelPositionOutsideChart;
-    leftAxis.spaceTop = 0.15f;
+    leftAxis.spaceTop = 0.15;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.drawGridLinesEnabled = NO;
     rightAxis.labelFont = [UIFont systemFontOfSize:10.f];
     rightAxis.labelCount = 8;
     rightAxis.valueFormatter = leftAxis.valueFormatter;
-    rightAxis.spaceTop = 0.15f;
+    rightAxis.spaceTop = 0.15;
     
     _chartView.legend.position = ChartLegendPositionBelowChartLeft;
     _chartView.legend.form = ChartLegendFormSquare;
-    _chartView.legend.formSize = 9.f;
+    _chartView.legend.formSize = 9.0;
     _chartView.legend.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
-    _chartView.legend.xEntrySpace = 4.f;
+    _chartView.legend.xEntrySpace = 4.0;
     
-    _sliderX.value = 11.f;
-    _sliderY.value = 50.f;
+    _sliderX.value = 11.0;
+    _sliderY.value = 50.0;
     [self slidersValueChanged:nil];
 }
 
@@ -97,7 +97,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setDataCount:(int)count range:(float)range
+- (void)setDataCount:(int)count range:(double)range
 {
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
     
@@ -110,13 +110,13 @@
     
     for (int i = 0; i < count; i++)
     {
-        float mult = (range + 1);
-        float val = (float) (arc4random_uniform(mult));
+        double mult = (range + 1);
+        double val = (double) (arc4random_uniform(mult));
         [yVals addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
     
     BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithYVals:yVals label:@"DataSet"];
-    set1.barSpace = 0.35f;
+    set1.barSpace = 0.35;
     
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
     [dataSets addObject:set1];

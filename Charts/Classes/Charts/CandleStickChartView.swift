@@ -12,7 +12,7 @@
 //
 
 import Foundation
-import CoreGraphics.CGBase
+import CoreGraphics
 
 /// Financial chart type that draws candle-sticks.
 public class CandleStickChartView: BarLineChartViewBase, CandleStickChartRendererDelegate
@@ -50,22 +50,22 @@ public class CandleStickChartView: BarLineChartViewBase, CandleStickChartRendere
         return self.valueFormatter;
     }
     
-    public func candleStickChartRendererChartYMax(renderer: CandleStickChartRenderer) -> Float
+    public func candleStickChartRendererChartYMax(renderer: CandleStickChartRenderer) -> Double
     {
         return self.chartYMax;
     }
     
-    public func candleStickChartRendererChartYMin(renderer: CandleStickChartRenderer) -> Float
+    public func candleStickChartRendererChartYMin(renderer: CandleStickChartRenderer) -> Double
     {
         return self.chartYMin;
     }
     
-    public func candleStickChartRendererChartXMax(renderer: CandleStickChartRenderer) -> Float
+    public func candleStickChartRendererChartXMax(renderer: CandleStickChartRenderer) -> Double
     {
         return self.chartXMax;
     }
     
-    public func candleStickChartRendererChartXMin(renderer: CandleStickChartRenderer) -> Float
+    public func candleStickChartRendererChartXMin(renderer: CandleStickChartRenderer) -> Double
     {
         return self.chartXMin;
     }

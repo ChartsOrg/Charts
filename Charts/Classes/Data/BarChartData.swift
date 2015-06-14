@@ -12,7 +12,7 @@
 //
 
 import Foundation
-import CoreGraphics.CGBase
+import CoreGraphics
 
 public class BarChartData: BarLineScatterCandleChartData
 {

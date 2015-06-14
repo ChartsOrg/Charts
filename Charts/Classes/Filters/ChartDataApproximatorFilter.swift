@@ -30,8 +30,8 @@ public class ChartDataApproximatorFilter: ChartDataBaseFilter
     /// When using the Douglas-Peucker-Algorithm, the tolerance is an angle in degrees, that will trigger the filtering
     public var tolerance = Double(0.0)
     
-    public var scaleRatio = Float(1.0)
-    public var deltaRatio = Float(1.0)
+    public var scaleRatio = Double(1.0)
+    public var deltaRatio = Double(1.0)
     
     public override init()
     {
@@ -56,7 +56,7 @@ public class ChartDataApproximatorFilter: ChartDataBaseFilter
     }
     
     /// Sets the ratios for x- and y-axis, as well as the ratio of the scale levels
-    public func setRatios(deltaRatio: Float, scaleRatio: Float)
+    public func setRatios(deltaRatio: Double, scaleRatio: Double)
     {
         self.deltaRatio = deltaRatio;
         self.scaleRatio = scaleRatio;
@@ -175,8 +175,8 @@ public class ChartDataApproximatorFilter: ChartDataBaseFilter
     /// :param: entryPoint the point to which the distance is measured from the line
     private func calcPointToLineDistance(startEntry: ChartDataEntry, endEntry: ChartDataEntry, entryPoint: ChartDataEntry) -> Double
     {
-        var xDiffEndStart = Float(endEntry.xIndex) - Float(startEntry.xIndex);
-        var xDiffEntryStart = Float(entryPoint.xIndex) - Float(startEntry.xIndex);
+        var xDiffEndStart = Double(endEntry.xIndex) - Double(startEntry.xIndex);
+        var xDiffEntryStart = Double(entryPoint.xIndex) - Double(startEntry.xIndex);
         
         var normalLength = sqrt((xDiffEndStart)
             * (xDiffEndStart)

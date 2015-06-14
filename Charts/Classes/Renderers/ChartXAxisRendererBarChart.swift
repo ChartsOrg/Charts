@@ -12,8 +12,8 @@
 //
 
 import Foundation
-import CoreGraphics.CGBase
-import UIKit.UIFont
+import CoreGraphics
+import UIKit
 
 public class ChartXAxisRendererBarChart: ChartXAxisRenderer
 {
@@ -55,7 +55,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
             labelMaxSize.width = _xAxis.wordWrapWidthPercent * valueToPixelMatrix.a;
         }
         
-        for (var i = _minX; i <= _maxX; i += _xAxis.axisLabelModulus)
+        for (var i = _minX, maxX = min(_maxX + 1, _xAxis.values.count); i < maxX; i += _xAxis.axisLabelModulus)
         {
             var label = i >= 0 && i < _xAxis.values.count ? _xAxis.values[i] : nil;
             if (label == nil)

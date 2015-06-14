@@ -17,7 +17,7 @@ import Foundation
 public class ChartDataEntry: NSObject, Equatable
 {
     /// the actual value (y axis)
-    public var value = Float(0.0)
+    public var value = Double(0.0)
     
     /// the index on the x-axis
     public var xIndex = Int(0)
@@ -30,7 +30,7 @@ public class ChartDataEntry: NSObject, Equatable
         super.init();
     }
     
-    public init(value: Float, xIndex: Int)
+    public init(value: Double, xIndex: Int)
     {
         super.init();
         
@@ -38,7 +38,7 @@ public class ChartDataEntry: NSObject, Equatable
         self.xIndex = xIndex;
     }
     
-    public init(value: Float, xIndex: Int, data: AnyObject?)
+    public init(value: Double, xIndex: Int, data: AnyObject?)
     {
         super.init();
         
@@ -71,7 +71,7 @@ public class ChartDataEntry: NSObject, Equatable
             return false;
         }
         
-        if (fabsf(object!.value - value) > 0.00001)
+        if (fabs(object!.value - value) > 0.00001)
         {
             return false;
         }
@@ -120,7 +120,7 @@ public func ==(lhs: ChartDataEntry, rhs: ChartDataEntry) -> Bool
         return false;
     }
     
-    if (fabsf(lhs.value - rhs.value) > 0.00001)
+    if (fabs(lhs.value - rhs.value) > 0.00001)
     {
         return false;
     }

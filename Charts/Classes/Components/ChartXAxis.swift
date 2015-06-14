@@ -79,7 +79,7 @@ public class ChartXAxis: ChartAxisBase
         {
             var text = values[i];
             
-            if (text != nil && longest.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) < text!.lengthOfBytesUsingEncoding(NSUTF16StringEncoding))
+            if (text != nil && count(longest) < count(text!))
             {
                 longest = text!;
             }

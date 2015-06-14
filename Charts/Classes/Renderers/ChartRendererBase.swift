@@ -12,7 +12,7 @@
 //
 
 import Foundation
-import CoreGraphics.CGBase
+import CoreGraphics
 
 public class ChartRendererBase: NSObject
 {
@@ -37,7 +37,7 @@ public class ChartRendererBase: NSObject
     }
 
     /// Returns true if the specified value fits in between the provided min and max bounds, false if not.
-    internal func fitsBounds(val: Float, min: Float, max: Float) -> Bool
+    internal func fitsBounds(val: Double, min: Double, max: Double) -> Bool
     {
         if (val < min || val > max)
         {

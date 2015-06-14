@@ -12,8 +12,8 @@
 //
 
 import Foundation
-import CoreGraphics.CGBase
-import UIKit.UIFont
+import CoreGraphics
+import UIKit
 
 @objc
 public protocol ScatterChartRendererDelegate
@@ -21,10 +21,10 @@ public protocol ScatterChartRendererDelegate
     func scatterChartRendererData(renderer: ScatterChartRenderer) -> ScatterChartData!;
     func scatterChartRenderer(renderer: ScatterChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!;
     func scatterChartDefaultRendererValueFormatter(renderer: ScatterChartRenderer) -> NSNumberFormatter!;
-    func scatterChartRendererChartYMax(renderer: ScatterChartRenderer) -> Float;
-    func scatterChartRendererChartYMin(renderer: ScatterChartRenderer) -> Float;
-    func scatterChartRendererChartXMax(renderer: ScatterChartRenderer) -> Float;
-    func scatterChartRendererChartXMin(renderer: ScatterChartRenderer) -> Float;
+    func scatterChartRendererChartYMax(renderer: ScatterChartRenderer) -> Double;
+    func scatterChartRendererChartYMin(renderer: ScatterChartRenderer) -> Double;
+    func scatterChartRendererChartXMax(renderer: ScatterChartRenderer) -> Double;
+    func scatterChartRendererChartXMin(renderer: ScatterChartRenderer) -> Double;
     func scatterChartRendererMaxVisibleValueCount(renderer: ScatterChartRenderer) -> Int;
 }
 
@@ -256,7 +256,7 @@ public class ScatterChartRenderer: ChartDataRendererBase
         {
             var set = scatterData.getDataSetByIndex(indices[i].dataSetIndex) as! ScatterChartDataSet!;
             
-            if (set === nil)
+            if (set === nil || !set.highlightEnabled)
             {
                 continue;
             }
@@ -279,7 +279,13 @@ public class ScatterChartRenderer: ChartDataRendererBase
                 continue;
             }
             
-            var y = CGFloat(set.yValForXIndex(xIndex)) * _animator.phaseY; // get the y-position
+            let yValue = set.yValForXIndex(xIndex);
+            if (isnan(yValue))
+            {
+                continue;
+            }
+            
+            var y = CGFloat(yValue) * _animator.phaseY; // get the y-position
             
             pts[0] = CGPoint(x: CGFloat(xIndex), y: CGFloat(chartYMax));
             pts[1] = CGPoint(x: CGFloat(xIndex), y: CGFloat(chartYMin));
