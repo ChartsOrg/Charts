@@ -66,6 +66,11 @@ public class RadarChartRenderer: ChartDataRendererBase
             
             var p = ChartUtils.getPosition(center: center, dist: CGFloat(e.value - _chart.chartYMin) * factor, angle: sliceangle * CGFloat(j) + _chart.rotationAngle);
             
+            if (p.x.isNaN || p.y.isNaN)
+            {
+                continue
+            }
+            
             if (j == 0)
             {
                 CGPathMoveToPoint(path, nil, p.x, p.y);
@@ -272,6 +277,11 @@ public class RadarChartRenderer: ChartDataRendererBase
 
             var p = ChartUtils.getPosition(center: center, dist: CGFloat(y) * factor,
                 angle: sliceangle * CGFloat(j) + _chart.rotationAngle);
+            
+            if (p.x.isNaN || p.y.isNaN)
+            {
+                continue;
+            }
             
             _lineSegments[0] = CGPoint(x: p.x, y: 0.0)
             _lineSegments[1] = CGPoint(x: p.x, y: viewPortHandler.chartHeight)
