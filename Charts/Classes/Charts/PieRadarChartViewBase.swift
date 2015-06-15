@@ -13,7 +13,7 @@
 
 import Foundation
 import CoreGraphics
-import UIKit.UIGestureRecognizer
+import UIKit
 
 /// Base class of PieChartView and RadarChartView.
 public class PieRadarChartViewBase: ChartViewBase
@@ -751,6 +751,11 @@ public class PieRadarChartViewBase: ChartViewBase
                     if (self.isKindOfClass(RadarChartView))
                     {
                         dataSetIndex = ChartUtils.closestDataSetIndex(valsAtIndex, value: Double(distance / (self as! RadarChartView).factor), axis: nil);
+                    }
+                    
+                    if (dataSetIndex < 0)
+                    {
+                        return;
                     }
                     
                     var h = ChartHighlight(xIndex: index, dataSetIndex: dataSetIndex);
