@@ -10,6 +10,8 @@ Okay so there's this beautiful library called [MPAndroidChart](https://github.co
 
 I've chosen to write it in `Swift` as it can be highly optimized by the compiler, and can be used in both `Swift` and `ObjC` project. The demo project is written in `ObjC` to demonstrate how it works.
 
+GJPC -> My branch adds options so that lined ScatterPlots do not require the X values to be ordered.
+
 **An amazing feature** of this library now, both Android and iOS, is the time it saves you when developing for both platforms, as the learning curve is singleton- it happens only once, and the code stays very similar so developers don't have to go around and re-invent the app to produce the same output with a different library. (And that's not even considering the fact that there's not really another good choice out there currently...)
 
 ## Usage
@@ -111,6 +113,10 @@ Features
  - **ScatterChart** (with squares, triangles, circles, ... and more)
 
 ![alt tag](https://raw.github.com/PhilJay/MPAndroidChart/master/screenshots/scatterchart.png)
+
+ - **ScatterChart** (with ordered line trace of entries)
+ 
+![alt tag](https://github.com/gjpc/ios-charts/blob/master/screenshots/Lined%20Scatter%20Plot.JPG)
 
  - **CandleStickChart** (for financial data)
 
