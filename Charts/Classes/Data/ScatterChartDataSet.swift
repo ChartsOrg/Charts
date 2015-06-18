@@ -30,6 +30,7 @@ public class ScatterChartDataSet: BarLineScatterCandleChartDataSet
     public var scatterShape = ScatterShape.Square
     public var customScatterShape: CGPath?
     public var valueIsIndex = false;
+    public var drawLines = false;
 
     // MARK: NSCopying
     

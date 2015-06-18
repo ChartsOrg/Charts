@@ -96,7 +96,8 @@
     for (int i = 0; i < count; i++)
     {
         double val = (double) (arc4random_uniform(range)) + 3;
-        [yVals1 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+        double valx = (double) (arc4random_uniform(count)) + 3;
+        [yVals1 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex: valx]];
         
         val = (double) (arc4random_uniform(range)) + 3;
         [yVals2 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
@@ -118,6 +119,9 @@
     set1.scatterShapeSize = 8.0;
     set2.scatterShapeSize = 8.0;
     set3.scatterShapeSize = 8.0;
+    
+    set1.drawLines    = true;
+    set1.valueIsIndex = true;
     
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
     [dataSets addObject:set1];

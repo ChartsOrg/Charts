@@ -86,8 +86,8 @@ public class ScatterChartRenderer: ChartDataRendererBase
             var e = entries[j];
             point.x = CGFloat(e.xIndex);
             point.y = CGFloat(e.value) * phaseY;
-            point = CGPointApplyAffineTransform(point, valueToPixelMatrix);            
-
+            point = CGPointApplyAffineTransform(point, valueToPixelMatrix);
+            
             if (!viewPortHandler.isInBoundsLeft(point.x) || !viewPortHandler.isInBoundsY(point.y))
             {
                 continue;
@@ -176,6 +176,8 @@ public class ScatterChartRenderer: ChartDataRendererBase
         }
         
         var defaultValueFormatter = delegate!.scatterChartDefaultRendererValueFormatter(self);
+        var lastPoint = CGPoint();
+        var lastIndex = 0;
         
         // if values are drawn
         if (scatterData.yValCount < Int(ceil(CGFloat(delegate!.scatterChartRendererMaxVisibleValueCount(self)) * viewPortHandler.scaleX)))
@@ -206,31 +208,69 @@ public class ScatterChartRenderer: ChartDataRendererBase
                 
                 var shapeSize = dataSet.scatterShapeSize;
                 var lineHeight = valueFont.lineHeight;
+                var lineYoffset = shapeSize + lineHeight;
                 
+                if ( dataSet.drawLines )
+                {
+                    CGContextSaveGState(context);
+                }
                 for (var j = 0, count = Int(ceil(CGFloat(positions.count) * _animator.phaseX)); j < count; j++)
                 {
-                    // make sure the lines don't do shitty things outside bounds
+                    // make sure the lines don't do bad things outside bounds
                     if ((!viewPortHandler.isInBoundsLeft(positions[j].x)
                         || !viewPortHandler.isInBoundsY(positions[j].y)))
                     {
                         continue;
                     }
                     
-                    var val = entries[j].value;
+                    var val = 0.0;
                     if ( dataSet.valueIsIndex )
                     {
                         val = (Double)(j);
                     }
+                    else
+                    {
+                        val = entries[j].value;
+                    }
                     
                     var text = formatter!.stringFromNumber(val);
+                    var point = CGPoint(x: positions[j].x, y: positions[j].y - shapeSize - lineHeight);
                     
-                    ChartUtils.drawText(context: context, text: text!, point: CGPoint(x: positions[j].x, y: positions[j].y - shapeSize - lineHeight), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]);
+                    ChartUtils.drawText(context: context, text: text!, point: point, align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]);
+                    
+                    if (  ( dataSet.drawLines )   &&
+                        ( lastPoint.x != 0.0 )  &&
+                        ( j == lastIndex + 1 )  &&
+                        ( viewPortHandler.isInBoundsLeft( point.x ) ) &&
+                        ( viewPortHandler.isInBoundsRight( point.x ) )                        )
+                    {
+                        CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor);
+                        CGContextMoveToPoint( context, lastPoint.x, lastPoint.y + lineYoffset );
+                        CGContextAddLineToPoint( context, point.x, point.y + lineYoffset );
+                        
+                        lastPoint = point;
+                        lastIndex = j;
+                    }
+                    else
+                    {
+                        lastPoint = point;
+                        lastIndex = j;
+                    }
                 }
+                
+                if ( dataSet.drawLines )
+                {
+                    CGContextStrokePath( context );
+                    CGContextRestoreGState(context);
+                }
+                
             }
+            
         }
     }
     
-    public override func drawExtras(#context: CGContext)
+   
+    public override func drawExtras(#context: CGContext )
     {
         
     }
