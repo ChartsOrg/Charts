@@ -105,10 +105,10 @@ public class ChartDataSet: NSObject
         _lastStart = start;
         _lastEnd = endValue;
         
-        _yMin = yVals[start].value;
-        _yMax = yVals[start].value;
+        _yMin = DBL_MAX;
+        _yMax = DBL_MIN;
         
-        for (var i = start + 1; i <= endValue; i++)
+        for (var i = start; i <= endValue; i++)
         {
             let e = _yVals[i];
             if (!e.value.isNaN && e.value < _yMin)

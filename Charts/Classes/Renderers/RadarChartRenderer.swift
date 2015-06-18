@@ -59,6 +59,8 @@ public class RadarChartRenderer: ChartDataRendererBase
         var entries = dataSet.yVals;
         
         var path = CGPathCreateMutable();
+        
+        var hasMovedToPoint = false;
 
         for (var j = 0; j < entries.count; j++)
         {
@@ -71,9 +73,10 @@ public class RadarChartRenderer: ChartDataRendererBase
                 continue
             }
             
-            if (j == 0)
+            if (!hasMovedToPoint)
             {
                 CGPathMoveToPoint(path, nil, p.x, p.y);
+                hasMovedToPoint = true;
             }
             else
             {
