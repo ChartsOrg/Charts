@@ -70,6 +70,11 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         else
         {
             var first = ceil(Double(yMin) / interval) * interval;
+            if (first.isSignMinus)
+            {
+                first = -first;
+            }
+            
             var last = ChartUtils.nextUp(floor(Double(yMax) / interval) * interval);
             
             var f: Double;
