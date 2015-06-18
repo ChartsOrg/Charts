@@ -213,7 +213,6 @@ public class ScatterChartRenderer: ChartDataRendererBase
                 if ( dataSet.drawLines )
                 {
                     CGContextSaveGState(context);
-                    CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor);
                 }
                 for (var j = 0, count = Int(ceil(CGFloat(positions.count) * _animator.phaseX)); j < count; j++)
                 {
@@ -245,6 +244,7 @@ public class ScatterChartRenderer: ChartDataRendererBase
                         ( viewPortHandler.isInBoundsLeft( point.x ) ) &&
                         ( viewPortHandler.isInBoundsRight( point.x ) )                        )
                     {
+                        CGContextSetStrokeColorWithColor(context, dataSet.colorAt(i).CGColor);
                         CGContextMoveToPoint( context, lastPoint.x, lastPoint.y + lineYoffset );
                         CGContextAddLineToPoint( context, point.x, point.y + lineYoffset );
                         
