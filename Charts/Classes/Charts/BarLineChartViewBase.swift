@@ -1501,11 +1501,32 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     /// :returns: true if both drag offsets (x and y) are zero or smaller.
     public var hasNoDragOffset: Bool { return _viewPortHandler.hasNoDragOffset; }
 
-    public var xAxisRenderer: ChartXAxisRenderer { return _xAxisRenderer; }
+    /// The X axis renderer. This is a read-write property so you can set your own custom renderer here.
+    /// :default: An instance of ChartXAxisRenderer
+    /// :returns: The current set X axis renderer
+    public var xAxisRenderer: ChartXAxisRenderer
+    {
+        get { return _xAxisRenderer }
+        set { _xAxisRenderer = newValue }
+    }
     
-    public var leftYAxisRenderer: ChartYAxisRenderer { return _leftYAxisRenderer; }
-
-    public var rightYAxisRenderer: ChartYAxisRenderer { return _rightYAxisRenderer; }
+    /// The left Y axis renderer. This is a read-write property so you can set your own custom renderer here.
+    /// :default: An instance of ChartYAxisRenderer
+    /// :returns: The current set left Y axis renderer
+    public var leftYAxisRenderer: ChartYAxisRenderer
+    {
+        get { return _leftYAxisRenderer }
+        set { _leftYAxisRenderer = newValue }
+    }
+    
+    /// The right Y axis renderer. This is a read-write property so you can set your own custom renderer here.
+    /// :default: An instance of ChartYAxisRenderer
+    /// :returns: The current set right Y axis renderer
+    public var rightYAxisRenderer: ChartYAxisRenderer
+    {
+        get { return _rightYAxisRenderer }
+        set { _rightYAxisRenderer = newValue }
+    }
     
     public override var chartYMax: Double
     {
