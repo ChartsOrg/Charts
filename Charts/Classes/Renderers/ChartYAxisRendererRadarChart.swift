@@ -70,9 +70,10 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         else
         {
             var first = ceil(Double(yMin) / interval) * interval;
-            if (first == 0.0 && first.isSignMinus)
-            {
-                first = -first;
+            
+            if (first == 0.0)
+            { // Fix for IEEE negative zero case (Where value == -0.0, and 0.0 == -0.0)
+                first = 0.0;
             }
             
             var last = ChartUtils.nextUp(floor(Double(yMax) / interval) * interval);

@@ -755,20 +755,23 @@ public class PieRadarChartViewBase: ChartViewBase
                     
                     if (dataSetIndex < 0)
                     {
-                        return;
-                    }
-                    
-                    var h = ChartHighlight(xIndex: index, dataSetIndex: dataSetIndex);
-                    
-                    if (_lastHighlight !== nil && h == _lastHighlight)
-                    {
-                        self.highlightValue(highlight: nil, callDelegate: true);
+                        self.highlightValues(nil);
                         _lastHighlight = nil;
                     }
                     else
                     {
-                        self.highlightValue(highlight: h, callDelegate: true);
-                        _lastHighlight = h;
+                        var h = ChartHighlight(xIndex: index, dataSetIndex: dataSetIndex);
+                        
+                        if (_lastHighlight !== nil && h == _lastHighlight)
+                        {
+                            self.highlightValue(highlight: nil, callDelegate: true);
+                            _lastHighlight = nil;
+                        }
+                        else
+                        {
+                            self.highlightValue(highlight: h, callDelegate: true);
+                            _lastHighlight = h;
+                        }
                     }
                 }
             }
