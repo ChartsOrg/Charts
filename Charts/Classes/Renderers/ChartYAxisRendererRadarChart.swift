@@ -54,6 +54,12 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
             interval = floor(10 * intervalMagnitude);
         }
         
+        // clean old values
+        if (_yAxis.entries.count > 0)
+        {
+            _yAxis.entries.removeAll(keepCapacity: false);
+        }
+        
         // if the labels should only show min and max
         if (_yAxis.isShowOnlyMinMaxEnabled)
         {
@@ -64,6 +70,11 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         else
         {
             var first = ceil(Double(yMin) / interval) * interval;
+            if (first.isSignMinus)
+            {
+                first = -first;
+            }
+            
             var last = ChartUtils.nextUp(floor(Double(yMax) / interval) * interval);
             
             var f: Double;

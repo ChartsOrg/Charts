@@ -59,6 +59,8 @@ public class RadarChartRenderer: ChartDataRendererBase
         var entries = dataSet.yVals;
         
         var path = CGPathCreateMutable();
+        
+        var hasMovedToPoint = false;
 
         for (var j = 0; j < entries.count; j++)
         {
@@ -66,9 +68,15 @@ public class RadarChartRenderer: ChartDataRendererBase
             
             var p = ChartUtils.getPosition(center: center, dist: CGFloat(e.value - _chart.chartYMin) * factor, angle: sliceangle * CGFloat(j) + _chart.rotationAngle);
             
-            if (j == 0)
+            if (p.x.isNaN || p.y.isNaN)
+            {
+                continue
+            }
+            
+            if (!hasMovedToPoint)
             {
                 CGPathMoveToPoint(path, nil, p.x, p.y);
+                hasMovedToPoint = true;
             }
             else
             {
@@ -272,6 +280,11 @@ public class RadarChartRenderer: ChartDataRendererBase
 
             var p = ChartUtils.getPosition(center: center, dist: CGFloat(y) * factor,
                 angle: sliceangle * CGFloat(j) + _chart.rotationAngle);
+            
+            if (p.x.isNaN || p.y.isNaN)
+            {
+                continue;
+            }
             
             _lineSegments[0] = CGPoint(x: p.x, y: 0.0)
             _lineSegments[1] = CGPoint(x: p.x, y: viewPortHandler.chartHeight)
