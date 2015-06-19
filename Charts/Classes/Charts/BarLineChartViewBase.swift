@@ -1319,7 +1319,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         for (var i = 0, count = _data.dataSetCount; i < count; i++)
         {
             var dataSet = _data.getDataSetByIndex(i);
-            if (dataSet === nil)
+            if (dataSet === nil || !dataSet.isHighlightEnabled)
             {
                 continue;
             }
