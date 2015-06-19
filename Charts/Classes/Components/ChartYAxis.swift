@@ -106,6 +106,7 @@ public class ChartYAxis: ChartAxisBase
         _defaultValueFormatter.maximumFractionDigits = 1;
         _defaultValueFormatter.minimumFractionDigits = 1;
         _defaultValueFormatter.usesGroupingSeparator = true;
+        self.yOffset = 0.0;
     }
     
     public init(position: AxisDependency)
@@ -118,6 +119,7 @@ public class ChartYAxis: ChartAxisBase
         _defaultValueFormatter.maximumFractionDigits = 1;
         _defaultValueFormatter.minimumFractionDigits = 1;
         _defaultValueFormatter.usesGroupingSeparator = true;
+        self.yOffset = 0.0;
     }
     
     public var axisDependency: AxisDependency
