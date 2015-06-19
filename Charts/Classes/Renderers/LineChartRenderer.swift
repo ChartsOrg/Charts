@@ -588,7 +588,7 @@ public class LineChartRenderer: ChartDataRendererBase
         {
             var set = lineData.getDataSetByIndex(indices[i].dataSetIndex) as! LineChartDataSet!;
             
-            if (set === nil || !set.highlightEnabled)
+            if (set === nil || !set.isHighlightEnabled)
             {
                 continue;
             }

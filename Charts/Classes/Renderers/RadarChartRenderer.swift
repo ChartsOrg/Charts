@@ -259,7 +259,7 @@ public class RadarChartRenderer: ChartDataRendererBase
         {
             var set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as! RadarChartDataSet!;
             
-            if (set === nil || !set.highlightEnabled)
+            if (set === nil || !set.isHighlightEnabled)
             {
                 continue;
             }

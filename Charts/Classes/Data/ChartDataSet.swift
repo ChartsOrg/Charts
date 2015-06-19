@@ -53,6 +53,9 @@ public class ChartDataSet: NSObject
     /// if true, value highlighting is enabled
     public var highlightEnabled = true
     
+    /// :returns: true if value highlighting is enabled for this dataset
+    public var isHighlightEnabled: Bool { return highlightEnabled }
+    
     public override init()
     {
         super.init();
