@@ -114,6 +114,7 @@ public class ChartYAxis: ChartAxisBase
         
         _axisDependency = position;
         
+        _defaultValueFormatter.minimumIntegerDigits = 1;
         _defaultValueFormatter.maximumFractionDigits = 1;
         _defaultValueFormatter.minimumFractionDigits = 1;
         _defaultValueFormatter.usesGroupingSeparator = true;
