@@ -73,10 +73,10 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
             
             var first: Double;
             
-            // if raw value is like -0.35, ceil it will be 0, so use -1 instead
-            if (rawValue > -1 && rawValue < 0)
+            // if raw value negative, we need to minus 1.
+            if (rawValue < 0)
             {
-                first = -interval;
+                first = floor(rawValue) * interval;
             }
             else
             {
