@@ -70,7 +70,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         else
         {
             var first = ceil(Double(yMin) / interval) * interval;
-            if (first.isSignMinus)
+            if (first == 0.0 && first.isSignMinus)
             {
                 first = -first;
             }
