@@ -519,9 +519,6 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     private var _panGestureReachedEdge: Bool = false;
     private weak var _outerScrollView: UIScrollView?;
     
-    /// the last highlighted object
-    private var _lastHighlighted: ChartHighlight!;
-    
     private var _lastPanPoint = CGPoint() /// This is to prevent using setTranslation which resets velocity
     
     private var _decelerationLastTime: NSTimeInterval = 0.0
@@ -539,14 +536,14 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         {
             var h = getHighlightByTouchPoint(recognizer.locationInView(self));
             
-            if (h === nil || h!.isEqual(_lastHighlighted))
+            if (h === nil || h!.isEqual(self.lastHighlighted))
             {
                 self.highlightValue(highlight: nil, callDelegate: true);
-                _lastHighlighted = nil;
+                self.lastHighlighted = nil;
             }
             else
             {
-                _lastHighlighted = h;
+                self.lastHighlighted = h;
                 self.highlightValue(highlight: h, callDelegate: true);
             }
         }
@@ -711,11 +708,13 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             {
                 var h = getHighlightByTouchPoint(recognizer.locationInView(self));
                 
-                if ((h === nil && _lastHighlighted !== nil) ||
-                    (h !== nil && _lastHighlighted === nil) ||
-                    (h !== nil && _lastHighlighted !== nil && !h!.isEqual(_lastHighlighted)))
+                let lastHighlighted = self.lastHighlighted;
+                
+                if ((h === nil && lastHighlighted !== nil) ||
+                    (h !== nil && lastHighlighted === nil) ||
+                    (h !== nil && lastHighlighted !== nil && !h!.isEqual(lastHighlighted)))
                 {
-                    _lastHighlighted = h;
+                    self.lastHighlighted = h;
                     self.highlightValue(highlight: h, callDelegate: true);
                 }
             }
