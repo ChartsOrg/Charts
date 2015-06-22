@@ -1,5 +1,5 @@
 //
-//  MultipleBarChartViewController.m
+//  NegativeStackedBarChartViewController.m
 //  ChartsDemo
 //
 //  Created by Daniel Cohen Gindi on 17/3/15.
@@ -11,26 +11,22 @@
 //  https://github.com/danielgindi/ios-charts
 //
 
-#import "MultipleBarChartViewController.h"
+#import "NegativeStackedBarChartViewController.h"
 #import "ChartsDemo-Swift.h"
 
-@interface MultipleBarChartViewController () <ChartViewDelegate>
+@interface NegativeStackedBarChartViewController () <ChartViewDelegate>
 
-@property (nonatomic, strong) IBOutlet BarChartView *chartView;
-@property (nonatomic, strong) IBOutlet UISlider *sliderX;
-@property (nonatomic, strong) IBOutlet UISlider *sliderY;
-@property (nonatomic, strong) IBOutlet UITextField *sliderTextX;
-@property (nonatomic, strong) IBOutlet UITextField *sliderTextY;
+@property (nonatomic, strong) IBOutlet HorizontalBarChartView *chartView;
 
 @end
 
-@implementation MultipleBarChartViewController
+@implementation NegativeStackedBarChartViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.title = @"Multiple Bar Chart";
+    self.title = @"Horizontal Bar Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
@@ -45,40 +41,80 @@
                      @{@"key": @"toggleAutoScaleMinMax", @"label": @"Toggle auto scale min/max"},
                      ];
     
+    NSNumberFormatter *customFormatter = [[NSNumberFormatter alloc] init];
+    customFormatter.negativePrefix = @"";
+    customFormatter.positiveSuffix = @"m";
+    customFormatter.negativeSuffix = @"m";
+    customFormatter.minimumSignificantDigits = 1;
+    customFormatter.minimumFractionDigits = 1;
+    
     _chartView.delegate = self;
     
     _chartView.descriptionText = @"";
     _chartView.noDataTextDescription = @"You need to provide data for the chart.";
     
-    _chartView.pinchZoomEnabled = NO;
     _chartView.drawBarShadowEnabled = NO;
-    _chartView.drawGridBackgroundEnabled = NO;
+    _chartView.drawValueAboveBarEnabled = YES;
     
-    BalloonMarker *marker = [[BalloonMarker alloc] initWithColor:[UIColor colorWithWhite:180/255. alpha:1.0] font:[UIFont systemFontOfSize:12.0] insets: UIEdgeInsetsMake(8.0, 8.0, 20.0, 8.0)];
-    marker.minimumSize = CGSizeMake(80.f, 40.f);
-    _chartView.marker = marker;
+    // if false values are only drawn for the stack sum, else each value is drawn
+    _chartView.drawValuesForWholeStackEnabled = YES;
+    // scaling can now only be done on x- and y-axis separately
+    _chartView.pinchZoomEnabled = NO;
     
-    ChartLegend *legend = _chartView.legend;
-    legend.position = ChartLegendPositionRightOfChartInside;
-    legend.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
+    _chartView.drawBarShadowEnabled = NO;
+    _chartView.drawValueAboveBarEnabled = YES;
+    
+    _chartView.leftAxis.enabled = NO;
+    _chartView.rightAxis.startAtZeroEnabled = NO;
+    _chartView.rightAxis.customAxisMax = 25.0;
+    _chartView.rightAxis.customAxisMin = -25.0;
+    _chartView.rightAxis.labelCount = 7;
+    _chartView.rightAxis.valueFormatter = customFormatter;
+    _chartView.rightAxis.labelFont = [UIFont systemFontOfSize:9.f];
     
     ChartXAxis *xAxis = _chartView.xAxis;
-    xAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
+    xAxis.labelPosition = XAxisLabelPositionBothSided;
+    xAxis.drawGridLinesEnabled = NO;
+    xAxis.drawAxisLineEnabled = NO;
+    _chartView.rightAxis.labelFont = [UIFont systemFontOfSize:9.f];
     
-    ChartYAxis *leftAxis = _chartView.leftAxis;
-    leftAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
-    leftAxis.valueFormatter = [[NSNumberFormatter alloc] init];
-    leftAxis.valueFormatter.maximumFractionDigits = 1;
-    leftAxis.drawGridLinesEnabled = NO;
-    leftAxis.spaceTop = 0.25;
+    ChartLegend *l = _chartView.legend;
+    l.position = ChartLegendPositionBelowChartRight;
+    l.formSize = 8.f;
+    l.formToTextSpace = 4.f;
+    l.xEntrySpace = 6.f;
     
-    _chartView.rightAxis.enabled = NO;
-    _chartView.valueFormatter = [[NSNumberFormatter alloc] init];
-    _chartView.valueFormatter.maximumFractionDigits = 1;
+    NSMutableArray *yValues = [NSMutableArray array];
+    [yValues addObject:[[BarChartDataEntry alloc] initWithValues:@[ @-10, @10 ] xIndex: 0]];
+    [yValues addObject:[[BarChartDataEntry alloc] initWithValues:@[ @-12, @13 ] xIndex: 1]];
+    [yValues addObject:[[BarChartDataEntry alloc] initWithValues:@[ @-15, @15 ] xIndex: 2]];
+    [yValues addObject:[[BarChartDataEntry alloc] initWithValues:@[ @-17, @17 ] xIndex: 3]];
+    [yValues addObject:[[BarChartDataEntry alloc] initWithValues:@[ @-19, @20 ] xIndex: 4]];
+    [yValues addObject:[[BarChartDataEntry alloc] initWithValues:@[ @-19, @19 ] xIndex: 5]];
+    [yValues addObject:[[BarChartDataEntry alloc] initWithValues:@[ @-16, @16 ] xIndex: 6]];
+    [yValues addObject:[[BarChartDataEntry alloc] initWithValues:@[ @-13, @14 ] xIndex: 7]];
+    [yValues addObject:[[BarChartDataEntry alloc] initWithValues:@[ @-10, @11 ] xIndex: 8]];
+    [yValues addObject:[[BarChartDataEntry alloc] initWithValues:@[ @-5, @6 ] xIndex: 9]];
+    [yValues addObject:[[BarChartDataEntry alloc] initWithValues:@[ @-1, @2 ] xIndex: 10]];
     
-    _sliderX.value = 9.0;
-    _sliderY.value = 100.0;
-    [self slidersValueChanged:nil];
+    BarChartDataSet *set = [[BarChartDataSet alloc] initWithYVals:yValues label:@"Age Distribution"];
+    set.valueFormatter = customFormatter;
+    set.valueFont = [UIFont systemFontOfSize:7.f];
+    set.axisDependency = AxisDependencyRight;
+    set.barSpace = 0.5f;
+    set.colors = @[
+                   [UIColor colorWithRed:67/255.f green:67/255.f blue:72/255.f alpha:1.f],
+                   [UIColor colorWithRed:124/255.f green:181/255.f blue:236/255.f alpha:1.f]
+                   ];
+    set.stackLabels = @[
+                        @"Men", @"Women"
+                        ];
+    
+    NSArray *xVals = @[ @"0-10", @"10-20", @"20-30", @"30-40", @"40-50", @"50-60", @"60-70", @"70-80", @"80-90", @"90-100", @"100+" ];
+    
+    BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSet:set];
+    _chartView.data = data;
+    [_chartView setNeedsDisplay];
 }
 
 - (void)didReceiveMemoryWarning
@@ -93,41 +129,25 @@
     
     for (int i = 0; i < count; i++)
     {
-        [xVals addObject:[@(i + 1990) stringValue]];
+        [xVals addObject:months[i % 12]];
     }
     
-    NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
-    NSMutableArray *yVals2 = [[NSMutableArray alloc] init];
-    NSMutableArray *yVals3 = [[NSMutableArray alloc] init];
-    
-    double mult = range * 1000.f;
+    NSMutableArray *yVals = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < count; i++)
     {
-        double val = (double) (arc4random_uniform(mult) + 3.0);
-        [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
-        
-        val = (double) (arc4random_uniform(mult) + 3.0);
-        [yVals2 addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
-        
-        val = (double) (arc4random_uniform(mult) + 3.0);
-        [yVals3 addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
+        double mult = (range + 1);
+        double val = (double) (arc4random_uniform(mult));
+        [yVals addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
     
-    BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithYVals:yVals1 label:@"Company A"];
-    [set1 setColor:[UIColor colorWithRed:104/255.f green:241/255.f blue:175/255.f alpha:1.f]];
-    BarChartDataSet *set2 = [[BarChartDataSet alloc] initWithYVals:yVals2 label:@"Company B"];
-    [set2 setColor:[UIColor colorWithRed:164/255.f green:228/255.f blue:251/255.f alpha:1.f]];
-    BarChartDataSet *set3 = [[BarChartDataSet alloc] initWithYVals:yVals3 label:@"Company C"];
-    [set3 setColor:[UIColor colorWithRed:242/255.f green:247/255.f blue:158/255.f alpha:1.f]];
+    BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithYVals:yVals label:@"DataSet"];
+    set1.barSpace = 0.35;
     
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
     [dataSets addObject:set1];
-    [dataSets addObject:set2];
-    //[dataSets addObject:set3];
     
     BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSets:dataSets];
-    data.groupSpace = 0.8;
     [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
     
     _chartView.data = data;
@@ -199,16 +219,6 @@
         _chartView.autoScaleMinMaxEnabled = !_chartView.isAutoScaleMinMaxEnabled;
         [_chartView notifyDataSetChanged];
     }
-}
-
-#pragma mark - Actions
-
-- (IBAction)slidersValueChanged:(id)sender
-{
-    _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
-    _sliderTextY.text = [@((int)_sliderY.value) stringValue];
-    
-    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
 }
 
 #pragma mark - ChartViewDelegate

@@ -20,6 +20,7 @@
 #import "PieChartViewController.h"
 #import "ScatterChartViewController.h"
 #import "StackedBarChartViewController.h"
+#import "NegativeStackedBarChartViewController.h"
 #import "AnotherBarChartViewController.h"
 #import "MultipleLinesChartViewController.h"
 #import "MultipleBarChartViewController.h"
@@ -89,6 +90,11 @@
                           @"title": @"Stacked Bar Chart",
                           @"subtitle": @"A simple demonstration of a bar chart with stacked bars.",
                           @"class": StackedBarChartViewController.class
+                          },
+                      @{
+                          @"title": @"Stacked Bar Chart Negative",
+                          @"subtitle": @"A simple demonstration of stacked bars with negative and positive values.",
+                          @"class": NegativeStackedBarChartViewController.class
                           },
                       @{
                           @"title": @"Another Bar Chart",
