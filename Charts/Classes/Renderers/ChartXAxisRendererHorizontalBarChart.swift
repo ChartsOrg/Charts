@@ -59,8 +59,8 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         }
         else
         { // BOTH SIDED
-            drawLabels(context: context, pos: viewPortHandler.contentLeft, align: .Left);
-            drawLabels(context: context, pos: viewPortHandler.contentRight, align: .Left);
+            drawLabels(context: context, pos: viewPortHandler.contentLeft - xoffset, align: .Right);
+            drawLabels(context: context, pos: viewPortHandler.contentRight + xoffset, align: .Left);
         }
     }
 

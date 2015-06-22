@@ -174,6 +174,11 @@ public class ChartYAxis: ChartAxisBase
         size.width = max(minWidth, min(size.width, maxWidth > 0.0 ? maxWidth : size.width));
         return size;
     }
+    
+    public func getRequiredHeightSpace() -> CGFloat
+    {
+        return requiredSize().height + 2.5 * 2.0 + yOffset;
+    }
 
     public override func getLongestLabel() -> String
     {

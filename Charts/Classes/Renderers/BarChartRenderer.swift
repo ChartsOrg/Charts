@@ -151,7 +151,8 @@ public class BarChartRenderer: ChartDataRendererBase
             }
             else
             {
-                var all = e.value;
+                var allPos = e.positiveSum
+                var allNeg = e.negativeSum
                 
                 // if drawing the bar shadow is enabled
                 if (drawBarShadowEnabled)
@@ -192,8 +193,18 @@ public class BarChartRenderer: ChartDataRendererBase
                 // fill the stack
                 for (var k = 0; k < vals.count; k++)
                 {
-                    all -= vals[k];
-                    y = vals[k] + all;
+                    let value = vals[k]
+                    
+                    if value >= 0.0
+                    {
+                        allPos -= value
+                        y = value + allPos
+                    }
+                    else
+                    {
+                        allNeg -= abs(value)
+                        y = value + allNeg
+                    }
                     
                     var left = x - barWidth + barSpaceHalf;
                     var right = x + barWidth - barSpaceHalf;
@@ -375,14 +386,26 @@ public class BarChartRenderer: ChartDataRendererBase
                         else
                         {
                             var transformed = [CGPoint]();
-                            var cnt = 0;
-                            var add = e.value;
+                            var allPos = e.positiveSum
+                            var allNeg = e.negativeSum
                             
                             for (var k = 0; k < vals.count; k++)
                             {
-                                add -= vals[cnt];
-                                transformed.append(CGPoint(x: 0.0, y: (CGFloat(vals[cnt]) + CGFloat(add)) * _animator.phaseY));
-                                cnt++;
+                                let value = vals[k]
+                                var y: Double
+                                
+                                if value >= 0.0
+                                {
+                                    allPos -= value
+                                    y = value + allPos
+                                }
+                                else
+                                {
+                                    allNeg -= abs(value)
+                                    y = value + allNeg
+                                }
+                                
+                                transformed.append(CGPoint(x: 0.0, y: CGFloat(y) * _animator.phaseY));
                             }
                             
                             trans.pointValuesToPixel(&transformed);
