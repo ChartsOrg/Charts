@@ -64,7 +64,7 @@ internal class ChartUtils
     }
 
     /// Returns the index of the DataSet that contains the closest value on the y-axis. This is needed for highlighting.
-    internal class func closestDataSetIndex(valsAtIndex: [ChartSelInfo], value: Double, axis: ChartYAxis.AxisDependency?) -> Int
+    internal class func closestDataSetIndex(valsAtIndex: [ChartSelectionDetail], value: Double, axis: ChartYAxis.AxisDependency?) -> Int
     {
         var index = -1;
         var distance = DBL_MAX;
@@ -88,7 +88,7 @@ internal class ChartUtils
     }
     
     /// Returns the minimum distance from a touch-y-value (in pixels) to the closest y-value (in pixels) that is displayed in the chart.
-    internal class func getMinimumDistance(valsAtIndex: [ChartSelInfo], val: Double, axis: ChartYAxis.AxisDependency) -> Double
+    internal class func getMinimumDistance(valsAtIndex: [ChartSelectionDetail], val: Double, axis: ChartYAxis.AxisDependency) -> Double
     {
         var distance = DBL_MAX;
         

@@ -1,5 +1,5 @@
 //
-//  ChartselInfo.swift
+//  ChartSelectionDetail.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 23/2/15.
@@ -14,7 +14,7 @@
 
 import Foundation
 
-public class ChartSelInfo: NSObject
+public class ChartSelectionDetail: NSObject
 {
     private var _value = Double(0)
     private var _dataSetIndex = Int(0)
@@ -82,7 +82,7 @@ public class ChartSelInfo: NSObject
     }
 }
 
-public func ==(lhs: ChartSelInfo, rhs: ChartSelInfo) -> Bool
+public func ==(lhs: ChartSelectionDetail, rhs: ChartSelectionDetail) -> Bool
 {
     if (lhs === rhs)
     {

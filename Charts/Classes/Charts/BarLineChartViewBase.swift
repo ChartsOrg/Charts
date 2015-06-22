@@ -1281,7 +1281,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             xIndex = Int(base + 1.0);
         }
 
-        var valsAtIndex = getYValsAtIndex(xIndex);
+        var valsAtIndex = getSelectionDetailsAtIndex(xIndex);
 
         var leftdist = ChartUtils.getMinimumDistance(valsAtIndex, val: Double(pt.y), axis: .Left);
         var rightdist = ChartUtils.getMinimumDistance(valsAtIndex, val: Double(pt.y), axis: .Right);
@@ -1307,12 +1307,12 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         return ChartHighlight(xIndex: xIndex, dataSetIndex: dataSetIndex);
     }
 
-    /// Returns an array of SelInfo objects for the given x-index. The SelInfo
+    /// Returns an array of SelectionDetail objects for the given x-index. The SelectionDetail
     /// objects give information about the value at the selected index and the
     /// DataSet it belongs to. 
-    public func getYValsAtIndex(xIndex: Int) -> [ChartSelInfo]
+    public func getSelectionDetailsAtIndex(xIndex: Int) -> [ChartSelectionDetail]
     {
-        var vals = [ChartSelInfo]();
+        var vals = [ChartSelectionDetail]();
 
         var pt = CGPoint();
 
@@ -1332,7 +1332,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
 
             if (!isnan(pt.y))
             {
-                vals.append(ChartSelInfo(value: Double(pt.y), dataSetIndex: i, dataSet: dataSet!));
+                vals.append(ChartSelectionDetail(value: Double(pt.y), dataSetIndex: i, dataSet: dataSet!));
             }
         }
 

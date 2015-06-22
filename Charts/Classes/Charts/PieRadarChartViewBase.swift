@@ -349,11 +349,11 @@ public class PieRadarChartViewBase: ChartViewBase
         return 0.0;
     }
     
-    /// Returns an array of SelInfo objects for the given x-index.
-    /// The SelInfo objects give information about the value at the selected index and the DataSet it belongs to.
-    public func getYValsAtIndex(xIndex: Int) -> [ChartSelInfo]
+    /// Returns an array of SelectionDetail objects for the given x-index.
+    /// The SelectionDetail objects give information about the value at the selected index and the DataSet it belongs to.
+    public func getSelectionDetailsAtIndex(xIndex: Int) -> [ChartSelectionDetail]
     {
-        var vals = [ChartSelInfo]();
+        var vals = [ChartSelectionDetail]();
         
         for (var i = 0; i < _data.dataSetCount; i++)
         {
@@ -364,7 +364,7 @@ public class PieRadarChartViewBase: ChartViewBase
             
             if (!isnan(yVal))
             {
-                vals.append(ChartSelInfo(value: yVal, dataSetIndex: i, dataSet: dataSet!));
+                vals.append(ChartSelectionDetail(value: yVal, dataSetIndex: i, dataSet: dataSet!));
             }
         }
         
@@ -743,7 +743,7 @@ public class PieRadarChartViewBase: ChartViewBase
                 }
                 else
                 {
-                    var valsAtIndex = getYValsAtIndex(index);
+                    var valsAtIndex = getSelectionDetailsAtIndex(index);
                     
                     var dataSetIndex = 0;
                     
