@@ -358,6 +358,10 @@ public class PieRadarChartViewBase: ChartViewBase
         for (var i = 0; i < _data.dataSetCount; i++)
         {
             var dataSet = _data.getDataSetByIndex(i);
+            if (dataSet === nil || !dataSet.isHighlightEnabled)
+            {
+                continue;
+            }
             
             // extract all y-values from all DataSets at the given x-index
             var yVal = dataSet!.yValForXIndex(xIndex);
