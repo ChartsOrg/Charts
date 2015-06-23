@@ -64,8 +64,8 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         
         transformer.pointValuesToPixel(&positions);
         
-        var lineHeight = _yAxis.labelFont.lineHeight;
-        var yoffset = lineHeight + _yAxis.yOffset;
+        var lineHeight = _yAxis.labelFont.lineHeight
+        var baseYOffset: CGFloat = 2.5
         
         var dependency = _yAxis.axisDependency;
         var labelPosition = _yAxis.labelPosition;
@@ -76,32 +76,30 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         {
             if (labelPosition == .OutsideChart)
             {
-                yoffset = 3.0;
-                yPos = viewPortHandler.contentTop;
+                yPos = viewPortHandler.contentTop - baseYOffset
             }
             else
             {
-                yoffset = yoffset * -1;
-                yPos = viewPortHandler.contentTop;
+                yPos = viewPortHandler.contentTop - baseYOffset
             }
         }
         else
         {
             if (labelPosition == .OutsideChart)
             {
-                yoffset = yoffset * -1.0;
-                yPos = viewPortHandler.contentBottom;
+                yPos = viewPortHandler.contentBottom + lineHeight + baseYOffset
             }
             else
             {
-                yoffset = 4.0;
-                yPos = viewPortHandler.contentBottom;
+                yPos = viewPortHandler.contentBottom + lineHeight + baseYOffset
             }
         }
         
-        yPos -= lineHeight;
+        // For compatibility with Android code, we keep above calculation the same,
+        // And here we pull the line back up
+        yPos -= lineHeight
         
-        drawYLabels(context: context, fixedPosition: yPos, positions: positions, offset: yoffset);
+        drawYLabels(context: context, fixedPosition: yPos, positions: positions, offset: _yAxis.yOffset);
     }
     
     private var _axisLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint());

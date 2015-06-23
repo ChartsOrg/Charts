@@ -519,9 +519,6 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     private var _panGestureReachedEdge: Bool = false;
     private weak var _outerScrollView: UIScrollView?;
     
-    /// the last highlighted object
-    private var _lastHighlighted: ChartHighlight!;
-    
     private var _lastPanPoint = CGPoint() /// This is to prevent using setTranslation which resets velocity
     
     private var _decelerationLastTime: NSTimeInterval = 0.0
@@ -539,14 +536,14 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         {
             var h = getHighlightByTouchPoint(recognizer.locationInView(self));
             
-            if (h === nil || h!.isEqual(_lastHighlighted))
+            if (h === nil || h!.isEqual(self.lastHighlighted))
             {
                 self.highlightValue(highlight: nil, callDelegate: true);
-                _lastHighlighted = nil;
+                self.lastHighlighted = nil;
             }
             else
             {
-                _lastHighlighted = h;
+                self.lastHighlighted = h;
                 self.highlightValue(highlight: h, callDelegate: true);
             }
         }
@@ -711,11 +708,13 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             {
                 var h = getHighlightByTouchPoint(recognizer.locationInView(self));
                 
-                if ((h === nil && _lastHighlighted !== nil) ||
-                    (h !== nil && _lastHighlighted === nil) ||
-                    (h !== nil && _lastHighlighted !== nil && !h!.isEqual(_lastHighlighted)))
+                let lastHighlighted = self.lastHighlighted;
+                
+                if ((h === nil && lastHighlighted !== nil) ||
+                    (h !== nil && lastHighlighted === nil) ||
+                    (h !== nil && lastHighlighted !== nil && !h!.isEqual(lastHighlighted)))
                 {
-                    _lastHighlighted = h;
+                    self.lastHighlighted = h;
                     self.highlightValue(highlight: h, callDelegate: true);
                 }
             }
@@ -1282,7 +1281,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             xIndex = Int(base + 1.0);
         }
 
-        var valsAtIndex = getYValsAtIndex(xIndex);
+        var valsAtIndex = getSelectionDetailsAtIndex(xIndex);
 
         var leftdist = ChartUtils.getMinimumDistance(valsAtIndex, val: Double(pt.y), axis: .Left);
         var rightdist = ChartUtils.getMinimumDistance(valsAtIndex, val: Double(pt.y), axis: .Right);
@@ -1308,19 +1307,19 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         return ChartHighlight(xIndex: xIndex, dataSetIndex: dataSetIndex);
     }
 
-    /// Returns an array of SelInfo objects for the given x-index. The SelInfo
+    /// Returns an array of SelectionDetail objects for the given x-index. The SelectionDetail
     /// objects give information about the value at the selected index and the
     /// DataSet it belongs to. 
-    public func getYValsAtIndex(xIndex: Int) -> [ChartSelInfo]
+    public func getSelectionDetailsAtIndex(xIndex: Int) -> [ChartSelectionDetail]
     {
-        var vals = [ChartSelInfo]();
+        var vals = [ChartSelectionDetail]();
 
         var pt = CGPoint();
 
         for (var i = 0, count = _data.dataSetCount; i < count; i++)
         {
             var dataSet = _data.getDataSetByIndex(i);
-            if (dataSet === nil)
+            if (dataSet === nil || !dataSet.isHighlightEnabled)
             {
                 continue;
             }
@@ -1333,7 +1332,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
 
             if (!isnan(pt.y))
             {
-                vals.append(ChartSelInfo(value: Double(pt.y), dataSetIndex: i, dataSet: dataSet!));
+                vals.append(ChartSelectionDetail(value: Double(pt.y), dataSetIndex: i, dataSet: dataSet!));
             }
         }
 
@@ -1501,11 +1500,32 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     /// :returns: true if both drag offsets (x and y) are zero or smaller.
     public var hasNoDragOffset: Bool { return _viewPortHandler.hasNoDragOffset; }
 
-    public var xAxisRenderer: ChartXAxisRenderer { return _xAxisRenderer; }
+    /// The X axis renderer. This is a read-write property so you can set your own custom renderer here.
+    /// :default: An instance of ChartXAxisRenderer
+    /// :returns: The current set X axis renderer
+    public var xAxisRenderer: ChartXAxisRenderer
+    {
+        get { return _xAxisRenderer }
+        set { _xAxisRenderer = newValue }
+    }
     
-    public var leftYAxisRenderer: ChartYAxisRenderer { return _leftYAxisRenderer; }
-
-    public var rightYAxisRenderer: ChartYAxisRenderer { return _rightYAxisRenderer; }
+    /// The left Y axis renderer. This is a read-write property so you can set your own custom renderer here.
+    /// :default: An instance of ChartYAxisRenderer
+    /// :returns: The current set left Y axis renderer
+    public var leftYAxisRenderer: ChartYAxisRenderer
+    {
+        get { return _leftYAxisRenderer }
+        set { _leftYAxisRenderer = newValue }
+    }
+    
+    /// The right Y axis renderer. This is a read-write property so you can set your own custom renderer here.
+    /// :default: An instance of ChartYAxisRenderer
+    /// :returns: The current set right Y axis renderer
+    public var rightYAxisRenderer: ChartYAxisRenderer
+    {
+        get { return _rightYAxisRenderer }
+        set { _rightYAxisRenderer = newValue }
+    }
     
     public override var chartYMax: Double
     {

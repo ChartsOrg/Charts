@@ -44,7 +44,7 @@ public class BarChartDataEntry: ChartDataEntry
         super.init(value: value, xIndex: xIndex, data: data)
     }
 
-    /// Returns the closest value inside the values array (for stacked barchart)
+    /// Returns the index of the closest value inside the values array (for stacked barchart)
     /// to the value given as a parameter. The closest value must be higher
     /// (above) the provided value.
     public func getClosestIndexAbove(value: Double) -> Int
@@ -98,8 +98,48 @@ public class BarChartDataEntry: ChartDataEntry
         return sum;
     }
     
-    // MARK: Accessors
+    public var positiveSum: Double
+    {
+        if _values == nil
+        {
+            return 0.0
+        }
+        
+        var sum: Double = 0.0
+        
+        for f in _values
+        {
+            if f > 0.0
+            {
+                sum += f
+            }
+        }
+        
+        return sum
+    }
     
+    public var negativeSum: Double
+    {
+        if _values == nil
+        {
+            return 0.0
+        }
+        
+        var sum: Double = 0.0
+        
+        for f in _values
+        {
+            if f < 0.0
+            {
+                sum += abs(f)
+            }
+        }
+        
+        return sum
+    }
+
+    // MARK: Accessors
+
     /// the values the stacked barchart holds
     public var values: [Double]!
     {

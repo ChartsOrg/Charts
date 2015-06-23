@@ -191,7 +191,7 @@ public class ChartViewPortHandler: NSObject
         
         var matrix = CGAffineTransformConcat(_touchMatrix, CGAffineTransformMakeTranslation(-translateX, -translateY));
         
-        refresh(newMatrix: matrix, chart: chart, invalidate: false);
+        refresh(newMatrix: matrix, chart: chart, invalidate: true);
     }
     
     /// call this method to refresh the graph with a given matrix

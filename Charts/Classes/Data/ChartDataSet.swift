@@ -53,6 +53,9 @@ public class ChartDataSet: NSObject
     /// if true, value highlighting is enabled
     public var highlightEnabled = true
     
+    /// :returns: true if value highlighting is enabled for this dataset
+    public var isHighlightEnabled: Bool { return highlightEnabled }
+    
     public override init()
     {
         super.init();
@@ -111,13 +114,19 @@ public class ChartDataSet: NSObject
         for (var i = start; i <= endValue; i++)
         {
             let e = _yVals[i];
-            if (!e.value.isNaN && e.value < _yMin)
+            
+            if (!e.value.isNaN)
             {
-                _yMin = e.value;
-            }
-            if (!e.value.isNaN && e.value > _yMax)
-            {
-                _yMax = e.value;
+                
+                if (!e.value.isNaN && e.value < _yMin)
+                {
+                    _yMin = e.value;
+                }
+                if (!e.value.isNaN && e.value > _yMax)
+                {
+                    _yMax = e.value;
+                }
+                
             }
         }
     }

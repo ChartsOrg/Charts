@@ -365,6 +365,11 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     {
         // set the indices to highlight
         _indicesToHightlight = highs ?? [ChartHighlight]();
+        
+        if (_indicesToHightlight.isEmpty)
+        {
+            self.lastHighlighted = nil;
+        }
 
         // redraw the chart
         setNeedsDisplay();
@@ -426,6 +431,9 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             }
         }
     }
+    
+    /// The last value that was highlighted via touch.
+    public var lastHighlighted: ChartHighlight?
   
     // MARK: - Markers
 

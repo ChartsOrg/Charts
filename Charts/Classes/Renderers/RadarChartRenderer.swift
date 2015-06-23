@@ -55,20 +55,17 @@ public class RadarChartRenderer: ChartDataRendererBase
         var factor = _chart.factor;
         
         var center = _chart.centerOffsets;
-        
         var entries = dataSet.yVals;
-        
         var path = CGPathCreateMutable();
-        
         var hasMovedToPoint = false;
-
+        
         for (var j = 0; j < entries.count; j++)
         {
             var e = entries[j];
             
             var p = ChartUtils.getPosition(center: center, dist: CGFloat(e.value - _chart.chartYMin) * factor, angle: sliceangle * CGFloat(j) + _chart.rotationAngle);
             
-            if (p.x.isNaN || p.y.isNaN)
+            if (p.x.isNaN)
             {
                 continue
             }
@@ -259,7 +256,7 @@ public class RadarChartRenderer: ChartDataRendererBase
         {
             var set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as! RadarChartDataSet!;
             
-            if (set === nil || !set.highlightEnabled)
+            if (set === nil || !set.isHighlightEnabled)
             {
                 continue;
             }
@@ -277,14 +274,14 @@ public class RadarChartRenderer: ChartDataRendererBase
             
             var j = set.entryIndex(entry: e!, isEqual: true);
             var y = (e!.value - _chart.chartYMin);
-
-            var p = ChartUtils.getPosition(center: center, dist: CGFloat(y) * factor,
-                angle: sliceangle * CGFloat(j) + _chart.rotationAngle);
             
-            if (p.x.isNaN || p.y.isNaN)
+            if (y.isNaN)
             {
                 continue;
             }
+            
+            var p = ChartUtils.getPosition(center: center, dist: CGFloat(y) * factor,
+                angle: sliceangle * CGFloat(j) + _chart.rotationAngle);
             
             _lineSegments[0] = CGPoint(x: p.x, y: 0.0)
             _lineSegments[1] = CGPoint(x: p.x, y: viewPortHandler.chartHeight)

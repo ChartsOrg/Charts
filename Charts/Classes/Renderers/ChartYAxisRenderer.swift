@@ -122,7 +122,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
         }
         
         var xoffset = _yAxis.xOffset;
-        var yoffset = _yAxis.labelFont.lineHeight / 2.5;
+        var yoffset = _yAxis.labelFont.lineHeight / 2.5 + _yAxis.yOffset;
         
         var dependency = _yAxis.axisDependency;
         var labelPosition = _yAxis.labelPosition;

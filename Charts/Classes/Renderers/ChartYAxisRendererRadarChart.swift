@@ -73,7 +73,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
             
             var first: Double;
             
-            // if raw value negative, we need to minus 1.
+            // if raw value negative, we need to use floor rather than ceil
             if (rawValue < 0)
             {
                 first = floor(rawValue) * interval;
@@ -83,9 +83,9 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
                 first = ceil(Double(yMin) / interval) * interval;
             }
             
-            if (first == 0.0 && first.isSignMinus)
-            {
-                first = -first;
+            if (first == 0.0)
+            { // Fix for IEEE negative zero case (Where value == -0.0, and 0.0 == -0.0)
+                first = 0.0;
             }
             
             var last = ChartUtils.nextUp(floor(Double(yMax) / interval) * interval);

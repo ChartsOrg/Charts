@@ -62,12 +62,12 @@ public class HorizontalBarChartView: BarChartView
         // offsets for y-labels
         if (_leftAxis.needsOffset)
         {
-            offsetTop += _leftAxis.requiredSize().height;
+            offsetTop += _leftAxis.getRequiredHeightSpace();
         }
         
         if (_rightAxis.needsOffset)
         {
-            offsetBottom += _rightAxis.requiredSize().height;
+            offsetBottom += _rightAxis.getRequiredHeightSpace();
         }
         
         var xlabelwidth = _xAxis.labelWidth;

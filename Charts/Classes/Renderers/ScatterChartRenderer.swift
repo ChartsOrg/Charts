@@ -256,7 +256,7 @@ public class ScatterChartRenderer: ChartDataRendererBase
         {
             var set = scatterData.getDataSetByIndex(indices[i].dataSetIndex) as! ScatterChartDataSet!;
             
-            if (set === nil || !set.highlightEnabled)
+            if (set === nil || !set.isHighlightEnabled)
             {
                 continue;
             }
