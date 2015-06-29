@@ -16,7 +16,7 @@ public class BubbleChartData: BarLineScatterCandleChartData
 {
     public override init()
     {
-        super.init();
+        super.init()
     }
     
     public override init(xVals: [String?]?, dataSets: [ChartDataSet]?)
@@ -34,7 +34,7 @@ public class BubbleChartData: BarLineScatterCandleChartData
     {
         for set in _dataSets as! [BubbleChartDataSet]!
         {
-            set.highlightCircleWidth = width;
+            set.highlightCircleWidth = width
         }
     }
 }

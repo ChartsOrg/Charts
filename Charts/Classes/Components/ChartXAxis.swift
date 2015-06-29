@@ -51,7 +51,7 @@ public class ChartXAxis: ChartAxisBase
     public var avoidFirstLastClippingEnabled = false
     
     /// the position of the x-labels relative to the chart
-    public var labelPosition = XAxisLabelPosition.Top;
+    public var labelPosition = XAxisLabelPosition.Top
     
     /// if set to true, word wrapping the labels will be enabled.
     /// word wrapping is done using (value width * labelWidth)
@@ -64,33 +64,33 @@ public class ChartXAxis: ChartAxisBase
     /// the width for wrapping the labels, as percentage out of one value width.
     /// used only when isWordWrapEnabled = true.
     /// :default 1.0
-    public var wordWrapWidthPercent: CGFloat = 1.0;
+    public var wordWrapWidthPercent: CGFloat = 1.0
     
     public override init()
     {
-        super.init();
+        super.init()
     }
 
     public override func getLongestLabel() -> String
     {
-        var longest = "";
+        var longest = ""
         
         for (var i = 0; i < values.count; i++)
         {
-            var text = values[i];
+            var text = values[i]
             
             if (text != nil && count(longest) < count(text!))
             {
-                longest = text!;
+                longest = text!
             }
         }
         
-        return longest;
+        return longest
     }
     
     public var isAvoidFirstLastClippingEnabled: Bool
     {
-        return avoidFirstLastClippingEnabled;
+        return avoidFirstLastClippingEnabled
     }
 
     /// Sets the number of labels that should be skipped on the axis before the next label is drawn. 
@@ -98,28 +98,28 @@ public class ChartXAxis: ChartAxisBase
     /// Call resetLabelsToSkip(...) to re-enable automatic calculation.
     public func setLabelsToSkip(count: Int)
     {
-        _isAxisModulusCustom = true;
+        _isAxisModulusCustom = true
 
         if (count < 0)
         {
-            axisLabelModulus = 1;
+            axisLabelModulus = 1
         }
         else
         {
-            axisLabelModulus = count + 1;
+            axisLabelModulus = count + 1
         }
     }
     
     /// Calling this will disable a custom number of labels to be skipped (set by setLabelsToSkip(...)) while drawing the x-axis. Instead, the number of values to skip will again be calculated automatically.
     public func resetLabelsToSkip()
     {
-        _isAxisModulusCustom = false;
+        _isAxisModulusCustom = false
     }
     
     /// Returns true if a custom axis-modulus has been set that determines the number of labels to skip when drawing.
     public var isAxisModulusCustom: Bool
     {
-        return _isAxisModulusCustom;
+        return _isAxisModulusCustom
     }
     
     public var valuesObjc: [NSObject]

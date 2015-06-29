@@ -32,18 +32,18 @@ public class LineChartDataSet: LineRadarChartDataSet
     /// if true, cubic lines are drawn instead of linear
     public var drawCubicEnabled = false
     
-    public var drawCircleHoleEnabled = true;
+    public var drawCircleHoleEnabled = true
     
     public override init()
     {
-        super.init();
-        circleColors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0));
+        super.init()
+        circleColors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
     }
     
     public override init(yVals: [ChartDataEntry]?, label: String?)
     {
-        super.init(yVals: yVals, label: label);
-        circleColors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0));
+        super.init(yVals: yVals, label: label)
+        circleColors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
     }
 
     /// intensity for cubic lines (min = 0.05, max = 1)
@@ -52,18 +52,18 @@ public class LineChartDataSet: LineRadarChartDataSet
     {
         get
         {
-            return _cubicIntensity;
+            return _cubicIntensity
         }
         set
         {
-            _cubicIntensity = newValue;
+            _cubicIntensity = newValue
             if (_cubicIntensity > 1.0)
             {
-                _cubicIntensity = 1.0;
+                _cubicIntensity = 1.0
             }
             if (_cubicIntensity < 0.05)
             {
-                _cubicIntensity = 0.05;
+                _cubicIntensity = 0.05
             }
         }
     }
@@ -72,27 +72,27 @@ public class LineChartDataSet: LineRadarChartDataSet
     /// Performs a IndexOutOfBounds check by modulus.
     public func getCircleColor(var index: Int) -> UIColor?
     {
-        let size = circleColors.count;
-        index = index % size;
+        let size = circleColors.count
+        index = index % size
         if (index >= size)
         {
-            return nil;
+            return nil
         }
-        return circleColors[index];
+        return circleColors[index]
     }
     
     /// Sets the one and ONLY color that should be used for this DataSet.
     /// Internally, this recreates the colors array and adds the specified color.
     public func setCircleColor(color: UIColor)
     {
-        circleColors.removeAll(keepCapacity: false);
-        circleColors.append(color);
+        circleColors.removeAll(keepCapacity: false)
+        circleColors.append(color)
     }
     
     /// resets the circle-colors array and creates a new one
     public func resetCircleColors(var index: Int)
     {
-        circleColors.removeAll(keepCapacity: false);
+        circleColors.removeAll(keepCapacity: false)
     }
     
     public var isDrawCirclesEnabled: Bool { return drawCirclesEnabled; }
@@ -105,14 +105,14 @@ public class LineChartDataSet: LineRadarChartDataSet
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
-        var copy = super.copyWithZone(zone) as! LineChartDataSet;
-        copy.circleColors = circleColors;
-        copy.circleRadius = circleRadius;
-        copy.cubicIntensity = cubicIntensity;
-        copy.lineDashPhase = lineDashPhase;
-        copy.lineDashLengths = lineDashLengths;
-        copy.drawCirclesEnabled = drawCirclesEnabled;
-        copy.drawCubicEnabled = drawCubicEnabled;
-        return copy;
+        var copy = super.copyWithZone(zone) as! LineChartDataSet
+        copy.circleColors = circleColors
+        copy.circleRadius = circleRadius
+        copy.cubicIntensity = cubicIntensity
+        copy.lineDashPhase = lineDashPhase
+        copy.lineDashLengths = lineDashLengths
+        copy.drawCirclesEnabled = drawCirclesEnabled
+        copy.drawCubicEnabled = drawCubicEnabled
+        return copy
     }
 }

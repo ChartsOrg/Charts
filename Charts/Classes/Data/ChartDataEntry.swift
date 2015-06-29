@@ -27,24 +27,24 @@ public class ChartDataEntry: NSObject, Equatable
     
     public override init()
     {
-        super.init();
+        super.init()
     }
     
     public init(value: Double, xIndex: Int)
     {
-        super.init();
+        super.init()
         
-        self.value = value;
-        self.xIndex = xIndex;
+        self.value = value
+        self.xIndex = xIndex
     }
     
     public init(value: Double, xIndex: Int, data: AnyObject?)
     {
-        super.init();
+        super.init()
         
-        self.value = value;
-        self.xIndex = xIndex;
-        self.data = data;
+        self.value = value
+        self.xIndex = xIndex
+        self.data = data
     }
     
     // MARK: NSObject
@@ -53,48 +53,48 @@ public class ChartDataEntry: NSObject, Equatable
     {
         if (object === nil)
         {
-            return false;
+            return false
         }
         
         if (!object!.isKindOfClass(self.dynamicType))
         {
-            return false;
+            return false
         }
         
         if (object!.data !== data && !object!.data.isEqual(self.data))
         {
-            return false;
+            return false
         }
         
         if (object!.xIndex != xIndex)
         {
-            return false;
+            return false
         }
         
         if (fabs(object!.value - value) > 0.00001)
         {
-            return false;
+            return false
         }
         
-        return true;
+        return true
     }
     
     // MARK: NSObject
     
     public override var description: String
     {
-        return "ChartDataEntry, xIndex: \(xIndex), value \(value)";
+        return "ChartDataEntry, xIndex: \(xIndex), value \(value)"
     }
     
     // MARK: NSCopying
     
     public func copyWithZone(zone: NSZone) -> AnyObject
     {
-        var copy = self.dynamicType.allocWithZone(zone) as ChartDataEntry;
-        copy.value = value;
-        copy.xIndex = xIndex;
-        copy.data = data;
-        return copy;
+        var copy = self.dynamicType.allocWithZone(zone) as ChartDataEntry
+        copy.value = value
+        copy.xIndex = xIndex
+        copy.data = data
+        return copy
     }
 }
 
@@ -102,28 +102,28 @@ public func ==(lhs: ChartDataEntry, rhs: ChartDataEntry) -> Bool
 {
     if (lhs === rhs)
     {
-        return true;
+        return true
     }
     
     if (!lhs.isKindOfClass(rhs.dynamicType))
     {
-        return false;
+        return false
     }
     
     if (lhs.data !== rhs.data && !lhs.data!.isEqual(rhs.data))
     {
-        return false;
+        return false
     }
     
     if (lhs.xIndex != rhs.xIndex)
     {
-        return false;
+        return false
     }
     
     if (fabs(lhs.value - rhs.value) > 0.00001)
     {
-        return false;
+        return false
     }
     
-    return true;
+    return true
 }

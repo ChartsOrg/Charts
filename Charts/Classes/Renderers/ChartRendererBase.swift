@@ -17,23 +17,23 @@ import CoreGraphics
 public class ChartRendererBase: NSObject
 {
     /// the component that handles the drawing area of the chart and it's offsets
-    public var viewPortHandler: ChartViewPortHandler!;
+    public var viewPortHandler: ChartViewPortHandler!
     
     /// the minimum value on the x-axis that should be plotted
-    internal var _minX: Int = 0;
+    internal var _minX: Int = 0
     
     /// the maximum value on the x-axis that should be plotted
-    internal var _maxX: Int = 0;
+    internal var _maxX: Int = 0
     
     public override init()
     {
-        super.init();
+        super.init()
     }
     
     public init(viewPortHandler: ChartViewPortHandler)
     {
-        super.init();
-        self.viewPortHandler = viewPortHandler;
+        super.init()
+        self.viewPortHandler = viewPortHandler
     }
 
     /// Returns true if the specified value fits in between the provided min and max bounds, false if not.
@@ -41,24 +41,24 @@ public class ChartRendererBase: NSObject
     {
         if (val < min || val > max)
         {
-            return false;
+            return false
         }
         else
         {
-            return true;
+            return true
         }
     }
     
     /// Calculates the minimum and maximum x-value the chart can currently display (with the given zoom level).
     public func calcXBounds(#chart: BarLineChartViewBase, xAxisModulus: Int)
     {
-        let low = chart.lowestVisibleXIndex;
-        let high = chart.highestVisibleXIndex;
+        let low = chart.lowestVisibleXIndex
+        let high = chart.highestVisibleXIndex
         
-        let subLow = (low % xAxisModulus == 0) ? xAxisModulus : 0;
+        let subLow = (low % xAxisModulus == 0) ? xAxisModulus : 0
         
-        _minX = max((low / xAxisModulus) * (xAxisModulus) - subLow, 0);
-        _maxX = min((high / xAxisModulus) * (xAxisModulus) + xAxisModulus, Int(chart.chartXMax));
+        _minX = max((low / xAxisModulus) * (xAxisModulus) - subLow, 0)
+        _maxX = min((high / xAxisModulus) * (xAxisModulus) + xAxisModulus, Int(chart.chartXMax))
     }
 }
         

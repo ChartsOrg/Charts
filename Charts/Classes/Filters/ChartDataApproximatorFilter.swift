@@ -35,31 +35,31 @@ public class ChartDataApproximatorFilter: ChartDataBaseFilter
     
     public override init()
     {
-        super.init();
+        super.init()
     }
     
     /// Initializes the approximator with the given type and tolerance. 
     /// If toleranec <= 0, no filtering will be done.
     public init(type: ApproximatorType, tolerance: Double)
     {
-        super.init();
+        super.init()
         
-        setup(type, tolerance: tolerance);
+        setup(type, tolerance: tolerance)
     }
     
     /// Sets type and tolerance.
     /// If tolerance <= 0, no filtering will be done.
     public func setup(type: ApproximatorType, tolerance: Double)
     {
-        self.type = type;
-        self.tolerance = tolerance;
+        self.type = type
+        self.tolerance = tolerance
     }
     
     /// Sets the ratios for x- and y-axis, as well as the ratio of the scale levels
     public func setRatios(deltaRatio: Double, scaleRatio: Double)
     {
-        self.deltaRatio = deltaRatio;
-        self.scaleRatio = scaleRatio;
+        self.deltaRatio = deltaRatio
+        self.scaleRatio = scaleRatio
     }
     
     /// Filters according to type. Uses the pre set set tolerance
@@ -67,7 +67,7 @@ public class ChartDataApproximatorFilter: ChartDataBaseFilter
     /// :param: points the points to filter
     public override func filter(points: [ChartDataEntry]) -> [ChartDataEntry]
     {
-        return filter(points, tolerance: tolerance);
+        return filter(points, tolerance: tolerance)
     }
     
     /// Filters according to type.
@@ -78,17 +78,17 @@ public class ChartDataApproximatorFilter: ChartDataBaseFilter
     {
         if (tolerance <= 0)
         {
-            return points;
+            return points
         }
         
         switch (type)
         {
         case .RamerDouglasPeucker:
-            return reduceWithDouglasPeuker(points, epsilon: tolerance);
+            return reduceWithDouglasPeuker(points, epsilon: tolerance)
         case .None:
-            return points;
+            return points
         default:
-            return points;
+            return points
         }
     }
     
@@ -98,30 +98,30 @@ public class ChartDataApproximatorFilter: ChartDataBaseFilter
         // if a shape has 2 or less points it cannot be reduced
         if (epsilon <= 0 || entries.count < 3)
         {
-            return entries;
+            return entries
         }
         
-        var keep = [Bool](count: entries.count, repeatedValue: false);
+        var keep = [Bool](count: entries.count, repeatedValue: false)
         
         // first and last always stay
-        keep[0] = true;
-        keep[entries.count - 1] = true;
+        keep[0] = true
+        keep[entries.count - 1] = true
         
         // first and last entry are entry point to recursion
-        algorithmDouglasPeucker(entries, epsilon: epsilon, start: 0, end: entries.count - 1, keep: &keep);
+        algorithmDouglasPeucker(entries, epsilon: epsilon, start: 0, end: entries.count - 1, keep: &keep)
         
         // create a new array with series, only take the kept ones
-        var reducedEntries = [ChartDataEntry]();
+        var reducedEntries = [ChartDataEntry]()
         for (var i = 0; i < entries.count; i++)
         {
             if (keep[i])
             {
-                let curEntry = entries[i];
-                reducedEntries.append(ChartDataEntry(value: curEntry.value, xIndex: curEntry.xIndex));
+                let curEntry = entries[i]
+                reducedEntries.append(ChartDataEntry(value: curEntry.value, xIndex: curEntry.xIndex))
             }
         }
         
-        return reducedEntries;
+        return reducedEntries
     }
     
     /// apply the Douglas-Peucker-Reduction to an ArrayList of Entry with a given epsilon (tolerance)
@@ -135,36 +135,36 @@ public class ChartDataApproximatorFilter: ChartDataBaseFilter
         if (end <= start + 1)
         {
             // recursion finished
-            return;
+            return
         }
         
         // find the greatest distance between start and endpoint
-        var maxDistIndex = Int(0);
-        var distMax = Double(0.0);
+        var maxDistIndex = Int(0)
+        var distMax = Double(0.0)
         
-        var firstEntry = entries[start];
-        var lastEntry = entries[end];
+        var firstEntry = entries[start]
+        var lastEntry = entries[end]
         
         for (var i = start + 1; i < end; i++)
         {
-            var dist = calcAngleBetweenLines(firstEntry, end1: lastEntry, start2: firstEntry, end2: entries[i]);
+            var dist = calcAngleBetweenLines(firstEntry, end1: lastEntry, start2: firstEntry, end2: entries[i])
             
             // keep the point with the greatest distance
             if (dist > distMax)
             {
-                distMax = dist;
-                maxDistIndex = i;
+                distMax = dist
+                maxDistIndex = i
             }
         }
         
         if (distMax > epsilon)
         {
             // keep max dist point
-            keep[maxDistIndex] = true;
+            keep[maxDistIndex] = true
             
             // recursive call
-            algorithmDouglasPeucker(entries, epsilon: epsilon, start: start, end: maxDistIndex, keep: &keep);
-            algorithmDouglasPeucker(entries, epsilon: epsilon, start: maxDistIndex, end: end, keep: &keep);
+            algorithmDouglasPeucker(entries, epsilon: epsilon, start: start, end: maxDistIndex, keep: &keep)
+            algorithmDouglasPeucker(entries, epsilon: epsilon, start: maxDistIndex, end: end, keep: &keep)
         } // else don't keep the point...
     }
     
@@ -175,42 +175,42 @@ public class ChartDataApproximatorFilter: ChartDataBaseFilter
     /// :param: entryPoint the point to which the distance is measured from the line
     private func calcPointToLineDistance(startEntry: ChartDataEntry, endEntry: ChartDataEntry, entryPoint: ChartDataEntry) -> Double
     {
-        var xDiffEndStart = Double(endEntry.xIndex) - Double(startEntry.xIndex);
-        var xDiffEntryStart = Double(entryPoint.xIndex) - Double(startEntry.xIndex);
+        var xDiffEndStart = Double(endEntry.xIndex) - Double(startEntry.xIndex)
+        var xDiffEntryStart = Double(entryPoint.xIndex) - Double(startEntry.xIndex)
         
         var normalLength = sqrt((xDiffEndStart)
             * (xDiffEndStart)
             + (endEntry.value - startEntry.value)
-            * (endEntry.value - startEntry.value));
+            * (endEntry.value - startEntry.value))
         
         return Double(fabs((xDiffEntryStart)
             * (endEntry.value - startEntry.value)
             - (entryPoint.value - startEntry.value)
-            * (xDiffEndStart))) / Double(normalLength);
+            * (xDiffEndStart))) / Double(normalLength)
     }
     
     /// Calculates the angle between two given lines. The provided entries mark the starting and end points of the lines.
     private func calcAngleBetweenLines(start1: ChartDataEntry, end1: ChartDataEntry, start2: ChartDataEntry, end2: ChartDataEntry) -> Double
     {
-        var angle1 = calcAngleWithRatios(start1, p2: end1);
-        var angle2 = calcAngleWithRatios(start2, p2: end2);
+        var angle1 = calcAngleWithRatios(start1, p2: end1)
+        var angle2 = calcAngleWithRatios(start2, p2: end2)
         
-        return fabs(angle1 - angle2);
+        return fabs(angle1 - angle2)
     }
     
     /// calculates the angle between two entries (points) in the chart taking ratios into consideration
     private func calcAngleWithRatios(p1: ChartDataEntry, p2: ChartDataEntry) -> Double
     {
-        var dx = Double(p2.xIndex) * Double(deltaRatio) - Double(p1.xIndex) * Double(deltaRatio);
-        var dy = p2.value * scaleRatio - p1.value * scaleRatio;
-        return atan2(Double(dy), dx) * ChartUtils.Math.RAD2DEG;
+        var dx = Double(p2.xIndex) * Double(deltaRatio) - Double(p1.xIndex) * Double(deltaRatio)
+        var dy = p2.value * scaleRatio - p1.value * scaleRatio
+        return atan2(Double(dy), dx) * ChartUtils.Math.RAD2DEG
     }
     
     // calculates the angle between two entries (points) in the chart
     private func calcAngle(p1: ChartDataEntry, p2: ChartDataEntry) -> Double
     {
-        var dx = p2.xIndex - p1.xIndex;
-        var dy = p2.value - p1.value;
-        return atan2(Double(dy), Double(dx)) * ChartUtils.Math.RAD2DEG;
+        var dx = p2.xIndex - p1.xIndex
+        var dy = p2.value - p1.value
+        return atan2(Double(dy), Double(dx)) * ChartUtils.Math.RAD2DEG
     }
 }

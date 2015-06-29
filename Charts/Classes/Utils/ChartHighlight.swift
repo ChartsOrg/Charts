@@ -28,24 +28,24 @@ public class ChartHighlight: NSObject
 
     public override init()
     {
-        super.init();
+        super.init()
     }
     
     public init(xIndex x: Int, dataSetIndex: Int)
     {
-        super.init();
+        super.init()
         
-        _xIndex = x;
-        _dataSetIndex = dataSetIndex;
+        _xIndex = x
+        _dataSetIndex = dataSetIndex
     }
     
     public init(xIndex x: Int, dataSetIndex: Int, stackIndex: Int)
     {
-        super.init();
+        super.init()
         
-        _xIndex = x;
-        _dataSetIndex = dataSetIndex;
-        _stackIndex = stackIndex;
+        _xIndex = x
+        _dataSetIndex = dataSetIndex
+        _stackIndex = stackIndex
     }
     
     public var dataSetIndex: Int { return _dataSetIndex; }
@@ -56,37 +56,37 @@ public class ChartHighlight: NSObject
     
     public override var description: String
     {
-        return "Highlight, xIndex: \(_xIndex), dataSetIndex: \(_dataSetIndex), stackIndex (only stacked barentry): \(_stackIndex)";
+        return "Highlight, xIndex: \(_xIndex), dataSetIndex: \(_dataSetIndex), stackIndex (only stacked barentry): \(_stackIndex)"
     }
     
     public override func isEqual(object: AnyObject?) -> Bool
     {
         if (object === nil)
         {
-            return false;
+            return false
         }
         
         if (!object!.isKindOfClass(self.dynamicType))
         {
-            return false;
+            return false
         }
         
         if (object!.xIndex != _xIndex)
         {
-            return false;
+            return false
         }
         
         if (object!.dataSetIndex != _dataSetIndex)
         {
-            return false;
+            return false
         }
         
         if (object!.stackIndex != _stackIndex)
         {
-            return false;
+            return false
         }
         
-        return true;
+        return true
     }
 }
 
@@ -94,28 +94,28 @@ func ==(lhs: ChartHighlight, rhs: ChartHighlight) -> Bool
 {
     if (lhs === rhs)
     {
-        return true;
+        return true
     }
     
     if (!lhs.isKindOfClass(rhs.dynamicType))
     {
-        return false;
+        return false
     }
     
     if (lhs._xIndex != rhs._xIndex)
     {
-        return false;
+        return false
     }
     
     if (lhs._dataSetIndex != rhs._dataSetIndex)
     {
-        return false;
+        return false
     }
     
     if (lhs._stackIndex != rhs._stackIndex)
     {
-        return false;
+        return false
     }
     
-    return true;
+    return true
 }

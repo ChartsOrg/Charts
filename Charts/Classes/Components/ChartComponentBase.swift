@@ -22,7 +22,7 @@ public class ChartComponentBase: NSObject
     
     public override init()
     {
-        super.init();
+        super.init()
     }
 
     public var isEnabled: Bool { return enabled; }
