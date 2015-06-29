@@ -109,7 +109,7 @@ public class ChartDataSet: NSObject
         _lastEnd = endValue;
         
         _yMin = DBL_MAX;
-        _yMax = DBL_MIN;
+        _yMax = -DBL_MIN;
         
         for (var i = start; i <= endValue; i++)
         {
@@ -117,17 +117,21 @@ public class ChartDataSet: NSObject
             
             if (!e.value.isNaN)
             {
-                
-                if (!e.value.isNaN && e.value < _yMin)
+                if (e.value < _yMin)
                 {
                     _yMin = e.value;
                 }
-                if (!e.value.isNaN && e.value > _yMax)
+                if (e.value > _yMax)
                 {
                     _yMax = e.value;
                 }
-                
             }
+        }
+        
+        if (_yMin == DBL_MAX)
+        {
+            _yMin = 0.0;
+            _yMax = 0.0;
         }
     }
     

@@ -155,7 +155,7 @@ public class ChartData: NSObject
             _lastEnd = end;
             
             _yMin = DBL_MAX;
-            _yMax = DBL_MIN;
+            _yMax = -DBL_MIN;
             
             for (var i = 0; i < _dataSets.count; i++)
             {
@@ -170,6 +170,12 @@ public class ChartData: NSObject
                 {
                     _yMax = _dataSets[i].yMax;
                 }
+            }
+            
+            if (_yMin == DBL_MAX)
+            {
+                _yMin = 0.0;
+                _yMax = 0.0;
             }
             
             // left axis
