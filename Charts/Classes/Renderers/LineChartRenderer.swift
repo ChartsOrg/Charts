@@ -612,7 +612,7 @@ public class LineChartRenderer: ChartDataRendererBase
             }
             
             let yValue = set.yValForXIndex(xIndex);
-            if (isnan(yValue))
+            if (yValue.isNaN)
             {
                 continue;
             }

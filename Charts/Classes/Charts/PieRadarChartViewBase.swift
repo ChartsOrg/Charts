@@ -364,12 +364,13 @@ public class PieRadarChartViewBase: ChartViewBase
             }
             
             // extract all y-values from all DataSets at the given x-index
-            var yVal = dataSet!.yValForXIndex(xIndex);
-            
-            if (!isnan(yVal))
+            let yVal = dataSet!.yValForXIndex(xIndex);
+            if (yVal.isNaN)
             {
-                vals.append(ChartSelectionDetail(value: yVal, dataSetIndex: i, dataSet: dataSet!));
+                continue;
             }
+            
+            vals.append(ChartSelectionDetail(value: yVal, dataSetIndex: i, dataSet: dataSet!));
         }
         
         return vals;

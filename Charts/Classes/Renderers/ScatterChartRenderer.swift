@@ -279,13 +279,13 @@ public class ScatterChartRenderer: ChartDataRendererBase
                 continue;
             }
             
-            let yValue = set.yValForXIndex(xIndex);
-            if (isnan(yValue))
+            let yVal = set.yValForXIndex(xIndex);
+            if (yVal.isNaN)
             {
                 continue;
             }
             
-            var y = CGFloat(yValue) * _animator.phaseY; // get the y-position
+            var y = CGFloat(yVal) * _animator.phaseY; // get the y-position
             
             pts[0] = CGPoint(x: CGFloat(xIndex), y: CGFloat(chartYMax));
             pts[1] = CGPoint(x: CGFloat(xIndex), y: CGFloat(chartYMin));

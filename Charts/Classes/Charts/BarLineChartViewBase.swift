@@ -1314,25 +1314,27 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     {
         var vals = [ChartSelectionDetail]();
 
+        var pt = CGPoint();
+
         for (var i = 0, count = _data.dataSetCount; i < count; i++)
-        {
-            var pt = CGPoint();
-            var dataSet = _data.getDataSetByIndex(i);
+        {            var dataSet = _data.getDataSetByIndex(i);
             if (dataSet === nil || !dataSet.isHighlightEnabled)
             {
                 continue;
             }
 
             // extract all y-values from all DataSets at the given x-index
-            var yVal = dataSet!.yValForXIndex(xIndex);
+            let yVal = dataSet!.yValForXIndex(xIndex);
+            if (yVal.isNaN)
+            {
+                continue;
+            }
+            
             pt.y = CGFloat(yVal);
 
             getTransformer(dataSet!.axisDependency).pointValueToPixel(&pt);
-
-            if (!isnan(pt.y))
-            {
-                vals.append(ChartSelectionDetail(value: Double(pt.y), dataSetIndex: i, dataSet: dataSet!));
-            }
+            
+            vals.append(ChartSelectionDetail(value: Double(pt.y), dataSetIndex: i, dataSet: dataSet!));
         }
 
         return vals;
