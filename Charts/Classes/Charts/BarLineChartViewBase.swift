@@ -1314,10 +1314,9 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     {
         var vals = [ChartSelectionDetail]();
 
-        var pt = CGPoint();
-
         for (var i = 0, count = _data.dataSetCount; i < count; i++)
         {
+            var pt = CGPoint();
             var dataSet = _data.getDataSetByIndex(i);
             if (dataSet === nil || !dataSet.isHighlightEnabled)
             {
