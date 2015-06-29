@@ -25,18 +25,18 @@ public class PieChartDataSet: ChartDataSet
     
     public override init()
     {
-        super.init();
+        super.init()
         
-        self.valueTextColor = UIColor.whiteColor();
-        self.valueFont = UIFont.systemFontOfSize(13.0);
+        self.valueTextColor = UIColor.whiteColor()
+        self.valueFont = UIFont.systemFontOfSize(13.0)
     }
     
     public override init(yVals: [ChartDataEntry]?, label: String?)
     {
-        super.init(yVals: yVals, label: label);
+        super.init(yVals: yVals, label: label)
         
-        self.valueTextColor = UIColor.whiteColor();
-        self.valueFont = UIFont.systemFontOfSize(13.0);
+        self.valueTextColor = UIColor.whiteColor()
+        self.valueFont = UIFont.systemFontOfSize(13.0)
     }
     
     /// the space that is left out between the piechart-slices, default: 0°
@@ -45,18 +45,18 @@ public class PieChartDataSet: ChartDataSet
     {
         get
         {
-            return _sliceSpace;
+            return _sliceSpace
         }
         set
         {
-            _sliceSpace = newValue;
+            _sliceSpace = newValue
             if (_sliceSpace > 45.0)
             {
-                _sliceSpace = 45.0;
+                _sliceSpace = 45.0
             }
             if (_sliceSpace < 0.0)
             {
-                _sliceSpace = 0.0;
+                _sliceSpace = 0.0
             }
         }
     }
@@ -65,9 +65,9 @@ public class PieChartDataSet: ChartDataSet
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
-        var copy = super.copyWithZone(zone) as! PieChartDataSet;
-        copy._sliceSpace = _sliceSpace;
-        copy.selectionShift = selectionShift;
-        return copy;
+        var copy = super.copyWithZone(zone) as! PieChartDataSet
+        copy._sliceSpace = _sliceSpace
+        copy.selectionShift = selectionShift
+        return copy
     }
 }

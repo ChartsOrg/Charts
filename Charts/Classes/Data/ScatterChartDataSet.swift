@@ -34,10 +34,10 @@ public class ScatterChartDataSet: BarLineScatterCandleChartDataSet
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
-        var copy = super.copyWithZone(zone) as! ScatterChartDataSet;
-        copy.scatterShapeSize = scatterShapeSize;
-        copy.scatterShape = scatterShape;
-        copy.customScatterShape = customScatterShape;
-        return copy;
+        var copy = super.copyWithZone(zone) as! ScatterChartDataSet
+        copy.scatterShapeSize = scatterShapeSize
+        copy.scatterShape = scatterShape
+        copy.customScatterShape = customScatterShape
+        return copy
     }
 }

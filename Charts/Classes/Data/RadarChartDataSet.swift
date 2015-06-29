@@ -19,15 +19,15 @@ public class RadarChartDataSet: LineRadarChartDataSet
 {
     public override init()
     {
-        super.init();
+        super.init()
         
-        self.valueFont = UIFont.systemFontOfSize(13.0);
+        self.valueFont = UIFont.systemFontOfSize(13.0)
     }
     
     public override init(yVals: [ChartDataEntry]?, label: String?)
     {
-        super.init(yVals: yVals, label: label);
+        super.init(yVals: yVals, label: label)
         
-        self.valueFont = UIFont.systemFontOfSize(13.0);
+        self.valueFont = UIFont.systemFontOfSize(13.0)
     }
 }

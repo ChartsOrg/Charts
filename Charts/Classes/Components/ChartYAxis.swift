@@ -100,31 +100,31 @@ public class ChartYAxis: ChartAxisBase
     
     public override init()
     {
-        super.init();
+        super.init()
         
-        _defaultValueFormatter.minimumIntegerDigits = 1;
-        _defaultValueFormatter.maximumFractionDigits = 1;
-        _defaultValueFormatter.minimumFractionDigits = 1;
-        _defaultValueFormatter.usesGroupingSeparator = true;
-        self.yOffset = 0.0;
+        _defaultValueFormatter.minimumIntegerDigits = 1
+        _defaultValueFormatter.maximumFractionDigits = 1
+        _defaultValueFormatter.minimumFractionDigits = 1
+        _defaultValueFormatter.usesGroupingSeparator = true
+        self.yOffset = 0.0
     }
     
     public init(position: AxisDependency)
     {
-        super.init();
+        super.init()
         
-        _axisDependency = position;
+        _axisDependency = position
         
-        _defaultValueFormatter.minimumIntegerDigits = 1;
-        _defaultValueFormatter.maximumFractionDigits = 1;
-        _defaultValueFormatter.minimumFractionDigits = 1;
-        _defaultValueFormatter.usesGroupingSeparator = true;
-        self.yOffset = 0.0;
+        _defaultValueFormatter.minimumIntegerDigits = 1
+        _defaultValueFormatter.maximumFractionDigits = 1
+        _defaultValueFormatter.minimumFractionDigits = 1
+        _defaultValueFormatter.usesGroupingSeparator = true
+        self.yOffset = 0.0
     }
     
     public var axisDependency: AxisDependency
     {
-        return _axisDependency;
+        return _axisDependency
     }
     
     /// the number of label entries the y-axis should have
@@ -136,19 +136,19 @@ public class ChartYAxis: ChartAxisBase
     {
         get
         {
-            return _labelCount;
+            return _labelCount
         }
         set
         {
-            _labelCount = newValue;
+            _labelCount = newValue
             
             if (_labelCount > 25)
             {
-                _labelCount = 25;
+                _labelCount = 25
             }
             if (_labelCount < 2)
             {
-                _labelCount = 2;
+                _labelCount = 2
             }
         }
     }
@@ -156,45 +156,45 @@ public class ChartYAxis: ChartAxisBase
     /// By calling this method, any custom minimum value that has been previously set is reseted, and the calculation is done automatically.
     public func resetCustomAxisMin()
     {
-        customAxisMin = Double.NaN;
+        customAxisMin = Double.NaN
     }
     
     /// By calling this method, any custom maximum value that has been previously set is reseted, and the calculation is done automatically.
     public func resetCustomAxisMax()
     {
-        customAxisMax = Double.NaN;
+        customAxisMax = Double.NaN
     }
     
     public func requiredSize() -> CGSize
     {
-        var label = getLongestLabel() as NSString;
-        var size = label.sizeWithAttributes([NSFontAttributeName: labelFont]);
-        size.width += xOffset * 2.0;
-        size.height += yOffset * 2.0;
-        size.width = max(minWidth, min(size.width, maxWidth > 0.0 ? maxWidth : size.width));
-        return size;
+        var label = getLongestLabel() as NSString
+        var size = label.sizeWithAttributes([NSFontAttributeName: labelFont])
+        size.width += xOffset * 2.0
+        size.height += yOffset * 2.0
+        size.width = max(minWidth, min(size.width, maxWidth > 0.0 ? maxWidth : size.width))
+        return size
     }
     
     public func getRequiredHeightSpace() -> CGFloat
     {
-        return requiredSize().height + 2.5 * 2.0 + yOffset;
+        return requiredSize().height + 2.5 * 2.0 + yOffset
     }
 
     public override func getLongestLabel() -> String
     {
-        var longest = "";
+        var longest = ""
         
         for (var i = 0; i < entries.count; i++)
         {
-            var text = getFormattedLabel(i);
+            var text = getFormattedLabel(i)
             
             if (count(longest) < count(text))
             {
-                longest = text;
+                longest = text
             }
         }
         
-        return longest;
+        return longest
     }
 
     /// Returns the formatted y-label at the specified index. This will either use the auto-formatter or the custom formatter (if one is set).
@@ -202,10 +202,10 @@ public class ChartYAxis: ChartAxisBase
     {
         if (index < 0 || index >= entries.count)
         {
-            return "";
+            return ""
         }
         
-        return (valueFormatter ?? _defaultValueFormatter).stringFromNumber(entries[index])!;
+        return (valueFormatter ?? _defaultValueFormatter).stringFromNumber(entries[index])!
     }
     
     /// Returns true if this axis needs horizontal offset, false if no offset is needed.
@@ -213,11 +213,11 @@ public class ChartYAxis: ChartAxisBase
     {
         if (isEnabled && isDrawLabelsEnabled && labelPosition == .OutsideChart)
         {
-            return true;
+            return true
         }
         else
         {
-            return false;
+            return false
         }
     }
     

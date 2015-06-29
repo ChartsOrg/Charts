@@ -18,7 +18,7 @@ public class LineChartData: ChartData
 {
     public override init()
     {
-        super.init();
+        super.init()
     }
     
     public override init(xVals: [String?]?, dataSets: [ChartDataSet]?)

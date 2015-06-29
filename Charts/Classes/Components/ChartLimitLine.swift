@@ -40,20 +40,20 @@ public class ChartLimitLine: ChartComponentBase
     
     public override init()
     {
-        super.init();
+        super.init()
     }
     
     public init(limit: Double)
     {
-        super.init();
-        self.limit = limit;
+        super.init()
+        self.limit = limit
     }
     
     public init(limit: Double, label: String)
     {
-        super.init();
-        self.limit = limit;
-        self.label = label;
+        super.init()
+        self.limit = limit
+        self.label = label
     }
     
     /// set the line width of the chart (min = 0.2, max = 12); default 2
@@ -61,19 +61,19 @@ public class ChartLimitLine: ChartComponentBase
     {
         get
         {
-            return _lineWidth;
+            return _lineWidth
         }
         set
         {
-            _lineWidth = newValue;
+            _lineWidth = newValue
             
             if (_lineWidth < 0.2)
             {
-                _lineWidth = 0.2;
+                _lineWidth = 0.2
             }
             if (_lineWidth > 12.0)
             {
-                _lineWidth = 12.0;
+                _lineWidth = 12.0
             }
         }
     }

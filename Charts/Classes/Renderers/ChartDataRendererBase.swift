@@ -16,31 +16,31 @@ import CoreGraphics
 
 public class ChartDataRendererBase: ChartRendererBase
 {
-    internal var _animator: ChartAnimator!;
+    internal var _animator: ChartAnimator!
     
     public init(animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
-        super.init(viewPortHandler: viewPortHandler);
-        _animator = animator;
+        super.init(viewPortHandler: viewPortHandler)
+        _animator = animator
     }
 
     public func drawData(#context: CGContext)
     {
-        fatalError("drawData() cannot be called on ChartDataRendererBase");
+        fatalError("drawData() cannot be called on ChartDataRendererBase")
     }
     
     public func drawValues(#context: CGContext)
     {
-        fatalError("drawValues() cannot be called on ChartDataRendererBase");
+        fatalError("drawValues() cannot be called on ChartDataRendererBase")
     }
     
     public func drawExtras(#context: CGContext)
     {
-        fatalError("drawExtras() cannot be called on ChartDataRendererBase");
+        fatalError("drawExtras() cannot be called on ChartDataRendererBase")
     }
     
     public func drawHighlighted(#context: CGContext, indices: [ChartHighlight])
     {
-        fatalError("drawHighlighted() cannot be called on ChartDataRendererBase");
+        fatalError("drawHighlighted() cannot be called on ChartDataRendererBase")
     }
 }

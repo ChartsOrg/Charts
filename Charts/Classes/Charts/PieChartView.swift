@@ -28,114 +28,114 @@ public class PieChartView: PieRadarChartViewBase
 
     public override init(frame: CGRect)
     {
-        super.init(frame: frame);
+        super.init(frame: frame)
     }
     
     public required init(coder aDecoder: NSCoder)
     {
-        super.init(coder: aDecoder);
+        super.init(coder: aDecoder)
     }
     
     internal override func initialize()
     {
-        super.initialize();
+        super.initialize()
         
-        renderer = PieChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler);
+        renderer = PieChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
     }
     
     public override func drawRect(rect: CGRect)
     {
-        super.drawRect(rect);
+        super.drawRect(rect)
         
         if (_dataNotSet)
         {
-            return;
+            return
         }
         
-        let context = UIGraphicsGetCurrentContext();
+        let context = UIGraphicsGetCurrentContext()
         
-        renderer!.drawData(context: context);
+        renderer!.drawData(context: context)
         
         if (valuesToHighlight())
         {
-            renderer!.drawHighlighted(context: context, indices: _indicesToHightlight);
+            renderer!.drawHighlighted(context: context, indices: _indicesToHightlight)
         }
         
-        renderer!.drawExtras(context: context);
+        renderer!.drawExtras(context: context)
         
-        renderer!.drawValues(context: context);
+        renderer!.drawValues(context: context)
         
-        _legendRenderer.renderLegend(context: context);
+        _legendRenderer.renderLegend(context: context)
         
-        drawDescription(context: context);
+        drawDescription(context: context)
     }
     
     internal override func calculateOffsets()
     {
-        super.calculateOffsets();
+        super.calculateOffsets()
         
         // prevent nullpointer when no data set
         if (_dataNotSet)
         {
-            return;
+            return
         }
         
-        var radius = diameter / 2.0;
+        var radius = diameter / 2.0
         
-        var c = centerOffsets;
+        var c = centerOffsets
         
         // create the circle box that will contain the pie-chart (the bounds of the pie-chart)
-        _circleBox.origin.x = c.x - radius;
-        _circleBox.origin.y = c.y - radius;
-        _circleBox.size.width = radius * 2.0;
-        _circleBox.size.height = radius * 2.0;
+        _circleBox.origin.x = c.x - radius
+        _circleBox.origin.y = c.y - radius
+        _circleBox.size.width = radius * 2.0
+        _circleBox.size.height = radius * 2.0
     }
     
     internal override func calcMinMax()
     {
-        super.calcMinMax();
+        super.calcMinMax()
         
-        calcAngles();
+        calcAngles()
     }
     
     public override func getMarkerPosition(#entry: ChartDataEntry, dataSetIndex: Int) -> CGPoint
     {
         /// PieChart does not support MarkerView
-        return CGPoint(x: 0.0, y: 0.0);
+        return CGPoint(x: 0.0, y: 0.0)
     }
     
     /// calculates the needed angles for the chart slices
     private func calcAngles()
     {
-        _drawAngles = [CGFloat]();
-        _absoluteAngles = [CGFloat]();
+        _drawAngles = [CGFloat]()
+        _absoluteAngles = [CGFloat]()
         
-        _drawAngles.reserveCapacity(_data.yValCount);
-        _absoluteAngles.reserveCapacity(_data.yValCount);
+        _drawAngles.reserveCapacity(_data.yValCount)
+        _absoluteAngles.reserveCapacity(_data.yValCount)
         
-        var dataSets = _data.dataSets;
+        var dataSets = _data.dataSets
 
-        var cnt = 0;
+        var cnt = 0
 
         for (var i = 0; i < _data.dataSetCount; i++)
         {
-            var set = dataSets[i];
-            var entries = set.yVals;
+            var set = dataSets[i]
+            var entries = set.yVals
 
             for (var j = 0; j < entries.count; j++)
             {
-                _drawAngles.append(calcAngle(abs(entries[j].value)));
+                _drawAngles.append(calcAngle(abs(entries[j].value)))
 
                 if (cnt == 0)
                 {
-                    _absoluteAngles.append(_drawAngles[cnt]);
+                    _absoluteAngles.append(_drawAngles[cnt])
                 }
                 else
                 {
-                    _absoluteAngles.append(_absoluteAngles[cnt - 1] + _drawAngles[cnt]);
+                    _absoluteAngles.append(_absoluteAngles[cnt - 1] + _drawAngles[cnt])
                 }
 
-                cnt++;
+                cnt++
             }
         }
     }
@@ -146,7 +146,7 @@ public class PieChartView: PieRadarChartViewBase
         // no highlight
         if (!valuesToHighlight() || dataSetIndex < 0)
         {
-            return false;
+            return false
         }
         
         for (var i = 0; i < _indicesToHightlight.count; i++)
@@ -155,28 +155,28 @@ public class PieChartView: PieRadarChartViewBase
             if (_indicesToHightlight[i].xIndex == xIndex
                 && _indicesToHightlight[i].dataSetIndex == dataSetIndex)
             {
-                return true;
+                return true
             }
         }
         
-        return false;
+        return false
     }
     
     /// calculates the needed angle for a given value
     private func calcAngle(value: Double) -> CGFloat
     {
-        return CGFloat(value) / CGFloat(_data.yValueSum) * 360.0;
+        return CGFloat(value) / CGFloat(_data.yValueSum) * 360.0
     }
     
     public override func indexForAngle(angle: CGFloat) -> Int
     {
         // take the current angle of the chart into consideration
-        var a = ChartUtils.normalizedAngleFromAngle(angle - self.rotationAngle);
+        var a = ChartUtils.normalizedAngleFromAngle(angle - self.rotationAngle)
         for (var i = 0; i < _absoluteAngles.count; i++)
         {
             if (_absoluteAngles[i] > a)
             {
-                return i;
+                return i
             }
         }
         
@@ -186,17 +186,17 @@ public class PieChartView: PieRadarChartViewBase
     /// Returns the index of the DataSet this x-index belongs to.
     public func dataSetIndexForIndex(xIndex: Int) -> Int
     {
-        var dataSets = _data.dataSets;
+        var dataSets = _data.dataSets
         
         for (var i = 0; i < dataSets.count; i++)
         {
             if (dataSets[i].entryForXIndex(xIndex) !== nil)
             {
-                return i;
+                return i
             }
         }
         
-        return -1;
+        return -1
     }
     
     /// returns an integer array of all the different angles the chart slices
@@ -204,14 +204,14 @@ public class PieChartView: PieRadarChartViewBase
     /// each slice takes
     public var drawAngles: [CGFloat]
     {
-        return _drawAngles;
+        return _drawAngles
     }
 
     /// returns the absolute angles of the different chart slices (where the
     /// slices end)
     public var absoluteAngles: [CGFloat]
     {
-        return _absoluteAngles;
+        return _absoluteAngles
     }
     
     /// Sets the color for the hole that is drawn in the center of the PieChart (if enabled).
@@ -220,12 +220,12 @@ public class PieChartView: PieRadarChartViewBase
     {
         get
         {
-            return (renderer as! PieChartRenderer).holeColor!;
+            return (renderer as! PieChartRenderer).holeColor!
         }
         set
         {
-            (renderer as! PieChartRenderer).holeColor = newValue;
-            setNeedsDisplay();
+            (renderer as! PieChartRenderer).holeColor = newValue
+            setNeedsDisplay()
         }
     }
     
@@ -234,19 +234,19 @@ public class PieChartView: PieRadarChartViewBase
     {
         get
         {
-            return (renderer as! PieChartRenderer).holeTransparent;
+            return (renderer as! PieChartRenderer).holeTransparent
         }
         set
         {
-            (renderer as! PieChartRenderer).holeTransparent = newValue;
-            setNeedsDisplay();
+            (renderer as! PieChartRenderer).holeTransparent = newValue
+            setNeedsDisplay()
         }
     }
     
     /// Returns true if the hole in the center of the PieChart is transparent, false if not.
     public var isHoleTransparent: Bool 
     {
-        return (renderer as! PieChartRenderer).holeTransparent;
+        return (renderer as! PieChartRenderer).holeTransparent
     }
     
     /// true if the hole in the center of the pie-chart is set to be visible, false if not
@@ -254,12 +254,12 @@ public class PieChartView: PieRadarChartViewBase
     {
         get
         {
-            return (renderer as! PieChartRenderer).drawHoleEnabled;
+            return (renderer as! PieChartRenderer).drawHoleEnabled
         }
         set
         {
-            (renderer as! PieChartRenderer).drawHoleEnabled = newValue;
-            setNeedsDisplay();
+            (renderer as! PieChartRenderer).drawHoleEnabled = newValue
+            setNeedsDisplay()
         }
     }
     
@@ -268,7 +268,7 @@ public class PieChartView: PieRadarChartViewBase
     {
         get
         {
-            return (renderer as! PieChartRenderer).drawHoleEnabled;
+            return (renderer as! PieChartRenderer).drawHoleEnabled
         }
     }
     
@@ -277,12 +277,12 @@ public class PieChartView: PieRadarChartViewBase
     {
         get
         {
-            return (renderer as! PieChartRenderer).centerText;
+            return (renderer as! PieChartRenderer).centerText
         }
         set
         {
-            (renderer as! PieChartRenderer).centerText = newValue;
-            setNeedsDisplay();
+            (renderer as! PieChartRenderer).centerText = newValue
+            setNeedsDisplay()
         }
     }
     
@@ -291,12 +291,12 @@ public class PieChartView: PieRadarChartViewBase
     {
         get
         {
-            return (renderer as! PieChartRenderer).drawCenterTextEnabled;
+            return (renderer as! PieChartRenderer).drawCenterTextEnabled
         }
         set
         {
-            (renderer as! PieChartRenderer).drawCenterTextEnabled = newValue;
-            setNeedsDisplay();
+            (renderer as! PieChartRenderer).drawCenterTextEnabled = newValue
+            setNeedsDisplay()
         }
     }
     
@@ -305,35 +305,35 @@ public class PieChartView: PieRadarChartViewBase
     {
         get
         {
-            return (renderer as! PieChartRenderer).drawCenterTextEnabled;
+            return (renderer as! PieChartRenderer).drawCenterTextEnabled
         }
     }
     
     internal override var requiredBottomOffset: CGFloat
     {
-        return _legend.font.pointSize * 2.0;
+        return _legend.font.pointSize * 2.0
     }
     
     internal override var requiredBaseOffset: CGFloat
     {
-        return 0.0;
+        return 0.0
     }
     
     public override var radius: CGFloat
     {
-        return _circleBox.width / 2.0;
+        return _circleBox.width / 2.0
     }
     
     /// returns the circlebox, the boundingbox of the pie-chart slices
     public var circleBox: CGRect
     {
-        return _circleBox;
+        return _circleBox
     }
     
     /// returns the center of the circlebox
     public var centerCircleBox: CGPoint
     {
-        return CGPoint(x: _circleBox.midX, y: _circleBox.midY);
+        return CGPoint(x: _circleBox.midX, y: _circleBox.midY)
     }
     
     /// Sets the font of the center text of the piechart.
@@ -341,12 +341,12 @@ public class PieChartView: PieRadarChartViewBase
     {
         get
         {
-            return (renderer as! PieChartRenderer).centerTextFont;
+            return (renderer as! PieChartRenderer).centerTextFont
         }
         set
         {
-            (renderer as! PieChartRenderer).centerTextFont = newValue;
-            setNeedsDisplay();
+            (renderer as! PieChartRenderer).centerTextFont = newValue
+            setNeedsDisplay()
         }
     }
     
@@ -355,12 +355,12 @@ public class PieChartView: PieRadarChartViewBase
     {
         get
         {
-            return (renderer as! PieChartRenderer).centerTextColor;
+            return (renderer as! PieChartRenderer).centerTextColor
         }
         set
         {
-            (renderer as! PieChartRenderer).centerTextColor = newValue;
-            setNeedsDisplay();
+            (renderer as! PieChartRenderer).centerTextColor = newValue
+            setNeedsDisplay()
         }
     }
     
@@ -370,12 +370,12 @@ public class PieChartView: PieRadarChartViewBase
     {
         get
         {
-            return (renderer as! PieChartRenderer).holeRadiusPercent;
+            return (renderer as! PieChartRenderer).holeRadiusPercent
         }
         set
         {
-            (renderer as! PieChartRenderer).holeRadiusPercent = newValue;
-            setNeedsDisplay();
+            (renderer as! PieChartRenderer).holeRadiusPercent = newValue
+            setNeedsDisplay()
         }
     }
     
@@ -385,12 +385,12 @@ public class PieChartView: PieRadarChartViewBase
     {
         get
         {
-            return (renderer as! PieChartRenderer).transparentCircleRadiusPercent;
+            return (renderer as! PieChartRenderer).transparentCircleRadiusPercent
         }
         set
         {
-            (renderer as! PieChartRenderer).transparentCircleRadiusPercent = newValue;
-            setNeedsDisplay();
+            (renderer as! PieChartRenderer).transparentCircleRadiusPercent = newValue
+            setNeedsDisplay()
         }
     }
     
@@ -399,12 +399,12 @@ public class PieChartView: PieRadarChartViewBase
     {
         get
         {
-            return (renderer as! PieChartRenderer).drawXLabelsEnabled;
+            return (renderer as! PieChartRenderer).drawXLabelsEnabled
         }
         set
         {
-            (renderer as! PieChartRenderer).drawXLabelsEnabled = newValue;
-            setNeedsDisplay();
+            (renderer as! PieChartRenderer).drawXLabelsEnabled = newValue
+            setNeedsDisplay()
         }
     }
     
@@ -413,7 +413,7 @@ public class PieChartView: PieRadarChartViewBase
     {
         get
         {
-            return (renderer as! PieChartRenderer).drawXLabelsEnabled;
+            return (renderer as! PieChartRenderer).drawXLabelsEnabled
         }
     }
     
@@ -422,12 +422,12 @@ public class PieChartView: PieRadarChartViewBase
     {
         get
         {
-            return (renderer as! PieChartRenderer).usePercentValuesEnabled;
+            return (renderer as! PieChartRenderer).usePercentValuesEnabled
         }
         set
         {
-            (renderer as! PieChartRenderer).usePercentValuesEnabled = newValue;
-            setNeedsDisplay();
+            (renderer as! PieChartRenderer).usePercentValuesEnabled = newValue
+            setNeedsDisplay()
         }
     }
     
@@ -436,7 +436,7 @@ public class PieChartView: PieRadarChartViewBase
     {
         get
         {
-            return (renderer as! PieChartRenderer).usePercentValuesEnabled;
+            return (renderer as! PieChartRenderer).usePercentValuesEnabled
         }
     }
     
@@ -447,12 +447,12 @@ public class PieChartView: PieRadarChartViewBase
     {
         get
         {
-            return (renderer as! PieChartRenderer).centerTextLineBreakMode;
+            return (renderer as! PieChartRenderer).centerTextLineBreakMode
         }
         set
         {
-            (renderer as! PieChartRenderer).centerTextLineBreakMode = newValue;
-            setNeedsDisplay();
+            (renderer as! PieChartRenderer).centerTextLineBreakMode = newValue
+            setNeedsDisplay()
         }
     }
     
@@ -461,12 +461,12 @@ public class PieChartView: PieRadarChartViewBase
     {
         get
         {
-            return (renderer as! PieChartRenderer).centerTextRadiusPercent;
+            return (renderer as! PieChartRenderer).centerTextRadiusPercent
         }
         set
         {
-            (renderer as! PieChartRenderer).centerTextRadiusPercent = newValue;
-            setNeedsDisplay();
+            (renderer as! PieChartRenderer).centerTextRadiusPercent = newValue
+            setNeedsDisplay()
         }
     }
 }

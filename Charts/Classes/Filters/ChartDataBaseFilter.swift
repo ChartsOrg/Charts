@@ -18,11 +18,11 @@ public class ChartDataBaseFilter: NSObject
 {
     public override init()
     {
-        super.init();
+        super.init()
     }
     
     public func filter(points: [ChartDataEntry]) -> [ChartDataEntry]
     {
-        fatalError("filter() cannot be called on ChartDataBaseFilter");
+        fatalError("filter() cannot be called on ChartDataBaseFilter")
     }
 }

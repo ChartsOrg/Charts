@@ -40,18 +40,18 @@ public class ChartData: NSObject
     
     public override init()
     {
-        super.init();
+        super.init()
         
-        _xVals = [String?]();
-        _dataSets = [ChartDataSet]();
+        _xVals = [String?]()
+        _dataSets = [ChartDataSet]()
     }
     
     public init(xVals: [String?]?, dataSets: [ChartDataSet]?)
     {
         super.init()
         
-        _xVals = xVals == nil ? [String?]() : xVals;
-        _dataSets = dataSets == nil ? [ChartDataSet]() : dataSets;
+        _xVals = xVals == nil ? [String?]() : xVals
+        _dataSets = dataSets == nil ? [ChartDataSet]() : dataSets
         
         self.initialize(_dataSets)
     }
@@ -60,39 +60,39 @@ public class ChartData: NSObject
     {
         super.init()
         
-        _xVals = xVals == nil ? [String?]() : ChartUtils.bridgedObjCGetStringArray(objc: xVals!);
-        _dataSets = dataSets == nil ? [ChartDataSet]() : dataSets;
+        _xVals = xVals == nil ? [String?]() : ChartUtils.bridgedObjCGetStringArray(objc: xVals!)
+        _dataSets = dataSets == nil ? [ChartDataSet]() : dataSets
         
         self.initialize(_dataSets)
     }
     
     public convenience init(xVals: [String?]?)
     {
-        self.init(xVals: xVals, dataSets: [ChartDataSet]());
+        self.init(xVals: xVals, dataSets: [ChartDataSet]())
     }
     
     public convenience init(xVals: [NSObject]?)
     {
-        self.init(xVals: xVals, dataSets: [ChartDataSet]());
+        self.init(xVals: xVals, dataSets: [ChartDataSet]())
     }
     
     public convenience init(xVals: [String?]?, dataSet: ChartDataSet?)
     {
-        self.init(xVals: xVals, dataSets: dataSet === nil ? nil : [dataSet!]);
+        self.init(xVals: xVals, dataSets: dataSet === nil ? nil : [dataSet!])
     }
     
     public convenience init(xVals: [NSObject]?, dataSet: ChartDataSet?)
     {
-        self.init(xVals: xVals, dataSets: dataSet === nil ? nil : [dataSet!]);
+        self.init(xVals: xVals, dataSets: dataSet === nil ? nil : [dataSet!])
     }
     
     internal func initialize(dataSets: [ChartDataSet])
     {
-        checkIsLegal(dataSets);
+        checkIsLegal(dataSets)
         
-        calcMinMax(start: _lastStart, end: _lastEnd);
-        calcYValueSum();
-        calcYValueCount();
+        calcMinMax(start: _lastStart, end: _lastEnd)
+        calcYValueSum()
+        calcYValueCount()
         
         calcXValAverageLength()
     }
@@ -102,18 +102,18 @@ public class ChartData: NSObject
     {
         if (_xVals.count == 0)
         {
-            _xValAverageLength = 1;
-            return;
+            _xValAverageLength = 1
+            return
         }
         
-        var sum = 1;
+        var sum = 1
         
         for (var i = 0; i < _xVals.count; i++)
         {
-            sum += _xVals[i] == nil ? 0 : count(_xVals[i]!);
+            sum += _xVals[i] == nil ? 0 : count(_xVals[i]!)
         }
         
-        _xValAverageLength = Double(sum) / Double(_xVals.count);
+        _xValAverageLength = Double(sum) / Double(_xVals.count)
     }
     
     // Checks if the combination of x-values array and DataSet array is legal or not.
@@ -122,22 +122,22 @@ public class ChartData: NSObject
     {
         if (dataSets == nil)
         {
-            return;
+            return
         }
         
         for (var i = 0; i < dataSets.count; i++)
         {
             if (dataSets[i].yVals.count > _xVals.count)
             {
-                println("One or more of the DataSet Entry arrays are longer than the x-values array of this Data object.");
-                return;
+                println("One or more of the DataSet Entry arrays are longer than the x-values array of this Data object.")
+                return
             }
         }
     }
     
     public func notifyDataChanged()
     {
-        initialize(_dataSets);
+        initialize(_dataSets)
     }
     
     /// calc minimum and maximum y value over all datasets
@@ -146,45 +146,45 @@ public class ChartData: NSObject
         
         if (_dataSets == nil || _dataSets.count < 1)
         {
-            _yMax = 0.0;
-            _yMin = 0.0;
+            _yMax = 0.0
+            _yMin = 0.0
         }
         else
         {
-            _lastStart = start;
-            _lastEnd = end;
+            _lastStart = start
+            _lastEnd = end
             
-            _yMin = DBL_MAX;
-            _yMax = -DBL_MIN;
+            _yMin = DBL_MAX
+            _yMax = -DBL_MIN
             
             for (var i = 0; i < _dataSets.count; i++)
             {
-                _dataSets[i].calcMinMax(start: start, end: end);
+                _dataSets[i].calcMinMax(start: start, end: end)
                 
                 if (_dataSets[i].yMin < _yMin)
                 {
-                    _yMin = _dataSets[i].yMin;
+                    _yMin = _dataSets[i].yMin
                 }
                 
                 if (_dataSets[i].yMax > _yMax)
                 {
-                    _yMax = _dataSets[i].yMax;
+                    _yMax = _dataSets[i].yMax
                 }
             }
             
             if (_yMin == DBL_MAX)
             {
-                _yMin = 0.0;
-                _yMax = 0.0;
+                _yMin = 0.0
+                _yMax = 0.0
             }
             
             // left axis
-            var firstLeft = getFirstLeft();
+            var firstLeft = getFirstLeft()
 
             if (firstLeft !== nil)
             {
-                _leftAxisMax = firstLeft!.yMax;
-                _leftAxisMin = firstLeft!.yMin;
+                _leftAxisMax = firstLeft!.yMax
+                _leftAxisMin = firstLeft!.yMin
 
                 for dataSet in _dataSets
                 {
@@ -192,24 +192,24 @@ public class ChartData: NSObject
                     {
                         if (dataSet.yMin < _leftAxisMin)
                         {
-                            _leftAxisMin = dataSet.yMin;
+                            _leftAxisMin = dataSet.yMin
                         }
 
                         if (dataSet.yMax > _leftAxisMax)
                         {
-                            _leftAxisMax = dataSet.yMax;
+                            _leftAxisMax = dataSet.yMax
                         }
                     }
                 }
             }
 
             // right axis
-            var firstRight = getFirstRight();
+            var firstRight = getFirstRight()
 
             if (firstRight !== nil)
             {
-                _rightAxisMax = firstRight!.yMax;
-                _rightAxisMin = firstRight!.yMin;
+                _rightAxisMax = firstRight!.yMax
+                _rightAxisMin = firstRight!.yMin
                 
                 for dataSet in _dataSets
                 {
@@ -217,56 +217,56 @@ public class ChartData: NSObject
                     {
                         if (dataSet.yMin < _rightAxisMin)
                         {
-                            _rightAxisMin = dataSet.yMin;
+                            _rightAxisMin = dataSet.yMin
                         }
 
                         if (dataSet.yMax > _rightAxisMax)
                         {
-                            _rightAxisMax = dataSet.yMax;
+                            _rightAxisMax = dataSet.yMax
                         }
                     }
                 }
             }
 
             // in case there is only one axis, adjust the second axis
-            handleEmptyAxis(firstLeft, firstRight: firstRight);
+            handleEmptyAxis(firstLeft, firstRight: firstRight)
         }
     }
     
     /// calculates the sum of all y-values in all datasets
     internal func calcYValueSum()
     {
-        _yValueSum = 0;
+        _yValueSum = 0
         
         if (_dataSets == nil)
         {
-            return;
+            return
         }
         
         for (var i = 0; i < _dataSets.count; i++)
         {
-            _yValueSum += fabs(_dataSets[i].yValueSum);
+            _yValueSum += fabs(_dataSets[i].yValueSum)
         }
     }
     
     /// Calculates the total number of y-values across all ChartDataSets the ChartData represents.
     internal func calcYValueCount()
     {
-        _yValCount = 0;
+        _yValCount = 0
         
         if (_dataSets == nil)
         {
-            return;
+            return
         }
         
-        var count = 0;
+        var count = 0
         
         for (var i = 0; i < _dataSets.count; i++)
         {
-            count += _dataSets[i].entryCount;
+            count += _dataSets[i].entryCount
         }
         
-        _yValCount = count;
+        _yValCount = count
     }
     
     /// returns the number of LineDataSets this object contains
@@ -274,91 +274,91 @@ public class ChartData: NSObject
     {
         if (_dataSets == nil)
         {
-            return 0;
+            return 0
         }
-        return _dataSets.count;
+        return _dataSets.count
     }
     
     /// returns the smallest y-value the data object contains.
     public var yMin: Double
     {
-        return _yMin;
+        return _yMin
     }
     
     public func getYMin() -> Double
     {
-        return _yMin;
+        return _yMin
     }
     
     public func getYMin(axis: ChartYAxis.AxisDependency) -> Double
     {
         if (axis == .Left)
         {
-            return _leftAxisMin;
+            return _leftAxisMin
         }
         else
         {
-            return _rightAxisMin;
+            return _rightAxisMin
         }
     }
     
     /// returns the greatest y-value the data object contains.
     public var yMax: Double
     {
-        return _yMax;
+        return _yMax
     }
     
     public func getYMax() -> Double
     {
-        return _yMax;
+        return _yMax
     }
     
     public func getYMax(axis: ChartYAxis.AxisDependency) -> Double
     {
         if (axis == .Left)
         {
-            return _leftAxisMax;
+            return _leftAxisMax
         }
         else
         {
-            return _rightAxisMax;
+            return _rightAxisMax
         }
     }
     
     /// returns the average length (in characters) across all values in the x-vals array
     public var xValAverageLength: Double
     {
-        return _xValAverageLength;
+        return _xValAverageLength
     }
     
     /// returns the total y-value sum across all DataSet objects the this object represents.
     public var yValueSum: Double
     {
-        return _yValueSum;
+        return _yValueSum
     }
     
     /// Returns the total number of y-values across all DataSet objects the this object represents.
     public var yValCount: Int
     {
-        return _yValCount;
+        return _yValCount
     }
     
     /// returns the x-values the chart represents
     public var xVals: [String?]
     {
-        return _xVals;
+        return _xVals
     }
     
     ///Adds a new x-value to the chart data.
     public func addXValue(xVal: String?)
     {
-        _xVals.append(xVal);
+        _xVals.append(xVal)
     }
     
     /// Removes the x-value at the specified index.
     public func removeXValue(index: Int)
     {
-        _xVals.removeAtIndex(index);
+        _xVals.removeAtIndex(index)
     }
     
     /// Returns the array of ChartDataSets this object holds.
@@ -366,11 +366,11 @@ public class ChartData: NSObject
     {
         get
         {
-            return _dataSets;
+            return _dataSets
         }
         set
         {
-            _dataSets = newValue;
+            _dataSets = newValue
         }
     }
     
@@ -389,11 +389,11 @@ public class ChartData: NSObject
             {
                 if (dataSets[i].label == nil)
                 {
-                    continue;
+                    continue
                 }
                 if (label.caseInsensitiveCompare(dataSets[i].label!) == NSComparisonResult.OrderedSame)
                 {
-                    return i;
+                    return i
                 }
             }
         }
@@ -403,36 +403,36 @@ public class ChartData: NSObject
             {
                 if (label == dataSets[i].label)
                 {
-                    return i;
+                    return i
                 }
             }
         }
         
-        return -1;
+        return -1
     }
     
     /// returns the total number of x-values this ChartData object represents (the size of the x-values array)
     public var xValCount: Int
     {
-        return _xVals.count;
+        return _xVals.count
     }
     
     /// Returns the labels of all DataSets as a string array.
     internal func dataSetLabels() -> [String]
     {
-        var types = [String]();
+        var types = [String]()
         
         for (var i = 0; i < _dataSets.count; i++)
         {
             if (dataSets[i].label == nil)
             {
-                continue;
+                continue
             }
             
-            types[i] = _dataSets[i].label!;
+            types[i] = _dataSets[i].label!
         }
         
-        return types;
+        return types
     }
     
     /// Get the Entry for a corresponding highlight object
@@ -441,7 +441,7 @@ public class ChartData: NSObject
     /// :returns: the entry that is highlighted
     public func getEntryForHighlight(highlight: ChartHighlight) -> ChartDataEntry?
     {
-        return _dataSets[highlight.dataSetIndex].entryForXIndex(highlight.xIndex);
+        return _dataSets[highlight.dataSetIndex].entryForXIndex(highlight.xIndex)
     }
     
     /// Returns the DataSet object with the given label. 
@@ -452,15 +452,15 @@ public class ChartData: NSObject
     /// :param: ignorecase
     public func getDataSetByLabel(label: String, ignorecase: Bool) -> ChartDataSet?
     {
-        var index = getDataSetIndexByLabel(label, ignorecase: ignorecase);
+        var index = getDataSetIndexByLabel(label, ignorecase: ignorecase)
         
         if (index < 0 || index >= _dataSets.count)
         {
-            return nil;
+            return nil
         }
         else
         {
-            return _dataSets[index];
+            return _dataSets[index]
         }
     }
     
@@ -468,76 +468,76 @@ public class ChartData: NSObject
     {
         if (_dataSets == nil || index < 0 || index >= _dataSets.count)
         {
-            return nil;
+            return nil
         }
         
-        return _dataSets[index];
+        return _dataSets[index]
     }
     
     public func addDataSet(d: ChartDataSet!)
     {
         if (_dataSets == nil)
         {
-            return;
+            return
         }
         
-        _yValCount += d.entryCount;
-        _yValueSum += d.yValueSum;
+        _yValCount += d.entryCount
+        _yValueSum += d.yValueSum
         
         if (_dataSets.count == 0)
         {
-            _yMax = d.yMax;
-            _yMin = d.yMin;
+            _yMax = d.yMax
+            _yMin = d.yMin
             
             if (d.axisDependency == .Left)
             {
-                _leftAxisMax = d.yMax;
-                _leftAxisMin = d.yMin;
+                _leftAxisMax = d.yMax
+                _leftAxisMin = d.yMin
             }
             else
             {
-                _rightAxisMax = d.yMax;
-                _rightAxisMin = d.yMin;
+                _rightAxisMax = d.yMax
+                _rightAxisMin = d.yMin
             }
         }
         else
         {
             if (_yMax < d.yMax)
             {
-                _yMax = d.yMax;
+                _yMax = d.yMax
             }
             if (_yMin > d.yMin)
             {
-                _yMin = d.yMin;
+                _yMin = d.yMin
             }
             
             if (d.axisDependency == .Left)
             {
                 if (_leftAxisMax < d.yMax)
                 {
-                    _leftAxisMax = d.yMax;
+                    _leftAxisMax = d.yMax
                 }
                 if (_leftAxisMin > d.yMin)
                 {
-                    _leftAxisMin = d.yMin;
+                    _leftAxisMin = d.yMin
                 }
             }
             else
             {
                 if (_rightAxisMax < d.yMax)
                 {
-                    _rightAxisMax = d.yMax;
+                    _rightAxisMax = d.yMax
                 }
                 if (_rightAxisMin > d.yMin)
                 {
-                    _rightAxisMin = d.yMin;
+                    _rightAxisMin = d.yMin
                 }
             }
         }
         
-        _dataSets.append(d);
+        _dataSets.append(d)
         
-        handleEmptyAxis(getFirstLeft(), firstRight: getFirstRight());
+        handleEmptyAxis(getFirstLeft(), firstRight: getFirstRight())
     }
     
     public func handleEmptyAxis(firstLeft: ChartDataSet?, firstRight: ChartDataSet?)
@@ -545,13 +545,13 @@ public class ChartData: NSObject
         // in case there is only one axis, adjust the second axis
         if (firstLeft === nil)
         {
-            _leftAxisMax = _rightAxisMax;
-            _leftAxisMin = _rightAxisMin;
+            _leftAxisMax = _rightAxisMax
+            _leftAxisMin = _rightAxisMin
         }
         else if (firstRight === nil)
         {
-            _rightAxisMax = _leftAxisMax;
-            _rightAxisMin = _leftAxisMin;
+            _rightAxisMax = _leftAxisMax
+            _rightAxisMin = _leftAxisMin
         }
     }
     
@@ -563,19 +563,19 @@ public class ChartData: NSObject
     {
         if (_dataSets == nil || dataSet === nil)
         {
-            return false;
+            return false
         }
         
-        var removed = false;
+        var removed = false
         for (var i = 0; i < _dataSets.count; i++)
         {
             if (_dataSets[i] === dataSet)
             {
-                return removeDataSetByIndex(i);
+                return removeDataSetByIndex(i)
             }
         }
         
-        return false;
+        return false
     }
     
     /// Removes the DataSet at the given index in the DataSet array from the data object. 
@@ -586,16 +586,16 @@ public class ChartData: NSObject
     {
         if (_dataSets == nil || index >= _dataSets.count || index < 0)
         {
-            return false;
+            return false
         }
         
-        var d = _dataSets.removeAtIndex(index);
-        _yValCount -= d.entryCount;
-        _yValueSum -= d.yValueSum;
+        var d = _dataSets.removeAtIndex(index)
+        _yValCount -= d.entryCount
+        _yValueSum -= d.yValueSum
         
-        calcMinMax(start: _lastStart, end: _lastEnd);
+        calcMinMax(start: _lastStart, end: _lastEnd)
         
-        return true;
+        return true
     }
     
     /// Adds an Entry to the DataSet at the specified index. Entries are added to the end of the list.
@@ -603,51 +603,51 @@ public class ChartData: NSObject
     {
         if (_dataSets != nil && _dataSets.count > dataSetIndex && dataSetIndex >= 0)
         {
-            var val = e.value;
+            var val = e.value
             
-            _yValCount += 1;
-            _yValueSum += val;
+            _yValCount += 1
+            _yValueSum += val
             
             if (_yMax < val)
             {
-                _yMax = val;
+                _yMax = val
             }
             if (_yMin > val)
             {
-                _yMin = val;
+                _yMin = val
             }
             
-            var set = _dataSets[dataSetIndex];
+            var set = _dataSets[dataSetIndex]
             if (set.axisDependency == .Left)
             {
                 if (_leftAxisMax < e.value)
                 {
-                    _leftAxisMax = e.value;
+                    _leftAxisMax = e.value
                 }
                 if (_leftAxisMin > e.value)
                 {
-                    _leftAxisMin = e.value;
+                    _leftAxisMin = e.value
                 }
             }
             else
             {
                 if (_rightAxisMax < e.value)
                 {
-                    _rightAxisMax = e.value;
+                    _rightAxisMax = e.value
                 }
                 if (_rightAxisMin > e.value)
                 {
-                    _rightAxisMin = e.value;
+                    _rightAxisMin = e.value
                 }
             }
             
-            handleEmptyAxis(getFirstLeft(), firstRight: getFirstRight());
+            handleEmptyAxis(getFirstLeft(), firstRight: getFirstRight())
             
-            set.addEntry(e);
+            set.addEntry(e)
         }
         else
         {
-            println("ChartData.addEntry() - dataSetIndex our of range.");
+            println("ChartData.addEntry() - dataSetIndex our of range.")
         }
     }
     
@@ -657,23 +657,23 @@ public class ChartData: NSObject
         // entry null, outofbounds
         if (entry === nil || dataSetIndex >= _dataSets.count)
         {
-            return false;
+            return false
         }
         
         // remove the entry from the dataset
-        var removed = _dataSets[dataSetIndex].removeEntry(xIndex: entry.xIndex);
+        var removed = _dataSets[dataSetIndex].removeEntry(xIndex: entry.xIndex)
         
         if (removed)
         {
-            var val = entry.value;
+            var val = entry.value
             
-            _yValCount -= 1;
-            _yValueSum -= val;
+            _yValCount -= 1
+            _yValueSum -= val
             
-            calcMinMax(start: _lastStart, end: _lastEnd);
+            calcMinMax(start: _lastStart, end: _lastEnd)
         }
         
-        return removed;
+        return removed
     }
     
     /// Removes the Entry object at the given xIndex from the ChartDataSet at the
@@ -683,12 +683,12 @@ public class ChartData: NSObject
     {
         if (dataSetIndex >= _dataSets.count)
         {
-            return false;
+            return false
         }
         
-        var entry = _dataSets[dataSetIndex].entryForXIndex(xIndex);
+        var entry = _dataSets[dataSetIndex].entryForXIndex(xIndex)
         
-        return removeEntry(entry, dataSetIndex: dataSetIndex);
+        return removeEntry(entry, dataSetIndex: dataSetIndex)
     }
     
     /// Returns the DataSet that contains the provided Entry, or null, if no DataSet contains this entry.
@@ -696,23 +696,23 @@ public class ChartData: NSObject
     {
         if (e == nil)
         {
-            return nil;
+            return nil
         }
         
         for (var i = 0; i < _dataSets.count; i++)
         {
-            var set = _dataSets[i];
+            var set = _dataSets[i]
             
             for (var j = 0; j < set.entryCount; j++)
             {
                 if (e === set.entryForXIndex(e.xIndex))
                 {
-                    return set;
+                    return set
                 }
             }
         }
         
-        return nil;
+        return nil
     }
     
     /// Returns the index of the provided DataSet inside the DataSets array of
@@ -723,11 +723,11 @@ public class ChartData: NSObject
         {
             if (_dataSets[i] === dataSet)
             {
-                return i;
+                return i
             }
         }
         
-        return -1;
+        return -1
     }
     
     public func getFirstLeft() -> ChartDataSet?
@@ -736,11 +736,11 @@ public class ChartData: NSObject
         {
             if (dataSet.axisDependency == .Left)
             {
-                return dataSet;
+                return dataSet
             }
         }
         
-        return nil;
+        return nil
     }
     
     public func getFirstRight() -> ChartDataSet?
@@ -749,11 +749,11 @@ public class ChartData: NSObject
         {
             if (dataSet.axisDependency == .Right)
             {
-                return dataSet;
+                return dataSet
             }
         }
         
-        return nil;
+        return nil
     }
     
     /// Returns all colors used across all DataSet objects this object represents.
@@ -761,42 +761,42 @@ public class ChartData: NSObject
     {
         if (_dataSets == nil)
         {
-            return nil;
+            return nil
         }
         
-        var clrcnt = 0;
+        var clrcnt = 0
         
         for (var i = 0; i < _dataSets.count; i++)
         {
-            clrcnt += _dataSets[i].colors.count;
+            clrcnt += _dataSets[i].colors.count
         }
         
-        var colors = [UIColor]();
+        var colors = [UIColor]()
         
         for (var i = 0; i < _dataSets.count; i++)
         {
-            var clrs = _dataSets[i].colors;
+            var clrs = _dataSets[i].colors
             
             for clr in clrs
             {
-                colors.append(clr);
+                colors.append(clr)
             }
         }
         
-        return colors;
+        return colors
     }
     
     /// Generates an x-values array filled with numbers in range specified by the parameters. Can be used for convenience.
     public func generateXVals(from: Int, to: Int) -> [String]
     {
-        var xvals = [String]();
+        var xvals = [String]()
         
         for (var i = from; i < to; i++)
         {
-            xvals.append(String(i));
+            xvals.append(String(i))
         }
         
-        return xvals;
+        return xvals
     }
     
     /// Sets a custom ValueFormatter for all DataSets this data object contains.
@@ -804,7 +804,7 @@ public class ChartData: NSObject
     {
         for set in dataSets
         {
-            set.valueFormatter = formatter;
+            set.valueFormatter = formatter
         }
     }
     
@@ -813,7 +813,7 @@ public class ChartData: NSObject
     {
         for set in dataSets
         {
-            set.valueTextColor = color ?? set.valueTextColor;
+            set.valueTextColor = color ?? set.valueTextColor
         }
     }
     
@@ -822,7 +822,7 @@ public class ChartData: NSObject
     {
         for set in dataSets
         {
-            set.valueFont = font ?? set.valueFont;
+            set.valueFont = font ?? set.valueFont
         }
     }
     
@@ -831,7 +831,7 @@ public class ChartData: NSObject
     {
         for set in dataSets
         {
-            set.drawValuesEnabled = enabled;
+            set.drawValuesEnabled = enabled
         }
     }
     
@@ -844,17 +844,17 @@ public class ChartData: NSObject
             {
                 if (!set.highlightEnabled)
                 {
-                    return false;
+                    return false
                 }
             }
             
-            return true;
+            return true
         }
         set
         {
             for set in dataSets
             {
-                set.highlightEnabled = newValue;
+                set.highlightEnabled = newValue
             }
         }
     }
@@ -866,8 +866,8 @@ public class ChartData: NSObject
     /// Don't forget to invalidate the chart after this.
     public func clearValues()
     {
-        dataSets.removeAll(keepCapacity: false);
-        notifyDataChanged();
+        dataSets.removeAll(keepCapacity: false)
+        notifyDataChanged()
     }
     
     /// Checks if this data object contains the specified Entry. Returns true if so, false if not.
@@ -877,11 +877,11 @@ public class ChartData: NSObject
         {
             if (set.contains(entry))
             {
-                return true;
+                return true
             }
         }
         
-        return false;
+        return false
     }
     
     /// Checks if this data object contains the specified DataSet. Returns true if so, false if not.
@@ -891,11 +891,11 @@ public class ChartData: NSObject
         {
             if (set.isEqual(dataSet))
             {
-                return true;
+                return true
             }
         }
         
-        return false;
+        return false
     }
     
     /// MARK: - ObjC compatibility

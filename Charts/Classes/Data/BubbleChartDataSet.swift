@@ -32,33 +32,33 @@ public class BubbleChartDataSet: BarLineScatterCandleChartDataSet
     {
         if (yVals.count == 0)
         {
-            return;
+            return
         }
         
-        let entries = yVals as! [BubbleChartDataEntry];
+        let entries = yVals as! [BubbleChartDataEntry]
     
         // need chart width to guess this properly
         
-        var endValue : Int;
+        var endValue : Int
         
         if end == 0
         {
-            endValue = entries.count - 1;
+            endValue = entries.count - 1
         }
         else
         {
-            endValue = end;
+            endValue = end
         }
         
-        _lastStart = start;
-        _lastEnd = end;
+        _lastStart = start
+        _lastEnd = end
         
-        _yMin = yMin(entries[start]);
-        _yMax = yMax(entries[start]);
+        _yMin = yMin(entries[start])
+        _yMax = yMax(entries[start])
         
         for (var i = start; i <= endValue; i++)
         {
-            let entry = entries[i];
+            let entry = entries[i]
 
             let ymin = yMin(entry)
             let ymax = yMax(entry)
@@ -70,7 +70,7 @@ public class BubbleChartDataSet: BarLineScatterCandleChartDataSet
             
             if (ymax > _yMax)
             {
-                _yMax = ymax;
+                _yMax = ymax
             }
             
             let xmin = xMin(entry)
@@ -78,12 +78,12 @@ public class BubbleChartDataSet: BarLineScatterCandleChartDataSet
             
             if (xmin < _xMin)
             {
-                _xMin = xmin;
+                _xMin = xmin
             }
             
             if (xmax > _xMax)
             {
-                _xMax = xmax;
+                _xMax = xmax
             }
 
             let size = largestSize(entry)
@@ -96,7 +96,7 @@ public class BubbleChartDataSet: BarLineScatterCandleChartDataSet
     }
     
     /// Sets/gets the width of the circle that surrounds the bubble when highlighted
-    public var highlightCircleWidth: CGFloat = 2.5;
+    public var highlightCircleWidth: CGFloat = 2.5
     
     private func yMin(entry: BubbleChartDataEntry) -> Double
     {
