@@ -96,7 +96,7 @@ public class CombinedChartRenderer: ChartDataRendererBase,
 
     }
     
-    public override func drawData(#context: CGContext)
+    public override func drawData(context context: CGContext)
     {
         for renderer in _renderers
         {
@@ -104,7 +104,7 @@ public class CombinedChartRenderer: ChartDataRendererBase,
         }
     }
     
-    public override func drawValues(#context: CGContext)
+    public override func drawValues(context context: CGContext)
     {
         for renderer in _renderers
         {
@@ -112,7 +112,7 @@ public class CombinedChartRenderer: ChartDataRendererBase,
         }
     }
     
-    public override func drawExtras(#context: CGContext)
+    public override func drawExtras(context context: CGContext)
     {
         for renderer in _renderers
         {
@@ -120,7 +120,7 @@ public class CombinedChartRenderer: ChartDataRendererBase,
         }
     }
     
-    public override func drawHighlighted(#context: CGContext, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
     {
         for renderer in _renderers
         {
@@ -128,7 +128,7 @@ public class CombinedChartRenderer: ChartDataRendererBase,
         }
     }
     
-    public override func calcXBounds(#chart: BarLineChartViewBase, xAxisModulus: Int)
+    public override func calcXBounds(chart chart: BarLineChartViewBase, xAxisModulus: Int)
     {
         for renderer in _renderers
         {
@@ -137,7 +137,7 @@ public class CombinedChartRenderer: ChartDataRendererBase,
     }
 
     /// Returns the sub-renderer object at the specified index.
-    public func getSubRenderer(#index: Int) -> ChartDataRendererBase!
+    public func getSubRenderer(index index: Int) -> ChartDataRendererBase!
     {
         if (index >= _renderers.count || index < 0)
         {
