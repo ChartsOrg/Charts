@@ -1107,8 +1107,8 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         }
     }
 
-    /// Sets custom offsets for the current ViewPort (the offsets on the sides of the actual chart window). Setting this will prevent the chart from automatically calculating it's offsets. Use resetViewPortOffsets() to undo this.
-    /// ONLY USE THIS WHEN YOU KNOW WHAT YOU ARE DOING, else use setExtraOffsets(...).
+    /// Sets custom offsets for the current `ChartViewPort` (the offsets on the sides of the actual chart window). Setting this will prevent the chart from automatically calculating it's offsets. Use `resetViewPortOffsets()` to undo this.
+    /// ONLY USE THIS WHEN YOU KNOW WHAT YOU ARE DOING, else use `setExtraOffsets(...)`.
     public func setViewPortOffsets(left left: CGFloat, top: CGFloat, right: CGFloat, bottom: CGFloat)
     {
         _customViewPortEnabled = true
@@ -1127,7 +1127,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         }
     }
 
-    /// Resets all custom offsets set via setViewPortOffsets(...) method. Allows the chart to again calculate all offsets automatically.
+    /// Resets all custom offsets set via `setViewPortOffsets(...)` method. Allows the chart to again calculate all offsets automatically.
     public func resetViewPortOffsets()
     {
         _customViewPortEnabled = false
@@ -1160,7 +1160,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     }
 
     /// the number of maximum visible drawn values on the chart
-    /// only active when setDrawValues() is enabled
+    /// only active when `setDrawValues()` is enabled
     public var maxVisibleValueCount: Int
     {
         get
@@ -1258,7 +1258,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         }
     }
     
-    /// default: true
+    /// **default**: true
     /// - returns: true if zooming via double-tap is enabled false if not.
     public var isDoubleTapToZoomEnabled: Bool
     {
@@ -1269,22 +1269,22 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     public var highlightPerDragEnabled = true
     
     /// If set to true, highlighting per dragging over a fully zoomed out chart is enabled
-    /// You might want to disable this when using inside a UIScrollView
+    /// You might want to disable this when using inside a `UIScrollView`
     /// 
-    /// default: true
+    /// **default**: true
     public var isHighlightPerDragEnabled: Bool
     {
         return highlightPerDragEnabled
     }
     
-    /// default: true
+    /// **default**: true
     /// - returns: true if drawing the grid background is enabled, false if not.
     public var isDrawGridBackgroundEnabled: Bool
     {
         return drawGridBackgroundEnabled
     }
     
-    /// default: false
+    /// **default**: false
     /// - returns: true if drawing the borders rectangle is enabled, false if not.
     public var isDrawBordersEnabled: Bool
     {
@@ -1304,9 +1304,9 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     }
 
     /// - returns: the x and y values in the chart at the given touch point
-    /// (encapsulated in a PointD). This method transforms pixel coordinates to
+    /// (encapsulated in a `CGPoint`). This method transforms pixel coordinates to
     /// coordinates / values in the chart. This is the opposite method to
-    /// getPixelsForValues(...).
+    /// `getPixelsForValues(...)`.
     public func getValueByTouchPoint(var pt pt: CGPoint, axis: ChartYAxis.AxisDependency) -> CGPoint
     {
         getTransformer(axis).pixelToValue(&pt)
@@ -1315,7 +1315,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     }
 
     /// Transforms the given chart values into pixels. This is the opposite
-    /// method to getValueByTouchPoint(...).
+    /// method to `getValueByTouchPoint(...)`.
     public func getPixelForValue(x: Double, y: Double, axis: ChartYAxis.AxisDependency) -> CGPoint
     {
         var pt = CGPoint(x: CGFloat(x), y: CGFloat(y))
@@ -1443,7 +1443,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         }
     }
 
-    /// default: false
+    /// **default**: false
     /// - returns: true if pinch-zoom is enabled, false if not
     public var isPinchZoomEnabled: Bool { return pinchZoomEnabled; }
 
@@ -1465,7 +1465,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     public var hasNoDragOffset: Bool { return _viewPortHandler.hasNoDragOffset; }
 
     /// The X axis renderer. This is a read-write property so you can set your own custom renderer here.
-    /// :default: An instance of ChartXAxisRenderer
+    /// **default**: An instance of ChartXAxisRenderer
     /// - returns: The current set X axis renderer
     public var xAxisRenderer: ChartXAxisRenderer
     {
@@ -1474,7 +1474,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     }
     
     /// The left Y axis renderer. This is a read-write property so you can set your own custom renderer here.
-    /// :default: An instance of ChartYAxisRenderer
+    /// **default**: An instance of ChartYAxisRenderer
     /// - returns: The current set left Y axis renderer
     public var leftYAxisRenderer: ChartYAxisRenderer
     {
@@ -1483,7 +1483,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     }
     
     /// The right Y axis renderer. This is a read-write property so you can set your own custom renderer here.
-    /// :default: An instance of ChartYAxisRenderer
+    /// **default**: An instance of ChartYAxisRenderer
     /// - returns: The current set right Y axis renderer
     public var rightYAxisRenderer: ChartYAxisRenderer
     {
@@ -1515,7 +1515,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         set { _autoScaleMinMaxEnabled = newValue; }
     }
     
-    /// default: false
+    /// **default**: false
     /// - returns: true if auto scaling on the y axis is enabled.
     public var isAutoScaleMinMaxEnabled : Bool { return autoScaleMinMaxEnabled; }
     
@@ -1532,7 +1532,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         }
     }
     
-    /// default: 0.0
+    /// **default**: 0.0
     /// - returns: the (custom) minimum width of the specified Y axis.
     public func getYAxisMinWidth(which: ChartYAxis.AxisDependency) -> CGFloat
     {
@@ -1561,7 +1561,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     
     /// Zero (0.0) means there's no maximum width
     ///
-    /// default: 0.0 (no maximum specified)
+    /// **default**: 0.0 (no maximum specified)
     /// - returns: the (custom) maximum width of the specified Y axis.
     public func getYAxisMaxWidth(which: ChartYAxis.AxisDependency) -> CGFloat
     {
