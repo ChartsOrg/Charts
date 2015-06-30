@@ -27,24 +27,24 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
     }
     
     /// draws the x-labels on the specified y-position
-    internal override func drawLabels(#context: CGContext, pos: CGFloat)
+    internal override func drawLabels(context context: CGContext, pos: CGFloat)
     {
         if (_chart.data === nil)
         {
             return
         }
         
-        var paraStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
+        let paraStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
         paraStyle.alignment = .Center
         
-        var labelAttrs = [NSFontAttributeName: _xAxis.labelFont,
+        let labelAttrs = [NSFontAttributeName: _xAxis.labelFont,
             NSForegroundColorAttributeName: _xAxis.labelTextColor,
             NSParagraphStyleAttributeName: paraStyle]
         
-        var barData = _chart.data as! BarChartData
-        var step = barData.dataSetCount
+        let barData = _chart.data as! BarChartData
+        let step = barData.dataSetCount
         
-        var valueToPixelMatrix = transformer.valueToPixelMatrix
+        let valueToPixelMatrix = transformer.valueToPixelMatrix
         
         var position = CGPoint(x: 0.0, y: 0.0)
         
@@ -57,7 +57,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
         
         for (var i = _minX, maxX = min(_maxX + 1, _xAxis.values.count); i < maxX; i += _xAxis.axisLabelModulus)
         {
-            var label = i >= 0 && i < _xAxis.values.count ? _xAxis.values[i] : nil
+            let label = i >= 0 && i < _xAxis.values.count ? _xAxis.values[i] : nil
             if (label == nil)
             {
                 continue
@@ -81,7 +81,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
                     // avoid clipping of the last
                     if (i == _xAxis.values.count - 1)
                     {
-                        var width = label!.sizeWithAttributes(labelAttrs).width
+                        let width = label!.sizeWithAttributes(labelAttrs).width
                         
                         if (width > viewPortHandler.offsetRight * 2.0
                             && position.x + width > viewPortHandler.chartWidth)
@@ -91,7 +91,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
                     }
                     else if (i == 0)
                     { // avoid clipping of the first
-                        var width = label!.sizeWithAttributes(labelAttrs).width
+                        let width = label!.sizeWithAttributes(labelAttrs).width
                         position.x += width / 2.0
                     }
                 }
@@ -103,15 +103,15 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
     
     private var _gridLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    public override func renderGridLines(#context: CGContext)
+    public override func renderGridLines(context context: CGContext)
     {
         if (!_xAxis.isDrawGridLinesEnabled || !_xAxis.isEnabled)
         {
             return
         }
         
-        var barData = _chart.data as! BarChartData
-        var step = barData.dataSetCount
+        let barData = _chart.data as! BarChartData
+        let step = barData.dataSetCount
         
         CGContextSaveGState(context)
         
@@ -126,7 +126,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
             CGContextSetLineDash(context, 0.0, nil, 0)
         }
         
-        var valueToPixelMatrix = transformer.valueToPixelMatrix
+        let valueToPixelMatrix = transformer.valueToPixelMatrix
         
         var position = CGPoint(x: 0.0, y: 0.0)
         
