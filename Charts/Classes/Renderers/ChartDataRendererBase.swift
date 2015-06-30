@@ -24,22 +24,22 @@ public class ChartDataRendererBase: ChartRendererBase
         _animator = animator
     }
 
-    public func drawData(#context: CGContext)
+    public func drawData(context context: CGContext)
     {
         fatalError("drawData() cannot be called on ChartDataRendererBase")
     }
     
-    public func drawValues(#context: CGContext)
+    public func drawValues(context context: CGContext)
     {
         fatalError("drawValues() cannot be called on ChartDataRendererBase")
     }
     
-    public func drawExtras(#context: CGContext)
+    public func drawExtras(context context: CGContext)
     {
         fatalError("drawExtras() cannot be called on ChartDataRendererBase")
     }
     
-    public func drawHighlighted(#context: CGContext, indices: [ChartHighlight])
+    public func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
     {
         fatalError("drawHighlighted() cannot be called on ChartDataRendererBase")
     }

@@ -22,7 +22,7 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
     
     /// if set to true, all values are drawn above their bars, instead of below their top
     private var _drawValueAboveBarEnabled = true
-    
+
     /// if set to true, a grey area is darawn behind each bar that indicates the maximum value
     private var _drawBarShadowEnabled = false
     
@@ -47,7 +47,7 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
             return
         }
         
-        var barData = _data as! BarChartData
+        let barData = _data as! BarChartData
         
         // increase deltax by 1 because the bars have a width of 1
         _deltaX += 0.5
@@ -59,7 +59,7 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
         
         for (var i = 0, count = barData.dataSetCount; i < count; i++)
         {
-            var set = barData.getDataSetByIndex(i)
+            let set = barData.getDataSetByIndex(i)
             
             if (maxEntry < set!.entryCount)
             {
@@ -67,7 +67,7 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
             }
         }
         
-        var groupSpace = barData.groupSpace
+        let groupSpace = barData.groupSpace
         _deltaX += CGFloat(maxEntry) * groupSpace
         _chartXMax = Double(_deltaX) - _chartXMin
     }
@@ -77,34 +77,34 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
     {
         if (_dataNotSet || _data === nil)
         {
-            println("Can't select by touch. No data set.")
+            print("Can't select by touch. No data set.", appendNewline: true)
             return nil
         }
         
         return _highlighter?.getHighlight(x: Double(pt.x), y: Double(pt.y))
     }
-    
+        
     /// Returns the bounding box of the specified Entry in the specified DataSet. Returns null if the Entry could not be found in the charts data.
     public func getBarBounds(e: BarChartDataEntry) -> CGRect!
     {
-        var set = _data.getDataSetForEntry(e) as! BarChartDataSet!
+        let set = _data.getDataSetForEntry(e) as! BarChartDataSet!
         
         if (set === nil)
         {
             return nil
         }
         
-        var barspace = set.barSpace
-        var y = CGFloat(e.value)
-        var x = CGFloat(e.xIndex)
+        let barspace = set.barSpace
+        let y = CGFloat(e.value)
+        let x = CGFloat(e.xIndex)
         
-        var barWidth: CGFloat = 0.5
+        let barWidth: CGFloat = 0.5
         
-        var spaceHalf = barspace / 2.0
-        var left = x - barWidth + spaceHalf
-        var right = x + barWidth - spaceHalf
-        var top = y >= 0.0 ? y : 0.0
-        var bottom = y <= 0.0 ? y : 0.0
+        let spaceHalf = barspace / 2.0
+        let left = x - barWidth + spaceHalf
+        let right = x + barWidth - spaceHalf
+        let top = y >= 0.0 ? y : 0.0
+        let bottom = y <= 0.0 ? y : 0.0
         
         var bounds = CGRect(x: left, y: top, width: right - left, height: bottom - top)
         
@@ -115,8 +115,8 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
     
     public override var lowestVisibleXIndex: Int
     {
-        var step = CGFloat(_data.dataSetCount)
-        var div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
+        let step = CGFloat(_data.dataSetCount)
+        let div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
         
         var pt = CGPoint(x: _viewPortHandler.contentLeft, y: _viewPortHandler.contentBottom)
         getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
@@ -126,8 +126,8 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
 
     public override var highestVisibleXIndex: Int
     {
-        var step = CGFloat(_data.dataSetCount)
-        var div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
+        let step = CGFloat(_data.dataSetCount)
+        let div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
         
         var pt = CGPoint(x: _viewPortHandler.contentRight, y: _viewPortHandler.contentBottom)
         getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
