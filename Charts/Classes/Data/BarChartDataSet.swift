@@ -95,19 +95,19 @@ public class BarChartDataSet: BarLineScatterCandleChartDataSet
         }
     }
     
-    /// Returns the maximum number of bars that can be stacked upon another in this DataSet.
+    /// - returns: the maximum number of bars that can be stacked upon another in this DataSet.
     public var stackSize: Int
     {
         return _stackSize
     }
     
-    /// Returns true if this DataSet is stacked (stacksize > 1) or not.
+    /// - returns: true if this DataSet is stacked (stacksize > 1) or not.
     public var isStacked: Bool
     {
         return _stackSize > 1 ? true : false
     }
     
-    /// returns the overall entry count, including counting each stack-value individually
+    /// - returns: the overall entry count, including counting each stack-value individually
     public var entryCountStacks: Int
     {
         return _entryCountStacks

@@ -352,13 +352,13 @@ public class ChartViewPortHandler: NSObject
         return (_contentRect.origin.y + _contentRect.size.height) >= normalizedY ? true : false
     }
     
-    /// returns the current x-scale factor
+    /// - returns: the current x-scale factor
     public var scaleX: CGFloat
     {
         return _scaleX
     }
     
-    /// returns the current y-scale factor
+    /// - returns: the current y-scale factor
     public var scaleY: CGFloat
     {
         return _scaleY
@@ -377,7 +377,7 @@ public class ChartViewPortHandler: NSObject
         }
     }
     
-    /// Returns true if the chart is fully zoomed out on it's y-axis (vertical).
+    /// - returns: true if the chart is fully zoomed out on it's y-axis (vertical).
     public var isFullyZoomedOutY: Bool
     {
         if (_scaleY > _minScaleY || _minScaleY > 1.0)
@@ -390,7 +390,7 @@ public class ChartViewPortHandler: NSObject
         }
     }
     
-    /// Returns true if the chart is fully zoomed out on it's x-axis (horizontal).
+    /// - returns: true if the chart is fully zoomed out on it's x-axis (horizontal).
     public var isFullyZoomedOutX: Bool
     {
         if (_scaleX > _minScaleX || _minScaleX > 1.0)
@@ -415,7 +415,7 @@ public class ChartViewPortHandler: NSObject
         _transOffsetY = offset
     }
     
-    /// Returns true if both drag offsets (x and y) are zero or smaller.
+    /// - returns: true if both drag offsets (x and y) are zero or smaller.
     public var hasNoDragOffset: Bool
     {
         return _transOffsetX <= 0.0 && _transOffsetY <= 0.0 ? true : false

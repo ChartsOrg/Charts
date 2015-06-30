@@ -20,8 +20,8 @@ import UIKit
 public protocol ChartViewDelegate
 {
     /// Called when a value has been selected inside the chart.
-    /// :entry: The selected Entry.
-    /// :dataSetIndex: The index in the datasets array of the data object the Entrys DataSet is in.
+    /// - parameter entry: The selected Entry.
+    /// - parameter dataSetIndex: The index in the datasets array of the data object the Entrys DataSet is in.
     optional func chartValueSelected(chartView: ChartViewBase, entry: ChartDataEntry, dataSetIndex: Int, highlight: ChartHighlight)
     
     // Called when nothing has been selected or an "un-select" has been made.
@@ -223,7 +223,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         setNeedsDisplay()
     }
     
-    /// Returns true if the chart is empty (meaning it's data object is either null or contains no entries).
+    /// - returns: true if the chart is empty (meaning it's data object is either null or contains no entries).
     public func isEmpty() -> Bool
     {
         if (_data == nil)
@@ -343,15 +343,14 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     
     // MARK: - Highlighting
     
-    /// Returns the array of currently highlighted values. This might be null or empty if nothing is highlighted.
+    /// - returns: the array of currently highlighted values. This might be null or empty if nothing is highlighted.
     public var highlighted: [ChartHighlight]
     {
         return _indicesToHightlight
     }
     
-    /// Returns true if there are values to highlight,
-    /// false if there are no values to highlight.
     /// Checks if the highlight array is null, has a length of zero or if the first object is null.
+    /// - returns: true if there are values to highlight, false if there are no values to highlight.
     public func valuesToHighlight() -> Bool
     {
         return _indicesToHightlight.count > 0
@@ -485,7 +484,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         }
     }
     
-    /// Returns the actual position in pixels of the MarkerView for the given Entry in the given DataSet.
+    /// - returns: the actual position in pixels of the MarkerView for the given Entry in the given DataSet.
     public func getMarkerPosition(entry entry: ChartDataEntry, dataSetIndex: Int) -> CGPoint
     {
         fatalError("getMarkerPosition() cannot be called on ChartViewBase")
@@ -493,7 +492,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     
     // MARK: - Animation
     
-    /// Returns the animator responsible for animating chart values.
+    /// - returns: the animator responsible for animating chart values.
     public var animator: ChartAnimator!
     {
         return _animator
@@ -604,19 +603,19 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     
     // MARK: - Accessors
 
-    /// returns the total value (sum) of all y-values across all DataSets
+    /// - returns: the total value (sum) of all y-values across all DataSets
     public var yValueSum: Double
     {
         return _data.yValueSum
     }
 
-    /// returns the current y-max value across all DataSets
+    /// - returns: the current y-max value across all DataSets
     public var chartYMax: Double
     {
         return _data.yMax
     }
 
-    /// returns the current y-min value across all DataSets
+    /// - returns: the current y-min value across all DataSets
     public var chartYMin: Double
     {
         return _data.yMin
@@ -632,13 +631,13 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         return _chartXMin
     }
     
-    /// returns the average value of all values the chart holds
+    /// - returns: the average value of all values the chart holds
     public func getAverage() -> Double
     {
         return yValueSum / Double(_data.yValCount)
     }
     
-    /// returns the average value for a specific DataSet (with a specific label) in the chart
+    /// - returns: the average value for a specific DataSet (with a specific label) in the chart
     public func getAverage(dataSetLabel dataSetLabel: String) -> Double
     {
         let ds = _data.getDataSetByLabel(dataSetLabel, ignorecase: true)
@@ -650,39 +649,39 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         return ds!.yValueSum / Double(ds!.entryCount)
     }
     
-    /// returns the total number of values the chart holds (across all DataSets)
+    /// - returns: the total number of values the chart holds (across all DataSets)
     public var getValueCount: Int
     {
         return _data.yValCount
     }
     
-    /// Returns the center point of the chart (the whole View) in pixels.
-    /// Note: (Equivalent of getCenter() in MPAndroidChart, as center is already a standard in iOS that returns the center point relative to superview, and MPAndroidChart returns relative to self)
+    /// *Note: (Equivalent of getCenter() in MPAndroidChart, as center is already a standard in iOS that returns the center point relative to superview, and MPAndroidChart returns relative to self)*
+    /// - returns: the center point of the chart (the whole View) in pixels.
     public var midPoint: CGPoint
     {
         let bounds = self.bounds
         return CGPoint(x: bounds.origin.x + bounds.size.width / 2.0, y: bounds.origin.y + bounds.size.height / 2.0)
     }
     
-    /// Returns the center of the chart taking offsets under consideration. (returns the center of the content rectangle)
+    /// - returns: the center of the chart taking offsets under consideration. (returns the center of the content rectangle)
     public var centerOffsets: CGPoint
     {
         return _viewPortHandler.contentCenter
     }
     
-    /// Returns the Legend object of the chart. This method can be used to get an instance of the legend in order to customize the automatically generated Legend.
+    /// - returns: the Legend object of the chart. This method can be used to get an instance of the legend in order to customize the automatically generated Legend.
     public var legend: ChartLegend
     {
         return _legend
     }
     
-    /// Returns the renderer object responsible for rendering / drawing the Legend.
+    /// - returns: the renderer object responsible for rendering / drawing the Legend.
     public var legendRenderer: ChartLegendRenderer!
     {
         return _legendRenderer
     }
     
-    /// Returns the rectangle that defines the borders of the chart-value surface (into which the actual values are drawn).
+    /// - returns: the rectangle that defines the borders of the chart-value surface (into which the actual values are drawn).
     public var contentRect: CGRect
     {
         return _viewPortHandler.contentRect
@@ -711,7 +710,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         }
     }
     
-    /// returns the x-value at the given index
+    /// - returns: the x-value at the given index
     public func getXValue(index: Int) -> String!
     {
         if (_data == nil || _data.xValCount <= index)
@@ -742,20 +741,20 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         return vals
     }
     
-    /// returns the percentage the given value has of the total y-value sum
+    /// - returns: the percentage the given value has of the total y-value sum
     public func percentOfTotal(val: Double) -> Double
     {
         return val / _data.yValueSum * 100.0
     }
     
-    /// Returns the ViewPortHandler of the chart that is responsible for the
+    /// - returns: the ViewPortHandler of the chart that is responsible for the
     /// content area of the chart and its offsets and dimensions.
     public var viewPortHandler: ChartViewPortHandler!
     {
         return _viewPortHandler
     }
     
-    /// Returns the bitmap that represents the chart.
+    /// - returns: the bitmap that represents the chart.
     public func getChartImage(transparent transparent: Bool) -> UIImage
     {
         UIGraphicsBeginImageContextWithOptions(bounds.size, opaque || !transparent, UIScreen.mainScreen().scale)
@@ -796,9 +795,9 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     /// the SD card chart is saved as a PNG image, example:
     /// saveToPath("myfilename", "foldername1/foldername2")
     ///
-    /// :filePath: path to the image to save
-    /// :format: the format to save
-    /// :compressionQuality: compression quality for lossless formats (JPEG)
+    /// - parameter filePath: path to the image to save
+    /// - parameter format: the format to save
+    /// - parameter compressionQuality: compression quality for lossless formats (JPEG)
     ///
     /// - returns: true if the image was saved successfully
     public func saveToPath(path: String, format: ImageFormat, compressionQuality: Double) -> Bool
@@ -876,8 +875,8 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     /// if true, value highlightning is enabled
     public var isHighlightEnabled: Bool { return highlightEnabled }
     
+    /// default: true
     /// - returns: true if chart continues to scroll after touch up, false if not.
-    /// :default: true
     public var isDragDecelerationEnabled: Bool
         {
             return dragDecelerationEnabled
@@ -885,7 +884,8 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     
     /// Deceleration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately.
     /// 1 is an invalid value, and will be converted to 0.999 automatically.
-    /// :default: true
+    /// 
+    /// default: true
     public var dragDecelerationFrictionCoef: CGFloat
     {
         get
