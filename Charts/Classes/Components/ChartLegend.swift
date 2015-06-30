@@ -242,7 +242,6 @@ public class ChartLegend: ChartComponentBase
             var formSize = self.formSize
             var formToTextSpace = self.formToTextSpace
             var xEntrySpace = self.xEntrySpace
-            var direction = self.direction
             var stackSpace = self.stackSpace
             var wordWrapEnabled = self.wordWrapEnabled
             

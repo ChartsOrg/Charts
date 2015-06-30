@@ -58,15 +58,12 @@ public class CandleStickChartRenderer: ChartDataRendererBase
     
     internal func drawDataSet(#context: CGContext, dataSet: CandleChartDataSet)
     {
-        var candleData = delegate!.candleStickChartRendererCandleData(self)
         
         var trans = delegate!.candleStickChartRenderer(self, transformerForAxis: dataSet.axisDependency)
         
         var phaseX = _animator.phaseX
         var phaseY = _animator.phaseY
         var bodySpace = dataSet.bodySpace
-        
-        var dataSetIndex = candleData.indexOfDataSet(dataSet)
         
         var entries = dataSet.yVals as! [CandleChartDataEntry]
         

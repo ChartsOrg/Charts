@@ -79,8 +79,6 @@ public class LineChartRenderer: ChartDataRendererBase
     
     internal func drawDataSet(#context: CGContext, dataSet: LineChartDataSet)
     {
-        var lineData = delegate!.lineChartRendererData(self)
-        
         var entries = dataSet.yVals
         
         if (entries.count < 1)
@@ -248,16 +246,11 @@ public class LineChartRenderer: ChartDataRendererBase
     
     internal func drawLinear(#context: CGContext, dataSet: LineChartDataSet, entries: [ChartDataEntry])
     {
-        var lineData = delegate!.lineChartRendererData(self)
-        var dataSetIndex = lineData.indexOfDataSet(dataSet)
-
         var trans = delegate!.lineChartRenderer(self, transformerForAxis: dataSet.axisDependency)
         var valueToPixelMatrix = trans.valueToPixelMatrix
         
         var phaseX = _animator.phaseX
         var phaseY = _animator.phaseY
-        
-        var pointBuffer = CGPoint()
         
         CGContextSaveGState(context)
         
@@ -386,11 +379,9 @@ public class LineChartRenderer: ChartDataRendererBase
     /// Generates the path that is used for filled drawing.
     private func generateFilledPath(entries: [ChartDataEntry], fillMin: CGFloat, from: Int, to: Int, var matrix: CGAffineTransform) -> CGPath
     {
-        var point = CGPoint()
         
         var phaseX = _animator.phaseX
         var phaseY = _animator.phaseY
-        
         var filled = CGPathCreateMutable()
         CGPathMoveToPoint(filled, &matrix, CGFloat(entries[from].xIndex), fillMin)
         CGPathAddLineToPoint(filled, &matrix, CGFloat(entries[from].xIndex), CGFloat(entries[from].value) * phaseY)

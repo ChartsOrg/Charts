@@ -566,7 +566,6 @@ public class ChartData: NSObject
             return false
         }
         
-        var removed = false
         for (var i = 0; i < _dataSets.count; i++)
         {
             if (_dataSets[i] === dataSet)

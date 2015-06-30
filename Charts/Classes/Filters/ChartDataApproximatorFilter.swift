@@ -87,8 +87,6 @@ public class ChartDataApproximatorFilter: ChartDataBaseFilter
             return reduceWithDouglasPeuker(points, epsilon: tolerance)
         case .None:
             return points
-        default:
-            return points
         }
     }
     
