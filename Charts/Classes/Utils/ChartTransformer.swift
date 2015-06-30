@@ -264,7 +264,7 @@ public class ChartTransformer: NSObject
         pixel = CGPointApplyAffineTransform(pixel, pixelToValueMatrix)
     }
     
-    /// Returns the x and y values in the chart at the given touch point
+    /// - returns: the x and y values in the chart at the given touch point
     /// (encapsulated in a PointD). This method transforms pixel coordinates to
     /// coordinates / values in the chart.
     public func getValueByTouchPoint(point: CGPoint) -> CGPoint

@@ -33,14 +33,16 @@ public class ChartXAxis: ChartAxisBase
     
     /// the space that should be left out (in characters) between the x-axis labels
     /// This only applies if the number of labels that will be skipped in between drawn axis labels is not custom set.
-    /// :default: 4
+    /// 
+    /// default: 4
     public var spaceBetweenLabels = Int(4)
     
     /// the modulus that indicates if a value at a specified index in an array(list) for the x-axis-labels is drawn or not. Draw when (index % modulus) == 0.
     public var axisLabelModulus = Int(1)
     
     /// Is axisLabelModulus a custom value or auto calculated? If false, then it's auto, if true, then custom.
-    /// :default: false (automatic modulus)
+    /// 
+    /// default: false (automatic modulus)
     private var _isAxisModulusCustom = false
 
     /// the modulus that indicates if a value at a specified index in an array(list) for the y-axis-labels is drawn or not. Draw when (index % modulus) == 0.
@@ -55,15 +57,17 @@ public class ChartXAxis: ChartAxisBase
     
     /// if set to true, word wrapping the labels will be enabled.
     /// word wrapping is done using (value width * labelWidth)
-    /// NOTE: currently supports all charts except pie/radar/horizontal-bar
+    ///
+    /// *NOTE: currently supports all charts except pie/radar/horizontal-bar*
     public var wordWrapEnabled = false
     
-    /// :returns true if word wrapping the labels is enabled
+    /// - returns: true if word wrapping the labels is enabled
     public var isWordWrapEnabled: Bool { return wordWrapEnabled }
     
     /// the width for wrapping the labels, as percentage out of one value width.
     /// used only when isWordWrapEnabled = true.
-    /// :default 1.0
+    /// 
+    /// default: 1.0
     public var wordWrapWidthPercent: CGFloat = 1.0
     
     public override init()
@@ -116,7 +120,7 @@ public class ChartXAxis: ChartAxisBase
         _isAxisModulusCustom = false
     }
     
-    /// Returns true if a custom axis-modulus has been set that determines the number of labels to skip when drawing.
+    /// - returns: true if a custom axis-modulus has been set that determines the number of labels to skip when drawing.
     public var isAxisModulusCustom: Bool
     {
         return _isAxisModulusCustom

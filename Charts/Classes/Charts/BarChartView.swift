@@ -73,7 +73,7 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
         _chartXMax = Double(_deltaX) - _chartXMin
     }
     
-    /// Returns the Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the BarChart.
+    /// - returns: the Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the BarChart.
     public override func getHighlightByTouchPoint(var pt: CGPoint) -> ChartHighlight!
     {
         if (_dataNotSet || _data === nil)
@@ -92,7 +92,7 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
         return getHighlight(xPosition: pt.x, yPosition: pt.y)
     }
     
-    /// Returns the correct Highlight object (including xIndex and dataSet-index) for the specified touch position.
+    /// - returns: the correct Highlight object (including xIndex and dataSet-index) for the specified touch position.
     internal func getHighlight(xPosition xPosition: CGFloat, yPosition: CGFloat) -> ChartHighlight!
     {
         if (_dataNotSet || _data === nil)
@@ -186,7 +186,7 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
         }
     }
     
-    /// Returns the bounding box of the specified Entry in the specified DataSet. Returns null if the Entry could not be found in the charts data.
+    /// - returns: the bounding box of the specified Entry in the specified DataSet. null if the Entry could not be found in the charts data.
     public func getBarBounds(e: BarChartDataEntry) -> CGRect!
     {
         let set = _data.getDataSetForEntry(e) as! BarChartDataSet!
@@ -283,16 +283,16 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
         }
     }
     
-    /// returns true if drawing the highlighting arrow is enabled, false if not
+    /// - returns: true if drawing the highlighting arrow is enabled, false if not
     public var isDrawHighlightArrowEnabled: Bool { return drawHighlightArrowEnabled; }
     
-    /// returns true if drawing values above bars is enabled, false if not
+    /// - returns: true if drawing values above bars is enabled, false if not
     public var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled; }
     
-    /// returns true if all values of a stack are drawn, and not just their sum
+    /// - returns: true if all values of a stack are drawn, and not just their sum
     public var isDrawValuesForWholeStackEnabled: Bool { return drawValuesForWholeStackEnabled; }
     
-    /// returns true if drawing shadows (maxvalue) for each bar is enabled, false if not
+    /// - returns: true if drawing shadows (maxvalue) for each bar is enabled, false if not
     public var isDrawBarShadowEnabled: Bool { return drawBarShadowEnabled; }
     
     // MARK: - BarChartRendererDelegate

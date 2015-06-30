@@ -17,9 +17,9 @@ public class BubbleChartDataEntry: ChartDataEntry
     /// The size of the bubble.
     public var size = CGFloat(0.0)
     
-    /// :xIndex: The index on the x-axis.
-    /// :val: The value on the y-axis.
-    /// :size: The size of the bubble.
+    /// - parameter xIndex: The index on the x-axis.
+    /// - parameter val: The value on the y-axis.
+    /// - parameter size: The size of the bubble.
     public init(xIndex: Int, value: Double, size: CGFloat)
     {
         super.init(value: value, xIndex: xIndex)
@@ -27,10 +27,10 @@ public class BubbleChartDataEntry: ChartDataEntry
         self.size = size
     }
     
-    /// :xIndex: The index on the x-axis.
-    /// :val: The value on the y-axis.
-    /// :size: The size of the bubble.
-    /// :data: Spot for additional data this Entry represents.
+    /// - parameter xIndex: The index on the x-axis.
+    /// - parameter val: The value on the y-axis.
+    /// - parameter size: The size of the bubble.
+    /// - parameter data: Spot for additional data this Entry represents.
     public init(xIndex: Int, value: Double, size: CGFloat, data: AnyObject?)
     {
         super.init(value: value, xIndex: xIndex, data: data)

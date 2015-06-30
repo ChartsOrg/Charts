@@ -174,7 +174,7 @@ public class RadarChartView: PieRadarChartViewBase
         drawMarkers(context: context)
     }
 
-    /// Returns the factor that is needed to transform values into pixels.
+    /// - returns: the factor that is needed to transform values into pixels.
     public var factor: CGFloat
     {
         let content = _viewPortHandler.contentRect
@@ -182,7 +182,7 @@ public class RadarChartView: PieRadarChartViewBase
                 / CGFloat(_yAxis.axisRange)
     }
 
-    /// Returns the angle that each slice in the radar chart occupies.
+    /// - returns: the angle that each slice in the radar chart occupies.
     public var sliceAngle: CGFloat
     {
         return 360.0 / CGFloat(_data.xValCount)
@@ -206,13 +206,13 @@ public class RadarChartView: PieRadarChartViewBase
         return 0
     }
 
-    /// Returns the object that represents all y-labels of the RadarChart.
+    /// - returns: the object that represents all y-labels of the RadarChart.
     public var yAxis: ChartYAxis
     {
         return _yAxis
     }
 
-    /// Returns the object that represents all x-labels that are placed around the RadarChart.
+    /// - returns: the object that represents all x-labels that are placed around the RadarChart.
     public var xAxis: ChartXAxis
     {
         return _xAxis
@@ -234,12 +234,12 @@ public class RadarChartView: PieRadarChartViewBase
         return min(content.width / 2.0, content.height / 2.0)
     }
 
-    /// Returns the maximum value this chart can display on it's y-axis.
+    /// - returns: the maximum value this chart can display on it's y-axis.
     public override var chartYMax: Double { return _yAxis.axisMaximum; }
     
-    /// Returns the minimum value this chart can display on it's y-axis.
+    /// - returns: the minimum value this chart can display on it's y-axis.
     public override var chartYMin: Double { return _yAxis.axisMinimum; }
     
-    /// Returns the range of y-values this chart can display.
+    /// - returns: the range of y-values this chart can display.
     public var yRange: Double { return _yAxis.axisRange}
 }

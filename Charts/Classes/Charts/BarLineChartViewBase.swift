@@ -488,7 +488,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         }
     }
     
-    /// Returns the Transformer class that contains all matrices and is
+    /// - returns: the Transformer class that contains all matrices and is
     /// responsible for transforming values into pixels on the screen and
     /// backwards.
     public func getTransformer(which: ChartYAxis.AxisDependency) -> ChartTransformer
@@ -1099,7 +1099,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
 
     // MARK: - Accessors
 
-    /// Returns the delta-y value (y-value range) of the specified axis.
+    /// - returns: the delta-y value (y-value range) of the specified axis.
     public func getDeltaY(axis: ChartYAxis.AxisDependency) -> CGFloat
     {
         if (axis == .Left)
@@ -1112,7 +1112,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         }
     }
 
-    /// Returns the position (in pixels) the provided Entry has inside the chart view
+    /// - returns: the position (in pixels) the provided Entry has inside the chart view
     public func getPosition(e: ChartDataEntry, axis: ChartYAxis.AxisDependency) -> CGPoint
     {
         var vals = CGPoint(x: CGFloat(e.xIndex), y: CGFloat(e.value))
@@ -1221,8 +1221,8 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         }
     }
     
+    /// default: true
     /// - returns: true if zooming via double-tap is enabled false if not.
-    /// :default: true
     public var isDoubleTapToZoomEnabled: Bool
     {
         return doubleTapToZoomEnabled
@@ -1233,27 +1233,28 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     
     /// If set to true, highlighting per dragging over a fully zoomed out chart is enabled
     /// You might want to disable this when using inside a UIScrollView
-    /// :default: true
+    /// 
+    /// default: true
     public var isHighlightPerDragEnabled: Bool
     {
         return highlightPerDragEnabled
     }
     
+    /// default: true
     /// - returns: true if drawing the grid background is enabled, false if not.
-    /// :default: true
     public var isDrawGridBackgroundEnabled: Bool
     {
         return drawGridBackgroundEnabled
     }
     
+    /// default: false
     /// - returns: true if drawing the borders rectangle is enabled, false if not.
-    /// :default: false
     public var isDrawBordersEnabled: Bool
     {
         return drawBordersEnabled
     }
     
-    /// Returns the Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the Line-, Scatter-, or CandleStick-Chart.
+    /// - returns: the Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the Line-, Scatter-, or CandleStick-Chart.
     public func getHighlightByTouchPoint(pt: CGPoint) -> ChartHighlight!
     {
         if (_dataNotSet || _data === nil)
@@ -1324,7 +1325,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         return ChartHighlight(xIndex: xIndex, dataSetIndex: dataSetIndex)
     }
 
-    /// Returns an array of SelectionDetail objects for the given x-index. The SelectionDetail
+    /// - returns: an array of SelectionDetail objects for the given x-index. The SelectionDetail
     /// objects give information about the value at the selected index and the
     /// DataSet it belongs to. 
     public func getSelectionDetailsAtIndex(xIndex: Int) -> [ChartSelectionDetail]
@@ -1358,7 +1359,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         return vals
     }
 
-    /// Returns the x and y values in the chart at the given touch point
+    /// - returns: the x and y values in the chart at the given touch point
     /// (encapsulated in a PointD). This method transforms pixel coordinates to
     /// coordinates / values in the chart. This is the opposite method to
     /// getPixelsForValues(...).
@@ -1380,14 +1381,14 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         return pt
     }
 
-    /// returns the y-value at the given touch position (must not necessarily be
+    /// - returns: the y-value at the given touch position (must not necessarily be
     /// a value contained in one of the datasets)
     public func getYValueByTouchPoint(pt pt: CGPoint, axis: ChartYAxis.AxisDependency) -> CGFloat
     {
         return getValueByTouchPoint(pt: pt, axis: axis).y
     }
     
-    /// returns the Entry object displayed at the touched position of the chart
+    /// - returns: the Entry object displayed at the touched position of the chart
     public func getEntryByTouchPoint(pt: CGPoint) -> ChartDataEntry!
     {
         let h = getHighlightByTouchPoint(pt)
@@ -1398,7 +1399,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         return nil
     }
     
-    ///returns the DataSet object displayed at the touched position of the chart
+    /// - returns: the DataSet object displayed at the touched position of the chart
     public func getDataSetByTouchPoint(pt: CGPoint) -> BarLineScatterCandleChartDataSet!
     {
         let h = getHighlightByTouchPoint(pt)
@@ -1409,7 +1410,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         return nil
     }
     
-    /// Returns the lowest x-index (value on the x-axis) that is still visible on he chart.
+    /// - returns: the lowest x-index (value on the x-axis) that is still visible on he chart.
     public var lowestVisibleXIndex: Int
     {
         var pt = CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom)
@@ -1417,7 +1418,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         return (pt.x <= 0.0) ? 0 : Int(pt.x + 1.0)
     }
 
-    /// Returns the highest x-index (value on the x-axis) that is still visible on the chart.
+    /// - returns: the highest x-index (value on the x-axis) that is still visible on the chart.
     public var highestVisibleXIndex: Int
     {
         var pt = CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentBottom)
@@ -1425,7 +1426,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         return (Int(pt.x) >= _data.xValCount) ? _data.xValCount - 1 : Int(pt.x)
     }
 
-    /// returns the current x-scale factor
+    /// - returns: the current x-scale factor
     public var scaleX: CGFloat
     {
         if (_viewPortHandler === nil)
@@ -1435,7 +1436,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         return _viewPortHandler.scaleX
     }
 
-    /// returns the current y-scale factor
+    /// - returns: the current y-scale factor
     public var scaleY: CGFloat
     {
         if (_viewPortHandler === nil)
@@ -1448,18 +1449,18 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     /// if the chart is fully zoomed out, return true
     public var isFullyZoomedOut: Bool { return _viewPortHandler.isFullyZoomedOut; }
 
-    /// Returns the left y-axis object. In the horizontal bar-chart, this is the
+    /// - returns: the left y-axis object. In the horizontal bar-chart, this is the
     /// top axis.
     public var leftAxis: ChartYAxis
     {
         return _leftAxis
     }
 
-    /// Returns the right y-axis object. In the horizontal bar-chart, this is the
+    /// - returns: the right y-axis object. In the horizontal bar-chart, this is the
     /// bottom axis.
     public var rightAxis: ChartYAxis { return _rightAxis; }
 
-    /// Returns the y-axis object to the corresponding AxisDependency. In the
+    /// - returns: the y-axis object to the corresponding AxisDependency. In the
     /// horizontal bar-chart, LEFT == top, RIGHT == BOTTOM
     public func getAxis(axis: ChartYAxis.AxisDependency) -> ChartYAxis
     {
@@ -1473,7 +1474,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         }
     }
 
-    /// Returns the object representing all x-labels, this method can be used to
+    /// - returns: the object representing all x-labels, this method can be used to
     /// acquire the XAxis object and modify it (e.g. change the position of the
     /// labels)
     public var xAxis: ChartXAxis
@@ -1498,8 +1499,8 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         }
     }
 
-    /// returns true if pinch-zoom is enabled, false if not
-    /// :default: false
+    /// default: false
+    /// - returns: true if pinch-zoom is enabled, false if not
     public var isPinchZoomEnabled: Bool { return pinchZoomEnabled; }
 
     /// Set an offset in dp that allows the user to drag the chart over it's
@@ -1556,7 +1557,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         return min(leftAxis.axisMinimum, rightAxis.axisMinimum)
     }
     
-    /// Returns true if either the left or the right or both axes are inverted.
+    /// - returns: true if either the left or the right or both axes are inverted.
     public var isAnyAxisInverted: Bool
     {
         return _leftAxis.isInverted || _rightAxis.isInverted
@@ -1570,8 +1571,8 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         set { _autoScaleMinMaxEnabled = newValue; }
     }
     
-    /// returns true if auto scaling on the y axis is enabled.
-    /// :default: false
+    /// default: false
+    /// - returns: true if auto scaling on the y axis is enabled.
     public var isAutoScaleMinMaxEnabled : Bool { return autoScaleMinMaxEnabled; }
     
     /// Sets a minimum width to the specified y axis.
@@ -1587,8 +1588,8 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         }
     }
     
-    /// Returns the (custom) minimum width of the specified Y axis.
-    /// :default 0.0
+    /// default: 0.0
+    /// - returns: the (custom) minimum width of the specified Y axis.
     public func getYAxisMinWidth(which: ChartYAxis.AxisDependency) -> CGFloat
     {
         if (which == .Left)
@@ -1614,9 +1615,10 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         }
     }
     
-    /// Returns the (custom) maximum width of the specified Y axis.
     /// Zero (0.0) means there's no maximum width
-    /// :default 0.0 (no maximum specified)
+    ///
+    /// default: 0.0 (no maximum specified)
+    /// - returns: the (custom) maximum width of the specified Y axis.
     public func getYAxisMaxWidth(which: ChartYAxis.AxisDependency) -> CGFloat
     {
         if (which == .Left)
@@ -1629,7 +1631,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         }
     }
 
-    /// Returns the width of the specified y axis.
+    /// - returns the width of the specified y axis.
     public func getYAxisWidth(which: ChartYAxis.AxisDependency) -> CGFloat
     {
         if (which == .Left)
