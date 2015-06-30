@@ -93,12 +93,14 @@ public class ChartYAxis: ChartAxisBase
     private var _axisDependency = AxisDependency.Left
     
     /// the minimum width that the axis should take
-    /// :default 0.0
+    /// 
+    /// default: 0.0
     public var minWidth = CGFloat(0)
     
     /// the maximum width that the axis can take.
     /// use zero for disabling the maximum
-    /// :default 0.0 (no maximum specified)
+    /// 
+    /// default: 0.0 (no maximum specified)
     public var maxWidth = CGFloat(0)
     
     public override init()
@@ -207,7 +209,7 @@ public class ChartYAxis: ChartAxisBase
         return longest
     }
 
-    /// Returns the formatted y-label at the specified index. This will either use the auto-formatter or the custom formatter (if one is set).
+    /// - returns: the formatted y-label at the specified index. This will either use the auto-formatter or the custom formatter (if one is set).
     public func getFormattedLabel(index: Int) -> String
     {
         if (index < 0 || index >= entries.count)
@@ -218,7 +220,7 @@ public class ChartYAxis: ChartAxisBase
         return (valueFormatter ?? _defaultValueFormatter).stringFromNumber(entries[index])!
     }
     
-    /// Returns true if this axis needs horizontal offset, false if no offset is needed.
+    /// - returns: true if this axis needs horizontal offset, false if no offset is needed.
     public var needsOffset: Bool
     {
         if (isEnabled && isDrawLabelsEnabled && labelPosition == .OutsideChart)
