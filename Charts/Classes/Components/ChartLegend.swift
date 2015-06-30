@@ -64,7 +64,7 @@ public class ChartLegend: ChartComponentBase
     
     /// Are the legend labels/colors a custom value or auto calculated? If false, then it's auto, if true, then custom.
     /// 
-    /// default: false (automatic legend)
+    /// **default**: false (automatic legend)
     private var _isLegendCustom = false
 
     public var position = ChartLegendPosition.BelowChartLeft
@@ -199,11 +199,11 @@ public class ChartLegend: ChartComponentBase
     public var textHeightMax = CGFloat(0.0)
     
     /// flag that indicates if word wrapping is enabled
-    /// this is currently supported only for: BelowChartLeft, BelowChartRight, BelowChartCenter.
+    /// this is currently supported only for: `BelowChartLeft`, `BelowChartRight`, `BelowChartCenter`.
     /// note that word wrapping a legend takes a toll on performance.
     /// you may want to set maxSizePercent when word wrapping, to set the point where the text wraps.
     /// 
-    /// default: false
+    /// **default**: false
     public var wordWrapEnabled = false
     
     /// if this is set, then word wrapping the legend is enabled.
@@ -214,7 +214,7 @@ public class ChartLegend: ChartComponentBase
     /// If the legend is to the top/bottom of the chart, then this affects the height of the legend.
     /// If the legend is the center of the piechart, then this defines the size of the rectangular bounds out of the size of the "hole".
     /// 
-    /// default: 0.95 (95%)
+    /// **default**: 0.95 (95%)
     public var maxSizePercent: CGFloat = 0.95
     
     public func calculateDimensions(labelFont labelFont: UIFont, viewPortHandler: ChartViewPortHandler)
@@ -377,7 +377,7 @@ public class ChartLegend: ChartComponentBase
     /// * A nil label will start a group.
     /// * A nil color will avoid drawing a form, and a clearColor will leave a space for the form.
     /// This will disable the feature that automatically calculates the legend labels and colors from the datasets.
-    /// Call resetCustom(...) to re-enable automatic calculation (and then notifyDataSetChanged() is needed).
+    /// Call `resetCustom(...)` to re-enable automatic calculation (and then `notifyDataSetChanged()` is needed).
     public func setCustom(colors colors: [UIColor?], labels: [String?])
     {
         self.labels = labels
@@ -385,13 +385,13 @@ public class ChartLegend: ChartComponentBase
         _isLegendCustom = true
     }
     
-    /// Calling this will disable the custom legend labels (set by setLegend(...)). Instead, the labels will again be calculated automatically (after notifyDataSetChanged() is called).
+    /// Calling this will disable the custom legend labels (set by `setLegend(...)`). Instead, the labels will again be calculated automatically (after `notifyDataSetChanged()` is called).
     public func resetCustom()
     {
         _isLegendCustom = false
     }
     
-    /// default: false (automatic legend)
+    /// **default**: false (automatic legend)
     /// - returns: true if a custom legend labels and colors has been set
     public var isLegendCustom: Bool
     {
@@ -407,7 +407,7 @@ public class ChartLegend: ChartComponentBase
     public var extraLabelsObjc: [NSObject] { return ChartUtils.bridgedObjCGetStringArray(swift: _extraLabels); }
     
     /// the legend colors array, each color is for the form drawn at the same index
-    /// (ObjC bridging functions, as Swift 1.2 does not bridge optionals in array to NSNulls)
+    /// (ObjC bridging functions, as Swift 1.2 does not bridge optionals in array to `NSNull`s)
     public var colorsObjc: [NSObject]
     {
         get { return ChartUtils.bridgedObjCGetUIColorArray(swift: colors); }
@@ -415,7 +415,7 @@ public class ChartLegend: ChartComponentBase
     }
     
     // the legend text array. a nil label will start a group.
-    /// (ObjC bridging functions, as Swift 1.2 does not bridge optionals in array to NSNulls)
+    /// (ObjC bridging functions, as Swift 1.2 does not bridge optionals in array to `NSNull`s)
     public var labelsObjc: [NSObject]
     {
         get { return ChartUtils.bridgedObjCGetStringArray(swift: labels); }
@@ -423,7 +423,7 @@ public class ChartLegend: ChartComponentBase
     }
     
     /// colors and labels that will be appended to the end of the auto calculated colors and labels after calculating the legend.
-    /// (if the legend has already been calculated, you will need to call notifyDataSetChanged() to let the changes take effect)
+    /// (if the legend has already been calculated, you will need to call `notifyDataSetChanged()` to let the changes take effect)
     public func setExtra(colors colors: [NSObject], labels: [NSObject])
     {
         if (colors.count != labels.count)
@@ -441,7 +441,7 @@ public class ChartLegend: ChartComponentBase
     /// * A nil label will start a group.
     /// * A nil color will avoid drawing a form, and a clearColor will leave a space for the form.
     /// This will disable the feature that automatically calculates the legend labels and colors from the datasets.
-    /// Call resetLegendToAuto(...) to re-enable automatic calculation, and then if needed - call notifyDataSetChanged() on the chart to make it refresh the data.
+    /// Call `resetLegendToAuto(...)` to re-enable automatic calculation, and then if needed - call `notifyDataSetChanged()` on the chart to make it refresh the data.
     public func setCustom(colors colors: [NSObject], labels: [NSObject])
     {
         if (colors.count != labels.count)
