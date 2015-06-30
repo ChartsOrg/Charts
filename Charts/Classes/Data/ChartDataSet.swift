@@ -157,9 +157,9 @@ public class ChartDataSet: NSObject
         else { return Double.NaN }
     }
     
-    /// Returns the first Entry object found at the given xIndex with binary search. 
+    /// - returns: the first Entry object found at the given xIndex with binary search.
     /// If the no Entry at the specifed x-index is found, this method returns the Entry at the closest x-index. 
-    /// Returns nil if no Entry object at that index.
+    /// nil if no Entry object at that index.
     public func entryForXIndex(x: Int) -> ChartDataEntry?
     {
         let index = self.entryIndex(xIndex: x)
@@ -279,13 +279,13 @@ public class ChartDataSet: NSObject
         return -1
     }
     
-    /// Returns the number of entries this DataSet holds.
+    /// - returns: the number of entries this DataSet holds.
     public var valueCount: Int { return _yVals.count; }
     
     /// Adds an Entry to the DataSet dynamically.
     /// Entries are added to the end of the list.
     /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
-    /// :param: e the entry to add
+    /// - parameter e: the entry to add
     public func addEntry(e: ChartDataEntry)
     {
         let val = e.value
@@ -320,7 +320,7 @@ public class ChartDataSet: NSObject
     /// Adds an Entry to the DataSet dynamically.
     /// Entries are added to their appropriate index respective to it's x-index.
     /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
-    /// :param: e the entry to add
+    /// - parameter e: the entry to add
     public func addEntryOrdered(e: ChartDataEntry)
     {
         var val = e.value
