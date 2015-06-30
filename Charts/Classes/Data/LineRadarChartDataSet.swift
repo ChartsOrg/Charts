@@ -53,7 +53,7 @@ public class LineRadarChartDataSet: BarLineScatterCandleChartDataSet
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
-        var copy = super.copyWithZone(zone) as! LineRadarChartDataSet
+        let copy = super.copyWithZone(zone) as! LineRadarChartDataSet
         copy.fillColor = fillColor
         copy._lineWidth = _lineWidth
         copy.drawFilledEnabled = drawFilledEnabled

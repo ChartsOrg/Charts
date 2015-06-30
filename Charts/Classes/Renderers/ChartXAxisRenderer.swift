@@ -26,32 +26,32 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         _xAxis = xAxis
     }
     
-    public func computeAxis(#xValAverageLength: Double, xValues: [String?])
+    public func computeAxis(xValAverageLength xValAverageLength: Double, xValues: [String?])
     {
         var a = ""
         
-        var max = Int(round(xValAverageLength + Double(_xAxis.spaceBetweenLabels)))
+        let max = Int(round(xValAverageLength + Double(_xAxis.spaceBetweenLabels)))
         
         for (var i = 0; i < max; i++)
         {
             a += "h"
         }
         
-        var widthText = a as NSString
+        let widthText = a as NSString
         
         _xAxis.labelWidth = widthText.sizeWithAttributes([NSFontAttributeName: _xAxis.labelFont]).width
         _xAxis.labelHeight = _xAxis.labelFont.lineHeight
         _xAxis.values = xValues
     }
     
-    public override func renderAxisLabels(#context: CGContext)
+    public override func renderAxisLabels(context context: CGContext)
     {
         if (!_xAxis.isEnabled || !_xAxis.isDrawLabelsEnabled)
         {
             return
         }
         
-        var yoffset = CGFloat(4.0)
+        let yoffset = CGFloat(4.0)
         
         if (_xAxis.labelPosition == .Top)
         {
@@ -78,7 +78,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
     
     private var _axisLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    public override func renderAxisLine(#context: CGContext)
+    public override func renderAxisLine(context context: CGContext)
     {
         if (!_xAxis.isEnabled || !_xAxis.isDrawAxisLineEnabled)
         {
@@ -124,16 +124,16 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
     }
     
     /// draws the x-labels on the specified y-position
-    internal func drawLabels(#context: CGContext, pos: CGFloat)
+    internal func drawLabels(context context: CGContext, pos: CGFloat)
     {
-        var paraStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
+        let paraStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
         paraStyle.alignment = .Center
         
-        var labelAttrs = [NSFontAttributeName: _xAxis.labelFont,
+        let labelAttrs = [NSFontAttributeName: _xAxis.labelFont,
             NSForegroundColorAttributeName: _xAxis.labelTextColor,
             NSParagraphStyleAttributeName: paraStyle]
         
-        var valueToPixelMatrix = transformer.valueToPixelMatrix
+        let valueToPixelMatrix = transformer.valueToPixelMatrix
         
         var position = CGPoint(x: 0.0, y: 0.0)
         
@@ -146,7 +146,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         
         for (var i = _minX, maxX = min(_maxX + 1, _xAxis.values.count); i < maxX; i += _xAxis.axisLabelModulus)
         {
-            var label = _xAxis.values[i]
+            let label = _xAxis.values[i]
             if (label == nil)
             {
                 continue
@@ -158,14 +158,14 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
             
             if (viewPortHandler.isInBoundsX(position.x))
             {
-                var labelns = label! as NSString
+                let labelns = label! as NSString
                 
                 if (_xAxis.isAvoidFirstLastClippingEnabled)
                 {
                     // avoid clipping of the last
                     if (i == _xAxis.values.count - 1 && _xAxis.values.count > 1)
                     {
-                        var width = labelns.boundingRectWithSize(labelMaxSize, options: .UsesLineFragmentOrigin, attributes: labelAttrs, context: nil).size.width
+                        let width = labelns.boundingRectWithSize(labelMaxSize, options: .UsesLineFragmentOrigin, attributes: labelAttrs, context: nil).size.width
                         
                         if (width > viewPortHandler.offsetRight * 2.0
                             && position.x + width > viewPortHandler.chartWidth)
@@ -175,7 +175,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
                     }
                     else if (i == 0)
                     { // avoid clipping of the first
-                        var width = labelns.boundingRectWithSize(labelMaxSize, options: .UsesLineFragmentOrigin, attributes: labelAttrs, context: nil).size.width
+                        let width = labelns.boundingRectWithSize(labelMaxSize, options: .UsesLineFragmentOrigin, attributes: labelAttrs, context: nil).size.width
                         position.x += width / 2.0
                     }
                 }
@@ -187,7 +187,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
     
     private var _gridLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    public override func renderGridLines(#context: CGContext)
+    public override func renderGridLines(context context: CGContext)
     {
         if (!_xAxis.isDrawGridLinesEnabled || !_xAxis.isEnabled)
         {
@@ -207,7 +207,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
             CGContextSetLineDash(context, 0.0, nil, 0)
         }
         
-        var valueToPixelMatrix = transformer.valueToPixelMatrix
+        let valueToPixelMatrix = transformer.valueToPixelMatrix
         
         var position = CGPoint(x: 0.0, y: 0.0)
         
@@ -233,7 +233,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
     
     private var _limitLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    public override func renderLimitLines(#context: CGContext)
+    public override func renderLimitLines(context context: CGContext)
     {
         var limitLines = _xAxis.limitLines
         
@@ -244,13 +244,13 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         
         CGContextSaveGState(context)
         
-        var trans = transformer.valueToPixelMatrix
+        let trans = transformer.valueToPixelMatrix
         
         var position = CGPoint(x: 0.0, y: 0.0)
         
         for (var i = 0; i < limitLines.count; i++)
         {
-            var l = limitLines[i]
+            let l = limitLines[i]
             
             position.x = CGFloat(l.limit)
             position.y = 0.0
@@ -274,16 +274,16 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
             
             CGContextStrokeLineSegments(context, _limitLineSegmentsBuffer, 2)
             
-            var label = l.label
+            let label = l.label
             
             // if drawing the limit-value label is enabled
-            if (count(label) > 0)
+            if (label.characters.count > 0)
             {
-                var labelLineHeight = l.valueFont.lineHeight
+                let labelLineHeight = l.valueFont.lineHeight
                 
                 let add = CGFloat(4.0)
-                var xOffset: CGFloat = l.lineWidth
-                var yOffset: CGFloat = add / 2.0
+                let xOffset: CGFloat = l.lineWidth
+                let yOffset: CGFloat = add / 2.0
                 
                 if (l.labelPosition == .Right)
                 {

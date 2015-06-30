@@ -39,9 +39,9 @@ public class CandleStickChartRenderer: ChartDataRendererBase
         self.delegate = delegate
     }
     
-    public override func drawData(#context: CGContext)
+    public override func drawData(context context: CGContext)
     {
-        var candleData = delegate!.candleStickChartRendererCandleData(self)
+        let candleData = delegate!.candleStickChartRendererCandleData(self)
 
         for set in candleData.dataSets as! [CandleChartDataSet]
         {
@@ -56,22 +56,21 @@ public class CandleStickChartRenderer: ChartDataRendererBase
     private var _bodyRect = CGRect()
     private var _lineSegments = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    internal func drawDataSet(#context: CGContext, dataSet: CandleChartDataSet)
+    internal func drawDataSet(context context: CGContext, dataSet: CandleChartDataSet)
     {
+        let trans = delegate!.candleStickChartRenderer(self, transformerForAxis: dataSet.axisDependency)
         
-        var trans = delegate!.candleStickChartRenderer(self, transformerForAxis: dataSet.axisDependency)
-        
-        var phaseX = _animator.phaseX
-        var phaseY = _animator.phaseY
-        var bodySpace = dataSet.bodySpace
+        let phaseX = _animator.phaseX
+        let phaseY = _animator.phaseY
+        let bodySpace = dataSet.bodySpace
         
         var entries = dataSet.yVals as! [CandleChartDataEntry]
         
-        var entryFrom = dataSet.entryForXIndex(_minX)
-        var entryTo = dataSet.entryForXIndex(_maxX)
+        let entryFrom = dataSet.entryForXIndex(_minX)
+        let entryTo = dataSet.entryForXIndex(_maxX)
         
-        var minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0)
-        var maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count)
+        let minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0)
+        let maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count)
         
         CGContextSaveGState(context)
         
@@ -80,7 +79,7 @@ public class CandleStickChartRenderer: ChartDataRendererBase
         for (var j = minx, count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))); j < count; j++)
         {
             // get the entry
-            var e = entries[j]
+            let e = entries[j]
             
             if (e.xIndex < _minX || e.xIndex > _maxX)
             {
@@ -115,7 +114,7 @@ public class CandleStickChartRenderer: ChartDataRendererBase
             if (e.open >= e.close)
             {
                 
-                var color = dataSet.decreasingColor ?? dataSet.colorAt(j)
+                let color = dataSet.decreasingColor ?? dataSet.colorAt(j)
                 
                 if (dataSet.isDecreasingFilled)
                 {
@@ -131,7 +130,7 @@ public class CandleStickChartRenderer: ChartDataRendererBase
             else if (e.open < e.close)
             {
                 
-                var color = dataSet.increasingColor ?? dataSet.colorAt(j)
+                let color = dataSet.increasingColor ?? dataSet.colorAt(j)
                 
                 if (dataSet.isIncreasingFilled)
                 {
@@ -154,15 +153,15 @@ public class CandleStickChartRenderer: ChartDataRendererBase
         CGContextRestoreGState(context)
     }
     
-    public override func drawValues(#context: CGContext)
+    public override func drawValues(context context: CGContext)
     {
-        var candleData = delegate!.candleStickChartRendererCandleData(self)
+        let candleData = delegate!.candleStickChartRendererCandleData(self)
         if (candleData === nil)
         {
             return
         }
         
-        var defaultValueFormatter = delegate!.candleStickChartDefaultRendererValueFormatter(self)
+        let defaultValueFormatter = delegate!.candleStickChartDefaultRendererValueFormatter(self)
         
         // if values are drawn
         if (candleData.yValCount < Int(ceil(CGFloat(delegate!.candleStickChartRendererMaxVisibleValueCount(self)) * viewPortHandler.scaleX)))
@@ -171,15 +170,15 @@ public class CandleStickChartRenderer: ChartDataRendererBase
             
             for (var i = 0; i < dataSets.count; i++)
             {
-                var dataSet = dataSets[i]
+                let dataSet = dataSets[i]
                 
                 if (!dataSet.isDrawValuesEnabled)
                 {
                     continue
                 }
                 
-                var valueFont = dataSet.valueFont
-                var valueTextColor = dataSet.valueTextColor
+                let valueFont = dataSet.valueFont
+                let valueTextColor = dataSet.valueTextColor
                 
                 var formatter = dataSet.valueFormatter
                 if (formatter === nil)
@@ -187,25 +186,25 @@ public class CandleStickChartRenderer: ChartDataRendererBase
                     formatter = defaultValueFormatter
                 }
                 
-                var trans = delegate!.candleStickChartRenderer(self, transformerForAxis: dataSet.axisDependency)
+                let trans = delegate!.candleStickChartRenderer(self, transformerForAxis: dataSet.axisDependency)
                 
                 var entries = dataSet.yVals as! [CandleChartDataEntry]
                 
-                var entryFrom = dataSet.entryForXIndex(_minX)
-                var entryTo = dataSet.entryForXIndex(_maxX)
+                let entryFrom = dataSet.entryForXIndex(_minX)
+                let entryTo = dataSet.entryForXIndex(_maxX)
                 
-                var minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0)
-                var maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count)
+                let minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0)
+                let maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count)
                 
                 var positions = trans.generateTransformedValuesCandle(entries, phaseY: _animator.phaseY)
                 
-                var lineHeight = valueFont.lineHeight
-                var yOffset: CGFloat = lineHeight + 5.0
+                let lineHeight = valueFont.lineHeight
+                let yOffset: CGFloat = lineHeight + 5.0
                 
                 for (var j = minx, count = Int(ceil(CGFloat(maxx - minx) * _animator.phaseX + CGFloat(minx))); j < count; j++)
                 {
-                    var x = positions[j].x
-                    var y = positions[j].y
+                    let x = positions[j].x
+                    let y = positions[j].y
                     
                     if (!viewPortHandler.isInBoundsRight(x))
                     {
@@ -217,7 +216,7 @@ public class CandleStickChartRenderer: ChartDataRendererBase
                         continue
                     }
                     
-                    var val = entries[j].high
+                    let val = entries[j].high
                     
                     ChartUtils.drawText(context: context, text: formatter!.stringFromNumber(val)!, point: CGPoint(x: x, y: y - yOffset), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
                 }
@@ -225,15 +224,15 @@ public class CandleStickChartRenderer: ChartDataRendererBase
         }
     }
     
-    public override func drawExtras(#context: CGContext)
+    public override func drawExtras(context context: CGContext)
     {
     }
     
     private var _vertPtsBuffer = [CGPoint](count: 4, repeatedValue: CGPoint())
     private var _horzPtsBuffer = [CGPoint](count: 4, repeatedValue: CGPoint())
-    public override func drawHighlighted(#context: CGContext, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
     {
-        var candleData = delegate!.candleStickChartRendererCandleData(self)
+        let candleData = delegate!.candleStickChartRendererCandleData(self)
         if (candleData === nil)
         {
             return
@@ -241,23 +240,23 @@ public class CandleStickChartRenderer: ChartDataRendererBase
         
         for (var i = 0; i < indices.count; i++)
         {
-            var xIndex = indices[i].xIndex; // get the x-position
+            let xIndex = indices[i].xIndex; // get the x-position
             
-            var set = candleData.getDataSetByIndex(indices[i].dataSetIndex) as! CandleChartDataSet!
+            let set = candleData.getDataSetByIndex(indices[i].dataSetIndex) as! CandleChartDataSet!
             
             if (set === nil || !set.isHighlightEnabled)
             {
                 continue
             }
             
-            var e = set.entryForXIndex(xIndex) as! CandleChartDataEntry!
+            let e = set.entryForXIndex(xIndex) as! CandleChartDataEntry!
             
             if (e === nil || e.xIndex != xIndex)
             {
                 continue
             }
             
-            var trans = delegate!.candleStickChartRenderer(self, transformerForAxis: set.axisDependency)
+            let trans = delegate!.candleStickChartRenderer(self, transformerForAxis: set.axisDependency)
             
             CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
             CGContextSetLineWidth(context, set.highlightLineWidth)
@@ -270,11 +269,11 @@ public class CandleStickChartRenderer: ChartDataRendererBase
                 CGContextSetLineDash(context, 0.0, nil, 0)
             }
             
-            var low = CGFloat(e.low) * _animator.phaseY
-            var high = CGFloat(e.high) * _animator.phaseY
+            let low = CGFloat(e.low) * _animator.phaseY
+            let high = CGFloat(e.high) * _animator.phaseY
             
-            var min = delegate!.candleStickChartRendererChartYMin(self)
-            var max = delegate!.candleStickChartRendererChartYMax(self)
+            let min = delegate!.candleStickChartRendererChartYMin(self)
+            let max = delegate!.candleStickChartRendererChartYMax(self)
             
             _vertPtsBuffer[0] = CGPoint(x: CGFloat(xIndex) - 0.5, y: CGFloat(max))
             _vertPtsBuffer[1] = CGPoint(x: CGFloat(xIndex) - 0.5, y: CGFloat(min))

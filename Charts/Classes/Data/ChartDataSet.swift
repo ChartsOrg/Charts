@@ -53,7 +53,7 @@ public class ChartDataSet: NSObject
     /// if true, value highlighting is enabled
     public var highlightEnabled = true
     
-    /// :returns: true if value highlighting is enabled for this dataset
+    /// - returns: true if value highlighting is enabled for this dataset
     public var isHighlightEnabled: Bool { return highlightEnabled }
     
     public override init()
@@ -87,7 +87,7 @@ public class ChartDataSet: NSObject
         calcYValueSum()
     }
     
-    internal func calcMinMax(#start : Int, end: Int)
+    internal func calcMinMax(start start : Int, end: Int)
     {
         if _yVals!.count == 0
         {
@@ -160,7 +160,7 @@ public class ChartDataSet: NSObject
     /// Returns nil if no Entry object at that index.
     public func entryForXIndex(x: Int) -> ChartDataEntry?
     {
-        var index = self.entryIndex(xIndex: x)
+        let index = self.entryIndex(xIndex: x)
         if (index > -1)
         {
             return _yVals[index]
@@ -224,7 +224,7 @@ public class ChartDataSet: NSObject
         while (low <= high)
         {
             var m = (high + low) / 2
-            var entry = _yVals[m]
+            let entry = _yVals[m]
             
             if (x == entry.xIndex)
             {
@@ -282,7 +282,7 @@ public class ChartDataSet: NSObject
 
     public func addEntry(e: ChartDataEntry)
     {
-        var val = e.value
+        let val = e.value
         
         if (_yVals == nil)
         {
@@ -334,12 +334,12 @@ public class ChartDataSet: NSObject
         return removed
     }
     
-    public func removeEntry(#xIndex: Int) -> Bool
+    public func removeEntry(xIndex xIndex: Int) -> Bool
     {
-        var index = self.entryIndex(xIndex: xIndex)
+        let index = self.entryIndex(xIndex: xIndex)
         if (index > -1)
         {
-            var e = _yVals.removeAtIndex(index)
+            let e = _yVals.removeAtIndex(index)
             
             _yValueSum -= e.value
             calcMinMax(start: _lastStart, end: _lastEnd)
@@ -386,7 +386,7 @@ public class ChartDataSet: NSObject
     }
     
     /// Checks if this DataSet contains the specified Entry.
-    /// :returns: true if contains the entry, false if not.
+    /// - returns: true if contains the entry, false if not.
     public func contains(e: ChartDataEntry) -> Bool
     {
         for entry in _yVals
@@ -432,7 +432,7 @@ public class ChartDataSet: NSObject
     
     public func copyWithZone(zone: NSZone) -> AnyObject
     {
-        var copy = self.dynamicType.allocWithZone(zone) as ChartDataSet
+        let copy = self.dynamicType.allocWithZone(zone) as ChartDataSet
         copy.colors = colors
         copy._yVals = _yVals
         copy._yMax = _yMax
