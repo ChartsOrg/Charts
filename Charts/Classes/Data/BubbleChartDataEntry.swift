@@ -42,7 +42,7 @@ public class BubbleChartDataEntry: ChartDataEntry
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
-        var copy = super.copyWithZone(zone) as! BubbleChartDataEntry
+        let copy = super.copyWithZone(zone) as! BubbleChartDataEntry
         copy.size = size
         return copy
     }

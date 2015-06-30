@@ -80,9 +80,9 @@ public class PieChartView: PieRadarChartViewBase
             return
         }
         
-        var radius = diameter / 2.0
+        let radius = diameter / 2.0
         
-        var c = centerOffsets
+        let c = centerOffsets
         
         // create the circle box that will contain the pie-chart (the bounds of the pie-chart)
         _circleBox.origin.x = c.x - radius
@@ -98,7 +98,7 @@ public class PieChartView: PieRadarChartViewBase
         calcAngles()
     }
     
-    public override func getMarkerPosition(#entry: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
+    public override func getMarkerPosition(entry entry: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
     {
         /// PieChart does not support MarkerView
         return CGPoint(x: 0.0, y: 0.0)
@@ -119,7 +119,7 @@ public class PieChartView: PieRadarChartViewBase
 
         for (var i = 0; i < _data.dataSetCount; i++)
         {
-            var set = dataSets[i]
+            let set = dataSets[i]
             var entries = set.yVals
 
             for (var j = 0; j < entries.count; j++)
@@ -141,7 +141,7 @@ public class PieChartView: PieRadarChartViewBase
     }
     
     /// checks if the given index in the given DataSet is set for highlighting or not
-    public func needsHighlight(#xIndex: Int, dataSetIndex: Int) -> Bool
+    public func needsHighlight(xIndex xIndex: Int, dataSetIndex: Int) -> Bool
     {
         // no highlight
         if (!valuesToHighlight() || dataSetIndex < 0)
@@ -171,7 +171,7 @@ public class PieChartView: PieRadarChartViewBase
     public override func indexForAngle(angle: CGFloat) -> Int
     {
         // take the current angle of the chart into consideration
-        var a = ChartUtils.normalizedAngleFromAngle(angle - self.rotationAngle)
+        let a = ChartUtils.normalizedAngleFromAngle(angle - self.rotationAngle)
         for (var i = 0; i < _absoluteAngles.count; i++)
         {
             if (_absoluteAngles[i] > a)
@@ -263,7 +263,7 @@ public class PieChartView: PieRadarChartViewBase
         }
     }
     
-    /// :returns: true if the hole in the center of the pie-chart is set to be visible, false if not
+    /// - returns: true if the hole in the center of the pie-chart is set to be visible, false if not
     public var isDrawHoleEnabled: Bool
     {
         get
@@ -300,7 +300,7 @@ public class PieChartView: PieRadarChartViewBase
         }
     }
     
-    /// :returns: true if drawing the center text is enabled
+    /// - returns: true if drawing the center text is enabled
     public var isDrawCenterTextEnabled: Bool
     {
         get
@@ -408,7 +408,7 @@ public class PieChartView: PieRadarChartViewBase
         }
     }
     
-    /// :returns: true if drawing x-values is enabled, false if not
+    /// - returns: true if drawing x-values is enabled, false if not
     public var isDrawSliceTextEnabled: Bool
     {
         get
@@ -431,7 +431,7 @@ public class PieChartView: PieRadarChartViewBase
         }
     }
     
-    /// :returns: true if drawing x-values is enabled, false if not
+    /// - returns: true if drawing x-values is enabled, false if not
     public var isUsePercentValuesEnabled: Bool
     {
         get
