@@ -34,18 +34,18 @@ public class ChartXAxis: ChartAxisBase
     /// the space that should be left out (in characters) between the x-axis labels
     /// This only applies if the number of labels that will be skipped in between drawn axis labels is not custom set.
     /// 
-    /// default: 4
+    /// **default**: 4
     public var spaceBetweenLabels = Int(4)
     
-    /// the modulus that indicates if a value at a specified index in an array(list) for the x-axis-labels is drawn or not. Draw when (index % modulus) == 0.
+    /// the modulus that indicates if a value at a specified index in an array(list) for the x-axis-labels is drawn or not. Draw when `(index % modulus) == 0`.
     public var axisLabelModulus = Int(1)
     
     /// Is axisLabelModulus a custom value or auto calculated? If false, then it's auto, if true, then custom.
     /// 
-    /// default: false (automatic modulus)
+    /// **default**: false (automatic modulus)
     private var _isAxisModulusCustom = false
 
-    /// the modulus that indicates if a value at a specified index in an array(list) for the y-axis-labels is drawn or not. Draw when (index % modulus) == 0.
+    /// the modulus that indicates if a value at a specified index in an array(list) for the y-axis-labels is drawn or not. Draw when `(index % modulus) == 0`.
     /// Used only for Horizontal BarChart
     public var yAxisLabelModulus = Int(1)
 
@@ -56,9 +56,9 @@ public class ChartXAxis: ChartAxisBase
     public var labelPosition = XAxisLabelPosition.Top
     
     /// if set to true, word wrapping the labels will be enabled.
-    /// word wrapping is done using (value width * labelWidth)
+    /// word wrapping is done using `(value width * labelWidth)`
     ///
-    /// *NOTE: currently supports all charts except pie/radar/horizontal-bar*
+    /// *Note: currently supports all charts except pie/radar/horizontal-bar*
     public var wordWrapEnabled = false
     
     /// - returns: true if word wrapping the labels is enabled
@@ -67,7 +67,7 @@ public class ChartXAxis: ChartAxisBase
     /// the width for wrapping the labels, as percentage out of one value width.
     /// used only when isWordWrapEnabled = true.
     /// 
-    /// default: 1.0
+    /// **default**: 1.0
     public var wordWrapWidthPercent: CGFloat = 1.0
     
     public override init()
@@ -99,7 +99,7 @@ public class ChartXAxis: ChartAxisBase
 
     /// Sets the number of labels that should be skipped on the axis before the next label is drawn. 
     /// This will disable the feature that automatically calculates an adequate space between the axis labels and set the number of labels to be skipped to the fixed number provided by this method. 
-    /// Call resetLabelsToSkip(...) to re-enable automatic calculation.
+    /// Call `resetLabelsToSkip(...)` to re-enable automatic calculation.
     public func setLabelsToSkip(count: Int)
     {
         _isAxisModulusCustom = true
@@ -114,7 +114,7 @@ public class ChartXAxis: ChartAxisBase
         }
     }
     
-    /// Calling this will disable a custom number of labels to be skipped (set by setLabelsToSkip(...)) while drawing the x-axis. Instead, the number of values to skip will again be calculated automatically.
+    /// Calling this will disable a custom number of labels to be skipped (set by `setLabelsToSkip(...)`) while drawing the x-axis. Instead, the number of values to skip will again be calculated automatically.
     public func resetLabelsToSkip()
     {
         _isAxisModulusCustom = false
