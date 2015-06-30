@@ -63,7 +63,8 @@ public class ChartLegend: ChartComponentBase
     public var extraLabels: [String?] { return _extraLabels; }
     
     /// Are the legend labels/colors a custom value or auto calculated? If false, then it's auto, if true, then custom.
-    /// :default: false (automatic legend)
+    /// 
+    /// default: false (automatic legend)
     private var _isLegendCustom = false
 
     public var position = ChartLegendPosition.BelowChartLeft
@@ -201,6 +202,7 @@ public class ChartLegend: ChartComponentBase
     /// this is currently supported only for: BelowChartLeft, BelowChartRight, BelowChartCenter.
     /// note that word wrapping a legend takes a toll on performance.
     /// you may want to set maxSizePercent when word wrapping, to set the point where the text wraps.
+    /// 
     /// default: false
     public var wordWrapEnabled = false
     
@@ -211,6 +213,7 @@ public class ChartLegend: ChartComponentBase
     /// If the legend is to the right/left of the chart, then this affects the width of the legend.
     /// If the legend is to the top/bottom of the chart, then this affects the height of the legend.
     /// If the legend is the center of the piechart, then this defines the size of the rectangular bounds out of the size of the "hole".
+    /// 
     /// default: 0.95 (95%)
     public var maxSizePercent: CGFloat = 0.95
     
@@ -388,8 +391,8 @@ public class ChartLegend: ChartComponentBase
         _isLegendCustom = false
     }
     
-    /// Returns true if a custom legend labels and colors has been set
-    /// :default: false (automatic legend)
+    /// default: false (automatic legend)
+    /// - returns: true if a custom legend labels and colors has been set
     public var isLegendCustom: Bool
     {
         return _isLegendCustom

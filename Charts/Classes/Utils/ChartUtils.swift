@@ -63,7 +63,7 @@ internal class ChartUtils
         }
     }
 
-    /// Returns the index of the DataSet that contains the closest value on the y-axis. This will return -Integer.MAX_VALUE if failure.
+    /// - returns: the index of the DataSet that contains the closest value on the y-axis. This will return -Integer.MAX_VALUE if failure.
     internal class func closestDataSetIndex(valsAtIndex: [ChartSelectionDetail], value: Double, axis: ChartYAxis.AxisDependency?) -> Int
     {
         var index = -Int.max
@@ -87,7 +87,7 @@ internal class ChartUtils
         return index
     }
     
-    /// Returns the minimum distance from a touch-y-value (in pixels) to the closest y-value (in pixels) that is displayed in the chart.
+    /// - returns: the minimum distance from a touch-y-value (in pixels) to the closest y-value (in pixels) that is displayed in the chart.
     internal class func getMinimumDistance(valsAtIndex: [ChartSelectionDetail], val: Double, axis: ChartYAxis.AxisDependency) -> Double
     {
         var distance = DBL_MAX
@@ -160,7 +160,7 @@ internal class ChartUtils
         drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, align: align, attributes: attributes, constrainedToSize: constrainedToSize)
     }
     
-    /// returns an angle between 0.0 < 360.0 (not less than zero, less than 360)
+    /// - returns: an angle between 0.0 < 360.0 (not less than zero, less than 360)
     internal class func normalizedAngleFromAngle(var angle: CGFloat) -> CGFloat
     {
         while (angle < 0.0)

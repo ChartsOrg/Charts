@@ -23,7 +23,8 @@ public class ChartHighlight: NSObject
     private var _dataSetIndex = Int(0)
     
     /// index which value of a stacked bar entry is highlighted
-    /// :default: -1
+    /// 
+    /// default: -1
     private var _stackIndex = Int(-1)
     
     /// the range of the bar that is selected (only for stacked-barchart)
