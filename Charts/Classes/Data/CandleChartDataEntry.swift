@@ -29,34 +29,34 @@ public class CandleChartDataEntry: ChartDataEntry
     
     public init(xIndex: Int, shadowH: Double, shadowL: Double, open: Double, close: Double)
     {
-        super.init(value: (shadowH + shadowL) / 2.0, xIndex: xIndex);
+        super.init(value: (shadowH + shadowL) / 2.0, xIndex: xIndex)
         
-        self.high = shadowH;
-        self.low = shadowL;
-        self.open = open;
-        self.close = close;
+        self.high = shadowH
+        self.low = shadowL
+        self.open = open
+        self.close = close
     }
     
     public init(xIndex: Int, shadowH: Double, shadowL: Double, open: Double, close: Double, data: AnyObject?)
     {
-        super.init(value: (shadowH + shadowL) / 2.0, xIndex: xIndex, data: data);
+        super.init(value: (shadowH + shadowL) / 2.0, xIndex: xIndex, data: data)
         
-        self.high = shadowH;
-        self.low = shadowL;
-        self.open = open;
-        self.close = close;
+        self.high = shadowH
+        self.low = shadowL
+        self.open = open
+        self.close = close
     }
     
     /// Returns the overall range (difference) between shadow-high and shadow-low.
     public var shadowRange: Double
     {
-        return abs(high - low);
+        return abs(high - low)
     }
     
     /// Returns the body size (difference between open and close).
     public var bodyRange: Double
     {
-        return abs(open - close);
+        return abs(open - close)
     }
     
     /// the center value of the candle. (Middle value between high and low)
@@ -64,11 +64,11 @@ public class CandleChartDataEntry: ChartDataEntry
     {
         get
         {
-            return super.value;
+            return super.value
         }
         set
         {
-            super.value = (high + low) / 2.0;
+            super.value = (high + low) / 2.0
         }
     }
     
@@ -76,11 +76,11 @@ public class CandleChartDataEntry: ChartDataEntry
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
-        var copy = super.copyWithZone(zone) as! CandleChartDataEntry;
-        copy.high = high;
-        copy.high = low;
-        copy.high = open;
-        copy.high = close;
-        return copy;
+        var copy = super.copyWithZone(zone) as! CandleChartDataEntry
+        copy.high = high
+        copy.high = low
+        copy.high = open
+        copy.high = close
+        return copy
     }
 }

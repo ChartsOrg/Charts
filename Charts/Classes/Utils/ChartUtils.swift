@@ -14,99 +14,99 @@
 
 import Foundation
 import UIKit
-import Darwin;
+import Darwin
 
 internal class ChartUtils
 {
     internal struct Math
     {
-        internal static let FDEG2RAD = CGFloat(M_PI / 180.0);
-        internal static let FRAD2DEG = CGFloat(180.0 / M_PI);
-        internal static let DEG2RAD = M_PI / 180.0;
-        internal static let RAD2DEG = 180.0 / M_PI;
-    };
+        internal static let FDEG2RAD = CGFloat(M_PI / 180.0)
+        internal static let FRAD2DEG = CGFloat(180.0 / M_PI)
+        internal static let DEG2RAD = M_PI / 180.0
+        internal static let RAD2DEG = 180.0 / M_PI
+    }
     
     internal class func roundToNextSignificant(#number: Double) -> Double
     {
         if (isinf(number) || isnan(number) || number == 0)
         {
-            return number;
+            return number
         }
         
-        let d = ceil(log10(number < 0.0 ? -number : number));
-        let pw = 1 - Int(d);
-        let magnitude = pow(Double(10.0), Double(pw));
-        let shifted = round(number * magnitude);
-        return shifted / magnitude;
+        let d = ceil(log10(number < 0.0 ? -number : number))
+        let pw = 1 - Int(d)
+        let magnitude = pow(Double(10.0), Double(pw))
+        let shifted = round(number * magnitude)
+        return shifted / magnitude
     }
     
     internal class func decimals(number: Double) -> Int
     {
         if (number == 0.0)
         {
-            return 0;
+            return 0
         }
         
-        var i = roundToNextSignificant(number: Double(number));
-        return Int(ceil(-log10(i))) + 2;
+        var i = roundToNextSignificant(number: Double(number))
+        return Int(ceil(-log10(i))) + 2
     }
     
     internal class func nextUp(number: Double) -> Double
     {
         if (isinf(number) || isnan(number))
         {
-            return number;
+            return number
         }
         else
         {
-            return number + DBL_EPSILON;
+            return number + DBL_EPSILON
         }
     }
 
     /// Returns the index of the DataSet that contains the closest value on the y-axis. This is needed for highlighting.
     internal class func closestDataSetIndex(valsAtIndex: [ChartSelectionDetail], value: Double, axis: ChartYAxis.AxisDependency?) -> Int
     {
-        var index = -1;
-        var distance = DBL_MAX;
+        var index = -1
+        var distance = DBL_MAX
         
         for (var i = 0; i < valsAtIndex.count; i++)
         {
-            var sel = valsAtIndex[i];
+            var sel = valsAtIndex[i]
             
             if (axis == nil || sel.dataSet?.axisDependency == axis)
             {
-                var cdistance = abs(sel.value - value);
+                var cdistance = abs(sel.value - value)
                 if (cdistance < distance)
                 {
-                    index = valsAtIndex[i].dataSetIndex;
-                    distance = cdistance;
+                    index = valsAtIndex[i].dataSetIndex
+                    distance = cdistance
                 }
             }
         }
         
-        return index;
+        return index
     }
     
     /// Returns the minimum distance from a touch-y-value (in pixels) to the closest y-value (in pixels) that is displayed in the chart.
     internal class func getMinimumDistance(valsAtIndex: [ChartSelectionDetail], val: Double, axis: ChartYAxis.AxisDependency) -> Double
     {
-        var distance = DBL_MAX;
+        var distance = DBL_MAX
         
         for (var i = 0, count = valsAtIndex.count; i < count; i++)
         {
-            var sel = valsAtIndex[i];
+            var sel = valsAtIndex[i]
             
             if (sel.dataSet!.axisDependency == axis)
             {
-                var cdistance = abs(sel.value - val);
+                var cdistance = abs(sel.value - val)
                 if (cdistance < distance)
                 {
-                    distance = cdistance;
+                    distance = cdistance
                 }
             }
         }
         
-        return distance;
+        return distance
     }
     
     /// Calculates the position around a center point, depending on the distance from the center, and the angle of the position around the center.
@@ -115,49 +115,49 @@ internal class ChartUtils
         return CGPoint(
             x: center.x + dist * cos(angle * Math.FDEG2RAD),
             y: center.y + dist * sin(angle * Math.FDEG2RAD)
-        );
+        )
     }
     
     internal class func drawText(#context: CGContext, text: String, var point: CGPoint, align: NSTextAlignment, attributes: [NSObject : AnyObject]?)
     {
         if (align == .Center)
         {
-            point.x -= text.sizeWithAttributes(attributes).width / 2.0;
+            point.x -= text.sizeWithAttributes(attributes).width / 2.0
         }
         else if (align == .Right)
         {
-            point.x -= text.sizeWithAttributes(attributes).width;
+            point.x -= text.sizeWithAttributes(attributes).width
         }
         
-        UIGraphicsPushContext(context);
-        (text as NSString).drawAtPoint(point, withAttributes: attributes);
-        UIGraphicsPopContext();
+        UIGraphicsPushContext(context)
+        (text as NSString).drawAtPoint(point, withAttributes: attributes)
+        UIGraphicsPopContext()
     }
     
     internal class func drawMultilineText(#context: CGContext, text: String, var knownTextSize: CGSize, point: CGPoint, align: NSTextAlignment, attributes: [NSObject : AnyObject]?, constrainedToSize: CGSize)
     {
-        var rect = CGRect(origin: CGPoint(), size: knownTextSize);
-        rect.origin.x += point.x;
-        rect.origin.y += point.y;
+        var rect = CGRect(origin: CGPoint(), size: knownTextSize)
+        rect.origin.x += point.x
+        rect.origin.y += point.y
         
         if (align == .Center)
         {
-            rect.origin.x -= rect.size.width / 2.0;
+            rect.origin.x -= rect.size.width / 2.0
         }
         else if (align == .Right)
         {
-            rect.origin.x -= rect.size.width;
+            rect.origin.x -= rect.size.width
         }
         
-        UIGraphicsPushContext(context);
-        (text as NSString).drawWithRect(rect, options: .UsesLineFragmentOrigin, attributes: attributes, context: nil);
-        UIGraphicsPopContext();
+        UIGraphicsPushContext(context)
+        (text as NSString).drawWithRect(rect, options: .UsesLineFragmentOrigin, attributes: attributes, context: nil)
+        UIGraphicsPopContext()
     }
     
     internal class func drawMultilineText(#context: CGContext, text: String, point: CGPoint, align: NSTextAlignment, attributes: [NSObject : AnyObject]?, constrainedToSize: CGSize)
     {
-        var rect = text.boundingRectWithSize(constrainedToSize, options: .UsesLineFragmentOrigin, attributes: attributes, context: nil);
-        drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, align: align, attributes: attributes, constrainedToSize: constrainedToSize);
+        var rect = text.boundingRectWithSize(constrainedToSize, options: .UsesLineFragmentOrigin, attributes: attributes, context: nil)
+        drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, align: align, attributes: attributes, constrainedToSize: constrainedToSize)
     }
     
     /// returns an angle between 0.0 < 360.0 (not less than zero, less than 360)
@@ -165,10 +165,10 @@ internal class ChartUtils
     {
         while (angle < 0.0)
         {
-            angle += 360.0;
+            angle += 360.0
         }
         
-        return angle % 360.0;
+        return angle % 360.0
     }
     
     
@@ -176,55 +176,55 @@ internal class ChartUtils
     
     internal class func bridgedObjCGetUIColorArray (swift array: [UIColor?]) -> [NSObject]
     {
-        var newArray = [NSObject]();
+        var newArray = [NSObject]()
         for val in array
         {
             if (val == nil)
             {
-                newArray.append(NSNull());
+                newArray.append(NSNull())
             }
             else
             {
-                newArray.append(val!);
+                newArray.append(val!)
             }
         }
-        return newArray;
+        return newArray
     }
     
     internal class func bridgedObjCGetUIColorArray (objc array: [NSObject]) -> [UIColor?]
     {
-        var newArray = [UIColor?]();
+        var newArray = [UIColor?]()
         for object in array
         {
             newArray.append(object as? UIColor)
         }
-        return newArray;
+        return newArray
     }
     
     internal class func bridgedObjCGetStringArray (swift array: [String?]) -> [NSObject]
     {
-        var newArray = [NSObject]();
+        var newArray = [NSObject]()
         for val in array
         {
             if (val == nil)
             {
-                newArray.append(NSNull());
+                newArray.append(NSNull())
             }
             else
             {
-                newArray.append(val!);
+                newArray.append(val!)
             }
         }
-        return newArray;
+        return newArray
     }
     
     internal class func bridgedObjCGetStringArray (objc array: [NSObject]) -> [String?]
     {
-        var newArray = [String?]();
+        var newArray = [String?]()
         for object in array
         {
             newArray.append(object as? String)
         }
-        return newArray;
+        return newArray
     }
 }

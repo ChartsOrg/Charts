@@ -21,21 +21,21 @@ public class BarChartDataEntry: ChartDataEntry
     /// Constructor for stacked bar entries.
     public init(values: [Double], xIndex: Int)
     {
-        super.init(value: BarChartDataEntry.calcSum(values), xIndex: xIndex);
-        self.values = values;
+        super.init(value: BarChartDataEntry.calcSum(values), xIndex: xIndex)
+        self.values = values
     }
     
     /// Constructor for normal bars (not stacked).
     public override init(value: Double, xIndex: Int)
     {
-        super.init(value: value, xIndex: xIndex);
+        super.init(value: value, xIndex: xIndex)
     }
     
     /// Constructor for stacked bar entries.
     public init(values: [Double], xIndex: Int, label: String)
     {
-        super.init(value: BarChartDataEntry.calcSum(values), xIndex: xIndex, data: label);
-        self.values = values;
+        super.init(value: BarChartDataEntry.calcSum(values), xIndex: xIndex, data: label)
+        self.values = values
     }
     
     /// Constructor for normal bars (not stacked).
@@ -51,51 +51,51 @@ public class BarChartDataEntry: ChartDataEntry
     {
         if (values == nil)
         {
-            return 0;
+            return 0
         }
         
-        var index = values.count - 1;
-        var remainder: Double = 0.0;
+        var index = values.count - 1
+        var remainder: Double = 0.0
         
         while (index > 0 && value > values[index] + remainder)
         {
-            remainder += values[index];
-            index--;
+            remainder += values[index]
+            index--
         }
         
-        return index;
+        return index
     }
     
     public func getBelowSum(stackIndex :Int) -> Double
     {
         if (values == nil)
         {
-            return 0;
+            return 0
         }
         
-        var remainder: Double = 0.0;
-        var index = values.count - 1;
+        var remainder: Double = 0.0
+        var index = values.count - 1
         
         while (index > stackIndex && index >= 0)
         {
-            remainder += values[index];
-            index--;
+            remainder += values[index]
+            index--
         }
         
-        return remainder;
+        return remainder
     }
 
     /// Calculates the sum across all values.
     private class func calcSum(values: [Double]) -> Double
     {
-        var sum = Double(0.0);
+        var sum = Double(0.0)
 
         for f in values
         {
-            sum += f;
+            sum += f
         }
 
-        return sum;
+        return sum
     }
     
     public var positiveSum: Double
@@ -146,8 +146,8 @@ public class BarChartDataEntry: ChartDataEntry
         get { return self._values; }
         set
         {
-            self.value = BarChartDataEntry.calcSum(newValue);
-            self._values = newValue;
+            self.value = BarChartDataEntry.calcSum(newValue)
+            self._values = newValue
         }
     }
     
@@ -155,8 +155,8 @@ public class BarChartDataEntry: ChartDataEntry
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
-        var copy = super.copyWithZone(zone) as! BarChartDataEntry;
-        copy._values = _values;
-        return copy;
+        var copy = super.copyWithZone(zone) as! BarChartDataEntry
+        copy._values = _values
+        return copy
     }
 }

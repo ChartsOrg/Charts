@@ -28,35 +28,35 @@ public class LineRadarChartDataSet: BarLineScatterCandleChartDataSet
     {
         get
         {
-            return _lineWidth;
+            return _lineWidth
         }
         set
         {
-            _lineWidth = newValue;
+            _lineWidth = newValue
             if (_lineWidth < 0.2)
             {
-                _lineWidth = 0.5;
+                _lineWidth = 0.5
             }
             if (_lineWidth > 10.0)
             {
-                _lineWidth = 10.0;
+                _lineWidth = 10.0
             }
         }
     }
     
     public var isDrawFilledEnabled: Bool
     {
-        return drawFilledEnabled;
+        return drawFilledEnabled
     }
     
     // MARK: NSCopying
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
-        var copy = super.copyWithZone(zone) as! LineRadarChartDataSet;
-        copy.fillColor = fillColor;
-        copy._lineWidth = _lineWidth;
-        copy.drawFilledEnabled = drawFilledEnabled;
-        return copy;
+        var copy = super.copyWithZone(zone) as! LineRadarChartDataSet
+        copy.fillColor = fillColor
+        copy._lineWidth = _lineWidth
+        copy.drawFilledEnabled = drawFilledEnabled
+        return copy
     }
 }

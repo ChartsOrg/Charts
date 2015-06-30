@@ -96,67 +96,67 @@ public class ChartLegend: ChartComponentBase
     
     public override init()
     {
-        super.init();
+        super.init()
     }
     
     public init(colors: [UIColor?], labels: [String?])
     {
-        super.init();
+        super.init()
         
-        self.colors = colors;
-        self.labels = labels;
+        self.colors = colors
+        self.labels = labels
     }
     
     public init(colors: [NSObject], labels: [NSObject])
     {
-        super.init();
+        super.init()
         
-        self.colorsObjc = colors;
-        self.labelsObjc = labels;
+        self.colorsObjc = colors
+        self.labelsObjc = labels
     }
     
     public func getMaximumEntrySize(font: UIFont) -> CGSize
     {
-        var maxW = CGFloat(0.0);
-        var maxH = CGFloat(0.0);
+        var maxW = CGFloat(0.0)
+        var maxH = CGFloat(0.0)
         
-        var labels = self.labels;
+        var labels = self.labels
         for (var i = 0; i < labels.count; i++)
         {
             if (labels[i] == nil)
             {
-                continue;
+                continue
             }
             
-            var size = (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: font]);
+            var size = (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: font])
             
             if (size.width > maxW)
             {
-                maxW = size.width;
+                maxW = size.width
             }
             if (size.height > maxH)
             {
-                maxH = size.height;
+                maxH = size.height
             }
         }
         
         return CGSize(
             width: maxW + formSize + formToTextSpace,
             height: maxH
-        );
+        )
     }
     
     public func getLabel(index: Int) -> String?
     {
-        return labels[index];
+        return labels[index]
     }
     
     public func getFullSize(labelFont: UIFont) -> CGSize
     {
-        var width = CGFloat(0.0);
-        var height = CGFloat(0.0);
+        var width = CGFloat(0.0)
+        var height = CGFloat(0.0)
         
-        var labels = self.labels;
+        var labels = self.labels
         for (var i = 0, count = labels.count; i < count; i++)
         {
             if (labels[i] != nil)
@@ -164,32 +164,32 @@ public class ChartLegend: ChartComponentBase
                 // make a step to the left
                 if (colors[i] != nil)
                 {
-                    width += formSize + formToTextSpace;
+                    width += formSize + formToTextSpace
                 }
                 
-                var size = (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]);
+                var size = (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont])
                 
-                width += size.width;
-                height += size.height;
+                width += size.width
+                height += size.height
                 
                 if (i < count - 1)
                 {
-                    width += xEntrySpace;
-                    height += yEntrySpace;
+                    width += xEntrySpace
+                    height += yEntrySpace
                 }
             }
             else
             {
-                width += formSize + stackSpace;
+                width += formSize + stackSpace
                 
                 if (i < count - 1)
                 {
-                    width += stackSpace;
+                    width += stackSpace
                 }
             }
         }
         
-        return CGSize(width: width, height: height);
+        return CGSize(width: width, height: height)
     }
 
     public var neededWidth = CGFloat(0.0)
@@ -222,140 +222,140 @@ public class ChartLegend: ChartComponentBase
             || position == .LeftOfChartCenter
             || position == .PiechartCenter)
         {
-            var maxEntrySize = getMaximumEntrySize(labelFont);
-            var fullSize = getFullSize(labelFont);
+            var maxEntrySize = getMaximumEntrySize(labelFont)
+            var fullSize = getFullSize(labelFont)
             
-            neededWidth = maxEntrySize.width;
-            neededHeight = fullSize.height;
-            textWidthMax = maxEntrySize.width;
-            textHeightMax = maxEntrySize.height;
+            neededWidth = maxEntrySize.width
+            neededHeight = fullSize.height
+            textWidthMax = maxEntrySize.width
+            textHeightMax = maxEntrySize.height
         }
         else if (position == .BelowChartLeft
             || position == .BelowChartRight
             || position == .BelowChartCenter)
         {
-            var labels = self.labels;
-            var colors = self.colors;
-            var labelCount = labels.count;
+            var labels = self.labels
+            var colors = self.colors
+            var labelCount = labels.count
             
-            var labelLineHeight = labelFont.lineHeight;
-            var formSize = self.formSize;
-            var formToTextSpace = self.formToTextSpace;
-            var xEntrySpace = self.xEntrySpace;
-            var direction = self.direction;
-            var stackSpace = self.stackSpace;
-            var wordWrapEnabled = self.wordWrapEnabled;
+            var labelLineHeight = labelFont.lineHeight
+            var formSize = self.formSize
+            var formToTextSpace = self.formToTextSpace
+            var xEntrySpace = self.xEntrySpace
+            var direction = self.direction
+            var stackSpace = self.stackSpace
+            var wordWrapEnabled = self.wordWrapEnabled
             
-            var contentWidth: CGFloat = viewPortHandler.contentWidth;
+            var contentWidth: CGFloat = viewPortHandler.contentWidth
             
             // Prepare arrays for calculated layout
             if (calculatedLabelSizes.count != labelCount)
             {
-                calculatedLabelSizes = [CGSize](count: labelCount, repeatedValue: CGSize());
+                calculatedLabelSizes = [CGSize](count: labelCount, repeatedValue: CGSize())
             }
             
             if (calculatedLabelBreakPoints.count != labelCount)
             {
-                calculatedLabelBreakPoints = [Bool](count: labelCount, repeatedValue: false);
+                calculatedLabelBreakPoints = [Bool](count: labelCount, repeatedValue: false)
             }
             
-            calculatedLineSizes.removeAll(keepCapacity: true);
+            calculatedLineSizes.removeAll(keepCapacity: true)
             
             // Start calculating layout
             
-            var labelAttrs = [NSFontAttributeName: labelFont];
-            var maxLineWidth: CGFloat = 0.0;
-            var currentLineWidth: CGFloat = 0.0;
-            var requiredWidth: CGFloat = 0.0;
-            var stackedStartIndex: Int = -1;
+            var labelAttrs = [NSFontAttributeName: labelFont]
+            var maxLineWidth: CGFloat = 0.0
+            var currentLineWidth: CGFloat = 0.0
+            var requiredWidth: CGFloat = 0.0
+            var stackedStartIndex: Int = -1
             
             for (var i = 0; i < labelCount; i++)
             {
-                var drawingForm = colors[i] != nil;
+                var drawingForm = colors[i] != nil
                 
-                calculatedLabelBreakPoints[i] = false;
+                calculatedLabelBreakPoints[i] = false
                 
                 if (stackedStartIndex == -1)
                 {
                     // we are not stacking, so required width is for this label only
-                    requiredWidth = 0.0;
+                    requiredWidth = 0.0
                 }
                 else
                 {
                     // add the spacing appropriate for stacked labels/forms
-                    requiredWidth += stackSpace;
+                    requiredWidth += stackSpace
                 }
                 
                 // grouped forms have null labels
                 if (labels[i] != nil)
                 {
-                    calculatedLabelSizes[i] = (labels[i] as NSString!).sizeWithAttributes(labelAttrs);
-                    requiredWidth += drawingForm ? formToTextSpace + formSize : 0.0;
-                    requiredWidth += calculatedLabelSizes[i].width;
+                    calculatedLabelSizes[i] = (labels[i] as NSString!).sizeWithAttributes(labelAttrs)
+                    requiredWidth += drawingForm ? formToTextSpace + formSize : 0.0
+                    requiredWidth += calculatedLabelSizes[i].width
                 }
                 else
                 {
-                    calculatedLabelSizes[i] = CGSize();
-                    requiredWidth += drawingForm ? formSize : 0.0;
+                    calculatedLabelSizes[i] = CGSize()
+                    requiredWidth += drawingForm ? formSize : 0.0
                     
                     if (stackedStartIndex == -1)
                     {
                         // mark this index as we might want to break here later
-                        stackedStartIndex = i;
+                        stackedStartIndex = i
                     }
                 }
                 
                 if (labels[i] != nil || i == labelCount - 1)
                 {
-                    var requiredSpacing = currentLineWidth == 0.0 ? 0.0 : xEntrySpace;
+                    var requiredSpacing = currentLineWidth == 0.0 ? 0.0 : xEntrySpace
                     
                     if (!wordWrapEnabled || // No word wrapping, it must fit.
                         currentLineWidth == 0.0 || // The line is empty, it must fit.
                         (contentWidth - currentLineWidth >= requiredSpacing + requiredWidth)) // It simply fits
                     {
                         // Expand current line
-                        currentLineWidth += requiredSpacing + requiredWidth;
+                        currentLineWidth += requiredSpacing + requiredWidth
                     }
                     else
                     { // It doesn't fit, we need to wrap a line
                         
                         // Add current line size to array
-                        calculatedLineSizes.append(CGSize(width: currentLineWidth, height: labelLineHeight));
-                        maxLineWidth = max(maxLineWidth, currentLineWidth);
+                        calculatedLineSizes.append(CGSize(width: currentLineWidth, height: labelLineHeight))
+                        maxLineWidth = max(maxLineWidth, currentLineWidth)
                         
                         // Start a new line
-                        calculatedLabelBreakPoints[stackedStartIndex > -1 ? stackedStartIndex : i] = true;
-                        currentLineWidth = requiredWidth;
+                        calculatedLabelBreakPoints[stackedStartIndex > -1 ? stackedStartIndex : i] = true
+                        currentLineWidth = requiredWidth
                     }
                     
                     if (i == labelCount - 1)
                     { // Add last line size to array
-                        calculatedLineSizes.append(CGSize(width: currentLineWidth, height: labelLineHeight));
-                        maxLineWidth = max(maxLineWidth, currentLineWidth);
+                        calculatedLineSizes.append(CGSize(width: currentLineWidth, height: labelLineHeight))
+                        maxLineWidth = max(maxLineWidth, currentLineWidth)
                     }
                 }
                 
-                stackedStartIndex = labels[i] != nil ? -1 : stackedStartIndex;
+                stackedStartIndex = labels[i] != nil ? -1 : stackedStartIndex
             }
             
-            var maxEntrySize = getMaximumEntrySize(labelFont);
+            var maxEntrySize = getMaximumEntrySize(labelFont)
             
-            textWidthMax = maxEntrySize.width;
-            textHeightMax = maxEntrySize.height;
-            neededWidth = maxLineWidth;
+            textWidthMax = maxEntrySize.width
+            textHeightMax = maxEntrySize.height
+            neededWidth = maxLineWidth
             neededHeight = labelLineHeight * CGFloat(calculatedLineSizes.count) +
-                yEntrySpace * CGFloat(calculatedLineSizes.count == 0 ? 0 : (calculatedLineSizes.count - 1));
+                yEntrySpace * CGFloat(calculatedLineSizes.count == 0 ? 0 : (calculatedLineSizes.count - 1))
         }
         else
         {
-            var maxEntrySize = getMaximumEntrySize(labelFont);
-            var fullSize = getFullSize(labelFont);
+            var maxEntrySize = getMaximumEntrySize(labelFont)
+            var fullSize = getFullSize(labelFont)
             
             /* RightOfChartInside, LeftOfChartInside */
-            neededWidth = fullSize.width;
-            neededHeight = maxEntrySize.height;
-            textWidthMax = maxEntrySize.width;
-            textHeightMax = maxEntrySize.height;
+            neededWidth = fullSize.width
+            neededHeight = maxEntrySize.height
+            textWidthMax = maxEntrySize.width
+            textHeightMax = maxEntrySize.height
         }
     }
     
@@ -365,8 +365,8 @@ public class ChartLegend: ChartComponentBase
     /// (if the legend has already been calculated, you will need to call notifyDataSetChanged() to let the changes take effect)
     public func setExtra(#colors: [UIColor?], labels: [String?])
     {
-        self._extraLabels = labels;
-        self._extraColors = colors;
+        self._extraLabels = labels
+        self._extraColors = colors
     }
     
     /// Sets a custom legend's labels and colors arrays.
@@ -378,22 +378,22 @@ public class ChartLegend: ChartComponentBase
     /// Call resetCustom(...) to re-enable automatic calculation (and then notifyDataSetChanged() is needed).
     public func setCustom(#colors: [UIColor?], labels: [String?])
     {
-        self.labels = labels;
-        self.colors = colors;
-        _isLegendCustom = true;
+        self.labels = labels
+        self.colors = colors
+        _isLegendCustom = true
     }
     
     /// Calling this will disable the custom legend labels (set by setLegend(...)). Instead, the labels will again be calculated automatically (after notifyDataSetChanged() is called).
     public func resetCustom()
     {
-        _isLegendCustom = false;
+        _isLegendCustom = false
     }
     
     /// Returns true if a custom legend labels and colors has been set
     /// :default: false (automatic legend)
     public var isLegendCustom: Bool
     {
-        return _isLegendCustom;
+        return _isLegendCustom
     }
     
     /// MARK: - ObjC compatibility
@@ -426,11 +426,11 @@ public class ChartLegend: ChartComponentBase
     {
         if (colors.count != labels.count)
         {
-            fatalError("ChartLegend:setExtra() - colors array and labels array need to be of same size");
+            fatalError("ChartLegend:setExtra() - colors array and labels array need to be of same size")
         }
         
-        self._extraLabels = ChartUtils.bridgedObjCGetStringArray(objc: labels);
-        self._extraColors = ChartUtils.bridgedObjCGetUIColorArray(objc: colors);
+        self._extraLabels = ChartUtils.bridgedObjCGetStringArray(objc: labels)
+        self._extraColors = ChartUtils.bridgedObjCGetUIColorArray(objc: colors)
     }
     
     /// Sets a custom legend's labels and colors arrays.
@@ -444,11 +444,11 @@ public class ChartLegend: ChartComponentBase
     {
         if (colors.count != labels.count)
         {
-            fatalError("ChartLegend:setCustom() - colors array and labels array need to be of same size");
+            fatalError("ChartLegend:setCustom() - colors array and labels array need to be of same size")
         }
         
-        self.labelsObjc = labels;
-        self.colorsObjc = colors;
-        _isLegendCustom = true;
+        self.labelsObjc = labels
+        self.colorsObjc = colors
+        _isLegendCustom = true
     }
 }

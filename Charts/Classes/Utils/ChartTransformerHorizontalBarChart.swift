@@ -21,14 +21,14 @@ public class ChartTransformerHorizontalBarChart: ChartTransformer
     {
         if (!inverted)
         {
-            _matrixOffset = CGAffineTransformMakeTranslation(_viewPortHandler.offsetLeft, _viewPortHandler.chartHeight - _viewPortHandler.offsetBottom);
+            _matrixOffset = CGAffineTransformMakeTranslation(_viewPortHandler.offsetLeft, _viewPortHandler.chartHeight - _viewPortHandler.offsetBottom)
         }
         else
         {
-            _matrixOffset = CGAffineTransformMakeScale(-1.0, 1.0);
+            _matrixOffset = CGAffineTransformMakeScale(-1.0, 1.0)
             _matrixOffset = CGAffineTransformTranslate(_matrixOffset,
                 -(_viewPortHandler.chartWidth - _viewPortHandler.offsetRight),
-                _viewPortHandler.chartHeight - _viewPortHandler.offsetBottom);
+                _viewPortHandler.chartHeight - _viewPortHandler.offsetBottom)
         }
     }
 }

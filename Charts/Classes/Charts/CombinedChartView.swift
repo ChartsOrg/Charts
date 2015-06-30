@@ -33,42 +33,42 @@ public class CombinedChartView: BarLineChartViewBase
     
     public override func initialize()
     {
-        super.initialize();
+        super.initialize()
         
-        _fillFormatter = BarLineChartFillFormatter(chart: self);
+        _fillFormatter = BarLineChartFillFormatter(chart: self)
         
-        renderer = CombinedChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler);
+        renderer = CombinedChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
     }
     
     override func calcMinMax()
     {
-        super.calcMinMax();
+        super.calcMinMax()
         
         if (self.barData !== nil || self.candleData !== nil || self.bubbleData !== nil)
         {
-            _chartXMin = -0.5;
-            _chartXMax = Double(_data.xVals.count) - 0.5;
+            _chartXMin = -0.5
+            _chartXMax = Double(_data.xVals.count) - 0.5
             
             if (self.bubbleData !== nil)
             {
                 for set in self.bubbleData.dataSets as! [BubbleChartDataSet]
                 {
-                    let xmin = set.xMin;
-                    let xmax = set.xMax;
+                    let xmin = set.xMin
+                    let xmax = set.xMax
                     
                     if (xmin < chartXMin)
                     {
-                        _chartXMin = xmin;
+                        _chartXMin = xmin
                     }
                     
                     if (xmax > chartXMax)
                     {
-                        _chartXMax = xmax;
+                        _chartXMax = xmax
                     }
                 }
             }
 
-            _deltaX = CGFloat(abs(_chartXMax - _chartXMin));
+            _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
         }
     }
     
@@ -76,12 +76,12 @@ public class CombinedChartView: BarLineChartViewBase
     {
         get
         {
-            return super.data;
+            return super.data
         }
         set
         {
-            super.data = newValue;
-            (renderer as! CombinedChartRenderer?)!.createRenderers();
+            super.data = newValue
+            (renderer as! CombinedChartRenderer?)!.createRenderers()
         }
     }
     
@@ -89,14 +89,14 @@ public class CombinedChartView: BarLineChartViewBase
     {
         get
         {
-            return _fillFormatter;
+            return _fillFormatter
         }
         set
         {
-            _fillFormatter = newValue;
+            _fillFormatter = newValue
             if (_fillFormatter === nil)
             {
-                _fillFormatter = BarLineChartFillFormatter(chart: self);
+                _fillFormatter = BarLineChartFillFormatter(chart: self)
             }
         }
     }
@@ -107,9 +107,9 @@ public class CombinedChartView: BarLineChartViewBase
         {
             if (_data === nil)
             {
-                return nil;
+                return nil
             }
-            return (_data as! CombinedChartData!).lineData;
+            return (_data as! CombinedChartData!).lineData
         }
     }
     
@@ -119,9 +119,9 @@ public class CombinedChartView: BarLineChartViewBase
         {
             if (_data === nil)
             {
-                return nil;
+                return nil
             }
-            return (_data as! CombinedChartData!).barData;
+            return (_data as! CombinedChartData!).barData
         }
     }
     
@@ -131,9 +131,9 @@ public class CombinedChartView: BarLineChartViewBase
         {
             if (_data === nil)
             {
-                return nil;
+                return nil
             }
-            return (_data as! CombinedChartData!).scatterData;
+            return (_data as! CombinedChartData!).scatterData
         }
     }
     
@@ -143,9 +143,9 @@ public class CombinedChartView: BarLineChartViewBase
         {
             if (_data === nil)
             {
-                return nil;
+                return nil
             }
-            return (_data as! CombinedChartData!).candleData;
+            return (_data as! CombinedChartData!).candleData
         }
     }
     
@@ -155,9 +155,9 @@ public class CombinedChartView: BarLineChartViewBase
         {
             if (_data === nil)
             {
-                return nil;
+                return nil
             }
-            return (_data as! CombinedChartData!).bubbleData;
+            return (_data as! CombinedChartData!).bubbleData
         }
     }
     
@@ -210,11 +210,11 @@ public class CombinedChartView: BarLineChartViewBase
     {
         get
         {
-            return (renderer as! CombinedChartRenderer!).drawOrder.map { $0.rawValue };
+            return (renderer as! CombinedChartRenderer!).drawOrder.map { $0.rawValue }
         }
         set
         {
-            (renderer as! CombinedChartRenderer!).drawOrder = newValue.map { CombinedChartDrawOrder(rawValue: $0)! };
+            (renderer as! CombinedChartRenderer!).drawOrder = newValue.map { CombinedChartDrawOrder(rawValue: $0)! }
         }
     }
 }

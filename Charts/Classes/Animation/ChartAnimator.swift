@@ -18,17 +18,17 @@ import UIKit
 public protocol ChartAnimatorDelegate
 {
     /// Called when the Animator has stepped.
-    func chartAnimatorUpdated(chartAnimator: ChartAnimator);
+    func chartAnimatorUpdated(chartAnimator: ChartAnimator)
     
     /// Called when the Animator has stopped.
-    func chartAnimatorStopped(chartAnimator: ChartAnimator);
+    func chartAnimatorStopped(chartAnimator: ChartAnimator)
 }
 
 public class ChartAnimator: NSObject
 {
-    public weak var delegate: ChartAnimatorDelegate?;
-    public var updateBlock: (() -> Void)?;
-    public var stopBlock: (() -> Void)?;
+    public weak var delegate: ChartAnimatorDelegate?
+    public var updateBlock: (() -> Void)?
+    public var stopBlock: (() -> Void)?
     
     /// the phase that is animated and influences the drawn values on the y-axis
     public var phaseX: CGFloat = 1.0
@@ -54,88 +54,88 @@ public class ChartAnimator: NSObject
     
     public override init()
     {
-        super.init();
+        super.init()
     }
     
     deinit
     {
-        stop();
+        stop()
     }
     
     public func stop()
     {
         if (_displayLink != nil)
         {
-            _displayLink.removeFromRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes);
-            _displayLink = nil;
+            _displayLink.removeFromRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
+            _displayLink = nil
             
-            _enabledX = false;
-            _enabledY = false;
+            _enabledX = false
+            _enabledY = false
             
             if (delegate != nil)
             {
-                delegate!.chartAnimatorStopped(self);
+                delegate!.chartAnimatorStopped(self)
             }
             if (stopBlock != nil)
             {
-                stopBlock?();
+                stopBlock?()
             }
         }
     }
     
     @objc private func animationLoop()
     {
-        var currentTime: NSTimeInterval = CACurrentMediaTime();
-        var elapsedTime: NSTimeInterval = currentTime - _startTime;
+        var currentTime: NSTimeInterval = CACurrentMediaTime()
+        var elapsedTime: NSTimeInterval = currentTime - _startTime
         if (_enabledX)
         {
-            var duration: NSTimeInterval = _xDuration;
-            var elapsed: NSTimeInterval = elapsedTime;
+            var duration: NSTimeInterval = _xDuration
+            var elapsed: NSTimeInterval = elapsedTime
             if (elapsed > duration)
             {
-                elapsed = duration;
+                elapsed = duration
             }
            
             if (_easingX != nil)
             {
-                phaseX = _easingX!(elapsed: elapsed, duration: duration);
+                phaseX = _easingX!(elapsed: elapsed, duration: duration)
             }
             else
             {
-                phaseX = CGFloat(elapsed / duration);
+                phaseX = CGFloat(elapsed / duration)
             }
         }
         if (_enabledY)
         {
-            var duration: NSTimeInterval = _yDuration;
-            var elapsed: NSTimeInterval = elapsedTime;
+            var duration: NSTimeInterval = _yDuration
+            var elapsed: NSTimeInterval = elapsedTime
             if (elapsed > duration)
             {
-                elapsed = duration;
+                elapsed = duration
             }
             
             if (_easingY != nil)
             {
-                phaseY = _easingY!(elapsed: elapsed, duration: duration);
+                phaseY = _easingY!(elapsed: elapsed, duration: duration)
             }
             else
             {
-                phaseY = CGFloat(elapsed / duration);
+                phaseY = CGFloat(elapsed / duration)
             }
         }
         
         if (delegate != nil)
         {
-            delegate!.chartAnimatorUpdated(self);
+            delegate!.chartAnimatorUpdated(self)
         }
         if (updateBlock != nil)
         {
-            updateBlock!();
+            updateBlock!()
         }
         
         if (currentTime >= _endTime)
         {
-            stop();
+            stop()
         }
     }
     
@@ -147,25 +147,25 @@ public class ChartAnimator: NSObject
     /// :param: easingY an easing function for the animation on the y axis
     public func animate(#xAxisDuration: NSTimeInterval, yAxisDuration: NSTimeInterval, easingX: ChartEasingFunctionBlock?, easingY: ChartEasingFunctionBlock?)
     {
-        stop();
+        stop()
         
-        _displayLink = CADisplayLink(target: self, selector: Selector("animationLoop"));
+        _displayLink = CADisplayLink(target: self, selector: Selector("animationLoop"))
         
-        _startTime = CACurrentMediaTime();
-        _xDuration = xAxisDuration;
-        _yDuration = yAxisDuration;
-        _endTimeX = _startTime + xAxisDuration;
-        _endTimeY = _startTime + yAxisDuration;
-        _endTime = _endTimeX > _endTimeY ? _endTimeX : _endTimeY;
-        _enabledX = xAxisDuration > 0.0;
-        _enabledY = yAxisDuration > 0.0;
+        _startTime = CACurrentMediaTime()
+        _xDuration = xAxisDuration
+        _yDuration = yAxisDuration
+        _endTimeX = _startTime + xAxisDuration
+        _endTimeY = _startTime + yAxisDuration
+        _endTime = _endTimeX > _endTimeY ? _endTimeX : _endTimeY
+        _enabledX = xAxisDuration > 0.0
+        _enabledY = yAxisDuration > 0.0
         
-        _easingX = easingX;
-        _easingY = easingY;
+        _easingX = easingX
+        _easingY = easingY
         
         if (_enabledX || _enabledY)
         {
-            _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes);
+            _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
         }
     }
     
@@ -177,7 +177,7 @@ public class ChartAnimator: NSObject
     /// :param: easingOptionY the easing function for the animation on the y axis
     public func animate(#xAxisDuration: NSTimeInterval, yAxisDuration: NSTimeInterval, easingOptionX: ChartEasingOption, easingOptionY: ChartEasingOption)
     {
-        animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easingX: easingFunctionFromOption(easingOptionX), easingY: easingFunctionFromOption(easingOptionY));
+        animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easingX: easingFunctionFromOption(easingOptionX), easingY: easingFunctionFromOption(easingOptionY))
     }
     
     /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
@@ -187,7 +187,7 @@ public class ChartAnimator: NSObject
     /// :param: easing an easing function for the animation
     public func animate(#xAxisDuration: NSTimeInterval, yAxisDuration: NSTimeInterval, easing: ChartEasingFunctionBlock?)
     {
-        animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easingX: easing, easingY: easing);
+        animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easingX: easing, easingY: easing)
     }
     
     /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
@@ -197,7 +197,7 @@ public class ChartAnimator: NSObject
     /// :param: easingOption the easing function for the animation
     public func animate(#xAxisDuration: NSTimeInterval, yAxisDuration: NSTimeInterval, easingOption: ChartEasingOption)
     {
-        animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easing: easingFunctionFromOption(easingOption));
+        animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easing: easingFunctionFromOption(easingOption))
     }
     
     /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
@@ -206,7 +206,7 @@ public class ChartAnimator: NSObject
     /// :param: yAxisDuration duration for animating the y axis
     public func animate(#xAxisDuration: NSTimeInterval, yAxisDuration: NSTimeInterval)
     {
-        animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easingOption: .EaseInOutSine);
+        animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easingOption: .EaseInOutSine)
     }
     
     /// Animates the drawing / rendering of the chart the x-axis with the specified animation time.
@@ -215,7 +215,7 @@ public class ChartAnimator: NSObject
     /// :param: easing an easing function for the animation
     public func animate(#xAxisDuration: NSTimeInterval, easing: ChartEasingFunctionBlock?)
     {
-        animate(xAxisDuration: xAxisDuration, yAxisDuration: 0.0, easing: easing);
+        animate(xAxisDuration: xAxisDuration, yAxisDuration: 0.0, easing: easing)
     }
     
     /// Animates the drawing / rendering of the chart the x-axis with the specified animation time.
@@ -224,7 +224,7 @@ public class ChartAnimator: NSObject
     /// :param: easingOption the easing function for the animation
     public func animate(#xAxisDuration: NSTimeInterval, easingOption: ChartEasingOption)
     {
-        animate(xAxisDuration: xAxisDuration, yAxisDuration: 0.0, easing: easingFunctionFromOption(easingOption));
+        animate(xAxisDuration: xAxisDuration, yAxisDuration: 0.0, easing: easingFunctionFromOption(easingOption))
     }
     
     /// Animates the drawing / rendering of the chart the x-axis with the specified animation time.
@@ -232,7 +232,7 @@ public class ChartAnimator: NSObject
     /// :param: xAxisDuration duration for animating the x axis
     public func animate(#xAxisDuration: NSTimeInterval)
     {
-        animate(xAxisDuration: xAxisDuration, yAxisDuration: 0.0, easingOption: .EaseInOutSine);
+        animate(xAxisDuration: xAxisDuration, yAxisDuration: 0.0, easingOption: .EaseInOutSine)
     }
     
     /// Animates the drawing / rendering of the chart the y-axis with the specified animation time.
@@ -241,7 +241,7 @@ public class ChartAnimator: NSObject
     /// :param: easing an easing function for the animation
     public func animate(#yAxisDuration: NSTimeInterval, easing: ChartEasingFunctionBlock?)
     {
-        animate(xAxisDuration: 0.0, yAxisDuration: yAxisDuration, easing: easing);
+        animate(xAxisDuration: 0.0, yAxisDuration: yAxisDuration, easing: easing)
     }
     
     /// Animates the drawing / rendering of the chart the y-axis with the specified animation time.
@@ -250,7 +250,7 @@ public class ChartAnimator: NSObject
     /// :param: easingOption the easing function for the animation
     public func animate(#yAxisDuration: NSTimeInterval, easingOption: ChartEasingOption)
     {
-        animate(xAxisDuration: 0.0, yAxisDuration: yAxisDuration, easing: easingFunctionFromOption(easingOption));
+        animate(xAxisDuration: 0.0, yAxisDuration: yAxisDuration, easing: easingFunctionFromOption(easingOption))
     }
     
     /// Animates the drawing / rendering of the chart the y-axis with the specified animation time.
@@ -258,6 +258,6 @@ public class ChartAnimator: NSObject
     /// :param: yAxisDuration duration for animating the y axis
     public func animate(#yAxisDuration: NSTimeInterval)
     {
-        animate(xAxisDuration: 0.0, yAxisDuration: yAxisDuration, easingOption: .EaseInOutSine);
+        animate(xAxisDuration: 0.0, yAxisDuration: yAxisDuration, easingOption: .EaseInOutSine)
     }
 }

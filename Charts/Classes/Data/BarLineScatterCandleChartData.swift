@@ -17,16 +17,16 @@ public class BarLineScatterCandleChartData: ChartData
 {
     public override init()
     {
-        super.init();
+        super.init()
     }
     
     public override init(xVals: [String?]?, dataSets: [ChartDataSet]?)
     {
-        super.init(xVals: xVals, dataSets: dataSets);
+        super.init(xVals: xVals, dataSets: dataSets)
     }
     
     public override init(xVals: [NSObject]?, dataSets: [ChartDataSet]?)
     {
-        super.init(xVals: xVals, dataSets: dataSets);
+        super.init(xVals: xVals, dataSets: dataSets)
     }
 }

@@ -22,31 +22,31 @@ public class ChartSelectionDetail: NSObject
     
     public override init()
     {
-        super.init();
+        super.init()
     }
     
     public init(value: Double, dataSetIndex: Int, dataSet: ChartDataSet)
     {
-        super.init();
+        super.init()
         
-        _value = value;
-        _dataSetIndex = dataSetIndex;
-        _dataSet = dataSet;
+        _value = value
+        _dataSetIndex = dataSetIndex
+        _dataSet = dataSet
     }
     
     public var value: Double
     {
-        return _value;
+        return _value
     }
     
     public var dataSetIndex: Int
     {
-        return _dataSetIndex;
+        return _dataSetIndex
     }
     
     public var dataSet: ChartDataSet?
     {
-        return _dataSet;
+        return _dataSet
     }
     
     // MARK: NSObject
@@ -55,30 +55,30 @@ public class ChartSelectionDetail: NSObject
     {
         if (object === nil)
         {
-            return false;
+            return false
         }
         
         if (!object!.isKindOfClass(self.dynamicType))
         {
-            return false;
+            return false
         }
         
         if (object!.value != _value)
         {
-            return false;
+            return false
         }
         
         if (object!.dataSetIndex != _dataSetIndex)
         {
-            return false;
+            return false
         }
         
         if (object!.dataSet !== _dataSet)
         {
-            return false;
+            return false
         }
         
-        return true;
+        return true
     }
 }
 
@@ -86,28 +86,28 @@ public func ==(lhs: ChartSelectionDetail, rhs: ChartSelectionDetail) -> Bool
 {
     if (lhs === rhs)
     {
-        return true;
+        return true
     }
     
     if (!lhs.isKindOfClass(rhs.dynamicType))
     {
-        return false;
+        return false
     }
     
     if (lhs.value != rhs.value)
     {
-        return false;
+        return false
     }
     
     if (lhs.dataSetIndex != rhs.dataSetIndex)
     {
-        return false;
+        return false
     }
     
     if (lhs.dataSet !== rhs.dataSet)
     {
-        return false;
+        return false
     }
     
-    return true;
+    return true
 }

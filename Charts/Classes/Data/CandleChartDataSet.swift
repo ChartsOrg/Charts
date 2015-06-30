@@ -42,47 +42,47 @@ public class CandleChartDataSet: BarLineScatterCandleChartDataSet
     
     public override init(yVals: [ChartDataEntry]?, label: String?)
     {
-        super.init(yVals: yVals, label: label);
+        super.init(yVals: yVals, label: label)
     }
     
     internal override func calcMinMax(#start: Int, end: Int)
     {
         if (yVals.count == 0)
         {
-            return;
+            return
         }
         
-        var entries = yVals as! [CandleChartDataEntry];
+        var entries = yVals as! [CandleChartDataEntry]
         
-        var endValue : Int;
+        var endValue : Int
         
         if end == 0
         {
-            endValue = entries.count - 1;
+            endValue = entries.count - 1
         }
         else
         {
-            endValue = end;
+            endValue = end
         }
         
-        _lastStart = start;
-        _lastEnd = end;
+        _lastStart = start
+        _lastEnd = end
         
-        _yMin = entries[start].low;
-        _yMax = entries[start].high;
+        _yMin = entries[start].low
+        _yMax = entries[start].high
         
         for (var i = start + 1; i <= endValue; i++)
         {
-            var e = entries[i];
+            var e = entries[i]
             
             if (e.low < _yMin)
             {
-                _yMin = e.low;
+                _yMin = e.low
             }
             
             if (e.high > _yMax)
             {
-                _yMax = e.high;
+                _yMax = e.high
             }
         }
     }
@@ -93,20 +93,20 @@ public class CandleChartDataSet: BarLineScatterCandleChartDataSet
     {
         set
         {
-            _bodySpace = newValue;
+            _bodySpace = newValue
             
             if (_bodySpace < 0.0)
             {
-                _bodySpace = 0.0;
+                _bodySpace = 0.0
             }
             if (_bodySpace > 0.45)
             {
-                _bodySpace = 0.45;
+                _bodySpace = 0.45
             }
         }
         get
         {
-            return _bodySpace;
+            return _bodySpace
         }
     }
     

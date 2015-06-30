@@ -17,13 +17,13 @@ import UIKit
 
 public class ChartXAxisRendererBarChart: ChartXAxisRenderer
 {
-    internal weak var _chart: BarChartView!;
+    internal weak var _chart: BarChartView!
     
     public init(viewPortHandler: ChartViewPortHandler, xAxis: ChartXAxis, transformer: ChartTransformer!, chart: BarChartView)
     {
-        super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: transformer);
+        super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: transformer)
         
-        self._chart = chart;
+        self._chart = chart
     }
     
     /// draws the x-labels on the specified y-position
@@ -31,123 +31,123 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
     {
         if (_chart.data === nil)
         {
-            return;
+            return
         }
         
-        var paraStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle;
-        paraStyle.alignment = .Center;
+        var paraStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
+        paraStyle.alignment = .Center
         
         var labelAttrs = [NSFontAttributeName: _xAxis.labelFont,
             NSForegroundColorAttributeName: _xAxis.labelTextColor,
-            NSParagraphStyleAttributeName: paraStyle];
+            NSParagraphStyleAttributeName: paraStyle]
         
-        var barData = _chart.data as! BarChartData;
-        var step = barData.dataSetCount;
+        var barData = _chart.data as! BarChartData
+        var step = barData.dataSetCount
         
-        var valueToPixelMatrix = transformer.valueToPixelMatrix;
+        var valueToPixelMatrix = transformer.valueToPixelMatrix
         
-        var position = CGPoint(x: 0.0, y: 0.0);
+        var position = CGPoint(x: 0.0, y: 0.0)
         
-        var labelMaxSize = CGSize();
+        var labelMaxSize = CGSize()
         
         if (_xAxis.isWordWrapEnabled)
         {
-            labelMaxSize.width = _xAxis.wordWrapWidthPercent * valueToPixelMatrix.a;
+            labelMaxSize.width = _xAxis.wordWrapWidthPercent * valueToPixelMatrix.a
         }
         
         for (var i = _minX, maxX = min(_maxX + 1, _xAxis.values.count); i < maxX; i += _xAxis.axisLabelModulus)
         {
-            var label = i >= 0 && i < _xAxis.values.count ? _xAxis.values[i] : nil;
+            var label = i >= 0 && i < _xAxis.values.count ? _xAxis.values[i] : nil
             if (label == nil)
             {
-                continue;
+                continue
             }
             
-            position.x = CGFloat(i * step) + CGFloat(i) * barData.groupSpace + barData.groupSpace / 2.0;
-            position.y = 0.0;
+            position.x = CGFloat(i * step) + CGFloat(i) * barData.groupSpace + barData.groupSpace / 2.0
+            position.y = 0.0
             
             // consider groups (center label for each group)
             if (step > 1)
             {
-                position.x += (CGFloat(step) - 1.0) / 2.0;
+                position.x += (CGFloat(step) - 1.0) / 2.0
             }
             
-            position = CGPointApplyAffineTransform(position, valueToPixelMatrix);
+            position = CGPointApplyAffineTransform(position, valueToPixelMatrix)
             
             if (viewPortHandler.isInBoundsX(position.x))
             {
-                var labelns = label! as NSString;
+                var labelns = label! as NSString
                 
                 if (_xAxis.isAvoidFirstLastClippingEnabled)
                 {
                     // avoid clipping of the last
                     if (i == _xAxis.values.count - 1)
                     {
-                        var width = label!.sizeWithAttributes(labelAttrs).width;
+                        var width = label!.sizeWithAttributes(labelAttrs).width
                         
                         if (width > viewPortHandler.offsetRight * 2.0
                             && position.x + width > viewPortHandler.chartWidth)
                         {
-                            position.x -= width / 2.0;
+                            position.x -= width / 2.0
                         }
                     }
                     else if (i == 0)
                     { // avoid clipping of the first
-                        var width = label!.sizeWithAttributes(labelAttrs).width;
-                        position.x += width / 2.0;
+                        var width = label!.sizeWithAttributes(labelAttrs).width
+                        position.x += width / 2.0
                     }
                 }
                 
-                ChartUtils.drawMultilineText(context: context, text: label!, point: CGPoint(x: position.x, y: pos), align: .Center, attributes: labelAttrs, constrainedToSize: labelMaxSize);
+                ChartUtils.drawMultilineText(context: context, text: label!, point: CGPoint(x: position.x, y: pos), align: .Center, attributes: labelAttrs, constrainedToSize: labelMaxSize)
             }
         }
     }
     
-    private var _gridLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint());
+    private var _gridLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
     public override func renderGridLines(#context: CGContext)
     {
         if (!_xAxis.isDrawGridLinesEnabled || !_xAxis.isEnabled)
         {
-            return;
+            return
         }
         
-        var barData = _chart.data as! BarChartData;
-        var step = barData.dataSetCount;
+        var barData = _chart.data as! BarChartData
+        var step = barData.dataSetCount
         
-        CGContextSaveGState(context);
+        CGContextSaveGState(context)
         
-        CGContextSetStrokeColorWithColor(context, _xAxis.gridColor.CGColor);
-        CGContextSetLineWidth(context, _xAxis.gridLineWidth);
+        CGContextSetStrokeColorWithColor(context, _xAxis.gridColor.CGColor)
+        CGContextSetLineWidth(context, _xAxis.gridLineWidth)
         if (_xAxis.gridLineDashLengths != nil)
         {
-            CGContextSetLineDash(context, _xAxis.gridLineDashPhase, _xAxis.gridLineDashLengths, _xAxis.gridLineDashLengths.count);
+            CGContextSetLineDash(context, _xAxis.gridLineDashPhase, _xAxis.gridLineDashLengths, _xAxis.gridLineDashLengths.count)
         }
         else
         {
-            CGContextSetLineDash(context, 0.0, nil, 0);
+            CGContextSetLineDash(context, 0.0, nil, 0)
         }
         
-        var valueToPixelMatrix = transformer.valueToPixelMatrix;
+        var valueToPixelMatrix = transformer.valueToPixelMatrix
         
-        var position = CGPoint(x: 0.0, y: 0.0);
+        var position = CGPoint(x: 0.0, y: 0.0)
         
         for (var i = _minX; i < _maxX; i += _xAxis.axisLabelModulus)
         {
-            position.x = CGFloat(i * step) + CGFloat(i) * barData.groupSpace - 0.5;
-            position.y = 0.0;
-            position = CGPointApplyAffineTransform(position, valueToPixelMatrix);
+            position.x = CGFloat(i * step) + CGFloat(i) * barData.groupSpace - 0.5
+            position.y = 0.0
+            position = CGPointApplyAffineTransform(position, valueToPixelMatrix)
             
             if (viewPortHandler.isInBoundsX(position.x))
             {
-                _gridLineSegmentsBuffer[0].x = position.x;
-                _gridLineSegmentsBuffer[0].y = viewPortHandler.contentTop;
-                _gridLineSegmentsBuffer[1].x = position.x;
-                _gridLineSegmentsBuffer[1].y = viewPortHandler.contentBottom;
-                CGContextStrokeLineSegments(context, _gridLineSegmentsBuffer, 2);
+                _gridLineSegmentsBuffer[0].x = position.x
+                _gridLineSegmentsBuffer[0].y = viewPortHandler.contentTop
+                _gridLineSegmentsBuffer[1].x = position.x
+                _gridLineSegmentsBuffer[1].y = viewPortHandler.contentBottom
+                CGContextStrokeLineSegments(context, _gridLineSegmentsBuffer, 2)
             }
         }
         
-        CGContextRestoreGState(context);
+        CGContextRestoreGState(context)
     }
 }

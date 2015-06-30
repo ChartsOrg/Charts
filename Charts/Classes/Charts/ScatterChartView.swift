@@ -19,64 +19,64 @@ public class ScatterChartView: BarLineChartViewBase, ScatterChartRendererDelegat
 {
     public override func initialize()
     {
-        super.initialize();
+        super.initialize()
         
-        renderer = ScatterChartRenderer(delegate: self, animator: _animator, viewPortHandler: _viewPortHandler);
-        _chartXMin = -0.5;
+        renderer = ScatterChartRenderer(delegate: self, animator: _animator, viewPortHandler: _viewPortHandler)
+        _chartXMin = -0.5
     }
 
     public override func calcMinMax()
     {
-        super.calcMinMax();
+        super.calcMinMax()
 
         if (_deltaX == 0.0 && _data.yValCount > 0)
         {
-            _deltaX = 1.0;
+            _deltaX = 1.0
         }
         
-        _chartXMax += 0.5;
-        _deltaX = CGFloat(abs(_chartXMax - _chartXMin));
+        _chartXMax += 0.5
+        _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
     }
     
     // MARK: - ScatterChartRendererDelegate
     
     public func scatterChartRendererData(renderer: ScatterChartRenderer) -> ScatterChartData!
     {
-        return _data as! ScatterChartData!;
+        return _data as! ScatterChartData!
     }
     
     public func scatterChartRenderer(renderer: ScatterChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!
     {
-        return getTransformer(which);
+        return getTransformer(which)
     }
     
     public func scatterChartDefaultRendererValueFormatter(renderer: ScatterChartRenderer) -> NSNumberFormatter!
     {
-        return self._defaultValueFormatter;
+        return self._defaultValueFormatter
     }
     
     public func scatterChartRendererChartYMax(renderer: ScatterChartRenderer) -> Double
     {
-        return self.chartYMax;
+        return self.chartYMax
     }
     
     public func scatterChartRendererChartYMin(renderer: ScatterChartRenderer) -> Double
     {
-        return self.chartYMin;
+        return self.chartYMin
     }
     
     public func scatterChartRendererChartXMax(renderer: ScatterChartRenderer) -> Double
     {
-        return self.chartXMax;
+        return self.chartXMax
     }
     
     public func scatterChartRendererChartXMin(renderer: ScatterChartRenderer) -> Double
     {
-        return self.chartXMin;
+        return self.chartXMin
     }
     
     public func scatterChartRendererMaxVisibleValueCount(renderer: ScatterChartRenderer) -> Int
     {
-        return self.maxVisibleValueCount;
+        return self.maxVisibleValueCount
     }
 }
