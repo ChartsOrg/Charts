@@ -24,7 +24,7 @@ public class ChartHighlight: NSObject
     
     /// index which value of a stacked bar entry is highlighted
     /// 
-    /// default: -1
+    /// **default**: -1
     private var _stackIndex = Int(-1)
 
     public override init()

@@ -44,9 +44,9 @@ public class BarChartDataEntry: ChartDataEntry
         super.init(value: value, xIndex: xIndex, data: data)
     }
 
-    /// - returns: the index of the closest value inside the values array (for stacked barchart)
-    /// to the value given as a parameter. The closest value must be higher
-    /// (above) the provided value.
+    /// - returns: the index of the closest value inside the values array
+    /// (for stacked barchart) to the value given as a parameter.
+    /// The closest value must be higher (above) the provided value.
     public func getClosestIndexAbove(value: Double) -> Int
     {
         if (values == nil)

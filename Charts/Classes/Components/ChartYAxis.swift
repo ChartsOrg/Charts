@@ -61,14 +61,14 @@ public class ChartYAxis: ChartAxisBase
     
     /// A custom minimum value for this axis. 
     /// If set, this value will not be calculated automatically depending on the provided data. 
-    /// Use resetCustomAxisMin() to undo this. 
+    /// Use `resetCustomAxisMin()` to undo this.
     /// Do not forget to set startAtZeroEnabled = false if you use this method.
     /// Otherwise, the axis-minimum value will still be forced to 0.
     public var customAxisMin = Double.NaN
         
     /// Set a custom maximum value for this axis. 
     /// If set, this value will not be calculated automatically depending on the provided data. 
-    /// Use resetCustomAxisMax() to undo this.
+    /// Use `resetCustomAxisMax()` to undo this.
     public var customAxisMax = Double.NaN
 
     /// axis space from the largest value to the top in percent of the total axis range
@@ -91,13 +91,13 @@ public class ChartYAxis: ChartAxisBase
     
     /// the minimum width that the axis should take
     /// 
-    /// default: 0.0
+    /// **default**: 0.0
     public var minWidth = CGFloat(0)
     
     /// the maximum width that the axis can take.
     /// use zero for disabling the maximum
     /// 
-    /// default: 0.0 (no maximum specified)
+    /// **default**: 0.0 (no maximum specified)
     public var maxWidth = CGFloat(0)
     
     public override init()
