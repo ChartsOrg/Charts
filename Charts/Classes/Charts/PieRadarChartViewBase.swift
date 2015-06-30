@@ -290,7 +290,7 @@ public class PieRadarChartViewBase: ChartViewBase
 
     /// current rotation angle of the pie chart
     ///
-    /// default: 270 --> top (NORTH)
+    /// **default**: 270 --> top (NORTH)
     /// - returns: will always return a normalized value, which will be between 0.0 < 360.0
     public var rotationAngle: CGFloat
     {
@@ -346,11 +346,12 @@ public class PieRadarChartViewBase: ChartViewBase
     
     public override var chartXMin: Double
     {
+        getSelectionDetailsAtIndex(1);
         return 0.0
     }
     
-    /// - returns: an array of SelectionDetail objects for the given x-index.
     /// The SelectionDetail objects give information about the value at the selected index and the DataSet it belongs to.
+    /// - returns: an array of SelectionDetail objects for the given x-index.
     public func getSelectionDetailsAtIndex(xIndex: Int) -> [ChartSelectionDetail]
     {
         var vals = [ChartSelectionDetail]()
@@ -381,7 +382,7 @@ public class PieRadarChartViewBase: ChartViewBase
     /// flag that indicates if rotation is done with two fingers or one.
     /// when the chart is inside a scrollview, you need a two-finger rotation because a one-finger rotation eats up all touch events.
     /// 
-    /// default: false
+    /// **default**: false
     public var rotationWithTwoFingers: Bool
     {
         get
@@ -398,7 +399,7 @@ public class PieRadarChartViewBase: ChartViewBase
     /// flag that indicates if rotation is done with two fingers or one.
     /// when the chart is inside a scrollview, you need a two-finger rotation because a one-finger rotation eats up all touch events.
     ///
-    /// default: false
+    /// **default**: false
     public var isRotationWithTwoFingers: Bool
     {
         return _rotationWithTwoFingers

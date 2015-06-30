@@ -24,7 +24,7 @@ public class LineRadarChartDataSet: BarLineScatterCandleChartDataSet
     
     /// line width of the chart (min = 0.2, max = 10)
     /// 
-    /// default: 1
+    /// **default**: 1
     public var lineWidth: CGFloat
     {
         get
