@@ -90,7 +90,7 @@ public class LineChartDataSet: LineRadarChartDataSet
     }
     
     /// resets the circle-colors array and creates a new one
-    public func resetCircleColors(var index: Int)
+    public func resetCircleColors(index: Int)
     {
         circleColors.removeAll(keepCapacity: false)
     }
@@ -105,7 +105,7 @@ public class LineChartDataSet: LineRadarChartDataSet
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
-        var copy = super.copyWithZone(zone) as! LineChartDataSet
+        let copy = super.copyWithZone(zone) as! LineChartDataSet
         copy.circleColors = circleColors
         copy.circleRadius = circleRadius
         copy.cubicIntensity = cubicIntensity
