@@ -146,7 +146,7 @@ public class ChartAnimator: NSObject
     }
     
     /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
-    /// If animate(...) is called, no further calling of invalidate() is necessary to refresh the chart.
+    /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
     /// - parameter xAxisDuration: duration for animating the x axis
     /// - parameter yAxisDuration: duration for animating the y axis
     /// - parameter easingX: an easing function for the animation on the x axis
@@ -179,7 +179,7 @@ public class ChartAnimator: NSObject
     }
     
     /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
-    /// If animate(...) is called, no further calling of invalidate() is necessary to refresh the chart.
+    /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
     /// - parameter xAxisDuration: duration for animating the x axis
     /// - parameter yAxisDuration: duration for animating the y axis
     /// - parameter easingOptionX: the easing function for the animation on the x axis
@@ -190,7 +190,7 @@ public class ChartAnimator: NSObject
     }
     
     /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
-    /// If animate(...) is called, no further calling of invalidate() is necessary to refresh the chart.
+    /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
     /// - parameter xAxisDuration: duration for animating the x axis
     /// - parameter yAxisDuration: duration for animating the y axis
     /// - parameter easing: an easing function for the animation
@@ -200,7 +200,7 @@ public class ChartAnimator: NSObject
     }
     
     /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
-    /// If animate(...) is called, no further calling of invalidate() is necessary to refresh the chart.
+    /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
     /// - parameter xAxisDuration: duration for animating the x axis
     /// - parameter yAxisDuration: duration for animating the y axis
     /// - parameter easingOption: the easing function for the animation
@@ -210,7 +210,7 @@ public class ChartAnimator: NSObject
     }
     
     /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
-    /// If animate(...) is called, no further calling of invalidate() is necessary to refresh the chart.
+    /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
     /// - parameter xAxisDuration: duration for animating the x axis
     /// - parameter yAxisDuration: duration for animating the y axis
     public func animate(xAxisDuration xAxisDuration: NSTimeInterval, yAxisDuration: NSTimeInterval)
@@ -219,7 +219,7 @@ public class ChartAnimator: NSObject
     }
     
     /// Animates the drawing / rendering of the chart the x-axis with the specified animation time.
-    /// If animate(...) is called, no further calling of invalidate() is necessary to refresh the chart.
+    /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
     /// - parameter xAxisDuration: duration for animating the x axis
     /// - parameter easing: an easing function for the animation
     public func animate(xAxisDuration xAxisDuration: NSTimeInterval, easing: ChartEasingFunctionBlock?)
@@ -228,7 +228,7 @@ public class ChartAnimator: NSObject
     }
     
     /// Animates the drawing / rendering of the chart the x-axis with the specified animation time.
-    /// If animate(...) is called, no further calling of invalidate() is necessary to refresh the chart.
+    /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
     /// - parameter xAxisDuration: duration for animating the x axis
     /// - parameter easingOption: the easing function for the animation
     public func animate(xAxisDuration xAxisDuration: NSTimeInterval, easingOption: ChartEasingOption)
@@ -237,7 +237,7 @@ public class ChartAnimator: NSObject
     }
     
     /// Animates the drawing / rendering of the chart the x-axis with the specified animation time.
-    /// If animate(...) is called, no further calling of invalidate() is necessary to refresh the chart.
+    /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
     /// - parameter xAxisDuration: duration for animating the x axis
     public func animate(xAxisDuration xAxisDuration: NSTimeInterval)
     {
@@ -245,7 +245,7 @@ public class ChartAnimator: NSObject
     }
     
     /// Animates the drawing / rendering of the chart the y-axis with the specified animation time.
-    /// If animate(...) is called, no further calling of invalidate() is necessary to refresh the chart.
+    /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
     /// - parameter yAxisDuration: duration for animating the y axis
     /// - parameter easing: an easing function for the animation
     public func animate(yAxisDuration yAxisDuration: NSTimeInterval, easing: ChartEasingFunctionBlock?)
@@ -254,7 +254,7 @@ public class ChartAnimator: NSObject
     }
     
     /// Animates the drawing / rendering of the chart the y-axis with the specified animation time.
-    /// If animate(...) is called, no further calling of invalidate() is necessary to refresh the chart.
+    /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
     /// - parameter yAxisDuration: duration for animating the y axis
     /// - parameter easingOption: the easing function for the animation
     public func animate(yAxisDuration yAxisDuration: NSTimeInterval, easingOption: ChartEasingOption)
@@ -263,7 +263,7 @@ public class ChartAnimator: NSObject
     }
     
     /// Animates the drawing / rendering of the chart the y-axis with the specified animation time.
-    /// If animate(...) is called, no further calling of invalidate() is necessary to refresh the chart.
+    /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
     /// - parameter yAxisDuration: duration for animating the y axis
     public func animate(yAxisDuration yAxisDuration: NSTimeInterval)
     {

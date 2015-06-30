@@ -216,7 +216,7 @@ public class PieChartView: PieRadarChartViewBase
     
     /// Sets the color for the hole that is drawn in the center of the PieChart (if enabled).
     /// 
-    /// *NOTE: Use holeTransparent with holeColor = nil to make the hole transparent.*
+    /// *Note: Use holeTransparent with holeColor = nil to make the hole transparent.*
     public var holeColor: UIColor?
     {
         get
@@ -367,7 +367,7 @@ public class PieChartView: PieRadarChartViewBase
     
     /// the radius of the hole in the center of the piechart in percent of the maximum radius (max = the radius of the whole chart)
     /// 
-    /// default: 0.5 (50%) (half the pie)
+    /// **default**: 0.5 (50%) (half the pie)
     public var holeRadiusPercent: CGFloat
     {
         get
@@ -383,7 +383,7 @@ public class PieChartView: PieRadarChartViewBase
     
     /// the radius of the transparent circle that is drawn next to the hole in the piechart in percent of the maximum radius (max = the radius of the whole chart)
     /// 
-    /// default: 0.55 (55%) -> means 5% larger than the center-hole by default
+    /// **default**: 0.55 (55%) -> means 5% larger than the center-hole by default
     public var transparentCircleRadiusPercent: CGFloat
     {
         get

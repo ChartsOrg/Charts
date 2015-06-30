@@ -48,7 +48,7 @@ public class LineChartDataSet: LineRadarChartDataSet
 
     /// intensity for cubic lines (min = 0.05, max = 1)
     /// 
-    /// default: 0.2
+    /// **default**: 0.2
     public var cubicIntensity: CGFloat
     {
         get
