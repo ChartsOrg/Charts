@@ -76,8 +76,6 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
             
             if (viewPortHandler.isInBoundsX(position.x))
             {
-                var labelns = label! as NSString
-                
                 if (_xAxis.isAvoidFirstLastClippingEnabled)
                 {
                     // avoid clipping of the last

@@ -282,7 +282,6 @@ public class BarChartRenderer: ChartDataRendererBase
             var drawValueAboveBar = delegate!.barChartIsDrawValueAboveBarEnabled(self)
             var drawValuesForWholeStackEnabled = delegate!.barChartIsDrawValuesForWholeStackEnabled(self)
             
-            var valueTextHeight: CGFloat
             var posOffset: CGFloat
             var negOffset: CGFloat
             

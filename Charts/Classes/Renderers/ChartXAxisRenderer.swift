@@ -38,7 +38,6 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         }
         
         var widthText = a as NSString
-        var heightText = "Q" as NSString
         
         _xAxis.labelWidth = widthText.sizeWithAttributes([NSFontAttributeName: _xAxis.labelFont]).width
         _xAxis.labelHeight = _xAxis.labelFont.lineHeight

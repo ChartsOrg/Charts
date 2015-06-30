@@ -127,9 +127,6 @@ public class ChartLegendRenderer: ChartRendererBase
         var xEntrySpace = _legend.xEntrySpace
         var direction = _legend.direction
 
-        // space between text and shape/form of entry
-        var formTextSpaceAndForm = formToTextSpace + formSize
-
         // space between the entries
         var stackSpace = _legend.stackSpace
 

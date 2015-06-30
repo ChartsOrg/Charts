@@ -33,7 +33,8 @@ public class BubbleChartView: BarLineChartViewBase, BubbleChartRendererDelegate
         _chartXMin = -0.5
         _chartXMax = Double(_data.xVals.count) - 0.5
         
-        if let r = renderer as? BubbleChartRenderer, sets = _data.dataSets as? [BubbleChartDataSet]
+        if renderer as? BubbleChartRenderer !== nil,
+            let sets = _data.dataSets as? [BubbleChartDataSet]
         {
             for set in sets {
                 
