@@ -184,13 +184,13 @@ public class CombinedChartView: BarLineChartViewBase
         set { (renderer as! CombinedChartRenderer!).drawBarShadowEnabled = newValue; }
     }
     
-    /// returns true if drawing the highlighting arrow is enabled, false if not
+    /// - returns: true if drawing the highlighting arrow is enabled, false if not
     public var isDrawHighlightArrowEnabled: Bool { return (renderer as! CombinedChartRenderer!).drawHighlightArrowEnabled; }
     
-    /// returns true if drawing values above bars is enabled, false if not
+    /// - returns: true if drawing values above bars is enabled, false if not
     public var isDrawValueAboveBarEnabled: Bool { return (renderer as! CombinedChartRenderer!).drawValueAboveBarEnabled; }
     
-    /// returns true if drawing shadows (maxvalue) for each bar is enabled, false if not
+    /// - returns: true if drawing shadows (maxvalue) for each bar is enabled, false if not
     public var isDrawBarShadowEnabled: Bool { return (renderer as! CombinedChartRenderer!).drawBarShadowEnabled; }
     
     /// the order in which the provided data objects should be drawn.

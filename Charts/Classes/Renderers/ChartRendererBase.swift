@@ -36,7 +36,7 @@ public class ChartRendererBase: NSObject
         self.viewPortHandler = viewPortHandler
     }
 
-    /// Returns true if the specified value fits in between the provided min and max bounds, false if not.
+    /// - returns: true if the specified value fits in between the provided min and max bounds, false if not.
     internal func fitsBounds(val: Double, min: Double, max: Double) -> Bool
     {
         if (val < min || val > max)
