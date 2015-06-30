@@ -77,9 +77,9 @@ public class ChartXAxis: ChartAxisBase
         
         for (var i = 0; i < values.count; i++)
         {
-            var text = values[i]
+            let text = values[i]
             
-            if (text != nil && count(longest) < count(text!))
+            if (text != nil && longest.characters.count < (text!).characters.count)
             {
                 longest = text!
             }
