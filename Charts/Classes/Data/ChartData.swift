@@ -687,6 +687,10 @@ public class ChartData: NSObject
         
         var entry = _dataSets[dataSetIndex].entryForXIndex(xIndex)
         
+        if (entry?.xIndex != xIndex) {
+            return false
+        }
+        
         return removeEntry(entry, dataSetIndex: dataSetIndex)
     }
     
