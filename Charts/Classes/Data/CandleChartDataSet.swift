@@ -28,6 +28,9 @@ public class CandleChartDataSet: BarLineScatterCandleChartDataSet
     /// the color of the shadow line
     public var shadowColor: UIColor?
     
+    /// use candle color for the shadow
+    public var makeShadowSameColorAsCandle = false
+    
     /// color for open <= close
     public var decreasingColor: UIColor?
     
