@@ -243,7 +243,6 @@ public class PieRadarChartViewBase: ChartViewBase
     /// from the center, and the angle of the position around the center.
     internal func getPosition(#center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
     {
-        var a = cos(angle * ChartUtils.Math.FDEG2RAD)
         return CGPoint(x: center.x + dist * cos(angle * ChartUtils.Math.FDEG2RAD),
                 y: center.y + dist * sin(angle * ChartUtils.Math.FDEG2RAD))
     }

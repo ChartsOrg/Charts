@@ -247,7 +247,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
             var drawValueAboveBar = delegate!.barChartIsDrawValueAboveBarEnabled(self)
             var drawValuesForWholeStackEnabled = delegate!.barChartIsDrawValuesForWholeStackEnabled(self)
             
-            var textAlign = drawValueAboveBar ? NSTextAlignment.Left : NSTextAlignment.Right
+            let textAlign = drawValueAboveBar ? NSTextAlignment.Left : NSTextAlignment.Right
             
             let valueOffsetPlus: CGFloat = 5.0
             var posOffset: CGFloat
@@ -320,7 +320,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                             xPos: valuePoints[j].x + (val >= 0.0 ? posOffset : negOffset),
                             yPos: valuePoints[j].y + yOffset,
                             font: valueFont,
-                            align: .Left,
+                            align: textAlign,
                             color: valueTextColor)
                     }
                 }
@@ -372,7 +372,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                                 xPos: valuePoints[j].x + (val >= 0.0 ? posOffset : negOffset),
                                 yPos: valuePoints[j].y + yOffset,
                                 font: valueFont,
-                                align: .Left,
+                                align: textAlign,
                                 color: valueTextColor)
                         }
                         else
@@ -441,7 +441,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                                     xPos: x,
                                     yPos: y + yOffset,
                                     font: valueFont,
-                                    align: .Left,
+                                    align: textAlign,
                                     color: valueTextColor)
                             }
                         }
