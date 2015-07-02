@@ -150,7 +150,11 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         var labelFont = _yAxis.labelFont
         var labelTextColor = _yAxis.labelTextColor
         
-        for (var i = 0; i < _yAxis.entryCount; i++)
+        var labelWidth = _yAxis.requiredSize().width
+        
+        var modulus = Int(ceil((CGFloat(_yAxis.entryCount) * labelWidth) / (viewPortHandler.contentWidth * viewPortHandler.touchMatrix.a)))
+        
+        for (var i = 0; i < _yAxis.entryCount; i += modulus)
         {
             var text = _yAxis.getFormattedLabel(i)
             
