@@ -44,9 +44,9 @@ public class BarChartDataEntry: ChartDataEntry
         super.init(value: value, xIndex: xIndex, data: data)
     }
 
-    /// Returns the index of the closest value inside the values array (for stacked barchart)
-    /// to the value given as a parameter. The closest value must be higher
-    /// (above) the provided value.
+    /// - returns: the index of the closest value inside the values array
+    /// (for stacked barchart) to the value given as a parameter.
+    /// The closest value must be higher (above) the provided value.
     public func getClosestIndexAbove(value: Double) -> Int
     {
         if (values == nil)
@@ -155,7 +155,7 @@ public class BarChartDataEntry: ChartDataEntry
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
-        var copy = super.copyWithZone(zone) as! BarChartDataEntry
+        let copy = super.copyWithZone(zone) as! BarChartDataEntry
         copy._values = _values
         return copy
     }

@@ -25,25 +25,25 @@ public class HorizontalBarChartRenderer: BarChartRenderer
         super.init(delegate: delegate, animator: animator, viewPortHandler: viewPortHandler)
     }
     
-    internal override func drawDataSet(#context: CGContext, dataSet: BarChartDataSet, index: Int)
+    internal override func drawDataSet(context context: CGContext, dataSet: BarChartDataSet, index: Int)
     {
         CGContextSaveGState(context)
         
-        var barData = delegate!.barChartRendererData(self)
+        let barData = delegate!.barChartRendererData(self)
         
-        var trans = delegate!.barChartRenderer(self, transformerForAxis: dataSet.axisDependency)
+        let trans = delegate!.barChartRenderer(self, transformerForAxis: dataSet.axisDependency)
         
-        var drawBarShadowEnabled: Bool = delegate!.barChartIsDrawBarShadowEnabled(self)
-        var dataSetOffset = (barData.dataSetCount - 1)
-        var groupSpace = barData.groupSpace
-        var groupSpaceHalf = groupSpace / 2.0
-        var barSpace = dataSet.barSpace
-        var barSpaceHalf = barSpace / 2.0
-        var containsStacks = dataSet.isStacked
-        var isInverted = delegate!.barChartIsInverted(self, axis: dataSet.axisDependency)
+        let drawBarShadowEnabled: Bool = delegate!.barChartIsDrawBarShadowEnabled(self)
+        let dataSetOffset = (barData.dataSetCount - 1)
+        let groupSpace = barData.groupSpace
+        let groupSpaceHalf = groupSpace / 2.0
+        let barSpace = dataSet.barSpace
+        let barSpaceHalf = barSpace / 2.0
+        let containsStacks = dataSet.isStacked
+        let isInverted = delegate!.barChartIsInverted(self, axis: dataSet.axisDependency)
         var entries = dataSet.yVals as! [BarChartDataEntry]
-        var barWidth: CGFloat = 0.5
-        var phaseY = _animator.phaseY
+        let barWidth: CGFloat = 0.5
+        let phaseY = _animator.phaseY
         var barRect = CGRect()
         var barShadow = CGRect()
         var y: Double
@@ -51,10 +51,10 @@ public class HorizontalBarChartRenderer: BarChartRenderer
         // do the drawing
         for (var j = 0, count = Int(ceil(CGFloat(dataSet.entryCount) * _animator.phaseX)); j < count; j++)
         {
-            var e = entries[j]
+            let e = entries[j]
             
             // calculate the x-position, depending on datasetcount
-            var x = CGFloat(e.xIndex + j * dataSetOffset) + CGFloat(index)
+            let x = CGFloat(e.xIndex + j * dataSetOffset) + CGFloat(index)
                 + groupSpace * CGFloat(j) + groupSpaceHalf
             var vals = e.values
             
@@ -62,8 +62,8 @@ public class HorizontalBarChartRenderer: BarChartRenderer
             {
                 y = e.value
                 
-                var bottom = x - barWidth + barSpaceHalf
-                var top = x + barWidth - barSpaceHalf
+                let bottom = x - barWidth + barSpaceHalf
+                let top = x + barWidth - barSpaceHalf
                 var right = isInverted ? (y <= 0.0 ? CGFloat(y) : 0) : (y >= 0.0 ? CGFloat(y) : 0)
                 var left = isInverted ? (y >= 0.0 ? CGFloat(y) : 0) : (y <= 0.0 ? CGFloat(y) : 0)
                 
@@ -120,8 +120,8 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                 {
                     y = e.value
                     
-                    var bottom = x - barWidth + barSpaceHalf
-                    var top = x + barWidth - barSpaceHalf
+                    let bottom = x - barWidth + barSpaceHalf
+                    let top = x + barWidth - barSpaceHalf
                     var right = isInverted ? (y <= 0.0 ? CGFloat(y) : 0) : (y >= 0.0 ? CGFloat(y) : 0)
                     var left = isInverted ? (y >= 0.0 ? CGFloat(y) : 0) : (y <= 0.0 ? CGFloat(y) : 0)
                     
@@ -167,8 +167,8 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                         y = value + allNeg
                     }
                     
-                    var bottom = x - barWidth + barSpaceHalf
-                    var top = x + barWidth - barSpaceHalf
+                    let bottom = x - barWidth + barSpaceHalf
+                    let top = x + barWidth - barSpaceHalf
                     var right = y >= 0.0 ? CGFloat(y) : 0.0
                     var left = y <= 0.0 ? CGFloat(y) : 0.0
                     
@@ -211,14 +211,14 @@ public class HorizontalBarChartRenderer: BarChartRenderer
         CGContextRestoreGState(context)
     }
     
-    internal override func prepareBarHighlight(#x: CGFloat, y: Double, barspacehalf: CGFloat, from: Double, trans: ChartTransformer, inout rect: CGRect)
+    internal override func prepareBarHighlight(x x: CGFloat, y: Double, barspacehalf: CGFloat, from: Double, trans: ChartTransformer, inout rect: CGRect)
     {
         let barWidth: CGFloat = 0.5
         
-        var top = x - barWidth + barspacehalf
-        var bottom = x + barWidth - barspacehalf
-        var left = y >= from ? CGFloat(y) : CGFloat(from)
-        var right = y <= from ? CGFloat(y) : CGFloat(from)
+        let top = x - barWidth + barspacehalf
+        let bottom = x + barWidth - barspacehalf
+        let left = y >= from ? CGFloat(y) : CGFloat(from)
+        let right = y <= from ? CGFloat(y) : CGFloat(from)
         
         rect.origin.x = left
         rect.origin.y = top
@@ -228,24 +228,24 @@ public class HorizontalBarChartRenderer: BarChartRenderer
         trans.rectValueToPixelHorizontal(&rect, phaseY: _animator.phaseY)
     }
     
-    public override func getTransformedValues(#trans: ChartTransformer, entries: [BarChartDataEntry], dataSetIndex: Int) -> [CGPoint]
+    public override func getTransformedValues(trans trans: ChartTransformer, entries: [BarChartDataEntry], dataSetIndex: Int) -> [CGPoint]
     {
         return trans.generateTransformedValuesHorizontalBarChart(entries, dataSet: dataSetIndex, barData: delegate!.barChartRendererData(self)!, phaseY: _animator.phaseY)
     }
     
-    public override func drawValues(#context: CGContext)
+    public override func drawValues(context context: CGContext)
     {
         // if values are drawn
         if (passesCheck())
         {
-            var barData = delegate!.barChartRendererData(self)
+            let barData = delegate!.barChartRendererData(self)
             
-            var defaultValueFormatter = delegate!.barChartDefaultRendererValueFormatter(self)
+            let defaultValueFormatter = delegate!.barChartDefaultRendererValueFormatter(self)
             
             var dataSets = barData.dataSets
             
-            var drawValueAboveBar = delegate!.barChartIsDrawValueAboveBarEnabled(self)
-            var drawValuesForWholeStackEnabled = delegate!.barChartIsDrawValuesForWholeStackEnabled(self)
+            let drawValueAboveBar = delegate!.barChartIsDrawValueAboveBarEnabled(self)
+            let drawValuesForWholeStackEnabled = delegate!.barChartIsDrawValuesForWholeStackEnabled(self)
             
             let textAlign = drawValueAboveBar ? NSTextAlignment.Left : NSTextAlignment.Right
             
@@ -255,18 +255,18 @@ public class HorizontalBarChartRenderer: BarChartRenderer
             
             for (var i = 0, count = barData.dataSetCount; i < count; i++)
             {
-                var dataSet = dataSets[i]
+                let dataSet = dataSets[i]
                 
                 if (!dataSet.isDrawValuesEnabled)
                 {
                     continue
                 }
                 
-                var isInverted = delegate!.barChartIsInverted(self, axis: dataSet.axisDependency)
+                let isInverted = delegate!.barChartIsInverted(self, axis: dataSet.axisDependency)
                 
-                var valueFont = dataSet.valueFont
-                var valueTextColor = dataSet.valueTextColor
-                var yOffset = -valueFont.lineHeight / 2.0
+                let valueFont = dataSet.valueFont
+                let valueTextColor = dataSet.valueTextColor
+                let yOffset = -valueFont.lineHeight / 2.0
                 
                 var formatter = dataSet.valueFormatter
                 if (formatter === nil)
@@ -274,7 +274,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                     formatter = defaultValueFormatter
                 }
                 
-                var trans = delegate!.barChartRenderer(self, transformerForAxis: dataSet.axisDependency)
+                let trans = delegate!.barChartRenderer(self, transformerForAxis: dataSet.axisDependency)
                 
                 var entries = dataSet.yVals as! [BarChartDataEntry]
                 
@@ -300,11 +300,11 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                             continue
                         }
                         
-                        var val = entries[j].value
-                        var valueText = formatter!.stringFromNumber(val)!
+                        let val = entries[j].value
+                        let valueText = formatter!.stringFromNumber(val)!
                         
                         // calculate the correct offset depending on the draw position of the value
-                        var valueTextWidth = valueText.sizeWithAttributes([NSFontAttributeName: valueFont]).width
+                        let valueTextWidth = valueText.sizeWithAttributes([NSFontAttributeName: valueFont]).width
                         posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
                         negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
                         
@@ -330,7 +330,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                     
                     for (var j = 0, count = Int(ceil(CGFloat(valuePoints.count) * _animator.phaseX)); j < count; j++)
                     {
-                        var e = entries[j]
+                        let e = entries[j]
                         
                         var vals = e.values
                         
@@ -352,11 +352,11 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                                 continue
                             }
                             
-                            var val = e.value
-                            var valueText = formatter!.stringFromNumber(val)!
+                            let val = e.value
+                            let valueText = formatter!.stringFromNumber(val)!
                             
                             // calculate the correct offset depending on the draw position of the value
-                            var valueTextWidth = valueText.sizeWithAttributes([NSFontAttributeName: valueFont]).width
+                            let valueTextWidth = valueText.sizeWithAttributes([NSFontAttributeName: valueFont]).width
                             posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
                             negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
                             
@@ -404,11 +404,11 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                             
                             for (var k = 0; k < transformed.count; k++)
                             {
-                                var val = vals[k]
-                                var valueText = formatter!.stringFromNumber(val)!
+                                let val = vals[k]
+                                let valueText = formatter!.stringFromNumber(val)!
                                 
                                 // calculate the correct offset depending on the draw position of the value
-                                var valueTextWidth = valueText.sizeWithAttributes([NSFontAttributeName: valueFont]).width
+                                let valueTextWidth = valueText.sizeWithAttributes([NSFontAttributeName: valueFont]).width
                                 posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
                                 negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
                                 
@@ -418,8 +418,8 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                                     negOffset = -negOffset - valueTextWidth
                                 }
                                 
-                                var x = transformed[k].x + (val >= 0 ? posOffset : negOffset)
-                                var y = valuePoints[j].y
+                                let x = transformed[k].x + (val >= 0 ? posOffset : negOffset)
+                                let y = valuePoints[j].y
                                 
                                 if (!viewPortHandler.isInBoundsX(x))
                                 {
@@ -453,7 +453,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
     
     internal override func passesCheck() -> Bool
     {
-        var barData = delegate!.barChartRendererData(self)
+        let barData = delegate!.barChartRendererData(self)
         
         if (barData === nil)
         {

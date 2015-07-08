@@ -18,11 +18,13 @@ import UIKit
 public class CandleChartDataSet: BarLineScatterCandleChartDataSet
 {
     /// the width of the candle-shadow-line in pixels. 
-    /// :default: 3.0
+    /// 
+    /// **default**: 3.0
     public var shadowWidth = CGFloat(1.5)
 
     /// the space between the candle entries
-    /// :default: 0.1 (10%)
+    /// 
+    /// **default**: 0.1 (10%)
     private var _bodySpace = CGFloat(0.1)
     
     /// the color of the shadow line
@@ -45,7 +47,7 @@ public class CandleChartDataSet: BarLineScatterCandleChartDataSet
         super.init(yVals: yVals, label: label)
     }
     
-    internal override func calcMinMax(#start: Int, end: Int)
+    internal override func calcMinMax(start start: Int, end: Int)
     {
         if (yVals.count == 0)
         {
@@ -73,7 +75,7 @@ public class CandleChartDataSet: BarLineScatterCandleChartDataSet
         
         for (var i = start + 1; i <= endValue; i++)
         {
-            var e = entries[i]
+            let e = entries[i]
             
             if (e.low < _yMin)
             {
@@ -88,7 +90,7 @@ public class CandleChartDataSet: BarLineScatterCandleChartDataSet
     }
 
     /// the space that is left out on the left and right side of each candle,
-    /// :default: 0.1 (10%), max 0.45, min 0.0
+    /// **default**: 0.1 (10%), max 0.45, min 0.0
     public var bodySpace: CGFloat
     {
         set
