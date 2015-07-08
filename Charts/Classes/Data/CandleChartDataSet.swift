@@ -62,7 +62,7 @@ public class CandleChartDataSet: BarLineScatterCandleChartDataSet
         }
         else
         {
-            endValue = end
+            endValue = end > (entries.count - 1) ? (entries.count - 1) : end
         }
         
         _lastStart = start
