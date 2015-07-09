@@ -323,7 +323,7 @@ public class ChartDataSet: NSObject
     /// - parameter e: the entry to add
     public func addEntryOrdered(e: ChartDataEntry)
     {
-        var val = e.value
+        let val = e.value
         
         if (_yVals == nil)
         {
