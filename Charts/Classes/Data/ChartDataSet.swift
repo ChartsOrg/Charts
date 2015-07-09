@@ -279,8 +279,10 @@ public class ChartDataSet: NSObject
     
     /// Returns the number of entries this DataSet holds.
     public var valueCount: Int { return _yVals.count; }
-
-    /// Adds an entry to the end of the yVals array
+    
+    /// Adds an Entry to the DataSet dynamically.
+    /// Entries are added to the end of the list.
+    /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
     /// :param: e the entry to add
     public func addEntry(e: ChartDataEntry)
     {
@@ -313,7 +315,9 @@ public class ChartDataSet: NSObject
         _yVals.append(e)
     }
     
-    /// Adds an entry, and inserting it at the appropriate index in the yVals array, according to it's x-index.
+    /// Adds an Entry to the DataSet dynamically.
+    /// Entries are added to their appropriate index respective to it's x-index.
+    /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
     /// :param: e the entry to add
     public func addEntryOrdered(e: ChartDataEntry)
     {
