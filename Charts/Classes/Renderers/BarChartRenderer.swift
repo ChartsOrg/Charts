@@ -251,14 +251,14 @@ public class BarChartRenderer: ChartDataRendererBase
     }
     
     /// Prepares a bar for being highlighted.
-    internal func prepareBarHighlight(#x: CGFloat, y: Double, barspacehalf: CGFloat, from: Double, trans: ChartTransformer, inout rect: CGRect)
+    internal func prepareBarHighlight(#x: CGFloat, y1: Double, y2: Double, barspacehalf: CGFloat, trans: ChartTransformer, inout rect: CGRect)
     {
         let barWidth: CGFloat = 0.5
         
         var left = x - barWidth + barspacehalf
         var right = x + barWidth - barspacehalf
-        var top = y >= from ? CGFloat(y) : CGFloat(from)
-        var bottom = y <= from ? CGFloat(y) : CGFloat(from)
+        var top = CGFloat(y1)
+        var bottom = CGFloat(y2)
         
         rect.origin.x = left
         rect.origin.y = top
@@ -501,12 +501,22 @@ public class BarChartRenderer: ChartDataRendererBase
 
                 // calculate the correct x-position
                 var x = CGFloat(index * setCount + dataSetIndex) + groupspace / 2.0 + groupspace * CGFloat(index)
-                var y = isStack ? e.values[h.stackIndex] + e.getBelowSum(h.stackIndex) : e.value
                 
-                // this is where the bar starts
-                var from = isStack ? e.getBelowSum(h.stackIndex) : 0.0
+                let y1: Double
+                let y2: Double
+                
+                if (isStack)
+                {
+                    y1 = e.positiveSum
+                    y2 = -e.negativeSum
+                }
+                else
+                {
+                    y1 = e.value
+                    y2 = 0.0
+                }
 
-                prepareBarHighlight(x: x, y: y, barspacehalf: barspaceHalf, from: from, trans: trans, rect: &barRect)
+                prepareBarHighlight(x: x, y1: y1, y2: y2, barspacehalf: barspaceHalf, trans: trans, rect: &barRect)
                 
                 CGContextFillRect(context, barRect)
                 
@@ -528,12 +538,14 @@ public class BarChartRenderer: ChartDataRendererBase
                     var arrowWidth = set.barSpace / 2.0
                     var arrowHeight = arrowWidth * xToYRel
                     
+                    let yArrow = y1 > -y2 ? y1 : y1;
+                    
                     _highlightArrowPtsBuffer[0].x = CGFloat(x) + 0.4
-                    _highlightArrowPtsBuffer[0].y = CGFloat(y) + offsetY
+                    _highlightArrowPtsBuffer[0].y = CGFloat(yArrow) + offsetY
                     _highlightArrowPtsBuffer[1].x = CGFloat(x) + 0.4 + arrowWidth
-                    _highlightArrowPtsBuffer[1].y = CGFloat(y) + offsetY - arrowHeight
+                    _highlightArrowPtsBuffer[1].y = CGFloat(yArrow) + offsetY - arrowHeight
                     _highlightArrowPtsBuffer[2].x = CGFloat(x) + 0.4 + arrowWidth
-                    _highlightArrowPtsBuffer[2].y = CGFloat(y) + offsetY + arrowHeight
+                    _highlightArrowPtsBuffer[2].y = CGFloat(yArrow) + offsetY + arrowHeight
                     
                     trans.pointValuesToPixel(&_highlightArrowPtsBuffer)
                     
