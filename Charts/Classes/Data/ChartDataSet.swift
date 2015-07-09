@@ -280,6 +280,8 @@ public class ChartDataSet: NSObject
     /// Returns the number of entries this DataSet holds.
     public var valueCount: Int { return _yVals.count; }
 
+    /// Adds an entry to the end of the yVals array
+    /// :param: e the entry to add
     public func addEntry(e: ChartDataEntry)
     {
         var val = e.value
@@ -307,6 +309,50 @@ public class ChartDataSet: NSObject
         }
         
         _yValueSum += val
+        
+        _yVals.append(e)
+    }
+    
+    /// Adds an entry, and inserting it at the appropriate index in the yVals array, according to it's x-index.
+    /// :param: e the entry to add
+    public func addEntryOrdered(e: ChartDataEntry)
+    {
+        var val = e.value
+        
+        if (_yVals == nil)
+        {
+            _yVals = [ChartDataEntry]()
+        }
+        
+        if (_yVals.count == 0)
+        {
+            _yMax = val
+            _yMin = val
+        }
+        else
+        {
+            if (_yMax < val)
+            {
+                _yMax = val
+            }
+            if (_yMin > val)
+            {
+                _yMin = val
+            }
+        }
+        
+        _yValueSum += val
+        
+        if _yVals.last?.xIndex > e.xIndex
+        {
+            var closestIndex = entryIndex(xIndex: e.xIndex)
+            if _yVals[closestIndex].xIndex < e.xIndex
+            {
+                closestIndex++
+            }
+            _yVals.insert(e, atIndex: closestIndex)
+            return;
+        }
         
         _yVals.append(e)
     }
