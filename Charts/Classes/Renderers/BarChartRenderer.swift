@@ -530,10 +530,7 @@ public class BarChartRenderer: ChartDataRendererBase
                     CGContextSaveGState(context)
                     
                     var pixelToValueMatrix = trans.pixelToValueMatrix
-                    var onePoint = CGPoint(x: 100.0, y: 100.0)
-                    onePoint.x = onePoint.x * sqrt(pixelToValueMatrix.a * pixelToValueMatrix.a + pixelToValueMatrix.c * pixelToValueMatrix.c)
-                    onePoint.y = onePoint.y * sqrt(pixelToValueMatrix.b * pixelToValueMatrix.b + pixelToValueMatrix.d * pixelToValueMatrix.d)
-                    var xToYRel = abs(onePoint.y / onePoint.x)
+                    var xToYRel = abs(sqrt(pixelToValueMatrix.b * pixelToValueMatrix.b + pixelToValueMatrix.d * pixelToValueMatrix.d) / sqrt(pixelToValueMatrix.a * pixelToValueMatrix.a + pixelToValueMatrix.c * pixelToValueMatrix.c))
                     
                     var arrowWidth = set.barSpace / 2.0
                     var arrowHeight = arrowWidth * xToYRel
