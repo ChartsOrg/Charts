@@ -74,8 +74,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         super.init(frame: frame)
     }
     
-    public required init(coder aDecoder: NSCoder)
-    {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
