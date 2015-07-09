@@ -42,6 +42,7 @@
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"},
                      @{@"key": @"togglePinchZoom", @"label": @"Toggle PinchZoom"},
                      @{@"key": @"toggleAutoScaleMinMax", @"label": @"Toggle auto scale min/max"},
+                     @{@"key": @"toggleMakeShadowSameColorAsCandle", @"label": @"Toggle shadow same color"},
                      ];
     
     _chartView.delegate = self;
@@ -206,6 +207,16 @@
     if ([key isEqualToString:@"toggleAutoScaleMinMax"])
     {
         _chartView.autoScaleMinMaxEnabled = !_chartView.isAutoScaleMinMaxEnabled;
+        [_chartView notifyDataSetChanged];
+    }
+    
+    if ([key isEqualToString:@"toggleMakeShadowSameColorAsCandle"])
+    {
+        for (CandleChartDataSet *set in _chartView.data.dataSets)
+        {
+            set.makeShadowSameColorAsCandle = !set.makeShadowSameColorAsCandle;
+        }
+        
         [_chartView notifyDataSetChanged];
     }
 }
