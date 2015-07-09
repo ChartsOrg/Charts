@@ -29,7 +29,7 @@ public class CandleChartDataSet: BarLineScatterCandleChartDataSet
     public var shadowColor: UIColor?
     
     /// use candle color for the shadow
-    public var makeShadowSameColorAsCandle = false
+    public var shadowColorSameAsCandle = false
     
     /// color for open <= close
     public var decreasingColor: UIColor?
@@ -112,6 +112,9 @@ public class CandleChartDataSet: BarLineScatterCandleChartDataSet
             return _bodySpace
         }
     }
+    
+    /// Is the shadow color same as the candle color?
+    public var isShadowColorSameAsCandle: Bool { return shadowColorSameAsCandle }
     
     /// Are increasing values drawn as filled?
     public var isIncreasingFilled: Bool { return increasingFilled; }

@@ -99,7 +99,7 @@ public class CandleStickChartRenderer: ChartDataRendererBase
             // draw the shadow
             
             var shadowColor: UIColor! = nil
-            if (dataSet.makeShadowSameColorAsCandle)
+            if (dataSet.shadowColorSameAsCandle)
             {
                 if (e.open > e.close)
                 {
