@@ -908,6 +908,10 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     {
         var matrix = _viewPortHandler.zoomIn(x: self.bounds.size.width / 2.0, y: -(self.bounds.size.height / 2.0))
         _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
+        
+        // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
+        calculateOffsets()
+        setNeedsDisplay()
     }
 
     /// Zooms out by 0.7, from the charts center. center.
@@ -915,6 +919,10 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     {
         var matrix = _viewPortHandler.zoomOut(x: self.bounds.size.width / 2.0, y: -(self.bounds.size.height / 2.0))
         _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
+        
+        // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
+        calculateOffsets()
+        setNeedsDisplay()
     }
 
     /// Zooms in or out by the given scale factor. x and y are the coordinates
