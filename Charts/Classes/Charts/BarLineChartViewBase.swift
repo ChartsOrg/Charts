@@ -607,11 +607,16 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
                 }
             }
         }
-        else if (recognizer.state == UIGestureRecognizerState.Ended || recognizer.state == UIGestureRecognizerState.Cancelled)
+        else if (recognizer.state == UIGestureRecognizerState.Ended ||
+            recognizer.state == UIGestureRecognizerState.Cancelled)
         {
             if (_isScaling)
             {
                 _isScaling = false
+                
+                // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
+                calculateOffsets()
+                setNeedsDisplay()
             }
         }
         else if (recognizer.state == UIGestureRecognizerState.Changed)
@@ -811,6 +816,10 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         if (abs(_decelerationVelocity.x) < 0.001 && abs(_decelerationVelocity.y) < 0.001)
         {
             stopDeceleration()
+            
+            // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
+            calculateOffsets()
+            setNeedsDisplay()
         }
     }
     
@@ -918,14 +927,22 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     public func zoom(scaleX: CGFloat, scaleY: CGFloat, x: CGFloat, y: CGFloat)
     {
         var matrix = _viewPortHandler.zoom(scaleX: scaleX, scaleY: scaleY, x: x, y: -y)
-        _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
+        _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
+        
+        // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
+        calculateOffsets()
+        setNeedsDisplay()
     }
 
     /// Resets all zooming and dragging and makes the chart fit exactly it's bounds.
     public func fitScreen()
     {
         var matrix = _viewPortHandler.fitScreen()
-        _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
+        _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
+        
+        // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
+        calculateOffsets()
+        setNeedsDisplay()
     }
     
     /// Sets the minimum scale value to which can be zoomed out. 1 = fitScreen
