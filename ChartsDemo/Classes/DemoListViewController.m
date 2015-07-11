@@ -30,6 +30,8 @@
 #import "ColoredLineChartViewController.h"
 #import "SinusBarChartViewController.h"
 #import "BubbleChartViewController.h"
+#import "IndependentScatterChartViewController.h"
+
 
 @interface DemoListViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -80,6 +82,11 @@
                           @"title": @"Scatter Chart",
                           @"subtitle": @"A simple demonstration of the scatter chart.",
                           @"class": ScatterChartViewController.class
+                          },
+                      @{
+                          @"title": @"Independent Scatter Chart",
+                          @"subtitle": @"A simple demonstration of the scatter chart where XY pairs need not be ordered.",
+                          @"class": IndependentScatterChartViewController.class
                           },
                       @{
                           @"title": @"Bubble Chart",

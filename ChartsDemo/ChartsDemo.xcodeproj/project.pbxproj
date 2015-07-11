@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1AC4377A1B50999600F0C9B3 /* IndependentScatterChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AC437781B50999600F0C9B3 /* IndependentScatterChartViewController.m */; };
+		1AC4377B1B50999600F0C9B3 /* IndependentScatterChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AC437791B50999600F0C9B3 /* IndependentScatterChartViewController.xib */; };
 		55E356501ADC638F00A57971 /* BubbleChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55E3564D1ADC638F00A57971 /* BubbleChartViewController.xib */; };
 		55E356511ADC638F00A57971 /* BubbleChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E3564F1ADC638F00A57971 /* BubbleChartViewController.m */; };
 		5B0CC7851ABB875400665592 /* PieChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CC7831ABB875400665592 /* PieChartViewController.m */; };
@@ -98,6 +100,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1AC437771B50999600F0C9B3 /* IndependentScatterChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndependentScatterChartViewController.h; sourceTree = "<group>"; };
+		1AC437781B50999600F0C9B3 /* IndependentScatterChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndependentScatterChartViewController.m; sourceTree = "<group>"; };
+		1AC437791B50999600F0C9B3 /* IndependentScatterChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IndependentScatterChartViewController.xib; sourceTree = "<group>"; };
 		55E3564D1ADC638F00A57971 /* BubbleChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BubbleChartViewController.xib; sourceTree = "<group>"; };
 		55E3564E1ADC638F00A57971 /* BubbleChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BubbleChartViewController.h; sourceTree = "<group>"; };
 		55E3564F1ADC638F00A57971 /* BubbleChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BubbleChartViewController.m; sourceTree = "<group>"; };
@@ -316,6 +321,9 @@
 				5BDEDC3E1ABB7F73007D3A60 /* HorizontalBarChartViewController.h */,
 				5BDEDC3F1ABB7F73007D3A60 /* HorizontalBarChartViewController.m */,
 				5BDEDC401ABB7F73007D3A60 /* HorizontalBarChartViewController.xib */,
+				1AC437771B50999600F0C9B3 /* IndependentScatterChartViewController.h */,
+				1AC437781B50999600F0C9B3 /* IndependentScatterChartViewController.m */,
+				1AC437791B50999600F0C9B3 /* IndependentScatterChartViewController.xib */,
 				5BD8F0711AB89CE500566E05 /* LineChart1ViewController.h */,
 				5BD8F0721AB89CE500566E05 /* LineChart1ViewController.m */,
 				5BD8F0731AB89CE500566E05 /* LineChart1ViewController.xib */,
@@ -432,6 +440,7 @@
 				5B4316361AB8D8B70009FCAA /* Default-667h@2x.png in Resources */,
 				5BEAED2D1ABC160F0013F194 /* CandleStickChartViewController.xib in Resources */,
 				5BD47E611ABB3C91008FCEC6 /* LineChart2ViewController.xib in Resources */,
+				1AC4377B1B50999600F0C9B3 /* IndependentScatterChartViewController.xib in Resources */,
 				5BEAED131ABBFB2B0013F194 /* AnotherBarChartViewController.xib in Resources */,
 				5BEAED411ABC1AC60013F194 /* SinusBarChartViewController.xib in Resources */,
 				5BEAED371ABC192F0013F194 /* RadarChartViewController.xib in Resources */,
@@ -490,6 +499,7 @@
 				5B57BBB51A9B26AA0036A6CC /* main.m in Sources */,
 				5BEAED361ABC192F0013F194 /* RadarChartViewController.m in Sources */,
 				5B9624411B38608C007763E2 /* NegativeStackedBarChartViewController.m in Sources */,
+				1AC4377A1B50999600F0C9B3 /* IndependentScatterChartViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
