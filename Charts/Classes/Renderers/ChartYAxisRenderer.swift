@@ -230,6 +230,12 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             pt.x = fixedPosition
             pt.y += offset
             
+            if (pt.y < viewPortHandler.contentRect.origin.y ||
+                pt.y > viewPortHandler.contentRect.height + viewPortHandler.contentRect.origin.y)
+            {
+                continue
+            }
+            
             ChartUtils.drawText(context: context, text: text, point: pt, align: textAlign, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
         }
     }
