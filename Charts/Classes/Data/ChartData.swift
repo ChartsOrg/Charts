@@ -603,42 +603,61 @@ public class ChartData: NSObject
         if (_dataSets != nil && _dataSets.count > dataSetIndex && dataSetIndex >= 0)
         {
             var val = e.value
+            var set = _dataSets[dataSetIndex]
             
-            _yValCount += 1
-            _yValueSum += val
-            
-            if (_yMax < val)
-            {
-                _yMax = val
-            }
-            if (_yMin > val)
+            if (_yValCount == 0)
             {
                 _yMin = val
-            }
-            
-            var set = _dataSets[dataSetIndex]
-            if (set.axisDependency == .Left)
-            {
-                if (_leftAxisMax < e.value)
+                _yMax = val
+                
+                if (set.axisDependency == .Left)
                 {
                     _leftAxisMax = e.value
-                }
-                if (_leftAxisMin > e.value)
-                {
                     _leftAxisMin = e.value
+                }
+                else
+                {
+                    _rightAxisMax = e.value
+                    _rightAxisMin = e.value
                 }
             }
             else
             {
-                if (_rightAxisMax < e.value)
+                if (_yMax < val)
                 {
-                    _rightAxisMax = e.value
+                    _yMax = val
                 }
-                if (_rightAxisMin > e.value)
+                if (_yMin > val)
                 {
-                    _rightAxisMin = e.value
+                    _yMin = val
+                }
+                
+                if (set.axisDependency == .Left)
+                {
+                    if (_leftAxisMax < e.value)
+                    {
+                        _leftAxisMax = e.value
+                    }
+                    if (_leftAxisMin > e.value)
+                    {
+                        _leftAxisMin = e.value
+                    }
+                }
+                else
+                {
+                    if (_rightAxisMax < e.value)
+                    {
+                        _rightAxisMax = e.value
+                    }
+                    if (_rightAxisMin > e.value)
+                    {
+                        _rightAxisMin = e.value
+                    }
                 }
             }
+            
+            _yValCount += 1
+            _yValueSum += val
             
             handleEmptyAxis(getFirstLeft(), firstRight: getFirstRight())
             
@@ -686,6 +705,11 @@ public class ChartData: NSObject
         }
         
         var entry = _dataSets[dataSetIndex].entryForXIndex(xIndex)
+        
+        if (entry?.xIndex != xIndex)
+        {
+            return false
+        }
         
         return removeEntry(entry, dataSetIndex: dataSetIndex)
     }

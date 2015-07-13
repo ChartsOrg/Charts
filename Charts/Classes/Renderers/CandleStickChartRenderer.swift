@@ -98,8 +98,25 @@ public class CandleStickChartRenderer: ChartDataRendererBase
             
             // draw the shadow
             
-            CGContextSetStrokeColorWithColor(context, (dataSet.shadowColor ?? dataSet.colorAt(j)).CGColor)
-
+            var shadowColor: UIColor! = nil
+            if (dataSet.shadowColorSameAsCandle)
+            {
+                if (e.open > e.close)
+                {
+                    shadowColor = dataSet.decreasingColor ?? dataSet.colorAt(j)
+                }
+                else if (e.open < e.close)
+                {
+                    shadowColor = dataSet.increasingColor ?? dataSet.colorAt(j)
+                }
+            }
+            
+            if (shadowColor === nil)
+            {
+                shadowColor = dataSet.shadowColor ?? dataSet.colorAt(j);
+            }
+            
+            CGContextSetStrokeColorWithColor(context, shadowColor.CGColor)
             CGContextStrokeLineSegments(context, _shadowPoints, 2)
             
             // calculate the body
@@ -112,9 +129,9 @@ public class CandleStickChartRenderer: ChartDataRendererBase
             trans.rectValueToPixel(&_bodyRect)
             
             // draw body differently for increasing and decreasing entry
-            if (e.open >= e.close)
+            
+            if (e.open > e.close)
             {
-                
                 var color = dataSet.decreasingColor ?? dataSet.colorAt(j)
                 
                 if (dataSet.isDecreasingFilled)
@@ -146,7 +163,7 @@ public class CandleStickChartRenderer: ChartDataRendererBase
             }
             else
             {
-                CGContextSetStrokeColorWithColor(context, UIColor.blackColor().CGColor)
+                CGContextSetStrokeColorWithColor(context, shadowColor.CGColor)
                 CGContextStrokeRect(context, _bodyRect)
             }
         }
