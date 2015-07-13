@@ -69,7 +69,19 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         }
         else
         {
-            var first = ceil(Double(yMin) / interval) * interval
+            var rawValue = Double(yMin) / interval
+            
+            var first: Double;
+            
+            // if raw value negative, we need to use floor rather than ceil
+            if (rawValue < 0)
+            {
+                first = floor(rawValue) * interval
+            }
+            else
+            {
+                first = ceil(Double(yMin) / interval) * interval
+            }
             
             if (first == 0.0)
             { // Fix for IEEE negative zero case (Where value == -0.0, and 0.0 == -0.0)
@@ -104,6 +116,8 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         }
         
         _yAxis.axisMaximum = _yAxis.entries[_yAxis.entryCount - 1]
+        // set axisMinimum to be the minimum value.
+        _yAxis.axisMinimum = _yAxis.entries[0]
         _yAxis.axisRange = abs(_yAxis.axisMaximum - _yAxis.axisMinimum)
     }
     
