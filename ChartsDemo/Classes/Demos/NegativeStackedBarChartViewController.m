@@ -26,7 +26,7 @@
 {
     [super viewDidLoad];
     
-    self.title = @"Horizontal Bar Chart";
+    self.title = @"Stacked Bar Chart Negative";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
