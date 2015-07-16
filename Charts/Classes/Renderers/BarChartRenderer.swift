@@ -151,8 +151,9 @@ public class BarChartRenderer: ChartDataRendererBase
             }
             else
             {
-                var allPos = e.positiveSum
-                var allNeg = e.negativeSum
+                var posY = 0.0
+                var negY = 0.0
+                var y2 = 0.0
                 
                 // if drawing the bar shadow is enabled
                 if (drawBarShadowEnabled)
@@ -197,29 +198,25 @@ public class BarChartRenderer: ChartDataRendererBase
                     
                     if value >= 0.0
                     {
-                        allPos -= value
-                        y = value + allPos
+                        y = posY
+                        y2 = posY + value
+                        posY = y2
                     }
                     else
                     {
-                        allNeg -= abs(value)
-                        y = value + allNeg
+                        y = negY
+                        y2 = negY + value
+                        negY = y2
                     }
                     
                     var left = x - barWidth + barSpaceHalf
                     var right = x + barWidth - barSpaceHalf
-                    var top = y >= 0.0 ? CGFloat(y) : 0
-                    var bottom = y <= 0.0 ? CGFloat(y) : 0
+                    var top = y >= y2 ? CGFloat(y) : CGFloat(y2)
+                    var bottom = y <= y2 ? CGFloat(y) : CGFloat(y2)
                     
                     // multiply the height of the rect with the phase
-                    if (top > 0)
-                    {
-                        top *= phaseY
-                    }
-                    else
-                    {
-                        bottom *= phaseY
-                    }
+                    top *= phaseY
+                    bottom *= phaseY
                     
                     barRect.origin.x = left
                     barRect.size.width = right - left
@@ -385,8 +382,9 @@ public class BarChartRenderer: ChartDataRendererBase
                         else
                         {
                             var transformed = [CGPoint]()
-                            var allPos = e.positiveSum
-                            var allNeg = e.negativeSum
+                            
+                            var posY = 0.0
+                            var negY = 0.0
                             
                             for (var k = 0; k < vals.count; k++)
                             {
@@ -395,13 +393,13 @@ public class BarChartRenderer: ChartDataRendererBase
                                 
                                 if value >= 0.0
                                 {
-                                    allPos -= value
-                                    y = value + allPos
+                                    posY += value
+                                    y = posY
                                 }
                                 else
                                 {
-                                    allNeg -= abs(value)
-                                    y = value + allNeg
+                                    negY += value
+                                    y = negY
                                 }
                                 
                                 transformed.append(CGPoint(x: 0.0, y: CGFloat(y) * _animator.phaseY))
