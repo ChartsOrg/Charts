@@ -325,12 +325,30 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         // consider starting at zero (0)
         if (_leftAxis.isStartAtZeroEnabled)
         {
-            _leftAxis.axisMinimum = 0.0
+            if _leftAxis.axisMinimum < 0.0 && _leftAxis.axisMaximum < 0.0
+            {
+                // If the values are all negative, let's stay in the negative zone
+                _leftAxis.axisMaximum = 0.0
+            }
+            else
+            {
+                // We have positive values, stay in the positive zone
+                _leftAxis.axisMinimum = 0.0
+            }
         }
         
         if (_rightAxis.isStartAtZeroEnabled)
         {
-            _rightAxis.axisMinimum = 0.0
+            if _rightAxis.axisMinimum < 0.0 && _rightAxis.axisMaximum < 0.0
+            {
+                // If the values are all negative, let's stay in the negative zone
+                _rightAxis.axisMaximum = 0.0
+            }
+            else
+            {
+                // We have positive values, stay in the positive zone
+                _rightAxis.axisMinimum = 0.0
+            }
         }
         
         _leftAxis.axisRange = abs(_leftAxis.axisMaximum - _leftAxis.axisMinimum)
