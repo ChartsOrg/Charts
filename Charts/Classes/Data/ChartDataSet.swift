@@ -96,7 +96,7 @@ public class ChartDataSet: NSObject
         
         var endValue : Int
         
-        if end == 0
+        if end == 0 || end >= _yVals.count
         {
             endValue = _yVals.count - 1
         }
