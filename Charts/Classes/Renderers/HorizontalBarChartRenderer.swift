@@ -186,14 +186,14 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                     
                     trans.rectValueToPixel(&barRect)
                     
-                    if (k == 0 && !viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width))
+                    if (k == 0 && !viewPortHandler.isInBoundsTop(barRect.origin.y + barRect.size.height))
                     {
                         // Skip to next bar
                         break
                     }
                     
                     // avoid drawing outofbounds values
-                    if (!viewPortHandler.isInBoundsRight(barRect.origin.x))
+                    if (!viewPortHandler.isInBoundsBottom(barRect.origin.y))
                     {
                         break
                     }
