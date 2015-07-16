@@ -93,8 +93,8 @@ public class BarChartRenderer: ChartDataRendererBase
             var e = entries[j]
             
             // calculate the x-position, depending on datasetcount
-            var x = CGFloat(e.xIndex + j * dataSetOffset) + CGFloat(index)
-                + groupSpace * CGFloat(j) + groupSpaceHalf
+            var x = CGFloat(e.xIndex + e.xIndex * dataSetOffset) + CGFloat(index)
+                + groupSpace * CGFloat(e.xIndex) + groupSpaceHalf
             var vals = e.values
             
             if (!containsStacks || vals == nil)
