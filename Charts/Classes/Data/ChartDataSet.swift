@@ -109,7 +109,7 @@ public class ChartDataSet: NSObject
         _lastEnd = endValue
         
         _yMin = DBL_MAX
-        _yMax = -DBL_MIN
+        _yMax = -DBL_MAX
         
         for (var i = start; i <= endValue; i++)
         {
