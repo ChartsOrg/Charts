@@ -445,9 +445,8 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         {
             var bd = _data as! BarChartData
             var space = bd.groupSpace
-            var j = _data.getDataSetByIndex(dataSetIndex)!.entryIndex(entry: entry, isEqual: true)
             
-            var x = CGFloat(j * (_data.dataSetCount - 1) + dataSetIndex) + space * CGFloat(j) + space / 2.0
+            var x = CGFloat(entry.xIndex * (_data.dataSetCount - 1) + dataSetIndex) + space * CGFloat(entry.xIndex) + space / 2.0
             
             xPos += x
         }
