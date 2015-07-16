@@ -28,7 +28,6 @@ public protocol BarChartRendererDelegate
     func barChartRendererChartXMin(renderer: BarChartRenderer) -> Double
     func barChartIsDrawHighlightArrowEnabled(renderer: BarChartRenderer) -> Bool
     func barChartIsDrawValueAboveBarEnabled(renderer: BarChartRenderer) -> Bool
-    func barChartIsDrawValuesForWholeStackEnabled(renderer: BarChartRenderer) -> Bool
     func barChartIsDrawBarShadowEnabled(renderer: BarChartRenderer) -> Bool
     func barChartIsInverted(renderer: BarChartRenderer, axis: ChartYAxis.AxisDependency) -> Bool
 }
@@ -93,8 +92,8 @@ public class BarChartRenderer: ChartDataRendererBase
             var e = entries[j]
             
             // calculate the x-position, depending on datasetcount
-            var x = CGFloat(e.xIndex + j * dataSetOffset) + CGFloat(index)
-                + groupSpace * CGFloat(j) + groupSpaceHalf
+            var x = CGFloat(e.xIndex + e.xIndex * dataSetOffset) + CGFloat(index)
+                + groupSpace * CGFloat(e.xIndex) + groupSpaceHalf
             var vals = e.values
             
             if (!containsStacks || vals == nil)
@@ -151,8 +150,9 @@ public class BarChartRenderer: ChartDataRendererBase
             }
             else
             {
-                var allPos = e.positiveSum
-                var allNeg = e.negativeSum
+                var posY = 0.0
+                var negY = -e.negativeSum
+                var yStart = 0.0
                 
                 // if drawing the bar shadow is enabled
                 if (drawBarShadowEnabled)
@@ -191,35 +191,40 @@ public class BarChartRenderer: ChartDataRendererBase
                 }
                 
                 // fill the stack
-                for (var k = 0; k < vals.count; k++)
+                for (var k = 0; k < vals!.count; k++)
                 {
-                    let value = vals[k]
+                    let value = vals![k]
                     
                     if value >= 0.0
                     {
-                        allPos -= value
-                        y = value + allPos
+                        y = posY
+                        yStart = posY + value
+                        posY = yStart
                     }
                     else
                     {
-                        allNeg -= abs(value)
-                        y = value + allNeg
+                        y = negY
+                        yStart = negY + abs(value)
+                        negY += abs(value)
                     }
                     
                     var left = x - barWidth + barSpaceHalf
                     var right = x + barWidth - barSpaceHalf
-                    var top = y >= 0.0 ? CGFloat(y) : 0
-                    var bottom = y <= 0.0 ? CGFloat(y) : 0
-                    
-                    // multiply the height of the rect with the phase
-                    if (top > 0)
+                    var top: CGFloat, bottom: CGFloat
+                    if isInverted
                     {
-                        top *= phaseY
+                        bottom = y >= yStart ? CGFloat(y) : CGFloat(yStart)
+                        top = y <= yStart ? CGFloat(y) : CGFloat(yStart)
                     }
                     else
                     {
-                        bottom *= phaseY
+                        top = y >= yStart ? CGFloat(y) : CGFloat(yStart)
+                        bottom = y <= yStart ? CGFloat(y) : CGFloat(yStart)
                     }
+                    
+                    // multiply the height of the rect with the phase
+                    top *= phaseY
+                    bottom *= phaseY
                     
                     barRect.origin.x = left
                     barRect.size.width = right - left
@@ -280,14 +285,13 @@ public class BarChartRenderer: ChartDataRendererBase
             var dataSets = barData.dataSets
             
             var drawValueAboveBar = delegate!.barChartIsDrawValueAboveBarEnabled(self)
-            var drawValuesForWholeStackEnabled = delegate!.barChartIsDrawValuesForWholeStackEnabled(self)
             
             var posOffset: CGFloat
             var negOffset: CGFloat
             
             for (var i = 0, count = barData.dataSetCount; i < count; i++)
             {
-                var dataSet = dataSets[i]
+                var dataSet = dataSets[i] as! BarChartDataSet
                 
                 if (!dataSet.isDrawValuesEnabled)
                 {
@@ -297,7 +301,7 @@ public class BarChartRenderer: ChartDataRendererBase
                 var isInverted = delegate!.barChartIsInverted(self, axis: dataSet.axisDependency)
                 
                 // calculate the correct offset depending on the draw position of the value
-                let valueOffsetPlus: CGFloat = 5.0
+                let valueOffsetPlus: CGFloat = 4.5
                 var valueFont = dataSet.valueFont
                 var valueTextHeight = valueFont.lineHeight
                 posOffset = (drawValueAboveBar ? -(valueTextHeight + valueOffsetPlus) : valueOffsetPlus)
@@ -324,7 +328,7 @@ public class BarChartRenderer: ChartDataRendererBase
                 var valuePoints = getTransformedValues(trans: trans, entries: entries, dataSetIndex: i)
                 
                 // if only single values are drawn (sum)
-                if (!drawValuesForWholeStackEnabled)
+                if (!dataSet.isStacked)
                 {
                     for (var j = 0, count = Int(ceil(CGFloat(valuePoints.count) * _animator.phaseX)); j < count; j++)
                     {
@@ -352,16 +356,16 @@ public class BarChartRenderer: ChartDataRendererBase
                 }
                 else
                 {
-                    // if each value of a potential stack should be drawn
+                    // if we have stacks
                     
                     for (var j = 0, count = Int(ceil(CGFloat(valuePoints.count) * _animator.phaseX)); j < count; j++)
                     {
                         var e = entries[j]
                         
-                        var vals = e.values
+                        let values = e.values
                         
                         // we still draw stacked bars, but there is one non-stacked in between
-                        if (vals == nil)
+                        if (values == nil)
                         {
                             if (!viewPortHandler.isInBoundsRight(valuePoints[j].x))
                             {
@@ -384,9 +388,13 @@ public class BarChartRenderer: ChartDataRendererBase
                         }
                         else
                         {
+                            // draw stack values
+                            
+                            let vals = values!
                             var transformed = [CGPoint]()
-                            var allPos = e.positiveSum
-                            var allNeg = e.negativeSum
+                            
+                            var posY = 0.0
+                            var negY = -e.negativeSum
                             
                             for (var k = 0; k < vals.count; k++)
                             {
@@ -395,13 +403,13 @@ public class BarChartRenderer: ChartDataRendererBase
                                 
                                 if value >= 0.0
                                 {
-                                    allPos -= value
-                                    y = value + allPos
+                                    posY += value
+                                    y = posY
                                 }
                                 else
                                 {
-                                    allNeg -= abs(value)
-                                    y = value + allNeg
+                                    y = negY
+                                    negY -= value
                                 }
                                 
                                 transformed.append(CGPoint(x: 0.0, y: CGFloat(y) * _animator.phaseY))
@@ -507,8 +515,8 @@ public class BarChartRenderer: ChartDataRendererBase
                 
                 if (isStack)
                 {
-                    y1 = e.positiveSum
-                    y2 = -e.negativeSum
+                    y1 = h.range?.from ?? 0.0
+                    y2 = (h.range?.to ?? 0.0) * Double(_animator.phaseY)
                 }
                 else
                 {

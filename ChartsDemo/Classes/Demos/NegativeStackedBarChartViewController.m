@@ -26,7 +26,7 @@
 {
     [super viewDidLoad];
     
-    self.title = @"Horizontal Bar Chart";
+    self.title = @"Stacked Bar Chart Negative";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
@@ -56,8 +56,6 @@
     _chartView.drawBarShadowEnabled = NO;
     _chartView.drawValueAboveBarEnabled = YES;
     
-    // if false values are only drawn for the stack sum, else each value is drawn
-    _chartView.drawValuesForWholeStackEnabled = YES;
     // scaling can now only be done on x- and y-axis separately
     _chartView.pinchZoomEnabled = NO;
     
@@ -101,7 +99,7 @@
     set.valueFormatter = customFormatter;
     set.valueFont = [UIFont systemFontOfSize:7.f];
     set.axisDependency = AxisDependencyRight;
-    set.barSpace = 0.5f;
+    set.barSpace = 0.4f;
     set.colors = @[
                    [UIColor colorWithRed:67/255.f green:67/255.f blue:72/255.f alpha:1.f],
                    [UIColor colorWithRed:124/255.f green:181/255.f blue:236/255.f alpha:1.f]
@@ -121,36 +119,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)setDataCount:(int)count range:(double)range
-{
-    NSMutableArray *xVals = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < count; i++)
-    {
-        [xVals addObject:months[i % 12]];
-    }
-    
-    NSMutableArray *yVals = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < count; i++)
-    {
-        double mult = (range + 1);
-        double val = (double) (arc4random_uniform(mult));
-        [yVals addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
-    }
-    
-    BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithYVals:yVals label:@"DataSet"];
-    set1.barSpace = 0.35;
-    
-    NSMutableArray *dataSets = [[NSMutableArray alloc] init];
-    [dataSets addObject:set1];
-    
-    BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSets:dataSets];
-    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
-    
-    _chartView.data = data;
 }
 
 - (void)optionTapped:(NSString *)key
@@ -225,7 +193,7 @@
 
 - (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
 {
-    NSLog(@"chartValueSelected");
+    NSLog(@"chartValueSelected, stack-index %ld", (long)highlight.stackIndex);
 }
 
 - (void)chartValueNothingSelected:(ChartViewBase * __nonnull)chartView
