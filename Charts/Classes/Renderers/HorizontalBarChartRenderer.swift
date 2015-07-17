@@ -172,8 +172,17 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                     
                     var bottom = x - barWidth + barSpaceHalf
                     var top = x + barWidth - barSpaceHalf
-                    var right = y >= yStart ? CGFloat(y) : CGFloat(yStart)
-                    var left = y <= yStart ? CGFloat(y) : CGFloat(yStart)
+                    var right: CGFloat, left: CGFloat
+                    if isInverted
+                    {
+                        left = y >= yStart ? CGFloat(y) : CGFloat(yStart)
+                        right = y <= yStart ? CGFloat(y) : CGFloat(yStart)
+                    }
+                    else
+                    {
+                        right = y >= yStart ? CGFloat(y) : CGFloat(yStart)
+                        left = y <= yStart ? CGFloat(y) : CGFloat(yStart)
+                    }
                     
                     // multiply the height of the rect with the phase
                     right *= phaseY

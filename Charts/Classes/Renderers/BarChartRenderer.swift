@@ -211,8 +211,17 @@ public class BarChartRenderer: ChartDataRendererBase
                     
                     var left = x - barWidth + barSpaceHalf
                     var right = x + barWidth - barSpaceHalf
-                    var top = y >= yStart ? CGFloat(y) : CGFloat(yStart)
-                    var bottom = y <= yStart ? CGFloat(y) : CGFloat(yStart)
+                    var top: CGFloat, bottom: CGFloat
+                    if isInverted
+                    {
+                        bottom = y >= yStart ? CGFloat(y) : CGFloat(yStart)
+                        top = y <= yStart ? CGFloat(y) : CGFloat(yStart)
+                    }
+                    else
+                    {
+                        top = y >= yStart ? CGFloat(y) : CGFloat(yStart)
+                        bottom = y <= yStart ? CGFloat(y) : CGFloat(yStart)
+                    }
                     
                     // multiply the height of the rect with the phase
                     top *= phaseY
