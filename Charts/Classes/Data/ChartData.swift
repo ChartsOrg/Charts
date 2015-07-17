@@ -127,7 +127,7 @@ public class ChartData: NSObject
         
         for (var i = 0; i < dataSets.count; i++)
         {
-            if (dataSets[i].yVals.count > _xVals.count)
+            if (_xVals.count != 0 && dataSets[i].yVals.count > _xVals.count)
             {
                 println("One or more of the DataSet Entry arrays are longer than the x-values array of this Data object.")
                 return
