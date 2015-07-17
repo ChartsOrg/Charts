@@ -153,7 +153,7 @@ public class BarChartRenderer: ChartDataRendererBase
             {
                 var posY = 0.0
                 var negY = 0.0
-                var y2 = 0.0
+                var yStart = 0.0
                 
                 // if drawing the bar shadow is enabled
                 if (drawBarShadowEnabled)
@@ -199,20 +199,20 @@ public class BarChartRenderer: ChartDataRendererBase
                     if value >= 0.0
                     {
                         y = posY
-                        y2 = posY + value
-                        posY = y2
+                        yStart = posY + value
+                        posY = yStart
                     }
                     else
                     {
                         y = negY
-                        y2 = negY + value
-                        negY = y2
+                        yStart = negY + value
+                        negY = yStart
                     }
                     
                     var left = x - barWidth + barSpaceHalf
                     var right = x + barWidth - barSpaceHalf
-                    var top = y >= y2 ? CGFloat(y) : CGFloat(y2)
-                    var bottom = y <= y2 ? CGFloat(y) : CGFloat(y2)
+                    var top = y >= yStart ? CGFloat(y) : CGFloat(yStart)
+                    var bottom = y <= yStart ? CGFloat(y) : CGFloat(yStart)
                     
                     // multiply the height of the rect with the phase
                     top *= phaseY
