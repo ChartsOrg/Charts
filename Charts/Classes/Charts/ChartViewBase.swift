@@ -297,13 +297,15 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             
             // if no data, inform the user
             
-            ChartUtils.drawText(context: context, text: noDataText, point: CGPoint(x: frame.width / 2.0, y: frame.height / 2.0), align: .Center, attributes: [NSFontAttributeName: infoFont, NSForegroundColorAttributeName: infoTextColor])
-            
             if (noDataTextDescription != nil && count(noDataTextDescription!) > 0)
-            {   
+            {
                 var textOffset = -infoFont.lineHeight / 2.0
                 
                 ChartUtils.drawText(context: context, text: noDataTextDescription!, point: CGPoint(x: frame.width / 2.0, y: frame.height / 2.0 + textOffset), align: .Center, attributes: [NSFontAttributeName: infoFont, NSForegroundColorAttributeName: infoTextColor])
+            }
+            else
+            {
+                ChartUtils.drawText(context: context, text: noDataText, point: CGPoint(x: frame.width / 2.0, y: frame.height / 2.0), align: .Center, attributes: [NSFontAttributeName: infoFont, NSForegroundColorAttributeName: infoTextColor])
             }
             
             return
