@@ -216,11 +216,11 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         {
             renderer?.drawHighlighted(context: context, indices: _indicesToHightlight)
         }
-
-        // Removes clipping rectangle
-        CGContextRestoreGState(context)
         
         renderer!.drawExtras(context: context)
+        
+        // Removes clipping rectangle
+        CGContextRestoreGState(context)
         
         _xAxisRenderer.renderAxisLabels(context: context)
         _leftYAxisRenderer.renderAxisLabels(context: context)
