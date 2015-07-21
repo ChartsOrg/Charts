@@ -145,7 +145,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         initialize()
     }
     
-    public required init?(coder aDecoder: NSCoder)
+    public required init(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)
         initialize()
@@ -830,7 +830,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     internal typealias VoidClosureType = () -> ()
     internal var _sizeChangeEventActions = [VoidClosureType]()
     
-    override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String: AnyObject]?, context: UnsafeMutablePointer<Void>)
+    public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [NSObject : AnyObject]?, context: UnsafeMutablePointer<Void>)
     {
         if (keyPath == "bounds" || keyPath == "frame")
         {
