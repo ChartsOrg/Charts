@@ -16,9 +16,9 @@ import Foundation
 
 internal class HorizontalBarChartHighlighter: BarChartHighlighter
 {
-    internal override func getHighlight(#x: Double, y: Double) -> ChartHighlight?
+    internal override func getHighlight(x x: Double, y: Double) -> ChartHighlight?
     {
-        var h = super.getHighlight(x: x, y: y)
+        let h = super.getHighlight(x: x, y: y)
         
         if h === nil
         {
@@ -87,8 +87,8 @@ internal class HorizontalBarChartHighlighter: BarChartHighlighter
     }
     
     /// Returns the base y-value to the corresponding x-touch value in pixels.
-    /// :param: y
-    /// :returns:
+    /// - parameter y:
+    /// - returns:
     internal override func getBase(y: Double) -> Double
     {
         if let barChartData = _chart?.data as? BarChartData

@@ -237,7 +237,7 @@ public class ChartYAxis: ChartAxisBase
     
     public var isStartAtZeroEnabled: Bool { return startAtZeroEnabled; }
 
-    /// :returns: true if focing the y-label count is enabled. Default: false
+    /// - returns: true if focing the y-label count is enabled. Default: false
     public var isForceLabelsEnabled: Bool { return forceLabelsEnabled }
 
     public var isShowOnlyMinMaxEnabled: Bool { return showOnlyMinMaxEnabled; }

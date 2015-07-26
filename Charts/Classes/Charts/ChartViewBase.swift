@@ -451,7 +451,6 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         {
             let highlight = _indicesToHightlight[i]
             let xIndex = highlight.xIndex
-            let dataSetIndex = highlight.dataSetIndex
 
             if (xIndex <= Int(_deltaX) && xIndex <= Int(_deltaX * _animator.phaseX))
             {
@@ -830,7 +829,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     internal typealias VoidClosureType = () -> ()
     internal var _sizeChangeEventActions = [VoidClosureType]()
     
-    public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [NSObject : AnyObject]?, context: UnsafeMutablePointer<Void>)
+    public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>)
     {
         if (keyPath == "bounds" || keyPath == "frame")
         {
