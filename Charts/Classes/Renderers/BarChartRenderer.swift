@@ -152,7 +152,7 @@ public class BarChartRenderer: ChartDataRendererBase
             else
             {
                 var posY = 0.0
-                var negY = 0.0
+                var negY = -e.negativeSum
                 var yStart = 0.0
                 
                 // if drawing the bar shadow is enabled
@@ -205,8 +205,8 @@ public class BarChartRenderer: ChartDataRendererBase
                     else
                     {
                         y = negY
-                        yStart = negY + value
-                        negY = yStart
+                        yStart = negY + abs(value)
+                        negY += abs(value)
                     }
                     
                     var left = x - barWidth + barSpaceHalf
@@ -393,7 +393,7 @@ public class BarChartRenderer: ChartDataRendererBase
                             var transformed = [CGPoint]()
                             
                             var posY = 0.0
-                            var negY = 0.0
+                            var negY = -e.negativeSum
                             
                             for (var k = 0; k < vals.count; k++)
                             {
@@ -407,8 +407,8 @@ public class BarChartRenderer: ChartDataRendererBase
                                 }
                                 else
                                 {
-                                    negY += value
                                     y = negY
+                                    negY -= value
                                 }
                                 
                                 transformed.append(CGPoint(x: 0.0, y: CGFloat(y) * _animator.phaseY))
