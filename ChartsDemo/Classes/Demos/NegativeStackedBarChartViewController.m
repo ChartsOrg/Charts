@@ -56,8 +56,6 @@
     _chartView.drawBarShadowEnabled = NO;
     _chartView.drawValueAboveBarEnabled = YES;
     
-    // if false values are only drawn for the stack sum, else each value is drawn
-    _chartView.drawValuesForWholeStackEnabled = YES;
     // scaling can now only be done on x- and y-axis separately
     _chartView.pinchZoomEnabled = NO;
     

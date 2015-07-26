@@ -51,8 +51,8 @@
     _chartView.noDataTextDescription = @"You need to provide data for the chart.";
     
     _chartView.maxVisibleValueCount = 60;
-    _chartView.drawValuesForWholeStackEnabled = YES;
     _chartView.pinchZoomEnabled = NO;
+    _chartView.drawGridBackgroundEnabled = NO;
     _chartView.drawBarShadowEnabled = NO;
     _chartView.drawValueAboveBarEnabled = NO;
     
@@ -62,9 +62,7 @@
     leftAxis.valueFormatter.negativeSuffix = @" $";
     leftAxis.valueFormatter.positiveSuffix = @" $";
     
-    ChartYAxis *rightAxis = _chartView.rightAxis;
-    rightAxis.valueFormatter = leftAxis.valueFormatter;
-    rightAxis.drawGridLinesEnabled = NO;
+    _chartView.rightAxis.enabled = NO;
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionTop;

@@ -201,15 +201,20 @@ public class BarChartHighlighter: ChartHighlighter
     internal func getRanges(#entry: BarChartDataEntry) -> [ChartRange]
     {
         let values = entry.values
+        if (values == nil)
+        {
+            return [ChartRange]()
+        }
+        
         var negRemain = -entry.negativeSum
         var posRemain: Double = 0.0
         
         var ranges = [ChartRange]()
-        ranges.reserveCapacity(values.count)
+        ranges.reserveCapacity(values!.count)
         
-        for (var i = 0, count = values.count; i < count; i++)
+        for (var i = 0, count = values!.count; i < count; i++)
         {
-            let value = values[i]
+            let value = values![i]
             
             if value < 0
             {

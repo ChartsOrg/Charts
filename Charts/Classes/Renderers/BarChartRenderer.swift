@@ -28,7 +28,6 @@ public protocol BarChartRendererDelegate
     func barChartRendererChartXMin(renderer: BarChartRenderer) -> Double
     func barChartIsDrawHighlightArrowEnabled(renderer: BarChartRenderer) -> Bool
     func barChartIsDrawValueAboveBarEnabled(renderer: BarChartRenderer) -> Bool
-    func barChartIsDrawValuesForWholeStackEnabled(renderer: BarChartRenderer) -> Bool
     func barChartIsDrawBarShadowEnabled(renderer: BarChartRenderer) -> Bool
     func barChartIsInverted(renderer: BarChartRenderer, axis: ChartYAxis.AxisDependency) -> Bool
 }
@@ -192,9 +191,9 @@ public class BarChartRenderer: ChartDataRendererBase
                 }
                 
                 // fill the stack
-                for (var k = 0; k < vals.count; k++)
+                for (var k = 0; k < vals!.count; k++)
                 {
-                    let value = vals[k]
+                    let value = vals![k]
                     
                     if value >= 0.0
                     {
@@ -286,14 +285,13 @@ public class BarChartRenderer: ChartDataRendererBase
             var dataSets = barData.dataSets
             
             var drawValueAboveBar = delegate!.barChartIsDrawValueAboveBarEnabled(self)
-            var drawValuesForWholeStackEnabled = delegate!.barChartIsDrawValuesForWholeStackEnabled(self)
             
             var posOffset: CGFloat
             var negOffset: CGFloat
             
             for (var i = 0, count = barData.dataSetCount; i < count; i++)
             {
-                var dataSet = dataSets[i]
+                var dataSet = dataSets[i] as! BarChartDataSet
                 
                 if (!dataSet.isDrawValuesEnabled)
                 {
@@ -303,7 +301,7 @@ public class BarChartRenderer: ChartDataRendererBase
                 var isInverted = delegate!.barChartIsInverted(self, axis: dataSet.axisDependency)
                 
                 // calculate the correct offset depending on the draw position of the value
-                let valueOffsetPlus: CGFloat = 5.0
+                let valueOffsetPlus: CGFloat = 4.5
                 var valueFont = dataSet.valueFont
                 var valueTextHeight = valueFont.lineHeight
                 posOffset = (drawValueAboveBar ? -(valueTextHeight + valueOffsetPlus) : valueOffsetPlus)
@@ -330,7 +328,7 @@ public class BarChartRenderer: ChartDataRendererBase
                 var valuePoints = getTransformedValues(trans: trans, entries: entries, dataSetIndex: i)
                 
                 // if only single values are drawn (sum)
-                if (!drawValuesForWholeStackEnabled)
+                if (!dataSet.isStacked)
                 {
                     for (var j = 0, count = Int(ceil(CGFloat(valuePoints.count) * _animator.phaseX)); j < count; j++)
                     {
@@ -358,16 +356,16 @@ public class BarChartRenderer: ChartDataRendererBase
                 }
                 else
                 {
-                    // if each value of a potential stack should be drawn
+                    // if we have stacks
                     
                     for (var j = 0, count = Int(ceil(CGFloat(valuePoints.count) * _animator.phaseX)); j < count; j++)
                     {
                         var e = entries[j]
                         
-                        var vals = e.values
+                        let values = e.values
                         
                         // we still draw stacked bars, but there is one non-stacked in between
-                        if (vals == nil)
+                        if (values == nil)
                         {
                             if (!viewPortHandler.isInBoundsRight(valuePoints[j].x))
                             {
@@ -390,6 +388,9 @@ public class BarChartRenderer: ChartDataRendererBase
                         }
                         else
                         {
+                            // draw stack values
+                            
+                            let vals = values!
                             var transformed = [CGPoint]()
                             
                             var posY = 0.0

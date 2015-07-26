@@ -16,17 +16,20 @@ import Foundation
 public class BarChartDataEntry: ChartDataEntry
 {
     /// the values the stacked barchart holds
-    private var _values: [Double]!
+    private var _values: [Double]?
     
     /// the sum of all negative values this entry (if stacked) contains
     private var _negativeSum: Double = 0.0
+    
+    /// the sum of all positive values this entry (if stacked) contains
+    private var _positiveSum: Double = 0.0
     
     /// Constructor for stacked bar entries. Don't forget to order the stacked-values in an ascending order e.g. (-2,-1,0,1,2).
     public init(values: [Double], xIndex: Int)
     {
         super.init(value: BarChartDataEntry.calcSum(values), xIndex: xIndex)
         self.values = values
-        calcNegativeSum()
+        calcPosNegSum()
     }
     
     /// Constructor for normal bars (not stacked).
@@ -56,36 +59,15 @@ public class BarChartDataEntry: ChartDataEntry
         }
         
         var remainder: Double = 0.0
-        var index = values.count - 1
+        var index = values!.count - 1
         
         while (index > stackIndex && index >= 0)
         {
-            remainder += values[index]
+            remainder += values![index]
             index--
         }
         
         return remainder
-    }
-    
-    /// :returns: the sum of all positive values this entry (if stacked) contains.
-    public var positiveSum: Double
-    {
-        if _values == nil
-        {
-            return 0.0
-        }
-        
-        var sum: Double = 0.0
-        
-        for f in _values
-        {
-            if f > 0.0
-            {
-                sum += f
-            }
-        }
-        
-        return sum
     }
     
     /// :returns: the sum of all negative values this entry (if stacked) contains. (this is a positive number)
@@ -93,39 +75,52 @@ public class BarChartDataEntry: ChartDataEntry
     {
         return _negativeSum
     }
+    
+    /// :returns: the sum of all positive values this entry (if stacked) contains.
+    public var positiveSum: Double
+    {
+        return _positiveSum
+    }
 
-    public func calcNegativeSum()
+    public func calcPosNegSum()
     {
         if _values == nil
         {
+            _positiveSum = 0.0
             _negativeSum = 0.0
             return
         }
         
-        var sum: Double = 0.0
+        var sumNeg: Double = 0.0
+        var sumPos: Double = 0.0
         
-        for f in _values
+        for f in _values!
         {
             if f < 0.0
             {
-                sum += abs(f)
+                sumNeg += -f
+            }
+            else
+            {
+                sumPos += f
             }
         }
         
-        _negativeSum = sum
+        _negativeSum = sumNeg
+        _positiveSum = sumPos
     }
 
     // MARK: Accessors
 
     /// the values the stacked barchart holds
-    public var values: [Double]!
+    public var values: [Double]?
     {
         get { return self._values }
         set
         {
             self.value = BarChartDataEntry.calcSum(newValue)
             self._values = newValue
-            calcNegativeSum()
+            calcPosNegSum()
         }
     }
     
