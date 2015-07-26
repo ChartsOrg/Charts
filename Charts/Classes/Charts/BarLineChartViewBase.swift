@@ -1303,40 +1303,6 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         return _highlighter?.getHighlight(x: Double(pt.x), y: Double(pt.y))
     }
 
-    /// Returns an array of SelectionDetail objects for the given x-index. The SelectionDetail
-    /// objects give information about the value at the selected index and the
-    /// DataSet it belongs to. 
-    public func getSelectionDetailsAtIndex(xIndex: Int) -> [ChartSelectionDetail]
-    {
-        var vals = [ChartSelectionDetail]()
-
-        var pt = CGPoint()
-
-        for (var i = 0, count = _data.dataSetCount; i < count; i++)
-        {
-            var dataSet = _data.getDataSetByIndex(i)
-            if (dataSet === nil || !dataSet.isHighlightEnabled)
-            {
-                continue
-            }
-
-            // extract all y-values from all DataSets at the given x-index
-            let yVal = dataSet!.yValForXIndex(xIndex)
-            if (yVal.isNaN)
-            {
-                continue
-            }
-            
-            pt.y = CGFloat(yVal)
-
-            getTransformer(dataSet!.axisDependency).pointValueToPixel(&pt)
-            
-            vals.append(ChartSelectionDetail(value: Double(pt.y), dataSetIndex: i, dataSet: dataSet!))
-        }
-
-        return vals
-    }
-
     /// Returns the x and y values in the chart at the given touch point
     /// (encapsulated in a PointD). This method transforms pixel coordinates to
     /// coordinates / values in the chart. This is the opposite method to
