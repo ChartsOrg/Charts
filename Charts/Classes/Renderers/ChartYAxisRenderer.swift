@@ -329,16 +329,36 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
                 
                 let add = CGFloat(4.0)
                 var xOffset: CGFloat = add
-                var yOffset: CGFloat = l.lineWidth + labelLineHeight / 2.0
+                var yOffset: CGFloat = l.lineWidth + labelLineHeight
                 
-                if (l.labelPosition == .Right)
+                if (l.labelPosition == .RightTop)
                 {
                     ChartUtils.drawText(context: context,
                         text: label,
                         point: CGPoint(
                             x: viewPortHandler.contentRight - xOffset,
-                            y: position.y - yOffset - labelLineHeight),
+                            y: position.y - yOffset),
                         align: .Right,
+                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
+                }
+                else if (l.labelPosition == .RightBottom)
+                {
+                    ChartUtils.drawText(context: context,
+                        text: label,
+                        point: CGPoint(
+                            x: viewPortHandler.contentRight - xOffset,
+                            y: position.y + yOffset - labelLineHeight),
+                        align: .Right,
+                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
+                }
+                else if (l.labelPosition == .LeftTop)
+                {
+                    ChartUtils.drawText(context: context,
+                        text: label,
+                        point: CGPoint(
+                            x: viewPortHandler.contentLeft + xOffset,
+                            y: position.y - yOffset),
+                        align: .Left,
                         attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
                 }
                 else
@@ -347,7 +367,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
                         text: label,
                         point: CGPoint(
                             x: viewPortHandler.contentLeft + xOffset,
-                            y: position.y - yOffset - labelLineHeight),
+                            y: position.y + yOffset - labelLineHeight),
                         align: .Left,
                         attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
                 }
