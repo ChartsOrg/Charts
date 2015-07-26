@@ -209,7 +209,7 @@
 
 - (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
 {
-    NSLog(@"chartValueSelected");
+    NSLog(@"chartValueSelected, stack-index %ld", (long)highlight.stackIndex);
 }
 
 - (void)chartValueNothingSelected:(ChartViewBase * __nonnull)chartView

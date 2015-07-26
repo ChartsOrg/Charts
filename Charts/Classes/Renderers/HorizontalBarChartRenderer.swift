@@ -17,9 +17,6 @@ import UIKit
 
 public class HorizontalBarChartRenderer: BarChartRenderer
 {
-    private var xOffset: CGFloat = 0.0
-    private var yOffset: CGFloat = 0.0
-    
     public override init(delegate: BarChartRendererDelegate?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
         super.init(delegate: delegate, animator: animator, viewPortHandler: viewPortHandler)

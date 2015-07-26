@@ -36,6 +36,8 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
         renderer = BarChartRenderer(delegate: self, animator: _animator, viewPortHandler: _viewPortHandler)
         _xAxisRenderer = ChartXAxisRendererBarChart(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer, chart: self)
         
+        _highlighter = BarChartHighlighter(chart: self)
+        
         _chartXMin = -0.5
     }
     
@@ -74,7 +76,7 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
     }
     
     /// Returns the Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the BarChart.
-    public override func getHighlightByTouchPoint(var pt: CGPoint) -> ChartHighlight!
+    public override func getHighlightByTouchPoint(pt: CGPoint) -> ChartHighlight?
     {
         if (_dataNotSet || _data === nil)
         {
@@ -82,108 +84,7 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
             return nil
         }
         
-        _leftAxisTransformer.pixelToValue(&pt)
-        
-        if (pt.x < CGFloat(_chartXMin) || pt.x > CGFloat(_chartXMax))
-        {
-            return nil
-        }
-        
-        return getHighlight(xPosition: pt.x, yPosition: pt.y)
-    }
-    
-    /// Returns the correct Highlight object (including xIndex and dataSet-index) for the specified touch position.
-    internal func getHighlight(#xPosition: CGFloat, yPosition: CGFloat) -> ChartHighlight!
-    {
-        if (_dataNotSet || _data === nil)
-        {
-            return nil
-        }
-        
-        var barData = _data as! BarChartData!
-        
-        var setCount = barData.dataSetCount
-        var valCount = barData.xValCount
-        var dataSetIndex = 0
-        var xIndex = 0
-        
-        if (!barData.isGrouped)
-        { // only one dataset exists
-            
-            xIndex = Int(round(xPosition))
-            
-            // check bounds
-            if (xIndex < 0)
-            {
-                xIndex = 0
-            }
-            else if (xIndex >= valCount)
-            {
-                xIndex = valCount - 1
-            }
-        }
-        else
-        { // if this bardata is grouped into more datasets
-            
-            // calculate how often the group-space appears
-            var steps = Int(xPosition / (CGFloat(setCount) + CGFloat(barData.groupSpace)))
-            
-            var groupSpaceSum = barData.groupSpace * CGFloat(steps)
-            
-            var baseNoSpace = xPosition - groupSpaceSum
-            
-            dataSetIndex = Int(baseNoSpace) % setCount
-            xIndex = Int(baseNoSpace) / setCount
-
-            // check bounds
-            if (xIndex < 0)
-            {
-                xIndex = 0
-                dataSetIndex = 0
-            }
-            else if (xIndex >= valCount)
-            {
-                xIndex = valCount - 1
-                dataSetIndex = setCount - 1
-            }
-
-            // check bounds
-            if (dataSetIndex < 0)
-            {
-                dataSetIndex = 0
-            }
-            else if (dataSetIndex >= setCount)
-            {
-                dataSetIndex = setCount - 1
-            }
-        }
-        
-        var dataSet = barData.getDataSetByIndex(dataSetIndex) as! BarChartDataSet!
-        if (!dataSet.isStacked)
-        {
-            return ChartHighlight(xIndex: xIndex, dataSetIndex: dataSetIndex)
-        }
-        else
-        {
-            return getStackedHighlight(xIndex: xIndex, dataSetIndex: dataSetIndex, yValue: Double(yPosition))
-        }
-    }
-    
-    /// This method creates the Highlight object that also indicates which value of a stacked BarEntry has been selected.
-    internal func getStackedHighlight(#xIndex: Int, dataSetIndex: Int, yValue: Double) -> ChartHighlight!
-    {
-        var dataSet = _data.getDataSetByIndex(dataSetIndex)
-        var entry = dataSet.entryForXIndex(xIndex) as! BarChartDataEntry!
-
-        if (entry !== nil)
-        {
-            var stackIndex = entry.getClosestIndexAbove(yValue)
-            return ChartHighlight(xIndex: xIndex, dataSetIndex: dataSetIndex, stackIndex: stackIndex)
-        }
-        else
-        {
-            return nil
-        }
+        return _highlighter?.getHighlight(x: Double(pt.x), y: Double(pt.y))
     }
     
     /// Returns the bounding box of the specified Entry in the specified DataSet. Returns null if the Entry could not be found in the charts data.

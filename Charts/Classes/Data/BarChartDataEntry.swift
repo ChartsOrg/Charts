@@ -18,11 +18,15 @@ public class BarChartDataEntry: ChartDataEntry
     /// the values the stacked barchart holds
     private var _values: [Double]!
     
-    /// Constructor for stacked bar entries.
+    /// the sum of all negative values this entry (if stacked) contains
+    private var _negativeSum: Double = 0.0
+    
+    /// Constructor for stacked bar entries. Don't forget to order the stacked-values in an ascending order e.g. (-2,-1,0,1,2).
     public init(values: [Double], xIndex: Int)
     {
         super.init(value: BarChartDataEntry.calcSum(values), xIndex: xIndex)
         self.values = values
+        calcNegativeSum()
     }
     
     /// Constructor for normal bars (not stacked).
@@ -43,28 +47,6 @@ public class BarChartDataEntry: ChartDataEntry
     {
         super.init(value: value, xIndex: xIndex, data: data)
     }
-
-    /// Returns the index of the closest value inside the values array (for stacked barchart)
-    /// to the value given as a parameter. The closest value must be higher
-    /// (above) the provided value.
-    public func getClosestIndexAbove(value: Double) -> Int
-    {
-        if (values == nil)
-        {
-            return 0
-        }
-        
-        var index = values.count - 1
-        var remainder: Double = 0.0
-        
-        while (index > 0 && value > values[index] + remainder)
-        {
-            remainder += values[index]
-            index--
-        }
-        
-        return index
-    }
     
     public func getBelowSum(stackIndex :Int) -> Double
     {
@@ -84,20 +66,8 @@ public class BarChartDataEntry: ChartDataEntry
         
         return remainder
     }
-
-    /// Calculates the sum across all values.
-    private class func calcSum(values: [Double]) -> Double
-    {
-        var sum = Double(0.0)
-
-        for f in values
-        {
-            sum += f
-        }
-
-        return sum
-    }
     
+    /// :returns: the sum of all positive values this entry (if stacked) contains.
     public var positiveSum: Double
     {
         if _values == nil
@@ -118,11 +88,18 @@ public class BarChartDataEntry: ChartDataEntry
         return sum
     }
     
+    /// :returns: the sum of all negative values this entry (if stacked) contains. (this is a positive number)
     public var negativeSum: Double
+    {
+        return _negativeSum
+    }
+
+    public func calcNegativeSum()
     {
         if _values == nil
         {
-            return 0.0
+            _negativeSum = 0.0
+            return
         }
         
         var sum: Double = 0.0
@@ -135,7 +112,7 @@ public class BarChartDataEntry: ChartDataEntry
             }
         }
         
-        return sum
+        _negativeSum = sum
     }
 
     // MARK: Accessors
@@ -143,11 +120,12 @@ public class BarChartDataEntry: ChartDataEntry
     /// the values the stacked barchart holds
     public var values: [Double]!
     {
-        get { return self._values; }
+        get { return self._values }
         set
         {
             self.value = BarChartDataEntry.calcSum(newValue)
             self._values = newValue
+            calcNegativeSum()
         }
     }
     
@@ -157,6 +135,29 @@ public class BarChartDataEntry: ChartDataEntry
     {
         var copy = super.copyWithZone(zone) as! BarChartDataEntry
         copy._values = _values
+        copy.value = value
+        copy._negativeSum = _negativeSum
         return copy
+    }
+    
+    /// Calculates the sum across all values of the given stack.
+    ///
+    /// :param: vals
+    /// :returns:
+    private static func calcSum(vals: [Double]?) -> Double
+    {
+        if vals == nil
+        {
+            return 0.0
+        }
+        
+        var sum = 0.0
+        
+        for f in vals!
+        {
+            sum += f
+        }
+        
+        return sum
     }
 }

@@ -101,6 +101,8 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         
         _xAxisRenderer = ChartXAxisRenderer(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer)
         
+        _highlighter = ChartHighlighter(chart: self)
+        
         _tapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("tapGestureRecognized:"))
         _doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("doubleTapGestureRecognized:"))
         _doubleTapGestureRecognizer.numberOfTapsRequired = 2
@@ -1280,74 +1282,15 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     }
     
     /// Returns the Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the Line-, Scatter-, or CandleStick-Chart.
-    public func getHighlightByTouchPoint(var pt: CGPoint) -> ChartHighlight!
+    public func getHighlightByTouchPoint(pt: CGPoint) -> ChartHighlight?
     {
         if (_dataNotSet || _data === nil)
         {
             println("Can't select by touch. No data set.")
             return nil
         }
-
-        var valPt = CGPoint()
-        valPt.x = pt.x
-        valPt.y = 0.0
-
-        // take any transformer to determine the x-axis value
-        _leftAxisTransformer.pixelToValue(&valPt)
-
-        var xTouchVal = valPt.x
-        var base = floor(xTouchVal)
-
-        var touchOffset = _deltaX * 0.025
-
-        // touch out of chart
-        if (xTouchVal < -touchOffset || xTouchVal > _deltaX + touchOffset)
-        {
-            return nil
-        }
-
-        if (base < 0.0)
-        {
-            base = 0.0
-        }
         
-        if (base >= _deltaX)
-        {
-            base = _deltaX - 1.0
-        }
-
-        var xIndex = Int(base)
-
-        // check if we are more than half of a x-value or not
-        if (xTouchVal - base > 0.5)
-        {
-            xIndex = Int(base + 1.0)
-        }
-
-        var valsAtIndex = getSelectionDetailsAtIndex(xIndex)
-
-        var leftdist = ChartUtils.getMinimumDistance(valsAtIndex, val: Double(pt.y), axis: .Left)
-        var rightdist = ChartUtils.getMinimumDistance(valsAtIndex, val: Double(pt.y), axis: .Right)
-
-        if (_data!.getFirstRight() === nil)
-        {
-            rightdist = DBL_MAX
-        }
-        if (_data!.getFirstLeft() === nil)
-        {
-            leftdist = DBL_MAX
-        }
-
-        var axis: ChartYAxis.AxisDependency = leftdist < rightdist ? .Left : .Right
-
-        var dataSetIndex = ChartUtils.closestDataSetIndex(valsAtIndex, value: Double(pt.y), axis: axis)
-
-        if (dataSetIndex == -1)
-        {
-            return nil
-        }
-
-        return ChartHighlight(xIndex: xIndex, dataSetIndex: dataSetIndex)
+        return _highlighter?.getHighlight(x: Double(pt.x), y: Double(pt.y))
     }
 
     /// Returns an array of SelectionDetail objects for the given x-index. The SelectionDetail
@@ -1430,7 +1373,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         var h = getHighlightByTouchPoint(pt)
         if (h !== nil)
         {
-            return _data.getDataSetByIndex(h.dataSetIndex) as! BarLineScatterCandleChartDataSet!
+            return _data.getDataSetByIndex(h!.dataSetIndex) as! BarLineScatterCandleChartDataSet!
         }
         return nil
     }
