@@ -14,14 +14,14 @@
 
 import Foundation
 
-public class BarChartHighlighter: ChartHighlighter
+internal class BarChartHighlighter: ChartHighlighter
 {
-    public init(chart: BarChartView)
+    internal init(chart: BarChartView)
     {
         super.init(chart: chart)
     }
     
-    public override func getHighlight(#x: Double, y: Double) -> ChartHighlight?
+    internal override func getHighlight(#x: Double, y: Double) -> ChartHighlight?
     {
         var h = super.getHighlight(x: x, y: y)
         
@@ -130,9 +130,13 @@ public class BarChartHighlighter: ChartHighlighter
         
         if entry !== nil
         {
-            var stackIndex = getClosestStackIndex(entry: entry!, value: yValue)
-            var h = ChartHighlight(xIndex: xIndex, dataSetIndex: dataSetIndex, stackIndex: stackIndex)
-            return h
+            if let ranges = getRanges(entry: entry!)
+            {
+                let stackIndex = getClosestStackIndex(ranges: ranges, value: yValue)
+                let h = ChartHighlight(xIndex: xIndex, dataSetIndex: dataSetIndex, stackIndex: stackIndex, range: ranges[stackIndex])
+                return h
+            }
+            return nil
         }
         else
         {
@@ -140,13 +144,12 @@ public class BarChartHighlighter: ChartHighlighter
         }
     }
     
-    /// Returns the index of the closest value inside the values array (for stacked barchart) to the value given as a parameter.
+    /// Returns the index of the closest value inside the values array / ranges (stacked barchart) to the value given as a parameter.
     /// :param: entry
     /// :param: value
     /// :returns:
-    internal func getClosestStackIndex(#entry: BarChartDataEntry, value: Double) -> Int
+    internal func getClosestStackIndex(#ranges: [ChartRange], value: Double) -> Int
     {
-        let ranges = getRanges(entry: entry)
         var stackIndex = 0
         
         for range in ranges
@@ -197,13 +200,16 @@ public class BarChartHighlighter: ChartHighlighter
             return 0.0
         }
     }
-    
-    internal func getRanges(#entry: BarChartDataEntry) -> [ChartRange]
+
+    /// Splits up the stack-values of the given bar-entry into Range objects.
+    /// :param: entry
+    /// :returns:
+    internal func getRanges(#entry: BarChartDataEntry) -> [ChartRange]?
     {
         let values = entry.values
         if (values == nil)
         {
-            return [ChartRange]()
+            return nil
         }
         
         var negRemain = -entry.negativeSum

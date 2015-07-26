@@ -99,7 +99,7 @@
     set.valueFormatter = customFormatter;
     set.valueFont = [UIFont systemFontOfSize:7.f];
     set.axisDependency = AxisDependencyRight;
-    set.barSpace = 0.5f;
+    set.barSpace = 0.4f;
     set.colors = @[
                    [UIColor colorWithRed:67/255.f green:67/255.f blue:72/255.f alpha:1.f],
                    [UIColor colorWithRed:124/255.f green:181/255.f blue:236/255.f alpha:1.f]

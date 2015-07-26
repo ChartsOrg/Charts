@@ -515,8 +515,8 @@ public class BarChartRenderer: ChartDataRendererBase
                 
                 if (isStack)
                 {
-                    y1 = e.positiveSum
-                    y2 = -e.negativeSum
+                    y1 = h.range?.from ?? 0.0
+                    y2 = (h.range?.to ?? 0.0) * Double(_animator.phaseY)
                 }
                 else
                 {

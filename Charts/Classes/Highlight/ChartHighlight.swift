@@ -25,6 +25,9 @@ public class ChartHighlight: NSObject
     /// index which value of a stacked bar entry is highlighted
     /// :default: -1
     private var _stackIndex = Int(-1)
+    
+    /// the range of the bar that is selected (only for stacked-barchart)
+    private var _range: ChartRange?
 
     public override init()
     {
@@ -48,10 +51,26 @@ public class ChartHighlight: NSObject
         _stackIndex = stackIndex
     }
     
+    /// Constructor, only used for stacked-barchart.
+    ///
+    /// :param: x the index of the highlighted value on the x-axis
+    /// :param: dataSet the index of the DataSet the highlighted value belongs to
+    /// :param: stackIndex references which value of a stacked-bar entry has been selected
+    /// :param: range the range the selected stack-value is in
+    public convenience init(xIndex x: Int, dataSetIndex: Int, stackIndex: Int, range: ChartRange)
+    {
+        self.init(xIndex: x, dataSetIndex: dataSetIndex, stackIndex: stackIndex)
+        
+        _range = range
+    }
+
     public var dataSetIndex: Int { return _dataSetIndex; }
     public var xIndex: Int { return _xIndex; }
     public var stackIndex: Int { return _stackIndex; }
     
+    /// :returns: the range of values the selected value of a stacked bar is in. (this is only relevant for stacked-barchart)
+    public var range: ChartRange? { return _range }
+
     // MARK: NSObject
     
     public override var description: String

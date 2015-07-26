@@ -14,9 +14,9 @@
 
 import Foundation
 
-public class HorizontalBarChartHighlighter: BarChartHighlighter
+internal class HorizontalBarChartHighlighter: BarChartHighlighter
 {
-    public override func getHighlight(#x: Double, y: Double) -> ChartHighlight?
+    internal override func getHighlight(#x: Double, y: Double) -> ChartHighlight?
     {
         var h = super.getHighlight(x: x, y: y)
         

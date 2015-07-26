@@ -14,12 +14,12 @@
 
 import Foundation
 
-public class ChartHighlighter
+internal class ChartHighlighter
 {
     /// instance of the data-provider
     internal weak var _chart: BarLineChartViewBase?;
     
-    public init(chart: BarLineChartViewBase)
+    internal init(chart: BarLineChartViewBase)
     {
         _chart = chart;
     }
@@ -28,7 +28,7 @@ public class ChartHighlighter
     /// :param: x
     /// :param: y
     /// :returns:
-    public func getHighlight(#x: Double, y: Double) -> ChartHighlight?
+    internal func getHighlight(#x: Double, y: Double) -> ChartHighlight?
     {
         let xIndex = getXIndex(x)
         if (xIndex == -Int.max)
