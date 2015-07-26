@@ -100,7 +100,7 @@ public class RadarChartView: PieRadarChartViewBase
         _yAxis.axisRange = abs(_yAxis.axisMaximum - _yAxis.axisMinimum)
     }
 
-    public override func getMarkerPosition(#entry: ChartDataEntry, dataSetIndex: Int) -> CGPoint
+    public override func getMarkerPosition(#entry: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
     {
         var angle = self.sliceAngle * CGFloat(entry.xIndex) + self.rotationAngle
         var val = CGFloat(entry.value) * self.factor

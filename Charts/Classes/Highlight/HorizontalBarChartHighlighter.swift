@@ -37,7 +37,7 @@ internal class HorizontalBarChartHighlighter: BarChartHighlighter
                     // take any transformer to determine the x-axis value
                     _chart?.getTransformer(set.axisDependency).pixelToValue(&pt)
                     
-                    return getStackedHighlight(set, xIndex: h!.xIndex, dataSetIndex: h!.dataSetIndex, yValue: Double(pt.x))
+                    return getStackedHighlight(old: h, set: set, xIndex: h!.xIndex, dataSetIndex: h!.dataSetIndex, yValue: Double(pt.x))
                 }
             }
             

@@ -457,9 +457,11 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         }
     }
     
-    public override func getMarkerPosition(#entry: ChartDataEntry, dataSetIndex: Int) -> CGPoint
+    public override func getMarkerPosition(#entry: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
     {
+        let dataSetIndex = highlight.dataSetIndex
         var xPos = CGFloat(entry.xIndex)
+        var yPos = entry.value
         
         if (self.isKindOfClass(BarChartView))
         {
@@ -470,10 +472,18 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             var x = CGFloat(j * (_data.dataSetCount - 1) + dataSetIndex) + space * CGFloat(j) + space / 2.0
             
             xPos += x
+            
+            if let barEntry = entry as? BarChartDataEntry
+            {
+                if barEntry.values != nil && highlight.range !== nil
+                {
+                    yPos = highlight.range!.to
+                }
+            }
         }
         
         // position of the marker depends on selected value index and value
-        var pt = CGPoint(x: xPos, y: CGFloat(entry.value) * _animator.phaseY)
+        var pt = CGPoint(x: xPos, y: CGFloat(yPos) * _animator.phaseY)
         
         getTransformer(_data.getDataSetByIndex(dataSetIndex)!.axisDependency).pointValueToPixel(&pt)
         

@@ -50,7 +50,9 @@ public class ChartMarker: ChartComponentBase
     }
     
     /// This method enables a custom ChartMarker to update it's content everytime the MarkerView is redrawn according to the data entry it points to.
-    public func refreshContent(#entry: ChartDataEntry, dataSetIndex: Int)
+    ///
+    /// :param: highlight the highlight object contains information about the highlighted value such as it's dataset-index, the selected range or stack-index (only stacked bar entries).
+    public func refreshContent(#entry: ChartDataEntry, highlight: ChartHighlight)
     {
         // Do nothing here...
     }

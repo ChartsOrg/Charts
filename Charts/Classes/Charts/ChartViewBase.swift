@@ -462,7 +462,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
                     continue
                 }
                 
-                var pos = getMarkerPosition(entry: e!, dataSetIndex: dataSetIndex)
+                var pos = getMarkerPosition(entry: e!, highlight: highlight)
 
                 // check bounds
                 if (!_viewPortHandler.isInBounds(x: pos.x, y: pos.y))
@@ -471,7 +471,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
                 }
 
                 // callbacks to update the content
-                marker!.refreshContent(entry: e!, dataSetIndex: dataSetIndex)
+                marker!.refreshContent(entry: e!, highlight: highlight)
 
                 let markerSize = marker!.size
                 if (pos.y - markerSize.height <= 0.0)
@@ -488,7 +488,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     }
     
     /// Returns the actual position in pixels of the MarkerView for the given Entry in the given DataSet.
-    public func getMarkerPosition(#entry: ChartDataEntry, dataSetIndex: Int) -> CGPoint
+    public func getMarkerPosition(#entry: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
     {
         fatalError("getMarkerPosition() cannot be called on ChartViewBase")
     }

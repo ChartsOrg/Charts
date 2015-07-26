@@ -42,7 +42,7 @@ internal class BarChartHighlighter: ChartHighlighter
                     // take any transformer to determine the x-axis value
                     _chart?.getTransformer(set.axisDependency).pixelToValue(&pt)
                     
-                    return getStackedHighlight(set, xIndex: h!.xIndex, dataSetIndex: h!.dataSetIndex, yValue: Double(pt.y))
+                    return getStackedHighlight(old: h, set: set, xIndex: h!.xIndex, dataSetIndex: h!.dataSetIndex, yValue: Double(pt.y))
                 }
             }
             
@@ -119,17 +119,23 @@ internal class BarChartHighlighter: ChartHighlighter
     }
     
     /// This method creates the Highlight object that also indicates which value of a stacked BarEntry has been selected.
+    /// :param: old the old highlight object before looking for stacked values
     /// :param: set
     /// :param: xIndex
     /// :param: dataSetIndex
     /// :param: yValue
     /// :returns:
-    internal func getStackedHighlight(set: BarChartDataSet, xIndex: Int, dataSetIndex: Int, yValue: Double) -> ChartHighlight?
+    internal func getStackedHighlight(#old: ChartHighlight?, set: BarChartDataSet, xIndex: Int, dataSetIndex: Int, yValue: Double) -> ChartHighlight?
     {
         var entry = set.entryForXIndex(xIndex) as? BarChartDataEntry
         
         if entry !== nil
         {
+            if entry?.values === nil
+            {
+                return old
+            }
+
             if let ranges = getRanges(entry: entry!)
             {
                 let stackIndex = getClosestStackIndex(ranges: ranges, value: yValue)
@@ -148,11 +154,16 @@ internal class BarChartHighlighter: ChartHighlighter
     /// :param: entry
     /// :param: value
     /// :returns:
-    internal func getClosestStackIndex(#ranges: [ChartRange], value: Double) -> Int
+    internal func getClosestStackIndex(#ranges: [ChartRange]?, value: Double) -> Int
     {
+        if ranges == nil
+        {
+            return 0
+        }
+
         var stackIndex = 0
         
-        for range in ranges
+        for range in ranges!
         {
             if range.contains(value)
             {
@@ -164,9 +175,9 @@ internal class BarChartHighlighter: ChartHighlighter
             }
         }
         
-        let length = ranges.count - 1
+        let length = ranges!.count - 1
         
-        return (value > ranges[length].to) ? length : 0
+        return (value > ranges![length].to) ? length : 0
     }
     
     /// Returns the base x-value to the corresponding x-touch value in pixels.
