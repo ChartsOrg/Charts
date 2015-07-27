@@ -245,6 +245,7 @@ public class ScatterChartRenderer: ChartDataRendererBase
     {
         var scatterData = delegate!.scatterChartRendererData(self)
         var chartXMax = delegate!.scatterChartRendererChartXMax(self)
+        var chartXMin = delegate!.scatterChartRendererChartXMin(self)
         var chartYMax = delegate!.scatterChartRendererChartYMax(self)
         var chartYMin = delegate!.scatterChartRendererChartYMin(self)
         
@@ -289,7 +290,7 @@ public class ScatterChartRenderer: ChartDataRendererBase
             
             pts[0] = CGPoint(x: CGFloat(xIndex), y: CGFloat(chartYMax))
             pts[1] = CGPoint(x: CGFloat(xIndex), y: CGFloat(chartYMin))
-            pts[2] = CGPoint(x: 0.0, y: y)
+            pts[2] = CGPoint(x: CGFloat(chartXMin), y: y)
             pts[3] = CGPoint(x: CGFloat(chartXMax), y: y)
             
             var trans = delegate!.scatterChartRenderer(self, transformerForAxis: set.axisDependency)

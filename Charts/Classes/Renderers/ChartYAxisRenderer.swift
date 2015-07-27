@@ -78,37 +78,65 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             interval = floor(10.0 * intervalMagnitude)
         }
         
-        // if the labels should only show min and max
-        if (_yAxis.isShowOnlyMinMaxEnabled)
+        // force label count
+        if _yAxis.isForceLabelsEnabled
         {
-            _yAxis.entries = [yMin, yMax]
-        }
-        else
-        {
-            var first = ceil(Double(yMin) / interval) * interval
-            var last = ChartUtils.nextUp(floor(Double(yMax) / interval) * interval)
+            let step = Double(range) / Double(labelCount - 1)
             
-            var f: Double
-            var i: Int
-            var n = 0
-            for (f = first; f <= last; f += interval)
-            {
-                ++n
-            }
-            
-            if (_yAxis.entries.count < n)
+            if _yAxis.entries.count < labelCount
             {
                 // Ensure stops contains at least numStops elements.
-                _yAxis.entries = [Double](count: n, repeatedValue: 0.0)
+                _yAxis.entries.removeAll(keepCapacity: true)
             }
-            else if (_yAxis.entries.count > n)
+            else
             {
-                _yAxis.entries.removeRange(n..<_yAxis.entries.count)
+                _yAxis.entries = [Double]()
+                _yAxis.entries.reserveCapacity(labelCount)
             }
             
-            for (f = first, i = 0; i < n; f += interval, ++i)
+            var v = yMin
+            
+            for (var i = 0; i < labelCount; i++)
             {
-                _yAxis.entries[i] = Double(f)
+                _yAxis.entries.append(v)
+                v += step
+            }
+            
+        } else {
+            // no forced count
+            
+            // if the labels should only show min and max
+            if (_yAxis.isShowOnlyMinMaxEnabled)
+            {
+                _yAxis.entries = [yMin, yMax]
+            }
+            else
+            {
+                var first = ceil(Double(yMin) / interval) * interval
+                var last = ChartUtils.nextUp(floor(Double(yMax) / interval) * interval)
+                
+                var f: Double
+                var i: Int
+                var n = 0
+                for (f = first; f <= last; f += interval)
+                {
+                    ++n
+                }
+                
+                if (_yAxis.entries.count < n)
+                {
+                    // Ensure stops contains at least numStops elements.
+                    _yAxis.entries = [Double](count: n, repeatedValue: 0.0)
+                }
+                else if (_yAxis.entries.count > n)
+                {
+                    _yAxis.entries.removeRange(n..<_yAxis.entries.count)
+                }
+                
+                for (f = first, i = 0; i < n; f += interval, ++i)
+                {
+                    _yAxis.entries[i] = Double(f)
+                }
             }
         }
     }

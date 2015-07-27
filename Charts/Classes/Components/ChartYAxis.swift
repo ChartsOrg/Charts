@@ -53,6 +53,9 @@ public class ChartYAxis: ChartAxisBase
     /// if true, the y-label entries will always start at zero
     public var startAtZeroEnabled = true
     
+    /// if true, the set number of y-labels will be forced
+    public var forceLabelsEnabled = true
+
     /// the formatter used to customly format the y-labels
     public var valueFormatter: NSNumberFormatter?
     
@@ -127,6 +130,22 @@ public class ChartYAxis: ChartAxisBase
         return _axisDependency
     }
     
+    public func setLabelCount(count: Int, force: Bool)
+    {
+        _labelCount = count
+        
+        if (_labelCount > 25)
+        {
+            _labelCount = 25
+        }
+        if (_labelCount < 2)
+        {
+            _labelCount = 2
+        }
+    
+        forceLabelsEnabled = force
+    }
+    
     /// the number of label entries the y-axis should have
     /// max = 25,
     /// min = 2,
@@ -140,16 +159,7 @@ public class ChartYAxis: ChartAxisBase
         }
         set
         {
-            _labelCount = newValue
-            
-            if (_labelCount > 25)
-            {
-                _labelCount = 25
-            }
-            if (_labelCount < 2)
-            {
-                _labelCount = 2
-            }
+            setLabelCount(newValue, force: false);
         }
     }
     
@@ -224,7 +234,10 @@ public class ChartYAxis: ChartAxisBase
     public var isInverted: Bool { return inverted; }
     
     public var isStartAtZeroEnabled: Bool { return startAtZeroEnabled; }
-    
+
+    /// :returns: true if focing the y-label count is enabled. Default: false
+    public var isForceLabelsEnabled: Bool { return forceLabelsEnabled }
+
     public var isShowOnlyMinMaxEnabled: Bool { return showOnlyMinMaxEnabled; }
     
     public var isDrawTopYLabelEntryEnabled: Bool { return drawTopYLabelEntryEnabled; }
