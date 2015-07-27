@@ -63,10 +63,10 @@ internal class ChartUtils
         }
     }
 
-    /// Returns the index of the DataSet that contains the closest value on the y-axis. This is needed for highlighting.
+    /// Returns the index of the DataSet that contains the closest value on the y-axis. This will return -Integer.MAX_VALUE if failure.
     internal class func closestDataSetIndex(valsAtIndex: [ChartSelectionDetail], value: Double, axis: ChartYAxis.AxisDependency?) -> Int
     {
-        var index = -1
+        var index = -Int.max
         var distance = DBL_MAX
         
         for (var i = 0; i < valsAtIndex.count; i++)

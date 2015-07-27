@@ -124,7 +124,7 @@
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
     [dataSets addObject:set1];
     [dataSets addObject:set2];
-    //[dataSets addObject:set3];
+    [dataSets addObject:set3];
     
     BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSets:dataSets];
     data.groupSpace = 0.8;
