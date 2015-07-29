@@ -134,7 +134,7 @@ public class CombinedChartRenderer: ChartDataRendererBase,
     }
 
     /// Returns the sub-renderer object at the specified index.
-    public func getSubRenderer(#index: Int) -> ChartDataRendererBase!
+    public func getSubRenderer(#index: Int) -> ChartDataRendererBase?
     {
         if (index >= _renderers.count || index < 0)
         {
