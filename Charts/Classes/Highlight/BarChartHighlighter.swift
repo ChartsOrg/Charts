@@ -129,25 +129,18 @@ internal class BarChartHighlighter: ChartHighlighter
     {
         var entry = set.entryForXIndex(xIndex) as? BarChartDataEntry
         
-        if entry !== nil
+        if entry?.values === nil
         {
-            if entry?.values === nil
-            {
-                return old
-            }
+            return old
+        }
 
-            if let ranges = getRanges(entry: entry!)
-            {
-                let stackIndex = getClosestStackIndex(ranges: ranges, value: yValue)
-                let h = ChartHighlight(xIndex: xIndex, dataSetIndex: dataSetIndex, stackIndex: stackIndex, range: ranges[stackIndex])
-                return h
-            }
-            return nil
-        }
-        else
+        if let ranges = getRanges(entry: entry!)
         {
-            return nil
+            let stackIndex = getClosestStackIndex(ranges: ranges, value: yValue)
+            let h = ChartHighlight(xIndex: xIndex, dataSetIndex: dataSetIndex, stackIndex: stackIndex, range: ranges[stackIndex])
+            return h
         }
+        return nil
     }
     
     /// Returns the index of the closest value inside the values array / ranges (stacked barchart) to the value given as a parameter.
