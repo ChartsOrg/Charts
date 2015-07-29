@@ -28,7 +28,7 @@ public protocol CandleStickChartRendererDelegate
     func candleStickChartRendererMaxVisibleValueCount(renderer: CandleStickChartRenderer) -> Int
 }
 
-public class CandleStickChartRenderer: ChartDataRendererBase
+public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
 {
     public weak var delegate: CandleStickChartRendererDelegate?
     
@@ -246,8 +246,7 @@ public class CandleStickChartRenderer: ChartDataRendererBase
     {
     }
     
-    private var _vertPtsBuffer = [CGPoint](count: 4, repeatedValue: CGPoint())
-    private var _horzPtsBuffer = [CGPoint](count: 4, repeatedValue: CGPoint())
+    private var _highlightPtsBuffer = [CGPoint](count: 4, repeatedValue: CGPoint())
     public override func drawHighlighted(#context: CGContext, indices: [ChartHighlight])
     {
         var candleData = delegate!.candleStickChartRendererCandleData(self)
@@ -289,28 +288,18 @@ public class CandleStickChartRenderer: ChartDataRendererBase
             
             var low = CGFloat(e.low) * _animator.phaseY
             var high = CGFloat(e.high) * _animator.phaseY
+            var y = (low + high) / 2.0
             
-            var min = delegate!.candleStickChartRendererChartYMin(self)
-            var max = delegate!.candleStickChartRendererChartYMax(self)
+            _highlightPtsBuffer[0] = CGPoint(x: CGFloat(xIndex), y: CGFloat(delegate!.candleStickChartRendererChartYMax(self)))
+            _highlightPtsBuffer[1] = CGPoint(x: CGFloat(xIndex), y: CGFloat(delegate!.candleStickChartRendererChartYMin(self)))
+            _highlightPtsBuffer[2] = CGPoint(x: CGFloat(delegate!.candleStickChartRendererChartXMin(self)), y: y)
+            _highlightPtsBuffer[3] = CGPoint(x: CGFloat(delegate!.candleStickChartRendererChartXMax(self)), y: y)
             
-            _vertPtsBuffer[0] = CGPoint(x: CGFloat(xIndex) - 0.5, y: CGFloat(max))
-            _vertPtsBuffer[1] = CGPoint(x: CGFloat(xIndex) - 0.5, y: CGFloat(min))
-            _vertPtsBuffer[2] = CGPoint(x: CGFloat(xIndex) + 0.5, y: CGFloat(max))
-            _vertPtsBuffer[3] = CGPoint(x: CGFloat(xIndex) + 0.5, y: CGFloat(min))
+            trans.pointValuesToPixel(&_highlightPtsBuffer)
             
-            _horzPtsBuffer[0] = CGPoint(x: CGFloat(delegate!.candleStickChartRendererChartXMin(self)), y: low)
-            _horzPtsBuffer[1] = CGPoint(x: CGFloat(delegate!.candleStickChartRendererChartXMax(self)), y: low)
-            _horzPtsBuffer[2] = CGPoint(x: CGFloat(delegate!.candleStickChartRendererChartXMin(self)), y: high)
-            _horzPtsBuffer[3] = CGPoint(x: CGFloat(delegate!.candleStickChartRendererChartXMax(self)), y: high)
-
-            trans.pointValuesToPixel(&_vertPtsBuffer)
-            trans.pointValuesToPixel(&_horzPtsBuffer)
-            
-            // draw the vertical highlight lines
-            CGContextStrokeLineSegments(context, _vertPtsBuffer, 4)
-            
-            // draw the horizontal highlight lines
-            CGContextStrokeLineSegments(context, _horzPtsBuffer, 4)
+            // draw the lines
+            drawHighlightLines(context: context, points: _highlightPtsBuffer,
+                horizontal: set.isHorizontalHighlightIndicatorEnabled, vertical: set.isVerticalHighlightIndicatorEnabled)
         }
     }
 }

@@ -29,7 +29,7 @@ public protocol LineChartRendererDelegate
     func lineChartRendererMaxVisibleValueCount(renderer: LineChartRenderer) -> Int
 }
 
-public class LineChartRenderer: ChartDataRendererBase
+public class LineChartRenderer: LineScatterCandleRadarChartRenderer
 {
     public weak var delegate: LineChartRendererDelegate?
     
@@ -619,8 +619,9 @@ public class LineChartRenderer: ChartDataRendererBase
             
             trans.pointValuesToPixel(&_highlightPtsBuffer)
             
-            // draw the highlight lines
-            CGContextStrokeLineSegments(context, _highlightPtsBuffer, 4)
+            // draw the lines
+            drawHighlightLines(context: context, points: _highlightPtsBuffer,
+                horizontal: set.isHorizontalHighlightIndicatorEnabled, vertical: set.isVerticalHighlightIndicatorEnabled)
         }
         
         CGContextRestoreGState(context)
