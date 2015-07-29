@@ -111,7 +111,10 @@ public class BarChartDataEntry: ChartDataEntry
     }
 
     // MARK: Accessors
-
+    
+    /// the values the stacked barchart holds
+    public var isStacked: Bool { return _values != nil }
+    
     /// the values the stacked barchart holds
     public var values: [Double]?
     {
