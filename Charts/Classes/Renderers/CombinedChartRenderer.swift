@@ -145,6 +145,13 @@ public class CombinedChartRenderer: ChartDataRendererBase,
             return _renderers[index]
         }
     }
+    
+    /// Returns all sub-renderers.
+    public var subRenderers: [ChartDataRendererBase]
+    {
+        get { return _renderers }
+        set { _renderers = newValue }
+    }
 
     // MARK: - LineChartRendererDelegate
     
