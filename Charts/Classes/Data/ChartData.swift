@@ -441,7 +441,14 @@ public class ChartData: NSObject
     /// :returns: the entry that is highlighted
     public func getEntryForHighlight(highlight: ChartHighlight) -> ChartDataEntry?
     {
-        return _dataSets[highlight.dataSetIndex].entryForXIndex(highlight.xIndex)
+        if highlight.dataSetIndex >= dataSets.count
+        {
+            return nil
+        }
+        else
+        {
+            return _dataSets[highlight.dataSetIndex].entryForXIndex(highlight.xIndex)
+        }
     }
     
     /// Returns the DataSet object with the given label. 

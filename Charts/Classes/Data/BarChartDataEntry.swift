@@ -24,7 +24,7 @@ public class BarChartDataEntry: ChartDataEntry
     /// the sum of all positive values this entry (if stacked) contains
     private var _positiveSum: Double = 0.0
     
-    /// Constructor for stacked bar entries. Don't forget to order the stacked-values in an ascending order e.g. (-2,-1,0,1,2).
+    /// Constructor for stacked bar entries.
     public init(values: [Double], xIndex: Int)
     {
         super.init(value: BarChartDataEntry.calcSum(values), xIndex: xIndex)
