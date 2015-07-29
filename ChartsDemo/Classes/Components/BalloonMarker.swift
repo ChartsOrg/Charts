@@ -95,7 +95,7 @@ public class BalloonMarker: ChartMarker
         CGContextRestoreGState(context);
     }
     
-    public override func refreshContent(#entry: ChartDataEntry, dataSetIndex: Int)
+    public override func refreshContent(#entry: ChartDataEntry, highlight: ChartHighlight)
     {
         var label = entry.value.description;
         labelns = label as NSString;

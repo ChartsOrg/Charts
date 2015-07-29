@@ -103,6 +103,7 @@
     set1.highlightColor = [UIColor colorWithRed:244/255.f green:117/255.f blue:117/255.f alpha:1.f];
     [set1 setColor:[UIColor colorWithRed:104/255.f green:241/255.f blue:175/255.f alpha:1.f]];
     set1.fillColor = [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f];
+    set1.drawHorizontalHighlightIndicatorEnabled = NO;
     
     LineChartData *data = [[LineChartData alloc] initWithXVals:xVals dataSet:set1];
     [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:9.f]];

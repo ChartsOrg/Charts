@@ -89,16 +89,18 @@ public class ChartDataSet: NSObject
     
     internal func calcMinMax(#start : Int, end: Int)
     {
-        if _yVals!.count == 0
+        let yValCount = _yVals.count
+        
+        if yValCount == 0
         {
             return
         }
         
         var endValue : Int
         
-        if end == 0
+        if end == 0 || end >= yValCount
         {
-            endValue = _yVals.count - 1
+            endValue = yValCount - 1
         }
         else
         {
@@ -109,7 +111,7 @@ public class ChartDataSet: NSObject
         _lastEnd = endValue
         
         _yMin = DBL_MAX
-        _yMax = -DBL_MIN
+        _yMax = -DBL_MAX
         
         for (var i = start; i <= endValue; i++)
         {

@@ -98,7 +98,7 @@ public class PieChartView: PieRadarChartViewBase
         calcAngles()
     }
     
-    public override func getMarkerPosition(#entry: ChartDataEntry, dataSetIndex: Int) -> CGPoint
+    public override func getMarkerPosition(#entry: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
     {
         /// PieChart does not support MarkerView
         return CGPoint(x: 0.0, y: 0.0)

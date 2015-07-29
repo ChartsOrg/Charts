@@ -15,7 +15,7 @@ import Foundation
 import CoreGraphics
 import UIKit
 
-public class CandleChartDataSet: BarLineScatterCandleChartDataSet
+public class CandleChartDataSet: LineScatterCandleChartDataSet
 {
     /// the width of the candle-shadow-line in pixels. 
     /// :default: 3.0

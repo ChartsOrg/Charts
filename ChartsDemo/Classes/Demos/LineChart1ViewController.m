@@ -52,7 +52,6 @@
     _chartView.descriptionText = @"";
     _chartView.noDataTextDescription = @"You need to provide data for the chart.";
     
-    _chartView.highlightEnabled = NO;
     _chartView.dragEnabled = YES;
     [_chartView setScaleEnabled:YES];
     _chartView.pinchZoomEnabled = YES;

@@ -17,9 +17,6 @@ import UIKit
 
 public class HorizontalBarChartRenderer: BarChartRenderer
 {
-    private var xOffset: CGFloat = 0.0
-    private var yOffset: CGFloat = 0.0
-    
     public override init(delegate: BarChartRendererDelegate?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
         super.init(delegate: delegate, animator: animator, viewPortHandler: viewPortHandler)
@@ -56,9 +53,9 @@ public class HorizontalBarChartRenderer: BarChartRenderer
             // calculate the x-position, depending on datasetcount
             var x = CGFloat(e.xIndex + j * dataSetOffset) + CGFloat(index)
                 + groupSpace * CGFloat(j) + groupSpaceHalf
-            var vals = e.values
+            let values = e.values
             
-            if (!containsStacks || vals == nil)
+            if (!containsStacks || values == nil)
             {
                 y = e.value
                 
@@ -112,8 +109,10 @@ public class HorizontalBarChartRenderer: BarChartRenderer
             }
             else
             {
-                var allPos = e.positiveSum
-                var allNeg = e.negativeSum
+                let vals = values!
+                var posY = 0.0
+                var negY = -e.negativeSum
+                var yStart = 0.0
                 
                 // if drawing the bar shadow is enabled
                 if (drawBarShadowEnabled)
@@ -158,29 +157,34 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                     
                     if value >= 0.0
                     {
-                        allPos -= value
-                        y = value + allPos
+                        y = posY
+                        yStart = posY + value
+                        posY = yStart
                     }
                     else
                     {
-                        allNeg -= abs(value)
-                        y = value + allNeg
+                        y = negY
+                        yStart = negY + abs(value)
+                        negY += abs(value)
                     }
                     
                     var bottom = x - barWidth + barSpaceHalf
                     var top = x + barWidth - barSpaceHalf
-                    var right = y >= 0.0 ? CGFloat(y) : 0.0
-                    var left = y <= 0.0 ? CGFloat(y) : 0.0
-                    
-                    // multiply the height of the rect with the phase
-                    if (right > 0)
+                    var right: CGFloat, left: CGFloat
+                    if isInverted
                     {
-                        right *= phaseY
+                        left = y >= yStart ? CGFloat(y) : CGFloat(yStart)
+                        right = y <= yStart ? CGFloat(y) : CGFloat(yStart)
                     }
                     else
                     {
-                        left *= phaseY
+                        right = y >= yStart ? CGFloat(y) : CGFloat(yStart)
+                        left = y <= yStart ? CGFloat(y) : CGFloat(yStart)
                     }
+                    
+                    // multiply the height of the rect with the phase
+                    right *= phaseY
+                    left *= phaseY
                     
                     barRect.origin.x = left
                     barRect.size.width = right - left
@@ -189,14 +193,14 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                     
                     trans.rectValueToPixel(&barRect)
                     
-                    if (k == 0 && !viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width))
+                    if (k == 0 && !viewPortHandler.isInBoundsTop(barRect.origin.y + barRect.size.height))
                     {
                         // Skip to next bar
                         break
                     }
                     
                     // avoid drawing outofbounds values
-                    if (!viewPortHandler.isInBoundsRight(barRect.origin.x))
+                    if (!viewPortHandler.isInBoundsBottom(barRect.origin.y))
                     {
                         break
                     }
@@ -245,7 +249,6 @@ public class HorizontalBarChartRenderer: BarChartRenderer
             var dataSets = barData.dataSets
             
             var drawValueAboveBar = delegate!.barChartIsDrawValueAboveBarEnabled(self)
-            var drawValuesForWholeStackEnabled = delegate!.barChartIsDrawValuesForWholeStackEnabled(self)
             
             let textAlign = drawValueAboveBar ? NSTextAlignment.Left : NSTextAlignment.Right
             
@@ -255,7 +258,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
             
             for (var i = 0, count = barData.dataSetCount; i < count; i++)
             {
-                var dataSet = dataSets[i]
+                var dataSet = dataSets[i] as! BarChartDataSet
                 
                 if (!dataSet.isDrawValuesEnabled)
                 {
@@ -281,18 +284,18 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                 var valuePoints = getTransformedValues(trans: trans, entries: entries, dataSetIndex: i)
                 
                 // if only single values are drawn (sum)
-                if (!drawValuesForWholeStackEnabled)
+                if (!dataSet.isStacked)
                 {
                     for (var j = 0, count = Int(ceil(CGFloat(valuePoints.count) * _animator.phaseX)); j < count; j++)
                     {
-                        if (!viewPortHandler.isInBoundsX(valuePoints[j].x))
-                        {
-                            continue
-                        }
-                        
                         if (!viewPortHandler.isInBoundsTop(valuePoints[j].y))
                         {
                             break
+                        }
+                        
+                        if (!viewPortHandler.isInBoundsX(valuePoints[j].x))
+                        {
+                            continue
                         }
                         
                         if (!viewPortHandler.isInBoundsBottom(valuePoints[j].y))
@@ -332,19 +335,19 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                     {
                         var e = entries[j]
                         
-                        var vals = e.values
+                        let values = e.values
                         
                         // we still draw stacked bars, but there is one non-stacked in between
-                        if (vals == nil)
+                        if (values == nil)
                         {
-                            if (!viewPortHandler.isInBoundsX(valuePoints[j].x))
-                            {
-                                continue
-                            }
-                            
                             if (!viewPortHandler.isInBoundsTop(valuePoints[j].y))
                             {
                                 break
+                            }
+                            
+                            if (!viewPortHandler.isInBoundsX(valuePoints[j].x))
+                            {
+                                continue
                             }
                             
                             if (!viewPortHandler.isInBoundsBottom(valuePoints[j].y))
@@ -377,9 +380,11 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                         }
                         else
                         {
+                            let vals = values!
                             var transformed = [CGPoint]()
-                            var allPos = e.positiveSum
-                            var allNeg = e.negativeSum
+                            
+                            var posY = 0.0
+                            var negY = -e.negativeSum
                             
                             for (var k = 0; k < vals.count; k++)
                             {
@@ -388,13 +393,13 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                                 
                                 if value >= 0.0
                                 {
-                                    allPos -= value
-                                    y = value + allPos
+                                    posY += value
+                                    y = posY
                                 }
                                 else
                                 {
-                                    allNeg -= abs(value)
-                                    y = value + allNeg
+                                    y = negY
+                                    negY -= value
                                 }
                                 
                                 transformed.append(CGPoint(x: CGFloat(y) * _animator.phaseY, y: 0.0))
@@ -421,14 +426,14 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                                 var x = transformed[k].x + (val >= 0 ? posOffset : negOffset)
                                 var y = valuePoints[j].y
                                 
-                                if (!viewPortHandler.isInBoundsX(x))
-                                {
-                                    continue
-                                }
-                                
                                 if (!viewPortHandler.isInBoundsTop(y))
                                 {
                                     break
+                                }
+                                
+                                if (!viewPortHandler.isInBoundsX(x))
+                                {
+                                    continue
                                 }
                                 
                                 if (!viewPortHandler.isInBoundsBottom(y))

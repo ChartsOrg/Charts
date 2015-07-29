@@ -54,52 +54,80 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
             interval = floor(10 * intervalMagnitude)
         }
         
-        // clean old values
-        if (_yAxis.entries.count > 0)
+        // force label count
+        if _yAxis.isForceLabelsEnabled
         {
-            _yAxis.entries.removeAll(keepCapacity: false)
-        }
-        
-        // if the labels should only show min and max
-        if (_yAxis.isShowOnlyMinMaxEnabled)
-        {
-            _yAxis.entries = [Double]()
-            _yAxis.entries.append(yMin)
-            _yAxis.entries.append(yMax)
-        }
-        else
-        {
-            var first = ceil(Double(yMin) / interval) * interval
+            let step = Double(range) / Double(labelCount - 1)
             
-            if (first == 0.0)
-            { // Fix for IEEE negative zero case (Where value == -0.0, and 0.0 == -0.0)
-                first = 0.0
-            }
-            
-            var last = ChartUtils.nextUp(floor(Double(yMax) / interval) * interval)
-            
-            var f: Double
-            var i: Int
-            var n = 0
-            for (f = first; f <= last; f += interval)
-            {
-                ++n
-            }
-            
-            if (isnan(_yAxis.customAxisMax))
-            {
-                n += 1
-            }
-
-            if (_yAxis.entries.count < n)
+            if _yAxis.entries.count < labelCount
             {
                 // Ensure stops contains at least numStops elements.
-                _yAxis.entries = [Double](count: n, repeatedValue: 0.0)
+                _yAxis.entries.removeAll(keepCapacity: true)
             }
-
-            for (f = first, i = 0; i < n; f += interval, ++i)
+            else
             {
-                _yAxis.entries[i] = Double(f)
+                _yAxis.entries = [Double]()
+                _yAxis.entries.reserveCapacity(labelCount)
+            }
+            
+            var v = yMin
+            
+            for (var i = 0; i < labelCount; i++)
+            {
+                _yAxis.entries.append(v)
+                v += step
+            }
+            
+        } else {
+            // no forced count
+            
+            // clean old values
+            if (_yAxis.entries.count > 0)
+            {
+                _yAxis.entries.removeAll(keepCapacity: false)
+            }
+            
+            // if the labels should only show min and max
+            if (_yAxis.isShowOnlyMinMaxEnabled)
+            {
+                _yAxis.entries = [Double]()
+                _yAxis.entries.append(yMin)
+                _yAxis.entries.append(yMax)
+            }
+            else
+            {
+                var first = ceil(Double(yMin) / interval) * interval
+                
+                if (first == 0.0)
+                { // Fix for IEEE negative zero case (Where value == -0.0, and 0.0 == -0.0)
+                    first = 0.0
+                }
+                
+                var last = ChartUtils.nextUp(floor(Double(yMax) / interval) * interval)
+                
+                var f: Double
+                var i: Int
+                var n = 0
+                for (f = first; f <= last; f += interval)
+                {
+                    ++n
+                }
+                
+                if (isnan(_yAxis.customAxisMax))
+                {
+                    n += 1
+                }
+                
+                if (_yAxis.entries.count < n)
+                {
+                    // Ensure stops contains at least numStops elements.
+                    _yAxis.entries = [Double](count: n, repeatedValue: 0.0)
+                }
+                
+                for (f = first, i = 0; i < n; f += interval, ++i)
+                {
+                    _yAxis.entries[i] = Double(f)
+                }
             }
         }
         

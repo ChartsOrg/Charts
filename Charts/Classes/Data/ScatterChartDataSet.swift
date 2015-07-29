@@ -14,7 +14,7 @@
 import Foundation
 import CoreGraphics
 
-public class ScatterChartDataSet: BarLineScatterCandleChartDataSet
+public class ScatterChartDataSet: LineScatterCandleChartDataSet
 {
     @objc
     public enum ScatterShape: Int

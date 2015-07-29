@@ -28,7 +28,7 @@ public protocol ScatterChartRendererDelegate
     func scatterChartRendererMaxVisibleValueCount(renderer: ScatterChartRenderer) -> Int
 }
 
-public class ScatterChartRenderer: ChartDataRendererBase
+public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
 {
     public weak var delegate: ScatterChartRendererDelegate?
     
@@ -241,16 +241,17 @@ public class ScatterChartRenderer: ChartDataRendererBase
         
     }
     
+    private var _highlightPtsBuffer = [CGPoint](count: 4, repeatedValue: CGPoint())
+    
     public override func drawHighlighted(#context: CGContext, indices: [ChartHighlight])
     {
         var scatterData = delegate!.scatterChartRendererData(self)
         var chartXMax = delegate!.scatterChartRendererChartXMax(self)
+        var chartXMin = delegate!.scatterChartRendererChartXMin(self)
         var chartYMax = delegate!.scatterChartRendererChartYMax(self)
         var chartYMin = delegate!.scatterChartRendererChartYMin(self)
         
         CGContextSaveGState(context)
-        
-        var pts = [CGPoint](count: 4, repeatedValue: CGPoint())
         
         for (var i = 0; i < indices.count; i++)
         {
@@ -287,17 +288,18 @@ public class ScatterChartRenderer: ChartDataRendererBase
             
             var y = CGFloat(yVal) * _animator.phaseY; // get the y-position
             
-            pts[0] = CGPoint(x: CGFloat(xIndex), y: CGFloat(chartYMax))
-            pts[1] = CGPoint(x: CGFloat(xIndex), y: CGFloat(chartYMin))
-            pts[2] = CGPoint(x: 0.0, y: y)
-            pts[3] = CGPoint(x: CGFloat(chartXMax), y: y)
+            _highlightPtsBuffer[0] = CGPoint(x: CGFloat(xIndex), y: CGFloat(chartYMax))
+            _highlightPtsBuffer[1] = CGPoint(x: CGFloat(xIndex), y: CGFloat(chartYMin))
+            _highlightPtsBuffer[2] = CGPoint(x: CGFloat(chartXMin), y: y)
+            _highlightPtsBuffer[3] = CGPoint(x: CGFloat(chartXMax), y: y)
             
             var trans = delegate!.scatterChartRenderer(self, transformerForAxis: set.axisDependency)
             
-            trans.pointValuesToPixel(&pts)
+            trans.pointValuesToPixel(&_highlightPtsBuffer)
             
-            // draw the highlight lines
-            CGContextStrokeLineSegments(context, pts, pts.count)
+            // draw the lines
+            drawHighlightLines(context: context, points: _highlightPtsBuffer,
+                horizontal: set.isHorizontalHighlightIndicatorEnabled, vertical: set.isVerticalHighlightIndicatorEnabled)
         }
         
         CGContextRestoreGState(context)

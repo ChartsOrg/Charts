@@ -76,7 +76,7 @@ public class BarChartDataSet: BarLineScatterCandleChartDataSet
             }
             else
             {
-                _entryCountStacks += vals.count
+                _entryCountStacks += vals!.count
             }
         }
     }
@@ -86,12 +86,80 @@ public class BarChartDataSet: BarLineScatterCandleChartDataSet
     {
         for (var i = 0; i < yVals.count; i++)
         {
-            var vals = yVals[i].values
-            
-            if (vals != nil && vals.count > _stackSize)
+            if let vals = yVals[i].values
             {
-                _stackSize = vals.count
+                if vals.count > _stackSize
+                {
+                    _stackSize = vals.count
+                }
             }
+        }
+    }
+    
+    internal override func calcMinMax(#start : Int, end: Int)
+    {
+        let yValCount = _yVals.count
+        
+        if yValCount == 0
+        {
+            return
+        }
+        
+        var endValue : Int
+        
+        if end == 0 || end >= yValCount
+        {
+            endValue = yValCount - 1
+        }
+        else
+        {
+            endValue = end
+        }
+        
+        _lastStart = start
+        _lastEnd = endValue
+        
+        _yMin = DBL_MAX
+        _yMax = -DBL_MAX
+        
+        for (var i = start; i <= endValue; i++)
+        {
+            if let e = _yVals[i] as? BarChartDataEntry
+            {
+                if !e.value.isNaN
+                {
+                    if e.values == nil
+                    {
+                        if e.value < _yMin
+                        {
+                            _yMin = e.value
+                        }
+                        
+                        if e.value > _yMax
+                        {
+                            _yMax = e.value
+                        }
+                    }
+                    else
+                    {
+                        if -e.negativeSum < _yMin
+                        {
+                            _yMin = -e.negativeSum
+                        }
+                        
+                        if e.positiveSum > _yMax
+                        {
+                            _yMax = e.positiveSum
+                        }
+                    }
+                }
+            }
+        }
+        
+        if (_yMin == DBL_MAX)
+        {
+            _yMin = 0.0
+            _yMax = 0.0
         }
     }
     

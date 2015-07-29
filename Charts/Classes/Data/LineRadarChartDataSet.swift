@@ -15,7 +15,7 @@ import Foundation
 import CoreGraphics
 import UIKit
 
-public class LineRadarChartDataSet: BarLineScatterCandleChartDataSet
+public class LineRadarChartDataSet: LineScatterCandleChartDataSet
 {
     public var fillColor = UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0)
     public var fillAlpha = CGFloat(0.33)

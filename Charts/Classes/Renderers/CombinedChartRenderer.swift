@@ -29,9 +29,6 @@ public class CombinedChartRenderer: ChartDataRendererBase,
     /// if set to true, all values are drawn above their bars, instead of below their top
     public var drawValueAboveBarEnabled = true
     
-    /// if set to true, all values of a stack are drawn individually, and not just their sum
-    public var drawValuesForWholeStackEnabled = true
-    
     /// if set to true, a grey area is darawn behind each bar that indicates the maximum value
     public var drawBarShadowEnabled = true
     
@@ -137,7 +134,7 @@ public class CombinedChartRenderer: ChartDataRendererBase,
     }
 
     /// Returns the sub-renderer object at the specified index.
-    public func getSubRenderer(#index: Int) -> ChartDataRendererBase!
+    public func getSubRenderer(#index: Int) -> ChartDataRendererBase?
     {
         if (index >= _renderers.count || index < 0)
         {
@@ -147,6 +144,13 @@ public class CombinedChartRenderer: ChartDataRendererBase,
         {
             return _renderers[index]
         }
+    }
+    
+    /// Returns all sub-renderers.
+    public var subRenderers: [ChartDataRendererBase]
+    {
+        get { return _renderers }
+        set { _renderers = newValue }
     }
 
     // MARK: - LineChartRendererDelegate
@@ -246,11 +250,6 @@ public class CombinedChartRenderer: ChartDataRendererBase,
     public func barChartIsDrawValueAboveBarEnabled(renderer: BarChartRenderer) -> Bool
     {
         return drawValueAboveBarEnabled
-    }
-    
-    public func barChartIsDrawValuesForWholeStackEnabled(renderer: BarChartRenderer) -> Bool
-    {
-        return drawValuesForWholeStackEnabled
     }
     
     public func barChartIsDrawBarShadowEnabled(renderer: BarChartRenderer) -> Bool
@@ -401,9 +400,6 @@ public class CombinedChartRenderer: ChartDataRendererBase,
     
     /// returns true if drawing values above bars is enabled, false if not
     public var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled; }
-    
-    /// returns true if all values of a stack are drawn, and not just their sum
-    public var isDrawValuesForWholeStackEnabled: Bool { return drawValuesForWholeStackEnabled; }
     
     /// returns true if drawing shadows (maxvalue) for each bar is enabled, false if not
     public var isDrawBarShadowEnabled: Bool { return drawBarShadowEnabled; }

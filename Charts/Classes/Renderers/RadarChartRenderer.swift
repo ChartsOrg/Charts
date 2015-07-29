@@ -15,7 +15,7 @@ import Foundation
 import CoreGraphics
 import UIKit
 
-public class RadarChartRenderer: ChartDataRendererBase
+public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
 {
     internal weak var _chart: RadarChartView!
 
@@ -225,7 +225,7 @@ public class RadarChartRenderer: ChartDataRendererBase
         CGContextRestoreGState(context)
     }
     
-    private var _lineSegments = [CGPoint](count: 4, repeatedValue: CGPoint())
+    private var _highlightPtsBuffer = [CGPoint](count: 4, repeatedValue: CGPoint())
 
     public override func drawHighlighted(#context: CGContext, indices: [ChartHighlight])
     {
@@ -283,11 +283,14 @@ public class RadarChartRenderer: ChartDataRendererBase
             var p = ChartUtils.getPosition(center: center, dist: CGFloat(y) * factor,
                 angle: sliceangle * CGFloat(j) + _chart.rotationAngle)
             
-            _lineSegments[0] = CGPoint(x: p.x, y: 0.0)
-            _lineSegments[1] = CGPoint(x: p.x, y: viewPortHandler.chartHeight)
-            _lineSegments[2] = CGPoint(x: 0.0, y: p.y)
-            _lineSegments[3] = CGPoint(x: viewPortHandler.chartWidth, y: p.y)
-            CGContextStrokeLineSegments(context, _lineSegments, 4)
+            _highlightPtsBuffer[0] = CGPoint(x: p.x, y: 0.0)
+            _highlightPtsBuffer[1] = CGPoint(x: p.x, y: viewPortHandler.chartHeight)
+            _highlightPtsBuffer[2] = CGPoint(x: 0.0, y: p.y)
+            _highlightPtsBuffer[3] = CGPoint(x: viewPortHandler.chartWidth, y: p.y)
+            
+            // draw the lines
+            drawHighlightLines(context: context, points: _highlightPtsBuffer,
+                horizontal: set.isHorizontalHighlightIndicatorEnabled, vertical: set.isVerticalHighlightIndicatorEnabled)
         }
         
         CGContextRestoreGState(context)

@@ -83,9 +83,8 @@ public class ChartAnimator: NSObject
         }
     }
     
-    @objc private func animationLoop()
+    private func updateAnimationPhases(currentTime: NSTimeInterval)
     {
-        var currentTime: NSTimeInterval = CACurrentMediaTime()
         var elapsedTime: NSTimeInterval = currentTime - _startTime
         if (_enabledX)
         {
@@ -123,6 +122,13 @@ public class ChartAnimator: NSObject
                 phaseY = CGFloat(elapsed / duration)
             }
         }
+    }
+    
+    @objc private func animationLoop()
+    {
+        var currentTime: NSTimeInterval = CACurrentMediaTime()
+        
+        updateAnimationPhases(currentTime)
         
         if (delegate != nil)
         {
@@ -162,6 +168,9 @@ public class ChartAnimator: NSObject
         
         _easingX = easingX
         _easingY = easingY
+        
+        // Take care of the first frame if rendering is already scheduled...
+        updateAnimationPhases(_startTime)
         
         if (_enabledX || _enabledY)
         {
