@@ -142,7 +142,7 @@ public class ChartTransformer: NSObject
             var e = entries[j]
 
             // calculate the x-position, depending on datasetcount
-            var x = CGFloat(e.xIndex + (j * (setCount - 1)) + dataSet) + space * CGFloat(j) + space / 2.0
+            var x = CGFloat(e.xIndex + (e.xIndex * (setCount - 1)) + dataSet) + space * CGFloat(e.xIndex) + space / 2.0
             var y = e.value
             
             valuePoints.append(CGPoint(x: x, y: CGFloat(y) * phaseY))
@@ -167,7 +167,7 @@ public class ChartTransformer: NSObject
             var e = entries[j]
 
             // calculate the x-position, depending on datasetcount
-            var x = CGFloat(e.xIndex + (j * (setCount - 1)) + dataSet) + space * CGFloat(j) + space / 2.0
+            var x = CGFloat(e.xIndex + (e.xIndex * (setCount - 1)) + dataSet) + space * CGFloat(e.xIndex) + space / 2.0
             var y = e.value
             
             valuePoints.append(CGPoint(x: CGFloat(y) * phaseY, y: x))
