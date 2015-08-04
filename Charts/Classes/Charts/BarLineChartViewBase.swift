@@ -13,7 +13,7 @@
 
 import Foundation
 import CoreGraphics
-import UIKit.UIGestureRecognizer
+import UIKit
 
 /// Base-class of LineChart, BarChart, ScatterChart and CandleStickChart.
 public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
@@ -61,10 +61,10 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     
     internal var _xAxisRenderer: ChartXAxisRenderer!
     
-    private var _tapGestureRecognizer: UITapGestureRecognizer!
-    private var _doubleTapGestureRecognizer: UITapGestureRecognizer!
-    private var _pinchGestureRecognizer: UIPinchGestureRecognizer!
-    private var _panGestureRecognizer: UIPanGestureRecognizer!
+    internal var _tapGestureRecognizer: UITapGestureRecognizer!
+    internal var _doubleTapGestureRecognizer: UITapGestureRecognizer!
+    internal var _pinchGestureRecognizer: UIPinchGestureRecognizer!
+    internal var _panGestureRecognizer: UIPanGestureRecognizer!
     
     /// flag that indicates if a custom viewport offset has been set
     private var _customViewPortEnabled = false
