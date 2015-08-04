@@ -31,6 +31,12 @@ public class CombinedChartRenderer: ChartDataRendererBase
     
     internal var _drawOrder: [CombinedChartView.CombinedChartDrawOrder] = [.Bar, .Bubble, .Line, .Candle, .Scatter]
     
+    internal var barRenderer: BarChartRenderer!
+    internal var lineRenderer: LineChartRenderer!
+    internal var bubbleRenderer: BubbleChartRenderer!
+    internal var candleStickRenderer: CandleStickChartRenderer!
+    internal var scatterRenderer: ScatterChartRenderer!
+    
     public init(chart: CombinedChartView, animator: ChartAnimator, viewPortHandler: ChartViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
@@ -45,52 +51,52 @@ public class CombinedChartRenderer: ChartDataRendererBase
     {
         _renderers = [ChartDataRendererBase]()
         
-        guard let
-            chart = chart,
-            animator = animator
-            else { return }
-
         for order in drawOrder
         {
             switch (order)
             {
             case .Bar:
-                if (chart.barData !== nil)
+                if (chart!.barData !== nil)
                 {
-                    _renderers.append(BarChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
+                    barRenderer = BarChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler)
+                    _renderers.append(barRenderer)
                 }
                 break
                 
             case .Line:
-                if (chart.lineData !== nil)
+                if (chart!.lineData !== nil)
                 {
-                    _renderers.append(LineChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
+                    lineRenderer = LineChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler)
+                    _renderers.append(lineRenderer)
                 }
                 break
                 
             case .Candle:
-                if (chart.candleData !== nil)
+                if (chart!.candleData !== nil)
                 {
-                    _renderers.append(CandleStickChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
+                    candleStickRenderer = CandleStickChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler)
+                    _renderers.append(candleStickRenderer)
                 }
                 break
                 
             case .Scatter:
-                if (chart.scatterData !== nil)
+                if (chart!.scatterData !== nil)
                 {
-                    _renderers.append(ScatterChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
+                    scatterRenderer = ScatterChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler)
+                    _renderers.append(scatterRenderer)
                 }
                 break
                 
             case .Bubble:
-                if (chart.bubbleData !== nil)
+                if (chart!.bubbleData !== nil)
                 {
-                    _renderers.append(BubbleChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
+                    bubbleRenderer = BubbleChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler)
+                    _renderers.append(bubbleRenderer)
                 }
                 break
             }
         }
-
+        
     }
     
     public override func drawData(context context: CGContext)
@@ -119,9 +125,55 @@ public class CombinedChartRenderer: ChartDataRendererBase
     
     public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
     {
-        for renderer in _renderers
+        for (var i = 0; i < indices.count; i++)
         {
-            renderer.drawHighlighted(context: context, indices: indices)
+            let highlight = indices[i];
+            let set = self.chart!.data!.getDataSetByIndex(highlight.dataSetIndex)
+            var dataSetIndex = 0
+            var highlightInSubData: ChartHighlight
+            
+            if (set!.dynamicType === BarChartDataSet.self)
+            {
+                dataSetIndex = self.chart!.barData!.indexOfDataSet(set)
+                if ((set as! BarChartDataSet).isStacked)
+                {
+                    highlightInSubData = ChartHighlight(xIndex: highlight.xIndex, dataSetIndex: dataSetIndex, stackIndex: highlight.stackIndex, range: highlight.range!)
+                }
+                else
+                {
+                    highlightInSubData = ChartHighlight(xIndex: highlight.xIndex, dataSetIndex: dataSetIndex, stackIndex: highlight.stackIndex)
+                }
+                barRenderer.drawHighlighted(context: context, indices: [highlightInSubData])
+            }
+            else if (set!.dynamicType === LineChartDataSet.self)
+            {
+                dataSetIndex = self.chart!.lineData!.indexOfDataSet(set)
+                highlightInSubData = ChartHighlight(xIndex: highlight.xIndex, dataSetIndex: dataSetIndex, stackIndex: highlight.stackIndex)
+                lineRenderer.drawHighlighted(context: context, indices: [highlightInSubData])
+            }
+            else if (set!.dynamicType === BubbleChartDataSet.self)
+            {
+                dataSetIndex = self.chart!.bubbleData!.indexOfDataSet(set)
+                highlightInSubData = ChartHighlight(xIndex: highlight.xIndex, dataSetIndex: dataSetIndex, stackIndex: highlight.stackIndex)
+                bubbleRenderer.drawHighlighted(context: context, indices: [highlightInSubData])
+            }
+            else if (set!.dynamicType === CandleChartDataSet.self)
+            {
+                dataSetIndex = self.chart!.candleData!.indexOfDataSet(set)
+                highlightInSubData = ChartHighlight(xIndex: highlight.xIndex, dataSetIndex: dataSetIndex, stackIndex: highlight.stackIndex)
+                candleStickRenderer.drawHighlighted(context: context, indices: [highlightInSubData])
+            }
+            else if (set!.dynamicType === ScatterChartDataSet.self)
+            {
+                dataSetIndex = self.chart!.scatterData!.indexOfDataSet(set)
+                highlightInSubData = ChartHighlight(xIndex: highlight.xIndex, dataSetIndex: dataSetIndex, stackIndex: highlight.stackIndex)
+                scatterRenderer.drawHighlighted(context: context, indices: [highlightInSubData])
+            }
+            else
+            {
+                // do nothing because no match
+            }
+            
         }
     }
     

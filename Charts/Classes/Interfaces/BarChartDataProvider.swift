@@ -19,6 +19,9 @@ public protocol BarChartDataProvider: BarLineScatterCandleBubbleChartDataProvide
 {
     var barData: BarChartData? { get }
     
+    func getBarChartTransformer(which: ChartYAxis.AxisDependency) -> ChartTransformer
+    var barChartXMin: Double { get }
+    var barChartXMax: Double { get }
     var isDrawBarShadowEnabled: Bool { get }
     var isDrawValueAboveBarEnabled: Bool { get }
     var isDrawHighlightArrowEnabled: Bool { get }
