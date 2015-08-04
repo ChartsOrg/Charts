@@ -95,18 +95,15 @@ public class CandleChartDataSet: BarLineScatterCandleChartDataSet
     /// the space that is left out on the left and right side of each candle,
     /// **default**: 0.1 (10%), max 0.45, min 0.0
     public var bodySpace: CGFloat
-    {
+        {
         set
         {
-            _bodySpace = newValue
-            
-            if (_bodySpace < 0.0)
-            {
+            if (newValue < 0.0){
                 _bodySpace = 0.0
-            }
-            if (_bodySpace > 0.45)
-            {
+            }else if (newValue > 0.45){
                 _bodySpace = 0.45
+            }else{
+                _bodySpace = newValue
             }
         }
         get
