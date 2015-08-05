@@ -55,10 +55,8 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
         // extend xDelta to make space for multiple datasets (if ther are one)
         _deltaX *= CGFloat(_data.dataSetCount)
         
-        var maxEntry = barData.xValCount
-        
         var groupSpace = barData.groupSpace
-        _deltaX += CGFloat(maxEntry) * groupSpace
+        _deltaX += CGFloat(barData.xValCount) * groupSpace
         _chartXMax = Double(_deltaX) - _chartXMin
     }
     
