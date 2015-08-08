@@ -26,10 +26,10 @@ internal class ChartHighlighter
     }
     
     /// Returns a Highlight object corresponding to the given x- and y- touch positions in pixels.
-    /// :param: x
-    /// :param: y
-    /// :returns:
-    internal func getHighlight(#x: Double, y: Double) -> ChartHighlight?
+    /// - parameter x:
+    /// - parameter y:
+    /// - returns:
+    internal func getHighlight(x x: Double, y: Double) -> ChartHighlight?
     {
         let xIndex = getXIndex(x)
         if (xIndex == -Int.max)
@@ -47,8 +47,8 @@ internal class ChartHighlighter
     }
     
     /// Returns the corresponding x-index for a given touch-position in pixels.
-    /// :param: x
-    /// :returns:
+    /// - parameter x:
+    /// - returns:
     internal func getXIndex(x: Double) -> Int
     {
         // create an array of the touch-point
@@ -61,11 +61,11 @@ internal class ChartHighlighter
     }
     
     /// Returns the corresponding dataset-index for a given xIndex and xy-touch position in pixels.
-    /// :param: xIndex
-    /// :param: x
-    /// :param: y
-    /// :returns:
-    internal func getDataSetIndex(#xIndex: Int, x: Double, y: Double) -> Int
+    /// - parameter xIndex:
+    /// - parameter x:
+    /// - parameter y:
+    /// - returns:
+    internal func getDataSetIndex(xIndex xIndex: Int, x: Double, y: Double) -> Int
     {
         let valsAtIndex = getSelectionDetailsAtIndex(xIndex)
         
@@ -80,8 +80,8 @@ internal class ChartHighlighter
     }
     
     /// Returns a list of SelectionDetail object corresponding to the given xIndex.
-    /// :param: xIndex
-    /// :return:
+    /// - parameter xIndex:
+    /// - returns:
     internal func getSelectionDetailsAtIndex(xIndex: Int) -> [ChartSelectionDetail]
     {
         var vals = [ChartSelectionDetail]()
@@ -89,7 +89,7 @@ internal class ChartHighlighter
         
         for (var i = 0, dataSetCount = _chart?.data?.dataSetCount; i < dataSetCount; i++)
         {
-            var dataSet = _chart!.data!.getDataSetByIndex(i)
+            let dataSet = _chart!.data!.getDataSetByIndex(i)
             
             // dont include datasets that cannot be highlighted
             if !dataSet.isHighlightEnabled

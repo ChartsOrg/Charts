@@ -36,7 +36,7 @@ public class ChartRendererBase: NSObject
         self.viewPortHandler = viewPortHandler
     }
 
-    /// Returns true if the specified value fits in between the provided min and max bounds, false if not.
+    /// - returns: true if the specified value fits in between the provided min and max bounds, false if not.
     internal func fitsBounds(val: Double, min: Double, max: Double) -> Bool
     {
         if (val < min || val > max)
@@ -50,7 +50,7 @@ public class ChartRendererBase: NSObject
     }
     
     /// Calculates the minimum and maximum x-value the chart can currently display (with the given zoom level).
-    public func calcXBounds(#chart: BarLineChartViewBase, xAxisModulus: Int)
+    public func calcXBounds(chart chart: BarLineChartViewBase, xAxisModulus: Int)
     {
         let low = chart.lowestVisibleXIndex
         let high = chart.highestVisibleXIndex

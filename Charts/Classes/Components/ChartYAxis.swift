@@ -64,14 +64,14 @@ public class ChartYAxis: ChartAxisBase
     
     /// A custom minimum value for this axis. 
     /// If set, this value will not be calculated automatically depending on the provided data. 
-    /// Use resetCustomAxisMin() to undo this. 
+    /// Use `resetCustomAxisMin()` to undo this.
     /// Do not forget to set startAtZeroEnabled = false if you use this method.
     /// Otherwise, the axis-minimum value will still be forced to 0.
     public var customAxisMin = Double.NaN
         
     /// Set a custom maximum value for this axis. 
     /// If set, this value will not be calculated automatically depending on the provided data. 
-    /// Use resetCustomAxisMax() to undo this.
+    /// Use `resetCustomAxisMax()` to undo this.
     public var customAxisMax = Double.NaN
 
     /// axis space from the largest value to the top in percent of the total axis range
@@ -93,12 +93,14 @@ public class ChartYAxis: ChartAxisBase
     private var _axisDependency = AxisDependency.Left
     
     /// the minimum width that the axis should take
-    /// :default 0.0
+    /// 
+    /// **default**: 0.0
     public var minWidth = CGFloat(0)
     
     /// the maximum width that the axis can take.
     /// use zero for disabling the maximum
-    /// :default 0.0 (no maximum specified)
+    /// 
+    /// **default**: 0.0 (no maximum specified)
     public var maxWidth = CGFloat(0)
     
     public override init()
@@ -177,7 +179,7 @@ public class ChartYAxis: ChartAxisBase
     
     public func requiredSize() -> CGSize
     {
-        var label = getLongestLabel() as NSString
+        let label = getLongestLabel() as NSString
         var size = label.sizeWithAttributes([NSFontAttributeName: labelFont])
         size.width += xOffset * 2.0
         size.height += yOffset * 2.0
@@ -196,9 +198,9 @@ public class ChartYAxis: ChartAxisBase
         
         for (var i = 0; i < entries.count; i++)
         {
-            var text = getFormattedLabel(i)
+            let text = getFormattedLabel(i)
             
-            if (count(longest) < count(text))
+            if (longest.characters.count < text.characters.count)
             {
                 longest = text
             }
@@ -207,7 +209,7 @@ public class ChartYAxis: ChartAxisBase
         return longest
     }
 
-    /// Returns the formatted y-label at the specified index. This will either use the auto-formatter or the custom formatter (if one is set).
+    /// - returns: the formatted y-label at the specified index. This will either use the auto-formatter or the custom formatter (if one is set).
     public func getFormattedLabel(index: Int) -> String
     {
         if (index < 0 || index >= entries.count)
@@ -218,7 +220,7 @@ public class ChartYAxis: ChartAxisBase
         return (valueFormatter ?? _defaultValueFormatter).stringFromNumber(entries[index])!
     }
     
-    /// Returns true if this axis needs horizontal offset, false if no offset is needed.
+    /// - returns: true if this axis needs horizontal offset, false if no offset is needed.
     public var needsOffset: Bool
     {
         if (isEnabled && isDrawLabelsEnabled && labelPosition == .OutsideChart)
@@ -235,7 +237,7 @@ public class ChartYAxis: ChartAxisBase
     
     public var isStartAtZeroEnabled: Bool { return startAtZeroEnabled; }
 
-    /// :returns: true if focing the y-label count is enabled. Default: false
+    /// - returns: true if focing the y-label count is enabled. Default: false
     public var isForceLabelsEnabled: Bool { return forceLabelsEnabled }
 
     public var isShowOnlyMinMaxEnabled: Bool { return showOnlyMinMaxEnabled; }
