@@ -32,7 +32,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         _xAxis.labelHeight = longestSize.height
     }
 
-    public override func renderAxisLabels(context context: CGContext)
+    public override func renderAxisLabels(context context: CGContext?)
     {
         if (!_xAxis.isEnabled || !_xAxis.isDrawLabelsEnabled || _chart.data === nil)
         {
@@ -65,7 +65,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
     }
 
     /// draws the x-labels on the specified y-position
-    internal func drawLabels(context context: CGContext, pos: CGFloat, align: NSTextAlignment)
+    internal func drawLabels(context context: CGContext?, pos: CGFloat, align: NSTextAlignment)
     {
         let labelFont = _xAxis.labelFont
         let labelTextColor = _xAxis.labelTextColor
@@ -105,7 +105,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
     
     private var _gridLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    public override func renderGridLines(context context: CGContext)
+    public override func renderGridLines(context context: CGContext?)
     {
         if (!_xAxis.isEnabled || !_xAxis.isDrawGridLinesEnabled || _chart.data === nil)
         {
@@ -154,7 +154,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
     
     private var _axisLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    public override func renderAxisLine(context context: CGContext)
+    public override func renderAxisLine(context context: CGContext?)
     {
         if (!_xAxis.isEnabled || !_xAxis.isDrawAxisLineEnabled)
         {
@@ -201,7 +201,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
     
     private var _limitLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    public override func renderLimitLines(context context: CGContext)
+    public override func renderLimitLines(context context: CGContext?)
     {
         var limitLines = _xAxis.limitLines
         
