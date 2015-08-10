@@ -39,7 +39,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
         self.delegate = delegate
     }
     
-    public override func drawData(context context: CGContext)
+    public override func drawData(context context: CGContext?)
     {
         let scatterData = delegate!.scatterChartRendererData(self)
         
@@ -61,7 +61,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
     
     private var _lineSegments = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    internal func drawDataSet(context context: CGContext, dataSet: ScatterChartDataSet)
+    internal func drawDataSet(context context: CGContext?, dataSet: ScatterChartDataSet)
     {
         let trans = delegate!.scatterChartRenderer(self, transformerForAxis: dataSet.axisDependency)
         
@@ -171,7 +171,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
         CGContextRestoreGState(context)
     }
     
-    public override func drawValues(context context: CGContext)
+    public override func drawValues(context context: CGContext?)
     {
         let scatterData = delegate!.scatterChartRendererData(self)
         if (scatterData === nil)
@@ -235,14 +235,14 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
         }
     }
     
-    public override func drawExtras(context context: CGContext)
+    public override func drawExtras(context context: CGContext?)
     {
         
     }
     
     private var _highlightPtsBuffer = [CGPoint](count: 4, repeatedValue: CGPoint())
     
-    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext?, indices: [ChartHighlight])
     {
         let scatterData = delegate!.scatterChartRendererData(self)
         let chartXMax = delegate!.scatterChartRendererChartXMax(self)
