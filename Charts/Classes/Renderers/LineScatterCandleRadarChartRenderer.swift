@@ -27,7 +27,7 @@ public class LineScatterCandleRadarChartRenderer: ChartDataRendererBase
     /// :param: points
     /// :param: horizontal
     /// :param: vertical
-    public func drawHighlightLines(context context: CGContext, points: UnsafePointer<CGPoint>, horizontal: Bool, vertical: Bool)
+    public func drawHighlightLines(context context: CGContext?, points: UnsafePointer<CGPoint>, horizontal: Bool, vertical: Bool)
     {
         // draw vertical highlight lines
         if vertical

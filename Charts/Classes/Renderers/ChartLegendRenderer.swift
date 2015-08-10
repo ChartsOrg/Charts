@@ -107,7 +107,7 @@ public class ChartLegendRenderer: ChartRendererBase
         _legend.calculateDimensions(labelFont: _legend.font, viewPortHandler: viewPortHandler)
     }
     
-    public func renderLegend(context context: CGContext)
+    public func renderLegend(context context: CGContext?)
     {
         if (_legend === nil || !_legend.enabled)
         {
@@ -364,7 +364,7 @@ public class ChartLegendRenderer: ChartRendererBase
     private var _formLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
     /// Draws the Legend-form at the given position with the color at the given index.
-    internal func drawForm(context: CGContext, x: CGFloat, y: CGFloat, colorIndex: Int, legend: ChartLegend)
+    internal func drawForm(context: CGContext?, x: CGFloat, y: CGFloat, colorIndex: Int, legend: ChartLegend)
     {
         let formColor = legend.colors[colorIndex]
         
@@ -405,7 +405,7 @@ public class ChartLegendRenderer: ChartRendererBase
     }
 
     /// Draws the provided label at the given position.
-    internal func drawLabel(context: CGContext, x: CGFloat, y: CGFloat, label: String, font: UIFont, textColor: UIColor)
+    internal func drawLabel(context: CGContext?, x: CGFloat, y: CGFloat, label: String, font: UIFont, textColor: UIColor)
     {
         ChartUtils.drawText(context: context, text: label, point: CGPoint(x: x, y: y), align: .Left, attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: textColor])
     }

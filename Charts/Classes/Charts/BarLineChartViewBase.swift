@@ -490,7 +490,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     }
     
     /// draws the grid background
-    internal func drawGridBackground(context context: CGContext)
+    internal func drawGridBackground(context context: CGContext?)
     {
         if (drawGridBackgroundEnabled || drawBordersEnabled)
         {
