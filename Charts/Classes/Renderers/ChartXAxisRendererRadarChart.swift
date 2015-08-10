@@ -26,7 +26,7 @@ public class ChartXAxisRendererRadarChart: ChartXAxisRenderer
         _chart = chart
     }
     
-    public override func renderAxisLabels(context context: CGContext)
+    public override func renderAxisLabels(context context: CGContext?)
     {
         if (!_xAxis.isEnabled || !_xAxis.isDrawLabelsEnabled)
         {
@@ -60,7 +60,7 @@ public class ChartXAxisRendererRadarChart: ChartXAxisRenderer
         }
     }
     
-    public override func renderLimitLines(context context: CGContext)
+    public override func renderLimitLines(context context: CGContext?)
     {
         /// XAxis LimitLines on RadarChart not yet supported.
     }
