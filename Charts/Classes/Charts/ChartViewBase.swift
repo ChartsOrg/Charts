@@ -291,7 +291,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     {
         let context = UIGraphicsGetCurrentContext()
         let frame = self.bounds
-        
+
         if (_dataNotSet || _data === nil || _data.yValCount == 0)
         { // check if there is data
             
@@ -319,7 +319,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     }
     
     /// draws the description text in the bottom right corner of the chart
-    internal func drawDescription(context context: CGContext)
+    internal func drawDescription(context context: CGContext?)
     {
         if (descriptionText.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) == 0)
         {
@@ -439,7 +439,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     // MARK: - Markers
 
     /// draws all MarkerViews on the highlighted positions
-    internal func drawMarkers(context context: CGContext)
+    internal func drawMarkers(context context: CGContext?)
     {
         // if there is no marker view or drawing marker is disabled
         if (marker === nil || !drawMarkers || !valuesToHighlight())
@@ -776,7 +776,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             }
         }
         
-        layer.renderInContext(UIGraphicsGetCurrentContext())
+        layer.renderInOptionalContext(context)
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
         

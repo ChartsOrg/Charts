@@ -93,7 +93,7 @@ public class CombinedChartRenderer: ChartDataRendererBase,
 
     }
     
-    public override func drawData(context context: CGContext)
+    public override func drawData(context context: CGContext?)
     {
         for renderer in _renderers
         {
@@ -101,7 +101,7 @@ public class CombinedChartRenderer: ChartDataRendererBase,
         }
     }
     
-    public override func drawValues(context context: CGContext)
+    public override func drawValues(context context: CGContext?)
     {
         for renderer in _renderers
         {
@@ -109,7 +109,7 @@ public class CombinedChartRenderer: ChartDataRendererBase,
         }
     }
     
-    public override func drawExtras(context context: CGContext)
+    public override func drawExtras(context context: CGContext?)
     {
         for renderer in _renderers
         {
@@ -117,7 +117,7 @@ public class CombinedChartRenderer: ChartDataRendererBase,
         }
     }
     
-    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext?, indices: [ChartHighlight])
     {
         for renderer in _renderers
         {

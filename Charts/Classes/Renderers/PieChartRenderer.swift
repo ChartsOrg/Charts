@@ -40,7 +40,7 @@ public class PieChartRenderer: ChartDataRendererBase
         _chart = chart
     }
     
-    public override func drawData(context context: CGContext)
+    public override func drawData(context context: CGContext?)
     {
         if (_chart !== nil)
         {
@@ -59,7 +59,7 @@ public class PieChartRenderer: ChartDataRendererBase
         }
     }
     
-    internal func drawDataSet(context context: CGContext, dataSet: PieChartDataSet)
+    internal func drawDataSet(context context: CGContext?, dataSet: PieChartDataSet)
     {
         var angle = _chart.rotationAngle
         
@@ -121,7 +121,7 @@ public class PieChartRenderer: ChartDataRendererBase
         CGContextRestoreGState(context)
     }
     
-    public override func drawValues(context context: CGContext)
+    public override func drawValues(context context: CGContext?)
     {
         let center = _chart.centerCircleBox
         
@@ -220,14 +220,14 @@ public class PieChartRenderer: ChartDataRendererBase
         }
     }
     
-    public override func drawExtras(context context: CGContext)
+    public override func drawExtras(context context: CGContext?)
     {
         drawHole(context: context)
         drawCenterText(context: context)
     }
     
     /// draws the hole in the center of the chart and the transparent circle / hole
-    private func drawHole(context context: CGContext)
+    private func drawHole(context context: CGContext?)
     {
         if (_chart.drawHoleEnabled)
         {
@@ -260,7 +260,7 @@ public class PieChartRenderer: ChartDataRendererBase
     }
     
     /// draws the description text in the center of the pie chart makes most sense when center-hole is enabled
-    private func drawCenterText(context context: CGContext)
+    private func drawCenterText(context context: CGContext?)
     {
         if (drawCenterTextEnabled && centerText != nil && centerText.characters.count > 0)
         {
@@ -302,7 +302,7 @@ public class PieChartRenderer: ChartDataRendererBase
         }
     }
     
-    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext?, indices: [ChartHighlight])
     {
         if (_chart.data === nil)
         {

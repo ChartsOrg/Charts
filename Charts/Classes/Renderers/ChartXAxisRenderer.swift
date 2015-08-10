@@ -44,7 +44,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         _xAxis.values = xValues
     }
     
-    public override func renderAxisLabels(context context: CGContext)
+    public override func renderAxisLabels(context context: CGContext?)
     {
         if (!_xAxis.isEnabled || !_xAxis.isDrawLabelsEnabled)
         {
@@ -78,7 +78,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
     
     private var _axisLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    public override func renderAxisLine(context context: CGContext)
+    public override func renderAxisLine(context context: CGContext?)
     {
         if (!_xAxis.isEnabled || !_xAxis.isDrawAxisLineEnabled)
         {
@@ -124,7 +124,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
     }
     
     /// draws the x-labels on the specified y-position
-    internal func drawLabels(context context: CGContext, pos: CGFloat)
+    internal func drawLabels(context context: CGContext?, pos: CGFloat)
     {
         let paraStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
         paraStyle.alignment = .Center
@@ -187,7 +187,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
     
     private var _gridLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    public override func renderGridLines(context context: CGContext)
+    public override func renderGridLines(context context: CGContext?)
     {
         if (!_xAxis.isDrawGridLinesEnabled || !_xAxis.isEnabled)
         {
@@ -233,7 +233,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
     
     private var _limitLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    public override func renderLimitLines(context context: CGContext)
+    public override func renderLimitLines(context context: CGContext?)
     {
         var limitLines = _xAxis.limitLines
         

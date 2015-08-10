@@ -484,13 +484,15 @@ public class ChartDataSet: NSObject
     
     public func copyWithZone(zone: NSZone) -> AnyObject
     {
-        let copy = self.dynamicType.allocWithZone(zone) as ChartDataSet
+        let copy = ChartDataSet()
         copy.colors = colors
         copy._yVals = _yVals
         copy._yMax = _yMax
         copy._yMin = _yMin
         copy._yValueSum = _yValueSum
-        copy.label = self.label
+        copy._lastStart = _lastStart
+        copy._lastEnd = _lastEnd
+        copy.label = label
         return copy
     }
 }
