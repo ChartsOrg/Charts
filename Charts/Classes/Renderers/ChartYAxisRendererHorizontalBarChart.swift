@@ -255,8 +255,18 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
                 let add = CGFloat(4.0)
                 var xOffset: CGFloat = l.lineWidth
                 var yOffset: CGFloat = add / 2.0
-
-                if (l.labelPosition == .Right)
+                
+                if (l.labelPosition == .RightTop)
+                {
+                    ChartUtils.drawText(context: context,
+                        text: label,
+                        point: CGPoint(
+                            x: position.x + xOffset,
+                            y: viewPortHandler.contentTop + yOffset),
+                        align: .Left,
+                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
+                }
+                else if (l.labelPosition == .RightBottom)
                 {
                     ChartUtils.drawText(context: context,
                         text: label,
@@ -266,14 +276,24 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
                         align: .Left,
                         attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
                 }
+                else if (l.labelPosition == .LeftTop)
+                {
+                    ChartUtils.drawText(context: context,
+                        text: label,
+                        point: CGPoint(
+                            x: position.x - xOffset,
+                            y: viewPortHandler.contentTop + yOffset),
+                        align: .Right,
+                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
+                }
                 else
                 {
                     ChartUtils.drawText(context: context,
                         text: label,
                         point: CGPoint(
-                            x: position.x + xOffset,
-                            y: viewPortHandler.contentTop + yOffset),
-                        align: .Left,
+                            x: position.x - xOffset,
+                            y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
+                        align: .Right,
                         attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
                 }
             }
