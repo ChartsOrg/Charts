@@ -96,15 +96,17 @@ public class CandleChartDataSet: LineScatterCandleChartDataSet
     {
         set
         {
-            _bodySpace = newValue
-            
-            if (_bodySpace < 0.0)
+            if (newValue < 0.0)
             {
                 _bodySpace = 0.0
             }
-            if (_bodySpace > 0.45)
+            else if (newValue > 0.45)
             {
                 _bodySpace = 0.45
+            }
+            else
+            {
+                _bodySpace = newValue
             }
         }
         get

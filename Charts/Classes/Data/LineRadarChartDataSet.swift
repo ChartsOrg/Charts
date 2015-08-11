@@ -32,14 +32,17 @@ public class LineRadarChartDataSet: LineScatterCandleChartDataSet
         }
         set
         {
-            _lineWidth = newValue
-            if (_lineWidth < 0.2)
+            if (newValue < 0.2)
             {
-                _lineWidth = 0.5
+                _lineWidth = 0.2
             }
-            if (_lineWidth > 10.0)
+            else if (newValue > 10.0)
             {
                 _lineWidth = 10.0
+            }
+            else
+            {
+                _lineWidth = newValue
             }
         }
     }
