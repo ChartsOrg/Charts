@@ -159,6 +159,12 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
                 return
             }
             
+            if (positions[i].x < viewPortHandler.contentRect.origin.x ||
+                positions[i].x > viewPortHandler.contentRect.size.width + viewPortHandler.contentRect.origin.x)
+            {
+                continue
+            }
+            
             ChartUtils.drawText(context: context, text: text, point: CGPoint(x: positions[i].x, y: fixedPosition - offset), align: .Center, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
         }
     }
