@@ -78,7 +78,9 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
                 v += step
             }
             
-        } else {
+        }
+        else
+        {
             // no forced count
             
             // clean old values
@@ -96,7 +98,13 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
             }
             else
             {
-                var first = ceil(Double(yMin) / interval) * interval
+                let rawCount = Double(yMin) / interval
+                var first = rawCount < 0.0 ? floor(rawCount) * interval : ceil(rawCount) * interval;
+                
+                if (first < yMin && _yAxis.isStartAtZeroEnabled)
+                { // Force the first label to be at the 0 (or smallest negative value)
+                    first = yMin
+                }
                 
                 if (first == 0.0)
                 { // Fix for IEEE negative zero case (Where value == -0.0, and 0.0 == -0.0)
@@ -131,6 +139,12 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
             }
         }
         
+        if !_yAxis.isStartAtZeroEnabled && _yAxis.entries[0] < yMin
+        {
+            // If startAtZero is disabled, and the first label is lower that the axis minimum,
+            // Then adjust the axis minimum
+            _yAxis.axisMinimum = _yAxis.entries[0]
+        }
         _yAxis.axisMaximum = _yAxis.entries[_yAxis.entryCount - 1]
         _yAxis.axisRange = abs(_yAxis.axisMaximum - _yAxis.axisMinimum)
     }

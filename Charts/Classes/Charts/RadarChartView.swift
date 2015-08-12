@@ -94,7 +94,7 @@ public class RadarChartView: PieRadarChartViewBase
         // consider starting at zero (0)
         if (_yAxis.isStartAtZeroEnabled)
         {
-            _yAxis.axisMinimum = 0.0
+            _yAxis.axisMinimum = min(0.0, _yAxis.axisMinimum)
         }
         
         _yAxis.axisRange = abs(_yAxis.axisMaximum - _yAxis.axisMinimum)
