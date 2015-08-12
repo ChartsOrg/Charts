@@ -98,16 +98,12 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
             }
             else
             {
-                var rawValue = Double(yMin) / interval
-                var first: Double;
-                // if raw value negative, we need to use floor rather than ceil
-                if (rawValue < 0)
-                {
-                    first = floor(rawValue) * interval
-                }
-                else
-                {
-                    first = ceil(Double(yMin) / interval) * interval
+                let rawCount = Double(yMin) / interval
+                var first = rawCount < 0.0 ? floor(rawCount) * interval : ceil(rawCount) * interval;
+                
+                if (first < yMin && _yAxis.isStartAtZeroEnabled)
+                { // Force the first label to be at the 0 (or smallest negative value)
+                    first = yMin
                 }
                 
                 if (first == 0.0)
@@ -143,9 +139,13 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
             }
         }
         
+        if !_yAxis.isStartAtZeroEnabled && _yAxis.entries[0] < yMin
+        {
+            // If startAtZero is disabled, and the first label is lower that the axis minimum,
+            // Then adjust the axis minimum
+            _yAxis.axisMinimum = _yAxis.entries[0]
+        }
         _yAxis.axisMaximum = _yAxis.entries[_yAxis.entryCount - 1]
-        // set axisMinimum to be the minimum value.
-        _yAxis.axisMinimum = _yAxis.entries[0]
         _yAxis.axisRange = abs(_yAxis.axisMaximum - _yAxis.axisMinimum)
     }
     
