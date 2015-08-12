@@ -102,7 +102,9 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
                 v += step
             }
             
-        } else {
+        }
+        else
+        {
             // no forced count
             
             // if the labels should only show min and max

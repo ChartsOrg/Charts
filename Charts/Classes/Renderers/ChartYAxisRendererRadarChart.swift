@@ -78,7 +78,9 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
                 v += step
             }
             
-        } else {
+        }
+        else
+        {
             // no forced count
             
             // clean old values
