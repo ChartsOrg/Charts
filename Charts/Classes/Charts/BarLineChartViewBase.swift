@@ -332,9 +332,9 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
                 // If the values are all negative, let's stay in the negative zone
                 _leftAxis.axisMaximum = 0.0
             }
-            else
+            else if _leftAxis.axisMinimum >= 0.0
             {
-                // We have positive values, stay in the positive zone
+                // We have positive values only, stay in the positive zone
                 _leftAxis.axisMinimum = 0.0
             }
         }
@@ -346,9 +346,9 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
                 // If the values are all negative, let's stay in the negative zone
                 _rightAxis.axisMaximum = 0.0
             }
-            else
+            else if _rightAxis.axisMinimum >= 0.0
             {
-                // We have positive values, stay in the positive zone
+                // We have positive values only, stay in the positive zone
                 _rightAxis.axisMinimum = 0.0
             }
         }
