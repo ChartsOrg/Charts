@@ -277,6 +277,10 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         setNeedsDisplay()
     }
     
+    private func sign(n: Double) -> Double {
+        return n > 0 ? 1 : (n < 0 ? -1 : 0)
+    }
+    
     internal override func calcMinMax()
     {
         if (_autoScaleMinMaxEnabled)
@@ -289,8 +293,22 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         var minRight = _data.getYMin(.Right)
         var maxRight = _data.getYMax(.Right)
         
-        var leftRange = abs(maxLeft - (_leftAxis.isStartAtZeroEnabled ? 0.0 : minLeft))
-        var rightRange = abs(maxRight - (_rightAxis.isStartAtZeroEnabled ? 0.0 : minRight))
+        var leftRange = abs(maxLeft - minLeft)
+        var rightRange = abs(maxRight - minRight)
+        
+        /*
+         * - In case isStartAtZeroEnabled is set and all y values have the same sign,
+         *   we want to define the range as max(abs(minValue),abs(maxValue)), hence we do
+         *   the correction below
+         * - In case the y values have not the same sign, we don't want to cut off the range,
+         *   hence we keep the value previously calculated
+         */
+        if _leftAxis.isStartAtZeroEnabled && sign(minLeft) == sign(maxLeft) {
+            leftRange += min(abs(maxLeft), abs(minLeft))
+        }
+        if _rightAxis.isStartAtZeroEnabled  && sign(minRight) == sign(maxRight) {
+            rightRange += min(abs(maxRight), abs(minRight))
+        }
         
         // in case all values are equal
         if (leftRange == 0.0)
@@ -327,7 +345,10 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         // consider starting at zero (0)
         if (_leftAxis.isStartAtZeroEnabled)
         {
-            if _leftAxis.axisMinimum < 0.0 && _leftAxis.axisMaximum < 0.0
+            // [a] we want here to include 0 in the comparison (hence <=),
+            // otherwise we get different behaviors for value insignificantly different
+            // (e.g. axisMinimum 0 or axisMinimum 1e-10)
+            if _leftAxis.axisMinimum <= 0.0 && _leftAxis.axisMaximum <= 0.0
             {
                 // If the values are all negative, let's stay in the negative zone
                 _leftAxis.axisMaximum = 0.0
@@ -341,7 +362,8 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         
         if (_rightAxis.isStartAtZeroEnabled)
         {
-            if _rightAxis.axisMinimum < 0.0 && _rightAxis.axisMaximum < 0.0
+            // see comment [a] above
+            if _rightAxis.axisMinimum <= 0.0 && _rightAxis.axisMaximum <= 0.0
             {
                 // If the values are all negative, let's stay in the negative zone
                 _rightAxis.axisMaximum = 0.0
