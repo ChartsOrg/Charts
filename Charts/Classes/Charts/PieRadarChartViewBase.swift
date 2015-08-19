@@ -195,7 +195,7 @@ public class PieRadarChartViewBase: ChartViewBase
         {
             let x = (self as! RadarChartView).xAxis
             
-            if (x.isEnabled)
+            if x.isEnabled && x.drawLabelsEnabled
             {
                 minOffset = max(10.0, x.labelWidth)
             }
