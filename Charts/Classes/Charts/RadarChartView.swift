@@ -82,20 +82,41 @@ public class RadarChartView: PieRadarChartViewBase
         
         var leftRange = CGFloat(abs(maxLeft - (_yAxis.isStartAtZeroEnabled ? 0.0 : minLeft)))
         
-        var topSpaceLeft = leftRange * _yAxis.spaceTop
-        var bottomSpaceLeft = leftRange * _yAxis.spaceBottom
+        var topSpaceLeft = Double(leftRange * _yAxis.spaceTop)
+        var bottomSpaceLeft = Double(leftRange * _yAxis.spaceBottom)
+        
+        // Consider sticking one of the edges of the axis to zero (0.0)
+        
+        if _yAxis.isStartAtZeroEnabled
+        {
+            if minLeft < 0.0 && maxLeft < 0.0
+            {
+                // If the values are all negative, let's stay in the negative zone
+                _yAxis.axisMinimum = min(0.0, !isnan(_yAxis.customAxisMin) ? _yAxis.customAxisMin : (minLeft - bottomSpaceLeft))
+                _yAxis.axisMaximum = 0.0
+            }
+            else if minLeft >= 0.0
+            {
+                // We have positive values only, stay in the positive zone
+                _yAxis.axisMinimum = 0.0
+                _yAxis.axisMaximum = max(0.0, !isnan(_yAxis.customAxisMax) ? _yAxis.customAxisMax : (maxLeft + topSpaceLeft))
+            }
+            else
+            {
+                // Stick the minimum to 0.0 or less, and maximum to 0.0 or more (startAtZero for negative/positive at the same time)
+                _yAxis.axisMinimum = min(0.0, !isnan(_yAxis.customAxisMin) ? _yAxis.customAxisMin : (minLeft - bottomSpaceLeft))
+                _yAxis.axisMaximum = max(0.0, !isnan(_yAxis.customAxisMax) ? _yAxis.customAxisMax : (maxLeft + topSpaceLeft))
+            }
+        }
+        else
+        {
+            // Use the values as they are
+            _yAxis.axisMinimum = !isnan(_yAxis.customAxisMin) ? _yAxis.customAxisMin : (minLeft - bottomSpaceLeft)
+            _yAxis.axisMaximum = !isnan(_yAxis.customAxisMax) ? _yAxis.customAxisMax : (maxLeft + topSpaceLeft)
+        }
         
         _chartXMax = Double(_data.xVals.count) - 1.0
         _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
-        
-        _yAxis.axisMaximum = !isnan(_yAxis.customAxisMax) ? _yAxis.customAxisMax : maxLeft + Double(topSpaceLeft)
-        _yAxis.axisMinimum = !isnan(_yAxis.customAxisMin) ? _yAxis.customAxisMin : minLeft - Double(bottomSpaceLeft)
-        
-        // consider starting at zero (0)
-        if (_yAxis.isStartAtZeroEnabled)
-        {
-            _yAxis.axisMinimum = min(0.0, _yAxis.axisMinimum)
-        }
         
         _yAxis.axisRange = abs(_yAxis.axisMaximum - _yAxis.axisMinimum)
     }
