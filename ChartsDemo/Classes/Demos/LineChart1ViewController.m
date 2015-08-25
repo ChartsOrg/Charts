@@ -113,19 +113,11 @@
 {
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
     
-    for (int i = 0; i < count-5; i++)
+    for (int i = 0; i < count; i++)
     {
         [xVals addObject:[@(i) stringValue]];
     }
-
-    [xVals addObject:Nil;
-    [xVals addObject:Nil];
     
-    for (int i = count-3; i < count; i++)
-    {
-        [xVals addObject:[@(i) stringValue]];
-    }
-
     NSMutableArray *yVals = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < count; i++)
