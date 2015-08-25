@@ -38,7 +38,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
         self.delegate = delegate
     }
     
-    public override func drawData(#context: CGContext)
+    public override func drawData(context context: CGContext?)
     {
         let bubbleData = delegate!.bubbleChartRendererData(self)
         
@@ -51,7 +51,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
         }
     }
     
-    private func getShapeSize(#entrySize: CGFloat, maxSize: CGFloat, reference: CGFloat) -> CGFloat
+    private func getShapeSize(entrySize entrySize: CGFloat, maxSize: CGFloat, reference: CGFloat) -> CGFloat
     {
         let factor: CGFloat = (maxSize == 0.0) ? 1.0 : sqrt(entrySize / maxSize)
         let shapeSize: CGFloat = reference * factor
@@ -61,7 +61,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
     private var _pointBuffer = CGPoint()
     private var _sizeBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    internal func drawDataSet(#context: CGContext, dataSet: BubbleChartDataSet)
+    internal func drawDataSet(context context: CGContext?, dataSet: BubbleChartDataSet)
     {
         let trans = delegate!.bubbleChartRenderer(self, transformerForAxis: dataSet.axisDependency)
         
@@ -74,11 +74,11 @@ public class BubbleChartRenderer: ChartDataRendererBase
         
         CGContextSaveGState(context)
         
-        var entryFrom = dataSet.entryForXIndex(_minX)
-        var entryTo = dataSet.entryForXIndex(_maxX)
+        let entryFrom = dataSet.entryForXIndex(_minX)
+        let entryTo = dataSet.entryForXIndex(_maxX)
         
-        var minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0)
-        var maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count)
+        let minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0)
+        let maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count)
         
         _sizeBuffer[0].x = 0.0
         _sizeBuffer[0].y = 0.0
@@ -94,7 +94,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
         
         for (var j = minx; j < maxx; j++)
         {
-            var entry = entries[j]
+            let entry = entries[j]
             
             _pointBuffer.x = CGFloat(entry.xIndex - minx) * phaseX + CGFloat(minx)
             _pointBuffer.y = CGFloat(entry.value) * phaseY
@@ -135,7 +135,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
         CGContextRestoreGState(context)
     }
     
-    public override func drawValues(#context: CGContext)
+    public override func drawValues(context context: CGContext?)
     {
         let bubbleData = delegate!.bubbleChartRendererData(self)
         if (bubbleData === nil)
@@ -167,11 +167,11 @@ public class BubbleChartRenderer: ChartDataRendererBase
                 
                 let entries = dataSet.yVals
                 
-                var entryFrom = dataSet.entryForXIndex(_minX)
-                var entryTo = dataSet.entryForXIndex(_maxX)
+                let entryFrom = dataSet.entryForXIndex(_minX)
+                let entryTo = dataSet.entryForXIndex(_maxX)
                 
-                var minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0)
-                var maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count)
+                let minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0)
+                let maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count)
                 
                 let positions = delegate!.bubbleChartRenderer(self, transformerForAxis: dataSet.axisDependency).generateTransformedValuesBubble(entries, phaseX: phaseX, phaseY: phaseY, from: minx, to: maxx)
                 
@@ -203,12 +203,12 @@ public class BubbleChartRenderer: ChartDataRendererBase
         }
     }
     
-    public override func drawExtras(#context: CGContext)
+    public override func drawExtras(context context: CGContext?)
     {
         
     }
     
-    public override func drawHighlighted(#context: CGContext, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext?, indices: [ChartHighlight])
     {
         let bubbleData = delegate!.bubbleChartRendererData(self)
         
@@ -226,11 +226,11 @@ public class BubbleChartRenderer: ChartDataRendererBase
                 continue
             }
             
-            var entryFrom = dataSet.entryForXIndex(_minX)
-            var entryTo = dataSet.entryForXIndex(_maxX)
+            let entryFrom = dataSet.entryForXIndex(_minX)
+            let entryTo = dataSet.entryForXIndex(_maxX)
             
-            var minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0)
-            var maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, dataSet.entryCount)
+            let minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0)
+            let maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, dataSet.entryCount)
             
             let entry: BubbleChartDataEntry! = bubbleData.getEntryForHighlight(indice) as! BubbleChartDataEntry
             if (entry === nil || entry.xIndex != indice.xIndex)

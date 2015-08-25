@@ -50,7 +50,7 @@ public class BarChartDataSet: BarLineScatterCandleChartDataSet
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
-        var copy = super.copyWithZone(zone) as! BarChartDataSet
+        let copy = super.copyWithZone(zone) as! BarChartDataSet
         copy.barSpace = barSpace
         copy._stackSize = _stackSize
         copy.barShadowColor = barShadowColor
@@ -68,7 +68,7 @@ public class BarChartDataSet: BarLineScatterCandleChartDataSet
         
         for (var i = 0; i < yVals.count; i++)
         {
-            var vals = yVals[i].values
+            let vals = yVals[i].values
             
             if (vals == nil)
             {
@@ -90,13 +90,13 @@ public class BarChartDataSet: BarLineScatterCandleChartDataSet
             {
                 if vals.count > _stackSize
                 {
-                    _stackSize = vals.count
-                }
+                _stackSize = vals.count
             }
         }
     }
+    }
     
-    internal override func calcMinMax(#start : Int, end: Int)
+    internal override func calcMinMax(start start : Int, end: Int)
     {
         let yValCount = _yVals.count
         
@@ -163,19 +163,19 @@ public class BarChartDataSet: BarLineScatterCandleChartDataSet
         }
     }
     
-    /// Returns the maximum number of bars that can be stacked upon another in this DataSet.
+    /// - returns: the maximum number of bars that can be stacked upon another in this DataSet.
     public var stackSize: Int
     {
         return _stackSize
     }
     
-    /// Returns true if this DataSet is stacked (stacksize > 1) or not.
+    /// - returns: true if this DataSet is stacked (stacksize > 1) or not.
     public var isStacked: Bool
     {
         return _stackSize > 1 ? true : false
     }
     
-    /// returns the overall entry count, including counting each stack-value individually
+    /// - returns: the overall entry count, including counting each stack-value individually
     public var entryCountStacks: Int
     {
         return _entryCountStacks

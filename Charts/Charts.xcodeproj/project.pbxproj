@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06A5D1861B78675500915098 /* UIGraphics+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A5D1851B78675500915098 /* UIGraphics+Extensions.swift */; };
+		06A5D1881B7868AF00915098 /* CALayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A5D1871B7868AF00915098 /* CALayer+Extensions.swift */; };
 		55E356531ADC63BF00A57971 /* BubbleChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E356521ADC63BF00A57971 /* BubbleChartView.swift */; };
 		55E356571ADC63CD00A57971 /* BubbleChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E356541ADC63CD00A57971 /* BubbleChartData.swift */; };
 		55E356581ADC63CD00A57971 /* BubbleChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E356551ADC63CD00A57971 /* BubbleChartDataEntry.swift */; };
@@ -93,6 +95,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		06A5D1851B78675500915098 /* UIGraphics+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIGraphics+Extensions.swift"; sourceTree = "<group>"; };
+		06A5D1871B7868AF00915098 /* CALayer+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CALayer+Extensions.swift"; sourceTree = "<group>"; };
 		55E356521ADC63BF00A57971 /* BubbleChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleChartView.swift; sourceTree = "<group>"; };
 		55E356541ADC63CD00A57971 /* BubbleChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleChartData.swift; sourceTree = "<group>"; };
 		55E356551ADC63CD00A57971 /* BubbleChartDataEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleChartDataEntry.swift; sourceTree = "<group>"; };
@@ -129,7 +133,7 @@
 		5B6A54901AA66A8D000F57C2 /* ChartDataRendererBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartDataRendererBase.swift; sourceTree = "<group>"; };
 		5B6A54921AA66AAB000F57C2 /* CombinedChartRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombinedChartRenderer.swift; sourceTree = "<group>"; };
 		5B6A54941AA66AC0000F57C2 /* CandleStickChartRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CandleStickChartRenderer.swift; sourceTree = "<group>"; };
-		5B6A54961AA66AD2000F57C2 /* BarChartRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartRenderer.swift; sourceTree = "<group>"; };
+		5B6A54961AA66AD2000F57C2 /* BarChartRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = BarChartRenderer.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5B6A54981AA66B14000F57C2 /* BarChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartView.swift; sourceTree = "<group>"; };
 		5B6A549A1AA66B2C000F57C2 /* BarLineChartViewBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = BarLineChartViewBase.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5B6A549C1AA66B3C000F57C2 /* CandleStickChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CandleStickChartView.swift; sourceTree = "<group>"; };
@@ -375,6 +379,8 @@
 				5BB6EC1C1ACC28AB006E9C25 /* ChartTransformerHorizontalBarChart.swift */,
 				5BA8EC7C1A9D151C00CE82E1 /* ChartUtils.swift */,
 				5BD8F06C1AB897D500566E05 /* ChartViewPortHandler.swift */,
+				06A5D1851B78675500915098 /* UIGraphics+Extensions.swift */,
+				06A5D1871B7868AF00915098 /* CALayer+Extensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -417,7 +423,8 @@
 		5BA8EC371A9D14DC00CE82E1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = dcg;
 				TargetAttributes = {
 					5BA8EC3F1A9D14DC00CE82E1 = {
@@ -501,6 +508,7 @@
 				5BA8EC7D1A9D151C00CE82E1 /* ChartViewBase.swift in Sources */,
 				5B6A54DC1AA74516000F57C2 /* PieChartDataSet.swift in Sources */,
 				5B6A54DA1AA74516000F57C2 /* LineRadarChartDataSet.swift in Sources */,
+				06A5D1861B78675500915098 /* UIGraphics+Extensions.swift in Sources */,
 				5B6A54701AA5DB34000F57C2 /* ChartRendererBase.swift in Sources */,
 				5B6A54761AA5DEE3000F57C2 /* ChartXAxisRendererBarChart.swift in Sources */,
 				5B6A54851AA669C9000F57C2 /* ScatterChartRenderer.swift in Sources */,
@@ -521,6 +529,7 @@
 				5B6A54DF1AA74516000F57C2 /* ScatterChartData.swift in Sources */,
 				5B6A54D31AA74516000F57C2 /* CandleChartDataSet.swift in Sources */,
 				5B0032491B6525FC00B6A2FE /* ChartHighlighter.swift in Sources */,
+				06A5D1881B7868AF00915098 /* CALayer+Extensions.swift in Sources */,
 				5B6A54D71AA74516000F57C2 /* ChartDataSet.swift in Sources */,
 				5B00324B1B652BF900B6A2FE /* BarChartHighlighter.swift in Sources */,
 				5B6A54781AA5DEF0000F57C2 /* ChartXAxisRendererRadarChart.swift in Sources */,
@@ -565,6 +574,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -639,6 +649,7 @@
 				INFOPLIST_FILE = "Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -654,6 +665,7 @@
 				INFOPLIST_FILE = "Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
