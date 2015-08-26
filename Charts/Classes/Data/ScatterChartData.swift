@@ -41,7 +41,7 @@ public class ScatterChartData: BarLineScatterCandleChartData
             
             if (scatterDataSet == nil)
             {
-                print("ScatterChartData: Found a DataSet which is not a ScatterChartDataSet", appendNewline: true)
+                print("ScatterChartData: Found a DataSet which is not a ScatterChartDataSet", terminator: "\n")
             }
             else
             {
