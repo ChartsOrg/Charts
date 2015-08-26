@@ -192,7 +192,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         {
             if (newValue == nil || newValue?.yValCount == 0)
             {
-                print("Charts: data argument is nil on setData()", appendNewline: true)
+                print("Charts: data argument is nil on setData()", terminator: "\n")
                 return
             }
             
