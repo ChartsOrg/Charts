@@ -50,7 +50,7 @@ public class PieChartRenderer: ChartDataRendererBase
             {
                 for set in pieData!.dataSets as! [PieChartDataSet]
                 {
-                    if (set.isVisible)
+                    if set.isVisible && set.entryCount > 0
                     {
                         drawDataSet(context: context, dataSet: set)
                     }

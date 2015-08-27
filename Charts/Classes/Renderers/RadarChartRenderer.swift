@@ -36,7 +36,7 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
             {
                 for set in radarData!.dataSets as! [RadarChartDataSet]
                 {
-                    if (set.isVisible)
+                    if set.isVisible && set.entryCount > 0
                     {
                         drawDataSet(context: context, dataSet: set)
                     }
@@ -133,7 +133,7 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
         {
             var dataSet = data.getDataSetByIndex(i) as! RadarChartDataSet
             
-            if (!dataSet.isDrawValuesEnabled)
+            if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
             {
                 continue
             }

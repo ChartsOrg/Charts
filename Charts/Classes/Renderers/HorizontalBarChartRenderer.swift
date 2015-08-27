@@ -260,7 +260,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
             {
                 var dataSet = dataSets[i] as! BarChartDataSet
                 
-                if (!dataSet.isDrawValuesEnabled)
+                if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
                 {
                     continue
                 }

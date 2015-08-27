@@ -44,7 +44,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
         
         for set in bubbleData.dataSets as! [BubbleChartDataSet]
         {
-            if (set.isVisible)
+            if set.isVisible && set.entryCount > 0
             {
                 drawDataSet(context: context, dataSet: set)
             }
@@ -152,7 +152,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
             
             for dataSet in dataSets
             {
-                if (!dataSet.isDrawValuesEnabled)
+                if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
                 {
                     continue
                 }

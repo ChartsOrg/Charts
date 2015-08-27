@@ -191,7 +191,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
             {
                 var dataSet = dataSets[i]
                 
-                if (!dataSet.isDrawValuesEnabled)
+                if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
                 {
                     continue
                 }

@@ -45,7 +45,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
 
         for set in candleData.dataSets as! [CandleChartDataSet]
         {
-            if (set.isVisible)
+            if set.isVisible && set.entryCount > 0
             {
                 drawDataSet(context: context, dataSet: set)
             }
@@ -190,7 +190,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
             {
                 var dataSet = dataSets[i]
                 
-                if (!dataSet.isDrawValuesEnabled)
+                if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
                 {
                     continue
                 }

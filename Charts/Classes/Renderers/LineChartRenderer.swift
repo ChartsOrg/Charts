@@ -418,7 +418,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
             {
                 var dataSet = dataSets[i] as! LineChartDataSet
                 
-                if (!dataSet.isDrawValuesEnabled)
+                if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
                 {
                     continue
                 }

@@ -293,7 +293,7 @@ public class BarChartRenderer: ChartDataRendererBase
             {
                 var dataSet = dataSets[i] as! BarChartDataSet
                 
-                if (!dataSet.isDrawValuesEnabled)
+                if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
                 {
                     continue
                 }
