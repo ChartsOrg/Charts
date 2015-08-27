@@ -129,7 +129,7 @@ public class ChartData: NSObject
         {
             if (dataSets[i].yVals.count > _xVals.count)
             {
-                print("One or more of the DataSet Entry arrays are longer than the x-values array of this Data object.", appendNewline: true)
+                print("One or more of the DataSet Entry arrays are longer than the x-values array of this Data object.", terminator: "\n")
                 return
             }
         }
@@ -672,7 +672,7 @@ public class ChartData: NSObject
         }
         else
         {
-            print("ChartData.addEntry() - dataSetIndex our of range.", appendNewline: true)
+            print("ChartData.addEntry() - dataSetIndex our of range.", terminator: "\n")
         }
     }
     
