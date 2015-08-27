@@ -56,7 +56,7 @@ public class BarChartRenderer: ChartDataRendererBase
         {
             var set = barData.getDataSetByIndex(i)
             
-            if (set !== nil && set!.isVisible)
+            if set !== nil && set!.isVisible && set.entryCount > 0
             {
                 drawDataSet(context: context, dataSet: set as! BarChartDataSet, index: i)
             }
