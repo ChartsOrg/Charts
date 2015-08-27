@@ -120,12 +120,30 @@
     
     NSMutableArray *yVals = [[NSMutableArray alloc] init];
     
-    for (int i = 0; i < count; i++)
-    {
-        double mult = (range + 1);
-        double val = (double) (arc4random_uniform(mult)) + 3;
-        [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
-    }
+//    for (int i = 0; i < count; i++)
+//    {
+//        double mult = (range + 1);
+//        double val = (double) (arc4random_uniform(mult)) + 3;
+//        [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+//    }
+    
+    
+    [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:0]];
+    [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:1]];
+    [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:2]];
+    [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:3]];
+    [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:4]];
+    [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:5]];
+    [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:6]];
+//    [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:7]];
+//    [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:8]];
+//    [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:9]];
+    [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:10]];
+    [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:11]];
+    [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:12]];
+    [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:13]];
+    [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:14]];
+    
     
     LineChartDataSet *set1 = [[LineChartDataSet alloc] initWithYVals:yVals label:@"DataSet 1"];
     
