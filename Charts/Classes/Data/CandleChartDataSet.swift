@@ -59,7 +59,7 @@ public class CandleChartDataSet: LineScatterCandleChartDataSet
         
         var endValue : Int
         
-        if end == 0
+        if end == 0 || end >= entries.count
         {
             endValue = entries.count - 1
         }

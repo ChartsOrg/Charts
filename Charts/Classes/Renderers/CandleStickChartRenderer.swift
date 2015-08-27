@@ -67,11 +67,8 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
         
         var entries = dataSet.yVals as! [CandleChartDataEntry]
         
-        var entryFrom = dataSet.entryForXIndex(_minX)
-        var entryTo = dataSet.entryForXIndex(_maxX)
-        
-        var minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0)
-        var maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count)
+        var minx = max(_minX, 0)
+        var maxx = min(_maxX + 1, entries.count)
         
         CGContextSaveGState(context)
         
@@ -208,11 +205,8 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                 
                 var entries = dataSet.yVals as! [CandleChartDataEntry]
                 
-                var entryFrom = dataSet.entryForXIndex(_minX)
-                var entryTo = dataSet.entryForXIndex(_maxX)
-                
-                var minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0)
-                var maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count)
+                var minx = max(_minX, 0)
+                var maxx = min(_maxX + 1, entries.count)
                 
                 var positions = trans.generateTransformedValuesCandle(entries, phaseY: _animator.phaseY)
                 
