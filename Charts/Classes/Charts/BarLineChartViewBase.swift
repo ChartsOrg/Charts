@@ -1319,7 +1319,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     {
         if (_dataNotSet || _data === nil)
         {
-            print("Can't select by touch. No data set.", appendNewline: true)
+            print("Can't select by touch. No data set.", terminator: "\n")
             return nil
         }
 
