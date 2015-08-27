@@ -19,6 +19,7 @@
 #import "CombinedChartViewController.h"
 #import "PieChartViewController.h"
 #import "ScatterChartViewController.h"
+#import "IndependentScatterChartViewController.h"
 #import "StackedBarChartViewController.h"
 #import "NegativeStackedBarChartViewController.h"
 #import "AnotherBarChartViewController.h"
@@ -80,6 +81,11 @@
                           @"title": @"Scatter Chart",
                           @"subtitle": @"A simple demonstration of the scatter chart.",
                           @"class": ScatterChartViewController.class
+                          },
+                      @{
+                          @"title": @"Independent Scatter Chart",
+                          @"subtitle": @"A simple demonstration of the scatter chart where XY pairs need not be ordered.",
+                          @"class": IndependentScatterChartViewController.class
                           },
                       @{
                           @"title": @"Bubble Chart",

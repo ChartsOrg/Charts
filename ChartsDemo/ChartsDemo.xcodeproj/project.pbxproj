@@ -40,6 +40,8 @@
 		5BD47E661ABB424E008FCEC6 /* BarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BD47E641ABB424E008FCEC6 /* BarChartViewController.xib */; };
 		5BD8F0741AB89CE500566E05 /* LineChart1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8F0721AB89CE500566E05 /* LineChart1ViewController.m */; };
 		5BD8F0751AB89CE500566E05 /* LineChart1ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BD8F0731AB89CE500566E05 /* LineChart1ViewController.xib */; };
+		5BDD9C711B8F5190004DC578 /* IndependentScatterChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BDD9C6F1B8F518F004DC578 /* IndependentScatterChartViewController.m */; };
+		5BDD9C721B8F5190004DC578 /* IndependentScatterChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BDD9C701B8F5190004DC578 /* IndependentScatterChartViewController.xib */; };
 		5BDEDC411ABB7F73007D3A60 /* HorizontalBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BDEDC3F1ABB7F73007D3A60 /* HorizontalBarChartViewController.m */; };
 		5BDEDC421ABB7F73007D3A60 /* HorizontalBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BDEDC401ABB7F73007D3A60 /* HorizontalBarChartViewController.xib */; };
 		5BDEDC471ABB871E007D3A60 /* CombinedChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BDEDC451ABB871E007D3A60 /* CombinedChartViewController.m */; };
@@ -142,6 +144,9 @@
 		5BD8F0711AB89CE500566E05 /* LineChart1ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineChart1ViewController.h; sourceTree = "<group>"; };
 		5BD8F0721AB89CE500566E05 /* LineChart1ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineChart1ViewController.m; sourceTree = "<group>"; };
 		5BD8F0731AB89CE500566E05 /* LineChart1ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LineChart1ViewController.xib; sourceTree = "<group>"; };
+		5BDD9C6E1B8F518F004DC578 /* IndependentScatterChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndependentScatterChartViewController.h; sourceTree = "<group>"; };
+		5BDD9C6F1B8F518F004DC578 /* IndependentScatterChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndependentScatterChartViewController.m; sourceTree = "<group>"; };
+		5BDD9C701B8F5190004DC578 /* IndependentScatterChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IndependentScatterChartViewController.xib; sourceTree = "<group>"; };
 		5BDEDC3E1ABB7F73007D3A60 /* HorizontalBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalBarChartViewController.h; sourceTree = "<group>"; };
 		5BDEDC3F1ABB7F73007D3A60 /* HorizontalBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalBarChartViewController.m; sourceTree = "<group>"; };
 		5BDEDC401ABB7F73007D3A60 /* HorizontalBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HorizontalBarChartViewController.xib; sourceTree = "<group>"; };
@@ -340,6 +345,9 @@
 				5BEAED151ABBFB340013F194 /* ScatterChartViewController.h */,
 				5BEAED161ABBFB340013F194 /* ScatterChartViewController.m */,
 				5BEAED171ABBFB340013F194 /* ScatterChartViewController.xib */,
+				5BDD9C6E1B8F518F004DC578 /* IndependentScatterChartViewController.h */,
+				5BDD9C6F1B8F518F004DC578 /* IndependentScatterChartViewController.m */,
+				5BDD9C701B8F5190004DC578 /* IndependentScatterChartViewController.xib */,
 				5BEAED3D1ABC1AC60013F194 /* SinusBarChartViewController.h */,
 				5BEAED3E1ABC1AC60013F194 /* SinusBarChartViewController.m */,
 				5BEAED3F1ABC1AC60013F194 /* SinusBarChartViewController.xib */,
@@ -432,6 +440,7 @@
 				5B4316361AB8D8B70009FCAA /* Default-667h@2x.png in Resources */,
 				5BEAED2D1ABC160F0013F194 /* CandleStickChartViewController.xib in Resources */,
 				5BD47E611ABB3C91008FCEC6 /* LineChart2ViewController.xib in Resources */,
+				5BDD9C721B8F5190004DC578 /* IndependentScatterChartViewController.xib in Resources */,
 				5BEAED131ABBFB2B0013F194 /* AnotherBarChartViewController.xib in Resources */,
 				5BEAED411ABC1AC60013F194 /* SinusBarChartViewController.xib in Resources */,
 				5BEAED371ABC192F0013F194 /* RadarChartViewController.xib in Resources */,
@@ -490,6 +499,7 @@
 				5B57BBB51A9B26AA0036A6CC /* main.m in Sources */,
 				5BEAED361ABC192F0013F194 /* RadarChartViewController.m in Sources */,
 				5B9624411B38608C007763E2 /* NegativeStackedBarChartViewController.m in Sources */,
+				5BDD9C711B8F5190004DC578 /* IndependentScatterChartViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

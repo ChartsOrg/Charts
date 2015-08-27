@@ -79,6 +79,8 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
         
         var shape = dataSet.scatterShape
         
+        var valueIsIndex = dataSet.valueIsIndex
+        
         CGContextSaveGState(context)
         
         for (var j = 0, count = Int(min(ceil(CGFloat(entries.count) * _animator.phaseX), CGFloat(entries.count))); j < count; j++)
@@ -88,7 +90,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
             point.y = CGFloat(e.value) * phaseY
             point = CGPointApplyAffineTransform(point, valueToPixelMatrix);            
             
-            if (!viewPortHandler.isInBoundsRight(point.x))
+            if !valueIsIndex && !viewPortHandler.isInBoundsRight(point.x)
             {
                 break
             }
@@ -181,6 +183,8 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
         }
         
         var defaultValueFormatter = delegate!.scatterChartDefaultRendererValueFormatter(self)
+        var lastPoint = CGPoint()
+        var lastIndex = 0
         
         // if values are drawn
         if (scatterData.yValCount < Int(ceil(CGFloat(delegate!.scatterChartRendererMaxVisibleValueCount(self)) * viewPortHandler.scaleX)))
@@ -205,16 +209,25 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                     formatter = defaultValueFormatter
                 }
                 
+                var valueIsIndex = dataSet.valueIsIndex
+                var drawLinesEnabled = dataSet.drawLinesEnabled
+                
                 var entries = dataSet.yVals
                 
                 var positions = delegate!.scatterChartRenderer(self, transformerForAxis: dataSet.axisDependency).generateTransformedValuesScatter(entries, phaseY: _animator.phaseY)
                 
                 var shapeSize = dataSet.scatterShapeSize
                 var lineHeight = valueFont.lineHeight
+                var lineYoffset = shapeSize + lineHeight
+                
+                if drawLinesEnabled
+                {
+                    CGContextSaveGState(context)
+                }
                 
                 for (var j = 0, count = Int(ceil(CGFloat(positions.count) * _animator.phaseX)); j < count; j++)
                 {
-                    if (!viewPortHandler.isInBoundsRight(positions[j].x))
+                    if !valueIsIndex && !viewPortHandler.isInBoundsRight(positions[j].x)
                     {
                         break
                     }
@@ -226,11 +239,38 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                         continue
                     }
                     
-                    var val = entries[j].value
+                    var val = dataSet.valueIsIndex ? Double(j) : entries[j].value
                     
                     var text = formatter!.stringFromNumber(val)
+                    var point = CGPoint(x: positions[j].x, y: positions[j].y - shapeSize - lineHeight)
                     
-                    ChartUtils.drawText(context: context, text: text!, point: CGPoint(x: positions[j].x, y: positions[j].y - shapeSize - lineHeight), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
+                    ChartUtils.drawText(context: context, text: text!, point: point, align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
+                    
+                    if drawLinesEnabled
+                    {
+                        if  j != 0 &&
+                            j == lastIndex + 1 &&
+                            viewPortHandler.isInBoundsRight(point.x)
+                        {
+                            CGContextSetStrokeColorWithColor(context, dataSet.colorAt(i).CGColor)
+                            CGContextMoveToPoint(context, lastPoint.x, lastPoint.y + lineYoffset)
+                            CGContextAddLineToPoint(context, point.x, point.y + lineYoffset)
+                            
+                            lastPoint = point
+                            lastIndex = j
+                        }
+                        else
+                        {
+                            lastPoint = point
+                            lastIndex = j
+                        }
+                    }
+                }
+                
+                if drawLinesEnabled
+                {
+                    CGContextStrokePath(context)
+                    CGContextRestoreGState(context)
                 }
             }
         }
