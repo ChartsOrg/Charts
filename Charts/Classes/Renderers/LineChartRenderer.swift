@@ -241,7 +241,6 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         
         CGContextRestoreGState(context)
     }
-    
     private var _lineSegments = [CGPoint](count: 2, repeatedValue: CGPoint())
     
     internal func drawLinear(context context: CGContext?, dataSet: LineChartDataSet, entries: [ChartDataEntry])
@@ -313,40 +312,131 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         }
         else
         { // only one color per dataset
-            
+            let count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx)))
+
             var e1: ChartDataEntry!
             var e2: ChartDataEntry!
             
-            if (_lineSegments.count != max((entries.count - 1) * 2, 2))
-            {
-                _lineSegments = [CGPoint](count: max((entries.count - 1) * 2, 2), repeatedValue: CGPoint())
-            }
-            
-            e1 = entries[minx]
-            
-            let count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx)))
-            
-            for (var x = count > 1 ? minx + 1 : minx, j = 0; x < count; x++)
-            {
-                e1 = entries[x == 0 ? 0 : (x - 1)]
-                e2 = entries[x]
+            if(!dataSet.isLineBreakerEnabled){
+                if (_lineSegments.count != max((entries.count - 1) * 2, 2))
+                {
+                    _lineSegments = [CGPoint](count: max((entries.count - 1) * 2, 2), repeatedValue: CGPoint())
+                }
                 
-                _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e1.xIndex), y: CGFloat(e1.value) * phaseY), valueToPixelMatrix)
-                _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e2.xIndex), y: CGFloat(e2.value) * phaseY), valueToPixelMatrix)
-            }
+                e1 = entries[minx]
             
-            let size = max((count - minx - 1) * 2, 2)
-            CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor)
-            CGContextStrokeLineSegments(context, _lineSegments, size)
+                for (var x = count > 1 ? minx + 1 : minx, j = 0; x < count; x++)
+                {
+                    e1 = entries[x == 0 ? 0 : (x - 1)]
+                    e2 = entries[x]
+                    
+                    _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e1.xIndex), y: CGFloat(e1.value) * phaseY), valueToPixelMatrix)
+                    _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e2.xIndex), y: CGFloat(e2.value) * phaseY), valueToPixelMatrix)
+                }
+                
+                let size = max((count - minx - 1) * 2, 2)
+                CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor)
+                CGContextStrokeLineSegments(context, _lineSegments, size)
+            }else if(dataSet.isLineBreakerEnabled){
+                var xEntryDiff: Int
+                let values : [Int] = continuesValues(entries);
+            
+                for(var i = 0; i < values.count - 1 ; i++)
+                {
+                    let firstValues = values[i] * 2
+                    let secondValues = values[++i] * 2
+                
+                    _lineSegments = [CGPoint](count: firstValues, repeatedValue: CGPoint())
+            
+                    e1 = entries[minx]
+                    var newXVal = e1.xIndex
+                    let firstVal = e1.value
+            
+                    for (var x = count > 1 ? minx + 1 : minx, j = 0; x < count; x++)
+                    {
+                        e2 = entries[x]
+                
+                        xEntryDiff = e2.xIndex - newXVal
+                
+                        if(xEntryDiff < 2){
+                            e1 = entries[x == 0 ? 0 : (x - 1)]
+                            if(!(e2.xIndex - e1.xIndex > 1) ){
+                                _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e1.xIndex), y: CGFloat(e1.value) * phaseY), valueToPixelMatrix)
+                                _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e2.xIndex), y: CGFloat(e2.value) * phaseY), valueToPixelMatrix)
+                            }else{
+                                CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor)
+                                CGContextStrokeLineSegments(context, _lineSegments, firstValues)
+                                _lineSegments.removeAll()
+                                j = 0
+                                _lineSegments = [CGPoint](count: secondValues, repeatedValue: CGPoint())
+                            }
+                            newXVal = e2.xIndex
+                        }else{
+                            e1 = x == newXVal ? entries[x == 0 ? 0 : (x - 1)] :  nil
+                            _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(0), y: CGFloat(e1 != nil ? (e1?.value)! : firstVal) * phaseY), valueToPixelMatrix)
+                            ++newXVal
+                            _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(0), y: CGFloat(firstVal) * phaseY), valueToPixelMatrix)
+                            x--
+                        }
+                    }
+                    CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor)
+                    CGContextStrokeLineSegments(context, _lineSegments, secondValues)
+                
+                    // if drawing filled is enabled
+                    if (dataSet.isDrawFilledEnabled && entries.count > 0)
+                    {
+                        drawLinearFill(context: context, dataSet: dataSet, entries: entries, minx: minx, maxx: maxx, trans: trans)
+                    }
+                }
+           }
+        }
+    }
+    
+    //Method responsable to return array with number of straight numbers
+    internal func continuesValues(entries: [ChartDataEntry]) -> [Int]{
+        let doubleArray : [[Int]] = [[]]
+        
+        var splitedArray = entries.reduce(doubleArray){ (list, element) in
+            
+            var total = list
+            if let last1 = list.last {
+                if let last2 = last1.last {
+                    if last2 == element.xIndex - 1 {
+                        var lastE = last1
+                        lastE.append(element.xIndex)
+                        total.removeLast()
+                        total.append(lastE)
+                        return total
+                    }
+                }
+                else {
+                    return [[element.xIndex]]
+                }
+            }
+            return list + [[element.xIndex]]
         }
         
-        CGContextRestoreGState(context)
+        // return number of continues values 
+        // ex: [1,2,3,10,11,15] -> [3,2,1]
+        let groupNumberArray = splitedArray.map{ $0.count }
         
-        // if drawing filled is enabled
-        if (dataSet.isDrawFilledEnabled && entries.count > 0)
-        {
-            drawLinearFill(context: context, dataSet: dataSet, entries: entries, minx: minx, maxx: maxx, trans: trans)
+        // add missing values
+        // ex: [1,2,3,10,11,15] -> [10,4,1]
+        let simpleArray : [Int] = []
+        let myResult = groupNumberArray.reduce(simpleArray){ (list, element) in
+            print("\(list) \(element)")
+            
+            var numbersNotIncluded : Int
+            let last1 = splitedArray.first?.last
+            splitedArray.removeFirst()
+            if let first2 = splitedArray.first?.first{
+                numbersNotIncluded = first2 - last1! - 1
+            }else{
+                return list + [element]
+            }
+            return list + [element + numbersNotIncluded]
         }
+        return myResult;
     }
     
     internal func drawLinearFill(context context: CGContext?, dataSet: LineChartDataSet, entries: [ChartDataEntry], minx: Int, maxx: Int, trans: ChartTransformer)
