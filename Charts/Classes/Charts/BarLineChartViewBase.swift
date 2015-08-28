@@ -717,7 +717,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     
     @objc private func panGestureRecognized(recognizer: UIPanGestureRecognizer)
     {
-        if (recognizer.state == UIGestureRecognizerState.Began)
+        if (recognizer.state == UIGestureRecognizerState.Began && recognizer.numberOfTouches() > 0)
         {
             stopDeceleration()
             
