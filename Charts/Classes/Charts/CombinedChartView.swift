@@ -67,11 +67,6 @@ public class CombinedChartView: BarLineChartViewBase
                     }
                 }
             }
-            else
-            {
-                _chartXMin = 0.0
-                _chartXMax = Double(_data.xValCount - 1)
-            }
 
             _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
         }
