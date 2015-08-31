@@ -502,10 +502,25 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
                     yPos = highlight.range!.to
                 }
             }
+            
+            if (self.isKindOfClass(HorizontalBarChartView))
+            {
+                var temp = xPos
+                xPos = CGFloat(yPos)
+                yPos = Double(temp)
+            }
         }
         
+        var pt: CGPoint
         // position of the marker depends on selected value index and value
-        var pt = CGPoint(x: xPos, y: CGFloat(yPos) * _animator.phaseY)
+        if (self.isKindOfClass(HorizontalBarChartView))
+        {
+            pt = CGPoint(x: xPos * _animator.phaseY, y: CGFloat(yPos))
+        }
+        else
+        {
+            pt = CGPoint(x: xPos, y: CGFloat(yPos) * _animator.phaseY)
+        }
         
         getTransformer(_data.getDataSetByIndex(dataSetIndex)!.axisDependency).pointValueToPixel(&pt)
         
