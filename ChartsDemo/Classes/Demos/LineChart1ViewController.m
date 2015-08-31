@@ -133,6 +133,7 @@
     NSMutableArray* yVals = [[NSMutableArray alloc] init];
 
     for (int i = 0; i < count; i++) {
+        NSLog(@"%d", i);
         double mult = (range + 1);
         double val = (double)(arc4random_uniform(mult)) + 3;
         [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
@@ -179,7 +180,7 @@
     set1.valueFont = [UIFont systemFontOfSize:9.f];
     set1.fillAlpha = 65 / 255.0;
     set1.fillColor = UIColor.blackColor;
-    set1.lineBreakerEnabled = NO;
+    set1.lineBreakerEnabled = YES;
 
     NSMutableArray* dataSets = [[NSMutableArray alloc] init];
     [dataSets addObject:set1];

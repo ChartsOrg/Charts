@@ -313,48 +313,38 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         else
         { // only one color per dataset
             let count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx)))
-            let values : [Int] = continuesValues(entries);
+
             var e1: ChartDataEntry!
             var e2: ChartDataEntry!
             
-            if(values.count == 1 && !dataSet.isLineBreakerEnabled){
-                    
-                    if (_lineSegments.count != max((entries.count - 1) * 2, 2))
-                    {
-                        _lineSegments = [CGPoint](count: max((entries.count - 1) * 2, 2), repeatedValue: CGPoint())
-                    }
-                    
-                    e1 = entries[minx]
-                
-                    
-                    for (var x = count > 1 ? minx + 1 : minx, j = 0; x < count; x++)
-                    {
-                        e1 = entries[x == 0 ? 0 : (x - 1)]
-                        e2 = entries[x]
-                        
-                        _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e1.xIndex), y: CGFloat(e1.value) * phaseY), valueToPixelMatrix)
-                        _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e2.xIndex), y: CGFloat(e2.value) * phaseY), valueToPixelMatrix)
-                    }
-                    
-                    let size = max((count - minx - 1) * 2, 2)
-                    CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor)
-                    CGContextStrokeLineSegments(context, _lineSegments, size)
-                
-                
-                CGContextRestoreGState(context)
-                
-                // if drawing filled is enabled
-                if (dataSet.isDrawFilledEnabled && entries.count > 0)
+            if(!dataSet.isLineBreakerEnabled){
+                if (_lineSegments.count != max((entries.count - 1) * 2, 2))
                 {
-                    drawLinearFill(context: context, dataSet: dataSet, entries: entries, minx: minx, maxx: maxx, trans: trans)
+                    _lineSegments = [CGPoint](count: max((entries.count - 1) * 2, 2), repeatedValue: CGPoint())
                 }
+                
+                e1 = entries[minx]
+            
+                for (var x = count > 1 ? minx + 1 : minx, j = 0; x < count; x++)
+                {
+                    e1 = entries[x == 0 ? 0 : (x - 1)]
+                    e2 = entries[x]
+                    
+                    _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e1.xIndex), y: CGFloat(e1.value) * phaseY), valueToPixelMatrix)
+                    _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e2.xIndex), y: CGFloat(e2.value) * phaseY), valueToPixelMatrix)
+                }
+                
+                let size = max((count - minx - 1) * 2, 2)
+                CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor)
+                CGContextStrokeLineSegments(context, _lineSegments, size)
             }else if(dataSet.isLineBreakerEnabled){
                 var xEntryDiff: Int
+                let values : [Int] = continuesValues(entries);
             
                 for(var i = 0; i < values.count - 1 ; i++)
                 {
                     let firstValues = values[i] * 2
-                    let secondValues = values[i++] * 2
+                    let secondValues = values[++i] * 2
                 
                     _lineSegments = [CGPoint](count: firstValues, repeatedValue: CGPoint())
             
@@ -368,7 +358,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
                 
                         xEntryDiff = e2.xIndex - newXVal
                 
-                        if(!dataSet.isLineBreakerEnabled && xEntryDiff < 2){
+                        if(xEntryDiff < 2){
                             e1 = entries[x == 0 ? 0 : (x - 1)]
                             if(!(e2.xIndex - e1.xIndex > 1) ){
                                 _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e1.xIndex), y: CGFloat(e1.value) * phaseY), valueToPixelMatrix)
@@ -398,7 +388,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
                         drawLinearFill(context: context, dataSet: dataSet, entries: entries, minx: minx, maxx: maxx, trans: trans)
                     }
                 }
-            }
+           }
         }
     }
     
