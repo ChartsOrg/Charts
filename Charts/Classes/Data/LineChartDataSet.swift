@@ -35,7 +35,7 @@ public class LineChartDataSet: LineRadarChartDataSet
     public var drawCircleHoleEnabled = true
     
     // if true, line breaks on void values
-    public var lineBreackerEnabled = false
+    public var lineBreakerEnabled = false
     
     public override init()
     {
@@ -105,7 +105,7 @@ public class LineChartDataSet: LineRadarChartDataSet
     
     public var isDrawCircleHoleEnabled: Bool { return drawCircleHoleEnabled; }
     
-    public var isLineBreackerEnabled: Bool { return lineBreackerEnabled; }
+    public var isLineBreakerEnabled: Bool { return lineBreakerEnabled; }
     
     // MARK: NSCopying
     

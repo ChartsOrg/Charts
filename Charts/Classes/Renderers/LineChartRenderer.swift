@@ -317,7 +317,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
             var e1: ChartDataEntry!
             var e2: ChartDataEntry!
             
-            if(values.count == 1){
+            if(values.count == 1 && !dataSet.isLineBreakerEnabled){
                     
                     if (_lineSegments.count != max((entries.count - 1) * 2, 2))
                     {
@@ -348,56 +348,55 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
                 {
                     drawLinearFill(context: context, dataSet: dataSet, entries: entries, minx: minx, maxx: maxx, trans: trans)
                 }
-            }else{
-            var xEntryDiff: Int
+            }else if(dataSet.isLineBreakerEnabled){
+                var xEntryDiff: Int
             
-            for(var i = 0; i < values.count - 1 ; i++)
-            {
-                let firstValues = values[i] * 2
-                let secondValues = values[i++] * 2
-                
-                _lineSegments = [CGPoint](count: firstValues, repeatedValue: CGPoint())
-            
-                e1 = entries[minx]
-                var newXVal = e1.xIndex
-                let firstVal = e1.value
-            
-                for (var x = count > 1 ? minx + 1 : minx, j = 0; x < count; x++)
+                for(var i = 0; i < values.count - 1 ; i++)
                 {
-                    e2 = entries[x]
+                    let firstValues = values[i] * 2
+                    let secondValues = values[i++] * 2
                 
-                    xEntryDiff = e2.xIndex - newXVal
+                    _lineSegments = [CGPoint](count: firstValues, repeatedValue: CGPoint())
+            
+                    e1 = entries[minx]
+                    var newXVal = e1.xIndex
+                    let firstVal = e1.value
+            
+                    for (var x = count > 1 ? minx + 1 : minx, j = 0; x < count; x++)
+                    {
+                        e2 = entries[x]
                 
-                    if(!dataSet.isLineBreackerEnabled && xEntryDiff < 2){
-                        e1 = entries[x == 0 ? 0 : (x - 1)]
-                        if(!(e2.xIndex - e1.xIndex > 1) ){
-                            _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e1.xIndex), y: CGFloat(e1.value) * phaseY), valueToPixelMatrix)
-                            _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e2.xIndex), y: CGFloat(e2.value) * phaseY), valueToPixelMatrix)
+                        xEntryDiff = e2.xIndex - newXVal
+                
+                        if(!dataSet.isLineBreakerEnabled && xEntryDiff < 2){
+                            e1 = entries[x == 0 ? 0 : (x - 1)]
+                            if(!(e2.xIndex - e1.xIndex > 1) ){
+                                _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e1.xIndex), y: CGFloat(e1.value) * phaseY), valueToPixelMatrix)
+                                _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e2.xIndex), y: CGFloat(e2.value) * phaseY), valueToPixelMatrix)
+                            }else{
+                                CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor)
+                                CGContextStrokeLineSegments(context, _lineSegments, firstValues)
+                                _lineSegments.removeAll()
+                                j = 0
+                                _lineSegments = [CGPoint](count: secondValues, repeatedValue: CGPoint())
+                            }
+                            newXVal = e2.xIndex
                         }else{
-                            CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor)
-                            CGContextStrokeLineSegments(context, _lineSegments, firstValues)
-                            _lineSegments.removeAll()
-                            j = 0
-                            _lineSegments = [CGPoint](count: secondValues, repeatedValue: CGPoint())
+                            e1 = x == newXVal ? entries[x == 0 ? 0 : (x - 1)] :  nil
+                            _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(0), y: CGFloat(e1 != nil ? (e1?.value)! : firstVal) * phaseY), valueToPixelMatrix)
+                            ++newXVal
+                            _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(0), y: CGFloat(firstVal) * phaseY), valueToPixelMatrix)
+                            x--
                         }
-                        newXVal = e2.xIndex
-                    }else{
-                        e1 = x == newXVal ? entries[x == 0 ? 0 : (x - 1)] :  nil
-                        _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(0), y: CGFloat(e1 != nil ? (e1?.value)! : firstVal) * phaseY), valueToPixelMatrix)
-                        ++newXVal
-                        _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(0), y: CGFloat(firstVal) * phaseY), valueToPixelMatrix)
-                        x--
                     }
-                }
-        
-                CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor)
-                CGContextStrokeLineSegments(context, _lineSegments, secondValues)
+                    CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor)
+                    CGContextStrokeLineSegments(context, _lineSegments, secondValues)
                 
-                // if drawing filled is enabled
-                if (dataSet.isDrawFilledEnabled && entries.count > 0)
-                {
-                    drawLinearFill(context: context, dataSet: dataSet, entries: entries, minx: minx, maxx: maxx, trans: trans)
-                }
+                    // if drawing filled is enabled
+                    if (dataSet.isDrawFilledEnabled && entries.count > 0)
+                    {
+                        drawLinearFill(context: context, dataSet: dataSet, entries: entries, minx: minx, maxx: maxx, trans: trans)
+                    }
                 }
             }
         }

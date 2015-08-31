@@ -138,11 +138,11 @@
         [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
 
-//        [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:10]];
-//        [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:11]];
-        [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:12]];
-        [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:13]];
-        [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:14]];
+    //[yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:10]];
+    [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:11]];
+    [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:12]];
+    [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:13]];
+    [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:14]];
     //    [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:5]];
     //    [yVals addObject:[[ChartDataEntry alloc] initWithValue:5 xIndex:6]];
     ////    [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:7]];
@@ -179,6 +179,7 @@
     set1.valueFont = [UIFont systemFontOfSize:9.f];
     set1.fillAlpha = 65 / 255.0;
     set1.fillColor = UIColor.blackColor;
+    set1.lineBreakerEnabled = NO;
 
     NSMutableArray* dataSets = [[NSMutableArray alloc] init];
     [dataSets addObject:set1];
