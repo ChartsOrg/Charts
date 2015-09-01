@@ -381,14 +381,15 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
                     }
                     CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor)
                     CGContextStrokeLineSegments(context, _lineSegments, secondValues)
-                
-                    // if drawing filled is enabled
-                    if (dataSet.isDrawFilledEnabled && entries.count > 0)
-                    {
-                        drawLinearFill(context: context, dataSet: dataSet, entries: entries, minx: minx, maxx: maxx, trans: trans)
-                    }
                 }
-           }
+            }
+            
+            // if drawing filled is enabled
+            if (dataSet.isDrawFilledEnabled && entries.count > 0)
+            {
+                drawLinearFill(context: context, dataSet: dataSet, entries: entries, minx: minx, maxx: maxx, trans: trans)
+            }
+
         }
     }
     
