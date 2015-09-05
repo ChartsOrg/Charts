@@ -1,4 +1,4 @@
-**Version 2.1.3**, synced to [MPAndroidChart #62f192e](https://github.com/PhilJay/MPAndroidChart/commit/62f192e)
+**Version 2.1.3**, synced to [MPAndroidChart #5a028c5](https://github.com/PhilJay/MPAndroidChart/commit/5a028c5)
 
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
 [![CodeHunt.io](https://img.shields.io/badge/vote-codehunt.io-02AFD1.svg)](http://codehunt.io/sub/ios-charts/?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)   
@@ -138,8 +138,7 @@ Special Thanks
 =======
 
 Goes to [@petester42](https://github.com/petester42) (Pierre-Marc Airoldi) for implementing a Bubble chart!  
-To [@AlBirdie](https://github.com/AlBirdie) for his contributions and his involvement in our small community!  
-And of course thanks to all of those contibuting small fixes here and there! You are all appreciated!  
+To [@AlBirdie](https://github.com/AlBirdie) and for [@liuxuan30](https://github.com/liuxuan30) for their contributions and his involvement in our community!  
 
 License
 =======
