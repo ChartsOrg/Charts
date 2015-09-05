@@ -138,7 +138,7 @@ Special Thanks
 =======
 
 Goes to [@petester42](https://github.com/petester42) (Pierre-Marc Airoldi) for implementing a Bubble chart!  
-To [@AlBirdie](https://github.com/AlBirdie) and for [@liuxuan30](https://github.com/liuxuan30) for their contributions and his involvement in our community!  
+To [@AlBirdie](https://github.com/AlBirdie) and for [@liuxuan30](https://github.com/liuxuan30) for their contributions and involvement in our community!  
 
 License
 =======
