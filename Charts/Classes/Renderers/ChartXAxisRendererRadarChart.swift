@@ -35,7 +35,9 @@ public class ChartXAxisRendererRadarChart: ChartXAxisRenderer
         
         let labelFont = _xAxis.labelFont
         let labelTextColor = _xAxis.labelTextColor
-        
+        let labelTextColors = _xAxis.labelTextColors
+        let labelTextColorsCount  = labelTextColors.count
+
         let sliceangle = _chart.sliceAngle
         
         // calculate the factor that is needed for transforming the value to pixels
@@ -55,8 +57,10 @@ public class ChartXAxisRendererRadarChart: ChartXAxisRenderer
             let angle = (sliceangle * CGFloat(i) + _chart.rotationAngle) % 360.0
             
             let p = ChartUtils.getPosition(center: center, dist: CGFloat(_chart.yRange) * factor + _xAxis.labelWidth / 2.0, angle: angle)
-            
-            ChartUtils.drawText(context: context, text: text!, point: CGPoint(x: p.x, y: p.y - _xAxis.labelHeight / 2.0), align: .Center, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
+
+            let textColor = (labelTextColorsCount == count) ? labelTextColors[i] : labelTextColor
+
+            ChartUtils.drawText(context: context, text: text!, point: CGPoint(x: p.x, y: p.y - _xAxis.labelHeight / 2.0), align: .Center, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: textColor!])
         }
     }
     
