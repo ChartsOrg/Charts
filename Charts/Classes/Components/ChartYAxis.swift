@@ -54,7 +54,7 @@ public class ChartYAxis: ChartAxisBase
     public var startAtZeroEnabled = true
     
     /// if true, the set number of y-labels will be forced
-    public var forceLabelsEnabled = true
+    public var forceLabelsEnabled = false
 
     /// the formatter used to customly format the y-labels
     public var valueFormatter: NSNumberFormatter?
