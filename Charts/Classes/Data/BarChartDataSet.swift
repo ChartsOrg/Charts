@@ -50,7 +50,7 @@ public class BarChartDataSet: BarLineScatterCandleChartDataSet
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
-        var copy = super.copyWithZone(zone) as! BarChartDataSet
+        let copy = super.copyWithZone(zone) as! BarChartDataSet
         copy.barSpace = barSpace
         copy._stackSize = _stackSize
         copy.barShadowColor = barShadowColor
@@ -68,7 +68,7 @@ public class BarChartDataSet: BarLineScatterCandleChartDataSet
         
         for (var i = 0; i < yVals.count; i++)
         {
-            var vals = yVals[i].values
+            let vals = yVals[i].values
             
             if (vals == nil)
             {
@@ -96,7 +96,7 @@ public class BarChartDataSet: BarLineScatterCandleChartDataSet
         }
     }
     
-    internal override func calcMinMax(#start : Int, end: Int)
+    internal override func calcMinMax(start start : Int, end: Int)
     {
         let yValCount = _yVals.count
         

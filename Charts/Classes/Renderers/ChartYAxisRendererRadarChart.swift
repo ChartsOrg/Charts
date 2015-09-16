@@ -26,15 +26,15 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         _chart = chart
     }
  
-    public override func computeAxis(#yMin: Double, yMax: Double)
+    public override func computeAxis(yMin yMin: Double, yMax: Double)
     {
         computeAxisValues(min: yMin, max: yMax)
     }
     
     internal override func computeAxisValues(min yMin: Double, max yMax: Double)
     {
-        var labelCount = _yAxis.labelCount
-        var range = abs(yMax - yMin)
+        let labelCount = _yAxis.labelCount
+        let range = abs(yMax - yMin)
         
         if (labelCount == 0 || range <= 0)
         {
@@ -42,10 +42,10 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
             return
         }
         
-        var rawInterval = range / Double(labelCount)
+        let rawInterval = range / Double(labelCount)
         var interval = ChartUtils.roundToNextSignificant(number: Double(rawInterval))
-        var intervalMagnitude = pow(10.0, round(log10(interval)))
-        var intervalSigDigit = Int(interval / intervalMagnitude)
+        let intervalMagnitude = pow(10.0, round(log10(interval)))
+        let intervalSigDigit = Int(interval / intervalMagnitude)
         
         if (intervalSigDigit > 5)
         {
@@ -111,7 +111,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
                     first = 0.0
                 }
                 
-                var last = ChartUtils.nextUp(floor(Double(yMax) / interval) * interval)
+                let last = ChartUtils.nextUp(floor(Double(yMax) / interval) * interval)
                 
                 var f: Double
                 var i: Int
@@ -149,22 +149,22 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         _yAxis.axisRange = abs(_yAxis.axisMaximum - _yAxis.axisMinimum)
     }
     
-    public override func renderAxisLabels(#context: CGContext)
+    public override func renderAxisLabels(context context: CGContext)
     {
         if (!_yAxis.isEnabled || !_yAxis.isDrawLabelsEnabled)
         {
             return
         }
         
-        var labelFont = _yAxis.labelFont
-        var labelTextColor = _yAxis.labelTextColor
+        let labelFont = _yAxis.labelFont
+        let labelTextColor = _yAxis.labelTextColor
         
-        var center = _chart.centerOffsets
-        var factor = _chart.factor
+        let center = _chart.centerOffsets
+        let factor = _chart.factor
         
-        var labelCount = _yAxis.entryCount
+        let labelCount = _yAxis.entryCount
         
-        var labelLineHeight = _yAxis.labelFont.lineHeight
+        let labelLineHeight = _yAxis.labelFont.lineHeight
         
         for (var j = 0; j < labelCount; j++)
         {
@@ -173,17 +173,17 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
                 break
             }
             
-            var r = CGFloat(_yAxis.entries[j] - _yAxis.axisMinimum) * factor
+            let r = CGFloat(_yAxis.entries[j] - _yAxis.axisMinimum) * factor
             
-            var p = ChartUtils.getPosition(center: center, dist: r, angle: _chart.rotationAngle)
+            let p = ChartUtils.getPosition(center: center, dist: r, angle: _chart.rotationAngle)
             
-            var label = _yAxis.getFormattedLabel(j)
+            let label = _yAxis.getFormattedLabel(j)
             
             ChartUtils.drawText(context: context, text: label, point: CGPoint(x: p.x + 10.0, y: p.y - labelLineHeight), align: .Left, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
         }
     }
     
-    public override func renderLimitLines(#context: CGContext)
+    public override func renderLimitLines(context context: CGContext)
     {
         var limitLines = _yAxis.limitLines
         
@@ -194,16 +194,16 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         
         CGContextSaveGState(context)
         
-        var sliceangle = _chart.sliceAngle
+        let sliceangle = _chart.sliceAngle
         
         // calculate the factor that is needed for transforming the value to pixels
-        var factor = _chart.factor
+        let factor = _chart.factor
         
-        var center = _chart.centerOffsets
+        let center = _chart.centerOffsets
         
         for (var i = 0; i < limitLines.count; i++)
         {
-            var l = limitLines[i]
+            let l = limitLines[i]
             
             CGContextSetStrokeColorWithColor(context, l.lineColor.CGColor)
             CGContextSetLineWidth(context, l.lineWidth)
@@ -216,13 +216,13 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
                 CGContextSetLineDash(context, 0.0, nil, 0)
             }
             
-            var r = CGFloat(l.limit - _chart.chartYMin) * factor
+            let r = CGFloat(l.limit - _chart.chartYMin) * factor
             
             CGContextBeginPath(context)
             
             for (var j = 0, count = _chart.data!.xValCount; j < count; j++)
             {
-                var p = ChartUtils.getPosition(center: center, dist: r, angle: sliceangle * CGFloat(j) + _chart.rotationAngle)
+                let p = ChartUtils.getPosition(center: center, dist: r, angle: sliceangle * CGFloat(j) + _chart.rotationAngle)
                 
                 if (j == 0)
                 {

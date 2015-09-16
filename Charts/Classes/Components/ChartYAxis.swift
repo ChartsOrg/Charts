@@ -177,7 +177,7 @@ public class ChartYAxis: ChartAxisBase
     
     public func requiredSize() -> CGSize
     {
-        var label = getLongestLabel() as NSString
+        let label = getLongestLabel() as NSString
         var size = label.sizeWithAttributes([NSFontAttributeName: labelFont])
         size.width += xOffset * 2.0
         size.height += yOffset * 2.0
@@ -196,9 +196,9 @@ public class ChartYAxis: ChartAxisBase
         
         for (var i = 0; i < entries.count; i++)
         {
-            var text = getFormattedLabel(i)
+            let text = getFormattedLabel(i)
             
-            if (count(longest) < count(text))
+            if (longest.characters.count < text.characters.count)
             {
                 longest = text
             }
@@ -235,7 +235,7 @@ public class ChartYAxis: ChartAxisBase
     
     public var isStartAtZeroEnabled: Bool { return startAtZeroEnabled; }
 
-    /// :returns: true if focing the y-label count is enabled. Default: false
+    /// - returns: true if focing the y-label count is enabled. Default: false
     public var isForceLabelsEnabled: Bool { return forceLabelsEnabled }
 
     public var isShowOnlyMinMaxEnabled: Bool { return showOnlyMinMaxEnabled; }

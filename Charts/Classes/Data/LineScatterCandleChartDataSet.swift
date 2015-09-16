@@ -26,7 +26,7 @@ public class LineScatterCandleChartDataSet: BarLineScatterCandleChartDataSet
     public var isVerticalHighlightIndicatorEnabled: Bool { return drawVerticalHighlightIndicatorEnabled }
     
     /// Enables / disables both vertical and horizontal highlight-indicators.
-    /// :param: enabled
+    /// - parameter enabled:
     public func setDrawHighlightIndicators(enabled: Bool)
     {
         drawHorizontalHighlightIndicatorEnabled = enabled
@@ -37,7 +37,7 @@ public class LineScatterCandleChartDataSet: BarLineScatterCandleChartDataSet
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
-        var copy = super.copyWithZone(zone) as! LineScatterCandleChartDataSet
+        let copy = super.copyWithZone(zone) as! LineScatterCandleChartDataSet
         copy.drawHorizontalHighlightIndicatorEnabled = drawHorizontalHighlightIndicatorEnabled
         copy.drawVerticalHighlightIndicatorEnabled = drawVerticalHighlightIndicatorEnabled
         return copy
