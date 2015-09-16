@@ -1389,7 +1389,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     {
         var pt = CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentBottom)
         getTransformer(.Left).pixelToValue(&pt)
-        return (Int(pt.x) >= _data.xValCount) ? _data.xValCount - 1 : Int(pt.x)
+        return (_data != nil && Int(pt.x) >= _data.xValCount) ? _data.xValCount - 1 : Int(pt.x)
     }
 
     /// returns the current x-scale factor
