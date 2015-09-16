@@ -340,7 +340,7 @@ public class PieChartView: PieRadarChartViewBase
         }
     }
     
-    internal override var requiredBottomOffset: CGFloat
+    internal override var requiredLegendOffset: CGFloat
     {
         return _legend.font.pointSize * 2.0
     }
