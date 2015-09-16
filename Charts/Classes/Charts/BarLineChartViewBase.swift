@@ -320,66 +320,67 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
         
         // Consider sticking one of the edges of the axis to zero (0.0)
+
+        setYAxisMinMax(_leftAxis, minimum: minLeft, maximum: maxLeft, bottomSpace: bottomSpaceLeft, topSpace: topSpaceLeft)
+        setYAxisMinMax(_rightAxis, minimum: minRight, maximum: maxRight, bottomSpace: bottomSpaceRight, topSpace: topSpaceRight)
         
-        if _leftAxis.isStartAtZeroEnabled
+        _leftAxis.axisRange = abs(_leftAxis.axisMaximum - _leftAxis.axisMinimum)
+        _rightAxis.axisRange = abs(_rightAxis.axisMaximum - _rightAxis.axisMinimum)
+    }
+
+
+    internal func setYAxisMinMax(yAxis: ChartYAxis, minimum: Double, maximum: Double, bottomSpace: Double, topSpace: Double)
+    {
+        if (yAxis.isStartAtZeroEnabled)
         {
-            if minLeft < 0.0 && maxLeft < 0.0
+            if minimum < 0.0 && maximum < 0.0
             {
                 // If the values are all negative, let's stay in the negative zone
-                _leftAxis.axisMinimum = min(0.0, !isnan(_leftAxis.customAxisMin) ? _leftAxis.customAxisMin : (minLeft - bottomSpaceLeft))
-                _leftAxis.axisMaximum = 0.0
+                yAxis.axisMinimum = min(0.0, !isnan(yAxis.customAxisMin) ? yAxis.customAxisMin : (minimum - bottomSpace))
+                yAxis.axisMaximum = 0.0
             }
-            else if minLeft >= 0.0
+            else if minimum >= 0.0
             {
                 // We have positive values only, stay in the positive zone
-                _leftAxis.axisMinimum = 0.0
-                _leftAxis.axisMaximum = max(0.0, !isnan(_leftAxis.customAxisMax) ? _leftAxis.customAxisMax : (maxLeft + topSpaceLeft))
+                yAxis.axisMinimum = 0.0
+                yAxis.axisMaximum = max(0.0, !isnan(yAxis.customAxisMax) ? yAxis.customAxisMax : (maximum + topSpace))
             }
             else
             {
                 // Stick the minimum to 0.0 or less, and maximum to 0.0 or more (startAtZero for negative/positive at the same time)
-                _leftAxis.axisMinimum = min(0.0, !isnan(_leftAxis.customAxisMin) ? _leftAxis.customAxisMin : (minLeft - bottomSpaceLeft))
-                _leftAxis.axisMaximum = max(0.0, !isnan(_leftAxis.customAxisMax) ? _leftAxis.customAxisMax : (maxLeft + topSpaceLeft))
+                yAxis.axisMinimum = min(0.0, !isnan(yAxis.customAxisMin) ? yAxis.customAxisMin : (minimum - bottomSpace))
+                yAxis.axisMaximum = max(0.0, !isnan(yAxis.customAxisMax) ? yAxis.customAxisMax : (maximum + topSpace))
+            }
+        }
+        else if (!yAxis.allowStartAtNegative)
+        {
+            if minimum < 0.0 && maximum < 0.0
+            {
+                // If the values are all negative, let's stay in the negative zone
+                yAxis.axisMinimum = min(0.0, !isnan(yAxis.customAxisMin) ? yAxis.customAxisMin : (minimum - bottomSpace))
+                yAxis.axisMaximum = 0.0
+            }
+            else if minimum >= 0.0
+            {
+                // We have positive values only, stay in the positive zone
+                yAxis.axisMinimum = max(0.0, !isnan(yAxis.customAxisMin) ? yAxis.customAxisMin : (minimum - bottomSpace))
+                yAxis.axisMaximum = max(0.0, !isnan(yAxis.customAxisMax) ? yAxis.customAxisMax : (maximum + topSpace))
+            }
+            else
+            {
+                // Stick the minimum to 0.0 or less, and maximum to 0.0 or more (startAtZero for negative/positive at the same time)
+                yAxis.axisMinimum = min(0.0, !isnan(yAxis.customAxisMin) ? yAxis.customAxisMin : (minimum - bottomSpace))
+                yAxis.axisMaximum = max(0.0, !isnan(yAxis.customAxisMax) ? yAxis.customAxisMax : (maximum + topSpace))
             }
         }
         else
         {
             // Use the values as they are
-            _leftAxis.axisMinimum = !isnan(_leftAxis.customAxisMin) ? _leftAxis.customAxisMin : (minLeft - bottomSpaceLeft)
-            _leftAxis.axisMaximum = !isnan(_leftAxis.customAxisMax) ? _leftAxis.customAxisMax : (maxLeft + topSpaceLeft)
+            yAxis.axisMinimum = !isnan(yAxis.customAxisMin) ? yAxis.customAxisMin : (minimum - bottomSpace)
+            yAxis.axisMaximum = !isnan(yAxis.customAxisMax) ? yAxis.customAxisMax : (maximum + topSpace)
         }
-        
-        if _rightAxis.isStartAtZeroEnabled
-        {
-            if minRight < 0.0 && maxRight < 0.0
-            {
-                // If the values are all negative, let's stay in the negative zone
-                _rightAxis.axisMinimum = min(0.0, !isnan(_rightAxis.customAxisMin) ? _rightAxis.customAxisMin : (minRight - bottomSpaceRight))
-                _rightAxis.axisMaximum = 0.0
-            }
-            else if minRight >= 0.0
-            {
-                // We have positive values only, stay in the positive zone
-                _rightAxis.axisMinimum = 0.0
-                _rightAxis.axisMaximum = max(0.0, !isnan(_rightAxis.customAxisMax) ? _rightAxis.customAxisMax : (maxRight + topSpaceRight))
-            }
-            else
-            {
-                // Stick the minimum to 0.0 or less, and maximum to 0.0 or more (startAtZero for negative/positive at the same time)
-                _rightAxis.axisMinimum = min(0.0, !isnan(_rightAxis.customAxisMin) ? _rightAxis.customAxisMin : (minRight - bottomSpaceRight))
-                _rightAxis.axisMaximum = max(0.0, !isnan(_rightAxis.customAxisMax) ? _rightAxis.customAxisMax : (maxRight + topSpaceRight))
-            }
-        }
-        else
-        {
-            _rightAxis.axisMinimum = !isnan(_rightAxis.customAxisMin) ? _rightAxis.customAxisMin : (minRight - bottomSpaceRight)
-            _rightAxis.axisMaximum = !isnan(_rightAxis.customAxisMax) ? _rightAxis.customAxisMax : (maxRight + topSpaceRight)
-        }
-        
-        _leftAxis.axisRange = abs(_leftAxis.axisMaximum - _leftAxis.axisMinimum)
-        _rightAxis.axisRange = abs(_rightAxis.axisMaximum - _rightAxis.axisMinimum)
     }
-    
+
     internal override func calculateOffsets()
     {
         if (!_customViewPortEnabled)
