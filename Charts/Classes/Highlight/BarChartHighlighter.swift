@@ -22,9 +22,9 @@ internal class BarChartHighlighter: ChartHighlighter
         super.init(chart: chart)
     }
     
-    internal override func getHighlight(#x: Double, y: Double) -> ChartHighlight?
+    internal override func getHighlight(x x: Double, y: Double) -> ChartHighlight?
     {
-        var h = super.getHighlight(x: x, y: y)
+        let h = super.getHighlight(x: x, y: y)
         
         if h === nil
         {
@@ -86,7 +86,7 @@ internal class BarChartHighlighter: ChartHighlighter
         }
     }
     
-    internal override func getDataSetIndex(#xIndex: Int, x: Double, y: Double) -> Int
+    internal override func getDataSetIndex(xIndex xIndex: Int, x: Double, y: Double) -> Int
     {
         if let barChartData = _chart?.data as? BarChartData
         {
@@ -120,15 +120,15 @@ internal class BarChartHighlighter: ChartHighlighter
     }
     
     /// This method creates the Highlight object that also indicates which value of a stacked BarEntry has been selected.
-    /// :param: old the old highlight object before looking for stacked values
-    /// :param: set
-    /// :param: xIndex
-    /// :param: dataSetIndex
-    /// :param: yValue
-    /// :returns:
-    internal func getStackedHighlight(#old: ChartHighlight?, set: BarChartDataSet, xIndex: Int, dataSetIndex: Int, yValue: Double) -> ChartHighlight?
+    /// - parameter old: the old highlight object before looking for stacked values
+    /// - parameter set:
+    /// - parameter xIndex:
+    /// - parameter dataSetIndex:
+    /// - parameter yValue:
+    /// - returns:
+    internal func getStackedHighlight(old old: ChartHighlight?, set: BarChartDataSet, xIndex: Int, dataSetIndex: Int, yValue: Double) -> ChartHighlight?
     {
-        var entry = set.entryForXIndex(xIndex) as? BarChartDataEntry
+        let entry = set.entryForXIndex(xIndex) as? BarChartDataEntry
         
         if entry?.values === nil
         {
@@ -145,10 +145,10 @@ internal class BarChartHighlighter: ChartHighlighter
     }
     
     /// Returns the index of the closest value inside the values array / ranges (stacked barchart) to the value given as a parameter.
-    /// :param: entry
-    /// :param: value
-    /// :returns:
-    internal func getClosestStackIndex(#ranges: [ChartRange]?, value: Double) -> Int
+    /// - parameter entry:
+    /// - parameter value:
+    /// - returns:
+    internal func getClosestStackIndex(ranges ranges: [ChartRange]?, value: Double) -> Int
     {
         if ranges == nil
         {
@@ -175,8 +175,8 @@ internal class BarChartHighlighter: ChartHighlighter
     }
     
     /// Returns the base x-value to the corresponding x-touch value in pixels.
-    /// :param: x
-    /// :returns:
+    /// - parameter x:
+    /// - returns:
     internal func getBase(x: Double) -> Double
     {
         if let barChartData = _chart?.data as? BarChartData
@@ -207,9 +207,9 @@ internal class BarChartHighlighter: ChartHighlighter
     }
 
     /// Splits up the stack-values of the given bar-entry into Range objects.
-    /// :param: entry
-    /// :returns:
-    internal func getRanges(#entry: BarChartDataEntry) -> [ChartRange]?
+    /// - parameter entry:
+    /// - returns:
+    internal func getRanges(entry entry: BarChartDataEntry) -> [ChartRange]?
     {
         let values = entry.values
         if (values == nil)
