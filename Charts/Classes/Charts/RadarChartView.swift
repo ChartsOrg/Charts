@@ -239,7 +239,7 @@ public class RadarChartView: PieRadarChartViewBase
         return _xAxis
     }
     
-    internal override var requiredBottomOffset: CGFloat
+    internal override var requiredLegendOffset: CGFloat
     {
         return _legend.font.pointSize * 4.0
     }
