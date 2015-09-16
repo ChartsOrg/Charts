@@ -128,8 +128,10 @@ internal class ChartUtils
         {
             point.x -= text.sizeWithAttributes(attributes).width
         }
-    
-        UIGraphicsPushContext(context)
+
+        if let unwrappedContext = context {
+            UIGraphicsPushContext(unwrappedContext)
+        }
         (text as NSString).drawAtPoint(point, withAttributes: attributes)
         UIGraphicsPopContext()
     }
@@ -148,8 +150,10 @@ internal class ChartUtils
         {
             rect.origin.x -= rect.size.width
         }
-        
-        UIGraphicsPushContext(context)
+
+        if let unwrappedContext = context {
+            UIGraphicsPushContext(unwrappedContext)
+        }
         (text as NSString).drawWithRect(rect, options: .UsesLineFragmentOrigin, attributes: attributes, context: nil)
         UIGraphicsPopContext()
     }

@@ -26,11 +26,13 @@ public class PieRadarChartViewBase: ChartViewBase
     
     /// flag that indicates if rotation is enabled or not
     public var rotationEnabled = true
-    
+
     private var _rotationWithTwoFingers = false
-    
+
     private var _tapGestureRecognizer: UITapGestureRecognizer!
+    #if !os(tvOS)
     private var _rotationGestureRecognizer: UIRotationGestureRecognizer!
+    #endif
     
     public override init(frame: CGRect)
     {
@@ -52,12 +54,15 @@ public class PieRadarChartViewBase: ChartViewBase
         super.initialize()
         
         _tapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("tapGestureRecognized:"))
-        _rotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: Selector("rotationGestureRecognized:"))
-        
+
         self.addGestureRecognizer(_tapGestureRecognizer)
-        self.addGestureRecognizer(_rotationGestureRecognizer)
+
+        #if !os(tvOS)
+            _rotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: Selector("rotationGestureRecognized:"))
+            self.addGestureRecognizer(_rotationGestureRecognizer)
+            _rotationGestureRecognizer.enabled = rotationWithTwoFingers
+        #endif
         
-        _rotationGestureRecognizer.enabled = rotationWithTwoFingers
     }
     
     internal override func calcMinMax()
@@ -392,7 +397,9 @@ public class PieRadarChartViewBase: ChartViewBase
         set
         {
             _rotationWithTwoFingers = newValue
-            _rotationGestureRecognizer.enabled = _rotationWithTwoFingers
+            #if !os(tvOS)
+                _rotationGestureRecognizer.enabled = _rotationWithTwoFingers
+            #endif
         }
     }
     
@@ -785,7 +792,8 @@ public class PieRadarChartViewBase: ChartViewBase
             }
         }
     }
-    
+
+    #if !os(tvOS)
     @objc private func rotationGestureRecognized(recognizer: UIRotationGestureRecognizer)
     {
         if (recognizer.state == UIGestureRecognizerState.Began)
@@ -824,4 +832,5 @@ public class PieRadarChartViewBase: ChartViewBase
             }
         }
     }
+    #endif
 }

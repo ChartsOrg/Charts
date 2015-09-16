@@ -334,7 +334,11 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         
         if (font == nil)
         {
-            font = UIFont.systemFontOfSize(UIFont.systemFontSize())
+            #if os(tvOS)
+                font = UIFont.systemFontOfSize(23)
+            #else
+                font = UIFont.systemFontOfSize(UIFont.systemFontSize())
+            #endif
         }
         
         attrs[NSFontAttributeName] = font
@@ -775,8 +779,10 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
                 CGContextFillRect(context, rect)
             }
         }
-        
-        layer.renderInOptionalContext(context)
+
+        if let unwrappedContext = context {
+            layer.renderInContext(unwrappedContext)
+        }
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
         
@@ -821,10 +827,12 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     }
     
     /// Saves the current state of the chart to the camera roll
+    #if !os(tvOS)
     public func saveToCameraRoll()
     {
         UIImageWriteToSavedPhotosAlbum(getChartImage(transparent: false), nil, nil, nil)
     }
+    #endif
     
     internal typealias VoidClosureType = () -> ()
     internal var _sizeChangeEventActions = [VoidClosureType]()

@@ -43,8 +43,10 @@ public class ChartMarker: ChartComponentBase
         let size = self.size
         
         let rect = CGRect(x: point.x + offset.x, y: point.y + offset.y, width: size.width, height: size.height)
-        
-        UIGraphicsPushContext(context)
+
+        if let unwrappedContext = context {
+            UIGraphicsPushContext(unwrappedContext)
+        }
         image!.drawInRect(rect)
         UIGraphicsPopContext()
     }
