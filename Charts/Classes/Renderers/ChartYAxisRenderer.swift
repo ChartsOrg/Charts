@@ -296,6 +296,14 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             position.x = 0.0
             position.y = CGFloat(_yAxis.entries[i])
             position = CGPointApplyAffineTransform(position, valueToPixelMatrix)
+            if (i == 0)
+            {
+                position.y -= _yAxis.gridLineWidth;
+            }
+            else if (i == count-1)
+            {
+                position.y += _yAxis.gridLineWidth;
+            }
         
             _gridLineBuffer[0].x = viewPortHandler.contentLeft
             _gridLineBuffer[0].y = position.y
