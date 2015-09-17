@@ -22,7 +22,7 @@ public class LineRadarChartDataSet: LineScatterCandleChartDataSet
     private var _lineWidth = CGFloat(1.0)
     public var drawFilledEnabled = false
     
-    /// line width of the chart (min = 0.2, max = 10)
+    /// line width of the chart (set to zero for circles only)
     /// 
     /// **default**: 1
     public var lineWidth: CGFloat
@@ -33,18 +33,7 @@ public class LineRadarChartDataSet: LineScatterCandleChartDataSet
         }
         set
         {
-            if (newValue < 0.2)
-            {
-                _lineWidth = 0.2
-            }
-            else if (newValue > 10.0)
-            {
-                _lineWidth = 10.0
-            }
-            else
-            {
-                _lineWidth = newValue
-            }
+            _lineWidth = newValue
         }
     }
     
