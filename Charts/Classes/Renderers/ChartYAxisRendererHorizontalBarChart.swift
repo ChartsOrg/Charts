@@ -23,13 +23,13 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
     }
 
     /// Computes the axis values.
-    public override func computeAxis(var #yMin: Double, var yMax: Double)
+    public override func computeAxis(var yMin yMin: Double, var yMax: Double)
     {
         // calculate the starting and entry point of the y-labels (depending on zoom / contentrect bounds)
         if (viewPortHandler.contentHeight > 10.0 && !viewPortHandler.isFullyZoomedOutX)
         {
-            var p1 = transformer.getValueByTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
-            var p2 = transformer.getValueByTouchPoint(CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentTop))
+            let p1 = transformer.getValueByTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
+            let p2 = transformer.getValueByTouchPoint(CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentTop))
             
             if (!_yAxis.isInverted)
             {
@@ -47,7 +47,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
     }
 
     /// draws the y-axis labels to the screen
-    public override func renderAxisLabels(#context: CGContext)
+    public override func renderAxisLabels(context context: CGContext?)
     {
         if (!_yAxis.isEnabled || !_yAxis.isDrawLabelsEnabled)
         {
@@ -64,11 +64,11 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         
         transformer.pointValuesToPixel(&positions)
         
-        var lineHeight = _yAxis.labelFont.lineHeight
-        var baseYOffset: CGFloat = 2.5
+        let lineHeight = _yAxis.labelFont.lineHeight
+        let baseYOffset: CGFloat = 2.5
         
-        var dependency = _yAxis.axisDependency
-        var labelPosition = _yAxis.labelPosition
+        let dependency = _yAxis.axisDependency
+        let labelPosition = _yAxis.labelPosition
         
         var yPos: CGFloat = 0.0
         
@@ -104,7 +104,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
     
     private var _axisLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    public override func renderAxisLine(#context: CGContext)
+    public override func renderAxisLine(context context: CGContext?)
     {
         if (!_yAxis.isEnabled || !_yAxis.drawAxisLineEnabled)
         {
@@ -145,14 +145,14 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
     }
 
     /// draws the y-labels on the specified x-position
-    internal func drawYLabels(#context: CGContext, fixedPosition: CGFloat, positions: [CGPoint], offset: CGFloat)
+    internal func drawYLabels(context context: CGContext?, fixedPosition: CGFloat, positions: [CGPoint], offset: CGFloat)
     {
-        var labelFont = _yAxis.labelFont
-        var labelTextColor = _yAxis.labelTextColor
+        let labelFont = _yAxis.labelFont
+        let labelTextColor = _yAxis.labelTextColor
         
         for (var i = 0; i < _yAxis.entryCount; i++)
         {
-            var text = _yAxis.getFormattedLabel(i)
+            let text = _yAxis.getFormattedLabel(i)
             
             if (!_yAxis.isDrawTopYLabelEntryEnabled && i >= _yAxis.entryCount - 1)
             {
@@ -163,7 +163,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         }
     }
 
-    public override func renderGridLines(#context: CGContext)
+    public override func renderGridLines(context context: CGContext?)
     {
         if (!_yAxis.isEnabled || !_yAxis.isDrawGridLinesEnabled)
         {
@@ -204,7 +204,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
     
     private var _limitLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    public override func renderLimitLines(#context: CGContext)
+    public override func renderLimitLines(context context: CGContext?)
     {
         var limitLines = _yAxis.limitLines
 
@@ -215,13 +215,13 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         
         CGContextSaveGState(context)
         
-        var trans = transformer.valueToPixelMatrix
+        let trans = transformer.valueToPixelMatrix
         
         var position = CGPoint(x: 0.0, y: 0.0)
         
         for (var i = 0; i < limitLines.count; i++)
         {
-            var l = limitLines[i]
+            let l = limitLines[i]
             
             position.x = CGFloat(l.limit)
             position.y = 0.0
@@ -245,17 +245,17 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
             
             CGContextStrokeLineSegments(context, _limitLineSegmentsBuffer, 2)
 
-            var label = l.label
+            let label = l.label
 
             // if drawing the limit-value label is enabled
-            if (count(label) > 0)
+            if (label.characters.count > 0)
             {
-                var labelLineHeight = l.valueFont.lineHeight
+                let labelLineHeight = l.valueFont.lineHeight
                 
                 let add = CGFloat(4.0)
-                var xOffset: CGFloat = l.lineWidth
-                var yOffset: CGFloat = add / 2.0
-                
+                let xOffset: CGFloat = l.lineWidth
+                let yOffset: CGFloat = add / 2.0
+
                 if (l.labelPosition == .RightTop)
                 {
                     ChartUtils.drawText(context: context,

@@ -42,7 +42,7 @@ public class BalloonMarker: ChartMarker
     
     public override var size: CGSize { return _size; }
     
-    public override func draw(#context: CGContext, point: CGPoint)
+    public override func draw(context context: CGContext?, point: CGPoint)
     {
         if (labelns === nil)
         {
@@ -95,9 +95,9 @@ public class BalloonMarker: ChartMarker
         CGContextRestoreGState(context);
     }
     
-    public override func refreshContent(#entry: ChartDataEntry, highlight: ChartHighlight)
+    public override func refreshContent(entry entry: ChartDataEntry, highlight: ChartHighlight)
     {
-        var label = entry.value.description;
+        let label = entry.value.description;
         labelns = label as NSString;
         
         _labelSize = labelns.sizeWithAttributes([NSFontAttributeName: self.font]);

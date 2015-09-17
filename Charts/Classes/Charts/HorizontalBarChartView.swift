@@ -56,7 +56,7 @@ public class HorizontalBarChartView: BarChartView
                 || _legend.position == .BelowChartRight
                 || _legend.position == .BelowChartCenter)
             {
-                var yOffset = _legend.textHeightMax * 2.0; // It's possible that we do not need this offset anymore as it is available through the extraOffsets
+                let yOffset = _legend.textHeightMax * 2.0; // It's possible that we do not need this offset anymore as it is available through the extraOffsets
                 offsetBottom += min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
             }
         }
@@ -72,7 +72,7 @@ public class HorizontalBarChartView: BarChartView
             offsetBottom += _rightAxis.getRequiredHeightSpace()
         }
         
-        var xlabelwidth = _xAxis.labelWidth
+        let xlabelwidth = _xAxis.labelWidth
         
         if (_xAxis.isEnabled)
         {
@@ -97,7 +97,7 @@ public class HorizontalBarChartView: BarChartView
         offsetBottom += self.extraBottomOffset
         offsetLeft += self.extraLeftOffset
         
-        var minOffset: CGFloat = 10.0
+        let minOffset: CGFloat = 10.0
         
         _viewPortHandler.restrainViewPort(
             offsetLeft: max(minOffset, offsetLeft),
@@ -127,22 +127,22 @@ public class HorizontalBarChartView: BarChartView
     
     public override func getBarBounds(e: BarChartDataEntry) -> CGRect!
     {
-        var set = _data.getDataSetForEntry(e) as! BarChartDataSet!
+        let set = _data.getDataSetForEntry(e) as! BarChartDataSet!
         
         if (set === nil)
         {
             return nil
         }
         
-        var barspace = set.barSpace
-        var y = CGFloat(e.value)
-        var x = CGFloat(e.xIndex)
+        let barspace = set.barSpace
+        let y = CGFloat(e.value)
+        let x = CGFloat(e.xIndex)
         
-        var spaceHalf = barspace / 2.0
-        var top = x - 0.5 + spaceHalf
-        var bottom = x + 0.5 - spaceHalf
-        var left = y >= 0.0 ? y : 0.0
-        var right = y <= 0.0 ? y : 0.0
+        let spaceHalf = barspace / 2.0
+        let top = x - 0.5 + spaceHalf
+        let bottom = x + 0.5 - spaceHalf
+        let left = y >= 0.0 ? y : 0.0
+        let right = y <= 0.0 ? y : 0.0
         
         var bounds = CGRect(x: left, y: top, width: right - left, height: bottom - top)
         
@@ -164,7 +164,7 @@ public class HorizontalBarChartView: BarChartView
     {
         if (_dataNotSet || _data === nil)
         {
-            println("Can't select by touch. No data set.")
+            print("Can't select by touch. No data set.", terminator: "\n")
             return nil
         }
         
@@ -173,8 +173,8 @@ public class HorizontalBarChartView: BarChartView
     
     public override var lowestVisibleXIndex: Int
     {
-        var step = CGFloat(_data.dataSetCount)
-        var div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
+        let step = CGFloat(_data.dataSetCount)
+        let div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
         
         var pt = CGPoint(x: _viewPortHandler.contentLeft, y: _viewPortHandler.contentBottom)
         getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
@@ -184,8 +184,8 @@ public class HorizontalBarChartView: BarChartView
     
     public override var highestVisibleXIndex: Int
     {
-        var step = CGFloat(_data.dataSetCount)
-        var div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
+        let step = CGFloat(_data.dataSetCount)
+        let div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
         
         var pt = CGPoint(x: _viewPortHandler.contentLeft, y: _viewPortHandler.contentTop)
         getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
