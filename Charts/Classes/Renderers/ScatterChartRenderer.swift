@@ -78,6 +78,11 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
         
         let shape = dataSet.scatterShape
         
+        let circleRadius = shapeHalf
+        let circleHoleDiameter = circleRadius
+        let circleHoleRadius = circleHoleDiameter / 2.0
+        let isDrawCircleHoleEnabled = dataSet.drawCircleHoleEnabled
+
         CGContextSaveGState(context)
         
         for (var j = 0, count = Int(min(ceil(CGFloat(entries.count) * _animator.phaseX), CGFloat(entries.count))); j < count; j++)
@@ -116,6 +121,17 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                 rect.size.width = shapeSize
                 rect.size.height = shapeSize
                 CGContextFillEllipseInRect(context, rect)
+
+                if (isDrawCircleHoleEnabled)
+                {
+                    CGContextSetFillColorWithColor(context, dataSet.circleHoleColor.CGColor)
+
+                    rect.origin.x = point.x - circleHoleRadius
+                    rect.origin.y = point.y - circleHoleRadius
+                    rect.size.width = circleHoleDiameter
+                    rect.size.height = circleHoleDiameter
+                    CGContextFillEllipseInRect(context, rect)
+                }
             }
             else if (shape == .Cross)
             {
