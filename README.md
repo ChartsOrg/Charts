@@ -3,7 +3,7 @@
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
 [![CodeHunt.io](https://img.shields.io/badge/vote-codehunt.io-02AFD1.svg)](http://codehunt.io/sub/ios-charts/?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)   
 
-* Xcode 6.3 / Swift 1.2 (Swift 2.0 for Xcode 7 beta is available currently on the `swift-2.0` branch)
+* Xcode 7 / Swift 2.0
 * iOS 7.0 (Drag .swift files to your project)
 * iOS 8.0 (Use as an **Embedded** Framework)
 
