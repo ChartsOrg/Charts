@@ -336,7 +336,12 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         
         if (font == nil)
         {
-            font = UIFont.systemFontOfSize(UIFont.systemFontSize())
+            #if os(tvOS)
+                // 23 is the smallest recommened font size on the TV
+                font = UIFont.systemFontOfSize(23, weight: UIFontWeightMedium)
+            #else
+                font = UIFont.systemFontOfSize(UIFont.systemFontSize())
+            #endif
         }
         
         attrs[NSFontAttributeName] = font
@@ -798,11 +803,13 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         return imageData.writeToFile(path, atomically: true)
     }
     
+    #if !os(tvOS)
     /// Saves the current state of the chart to the camera roll
     public func saveToCameraRoll()
     {
         UIImageWriteToSavedPhotosAlbum(getChartImage(transparent: false), nil, nil, nil)
     }
+    #endif
     
     internal typealias VoidClosureType = () -> ()
     internal var _sizeChangeEventActions = [VoidClosureType]()

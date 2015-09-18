@@ -63,7 +63,9 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     
     internal var _tapGestureRecognizer: UITapGestureRecognizer!
     internal var _doubleTapGestureRecognizer: UITapGestureRecognizer!
+    #if !os(tvOS)
     internal var _pinchGestureRecognizer: UIPinchGestureRecognizer!
+    #endif
     internal var _panGestureRecognizer: UIPanGestureRecognizer!
     
     /// flag that indicates if a custom viewport offset has been set
@@ -106,20 +108,23 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         _tapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("tapGestureRecognized:"))
         _doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("doubleTapGestureRecognized:"))
         _doubleTapGestureRecognizer.numberOfTapsRequired = 2
-        _pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: Selector("pinchGestureRecognized:"))
         _panGestureRecognizer = UIPanGestureRecognizer(target: self, action: Selector("panGestureRecognized:"))
         
-        _pinchGestureRecognizer.delegate = self
         _panGestureRecognizer.delegate = self
         
         self.addGestureRecognizer(_tapGestureRecognizer)
         self.addGestureRecognizer(_doubleTapGestureRecognizer)
-        self.addGestureRecognizer(_pinchGestureRecognizer)
         self.addGestureRecognizer(_panGestureRecognizer)
         
         _doubleTapGestureRecognizer.enabled = _doubleTapToZoomEnabled
-        _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
         _panGestureRecognizer.enabled = _dragEnabled
+
+        #if !os(tvOS)
+            _pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: Selector("pinchGestureRecognized:"))
+            _pinchGestureRecognizer.delegate = self
+            self.addGestureRecognizer(_pinchGestureRecognizer)
+            _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
+        #endif
     }
     
     public override func drawRect(rect: CGRect)
@@ -657,6 +662,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         }
     }
     
+    #if !os(tvOS)
     @objc private func pinchGestureRecognized(recognizer: UIPinchGestureRecognizer)
     {
         if (recognizer.state == UIGestureRecognizerState.Began)
@@ -742,6 +748,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             }
         }
     }
+    #endif
     
     @objc private func panGestureRecognized(recognizer: UIPanGestureRecognizer)
     {
@@ -918,12 +925,17 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
                 return false
             }
         }
-        else if (gestureRecognizer == _pinchGestureRecognizer)
+        else
         {
-            if (_dataNotSet || (!_pinchZoomEnabled && !_scaleXEnabled && !_scaleYEnabled))
-            {
-                return false
-            }
+            #if !os(tvOS)
+                if (gestureRecognizer == _pinchGestureRecognizer)
+                {
+                    if (_dataNotSet || (!_pinchZoomEnabled && !_scaleXEnabled && !_scaleYEnabled))
+                    {
+                        return false
+                    }
+                }
+            #endif
         }
         
         return true
@@ -931,6 +943,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     
     public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool
     {
+        #if !os(tvOS)
         if ((gestureRecognizer.isKindOfClass(UIPinchGestureRecognizer) &&
             otherGestureRecognizer.isKindOfClass(UIPanGestureRecognizer)) ||
             (gestureRecognizer.isKindOfClass(UIPanGestureRecognizer) &&
@@ -938,6 +951,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         {
             return true
         }
+        #endif
         
         if (gestureRecognizer.isKindOfClass(UIPanGestureRecognizer) &&
             otherGestureRecognizer.isKindOfClass(UIPanGestureRecognizer) && (
@@ -1257,7 +1271,9 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         {
             _scaleXEnabled = enabled
             _scaleYEnabled = enabled
-            _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
+            #if !os(tvOS)
+                _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
+            #endif
         }
     }
     
@@ -1272,7 +1288,9 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             if (_scaleXEnabled != newValue)
             {
                 _scaleXEnabled = newValue
-                _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
+                #if !os(tvOS)
+                    _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
+                #endif
             }
         }
     }
@@ -1288,7 +1306,9 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             if (_scaleYEnabled != newValue)
             {
                 _scaleYEnabled = newValue
-                _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
+                #if !os(tvOS)
+                    _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
+                #endif
             }
         }
     }
@@ -1493,7 +1513,9 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             if (_pinchZoomEnabled != newValue)
             {
                 _pinchZoomEnabled = newValue
-                _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
+                #if !os(tvOS)
+                    _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
+                #endif
             }
         }
     }
