@@ -37,18 +37,19 @@ public class ChartAxisBase: ChartComponentBase
     public var drawLabelsEnabled = true
     
     /// Sets the used x-axis offset for the labels on this axis.
-    /// :default: 5.0
+    /// **default**: 5.0
     public var xOffset = CGFloat(5.0)
     
     /// Sets the used y-axis offset for the labels on this axis.
-    /// :default: 5.0 (or 0.0 on ChartYAxis)
+    /// **default**: 5.0 (or 0.0 on ChartYAxis)
     public var yOffset = CGFloat(5.0)
     
     /// array of limitlines that can be set for the axis
     private var _limitLines = [ChartLimitLine]()
     
     /// Are the LimitLines drawn behind the data or in front of the data?
-    /// :default: false
+    /// 
+    /// **default**: false
     public var drawLimitLinesBehindDataEnabled = false
 
     public override init()
@@ -68,7 +69,8 @@ public class ChartAxisBase: ChartComponentBase
     public var isDrawLabelsEnabled: Bool { return drawLabelsEnabled; }
     
     /// Are the LimitLines drawn behind the data or in front of the data?
-    /// :default: false
+    /// 
+    /// **default**: false
     public var isDrawLimitLinesBehindDataEnabled: Bool { return drawLimitLinesBehindDataEnabled; }
     
     /// Adds a new ChartLimitLine to this axis.
@@ -96,7 +98,7 @@ public class ChartAxisBase: ChartComponentBase
         _limitLines.removeAll(keepCapacity: false)
     }
     
-    /// Returns the LimitLines of this axis.
+    /// - returns: the LimitLines of this axis.
     public var limitLines : [ChartLimitLine]
         {
             return _limitLines

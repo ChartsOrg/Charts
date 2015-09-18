@@ -14,10 +14,10 @@
 import Foundation
 import CoreGraphics
 
-/// Protocol for providing a custom logic to where the filling line of a DataSet should end. If setFillEnabled(...) is set to true.
+/// Protocol for providing a custom logic to where the filling line of a DataSet should end. If `setFillEnabled(...)` is set to true.
 @objc
 public protocol ChartFillFormatter
 {
-    /// Returns the vertical (y-axis) position where the filled-line of the DataSet should end.
-    func getFillLinePosition(#dataSet: LineChartDataSet, data: LineChartData, chartMaxY: Double, chartMinY: Double) -> CGFloat
+    /// - returns: the vertical (y-axis) position where the filled-line of the DataSet should end.
+    func getFillLinePosition(dataSet dataSet: LineChartDataSet, data: LineChartData, chartMaxY: Double, chartMinY: Double) -> CGFloat
 }

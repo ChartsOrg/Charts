@@ -110,7 +110,7 @@ public class ChartData: NSObject
         
         for (var i = 0; i < _xVals.count; i++)
         {
-            sum += _xVals[i] == nil ? 0 : count(_xVals[i]!)
+            sum += _xVals[i] == nil ? 0 : (_xVals[i]!).characters.count
         }
         
         _xValAverageLength = Double(sum) / Double(_xVals.count)
@@ -129,7 +129,7 @@ public class ChartData: NSObject
         {
             if (dataSets[i].yVals.count > _xVals.count)
             {
-                println("One or more of the DataSet Entry arrays are longer than the x-values array of this Data object.")
+                print("One or more of the DataSet Entry arrays are longer than the x-values array of this Data object.", terminator: "\n")
                 return
             }
         }
@@ -141,7 +141,7 @@ public class ChartData: NSObject
     }
     
     /// calc minimum and maximum y value over all datasets
-    internal func calcMinMax(#start: Int, end: Int)
+    internal func calcMinMax(start start: Int, end: Int)
     {
         
         if (_dataSets == nil || _dataSets.count < 1)
@@ -179,7 +179,7 @@ public class ChartData: NSObject
             }
             
             // left axis
-            var firstLeft = getFirstLeft()
+            let firstLeft = getFirstLeft()
 
             if (firstLeft !== nil)
             {
@@ -204,7 +204,7 @@ public class ChartData: NSObject
             }
 
             // right axis
-            var firstRight = getFirstRight()
+            let firstRight = getFirstRight()
 
             if (firstRight !== nil)
             {
@@ -269,7 +269,7 @@ public class ChartData: NSObject
         _yValCount = count
     }
     
-    /// returns the number of LineDataSets this object contains
+    /// - returns: the number of LineDataSets this object contains
     public var dataSetCount: Int
     {
         if (_dataSets == nil)
@@ -279,7 +279,7 @@ public class ChartData: NSObject
         return _dataSets.count
     }
     
-    /// returns the smallest y-value the data object contains.
+    /// - returns: the smallest y-value the data object contains.
     public var yMin: Double
     {
         return _yMin
@@ -302,7 +302,7 @@ public class ChartData: NSObject
         }
     }
     
-    /// returns the greatest y-value the data object contains.
+    /// - returns: the greatest y-value the data object contains.
     public var yMax: Double
     {
         return _yMax
@@ -325,25 +325,25 @@ public class ChartData: NSObject
         }
     }
     
-    /// returns the average length (in characters) across all values in the x-vals array
+    /// - returns: the average length (in characters) across all values in the x-vals array
     public var xValAverageLength: Double
     {
         return _xValAverageLength
     }
     
-    /// returns the total y-value sum across all DataSet objects the this object represents.
+    /// - returns: the total y-value sum across all DataSet objects the this object represents.
     public var yValueSum: Double
     {
         return _yValueSum
     }
     
-    /// Returns the total number of y-values across all DataSet objects the this object represents.
+    /// - returns: the total number of y-values across all DataSet objects the this object represents.
     public var yValCount: Int
     {
         return _yValCount
     }
     
-    /// returns the x-values the chart represents
+    /// - returns: the x-values the chart represents
     public var xVals: [String?]
     {
         return _xVals
@@ -361,7 +361,7 @@ public class ChartData: NSObject
         _xVals.removeAtIndex(index)
     }
     
-    /// Returns the array of ChartDataSets this object holds.
+    /// - returns: the array of ChartDataSets this object holds.
     public var dataSets: [ChartDataSet]
     {
         get
@@ -375,12 +375,13 @@ public class ChartData: NSObject
     }
     
     /// Retrieve the index of a ChartDataSet with a specific label from the ChartData. Search can be case sensitive or not.
-    /// IMPORTANT: This method does calculations at runtime, do not over-use in performance critical situations.
+    /// 
+    /// **IMPORTANT: This method does calculations at runtime, do not over-use in performance critical situations.**
     ///
-    /// :param: dataSets the DataSet array to search
-    /// :param: type
-    /// :param: ignorecase if true, the search is not case-sensitive
-    /// :returns:
+    /// - parameter dataSets: the DataSet array to search
+    /// - parameter type:
+    /// - parameter ignorecase: if true, the search is not case-sensitive
+    /// - returns: the index of the DataSet Object with the given label. Sensitive or not.
     internal func getDataSetIndexByLabel(label: String, ignorecase: Bool) -> Int
     {
         if (ignorecase)
@@ -411,13 +412,13 @@ public class ChartData: NSObject
         return -1
     }
     
-    /// returns the total number of x-values this ChartData object represents (the size of the x-values array)
+    /// - returns: the total number of x-values this ChartData object represents (the size of the x-values array)
     public var xValCount: Int
     {
         return _xVals.count
     }
     
-    /// Returns the labels of all DataSets as a string array.
+    /// - returns: the labels of all DataSets as a string array.
     internal func dataSetLabels() -> [String]
     {
         var types = [String]()
@@ -437,8 +438,8 @@ public class ChartData: NSObject
     
     /// Get the Entry for a corresponding highlight object
     ///
-    /// :param: highlight
-    /// :returns: the entry that is highlighted
+    /// - parameter highlight:
+    /// - returns: the entry that is highlighted
     public func getEntryForHighlight(highlight: ChartHighlight) -> ChartDataEntry?
     {
         if highlight.dataSetIndex >= dataSets.count
@@ -451,15 +452,14 @@ public class ChartData: NSObject
         }
     }
     
-    /// Returns the DataSet object with the given label. 
-    /// sensitive or not. 
-    /// IMPORTANT: This method does calculations at runtime. Use with care in performance critical situations.
+    /// **IMPORTANT: This method does calculations at runtime. Use with care in performance critical situations.**
     ///
-    /// :param: label
-    /// :param: ignorecase
+    /// - parameter label:
+    /// - parameter ignorecase:
+    /// - returns: the DataSet Object with the given label. Sensitive or not.
     public func getDataSetByLabel(label: String, ignorecase: Bool) -> ChartDataSet?
     {
-        var index = getDataSetIndexByLabel(label, ignorecase: ignorecase)
+        let index = getDataSetIndexByLabel(label, ignorecase: ignorecase)
         
         if (index < 0 || index >= _dataSets.count)
         {
@@ -565,7 +565,7 @@ public class ChartData: NSObject
     /// Removes the given DataSet from this data object.
     /// Also recalculates all minimum and maximum values.
     ///
-    /// :returns: true if a DataSet was removed, false if no DataSet could be removed.
+    /// - returns: true if a DataSet was removed, false if no DataSet could be removed.
     public func removeDataSet(dataSet: ChartDataSet!) -> Bool
     {
         if (_dataSets == nil || dataSet === nil)
@@ -587,7 +587,7 @@ public class ChartData: NSObject
     /// Removes the DataSet at the given index in the DataSet array from the data object. 
     /// Also recalculates all minimum and maximum values. 
     ///
-    /// :returns: true if a DataSet was removed, false if no DataSet could be removed.
+    /// - returns: true if a DataSet was removed, false if no DataSet could be removed.
     public func removeDataSetByIndex(index: Int) -> Bool
     {
         if (_dataSets == nil || index >= _dataSets.count || index < 0)
@@ -595,7 +595,7 @@ public class ChartData: NSObject
             return false
         }
         
-        var d = _dataSets.removeAtIndex(index)
+        let d = _dataSets.removeAtIndex(index)
         _yValCount -= d.entryCount
         _yValueSum -= d.yValueSum
         
@@ -609,8 +609,8 @@ public class ChartData: NSObject
     {
         if (_dataSets != nil && _dataSets.count > dataSetIndex && dataSetIndex >= 0)
         {
-            var val = e.value
-            var set = _dataSets[dataSetIndex]
+            let val = e.value
+            let set = _dataSets[dataSetIndex]
             
             if (_yValCount == 0)
             {
@@ -672,7 +672,7 @@ public class ChartData: NSObject
         }
         else
         {
-            println("ChartData.addEntry() - dataSetIndex our of range.")
+            print("ChartData.addEntry() - dataSetIndex our of range.", terminator: "\n")
         }
     }
     
@@ -686,11 +686,11 @@ public class ChartData: NSObject
         }
         
         // remove the entry from the dataset
-        var removed = _dataSets[dataSetIndex].removeEntry(xIndex: entry.xIndex)
+        let removed = _dataSets[dataSetIndex].removeEntry(xIndex: entry.xIndex)
         
         if (removed)
         {
-            var val = entry.value
+            let val = entry.value
             
             _yValCount -= 1
             _yValueSum -= val
@@ -702,8 +702,8 @@ public class ChartData: NSObject
     }
     
     /// Removes the Entry object at the given xIndex from the ChartDataSet at the
-    /// specified index. Returns true if an entry was removed, false if no Entry
-    /// was found that meets the specified requirements.
+    /// specified index. 
+    /// - returns: true if an entry was removed, false if no Entry was found that meets the specified requirements.
     public func removeEntryByXIndex(xIndex: Int, dataSetIndex: Int) -> Bool
     {
         if (dataSetIndex >= _dataSets.count)
@@ -711,7 +711,7 @@ public class ChartData: NSObject
             return false
         }
         
-        var entry = _dataSets[dataSetIndex].entryForXIndex(xIndex)
+        let entry = _dataSets[dataSetIndex].entryForXIndex(xIndex)
         
         if (entry?.xIndex != xIndex)
         {
@@ -721,7 +721,7 @@ public class ChartData: NSObject
         return removeEntry(entry, dataSetIndex: dataSetIndex)
     }
     
-    /// Returns the DataSet that contains the provided Entry, or null, if no DataSet contains this entry.
+    /// - returns: the DataSet that contains the provided Entry, or null, if no DataSet contains this entry.
     public func getDataSetForEntry(e: ChartDataEntry!) -> ChartDataSet?
     {
         if (e == nil)
@@ -731,7 +731,7 @@ public class ChartData: NSObject
         
         for (var i = 0; i < _dataSets.count; i++)
         {
-            var set = _dataSets[i]
+            let set = _dataSets[i]
             
             for (var j = 0; j < set.entryCount; j++)
             {
@@ -745,8 +745,7 @@ public class ChartData: NSObject
         return nil
     }
     
-    /// Returns the index of the provided DataSet inside the DataSets array of
-    /// this data object. Returns -1 if the DataSet was not found.
+    /// - returns: the index of the provided DataSet inside the DataSets array of this data object. -1 if the DataSet was not found.
     public func indexOfDataSet(dataSet: ChartDataSet) -> Int
     {
         for (var i = 0; i < _dataSets.count; i++)
@@ -786,7 +785,7 @@ public class ChartData: NSObject
         return nil
     }
     
-    /// Returns all colors used across all DataSet objects this object represents.
+    /// - returns: all colors used across all DataSet objects this object represents.
     public func getColors() -> [UIColor]?
     {
         if (_dataSets == nil)
@@ -805,7 +804,7 @@ public class ChartData: NSObject
         
         for (var i = 0; i < _dataSets.count; i++)
         {
-            var clrs = _dataSets[i].colors
+            let clrs = _dataSets[i].colors
             
             for clr in clrs
             {
@@ -900,8 +899,9 @@ public class ChartData: NSObject
         notifyDataChanged()
     }
     
-    /// Checks if this data object contains the specified Entry. Returns true if so, false if not.
-    public func contains(#entry: ChartDataEntry) -> Bool
+    /// Checks if this data object contains the specified Entry. 
+    /// - returns: true if so, false if not.
+    public func contains(entry entry: ChartDataEntry) -> Bool
     {
         for set in dataSets
         {
@@ -914,8 +914,9 @@ public class ChartData: NSObject
         return false
     }
     
-    /// Checks if this data object contains the specified DataSet. Returns true if so, false if not.
-    public func contains(#dataSet: ChartDataSet) -> Bool
+    /// Checks if this data object contains the specified DataSet. 
+    /// - returns: true if so, false if not.
+    public func contains(dataSet dataSet: ChartDataSet) -> Bool
     {
         for set in dataSets
         {
@@ -930,6 +931,6 @@ public class ChartData: NSObject
     
     /// MARK: - ObjC compatibility
     
-    /// returns the average length (in characters) across all values in the x-vals array
+    /// - returns: the average length (in characters) across all values in the x-vals array
     public var xValsObjc: [NSObject] { return ChartUtils.bridgedObjCGetStringArray(swift: _xVals); }
 }

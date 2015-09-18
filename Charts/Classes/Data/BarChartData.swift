@@ -50,7 +50,7 @@ public class BarChartData: BarLineScatterCandleChartData
         }
     }
     
-    /// Returns true if this BarData object contains grouped DataSets (more than 1 DataSet).
+    /// - returns: true if this BarData object contains grouped DataSets (more than 1 DataSet).
     public var isGrouped: Bool
     {
         return _dataSets.count > 1 ? true : false
