@@ -53,19 +53,19 @@ public class ChartXAxis: ChartAxisBase
     public var avoidFirstLastClippingEnabled = false
     
     /// Custom formatter for adjusting x-value strings
-    private var _xValueFormatter: ChartXValueFormatter = ChartDefaultXValueFormatter()
+    private var _xAxisValueFormatter: ChartXAxisValueFormatter = ChartDefaultXAxisValueFormatter()
     
     /// Custom XValueFormatter for the data object that allows custom-formatting of all x-values before rendering them.
     /// Provide null to reset back to the default formatting.
-    public var xValueFormatter: ChartXValueFormatter?
+    public var valueFormatter: ChartXAxisValueFormatter?
     {
         get
         {
-            return _xValueFormatter
+            return _xAxisValueFormatter
         }
         set
         {
-            _xValueFormatter = newValue ?? ChartDefaultXValueFormatter()
+            _xAxisValueFormatter = newValue ?? ChartDefaultXAxisValueFormatter()
         }
     }
     

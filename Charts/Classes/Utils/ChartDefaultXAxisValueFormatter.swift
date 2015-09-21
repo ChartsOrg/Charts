@@ -1,5 +1,5 @@
 //
-//  ChartDefaultXValueFormatter.swift
+//  ChartDefaultXAxisValueFormatter.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 27/2/15.
@@ -14,7 +14,7 @@
 import Foundation
 
 /// An interface for providing custom x-axis Strings.
-public class ChartDefaultXValueFormatter: NSObject, ChartXValueFormatter
+public class ChartDefaultXAxisValueFormatter: NSObject, ChartXAxisValueFormatter
 {
     
     public func stringForXValue(index: Int, original: String, viewPortHandler: ChartViewPortHandler) -> String

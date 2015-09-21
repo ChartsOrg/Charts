@@ -187,7 +187,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
     
     internal func drawLabel(context context: CGContext?, label: String, xIndex: Int, x: CGFloat, y: CGFloat, align: NSTextAlignment, attributes: [String: NSObject], constrainedToSize: CGSize)
     {
-        let formattedLabel = _xAxis.xValueFormatter?.stringForXValue(xIndex, original: label, viewPortHandler: viewPortHandler) ?? label
+        let formattedLabel = _xAxis.valueFormatter?.stringForXValue(xIndex, original: label, viewPortHandler: viewPortHandler) ?? label
         ChartUtils.drawMultilineText(context: context, text: formattedLabel, point: CGPoint(x: x, y: y), align: align, attributes: attributes, constrainedToSize: constrainedToSize)
     }
     

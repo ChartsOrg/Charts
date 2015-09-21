@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <Charts/Charts.h>
 
-@interface MyCustomXValueFormatter : NSObject <ChartXValueFormatter>
+@interface MyCustomXValueFormatter : NSObject <ChartXAxisValueFormatter>
 
 @end

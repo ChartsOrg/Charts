@@ -63,7 +63,7 @@ public class ChartXAxisRendererRadarChart: ChartXAxisRenderer
     
     internal func drawLabel(context context: CGContext?, label: String, xIndex: Int, x: CGFloat, y: CGFloat, align: NSTextAlignment, attributes: [String: NSObject])
     {
-        let formattedLabel = _xAxis.xValueFormatter?.stringForXValue(xIndex, original: label, viewPortHandler: viewPortHandler) ?? label
+        let formattedLabel = _xAxis.valueFormatter?.stringForXValue(xIndex, original: label, viewPortHandler: viewPortHandler) ?? label
         ChartUtils.drawText(context: context, text: formattedLabel, point: CGPoint(x: x, y: y), align: align, attributes: attributes)
     }
     
