@@ -43,7 +43,8 @@ public class ChartXAxisRendererRadarChart: ChartXAxisRenderer
         
         let center = _chart.centerOffsets
         
-        for (var i = 0, count = _xAxis.values.count; i < count; i++)
+        let modulus = _xAxis.axisLabelModulus
+        for var i = 0, count = _xAxis.values.count; i < count; i += modulus
         {
             let text = _xAxis.values[i]
             

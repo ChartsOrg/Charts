@@ -37,6 +37,9 @@ public class RadarChartView: PieRadarChartViewBase
     /// flag indicating if the web lines should be drawn or not
     public var drawWeb = true
     
+    /// modulus that determines how many labels and web-lines are skipped before the next is drawn
+    private var _webModulus = 1
+    
     /// the object reprsenting the y-axis labels
     private var _yAxis: ChartYAxis!
     
@@ -237,6 +240,20 @@ public class RadarChartView: PieRadarChartViewBase
     public var xAxis: ChartXAxis
     {
         return _xAxis
+    }
+    
+    /// Sets the number of web-lines that should be skipped on chart web before the next one is drawn. This targets the lines that come from the center of the RadarChart.
+    /// if count = 1 -> 1 line is skipped in between
+    public var skipWebLineCount: Int
+    {
+        get
+        {
+            return _webModulus - 1
+        }
+        set
+        {
+            _webModulus = max(0, newValue) + 1
+        }
     }
     
     internal override var requiredBottomOffset: CGFloat
