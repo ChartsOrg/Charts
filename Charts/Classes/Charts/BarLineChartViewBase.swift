@@ -511,8 +511,6 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
                         xPos = CGFloat(e.value)
                     }
                 }
-                
-                xPos *= _animator.phaseY
             }
             else
             {
@@ -531,17 +529,11 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
                         yPos = CGFloat(e.value)
                     }
                 }
-                
-                yPos *= _animator.phaseY
             }
-        }
-        else
-        {
-            yPos *= _animator.phaseY
         }
         
         // position of the marker depends on selected value index and value
-        var pt = CGPoint(x: xPos, y: yPos)
+        var pt = CGPoint(x: xPos, y: yPos * _animator.phaseY)
         
         getTransformer(_data.getDataSetByIndex(dataSetIndex)!.axisDependency).pointValueToPixel(&pt)
         
@@ -1085,6 +1077,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     }
 
     /// Moves the left side of the current viewport to the specified x-index.
+    /// This also refreshes the chart by calling setNeedsDisplay().
     public func moveViewToX(xIndex: Int)
     {
         if (_viewPortHandler.hasChartDimens)
@@ -1101,6 +1094,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     }
 
     /// Centers the viewport to the specified y-value on the y-axis.
+    /// This also refreshes the chart by calling setNeedsDisplay().
     /// 
     /// - parameter yValue:
     /// - parameter axis: - which axis should be used as a reference for the y-axis
@@ -1122,6 +1116,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     }
 
     /// This will move the left side of the current viewport to the specified x-index on the x-axis, and center the viewport to the specified y-value on the y-axis.
+    /// This also refreshes the chart by calling setNeedsDisplay().
     /// 
     /// - parameter xIndex:
     /// - parameter yValue:
@@ -1144,6 +1139,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     }
     
     /// This will move the center of the current viewport to the specified x-index and y-value.
+    /// This also refreshes the chart by calling setNeedsDisplay().
     ///
     /// - parameter xIndex:
     /// - parameter yValue:
