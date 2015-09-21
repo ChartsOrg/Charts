@@ -39,6 +39,9 @@ public class ChartDataRendererBase: ChartRendererBase
         fatalError("drawExtras() cannot be called on ChartDataRendererBase")
     }
     
+    /// Draws all highlight indicators for the values that are currently highlighted.
+    ///
+    /// - parameter indices: the highlighted values
     public func drawHighlighted(context context: CGContext?, indices: [ChartHighlight])
     {
         fatalError("drawHighlighted() cannot be called on ChartDataRendererBase")

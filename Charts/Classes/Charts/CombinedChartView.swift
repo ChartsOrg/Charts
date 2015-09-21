@@ -35,6 +35,8 @@ public class CombinedChartView: BarLineChartViewBase
     {
         super.initialize()
         
+        _highlighter = CombinedHighlighter(chart: self)
+        
         _fillFormatter = BarLineChartFillFormatter(chart: self)
         
         renderer = CombinedChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)

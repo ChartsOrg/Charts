@@ -156,6 +156,35 @@ public class CombinedChartData: BarLineScatterCandleChartData
         }
     }
     
+    /// - returns: all data objects in row: line-bar-scatter-candle-bubble if not null.
+    public var allData: [ChartData]
+    {
+        var data = [ChartData]()
+        
+        if lineData !== nil
+        {
+            data.append(lineData)
+        }
+        if barData !== nil
+        {
+            data.append(barData)
+        }
+        if scatterData !== nil
+        {
+            data.append(scatterData)
+        }
+        if candleData !== nil
+        {
+            data.append(candleData)
+        }
+        if bubbleData !== nil
+        {
+            data.append(bubbleData)
+        }
+        
+        return data;
+    }
+    
     public override func notifyDataChanged()
     {
         if (_lineData !== nil)
