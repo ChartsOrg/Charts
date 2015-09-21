@@ -178,5 +178,7 @@ public class CombinedChartData: BarLineScatterCandleChartData
         {
             _bubbleData.notifyDataChanged()
         }
+        
+        super.notifyDataChanged() // recalculate everything
     }
 }
