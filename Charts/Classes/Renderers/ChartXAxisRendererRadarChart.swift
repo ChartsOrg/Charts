@@ -46,9 +46,9 @@ public class ChartXAxisRendererRadarChart: ChartXAxisRenderer
         let modulus = _xAxis.axisLabelModulus
         for var i = 0, count = _xAxis.values.count; i < count; i += modulus
         {
-            let text = _xAxis.values[i]
+            let label = _xAxis.values[i]
             
-            if (text == nil)
+            if (label == nil)
             {
                 continue
             }
@@ -57,8 +57,14 @@ public class ChartXAxisRendererRadarChart: ChartXAxisRenderer
             
             let p = ChartUtils.getPosition(center: center, dist: CGFloat(_chart.yRange) * factor + _xAxis.labelWidth / 2.0, angle: angle)
             
-            ChartUtils.drawText(context: context, text: text!, point: CGPoint(x: p.x, y: p.y - _xAxis.labelHeight / 2.0), align: .Center, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
+            drawLabel(context: context, label: label!, xIndex: i, x: p.x, y: p.y - _xAxis.labelHeight / 2.0, align: .Center, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
         }
+    }
+    
+    internal func drawLabel(context context: CGContext?, label: String, xIndex: Int, x: CGFloat, y: CGFloat, align: NSTextAlignment, attributes: [String: NSObject])
+    {
+        let formattedLabel = _xAxis.xValueFormatter?.stringForXValue(xIndex, original: label, viewPortHandler: viewPortHandler) ?? label
+        ChartUtils.drawText(context: context, text: formattedLabel, point: CGPoint(x: x, y: y), align: align, attributes: attributes)
     }
     
     public override func renderLimitLines(context context: CGContext?)

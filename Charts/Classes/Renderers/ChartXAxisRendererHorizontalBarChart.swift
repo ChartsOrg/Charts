@@ -98,9 +98,15 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
             
             if (viewPortHandler.isInBoundsY(position.y))
             {
-                ChartUtils.drawText(context: context, text: label!, point: CGPoint(x: pos, y: position.y - _xAxis.labelHeight / 2.0), align: align, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
+                drawLabel(context: context, label: label!, xIndex: i, x: pos, y: position.y - _xAxis.labelHeight / 2.0, align: align, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
             }
         }
+    }
+    
+    internal func drawLabel(context context: CGContext?, label: String, xIndex: Int, x: CGFloat, y: CGFloat, align: NSTextAlignment, attributes: [String: NSObject])
+    {
+        let formattedLabel = _xAxis.xValueFormatter?.stringForXValue(xIndex, original: label, viewPortHandler: viewPortHandler) ?? label
+        ChartUtils.drawText(context: context, text: formattedLabel, point: CGPoint(x: x, y: y), align: align, attributes: attributes)
     }
     
     private var _gridLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())

@@ -43,6 +43,9 @@ public class ChartViewPortHandler: NSObject
     /// contains the current scale factor of the y-axis
     private var _scaleY = CGFloat(1.0)
     
+    private var _transX = CGFloat(0.0)
+    private var _transY = CGFloat(0.0)
+    
     /// offset that allows the chart to be dragged over its bounds on the x-axis
     private var _transOffsetX = CGFloat(0.0)
     
@@ -231,13 +234,15 @@ public class ChartViewPortHandler: NSObject
         
         let maxTransX = -width * (_scaleX - 1.0)
         let newTransX = min(max(matrix.tx, maxTransX - _transOffsetX), _transOffsetX)
+        _transX = newTransX;
         
         let maxTransY = height * (_scaleY - 1.0)
         let newTransY = max(min(matrix.ty, maxTransY + _transOffsetY), -_transOffsetY)
+        _transY = newTransY;
         
-        matrix.tx = newTransX
+        matrix.tx = _transX
         matrix.a = _scaleX
-        matrix.ty = newTransY
+        matrix.ty = _transY
         matrix.d = _scaleY
     }
     
@@ -374,6 +379,16 @@ public class ChartViewPortHandler: NSObject
     public var scaleY: CGFloat
     {
         return _scaleY
+    }
+    
+    public var transX: CGFloat
+    {
+        return _transX
+    }
+    
+    public var transY: CGFloat
+    {
+        return _transY
     }
     
     /// if the chart is fully zoomed out, return true

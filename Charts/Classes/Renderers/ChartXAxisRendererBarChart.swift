@@ -96,7 +96,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
                     }
                 }
                 
-                ChartUtils.drawMultilineText(context: context, text: label!, point: CGPoint(x: position.x, y: pos), align: .Center, attributes: labelAttrs, constrainedToSize: labelMaxSize)
+                drawLabel(context: context, label: label!, xIndex: i, x: position.x, y: pos, align: .Center, attributes: labelAttrs, constrainedToSize: labelMaxSize)
             }
         }
     }

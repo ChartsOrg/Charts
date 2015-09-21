@@ -52,6 +52,23 @@ public class ChartXAxis: ChartAxisBase
     /// if set to true, the chart will avoid that the first and last label entry in the chart "clip" off the edge of the chart
     public var avoidFirstLastClippingEnabled = false
     
+    /// Custom formatter for adjusting x-value strings
+    private var _xValueFormatter: ChartXValueFormatter = ChartDefaultXValueFormatter()
+    
+    /// Custom XValueFormatter for the data object that allows custom-formatting of all x-values before rendering them.
+    /// Provide null to reset back to the default formatting.
+    public var xValueFormatter: ChartXValueFormatter?
+    {
+        get
+        {
+            return _xValueFormatter
+        }
+        set
+        {
+            _xValueFormatter = newValue ?? ChartDefaultXValueFormatter()
+        }
+    }
+    
     /// the position of the x-labels relative to the chart
     public var labelPosition = XAxisLabelPosition.Top
     
