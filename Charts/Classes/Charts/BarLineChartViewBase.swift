@@ -511,6 +511,8 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
                         xPos = CGFloat(e.value)
                     }
                 }
+                
+                xPos *= _animator.phaseY
             }
             else
             {
@@ -529,11 +531,17 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
                         yPos = CGFloat(e.value)
                     }
                 }
+                
+                yPos *= _animator.phaseY
             }
+        }
+        else
+        {
+            yPos *= _animator.phaseY
         }
         
         // position of the marker depends on selected value index and value
-        var pt = CGPoint(x: xPos, y: yPos * _animator.phaseY)
+        var pt = CGPoint(x: xPos, y: yPos)
         
         getTransformer(_data.getDataSetByIndex(dataSetIndex)!.axisDependency).pointValueToPixel(&pt)
         
