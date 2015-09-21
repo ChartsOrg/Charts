@@ -68,6 +68,8 @@ public class PieChartView: PieRadarChartViewBase
         _legendRenderer.renderLegend(context: context)
         
         drawDescription(context: context)
+        
+        drawMarkers(context: context)
     }
     
     internal override func calculateOffsets()
@@ -104,10 +106,32 @@ public class PieChartView: PieRadarChartViewBase
         calcAngles()
     }
     
-    public override func getMarkerPosition(entry entry: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
+    public override func getMarkerPosition(entry e: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
     {
-        /// PieChart does not support MarkerView
-        return CGPoint(x: 0.0, y: 0.0)
+        let center = self.centerCircleBox
+        var r = self.radius
+        
+        var off = r / 10.0 * 3.6
+        
+        if self.isDrawHoleEnabled
+        {
+            off = (r - (r * self.holeRadiusPercent)) / 2.0
+        }
+        
+        r -= off // offset to keep things inside the chart
+        
+        let rotationAngle = self.rotationAngle
+        
+        let i = e.xIndex
+        
+        // offset needed to center the drawn text in the slice
+        let offset = drawAngles[i] / 2.0
+        
+        // calculate the text position
+        let x: CGFloat = (r * cos(((rotationAngle + absoluteAngles[i] - offset) * _animator.phaseY) * ChartUtils.Math.FDEG2RAD) + center.x)
+        let y: CGFloat = (r * sin(((rotationAngle + absoluteAngles[i] - offset) * _animator.phaseY) * ChartUtils.Math.FDEG2RAD) + center.y)
+        
+        return CGPoint(x: x, y: y)
     }
     
     /// calculates the needed angles for the chart slices
