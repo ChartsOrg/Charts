@@ -64,7 +64,7 @@
     llXAxis.labelPosition = ChartLimitLabelPositionRightBottom;
     llXAxis.valueFont = [UIFont systemFontOfSize:10.f];
     
-    [_chartView.xAxis addLimitLine:llXAxis];
+    //[_chartView.xAxis addLimitLine:llXAxis];
     
     ChartLimitLine *ll1 = [[ChartLimitLine alloc] initWithLimit:130.0 label:@"Upper Limit"];
     ll1.lineWidth = 4.0;
@@ -133,6 +133,7 @@
     LineChartDataSet *set1 = [[LineChartDataSet alloc] initWithYVals:yVals label:@"DataSet 1"];
     
     set1.lineDashLengths = @[@5.f, @2.5f];
+    set1.highlightLineDashLengths = @[@5.f, @2.5f];
     [set1 setColor:UIColor.blackColor];
     [set1 setCircleColor:UIColor.blackColor];
     set1.lineWidth = 1.0;
