@@ -1399,12 +1399,12 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     }
     
     /// - returns: the DataSet object displayed at the touched position of the chart
-    public func getDataSetByTouchPoint(pt: CGPoint) -> BarLineScatterCandleChartDataSet!
+    public func getDataSetByTouchPoint(pt: CGPoint) -> BarLineScatterCandleBubbleChartDataSet!
     {
         let h = getHighlightByTouchPoint(pt)
         if (h !== nil)
         {
-            return _data.getDataSetByIndex(h!.dataSetIndex) as! BarLineScatterCandleChartDataSet!
+            return _data.getDataSetByIndex(h!.dataSetIndex) as! BarLineScatterCandleBubbleChartDataSet!
         }
         return nil
     }

@@ -13,7 +13,7 @@
 
 import Foundation
 
-public class CandleChartData: BarLineScatterCandleChartData
+public class CandleChartData: BarLineScatterCandleBubbleChartData
 {
     public override init()
     {

@@ -1,5 +1,5 @@
 //
-//  BarLineScatterCandleChartData.swift
+//  BarLineScatterCandleBubbleChartData.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 26/2/15.
@@ -13,7 +13,7 @@
 
 import Foundation
 
-public class BarLineScatterCandleChartData: ChartData
+public class BarLineScatterCandleBubbleChartData: ChartData
 {
     public override init()
     {

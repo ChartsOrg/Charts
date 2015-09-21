@@ -15,7 +15,7 @@ import Foundation
 import CoreGraphics
 import UIKit
 
-public class BarChartDataSet: BarLineScatterCandleChartDataSet
+public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet
 {
     /// space indicator between the bars in percentage of the whole width of one value (0.15 == 15% of bar width)
     public var barSpace: CGFloat = 0.15

@@ -13,7 +13,7 @@
 
 import UIKit
 
-public class ScatterChartData: BarLineScatterCandleChartData
+public class ScatterChartData: BarLineScatterCandleBubbleChartData
 {
     public override init()
     {

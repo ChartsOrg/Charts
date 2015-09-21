@@ -14,7 +14,7 @@
 import Foundation
 import UIKit
 
-public class LineScatterCandleChartDataSet: BarLineScatterCandleChartDataSet
+public class LineScatterCandleChartDataSet: BarLineScatterCandleBubbleChartDataSet
 {
     /// Enables / disables the horizontal highlight-indicator. If disabled, the indicator is not drawn.
     public var drawHorizontalHighlightIndicatorEnabled = true
