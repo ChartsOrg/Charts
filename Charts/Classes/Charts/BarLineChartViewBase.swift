@@ -480,32 +480,60 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         }
     }
     
-    public override func getMarkerPosition(entry entry: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
+    public override func getMarkerPosition(entry e: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
     {
         let dataSetIndex = highlight.dataSetIndex
-        var xPos = CGFloat(entry.xIndex)
-        var yPos = entry.value
+        var xPos = CGFloat(e.xIndex)
+        var yPos = CGFloat(e.value)
         
         if (self.isKindOfClass(BarChartView))
         {
             let bd = _data as! BarChartData
             let space = bd.groupSpace
+            let setCount = _data.dataSetCount
+            let i = e.xIndex
             
-            let x = CGFloat(entry.xIndex * (_data.dataSetCount - 1) + dataSetIndex) + space * CGFloat(entry.xIndex) + space / 2.0
-            
-            xPos += x
-            
-            if let barEntry = entry as? BarChartDataEntry
+            if self is HorizontalBarChartView
             {
-                if barEntry.values != nil && highlight.range !== nil
+                // calculate the x-position, depending on datasetcount
+                let y = CGFloat(i + i * (setCount - 1) + dataSetIndex) + space * CGFloat(i) + space / 2.0
+                
+                yPos = y
+                
+                if let entry = e as? BarChartDataEntry
                 {
-                    yPos = highlight.range!.to
-        }
+                    if entry.values != nil && highlight.range !== nil
+                    {
+                        xPos = CGFloat(highlight.range!.to)
+                    }
+                    else
+                    {
+                        xPos = CGFloat(e.value)
+                    }
+                }
+            }
+            else
+            {
+                let x = CGFloat(i + i * (setCount - 1) + dataSetIndex) + space * CGFloat(i) + space / 2.0
+                
+                xPos = x
+                
+                if let entry = e as? BarChartDataEntry
+                {
+                    if entry.values != nil && highlight.range !== nil
+                    {
+                        yPos = CGFloat(highlight.range!.to)
+                    }
+                    else
+                    {
+                        yPos = CGFloat(e.value)
+                    }
+                }
             }
         }
         
         // position of the marker depends on selected value index and value
-        var pt = CGPoint(x: xPos, y: CGFloat(yPos) * _animator.phaseY)
+        var pt = CGPoint(x: xPos, y: yPos * _animator.phaseY)
         
         getTransformer(_data.getDataSetByIndex(dataSetIndex)!.axisDependency).pointValueToPixel(&pt)
         
