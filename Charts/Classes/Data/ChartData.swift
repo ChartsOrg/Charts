@@ -125,6 +125,11 @@ public class ChartData: NSObject
             return
         }
         
+        if self is ScatterChartData
+        { // In scatter chart it makes sense to have more than one y-value value for an x-index
+            return
+        }
+        
         for (var i = 0; i < dataSets.count; i++)
         {
             if (dataSets[i].yVals.count > _xVals.count)
