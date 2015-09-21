@@ -28,6 +28,9 @@ public class ChartViewPortHandler: NSObject
     /// minimum scale value on the y-axis
     private var _minScaleY = CGFloat(1.0)
     
+    /// maximum scale value on the y-axis
+    private var _maxScaleY = CGFloat.max
+    
     /// minimum scale value on the x-axis
     private var _minScaleX = CGFloat(1.0)
     
@@ -214,7 +217,8 @@ public class ChartViewPortHandler: NSObject
         _scaleX = min(max(_minScaleX, matrix.a), _maxScaleX)
         
         // min scale-y is 1
-        _scaleY = max(_minScaleY, matrix.d)
+        _scaleY = min(max(_minScaleY,  matrix.d), _maxScaleY)
+        
         
         var width: CGFloat = 0.0
         var height: CGFloat = 0.0
@@ -269,6 +273,14 @@ public class ChartViewPortHandler: NSObject
         
         _minScaleX = newMin
         _maxScaleX = maxScaleX
+        
+        limitTransAndScale(matrix: &_touchMatrix, content: _contentRect)
+    }
+    
+    
+    public func setMaximumScaleY(yScale: CGFloat)
+    {
+        _maxScaleY = yScale;
         
         limitTransAndScale(matrix: &_touchMatrix, content: _contentRect)
     }
