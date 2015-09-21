@@ -170,6 +170,10 @@ public class ChartData: NSObject
                 {
                     _yMax = _dataSets[i].yMax
                 }
+				
+				if(_yMax == _yMin){
+					_yMin = 0.0
+				}
             }
             
             if (_yMin == DBL_MAX)
