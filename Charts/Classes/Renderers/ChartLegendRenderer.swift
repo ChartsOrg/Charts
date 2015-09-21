@@ -179,13 +179,13 @@ public class ChartLegendRenderer: ChartRendererBase
             
             for (var i = 0, count = labels.count; i < count; i++)
             {
-                if (calculatedLabelBreakPoints[i])
+                if (i < calculatedLabelBreakPoints.count && calculatedLabelBreakPoints[i])
                 {
                     posX = originPosX
                     posY += labelLineHeight
                 }
                 
-                if (posX == originPosX && legendPosition == .BelowChartCenter)
+                if (posX == originPosX && legendPosition == .BelowChartCenter && lineIndex < calculatedLineSizes.count)
                 {
                     posX += (direction == .RightToLeft ? calculatedLineSizes[lineIndex].width : -calculatedLineSizes[lineIndex].width) / 2.0
                     lineIndex++
