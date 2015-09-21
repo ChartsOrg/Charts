@@ -1,4 +1,4 @@
-**Version 2.1.3**, synced to [MPAndroidChart #5a028c5](https://github.com/PhilJay/MPAndroidChart/commit/5a028c5)
+**Version 2.1.4**, synced to [MPAndroidChart #6ae1eef](https://github.com/PhilJay/MPAndroidChart/commit/6ae1eef)
 
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
 [![CodeHunt.io](https://img.shields.io/badge/vote-codehunt.io-02AFD1.svg)](http://codehunt.io/sub/ios-charts/?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)   
