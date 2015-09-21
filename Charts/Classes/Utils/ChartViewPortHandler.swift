@@ -25,11 +25,11 @@ public class ChartViewPortHandler: NSObject
     private var _chartWidth = CGFloat(0.0)
     private var _chartHeight = CGFloat(0.0)
     
-    /** maximum scale value on the y-axis */
-    private var _maxScaleY = CGFloat(1.0)
-    
     /// minimum scale value on the y-axis
     private var _minScaleY = CGFloat(1.0)
+    
+    /// maximum scale value on the y-axis
+    private var _maxScaleY = CGFloat.max
     
     /// minimum scale value on the x-axis
     private var _minScaleX = CGFloat(1.0)
