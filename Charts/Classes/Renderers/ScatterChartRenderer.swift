@@ -240,16 +240,12 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
         
     }
     
-    private var _highlightPtsBuffer = [CGPoint](count: 4, repeatedValue: CGPoint())
+    private var _highlightPointBuffer = CGPoint()
     
     public override func drawHighlighted(context context: CGContext?, indices: [ChartHighlight])
     {
         let scatterData = delegate!.scatterChartRendererData(self)
         let chartXMax = delegate!.scatterChartRendererChartXMax(self)
-        let chartXMin = delegate!.scatterChartRendererChartXMin(self)
-        let chartYMax = delegate!.scatterChartRendererChartYMax(self)
-        let chartYMin = delegate!.scatterChartRendererChartYMin(self)
-        
         CGContextSaveGState(context)
         
         for (var i = 0; i < indices.count; i++)
@@ -287,18 +283,15 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
             
             let y = CGFloat(yVal) * _animator.phaseY; // get the y-position
             
-            _highlightPtsBuffer[0] = CGPoint(x: CGFloat(xIndex), y: CGFloat(chartYMax))
-            _highlightPtsBuffer[1] = CGPoint(x: CGFloat(xIndex), y: CGFloat(chartYMin))
-            _highlightPtsBuffer[2] = CGPoint(x: CGFloat(chartXMin), y: y)
-            _highlightPtsBuffer[3] = CGPoint(x: CGFloat(chartXMax), y: y)
+            _highlightPointBuffer.x = CGFloat(xIndex)
+            _highlightPointBuffer.y = y
             
             let trans = delegate!.scatterChartRenderer(self, transformerForAxis: set.axisDependency)
             
-            trans.pointValuesToPixel(&_highlightPtsBuffer)
+            trans.pointValueToPixel(&_highlightPointBuffer)
             
             // draw the lines
-            drawHighlightLines(context: context, points: _highlightPtsBuffer,
-                horizontal: set.isHorizontalHighlightIndicatorEnabled, vertical: set.isVerticalHighlightIndicatorEnabled)
+            drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)
         }
         
         CGContextRestoreGState(context)

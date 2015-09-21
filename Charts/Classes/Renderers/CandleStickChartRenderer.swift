@@ -238,7 +238,8 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
     {
     }
     
-    private var _highlightPtsBuffer = [CGPoint](count: 4, repeatedValue: CGPoint())
+    private var _highlightPointBuffer = CGPoint()
+    
     public override func drawHighlighted(context context: CGContext?, indices: [ChartHighlight])
     {
         let candleData = delegate!.candleStickChartRendererCandleData(self)
@@ -246,6 +247,8 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
         {
             return
         }
+        
+        CGContextSaveGState(context)
         
         for (var i = 0; i < indices.count; i++)
         {
@@ -282,16 +285,15 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
             let high = CGFloat(e.high) * _animator.phaseY
             let y = (low + high) / 2.0
             
-            _highlightPtsBuffer[0] = CGPoint(x: CGFloat(xIndex), y: CGFloat(delegate!.candleStickChartRendererChartYMax(self)))
-            _highlightPtsBuffer[1] = CGPoint(x: CGFloat(xIndex), y: CGFloat(delegate!.candleStickChartRendererChartYMin(self)))
-            _highlightPtsBuffer[2] = CGPoint(x: CGFloat(delegate!.candleStickChartRendererChartXMin(self)), y: y)
-            _highlightPtsBuffer[3] = CGPoint(x: CGFloat(delegate!.candleStickChartRendererChartXMax(self)), y: y)
+            _highlightPointBuffer.x = CGFloat(xIndex)
+            _highlightPointBuffer.y = y
             
-            trans.pointValuesToPixel(&_highlightPtsBuffer)
+            trans.pointValueToPixel(&_highlightPointBuffer)
             
             // draw the lines
-            drawHighlightLines(context: context, points: _highlightPtsBuffer,
-                horizontal: set.isHorizontalHighlightIndicatorEnabled, vertical: set.isVerticalHighlightIndicatorEnabled)
+            drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)
         }
+        
+        CGContextRestoreGState(context)
     }
 }

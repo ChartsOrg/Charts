@@ -225,7 +225,7 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
         CGContextRestoreGState(context)
     }
     
-    private var _highlightPtsBuffer = [CGPoint](count: 4, repeatedValue: CGPoint())
+    private var _highlightPointBuffer = CGPoint()
 
     public override func drawHighlighted(context context: CGContext?, indices: [ChartHighlight])
     {
@@ -280,17 +280,11 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
                 continue
             }
             
-            let p = ChartUtils.getPosition(center: center, dist: CGFloat(y) * factor,
+            _highlightPointBuffer = ChartUtils.getPosition(center: center, dist: CGFloat(y) * factor,
                 angle: sliceangle * CGFloat(j) + _chart.rotationAngle)
             
-            _highlightPtsBuffer[0] = CGPoint(x: p.x, y: 0.0)
-            _highlightPtsBuffer[1] = CGPoint(x: p.x, y: viewPortHandler.chartHeight)
-            _highlightPtsBuffer[2] = CGPoint(x: 0.0, y: p.y)
-            _highlightPtsBuffer[3] = CGPoint(x: viewPortHandler.chartWidth, y: p.y)
-            
             // draw the lines
-            drawHighlightLines(context: context, points: _highlightPtsBuffer,
-                horizontal: set.isHorizontalHighlightIndicatorEnabled, vertical: set.isVerticalHighlightIndicatorEnabled)
+            drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)
         }
         
         CGContextRestoreGState(context)
