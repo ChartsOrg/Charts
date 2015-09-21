@@ -279,6 +279,12 @@ public class ChartData: NSObject
         return _dataSets.count
     }
     
+    /// - returns: the average value across all entries in this Data object (all entries from the DataSets this data object holds)
+    public var average: Double
+    {
+        return yValueSum / Double(yValCount)
+    }
+    
     /// - returns: the smallest y-value the data object contains.
     public var yMin: Double
     {
@@ -759,6 +765,7 @@ public class ChartData: NSObject
         return -1
     }
     
+    /// - returns: the first DataSet from the datasets-array that has it's dependency on the left axis. Returns null if no DataSet with left dependency could be found.
     public func getFirstLeft() -> ChartDataSet?
     {
         for dataSet in _dataSets
@@ -772,6 +779,7 @@ public class ChartData: NSObject
         return nil
     }
     
+    /// - returns: the first DataSet from the datasets-array that has it's dependency on the right axis. Returns null if no DataSet with right dependency could be found.
     public func getFirstRight() -> ChartDataSet?
     {
         for dataSet in _dataSets

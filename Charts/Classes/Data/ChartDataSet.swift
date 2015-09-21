@@ -147,6 +147,12 @@ public class ChartDataSet: NSObject
         }
     }
     
+    /// - returns: the average value across all entries in this DataSet.
+    public var average: Double
+    {
+        return yValueSum / Double(valueCount)
+    }
+    
     public var entryCount: Int { return _yVals!.count; }
     
     public func yValForXIndex(x: Int) -> Double

@@ -212,6 +212,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     {
         _data = nil
         _dataNotSet = true
+        _indicesToHightlight.removeAll()
         setNeedsDisplay()
     }
     
@@ -247,6 +248,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     }
     
     /// Lets the chart know its underlying data has changed and should perform all necessary recalculations.
+    /// It is crucial that this method is called everytime data is changed dynamically. Not calling this method can lead to crashes or unexpected behaviour.
     public func notifyDataSetChanged()
     {
         fatalError("notifyDataSetChanged() cannot be called on ChartViewBase")
@@ -345,7 +347,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     
     // MARK: - Highlighting
     
-    /// - returns: the array of currently highlighted values. This might be null or empty if nothing is highlighted.
+    /// - returns: the array of currently highlighted values. This might an empty if nothing is highlighted.
     public var highlighted: [ChartHighlight]
     {
         return _indicesToHightlight
@@ -604,12 +606,6 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     
     // MARK: - Accessors
 
-    /// - returns: the total value (sum) of all y-values across all DataSets
-    public var yValueSum: Double
-    {
-        return _data.yValueSum
-    }
-
     /// - returns: the current y-max value across all DataSets
     public var chartYMax: Double
     {
@@ -632,25 +628,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         return _chartXMin
     }
     
-    /// - returns: the average value of all values the chart holds
-    public func getAverage() -> Double
-    {
-        return yValueSum / Double(_data.yValCount)
-    }
-    
-    /// - returns: the average value for a specific DataSet (with a specific label) in the chart
-    public func getAverage(dataSetLabel dataSetLabel: String) -> Double
-    {
-        let ds = _data.getDataSetByLabel(dataSetLabel, ignorecase: true)
-        if (ds == nil)
-        {
-            return 0.0
-        }
-        
-        return ds!.yValueSum / Double(ds!.entryCount)
-    }
-    
-    /// - returns: the total number of values the chart holds (across all DataSets)
+    /// - returns: the total number of (y) values the chart holds (across all DataSets)
     public var getValueCount: Int
     {
         return _data.yValCount
