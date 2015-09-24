@@ -33,7 +33,8 @@ If you want to compile for iOS 7:
 
 ## CocoaPods Install
 
-Add `Pod 'Charts'` to your Podfile. Adding `Pod 'ios-charts'` will not work!!
+Add `Pod 'Charts'` to your Podfile. "Charts" is the name of the library.  
+**Note:** `Pod 'ios-charts'` is not the correct library, and refers to a different project by someone else.
 
 ## Help
 
