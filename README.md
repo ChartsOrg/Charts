@@ -31,6 +31,11 @@ If you want to compile for iOS 7:
 1. Drag the code itself (.swift files) to your project. As sadly, Swift currently does not support compiling Frameworks for iOS 7.
 2. Make sure that the files are added to the Target membership.
 
+## CocoaPods Install
+
+Add `Pod 'Charts'` to your Podfile. "Charts" is the name of the library.  
+**Note:** `Pod 'ios-charts'` is not the correct library, and refers to a different project by someone else.
+
 ## Help
 
 If you like what you see here, and want to support the work being done in this repository, you could:
