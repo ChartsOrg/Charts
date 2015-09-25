@@ -756,8 +756,10 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
                 _closestDataSetToTouch = getDataSetByTouchPoint(recognizer.locationOfTouch(0, inView: self))
                 
                 let translation = recognizer.translationInView(self)
+                let didUserDrag = (self is HorizontalBarChartView) ? translation.y != 0.0 : translation.x != 0.0 
                 
-                if (!performPanChange(translation: translation))
+                // Check to see if user dragged at all and if so, can the chart be dragged by the given amount
+                if (didUserDrag && !performPanChange(translation: translation))
                 {
                     if (_outerScrollView !== nil)
                     {
