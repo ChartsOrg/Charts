@@ -1,0 +1,1 @@
+../../../Quick/Quick/Configuration/QuickConfiguration.h

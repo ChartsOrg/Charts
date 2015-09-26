@@ -1,0 +1,14 @@
+platform :ios, '8.0'
+
+use_frameworks!
+
+target 'ChartsDemo' do
+
+end
+
+target 'ChartsTests', :exclusive => true do
+  pod 'Quick'
+  pod 'Nimble', '= 2.0.0-rc.3'
+  pod 'Nimble-Snapshots'
+end
+

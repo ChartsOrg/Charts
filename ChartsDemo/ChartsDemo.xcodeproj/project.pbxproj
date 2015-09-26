@@ -65,6 +65,7 @@
 		5BEAED3C1ABC199F0013F194 /* ColoredLineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED3A1ABC199F0013F194 /* ColoredLineChartViewController.xib */; };
 		5BEAED401ABC1AC60013F194 /* SinusBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAED3E1ABC1AC60013F194 /* SinusBarChartViewController.m */; };
 		5BEAED411ABC1AC60013F194 /* SinusBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED3F1ABC1AC60013F194 /* SinusBarChartViewController.xib */; };
+		99E92860EB1D318FC61B13CB /* Pods_ChartsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D42BB42F7C49398A2D6AA3DD /* Pods_ChartsTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -190,6 +191,9 @@
 		5BEAED3D1ABC1AC60013F194 /* SinusBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinusBarChartViewController.h; sourceTree = "<group>"; };
 		5BEAED3E1ABC1AC60013F194 /* SinusBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SinusBarChartViewController.m; sourceTree = "<group>"; };
 		5BEAED3F1ABC1AC60013F194 /* SinusBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SinusBarChartViewController.xib; sourceTree = "<group>"; };
+		822009DCE5900ED656064982 /* Pods-ChartsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChartsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChartsTests/Pods-ChartsTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D42BB42F7C49398A2D6AA3DD /* Pods_ChartsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChartsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E7EAC30C9B6C73FD773306EC /* Pods-ChartsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChartsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ChartsTests/Pods-ChartsTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +201,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99E92860EB1D318FC61B13CB /* Pods_ChartsTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,6 +216,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2542BFDA1270855A3F279718 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D42BB42F7C49398A2D6AA3DD /* Pods_ChartsTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		257669762814F0095EE0AD6C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				822009DCE5900ED656064982 /* Pods-ChartsTests.debug.xcconfig */,
+				E7EAC30C9B6C73FD773306EC /* Pods-ChartsTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		5054F01D1BB72FE50038506D /* ChartsTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -254,6 +276,8 @@
 				5B8EAF321AB32EA0009697AA /* Charts.xcodeproj */,
 				5054F01D1BB72FE50038506D /* ChartsTests */,
 				5B57BBB01A9B26AA0036A6CC /* Products */,
+				257669762814F0095EE0AD6C /* Pods */,
+				2542BFDA1270855A3F279718 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -388,9 +412,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5054F0251BB72FE50038506D /* Build configuration list for PBXNativeTarget "ChartsTests" */;
 			buildPhases = (
+				26AA9795D146B5E457992AB2 /* Check Pods Manifest.lock */,
 				5054F0181BB72FE50038506D /* Sources */,
 				5054F0191BB72FE50038506D /* Frameworks */,
 				5054F01A1BB72FE50038506D /* Resources */,
+				8D7AEF6B95F686201B569DE7 /* Embed Pods Frameworks */,
+				BB58083F5B9FE05F5BB39BB7 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -525,6 +552,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		26AA9795D146B5E457992AB2 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		8D7AEF6B95F686201B569DE7 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ChartsTests/Pods-ChartsTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BB58083F5B9FE05F5BB39BB7 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ChartsTests/Pods-ChartsTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		5054F0181BB72FE50038506D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -582,6 +657,7 @@
 /* Begin XCBuildConfiguration section */
 		5054F0231BB72FE50038506D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 822009DCE5900ED656064982 /* Pods-ChartsTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
@@ -599,6 +675,7 @@
 		};
 		5054F0241BB72FE50038506D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E7EAC30C9B6C73FD773306EC /* Pods-ChartsTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
