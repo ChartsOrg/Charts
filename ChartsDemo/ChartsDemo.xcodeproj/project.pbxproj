@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		50392B241BB7366C002235E5 /* LineChartViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50392B231BB7366C002235E5 /* LineChartViewSpec.swift */; settings = {ASSET_TAGS = (); }; };
 		55E356501ADC638F00A57971 /* BubbleChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55E3564D1ADC638F00A57971 /* BubbleChartViewController.xib */; };
 		55E356511ADC638F00A57971 /* BubbleChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E3564F1ADC638F00A57971 /* BubbleChartViewController.m */; };
 		5B0CC7851ABB875400665592 /* PieChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CC7831ABB875400665592 /* PieChartViewController.m */; };
@@ -107,6 +108,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		50392B231BB7366C002235E5 /* LineChartViewSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartViewSpec.swift; sourceTree = "<group>"; };
 		5054F01C1BB72FE50038506D /* ChartsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChartsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5054F0201BB72FE50038506D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		55E3564D1ADC638F00A57971 /* BubbleChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BubbleChartViewController.xib; sourceTree = "<group>"; };
@@ -233,9 +235,18 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		50392B221BB7366C002235E5 /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+				50392B231BB7366C002235E5 /* LineChartViewSpec.swift */,
+			);
+			path = Charts;
+			sourceTree = "<group>";
+		};
 		5054F01D1BB72FE50038506D /* ChartsTests */ = {
 			isa = PBXGroup;
 			children = (
+				50392B221BB7366C002235E5 /* Charts */,
 				5054F0201BB72FE50038506D /* Info.plist */,
 			);
 			path = ChartsTests;
@@ -605,6 +616,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50392B241BB7366C002235E5 /* LineChartViewSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
