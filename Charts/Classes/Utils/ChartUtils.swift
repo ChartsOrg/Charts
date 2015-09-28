@@ -16,7 +16,7 @@ import Foundation
 import UIKit
 import Darwin
 
-internal class ChartUtils
+public class ChartUtils
 {
     internal struct Math
     {
@@ -118,7 +118,7 @@ internal class ChartUtils
         )
     }
     
-    internal class func drawText(context context: CGContext?, text: String, var point: CGPoint, align: NSTextAlignment, attributes: [String : AnyObject]?)
+    public class func drawText(context context: CGContext?, text: String, var point: CGPoint, align: NSTextAlignment, attributes: [String : AnyObject]?)
     {
         if (align == .Center)
         {
