@@ -16,7 +16,7 @@ import UIKit
 
 public class ChartAxisRendererBase: ChartRendererBase
 {
-    internal var transformer: ChartTransformer!
+    public var transformer: ChartTransformer!
     
     public override init()
     {
