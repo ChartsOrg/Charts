@@ -248,7 +248,7 @@ public class RadarChartView: PieRadarChartViewBase
     {
         get
         {
-            return _webModulus - 1
+            return (_webModulus - 1 <= 0) ? 1 : _webModulus - 1
         }
         set
         {
