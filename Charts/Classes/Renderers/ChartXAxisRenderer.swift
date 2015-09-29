@@ -272,10 +272,6 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
     
     public func renderLimitLineLine(context context: CGContext?, limitLine: ChartLimitLine, position: CGPoint) {
         
-        guard let context = context else {
-            return
-        }
-        
         _limitLineSegmentsBuffer[0].x = position.x
         _limitLineSegmentsBuffer[0].y = viewPortHandler.contentTop
         _limitLineSegmentsBuffer[1].x = position.x
