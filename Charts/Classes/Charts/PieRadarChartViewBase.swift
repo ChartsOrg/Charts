@@ -27,6 +27,9 @@ public class PieRadarChartViewBase: ChartViewBase
     /// flag that indicates if rotation is enabled or not
     public var rotationEnabled = true
     
+    /// Sets the minimum offset (padding) around the chart, defaults to 10
+    public var minOffset = CGFloat(10.0)
+
     private var _rotationWithTwoFingers = false
     
     private var _tapGestureRecognizer: UITapGestureRecognizer!
@@ -192,8 +195,6 @@ public class PieRadarChartViewBase: ChartViewBase
         legendRight += self.extraRightOffset
         legendBottom += self.extraBottomOffset
         legendLeft += self.extraLeftOffset
-
-        var minOffset = CGFloat(10.0)
         
         if (self.isKindOfClass(RadarChartView))
         {
@@ -205,10 +206,10 @@ public class PieRadarChartViewBase: ChartViewBase
             }
         }
 
-        let offsetLeft = max(minOffset, legendLeft)
-        let offsetTop = max(minOffset, legendTop)
-        let offsetRight = max(minOffset, legendRight)
-        let offsetBottom = max(minOffset, max(self.requiredBaseOffset, legendBottom))
+        let offsetLeft = max(self.minOffset, legendLeft)
+        let offsetTop = max(self.minOffset, legendTop)
+        let offsetRight = max(self.minOffset, legendRight)
+        let offsetBottom = max(self.minOffset, max(self.requiredBaseOffset, legendBottom))
 
         _viewPortHandler.restrainViewPort(offsetLeft: offsetLeft, offsetTop: offsetTop, offsetRight: offsetRight, offsetBottom: offsetBottom)
     }
