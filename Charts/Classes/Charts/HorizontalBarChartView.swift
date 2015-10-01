@@ -56,14 +56,22 @@ public class HorizontalBarChartView: BarChartView
                 || _legend.position == .BelowChartRight
                 || _legend.position == .BelowChartCenter)
             {
-                let yOffset = _legend.textHeightMax * 2.0; // It's possible that we do not need this offset anymore as it is available through the extraOffsets
+                // It's possible that we do not need this offset anymore as it
+                //   is available through the extraOffsets, but changing it can mean
+                //   changing default visibility for existing apps.
+                let yOffset = _legend.textHeightMax
+                
                 offsetBottom += min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
             }
             else if (_legend.position == .AboveChartLeft
                 || _legend.position == .AboveChartRight
                 || _legend.position == .AboveChartCenter)
             {
-                let yOffset = _legend.textHeightMax * 2.0; // It's possible that we do not need this offset anymore as it is available through the extraOffsets
+                // It's possible that we do not need this offset anymore as it
+                //   is available through the extraOffsets, but changing it can mean
+                //   changing default visibility for existing apps.
+                let yOffset = _legend.textHeightMax
+                
                 offsetTop += min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
             }
         }

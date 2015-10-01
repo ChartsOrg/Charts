@@ -29,10 +29,10 @@ public class ChartLegend: ChartComponentBase
         case BelowChartLeft
         case BelowChartRight
         case BelowChartCenter
-        case PiechartCenter
         case AboveChartLeft
         case AboveChartRight
         case AboveChartCenter
+        case PiechartCenter
     }
     
     @objc

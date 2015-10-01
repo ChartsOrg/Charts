@@ -166,7 +166,7 @@ public class ChartLegendRenderer: ChartRendererBase
                     originPosX -= _legend.neededWidth
                 }
             }
-            else // if (legendPosition == .BelowChartCenter)
+            else // .BelowChartCenter || .AboveChartCenter
             {
                 originPosX = viewPortHandler.contentLeft + contentWidth / 2.0
             }
@@ -176,12 +176,17 @@ public class ChartLegendRenderer: ChartRendererBase
             var calculatedLabelBreakPoints = _legend.calculatedLabelBreakPoints
             
             var posX: CGFloat = originPosX
-            var posY: CGFloat = viewPortHandler.chartHeight - yoffset - _legend.neededHeight
+            var posY: CGFloat
+            
             if (legendPosition == .AboveChartLeft
                 || legendPosition == .AboveChartRight
                 || legendPosition == .AboveChartCenter)
             {
-                posY = 0;
+                posY = 0
+            }
+            else
+            {
+                posY = viewPortHandler.chartHeight - yoffset - _legend.neededHeight
             }
             
             var lineIndex: Int = 0

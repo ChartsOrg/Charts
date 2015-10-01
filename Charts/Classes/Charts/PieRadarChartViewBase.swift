@@ -182,14 +182,22 @@ public class PieRadarChartViewBase: ChartViewBase
                     || _legend.position == .BelowChartRight
                     || _legend.position == .BelowChartCenter)
             {
-                let yOffset = self.requiredLegendOffset; // It's possible that we do not need this offset anymore as it is available through the extraOffsets
+                // It's possible that we do not need this offset anymore as it
+                //   is available through the extraOffsets, but changing it can mean
+                //   changing default visibility for existing apps.
+                let yOffset = self.requiredLegendOffset
+                
                 legendBottom = min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
             }
             else if (_legend.position == .AboveChartLeft
                 || _legend.position == .AboveChartRight
                 || _legend.position == .AboveChartCenter)
             {
-                let yOffset = self.requiredLegendOffset; // It's possible that we do not need this offset anymore as it is available through the extraOffsets
+                // It's possible that we do not need this offset anymore as it
+                //   is available through the extraOffsets, but changing it can mean
+                //   changing default visibility for existing apps.
+                let yOffset = self.requiredLegendOffset
+                
                 legendTop = min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
             }
 
