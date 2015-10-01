@@ -158,7 +158,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                 
                 // transform the provided custom path
                 CGContextSaveGState(context)
-                CGContextTranslateCTM(context, -point.x, -point.y)
+                CGContextTranslateCTM(context, point.x, point.y)
                 
                 CGContextBeginPath(context)
                 CGContextAddPath(context, customShape)
