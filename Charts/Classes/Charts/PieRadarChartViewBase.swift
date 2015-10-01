@@ -196,20 +196,22 @@ public class PieRadarChartViewBase: ChartViewBase
         legendBottom += self.extraBottomOffset
         legendLeft += self.extraLeftOffset
         
+        var minOffset = self.minOffset
+        
         if (self.isKindOfClass(RadarChartView))
         {
             let x = (self as! RadarChartView).xAxis
             
             if x.isEnabled && x.drawLabelsEnabled
             {
-                minOffset = max(10.0, x.labelWidth)
+                minOffset = max(minOffset, x.labelWidth)
             }
         }
 
-        let offsetLeft = max(self.minOffset, legendLeft)
-        let offsetTop = max(self.minOffset, legendTop)
-        let offsetRight = max(self.minOffset, legendRight)
-        let offsetBottom = max(self.minOffset, max(self.requiredBaseOffset, legendBottom))
+        let offsetLeft = max(minOffset, legendLeft)
+        let offsetTop = max(minOffset, legendTop)
+        let offsetRight = max(minOffset, legendRight)
+        let offsetBottom = max(minOffset, max(self.requiredBaseOffset, legendBottom))
 
         _viewPortHandler.restrainViewPort(offsetLeft: offsetLeft, offsetTop: offsetTop, offsetRight: offsetRight, offsetBottom: offsetBottom)
     }

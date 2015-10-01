@@ -97,13 +97,11 @@ public class HorizontalBarChartView: BarChartView
         offsetBottom += self.extraBottomOffset
         offsetLeft += self.extraLeftOffset
         
-        let minOffset: CGFloat = 10.0
-        
         _viewPortHandler.restrainViewPort(
-            offsetLeft: max(minOffset, offsetLeft),
-            offsetTop: max(minOffset, offsetTop),
-            offsetRight: max(minOffset, offsetRight),
-            offsetBottom: max(minOffset, offsetBottom))
+            offsetLeft: max(self.minOffset, offsetLeft),
+            offsetTop: max(self.minOffset, offsetTop),
+            offsetRight: max(self.minOffset, offsetRight),
+            offsetBottom: max(self.minOffset, offsetBottom))
         
         prepareOffsetMatrix()
         prepareValuePxMatrix()
