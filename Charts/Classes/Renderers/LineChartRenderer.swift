@@ -216,6 +216,11 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
     
     internal func drawCubicFill(context context: CGContext?, dataSet: LineChartDataSet, spline: CGMutablePath, matrix: CGAffineTransform, from: Int, to: Int)
     {
+        if to - from <= 1
+        {
+            return
+        }
+        
         CGContextSaveGState(context)
         
         let fillMin = delegate!.lineChartRendererFillFormatter(self).getFillLinePosition(
