@@ -182,10 +182,17 @@ public class PieRadarChartViewBase: ChartViewBase
                     || _legend.position == .BelowChartRight
                     || _legend.position == .BelowChartCenter)
             {
-                let yOffset = self.requiredBottomOffset; // It's possible that we do not need this offset anymore as it is available through the extraOffsets
+                let yOffset = self.requiredLegendOffset; // It's possible that we do not need this offset anymore as it is available through the extraOffsets
                 legendBottom = min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
             }
-            
+            else if (_legend.position == .AboveChartLeft
+                || _legend.position == .AboveChartRight
+                || _legend.position == .AboveChartCenter)
+            {
+                let yOffset = self.requiredLegendOffset; // It's possible that we do not need this offset anymore as it is available through the extraOffsets
+                legendTop = min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
+            }
+
             legendLeft += self.requiredBaseOffset
             legendRight += self.requiredBaseOffset
             legendTop += self.requiredBaseOffset
@@ -333,10 +340,10 @@ public class PieRadarChartViewBase: ChartViewBase
         fatalError("radius cannot be called on PieRadarChartViewBase")
     }
 
-    /// - returns: the required bottom offset for the chart.
-    internal var requiredBottomOffset: CGFloat
+    /// - returns: the required offset for the chart legend.
+    internal var requiredLegendOffset: CGFloat
     {
-        fatalError("requiredBottomOffset cannot be called on PieRadarChartViewBase")
+        fatalError("requiredLegendOffset cannot be called on PieRadarChartViewBase")
     }
 
     /// - returns: the base offset needed for the chart without calculating the

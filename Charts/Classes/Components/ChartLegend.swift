@@ -30,6 +30,9 @@ public class ChartLegend: ChartComponentBase
         case BelowChartRight
         case BelowChartCenter
         case PiechartCenter
+        case AboveChartLeft
+        case AboveChartRight
+        case AboveChartCenter
     }
     
     @objc
@@ -235,7 +238,10 @@ public class ChartLegend: ChartComponentBase
         }
         else if (position == .BelowChartLeft
             || position == .BelowChartRight
-            || position == .BelowChartCenter)
+            || position == .BelowChartCenter
+            || position == .AboveChartLeft
+            || position == .AboveChartRight
+            || position == .AboveChartCenter)
         {
             var labels = self.labels
             var colors = self.colors
