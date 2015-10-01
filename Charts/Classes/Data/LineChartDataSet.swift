@@ -34,7 +34,7 @@ public class LineChartDataSet: LineRadarChartDataSet
     
     public var drawCircleHoleEnabled = true
     
-    public override init()
+    public required init()
     {
         super.init()
         circleColors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))

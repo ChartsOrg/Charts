@@ -56,7 +56,7 @@ public class ChartDataSet: NSObject
     /// - returns: true if value highlighting is enabled for this dataset
     public var isHighlightEnabled: Bool { return highlightEnabled }
     
-    public override init()
+    public override required init()
     {
         super.init()
     }
@@ -532,7 +532,8 @@ public class ChartDataSet: NSObject
     
     public func copyWithZone(zone: NSZone) -> AnyObject
     {
-        let copy = ChartDataSet()
+        let copy = self.dynamicType.init()
+        
         copy.colors = colors
         copy._yVals = _yVals
         copy._yMax = _yMax
@@ -541,6 +542,7 @@ public class ChartDataSet: NSObject
         copy._lastStart = _lastStart
         copy._lastEnd = _lastEnd
         copy.label = label
+        
         return copy
     }
 }

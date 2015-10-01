@@ -45,6 +45,11 @@ public class CandleChartDataSet: LineScatterCandleChartDataSet
     /// Are increasing values drawn as filled?
     public var increasingFilled = true
     
+    public required init()
+    {
+        super.init()
+    }
+    
     public override init(yVals: [ChartDataEntry]?, label: String?)
     {
         super.init(yVals: yVals, label: label)
