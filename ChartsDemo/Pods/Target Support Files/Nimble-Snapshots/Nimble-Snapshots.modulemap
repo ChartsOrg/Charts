@@ -1,0 +1,6 @@
+framework module Nimble_Snapshots {
+  umbrella header "Nimble-Snapshots-umbrella.h"
+
+  export *
+  module * { export * }
+}

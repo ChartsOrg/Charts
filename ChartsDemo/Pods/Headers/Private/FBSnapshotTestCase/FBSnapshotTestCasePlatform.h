@@ -1,0 +1,1 @@
+../../../FBSnapshotTestCase/FBSnapshotTestCase/FBSnapshotTestCasePlatform.h

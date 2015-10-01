@@ -1,0 +1,7 @@
+FRAMEWORK_SEARCH_PATHS = $(inherited)  "$(SDKROOT)/Developer/Library/Frameworks" "$(PLATFORM_DIR)/Developer/Library/Frameworks"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/Quick" "${PODS_ROOT}/Headers/Public"
+OTHER_LDFLAGS = -framework "XCTest"
+OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
+PODS_ROOT = ${SRCROOT}
+SKIP_INSTALL = YES

@@ -1,0 +1,6 @@
+framework module Quick {
+  umbrella header "Quick-umbrella.h"
+
+  export *
+  module * { export * }
+}
