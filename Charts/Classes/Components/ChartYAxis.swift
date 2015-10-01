@@ -140,9 +140,9 @@ public class ChartYAxis: ChartAxisBase
         {
             _labelCount = 25
         }
-        if (_labelCount < 2)
+        if (_labelCount < max(1, Int(self.customAxisMin)))
         {
-            _labelCount = 2
+            _labelCount = max(1, Int(self.customAxisMin))
         }
     
         forceLabelsEnabled = force
