@@ -759,7 +759,10 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             }
         }
         
-        layer.renderInOptionalContext(context)
+        if let context = context
+        {
+            layer.renderInContext(context)
+        }
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
         
