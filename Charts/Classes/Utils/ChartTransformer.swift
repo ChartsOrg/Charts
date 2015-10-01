@@ -219,6 +219,12 @@ public class ChartTransformer: NSObject
         r = CGRectApplyAffineTransform(r, valueToPixelMatrix)
     }
     
+    /// Transform a rectangle with all matrices.
+    public func rectValueToPixelHorizontal(inout r: CGRect)
+    {
+        r = CGRectApplyAffineTransform(r, valueToPixelMatrix)
+    }
+    
     /// Transform a rectangle with all matrices with potential animation phases.
     public func rectValueToPixelHorizontal(inout r: CGRect, phaseY: CGFloat)
     {

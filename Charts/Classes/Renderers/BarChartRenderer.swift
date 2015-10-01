@@ -262,15 +262,15 @@ public class BarChartRenderer: ChartDataRendererBase
         
         let left = x - barWidth + barspacehalf
         let right = x + barWidth - barspacehalf
-        let top = CGFloat(y1)
-        let bottom = CGFloat(y2)
+        let top = CGFloat(y1) * CGFloat(_animator.phaseY)
+        let bottom = CGFloat(y2) * CGFloat(_animator.phaseY)
         
         rect.origin.x = left
         rect.origin.y = top
         rect.size.width = right - left
         rect.size.height = bottom - top
         
-        trans.rectValueToPixel(&rect, phaseY: _animator.phaseY)
+        trans.rectValueToPixel(&rect)
     }
     
     public override func drawValues(context context: CGContext?)
@@ -516,7 +516,7 @@ public class BarChartRenderer: ChartDataRendererBase
                 if (isStack)
                 {
                     y1 = h.range?.from ?? 0.0
-                    y2 = (h.range?.to ?? 0.0) * Double(_animator.phaseY)
+                    y2 = h.range?.to ?? 0.0
                 }
                 else
                 {

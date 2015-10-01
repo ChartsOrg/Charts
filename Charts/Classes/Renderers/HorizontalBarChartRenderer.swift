@@ -221,15 +221,15 @@ public class HorizontalBarChartRenderer: BarChartRenderer
         
         let top = x - barWidth + barspacehalf
         let bottom = x + barWidth - barspacehalf
-        let left = CGFloat(y1)
-        let right = CGFloat(y2)
+        let left = CGFloat(y1) * CGFloat(_animator.phaseY)
+        let right = CGFloat(y2) * CGFloat(_animator.phaseY)
         
         rect.origin.x = left
         rect.origin.y = top
         rect.size.width = right - left
         rect.size.height = bottom - top
         
-        trans.rectValueToPixelHorizontal(&rect, phaseY: _animator.phaseY)
+        trans.rectValueToPixelHorizontal(&rect)
     }
     
     public override func getTransformedValues(trans trans: ChartTransformer, entries: [BarChartDataEntry], dataSetIndex: Int) -> [CGPoint]
