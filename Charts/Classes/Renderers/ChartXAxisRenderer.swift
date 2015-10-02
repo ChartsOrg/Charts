@@ -262,7 +262,6 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
             
             renderLimitLineLine(context: context, limitLine: l, position: position)
             renderLimitLineLabel(context: context, limitLine: l, position: position)
-            
         }
         
         CGContextRestoreGState(context)
@@ -270,8 +269,8 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
     
     private var _limitLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    public func renderLimitLineLine(context context: CGContext?, limitLine: ChartLimitLine, position: CGPoint) {
-        
+    public func renderLimitLineLine(context context: CGContext?, limitLine: ChartLimitLine, position: CGPoint)
+    {
         _limitLineSegmentsBuffer[0].x = position.x
         _limitLineSegmentsBuffer[0].y = viewPortHandler.contentTop
         _limitLineSegmentsBuffer[1].x = position.x
@@ -291,8 +290,8 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         CGContextStrokeLineSegments(context, _limitLineSegmentsBuffer, 2)
     }
     
-    public func renderLimitLineLabel(context context: CGContext?, limitLine: ChartLimitLine, position: CGPoint, yOffset: CGFloat = 2.0) {
-        
+    public func renderLimitLineLabel(context context: CGContext?, limitLine: ChartLimitLine, position: CGPoint, yOffset: CGFloat = 2.0)
+    {
         let label = limitLine.label
         
         // if drawing the limit-value label is enabled
@@ -344,7 +343,5 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
             }
         }
     }
-    
+
 }
-
-
