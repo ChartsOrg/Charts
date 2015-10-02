@@ -36,6 +36,17 @@ If you want to compile for iOS 7:
 Add `pod 'Charts'` to your Podfile. "Charts" is the name of the library.  
 **Note:** ~~`pod 'ios-charts'`~~ is not the correct library, and refers to a different project by someone else.
 
+## Carthage Install
+
+New versions (since v2.1.4) include Carthage prebuilt binaries.
+
+```carthage
+github "danielgindi/ios-charts" == 2.1.4
+github "danielgindi/ios-charts" ~> 2.1.4
+```
+
+In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts`.
+
 ## Help
 
 If you like what you see here, and want to support the work being done in this repository, you could:
