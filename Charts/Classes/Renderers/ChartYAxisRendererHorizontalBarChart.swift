@@ -223,6 +223,11 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         {
             let l = limitLines[i]
             
+            if !l.isEnabled
+            {
+                continue
+            }
+            
             position.x = CGFloat(l.limit)
             position.y = 0.0
             position = CGPointApplyAffineTransform(position, trans)
@@ -252,9 +257,8 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
             {
                 let labelLineHeight = l.valueFont.lineHeight
                 
-                let add = CGFloat(4.0)
-                let xOffset: CGFloat = l.lineWidth
-                let yOffset: CGFloat = add / 2.0
+                let xOffset: CGFloat = l.lineWidth + l.xOffset
+                let yOffset: CGFloat = 2.0 + l.yOffset
 
                 if (l.labelPosition == .RightTop)
                 {

@@ -205,6 +205,11 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         {
             let l = limitLines[i]
             
+            if !l.isEnabled
+            {
+                continue
+            }
+            
             CGContextSetStrokeColorWithColor(context, l.lineColor.CGColor)
             CGContextSetLineWidth(context, l.lineWidth)
             if (l.lineDashLengths != nil)

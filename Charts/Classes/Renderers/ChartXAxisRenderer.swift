@@ -255,13 +255,18 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         for (var i = 0; i < limitLines.count; i++)
         {
             let l = limitLines[i]
-         
+            
+            if !l.isEnabled
+            {
+                continue
+            }
+
             position.x = CGFloat(l.limit)
             position.y = 0.0
             position = CGPointApplyAffineTransform(position, trans)
             
             renderLimitLineLine(context: context, limitLine: l, position: position)
-            renderLimitLineLabel(context: context, limitLine: l, position: position)
+            renderLimitLineLabel(context: context, limitLine: l, position: position, yOffset: 2.0 + l.yOffset)
         }
         
         CGContextRestoreGState(context)
@@ -290,7 +295,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         CGContextStrokeLineSegments(context, _limitLineSegmentsBuffer, 2)
     }
     
-    public func renderLimitLineLabel(context context: CGContext?, limitLine: ChartLimitLine, position: CGPoint, yOffset: CGFloat = 2.0)
+    public func renderLimitLineLabel(context context: CGContext?, limitLine: ChartLimitLine, position: CGPoint, yOffset: CGFloat)
     {
         let label = limitLine.label
         
@@ -299,7 +304,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         {
             let labelLineHeight = limitLine.valueFont.lineHeight
             
-            let xOffset: CGFloat = limitLine.lineWidth
+            let xOffset: CGFloat = limitLine.lineWidth + limitLine.xOffset
             
             if (limitLine.labelPosition == .RightTop)
             {
