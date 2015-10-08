@@ -423,9 +423,6 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             }
         }
         
-        // redraw the chart
-        setNeedsDisplay()
-        
         if (callDelegate && delegate != nil)
         {
             if (h == nil)
@@ -438,6 +435,9 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
                 delegate!.chartValueSelected?(self, entry: entry!, dataSetIndex: h!.dataSetIndex, highlight: h!)
             }
         }
+        
+        // redraw the chart
+        setNeedsDisplay()
     }
     
     /// The last value that was highlighted via touch.

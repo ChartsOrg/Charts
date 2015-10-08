@@ -753,7 +753,16 @@ public class PieRadarChartViewBase: ChartViewBase
             {
                 // if no slice was touched, highlight nothing
                 self.highlightValues(nil)
-                _lastHighlight = nil
+                
+                if _lastHighlight === nil
+                {
+                    self.highlightValues(nil) // do not call delegate
+                }
+                else
+                {
+                    self.highlightValue(highlight: nil, callDelegate: true) // call delegate
+                }
+                
                 _lastHighlight = nil
             }
             else
