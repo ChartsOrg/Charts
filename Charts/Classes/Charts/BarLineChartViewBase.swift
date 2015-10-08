@@ -1519,7 +1519,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         return _xAxis
     }
     
-    /// flag that indicates if pinch-zoom is enabled. if true, both x and y axis can be scaled with 2 fingers, if false, x and y axis can be scaled separately
+    /// flag that indicates if pinch-zoom is enabled. if true, both x and y axis can be scaled simultaneously with 2 fingers, if false, x and y axis can be scaled separately
     public var pinchZoomEnabled: Bool
     {
         get
