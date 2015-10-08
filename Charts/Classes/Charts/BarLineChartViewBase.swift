@@ -224,7 +224,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         // if highlighting is enabled
         if (valuesToHighlight())
         {
-            renderer?.drawHighlighted(context: context, indices: _indicesToHightlight)
+            renderer?.drawHighlighted(context: context, indices: _indicesToHighlight)
         }
 
         // Removes clipping rectangle

@@ -184,7 +184,7 @@ public class RadarChartView: PieRadarChartViewBase
 
         if (valuesToHighlight())
         {
-            renderer!.drawHighlighted(context: context, indices: _indicesToHightlight)
+            renderer!.drawHighlighted(context: context, indices: _indicesToHighlight)
         }
 
         _yAxisRenderer.renderAxisLabels(context: context)
