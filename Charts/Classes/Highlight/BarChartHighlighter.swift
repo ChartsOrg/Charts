@@ -55,30 +55,23 @@ internal class BarChartHighlighter: ChartHighlighter
     {
         if let barChartData = _chart?.data as? BarChartData
         {
-            if !barChartData.isGrouped
+            let baseNoSpace = getBase(x)
+            
+            let setCount = barChartData.dataSetCount
+            var xIndex = Int(baseNoSpace) / setCount
+            
+            let valCount = barChartData.xValCount
+            
+            if xIndex < 0
             {
-                return super.getXIndex(x)
+                xIndex = 0
             }
-            else
+            else if xIndex >= valCount
             {
-                let baseNoSpace = getBase(x)
-                
-                let setCount = barChartData.dataSetCount
-                var xIndex = Int(baseNoSpace) / setCount
-                
-                let valCount = barChartData.xValCount
-                
-                if xIndex < 0
-                {
-                    xIndex = 0
-                }
-                else if xIndex >= valCount
-                {
-                    xIndex = valCount - 1
-                }
-                
-                return xIndex
+                xIndex = valCount - 1
             }
+            
+            return xIndex
         }
         else
         {

@@ -104,7 +104,7 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
     public override var lowestVisibleXIndex: Int
     {
         let step = CGFloat(_data.dataSetCount)
-        let div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
+        let div = step + (_data as! BarChartData).groupSpace
         
         var pt = CGPoint(x: _viewPortHandler.contentLeft, y: _viewPortHandler.contentBottom)
         getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
@@ -115,7 +115,7 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
     public override var highestVisibleXIndex: Int
     {
         let step = CGFloat(_data.dataSetCount)
-        let div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
+        let div = step + (_data as! BarChartData).groupSpace
         
         var pt = CGPoint(x: _viewPortHandler.contentRight, y: _viewPortHandler.contentBottom)
         getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
