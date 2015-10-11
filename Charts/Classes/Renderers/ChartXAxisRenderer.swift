@@ -201,7 +201,12 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         }
         
         CGContextSaveGState(context)
-        
+
+        if (!_xAxis.gridAntialiasEnabled)
+        {
+            CGContextSetShouldAntialias(context, false)
+        }
+
         CGContextSetStrokeColorWithColor(context, _xAxis.gridColor.CGColor)
         CGContextSetLineWidth(context, _xAxis.gridLineWidth)
         if (_xAxis.gridLineDashLengths != nil)

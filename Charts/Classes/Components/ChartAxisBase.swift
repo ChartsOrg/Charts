@@ -44,6 +44,9 @@ public class ChartAxisBase: ChartComponentBase
     /// **default**: false
     public var drawLimitLinesBehindDataEnabled = false
 
+    /// the flag can be used to turn off the antialias for grid lines
+    public var gridAntialiasEnabled = true
+
     public override init()
     {
         super.init()
