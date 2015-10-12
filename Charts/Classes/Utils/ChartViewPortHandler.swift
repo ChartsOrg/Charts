@@ -457,4 +457,14 @@ public class ChartViewPortHandler: NSObject
     {
         return (_scaleX < _maxScaleX)
     }
+
+    public var canZoomOutMoreY: Bool
+    {
+        return (_scaleY > _minScaleY)
+    }
+    
+    public var canZoomInMoreY: Bool
+    {
+        return (_scaleY < _maxScaleY)
+    }
 }

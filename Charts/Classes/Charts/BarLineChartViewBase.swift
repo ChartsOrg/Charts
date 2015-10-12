@@ -725,8 +725,9 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         {
             let isZoomingOut = (recognizer.scale < 1)
             let canZoomMoreX = isZoomingOut ? _viewPortHandler.canZoomOutMoreX : _viewPortHandler.canZoomInMoreX
+            let canZoomMoreY = isZoomingOut ? _viewPortHandler.canZoomOutMoreY : _viewPortHandler.canZoomInMoreY
             
-            if (_isScaling && canZoomMoreX)
+            if (_isScaling && canZoomMoreX && canZoomMoreY)
             {
                 if (_gestureScaleAxis == .Both || _gestureScaleAxis == .Y && _scaleYEnabled)
                 {
