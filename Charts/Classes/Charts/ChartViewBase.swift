@@ -106,7 +106,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     private var _offsetsCalculated = false
     
     /// array of Highlight objects that reference the highlighted slices in the chart
-    internal var _indicesToHightlight = [ChartHighlight]()
+    internal var _indicesToHighlight = [ChartHighlight]()
     
     /// if set to true, the marker is drawn when a value is clicked
     public var drawMarkers = true
@@ -190,7 +190,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         }
         set
         {
-            if (newValue == nil || newValue?.yValCount == 0)
+            if newValue == nil
             {
                 print("Charts: data argument is nil on setData()", terminator: "\n")
                 return
@@ -212,7 +212,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     {
         _data = nil
         _dataNotSet = true
-        _indicesToHightlight.removeAll()
+        _indicesToHighlight.removeAll()
         setNeedsDisplay()
     }
     
@@ -336,7 +336,12 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         
         if (font == nil)
         {
-            font = UIFont.systemFontOfSize(UIFont.systemFontSize())
+            #if os(tvOS)
+                // 23 is the smallest recommened font size on the TV
+                font = UIFont.systemFontOfSize(23, weight: UIFontWeightMedium)
+            #else
+                font = UIFont.systemFontOfSize(UIFont.systemFontSize())
+            #endif
         }
         
         attrs[NSFontAttributeName] = font
@@ -350,14 +355,14 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     /// - returns: the array of currently highlighted values. This might an empty if nothing is highlighted.
     public var highlighted: [ChartHighlight]
     {
-        return _indicesToHightlight
+        return _indicesToHighlight
     }
     
     /// Checks if the highlight array is null, has a length of zero or if the first object is null.
     /// - returns: true if there are values to highlight, false if there are no values to highlight.
     public func valuesToHighlight() -> Bool
     {
-        return _indicesToHightlight.count > 0
+        return _indicesToHighlight.count > 0
     }
 
     /// Highlights the values at the given indices in the given DataSets. Provide
@@ -367,9 +372,9 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     public func highlightValues(highs: [ChartHighlight]?)
     {
         // set the indices to highlight
-        _indicesToHightlight = highs ?? [ChartHighlight]()
+        _indicesToHighlight = highs ?? [ChartHighlight]()
         
-        if (_indicesToHightlight.isEmpty)
+        if (_indicesToHighlight.isEmpty)
         {
             self.lastHighlighted = nil
         }
@@ -400,7 +405,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         
         if (h == nil)
         {
-            _indicesToHightlight.removeAll(keepCapacity: false)
+            _indicesToHighlight.removeAll(keepCapacity: false)
         }
         else
         {
@@ -410,16 +415,13 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             {
                 h = nil
                 entry = nil
-                _indicesToHightlight.removeAll(keepCapacity: false)
+                _indicesToHighlight.removeAll(keepCapacity: false)
             }
             else
             {
-                _indicesToHightlight = [h!]
+                _indicesToHighlight = [h!]
             }
         }
-
-        // redraw the chart
-        setNeedsDisplay()
         
         if (callDelegate && delegate != nil)
         {
@@ -433,6 +435,9 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
                 delegate!.chartValueSelected?(self, entry: entry!, dataSetIndex: h!.dataSetIndex, highlight: h!)
             }
         }
+        
+        // redraw the chart
+        setNeedsDisplay()
     }
     
     /// The last value that was highlighted via touch.
@@ -449,9 +454,9 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             return
         }
 
-        for (var i = 0, count = _indicesToHightlight.count; i < count; i++)
+        for (var i = 0, count = _indicesToHighlight.count; i < count; i++)
         {
-            let highlight = _indicesToHightlight[i]
+            let highlight = _indicesToHighlight[i]
             let xIndex = highlight.xIndex
 
             if (xIndex <= Int(_deltaX) && xIndex <= Int(_deltaX * _animator.phaseX))
@@ -754,7 +759,10 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             }
         }
         
-        layer.renderInOptionalContext(context)
+        if let context = context
+        {
+            layer.renderInContext(context)
+        }
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
         
@@ -798,11 +806,13 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         return imageData.writeToFile(path, atomically: true)
     }
     
+    #if !os(tvOS)
     /// Saves the current state of the chart to the camera roll
     public func saveToCameraRoll()
     {
         UIImageWriteToSavedPhotosAlbum(getChartImage(transparent: false), nil, nil, nil)
     }
+    #endif
     
     internal typealias VoidClosureType = () -> ()
     internal var _sizeChangeEventActions = [VoidClosureType]()

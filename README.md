@@ -1,11 +1,11 @@
-**Version 2.1.4**, synced to [MPAndroidChart #6ae1eef](https://github.com/PhilJay/MPAndroidChart/commit/6ae1eef)
+**Version 2.1.4**, synced to [MPAndroidChart #6ae1eef](https://github.com/PhilJay/MPAndroidChart/commit/497beac)
 
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
 [![CodeHunt.io](https://img.shields.io/badge/vote-codehunt.io-02AFD1.svg)](http://codehunt.io/sub/ios-charts/?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)   
 
 * Xcode 7 / Swift 2.0
 * iOS 7.0 (Drag .swift files to your project)
-* iOS 8.0 (Use as an **Embedded** Framework)
+* iOS 8.0 / 9.0 (Use as an **Embedded** Framework)
 
 Okay so there's this beautiful library called [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) by [Philipp Jahoda](https://www.linkedin.com/in/philippjahoda) which has become very popular amongst Android developers, and in the meanwhile there's no decent charting solution for iOS.
 
@@ -35,6 +35,17 @@ If you want to compile for iOS 7:
 
 Add `pod 'Charts'` to your Podfile. "Charts" is the name of the library.  
 **Note:** ~~`pod 'ios-charts'`~~ is not the correct library, and refers to a different project by someone else.
+
+## Carthage Install
+
+New versions (since v2.1.4) include Carthage prebuilt binaries.
+
+```carthage
+github "danielgindi/ios-charts" == 2.1.4
+github "danielgindi/ios-charts" ~> 2.1.4
+```
+
+In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts`.
 
 ## Help
 

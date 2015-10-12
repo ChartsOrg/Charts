@@ -56,8 +56,23 @@ public class HorizontalBarChartView: BarChartView
                 || _legend.position == .BelowChartRight
                 || _legend.position == .BelowChartCenter)
             {
-                let yOffset = _legend.textHeightMax * 2.0; // It's possible that we do not need this offset anymore as it is available through the extraOffsets
+                // It's possible that we do not need this offset anymore as it
+                //   is available through the extraOffsets, but changing it can mean
+                //   changing default visibility for existing apps.
+                let yOffset = _legend.textHeightMax
+                
                 offsetBottom += min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
+            }
+            else if (_legend.position == .AboveChartLeft
+                || _legend.position == .AboveChartRight
+                || _legend.position == .AboveChartCenter)
+            {
+                // It's possible that we do not need this offset anymore as it
+                //   is available through the extraOffsets, but changing it can mean
+                //   changing default visibility for existing apps.
+                let yOffset = _legend.textHeightMax
+                
+                offsetTop += min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
             }
         }
         
@@ -97,13 +112,11 @@ public class HorizontalBarChartView: BarChartView
         offsetBottom += self.extraBottomOffset
         offsetLeft += self.extraLeftOffset
         
-        let minOffset: CGFloat = 10.0
-        
         _viewPortHandler.restrainViewPort(
-            offsetLeft: max(minOffset, offsetLeft),
-            offsetTop: max(minOffset, offsetTop),
-            offsetRight: max(minOffset, offsetRight),
-            offsetBottom: max(minOffset, offsetBottom))
+            offsetLeft: max(self.minOffset, offsetLeft),
+            offsetTop: max(self.minOffset, offsetTop),
+            offsetRight: max(self.minOffset, offsetRight),
+            offsetBottom: max(self.minOffset, offsetBottom))
         
         prepareOffsetMatrix()
         prepareValuePxMatrix()

@@ -37,7 +37,9 @@ public class CombinedChartView: BarLineChartViewBase
         
         _highlighter = CombinedHighlighter(chart: self)
         
-        _fillFormatter = BarLineChartFillFormatter(chart: self)
+        /// WORKAROUND: Swift 2.0 compiler malfunctions when optimizations are enabled, and assigning directly to _fillFormatter causes a crash with a EXC_BAD_ACCESS. See https://github.com/danielgindi/ios-charts/issues/406
+        let workaroundFormatter = BarLineChartFillFormatter(chart: self)
+        _fillFormatter = workaroundFormatter
         
         renderer = CombinedChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
     }

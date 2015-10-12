@@ -27,6 +27,11 @@ public class CandleChartDataEntry: ChartDataEntry
     /// open value
     public var open = Double(0.0)
     
+    public required init()
+    {
+        super.init()
+    }
+    
     public init(xIndex: Int, shadowH: Double, shadowL: Double, open: Double, close: Double)
     {
         super.init(value: (shadowH + shadowL) / 2.0, xIndex: xIndex)

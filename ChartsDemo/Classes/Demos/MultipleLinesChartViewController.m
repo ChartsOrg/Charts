@@ -52,6 +52,15 @@
     _chartView.descriptionText = @"";
     _chartView.noDataTextDescription = @"You need to provide data for the chart.";
     
+    _chartView.drawBordersEnabled = YES;
+    
+    _chartView.leftAxis.drawAxisLineEnabled = NO;
+    _chartView.leftAxis.drawGridLinesEnabled = NO;
+    _chartView.rightAxis.drawAxisLineEnabled = NO;
+    _chartView.rightAxis.drawGridLinesEnabled = NO;
+    _chartView.xAxis.drawAxisLineEnabled = NO;
+    _chartView.xAxis.drawGridLinesEnabled = NO;
+
     _chartView.drawGridBackgroundEnabled = NO;
     _chartView.highlightEnabled = YES;
     _chartView.dragEnabled = YES;

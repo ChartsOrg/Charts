@@ -23,7 +23,7 @@ public class PieChartDataSet: ChartDataSet
     /// indicates the selection distance of a pie slice
     public var selectionShift = CGFloat(18.0)
     
-    public override init()
+    public required init()
     {
         super.init()
         

@@ -17,6 +17,11 @@ public class BubbleChartDataEntry: ChartDataEntry
     /// The size of the bubble.
     public var size = CGFloat(0.0)
     
+    public required init()
+    {
+        super.init()
+    }
+    
     /// - parameter xIndex: The index on the x-axis.
     /// - parameter val: The value on the y-axis.
     /// - parameter size: The size of the bubble.

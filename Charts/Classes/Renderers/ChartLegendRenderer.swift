@@ -139,13 +139,16 @@ public class ChartLegendRenderer: ChartRendererBase
         {
         case .BelowChartLeft: fallthrough
         case .BelowChartRight: fallthrough
-        case .BelowChartCenter:
+        case .BelowChartCenter: fallthrough
+        case .AboveChartLeft: fallthrough
+        case .AboveChartRight: fallthrough
+        case .AboveChartCenter:
             
             let contentWidth: CGFloat = viewPortHandler.contentWidth
             
             var originPosX: CGFloat
             
-            if (legendPosition == .BelowChartLeft)
+            if (legendPosition == .BelowChartLeft || legendPosition == .AboveChartLeft)
             {
                 originPosX = viewPortHandler.contentLeft + xoffset
                 
@@ -154,7 +157,7 @@ public class ChartLegendRenderer: ChartRendererBase
                     originPosX += _legend.neededWidth
                 }
             }
-            else if (legendPosition == .BelowChartRight)
+            else if (legendPosition == .BelowChartRight || legendPosition == .AboveChartRight)
             {
                 originPosX = viewPortHandler.contentRight - xoffset
                 
@@ -163,7 +166,7 @@ public class ChartLegendRenderer: ChartRendererBase
                     originPosX -= _legend.neededWidth
                 }
             }
-            else // if (legendPosition == .BelowChartCenter)
+            else // .BelowChartCenter || .AboveChartCenter
             {
                 originPosX = viewPortHandler.contentLeft + contentWidth / 2.0
             }
@@ -173,7 +176,18 @@ public class ChartLegendRenderer: ChartRendererBase
             var calculatedLabelBreakPoints = _legend.calculatedLabelBreakPoints
             
             var posX: CGFloat = originPosX
-            var posY: CGFloat = viewPortHandler.chartHeight - yoffset - _legend.neededHeight
+            var posY: CGFloat
+            
+            if (legendPosition == .AboveChartLeft
+                || legendPosition == .AboveChartRight
+                || legendPosition == .AboveChartCenter)
+            {
+                posY = 0
+            }
+            else
+            {
+                posY = viewPortHandler.chartHeight - yoffset - _legend.neededHeight
+            }
             
             var lineIndex: Int = 0
             

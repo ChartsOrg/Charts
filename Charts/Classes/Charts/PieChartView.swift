@@ -58,7 +58,7 @@ public class PieChartView: PieRadarChartViewBase
         
         if (valuesToHighlight())
         {
-            renderer!.drawHighlighted(context: context, indices: _indicesToHightlight)
+            renderer!.drawHighlighted(context: context, indices: _indicesToHighlight)
         }
         
         renderer!.drawExtras(context: context)
@@ -179,11 +179,11 @@ public class PieChartView: PieRadarChartViewBase
             return false
         }
         
-        for (var i = 0; i < _indicesToHightlight.count; i++)
+        for (var i = 0; i < _indicesToHighlight.count; i++)
         {
             // check if the xvalue for the given dataset needs highlight
-            if (_indicesToHightlight[i].xIndex == xIndex
-                && _indicesToHightlight[i].dataSetIndex == dataSetIndex)
+            if (_indicesToHighlight[i].xIndex == xIndex
+                && _indicesToHighlight[i].dataSetIndex == dataSetIndex)
             {
                 return true
             }
@@ -340,7 +340,7 @@ public class PieChartView: PieRadarChartViewBase
         }
     }
     
-    internal override var requiredBottomOffset: CGFloat
+    internal override var requiredLegendOffset: CGFloat
     {
         return _legend.font.pointSize * 2.0
     }

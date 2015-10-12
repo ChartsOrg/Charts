@@ -115,11 +115,12 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
     {
         let trans = delegate?.lineChartRenderer(self, transformerForAxis: dataSet.axisDependency)
         
-        let entryFrom = dataSet.entryForXIndex(_minX)
-        let entryTo = dataSet.entryForXIndex(_maxX)
+        let entryFrom = dataSet.entryForXIndex(_minX)!
+        let entryTo = dataSet.entryForXIndex(_maxX)!
         
-        let minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0)
-        let maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count)
+        let diff = (entryFrom == entryTo) ? 1 : 0
+        let minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true) - diff, 0)
+        let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo, isEqual: true) + 1), entries.count)
         
         let phaseX = _animator.phaseX
         let phaseY = _animator.phaseY
@@ -216,6 +217,11 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
     
     internal func drawCubicFill(context context: CGContext?, dataSet: LineChartDataSet, spline: CGMutablePath, matrix: CGAffineTransform, from: Int, to: Int)
     {
+        if to - from <= 1
+        {
+            return
+        }
+        
         CGContextSaveGState(context)
         
         let fillMin = delegate!.lineChartRendererFillFormatter(self).getFillLinePosition(
@@ -254,11 +260,12 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         
         CGContextSaveGState(context)
         
-        let entryFrom = dataSet.entryForXIndex(_minX)
-        let entryTo = dataSet.entryForXIndex(_maxX)
+        let entryFrom = dataSet.entryForXIndex(_minX)!
+        let entryTo = dataSet.entryForXIndex(_maxX)!
         
-        let minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0)
-        let maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count)
+        let diff = (entryFrom == entryTo) ? 1 : 0
+        let minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true) - diff, 0)
+        let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo, isEqual: true) + 1), entries.count)
         
         // more than 1 color
         if (dataSet.colors.count > 1)
@@ -444,11 +451,12 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
                 
                 var entries = dataSet.yVals
                 
-                let entryFrom = dataSet.entryForXIndex(_minX)
-                let entryTo = dataSet.entryForXIndex(_maxX)
+                let entryFrom = dataSet.entryForXIndex(_minX)!
+                let entryTo = dataSet.entryForXIndex(_maxX)!
                 
-                let minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0)
-                let maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count)
+                let diff = (entryFrom == entryTo) ? 1 : 0
+                let minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true) - diff, 0)
+                let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo, isEqual: true) + 1), entries.count)
                 
                 var positions = trans.generateTransformedValuesLine(
                     entries,
@@ -519,8 +527,9 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
             let entryFrom = dataSet.entryForXIndex(_minX)!
             let entryTo = dataSet.entryForXIndex(_maxX)!
             
-            let minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true), 0)
-            let maxx = min(dataSet.entryIndex(entry: entryTo, isEqual: true) + 1, entries.count)
+            let diff = (entryFrom == entryTo) ? 1 : 0
+            let minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true) - diff, 0)
+            let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo, isEqual: true) + 1), entries.count)
             
             for (var j = minx, count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))); j < count; j++)
             {

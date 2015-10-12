@@ -516,7 +516,7 @@ public class BarChartRenderer: ChartDataRendererBase
                 if (isStack)
                 {
                     y1 = h.range?.from ?? 0.0
-                    y2 = (h.range?.to ?? 0.0) * Double(_animator.phaseY)
+                    y2 = h.range?.to ?? 0.0
                 }
                 else
                 {
@@ -543,7 +543,7 @@ public class BarChartRenderer: ChartDataRendererBase
                     let arrowWidth = set.barSpace / 2.0
                     let arrowHeight = arrowWidth * xToYRel
                     
-                    let yArrow = y1 > -y2 ? y1 : y1;
+                    let yArrow = (y1 > -y2 ? y1 : y1) * Double(_animator.phaseY)
                     
                     _highlightArrowPtsBuffer[0].x = CGFloat(x) + 0.4
                     _highlightArrowPtsBuffer[0].y = CGFloat(yArrow) + offsetY
