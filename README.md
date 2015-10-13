@@ -24,7 +24,7 @@ In order to correctly compile:
 5.  When using Swift in an ObjC project:
    - You need to import your Bridging Header. Usually it is "*YourProject-Swift.h*", so in ChartsDemo it's "*ChartsDemo-Swift.h*". Do not try to actually include "*ChartsDemo-Swift.h*" in your project :-)
    - Under "Build Options", mark "Embedded Content Contains Swift Code"
-
+6. Need a tutorial on how to Use iOS Charts API to Create Beautiful Charts in Swift? Check out http://www.appcoda.com/ios-charts-api-tutorial/
 
 If you want to compile for iOS 7:
 
