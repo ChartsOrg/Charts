@@ -24,13 +24,10 @@ public class PieChartRenderer: ChartDataRendererBase
     public var holeColor: UIColor? = UIColor.whiteColor()
     public var holeRadiusPercent = CGFloat(0.5)
     public var transparentCircleRadiusPercent = CGFloat(0.55)
-    public var centerTextColor = UIColor.blackColor()
-    public var centerTextFont = UIFont.systemFontOfSize(12.0)
     public var drawXLabelsEnabled = true
     public var usePercentValuesEnabled = false
-    public var centerText: String!
+    public var centerAttributedText: NSAttributedString?
     public var drawCenterTextEnabled = true
-    public var centerTextLineBreakMode = NSLineBreakMode.ByTruncatingTail
     public var centerTextRadiusPercent: CGFloat = 1.0
     
     public init(chart: PieChartView, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
@@ -262,7 +259,9 @@ public class PieChartRenderer: ChartDataRendererBase
     /// draws the description text in the center of the pie chart makes most sense when center-hole is enabled
     private func drawCenterText(context context: CGContext?)
     {
-        if (drawCenterTextEnabled && centerText != nil && centerText.characters.count > 0)
+        guard let centerAttributedText = centerAttributedText else { return }
+        
+        if drawCenterTextEnabled && centerAttributedText.length > 0
         {
             let center = _chart.centerCircleBox
             let innerRadius = drawHoleEnabled && holeTransparent ? _chart.radius * holeRadiusPercent : _chart.radius
@@ -274,15 +273,7 @@ public class PieChartRenderer: ChartDataRendererBase
                 boundingRect = CGRectInset(boundingRect, (boundingRect.width - boundingRect.width * centerTextRadiusPercent) / 2.0, (boundingRect.height - boundingRect.height * centerTextRadiusPercent) / 2.0)
             }
             
-            let centerTextNs = self.centerText as NSString
-            
-            let paragraphStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
-            paragraphStyle.lineBreakMode = centerTextLineBreakMode
-            paragraphStyle.alignment = .Center
-            
-            let drawingAttrs = [NSFontAttributeName: centerTextFont, NSParagraphStyleAttributeName: paragraphStyle, NSForegroundColorAttributeName: centerTextColor]
-            
-            let textBounds = centerTextNs.boundingRectWithSize(boundingRect.size, options: [.UsesLineFragmentOrigin, .UsesFontLeading, .TruncatesLastVisibleLine], attributes: drawingAttrs, context: nil)
+            let textBounds = centerAttributedText.boundingRectWithSize(boundingRect.size, options: [.UsesLineFragmentOrigin, .UsesFontLeading, .TruncatesLastVisibleLine], context: nil)
             
             var drawingRect = boundingRect
             drawingRect.origin.x += (boundingRect.size.width - textBounds.size.width) / 2.0
@@ -296,7 +287,7 @@ public class PieChartRenderer: ChartDataRendererBase
             CGContextAddPath(context, clippingPath)
             CGContextClip(context)
             
-            centerTextNs.drawWithRect(drawingRect, options: [.UsesLineFragmentOrigin, .UsesFontLeading, .TruncatesLastVisibleLine], attributes: drawingAttrs, context: nil)
+            centerAttributedText.drawWithRect(drawingRect, options: [.UsesLineFragmentOrigin, .UsesFontLeading, .TruncatesLastVisibleLine], context: nil)
             
             CGContextRestoreGState(context)
         }

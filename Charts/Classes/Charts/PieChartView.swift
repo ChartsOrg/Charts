@@ -299,16 +299,48 @@ public class PieChartView: PieRadarChartViewBase
         }
     }
     
-    /// the text that is displayed in the center of the pie-chart. By default, the text is "Total value + sum of all values"
-    public var centerText: String!
+    /// the text that is displayed in the center of the pie-chart
+    public var centerText: String?
     {
         get
         {
-            return (renderer as! PieChartRenderer).centerText
+            return (renderer as! PieChartRenderer).centerAttributedText?.string
         }
         set
         {
-            (renderer as! PieChartRenderer).centerText = newValue
+            var attrString: NSMutableAttributedString?
+            if newValue == nil
+            {
+                attrString = nil
+            }
+            else
+            {
+                let paragraphStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
+                paragraphStyle.lineBreakMode = NSLineBreakMode.ByTruncatingTail
+                paragraphStyle.alignment = .Center
+                
+                attrString = NSMutableAttributedString(string: newValue!)
+                attrString?.setAttributes([
+                    NSForegroundColorAttributeName: UIColor.blackColor(),
+                    NSFontAttributeName: UIFont.systemFontOfSize(12.0),
+                    NSParagraphStyleAttributeName: paragraphStyle
+                    ], range: NSMakeRange(0, attrString!.length))
+            }
+            (renderer as! PieChartRenderer).centerAttributedText = attrString
+            setNeedsDisplay()
+        }
+    }
+    
+    /// the text that is displayed in the center of the pie-chart
+    public var centerAttributedText: NSAttributedString?
+    {
+        get
+        {
+            return (renderer as! PieChartRenderer).centerAttributedText
+        }
+        set
+        {
+            (renderer as! PieChartRenderer).centerAttributedText = newValue
             setNeedsDisplay()
         }
     }
@@ -361,34 +393,6 @@ public class PieChartView: PieRadarChartViewBase
     public var centerCircleBox: CGPoint
     {
         return CGPoint(x: _circleBox.midX, y: _circleBox.midY)
-    }
-    
-    /// Sets the font of the center text of the piechart.
-    public var centerTextFont: UIFont
-    {
-        get
-        {
-            return (renderer as! PieChartRenderer).centerTextFont
-        }
-        set
-        {
-            (renderer as! PieChartRenderer).centerTextFont = newValue
-            setNeedsDisplay()
-        }
-    }
-    
-    /// Sets the color of the center text of the piechart.
-    public var centerTextColor: UIColor
-    {
-        get
-        {
-            return (renderer as! PieChartRenderer).centerTextColor
-        }
-        set
-        {
-            (renderer as! PieChartRenderer).centerTextColor = newValue
-            setNeedsDisplay()
-        }
     }
     
     /// the radius of the hole in the center of the piechart in percent of the maximum radius (max = the radius of the whole chart)
@@ -466,22 +470,6 @@ public class PieChartView: PieRadarChartViewBase
         get
         {
             return (renderer as! PieChartRenderer).usePercentValuesEnabled
-        }
-    }
-    
-    
-    /// the line break mode for center text.
-    /// note that different line break modes give different performance results - Clipping being the fastest, WordWrapping being the slowst.
-    public var centerTextLineBreakMode: NSLineBreakMode
-    {
-        get
-        {
-            return (renderer as! PieChartRenderer).centerTextLineBreakMode
-        }
-        set
-        {
-            (renderer as! PieChartRenderer).centerTextLineBreakMode = newValue
-            setNeedsDisplay()
         }
     }
     
