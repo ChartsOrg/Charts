@@ -46,6 +46,8 @@ public class ChartLimitLine: ChartComponentBase
     public var valueFont = UIFont.systemFontOfSize(13.0)
     public var label = ""
     public var labelPosition = ChartLimitLabelPosition.RightTop
+    public var image : UIImage?
+    public var imagePosition = ChartLimitImagePosition.End
     
     public override init()
     {
