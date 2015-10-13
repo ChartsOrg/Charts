@@ -28,6 +28,13 @@ public class ChartLimitLine: ChartComponentBase
         case RightBottom
     }
     
+    @objc
+    public enum ChartLimitImagePosition: Int
+    {
+        case Start
+        case End
+    }
+    
     /// limit / maximum (the y-value or xIndex)
     public var limit = Double(0.0)
     
@@ -39,6 +46,8 @@ public class ChartLimitLine: ChartComponentBase
     public var valueFont = UIFont.systemFontOfSize(13.0)
     public var label = ""
     public var labelPosition = ChartLimitLabelPosition.RightTop
+    public var image : UIImage?
+    public var imagePosition = ChartLimitImagePosition.End
     
     public override init()
     {

@@ -118,6 +118,13 @@ internal class ChartUtils
         )
     }
     
+    internal class func drawImage(context context: CGContext?, image: UIImage, point: CGPoint)
+    {
+        UIGraphicsPushContext(context)
+        image.drawAtPoint(point)
+        UIGraphicsPopContext()
+    }
+    
     internal class func drawText(context context: CGContext?, text: String, var point: CGPoint, align: NSTextAlignment, attributes: [String : AnyObject]?)
     {
         if (align == .Center)

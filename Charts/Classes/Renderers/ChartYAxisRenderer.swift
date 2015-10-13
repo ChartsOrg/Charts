@@ -406,6 +406,18 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
                         attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
                 }
             }
+            
+            if let image = l.image {
+                
+                let x = l.imagePosition == .End ? viewPortHandler.contentRight - image.size.width + 1 : viewPortHandler.contentLeft - 1
+                let y = position.y - image.size.height / 2
+                
+                ChartUtils.drawImage(context: context,
+                    image: image,
+                    point: CGPoint(
+                        x: x,
+                        y: y))
+            }
         }
         
         CGContextRestoreGState(context)
