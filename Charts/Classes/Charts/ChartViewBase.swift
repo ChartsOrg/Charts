@@ -34,15 +34,12 @@ public protocol ChartViewDelegate
     optional func chartTranslated(chartView: ChartViewBase, dX: CGFloat, dY: CGFloat)
 }
 
-public class ChartViewBase: UIView, ChartAnimatorDelegate
+public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
 {
     // MARK: - Properties
     
-    /// custom formatter that is used instead of the auto-formatter if set
-    internal var _valueFormatter = NSNumberFormatter()
-    
     /// the default value formatter
-    internal var _defaultValueFormatter = NSNumberFormatter()
+    internal var _defaultValueFormatter: NSNumberFormatter = ChartUtils.defaultValueFormatter()
     
     /// object that holds all data that was originally set for the chart, before it was modified or any filtering algorithms had been applied
     internal var _data: ChartData!
@@ -167,13 +164,6 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         
         _legend = ChartLegend()
         _legendRenderer = ChartLegendRenderer(viewPortHandler: _viewPortHandler, legend: _legend)
-        
-        _defaultValueFormatter.minimumIntegerDigits = 1
-        _defaultValueFormatter.maximumFractionDigits = 1
-        _defaultValueFormatter.minimumFractionDigits = 1
-        _defaultValueFormatter.usesGroupingSeparator = true
-        
-        _valueFormatter = _defaultValueFormatter.copy() as! NSNumberFormatter
         
         self.addObserver(self, forKeyPath: "bounds", options: .New, context: nil)
         self.addObserver(self, forKeyPath: "frame", options: .New, context: nil)
@@ -635,8 +625,13 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         return _chartXMin
     }
     
+    public var xValCount: Int
+    {
+        return _data.xValCount
+    }
+    
     /// - returns: the total number of (y) values the chart holds (across all DataSets)
-    public var getValueCount: Int
+    public var valueCount: Int
     {
         return _data.yValCount
     }
@@ -671,29 +666,6 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     public var contentRect: CGRect
     {
         return _viewPortHandler.contentRect
-    }
-    
-    /// Sets the formatter to be used for drawing the values inside the chart.
-    /// If no formatter is set, the chart will automatically determine a reasonable
-    /// formatting (concerning decimals) for all the values that are drawn inside
-    /// the chart. Set this to nil to re-enable auto formatting.
-    public var valueFormatter: NSNumberFormatter!
-    {
-        get
-        {
-            return _valueFormatter
-        }
-        set
-        {
-            if (newValue === nil)
-            {
-                _valueFormatter = _defaultValueFormatter.copy() as! NSNumberFormatter
-            }
-            else
-            {
-                _valueFormatter = newValue
-            }
-        }
     }
     
     /// - returns: the x-value at the given index

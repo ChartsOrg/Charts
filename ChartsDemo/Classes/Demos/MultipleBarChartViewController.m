@@ -73,8 +73,6 @@
     leftAxis.spaceTop = 0.25;
     
     _chartView.rightAxis.enabled = NO;
-    _chartView.valueFormatter = [[NSNumberFormatter alloc] init];
-    _chartView.valueFormatter.maximumFractionDigits = 1;
     
     _sliderX.value = 9.0;
     _sliderY.value = 100.0;

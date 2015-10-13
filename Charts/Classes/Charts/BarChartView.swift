@@ -15,7 +15,7 @@ import Foundation
 import CoreGraphics
 
 /// Chart that draws bars.
-public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
+public class BarChartView: BarLineChartViewBase, BarChartDataProvider
 {
     /// flag that enables or disables the highlighting arrow
     private var _drawHighlightArrowEnabled = false
@@ -30,7 +30,7 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
     {
         super.initialize()
         
-        renderer = BarChartRenderer(delegate: self, animator: _animator, viewPortHandler: _viewPortHandler)
+        renderer = BarChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
         _xAxisRenderer = ChartXAxisRendererBarChart(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer, chart: self)
         
         _highlighter = BarChartHighlighter(chart: self)
@@ -158,74 +158,16 @@ public class BarChartView: BarLineChartViewBase, BarChartRendererDelegate
         }
     }
     
+    // MARK: - BarChartDataProbider
+    
+    public var barData: BarChartData? { return _data as? BarChartData }
+    
     /// - returns: true if drawing the highlighting arrow is enabled, false if not
-    public var isDrawHighlightArrowEnabled: Bool { return drawHighlightArrowEnabled; }
+    public var isDrawHighlightArrowEnabled: Bool { return drawHighlightArrowEnabled }
     
     /// - returns: true if drawing values above bars is enabled, false if not
-    public var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled; }
+    public var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled }
     
     /// - returns: true if drawing shadows (maxvalue) for each bar is enabled, false if not
-    public var isDrawBarShadowEnabled: Bool { return drawBarShadowEnabled; }
-    
-    // MARK: - BarChartRendererDelegate
-    
-    public func barChartRendererData(renderer: BarChartRenderer) -> BarChartData!
-    {
-        return _data as! BarChartData!
-    }
-    
-    public func barChartRenderer(renderer: BarChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!
-    {
-        return getTransformer(which)
-    }
-    
-    public func barChartRendererMaxVisibleValueCount(renderer: BarChartRenderer) -> Int
-    {
-        return maxVisibleValueCount
-    }
-    
-    public func barChartDefaultRendererValueFormatter(renderer: BarChartRenderer) -> NSNumberFormatter!
-    {
-        return valueFormatter
-    }
-    
-    public func barChartRendererChartYMax(renderer: BarChartRenderer) -> Double
-    {
-        return chartYMax
-    }
-    
-    public func barChartRendererChartYMin(renderer: BarChartRenderer) -> Double
-    {
-        return chartYMin
-    }
-    
-    public func barChartRendererChartXMax(renderer: BarChartRenderer) -> Double
-    {
-        return chartXMax
-    }
-    
-    public func barChartRendererChartXMin(renderer: BarChartRenderer) -> Double
-    {
-        return chartXMin
-    }
-    
-    public func barChartIsDrawHighlightArrowEnabled(renderer: BarChartRenderer) -> Bool
-    {
-        return drawHighlightArrowEnabled
-    }
-    
-    public func barChartIsDrawValueAboveBarEnabled(renderer: BarChartRenderer) -> Bool
-    {
-        return drawValueAboveBarEnabled
-    }
-    
-    public func barChartIsDrawBarShadowEnabled(renderer: BarChartRenderer) -> Bool
-    {
-        return drawBarShadowEnabled
-    }
-    
-    public func barChartIsInverted(renderer: BarChartRenderer, axis: ChartYAxis.AxisDependency) -> Bool
-    {
-        return getAxis(axis).isInverted
-    }
+    public var isDrawBarShadowEnabled: Bool { return drawBarShadowEnabled }
 }

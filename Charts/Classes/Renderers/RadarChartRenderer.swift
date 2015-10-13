@@ -118,8 +118,6 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
         
         let data = _chart.data!
         
-        let defaultValueFormatter = _chart.valueFormatter
-        
         let sliceangle = _chart.sliceAngle
         
         // calculate the factor that is needed for transforming the value to pixels
@@ -149,11 +147,7 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
                 let valueFont = dataSet.valueFont
                 let valueTextColor = dataSet.valueTextColor
                 
-                var formatter = dataSet.valueFormatter
-                if formatter == nil
-                {
-                    formatter = defaultValueFormatter
-                }
+                let formatter = dataSet.valueFormatter
                 
                 ChartUtils.drawText(context: context, text: formatter!.stringFromNumber(e.value)!, point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
             }

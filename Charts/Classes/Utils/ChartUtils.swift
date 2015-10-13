@@ -18,6 +18,8 @@ import Darwin
 
 public class ChartUtils
 {
+    private static var _defaultValueFormatter: NSNumberFormatter = ChartUtils.generateDefaultValueFormatter()
+    
     internal struct Math
     {
         internal static let FDEG2RAD = CGFloat(M_PI / 180.0)
@@ -171,6 +173,21 @@ public class ChartUtils
         return angle % 360.0
     }
     
+    private class func generateDefaultValueFormatter() -> NSNumberFormatter
+    {
+        let formatter = NSNumberFormatter()
+        formatter.minimumIntegerDigits = 1
+        formatter.maximumFractionDigits = 1
+        formatter.minimumFractionDigits = 1
+        formatter.usesGroupingSeparator = true
+        return formatter
+    }
+    
+    /// - returns: the default value formatter used for all chart components that needs a default
+    internal class func defaultValueFormatter() -> NSNumberFormatter
+    {
+        return _defaultValueFormatter
+    }
     
     /// MARK: - Bridging functions
     

@@ -16,7 +16,7 @@ import CoreGraphics
 import UIKit
 
 /// Base-class of LineChart, BarChart, ScatterChart and CandleStickChart.
-public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
+public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartDataProvider, UIGestureRecognizerDelegate
 {
     /// the maximum number of entried to which values will be drawn
     internal var _maxVisibleValueCount = 100
@@ -587,21 +587,6 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         if (drawGridBackgroundEnabled || drawBordersEnabled)
         {
             CGContextRestoreGState(context)
-        }
-    }
-    
-    /// - returns: the Transformer class that contains all matrices and is
-    /// responsible for transforming values into pixels on the screen and
-    /// backwards.
-    public func getTransformer(which: ChartYAxis.AxisDependency) -> ChartTransformer
-    {
-        if (which == .Left)
-        {
-            return _leftAxisTransformer
-        }
-        else
-        {
-            return _rightAxisTransformer
         }
     }
     
@@ -1223,7 +1208,7 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
     }
 
     // MARK: - Accessors
-
+    
     /// - returns: the delta-y value (y-value range) of the specified axis.
     public func getDeltaY(axis: ChartYAxis.AxisDependency) -> CGFloat
     {
@@ -1245,20 +1230,6 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         getTransformer(axis).pointValueToPixel(&vals)
 
         return vals
-    }
-
-    /// the number of maximum visible drawn values on the chart
-    /// only active when `setDrawValues()` is enabled
-    public var maxVisibleValueCount: Int
-    {
-        get
-        {
-            return _maxVisibleValueCount
-        }
-        set
-        {
-            _maxVisibleValueCount = newValue
-        }
     }
 
     /// is dragging enabled? (moving the chart with the finger) for the chart (this does not affect scaling).
@@ -1446,22 +1417,6 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             return _data.getDataSetByIndex(h!.dataSetIndex) as! BarLineScatterCandleBubbleChartDataSet!
         }
         return nil
-    }
-    
-    /// - returns: the lowest x-index (value on the x-axis) that is still visible on he chart.
-    public var lowestVisibleXIndex: Int
-    {
-        var pt = CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom)
-        getTransformer(.Left).pixelToValue(&pt)
-        return (pt.x <= 0.0) ? 0 : Int(pt.x + 1.0)
-    }
-
-    /// - returns: the highest x-index (value on the x-axis) that is still visible on the chart.
-    public var highestVisibleXIndex: Int
-    {
-        var pt = CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentBottom)
-        getTransformer(.Left).pixelToValue(&pt)
-        return (_data != nil && Int(pt.x) >= _data.xValCount) ? _data.xValCount - 1 : Int(pt.x)
     }
 
     /// - returns: the current x-scale factor
@@ -1683,19 +1638,68 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
             return _rightAxis.requiredSize().width
         }
     }
+    
+    // MARK: - BarLineScatterCandleBubbleChartDataProvider
+    
+    /// - returns: the Transformer class that contains all matrices and is
+    /// responsible for transforming values into pixels on the screen and
+    /// backwards.
+    public func getTransformer(which: ChartYAxis.AxisDependency) -> ChartTransformer
+    {
+        if (which == .Left)
+        {
+            return _leftAxisTransformer
+        }
+        else
+        {
+            return _rightAxisTransformer
+        }
+    }
+    
+    /// the number of maximum visible drawn values on the chart
+    /// only active when `setDrawValues()` is enabled
+    public var maxVisibleValueCount: Int
+    {
+        get
+        {
+            return _maxVisibleValueCount
+        }
+        set
+        {
+            _maxVisibleValueCount = newValue
+        }
+    }
+    
+    public func isInverted(axis: ChartYAxis.AxisDependency) -> Bool
+    {
+        return getAxis(axis).isInverted
+    }
+    
+    /// - returns: the lowest x-index (value on the x-axis) that is still visible on he chart.
+    public var lowestVisibleXIndex: Int
+    {
+        var pt = CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom)
+        getTransformer(.Left).pixelToValue(&pt)
+        return (pt.x <= 0.0) ? 0 : Int(pt.x + 1.0)
+    }
+    
+    /// - returns: the highest x-index (value on the x-axis) that is still visible on the chart.
+    public var highestVisibleXIndex: Int
+    {
+        var pt = CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentBottom)
+        getTransformer(.Left).pixelToValue(&pt)
+        return (_data != nil && Int(pt.x) >= _data.xValCount) ? _data.xValCount - 1 : Int(pt.x)
+    }
 }
 
 /// Default formatter that calculates the position of the filled line.
 internal class BarLineChartFillFormatter: NSObject, ChartFillFormatter
 {
-    private weak var _chart: BarLineChartViewBase!
-    
-    internal init(chart: BarLineChartViewBase)
+    internal override init()
     {
-        _chart = chart
     }
     
-    internal func getFillLinePosition(dataSet dataSet: LineChartDataSet, data: LineChartData, chartMaxY: Double, chartMinY: Double) -> CGFloat
+    internal func getFillLinePosition(dataSet dataSet: LineChartDataSet, dataProvider: LineChartDataProvider) -> CGFloat
     {
         var fillMin = CGFloat(0.0)
         
@@ -1705,33 +1709,36 @@ internal class BarLineChartFillFormatter: NSObject, ChartFillFormatter
         }
         else
         {
-            if (!_chart.getAxis(dataSet.axisDependency).isStartAtZeroEnabled)
+            if let data = dataProvider.data
             {
-                var max: Double, min: Double
-                
-                if (data.yMax > 0.0)
+                if !dataProvider.getAxis(dataSet.axisDependency).isStartAtZeroEnabled
                 {
-                    max = 0.0
+                    var max: Double, min: Double
+                    
+                    if (data.yMax > 0.0)
+                    {
+                        max = 0.0
+                    }
+                    else
+                    {
+                        max = dataProvider.chartYMax
+                    }
+                    
+                    if (data.yMin < 0.0)
+                    {
+                        min = 0.0
+                    }
+                    else
+                    {
+                        min = dataProvider.chartYMin
+                    }
+                    
+                    fillMin = CGFloat(dataSet.yMin >= 0.0 ? min : max)
                 }
                 else
                 {
-                    max = chartMaxY
+                    fillMin = 0.0
                 }
-                
-                if (data.yMin < 0.0)
-                {
-                    min = 0.0
-                }
-                else
-                {
-                    min = chartMinY
-                }
-                
-                fillMin = CGFloat(dataSet.yMin >= 0.0 ? min : max)
-            }
-            else
-            {
-                fillMin = 0.0
             }
         }
         

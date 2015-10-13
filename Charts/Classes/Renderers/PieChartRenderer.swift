@@ -139,8 +139,6 @@ public class PieChartRenderer: ChartDataRendererBase
         
         guard let data = _chart.data else { return }
         
-        let defaultValueFormatter = _chart.valueFormatter
-        
         var dataSets = data.dataSets
         let drawXVals = drawXLabelsEnabled
         
@@ -160,11 +158,7 @@ public class PieChartRenderer: ChartDataRendererBase
             let valueFont = dataSet.valueFont
             let valueTextColor = dataSet.valueTextColor
             
-            var formatter = dataSet.valueFormatter
-            if formatter == nil
-            {
-                formatter = defaultValueFormatter
-            }
+            let formatter = dataSet.valueFormatter
             
             var entries = dataSet.yVals
             
