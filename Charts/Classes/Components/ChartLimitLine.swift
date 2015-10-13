@@ -28,6 +28,13 @@ public class ChartLimitLine: ChartComponentBase
         case RightBottom
     }
     
+    @objc
+    public enum ChartLimitImagePosition: Int
+    {
+        case Start
+        case End
+    }
+    
     /// limit / maximum (the y-value or xIndex)
     public var limit = Double(0.0)
     
