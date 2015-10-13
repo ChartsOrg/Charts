@@ -27,7 +27,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
     }
     
     /// draws the x-labels on the specified y-position
-    internal override func drawLabels(context context: CGContext?, pos: CGFloat)
+    internal override func drawLabels(context context: CGContext, pos: CGFloat)
     {
         if (_chart.data === nil)
         {
@@ -103,7 +103,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
     
     private var _gridLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    public override func renderGridLines(context context: CGContext?)
+    public override func renderGridLines(context context: CGContext)
     {
         if (!_xAxis.isDrawGridLinesEnabled || !_xAxis.isEnabled)
         {

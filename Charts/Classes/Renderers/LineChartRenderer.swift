@@ -40,7 +40,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         self.delegate = delegate
     }
     
-    public override func drawData(context context: CGContext?)
+    public override func drawData(context context: CGContext)
     {
         let lineData = delegate!.lineChartRendererData(self)
         
@@ -77,7 +77,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         }
     }
     
-    internal func drawDataSet(context context: CGContext?, dataSet: LineChartDataSet)
+    internal func drawDataSet(context context: CGContext, dataSet: LineChartDataSet)
     {
         let entries = dataSet.yVals
         
@@ -111,7 +111,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         CGContextRestoreGState(context)
     }
     
-    internal func drawCubic(context context: CGContext?, dataSet: LineChartDataSet, entries: [ChartDataEntry])
+    internal func drawCubic(context context: CGContext, dataSet: LineChartDataSet, entries: [ChartDataEntry])
     {
         let trans = delegate?.lineChartRenderer(self, transformerForAxis: dataSet.axisDependency)
         
@@ -215,7 +215,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         CGContextRestoreGState(context)
     }
     
-    internal func drawCubicFill(context context: CGContext?, dataSet: LineChartDataSet, spline: CGMutablePath, matrix: CGAffineTransform, from: Int, to: Int)
+    internal func drawCubicFill(context context: CGContext, dataSet: LineChartDataSet, spline: CGMutablePath, matrix: CGAffineTransform, from: Int, to: Int)
     {
         if to - from <= 1
         {
@@ -250,7 +250,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
     
     private var _lineSegments = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    internal func drawLinear(context context: CGContext?, dataSet: LineChartDataSet, entries: [ChartDataEntry])
+    internal func drawLinear(context context: CGContext, dataSet: LineChartDataSet, entries: [ChartDataEntry])
     {
         let trans = delegate!.lineChartRenderer(self, transformerForAxis: dataSet.axisDependency)
         let valueToPixelMatrix = trans.valueToPixelMatrix
@@ -356,7 +356,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         }
     }
     
-    internal func drawLinearFill(context context: CGContext?, dataSet: LineChartDataSet, entries: [ChartDataEntry], minx: Int, maxx: Int, trans: ChartTransformer)
+    internal func drawLinearFill(context context: CGContext, dataSet: LineChartDataSet, entries: [ChartDataEntry], minx: Int, maxx: Int, trans: ChartTransformer)
     {
         CGContextSaveGState(context)
         
@@ -407,7 +407,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         return filled
     }
     
-    public override func drawValues(context context: CGContext?)
+    public override func drawValues(context context: CGContext)
     {
         let lineData = delegate!.lineChartRendererData(self)
         if (lineData === nil)
@@ -485,12 +485,12 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         }
     }
     
-    public override func drawExtras(context context: CGContext?)
+    public override func drawExtras(context context: CGContext)
     {
         drawCircles(context: context)
     }
     
-    private func drawCircles(context context: CGContext?)
+    private func drawCircles(context context: CGContext)
     {
         let phaseX = _animator.phaseX
         let phaseY = _animator.phaseY
@@ -575,7 +575,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
     
     private var _highlightPointBuffer = CGPoint()
     
-    public override func drawHighlighted(context context: CGContext?, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
     {
         let lineData = delegate!.lineChartRendererData(self)
         let chartXMax = delegate!.lineChartRendererChartXMax(self)

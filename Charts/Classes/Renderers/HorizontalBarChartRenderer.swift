@@ -22,7 +22,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
         super.init(delegate: delegate, animator: animator, viewPortHandler: viewPortHandler)
     }
     
-    internal override func drawDataSet(context context: CGContext?, dataSet: BarChartDataSet, index: Int)
+    internal override func drawDataSet(context context: CGContext, dataSet: BarChartDataSet, index: Int)
     {
         CGContextSaveGState(context)
         
@@ -237,7 +237,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
         return trans.generateTransformedValuesHorizontalBarChart(entries, dataSet: dataSetIndex, barData: delegate!.barChartRendererData(self)!, phaseY: _animator.phaseY)
     }
     
-    public override func drawValues(context context: CGContext?)
+    public override func drawValues(context context: CGContext)
     {
         // if values are drawn
         if (passesCheck())

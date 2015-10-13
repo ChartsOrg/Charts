@@ -52,7 +52,8 @@ public class PieChartView: PieRadarChartViewBase
             return
         }
         
-        let context = UIGraphicsGetCurrentContext()
+        let optionalContext = UIGraphicsGetCurrentContext()
+        guard let context = optionalContext else { return }
         
         renderer!.drawData(context: context)
         

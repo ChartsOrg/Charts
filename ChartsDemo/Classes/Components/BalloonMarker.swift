@@ -42,7 +42,7 @@ public class BalloonMarker: ChartMarker
     
     public override var size: CGSize { return _size; }
     
-    public override func draw(context context: CGContext?, point: CGPoint)
+    public override func draw(context context: CGContext, point: CGPoint)
     {
         if (labelns === nil)
         {

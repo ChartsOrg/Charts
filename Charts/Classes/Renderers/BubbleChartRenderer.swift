@@ -38,7 +38,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
         self.delegate = delegate
     }
     
-    public override func drawData(context context: CGContext?)
+    public override func drawData(context context: CGContext)
     {
         let bubbleData = delegate!.bubbleChartRendererData(self)
         
@@ -61,7 +61,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
     private var _pointBuffer = CGPoint()
     private var _sizeBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    internal func drawDataSet(context context: CGContext?, dataSet: BubbleChartDataSet)
+    internal func drawDataSet(context context: CGContext, dataSet: BubbleChartDataSet)
     {
         let trans = delegate!.bubbleChartRenderer(self, transformerForAxis: dataSet.axisDependency)
         
@@ -135,7 +135,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
         CGContextRestoreGState(context)
     }
     
-    public override func drawValues(context context: CGContext?)
+    public override func drawValues(context context: CGContext)
     {
         let bubbleData = delegate!.bubbleChartRendererData(self)
         if (bubbleData === nil)
@@ -203,12 +203,12 @@ public class BubbleChartRenderer: ChartDataRendererBase
         }
     }
     
-    public override func drawExtras(context context: CGContext?)
+    public override func drawExtras(context context: CGContext)
     {
         
     }
     
-    public override func drawHighlighted(context context: CGContext?, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
     {
         let bubbleData = delegate!.bubbleChartRendererData(self)
         

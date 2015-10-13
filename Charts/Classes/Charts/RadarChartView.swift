@@ -169,7 +169,8 @@ public class RadarChartView: PieRadarChartViewBase
             return
         }
         
-        let context = UIGraphicsGetCurrentContext()
+        let optionalContext = UIGraphicsGetCurrentContext()
+        guard let context = optionalContext else { return }
         
         _xAxisRenderer?.renderAxisLabels(context: context)
 
