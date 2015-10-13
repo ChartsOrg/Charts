@@ -42,18 +42,13 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
     
     public override func drawData(context context: CGContext)
     {
-        let lineData = delegate!.lineChartRendererData(self)
-        
-        if (lineData === nil)
-        {
-            return
-        }
+        guard let lineData = delegate?.lineChartRendererData(self) else { return }
         
         for (var i = 0; i < lineData.dataSetCount; i++)
         {
-            let set = lineData.getDataSetByIndex(i)
+            guard let set = lineData.getDataSetByIndex(i) else { continue }
             
-            if (set !== nil && set!.isVisible)
+            if set.isVisible
             {
                 drawDataSet(context: context, dataSet: set as! LineChartDataSet)
             }
@@ -409,13 +404,9 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
     
     public override func drawValues(context context: CGContext)
     {
-        let lineData = delegate!.lineChartRendererData(self)
-        if (lineData === nil)
-        {
-            return
-        }
+        guard let lineData = delegate?.lineChartRendererData(self) else { return }
         
-        let defaultValueFormatter = delegate!.lineChartDefaultRendererValueFormatter(self)
+        let defaultValueFormatter = delegate?.lineChartDefaultRendererValueFormatter(self)
         
         if (CGFloat(lineData.yValCount) < CGFloat(delegate!.lineChartRendererMaxVisibleValueCount(self)) * viewPortHandler.scaleX)
         {
@@ -423,7 +414,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
             
             for (var i = 0; i < dataSets.count; i++)
             {
-                let dataSet = dataSets[i] as! LineChartDataSet
+                guard let dataSet = dataSets[i] as? LineChartDataSet else { continue }
                 
                 if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
                 {
@@ -434,7 +425,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
                 let valueTextColor = dataSet.valueTextColor
                 
                 var formatter = dataSet.valueFormatter
-                if (formatter === nil)
+                if formatter == nil
                 {
                     formatter = defaultValueFormatter
                 }
@@ -583,9 +574,9 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         
         for (var i = 0; i < indices.count; i++)
         {
-            let set = lineData.getDataSetByIndex(indices[i].dataSetIndex) as! LineChartDataSet!
+            guard let set = lineData.getDataSetByIndex(indices[i].dataSetIndex) as? LineChartDataSet else { continue }
             
-            if (set === nil || !set.isHighlightEnabled)
+            if !set.isHighlightEnabled
             {
                 continue
             }

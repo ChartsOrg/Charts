@@ -43,7 +43,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
     {
         let scatterData = delegate!.scatterChartRendererData(self)
         
-        if (scatterData === nil)
+        if scatterData == nil
         {
             return
         }
@@ -151,7 +151,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                 
                 let customShape = dataSet.customScatterShape
                 
-                if (customShape === nil)
+                if customShape == nil
                 {
                     return
                 }
@@ -174,7 +174,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
     public override func drawValues(context context: CGContext)
     {
         let scatterData = delegate!.scatterChartRendererData(self)
-        if (scatterData === nil)
+        if scatterData == nil
         {
             return
         }
@@ -199,7 +199,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                 let valueTextColor = dataSet.valueTextColor
                 
                 var formatter = dataSet.valueFormatter
-                if (formatter === nil)
+                if formatter == nil
                 {
                     formatter = defaultValueFormatter
                 }
@@ -250,9 +250,9 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
         
         for (var i = 0; i < indices.count; i++)
         {
-            let set = scatterData.getDataSetByIndex(indices[i].dataSetIndex) as! ScatterChartDataSet!
+            guard let set = scatterData.getDataSetByIndex(indices[i].dataSetIndex) as? ScatterChartDataSet else { continue }
             
-            if (set === nil || !set.isHighlightEnabled)
+            if !set.isHighlightEnabled
             {
                 continue
             }

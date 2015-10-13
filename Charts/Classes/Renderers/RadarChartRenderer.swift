@@ -111,7 +111,7 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
     
     public override func drawValues(context context: CGContext)
     {
-        if (_chart.data === nil)
+        if _chart.data == nil
         {
             return
         }
@@ -150,7 +150,7 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
                 let valueTextColor = dataSet.valueTextColor
                 
                 var formatter = dataSet.valueFormatter
-                if (formatter === nil)
+                if formatter == nil
                 {
                     formatter = defaultValueFormatter
                 }
@@ -231,7 +231,7 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
 
     public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
     {
-        if (_chart.data === nil)
+        if _chart.data == nil
         {
             return
         }
@@ -256,9 +256,9 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
         
         for (var i = 0; i < indices.count; i++)
         {
-            let set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as! RadarChartDataSet!
+            guard let set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as? RadarChartDataSet else { continue }
             
-            if (set === nil || !set.isHighlightEnabled)
+            if !set.isHighlightEnabled
             {
                 continue
             }
@@ -269,7 +269,7 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
             let xIndex = indices[i].xIndex
             
             let e = set.entryForXIndex(xIndex)
-            if (e === nil || e!.xIndex != xIndex)
+            if e?.xIndex != xIndex
             {
                 continue
             }

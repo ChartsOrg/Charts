@@ -137,11 +137,7 @@ public class PieChartRenderer: ChartDataRendererBase
         
         r -= off; // offset to keep things inside the chart
         
-        let data: ChartData! = _chart.data
-        if (data === nil)
-        {
-            return
-        }
+        guard let data = _chart.data else { return }
         
         let defaultValueFormatter = _chart.valueFormatter
         
@@ -152,7 +148,7 @@ public class PieChartRenderer: ChartDataRendererBase
         
         for (var i = 0; i < dataSets.count; i++)
         {
-            let dataSet = dataSets[i] as! PieChartDataSet
+            guard let dataSet = dataSets[i] as? PieChartDataSet else { continue }
             
             let drawYVals = dataSet.isDrawValuesEnabled
             
@@ -165,7 +161,7 @@ public class PieChartRenderer: ChartDataRendererBase
             let valueTextColor = dataSet.valueTextColor
             
             var formatter = dataSet.valueFormatter
-            if (formatter === nil)
+            if formatter == nil
             {
                 formatter = defaultValueFormatter
             }
@@ -295,7 +291,7 @@ public class PieChartRenderer: ChartDataRendererBase
     
     public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
     {
-        if (_chart.data === nil)
+        if _chart.data == nil
         {
             return
         }
@@ -319,9 +315,9 @@ public class PieChartRenderer: ChartDataRendererBase
                 continue
             }
             
-            let set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as! PieChartDataSet!
+            guard let set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as? PieChartDataSet else { continue }
             
-            if (set === nil || !set.isHighlightEnabled)
+            if !set.isHighlightEnabled
             {
                 continue
             }

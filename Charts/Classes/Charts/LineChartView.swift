@@ -46,7 +46,7 @@ public class LineChartView: BarLineChartViewBase, LineChartRendererDelegate
         }
         set
         {
-            if (newValue === nil)
+            if newValue == nil
             {
                 _fillFormatter = BarLineChartFillFormatter(chart: self)
             }
