@@ -277,6 +277,22 @@ public class PieChartView: PieRadarChartViewBase
         return (renderer as! PieChartRenderer).holeTransparent
     }
     
+    /// the alpha of the hole in the center of the piechart, in case holeTransparent == true
+    ///
+    /// **default**: 0.41
+    public var holeAlpha: CGFloat
+    {
+        get
+        {
+            return (renderer as! PieChartRenderer).holeAlpha
+        }
+        set
+        {
+            (renderer as! PieChartRenderer).holeAlpha = newValue
+            setNeedsDisplay()
+        }
+    }
+    
     /// true if the hole in the center of the pie-chart is set to be visible, false if not
     public var drawHoleEnabled: Bool
     {

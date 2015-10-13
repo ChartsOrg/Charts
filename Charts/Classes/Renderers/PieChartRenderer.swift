@@ -23,6 +23,7 @@ public class PieChartRenderer: ChartDataRendererBase
     public var holeTransparent = true
     public var holeColor: UIColor? = UIColor.whiteColor()
     public var holeRadiusPercent = CGFloat(0.5)
+    public var holeAlpha = CGFloat(0.41)
     public var transparentCircleRadiusPercent = CGFloat(0.55)
     public var drawXLabelsEnabled = true
     public var usePercentValuesEnabled = false
@@ -231,12 +232,14 @@ public class PieChartRenderer: ChartDataRendererBase
                 CGContextFillEllipseInRect(context, CGRect(x: center.x - holeRadius, y: center.y - holeRadius, width: holeRadius * 2.0, height: holeRadius * 2.0))
             }
             
+            // only draw the circle if it can be seen (not covered by the hole)
             if (transparentCircleRadiusPercent > holeRadiusPercent)
             {
+                let alpha = holeAlpha * _animator.phaseX * _animator.phaseY
                 let secondHoleRadius = radius * transparentCircleRadiusPercent
                 
                 // make transparent
-                CGContextSetFillColorWithColor(context, holeColor!.colorWithAlphaComponent(CGFloat(0x60) / CGFloat(0xFF)).CGColor)
+                CGContextSetFillColorWithColor(context, holeColor!.colorWithAlphaComponent(alpha).CGColor)
                 
                 // draw the transparent-circle
                 CGContextFillEllipseInRect(context, CGRect(x: center.x - secondHoleRadius, y: center.y - secondHoleRadius, width: secondHoleRadius * 2.0, height: secondHoleRadius * 2.0))
