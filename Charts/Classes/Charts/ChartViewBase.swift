@@ -305,7 +305,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             
             if (noDataTextDescription != nil && (noDataTextDescription!).characters.count > 0)
             {   
-                let textOffset = -infoFont.lineHeight / 2.0
+                let textOffset = infoFont.lineHeight
                 
                 ChartUtils.drawText(context: context, text: noDataTextDescription!, point: CGPoint(x: frame.width / 2.0, y: frame.height / 2.0 + textOffset), align: .Center, attributes: [NSFontAttributeName: infoFont, NSForegroundColorAttributeName: infoTextColor])
             }
