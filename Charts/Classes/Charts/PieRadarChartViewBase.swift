@@ -27,8 +27,8 @@ public class PieRadarChartViewBase: ChartViewBase
     /// flag that indicates if rotation is enabled or not
     public var rotationEnabled = true
     
-    /// Sets the minimum offset (padding) around the chart, defaults to 10
-    public var minOffset = CGFloat(10.0)
+    /// Sets the minimum offset (padding) around the chart, defaults to 0.0
+    public var minOffset = CGFloat(0.0)
 
     private var _rotationWithTwoFingers = false
     
