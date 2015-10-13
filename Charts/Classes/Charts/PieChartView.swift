@@ -84,19 +84,15 @@ public class PieChartView: PieRadarChartViewBase
         
         let radius = diameter / 2.0
         
-        let c = centerOffsets
+        let c = self.centerOffsets
         
-        let dataSets = data?.dataSets as? [PieChartDataSet]
-        
-        let maxShift = dataSets?.reduce(0.0, combine: { shift, dataSet in
-            return dataSet.selectionShift > shift ? dataSet.selectionShift : shift
-        }) ?? 0.0
+        let shift = (data as? PieChartData)?.dataSet?.selectionShift ?? 0.0
         
         // create the circle box that will contain the pie-chart (the bounds of the pie-chart)
-        _circleBox.origin.x = (c.x - radius) + (maxShift / 2.0)
-        _circleBox.origin.y = (c.y - radius) + (maxShift / 2.0)
-        _circleBox.size.width = diameter - maxShift
-        _circleBox.size.height = diameter - maxShift
+        _circleBox.origin.x = (c.x - radius) + shift
+        _circleBox.origin.y = (c.y - radius) + shift
+        _circleBox.size.width = diameter - shift * 2.0
+        _circleBox.size.height = diameter - shift * 2.0
     }
     
     internal override func calcMinMax()
