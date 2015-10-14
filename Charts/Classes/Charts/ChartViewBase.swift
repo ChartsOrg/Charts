@@ -113,6 +113,9 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
     
     private var _interceptTouchEvents = false
     
+    /// Sets the minimum offset (padding) around the chart, defaults to 10
+    public var minOffset = CGFloat(10.0)
+    
     /// An extra offset to be appended to the viewport's top
     public var extraTopOffset: CGFloat = 0.0
     
