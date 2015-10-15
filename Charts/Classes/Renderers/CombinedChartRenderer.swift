@@ -16,7 +16,7 @@ import CoreGraphics
 
 public class CombinedChartRenderer: ChartDataRendererBase
 {
-    private weak var _chart: CombinedChartView!
+    internal weak var _chart: CombinedChartView!
     
     /// flag that enables or disables the highlighting arrow
     public var drawHighlightArrowEnabled = false
