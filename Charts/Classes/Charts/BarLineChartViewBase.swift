@@ -711,10 +711,11 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         {
             let isZoomingOut = (recognizer.scale < 1)
             let canZoomMoreX = isZoomingOut ? _viewPortHandler.canZoomOutMoreX : _viewPortHandler.canZoomInMoreX
+            let canZoomMoreY = isZoomingOut ? _viewPortHandler.canZoomOutMoreY : _viewPortHandler.canZoomInMoreY
             
-            if (_isScaling)
+            if (_isScaling && canZoomMoreX && canZoomMoreY)
             {
-                if (canZoomMoreX || (_gestureScaleAxis == .Both || _gestureScaleAxis == .Y && _scaleYEnabled))
+                if (_gestureScaleAxis == .Both || _gestureScaleAxis == .Y && _scaleYEnabled)
                 {
                     var location = recognizer.locationInView(self)
                     location.x = location.x - _viewPortHandler.offsetLeft
