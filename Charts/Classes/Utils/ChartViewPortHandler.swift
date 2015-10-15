@@ -465,17 +465,19 @@ public class ChartViewPortHandler: NSObject
         return (_scaleX > _minScaleX)
     }
     
-    /// - returns: true if the chart is not yet fully zoomed out on the y-axis
+    /// - returns: true if the chart is not yet fully zoomed in on the x-axis
     public var canZoomInMoreX: Bool
     {
         return (_scaleX < _maxScaleX)
     }
-
+    
+    /// - returns: true if the chart is not yet fully zoomed out on the y-axis
     public var canZoomOutMoreY: Bool
     {
         return (_scaleY > _minScaleY)
     }
     
+    /// - returns: true if the chart is not yet fully zoomed in on the y-axis
     public var canZoomInMoreY: Bool
     {
         return (_scaleY < _maxScaleY)
