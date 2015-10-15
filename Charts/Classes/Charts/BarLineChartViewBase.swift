@@ -710,12 +710,14 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         else if (recognizer.state == UIGestureRecognizerState.Changed)
         {
             let isZoomingOut = (recognizer.scale < 1)
-            let canZoomMoreX = isZoomingOut ? _viewPortHandler.canZoomOutMoreX : _viewPortHandler.canZoomInMoreX
-            let canZoomMoreY = isZoomingOut ? _viewPortHandler.canZoomOutMoreY : _viewPortHandler.canZoomInMoreY
+            var canZoomMoreX = isZoomingOut ? _viewPortHandler.canZoomOutMoreX : _viewPortHandler.canZoomInMoreX
+            var canZoomMoreY = isZoomingOut ? _viewPortHandler.canZoomOutMoreY : _viewPortHandler.canZoomInMoreY
             
-            if (_isScaling && canZoomMoreX && canZoomMoreY)
+            if (_isScaling)
             {
-                if (_gestureScaleAxis == .Both || _gestureScaleAxis == .Y && _scaleYEnabled)
+                canZoomMoreX = canZoomMoreX && _scaleXEnabled && (_gestureScaleAxis == .Both || _gestureScaleAxis == .X);
+                canZoomMoreY = canZoomMoreY && _scaleYEnabled && (_gestureScaleAxis == .Both || _gestureScaleAxis == .Y);
+                if canZoomMoreX || canZoomMoreY
                 {
                     var location = recognizer.locationInView(self)
                     location.x = location.x - _viewPortHandler.offsetLeft
@@ -729,8 +731,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                         location.y = -(_viewPortHandler.chartHeight - location.y - _viewPortHandler.offsetBottom)
                     }
                     
-                    let scaleX = (_gestureScaleAxis == .Both || _gestureScaleAxis == .X) && _scaleXEnabled ? recognizer.scale : 1.0
-                    let scaleY = (_gestureScaleAxis == .Both || _gestureScaleAxis == .Y) && _scaleYEnabled ? recognizer.scale : 1.0
+                    let scaleX = canZoomMoreX ? recognizer.scale : 1.0
+                    let scaleY = canZoomMoreY ? recognizer.scale : 1.0
                     
                     var matrix = CGAffineTransformMakeTranslation(location.x, location.y)
                     matrix = CGAffineTransformScale(matrix, scaleX, scaleY)
