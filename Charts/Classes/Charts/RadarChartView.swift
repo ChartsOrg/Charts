@@ -38,7 +38,7 @@ public class RadarChartView: PieRadarChartViewBase
     public var drawWeb = true
     
     /// modulus that determines how many labels and web-lines are skipped before the next is drawn
-    private var _skipWebLineCount = 1
+    private var _skipWebLineCount = 0
     
     /// the object reprsenting the y-axis labels
     private var _yAxis: ChartYAxis!
