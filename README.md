@@ -41,8 +41,8 @@ Add `pod 'Charts'` to your Podfile. "Charts" is the name of the library.
 New versions (since v2.1.4) include Carthage prebuilt binaries.
 
 ```carthage
-github "danielgindi/ios-charts" == 2.1.4
-github "danielgindi/ios-charts" ~> 2.1.4
+github "danielgindi/ios-charts" == 2.1.5
+github "danielgindi/ios-charts" ~> 2.1.5
 ```
 
 In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts`.
