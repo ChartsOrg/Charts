@@ -92,7 +92,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
                     else if (i == 0)
                     { // avoid clipping of the first
                         let width = label!.sizeWithAttributes(labelAttrs).width
-                        position.x = viewPortHandler.offsetLeft + (width / 2.0)
+                        position.x += width / 2.0
                     }
                 }
                 
