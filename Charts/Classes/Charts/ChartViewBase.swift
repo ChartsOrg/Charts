@@ -370,6 +370,10 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
         {
             self.lastHighlighted = nil
         }
+        else
+        {
+            self.lastHighlighted = _indicesToHighlight[0];
+        }
 
         // redraw the chart
         setNeedsDisplay()
