@@ -819,25 +819,6 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
         _sizeChangeEventActions.removeAll(keepCapacity: false)
     }
     
-    /// if true, value highlighting is enabled
-    public var highlightEnabled: Bool
-    {
-        get
-        {
-            return _data === nil ? true : _data.highlightEnabled
-        }
-        set
-        {
-            if (_data !== nil)
-            {
-                _data.highlightEnabled = newValue
-            }
-        }
-    }
-    
-    /// if true, value highlightning is enabled
-    public var isHighlightEnabled: Bool { return highlightEnabled }
-    
     /// **default**: true
     /// - returns: true if chart continues to scroll after touch up, false if not.
     public var isDragDecelerationEnabled: Bool
