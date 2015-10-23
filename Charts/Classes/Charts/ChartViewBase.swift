@@ -44,6 +44,9 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
     /// object that holds all data that was originally set for the chart, before it was modified or any filtering algorithms had been applied
     internal var _data: ChartData!
     
+    /// Flag that indicates if highlighting per tap (touch) is enabled
+    private var _highlightPerTapEnabled = true
+    
     /// If set to true, chart continues to scroll after touch up
     public var dragDecelerationEnabled = true
     
@@ -348,6 +351,21 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
     public var highlighted: [ChartHighlight]
     {
         return _indicesToHighlight
+    }
+    
+    /// Set this to false to prevent values from being highlighted by tap gesture.
+    /// Values can still be highlighted via drag or programmatically.
+    /// - default: true
+    public var highlightPerTapEnabled: Bool
+    {
+        get { return _highlightPerTapEnabled }
+        set { _highlightPerTapEnabled = newValue }
+    }
+    
+    /// Returns true if values can be highlighted via tap gesture, false if not.
+    public var isHighLightPerTapEnabled: Bool
+    {
+        return highlightPerTapEnabled
     }
     
     /// Checks if the highlight array is null, has a length of zero or if the first object is null.

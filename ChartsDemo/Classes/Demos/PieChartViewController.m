@@ -78,6 +78,7 @@
     _chartView.drawHoleEnabled = YES;
     _chartView.rotationAngle = 0.0;
     _chartView.rotationEnabled = YES;
+    _chartView.highlightPerTapEnabled = YES;
     
     ChartLegend *l = _chartView.legend;
     l.position = ChartLegendPositionRightOfChart;

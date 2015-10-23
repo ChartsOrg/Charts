@@ -746,6 +746,8 @@ public class PieRadarChartViewBase: ChartViewBase
     {
         if (recognizer.state == UIGestureRecognizerState.Ended)
         {
+            if !self.isHighLightPerTapEnabled { return }
+            
             let location = recognizer.locationInView(self)
             let distance = distanceToCenter(x: location.x, y: location.y)
             

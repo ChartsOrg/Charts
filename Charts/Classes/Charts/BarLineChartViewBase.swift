@@ -621,6 +621,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         if (recognizer.state == UIGestureRecognizerState.Ended)
         {
+            if !self.isHighLightPerTapEnabled { return }
+            
             let h = getHighlightByTouchPoint(recognizer.locationInView(self))
             
             if (h === nil || h!.isEqual(self.lastHighlighted))
