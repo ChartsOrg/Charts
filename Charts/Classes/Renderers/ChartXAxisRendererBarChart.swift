@@ -83,16 +83,19 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
                     {
                         let width = label!.sizeWithAttributes(labelAttrs).width
                         
-                        if (width > viewPortHandler.offsetRight * 2.0
-                            && position.x + width > viewPortHandler.chartWidth)
+                        if (position.x + width / 2.0 > viewPortHandler.contentRight)
                         {
-                            position.x -= width / 2.0
+                            position.x = viewPortHandler.contentRight - (width / 2.0)
                         }
                     }
                     else if (i == 0)
                     { // avoid clipping of the first
                         let width = label!.sizeWithAttributes(labelAttrs).width
-                        position.x += width / 2.0
+                        
+                        if (position.x - width / 2.0 < viewPortHandler.contentLeft)
+                        {
+                            position.x = viewPortHandler.contentLeft + (width / 2.0)
+                        }
                     }
                 }
                 
