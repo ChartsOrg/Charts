@@ -379,7 +379,16 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
         setNeedsDisplay()
     }
     
-    /// Highlights the value at the given x-index in the given DataSet. 
+    
+    /// Highlights the values represented by the provided Highlight object
+    /// This DOES NOT generate a callback to the delegate.
+    /// - parameter highlight: contains information about which entry should be highlighted
+    public func highlightValue(highlight: ChartHighlight?)
+    {
+        highlightValue(highlight: highlight, callDelegate: false)
+    }
+    
+    /// Highlights the value at the given x-index in the given DataSet.
     /// Provide -1 as the x-index to undo all highlighting.
     public func highlightValue(xIndex xIndex: Int, dataSetIndex: Int, callDelegate: Bool)
     {
