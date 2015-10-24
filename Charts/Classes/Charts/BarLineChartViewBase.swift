@@ -928,8 +928,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         if (gestureRecognizer == _panGestureRecognizer)
         {
-            if (_dataNotSet || !_dragEnabled || self.hasNoDragOffset ||
-                (self.isFullyZoomedOut && !self.isHighlightPerDragEnabled))
+            if (_dataNotSet || !_dragEnabled ||
+                (self.isFullyZoomedOut && self.hasNoDragOffset && !self.isHighlightPerDragEnabled))
             {
                 return false
             }
