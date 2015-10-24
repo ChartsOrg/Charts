@@ -39,7 +39,8 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
         }
     }
     
-    private var _shadowPoints = [CGPoint](count: 2, repeatedValue: CGPoint())
+    private var _upperShadowPoints = [CGPoint](count: 2, repeatedValue: CGPoint())
+    private var _lowerShadowPoints = [CGPoint](count: 2, repeatedValue: CGPoint())
     private var _bodyRect = CGRect()
     private var _lineSegments = [CGPoint](count: 2, repeatedValue: CGPoint())
     
@@ -70,16 +71,29 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                 continue
             }
             
-            // calculate the shadow
+            // calculate the shadows
+            _upperShadowPoints[0].x = CGFloat(e.xIndex)
+            _upperShadowPoints[1].x = CGFloat(e.xIndex)
+            _lowerShadowPoints[0].x = CGFloat(e.xIndex)
+            _lowerShadowPoints[1].x = CGFloat(e.xIndex)
             
-            _shadowPoints[0].x = CGFloat(e.xIndex)
-            _shadowPoints[0].y = CGFloat(e.high) * phaseY
-            _shadowPoints[1].x = CGFloat(e.xIndex)
-            _shadowPoints[1].y = CGFloat(e.low) * phaseY
+            if (e.open > e.close) {
+                _upperShadowPoints[0].y = CGFloat(e.high) * phaseY
+                _upperShadowPoints[1].y = CGFloat(e.open) * phaseY
+                _lowerShadowPoints[0].y = CGFloat(e.low) * phaseY
+                _lowerShadowPoints[1].y = CGFloat(e.close) * phaseY
+            } else if (e.open < e.close) {
+                _upperShadowPoints[0].y = CGFloat(e.high) * phaseY
+                _upperShadowPoints[1].y = CGFloat(e.close) * phaseY
+                _lowerShadowPoints[0].y = CGFloat(e.low) * phaseY
+                _lowerShadowPoints[1].y = CGFloat(e.open) * phaseY
+            }
             
-            trans.pointValuesToPixel(&_shadowPoints)
             
-            // draw the shadow
+            trans.pointValuesToPixel(&_upperShadowPoints)
+            trans.pointValuesToPixel(&_lowerShadowPoints)
+            
+            // draw the shadows
             
             var shadowColor: UIColor! = nil
             if (dataSet.shadowColorSameAsCandle)
@@ -100,8 +114,9 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
             }
             
             CGContextSetStrokeColorWithColor(context, shadowColor.CGColor)
-            CGContextStrokeLineSegments(context, _shadowPoints, 2)
-            
+
+            CGContextStrokeLineSegments(context, _upperShadowPoints, 2)
+            CGContextStrokeLineSegments(context, _lowerShadowPoints, 2)
             // calculate the body
             
             _bodyRect.origin.x = CGFloat(e.xIndex) - 0.5 + bodySpace
