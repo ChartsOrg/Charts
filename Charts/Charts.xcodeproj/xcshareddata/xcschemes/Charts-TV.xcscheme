@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A52C5C361BAC5CA400594CDD"
-               BuildableName = "ChartsTV.framework"
-               BlueprintName = "ChartsTV"
+               BuildableName = "Charts.framework"
+               BlueprintName = "Charts-TV"
                ReferencedContainer = "container:Charts.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,8 +46,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A52C5C361BAC5CA400594CDD"
-            BuildableName = "ChartsTV.framework"
-            BlueprintName = "ChartsTV"
+            BuildableName = "Charts.framework"
+            BlueprintName = "Charts-TV"
             ReferencedContainer = "container:Charts.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,8 +64,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A52C5C361BAC5CA400594CDD"
-            BuildableName = "ChartsTV.framework"
-            BlueprintName = "ChartsTV"
+            BuildableName = "Charts.framework"
+            BlueprintName = "Charts-TV"
             ReferencedContainer = "container:Charts.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
