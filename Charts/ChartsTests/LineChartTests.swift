@@ -2,12 +2,14 @@ import XCTest
 import FBSnapshotTestCase
 @testable import Charts
 
-class LineChartTests: FBSnapshotTestCase {
+class LineChartTests: FBSnapshotTestCase
+{
     
     var chart: LineChartView!
     var dataSet: LineChartDataSet!
     
-    override func setUp() {
+    override func setUp()
+    {
         super.setUp()
         
         // Sample data
@@ -18,7 +20,8 @@ class LineChartTests: FBSnapshotTestCase {
         var entries: [ChartDataEntry] = Array()
         var xValues: [String] = Array()
         
-        for (i, value) in values.enumerate() {
+        for (i, value) in values.enumerate()
+        {
             entries.append(ChartDataEntry.init(value: value, xIndex: i))
             xValues.append("\(i)")
         }
@@ -29,31 +32,37 @@ class LineChartTests: FBSnapshotTestCase {
         chart.data = LineChartData(xVals: xValues, dataSet: dataSet)
     }
     
-    override func tearDown() {
+    override func tearDown()
+    {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
     
-    func testDefaultValues() {
+    func testDefaultValues()
+    {
         FBSnapshotVerifyView(chart)
     }
     
-    func testHidesValues() {
+    func testHidesValues()
+    {
         dataSet.drawValuesEnabled = false
         FBSnapshotVerifyView(chart)
     }
     
-    func testDoesntDrawCircles() {
+    func testDoesntDrawCircles()
+    {
         dataSet.drawCirclesEnabled = false
         FBSnapshotVerifyView(chart)
     }
     
-    func testIsCubic() {
+    func testIsCubic()
+    {
         dataSet.drawCubicEnabled = true
         FBSnapshotVerifyView(chart)
     }
     
-    func testDoesntDrawCircleHole() {
+    func testDoesntDrawCircleHole()
+    {
         dataSet.drawCircleHoleEnabled = false
         FBSnapshotVerifyView(chart)
     }
