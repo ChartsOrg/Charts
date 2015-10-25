@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06AEE7A71BDC3F8B009875AE /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BA8EC401A9D14DC00CE82E1 /* Charts.framework */; };
+		06AEE7AE1BDC3FC6009875AE /* LineChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AEE7AD1BDC3FC6009875AE /* LineChartTests.swift */; };
+		06AEE7C21BDC4277009875AE /* FBSnapshotTestCase.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 06AEE7C11BDC4277009875AE /* FBSnapshotTestCase.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5597263B1BDABBDB00E05E59 /* Charts.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B680D3C1A9D1AD90026A057 /* Charts.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5597263C1BDABC0500E05E59 /* ChartDefaultXAxisValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6654D51BB0A86F00890030 /* ChartDefaultXAxisValueFormatter.swift */; };
 		5597263D1BDABC0500E05E59 /* ChartFillFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6654D61BB0A86F00890030 /* ChartFillFormatter.swift */; };
@@ -193,7 +196,34 @@
 		A52C5C8F1BAC5D1200594CDD /* ChartViewPortHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8F06C1AB897D500566E05 /* ChartViewPortHandler.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		06AEE7A81BDC3F8B009875AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5BA8EC371A9D14DC00CE82E1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5BA8EC3F1A9D14DC00CE82E1;
+			remoteInfo = "Charts-iOS";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		06AEE7BE1BDC41D0009875AE /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				06AEE7C21BDC4277009875AE /* FBSnapshotTestCase.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		06AEE7A21BDC3F8B009875AE /* ChartsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChartsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		06AEE7A61BDC3F8B009875AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		06AEE7AD1BDC3FC6009875AE /* LineChartTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartTests.swift; sourceTree = "<group>"; };
+		06AEE7C11BDC4277009875AE /* FBSnapshotTestCase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSnapshotTestCase.framework; path = Carthage/Build/iOS/FBSnapshotTestCase.framework; sourceTree = "<group>"; };
 		55E356521ADC63BF00A57971 /* BubbleChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleChartView.swift; sourceTree = "<group>"; };
 		55E356541ADC63CD00A57971 /* BubbleChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleChartData.swift; sourceTree = "<group>"; };
 		55E356551ADC63CD00A57971 /* BubbleChartDataEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleChartDataEntry.swift; sourceTree = "<group>"; };
@@ -292,6 +322,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		06AEE79F1BDC3F8B009875AE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06AEE7A71BDC3F8B009875AE /* Charts.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5BA8EC3C1A9D14DC00CE82E1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -309,6 +347,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		06AEE7A31BDC3F8B009875AE /* ChartsTests */ = {
+			isa = PBXGroup;
+			children = (
+				06AEE7AD1BDC3FC6009875AE /* LineChartTests.swift */,
+				06AEE7A61BDC3F8B009875AE /* Info.plist */,
+			);
+			path = ChartsTests;
+			sourceTree = "<group>";
+		};
+		06AEE7C31BDC427F009875AE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				06AEE7C11BDC4277009875AE /* FBSnapshotTestCase.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5B0032431B65247600B6A2FE /* Highlight */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,7 +428,9 @@
 			isa = PBXGroup;
 			children = (
 				5BA8EC651A9D151C00CE82E1 /* Classes */,
+				06AEE7A31BDC3F8B009875AE /* ChartsTests */,
 				5BA8EC431A9D14DC00CE82E1 /* Supporting Files */,
+				06AEE7C31BDC427F009875AE /* Frameworks */,
 				5BA8EC411A9D14DC00CE82E1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -383,6 +440,7 @@
 			children = (
 				5BA8EC401A9D14DC00CE82E1 /* Charts.framework */,
 				A52C5C371BAC5CA400594CDD /* Charts.framework */,
+				06AEE7A21BDC3F8B009875AE /* ChartsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -536,6 +594,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		06AEE7A11BDC3F8B009875AE /* ChartsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 06AEE7AA1BDC3F8B009875AE /* Build configuration list for PBXNativeTarget "ChartsTests" */;
+			buildPhases = (
+				06AEE79E1BDC3F8B009875AE /* Sources */,
+				06AEE79F1BDC3F8B009875AE /* Frameworks */,
+				06AEE7A01BDC3F8B009875AE /* Resources */,
+				06AEE7BE1BDC41D0009875AE /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				06AEE7A91BDC3F8B009875AE /* PBXTargetDependency */,
+			);
+			name = ChartsTests;
+			productName = ChartsTests;
+			productReference = 06AEE7A21BDC3F8B009875AE /* ChartsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		5BA8EC3F1A9D14DC00CE82E1 /* Charts-iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5BA8EC561A9D14DC00CE82E1 /* Build configuration list for PBXNativeTarget "Charts-iOS" */;
@@ -579,10 +656,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftMigration = 0700;
-				LastSwiftUpdateCheck = 0700;
+				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = dcg;
 				TargetAttributes = {
+					06AEE7A11BDC3F8B009875AE = {
+						CreatedOnToolsVersion = 7.1;
+					};
 					5BA8EC3F1A9D14DC00CE82E1 = {
 						CreatedOnToolsVersion = 6.1.1;
 					};
@@ -605,11 +685,19 @@
 			targets = (
 				5BA8EC3F1A9D14DC00CE82E1 /* Charts-iOS */,
 				A52C5C361BAC5CA400594CDD /* Charts-TV */,
+				06AEE7A11BDC3F8B009875AE /* ChartsTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		06AEE7A01BDC3F8B009875AE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5BA8EC3E1A9D14DC00CE82E1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -627,6 +715,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		06AEE79E1BDC3F8B009875AE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06AEE7AE1BDC3FC6009875AE /* LineChartTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5BA8EC3B1A9D14DC00CE82E1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -825,7 +921,52 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		06AEE7A91BDC3F8B009875AE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5BA8EC3F1A9D14DC00CE82E1 /* Charts-iOS */;
+			targetProxy = 06AEE7A81BDC3F8B009875AE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		06AEE7AB1BDC3F8B009875AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = ChartsTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pierremarcairoldi.ChartsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		06AEE7AC1BDC3F8B009875AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = ChartsTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pierremarcairoldi.ChartsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		5BA8EC541A9D14DC00CE82E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -990,6 +1131,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		06AEE7AA1BDC3F8B009875AE /* Build configuration list for PBXNativeTarget "ChartsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06AEE7AB1BDC3F8B009875AE /* Debug */,
+				06AEE7AC1BDC3F8B009875AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		5BA8EC3A1A9D14DC00CE82E1 /* Build configuration list for PBXProject "Charts" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
