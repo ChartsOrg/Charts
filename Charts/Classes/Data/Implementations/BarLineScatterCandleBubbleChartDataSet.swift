@@ -14,14 +14,18 @@
 import Foundation
 import UIKit
 
-public class BarLineScatterCandleBubbleChartDataSet: ChartDataSet
+public class BarLineScatterCandleBubbleChartDataSet: ChartDataSet, IBarLineScatterCandleBubbleChartDataSet
 {
+    // MARK: - Data functions and accessors
+    
+    // MARK: - Styling functions and accessors
+    
     public var highlightColor = UIColor(red: 255.0/255.0, green: 187.0/255.0, blue: 115.0/255.0, alpha: 1.0)
     public var highlightLineWidth = CGFloat(0.5)
     public var highlightLineDashPhase = CGFloat(0.0)
     public var highlightLineDashLengths: [CGFloat]?
     
-    // MARK: NSCopying
+    // MARK: - NSCopying
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {

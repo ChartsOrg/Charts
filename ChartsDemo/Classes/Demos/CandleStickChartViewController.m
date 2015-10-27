@@ -124,7 +124,7 @@
 {
     if ([key isEqualToString:@"toggleValues"])
     {
-        for (ChartDataSet *set in _chartView.data.dataSets)
+        for (id<IChartDataSet> set in _chartView.data.dataSets)
         {
             set.drawValuesEnabled = !set.isDrawValuesEnabled;
         }
@@ -134,7 +134,7 @@
     
     if ([key isEqualToString:@"toggleFilled"])
     {
-        for (LineChartDataSet *set in _chartView.data.dataSets)
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
             set.drawFilledEnabled = !set.isDrawFilledEnabled;
         }
@@ -144,7 +144,7 @@
     
     if ([key isEqualToString:@"toggleCircles"])
     {
-        for (LineChartDataSet *set in _chartView.data.dataSets)
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
             set.drawCirclesEnabled = !set.isDrawCirclesEnabled;
         }
@@ -154,7 +154,7 @@
     
     if ([key isEqualToString:@"toggleCubic"])
     {
-        for (LineChartDataSet *set in _chartView.data.dataSets)
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
             set.drawCubicEnabled = !set.isDrawCubicEnabled;
         }
@@ -211,7 +211,7 @@
     
     if ([key isEqualToString:@"toggleShadowColorSameAsCandle"])
     {
-        for (CandleChartDataSet *set in _chartView.data.dataSets)
+        for (id<ICandleChartDataSet> set in _chartView.data.dataSets)
         {
             set.shadowColorSameAsCandle = !set.shadowColorSameAsCandle;
         }

@@ -20,12 +20,12 @@ public class PieChartData: ChartData
         super.init()
     }
     
-    public override init(xVals: [String?]?, dataSets: [ChartDataSet]?)
+    public override init(xVals: [String?]?, dataSets: [IChartDataSet]?)
     {
         super.init(xVals: xVals, dataSets: dataSets)
     }
 
-    public override init(xVals: [NSObject]?, dataSets: [ChartDataSet]?)
+    public override init(xVals: [NSObject]?, dataSets: [IChartDataSet]?)
     {
         super.init(xVals: xVals, dataSets: dataSets)
     }
@@ -49,7 +49,7 @@ public class PieChartData: ChartData
         }
     }
     
-    public override func getDataSetByIndex(index: Int) -> ChartDataSet?
+    public override func getDataSetByIndex(index: Int) -> IChartDataSet?
     {
         if (index != 0)
         {
@@ -58,7 +58,7 @@ public class PieChartData: ChartData
         return super.getDataSetByIndex(index)
     }
     
-    public override func getDataSetByLabel(label: String, ignorecase: Bool) -> ChartDataSet?
+    public override func getDataSetByLabel(label: String, ignorecase: Bool) -> IChartDataSet?
     {
         if (dataSets.count == 0 || dataSets[0].label == nil)
         {

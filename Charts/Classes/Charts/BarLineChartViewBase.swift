@@ -602,7 +602,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     private var _isDragging = false
     private var _isScaling = false
     private var _gestureScaleAxis = GestureScaleAxis.Both
-    private var _closestDataSetToTouch: ChartDataSet!
+    private var _closestDataSetToTouch: IChartDataSet!
     private var _panGestureReachedEdge: Bool = false
     private weak var _outerScrollView: UIScrollView?
     
@@ -1437,12 +1437,12 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     }
     
     /// - returns: the DataSet object displayed at the touched position of the chart
-    public func getDataSetByTouchPoint(pt: CGPoint) -> BarLineScatterCandleBubbleChartDataSet!
+    public func getDataSetByTouchPoint(pt: CGPoint) -> IBarLineScatterCandleBubbleChartDataSet!
     {
         let h = getHighlightByTouchPoint(pt)
         if (h !== nil)
         {
-            return _data.getDataSetByIndex(h!.dataSetIndex) as! BarLineScatterCandleBubbleChartDataSet!
+            return _data.getDataSetByIndex(h!.dataSetIndex) as! IBarLineScatterCandleBubbleChartDataSet!
         }
         return nil
     }
@@ -1727,7 +1727,7 @@ internal class BarLineChartFillFormatter: NSObject, ChartFillFormatter
     {
     }
     
-    internal func getFillLinePosition(dataSet dataSet: LineChartDataSet, dataProvider: LineChartDataProvider) -> CGFloat
+    internal func getFillLinePosition(dataSet dataSet: ILineChartDataSet, dataProvider: LineChartDataProvider) -> CGFloat
     {
         var fillMin = CGFloat(0.0)
         

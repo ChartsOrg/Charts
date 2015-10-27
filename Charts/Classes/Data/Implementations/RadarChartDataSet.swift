@@ -15,7 +15,7 @@
 import Foundation
 import UIKit
 
-public class RadarChartDataSet: LineRadarChartDataSet
+public class RadarChartDataSet: LineRadarChartDataSet, IRadarChartDataSet
 {
     public required init()
     {
@@ -30,4 +30,8 @@ public class RadarChartDataSet: LineRadarChartDataSet
         
         self.valueFont = UIFont.systemFontOfSize(13.0)
     }
+    
+    // MARK: - Data functions and accessors
+    
+    // MARK: - Styling functions and accessors
 }

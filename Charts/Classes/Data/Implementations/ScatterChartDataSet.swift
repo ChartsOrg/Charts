@@ -14,7 +14,7 @@
 import Foundation
 import CoreGraphics
 
-public class ScatterChartDataSet: LineScatterCandleChartDataSet
+public class ScatterChartDataSet: LineScatterCandleChartDataSet, IScatterChartDataSet
 {
     @objc
     public enum ScatterShape: Int
@@ -27,9 +27,9 @@ public class ScatterChartDataSet: LineScatterCandleChartDataSet
     }
     
     public var scatterShapeSize = CGFloat(15.0)
-    public var scatterShape = ScatterShape.Square
+    public var scatterShape = ScatterChartDataSet.ScatterShape.Square
     public var customScatterShape: CGPath?
-
+    
     // MARK: NSCopying
     
     public override func copyWithZone(zone: NSZone) -> AnyObject

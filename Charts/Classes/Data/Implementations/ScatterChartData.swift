@@ -20,12 +20,12 @@ public class ScatterChartData: BarLineScatterCandleBubbleChartData
         super.init()
     }
     
-    public override init(xVals: [String?]?, dataSets: [ChartDataSet]?)
+    public override init(xVals: [String?]?, dataSets: [IChartDataSet]?)
     {
         super.init(xVals: xVals, dataSets: dataSets)
     }
     
-    public override init(xVals: [NSObject]?, dataSets: [ChartDataSet]?)
+    public override init(xVals: [NSObject]?, dataSets: [IChartDataSet]?)
     {
         super.init(xVals: xVals, dataSets: dataSets)
     }
@@ -37,7 +37,7 @@ public class ScatterChartData: BarLineScatterCandleBubbleChartData
         
         for set in _dataSets
         {
-            let scatterDataSet = set as? ScatterChartDataSet
+            let scatterDataSet = set as? IScatterChartDataSet
             
             if (scatterDataSet == nil)
             {

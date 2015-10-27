@@ -16,13 +16,8 @@ import Foundation
 import CoreGraphics
 import UIKit
 
-public class PieChartDataSet: ChartDataSet
+public class PieChartDataSet: ChartDataSet, IPieChartDataSet
 {
-    private var _sliceSpace = CGFloat(0.0)
-    
-    /// indicates the selection distance of a pie slice
-    public var selectionShift = CGFloat(18.0)
-    
     public required init()
     {
         super.init()
@@ -38,6 +33,12 @@ public class PieChartDataSet: ChartDataSet
         self.valueTextColor = UIColor.whiteColor()
         self.valueFont = UIFont.systemFontOfSize(13.0)
     }
+    
+    // MARK: - Data functions and accessors
+
+    // MARK: - Styling functions and accessors
+    
+    private var _sliceSpace = CGFloat(0.0)
     
     /// the space that is left out between the piechart-slices, default: 0°
     /// --> no space, maximum 45, minimum 0 (no space)
@@ -61,7 +62,10 @@ public class PieChartDataSet: ChartDataSet
         }
     }
     
-    // MARK: NSCopying
+    /// indicates the selection distance of a pie slice
+    public var selectionShift = CGFloat(18.0)
+    
+    // MARK: - NSCopying
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {

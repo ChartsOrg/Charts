@@ -36,12 +36,12 @@ public class BarChartRenderer: ChartDataRendererBase
             
             if set !== nil && set!.isVisible && set.entryCount > 0
             {
-                drawDataSet(context: context, dataSet: set as! BarChartDataSet, index: i)
+                drawDataSet(context: context, dataSet: set as! IBarChartDataSet, index: i)
             }
         }
     }
     
-    internal func drawDataSet(context context: CGContext, dataSet: BarChartDataSet, index: Int)
+    internal func drawDataSet(context context: CGContext, dataSet: IBarChartDataSet, index: Int)
     {
         guard let dataProvider = dataProvider, barData = dataProvider.barData else { return }
         
@@ -57,7 +57,6 @@ public class BarChartRenderer: ChartDataRendererBase
         let barSpaceHalf = barSpace / 2.0
         let containsStacks = dataSet.isStacked
         let isInverted = dataProvider.isInverted(dataSet.axisDependency)
-        var entries = dataSet.yVals as! [BarChartDataEntry]
         let barWidth: CGFloat = 0.5
         let phaseY = _animator.phaseY
         var barRect = CGRect()
@@ -67,7 +66,7 @@ public class BarChartRenderer: ChartDataRendererBase
         // do the drawing
         for (var j = 0, count = Int(ceil(CGFloat(dataSet.entryCount) * _animator.phaseX)); j < count; j++)
         {
-            let e = entries[j]
+            guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
             
             // calculate the x-position, depending on datasetcount
             let x = CGFloat(e.xIndex + e.xIndex * dataSetOffset) + CGFloat(index)
@@ -265,9 +264,9 @@ public class BarChartRenderer: ChartDataRendererBase
             var posOffset: CGFloat
             var negOffset: CGFloat
             
-            for (var i = 0, count = barData.dataSetCount; i < count; i++)
+            for (var dataSetIndex = 0, count = barData.dataSetCount; dataSetIndex < count; dataSetIndex++)
             {
-                let dataSet = dataSets[i] as! BarChartDataSet
+                let dataSet = dataSets[dataSetIndex] as! IBarChartDataSet
                 
                 if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
                 {
@@ -295,32 +294,36 @@ public class BarChartRenderer: ChartDataRendererBase
                 
                 let trans = dataProvider.getTransformer(dataSet.axisDependency)
                 
-                var entries = dataSet.yVals as! [BarChartDataEntry]
-                
-                var valuePoints = getTransformedValues(trans: trans, entries: entries, dataSetIndex: i)
+                let phaseY = _animator.phaseY
+                let dataSetCount = barData.dataSetCount
+                let groupSpace = barData.groupSpace
                 
                 // if only single values are drawn (sum)
                 if (!dataSet.isStacked)
                 {
-                    for (var j = 0, count = Int(ceil(CGFloat(valuePoints.count) * _animator.phaseX)); j < count; j++)
+                    for (var j = 0, count = Int(ceil(CGFloat(dataSet.entryCount) * _animator.phaseX)); j < count; j++)
                     {
-                        if (!viewPortHandler.isInBoundsRight(valuePoints[j].x))
+                        guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
+                        
+                        let valuePoint = trans.getTransformedValueBarChart(entry: e, xIndex: e.xIndex, dataSetIndex: dataSetIndex, phaseY: phaseY, dataSetCount: dataSetCount, groupSpace: groupSpace)
+                        
+                        if (!viewPortHandler.isInBoundsRight(valuePoint.x))
                         {
                             break
                         }
                         
-                        if (!viewPortHandler.isInBoundsY(valuePoints[j].y)
-                            || !viewPortHandler.isInBoundsLeft(valuePoints[j].x))
+                        if (!viewPortHandler.isInBoundsY(valuePoint.y)
+                            || !viewPortHandler.isInBoundsLeft(valuePoint.x))
                         {
                             continue
                         }
                         
-                        let val = entries[j].value
+                        let val = e.value
                     
                         drawValue(context: context,
                             value: formatter!.stringFromNumber(val)!,
-                            xPos: valuePoints[j].x,
-                            yPos: valuePoints[j].y + (val >= 0.0 ? posOffset : negOffset),
+                            xPos: valuePoint.x,
+                            yPos: valuePoint.y + (val >= 0.0 ? posOffset : negOffset),
                             font: valueFont,
                             align: .Center,
                             color: valueTextColor)
@@ -330,30 +333,32 @@ public class BarChartRenderer: ChartDataRendererBase
                 {
                     // if we have stacks
                     
-                    for (var j = 0, count = Int(ceil(CGFloat(valuePoints.count) * _animator.phaseX)); j < count; j++)
+                    for (var j = 0, count = Int(ceil(CGFloat(dataSet.entryCount) * _animator.phaseX)); j < count; j++)
                     {
-                        let e = entries[j]
+                        guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
                         
                         let values = e.values
+                        
+                        let valuePoint = trans.getTransformedValueBarChart(entry: e, xIndex: e.xIndex, dataSetIndex: dataSetIndex, phaseY: phaseY, dataSetCount: dataSetCount, groupSpace: groupSpace)
                         
                         // we still draw stacked bars, but there is one non-stacked in between
                         if (values == nil)
                         {
-                            if (!viewPortHandler.isInBoundsRight(valuePoints[j].x))
+                            if (!viewPortHandler.isInBoundsRight(valuePoint.x))
                             {
                                 break
                             }
                             
-                            if (!viewPortHandler.isInBoundsY(valuePoints[j].y)
-                                || !viewPortHandler.isInBoundsLeft(valuePoints[j].x))
+                            if (!viewPortHandler.isInBoundsY(valuePoint.y)
+                                || !viewPortHandler.isInBoundsLeft(valuePoint.x))
                             {
                                 continue
                             }
                             
                             drawValue(context: context,
                                 value: formatter!.stringFromNumber(e.value)!,
-                                xPos: valuePoints[j].x,
-                                yPos: valuePoints[j].y + (e.value >= 0.0 ? posOffset : negOffset),
+                                xPos: valuePoint.x,
+                                yPos: valuePoint.y + (e.value >= 0.0 ? posOffset : negOffset),
                                 font: valueFont,
                                 align: .Center,
                                 color: valueTextColor)
@@ -391,7 +396,7 @@ public class BarChartRenderer: ChartDataRendererBase
                             
                             for (var k = 0; k < transformed.count; k++)
                             {
-                                let x = valuePoints[j].x
+                                let x = valuePoint.x
                                 let y = transformed[k].y + (vals[k] >= 0 ? posOffset : negOffset)
                                 
                                 if (!viewPortHandler.isInBoundsRight(x))
@@ -448,7 +453,7 @@ public class BarChartRenderer: ChartDataRendererBase
             let index = h.xIndex
             
             let dataSetIndex = h.dataSetIndex
-            let set = barData.getDataSetByIndex(dataSetIndex) as! BarChartDataSet!
+            let set = barData.getDataSetByIndex(dataSetIndex) as! IBarChartDataSet!
             
             if (set === nil || !set.isHighlightEnabled)
             {
@@ -536,11 +541,6 @@ public class BarChartRenderer: ChartDataRendererBase
         }
         
         CGContextRestoreGState(context)
-    }
-    
-    public func getTransformedValues(trans trans: ChartTransformer, entries: [BarChartDataEntry], dataSetIndex: Int) -> [CGPoint]
-    {
-        return trans.generateTransformedValuesBarChart(entries, dataSet: dataSetIndex, barData: dataProvider!.barData!, phaseY: _animator.phaseY)
     }
     
     internal func passesCheck() -> Bool

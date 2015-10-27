@@ -15,35 +15,8 @@ import Foundation
 import CoreGraphics
 import UIKit
 
-public class CandleChartDataSet: LineScatterCandleChartDataSet
+public class CandleChartDataSet: LineScatterCandleChartDataSet, ICandleChartDataSet
 {
-    /// the width of the candle-shadow-line in pixels. 
-    /// 
-    /// **default**: 3.0
-    public var shadowWidth = CGFloat(1.5)
-
-    /// the space between the candle entries
-    /// 
-    /// **default**: 0.1 (10%)
-    private var _bodySpace = CGFloat(0.1)
-    
-    /// the color of the shadow line
-    public var shadowColor: UIColor?
-    
-    /// use candle color for the shadow
-    public var shadowColorSameAsCandle = false
-    
-    /// color for open <= close
-    public var decreasingColor: UIColor?
-    
-    /// color for open > close
-    public var increasingColor: UIColor?
-    
-    /// Are decreasing values drawn as filled?
-    public var decreasingFilled = false
-    
-    /// Are increasing values drawn as filled?
-    public var increasingFilled = true
     
     public required init()
     {
@@ -55,7 +28,9 @@ public class CandleChartDataSet: LineScatterCandleChartDataSet
         super.init(yVals: yVals, label: label)
     }
     
-    internal override func calcMinMax(start start: Int, end: Int)
+    // MARK: - Data functions and accessors
+    
+    public override func calcMinMax(start start: Int, end: Int)
     {
         if (yVals.count == 0)
         {
@@ -96,7 +71,14 @@ public class CandleChartDataSet: LineScatterCandleChartDataSet
             }
         }
     }
-
+    
+    // MARK: - Styling functions and accessors
+    
+    /// the space between the candle entries
+    ///
+    /// **default**: 0.1 (10%)
+    private var _bodySpace = CGFloat(0.1)
+    
     /// the space that is left out on the left and right side of each candle,
     /// **default**: 0.1 (10%), max 0.45, min 0.0
     public var bodySpace: CGFloat
@@ -122,12 +104,35 @@ public class CandleChartDataSet: LineScatterCandleChartDataSet
         }
     }
     
+    /// the width of the candle-shadow-line in pixels.
+    ///
+    /// **default**: 3.0
+    public var shadowWidth = CGFloat(1.5)
+    
+    /// the color of the shadow line
+    public var shadowColor: UIColor?
+    
+    /// use candle color for the shadow
+    public var shadowColorSameAsCandle = false
+    
     /// Is the shadow color same as the candle color?
     public var isShadowColorSameAsCandle: Bool { return shadowColorSameAsCandle }
     
-    /// Are increasing values drawn as filled?
-    public var isIncreasingFilled: Bool { return increasingFilled; }
+    /// color for open <= close
+    public var decreasingColor: UIColor?
+    
+    /// color for open > close
+    public var increasingColor: UIColor?
     
     /// Are decreasing values drawn as filled?
-    public var isDecreasingFilled: Bool { return decreasingFilled; }
+    public var decreasingFilled = false
+    
+    /// Are decreasing values drawn as filled?
+    public var isDecreasingFilled: Bool { return decreasingFilled }
+    
+    /// Are increasing values drawn as filled?
+    public var increasingFilled = true
+    
+    /// Are increasing values drawn as filled?
+    public var isIncreasingFilled: Bool { return increasingFilled }
 }
