@@ -54,9 +54,17 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
     /// 1 is an invalid value, and will be converted to 0.999 automatically.
     private var _dragDecelerationFrictionCoef: CGFloat = 0.9
     
-    /// font object used for drawing the description text in the bottom right corner of the chart
+    /// Font object used for drawing the description text (by default in the bottom right corner of the chart)
     public var descriptionFont: UIFont? = UIFont(name: "HelveticaNeue", size: 9.0)
-    public var descriptionTextColor: UIColor! = UIColor.blackColor()
+    
+    /// Text color used for drawing the description text
+    public var descriptionTextColor: UIColor? = UIColor.blackColor()
+    
+    /// Text align used for drawing the description text
+    public var descriptionTextAlign: NSTextAlignment = NSTextAlignment.Right
+    
+    /// Custom position for the description text in pixels on the screen.
+    public var descriptionTextPosition: CGPoint? = nil
     
     /// font object for drawing the information text when there are no values in the chart
     public var infoFont: UIFont! = UIFont(name: "HelveticaNeue", size: 12.0)
@@ -342,7 +350,26 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
         attrs[NSFontAttributeName] = font
         attrs[NSForegroundColorAttributeName] = descriptionTextColor
 
-        ChartUtils.drawText(context: context, text: descriptionText, point: CGPoint(x: frame.width - _viewPortHandler.offsetRight - 10.0, y: frame.height - _viewPortHandler.offsetBottom - 10.0 - font!.lineHeight), align: .Right, attributes: attrs)
+        if descriptionTextPosition == nil
+        {
+            ChartUtils.drawText(
+                context: context,
+                text: descriptionText,
+                point: CGPoint(
+                    x: frame.width - _viewPortHandler.offsetRight - 10.0,
+                    y: frame.height - _viewPortHandler.offsetBottom - 10.0 - (font?.lineHeight ?? 0.0)),
+                align: descriptionTextAlign,
+                attributes: attrs)
+        }
+        else
+        {
+            ChartUtils.drawText(
+                context: context,
+                text: descriptionText,
+                point: descriptionTextPosition!,
+                align: descriptionTextAlign,
+                attributes: attrs)
+        }
     }
     
     // MARK: - Highlighting
@@ -673,6 +700,11 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
     {
         let bounds = self.bounds
         return CGPoint(x: bounds.origin.x + bounds.size.width / 2.0, y: bounds.origin.y + bounds.size.height / 2.0)
+    }
+    
+    public func setDescriptionTextPosition(x x: CGFloat, y y: CGFloat)
+    {
+        descriptionTextPosition = CGPoint(x: x, y: y)
     }
     
     /// - returns: the center of the chart taking offsets under consideration. (returns the center of the content rectangle)
