@@ -27,7 +27,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
     }
     
     /// draws the x-labels on the specified y-position
-    internal override func drawLabels(context context: CGContext, pos: CGFloat)
+    internal override func drawLabels(context context: CGContext, pos: CGFloat, anchor: CGPoint)
     {
         if (_chart.data === nil)
         {
@@ -40,6 +40,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
         let labelAttrs = [NSFontAttributeName: _xAxis.labelFont,
             NSForegroundColorAttributeName: _xAxis.labelTextColor,
             NSParagraphStyleAttributeName: paraStyle]
+        let labelRotationAngleRadians = _xAxis.labelRotationAngle * ChartUtils.Math.FDEG2RAD
         
         let barData = _chart.data as! BarChartData
         let step = barData.dataSetCount
@@ -99,7 +100,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
                     }
                 }
                 
-                drawLabel(context: context, label: label!, xIndex: i, x: position.x, y: pos, align: .Center, attributes: labelAttrs, constrainedToSize: labelMaxSize)
+                drawLabel(context: context, label: label!, xIndex: i, x: position.x, y: pos, attributes: labelAttrs, constrainedToSize: labelMaxSize, anchor: anchor, angleRadians: labelRotationAngleRadians)
             }
         }
     }

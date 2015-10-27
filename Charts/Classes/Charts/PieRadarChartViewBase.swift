@@ -219,7 +219,7 @@ public class PieRadarChartViewBase: ChartViewBase
             
             if x.isEnabled && x.drawLabelsEnabled
             {
-                minOffset = max(minOffset, x.labelWidth)
+                minOffset = max(minOffset, x.labelRotatedWidth)
             }
         }
 
