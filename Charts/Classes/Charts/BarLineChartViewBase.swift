@@ -448,7 +448,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
 
             if (xAxis.isEnabled && xAxis.isDrawLabelsEnabled)
             {
-                let xlabelheight = xAxis.labelHeight * 2.0
+                let xlabelheight = xAxis.labelRotatedHeight + xAxis.yOffset
                 
                 // offsets for x-labels
                 if (xAxis.labelPosition == .Bottom)
@@ -493,7 +493,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         if (!_xAxis.isAxisModulusCustom)
         {
-            _xAxis.axisLabelModulus = Int(ceil((CGFloat(_data.xValCount) * _xAxis.labelWidth) / (_viewPortHandler.contentWidth * _viewPortHandler.touchMatrix.a)))
+            _xAxis.axisLabelModulus = Int(ceil((CGFloat(_data.xValCount) * _xAxis.labelRotatedWidth) / (_viewPortHandler.contentWidth * _viewPortHandler.touchMatrix.a)))
         }
         
         if (_xAxis.axisLabelModulus < 1)

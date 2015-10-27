@@ -87,7 +87,7 @@ public class HorizontalBarChartView: BarChartView
             offsetBottom += _rightAxis.getRequiredHeightSpace()
         }
         
-        let xlabelwidth = _xAxis.labelWidth
+        let xlabelwidth = _xAxis.labelRotatedWidth
         
         if (_xAxis.isEnabled)
         {
@@ -130,7 +130,7 @@ public class HorizontalBarChartView: BarChartView
 
     internal override func calcModulus()
     {
-        _xAxis.axisLabelModulus = Int(ceil((CGFloat(_data.xValCount) * _xAxis.labelHeight) / (_viewPortHandler.contentHeight * viewPortHandler.touchMatrix.d)))
+        _xAxis.axisLabelModulus = Int(ceil((CGFloat(_data.xValCount) * _xAxis.labelRotatedHeight) / (_viewPortHandler.contentHeight * viewPortHandler.touchMatrix.d)))
         
         if (_xAxis.axisLabelModulus < 1)
         {
