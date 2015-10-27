@@ -12,6 +12,9 @@ class LineChartTests: FBSnapshotTestCase
     {
         super.setUp()
         
+        // Set to `true` to re-capture all snapshots
+        self.recordMode = false
+        
         // Sample data
         let values: [Double] = [8, 104, 81, 93, 52, 44, 97, 101, 75, 28,
             76, 25, 20, 13, 52, 44, 57, 23, 45, 91,
