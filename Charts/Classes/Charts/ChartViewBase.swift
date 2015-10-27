@@ -702,7 +702,7 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
         return CGPoint(x: bounds.origin.x + bounds.size.width / 2.0, y: bounds.origin.y + bounds.size.height / 2.0)
     }
     
-    public func setDescriptionTextPosition(x x: CGFloat, y y: CGFloat)
+    public func setDescriptionTextPosition(x x: CGFloat, y: CGFloat)
     {
         descriptionTextPosition = CGPoint(x: x, y: y)
     }
