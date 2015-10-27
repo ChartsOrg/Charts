@@ -23,9 +23,6 @@
 		559726451BDABC0500E05E59 /* LineChartDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD4C57A1BCDBF6C00462351 /* LineChartDataProvider.swift */; };
 		559726461BDABC0500E05E59 /* ScatterChartDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD4C57B1BCDBF6C00462351 /* ScatterChartDataProvider.swift */; };
 		55E356531ADC63BF00A57971 /* BubbleChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E356521ADC63BF00A57971 /* BubbleChartView.swift */; };
-		55E356571ADC63CD00A57971 /* BubbleChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E356541ADC63CD00A57971 /* BubbleChartData.swift */; };
-		55E356581ADC63CD00A57971 /* BubbleChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E356551ADC63CD00A57971 /* BubbleChartDataEntry.swift */; };
-		55E356591ADC63CD00A57971 /* BubbleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E356561ADC63CD00A57971 /* BubbleChartDataSet.swift */; };
 		55E3565B1ADC63EB00A57971 /* BubbleChartRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3565A1ADC63EB00A57971 /* BubbleChartRenderer.swift */; };
 		5B0032451B6524AD00B6A2FE /* ChartHighlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0032441B6524AD00B6A2FE /* ChartHighlight.swift */; };
 		5B0032471B6524D300B6A2FE /* ChartRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0032461B6524D300B6A2FE /* ChartRange.swift */; };
@@ -77,28 +74,6 @@
 		5B6A54A91AA66BBA000F57C2 /* RadarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54A81AA66BBA000F57C2 /* RadarChartView.swift */; };
 		5B6A54AB1AA66BC8000F57C2 /* ScatterChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54AA1AA66BC8000F57C2 /* ScatterChartView.swift */; };
 		5B6A54AC1AA66C1E000F57C2 /* ChartAxisRendererBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54711AA5DCA8000F57C2 /* ChartAxisRendererBase.swift */; };
-		5B6A54CC1AA74516000F57C2 /* BarChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54B71AA74516000F57C2 /* BarChartData.swift */; };
-		5B6A54CD1AA74516000F57C2 /* BarChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54B81AA74516000F57C2 /* BarChartDataEntry.swift */; };
-		5B6A54CE1AA74516000F57C2 /* BarChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54B91AA74516000F57C2 /* BarChartDataSet.swift */; };
-		5B6A54CF1AA74516000F57C2 /* BarLineScatterCandleBubbleChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54BA1AA74516000F57C2 /* BarLineScatterCandleBubbleChartData.swift */; };
-		5B6A54D01AA74516000F57C2 /* BarLineScatterCandleBubbleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54BB1AA74516000F57C2 /* BarLineScatterCandleBubbleChartDataSet.swift */; };
-		5B6A54D11AA74516000F57C2 /* CandleChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54BC1AA74516000F57C2 /* CandleChartData.swift */; };
-		5B6A54D21AA74516000F57C2 /* CandleChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54BD1AA74516000F57C2 /* CandleChartDataEntry.swift */; };
-		5B6A54D31AA74516000F57C2 /* CandleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54BE1AA74516000F57C2 /* CandleChartDataSet.swift */; };
-		5B6A54D41AA74516000F57C2 /* CombinedChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54BF1AA74516000F57C2 /* CombinedChartData.swift */; };
-		5B6A54D51AA74516000F57C2 /* ChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54C01AA74516000F57C2 /* ChartData.swift */; };
-		5B6A54D61AA74516000F57C2 /* ChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54C11AA74516000F57C2 /* ChartDataEntry.swift */; };
-		5B6A54D71AA74516000F57C2 /* ChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54C21AA74516000F57C2 /* ChartDataSet.swift */; };
-		5B6A54D81AA74516000F57C2 /* LineChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54C31AA74516000F57C2 /* LineChartData.swift */; };
-		5B6A54D91AA74516000F57C2 /* LineChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54C41AA74516000F57C2 /* LineChartDataSet.swift */; };
-		5B6A54DA1AA74516000F57C2 /* LineRadarChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54C51AA74516000F57C2 /* LineRadarChartDataSet.swift */; };
-		5B6A54DB1AA74516000F57C2 /* PieChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54C61AA74516000F57C2 /* PieChartData.swift */; };
-		5B6A54DC1AA74516000F57C2 /* PieChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54C71AA74516000F57C2 /* PieChartDataSet.swift */; };
-		5B6A54DD1AA74516000F57C2 /* RadarChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54C81AA74516000F57C2 /* RadarChartData.swift */; };
-		5B6A54DE1AA74516000F57C2 /* RadarChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54C91AA74516000F57C2 /* RadarChartDataSet.swift */; };
-		5B6A54DF1AA74516000F57C2 /* ScatterChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54CA1AA74516000F57C2 /* ScatterChartData.swift */; };
-		5B6A54E01AA74516000F57C2 /* ScatterChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54CB1AA74516000F57C2 /* ScatterChartDataSet.swift */; };
-		5B8FE2AF1B68F8F600910C9E /* LineScatterCandleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8FE2AE1B68F8F600910C9E /* LineScatterCandleChartDataSet.swift */; };
 		5B8FE2B11B68FFF900910C9E /* LineScatterCandleRadarChartRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8FE2B01B68FFF900910C9E /* LineScatterCandleRadarChartRenderer.swift */; };
 		5BA8EC7D1A9D151C00CE82E1 /* ChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8EC671A9D151C00CE82E1 /* ChartViewBase.swift */; };
 		5BA8EC881A9D151C00CE82E1 /* ChartDataApproximatorFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8EC751A9D151C00CE82E1 /* ChartDataApproximatorFilter.swift */; };
@@ -114,6 +89,56 @@
 		5BD4C5821BCDBF6C00462351 /* ScatterChartDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD4C57B1BCDBF6C00462351 /* ScatterChartDataProvider.swift */; };
 		5BD8F06D1AB897D500566E05 /* ChartViewPortHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8F06C1AB897D500566E05 /* ChartViewPortHandler.swift */; };
 		5BD8F06E1AB89AD800566E05 /* HorizontalBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54A01AA66B6A000F57C2 /* HorizontalBarChartView.swift */; };
+		652F554B1BDFE24B00898CFD /* BarChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55301BDFE24B00898CFD /* BarChartData.swift */; };
+		652F554C1BDFE24B00898CFD /* BarChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55301BDFE24B00898CFD /* BarChartData.swift */; };
+		652F554D1BDFE24B00898CFD /* BarChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55311BDFE24B00898CFD /* BarChartDataEntry.swift */; };
+		652F554E1BDFE24B00898CFD /* BarChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55311BDFE24B00898CFD /* BarChartDataEntry.swift */; };
+		652F554F1BDFE24B00898CFD /* BarChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55321BDFE24B00898CFD /* BarChartDataSet.swift */; };
+		652F55501BDFE24B00898CFD /* BarChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55321BDFE24B00898CFD /* BarChartDataSet.swift */; };
+		652F55511BDFE24B00898CFD /* BarLineScatterCandleBubbleChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55331BDFE24B00898CFD /* BarLineScatterCandleBubbleChartData.swift */; };
+		652F55521BDFE24B00898CFD /* BarLineScatterCandleBubbleChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55331BDFE24B00898CFD /* BarLineScatterCandleBubbleChartData.swift */; };
+		652F55531BDFE24B00898CFD /* BarLineScatterCandleBubbleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55341BDFE24B00898CFD /* BarLineScatterCandleBubbleChartDataSet.swift */; };
+		652F55541BDFE24B00898CFD /* BarLineScatterCandleBubbleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55341BDFE24B00898CFD /* BarLineScatterCandleBubbleChartDataSet.swift */; };
+		652F55551BDFE24B00898CFD /* BubbleChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55351BDFE24B00898CFD /* BubbleChartData.swift */; };
+		652F55561BDFE24B00898CFD /* BubbleChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55351BDFE24B00898CFD /* BubbleChartData.swift */; };
+		652F55571BDFE24B00898CFD /* BubbleChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55361BDFE24B00898CFD /* BubbleChartDataEntry.swift */; };
+		652F55581BDFE24B00898CFD /* BubbleChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55361BDFE24B00898CFD /* BubbleChartDataEntry.swift */; };
+		652F55591BDFE24B00898CFD /* BubbleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55371BDFE24B00898CFD /* BubbleChartDataSet.swift */; };
+		652F555A1BDFE24B00898CFD /* BubbleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55371BDFE24B00898CFD /* BubbleChartDataSet.swift */; };
+		652F555B1BDFE24B00898CFD /* CandleChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55381BDFE24B00898CFD /* CandleChartData.swift */; };
+		652F555C1BDFE24B00898CFD /* CandleChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55381BDFE24B00898CFD /* CandleChartData.swift */; };
+		652F555D1BDFE24B00898CFD /* CandleChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55391BDFE24B00898CFD /* CandleChartDataEntry.swift */; };
+		652F555E1BDFE24B00898CFD /* CandleChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55391BDFE24B00898CFD /* CandleChartDataEntry.swift */; };
+		652F555F1BDFE24B00898CFD /* CandleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F553A1BDFE24B00898CFD /* CandleChartDataSet.swift */; };
+		652F55601BDFE24B00898CFD /* CandleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F553A1BDFE24B00898CFD /* CandleChartDataSet.swift */; };
+		652F55611BDFE24B00898CFD /* ChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F553B1BDFE24B00898CFD /* ChartData.swift */; };
+		652F55621BDFE24B00898CFD /* ChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F553B1BDFE24B00898CFD /* ChartData.swift */; };
+		652F55631BDFE24B00898CFD /* ChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F553C1BDFE24B00898CFD /* ChartDataEntry.swift */; };
+		652F55641BDFE24B00898CFD /* ChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F553C1BDFE24B00898CFD /* ChartDataEntry.swift */; };
+		652F55651BDFE24B00898CFD /* ChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F553D1BDFE24B00898CFD /* ChartDataSet.swift */; };
+		652F55661BDFE24B00898CFD /* ChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F553D1BDFE24B00898CFD /* ChartDataSet.swift */; };
+		652F55671BDFE24B00898CFD /* CombinedChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F553E1BDFE24B00898CFD /* CombinedChartData.swift */; };
+		652F55681BDFE24B00898CFD /* CombinedChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F553E1BDFE24B00898CFD /* CombinedChartData.swift */; };
+		652F55691BDFE24B00898CFD /* LineChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F553F1BDFE24B00898CFD /* LineChartData.swift */; };
+		652F556A1BDFE24B00898CFD /* LineChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F553F1BDFE24B00898CFD /* LineChartData.swift */; };
+		652F556B1BDFE24B00898CFD /* LineChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55401BDFE24B00898CFD /* LineChartDataSet.swift */; };
+		652F556C1BDFE24B00898CFD /* LineChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55401BDFE24B00898CFD /* LineChartDataSet.swift */; };
+		652F556D1BDFE24B00898CFD /* LineRadarChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55411BDFE24B00898CFD /* LineRadarChartDataSet.swift */; };
+		652F556E1BDFE24B00898CFD /* LineRadarChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55411BDFE24B00898CFD /* LineRadarChartDataSet.swift */; };
+		652F556F1BDFE24B00898CFD /* LineScatterCandleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55421BDFE24B00898CFD /* LineScatterCandleChartDataSet.swift */; };
+		652F55701BDFE24B00898CFD /* LineScatterCandleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55421BDFE24B00898CFD /* LineScatterCandleChartDataSet.swift */; };
+		652F55711BDFE24B00898CFD /* PieChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55431BDFE24B00898CFD /* PieChartData.swift */; };
+		652F55721BDFE24B00898CFD /* PieChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55431BDFE24B00898CFD /* PieChartData.swift */; };
+		652F55731BDFE24B00898CFD /* PieChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55441BDFE24B00898CFD /* PieChartDataSet.swift */; };
+		652F55741BDFE24B00898CFD /* PieChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55441BDFE24B00898CFD /* PieChartDataSet.swift */; };
+		652F55751BDFE24B00898CFD /* RadarChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55451BDFE24B00898CFD /* RadarChartData.swift */; };
+		652F55761BDFE24B00898CFD /* RadarChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55451BDFE24B00898CFD /* RadarChartData.swift */; };
+		652F55771BDFE24B00898CFD /* RadarChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55461BDFE24B00898CFD /* RadarChartDataSet.swift */; };
+		652F55781BDFE24B00898CFD /* RadarChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55461BDFE24B00898CFD /* RadarChartDataSet.swift */; };
+		652F55791BDFE24B00898CFD /* ScatterChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55471BDFE24B00898CFD /* ScatterChartData.swift */; };
+		652F557A1BDFE24B00898CFD /* ScatterChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55471BDFE24B00898CFD /* ScatterChartData.swift */; };
+		652F557B1BDFE24B00898CFD /* ScatterChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55481BDFE24B00898CFD /* ScatterChartDataSet.swift */; };
+		652F557C1BDFE24B00898CFD /* ScatterChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55481BDFE24B00898CFD /* ScatterChartDataSet.swift */; };
 		A52C5C3F1BAC5D1100594CDD /* ChartAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A546D1AA5D2DC000F57C2 /* ChartAnimator.swift */; };
 		A52C5C401BAC5D1100594CDD /* ChartAnimationEasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B378F161AD500A4009414A4 /* ChartAnimationEasing.swift */; };
 		A52C5C411BAC5D1100594CDD /* BarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54981AA66B14000F57C2 /* BarChartView.swift */; };
@@ -135,31 +160,6 @@
 		A52C5C511BAC5D1100594CDD /* ChartMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A546A1AA5C23F000F57C2 /* ChartMarker.swift */; };
 		A52C5C521BAC5D1100594CDD /* ChartXAxis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8EC6D1A9D151C00CE82E1 /* ChartXAxis.swift */; };
 		A52C5C531BAC5D1100594CDD /* ChartYAxis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8EC6E1A9D151C00CE82E1 /* ChartYAxis.swift */; };
-		A52C5C541BAC5D1100594CDD /* BarChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54B71AA74516000F57C2 /* BarChartData.swift */; };
-		A52C5C551BAC5D1100594CDD /* BarChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54B81AA74516000F57C2 /* BarChartDataEntry.swift */; };
-		A52C5C561BAC5D1100594CDD /* BarChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54B91AA74516000F57C2 /* BarChartDataSet.swift */; };
-		A52C5C571BAC5D1100594CDD /* BarLineScatterCandleBubbleChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54BA1AA74516000F57C2 /* BarLineScatterCandleBubbleChartData.swift */; };
-		A52C5C581BAC5D1100594CDD /* BarLineScatterCandleBubbleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54BB1AA74516000F57C2 /* BarLineScatterCandleBubbleChartDataSet.swift */; };
-		A52C5C591BAC5D1100594CDD /* BubbleChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E356541ADC63CD00A57971 /* BubbleChartData.swift */; };
-		A52C5C5A1BAC5D1100594CDD /* BubbleChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E356551ADC63CD00A57971 /* BubbleChartDataEntry.swift */; };
-		A52C5C5B1BAC5D1100594CDD /* BubbleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E356561ADC63CD00A57971 /* BubbleChartDataSet.swift */; };
-		A52C5C5C1BAC5D1100594CDD /* CandleChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54BC1AA74516000F57C2 /* CandleChartData.swift */; };
-		A52C5C5D1BAC5D1100594CDD /* CandleChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54BD1AA74516000F57C2 /* CandleChartDataEntry.swift */; };
-		A52C5C5E1BAC5D1100594CDD /* CandleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54BE1AA74516000F57C2 /* CandleChartDataSet.swift */; };
-		A52C5C5F1BAC5D1100594CDD /* CombinedChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54BF1AA74516000F57C2 /* CombinedChartData.swift */; };
-		A52C5C601BAC5D1100594CDD /* ChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54C01AA74516000F57C2 /* ChartData.swift */; };
-		A52C5C611BAC5D1100594CDD /* ChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54C11AA74516000F57C2 /* ChartDataEntry.swift */; };
-		A52C5C621BAC5D1100594CDD /* ChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54C21AA74516000F57C2 /* ChartDataSet.swift */; };
-		A52C5C631BAC5D1100594CDD /* LineChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54C31AA74516000F57C2 /* LineChartData.swift */; };
-		A52C5C641BAC5D1100594CDD /* LineChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54C41AA74516000F57C2 /* LineChartDataSet.swift */; };
-		A52C5C651BAC5D1100594CDD /* LineRadarChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54C51AA74516000F57C2 /* LineRadarChartDataSet.swift */; };
-		A52C5C661BAC5D1100594CDD /* LineScatterCandleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8FE2AE1B68F8F600910C9E /* LineScatterCandleChartDataSet.swift */; };
-		A52C5C671BAC5D1100594CDD /* PieChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54C61AA74516000F57C2 /* PieChartData.swift */; };
-		A52C5C681BAC5D1100594CDD /* PieChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54C71AA74516000F57C2 /* PieChartDataSet.swift */; };
-		A52C5C691BAC5D1100594CDD /* RadarChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54C81AA74516000F57C2 /* RadarChartData.swift */; };
-		A52C5C6A1BAC5D1100594CDD /* RadarChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54C91AA74516000F57C2 /* RadarChartDataSet.swift */; };
-		A52C5C6B1BAC5D1100594CDD /* ScatterChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54CA1AA74516000F57C2 /* ScatterChartData.swift */; };
-		A52C5C6C1BAC5D1100594CDD /* ScatterChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54CB1AA74516000F57C2 /* ScatterChartDataSet.swift */; };
 		A52C5C6D1BAC5D1100594CDD /* ChartDataApproximatorFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8EC751A9D151C00CE82E1 /* ChartDataApproximatorFilter.swift */; };
 		A52C5C6E1BAC5D1100594CDD /* ChartDataBaseFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8EC761A9D151C00CE82E1 /* ChartDataBaseFilter.swift */; };
 		A52C5C6F1BAC5D1100594CDD /* ChartHighlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0032441B6524AD00B6A2FE /* ChartHighlight.swift */; };
@@ -226,9 +226,6 @@
 		06AEE7AD1BDC3FC6009875AE /* LineChartTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartTests.swift; sourceTree = "<group>"; };
 		06AEE7C11BDC4277009875AE /* FBSnapshotTestCase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSnapshotTestCase.framework; path = Carthage/Build/iOS/FBSnapshotTestCase.framework; sourceTree = "<group>"; };
 		55E356521ADC63BF00A57971 /* BubbleChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleChartView.swift; sourceTree = "<group>"; };
-		55E356541ADC63CD00A57971 /* BubbleChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleChartData.swift; sourceTree = "<group>"; };
-		55E356551ADC63CD00A57971 /* BubbleChartDataEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleChartDataEntry.swift; sourceTree = "<group>"; };
-		55E356561ADC63CD00A57971 /* BubbleChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleChartDataSet.swift; sourceTree = "<group>"; };
 		55E3565A1ADC63EB00A57971 /* BubbleChartRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleChartRenderer.swift; sourceTree = "<group>"; };
 		5B0032441B6524AD00B6A2FE /* ChartHighlight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartHighlight.swift; sourceTree = "<group>"; };
 		5B0032461B6524D300B6A2FE /* ChartRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartRange.swift; sourceTree = "<group>"; };
@@ -273,28 +270,6 @@
 		5B6A54A61AA66BA7000F57C2 /* PieRadarChartViewBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieRadarChartViewBase.swift; sourceTree = "<group>"; };
 		5B6A54A81AA66BBA000F57C2 /* RadarChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadarChartView.swift; sourceTree = "<group>"; };
 		5B6A54AA1AA66BC8000F57C2 /* ScatterChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScatterChartView.swift; sourceTree = "<group>"; };
-		5B6A54B71AA74516000F57C2 /* BarChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartData.swift; sourceTree = "<group>"; };
-		5B6A54B81AA74516000F57C2 /* BarChartDataEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartDataEntry.swift; sourceTree = "<group>"; };
-		5B6A54B91AA74516000F57C2 /* BarChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartDataSet.swift; sourceTree = "<group>"; };
-		5B6A54BA1AA74516000F57C2 /* BarLineScatterCandleBubbleChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarLineScatterCandleBubbleChartData.swift; sourceTree = "<group>"; };
-		5B6A54BB1AA74516000F57C2 /* BarLineScatterCandleBubbleChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarLineScatterCandleBubbleChartDataSet.swift; sourceTree = "<group>"; };
-		5B6A54BC1AA74516000F57C2 /* CandleChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CandleChartData.swift; sourceTree = "<group>"; };
-		5B6A54BD1AA74516000F57C2 /* CandleChartDataEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CandleChartDataEntry.swift; sourceTree = "<group>"; };
-		5B6A54BE1AA74516000F57C2 /* CandleChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CandleChartDataSet.swift; sourceTree = "<group>"; };
-		5B6A54BF1AA74516000F57C2 /* CombinedChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombinedChartData.swift; sourceTree = "<group>"; };
-		5B6A54C01AA74516000F57C2 /* ChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartData.swift; sourceTree = "<group>"; };
-		5B6A54C11AA74516000F57C2 /* ChartDataEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartDataEntry.swift; sourceTree = "<group>"; };
-		5B6A54C21AA74516000F57C2 /* ChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartDataSet.swift; sourceTree = "<group>"; };
-		5B6A54C31AA74516000F57C2 /* LineChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartData.swift; sourceTree = "<group>"; };
-		5B6A54C41AA74516000F57C2 /* LineChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartDataSet.swift; sourceTree = "<group>"; };
-		5B6A54C51AA74516000F57C2 /* LineRadarChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineRadarChartDataSet.swift; sourceTree = "<group>"; };
-		5B6A54C61AA74516000F57C2 /* PieChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartData.swift; sourceTree = "<group>"; };
-		5B6A54C71AA74516000F57C2 /* PieChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartDataSet.swift; sourceTree = "<group>"; };
-		5B6A54C81AA74516000F57C2 /* RadarChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadarChartData.swift; sourceTree = "<group>"; };
-		5B6A54C91AA74516000F57C2 /* RadarChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadarChartDataSet.swift; sourceTree = "<group>"; };
-		5B6A54CA1AA74516000F57C2 /* ScatterChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScatterChartData.swift; sourceTree = "<group>"; };
-		5B6A54CB1AA74516000F57C2 /* ScatterChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScatterChartDataSet.swift; sourceTree = "<group>"; };
-		5B8FE2AE1B68F8F600910C9E /* LineScatterCandleChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineScatterCandleChartDataSet.swift; sourceTree = "<group>"; };
 		5B8FE2B01B68FFF900910C9E /* LineScatterCandleRadarChartRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineScatterCandleRadarChartRenderer.swift; sourceTree = "<group>"; };
 		5BA8EC401A9D14DC00CE82E1 /* Charts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Charts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BA8EC441A9D14DC00CE82E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -319,6 +294,31 @@
 		5BD4C57A1BCDBF6C00462351 /* LineChartDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartDataProvider.swift; sourceTree = "<group>"; };
 		5BD4C57B1BCDBF6C00462351 /* ScatterChartDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScatterChartDataProvider.swift; sourceTree = "<group>"; };
 		5BD8F06C1AB897D500566E05 /* ChartViewPortHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartViewPortHandler.swift; sourceTree = "<group>"; };
+		652F55301BDFE24B00898CFD /* BarChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartData.swift; sourceTree = "<group>"; };
+		652F55311BDFE24B00898CFD /* BarChartDataEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartDataEntry.swift; sourceTree = "<group>"; };
+		652F55321BDFE24B00898CFD /* BarChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartDataSet.swift; sourceTree = "<group>"; };
+		652F55331BDFE24B00898CFD /* BarLineScatterCandleBubbleChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarLineScatterCandleBubbleChartData.swift; sourceTree = "<group>"; };
+		652F55341BDFE24B00898CFD /* BarLineScatterCandleBubbleChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarLineScatterCandleBubbleChartDataSet.swift; sourceTree = "<group>"; };
+		652F55351BDFE24B00898CFD /* BubbleChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleChartData.swift; sourceTree = "<group>"; };
+		652F55361BDFE24B00898CFD /* BubbleChartDataEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleChartDataEntry.swift; sourceTree = "<group>"; };
+		652F55371BDFE24B00898CFD /* BubbleChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleChartDataSet.swift; sourceTree = "<group>"; };
+		652F55381BDFE24B00898CFD /* CandleChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CandleChartData.swift; sourceTree = "<group>"; };
+		652F55391BDFE24B00898CFD /* CandleChartDataEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CandleChartDataEntry.swift; sourceTree = "<group>"; };
+		652F553A1BDFE24B00898CFD /* CandleChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CandleChartDataSet.swift; sourceTree = "<group>"; };
+		652F553B1BDFE24B00898CFD /* ChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartData.swift; sourceTree = "<group>"; };
+		652F553C1BDFE24B00898CFD /* ChartDataEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartDataEntry.swift; sourceTree = "<group>"; };
+		652F553D1BDFE24B00898CFD /* ChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartDataSet.swift; sourceTree = "<group>"; };
+		652F553E1BDFE24B00898CFD /* CombinedChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CombinedChartData.swift; sourceTree = "<group>"; };
+		652F553F1BDFE24B00898CFD /* LineChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartData.swift; sourceTree = "<group>"; };
+		652F55401BDFE24B00898CFD /* LineChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartDataSet.swift; sourceTree = "<group>"; };
+		652F55411BDFE24B00898CFD /* LineRadarChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineRadarChartDataSet.swift; sourceTree = "<group>"; };
+		652F55421BDFE24B00898CFD /* LineScatterCandleChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineScatterCandleChartDataSet.swift; sourceTree = "<group>"; };
+		652F55431BDFE24B00898CFD /* PieChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartData.swift; sourceTree = "<group>"; };
+		652F55441BDFE24B00898CFD /* PieChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartDataSet.swift; sourceTree = "<group>"; };
+		652F55451BDFE24B00898CFD /* RadarChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadarChartData.swift; sourceTree = "<group>"; };
+		652F55461BDFE24B00898CFD /* RadarChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadarChartDataSet.swift; sourceTree = "<group>"; };
+		652F55471BDFE24B00898CFD /* ScatterChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScatterChartData.swift; sourceTree = "<group>"; };
+		652F55481BDFE24B00898CFD /* ScatterChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScatterChartDataSet.swift; sourceTree = "<group>"; };
 		A52C5C371BAC5CA400594CDD /* Charts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Charts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDC77DC51C0A991A00C27BCF /* BarChartTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -510,31 +510,8 @@
 		5BA8EC6F1A9D151C00CE82E1 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				5B6A54B71AA74516000F57C2 /* BarChartData.swift */,
-				5B6A54B81AA74516000F57C2 /* BarChartDataEntry.swift */,
-				5B6A54B91AA74516000F57C2 /* BarChartDataSet.swift */,
-				5B6A54BA1AA74516000F57C2 /* BarLineScatterCandleBubbleChartData.swift */,
-				5B6A54BB1AA74516000F57C2 /* BarLineScatterCandleBubbleChartDataSet.swift */,
-				55E356541ADC63CD00A57971 /* BubbleChartData.swift */,
-				55E356551ADC63CD00A57971 /* BubbleChartDataEntry.swift */,
-				55E356561ADC63CD00A57971 /* BubbleChartDataSet.swift */,
-				5B6A54BC1AA74516000F57C2 /* CandleChartData.swift */,
-				5B6A54BD1AA74516000F57C2 /* CandleChartDataEntry.swift */,
-				5B6A54BE1AA74516000F57C2 /* CandleChartDataSet.swift */,
-				5B6A54BF1AA74516000F57C2 /* CombinedChartData.swift */,
-				5B6A54C01AA74516000F57C2 /* ChartData.swift */,
-				5B6A54C11AA74516000F57C2 /* ChartDataEntry.swift */,
-				5B6A54C21AA74516000F57C2 /* ChartDataSet.swift */,
-				5B6A54C31AA74516000F57C2 /* LineChartData.swift */,
-				5B6A54C41AA74516000F57C2 /* LineChartDataSet.swift */,
-				5B6A54C51AA74516000F57C2 /* LineRadarChartDataSet.swift */,
-				5B8FE2AE1B68F8F600910C9E /* LineScatterCandleChartDataSet.swift */,
-				5B6A54C61AA74516000F57C2 /* PieChartData.swift */,
-				5B6A54C71AA74516000F57C2 /* PieChartDataSet.swift */,
-				5B6A54C81AA74516000F57C2 /* RadarChartData.swift */,
-				5B6A54C91AA74516000F57C2 /* RadarChartDataSet.swift */,
-				5B6A54CA1AA74516000F57C2 /* ScatterChartData.swift */,
-				5B6A54CB1AA74516000F57C2 /* ScatterChartDataSet.swift */,
+				652F552D1BDFE24B00898CFD /* Base */,
+				652F552F1BDFE24B00898CFD /* Implementations */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -573,6 +550,45 @@
 				5BD4C57B1BCDBF6C00462351 /* ScatterChartDataProvider.swift */,
 			);
 			path = Interfaces;
+			sourceTree = "<group>";
+		};
+		652F552D1BDFE24B00898CFD /* Base */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		652F552F1BDFE24B00898CFD /* Implementations */ = {
+			isa = PBXGroup;
+			children = (
+				652F55301BDFE24B00898CFD /* BarChartData.swift */,
+				652F55311BDFE24B00898CFD /* BarChartDataEntry.swift */,
+				652F55321BDFE24B00898CFD /* BarChartDataSet.swift */,
+				652F55331BDFE24B00898CFD /* BarLineScatterCandleBubbleChartData.swift */,
+				652F55341BDFE24B00898CFD /* BarLineScatterCandleBubbleChartDataSet.swift */,
+				652F55351BDFE24B00898CFD /* BubbleChartData.swift */,
+				652F55361BDFE24B00898CFD /* BubbleChartDataEntry.swift */,
+				652F55371BDFE24B00898CFD /* BubbleChartDataSet.swift */,
+				652F55381BDFE24B00898CFD /* CandleChartData.swift */,
+				652F55391BDFE24B00898CFD /* CandleChartDataEntry.swift */,
+				652F553A1BDFE24B00898CFD /* CandleChartDataSet.swift */,
+				652F553B1BDFE24B00898CFD /* ChartData.swift */,
+				652F553C1BDFE24B00898CFD /* ChartDataEntry.swift */,
+				652F553D1BDFE24B00898CFD /* ChartDataSet.swift */,
+				652F553E1BDFE24B00898CFD /* CombinedChartData.swift */,
+				652F553F1BDFE24B00898CFD /* LineChartData.swift */,
+				652F55401BDFE24B00898CFD /* LineChartDataSet.swift */,
+				652F55411BDFE24B00898CFD /* LineRadarChartDataSet.swift */,
+				652F55421BDFE24B00898CFD /* LineScatterCandleChartDataSet.swift */,
+				652F55431BDFE24B00898CFD /* PieChartData.swift */,
+				652F55441BDFE24B00898CFD /* PieChartDataSet.swift */,
+				652F55451BDFE24B00898CFD /* RadarChartData.swift */,
+				652F55461BDFE24B00898CFD /* RadarChartDataSet.swift */,
+				652F55471BDFE24B00898CFD /* ScatterChartData.swift */,
+				652F55481BDFE24B00898CFD /* ScatterChartDataSet.swift */,
+			);
+			path = Implementations;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -732,54 +748,58 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B680D1F1A9D17C30026A057 /* ChartAxisBase.swift in Sources */,
-				5B6A54DE1AA74516000F57C2 /* RadarChartDataSet.swift in Sources */,
-				5B8FE2AF1B68F8F600910C9E /* LineScatterCandleChartDataSet.swift in Sources */,
+				652F556B1BDFE24B00898CFD /* LineChartDataSet.swift in Sources */,
 				5BAAA8561BB08E1D00B20D4D /* CombinedHighlighter.swift in Sources */,
+				652F556F1BDFE24B00898CFD /* LineScatterCandleChartDataSet.swift in Sources */,
+				652F55551BDFE24B00898CFD /* BubbleChartData.swift in Sources */,
 				5B680D211A9D17C30026A057 /* ChartLimitLine.swift in Sources */,
-				5B6A54DB1AA74516000F57C2 /* PieChartData.swift in Sources */,
-				5B6A54D91AA74516000F57C2 /* LineChartDataSet.swift in Sources */,
 				5BD4C57D1BCDBF6C00462351 /* BarLineScatterCandleBubbleChartDataProvider.swift in Sources */,
 				5B6A54AC1AA66C1E000F57C2 /* ChartAxisRendererBase.swift in Sources */,
-				5B6A54CF1AA74516000F57C2 /* BarLineScatterCandleBubbleChartData.swift in Sources */,
-				5B6A54D11AA74516000F57C2 /* CandleChartData.swift in Sources */,
+				652F555F1BDFE24B00898CFD /* CandleChartDataSet.swift in Sources */,
 				5B6654DA1BB0A86F00890030 /* ChartFillFormatter.swift in Sources */,
+				652F556D1BDFE24B00898CFD /* LineRadarChartDataSet.swift in Sources */,
+				652F55751BDFE24B00898CFD /* RadarChartData.swift in Sources */,
+				652F55611BDFE24B00898CFD /* ChartData.swift in Sources */,
 				5B6A54AB1AA66BC8000F57C2 /* ScatterChartView.swift in Sources */,
-				5B6A54E01AA74516000F57C2 /* ScatterChartDataSet.swift in Sources */,
+				652F554F1BDFE24B00898CFD /* BarChartDataSet.swift in Sources */,
+				652F55731BDFE24B00898CFD /* PieChartDataSet.swift in Sources */,
+				652F55771BDFE24B00898CFD /* RadarChartDataSet.swift in Sources */,
 				5B6A548B1AA66A3D000F57C2 /* LineChartRenderer.swift in Sources */,
-				5B6A54D01AA74516000F57C2 /* BarLineScatterCandleBubbleChartDataSet.swift in Sources */,
 				5B6A54821AA5DF34000F57C2 /* ChartYAxisRendererRadarChart.swift in Sources */,
+				652F55631BDFE24B00898CFD /* ChartDataEntry.swift in Sources */,
+				652F55571BDFE24B00898CFD /* BubbleChartDataEntry.swift in Sources */,
 				5BD4C5821BCDBF6C00462351 /* ScatterChartDataProvider.swift in Sources */,
+				652F554B1BDFE24B00898CFD /* BarChartData.swift in Sources */,
 				5B6A54931AA66AAB000F57C2 /* CombinedChartRenderer.swift in Sources */,
+				652F55791BDFE24B00898CFD /* ScatterChartData.swift in Sources */,
+				652F555B1BDFE24B00898CFD /* CandleChartData.swift in Sources */,
 				5B680D221A9D17C30026A057 /* ChartXAxis.swift in Sources */,
 				5BA8EC891A9D151C00CE82E1 /* ChartDataBaseFilter.swift in Sources */,
 				5B6654DB1BB0A86F00890030 /* ChartXAxisValueFormatter.swift in Sources */,
 				5B6A54A31AA66B7C000F57C2 /* LineChartView.swift in Sources */,
 				5B6A54891AA66A1A000F57C2 /* PieChartRenderer.swift in Sources */,
-				5B6A54DD1AA74516000F57C2 /* RadarChartData.swift in Sources */,
 				5B6A54991AA66B14000F57C2 /* BarChartView.swift in Sources */,
 				5B680D231A9D17C30026A057 /* ChartYAxis.swift in Sources */,
 				5B6A54A91AA66BBA000F57C2 /* RadarChartView.swift in Sources */,
 				5B378F171AD500A4009414A4 /* ChartAnimationEasing.swift in Sources */,
+				652F55591BDFE24B00898CFD /* BubbleChartDataSet.swift in Sources */,
 				5B6A548F1AA66A7A000F57C2 /* HorizontalBarChartRenderer.swift in Sources */,
 				5B6A54741AA5DEDC000F57C2 /* ChartXAxisRenderer.swift in Sources */,
 				5BD4C57F1BCDBF6C00462351 /* CandleChartDataProvider.swift in Sources */,
 				5B6A547C1AA5DF02000F57C2 /* ChartXAxisRendererHorizontalBarChart.swift in Sources */,
 				5B4BCD401AA9C4930063F019 /* ChartTransformer.swift in Sources */,
 				5B6A54801AA5DF28000F57C2 /* ChartYAxisRendererHorizontalBarChart.swift in Sources */,
-				5B6A54D21AA74516000F57C2 /* CandleChartDataEntry.swift in Sources */,
-				5B6A54CC1AA74516000F57C2 /* BarChartData.swift in Sources */,
 				5B00324D1B65351C00B6A2FE /* HorizontalBarChartHighlighter.swift in Sources */,
-				5B6A54CE1AA74516000F57C2 /* BarChartDataSet.swift in Sources */,
+				652F55531BDFE24B00898CFD /* BarLineScatterCandleBubbleChartDataSet.swift in Sources */,
 				5B6A54871AA669F4000F57C2 /* RadarChartRenderer.swift in Sources */,
 				5B6A548D1AA66A60000F57C2 /* ChartLegendRenderer.swift in Sources */,
-				55E356591ADC63CD00A57971 /* BubbleChartDataSet.swift in Sources */,
+				652F557B1BDFE24B00898CFD /* ScatterChartDataSet.swift in Sources */,
 				5BB6EC1D1ACC28AB006E9C25 /* ChartTransformerHorizontalBarChart.swift in Sources */,
 				5B680D271A9D17C30026A057 /* ChartColorTemplates.swift in Sources */,
 				5B6A54951AA66AC0000F57C2 /* CandleStickChartRenderer.swift in Sources */,
 				5B680D291A9D17C30026A057 /* ChartSelectionDetail.swift in Sources */,
+				652F555D1BDFE24B00898CFD /* CandleChartDataEntry.swift in Sources */,
 				5BA8EC7D1A9D151C00CE82E1 /* ChartViewBase.swift in Sources */,
-				5B6A54DC1AA74516000F57C2 /* PieChartDataSet.swift in Sources */,
-				5B6A54DA1AA74516000F57C2 /* LineRadarChartDataSet.swift in Sources */,
 				5B6A54701AA5DB34000F57C2 /* ChartRendererBase.swift in Sources */,
 				5BD4C5811BCDBF6C00462351 /* LineChartDataProvider.swift in Sources */,
 				5B6A54761AA5DEE3000F57C2 /* ChartXAxisRendererBarChart.swift in Sources */,
@@ -788,23 +808,18 @@
 				5BA8EC881A9D151C00CE82E1 /* ChartDataApproximatorFilter.swift in Sources */,
 				5B6A549B1AA66B2C000F57C2 /* BarLineChartViewBase.swift in Sources */,
 				5B6A54A51AA66B92000F57C2 /* PieChartView.swift in Sources */,
-				5B6A54D81AA74516000F57C2 /* LineChartData.swift in Sources */,
-				55E356581ADC63CD00A57971 /* BubbleChartDataEntry.swift in Sources */,
 				5B6A54911AA66A8D000F57C2 /* ChartDataRendererBase.swift in Sources */,
+				652F55651BDFE24B00898CFD /* ChartDataSet.swift in Sources */,
 				5BD8F06D1AB897D500566E05 /* ChartViewPortHandler.swift in Sources */,
 				5B8FE2B11B68FFF900910C9E /* LineScatterCandleRadarChartRenderer.swift in Sources */,
-				5B6A54D51AA74516000F57C2 /* ChartData.swift in Sources */,
 				5BD4C57E1BCDBF6C00462351 /* BubbleChartDataProvider.swift in Sources */,
 				5B6A54971AA66AD2000F57C2 /* BarChartRenderer.swift in Sources */,
+				652F55511BDFE24B00898CFD /* BarLineScatterCandleBubbleChartData.swift in Sources */,
 				5B6A546B1AA5C23F000F57C2 /* ChartMarker.swift in Sources */,
-				5B6A54D61AA74516000F57C2 /* ChartDataEntry.swift in Sources */,
-				55E356571ADC63CD00A57971 /* BubbleChartData.swift in Sources */,
-				5B6A54DF1AA74516000F57C2 /* ScatterChartData.swift in Sources */,
 				5BD4C5801BCDBF6C00462351 /* ChartDataProvider.swift in Sources */,
 				5BD4C57C1BCDBF6C00462351 /* BarChartDataProvider.swift in Sources */,
-				5B6A54D31AA74516000F57C2 /* CandleChartDataSet.swift in Sources */,
 				5B0032491B6525FC00B6A2FE /* ChartHighlighter.swift in Sources */,
-				5B6A54D71AA74516000F57C2 /* ChartDataSet.swift in Sources */,
+				652F55691BDFE24B00898CFD /* LineChartData.swift in Sources */,
 				5B00324B1B652BF900B6A2FE /* BarChartHighlighter.swift in Sources */,
 				5B6A54781AA5DEF0000F57C2 /* ChartXAxisRendererRadarChart.swift in Sources */,
 				5B6A54A71AA66BA7000F57C2 /* PieRadarChartViewBase.swift in Sources */,
@@ -812,15 +827,16 @@
 				55E3565B1ADC63EB00A57971 /* BubbleChartRenderer.swift in Sources */,
 				55E356531ADC63BF00A57971 /* BubbleChartView.swift in Sources */,
 				5B6654D91BB0A86F00890030 /* ChartDefaultXAxisValueFormatter.swift in Sources */,
+				652F55711BDFE24B00898CFD /* PieChartData.swift in Sources */,
 				5B6A547E1AA5DF1A000F57C2 /* ChartYAxisRenderer.swift in Sources */,
 				5B6A549F1AA66B59000F57C2 /* CombinedChartView.swift in Sources */,
 				5B6556F71AB72BA000FFBFD3 /* ChartComponentBase.swift in Sources */,
-				5B6A54CD1AA74516000F57C2 /* BarChartDataEntry.swift in Sources */,
-				5B6A54D41AA74516000F57C2 /* CombinedChartData.swift in Sources */,
+				652F55671BDFE24B00898CFD /* CombinedChartData.swift in Sources */,
 				5B680D2A1A9D17C30026A057 /* ChartUtils.swift in Sources */,
 				5B0032451B6524AD00B6A2FE /* ChartHighlight.swift in Sources */,
 				5B680D201A9D17C30026A057 /* ChartLegend.swift in Sources */,
 				5B0032471B6524D300B6A2FE /* ChartRange.swift in Sources */,
+				652F554D1BDFE24B00898CFD /* BarChartDataEntry.swift in Sources */,
 				5BD8F06E1AB89AD800566E05 /* HorizontalBarChartView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -830,16 +846,31 @@
 			buildActionMask = 2147483647;
 			files = (
 				5597263C1BDABC0500E05E59 /* ChartDefaultXAxisValueFormatter.swift in Sources */,
+				652F556C1BDFE24B00898CFD /* LineChartDataSet.swift in Sources */,
 				5597263D1BDABC0500E05E59 /* ChartFillFormatter.swift in Sources */,
+				652F55701BDFE24B00898CFD /* LineScatterCandleChartDataSet.swift in Sources */,
+				652F55561BDFE24B00898CFD /* BubbleChartData.swift in Sources */,
 				5597263E1BDABC0500E05E59 /* ChartXAxisValueFormatter.swift in Sources */,
 				5597263F1BDABC0500E05E59 /* CombinedHighlighter.swift in Sources */,
 				559726401BDABC0500E05E59 /* BarChartDataProvider.swift in Sources */,
+				652F55601BDFE24B00898CFD /* CandleChartDataSet.swift in Sources */,
 				559726411BDABC0500E05E59 /* BarLineScatterCandleBubbleChartDataProvider.swift in Sources */,
+				652F556E1BDFE24B00898CFD /* LineRadarChartDataSet.swift in Sources */,
+				652F55761BDFE24B00898CFD /* RadarChartData.swift in Sources */,
+				652F55621BDFE24B00898CFD /* ChartData.swift in Sources */,
 				559726421BDABC0500E05E59 /* BubbleChartDataProvider.swift in Sources */,
+				652F55501BDFE24B00898CFD /* BarChartDataSet.swift in Sources */,
+				652F55741BDFE24B00898CFD /* PieChartDataSet.swift in Sources */,
+				652F55781BDFE24B00898CFD /* RadarChartDataSet.swift in Sources */,
 				559726431BDABC0500E05E59 /* CandleChartDataProvider.swift in Sources */,
 				559726441BDABC0500E05E59 /* ChartDataProvider.swift in Sources */,
+				652F55641BDFE24B00898CFD /* ChartDataEntry.swift in Sources */,
+				652F55581BDFE24B00898CFD /* BubbleChartDataEntry.swift in Sources */,
 				559726451BDABC0500E05E59 /* LineChartDataProvider.swift in Sources */,
+				652F554C1BDFE24B00898CFD /* BarChartData.swift in Sources */,
 				559726461BDABC0500E05E59 /* ScatterChartDataProvider.swift in Sources */,
+				652F557A1BDFE24B00898CFD /* ScatterChartData.swift in Sources */,
+				652F555C1BDFE24B00898CFD /* CandleChartData.swift in Sources */,
 				A52C5C3F1BAC5D1100594CDD /* ChartAnimator.swift in Sources */,
 				A52C5C401BAC5D1100594CDD /* ChartAnimationEasing.swift in Sources */,
 				A52C5C411BAC5D1100594CDD /* BarChartView.swift in Sources */,
@@ -849,6 +880,7 @@
 				A52C5C451BAC5D1100594CDD /* ChartViewBase.swift in Sources */,
 				A52C5C461BAC5D1100594CDD /* CombinedChartView.swift in Sources */,
 				A52C5C471BAC5D1100594CDD /* HorizontalBarChartView.swift in Sources */,
+				652F555A1BDFE24B00898CFD /* BubbleChartDataSet.swift in Sources */,
 				A52C5C481BAC5D1100594CDD /* LineChartView.swift in Sources */,
 				A52C5C491BAC5D1100594CDD /* PieChartView.swift in Sources */,
 				A52C5C4A1BAC5D1100594CDD /* PieRadarChartViewBase.swift in Sources */,
@@ -856,37 +888,15 @@
 				A52C5C4C1BAC5D1100594CDD /* ScatterChartView.swift in Sources */,
 				A52C5C4D1BAC5D1100594CDD /* ChartAxisBase.swift in Sources */,
 				A52C5C4E1BAC5D1100594CDD /* ChartComponentBase.swift in Sources */,
+				652F55541BDFE24B00898CFD /* BarLineScatterCandleBubbleChartDataSet.swift in Sources */,
 				A52C5C4F1BAC5D1100594CDD /* ChartLegend.swift in Sources */,
 				A52C5C501BAC5D1100594CDD /* ChartLimitLine.swift in Sources */,
+				652F557C1BDFE24B00898CFD /* ScatterChartDataSet.swift in Sources */,
 				A52C5C511BAC5D1100594CDD /* ChartMarker.swift in Sources */,
 				A52C5C521BAC5D1100594CDD /* ChartXAxis.swift in Sources */,
 				A52C5C531BAC5D1100594CDD /* ChartYAxis.swift in Sources */,
-				A52C5C541BAC5D1100594CDD /* BarChartData.swift in Sources */,
-				A52C5C551BAC5D1100594CDD /* BarChartDataEntry.swift in Sources */,
-				A52C5C561BAC5D1100594CDD /* BarChartDataSet.swift in Sources */,
-				A52C5C571BAC5D1100594CDD /* BarLineScatterCandleBubbleChartData.swift in Sources */,
-				A52C5C581BAC5D1100594CDD /* BarLineScatterCandleBubbleChartDataSet.swift in Sources */,
-				A52C5C591BAC5D1100594CDD /* BubbleChartData.swift in Sources */,
-				A52C5C5A1BAC5D1100594CDD /* BubbleChartDataEntry.swift in Sources */,
-				A52C5C5B1BAC5D1100594CDD /* BubbleChartDataSet.swift in Sources */,
-				A52C5C5C1BAC5D1100594CDD /* CandleChartData.swift in Sources */,
-				A52C5C5D1BAC5D1100594CDD /* CandleChartDataEntry.swift in Sources */,
-				A52C5C5E1BAC5D1100594CDD /* CandleChartDataSet.swift in Sources */,
-				A52C5C5F1BAC5D1100594CDD /* CombinedChartData.swift in Sources */,
-				A52C5C601BAC5D1100594CDD /* ChartData.swift in Sources */,
-				A52C5C611BAC5D1100594CDD /* ChartDataEntry.swift in Sources */,
-				A52C5C621BAC5D1100594CDD /* ChartDataSet.swift in Sources */,
-				A52C5C631BAC5D1100594CDD /* LineChartData.swift in Sources */,
-				A52C5C641BAC5D1100594CDD /* LineChartDataSet.swift in Sources */,
-				A52C5C651BAC5D1100594CDD /* LineRadarChartDataSet.swift in Sources */,
-				A52C5C661BAC5D1100594CDD /* LineScatterCandleChartDataSet.swift in Sources */,
-				A52C5C671BAC5D1100594CDD /* PieChartData.swift in Sources */,
-				A52C5C681BAC5D1100594CDD /* PieChartDataSet.swift in Sources */,
-				A52C5C691BAC5D1100594CDD /* RadarChartData.swift in Sources */,
-				A52C5C6A1BAC5D1100594CDD /* RadarChartDataSet.swift in Sources */,
-				A52C5C6B1BAC5D1100594CDD /* ScatterChartData.swift in Sources */,
-				A52C5C6C1BAC5D1100594CDD /* ScatterChartDataSet.swift in Sources */,
 				A52C5C6D1BAC5D1100594CDD /* ChartDataApproximatorFilter.swift in Sources */,
+				652F555E1BDFE24B00898CFD /* CandleChartDataEntry.swift in Sources */,
 				A52C5C6E1BAC5D1100594CDD /* ChartDataBaseFilter.swift in Sources */,
 				A52C5C6F1BAC5D1100594CDD /* ChartHighlight.swift in Sources */,
 				A52C5C701BAC5D1100594CDD /* ChartRange.swift in Sources */,
@@ -897,14 +907,17 @@
 				A52C5C751BAC5D1100594CDD /* BarChartRenderer.swift in Sources */,
 				A52C5C761BAC5D1100594CDD /* BubbleChartRenderer.swift in Sources */,
 				A52C5C771BAC5D1100594CDD /* CandleStickChartRenderer.swift in Sources */,
+				652F55661BDFE24B00898CFD /* ChartDataSet.swift in Sources */,
 				A52C5C781BAC5D1100594CDD /* CombinedChartRenderer.swift in Sources */,
 				A52C5C791BAC5D1100594CDD /* ChartDataRendererBase.swift in Sources */,
 				A52C5C7A1BAC5D1200594CDD /* HorizontalBarChartRenderer.swift in Sources */,
 				A52C5C7B1BAC5D1200594CDD /* ChartLegendRenderer.swift in Sources */,
+				652F55521BDFE24B00898CFD /* BarLineScatterCandleBubbleChartData.swift in Sources */,
 				A52C5C7C1BAC5D1200594CDD /* LineChartRenderer.swift in Sources */,
 				A52C5C7D1BAC5D1200594CDD /* LineScatterCandleRadarChartRenderer.swift in Sources */,
 				A52C5C7E1BAC5D1200594CDD /* PieChartRenderer.swift in Sources */,
 				A52C5C7F1BAC5D1200594CDD /* RadarChartRenderer.swift in Sources */,
+				652F556A1BDFE24B00898CFD /* LineChartData.swift in Sources */,
 				A52C5C801BAC5D1200594CDD /* ChartRendererBase.swift in Sources */,
 				A52C5C811BAC5D1200594CDD /* ScatterChartRenderer.swift in Sources */,
 				A52C5C821BAC5D1200594CDD /* ChartXAxisRenderer.swift in Sources */,
@@ -912,13 +925,16 @@
 				A52C5C841BAC5D1200594CDD /* ChartXAxisRendererHorizontalBarChart.swift in Sources */,
 				A52C5C851BAC5D1200594CDD /* ChartXAxisRendererRadarChart.swift in Sources */,
 				A52C5C861BAC5D1200594CDD /* ChartYAxisRenderer.swift in Sources */,
+				652F55721BDFE24B00898CFD /* PieChartData.swift in Sources */,
 				A52C5C871BAC5D1200594CDD /* ChartYAxisRendererHorizontalBarChart.swift in Sources */,
 				A52C5C881BAC5D1200594CDD /* ChartYAxisRendererRadarChart.swift in Sources */,
 				A52C5C891BAC5D1200594CDD /* ChartColorTemplates.swift in Sources */,
+				652F55681BDFE24B00898CFD /* CombinedChartData.swift in Sources */,
 				A52C5C8B1BAC5D1200594CDD /* ChartSelectionDetail.swift in Sources */,
 				A52C5C8C1BAC5D1200594CDD /* ChartTransformer.swift in Sources */,
 				A52C5C8D1BAC5D1200594CDD /* ChartTransformerHorizontalBarChart.swift in Sources */,
 				A52C5C8E1BAC5D1200594CDD /* ChartUtils.swift in Sources */,
+				652F554E1BDFE24B00898CFD /* BarChartDataEntry.swift in Sources */,
 				A52C5C8F1BAC5D1200594CDD /* ChartViewPortHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
