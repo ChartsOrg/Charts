@@ -150,8 +150,7 @@ Or you can see the [**ChartsDemo**](https://github.com/danielgindi/ios-charts/tr
 Special Thanks
 =======
 
-Goes to [@petester42](https://github.com/petester42) (Pierre-Marc Airoldi) for implementing a Bubble chart!  
-To [@AlBirdie](https://github.com/AlBirdie) and for [@liuxuan30](https://github.com/liuxuan30) for their contributions and involvement in our community!  
+Goes to [@liuxuan30](https://github.com/liuxuan30), [@petester42](https://github.com/petester42) and  [@AlBirdie](https://github.com/AlBirdie) for new features, bugfixes, and lots and lots of involvement in our open-sourced community! You guys are a huge help to all of those coming here with questions and issues, and I couldn't respond to all of those without you. 
 
 License
 =======
