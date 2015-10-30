@@ -15,7 +15,7 @@ import Foundation
 import CoreGraphics
 
 /// This chart class allows the combination of lines, bars, scatter and candle data all displayed in one chart area.
-public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, BarChartDataProvider, ScatterChartDataProvider, CandleChartDataProvider, BubbleChartDataProvider
+public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, BarChartDataProvider, ScatterChartDataProvider, CandleChartDataProvider, BubbleChartDataProvider, OHLCChartDataProvider
 {
     /// the fill-formatter used for determining the position of the fill-line
     internal var _fillFormatter: ChartFillFormatter!
@@ -29,6 +29,7 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
         case Line
         case Candle
         case Scatter
+        case OHLC
     }
     
     public override func initialize()
@@ -48,7 +49,7 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
     {
         super.calcMinMax()
         
-        if (self.barData !== nil || self.candleData !== nil || self.bubbleData !== nil)
+        if (self.barData !== nil || self.candleData !== nil || self.bubbleData !== nil || self.ohlcData !== nil)
         {
             _chartXMin = -0.5
             _chartXMax = Double(_data.xVals.count) - 0.5
@@ -71,13 +72,8 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
                     }
                 }
             }
-        }
-        
-        _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
-        
-        if (_deltaX == 0.0 && self.lineData?.yValCount > 0)
-        {
-            _deltaX = 1.0
+
+            _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
         }
     }
     
@@ -177,6 +173,20 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
                 return nil
             }
             return (_data as! CombinedChartData!).bubbleData
+        }
+    }
+    
+    // MARK: - OHLCChartDataProvider
+    
+    public var ohlcData: OHLCChartData?
+    {
+        get
+        {
+            if (_data === nil)
+            {
+                return nil
+            }
+            return (_data as! CombinedChartData!).ohlcData
         }
     }
     
