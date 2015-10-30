@@ -763,8 +763,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         {
             stopDeceleration()
             
-            if !_dataNotSet && _dragEnabled &&
-                (!self.hasNoDragOffset || !self.isFullyZoomedOut || self.isHighlightPerDragEnabled)
+            if !_dataNotSet && _dragEnabled && self.isHighlightPerDragEnabled &&
+                (!self.hasNoDragOffset || !self.isFullyZoomedOut)
             {
                 _isDragging = true
                 
