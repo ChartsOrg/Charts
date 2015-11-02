@@ -1,4 +1,4 @@
-**Version 2.1.5**, synced to [MPAndroidChart #6ae1eef](https://github.com/PhilJay/MPAndroidChart/commit/e3a7b09)
+**Version 2.1.6**, synced to [MPAndroidChart #0c97941](https://github.com/PhilJay/MPAndroidChart/commit/0c97941)
 
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
 [![CodeHunt.io](https://img.shields.io/badge/vote-codehunt.io-02AFD1.svg)](http://codehunt.io/sub/ios-charts/?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)   
@@ -38,11 +38,11 @@ Add `pod 'Charts'` to your Podfile. "Charts" is the name of the library.
 
 ## Carthage Install
 
-New versions (since v2.1.4) include Carthage prebuilt binaries.
+Charts now include Carthage prebuilt binaries.
 
 ```carthage
-github "danielgindi/ios-charts" == 2.1.5
-github "danielgindi/ios-charts" ~> 2.1.5
+github "danielgindi/ios-charts" == 2.1.6
+github "danielgindi/ios-charts" ~> 2.1.6
 ```
 
 In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts`.
