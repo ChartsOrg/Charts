@@ -24,9 +24,11 @@ public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         circleColors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
     }
     
-    public convenience override init(yVals: [ChartDataEntry]?, label: String?)
+    public override init(yVals: [ChartDataEntry]?, label: String?)
     {
-        self.init(yVals: yVals, label: label)
+        super.init(yVals: yVals, label: label)
+        
+        circleColors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
     }
     
     // MARK: - Data functions and accessors
