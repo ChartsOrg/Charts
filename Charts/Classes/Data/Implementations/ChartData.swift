@@ -23,7 +23,6 @@ public class ChartData: NSObject
     internal var _leftAxisMin = Double(0.0)
     internal var _rightAxisMax = Double(0.0)
     internal var _rightAxisMin = Double(0.0)
-    private var _yValueSum = Double(0.0)
     private var _yValCount = Int(0)
     
     /// the last start value used for calcMinMax
@@ -91,7 +90,6 @@ public class ChartData: NSObject
         checkIsLegal(dataSets)
         
         calcMinMax(start: _lastStart, end: _lastEnd)
-        calcYValueSum()
         calcYValueCount()
         
         calcXValAverageLength()
@@ -238,22 +236,6 @@ public class ChartData: NSObject
         }
     }
     
-    /// calculates the sum of all y-values in all datasets
-    internal func calcYValueSum()
-    {
-        _yValueSum = 0
-        
-        if (_dataSets == nil)
-        {
-            return
-        }
-        
-        for (var i = 0; i < _dataSets.count; i++)
-        {
-            _yValueSum += _dataSets[i].yValueSum
-        }
-    }
-    
     /// Calculates the total number of y-values across all ChartDataSets the ChartData represents.
     internal func calcYValueCount()
     {
@@ -282,12 +264,6 @@ public class ChartData: NSObject
             return 0
         }
         return _dataSets.count
-    }
-    
-    /// - returns: the average value across all entries in this Data object (all entries from the DataSets this data object holds)
-    public var average: Double
-    {
-        return yValueSum / Double(yValCount)
     }
     
     /// - returns: the smallest y-value the data object contains.
@@ -340,12 +316,6 @@ public class ChartData: NSObject
     public var xValAverageLength: Double
     {
         return _xValAverageLength
-    }
-    
-    /// - returns: the total y-value sum across all DataSet objects the this object represents.
-    public var yValueSum: Double
-    {
-        return _yValueSum
     }
     
     /// - returns: the total number of y-values across all DataSet objects the this object represents.
@@ -501,7 +471,6 @@ public class ChartData: NSObject
         }
         
         _yValCount += d.entryCount
-        _yValueSum += d.yValueSum
         
         if (_dataSets.count == 0)
         {
@@ -609,7 +578,6 @@ public class ChartData: NSObject
         
         let d = _dataSets.removeAtIndex(index)
         _yValCount -= d.entryCount
-        _yValueSum -= d.yValueSum
         
         calcMinMax(start: _lastStart, end: _lastEnd)
         
@@ -619,7 +587,7 @@ public class ChartData: NSObject
     /// Adds an Entry to the DataSet at the specified index. Entries are added to the end of the list.
     public func addEntry(e: ChartDataEntry, dataSetIndex: Int)
     {
-        if (_dataSets != nil && _dataSets.count > dataSetIndex && dataSetIndex >= 0)
+        if _dataSets != nil && _dataSets.count > dataSetIndex && dataSetIndex >= 0
         {
             let val = e.value
             let set = _dataSets[dataSetIndex]
@@ -678,7 +646,6 @@ public class ChartData: NSObject
             }
             
             _yValCount += 1
-            _yValueSum += val
             
             handleEmptyAxis(getFirstLeft(), firstRight: getFirstRight())
         }
@@ -698,14 +665,11 @@ public class ChartData: NSObject
         }
         
         // remove the entry from the dataset
-        let removed = _dataSets[dataSetIndex].removeEntry(xIndex: entry.xIndex)
+        let removed = _dataSets[dataSetIndex].removeEntry(entry)
         
         if (removed)
         {
-            let val = entry.value
-            
             _yValCount -= 1
-            _yValueSum -= val
             
             calcMinMax(start: _lastStart, end: _lastEnd)
         }

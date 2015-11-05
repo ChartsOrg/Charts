@@ -28,9 +28,6 @@ public protocol IChartDataSet
     /// - parameter end: the index of the last y entry to calculate
     func calcMinMax(start start: Int, end: Int)
     
-    /// - returns: the average value across all entries in this DataSet.
-    var average: Double { get }
-    
     /// - returns: the minimum y-value this DataSet holds
     var yMin: Double { get }
     
@@ -75,15 +72,6 @@ public protocol IChartDataSet
     /// - returns: true if the entry was added successfully, else if this feature is not supported
     func addEntry(e: ChartDataEntry) -> Bool
     
-    /// Adds an Entry to the DataSet dynamically.
-    ///
-    /// *optional feature, can return false or throw*
-    ///
-    /// Entries are added to their appropriate index respective to it's x-index.
-    /// - parameter e: the entry to add
-    /// - returns: true if the entry was added successfully, else if this feature is not supported
-    func addEntryOrdered(e: ChartDataEntry) -> Bool
-    
     /// Removes an Entry from the DataSet dynamically.
     ///
     /// *optional feature, can return false or throw*
@@ -91,28 +79,6 @@ public protocol IChartDataSet
     /// - parameter entry: the entry to remove
     /// - returns: true if the entry was removed successfully, else if the entry does not exist or if this feature is not supported
     func removeEntry(entry: ChartDataEntry) -> Bool
-    
-    /// Removes an Entry from the DataSet dynamically.
-    ///
-    /// *optional feature, can return false or throw*
-    ///
-    /// - parameter xIndex: the xIndex of the entry to remove
-    /// - returns: true if the entry was removed successfully, else if the entry does not exist or if this feature is not supported
-    func removeEntry(xIndex xIndex: Int) -> Bool
-    
-    /// Removes the first Entry (at index 0) of this DataSet from the entries array.
-    ///
-    /// *optional feature, can return false or throw*
-    ///
-    /// - returns: true if successful, false if not or if this feature is not supported
-    func removeFirst() -> Bool
-    
-    /// Removes the last Entry (at index size-1) of this DataSet from the entries array.
-    ///
-    /// *optional feature, can return false or throw*
-    ///
-    /// - returns: true if successful, false if not or if this feature is not supported
-    func removeLast() -> Bool
     
     /// Checks if this DataSet contains the specified Entry.
     /// - returns: true if contains the entry, false if not.

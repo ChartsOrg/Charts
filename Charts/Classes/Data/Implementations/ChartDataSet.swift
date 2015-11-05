@@ -47,7 +47,6 @@ public class ChartDataSet: NSObject, IChartDataSet
         _yVals = yVals == nil ? [ChartDataEntry]() : yVals
         
         self.calcMinMax(start: _lastStart, end: _lastEnd)
-        self.calcYValueSum()
     }
     
     public convenience init(yVals: [ChartDataEntry]?)
@@ -60,7 +59,6 @@ public class ChartDataSet: NSObject, IChartDataSet
     internal var _yVals: [ChartDataEntry]!
     internal var _yMax = Double(0.0)
     internal var _yMin = Double(0.0)
-    internal var _yValueSum = Double(0.0)
     
     /// the last start value used for calcMinMax
     internal var _lastStart: Int = 0
@@ -69,13 +67,11 @@ public class ChartDataSet: NSObject, IChartDataSet
     internal var _lastEnd: Int = 0
     
     public var yVals: [ChartDataEntry] { return _yVals }
-    public var yValueSum: Double { return _yValueSum }
     
     /// Use this method to tell the data set that the underlying data has changed
     public func notifyDataSetChanged()
     {
         calcMinMax(start: _lastStart, end: _lastEnd)
-        calcYValueSum()
     }
     
     public func calcMinMax(start start: Int, end: Int)
@@ -126,22 +122,6 @@ public class ChartDataSet: NSObject, IChartDataSet
             _yMin = 0.0
             _yMax = 0.0
         }
-    }
-    
-    private func calcYValueSum()
-    {
-        _yValueSum = 0
-        
-        for var i = 0; i < _yVals.count; i++
-        {
-            _yValueSum += _yVals[i].value
-        }
-    }
-    
-    /// - returns: the average value across all entries in this DataSet.
-    public var average: Double
-    {
-        return yValueSum / Double(valueCount)
     }
     
     /// - returns: the minimum y-value this DataSet holds
@@ -319,8 +299,6 @@ public class ChartDataSet: NSObject, IChartDataSet
             }
         }
         
-        _yValueSum += val
-        
         _yVals.append(e)
         
         return true
@@ -356,8 +334,6 @@ public class ChartDataSet: NSObject, IChartDataSet
                 _yMin = val
             }
         }
-        
-        _yValueSum += val
         
         if _yVals.last?.xIndex > e.xIndex
         {
@@ -395,7 +371,6 @@ public class ChartDataSet: NSObject, IChartDataSet
         
         if (removed)
         {
-            _yValueSum -= entry.value
             calcMinMax(start: _lastStart, end: _lastEnd)
         }
         
@@ -411,9 +386,6 @@ public class ChartDataSet: NSObject, IChartDataSet
         let index = self.entryIndex(xIndex: xIndex)
         if (index > -1)
         {
-            let e = _yVals.removeAtIndex(index)
-            
-            _yValueSum -= e.value
             calcMinMax(start: _lastStart, end: _lastEnd)
             
             return true
@@ -433,10 +405,6 @@ public class ChartDataSet: NSObject, IChartDataSet
         
         if (removed)
         {
-            
-            let val = entry!.value
-            _yValueSum -= val
-            
             calcMinMax(start: _lastStart, end: _lastEnd)
         }
         
@@ -454,10 +422,6 @@ public class ChartDataSet: NSObject, IChartDataSet
         
         if (removed)
         {
-            
-            let val = entry!.value
-            _yValueSum -= val
-            
             calcMinMax(start: _lastStart, end: _lastEnd)
         }
         
@@ -608,7 +572,6 @@ public class ChartDataSet: NSObject, IChartDataSet
         copy._yVals = _yVals
         copy._yMax = _yMax
         copy._yMin = _yMin
-        copy._yValueSum = _yValueSum
         copy._lastStart = _lastStart
         copy._lastEnd = _lastEnd
         copy.label = label
