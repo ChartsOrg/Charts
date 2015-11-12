@@ -60,9 +60,6 @@ public protocol IChartDataSet
     /// - parameter e: the entry to search for
     func entryIndex(entry e: ChartDataEntry) -> Int
     
-    /// - returns: the number of entries this DataSet holds.
-    var valueCount: Int { get }
-    
     /// Adds an Entry to the DataSet dynamically.
     ///
     /// *optional feature, can return false or throw*

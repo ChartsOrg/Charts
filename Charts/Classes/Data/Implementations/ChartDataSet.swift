@@ -265,9 +265,6 @@ public class ChartDataSet: NSObject, IChartDataSet
         return -1
     }
     
-    /// - returns: the number of entries this DataSet holds.
-    public var valueCount: Int { return _yVals.count }
-    
     /// Adds an Entry to the DataSet dynamically.
     /// Entries are added to the end of the list.
     /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
@@ -533,6 +530,9 @@ public class ChartDataSet: NSObject, IChartDataSet
     {
         return drawValuesEnabled
     }
+    
+    /// - returns: the number of entries this DataSet holds.
+    public var valueCount: Int { return _yVals.count }
     
     /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
     public var visible = true
