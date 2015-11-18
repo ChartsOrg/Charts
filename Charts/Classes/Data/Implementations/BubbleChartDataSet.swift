@@ -25,11 +25,6 @@ public class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubble
     public var xMax: Double { return _xMax }
     public var maxSize: CGFloat { return _maxSize }
     
-    public func setColor(color: UIColor, alpha: CGFloat)
-    {
-        super.setColor(color.colorWithAlphaComponent(alpha))
-    }
-    
     public override func calcMinMax(start start: Int, end: Int)
     {
         let yValCount = self.entryCount
@@ -128,6 +123,11 @@ public class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubble
     
     /// Sets/gets the width of the circle that surrounds the bubble when highlighted
     public var highlightCircleWidth: CGFloat = 2.5
+    
+    public func setColor(color: UIColor, alpha: CGFloat)
+    {
+        super.setColor(color.colorWithAlphaComponent(alpha))
+    }
     
     // MARK: - NSCopying
     
