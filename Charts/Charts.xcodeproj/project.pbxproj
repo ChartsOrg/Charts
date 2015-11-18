@@ -202,6 +202,7 @@
 		65BF12761BFC7246005C28D9 /* RealmHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BF12751BFC7246005C28D9 /* RealmHelpers.swift */; };
 		65BF12951BFC7B05005C28D9 /* RealmScatterDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BF12941BFC7B05005C28D9 /* RealmScatterDataSet.swift */; };
 		65BF12971BFC7B84005C28D9 /* RealmBubbleDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BF12961BFC7B84005C28D9 /* RealmBubbleDataSet.swift */; };
+		65BF129C1BFC81AF005C28D9 /* RealmPieDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BF129B1BFC81AF005C28D9 /* RealmPieDataSet.swift */; };
 		65F06F8E1BE807040074498D /* IChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06F8D1BE807040074498D /* IChartDataSet.swift */; };
 		65F06F8F1BE807040074498D /* IChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06F8D1BE807040074498D /* IChartDataSet.swift */; };
 		65F06F941BE812210074498D /* IBarLineScatterCandleBubbleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06F931BE812210074498D /* IBarLineScatterCandleBubbleChartDataSet.swift */; };
@@ -414,6 +415,7 @@
 		65BF12751BFC7246005C28D9 /* RealmHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmHelpers.swift; sourceTree = "<group>"; };
 		65BF12941BFC7B05005C28D9 /* RealmScatterDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmScatterDataSet.swift; sourceTree = "<group>"; };
 		65BF12961BFC7B84005C28D9 /* RealmBubbleDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmBubbleDataSet.swift; sourceTree = "<group>"; };
+		65BF129B1BFC81AF005C28D9 /* RealmPieDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmPieDataSet.swift; sourceTree = "<group>"; };
 		65F06F8D1BE807040074498D /* IChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IChartDataSet.swift; sourceTree = "<group>"; };
 		65F06F931BE812210074498D /* IBarLineScatterCandleBubbleChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBarLineScatterCandleBubbleChartDataSet.swift; sourceTree = "<group>"; };
 		65F06F971BE812D90074498D /* ILineScatterCandleRadarChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ILineScatterCandleRadarChartDataSet.swift; sourceTree = "<group>"; };
@@ -684,6 +686,7 @@
 				65BF126C1BFC55BC005C28D9 /* RealmLineScatterCandleRadarDataSet.swift */,
 				65BF12941BFC7B05005C28D9 /* RealmScatterDataSet.swift */,
 				65BF12961BFC7B84005C28D9 /* RealmBubbleDataSet.swift */,
+				65BF129B1BFC81AF005C28D9 /* RealmPieDataSet.swift */,
 			);
 			path = Realm;
 			sourceTree = "<group>";
@@ -919,6 +922,7 @@
 				659400B61BF463C1004F9C27 /* ChartData.swift in Sources */,
 				5B680D221A9D17C30026A057 /* ChartXAxis.swift in Sources */,
 				5BA8EC891A9D151C00CE82E1 /* ChartDataBaseFilter.swift in Sources */,
+				65BF129C1BFC81AF005C28D9 /* RealmPieDataSet.swift in Sources */,
 				659400A21BF463C1004F9C27 /* BarChartDataEntry.swift in Sources */,
 				5B6654DB1BB0A86F00890030 /* ChartXAxisValueFormatter.swift in Sources */,
 				5B6A54A31AA66B7C000F57C2 /* LineChartView.swift in Sources */,
