@@ -55,66 +55,11 @@ public class RealmBubbleDataSet: RealmBarLineScatterCandleBubbleDataSet, IBubble
     public var xMax: Double { return _xMax }
     public var maxSize: CGFloat { return _maxSize }
     
-    /// Makes sure that the cache is populated for the specified range
-    internal override func ensureCache(start start: Int, end: Int)
+    internal override func buildEntryFromResultObject(object: RLMObject) -> ChartDataEntry
     {
-        if start <= _cacheLast && end >= _cacheFirst
-        {
-            return
-        }
+        let entry = BubbleChartDataEntry(xIndex: object[_xIndexField!] as! Int, value: object[_yValueField!] as! Double, size: object[_sizeField!] as! CGFloat)
         
-        guard let yValueField = _yValueField,
-            results = _results,
-            sizeField = _sizeField,
-            xIndexField = _xIndexField else { return }
-        
-        if _cacheFirst == -1 || _cacheLast == -1
-        {
-            _cache.removeAll()
-            _cache.reserveCapacity(end - start + 1)
-            
-            for (var i = UInt(start), max = UInt(end + 1); i < max; i++)
-            {
-                let object = results.objectAtIndex(i)
-                
-                let entry = BubbleChartDataEntry(xIndex: object[xIndexField] as! Int, value: object[yValueField] as! Double, size: object[sizeField] as! CGFloat)
-                _cache.append(entry)
-            }
-            
-            _cacheFirst = start
-            _cacheLast = end
-        }
-        
-        if start < _cacheFirst
-        {
-            var newEntries = [ChartDataEntry]()
-            newEntries.reserveCapacity(start - _cacheFirst)
-            
-            for (var i = UInt(start), max = UInt(_cacheFirst); i < max; i++)
-            {
-                let object = results.objectAtIndex(i)
-                
-                let entry = BubbleChartDataEntry(xIndex: object[xIndexField] as! Int, value: object[yValueField] as! Double, size: object[sizeField] as! CGFloat)
-                newEntries.append(entry)
-            }
-            
-            _cache.insertContentsOf(newEntries, at: 0)
-            
-            _cacheFirst = start
-        }
-        
-        if end > _cacheLast
-        {
-            for (var i = UInt(_cacheLast + 1), max = UInt(end + 1); i < max; i++)
-            {
-                let object = results.objectAtIndex(i)
-                
-                let entry = BubbleChartDataEntry(xIndex: object[xIndexField] as! Int, value: object[yValueField] as! Double, size: object[sizeField] as! CGFloat)
-                _cache.append(entry)
-            }
-            
-            _cacheLast = end
-        }
+        return entry
     }
     
     public override func calcMinMax(start start: Int, end: Int)

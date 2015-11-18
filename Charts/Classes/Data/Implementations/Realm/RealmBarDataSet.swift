@@ -80,111 +80,26 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
     /// is calculated from the Entries that are added to the DataSet
     private var _stackSize = 1
     
-    /// Makes sure that the cache is populated for the specified range
-    internal override func ensureCache(start start: Int, end: Int)
+    internal override func buildEntryFromResultObject(object: RLMObject) -> ChartDataEntry
     {
-        if start <= _cacheLast && end >= _cacheFirst
-        {
-            return
-        }
+        let value = object[_yValueField!]
+        let entry: BarChartDataEntry
         
-        guard let yValueField = _yValueField,
-            results = _results,
-            stackValueField = _stackValueField,
-            xIndexField = _xIndexField else { return }
-        
-        if _cacheFirst == -1 || _cacheLast == -1
+        if value is RLMArray
         {
-            _cache.removeAll()
-            _cache.reserveCapacity(end - start + 1)
-            
-            for (var i = UInt(start), max = UInt(end + 1); i < max; i++)
+            var values = [Double]()
+            for val in value as! RLMArray
             {
-                let object = results.objectAtIndex(i)
-                let value = object[yValueField]
-                let entry: BarChartDataEntry
-                
-                if value is RLMArray
-                {
-                    var values = [Double]()
-                    for val in value as! RLMArray
-                    {
-                        values.append((val as! RLMObject)[stackValueField] as! Double)
-                    }
-                    entry = BarChartDataEntry(values: values, xIndex: object[xIndexField] as! Int)
-                }
-                else
-                {
-                    entry = BarChartDataEntry(value: value as! Double, xIndex: object[xIndexField] as! Int)
-                }
-                
-                _cache.append(entry)
+                values.append((val as! RLMObject)[_stackValueField!] as! Double)
             }
-            
-            _cacheFirst = start
-            _cacheLast = end
+            entry = BarChartDataEntry(values: values, xIndex: object[_xIndexField!] as! Int)
+        }
+        else
+        {
+            entry = BarChartDataEntry(value: value as! Double, xIndex: object[_xIndexField!] as! Int)
         }
         
-        if start < _cacheFirst
-        {
-            var newEntries = [ChartDataEntry]()
-            newEntries.reserveCapacity(start - _cacheFirst)
-            
-            for (var i = UInt(start), max = UInt(_cacheFirst); i < max; i++)
-            {
-                let object = results.objectAtIndex(i)
-                let value = object[yValueField]
-                let entry: BarChartDataEntry
-                
-                if value is RLMArray
-                {
-                    var values = [Double]()
-                    for val in value as! RLMArray
-                    {
-                        values.append((val as! RLMObject)[stackValueField] as! Double)
-                    }
-                    entry = BarChartDataEntry(values: values, xIndex: object[xIndexField] as! Int)
-                }
-                else
-                {
-                    entry = BarChartDataEntry(value: value as! Double, xIndex: object[xIndexField] as! Int)
-                }
-                
-                newEntries.append(entry)
-            }
-            
-            _cache.insertContentsOf(newEntries, at: 0)
-            
-            _cacheFirst = start
-        }
-        
-        if end > _cacheLast
-        {
-            for (var i = UInt(_cacheLast + 1), max = UInt(end + 1); i < max; i++)
-            {
-                let object = results.objectAtIndex(i)
-                let value = object[yValueField]
-                let entry: BarChartDataEntry
-                
-                if value is RLMArray
-                {
-                    var values = [Double]()
-                    for val in value as! RLMArray
-                    {
-                        values.append((val as! RLMObject)[stackValueField] as! Double)
-                    }
-                    entry = BarChartDataEntry(values: values, xIndex: object[xIndexField] as! Int)
-                }
-                else
-                {
-                    entry = BarChartDataEntry(value: value as! Double, xIndex: object[xIndexField] as! Int)
-                }
-                
-                _cache.append(entry)
-            }
-            
-            _cacheLast = end
-        }
+        return entry
     }
     
     /// calculates the maximum stacksize that occurs in the Entries array of this DataSet

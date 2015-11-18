@@ -124,9 +124,7 @@ public class RealmDataSet: NSObject, IChartDataSet
             return
         }
         
-        guard let yValueField = _yValueField,
-            results = _results,
-            xIndexField = _xIndexField else { return }
+        guard let results = _results else { return }
         
         if _cacheFirst == -1 || _cacheLast == -1
         {
@@ -135,10 +133,7 @@ public class RealmDataSet: NSObject, IChartDataSet
             
             for (var i = UInt(start), max = UInt(end + 1); i < max; i++)
             {
-                let object = results.objectAtIndex(i)
-                
-                let entry = ChartDataEntry(value: object[yValueField] as! Double, xIndex: object[xIndexField] as! Int)
-                _cache.append(entry)
+                _cache.append(buildEntryFromResultObject(results.objectAtIndex(i)))
             }
             
             _cacheFirst = start
@@ -152,10 +147,7 @@ public class RealmDataSet: NSObject, IChartDataSet
             
             for (var i = UInt(start), max = UInt(_cacheFirst); i < max; i++)
             {
-                let object = results.objectAtIndex(i)
-                
-                let entry = ChartDataEntry(value: object[yValueField] as! Double, xIndex: object[xIndexField] as! Int)
-                newEntries.append(entry)
+                newEntries.append(buildEntryFromResultObject(results.objectAtIndex(i)))
             }
             
             _cache.insertContentsOf(newEntries, at: 0)
@@ -167,14 +159,18 @@ public class RealmDataSet: NSObject, IChartDataSet
         {
             for (var i = UInt(_cacheLast + 1), max = UInt(end + 1); i < max; i++)
             {
-                let object = results.objectAtIndex(i)
-                
-                let entry = ChartDataEntry(value: object[yValueField] as! Double, xIndex: object[xIndexField] as! Int)
-                _cache.append(entry)
+                _cache.append(buildEntryFromResultObject(results.objectAtIndex(i)))
             }
             
             _cacheLast = end
         }
+    }
+    
+    internal func buildEntryFromResultObject(object: RLMObject) -> ChartDataEntry
+    {
+        let entry = ChartDataEntry(value: object[_yValueField!] as! Double, xIndex: object[_xIndexField!] as! Int)
+        
+        return entry
     }
     
     /// Makes sure that the cache is populated for the specified range
