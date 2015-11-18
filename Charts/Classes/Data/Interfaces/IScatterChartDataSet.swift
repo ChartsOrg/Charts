@@ -14,7 +14,7 @@
 import Foundation
 
 @objc
-public protocol IScatterChartDataSet: ILineScatterCandleChartDataSet
+public protocol IScatterChartDataSet: ILineScatterCandleRadarChartDataSet
 {
     // MARK: - Data functions and accessors
     

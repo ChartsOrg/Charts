@@ -15,7 +15,7 @@ import Foundation
 import CoreGraphics
 import UIKit
 
-public class CandleChartDataSet: LineScatterCandleChartDataSet, ICandleChartDataSet
+public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChartDataSet
 {
     
     public required init()

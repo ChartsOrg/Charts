@@ -15,7 +15,7 @@ import Foundation
 import CoreGraphics
 import UIKit
 
-public class LineRadarChartDataSet: LineScatterCandleChartDataSet, ILineRadarChartDataSet
+public class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadarChartDataSet
 {
     // MARK: - Data functions and accessors
     

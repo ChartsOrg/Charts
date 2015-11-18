@@ -1,5 +1,5 @@
 //
-//  LineScatterCandleChartDataSet.swift
+//  LineScatterCandleRadarChartDataSet.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 29/7/15.
@@ -14,7 +14,7 @@
 import Foundation
 import UIKit
 
-public class LineScatterCandleChartDataSet: BarLineScatterCandleBubbleChartDataSet, ILineScatterCandleChartDataSet
+public class LineScatterCandleRadarChartDataSet: BarLineScatterCandleBubbleChartDataSet, ILineScatterCandleRadarChartDataSet
 {
     // MARK: - Data functions and accessors
     
@@ -44,7 +44,7 @@ public class LineScatterCandleChartDataSet: BarLineScatterCandleBubbleChartDataS
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
-        let copy = super.copyWithZone(zone) as! LineScatterCandleChartDataSet
+        let copy = super.copyWithZone(zone) as! LineScatterCandleRadarChartDataSet
         copy.drawHorizontalHighlightIndicatorEnabled = drawHorizontalHighlightIndicatorEnabled
         copy.drawVerticalHighlightIndicatorEnabled = drawVerticalHighlightIndicatorEnabled
         return copy
