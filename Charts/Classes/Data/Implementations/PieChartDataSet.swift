@@ -18,24 +18,24 @@ import UIKit
 
 public class PieChartDataSet: ChartDataSet, IPieChartDataSet
 {
-    public required init()
+    private func initialize()
     {
-        super.init()
-        
         self.valueTextColor = UIColor.whiteColor()
         self.valueFont = UIFont.systemFontOfSize(13.0)
         
         self.calcYValueSum()
     }
     
+    public required init()
+    {
+        super.init()
+        initialize()
+    }
+    
     public override init(yVals: [ChartDataEntry]?, label: String?)
     {
         super.init(yVals: yVals, label: label)
-        
-        self.valueTextColor = UIColor.whiteColor()
-        self.valueFont = UIFont.systemFontOfSize(13.0)
-        
-        self.calcYValueSum()
+        initialize()
     }
     
     // MARK: - Data functions and accessors

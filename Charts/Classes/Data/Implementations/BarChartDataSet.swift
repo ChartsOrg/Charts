@@ -17,20 +17,24 @@ import UIKit
 
 public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDataSet
 {
+    private func initialize()
+    {
+        self.highlightColor = UIColor.blackColor()
+        
+        self.calcStackSize(yVals as! [BarChartDataEntry])
+        self.calcEntryCountIncludingStacks(yVals as! [BarChartDataEntry])
+    }
     
     public required init()
     {
         super.init()
+        initialize()
     }
     
     public override init(yVals: [ChartDataEntry]?, label: String?)
     {
         super.init(yVals: yVals, label: label)
-        
-        self.highlightColor = UIColor.blackColor()
-        
-        self.calcStackSize(yVals as! [BarChartDataEntry]?)
-        self.calcEntryCountIncludingStacks(yVals as! [BarChartDataEntry]?)
+        initialize()
     }
 
     // MARK: - Data functions and accessors

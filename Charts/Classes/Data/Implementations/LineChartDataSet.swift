@@ -17,18 +17,22 @@ import UIKit
 
 public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
 {
+    private func initialize()
+    {
+        // default color
+        circleColors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
+    }
+    
     public required init()
     {
         super.init()
-        
-        circleColors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
+        initialize()
     }
     
     public override init(yVals: [ChartDataEntry]?, label: String?)
     {
         super.init(yVals: yVals, label: label)
-        
-        circleColors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
+        initialize()
     }
     
     // MARK: - Data functions and accessors
