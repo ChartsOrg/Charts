@@ -32,7 +32,9 @@ public class CandleChartDataSet: LineScatterCandleChartDataSet, ICandleChartData
     
     public override func calcMinMax(start start: Int, end: Int)
     {
-        if (yVals.count == 0)
+        let yValCount = self.entryCount
+        
+        if yValCount == 0
         {
             return
         }
@@ -41,9 +43,9 @@ public class CandleChartDataSet: LineScatterCandleChartDataSet, ICandleChartData
         
         var endValue : Int
         
-        if end == 0 || end >= entries.count
+        if end == 0 || end >= yValCount
         {
-            endValue = entries.count - 1
+            endValue = yValCount - 1
         }
         else
         {

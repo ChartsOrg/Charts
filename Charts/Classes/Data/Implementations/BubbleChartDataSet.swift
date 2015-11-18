@@ -32,7 +32,9 @@ public class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubble
     
     public override func calcMinMax(start start: Int, end: Int)
     {
-        if (yVals.count == 0)
+        let yValCount = self.entryCount
+        
+        if yValCount == 0
         {
             return
         }
@@ -43,9 +45,9 @@ public class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubble
         
         var endValue : Int
         
-        if end == 0
+        if end == 0 || end >= yValCount
         {
-            endValue = entries.count - 1
+            endValue = yValCount - 1
         }
         else
         {
