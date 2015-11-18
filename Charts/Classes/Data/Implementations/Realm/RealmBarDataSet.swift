@@ -22,10 +22,8 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
     private func initialize()
     {
         self.highlightColor = UIColor.blackColor()
-        
-        ensureCache(start: 0, end: entryCount)
-        self.calcStackSize(_cache as! [BarChartDataEntry])
     }
+    
     public required init()
     {
         super.init()
@@ -34,6 +32,7 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
     public override init(results: RLMResults?, yValueField: String, xIndexField: String, label: String?)
     {
         super.init(results: results, yValueField: yValueField, xIndexField: xIndexField, label: label)
+        initialize()
     }
     
     public init(results: RLMResults?, yValueField: String, xIndexField: String, stackValueField: String, label: String?)
@@ -41,6 +40,7 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
         _stackValueField = stackValueField
         
         super.init(results: results, yValueField: yValueField, xIndexField: xIndexField, label: label)
+        initialize()
     }
     
     public convenience init(results: RLMResults?, yValueField: String, xIndexField: String)
@@ -56,6 +56,7 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
     public override init(realm: RLMRealm?, modelName: String, resultsWhere: String, yValueField: String, xIndexField: String, label: String?)
     {
         super.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, yValueField: yValueField, xIndexField: xIndexField, label: label)
+        initialize()
     }
     
     public init(realm: RLMRealm?, modelName: String, resultsWhere: String, yValueField: String, xIndexField: String, stackValueField: String, label: String?)
@@ -63,12 +64,15 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
         _stackValueField = stackValueField
         
         super.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, yValueField: yValueField, xIndexField: xIndexField, label: label)
+        initialize()
     }
     
     public override func notifyDataSetChanged()
     {
         _cache.removeAll()
-        ensureCache(start: 0, end: entryCount)
+        ensureCache(start: 0, end: entryCount - 1)
+        self.calcStackSize(_cache as! [BarChartDataEntry])
+        
         super.notifyDataSetChanged()
     }
     

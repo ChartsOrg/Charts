@@ -72,6 +72,8 @@
 		65BF12741BFC69A5005C28D9 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 65BF12521BFBC2B7005C28D9 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		65BF12B01BFC9B00005C28D9 /* RealmLineChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65BF12AE1BFC9B00005C28D9 /* RealmLineChartViewController.m */; };
 		65BF12B11BFC9B00005C28D9 /* RealmLineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BF12AF1BFC9B00005C28D9 /* RealmLineChartViewController.xib */; };
+		65BF12B61BFC9B50005C28D9 /* RealmBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65BF12B41BFC9B50005C28D9 /* RealmBarChartViewController.m */; };
+		65BF12B71BFC9B50005C28D9 /* RealmBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BF12B51BFC9B50005C28D9 /* RealmBarChartViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -213,6 +215,9 @@
 		65BF12AD1BFC9B00005C28D9 /* RealmLineChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealmLineChartViewController.h; sourceTree = "<group>"; };
 		65BF12AE1BFC9B00005C28D9 /* RealmLineChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealmLineChartViewController.m; sourceTree = "<group>"; };
 		65BF12AF1BFC9B00005C28D9 /* RealmLineChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RealmLineChartViewController.xib; sourceTree = "<group>"; };
+		65BF12B31BFC9B50005C28D9 /* RealmBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealmBarChartViewController.h; sourceTree = "<group>"; };
+		65BF12B41BFC9B50005C28D9 /* RealmBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealmBarChartViewController.m; sourceTree = "<group>"; };
+		65BF12B51BFC9B50005C28D9 /* RealmBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RealmBarChartViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -404,6 +409,9 @@
 		65BF12561BFBC6D4005C28D9 /* RealmDemos */ = {
 			isa = PBXGroup;
 			children = (
+				65BF12B31BFC9B50005C28D9 /* RealmBarChartViewController.h */,
+				65BF12B41BFC9B50005C28D9 /* RealmBarChartViewController.m */,
+				65BF12B51BFC9B50005C28D9 /* RealmBarChartViewController.xib */,
 				65BF12AD1BFC9B00005C28D9 /* RealmLineChartViewController.h */,
 				65BF12AE1BFC9B00005C28D9 /* RealmLineChartViewController.m */,
 				65BF12AF1BFC9B00005C28D9 /* RealmLineChartViewController.xib */,
@@ -534,6 +542,7 @@
 				5BEAED281ABC0BE20013F194 /* MultipleLinesChartViewController.xib in Resources */,
 				5B4316381AB8D8B70009FCAA /* Default@2x.png in Resources */,
 				5B9624421B38608C007763E2 /* NegativeStackedBarChartViewController.xib in Resources */,
+				65BF12B71BFC9B50005C28D9 /* RealmBarChartViewController.xib in Resources */,
 				5B0CC7861ABB875400665592 /* PieChartViewController.xib in Resources */,
 				5BEAED1C1ABBFB340013F194 /* ScatterChartViewController.xib in Resources */,
 				5BD8F0751AB89CE500566E05 /* LineChart1ViewController.xib in Resources */,
@@ -573,6 +582,7 @@
 				5BD47E5B1ABB0263008FCEC6 /* BalloonMarker.swift in Sources */,
 				5BEAED2C1ABC160F0013F194 /* CandleStickChartViewController.m in Sources */,
 				5BEAED271ABC0BE20013F194 /* MultipleLinesChartViewController.m in Sources */,
+				65BF12B61BFC9B50005C28D9 /* RealmBarChartViewController.m in Sources */,
 				5B8EAF281AB32CF5009697AA /* DemoBaseViewController.m in Sources */,
 				65BF12601BFBC710005C28D9 /* RealmDemoData.m in Sources */,
 				5BEAED3B1ABC199F0013F194 /* ColoredLineChartViewController.m in Sources */,
