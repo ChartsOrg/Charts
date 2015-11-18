@@ -32,6 +32,7 @@
     {
         self.xIndex = xIndex;
         self.xValue = xValue;
+        self.stackValues = [[RLMArray<RealmFloat> alloc] initWithObjectClassName:@"RealmFloat"];
         
         for (NSNumber *value in stackValues)
         {
