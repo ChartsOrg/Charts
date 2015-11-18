@@ -21,3 +21,11 @@ extension RLMResults: SequenceType
         return NSFastGenerator(self)
     }
 }
+
+extension RLMArray: SequenceType
+{
+    public func generate() -> NSFastGenerator
+    {
+        return NSFastGenerator(self)
+    }
+}
