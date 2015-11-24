@@ -15,21 +15,53 @@
 import Foundation
 import CoreGraphics
 
-internal class ChartHighlighter
-{
-    /// instance of the data-provider
-    internal weak var _chart: BarLineChartViewBase?;
-    
-    internal init(chart: BarLineChartViewBase)
-    {
-        _chart = chart;
-    }
-    
+public protocol ChartHighlighter {
+    weak var chart: BarLineChartViewBase? { get set }
+
     /// Returns a Highlight object corresponding to the given x- and y- touch positions in pixels.
     /// - parameter x:
     /// - parameter y:
     /// - returns:
-    internal func getHighlight(x x: Double, y: Double) -> ChartHighlight?
+    func getHighlight(x x: Double, y: Double) -> ChartHighlight?
+
+    /// Returns the corresponding x-index for a given touch-position in pixels.
+    /// - parameter x:
+    /// - returns:
+    func getXIndex(x: Double) -> Int
+
+    /// Returns the corresponding dataset-index for a given xIndex and xy-touch position in pixels.
+    /// - parameter xIndex:
+    /// - parameter x:
+    /// - parameter y:
+    /// - returns:
+    func getDataSetIndex(xIndex xIndex: Int, x: Double, y: Double) -> Int
+
+    /// Returns a list of SelectionDetail object corresponding to the given xIndex.
+    /// - parameter xIndex:
+    /// - returns:
+    func getSelectionDetailsAtIndex(xIndex: Int) -> [ChartSelectionDetail]
+}
+
+// MARK: - Default implementation
+
+internal class DefaultChartHighlighter: ChartHighlighter
+{
+    weak var chart: BarLineChartViewBase?
+
+    init(chart: BarLineChartViewBase)
+    {
+        self.chart = chart
+    }
+}
+
+public extension ChartHighlighter {
+
+    func getHighlight(x x: Double, y: Double) -> ChartHighlight?
+    {
+        return _getHighlight(x: x, y: y)
+    }
+
+    internal func _getHighlight(x x: Double, y: Double) -> ChartHighlight?
     {
         let xIndex = getXIndex(x)
         if (xIndex == -Int.max)
@@ -45,27 +77,24 @@ internal class ChartHighlighter
         
         return ChartHighlight(xIndex: xIndex, dataSetIndex: dataSetIndex)
     }
-    
-    /// Returns the corresponding x-index for a given touch-position in pixels.
-    /// - parameter x:
-    /// - returns:
-    internal func getXIndex(x: Double) -> Int
+
+    func getXIndex(x: Double) -> Int
+    {
+        return _getXIndex(x)
+    }
+
+    internal func _getXIndex(x: Double) -> Int
     {
         // create an array of the touch-point
         var pt = CGPoint(x: x, y: 0.0)
-        
+
         // take any transformer to determine the x-axis value
-        _chart?.getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
-        
+        self.chart?.getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
+
         return Int(round(pt.x))
     }
     
-    /// Returns the corresponding dataset-index for a given xIndex and xy-touch position in pixels.
-    /// - parameter xIndex:
-    /// - parameter x:
-    /// - parameter y:
-    /// - returns:
-    internal func getDataSetIndex(xIndex xIndex: Int, x: Double, y: Double) -> Int
+    func getDataSetIndex(xIndex xIndex: Int, x: Double, y: Double) -> Int
     {
         let valsAtIndex = getSelectionDetailsAtIndex(xIndex)
         
@@ -78,18 +107,15 @@ internal class ChartHighlighter
         
         return dataSetIndex
     }
-    
-    /// Returns a list of SelectionDetail object corresponding to the given xIndex.
-    /// - parameter xIndex:
-    /// - returns:
-    internal func getSelectionDetailsAtIndex(xIndex: Int) -> [ChartSelectionDetail]
+
+    func getSelectionDetailsAtIndex(xIndex: Int) -> [ChartSelectionDetail]
     {
         var vals = [ChartSelectionDetail]()
         var pt = CGPoint()
         
-        for (var i = 0, dataSetCount = _chart?.data?.dataSetCount; i < dataSetCount; i++)
+        for (var i = 0, dataSetCount = self.chart?.data?.dataSetCount; i < dataSetCount; i++)
         {
-            let dataSet = _chart!.data!.getDataSetByIndex(i)
+            let dataSet = self.chart!.data!.getDataSetByIndex(i)
             
             // dont include datasets that cannot be highlighted
             if !dataSet.isHighlightEnabled
@@ -106,7 +132,7 @@ internal class ChartHighlighter
             
             pt.y = CGFloat(yVal)
             
-            _chart!.getTransformer(dataSet.axisDependency).pointValueToPixel(&pt)
+            self.chart!.getTransformer(dataSet.axisDependency).pointValueToPixel(&pt)
             
             if !pt.y.isNaN
             {
