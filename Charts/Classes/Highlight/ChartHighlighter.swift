@@ -57,6 +57,8 @@ internal class ChartHighlighter
         // take any transformer to determine the x-axis value
         _chart?.getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
         
+        if (isnan(pt.x)) { return 0 }
+        
         return Int(round(pt.x))
     }
     
