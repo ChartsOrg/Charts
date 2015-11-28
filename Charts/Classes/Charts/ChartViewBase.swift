@@ -73,6 +73,9 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
     /// description text that appears in the bottom right corner of the chart
     public var descriptionText = "Description"
     
+    /// flag that indicates if we need to clip the rect when rendering chart
+    public var clipChartToRect = true
+    
     /// flag that indicates if the chart has been fed with data yet
     internal var _dataNotSet = true
     

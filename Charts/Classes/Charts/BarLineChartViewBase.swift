@@ -185,9 +185,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             }
         }
         
-        // make sure the graph values and grid cannot be drawn outside the content-rect
+        // make sure the limit lines and grid lines and grid cannot be drawn outside the content-rect
         CGContextSaveGState(context)
-
         CGContextClipToRect(context, _viewPortHandler.contentRect)
         
         if (_xAxis.isDrawLimitLinesBehindDataEnabled)
@@ -207,7 +206,30 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         _leftYAxisRenderer?.renderGridLines(context: context)
         _rightYAxisRenderer?.renderGridLines(context: context)
         
+        CGContextRestoreGState(context)
+        
+        // push another context make sure the graph values and highlight cannot be drawn outside the content-rect if needs to clip
+        if (clipChartToRect)
+        {
+            CGContextSaveGState(context)
+            CGContextClipToRect(context, _viewPortHandler.contentRect)
+        }
+        
         renderer?.drawData(context: context)
+        
+        // if highlighting is enabled
+        if (valuesToHighlight())
+        {
+            renderer?.drawHighlighted(context: context, indices: _indicesToHighlight)
+        }
+        
+        if (clipChartToRect)
+        {
+            CGContextRestoreGState(context)
+        }
+        
+        CGContextSaveGState(context)
+        CGContextClipToRect(context, _viewPortHandler.contentRect)
         
         if (!_xAxis.isDrawLimitLinesBehindDataEnabled)
         {
@@ -221,13 +243,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         {
             _rightYAxisRenderer?.renderLimitLines(context: context)
         }
-
-        // if highlighting is enabled
-        if (valuesToHighlight())
-        {
-            renderer?.drawHighlighted(context: context, indices: _indicesToHighlight)
-        }
-
+        
         // Removes clipping rectangle
         CGContextRestoreGState(context)
         
