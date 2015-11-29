@@ -1716,6 +1716,9 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     {
         var pt = CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentBottom)
         getTransformer(.Left).pixelToValue(&pt)
+        
+        if (isnan(pt.x)) { return 0 }
+        
         return (_data != nil && Int(round(pt.x)) >= _data.xValCount) ? _data.xValCount - 1 : Int(round(pt.x))
     }
 }
