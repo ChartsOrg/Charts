@@ -40,7 +40,7 @@ public class ChartDataSet: NSObject
     public var valueFont: UIFont = UIFont.systemFontOfSize(7.0)
     
     /// the formatter used to customly format the values
-    public var valueFormatter: NSNumberFormatter?
+    internal var _valueFormatter: NSNumberFormatter? = ChartUtils.defaultValueFormatter()
     
     /// the axis this DataSet should be plotted against.
     public var axisDependency = ChartYAxis.AxisDependency.Left
@@ -283,6 +283,26 @@ public class ChartDataSet: NSObject
         }
         
         return -1
+    }
+    
+    /// the formatter used to customly format the values
+    public var valueFormatter: NSNumberFormatter?
+    {
+        get
+        {
+            return _valueFormatter
+        }
+        set
+        {
+            if newValue == nil
+            {
+                _valueFormatter = ChartUtils.defaultValueFormatter()
+            }
+            else
+            {
+                _valueFormatter = newValue
+            }
+        }
     }
     
     /// - returns: the number of entries this DataSet holds.

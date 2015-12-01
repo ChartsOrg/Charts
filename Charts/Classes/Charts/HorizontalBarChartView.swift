@@ -24,7 +24,7 @@ public class HorizontalBarChartView: BarChartView
         _leftAxisTransformer = ChartTransformerHorizontalBarChart(viewPortHandler: _viewPortHandler)
         _rightAxisTransformer = ChartTransformerHorizontalBarChart(viewPortHandler: _viewPortHandler)
         
-        renderer = HorizontalBarChartRenderer(delegate: self, animator: _animator, viewPortHandler: _viewPortHandler)
+        renderer = HorizontalBarChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
         _leftYAxisRenderer = ChartYAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, yAxis: _leftAxis, transformer: _leftAxisTransformer)
         _rightYAxisRenderer = ChartYAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, yAxis: _rightAxis, transformer: _rightAxisTransformer)
         _xAxisRenderer = ChartXAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer, chart: self)
@@ -87,7 +87,7 @@ public class HorizontalBarChartView: BarChartView
             offsetBottom += _rightAxis.getRequiredHeightSpace()
         }
         
-        let xlabelwidth = _xAxis.labelWidth
+        let xlabelwidth = _xAxis.labelRotatedWidth
         
         if (_xAxis.isEnabled)
         {
@@ -130,7 +130,7 @@ public class HorizontalBarChartView: BarChartView
 
     internal override func calcModulus()
     {
-        _xAxis.axisLabelModulus = Int(ceil((CGFloat(_data.xValCount) * _xAxis.labelHeight) / (_viewPortHandler.contentHeight * viewPortHandler.touchMatrix.d)))
+        _xAxis.axisLabelModulus = Int(ceil((CGFloat(_data.xValCount) * _xAxis.labelRotatedHeight) / (_viewPortHandler.contentHeight * viewPortHandler.touchMatrix.d)))
         
         if (_xAxis.axisLabelModulus < 1)
         {
@@ -138,13 +138,13 @@ public class HorizontalBarChartView: BarChartView
         }
     }
     
-    public override func getBarBounds(e: BarChartDataEntry) -> CGRect!
+    public override func getBarBounds(e: BarChartDataEntry) -> CGRect
     {
         let set = _data.getDataSetForEntry(e) as! BarChartDataSet!
         
         if (set === nil)
         {
-            return nil
+            return CGRectNull
         }
         
         let barspace = set.barSpace

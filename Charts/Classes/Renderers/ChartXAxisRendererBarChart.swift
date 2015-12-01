@@ -27,7 +27,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
     }
     
     /// draws the x-labels on the specified y-position
-    internal override func drawLabels(context context: CGContext?, pos: CGFloat)
+    internal override func drawLabels(context context: CGContext, pos: CGFloat, anchor: CGPoint)
     {
         if (_chart.data === nil)
         {
@@ -40,6 +40,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
         let labelAttrs = [NSFontAttributeName: _xAxis.labelFont,
             NSForegroundColorAttributeName: _xAxis.labelTextColor,
             NSParagraphStyleAttributeName: paraStyle]
+        let labelRotationAngleRadians = _xAxis.labelRotationAngle * ChartUtils.Math.FDEG2RAD
         
         let barData = _chart.data as! BarChartData
         let step = barData.dataSetCount
@@ -83,27 +84,30 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
                     {
                         let width = label!.sizeWithAttributes(labelAttrs).width
                         
-                        if (width > viewPortHandler.offsetRight * 2.0
-                            && position.x + width > viewPortHandler.chartWidth)
+                        if (position.x + width / 2.0 > viewPortHandler.contentRight)
                         {
-                            position.x -= width / 2.0
+                            position.x = viewPortHandler.contentRight - (width / 2.0)
                         }
                     }
                     else if (i == 0)
                     { // avoid clipping of the first
                         let width = label!.sizeWithAttributes(labelAttrs).width
-                        position.x += width / 2.0
+                        
+                        if (position.x - width / 2.0 < viewPortHandler.contentLeft)
+                        {
+                            position.x = viewPortHandler.contentLeft + (width / 2.0)
+                        }
                     }
                 }
                 
-                drawLabel(context: context, label: label!, xIndex: i, x: position.x, y: pos, align: .Center, attributes: labelAttrs, constrainedToSize: labelMaxSize)
+                drawLabel(context: context, label: label!, xIndex: i, x: position.x, y: pos, attributes: labelAttrs, constrainedToSize: labelMaxSize, anchor: anchor, angleRadians: labelRotationAngleRadians)
             }
         }
     }
     
     private var _gridLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    public override func renderGridLines(context context: CGContext?)
+    public override func renderGridLines(context context: CGContext)
     {
         if (!_xAxis.isDrawGridLinesEnabled || !_xAxis.isEnabled)
         {

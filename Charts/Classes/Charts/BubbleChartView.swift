@@ -12,13 +12,13 @@
 import Foundation
 import CoreGraphics
 
-public class BubbleChartView: BarLineChartViewBase, BubbleChartRendererDelegate
+public class BubbleChartView: BarLineChartViewBase, BubbleChartDataProvider
 {
     public override func initialize()
     {
         super.initialize()
         
-        renderer = BubbleChartRenderer(delegate: self, animator: _animator, viewPortHandler: _viewPortHandler)
+        renderer = BubbleChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
     }
     
     public override func calcMinMax()
@@ -55,51 +55,8 @@ public class BubbleChartView: BarLineChartViewBase, BubbleChartRendererDelegate
         
         _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
     }
-
-    // MARK: - BubbleChartRendererDelegate
     
-    public func bubbleChartRendererData(renderer: BubbleChartRenderer) -> BubbleChartData!
-    {
-        return _data as! BubbleChartData!
-    }
+    // MARK: - BubbleChartDataProbider
     
-    public func bubbleChartRenderer(renderer: BubbleChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!
-    {
-        return getTransformer(which)
-    }
-    
-    public func bubbleChartDefaultRendererValueFormatter(renderer: BubbleChartRenderer) -> NSNumberFormatter!
-    {
-        return self._defaultValueFormatter
-    }
-    
-    public func bubbleChartRendererChartYMax(renderer: BubbleChartRenderer) -> Double
-    {
-        return self.chartYMax
-    }
-    
-    public func bubbleChartRendererChartYMin(renderer: BubbleChartRenderer) -> Double
-    {
-        return self.chartYMin
-    }
-    
-    public func bubbleChartRendererChartXMax(renderer: BubbleChartRenderer) -> Double
-    {
-        return self.chartXMax
-    }
-    
-    public func bubbleChartRendererChartXMin(renderer: BubbleChartRenderer) -> Double
-    {
-        return self.chartXMin
-    }
-    
-    public func bubbleChartRendererMaxVisibleValueCount(renderer: BubbleChartRenderer) -> Int
-    {
-        return self.maxVisibleValueCount
-    }
-    
-    public func bubbleChartRendererXValCount(renderer: BubbleChartRenderer) -> Int
-    {
-        return _data.xValCount
-    }
+    public var bubbleData: BubbleChartData? { return _data as? BubbleChartData }
 }

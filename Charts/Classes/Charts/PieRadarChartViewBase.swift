@@ -27,8 +27,8 @@ public class PieRadarChartViewBase: ChartViewBase
     /// flag that indicates if rotation is enabled or not
     public var rotationEnabled = true
     
-    /// Sets the minimum offset (padding) around the chart, defaults to 10
-    public var minOffset = CGFloat(10.0)
+    /// Sets the minimum offset (padding) around the chart, defaults to 0.0
+    public var minOffset = CGFloat(0.0)
 
     private var _rotationWithTwoFingers = false
     
@@ -219,7 +219,7 @@ public class PieRadarChartViewBase: ChartViewBase
             
             if x.isEnabled && x.drawLabelsEnabled
             {
-                minOffset = max(minOffset, x.labelWidth)
+                minOffset = max(minOffset, x.labelRotatedWidth)
             }
         }
 
@@ -380,20 +380,21 @@ public class PieRadarChartViewBase: ChartViewBase
         
         for (var i = 0; i < _data.dataSetCount; i++)
         {
-            let dataSet = _data.getDataSetByIndex(i)
-            if (dataSet === nil || !dataSet.isHighlightEnabled)
+            guard let dataSet = _data.getDataSetByIndex(i) else { continue }
+            
+            if !dataSet.isHighlightEnabled
             {
                 continue
             }
             
             // extract all y-values from all DataSets at the given x-index
-            let yVal = dataSet!.yValForXIndex(xIndex)
+            let yVal = dataSet.yValForXIndex(xIndex)
             if (yVal.isNaN)
             {
                 continue
             }
             
-            vals.append(ChartSelectionDetail(value: yVal, dataSetIndex: i, dataSet: dataSet!))
+            vals.append(ChartSelectionDetail(value: yVal, dataSetIndex: i, dataSet: dataSet))
         }
         
         return vals
@@ -745,6 +746,8 @@ public class PieRadarChartViewBase: ChartViewBase
     {
         if (recognizer.state == UIGestureRecognizerState.Ended)
         {
+            if !self.isHighLightPerTapEnabled { return }
+            
             let location = recognizer.locationInView(self)
             let distance = distanceToCenter(x: location.x, y: location.y)
             
@@ -754,7 +757,7 @@ public class PieRadarChartViewBase: ChartViewBase
                 // if no slice was touched, highlight nothing
                 self.highlightValues(nil)
                 
-                if _lastHighlight === nil
+                if _lastHighlight == nil
                 {
                     self.highlightValues(nil) // do not call delegate
                 }

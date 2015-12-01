@@ -17,27 +17,27 @@ import UIKit
 
 public class HorizontalBarChartRenderer: BarChartRenderer
 {
-    public override init(delegate: BarChartRendererDelegate?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
+    public override init(dataProvider: BarChartDataProvider?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
-        super.init(delegate: delegate, animator: animator, viewPortHandler: viewPortHandler)
+        super.init(dataProvider: dataProvider, animator: animator, viewPortHandler: viewPortHandler)
     }
     
-    internal override func drawDataSet(context context: CGContext?, dataSet: BarChartDataSet, index: Int)
+    internal override func drawDataSet(context context: CGContext, dataSet: BarChartDataSet, index: Int)
     {
+        guard let dataProvider = dataProvider, barData = dataProvider.barData else { return }
+        
         CGContextSaveGState(context)
         
-        let barData = delegate!.barChartRendererData(self)
+        let trans = dataProvider.getTransformer(dataSet.axisDependency)
         
-        let trans = delegate!.barChartRenderer(self, transformerForAxis: dataSet.axisDependency)
-        
-        let drawBarShadowEnabled: Bool = delegate!.barChartIsDrawBarShadowEnabled(self)
+        let drawBarShadowEnabled: Bool = dataProvider.isDrawBarShadowEnabled
         let dataSetOffset = (barData.dataSetCount - 1)
         let groupSpace = barData.groupSpace
         let groupSpaceHalf = groupSpace / 2.0
         let barSpace = dataSet.barSpace
         let barSpaceHalf = barSpace / 2.0
         let containsStacks = dataSet.isStacked
-        let isInverted = delegate!.barChartIsInverted(self, axis: dataSet.axisDependency)
+        let isInverted = dataProvider.isInverted(dataSet.axisDependency)
         var entries = dataSet.yVals as! [BarChartDataEntry]
         let barWidth: CGFloat = 0.5
         let phaseY = _animator.phaseY
@@ -234,21 +234,19 @@ public class HorizontalBarChartRenderer: BarChartRenderer
     
     public override func getTransformedValues(trans trans: ChartTransformer, entries: [BarChartDataEntry], dataSetIndex: Int) -> [CGPoint]
     {
-        return trans.generateTransformedValuesHorizontalBarChart(entries, dataSet: dataSetIndex, barData: delegate!.barChartRendererData(self)!, phaseY: _animator.phaseY)
+        return trans.generateTransformedValuesHorizontalBarChart(entries, dataSet: dataSetIndex, barData: dataProvider!.barData!, phaseY: _animator.phaseY)
     }
     
-    public override func drawValues(context context: CGContext?)
+    public override func drawValues(context context: CGContext)
     {
         // if values are drawn
         if (passesCheck())
         {
-            let barData = delegate!.barChartRendererData(self)
-            
-            let defaultValueFormatter = delegate!.barChartDefaultRendererValueFormatter(self)
+            guard let dataProvider = dataProvider, barData = dataProvider.barData else { return }
             
             var dataSets = barData.dataSets
             
-            let drawValueAboveBar = delegate!.barChartIsDrawValueAboveBarEnabled(self)
+            let drawValueAboveBar = dataProvider.isDrawValueAboveBarEnabled
             
             let textAlign = drawValueAboveBar ? NSTextAlignment.Left : NSTextAlignment.Right
             
@@ -265,19 +263,15 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                     continue
                 }
                 
-                let isInverted = delegate!.barChartIsInverted(self, axis: dataSet.axisDependency)
+                let isInverted = dataProvider.isInverted(dataSet.axisDependency)
                 
                 let valueFont = dataSet.valueFont
                 let valueTextColor = dataSet.valueTextColor
                 let yOffset = -valueFont.lineHeight / 2.0
                 
-                var formatter = dataSet.valueFormatter
-                if (formatter === nil)
-                {
-                    formatter = defaultValueFormatter
-                }
+                let formatter = dataSet.valueFormatter
                 
-                let trans = delegate!.barChartRenderer(self, transformerForAxis: dataSet.axisDependency)
+                let trans = dataProvider.getTransformer(dataSet.axisDependency)
                 
                 var entries = dataSet.yVals as! [BarChartDataEntry]
                 
@@ -458,13 +452,8 @@ public class HorizontalBarChartRenderer: BarChartRenderer
     
     internal override func passesCheck() -> Bool
     {
-        let barData = delegate!.barChartRendererData(self)
+        guard let dataProvider = dataProvider, barData = dataProvider.barData else { return false }
         
-        if (barData === nil)
-        {
-            return false
-        }
-        
-        return CGFloat(barData.yValCount) < CGFloat(delegate!.barChartRendererMaxVisibleValueCount(self)) * viewPortHandler.scaleY
+        return CGFloat(barData.yValCount) < CGFloat(dataProvider.maxVisibleValueCount) * viewPortHandler.scaleY
     }
 }
