@@ -15,13 +15,13 @@ import Foundation
 import CoreGraphics
 
 /// Financial chart type that draws candle-sticks.
-public class CandleStickChartView: BarLineChartViewBase, CandleStickChartRendererDelegate
+public class CandleStickChartView: BarLineChartViewBase, CandleChartDataProvider
 {
     internal override func initialize()
     {
         super.initialize()
         
-        renderer = CandleStickChartRenderer(delegate: self, animator: _animator, viewPortHandler: _viewPortHandler)
+        renderer = CandleStickChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
         _chartXMin = -0.5
     }
 
@@ -33,45 +33,10 @@ public class CandleStickChartView: BarLineChartViewBase, CandleStickChartRendere
         _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
     }
     
-    // MARK: - CandleStickChartRendererDelegate
+    // MARK: - CandleChartDataProvider
     
-    public func candleStickChartRendererCandleData(renderer: CandleStickChartRenderer) -> CandleChartData!
+    public var candleData: CandleChartData?
     {
-        return _data as! CandleChartData!
-    }
-    
-    public func candleStickChartRenderer(renderer: CandleStickChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!
-    {
-        return self.getTransformer(which)
-    }
-    
-    public func candleStickChartDefaultRendererValueFormatter(renderer: CandleStickChartRenderer) -> NSNumberFormatter!
-    {
-        return self.valueFormatter
-    }
-    
-    public func candleStickChartRendererChartYMax(renderer: CandleStickChartRenderer) -> Double
-    {
-        return self.chartYMax
-    }
-    
-    public func candleStickChartRendererChartYMin(renderer: CandleStickChartRenderer) -> Double
-    {
-        return self.chartYMin
-    }
-    
-    public func candleStickChartRendererChartXMax(renderer: CandleStickChartRenderer) -> Double
-    {
-        return self.chartXMax
-    }
-    
-    public func candleStickChartRendererChartXMin(renderer: CandleStickChartRenderer) -> Double
-    {
-        return self.chartXMin
-    }
-    
-    public func candleStickChartRendererMaxVisibleValueCount(renderer: CandleStickChartRenderer) -> Int
-    {
-        return self.maxVisibleValueCount
+        return _data as? CandleChartData
     }
 }

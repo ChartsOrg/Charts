@@ -52,8 +52,16 @@
     _chartView.descriptionText = @"";
     _chartView.noDataTextDescription = @"You need to provide data for the chart.";
     
+    _chartView.drawBordersEnabled = YES;
+    
+    _chartView.leftAxis.drawAxisLineEnabled = NO;
+    _chartView.leftAxis.drawGridLinesEnabled = NO;
+    _chartView.rightAxis.drawAxisLineEnabled = NO;
+    _chartView.rightAxis.drawGridLinesEnabled = NO;
+    _chartView.xAxis.drawAxisLineEnabled = NO;
+    _chartView.xAxis.drawGridLinesEnabled = NO;
+
     _chartView.drawGridBackgroundEnabled = NO;
-    _chartView.highlightEnabled = YES;
     _chartView.dragEnabled = YES;
     [_chartView setScaleEnabled:YES];
     _chartView.pinchZoomEnabled = NO;
@@ -157,8 +165,7 @@
     
     if ([key isEqualToString:@"toggleHighlight"])
     {
-        _chartView.highlightEnabled = !_chartView.isHighlightEnabled;
-        
+        _chartView.data.highlightEnabled = !_chartView.data.isHighlightEnabled;
         [_chartView setNeedsDisplay];
     }
     

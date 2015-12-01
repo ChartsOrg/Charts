@@ -49,15 +49,36 @@
     
     _chartView.usePercentValuesEnabled = YES;
     _chartView.holeTransparent = YES;
-    _chartView.centerTextFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.f];
     _chartView.holeRadiusPercent = 0.58;
     _chartView.transparentCircleRadiusPercent = 0.61;
     _chartView.descriptionText = @"";
+    [_chartView setExtraOffsetsWithLeft:5.f top:10.f right:5.f bottom:5.f];
+    
     _chartView.drawCenterTextEnabled = YES;
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSMutableAttributedString *centerText = [[NSMutableAttributedString alloc] initWithString:@"iOS Charts\nby Daniel Cohen Gindi"];
+    [centerText setAttributes:@{
+                                NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:12.f],
+                                NSParagraphStyleAttributeName: paragraphStyle
+                                } range:NSMakeRange(0, centerText.length)];
+    [centerText addAttributes:@{
+                                NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f],
+                                NSForegroundColorAttributeName: UIColor.grayColor
+                                } range:NSMakeRange(10, centerText.length - 10)];
+    [centerText addAttributes:@{
+                                NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:10.f],
+                                NSForegroundColorAttributeName: [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]
+                                } range:NSMakeRange(centerText.length - 19, 19)];
+    _chartView.centerAttributedText = centerText;
+    
     _chartView.drawHoleEnabled = YES;
     _chartView.rotationAngle = 0.0;
     _chartView.rotationEnabled = YES;
-    _chartView.centerText = @"iOS Charts\nby Daniel Cohen Gindi";
+    _chartView.highlightPerTapEnabled = YES;
     
     ChartLegend *l = _chartView.legend;
     l.position = ChartLegendPositionRightOfChart;
@@ -69,7 +90,7 @@
     _sliderY.value = 100.0;
     [self slidersValueChanged:nil];
     
-    [_chartView animateWithXAxisDuration:1.5 yAxisDuration:1.5 easingOption:ChartEasingOptionEaseOutBack];
+    [_chartView animateWithXAxisDuration:1.4 yAxisDuration:1.4 easingOption:ChartEasingOptionEaseOutBack];
 }
 
 - (void)didReceiveMemoryWarning
@@ -98,7 +119,7 @@
     }
     
     PieChartDataSet *dataSet = [[PieChartDataSet alloc] initWithYVals:yVals1 label:@"Election Results"];
-    dataSet.sliceSpace = 3.0;
+    dataSet.sliceSpace = 2.0;
     
     // add a lot of colors
     
@@ -169,17 +190,17 @@
     
     if ([key isEqualToString:@"animateX"])
     {
-        [_chartView animateWithXAxisDuration:3.0];
+        [_chartView animateWithXAxisDuration:1.4];
     }
     
     if ([key isEqualToString:@"animateY"])
     {
-        [_chartView animateWithYAxisDuration:3.0];
+        [_chartView animateWithYAxisDuration:1.4];
     }
     
     if ([key isEqualToString:@"animateXY"])
     {
-        [_chartView animateWithXAxisDuration:3.0 yAxisDuration:3.0];
+        [_chartView animateWithXAxisDuration:1.4 yAxisDuration:1.4];
     }
     
     if ([key isEqualToString:@"spin"])

@@ -16,8 +16,10 @@ import Foundation
 import UIKit
 import Darwin
 
-internal class ChartUtils
+public class ChartUtils
 {
+    private static var _defaultValueFormatter: NSNumberFormatter = ChartUtils.generateDefaultValueFormatter()
+    
     internal struct Math
     {
         internal static let FDEG2RAD = CGFloat(M_PI / 180.0)
@@ -118,7 +120,7 @@ internal class ChartUtils
         )
     }
     
-    internal class func drawText(context context: CGContext?, text: String, var point: CGPoint, align: NSTextAlignment, attributes: [String : AnyObject]?)
+    public class func drawText(context context: CGContext, text: String, var point: CGPoint, align: NSTextAlignment, attributes: [String : AnyObject]?)
     {
         if (align == .Center)
         {
@@ -128,36 +130,118 @@ internal class ChartUtils
         {
             point.x -= text.sizeWithAttributes(attributes).width
         }
-    
+        
         UIGraphicsPushContext(context)
+        
         (text as NSString).drawAtPoint(point, withAttributes: attributes)
+        
         UIGraphicsPopContext()
     }
     
-    internal class func drawMultilineText(context context: CGContext?, text: String, knownTextSize: CGSize, point: CGPoint, align: NSTextAlignment, attributes: [String : AnyObject]?, constrainedToSize: CGSize)
+    public class func drawText(context context: CGContext, text: String, point: CGPoint, attributes: [String : AnyObject]?, anchor: CGPoint, angleRadians: CGFloat)
+    {
+        var drawOffset = CGPoint()
+        
+        UIGraphicsPushContext(context)
+        
+        if angleRadians != 0.0
+        {
+            let size = text.sizeWithAttributes(attributes)
+            
+            // Move the text drawing rect in a way that it always rotates around its center
+            drawOffset.x = -size.width * 0.5
+            drawOffset.y = -size.height * 0.5
+            
+            var translate = point
+            
+            // Move the "outer" rect relative to the anchor, assuming its centered
+            if anchor.x != 0.5 || anchor.y != 0.5
+            {
+                let rotatedSize = sizeOfRotatedRectangle(size, radians: angleRadians)
+                
+                translate.x -= rotatedSize.width * (anchor.x - 0.5)
+                translate.y -= rotatedSize.height * (anchor.y - 0.5)
+            }
+            
+            CGContextSaveGState(context)
+            CGContextTranslateCTM(context, translate.x, translate.y)
+            CGContextRotateCTM(context, angleRadians)
+            
+            (text as NSString).drawAtPoint(drawOffset, withAttributes: attributes)
+            
+            CGContextRestoreGState(context)
+        }
+        else
+        {
+            if anchor.x != 0.0 || anchor.y != 0.0
+            {
+                let size = text.sizeWithAttributes(attributes)
+                
+                drawOffset.x = -size.width * anchor.x
+                drawOffset.y = -size.height * anchor.y
+            }
+            
+            drawOffset.x += point.x
+            drawOffset.y += point.y
+            
+            (text as NSString).drawAtPoint(drawOffset, withAttributes: attributes)
+        }
+        
+        UIGraphicsPopContext()
+    }
+    
+    internal class func drawMultilineText(context context: CGContext, text: String, knownTextSize: CGSize, point: CGPoint, attributes: [String : AnyObject]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
     {
         var rect = CGRect(origin: CGPoint(), size: knownTextSize)
-        rect.origin.x += point.x
-        rect.origin.y += point.y
-        
-        if (align == .Center)
-        {
-            rect.origin.x -= rect.size.width / 2.0
-        }
-        else if (align == .Right)
-        {
-            rect.origin.x -= rect.size.width
-        }
         
         UIGraphicsPushContext(context)
-        (text as NSString).drawWithRect(rect, options: .UsesLineFragmentOrigin, attributes: attributes, context: nil)
+        
+        if angleRadians != 0.0
+        {
+            // Move the text drawing rect in a way that it always rotates around its center
+            rect.origin.x = -knownTextSize.width * 0.5
+            rect.origin.y = -knownTextSize.height * 0.5
+            
+            var translate = point
+            
+            // Move the "outer" rect relative to the anchor, assuming its centered
+            if anchor.x != 0.5 || anchor.y != 0.5
+            {
+                let rotatedSize = sizeOfRotatedRectangle(knownTextSize, radians: angleRadians)
+                
+                translate.x -= rotatedSize.width * (anchor.x - 0.5)
+                translate.y -= rotatedSize.height * (anchor.y - 0.5)
+            }
+            
+            CGContextSaveGState(context)
+            CGContextTranslateCTM(context, translate.x, translate.y)
+            CGContextRotateCTM(context, angleRadians)
+            
+            (text as NSString).drawWithRect(rect, options: .UsesLineFragmentOrigin, attributes: attributes, context: nil)
+            
+            CGContextRestoreGState(context)
+        }
+        else
+        {
+            if anchor.x != 0.0 || anchor.y != 0.0
+            {
+                rect.origin.x = -knownTextSize.width * anchor.x
+                rect.origin.y = -knownTextSize.height * anchor.y
+            }
+            
+            rect.origin.x += point.x
+            rect.origin.y += point.y
+            
+            (text as NSString).drawWithRect(rect, options: .UsesLineFragmentOrigin, attributes: attributes, context: nil)
+        }
+        
         UIGraphicsPopContext()
     }
     
-    internal class func drawMultilineText(context context: CGContext?, text: String, point: CGPoint, align: NSTextAlignment, attributes: [String : AnyObject]?, constrainedToSize: CGSize)
+    internal class func drawMultilineText(context context: CGContext, text: String, point: CGPoint, attributes: [String : AnyObject]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
     {
         let rect = text.boundingRectWithSize(constrainedToSize, options: .UsesLineFragmentOrigin, attributes: attributes, context: nil)
-        drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, align: align, attributes: attributes, constrainedToSize: constrainedToSize)
+        drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, attributes: attributes, constrainedToSize: constrainedToSize, anchor: anchor, angleRadians: angleRadians)
     }
     
     /// - returns: an angle between 0.0 < 360.0 (not less than zero, less than 360)
@@ -171,6 +255,46 @@ internal class ChartUtils
         return angle % 360.0
     }
     
+    private class func generateDefaultValueFormatter() -> NSNumberFormatter
+    {
+        let formatter = NSNumberFormatter()
+        formatter.minimumIntegerDigits = 1
+        formatter.maximumFractionDigits = 1
+        formatter.minimumFractionDigits = 1
+        formatter.usesGroupingSeparator = true
+        return formatter
+    }
+    
+    /// - returns: the default value formatter used for all chart components that needs a default
+    internal class func defaultValueFormatter() -> NSNumberFormatter
+    {
+        return _defaultValueFormatter
+    }
+    
+    internal class func sizeOfRotatedRectangle(rectangleSize: CGSize, degrees: CGFloat) -> CGSize
+    {
+        let radians = degrees * Math.FDEG2RAD
+        return sizeOfRotatedRectangle(rectangleWidth: rectangleSize.width, rectangleHeight: rectangleSize.height, radians: radians)
+    }
+    
+    internal class func sizeOfRotatedRectangle(rectangleSize: CGSize, radians: CGFloat) -> CGSize
+    {
+        return sizeOfRotatedRectangle(rectangleWidth: rectangleSize.width, rectangleHeight: rectangleSize.height, radians: radians)
+    }
+    
+    internal class func sizeOfRotatedRectangle(rectangleWidth rectangleWidth: CGFloat, rectangleHeight: CGFloat, degrees: CGFloat) -> CGSize
+    {
+        let radians = degrees * Math.FDEG2RAD
+        return sizeOfRotatedRectangle(rectangleWidth: rectangleWidth, rectangleHeight: rectangleHeight, radians: radians)
+    }
+    
+    internal class func sizeOfRotatedRectangle(rectangleWidth rectangleWidth: CGFloat, rectangleHeight: CGFloat, radians: CGFloat) -> CGSize
+    {
+        return CGSize(
+            width: abs(rectangleWidth * cos(radians)) + abs(rectangleHeight * sin(radians)),
+            height: abs(rectangleWidth * sin(radians)) + abs(rectangleHeight * cos(radians))
+        )
+    }
     
     /// MARK: - Bridging functions
     

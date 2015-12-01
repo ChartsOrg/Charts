@@ -36,14 +36,6 @@ public class ChartAxisBase: ChartComponentBase
     /// flag that indicates of the labels of this axis should be drawn or not
     public var drawLabelsEnabled = true
     
-    /// Sets the used x-axis offset for the labels on this axis.
-    /// **default**: 5.0
-    public var xOffset = CGFloat(5.0)
-    
-    /// Sets the used y-axis offset for the labels on this axis.
-    /// **default**: 5.0 (or 0.0 on ChartYAxis)
-    public var yOffset = CGFloat(5.0)
-    
     /// array of limitlines that can be set for the axis
     private var _limitLines = [ChartLimitLine]()
     
@@ -51,6 +43,9 @@ public class ChartAxisBase: ChartComponentBase
     /// 
     /// **default**: false
     public var drawLimitLinesBehindDataEnabled = false
+
+    /// the flag can be used to turn off the antialias for grid lines
+    public var gridAntialiasEnabled = true
 
     public override init()
     {

@@ -25,7 +25,7 @@ public class ChartDataEntry: NSObject
     /// optional spot for additional data this Entry represents
     public var data: AnyObject?
     
-    public override init()
+    public override required init()
     {
         super.init()
     }
@@ -90,7 +90,13 @@ public class ChartDataEntry: NSObject
     
     public func copyWithZone(zone: NSZone) -> AnyObject
     {
-        return ChartDataEntry(value: value, xIndex: xIndex, data: data)
+        let copy = self.dynamicType.init()
+        
+        copy.value = value
+        copy.xIndex = xIndex
+        copy.data = data
+        
+        return copy
     }
 }
 

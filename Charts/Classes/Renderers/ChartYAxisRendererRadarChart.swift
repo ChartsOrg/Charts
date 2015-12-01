@@ -149,7 +149,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         _yAxis.axisRange = abs(_yAxis.axisMaximum - _yAxis.axisMinimum)
     }
     
-    public override func renderAxisLabels(context context: CGContext?)
+    public override func renderAxisLabels(context context: CGContext)
     {
         if (!_yAxis.isEnabled || !_yAxis.isDrawLabelsEnabled)
         {
@@ -183,7 +183,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         }
     }
     
-    public override func renderLimitLines(context context: CGContext?)
+    public override func renderLimitLines(context context: CGContext)
     {
         var limitLines = _yAxis.limitLines
         
@@ -204,6 +204,11 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         for (var i = 0; i < limitLines.count; i++)
         {
             let l = limitLines[i]
+            
+            if !l.isEnabled
+            {
+                continue
+            }
             
             CGContextSetStrokeColorWithColor(context, l.lineColor.CGColor)
             CGContextSetLineWidth(context, l.lineWidth)

@@ -13,34 +13,20 @@ import Foundation
 import CoreGraphics
 import UIKit
 
-@objc
-public protocol BubbleChartRendererDelegate
-{
-    func bubbleChartRendererData(renderer: BubbleChartRenderer) -> BubbleChartData!
-    func bubbleChartRenderer(renderer: BubbleChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!
-    func bubbleChartDefaultRendererValueFormatter(renderer: BubbleChartRenderer) -> NSNumberFormatter!
-    func bubbleChartRendererChartYMax(renderer: BubbleChartRenderer) -> Double
-    func bubbleChartRendererChartYMin(renderer: BubbleChartRenderer) -> Double
-    func bubbleChartRendererChartXMax(renderer: BubbleChartRenderer) -> Double
-    func bubbleChartRendererChartXMin(renderer: BubbleChartRenderer) -> Double
-    func bubbleChartRendererMaxVisibleValueCount(renderer: BubbleChartRenderer) -> Int
-    func bubbleChartRendererXValCount(renderer: BubbleChartRenderer) -> Int
-}
-
 public class BubbleChartRenderer: ChartDataRendererBase
 {
-    public weak var delegate: BubbleChartRendererDelegate?
+    public weak var dataProvider: BubbleChartDataProvider?
     
-    public init(delegate: BubbleChartRendererDelegate?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
+    public init(dataProvider: BubbleChartDataProvider?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
-        self.delegate = delegate
+        self.dataProvider = dataProvider
     }
     
-    public override func drawData(context context: CGContext?)
+    public override func drawData(context context: CGContext)
     {
-        let bubbleData = delegate!.bubbleChartRendererData(self)
+        guard let dataProvider = dataProvider, bubbleData = dataProvider.bubbleData else { return }
         
         for set in bubbleData.dataSets as! [BubbleChartDataSet]
         {
@@ -61,9 +47,11 @@ public class BubbleChartRenderer: ChartDataRendererBase
     private var _pointBuffer = CGPoint()
     private var _sizeBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    internal func drawDataSet(context context: CGContext?, dataSet: BubbleChartDataSet)
+    internal func drawDataSet(context context: CGContext, dataSet: BubbleChartDataSet)
     {
-        let trans = delegate!.bubbleChartRenderer(self, transformerForAxis: dataSet.axisDependency)
+        guard let dataProvider = dataProvider else { return }
+        
+        let trans = dataProvider.getTransformer(dataSet.axisDependency)
         
         let phaseX = _animator.phaseX
         let phaseY = _animator.phaseY
@@ -135,18 +123,12 @@ public class BubbleChartRenderer: ChartDataRendererBase
         CGContextRestoreGState(context)
     }
     
-    public override func drawValues(context context: CGContext?)
+    public override func drawValues(context context: CGContext)
     {
-        let bubbleData = delegate!.bubbleChartRendererData(self)
-        if (bubbleData === nil)
-        {
-            return
-        }
-        
-        let defaultValueFormatter = delegate!.bubbleChartDefaultRendererValueFormatter(self)
+        guard let dataProvider = dataProvider, bubbleData = dataProvider.bubbleData else { return }
         
         // if values are drawn
-        if (bubbleData.yValCount < Int(ceil(CGFloat(delegate!.bubbleChartRendererMaxVisibleValueCount(self)) * viewPortHandler.scaleX)))
+        if (bubbleData.yValCount < Int(ceil(CGFloat(dataProvider.maxVisibleValueCount) * viewPortHandler.scaleX)))
         {
             let dataSets = bubbleData.dataSets as! [BubbleChartDataSet]
             
@@ -163,7 +145,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
                 let alpha = phaseX == 1 ? phaseY : phaseX
                 let valueTextColor = dataSet.valueTextColor.colorWithAlphaComponent(alpha)
                 
-                let formatter = dataSet.valueFormatter === nil ? defaultValueFormatter : dataSet.valueFormatter
+                let formatter = dataSet.valueFormatter
                 
                 let entries = dataSet.yVals
                 
@@ -173,7 +155,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
                 let minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0)
                 let maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count)
                 
-                let positions = delegate!.bubbleChartRenderer(self, transformerForAxis: dataSet.axisDependency).generateTransformedValuesBubble(entries, phaseX: phaseX, phaseY: phaseY, from: minx, to: maxx)
+                let positions = dataProvider.getTransformer(dataSet.axisDependency).generateTransformedValuesBubble(entries, phaseX: phaseX, phaseY: phaseY, from: minx, to: maxx)
                 
                 for (var j = 0, count = positions.count; j < count; j++)
                 {
@@ -203,14 +185,14 @@ public class BubbleChartRenderer: ChartDataRendererBase
         }
     }
     
-    public override func drawExtras(context context: CGContext?)
+    public override func drawExtras(context context: CGContext)
     {
         
     }
     
-    public override func drawHighlighted(context context: CGContext?, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
     {
-        let bubbleData = delegate!.bubbleChartRendererData(self)
+        guard let dataProvider = dataProvider, bubbleData = dataProvider.bubbleData else { return }
         
         CGContextSaveGState(context)
         
@@ -238,7 +220,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
                 continue
             }
             
-            let trans = delegate!.bubbleChartRenderer(self, transformerForAxis: dataSet.axisDependency)
+            let trans = dataProvider.getTransformer(dataSet.axisDependency)
             
             _sizeBuffer[0].x = 0.0
             _sizeBuffer[0].y = 0.0

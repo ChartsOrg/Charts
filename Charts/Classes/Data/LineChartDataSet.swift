@@ -26,6 +26,9 @@ public class LineChartDataSet: LineRadarChartDataSet
     public var lineDashPhase = CGFloat(0.0)
     public var lineDashLengths: [CGFloat]!
     
+    /// formatter for customizing the position of the fill-line
+    private var _fillFormatter: ChartFillFormatter = BarLineChartFillFormatter()
+    
     /// if true, drawing circles is enabled
     public var drawCirclesEnabled = true
     
@@ -34,7 +37,7 @@ public class LineChartDataSet: LineRadarChartDataSet
     
     public var drawCircleHoleEnabled = true
     
-    public override init()
+    public required init()
     {
         super.init()
         circleColors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
@@ -101,6 +104,26 @@ public class LineChartDataSet: LineRadarChartDataSet
     public var isDrawCubicEnabled: Bool { return drawCubicEnabled; }
     
     public var isDrawCircleHoleEnabled: Bool { return drawCircleHoleEnabled; }
+    
+    /// Sets a custom FillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
+    public var fillFormatter: ChartFillFormatter?
+    {
+        get
+        {
+            return _fillFormatter
+        }
+        set
+        {
+            if newValue == nil
+            {
+                _fillFormatter = BarLineChartFillFormatter()
+            }
+            else
+            {
+                _fillFormatter = newValue!
+            }
+        }
+    }
     
     // MARK: NSCopying
     

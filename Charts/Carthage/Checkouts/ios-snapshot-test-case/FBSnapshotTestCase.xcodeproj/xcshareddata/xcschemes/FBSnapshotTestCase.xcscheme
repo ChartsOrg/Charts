@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5BA8EC3F1A9D14DC00CE82E1"
-               BuildableName = "Charts.framework"
-               BlueprintName = "Charts"
-               ReferencedContainer = "container:Charts.xcodeproj">
+               BlueprintIdentifier = "B31987EF1AB782D000B0A900"
+               BuildableName = "FBSnapshotTestCase.framework"
+               BlueprintName = "FBSnapshotTestCase"
+               ReferencedContainer = "container:FBSnapshotTestCase.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -28,39 +28,49 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5BA8EC4A1A9D14DC00CE82E1"
-               BuildableName = "ChartsTests.xctest"
-               BlueprintName = "ChartsTests"
-               ReferencedContainer = "container:Charts.xcodeproj">
+               BlueprintIdentifier = "B31987FA1AB782D100B0A900"
+               BuildableName = "FBSnapshotTestCaseTests.xctest"
+               BlueprintName = "FBSnapshotTestCaseTests"
+               ReferencedContainer = "container:FBSnapshotTestCase.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      buildConfiguration = "Debug">
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B31987FA1AB782D100B0A900"
+               BuildableName = "FBSnapshotTestCaseTests.xctest"
+               BlueprintName = "FBSnapshotTestCaseTests"
+               ReferencedContainer = "container:FBSnapshotTestCase.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5BA8EC3F1A9D14DC00CE82E1"
-            BuildableName = "Charts.framework"
-            BlueprintName = "Charts"
-            ReferencedContainer = "container:Charts.xcodeproj">
+            BlueprintIdentifier = "B31987EF1AB782D000B0A900"
+            BuildableName = "FBSnapshotTestCase.framework"
+            BlueprintName = "FBSnapshotTestCase"
+            ReferencedContainer = "container:FBSnapshotTestCase.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
@@ -68,28 +78,28 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5BA8EC3F1A9D14DC00CE82E1"
-            BuildableName = "Charts.framework"
-            BlueprintName = "Charts"
-            ReferencedContainer = "container:Charts.xcodeproj">
+            BlueprintIdentifier = "B31987EF1AB782D000B0A900"
+            BuildableName = "FBSnapshotTestCase.framework"
+            BlueprintName = "FBSnapshotTestCase"
+            ReferencedContainer = "container:FBSnapshotTestCase.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
+      buildConfiguration = "Release"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5BA8EC3F1A9D14DC00CE82E1"
-            BuildableName = "Charts.framework"
-            BlueprintName = "Charts"
-            ReferencedContainer = "container:Charts.xcodeproj">
+            BlueprintIdentifier = "B31987EF1AB782D000B0A900"
+            BuildableName = "FBSnapshotTestCase.framework"
+            BlueprintName = "FBSnapshotTestCase"
+            ReferencedContainer = "container:FBSnapshotTestCase.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

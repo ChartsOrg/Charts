@@ -24,7 +24,7 @@ public class HorizontalBarChartView: BarChartView
         _leftAxisTransformer = ChartTransformerHorizontalBarChart(viewPortHandler: _viewPortHandler)
         _rightAxisTransformer = ChartTransformerHorizontalBarChart(viewPortHandler: _viewPortHandler)
         
-        renderer = HorizontalBarChartRenderer(delegate: self, animator: _animator, viewPortHandler: _viewPortHandler)
+        renderer = HorizontalBarChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
         _leftYAxisRenderer = ChartYAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, yAxis: _leftAxis, transformer: _leftAxisTransformer)
         _rightYAxisRenderer = ChartYAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, yAxis: _rightAxis, transformer: _rightAxisTransformer)
         _xAxisRenderer = ChartXAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer, chart: self)
@@ -56,8 +56,23 @@ public class HorizontalBarChartView: BarChartView
                 || _legend.position == .BelowChartRight
                 || _legend.position == .BelowChartCenter)
             {
-                let yOffset = _legend.textHeightMax * 2.0; // It's possible that we do not need this offset anymore as it is available through the extraOffsets
+                // It's possible that we do not need this offset anymore as it
+                //   is available through the extraOffsets, but changing it can mean
+                //   changing default visibility for existing apps.
+                let yOffset = _legend.textHeightMax
+                
                 offsetBottom += min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
+            }
+            else if (_legend.position == .AboveChartLeft
+                || _legend.position == .AboveChartRight
+                || _legend.position == .AboveChartCenter)
+            {
+                // It's possible that we do not need this offset anymore as it
+                //   is available through the extraOffsets, but changing it can mean
+                //   changing default visibility for existing apps.
+                let yOffset = _legend.textHeightMax
+                
+                offsetTop += min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
             }
         }
         
@@ -72,7 +87,7 @@ public class HorizontalBarChartView: BarChartView
             offsetBottom += _rightAxis.getRequiredHeightSpace()
         }
         
-        let xlabelwidth = _xAxis.labelWidth
+        let xlabelwidth = _xAxis.labelRotatedWidth
         
         if (_xAxis.isEnabled)
         {
@@ -97,13 +112,11 @@ public class HorizontalBarChartView: BarChartView
         offsetBottom += self.extraBottomOffset
         offsetLeft += self.extraLeftOffset
         
-        let minOffset: CGFloat = 10.0
-        
         _viewPortHandler.restrainViewPort(
-            offsetLeft: max(minOffset, offsetLeft),
-            offsetTop: max(minOffset, offsetTop),
-            offsetRight: max(minOffset, offsetRight),
-            offsetBottom: max(minOffset, offsetBottom))
+            offsetLeft: max(self.minOffset, offsetLeft),
+            offsetTop: max(self.minOffset, offsetTop),
+            offsetRight: max(self.minOffset, offsetRight),
+            offsetBottom: max(self.minOffset, offsetBottom))
         
         prepareOffsetMatrix()
         prepareValuePxMatrix()
@@ -117,7 +130,7 @@ public class HorizontalBarChartView: BarChartView
 
     internal override func calcModulus()
     {
-        _xAxis.axisLabelModulus = Int(ceil((CGFloat(_data.xValCount) * _xAxis.labelHeight) / (_viewPortHandler.contentHeight * viewPortHandler.touchMatrix.d)))
+        _xAxis.axisLabelModulus = Int(ceil((CGFloat(_data.xValCount) * _xAxis.labelRotatedHeight) / (_viewPortHandler.contentHeight * viewPortHandler.touchMatrix.d)))
         
         if (_xAxis.axisLabelModulus < 1)
         {
@@ -125,13 +138,13 @@ public class HorizontalBarChartView: BarChartView
         }
     }
     
-    public override func getBarBounds(e: BarChartDataEntry) -> CGRect!
+    public override func getBarBounds(e: BarChartDataEntry) -> CGRect
     {
         let set = _data.getDataSetForEntry(e) as! BarChartDataSet!
         
         if (set === nil)
         {
-            return nil
+            return CGRectNull
         }
         
         let barspace = set.barSpace

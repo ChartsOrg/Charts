@@ -27,10 +27,15 @@ public class PieRadarChartViewBase: ChartViewBase
     /// flag that indicates if rotation is enabled or not
     public var rotationEnabled = true
     
+    /// Sets the minimum offset (padding) around the chart, defaults to 0.0
+    public var minOffset = CGFloat(0.0)
+
     private var _rotationWithTwoFingers = false
     
     private var _tapGestureRecognizer: UITapGestureRecognizer!
+    #if !os(tvOS)
     private var _rotationGestureRecognizer: UIRotationGestureRecognizer!
+    #endif
     
     public override init(frame: CGRect)
     {
@@ -52,12 +57,14 @@ public class PieRadarChartViewBase: ChartViewBase
         super.initialize()
         
         _tapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("tapGestureRecognized:"))
-        _rotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: Selector("rotationGestureRecognized:"))
         
         self.addGestureRecognizer(_tapGestureRecognizer)
-        self.addGestureRecognizer(_rotationGestureRecognizer)
-        
-        _rotationGestureRecognizer.enabled = rotationWithTwoFingers
+
+        #if !os(tvOS)
+            _rotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: Selector("rotationGestureRecognized:"))
+            self.addGestureRecognizer(_rotationGestureRecognizer)
+            _rotationGestureRecognizer.enabled = rotationWithTwoFingers
+        #endif
     }
     
     internal override func calcMinMax()
@@ -175,10 +182,25 @@ public class PieRadarChartViewBase: ChartViewBase
                     || _legend.position == .BelowChartRight
                     || _legend.position == .BelowChartCenter)
             {
-                let yOffset = self.requiredBottomOffset; // It's possible that we do not need this offset anymore as it is available through the extraOffsets
+                // It's possible that we do not need this offset anymore as it
+                //   is available through the extraOffsets, but changing it can mean
+                //   changing default visibility for existing apps.
+                let yOffset = self.requiredLegendOffset
+                
                 legendBottom = min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
             }
-            
+            else if (_legend.position == .AboveChartLeft
+                || _legend.position == .AboveChartRight
+                || _legend.position == .AboveChartCenter)
+            {
+                // It's possible that we do not need this offset anymore as it
+                //   is available through the extraOffsets, but changing it can mean
+                //   changing default visibility for existing apps.
+                let yOffset = self.requiredLegendOffset
+                
+                legendTop = min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
+            }
+
             legendLeft += self.requiredBaseOffset
             legendRight += self.requiredBaseOffset
             legendTop += self.requiredBaseOffset
@@ -188,8 +210,8 @@ public class PieRadarChartViewBase: ChartViewBase
         legendRight += self.extraRightOffset
         legendBottom += self.extraBottomOffset
         legendLeft += self.extraLeftOffset
-
-        var minOffset = CGFloat(10.0)
+        
+        var minOffset = self.minOffset
         
         if (self.isKindOfClass(RadarChartView))
         {
@@ -197,7 +219,7 @@ public class PieRadarChartViewBase: ChartViewBase
             
             if x.isEnabled && x.drawLabelsEnabled
             {
-                minOffset = max(10.0, x.labelWidth)
+                minOffset = max(minOffset, x.labelRotatedWidth)
             }
         }
 
@@ -326,10 +348,10 @@ public class PieRadarChartViewBase: ChartViewBase
         fatalError("radius cannot be called on PieRadarChartViewBase")
     }
 
-    /// - returns: the required bottom offset for the chart.
-    internal var requiredBottomOffset: CGFloat
+    /// - returns: the required offset for the chart legend.
+    internal var requiredLegendOffset: CGFloat
     {
-        fatalError("requiredBottomOffset cannot be called on PieRadarChartViewBase")
+        fatalError("requiredLegendOffset cannot be called on PieRadarChartViewBase")
     }
 
     /// - returns: the base offset needed for the chart without calculating the
@@ -358,20 +380,21 @@ public class PieRadarChartViewBase: ChartViewBase
         
         for (var i = 0; i < _data.dataSetCount; i++)
         {
-            let dataSet = _data.getDataSetByIndex(i)
-            if (dataSet === nil || !dataSet.isHighlightEnabled)
+            guard let dataSet = _data.getDataSetByIndex(i) else { continue }
+            
+            if !dataSet.isHighlightEnabled
             {
                 continue
             }
             
             // extract all y-values from all DataSets at the given x-index
-            let yVal = dataSet!.yValForXIndex(xIndex)
+            let yVal = dataSet.yValForXIndex(xIndex)
             if (yVal.isNaN)
             {
                 continue
             }
             
-            vals.append(ChartSelectionDetail(value: yVal, dataSetIndex: i, dataSet: dataSet!))
+            vals.append(ChartSelectionDetail(value: yVal, dataSetIndex: i, dataSet: dataSet))
         }
         
         return vals
@@ -392,7 +415,9 @@ public class PieRadarChartViewBase: ChartViewBase
         set
         {
             _rotationWithTwoFingers = newValue
-            _rotationGestureRecognizer.enabled = _rotationWithTwoFingers
+            #if !os(tvOS)
+                _rotationGestureRecognizer.enabled = _rotationWithTwoFingers
+            #endif
         }
     }
     
@@ -721,6 +746,8 @@ public class PieRadarChartViewBase: ChartViewBase
     {
         if (recognizer.state == UIGestureRecognizerState.Ended)
         {
+            if !self.isHighLightPerTapEnabled { return }
+            
             let location = recognizer.locationInView(self)
             let distance = distanceToCenter(x: location.x, y: location.y)
             
@@ -729,7 +756,16 @@ public class PieRadarChartViewBase: ChartViewBase
             {
                 // if no slice was touched, highlight nothing
                 self.highlightValues(nil)
-                _lastHighlight = nil
+                
+                if _lastHighlight == nil
+                {
+                    self.highlightValues(nil) // do not call delegate
+                }
+                else
+                {
+                    self.highlightValue(highlight: nil, callDelegate: true) // call delegate
+                }
+                
                 _lastHighlight = nil
             }
             else
@@ -786,6 +822,7 @@ public class PieRadarChartViewBase: ChartViewBase
         }
     }
     
+    #if !os(tvOS)
     @objc private func rotationGestureRecognized(recognizer: UIRotationGestureRecognizer)
     {
         if (recognizer.state == UIGestureRecognizerState.Began)
@@ -824,4 +861,5 @@ public class PieRadarChartViewBase: ChartViewBase
             }
         }
     }
+    #endif
 }

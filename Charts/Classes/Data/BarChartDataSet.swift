@@ -28,13 +28,18 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet
     public var barShadowColor = UIColor(red: 215.0/255.0, green: 215.0/255.0, blue: 215.0/255.0, alpha: 1.0)
     
     /// the alpha value (transparency) that is used for drawing the highlight indicator bar. min = 0.0 (fully transparent), max = 1.0 (fully opaque)
-    public var highLightAlpha = CGFloat(120.0 / 255.0)
+    public var highlightAlpha = CGFloat(120.0 / 255.0)
     
     /// the overall entry count, including counting each stack-value individually
     private var _entryCountStacks = 0
     
     /// array of labels used to describe the different values of the stacked bars
     public var stackLabels: [String] = ["Stack"]
+    
+    public required init()
+    {
+        super.init()
+    }
     
     public override init(yVals: [ChartDataEntry]?, label: String?)
     {
@@ -54,7 +59,7 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet
         copy.barSpace = barSpace
         copy._stackSize = _stackSize
         copy.barShadowColor = barShadowColor
-        copy.highLightAlpha = highLightAlpha
+        copy.highlightAlpha = highlightAlpha
         copy._entryCountStacks = _entryCountStacks
         copy.stackLabels = stackLabels
         return copy

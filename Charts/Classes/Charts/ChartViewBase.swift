@@ -34,18 +34,18 @@ public protocol ChartViewDelegate
     optional func chartTranslated(chartView: ChartViewBase, dX: CGFloat, dY: CGFloat)
 }
 
-public class ChartViewBase: UIView, ChartAnimatorDelegate
+public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
 {
     // MARK: - Properties
     
-    /// custom formatter that is used instead of the auto-formatter if set
-    internal var _valueFormatter = NSNumberFormatter()
-    
     /// the default value formatter
-    internal var _defaultValueFormatter = NSNumberFormatter()
+    internal var _defaultValueFormatter: NSNumberFormatter = ChartUtils.defaultValueFormatter()
     
     /// object that holds all data that was originally set for the chart, before it was modified or any filtering algorithms had been applied
     internal var _data: ChartData!
+    
+    /// Flag that indicates if highlighting per tap (touch) is enabled
+    private var _highlightPerTapEnabled = true
     
     /// If set to true, chart continues to scroll after touch up
     public var dragDecelerationEnabled = true
@@ -54,9 +54,17 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     /// 1 is an invalid value, and will be converted to 0.999 automatically.
     private var _dragDecelerationFrictionCoef: CGFloat = 0.9
     
-    /// font object used for drawing the description text in the bottom right corner of the chart
+    /// Font object used for drawing the description text (by default in the bottom right corner of the chart)
     public var descriptionFont: UIFont? = UIFont(name: "HelveticaNeue", size: 9.0)
-    public var descriptionTextColor: UIColor! = UIColor.blackColor()
+    
+    /// Text color used for drawing the description text
+    public var descriptionTextColor: UIColor? = UIColor.blackColor()
+    
+    /// Text align used for drawing the description text
+    public var descriptionTextAlign: NSTextAlignment = NSTextAlignment.Right
+    
+    /// Custom position for the description text in pixels on the screen.
+    public var descriptionTextPosition: CGPoint? = nil
     
     /// font object for drawing the information text when there are no values in the chart
     public var infoFont: UIFont! = UIFont(name: "HelveticaNeue", size: 12.0)
@@ -106,7 +114,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     private var _offsetsCalculated = false
     
     /// array of Highlight objects that reference the highlighted slices in the chart
-    internal var _indicesToHightlight = [ChartHighlight]()
+    internal var _indicesToHighlight = [ChartHighlight]()
     
     /// if set to true, the marker is drawn when a value is clicked
     public var drawMarkers = true
@@ -168,13 +176,6 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         _legend = ChartLegend()
         _legendRenderer = ChartLegendRenderer(viewPortHandler: _viewPortHandler, legend: _legend)
         
-        _defaultValueFormatter.minimumIntegerDigits = 1
-        _defaultValueFormatter.maximumFractionDigits = 1
-        _defaultValueFormatter.minimumFractionDigits = 1
-        _defaultValueFormatter.usesGroupingSeparator = true
-        
-        _valueFormatter = _defaultValueFormatter.copy() as! NSNumberFormatter
-        
         self.addObserver(self, forKeyPath: "bounds", options: .New, context: nil)
         self.addObserver(self, forKeyPath: "frame", options: .New, context: nil)
     }
@@ -190,7 +191,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         }
         set
         {
-            if (newValue == nil || newValue?.yValCount == 0)
+            if newValue == nil
             {
                 print("Charts: data argument is nil on setData()", terminator: "\n")
                 return
@@ -212,7 +213,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     {
         _data = nil
         _dataNotSet = true
-        _indicesToHightlight.removeAll()
+        _indicesToHighlight.removeAll()
         setNeedsDisplay()
     }
     
@@ -291,7 +292,9 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     
     public override func drawRect(rect: CGRect)
     {
-        let context = UIGraphicsGetCurrentContext()
+        let optionalContext = UIGraphicsGetCurrentContext()
+        guard let context = optionalContext else { return }
+        
         let frame = self.bounds
 
         if (_dataNotSet || _data === nil || _data.yValCount == 0)
@@ -305,7 +308,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             
             if (noDataTextDescription != nil && (noDataTextDescription!).characters.count > 0)
             {   
-                let textOffset = -infoFont.lineHeight / 2.0
+                let textOffset = infoFont.lineHeight
                 
                 ChartUtils.drawText(context: context, text: noDataTextDescription!, point: CGPoint(x: frame.width / 2.0, y: frame.height / 2.0 + textOffset), align: .Center, attributes: [NSFontAttributeName: infoFont, NSForegroundColorAttributeName: infoTextColor])
             }
@@ -321,7 +324,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     }
     
     /// draws the description text in the bottom right corner of the chart
-    internal func drawDescription(context context: CGContext?)
+    internal func drawDescription(context context: CGContext)
     {
         if (descriptionText.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) == 0)
         {
@@ -336,13 +339,37 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         
         if (font == nil)
         {
-            font = UIFont.systemFontOfSize(UIFont.systemFontSize())
+            #if os(tvOS)
+                // 23 is the smallest recommened font size on the TV
+                font = UIFont.systemFontOfSize(23, weight: UIFontWeightMedium)
+            #else
+                font = UIFont.systemFontOfSize(UIFont.systemFontSize())
+            #endif
         }
         
         attrs[NSFontAttributeName] = font
         attrs[NSForegroundColorAttributeName] = descriptionTextColor
 
-        ChartUtils.drawText(context: context, text: descriptionText, point: CGPoint(x: frame.width - _viewPortHandler.offsetRight - 10.0, y: frame.height - _viewPortHandler.offsetBottom - 10.0 - font!.lineHeight), align: .Right, attributes: attrs)
+        if descriptionTextPosition == nil
+        {
+            ChartUtils.drawText(
+                context: context,
+                text: descriptionText,
+                point: CGPoint(
+                    x: frame.width - _viewPortHandler.offsetRight - 10.0,
+                    y: frame.height - _viewPortHandler.offsetBottom - 10.0 - (font?.lineHeight ?? 0.0)),
+                align: descriptionTextAlign,
+                attributes: attrs)
+        }
+        else
+        {
+            ChartUtils.drawText(
+                context: context,
+                text: descriptionText,
+                point: descriptionTextPosition!,
+                align: descriptionTextAlign,
+                attributes: attrs)
+        }
     }
     
     // MARK: - Highlighting
@@ -350,14 +377,29 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     /// - returns: the array of currently highlighted values. This might an empty if nothing is highlighted.
     public var highlighted: [ChartHighlight]
     {
-        return _indicesToHightlight
+        return _indicesToHighlight
+    }
+    
+    /// Set this to false to prevent values from being highlighted by tap gesture.
+    /// Values can still be highlighted via drag or programmatically.
+    /// - default: true
+    public var highlightPerTapEnabled: Bool
+    {
+        get { return _highlightPerTapEnabled }
+        set { _highlightPerTapEnabled = newValue }
+    }
+    
+    /// Returns true if values can be highlighted via tap gesture, false if not.
+    public var isHighLightPerTapEnabled: Bool
+    {
+        return highlightPerTapEnabled
     }
     
     /// Checks if the highlight array is null, has a length of zero or if the first object is null.
     /// - returns: true if there are values to highlight, false if there are no values to highlight.
     public func valuesToHighlight() -> Bool
     {
-        return _indicesToHightlight.count > 0
+        return _indicesToHighlight.count > 0
     }
 
     /// Highlights the values at the given indices in the given DataSets. Provide
@@ -367,18 +409,31 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     public func highlightValues(highs: [ChartHighlight]?)
     {
         // set the indices to highlight
-        _indicesToHightlight = highs ?? [ChartHighlight]()
+        _indicesToHighlight = highs ?? [ChartHighlight]()
         
-        if (_indicesToHightlight.isEmpty)
+        if (_indicesToHighlight.isEmpty)
         {
             self.lastHighlighted = nil
+        }
+        else
+        {
+            self.lastHighlighted = _indicesToHighlight[0];
         }
 
         // redraw the chart
         setNeedsDisplay()
     }
     
-    /// Highlights the value at the given x-index in the given DataSet. 
+    
+    /// Highlights the values represented by the provided Highlight object
+    /// This DOES NOT generate a callback to the delegate.
+    /// - parameter highlight: contains information about which entry should be highlighted
+    public func highlightValue(highlight: ChartHighlight?)
+    {
+        highlightValue(highlight: highlight, callDelegate: false)
+    }
+    
+    /// Highlights the value at the given x-index in the given DataSet.
     /// Provide -1 as the x-index to undo all highlighting.
     public func highlightValue(xIndex xIndex: Int, dataSetIndex: Int, callDelegate: Bool)
     {
@@ -400,7 +455,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         
         if (h == nil)
         {
-            _indicesToHightlight.removeAll(keepCapacity: false)
+            _indicesToHighlight.removeAll(keepCapacity: false)
         }
         else
         {
@@ -410,16 +465,13 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             {
                 h = nil
                 entry = nil
-                _indicesToHightlight.removeAll(keepCapacity: false)
+                _indicesToHighlight.removeAll(keepCapacity: false)
             }
             else
             {
-                _indicesToHightlight = [h!]
+                _indicesToHighlight = [h!]
             }
         }
-
-        // redraw the chart
-        setNeedsDisplay()
         
         if (callDelegate && delegate != nil)
         {
@@ -433,6 +485,9 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
                 delegate!.chartValueSelected?(self, entry: entry!, dataSetIndex: h!.dataSetIndex, highlight: h!)
             }
         }
+        
+        // redraw the chart
+        setNeedsDisplay()
     }
     
     /// The last value that was highlighted via touch.
@@ -441,7 +496,7 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     // MARK: - Markers
 
     /// draws all MarkerViews on the highlighted positions
-    internal func drawMarkers(context context: CGContext?)
+    internal func drawMarkers(context context: CGContext)
     {
         // if there is no marker view or drawing marker is disabled
         if (marker === nil || !drawMarkers || !valuesToHighlight())
@@ -449,9 +504,9 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             return
         }
 
-        for (var i = 0, count = _indicesToHightlight.count; i < count; i++)
+        for (var i = 0, count = _indicesToHighlight.count; i < count; i++)
         {
-            let highlight = _indicesToHightlight[i]
+            let highlight = _indicesToHighlight[i]
             let xIndex = highlight.xIndex
 
             if (xIndex <= Int(_deltaX) && xIndex <= Int(_deltaX * _animator.phaseX))
@@ -628,8 +683,13 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         return _chartXMin
     }
     
+    public var xValCount: Int
+    {
+        return _data.xValCount
+    }
+    
     /// - returns: the total number of (y) values the chart holds (across all DataSets)
-    public var getValueCount: Int
+    public var valueCount: Int
     {
         return _data.yValCount
     }
@@ -640,6 +700,11 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     {
         let bounds = self.bounds
         return CGPoint(x: bounds.origin.x + bounds.size.width / 2.0, y: bounds.origin.y + bounds.size.height / 2.0)
+    }
+    
+    public func setDescriptionTextPosition(x x: CGFloat, y: CGFloat)
+    {
+        descriptionTextPosition = CGPoint(x: x, y: y)
     }
     
     /// - returns: the center of the chart taking offsets under consideration. (returns the center of the content rectangle)
@@ -664,29 +729,6 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     public var contentRect: CGRect
     {
         return _viewPortHandler.contentRect
-    }
-    
-    /// Sets the formatter to be used for drawing the values inside the chart.
-    /// If no formatter is set, the chart will automatically determine a reasonable
-    /// formatting (concerning decimals) for all the values that are drawn inside
-    /// the chart. Set this to nil to re-enable auto formatting.
-    public var valueFormatter: NSNumberFormatter!
-    {
-        get
-        {
-            return _valueFormatter
-        }
-        set
-        {
-            if (newValue === nil)
-            {
-                _valueFormatter = _defaultValueFormatter.copy() as! NSNumberFormatter
-            }
-            else
-            {
-                _valueFormatter = newValue
-            }
-        }
     }
     
     /// - returns: the x-value at the given index
@@ -754,7 +796,10 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
             }
         }
         
-        layer.renderInOptionalContext(context)
+        if let context = context
+        {
+            layer.renderInContext(context)
+        }
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
         
@@ -798,11 +843,13 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         return imageData.writeToFile(path, atomically: true)
     }
     
+    #if !os(tvOS)
     /// Saves the current state of the chart to the camera roll
     public func saveToCameraRoll()
     {
         UIImageWriteToSavedPhotosAlbum(getChartImage(transparent: false), nil, nil, nil)
     }
+    #endif
     
     internal typealias VoidClosureType = () -> ()
     internal var _sizeChangeEventActions = [VoidClosureType]()
@@ -834,25 +881,6 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
     {
         _sizeChangeEventActions.removeAll(keepCapacity: false)
     }
-    
-    /// if true, value highlighting is enabled
-    public var highlightEnabled: Bool
-    {
-        get
-        {
-            return _data === nil ? true : _data.highlightEnabled
-        }
-        set
-        {
-            if (_data !== nil)
-            {
-                _data.highlightEnabled = newValue
-            }
-        }
-    }
-    
-    /// if true, value highlightning is enabled
-    public var isHighlightEnabled: Bool { return highlightEnabled }
     
     /// **default**: true
     /// - returns: true if chart continues to scroll after touch up, false if not.

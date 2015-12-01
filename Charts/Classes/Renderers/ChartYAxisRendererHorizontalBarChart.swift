@@ -47,7 +47,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
     }
 
     /// draws the y-axis labels to the screen
-    public override func renderAxisLabels(context context: CGContext?)
+    public override func renderAxisLabels(context context: CGContext)
     {
         if (!_yAxis.isEnabled || !_yAxis.isDrawLabelsEnabled)
         {
@@ -104,7 +104,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
     
     private var _axisLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    public override func renderAxisLine(context context: CGContext?)
+    public override func renderAxisLine(context context: CGContext)
     {
         if (!_yAxis.isEnabled || !_yAxis.drawAxisLineEnabled)
         {
@@ -145,7 +145,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
     }
 
     /// draws the y-labels on the specified x-position
-    internal func drawYLabels(context context: CGContext?, fixedPosition: CGFloat, positions: [CGPoint], offset: CGFloat)
+    internal func drawYLabels(context context: CGContext, fixedPosition: CGFloat, positions: [CGPoint], offset: CGFloat)
     {
         let labelFont = _yAxis.labelFont
         let labelTextColor = _yAxis.labelTextColor
@@ -163,7 +163,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         }
     }
 
-    public override func renderGridLines(context context: CGContext?)
+    public override func renderGridLines(context context: CGContext)
     {
         if (!_yAxis.isEnabled || !_yAxis.isDrawGridLinesEnabled)
         {
@@ -204,7 +204,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
     
     private var _limitLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    public override func renderLimitLines(context context: CGContext?)
+    public override func renderLimitLines(context context: CGContext)
     {
         var limitLines = _yAxis.limitLines
 
@@ -222,6 +222,11 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         for (var i = 0; i < limitLines.count; i++)
         {
             let l = limitLines[i]
+            
+            if !l.isEnabled
+            {
+                continue
+            }
             
             position.x = CGFloat(l.limit)
             position.y = 0.0
@@ -252,9 +257,8 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
             {
                 let labelLineHeight = l.valueFont.lineHeight
                 
-                let add = CGFloat(4.0)
-                let xOffset: CGFloat = l.lineWidth
-                let yOffset: CGFloat = add / 2.0
+                let xOffset: CGFloat = l.lineWidth + l.xOffset
+                let yOffset: CGFloat = 2.0 + l.yOffset
 
                 if (l.labelPosition == .RightTop)
                 {

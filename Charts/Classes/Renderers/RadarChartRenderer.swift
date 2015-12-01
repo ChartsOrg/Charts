@@ -26,7 +26,7 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
         _chart = chart
     }
     
-    public override func drawData(context context: CGContext?)
+    public override func drawData(context context: CGContext)
     {
         if (_chart !== nil)
         {
@@ -45,7 +45,7 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
         }
     }
     
-    internal func drawDataSet(context context: CGContext?, dataSet: RadarChartDataSet)
+    internal func drawDataSet(context context: CGContext, dataSet: RadarChartDataSet)
     {
         CGContextSaveGState(context)
         
@@ -109,16 +109,14 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
         CGContextRestoreGState(context)
     }
     
-    public override func drawValues(context context: CGContext?)
+    public override func drawValues(context context: CGContext)
     {
-        if (_chart.data === nil)
+        if _chart.data == nil
         {
             return
         }
         
         let data = _chart.data!
-        
-        let defaultValueFormatter = _chart.valueFormatter
         
         let sliceangle = _chart.sliceAngle
         
@@ -149,25 +147,21 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
                 let valueFont = dataSet.valueFont
                 let valueTextColor = dataSet.valueTextColor
                 
-                var formatter = dataSet.valueFormatter
-                if (formatter === nil)
-                {
-                    formatter = defaultValueFormatter
-                }
+                let formatter = dataSet.valueFormatter
                 
                 ChartUtils.drawText(context: context, text: formatter!.stringFromNumber(e.value)!, point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
             }
         }
     }
     
-    public override func drawExtras(context context: CGContext?)
+    public override func drawExtras(context context: CGContext)
     {
         drawWeb(context: context)
     }
     
     private var _webLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    internal func drawWeb(context context: CGContext?)
+    internal func drawWeb(context context: CGContext)
     {
         let sliceangle = _chart.sliceAngle
         
@@ -185,8 +179,9 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
         CGContextSetStrokeColorWithColor(context, _chart.webColor.CGColor)
         CGContextSetAlpha(context, _chart.webAlpha)
         
-        let modulus = _chart.skipWebLineCount
-        for var i = 0, xValCount = _chart.data!.xValCount; i < xValCount; i += modulus
+        let xIncrements = 1 + _chart.skipWebLineCount
+        
+        for var i = 0, xValCount = _chart.data!.xValCount; i < xValCount; i += xIncrements
         {
             let p = ChartUtils.getPosition(center: center, dist: CGFloat(_chart.yRange) * factor, angle: sliceangle * CGFloat(i) + rotationangle)
             
@@ -228,9 +223,9 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
     
     private var _highlightPointBuffer = CGPoint()
 
-    public override func drawHighlighted(context context: CGContext?, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
     {
-        if (_chart.data === nil)
+        if _chart.data == nil
         {
             return
         }
@@ -255,9 +250,9 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
         
         for (var i = 0; i < indices.count; i++)
         {
-            let set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as! RadarChartDataSet!
+            guard let set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as? RadarChartDataSet else { continue }
             
-            if (set === nil || !set.isHighlightEnabled)
+            if !set.isHighlightEnabled
             {
                 continue
             }
@@ -268,7 +263,7 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
             let xIndex = indices[i].xIndex
             
             let e = set.entryForXIndex(xIndex)
-            if (e === nil || e!.xIndex != xIndex)
+            if e?.xIndex != xIndex
             {
                 continue
             }

@@ -40,7 +40,7 @@ public class ChartDataSet: NSObject
     public var valueFont: UIFont = UIFont.systemFontOfSize(7.0)
     
     /// the formatter used to customly format the values
-    public var valueFormatter: NSNumberFormatter?
+    internal var _valueFormatter: NSNumberFormatter? = ChartUtils.defaultValueFormatter()
     
     /// the axis this DataSet should be plotted against.
     public var axisDependency = ChartYAxis.AxisDependency.Left
@@ -56,7 +56,7 @@ public class ChartDataSet: NSObject
     /// - returns: true if value highlighting is enabled for this dataset
     public var isHighlightEnabled: Bool { return highlightEnabled }
     
-    public override init()
+    public override required init()
     {
         super.init()
     }
@@ -285,6 +285,26 @@ public class ChartDataSet: NSObject
         return -1
     }
     
+    /// the formatter used to customly format the values
+    public var valueFormatter: NSNumberFormatter?
+    {
+        get
+        {
+            return _valueFormatter
+        }
+        set
+        {
+            if newValue == nil
+            {
+                _valueFormatter = ChartUtils.defaultValueFormatter()
+            }
+            else
+            {
+                _valueFormatter = newValue
+            }
+        }
+    }
+    
     /// - returns: the number of entries this DataSet holds.
     public var valueCount: Int { return _yVals.count; }
     
@@ -408,6 +428,48 @@ public class ChartDataSet: NSObject
         return false
     }
     
+    /// Removes the first Entry (at index 0) of this DataSet from the entries array.
+    ///
+    /// - returns: true if successful, false if not.
+    public func removeFirst() -> Bool
+    {
+        let entry: ChartDataEntry? = _yVals.isEmpty ? nil : _yVals.removeFirst()
+        
+        let removed = entry != nil
+        
+        if (removed)
+        {
+            
+            let val = entry!.value
+            _yValueSum -= val
+            
+            calcMinMax(start: _lastStart, end: _lastEnd)
+        }
+        
+        return removed;
+    }
+    
+    /// Removes the last Entry (at index size-1) of this DataSet from the entries array.
+    ///
+    /// - returns: true if successful, false if not.
+    public func removeLast() -> Bool
+    {
+        let entry: ChartDataEntry? = _yVals.isEmpty ? nil : _yVals.removeLast()
+        
+        let removed = entry != nil
+        
+        if (removed)
+        {
+            
+            let val = entry!.value
+            _yValueSum -= val
+            
+            calcMinMax(start: _lastStart, end: _lastEnd)
+        }
+        
+        return removed;
+    }
+    
     public func resetColors()
     {
         colors.removeAll(keepCapacity: false)
@@ -490,7 +552,8 @@ public class ChartDataSet: NSObject
     
     public func copyWithZone(zone: NSZone) -> AnyObject
     {
-        let copy = ChartDataSet()
+        let copy = self.dynamicType.init()
+        
         copy.colors = colors
         copy._yVals = _yVals
         copy._yMax = _yMax
@@ -499,6 +562,7 @@ public class ChartDataSet: NSObject
         copy._lastStart = _lastStart
         copy._lastEnd = _lastEnd
         copy.label = label
+        
         return copy
     }
 }
