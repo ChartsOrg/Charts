@@ -382,6 +382,7 @@ public class ChartData: NSObject
         set
         {
             _dataSets = newValue
+            initialize(_dataSets)
         }
     }
     
