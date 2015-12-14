@@ -108,7 +108,9 @@
     // IMPORTANT: In a PieChart, no values (Entry) should have the same xIndex (even if from different DataSets), since no values can be drawn above each other.
     for (int i = 0; i < count; i++)
     {
-        [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:(arc4random_uniform(mult) + mult / 5) xIndex:i]];
+        ChartDataEntry *entry = [[BarChartDataEntry alloc] initWithValue:(arc4random_uniform(mult) + mult / 5) xIndex:i];
+        entry.data = @"Icon-29@2x.png";
+        [yVals1 addObject: entry];
     }
     
     NSMutableArray *xVals = [[NSMutableArray alloc] init];

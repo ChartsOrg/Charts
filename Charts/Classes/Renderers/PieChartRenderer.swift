@@ -212,6 +212,7 @@ public class PieChartRenderer: ChartDataRendererBase
     {
         drawHole(context: context)
         drawCenterText(context: context)
+        drawIcons(context: context)
     }
     
     /// draws the hole in the center of the chart and the transparent circle / hole
@@ -283,6 +284,99 @@ public class PieChartRenderer: ChartDataRendererBase
             centerAttributedText.drawWithRect(drawingRect, options: [.UsesLineFragmentOrigin, .UsesFontLeading, .TruncatesLastVisibleLine], context: nil)
             
             CGContextRestoreGState(context)
+        }
+    }
+    
+    private func drawIcons(context context: CGContext) {
+        let center = _chart.centerCircleBox
+        
+        // get whole the radius
+        var r = _chart.radius
+        let rotationAngle = _chart.rotationAngle
+        var drawAngles = _chart.drawAngles
+        var absoluteAngles = _chart.absoluteAngles
+        
+        var off = r / 10.0 * 3.0
+        
+        if (drawHoleEnabled)
+        {
+            off = (r - (r * _chart.holeRadiusPercent)) / 2.0
+        }
+        
+        r -= off; // offset to keep things inside the chart
+        
+        guard let data = _chart.data else { return }
+        
+        var dataSets = data.dataSets
+        
+        var cnt = 0
+        
+        for (var i = 0; i < dataSets.count; i++)
+        {
+            guard let dataSet = dataSets[i] as? PieChartDataSet else { continue }
+            
+            let drawIcons = dataSet.isDrawIconsEnabled
+            
+            if (!drawIcons)
+            {
+                continue
+            }
+            
+            var entries = dataSet.yVals
+            let startCnt = cnt
+            
+            // need to loop through and get the average image size
+            var totalImageDimension = CGFloat(0.0)
+            for (var j = 0, maxEntry = Int(min(ceil(CGFloat(entries.count) * _animator.phaseX), CGFloat(entries.count))); j < maxEntry; j++)
+            {
+                // offset needed to center the drawn text in the slice
+                let offset = drawAngles[cnt] / 2.0
+                
+                // calculate the text position
+                let x = (r * cos(((rotationAngle + absoluteAngles[cnt] - offset) * _animator.phaseY) * ChartUtils.Math.FDEG2RAD) + center.x)
+                let y = (r * sin(((rotationAngle + absoluteAngles[cnt] - offset) * _animator.phaseY) * ChartUtils.Math.FDEG2RAD) + center.y)
+                
+                let norm_offset = offset > 45.0 ? 45.0 : offset
+                let norm_x = x - center.x
+                let norm_y = y - center.y
+                let new_r = sqrt(pow(norm_x, 2.0) + pow(norm_y, 2.0)) - off
+                let chordLength = 2 * abs(sin(norm_offset)) * new_r
+                
+                totalImageDimension += CGFloat(0.5 * min(chordLength, new_r))
+                
+                cnt++
+            }
+            
+            //reset the cnt count back to where it was before previous loop
+            cnt = startCnt
+            let imageDimension = totalImageDimension / CGFloat(min(ceil(CGFloat(entries.count) * _animator.phaseX), CGFloat(entries.count)))
+            
+            for (var j = 0, maxEntry = Int(min(ceil(CGFloat(entries.count) * _animator.phaseX), CGFloat(entries.count))); j < maxEntry; j++)
+            {
+                if let imageName = entries[j].data as! String! {
+                    if let image = UIImage(named: imageName) {
+                        let expectedSize = CGSizeMake(imageDimension, imageDimension)
+             
+                        // offset needed to center the drawn text in the slice
+                        let offset = drawAngles[cnt] / 2.0
+
+                        // calculate the text position
+                        let x = (r * cos(((rotationAngle + absoluteAngles[cnt] - offset) * _animator.phaseY) * ChartUtils.Math.FDEG2RAD) + center.x)
+                        let y = (r * sin(((rotationAngle + absoluteAngles[cnt] - offset) * _animator.phaseY) * ChartUtils.Math.FDEG2RAD) + center.y)
+                        
+                        ChartUtils.drawImage(
+                            context: context,
+                            image: image,
+                            point: CGPoint(
+                                x: x,
+                                y: y
+                            ),
+                            expectedSize: expectedSize)
+                    }
+                }
+                
+                cnt++
+            }
         }
     }
     
