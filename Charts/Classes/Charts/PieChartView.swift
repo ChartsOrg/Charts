@@ -50,7 +50,7 @@ public class PieChartView: PieRadarChartViewBase
     {
         super.drawRect(rect)
         
-        if (_dataNotSet)
+        if _data === nil
         {
             return
         }
@@ -81,7 +81,7 @@ public class PieChartView: PieRadarChartViewBase
         super.calculateOffsets()
         
         // prevent nullpointer when no data set
-        if (_dataNotSet)
+        if _data === nil
         {
             return
         }

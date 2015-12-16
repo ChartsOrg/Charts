@@ -134,7 +134,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     {
         super.drawRect(rect)
         
-        if (_dataNotSet)
+        if _data === nil
         {
             return
         }
@@ -261,7 +261,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     
     public override func notifyDataSetChanged()
     {
-        if (_dataNotSet)
+        if _data === nil
         {
             return
         }
@@ -614,7 +614,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     
     @objc private func tapGestureRecognized(recognizer: UITapGestureRecognizer)
     {
-        if (_dataNotSet)
+        if _data === nil
         {
             return
         }
@@ -640,14 +640,14 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     
     @objc private func doubleTapGestureRecognized(recognizer: UITapGestureRecognizer)
     {
-        if (_dataNotSet)
+        if _data === nil
         {
             return
         }
         
         if (recognizer.state == UIGestureRecognizerState.Ended)
         {
-            if (!_dataNotSet && _doubleTapToZoomEnabled)
+            if _data !== nil && _doubleTapToZoomEnabled
             {
                 var location = recognizer.locationInView(self)
                 location.x = location.x - _viewPortHandler.offsetLeft
@@ -673,7 +673,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         {
             stopDeceleration()
             
-            if (!_dataNotSet && (_pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled))
+            if _data !== nil && (_pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled)
             {
                 _isScaling = true
                 
@@ -763,7 +763,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         {
             stopDeceleration()
             
-            if _dataNotSet
+            if _data === nil
             { // If we have no data, we have nothing to pan and no data to highlight
                 return;
             }
@@ -943,7 +943,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         if (gestureRecognizer == _panGestureRecognizer)
         {
-            if _dataNotSet || !_dragEnabled ||
+            if _data === nil || !_dragEnabled ||
                 (self.hasNoDragOffset && self.isFullyZoomedOut && !self.isHighlightPerDragEnabled)
             {
                 return false
@@ -954,7 +954,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             #if !os(tvOS)
                 if (gestureRecognizer == _pinchGestureRecognizer)
                 {
-                    if (_dataNotSet || (!_pinchZoomEnabled && !_scaleXEnabled && !_scaleYEnabled))
+                    if _data === nil || (!_pinchZoomEnabled && !_scaleXEnabled && !_scaleYEnabled)
                     {
                         return false
                     }
@@ -1387,7 +1387,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// - returns: the Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the Line-, Scatter-, or CandleStick-Chart.
     public func getHighlightByTouchPoint(pt: CGPoint) -> ChartHighlight?
     {
-        if (_dataNotSet || _data === nil)
+        if _data === nil
         {
             print("Can't select by touch. No data set.", terminator: "\n")
             return nil
