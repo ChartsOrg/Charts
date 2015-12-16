@@ -26,9 +26,6 @@ public class PieRadarChartViewBase: ChartViewBase
     
     /// flag that indicates if rotation is enabled or not
     public var rotationEnabled = true
-    
-    /// Sets the minimum offset (padding) around the chart, defaults to 0.0
-    public var minOffset = CGFloat(0.0)
 
     private var _rotationWithTwoFingers = false
     
@@ -55,6 +52,8 @@ public class PieRadarChartViewBase: ChartViewBase
     internal override func initialize()
     {
         super.initialize()
+        
+        minOffset = CGFloat(0.0)
         
         _tapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("tapGestureRecognized:"))
         
