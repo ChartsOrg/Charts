@@ -143,7 +143,7 @@ public class ChartDataSet: NSObject
         
         for var i = 0; i < _yVals.count; i++
         {
-            _yValueSum += fabs(_yVals[i].value)
+            _yValueSum += _yVals[i].value
         }
     }
     

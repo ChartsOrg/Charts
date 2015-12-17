@@ -250,7 +250,7 @@ public class ChartData: NSObject
         
         for (var i = 0; i < _dataSets.count; i++)
         {
-            _yValueSum += fabs(_dataSets[i].yValueSum)
+            _yValueSum += _dataSets[i].yValueSum
         }
     }
     
