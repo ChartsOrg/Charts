@@ -24,6 +24,7 @@ public class ChartLimitLine: ChartComponentBase
     {
         case LeftTop
         case LeftBottom
+        case LeftCenter
         case RightTop
         case RightBottom
     }
