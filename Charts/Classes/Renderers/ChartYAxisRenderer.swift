@@ -395,7 +395,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
                         align: .Left,
                         attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
                 }
-                else
+                else if (l.labelPosition == .LeftBottom)
                 {
                     ChartUtils.drawText(context: context,
                         text: label,
@@ -404,6 +404,33 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
                             y: position.y + yOffset - labelLineHeight),
                         align: .Left,
                         attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
+                }
+                else
+                {
+                    let paragraphStyle = NSMutableParagraphStyle();
+                    paragraphStyle.alignment = .Center;
+                    
+                    let labelSize = (label as NSString).sizeWithAttributes([ NSFontAttributeName : l.valueFont ])
+                    
+                    let labelInsetTopBottomSize = (l.labelInset.top + l.labelInset.bottom)
+                    let labelInsetLeftRightSize = (l.labelInset.left + l.labelInset.right)
+                    
+                    let qx = viewPortHandler.contentLeft + xOffset - 1
+                    let qy = position.y - yOffset + labelSize.height / 2 - (labelInsetTopBottomSize / 2)
+                    
+                    let rect = CGRectMake(qx, qy, labelSize.width + labelInsetLeftRightSize, labelSize.height + labelInsetTopBottomSize)
+                    
+                    CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
+                    let path = UIBezierPath(roundedRect: rect, cornerRadius: (CGRectGetHeight(rect) / 2))
+                    path.fill()
+                    
+                    ChartUtils.drawText(context: context,
+                        text: label,
+                        point: CGPoint(
+                            x: qx + (labelInsetLeftRightSize / 2),
+                            y: qy + (labelInsetTopBottomSize / 2)),
+                        align: .Left,
+                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor, NSParagraphStyleAttributeName : paragraphStyle]);
                 }
             }
             
