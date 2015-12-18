@@ -316,6 +316,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
     public override func renderLimitLines(context context: CGContext?)
     {
         var limitLines = _yAxis.limitLines
+        let padding = CGFloat(5)
         
         if (limitLines.count == 0)
         {
@@ -336,9 +337,9 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             position.y = CGFloat(l.limit)
             position = CGPointApplyAffineTransform(position, trans)
             
-            _limitLineSegmentsBuffer[0].x = viewPortHandler.contentLeft
+            _limitLineSegmentsBuffer[0].x = viewPortHandler.contentLeft - padding
             _limitLineSegmentsBuffer[0].y = position.y
-            _limitLineSegmentsBuffer[1].x = viewPortHandler.contentRight
+            _limitLineSegmentsBuffer[1].x = viewPortHandler.contentRight + padding
             _limitLineSegmentsBuffer[1].y = position.y
             
             CGContextSetStrokeColorWithColor(context, l.lineColor.CGColor)
@@ -415,7 +416,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
                     let labelInsetTopBottomSize = (l.labelInset.top + l.labelInset.bottom)
                     let labelInsetLeftRightSize = (l.labelInset.left + l.labelInset.right)
                     
-                    let qx = viewPortHandler.contentLeft + xOffset - 1
+                    let qx = viewPortHandler.contentLeft - labelInsetLeftRightSize - labelSize.width - padding
                     let qy = position.y - yOffset + labelSize.height / 2 - (labelInsetTopBottomSize / 2)
                     
                     let rect = CGRectMake(qx, qy, labelSize.width + labelInsetLeftRightSize, labelSize.height + labelInsetTopBottomSize)
@@ -436,7 +437,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             
             if let image = l.image {
                 
-                let x = l.imagePosition == .End ? viewPortHandler.contentRight - image.size.width + 1 : viewPortHandler.contentLeft - 1
+                let x = l.imagePosition == .End ? viewPortHandler.contentRight + padding : viewPortHandler.contentLeft - image.size.width - padding
                 let y = position.y - image.size.height / 2
                 
                 ChartUtils.drawImage(context: context,
