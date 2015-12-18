@@ -208,19 +208,6 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
         
         renderer?.drawData(context: context)
         
-        if (!_xAxis.isDrawLimitLinesBehindDataEnabled)
-        {
-            _xAxisRenderer?.renderLimitLines(context: context)
-        }
-        if (!_leftAxis.isDrawLimitLinesBehindDataEnabled)
-        {
-            _leftYAxisRenderer?.renderLimitLines(context: context)
-        }
-        if (!_rightAxis.isDrawLimitLinesBehindDataEnabled)
-        {
-            _rightYAxisRenderer?.renderLimitLines(context: context)
-        }
-
         // if highlighting is enabled
         if (valuesToHighlight())
         {
@@ -240,6 +227,19 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
 
         _legendRenderer.renderLegend(context: context)
         // drawLegend()
+        
+        if (!_xAxis.isDrawLimitLinesBehindDataEnabled)
+        {
+            _xAxisRenderer?.renderLimitLines(context: context)
+        }
+        if (!_leftAxis.isDrawLimitLinesBehindDataEnabled)
+        {
+            _leftYAxisRenderer?.renderLimitLines(context: context)
+        }
+        if (!_rightAxis.isDrawLimitLinesBehindDataEnabled)
+        {
+            _rightYAxisRenderer?.renderLimitLines(context: context)
+        }
 
         drawMarkers(context: context)
 
