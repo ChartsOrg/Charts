@@ -457,36 +457,40 @@ public class ChartViewBase: UIView, ChartAnimatorDelegate
         for (var i = 0, count = _indicesToHightlight.count; i < count; i++)
         {
             let highlight = _indicesToHightlight[i]
-            let xIndex = highlight.xIndex
-
-            if (xIndex <= Int(_deltaX) && xIndex <= Int(_deltaX * _animator.phaseX))
+            
+            if(highlight.shouldDrawMarkers)
             {
-                let e = _data.getEntryForHighlight(highlight)
-                if (e === nil || e!.xIndex != highlight.xIndex)
-                {
-                    continue
-                }
-                
-                let pos = getMarkerPosition(entry: e!, highlight: highlight)
+                let xIndex = highlight.xIndex
 
-                // check bounds
-                if (!_viewPortHandler.isInBounds(x: pos.x, y: pos.y))
+                if (xIndex <= Int(_deltaX) && xIndex <= Int(_deltaX * _animator.phaseX))
                 {
-                    continue
-                }
+                    let e = _data.getEntryForHighlight(highlight)
+                    if (e === nil || e!.xIndex != highlight.xIndex)
+                    {
+                        continue
+                    }
+                    
+                    let pos = getMarkerPosition(entry: e!, highlight: highlight)
 
-                // callbacks to update the content
-                marker!.refreshContent(entry: e!, highlight: highlight)
+                    // check bounds
+                    if (!_viewPortHandler.isInBounds(x: pos.x, y: pos.y))
+                    {
+                        continue
+                    }
 
-                let markerSize = marker!.size
-                if (pos.y - markerSize.height <= 0.0)
-                {
-                    let y = markerSize.height - pos.y
-                    marker!.draw(context: context, point: CGPoint(x: pos.x, y: pos.y + y))
-                }
-                else
-                {
-                    marker!.draw(context: context, point: pos)
+                    // callbacks to update the content
+                    marker!.refreshContent(entry: e!, highlight: highlight)
+
+                    let markerSize = marker!.size
+                    if (pos.y - markerSize.height <= 0.0)
+                    {
+                        let y = markerSize.height - pos.y
+                        marker!.draw(context: context, point: CGPoint(x: pos.x, y: pos.y + y))
+                    }
+                    else
+                    {
+                        marker!.draw(context: context, point: pos)
+                    }
                 }
             }
         }
