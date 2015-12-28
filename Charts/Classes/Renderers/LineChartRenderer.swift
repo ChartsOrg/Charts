@@ -520,7 +520,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
                 rect.size.width = nodalImage.size.height
                 rect.size.height = nodalImage.size.height
                 
-                CGContextDrawImage(context, rect, dataSet.nodalImage?.CGImage)
+                nodalImage.drawInRect(rect)
             }
         }
         
