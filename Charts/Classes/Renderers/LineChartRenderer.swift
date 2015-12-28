@@ -455,6 +455,76 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
     public override func drawExtras(context context: CGContext)
     {
         drawCircles(context: context)
+        drawNodalImages(context: context)
+    }
+    
+    private func drawNodalImages(context context: CGContext)
+    {
+        guard let dataProvider = dataProvider, lineData = dataProvider.lineData else { return }
+        
+        let phaseX = _animator.phaseX
+        let phaseY = _animator.phaseY
+        
+        let dataSets = lineData.dataSets
+        
+        var pt = CGPoint()
+        var rect = CGRect()
+        
+        CGContextSaveGState(context)
+        
+        for (var i = 0, count = dataSets.count; i < count; i++)
+        {
+            let dataSet = lineData.getDataSetByIndex(i) as! LineChartDataSet!
+            
+            if !dataSet.isVisible || !dataSet.isDrawNodalImageEnabled || dataSet.entryCount == 0
+            {
+                continue
+            }
+            
+            guard let nodalImage = dataSet.nodalImage else {
+                continue
+            }
+            
+            let trans = dataProvider.getTransformer(dataSet.axisDependency)
+            let valueToPixelMatrix = trans.valueToPixelMatrix
+            
+            var entries = dataSet.yVals
+          
+            let entryFrom = dataSet.entryForXIndex(_minX)!
+            let entryTo = dataSet.entryForXIndex(_maxX)!
+            
+            let diff = (entryFrom == entryTo) ? 1 : 0
+            let minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true) - diff, 0)
+            let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo, isEqual: true) + 1), entries.count)
+            
+            for (var j = minx, count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))); j < count; j++)
+            {
+                let e = entries[j]
+                pt.x = CGFloat(e.xIndex)
+                pt.y = CGFloat(e.value) * phaseY
+                pt = CGPointApplyAffineTransform(pt, valueToPixelMatrix)
+                
+                if (!viewPortHandler.isInBoundsRight(pt.x))
+                {
+                    break
+                }
+                
+                // make sure the images don't do shitty things outside bounds
+                if (!viewPortHandler.isInBoundsLeft(pt.x) || !viewPortHandler.isInBoundsY(pt.y))
+                {
+                    continue
+                }
+                
+                rect.origin.x = pt.x - nodalImage.size.width/2
+                rect.origin.y = pt.y - nodalImage.size.height/2
+                rect.size.width = nodalImage.size.height
+                rect.size.height = nodalImage.size.height
+                
+                CGContextDrawImage(context, rect, dataSet.nodalImage?.CGImage)
+            }
+        }
+        
+        CGContextRestoreGState(context)
     }
     
     private func drawCircles(context context: CGContext)

@@ -23,6 +23,8 @@ public class LineChartDataSet: LineRadarChartDataSet
     
     private var _cubicIntensity = CGFloat(0.2)
     
+    public var nodalImage: UIImage? = nil
+    
     public var lineDashPhase = CGFloat(0.0)
     public var lineDashLengths: [CGFloat]!
     
@@ -34,6 +36,9 @@ public class LineChartDataSet: LineRadarChartDataSet
     
     /// if true, cubic lines are drawn instead of linear
     public var drawCubicEnabled = false
+    
+    /// if true, image is drawn on the nodal points
+    public var drawNodalImageEnabled = false
     
     public var drawCircleHoleEnabled = true
     
@@ -103,6 +108,8 @@ public class LineChartDataSet: LineRadarChartDataSet
     
     public var isDrawCubicEnabled: Bool { return drawCubicEnabled; }
     
+    public var isDrawNodalImageEnabled: Bool { return drawNodalImageEnabled; }
+    
     public var isDrawCircleHoleEnabled: Bool { return drawCircleHoleEnabled; }
     
     /// Sets a custom FillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
@@ -137,6 +144,7 @@ public class LineChartDataSet: LineRadarChartDataSet
         copy.lineDashLengths = lineDashLengths
         copy.drawCirclesEnabled = drawCirclesEnabled
         copy.drawCubicEnabled = drawCubicEnabled
+        copy.drawNodalImageEnabled = drawNodalImageEnabled
         return copy
     }
 }
