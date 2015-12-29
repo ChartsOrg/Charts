@@ -11,7 +11,7 @@ cache:
 before_install:
   - brew update
   - brew install carthage
-  - carthage bootstrap
+  - cd Charts && carthage bootstrap
 
 script:
   - rake test
