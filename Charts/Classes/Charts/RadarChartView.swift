@@ -37,6 +37,19 @@ public class RadarChartView: PieRadarChartViewBase
     /// flag indicating if the web lines should be drawn or not
     public var drawWeb = true
     
+    /// flag indicating if highlight circle should be drawn or not
+    public var drawHighlightCircle = true
+    
+    public var circleFillColor = UIColor.whiteColor()
+    
+    public var circleInnerRadius = CGFloat(3.0)
+    
+    public var circleOuterRadius = CGFloat(4.0)
+    
+    public var circleStrokeWidth = CGFloat(2.0)
+    
+    public var circleStrokeAlpha = CGFloat(0.3)
+    
     /// modulus that determines how many labels and web-lines are skipped before the next is drawn
     private var _skipWebLineCount = 0
     
