@@ -103,6 +103,14 @@ public class ChartYAxis: ChartAxisBase
     /// **default**: 0.0 (no maximum specified)
     public var maxWidth = CGFloat(0)
     
+    /// if true, axis values will be repeated
+    public var allowRepeatedValues = false
+    
+    /// the minimum diference value of the axis values
+    ///
+    /// **default**: 1
+    public var granuality = Double(1.0)
+    
     public override init()
     {
         super.init()
