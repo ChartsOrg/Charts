@@ -54,9 +54,11 @@
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.drawGridLinesEnabled = NO;
+    rightAxis.granuality = 0.1;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.drawGridLinesEnabled = NO;
+    leftAxis.granuality = 0.1;
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBothSided;
