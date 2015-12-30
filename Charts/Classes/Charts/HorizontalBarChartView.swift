@@ -175,7 +175,7 @@ public class HorizontalBarChartView: BarChartView
 
     public override func getHighlightByTouchPoint(pt: CGPoint) -> ChartHighlight?
     {
-        if (_dataNotSet || _data === nil)
+        if _data === nil
         {
             print("Can't select by touch. No data set.", terminator: "\n")
             return nil
