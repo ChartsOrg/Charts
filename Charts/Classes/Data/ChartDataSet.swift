@@ -153,7 +153,7 @@ public class ChartDataSet: NSObject
         return yValueSum / Double(valueCount)
     }
     
-    public var entryCount: Int { return _yVals!.count; }
+    public var entryCount: Int { return _yVals?.count ?? 0 }
     
     public func yValForXIndex(x: Int) -> Double
     {
