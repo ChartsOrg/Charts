@@ -169,7 +169,7 @@ internal class BarChartHighlighter: ChartHighlighter
             }
         }
         
-        let length = ranges!.count - 1
+        let length = max(ranges!.count - 1, 0)
         
         return (value > ranges![length].to) ? length : 0
     }

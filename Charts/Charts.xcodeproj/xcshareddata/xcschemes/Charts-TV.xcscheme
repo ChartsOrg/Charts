@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A52C5C361BAC5CA400594CDD"
-               BuildableName = "ChartsTV.framework"
-               BlueprintName = "ChartsTV"
+               BuildableName = "Charts.framework"
+               BlueprintName = "Charts-TV"
                ReferencedContainer = "container:Charts.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "06AEE7A11BDC3F8B009875AE"
+               BuildableName = "ChartsTests.xctest"
+               BlueprintName = "ChartsTests"
+               ReferencedContainer = "container:Charts.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "A52C5C361BAC5CA400594CDD"
+            BuildableName = "Charts.framework"
+            BlueprintName = "Charts-TV"
+            ReferencedContainer = "container:Charts.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -46,11 +65,18 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A52C5C361BAC5CA400594CDD"
-            BuildableName = "ChartsTV.framework"
-            BlueprintName = "ChartsTV"
+            BuildableName = "Charts.framework"
+            BlueprintName = "Charts-TV"
             ReferencedContainer = "container:Charts.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "FB_REFERENCE_IMAGE_DIR"
+            value = "$(SOURCE_ROOT)/$(PROJECT_NAME)Tests/ReferenceImages"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -64,8 +90,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A52C5C361BAC5CA400594CDD"
-            BuildableName = "ChartsTV.framework"
-            BlueprintName = "ChartsTV"
+            BuildableName = "Charts.framework"
+            BlueprintName = "Charts-TV"
             ReferencedContainer = "container:Charts.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

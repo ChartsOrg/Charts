@@ -1,0 +1,18 @@
+PODS:
+  - FBSnapshotTestCase (2.0.6):
+    - FBSnapshotTestCase/SwiftSupport (= 2.0.6)
+  - FBSnapshotTestCase/Core (2.0.6)
+  - FBSnapshotTestCase/SwiftSupport (2.0.6):
+    - FBSnapshotTestCase/Core
+
+DEPENDENCIES:
+  - FBSnapshotTestCase (from `..`)
+
+EXTERNAL SOURCES:
+  FBSnapshotTestCase:
+    :path: ".."
+
+SPEC CHECKSUMS:
+  FBSnapshotTestCase: f53793e19b2782f2948e8597b03ec2bb5aedf5cd
+
+COCOAPODS: 0.39.0

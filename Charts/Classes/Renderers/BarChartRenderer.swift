@@ -460,7 +460,7 @@ public class BarChartRenderer: ChartDataRendererBase
             let trans = dataProvider.getTransformer(set.axisDependency)
             
             CGContextSetFillColorWithColor(context, set.highlightColor.CGColor)
-            CGContextSetAlpha(context, set.highLightAlpha)
+            CGContextSetAlpha(context, set.highlightAlpha)
             
             // check outofbounds
             if (CGFloat(index) < (CGFloat(dataProvider.chartXMax) * _animator.phaseX) / CGFloat(setCount))

@@ -475,7 +475,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         {
             let dataSet = lineData.getDataSetByIndex(i) as! LineChartDataSet!
             
-            if (!dataSet.isVisible || !dataSet.isDrawCirclesEnabled)
+            if !dataSet.isVisible || !dataSet.isDrawCirclesEnabled || dataSet.entryCount == 0
             {
                 continue
             }

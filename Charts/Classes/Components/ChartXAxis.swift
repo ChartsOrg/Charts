@@ -28,8 +28,21 @@ public class ChartXAxis: ChartAxisBase
     }
     
     public var values = [String?]()
+    
+    /// width of the x-axis labels in pixels - this is automatically calculated by the computeAxis() methods in the renderers
     public var labelWidth = CGFloat(1.0)
+    
+    /// height of the x-axis labels in pixels - this is automatically calculated by the computeAxis() methods in the renderers
     public var labelHeight = CGFloat(1.0)
+    
+    /// width of the (rotated) x-axis labels in pixels - this is automatically calculated by the computeAxis() methods in the renderers
+    public var labelRotatedWidth = CGFloat(1.0)
+    
+    /// height of the (rotated) x-axis labels in pixels - this is automatically calculated by the computeAxis() methods in the renderers
+    public var labelRotatedHeight = CGFloat(1.0)
+    
+    /// This is the angle for drawing the X axis labels (in degrees)
+    public var labelRotationAngle = CGFloat(0.0)
     
     /// the space that should be left out (in characters) between the x-axis labels
     /// This only applies if the number of labels that will be skipped in between drawn axis labels is not custom set.
@@ -73,7 +86,7 @@ public class ChartXAxis: ChartAxisBase
     public var labelPosition = XAxisLabelPosition.Top
     
     /// if set to true, word wrapping the labels will be enabled.
-    /// word wrapping is done using `(value width * labelWidth)`
+    /// word wrapping is done using `(value width * labelRotatedWidth)`
     ///
     /// *Note: currently supports all charts except pie/radar/horizontal-bar*
     public var wordWrapEnabled = false
@@ -90,6 +103,8 @@ public class ChartXAxis: ChartAxisBase
     public override init()
     {
         super.init()
+        
+        self.yOffset = 4.0;
     }
 
     public override func getLongestLabel() -> String

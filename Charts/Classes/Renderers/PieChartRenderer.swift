@@ -328,7 +328,7 @@ public class PieChartRenderer: ChartDataRendererBase
                 angle = rotationAngle + absoluteAngles[xIndex - 1]
             }
             
-            angle *= _animator.phaseY
+            angle *= _animator.phaseX
             
             let sliceDegrees = drawAngles[xIndex]
             

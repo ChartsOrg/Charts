@@ -250,7 +250,7 @@ public class ChartData: NSObject
         
         for (var i = 0; i < _dataSets.count; i++)
         {
-            _yValueSum += fabs(_dataSets[i].yValueSum)
+            _yValueSum += _dataSets[i].yValueSum
         }
     }
     
@@ -382,6 +382,7 @@ public class ChartData: NSObject
         set
         {
             _dataSets = newValue
+            initialize(_dataSets)
         }
     }
     
@@ -878,6 +879,7 @@ public class ChartData: NSObject
     }
     
     /// Enables / disables highlighting values for all DataSets this data object contains.
+    /// If set to true, this means that values can be highlighted programmatically or by touch gesture.
     public var highlightEnabled: Bool
     {
         get

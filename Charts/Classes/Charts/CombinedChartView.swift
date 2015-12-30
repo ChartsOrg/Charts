@@ -71,8 +71,13 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
                     }
                 }
             }
-
-            _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
+        }
+        
+        _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
+        
+        if (_deltaX == 0.0 && self.lineData?.yValCount > 0)
+        {
+            _deltaX = 1.0
         }
     }
     

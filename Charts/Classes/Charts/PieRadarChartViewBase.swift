@@ -74,7 +74,7 @@ public class PieRadarChartViewBase: ChartViewBase
     
     public override func notifyDataSetChanged()
     {
-        if (_dataNotSet)
+        if _data === nil
         {
             return
         }
@@ -219,7 +219,7 @@ public class PieRadarChartViewBase: ChartViewBase
             
             if x.isEnabled && x.drawLabelsEnabled
             {
-                minOffset = max(minOffset, x.labelWidth)
+                minOffset = max(minOffset, x.labelRotatedWidth)
             }
         }
 
@@ -746,6 +746,8 @@ public class PieRadarChartViewBase: ChartViewBase
     {
         if (recognizer.state == UIGestureRecognizerState.Ended)
         {
+            if !self.isHighLightPerTapEnabled { return }
+            
             let location = recognizer.locationInView(self)
             let distance = distanceToCenter(x: location.x, y: location.y)
             
