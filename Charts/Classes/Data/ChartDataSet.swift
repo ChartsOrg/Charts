@@ -143,7 +143,7 @@ public class ChartDataSet: NSObject
         
         for var i = 0; i < _yVals.count; i++
         {
-            _yValueSum += fabs(_yVals[i].value)
+            _yValueSum += _yVals[i].value
         }
     }
     
@@ -153,7 +153,7 @@ public class ChartDataSet: NSObject
         return yValueSum / Double(valueCount)
     }
     
-    public var entryCount: Int { return _yVals!.count; }
+    public var entryCount: Int { return _yVals?.count ?? 0 }
     
     public func yValForXIndex(x: Int) -> Double
     {
