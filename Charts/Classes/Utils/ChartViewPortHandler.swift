@@ -151,18 +151,23 @@ public class ChartViewPortHandler: NSObject
         return _contentRect.size.height
     }
     
-    public var contentRect: CGRect { return _contentRect; }
+    public var contentRect: CGRect
+    {
+        return _contentRect
+    }
     
     public var contentCenter: CGPoint
     {
         return CGPoint(x: _contentRect.origin.x + _contentRect.size.width / 2.0, y: _contentRect.origin.y + _contentRect.size.height / 2.0)
     }
     
-    public var chartHeight: CGFloat { 
+    public var chartHeight: CGFloat
+    { 
         return _chartHeight
     }
     
-    public var chartWidth: CGFloat { 
+    public var chartWidth: CGFloat
+    { 
         return _chartWidth
     }
 
