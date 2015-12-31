@@ -158,9 +158,13 @@ public class ChartViewPortHandler: NSObject
         return CGPoint(x: _contentRect.origin.x + _contentRect.size.width / 2.0, y: _contentRect.origin.y + _contentRect.size.height / 2.0)
     }
     
-    public var chartHeight: CGFloat { return _chartHeight; }
+    public var chartHeight: CGFloat { 
+        return _chartHeight
+    }
     
-    public var chartWidth: CGFloat { return _chartWidth; }
+    public var chartWidth: CGFloat { 
+        return _chartWidth
+    }
 
     // MARK: - Scaling/Panning etc.
     
@@ -239,11 +243,11 @@ public class ChartViewPortHandler: NSObject
         
         let maxTransX = -width * (_scaleX - 1.0)
         let newTransX = min(max(matrix.tx, maxTransX - _transOffsetX), _transOffsetX)
-        _transX = newTransX;
+        _transX = newTransX
         
         let maxTransY = height * (_scaleY - 1.0)
         let newTransY = max(min(matrix.ty, maxTransY + _transOffsetY), -_transOffsetY)
-        _transY = newTransY;
+        _transY = newTransY
         
         matrix.tx = _transX
         matrix.a = _scaleX
@@ -308,7 +312,7 @@ public class ChartViewPortHandler: NSObject
     /// Sets the maximum scale factor for the y-axis
     public func setMaximumScaleY(yScale: CGFloat)
     {
-        _maxScaleY = yScale;
+        _maxScaleY = yScale
         
         limitTransAndScale(matrix: &_touchMatrix, content: _contentRect)
     }
