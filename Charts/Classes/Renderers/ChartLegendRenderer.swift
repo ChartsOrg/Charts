@@ -137,12 +137,13 @@ public class ChartLegendRenderer: ChartRendererBase
         
         switch (legendPosition)
         {
-        case .BelowChartLeft: fallthrough
-        case .BelowChartRight: fallthrough
-        case .BelowChartCenter: fallthrough
-        case .AboveChartLeft: fallthrough
-        case .AboveChartRight: fallthrough
-        case .AboveChartCenter:
+        case
+        .BelowChartLeft,
+        .BelowChartRight,
+        .BelowChartCenter,
+        .AboveChartLeft,
+        .AboveChartRight,
+        .AboveChartCenter:
             
             let contentWidth: CGFloat = viewPortHandler.contentWidth
             
@@ -253,13 +254,14 @@ public class ChartLegendRenderer: ChartRendererBase
             
             break
             
-        case .PiechartCenter: fallthrough
-        case .RightOfChart: fallthrough
-        case .RightOfChartCenter: fallthrough
-        case .RightOfChartInside: fallthrough
-        case .LeftOfChart: fallthrough
-        case .LeftOfChartCenter: fallthrough
-        case .LeftOfChartInside:
+        case
+        .PiechartCenter,
+        .RightOfChart,
+        .RightOfChartCenter,
+        .RightOfChartInside,
+        .LeftOfChart,
+        .LeftOfChartCenter,
+        .LeftOfChartInside:
             
             // contains the stacked legend size in pixels
             var stack = CGFloat(0.0)
