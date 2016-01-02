@@ -296,19 +296,13 @@ public class ChartLegendRenderer: ChartRendererBase
                     }
                 }
                 
-                if (legendPosition == .RightOfChart ||
-                    legendPosition == .LeftOfChart)
+                switch legendPosition
                 {
+                case .RightOfChart, .LeftOfChart:
                     posY = viewPortHandler.contentTop + yoffset
-                }
-                else if (legendPosition == .RightOfChartCenter ||
-                    legendPosition == .LeftOfChartCenter)
-                {
+                case .RightOfChartCenter, .LeftOfChartCenter:
                     posY = viewPortHandler.chartHeight / 2.0 - _legend.neededHeight / 2.0
-                }
-                else /*if (legend.position == .RightOfChartInside ||
-                    legend.position == .LeftOfChartInside)*/
-                {
+                default: // case .RightOfChartInside, .LeftOfChartInside
                     posY = viewPortHandler.contentTop + yoffset
                 }
             }
