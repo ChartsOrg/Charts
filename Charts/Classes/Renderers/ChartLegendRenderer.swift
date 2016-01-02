@@ -252,8 +252,6 @@ public class ChartLegendRenderer: ChartRendererBase
                 }
             }
             
-            break
-            
         case
         .PiechartCenter,
         .RightOfChart,
@@ -368,7 +366,6 @@ public class ChartLegendRenderer: ChartRendererBase
                 }
             }
             
-            break
         }
     }
 
@@ -394,11 +391,9 @@ public class ChartLegendRenderer: ChartRendererBase
         case .Circle:
             CGContextSetFillColorWithColor(context, formColor!.CGColor)
             CGContextFillEllipseInRect(context, CGRect(x: x, y: y - formsize / 2.0, width: formsize, height: formsize))
-            break
         case .Square:
             CGContextSetFillColorWithColor(context, formColor!.CGColor)
             CGContextFillRect(context, CGRect(x: x, y: y - formsize / 2.0, width: formsize, height: formsize))
-            break
         case .Line:
             
             CGContextSetLineWidth(context, legend.formLineWidth)
@@ -409,8 +404,6 @@ public class ChartLegendRenderer: ChartRendererBase
             _formLineSegmentsBuffer[1].x = x + formsize
             _formLineSegmentsBuffer[1].y = y
             CGContextStrokeLineSegments(context, _formLineSegmentsBuffer, 2)
-            
-            break
         }
     }
 
