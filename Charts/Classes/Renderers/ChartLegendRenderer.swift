@@ -374,10 +374,7 @@ public class ChartLegendRenderer: ChartRendererBase
     /// Draws the Legend-form at the given position with the color at the given index.
     internal func drawForm(context context: CGContext, x: CGFloat, y: CGFloat, colorIndex: Int, legend: ChartLegend)
     {
-        let formColor = legend.colors[colorIndex]
-        
-        if (formColor === nil || formColor == UIColor.clearColor())
-        {
+        guard let formColor = legend.colors[colorIndex] where formColor != UIColor.clearColor() else {
             return
         }
         
@@ -389,15 +386,15 @@ public class ChartLegendRenderer: ChartRendererBase
         switch (legend.form)
         {
         case .Circle:
-            CGContextSetFillColorWithColor(context, formColor!.CGColor)
+            CGContextSetFillColorWithColor(context, formColor.CGColor)
             CGContextFillEllipseInRect(context, CGRect(x: x, y: y - formsize / 2.0, width: formsize, height: formsize))
         case .Square:
-            CGContextSetFillColorWithColor(context, formColor!.CGColor)
+            CGContextSetFillColorWithColor(context, formColor.CGColor)
             CGContextFillRect(context, CGRect(x: x, y: y - formsize / 2.0, width: formsize, height: formsize))
         case .Line:
             
             CGContextSetLineWidth(context, legend.formLineWidth)
-            CGContextSetStrokeColorWithColor(context, formColor!.CGColor)
+            CGContextSetStrokeColorWithColor(context, formColor.CGColor)
             
             _formLineSegmentsBuffer[0].x = x
             _formLineSegmentsBuffer[0].y = y
