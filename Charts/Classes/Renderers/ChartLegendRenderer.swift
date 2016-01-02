@@ -387,6 +387,7 @@ public class ChartLegendRenderer: ChartRendererBase
         let formsize = legend.formSize
         
         CGContextSaveGState(context)
+        defer { CGContextRestoreGState(context) }
         
         switch (legend.form)
         {
@@ -411,8 +412,6 @@ public class ChartLegendRenderer: ChartRendererBase
             
             break
         }
-        
-        CGContextRestoreGState(context)
     }
 
     /// Draws the provided label at the given position.
