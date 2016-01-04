@@ -26,6 +26,8 @@ public class LineChartDataSet: LineRadarChartDataSet
     public var lineDashPhase = CGFloat(0.0)
     public var lineDashLengths: [CGFloat]!
     
+    public var gradientPositions = [CGFloat]()
+    
     /// formatter for customizing the position of the fill-line
     private var _fillFormatter: ChartFillFormatter = BarLineChartFillFormatter()
     
