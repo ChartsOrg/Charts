@@ -108,7 +108,7 @@ public class LineChartDataSet: LineRadarChartDataSet
     
     public var isDrawCubicEnabled: Bool { return drawCubicEnabled; }
     
-    public var isdrawGradientEnabled: Bool { return drawGradientEnabled; }
+    public var isDrawGradientEnabled: Bool { return drawGradientEnabled; }
     
     public var isDrawCircleHoleEnabled: Bool { return drawCircleHoleEnabled; }
     
@@ -130,6 +130,25 @@ public class LineChartDataSet: LineRadarChartDataSet
                 _fillFormatter = newValue!
             }
         }
+    }
+    
+    public func resetGradientPositions()
+    {
+        gradientPositions.removeAll(keepCapacity: false)
+    }
+    
+    public func addGradientPositions(position: CGFloat)
+    {
+        gradientPositions.append(position)
+    }
+    
+    public func gradientPositionAt(var index: Int) -> CGFloat
+    {
+        if (index < 0)
+        {
+            index = 0
+        }
+        return gradientPositions[index % gradientPositions.count]
     }
     
     // MARK: NSCopying
