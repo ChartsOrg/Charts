@@ -35,6 +35,9 @@ public class LineChartDataSet: LineRadarChartDataSet
     /// if true, cubic lines are drawn instead of linear
     public var drawCubicEnabled = false
     
+    /// if true, gradient colors are drawn
+    public var drawGradientEnabled = false
+    
     public var drawCircleHoleEnabled = true
     
     public required init()
@@ -103,6 +106,8 @@ public class LineChartDataSet: LineRadarChartDataSet
     
     public var isDrawCubicEnabled: Bool { return drawCubicEnabled; }
     
+    public var isdrawGradientEnabled: Bool { return drawGradientEnabled; }
+    
     public var isDrawCircleHoleEnabled: Bool { return drawCircleHoleEnabled; }
     
     /// Sets a custom FillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
@@ -137,6 +142,7 @@ public class LineChartDataSet: LineRadarChartDataSet
         copy.lineDashLengths = lineDashLengths
         copy.drawCirclesEnabled = drawCirclesEnabled
         copy.drawCubicEnabled = drawCubicEnabled
+        copy.drawGradientEnabled = drawGradientEnabled
         return copy
     }
 }
