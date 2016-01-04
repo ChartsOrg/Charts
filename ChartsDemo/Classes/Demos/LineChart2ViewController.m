@@ -75,6 +75,7 @@
     leftAxis.labelTextColor = [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f];
     leftAxis.customAxisMax = 200.0;
     leftAxis.drawGridLinesEnabled = YES;
+    leftAxis.allowRepeatedValues = false;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.labelTextColor = UIColor.redColor;
@@ -82,6 +83,7 @@
     rightAxis.startAtZeroEnabled = NO;
     rightAxis.customAxisMin = -200.0;
     rightAxis.drawGridLinesEnabled = NO;
+    rightAxis.allowRepeatedValues = true;
     
     _sliderX.value = 19.0;
     _sliderY.value = 30.0;
