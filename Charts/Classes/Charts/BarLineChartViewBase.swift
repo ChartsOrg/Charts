@@ -1095,7 +1095,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     }
     
     /// Sets the size of the area (range on the x-axis) that should be minimum visible at once (no further zooming in allowed).
-    /// If this is e.g. set to 10, no more than 10 values on the x-axis can be viewed at once without scrolling.
+    /// If this is e.g. set to 10, no less than 10 values on the x-axis can be viewed at once without scrolling.
     public func setVisibleXRangeMinimum(minXRange: CGFloat)
     {
         let xScale = _deltaX / minXRange
