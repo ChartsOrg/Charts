@@ -190,14 +190,13 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         
         if (dataSet.isDrawGradientEnabled)
         {
-            drawCubicGradient(context: context, dataSet: dataSet, spline: cubicPath, matrix: valueToPixelMatrix)
+            drawGradientLine(context: context, dataSet: dataSet, spline: cubicPath, matrix: valueToPixelMatrix)
+        } else {
+            CGContextBeginPath(context)
+            CGContextAddPath(context, cubicPath)
+            CGContextSetStrokeColorWithColor(context, drawingColor.CGColor)
+            CGContextStrokePath(context)
         }
-        
-        CGContextBeginPath(context)
-        CGContextAddPath(context, cubicPath)
-        CGContextSetStrokeColorWithColor(context, drawingColor.CGColor)
-        CGContextStrokePath(context)
-        
         CGContextRestoreGState(context)
     }
     
@@ -229,47 +228,6 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         CGContextSetAlpha(context, dataSet.fillAlpha)
         CGContextFillPath(context)
         
-        CGContextRestoreGState(context)
-    }
-    
-    internal func drawCubicGradient(context context: CGContext, dataSet: LineChartDataSet, spline: CGMutablePath, matrix: CGAffineTransform)
-    {
-        CGContextSaveGState(context)
-        let strokedArc = CGPathCreateCopyByStrokingPath(spline, nil, dataSet.lineWidth, .Butt, .Miter, 10)
-        CGContextAddPath(context, strokedArc)
-        CGContextDrawPath(context, .Fill)
-        var gradientColors : [CGFloat] = []
-        for (var i = 0; i < dataSet.colors.count; i++) {
-            let cColor = dataSet.colorAt(i)
-            var cRed : CGFloat = 0
-            var cGreen : CGFloat = 0
-            var cBlue : CGFloat = 0
-            var cAlpha : CGFloat = 0
-            if cColor.getRed(&cRed, green: &cGreen, blue: &cBlue, alpha: &cAlpha) {
-                gradientColors.append(cRed)
-                gradientColors.append(cGreen)
-                gradientColors.append(cBlue)
-                gradientColors.append(cAlpha)
-            }
-        }
-        var baseSpace = CGColorSpaceCreateDeviceRGB()
-        
-        var locations : [CGFloat] = []
-        for (var i = 0; i < dataSet.gradientPositions.count; i++) {
-            locations.append((dataSet.gradientPositionAt(i) - dataSet.gradientPositionAt(0)) / (dataSet.gradientPositionAt(dataSet.gradientPositions.count - 1) - dataSet.gradientPositionAt(0) ))
-        }
-        var gradient = CGGradientCreateWithColorComponents(baseSpace, gradientColors, locations, locations.count)
-        baseSpace = nil
-        CGContextBeginPath(context)
-        CGContextAddPath(context, strokedArc)
-        CGContextClip(context)
-        var startPoint = CGPointMake(0, dataSet.gradientPositionAt(0))
-        var endPoint = CGPointMake(0, dataSet.gradientPositionAt(dataSet.gradientPositions.count - 1))
-        
-        startPoint = CGPointApplyAffineTransform(startPoint, matrix)
-        endPoint = CGPointApplyAffineTransform(endPoint, matrix)
-        CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, CGGradientDrawingOptions(rawValue: 0))
-        gradient = nil
         CGContextRestoreGState(context)
     }
     
@@ -379,7 +337,16 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         {
             drawLinearFill(context: context, dataSet: dataSet, entries: entries, minx: minx, maxx: maxx, trans: trans)
         }
-    }
+        if (dataSet.isDrawGradientEnabled) {
+            let path = generatePath(
+            entries,
+            fillMin: dataSet.fillFormatter?.getFillLinePosition(dataSet: dataSet, dataProvider: dataProvider!) ?? 0.0,
+            from: minx,
+            to: maxx,
+            matrix: trans.valueToPixelMatrix)
+        
+            drawGradientLine(context: context, dataSet: dataSet, spline: path, matrix: valueToPixelMatrix)}
+        }
     
     internal func drawLinearFill(context context: CGContext, dataSet: LineChartDataSet, entries: [ChartDataEntry], minx: Int, maxx: Int, trans: ChartTransformer)
     {
@@ -427,6 +394,24 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         CGPathAddLineToPoint(filled, &matrix, CGFloat(entries[max(min(Int(ceil(CGFloat(to - from) * phaseX + CGFloat(from))) - 1, entries.count - 1), 0)].xIndex), fillMin)
         CGPathCloseSubpath(filled)
         
+        return filled
+    }
+    
+    /// Generates the path that is used for gradient drawing.
+    private func generatePath(entries: [ChartDataEntry], fillMin: CGFloat, from: Int, to: Int, var matrix: CGAffineTransform) -> CGPath
+    {
+        let phaseX = _animator.phaseX
+        let phaseY = _animator.phaseY
+        
+        let filled = CGPathCreateMutable()
+        CGPathMoveToPoint(filled, &matrix, CGFloat(entries[from].xIndex), CGFloat(entries[from].value) * phaseY)
+        
+        // create a new path
+        for (var x = from + 1, count = Int(ceil(CGFloat(to - from) * phaseX + CGFloat(from))); x < count; x++)
+        {
+            let e = entries[x]
+            CGPathAddLineToPoint(filled, &matrix, CGFloat(e.xIndex), CGFloat(e.value) * phaseY)
+        }
         return filled
     }
     
@@ -642,4 +627,75 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         
         CGContextRestoreGState(context)
     }
+    
+    internal func drawGradientLine(context context: CGContext, dataSet: LineChartDataSet, spline: CGPath, matrix: CGAffineTransform)
+    {
+        CGContextSaveGState(context)
+        let gradientPath = CGPathCreateCopyByStrokingPath(spline, nil, dataSet.lineWidth, .Butt, .Miter, 10)
+        CGContextAddPath(context, gradientPath)
+        CGContextDrawPath(context, .Fill)
+        
+        let boundingBox = CGPathGetBoundingBox(gradientPath);
+        let gradientStart = CGPointMake(0, CGRectGetMaxY(boundingBox));
+        let gradientEnd   = CGPointMake(0, CGRectGetMinY(boundingBox));
+        var gradientLocations : [CGFloat] = []
+        var gradientColors : [CGFloat] = []
+        var cRed : CGFloat = 0
+        var cGreen : CGFloat = 0
+        var cBlue : CGFloat = 0
+        var cAlpha : CGFloat = 0
+        
+        //Set lower bound color
+        gradientLocations.append(0)
+        var cColor = dataSet.colorAt(0)
+        if cColor.getRed(&cRed, green: &cGreen, blue: &cBlue, alpha: &cAlpha) {
+            gradientColors += [cRed, cGreen, cBlue, cAlpha]
+        }
+        
+        //Set middle colors
+        for (var i = 0; i < dataSet.gradientPositions.count; i++) {
+            var positionLocation = CGPointMake(0, dataSet.gradientPositionAt(i))
+            positionLocation = CGPointApplyAffineTransform(positionLocation, matrix)
+            let normPositionLocation = (positionLocation.y - gradientStart.y) / (gradientEnd.y - gradientStart.y)
+            if (normPositionLocation < 0) {
+                gradientLocations.append(0)
+            } else if (normPositionLocation > 1) {
+                gradientLocations.append(1)
+            } else {
+                gradientLocations.append(normPositionLocation)
+            }
+        }
+        for (var i = 0; i < dataSet.colors.count; i++) {
+            cColor = dataSet.colorAt(i)
+            if cColor.getRed(&cRed, green: &cGreen, blue: &cBlue, alpha: &cAlpha) {
+                gradientColors += [cRed, cGreen, cBlue, cAlpha]
+            }
+        }
+        
+        //Set upper bound color
+        gradientLocations.append(1)
+        cColor = dataSet.colorAt(dataSet.colors.count - 1)
+        if cColor.getRed(&cRed, green: &cGreen, blue: &cBlue, alpha: &cAlpha) {
+            gradientColors += [cRed, cGreen, cBlue, cAlpha]
+        }
+        
+        //Define gradient
+        var baseSpace = CGColorSpaceCreateDeviceRGB()
+        var gradient : CGGradient?
+        if (dataSet.gradientPositions.count > 1) {
+            gradient = CGGradientCreateWithColorComponents(baseSpace, gradientColors, gradientLocations, gradientColors.count / 4)
+        } else {
+            gradient = CGGradientCreateWithColorComponents(baseSpace, gradientColors, nil, gradientColors.count / 4)
+        }
+        baseSpace = nil
+        
+        //Draw gradient path
+        CGContextBeginPath(context)
+        CGContextAddPath(context, gradientPath)
+        CGContextClip(context)
+        CGContextDrawLinearGradient(context, gradient, gradientStart, gradientEnd, CGGradientDrawingOptions(rawValue: 0))
+        gradient = nil
+        CGContextRestoreGState(context)
+    }
+    
 }
