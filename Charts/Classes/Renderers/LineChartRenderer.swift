@@ -236,6 +236,7 @@ public class LineChartRenderer: LineRadarChartRenderer
             animator = animator
             else { return }
         
+        let lineCap = dataProvider?.lineCap ?? CGLineCap.Butt
         let valueToPixelMatrix = trans.valueToPixelMatrix
         
         let entryCount = dataSet.entryCount
@@ -253,6 +254,8 @@ public class LineChartRenderer: LineRadarChartRenderer
         let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo) + 1), entryCount)
         
         CGContextSaveGState(context)
+        
+        CGContextSetLineCap(context, lineCap)
 
         // more than 1 color
         if (dataSet.colors.count > 1)

@@ -17,6 +17,8 @@ import CoreGraphics
 /// Chart that draws lines, surfaces, circles, ...
 public class LineChartView: BarLineChartViewBase, LineChartDataProvider
 {
+    public var lineCapType = CGLineCap.Butt
+    
     internal override func initialize()
     {
         super.initialize()
@@ -37,4 +39,6 @@ public class LineChartView: BarLineChartViewBase, LineChartDataProvider
     // MARK: - LineChartDataProvider
     
     public var lineData: LineChartData? { return _data as? LineChartData }
+    
+    public var lineCap: CGLineCap { return lineCapType }
 }

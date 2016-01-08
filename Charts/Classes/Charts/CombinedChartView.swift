@@ -20,6 +20,8 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
     /// the fill-formatter used for determining the position of the fill-line
     internal var _fillFormatter: ChartFillFormatter!
     
+    public var lineCapType = CGLineCap.Butt
+    
     /// enum that allows to specify the order in which the different data objects for the combined-chart are drawn
     @objc
     public enum CombinedChartDrawOrder: Int
@@ -121,6 +123,14 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
                 return nil
             }
             return (_data as! CombinedChartData!).lineData
+        }
+    }
+    
+    public var lineCap: CGLineCap
+    {
+        get
+        {
+            return lineCapType
         }
     }
     
