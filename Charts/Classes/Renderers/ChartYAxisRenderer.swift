@@ -282,6 +282,8 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
 
         CGContextSetStrokeColorWithColor(context, _yAxis.gridColor.CGColor)
         CGContextSetLineWidth(context, _yAxis.gridLineWidth)
+        CGContextSetLineCap(context, _yAxis.gridLineCap)
+        
         if (_yAxis.gridLineDashLengths != nil)
         {
             CGContextSetLineDash(context, _yAxis.gridLineDashPhase, _yAxis.gridLineDashLengths, _yAxis.gridLineDashLengths.count)

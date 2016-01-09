@@ -220,6 +220,8 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
 
         CGContextSetStrokeColorWithColor(context, _xAxis.gridColor.CGColor)
         CGContextSetLineWidth(context, _xAxis.gridLineWidth)
+        CGContextSetLineCap(context, _xAxis.gridLineCap)
+        
         if (_xAxis.gridLineDashLengths != nil)
         {
             CGContextSetLineDash(context, _xAxis.gridLineDashPhase, _xAxis.gridLineDashLengths, _xAxis.gridLineDashLengths.count)
