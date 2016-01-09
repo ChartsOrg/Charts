@@ -29,7 +29,7 @@ public class ChartAxisBase: ChartComponentBase
     public var gridLineWidth = CGFloat(0.5)
     public var gridLineDashPhase = CGFloat(0.0)
     public var gridLineDashLengths: [CGFloat]!
-    public var gridLineCap = CGLineCap.Square
+    public var gridLineCap = CGLineCap.Butt
     
     public var drawGridLinesEnabled = true
     public var drawAxisLineEnabled = true
