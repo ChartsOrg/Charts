@@ -17,14 +17,16 @@ import CoreGraphics
 
 internal class BarChartHighlighter: ChartHighlighter
 {
+    weak var chart: BarLineChartViewBase? // TODO: see if we can get downcast version of this
+
     internal init(chart: BarChartView)
     {
-        super.init(chart: chart)
+        self.chart = chart
     }
-    
-    internal override func getHighlight(x x: Double, y: Double) -> ChartHighlight?
+
+    internal func getHighlight(x x: Double, y: Double) -> ChartHighlight?
     {
-        let h = super.getHighlight(x: x, y: y)
+        let h = _getHighlight(x: x, y: y)
         
         if h === nil
         {
@@ -32,7 +34,7 @@ internal class BarChartHighlighter: ChartHighlighter
         }
         else
         {
-            if let set = _chart?.data?.getDataSetByIndex(h!.dataSetIndex) as? BarChartDataSet
+            if let set = self.chart?.data?.getDataSetByIndex(h!.dataSetIndex) as? BarChartDataSet
             {
                 if set.isStacked
                 {
@@ -41,7 +43,7 @@ internal class BarChartHighlighter: ChartHighlighter
                     pt.y = CGFloat(y)
                     
                     // take any transformer to determine the x-axis value
-                    _chart?.getTransformer(set.axisDependency).pixelToValue(&pt)
+                    self.chart?.getTransformer(set.axisDependency).pixelToValue(&pt)
                     
                     return getStackedHighlight(old: h, set: set, xIndex: h!.xIndex, dataSetIndex: h!.dataSetIndex, yValue: Double(pt.y))
                 }
@@ -51,13 +53,13 @@ internal class BarChartHighlighter: ChartHighlighter
         }
     }
     
-    internal override func getXIndex(x: Double) -> Int
+    internal func getXIndex(x: Double) -> Int
     {
-        if let barChartData = _chart?.data as? BarChartData
+        if let barChartData = self.chart?.data as? BarChartData
         {
             if !barChartData.isGrouped
             {
-                return super.getXIndex(x)
+                return _getXIndex(x)
             }
             else
             {
@@ -86,9 +88,9 @@ internal class BarChartHighlighter: ChartHighlighter
         }
     }
     
-    internal override func getDataSetIndex(xIndex xIndex: Int, x: Double, y: Double) -> Int
+    internal func getDataSetIndex(xIndex xIndex: Int, x: Double, y: Double) -> Int
     {
-        if let barChartData = _chart?.data as? BarChartData
+        if let barChartData = self.chart?.data as? BarChartData
         {
             if !barChartData.isGrouped
             {
@@ -179,14 +181,14 @@ internal class BarChartHighlighter: ChartHighlighter
     /// - returns:
     internal func getBase(x: Double) -> Double
     {
-        if let barChartData = _chart?.data as? BarChartData
+        if let barChartData = self.chart?.data as? BarChartData
         {
             // create an array of the touch-point
             var pt = CGPoint()
             pt.x = CGFloat(x)
             
             // take any transformer to determine the x-axis value
-            _chart?.getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
+            self.chart?.getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
             let xVal = Double(pt.x)
             
             let setCount = barChartData.dataSetCount ?? 0
