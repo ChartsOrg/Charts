@@ -327,14 +327,12 @@ public class PieChartRenderer: ChartDataRendererBase
             
             if (xIndex == 0)
             {
-                angle = rotationAngle
+                angle = 0.0
             }
             else
             {
-                angle = rotationAngle + absoluteAngles[xIndex - 1]
+                angle = absoluteAngles[xIndex - 1] * _animator.phaseX
             }
-            
-            angle *= _animator.phaseX
             
             let sliceAngle = drawAngles[xIndex]
             let sliceSpace = set.sliceSpace
