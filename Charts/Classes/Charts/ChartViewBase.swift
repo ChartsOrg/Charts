@@ -99,7 +99,7 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
     /// object responsible for rendering the data
     public var renderer: ChartDataRendererBase?
     
-    internal var _highlighter: ChartHighlighter?
+    public var highlighter: ChartHighlighter?
     
     /// object that manages the bounds and drawing constraints of the chart
     internal var _viewPortHandler: ChartViewPortHandler!
