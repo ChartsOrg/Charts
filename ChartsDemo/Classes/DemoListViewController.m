@@ -30,9 +30,7 @@
 #import "ColoredLineChartViewController.h"
 #import "SinusBarChartViewController.h"
 #import "BubbleChartViewController.h"
-#import "RealmLineChartViewController.h"
-#import "RealmBarChartViewController.h"
-#import "RealmStackedBarChartViewController.h"
+#import "RealmDemoListViewController.h"
 
 @interface DemoListViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -140,20 +138,10 @@
                           @"class": SinusBarChartViewController.class
                           },
                       @{
-                          @"title": @"Realm.io database Line Chart",
+                          @"title": @"Realm.io database",
                           @"subtitle": @"This demonstrates how to use this library with Realm.io mobile database.",
-                          @"class": RealmLineChartViewController.class
-                          },
-                      @{
-                          @"title": @"Realm.io database Bar Chart",
-                          @"subtitle": @"This demonstrates how to use this library with Realm.io mobile database.",
-                          @"class": RealmBarChartViewController.class
-                          },
-                      @{
-                          @"title": @"Realm.io database Stacked Chart",
-                          @"subtitle": @"This demonstrates how to use this library with Realm.io mobile database.",
-                          @"class": RealmStackedBarChartViewController.class
-                          },
+                          @"class": RealmDemoListViewController.class
+                          }
                       ];
 }
 

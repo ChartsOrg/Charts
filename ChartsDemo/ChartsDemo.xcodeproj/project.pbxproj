@@ -27,6 +27,8 @@
 		5B57BBB81A9B26AA0036A6CC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B57BBB71A9B26AA0036A6CC /* AppDelegate.m */; };
 		5B57BBBB1A9B26AA0036A6CC /* DemoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B57BBBA1A9B26AA0036A6CC /* DemoListViewController.m */; };
 		5B6654D11BB0A36F00890030 /* MyCustomXValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B6654D01BB0A36F00890030 /* MyCustomXValueFormatter.m */; };
+		5B7B3AD81C437CBC001C109B /* RealmDemoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7B3AD61C437CBC001C109B /* RealmDemoListViewController.m */; };
+		5B7B3AD91C437CBC001C109B /* RealmDemoListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B7B3AD71C437CBC001C109B /* RealmDemoListViewController.xib */; };
 		5B8EAF241AB3271B009697AA /* DemoListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B8EAF231AB3271B009697AA /* DemoListViewController.xib */; };
 		5B8EAF281AB32CF5009697AA /* DemoBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B8EAF261AB32CF5009697AA /* DemoBaseViewController.m */; };
 		5B8EAF301AB32E15009697AA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B8EAF2F1AB32E15009697AA /* Images.xcassets */; };
@@ -152,6 +154,9 @@
 		5B57BBBA1A9B26AA0036A6CC /* DemoListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoListViewController.m; sourceTree = "<group>"; };
 		5B6654CF1BB0A36F00890030 /* MyCustomXValueFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCustomXValueFormatter.h; sourceTree = "<group>"; };
 		5B6654D01BB0A36F00890030 /* MyCustomXValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCustomXValueFormatter.m; sourceTree = "<group>"; };
+		5B7B3AD51C437CBC001C109B /* RealmDemoListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealmDemoListViewController.h; sourceTree = "<group>"; };
+		5B7B3AD61C437CBC001C109B /* RealmDemoListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealmDemoListViewController.m; sourceTree = "<group>"; };
+		5B7B3AD71C437CBC001C109B /* RealmDemoListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RealmDemoListViewController.xib; sourceTree = "<group>"; };
 		5B8EAF231AB3271B009697AA /* DemoListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DemoListViewController.xib; sourceTree = "<group>"; };
 		5B8EAF251AB32CF5009697AA /* DemoBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoBaseViewController.h; sourceTree = "<group>"; };
 		5B8EAF261AB32CF5009697AA /* DemoBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoBaseViewController.m; sourceTree = "<group>"; };
@@ -292,6 +297,9 @@
 				5B57BBB91A9B26AA0036A6CC /* DemoListViewController.h */,
 				5B57BBBA1A9B26AA0036A6CC /* DemoListViewController.m */,
 				5B8EAF231AB3271B009697AA /* DemoListViewController.xib */,
+				5B7B3AD51C437CBC001C109B /* RealmDemoListViewController.h */,
+				5B7B3AD61C437CBC001C109B /* RealmDemoListViewController.m */,
+				5B7B3AD71C437CBC001C109B /* RealmDemoListViewController.xib */,
 				5B8EAF251AB32CF5009697AA /* DemoBaseViewController.h */,
 				5B8EAF261AB32CF5009697AA /* DemoBaseViewController.m */,
 				65BF12571BFBC6EE005C28D9 /* RealmBase */,
@@ -560,6 +568,7 @@
 				5BD47E661ABB424E008FCEC6 /* BarChartViewController.xib in Resources */,
 				5BDEDC421ABB7F73007D3A60 /* HorizontalBarChartViewController.xib in Resources */,
 				5BDEDC481ABB871E007D3A60 /* CombinedChartViewController.xib in Resources */,
+				5B7B3AD91C437CBC001C109B /* RealmDemoListViewController.xib in Resources */,
 				5B4316371AB8D8B70009FCAA /* Default-736h@3x.png in Resources */,
 				5B4316291AB8D8AE0009FCAA /* Icon-40@2x.png in Resources */,
 				5BEAED1E1ABBFB340013F194 /* StackedBarChartViewController.xib in Resources */,
@@ -587,6 +596,7 @@
 				65BF125A1BFBC6EE005C28D9 /* RealmDemoBaseViewController.m in Sources */,
 				5BEAED251ABC0BE20013F194 /* MultipleBarChartViewController.m in Sources */,
 				5B57BBB81A9B26AA0036A6CC /* AppDelegate.m in Sources */,
+				5B7B3AD81C437CBC001C109B /* RealmDemoListViewController.m in Sources */,
 				55E356511ADC638F00A57971 /* BubbleChartViewController.m in Sources */,
 				5BD47E5B1ABB0263008FCEC6 /* BalloonMarker.swift in Sources */,
 				5BEAED2C1ABC160F0013F194 /* CandleStickChartViewController.m in Sources */,
