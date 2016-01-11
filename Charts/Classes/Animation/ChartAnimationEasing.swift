@@ -341,7 +341,7 @@ internal struct EasingFunctions
         let s: NSTimeInterval = 1.70158
         var position: NSTimeInterval = elapsed / duration
         position--
-        return CGFloat( (position * position * ((s + 1.0) * position + s) + 1.0) )
+        return CGFloat( position * position * ((s + 1.0) * position + s) + 1.0 )
     }
     
     internal static let EaseInOutBack = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in

@@ -29,7 +29,7 @@ public class HorizontalBarChartView: BarChartView
         _rightYAxisRenderer = ChartYAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, yAxis: _rightAxis, transformer: _rightAxisTransformer)
         _xAxisRenderer = ChartXAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer, chart: self)
         
-        _highlighter = HorizontalBarChartHighlighter(chart: self)
+        self.highlighter = HorizontalBarChartHighlighter(chart: self)
     }
     
     internal override func calculateOffsets()
@@ -138,13 +138,13 @@ public class HorizontalBarChartView: BarChartView
         }
     }
     
-    public override func getBarBounds(e: BarChartDataEntry) -> CGRect!
+    public override func getBarBounds(e: BarChartDataEntry) -> CGRect
     {
         let set = _data.getDataSetForEntry(e) as! BarChartDataSet!
         
         if (set === nil)
         {
-            return nil
+            return CGRectNull
         }
         
         let barspace = set.barSpace
@@ -175,13 +175,13 @@ public class HorizontalBarChartView: BarChartView
 
     public override func getHighlightByTouchPoint(pt: CGPoint) -> ChartHighlight?
     {
-        if (_dataNotSet || _data === nil)
+        if _data === nil
         {
             print("Can't select by touch. No data set.", terminator: "\n")
             return nil
         }
         
-        return _highlighter?.getHighlight(x: Double(pt.y), y: Double(pt.x))
+        return self.highlighter?.getHighlight(x: Double(pt.y), y: Double(pt.x))
     }
     
     public override var lowestVisibleXIndex: Int

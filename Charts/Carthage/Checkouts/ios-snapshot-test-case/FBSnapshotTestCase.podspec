@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "FBSnapshotTestCase"
-  s.version      = "2.0.5"
+  s.version      = "2.0.7"
   s.summary      = "Snapshot view unit tests for iOS"
   s.description  = <<-DESC
                     A "snapshot test case" takes a configured UIView or CALayer
@@ -16,13 +16,14 @@ Pod::Spec.new do |s|
                      :tag => s.version.to_s }
   s.platform     = :ios, '7.0'
   s.requires_arc = true
-  s.framework    = 'XCTest'
+  s.frameworks    = 'XCTest','UIKit','Foundation','QuartzCore'
   s.pod_target_xcconfig = { 'ENABLE_BITCODE' => 'NO' }
-  s.public_header_files = ['FBSnapshotTestCase/FBSnapshotTestCase.h', 'FBSnapshotTestCase/FBSnapshotTestCasePlatform.h']
-  s.private_header_files = ['FBSnapshotTestCase/FBSnapshotTestController.h', 'FBSnapshotTestCase/UIImage+Compare.h', 'FBSnapshotTestCase/UIImage+Diff.h']
   s.default_subspecs = 'SwiftSupport'
+  s.module_map = 'FBSnapshotTestCase.modulemap'
   s.subspec 'Core' do |cs|
-    cs.source_files = 'FBSnapshotTestCase/**/*.{h,m}'
+    cs.source_files = 'FBSnapshotTestCase/**/*.{h,m}', 'FBSnapshotTestCase/*.{h,m}'
+    cs.public_header_files = 'FBSnapshotTestCase/FBSnapshotTestCase.h','FBSnapshotTestCase/FBSnapshotTestCasePlatform.h','FBSnapshotTestCase/FBSnapshotTestController.h'
+    cs.private_header_files = 'FBSnapshotTestCase/Categories/UIImage+Compare.h','FBSnapshotTestCase/Categories/UIImage+Diff.h','FBSnapshotTestCase/Categories/UIImage+Snapshot.h'
   end
   s.subspec 'SwiftSupport' do |cs|
     cs.dependency 'FBSnapshotTestCase/Core'
