@@ -1,5 +1,5 @@
 //
-//  PieChartViewController.m
+//  RealmPieChartViewController.m
 //  ChartsDemo
 //
 //  Created by Daniel Cohen Gindi on 17/3/15.
@@ -11,26 +11,26 @@
 //  https://github.com/danielgindi/ios-charts
 //
 
-#import "PieChartViewController.h"
+#import "RealmPieChartViewController.h"
 #import "ChartsDemo-Swift.h"
+#import <Realm/Realm.h>
+#import "RealmDemoData.h"
 
-@interface PieChartViewController () <ChartViewDelegate>
+@interface RealmPieChartViewController () <ChartViewDelegate>
 
 @property (nonatomic, strong) IBOutlet PieChartView *chartView;
-@property (nonatomic, strong) IBOutlet UISlider *sliderX;
-@property (nonatomic, strong) IBOutlet UISlider *sliderY;
-@property (nonatomic, strong) IBOutlet UITextField *sliderTextX;
-@property (nonatomic, strong) IBOutlet UITextField *sliderTextY;
 
 @end
 
-@implementation PieChartViewController
+@implementation RealmPieChartViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.title = @"Pie Bar Chart";
+    [self writeRandomPieDataToDb];
+    
+    self.title = @"Realm.io Pie Chart Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Y-Values"},
@@ -47,13 +47,25 @@
     
     [self setupPieChartView:_chartView];
     
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSMutableAttributedString *centerText = [[NSMutableAttributedString alloc] initWithString:@"Realm.io\nmobile database"];
+    [centerText addAttributes:@{
+                                NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:22.f],
+                                NSForegroundColorAttributeName: [UIColor colorWithRed:240/255.f green:115/255.f blue:126/255.f alpha:1.f]
+                                } range:NSMakeRange(0, 8)];
+    [centerText addAttributes:@{
+                                NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:8.5f],
+                                NSForegroundColorAttributeName: [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]
+                                } range:NSMakeRange(9, centerText.length - 9)];
+    _chartView.centerAttributedText = centerText;
+    
     _chartView.delegate = self;
     
-    _sliderX.value = 3.0;
-    _sliderY.value = 100.0;
-    [self slidersValueChanged:nil];
-    
-    [_chartView animateWithXAxisDuration:1.4 yAxisDuration:1.4 easingOption:ChartEasingOptionEaseOutBack];
+    [self setData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -62,53 +74,31 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setDataCount:(int)count range:(double)range
+- (void)setData
 {
-    double mult = range;
     
-    NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
+    RLMRealm *realm = [RLMRealm defaultRealm];
     
-    // IMPORTANT: In a PieChart, no values (Entry) should have the same xIndex (even if from different DataSets), since no values can be drawn above each other.
-    for (int i = 0; i < count; i++)
-    {
-        [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:(arc4random_uniform(mult) + mult / 5) xIndex:i]];
-    }
+    RLMResults *results = [RealmDemoData allObjectsInRealm:realm];
     
-    NSMutableArray *xVals = [[NSMutableArray alloc] init];
+    RealmPieDataSet *set = [[RealmPieDataSet alloc] initWithResults:results yValueField:@"value" xIndexField:@"xIndex"];
     
-    for (int i = 0; i < count; i++)
-    {
-        [xVals addObject:parties[i % parties.count]];
-    }
+    set.valueFont = [UIFont systemFontOfSize:9.f];
+    set.colors = ChartColorTemplates.vordiplom;
+    set.label = @"Example market share";
+    set.sliceSpace = 2.f;
     
-    PieChartDataSet *dataSet = [[PieChartDataSet alloc] initWithYVals:yVals1 label:@"Election Results"];
-    dataSet.sliceSpace = 2.0;
-    
-    // add a lot of colors
-    
-    NSMutableArray *colors = [[NSMutableArray alloc] init];
-    [colors addObjectsFromArray:ChartColorTemplates.vordiplom];
-    [colors addObjectsFromArray:ChartColorTemplates.joyful];
-    [colors addObjectsFromArray:ChartColorTemplates.colorful];
-    [colors addObjectsFromArray:ChartColorTemplates.liberty];
-    [colors addObjectsFromArray:ChartColorTemplates.pastel];
-    [colors addObject:[UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]];
-    
-    dataSet.colors = colors;
-    
-    PieChartData *data = [[PieChartData alloc] initWithXVals:xVals dataSet:dataSet];
-    
-    NSNumberFormatter *pFormatter = [[NSNumberFormatter alloc] init];
-    pFormatter.numberStyle = NSNumberFormatterPercentStyle;
-    pFormatter.maximumFractionDigits = 1;
-    pFormatter.multiplier = @1.f;
-    pFormatter.percentSymbol = @" %";
-    [data setValueFormatter:pFormatter];
-    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:11.f]];
-    [data setValueTextColor:UIColor.whiteColor];
+    NSArray<RealmPieDataSet *> *dataSets = @[set];
+
+    PieChartData *data = [[PieChartData alloc] init];
+    data.dataSets = dataSets;
+    [data loadXValuesFromRealmResults:results xValueField:@"xValue"];
+    [self styleData:data];
+    data.valueTextColor = UIColor.whiteColor;
+    data.valueFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.f];
     
     _chartView.data = data;
-    [_chartView highlightValues:nil];
+    [_chartView animateWithYAxisDuration:1.4 easingOption:ChartEasingOptionEaseInOutQuart];
 }
 
 - (void)optionTapped:(NSString *)key
@@ -175,16 +165,6 @@
     {
         [_chartView saveToCameraRoll];
     }
-}
-
-#pragma mark - Actions
-
-- (IBAction)slidersValueChanged:(id)sender
-{
-    _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
-    _sliderTextY.text = [@((int)_sliderY.value) stringValue];
-    
-    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
 }
 
 #pragma mark - ChartViewDelegate

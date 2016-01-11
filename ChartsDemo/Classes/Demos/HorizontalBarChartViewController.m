@@ -45,17 +45,14 @@
                      @{@"key": @"toggleAutoScaleMinMax", @"label": @"Toggle auto scale min/max"},
                      ];
     
-    _chartView.delegate = self;
+    [self setupBarLineChartView:_chartView];
     
-    _chartView.descriptionText = @"";
-    _chartView.noDataTextDescription = @"You need to provide data for the chart.";
+    _chartView.delegate = self;
     
     _chartView.drawBarShadowEnabled = NO;
     _chartView.drawValueAboveBarEnabled = YES;
     
     _chartView.maxVisibleValueCount = 60;
-    _chartView.pinchZoomEnabled = NO;
-    _chartView.drawGridBackgroundEnabled = NO;
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBottom;
@@ -71,6 +68,7 @@
     leftAxis.gridLineWidth = .3;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
+    rightAxis.enabled = YES;
     rightAxis.labelFont = [UIFont systemFontOfSize:10.f];
     rightAxis.drawAxisLineEnabled = YES;
     rightAxis.drawGridLinesEnabled = NO;

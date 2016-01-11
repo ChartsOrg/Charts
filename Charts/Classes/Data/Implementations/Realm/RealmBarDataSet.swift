@@ -19,7 +19,7 @@ import Realm.Dynamic
 
 public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartDataSet
 {
-    private func initialize()
+    public override func initialize()
     {
         self.highlightColor = UIColor.blackColor()
     }

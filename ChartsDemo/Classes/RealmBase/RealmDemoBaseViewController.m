@@ -64,7 +64,7 @@ static float randomFloatBetween(float from, float to)
     
     for (int i = 0; i < objectCount; i++)
     {
-        RealmDemoData *d = [[RealmDemoData alloc] initWithValue:randomFloatBetween(30.f, 130.f) xIndex:i xValue:[@(i) stringValue]];
+        RealmDemoData *d = [[RealmDemoData alloc] initWithValue:randomFloatBetween(40.f, 100.f) xIndex:i xValue:[@(i) stringValue]];
         [realm addObject:d];
     }
     
@@ -81,17 +81,127 @@ static float randomFloatBetween(float from, float to)
     
     for (int i = 0; i < objectCount; i++)
     {
-        float val1 = randomFloatBetween(20.f, 70.f);
-        float val2 = randomFloatBetween(20.f, 70.f);
-        float val3 = randomFloatBetween(20.f, 70.f);
+        float val1 = randomFloatBetween(34.f, 46.f);
+        float val2 = randomFloatBetween(34.f, 46.f);
         
-        NSArray<NSNumber *> *stack = @[@(val1), @(val2), @(val3)];
+        NSArray<NSNumber *> *stack = @[@(val1), @(val2), @(100.f - val1 - val2)];
         
         RealmDemoData *d = [[RealmDemoData alloc] initWithStackValues:stack xIndex:i xValue:[@(i) stringValue]];
         [realm addObject:d];
     }
     
     [realm commitWriteTransaction];
+}
+
+- (void)writeRandomCandleDataToDbWithObjectCount:(NSInteger)objectCount
+{
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    
+    [realm beginWriteTransaction];
+    
+    [realm deleteObjects:RealmDemoData.allObjects];
+    
+    for (int i = 0; i < objectCount; i++)
+    {
+        float mult = 50;
+        float val = randomFloatBetween(mult, mult + 40);
+        
+        float high = randomFloatBetween(8, 17);
+        float low = randomFloatBetween(8, 17);
+        
+        float open = randomFloatBetween(1, 7);
+        float close = randomFloatBetween(1, 7);
+        
+        BOOL even = i % 2 == 0;
+        
+        RealmDemoData *d = [[RealmDemoData alloc] initWithHigh:val + high
+                                                           low:val - low
+                                                          open:even ? val + open : val - open
+                                                         close:even ? val - close : val + close
+                                                        xIndex:i
+                                                        xValue:[@(i) stringValue]];
+        
+        [realm addObject:d];
+    }
+    
+    [realm commitWriteTransaction];
+}
+
+- (void)writeRandomBubbleDataToDbWithObjectCount:(NSInteger)objectCount
+{
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    
+    [realm beginWriteTransaction];
+    
+    [realm deleteObjects:RealmDemoData.allObjects];
+    
+    for (int i = 0; i < objectCount; i++)
+    {
+        RealmDemoData *d = [[RealmDemoData alloc] initWithValue:randomFloatBetween(30.f, 130.f) xIndex:i bubbleSize:randomFloatBetween(15.f, 35.f) xValue:[@(i) stringValue]];
+        [realm addObject:d];
+    }
+    
+    [realm commitWriteTransaction];
+}
+
+- (void)writeRandomPieDataToDb
+{
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    
+    [realm beginWriteTransaction];
+    
+    [realm deleteObjects:RealmDemoData.allObjects];
+    
+    float value1 = randomFloatBetween(15.f, 23.f);
+    float value2 = randomFloatBetween(15.f, 23.f);
+    float value3 = randomFloatBetween(15.f, 23.f);
+    float value4 = randomFloatBetween(15.f, 23.f);
+    float value5 = 100.f - value1 - value2 - value3 - value4;
+    
+    NSArray<NSNumber *> *values = @[
+                                    @(value1), @(value2), @(value3), @(value4),
+                                    @(value5)
+                                    ];
+    NSArray<NSString *> *xValues = @[
+                                     @"iOS",
+                                     @"Android",
+                                     @"WP 10",
+                                     @"BlackBerry",
+                                     @"Other"
+                                     ];
+    
+    for (int i = 0; i < values.count; i++)
+    {
+        RealmDemoData *d = [[RealmDemoData alloc] initWithValue:randomFloatBetween(values[i].floatValue, 23.f) xIndex:i xValue:xValues[i]];
+        [realm addObject:d];
+    }
+    
+    [realm commitWriteTransaction];
+}
+
+- (void)setupBarLineChartView:(BarLineChartViewBase *)chartView
+{
+    [super setupBarLineChartView:chartView];
+    
+    NSNumberFormatter *percentFormatter = [[NSNumberFormatter alloc] init];
+    percentFormatter.positiveSuffix = @"%";
+    percentFormatter.negativeSuffix = @"%";
+    
+    ChartYAxis *leftAxis = chartView.leftAxis;
+    leftAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:8.f];
+    leftAxis.labelTextColor = UIColor.darkGrayColor;
+    leftAxis.valueFormatter = percentFormatter;
+}
+
+- (void)styleData:(ChartData *)data
+{
+    NSNumberFormatter *percentFormatter = [[NSNumberFormatter alloc] init];
+    percentFormatter.positiveSuffix = @"%";
+    percentFormatter.negativeSuffix = @"%";
+    
+    data.valueFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:8.f];
+    data.valueTextColor = UIColor.darkGrayColor;
+    data.valueFormatter = percentFormatter;
 }
 
 @end

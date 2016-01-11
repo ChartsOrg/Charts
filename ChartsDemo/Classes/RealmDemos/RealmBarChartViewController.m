@@ -28,9 +28,9 @@
 {
     [super viewDidLoad];
     
-    [self writeRandomDataToDbWithObjectCount:200];
+    [self writeRandomDataToDbWithObjectCount:20];
     
-    self.title = @"Realm.io Line Chart Chart";
+    self.title = @"Realm.io Bar Chart Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
@@ -57,8 +57,6 @@
     _chartView.pinchZoomEnabled = NO;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
-    leftAxis.customAxisMax = 220.0;
-    leftAxis.customAxisMin = -50.0;
     leftAxis.startAtZeroEnabled = NO;
     
     _chartView.rightAxis.enabled = NO;
@@ -80,16 +78,16 @@
     RLMResults *results = [RealmDemoData allObjectsInRealm:realm];
     
     RealmBarDataSet *set = [[RealmBarDataSet alloc] initWithResults:results yValueField:@"value" xIndexField:@"xIndex"];
-    
-    set.valueFont = [UIFont systemFontOfSize:9.f];
-    set.colors = ChartColorTemplates.joyful;
+    set.colors = @[[ChartColorTemplates colorFromString:@"#FF5722"],
+                   [ChartColorTemplates colorFromString:@"#03A9F4"]];
     set.label = @"Realm BarDataSet";
-    
+
     NSArray<RealmBarDataSet *> *dataSets = @[set];
 
     BarChartData *data = [[BarChartData alloc] init];
     data.dataSets = dataSets;
     [data loadXValuesFromRealmResults:results xValueField:@"xValue"];
+    [self styleData:data];
     
     [_chartView zoom:5.f scaleY:1.f x:0.f y:0.f];
     _chartView.data = data;

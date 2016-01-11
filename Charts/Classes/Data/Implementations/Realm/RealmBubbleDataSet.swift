@@ -19,6 +19,10 @@ import Realm.Dynamic
 
 public class RealmBubbleDataSet: RealmBarLineScatterCandleBubbleDataSet, IBubbleChartDataSet
 {
+    public override func initialize()
+    {
+    }
+    
     public required init()
     {
         super.init()

@@ -19,6 +19,11 @@ import Realm.Dynamic
 
 public class RealmCandleDataSet: RealmLineScatterCandleRadarDataSet, ICandleChartDataSet
 {
+    public override func initialize()
+    {
+
+    }
+    
     public required init()
     {
         super.init()
@@ -55,6 +60,18 @@ public class RealmCandleDataSet: RealmLineScatterCandleRadarDataSet, ICandleChar
     internal var _lowField: String?
     internal var _openField: String?
     internal var _closeField: String?
+    
+    internal override func buildEntryFromResultObject(object: RLMObject) -> ChartDataEntry
+    {
+        let entry = CandleChartDataEntry(
+            xIndex: object[_xIndexField!] as! Int,
+            shadowH: object[_highField!] as! Double,
+            shadowL: object[_lowField!] as! Double,
+            open: object[_openField!] as! Double,
+            close: object[_closeField!] as! Double)
+        
+        return entry
+    }
     
     public override func calcMinMax(start start: Int, end: Int)
     {

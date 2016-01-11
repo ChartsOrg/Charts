@@ -19,7 +19,7 @@ import Realm.Dynamic
 
 public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
 {
-    private func initialize()
+    public override func initialize()
     {
         circleColors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
     }

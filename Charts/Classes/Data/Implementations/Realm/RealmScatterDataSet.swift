@@ -23,6 +23,11 @@ public class RealmScatterDataSet: RealmLineScatterCandleRadarDataSet, IScatterCh
     public var scatterShape = ScatterChartDataSet.ScatterShape.Square
     public var customScatterShape: CGPath?
     
+    public override func initialize()
+    {
+
+    }
+    
     // MARK: NSCopying
     
     public override func copyWithZone(zone: NSZone) -> AnyObject

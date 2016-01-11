@@ -17,7 +17,7 @@ import UIKit
 import Realm
 import Realm.Dynamic
 
-public class RealmBarLineScatterCandleBubbleDataSet: RealmDataSet, IBarLineScatterCandleBubbleChartDataSet
+public class RealmBarLineScatterCandleBubbleDataSet: RealmBaseDataSet, IBarLineScatterCandleBubbleChartDataSet
 {
     // MARK: - Data functions and accessors
     

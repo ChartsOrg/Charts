@@ -1,5 +1,5 @@
 //
-//  BarChartViewController.m
+//  RealmHorizontalBarChartViewController.m
 //  ChartsDemo
 //
 //  Created by Daniel Cohen Gindi on 17/3/15.
@@ -11,26 +11,26 @@
 //  https://github.com/danielgindi/ios-charts
 //
 
-#import "BarChartViewController.h"
+#import "RealmHorizontalBarChartViewController.h"
 #import "ChartsDemo-Swift.h"
+#import <Realm/Realm.h>
+#import "RealmDemoData.h"
 
-@interface BarChartViewController () <ChartViewDelegate>
+@interface RealmHorizontalBarChartViewController () <ChartViewDelegate>
 
-@property (nonatomic, strong) IBOutlet BarChartView *chartView;
-@property (nonatomic, strong) IBOutlet UISlider *sliderX;
-@property (nonatomic, strong) IBOutlet UISlider *sliderY;
-@property (nonatomic, strong) IBOutlet UITextField *sliderTextX;
-@property (nonatomic, strong) IBOutlet UITextField *sliderTextY;
+@property (nonatomic, strong) IBOutlet HorizontalBarChartView *chartView;
 
 @end
 
-@implementation BarChartViewController
+@implementation RealmHorizontalBarChartViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.title = @"Bar Chart";
+    [self writeRandomDataToDbWithObjectCount:50];
+    
+    self.title = @"Realm.io Horizontal Bar Chart Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
@@ -45,48 +45,14 @@
                      @{@"key": @"toggleAutoScaleMinMax", @"label": @"Toggle auto scale min/max"},
                      ];
     
-    [self setupBarLineChartView:_chartView];
-    
     _chartView.delegate = self;
     
-    _chartView.drawBarShadowEnabled = NO;
+    [self setupBarLineChartView:_chartView];
+    
+    _chartView.leftAxis.startAtZeroEnabled = YES;
     _chartView.drawValueAboveBarEnabled = YES;
-    
-    _chartView.maxVisibleValueCount = 60;
-    
-    ChartXAxis *xAxis = _chartView.xAxis;
-    xAxis.labelPosition = XAxisLabelPositionBottom;
-    xAxis.labelFont = [UIFont systemFontOfSize:10.f];
-    xAxis.drawGridLinesEnabled = NO;
-    xAxis.spaceBetweenLabels = 2.0;
-    
-    ChartYAxis *leftAxis = _chartView.leftAxis;
-    leftAxis.labelFont = [UIFont systemFontOfSize:10.f];
-    leftAxis.labelCount = 8;
-    leftAxis.valueFormatter = [[NSNumberFormatter alloc] init];
-    leftAxis.valueFormatter.maximumFractionDigits = 1;
-    leftAxis.valueFormatter.negativeSuffix = @" $";
-    leftAxis.valueFormatter.positiveSuffix = @" $";
-    leftAxis.labelPosition = YAxisLabelPositionOutsideChart;
-    leftAxis.spaceTop = 0.15;
-    
-    ChartYAxis *rightAxis = _chartView.rightAxis;
-    rightAxis.enabled = YES;
-    rightAxis.drawGridLinesEnabled = NO;
-    rightAxis.labelFont = [UIFont systemFontOfSize:10.f];
-    rightAxis.labelCount = 8;
-    rightAxis.valueFormatter = leftAxis.valueFormatter;
-    rightAxis.spaceTop = 0.15;
-    
-    _chartView.legend.position = ChartLegendPositionBelowChartLeft;
-    _chartView.legend.form = ChartLegendFormSquare;
-    _chartView.legend.formSize = 9.0;
-    _chartView.legend.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
-    _chartView.legend.xEntrySpace = 4.0;
-    
-    _sliderX.value = 11.0;
-    _sliderY.value = 50.0;
-    [self slidersValueChanged:nil];
+
+    [self setData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -95,34 +61,35 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setDataCount:(int)count range:(double)range
+- (void)setData
 {
-    NSMutableArray *xVals = [[NSMutableArray alloc] init];
     
-    for (int i = 0; i < count; i++)
-    {
-        [xVals addObject:months[i % 12]];
-    }
+    RLMRealm *realm = [RLMRealm defaultRealm];
     
-    NSMutableArray *yVals = [[NSMutableArray alloc] init];
+    RLMResults *results = [RealmDemoData allObjectsInRealm:realm];
     
-    for (int i = 0; i < count; i++)
-    {
-        double mult = (range + 1);
-        double val = (double) (arc4random_uniform(mult));
-        [yVals addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
-    }
+    // RealmBarDataSet *set = [[RealmBarDataSet alloc] initWithResults:results yValueField:@"value" xIndexField:@"xIndex"];
+    RealmBarDataSet *set = [[RealmBarDataSet alloc] initWithResults:results yValueField:@"value" xIndexField:@"xIndex" stackValueField:@"floatValue"]; // stacked entries
+
+    set.colors = @[
+                   [ChartColorTemplates colorFromString:@"#8BC34A"],
+                   [ChartColorTemplates colorFromString:@"#FFC107"],
+                   [ChartColorTemplates colorFromString:@"#9E9E9E"],
+                   ];
+
+    set.label = @"Mobile OS Distribution";
     
-    BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithYVals:yVals label:@"DataSet"];
-    set1.barSpace = 0.35;
-    
-    NSMutableArray *dataSets = [[NSMutableArray alloc] init];
-    [dataSets addObject:set1];
-    
-    BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSets:dataSets];
-    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
+    NSArray<RealmBarDataSet *> *dataSets = @[set];
+
+    BarChartData *data = [[BarChartData alloc] init];
+    data.dataSets = dataSets;
+    [data loadXValuesFromRealmResults:results xValueField:@"xValue"];
+    [self styleData:data];
+    data.valueTextColor = UIColor.whiteColor;
     
     _chartView.data = data;
+    
+    [_chartView animateWithYAxisDuration:1.4 easingOption:ChartEasingOptionEaseInOutQuart];
 }
 
 - (void)optionTapped:(NSString *)key
@@ -190,16 +157,6 @@
         _chartView.autoScaleMinMaxEnabled = !_chartView.isAutoScaleMinMaxEnabled;
         [_chartView notifyDataSetChanged];
     }
-}
-
-#pragma mark - Actions
-
-- (IBAction)slidersValueChanged:(id)sender
-{
-    _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
-    _sliderTextY.text = [@((int)_sliderY.value) stringValue];
-    
-    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
 }
 
 #pragma mark - ChartViewDelegate

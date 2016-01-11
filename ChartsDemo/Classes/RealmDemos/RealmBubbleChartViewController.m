@@ -1,5 +1,5 @@
 //
-//  RealmLineChartViewController.m
+//  RealmBubbleChartViewController.m
 //  ChartsDemo
 //
 //  Created by Daniel Cohen Gindi on 17/3/15.
@@ -11,32 +11,29 @@
 //  https://github.com/danielgindi/ios-charts
 //
 
-#import "RealmLineChartViewController.h"
+#import "RealmBubbleChartViewController.h"
 #import "ChartsDemo-Swift.h"
 #import <Realm/Realm.h>
 #import "RealmDemoData.h"
 
-@interface RealmLineChartViewController () <ChartViewDelegate>
+@interface RealmBubbleChartViewController () <ChartViewDelegate>
 
-@property (nonatomic, strong) IBOutlet LineChartView *chartView;
+@property (nonatomic, strong) IBOutlet BubbleChartView *chartView;
 
 @end
 
-@implementation RealmLineChartViewController
+@implementation RealmBubbleChartViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    [self writeRandomDataToDbWithObjectCount:40];
+    [self writeRandomBubbleDataToDbWithObjectCount:10];
     
-    self.title = @"Realm.io Line Chart Chart";
+    self.title = @"Realm.io Bubble Chart Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
-                     @{@"key": @"toggleFilled", @"label": @"Toggle Filled"},
-                     @{@"key": @"toggleCircles", @"label": @"Toggle Circles"},
-                     @{@"key": @"toggleCubic", @"label": @"Toggle Cubic"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
                      @{@"key": @"toggleStartZero", @"label": @"Toggle StartZero"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
@@ -51,10 +48,9 @@
     
     [self setupBarLineChartView:_chartView];
     
-    _chartView.leftAxis.axisMaximum = 150.f;
-    _chartView.leftAxis.axisMinimum = 0.f;
-    _chartView.leftAxis.drawGridLinesEnabled = NO;
     _chartView.xAxis.drawGridLinesEnabled = NO;
+    _chartView.leftAxis.drawGridLinesEnabled = NO;
+    _chartView.pinchZoomEnabled = YES;
     
     [self setData];
 }
@@ -72,24 +68,18 @@
     
     RLMResults *results = [RealmDemoData allObjectsInRealm:realm];
     
-    RealmLineDataSet *set = [[RealmLineDataSet alloc] initWithResults:results yValueField:@"value" xIndexField:@"xIndex"];
+    RealmBubbleDataSet *set = [[RealmBubbleDataSet alloc] initWithResults:results yValueField:@"value" xIndexField:@"xIndex" sizeField:@"bubbleSize"];
     
-    set.drawCubicEnabled = NO;
-    set.label = @"Realm LineDataSet";
-    set.drawCircleHoleEnabled = NO;
-    set.color = [ChartColorTemplates colorFromString:@"#FF5722"];
-    [set setCircleColor:[ChartColorTemplates colorFromString:@"#FF5722"]];
-    set.lineWidth = 1.8f;
-    set.circleRadius = 3.6f;
-
+    set.label = @"Realm BubbleDataSet";
+    [set setColors:ChartColorTemplates.colorful alpha:0.43f];
+    
     NSArray<RealmLineDataSet *> *dataSets = @[set];
 
-    LineChartData *data = [[LineChartData alloc] init];
+    BubbleChartData *data = [[BubbleChartData alloc] init];
     data.dataSets = dataSets;
     [data loadXValuesFromRealmResults:results xValueField:@"xValue"];
     [self styleData:data];
     
-    [_chartView zoom:5.f scaleY:1.f x:0.f y:0.f];
     _chartView.data = data;
     
     [_chartView animateWithYAxisDuration:1.4 easingOption:ChartEasingOptionEaseInOutQuart];
@@ -102,36 +92,6 @@
         for (id<IChartDataSet> set in _chartView.data.dataSets)
         {
             set.drawValuesEnabled = !set.isDrawValuesEnabled;
-        }
-        
-        [_chartView setNeedsDisplay];
-    }
-    
-    if ([key isEqualToString:@"toggleFilled"])
-    {
-        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
-        {
-            set.drawFilledEnabled = !set.isDrawFilledEnabled;
-        }
-        
-        [_chartView setNeedsDisplay];
-    }
-    
-    if ([key isEqualToString:@"toggleCircles"])
-    {
-        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
-        {
-            set.drawCirclesEnabled = !set.isDrawCirclesEnabled;
-        }
-        
-        [_chartView setNeedsDisplay];
-    }
-    
-    if ([key isEqualToString:@"toggleCubic"])
-    {
-        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
-        {
-            set.drawCubicEnabled = !set.isDrawCubicEnabled;
         }
         
         [_chartView setNeedsDisplay];
@@ -158,7 +118,7 @@
     
     if ([key isEqualToString:@"animateY"])
     {
-        [_chartView animateWithYAxisDuration:3.0 easingOption:ChartEasingOptionEaseInCubic];
+        [_chartView animateWithYAxisDuration:3.0];
     }
     
     if ([key isEqualToString:@"animateXY"])

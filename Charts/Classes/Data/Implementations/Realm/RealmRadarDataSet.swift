@@ -19,7 +19,7 @@ import Realm.Dynamic
 
 public class RealmRadarDataSet: RealmLineRadarDataSet, IRadarChartDataSet
 {
-    private func initialize()
+    public override func initialize()
     {
         self.valueFont = UIFont.systemFontOfSize(13.0)
     }

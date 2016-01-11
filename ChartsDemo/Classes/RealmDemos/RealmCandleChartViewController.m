@@ -1,5 +1,5 @@
 //
-//  RealmLineChartViewController.m
+//  RealmCandleChartViewController.m
 //  ChartsDemo
 //
 //  Created by Daniel Cohen Gindi on 17/3/15.
@@ -11,32 +11,29 @@
 //  https://github.com/danielgindi/ios-charts
 //
 
-#import "RealmLineChartViewController.h"
+#import "RealmCandleChartViewController.h"
 #import "ChartsDemo-Swift.h"
 #import <Realm/Realm.h>
 #import "RealmDemoData.h"
 
-@interface RealmLineChartViewController () <ChartViewDelegate>
+@interface RealmCandleChartViewController () <ChartViewDelegate>
 
-@property (nonatomic, strong) IBOutlet LineChartView *chartView;
+@property (nonatomic, strong) IBOutlet CandleStickChartView *chartView;
 
 @end
 
-@implementation RealmLineChartViewController
+@implementation RealmCandleChartViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    [self writeRandomDataToDbWithObjectCount:40];
+    [self writeRandomCandleDataToDbWithObjectCount:50];
     
-    self.title = @"Realm.io Line Chart Chart";
+    self.title = @"Realm.io CandleStick Chart Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
-                     @{@"key": @"toggleFilled", @"label": @"Toggle Filled"},
-                     @{@"key": @"toggleCircles", @"label": @"Toggle Circles"},
-                     @{@"key": @"toggleCubic", @"label": @"Toggle Cubic"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
                      @{@"key": @"toggleStartZero", @"label": @"Toggle StartZero"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
@@ -45,14 +42,14 @@
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"},
                      @{@"key": @"togglePinchZoom", @"label": @"Toggle PinchZoom"},
                      @{@"key": @"toggleAutoScaleMinMax", @"label": @"Toggle auto scale min/max"},
+                     @{@"key": @"toggleShadowColorSameAsCandle", @"label": @"Toggle shadow same color"},
                      ];
+    
     
     _chartView.delegate = self;
     
     [self setupBarLineChartView:_chartView];
     
-    _chartView.leftAxis.axisMaximum = 150.f;
-    _chartView.leftAxis.axisMinimum = 0.f;
     _chartView.leftAxis.drawGridLinesEnabled = NO;
     _chartView.xAxis.drawGridLinesEnabled = NO;
     
@@ -72,19 +69,19 @@
     
     RLMResults *results = [RealmDemoData allObjectsInRealm:realm];
     
-    RealmLineDataSet *set = [[RealmLineDataSet alloc] initWithResults:results yValueField:@"value" xIndexField:@"xIndex"];
+    RealmCandleDataSet *set = [[RealmCandleDataSet alloc] initWithResults:results highField:@"high" lowField:@"low" openField:@"open" closeField:@"close" xIndexField:@"xIndex"];
+
+    set.label = @"Realm CandleDataSet";
+    set.shadowColor = UIColor.darkGrayColor;
+    set.shadowWidth = 0.7f;
+    set.decreasingColor = UIColor.redColor;
+    set.decreasingFilled = NO;
+    set.increasingColor = [UIColor colorWithRed:122/255.f green:242/255.f blue:84/255.f alpha:1.f];
+    set.increasingFilled = YES;
     
-    set.drawCubicEnabled = NO;
-    set.label = @"Realm LineDataSet";
-    set.drawCircleHoleEnabled = NO;
-    set.color = [ChartColorTemplates colorFromString:@"#FF5722"];
-    [set setCircleColor:[ChartColorTemplates colorFromString:@"#FF5722"]];
-    set.lineWidth = 1.8f;
-    set.circleRadius = 3.6f;
+    NSArray<RealmCandleDataSet *> *dataSets = @[set];
 
-    NSArray<RealmLineDataSet *> *dataSets = @[set];
-
-    LineChartData *data = [[LineChartData alloc] init];
+    CandleChartData *data = [[CandleChartData alloc] init];
     data.dataSets = dataSets;
     [data loadXValuesFromRealmResults:results xValueField:@"xValue"];
     [self styleData:data];
@@ -106,37 +103,7 @@
         
         [_chartView setNeedsDisplay];
     }
-    
-    if ([key isEqualToString:@"toggleFilled"])
-    {
-        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
-        {
-            set.drawFilledEnabled = !set.isDrawFilledEnabled;
-        }
         
-        [_chartView setNeedsDisplay];
-    }
-    
-    if ([key isEqualToString:@"toggleCircles"])
-    {
-        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
-        {
-            set.drawCirclesEnabled = !set.isDrawCirclesEnabled;
-        }
-        
-        [_chartView setNeedsDisplay];
-    }
-    
-    if ([key isEqualToString:@"toggleCubic"])
-    {
-        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
-        {
-            set.drawCubicEnabled = !set.isDrawCubicEnabled;
-        }
-        
-        [_chartView setNeedsDisplay];
-    }
-    
     if ([key isEqualToString:@"toggleHighlight"])
     {
         _chartView.data.highlightEnabled = !_chartView.data.isHighlightEnabled;
@@ -158,7 +125,7 @@
     
     if ([key isEqualToString:@"animateY"])
     {
-        [_chartView animateWithYAxisDuration:3.0 easingOption:ChartEasingOptionEaseInCubic];
+        [_chartView animateWithYAxisDuration:3.0];
     }
     
     if ([key isEqualToString:@"animateXY"])
@@ -181,6 +148,16 @@
     if ([key isEqualToString:@"toggleAutoScaleMinMax"])
     {
         _chartView.autoScaleMinMaxEnabled = !_chartView.isAutoScaleMinMaxEnabled;
+        [_chartView notifyDataSetChanged];
+    }
+    
+    if ([key isEqualToString:@"toggleShadowColorSameAsCandle"])
+    {
+        for (id<ICandleChartDataSet> set in _chartView.data.dataSets)
+        {
+            set.shadowColorSameAsCandle = !set.shadowColorSameAsCandle;
+        }
+        
         [_chartView notifyDataSetChanged];
     }
 }

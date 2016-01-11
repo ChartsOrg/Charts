@@ -14,7 +14,13 @@
 #import "RealmDemoListViewController.h"
 #import "RealmLineChartViewController.h"
 #import "RealmBarChartViewController.h"
+#import "RealmHorizontalBarChartViewController.h"
 #import "RealmStackedBarChartViewController.h"
+#import "RealmScatterChartViewController.h"
+#import "RealmCandleChartViewController.h"
+#import "RealmBubbleChartViewController.h"
+#import "RealmPieChartViewController.h"
+#import "RealmRadarChartViewController.h"
 
 @interface RealmDemoListViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -42,9 +48,39 @@
                           @"class": RealmBarChartViewController.class
                           },
                       @{
+                          @"title": @"Realm.io database Horizontal Bar Chart",
+                          @"subtitle": @"This demonstrates how to use this library with Realm.io mobile database.",
+                          @"class": RealmHorizontalBarChartViewController.class
+                          },
+                      @{
                           @"title": @"Realm.io database Stacked Chart",
                           @"subtitle": @"This demonstrates how to use this library with Realm.io mobile database.",
                           @"class": RealmStackedBarChartViewController.class
+                          },
+                      @{
+                          @"title": @"Realm.io database Scatter Chart",
+                          @"subtitle": @"This demonstrates how to use this library with Realm.io mobile database.",
+                          @"class": RealmScatterChartViewController.class
+                          },
+                      @{
+                          @"title": @"Realm.io database CandleStick Chart",
+                          @"subtitle": @"This demonstrates how to use this library with Realm.io mobile database.",
+                          @"class": RealmCandleChartViewController.class
+                          },
+                      @{
+                          @"title": @"Realm.io database Bubble Chart",
+                          @"subtitle": @"This demonstrates how to use this library with Realm.io mobile database.",
+                          @"class": RealmBubbleChartViewController.class
+                          },
+                      @{
+                          @"title": @"Realm.io database Pie Chart",
+                          @"subtitle": @"This demonstrates how to use this library with Realm.io mobile database.",
+                          @"class": RealmPieChartViewController.class
+                          },
+                      @{
+                          @"title": @"Realm.io database Radar Chart",
+                          @"subtitle": @"This demonstrates how to use this library with Realm.io mobile database.",
+                          @"class": RealmRadarChartViewController.class
                           },
                       ];
 }

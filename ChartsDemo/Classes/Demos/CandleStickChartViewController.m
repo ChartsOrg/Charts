@@ -132,36 +132,6 @@
         [_chartView setNeedsDisplay];
     }
     
-    if ([key isEqualToString:@"toggleFilled"])
-    {
-        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
-        {
-            set.drawFilledEnabled = !set.isDrawFilledEnabled;
-        }
-        
-        [_chartView setNeedsDisplay];
-    }
-    
-    if ([key isEqualToString:@"toggleCircles"])
-    {
-        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
-        {
-            set.drawCirclesEnabled = !set.isDrawCirclesEnabled;
-        }
-        
-        [_chartView setNeedsDisplay];
-    }
-    
-    if ([key isEqualToString:@"toggleCubic"])
-    {
-        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
-        {
-            set.drawCubicEnabled = !set.isDrawCubicEnabled;
-        }
-        
-        [_chartView setNeedsDisplay];
-    }
-    
     if ([key isEqualToString:@"toggleHighlight"])
     {
         _chartView.data.highlightEnabled = !_chartView.data.isHighlightEnabled;

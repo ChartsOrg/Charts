@@ -17,9 +17,9 @@ import UIKit
 import Realm
 import Realm.Dynamic
 
-public class RealmPieDataSet: RealmDataSet, IPieChartDataSet
+public class RealmPieDataSet: RealmBaseDataSet, IPieChartDataSet
 {
-    private func initialize()
+    public override func initialize()
     {
         self.valueTextColor = UIColor.whiteColor()
         self.valueFont = UIFont.systemFontOfSize(13.0)

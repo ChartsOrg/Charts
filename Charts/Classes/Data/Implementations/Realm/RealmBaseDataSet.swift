@@ -1,5 +1,5 @@
 //
-//  RealmDataSet.swift
+//  RealmBaseDataSet.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 23/2/15.
@@ -30,6 +30,8 @@ public class RealmBaseDataSet: ChartBaseDataSet
         
         // default color
         colors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
+        
+        initialize()
     }
     
     public override init(label: String?)
@@ -40,6 +42,8 @@ public class RealmBaseDataSet: ChartBaseDataSet
         colors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
         
         self.label = label
+        
+        initialize()
     }
     
     public init(results: RLMResults?, yValueField: String, xIndexField: String, label: String?)
@@ -56,7 +60,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
         _xIndexField = xIndexField
         _results = _results?.sortedResultsUsingProperty(_xIndexField!, ascending: true)
         
-        notifyDataSetChanged()
+        initialize()
     }
     
     public convenience init(results: RLMResults?, yValueField: String, xIndexField: String)
@@ -80,6 +84,8 @@ public class RealmBaseDataSet: ChartBaseDataSet
         {
             loadResults(realm: realm!, modelName: modelName)
         }
+        
+        initialize()
     }
     
     public func loadResults(realm realm: RLMRealm, modelName: String)
