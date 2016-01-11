@@ -24,12 +24,12 @@ public class CombinedChartRenderer: ChartDataRendererBase
     /// if set to true, all values are drawn above their bars, instead of below their top
     public var drawValueAboveBarEnabled = true
     
-    /// if set to true, a grey area is darawn behind each bar that indicates the maximum value
+    /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     public var drawBarShadowEnabled = true
     
     internal var _renderers = [ChartDataRendererBase]()
     
-    internal var _drawOrder: [CombinedChartView.CombinedChartDrawOrder] = [.Bar, .Bubble, .Line, .Candle, .Scatter]
+    internal var _drawOrder: [CombinedChartView.CombinedChartDrawOrder] = [.Bar, .Bubble, .Line, .Candle, .Scatter, .OHLC]
     
     public init(chart: CombinedChartView, animator: ChartAnimator, viewPortHandler: ChartViewPortHandler)
     {
@@ -81,6 +81,12 @@ public class CombinedChartRenderer: ChartDataRendererBase
                 if (_chart.bubbleData !== nil)
                 {
                     _renderers.append(BubbleChartRenderer(dataProvider: _chart, animator: _animator, viewPortHandler: viewPortHandler))
+                }
+                break
+            case .OHLC:
+                if (_chart.ohlcData !== nil)
+                {
+                    _renderers.append(OHLCChartRenderer(dataProvider: _chart, animator: _animator, viewPortHandler: viewPortHandler))
                 }
                 break
             }
@@ -339,6 +345,48 @@ public class CombinedChartRenderer: ChartDataRendererBase
     public func bubbleChartRendererXValCount(renderer: BubbleChartRenderer) -> Int
     {
         return _chart.data!.xValCount
+    }
+
+    // MARK: - OHLCChartRendererDelegate
+    
+    public func ohlcChartRendererOHLCData(renderer: OHLCChartRenderer) -> OHLCChartData!
+    {
+        return _chart.ohlcData
+    }
+    
+    public func ohlcChartRenderer(renderer: OHLCChartRenderer, transformerForAxis which: ChartYAxis.AxisDependency) -> ChartTransformer!
+    {
+        return _chart.getTransformer(which)
+    }
+    
+    public func ohlcChartDefaultRendererValueFormatter(renderer: OHLCChartRenderer) -> NSNumberFormatter!
+    {
+        return _chart._defaultValueFormatter
+    }
+    
+    public func ohlcChartRendererChartYMax(renderer: OHLCChartRenderer) -> Double
+    {
+        return _chart.chartYMax
+    }
+    
+    public func ohlcChartRendererChartYMin(renderer: OHLCChartRenderer) -> Double
+    {
+        return _chart.chartYMin
+    }
+    
+    public func ohlcChartRendererChartXMax(renderer: OHLCChartRenderer) -> Double
+    {
+        return _chart.chartXMax
+    }
+    
+    public func ohlcChartRendererChartXMin(renderer: OHLCChartRenderer) -> Double
+    {
+        return _chart.chartXMin
+    }
+    
+    public func ohlcChartRendererMaxVisibleValueCount(renderer: OHLCChartRenderer) -> Int
+    {
+        return _chart.maxVisibleValueCount
     }
     
     // MARK: Accessors
