@@ -141,6 +141,9 @@ public class PieChartRenderer: ChartDataRendererBase
         guard let data = _chart.data else { return }
         
         var dataSets = data.dataSets
+        
+        let yValueSum = (data as! PieChartData).yValueSum
+        
         let drawXVals = drawXLabelsEnabled
         
         var cnt = 0
@@ -183,7 +186,7 @@ public class PieChartRenderer: ChartDataRendererBase
                     * sin((rotationAngle + angle) * ChartUtils.Math.FDEG2RAD)
                     + center.y
 
-                let value = usePercentValuesEnabled ? entries[j].value / data.yValueSum * 100.0 : entries[j].value
+                let value = usePercentValuesEnabled ? entries[j].value / yValueSum * 100.0 : entries[j].value
                 
                 let val = formatter!.stringFromNumber(value)!
                 
