@@ -23,8 +23,6 @@ public class RealmPieDataSet: RealmDataSet, IPieChartDataSet
     {
         self.valueTextColor = UIColor.whiteColor()
         self.valueFont = UIFont.systemFontOfSize(13.0)
-        
-        self.calcYValueSum()
     }
     
     public required init()
