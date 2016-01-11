@@ -30,6 +30,10 @@
 		5B00324B1B652BF900B6A2FE /* BarChartHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B00324A1B652BF900B6A2FE /* BarChartHighlighter.swift */; };
 		5B00324D1B65351C00B6A2FE /* HorizontalBarChartHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B00324C1B65351C00B6A2FE /* HorizontalBarChartHighlighter.swift */; };
 		5B378F171AD500A4009414A4 /* ChartAnimationEasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B378F161AD500A4009414A4 /* ChartAnimationEasing.swift */; };
+		5B4AC1331C44684E0028D1A6 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4AC12E1C44684E0028D1A6 /* Realm.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		5B4AC1351C44684E0028D1A6 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4AC12F1C44684E0028D1A6 /* RealmSwift.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		5B4AC1381C44684E0028D1A6 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4AC1311C44684E0028D1A6 /* Realm.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		5B4AC13A1C44684E0028D1A6 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4AC1321C44684E0028D1A6 /* RealmSwift.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5B4BCD401AA9C4930063F019 /* ChartTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4BCD3F1AA9C4930063F019 /* ChartTransformer.swift */; };
 		5B6556F71AB72BA000FFBFD3 /* ChartComponentBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6556F61AB72BA000FFBFD3 /* ChartComponentBase.swift */; };
 		5B6654D91BB0A86F00890030 /* ChartDefaultXAxisValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6654D51BB0A86F00890030 /* ChartDefaultXAxisValueFormatter.swift */; };
@@ -139,10 +143,6 @@
 		652F557A1BDFE24B00898CFD /* ScatterChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55471BDFE24B00898CFD /* ScatterChartData.swift */; };
 		652F557B1BDFE24B00898CFD /* ScatterChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55481BDFE24B00898CFD /* ScatterChartDataSet.swift */; };
 		652F557C1BDFE24B00898CFD /* ScatterChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F55481BDFE24B00898CFD /* ScatterChartDataSet.swift */; };
-		659400821BF4632F004F9C27 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6594007F1BF4632F004F9C27 /* Realm.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		659400811BF4632F004F9C27 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6594007F1BF4632F004F9C27 /* Realm.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		659400831BF4632F004F9C27 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 659400801BF4632F004F9C27 /* RealmSwift.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		659400841BF4632F004F9C27 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 659400801BF4632F004F9C27 /* RealmSwift.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		659400A01BF463C1004F9C27 /* BarChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659400871BF463C1004F9C27 /* BarChartData.swift */; };
 		659400A11BF463C1004F9C27 /* BarChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659400871BF463C1004F9C27 /* BarChartData.swift */; };
 		659400A21BF463C1004F9C27 /* BarChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659400881BF463C1004F9C27 /* BarChartDataEntry.swift */; };
@@ -322,6 +322,10 @@
 		5B00324A1B652BF900B6A2FE /* BarChartHighlighter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartHighlighter.swift; sourceTree = "<group>"; };
 		5B00324C1B65351C00B6A2FE /* HorizontalBarChartHighlighter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalBarChartHighlighter.swift; sourceTree = "<group>"; };
 		5B378F161AD500A4009414A4 /* ChartAnimationEasing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartAnimationEasing.swift; sourceTree = "<group>"; };
+		5B4AC12E1C44684E0028D1A6 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
+		5B4AC12F1C44684E0028D1A6 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
+		5B4AC1311C44684E0028D1A6 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
+		5B4AC1321C44684E0028D1A6 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
 		5B4BCD3F1AA9C4930063F019 /* ChartTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartTransformer.swift; sourceTree = "<group>"; };
 		5B6556F61AB72BA000FFBFD3 /* ChartComponentBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartComponentBase.swift; sourceTree = "<group>"; };
 		5B6654D51BB0A86F00890030 /* ChartDefaultXAxisValueFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartDefaultXAxisValueFormatter.swift; sourceTree = "<group>"; };
@@ -383,8 +387,6 @@
 		5BD4C57A1BCDBF6C00462351 /* LineChartDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartDataProvider.swift; sourceTree = "<group>"; };
 		5BD4C57B1BCDBF6C00462351 /* ScatterChartDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScatterChartDataProvider.swift; sourceTree = "<group>"; };
 		5BD8F06C1AB897D500566E05 /* ChartViewPortHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartViewPortHandler.swift; sourceTree = "<group>"; };
-		6594007F1BF4632F004F9C27 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = ThirdParty/Realm.framework; sourceTree = "<group>"; };
-		659400801BF4632F004F9C27 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = ThirdParty/RealmSwift.framework; sourceTree = "<group>"; };
 		659400871BF463C1004F9C27 /* BarChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartData.swift; sourceTree = "<group>"; };
 		659400881BF463C1004F9C27 /* BarChartDataEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartDataEntry.swift; sourceTree = "<group>"; };
 		659400891BF463C1004F9C27 /* BarChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartDataSet.swift; sourceTree = "<group>"; };
@@ -450,8 +452,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				659400831BF4632F004F9C27 /* RealmSwift.framework in Frameworks */,
-				659400811BF4632F004F9C27 /* Realm.framework in Frameworks */,
+				5B4AC1351C44684E0028D1A6 /* RealmSwift.framework in Frameworks */,
+				5B4AC1331C44684E0028D1A6 /* Realm.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,8 +461,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				659400841BF4632F004F9C27 /* RealmSwift.framework in Frameworks */,
-				659400821BF4632F004F9C27 /* Realm.framework in Frameworks */,
+				5B4AC1381C44684E0028D1A6 /* Realm.framework in Frameworks */,
+				5B4AC13A1C44684E0028D1A6 /* RealmSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,8 +482,7 @@
 		06AEE7C31BDC427F009875AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6594007F1BF4632F004F9C27 /* Realm.framework */,
-				659400801BF4632F004F9C27 /* RealmSwift.framework */,
+				5B4AC12C1C44684E0028D1A6 /* Realm */,
 				06AEE7C11BDC4277009875AE /* FBSnapshotTestCase.framework */,
 			);
 			name = Frameworks;
@@ -498,6 +499,34 @@
 				5B00324C1B65351C00B6A2FE /* HorizontalBarChartHighlighter.swift */,
 			);
 			path = Highlight;
+			sourceTree = "<group>";
+		};
+		5B4AC12C1C44684E0028D1A6 /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				5B4AC12D1C44684E0028D1A6 /* ios */,
+				5B4AC1301C44684E0028D1A6 /* tvos */,
+			);
+			name = Realm;
+			path = ThirdParty/Realm;
+			sourceTree = "<group>";
+		};
+		5B4AC12D1C44684E0028D1A6 /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				5B4AC12E1C44684E0028D1A6 /* Realm.framework */,
+				5B4AC12F1C44684E0028D1A6 /* RealmSwift.framework */,
+			);
+			path = ios;
+			sourceTree = "<group>";
+		};
+		5B4AC1301C44684E0028D1A6 /* tvos */ = {
+			isa = PBXGroup;
+			children = (
+				5B4AC1311C44684E0028D1A6 /* Realm.framework */,
+				5B4AC1321C44684E0028D1A6 /* RealmSwift.framework */,
+			);
+			path = tvos;
 			sourceTree = "<group>";
 		};
 		5B6654D41BB0A86F00890030 /* Formatters */ = {
@@ -1278,6 +1307,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ThirdParty",
+					"$(PROJECT_DIR)/ThirdParty/Realm/ios",
+					"$(PROJECT_DIR)/ThirdParty/Realm/tvos",
 				);
 				INFOPLIST_FILE = "Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1300,6 +1331,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ThirdParty",
+					"$(PROJECT_DIR)/ThirdParty/Realm/ios",
+					"$(PROJECT_DIR)/ThirdParty/Realm/tvos",
 				);
 				INFOPLIST_FILE = "Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1322,6 +1355,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ThirdParty",
+					"$(PROJECT_DIR)/ThirdParty/Realm/ios",
+					"$(PROJECT_DIR)/ThirdParty/Realm/tvos",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
@@ -1350,6 +1385,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ThirdParty",
+					"$(PROJECT_DIR)/ThirdParty/Realm/ios",
+					"$(PROJECT_DIR)/ThirdParty/Realm/tvos",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
