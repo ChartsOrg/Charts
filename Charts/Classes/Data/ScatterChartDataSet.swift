@@ -26,9 +26,14 @@ public class ScatterChartDataSet: LineScatterCandleChartDataSet
         case Custom
     }
     
+    // options for all shapes
     public var scatterShapeSize = CGFloat(15.0)
     public var scatterShape = ScatterShape.Square
     public var customScatterShape: CGPath?
+
+    // options for circles only
+    public var drawCircleHoleEnabled = false
+    public var circleHoleColor = UIColor.whiteColor()
 
     // MARK: NSCopying
     
