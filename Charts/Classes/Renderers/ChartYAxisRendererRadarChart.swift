@@ -25,7 +25,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         
         _chart = chart
     }
- 
+    
     public override func computeAxis(yMin yMin: Double, yMax: Double)
     {
         computeAxisValues(min: yMin, max: yMax)
@@ -83,60 +83,60 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         {
             // no forced count
             
-        // clean old values
-        if (_yAxis.entries.count > 0)
-        {
-            _yAxis.entries.removeAll(keepCapacity: false)
-        }
-        
-        // if the labels should only show min and max
-        if (_yAxis.isShowOnlyMinMaxEnabled)
-        {
-            _yAxis.entries = [Double]()
-            _yAxis.entries.append(yMin)
-            _yAxis.entries.append(yMax)
-        }
-        else
-        {
+            // clean old values
+            if (_yAxis.entries.count > 0)
+            {
+                _yAxis.entries.removeAll(keepCapacity: false)
+            }
+            
+            // if the labels should only show min and max
+            if (_yAxis.isShowOnlyMinMaxEnabled)
+            {
+                _yAxis.entries = [Double]()
+                _yAxis.entries.append(yMin)
+                _yAxis.entries.append(yMax)
+            }
+            else
+            {
                 let rawCount = Double(yMin) / interval
                 var first = rawCount < 0.0 ? floor(rawCount) * interval : ceil(rawCount) * interval;
-            
+                
                 if (first < yMin && _yAxis.isStartAtZeroEnabled)
                 { // Force the first label to be at the 0 (or smallest negative value)
                     first = yMin
                 }
                 
-            if (first == 0.0)
-            { // Fix for IEEE negative zero case (Where value == -0.0, and 0.0 == -0.0)
-                first = 0.0
+                if (first == 0.0)
+                { // Fix for IEEE negative zero case (Where value == -0.0, and 0.0 == -0.0)
+                    first = 0.0
+                }
+                
+                let last = ChartUtils.nextUp(floor(Double(yMax) / interval) * interval)
+                
+                var f: Double
+                var i: Int
+                var n = 0
+                for (f = first; f <= last; f += interval)
+                {
+                    ++n
+                }
+                
+                if (isnan(_yAxis.customAxisMax))
+                {
+                    n += 1
+                }
+                
+                if (_yAxis.entries.count < n)
+                {
+                    // Ensure stops contains at least numStops elements.
+                    _yAxis.entries = [Double](count: n, repeatedValue: 0.0)
+                }
+                
+                for (f = first, i = 0; i < n; f += interval, ++i)
+                {
+                    _yAxis.entries[i] = Double(f)
+                }
             }
-            
-            let last = ChartUtils.nextUp(floor(Double(yMax) / interval) * interval)
-            
-            var f: Double
-            var i: Int
-            var n = 0
-            for (f = first; f <= last; f += interval)
-            {
-                ++n
-            }
-            
-            if (isnan(_yAxis.customAxisMax))
-            {
-                n += 1
-            }
-
-            if (_yAxis.entries.count < n)
-            {
-                // Ensure stops contains at least numStops elements.
-                _yAxis.entries = [Double](count: n, repeatedValue: 0.0)
-            }
-
-            for (f = first, i = 0; i < n; f += interval, ++i)
-            {
-                _yAxis.entries[i] = Double(f)
-            }
-        }
         }
         
         if !_yAxis.isStartAtZeroEnabled && _yAxis.entries[0] < yMin
