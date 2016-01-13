@@ -368,7 +368,6 @@ public class PieRadarChartViewBase: ChartViewBase
     
     public override var chartXMin: Double
     {
-        getSelectionDetailsAtIndex(1);
         return 0.0
     }
     
