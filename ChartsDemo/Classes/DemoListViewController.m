@@ -14,6 +14,7 @@
 #import "DemoListViewController.h"
 #import "LineChart1ViewController.h"
 #import "LineChart2ViewController.h"
+#import "LineChart3ViewController.h"
 #import "BarChartViewController.h"
 #import "HorizontalBarChartViewController.h"
 #import "CombinedChartViewController.h"
@@ -55,6 +56,11 @@
                           @"title": @"Line Chart (Dual YAxis)",
                           @"subtitle": @"Demonstration of the linechart with dual y-axis.",
                           @"class": LineChart2ViewController.class
+                          },
+                      @{
+                          @"title": @"Line Chart (Image in nodes)",
+                          @"subtitle": @"Demonstration of the linechart with dual y-axis and nodal images.",
+                          @"class": LineChart3ViewController.class
                           },
                       @{
                           @"title": @"Bar Chart",

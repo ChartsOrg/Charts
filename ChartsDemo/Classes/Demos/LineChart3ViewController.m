@@ -1,8 +1,8 @@
 //
-//  LineChart2ViewController.m
+//  LineChart3ViewController.m
 //  ChartsDemo
 //
-//  Created by Daniel Cohen Gindi on 17/3/15.
+//  Created by Anatoly Rosencrantz on 28/12/2015.
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
@@ -11,10 +11,10 @@
 //  https://github.com/danielgindi/ios-charts
 //
 
-#import "LineChart2ViewController.h"
+#import "LineChart3ViewController.h"
 #import "ChartsDemo-Swift.h"
 
-@interface LineChart2ViewController () <ChartViewDelegate>
+@interface LineChart3ViewController () <ChartViewDelegate>
 
 @property (nonatomic, strong) IBOutlet LineChartView *chartView;
 @property (nonatomic, strong) IBOutlet UISlider *sliderX;
@@ -24,13 +24,13 @@
 
 @end
 
-@implementation LineChart2ViewController
+@implementation LineChart3ViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.title = @"Line Chart 2 Chart";
+    self.title = @"Line Chart 3 Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
@@ -117,14 +117,12 @@
     LineChartDataSet *set1 = [[LineChartDataSet alloc] initWithYVals:yVals label:@"DataSet 1"];
     set1.axisDependency = AxisDependencyLeft;
     [set1 setColor:[UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]];
-    [set1 setCircleColor:UIColor.whiteColor];
     set1.lineWidth = 2.0;
-    set1.circleRadius = 3.0;
     set1.fillAlpha = 65/255.0;
     set1.fillColor = [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f];
     set1.highlightColor = [UIColor colorWithRed:244/255.f green:117/255.f blue:117/255.f alpha:1.f];
-    set1.drawCircleHoleEnabled = NO;
-    set1.drawNodalImageEnabled = NO;
+    set1.drawNodalImageEnabled = YES;
+    set1.drawCirclesEnabled = NO;
     set1.nodalImage = [UIImage imageNamed:@"node"];
     
     NSMutableArray *yVals2 = [[NSMutableArray alloc] init];
