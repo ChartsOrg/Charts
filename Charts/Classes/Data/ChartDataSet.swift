@@ -32,6 +32,7 @@ public class ChartDataSet: NSObject
     public var label: String? = "DataSet"
     public var visible = true
     public var drawValuesEnabled = true
+    public var drawIconsEnabled = true
     
     /// the color used for the value-text
     public var valueTextColor: UIColor = UIColor.blackColor()
@@ -505,6 +506,11 @@ public class ChartDataSet: NSObject
         return drawValuesEnabled
     }
     
+    public var isDrawIconsEnabled: Bool
+        {
+            return drawIconsEnabled
+    }
+
     /// Checks if this DataSet contains the specified Entry.
     /// - returns: true if contains the entry, false if not.
     public func contains(e: ChartDataEntry) -> Bool

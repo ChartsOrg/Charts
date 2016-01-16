@@ -195,6 +195,13 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
         get { return (renderer as! CombinedChartRenderer!).drawValueAboveBarEnabled }
         set { (renderer as! CombinedChartRenderer!).drawValueAboveBarEnabled = newValue }
     }
+
+    /// if set to true, all icons are drawn above their bars, instead of below their top
+    public var drawIconAboveBarEnabled: Bool
+        {
+        get { return (renderer as! CombinedChartRenderer!).drawIconAboveBarEnabled }
+        set { (renderer as! CombinedChartRenderer!).drawIconAboveBarEnabled = newValue }
+    }
     
     /// if set to true, a grey area is darawn behind each bar that indicates the maximum value
     public var drawBarShadowEnabled: Bool
@@ -208,6 +215,9 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
     
     /// - returns: true if drawing values above bars is enabled, false if not
     public var isDrawValueAboveBarEnabled: Bool { return (renderer as! CombinedChartRenderer!).drawValueAboveBarEnabled; }
+    
+    /// - returns: true if drawing icons above bars is enabled, false if not
+    public var isDrawIconAboveBarEnabled: Bool { return (renderer as! CombinedChartRenderer!).drawIconAboveBarEnabled; }
     
     /// - returns: true if drawing shadows (maxvalue) for each bar is enabled, false if not
     public var isDrawBarShadowEnabled: Bool { return (renderer as! CombinedChartRenderer!).drawBarShadowEnabled; }

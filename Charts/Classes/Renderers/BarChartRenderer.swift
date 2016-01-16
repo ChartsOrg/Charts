@@ -425,9 +425,196 @@ public class BarChartRenderer: ChartDataRendererBase
         ChartUtils.drawText(context: context, text: value, point: CGPoint(x: xPos, y: yPos), align: align, attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: color])
     }
     
+    internal func drawImage(context context: CGContext, image: UIImage, point: CGPoint, expectedSize: CGSize)
+    {
+        ChartUtils.drawImage(context: context, image: image, point: point, expectedSize: expectedSize)
+    }
+    
     public override func drawExtras(context context: CGContext)
     {
-        
+        // if values are drawn
+        if (passesCheck())
+        {
+            guard let dataProvider = dataProvider, barData = dataProvider.barData else { return }
+            
+            var dataSets = barData.dataSets
+            
+            let drawValueAboveBar = dataProvider.isDrawIconAboveBarEnabled
+            
+            var posOffset: CGFloat
+            var negOffset: CGFloat
+            
+            let imageProportion: CGFloat = 0.8
+            let dataSetCountScalar: CGFloat = barData.dataSetCount > 1 ? CGFloat(barData.dataSetCount) + 1.0 : CGFloat(barData.dataSetCount)
+
+            for (var i = 0, count = barData.dataSetCount; i < count; i++)
+            {
+                let dataSet = dataSets[i] as! BarChartDataSet
+                let barSpace = dataSet.barSpace
+
+                if !dataSet.isDrawIconsEnabled || dataSet.entryCount == 0
+                {
+                    continue
+                }
+                
+                
+                let trans = dataProvider.getTransformer(dataSet.axisDependency)
+                
+                var entries = dataSet.yVals as! [BarChartDataEntry]
+                
+                var valuePoints = getTransformedValues(trans: trans, entries: entries, dataSetIndex: i)
+
+                // calculate the image size
+                var imageDimension: CGFloat = 0
+                if valuePoints.count > 1 {
+                    imageDimension = imageProportion * (1 - barSpace) * (valuePoints[1].x - valuePoints[0].x)
+                }
+                else if valuePoints.count == 1 {
+                    imageDimension = imageProportion * (1 - barSpace) * (valuePoints[0].x)
+                }
+                
+                imageDimension = imageDimension / dataSetCountScalar
+                
+                
+                // calculate the correct offset depending on the draw position of the value
+                let valueOffsetPlus: CGFloat = 2.5 + imageDimension / 2
+                posOffset = (drawValueAboveBar ? -(valueOffsetPlus) : valueOffsetPlus)
+                negOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueOffsetPlus))
+                
+                // if only single values are drawn (sum)
+                if (!dataSet.isStacked)
+                {
+                    for (var j = 0, count = Int(ceil(CGFloat(valuePoints.count) * _animator.phaseX)); j < count; j++)
+                    {
+                        if (!viewPortHandler.isInBoundsRight(valuePoints[j].x))
+                        {
+                            break
+                        }
+                        
+                        if (!viewPortHandler.isInBoundsY(valuePoints[j].y)
+                            || !viewPortHandler.isInBoundsLeft(valuePoints[j].x))
+                        {
+                            continue
+                        }
+                        
+                        if let imageName = entries[j].data as! String! {
+                            if let image = UIImage(named: imageName) {
+                                let expectedSize = CGSizeMake(imageDimension, imageDimension)
+                                
+                                drawImage(context: context,
+                                    image: image,
+                                    point: CGPoint(
+                                        x: valuePoints[j].x,
+                                        y: valuePoints[j].y + (entries[j].value >= 0.0 ? posOffset : negOffset)
+                                    ),
+                                    expectedSize: expectedSize)
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // if we have stacks
+                    for (var j = 0, count = Int(ceil(CGFloat(valuePoints.count) * _animator.phaseX)); j < count; j++)
+                    {
+                        let e = entries[j]
+                        
+                        let values = e.values
+                        
+                        // we still draw stacked bars, but there is one non-stacked in between
+                        if (values == nil)
+                        {
+                            if (!viewPortHandler.isInBoundsRight(valuePoints[j].x))
+                            {
+                                break
+                            }
+                            
+                            if (!viewPortHandler.isInBoundsY(valuePoints[j].y)
+                                || !viewPortHandler.isInBoundsLeft(valuePoints[j].x))
+                            {
+                                continue
+                            }
+                            
+                            if let imageName = entries[j].data as! String! {
+                                if let image = UIImage(named: imageName) {
+                                    let expectedSize = CGSizeMake(imageDimension, imageDimension)
+                                    
+                                    drawImage(context: context,
+                                        image: image,
+                                        point: CGPoint(
+                                            x: valuePoints[j].x,
+                                            y: valuePoints[j].y
+                                        ),
+                                        expectedSize: expectedSize)
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // draw stack values
+                            let vals = values!
+                            var transformed = [CGPoint]()
+                            
+                            var posY = 0.0
+                            var negY = -e.negativeSum
+                            
+                            for (var k = 0; k < vals.count; k++)
+                            {
+                                let value = vals[k]
+                                var y: Double
+                                
+                                if value >= 0.0
+                                {
+                                    posY += value
+                                    y = posY
+                                }
+                                else
+                                {
+                                    y = negY
+                                    negY -= value
+                                }
+                                
+                                transformed.append(CGPoint(x: 0.0, y: CGFloat(y) * _animator.phaseY))
+                            }
+                            
+                            trans.pointValuesToPixel(&transformed)
+                            
+                            for (var k = 0; k < transformed.count; k++)
+                            {
+                                let x = valuePoints[j].x
+                                let y = transformed[k].y + (vals[k] >= 0 ? posOffset : negOffset)
+                                
+                                if (!viewPortHandler.isInBoundsRight(x))
+                                {
+                                    break
+                                }
+                                
+                                if (!viewPortHandler.isInBoundsY(y) || !viewPortHandler.isInBoundsLeft(x))
+                                {
+                                    continue
+                                }
+                                
+                                if let dataArray = entries[j].data as! [String]! {
+                                    if let imageName = dataArray[k] as String! {
+                                        if let image = UIImage(named: imageName) {
+                                            let expectedSize = CGSizeMake(imageDimension, imageDimension)
+                                            
+                                            drawImage(context: context,
+                                                image: image,
+                                                point: CGPoint(
+                                                    x: x,
+                                                    y: y
+                                                ),
+                                                expectedSize: expectedSize)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     
     private var _highlightArrowPtsBuffer = [CGPoint](count: 3, repeatedValue: CGPoint())

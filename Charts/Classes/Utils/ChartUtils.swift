@@ -244,6 +244,30 @@ public class ChartUtils
         drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, attributes: attributes, constrainedToSize: constrainedToSize, anchor: anchor, angleRadians: angleRadians)
     }
     
+    public class func drawImage(context context: CGContext, image: UIImage, point: CGPoint, expectedSize: CGSize)
+    {
+        var drawOffset = CGPoint()
+        drawOffset.x += point.x
+        drawOffset.x -= expectedSize.width / 2
+        drawOffset.y += point.y
+        drawOffset.y -= expectedSize.height / 2
+
+        UIGraphicsPushContext(context)
+
+        if image.size.width != expectedSize.width && image.size.height != expectedSize.height {
+            UIGraphicsBeginImageContextWithOptions(expectedSize, false, 0.0)
+            image.drawInRect(CGRect(origin: CGPointZero, size: expectedSize))
+            let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            scaledImage.drawAtPoint(drawOffset)
+        }
+        else {
+            image.drawAtPoint(drawOffset)
+        }
+
+        UIGraphicsPopContext()
+    }
+    
     /// - returns: an angle between 0.0 < 360.0 (not less than zero, less than 360)
     internal class func normalizedAngleFromAngle(var angle: CGFloat) -> CGFloat
     {

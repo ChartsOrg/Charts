@@ -112,7 +112,9 @@
     {
         double mult = (range + 1);
         double val = (double) (arc4random_uniform(mult));
-        [yVals addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
+        BarChartDataEntry *entry = [[BarChartDataEntry alloc] initWithValue:val xIndex:i];
+        entry.data = @"Icon-29@2x.png";
+        [yVals addObject: entry];
     }
     
     BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithYVals:yVals label:@"DataSet"];

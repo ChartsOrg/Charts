@@ -103,7 +103,9 @@
         double val2 = (double) (arc4random_uniform(mult) + mult / 3);
         double val3 = (double) (arc4random_uniform(mult) + mult / 3);
         
-        [yVals addObject:[[BarChartDataEntry alloc] initWithValues:@[@(val1), @(val2), @(val3)] xIndex:i]];
+        BarChartDataEntry *entry = [[BarChartDataEntry alloc] initWithValues:@[@(val1), @(val2), @(val3)] xIndex:i];
+        entry.data = [NSArray arrayWithObjects: @"Icon-29@2x.png", @"Icon-29@2x.png", @"Icon-29@2x.png", nil];
+        [yVals addObject: entry];
     }
     
     BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithYVals:yVals label:@"Statistics Vienna 2014"];

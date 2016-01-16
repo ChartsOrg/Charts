@@ -103,13 +103,19 @@
     for (int i = 0; i < count; i++)
     {
         double val = (double) (arc4random_uniform(mult) + 3.0);
-        [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
+        BarChartDataEntry *entry = [[BarChartDataEntry alloc] initWithValue:val xIndex:i];
+        entry.data = @"Icon-29@2x.png";
+        [yVals1 addObject: entry];
         
         val = (double) (arc4random_uniform(mult) + 3.0);
-        [yVals2 addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
+        BarChartDataEntry *entry2 = [[BarChartDataEntry alloc] initWithValue:val xIndex:i];
+        entry2.data = @"Icon-29@2x.png";
+        [yVals2 addObject: entry2];
         
         val = (double) (arc4random_uniform(mult) + 3.0);
-        [yVals3 addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
+        BarChartDataEntry *entry3 = [[BarChartDataEntry alloc] initWithValue:val xIndex:i];
+        entry3.data = @"Icon-29@2x.png";
+        [yVals3 addObject: entry3];
     }
     
     BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithYVals:yVals1 label:@"Company A"];

@@ -23,6 +23,9 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
     /// if set to true, all values are drawn above their bars, instead of below their top
     private var _drawValueAboveBarEnabled = true
 
+    /// if set to true, all icons are drawn above their bars, instead of below their top
+    private var _drawIconAboveBarEnabled = true
+
     /// if set to true, a grey area is darawn behind each bar that indicates the maximum value
     private var _drawBarShadowEnabled = false
     
@@ -147,6 +150,17 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
         }
     }
     
+    /// if set to true, all icons are drawn above their bars, instead of below their top
+    public var drawIconAboveBarEnabled: Bool
+        {
+        get { return _drawIconAboveBarEnabled; }
+        set
+        {
+            _drawIconAboveBarEnabled = newValue
+            setNeedsDisplay()
+        }
+    }
+    
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     public var drawBarShadowEnabled: Bool
     {
@@ -167,6 +181,8 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
     
     /// - returns: true if drawing values above bars is enabled, false if not
     public var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled }
+    
+    public var isDrawIconAboveBarEnabled: Bool { return drawIconAboveBarEnabled }
     
     /// - returns: true if drawing shadows (maxvalue) for each bar is enabled, false if not
     public var isDrawBarShadowEnabled: Bool { return drawBarShadowEnabled }
