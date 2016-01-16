@@ -124,11 +124,6 @@ public class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubble
     /// Sets/gets the width of the circle that surrounds the bubble when highlighted
     public var highlightCircleWidth: CGFloat = 2.5
     
-    public func setColor(color: UIColor, alpha: CGFloat)
-    {
-        super.setColor(color.colorWithAlphaComponent(alpha))
-    }
-    
     // MARK: - NSCopying
     
     public override func copyWithZone(zone: NSZone) -> AnyObject

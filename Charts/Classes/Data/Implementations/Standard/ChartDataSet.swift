@@ -487,6 +487,29 @@ public class ChartDataSet: NSObject, IChartDataSet
         colors.append(color)
     }
     
+    /// Sets colors to a single color a specific alpha value.
+    /// - parameter color: the color to set
+    /// - parameter alpha: alpha to apply to the set `color`
+    public func setColor(color: UIColor, alpha: CGFloat)
+    {
+        setColor(color.colorWithAlphaComponent(alpha))
+    }
+    
+    /// Sets colors with a specific alpha value.
+    /// - parameter colors: the colors to set
+    /// - parameter alpha: alpha to apply to the set `colors`
+    public func setColors(colors: [UIColor], alpha: CGFloat)
+    {
+        var colorsWithAlpha = colors
+        
+        for i in 0 ..< colorsWithAlpha.count
+        {
+            colorsWithAlpha[i] = colorsWithAlpha[i] .colorWithAlphaComponent(alpha)
+        }
+        
+        self.colors = colorsWithAlpha
+    }
+    
     /// if true, value highlighting is enabled
     public var highlightEnabled = true
     
