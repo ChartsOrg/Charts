@@ -17,9 +17,14 @@ import UIKit
 import Realm
 import Realm.Dynamic
 
-public class RealmDataSet: NSObject, IChartDataSet
+public class RealmBaseDataSet: ChartBaseDataSet
 {
-    public required override init()
+    public func initialize()
+    {
+        fatalError("RealmBaseDataSet is an abstract class, you must inherit from it. Also please do not call super.initialize().")
+    }
+    
+    public required init()
     {
         super.init()
         
@@ -27,7 +32,7 @@ public class RealmDataSet: NSObject, IChartDataSet
         colors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
     }
     
-    public init(label: String?)
+    public override init(label: String?)
     {
         super.init()
         
@@ -182,12 +187,12 @@ public class RealmDataSet: NSObject, IChartDataSet
     }
     
     /// Use this method to tell the data set that the underlying data has changed
-    public func notifyDataSetChanged()
+    public override func notifyDataSetChanged()
     {
         calcMinMax(start: _lastStart, end: _lastEnd)
     }
     
-    public func calcMinMax(start start: Int, end: Int)
+    public override func calcMinMax(start start: Int, end: Int)
     {
         let yValCount = self.entryCount
         
@@ -245,16 +250,16 @@ public class RealmDataSet: NSObject, IChartDataSet
     }
     
     /// - returns: the minimum y-value this DataSet holds
-    public var yMin: Double { return _yMin }
+    public override var yMin: Double { return _yMin }
     
     /// - returns: the maximum y-value this DataSet holds
-    public var yMax: Double { return _yMax }
+    public override var yMax: Double { return _yMax }
     
     /// - returns: the number of y-values this DataSet represents
-    public var entryCount: Int { return Int(_results?.count ?? 0) }
+    public override var entryCount: Int { return Int(_results?.count ?? 0) }
     
     /// - returns: the value of the Entry object at the given xIndex. Returns NaN if no value is at the given x-index.
-    public func yValForXIndex(x: Int) -> Double
+    public override func yValForXIndex(x: Int) -> Double
     {
         let e = self.entryForXIndex(x)
         
@@ -265,7 +270,7 @@ public class RealmDataSet: NSObject, IChartDataSet
     /// - returns: the entry object found at the given index (not x-index!)
     /// - throws: out of bounds
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
-    public func entryForIndex(i: Int) -> ChartDataEntry?
+    public override func entryForIndex(i: Int) -> ChartDataEntry?
     {
         if i < _lastStart || i > _lastEnd
         {
@@ -277,7 +282,7 @@ public class RealmDataSet: NSObject, IChartDataSet
     /// - returns: the first Entry object found at the given xIndex with binary search.
     /// If the no Entry at the specifed x-index is found, this method returns the Entry at the closest x-index.
     /// nil if no Entry object at that index.
-    public func entryForXIndex(x: Int) -> ChartDataEntry?
+    public override func entryForXIndex(x: Int) -> ChartDataEntry?
     {
         let index = self.entryIndex(xIndex: x)
         if (index > -1)
@@ -290,7 +295,7 @@ public class RealmDataSet: NSObject, IChartDataSet
     /// - returns: the array-index of the specified entry
     ///
     /// - parameter x: x-index of the entry to search for
-    public func entryIndex(xIndex x: Int) -> Int
+    public override func entryIndex(xIndex x: Int) -> Int
     {
         guard let results = _results else { return -1 }
         
@@ -309,7 +314,7 @@ public class RealmDataSet: NSObject, IChartDataSet
     /// - returns: the array-index of the specified entry
     ///
     /// - parameter e: the entry to search for
-    public func entryIndex(entry e: ChartDataEntry) -> Int
+    public override func entryIndex(entry e: ChartDataEntry) -> Int
     {
         for (var i = 0; i < _cache.count; i++)
         {
@@ -323,20 +328,20 @@ public class RealmDataSet: NSObject, IChartDataSet
     }
     
     /// Not supported on Realm datasets
-    public func addEntry(e: ChartDataEntry) -> Bool
+    public override func addEntry(e: ChartDataEntry) -> Bool
     {
         return false
     }
     
     /// Not supported on Realm datasets
-    public func removeEntry(entry: ChartDataEntry) -> Bool
+    public override func removeEntry(entry: ChartDataEntry) -> Bool
     {
         return false
     }
     
     /// Checks if this DataSet contains the specified Entry.
     /// - returns: true if contains the entry, false if not.
-    public func contains(e: ChartDataEntry) -> Bool
+    public override func contains(e: ChartDataEntry) -> Bool
     {
         for entry in _cache
         {
@@ -349,123 +354,12 @@ public class RealmDataSet: NSObject, IChartDataSet
         return false
     }
     
-    // MARK: - Styling functions and accessors
-    
-    /// The label string that describes the DataSet.
-    public var label: String? = "DataSet"
-    
-    /// The axis this DataSet should be plotted against.
-    public var axisDependency = ChartYAxis.AxisDependency.Left
-    
-    /// All the colors that are set for this DataSet
-    public var colors = [UIColor]()
-    
-    /// - returns: the color at the given index of the DataSet's color array.
-    /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
-    public func colorAt(var index: Int) -> UIColor
-    {
-        if (index < 0)
-        {
-            index = 0
-        }
-        return colors[index % colors.count]
-    }
-    
-    public func resetColors()
-    {
-        colors.removeAll(keepCapacity: false)
-    }
-    
-    public func addColor(color: UIColor)
-    {
-        colors.append(color)
-    }
-    
-    public func setColor(color: UIColor)
-    {
-        colors.removeAll(keepCapacity: false)
-        colors.append(color)
-    }
-    
-    /// if true, value highlighting is enabled
-    public var highlightEnabled = true
-    
-    /// - returns: true if value highlighting is enabled for this dataset
-    public var isHighlightEnabled: Bool { return highlightEnabled }
-    
-    /// the formatter used to customly format the values
-    internal var _valueFormatter: NSNumberFormatter? = ChartUtils.defaultValueFormatter()
-    
-    /// The formatter used to customly format the values
-    public var valueFormatter: NSNumberFormatter?
-    {
-        get
-        {
-            return _valueFormatter
-        }
-        set
-        {
-            if newValue == nil
-            {
-                _valueFormatter = ChartUtils.defaultValueFormatter()
-            }
-            else
-            {
-                _valueFormatter = newValue
-            }
-        }
-    }
-    
-    /// the color used for the value-text
-    public var valueTextColor: UIColor = UIColor.blackColor()
-    
-    /// the font for the value-text labels
-    public var valueFont: UIFont = UIFont.systemFontOfSize(7.0)
-    
-    /// Set this to true to draw y-values on the chart
-    public var drawValuesEnabled = true
-    
-    /// Returns true if y-value drawing is enabled, false if not
-    public var isDrawValuesEnabled: Bool
-    {
-        return drawValuesEnabled
-    }
-    
-    /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
-    public var visible = true
-    
-    /// Returns true if this DataSet is visible inside the chart, or false if it is currently hidden.
-    public var isVisible: Bool
-    {
-        return visible
-    }
-    
-    // MARK: - NSObject
-    
-    public override var description: String
-    {
-        return String(format: "%@, label: %@, %i entries", arguments: [NSStringFromClass(self.dynamicType), self.label ?? "", self.entryCount])
-    }
-    
-    public override var debugDescription: String
-    {
-        var desc = description + ":"
-        
-        for (var i = 0, count = self.entryCount; i < count; i++)
-        {
-            desc += "\n" + (self.entryForIndex(i)?.description ?? "")
-        }
-        
-        return desc
-    }
-    
     // MARK: - NSCopying
     
-    public func copyWithZone(zone: NSZone) -> AnyObject
+    public override func copyWithZone(zone: NSZone) -> AnyObject
     {
-        let copy = self.dynamicType.init()
+        let copy = super.copyWithZone(zone) as! RealmBaseDataSet
         
-        copy.colors = colors
         copy._results = _results
         copy._yValueField = _yValueField
         copy._xIndexField = _xIndexField
@@ -473,7 +367,6 @@ public class RealmDataSet: NSObject, IChartDataSet
         copy._yMin = _yMin
         copy._lastStart = _lastStart
         copy._lastEnd = _lastEnd
-        copy.label = label
         
         return copy
     }
