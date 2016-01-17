@@ -60,6 +60,8 @@ public class RealmBaseDataSet: ChartBaseDataSet
         _xIndexField = xIndexField
         _results = _results?.sortedResultsUsingProperty(_xIndexField!, ascending: true)
         
+        notifyDataSetChanged()
+        
         initialize()
     }
     

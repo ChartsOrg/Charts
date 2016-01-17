@@ -15,7 +15,6 @@
 #import "RealmLineChartViewController.h"
 #import "RealmBarChartViewController.h"
 #import "RealmHorizontalBarChartViewController.h"
-#import "RealmStackedBarChartViewController.h"
 #import "RealmScatterChartViewController.h"
 #import "RealmCandleChartViewController.h"
 #import "RealmBubbleChartViewController.h"
@@ -52,11 +51,6 @@
                           @"title": @"Realm.io database Horizontal Bar Chart",
                           @"subtitle": @"This demonstrates how to use this library with Realm.io mobile database.",
                           @"class": RealmHorizontalBarChartViewController.class
-                          },
-                      @{
-                          @"title": @"Realm.io database Stacked Chart",
-                          @"subtitle": @"This demonstrates how to use this library with Realm.io mobile database.",
-                          @"class": RealmStackedBarChartViewController.class
                           },
                       @{
                           @"title": @"Realm.io database Scatter Chart",

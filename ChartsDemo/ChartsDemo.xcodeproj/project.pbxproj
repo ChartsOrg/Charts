@@ -91,8 +91,6 @@
 		65BF12B11BFC9B00005C28D9 /* RealmLineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BF12AF1BFC9B00005C28D9 /* RealmLineChartViewController.xib */; };
 		65BF12B61BFC9B50005C28D9 /* RealmBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65BF12B41BFC9B50005C28D9 /* RealmBarChartViewController.m */; };
 		65BF12B71BFC9B50005C28D9 /* RealmBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BF12B51BFC9B50005C28D9 /* RealmBarChartViewController.xib */; };
-		65BF12C11BFCA128005C28D9 /* RealmStackedBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65BF12BF1BFCA128005C28D9 /* RealmStackedBarChartViewController.m */; };
-		65BF12C21BFCA128005C28D9 /* RealmStackedBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BF12C01BFCA128005C28D9 /* RealmStackedBarChartViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -263,9 +261,6 @@
 		65BF12B31BFC9B50005C28D9 /* RealmBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealmBarChartViewController.h; sourceTree = "<group>"; };
 		65BF12B41BFC9B50005C28D9 /* RealmBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealmBarChartViewController.m; sourceTree = "<group>"; };
 		65BF12B51BFC9B50005C28D9 /* RealmBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RealmBarChartViewController.xib; sourceTree = "<group>"; };
-		65BF12BE1BFCA128005C28D9 /* RealmStackedBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealmStackedBarChartViewController.h; sourceTree = "<group>"; };
-		65BF12BF1BFCA128005C28D9 /* RealmStackedBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealmStackedBarChartViewController.m; sourceTree = "<group>"; };
-		65BF12C01BFCA128005C28D9 /* RealmStackedBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RealmStackedBarChartViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -484,9 +479,6 @@
 				5B7B3AE61C4445E7001C109B /* RealmScatterChartViewController.h */,
 				5B7B3AE71C4445E7001C109B /* RealmScatterChartViewController.m */,
 				5B7B3AE81C4445E7001C109B /* RealmScatterChartViewController.xib */,
-				65BF12BE1BFCA128005C28D9 /* RealmStackedBarChartViewController.h */,
-				65BF12BF1BFCA128005C28D9 /* RealmStackedBarChartViewController.m */,
-				65BF12C01BFCA128005C28D9 /* RealmStackedBarChartViewController.xib */,
 				5B4AC19B1C4C19340028D1A6 /* RealmWikiExampleChartViewController.h */,
 				5B4AC19C1C4C19340028D1A6 /* RealmWikiExampleChartViewController.m */,
 				5B4AC19D1C4C19340028D1A6 /* RealmWikiExampleChartViewController.xib */,
@@ -626,7 +618,6 @@
 				5B7B3AE01C437F61001C109B /* RealmCandleChartViewController.xib in Resources */,
 				5BEAED1C1ABBFB340013F194 /* ScatterChartViewController.xib in Resources */,
 				5BD8F0751AB89CE500566E05 /* LineChart1ViewController.xib in Resources */,
-				65BF12C21BFCA128005C28D9 /* RealmStackedBarChartViewController.xib in Resources */,
 				5B43162D1AB8D8AE0009FCAA /* iTunesArtwork in Resources */,
 				65BF12B11BFC9B00005C28D9 /* RealmLineChartViewController.xib in Resources */,
 				5BD47E661ABB424E008FCEC6 /* BarChartViewController.xib in Resources */,
@@ -677,7 +668,6 @@
 				5BEAED271ABC0BE20013F194 /* MultipleLinesChartViewController.m in Sources */,
 				65BF12B61BFC9B50005C28D9 /* RealmBarChartViewController.m in Sources */,
 				5B8EAF281AB32CF5009697AA /* DemoBaseViewController.m in Sources */,
-				65BF12C11BFCA128005C28D9 /* RealmStackedBarChartViewController.m in Sources */,
 				65BF12601BFBC710005C28D9 /* RealmDemoData.m in Sources */,
 				5B4AC1511C47E8720028D1A6 /* RealmHorizontalBarChartViewController.m in Sources */,
 				5BEAED3B1ABC199F0013F194 /* ColoredLineChartViewController.m in Sources */,

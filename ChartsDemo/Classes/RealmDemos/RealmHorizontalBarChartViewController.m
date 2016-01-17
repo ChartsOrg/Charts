@@ -28,7 +28,7 @@
 {
     [super viewDidLoad];
     
-    [self writeRandomDataToDbWithObjectCount:50];
+    [self writeRandomStackedDataToDbWithObjectCount:50];
     
     self.title = @"Realm.io Horizontal Bar Chart Chart";
     
@@ -69,7 +69,7 @@
     RLMResults *results = [RealmDemoData allObjectsInRealm:realm];
     
     // RealmBarDataSet *set = [[RealmBarDataSet alloc] initWithResults:results yValueField:@"value" xIndexField:@"xIndex"];
-    RealmBarDataSet *set = [[RealmBarDataSet alloc] initWithResults:results yValueField:@"value" xIndexField:@"xIndex" stackValueField:@"floatValue"]; // stacked entries
+    RealmBarDataSet *set = [[RealmBarDataSet alloc] initWithResults:results yValueField:@"stackValues" xIndexField:@"xIndex" stackValueField:@"floatValue"]; // stacked entries
 
     set.colors = @[
                    [ChartColorTemplates colorFromString:@"#8BC34A"],
@@ -78,6 +78,11 @@
                    ];
 
     set.label = @"Mobile OS Distribution";
+    set.stackLabels = @[
+                        @"iOS",
+                        @"Android",
+                        @"Other"
+                        ];
     
     NSArray<id <IChartDataSet>> *dataSets = @[set];
     
