@@ -29,12 +29,16 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
         super.init()
     }
     
+    public override init(results: RLMResults?, yValueField: String, xIndexField: String?, label: String?)
+    {
+        super.init(results: results, yValueField: yValueField, xIndexField: xIndexField, label: label)
+    }
+    
     public init(results: RLMResults?, yValueField: String, xIndexField: String?, stackValueField: String, label: String?)
     {
         _stackValueField = stackValueField
         
         super.init(results: results, yValueField: yValueField, xIndexField: xIndexField, label: label)
-        initialize()
     }
     
     public convenience init(results: RLMResults?, yValueField: String, xIndexField: String?, stackValueField: String)
@@ -42,9 +46,19 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
         self.init(results: results, yValueField: yValueField, xIndexField: xIndexField, stackValueField: stackValueField, label: "DataSet")
     }
     
+    public convenience init(results: RLMResults?, yValueField: String, stackValueField: String, label: String)
+    {
+        self.init(results: results, yValueField: yValueField, xIndexField: nil, stackValueField: stackValueField, label: label)
+    }
+    
     public convenience init(results: RLMResults?, yValueField: String, stackValueField: String)
     {
         self.init(results: results, yValueField: yValueField, xIndexField: nil, stackValueField: stackValueField)
+    }
+    
+    public override init(realm: RLMRealm?, modelName: String, resultsWhere: String, yValueField: String, xIndexField: String?, label: String?)
+    {
+        super.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, yValueField: yValueField, xIndexField: xIndexField, label: label)
     }
     
     public init(realm: RLMRealm?, modelName: String, resultsWhere: String, yValueField: String, xIndexField: String?, stackValueField: String, label: String?)
@@ -52,12 +66,21 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
         _stackValueField = stackValueField
         
         super.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, yValueField: yValueField, xIndexField: xIndexField, label: label)
-        initialize()
+    }
+    
+    public convenience init(realm: RLMRealm?, modelName: String, resultsWhere: String, yValueField: String, xIndexField: String?, stackValueField: String)
+    {
+        self.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, yValueField: yValueField, xIndexField: nil, stackValueField: stackValueField)
     }
     
     public convenience init(realm: RLMRealm?, modelName: String, resultsWhere: String, yValueField: String, stackValueField: String, label: String?)
     {
         self.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, yValueField: yValueField, xIndexField: nil, stackValueField: stackValueField, label: label)
+    }
+    
+    public convenience init(realm: RLMRealm?, modelName: String, resultsWhere: String, yValueField: String, stackValueField: String)
+    {
+        self.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, yValueField: yValueField, xIndexField: nil, stackValueField: stackValueField, label: nil)
     }
     
     public override func notifyDataSetChanged()
