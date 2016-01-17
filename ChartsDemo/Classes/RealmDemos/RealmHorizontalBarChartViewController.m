@@ -50,7 +50,7 @@
     [self setupBarLineChartView:_chartView];
     
     _chartView.leftAxis.startAtZeroEnabled = YES;
-    _chartView.drawValueAboveBarEnabled = YES;
+    _chartView.drawValueAboveBarEnabled = NO;
 
     [self setData];
 }

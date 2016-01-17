@@ -61,6 +61,7 @@
     xAxis.spaceBetweenLabels = 2.0;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
+    leftAxis.startAtZeroEnabled = YES;
     leftAxis.labelFont = [UIFont systemFontOfSize:10.f];
     leftAxis.labelCount = 8;
     leftAxis.valueFormatter = [[NSNumberFormatter alloc] init];
