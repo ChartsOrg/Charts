@@ -38,7 +38,9 @@
     [self setupBarLineChartView:_barChartView];
     
     _lineChartView.extraBottomOffset = 5.f;
+    _lineChartView.extraRightOffset = 15.f;
     _barChartView.extraBottomOffset = 5.f;
+    _barChartView.extraRightOffset = 15.f;
     
     _lineChartView.leftAxis.drawGridLinesEnabled = NO;
     _lineChartView.xAxis.drawGridLinesEnabled = NO;

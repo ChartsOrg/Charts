@@ -18,23 +18,23 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="irH-g3-P5e" customClass="BarChartView" customModule="Charts">
-                    <rect key="frame" x="0.0" y="339.5" width="375" height="327.5"/>
+                    <rect key="frame" x="5" y="339.5" width="365" height="327.5"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oqd-Ej-1xl" customClass="LineChartView" customModule="Charts">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="327.5"/>
+                    <rect key="frame" x="5" y="0.0" width="365" height="327.5"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
             <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="irH-g3-P5e" secondAttribute="trailing" id="2Pf-uq-LOn"/>
+                <constraint firstAttribute="trailing" secondItem="irH-g3-P5e" secondAttribute="trailing" constant="5" id="2Pf-uq-LOn"/>
                 <constraint firstItem="Oqd-Ej-1xl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="3NA-if-rAO"/>
-                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="6Mc-iO-BuY"/>
+                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="5" id="6Mc-iO-BuY"/>
                 <constraint firstAttribute="bottom" secondItem="irH-g3-P5e" secondAttribute="bottom" id="Blc-uB-B6M"/>
                 <constraint firstItem="irH-g3-P5e" firstAttribute="height" secondItem="Oqd-Ej-1xl" secondAttribute="height" id="Nyg-ih-YNg"/>
-                <constraint firstItem="irH-g3-P5e" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Swn-08-1hB"/>
-                <constraint firstAttribute="trailing" secondItem="Oqd-Ej-1xl" secondAttribute="trailing" id="mC3-xy-2CS"/>
+                <constraint firstItem="irH-g3-P5e" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="5" id="Swn-08-1hB"/>
+                <constraint firstAttribute="trailing" secondItem="Oqd-Ej-1xl" secondAttribute="trailing" constant="5" id="mC3-xy-2CS"/>
                 <constraint firstItem="irH-g3-P5e" firstAttribute="top" secondItem="Oqd-Ej-1xl" secondAttribute="bottom" constant="12" id="tMa-UT-rd7"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
