@@ -25,29 +25,6 @@ public class RealmPieDataSet: RealmBaseDataSet, IPieChartDataSet
         self.valueFont = UIFont.systemFontOfSize(13.0)
     }
     
-    public required init()
-    {
-        super.init()
-    }
-    
-    public override init(results: RLMResults?, yValueField: String, xIndexField: String, label: String?)
-    {
-        super.init(results: results, yValueField: yValueField, xIndexField: xIndexField, label: label)
-        initialize()
-    }
-    
-    public convenience init(results: RLMResults?, yValueField: String, xIndexField: String)
-    {
-        self.init(results: results, yValueField: yValueField, xIndexField: xIndexField, label: "DataSet")
-        initialize()
-    }
-    
-    public override init(realm: RLMRealm?, modelName: String, resultsWhere: String, yValueField: String, xIndexField: String, label: String?)
-    {
-        super.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, yValueField: yValueField, xIndexField: xIndexField, label: label)
-        initialize()
-    }
-    
     // MARK: - Data functions and accessors
     
     internal var _yValueSum: Double?

@@ -24,30 +24,6 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
         circleColors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
     }
     
-    public required init()
-    {
-        super.init()
-        initialize()
-    }
-    
-    public override init(label: String?)
-    {
-        super.init(label: label)
-        initialize()
-    }
-    
-    public override init(results: RLMResults?, yValueField: String, xIndexField: String, label: String?)
-    {
-        super.init(results: results, yValueField: yValueField, xIndexField: xIndexField, label: label)
-        initialize()
-    }
-    
-    public override init(realm: RLMRealm?, modelName: String, resultsWhere: String, yValueField: String, xIndexField: String, label: String?)
-    {
-        super.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, yValueField: yValueField, xIndexField: xIndexField, label: label)
-        initialize()
-    }
-    
     // MARK: - Data functions and accessors
     
     // MARK: - Styling functions and accessors

@@ -46,7 +46,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
         initialize()
     }
     
-    public init(results: RLMResults?, yValueField: String, xIndexField: String, label: String?)
+    public init(results: RLMResults?, yValueField: String, xIndexField: String?, label: String?)
     {
         super.init()
         
@@ -63,12 +63,22 @@ public class RealmBaseDataSet: ChartBaseDataSet
         initialize()
     }
     
-    public convenience init(results: RLMResults?, yValueField: String, xIndexField: String)
+    public convenience init(results: RLMResults?, yValueField: String, label: String?)
+    {
+        self.init(results: results, yValueField: yValueField, xIndexField: nil, label: label)
+    }
+    
+    public convenience init(results: RLMResults?, yValueField: String, xIndexField: String?)
     {
         self.init(results: results, yValueField: yValueField, xIndexField: xIndexField, label: "DataSet")
     }
     
-    public init(realm: RLMRealm?, modelName: String, resultsWhere: String, yValueField: String, xIndexField: String, label: String?)
+    public convenience init(results: RLMResults?, yValueField: String)
+    {
+        self.init(results: results, yValueField: yValueField)
+    }
+    
+    public init(realm: RLMRealm?, modelName: String, resultsWhere: String, yValueField: String, xIndexField: String?, label: String?)
     {
         super.init()
         
@@ -88,6 +98,11 @@ public class RealmBaseDataSet: ChartBaseDataSet
         initialize()
     }
     
+    public convenience init(realm: RLMRealm?, modelName: String, resultsWhere: String, yValueField: String, label: String?)
+    {
+        self.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, yValueField: yValueField, xIndexField: nil, label: label)
+    }
+    
     public func loadResults(realm realm: RLMRealm, modelName: String)
     {
         loadResults(realm: realm, modelName: modelName, predicate: nil)
@@ -104,7 +119,10 @@ public class RealmBaseDataSet: ChartBaseDataSet
             _results = realm.objects(modelName, withPredicate: predicate)
         }
         
-        _results = _results?.sortedResultsUsingProperty(_xIndexField!, ascending: true)
+        if _xIndexField != nil
+        {
+            _results = _results?.sortedResultsUsingProperty(_xIndexField!, ascending: true)
+        }
     
         notifyDataSetChanged()
     }
@@ -144,7 +162,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
             
             for (var i = UInt(start), max = UInt(end + 1); i < max; i++)
             {
-                _cache.append(buildEntryFromResultObject(results.objectAtIndex(i)))
+                _cache.append(buildEntryFromResultObject(results.objectAtIndex(i), atIndex: i))
             }
             
             _cacheFirst = start
@@ -158,7 +176,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
             
             for (var i = UInt(start), max = UInt(_cacheFirst); i < max; i++)
             {
-                newEntries.append(buildEntryFromResultObject(results.objectAtIndex(i)))
+                newEntries.append(buildEntryFromResultObject(results.objectAtIndex(i), atIndex: i))
             }
             
             _cache.insertContentsOf(newEntries, at: 0)
@@ -170,16 +188,16 @@ public class RealmBaseDataSet: ChartBaseDataSet
         {
             for (var i = UInt(_cacheLast + 1), max = UInt(end + 1); i < max; i++)
             {
-                _cache.append(buildEntryFromResultObject(results.objectAtIndex(i)))
+                _cache.append(buildEntryFromResultObject(results.objectAtIndex(i), atIndex: i))
             }
             
             _cacheLast = end
         }
     }
     
-    internal func buildEntryFromResultObject(object: RLMObject) -> ChartDataEntry
+    internal func buildEntryFromResultObject(object: RLMObject, atIndex: UInt) -> ChartDataEntry
     {
-        let entry = ChartDataEntry(value: object[_yValueField!] as! Double, xIndex: object[_xIndexField!] as! Int)
+        let entry = ChartDataEntry(value: object[_yValueField!] as! Double, xIndex: _xIndexField == nil ? Int(atIndex) : object[_xIndexField!] as! Int)
         
         return entry
     }

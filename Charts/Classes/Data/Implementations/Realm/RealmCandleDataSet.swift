@@ -61,10 +61,10 @@ public class RealmCandleDataSet: RealmLineScatterCandleRadarDataSet, ICandleChar
     internal var _openField: String?
     internal var _closeField: String?
     
-    internal override func buildEntryFromResultObject(object: RLMObject) -> ChartDataEntry
+    internal override func buildEntryFromResultObject(object: RLMObject, atIndex: UInt) -> ChartDataEntry
     {
         let entry = CandleChartDataEntry(
-            xIndex: object[_xIndexField!] as! Int,
+            xIndex: _xIndexField == nil ? Int(atIndex) : object[_xIndexField!] as! Int,
             shadowH: object[_highField!] as! Double,
             shadowL: object[_lowField!] as! Double,
             open: object[_openField!] as! Double,

@@ -59,9 +59,9 @@ public class RealmBubbleDataSet: RealmBarLineScatterCandleBubbleDataSet, IBubble
     public var xMax: Double { return _xMax }
     public var maxSize: CGFloat { return _maxSize }
     
-    internal override func buildEntryFromResultObject(object: RLMObject) -> ChartDataEntry
+    internal override func buildEntryFromResultObject(object: RLMObject, atIndex: UInt) -> ChartDataEntry
     {
-        let entry = BubbleChartDataEntry(xIndex: object[_xIndexField!] as! Int, value: object[_yValueField!] as! Double, size: object[_sizeField!] as! CGFloat)
+        let entry = BubbleChartDataEntry(xIndex: _xIndexField == nil ? Int(atIndex) : object[_xIndexField!] as! Int, value: object[_yValueField!] as! Double, size: object[_sizeField!] as! CGFloat)
         
         return entry
     }

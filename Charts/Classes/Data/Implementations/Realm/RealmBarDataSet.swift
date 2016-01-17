@@ -29,13 +29,7 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
         super.init()
     }
     
-    public override init(results: RLMResults?, yValueField: String, xIndexField: String, label: String?)
-    {
-        super.init(results: results, yValueField: yValueField, xIndexField: xIndexField, label: label)
-        initialize()
-    }
-    
-    public init(results: RLMResults?, yValueField: String, xIndexField: String, stackValueField: String, label: String?)
+    public init(results: RLMResults?, yValueField: String, xIndexField: String?, stackValueField: String, label: String?)
     {
         _stackValueField = stackValueField
         
@@ -43,28 +37,27 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
         initialize()
     }
     
-    public convenience init(results: RLMResults?, yValueField: String, xIndexField: String)
-    {
-        self.init(results: results, yValueField: yValueField, xIndexField: xIndexField, label: "DataSet")
-    }
-    
-    public convenience init(results: RLMResults?, yValueField: String, xIndexField: String, stackValueField: String)
+    public convenience init(results: RLMResults?, yValueField: String, xIndexField: String?, stackValueField: String)
     {
         self.init(results: results, yValueField: yValueField, xIndexField: xIndexField, stackValueField: stackValueField, label: "DataSet")
     }
     
-    public override init(realm: RLMRealm?, modelName: String, resultsWhere: String, yValueField: String, xIndexField: String, label: String?)
+    public convenience init(results: RLMResults?, yValueField: String, stackValueField: String)
     {
-        super.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, yValueField: yValueField, xIndexField: xIndexField, label: label)
-        initialize()
+        self.init(results: results, yValueField: yValueField, xIndexField: nil, stackValueField: stackValueField)
     }
     
-    public init(realm: RLMRealm?, modelName: String, resultsWhere: String, yValueField: String, xIndexField: String, stackValueField: String, label: String?)
+    public init(realm: RLMRealm?, modelName: String, resultsWhere: String, yValueField: String, xIndexField: String?, stackValueField: String, label: String?)
     {
         _stackValueField = stackValueField
         
         super.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, yValueField: yValueField, xIndexField: xIndexField, label: label)
         initialize()
+    }
+    
+    public convenience init(realm: RLMRealm?, modelName: String, resultsWhere: String, yValueField: String, stackValueField: String, label: String?)
+    {
+        self.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, yValueField: yValueField, xIndexField: nil, stackValueField: stackValueField, label: label)
     }
     
     public override func notifyDataSetChanged()
@@ -84,7 +77,7 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
     /// is calculated from the Entries that are added to the DataSet
     private var _stackSize = 1
     
-    internal override func buildEntryFromResultObject(object: RLMObject) -> ChartDataEntry
+    internal override func buildEntryFromResultObject(object: RLMObject, atIndex: UInt) -> ChartDataEntry
     {
         let value = object[_yValueField!]
         let entry: BarChartDataEntry
@@ -96,11 +89,11 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
             {
                 values.append((val as! RLMObject)[_stackValueField!] as! Double)
             }
-            entry = BarChartDataEntry(values: values, xIndex: object[_xIndexField!] as! Int)
+            entry = BarChartDataEntry(values: values, xIndex: _xIndexField == nil ? Int(atIndex) : object[_xIndexField!] as! Int)
         }
         else
         {
-            entry = BarChartDataEntry(value: value as! Double, xIndex: object[_xIndexField!] as! Int)
+            entry = BarChartDataEntry(value: value as! Double, xIndex: _xIndexField == nil ? Int(atIndex) : object[_xIndexField!] as! Int)
         }
         
         return entry
