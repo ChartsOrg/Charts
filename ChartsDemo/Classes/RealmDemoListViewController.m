@@ -21,6 +21,7 @@
 #import "RealmBubbleChartViewController.h"
 #import "RealmPieChartViewController.h"
 #import "RealmRadarChartViewController.h"
+#import "RealmWikiExampleChartViewController.h"
 
 @interface RealmDemoListViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -81,6 +82,11 @@
                           @"title": @"Realm.io database Radar Chart",
                           @"subtitle": @"This demonstrates how to use this library with Realm.io mobile database.",
                           @"class": RealmRadarChartViewController.class
+                          },
+                      @{
+                          @"title": @"Realm.io Wiki",
+                          @"subtitle": @"This is the code related to the entry about realm.io in the Wiki.",
+                          @"class": RealmWikiExampleChartViewController.class
                           },
                       ];
 }
