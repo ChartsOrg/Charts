@@ -79,8 +79,8 @@ public class ChartLegendRenderer: ChartRendererBase
                         labels.append(pds.label)
                     }
                 }
-                else if (dataSet.isKindOfClass(CandleChartDataSet)
-                    && (dataSet as! CandleChartDataSet).decreasingColor != nil)
+                else if (dataSet is ICandleChartDataSet
+                    && (dataSet as! ICandleChartDataSet).decreasingColor != nil)
                 {
                     colors.append((dataSet as! CandleChartDataSet).decreasingColor)
                     colors.append((dataSet as! CandleChartDataSet).increasingColor)
