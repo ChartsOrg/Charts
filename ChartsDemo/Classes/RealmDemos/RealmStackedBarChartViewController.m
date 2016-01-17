@@ -45,9 +45,9 @@
                      @{@"key": @"toggleAutoScaleMinMax", @"label": @"Toggle auto scale min/max"},
                      ];
     
-    [self setupBarLineChartView:_chartView];
-    
     _chartView.delegate = self;
+    
+    [self setupBarLineChartView:_chartView];
     _chartView.leftAxis.startAtZeroEnabled = YES;
     
     [self setData];
@@ -73,7 +73,7 @@
     set.label = @"Realm BarDataSet";
     set.stackLabels = @[@"Births", @"Divorces", @"Marriages"];
     
-    NSArray<RealmBarDataSet *> *dataSets = @[set];
+    NSArray<id <IChartDataSet>> *dataSets = @[set];
     
     RealmBarData *data = [[RealmBarData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
     

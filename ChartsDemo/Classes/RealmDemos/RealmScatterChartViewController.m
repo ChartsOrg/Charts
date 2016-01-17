@@ -75,7 +75,7 @@
     [set setColor:[ChartColorTemplates colorFromString:@"#CDDC39"]];
     set.scatterShape = ScatterShapeCircle;
     
-    NSArray<RealmScatterDataSet *> *dataSets = @[set];
+    NSArray<id <IChartDataSet>> *dataSets = @[set];
     
     RealmScatterData *data = [[RealmScatterData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
     [self styleData:data];

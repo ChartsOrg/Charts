@@ -45,8 +45,9 @@
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"}
                      ];
     
-    [self setupPieChartView:_chartView];
+    _chartView.delegate = self;
     
+    [self setupPieChartView:_chartView];
     
     NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
@@ -62,8 +63,6 @@
                                 NSForegroundColorAttributeName: [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]
                                 } range:NSMakeRange(9, centerText.length - 9)];
     _chartView.centerAttributedText = centerText;
-    
-    _chartView.delegate = self;
     
     [self setData];
 }
@@ -88,7 +87,7 @@
     set.label = @"Example market share";
     set.sliceSpace = 2.f;
     
-    NSArray<RealmPieDataSet *> *dataSets = @[set];
+    NSArray<id <IChartDataSet>> *dataSets = @[set];
     
     RealmPieData *data = [[RealmPieData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
     [self styleData:data];

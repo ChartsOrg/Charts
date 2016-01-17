@@ -81,8 +81,8 @@
     [set setCircleColor:[ChartColorTemplates colorFromString:@"#FF5722"]];
     set.lineWidth = 1.8f;
     set.circleRadius = 3.6f;
-
-    NSArray<RealmLineDataSet *> *dataSets = @[set];
+    
+    NSArray<id <IChartDataSet>> *dataSets = @[set];
     
     RealmLineData *data = [[RealmLineData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
     [self styleData:data];

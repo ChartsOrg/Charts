@@ -79,7 +79,7 @@
 
     set.label = @"Mobile OS Distribution";
     
-    NSArray<RealmBarDataSet *> *dataSets = @[set];
+    NSArray<id <IChartDataSet>> *dataSets = @[set];
     
     RealmBarData *data = [[RealmBarData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
     [self styleData:data];

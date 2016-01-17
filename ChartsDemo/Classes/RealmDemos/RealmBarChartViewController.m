@@ -47,19 +47,7 @@
     
     _chartView.delegate = self;
     
-    _chartView.drawGridBackgroundEnabled = NO;
-    
-    _chartView.descriptionText = @"";
-    _chartView.noDataTextDescription = @"You need to provide data for the chart.";
-    
-    _chartView.dragEnabled = YES;
-    [_chartView setScaleEnabled:YES];
-    _chartView.pinchZoomEnabled = NO;
-    
-    ChartYAxis *leftAxis = _chartView.leftAxis;
-    leftAxis.startAtZeroEnabled = NO;
-    
-    _chartView.rightAxis.enabled = NO;
+    [self setupBarLineChartView:_chartView];
     
     [self setData];
 }
@@ -82,7 +70,7 @@
                    [ChartColorTemplates colorFromString:@"#03A9F4"]];
     set.label = @"Realm BarDataSet";
 
-    NSArray<RealmBarDataSet *> *dataSets = @[set];
+    NSArray<id <IChartDataSet>> *dataSets = @[set];
 
     RealmBarData *data = [[RealmBarData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
     [self styleData:data];

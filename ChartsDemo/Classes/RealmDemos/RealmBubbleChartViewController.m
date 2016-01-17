@@ -73,7 +73,7 @@
     set.label = @"Realm BubbleDataSet";
     [set setColors:ChartColorTemplates.colorful alpha:0.43f];
     
-    NSArray<RealmLineDataSet *> *dataSets = @[set];
+    NSArray<id <IChartDataSet>> *dataSets = @[set];
     
     RealmBubbleData *data = [[RealmBubbleData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
     [self styleData:data];

@@ -79,7 +79,7 @@
     set.increasingColor = [UIColor colorWithRed:122/255.f green:242/255.f blue:84/255.f alpha:1.f];
     set.increasingFilled = YES;
     
-    NSArray<RealmCandleDataSet *> *dataSets = @[set];
+    NSArray<id <IChartDataSet>> *dataSets = @[set];
     
     RealmCandleData *data = [[RealmCandleData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
     [self styleData:data];

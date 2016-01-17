@@ -43,14 +43,14 @@
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"}
                      ];
     
+    _chartView.delegate = self;
+    
     [self setupRadarChartView:_chartView];
     
     _chartView.yAxis.enabled = NO;
     _chartView.webAlpha = 0.7f;
     _chartView.innerWebColor = UIColor.darkGrayColor;
     _chartView.webColor = UIColor.grayColor;
-
-    _chartView.delegate = self;
     
     [self setData];
 }
@@ -78,7 +78,7 @@
     set.fillAlpha = 0.5f;
     set.lineWidth = 2.f;
     
-    NSArray<RealmRadarDataSet *> *dataSets = @[set];
+    NSArray<id <IChartDataSet>> *dataSets = @[set];
 
     RadarChartData *data = [[RadarChartData alloc] initWithXVals:@[@"2013", @"2014", @"2015", @"2016", @"2017", @"2018", @"2019"] dataSets:dataSets];
     [self styleData:data];
