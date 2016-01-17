@@ -17,7 +17,7 @@ import UIKit
 import Realm
 import Realm.Dynamic
 
-public class RealmRadarData: BarChartData
+public class RealmRadarData: RadarChartData
 {
     public init(results: RLMResults?, xValueField: String, dataSets: [IChartDataSet]?)
     {

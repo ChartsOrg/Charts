@@ -17,7 +17,7 @@ import UIKit
 import Realm
 import Realm.Dynamic
 
-public class RealmPieData: BarChartData
+public class RealmPieData: PieChartData
 {
     public init(results: RLMResults?, xValueField: String, dataSets: [IChartDataSet]?)
     {
