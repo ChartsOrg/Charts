@@ -25,14 +25,12 @@ public class ChartDataSet: ChartBaseDataSet
     
     public override init(label: String?)
     {
-        super.init()
-        
-        
+        super.init(label: label)
     }
     
     public init(yVals: [ChartDataEntry]?, label: String?)
     {
-        super.init()
+        super.init(label: label)
         
         _yVals = yVals == nil ? [ChartDataEntry]() : yVals
         
