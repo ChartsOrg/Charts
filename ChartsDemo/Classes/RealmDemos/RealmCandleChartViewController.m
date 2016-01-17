@@ -80,10 +80,8 @@
     set.increasingFilled = YES;
     
     NSArray<RealmCandleDataSet *> *dataSets = @[set];
-
-    CandleChartData *data = [[CandleChartData alloc] init];
-    data.dataSets = dataSets;
-    [data loadXValuesFromRealmResults:results xValueField:@"xValue"];
+    
+    RealmCandleData *data = [[RealmCandleData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
     [self styleData:data];
     
     [_chartView zoom:5.f scaleY:1.f x:0.f y:0.f];

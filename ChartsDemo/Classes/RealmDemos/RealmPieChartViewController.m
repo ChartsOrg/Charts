@@ -89,10 +89,8 @@
     set.sliceSpace = 2.f;
     
     NSArray<RealmPieDataSet *> *dataSets = @[set];
-
-    PieChartData *data = [[PieChartData alloc] init];
-    data.dataSets = dataSets;
-    [data loadXValuesFromRealmResults:results xValueField:@"xValue"];
+    
+    RealmPieData *data = [[RealmPieData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
     [self styleData:data];
     data.valueTextColor = UIColor.whiteColor;
     data.valueFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.f];

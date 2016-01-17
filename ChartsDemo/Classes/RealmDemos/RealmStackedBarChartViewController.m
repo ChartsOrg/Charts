@@ -74,10 +74,8 @@
     set.stackLabels = @[@"Births", @"Divorces", @"Marriages"];
     
     NSArray<RealmBarDataSet *> *dataSets = @[set];
-
-    BarChartData *data = [[BarChartData alloc] init];
-    data.dataSets = dataSets;
-    [data loadXValuesFromRealmResults:results xValueField:@"xValue"];
+    
+    RealmBarData *data = [[RealmBarData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
     
     [_chartView zoom:5.f scaleY:1.f x:0.f y:0.f];
     _chartView.data = data;

@@ -74,10 +74,8 @@
     [set setColors:ChartColorTemplates.colorful alpha:0.43f];
     
     NSArray<RealmLineDataSet *> *dataSets = @[set];
-
-    BubbleChartData *data = [[BubbleChartData alloc] init];
-    data.dataSets = dataSets;
-    [data loadXValuesFromRealmResults:results xValueField:@"xValue"];
+    
+    RealmBubbleData *data = [[RealmBubbleData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
     [self styleData:data];
     
     _chartView.data = data;

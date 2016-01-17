@@ -76,14 +76,12 @@
     set.scatterShape = ScatterShapeCircle;
     
     NSArray<RealmScatterDataSet *> *dataSets = @[set];
-
-    ScatterChartData *data = [[ScatterChartData alloc] init];
-    data.dataSets = dataSets;
-    [data loadXValuesFromRealmResults:results xValueField:@"xValue"];
+    
+    RealmScatterData *data = [[RealmScatterData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
+    [self styleData:data];
     
     [_chartView zoom:5.f scaleY:1.f x:0.f y:0.f];
     _chartView.data = data;
-    [self styleData:data];
     
     [_chartView animateWithYAxisDuration:1.4 easingOption:ChartEasingOptionEaseInOutQuart];
 }

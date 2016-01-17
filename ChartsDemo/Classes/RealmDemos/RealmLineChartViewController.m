@@ -83,10 +83,8 @@
     set.circleRadius = 3.6f;
 
     NSArray<RealmLineDataSet *> *dataSets = @[set];
-
-    LineChartData *data = [[LineChartData alloc] init];
-    data.dataSets = dataSets;
-    [data loadXValuesFromRealmResults:results xValueField:@"xValue"];
+    
+    RealmLineData *data = [[RealmLineData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
     [self styleData:data];
     
     [_chartView zoom:5.f scaleY:1.f x:0.f y:0.f];

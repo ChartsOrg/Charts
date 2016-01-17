@@ -907,24 +907,6 @@ public class ChartData: NSObject
         return false
     }
     
-    /// MARK: - Helpers for working with Realm data
-    
-    /// Transforms the given Realm-ResultSet into an xValue array, using the specified xValueField
-    public func loadXValuesFromRealmResults(results: RLMResults, xValueField: String)
-    {
-        let addedValues = NSMutableSet()
-
-        for object in results
-        {
-            let xVal = (object as! RLMObject)[xValueField] as! String!
-            if !addedValues.containsObject(xVal)
-            {
-                addedValues.addObject(xVal)
-                _xVals.append(xVal)
-            }
-        }
-    }
-    
     /// MARK: - ObjC compatibility
     
     /// - returns: the average length (in characters) across all values in the x-vals array

@@ -81,8 +81,6 @@
     NSArray<RealmRadarDataSet *> *dataSets = @[set];
 
     RadarChartData *data = [[RadarChartData alloc] initWithXVals:@[@"2013", @"2014", @"2015", @"2016", @"2017", @"2018", @"2019"] dataSets:dataSets];
-
-    [data loadXValuesFromRealmResults:results xValueField:@"xValue"];
     [self styleData:data];
     
     _chartView.data = data;

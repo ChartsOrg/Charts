@@ -80,10 +80,8 @@
     set.label = @"Mobile OS Distribution";
     
     NSArray<RealmBarDataSet *> *dataSets = @[set];
-
-    BarChartData *data = [[BarChartData alloc] init];
-    data.dataSets = dataSets;
-    [data loadXValuesFromRealmResults:results xValueField:@"xValue"];
+    
+    RealmBarData *data = [[RealmBarData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
     [self styleData:data];
     data.valueTextColor = UIColor.whiteColor;
     
