@@ -76,10 +76,10 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
             {
                 if vals.count > _stackSize
                 {
-                _stackSize = vals.count
+                    _stackSize = vals.count
+                }
             }
         }
-    }
     }
     
     public override func calcMinMax(start start : Int, end: Int)

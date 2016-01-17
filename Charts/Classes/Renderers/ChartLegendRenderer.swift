@@ -82,8 +82,8 @@ public class ChartLegendRenderer: ChartRendererBase
                 else if (dataSet is ICandleChartDataSet
                     && (dataSet as! ICandleChartDataSet).decreasingColor != nil)
                 {
-                    colors.append((dataSet as! CandleChartDataSet).decreasingColor)
-                    colors.append((dataSet as! CandleChartDataSet).increasingColor)
+                    colors.append((dataSet as! ICandleChartDataSet).decreasingColor)
+                    colors.append((dataSet as! ICandleChartDataSet).increasingColor)
                     labels.append(nil)
                     labels.append(dataSet.label)
                 }
