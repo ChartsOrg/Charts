@@ -46,7 +46,7 @@ public class PieChartRenderer: ChartDataRendererBase
             
             if (pieData != nil)
             {
-                for set in pieData!.dataSets as! [PieChartDataSet]
+                for set in pieData!.dataSets as! [IPieChartDataSet]
                 {
                     if set.isVisible && set.entryCount > 0
                     {
@@ -57,14 +57,14 @@ public class PieChartRenderer: ChartDataRendererBase
         }
     }
     
-    internal func drawDataSet(context context: CGContext, dataSet: PieChartDataSet)
+    internal func drawDataSet(context context: CGContext, dataSet: IPieChartDataSet)
     {
         var angle: CGFloat = 0.0
         let rotationAngle = _chart.rotationAngle
         
         var cnt = 0
         
-        var entries = dataSet.yVals
+        let entryCount = dataSet.entryCount
         var drawAngles = _chart.drawAngles
         let circleBox = _chart.circleBox
         let radius = _chart.radius
@@ -72,12 +72,12 @@ public class PieChartRenderer: ChartDataRendererBase
         
         CGContextSaveGState(context)
         
-        for (var j = 0; j < entries.count; j++)
+        for (var j = 0; j < entryCount; j++)
         {
             let sliceAngle = drawAngles[cnt]
             let sliceSpace = dataSet.sliceSpace
             
-            let e = entries[j]
+            guard let e = dataSet.entryForIndex(j) else { continue }
             
             // draw only if the value is greater than zero
             if ((abs(e.value) > 0.000001))
@@ -150,7 +150,7 @@ public class PieChartRenderer: ChartDataRendererBase
         
         for (var i = 0; i < dataSets.count; i++)
         {
-            guard let dataSet = dataSets[i] as? PieChartDataSet else { continue }
+            guard let dataSet = dataSets[i] as? IPieChartDataSet else { continue }
             
             let drawYVals = dataSet.isDrawValuesEnabled
             
@@ -164,14 +164,14 @@ public class PieChartRenderer: ChartDataRendererBase
             
             let formatter = dataSet.valueFormatter
             
-            var entries = dataSet.yVals
-            
-            for (var j = 0, maxEntry = Int(min(ceil(CGFloat(entries.count) * _animator.phaseX), CGFloat(entries.count))); j < maxEntry; j++)
+            for (var j = 0, maxEntry = Int(min(ceil(CGFloat(dataSet.entryCount) * _animator.phaseX), CGFloat(dataSet.entryCount))); j < maxEntry; j++)
             {
                 if (drawXVals && !drawYVals && (j >= data.xValCount || data.xVals[j] == nil))
                 {
                     continue
                 }
+                
+                guard let e = dataSet.entryForIndex(j) else { continue }
                 
                 // offset needed to center the drawn text in the slice
                 let offset = drawAngles[cnt] / 2.0
@@ -186,7 +186,7 @@ public class PieChartRenderer: ChartDataRendererBase
                     * sin((rotationAngle + angle) * ChartUtils.Math.FDEG2RAD)
                     + center.y
 
-                let value = usePercentValuesEnabled ? entries[j].value / yValueSum * 100.0 : entries[j].value
+                let value = usePercentValuesEnabled ? e.value / yValueSum * 100.0 : e.value
                 
                 let val = formatter!.stringFromNumber(value)!
                 
@@ -321,7 +321,7 @@ public class PieChartRenderer: ChartDataRendererBase
                 continue
             }
             
-            guard let set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as? PieChartDataSet else { continue }
+            guard let set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as? IPieChartDataSet else { continue }
             
             if !set.isHighlightEnabled
             {

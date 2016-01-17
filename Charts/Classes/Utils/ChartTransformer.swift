@@ -65,127 +65,38 @@ public class ChartTransformer: NSObject
         }
     }
     
-    /// Transforms an arraylist of Entry into a double array containing the x and y values transformed with all matrices for the SCATTERCHART.
-    public func generateTransformedValuesScatter(entries: [ChartDataEntry], phaseY: CGFloat) -> [CGPoint]
+    /// Transforms an Entry into a transformed point for bar chart
+    public func getTransformedValueBarChart(entry entry: ChartDataEntry, xIndex: Int, dataSetIndex: Int, phaseY: CGFloat, dataSetCount: Int, groupSpace: CGFloat) -> CGPoint
     {
-        var valuePoints = [CGPoint]()
-        valuePoints.reserveCapacity(entries.count)
-
-        for (var j = 0; j < entries.count; j++)
-        {
-            let e = entries[j]
-            valuePoints.append(CGPoint(x: CGFloat(e.xIndex), y: CGFloat(e.value) * phaseY))
-        }
-
-        pointValuesToPixel(&valuePoints)
-
-        return valuePoints
+        // calculate the x-position, depending on datasetcount
+        let x = CGFloat(xIndex + (xIndex * (dataSetCount - 1)) + dataSetIndex) + groupSpace * CGFloat(xIndex) + groupSpace / 2.0
+        let y = entry.value
+        
+        var valuePoint = CGPoint(
+            x: x,
+            y: CGFloat(y) * phaseY
+        )
+        
+        pointValueToPixel(&valuePoint)
+        
+        return valuePoint
     }
     
-    /// Transforms an arraylist of Entry into a double array containing the x and y values transformed with all matrices for the BUBBLECHART.
-    public func generateTransformedValuesBubble(entries: [ChartDataEntry], phaseX: CGFloat, phaseY: CGFloat, from: Int, to: Int) -> [CGPoint]
+    /// Transforms an Entry into a transformed point for horizontal bar chart
+    public func getTransformedValueHorizontalBarChart(entry entry: ChartDataEntry, xIndex: Int, dataSetIndex: Int, phaseY: CGFloat, dataSetCount: Int, groupSpace: CGFloat) -> CGPoint
     {
-        let count = to - from
+        // calculate the x-position, depending on datasetcount
+        let x = CGFloat(xIndex + (xIndex * (dataSetCount - 1)) + xIndex) + groupSpace * CGFloat(xIndex) + groupSpace / 2.0
+        let y = entry.value
         
-        var valuePoints = [CGPoint]()
-        valuePoints.reserveCapacity(count)
+        var valuePoint = CGPoint(
+            x: CGFloat(y) * phaseY,
+            y: x
+        )
         
-        for (var j = 0; j < count; j++)
-        {
-            let e = entries[j + from]
-            valuePoints.append(CGPoint(x: CGFloat(e.xIndex - from) * phaseX + CGFloat(from), y: CGFloat(e.value) * phaseY))
-        }
+        pointValueToPixel(&valuePoint)
         
-        pointValuesToPixel(&valuePoints)
-        
-        return valuePoints
-    }
-
-    /// Transforms an arraylist of Entry into a double array containing the x and y values transformed with all matrices for the LINECHART.
-    public func generateTransformedValuesLine(entries: [ChartDataEntry], phaseX: CGFloat, phaseY: CGFloat, from: Int, to: Int) -> [CGPoint]
-    {
-        let count = Int(ceil(CGFloat(to - from) * phaseX))
-        
-        var valuePoints = [CGPoint]()
-        valuePoints.reserveCapacity(count)
-
-        for (var j = 0; j < count; j++)
-        {
-            let e = entries[j + from]
-            valuePoints.append(CGPoint(x: CGFloat(e.xIndex), y: CGFloat(e.value) * phaseY))
-        }
-
-        pointValuesToPixel(&valuePoints)
-
-        return valuePoints
-    }
-    
-    /// Transforms an arraylist of Entry into a double array containing the x and y values transformed with all matrices for the CANDLESTICKCHART.
-    public func generateTransformedValuesCandle(entries: [CandleChartDataEntry], phaseY: CGFloat) -> [CGPoint]
-    {
-        var valuePoints = [CGPoint]()
-        valuePoints.reserveCapacity(entries.count)
-        
-        for (var j = 0; j < entries.count; j++)
-        {
-            let e = entries[j]
-            valuePoints.append(CGPoint(x: CGFloat(e.xIndex), y: CGFloat(e.high) * phaseY))
-        }
-        
-        pointValuesToPixel(&valuePoints)
-        
-        return valuePoints
-    }
-    
-    /// Transforms an arraylist of Entry into a double array containing the x and y values transformed with all matrices for the BARCHART.
-    public func generateTransformedValuesBarChart(entries: [BarChartDataEntry], dataSet: Int, barData: BarChartData, phaseY: CGFloat) -> [CGPoint]
-    {
-        var valuePoints = [CGPoint]()
-        valuePoints.reserveCapacity(entries.count)
-
-        let setCount = barData.dataSetCount
-        let space = barData.groupSpace
-
-        for (var j = 0; j < entries.count; j++)
-        {
-            let e = entries[j]
-
-            // calculate the x-position, depending on datasetcount
-            let x = CGFloat(e.xIndex + (e.xIndex * (setCount - 1)) + dataSet) + space * CGFloat(e.xIndex) + space / 2.0
-            let y = e.value
-            
-            valuePoints.append(CGPoint(x: x, y: CGFloat(y) * phaseY))
-        }
-
-        pointValuesToPixel(&valuePoints)
-
-        return valuePoints
-    }
-    
-    /// Transforms an arraylist of Entry into a double array containing the x and y values transformed with all matrices for the BARCHART.
-    public func generateTransformedValuesHorizontalBarChart(entries: [ChartDataEntry], dataSet: Int, barData: BarChartData, phaseY: CGFloat) -> [CGPoint]
-    {
-        var valuePoints = [CGPoint]()
-        valuePoints.reserveCapacity(entries.count)
-        
-        let setCount = barData.dataSetCount
-        let space = barData.groupSpace
-        
-        for (var j = 0; j < entries.count; j++)
-        {
-            let e = entries[j]
-            let i = e.xIndex
-
-            // calculate the x-position, depending on datasetcount
-            let x = CGFloat(i + (i * (setCount - 1)) + dataSet) + space * CGFloat(i) + space / 2.0
-            let y = e.value
-            
-            valuePoints.append(CGPoint(x: CGFloat(y) * phaseY, y: x))
-        }
-
-        pointValuesToPixel(&valuePoints)
-
-        return valuePoints
+        return valuePoint
     }
 
     /// Transform an array of points with all matrices.

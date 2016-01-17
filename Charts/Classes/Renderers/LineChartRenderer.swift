@@ -36,7 +36,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
             
             if set.isVisible
             {
-                drawDataSet(context: context, dataSet: set as! LineChartDataSet)
+                drawDataSet(context: context, dataSet: set as! ILineChartDataSet)
             }
         }
     }
@@ -58,11 +58,11 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         }
     }
     
-    internal func drawDataSet(context context: CGContext, dataSet: LineChartDataSet)
+    internal func drawDataSet(context context: CGContext, dataSet: ILineChartDataSet)
     {
-        let entries = dataSet.yVals
+        let entryCount = dataSet.entryCount
         
-        if (entries.count < 1)
+        if (entryCount < 1)
         {
             return
         }
@@ -72,7 +72,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         CGContextSetLineWidth(context, dataSet.lineWidth)
         if (dataSet.lineDashLengths != nil)
         {
-            CGContextSetLineDash(context, dataSet.lineDashPhase, dataSet.lineDashLengths, dataSet.lineDashLengths.count)
+            CGContextSetLineDash(context, dataSet.lineDashPhase, dataSet.lineDashLengths!, dataSet.lineDashLengths!.count)
         }
         else
         {
@@ -82,26 +82,28 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         // if drawing cubic lines is enabled
         if (dataSet.isDrawCubicEnabled)
         {
-            drawCubic(context: context, dataSet: dataSet, entries: entries)
+            drawCubic(context: context, dataSet: dataSet)
         }
         else
         { // draw normal (straight) lines
-            drawLinear(context: context, dataSet: dataSet, entries: entries)
+            drawLinear(context: context, dataSet: dataSet)
         }
         
         CGContextRestoreGState(context)
     }
     
-    internal func drawCubic(context context: CGContext, dataSet: LineChartDataSet, entries: [ChartDataEntry])
+    internal func drawCubic(context context: CGContext, dataSet: ILineChartDataSet)
     {
         let trans = dataProvider?.getTransformer(dataSet.axisDependency)
+        
+        let entryCount = dataSet.entryCount
         
         let entryFrom = dataSet.entryForXIndex(_minX)!
         let entryTo = dataSet.entryForXIndex(_maxX)!
         
         let diff = (entryFrom == entryTo) ? 1 : 0
-        let minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true) - diff, 0)
-        let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo, isEqual: true) + 1), entries.count)
+        let minx = max(dataSet.entryIndex(entry: entryFrom) - diff, 0)
+        let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo) + 1), entryCount)
         
         let phaseX = _animator.phaseX
         let phaseY = _animator.phaseY
@@ -125,10 +127,12 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
             var curDx: CGFloat = 0.0
             var curDy: CGFloat = 0.0
             
-            var prevPrev = entries[minx]
-            var prev = entries[minx]
-            var cur = entries[minx]
-            var next = entries[minx + 1]
+            var prevPrev: ChartDataEntry! = dataSet.entryForIndex(minx)
+            var prev: ChartDataEntry! = prevPrev
+            var cur: ChartDataEntry! = prev
+            var next: ChartDataEntry! = dataSet.entryForIndex(minx + 1)
+            
+            if cur == nil || next == nil { return }
             
             // let the spline start
             CGPathMoveToPoint(cubicPath, &valueToPixelMatrix, CGFloat(cur.xIndex), CGFloat(cur.value) * phaseY)
@@ -145,12 +149,14 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
                 CGFloat(cur.xIndex) - curDx, (CGFloat(cur.value) - curDy) * phaseY,
                 CGFloat(cur.xIndex), CGFloat(cur.value) * phaseY)
             
-            for (var j = minx + 1, count = min(size, entries.count - 1); j < count; j++)
+            for (var j = minx + 1, count = min(size, entryCount - 1); j < count; j++)
             {
-                prevPrev = entries[j == 1 ? 0 : j - 2]
-                prev = entries[j - 1]
-                cur = entries[j]
-                next = entries[j + 1]
+                prevPrev = prev
+                prev = cur
+                cur = next
+                next = dataSet.entryForIndex(j + 1)
+                
+                if next == nil { break }
                 
                 prevDx = CGFloat(cur.xIndex - prevPrev.xIndex) * intensity
                 prevDy = CGFloat(cur.value - prevPrev.value) * intensity
@@ -162,12 +168,14 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
                     (CGFloat(cur.value) - curDy) * phaseY, CGFloat(cur.xIndex), CGFloat(cur.value) * phaseY)
             }
             
-            if (size > entries.count - 1)
+            if (size > entryCount - 1)
             {
-                prevPrev = entries[entries.count - (entries.count >= 3 ? 3 : 2)]
-                prev = entries[entries.count - 2]
-                cur = entries[entries.count - 1]
+                prevPrev = dataSet.entryForIndex(entryCount - (entryCount >= 3 ? 3 : 2))
+                prev = dataSet.entryForIndex(entryCount - 2)
+                cur = dataSet.entryForIndex(entryCount - 1)
                 next = cur
+                
+                if prevPrev == nil || prev == nil || cur == nil { return }
                 
                 prevDx = CGFloat(cur.xIndex - prevPrev.xIndex) * intensity
                 prevDy = CGFloat(cur.value - prevPrev.value) * intensity
@@ -196,7 +204,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         CGContextRestoreGState(context)
     }
     
-    internal func drawCubicFill(context context: CGContext, dataSet: LineChartDataSet, spline: CGMutablePath, matrix: CGAffineTransform, from: Int, to: Int)
+    internal func drawCubicFill(context context: CGContext, dataSet: ILineChartDataSet, spline: CGMutablePath, matrix: CGAffineTransform, from: Int, to: Int)
     {
         guard let dataProvider = dataProvider else { return }
         
@@ -229,10 +237,12 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
     
     private var _lineSegments = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    internal func drawLinear(context context: CGContext, dataSet: LineChartDataSet, entries: [ChartDataEntry])
+    internal func drawLinear(context context: CGContext, dataSet: ILineChartDataSet)
     {
         guard let trans = dataProvider?.getTransformer(dataSet.axisDependency) else { return }
         let valueToPixelMatrix = trans.valueToPixelMatrix
+        
+        let entryCount = dataSet.entryCount
         
         let phaseX = _animator.phaseX
         let phaseY = _animator.phaseY
@@ -243,8 +253,8 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         let entryTo = dataSet.entryForXIndex(_maxX)!
         
         let diff = (entryFrom == entryTo) ? 1 : 0
-        let minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true) - diff, 0)
-        let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo, isEqual: true) + 1), entries.count)
+        let minx = max(dataSet.entryIndex(entry: entryFrom) - diff, 0)
+        let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo) + 1), entryCount)
         
         // more than 1 color
         if (dataSet.colors.count > 1)
@@ -261,14 +271,18 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
                     break
                 }
                 
-                var e = entries[j]
+                var e: ChartDataEntry! = dataSet.entryForIndex(j)
+                
+                if e == nil { continue }
                 
                 _lineSegments[0].x = CGFloat(e.xIndex)
                 _lineSegments[0].y = CGFloat(e.value) * phaseY
                 _lineSegments[0] = CGPointApplyAffineTransform(_lineSegments[0], valueToPixelMatrix)
                 if (j + 1 < count)
                 {
-                    e = entries[j + 1]
+                    e = dataSet.entryForIndex(j + 1)
+                    
+                    if e == nil { break }
                     
                     _lineSegments[1].x = CGFloat(e.xIndex)
                     _lineSegments[1].y = CGFloat(e.value) * phaseY
@@ -303,39 +317,44 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
             var e1: ChartDataEntry!
             var e2: ChartDataEntry!
             
-            if (_lineSegments.count != max((entries.count - 1) * 2, 2))
+            if (_lineSegments.count != max((entryCount - 1) * 2, 2))
             {
-                _lineSegments = [CGPoint](count: max((entries.count - 1) * 2, 2), repeatedValue: CGPoint())
+                _lineSegments = [CGPoint](count: max((entryCount - 1) * 2, 2), repeatedValue: CGPoint())
             }
             
-            e1 = entries[minx]
+            e1 = dataSet.entryForIndex(minx)
             
-            let count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx)))
-            
-            for (var x = count > 1 ? minx + 1 : minx, j = 0; x < count; x++)
+            if e1 != nil
             {
-                e1 = entries[x == 0 ? 0 : (x - 1)]
-                e2 = entries[x]
+                let count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx)))
                 
-                _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e1.xIndex), y: CGFloat(e1.value) * phaseY), valueToPixelMatrix)
-                _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e2.xIndex), y: CGFloat(e2.value) * phaseY), valueToPixelMatrix)
+                for (var x = count > 1 ? minx + 1 : minx, j = 0; x < count; x++)
+                {
+                    e1 = dataSet.entryForIndex(x == 0 ? 0 : (x - 1))
+                    e2 = dataSet.entryForIndex(x)
+                    
+                    if e1 == nil || e2 == nil { continue }
+                    
+                    _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e1.xIndex), y: CGFloat(e1.value) * phaseY), valueToPixelMatrix)
+                    _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e2.xIndex), y: CGFloat(e2.value) * phaseY), valueToPixelMatrix)
+                }
+                
+                let size = max((count - minx - 1) * 2, 2)
+                CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor)
+                CGContextStrokeLineSegments(context, _lineSegments, size)
             }
-            
-            let size = max((count - minx - 1) * 2, 2)
-            CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor)
-            CGContextStrokeLineSegments(context, _lineSegments, size)
         }
         
         CGContextRestoreGState(context)
         
         // if drawing filled is enabled
-        if (dataSet.isDrawFilledEnabled && entries.count > 0)
+        if (dataSet.isDrawFilledEnabled && entryCount > 0)
         {
-            drawLinearFill(context: context, dataSet: dataSet, entries: entries, minx: minx, maxx: maxx, trans: trans)
+            drawLinearFill(context: context, dataSet: dataSet, minx: minx, maxx: maxx, trans: trans)
         }
     }
     
-    internal func drawLinearFill(context context: CGContext, dataSet: LineChartDataSet, entries: [ChartDataEntry], minx: Int, maxx: Int, trans: ChartTransformer)
+    internal func drawLinearFill(context context: CGContext, dataSet: ILineChartDataSet, minx: Int, maxx: Int, trans: ChartTransformer)
     {
         guard let dataProvider = dataProvider else { return }
         
@@ -347,7 +366,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         CGContextSetAlpha(context, dataSet.fillAlpha)
         
         let filled = generateFilledPath(
-            entries,
+            dataSet: dataSet,
             fillMin: dataSet.fillFormatter?.getFillLinePosition(dataSet: dataSet, dataProvider: dataProvider) ?? 0.0,
             from: minx,
             to: maxx,
@@ -361,24 +380,35 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
     }
     
     /// Generates the path that is used for filled drawing.
-    private func generateFilledPath(entries: [ChartDataEntry], fillMin: CGFloat, from: Int, to: Int, var matrix: CGAffineTransform) -> CGPath
+    private func generateFilledPath(dataSet dataSet: ILineChartDataSet, fillMin: CGFloat, from: Int, to: Int, var matrix: CGAffineTransform) -> CGPath
     {
         let phaseX = _animator.phaseX
         let phaseY = _animator.phaseY
         
+        var e: ChartDataEntry!
+        
         let filled = CGPathCreateMutable()
-        CGPathMoveToPoint(filled, &matrix, CGFloat(entries[from].xIndex), fillMin)
-        CGPathAddLineToPoint(filled, &matrix, CGFloat(entries[from].xIndex), CGFloat(entries[from].value) * phaseY)
+        
+        e = dataSet.entryForIndex(from)
+        if e != nil
+        {
+            CGPathMoveToPoint(filled, &matrix, CGFloat(e.xIndex), fillMin)
+            CGPathAddLineToPoint(filled, &matrix, CGFloat(e.xIndex), CGFloat(e.value) * phaseY)
+        }
         
         // create a new path
         for (var x = from + 1, count = Int(ceil(CGFloat(to - from) * phaseX + CGFloat(from))); x < count; x++)
         {
-            let e = entries[x]
+            guard let e = dataSet.entryForIndex(x) else { continue }
             CGPathAddLineToPoint(filled, &matrix, CGFloat(e.xIndex), CGFloat(e.value) * phaseY)
         }
         
         // close up
-        CGPathAddLineToPoint(filled, &matrix, CGFloat(entries[max(min(Int(ceil(CGFloat(to - from) * phaseX + CGFloat(from))) - 1, entries.count - 1), 0)].xIndex), fillMin)
+        e = dataSet.entryForIndex(max(min(Int(ceil(CGFloat(to - from) * phaseX + CGFloat(from))) - 1, dataSet.entryCount - 1), 0))
+        if e != nil
+        {
+            CGPathAddLineToPoint(filled, &matrix, CGFloat(e.xIndex), fillMin)
+        }
         CGPathCloseSubpath(filled)
         
         return filled
@@ -392,9 +422,14 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         {
             var dataSets = lineData.dataSets
             
+            let phaseX = _animator.phaseX
+            let phaseY = _animator.phaseY
+            
+            var pt = CGPoint()
+            
             for (var i = 0; i < dataSets.count; i++)
             {
-                guard let dataSet = dataSets[i] as? LineChartDataSet else { continue }
+                guard let dataSet = dataSets[i] as? ILineChartDataSet else { continue }
                 
                 if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
                 {
@@ -407,6 +442,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
                 let formatter = dataSet.valueFormatter
                 
                 let trans = dataProvider.getTransformer(dataSet.axisDependency)
+                let valueToPixelMatrix = trans.valueToPixelMatrix
                 
                 // make sure the values do not interfear with the circles
                 var valOffset = Int(dataSet.circleRadius * 1.75)
@@ -416,37 +452,40 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
                     valOffset = valOffset / 2
                 }
                 
-                var entries = dataSet.yVals
+                let entryCount = dataSet.entryCount
                 
                 let entryFrom = dataSet.entryForXIndex(_minX)!
                 let entryTo = dataSet.entryForXIndex(_maxX)!
                 
                 let diff = (entryFrom == entryTo) ? 1 : 0
-                let minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true) - diff, 0)
-                let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo, isEqual: true) + 1), entries.count)
+                let minx = max(dataSet.entryIndex(entry: entryFrom) - diff, 0)
+                let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo) + 1), entryCount)
                 
-                var positions = trans.generateTransformedValuesLine(
-                    entries,
-                    phaseX: _animator.phaseX,
-                    phaseY: _animator.phaseY,
-                    from: minx,
-                    to: maxx)
-                
-                for (var j = 0, count = positions.count; j < count; j++)
+                for (var j = minx, count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))); j < count; j++)
                 {
-                    if (!viewPortHandler.isInBoundsRight(positions[j].x))
+                    guard let e = dataSet.entryForIndex(j) else { break }
+                    
+                    pt.x = CGFloat(e.xIndex)
+                    pt.y = CGFloat(e.value) * phaseY
+                    pt = CGPointApplyAffineTransform(pt, valueToPixelMatrix)
+                    
+                    if (!viewPortHandler.isInBoundsRight(pt.x))
                     {
                         break
                     }
                     
-                    if (!viewPortHandler.isInBoundsLeft(positions[j].x) || !viewPortHandler.isInBoundsY(positions[j].y))
+                    if (!viewPortHandler.isInBoundsLeft(pt.x) || !viewPortHandler.isInBoundsY(pt.y))
                     {
                         continue
                     }
                     
-                    let val = entries[j + minx].value
-                    
-                    ChartUtils.drawText(context: context, text: formatter!.stringFromNumber(val)!, point: CGPoint(x: positions[j].x, y: positions[j].y - CGFloat(valOffset) - valueFont.lineHeight), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
+                    ChartUtils.drawText(context: context,
+                        text: formatter!.stringFromNumber(e.value)!,
+                        point: CGPoint(
+                            x: pt.x,
+                            y: pt.y - CGFloat(valOffset) - valueFont.lineHeight),
+                        align: .Center,
+                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
                 }
             }
         }
@@ -473,7 +512,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         
         for (var i = 0, count = dataSets.count; i < count; i++)
         {
-            let dataSet = lineData.getDataSetByIndex(i) as! LineChartDataSet!
+            let dataSet = lineData.getDataSetByIndex(i) as! ILineChartDataSet!
             
             if !dataSet.isVisible || !dataSet.isDrawCirclesEnabled || dataSet.entryCount == 0
             {
@@ -483,7 +522,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
             let trans = dataProvider.getTransformer(dataSet.axisDependency)
             let valueToPixelMatrix = trans.valueToPixelMatrix
             
-            var entries = dataSet.yVals
+            let entryCount = dataSet.entryCount
             
             let circleRadius = dataSet.circleRadius
             let circleDiameter = circleRadius * 2.0
@@ -495,12 +534,13 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
             let entryTo = dataSet.entryForXIndex(_maxX)!
             
             let diff = (entryFrom == entryTo) ? 1 : 0
-            let minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true) - diff, 0)
-            let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo, isEqual: true) + 1), entries.count)
+            let minx = max(dataSet.entryIndex(entry: entryFrom) - diff, 0)
+            let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo) + 1), entryCount)
             
             for (var j = minx, count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))); j < count; j++)
             {
-                let e = entries[j]
+                guard let e = dataSet.entryForIndex(j) else { break }
+
                 pt.x = CGFloat(e.xIndex)
                 pt.y = CGFloat(e.value) * phaseY
                 pt = CGPointApplyAffineTransform(pt, valueToPixelMatrix)
@@ -550,7 +590,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         
         for (var i = 0; i < indices.count; i++)
         {
-            guard let set = lineData.getDataSetByIndex(indices[i].dataSetIndex) as? LineChartDataSet else { continue }
+            guard let set = lineData.getDataSetByIndex(indices[i].dataSetIndex) as? ILineChartDataSet else { continue }
             
             if !set.isHighlightEnabled
             {

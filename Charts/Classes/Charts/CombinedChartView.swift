@@ -55,7 +55,7 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
             
             if (self.bubbleData !== nil)
             {
-                for set in self.bubbleData?.dataSets as! [BubbleChartDataSet]
+                for set in self.bubbleData?.dataSets as! [IBubbleChartDataSet]
                 {
                     let xmin = set.xMin
                     let xmax = set.xMax

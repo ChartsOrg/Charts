@@ -34,7 +34,7 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
             
             if (radarData != nil)
             {
-                for set in radarData!.dataSets as! [RadarChartDataSet]
+                for set in radarData!.dataSets as! [IRadarChartDataSet]
                 {
                     if set.isVisible && set.entryCount > 0
                     {
@@ -45,7 +45,7 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
         }
     }
     
-    internal func drawDataSet(context context: CGContext, dataSet: RadarChartDataSet)
+    internal func drawDataSet(context context: CGContext, dataSet: IRadarChartDataSet)
     {
         CGContextSaveGState(context)
         
@@ -55,13 +55,13 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
         let factor = _chart.factor
         
         let center = _chart.centerOffsets
-        var entries = dataSet.yVals
+        let entryCount = dataSet.entryCount
         let path = CGPathCreateMutable()
         var hasMovedToPoint = false
         
-        for (var j = 0; j < entries.count; j++)
+        for (var j = 0; j < entryCount; j++)
         {
-            let e = entries[j]
+            guard let e = dataSet.entryForIndex(j) else { continue }
             
             let p = ChartUtils.getPosition(center: center, dist: CGFloat(e.value - _chart.chartYMin) * factor, angle: sliceangle * CGFloat(j) + _chart.rotationAngle)
             
@@ -129,18 +129,18 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
         
         for (var i = 0, count = data.dataSetCount; i < count; i++)
         {
-            let dataSet = data.getDataSetByIndex(i) as! RadarChartDataSet
+            let dataSet = data.getDataSetByIndex(i) as! IRadarChartDataSet
             
             if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
             {
                 continue
             }
             
-            var entries = dataSet.yVals
+            let entryCount = dataSet.entryCount
             
-            for (var j = 0; j < entries.count; j++)
+            for (var j = 0; j < entryCount; j++)
             {
-                let e = entries[j]
+                guard let e = dataSet.entryForIndex(j) else { continue }
                 
                 let p = ChartUtils.getPosition(center: center, dist: CGFloat(e.value) * factor, angle: sliceangle * CGFloat(j) + _chart.rotationAngle)
                 
@@ -250,7 +250,7 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
         
         for (var i = 0; i < indices.count; i++)
         {
-            guard let set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as? RadarChartDataSet else { continue }
+            guard let set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as? IRadarChartDataSet else { continue }
             
             if !set.isHighlightEnabled
             {
@@ -268,7 +268,7 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
                 continue
             }
             
-            let j = set.entryIndex(entry: e!, isEqual: true)
+            let j = set.entryIndex(entry: e!)
             let y = (e!.value - _chart.chartYMin)
             
             if (y.isNaN)
