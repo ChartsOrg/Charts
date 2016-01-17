@@ -1,4 +1,4 @@
-**Version 2.1.6**, synced to [MPAndroidChart #0c97941](https://github.com/PhilJay/MPAndroidChart/commit/0c97941)
+**Version 2.1.6**, synced to [MPAndroidChart #825bd2a](https://github.com/PhilJay/MPAndroidChart/commit/825bd2a)
 
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
   ![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/danielgindi/ios-charts.svg)](https://github.com/danielgindi/ios-charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts)
@@ -24,12 +24,15 @@ In order to correctly compile:
 5.  When using Swift in an ObjC project:
    - You need to import your Bridging Header. Usually it is "*YourProject-Swift.h*", so in ChartsDemo it's "*ChartsDemo-Swift.h*". Do not try to actually include "*ChartsDemo-Swift.h*" in your project :-)
    - Under "Build Options", mark "Embedded Content Contains Swift Code"
+6. When using Realm.io:
+   - Note that the Realm framework is not linked with Charts - it is only there for *optional* bindings. Which means that you need to have the framework in your project, and in a compatible version to whatever is compiled with Charts. We will do our best to always compile against the latest version.
 
 
 If you want to compile for iOS 7:
 
 1. Drag the code itself (.swift files) to your project. As sadly, Swift currently does not support compiling Frameworks for iOS 7.
 2. Make sure that the files are added to the Target membership.
+3. If you do not need/want support for *Realm.io*, you can make the `Realm.framework` *optional* in your Build Phases, or avoid copying the `Realm` folder and the `Realm.framework`.
 
 ## CocoaPods Install
 
@@ -89,7 +92,8 @@ Features
  - Animations (build up animations, on both x- and y-axis)
  - Limit lines (providing additional information, maximums, ...)
  - Fully customizeable (paints, typefaces, legends, colors, background, gestures, dashed lines, ...)
- 
+ - Plotting data directly from [**Realm.io**](https://realm.io) mobile database
+
 **Chart types:**
 
 *Screenshots are currently taken from the original repository, as they render exactly the same :-)*
