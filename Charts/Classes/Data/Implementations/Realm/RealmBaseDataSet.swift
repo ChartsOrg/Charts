@@ -360,6 +360,24 @@ public class RealmBaseDataSet: ChartBaseDataSet
         return false
     }
     
+    /// Returns the fieldname that represents the "y-values" in the realm-data.
+    public var yValueField: String?
+    {
+        get
+        {
+            return _yValueField
+        }
+    }
+    
+    /// Returns the fieldname that represents the "x-index" in the realm-data.
+    public var xIndexField: String?
+    {
+        get
+        {
+            return _xIndexField
+        }
+    }
+    
     // MARK: - NSCopying
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
