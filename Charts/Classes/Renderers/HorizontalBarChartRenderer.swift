@@ -242,7 +242,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
             
             let drawValueAboveBar = dataProvider.isDrawValueAboveBarEnabled
             
-            let textAlign = drawValueAboveBar ? NSTextAlignment.Left : NSTextAlignment.Right
+            let textAlign = NSTextAlignment.Left
             
             let valueOffsetPlus: CGFloat = 5.0
             var posOffset: CGFloat

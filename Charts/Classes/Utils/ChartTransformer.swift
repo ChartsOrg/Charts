@@ -86,7 +86,7 @@ public class ChartTransformer: NSObject
     public func getTransformedValueHorizontalBarChart(entry entry: ChartDataEntry, xIndex: Int, dataSetIndex: Int, phaseY: CGFloat, dataSetCount: Int, groupSpace: CGFloat) -> CGPoint
     {
         // calculate the x-position, depending on datasetcount
-        let x = CGFloat(xIndex + (xIndex * (dataSetCount - 1)) + xIndex) + groupSpace * CGFloat(xIndex) + groupSpace / 2.0
+        let x = CGFloat(xIndex + (xIndex * (dataSetCount - 1)) + dataSetIndex) + groupSpace * CGFloat(xIndex) + groupSpace / 2.0
         let y = entry.value
         
         var valuePoint = CGPoint(
