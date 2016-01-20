@@ -30,8 +30,6 @@
 		5B00324B1B652BF900B6A2FE /* BarChartHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B00324A1B652BF900B6A2FE /* BarChartHighlighter.swift */; };
 		5B00324D1B65351C00B6A2FE /* HorizontalBarChartHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B00324C1B65351C00B6A2FE /* HorizontalBarChartHighlighter.swift */; };
 		5B378F171AD500A4009414A4 /* ChartAnimationEasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B378F161AD500A4009414A4 /* ChartAnimationEasing.swift */; };
-		5B4AC1331C44684E0028D1A6 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4AC12E1C44684E0028D1A6 /* Realm.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		5B4AC1351C44684E0028D1A6 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4AC12F1C44684E0028D1A6 /* RealmSwift.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5B4AC1381C44684E0028D1A6 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4AC1311C44684E0028D1A6 /* Realm.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5B4AC13A1C44684E0028D1A6 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4AC1321C44684E0028D1A6 /* RealmSwift.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5B4AC1721C4AB2AF0028D1A6 /* ChartBaseDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AC1711C4AB2AF0028D1A6 /* ChartBaseDataSet.swift */; };
@@ -437,8 +435,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B4AC1351C44684E0028D1A6 /* RealmSwift.framework in Frameworks */,
-				5B4AC1331C44684E0028D1A6 /* Realm.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

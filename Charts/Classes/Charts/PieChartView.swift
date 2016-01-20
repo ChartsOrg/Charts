@@ -69,7 +69,9 @@ public class PieChartView: PieRadarChartViewBase
         
         renderer!.drawValues(context: context)
         
-        _legendRenderer.renderLegend(context: context)
+        if drawLegends {
+            _legendRenderer.renderLegend(context: context)
+        }
         
         drawDescription(context: context)
         

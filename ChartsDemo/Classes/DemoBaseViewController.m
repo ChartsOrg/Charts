@@ -216,6 +216,7 @@
     chartView.rotationAngle = 0.0;
     chartView.rotationEnabled = YES;
     chartView.highlightPerTapEnabled = YES;
+    chartView.drawLegends = NO;
     
     ChartLegend *l = chartView.legend;
     l.position = ChartLegendPositionRightOfChart;
