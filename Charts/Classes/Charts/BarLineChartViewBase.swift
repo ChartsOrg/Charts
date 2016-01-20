@@ -239,7 +239,10 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
 
         renderer!.drawValues(context: context)
 
-        _legendRenderer.renderLegend(context: context)
+        if drawLegends {
+            _legendRenderer.renderLegend(context: context)
+        }
+        
         // drawLegend()
 
         drawMarkers(context: context)

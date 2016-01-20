@@ -121,6 +121,9 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
     
     private var _interceptTouchEvents = false
     
+    /// if set to true, legends will be drawn
+    public var drawLegends = true
+    
     /// An extra offset to be appended to the viewport's top
     public var extraTopOffset: CGFloat = 0.0
     
