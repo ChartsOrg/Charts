@@ -45,46 +45,9 @@
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"}
                      ];
     
+    [self setupPieChartView:_chartView];
+    
     _chartView.delegate = self;
-    
-    _chartView.usePercentValuesEnabled = YES;
-    _chartView.holeTransparent = YES;
-    _chartView.holeRadiusPercent = 0.58;
-    _chartView.transparentCircleRadiusPercent = 0.61;
-    _chartView.descriptionText = @"";
-    [_chartView setExtraOffsetsWithLeft:5.f top:10.f right:5.f bottom:5.f];
-    
-    _chartView.drawCenterTextEnabled = YES;
-    
-    NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-    paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
-    paragraphStyle.alignment = NSTextAlignmentCenter;
-    
-    NSMutableAttributedString *centerText = [[NSMutableAttributedString alloc] initWithString:@"iOS Charts\nby Daniel Cohen Gindi"];
-    [centerText setAttributes:@{
-                                NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:12.f],
-                                NSParagraphStyleAttributeName: paragraphStyle
-                                } range:NSMakeRange(0, centerText.length)];
-    [centerText addAttributes:@{
-                                NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f],
-                                NSForegroundColorAttributeName: UIColor.grayColor
-                                } range:NSMakeRange(10, centerText.length - 10)];
-    [centerText addAttributes:@{
-                                NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:10.f],
-                                NSForegroundColorAttributeName: [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]
-                                } range:NSMakeRange(centerText.length - 19, 19)];
-    _chartView.centerAttributedText = centerText;
-    
-    _chartView.drawHoleEnabled = YES;
-    _chartView.rotationAngle = 0.0;
-    _chartView.rotationEnabled = YES;
-    _chartView.highlightPerTapEnabled = YES;
-    
-    ChartLegend *l = _chartView.legend;
-    l.position = ChartLegendPositionRightOfChart;
-    l.xEntrySpace = 7.0;
-    l.yEntrySpace = 0.0;
-    l.yOffset = 0.0;
     
     _sliderX.value = 3.0;
     _sliderY.value = 100.0;
@@ -152,7 +115,7 @@
 {
     if ([key isEqualToString:@"toggleValues"])
     {
-        for (ChartDataSet *set in _chartView.data.dataSets)
+        for (id<IChartDataSet> set in _chartView.data.dataSets)
         {
             set.drawValuesEnabled = !set.isDrawValuesEnabled;
         }

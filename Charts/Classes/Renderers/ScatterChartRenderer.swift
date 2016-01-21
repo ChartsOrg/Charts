@@ -36,14 +36,14 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
             
             if (set !== nil && set!.isVisible)
             {
-                drawDataSet(context: context, dataSet: set as! ScatterChartDataSet)
+                drawDataSet(context: context, dataSet: set as! IScatterChartDataSet)
             }
         }
     }
     
     private var _lineSegments = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    internal func drawDataSet(context context: CGContext, dataSet: ScatterChartDataSet)
+    internal func drawDataSet(context context: CGContext, dataSet: IScatterChartDataSet)
     {
         guard let dataProvider = dataProvider else { return }
         
@@ -51,7 +51,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
         
         let phaseY = _animator.phaseY
         
-        var entries = dataSet.yVals
+        let entryCount = dataSet.entryCount
         
         let shapeSize = dataSet.scatterShapeSize
         let shapeHalf = shapeSize / 2.0
@@ -64,9 +64,10 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
         
         CGContextSaveGState(context)
         
-        for (var j = 0, count = Int(min(ceil(CGFloat(entries.count) * _animator.phaseX), CGFloat(entries.count))); j < count; j++)
+        for (var j = 0, count = Int(min(ceil(CGFloat(entryCount) * _animator.phaseX), CGFloat(entryCount))); j < count; j++)
         {
-            let e = entries[j]
+            guard let e = dataSet.entryForIndex(j) else { continue }
+            
             point.x = CGFloat(e.xIndex)
             point.y = CGFloat(e.value) * phaseY
             point = CGPointApplyAffineTransform(point, valueToPixelMatrix);            
@@ -162,7 +163,12 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
         // if values are drawn
         if (scatterData.yValCount < Int(ceil(CGFloat(dataProvider.maxVisibleValueCount) * viewPortHandler.scaleX)))
         {
-            var dataSets = scatterData.dataSets as! [ScatterChartDataSet]
+            var dataSets = scatterData.dataSets as! [IScatterChartDataSet]
+            
+            let phaseX = _animator.phaseX
+            let phaseY = _animator.phaseY
+            
+            var pt = CGPoint()
             
             for (var i = 0; i < scatterData.dataSetCount; i++)
             {
@@ -178,32 +184,44 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                 
                 let formatter = dataSet.valueFormatter
                 
-                var entries = dataSet.yVals
+                let trans = dataProvider.getTransformer(dataSet.axisDependency)
+                let valueToPixelMatrix = trans.valueToPixelMatrix
                 
-                var positions = dataProvider.getTransformer(dataSet.axisDependency).generateTransformedValuesScatter(entries, phaseY: _animator.phaseY)
+                let entryCount = dataSet.entryCount
                 
                 let shapeSize = dataSet.scatterShapeSize
                 let lineHeight = valueFont.lineHeight
                 
-                for (var j = 0, count = Int(ceil(CGFloat(positions.count) * _animator.phaseX)); j < count; j++)
+                for (var j = 0, count = Int(ceil(CGFloat(entryCount) * phaseX)); j < count; j++)
                 {
-                    if (!viewPortHandler.isInBoundsRight(positions[j].x))
+                    guard let e = dataSet.entryForIndex(j) else { break }
+                    
+                    pt.x = CGFloat(e.xIndex)
+                    pt.y = CGFloat(e.value) * phaseY
+                    pt = CGPointApplyAffineTransform(pt, valueToPixelMatrix)
+                    
+                    if (!viewPortHandler.isInBoundsRight(pt.x))
                     {
                         break
                     }
                     
                     // make sure the lines don't do shitty things outside bounds
-                    if ((!viewPortHandler.isInBoundsLeft(positions[j].x)
-                        || !viewPortHandler.isInBoundsY(positions[j].y)))
+                    if ((!viewPortHandler.isInBoundsLeft(pt.x)
+                        || !viewPortHandler.isInBoundsY(pt.y)))
                     {
                         continue
                     }
                     
-                    let val = entries[j].value
+                    let text = formatter!.stringFromNumber(e.value)
                     
-                    let text = formatter!.stringFromNumber(val)
-                    
-                    ChartUtils.drawText(context: context, text: text!, point: CGPoint(x: positions[j].x, y: positions[j].y - shapeSize - lineHeight), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
+                    ChartUtils.drawText(
+                        context: context,
+                        text: text!,
+                        point: CGPoint(
+                            x: pt.x,
+                            y: pt.y - shapeSize - lineHeight),
+                        align: .Center,
+                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
                 }
             }
         }
@@ -226,7 +244,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
         
         for (var i = 0; i < indices.count; i++)
         {
-            guard let set = scatterData.getDataSetByIndex(indices[i].dataSetIndex) as? ScatterChartDataSet else { continue }
+            guard let set = scatterData.getDataSetByIndex(indices[i].dataSetIndex) as? IScatterChartDataSet else { continue }
             
             if !set.isHighlightEnabled
             {

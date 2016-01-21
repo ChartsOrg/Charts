@@ -28,7 +28,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
     {
         guard let dataProvider = dataProvider, bubbleData = dataProvider.bubbleData else { return }
         
-        for set in bubbleData.dataSets as! [BubbleChartDataSet]
+        for set in bubbleData.dataSets as! [IBubbleChartDataSet]
         {
             if set.isVisible && set.entryCount > 0
             {
@@ -47,7 +47,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
     private var _pointBuffer = CGPoint()
     private var _sizeBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    internal func drawDataSet(context context: CGContext, dataSet: BubbleChartDataSet)
+    internal func drawDataSet(context context: CGContext, dataSet: IBubbleChartDataSet)
     {
         guard let dataProvider = dataProvider else { return }
         
@@ -56,7 +56,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
         let phaseX = _animator.phaseX
         let phaseY = _animator.phaseY
         
-        let entries = dataSet.yVals as! [BubbleChartDataEntry]
+        let entryCount = dataSet.entryCount
         
         let valueToPixelMatrix = trans.valueToPixelMatrix
         
@@ -65,8 +65,8 @@ public class BubbleChartRenderer: ChartDataRendererBase
         let entryFrom = dataSet.entryForXIndex(_minX)
         let entryTo = dataSet.entryForXIndex(_maxX)
         
-        let minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0)
-        let maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count)
+        let minx = max(dataSet.entryIndex(entry: entryFrom!), 0)
+        let maxx = min(dataSet.entryIndex(entry: entryTo!) + 1, entryCount)
         
         _sizeBuffer[0].x = 0.0
         _sizeBuffer[0].y = 0.0
@@ -82,7 +82,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
         
         for (var j = minx; j < maxx; j++)
         {
-            let entry = entries[j]
+            guard let entry = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { continue }
             
             _pointBuffer.x = CGFloat(entry.xIndex - minx) * phaseX + CGFloat(minx)
             _pointBuffer.y = CGFloat(entry.value) * phaseY
@@ -130,7 +130,12 @@ public class BubbleChartRenderer: ChartDataRendererBase
         // if values are drawn
         if (bubbleData.yValCount < Int(ceil(CGFloat(dataProvider.maxVisibleValueCount) * viewPortHandler.scaleX)))
         {
-            let dataSets = bubbleData.dataSets as! [BubbleChartDataSet]
+            let dataSets = bubbleData.dataSets as! [IBubbleChartDataSet]
+            
+            let phaseX = _animator.phaseX
+            let phaseY = _animator.phaseY
+            
+            var pt = CGPoint()
             
             for dataSet in dataSets
             {
@@ -139,47 +144,54 @@ public class BubbleChartRenderer: ChartDataRendererBase
                     continue
                 }
                 
-                let phaseX = _animator.phaseX
-                let phaseY = _animator.phaseY
-                
                 let alpha = phaseX == 1 ? phaseY : phaseX
                 let valueTextColor = dataSet.valueTextColor.colorWithAlphaComponent(alpha)
                 
                 let formatter = dataSet.valueFormatter
                 
-                let entries = dataSet.yVals
+                let trans = dataProvider.getTransformer(dataSet.axisDependency)
+                let valueToPixelMatrix = trans.valueToPixelMatrix
+                
+                let entryCount = dataSet.entryCount
                 
                 let entryFrom = dataSet.entryForXIndex(_minX)
                 let entryTo = dataSet.entryForXIndex(_maxX)
                 
-                let minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0)
-                let maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, entries.count)
+                let minx = max(dataSet.entryIndex(entry: entryFrom!), 0)
+                let maxx = min(dataSet.entryIndex(entry: entryTo!) + 1, entryCount)
                 
-                let positions = dataProvider.getTransformer(dataSet.axisDependency).generateTransformedValuesBubble(entries, phaseX: phaseX, phaseY: phaseY, from: minx, to: maxx)
-                
-                for (var j = 0, count = positions.count; j < count; j++)
+                for (var j = minx; j < maxx; j++)
                 {
-                    if (!viewPortHandler.isInBoundsRight(positions[j].x))
+                    guard let e = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { break }
+                    
+                    pt.x = CGFloat(e.xIndex - minx) * phaseX + CGFloat(minx)
+                    pt.y = CGFloat(e.value) * phaseY
+                    pt = CGPointApplyAffineTransform(pt, valueToPixelMatrix)
+                    
+                    if (!viewPortHandler.isInBoundsRight(pt.x))
                     {
                         break
                     }
                     
-                    if ((!viewPortHandler.isInBoundsLeft(positions[j].x) || !viewPortHandler.isInBoundsY(positions[j].y)))
+                    if ((!viewPortHandler.isInBoundsLeft(pt.x) || !viewPortHandler.isInBoundsY(pt.y)))
                     {
                         continue
                     }
                     
-                    let entry = entries[j + minx] as! BubbleChartDataEntry
-                    
-                    let val = entry.size
-                    
-                    let text = formatter!.stringFromNumber(val)
+                    let text = formatter!.stringFromNumber(e.size)
                     
                     // Larger font for larger bubbles?
                     let valueFont = dataSet.valueFont
                     let lineHeight = valueFont.lineHeight
 
-                    ChartUtils.drawText(context: context, text: text!, point: CGPoint(x: positions[j].x, y: positions[j].y - ( 0.5 * lineHeight)), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
+                    ChartUtils.drawText(
+                        context: context,
+                        text: text!,
+                        point: CGPoint(
+                            x: pt.x,
+                            y: pt.y - (0.5 * lineHeight)),
+                        align: .Center,
+                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
                 }
             }
         }
@@ -201,7 +213,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
         
         for indice in indices
         {
-            let dataSet = bubbleData.getDataSetByIndex(indice.dataSetIndex) as! BubbleChartDataSet!
+            let dataSet = bubbleData.getDataSetByIndex(indice.dataSetIndex) as! IBubbleChartDataSet!
             
             if (dataSet === nil || !dataSet.isHighlightEnabled)
             {
@@ -211,8 +223,8 @@ public class BubbleChartRenderer: ChartDataRendererBase
             let entryFrom = dataSet.entryForXIndex(_minX)
             let entryTo = dataSet.entryForXIndex(_maxX)
             
-            let minx = max(dataSet.entryIndex(entry: entryFrom!, isEqual: true), 0)
-            let maxx = min(dataSet.entryIndex(entry: entryTo!, isEqual: true) + 1, dataSet.entryCount)
+            let minx = max(dataSet.entryIndex(entry: entryFrom!), 0)
+            let maxx = min(dataSet.entryIndex(entry: entryTo!) + 1, dataSet.entryCount)
             
             let entry: BubbleChartDataEntry! = bubbleData.getEntryForHighlight(indice) as! BubbleChartDataEntry
             if (entry === nil || entry.xIndex != indice.xIndex)

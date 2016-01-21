@@ -45,17 +45,14 @@
                      @{@"key": @"toggleAutoScaleMinMax", @"label": @"Toggle auto scale min/max"},
                      ];
     
-    _chartView.delegate = self;
+    [self setupBarLineChartView:_chartView];
     
-    _chartView.descriptionText = @"";
-    _chartView.noDataTextDescription = @"You need to provide data for the chart.";
+    _chartView.delegate = self;
     
     _chartView.drawBarShadowEnabled = NO;
     _chartView.drawValueAboveBarEnabled = YES;
     
     _chartView.maxVisibleValueCount = 60;
-    _chartView.pinchZoomEnabled = NO;
-    _chartView.drawGridBackgroundEnabled = NO;
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBottom;
@@ -64,6 +61,7 @@
     xAxis.spaceBetweenLabels = 2.0;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
+    leftAxis.startAtZeroEnabled = YES;
     leftAxis.labelFont = [UIFont systemFontOfSize:10.f];
     leftAxis.labelCount = 8;
     leftAxis.valueFormatter = [[NSNumberFormatter alloc] init];
@@ -74,6 +72,7 @@
     leftAxis.spaceTop = 0.15;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
+    rightAxis.enabled = YES;
     rightAxis.drawGridLinesEnabled = NO;
     rightAxis.labelFont = [UIFont systemFontOfSize:10.f];
     rightAxis.labelCount = 8;
@@ -131,7 +130,7 @@
 {
     if ([key isEqualToString:@"toggleValues"])
     {
-        for (ChartDataSet *set in _chartView.data.dataSets)
+        for (id<IChartDataSet> set in _chartView.data.dataSets)
         {
             set.drawValuesEnabled = !set.isDrawValuesEnabled;
         }
