@@ -25,6 +25,9 @@ public class PieChartView: PieRadarChartViewBase
     
     /// array that holds the absolute angle in degrees of each slice
     private var _absoluteAngles = [CGFloat]()
+    
+    /// maximum angle for this pie
+    private var _maxAngle: CGFloat = 360.0
 
     public override init(frame: CGRect)
     {
@@ -47,7 +50,7 @@ public class PieChartView: PieRadarChartViewBase
     {
         super.drawRect(rect)
         
-        if (_dataNotSet)
+        if _data === nil
         {
             return
         }
@@ -78,7 +81,7 @@ public class PieChartView: PieRadarChartViewBase
         super.calculateOffsets()
         
         // prevent nullpointer when no data set
-        if (_dataNotSet)
+        if _data === nil
         {
             return
         }
@@ -140,6 +143,8 @@ public class PieChartView: PieRadarChartViewBase
         _drawAngles.reserveCapacity(_data.yValCount)
         _absoluteAngles.reserveCapacity(_data.yValCount)
         
+        let yValueSum = (_data as! PieChartData).yValueSum
+        
         var dataSets = _data.dataSets
 
         var cnt = 0
@@ -147,11 +152,13 @@ public class PieChartView: PieRadarChartViewBase
         for (var i = 0; i < _data.dataSetCount; i++)
         {
             let set = dataSets[i]
-            var entries = set.yVals
+            let entryCount = set.entryCount
 
-            for (var j = 0; j < entries.count; j++)
+            for (var j = 0; j < entryCount; j++)
             {
-                _drawAngles.append(calcAngle(abs(entries[j].value)))
+                guard let e = set.entryForIndex(j) else { continue }
+                
+                _drawAngles.append(calcAngle(abs(e.value), yValueSum: yValueSum))
 
                 if (cnt == 0)
                 {
@@ -192,7 +199,13 @@ public class PieChartView: PieRadarChartViewBase
     /// calculates the needed angle for a given value
     private func calcAngle(value: Double) -> CGFloat
     {
-        return CGFloat(value) / CGFloat(_data.yValueSum) * 360.0
+        return calcAngle(value, yValueSum: (_data as! PieChartData).yValueSum)
+    }
+    
+    /// calculates the needed angle for a given value
+    private func calcAngle(value: Double, yValueSum: Double) -> CGFloat
+    {
+        return CGFloat(value) / CGFloat(yValueSum) * _maxAngle
     }
     
     public override func indexForAngle(angle: CGFloat) -> Int
@@ -501,6 +514,31 @@ public class PieChartView: PieRadarChartViewBase
         {
             (renderer as! PieChartRenderer).centerTextRadiusPercent = newValue
             setNeedsDisplay()
+        }
+    }
+    
+    /// The max angle that is used for calculating the pie-circle.
+    /// 360 means it's a full pie-chart, 180 results in a half-pie-chart.
+    /// - default: 360.0
+    public var maxAngle: CGFloat
+    {
+        get
+        {
+            return _maxAngle
+        }
+        set
+        {
+            _maxAngle = newValue
+            
+            if _maxAngle > 360.0
+            {
+                _maxAngle = 360.0
+            }
+            
+            if _maxAngle < 90.0
+            {
+                _maxAngle = 90.0
+            }
         }
     }
 }

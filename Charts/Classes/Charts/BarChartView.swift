@@ -33,7 +33,7 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
         renderer = BarChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
         _xAxisRenderer = ChartXAxisRendererBarChart(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer, chart: self)
         
-        _highlighter = BarChartHighlighter(chart: self)
+        self.highlighter = BarChartHighlighter(chart: self)
         
         _chartXMin = -0.5
     }
@@ -63,19 +63,19 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
     /// - returns: the Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the BarChart.
     public override func getHighlightByTouchPoint(pt: CGPoint) -> ChartHighlight?
     {
-        if (_dataNotSet || _data === nil)
+        if _data === nil
         {
             print("Can't select by touch. No data set.", terminator: "\n")
             return nil
         }
         
-        return _highlighter?.getHighlight(x: Double(pt.x), y: Double(pt.y))
+        return self.highlighter?.getHighlight(x: Double(pt.x), y: Double(pt.y))
     }
         
     /// - returns: the bounding box of the specified Entry in the specified DataSet. Returns null if the Entry could not be found in the charts data.
     public func getBarBounds(e: BarChartDataEntry) -> CGRect
     {
-        let set = _data.getDataSetForEntry(e) as! BarChartDataSet!
+        let set = _data.getDataSetForEntry(e) as! IBarChartDataSet!
         
         if (set === nil)
         {

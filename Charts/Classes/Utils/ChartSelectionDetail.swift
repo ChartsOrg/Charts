@@ -18,14 +18,14 @@ public class ChartSelectionDetail: NSObject
 {
     private var _value = Double(0)
     private var _dataSetIndex = Int(0)
-    private var _dataSet: ChartDataSet!
+    private var _dataSet: IChartDataSet!
     
     public override init()
     {
         super.init()
     }
     
-    public init(value: Double, dataSetIndex: Int, dataSet: ChartDataSet)
+    public init(value: Double, dataSetIndex: Int, dataSet: IChartDataSet)
     {
         super.init()
         
@@ -44,7 +44,7 @@ public class ChartSelectionDetail: NSObject
         return _dataSetIndex
     }
     
-    public var dataSet: ChartDataSet?
+    public var dataSet: IChartDataSet?
     {
         return _dataSet
     }

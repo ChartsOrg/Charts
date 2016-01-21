@@ -15,21 +15,16 @@
 import Foundation
 import CoreGraphics
 
-internal class CombinedHighlighter: ChartHighlighter
+public class CombinedHighlighter: ChartHighlighter
 {
-    internal init(chart: CombinedChartView)
-    {
-        super.init(chart: chart)
-    }
-    
     /// Returns a list of SelectionDetail object corresponding to the given xIndex.
     /// - parameter xIndex:
     /// - returns:
-    internal override func getSelectionDetailsAtIndex(xIndex: Int) -> [ChartSelectionDetail]
+    public override func getSelectionDetailsAtIndex(xIndex: Int) -> [ChartSelectionDetail]
     {
         var vals = [ChartSelectionDetail]()
         
-        if let data = _chart?.data as? CombinedChartData
+        if let data = self.chart?.data as? CombinedChartData
         {
             // get all chartdata objects
             var dataObjects = data.allData
@@ -57,7 +52,7 @@ internal class CombinedHighlighter: ChartHighlighter
                     
                     pt.y = CGFloat(yVal)
                     
-                    _chart!.getTransformer(dataSet.axisDependency).pointValueToPixel(&pt)
+                    self.chart!.getTransformer(dataSet.axisDependency).pointValueToPixel(&pt)
                     
                     if !pt.y.isNaN
                     {
