@@ -103,6 +103,13 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         fatalError("removeEntry is not implemented in ChartBaseDataSet")
     }
     
+    /**
+     OBI Method
+     */
+    public func yValsIndexForXIndex(x: Int) -> [Int]{
+        fatalError("yValsIndexForXIndex is not implemented in ChartBaseDataSet")
+    }
+    
     // MARK: - Styling functions and accessors
     
     /// All the colors that are used for this DataSet.
@@ -222,6 +229,13 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     public var isVisible: Bool
     {
         return visible
+    }
+    
+    /// OBI Parameter
+    public var yVals: [ChartDataEntry]{
+        
+        return self.yVals
+        
     }
     
     // MARK: - NSObject

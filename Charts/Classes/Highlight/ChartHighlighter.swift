@@ -31,7 +31,7 @@ public class ChartHighlighter : NSObject
     /// - returns:
     public func getHighlight(x x: Double, y: Double) -> ChartHighlight?
     {
-        let xIndex = getXIndex(x)
+        var xIndex = getXIndex(x)
         if (xIndex == -Int.max)
         {
             return nil
@@ -43,7 +43,25 @@ public class ChartHighlighter : NSObject
             return nil
         }
         
-        return ChartHighlight(xIndex: xIndex, dataSetIndex: dataSetIndex)
+        let yValueIndex = getClosestValueOnYAxis(dataSetIndex, xIndex: xIndex, yPoint: y)
+        
+        let h : ChartHighlight
+        
+        if(yValueIndex != -1){
+            
+            //Update the value of the xIndex with the position on the Array.
+            xIndex = yValueIndex
+            
+            h = ChartHighlight(xIndex: xIndex, dataSetIndex: dataSetIndex)
+            
+            h.setBuubleIndex(true)
+            
+        } else {
+            
+            h =  ChartHighlight(xIndex: xIndex, dataSetIndex: dataSetIndex)
+        }
+        
+        return h
     }
     
     /// Returns the corresponding x-index for a given touch-position in pixels.
@@ -115,5 +133,71 @@ public class ChartHighlighter : NSObject
         }
         
         return vals
+    }
+    
+    /**
+     New Method - Get all the Y values with the same x-Index if they exist
+     
+     - parameter dataSetIndex: dataSetIndex Index with the value selected
+     - parameter xIndex:       Index of the value
+     - parameter yPoint:       Y value of the touch
+     
+     - returns: index of the yValue
+     */
+    internal func getClosestValueOnYAxis(dataSetIndex :Int, xIndex :Int, yPoint: Double) -> Int{
+        
+        let dataSet = self.chart!.data!.getDataSetByIndex(dataSetIndex)
+        
+        let entriesIndexes = dataSet.yValsIndexForXIndex(xIndex)
+        
+        if(entriesIndexes.count > 1){
+            
+            var point = CGPoint()
+            // create an array of the touch-point
+            point.y = CGFloat(yPoint)
+            // take any transformer to determine the x-axis value
+            self.chart?.getTransformer(dataSet.axisDependency).pixelToValue(&point)
+            
+            let indexOnYValuesArray = self.getIndexClosestValueIndex(values: dataSet.yVals, point: point, arrayIndex: entriesIndexes)
+            
+            return indexOnYValuesArray
+        }
+        
+        return -1
+    }
+    
+    
+    /**
+     New Method - Look for the y value with binary search
+     
+     - parameter values: All the values with the same x-Index
+     - parameter point:  y point
+     
+     - returns: return the closest element in the y position
+     */
+    internal func getIndexClosestValueIndex(values values: [ChartDataEntry], point: CGPoint, arrayIndex: [Int]) -> Int{
+        
+        // take any transformer to determine the x-axis value
+        let yValue : Double = Double(point.y)
+        
+        var minIndex: Int = arrayIndex[0]
+        let maxIndex: Int = arrayIndex[arrayIndex.count - 1]
+        var resultIndex: Int = 0
+        var difference: Double = Double.infinity
+        
+        
+        for ; minIndex <= maxIndex; minIndex++ {
+            
+            let entry  = values[minIndex]
+            
+            let tempDifference = abs(yValue - entry.value)
+            
+            if( tempDifference < difference){
+                resultIndex = minIndex
+                difference = tempDifference
+            }
+        }
+        
+        return resultIndex
     }
 }

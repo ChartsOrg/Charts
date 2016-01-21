@@ -456,7 +456,7 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
         {
             // set the indices to highlight
             entry = _data.getEntryForHighlight(h!)
-            if (entry === nil || entry!.xIndex != h?.xIndex)
+            if (entry === nil)
             {
                 h = nil
                 entry = nil
@@ -507,7 +507,7 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
             if (xIndex <= Int(_deltaX) && xIndex <= Int(_deltaX * _animator.phaseX))
             {
                 let e = _data.getEntryForHighlight(highlight)
-                if (e === nil || e!.xIndex != highlight.xIndex)
+                if (e === nil)
                 {
                     continue
                 }

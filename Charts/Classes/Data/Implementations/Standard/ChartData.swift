@@ -432,7 +432,23 @@ public class ChartData: NSObject
         }
         else
         {
-            return _dataSets[highlight.dataSetIndex].entryForXIndex(highlight.xIndex)
+            //Change this part again - RETURN ORIGINAL
+            //Check the bubble overlap
+            let entry : ChartDataEntry
+            
+            if(highlight.isBubbleOverlap){
+                
+                let dataSets :IChartDataSet = _dataSets[highlight.dataSetIndex]
+                
+                entry = dataSets.yVals[highlight.xIndex]
+                
+                return entry
+                
+            } else {
+                
+                return _dataSets[highlight.dataSetIndex].entryForXIndex(highlight.xIndex)
+                
+            }
         }
     }
     
