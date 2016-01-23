@@ -250,7 +250,8 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
             
             CGContextStrokeLineSegments(context, _limitLineSegmentsBuffer, 2)
 
-            let label = l.label
+            var label = l.label
+            label = (_yAxis.yValsValueFormatter?.stringForXValue(original: label))!
 
             // if drawing the limit-value label is enabled
             if (label.characters.count > 0)

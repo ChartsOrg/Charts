@@ -39,6 +39,9 @@ public class ChartData: NSObject
     internal var _xVals: [String?]!
     internal var _dataSets: [IChartDataSet]!
     
+    /// the formatter used to customly format the values
+    private var _xValsValueFormatter: ChartXAxisValueFormatter = ChartDefaultXAxisValueFormatter()
+    
     public override init()
     {
         super.init()
@@ -811,6 +814,18 @@ public class ChartData: NSObject
         for set in dataSets
         {
             set.valueFormatter = formatter
+        }
+    }
+    
+    
+    /// New var - formatter for the x-Values
+    public var xValsValueFormatter: ChartXAxisValueFormatter?{
+        get{
+            return _xValsValueFormatter
+        }
+        set{
+            _xValsValueFormatter = newValue ?? ChartDefaultXAxisValueFormatter()
+            calcXValAverageLength()
         }
     }
     

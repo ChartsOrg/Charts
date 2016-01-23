@@ -157,7 +157,11 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         
         for (var i = _minX, maxX = min(_maxX + 1, _xAxis.values.count); i < maxX; i += _xAxis.axisLabelModulus)
         {
-            let label = _xAxis.values[i]
+            
+            var label = _xAxis.values[i]
+            
+            label = _xAxis.valueFormatter?.stringForXValue(original: label!) ?? label
+            
             if (label == nil)
             {
                 continue

@@ -48,12 +48,14 @@ public class ChartXAxisRendererRadarChart: ChartXAxisRenderer
         let modulus = _xAxis.axisLabelModulus
         for var i = 0, count = _xAxis.values.count; i < count; i += modulus
         {
-            let label = _xAxis.values[i]
+            var label = _xAxis.values[i]
             
             if (label == nil)
             {
                 continue
             }
+            
+            label = _xAxis.valueFormatter?.stringForXValue(original: label!) ?? label
             
             let angle = (sliceangle * CGFloat(i) + _chart.rotationAngle) % 360.0
             

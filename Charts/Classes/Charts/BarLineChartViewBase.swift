@@ -1718,6 +1718,21 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         getTransformer(.Left).pixelToValue(&pt)
         return (_data != nil && Int(round(pt.x)) >= _data.xValCount) ? _data.xValCount - 1 : Int(round(pt.x))
     }
+    
+    /**
+     New Method - Set both formathers
+     
+     - parameter formatter: custom or nil format to change the values
+     
+     */
+    public func setFormatters(fomatter formatter: ChartXAxisValueFormatter?){
+        
+        _data?.xValsValueFormatter = formatter ?? ChartDefaultXAxisValueFormatter()
+        
+        let xAxis :ChartXAxis = self.xAxis
+        xAxis.valueFormatter = formatter ?? ChartDefaultXAxisValueFormatter()
+        
+    }
 }
 
 /// Default formatter that calculates the position of the filled line.

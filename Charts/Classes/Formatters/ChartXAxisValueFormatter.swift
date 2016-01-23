@@ -26,5 +26,13 @@ public protocol ChartXAxisValueFormatter
     /// - parameter viewPortHandler: provides information about the current chart state (scale, translation, ...)
     ///
     func stringForXValue(index: Int, original: String, viewPortHandler: ChartViewPortHandler) -> String
-
+    
+    /**
+     - Return the customized label
+     
+     - parameter original: label original
+     
+     - returns: the customized label that is drawn on the x-axis
+     */
+    func stringForXValue(original original: String) -> String
 }

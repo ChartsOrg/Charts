@@ -22,4 +22,8 @@ public class ChartDefaultXAxisValueFormatter: NSObject, ChartXAxisValueFormatter
         return original // just return original, no adjustments
     }
     
+    public func stringForXValue(original original: String) -> String {
+        return original
+    }
+    
 }

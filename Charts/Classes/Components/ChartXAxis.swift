@@ -113,11 +113,12 @@ public class ChartXAxis: ChartAxisBase
         
         for (var i = 0; i < values.count; i++)
         {
-            let text = values[i]
+            var label = values[i]
+            label = valueFormatter?.stringForXValue(original: label!) ?? label
             
-            if (text != nil && longest.characters.count < (text!).characters.count)
+            if (label != nil && longest.characters.count < (label!).characters.count)
             {
-                longest = text!
+                longest = label!
             }
         }
         

@@ -58,11 +58,13 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
         
         for (var i = _minX, maxX = min(_maxX + 1, _xAxis.values.count); i < maxX; i += _xAxis.axisLabelModulus)
         {
-            let label = i >= 0 && i < _xAxis.values.count ? _xAxis.values[i] : nil
+            var label = i >= 0 && i < _xAxis.values.count ? _xAxis.values[i] : nil
             if (label == nil)
             {
                 continue
             }
+            
+            label = _xAxis.valueFormatter?.stringForXValue(original: label!) ?? label
             
             position.x = CGFloat(i * step) + CGFloat(i) * barData.groupSpace + barData.groupSpace / 2.0
             position.y = 0.0

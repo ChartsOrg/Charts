@@ -59,6 +59,9 @@ public class ChartYAxis: ChartAxisBase
     /// the formatter used to customly format the y-labels
     public var valueFormatter: NSNumberFormatter?
     
+    /// special formatter
+    private var _yValsValueFormatter: ChartXAxisValueFormatter = ChartDefaultXAxisValueFormatter()
+    
     /// the formatter used to customly format the y-labels
     internal var _defaultValueFormatter = NSNumberFormatter()
     
@@ -102,6 +105,16 @@ public class ChartYAxis: ChartAxisBase
     /// 
     /// **default**: 0.0 (no maximum specified)
     public var maxWidth = CGFloat(0)
+    
+    /// formatter for the x-Values
+    public var yValsValueFormatter: ChartXAxisValueFormatter?{
+        get{
+            return _yValsValueFormatter
+        }
+        set{
+            _yValsValueFormatter = newValue ?? ChartDefaultXAxisValueFormatter()
+        }
+    }
     
     public override init()
     {
@@ -217,7 +230,9 @@ public class ChartYAxis: ChartAxisBase
             return ""
         }
         
-        return (valueFormatter ?? _defaultValueFormatter).stringFromNumber(entries[index])!
+        let formattedValue = _yValsValueFormatter.stringForXValue(original: (valueFormatter ?? _defaultValueFormatter).stringFromNumber(entries[index])!)
+        
+        return formattedValue
     }
     
     /// - returns: true if this axis needs horizontal offset, false if no offset is needed.

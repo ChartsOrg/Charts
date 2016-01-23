@@ -88,12 +88,14 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         
         for (var i = _minX, maxX = min(_maxX + 1, _xAxis.values.count); i < maxX; i += _xAxis.axisLabelModulus)
         {
-            let label = _xAxis.values[i]
+            var label = _xAxis.values[i]
             
             if (label == nil)
             {
                 continue
             }
+            
+            label = _xAxis.valueFormatter?.stringForXValue(original: label!) ?? label
             
             position.x = 0.0
             position.y = CGFloat(i * step) + CGFloat(i) * bd.groupSpace + bd.groupSpace / 2.0
