@@ -358,7 +358,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         }
         if (dataSet.isDrawGradientEnabled) {
             let path = generatePath(
-            entries,
+            dataSet: dataSet,
             fillMin: dataSet.fillFormatter?.getFillLinePosition(dataSet: dataSet, dataProvider: dataProvider!) ?? 0.0,
             from: minx,
             to: maxx,
@@ -428,21 +428,26 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
     }
     
     /// Generates the path that is used for gradient drawing.
-    private func generatePath(entries: [ChartDataEntry], fillMin: CGFloat, from: Int, to: Int, var matrix: CGAffineTransform) -> CGPath
+    private func generatePath(dataSet dataSet: ILineChartDataSet, fillMin: CGFloat, from: Int, to: Int, var matrix: CGAffineTransform) -> CGPath
     {
         let phaseX = _animator.phaseX
         let phaseY = _animator.phaseY
         
-        let filled = CGPathCreateMutable()
-        CGPathMoveToPoint(filled, &matrix, CGFloat(entries[from].xIndex), CGFloat(entries[from].value) * phaseY)
+        var e: ChartDataEntry!
         
+        let generatedPath = CGPathCreateMutable()
+        e = dataSet.entryForIndex(from)
+        if e != nil
+        {
+            CGPathMoveToPoint(generatedPath, &matrix, CGFloat(e.xIndex), CGFloat(e.value) * phaseY)
+        }
         // create a new path
         for (var x = from + 1, count = Int(ceil(CGFloat(to - from) * phaseX + CGFloat(from))); x < count; x++)
         {
-            let e = entries[x]
-            CGPathAddLineToPoint(filled, &matrix, CGFloat(e.xIndex), CGFloat(e.value) * phaseY)
+            guard let e = dataSet.entryForIndex(x) else { continue }
+            CGPathAddLineToPoint(generatedPath, &matrix, CGFloat(e.xIndex), CGFloat(e.value) * phaseY)
         }
-        return filled
+        return generatedPath
     }
     
     public override func drawValues(context context: CGContext)
@@ -668,7 +673,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         CGContextRestoreGState(context)
     }
     
-    internal func drawGradientLine(context context: CGContext, dataSet: LineChartDataSet, spline: CGPath, matrix: CGAffineTransform)
+    internal func drawGradientLine(context context: CGContext, dataSet: ILineChartDataSet, spline: CGPath, matrix: CGAffineTransform)
     {
         CGContextSaveGState(context)
         let gradientPath = CGPathCreateCopyByStrokingPath(spline, nil, dataSet.lineWidth, .Butt, .Miter, 10)
@@ -693,8 +698,8 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         }
         
         //Set middle colors
-        for (var i = 0; i < dataSet.gradientPositions.count; i++) {
-            var positionLocation = CGPointMake(0, dataSet.gradientPositionAt(i))
+        for (var i = 0; i < dataSet.gradientPositions!.count; i++) {
+            var positionLocation = CGPointMake(0, dataSet.gradientPositions![i])
             positionLocation = CGPointApplyAffineTransform(positionLocation, matrix)
             let normPositionLocation = (positionLocation.y - gradientStart.y) / (gradientEnd.y - gradientStart.y)
             if (normPositionLocation < 0) {
@@ -722,7 +727,7 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         //Define gradient
         var baseSpace = CGColorSpaceCreateDeviceRGB()
         var gradient : CGGradient?
-        if (dataSet.gradientPositions.count > 1) {
+        if (dataSet.gradientPositions!.count > 1) {
             gradient = CGGradientCreateWithColorComponents(baseSpace, gradientColors, gradientLocations, gradientColors.count / 4)
         } else {
             gradient = CGGradientCreateWithColorComponents(baseSpace, gradientColors, nil, gradientColors.count / 4)
