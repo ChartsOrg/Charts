@@ -29,7 +29,7 @@ public class HorizontalBarChartView: BarChartView
         _rightYAxisRenderer = ChartYAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, yAxis: _rightAxis, transformer: _rightAxisTransformer)
         _xAxisRenderer = ChartXAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer, chart: self)
         
-        _highlighter = HorizontalBarChartHighlighter(chart: self)
+        self.highlighter = HorizontalBarChartHighlighter(chart: self)
     }
     
     internal override func calculateOffsets()
@@ -140,7 +140,7 @@ public class HorizontalBarChartView: BarChartView
     
     public override func getBarBounds(e: BarChartDataEntry) -> CGRect
     {
-        let set = _data.getDataSetForEntry(e) as! BarChartDataSet!
+        let set = _data.getDataSetForEntry(e) as! IBarChartDataSet!
         
         if (set === nil)
         {
@@ -181,7 +181,7 @@ public class HorizontalBarChartView: BarChartView
             return nil
         }
         
-        return _highlighter?.getHighlight(x: Double(pt.y), y: Double(pt.x))
+        return self.highlighter?.getHighlight(x: Double(pt.y), y: Double(pt.x))
     }
     
     public override var lowestVisibleXIndex: Int

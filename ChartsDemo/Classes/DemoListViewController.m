@@ -30,6 +30,7 @@
 #import "ColoredLineChartViewController.h"
 #import "SinusBarChartViewController.h"
 #import "BubbleChartViewController.h"
+#import "RealmDemoListViewController.h"
 
 @interface DemoListViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -136,6 +137,11 @@
                           @"subtitle": @"A Bar Chart plotting the sinus function with 8.000 values.",
                           @"class": SinusBarChartViewController.class
                           },
+                      @{
+                          @"title": @"Realm.io database",
+                          @"subtitle": @"This demonstrates how to use this library with Realm.io mobile database.",
+                          @"class": RealmDemoListViewController.class
+                          }
                       ];
 }
 

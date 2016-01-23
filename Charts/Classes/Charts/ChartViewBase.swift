@@ -99,7 +99,7 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
     /// object responsible for rendering the data
     public var renderer: ChartDataRendererBase?
     
-    internal var _highlighter: ChartHighlighter?
+    public var highlighter: ChartHighlighter?
     
     /// object that manages the bounds and drawing constraints of the chart
     internal var _viewPortHandler: ChartViewPortHandler!
@@ -755,12 +755,6 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
         }
         
         return vals
-    }
-    
-    /// - returns: the percentage the given value has of the total y-value sum
-    public func percentOfTotal(val: Double) -> Double
-    {
-        return val / _data.yValueSum * 100.0
     }
     
     /// - returns: the ViewPortHandler of the chart that is responsible for the

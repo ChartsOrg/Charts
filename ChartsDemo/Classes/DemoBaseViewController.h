@@ -12,6 +12,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ChartsDemo-Swift.h"
 
 @interface DemoBaseViewController : UIViewController
 {
@@ -22,5 +23,9 @@
 
 @property (nonatomic, strong) IBOutlet UIButton *optionsButton;
 @property (nonatomic, strong) IBOutlet NSArray *options;
+
+- (void)setupPieChartView:(PieChartView *)chartView;
+- (void)setupRadarChartView:(RadarChartView *)chartView;
+- (void)setupBarLineChartView:(BarLineChartViewBase *)chartView;
 
 @end

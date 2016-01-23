@@ -101,9 +101,9 @@ public class RadarChartView: PieRadarChartViewBase
             else if minLeft >= 0.0
             {
                 // We have positive values only, stay in the positive zone
-            _yAxis.axisMinimum = 0.0
+                _yAxis.axisMinimum = 0.0
                 _yAxis.axisMaximum = max(0.0, !isnan(_yAxis.customAxisMax) ? _yAxis.customAxisMax : (maxLeft + topSpaceLeft))
-        }
+            }
             else
             {
                 // Stick the minimum to 0.0 or less, and maximum to 0.0 or more (startAtZero for negative/positive at the same time)

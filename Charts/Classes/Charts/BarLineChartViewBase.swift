@@ -106,7 +106,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         _xAxisRenderer = ChartXAxisRenderer(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer)
         
-        _highlighter = ChartHighlighter(chart: self)
+        self.highlighter = ChartHighlighter(chart: self)
         
         _tapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("tapGestureRecognized:"))
         _doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("doubleTapGestureRecognized:"))
@@ -602,7 +602,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     private var _isDragging = false
     private var _isScaling = false
     private var _gestureScaleAxis = GestureScaleAxis.Both
-    private var _closestDataSetToTouch: ChartDataSet!
+    private var _closestDataSetToTouch: IChartDataSet!
     private var _panGestureReachedEdge: Bool = false
     private weak var _outerScrollView: UIScrollView?
     
@@ -1095,7 +1095,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     }
     
     /// Sets the size of the area (range on the x-axis) that should be minimum visible at once (no further zooming in allowed).
-    /// If this is e.g. set to 10, no more than 10 values on the x-axis can be viewed at once without scrolling.
+    /// If this is e.g. set to 10, no less than 10 values on the x-axis can be viewed at once without scrolling.
     public func setVisibleXRangeMinimum(minXRange: CGFloat)
     {
         let xScale = _deltaX / minXRange
@@ -1393,7 +1393,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             return nil
         }
 
-        return _highlighter?.getHighlight(x: Double(pt.x), y: Double(pt.y))
+        return self.highlighter?.getHighlight(x: Double(pt.x), y: Double(pt.y))
     }
 
     /// - returns: the x and y values in the chart at the given touch point
@@ -1437,12 +1437,12 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     }
     
     /// - returns: the DataSet object displayed at the touched position of the chart
-    public func getDataSetByTouchPoint(pt: CGPoint) -> BarLineScatterCandleBubbleChartDataSet!
+    public func getDataSetByTouchPoint(pt: CGPoint) -> IBarLineScatterCandleBubbleChartDataSet!
     {
         let h = getHighlightByTouchPoint(pt)
         if (h !== nil)
         {
-            return _data.getDataSetByIndex(h!.dataSetIndex) as! BarLineScatterCandleBubbleChartDataSet!
+            return _data.getDataSetByIndex(h!.dataSetIndex) as! IBarLineScatterCandleBubbleChartDataSet!
         }
         return nil
     }
@@ -1727,7 +1727,7 @@ internal class BarLineChartFillFormatter: NSObject, ChartFillFormatter
     {
     }
     
-    internal func getFillLinePosition(dataSet dataSet: LineChartDataSet, dataProvider: LineChartDataProvider) -> CGFloat
+    internal func getFillLinePosition(dataSet dataSet: ILineChartDataSet, dataProvider: LineChartDataProvider) -> CGFloat
     {
         var fillMin = CGFloat(0.0)
         

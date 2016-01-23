@@ -143,6 +143,8 @@ public class PieChartView: PieRadarChartViewBase
         _drawAngles.reserveCapacity(_data.yValCount)
         _absoluteAngles.reserveCapacity(_data.yValCount)
         
+        let yValueSum = (_data as! PieChartData).yValueSum
+        
         var dataSets = _data.dataSets
 
         var cnt = 0
@@ -150,11 +152,13 @@ public class PieChartView: PieRadarChartViewBase
         for (var i = 0; i < _data.dataSetCount; i++)
         {
             let set = dataSets[i]
-            var entries = set.yVals
+            let entryCount = set.entryCount
 
-            for (var j = 0; j < entries.count; j++)
+            for (var j = 0; j < entryCount; j++)
             {
-                _drawAngles.append(calcAngle(abs(entries[j].value)))
+                guard let e = set.entryForIndex(j) else { continue }
+                
+                _drawAngles.append(calcAngle(abs(e.value), yValueSum: yValueSum))
 
                 if (cnt == 0)
                 {
@@ -195,7 +199,13 @@ public class PieChartView: PieRadarChartViewBase
     /// calculates the needed angle for a given value
     private func calcAngle(value: Double) -> CGFloat
     {
-        return CGFloat(value) / CGFloat(_data.yValueSum) * _maxAngle
+        return calcAngle(value, yValueSum: (_data as! PieChartData).yValueSum)
+    }
+    
+    /// calculates the needed angle for a given value
+    private func calcAngle(value: Double, yValueSum: Double) -> CGFloat
+    {
+        return CGFloat(value) / CGFloat(yValueSum) * _maxAngle
     }
     
     public override func indexForAngle(angle: CGFloat) -> Int
