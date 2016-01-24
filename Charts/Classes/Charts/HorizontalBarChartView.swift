@@ -59,7 +59,7 @@ public class HorizontalBarChartView: BarChartView
                 // It's possible that we do not need this offset anymore as it
                 //   is available through the extraOffsets, but changing it can mean
                 //   changing default visibility for existing apps.
-                let yOffset = _legend.textHeightMax
+                let yOffset = _legend.textHeightMax + 2.5 * 2.0
                 
                 offsetBottom += min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
             }

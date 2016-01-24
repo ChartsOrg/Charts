@@ -94,7 +94,7 @@ public class ChartLegend: ChartComponentBase
         super.init()
         
         self.xOffset = 5.0
-        self.yOffset = 7.0
+        self.yOffset = 4.0
     }
     
     public init(colors: [UIColor?], labels: [String?])
