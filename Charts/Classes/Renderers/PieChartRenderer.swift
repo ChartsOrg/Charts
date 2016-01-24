@@ -17,7 +17,7 @@ import UIKit
 
 public class PieChartRenderer: ChartDataRendererBase
 {
-    internal weak var _chart: PieChartView!
+    public weak var chart: PieChartView?
     
     public var drawHoleEnabled = true
     public var holeTransparent = true
@@ -35,39 +35,44 @@ public class PieChartRenderer: ChartDataRendererBase
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
-        _chart = chart
+        self.chart = chart
     }
     
     public override func drawData(context context: CGContext)
     {
-        if (_chart !== nil)
+        guard let chart = chart else { return }
+        
+        let pieData = chart.data
+        
+        if (pieData != nil)
         {
-            let pieData = _chart.data
-            
-            if (pieData != nil)
+            for set in pieData!.dataSets as! [IPieChartDataSet]
             {
-                for set in pieData!.dataSets as! [IPieChartDataSet]
+                if set.isVisible && set.entryCount > 0
                 {
-                    if set.isVisible && set.entryCount > 0
-                    {
-                        drawDataSet(context: context, dataSet: set)
-                    }
+                    drawDataSet(context: context, dataSet: set)
                 }
             }
         }
     }
     
-    internal func drawDataSet(context context: CGContext, dataSet: IPieChartDataSet)
+    public func drawDataSet(context context: CGContext, dataSet: IPieChartDataSet)
     {
+        guard let
+            chart = chart,
+            data = chart.data,
+            animator = animator
+            else {return }
+        
         var angle: CGFloat = 0.0
-        let rotationAngle = _chart.rotationAngle
+        let rotationAngle = chart.rotationAngle
         
         var cnt = 0
         
         let entryCount = dataSet.entryCount
-        var drawAngles = _chart.drawAngles
-        let circleBox = _chart.circleBox
-        let radius = _chart.radius
+        var drawAngles = chart.drawAngles
+        let circleBox = chart.circleBox
+        let radius = chart.radius
         let innerRadius = drawHoleEnabled && holeTransparent ? radius * holeRadiusPercent : 0.0
         
         CGContextSaveGState(context)
@@ -82,11 +87,11 @@ public class PieChartRenderer: ChartDataRendererBase
             // draw only if the value is greater than zero
             if ((abs(e.value) > 0.000001))
             {
-                if (!_chart.needsHighlight(xIndex: e.xIndex,
-                    dataSetIndex: _chart.data!.indexOfDataSet(dataSet)))
+                if (!chart.needsHighlight(xIndex: e.xIndex,
+                    dataSetIndex: data.indexOfDataSet(dataSet)))
                 {
-                    let startAngle = rotationAngle + (angle + sliceSpace / 2.0) * _animator.phaseY
-                    var sweepAngle = (sliceAngle - sliceSpace / 2.0) * _animator.phaseY
+                    let startAngle = rotationAngle + (angle + sliceSpace / 2.0) * animator.phaseY
+                    var sweepAngle = (sliceAngle - sliceSpace / 2.0) * animator.phaseY
                     if (sweepAngle < 0.0)
                     {
                         sweepAngle = 0.0
@@ -112,7 +117,7 @@ public class PieChartRenderer: ChartDataRendererBase
                 }
             }
             
-            angle += sliceAngle * _animator.phaseX
+            angle += sliceAngle * animator.phaseX
             cnt++
         }
         
@@ -121,24 +126,28 @@ public class PieChartRenderer: ChartDataRendererBase
     
     public override func drawValues(context context: CGContext)
     {
-        let center = _chart.centerCircleBox
+        guard let
+            chart = chart,
+            data = chart.data,
+            animator = animator
+            else { return }
+        
+        let center = chart.centerCircleBox
         
         // get whole the radius
-        var r = _chart.radius
-        let rotationAngle = _chart.rotationAngle
-        var drawAngles = _chart.drawAngles
-        var absoluteAngles = _chart.absoluteAngles
+        var r = chart.radius
+        let rotationAngle = chart.rotationAngle
+        var drawAngles = chart.drawAngles
+        var absoluteAngles = chart.absoluteAngles
         
         var off = r / 10.0 * 3.0
         
         if (drawHoleEnabled)
         {
-            off = (r - (r * _chart.holeRadiusPercent)) / 2.0
+            off = (r - (r * chart.holeRadiusPercent)) / 2.0
         }
         
         r -= off; // offset to keep things inside the chart
-        
-        guard let data = _chart.data else { return }
         
         var dataSets = data.dataSets
         
@@ -162,9 +171,9 @@ public class PieChartRenderer: ChartDataRendererBase
             let valueFont = dataSet.valueFont
             let valueTextColor = dataSet.valueTextColor
             
-            let formatter = dataSet.valueFormatter
+            guard let formatter = dataSet.valueFormatter else { continue }
             
-            for (var j = 0, maxEntry = Int(min(ceil(CGFloat(dataSet.entryCount) * _animator.phaseX), CGFloat(dataSet.entryCount))); j < maxEntry; j++)
+            for (var j = 0, maxEntry = Int(min(ceil(CGFloat(dataSet.entryCount) * animator.phaseX), CGFloat(dataSet.entryCount))); j < maxEntry; j++)
             {
                 if (drawXVals && !drawYVals && (j >= data.xValCount || data.xVals[j] == nil))
                 {
@@ -176,7 +185,7 @@ public class PieChartRenderer: ChartDataRendererBase
                 // offset needed to center the drawn text in the slice
                 let offset = drawAngles[cnt] / 2.0
                 
-                let angle = (absoluteAngles[cnt] - offset) * _animator.phaseY
+                let angle = (absoluteAngles[cnt] - offset) * animator.phaseY
 
                 // calculate the text position
                 let x = r
@@ -188,7 +197,7 @@ public class PieChartRenderer: ChartDataRendererBase
 
                 let value = usePercentValuesEnabled ? e.value / yValueSum * 100.0 : e.value
                 
-                let val = formatter!.stringFromNumber(value)!
+                let val = formatter.stringFromNumber(value)!
                 
                 let lineHeight = valueFont.lineHeight
                 y -= lineHeight
@@ -226,13 +235,18 @@ public class PieChartRenderer: ChartDataRendererBase
     /// draws the hole in the center of the chart and the transparent circle / hole
     private func drawHole(context context: CGContext)
     {
-        if (_chart.drawHoleEnabled)
+        guard let
+            chart = chart,
+            animator = animator
+            else { return }
+        
+        if (chart.drawHoleEnabled)
         {
             CGContextSaveGState(context)
             
-            let radius = _chart.radius
+            let radius = chart.radius
             let holeRadius = radius * holeRadiusPercent
-            let center = _chart.centerCircleBox
+            let center = chart.centerCircleBox
             
             if (holeColor !== nil && holeColor != UIColor.clearColor())
             {
@@ -244,7 +258,7 @@ public class PieChartRenderer: ChartDataRendererBase
             // only draw the circle if it can be seen (not covered by the hole)
             if (transparentCircleRadiusPercent > holeRadiusPercent)
             {
-                let alpha = holeAlpha * _animator.phaseX * _animator.phaseY
+                let alpha = holeAlpha * animator.phaseX * animator.phaseY
                 let secondHoleRadius = radius * transparentCircleRadiusPercent
                 
                 // make transparent
@@ -261,12 +275,15 @@ public class PieChartRenderer: ChartDataRendererBase
     /// draws the description text in the center of the pie chart makes most sense when center-hole is enabled
     private func drawCenterText(context context: CGContext)
     {
-        guard let centerAttributedText = centerAttributedText else { return }
+        guard let
+            chart = chart,
+            centerAttributedText = centerAttributedText
+            else { return }
         
         if drawCenterTextEnabled && centerAttributedText.length > 0
         {
-            let center = _chart.centerCircleBox
-            let innerRadius = drawHoleEnabled && holeTransparent ? _chart.radius * holeRadiusPercent : _chart.radius
+            let center = chart.centerCircleBox
+            let innerRadius = drawHoleEnabled && holeTransparent ? chart.radius * holeRadiusPercent : chart.radius
             let holeRect = CGRect(x: center.x - innerRadius, y: center.y - innerRadius, width: innerRadius * 2.0, height: innerRadius * 2.0)
             var boundingRect = holeRect
             
@@ -297,20 +314,21 @@ public class PieChartRenderer: ChartDataRendererBase
     
     public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
     {
-        if _chart.data == nil
-        {
-            return
-        }
+        guard let
+            chart = chart,
+            data = chart.data,
+            animator = animator
+            else { return }
         
         CGContextSaveGState(context)
         
         var angle: CGFloat = 0.0
-        let rotationAngle = _chart.rotationAngle
+        let rotationAngle = chart.rotationAngle
         
-        var drawAngles = _chart.drawAngles
-        var absoluteAngles = _chart.absoluteAngles
+        var drawAngles = chart.drawAngles
+        var absoluteAngles = chart.absoluteAngles
         
-        let innerRadius = drawHoleEnabled && holeTransparent ? _chart.radius * holeRadiusPercent : 0.0
+        let innerRadius = drawHoleEnabled && holeTransparent ? chart.radius * holeRadiusPercent : 0.0
         
         for (var i = 0; i < indices.count; i++)
         {
@@ -321,7 +339,7 @@ public class PieChartRenderer: ChartDataRendererBase
                 continue
             }
             
-            guard let set = _chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as? IPieChartDataSet else { continue }
+            guard let set = data.getDataSetByIndex(indices[i].dataSetIndex) as? IPieChartDataSet else { continue }
             
             if !set.isHighlightEnabled
             {
@@ -334,14 +352,14 @@ public class PieChartRenderer: ChartDataRendererBase
             }
             else
             {
-                angle = absoluteAngles[xIndex - 1] * _animator.phaseX
+                angle = absoluteAngles[xIndex - 1] * animator.phaseX
             }
             
             let sliceAngle = drawAngles[xIndex]
             let sliceSpace = set.sliceSpace
             
             let shift = set.selectionShift
-            let circleBox = _chart.circleBox
+            let circleBox = chart.circleBox
             
             let highlighted = CGRect(
                 x: circleBox.origin.x - shift,
@@ -353,8 +371,8 @@ public class PieChartRenderer: ChartDataRendererBase
             
             // redefine the rect that contains the arc so that the highlighted pie is not cut off
             
-            let startAngle = rotationAngle + (angle + sliceSpace / 2.0) * _animator.phaseY
-            var sweepAngle = (sliceAngle - sliceSpace / 2.0) * _animator.phaseY
+            let startAngle = rotationAngle + (angle + sliceSpace / 2.0) * animator.phaseY
+            var sweepAngle = (sliceAngle - sliceSpace / 2.0) * animator.phaseY
             if (sweepAngle < 0.0)
             {
                 sweepAngle = 0.0

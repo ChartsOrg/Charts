@@ -17,32 +17,31 @@ import UIKit
 
 public class ChartXAxisRendererBarChart: ChartXAxisRenderer
 {
-    internal weak var _chart: BarChartView!
+    public weak var chart: BarChartView?
     
     public init(viewPortHandler: ChartViewPortHandler, xAxis: ChartXAxis, transformer: ChartTransformer!, chart: BarChartView)
     {
         super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: transformer)
         
-        self._chart = chart
+        self.chart = chart
     }
     
     /// draws the x-labels on the specified y-position
-    internal override func drawLabels(context context: CGContext, pos: CGFloat, anchor: CGPoint)
+    public override func drawLabels(context context: CGContext, pos: CGFloat, anchor: CGPoint)
     {
-        if (_chart.data === nil)
-        {
-            return
-        }
+        guard let
+            xAxis = xAxis,
+            barData = chart?.data as? BarChartData
+            else { return }
         
         let paraStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
         paraStyle.alignment = .Center
         
-        let labelAttrs = [NSFontAttributeName: _xAxis.labelFont,
-            NSForegroundColorAttributeName: _xAxis.labelTextColor,
+        let labelAttrs = [NSFontAttributeName: xAxis.labelFont,
+            NSForegroundColorAttributeName: xAxis.labelTextColor,
             NSParagraphStyleAttributeName: paraStyle]
-        let labelRotationAngleRadians = _xAxis.labelRotationAngle * ChartUtils.Math.FDEG2RAD
+        let labelRotationAngleRadians = xAxis.labelRotationAngle * ChartUtils.Math.FDEG2RAD
         
-        let barData = _chart.data as! BarChartData
         let step = barData.dataSetCount
         
         let valueToPixelMatrix = transformer.valueToPixelMatrix
@@ -51,14 +50,14 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
         
         var labelMaxSize = CGSize()
         
-        if (_xAxis.isWordWrapEnabled)
+        if (xAxis.isWordWrapEnabled)
         {
-            labelMaxSize.width = _xAxis.wordWrapWidthPercent * valueToPixelMatrix.a
+            labelMaxSize.width = xAxis.wordWrapWidthPercent * valueToPixelMatrix.a
         }
         
-        for (var i = _minX, maxX = min(_maxX + 1, _xAxis.values.count); i < maxX; i += _xAxis.axisLabelModulus)
+        for i in self.minX.stride(to: min(self.maxX + 1, xAxis.values.count), by: xAxis.axisLabelModulus)
         {
-            let label = i >= 0 && i < _xAxis.values.count ? _xAxis.values[i] : nil
+            let label = i >= 0 && i < xAxis.values.count ? xAxis.values[i] : nil
             if (label == nil)
             {
                 continue
@@ -77,10 +76,10 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
             
             if (viewPortHandler.isInBoundsX(position.x))
             {
-                if (_xAxis.isAvoidFirstLastClippingEnabled)
+                if (xAxis.isAvoidFirstLastClippingEnabled)
                 {
                     // avoid clipping of the last
-                    if (i == _xAxis.values.count - 1)
+                    if (i == xAxis.values.count - 1)
                     {
                         let width = label!.sizeWithAttributes(labelAttrs).width
                         
@@ -109,21 +108,25 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
     
     public override func renderGridLines(context context: CGContext)
     {
-        if (!_xAxis.isDrawGridLinesEnabled || !_xAxis.isEnabled)
+        guard let
+            xAxis = xAxis,
+            barData = chart?.data as? BarChartData
+            else { return }
+        
+        if (!xAxis.isDrawGridLinesEnabled || !xAxis.isEnabled)
         {
             return
         }
         
-        let barData = _chart.data as! BarChartData
         let step = barData.dataSetCount
         
         CGContextSaveGState(context)
         
-        CGContextSetStrokeColorWithColor(context, _xAxis.gridColor.CGColor)
-        CGContextSetLineWidth(context, _xAxis.gridLineWidth)
-        if (_xAxis.gridLineDashLengths != nil)
+        CGContextSetStrokeColorWithColor(context, xAxis.gridColor.CGColor)
+        CGContextSetLineWidth(context, xAxis.gridLineWidth)
+        if (xAxis.gridLineDashLengths != nil)
         {
-            CGContextSetLineDash(context, _xAxis.gridLineDashPhase, _xAxis.gridLineDashLengths, _xAxis.gridLineDashLengths.count)
+            CGContextSetLineDash(context, xAxis.gridLineDashPhase, xAxis.gridLineDashLengths, xAxis.gridLineDashLengths.count)
         }
         else
         {
@@ -134,7 +137,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
         
         var position = CGPoint(x: 0.0, y: 0.0)
         
-        for (var i = _minX; i < _maxX; i += _xAxis.axisLabelModulus)
+        for i in self.minX.stride(to: self.maxX, by: xAxis.axisLabelModulus)
         {
             position.x = CGFloat(i * step) + CGFloat(i) * barData.groupSpace - 0.5
             position.y = 0.0

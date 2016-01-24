@@ -16,7 +16,7 @@ import CoreGraphics
 
 public class CombinedChartRenderer: ChartDataRendererBase
 {
-    internal weak var _chart: CombinedChartView!
+    public weak var chart: CombinedChartView?
     
     /// flag that enables or disables the highlighting arrow
     public var drawHighlightArrowEnabled = false
@@ -35,7 +35,7 @@ public class CombinedChartRenderer: ChartDataRendererBase
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
-        _chart = chart
+        self.chart = chart
         
         createRenderers()
     }
@@ -44,43 +44,48 @@ public class CombinedChartRenderer: ChartDataRendererBase
     internal func createRenderers()
     {
         _renderers = [ChartDataRendererBase]()
+        
+        guard let
+            chart = chart,
+            animator = animator
+            else { return }
 
         for order in drawOrder
         {
             switch (order)
             {
             case .Bar:
-                if (_chart.barData !== nil)
+                if (chart.barData !== nil)
                 {
-                    _renderers.append(BarChartRenderer(dataProvider: _chart, animator: _animator, viewPortHandler: viewPortHandler))
+                    _renderers.append(BarChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
                 break
                 
             case .Line:
-                if (_chart.lineData !== nil)
+                if (chart.lineData !== nil)
                 {
-                    _renderers.append(LineChartRenderer(dataProvider: _chart, animator: _animator, viewPortHandler: viewPortHandler))
+                    _renderers.append(LineChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
                 break
                 
             case .Candle:
-                if (_chart.candleData !== nil)
+                if (chart.candleData !== nil)
                 {
-                    _renderers.append(CandleStickChartRenderer(dataProvider: _chart, animator: _animator, viewPortHandler: viewPortHandler))
+                    _renderers.append(CandleStickChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
                 break
                 
             case .Scatter:
-                if (_chart.scatterData !== nil)
+                if (chart.scatterData !== nil)
                 {
-                    _renderers.append(ScatterChartRenderer(dataProvider: _chart, animator: _animator, viewPortHandler: viewPortHandler))
+                    _renderers.append(ScatterChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
                 break
                 
             case .Bubble:
-                if (_chart.bubbleData !== nil)
+                if (chart.bubbleData !== nil)
                 {
-                    _renderers.append(BubbleChartRenderer(dataProvider: _chart, animator: _animator, viewPortHandler: viewPortHandler))
+                    _renderers.append(BubbleChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
                 break
             }

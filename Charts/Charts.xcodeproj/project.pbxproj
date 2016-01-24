@@ -536,7 +536,6 @@
 		5B759ED41A9F98A90039D97F /* Renderers */ = {
 			isa = PBXGroup;
 			children = (
-				5B6A54711AA5DCA8000F57C2 /* ChartAxisRendererBase.swift */,
 				5B6A54961AA66AD2000F57C2 /* BarChartRenderer.swift */,
 				55E3565A1ADC63EB00A57971 /* BubbleChartRenderer.swift */,
 				5B6A54941AA66AC0000F57C2 /* CandleStickChartRenderer.swift */,
@@ -550,6 +549,7 @@
 				5B6A54861AA669F4000F57C2 /* RadarChartRenderer.swift */,
 				5B6A546F1AA5DB34000F57C2 /* ChartRendererBase.swift */,
 				5B6A54841AA669C9000F57C2 /* ScatterChartRenderer.swift */,
+				5B6A54711AA5DCA8000F57C2 /* ChartAxisRendererBase.swift */,
 				5B6A54731AA5DEDC000F57C2 /* ChartXAxisRenderer.swift */,
 				5B6A54751AA5DEE3000F57C2 /* ChartXAxisRendererBarChart.swift */,
 				5B6A547B1AA5DF02000F57C2 /* ChartXAxisRendererHorizontalBarChart.swift */,

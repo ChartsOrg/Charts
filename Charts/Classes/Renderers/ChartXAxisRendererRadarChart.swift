@@ -17,55 +17,62 @@ import UIKit
 
 public class ChartXAxisRendererRadarChart: ChartXAxisRenderer
 {
-    private weak var _chart: RadarChartView!
+    public weak var chart: RadarChartView?
     
     public init(viewPortHandler: ChartViewPortHandler, xAxis: ChartXAxis, chart: RadarChartView)
     {
         super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: nil)
         
-        _chart = chart
+        self.chart = chart
     }
     
     public override func renderAxisLabels(context context: CGContext)
     {
-        if (!_xAxis.isEnabled || !_xAxis.isDrawLabelsEnabled)
+        guard let
+            xAxis = xAxis,
+            chart = chart
+            else { return }
+        
+        if (!xAxis.isEnabled || !xAxis.isDrawLabelsEnabled)
         {
             return
         }
         
-        let labelFont = _xAxis.labelFont
-        let labelTextColor = _xAxis.labelTextColor
-        let labelRotationAngleRadians = _xAxis.labelRotationAngle * ChartUtils.Math.FDEG2RAD
+        let labelFont = xAxis.labelFont
+        let labelTextColor = xAxis.labelTextColor
+        let labelRotationAngleRadians = xAxis.labelRotationAngle * ChartUtils.Math.FDEG2RAD
         let drawLabelAnchor = CGPoint(x: 0.5, y: 0.0)
         
-        let sliceangle = _chart.sliceAngle
+        let sliceangle = chart.sliceAngle
         
         // calculate the factor that is needed for transforming the value to pixels
-        let factor = _chart.factor
+        let factor = chart.factor
         
-        let center = _chart.centerOffsets
+        let center = chart.centerOffsets
         
-        let modulus = _xAxis.axisLabelModulus
-        for var i = 0, count = _xAxis.values.count; i < count; i += modulus
+        let modulus = xAxis.axisLabelModulus
+        for var i = 0, count = xAxis.values.count; i < count; i += modulus
         {
-            let label = _xAxis.values[i]
+            let label = xAxis.values[i]
             
             if (label == nil)
             {
                 continue
             }
             
-            let angle = (sliceangle * CGFloat(i) + _chart.rotationAngle) % 360.0
+            let angle = (sliceangle * CGFloat(i) + chart.rotationAngle) % 360.0
             
-            let p = ChartUtils.getPosition(center: center, dist: CGFloat(_chart.yRange) * factor + _xAxis.labelRotatedWidth / 2.0, angle: angle)
+            let p = ChartUtils.getPosition(center: center, dist: CGFloat(chart.yRange) * factor + xAxis.labelRotatedWidth / 2.0, angle: angle)
             
-            drawLabel(context: context, label: label!, xIndex: i, x: p.x, y: p.y - _xAxis.labelRotatedHeight / 2.0, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor], anchor: drawLabelAnchor, angleRadians: labelRotationAngleRadians)
+            drawLabel(context: context, label: label!, xIndex: i, x: p.x, y: p.y - xAxis.labelRotatedHeight / 2.0, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor], anchor: drawLabelAnchor, angleRadians: labelRotationAngleRadians)
         }
     }
     
-    internal func drawLabel(context context: CGContext, label: String, xIndex: Int, x: CGFloat, y: CGFloat, attributes: [String: NSObject], anchor: CGPoint, angleRadians: CGFloat)
+    public func drawLabel(context context: CGContext, label: String, xIndex: Int, x: CGFloat, y: CGFloat, attributes: [String: NSObject], anchor: CGPoint, angleRadians: CGFloat)
     {
-        let formattedLabel = _xAxis.valueFormatter?.stringForXValue(xIndex, original: label, viewPortHandler: viewPortHandler) ?? label
+        guard let xAxis = xAxis else { return }
+        
+        let formattedLabel = xAxis.valueFormatter?.stringForXValue(xIndex, original: label, viewPortHandler: viewPortHandler) ?? label
         ChartUtils.drawText(context: context, text: formattedLabel, point: CGPoint(x: x, y: y), attributes: attributes, anchor: anchor, angleRadians: angleRadians)
     }
     
