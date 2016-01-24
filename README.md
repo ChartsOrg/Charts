@@ -81,10 +81,9 @@ Features
  - Scaling on both axes (with touch-gesture, axes separately or pinch-zoom)
  - Dragging / Panning (with touch-gesture)
  - Combined-Charts (line-, bar-, scatter-, candle-stick-, bubble-)
- - Dual (separate) Y-Axis
- - Finger drawing (draw values into the chart with touch-gesture)
+ - Dual (separate) Axes
+ - Customizeable Axes (both x- and y-axis)
  - Highlighting values (with customizeable popup-views)
- - Multiple / Separate Axes
  - Save chart to camera-roll / export to PNG/JPEG
  - Predefined color templates
  - Legends (generated automatically, customizeable)
