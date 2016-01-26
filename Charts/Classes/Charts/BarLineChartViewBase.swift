@@ -40,7 +40,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     public var borderLineWidth: CGFloat = 1.0
     
     /// flag indicating if the grid background should be drawn or not
-    public var drawGridBackgroundEnabled = true
+    public var drawGridBackgroundEnabled = false
     
     /// Sets drawing the borders rectangle to true. If this is enabled, there is no point drawing the axis-lines of x- and y-axis.
     public var drawBordersEnabled = false
