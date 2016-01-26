@@ -50,12 +50,11 @@
     _chartView.delegate = self;
     
     _chartView.drawBarShadowEnabled = NO;
-    _chartView.drawValueAboveBarEnabled = YES;
-    
+    _chartView.drawValueAboveBarEnabled = NO;
     _chartView.maxVisibleValueCount = 60;
     
     ChartXAxis *xAxis = _chartView.xAxis;
-    xAxis.labelPosition = XAxisLabelPositionBottom;
+    xAxis.labelPosition = XAxisLabelPositionBottomOutside;
     xAxis.labelFont = [UIFont systemFontOfSize:10.f];
     xAxis.drawAxisLineEnabled = YES;
     xAxis.drawGridLinesEnabled = YES;
@@ -109,6 +108,7 @@
         double mult = (range + 1);
         double val = (double) (arc4random_uniform(mult));
         [yVals addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
+
     }
     
     BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithYVals:yVals label:@"DataSet"];
