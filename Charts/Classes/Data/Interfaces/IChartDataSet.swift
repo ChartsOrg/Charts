@@ -62,24 +62,63 @@ public protocol IChartDataSet
     
     /// Adds an Entry to the DataSet dynamically.
     ///
-    /// *optional feature, can return false or throw*
+    /// *optional feature, can return false if not implemented*
     ///
     /// Entries are added to the end of the list.
     /// - parameter e: the entry to add
-    /// - returns: true if the entry was added successfully, else if this feature is not supported
+    /// - returns: true if the entry was added successfully, false if this feature is not supported
     func addEntry(e: ChartDataEntry) -> Bool
+    
+    /// Adds an Entry to the DataSet dynamically.
+    /// Entries are added to their appropriate index respective to it's x-index.
+    /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
+    ///
+    /// *optional feature, can return false if not implemented*
+    ///
+    /// Entries are added to the end of the list.
+    /// - parameter e: the entry to add
+    /// - returns: true if the entry was added successfully, false if this feature is not supported
+    func addEntryOrdered(e: ChartDataEntry) -> Bool
     
     /// Removes an Entry from the DataSet dynamically.
     ///
-    /// *optional feature, can return false or throw*
+    /// *optional feature, can return false if not implemented*
     ///
     /// - parameter entry: the entry to remove
-    /// - returns: true if the entry was removed successfully, else if the entry does not exist or if this feature is not supported
+    /// - returns: true if the entry was removed successfully, false if the entry does not exist or if this feature is not supported
     func removeEntry(entry: ChartDataEntry) -> Bool
     
+    /// Removes the Entry object that has the given xIndex from the DataSet.
+    ///
+    /// *optional feature, can return false if not implemented*
+    ///
+    /// - parameter xIndex: the xIndex to remove
+    /// - returns: true if the entry was removed successfully, false if the entry does not exist or if this feature is not supported
+    func removeEntry(xIndex xIndex: Int) -> Bool
+    
+    /// Removes the first Entry (at index 0) of this DataSet from the entries array.
+    ///
+    /// *optional feature, can return false if not implemented*
+    ///
+    /// - returns: true if the entry was removed successfully, false if the entry does not exist or if this feature is not supported
+    func removeFirst() -> Bool
+    
+    /// Removes the last Entry (at index 0) of this DataSet from the entries array.
+    ///
+    /// *optional feature, can return false if not implemented*
+    ///
+    /// - returns: true if the entry was removed successfully, false if the entry does not exist or if this feature is not supported
+    func removeLast() -> Bool
+    
     /// Checks if this DataSet contains the specified Entry.
+    ///
     /// - returns: true if contains the entry, false if not.
     func contains(e: ChartDataEntry) -> Bool
+    
+    /// Removes all values from this DataSet and does all necessary recalculations.
+    ///
+    /// *optional feature, could throw if not implemented*
+    func clear()
     
     // MARK: - Styling functions and accessors
     
