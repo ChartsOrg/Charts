@@ -18,7 +18,8 @@ import UIKit
 /// Base-class of LineChart, BarChart, ScatterChart and CandleStickChart.
 public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartDataProvider, UIGestureRecognizerDelegate
 {
-    /// the maximum number of entried to which values will be drawn
+    /// the maximum number of entries to which values will be drawn
+    /// (entry numbers greater than this value will cause value-labels to disappear)
     internal var _maxVisibleValueCount = 100
     
     /// flag that indicates if auto scaling on the y axis is enabled
@@ -48,9 +49,10 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// Sets the minimum offset (padding) around the chart, defaults to 10
     public var minOffset = CGFloat(10.0)
     
-    /// the object representing the labels on the y-axis, this object is prepared
-    /// in the pepareYLabels() method
+    /// the object representing the left y-axis
     internal var _leftAxis: ChartYAxis!
+    
+    /// the object representing the right y-axis
     internal var _rightAxis: ChartYAxis!
     
     /// the object representing the labels on the x-axis
