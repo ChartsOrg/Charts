@@ -239,8 +239,8 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         
         CGContextSaveGState(context)
         
-        let entryFrom = dataSet.entryForXIndex(_minX)!
-        let entryTo = dataSet.entryForXIndex(_maxX)!
+        let entryFrom = dataSet.entryBeforeXIndex(_minX)!
+        let entryTo = dataSet.entryAfterXIndex(_maxX)!
         
         let diff = (entryFrom == entryTo) ? 1 : 0
         let minx = max(dataSet.entryIndex(entry: entryFrom, isEqual: true) - diff, 0)

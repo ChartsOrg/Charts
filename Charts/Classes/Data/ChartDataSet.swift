@@ -176,6 +176,48 @@ public class ChartDataSet: NSObject
         return nil
     }
     
+    
+    /// - returns: the first entry object with an x-index lower than the specified x-index or,
+    /// if there are no entries with a lower x-index, the closest entry to that index.
+    /// returns nil if there are no entries at all
+    public func entryBeforeXIndex(x: Int) -> ChartDataEntry?
+    {
+        // find closest/adjacent entry to this x-index
+        var valIndex = self.entryIndex(xIndex: x)
+        guard valIndex > -1 else { return nil }
+        
+        var entry = _yVals[valIndex]
+        
+        // Find the next entry with an x-index lower than the specified one. This will usually only take one iteration.
+        // NB: This assumes that chart entries are sorted by x index (which is the case in many places in this project).
+        while(valIndex > 0 && entry.xIndex >= x) {
+            valIndex -= 1
+            entry = _yVals[valIndex]
+        }
+        return entry
+    }
+    
+    /// - returns: the first entry object with an x-index higher than the specified x-index or,
+    /// if there are no entries with a lower x-index, the closest entry to that index.
+    /// returns nil if there are no entries at all
+    public func entryAfterXIndex(x: Int) -> ChartDataEntry?
+    {
+        // find closest/adjacent entry to this x-index
+        var valIndex = self.entryIndex(xIndex: x)
+        guard valIndex > -1 else { return nil }
+        
+        var entry = _yVals[valIndex]
+        
+        // Find the next entry with an x-index higher than the specified one. This will usually only take one iteration.
+        // NB: This assumes that chart entries are sorted by x index (which is the case in many places in this project).
+        while(valIndex < _yVals.count - 1 && entry.xIndex <= x) {
+            valIndex += 1
+            entry = _yVals[valIndex]
+        }
+        return entry
+    }
+    
+    
     public func entriesForXIndex(x: Int) -> [ChartDataEntry]
     {
         var entries = [ChartDataEntry]()
