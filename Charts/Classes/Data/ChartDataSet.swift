@@ -190,7 +190,8 @@ public class ChartDataSet: NSObject
         
         // Find the next entry with an x-index lower than the specified one. This will usually only take one iteration.
         // NB: This assumes that chart entries are sorted by x index (which is the case in many places in this project).
-        while(valIndex > 0 && entry.xIndex >= x) {
+        while(valIndex > 0 && entry.xIndex >= x)
+        {
             valIndex -= 1
             entry = _yVals[valIndex]
         }
@@ -210,7 +211,8 @@ public class ChartDataSet: NSObject
         
         // Find the next entry with an x-index higher than the specified one. This will usually only take one iteration.
         // NB: This assumes that chart entries are sorted by x index (which is the case in many places in this project).
-        while(valIndex < _yVals.count - 1 && entry.xIndex <= x) {
+        while(valIndex < _yVals.count - 1 && entry.xIndex <= x)
+        {
             valIndex += 1
             entry = _yVals[valIndex]
         }
