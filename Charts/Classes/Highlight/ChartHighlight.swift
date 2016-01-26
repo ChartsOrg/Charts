@@ -27,6 +27,9 @@ public class ChartHighlight: NSObject
     /// **default**: -1
     private var _stackIndex = Int(-1)
     
+    /// index for the bubble if that is set means that the belongs bubble sort
+    private var _isBubbleOverlap : Bool = false
+    
     /// the range of the bar that is selected (only for stacked-barchart)
     private var _range: ChartRange?
 
@@ -68,6 +71,11 @@ public class ChartHighlight: NSObject
     public var dataSetIndex: Int { return _dataSetIndex; }
     public var xIndex: Int { return _xIndex; }
     public var stackIndex: Int { return _stackIndex; }
+    public var isBubbleOverlap:Bool { return _isBubbleOverlap; }
+    
+    public func setBuubleIndex(isBubbleOverlap: Bool){
+        _isBubbleOverlap = isBubbleOverlap
+    }
     
     /// - returns: the range of values the selected value of a stacked bar is in. (this is only relevant for stacked-barchart)
     public var range: ChartRange? { return _range }

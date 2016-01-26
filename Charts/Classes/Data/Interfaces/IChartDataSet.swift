@@ -50,6 +50,15 @@ public protocol IChartDataSet
     /// nil if no Entry object at that index.
     func entryForXIndex(x: Int) -> ChartDataEntry?
     
+    /**
+     OBI Method to return all the y values Index even if overlap at given x-Incex
+     
+     - parameter x:      The x-Index to check it
+     
+     - returns: return the array of x-Index
+     */
+    func yValsIndexForXIndex(x: Int) -> [Int]
+    
     /// - returns: the array-index of the specified entry
     ///
     /// - parameter x: x-index of the entry to search for
@@ -128,4 +137,7 @@ public protocol IChartDataSet
     
     /// Returns true if this DataSet is visible inside the chart, or false if it is currently hidden.
     var isVisible: Bool { get }
+    
+    /// OBI - Return all the Y Values.
+    var yVals: [ChartDataEntry] { get }
 }

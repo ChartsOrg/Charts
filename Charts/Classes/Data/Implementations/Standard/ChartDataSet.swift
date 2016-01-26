@@ -53,8 +53,9 @@ public class ChartDataSet: ChartBaseDataSet
     
     /// the last end value used for calcMinMax
     internal var _lastEnd: Int = 0
-    
-    public var yVals: [ChartDataEntry] { return _yVals }
+
+    /// OBI - return all the y-Values
+    public override var yVals: [ChartDataEntry] { return _yVals }
     
     /// Use this method to tell the data set that the underlying data has changed
     public override func notifyDataSetChanged()
@@ -130,6 +131,49 @@ public class ChartDataSet: ChartBaseDataSet
         else { return Double.NaN }
     }
     
+    /**
+     OBI - New Method to get all the values on a given yPoint
+     
+     - parameter x:      x Index
+     - parameter yPoint: point on Y
+     
+     - returns: All the Y values
+     */
+    public override func yValsIndexForXIndex(x: Int) -> [Int]{
+        
+        let entries = self.customEntriesForXIndex(x)
+        
+        return entries
+    }
+    
+    /**
+     OBI - New Method return all the values at given x-Index
+     
+     - parameter x: the x-Index that you wanto to retrieve the y Values
+     
+     - returns: array of x-Index values at given x value of Index
+     */
+    private func customEntriesForXIndex(x: Int) -> [Int]{
+        
+        var entriesIndex = [Int]()
+        
+        for var i = 0; i < _yVals.count; i++ {
+            
+            let entry = _yVals[i];
+            
+            if (entry.xIndex == x){
+                entriesIndex.append(i)
+            }
+            
+            if (entry.xIndex > x){
+                return entriesIndex
+            }
+        }
+        
+        return entriesIndex
+    }
+
+    
     /// - returns: the entry object found at the given index (not x-index!)
     /// - throws: out of bounds
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
@@ -158,7 +202,7 @@ public class ChartDataSet: ChartBaseDataSet
         var low = 0
         var high = _yVals.count - 1
         
-        while (low <= high)
+        while (low < high)
         {
             var m = Int((high + low) / 2)
             var entry = _yVals[m]
@@ -171,9 +215,11 @@ public class ChartDataSet: ChartBaseDataSet
                 }
                 
                 high = _yVals.count
+                
                 for (; m < high; m++)
                 {
                     entry = _yVals[m]
+                    
                     if (entry.xIndex == x)
                     {
                         entries.append(entry)
@@ -182,16 +228,26 @@ public class ChartDataSet: ChartBaseDataSet
                     {
                         break
                     }
+                    
                 }
             }
             
-            if (x > _yVals[m].xIndex)
-            {
-                low = m + 1
-            }
-            else
-            {
-                high = m - 1
+            if(m < _yVals.count){
+                
+                if (x > _yVals[m].xIndex)
+                {
+                    low = m + 1
+                }
+                    
+                else
+                {
+                    high = m - 1
+                }
+                
+            } else {
+                
+                low = m + 1;
+                
             }
         }
         

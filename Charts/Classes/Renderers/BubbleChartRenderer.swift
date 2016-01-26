@@ -242,7 +242,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
             let maxx = min(dataSet.entryIndex(entry: entryTo!) + 1, dataSet.entryCount)
             
             let entry: BubbleChartDataEntry! = bubbleData.getEntryForHighlight(indice) as! BubbleChartDataEntry
-            if (entry === nil || entry.xIndex != indice.xIndex)
+            if (entry === nil)
             {
                 continue
             }
@@ -284,9 +284,14 @@ public class BubbleChartRenderer: ChartDataRendererBase
                 break
             }
             
-            if (indice.xIndex < minx || indice.xIndex >= maxx)
-            {
-                continue
+            
+            if(indice.isBubbleOverlap){
+                
+                if (indice.xIndex < minx || indice.xIndex >= maxx)
+                {
+                    continue
+                }
+                
             }
             
             let originalColor = dataSet.colorAt(entry.xIndex)
