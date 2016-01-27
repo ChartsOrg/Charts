@@ -360,6 +360,12 @@ public class RealmBaseDataSet: ChartBaseDataSet
     }
     
     /// Not supported on Realm datasets
+    public override func addEntryOrdered(e: ChartDataEntry) -> Bool
+    {
+        return false
+    }
+    
+    /// Not supported on Realm datasets
     public override func removeEntry(entry: ChartDataEntry) -> Bool
     {
         return false

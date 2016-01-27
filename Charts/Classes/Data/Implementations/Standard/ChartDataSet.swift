@@ -244,7 +244,7 @@ public class ChartDataSet: ChartBaseDataSet
     {
         for (var i = 0; i < _yVals.count; i++)
         {
-            if (_yVals[i] === e || _yVals[i].isEqual(e))
+            if _yVals[i] === e
             {
                 return i
             }
@@ -294,7 +294,7 @@ public class ChartDataSet: ChartBaseDataSet
     /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
     /// - parameter e: the entry to add
     /// - returns: true
-    public func addEntryOrdered(e: ChartDataEntry) -> Bool
+    public override func addEntryOrdered(e: ChartDataEntry) -> Bool
     {
         let val = e.value
         
@@ -328,6 +328,7 @@ public class ChartDataSet: ChartBaseDataSet
                 closestIndex++
             }
             _yVals.insert(e, atIndex: closestIndex)
+            
             return true
         }
         
@@ -362,27 +363,10 @@ public class ChartDataSet: ChartBaseDataSet
         return removed
     }
     
-    /// Removes an Entry from the DataSet dynamically.
-    /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
-    /// - parameter xIndex: the xIndex of the entry to remove
-    /// - returns: true if the entry was removed successfully, else if the entry does not exist
-    public func removeEntry(xIndex xIndex: Int) -> Bool
-    {
-        let index = self.entryIndex(xIndex: xIndex)
-        if (index > -1)
-        {
-            calcMinMax(start: _lastStart, end: _lastEnd)
-            
-            return true
-        }
-        
-        return false
-    }
-    
     /// Removes the first Entry (at index 0) of this DataSet from the entries array.
     ///
     /// - returns: true if successful, false if not.
-    public func removeFirst() -> Bool
+    public override func removeFirst() -> Bool
     {
         let entry: ChartDataEntry? = _yVals.isEmpty ? nil : _yVals.removeFirst()
         
@@ -399,7 +383,7 @@ public class ChartDataSet: ChartBaseDataSet
     /// Removes the last Entry (at index size-1) of this DataSet from the entries array.
     ///
     /// - returns: true if successful, false if not.
-    public func removeLast() -> Bool
+    public override func removeLast() -> Bool
     {
         let entry: ChartDataEntry? = _yVals.isEmpty ? nil : _yVals.removeLast()
         
@@ -429,7 +413,7 @@ public class ChartDataSet: ChartBaseDataSet
     }
     
     /// Removes all values from this DataSet and recalculates min and max value.
-    public func clear()
+    public override func clear()
     {
         _yVals.removeAll(keepCapacity: true)
         _lastStart = 0

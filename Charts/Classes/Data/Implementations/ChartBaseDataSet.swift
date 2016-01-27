@@ -93,14 +93,51 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         fatalError("addEntry is not implemented in ChartBaseDataSet")
     }
     
+    public func addEntryOrdered(e: ChartDataEntry) -> Bool
+    {
+        fatalError("addEntryOrdered is not implemented in ChartBaseDataSet")
+    }
+    
     public func removeEntry(entry: ChartDataEntry) -> Bool
     {
         fatalError("removeEntry is not implemented in ChartBaseDataSet")
     }
     
+    public func removeEntry(xIndex xIndex: Int) -> Bool
+    {
+        if let entry = entryForXIndex(xIndex)
+        {
+            return removeEntry(entry)
+        }
+        return false
+    }
+    
+    public func removeFirst() -> Bool
+    {
+        if let entry = entryForIndex(0)
+        {
+            return removeEntry(entry)
+        }
+        return false
+    }
+    
+    public func removeLast() -> Bool
+    {
+        if let entry = entryForIndex(entryCount - 1)
+        {
+            return removeEntry(entry)
+        }
+        return false
+    }
+    
     public func contains(e: ChartDataEntry) -> Bool
     {
         fatalError("removeEntry is not implemented in ChartBaseDataSet")
+    }
+    
+    public func clear()
+    {
+        fatalError("clear is not implemented in ChartBaseDataSet")
     }
     
     // MARK: - Styling functions and accessors
