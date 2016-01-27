@@ -102,7 +102,7 @@ public class ChartColorTemplates: NSObject
                     index = index.advancedBy(1)
                     
                     var val = (c.value >= 0x61 && c.value <= 0x66) ? (c.value - 0x61 + 10) : c.value - 0x30
-                    argb[i] = argb[i] + UInt(val) * 16
+                    argb[i] = UInt(val) * 16
                     if length == 3
                     {
                         argb[i] = argb[i] + UInt(val)
