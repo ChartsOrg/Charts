@@ -261,11 +261,11 @@ public class PieChartView: PieRadarChartViewBase
     {
         get
         {
-            return (renderer as! PieChartRenderer).holeColor!
+            return (renderer as? PieChartRenderer)?.holeColor
         }
         set
         {
-            (renderer as! PieChartRenderer).holeColor = newValue
+            (renderer as? PieChartRenderer)?.holeColor = newValue
             setNeedsDisplay()
         }
     }
