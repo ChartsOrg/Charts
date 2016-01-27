@@ -96,11 +96,13 @@
     
     RadarChartDataSet *set1 = [[RadarChartDataSet alloc] initWithYVals:yVals1 label:@"Set 1"];
     [set1 setColor:ChartColorTemplates.vordiplom[0]];
+    set1.fillColor = ChartColorTemplates.vordiplom[0];
     set1.drawFilledEnabled = YES;
     set1.lineWidth = 2.0;
     
     RadarChartDataSet *set2 = [[RadarChartDataSet alloc] initWithYVals:yVals2 label:@"Set 2"];
     [set2 setColor:ChartColorTemplates.vordiplom[4]];
+    set2.fillColor = ChartColorTemplates.vordiplom[4];
     set2.drawFilledEnabled = YES;
     set2.lineWidth = 2.0;
     

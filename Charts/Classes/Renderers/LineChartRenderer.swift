@@ -15,7 +15,7 @@ import Foundation
 import CoreGraphics
 import UIKit
 
-public class LineChartRenderer: LineScatterCandleRadarChartRenderer
+public class LineChartRenderer: LineRadarChartRenderer
 {
     public weak var dataProvider: LineChartDataProvider?
     
@@ -206,8 +206,6 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
             return
         }
         
-        CGContextSaveGState(context)
-        
         let fillMin = dataSet.fillFormatter?.getFillLinePosition(dataSet: dataSet, dataProvider: dataProvider) ?? 0.0
         
         var pt1 = CGPoint(x: CGFloat(to - 1), y: fillMin)
@@ -215,17 +213,18 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
         pt1 = CGPointApplyAffineTransform(pt1, matrix)
         pt2 = CGPointApplyAffineTransform(pt2, matrix)
         
-        CGContextBeginPath(context)
-        CGContextAddPath(context, spline)
-        CGContextAddLineToPoint(context, pt1.x, pt1.y)
-        CGContextAddLineToPoint(context, pt2.x, pt2.y)
-        CGContextClosePath(context)
+        CGPathAddLineToPoint(spline, nil, pt1.x, pt1.y)
+        CGPathAddLineToPoint(spline, nil, pt2.x, pt2.y)
+        CGPathCloseSubpath(spline)
         
-        CGContextSetFillColorWithColor(context, dataSet.fillColor.CGColor)
-        CGContextSetAlpha(context, dataSet.fillAlpha)
-        CGContextFillPath(context)
-        
-        CGContextRestoreGState(context)
+        if dataSet.fill != nil
+        {
+            drawFilledPath(context: context, path: spline, fill: dataSet.fill!, fillAlpha: dataSet.fillAlpha)
+        }
+        else
+        {
+            drawFilledPath(context: context, path: spline, fillColor: dataSet.fillColor, fillAlpha: dataSet.fillAlpha)
+        }
     }
     
     private var _lineSegments = [CGPoint](count: 2, repeatedValue: CGPoint())
@@ -357,13 +356,6 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
     {
         guard let dataProvider = dataProvider else { return }
         
-        CGContextSaveGState(context)
-        
-        CGContextSetFillColorWithColor(context, dataSet.fillColor.CGColor)
-        
-        // filled is usually drawn with less alpha
-        CGContextSetAlpha(context, dataSet.fillAlpha)
-        
         let filled = generateFilledPath(
             dataSet: dataSet,
             fillMin: dataSet.fillFormatter?.getFillLinePosition(dataSet: dataSet, dataProvider: dataProvider) ?? 0.0,
@@ -371,11 +363,14 @@ public class LineChartRenderer: LineScatterCandleRadarChartRenderer
             to: maxx,
             matrix: trans.valueToPixelMatrix)
         
-        CGContextBeginPath(context)
-        CGContextAddPath(context, filled)
-        CGContextFillPath(context)
-        
-        CGContextRestoreGState(context)
+        if dataSet.fill != nil
+        {
+            drawFilledPath(context: context, path: filled, fill: dataSet.fill!, fillAlpha: dataSet.fillAlpha)
+        }
+        else
+        {
+            drawFilledPath(context: context, path: filled, fillColor: dataSet.fillColor, fillAlpha: dataSet.fillAlpha)
+        }
     }
     
     /// Generates the path that is used for filled drawing.

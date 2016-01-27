@@ -24,7 +24,22 @@ public class RealmLineRadarDataSet: RealmLineScatterCandleRadarDataSet, ILineRad
     // MARK: - Styling functions and accessors
     
     /// The color that is used for filling the line surface area.
-    public var fillColor = UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0)
+    private var _fillColor = UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0)
+    
+    /// The color that is used for filling the line surface area.
+    public var fillColor: UIColor
+    {
+        get { return _fillColor }
+        set
+        {
+            _fillColor = newValue
+            fill = nil
+        }
+    }
+    
+    /// The object that is used for filling the area below the line.
+    /// - default: nil
+    public var fill: ChartFill?
     
     /// The alpha value that is used for filling the line surface,
     /// - default: 0.33

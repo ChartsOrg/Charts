@@ -15,7 +15,7 @@ import Foundation
 import CoreGraphics
 import UIKit
 
-public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
+public class RadarChartRenderer: LineRadarChartRenderer
 {
     public weak var chart: RadarChartView?
 
@@ -87,12 +87,14 @@ public class RadarChartRenderer: LineScatterCandleRadarChartRenderer
         // draw filled
         if (dataSet.isDrawFilledEnabled)
         {
-            CGContextSetFillColorWithColor(context, dataSet.colorAt(0).CGColor)
-            CGContextSetAlpha(context, dataSet.fillAlpha)
-            
-            CGContextBeginPath(context)
-            CGContextAddPath(context, path)
-            CGContextFillPath(context)
+            if dataSet.fill != nil
+            {
+                drawFilledPath(context: context, path: path, fill: dataSet.fill!, fillAlpha: dataSet.fillAlpha)
+            }
+            else
+            {
+                drawFilledPath(context: context, path: path, fillColor: dataSet.fillColor, fillAlpha: dataSet.fillAlpha)
+            }
         }
         
         // draw the line (only if filled is disabled or alpha is below 255)
