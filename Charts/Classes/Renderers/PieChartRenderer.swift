@@ -67,6 +67,9 @@ public class PieChartRenderer: ChartDataRendererBase
         var angle: CGFloat = 0.0
         let rotationAngle = chart.rotationAngle
         
+        let phaseX = animator.phaseX
+        let phaseY = animator.phaseY
+        
         var cnt = 0
         
         let entryCount = dataSet.entryCount
@@ -90,8 +93,8 @@ public class PieChartRenderer: ChartDataRendererBase
                 if (!chart.needsHighlight(xIndex: e.xIndex,
                     dataSetIndex: data.indexOfDataSet(dataSet)))
                 {
-                    let startAngle = rotationAngle + (angle + sliceSpace / 2.0) * animator.phaseY
-                    var sweepAngle = (sliceAngle - sliceSpace / 2.0) * animator.phaseY
+                    let startAngle = rotationAngle + (angle + sliceSpace / 2.0) * phaseY
+                    var sweepAngle = (sliceAngle - sliceSpace / 2.0) * phaseY
                     if (sweepAngle < 0.0)
                     {
                         sweepAngle = 0.0
@@ -117,7 +120,7 @@ public class PieChartRenderer: ChartDataRendererBase
                 }
             }
             
-            angle += sliceAngle * animator.phaseX
+            angle += sliceAngle * phaseX
             cnt++
         }
         
@@ -139,6 +142,9 @@ public class PieChartRenderer: ChartDataRendererBase
         let rotationAngle = chart.rotationAngle
         var drawAngles = chart.drawAngles
         var absoluteAngles = chart.absoluteAngles
+        
+        let phaseX = animator.phaseX
+        let phaseY = animator.phaseY
         
         var off = r / 10.0 * 3.0
         
@@ -173,7 +179,7 @@ public class PieChartRenderer: ChartDataRendererBase
             
             guard let formatter = dataSet.valueFormatter else { continue }
             
-            for (var j = 0, maxEntry = Int(min(ceil(CGFloat(dataSet.entryCount) * animator.phaseX), CGFloat(dataSet.entryCount))); j < maxEntry; j++)
+            for (var j = 0, maxEntry = Int(min(ceil(CGFloat(dataSet.entryCount) * phaseX), CGFloat(dataSet.entryCount))); j < maxEntry; j++)
             {
                 if (drawXVals && !drawYVals && (j >= data.xValCount || data.xVals[j] == nil))
                 {
@@ -185,7 +191,7 @@ public class PieChartRenderer: ChartDataRendererBase
                 // offset needed to center the drawn text in the slice
                 let offset = drawAngles[cnt] / 2.0
                 
-                let angle = (absoluteAngles[cnt] - offset) * animator.phaseY
+                let angle = (absoluteAngles[cnt] - offset) * phaseY
 
                 // calculate the text position
                 let x = r
@@ -322,6 +328,9 @@ public class PieChartRenderer: ChartDataRendererBase
         
         CGContextSaveGState(context)
         
+        let phaseX = animator.phaseX
+        let phaseY = animator.phaseY
+        
         var angle: CGFloat = 0.0
         let rotationAngle = chart.rotationAngle
         
@@ -352,7 +361,7 @@ public class PieChartRenderer: ChartDataRendererBase
             }
             else
             {
-                angle = absoluteAngles[xIndex - 1] * animator.phaseX
+                angle = absoluteAngles[xIndex - 1] * phaseX
             }
             
             let sliceAngle = drawAngles[xIndex]
@@ -371,8 +380,8 @@ public class PieChartRenderer: ChartDataRendererBase
             
             // redefine the rect that contains the arc so that the highlighted pie is not cut off
             
-            let startAngle = rotationAngle + (angle + sliceSpace / 2.0) * animator.phaseY
-            var sweepAngle = (sliceAngle - sliceSpace / 2.0) * animator.phaseY
+            let startAngle = rotationAngle + (angle + sliceSpace / 2.0) * phaseY
+            var sweepAngle = (sliceAngle - sliceSpace / 2.0) * phaseY
             if (sweepAngle < 0.0)
             {
                 sweepAngle = 0.0
