@@ -161,7 +161,8 @@ public class PieChartRenderer: ChartDataRendererBase
         
         let drawXVals = drawXLabelsEnabled
         
-        var cnt = 0
+        var angle: CGFloat = 0.0
+        var xIndex = 0
         
         for (var i = 0; i < dataSets.count; i++)
         {
@@ -179,7 +180,7 @@ public class PieChartRenderer: ChartDataRendererBase
             
             guard let formatter = dataSet.valueFormatter else { continue }
             
-            for (var j = 0, maxEntry = Int(min(ceil(CGFloat(dataSet.entryCount) * phaseX), CGFloat(dataSet.entryCount))); j < maxEntry; j++)
+            for (var j = 0, entryCount = dataSet.entryCount; j < entryCount; j++)
             {
                 if (drawXVals && !drawYVals && (j >= data.xValCount || data.xVals[j] == nil))
                 {
@@ -188,17 +189,29 @@ public class PieChartRenderer: ChartDataRendererBase
                 
                 guard let e = dataSet.entryForIndex(j) else { continue }
                 
-                // offset needed to center the drawn text in the slice
-                let offset = drawAngles[cnt] / 2.0
+                if (xIndex == 0)
+                {
+                    angle = 0.0
+                }
+                else
+                {
+                    angle = absoluteAngles[xIndex - 1] * phaseX
+                }
                 
-                let angle = (absoluteAngles[cnt] - offset) * phaseY
+                let sliceAngle = drawAngles[xIndex]
+                let sliceSpace = dataSet.sliceSpace
+                
+                // offset needed to center the drawn text in the slice
+                let offset = (sliceAngle - sliceSpace / 2.0) / 2.0
 
+                angle = angle + offset
+                
                 // calculate the text position
                 let x = r
-                    * cos((rotationAngle + angle) * ChartUtils.Math.FDEG2RAD)
+                    * cos((rotationAngle + angle * phaseY) * ChartUtils.Math.FDEG2RAD)
                     + center.x
                 var y = r
-                    * sin((rotationAngle + angle) * ChartUtils.Math.FDEG2RAD)
+                    * sin((rotationAngle + angle * phaseY) * ChartUtils.Math.FDEG2RAD)
                     + center.y
 
                 let value = usePercentValuesEnabled ? e.value / yValueSum * 100.0 : e.value
@@ -227,7 +240,7 @@ public class PieChartRenderer: ChartDataRendererBase
                     ChartUtils.drawText(context: context, text: val, point: CGPoint(x: x, y: y + lineHeight / 2.0), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
                 }
                 
-                cnt++
+                xIndex++
             }
         }
     }
