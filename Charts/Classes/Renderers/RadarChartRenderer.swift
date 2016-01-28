@@ -46,9 +46,15 @@ public class RadarChartRenderer: LineRadarChartRenderer
     
     internal func drawDataSet(context context: CGContext, dataSet: IRadarChartDataSet)
     {
-        guard let chart = chart else { return }
+        guard let
+            chart = chart,
+            animator = animator
+            else { return }
         
         CGContextSaveGState(context)
+        
+        let phaseX = animator.phaseX
+        let phaseY = animator.phaseY
         
         let sliceangle = chart.sliceAngle
         
@@ -64,14 +70,17 @@ public class RadarChartRenderer: LineRadarChartRenderer
         {
             guard let e = dataSet.entryForIndex(j) else { continue }
             
-            let p = ChartUtils.getPosition(center: center, dist: CGFloat(e.value - chart.chartYMin) * factor, angle: sliceangle * CGFloat(j) + chart.rotationAngle)
+            let p = ChartUtils.getPosition(
+                center: center,
+                dist: CGFloat(e.value - chart.chartYMin) * factor * phaseY,
+                angle: sliceangle * CGFloat(j) * phaseX + chart.rotationAngle)
             
-            if (p.x.isNaN)
+            if p.x.isNaN
             {
                 continue
             }
             
-            if (!hasMovedToPoint)
+            if !hasMovedToPoint
             {
                 CGPathMoveToPoint(path, nil, p.x, p.y)
                 hasMovedToPoint = true
@@ -85,7 +94,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         CGPathCloseSubpath(path)
         
         // draw filled
-        if (dataSet.isDrawFilledEnabled)
+        if dataSet.isDrawFilledEnabled
         {
             if dataSet.fill != nil
             {
@@ -98,7 +107,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         }
         
         // draw the line (only if filled is disabled or alpha is below 255)
-        if (!dataSet.isDrawFilledEnabled || dataSet.fillAlpha < 1.0)
+        if !dataSet.isDrawFilledEnabled || dataSet.fillAlpha < 1.0
         {
             CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor)
             CGContextSetLineWidth(context, dataSet.lineWidth)
@@ -116,8 +125,12 @@ public class RadarChartRenderer: LineRadarChartRenderer
     {
         guard let
             chart = chart,
-            data = chart.data
+            data = chart.data,
+            animator = animator
             else { return }
+        
+        let phaseX = animator.phaseX
+        let phaseY = animator.phaseY
         
         let sliceangle = chart.sliceAngle
         
@@ -143,7 +156,10 @@ public class RadarChartRenderer: LineRadarChartRenderer
             {
                 guard let e = dataSet.entryForIndex(j) else { continue }
                 
-                let p = ChartUtils.getPosition(center: center, dist: CGFloat(e.value) * factor, angle: sliceangle * CGFloat(j) + chart.rotationAngle)
+                let p = ChartUtils.getPosition(
+                    center: center,
+                    dist: CGFloat(e.value) * factor * phaseY,
+                    angle: sliceangle * CGFloat(j) * phaseX + chart.rotationAngle)
                 
                 let valueFont = dataSet.valueFont
                 let valueTextColor = dataSet.valueTextColor
@@ -189,7 +205,10 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         for var i = 0, xValCount = data.xValCount; i < xValCount; i += xIncrements
         {
-            let p = ChartUtils.getPosition(center: center, dist: CGFloat(chart.yRange) * factor, angle: sliceangle * CGFloat(i) + rotationangle)
+            let p = ChartUtils.getPosition(
+                center: center,
+                dist: CGFloat(chart.yRange) * factor,
+                angle: sliceangle * CGFloat(i) + rotationangle)
             
             _webLineSegmentsBuffer[0].x = center.x
             _webLineSegmentsBuffer[0].y = center.y
@@ -233,7 +252,8 @@ public class RadarChartRenderer: LineRadarChartRenderer
     {
         guard let
             chart = chart,
-            data = chart.data as? RadarChartData
+            data = chart.data as? RadarChartData,
+            animator = animator
             else { return }
         
         CGContextSaveGState(context)
@@ -246,6 +266,9 @@ public class RadarChartRenderer: LineRadarChartRenderer
         {
             CGContextSetLineDash(context, 0.0, nil, 0)
         }
+        
+        let phaseX = animator.phaseX
+        let phaseY = animator.phaseY
         
         let sliceangle = chart.sliceAngle
         let factor = chart.factor
@@ -280,8 +303,10 @@ public class RadarChartRenderer: LineRadarChartRenderer
                 continue
             }
             
-            _highlightPointBuffer = ChartUtils.getPosition(center: center, dist: CGFloat(y) * factor,
-                angle: sliceangle * CGFloat(j) + chart.rotationAngle)
+            _highlightPointBuffer = ChartUtils.getPosition(
+                center: center,
+                dist: CGFloat(y) * factor * phaseY,
+                angle: sliceangle * CGFloat(j) * phaseX + chart.rotationAngle)
             
             // draw the lines
             drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)

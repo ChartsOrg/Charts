@@ -35,6 +35,9 @@
                      @{@"key": @"toggleYLabels", @"label": @"Toggle Y-Values"},
                      @{@"key": @"toggleRotate", @"label": @"Toggle Rotate"},
                      @{@"key": @"toggleFill", @"label": @"Toggle Fill"},
+                     @{@"key": @"animateX", @"label": @"Animate X"},
+                     @{@"key": @"animateY", @"label": @"Animate Y"},
+                     @{@"key": @"animateXY", @"label": @"Animate XY"},
                      @{@"key": @"spin", @"label": @"Spin"},
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"}
                      ];
@@ -65,6 +68,8 @@
     l.yEntrySpace = 5.0;
     
     [self setData];
+    
+    [_chartView animateWithXAxisDuration:1.4 yAxisDuration:1.4 easingOption:ChartEasingOptionEaseOutBack];
 }
 
 - (void)didReceiveMemoryWarning
@@ -158,6 +163,21 @@
         }
         
         [_chartView setNeedsDisplay];
+    }
+    
+    if ([key isEqualToString:@"animateX"])
+    {
+        [_chartView animateWithXAxisDuration:1.4];
+    }
+    
+    if ([key isEqualToString:@"animateY"])
+    {
+        [_chartView animateWithYAxisDuration:1.4];
+    }
+    
+    if ([key isEqualToString:@"animateXY"])
+    {
+        [_chartView animateWithXAxisDuration:1.4 yAxisDuration:1.4];
     }
     
     if ([key isEqualToString:@"spin"])
