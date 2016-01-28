@@ -14,8 +14,6 @@
 
 import Foundation
 import UIKit
-import Realm
-import Realm.Dynamic
 
 public class ChartData: NSObject
 {

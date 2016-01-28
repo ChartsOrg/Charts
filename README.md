@@ -32,14 +32,14 @@ If you want to compile for iOS 7:
 
 1. Drag the code itself (.swift files) to your project. As sadly, Swift currently does not support compiling Frameworks for iOS 7.
 2. Make sure that the files are added to the Target membership.
-3. If you do not need/want support for *Realm.io*, you can make the `Realm.framework` *optional* in your Build Phases, or avoid copying the `Realm` folder and the `Realm.framework`.
+3. If you do not need/want support for *Realm.io*, you can make the `Realm.framework` *optional* in your Build Phases, or avoid copying the `Realm` folder, the `Utils/RealmChartUtils.swift` and the `Realm.framework`.
 
 ## Troubleshooting
 
 #### Can't compile?
 
 * Please note the difference between installing a compiled framework from Cocoapods or Carthage, and copying the source code.
-* If you are compiling the source code and not using Realm, please *delete* the folder `Charts/Classes/Data/Implementation/Realm` to remove Realm.io support.
+* If you are compiling the source code and not using Realm, please *delete* the folder `Charts/Classes/Data/Implementation/Realm` and `Charts/Classes/Utils/RealmChartUtils.swift` to remove Realm.io support.
 * Please read the **Usage** section again.
 * Search in the issues
 * Try to politely ask in the issues section
