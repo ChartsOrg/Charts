@@ -70,8 +70,6 @@ public class PieChartRenderer: ChartDataRendererBase
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
         
-        var cnt = 0
-        
         let entryCount = dataSet.entryCount
         var drawAngles = chart.drawAngles
         let circleBox = chart.circleBox
@@ -82,7 +80,7 @@ public class PieChartRenderer: ChartDataRendererBase
         
         for (var j = 0; j < entryCount; j++)
         {
-            let sliceAngle = drawAngles[cnt]
+            let sliceAngle = drawAngles[j]
             let sliceSpace = dataSet.sliceSpace
             
             guard let e = dataSet.entryForIndex(j) else { continue }
@@ -121,7 +119,6 @@ public class PieChartRenderer: ChartDataRendererBase
             }
             
             angle += sliceAngle * phaseX
-            cnt++
         }
         
         CGContextRestoreGState(context)
@@ -231,11 +228,11 @@ public class PieChartRenderer: ChartDataRendererBase
                         ChartUtils.drawText(context: context, text: data.xVals[j]!, point: CGPoint(x: x, y: y + lineHeight), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
                     }
                 }
-                else if (drawXVals && !drawYVals)
+                else if (drawXVals)
                 {
                     ChartUtils.drawText(context: context, text: data.xVals[j]!, point: CGPoint(x: x, y: y + lineHeight / 2.0), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
                 }
-                else if (!drawXVals && drawYVals)
+                else if (drawYVals)
                 {
                     ChartUtils.drawText(context: context, text: val, point: CGPoint(x: x, y: y + lineHeight / 2.0), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
                 }
