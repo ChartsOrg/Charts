@@ -125,6 +125,7 @@ public class ChartUtils
         if (align == .Center)
         {
             point.x -= text.sizeWithAttributes(attributes).width / 2.0
+            point.y -= text.sizeWithAttributes(attributes).height / 2.0
         }
         else if (align == .Right)
         {
