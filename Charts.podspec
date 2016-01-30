@@ -8,5 +8,16 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = "8.0"
   s.tvos.deployment_target = "9.0"
   s.source = { :git => "https://github.com/danielgindi/ios-charts.git", :tag => "v#{s.version}" }
-  s.source_files = "Classes", "Charts/Classes/**/*.swift"
+  s.default_subspec = "Core"
+
+  s.subspec "Core" do |ss|
+    ss.source_files  = "Charts/Classes/**/*.swift"
+    ss.exclude_files = "Charts/Classes/**/{Realm}*.swift"
+  end
+
+  s.subspec "Realm" do |ss|
+    ss.source_files  = "Charts/Classes/**/{Realm}*.swift"
+    ss.dependency "Charts/Core"
+    ss.dependency "RealmSwift", "~> 0.97"
+  end
 end

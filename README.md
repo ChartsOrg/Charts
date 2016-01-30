@@ -52,6 +52,12 @@ If you want to compile for iOS 7:
 ## CocoaPods Install
 
 Add `pod 'Charts'` to your Podfile. "Charts" is the name of the library.  
+
+For Realm support you can specify the subspec in your Podfile as follows:
+```
+pod 'Charts/Realm'
+```
+
 **Note:** ~~`pod 'ios-charts'`~~ is not the correct library, and refers to a different project by someone else.
 
 ## Carthage Install
@@ -70,7 +76,7 @@ In order to build the binaries for a new release, use `carthage build --no-skip-
 If you like what you see here, and want to support the work being done in this repository, you could:
 * Contribute code, issues and pull requests
 * Let people know this library exists (spread the word!)
-* 
+*
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=68UL6Y8KUPS96) (You can buy me a beer, or you can buy me dinner :-)
 
 **Note:** The author of [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) is the reason that this library exists, and is accepting [donations](https://github.com/PhilJay/MPAndroidChart#donations) on his page. He deserves them!
@@ -172,7 +178,7 @@ Or you can see the [**ChartsDemo**](https://github.com/danielgindi/ios-charts/tr
 Special Thanks
 =======
 
-Goes to [@liuxuan30](https://github.com/liuxuan30), [@petester42](https://github.com/petester42) and  [@AlBirdie](https://github.com/AlBirdie) for new features, bugfixes, and lots and lots of involvement in our open-sourced community! You guys are a huge help to all of those coming here with questions and issues, and I couldn't respond to all of those without you. 
+Goes to [@liuxuan30](https://github.com/liuxuan30), [@petester42](https://github.com/petester42) and  [@AlBirdie](https://github.com/AlBirdie) for new features, bugfixes, and lots and lots of involvement in our open-sourced community! You guys are a huge help to all of those coming here with questions and issues, and I couldn't respond to all of those without you.
 
 License
 =======
