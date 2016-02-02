@@ -1,7 +1,6 @@
 **Version 2.2.0**, synced to [MPAndroidChart #d1839b4](https://github.com/PhilJay/MPAndroidChart/commit/d1839b4)
 
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
-  ![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/danielgindi/ios-charts.svg)](https://github.com/danielgindi/ios-charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts)
 
 * Xcode 7 / Swift 2.0
 * iOS 7.0 (Drag .swift files to your project)
