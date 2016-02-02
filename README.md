@@ -1,6 +1,6 @@
 **Version 2.2.0**, synced to [MPAndroidChart #d1839b4](https://github.com/PhilJay/MPAndroidChart/commit/d1839b4)
 
-![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
+![alt tag](http://thedusapp.com/wp-content/uploads/2016/11/logo.png)
 
 * Xcode 7 / Swift 2.0
 * iOS 7.0 (Drag .swift files to your project)
