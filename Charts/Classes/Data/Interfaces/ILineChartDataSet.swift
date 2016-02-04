@@ -31,6 +31,12 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     /// - returns: true if drawing cubic lines is enabled, false if not.
     var isDrawCubicEnabled: Bool { get }
     
+    /// If true, gradient lines are drawn instead of solid
+    var drawGradientEnabled: Bool { get set }
+    
+    /// - returns: true if drawing gradeint lines is enabled, false if not.
+    var isDrawGradientEnabled: Bool { get }
+    
     /// The radius of the drawn circles.
     var circleRadius: CGFloat { get set }
     
@@ -69,6 +75,9 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     /// I.e. [2, 3] will paint [--   --   ]
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
     var lineDashLengths: [CGFloat]? { get set }
+    
+    /// This is the points where gradient should change color
+    var gradientPositions: [CGFloat]? { get set }
     
     /// Sets a custom FillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
     var fillFormatter: ChartFillFormatter? { get set }

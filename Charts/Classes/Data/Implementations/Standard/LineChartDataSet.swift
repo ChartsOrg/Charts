@@ -70,6 +70,12 @@ public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     /// - returns: true if drawing cubic lines is enabled, false if not.
     public var isDrawCubicEnabled: Bool { return drawCubicEnabled }
     
+    /// If true, gradient lines are drawn instead of solid
+    public var drawGradientEnabled = false
+    
+    /// - returns: true if drawing gradeint lines is enabled, false if not.
+    public var isDrawGradientEnabled: Bool { return drawGradientEnabled }
+    
     /// The radius of the drawn circles.
     public var circleRadius = CGFloat(8.0)
     
@@ -125,8 +131,12 @@ public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
     public var lineDashLengths: [CGFloat]?
     
+    /// This is the points where gradient should change color
+    public var gradientPositions: [CGFloat]?
+    
     /// formatter for customizing the position of the fill-line
     private var _fillFormatter: ChartFillFormatter = BarLineChartFillFormatter()
+
     
     /// Sets a custom FillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
     public var fillFormatter: ChartFillFormatter?
@@ -160,6 +170,7 @@ public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         copy.lineDashLengths = lineDashLengths
         copy.drawCirclesEnabled = drawCirclesEnabled
         copy.drawCubicEnabled = drawCubicEnabled
+        copy.drawGradientEnabled = drawGradientEnabled
         return copy
     }
 }
