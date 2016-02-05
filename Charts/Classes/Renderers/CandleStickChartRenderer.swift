@@ -219,7 +219,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                     
                     ChartUtils.drawText(
                         context: context,
-                        text: formatter.stringFromNumber(e.high)!,
+                        text: formatter.stringForObjectValue(e.high)!,
                         point: CGPoint(
                             x: pt.x,
                             y: pt.y - yOffset),

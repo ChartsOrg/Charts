@@ -480,7 +480,7 @@ public class LineChartRenderer: LineRadarChartRenderer
                     }
                     
                     ChartUtils.drawText(context: context,
-                        text: formatter.stringFromNumber(e.value)!,
+                        text: formatter.stringForObjectValue(e.value)!,
                         point: CGPoint(
                             x: pt.x,
                             y: pt.y - CGFloat(valOffset) - valueFont.lineHeight),

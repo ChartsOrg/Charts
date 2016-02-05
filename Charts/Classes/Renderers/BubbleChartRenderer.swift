@@ -189,7 +189,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
                         continue
                     }
                     
-                    let text = formatter.stringFromNumber(e.size)
+                    let text = formatter.stringForObjectValue(e.size)
                     
                     // Larger font for larger bubbles?
                     let valueFont = dataSet.valueFont
