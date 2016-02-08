@@ -184,7 +184,6 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                 }
                 
                 let valueFont = dataSet.valueFont
-                let valueTextColor = dataSet.valueTextColor
                 
                 guard let formatter = dataSet.valueFormatter else { continue }
                 
@@ -224,7 +223,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                             x: pt.x,
                             y: pt.y - yOffset),
                         align: .Center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
+                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)])
                 }
             }
         }

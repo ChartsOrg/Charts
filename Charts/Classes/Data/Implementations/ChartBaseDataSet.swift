@@ -23,6 +23,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         
         // default color
         colors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
+        valueColors.append(UIColor.blackColor())
     }
     
     public init(label: String?)
@@ -31,6 +32,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         
         // default color
         colors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
+        valueColors.append(UIColor.blackColor())
         
         self.label = label
     }
@@ -143,9 +145,12 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     // MARK: - Styling functions and accessors
     
     /// All the colors that are used for this DataSet.
-    /// Colors are reused as soon as the number of Entries the DataSet represents is higher than the size of the colors array. 
+    /// Colors are reused as soon as the number of Entries the DataSet represents is higher than the size of the colors array.
     public var colors = [UIColor]()
     
+    /// List representing all colors that are used for drawing the actual values for this DataSet
+    public var valueColors = [UIColor]()
+
     /// The label string that describes the DataSet.
     public var label: String? = "DataSet"
     
@@ -237,8 +242,31 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         }
     }
     
-    /// the color used for the value-text
-    public var valueTextColor: UIColor = UIColor.blackColor()
+    /// Sets/get a single color for value text.
+    /// Setting the color clears the colors array and adds a single color.
+    /// Getting will return the first color in the array.
+    public var valueTextColor: UIColor
+    {
+        get
+        {
+            return valueColors[0]
+        }
+        set
+        {
+            valueColors.removeAll(keepCapacity: false)
+            valueColors.append(newValue)
+        }
+    }
+    
+    /// - returns: the color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
+    public func valueTextColorAt(var index: Int) -> UIColor
+    {
+        if (index < 0)
+        {
+            index = 0
+        }
+        return valueColors[index % valueColors.count]
+    }
     
     /// the font for the value-text labels
     public var valueFont: UIFont = UIFont.systemFontOfSize(7.0)
@@ -287,6 +315,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         let copy = self.dynamicType.init()
         
         copy.colors = colors
+        copy.valueColors = valueColors
         copy.label = label
         
         return copy

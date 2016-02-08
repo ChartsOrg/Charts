@@ -162,11 +162,17 @@ public class RadarChartRenderer: LineRadarChartRenderer
                     angle: sliceangle * CGFloat(j) * phaseX + chart.rotationAngle)
                 
                 let valueFont = dataSet.valueFont
-                let valueTextColor = dataSet.valueTextColor
                 
                 guard let formatter = dataSet.valueFormatter else { continue }
                 
-                ChartUtils.drawText(context: context, text: formatter.stringFromNumber(e.value)!, point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
+                ChartUtils.drawText(
+                    context: context,
+                    text: formatter.stringFromNumber(e.value)!,
+                    point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
+                    align: .Center,
+                    attributes: [NSFontAttributeName: valueFont,
+                        NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                )
             }
         }
     }

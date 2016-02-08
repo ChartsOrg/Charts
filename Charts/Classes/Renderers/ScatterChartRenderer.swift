@@ -192,7 +192,6 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                 }
                 
                 let valueFont = dataSet.valueFont
-                let valueTextColor = dataSet.valueTextColor
                 
                 guard let formatter = dataSet.valueFormatter else { continue }
                 
@@ -233,7 +232,8 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                             x: pt.x,
                             y: pt.y - shapeSize - lineHeight),
                         align: .Center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
+                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                    )
                 }
             }
         }

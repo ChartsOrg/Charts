@@ -29,6 +29,7 @@
 #import "RadarChartViewController.h"
 #import "ColoredLineChartViewController.h"
 #import "SinusBarChartViewController.h"
+#import "PositiveNegativeBarChartViewController.h"
 #import "BubbleChartViewController.h"
 #import "RealmDemoListViewController.h"
 
@@ -136,6 +137,12 @@
                           @"title": @"Sinus Bar Chart",
                           @"subtitle": @"A Bar Chart plotting the sinus function with 8.000 values.",
                           @"class": SinusBarChartViewController.class
+                          },
+                      @{
+                          
+                          @"title": @"BarChart positive / negative",
+                          @"subtitle": @"This demonstrates how to create a BarChart with positive and negative values in different colors.",
+                          @"class": PositiveNegativeBarChartViewController.class
                           },
                       @{
                           @"title": @"Realm.io database",

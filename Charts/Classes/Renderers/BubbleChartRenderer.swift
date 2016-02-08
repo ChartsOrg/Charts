@@ -154,7 +154,6 @@ public class BubbleChartRenderer: ChartDataRendererBase
                 }
                 
                 let alpha = phaseX == 1 ? phaseY : phaseX
-                let valueTextColor = dataSet.valueTextColor.colorWithAlphaComponent(alpha)
                 
                 guard let formatter = dataSet.valueFormatter else { continue }
                 
@@ -174,6 +173,8 @@ public class BubbleChartRenderer: ChartDataRendererBase
                 for (var j = minx; j < maxx; j++)
                 {
                     guard let e = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { break }
+                    
+                    let valueTextColor = dataSet.valueTextColorAt(j).colorWithAlphaComponent(alpha)
                     
                     pt.x = CGFloat(e.xIndex - minx) * phaseX + CGFloat(minx)
                     pt.y = CGFloat(e.value) * phaseY

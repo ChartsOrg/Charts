@@ -64,6 +64,8 @@
 		5BDEDC421ABB7F73007D3A60 /* HorizontalBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BDEDC401ABB7F73007D3A60 /* HorizontalBarChartViewController.xib */; };
 		5BDEDC471ABB871E007D3A60 /* CombinedChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BDEDC451ABB871E007D3A60 /* CombinedChartViewController.m */; };
 		5BDEDC481ABB871E007D3A60 /* CombinedChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BDEDC461ABB871E007D3A60 /* CombinedChartViewController.xib */; };
+		5BE7E7621C693098000A0377 /* PositiveNegativeBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BE7E7601C693098000A0377 /* PositiveNegativeBarChartViewController.m */; };
+		5BE7E7631C693098000A0377 /* PositiveNegativeBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BE7E7611C693098000A0377 /* PositiveNegativeBarChartViewController.xib */; };
 		5BEAED121ABBFB2B0013F194 /* AnotherBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAED101ABBFB2B0013F194 /* AnotherBarChartViewController.m */; };
 		5BEAED131ABBFB2B0013F194 /* AnotherBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED111ABBFB2B0013F194 /* AnotherBarChartViewController.xib */; };
 		5BEAED1B1ABBFB340013F194 /* ScatterChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAED161ABBFB340013F194 /* ScatterChartViewController.m */; };
@@ -219,6 +221,9 @@
 		5BDEDC441ABB871E007D3A60 /* CombinedChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CombinedChartViewController.h; sourceTree = "<group>"; };
 		5BDEDC451ABB871E007D3A60 /* CombinedChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CombinedChartViewController.m; sourceTree = "<group>"; };
 		5BDEDC461ABB871E007D3A60 /* CombinedChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CombinedChartViewController.xib; sourceTree = "<group>"; };
+		5BE7E75F1C693098000A0377 /* PositiveNegativeBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PositiveNegativeBarChartViewController.h; sourceTree = "<group>"; };
+		5BE7E7601C693098000A0377 /* PositiveNegativeBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PositiveNegativeBarChartViewController.m; sourceTree = "<group>"; };
+		5BE7E7611C693098000A0377 /* PositiveNegativeBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PositiveNegativeBarChartViewController.xib; sourceTree = "<group>"; };
 		5BEAED0F1ABBFB2B0013F194 /* AnotherBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnotherBarChartViewController.h; sourceTree = "<group>"; };
 		5BEAED101ABBFB2B0013F194 /* AnotherBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnotherBarChartViewController.m; sourceTree = "<group>"; };
 		5BEAED111ABBFB2B0013F194 /* AnotherBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AnotherBarChartViewController.xib; sourceTree = "<group>"; };
@@ -428,6 +433,9 @@
 				5B0CC7821ABB875400665592 /* PieChartViewController.h */,
 				5B0CC7831ABB875400665592 /* PieChartViewController.m */,
 				5B0CC7841ABB875400665592 /* PieChartViewController.xib */,
+				5BE7E75F1C693098000A0377 /* PositiveNegativeBarChartViewController.h */,
+				5BE7E7601C693098000A0377 /* PositiveNegativeBarChartViewController.m */,
+				5BE7E7611C693098000A0377 /* PositiveNegativeBarChartViewController.xib */,
 				5BEAED331ABC192F0013F194 /* RadarChartViewController.h */,
 				5BEAED341ABC192F0013F194 /* RadarChartViewController.m */,
 				5BEAED351ABC192F0013F194 /* RadarChartViewController.xib */,
@@ -613,6 +621,7 @@
 				5B4AC1571C47EDC50028D1A6 /* RealmRadarChartViewController.xib in Resources */,
 				5B4316381AB8D8B70009FCAA /* Default@2x.png in Resources */,
 				5B9624421B38608C007763E2 /* NegativeStackedBarChartViewController.xib in Resources */,
+				5BE7E7631C693098000A0377 /* PositiveNegativeBarChartViewController.xib in Resources */,
 				65BF12B71BFC9B50005C28D9 /* RealmBarChartViewController.xib in Resources */,
 				5B0CC7861ABB875400665592 /* PieChartViewController.xib in Resources */,
 				5B7B3AE01C437F61001C109B /* RealmCandleChartViewController.xib in Resources */,
@@ -654,6 +663,7 @@
 				5BD8F0741AB89CE500566E05 /* LineChart1ViewController.m in Sources */,
 				65BF125D1BFBC702005C28D9 /* RealmFloat.m in Sources */,
 				5BEAED401ABC1AC60013F194 /* SinusBarChartViewController.m in Sources */,
+				5BE7E7621C693098000A0377 /* PositiveNegativeBarChartViewController.m in Sources */,
 				5B7B3AE91C4445E7001C109B /* RealmScatterChartViewController.m in Sources */,
 				5B7B3ADF1C437F61001C109B /* RealmCandleChartViewController.m in Sources */,
 				5B4AC14C1C47E7250028D1A6 /* RealmBubbleChartViewController.m in Sources */,

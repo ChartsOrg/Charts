@@ -435,7 +435,6 @@ public class LineChartRenderer: LineRadarChartRenderer
                 }
                 
                 let valueFont = dataSet.valueFont
-                let valueTextColor = dataSet.valueTextColor
                 
                 guard let formatter = dataSet.valueFormatter else { continue }
                 
@@ -485,7 +484,7 @@ public class LineChartRenderer: LineRadarChartRenderer
                             x: pt.x,
                             y: pt.y - CGFloat(valOffset) - valueFont.lineHeight),
                         align: .Center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
+                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)])
                 }
             }
         }

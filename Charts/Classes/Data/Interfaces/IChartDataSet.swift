@@ -128,7 +128,11 @@ public protocol IChartDataSet
     /// The axis this DataSet should be plotted against.
     var axisDependency: ChartYAxis.AxisDependency { get }
     
-    /// All the colors that are set for this DataSet
+    /// List representing all colors that are used for drawing the actual values for this DataSet
+    var valueColors: [UIColor] { get }
+    
+    /// All the colors that are used for this DataSet.
+    /// Colors are reused as soon as the number of Entries the DataSet represents is higher than the size of the colors array.
     var colors: [UIColor] { get }
     
     /// - returns: the color at the given index of the DataSet's color array.
@@ -150,8 +154,13 @@ public protocol IChartDataSet
     /// The formatter used to customly format the values
     var valueFormatter: NSNumberFormatter? { get set }
     
-    /// the color used for the value-text
+    /// Sets/get a single color for value text.
+    /// Setting the color clears the colors array and adds a single color.
+    /// Getting will return the first color in the array.
     var valueTextColor: UIColor { get set }
+    
+    /// - returns: the color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
+    func valueTextColorAt(var index: Int) -> UIColor
     
     /// the font for the value-text labels
     var valueFont: UIFont { get set }

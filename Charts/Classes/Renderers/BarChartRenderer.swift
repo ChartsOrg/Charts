@@ -301,8 +301,6 @@ public class BarChartRenderer: ChartDataRendererBase
                     negOffset = -negOffset - valueTextHeight
                 }
                 
-                let valueTextColor = dataSet.valueTextColor
-                
                 guard let formatter = dataSet.valueFormatter else { continue }
                 
                 let trans = dataProvider.getTransformer(dataSet.axisDependency)
@@ -339,14 +337,14 @@ public class BarChartRenderer: ChartDataRendererBase
                         }
                         
                         let val = e.value
-                    
+
                         drawValue(context: context,
                             value: formatter.stringFromNumber(val)!,
                             xPos: valuePoint.x,
                             yPos: valuePoint.y + (val >= 0.0 ? posOffset : negOffset),
                             font: valueFont,
                             align: .Center,
-                            color: valueTextColor)
+                            color: dataSet.valueTextColorAt(j))
                     }
                 }
                 else
@@ -381,7 +379,7 @@ public class BarChartRenderer: ChartDataRendererBase
                                 yPos: valuePoint.y + (e.value >= 0.0 ? posOffset : negOffset),
                                 font: valueFont,
                                 align: .Center,
-                                color: valueTextColor)
+                                color: dataSet.valueTextColorAt(j))
                         }
                         else
                         {
@@ -435,7 +433,7 @@ public class BarChartRenderer: ChartDataRendererBase
                                     yPos: y,
                                     font: valueFont,
                                     align: .Center,
-                                    color: valueTextColor)
+                                    color: dataSet.valueTextColorAt(j))
                             }
                         }
                     }

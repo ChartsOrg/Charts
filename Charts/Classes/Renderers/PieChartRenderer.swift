@@ -173,7 +173,6 @@ public class PieChartRenderer: ChartDataRendererBase
             }
             
             let valueFont = dataSet.valueFont
-            let valueTextColor = dataSet.valueTextColor
             
             guard let formatter = dataSet.valueFormatter else { continue }
             
@@ -221,20 +220,44 @@ public class PieChartRenderer: ChartDataRendererBase
                 // draw everything, depending on settings
                 if (drawXVals && drawYVals)
                 {
-                    ChartUtils.drawText(context: context, text: val, point: CGPoint(x: x, y: y), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
+                    ChartUtils.drawText(
+                        context: context,
+                        text: val,
+                        point: CGPoint(x: x, y: y),
+                        align: .Center,
+                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                    )
                     
                     if (j < data.xValCount && data.xVals[j] != nil)
                     {
-                        ChartUtils.drawText(context: context, text: data.xVals[j]!, point: CGPoint(x: x, y: y + lineHeight), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
+                        ChartUtils.drawText(
+                            context: context,
+                            text: data.xVals[j]!,
+                            point: CGPoint(x: x, y: y + lineHeight),
+                            align: .Center,
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                        )
                     }
                 }
                 else if (drawXVals)
                 {
-                    ChartUtils.drawText(context: context, text: data.xVals[j]!, point: CGPoint(x: x, y: y + lineHeight / 2.0), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
+                    ChartUtils.drawText(
+                        context: context,
+                        text: data.xVals[j]!,
+                        point: CGPoint(x: x, y: y + lineHeight / 2.0),
+                        align: .Center,
+                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                    )
                 }
                 else if (drawYVals)
                 {
-                    ChartUtils.drawText(context: context, text: val, point: CGPoint(x: x, y: y + lineHeight / 2.0), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
+                    ChartUtils.drawText(
+                        context: context,
+                        text: val,
+                        point: CGPoint(x: x, y: y + lineHeight / 2.0),
+                        align: .Center,
+                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                    )
                 }
                 
                 xIndex++
