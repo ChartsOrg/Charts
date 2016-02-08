@@ -215,10 +215,10 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     public var isHighlightEnabled: Bool { return highlightEnabled }
     
     /// the formatter used to customly format the values
-    internal var _valueFormatter: NSNumberFormatter? = ChartUtils.defaultValueFormatter()
+    internal var _valueFormatter: NSFormatter? = ChartUtils.defaultValueFormatter()
     
     /// The formatter used to customly format the values
-    public var valueFormatter: NSNumberFormatter?
+    public var valueFormatter: NSFormatter?
     {
         get
         {

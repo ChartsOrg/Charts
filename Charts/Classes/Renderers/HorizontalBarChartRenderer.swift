@@ -304,7 +304,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                         }
                         
                         let val = e.value
-                        let valueText = formatter.stringFromNumber(val)!
+                        let valueText = formatter.stringForObjectValue(val)!
                         
                         // calculate the correct offset depending on the draw position of the value
                         let valueTextWidth = valueText.sizeWithAttributes([NSFontAttributeName: valueFont]).width
@@ -358,7 +358,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                             }
                             
                             let val = e.value
-                            let valueText = formatter.stringFromNumber(val)!
+                            let valueText = formatter.stringForObjectValue(val)!
                             
                             // calculate the correct offset depending on the draw position of the value
                             let valueTextWidth = valueText.sizeWithAttributes([NSFontAttributeName: valueFont]).width
@@ -412,7 +412,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                             for (var k = 0; k < transformed.count; k++)
                             {
                                 let val = vals[k]
-                                let valueText = formatter.stringFromNumber(val)!
+                                let valueText = formatter.stringForObjectValue(val)!
                                 
                                 // calculate the correct offset depending on the draw position of the value
                                 let valueTextWidth = valueText.sizeWithAttributes([NSFontAttributeName: valueFont]).width

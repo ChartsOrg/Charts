@@ -224,7 +224,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                         continue
                     }
                     
-                    let text = formatter.stringFromNumber(e.value)
+                    let text = formatter.stringForObjectValue(e.value)
                     
                     ChartUtils.drawText(
                         context: context,

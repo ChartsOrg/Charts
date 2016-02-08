@@ -166,7 +166,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
                 
                 guard let formatter = dataSet.valueFormatter else { continue }
                 
-                ChartUtils.drawText(context: context, text: formatter.stringFromNumber(e.value)!, point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
+                ChartUtils.drawText(context: context, text: formatter.stringForObjectValue(e.value)!, point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight), align: .Center, attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
             }
         }
     }

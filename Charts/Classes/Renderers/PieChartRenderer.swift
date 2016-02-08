@@ -213,7 +213,7 @@ public class PieChartRenderer: ChartDataRendererBase
 
                 let value = usePercentValuesEnabled ? e.value / yValueSum * 100.0 : e.value
                 
-                let val = formatter.stringFromNumber(value)!
+                let val = formatter.stringForObjectValue(value)!
                 
                 let lineHeight = valueFont.lineHeight
                 y -= lineHeight

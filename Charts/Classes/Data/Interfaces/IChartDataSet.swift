@@ -148,7 +148,7 @@ public protocol IChartDataSet
     var isHighlightEnabled: Bool { get }
     
     /// The formatter used to customly format the values
-    var valueFormatter: NSNumberFormatter? { get set }
+    var valueFormatter: NSFormatter? { get set }
     
     /// the color used for the value-text
     var valueTextColor: UIColor { get set }
