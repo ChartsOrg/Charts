@@ -1,5 +1,5 @@
 //
-//  RealmBubbleData.swift
+//  RealmScatterData.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 23/2/15.
@@ -14,10 +14,11 @@
 
 import Foundation
 import UIKit
+import Charts
 import Realm
 import Realm.Dynamic
 
-public class RealmBubbleData: BubbleChartData
+public class RealmScatterData: ScatterChartData
 {
     public init(results: RLMResults?, xValueField: String, dataSets: [IChartDataSet]?)
     {

@@ -16,7 +16,7 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-*.xcworkspace
+project.xcworkspace
 
 # CocoaPods
 #
@@ -28,3 +28,4 @@ DerivedData
 
 Carthage
 Charts.framework.zip
+ChartsRealm.framework.zip
