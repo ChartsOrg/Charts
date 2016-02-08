@@ -112,6 +112,8 @@
 		5B6A54AB1AA66BC8000F57C2 /* ScatterChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54AA1AA66BC8000F57C2 /* ScatterChartView.swift */; };
 		5B6A54AC1AA66C1E000F57C2 /* ChartAxisRendererBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54711AA5DCA8000F57C2 /* ChartAxisRendererBase.swift */; };
 		5B8FE2B11B68FFF900910C9E /* LineScatterCandleRadarChartRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8FE2B01B68FFF900910C9E /* LineScatterCandleRadarChartRenderer.swift */; };
+		5B9D74191C688BDD00267DDD /* ChartDefaultFillFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8E0AAD1C63737400438BAF /* ChartDefaultFillFormatter.swift */; };
+		5B9D741A1C688BDD00267DDD /* ChartDefaultFillFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8E0AAD1C63737400438BAF /* ChartDefaultFillFormatter.swift */; };
 		5BA8EC7D1A9D151C00CE82E1 /* ChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8EC671A9D151C00CE82E1 /* ChartViewBase.swift */; };
 		5BA8EC881A9D151C00CE82E1 /* ChartDataApproximatorFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8EC751A9D151C00CE82E1 /* ChartDataApproximatorFilter.swift */; };
 		5BA8EC891A9D151C00CE82E1 /* ChartDataBaseFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8EC761A9D151C00CE82E1 /* ChartDataBaseFilter.swift */; };
@@ -355,6 +357,7 @@
 		5B6A54A61AA66BA7000F57C2 /* PieRadarChartViewBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieRadarChartViewBase.swift; sourceTree = "<group>"; };
 		5B6A54A81AA66BBA000F57C2 /* RadarChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadarChartView.swift; sourceTree = "<group>"; };
 		5B6A54AA1AA66BC8000F57C2 /* ScatterChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScatterChartView.swift; sourceTree = "<group>"; };
+		5B8E0AAD1C63737400438BAF /* ChartDefaultFillFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartDefaultFillFormatter.swift; sourceTree = "<group>"; };
 		5B8FE2B01B68FFF900910C9E /* LineScatterCandleRadarChartRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineScatterCandleRadarChartRenderer.swift; sourceTree = "<group>"; };
 		5BA8EC401A9D14DC00CE82E1 /* Charts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Charts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BA8EC441A9D14DC00CE82E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -523,6 +526,7 @@
 		5B6654D41BB0A86F00890030 /* Formatters */ = {
 			isa = PBXGroup;
 			children = (
+				5B8E0AAD1C63737400438BAF /* ChartDefaultFillFormatter.swift */,
 				5B6654D51BB0A86F00890030 /* ChartDefaultXAxisValueFormatter.swift */,
 				5B6654D61BB0A86F00890030 /* ChartFillFormatter.swift */,
 				5B6654D71BB0A86F00890030 /* ChartXAxisValueFormatter.swift */,
@@ -1028,6 +1032,7 @@
 				5B0032491B6525FC00B6A2FE /* ChartHighlighter.swift in Sources */,
 				5B00324B1B652BF900B6A2FE /* BarChartHighlighter.swift in Sources */,
 				65F06F9A1BE8136F0074498D /* ILineRadarChartDataSet.swift in Sources */,
+				5B9D74191C688BDD00267DDD /* ChartDefaultFillFormatter.swift in Sources */,
 				65BF126B1BFC559F005C28D9 /* RealmLineRadarDataSet.swift in Sources */,
 				5B6A54781AA5DEF0000F57C2 /* ChartXAxisRendererRadarChart.swift in Sources */,
 				5B6A54A71AA66BA7000F57C2 /* PieRadarChartViewBase.swift in Sources */,
@@ -1159,6 +1164,7 @@
 				A52C5C7B1BAC5D1200594CDD /* ChartLegendRenderer.swift in Sources */,
 				A52C5C7C1BAC5D1200594CDD /* LineChartRenderer.swift in Sources */,
 				A52C5C7D1BAC5D1200594CDD /* LineScatterCandleRadarChartRenderer.swift in Sources */,
+				5B9D741A1C688BDD00267DDD /* ChartDefaultFillFormatter.swift in Sources */,
 				A52C5C7E1BAC5D1200594CDD /* PieChartRenderer.swift in Sources */,
 				A52C5C7F1BAC5D1200594CDD /* RadarChartRenderer.swift in Sources */,
 				A52C5C801BAC5D1200594CDD /* ChartRendererBase.swift in Sources */,

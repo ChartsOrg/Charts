@@ -126,7 +126,7 @@ public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     public var lineDashLengths: [CGFloat]?
     
     /// formatter for customizing the position of the fill-line
-    private var _fillFormatter: ChartFillFormatter = BarLineChartFillFormatter()
+    private var _fillFormatter: ChartFillFormatter = ChartDefaultFillFormatter()
     
     /// Sets a custom FillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
     public var fillFormatter: ChartFillFormatter?
@@ -139,7 +139,7 @@ public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         {
             if newValue == nil
             {
-                _fillFormatter = BarLineChartFillFormatter()
+                _fillFormatter = ChartDefaultFillFormatter()
             }
             else
             {
