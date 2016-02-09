@@ -1,4 +1,4 @@
-**Version 2.2.0**, synced to [MPAndroidChart #d1839b4](https://github.com/PhilJay/MPAndroidChart/commit/d1839b4)
+**Version 2.2.2**, synced to [MPAndroidChart #9615cc2](https://github.com/PhilJay/MPAndroidChart/commit/9615cc2)
 
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
   ![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/danielgindi/ios-charts.svg)](https://github.com/danielgindi/ios-charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts)
@@ -32,14 +32,14 @@ If you want to compile for iOS 7:
 
 1. Drag the code itself (.swift files) to your project. As sadly, Swift currently does not support compiling Frameworks for iOS 7.
 2. Make sure that the files are added to the Target membership.
-3. If you do not need/want support for *Realm.io*, you can make the `Realm.framework` *optional* in your Build Phases, or avoid copying the `Realm` folder, the `Utils/RealmChartUtils.swift` and the `Realm.framework`.
 
 ## Troubleshooting
 
 #### Can't compile?
 
 * Please note the difference between installing a compiled framework from Cocoapods or Carthage, and copying the source code.
-* If you are compiling the source code and not using Realm, please *delete* the folder `Charts/Classes/Data/Implementation/Realm` and `Charts/Classes/Utils/RealmChartUtils.swift` to remove Realm.io support.
+* If you are using Realm, please also `#import <ChartsRealm/ChartsRealm.h>`
+* If you are compiling the source code and want to use Realm, please make sure to include the code from `ChartsRealm` project.
 * Please read the **Usage** section again.
 * Search in the issues
 * Try to politely ask in the issues section
@@ -65,11 +65,11 @@ pod 'Charts/Realm'
 Charts now include Carthage prebuilt binaries.
 
 ```carthage
-github "danielgindi/ios-charts" == 2.2.0
-github "danielgindi/ios-charts" ~> 2.2.0
+github "danielgindi/ios-charts" == 2.2.2
+github "danielgindi/ios-charts" ~> 2.2.2
 ```
 
-In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts`.
+In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts && carthage archive ChartsRealm`.
 
 ## Help
 
