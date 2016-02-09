@@ -19,10 +19,11 @@ public class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterCh
     @objc
     public enum ScatterShape: Int
     {
-        case Cross
-        case Triangle
-        case Circle
         case Square
+        case Circle
+        case Triangle
+        case Cross
+        case X
         case Custom
     }
     

@@ -163,21 +163,6 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                     CGContextFillEllipseInRect(context, rect)
                 }
             }
-            else if (shape == .Cross)
-            {
-                CGContextSetStrokeColorWithColor(context, dataSet.colorAt(j).CGColor)
-                _lineSegments[0].x = point.x - shapeHalf
-                _lineSegments[0].y = point.y
-                _lineSegments[1].x = point.x + shapeHalf
-                _lineSegments[1].y = point.y
-                CGContextStrokeLineSegments(context, _lineSegments, 2)
-                
-                _lineSegments[0].x = point.x
-                _lineSegments[0].y = point.y - shapeHalf
-                _lineSegments[1].x = point.x
-                _lineSegments[1].y = point.y + shapeHalf
-                CGContextStrokeLineSegments(context, _lineSegments, 2)
-            }
             else if (shape == .Triangle)
             {
                 CGContextSetFillColorWithColor(context, dataSet.colorAt(j).CGColor)
@@ -215,6 +200,36 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                     
                     CGContextFillPath(context)
                 }
+            }
+            else if (shape == .Cross)
+            {
+                CGContextSetStrokeColorWithColor(context, dataSet.colorAt(j).CGColor)
+                _lineSegments[0].x = point.x - shapeHalf
+                _lineSegments[0].y = point.y
+                _lineSegments[1].x = point.x + shapeHalf
+                _lineSegments[1].y = point.y
+                CGContextStrokeLineSegments(context, _lineSegments, 2)
+                
+                _lineSegments[0].x = point.x
+                _lineSegments[0].y = point.y - shapeHalf
+                _lineSegments[1].x = point.x
+                _lineSegments[1].y = point.y + shapeHalf
+                CGContextStrokeLineSegments(context, _lineSegments, 2)
+            }
+            else if (shape == .X)
+            {
+                CGContextSetStrokeColorWithColor(context, dataSet.colorAt(j).CGColor)
+                _lineSegments[0].x = point.x - shapeHalf
+                _lineSegments[0].y = point.y - shapeHalf
+                _lineSegments[1].x = point.x + shapeHalf
+                _lineSegments[1].y = point.y + shapeHalf
+                CGContextStrokeLineSegments(context, _lineSegments, 2)
+                
+                _lineSegments[0].x = point.x + shapeHalf
+                _lineSegments[0].y = point.y - shapeHalf
+                _lineSegments[1].x = point.x - shapeHalf
+                _lineSegments[1].y = point.y + shapeHalf
+                CGContextStrokeLineSegments(context, _lineSegments, 2)
             }
             else if (shape == .Custom)
             {
