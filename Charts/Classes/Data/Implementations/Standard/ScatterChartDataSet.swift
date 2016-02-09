@@ -28,6 +28,8 @@ public class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterCh
     
     public var scatterShapeSize = CGFloat(15.0)
     public var scatterShape = ScatterChartDataSet.ScatterShape.Square
+    public var scatterShapeHoleRadius: CGFloat = 0.0
+    public var scatterShapeHoleColor: UIColor? = nil
     public var customScatterShape: CGPath?
     
     // MARK: NSCopying

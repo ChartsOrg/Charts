@@ -22,5 +22,7 @@ public protocol IScatterChartDataSet: ILineScatterCandleRadarChartDataSet
     
     var scatterShapeSize: CGFloat { get set }
     var scatterShape: ScatterChartDataSet.ScatterShape { get set }
+    var scatterShapeHoleRadius: CGFloat { get set }
+    var scatterShapeHoleColor: UIColor? { get set }
     var customScatterShape: CGPath? { get set }
 }
