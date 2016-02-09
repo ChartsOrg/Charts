@@ -132,9 +132,11 @@ public class ChartUtils
         }
         
         UIGraphicsPushContext(context)
-        
+        CGContextSaveGState(context)
+
         (text as NSString).drawAtPoint(point, withAttributes: attributes)
         
+        CGContextRestoreGState(context)
         UIGraphicsPopContext()
     }
     
