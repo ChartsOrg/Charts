@@ -28,7 +28,7 @@ public class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterCh
     }
     
     // The size the scatter shape will have
-    public var scatterShapeSize = CGFloat(15.0)
+    public var scatterShapeSize = CGFloat(10.0)
     
     // The type of shape that is set to be drawn where the values are at
     // - default: .Square
