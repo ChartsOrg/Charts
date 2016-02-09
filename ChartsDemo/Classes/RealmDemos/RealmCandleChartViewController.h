@@ -13,7 +13,7 @@
 
 #import <UIKit/UIKit.h>
 #import "RealmDemoBaseViewController.h"
-#import <Charts/Charts.h>
+#import <ChartsRealm/ChartsRealm.h>
 
 @interface RealmCandleChartViewController : RealmDemoBaseViewController
 
