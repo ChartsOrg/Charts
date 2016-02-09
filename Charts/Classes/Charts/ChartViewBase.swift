@@ -297,15 +297,33 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
             
             CGContextSaveGState(context)
             
+            let hasText = noDataText.characters.count > 0
+            let hasDescription = noDataTextDescription?.characters.count > 0
+            var textHeight = hasText ? infoFont.lineHeight : 0.0
+            if hasDescription
+            {
+                textHeight += infoFont.lineHeight
+            }
+            
             // if no data, inform the user
             
-            ChartUtils.drawText(context: context, text: noDataText, point: CGPoint(x: frame.width / 2.0, y: frame.height / 2.0), align: .Center, attributes: [NSFontAttributeName: infoFont, NSForegroundColorAttributeName: infoTextColor])
+            var y = (frame.height - textHeight) / 2.0
+            
+            if hasText
+            {
+                ChartUtils.drawText(
+                    context: context,
+                    text: noDataText,
+                    point: CGPoint(x: frame.width / 2.0, y: y),
+                    align: .Center,
+                    attributes: [NSFontAttributeName: infoFont, NSForegroundColorAttributeName: infoTextColor]
+                )
+                y = y + infoFont.lineHeight
+            }
             
             if (noDataTextDescription != nil && (noDataTextDescription!).characters.count > 0)
-            {   
-                let textOffset = infoFont.lineHeight
-                
-                ChartUtils.drawText(context: context, text: noDataTextDescription!, point: CGPoint(x: frame.width / 2.0, y: frame.height / 2.0 + textOffset), align: .Center, attributes: [NSFontAttributeName: infoFont, NSForegroundColorAttributeName: infoTextColor])
+            {
+                ChartUtils.drawText(context: context, text: noDataTextDescription!, point: CGPoint(x: frame.width / 2.0, y: y), align: .Center, attributes: [NSFontAttributeName: infoFont, NSForegroundColorAttributeName: infoTextColor])
             }
             
             return
