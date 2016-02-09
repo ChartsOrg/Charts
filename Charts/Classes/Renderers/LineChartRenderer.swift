@@ -242,9 +242,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
-        
-        CGContextSaveGState(context)
-        
+
         guard let
             entryFrom = dataSet.entryForXIndex(self.minX),
             entryTo = dataSet.entryForXIndex(self.maxX)
@@ -254,6 +252,8 @@ public class LineChartRenderer: LineRadarChartRenderer
         let minx = max(dataSet.entryIndex(entry: entryFrom) - diff, 0)
         let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo) + 1), entryCount)
         
+        CGContextSaveGState(context)
+
         // more than 1 color
         if (dataSet.colors.count > 1)
         {
