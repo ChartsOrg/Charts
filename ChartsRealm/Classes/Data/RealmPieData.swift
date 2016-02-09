@@ -1,5 +1,5 @@
 //
-//  RealmCandleData.swift
+//  RealmPieData.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 23/2/15.
@@ -14,10 +14,11 @@
 
 import Foundation
 import UIKit
+import Charts
 import Realm
 import Realm.Dynamic
 
-public class RealmCandleData: CandleChartData
+public class RealmPieData: PieChartData
 {
     public init(results: RLMResults?, xValueField: String, dataSets: [IChartDataSet]?)
     {

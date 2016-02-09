@@ -1,5 +1,5 @@
 //
-//  RealmBarData.swift
+//  RealmRadarData.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 23/2/15.
@@ -13,11 +13,12 @@
 //
 
 import Foundation
+import Charts
 import UIKit
 import Realm
 import Realm.Dynamic
 
-public class RealmBarData: BarChartData
+public class RealmRadarData: RadarChartData
 {
     public init(results: RLMResults?, xValueField: String, dataSets: [IChartDataSet]?)
     {
