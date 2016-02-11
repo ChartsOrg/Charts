@@ -37,7 +37,7 @@ If you want to compile for iOS 7:
 
 #### Can't compile?
 
-* Please note the difference between installing a compiled framework from Cocoapods or Carthage, and copying the source code.
+* Please note the difference between installing a compiled framework from CocoaPods or Carthage, and copying the source code.
 * If you are using Realm, please also `#import <ChartsRealm/ChartsRealm.h>`
 * If you are compiling the source code and want to use Realm, please make sure to include the code from `ChartsRealm` project.
 * Please read the **Usage** section again.
