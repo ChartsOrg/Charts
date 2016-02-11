@@ -108,7 +108,7 @@ public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChar
     
     /// the width of the candle-shadow-line in pixels.
     ///
-    /// **default**: 3.0
+    /// **default**: 1.5
     public var shadowWidth = CGFloat(1.5)
     
     /// the color of the shadow line

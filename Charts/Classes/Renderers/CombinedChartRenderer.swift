@@ -24,7 +24,7 @@ public class CombinedChartRenderer: ChartDataRendererBase
     /// if set to true, all values are drawn above their bars, instead of below their top
     public var drawValueAboveBarEnabled = true
     
-    /// if set to true, a grey area is darawn behind each bar that indicates the maximum value
+    /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     public var drawBarShadowEnabled = true
     
     internal var _renderers = [ChartDataRendererBase]()
