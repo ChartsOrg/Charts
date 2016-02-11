@@ -129,18 +129,11 @@ public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChar
     /// color for open == close
     public var neutralColor: UIColor?
     
-    /// color for open <= close
-    public var decreasingColor: UIColor?
-    
     /// color for open > close
     public var increasingColor: UIColor?
     
-    /// Are decreasing values drawn as filled?
-    /// descreasing candlesticks are traditionally filled
-    public var decreasingFilled = true
-    
-    /// Are decreasing values drawn as filled?
-    public var isDecreasingFilled: Bool { return decreasingFilled }
+    /// color for open <= close
+    public var decreasingColor: UIColor?
     
     /// Are increasing values drawn as filled?
     /// increasing candlesticks are traditionally hollow
@@ -148,4 +141,11 @@ public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChar
     
     /// Are increasing values drawn as filled?
     public var isIncreasingFilled: Bool { return increasingFilled }
+    
+    /// Are decreasing values drawn as filled?
+    /// descreasing candlesticks are traditionally filled
+    public var decreasingFilled = true
+    
+    /// Are decreasing values drawn as filled?
+    public var isDecreasingFilled: Bool { return decreasingFilled }
 }

@@ -47,21 +47,21 @@ public protocol ICandleChartDataSet: ILineScatterCandleRadarChartDataSet
     /// color for open == close
     var neutralColor: UIColor? { get set }
     
-    /// color for open < close
-    var decreasingColor: UIColor? { get set }
-    
     /// color for open > close
     var increasingColor: UIColor? { get set }
     
-    /// Are decreasing values drawn as filled?
-    var decreasingFilled: Bool { get set }
-    
-    /// Are decreasing values drawn as filled?
-    var isDecreasingFilled: Bool { get }
+    /// color for open < close
+    var decreasingColor: UIColor? { get set }
     
     /// Are increasing values drawn as filled?
     var increasingFilled: Bool { get set }
     
     /// Are increasing values drawn as filled?
     var isIncreasingFilled: Bool { get }
+    
+    /// Are decreasing values drawn as filled?
+    var decreasingFilled: Bool { get set }
+    
+    /// Are decreasing values drawn as filled?
+    var isDecreasingFilled: Bool { get }
 }
