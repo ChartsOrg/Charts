@@ -132,7 +132,7 @@ public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChar
     /// color for open > close
     public var increasingColor: UIColor?
     
-    /// color for open <= close
+    /// color for open < close
     public var decreasingColor: UIColor?
     
     /// Are increasing values drawn as filled?
