@@ -176,13 +176,15 @@ public class RealmCandleDataSet: RealmLineScatterCandleRadarDataSet, ICandleChar
     public var increasingColor: UIColor?
     
     /// Are decreasing values drawn as filled?
-    public var decreasingFilled = false
+    /// descreasing candlesticks are traditionally filled
+    public var decreasingFilled = true
     
     /// Are decreasing values drawn as filled?
     public var isDecreasingFilled: Bool { return decreasingFilled }
     
     /// Are increasing values drawn as filled?
-    public var increasingFilled = true
+    /// increasing candlesticks are traditionally hollow
+    public var increasingFilled = false
     
     /// Are increasing values drawn as filled?
     public var isIncreasingFilled: Bool { return increasingFilled }
