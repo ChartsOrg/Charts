@@ -197,7 +197,7 @@
     
     CandleChartDataSet *set = [[CandleChartDataSet alloc] initWithYVals:entries label:@"Candle DataSet"];
     [set setColor:[UIColor colorWithRed:80/255.f green:80/255.f blue:80/255.f alpha:1.f]];
-    set.bodySpace = 0.3;
+    set.barSpace = 0.3;
     set.valueFont = [UIFont systemFontOfSize:10.f];
     [set setDrawValuesEnabled:NO];
     

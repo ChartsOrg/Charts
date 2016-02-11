@@ -128,30 +128,30 @@ public class RealmCandleDataSet: RealmLineScatterCandleRadarDataSet, ICandleChar
     /// the space between the candle entries
     ///
     /// **default**: 0.1 (10%)
-    private var _bodySpace = CGFloat(0.1)
+    private var _barSpace = CGFloat(0.1)
     
     /// the space that is left out on the left and right side of each candle,
     /// **default**: 0.1 (10%), max 0.45, min 0.0
-    public var bodySpace: CGFloat
+    public var barSpace: CGFloat
     {
         set
         {
             if (newValue < 0.0)
             {
-                _bodySpace = 0.0
+                _barSpace = 0.0
             }
             else if (newValue > 0.45)
             {
-                _bodySpace = 0.45
+                _barSpace = 0.45
             }
             else
             {
-                _bodySpace = newValue
+                _barSpace = newValue
             }
         }
         get
         {
-            return _bodySpace
+            return _barSpace
         }
     }
     

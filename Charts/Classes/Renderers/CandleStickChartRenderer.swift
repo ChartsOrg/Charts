@@ -56,7 +56,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
         
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
-        let bodySpace = dataSet.bodySpace
+        let barSpace = dataSet.barSpace
         let showCandleBar = dataSet.showCandleBar
         
         let entryCount = dataSet.entryCount
@@ -143,9 +143,9 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                 
                 // calculate the body
                 
-                _bodyRect.origin.x = CGFloat(e.xIndex) - 0.5 + bodySpace
+                _bodyRect.origin.x = CGFloat(e.xIndex) - 0.5 + barSpace
                 _bodyRect.origin.y = CGFloat(e.close) * phaseY
-                _bodyRect.size.width = (CGFloat(e.xIndex) + 0.5 - bodySpace) - _bodyRect.origin.x
+                _bodyRect.size.width = (CGFloat(e.xIndex) + 0.5 - barSpace) - _bodyRect.origin.x
                 _bodyRect.size.height = (CGFloat(e.open) * phaseY) - _bodyRect.origin.y
                 
                 trans.rectValueToPixel(&_bodyRect)
@@ -197,12 +197,12 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                 _rangePoints[1].x = CGFloat(e.xIndex)
                 _rangePoints[1].y = CGFloat(e.low) * phaseY
 
-                _openPoints[0].x = CGFloat(e.xIndex) - 0.5 + bodySpace
+                _openPoints[0].x = CGFloat(e.xIndex) - 0.5 + barSpace
                 _openPoints[0].y = CGFloat(e.open) * phaseY
                 _openPoints[1].x = CGFloat(e.xIndex)
                 _openPoints[1].y = CGFloat(e.open) * phaseY
 
-                _closePoints[0].x = CGFloat(e.xIndex) + 0.5 - bodySpace
+                _closePoints[0].x = CGFloat(e.xIndex) + 0.5 - barSpace
                 _closePoints[0].y = CGFloat(e.close) * phaseY
                 _closePoints[1].x = CGFloat(e.xIndex)
                 _closePoints[1].y = CGFloat(e.close) * phaseY

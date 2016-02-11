@@ -22,7 +22,7 @@ public protocol ICandleChartDataSet: ILineScatterCandleRadarChartDataSet
     
     /// the space that is left out on the left and right side of each candle,
     /// **default**: 0.1 (10%), max 0.45, min 0.0
-    var bodySpace: CGFloat { get set }
+    var barSpace: CGFloat { get set }
     
     /// should the candle bars show?
     /// when false, only "ticks" will show
