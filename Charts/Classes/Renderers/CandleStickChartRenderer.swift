@@ -39,8 +39,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
         }
     }
     
-    private var _upperShadowPoints = [CGPoint](count: 2, repeatedValue: CGPoint())
-    private var _lowerShadowPoints = [CGPoint](count: 2, repeatedValue: CGPoint())
+    private var _shadowPoints = [CGPoint](count: 4, repeatedValue: CGPoint())
     private var _rangePoints = [CGPoint](count: 2, repeatedValue: CGPoint())
     private var _openPoints = [CGPoint](count: 2, repeatedValue: CGPoint())
     private var _closePoints = [CGPoint](count: 2, repeatedValue: CGPoint())
@@ -82,36 +81,34 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
             {
                 // calculate the shadow
                 
-                _upperShadowPoints[0].x = CGFloat(e.xIndex)
-                _upperShadowPoints[1].x = CGFloat(e.xIndex)
-                _lowerShadowPoints[0].x = CGFloat(e.xIndex)
-                _lowerShadowPoints[1].x = CGFloat(e.xIndex)
+                _shadowPoints[0].x = CGFloat(e.xIndex)
+                _shadowPoints[1].x = CGFloat(e.xIndex)
+                _shadowPoints[2].x = CGFloat(e.xIndex)
+                _shadowPoints[3].x = CGFloat(e.xIndex)
                 
                 if (e.open > e.close)
                 {
-                    _upperShadowPoints[0].y = CGFloat(e.high) * phaseY
-                    _upperShadowPoints[1].y = CGFloat(e.open) * phaseY
-                    _lowerShadowPoints[0].y = CGFloat(e.low) * phaseY
-                    _lowerShadowPoints[1].y = CGFloat(e.close) * phaseY
+                    _shadowPoints[0].y = CGFloat(e.high) * phaseY
+                    _shadowPoints[1].y = CGFloat(e.open) * phaseY
+                    _shadowPoints[2].y = CGFloat(e.low) * phaseY
+                    _shadowPoints[3].y = CGFloat(e.close) * phaseY
                 }
                 else if (e.open < e.close)
                 {
-                    _upperShadowPoints[0].y = CGFloat(e.high) * phaseY
-                    _upperShadowPoints[1].y = CGFloat(e.close) * phaseY
-                    _lowerShadowPoints[0].y = CGFloat(e.low) * phaseY
-                    _lowerShadowPoints[1].y = CGFloat(e.open) * phaseY
+                    _shadowPoints[0].y = CGFloat(e.high) * phaseY
+                    _shadowPoints[1].y = CGFloat(e.close) * phaseY
+                    _shadowPoints[2].y = CGFloat(e.low) * phaseY
+                    _shadowPoints[3].y = CGFloat(e.open) * phaseY
                 }
                 else
                 {
-                    _upperShadowPoints[0].y = CGFloat(e.high) * phaseY
-                    _upperShadowPoints[1].y = CGFloat(e.open) * phaseY
-                    _lowerShadowPoints[0].y = CGFloat(e.low) * phaseY
-                    _lowerShadowPoints[1].y = _upperShadowPoints[1].y
+                    _shadowPoints[0].y = CGFloat(e.high) * phaseY
+                    _shadowPoints[1].y = CGFloat(e.open) * phaseY
+                    _shadowPoints[2].y = CGFloat(e.low) * phaseY
+                    _shadowPoints[3].y = _shadowPoints[1].y
                 }
                 
-                
-                trans.pointValuesToPixel(&_lowerShadowPoints)
-                trans.pointValuesToPixel(&_upperShadowPoints)
+                trans.pointValuesToPixel(&_shadowPoints)
                 
                 // draw the shadows
                 
@@ -138,8 +135,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                 }
                 
                 CGContextSetStrokeColorWithColor(context, shadowColor.CGColor)
-                CGContextStrokeLineSegments(context, _upperShadowPoints, 2)
-                CGContextStrokeLineSegments(context, _lowerShadowPoints, 2)
+                CGContextStrokeLineSegments(context, _shadowPoints, 4)
                 
                 // calculate the body
                 
