@@ -86,6 +86,7 @@
     leftAxis.customAxisMin = -50.0;
     leftAxis.startAtZeroEnabled = NO;
     leftAxis.gridLineDashLengths = @[@5.f, @5.f];
+    leftAxis.drawZeroLineEnabled = NO;
     leftAxis.drawLimitLinesBehindDataEnabled = YES;
     
     _chartView.rightAxis.enabled = NO;

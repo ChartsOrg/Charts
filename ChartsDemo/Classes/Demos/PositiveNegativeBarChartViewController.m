@@ -75,7 +75,10 @@
     leftAxis.spaceBottom = 0.25f;
     leftAxis.drawAxisLineEnabled = NO;
     leftAxis.drawGridLinesEnabled = NO;
-    
+    leftAxis.drawZeroLineEnabled = YES;
+    leftAxis.zeroLineColor = UIColor.grayColor;
+    leftAxis.zeroLineWidth = 0.7f;
+
     _chartView.rightAxis.enabled = NO;
     _chartView.legend.enabled = NO;
     

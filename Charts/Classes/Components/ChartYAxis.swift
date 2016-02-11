@@ -56,6 +56,23 @@ public class ChartYAxis: ChartAxisBase
     /// if true, the set number of y-labels will be forced
     public var forceLabelsEnabled = false
 
+    /// flag that indicates if the zero-line should be drawn regardless of other grid lines
+    public var drawZeroLineEnabled = true
+    
+    /// Color of the zero line
+    public var zeroLineColor: UIColor? = UIColor.grayColor()
+    
+    /// Width of the zero line
+    public var zeroLineWidth: CGFloat = 1.0
+    
+    /// This is how much (in pixels) into the dash pattern are we starting from.
+    public var zeroLineDashPhase = CGFloat(0.0)
+    
+    /// This is the actual dash pattern.
+    /// I.e. [2, 3] will paint [--   --   ]
+    /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
+    public var zeroLineDashLengths: [CGFloat]?
+    
     /// the formatter used to customly format the y-labels
     public var valueFormatter: NSNumberFormatter?
     

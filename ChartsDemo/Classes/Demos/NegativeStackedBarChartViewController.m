@@ -66,6 +66,8 @@
     _chartView.rightAxis.startAtZeroEnabled = NO;
     _chartView.rightAxis.customAxisMax = 25.0;
     _chartView.rightAxis.customAxisMin = -25.0;
+    _chartView.rightAxis.drawGridLinesEnabled = NO;
+    _chartView.rightAxis.drawZeroLineEnabled = YES;
     _chartView.rightAxis.labelCount = 7;
     _chartView.rightAxis.valueFormatter = customFormatter;
     _chartView.rightAxis.labelFont = [UIFont systemFontOfSize:9.f];

@@ -75,6 +75,7 @@
     leftAxis.labelTextColor = [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f];
     leftAxis.customAxisMax = 200.0;
     leftAxis.drawGridLinesEnabled = YES;
+    leftAxis.drawZeroLineEnabled = NO;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.labelTextColor = UIColor.redColor;
