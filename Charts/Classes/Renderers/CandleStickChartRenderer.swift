@@ -39,7 +39,8 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
         }
     }
     
-    private var _shadowPoints = [CGPoint](count: 2, repeatedValue: CGPoint())
+    private var _upperShadowPoints = [CGPoint](count: 2, repeatedValue: CGPoint())
+    private var _lowerShadowPoints = [CGPoint](count: 2, repeatedValue: CGPoint())
     private var _bodyRect = CGRect()
     private var _lineSegments = [CGPoint](count: 2, repeatedValue: CGPoint())
     
@@ -75,14 +76,38 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
             
             // calculate the shadow
             
-            _shadowPoints[0].x = CGFloat(e.xIndex)
-            _shadowPoints[0].y = CGFloat(e.high) * phaseY
-            _shadowPoints[1].x = CGFloat(e.xIndex)
-            _shadowPoints[1].y = CGFloat(e.low) * phaseY
+            _upperShadowPoints[0].x = CGFloat(e.xIndex)
+            _upperShadowPoints[1].x = CGFloat(e.xIndex)
+            _lowerShadowPoints[0].x = CGFloat(e.xIndex)
+            _lowerShadowPoints[1].x = CGFloat(e.xIndex)
             
-            trans.pointValuesToPixel(&_shadowPoints)
+            if (e.open > e.close)
+            {
+                _upperShadowPoints[0].y = CGFloat(e.high) * phaseY
+                _upperShadowPoints[1].y = CGFloat(e.open) * phaseY
+                _lowerShadowPoints[0].y = CGFloat(e.low) * phaseY
+                _lowerShadowPoints[1].y = CGFloat(e.close) * phaseY
+            }
+            else if (e.open < e.close)
+            {
+                _upperShadowPoints[0].y = CGFloat(e.high) * phaseY
+                _upperShadowPoints[1].y = CGFloat(e.close) * phaseY
+                _lowerShadowPoints[0].y = CGFloat(e.low) * phaseY
+                _lowerShadowPoints[1].y = CGFloat(e.open) * phaseY
+            }
+            else
+            {
+                _upperShadowPoints[0].y = CGFloat(e.high) * phaseY
+                _upperShadowPoints[1].y = CGFloat(e.open) * phaseY
+                _lowerShadowPoints[0].y = CGFloat(e.low) * phaseY
+                _lowerShadowPoints[1].y = _upperShadowPoints[1].y
+            }
             
-            // draw the shadow
+            
+            trans.pointValuesToPixel(&_lowerShadowPoints)
+            trans.pointValuesToPixel(&_upperShadowPoints)
+            
+            // draw the shadows
             
             var shadowColor: UIColor! = nil
             if (dataSet.shadowColorSameAsCandle)
