@@ -72,12 +72,13 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
             // get the entry
             guard let e = dataSet.entryForIndex(j) as? CandleChartDataEntry else { continue }
             
-            if (e.xIndex < minx || e.xIndex >= maxx)
+            let xIndex = e.xIndex
+            
+            if (xIndex < minx || xIndex >= maxx)
             {
                 continue
             }
             
-            let xIndex = e.xIndex
             let open = e.open
             let close = e.close
             let high = e.high
