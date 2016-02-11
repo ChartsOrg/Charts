@@ -106,6 +106,12 @@ public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChar
         }
     }
     
+    /// should the candle bars show?
+    /// when false, only "ticks" will show
+    ///
+    /// **default**: true
+    public var showCandleBar: Bool = true
+    
     /// the width of the candle-shadow-line in pixels.
     ///
     /// **default**: 1.5

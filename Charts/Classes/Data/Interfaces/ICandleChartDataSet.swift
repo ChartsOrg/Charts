@@ -24,6 +24,12 @@ public protocol ICandleChartDataSet: ILineScatterCandleRadarChartDataSet
     /// **default**: 0.1 (10%), max 0.45, min 0.0
     var bodySpace: CGFloat { get set }
     
+    /// should the candle bars show?
+    /// when false, only "ticks" will show
+    ///
+    /// **default**: true
+    var showCandleBar: Bool { get set }
+    
     /// the width of the candle-shadow-line in pixels.
     ///
     /// **default**: 3.0
