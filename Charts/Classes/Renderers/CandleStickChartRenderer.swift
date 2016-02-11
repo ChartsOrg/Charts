@@ -120,6 +120,10 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                 {
                     shadowColor = dataSet.increasingColor ?? dataSet.colorAt(j)
                 }
+                else
+                {
+                    shadowColor = dataSet.neutralColor ?? dataSet.colorAt(j)
+                }
             }
             
             if (shadowColor === nil)
@@ -128,7 +132,8 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
             }
             
             CGContextSetStrokeColorWithColor(context, shadowColor.CGColor)
-            CGContextStrokeLineSegments(context, _shadowPoints, 2)
+            CGContextStrokeLineSegments(context, _upperShadowPoints, 2)
+            CGContextStrokeLineSegments(context, _lowerShadowPoints, 2)
             
             // calculate the body
             
@@ -173,7 +178,9 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
             }
             else
             {
-                CGContextSetStrokeColorWithColor(context, shadowColor.CGColor)
+                let color = dataSet.neutralColor ?? dataSet.colorAt(j)
+                
+                CGContextSetStrokeColorWithColor(context, color.CGColor)
                 CGContextStrokeRect(context, _bodyRect)
             }
         }

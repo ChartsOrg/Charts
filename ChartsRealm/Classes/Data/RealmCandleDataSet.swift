@@ -169,7 +169,10 @@ public class RealmCandleDataSet: RealmLineScatterCandleRadarDataSet, ICandleChar
     /// Is the shadow color same as the candle color?
     public var isShadowColorSameAsCandle: Bool { return shadowColorSameAsCandle }
     
-    /// color for open <= close
+    /// color for open == close
+    public var neutralColor: UIColor?
+    
+    /// color for open < close
     public var decreasingColor: UIColor?
     
     /// color for open > close

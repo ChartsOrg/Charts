@@ -38,7 +38,10 @@ public protocol ICandleChartDataSet: ILineScatterCandleRadarChartDataSet
     /// Is the shadow color same as the candle color?
     var isShadowColorSameAsCandle: Bool { get }
     
-    /// color for open <= close
+    /// color for open == close
+    var neutralColor: UIColor? { get set }
+    
+    /// color for open < close
     var decreasingColor: UIColor? { get set }
     
     /// color for open > close
