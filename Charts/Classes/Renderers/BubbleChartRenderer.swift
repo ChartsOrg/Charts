@@ -63,8 +63,6 @@ public class BubbleChartRenderer: ChartDataRendererBase
         
         let valueToPixelMatrix = trans.valueToPixelMatrix
         
-        CGContextSaveGState(context)
-        
         guard let
             entryFrom = dataSet.entryForXIndex(self.minX),
             entryTo = dataSet.entryForXIndex(self.maxX)
@@ -79,6 +77,8 @@ public class BubbleChartRenderer: ChartDataRendererBase
         _sizeBuffer[1].y = 0.0
         
         trans.pointValuesToPixel(&_sizeBuffer)
+        
+        CGContextSaveGState(context)
         
         // calcualte the full width of 1 step on the x-axis
         let maxBubbleWidth: CGFloat = abs(_sizeBuffer[1].x - _sizeBuffer[0].x)

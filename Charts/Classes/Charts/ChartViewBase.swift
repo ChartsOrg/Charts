@@ -294,8 +294,8 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
 
         if _data === nil
         {
-            
             CGContextSaveGState(context)
+            defer { CGContextRestoreGState(context) }
             
             let hasText = noDataText.characters.count > 0
             let hasDescription = noDataTextDescription?.characters.count > 0
