@@ -56,12 +56,12 @@
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBottom;
-    xAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
+    xAxis.labelFont = [NSUIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     xAxis.drawGridLinesEnabled = NO;
     xAxis.enabled = NO;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
-    leftAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
+    leftAxis.labelFont = [NSUIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     leftAxis.labelCount = 6;
     leftAxis.startAtZeroEnabled = NO;
     leftAxis.axisMinimum = -2.5;
@@ -69,7 +69,7 @@
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.drawGridLinesEnabled = NO;
-    rightAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
+    rightAxis.labelFont = [NSUIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     rightAxis.labelCount = 6;
     rightAxis.startAtZeroEnabled = NO;
     rightAxis.axisMinimum = -2.5;
@@ -79,7 +79,7 @@
     l.position = ChartLegendPositionBelowChartLeft;
     l.form = ChartLegendFormSquare;
     l.formSize = 9.0;
-    l.font = [UIFont systemFontOfSize:11.f];
+    l.font = [NSUIFont systemFontOfSize:11.f];
     l.xEntrySpace = 4.0;
     
     _sliderX.value = 150.0;
@@ -107,10 +107,10 @@
     
     BarChartDataSet *set = [[BarChartDataSet alloc] initWithYVals:entries label:@"Sinus Function"];
     set.barSpace = 0.4;
-    [set setColor:[UIColor colorWithRed:240/255.f green:120/255.f blue:124/255.f alpha:1.f]];
+    [set setColor:[NSUIColor colorWithRed:240/255.f green:120/255.f blue:124/255.f alpha:1.f]];
     
     BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSet:set];
-    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
+    [data setValueFont:[NSUIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
     [data setDrawValues:NO];
     
     _chartView.data = data;

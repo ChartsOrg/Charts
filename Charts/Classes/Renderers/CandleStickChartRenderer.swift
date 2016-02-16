@@ -13,7 +13,7 @@
 
 import Foundation
 import CoreGraphics
-import UIKit
+
 
 public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
 {
@@ -119,7 +119,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                 
                 // draw the shadows
                 
-                var shadowColor: UIColor! = nil
+                var shadowColor: NSUIColor! = nil
                 if (dataSet.shadowColorSameAsCandle)
                 {
                     if (open > close)
@@ -215,7 +215,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                 trans.pointValuesToPixel(&_closePoints)
                 
                 // draw the ranges
-                var barColor: UIColor! = nil
+                var barColor: NSUIColor! = nil
                 
                 if (open > close)
                 {

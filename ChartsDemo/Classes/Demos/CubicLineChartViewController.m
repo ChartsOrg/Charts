@@ -64,7 +64,7 @@
     _chartView.delegate = self;
     
     [_chartView setViewPortOffsetsWithLeft:0.f top:20.f right:0.f bottom:0.f];
-    _chartView.backgroundColor = [UIColor colorWithRed:104/255.f green:241/255.f blue:175/255.f alpha:1.f];
+    _chartView.backgroundColor = [NSUIColor colorWithRed:104/255.f green:241/255.f blue:175/255.f alpha:1.f];
 
     _chartView.descriptionText = @"";
     _chartView.noDataTextDescription = @"You need to provide data for the chart.";
@@ -77,13 +77,13 @@
     _chartView.xAxis.enabled = NO;
     
     ChartYAxis *yAxis = _chartView.leftAxis;
-    yAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.f];
+    yAxis.labelFont = [NSUIFont fontWithName:@"HelveticaNeue-Light" size:12.f];
     [yAxis setLabelCount:6 force:NO];
     yAxis.startAtZeroEnabled = NO;
-    yAxis.labelTextColor = UIColor.whiteColor;
+    yAxis.labelTextColor = NSUIColor.whiteColor;
     yAxis.labelPosition = YAxisLabelPositionInsideChart;
     yAxis.drawGridLinesEnabled = NO;
-    yAxis.axisLineColor = UIColor.whiteColor;
+    yAxis.axisLineColor = NSUIColor.whiteColor;
     
     _chartView.rightAxis.enabled = NO;
     _chartView.legend.enabled = NO;
@@ -125,16 +125,16 @@
     set1.drawCirclesEnabled = NO;
     set1.lineWidth = 1.8;
     set1.circleRadius = 4.0;
-    [set1 setCircleColor:UIColor.whiteColor];
-    set1.highlightColor = [UIColor colorWithRed:244/255.f green:117/255.f blue:117/255.f alpha:1.f];
-    [set1 setColor:UIColor.whiteColor];
-    set1.fillColor = UIColor.whiteColor;
+    [set1 setCircleColor:NSUIColor.whiteColor];
+    set1.highlightColor = [NSUIColor colorWithRed:244/255.f green:117/255.f blue:117/255.f alpha:1.f];
+    [set1 setColor:NSUIColor.whiteColor];
+    set1.fillColor = NSUIColor.whiteColor;
     set1.fillAlpha = 1.f;
     set1.drawHorizontalHighlightIndicatorEnabled = NO;
     set1.fillFormatter = [[CubicLineSampleFillFormatter alloc] init];
     
     LineChartData *data = [[LineChartData alloc] initWithXVals:xVals dataSet:set1];
-    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:9.f]];
+    [data setValueFont:[NSUIFont fontWithName:@"HelveticaNeue-Light" size:9.f]];
     [data setDrawValues:NO];
     
     _chartView.data = data;

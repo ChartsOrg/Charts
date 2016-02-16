@@ -13,7 +13,7 @@
 
 import Foundation
 import CoreGraphics
-import UIKit
+
 
 public class LineRadarChartRenderer: LineScatterCandleRadarChartRenderer
 {
@@ -38,7 +38,7 @@ public class LineRadarChartRenderer: LineScatterCandleRadarChartRenderer
     }
     
     /// Draws the provided path in filled mode with the provided color and alpha.
-    public func drawFilledPath(context context: CGContext, path: CGPath, fillColor: UIColor, fillAlpha: CGFloat)
+    public func drawFilledPath(context context: CGContext, path: CGPath, fillColor: NSUIColor, fillAlpha: CGFloat)
     {
         CGContextSaveGState(context)
         CGContextBeginPath(context)

@@ -52,8 +52,8 @@
     
     _chartView.yAxis.enabled = NO;
     _chartView.webAlpha = 0.7f;
-    _chartView.innerWebColor = UIColor.darkGrayColor;
-    _chartView.webColor = UIColor.grayColor;
+    _chartView.innerWebColor = NSUIColor.darkGrayColor;
+    _chartView.webColor = NSUIColor.grayColor;
     
     [self setData];
 }

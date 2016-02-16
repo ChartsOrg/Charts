@@ -13,7 +13,7 @@
 //
 
 import Foundation
-import UIKit
+
 import Charts
 import Realm
 import Realm.Dynamic
@@ -22,7 +22,7 @@ public class RealmRadarDataSet: RealmLineRadarDataSet, IRadarChartDataSet
 {
     public override func initialize()
     {
-        self.valueFont = UIFont.systemFontOfSize(13.0)
+        self.valueFont = NSUIFont.systemFontOfSize(13.0)
     }
     
     // MARK: - Data functions and accessors

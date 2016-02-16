@@ -13,7 +13,7 @@
 //
 
 import Foundation
-import UIKit
+
 import Charts
 import Realm
 import Realm.Dynamic
@@ -22,7 +22,7 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
 {
     public override func initialize()
     {
-        circleColors.append(UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
+        circleColors.append(NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
     }
     
     // MARK: - Data functions and accessors
@@ -63,11 +63,11 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     /// The radius of the drawn circles.
     public var circleRadius = CGFloat(8.0)
     
-    public var circleColors = [UIColor]()
+    public var circleColors = [NSUIColor]()
     
     /// - returns: the color at the given index of the DataSet's circle-color array.
     /// Performs a IndexOutOfBounds check by modulus.
-    public func getCircleColor(var index: Int) -> UIColor?
+    public func getCircleColor(var index: Int) -> NSUIColor?
     {
         let size = circleColors.count
         index = index % size
@@ -80,7 +80,7 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     
     /// Sets the one and ONLY color that should be used for this DataSet.
     /// Internally, this recreates the colors array and adds the specified color.
-    public func setCircleColor(color: UIColor)
+    public func setCircleColor(color: NSUIColor)
     {
         circleColors.removeAll(keepCapacity: false)
         circleColors.append(color)
@@ -99,7 +99,7 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     public var isDrawCirclesEnabled: Bool { return drawCirclesEnabled }
     
     /// The color of the inner circle (the circle-hole).
-    public var circleHoleColor = UIColor.whiteColor()
+    public var circleHoleColor = NSUIColor.whiteColor()
     
     /// True if drawing circles for this DataSet is enabled, false if not
     public var drawCircleHoleEnabled = true

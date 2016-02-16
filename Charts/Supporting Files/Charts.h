@@ -12,7 +12,11 @@
 //  https://github.com/danielgindi/ios-charts
 //
 
-#import <UIKit/UIKit.h>
+#include <TargetConditionals.h>
+
+#ifdef TARGET_OS_IPHONE
+	#import <UIKit/UIKit.h>
+#endif
 
 //! Project version number for Charts.
 FOUNDATION_EXPORT double ChartsVersionNumber;

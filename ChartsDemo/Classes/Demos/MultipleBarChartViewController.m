@@ -54,19 +54,19 @@
     _chartView.drawBarShadowEnabled = NO;
     _chartView.drawGridBackgroundEnabled = NO;
     
-    BalloonMarker *marker = [[BalloonMarker alloc] initWithColor:[UIColor colorWithWhite:180/255. alpha:1.0] font:[UIFont systemFontOfSize:12.0] insets: UIEdgeInsetsMake(8.0, 8.0, 20.0, 8.0)];
+    BalloonMarker *marker = [[BalloonMarker alloc] initWithColor:[NSUIColor colorWithWhite:180/255. alpha:1.0] font:[NSUIFont systemFontOfSize:12.0] insets: UIEdgeInsetsMake(8.0, 8.0, 20.0, 8.0)];
     marker.minimumSize = CGSizeMake(80.f, 40.f);
     _chartView.marker = marker;
     
     ChartLegend *legend = _chartView.legend;
     legend.position = ChartLegendPositionRightOfChartInside;
-    legend.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
+    legend.font = [NSUIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
     
     ChartXAxis *xAxis = _chartView.xAxis;
-    xAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
+    xAxis.labelFont = [NSUIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
-    leftAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
+    leftAxis.labelFont = [NSUIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     leftAxis.valueFormatter = [[NSNumberFormatter alloc] init];
     leftAxis.valueFormatter.maximumFractionDigits = 1;
     leftAxis.drawGridLinesEnabled = NO;
@@ -113,11 +113,11 @@
     }
     
     BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithYVals:yVals1 label:@"Company A"];
-    [set1 setColor:[UIColor colorWithRed:104/255.f green:241/255.f blue:175/255.f alpha:1.f]];
+    [set1 setColor:[NSUIColor colorWithRed:104/255.f green:241/255.f blue:175/255.f alpha:1.f]];
     BarChartDataSet *set2 = [[BarChartDataSet alloc] initWithYVals:yVals2 label:@"Company B"];
-    [set2 setColor:[UIColor colorWithRed:164/255.f green:228/255.f blue:251/255.f alpha:1.f]];
+    [set2 setColor:[NSUIColor colorWithRed:164/255.f green:228/255.f blue:251/255.f alpha:1.f]];
     BarChartDataSet *set3 = [[BarChartDataSet alloc] initWithYVals:yVals3 label:@"Company C"];
-    [set3 setColor:[UIColor colorWithRed:242/255.f green:247/255.f blue:158/255.f alpha:1.f]];
+    [set3 setColor:[NSUIColor colorWithRed:242/255.f green:247/255.f blue:158/255.f alpha:1.f]];
     
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
     [dataSets addObject:set1];
@@ -126,7 +126,7 @@
     
     BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSets:dataSets];
     data.groupSpace = 0.8;
-    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
+    [data setValueFont:[NSUIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
     
     _chartView.data = data;
 }

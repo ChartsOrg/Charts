@@ -12,14 +12,14 @@
 //
 
 import Foundation
-import UIKit;
+;
 import Charts;
 
 public class BalloonMarker: ChartMarker
 {
-    public var color: UIColor?
+    public var color: NSUIColor?
     public var arrowSize = CGSize(width: 15, height: 11)
-    public var font: UIFont?
+    public var font: NSUIFont?
     public var insets = UIEdgeInsets()
     public var minimumSize = CGSize()
     
@@ -29,7 +29,7 @@ public class BalloonMarker: ChartMarker
     private var _paragraphStyle: NSMutableParagraphStyle?
     private var _drawAttributes = [String : AnyObject]()
     
-    public init(color: UIColor, font: UIFont, insets: UIEdgeInsets)
+    public init(color: NSUIColor, font: NSUIFont, insets: UIEdgeInsets)
     {
         super.init()
         

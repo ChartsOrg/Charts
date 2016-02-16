@@ -119,7 +119,7 @@
     formatter.positiveSuffix = @" $";
     
     BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSets:dataSets];
-    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:7.f]];
+    [data setValueFont:[NSUIFont fontWithName:@"HelveticaNeue-Light" size:7.f]];
     [data setValueFormatter:formatter];
     
     _chartView.data = data;

@@ -49,21 +49,21 @@
     _chartView.innerWebLineWidth = 0.375;
     _chartView.webAlpha = 1.0;
     
-    BalloonMarker *marker = [[BalloonMarker alloc] initWithColor:[UIColor colorWithWhite:180/255. alpha:1.0] font:[UIFont systemFontOfSize:12.0] insets: UIEdgeInsetsMake(8.0, 8.0, 20.0, 8.0)];
+    BalloonMarker *marker = [[BalloonMarker alloc] initWithColor:[NSUIColor colorWithWhite:180/255. alpha:1.0] font:[NSUIFont systemFontOfSize:12.0] insets: UIEdgeInsetsMake(8.0, 8.0, 20.0, 8.0)];
     marker.minimumSize = CGSizeMake(80.f, 40.f);
     _chartView.marker = marker;
     
     ChartXAxis *xAxis = _chartView.xAxis;
-    xAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:9.f];
+    xAxis.labelFont = [NSUIFont fontWithName:@"HelveticaNeue-Light" size:9.f];
     
     ChartYAxis *yAxis = _chartView.yAxis;
-    yAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:9.f];
+    yAxis.labelFont = [NSUIFont fontWithName:@"HelveticaNeue-Light" size:9.f];
     yAxis.labelCount = 5;
     yAxis.startAtZeroEnabled = YES;
     
     ChartLegend *l = _chartView.legend;
     l.position = ChartLegendPositionRightOfChart;
-    l.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
+    l.font = [NSUIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     l.xEntrySpace = 7.0;
     l.yEntrySpace = 5.0;
     
@@ -112,7 +112,7 @@
     set2.lineWidth = 2.0;
     
     RadarChartData *data = [[RadarChartData alloc] initWithXVals:xVals dataSets:@[set1, set2]];
-    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:8.f]];
+    [data setValueFont:[NSUIFont fontWithName:@"HelveticaNeue-Light" size:8.f]];
     [data setDrawValues:NO];
     
     _chartView.data = data;

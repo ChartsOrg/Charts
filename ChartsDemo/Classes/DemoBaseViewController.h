@@ -14,7 +14,7 @@
 #import <UIKit/UIKit.h>
 #import "ChartsDemo-Swift.h"
 
-@interface DemoBaseViewController : UIViewController
+@interface DemoBaseViewController : NSUIViewController
 {
 @protected
     NSArray *months;

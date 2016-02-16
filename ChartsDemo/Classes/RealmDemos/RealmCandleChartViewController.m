@@ -72,13 +72,13 @@
     RealmCandleDataSet *set = [[RealmCandleDataSet alloc] initWithResults:results highField:@"high" lowField:@"low" openField:@"open" closeField:@"close" xIndexField:@"xIndex"];
 
     set.label = @"Realm CandleDataSet";
-    set.shadowColor = UIColor.darkGrayColor;
+    set.shadowColor = NSUIColor.darkGrayColor;
     set.shadowWidth = 0.7f;
-    set.decreasingColor = UIColor.redColor;
+    set.decreasingColor = NSUIColor.redColor;
     set.decreasingFilled = YES;
-    set.increasingColor = [UIColor colorWithRed:122/255.f green:242/255.f blue:84/255.f alpha:1.f];
+    set.increasingColor = [NSUIColor colorWithRed:122/255.f green:242/255.f blue:84/255.f alpha:1.f];
     set.increasingFilled = NO;
-    set.neutralColor = UIColor.blueColor;
+    set.neutralColor = NSUIColor.blueColor;
     
     NSArray<id <IChartDataSet>> *dataSets = @[set];
     

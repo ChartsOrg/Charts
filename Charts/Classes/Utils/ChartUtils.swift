@@ -13,7 +13,7 @@
 //
 
 import Foundation
-import UIKit
+
 import Darwin
 
 public class ChartUtils
@@ -131,18 +131,18 @@ public class ChartUtils
             point.x -= text.sizeWithAttributes(attributes).width
         }
         
-        UIGraphicsPushContext(context)
+        NSUIGraphicsPushContext(context)
         
         (text as NSString).drawAtPoint(point, withAttributes: attributes)
         
-        UIGraphicsPopContext()
+        NSUIGraphicsPopContext()
     }
     
     public class func drawText(context context: CGContext, text: String, point: CGPoint, attributes: [String : AnyObject]?, anchor: CGPoint, angleRadians: CGFloat)
     {
         var drawOffset = CGPoint()
         
-        UIGraphicsPushContext(context)
+        NSUIGraphicsPushContext(context)
         
         if angleRadians != 0.0
         {
@@ -187,14 +187,14 @@ public class ChartUtils
             (text as NSString).drawAtPoint(drawOffset, withAttributes: attributes)
         }
         
-        UIGraphicsPopContext()
+        NSUIGraphicsPopContext()
     }
     
     internal class func drawMultilineText(context context: CGContext, text: String, knownTextSize: CGSize, point: CGPoint, attributes: [String : AnyObject]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
     {
         var rect = CGRect(origin: CGPoint(), size: knownTextSize)
         
-        UIGraphicsPushContext(context)
+        NSUIGraphicsPushContext(context)
         
         if angleRadians != 0.0
         {
@@ -235,7 +235,7 @@ public class ChartUtils
             (text as NSString).drawWithRect(rect, options: .UsesLineFragmentOrigin, attributes: attributes, context: nil)
         }
         
-        UIGraphicsPopContext()
+        NSUIGraphicsPopContext()
     }
     
     internal class func drawMultilineText(context context: CGContext, text: String, point: CGPoint, attributes: [String : AnyObject]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
@@ -298,7 +298,7 @@ public class ChartUtils
     
     /// MARK: - Bridging functions
     
-    internal class func bridgedObjCGetUIColorArray (swift array: [UIColor?]) -> [NSObject]
+    internal class func bridgedObjCGetNSUIColorArray (swift array: [NSUIColor?]) -> [NSObject]
     {
         var newArray = [NSObject]()
         for val in array
@@ -315,12 +315,12 @@ public class ChartUtils
         return newArray
     }
     
-    internal class func bridgedObjCGetUIColorArray (objc array: [NSObject]) -> [UIColor?]
+    internal class func bridgedObjCGetNSUIColorArray (objc array: [NSObject]) -> [NSUIColor?]
     {
-        var newArray = [UIColor?]()
+        var newArray = [NSUIColor?]()
         for object in array
         {
-            newArray.append(object as? UIColor)
+            newArray.append(object as? NSUIColor)
         }
         return newArray
     }

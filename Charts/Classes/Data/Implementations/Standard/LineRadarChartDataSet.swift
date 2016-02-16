@@ -13,7 +13,7 @@
 
 import Foundation
 import CoreGraphics
-import UIKit
+
 
 public class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadarChartDataSet
 {
@@ -22,10 +22,10 @@ public class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRad
     // MARK: - Styling functions and accessors
     
     /// The color that is used for filling the line surface area.
-    private var _fillColor = UIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0)
+    private var _fillColor = NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0)
     
     /// The color that is used for filling the line surface area.
-    public var fillColor: UIColor
+    public var fillColor: NSUIColor
     {
         get { return _fillColor }
         set

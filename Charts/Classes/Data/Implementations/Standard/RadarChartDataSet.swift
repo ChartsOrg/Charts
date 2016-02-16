@@ -13,13 +13,13 @@
 //
 
 import Foundation
-import UIKit
+
 
 public class RadarChartDataSet: LineRadarChartDataSet, IRadarChartDataSet
 {
     private func initialize()
     {
-        self.valueFont = UIFont.systemFontOfSize(13.0)
+        self.valueFont = NSUIFont.systemFontOfSize(13.0)
     }
     
     public required init()
