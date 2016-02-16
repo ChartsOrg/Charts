@@ -65,10 +65,10 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
     {
         if _data === nil
         {
-            print("Can't select by touch. No data set.", terminator: "\n")
+            Swift.print("Can't select by touch. No data set.")
             return nil
         }
-        
+
         return self.highlighter?.getHighlight(x: Double(pt.x), y: Double(pt.y))
     }
         

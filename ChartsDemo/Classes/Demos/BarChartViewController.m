@@ -56,13 +56,13 @@
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBottom;
-    xAxis.labelFont = [UIFont systemFontOfSize:10.f];
+    xAxis.labelFont = [NSUIFont systemFontOfSize:10.f];
     xAxis.drawGridLinesEnabled = NO;
     xAxis.spaceBetweenLabels = 2.0;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.startAtZeroEnabled = YES;
-    leftAxis.labelFont = [UIFont systemFontOfSize:10.f];
+    leftAxis.labelFont = [NSUIFont systemFontOfSize:10.f];
     leftAxis.labelCount = 8;
     leftAxis.valueFormatter = [[NSNumberFormatter alloc] init];
     leftAxis.valueFormatter.maximumFractionDigits = 1;
@@ -74,7 +74,7 @@
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.enabled = YES;
     rightAxis.drawGridLinesEnabled = NO;
-    rightAxis.labelFont = [UIFont systemFontOfSize:10.f];
+    rightAxis.labelFont = [NSUIFont systemFontOfSize:10.f];
     rightAxis.labelCount = 8;
     rightAxis.valueFormatter = leftAxis.valueFormatter;
     rightAxis.spaceTop = 0.15;
@@ -82,7 +82,7 @@
     _chartView.legend.position = ChartLegendPositionBelowChartLeft;
     _chartView.legend.form = ChartLegendFormSquare;
     _chartView.legend.formSize = 9.0;
-    _chartView.legend.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
+    _chartView.legend.font = [NSUIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
     _chartView.legend.xEntrySpace = 4.0;
     
     _sliderX.value = 11.0;
@@ -121,7 +121,7 @@
     [dataSets addObject:set1];
     
     BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSets:dataSets];
-    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
+    [data setValueFont:[NSUIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
     
     _chartView.data = data;
 }

@@ -88,7 +88,7 @@
     }
     
     self.optionsTableView = [[UITableView alloc] init];
-    _optionsTableView.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.9f];
+    _optionsTableView.backgroundColor = [NSUIColor colorWithWhite:0.f alpha:0.9f];
     _optionsTableView.delegate = self;
     _optionsTableView.dataSource = self;
     
@@ -152,8 +152,8 @@
         {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
             cell.backgroundView = nil;
-            cell.backgroundColor = UIColor.clearColor;
-            cell.textLabel.textColor = UIColor.whiteColor;
+            cell.backgroundColor = NSUIColor.clearColor;
+            cell.textLabel.textColor = NSUIColor.whiteColor;
         }
         
         cell.textLabel.text = self.options[indexPath.row][@"label"];
@@ -199,16 +199,16 @@
     
     NSMutableAttributedString *centerText = [[NSMutableAttributedString alloc] initWithString:@"iOS Charts\nby Daniel Cohen Gindi"];
     [centerText setAttributes:@{
-                                NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:12.f],
+                                NSFontAttributeName: [NSUIFont fontWithName:@"HelveticaNeue-Light" size:12.f],
                                 NSParagraphStyleAttributeName: paragraphStyle
                                 } range:NSMakeRange(0, centerText.length)];
     [centerText addAttributes:@{
-                                NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f],
-                                NSForegroundColorAttributeName: UIColor.grayColor
+                                NSFontAttributeName: [NSUIFont fontWithName:@"HelveticaNeue-Light" size:10.f],
+                                NSForegroundColorAttributeName: NSUIColor.grayColor
                                 } range:NSMakeRange(10, centerText.length - 10)];
     [centerText addAttributes:@{
-                                NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:10.f],
-                                NSForegroundColorAttributeName: [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]
+                                NSFontAttributeName: [NSUIFont fontWithName:@"HelveticaNeue-LightItalic" size:10.f],
+                                NSForegroundColorAttributeName: [NSUIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]
                                 } range:NSMakeRange(centerText.length - 19, 19)];
     chartView.centerAttributedText = centerText;
     

@@ -57,10 +57,10 @@
     
     ChartLegend *l = _chartView.legend;
     l.position = ChartLegendPositionRightOfChart;
-    l.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
+    l.font = [NSUIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     
     ChartYAxis *yl = _chartView.leftAxis;
-    yl.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
+    yl.labelFont = [NSUIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     yl.spaceTop = 0.3;
     yl.startAtZeroEnabled = NO;
     yl.spaceBottom = 0.3;
@@ -69,7 +69,7 @@
     
     ChartXAxis *xl = _chartView.xAxis;
     xl.labelPosition = XAxisLabelPositionBottom;
-    xl.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
+    xl.labelFont = [NSUIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     
     _sliderX.value = 5.0;
     _sliderY.value = 50.0;
@@ -126,9 +126,9 @@
     [dataSets addObject:set3];
     
     BubbleChartData *data = [[BubbleChartData alloc] initWithXVals:xVals dataSets:dataSets];
-    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:7.f]];
+    [data setValueFont:[NSUIFont fontWithName:@"HelveticaNeue-Light" size:7.f]];
     [data setHighlightCircleWidth: 1.5];
-    [data setValueTextColor:UIColor.whiteColor];
+    [data setValueTextColor:NSUIColor.whiteColor];
     
     _chartView.data = data;
 }

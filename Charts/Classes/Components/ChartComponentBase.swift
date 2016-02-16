@@ -12,7 +12,7 @@
 //
 
 import Foundation
-import UIKit
+
 
 /// This class encapsulates everything both Axis, Legend and LimitLines have in common
 public class ChartComponentBase: NSObject

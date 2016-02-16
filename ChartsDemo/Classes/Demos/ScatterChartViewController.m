@@ -57,15 +57,15 @@
     
     ChartLegend *l = _chartView.legend;
     l.position = ChartLegendPositionRightOfChart;
-    l.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
+    l.font = [NSUIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     
     ChartYAxis *yl = _chartView.leftAxis;
-    yl.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
+    yl.labelFont = [NSUIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     
     _chartView.rightAxis.enabled = NO;
     
     ChartXAxis *xl = _chartView.xAxis;
-    xl.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
+    xl.labelFont = [NSUIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     xl.drawGridLinesEnabled = NO;
     
     _sliderX.value = 45.0;
@@ -124,7 +124,7 @@
     [dataSets addObject:set3];
     
     ScatterChartData *data = [[ScatterChartData alloc] initWithXVals:xVals dataSets:dataSets];
-    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:7.f]];
+    [data setValueFont:[NSUIFont fontWithName:@"HelveticaNeue-Light" size:7.f]];
     
     _chartView.data = data;
 }

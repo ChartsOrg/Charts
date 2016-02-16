@@ -13,7 +13,7 @@
 //
 
 import Foundation
-import UIKit
+
 
 /// The limit line is an additional feature for all Line, Bar and ScatterCharts.
 /// It allows the displaying of an additional line in the chart that marks a certain maximum / limit on the specified axis (x- or y-axis).
@@ -32,11 +32,11 @@ public class ChartLimitLine: ChartComponentBase
     public var limit = Double(0.0)
     
     private var _lineWidth = CGFloat(2.0)
-    public var lineColor = UIColor(red: 237.0/255.0, green: 91.0/255.0, blue: 91.0/255.0, alpha: 1.0)
+    public var lineColor = NSUIColor(red: 237.0/255.0, green: 91.0/255.0, blue: 91.0/255.0, alpha: 1.0)
     public var lineDashPhase = CGFloat(0.0)
     public var lineDashLengths: [CGFloat]?
-    public var valueTextColor = UIColor.blackColor()
-    public var valueFont = UIFont.systemFontOfSize(13.0)
+    public var valueTextColor = NSUIColor.blackColor()
+    public var valueFont = NSUIFont.systemFontOfSize(13.0)
     public var label = ""
     public var labelPosition = ChartLimitLabelPosition.RightTop
     

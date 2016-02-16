@@ -13,7 +13,7 @@
 
 import Foundation
 import CoreGraphics
-import UIKit
+
 
 public class RadarChartRenderer: LineRadarChartRenderer
 {

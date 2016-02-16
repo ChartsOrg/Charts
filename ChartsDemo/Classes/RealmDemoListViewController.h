@@ -13,7 +13,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RealmDemoListViewController : UIViewController
+@interface RealmDemoListViewController : NSUIViewController
 
 
 @end
