@@ -83,7 +83,7 @@ public class PieChartRenderer: ChartDataRendererBase
             let sliceAngle = drawAngles[j]
             let sliceSpace = dataSet.sliceSpace
             let sliceSpaceOuterAngle = sliceSpace / (ChartUtils.Math.FDEG2RAD * radius)
-            let sliceSpaceInnerAngle = sliceSpace / (ChartUtils.Math.FDEG2RAD * innerRadius)
+            let sliceSpaceInnerAngle = innerRadius == 0.0 ? 0.0 : sliceSpace / (ChartUtils.Math.FDEG2RAD * innerRadius)
             
             guard let e = dataSet.entryForIndex(j) else { continue }
             
@@ -141,6 +141,14 @@ public class PieChartRenderer: ChartDataRendererBase
                             innerRadius,
                             endAngleInner * ChartUtils.Math.FDEG2RAD,
                             -sweepAngleInner * ChartUtils.Math.FDEG2RAD)
+                    }
+                    else
+                    {
+                        CGPathAddLineToPoint(
+                            path,
+                            nil,
+                            center.x,
+                            center.y)
                     }
                     
                     CGPathCloseSubpath(path)
@@ -448,7 +456,7 @@ public class PieChartRenderer: ChartDataRendererBase
             let sliceAngle = drawAngles[xIndex]
             let sliceSpace = set.sliceSpace
             let sliceSpaceOuterAngle = sliceSpace / (ChartUtils.Math.FDEG2RAD * radius)
-            let sliceSpaceInnerAngle = sliceSpace / (ChartUtils.Math.FDEG2RAD * innerRadius)
+            let sliceSpaceInnerAngle = innerRadius == 0.0 ? 0.0 : sliceSpace / (ChartUtils.Math.FDEG2RAD * innerRadius)
             
             let shift = set.selectionShift
             let highlightedRadius = radius + shift
@@ -501,6 +509,14 @@ public class PieChartRenderer: ChartDataRendererBase
                     innerRadius,
                     endAngleInner * ChartUtils.Math.FDEG2RAD,
                     -sweepAngleInner * ChartUtils.Math.FDEG2RAD)
+            }
+            else
+            {
+                CGPathAddLineToPoint(
+                    path,
+                    nil,
+                    center.x,
+                    center.y)
             }
             
             CGPathCloseSubpath(path)
