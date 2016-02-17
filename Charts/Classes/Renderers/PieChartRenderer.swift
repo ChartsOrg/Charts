@@ -318,10 +318,11 @@ public class PieChartRenderer: ChartDataRendererBase
             CGContextSaveGState(context)
             
             let radius = chart.radius
-            let holeRadius = radius * holeRadiusPercent
+            let holeRadius = radius * self.holeRadiusPercent
             let center = chart.centerCircleBox
+            let hasHoleColor = holeColor !== nil && holeColor != UIColor.clearColor()
             
-            if holeColor !== nil && holeColor != UIColor.clearColor()
+            if hasHoleColor
             {
                 // draw the hole-circle
                 CGContextSetFillColorWithColor(context, holeColor!.CGColor)
@@ -329,16 +330,28 @@ public class PieChartRenderer: ChartDataRendererBase
             }
             
             // only draw the circle if it can be seen (not covered by the hole)
-            if holeColor != nil && transparentCircleRadiusPercent > holeRadiusPercent
+            if hasHoleColor && self.transparentCircleRadiusPercent > self.holeRadiusPercent
             {
                 let alpha = holeAlpha * animator.phaseX * animator.phaseY
-                let secondHoleRadius = radius * transparentCircleRadiusPercent
+                let secondHoleRadius = radius * self.transparentCircleRadiusPercent
                 
                 // make transparent
-                CGContextSetFillColorWithColor(context, holeColor!.colorWithAlphaComponent(alpha).CGColor)
+                CGContextSetAlpha(context, alpha);
+                CGContextSetFillColorWithColor(context, holeColor!.CGColor)
                 
                 // draw the transparent-circle
-                CGContextFillEllipseInRect(context, CGRect(x: center.x - secondHoleRadius, y: center.y - secondHoleRadius, width: secondHoleRadius * 2.0, height: secondHoleRadius * 2.0))
+                CGContextBeginPath(context)
+                CGContextAddEllipseInRect(context, CGRect(
+                    x: center.x - secondHoleRadius,
+                    y: center.y - secondHoleRadius,
+                    width: secondHoleRadius * 2.0,
+                    height: secondHoleRadius * 2.0))
+                CGContextAddEllipseInRect(context, CGRect(
+                    x: center.x - holeRadius,
+                    y: center.y - holeRadius,
+                    width: holeRadius * 2.0,
+                    height: holeRadius * 2.0))
+                CGContextEOFillPath(context)
             }
             
             CGContextRestoreGState(context)
