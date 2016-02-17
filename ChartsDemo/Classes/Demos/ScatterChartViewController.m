@@ -109,6 +109,8 @@
     [set1 setColor:ChartColorTemplates.colorful[0]];
     ScatterChartDataSet *set2 = [[ScatterChartDataSet alloc] initWithYVals:yVals2 label:@"DS 2"];
     set2.scatterShape = ScatterShapeCircle;
+    set2.scatterShapeHoleColor = UIColor.whiteColor;
+    set2.scatterShapeHoleRadius = 2.5f;
     [set2 setColor:ChartColorTemplates.colorful[1]];
     ScatterChartDataSet *set3 = [[ScatterChartDataSet alloc] initWithYVals:yVals3 label:@"DS 3"];
     set3.scatterShape = ScatterShapeCross;

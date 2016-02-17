@@ -28,6 +28,7 @@ public protocol IScatterChartDataSet: ILineScatterCandleRadarChartDataSet
     var scatterShape: ScatterChartDataSet.ScatterShape { get set }
     
     // The radius of the hole in the shape (applies to Square, Circle and Triangle)
+    // Set this to <= 0 to remove holes.
     // - default: 0.0
     var scatterShapeHoleRadius: CGFloat { get set }
     
