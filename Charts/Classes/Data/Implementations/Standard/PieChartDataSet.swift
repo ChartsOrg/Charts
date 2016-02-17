@@ -173,8 +173,9 @@ public class PieChartDataSet: ChartDataSet, IPieChartDataSet
     
     private var _sliceSpace = CGFloat(0.0)
     
-    /// the space that is left out between the piechart-slices, default: 0°
-    /// --> no space, maximum 45, minimum 0 (no space)
+    /// the space in pixels between the pie-slices
+    /// **default**: 0
+    /// **maximum**: 20
     public var sliceSpace: CGFloat
     {
         get
@@ -183,15 +184,16 @@ public class PieChartDataSet: ChartDataSet, IPieChartDataSet
         }
         set
         {
-            _sliceSpace = newValue
-            if (_sliceSpace > 45.0)
+            var space = newValue
+            if (space > 20.0)
             {
-                _sliceSpace = 45.0
+                space = 20.0
             }
-            if (_sliceSpace < 0.0)
+            if (space < 0.0)
             {
-                _sliceSpace = 0.0
+                space = 0.0
             }
+            _sliceSpace = space
         }
     }
     

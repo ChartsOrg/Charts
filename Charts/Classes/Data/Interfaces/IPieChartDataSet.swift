@@ -25,8 +25,9 @@ public protocol IPieChartDataSet: IChartDataSet
     
     // MARK: - Styling functions and accessors
     
-    /// the space that is left out between the piechart-slices, default: 0°
-    /// --> no space, maximum 45, minimum 0 (no space)
+    /// the space in pixels between the pie-slices
+    /// **default**: 0
+    /// **maximum**: 20
     var sliceSpace: CGFloat { get set }
     
     /// indicates the selection distance of a pie slice
