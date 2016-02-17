@@ -300,26 +300,20 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         var minRight = _data.getYMin(.Right)
         var maxRight = _data.getYMax(.Right)
         
-        let leftRange = abs(maxLeft - (_leftAxis.isStartAtZeroEnabled ? 0.0 : minLeft))
-        let rightRange = abs(maxRight - (_rightAxis.isStartAtZeroEnabled ? 0.0 : minRight))
+        let leftRange = abs(maxLeft - minLeft)
+        let rightRange = abs(maxRight - minRight)
         
         // in case all values are equal
         if (leftRange == 0.0)
         {
             maxLeft = maxLeft + 1.0
-            if (!_leftAxis.isStartAtZeroEnabled)
-            {
-                minLeft = minLeft - 1.0
-            }
+            minLeft = minLeft - 1.0
         }
         
         if (rightRange == 0.0)
         {
             maxRight = maxRight + 1.0
-            if (!_rightAxis.isStartAtZeroEnabled)
-            {
-                minRight = minRight - 1.0
-            }
+            minRight = minRight - 1.0
         }
         
         let topSpaceLeft = leftRange * Double(_leftAxis.spaceTop)
@@ -330,62 +324,20 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         _chartXMax = Double(_data.xVals.count - 1)
         _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
         
-        // Consider sticking one of the edges of the axis to zero (0.0)
+        // Use the values as they are
+        _leftAxis.axisMinimum = !isnan(_leftAxis.customAxisMin)
+            ? _leftAxis.customAxisMin
+            : (minLeft - bottomSpaceLeft)
+        _leftAxis.axisMaximum = !isnan(_leftAxis.customAxisMax)
+            ? _leftAxis.customAxisMax
+            : (maxLeft + topSpaceLeft)
         
-        if _leftAxis.isStartAtZeroEnabled
-        {
-            if minLeft < 0.0 && maxLeft < 0.0
-            {
-                // If the values are all negative, let's stay in the negative zone
-                _leftAxis.axisMinimum = min(0.0, !isnan(_leftAxis.customAxisMin) ? _leftAxis.customAxisMin : (minLeft - bottomSpaceLeft))
-                _leftAxis.axisMaximum = 0.0
-            }
-            else if minLeft >= 0.0
-            {
-                // We have positive values only, stay in the positive zone
-                _leftAxis.axisMinimum = 0.0
-                _leftAxis.axisMaximum = max(0.0, !isnan(_leftAxis.customAxisMax) ? _leftAxis.customAxisMax : (maxLeft + topSpaceLeft))
-            }
-            else
-            {
-                // Stick the minimum to 0.0 or less, and maximum to 0.0 or more (startAtZero for negative/positive at the same time)
-                _leftAxis.axisMinimum = min(0.0, !isnan(_leftAxis.customAxisMin) ? _leftAxis.customAxisMin : (minLeft - bottomSpaceLeft))
-                _leftAxis.axisMaximum = max(0.0, !isnan(_leftAxis.customAxisMax) ? _leftAxis.customAxisMax : (maxLeft + topSpaceLeft))
-            }
-        }
-        else
-        {
-            // Use the values as they are
-            _leftAxis.axisMinimum = !isnan(_leftAxis.customAxisMin) ? _leftAxis.customAxisMin : (minLeft - bottomSpaceLeft)
-            _leftAxis.axisMaximum = !isnan(_leftAxis.customAxisMax) ? _leftAxis.customAxisMax : (maxLeft + topSpaceLeft)
-        }
-        
-        if _rightAxis.isStartAtZeroEnabled
-        {
-            if minRight < 0.0 && maxRight < 0.0
-            {
-                // If the values are all negative, let's stay in the negative zone
-                _rightAxis.axisMinimum = min(0.0, !isnan(_rightAxis.customAxisMin) ? _rightAxis.customAxisMin : (minRight - bottomSpaceRight))
-                _rightAxis.axisMaximum = 0.0
-            }
-            else if minRight >= 0.0
-            {
-                // We have positive values only, stay in the positive zone
-                _rightAxis.axisMinimum = 0.0
-                _rightAxis.axisMaximum = max(0.0, !isnan(_rightAxis.customAxisMax) ? _rightAxis.customAxisMax : (maxRight + topSpaceRight))
-            }
-            else
-            {
-                // Stick the minimum to 0.0 or less, and maximum to 0.0 or more (startAtZero for negative/positive at the same time)
-                _rightAxis.axisMinimum = min(0.0, !isnan(_rightAxis.customAxisMin) ? _rightAxis.customAxisMin : (minRight - bottomSpaceRight))
-                _rightAxis.axisMaximum = max(0.0, !isnan(_rightAxis.customAxisMax) ? _rightAxis.customAxisMax : (maxRight + topSpaceRight))
-            }
-        }
-        else
-        {
-            _rightAxis.axisMinimum = !isnan(_rightAxis.customAxisMin) ? _rightAxis.customAxisMin : (minRight - bottomSpaceRight)
-            _rightAxis.axisMaximum = !isnan(_rightAxis.customAxisMax) ? _rightAxis.customAxisMax : (maxRight + topSpaceRight)
-        }
+        _rightAxis.axisMinimum = !isnan(_rightAxis.customAxisMin)
+            ? _rightAxis.customAxisMin
+            : (minRight - bottomSpaceRight)
+        _rightAxis.axisMaximum = !isnan(_rightAxis.customAxisMax)
+            ? _rightAxis.customAxisMax
+            : (maxRight + topSpaceRight)
         
         _leftAxis.axisRange = abs(_leftAxis.axisMaximum - _leftAxis.axisMinimum)
         _rightAxis.axisRange = abs(_rightAxis.axisMaximum - _rightAxis.axisMinimum)

@@ -59,7 +59,7 @@
     ChartYAxis *yAxis = _chartView.yAxis;
     yAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:9.f];
     yAxis.labelCount = 5;
-    yAxis.startAtZeroEnabled = YES;
+    yAxis.customAxisMin = 0.0;
     
     ChartLegend *l = _chartView.legend;
     l.position = ChartLegendPositionRightOfChart;

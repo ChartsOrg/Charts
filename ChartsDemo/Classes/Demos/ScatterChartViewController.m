@@ -35,7 +35,6 @@
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
-                     @{@"key": @"toggleStartZero", @"label": @"Toggle StartZero"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
                      @{@"key": @"animateXY", @"label": @"Animate XY"},
@@ -61,6 +60,7 @@
     
     ChartYAxis *yl = _chartView.leftAxis;
     yl.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
+    yl.customAxisMin = 0.0; // this replaces startAtZero = YES
     
     _chartView.rightAxis.enabled = NO;
     
@@ -147,14 +147,6 @@
     {
         _chartView.data.highlightEnabled = !_chartView.data.isHighlightEnabled;
         [_chartView setNeedsDisplay];
-    }
-    
-    if ([key isEqualToString:@"toggleStartZero"])
-    {
-        _chartView.leftAxis.startAtZeroEnabled = !_chartView.leftAxis.isStartAtZeroEnabled;
-        _chartView.rightAxis.startAtZeroEnabled = !_chartView.rightAxis.isStartAtZeroEnabled;
-        
-        [_chartView notifyDataSetChanged];
     }
     
     if ([key isEqualToString:@"animateX"])

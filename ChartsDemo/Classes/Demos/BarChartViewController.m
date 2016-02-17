@@ -39,7 +39,6 @@
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
                      @{@"key": @"animateXY", @"label": @"Animate XY"},
-                     @{@"key": @"toggleStartZero", @"label": @"Toggle StartZero"},
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"},
                      @{@"key": @"togglePinchZoom", @"label": @"Toggle PinchZoom"},
                      @{@"key": @"toggleAutoScaleMinMax", @"label": @"Toggle auto scale min/max"},
@@ -61,7 +60,6 @@
     xAxis.spaceBetweenLabels = 2.0;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
-    leftAxis.startAtZeroEnabled = YES;
     leftAxis.labelFont = [UIFont systemFontOfSize:10.f];
     leftAxis.labelCount = 8;
     leftAxis.valueFormatter = [[NSNumberFormatter alloc] init];
@@ -70,6 +68,7 @@
     leftAxis.valueFormatter.positiveSuffix = @" $";
     leftAxis.labelPosition = YAxisLabelPositionOutsideChart;
     leftAxis.spaceTop = 0.15;
+    leftAxis.customAxisMin = 0.0; // this replaces startAtZero = YES
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.enabled = YES;
@@ -78,6 +77,7 @@
     rightAxis.labelCount = 8;
     rightAxis.valueFormatter = leftAxis.valueFormatter;
     rightAxis.spaceTop = 0.15;
+    rightAxis.customAxisMin = 0.0; // this replaces startAtZero = YES
     
     _chartView.legend.position = ChartLegendPositionBelowChartLeft;
     _chartView.legend.form = ChartLegendFormSquare;
@@ -110,7 +110,7 @@
     for (int i = 0; i < count; i++)
     {
         double mult = (range + 1);
-        double val = (double) (arc4random_uniform(mult));
+        double val =  (double) (arc4random_uniform(mult));
         [yVals addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
     
@@ -150,14 +150,7 @@
         
         [_chartView setNeedsDisplay];
     }
-    
-    if ([key isEqualToString:@"toggleStartZero"])
-    {
-        _chartView.leftAxis.startAtZeroEnabled = !_chartView.leftAxis.isStartAtZeroEnabled;
-        _chartView.rightAxis.startAtZeroEnabled = !_chartView.rightAxis.isStartAtZeroEnabled;
-        
-        [_chartView notifyDataSetChanged];
-    }
+
     
     if ([key isEqualToString:@"animateX"])
     {

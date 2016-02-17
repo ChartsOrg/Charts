@@ -39,7 +39,6 @@
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
                      @{@"key": @"animateXY", @"label": @"Animate XY"},
-                     @{@"key": @"toggleStartZero", @"label": @"Toggle StartZero"},
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"},
                      @{@"key": @"togglePinchZoom", @"label": @"Toggle PinchZoom"},
                      @{@"key": @"toggleAutoScaleMinMax", @"label": @"Toggle auto scale min/max"},
@@ -62,17 +61,18 @@
     xAxis.gridLineWidth = .3;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
-    leftAxis.startAtZeroEnabled = YES;
     leftAxis.labelFont = [UIFont systemFontOfSize:10.f];
     leftAxis.drawAxisLineEnabled = YES;
     leftAxis.drawGridLinesEnabled = YES;
     leftAxis.gridLineWidth = .3;
+    leftAxis.customAxisMin = 0.0; // this replaces startAtZero = YES
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.enabled = YES;
     rightAxis.labelFont = [UIFont systemFontOfSize:10.f];
     rightAxis.drawAxisLineEnabled = YES;
     rightAxis.drawGridLinesEnabled = NO;
+    rightAxis.customAxisMin = 0.0; // this replaces startAtZero = YES
     
     _chartView.legend.position = ChartLegendPositionBelowChartLeft;
     _chartView.legend.form = ChartLegendFormSquare;
@@ -147,14 +147,7 @@
         
         [_chartView setNeedsDisplay];
     }
-    
-    if ([key isEqualToString:@"toggleStartZero"])
-    {
-        _chartView.leftAxis.startAtZeroEnabled = !_chartView.leftAxis.isStartAtZeroEnabled;
-        _chartView.rightAxis.startAtZeroEnabled = !_chartView.rightAxis.isStartAtZeroEnabled;
-        
-        [_chartView notifyDataSetChanged];
-    }
+
     
     if ([key isEqualToString:@"animateX"])
     {

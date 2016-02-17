@@ -103,11 +103,6 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
                 let rawCount = Double(yMin) / interval
                 var first = rawCount < 0.0 ? floor(rawCount) * interval : ceil(rawCount) * interval;
                 
-                if (first < yMin && yAxis.isStartAtZeroEnabled)
-                { // Force the first label to be at the 0 (or smallest negative value)
-                    first = yMin
-                }
-                
                 if (first == 0.0)
                 { // Fix for IEEE negative zero case (Where value == -0.0, and 0.0 == -0.0)
                     first = 0.0
@@ -141,7 +136,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
             }
         }
         
-        if !yAxis.isStartAtZeroEnabled && yAxis.entries[0] < yMin
+        if yAxis.entries[0] < yMin
         {
             // If startAtZero is disabled, and the first label is lower that the axis minimum,
             // Then adjust the axis minimum

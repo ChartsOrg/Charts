@@ -241,8 +241,7 @@
     [chartView setScaleEnabled:YES];
     chartView.pinchZoomEnabled = NO;
     
-    ChartYAxis *leftAxis = chartView.leftAxis;
-    leftAxis.startAtZeroEnabled = NO;
+    // ChartYAxis *leftAxis = chartView.leftAxis;
     
     ChartXAxis *xAxis = chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBottom;

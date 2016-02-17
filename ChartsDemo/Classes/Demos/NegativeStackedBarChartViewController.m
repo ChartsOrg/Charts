@@ -35,7 +35,6 @@
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
                      @{@"key": @"animateXY", @"label": @"Animate XY"},
-                     @{@"key": @"toggleStartZero", @"label": @"Toggle StartZero"},
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"},
                      @{@"key": @"togglePinchZoom", @"label": @"Toggle PinchZoom"},
                      @{@"key": @"toggleAutoScaleMinMax", @"label": @"Toggle auto scale min/max"},
@@ -63,7 +62,6 @@
     _chartView.drawValueAboveBarEnabled = YES;
     
     _chartView.leftAxis.enabled = NO;
-    _chartView.rightAxis.startAtZeroEnabled = NO;
     _chartView.rightAxis.customAxisMax = 25.0;
     _chartView.rightAxis.customAxisMin = -25.0;
     _chartView.rightAxis.drawGridLinesEnabled = NO;
@@ -146,14 +144,6 @@
         _chartView.drawHighlightArrowEnabled = !_chartView.isDrawHighlightArrowEnabled;
         
         [_chartView setNeedsDisplay];
-    }
-    
-    if ([key isEqualToString:@"toggleStartZero"])
-    {
-        _chartView.leftAxis.startAtZeroEnabled = !_chartView.leftAxis.isStartAtZeroEnabled;
-        _chartView.rightAxis.startAtZeroEnabled = !_chartView.rightAxis.isStartAtZeroEnabled;
-        
-        [_chartView notifyDataSetChanged];
     }
     
     if ([key isEqualToString:@"animateX"])

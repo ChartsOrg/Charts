@@ -50,8 +50,25 @@ public class ChartYAxis: ChartAxisBase
     /// flag that indicates if the axis is inverted or not
     public var inverted = false
     
-    /// if true, the y-label entries will always start at zero
-    public var startAtZeroEnabled = true
+    /// This property is deprecated - Use `customAxisMin` instead.
+    public var startAtZeroEnabled: Bool
+    {
+        get
+        {
+            return customAxisMin == 0.0
+        }
+        set
+        {
+            if newValue
+            {
+                customAxisMin = 0.0
+            }
+            else
+            {
+                resetCustomAxisMin()
+            }
+        }
+    }
     
     /// if true, the set number of y-labels will be forced
     public var forceLabelsEnabled = false
@@ -252,7 +269,9 @@ public class ChartYAxis: ChartAxisBase
     
     public var isInverted: Bool { return inverted; }
     
-    public var isStartAtZeroEnabled: Bool { return startAtZeroEnabled; }
+    /// This is deprecated now, use `customAxisMin`
+    @available(*, deprecated=1.0, message="Use customAxisMin instead.")
+    public var isStartAtZeroEnabled: Bool { return startAtZeroEnabled }
 
     /// - returns: true if focing the y-label count is enabled. Default: false
     public var isForceLabelsEnabled: Bool { return forceLabelsEnabled }
