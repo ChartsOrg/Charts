@@ -273,9 +273,6 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         _leftAxis?._defaultValueFormatter = _defaultValueFormatter
         _rightAxis?._defaultValueFormatter = _defaultValueFormatter
         
-        _leftYAxisRenderer?.computeAxis(yMin: _leftAxis.axisMinimum, yMax: _leftAxis.axisMaximum)
-        _rightYAxisRenderer?.computeAxis(yMin: _rightAxis.axisMinimum, yMax: _rightAxis.axisMaximum)
-        
         _xAxisRenderer?.computeAxis(xValAverageLength: _data.xValAverageLength, xValues: _data.xVals)
         
         if (_legend !== nil)
@@ -389,6 +386,37 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         _leftAxis.axisRange = abs(_leftAxis.axisMaximum - _leftAxis.axisMinimum)
         _rightAxis.axisRange = abs(_rightAxis.axisMaximum - _rightAxis.axisMinimum)
+        
+        _leftYAxisRenderer?.computeAxis(yMin: _leftAxis.axisMinimum, yMax: _leftAxis.axisMaximum)
+        _rightYAxisRenderer?.computeAxis(yMin: _rightAxis.axisMinimum, yMax: _rightAxis.axisMaximum)
+        
+        if (_leftAxis.entryCount > 0)
+        {
+            if (_leftAxis.entries.first < _leftAxis.axisMinimum)
+            {
+                _leftAxis.axisMinimum = _leftAxis.entries.first!
+            }
+            if (_leftAxis.entries.last > _leftAxis.axisMaximum)
+            {
+                _leftAxis.axisMaximum = _leftAxis.entries.last!
+                
+            }
+            _leftAxis.axisRange = abs(_leftAxis.axisMaximum - _leftAxis.axisMinimum)
+        }
+        
+        if (_rightAxis.entryCount > 0)
+        {
+            if (_rightAxis.entries.first < _rightAxis.axisMinimum)
+            {
+                _rightAxis.axisMinimum = _rightAxis.entries.first!
+            }
+            if (_rightAxis.entries.last > _rightAxis.axisMaximum)
+            {
+                _rightAxis.axisMaximum = _rightAxis.entries.last!
+                
+            }
+            _rightAxis.axisRange = abs(_rightAxis.axisMaximum - _rightAxis.axisMinimum)
+        }
     }
     
     internal override func calculateOffsets()
