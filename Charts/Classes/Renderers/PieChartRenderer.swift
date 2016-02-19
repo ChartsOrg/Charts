@@ -72,18 +72,29 @@ public class PieChartRenderer: ChartDataRendererBase
         
         let entryCount = dataSet.entryCount
         var drawAngles = chart.drawAngles
+        let sliceSpace = dataSet.sliceSpace
         let center = chart.centerCircleBox
         let radius = chart.radius
         let innerRadius = drawHoleEnabled && holeTransparent ? radius * holeRadiusPercent : 0.0
         
+        var visibleAngleCount = 0
+        for (var j = 0; j < entryCount; j++)
+        {
+            guard let e = dataSet.entryForIndex(j) else { continue }
+            if ((abs(e.value) > 0.000001))
+            {
+                visibleAngleCount++;
+            }
+        }
+
         CGContextSaveGState(context)
         
         for (var j = 0; j < entryCount; j++)
         {
             let sliceAngle = drawAngles[j]
-            let sliceSpace = dataSet.sliceSpace
-            let sliceSpaceOuterAngle = sliceSpace / (ChartUtils.Math.FDEG2RAD * radius)
-            let sliceSpaceInnerAngle = innerRadius == 0.0 ? 0.0 : sliceSpace / (ChartUtils.Math.FDEG2RAD * innerRadius)
+            let sliceSpaceOuterAngle = visibleAngleCount == 1 ?
+                0.0 :
+                sliceSpace / (ChartUtils.Math.FDEG2RAD * radius)
             
             guard let e = dataSet.entryForIndex(j) else { continue }
             
@@ -120,6 +131,9 @@ public class PieChartRenderer: ChartDataRendererBase
                     
                     if (innerRadius > 0.0)
                     {
+                        let sliceSpaceInnerAngle = visibleAngleCount == 1 ?
+                            0.0 :
+                            sliceSpace / (ChartUtils.Math.FDEG2RAD * innerRadius)
                         let startAngleInner = rotationAngle + (angle + sliceSpaceInnerAngle / 2.0) * phaseY
                         var sweepAngleInner = (sliceAngle - sliceSpaceInnerAngle) * phaseY
                         if (sweepAngleInner < 0.0)
@@ -444,6 +458,17 @@ public class PieChartRenderer: ChartDataRendererBase
                 continue
             }
             
+            let entryCount = set.entryCount
+            var visibleAngleCount = 0
+            for (var j = 0; j < entryCount; j++)
+            {
+                guard let e = set.entryForIndex(j) else { continue }
+                if ((abs(e.value) > 0.000001))
+                {
+                    visibleAngleCount++;
+                }
+            }
+            
             if (xIndex == 0)
             {
                 angle = 0.0
@@ -453,10 +478,12 @@ public class PieChartRenderer: ChartDataRendererBase
                 angle = absoluteAngles[xIndex - 1] * phaseX
             }
             
-            let sliceAngle = drawAngles[xIndex]
             let sliceSpace = set.sliceSpace
-            let sliceSpaceOuterAngle = sliceSpace / (ChartUtils.Math.FDEG2RAD * radius)
-            let sliceSpaceInnerAngle = innerRadius == 0.0 ? 0.0 : sliceSpace / (ChartUtils.Math.FDEG2RAD * innerRadius)
+            
+            let sliceAngle = drawAngles[xIndex]
+            let sliceSpaceOuterAngle = visibleAngleCount == 1 ?
+                0.0 :
+                sliceSpace / (ChartUtils.Math.FDEG2RAD * radius)
             
             let shift = set.selectionShift
             let highlightedRadius = radius + shift
@@ -488,6 +515,9 @@ public class PieChartRenderer: ChartDataRendererBase
             
             if (innerRadius > 0.0)
             {
+                let sliceSpaceInnerAngle = visibleAngleCount == 1 ?
+                    0.0 :
+                    sliceSpace / (ChartUtils.Math.FDEG2RAD * innerRadius)
                 let startAngleInner = rotationAngle + (angle + sliceSpaceInnerAngle / 2.0) * phaseY
                 var sweepAngleInner = (sliceAngle - sliceSpaceInnerAngle) * phaseY
                 if (sweepAngleInner < 0.0)
