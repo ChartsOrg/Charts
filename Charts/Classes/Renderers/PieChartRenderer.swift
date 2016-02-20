@@ -342,7 +342,7 @@ public class PieChartRenderer: ChartDataRendererBase
             let radius = chart.radius
             let holeRadius = radius * self.holeRadiusPercent
             let center = chart.centerCircleBox
-            let hasHoleColor = holeColor !== nil && holeColor != UIColor.clearColor()
+            let hasHoleColor = holeColor !== nil && holeColor != NSUIColor.clearColor()
             
             if hasHoleColor
             {
