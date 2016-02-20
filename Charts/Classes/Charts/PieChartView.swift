@@ -12,7 +12,6 @@
 //
 
 import Foundation
-import UIKit
 
 /// View that represents a pie chart. Draws cake like slices.
 public class PieChartView: PieRadarChartViewBase
@@ -55,7 +54,7 @@ public class PieChartView: PieRadarChartViewBase
             return
         }
         
-        let optionalContext = UIGraphicsGetCurrentContext()
+        let optionalContext = NSUIGraphicsGetCurrentContext()
         guard let context = optionalContext else { return }
         
         renderer!.drawData(context: context)
@@ -257,7 +256,7 @@ public class PieChartView: PieRadarChartViewBase
     /// Sets the color for the hole that is drawn in the center of the PieChart (if enabled).
     /// 
     /// *Note: Use holeTransparent with holeColor = nil to make the hole transparent.*
-    public var holeColor: UIColor?
+    public var holeColor: NSUIColor?
     {
         get
         {
@@ -351,8 +350,8 @@ public class PieChartView: PieRadarChartViewBase
                 
                 attrString = NSMutableAttributedString(string: newValue!)
                 attrString?.setAttributes([
-                    NSForegroundColorAttributeName: UIColor.blackColor(),
-                    NSFontAttributeName: UIFont.systemFontOfSize(12.0),
+                    NSForegroundColorAttributeName: NSUIColor.blackColor(),
+                    NSFontAttributeName: NSUIFont.systemFontOfSize(12.0),
                     NSParagraphStyleAttributeName: paragraphStyle
                     ], range: NSMakeRange(0, attrString!.length))
             }

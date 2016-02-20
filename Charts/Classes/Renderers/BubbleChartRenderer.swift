@@ -11,7 +11,7 @@
 
 import Foundation
 import CoreGraphics
-import UIKit
+
 
 public class BubbleChartRenderer: ChartDataRendererBase
 {
@@ -299,7 +299,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
             
             originalColor.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
             
-            let color = UIColor(hue: h, saturation: s, brightness: b * 0.5, alpha: a)
+            let color = NSUIColor(hue: h, saturation: s, brightness: b * 0.5, alpha: a)
             let rect = CGRect(
                 x: _pointBuffer.x - shapeHalf,
                 y: _pointBuffer.y - shapeHalf,

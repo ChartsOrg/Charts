@@ -13,7 +13,7 @@
 //
 
 import Foundation
-import UIKit
+
 
 public class ChartXAxis: ChartAxisBase
 {

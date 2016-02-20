@@ -12,7 +12,7 @@
 //
 
 import Foundation
-import UIKit
+
 
 public class BarLineScatterCandleBubbleChartDataSet: ChartDataSet, IBarLineScatterCandleBubbleChartDataSet
 {
@@ -20,7 +20,7 @@ public class BarLineScatterCandleBubbleChartDataSet: ChartDataSet, IBarLineScatt
     
     // MARK: - Styling functions and accessors
     
-    public var highlightColor = UIColor(red: 255.0/255.0, green: 187.0/255.0, blue: 115.0/255.0, alpha: 1.0)
+    public var highlightColor = NSUIColor(red: 255.0/255.0, green: 187.0/255.0, blue: 115.0/255.0, alpha: 1.0)
     public var highlightLineWidth = CGFloat(0.5)
     public var highlightLineDashPhase = CGFloat(0.0)
     public var highlightLineDashLengths: [CGFloat]?

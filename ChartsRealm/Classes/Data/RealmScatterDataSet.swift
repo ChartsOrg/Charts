@@ -13,7 +13,7 @@
 //
 
 import Foundation
-import UIKit
+
 import Charts
 import Realm
 import Realm.Dynamic
@@ -33,7 +33,7 @@ public class RealmScatterDataSet: RealmLineScatterCandleRadarDataSet, IScatterCh
     
     // Color for the hole in the shape. Setting to `nil` will behave as transparent.
     // - default: nil
-    public var scatterShapeHoleColor: UIColor? = nil
+    public var scatterShapeHoleColor: NSUIColor? = nil
     
     // Custom path object to draw where the values are at.
     // This is used when shape is set to Custom.

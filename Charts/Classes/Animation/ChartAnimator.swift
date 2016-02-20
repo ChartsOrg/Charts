@@ -12,7 +12,6 @@
 //
 
 import Foundation
-import UIKit
 
 @objc
 public protocol ChartAnimatorDelegate
@@ -38,7 +37,7 @@ public class ChartAnimator: NSObject
     
     private var _startTimeX: NSTimeInterval = 0.0
     private var _startTimeY: NSTimeInterval = 0.0
-    private var _displayLink: CADisplayLink!
+    private var _displayLink: NSUIDisplayLink!
     
     private var _durationX: NSTimeInterval = 0.0
     private var _durationY: NSTimeInterval = 0.0
@@ -191,7 +190,7 @@ public class ChartAnimator: NSObject
         
         if (_enabledX || _enabledY)
         {
-            _displayLink = CADisplayLink(target: self, selector: Selector("animationLoop"))
+            _displayLink = NSUIDisplayLink(target: self, selector: Selector("animationLoop"))
             _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
         }
     }
@@ -257,7 +256,7 @@ public class ChartAnimator: NSObject
         {
             if _displayLink === nil
             {
-                _displayLink = CADisplayLink(target: self, selector: Selector("animationLoop"))
+                _displayLink = NSUIDisplayLink(target: self, selector: Selector("animationLoop"))
                 _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
             }
         }
@@ -301,7 +300,7 @@ public class ChartAnimator: NSObject
         {
             if _displayLink === nil
             {
-                _displayLink = CADisplayLink(target: self, selector: Selector("animationLoop"))
+                _displayLink = NSUIDisplayLink(target: self, selector: Selector("animationLoop"))
                 _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
             }
         }

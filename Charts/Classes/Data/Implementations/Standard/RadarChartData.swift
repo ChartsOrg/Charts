@@ -13,11 +13,11 @@
 
 import Foundation
 import CoreGraphics
-import UIKit
+
 
 public class RadarChartData: ChartData
 {
-    public var highlightColor = UIColor(red: 255.0/255.0, green: 187.0/255.0, blue: 115.0/255.0, alpha: 1.0)
+    public var highlightColor = NSUIColor(red: 255.0/255.0, green: 187.0/255.0, blue: 115.0/255.0, alpha: 1.0)
     public var highlightLineWidth = CGFloat(1.0)
     public var highlightLineDashPhase = CGFloat(0.0)
     public var highlightLineDashLengths: [CGFloat]?

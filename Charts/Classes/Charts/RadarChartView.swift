@@ -13,7 +13,7 @@
 
 import Foundation
 import CoreGraphics
-import UIKit
+
 
 /// Implementation of the RadarChart, a "spidernet"-like chart. It works best
 /// when displaying 5-10 entries per DataSet.
@@ -26,10 +26,10 @@ public class RadarChartView: PieRadarChartViewBase
     public var innerWebLineWidth = CGFloat(0.75)
     
     /// color for the web lines that come from the center
-    public var webColor = UIColor(red: 122/255.0, green: 122/255.0, blue: 122.0/255.0, alpha: 1.0)
+    public var webColor = NSUIColor(red: 122/255.0, green: 122/255.0, blue: 122.0/255.0, alpha: 1.0)
     
     /// color for the web lines in between the lines that come from the center.
-    public var innerWebColor = UIColor(red: 122/255.0, green: 122/255.0, blue: 122.0/255.0, alpha: 1.0)
+    public var innerWebColor = NSUIColor(red: 122/255.0, green: 122/255.0, blue: 122.0/255.0, alpha: 1.0)
     
     /// transparency the grid is drawn with (0.0 - 1.0)
     public var webAlpha: CGFloat = 150.0 / 255.0
@@ -143,7 +143,7 @@ public class RadarChartView: PieRadarChartViewBase
             return
         }
         
-        let optionalContext = UIGraphicsGetCurrentContext()
+        let optionalContext = NSUIGraphicsGetCurrentContext()
         guard let context = optionalContext else { return }
         
         _xAxisRenderer?.renderAxisLabels(context: context)

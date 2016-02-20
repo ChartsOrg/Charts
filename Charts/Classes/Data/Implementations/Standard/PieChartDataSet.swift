@@ -14,14 +14,14 @@
 
 import Foundation
 import CoreGraphics
-import UIKit
+
 
 public class PieChartDataSet: ChartDataSet, IPieChartDataSet
 {
     private func initialize()
     {
-        self.valueTextColor = UIColor.whiteColor()
-        self.valueFont = UIFont.systemFontOfSize(13.0)
+        self.valueTextColor = NSUIColor.whiteColor()
+        self.valueFont = NSUIFont.systemFontOfSize(13.0)
         
         self.calcYValueSum()
     }

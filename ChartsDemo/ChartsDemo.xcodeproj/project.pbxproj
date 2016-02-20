@@ -147,6 +147,13 @@
 			remoteGlobalIDString = 5BA8EC3F1A9D14DC00CE82E1;
 			remoteInfo = "ChartsRealm-iOS";
 		};
+		65B3F6561C73B4F6000983D0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5B8E08771C635B5200438BAF /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 65B3F5BF1C7370BE000983D0;
+			remoteInfo = Charts;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -391,6 +398,7 @@
 				5B8E087E1C635B5200438BAF /* Charts.framework */,
 				5B8E08801C635B5200438BAF /* Charts.framework */,
 				5B8E08821C635B5200438BAF /* ChartsTests.xctest */,
+				65B3F6571C73B4F6000983D0 /* Charts.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -646,6 +654,13 @@
 			fileType = wrapper.framework;
 			path = ChartsRealm.framework;
 			remoteRef = 5B8E08951C635B6D00438BAF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		65B3F6571C73B4F6000983D0 /* Charts.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Charts.framework;
+			remoteRef = 65B3F6561C73B4F6000983D0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
