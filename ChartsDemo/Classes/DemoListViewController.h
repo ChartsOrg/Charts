@@ -13,7 +13,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DemoListViewController : NSUIViewController
+@interface DemoListViewController : UIViewController
 
 
 @end

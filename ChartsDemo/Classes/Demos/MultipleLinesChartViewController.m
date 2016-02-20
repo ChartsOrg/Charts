@@ -106,7 +106,7 @@
         d.lineWidth = 2.5;
         d.circleRadius = 4.0;
         
-        NSUIColor *color = colors[z % colors.count];
+        UIColor *color = colors[z % colors.count];
         [d setColor:color];
         [d setCircleColor:color];
         [dataSets addObject:d];
@@ -117,7 +117,7 @@
     ((LineChartDataSet *)dataSets[0]).circleColors = ChartColorTemplates.vordiplom;
     
     LineChartData *data = [[LineChartData alloc] initWithXVals:xVals dataSets:dataSets];
-    [data setValueFont:[NSUIFont fontWithName:@"HelveticaNeue-Light" size:7.f]];
+    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:7.f]];
     _chartView.data = data;
 }
 

@@ -55,12 +55,12 @@
     
     NSMutableAttributedString *centerText = [[NSMutableAttributedString alloc] initWithString:@"Realm.io\nmobile database"];
     [centerText addAttributes:@{
-                                NSFontAttributeName: [NSUIFont fontWithName:@"HelveticaNeue-Light" size:22.f],
-                                NSForegroundColorAttributeName: [NSUIColor colorWithRed:240/255.f green:115/255.f blue:126/255.f alpha:1.f]
+                                NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:22.f],
+                                NSForegroundColorAttributeName: [UIColor colorWithRed:240/255.f green:115/255.f blue:126/255.f alpha:1.f]
                                 } range:NSMakeRange(0, 8)];
     [centerText addAttributes:@{
-                                NSFontAttributeName: [NSUIFont fontWithName:@"HelveticaNeue-LightItalic" size:8.5f],
-                                NSForegroundColorAttributeName: [NSUIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]
+                                NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:8.5f],
+                                NSForegroundColorAttributeName: [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]
                                 } range:NSMakeRange(9, centerText.length - 9)];
     _chartView.centerAttributedText = centerText;
     
@@ -82,7 +82,7 @@
     
     RealmPieDataSet *set = [[RealmPieDataSet alloc] initWithResults:results yValueField:@"value" xIndexField:@"xIndex"];
     
-    set.valueFont = [NSUIFont systemFontOfSize:9.f];
+    set.valueFont = [UIFont systemFontOfSize:9.f];
     set.colors = ChartColorTemplates.vordiplom;
     set.label = @"Example market share";
     set.sliceSpace = 2.f;
@@ -91,8 +91,8 @@
     
     RealmPieData *data = [[RealmPieData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
     [self styleData:data];
-    data.valueTextColor = NSUIColor.whiteColor;
-    data.valueFont = [NSUIFont fontWithName:@"HelveticaNeue-Light" size:12.f];
+    data.valueTextColor = UIColor.whiteColor;
+    data.valueFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.f];
     
     _chartView.data = data;
     [_chartView animateWithYAxisDuration:1.4 easingOption:ChartEasingOptionEaseInOutQuart];

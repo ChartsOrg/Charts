@@ -123,14 +123,14 @@
     }
     
     LineChartDataSet *set = [[LineChartDataSet alloc] initWithYVals:entries label:@"Line DataSet"];
-    [set setColor:[NSUIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f]];
+    [set setColor:[UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f]];
     set.lineWidth = 2.5;
-    [set setCircleColor:[NSUIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f]];
-    set.fillColor = [NSUIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f];
+    [set setCircleColor:[UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f]];
+    set.fillColor = [UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f];
     set.drawCubicEnabled = YES;
     set.drawValuesEnabled = YES;
-    set.valueFont = [NSUIFont systemFontOfSize:10.f];
-    set.valueTextColor = [NSUIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f];
+    set.valueFont = [UIFont systemFontOfSize:10.f];
+    set.valueTextColor = [UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f];
     
     set.axisDependency = AxisDependencyLeft;
     
@@ -151,9 +151,9 @@
     }
     
     BarChartDataSet *set = [[BarChartDataSet alloc] initWithYVals:entries label:@"Bar DataSet"];
-    [set setColor:[NSUIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f]];
-    set.valueTextColor = [NSUIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f];
-    set.valueFont = [NSUIFont systemFontOfSize:10.f];
+    [set setColor:[UIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f]];
+    set.valueTextColor = [UIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f];
+    set.valueFont = [UIFont systemFontOfSize:10.f];
     
     set.axisDependency = AxisDependencyLeft;
     
@@ -174,10 +174,10 @@
     }
     
     ScatterChartDataSet *set = [[ScatterChartDataSet alloc] initWithYVals:entries label:@"Scatter DataSet"];
-    [set setColor:[NSUIColor greenColor]];
+    [set setColor:[UIColor greenColor]];
     set.scatterShapeSize = 7.5;
     [set setDrawValuesEnabled:YES];
-    set.valueFont = [NSUIFont systemFontOfSize:10.f];
+    set.valueFont = [UIFont systemFontOfSize:10.f];
     
     [d addDataSet:set];
     
@@ -196,9 +196,9 @@
     }
     
     CandleChartDataSet *set = [[CandleChartDataSet alloc] initWithYVals:entries label:@"Candle DataSet"];
-    [set setColor:[NSUIColor colorWithRed:80/255.f green:80/255.f blue:80/255.f alpha:1.f]];
+    [set setColor:[UIColor colorWithRed:80/255.f green:80/255.f blue:80/255.f alpha:1.f]];
     set.barSpace = 0.3;
-    set.valueFont = [NSUIFont systemFontOfSize:10.f];
+    set.valueFont = [UIFont systemFontOfSize:10.f];
     [set setDrawValuesEnabled:NO];
     
     [d addDataSet:set];
@@ -220,8 +220,8 @@
     
     BubbleChartDataSet *set = [[BubbleChartDataSet alloc] initWithYVals:entries label:@"Bubble DataSet"];
     [set setColors:ChartColorTemplates.vordiplom];
-    set.valueTextColor = NSUIColor.whiteColor;
-    set.valueFont = [NSUIFont systemFontOfSize:10.f];
+    set.valueTextColor = UIColor.whiteColor;
+    set.valueFont = [UIFont systemFontOfSize:10.f];
     [set setDrawValuesEnabled:YES];
     
     [bd addDataSet:set];

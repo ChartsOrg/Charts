@@ -92,7 +92,7 @@
     [colors addObjectsFromArray:ChartColorTemplates.colorful];
     [colors addObjectsFromArray:ChartColorTemplates.liberty];
     [colors addObjectsFromArray:ChartColorTemplates.pastel];
-    [colors addObject:[NSUIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]];
+    [colors addObject:[UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]];
     
     dataSet.colors = colors;
     
@@ -104,8 +104,8 @@
     pFormatter.multiplier = @1.f;
     pFormatter.percentSymbol = @" %";
     [data setValueFormatter:pFormatter];
-    [data setValueFont:[NSUIFont fontWithName:@"HelveticaNeue-Light" size:11.f]];
-    [data setValueTextColor:NSUIColor.whiteColor];
+    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:11.f]];
+    [data setValueTextColor:UIColor.whiteColor];
     
     _chartView.data = data;
     [_chartView highlightValues:nil];

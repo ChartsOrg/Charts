@@ -57,28 +57,28 @@
     _chartView.drawGridBackgroundEnabled = NO;
     _chartView.pinchZoomEnabled = YES;
     
-    _chartView.backgroundColor = [NSUIColor colorWithWhite:204/255.f alpha:1.f];
+    _chartView.backgroundColor = [UIColor colorWithWhite:204/255.f alpha:1.f];
     
     _chartView.legend.form = ChartLegendFormLine;
-    _chartView.legend.font = [NSUIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
-    _chartView.legend.textColor = NSUIColor.whiteColor;
+    _chartView.legend.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
+    _chartView.legend.textColor = UIColor.whiteColor;
     _chartView.legend.position = ChartLegendPositionBelowChartLeft;
     
     ChartXAxis *xAxis = _chartView.xAxis;
-    xAxis.labelFont = [NSUIFont systemFontOfSize:12.f];
-    xAxis.labelTextColor = NSUIColor.whiteColor;
+    xAxis.labelFont = [UIFont systemFontOfSize:12.f];
+    xAxis.labelTextColor = UIColor.whiteColor;
     xAxis.drawGridLinesEnabled = NO;
     xAxis.drawAxisLineEnabled = NO;
     xAxis.spaceBetweenLabels = 1.0;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
-    leftAxis.labelTextColor = [NSUIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f];
+    leftAxis.labelTextColor = [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f];
     leftAxis.customAxisMax = 200.0;
     leftAxis.drawGridLinesEnabled = YES;
     leftAxis.drawZeroLineEnabled = NO;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
-    rightAxis.labelTextColor = NSUIColor.redColor;
+    rightAxis.labelTextColor = UIColor.redColor;
     rightAxis.customAxisMax = 900.0;
     rightAxis.startAtZeroEnabled = NO;
     rightAxis.customAxisMin = -200.0;
@@ -117,13 +117,13 @@
     
     LineChartDataSet *set1 = [[LineChartDataSet alloc] initWithYVals:yVals label:@"DataSet 1"];
     set1.axisDependency = AxisDependencyLeft;
-    [set1 setColor:[NSUIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]];
-    [set1 setCircleColor:NSUIColor.whiteColor];
+    [set1 setColor:[UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]];
+    [set1 setCircleColor:UIColor.whiteColor];
     set1.lineWidth = 2.0;
     set1.circleRadius = 3.0;
     set1.fillAlpha = 65/255.0;
-    set1.fillColor = [NSUIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f];
-    set1.highlightColor = [NSUIColor colorWithRed:244/255.f green:117/255.f blue:117/255.f alpha:1.f];
+    set1.fillColor = [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f];
+    set1.highlightColor = [UIColor colorWithRed:244/255.f green:117/255.f blue:117/255.f alpha:1.f];
     set1.drawCircleHoleEnabled = NO;
     
     NSMutableArray *yVals2 = [[NSMutableArray alloc] init];
@@ -137,13 +137,13 @@
     
     LineChartDataSet *set2 = [[LineChartDataSet alloc] initWithYVals:yVals2 label:@"DataSet 2"];
     set2.axisDependency = AxisDependencyRight;
-    [set2 setColor:NSUIColor.redColor];
-    [set2 setCircleColor:NSUIColor.whiteColor];
+    [set2 setColor:UIColor.redColor];
+    [set2 setCircleColor:UIColor.whiteColor];
     set2.lineWidth = 2.0;
     set2.circleRadius = 3.0;
     set2.fillAlpha = 65/255.0;
-    set2.fillColor = NSUIColor.redColor;
-    set2.highlightColor = [NSUIColor colorWithRed:244/255.f green:117/255.f blue:117/255.f alpha:1.f];
+    set2.fillColor = UIColor.redColor;
+    set2.highlightColor = [UIColor colorWithRed:244/255.f green:117/255.f blue:117/255.f alpha:1.f];
     set2.drawCircleHoleEnabled = NO;
     
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
@@ -151,8 +151,8 @@
     [dataSets addObject:set1];
     
     LineChartData *data = [[LineChartData alloc] initWithXVals:xVals dataSets:dataSets];
-    [data setValueTextColor:NSUIColor.whiteColor];
-    [data setValueFont:[NSUIFont systemFontOfSize:9.f]];
+    [data setValueTextColor:UIColor.whiteColor];
+    [data setValueFont:[UIFont systemFontOfSize:9.f]];
     
     _chartView.data = data;
 }

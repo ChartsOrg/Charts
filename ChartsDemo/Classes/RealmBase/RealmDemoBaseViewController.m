@@ -188,8 +188,8 @@ static float randomFloatBetween(float from, float to)
     percentFormatter.negativeSuffix = @"%";
     
     ChartYAxis *leftAxis = chartView.leftAxis;
-    leftAxis.labelFont = [NSUIFont fontWithName:@"HelveticaNeue-Light" size:8.f];
-    leftAxis.labelTextColor = NSUIColor.darkGrayColor;
+    leftAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:8.f];
+    leftAxis.labelTextColor = UIColor.darkGrayColor;
     leftAxis.valueFormatter = percentFormatter;
 }
 
@@ -199,8 +199,8 @@ static float randomFloatBetween(float from, float to)
     percentFormatter.positiveSuffix = @"%";
     percentFormatter.negativeSuffix = @"%";
     
-    data.valueFont = [NSUIFont fontWithName:@"HelveticaNeue-Light" size:8.f];
-    data.valueTextColor = NSUIColor.darkGrayColor;
+    data.valueFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:8.f];
+    data.valueTextColor = UIColor.darkGrayColor;
     data.valueFormatter = percentFormatter;
 }
 

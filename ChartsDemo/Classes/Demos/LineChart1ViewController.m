@@ -62,7 +62,7 @@
     llXAxis.lineWidth = 4.0;
     llXAxis.lineDashLengths = @[@(10.f), @(10.f), @(0.f)];
     llXAxis.labelPosition = ChartLimitLabelPositionRightBottom;
-    llXAxis.valueFont = [NSUIFont systemFontOfSize:10.f];
+    llXAxis.valueFont = [UIFont systemFontOfSize:10.f];
     
     //[_chartView.xAxis addLimitLine:llXAxis];
     
@@ -70,13 +70,13 @@
     ll1.lineWidth = 4.0;
     ll1.lineDashLengths = @[@5.f, @5.f];
     ll1.labelPosition = ChartLimitLabelPositionRightTop;
-    ll1.valueFont = [NSUIFont systemFontOfSize:10.0];
+    ll1.valueFont = [UIFont systemFontOfSize:10.0];
     
     ChartLimitLine *ll2 = [[ChartLimitLine alloc] initWithLimit:-30.0 label:@"Lower Limit"];
     ll2.lineWidth = 4.0;
     ll2.lineDashLengths = @[@5.f, @5.f];
     ll2.labelPosition = ChartLimitLabelPositionRightBottom;
-    ll2.valueFont = [NSUIFont systemFontOfSize:10.0];
+    ll2.valueFont = [UIFont systemFontOfSize:10.0];
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
     [leftAxis removeAllLimitLines];
@@ -94,7 +94,7 @@
     [_chartView.viewPortHandler setMaximumScaleY: 2.f];
     [_chartView.viewPortHandler setMaximumScaleX: 2.f];
     
-    BalloonMarker *marker = [[BalloonMarker alloc] initWithColor:[NSUIColor colorWithWhite:180/255. alpha:1.0] font:[NSUIFont systemFontOfSize:12.0] insets: UIEdgeInsetsMake(8.0, 8.0, 20.0, 8.0)];
+    BalloonMarker *marker = [[BalloonMarker alloc] initWithColor:[UIColor colorWithWhite:180/255. alpha:1.0] font:[UIFont systemFontOfSize:12.0] insets: UIEdgeInsetsMake(8.0, 8.0, 20.0, 8.0)];
     marker.minimumSize = CGSizeMake(80.f, 40.f);
     _chartView.marker = marker;
     
@@ -135,14 +135,14 @@
     
     set1.lineDashLengths = @[@5.f, @2.5f];
     set1.highlightLineDashLengths = @[@5.f, @2.5f];
-    [set1 setColor:NSUIColor.blackColor];
-    [set1 setCircleColor:NSUIColor.blackColor];
+    [set1 setColor:UIColor.blackColor];
+    [set1 setCircleColor:UIColor.blackColor];
     set1.lineWidth = 1.0;
     set1.circleRadius = 3.0;
     set1.drawCircleHoleEnabled = NO;
-    set1.valueFont = [NSUIFont systemFontOfSize:9.f];
+    set1.valueFont = [UIFont systemFontOfSize:9.f];
     //set1.fillAlpha = 65/255.0;
-    //set1.fillColor = NSUIColor.blackColor;
+    //set1.fillColor = UIColor.blackColor;
     
     NSArray *gradientColors = @[
                         (id)[ChartColorTemplates colorFromString:@"#00ff0000"].CGColor,

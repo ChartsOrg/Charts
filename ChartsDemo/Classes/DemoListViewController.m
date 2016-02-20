@@ -197,7 +197,7 @@
     NSDictionary *def = self.itemDefs[indexPath.row];
     
     Class vcClass = def[@"class"];
-    NSUIViewController *vc = [[vcClass alloc] init];
+    UIViewController *vc = [[vcClass alloc] init];
     
     [self.navigationController pushViewController:vc animated:YES];
     

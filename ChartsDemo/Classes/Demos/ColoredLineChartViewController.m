@@ -29,13 +29,13 @@
     self.title = @"Colored Line Chart";
     
     LineChartData *data = [self dataWithCount:36 range:100];
-    [data setValueFont:[NSUIFont fontWithName:@"HelveticaNeue-Light" size:7.f]];
+    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:7.f]];
     
     NSArray *colors = @[
-                        [NSUIColor colorWithRed:137/255.f green:230/255.f blue:81/255.f alpha:1.f],
-                        [NSUIColor colorWithRed:240/255.f green:240/255.f blue:30/255.f alpha:1.f],
-                        [NSUIColor colorWithRed:89/255.f green:199/255.f blue:250/255.f alpha:1.f],
-                        [NSUIColor colorWithRed:250/255.f green:104/255.f blue:104/255.f alpha:1.f],
+                        [UIColor colorWithRed:137/255.f green:230/255.f blue:81/255.f alpha:1.f],
+                        [UIColor colorWithRed:240/255.f green:240/255.f blue:30/255.f alpha:1.f],
+                        [UIColor colorWithRed:89/255.f green:199/255.f blue:250/255.f alpha:1.f],
+                        [UIColor colorWithRed:250/255.f green:104/255.f blue:104/255.f alpha:1.f],
                         ];
     
     for (int i = 0; i < _chartViews.count; i++)
@@ -44,7 +44,7 @@
     }
 }
 
-- (void)setupChart:(LineChartView *)chart data:(LineChartData *)data color:(NSUIColor *)color
+- (void)setupChart:(LineChartView *)chart data:(LineChartData *)data color:(UIColor *)color
 {
     chart.delegate = self;
     chart.backgroundColor = color;
@@ -96,9 +96,9 @@
     
     set1.lineWidth = 1.75;
     set1.circleRadius = 3.0;
-    [set1 setColor:NSUIColor.whiteColor];
-    [set1 setCircleColor:NSUIColor.whiteColor];
-    set1.highlightColor = NSUIColor.whiteColor;
+    [set1 setColor:UIColor.whiteColor];
+    [set1 setCircleColor:UIColor.whiteColor];
+    set1.highlightColor = UIColor.whiteColor;
     set1.drawValuesEnabled = NO;
     
     return [[LineChartData alloc] initWithXVals:xVals dataSet:set1];

@@ -70,13 +70,13 @@
     _chartView.rightAxis.drawZeroLineEnabled = YES;
     _chartView.rightAxis.labelCount = 7;
     _chartView.rightAxis.valueFormatter = customFormatter;
-    _chartView.rightAxis.labelFont = [NSUIFont systemFontOfSize:9.f];
+    _chartView.rightAxis.labelFont = [UIFont systemFontOfSize:9.f];
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBothSided;
     xAxis.drawGridLinesEnabled = NO;
     xAxis.drawAxisLineEnabled = NO;
-    _chartView.rightAxis.labelFont = [NSUIFont systemFontOfSize:9.f];
+    _chartView.rightAxis.labelFont = [UIFont systemFontOfSize:9.f];
     
     ChartLegend *l = _chartView.legend;
     l.position = ChartLegendPositionBelowChartRight;
@@ -99,12 +99,12 @@
     
     BarChartDataSet *set = [[BarChartDataSet alloc] initWithYVals:yValues label:@"Age Distribution"];
     set.valueFormatter = customFormatter;
-    set.valueFont = [NSUIFont systemFontOfSize:7.f];
+    set.valueFont = [UIFont systemFontOfSize:7.f];
     set.axisDependency = AxisDependencyRight;
     set.barSpace = 0.4f;
     set.colors = @[
-                   [NSUIColor colorWithRed:67/255.f green:67/255.f blue:72/255.f alpha:1.f],
-                   [NSUIColor colorWithRed:124/255.f green:181/255.f blue:236/255.f alpha:1.f]
+                   [UIColor colorWithRed:67/255.f green:67/255.f blue:72/255.f alpha:1.f],
+                   [UIColor colorWithRed:124/255.f green:181/255.f blue:236/255.f alpha:1.f]
                    ];
     set.stackLabels = @[
                         @"Men", @"Women"

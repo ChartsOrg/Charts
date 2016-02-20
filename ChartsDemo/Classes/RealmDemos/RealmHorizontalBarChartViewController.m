@@ -88,7 +88,7 @@
     
     RealmBarData *data = [[RealmBarData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
     [self styleData:data];
-    data.valueTextColor = NSUIColor.whiteColor;
+    data.valueTextColor = UIColor.whiteColor;
     
     _chartView.data = data;
     

@@ -62,11 +62,11 @@
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBottom;
-    xAxis.labelFont = [NSUIFont systemFontOfSize:13.f];
+    xAxis.labelFont = [UIFont systemFontOfSize:13.f];
     xAxis.drawGridLinesEnabled = NO;
     xAxis.drawAxisLineEnabled = NO;
     xAxis.spaceBetweenLabels = 2.0;
-    xAxis.labelTextColor = [NSUIColor lightGrayColor];
+    xAxis.labelTextColor = [UIColor lightGrayColor];
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.drawLabelsEnabled = NO;
@@ -76,7 +76,7 @@
     leftAxis.drawAxisLineEnabled = NO;
     leftAxis.drawGridLinesEnabled = NO;
     leftAxis.drawZeroLineEnabled = YES;
-    leftAxis.zeroLineColor = NSUIColor.grayColor;
+    leftAxis.zeroLineColor = UIColor.grayColor;
     leftAxis.zeroLineWidth = 0.7f;
 
     _chartView.rightAxis.enabled = NO;
@@ -114,10 +114,10 @@
 {
     NSMutableArray<BarChartDataEntry *> *values = [[NSMutableArray alloc] init];
     NSMutableArray<NSString *> *dates = [[NSMutableArray alloc] init];
-    NSMutableArray<NSUIColor *> *colors = [[NSMutableArray alloc] init];
+    NSMutableArray<UIColor *> *colors = [[NSMutableArray alloc] init];
     
-    NSUIColor *green = [NSUIColor colorWithRed:110/255.f green:190/255.f blue:102/255.f alpha:1.f];
-    NSUIColor *red = [NSUIColor colorWithRed:211/255.f green:74/255.f blue:88/255.f alpha:1.f];
+    UIColor *green = [UIColor colorWithRed:110/255.f green:190/255.f blue:102/255.f alpha:1.f];
+    UIColor *red = [UIColor colorWithRed:211/255.f green:74/255.f blue:88/255.f alpha:1.f];
     
     for (int i = 0; i < dataList.count; i++)
     {
@@ -144,7 +144,7 @@
     set.valueColors = colors;
     
     BarChartData *data = [[BarChartData alloc] initWithXVals:dates dataSet:set];
-    [data setValueFont:[NSUIFont systemFontOfSize:13.f]];
+    [data setValueFont:[UIFont systemFontOfSize:13.f]];
     
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     formatter.maximumFractionDigits = 1;
