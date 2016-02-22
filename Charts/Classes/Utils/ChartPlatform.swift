@@ -389,7 +389,19 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 			super.touchesCancelledWithEvent(event!)
         }
         
-		var backgroundColor: NSUIColor? = NSUIColor.clearColor()
+		var backgroundColor: NSUIColor?
+        {
+            get
+            {
+                return self.layer?.backgroundColor == nil
+                    ? nil
+                    : NSColor(CGColor: self.layer!.backgroundColor!)
+            }
+            set
+            {
+                self.layer?.backgroundColor = newValue == nil ? nil : newValue!.CGColor
+            }
+        }
 
 		var nsuiLayer: CALayer?
         {
@@ -418,8 +430,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     {
 		var CGImage: CGImageRef?
         {
-			/// FIXME
-			return nil
+            return self.CGImageForProposedRect(nil, context: nil, hints: nil)
 		}
 	}
 
