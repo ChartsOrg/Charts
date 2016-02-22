@@ -23,14 +23,47 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	public typealias NSUIDisplayLink = CADisplayLink
     
+    extension NSUITapGestureRecognizer
+    {
+        func nsuiNumberOfTouches() -> Int
+        {
+            return numberOfTouches
+        }
+        
+        var nsuiNumberOfTapsRequired: Int
+        {
+            get
+            {
+                return self.numberOfTapsRequired
+            }
+            set
+            {
+                self.numberOfTapsRequired = newValue
+            }
+        }
+    }
+    
+    extension NSUIPanGestureRecognizer
+    {
+        func nsuiNumberOfTouches() -> Int
+        {
+            return numberOfTouches
+        }
+        
+        func nsuiLocationOfTouch(touch: Int, inView: NSView?) -> NSPoint
+        {
+            return super.locationOfTouch(touch: touch, inView: inView)
+        }
+    }
+    
     extension NSUIPinchGestureRecognizer
     {
-        var nsScale: CGFloat
+        var nsuiScale: CGFloat
         {
             return scale
         }
         
-        func nsLocationOfTouch(touch: Int, inView: NSView?) -> NSPoint
+        func nsuiLocationOfTouch(touch: Int, inView: NSView?) -> NSPoint
         {
             return super.locationOfTouch(touch: touch, inView: inView)
         }
@@ -188,12 +221,12 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 	/** The 'tap' gesture is mapped to clicks. */
 	extension NSUITapGestureRecognizer
     {
-		func numberOfTouches() -> Int
+		func nsuiNumberOfTouches() -> Int
         {
 			return 1
 		}
 
-		var numberOfTapsRequired: Int
+		var nsuiNumberOfTapsRequired: Int
         {
 			get
             {
@@ -208,12 +241,12 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	extension NSUIPanGestureRecognizer
     {
-		func numberOfTouches() -> Int
+		func nsuiNumberOfTouches() -> Int
         {
 			return 1
 		}
 
-		func locationOfTouch(touch: Int, inView: NSView?) -> NSPoint
+		func nsuiLocationOfTouch(touch: Int, inView: NSView?) -> NSPoint
         {
 			return super.locationInView(inView)
 		}
@@ -230,7 +263,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     
     extension NSUIPinchGestureRecognizer
     {
-        var nsScale: CGFloat
+        var nsuiScale: CGFloat
         {
             get
             {
@@ -242,7 +275,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             }
         }
         
-        func nsLocationOfTouch(touch: Int, inView: NSView?) -> NSPoint
+        func nsuiLocationOfTouch(touch: Int, inView: NSView?) -> NSPoint
         {
             return super.locationInView(inView)
         }
@@ -306,12 +339,12 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		public func nsuiTouchesCancelled(touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
         {
 			super.touchesCancelledWithEvent(event!)
-		}
-
-		public func nsuiGestureRecognizerShouldBegin(gestureRecognizer: NSUIGestureRecognizer) -> Bool
+        }
+        
+        public func nsuiGestureRecognizerShouldBegin(gestureRecognizer: NSUIGestureRecognizer) -> Bool
         {
-			return true
-		}
+            return true
+        }
 
 		var backgroundColor: NSUIColor? = NSUIColor.clearColor()
 

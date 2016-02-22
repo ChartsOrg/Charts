@@ -111,7 +111,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         _tapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: Selector("tapGestureRecognized:"))
         _doubleTapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: Selector("doubleTapGestureRecognized:"))
-        _doubleTapGestureRecognizer.numberOfTapsRequired = 2
+        _doubleTapGestureRecognizer.nsuiNumberOfTapsRequired = 2
         _panGestureRecognizer = NSUIPanGestureRecognizer(target: self, action: Selector("panGestureRecognized:"))
         
         _panGestureRecognizer.delegate = self
@@ -636,8 +636,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                 }
                 else
                 {
-                    let x = abs(recognizer.locationInView(self).x - recognizer.nsLocationOfTouch(1, inView: self).x)
-                    let y = abs(recognizer.locationInView(self).y - recognizer.nsLocationOfTouch(1, inView: self).y)
+                    let x = abs(recognizer.locationInView(self).x - recognizer.nsuiLocationOfTouch(1, inView: self).x)
+                    let y = abs(recognizer.locationInView(self).y - recognizer.nsuiLocationOfTouch(1, inView: self).y)
                     
                     if (x > y)
                     {
@@ -664,7 +664,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         }
         else if (recognizer.state == NSUIGestureRecognizerState.Changed)
         {
-            let isZoomingOut = (recognizer.nsScale < 1)
+            let isZoomingOut = (recognizer.nsuiScale < 1)
             var canZoomMoreX = isZoomingOut ? _viewPortHandler.canZoomOutMoreX : _viewPortHandler.canZoomInMoreX
             var canZoomMoreY = isZoomingOut ? _viewPortHandler.canZoomOutMoreY : _viewPortHandler.canZoomInMoreY
             
@@ -686,8 +686,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                         location.y = -(_viewPortHandler.chartHeight - location.y - _viewPortHandler.offsetBottom)
                     }
                     
-                    let scaleX = canZoomMoreX ? recognizer.nsScale : 1.0
-                    let scaleY = canZoomMoreY ? recognizer.nsScale : 1.0
+                    let scaleX = canZoomMoreX ? recognizer.nsuiScale : 1.0
+                    let scaleY = canZoomMoreY ? recognizer.nsuiScale : 1.0
                     
                     var matrix = CGAffineTransformMakeTranslation(location.x, location.y)
                     matrix = CGAffineTransformScale(matrix, scaleX, scaleY)
@@ -704,7 +704,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                     }
                 }
                 
-                recognizer.nsScale = 1.0
+                recognizer.nsuiScale = 1.0
             }
         }
     }
@@ -712,7 +712,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     
     @objc private func panGestureRecognized(recognizer: NSUIPanGestureRecognizer)
     {
-        if (recognizer.state == NSUIGestureRecognizerState.Began && recognizer.numberOfTouches() > 0)
+        if (recognizer.state == NSUIGestureRecognizerState.Began && recognizer.nsuiNumberOfTouches() > 0)
         {
             stopDeceleration()
             
@@ -729,7 +729,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             {
                 _isDragging = true
                 
-                _closestDataSetToTouch = getDataSetByTouchPoint(recognizer.locationOfTouch(0, inView: self))
+                _closestDataSetToTouch = getDataSetByTouchPoint(recognizer.nsuiLocationOfTouch(0, inView: self))
                 
                 let translation = recognizer.translationInView(self)
                 let didUserDrag = (self is HorizontalBarChartView) ? translation.y != 0.0 : translation.x != 0.0
