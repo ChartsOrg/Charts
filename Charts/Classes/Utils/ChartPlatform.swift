@@ -111,11 +111,6 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 			super.touchesCancelled(touches, withEvent: event!)
 		}
 
-		public func nsuiGestureRecognizerShouldBegin(gestureRecognizer: NSUIGestureRecognizer) -> Bool
-        {
-			return true
-		}
-
 		var nsuiLayer: CALayer?
         {
 			return self.layer
@@ -341,11 +336,6 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 			super.touchesCancelledWithEvent(event!)
         }
         
-        public func nsuiGestureRecognizerShouldBegin(gestureRecognizer: NSUIGestureRecognizer) -> Bool
-        {
-            return true
-        }
-
 		var backgroundColor: NSUIColor? = NSUIColor.clearColor()
 
 		var nsuiLayer: CALayer?

@@ -887,13 +887,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         }
     }
     
-    public override func nsuiGestureRecognizerShouldBegin(gestureRecognizer: NSUIGestureRecognizer) -> Bool
+    private func nsuiGestureRecognizerShouldBegin(gestureRecognizer: NSUIGestureRecognizer) -> Bool
     {
-        if (!super.nsuiGestureRecognizerShouldBegin(gestureRecognizer))
-        {
-            return false
-        }
-        
         if (gestureRecognizer == _panGestureRecognizer)
         {
             if _data === nil || !_dragEnabled ||
@@ -917,6 +912,25 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         return true
     }
+    
+    #if !os(OSX)
+    public func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool
+    {
+        if (!super.gestureRecognizerShouldBegin(gestureRecognizer))
+        {
+            return false
+        }
+        
+        return nsuiGestureRecognizerShouldBegin(gestureRecognizer)
+    }
+    #endif
+    
+    #if os(OSX)
+    public func gestureRecognizerShouldBegin(gestureRecognizer: NSGestureRecognizer) -> Bool
+    {
+        return nsuiGestureRecognizerShouldBegin(gestureRecognizer)
+    }
+    #endif
     
     public func gestureRecognizer(gestureRecognizer: NSUIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: NSUIGestureRecognizer) -> Bool
     {
