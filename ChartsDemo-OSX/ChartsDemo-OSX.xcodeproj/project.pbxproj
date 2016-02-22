@@ -123,8 +123,8 @@
 			children = (
 				65B3F6771C73B8FA000983D0 /* Charts.framework */,
 				65B3F6791C73B8FA000983D0 /* Charts.framework */,
-				65B3F67B1C73B8FA000983D0 /* ChartsTests.xctest */,
 				65B3F67D1C73B8FA000983D0 /* Charts.framework */,
+				65B3F67B1C73B8FA000983D0 /* ChartsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -353,7 +353,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "ChartsDemo-OSX/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "nl.pixelspark.charts.ChartsDemo-OSX";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.ChartsDemo-OSX";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -366,7 +366,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "ChartsDemo-OSX/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "nl.pixelspark.charts.ChartsDemo-OSX";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.ChartsDemo-OSX";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
