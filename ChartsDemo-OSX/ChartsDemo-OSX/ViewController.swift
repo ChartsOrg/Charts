@@ -1,10 +1,12 @@
 import Cocoa
 import Charts
 
-class BarDemoViewController: NSViewController {
+class BarDemoViewController: NSViewController
+{
 	@IBOutlet var barChartView: BarChartView!
 
-	override func viewDidLoad() {
+	override func viewDidLoad()
+    {
 		super.viewDidLoad()
 
 		// Do any additional setup after loading the view.
@@ -28,27 +30,33 @@ class BarDemoViewController: NSViewController {
 		self.barChartView.gridBackgroundColor = NSUIColor.whiteColor()
 	}
 
-	@IBAction func save(sender: AnyObject) {
+	@IBAction func save(sender: AnyObject)
+    {
 		let panel = NSSavePanel()
 		panel.allowedFileTypes = ["png"]
 		panel.beginSheetModalForWindow(self.view.window!) { (result) -> Void in
-			if result == NSFileHandlingPanelOKButton {
-				if let path = panel.URL?.path {
+			if result == NSFileHandlingPanelOKButton
+            {
+				if let path = panel.URL?.path
+                {
 					self.barChartView.saveToPath(path, format: .PNG, compressionQuality: 1.0)
 				}
 			}
 		}
 	}
 
-	override func viewWillAppear() {
+	override func viewWillAppear()
+    {
 		self.barChartView.animate(xAxisDuration: 1.0, yAxisDuration: 1.0)
 	}
 }
 
-class LineDemoViewController: NSViewController {
+class LineDemoViewController: NSViewController
+{
 	@IBOutlet var lineChartView: LineChartView!
 
-	override func viewDidLoad() {
+	override func viewDidLoad()
+    {
 		super.viewDidLoad()
 
 		// Do any additional setup after loading the view.
@@ -72,15 +80,18 @@ class LineDemoViewController: NSViewController {
 		self.lineChartView.gridBackgroundColor = NSUIColor.whiteColor()
 	}
 
-	override func viewWillAppear() {
+	override func viewWillAppear()
+    {
 		self.lineChartView.animate(xAxisDuration: 0.0, yAxisDuration: 1.0)
 	}
 }
 
-class RadarDemoViewController: NSViewController {
+class RadarDemoViewController: NSViewController
+{
 	@IBOutlet var radarChartView: RadarChartView!
 
-	override func viewDidLoad() {
+	override func viewDidLoad()
+    {
 		super.viewDidLoad()
 
 		// Do any additional setup after loading the view.
@@ -102,15 +113,18 @@ class RadarDemoViewController: NSViewController {
 		self.radarChartView.data = data
 	}
 
-	override func viewWillAppear() {
+	override func viewWillAppear()
+    {
 		self.radarChartView.animate(xAxisDuration: 0.0, yAxisDuration: 1.0)
 	}
 }
 
-class PieDemoViewController: NSViewController {
+class PieDemoViewController: NSViewController
+{
 	@IBOutlet var pieChartView: PieChartView!
 
-	override func viewDidLoad() {
+	override func viewDidLoad()
+    {
 		super.viewDidLoad()
 
 		// Do any additional setup after loading the view.
@@ -127,7 +141,8 @@ class PieDemoViewController: NSViewController {
 		self.pieChartView.data = data
 	}
 
-	override func viewWillAppear() {
+	override func viewWillAppear()
+    {
 		self.pieChartView.animate(xAxisDuration: 0.0, yAxisDuration: 1.0)
 	}
 }
