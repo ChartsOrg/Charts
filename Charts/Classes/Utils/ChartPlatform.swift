@@ -194,23 +194,74 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 	/** On OS X there is no CADisplayLink. Use a 60 fps timer to render the animations. */
 	public class NSUIDisplayLink
     {
-		let timer: NSTimer
+        private var timer: NSTimer?
+        private var displayLink: CVDisplayLink?
+        private var _timestamp: CFTimeInterval = 0.0
+        
+        private weak var _target: AnyObject?
+        private var _selector: Selector
+        
+        public var timestamp: CFTimeInterval
+        {
+            return _timestamp
+        }
 
 		init(target: AnyObject, selector: Selector)
         {
-			// Set a timer for 60 fps
-			timer = NSTimer(timeInterval: 1.0 / 60.0, target: target, selector: selector, userInfo: nil, repeats: true)
+            _target = target
+            _selector = selector
+            
+            if CVDisplayLinkCreateWithActiveCGDisplays(&displayLink) == kCVReturnSuccess
+            {
+                CVDisplayLinkSetOutputCallback(displayLink!, { (displayLink, inNow, inOutputTime, flagsIn, flagsOut, userData) -> CVReturn in
+                    
+                    let _self = unsafeBitCast(userData, NSUIDisplayLink.self)
+                    
+                    _self._timestamp = CFAbsoluteTimeGetCurrent()
+                    _self._target?.performSelectorOnMainThread(_self._selector, withObject: _self, waitUntilDone: false)
+                    
+                    return kCVReturnSuccess
+                    }, UnsafeMutablePointer(unsafeAddressOf(self)))
+            }
+            else
+            {
+                timer = NSTimer(timeInterval: 1.0 / 60.0, target: target, selector: selector, userInfo: nil, repeats: true)
+            }
+		}
+        
+        deinit
+        {
+            stop()
+        }
+
+		public func addToRunLoop(runloop: NSRunLoop, forMode: String)
+        {
+            if displayLink != nil
+            {
+                CVDisplayLinkStart(displayLink!)
+            }
+            else if timer != nil
+            {
+                runloop.addTimer(timer!, forMode: forMode)
+            }
 		}
 
-		func addToRunLoop(runloop: NSRunLoop, forMode: String)
+		public func removeFromRunLoop(runloop: NSRunLoop, forMode: String)
         {
-			runloop.addTimer(self.timer, forMode: forMode)
+            stop()
 		}
-
-		func removeFromRunLoop(runloop: NSRunLoop, forMode: String)
+        
+        private func stop()
         {
-			self.timer.invalidate()
-		}
+            if displayLink != nil
+            {
+                CVDisplayLinkStop(displayLink!)
+            }
+            if timer != nil
+            {
+                timer?.invalidate()
+            }
+        }
 	}
 
 	/** The 'tap' gesture is mapped to clicks. */
