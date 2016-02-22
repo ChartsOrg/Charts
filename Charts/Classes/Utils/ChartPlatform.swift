@@ -271,7 +271,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
         {
 			return 1
 		}
-
+        
 		var nsuiNumberOfTapsRequired: Int
         {
 			get
@@ -291,7 +291,8 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
         {
 			return 1
 		}
-
+        
+        /// FIXME: Currently there are no more than 1 touch in OSX gestures, and not way to create custom touch gestures.
 		func nsuiLocationOfTouch(touch: Int, inView: NSView?) -> NSPoint
         {
 			return super.locationInView(inView)
@@ -300,7 +301,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     
     extension NSUIRotationGestureRecognizer
     {
-        /// FIXME
+        /// FIXME: Currently there are no velocities in OSX gestures, and not way to create custom touch gestures.
         var velocity: CGFloat
         {
             return 0.1
@@ -321,6 +322,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             }
         }
         
+        /// FIXME: Currently there are no more than 1 touch in OSX gestures, and not way to create custom touch gestures.
         func nsuiLocationOfTouch(touch: Int, inView: NSView?) -> NSPoint
         {
             return super.locationInView(inView)
@@ -434,17 +436,16 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	extension NSScrollView
     {
-		/// FIXME
 		var scrollEnabled: Bool
         {
 			get
             {
 				return true
 			}
-			set
+            set
             {
-				// Do nothing
-			}
+                // FIXME: We can't disable  scrolling it on OSX
+            }
 		}
 	}
 
