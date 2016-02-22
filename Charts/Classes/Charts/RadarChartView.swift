@@ -77,8 +77,12 @@ public class RadarChartView: PieRadarChartViewBase
     {
         super.calcMinMax()
         
-        let minLeft = _data.getYMin(.Left)
-        let maxLeft = _data.getYMax(.Left)
+        let minLeft = !isnan(_yAxis.customAxisMin)
+            ? _yAxis.customAxisMin
+            : _data.getYMin(.Left)
+        let maxLeft = !isnan(_yAxis.customAxisMax)
+            ? _yAxis.customAxisMax
+            : _data.getYMax(.Left)
         
         _chartXMax = Double(_data.xVals.count) - 1.0
         _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
@@ -89,8 +93,12 @@ public class RadarChartView: PieRadarChartViewBase
         let bottomSpaceLeft = Double(leftRange * _yAxis.spaceBottom)
         
         // Use the values as they are
-        _yAxis.axisMinimum = !isnan(_yAxis.customAxisMin) ? _yAxis.customAxisMin : (minLeft - bottomSpaceLeft)
-        _yAxis.axisMaximum = !isnan(_yAxis.customAxisMax) ? _yAxis.customAxisMax : (maxLeft + topSpaceLeft)
+        _yAxis.axisMinimum = !isnan(_yAxis.customAxisMin)
+            ? _yAxis.customAxisMin
+            : (minLeft - bottomSpaceLeft)
+        _yAxis.axisMaximum = !isnan(_yAxis.customAxisMax)
+            ? _yAxis.customAxisMax
+            : (maxLeft + topSpaceLeft)
         
         _chartXMax = Double(_data.xVals.count) - 1.0
         _deltaX = CGFloat(abs(_chartXMax - _chartXMin))

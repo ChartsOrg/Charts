@@ -295,10 +295,18 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             _data.calcMinMax(start: lowestVisibleXIndex, end: highestVisibleXIndex)
         }
         
-        var minLeft = _data.getYMin(.Left)
-        var maxLeft = _data.getYMax(.Left)
-        var minRight = _data.getYMin(.Right)
-        var maxRight = _data.getYMax(.Right)
+        var minLeft = !isnan(_leftAxis.customAxisMin)
+            ? _leftAxis.customAxisMin
+            : _data.getYMin(.Left)
+        var maxLeft = !isnan(_leftAxis.customAxisMax)
+            ? _leftAxis.customAxisMax
+            : _data.getYMax(.Left)
+        var minRight = !isnan(_rightAxis.customAxisMin)
+            ? _rightAxis.customAxisMin
+            : _data.getYMin(.Right)
+        var maxRight = !isnan(_rightAxis.customAxisMax)
+            ? _rightAxis.customAxisMax
+            : _data.getYMax(.Right)
         
         let leftRange = abs(maxLeft - minLeft)
         let rightRange = abs(maxRight - minRight)
