@@ -365,7 +365,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	extension NSScreen
     {
-		var scale: CGFloat
+		var nsScale: CGFloat
         {
 			return self.backingScaleFactor
 		}
