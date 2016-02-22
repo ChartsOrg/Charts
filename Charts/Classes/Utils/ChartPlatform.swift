@@ -22,6 +22,19 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 	public typealias NSUIScreen = UIScreen
 
 	public typealias NSUIDisplayLink = CADisplayLink
+    
+    extension NSUIPinchGestureRecognizer
+    {
+        var nsScale: CGFloat
+        {
+            return scale
+        }
+        
+        func nsLocationOfTouch(touch: Int, inView: NSView?) -> NSPoint
+        {
+            return super.locationOfTouch(touch: touch, inView: inView)
+        }
+    }
 
 	public class NSUIView: UIView
     {
@@ -146,7 +159,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 	public typealias NSUIGestureRecognizerDelegate = NSGestureRecognizerDelegate
 	public typealias NSUITapGestureRecognizer = NSClickGestureRecognizer
 	public typealias NSUIPanGestureRecognizer = NSPanGestureRecognizer
-	public typealias NSUIPinchGestureRecognizer = NSPressGestureRecognizer
+	public typealias NSUIPinchGestureRecognizer = NSMagnificationGestureRecognizer
 	public typealias NSUIRotationGestureRecognizer = NSRotationGestureRecognizer
 	public typealias NSUIScreen = NSScreen
 
@@ -204,16 +217,36 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
         {
 			return super.locationInView(inView)
 		}
-	}
-
-	extension NSUIRotationGestureRecognizer
+    }
+    
+    extension NSUIRotationGestureRecognizer
     {
-		/// FIXME
-		var velocity: CGFloat
+        /// FIXME
+        var velocity: CGFloat
         {
-			return 0.1
-		}
-	}
+            return 0.1
+        }
+    }
+    
+    extension NSUIPinchGestureRecognizer
+    {
+        var nsScale: CGFloat
+        {
+            get
+            {
+                return magnification
+            }
+            set
+            {
+                magnification = newValue
+            }
+        }
+        
+        func nsLocationOfTouch(touch: Int, inView: NSView?) -> NSPoint
+        {
+            return super.locationInView(inView)
+        }
+    }
 
 	extension NSView
     {

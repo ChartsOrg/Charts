@@ -123,7 +123,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         _doubleTapGestureRecognizer.enabled = _doubleTapToZoomEnabled
         _panGestureRecognizer.enabled = _dragEnabled
 
-        #if !os(tvOS) && !os(OSX)
+        #if !os(tvOS)
             _pinchGestureRecognizer = NSUIPinchGestureRecognizer(target: self, action: Selector("pinchGestureRecognized:"))
             _pinchGestureRecognizer.delegate = self
             self.addGestureRecognizer(_pinchGestureRecognizer)
@@ -619,7 +619,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         }
     }
     
-    #if !os(tvOS) && !os(OSX)
+    #if !os(tvOS)
     @objc private func pinchGestureRecognized(recognizer: NSUIPinchGestureRecognizer)
     {
         if (recognizer.state == NSUIGestureRecognizerState.Began)
@@ -636,8 +636,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                 }
                 else
                 {
-                    let x = abs(recognizer.locationInView(self).x - recognizer.locationOfTouch(1, inView: self).x)
-                    let y = abs(recognizer.locationInView(self).y - recognizer.locationOfTouch(1, inView: self).y)
+                    let x = abs(recognizer.locationInView(self).x - recognizer.nsLocationOfTouch(1, inView: self).x)
+                    let y = abs(recognizer.locationInView(self).y - recognizer.nsLocationOfTouch(1, inView: self).y)
                     
                     if (x > y)
                     {
@@ -664,7 +664,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         }
         else if (recognizer.state == NSUIGestureRecognizerState.Changed)
         {
-            let isZoomingOut = (recognizer.scale < 1)
+            let isZoomingOut = (recognizer.nsScale < 1)
             var canZoomMoreX = isZoomingOut ? _viewPortHandler.canZoomOutMoreX : _viewPortHandler.canZoomInMoreX
             var canZoomMoreY = isZoomingOut ? _viewPortHandler.canZoomOutMoreY : _viewPortHandler.canZoomInMoreY
             
@@ -686,8 +686,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                         location.y = -(_viewPortHandler.chartHeight - location.y - _viewPortHandler.offsetBottom)
                     }
                     
-                    let scaleX = canZoomMoreX ? recognizer.scale : 1.0
-                    let scaleY = canZoomMoreY ? recognizer.scale : 1.0
+                    let scaleX = canZoomMoreX ? recognizer.nsScale : 1.0
+                    let scaleY = canZoomMoreY ? recognizer.nsScale : 1.0
                     
                     var matrix = CGAffineTransformMakeTranslation(location.x, location.y)
                     matrix = CGAffineTransformScale(matrix, scaleX, scaleY)
@@ -704,7 +704,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                     }
                 }
                 
-                recognizer.scale = 1.0
+                recognizer.nsScale = 1.0
             }
         }
     }
