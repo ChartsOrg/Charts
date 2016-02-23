@@ -208,6 +208,9 @@ public class LineChartRenderer: LineRadarChartRenderer
         
         let fillMin = dataSet.fillFormatter?.getFillLinePosition(dataSet: dataSet, dataProvider: dataProvider) ?? 0.0
         
+        // Take the from/to xIndex from the entries themselves,
+        // so missing entries won't screw up the filling.
+        // What we need to draw is line from points of the xIndexes - not arbitrary entry indexes!
         let xTo = dataSet.entryForIndex(to - 1)?.xIndex ?? 0
         let xFrom = dataSet.entryForIndex(from)?.xIndex ?? 0
 
