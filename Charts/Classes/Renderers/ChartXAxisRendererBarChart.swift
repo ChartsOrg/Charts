@@ -124,6 +124,8 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
         
         CGContextSetStrokeColorWithColor(context, xAxis.gridColor.CGColor)
         CGContextSetLineWidth(context, xAxis.gridLineWidth)
+        CGContextSetLineCap(context, xAxis.gridLineCap)
+        
         if (xAxis.gridLineDashLengths != nil)
         {
             CGContextSetLineDash(context, xAxis.gridLineDashPhase, xAxis.gridLineDashLengths, xAxis.gridLineDashLengths.count)

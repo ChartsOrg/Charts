@@ -189,6 +189,8 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
             
             CGContextSetStrokeColorWithColor(context, yAxis.gridColor.CGColor)
             CGContextSetLineWidth(context, yAxis.gridLineWidth)
+            CGContextSetLineCap(context, yAxis.gridLineCap)
+
             if (yAxis.gridLineDashLengths != nil)
             {
                 CGContextSetLineDash(context, yAxis.gridLineDashPhase, yAxis.gridLineDashLengths, yAxis.gridLineDashLengths.count)
