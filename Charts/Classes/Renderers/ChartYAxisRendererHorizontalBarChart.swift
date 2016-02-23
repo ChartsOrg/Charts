@@ -187,6 +187,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
             // pre alloc
             var position = CGPoint()
             
+            CGContextSetShouldAntialias(context, yAxis.gridAntialiasEnabled)
             CGContextSetStrokeColorWithColor(context, yAxis.gridColor.CGColor)
             CGContextSetLineWidth(context, yAxis.gridLineWidth)
             CGContextSetLineCap(context, yAxis.gridLineCap)

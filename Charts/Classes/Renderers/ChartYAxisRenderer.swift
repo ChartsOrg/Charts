@@ -294,11 +294,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
         {
             CGContextSaveGState(context)
             
-            if (!yAxis.gridAntialiasEnabled)
-            {
-                CGContextSetShouldAntialias(context, false)
-            }
-            
+            CGContextSetShouldAntialias(context, yAxis.gridAntialiasEnabled)
             CGContextSetStrokeColorWithColor(context, yAxis.gridColor.CGColor)
             CGContextSetLineWidth(context, yAxis.gridLineWidth)
             CGContextSetLineCap(context, yAxis.gridLineCap)
