@@ -27,7 +27,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     {
         func nsuiNumberOfTouches() -> Int
         {
-            return numberOfTouches
+            return numberOfTouches()
         }
         
         var nsuiNumberOfTapsRequired: Int
@@ -47,12 +47,12 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     {
         func nsuiNumberOfTouches() -> Int
         {
-            return numberOfTouches
+            return numberOfTouches()
         }
         
-        func nsuiLocationOfTouch(touch: Int, inView: NSView?) -> NSPoint
+        func nsuiLocationOfTouch(touch: Int, inView: UIView?) -> CGPoint
         {
-            return super.locationOfTouch(touch: touch, inView: inView)
+            return super.locationOfTouch(touch, inView: inView)
         }
     }
     
@@ -60,12 +60,19 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     {
         var nsuiScale: CGFloat
         {
-            return scale
+            get
+            {
+                return scale
+            }
+            set
+            {
+                scale = newValue
+            }
         }
         
-        func nsuiLocationOfTouch(touch: Int, inView: NSView?) -> NSPoint
+        func nsuiLocationOfTouch(touch: Int, inView: UIView?) -> CGPoint
         {
-            return super.locationOfTouch(touch: touch, inView: inView)
+            return super.locationOfTouch(touch, inView: inView)
         }
     }
 
@@ -420,7 +427,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	extension NSScreen
     {
-		var nsScale: CGFloat
+		var scale: CGFloat
         {
 			return self.backingScaleFactor
 		}
