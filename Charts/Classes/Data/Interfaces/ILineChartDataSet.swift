@@ -28,9 +28,15 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     /// If true, cubic lines are drawn instead of linear
     var drawCubicEnabled: Bool { get set }
     
+    /// If true, stepped lines are drawn instead of linear
+    var drawSteppedEnabled: Bool { get set }
+
     /// - returns: true if drawing cubic lines is enabled, false if not.
     var isDrawCubicEnabled: Bool { get }
     
+    /// - returns: true if drawing stepped lines is enabled, false if not.
+    var isDrawSteppedEnabled: Bool { get }
+
     /// The radius of the drawn circles.
     var circleRadius: CGFloat { get set }
     
