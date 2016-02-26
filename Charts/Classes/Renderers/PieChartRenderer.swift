@@ -19,18 +19,6 @@ public class PieChartRenderer: ChartDataRendererBase
 {
     public weak var chart: PieChartView?
     
-    public var drawHoleEnabled = true
-    public var holeTransparent = true
-    public var holeColor: UIColor? = UIColor.whiteColor()
-    public var holeRadiusPercent = CGFloat(0.5)
-    public var transparentCircleColor: UIColor? = UIColor(white: 1.0, alpha: 105.0/255.0)
-    public var transparentCircleRadiusPercent = CGFloat(0.55)
-    public var drawXLabelsEnabled = true
-    public var usePercentValuesEnabled = false
-    public var centerAttributedText: NSAttributedString?
-    public var drawCenterTextEnabled = true
-    public var centerTextRadiusPercent: CGFloat = 1.0
-    
     public init(chart: PieChartView, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
@@ -117,7 +105,7 @@ public class PieChartRenderer: ChartDataRendererBase
         let sliceSpace = dataSet.sliceSpace
         let center = chart.centerCircleBox
         let radius = chart.radius
-        let userInnerRadius = drawHoleEnabled && holeTransparent ? radius * holeRadiusPercent : 0.0
+        let userInnerRadius = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled ? radius * chart.holeRadiusPercent : 0.0
         
         var visibleAngleCount = 0
         for (var j = 0; j < entryCount; j++)
@@ -259,7 +247,7 @@ public class PieChartRenderer: ChartDataRendererBase
         
         var off = r / 10.0 * 3.0
         
-        if (drawHoleEnabled)
+        if chart.drawHoleEnabled
         {
             off = (r - (r * chart.holeRadiusPercent)) / 2.0
         }
@@ -270,7 +258,8 @@ public class PieChartRenderer: ChartDataRendererBase
         
         let yValueSum = (data as! PieChartData).yValueSum
         
-        let drawXVals = drawXLabelsEnabled
+        let drawXVals = chart.isDrawSliceTextEnabled
+        let usePercentValuesEnabled = chart.usePercentValuesEnabled
         
         var angle: CGFloat = 0.0
         var xIndex = 0
@@ -399,25 +388,27 @@ public class PieChartRenderer: ChartDataRendererBase
             CGContextSaveGState(context)
             
             let radius = chart.radius
-            let holeRadius = radius * self.holeRadiusPercent
+            let holeRadius = radius * chart.holeRadiusPercent
             let center = chart.centerCircleBox
-            let hasHoleColor = holeColor !== nil && holeColor != UIColor.clearColor()
             
-            if hasHoleColor
+            if let holeColor = chart.holeColor
             {
-                // draw the hole-circle
-                CGContextSetFillColorWithColor(context, holeColor!.CGColor)
-                CGContextFillEllipseInRect(context, CGRect(x: center.x - holeRadius, y: center.y - holeRadius, width: holeRadius * 2.0, height: holeRadius * 2.0))
+                if holeColor != UIColor.clearColor()
+                {
+                    // draw the hole-circle
+                    CGContextSetFillColorWithColor(context, chart.holeColor!.CGColor)
+                    CGContextFillEllipseInRect(context, CGRect(x: center.x - holeRadius, y: center.y - holeRadius, width: holeRadius * 2.0, height: holeRadius * 2.0))
+                }
             }
-    
+            
             // only draw the circle if it can be seen (not covered by the hole)
-            if let transparentCircleColor = transparentCircleColor
+            if let transparentCircleColor = chart.transparentCircleColor
             {
                 if transparentCircleColor != UIColor.clearColor() &&
-                    self.transparentCircleRadiusPercent > self.holeRadiusPercent
+                    chart.transparentCircleRadiusPercent > chart.holeRadiusPercent
                 {
                     let alpha = animator.phaseX * animator.phaseY
-                    let secondHoleRadius = radius * self.transparentCircleRadiusPercent
+                    let secondHoleRadius = radius * chart.transparentCircleRadiusPercent
                     
                     // make transparent
                     CGContextSetAlpha(context, alpha);
@@ -448,19 +439,19 @@ public class PieChartRenderer: ChartDataRendererBase
     {
         guard let
             chart = chart,
-            centerAttributedText = centerAttributedText
+            centerAttributedText = chart.centerAttributedText
             else { return }
         
-        if drawCenterTextEnabled && centerAttributedText.length > 0
+        if chart.drawCenterTextEnabled && centerAttributedText.length > 0
         {
             let center = chart.centerCircleBox
-            let innerRadius = drawHoleEnabled && holeTransparent ? chart.radius * holeRadiusPercent : chart.radius
+            let innerRadius = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled ? chart.radius * chart.holeRadiusPercent : chart.radius
             let holeRect = CGRect(x: center.x - innerRadius, y: center.y - innerRadius, width: innerRadius * 2.0, height: innerRadius * 2.0)
             var boundingRect = holeRect
             
-            if (centerTextRadiusPercent > 0.0)
+            if (chart.centerTextRadiusPercent > 0.0)
             {
-                boundingRect = CGRectInset(boundingRect, (boundingRect.width - boundingRect.width * centerTextRadiusPercent) / 2.0, (boundingRect.height - boundingRect.height * centerTextRadiusPercent) / 2.0)
+                boundingRect = CGRectInset(boundingRect, (boundingRect.width - boundingRect.width * chart.centerTextRadiusPercent) / 2.0, (boundingRect.height - boundingRect.height * chart.centerTextRadiusPercent) / 2.0)
             }
             
             let textBounds = centerAttributedText.boundingRectWithSize(boundingRect.size, options: [.UsesLineFragmentOrigin, .UsesFontLeading, .TruncatesLastVisibleLine], context: nil)
@@ -503,7 +494,7 @@ public class PieChartRenderer: ChartDataRendererBase
         var absoluteAngles = chart.absoluteAngles
         let center = chart.centerCircleBox
         let radius = chart.radius
-        let userInnerRadius = drawHoleEnabled && holeTransparent ? radius * holeRadiusPercent : 0.0
+        let userInnerRadius = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled ? radius * chart.holeRadiusPercent : 0.0
         
         for (var i = 0; i < indices.count; i++)
         {

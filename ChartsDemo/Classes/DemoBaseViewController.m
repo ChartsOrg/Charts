@@ -185,7 +185,7 @@
 - (void)setupPieChartView:(PieChartView *)chartView
 {
     chartView.usePercentValuesEnabled = YES;
-    chartView.holeTransparent = YES;
+    chartView.drawSlicesUnderHoleEnabled = NO;
     chartView.holeRadiusPercent = 0.58;
     chartView.transparentCircleRadiusPercent = 0.61;
     chartView.descriptionText = @"";
