@@ -290,22 +290,6 @@ public class PieChartView: PieRadarChartViewBase
         return (renderer as! PieChartRenderer).holeTransparent
     }
     
-    /// the alpha of the hole in the center of the piechart, in case holeTransparent == true
-    ///
-    /// **default**: 0.41
-    public var holeAlpha: CGFloat
-    {
-        get
-        {
-            return (renderer as! PieChartRenderer).holeAlpha
-        }
-        set
-        {
-            (renderer as! PieChartRenderer).holeAlpha = newValue
-            setNeedsDisplay()
-        }
-    }
-    
     /// true if the hole in the center of the pie-chart is set to be visible, false if not
     public var drawHoleEnabled: Bool
     {
@@ -437,6 +421,22 @@ public class PieChartView: PieRadarChartViewBase
         set
         {
             (renderer as! PieChartRenderer).holeRadiusPercent = newValue
+            setNeedsDisplay()
+        }
+    }
+    
+    /// The color that the transparent-circle should have.
+    ///
+    /// **default**: `nil`
+    public var transparentCircleColor: UIColor?
+    {
+        get
+        {
+            return (renderer as! PieChartRenderer).transparentCircleColor
+        }
+        set
+        {
+            (renderer as! PieChartRenderer).transparentCircleColor = newValue
             setNeedsDisplay()
         }
     }

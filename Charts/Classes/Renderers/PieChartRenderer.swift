@@ -23,7 +23,7 @@ public class PieChartRenderer: ChartDataRendererBase
     public var holeTransparent = true
     public var holeColor: UIColor? = UIColor.whiteColor()
     public var holeRadiusPercent = CGFloat(0.5)
-    public var holeAlpha = CGFloat(0.41)
+    public var transparentCircleColor: UIColor? = UIColor(white: 1.0, alpha: 105.0/255.0)
     public var transparentCircleRadiusPercent = CGFloat(0.55)
     public var drawXLabelsEnabled = true
     public var usePercentValuesEnabled = false
@@ -409,30 +409,34 @@ public class PieChartRenderer: ChartDataRendererBase
                 CGContextSetFillColorWithColor(context, holeColor!.CGColor)
                 CGContextFillEllipseInRect(context, CGRect(x: center.x - holeRadius, y: center.y - holeRadius, width: holeRadius * 2.0, height: holeRadius * 2.0))
             }
-            
+    
             // only draw the circle if it can be seen (not covered by the hole)
-            if hasHoleColor && self.transparentCircleRadiusPercent > self.holeRadiusPercent
+            if let transparentCircleColor = transparentCircleColor
             {
-                let alpha = holeAlpha * animator.phaseX * animator.phaseY
-                let secondHoleRadius = radius * self.transparentCircleRadiusPercent
-                
-                // make transparent
-                CGContextSetAlpha(context, alpha);
-                CGContextSetFillColorWithColor(context, holeColor!.CGColor)
-                
-                // draw the transparent-circle
-                CGContextBeginPath(context)
-                CGContextAddEllipseInRect(context, CGRect(
-                    x: center.x - secondHoleRadius,
-                    y: center.y - secondHoleRadius,
-                    width: secondHoleRadius * 2.0,
-                    height: secondHoleRadius * 2.0))
-                CGContextAddEllipseInRect(context, CGRect(
-                    x: center.x - holeRadius,
-                    y: center.y - holeRadius,
-                    width: holeRadius * 2.0,
-                    height: holeRadius * 2.0))
-                CGContextEOFillPath(context)
+                if transparentCircleColor != UIColor.clearColor() &&
+                    self.transparentCircleRadiusPercent > self.holeRadiusPercent
+                {
+                    let alpha = animator.phaseX * animator.phaseY
+                    let secondHoleRadius = radius * self.transparentCircleRadiusPercent
+                    
+                    // make transparent
+                    CGContextSetAlpha(context, alpha);
+                    CGContextSetFillColorWithColor(context, transparentCircleColor.CGColor)
+                    
+                    // draw the transparent-circle
+                    CGContextBeginPath(context)
+                    CGContextAddEllipseInRect(context, CGRect(
+                        x: center.x - secondHoleRadius,
+                        y: center.y - secondHoleRadius,
+                        width: secondHoleRadius * 2.0,
+                        height: secondHoleRadius * 2.0))
+                    CGContextAddEllipseInRect(context, CGRect(
+                        x: center.x - holeRadius,
+                        y: center.y - holeRadius,
+                        width: holeRadius * 2.0,
+                        height: holeRadius * 2.0))
+                    CGContextEOFillPath(context)
+                }
             }
             
             CGContextRestoreGState(context)
