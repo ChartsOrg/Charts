@@ -138,6 +138,8 @@ public class ChartData: NSObject
         }
     }
     
+    /// Call this method to let the ChartData know that the underlying data has changed.
+    /// Calling this performs all necessary recalculations needed when the contained data has changed.
     public func notifyDataChanged()
     {
         initialize(_dataSets)
