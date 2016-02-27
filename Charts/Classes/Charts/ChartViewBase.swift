@@ -861,8 +861,7 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
     }
     #endif
     
-    internal typealias VoidClosureType = () -> ()
-    internal var _sizeChangeEventActions = [VoidClosureType]()
+    internal var _viewportJobs = [ViewPortJob]()
     
     public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>)
     {
@@ -877,9 +876,10 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
                 _viewPortHandler.setChartDimens(width: bounds.size.width, height: bounds.size.height)
                 
                 // Finish any pending viewport changes
-                while (!_sizeChangeEventActions.isEmpty)
+                while (!_viewportJobs.isEmpty)
                 {
-                    _sizeChangeEventActions.removeAtIndex(0)()
+                    let job = _viewportJobs.removeAtIndex(0)
+                    job.doJob()
                 }
                 
                 notifyDataSetChanged()
@@ -887,9 +887,21 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
         }
     }
     
-    public func clearPendingViewPortChanges()
+    public func clearAllViewportJobs()
     {
-        _sizeChangeEventActions.removeAll(keepCapacity: false)
+        _viewportJobs.removeAll(keepCapacity: false)
+    }
+    
+    internal func addViewportJob(job: ViewPortJob)
+    {
+        if (_viewPortHandler.hasChartDimens)
+        {
+            job.doJob()
+        }
+        else
+        {
+            _viewportJobs.append(job)
+        }
     }
     
     /// **default**: true

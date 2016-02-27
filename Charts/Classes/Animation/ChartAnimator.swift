@@ -30,7 +30,7 @@ public class ChartAnimator: NSObject
     public var updateBlock: (() -> Void)?
     public var stopBlock: (() -> Void)?
     
-    /// the phase that is animated and influences the drawn values on the y-axis
+    /// the phase that is animated and influences the drawn values on the x-axis
     public var phaseX: CGFloat = 1.0
     
     /// the phase that is animated and influences the drawn values on the y-axis
