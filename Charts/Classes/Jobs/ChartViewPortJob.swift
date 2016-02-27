@@ -1,5 +1,5 @@
 //
-//  ViewPortJob.swift
+//  ChartViewPortJob.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -12,7 +12,7 @@
 import Foundation
 
 // This defines a viewport modification job, used for delaying or animating viewport changes
-internal class ViewPortJob
+public class ChartViewPortJob
 {
     internal var point: CGPoint = CGPoint()
     internal weak var viewPortHandler: ChartViewPortHandler?
@@ -21,7 +21,7 @@ internal class ViewPortJob
     internal weak var transformer: ChartTransformer?
     internal weak var view: ChartViewBase?
     
-    internal init(
+    public init(
         viewPortHandler: ChartViewPortHandler,
         xIndex: CGFloat,
         yValue: Double,
@@ -35,7 +35,7 @@ internal class ViewPortJob
         self.view = view
     }
     
-    internal func doJob()
+    public func doJob()
     {
         // Override this
     }

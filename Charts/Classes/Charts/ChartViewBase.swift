@@ -861,7 +861,7 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
     }
     #endif
     
-    internal var _viewportJobs = [ViewPortJob]()
+    internal var _viewportJobs = [ChartViewPortJob]()
     
     public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>)
     {
@@ -887,12 +887,20 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
         }
     }
     
+    public func removeViewportJob(job: ChartViewPortJob)
+    {
+        if let index = _viewportJobs.indexOf({ $0 === job })
+        {
+            _viewportJobs.removeAtIndex(index)
+        }
+    }
+    
     public func clearAllViewportJobs()
     {
         _viewportJobs.removeAll(keepCapacity: false)
     }
     
-    internal func addViewportJob(job: ViewPortJob)
+    public func addViewportJob(job: ChartViewPortJob)
     {
         if (_viewPortHandler.hasChartDimens)
         {

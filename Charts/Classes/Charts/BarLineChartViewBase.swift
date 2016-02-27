@@ -1049,7 +1049,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         yValue: Double,
         axis: ChartYAxis.AxisDependency)
     {
-        let job = ZoomViewJob(viewPortHandler: viewPortHandler, scaleX: scaleX, scaleY: scaleY, xIndex: xIndex, yValue: yValue, transformer: getTransformer(axis), axis: axis, view: self)
+        let job = ZoomChartViewJob(viewPortHandler: viewPortHandler, scaleX: scaleX, scaleY: scaleY, xIndex: xIndex, yValue: yValue, transformer: getTransformer(axis), axis: axis, view: self)
         addViewportJob(job)
     }
     
@@ -1075,7 +1075,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             pt: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop),
             axis: axis)
         
-        let job = AnimatedZoomViewJob(
+        let job = AnimatedZoomChartViewJob(
             viewPortHandler: viewPortHandler,
             transformer: getTransformer(axis),
             view: self,
@@ -1193,7 +1193,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// This also refreshes the chart by calling setNeedsDisplay().
     public func moveViewToX(xIndex: CGFloat)
     {
-        let job = MoveViewJob(
+        let job = MoveChartViewJob(
             viewPortHandler: viewPortHandler,
             xIndex: xIndex,
             yValue: 0.0,
@@ -1212,7 +1212,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     {
         let valsInView = getDeltaY(axis) / _viewPortHandler.scaleY
         
-        let job = MoveViewJob(
+        let job = MoveChartViewJob(
             viewPortHandler: viewPortHandler,
             xIndex: 0,
             yValue: yValue + Double(valsInView) / 2.0,
@@ -1232,7 +1232,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     {
         let valsInView = getDeltaY(axis) / _viewPortHandler.scaleY
         
-        let job = MoveViewJob(
+        let job = MoveChartViewJob(
             viewPortHandler: viewPortHandler,
             xIndex: xIndex,
             yValue: yValue + Double(valsInView) / 2.0,
@@ -1263,7 +1263,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         let valsInView = getDeltaY(axis) / _viewPortHandler.scaleY
         
-        let job = AnimatedMoveViewJob(
+        let job = AnimatedMoveChartViewJob(
             viewPortHandler: viewPortHandler,
             xIndex: xIndex,
             yValue: yValue + Double(valsInView) / 2.0,
@@ -1326,7 +1326,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         let valsInView = getDeltaY(axis) / _viewPortHandler.scaleY
         let xsInView = CGFloat(xAxis.values.count) / _viewPortHandler.scaleX
         
-        let job = MoveViewJob(
+        let job = MoveChartViewJob(
             viewPortHandler: viewPortHandler,
             xIndex: xIndex - xsInView / 2.0,
             yValue: yValue + Double(valsInView) / 2.0,
@@ -1357,7 +1357,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         let valsInView = getDeltaY(axis) / _viewPortHandler.scaleY
         let xsInView = CGFloat(xAxis.values.count) / _viewPortHandler.scaleX
         
-        let job = AnimatedMoveViewJob(
+        let job = AnimatedMoveChartViewJob(
             viewPortHandler: viewPortHandler,
             xIndex: xIndex - xsInView / 2.0,
             yValue: yValue + Double(valsInView) / 2.0,

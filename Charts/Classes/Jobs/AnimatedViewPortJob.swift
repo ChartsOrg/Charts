@@ -1,5 +1,5 @@
 //
-//  AnimatedJob.swift
+//  AnimatedViewPortJob.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -11,7 +11,7 @@
 
 import Foundation
 
-internal class AnimatedJob: ViewPortJob
+public class AnimatedViewPortJob: ChartViewPortJob
 {
     internal var phase: CGFloat = 1.0
     internal var xOrigin: CGFloat = 0.0
@@ -24,7 +24,7 @@ internal class AnimatedJob: ViewPortJob
     
     private var _easing: ChartEasingFunctionBlock?
     
-    internal init(
+    public init(
         viewPortHandler: ChartViewPortHandler,
         xIndex: CGFloat,
         yValue: Double,
@@ -52,12 +52,12 @@ internal class AnimatedJob: ViewPortJob
         stop(finish: false)
     }
     
-    internal override func doJob()
+    public override func doJob()
     {
         start()
     }
     
-    private func start()
+    public func start()
     {
         _startTime = CACurrentMediaTime()
         _endTime = _startTime + _duration
@@ -69,7 +69,7 @@ internal class AnimatedJob: ViewPortJob
         _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
     }
     
-    private func stop(finish finish: Bool)
+    public func stop(finish finish: Bool)
     {
         if (_displayLink != nil)
         {

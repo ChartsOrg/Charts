@@ -1,5 +1,5 @@
 //
-//  AnimatedZoomViewJob.swift
+//  AnimatedZoomChartViewJob.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -11,7 +11,7 @@
 
 import Foundation
 
-internal class AnimatedZoomViewJob: AnimatedJob
+public class AnimatedZoomChartViewJob: AnimatedViewPortJob
 {
     internal var yAxis: ChartYAxis?
     internal var xValCount: Int = 0
@@ -22,7 +22,7 @@ internal class AnimatedZoomViewJob: AnimatedJob
     internal var zoomCenterX: CGFloat = 0.0
     internal var zoomCenterY: CGFloat = 0.0
 
-    internal init(
+    public init(
         viewPortHandler: ChartViewPortHandler,
         transformer: ChartTransformer,
         view: ChartViewBase,

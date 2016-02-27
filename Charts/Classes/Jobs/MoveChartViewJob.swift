@@ -1,5 +1,5 @@
 //
-//  MoveViewJob.swift
+//  MoveChartViewJob.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -11,9 +11,9 @@
 
 import Foundation
 
-internal class MoveViewJob: ViewPortJob
+public class MoveChartViewJob: ChartViewPortJob
 {
-    internal override init(
+    public override init(
         viewPortHandler: ChartViewPortHandler,
         xIndex: CGFloat,
         yValue: Double,
@@ -28,7 +28,7 @@ internal class MoveViewJob: ViewPortJob
             view: view)
     }
     
-    internal override func doJob()
+    public override func doJob()
     {
         guard let
             viewPortHandler = viewPortHandler,

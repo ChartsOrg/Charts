@@ -1,5 +1,5 @@
 //
-//  ZoomViewJob.swift
+//  ZoomChartViewJob.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -11,13 +11,13 @@
 
 import Foundation
 
-internal class ZoomViewJob: ViewPortJob
+public class ZoomChartViewJob: ChartViewPortJob
 {
     internal var scaleX: CGFloat = 0.0
     internal var scaleY: CGFloat = 0.0
     internal var axisDependency: ChartYAxis.AxisDependency = ChartYAxis.AxisDependency.Left
     
-    internal init(
+    public init(
         viewPortHandler: ChartViewPortHandler,
         scaleX: CGFloat,
         scaleY: CGFloat,
@@ -39,7 +39,7 @@ internal class ZoomViewJob: ViewPortJob
         self.axisDependency = axis
     }
     
-    internal override func doJob()
+    public override func doJob()
     {
         guard let
             viewPortHandler = viewPortHandler,
