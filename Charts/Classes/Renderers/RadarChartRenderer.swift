@@ -34,17 +34,32 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         if (radarData != nil)
         {
+            var mostEntries = 0
+            
+            for set in radarData!.dataSets
+            {
+                if set.entryCount > mostEntries
+                {
+                    mostEntries = set.entryCount
+                }
+            }
+            
             for set in radarData!.dataSets as! [IRadarChartDataSet]
             {
                 if set.isVisible && set.entryCount > 0
                 {
-                    drawDataSet(context: context, dataSet: set)
+                    drawDataSet(context: context, dataSet: set, mostEntries: mostEntries)
                 }
             }
         }
     }
     
-    internal func drawDataSet(context context: CGContext, dataSet: IRadarChartDataSet)
+    /// Draws the RadarDataSet
+    ///
+    /// - parameter context:
+    /// - parameter dataSet:
+    /// - parameter mostEntries: the entry count of the dataset with the most entries
+    internal func drawDataSet(context context: CGContext, dataSet: IRadarChartDataSet, mostEntries: Int)
     {
         guard let
             chart = chart,
@@ -89,6 +104,13 @@ public class RadarChartRenderer: LineRadarChartRenderer
             {
                 CGPathAddLineToPoint(path, nil, p.x, p.y)
             }
+        }
+        
+        // if this is the largest set, close it
+        if dataSet.entryCount < mostEntries
+        {
+            // if this is not the largest set, draw a line to the center before closing
+            CGPathAddLineToPoint(path, nil, center.x, center.y)
         }
         
         CGPathCloseSubpath(path)
