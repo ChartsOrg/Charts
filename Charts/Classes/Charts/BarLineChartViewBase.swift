@@ -994,8 +994,10 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// Zooms in by 1.4, into the charts center. center.
     public func zoomIn()
     {
-        let matrix = _viewPortHandler.zoomIn(x: self.bounds.size.width / 2.0, y: -(self.bounds.size.height / 2.0))
-        _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
+        let center = _viewPortHandler.contentCenter
+        
+        let matrix = _viewPortHandler.zoomIn(x: center.x, y: -center.y)
+        _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
         
         // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
         calculateOffsets()
@@ -1005,9 +1007,11 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// Zooms out by 0.7, from the charts center. center.
     public func zoomOut()
     {
-        let matrix = _viewPortHandler.zoomOut(x: self.bounds.size.width / 2.0, y: -(self.bounds.size.height / 2.0))
-        _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
+        let center = _viewPortHandler.contentCenter
         
+        let matrix = _viewPortHandler.zoomOut(x: center.x, y: -center.y)
+        _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
+
         // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
         calculateOffsets()
         setNeedsDisplay()
@@ -1029,9 +1033,9 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         calculateOffsets()
         setNeedsDisplay()
     }
-    
+
     /// Zooms in or out by the given scale factor.
-    /// x and y are the values which to zoom to or from (the values of the zoom center).
+    /// x and y are the values (**not pixels**) which to zoom to or from (the values of the zoom center).
     ///
     /// - parameter scaleX: if < 1 --> zoom out, if > 1 --> zoom in
     /// - parameter scaleY: if < 1 --> zoom out, if > 1 --> zoom in
@@ -1138,7 +1142,6 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         let matrix = _viewPortHandler.fitScreen()
         _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
         
-        // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
         calculateOffsets()
         setNeedsDisplay()
     }
