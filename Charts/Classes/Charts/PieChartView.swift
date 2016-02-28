@@ -140,16 +140,18 @@ public class PieChartView: PieRadarChartViewBase
         _drawAngles = [CGFloat]()
         _absoluteAngles = [CGFloat]()
         
-        _drawAngles.reserveCapacity(_data.yValCount)
-        _absoluteAngles.reserveCapacity(_data.yValCount)
+        guard let data = _data else { return }
+
+        _drawAngles.reserveCapacity(data.yValCount)
+        _absoluteAngles.reserveCapacity(data.yValCount)
         
         let yValueSum = (_data as! PieChartData).yValueSum
         
-        var dataSets = _data.dataSets
+        var dataSets = data.dataSets
 
         var cnt = 0
 
-        for (var i = 0; i < _data.dataSetCount; i++)
+        for (var i = 0; i < data.dataSetCount; i++)
         {
             let set = dataSets[i]
             let entryCount = set.entryCount
@@ -226,7 +228,7 @@ public class PieChartView: PieRadarChartViewBase
     /// - returns: the index of the DataSet this x-index belongs to.
     public func dataSetIndexForIndex(xIndex: Int) -> Int
     {
-        var dataSets = _data.dataSets
+        var dataSets = _data?.dataSets ?? []
         
         for (var i = 0; i < dataSets.count; i++)
         {

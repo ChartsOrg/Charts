@@ -42,18 +42,15 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
     {
         super.calcMinMax()
         
-        if (_data === nil)
-        {
-            return
-        }
+        guard let data = _data else { return }
         
-        let barData = _data as! BarChartData
+        let barData = data as! BarChartData
         
         // increase deltax by 1 because the bars have a width of 1
         _deltaX += 0.5
         
         // extend xDelta to make space for multiple datasets (if ther are one)
-        _deltaX *= CGFloat(_data.dataSetCount)
+        _deltaX *= CGFloat(data.dataSetCount)
         
         let groupSpace = barData.groupSpace
         _deltaX += CGFloat(barData.xValCount) * groupSpace
@@ -75,12 +72,7 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
     /// - returns: the bounding box of the specified Entry in the specified DataSet. Returns null if the Entry could not be found in the charts data.
     public func getBarBounds(e: BarChartDataEntry) -> CGRect
     {
-        let set = _data.getDataSetForEntry(e) as! IBarChartDataSet!
-        
-        if (set === nil)
-        {
-            return CGRectNull
-        }
+        guard let set = _data?.getDataSetForEntry(e) as? IBarChartDataSet else { return CGRectNull }
         
         let barspace = set.barSpace
         let y = CGFloat(e.value)
@@ -103,7 +95,7 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
     
     public override var lowestVisibleXIndex: Int
     {
-        let step = CGFloat(_data.dataSetCount)
+        let step = CGFloat(_data?.dataSetCount ?? 0)
         let div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
         
         var pt = CGPoint(x: _viewPortHandler.contentLeft, y: _viewPortHandler.contentBottom)
@@ -114,7 +106,7 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
 
     public override var highestVisibleXIndex: Int
     {
-        let step = CGFloat(_data.dataSetCount)
+        let step = CGFloat(_data?.dataSetCount ?? 0)
         let div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
         
         var pt = CGPoint(x: _viewPortHandler.contentRight, y: _viewPortHandler.contentBottom)

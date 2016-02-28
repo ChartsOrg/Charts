@@ -24,17 +24,18 @@ public class BubbleChartView: BarLineChartViewBase, BubbleChartDataProvider
     public override func calcMinMax()
     {
         super.calcMinMax()
+        guard let data = _data else { return }
         
-        if (_deltaX == 0.0 && _data.yValCount > 0)
+        if (_deltaX == 0.0 && data.yValCount > 0)
         {
             _deltaX = 1.0
         }
         
         _chartXMin = -0.5
-        _chartXMax = Double(_data.xVals.count) - 0.5
+        _chartXMax = Double(data.xVals.count) - 0.5
         
         if renderer as? BubbleChartRenderer !== nil,
-            let sets = _data.dataSets as? [IBubbleChartDataSet]
+            let sets = data.dataSets as? [IBubbleChartDataSet]
         {
             for set in sets {
                 
