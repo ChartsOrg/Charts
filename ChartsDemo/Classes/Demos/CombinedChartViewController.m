@@ -19,6 +19,7 @@
 @interface CombinedChartViewController () <ChartViewDelegate>
 
 @property (nonatomic, strong) IBOutlet CombinedChartView *chartView;
+@property (nonatomic, assign) BOOL shouldHideData;
 
 @end
 
@@ -34,6 +35,7 @@
                      @{@"key": @"toggleLineValues", @"label": @"Toggle Line Values"},
                      @{@"key": @"toggleBarValues", @"label": @"Toggle Bar Values"},
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"},
+                     @{@"key": @"toggleData", @"label": @"Toggle Data"},
                      ];
     
     _chartView.delegate = self;
@@ -63,6 +65,28 @@
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBothSided;
     
+    [self updateChartData];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)updateChartData
+{
+    if (_shouldHideData)
+    {
+        _chartView.data = nil;
+        return;
+    }
+    
+    [self setChartData];
+}
+
+- (void)setChartData
+{
     CombinedChartData *data = [[CombinedChartData alloc] initWithXVals:months];
     data.lineData = [self generateLineData];
     data.barData = [self generateBarData];
@@ -71,12 +95,6 @@
     //data.candleData = [self generateCandleData];
     
     _chartView.data = data;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)optionTapped:(NSString *)key
@@ -110,6 +128,12 @@
     if ([key isEqualToString:@"saveToGallery"])
     {
         [_chartView saveToCameraRoll];
+    }
+    
+    if ([key isEqualToString:@"toggleData"])
+    {
+        _shouldHideData = !_shouldHideData;
+        [self updateChartData];
     }
 }
 

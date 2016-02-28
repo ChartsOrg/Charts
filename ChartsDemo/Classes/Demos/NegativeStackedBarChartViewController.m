@@ -17,6 +17,7 @@
 @interface NegativeStackedBarChartViewController () <ChartViewDelegate>
 
 @property (nonatomic, strong) IBOutlet HorizontalBarChartView *chartView;
+@property (nonatomic, assign) BOOL shouldHideData;
 
 @end
 
@@ -38,6 +39,7 @@
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"},
                      @{@"key": @"togglePinchZoom", @"label": @"Toggle PinchZoom"},
                      @{@"key": @"toggleAutoScaleMinMax", @"label": @"Toggle auto scale min/max"},
+                     @{@"key": @"toggleData", @"label": @"Toggle Data"},
                      ];
     
     NSNumberFormatter *customFormatter = [[NSNumberFormatter alloc] init];
@@ -82,6 +84,22 @@
     l.formToTextSpace = 4.f;
     l.xEntrySpace = 6.f;
     
+    [self updateChartData];
+}
+
+- (void)updateChartData
+{
+    if (_shouldHideData)
+    {
+        _chartView.data = nil;
+        return;
+    }
+    
+    [self setChartData];
+}
+
+- (void)setChartData
+{
     NSMutableArray *yValues = [NSMutableArray array];
     [yValues addObject:[[BarChartDataEntry alloc] initWithValues:@[ @-10, @10 ] xIndex: 0]];
     [yValues addObject:[[BarChartDataEntry alloc] initWithValues:@[ @-12, @13 ] xIndex: 1]];
@@ -96,7 +114,7 @@
     [yValues addObject:[[BarChartDataEntry alloc] initWithValues:@[ @-1, @2 ] xIndex: 10]];
     
     BarChartDataSet *set = [[BarChartDataSet alloc] initWithYVals:yValues label:@"Age Distribution"];
-    set.valueFormatter = customFormatter;
+    set.valueFormatter = _chartView.rightAxis.valueFormatter;
     set.valueFont = [UIFont systemFontOfSize:7.f];
     set.axisDependency = AxisDependencyRight;
     set.barSpace = 0.4f;
@@ -177,6 +195,12 @@
     {
         _chartView.autoScaleMinMaxEnabled = !_chartView.isAutoScaleMinMaxEnabled;
         [_chartView notifyDataSetChanged];
+    }
+    
+    if ([key isEqualToString:@"toggleData"])
+    {
+        _shouldHideData = !_shouldHideData;
+        [self updateChartData];
     }
 }
 
