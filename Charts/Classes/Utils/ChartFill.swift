@@ -13,7 +13,6 @@
 //
 
 import Foundation
-import UIKit
 
 public class ChartFill: NSObject
 {

@@ -10,7 +10,6 @@
 //
 
 import Foundation
-import UIKit
 
 public class AnimatedViewPortJob: ChartViewPortJob
 {
@@ -19,7 +18,7 @@ public class AnimatedViewPortJob: ChartViewPortJob
     internal var yOrigin: CGFloat = 0.0
     
     private var _startTime: NSTimeInterval = 0.0
-    private var _displayLink: CADisplayLink!
+    private var _displayLink: NSUIDisplayLink!
     private var _duration: NSTimeInterval = 0.0
     private var _endTime: NSTimeInterval = 0.0
     
@@ -66,7 +65,7 @@ public class AnimatedViewPortJob: ChartViewPortJob
         
         updateAnimationPhase(_startTime)
         
-        _displayLink = CADisplayLink(target: self, selector: Selector("animationLoop"))
+        _displayLink = NSUIDisplayLink(target: self, selector: Selector("animationLoop"))
         _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
     }
     

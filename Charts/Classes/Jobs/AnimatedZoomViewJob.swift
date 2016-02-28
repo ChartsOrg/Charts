@@ -10,7 +10,6 @@
 //
 
 import Foundation
-import UIKit
 
 public class AnimatedZoomChartViewJob: AnimatedViewPortJob
 {

@@ -445,7 +445,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     {
         guard let data = _data else
         {
-            print("Value not highlighted because data is nil")
+            Swift.print("Value not highlighted because data is nil")
             return
         }
 

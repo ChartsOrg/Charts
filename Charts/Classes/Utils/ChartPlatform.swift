@@ -149,47 +149,47 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
         }
     }
 
-	final func NSUIGraphicsGetCurrentContext() -> CGContextRef?
+    func NSUIGraphicsGetCurrentContext() -> CGContextRef?
     {
 		return UIGraphicsGetCurrentContext()
 	}
 
-	final func NSUIGraphicsGetImageFromCurrentImageContext() -> NSUIImage!
+    func NSUIGraphicsGetImageFromCurrentImageContext() -> NSUIImage!
     {
 		return UIGraphicsGetImageFromCurrentImageContext()
 	}
 
-	final func NSUIGraphicsPushContext(context: CGContextRef)
+	func NSUIGraphicsPushContext(context: CGContextRef)
     {
 		UIGraphicsPushContext(context)
 	}
 
-	final func NSUIGraphicsPopContext()
+	func NSUIGraphicsPopContext()
     {
 		UIGraphicsPopContext()
 	}
 
-	final func NSUIGraphicsEndImageContext()
+	func NSUIGraphicsEndImageContext()
     {
 		UIGraphicsEndImageContext()
 	}
 
-	final func NSUIImagePNGRepresentation(image: NSUIImage) -> NSData?
+	func NSUIImagePNGRepresentation(image: NSUIImage) -> NSData?
     {
 		return UIImagePNGRepresentation(image)
 	}
 
-	final func NSUIImageJPEGRepresentation(image: NSUIImage, _ quality: CGFloat = 0.8) -> NSData?
+	func NSUIImageJPEGRepresentation(image: NSUIImage, _ quality: CGFloat = 0.8) -> NSData?
     {
 		return UIImageJPEGRepresentation(image, quality)
 	}
 
-	final func NSUIMainScreen() -> NSUIScreen?
+	func NSUIMainScreen() -> NSUIScreen?
     {
 		return NSUIScreen.mainScreen()
 	}
 
-	final func NSUIGraphicsBeginImageContextWithOptions(size: CGSize, _ opaque: Bool, _ scale: CGFloat)
+	func NSUIGraphicsBeginImageContextWithOptions(size: CGSize, _ opaque: Bool, _ scale: CGFloat)
     {
 		UIGraphicsBeginImageContextWithOptions(size, opaque, scale)
 	}

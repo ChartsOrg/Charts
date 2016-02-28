@@ -82,6 +82,12 @@
 		5B6A54AB1AA66BC8000F57C2 /* ScatterChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54AA1AA66BC8000F57C2 /* ScatterChartView.swift */; };
 		5B6A54AC1AA66C1E000F57C2 /* ChartAxisRendererBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54711AA5DCA8000F57C2 /* ChartAxisRendererBase.swift */; };
 		5B8FE2B11B68FFF900910C9E /* LineScatterCandleRadarChartRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8FE2B01B68FFF900910C9E /* LineScatterCandleRadarChartRenderer.swift */; };
+		5B9A0C241C83A7E200ED8ED8 /* ChartViewPortJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCAA7491C7CAA4E00F83F3B /* ChartViewPortJob.swift */; };
+		5B9A0C251C83A7E200ED8ED8 /* MoveChartViewJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCAA74C1C7CAB4900F83F3B /* MoveChartViewJob.swift */; };
+		5B9A0C261C83A7E200ED8ED8 /* ZoomChartViewJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBBD9E01C80976300D01235 /* ZoomChartViewJob.swift */; };
+		5B9A0C271C83A7E200ED8ED8 /* AnimatedViewPortJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCAA74F1C7CAD4C00F83F3B /* AnimatedViewPortJob.swift */; };
+		5B9A0C281C83A7E200ED8ED8 /* AnimatedMoveViewJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCAA7521C7CB03900F83F3B /* AnimatedMoveViewJob.swift */; };
+		5B9A0C291C83A7E200ED8ED8 /* AnimatedZoomViewJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCAA7551C7CB0DE00F83F3B /* AnimatedZoomViewJob.swift */; };
 		5B9D74191C688BDD00267DDD /* ChartDefaultFillFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8E0AAD1C63737400438BAF /* ChartDefaultFillFormatter.swift */; };
 		5B9D741A1C688BDD00267DDD /* ChartDefaultFillFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8E0AAD1C63737400438BAF /* ChartDefaultFillFormatter.swift */; };
 		5BA8EC7D1A9D151C00CE82E1 /* ChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA8EC671A9D151C00CE82E1 /* ChartViewBase.swift */; };
@@ -1141,6 +1147,7 @@
 				65B3F5C81C7370E5000983D0 /* ChartAnimationEasing.swift in Sources */,
 				65B3F5C91C7370E5000983D0 /* BarChartView.swift in Sources */,
 				65B3F5CA1C7370E5000983D0 /* BarLineChartViewBase.swift in Sources */,
+				5B9A0C281C83A7E200ED8ED8 /* AnimatedMoveViewJob.swift in Sources */,
 				65B3F5CB1C7370E5000983D0 /* BubbleChartView.swift in Sources */,
 				65B3F5CC1C7370E5000983D0 /* CandleStickChartView.swift in Sources */,
 				65B3F5CD1C7370E5000983D0 /* ChartViewBase.swift in Sources */,
@@ -1157,6 +1164,7 @@
 				65B3F5D81C7370E5000983D0 /* ChartLimitLine.swift in Sources */,
 				65B3F5D91C7370E5000983D0 /* ChartMarker.swift in Sources */,
 				65B3F5DA1C7370E5000983D0 /* ChartXAxis.swift in Sources */,
+				5B9A0C251C83A7E200ED8ED8 /* MoveChartViewJob.swift in Sources */,
 				65B3F5DB1C7370E5000983D0 /* ChartYAxis.swift in Sources */,
 				65B3F5DC1C7370E5000983D0 /* IBarChartDataSet.swift in Sources */,
 				65B3F5DD1C7370E5000983D0 /* IBarLineScatterCandleBubbleChartDataSet.swift in Sources */,
@@ -1179,6 +1187,7 @@
 				65B3F5EE1C7370E5000983D0 /* BubbleChartDataEntry.swift in Sources */,
 				65B3F5EF1C7370E5000983D0 /* BubbleChartDataSet.swift in Sources */,
 				65B3F5F01C7370E5000983D0 /* CandleChartData.swift in Sources */,
+				5B9A0C241C83A7E200ED8ED8 /* ChartViewPortJob.swift in Sources */,
 				65B3F5F11C7370E5000983D0 /* CandleChartDataEntry.swift in Sources */,
 				65B3F5F21C7370E5000983D0 /* CandleChartDataSet.swift in Sources */,
 				65B3F5F31C7370E5000983D0 /* ChartData.swift in Sources */,
@@ -1189,6 +1198,7 @@
 				65B3F5F81C7370E5000983D0 /* LineChartDataSet.swift in Sources */,
 				65B3F5F91C7370E5000983D0 /* LineRadarChartDataSet.swift in Sources */,
 				65B3F5FA1C7370E5000983D0 /* LineScatterCandleRadarChartDataSet.swift in Sources */,
+				5B9A0C271C83A7E200ED8ED8 /* AnimatedViewPortJob.swift in Sources */,
 				65B3F5FB1C7370E5000983D0 /* PieChartData.swift in Sources */,
 				65B3F5FC1C7370E5000983D0 /* PieChartDataSet.swift in Sources */,
 				65B3F5FD1C7370E5000983D0 /* RadarChartData.swift in Sources */,
@@ -1204,7 +1214,9 @@
 				65B3F6061C7370E5000983D0 /* ChartXAxisValueFormatter.swift in Sources */,
 				65B3F6071C7370E5000983D0 /* ChartHighlight.swift in Sources */,
 				65B3F6081C7370E5000983D0 /* ChartRange.swift in Sources */,
+				5B9A0C291C83A7E200ED8ED8 /* AnimatedZoomViewJob.swift in Sources */,
 				65B3F6091C7370E5000983D0 /* ChartHighlighter.swift in Sources */,
+				5B9A0C261C83A7E200ED8ED8 /* ZoomChartViewJob.swift in Sources */,
 				65B3F60A1C7370E5000983D0 /* BarChartHighlighter.swift in Sources */,
 				65B3F60B1C7370E5000983D0 /* CombinedHighlighter.swift in Sources */,
 				65B3F60C1C7370E5000983D0 /* HorizontalBarChartHighlighter.swift in Sources */,

@@ -10,7 +10,6 @@
 //
 
 import Foundation
-import UIKit
 
 // This defines a viewport modification job, used for delaying or animating viewport changes
 public class ChartViewPortJob

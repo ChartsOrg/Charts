@@ -30,7 +30,7 @@ public class PieChartView: PieRadarChartViewBase
     /// if true, the hole inside the chart will be drawn
     private var _drawHoleEnabled = true
     
-    private var _holeColor: UIColor? = UIColor.whiteColor()
+    private var _holeColor: NSUIColor? = NSUIColor.whiteColor()
     
     /// if true, the hole will see-through to the inner tips of the slices
     private var _drawSlicesUnderHoleEnabled = false
@@ -46,7 +46,7 @@ public class PieChartView: PieRadarChartViewBase
     /// **default**: `0.5`
     private var _holeRadiusPercent = CGFloat(0.5)
     
-    private var _transparentCircleColor: UIColor? = UIColor(white: 1.0, alpha: 105.0/255.0)
+    private var _transparentCircleColor: NSUIColor? = NSUIColor(white: 1.0, alpha: 105.0/255.0)
     
     /// the radius of the transparent circle next to the chart-hole in the center
     private var _transparentCircleRadiusPercent = CGFloat(0.55)
@@ -461,7 +461,7 @@ public class PieChartView: PieRadarChartViewBase
     /// The color that the transparent-circle should have.
     ///
     /// **default**: `nil`
-    public var transparentCircleColor: UIColor?
+    public var transparentCircleColor: NSUIColor?
     {
         get
         {
