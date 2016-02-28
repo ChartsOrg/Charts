@@ -17,9 +17,11 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 	public typealias NSUIGestureRecognizerDelegate = UIGestureRecognizerDelegate
 	public typealias NSUITapGestureRecognizer = UITapGestureRecognizer
 	public typealias NSUIPanGestureRecognizer = UIPanGestureRecognizer
-	public typealias NSUIPinchGestureRecognizer = UIPinchGestureRecognizer
-	public typealias NSUIRotationGestureRecognizer = UIRotationGestureRecognizer
-	public typealias NSUIScreen = UIScreen
+#if !os(tvOS)
+    public typealias NSUIPinchGestureRecognizer = UIPinchGestureRecognizer
+    public typealias NSUIRotationGestureRecognizer = UIRotationGestureRecognizer
+#endif
+    public typealias NSUIScreen = UIScreen
 
 	public typealias NSUIDisplayLink = CADisplayLink
     
@@ -56,6 +58,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
         }
     }
     
+#if !os(tvOS)
     extension NSUIRotationGestureRecognizer
     {
         final var nsuiRotation: CGFloat
@@ -64,7 +67,9 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             set { rotation = newValue }
         }
     }
+#endif
     
+#if !os(tvOS)
     extension NSUIPinchGestureRecognizer
     {
         final var nsuiScale: CGFloat
@@ -84,6 +89,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             return super.locationOfTouch(touch, inView: inView)
         }
     }
+#endif
 
 	public class NSUIView: UIView
     {
