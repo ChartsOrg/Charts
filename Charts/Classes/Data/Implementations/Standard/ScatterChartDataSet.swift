@@ -13,6 +13,7 @@
 
 import Foundation
 import CoreGraphics
+import UIKit
 
 public class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterChartDataSet
 {

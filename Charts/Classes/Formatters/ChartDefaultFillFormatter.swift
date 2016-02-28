@@ -12,6 +12,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// Default formatter that calculates the position of the filled line.
 public class ChartDefaultFillFormatter: NSObject, ChartFillFormatter
