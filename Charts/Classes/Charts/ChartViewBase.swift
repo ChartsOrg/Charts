@@ -59,7 +59,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     private var _dragDecelerationFrictionCoef: CGFloat = 0.9
     
     /// Font object used for drawing the description text (by default in the bottom right corner of the chart)
-    public var descriptionFont: NSUIFont? = NSUIFont.systemFontOfSize(9.0)
+    public var descriptionFont: NSUIFont? = NSUIFont(name: "HelveticaNeue", size: 9.0)
     
     /// Text color used for drawing the description text
     public var descriptionTextColor: NSUIColor? = NSUIColor.blackColor()
@@ -71,7 +71,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     public var descriptionTextPosition: CGPoint? = nil
     
     /// font object for drawing the information text when there are no values in the chart
-    public var infoFont: NSUIFont! = NSUIFont.systemFontOfSize(12.0)
+    public var infoFont: NSUIFont! = NSUIFont(name: "HelveticaNeue", size: 12.0)
     public var infoTextColor: NSUIColor! = NSUIColor(red: 247.0/255.0, green: 189.0/255.0, blue: 51.0/255.0, alpha: 1.0) // orange
     
     /// description text that appears in the bottom right corner of the chart
