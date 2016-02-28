@@ -21,6 +21,7 @@
 @property (nonatomic, strong) IBOutlet UISlider *sliderY;
 @property (nonatomic, strong) IBOutlet UITextField *sliderTextX;
 @property (nonatomic, strong) IBOutlet UITextField *sliderTextY;
+@property (nonatomic, assign) BOOL shouldHideData;
 
 @end
 
@@ -42,7 +43,8 @@
                      @{@"key": @"animateXY", @"label": @"Animate XY"},
                      @{@"key": @"spin", @"label": @"Spin"},
                      @{@"key": @"drawCenter", @"label": @"Draw CenterText"},
-                     @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"}
+                     @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"},
+                     @{@"key": @"toggleData", @"label": @"Toggle Data"},
                      ];
     
     [self setupPieChartView:_chartView];
@@ -60,6 +62,17 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)updateChartData
+{
+    if (_shouldHideData)
+    {
+        _chartView.data = nil;
+        return;
+    }
+    
+    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
 }
 
 - (void)setDataCount:(int)count range:(double)range
@@ -175,6 +188,12 @@
     {
         [_chartView saveToCameraRoll];
     }
+    
+    if ([key isEqualToString:@"toggleData"])
+    {
+        _shouldHideData = !_shouldHideData;
+        [self updateChartData];
+    }
 }
 
 #pragma mark - Actions
@@ -184,7 +203,7 @@
     _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
     _sliderTextY.text = [@((int)_sliderY.value) stringValue];
     
-    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
+    [self updateChartData];
 }
 
 #pragma mark - ChartViewDelegate

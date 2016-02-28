@@ -17,6 +17,7 @@
 @interface RadarChartViewController () <ChartViewDelegate>
 
 @property (nonatomic, strong) IBOutlet RadarChartView *chartView;
+@property (nonatomic, assign) BOOL shouldHideData;
 
 @end
 
@@ -39,7 +40,8 @@
                      @{@"key": @"animateY", @"label": @"Animate Y"},
                      @{@"key": @"animateXY", @"label": @"Animate XY"},
                      @{@"key": @"spin", @"label": @"Spin"},
-                     @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"}
+                     @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"},
+                     @{@"key": @"toggleData", @"label": @"Toggle Data"},
                      ];
     
     _chartView.delegate = self;
@@ -67,7 +69,7 @@
     l.xEntrySpace = 7.0;
     l.yEntrySpace = 5.0;
     
-    [self setData];
+    [self updateChartData];
     
     [_chartView animateWithXAxisDuration:1.4 yAxisDuration:1.4 easingOption:ChartEasingOptionEaseOutBack];
 }
@@ -78,7 +80,18 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setData
+- (void)updateChartData
+{
+    if (_shouldHideData)
+    {
+        _chartView.data = nil;
+        return;
+    }
+    
+    [self setChartData];
+}
+
+- (void)setChartData
 {
     double mult = 150.f;
     int count = 9;
@@ -188,6 +201,12 @@
     if ([key isEqualToString:@"saveToGallery"])
     {
         [_chartView saveToCameraRoll];
+    }
+    
+    if ([key isEqualToString:@"toggleData"])
+    {
+        _shouldHideData = !_shouldHideData;
+        [self updateChartData];
     }
 }
 

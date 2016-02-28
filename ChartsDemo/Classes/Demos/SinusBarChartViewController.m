@@ -19,6 +19,7 @@
 @property (nonatomic, strong) IBOutlet BarChartView *chartView;
 @property (nonatomic, strong) IBOutlet UISlider *sliderX;
 @property (nonatomic, strong) IBOutlet UITextField *sliderTextX;
+@property (nonatomic, assign) BOOL shouldHideData;
 
 @end
 
@@ -40,6 +41,7 @@
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"},
                      @{@"key": @"togglePinchZoom", @"label": @"Toggle PinchZoom"},
                      @{@"key": @"toggleAutoScaleMinMax", @"label": @"Toggle auto scale min/max"},
+                     @{@"key": @"toggleData", @"label": @"Toggle Data"},
                      ];
     
     _chartView.delegate = self;
@@ -89,6 +91,17 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)updateChartData
+{
+    if (_shouldHideData)
+    {
+        _chartView.data = nil;
+        return;
+    }
+    
+    [self setDataCount:(_sliderX.value)];
 }
 
 - (void)setDataCount:(int)count
@@ -170,6 +183,12 @@
         _chartView.autoScaleMinMaxEnabled = !_chartView.isAutoScaleMinMaxEnabled;
         [_chartView notifyDataSetChanged];
     }
+    
+    if ([key isEqualToString:@"toggleData"])
+    {
+        _shouldHideData = !_shouldHideData;
+        [self updateChartData];
+    }
 }
 
 #pragma mark - Actions
@@ -178,7 +197,7 @@
 {
     _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
     
-    [self setDataCount:(_sliderX.value)];
+    [self updateChartData];
 }
 
 #pragma mark - ChartViewDelegate

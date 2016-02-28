@@ -17,6 +17,7 @@
 @interface PositiveNegativeBarChartViewController () <ChartViewDelegate>
 
 @property (nonatomic, strong) IBOutlet BarChartView *chartView;
+@property (nonatomic, assign) BOOL shouldHideData;
 
 @end
 
@@ -38,6 +39,7 @@
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"},
                      @{@"key": @"togglePinchZoom", @"label": @"Toggle PinchZoom"},
                      @{@"key": @"toggleAutoScaleMinMax", @"label": @"Toggle auto scale min/max"},
+                     @{@"key": @"toggleData", @"label": @"Toggle Data"},
                      ];
     
     [self setupBarLineChartView:_chartView];
@@ -80,26 +82,7 @@
     _chartView.rightAxis.enabled = NO;
     _chartView.legend.enabled = NO;
     
-    // THIS IS THE ORIGINAL DATA YOU WANT TO PLOT
-    NSArray<NSDictionary *> *data = @[
-                                      @{@"xIndex": @(0),
-                                        @"yValue": @(-224.1f),
-                                        @"xValue": @"12-19"},
-                                      @{@"xIndex": @(1),
-                                        @"yValue": @(238.5f),
-                                        @"xValue": @"12-30"},
-                                      @{@"xIndex": @(2),
-                                        @"yValue": @(1280.1f),
-                                        @"xValue": @"12-31"},
-                                      @{@"xIndex": @(3),
-                                        @"yValue": @(-442.3f),
-                                        @"xValue": @"01-01"},
-                                      @{@"xIndex": @(4),
-                                        @"yValue": @(-2280.1f),
-                                        @"xValue": @"01-02"},
-                                      ];
-
-    [self setData:data];
+    [self updateChartData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -108,8 +91,38 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setData:(NSArray<NSDictionary *> *)dataList
+- (void)updateChartData
 {
+    if (_shouldHideData)
+    {
+        _chartView.data = nil;
+        return;
+    }
+    
+    [self setChartData];
+}
+
+- (void)setChartData
+{
+    // THIS IS THE ORIGINAL DATA YOU WANT TO PLOT
+    NSArray<NSDictionary *> *dataList = @[
+                                          @{@"xIndex": @(0),
+                                            @"yValue": @(-224.1f),
+                                            @"xValue": @"12-19"},
+                                          @{@"xIndex": @(1),
+                                            @"yValue": @(238.5f),
+                                            @"xValue": @"12-30"},
+                                          @{@"xIndex": @(2),
+                                            @"yValue": @(1280.1f),
+                                            @"xValue": @"12-31"},
+                                          @{@"xIndex": @(3),
+                                            @"yValue": @(-442.3f),
+                                            @"xValue": @"01-01"},
+                                          @{@"xIndex": @(4),
+                                            @"yValue": @(-2280.1f),
+                                            @"xValue": @"01-02"},
+                                          ];
+    
     NSMutableArray<BarChartDataEntry *> *values = [[NSMutableArray alloc] init];
     NSMutableArray<NSString *> *dates = [[NSMutableArray alloc] init];
     NSMutableArray<UIColor *> *colors = [[NSMutableArray alloc] init];
@@ -207,6 +220,12 @@
     {
         _chartView.autoScaleMinMaxEnabled = !_chartView.isAutoScaleMinMaxEnabled;
         [_chartView notifyDataSetChanged];
+    }
+    
+    if ([key isEqualToString:@"toggleData"])
+    {
+        _shouldHideData = !_shouldHideData;
+        [self updateChartData];
     }
 }
 
