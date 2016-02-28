@@ -833,14 +833,14 @@ public class PieRadarChartViewBase: ChartViewBase
         
         if (recognizer.state == NSUIGestureRecognizerState.Began || recognizer.state == NSUIGestureRecognizerState.Changed)
         {
-            let angle = ChartUtils.Math.FRAD2DEG * recognizer.rotation
+            let angle = ChartUtils.Math.FRAD2DEG * recognizer.nsuiRotation
             
             self.rotationAngle = _startAngle + angle
             setNeedsDisplay()
         }
         else if (recognizer.state == NSUIGestureRecognizerState.Ended)
         {
-            let angle = ChartUtils.Math.FRAD2DEG * recognizer.rotation
+            let angle = ChartUtils.Math.FRAD2DEG * recognizer.nsuiRotation
             
             self.rotationAngle = _startAngle + angle
             setNeedsDisplay()

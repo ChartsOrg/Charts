@@ -56,6 +56,15 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
         }
     }
     
+    extension NSUIRotationGestureRecognizer
+    {
+        final var nsuiRotation: CGFloat
+        {
+            get { return rotation }
+            set { rotation = newValue }
+        }
+    }
+    
     extension NSUIPinchGestureRecognizer
     {
         var nsuiScale: CGFloat
@@ -320,6 +329,12 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
         var velocity: CGFloat
         {
             return 0.1
+        }
+        
+        final var nsuiRotation: CGFloat
+        {
+            get { return -rotation }
+            set { rotation = -newValue }
         }
     }
     
