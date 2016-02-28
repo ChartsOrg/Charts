@@ -14,8 +14,6 @@
 
 import Foundation
 
-import Darwin
-
 public class ChartUtils
 {
     private static var _defaultValueFormatter: NSNumberFormatter = ChartUtils.generateDefaultValueFormatter()
