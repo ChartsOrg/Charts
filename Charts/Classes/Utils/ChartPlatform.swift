@@ -25,12 +25,12 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     
     extension NSUITapGestureRecognizer
     {
-        func nsuiNumberOfTouches() -> Int
+        final func nsuiNumberOfTouches() -> Int
         {
             return numberOfTouches()
         }
         
-        var nsuiNumberOfTapsRequired: Int
+        final var nsuiNumberOfTapsRequired: Int
         {
             get
             {
@@ -45,12 +45,12 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     
     extension NSUIPanGestureRecognizer
     {
-        func nsuiNumberOfTouches() -> Int
+        final func nsuiNumberOfTouches() -> Int
         {
             return numberOfTouches()
         }
         
-        func nsuiLocationOfTouch(touch: Int, inView: UIView?) -> CGPoint
+        final func nsuiLocationOfTouch(touch: Int, inView: UIView?) -> CGPoint
         {
             return super.locationOfTouch(touch, inView: inView)
         }
@@ -67,7 +67,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     
     extension NSUIPinchGestureRecognizer
     {
-        var nsuiScale: CGFloat
+        final var nsuiScale: CGFloat
         {
             get
             {
@@ -79,7 +79,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             }
         }
         
-        func nsuiLocationOfTouch(touch: Int, inView: UIView?) -> CGPoint
+        final func nsuiLocationOfTouch(touch: Int, inView: UIView?) -> CGPoint
         {
             return super.locationOfTouch(touch, inView: inView)
         }
@@ -135,7 +135,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	extension UIView
     {
-		var nsuiGestureRecognizers: [NSUIGestureRecognizer]?
+		final var nsuiGestureRecognizers: [NSUIGestureRecognizer]?
         {
 			return self.gestureRecognizers
 		}
@@ -143,53 +143,53 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     
     extension UIScreen
     {
-        var nsuiScale: CGFloat
+        final var nsuiScale: CGFloat
         {
             return self.scale
         }
     }
 
-	func NSUIGraphicsGetCurrentContext() -> CGContextRef?
+	final func NSUIGraphicsGetCurrentContext() -> CGContextRef?
     {
 		return UIGraphicsGetCurrentContext()
 	}
 
-	func NSUIGraphicsGetImageFromCurrentImageContext() -> NSUIImage!
+	final func NSUIGraphicsGetImageFromCurrentImageContext() -> NSUIImage!
     {
 		return UIGraphicsGetImageFromCurrentImageContext()
 	}
 
-	func NSUIGraphicsPushContext(context: CGContextRef)
+	final func NSUIGraphicsPushContext(context: CGContextRef)
     {
 		UIGraphicsPushContext(context)
 	}
 
-	func NSUIGraphicsPopContext()
+	final func NSUIGraphicsPopContext()
     {
 		UIGraphicsPopContext()
 	}
 
-	func NSUIGraphicsEndImageContext()
+	final func NSUIGraphicsEndImageContext()
     {
 		UIGraphicsEndImageContext()
 	}
 
-	func NSUIImagePNGRepresentation(image: NSUIImage) -> NSData?
+	final func NSUIImagePNGRepresentation(image: NSUIImage) -> NSData?
     {
 		return UIImagePNGRepresentation(image)
 	}
 
-	func NSUIImageJPEGRepresentation(image: NSUIImage, _ quality: CGFloat = 0.8) -> NSData?
+	final func NSUIImageJPEGRepresentation(image: NSUIImage, _ quality: CGFloat = 0.8) -> NSData?
     {
 		return UIImageJPEGRepresentation(image, quality)
 	}
 
-	func NSUIMainScreen() -> NSUIScreen?
+	final func NSUIMainScreen() -> NSUIScreen?
     {
 		return NSUIScreen.mainScreen()
 	}
 
-	func NSUIGraphicsBeginImageContextWithOptions(size: CGSize, _ opaque: Bool, _ scale: CGFloat)
+	final func NSUIGraphicsBeginImageContextWithOptions(size: CGSize, _ opaque: Bool, _ scale: CGFloat)
     {
 		UIGraphicsBeginImageContextWithOptions(size, opaque, scale)
 	}
@@ -291,12 +291,12 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 	/** The 'tap' gesture is mapped to clicks. */
 	extension NSUITapGestureRecognizer
     {
-		func nsuiNumberOfTouches() -> Int
+		final func nsuiNumberOfTouches() -> Int
         {
 			return 1
 		}
         
-		var nsuiNumberOfTapsRequired: Int
+		final var nsuiNumberOfTapsRequired: Int
         {
 			get
             {
@@ -311,13 +311,13 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	extension NSUIPanGestureRecognizer
     {
-		func nsuiNumberOfTouches() -> Int
+		final func nsuiNumberOfTouches() -> Int
         {
 			return 1
 		}
         
         /// FIXME: Currently there are no more than 1 touch in OSX gestures, and not way to create custom touch gestures.
-		func nsuiLocationOfTouch(touch: Int, inView: NSView?) -> NSPoint
+		final func nsuiLocationOfTouch(touch: Int, inView: NSView?) -> NSPoint
         {
 			return super.locationInView(inView)
 		}
@@ -326,7 +326,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     extension NSUIRotationGestureRecognizer
     {
         /// FIXME: Currently there are no velocities in OSX gestures, and not way to create custom touch gestures.
-        var velocity: CGFloat
+        final var velocity: CGFloat
         {
             return 0.1
         }
@@ -340,7 +340,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     
     extension NSUIPinchGestureRecognizer
     {
-        var nsuiScale: CGFloat
+        final var nsuiScale: CGFloat
         {
             get
             {
@@ -353,7 +353,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
         }
         
         /// FIXME: Currently there are no more than 1 touch in OSX gestures, and not way to create custom touch gestures.
-        func nsuiLocationOfTouch(touch: Int, inView: NSView?) -> NSPoint
+        final func nsuiLocationOfTouch(touch: Int, inView: NSView?) -> NSPoint
         {
             return super.locationInView(inView)
         }
@@ -361,7 +361,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	extension NSView
     {
-		var nsuiGestureRecognizers: [NSGestureRecognizer]?
+		final var nsuiGestureRecognizers: [NSGestureRecognizer]?
         {
 			return self.gestureRecognizers
 		}
@@ -369,7 +369,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	public class NSUIView: NSView
     {
-		public override var flipped: Bool
+		public final override var flipped: Bool
         {
 			return true
 		}
@@ -433,7 +433,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             }
         }
 
-		var nsuiLayer: CALayer?
+		final var nsuiLayer: CALayer?
         {
 			return self.layer
 		}
@@ -450,7 +450,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	extension NSScreen
     {
-		var nsuiScale: CGFloat
+		final var nsuiScale: CGFloat
         {
 			return self.backingScaleFactor
 		}
