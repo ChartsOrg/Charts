@@ -130,7 +130,15 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
         {
 			return self.gestureRecognizers
 		}
-	}
+    }
+    
+    extension UIScreen
+    {
+        var nsuiScale: CGFloat
+        {
+            return self.scale
+        }
+    }
 
 	func NSUIGraphicsGetCurrentContext() -> CGContextRef?
     {
@@ -427,7 +435,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	extension NSScreen
     {
-		var scale: CGFloat
+		var nsuiScale: CGFloat
         {
 			return self.backingScaleFactor
 		}
