@@ -24,7 +24,7 @@ In order to correctly compile:
 5.  When using Swift in an ObjC project:
    - You need to import your Bridging Header. Usually it is "*YourProject-Swift.h*", so in ChartsDemo it's "*ChartsDemo-Swift.h*". Do not try to actually include "*ChartsDemo-Swift.h*" in your project :-)
    - Under "Build Options", mark "Embedded Content Contains Swift Code"
-6. When using Realm.io:
+6. When using [Realm.io](https://realm.io/):
    - Note that the Realm framework is not linked with Charts - it is only there for *optional* bindings. Which means that you need to have the framework in your project, and in a compatible version to whatever is compiled with Charts. We will do our best to always compile against the latest version.
 
 
@@ -38,7 +38,7 @@ If you want to compile for iOS 7:
 #### Can't compile?
 
 * Please note the difference between installing a compiled framework from CocoaPods or Carthage, and copying the source code.
-* If you are using Realm, please also `#import <ChartsRealm/ChartsRealm.h>`
+* If you are using [Realm](https://realm.io/), please also `#import <ChartsRealm/ChartsRealm.h>`
 * If you are compiling the source code and want to use Realm, please make sure to include the code from `ChartsRealm` project.
 * Please read the **Usage** section again.
 * Search in the issues
@@ -53,7 +53,7 @@ If you want to compile for iOS 7:
 
 Add `pod 'Charts'` to your Podfile. "Charts" is the name of the library.  
 
-For Realm support you can specify the subspec in your Podfile as follows:
+For [Realm](https://realm.io/) support you can specify the subspec in your Podfile as follows:
 ```
 pod 'Charts/Realm'
 ```
@@ -75,7 +75,7 @@ In order to build the binaries for a new release, use `carthage build --no-skip-
 
 If you like what you see here, and want to support the work being done in this repository, you could:
 * Contribute code, issues and pull requests
-* Let people know this library exists (spread the word!)
+* Let people know this library exists (:fire: spread the word :fire:)
 * [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=68UL6Y8KUPS96) (You can buy me a beer, or you can buy me dinner :-)
 
 **Note:** The author of [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) is the reason that this library exists, and is accepting [donations](https://github.com/PhilJay/MPAndroidChart#donations) on his page. He deserves them!
@@ -181,7 +181,7 @@ Goes to [@liuxuan30](https://github.com/liuxuan30), [@petester42](https://github
 
 License
 =======
-Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
+Copyright 2016 Daniel Cohen Gindi & Philipp Jahoda
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
