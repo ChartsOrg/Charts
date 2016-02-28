@@ -47,11 +47,12 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
     override func calcMinMax()
     {
         super.calcMinMax()
+        guard let data = _data else { return }
         
         if (self.barData !== nil || self.candleData !== nil || self.bubbleData !== nil)
         {
             _chartXMin = -0.5
-            _chartXMax = Double(_data.xVals.count) - 0.5
+            _chartXMax = Double(data.xVals.count) - 0.5
             
             if (self.bubbleData !== nil)
             {

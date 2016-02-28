@@ -263,11 +263,6 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     
     public override func notifyDataSetChanged()
     {
-        if _data === nil
-        {
-            return
-        }
-
         calcMinMax()
         
         _leftAxis?._defaultValueFormatter = _defaultValueFormatter
@@ -276,11 +271,14 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         _leftYAxisRenderer?.computeAxis(yMin: _leftAxis.axisMinimum, yMax: _leftAxis.axisMaximum)
         _rightYAxisRenderer?.computeAxis(yMin: _rightAxis.axisMinimum, yMax: _rightAxis.axisMaximum)
         
-        _xAxisRenderer?.computeAxis(xValAverageLength: _data.xValAverageLength, xValues: _data.xVals)
-        
-        if (_legend !== nil)
+        if let data = _data
         {
-            _legendRenderer?.computeLegend(_data)
+            _xAxisRenderer?.computeAxis(xValAverageLength: data.xValAverageLength, xValues: data.xVals)
+
+            if (_legend !== nil)
+            {
+                _legendRenderer?.computeLegend(data)
+            }
         }
         
         calculateOffsets()
@@ -292,21 +290,21 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     {
         if (_autoScaleMinMaxEnabled)
         {
-            _data.calcMinMax(start: lowestVisibleXIndex, end: highestVisibleXIndex)
+            _data?.calcMinMax(start: lowestVisibleXIndex, end: highestVisibleXIndex)
         }
         
         var minLeft = !isnan(_leftAxis.customAxisMin)
             ? _leftAxis.customAxisMin
-            : _data.getYMin(.Left)
+            : _data?.getYMin(.Left) ?? 0
         var maxLeft = !isnan(_leftAxis.customAxisMax)
             ? _leftAxis.customAxisMax
-            : _data.getYMax(.Left)
+            : _data?.getYMax(.Left) ?? 0
         var minRight = !isnan(_rightAxis.customAxisMin)
             ? _rightAxis.customAxisMin
-            : _data.getYMin(.Right)
+            : _data?.getYMin(.Right) ?? 0
         var maxRight = !isnan(_rightAxis.customAxisMax)
             ? _rightAxis.customAxisMax
-            : _data.getYMax(.Right)
+            : _data?.getYMax(.Right) ?? 0
         
         let leftRange = abs(maxLeft - minLeft)
         let rightRange = abs(maxRight - minRight)
@@ -329,7 +327,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         let bottomSpaceLeft = leftRange * Double(_leftAxis.spaceBottom)
         let bottomSpaceRight = rightRange * Double(_rightAxis.spaceBottom)
         
-        _chartXMax = Double(_data.xVals.count - 1)
+        _chartXMax = Double((_data?.xVals.count ?? 0) - 1)
         _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
         
         // Use the values as they are
@@ -455,7 +453,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         if (!_xAxis.isAxisModulusCustom)
         {
-            _xAxis.axisLabelModulus = Int(ceil((CGFloat(_data.xValCount) * _xAxis.labelRotatedWidth) / (_viewPortHandler.contentWidth * _viewPortHandler.touchMatrix.a)))
+            _xAxis.axisLabelModulus = Int(ceil((CGFloat(_data?.xValCount ?? 0) * _xAxis.labelRotatedWidth) / (_viewPortHandler.contentWidth * _viewPortHandler.touchMatrix.a)))
         }
         
         if (_xAxis.axisLabelModulus < 1)
@@ -466,6 +464,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     
     public override func getMarkerPosition(entry e: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
     {
+        guard let data = _data else { return CGPointZero }
+
         let dataSetIndex = highlight.dataSetIndex
         var xPos = CGFloat(e.xIndex)
         var yPos = CGFloat(e.value)
@@ -474,7 +474,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         {
             let bd = _data as! BarChartData
             let space = bd.groupSpace
-            let setCount = _data.dataSetCount
+            let setCount = data.dataSetCount
             let i = e.xIndex
             
             if self is HorizontalBarChartView
@@ -519,7 +519,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         // position of the marker depends on selected value index and value
         var pt = CGPoint(x: xPos, y: yPos * _animator.phaseY)
         
-        getTransformer(_data.getDataSetByIndex(dataSetIndex)!.axisDependency).pointValueToPixel(&pt)
+        getTransformer(data.getDataSetByIndex(dataSetIndex)!.axisDependency).pointValueToPixel(&pt)
         
         return pt
     }
@@ -1638,7 +1638,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         let h = getHighlightByTouchPoint(pt)
         if (h !== nil)
         {
-            return _data.getDataSetByIndex(h!.dataSetIndex) as! IBarLineScatterCandleBubbleChartDataSet!
+            return _data?.getDataSetByIndex(h!.dataSetIndex) as! IBarLineScatterCandleBubbleChartDataSet!
         }
         return nil
     }
@@ -1912,6 +1912,10 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     {
         var pt = CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentBottom)
         getTransformer(.Left).pixelToValue(&pt)
-        return (_data != nil && Int(round(pt.x)) >= _data.xValCount) ? _data.xValCount - 1 : Int(round(pt.x))
+        let ptRoundedX = Int(round(pt.x))
+
+        guard let data = _data else { return ptRoundedX }
+
+        return min(data.xValCount - 1, ptRoundedX)
     }
 }

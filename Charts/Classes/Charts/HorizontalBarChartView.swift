@@ -130,7 +130,14 @@ public class HorizontalBarChartView: BarChartView
 
     internal override func calcModulus()
     {
-        _xAxis.axisLabelModulus = Int(ceil((CGFloat(_data.xValCount) * _xAxis.labelRotatedHeight) / (_viewPortHandler.contentHeight * viewPortHandler.touchMatrix.d)))
+        if let data = _data
+        {
+            _xAxis.axisLabelModulus = Int(ceil((CGFloat(data.xValCount) * _xAxis.labelRotatedHeight) / (_viewPortHandler.contentHeight * viewPortHandler.touchMatrix.d)))
+        }
+        else
+        {
+            _xAxis.axisLabelModulus = 1
+        }
         
         if (_xAxis.axisLabelModulus < 1)
         {
@@ -140,9 +147,7 @@ public class HorizontalBarChartView: BarChartView
     
     public override func getBarBounds(e: BarChartDataEntry) -> CGRect
     {
-        let set = _data.getDataSetForEntry(e) as! IBarChartDataSet!
-        
-        if (set === nil)
+        guard let set = _data?.getDataSetForEntry(e) as? IBarChartDataSet else
         {
             return CGRectNull
         }
@@ -186,7 +191,7 @@ public class HorizontalBarChartView: BarChartView
     
     public override var lowestVisibleXIndex: Int
     {
-        let step = CGFloat(_data.dataSetCount)
+        let step = CGFloat(_data?.dataSetCount ?? 0)
         let div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
         
         var pt = CGPoint(x: _viewPortHandler.contentLeft, y: _viewPortHandler.contentBottom)
@@ -197,7 +202,7 @@ public class HorizontalBarChartView: BarChartView
     
     public override var highestVisibleXIndex: Int
     {
-        let step = CGFloat(_data.dataSetCount)
+        let step = CGFloat(_data?.dataSetCount ?? 0)
         let div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
         
         var pt = CGPoint(x: _viewPortHandler.contentLeft, y: _viewPortHandler.contentTop)
