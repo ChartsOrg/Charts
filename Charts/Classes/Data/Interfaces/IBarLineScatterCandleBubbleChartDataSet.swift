@@ -12,6 +12,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 @objc
 public protocol IBarLineScatterCandleBubbleChartDataSet: IChartDataSet

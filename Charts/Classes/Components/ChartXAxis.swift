@@ -13,7 +13,7 @@
 //
 
 import Foundation
-
+import CoreGraphics
 
 public class ChartXAxis: ChartAxisBase
 {

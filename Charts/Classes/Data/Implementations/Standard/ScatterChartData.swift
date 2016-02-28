@@ -11,7 +11,8 @@
 //  https://github.com/danielgindi/ios-charts
 //
 
-
+import Foundation
+import CoreGraphics
 
 public class ScatterChartData: BarLineScatterCandleBubbleChartData
 {

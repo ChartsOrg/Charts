@@ -14,6 +14,9 @@
 import Foundation
 import CoreGraphics
 
+#if !os(OSX)
+    import UIKit
+#endif
 
 public class BarChartRenderer: ChartDataRendererBase
 {

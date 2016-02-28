@@ -12,6 +12,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 
 /// This class encapsulates everything both Axis, Legend and LimitLines have in common

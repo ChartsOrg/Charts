@@ -13,6 +13,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 
 /// The limit line is an additional feature for all Line, Bar and ScatterCharts.
