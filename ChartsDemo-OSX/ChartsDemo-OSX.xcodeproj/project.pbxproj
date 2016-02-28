@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B9A0C3A1C83AB1800ED8ED8 /* BarDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9A0C391C83AB1800ED8ED8 /* BarDemoViewController.swift */; };
+		5B9A0C3C1C83AB2100ED8ED8 /* LineDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9A0C3B1C83AB2100ED8ED8 /* LineDemoViewController.swift */; };
+		5B9A0C3E1C83AB2B00ED8ED8 /* RadarDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9A0C3D1C83AB2B00ED8ED8 /* RadarDemoViewController.swift */; };
+		5B9A0C401C83AB3400ED8ED8 /* PieDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9A0C3F1C83AB3400ED8ED8 /* PieDemoViewController.swift */; };
 		65B3F6421C73B4F5000983D0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B3F6411C73B4F5000983D0 /* AppDelegate.swift */; };
-		65B3F6441C73B4F5000983D0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B3F6431C73B4F5000983D0 /* ViewController.swift */; };
 		65B3F6461C73B4F5000983D0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65B3F6451C73B4F5000983D0 /* Assets.xcassets */; };
 		65B3F6491C73B4F5000983D0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65B3F6471C73B4F5000983D0 /* Main.storyboard */; };
 		65B3F67E1C73B8FF000983D0 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65B3F6771C73B8FA000983D0 /* Charts.framework */; };
@@ -68,9 +71,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5B9A0C391C83AB1800ED8ED8 /* BarDemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarDemoViewController.swift; sourceTree = "<group>"; };
+		5B9A0C3B1C83AB2100ED8ED8 /* LineDemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineDemoViewController.swift; sourceTree = "<group>"; };
+		5B9A0C3D1C83AB2B00ED8ED8 /* RadarDemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadarDemoViewController.swift; sourceTree = "<group>"; };
+		5B9A0C3F1C83AB3400ED8ED8 /* PieDemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieDemoViewController.swift; sourceTree = "<group>"; };
 		65B3F63E1C73B4F5000983D0 /* ChartsDemo-OSX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ChartsDemo-OSX.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65B3F6411C73B4F5000983D0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		65B3F6431C73B4F5000983D0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		65B3F6451C73B4F5000983D0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		65B3F6481C73B4F5000983D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		65B3F64A1C73B4F5000983D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -89,6 +95,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5B9A0C381C83AB0600ED8ED8 /* Demos */ = {
+			isa = PBXGroup;
+			children = (
+				5B9A0C391C83AB1800ED8ED8 /* BarDemoViewController.swift */,
+				5B9A0C3B1C83AB2100ED8ED8 /* LineDemoViewController.swift */,
+				5B9A0C3D1C83AB2B00ED8ED8 /* RadarDemoViewController.swift */,
+				5B9A0C3F1C83AB3400ED8ED8 /* PieDemoViewController.swift */,
+			);
+			path = Demos;
+			sourceTree = "<group>";
+		};
 		65B3F6351C73B4F5000983D0 = {
 			isa = PBXGroup;
 			children = (
@@ -109,8 +126,8 @@
 		65B3F6401C73B4F5000983D0 /* ChartsDemo-OSX */ = {
 			isa = PBXGroup;
 			children = (
+				5B9A0C381C83AB0600ED8ED8 /* Demos */,
 				65B3F6411C73B4F5000983D0 /* AppDelegate.swift */,
-				65B3F6431C73B4F5000983D0 /* ViewController.swift */,
 				65B3F6451C73B4F5000983D0 /* Assets.xcassets */,
 				65B3F6471C73B4F5000983D0 /* Main.storyboard */,
 				65B3F64A1C73B4F5000983D0 /* Info.plist */,
@@ -159,7 +176,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0720;
-				ORGANIZATIONNAME = Pixelspark;
+				ORGANIZATIONNAME = dcg;
 				TargetAttributes = {
 					65B3F63D1C73B4F5000983D0 = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -238,8 +255,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65B3F6441C73B4F5000983D0 /* ViewController.swift in Sources */,
 				65B3F6421C73B4F5000983D0 /* AppDelegate.swift in Sources */,
+				5B9A0C3E1C83AB2B00ED8ED8 /* RadarDemoViewController.swift in Sources */,
+				5B9A0C3A1C83AB1800ED8ED8 /* BarDemoViewController.swift in Sources */,
+				5B9A0C401C83AB3400ED8ED8 /* PieDemoViewController.swift in Sources */,
+				5B9A0C3C1C83AB2100ED8ED8 /* LineDemoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
