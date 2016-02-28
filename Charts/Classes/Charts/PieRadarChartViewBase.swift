@@ -29,6 +29,7 @@ public class PieRadarChartViewBase: ChartViewBase
     /// Sets the minimum offset (padding) around the chart, defaults to 0.0
     public var minOffset = CGFloat(0.0)
 
+    /// iOS && OSX only: Enabled multi-touch rotation using two fingers.
     private var _rotationWithTwoFingers = false
     
     private var _tapGestureRecognizer: NSUITapGestureRecognizer!
@@ -403,6 +404,9 @@ public class PieRadarChartViewBase: ChartViewBase
     
     /// flag that indicates if rotation is done with two fingers or one.
     /// when the chart is inside a scrollview, you need a two-finger rotation because a one-finger rotation eats up all touch events.
+    ///
+    /// On iOS this will disable one-finger rotation.
+    /// On OSX this will keep two-finger multitouch rotation, and one-pointer mouse rotation.
     /// 
     /// **default**: false
     public var rotationWithTwoFingers: Bool
@@ -422,6 +426,9 @@ public class PieRadarChartViewBase: ChartViewBase
     
     /// flag that indicates if rotation is done with two fingers or one.
     /// when the chart is inside a scrollview, you need a two-finger rotation because a one-finger rotation eats up all touch events.
+    ///
+    /// On iOS this will disable one-finger rotation.
+    /// On OSX this will keep two-finger multitouch rotation, and one-pointer mouse rotation.
     ///
     /// **default**: false
     public var isRotationWithTwoFingers: Bool
@@ -470,9 +477,8 @@ public class PieRadarChartViewBase: ChartViewBase
     
     // MARK: - Gestures
     
-    private var _touchStartPoint: CGPoint!
+    private var _rotationGestureStartPoint: CGPoint!
     private var _isRotating = false
-    private var _defaultTouchEventsWereEnabled = false
     private var _startAngle = CGFloat(0.0)
     
     private struct AngularVelocitySample
@@ -487,6 +493,71 @@ public class PieRadarChartViewBase: ChartViewBase
     private var _decelerationDisplayLink: NSUIDisplayLink!
     private var _decelerationAngularVelocity: CGFloat = 0.0
     
+    internal final func processRotationGestureBegan(location location: CGPoint)
+    {
+        self.resetVelocity()
+        
+        if rotationEnabled
+        {
+            self.sampleVelocity(touchLocation: location)
+        }
+        
+        self.setGestureStartAngle(x: location.x, y: location.y)
+        
+        _rotationGestureStartPoint = location
+    }
+    
+    internal final func processRotationGestureMoved(location location: CGPoint)
+    {
+        if isDragDecelerationEnabled
+        {
+            sampleVelocity(touchLocation: location)
+        }
+        
+        if !_isRotating &&
+            distance(
+                eventX: location.x,
+                startX: _rotationGestureStartPoint.x,
+                eventY: location.y,
+                startY: _rotationGestureStartPoint.y) > CGFloat(8.0)
+        {
+            _isRotating = true
+        }
+        else
+        {
+            self.updateGestureRotation(x: location.x, y: location.y)
+            setNeedsDisplay()
+        }
+    }
+    
+    internal final func processRotationGestureEnded(location location: CGPoint)
+    {
+        if isDragDecelerationEnabled
+        {
+            stopDeceleration()
+            
+            sampleVelocity(touchLocation: location)
+            
+            _decelerationAngularVelocity = calculateVelocity()
+            
+            if _decelerationAngularVelocity != 0.0
+            {
+                _decelerationLastTime = CACurrentMediaTime()
+                _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: Selector("decelerationLoop"))
+                _decelerationDisplayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
+            }
+        }
+    }
+    
+    internal final func processRotationGestureCancelled()
+    {
+        if (_isRotating)
+        {
+            _isRotating = false
+        }
+    }
+    
+    #if !os(OSX)
     public override func nsuiTouchesBegan(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
     {
         // if rotation by touch is enabled
@@ -500,16 +571,7 @@ public class PieRadarChartViewBase: ChartViewBase
                 
                 let touchLocation = touch.locationInView(self)
                 
-                self.resetVelocity()
-                
-                if (rotationEnabled)
-                {
-                    self.sampleVelocity(touchLocation: touchLocation)
-                }
-                
-                self.setGestureStartAngle(x: touchLocation.x, y: touchLocation.y)
-                
-                _touchStartPoint = touchLocation
+                processRotationGestureBegan(location: touchLocation)
             }
         }
         
@@ -527,20 +589,7 @@ public class PieRadarChartViewBase: ChartViewBase
             
             let touchLocation = touch.locationInView(self)
             
-            if (isDragDecelerationEnabled)
-            {
-                sampleVelocity(touchLocation: touchLocation)
-            }
-            
-            if (!_isRotating && distance(eventX: touchLocation.x, startX: _touchStartPoint.x, eventY: touchLocation.y, startY: _touchStartPoint.y) > CGFloat(8.0))
-            {
-                _isRotating = true
-            }
-            else
-            {
-                self.updateGestureRotation(x: touchLocation.x, y: touchLocation.y)
-                setNeedsDisplay()
-            }
+            processRotationGestureMoved(location: touchLocation)
         }
         
         if (!_isRotating)
@@ -562,21 +611,7 @@ public class PieRadarChartViewBase: ChartViewBase
             
             let touchLocation = touch.locationInView(self)
             
-            if (isDragDecelerationEnabled)
-            {
-                stopDeceleration()
-                
-                sampleVelocity(touchLocation: touchLocation)
-                
-                _decelerationAngularVelocity = calculateVelocity()
-                
-                if (_decelerationAngularVelocity != 0.0)
-                {
-                    _decelerationLastTime = CACurrentMediaTime()
-                    _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: Selector("decelerationLoop"))
-                    _decelerationDisplayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
-                }
-            }
+            processRotationGestureEnded(location: touchLocation)
         }
         
         if (_isRotating)
@@ -589,11 +624,64 @@ public class PieRadarChartViewBase: ChartViewBase
     {
         super.nsuiTouchesCancelled(touches, withEvent: event)
         
-        if (_isRotating)
+        processRotationGestureCancelled()
+    }
+    #endif
+    
+    #if os(OSX)
+    public override func mouseDown(theEvent: NSEvent)
+    {
+        // if rotation by touch is enabled
+        if rotationEnabled
+        {
+            stopDeceleration()
+        
+            let location = self.convertPoint(theEvent.locationInWindow, fromView: nil)
+            
+            processRotationGestureBegan(location: location)
+        }
+        
+        if !_isRotating
+        {
+            super.mouseDown(theEvent)
+        }
+    }
+    
+    public override func mouseDragged(theEvent: NSEvent)
+    {
+        if rotationEnabled
+        {
+            let location = self.convertPoint(theEvent.locationInWindow, fromView: nil)
+            
+            processRotationGestureMoved(location: location)
+        }
+        
+        if !_isRotating
+        {
+            super.mouseDragged(theEvent)
+        }
+    }
+    
+    public override func mouseUp(theEvent: NSEvent)
+    {
+        if !_isRotating
+        {
+            super.mouseUp(theEvent)
+        }
+        
+        if rotationEnabled
+        {
+            let location = self.convertPoint(theEvent.locationInWindow, fromView: nil)
+            
+            processRotationGestureEnded(location: location)
+        }
+        
+        if _isRotating
         {
             _isRotating = false
         }
     }
+    #endif
     
     private func resetVelocity()
     {
