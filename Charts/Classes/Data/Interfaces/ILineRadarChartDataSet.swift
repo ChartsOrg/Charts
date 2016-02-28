@@ -12,6 +12,7 @@
 //
 
 import Foundation
+import UIKit
 
 @objc
 public protocol ILineRadarChartDataSet: ILineScatterCandleRadarChartDataSet
