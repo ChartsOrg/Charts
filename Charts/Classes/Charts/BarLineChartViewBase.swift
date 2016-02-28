@@ -295,16 +295,16 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         var minLeft = !isnan(_leftAxis.customAxisMin)
             ? _leftAxis.customAxisMin
-            : _data?.getYMin(.Left) ?? 0
+            : _data?.getYMin(.Left) ?? 0.0
         var maxLeft = !isnan(_leftAxis.customAxisMax)
             ? _leftAxis.customAxisMax
-            : _data?.getYMax(.Left) ?? 0
+            : _data?.getYMax(.Left) ?? 0.0
         var minRight = !isnan(_rightAxis.customAxisMin)
             ? _rightAxis.customAxisMin
-            : _data?.getYMin(.Right) ?? 0
+            : _data?.getYMin(.Right) ?? 0.0
         var maxRight = !isnan(_rightAxis.customAxisMax)
             ? _rightAxis.customAxisMax
-            : _data?.getYMax(.Right) ?? 0
+            : _data?.getYMax(.Right) ?? 0.0
         
         let leftRange = abs(maxLeft - minLeft)
         let rightRange = abs(maxRight - minRight)
@@ -1910,12 +1910,16 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// - returns: the highest x-index (value on the x-axis) that is still visible on the chart.
     public var highestVisibleXIndex: Int
     {
-        var pt = CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentBottom)
+        var pt = CGPoint(
+            x: viewPortHandler.contentRight,
+            y: viewPortHandler.contentBottom)
+        
         getTransformer(.Left).pixelToValue(&pt)
-        let ptRoundedX = Int(round(pt.x))
 
-        guard let data = _data else { return ptRoundedX }
+        guard let
+            data = _data
+            else { return Int(round(pt.x)) }
 
-        return min(data.xValCount - 1, ptRoundedX)
+        return min(data.xValCount - 1, Int(round(pt.x)))
     }
 }
