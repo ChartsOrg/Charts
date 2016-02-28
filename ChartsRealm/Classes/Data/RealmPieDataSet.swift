@@ -13,7 +13,7 @@
 //
 
 import Foundation
-import UIKit
+
 import Charts
 import Realm
 import Realm.Dynamic
@@ -22,8 +22,8 @@ public class RealmPieDataSet: RealmBaseDataSet, IPieChartDataSet
 {
     public override func initialize()
     {
-        self.valueTextColor = UIColor.whiteColor()
-        self.valueFont = UIFont.systemFontOfSize(13.0)
+        self.valueTextColor = NSUIColor.whiteColor()
+        self.valueFont = NSUIFont.systemFontOfSize(13.0)
     }
     
     // MARK: - Data functions and accessors

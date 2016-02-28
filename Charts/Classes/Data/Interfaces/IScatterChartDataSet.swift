@@ -35,7 +35,7 @@ public protocol IScatterChartDataSet: ILineScatterCandleRadarChartDataSet
     
     // Color for the hole in the shape. Setting to `nil` will behave as transparent.
     // - default: nil
-    var scatterShapeHoleColor: UIColor? { get set }
+    var scatterShapeHoleColor: NSUIColor? { get set }
     
     // Custom path object to draw where the values are at.
     // This is used when shape is set to Custom.

@@ -130,21 +130,21 @@ public protocol IChartDataSet
     var axisDependency: ChartYAxis.AxisDependency { get }
     
     /// List representing all colors that are used for drawing the actual values for this DataSet
-    var valueColors: [UIColor] { get }
+    var valueColors: [NSUIColor] { get }
     
     /// All the colors that are used for this DataSet.
     /// Colors are reused as soon as the number of Entries the DataSet represents is higher than the size of the colors array.
-    var colors: [UIColor] { get }
+    var colors: [NSUIColor] { get }
     
     /// - returns: the color at the given index of the DataSet's color array.
     /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
-    func colorAt(var index: Int) -> UIColor
+    func colorAt(var index: Int) -> NSUIColor
     
     func resetColors()
     
-    func addColor(color: UIColor)
+    func addColor(color: NSUIColor)
     
-    func setColor(color: UIColor)
+    func setColor(color: NSUIColor)
     
     /// if true, value highlighting is enabled
     var highlightEnabled: Bool { get set }
@@ -158,13 +158,13 @@ public protocol IChartDataSet
     /// Sets/get a single color for value text.
     /// Setting the color clears the colors array and adds a single color.
     /// Getting will return the first color in the array.
-    var valueTextColor: UIColor { get set }
+    var valueTextColor: NSUIColor { get set }
     
     /// - returns: the color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
-    func valueTextColorAt(var index: Int) -> UIColor
+    func valueTextColorAt(var index: Int) -> NSUIColor
     
     /// the font for the value-text labels
-    var valueFont: UIFont { get set }
+    var valueFont: NSUIFont { get set }
     
     /// Set this to true to draw y-values on the chart
     var drawValuesEnabled: Bool { get set }

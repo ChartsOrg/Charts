@@ -22,7 +22,7 @@ public protocol ILineRadarChartDataSet: ILineScatterCandleRadarChartDataSet
     // MARK: - Styling functions and accessors
     
     /// The color that is used for filling the line surface area.
-    var fillColor: UIColor { get set }
+    var fillColor: NSUIColor { get set }
 
     /// Returns the object that is used for filling the area below the line.
     /// - default: nil

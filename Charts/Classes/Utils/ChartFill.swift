@@ -104,7 +104,7 @@ public class ChartFill: NSObject
         _color = CGColor
     }
     
-    public convenience init(color: UIColor)
+    public convenience init(color: NSUIColor)
     {
         self.init(CGColor: color.CGColor)
     }
@@ -149,7 +149,7 @@ public class ChartFill: NSObject
         _image = CGImage
     }
     
-    public convenience init(image: UIImage, tiled: Bool)
+    public convenience init(image: NSUIImage, tiled: Bool)
     {
         if image.CGImage == nil
         {
@@ -166,7 +166,7 @@ public class ChartFill: NSObject
         self.init(CGImage: CGImage, tiled: false)
     }
     
-    public convenience init(image: UIImage)
+    public convenience init(image: NSUIImage)
     {
         self.init(image: image, tiled: false)
     }
@@ -184,7 +184,7 @@ public class ChartFill: NSObject
         return ChartFill(CGColor: CGColor)
     }
     
-    public class func fillWithColor(color: UIColor) -> ChartFill
+    public class func fillWithColor(color: NSUIColor) -> ChartFill
     {
         return ChartFill(color: color)
     }
@@ -221,7 +221,7 @@ public class ChartFill: NSObject
         return ChartFill(CGImage: CGImage, tiled: tiled)
     }
     
-    public class func fillWithImage(image: UIImage, tiled: Bool) -> ChartFill
+    public class func fillWithImage(image: NSUIImage, tiled: Bool) -> ChartFill
     {
         return ChartFill(image: image, tiled: tiled)
     }
@@ -231,7 +231,7 @@ public class ChartFill: NSObject
         return ChartFill(CGImage: CGImage)
     }
     
-    public class func fillWithImage(image: UIImage) -> ChartFill
+    public class func fillWithImage(image: NSUIImage) -> ChartFill
     {
         return ChartFill(image: image)
     }

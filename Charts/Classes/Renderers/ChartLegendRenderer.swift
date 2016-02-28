@@ -13,7 +13,7 @@
 
 import Foundation
 import CoreGraphics
-import UIKit
+
 
 public class ChartLegendRenderer: ChartRendererBase
 {
@@ -35,14 +35,14 @@ public class ChartLegendRenderer: ChartRendererBase
         if (!legend.isLegendCustom)
         {
             var labels = [String?]()
-            var colors = [UIColor?]()
+            var colors = [NSUIColor?]()
             
             // loop for building up the colors and labels used in the legend
             for i in 0..<data.dataSetCount
             {
                 let dataSet = data.getDataSetByIndex(i)!
                 
-                var clrs: [UIColor] = dataSet.colors
+                var clrs: [NSUIColor] = dataSet.colors
                 let entryCount = dataSet.entryCount
                 
                 // if we have a barchart with stacked bars
@@ -387,7 +387,7 @@ public class ChartLegendRenderer: ChartRendererBase
     /// Draws the Legend-form at the given position with the color at the given index.
     public func drawForm(context context: CGContext, x: CGFloat, y: CGFloat, colorIndex: Int, legend: ChartLegend)
     {
-        guard let formColor = legend.colors[colorIndex] where formColor != UIColor.clearColor() else {
+        guard let formColor = legend.colors[colorIndex] where formColor != NSUIColor.clearColor() else {
             return
         }
         
@@ -418,7 +418,7 @@ public class ChartLegendRenderer: ChartRendererBase
     }
 
     /// Draws the provided label at the given position.
-    public func drawLabel(context context: CGContext, x: CGFloat, y: CGFloat, label: String, font: UIFont, textColor: UIColor)
+    public func drawLabel(context context: CGContext, x: CGFloat, y: CGFloat, label: String, font: NSUIFont, textColor: NSUIColor)
     {
         ChartUtils.drawText(context: context, text: label, point: CGPoint(x: x, y: y), align: .Left, attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: textColor])
     }

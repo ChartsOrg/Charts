@@ -14,7 +14,6 @@
 //  Based on https://github.com/PhilJay/MPAndroidChart/commit/c42b880
 
 import Foundation
-import UIKit
 
 @objc
 public protocol ChartViewDelegate
@@ -34,7 +33,7 @@ public protocol ChartViewDelegate
     optional func chartTranslated(chartView: ChartViewBase, dX: CGFloat, dY: CGFloat)
 }
 
-public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
+public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
 {
     // MARK: - Properties
     
@@ -55,10 +54,10 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
     private var _dragDecelerationFrictionCoef: CGFloat = 0.9
     
     /// Font object used for drawing the description text (by default in the bottom right corner of the chart)
-    public var descriptionFont: UIFont? = UIFont(name: "HelveticaNeue", size: 9.0)
+    public var descriptionFont: NSUIFont? = NSUIFont.systemFontOfSize(9.0)
     
     /// Text color used for drawing the description text
-    public var descriptionTextColor: UIColor? = UIColor.blackColor()
+    public var descriptionTextColor: NSUIColor? = NSUIColor.blackColor()
     
     /// Text align used for drawing the description text
     public var descriptionTextAlign: NSTextAlignment = NSTextAlignment.Right
@@ -67,8 +66,8 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
     public var descriptionTextPosition: CGPoint? = nil
     
     /// font object for drawing the information text when there are no values in the chart
-    public var infoFont: UIFont! = UIFont(name: "HelveticaNeue", size: 12.0)
-    public var infoTextColor: UIColor! = UIColor(red: 247.0/255.0, green: 189.0/255.0, blue: 51.0/255.0, alpha: 1.0) // orange
+    public var infoFont: NSUIFont! = NSUIFont.systemFontOfSize(12.0)
+    public var infoTextColor: NSUIColor! = NSUIColor(red: 247.0/255.0, green: 189.0/255.0, blue: 51.0/255.0, alpha: 1.0) // orange
     
     /// description text that appears in the bottom right corner of the chart
     public var descriptionText = "Description"
@@ -149,7 +148,10 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
     public override init(frame: CGRect)
     {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.clearColor()
+
+		#if os(iOS)
+			self.backgroundColor = NSUIColor.clearColor()
+		#endif
         initialize()
     }
     
@@ -278,7 +280,7 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
     
     public override func drawRect(rect: CGRect)
     {
-        let optionalContext = UIGraphicsGetCurrentContext()
+        let optionalContext = NSUIGraphicsGetCurrentContext()
         guard let context = optionalContext else { return }
         
         let frame = self.bounds
@@ -345,9 +347,9 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
         {
             #if os(tvOS)
                 // 23 is the smallest recommened font size on the TV
-                font = UIFont.systemFontOfSize(23, weight: UIFontWeightMedium)
+                font = NSUIFont.systemFontOfSize(23, weight: NSUIFontWeightMedium)
             #else
-                font = UIFont.systemFontOfSize(UIFont.systemFontSize())
+                font = NSUIFont.systemFontOfSize(NSUIFont.systemFontSize())
             #endif
         }
         
@@ -561,7 +563,7 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
     // MARK: - Animation
     
     /// - returns: the animator responsible for animating chart values.
-    public var animator: ChartAnimator!
+    public var chartAnimator: ChartAnimator!
     {
         return _animator
     }
@@ -780,17 +782,17 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
     }
     
     /// - returns: the bitmap that represents the chart.
-    public func getChartImage(transparent transparent: Bool) -> UIImage
+    public func getChartImage(transparent transparent: Bool) -> NSUIImage?
     {
-        UIGraphicsBeginImageContextWithOptions(bounds.size, opaque || !transparent, UIScreen.mainScreen().scale)
+        NSUIGraphicsBeginImageContextWithOptions(bounds.size, opaque || !transparent, NSUIMainScreen()?.nsuiScale ?? 1.0)
         
-        let context = UIGraphicsGetCurrentContext()
+        let context = NSUIGraphicsGetCurrentContext()
         let rect = CGRect(origin: CGPoint(x: 0, y: 0), size: bounds.size)
         
         if (opaque || !transparent)
         {
             // Background color may be partially transparent, we must fill with white if we want to output an opaque image
-            CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
+            CGContextSetFillColorWithColor(context, NSUIColor.whiteColor().CGColor)
             CGContextFillRect(context, rect)
             
             if (self.backgroundColor !== nil)
@@ -802,12 +804,12 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
         
         if let context = context
         {
-            layer.renderInContext(context)
+            nsuiLayer?.renderInContext(context)
         }
         
-        let image = UIGraphicsGetImageFromCurrentImageContext()
+        let image = NSUIGraphicsGetImageFromCurrentImageContext()
         
-        UIGraphicsEndImageContext()
+        NSUIGraphicsEndImageContext()
         
         return image
     }
@@ -830,28 +832,31 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
     /// - returns: true if the image was saved successfully
     public func saveToPath(path: String, format: ImageFormat, compressionQuality: Double) -> Bool
     {
-        let image = getChartImage(transparent: format != .JPEG)
+		if let image = getChartImage(transparent: format != .JPEG) {
+			var imageData: NSData!
+			switch (format)
+			{
+			case .PNG:
+				imageData = NSUIImagePNGRepresentation(image)
+				break
+				
+			case .JPEG:
+				imageData = NSUIImageJPEGRepresentation(image, CGFloat(compressionQuality))
+				break
+			}
 
-        var imageData: NSData!
-        switch (format)
-        {
-        case .PNG:
-            imageData = UIImagePNGRepresentation(image)
-            break
-            
-        case .JPEG:
-            imageData = UIImageJPEGRepresentation(image, CGFloat(compressionQuality))
-            break
-        }
-
-        return imageData.writeToFile(path, atomically: true)
+			return imageData.writeToFile(path, atomically: true)
+		}
+		return false
     }
     
-    #if !os(tvOS)
+    #if !os(tvOS) && !os(OSX)
     /// Saves the current state of the chart to the camera roll
     public func saveToCameraRoll()
     {
-        UIImageWriteToSavedPhotosAlbum(getChartImage(transparent: false), nil, nil, nil)
+		if let img = getChartImage(transparent: false) {
+			UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil)
+		}
     }
     #endif
     
@@ -953,35 +958,35 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
     
     // MARK: - Touches
     
-    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
+    public override func nsuiTouchesBegan(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
     {
         if (!_interceptTouchEvents)
         {
-            super.touchesBegan(touches, withEvent: event)
+            super.nsuiTouchesBegan(touches, withEvent: event)
         }
     }
     
-    public override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?)
+    public override func nsuiTouchesMoved(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
     {
         if (!_interceptTouchEvents)
         {
-            super.touchesMoved(touches, withEvent: event)
+            super.nsuiTouchesMoved(touches, withEvent: event)
         }
     }
     
-    public override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?)
+    public override func nsuiTouchesEnded(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
     {
         if (!_interceptTouchEvents)
         {
-            super.touchesEnded(touches, withEvent: event)
+            super.nsuiTouchesEnded(touches, withEvent: event)
         }
     }
     
-    public override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?)
+    public override func nsuiTouchesCancelled(touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
     {
         if (!_interceptTouchEvents)
         {
-            super.touchesCancelled(touches, withEvent: event)
+            super.nsuiTouchesCancelled(touches, withEvent: event)
         }
     }
 }

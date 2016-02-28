@@ -12,7 +12,6 @@
 //
 
 import Foundation
-import UIKit
 
 /// BarChart with horizontal bar orientation. In this implementation, x- and y-axis are switched.
 public class HorizontalBarChartView: BarChartView
@@ -181,7 +180,7 @@ public class HorizontalBarChartView: BarChartView
     {
         if _data === nil
         {
-            print("Can't select by touch. No data set.", terminator: "\n")
+            Swift.print("Can't select by touch. No data set.", terminator: "\n")
             return nil
         }
         

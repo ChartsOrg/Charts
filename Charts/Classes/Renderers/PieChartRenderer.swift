@@ -13,7 +13,7 @@
 
 import Foundation
 import CoreGraphics
-import UIKit
+
 
 public class PieChartRenderer: ChartDataRendererBase
 {
@@ -393,7 +393,7 @@ public class PieChartRenderer: ChartDataRendererBase
             
             if let holeColor = chart.holeColor
             {
-                if holeColor != UIColor.clearColor()
+                if holeColor != NSUIColor.clearColor()
                 {
                     // draw the hole-circle
                     CGContextSetFillColorWithColor(context, chart.holeColor!.CGColor)
@@ -404,7 +404,7 @@ public class PieChartRenderer: ChartDataRendererBase
             // only draw the circle if it can be seen (not covered by the hole)
             if let transparentCircleColor = chart.transparentCircleColor
             {
-                if transparentCircleColor != UIColor.clearColor() &&
+                if transparentCircleColor != NSUIColor.clearColor() &&
                     chart.transparentCircleRadiusPercent > chart.holeRadiusPercent
                 {
                     let alpha = animator.phaseX * animator.phaseY

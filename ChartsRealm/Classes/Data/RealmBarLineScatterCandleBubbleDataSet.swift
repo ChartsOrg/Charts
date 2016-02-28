@@ -13,7 +13,7 @@
 //
 
 import Foundation
-import UIKit
+
 import Charts
 import Realm
 import Realm.Dynamic
@@ -24,7 +24,7 @@ public class RealmBarLineScatterCandleBubbleDataSet: RealmBaseDataSet, IBarLineS
     
     // MARK: - Styling functions and accessors
     
-    public var highlightColor = UIColor(red: 255.0/255.0, green: 187.0/255.0, blue: 115.0/255.0, alpha: 1.0)
+    public var highlightColor = NSUIColor(red: 255.0/255.0, green: 187.0/255.0, blue: 115.0/255.0, alpha: 1.0)
     public var highlightLineWidth = CGFloat(0.5)
     public var highlightLineDashPhase = CGFloat(0.0)
     public var highlightLineDashLengths: [CGFloat]?
