@@ -21,7 +21,6 @@
 @property (nonatomic, strong) IBOutlet UISlider *sliderY;
 @property (nonatomic, strong) IBOutlet UITextField *sliderTextX;
 @property (nonatomic, strong) IBOutlet UITextField *sliderTextY;
-@property (nonatomic, assign) BOOL shouldHideData;
 
 @end
 
@@ -115,7 +114,7 @@
 
 - (void)updateChartData
 {
-    if (_shouldHideData)
+    if (self.shouldHideData)
     {
         _chartView.data = nil;
         return;
@@ -175,16 +174,6 @@
 
 - (void)optionTapped:(NSString *)key
 {
-    if ([key isEqualToString:@"toggleValues"])
-    {
-        for (id<IChartDataSet> set in _chartView.data.dataSets)
-        {
-            set.drawValuesEnabled = !set.isDrawValuesEnabled;
-        }
-        
-        [_chartView setNeedsDisplay];
-    }
-    
     if ([key isEqualToString:@"toggleFilled"])
     {
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
@@ -193,6 +182,7 @@
         }
         
         [_chartView setNeedsDisplay];
+        return;
     }
     
     if ([key isEqualToString:@"toggleCircles"])
@@ -203,6 +193,7 @@
         }
         
         [_chartView setNeedsDisplay];
+        return;
     }
     
     if ([key isEqualToString:@"toggleCubic"])
@@ -213,52 +204,10 @@
         }
         
         [_chartView setNeedsDisplay];
+        return;
     }
     
-    if ([key isEqualToString:@"toggleHighlight"])
-    {
-        _chartView.data.highlightEnabled = !_chartView.data.isHighlightEnabled;
-        [_chartView setNeedsDisplay];
-    }
-    
-    if ([key isEqualToString:@"animateX"])
-    {
-        [_chartView animateWithXAxisDuration:3.0];
-    }
-    
-    if ([key isEqualToString:@"animateY"])
-    {
-        [_chartView animateWithYAxisDuration:3.0 easingOption:ChartEasingOptionEaseInCubic];
-    }
-    
-    if ([key isEqualToString:@"animateXY"])
-    {
-        [_chartView animateWithXAxisDuration:3.0 yAxisDuration:3.0];
-    }
-    
-    if ([key isEqualToString:@"saveToGallery"])
-    {
-        [_chartView saveToCameraRoll];
-    }
-    
-    if ([key isEqualToString:@"togglePinchZoom"])
-    {
-        _chartView.pinchZoomEnabled = !_chartView.isPinchZoomEnabled;
-        
-        [_chartView setNeedsDisplay];
-    }
-    
-    if ([key isEqualToString:@"toggleAutoScaleMinMax"])
-    {
-        _chartView.autoScaleMinMaxEnabled = !_chartView.isAutoScaleMinMaxEnabled;
-        [_chartView notifyDataSetChanged];
-    }
-    
-    if ([key isEqualToString:@"toggleData"])
-    {
-        _shouldHideData = !_shouldHideData;
-        [self updateChartData];
-    }
+    [super handleOption:key forChartView:_chartView];
 }
 
 #pragma mark - Actions

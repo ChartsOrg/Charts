@@ -76,6 +76,77 @@
     
 }
 
+#pragma mark - Common option actions
+
+- (void)handleOption:(NSString *)key forChartView:(ChartViewBase *)chartView
+{
+    if ([key isEqualToString:@"toggleValues"])
+    {
+        for (id<IChartDataSet> set in chartView.data.dataSets)
+        {
+            set.drawValuesEnabled = !set.isDrawValuesEnabled;
+        }
+        
+        [chartView setNeedsDisplay];
+    }
+    
+    if ([key isEqualToString:@"toggleHighlight"])
+    {
+        chartView.data.highlightEnabled = !chartView.data.isHighlightEnabled;
+        [chartView setNeedsDisplay];
+    }
+    
+    if ([key isEqualToString:@"animateX"])
+    {
+        [chartView animateWithXAxisDuration:3.0];
+    }
+    
+    if ([key isEqualToString:@"animateY"])
+    {
+        [chartView animateWithYAxisDuration:3.0];
+    }
+    
+    if ([key isEqualToString:@"animateXY"])
+    {
+        [chartView animateWithXAxisDuration:3.0 yAxisDuration:3.0];
+    }
+    
+    if ([key isEqualToString:@"saveToGallery"])
+    {
+        [chartView saveToCameraRoll];
+    }
+    
+    if ([key isEqualToString:@"togglePinchZoom"])
+    {
+        BarLineChartViewBase *barLineChart = (BarLineChartViewBase *)chartView;
+        barLineChart.pinchZoomEnabled = !barLineChart.isPinchZoomEnabled;
+        
+        [chartView setNeedsDisplay];
+    }
+    
+    if ([key isEqualToString:@"toggleAutoScaleMinMax"])
+    {
+        BarLineChartViewBase *barLineChart = (BarLineChartViewBase *)chartView;
+        barLineChart.autoScaleMinMaxEnabled = !barLineChart.isAutoScaleMinMaxEnabled;
+        
+        [chartView notifyDataSetChanged];
+    }
+    
+    if ([key isEqualToString:@"toggleHighlightArrow"])
+    {
+        BarChartView *barChart = (BarChartView *)chartView;
+        barChart.drawHighlightArrowEnabled = !barChart.isDrawHighlightArrowEnabled;
+        
+        [chartView setNeedsDisplay];
+    }
+    
+    if ([key isEqualToString:@"toggleData"])
+    {
+        _shouldHideData = !_shouldHideData;
+        [self updateChartData];
+    }
+}
+
 #pragma mark - Actions
 
 - (IBAction)optionsButtonTapped:(id)sender
@@ -181,6 +252,11 @@
 }
 
 #pragma mark - Stubs for chart view
+
+- (void)updateChartData
+{
+    // Override this
+}
 
 - (void)setupPieChartView:(PieChartView *)chartView
 {

@@ -92,39 +92,26 @@
 
 - (void)optionTapped:(NSString *)key
 {
-    if ([key isEqualToString:@"toggleValues"])
-    {
-        for (id<IChartDataSet> set in _chartView.data.dataSets)
-        {
-            set.drawValuesEnabled = !set.isDrawValuesEnabled;
-        }
-        
-        [_chartView setNeedsDisplay];
-    }
-    
-    if ([key isEqualToString:@"toggleHighlight"])
-    {
-        _chartView.data.highlightEnabled = !_chartView.data.isHighlightEnabled;
-        [_chartView setNeedsDisplay];
-    }
-    
     if ([key isEqualToString:@"toggleXLabels"])
     {
         _chartView.xAxis.drawLabelsEnabled = !_chartView.xAxis.isDrawLabelsEnabled;
         
         [_chartView notifyDataSetChanged];
         [_chartView setNeedsDisplay];
+        return;
     }
     
     if ([key isEqualToString:@"toggleYLabels"])
     {
         _chartView.yAxis.drawLabelsEnabled = !_chartView.yAxis.isDrawLabelsEnabled;
         [_chartView setNeedsDisplay];
+        return;
     }
     
     if ([key isEqualToString:@"toggleRotate"])
     {
         _chartView.rotationEnabled = !_chartView.isRotationEnabled;
+        return;
     }
     
     if ([key isEqualToString:@"toggleFill"])
@@ -135,32 +122,34 @@
         }
         
         [_chartView setNeedsDisplay];
+        return;
     }
     
     if ([key isEqualToString:@"animateX"])
     {
         [_chartView animateWithXAxisDuration:1.4];
+        return;
     }
     
     if ([key isEqualToString:@"animateY"])
     {
         [_chartView animateWithYAxisDuration:1.4];
+        return;
     }
     
     if ([key isEqualToString:@"animateXY"])
     {
         [_chartView animateWithXAxisDuration:1.4 yAxisDuration:1.4];
+        return;
     }
     
     if ([key isEqualToString:@"spin"])
     {
         [_chartView spinWithDuration:2.0 fromAngle:_chartView.rotationAngle toAngle:_chartView.rotationAngle + 360.f easingOption:ChartEasingOptionEaseInCubic];
+        return;
     }
     
-    if ([key isEqualToString:@"saveToGallery"])
-    {
-        [_chartView saveToCameraRoll];
-    }
+    [super handleOption:key forChartView:_chartView];
 }
 
 #pragma mark - ChartViewDelegate

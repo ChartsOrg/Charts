@@ -100,21 +100,12 @@
 
 - (void)optionTapped:(NSString *)key
 {
-    if ([key isEqualToString:@"toggleValues"])
-    {
-        for (id<IChartDataSet> set in _chartView.data.dataSets)
-        {
-            set.drawValuesEnabled = !set.isDrawValuesEnabled;
-        }
-        
-        [_chartView setNeedsDisplay];
-    }
-    
     if ([key isEqualToString:@"toggleXValues"])
     {
         _chartView.drawSliceTextEnabled = !_chartView.isDrawSliceTextEnabled;
         
         [_chartView setNeedsDisplay];
+        return;
     }
     
     if ([key isEqualToString:@"togglePercent"])
@@ -122,6 +113,7 @@
         _chartView.usePercentValuesEnabled = !_chartView.isUsePercentValuesEnabled;
         
         [_chartView setNeedsDisplay];
+        return;
     }
     
     if ([key isEqualToString:@"toggleHole"])
@@ -129,6 +121,7 @@
         _chartView.drawHoleEnabled = !_chartView.isDrawHoleEnabled;
         
         [_chartView setNeedsDisplay];
+        return;
     }
     
     if ([key isEqualToString:@"drawCenter"])
@@ -136,32 +129,34 @@
         _chartView.drawCenterTextEnabled = !_chartView.isDrawCenterTextEnabled;
         
         [_chartView setNeedsDisplay];
+        return;
     }
     
     if ([key isEqualToString:@"animateX"])
     {
         [_chartView animateWithXAxisDuration:1.4];
+        return;
     }
     
     if ([key isEqualToString:@"animateY"])
     {
         [_chartView animateWithYAxisDuration:1.4];
+        return;
     }
     
     if ([key isEqualToString:@"animateXY"])
     {
         [_chartView animateWithXAxisDuration:1.4 yAxisDuration:1.4];
+        return;
     }
     
     if ([key isEqualToString:@"spin"])
     {
         [_chartView spinWithDuration:2.0 fromAngle:_chartView.rotationAngle toAngle:_chartView.rotationAngle + 360.f];
+        return;
     }
     
-    if ([key isEqualToString:@"saveToGallery"])
-    {
-        [_chartView saveToCameraRoll];
-    }
+    [super handleOption:key forChartView:_chartView];
 }
 
 #pragma mark - ChartViewDelegate

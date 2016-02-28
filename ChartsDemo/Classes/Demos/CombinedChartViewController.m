@@ -19,7 +19,6 @@
 @interface CombinedChartViewController () <ChartViewDelegate>
 
 @property (nonatomic, strong) IBOutlet CombinedChartView *chartView;
-@property (nonatomic, assign) BOOL shouldHideData;
 
 @end
 
@@ -76,7 +75,7 @@
 
 - (void)updateChartData
 {
-    if (_shouldHideData)
+    if (self.shouldHideData)
     {
         _chartView.data = nil;
         return;
@@ -110,6 +109,7 @@
         }
         
         [_chartView setNeedsDisplay];
+        return;
     }
     
     if ([key isEqualToString:@"toggleBarValues"])
@@ -123,18 +123,10 @@
         }
         
         [_chartView setNeedsDisplay];
+        return;
     }
     
-    if ([key isEqualToString:@"saveToGallery"])
-    {
-        [_chartView saveToCameraRoll];
-    }
-    
-    if ([key isEqualToString:@"toggleData"])
-    {
-        _shouldHideData = !_shouldHideData;
-        [self updateChartData];
-    }
+    [super handleOption:key forChartView:_chartView];
 }
 
 - (LineChartData *)generateLineData
