@@ -1,7 +1,45 @@
 # Change Log
 
-## [v2.2.2](https://github.com/danielgindi/ios-charts/tree/v2.2.2) (2016-02-09)
+## [v2.2.3](https://github.com/danielgindi/ios-charts/tree/v2.2.3) (2016-02-29)
+[Full Changelog](https://github.com/danielgindi/ios-charts/compare/v2.2.2...v2.2.3)
 
+**Closed issues:**
+
+- How to create the chartmarker with swift? [\#776](https://github.com/danielgindi/ios-charts/issues/776)
+- CombinedChartView: Wrong positions of bars when using multiple Bar and Graph -Datasets [\#775](https://github.com/danielgindi/ios-charts/issues/775)
+- Getting co-ordinates of all plotted points in LineChartView [\#774](https://github.com/danielgindi/ios-charts/issues/774)
+- Multiline label on xAxis cutting off  [\#773](https://github.com/danielgindi/ios-charts/issues/773)
+- Can't set ChartViewBase's data property back to nil to clear out data [\#771](https://github.com/danielgindi/ios-charts/issues/771)
+- How to set position label radar chart. in Swift . [\#770](https://github.com/danielgindi/ios-charts/issues/770)
+- How to control which entries on xAxis be shown? [\#768](https://github.com/danielgindi/ios-charts/issues/768)
+- Tests failing after startAtZero was removed [\#767](https://github.com/danielgindi/ios-charts/issues/767)
+- When a value repeats, bars are not showed [\#766](https://github.com/danielgindi/ios-charts/issues/766)
+- Proposal: shall we unify yAxis.entries and yAxis.axisRange to have same max and min value? [\#763](https://github.com/danielgindi/ios-charts/issues/763)
+- Ability to set linechart with fixed amount of x values shown and pan to other data points [\#762](https://github.com/danielgindi/ios-charts/issues/762)
+- PieChart setMaxAngle [\#757](https://github.com/danielgindi/ios-charts/issues/757)
+- Simply not installing [\#749](https://github.com/danielgindi/ios-charts/issues/749)
+- Line charts have unintended breaks when next or previous point not visible. [\#748](https://github.com/danielgindi/ios-charts/issues/748)
+- Remove border around linechart with gradient fill [\#747](https://github.com/danielgindi/ios-charts/issues/747)
+- Old graphics not removed when adding new data [\#745](https://github.com/danielgindi/ios-charts/issues/745)
+- Display values outside of the piechart [\#743](https://github.com/danielgindi/ios-charts/issues/743)
+- Cubic line charts don't get filled correctly if data doesn't start at index 0 [\#711](https://github.com/danielgindi/ios-charts/issues/711)
+- Center text vertically [\#682](https://github.com/danielgindi/ios-charts/issues/682)
+- Animated moveViewToX\(\) [\#318](https://github.com/danielgindi/ios-charts/issues/318)
+- Any chance of porting this to OSX? [\#43](https://github.com/danielgindi/ios-charts/issues/43)
+
+**Merged pull requests:**
+
+- Add "Toggle Data" option to demo charts. \(\#771 Support\) [\#781](https://github.com/danielgindi/ios-charts/pull/781) ([ospr](https://github.com/ospr))
+- Add missing UIKit imports for iOS 7 [\#780](https://github.com/danielgindi/ios-charts/pull/780) ([asmarques](https://github.com/asmarques))
+- Make ChartViewBase's \_data optional. \(Fixes \#771\) [\#772](https://github.com/danielgindi/ios-charts/pull/772) ([ospr](https://github.com/ospr))
+- Add Carthage compatibility badge [\#769](https://github.com/danielgindi/ios-charts/pull/769) ([Bogidon](https://github.com/Bogidon))
+- update cocoapods url [\#755](https://github.com/danielgindi/ios-charts/pull/755) ([stevenedds](https://github.com/stevenedds))
+- add ci status [\#752](https://github.com/danielgindi/ios-charts/pull/752) ([petester42](https://github.com/petester42))
+- Correct the spelling of CocoaPods in README [\#751](https://github.com/danielgindi/ios-charts/pull/751) ([ReadmeCritic](https://github.com/ReadmeCritic))
+- LineChartRenderer context bug [\#746](https://github.com/danielgindi/ios-charts/pull/746) ([leoMehlig](https://github.com/leoMehlig))
+- Fix for cubic line chart fill when charts that don't start at x-index 0 \#711 [\#712](https://github.com/danielgindi/ios-charts/pull/712) ([gunterhager](https://github.com/gunterhager))
+
+## [v2.2.2](https://github.com/danielgindi/ios-charts/tree/v2.2.2) (2016-02-09)
 [Full Changelog](https://github.com/danielgindi/ios-charts/compare/v2.2.1...v2.2.2)
 
 **Fixed bugs:**
@@ -38,6 +76,7 @@
 - Refresh charts view when the data change [\#672](https://github.com/danielgindi/ios-charts/issues/672)
 - The most top label of ChartYAxis doesn't render which seems a bug. [\#647](https://github.com/danielgindi/ios-charts/issues/647)
 - RadarChart animation [\#574](https://github.com/danielgindi/ios-charts/issues/574)
+- Having the area below a line graph be gradient layer instead of background color [\#186](https://github.com/danielgindi/ios-charts/issues/186)
 
 **Merged pull requests:**
 
@@ -177,6 +216,7 @@
 
 - Activate require app extension safe API to be able to use library inside an app extension [\#708](https://github.com/danielgindi/ios-charts/pull/708) ([adonaire-sage](https://github.com/adonaire-sage))
 - fix code indent problem in ChartYAxisRendererRadarChart, ChartYAxisRenderer, BarChartDataSet, RadarChartView [\#675](https://github.com/danielgindi/ios-charts/pull/675) ([liuxuan30](https://github.com/liuxuan30))
+- add an option to set line cap of axis grid line [\#660](https://github.com/danielgindi/ios-charts/pull/660) ([mconintet](https://github.com/mconintet))
 - Fix minor typo in BarLineChartViewBase [\#651](https://github.com/danielgindi/ios-charts/pull/651) ([patrickreynolds](https://github.com/patrickreynolds))
 - Adapted ChartLegendRenderer class to upcoming Swift 3 changes and improved code readability [\#643](https://github.com/danielgindi/ios-charts/pull/643) ([zntfdr](https://github.com/zntfdr))
 - Remove verbose semicolons [\#639](https://github.com/danielgindi/ios-charts/pull/639) ([AntiMoron](https://github.com/AntiMoron))
@@ -192,6 +232,10 @@
 
 ## [v2.1.6](https://github.com/danielgindi/ios-charts/tree/v2.1.6) (2015-11-02)
 [Full Changelog](https://github.com/danielgindi/ios-charts/compare/v2.1.5...v2.1.6)
+
+**Implemented enhancements:**
+
+- X axis names visibility \(Rotation\) [\#61](https://github.com/danielgindi/ios-charts/issues/61)
 
 **Closed issues:**
 
@@ -294,6 +338,7 @@
 
 - CGContextAddLineToPoint no current point.  [\#419](https://github.com/danielgindi/ios-charts/issues/419)
 - Crash by initialize\(\) of CombinedChartView [\#406](https://github.com/danielgindi/ios-charts/issues/406)
+- Radar chart + Bar Line chart Base + startAtZeroEnabled = false + negative values [\#166](https://github.com/danielgindi/ios-charts/issues/166)
 
 **Closed issues:**
 
@@ -334,6 +379,7 @@
 - iOS Chart Y-Axis High Limit [\#317](https://github.com/danielgindi/ios-charts/issues/317)
 - how to place the Y axis label at the bottom of the chart? [\#314](https://github.com/danielgindi/ios-charts/issues/314)
 - Real-time Charts [\#263](https://github.com/danielgindi/ios-charts/issues/263)
+- Drawing circles for values on the radar chart [\#138](https://github.com/danielgindi/ios-charts/issues/138)
 
 **Merged pull requests:**
 
@@ -349,6 +395,8 @@
 **Fixed bugs:**
 
 - UIPanGestureRecognizer causes index out of bounds crash [\#327](https://github.com/danielgindi/ios-charts/issues/327)
+- Radar chart radius is still affected by label size when label drawing is disabled [\#153](https://github.com/danielgindi/ios-charts/issues/153)
+- XGrid not in sync for identical x values but different chart types [\#99](https://github.com/danielgindi/ios-charts/issues/99)
 
 **Closed issues:**
 
@@ -459,6 +507,9 @@
 - PieChartData initialisers ambiguous when xVals parameter is nil [\#224](https://github.com/danielgindi/ios-charts/issues/224)
 - \[BUG\] all-negative Stacked horizontal Bar Chart size is not correct [\#222](https://github.com/danielgindi/ios-charts/issues/222)
 - \[BUG\] Bar Chart incorrect rendering for special data [\#214](https://github.com/danielgindi/ios-charts/issues/214)
+- Projects using Charts [\#145](https://github.com/danielgindi/ios-charts/issues/145)
+- Legend Height Adjustment [\#81](https://github.com/danielgindi/ios-charts/issues/81)
+- Multiple legend entrys will be rendered outside of the view [\#80](https://github.com/danielgindi/ios-charts/issues/80)
 
 **Merged pull requests:**
 
@@ -471,6 +522,14 @@
 
 ## [v2.1.1](https://github.com/danielgindi/ios-charts/tree/v2.1.1) (2015-07-26)
 [Full Changelog](https://github.com/danielgindi/ios-charts/compare/v2.1.0...v2.1.1)
+
+**Fixed bugs:**
+
+- Render Crash Due to Rect NAN from rectValueToPixel in BarChartRenderer.swift [\#177](https://github.com/danielgindi/ios-charts/issues/177)
+- Can we add nil values to a dataset yet? [\#113](https://github.com/danielgindi/ios-charts/issues/113)
+- Incorrect chart view adjustment after moveViewtoX\(xIndex: Int\) [\#82](https://github.com/danielgindi/ios-charts/issues/82)
+- Margin insets not changing during zoom when formatter changes output width [\#72](https://github.com/danielgindi/ios-charts/issues/72)
+- Line chart crashes with a big float [\#62](https://github.com/danielgindi/ios-charts/issues/62)
 
 **Closed issues:**
 
@@ -503,17 +562,178 @@
 - Library not loaded: @rpath/Charts.framework/Charts [\#196](https://github.com/danielgindi/ios-charts/issues/196)
 - How can i get this chart? [\#195](https://github.com/danielgindi/ios-charts/issues/195)
 - Crashing on adding the null value to and array  [\#193](https://github.com/danielgindi/ios-charts/issues/193)
+- ChartDataEntry not drawn after certain xIndex [\#190](https://github.com/danielgindi/ios-charts/issues/190)
+- Highlight multiple values [\#187](https://github.com/danielgindi/ios-charts/issues/187)
+- ChartData.removeEntryByXIndex removes the wrong entry [\#182](https://github.com/danielgindi/ios-charts/issues/182)
+- Label on Limit Lines cause crash [\#181](https://github.com/danielgindi/ios-charts/issues/181)
+- \[feature request\] render xAxis like yAxis style Namely from discrete way to continuous way [\#176](https://github.com/danielgindi/ios-charts/issues/176)
+- Annotation label support? [\#175](https://github.com/danielgindi/ios-charts/issues/175)
+- Multiple DataSet Error [\#174](https://github.com/danielgindi/ios-charts/issues/174)
+- AddEntry issue in ChartData [\#173](https://github.com/danielgindi/ios-charts/issues/173)
+- Bar Chart Bars Disappears On Zoom And Highlight Bars Don't Match [\#172](https://github.com/danielgindi/ios-charts/issues/172)
+- Clearing all highlighted values [\#171](https://github.com/danielgindi/ios-charts/issues/171)
+- BarChartView work with TableView  [\#167](https://github.com/danielgindi/ios-charts/issues/167)
+- Make scroll to graph without pinch [\#164](https://github.com/danielgindi/ios-charts/issues/164)
+- When i set valueformatter , Have problem. [\#163](https://github.com/danielgindi/ios-charts/issues/163)
+- Combined Chart With array of line charts [\#162](https://github.com/danielgindi/ios-charts/issues/162)
+- Issues with chart rendering... [\#161](https://github.com/danielgindi/ios-charts/issues/161)
+- How to set yAxis to normal number  [\#160](https://github.com/danielgindi/ios-charts/issues/160)
+- How to set yValue display 0 2 3 5  [\#159](https://github.com/danielgindi/ios-charts/issues/159)
+- \[BUG\] \_yAxis.entries will not be cleaned up in computeAxisValues in radar chart [\#158](https://github.com/danielgindi/ios-charts/issues/158)
+- \[feature request\] support fixed yAxis interval and xAxis labelCount [\#155](https://github.com/danielgindi/ios-charts/issues/155)
+- app crashes at launch as in house release build on iPhone - but debugging is fine [\#154](https://github.com/danielgindi/ios-charts/issues/154)
+- \[feature request\] enable legend view scrollable [\#151](https://github.com/danielgindi/ios-charts/issues/151)
+- \[feature request\] support custom handler for gestures [\#148](https://github.com/danielgindi/ios-charts/issues/148)
+- unsuccessful at installing for ios 7.0 [\#144](https://github.com/danielgindi/ios-charts/issues/144)
+- cannot po swift local variable in my Objective-C project [\#143](https://github.com/danielgindi/ios-charts/issues/143)
+- Real time line chart  [\#142](https://github.com/danielgindi/ios-charts/issues/142)
+- Bar chart some values \< 0 [\#141](https://github.com/danielgindi/ios-charts/issues/141)
+- Any demo in swift ? [\#139](https://github.com/danielgindi/ios-charts/issues/139)
+- compiling time costs 2-3 minutes after import swift code files, is it normal? [\#137](https://github.com/danielgindi/ios-charts/issues/137)
+- iOS7 can't build success [\#136](https://github.com/danielgindi/ios-charts/issues/136)
+- Warnings on the comments [\#135](https://github.com/danielgindi/ios-charts/issues/135)
+- Still seeing undeclared UIColor, CGFloat error with latest code [\#133](https://github.com/danielgindi/ios-charts/issues/133)
+- Error while drawing radar chart [\#132](https://github.com/danielgindi/ios-charts/issues/132)
+- Cannot assign a value of type 'ChartLimitLabelPosition' to a value of type 'ChartLimitLine.ChartLimitLabelPosition' [\#131](https://github.com/danielgindi/ios-charts/issues/131)
+- Data disappearing while zooming/panning when y-values are not ordered by x [\#130](https://github.com/danielgindi/ios-charts/issues/130)
+- Cannot load underlying module for 'Charts' [\#129](https://github.com/danielgindi/ios-charts/issues/129)
+- Any way to add/use image for xVals? [\#126](https://github.com/danielgindi/ios-charts/issues/126)
+- Install with cocoapod into project supporting iOS 7 and later [\#125](https://github.com/danielgindi/ios-charts/issues/125)
+- Lines clipping top and bottom with lineWidth \> 1 [\#123](https://github.com/danielgindi/ios-charts/issues/123)
+- Candle chart - make the shadow same color as an increasing/decreasing candle color  [\#122](https://github.com/danielgindi/ios-charts/issues/122)
+- Down-casted Array element failed to match the target type [\#121](https://github.com/danielgindi/ios-charts/issues/121)
+- y axis spaces between labels are too wide [\#120](https://github.com/danielgindi/ios-charts/issues/120)
+- Different colors for single data set in Bar Chart [\#118](https://github.com/danielgindi/ios-charts/issues/118)
+- The new version demo has a problem. [\#117](https://github.com/danielgindi/ios-charts/issues/117)
+- non-public selectors while submitting app [\#116](https://github.com/danielgindi/ios-charts/issues/116)
+- Adding a minimum parameter to setVisibleXRange [\#115](https://github.com/danielgindi/ios-charts/issues/115)
+- Add 'drawHighlightEnabled' to ChartDataSet [\#114](https://github.com/danielgindi/ios-charts/issues/114)
+- Pull to refresh [\#112](https://github.com/danielgindi/ios-charts/issues/112)
+- Can we create thumb for each chart? [\#111](https://github.com/danielgindi/ios-charts/issues/111)
+- Issue setting the chartView.delegate to self. [\#110](https://github.com/danielgindi/ios-charts/issues/110)
+- combine swift in Objective-C project [\#108](https://github.com/danielgindi/ios-charts/issues/108)
+- get X translation distance on the x-axis [\#105](https://github.com/danielgindi/ios-charts/issues/105)
+- Horizontal Bar Chart Screenshot on README is Broken [\#103](https://github.com/danielgindi/ios-charts/issues/103)
+- Bars [\#102](https://github.com/danielgindi/ios-charts/issues/102)
+- Crash when redraw graph from 2 lines to 1 line with click on highlight  [\#101](https://github.com/danielgindi/ios-charts/issues/101)
+- Release Bug [\#98](https://github.com/danielgindi/ios-charts/issues/98)
+- Add '@objc' to ChartViewPortHandler [\#97](https://github.com/danielgindi/ios-charts/issues/97)
+- Bar Chart Delegate. [\#96](https://github.com/danielgindi/ios-charts/issues/96)
+- Cannot turn off Barchart Zoom Propertry [\#91](https://github.com/danielgindi/ios-charts/issues/91)
+- calcMinMax\(\) during scrolling / panning [\#89](https://github.com/danielgindi/ios-charts/issues/89)
+- defaultTouchEventsEnabled [\#88](https://github.com/danielgindi/ios-charts/issues/88)
+- 'chartsample-Swift.h' file not found [\#87](https://github.com/danielgindi/ios-charts/issues/87)
+- Infinite loop when setting data on ChartDataEntry object [\#86](https://github.com/danielgindi/ios-charts/issues/86)
+- Custom text over bar chart. [\#84](https://github.com/danielgindi/ios-charts/issues/84)
+- Stop hiding of xAxis label. [\#79](https://github.com/danielgindi/ios-charts/issues/79)
+- Consider draw map chart without location, navigation stuff? [\#78](https://github.com/danielgindi/ios-charts/issues/78)
+- Line Chart - Simple Design [\#77](https://github.com/danielgindi/ios-charts/issues/77)
+- Can you give me a swift's demo [\#75](https://github.com/danielgindi/ios-charts/issues/75)
+- What files exactly should I drag to my project to make it work on iOS 7.0? [\#73](https://github.com/danielgindi/ios-charts/issues/73)
+- How to check chart is zoomed in ? [\#71](https://github.com/danielgindi/ios-charts/issues/71)
+- Changing descriptionTextColor not possible [\#70](https://github.com/danielgindi/ios-charts/issues/70)
+- Confused by this snippet code [\#69](https://github.com/danielgindi/ios-charts/issues/69)
+- XAxis Co-Ordination with Y Axis [\#68](https://github.com/danielgindi/ios-charts/issues/68)
+- Is there a way can make LineDataSets not selected when their visible property is no? [\#67](https://github.com/danielgindi/ios-charts/issues/67)
+- Multiple Chart View Within ScrollView [\#65](https://github.com/danielgindi/ios-charts/issues/65)
 
 **Merged pull requests:**
 
 - Fixes to allow the code to compile with Swift 2.0 [\#232](https://github.com/danielgindi/ios-charts/pull/232) ([jmacmullin](https://github.com/jmacmullin))
 - fix radar chart negative value rendering bug if startAtZeroEnabled is false for issue \#166 [\#207](https://github.com/danielgindi/ios-charts/pull/207) ([liuxuan30](https://github.com/liuxuan30))
 - Fixes for beta 3 [\#200](https://github.com/danielgindi/ios-charts/pull/200) ([petester42](https://github.com/petester42))
+- Performance Enhancements \#29 - candle chart [\#192](https://github.com/danielgindi/ios-charts/pull/192) ([dorsoft](https://github.com/dorsoft))
+- Candle chart - make the shadow same color as an candle color \#122 [\#191](https://github.com/danielgindi/ios-charts/pull/191) ([dorsoft](https://github.com/dorsoft))
+- ChartData.removeEntryByXIndex removes the wrong entry \#182 [\#185](https://github.com/danielgindi/ios-charts/pull/185) ([dorsoft](https://github.com/dorsoft))
+- The line charts have started to properly display balloon markers [\#179](https://github.com/danielgindi/ios-charts/pull/179) ([Maxim-38RUS-Zabelin](https://github.com/Maxim-38RUS-Zabelin))
+- Fix a silly bug. should check if first is -0.0 [\#165](https://github.com/danielgindi/ios-charts/pull/165) ([liuxuan30](https://github.com/liuxuan30))
+- add NaN check to allow non-digits handling for radar chart [\#152](https://github.com/danielgindi/ios-charts/pull/152) ([liuxuan30](https://github.com/liuxuan30))
+- optional protocol method should not be force unwrapped [\#147](https://github.com/danielgindi/ios-charts/pull/147) ([liuxuan30](https://github.com/liuxuan30))
+- add missing module CoreGraphics for BubbleChartView [\#146](https://github.com/danielgindi/ios-charts/pull/146) ([liuxuan30](https://github.com/liuxuan30))
+- Adding a minimum parameter to setVisibleXRange [\#119](https://github.com/danielgindi/ios-charts/pull/119) ([dorsoft](https://github.com/dorsoft))
+- Added support for setting a custom width that is wider than the longe… [\#107](https://github.com/danielgindi/ios-charts/pull/107) ([AlBirdie](https://github.com/AlBirdie))
+- Offset adjustment when drawLabels on the x axis is disabled. [\#106](https://github.com/danielgindi/ios-charts/pull/106) ([AlBirdie](https://github.com/AlBirdie))
+- AutoScaling yAxis during panning / zooming [\#95](https://github.com/danielgindi/ios-charts/pull/95) ([AlBirdie](https://github.com/AlBirdie))
+- Allow access to setLabelsToSkip from Objective-C. [\#93](https://github.com/danielgindi/ios-charts/pull/93) ([mkubenka](https://github.com/mkubenka))
+- Changing iOS deployment target to 8.0 from 8.1 [\#74](https://github.com/danielgindi/ios-charts/pull/74) ([MichaelMcGuire](https://github.com/MichaelMcGuire))
 
 ## [v2.1.0](https://github.com/danielgindi/ios-charts/tree/v2.1.0) (2015-05-05)
 [Full Changelog](https://github.com/danielgindi/ios-charts/compare/v2.0.9...v2.1.0)
 
+**Implemented enhancements:**
+
+- Drawing CubicLineChart based on NSDates [\#38](https://github.com/danielgindi/ios-charts/issues/38)
+- Skip first and last value [\#23](https://github.com/danielgindi/ios-charts/issues/23)
+
+**Fixed bugs:**
+
+- Chart Line vanishes on pinch to zoom [\#63](https://github.com/danielgindi/ios-charts/issues/63)
+
+**Closed issues:**
+
+- Expose chartYMin and chartYMax to rendererDelegates [\#64](https://github.com/danielgindi/ios-charts/issues/64)
+- dyld\_fatal\_error [\#60](https://github.com/danielgindi/ios-charts/issues/60)
+- Unknown class LineChartView in Interface Builder file [\#59](https://github.com/danielgindi/ios-charts/issues/59)
+- Is there any inertia effect in the library? [\#58](https://github.com/danielgindi/ios-charts/issues/58)
+- Library not loaded: @rpath/Charts.framework/Charts Xcode 6.3.1, iOS 8.3 [\#57](https://github.com/danielgindi/ios-charts/issues/57)
+- i am getting this issue? [\#55](https://github.com/danielgindi/ios-charts/issues/55)
+- sample swift project of  danielgindi/ios-charts? [\#54](https://github.com/danielgindi/ios-charts/issues/54)
+- i want develop charts in swift? [\#53](https://github.com/danielgindi/ios-charts/issues/53)
+- When I used iOS-charts in iOS 7 project [\#52](https://github.com/danielgindi/ios-charts/issues/52)
+- Changing the specific data point \(circle color\) in Line Chart [\#51](https://github.com/danielgindi/ios-charts/issues/51)
+- When i use ios-charts with swift .. [\#50](https://github.com/danielgindi/ios-charts/issues/50)
+- Charts won't draw unless initialized with a frame [\#49](https://github.com/danielgindi/ios-charts/issues/49)
+- PieChart chartValueSelected don't return the good entry [\#48](https://github.com/danielgindi/ios-charts/issues/48)
+- Cannot find this repo through Cocoapods.org [\#47](https://github.com/danielgindi/ios-charts/issues/47)
+- Use of undeclared type 'CGFloat' [\#44](https://github.com/danielgindi/ios-charts/issues/44)
+- CandleChartData isn't combinable with other data types [\#42](https://github.com/danielgindi/ios-charts/issues/42)
+- Two graphs overlaying each other [\#41](https://github.com/danielgindi/ios-charts/issues/41)
+- Charts with long Title  [\#40](https://github.com/danielgindi/ios-charts/issues/40)
+- piechart - yOffset [\#39](https://github.com/danielgindi/ios-charts/issues/39)
+- Two different-scale axis support for different data sets [\#36](https://github.com/danielgindi/ios-charts/issues/36)
+- IBInspectable support? [\#34](https://github.com/danielgindi/ios-charts/issues/34)
+- ChartsDemo-swift.h  file not found  [\#31](https://github.com/danielgindi/ios-charts/issues/31)
+- Pinch zoom release triggers pan [\#30](https://github.com/danielgindi/ios-charts/issues/30)
+- UISwipeGestureRecognizer [\#28](https://github.com/danielgindi/ios-charts/issues/28)
+- pod not support iOS 7.0 ??? [\#27](https://github.com/danielgindi/ios-charts/issues/27)
+- How to add a line-chart view in UITableViewCell ? [\#26](https://github.com/danielgindi/ios-charts/issues/26)
+- Charts/Charts.h file not found [\#24](https://github.com/danielgindi/ios-charts/issues/24)
+- Carthage support [\#21](https://github.com/danielgindi/ios-charts/issues/21)
+- Unresolved identifier `CGFloat` in iOS 7 project [\#19](https://github.com/danielgindi/ios-charts/issues/19)
+- Last item's visibility issue when zooming [\#18](https://github.com/danielgindi/ios-charts/issues/18)
+- Unable to hide Y values [\#17](https://github.com/danielgindi/ios-charts/issues/17)
+
+**Merged pull requests:**
+
+- Fix x-axis limit line render issue. [\#66](https://github.com/danielgindi/ios-charts/pull/66) ([mkubenka](https://github.com/mkubenka))
+- Added possibility to set the axisLabelModulus manually. [\#56](https://github.com/danielgindi/ios-charts/pull/56) ([webventil](https://github.com/webventil))
+- Add missing UIKit imports for iOS 7 support [\#45](https://github.com/danielgindi/ios-charts/pull/45) ([msanders](https://github.com/msanders))
+- Add 'init' to PieChartData to be used from Swift [\#37](https://github.com/danielgindi/ios-charts/pull/37) ([jmnavarro](https://github.com/jmnavarro))
+- Bubble chart work by @petester42 [\#32](https://github.com/danielgindi/ios-charts/pull/32) ([danielgindi](https://github.com/danielgindi))
+- Added Bubble Chart Type [\#25](https://github.com/danielgindi/ios-charts/pull/25) ([petester42](https://github.com/petester42))
+- Shared Charts.framework scheme [\#22](https://github.com/danielgindi/ios-charts/pull/22) ([zenkimoto](https://github.com/zenkimoto))
+- Add missing UIKit [\#20](https://github.com/danielgindi/ios-charts/pull/20) ([mkalmes](https://github.com/mkalmes))
+
 ## [v2.0.9](https://github.com/danielgindi/ios-charts/tree/v2.0.9) (2015-04-08)
+**Closed issues:**
+
+- Import with Swift\(not objc\) not working [\#14](https://github.com/danielgindi/ios-charts/issues/14)
+- Need Version to be compatible with Xcode 6.2  [\#12](https://github.com/danielgindi/ios-charts/issues/12)
+- Can't import "module-swift.h" [\#11](https://github.com/danielgindi/ios-charts/issues/11)
+- A lot of compile errors. [\#10](https://github.com/danielgindi/ios-charts/issues/10)
+- 357 Compile Errors on framework files [\#8](https://github.com/danielgindi/ios-charts/issues/8)
+- demo crashes, and no swift examples? [\#7](https://github.com/danielgindi/ios-charts/issues/7)
+- xcode complains ChartsDemo-Swift.h can't be found [\#6](https://github.com/danielgindi/ios-charts/issues/6)
+- Cocoapod [\#4](https://github.com/danielgindi/ios-charts/issues/4)
+- Trying to compile demo code，but tons of compiler errors [\#3](https://github.com/danielgindi/ios-charts/issues/3)
+- Command failed due to signal: Segmentation fault: 11 [\#2](https://github.com/danielgindi/ios-charts/issues/2)
+
+**Merged pull requests:**
+
+- Added a podspec [\#13](https://github.com/danielgindi/ios-charts/pull/13) ([petester42](https://github.com/petester42))
+- Fix README typo [\#5](https://github.com/danielgindi/ios-charts/pull/5) ([nwest](https://github.com/nwest))
+- Add a Bitdeli Badge to README [\#1](https://github.com/danielgindi/ios-charts/pull/1) ([bitdeli-chef](https://github.com/bitdeli-chef))
+
 
 
 \* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*

@@ -1,4 +1,4 @@
-**Version 2.2.2**, synced to [MPAndroidChart #9615cc2](https://github.com/PhilJay/MPAndroidChart/commit/9615cc2)
+**Version 2.2.3**, synced to [MPAndroidChart #5f51623](https://github.com/PhilJay/MPAndroidChart/commit/5f51623)
 
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
   ![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/danielgindi/ios-charts.svg)](https://github.com/danielgindi/ios-charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Build Status](https://travis-ci.org/danielgindi/ios-charts.svg?branch=master)](https://travis-ci.org/danielgindi/ios-charts)
@@ -6,12 +6,14 @@
 * Xcode 7 / Swift 2.0
 * iOS 7.0 (Drag .swift files to your project)
 * iOS 8.0 / 9.0 (Use as an **Embedded** Framework)
+* tvOS 9.0
+* OSX 10.11
 
 Okay so there's this beautiful library called [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) by [Philipp Jahoda](https://www.linkedin.com/in/philippjahoda) which has become very popular amongst Android developers, and in the meanwhile there's no decent charting solution for iOS.
 
 I've chosen to write it in `Swift` as it can be highly optimized by the compiler, and can be used in both `Swift` and `ObjC` project. The demo project is written in `ObjC` to demonstrate how it works.
 
-**An amazing feature** of this library now, both Android and iOS, is the time it saves you when developing for both platforms, as the learning curve is singleton- it happens only once, and the code stays very similar so developers don't have to go around and re-invent the app to produce the same output with a different library. (And that's not even considering the fact that there's not really another good choice out there currently...)
+**An amazing feature** of this library now, for Android, iOS, tvOS and OSX, is the time it saves you when developing for both platforms, as the learning curve is singleton- it happens only once, and the code stays very similar so developers don't have to go around and re-invent the app to produce the same output with a different library. (And that's not even considering the fact that there's not really another good choice out there currently...)
 
 ## Usage
 
@@ -65,8 +67,8 @@ pod 'Charts/Realm'
 Charts now include Carthage prebuilt binaries.
 
 ```carthage
-github "danielgindi/ios-charts" == 2.2.2
-github "danielgindi/ios-charts" ~> 2.2.2
+github "danielgindi/ios-charts" == 2.2.3
+github "danielgindi/ios-charts" ~> 2.2.3
 ```
 
 In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts && carthage archive ChartsRealm`.
@@ -168,7 +170,7 @@ Features
 
 Documentation
 =======
-Currently there's no need for documentation for the iOS version, as the API is **95% the same** as on Android.  
+Currently there's no need for documentation for the iOS/tvOS/OSX version, as the API is **95% the same** as on Android.  
 You can read the official [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) documentation here: [**Wiki**](https://github.com/PhilJay/MPAndroidChart/wiki)
 
 Or you can see the [**ChartsDemo**](https://github.com/danielgindi/ios-charts/tree/master/ChartsDemo) project and learn the how-tos from it.
