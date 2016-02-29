@@ -52,7 +52,7 @@
 		5B88D8A71C634EBB00B54CBD /* RealmScatterDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8841C634EBB00B54CBD /* RealmScatterDataSet.swift */; };
 		5B88D8A81C634EBB00B54CBD /* RealmScatterDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8841C634EBB00B54CBD /* RealmScatterDataSet.swift */; };
 		5B88D8B51C63504200B54CBD /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B88D8B01C63502500B54CBD /* Charts.framework */; settings = {ATTRIBUTES = (Required, ); }; };
-		5B88D8B61C63505600B54CBD /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B88D8B21C63502500B54CBD /* Charts.framework */; };
+		5BF782821C840EE1003A9E91 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B88D8B21C63502500B54CBD /* Charts.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +76,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 06AEE7A21BDC3F8B009875AE;
 			remoteInfo = ChartsTests;
+		};
+		5BF782691C83B091003A9E91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5B88D8A91C63502400B54CBD /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 65B3F5BF1C7370BE000983D0;
+			remoteInfo = "Charts-OSX";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -125,7 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B88D8B61C63505600B54CBD /* Charts.framework in Frameworks */,
+				5BF782821C840EE1003A9E91 /* Charts.framework in Frameworks */,
 				5B4AC1381C44684E0028D1A6 /* Realm.framework in Frameworks */,
 				5B4AC13A1C44684E0028D1A6 /* RealmSwift.framework in Frameworks */,
 			);
@@ -175,6 +182,7 @@
 			children = (
 				5B88D8B01C63502500B54CBD /* Charts.framework */,
 				5B88D8B21C63502500B54CBD /* Charts.framework */,
+				5BF7826A1C83B091003A9E91 /* Charts.framework */,
 				5B88D8B41C63502500B54CBD /* ChartsTests.xctest */,
 			);
 			name = Products;
@@ -322,9 +330,11 @@
 				TargetAttributes = {
 					5BA8EC3F1A9D14DC00CE82E1 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = EF7AZ55H5Q;
 					};
 					A52C5C361BAC5CA400594CDD = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = EF7AZ55H5Q;
 					};
 				};
 			};
@@ -372,6 +382,13 @@
 			fileType = wrapper.cfbundle;
 			path = ChartsTests.xctest;
 			remoteRef = 5B88D8B31C63502500B54CBD /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5BF7826A1C83B091003A9E91 /* Charts.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Charts.framework;
+			remoteRef = 5BF782691C83B091003A9E91 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -467,7 +484,6 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -515,7 +531,6 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -556,6 +571,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.ChartsRealm;
 				PRODUCT_NAME = ChartsRealm;
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -580,6 +596,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.ChartsRealm;
 				PRODUCT_NAME = ChartsRealm;
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -589,7 +606,6 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -600,12 +616,12 @@
 					"$(PROJECT_DIR)/ThirdParty/Realm/tvos",
 					"$(PROJECT_DIR)/ThirdParty/Realm/ios",
 				);
-				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.ChartsRealmTV;
 				PRODUCT_NAME = ChartsRealm;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -619,8 +635,6 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -631,12 +645,12 @@
 					"$(PROJECT_DIR)/ThirdParty/Realm/tvos",
 					"$(PROJECT_DIR)/ThirdParty/Realm/ios",
 				);
-				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.ChartsRealmTV;
 				PRODUCT_NAME = ChartsRealm;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 3;
