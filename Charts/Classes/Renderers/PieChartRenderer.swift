@@ -67,7 +67,6 @@ public class PieChartRenderer: ChartDataRendererBase
         let arcMidPointX = center.x + radius * cos(angleMiddle * ChartUtils.Math.FDEG2RAD)
         let arcMidPointY = center.y + radius * sin(angleMiddle * ChartUtils.Math.FDEG2RAD)
         
-        // Middle point on straight line between the two point.
         // This is the base of the contained triangle
         let basePointsDistance = sqrt(
             pow(arcEndPointX - arcStartPointX, 2) +
@@ -89,7 +88,7 @@ public class PieChartRenderer: ChartDataRendererBase
         
         return spacedRadius
     }
-
+    
     public func drawDataSet(context context: CGContext, dataSet: IPieChartDataSet)
     {
         guard let
@@ -109,7 +108,8 @@ public class PieChartRenderer: ChartDataRendererBase
         let sliceSpace = dataSet.sliceSpace
         let center = chart.centerCircleBox
         let radius = chart.radius
-        let userInnerRadius = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled ? radius * chart.holeRadiusPercent : 0.0
+        let drawInnerArc = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled
+        let userInnerRadius = drawInnerArc ? radius * chart.holeRadiusPercent : 0.0
         
         var visibleAngleCount = 0
         for (var j = 0; j < entryCount; j++)
@@ -138,11 +138,11 @@ public class PieChartRenderer: ChartDataRendererBase
                 {
                     CGContextSetFillColorWithColor(context, dataSet.colorAt(j).CGColor)
                     
-                    let sliceSpaceOuterAngle = visibleAngleCount == 1 ?
+                    let sliceSpaceAngleOuter = visibleAngleCount == 1 ?
                         0.0 :
                         sliceSpace / (ChartUtils.Math.FDEG2RAD * radius)
-                    let startAngleOuter = rotationAngle + (angle + sliceSpaceOuterAngle / 2.0) * phaseY
-                    var sweepAngleOuter = (sliceAngle - sliceSpaceOuterAngle) * phaseY
+                    let startAngleOuter = rotationAngle + (angle + sliceSpaceAngleOuter / 2.0) * phaseY
+                    var sweepAngleOuter = (sliceAngle - sliceSpaceAngleOuter) * phaseY
                     if (sweepAngleOuter < 0.0)
                     {
                         sweepAngleOuter = 0.0
@@ -166,27 +166,32 @@ public class PieChartRenderer: ChartDataRendererBase
                         radius,
                         startAngleOuter * ChartUtils.Math.FDEG2RAD,
                         sweepAngleOuter * ChartUtils.Math.FDEG2RAD)
-                    
-                    if sliceSpace > 0.0
+
+                    if drawInnerArc &&
+                        (innerRadius > 0.0 || sliceSpace > 0.0)
                     {
-                        innerRadius = max(innerRadius,
-                            calculateMinimumRadiusForSpacedSlice(
+                        if sliceSpace > 0.0
+                        {
+                            var minSpacedRadius = calculateMinimumRadiusForSpacedSlice(
                                 center: center,
                                 radius: radius,
                                 angle: sliceAngle * phaseY,
                                 arcStartPointX: arcStartPointX,
                                 arcStartPointY: arcStartPointY,
                                 startAngle: startAngleOuter,
-                                sweepAngle: sweepAngleOuter))
-                    }
-
-                    if (innerRadius > 0.0)
-                    {
-                        let sliceSpaceInnerAngle = visibleAngleCount == 1 ?
+                                sweepAngle: sweepAngleOuter)
+                            if minSpacedRadius < 0.0
+                            {
+                                minSpacedRadius = -minSpacedRadius
+                            }
+                            innerRadius = max(innerRadius, minSpacedRadius)
+                        }
+                        
+                        let sliceSpaceAngleInner = visibleAngleCount == 1 || innerRadius == 0.0 ?
                             0.0 :
                             sliceSpace / (ChartUtils.Math.FDEG2RAD * innerRadius)
-                        let startAngleInner = rotationAngle + (angle + sliceSpaceInnerAngle / 2.0) * phaseY
-                        var sweepAngleInner = (sliceAngle - sliceSpaceInnerAngle) * phaseY
+                        let startAngleInner = rotationAngle + (angle + sliceSpaceAngleInner / 2.0) * phaseY
+                        var sweepAngleInner = (sliceAngle - sliceSpaceAngleInner) * phaseY
                         if (sweepAngleInner < 0.0)
                         {
                             sweepAngleInner = 0.0
@@ -209,11 +214,37 @@ public class PieChartRenderer: ChartDataRendererBase
                     }
                     else
                     {
-                        CGPathAddLineToPoint(
-                            path,
-                            nil,
-                            center.x,
-                            center.y)
+                        if sliceSpace > 0.0
+                        {
+                            let angleMiddle = startAngleOuter + sweepAngleOuter / 2.0
+                            
+                            let sliceSpaceOffset =
+                                calculateMinimumRadiusForSpacedSlice(
+                                    center: center,
+                                    radius: radius,
+                                    angle: sliceAngle * phaseY,
+                                    arcStartPointX: arcStartPointX,
+                                    arcStartPointY: arcStartPointY,
+                                    startAngle: startAngleOuter,
+                                    sweepAngle: sweepAngleOuter)
+
+                            let arcEndPointX = center.x + sliceSpaceOffset * cos(angleMiddle * ChartUtils.Math.FDEG2RAD)
+                            let arcEndPointY = center.y + sliceSpaceOffset * sin(angleMiddle * ChartUtils.Math.FDEG2RAD)
+                            
+                            CGPathAddLineToPoint(
+                                path,
+                                nil,
+                                arcEndPointX,
+                                arcEndPointY)
+                        }
+                        else
+                        {
+                            CGPathAddLineToPoint(
+                                path,
+                                nil,
+                                center.x,
+                                center.y)
+                        }
                     }
                     
                     CGPathCloseSubpath(path)
@@ -498,7 +529,8 @@ public class PieChartRenderer: ChartDataRendererBase
         var absoluteAngles = chart.absoluteAngles
         let center = chart.centerCircleBox
         let radius = chart.radius
-        let userInnerRadius = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled ? radius * chart.holeRadiusPercent : 0.0
+        let drawInnerArc = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled
+        let userInnerRadius = drawInnerArc ? radius * chart.holeRadiusPercent : 0.0
         
         for (var i = 0; i < indices.count; i++)
         {
@@ -539,9 +571,6 @@ public class PieChartRenderer: ChartDataRendererBase
             let sliceSpace = set.sliceSpace
             
             let sliceAngle = drawAngles[xIndex]
-            let sliceSpaceOuterAngle = visibleAngleCount == 1 ?
-                0.0 :
-                sliceSpace / (ChartUtils.Math.FDEG2RAD * radius)
             var innerRadius = userInnerRadius
             
             let shift = set.selectionShift
@@ -549,11 +578,26 @@ public class PieChartRenderer: ChartDataRendererBase
             
             CGContextSetFillColorWithColor(context, set.colorAt(xIndex).CGColor)
             
-            let startAngleOuter = rotationAngle + (angle + sliceSpaceOuterAngle / 2.0) * phaseY
-            var sweepAngleOuter = (sliceAngle - sliceSpaceOuterAngle) * phaseY
+            let sliceSpaceAngleOuter = visibleAngleCount == 1 ?
+                0.0 :
+                sliceSpace / (ChartUtils.Math.FDEG2RAD * radius)
+            
+            let sliceSpaceAngleShifted = visibleAngleCount == 1 ?
+                0.0 :
+                sliceSpace / (ChartUtils.Math.FDEG2RAD * highlightedRadius)
+            
+            let startAngleOuter = rotationAngle + (angle + sliceSpaceAngleOuter / 2.0) * phaseY
+            var sweepAngleOuter = (sliceAngle - sliceSpaceAngleOuter) * phaseY
             if (sweepAngleOuter < 0.0)
             {
                 sweepAngleOuter = 0.0
+            }
+            
+            let startAngleShifted = rotationAngle + (angle + sliceSpaceAngleShifted / 2.0) * phaseY
+            var sweepAngleShifted = (sliceAngle - sliceSpaceAngleShifted) * phaseY
+            if (sweepAngleShifted < 0.0)
+            {
+                sweepAngleShifted = 0.0
             }
             
             let path = CGPathCreateMutable()
@@ -561,37 +605,48 @@ public class PieChartRenderer: ChartDataRendererBase
             CGPathMoveToPoint(
                 path,
                 nil,
-                center.x + highlightedRadius * cos(startAngleOuter * ChartUtils.Math.FDEG2RAD),
-                center.y + highlightedRadius * sin(startAngleOuter * ChartUtils.Math.FDEG2RAD))
+                center.x + highlightedRadius * cos(startAngleShifted * ChartUtils.Math.FDEG2RAD),
+                center.y + highlightedRadius * sin(startAngleShifted * ChartUtils.Math.FDEG2RAD))
             CGPathAddRelativeArc(
                 path,
                 nil,
                 center.x,
                 center.y,
                 highlightedRadius,
-                startAngleOuter * ChartUtils.Math.FDEG2RAD,
-                sweepAngleOuter * ChartUtils.Math.FDEG2RAD)
+                startAngleShifted * ChartUtils.Math.FDEG2RAD,
+                sweepAngleShifted * ChartUtils.Math.FDEG2RAD)
             
+            var sliceSpaceRadius: CGFloat = 0.0
             if sliceSpace > 0.0
             {
-                innerRadius = max(innerRadius,
-                    calculateMinimumRadiusForSpacedSlice(
-                        center: center,
-                        radius: radius,
-                        angle: sliceAngle * phaseY,
-                        arcStartPointX: center.x + radius * cos(startAngleOuter * ChartUtils.Math.FDEG2RAD),
-                        arcStartPointY: center.y + radius * sin(startAngleOuter * ChartUtils.Math.FDEG2RAD),
-                        startAngle: startAngleOuter,
-                        sweepAngle: sweepAngleOuter))
+                sliceSpaceRadius = calculateMinimumRadiusForSpacedSlice(
+                    center: center,
+                    radius: radius,
+                    angle: sliceAngle * phaseY,
+                    arcStartPointX: center.x + radius * cos(startAngleOuter * ChartUtils.Math.FDEG2RAD),
+                    arcStartPointY: center.y + radius * sin(startAngleOuter * ChartUtils.Math.FDEG2RAD),
+                    startAngle: startAngleOuter,
+                    sweepAngle: sweepAngleOuter)
             }
             
-            if (innerRadius > 0.0)
+            if drawInnerArc &&
+                (innerRadius > 0.0 || sliceSpace > 0.0)
             {
-                let sliceSpaceInnerAngle = visibleAngleCount == 1 ?
+                if sliceSpace > 0.0
+                {
+                    var minSpacedRadius = sliceSpaceRadius
+                    if minSpacedRadius < 0.0
+                    {
+                        minSpacedRadius = -minSpacedRadius
+                    }
+                    innerRadius = max(innerRadius, minSpacedRadius)
+                }
+                
+                let sliceSpaceAngleInner = visibleAngleCount == 1 || innerRadius == 0.0 ?
                     0.0 :
                     sliceSpace / (ChartUtils.Math.FDEG2RAD * innerRadius)
-                let startAngleInner = rotationAngle + (angle + sliceSpaceInnerAngle / 2.0) * phaseY
-                var sweepAngleInner = (sliceAngle - sliceSpaceInnerAngle) * phaseY
+                let startAngleInner = rotationAngle + (angle + sliceSpaceAngleInner / 2.0) * phaseY
+                var sweepAngleInner = (sliceAngle - sliceSpaceAngleInner) * phaseY
                 if (sweepAngleInner < 0.0)
                 {
                     sweepAngleInner = 0.0
@@ -614,11 +669,27 @@ public class PieChartRenderer: ChartDataRendererBase
             }
             else
             {
-                CGPathAddLineToPoint(
-                    path,
-                    nil,
-                    center.x,
-                    center.y)
+                if sliceSpace > 0.0
+                {
+                    let angleMiddle = startAngleOuter + sweepAngleOuter / 2.0
+                    
+                    let arcEndPointX = center.x + sliceSpaceRadius * cos(angleMiddle * ChartUtils.Math.FDEG2RAD)
+                    let arcEndPointY = center.y + sliceSpaceRadius * sin(angleMiddle * ChartUtils.Math.FDEG2RAD)
+                    
+                    CGPathAddLineToPoint(
+                        path,
+                        nil,
+                        arcEndPointX,
+                        arcEndPointY)
+                }
+                else
+                {
+                    CGPathAddLineToPoint(
+                        path,
+                        nil,
+                        center.x,
+                        center.y)
+                }
             }
             
             CGPathCloseSubpath(path)
