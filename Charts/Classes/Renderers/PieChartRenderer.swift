@@ -105,7 +105,6 @@ public class PieChartRenderer: ChartDataRendererBase
         
         let entryCount = dataSet.entryCount
         var drawAngles = chart.drawAngles
-        let sliceSpace = dataSet.sliceSpace
         let center = chart.centerCircleBox
         let radius = chart.radius
         let drawInnerArc = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled
@@ -120,6 +119,8 @@ public class PieChartRenderer: ChartDataRendererBase
                 visibleAngleCount++;
             }
         }
+        
+        let sliceSpace = visibleAngleCount <= 1 ? 0.0 : dataSet.sliceSpace
 
         CGContextSaveGState(context)
         
@@ -568,7 +569,7 @@ public class PieChartRenderer: ChartDataRendererBase
                 angle = absoluteAngles[xIndex - 1] * phaseX
             }
             
-            let sliceSpace = set.sliceSpace
+            let sliceSpace = visibleAngleCount <= 1 ? 0.0 : set.sliceSpace
             
             let sliceAngle = drawAngles[xIndex]
             var innerRadius = userInnerRadius
