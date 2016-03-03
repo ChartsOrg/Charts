@@ -88,7 +88,6 @@
     leftAxis.drawZeroLineEnabled = NO;
     leftAxis.drawLimitLinesBehindDataEnabled = YES;
     
-    [leftAxis setLabelCount:5 force:YES];
     _chartView.rightAxis.enabled = NO;
     
     [_chartView.viewPortHandler setMaximumScaleY: 2.f];
@@ -170,9 +169,6 @@
     
     LineChartData *data = [[LineChartData alloc] initWithXVals:xVals dataSets:dataSets];
    
-    // test draw xLabel in start, middle and end point
-    [_chartView.xAxis setLabelsToSkip:xVals.count-2];
-    _chartView.xAxis.wordDrawInMiddle = YES;
     _chartView.data = data;
 }
 

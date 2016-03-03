@@ -94,7 +94,7 @@
     }
     
     PieChartDataSet *dataSet = [[PieChartDataSet alloc] initWithYVals:yVals1 label:@"Election Results"];
-    dataSet.sliceSpace = 0.0;
+    dataSet.sliceSpace = 2.0;
     dataSet.needLabelColorSameAsSlice = YES;
     dataSet.needLineForLabel = YES;
     
