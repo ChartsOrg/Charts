@@ -363,7 +363,10 @@ public class PieChartRenderer: ChartDataRendererBase
                 var endPoint:CGPoint = CGPointMake(starPointX, startPointY)
                 
                 var drawReverseDirection:Bool = Bool(false);
-                
+                var plotOffset:CGFloat = 40.0
+                let lineWith:CGFloat = 2.0
+                let lineColor = dataSet.colorAt(j)
+
                 if (dataSet.needLineForLabel)
                 {
                     let radius = chart.radius
@@ -379,20 +382,16 @@ public class PieChartRenderer: ChartDataRendererBase
                         * sin((rotationAngle + angle * phaseY) * ChartUtils.Math.FDEG2RAD)
                         + center.y
                     
-                    let lineColor = dataSet.colorAt(j)
-                    
                     CGContextSetStrokeColorWithColor(context, lineColor.CGColor);
                     
                     // Draw them with a 2.0 stroke width so they are a bit more visible.
-                    CGContextSetLineWidth(context, 2.0);
+                    CGContextSetLineWidth(context, lineWith);
                     
                     CGContextMoveToPoint(context, starPointX, startPointY); //start at this point
                     
                     CGContextAddLineToPoint(context, plotX, plotY); //draw to this point
                     
-                    var plotOffset:CGFloat = 20.0
-                    
-                    drawReverseDirection = (plotX < startPointY)
+                    drawReverseDirection =  (breakPointOffset * cos((rotationAngle + angle * phaseY) * ChartUtils.Math.FDEG2RAD)) < 0// (plotX < startPointY)
                     
                     if (drawReverseDirection)
                     {
@@ -400,13 +399,9 @@ public class PieChartRenderer: ChartDataRendererBase
                     }
                     
                     endPoint = CGPointMake(plotX+plotOffset, plotY)
-                    
-                    CGContextAddLineToPoint(context, endPoint.x, endPoint.y); //draw to this point
-                    
                     // and now draw the Path!
-                    //                    CGContextStrokePath(context);
+                    CGContextStrokePath(context);
                 }
-                
                 
                 let value = usePercentValuesEnabled ? e.value / yValueSum * 100.0 : e.value
                 
@@ -484,8 +479,14 @@ public class PieChartRenderer: ChartDataRendererBase
                     {
                         valueWidth = valueWidth*(-1);
                     }
+
+                    CGContextSetStrokeColorWithColor(context, lineColor.CGColor);
                     
-                    CGContextAddLineToPoint(context, endPoint.x + valueWidth, endPoint.y); //draw to this point
+                    // Draw them with a 2.0 stroke width so they are a bit more visible.
+                    CGContextSetLineWidth(context, lineWith);
+                    
+                    CGContextMoveToPoint(context, endPoint.x - plotOffset, endPoint.y); //start at this point
+                    CGContextAddLineToPoint(context, endPoint.x + valueWidth , endPoint.y); //draw to this point
                     // and now draw the Path!
                     CGContextStrokePath(context);
                 }
