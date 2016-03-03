@@ -37,4 +37,8 @@ public protocol IPieChartDataSet: IChartDataSet
     
     /// indicates the selection distance of a pie slice
     var selectionShift: CGFloat { get set }
+    
+    var needLineForLabel: Bool { get set }
+    
+    var needLabelColorSameAsSlice: Bool {get set}
 }
