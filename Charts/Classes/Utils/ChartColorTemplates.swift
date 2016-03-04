@@ -92,11 +92,8 @@ public class ChartColorTemplates: NSObject
             var index = colorString.startIndex
             let endIndex = colorString.endIndex
             
-            if length % 2 == 1
-            {
-                index = index.advancedBy(1)
-                length = length - 1
-            }
+            index = index.advancedBy(1)
+            length = length - 1
             
             if length == 3 || length == 6 || length == 8
             {
