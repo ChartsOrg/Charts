@@ -94,8 +94,8 @@ public class LineChartRenderer: LineRadarChartRenderer
         let entryCount = dataSet.entryCount
         
         guard let
-            entryFrom = dataSet.entryForXIndex(self.minX),
-            entryTo = dataSet.entryForXIndex(self.maxX)
+            entryFrom = dataSet.entryForXIndex(self.minX < 0 ? self.minX : 0, rounding: .Down),
+            entryTo = dataSet.entryForXIndex(self.maxX, rounding: .Up)
             else { return }
         
         let diff = (entryFrom == entryTo) ? 1 : 0
@@ -256,8 +256,8 @@ public class LineChartRenderer: LineRadarChartRenderer
         let phaseY = animator.phaseY
 
         guard let
-            entryFrom = dataSet.entryForXIndex(self.minX),
-            entryTo = dataSet.entryForXIndex(self.maxX)
+            entryFrom = dataSet.entryForXIndex(self.minX < 0 ? self.minX : 0, rounding: .Down),
+            entryTo = dataSet.entryForXIndex(self.maxX, rounding: .Up)
             else { return }
         
         let diff = (entryFrom == entryTo) ? 1 : 0
@@ -507,8 +507,8 @@ public class LineChartRenderer: LineRadarChartRenderer
                 let entryCount = dataSet.entryCount
                 
                 guard let
-                    entryFrom = dataSet.entryForXIndex(self.minX),
-                    entryTo = dataSet.entryForXIndex(self.maxX)
+                    entryFrom = dataSet.entryForXIndex(self.minX < 0 ? self.minX : 0, rounding: .Down),
+                    entryTo = dataSet.entryForXIndex(self.maxX, rounding: .Up)
                     else { continue }
                 
                 let diff = (entryFrom == entryTo) ? 1 : 0
@@ -589,8 +589,8 @@ public class LineChartRenderer: LineRadarChartRenderer
             let isDrawCircleHoleEnabled = dataSet.isDrawCircleHoleEnabled
             
             guard let
-                entryFrom = dataSet.entryForXIndex(self.minX),
-                entryTo = dataSet.entryForXIndex(self.maxX)
+                entryFrom = dataSet.entryForXIndex(self.minX < 0 ? self.minX : 0, rounding: .Down),
+                entryTo = dataSet.entryForXIndex(self.maxX, rounding: .Up)
                 else { continue }
             
             let diff = (entryFrom == entryTo) ? 1 : 0

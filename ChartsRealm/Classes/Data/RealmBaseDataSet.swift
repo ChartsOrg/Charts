@@ -309,9 +309,9 @@ public class RealmBaseDataSet: ChartBaseDataSet
     /// - returns: the first Entry object found at the given xIndex with binary search.
     /// If the no Entry at the specifed x-index is found, this method returns the Entry at the closest x-index.
     /// nil if no Entry object at that index.
-    public override func entryForXIndex(x: Int) -> ChartDataEntry?
+    public override func entryForXIndex(x: Int, rounding: ChartDataSetRounding) -> ChartDataEntry?
     {
-        let index = self.entryIndex(xIndex: x)
+        let index = self.entryIndex(xIndex: x, rounding: rounding)
         if (index > -1)
         {
             return entryForIndex(index)
@@ -319,10 +319,18 @@ public class RealmBaseDataSet: ChartBaseDataSet
         return nil
     }
     
+    /// - returns: the first Entry object found at the given xIndex with binary search.
+    /// If the no Entry at the specifed x-index is found, this method returns the Entry at the closest x-index.
+    /// nil if no Entry object at that index.
+    public override func entryForXIndex(x: Int) -> ChartDataEntry?
+    {
+        return entryForXIndex(x, rounding: .Closest)
+    }
+    
     /// - returns: the array-index of the specified entry
     ///
     /// - parameter x: x-index of the entry to search for
-    public override func entryIndex(xIndex x: Int) -> Int
+    public override func entryIndex(xIndex x: Int, rounding: ChartDataSetRounding) -> Int
     {
         guard let results = _results else { return -1 }
         
@@ -330,10 +338,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
             NSPredicate(format: "%K == %d", _xIndexField!, x)
         )
         
-        if UInt(NSNotFound) == foundIndex
-        {
-            return -1
-        }
+        // TODO: Figure out a way to quickly find the closest index
         
         return Int(foundIndex)
     }

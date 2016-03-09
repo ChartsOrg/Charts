@@ -14,6 +14,13 @@
 
 import Foundation
 
+@objc
+public enum ChartDataSetRounding: Int
+{
+    case Up = 0
+    case Down = 1
+    case Closest = 2
+}
 
 public class ChartDataSet: ChartBaseDataSet
 {
@@ -144,14 +151,22 @@ public class ChartDataSet: ChartBaseDataSet
     /// - returns: the first Entry object found at the given xIndex with binary search.
     /// If the no Entry at the specifed x-index is found, this method returns the Entry at the closest x-index.
     /// nil if no Entry object at that index.
-    public override func entryForXIndex(x: Int) -> ChartDataEntry?
+    public override func entryForXIndex(x: Int, rounding: ChartDataSetRounding) -> ChartDataEntry?
     {
-        let index = self.entryIndex(xIndex: x)
+        let index = self.entryIndex(xIndex: x, rounding: rounding)
         if (index > -1)
         {
             return _yVals[index]
         }
         return nil
+    }
+    
+    /// - returns: the first Entry object found at the given xIndex with binary search.
+    /// If the no Entry at the specifed x-index is found, this method returns the Entry at the closest x-index.
+    /// nil if no Entry object at that index.
+    public override func entryForXIndex(x: Int) -> ChartDataEntry?
+    {
+        return entryForXIndex(x, rounding: .Closest)
     }
     
     public func entriesForXIndex(x: Int) -> [ChartDataEntry]
@@ -204,7 +219,8 @@ public class ChartDataSet: ChartBaseDataSet
     /// - returns: the array-index of the specified entry
     ///
     /// - parameter x: x-index of the entry to search for
-    public override func entryIndex(xIndex x: Int) -> Int
+    /// - parameter rounding: x-index of the entry to search for
+    public override func entryIndex(xIndex x: Int, rounding: ChartDataSetRounding) -> Int
     {
         var low = 0
         var high = _yVals.count - 1
@@ -235,6 +251,26 @@ public class ChartDataSet: ChartBaseDataSet
             }
             
             closest = m
+        }
+        
+        if closest != -1
+        {
+            if rounding == .Up
+            {
+                let closestXIndex = _yVals[closest].xIndex
+                if closestXIndex < x && closest < _yVals.count - 1
+                {
+                    closest = closest + 1
+                }
+            }
+            else if rounding == .Down
+            {
+                let closestXIndex = _yVals[closest].xIndex
+                if closestXIndex > x && closest > 0
+                {
+                    closest = closest - 1
+                }
+            }
         }
         
         return closest
@@ -325,7 +361,7 @@ public class ChartDataSet: ChartBaseDataSet
         
         if _yVals.last?.xIndex > e.xIndex
         {
-            var closestIndex = entryIndex(xIndex: e.xIndex)
+            var closestIndex = entryIndex(xIndex: e.xIndex, rounding: .Closest)
             if _yVals[closestIndex].xIndex < e.xIndex
             {
                 closestIndex++
