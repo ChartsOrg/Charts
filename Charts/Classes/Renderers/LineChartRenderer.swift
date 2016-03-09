@@ -190,7 +190,10 @@ public class LineChartRenderer: LineRadarChartRenderer
         
         if (dataSet.isDrawFilledEnabled)
         {
-            drawCubicFill(context: context, dataSet: dataSet, spline: cubicPath, matrix: valueToPixelMatrix, from: minx, to: size)
+            // Copy this path because we make changes to it
+            let fillPath = CGPathCreateMutableCopy(cubicPath)
+            
+            drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, from: minx, to: size)
         }
         
         CGContextBeginPath(context)
