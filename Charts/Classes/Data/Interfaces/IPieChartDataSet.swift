@@ -21,13 +21,6 @@ import CoreGraphics
 @objc
 public protocol IPieChartDataSet: IChartDataSet
 {
-    // MARK: - Data functions and accessors
-    
-    var yValueSum: Double { get }
-    
-    /// - returns: the average value across all entries in this DataSet.
-    var average: Double { get }
-    
     // MARK: - Styling functions and accessors
     
     /// the space in pixels between the pie-slices

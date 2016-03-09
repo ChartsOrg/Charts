@@ -109,24 +109,15 @@ public class PieChartData: ChartData
     /// - returns: the total y-value sum across all DataSet objects the this object represents.
     public var yValueSum: Double
     {
+        guard let dataSet = dataSet else { return 0.0 }
+        
         var yValueSum: Double = 0.0
         
-        if (_dataSets == nil)
+        for i in 0..<dataSet.entryCount
         {
-            return yValueSum
-        }
-        
-        for dataSet in _dataSets
-        {
-            yValueSum += fabs((dataSet as! IPieChartDataSet).yValueSum)
+            yValueSum += dataSet.entryForIndex(i)?.value ?? 0.0
         }
         
         return yValueSum
-    }
-    
-    /// - returns: the average value across all entries in this Data object (all entries from the DataSets this data object holds)
-    public var average: Double
-    {
-        return yValueSum / Double(yValCount)
     }
 }
