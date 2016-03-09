@@ -270,7 +270,7 @@ public class ChartViewPortHandler: NSObject
     /// limits the maximum scale and X translation of the given matrix
     private func limitTransAndScale(inout matrix matrix: CGAffineTransform, content: CGRect?)
     {
-        // min scale-x is 1, max is the max CGFloat
+        // min scale-x is 1
         _scaleX = min(max(_minScaleX, matrix.a), _maxScaleX)
         
         // min scale-y is 1
@@ -287,12 +287,10 @@ public class ChartViewPortHandler: NSObject
         }
         
         let maxTransX = -width * (_scaleX - 1.0)
-        let newTransX = min(max(matrix.tx, maxTransX - _transOffsetX), _transOffsetX)
-        _transX = newTransX
+        _transX = min(max(matrix.tx, maxTransX - _transOffsetX), _transOffsetX)
         
         let maxTransY = height * (_scaleY - 1.0)
-        let newTransY = max(min(matrix.ty, maxTransY + _transOffsetY), -_transOffsetY)
-        _transY = newTransY
+        _transY = max(min(matrix.ty, maxTransY + _transOffsetY), -_transOffsetY)
         
         matrix.tx = _transX
         matrix.a = _scaleX
@@ -437,6 +435,30 @@ public class ChartViewPortHandler: NSObject
     public var scaleY: CGFloat
     {
         return _scaleY
+    }
+    
+    /// - returns: the minimum x-scale factor
+    public var minScaleX: CGFloat
+    {
+        return _minScaleX
+    }
+    
+    /// - returns: the minimum y-scale factor
+    public var minScaleY: CGFloat
+    {
+        return _minScaleY
+    }
+    
+    /// - returns: the minimum x-scale factor
+    public var maxScaleX: CGFloat
+    {
+        return _maxScaleX
+    }
+    
+    /// - returns: the minimum y-scale factor
+    public var maxScaleY: CGFloat
+    {
+        return _maxScaleY
     }
     
     /// - returns: the translation (drag / pan) distance on the x-axis
