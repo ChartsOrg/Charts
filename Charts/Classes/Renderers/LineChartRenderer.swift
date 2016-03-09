@@ -249,7 +249,8 @@ public class LineChartRenderer: LineRadarChartRenderer
         let valueToPixelMatrix = trans.valueToPixelMatrix
         
         let entryCount = dataSet.entryCount
-        let pointsPerEntryPair = dataSet.isDrawSteppedEnabled ? 4 : 2
+        let isDrawSteppedEnabled = dataSet.isDrawSteppedEnabled
+        let pointsPerEntryPair = isDrawSteppedEnabled ? 4 : 2
         
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
@@ -293,7 +294,7 @@ public class LineChartRenderer: LineRadarChartRenderer
                     
                     if e == nil { break }
                     
-                    if dataSet.isDrawSteppedEnabled
+                    if isDrawSteppedEnabled
                     {
                         _lineSegments[1] = CGPoint(x: CGFloat(e.xIndex), y: _lineSegments[0].y)
                         _lineSegments[2] = _lineSegments[1]
@@ -362,7 +363,7 @@ public class LineChartRenderer: LineRadarChartRenderer
                             y: CGFloat(e1.value) * phaseY
                         ), valueToPixelMatrix)
                     
-                    if dataSet.isDrawSteppedEnabled
+                    if isDrawSteppedEnabled
                     {
                         _lineSegments[j++] = CGPointApplyAffineTransform(
                             CGPoint(
@@ -424,6 +425,7 @@ public class LineChartRenderer: LineRadarChartRenderer
     {
         let phaseX = animator?.phaseX ?? 1.0
         let phaseY = animator?.phaseY ?? 1.0
+        let isDrawSteppedEnabled = dataSet.isDrawSteppedEnabled
         
         var e: ChartDataEntry!
         
@@ -441,7 +443,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         {
             guard let e = dataSet.entryForIndex(x) else { continue }
             
-            if dataSet.isDrawSteppedEnabled
+            if isDrawSteppedEnabled
             {
                 guard let ePrev = dataSet.entryForIndex(x-1) else { continue }
                 CGPathAddLineToPoint(filled, &matrix, CGFloat(e.xIndex), CGFloat(ePrev.value) * phaseY)
