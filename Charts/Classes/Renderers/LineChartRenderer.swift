@@ -249,6 +249,8 @@ public class LineChartRenderer: LineRadarChartRenderer
         let valueToPixelMatrix = trans.valueToPixelMatrix
         
         let entryCount = dataSet.entryCount
+        let isDrawSteppedEnabled = dataSet.isDrawSteppedEnabled
+        let pointsPerEntryPair = isDrawSteppedEnabled ? 4 : 2
         
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
@@ -267,9 +269,9 @@ public class LineChartRenderer: LineRadarChartRenderer
         // more than 1 color
         if (dataSet.colors.count > 1)
         {
-            if (_lineSegments.count != 2)
+            if (_lineSegments.count != pointsPerEntryPair)
             {
-                _lineSegments = [CGPoint](count: 2, repeatedValue: CGPoint())
+                _lineSegments = [CGPoint](count: pointsPerEntryPair, repeatedValue: CGPoint())
             }
             
             for (var j = minx, count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))); j < count; j++)
@@ -285,20 +287,32 @@ public class LineChartRenderer: LineRadarChartRenderer
                 
                 _lineSegments[0].x = CGFloat(e.xIndex)
                 _lineSegments[0].y = CGFloat(e.value) * phaseY
-                _lineSegments[0] = CGPointApplyAffineTransform(_lineSegments[0], valueToPixelMatrix)
+                
                 if (j + 1 < count)
                 {
                     e = dataSet.entryForIndex(j + 1)
                     
                     if e == nil { break }
                     
-                    _lineSegments[1].x = CGFloat(e.xIndex)
-                    _lineSegments[1].y = CGFloat(e.value) * phaseY
-                    _lineSegments[1] = CGPointApplyAffineTransform(_lineSegments[1], valueToPixelMatrix)
+                    if isDrawSteppedEnabled
+                    {
+                        _lineSegments[1] = CGPoint(x: CGFloat(e.xIndex), y: _lineSegments[0].y)
+                        _lineSegments[2] = _lineSegments[1]
+                        _lineSegments[3] = CGPoint(x: CGFloat(e.xIndex), y: CGFloat(e.value) * phaseY)
+                    }
+                    else
+                    {
+                        _lineSegments[1] = CGPoint(x: CGFloat(e.xIndex), y: CGFloat(e.value) * phaseY)
+                    }
                 }
                 else
                 {
                     _lineSegments[1] = _lineSegments[0]
+                }
+
+                for i in 0..<_lineSegments.count
+                {
+                    _lineSegments[i] = CGPointApplyAffineTransform(_lineSegments[i], valueToPixelMatrix)
                 }
                 
                 if (!viewPortHandler.isInBoundsRight(_lineSegments[0].x))
@@ -316,7 +330,7 @@ public class LineChartRenderer: LineRadarChartRenderer
                 
                 // get the color that is set for this line-segment
                 CGContextSetStrokeColorWithColor(context, dataSet.colorAt(j).CGColor)
-                CGContextStrokeLineSegments(context, _lineSegments, 2)
+                CGContextStrokeLineSegments(context, _lineSegments, pointsPerEntryPair)
             }
         }
         else
@@ -325,9 +339,9 @@ public class LineChartRenderer: LineRadarChartRenderer
             var e1: ChartDataEntry!
             var e2: ChartDataEntry!
             
-            if (_lineSegments.count != max((entryCount - 1) * 2, 2))
+            if (_lineSegments.count != max((entryCount - 1) * pointsPerEntryPair, pointsPerEntryPair))
             {
-                _lineSegments = [CGPoint](count: max((entryCount - 1) * 2, 2), repeatedValue: CGPoint())
+                _lineSegments = [CGPoint](count: max((entryCount - 1) * pointsPerEntryPair, pointsPerEntryPair), repeatedValue: CGPoint())
             }
             
             e1 = dataSet.entryForIndex(minx)
@@ -343,11 +357,34 @@ public class LineChartRenderer: LineRadarChartRenderer
                     
                     if e1 == nil || e2 == nil { continue }
                     
-                    _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e1.xIndex), y: CGFloat(e1.value) * phaseY), valueToPixelMatrix)
-                    _lineSegments[j++] = CGPointApplyAffineTransform(CGPoint(x: CGFloat(e2.xIndex), y: CGFloat(e2.value) * phaseY), valueToPixelMatrix)
+                    _lineSegments[j++] = CGPointApplyAffineTransform(
+                        CGPoint(
+                            x: CGFloat(e1.xIndex),
+                            y: CGFloat(e1.value) * phaseY
+                        ), valueToPixelMatrix)
+                    
+                    if isDrawSteppedEnabled
+                    {
+                        _lineSegments[j++] = CGPointApplyAffineTransform(
+                            CGPoint(
+                                x: CGFloat(e2.xIndex),
+                                y: CGFloat(e1.value) * phaseY
+                            ), valueToPixelMatrix)
+                        _lineSegments[j++] = CGPointApplyAffineTransform(
+                            CGPoint(
+                                x: CGFloat(e2.xIndex),
+                                y: CGFloat(e1.value) * phaseY
+                            ), valueToPixelMatrix)
+                    }
+                    
+                    _lineSegments[j++] = CGPointApplyAffineTransform(
+                        CGPoint(
+                            x: CGFloat(e2.xIndex),
+                            y: CGFloat(e2.value) * phaseY
+                        ), valueToPixelMatrix)
                 }
                 
-                let size = max((count - minx - 1) * 2, 2)
+                let size = max((count - minx - 1) * pointsPerEntryPair, pointsPerEntryPair)
                 CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor)
                 CGContextStrokeLineSegments(context, _lineSegments, size)
             }
@@ -388,6 +425,7 @@ public class LineChartRenderer: LineRadarChartRenderer
     {
         let phaseX = animator?.phaseX ?? 1.0
         let phaseY = animator?.phaseY ?? 1.0
+        let isDrawSteppedEnabled = dataSet.isDrawSteppedEnabled
         
         var e: ChartDataEntry!
         
@@ -404,6 +442,13 @@ public class LineChartRenderer: LineRadarChartRenderer
         for (var x = from + 1, count = Int(ceil(CGFloat(to - from) * phaseX + CGFloat(from))); x < count; x++)
         {
             guard let e = dataSet.entryForIndex(x) else { continue }
+            
+            if isDrawSteppedEnabled
+            {
+                guard let ePrev = dataSet.entryForIndex(x-1) else { continue }
+                CGPathAddLineToPoint(filled, &matrix, CGFloat(e.xIndex), CGFloat(ePrev.value) * phaseY)
+            }
+            
             CGPathAddLineToPoint(filled, &matrix, CGFloat(e.xIndex), CGFloat(e.value) * phaseY)
         }
         

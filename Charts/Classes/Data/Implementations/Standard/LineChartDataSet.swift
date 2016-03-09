@@ -70,6 +70,12 @@ public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     /// - returns: true if drawing cubic lines is enabled, false if not.
     public var isDrawCubicEnabled: Bool { return drawCubicEnabled }
     
+    /// If true, stepped lines are drawn instead of linear
+    public var drawSteppedEnabled = false
+
+    /// - returns: true if drawing stepped lines is enabled, false if not.
+    public var isDrawSteppedEnabled: Bool { return drawSteppedEnabled }
+    
     /// The radius of the drawn circles.
     public var circleRadius = CGFloat(8.0)
     
@@ -160,6 +166,7 @@ public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         copy.lineDashLengths = lineDashLengths
         copy.drawCirclesEnabled = drawCirclesEnabled
         copy.drawCubicEnabled = drawCubicEnabled
+        copy.drawSteppedEnabled = drawSteppedEnabled
         return copy
     }
 }
