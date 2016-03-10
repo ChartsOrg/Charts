@@ -35,8 +35,12 @@
                      @{@"key": @"toggleYLabels", @"label": @"Toggle Y-Values"},
                      @{@"key": @"toggleRotate", @"label": @"Toggle Rotate"},
                      @{@"key": @"toggleFill", @"label": @"Toggle Fill"},
+                     @{@"key": @"animateX", @"label": @"Animate X"},
+                     @{@"key": @"animateY", @"label": @"Animate Y"},
+                     @{@"key": @"animateXY", @"label": @"Animate XY"},
                      @{@"key": @"spin", @"label": @"Spin"},
-                     @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"}
+                     @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"},
+                     @{@"key": @"toggleData", @"label": @"Toggle Data"},
                      ];
     
     _chartView.delegate = self;
@@ -56,7 +60,7 @@
     ChartYAxis *yAxis = _chartView.yAxis;
     yAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:9.f];
     yAxis.labelCount = 5;
-    yAxis.startAtZeroEnabled = YES;
+    yAxis.customAxisMin = 0.0;
     
     ChartLegend *l = _chartView.legend;
     l.position = ChartLegendPositionRightOfChart;
@@ -64,7 +68,9 @@
     l.xEntrySpace = 7.0;
     l.yEntrySpace = 5.0;
     
-    [self setData];
+    [self updateChartData];
+    
+    [_chartView animateWithXAxisDuration:1.4 yAxisDuration:1.4 easingOption:ChartEasingOptionEaseOutBack];
 }
 
 - (void)didReceiveMemoryWarning
@@ -73,7 +79,18 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setData
+- (void)updateChartData
+{
+    if (self.shouldHideData)
+    {
+        _chartView.data = nil;
+        return;
+    }
+    
+    [self setChartData];
+}
+
+- (void)setChartData
 {
     double mult = 150.f;
     int count = 9;
@@ -96,11 +113,13 @@
     
     RadarChartDataSet *set1 = [[RadarChartDataSet alloc] initWithYVals:yVals1 label:@"Set 1"];
     [set1 setColor:ChartColorTemplates.vordiplom[0]];
+    set1.fillColor = ChartColorTemplates.vordiplom[0];
     set1.drawFilledEnabled = YES;
     set1.lineWidth = 2.0;
     
     RadarChartDataSet *set2 = [[RadarChartDataSet alloc] initWithYVals:yVals2 label:@"Set 2"];
     [set2 setColor:ChartColorTemplates.vordiplom[4]];
+    set2.fillColor = ChartColorTemplates.vordiplom[4];
     set2.drawFilledEnabled = YES;
     set2.lineWidth = 2.0;
     
@@ -113,40 +132,26 @@
 
 - (void)optionTapped:(NSString *)key
 {
-    if ([key isEqualToString:@"toggleValues"])
-    {
-        for (ChartDataSet *set in _chartView.data.dataSets)
-        {
-            set.drawValuesEnabled = !set.isDrawValuesEnabled;
-        }
-        
-        [_chartView setNeedsDisplay];
-    }
-    
-    if ([key isEqualToString:@"toggleHighlight"])
-    {
-        _chartView.highlightEnabled = !_chartView.isHighlightEnabled;
-        
-        [_chartView setNeedsDisplay];
-    }
-    
     if ([key isEqualToString:@"toggleXLabels"])
     {
         _chartView.xAxis.drawLabelsEnabled = !_chartView.xAxis.isDrawLabelsEnabled;
         
         [_chartView notifyDataSetChanged];
         [_chartView setNeedsDisplay];
+        return;
     }
     
     if ([key isEqualToString:@"toggleYLabels"])
     {
         _chartView.yAxis.drawLabelsEnabled = !_chartView.yAxis.isDrawLabelsEnabled;
         [_chartView setNeedsDisplay];
+        return;
     }
 
     if ([key isEqualToString:@"toggleRotate"])
     {
         _chartView.rotationEnabled = !_chartView.isRotationEnabled;
+        return;
     }
 
     if ([key isEqualToString:@"toggleFill"])
@@ -157,17 +162,34 @@
         }
         
         [_chartView setNeedsDisplay];
+        return;
+    }
+    
+    if ([key isEqualToString:@"animateX"])
+    {
+        [_chartView animateWithXAxisDuration:1.4];
+        return;
+    }
+    
+    if ([key isEqualToString:@"animateY"])
+    {
+        [_chartView animateWithYAxisDuration:1.4];
+        return;
+    }
+    
+    if ([key isEqualToString:@"animateXY"])
+    {
+        [_chartView animateWithXAxisDuration:1.4 yAxisDuration:1.4];
+        return;
     }
     
     if ([key isEqualToString:@"spin"])
     {
         [_chartView spinWithDuration:2.0 fromAngle:_chartView.rotationAngle toAngle:_chartView.rotationAngle + 360.f easingOption:ChartEasingOptionEaseInCubic];
+        return;
     }
     
-    if ([key isEqualToString:@"saveToGallery"])
-    {
-        [_chartView saveToCameraRoll];
-    }
+    [super handleOption:key forChartView:_chartView];
 }
 
 #pragma mark - ChartViewDelegate

@@ -37,14 +37,15 @@
                      @{@"key": @"toggleFilled", @"label": @"Toggle Filled"},
                      @{@"key": @"toggleCircles", @"label": @"Toggle Circles"},
                      @{@"key": @"toggleCubic", @"label": @"Toggle Cubic"},
+                     @{@"key": @"toggleStepped", @"label": @"Toggle Stepped"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
-                     @{@"key": @"toggleStartZero", @"label": @"Toggle StartZero"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
                      @{@"key": @"animateXY", @"label": @"Animate XY"},
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"},
                      @{@"key": @"togglePinchZoom", @"label": @"Toggle PinchZoom"},
                      @{@"key": @"toggleAutoScaleMinMax", @"label": @"Toggle auto scale min/max"},
+                     @{@"key": @"toggleData", @"label": @"Toggle Data"},
                      ];
     
     _chartView.delegate = self;
@@ -84,8 +85,8 @@
     [leftAxis addLimitLine:ll2];
     leftAxis.customAxisMax = 220.0;
     leftAxis.customAxisMin = -50.0;
-    leftAxis.startAtZeroEnabled = NO;
     leftAxis.gridLineDashLengths = @[@5.f, @5.f];
+    leftAxis.drawZeroLineEnabled = NO;
     leftAxis.drawLimitLinesBehindDataEnabled = YES;
     
     _chartView.rightAxis.enabled = NO;
@@ -110,6 +111,17 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)updateChartData
+{
+    if (self.shouldHideData)
+    {
+        _chartView.data = nil;
+        return;
+    }
+    
+    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
 }
 
 - (void)setDataCount:(int)count range:(double)range
@@ -140,8 +152,18 @@
     set1.circleRadius = 3.0;
     set1.drawCircleHoleEnabled = NO;
     set1.valueFont = [UIFont systemFontOfSize:9.f];
-    set1.fillAlpha = 65/255.0;
-    set1.fillColor = UIColor.blackColor;
+    //set1.fillAlpha = 65/255.0;
+    //set1.fillColor = UIColor.blackColor;
+    
+    NSArray *gradientColors = @[
+                        (id)[ChartColorTemplates colorFromString:@"#00ff0000"].CGColor,
+                        (id)[ChartColorTemplates colorFromString:@"#ffff0000"].CGColor
+                        ];
+    CGGradientRef gradient = CGGradientCreateWithColors(nil, (CFArrayRef)gradientColors, nil);
+    
+    set1.fillAlpha = 1.f;
+    set1.fill = [ChartFill fillWithLinearGradient:gradient angle:90.f];
+    set1.drawFilledEnabled = YES;
     
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
     [dataSets addObject:set1];
@@ -153,93 +175,50 @@
 
 - (void)optionTapped:(NSString *)key
 {
-    if ([key isEqualToString:@"toggleValues"])
-    {
-        for (ChartDataSet *set in _chartView.data.dataSets)
-        {
-            set.drawValuesEnabled = !set.isDrawValuesEnabled;
-        }
-        
-        [_chartView setNeedsDisplay];
-    }
-    
     if ([key isEqualToString:@"toggleFilled"])
     {
-        for (LineChartDataSet *set in _chartView.data.dataSets)
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
             set.drawFilledEnabled = !set.isDrawFilledEnabled;
         }
         
         [_chartView setNeedsDisplay];
+        return;
     }
     
     if ([key isEqualToString:@"toggleCircles"])
     {
-        for (LineChartDataSet *set in _chartView.data.dataSets)
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
             set.drawCirclesEnabled = !set.isDrawCirclesEnabled;
         }
         
         [_chartView setNeedsDisplay];
+        return;
     }
     
     if ([key isEqualToString:@"toggleCubic"])
     {
-        for (LineChartDataSet *set in _chartView.data.dataSets)
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
             set.drawCubicEnabled = !set.isDrawCubicEnabled;
         }
         
         [_chartView setNeedsDisplay];
+        return;
     }
-    
-    if ([key isEqualToString:@"toggleHighlight"])
+
+    if ([key isEqualToString:@"toggleStepped"])
     {
-        _chartView.highlightEnabled = !_chartView.isHighlightEnabled;
-        
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
+        {
+            set.drawSteppedEnabled = !set.isDrawSteppedEnabled;
+        }
+
         [_chartView setNeedsDisplay];
     }
     
-    if ([key isEqualToString:@"toggleStartZero"])
-    {
-        _chartView.leftAxis.startAtZeroEnabled = !_chartView.leftAxis.isStartAtZeroEnabled;
-        _chartView.rightAxis.startAtZeroEnabled = !_chartView.rightAxis.isStartAtZeroEnabled;
-        
-        [_chartView notifyDataSetChanged];
-    }
-    
-    if ([key isEqualToString:@"animateX"])
-    {
-        [_chartView animateWithXAxisDuration:3.0];
-    }
-    
-    if ([key isEqualToString:@"animateY"])
-    {
-        [_chartView animateWithYAxisDuration:3.0 easingOption:ChartEasingOptionEaseInCubic];
-    }
-    
-    if ([key isEqualToString:@"animateXY"])
-    {
-        [_chartView animateWithXAxisDuration:3.0 yAxisDuration:3.0];
-    }
-    
-    if ([key isEqualToString:@"saveToGallery"])
-    {
-        [_chartView saveToCameraRoll];
-    }
-    
-    if ([key isEqualToString:@"togglePinchZoom"])
-    {
-        _chartView.pinchZoomEnabled = !_chartView.isPinchZoomEnabled;
-        
-        [_chartView setNeedsDisplay];
-    }
-    
-    if ([key isEqualToString:@"toggleAutoScaleMinMax"])
-    {
-        _chartView.autoScaleMinMaxEnabled = !_chartView.isAutoScaleMinMaxEnabled;
-        [_chartView notifyDataSetChanged];
-    }
+    [super handleOption:key forChartView:_chartView];
 }
 
 #pragma mark - Actions
@@ -249,7 +228,7 @@
     _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
     _sliderTextY.text = [@((int)_sliderY.value) stringValue];
     
-    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
+    [self updateChartData];
 }
 
 #pragma mark - ChartViewDelegate

@@ -1,0 +1,19 @@
+osx_image: xcode7.2
+language: objective-c
+
+env:
+  global:
+    - LANG=en_US.UTF-8
+
+cache:
+  - bundler
+
+before_install:
+  - brew update
+  - cd Charts && carthage bootstrap
+
+script:
+  - rake test
+
+# after_success:
+#   - bash <(curl -s https://codecov.io/bash)

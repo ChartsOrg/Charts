@@ -15,21 +15,21 @@
 import Foundation
 import CoreGraphics
 
-internal class ChartHighlighter
+public class ChartHighlighter : NSObject
 {
     /// instance of the data-provider
-    internal weak var _chart: BarLineChartViewBase?;
+    public weak var chart: BarLineChartViewBase?
     
-    internal init(chart: BarLineChartViewBase)
+    public init(chart: BarLineChartViewBase)
     {
-        _chart = chart;
+        self.chart = chart
     }
     
     /// Returns a Highlight object corresponding to the given x- and y- touch positions in pixels.
     /// - parameter x:
     /// - parameter y:
     /// - returns:
-    internal func getHighlight(x x: Double, y: Double) -> ChartHighlight?
+    public func getHighlight(x x: Double, y: Double) -> ChartHighlight?
     {
         let xIndex = getXIndex(x)
         if (xIndex == -Int.max)
@@ -49,13 +49,13 @@ internal class ChartHighlighter
     /// Returns the corresponding x-index for a given touch-position in pixels.
     /// - parameter x:
     /// - returns:
-    internal func getXIndex(x: Double) -> Int
+    public func getXIndex(x: Double) -> Int
     {
         // create an array of the touch-point
         var pt = CGPoint(x: x, y: 0.0)
         
         // take any transformer to determine the x-axis value
-        _chart?.getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
+        self.chart?.getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
         
         return Int(round(pt.x))
     }
@@ -65,7 +65,7 @@ internal class ChartHighlighter
     /// - parameter x:
     /// - parameter y:
     /// - returns:
-    internal func getDataSetIndex(xIndex xIndex: Int, x: Double, y: Double) -> Int
+    public func getDataSetIndex(xIndex xIndex: Int, x: Double, y: Double) -> Int
     {
         let valsAtIndex = getSelectionDetailsAtIndex(xIndex)
         
@@ -82,14 +82,14 @@ internal class ChartHighlighter
     /// Returns a list of SelectionDetail object corresponding to the given xIndex.
     /// - parameter xIndex:
     /// - returns:
-    internal func getSelectionDetailsAtIndex(xIndex: Int) -> [ChartSelectionDetail]
+    public func getSelectionDetailsAtIndex(xIndex: Int) -> [ChartSelectionDetail]
     {
         var vals = [ChartSelectionDetail]()
         var pt = CGPoint()
         
-        for (var i = 0, dataSetCount = _chart?.data?.dataSetCount; i < dataSetCount; i++)
+        for (var i = 0, dataSetCount = self.chart?.data?.dataSetCount; i < dataSetCount; i++)
         {
-            let dataSet = _chart!.data!.getDataSetByIndex(i)
+            let dataSet = self.chart!.data!.getDataSetByIndex(i)
             
             // dont include datasets that cannot be highlighted
             if !dataSet.isHighlightEnabled
@@ -106,7 +106,7 @@ internal class ChartHighlighter
             
             pt.y = CGFloat(yVal)
             
-            _chart!.getTransformer(dataSet.axisDependency).pointValueToPixel(&pt)
+            self.chart!.getTransformer(dataSet.axisDependency).pointValueToPixel(&pt)
             
             if !pt.y.isNaN
             {

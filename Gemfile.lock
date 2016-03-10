@@ -1,0 +1,69 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (4.2.5.1)
+      i18n (~> 0.7)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
+      thread_safe (~> 0.3, >= 0.3.4)
+      tzinfo (~> 1.1)
+    claide (0.9.1)
+    cocoapods (0.39.0)
+      activesupport (>= 4.0.2)
+      claide (~> 0.9.1)
+      cocoapods-core (= 0.39.0)
+      cocoapods-downloader (~> 0.9.3)
+      cocoapods-plugins (~> 0.4.2)
+      cocoapods-search (~> 0.1.0)
+      cocoapods-stats (~> 0.6.2)
+      cocoapods-trunk (~> 0.6.4)
+      cocoapods-try (~> 0.5.1)
+      colored (~> 1.2)
+      escape (~> 0.0.4)
+      molinillo (~> 0.4.0)
+      nap (~> 1.0)
+      xcodeproj (~> 0.28.2)
+    cocoapods-core (0.39.0)
+      activesupport (>= 4.0.2)
+      fuzzy_match (~> 2.0.4)
+      nap (~> 1.0)
+    cocoapods-downloader (0.9.3)
+    cocoapods-plugins (0.4.2)
+      nap
+    cocoapods-search (0.1.0)
+    cocoapods-stats (0.6.2)
+    cocoapods-trunk (0.6.4)
+      nap (>= 0.8, < 2.0)
+      netrc (= 0.7.8)
+    cocoapods-try (0.5.1)
+    colored (1.2)
+    escape (0.0.4)
+    fuzzy_match (2.0.4)
+    i18n (0.7.0)
+    json (1.8.3)
+    minitest (5.8.4)
+    molinillo (0.4.1)
+    nap (1.1.0)
+    netrc (0.7.8)
+    rake (10.5.0)
+    rouge (1.10.1)
+    thread_safe (0.3.5)
+    tzinfo (1.2.2)
+      thread_safe (~> 0.1)
+    xcodeproj (0.28.2)
+      activesupport (>= 3)
+      claide (~> 0.9.1)
+      colored (~> 1.2)
+    xcpretty (0.2.2)
+      rouge (~> 1.8)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  cocoapods
+  rake
+  xcpretty
+
+BUNDLED WITH
+   1.11.2

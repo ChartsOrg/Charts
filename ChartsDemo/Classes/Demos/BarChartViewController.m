@@ -39,23 +39,20 @@
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
                      @{@"key": @"animateXY", @"label": @"Animate XY"},
-                     @{@"key": @"toggleStartZero", @"label": @"Toggle StartZero"},
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"},
                      @{@"key": @"togglePinchZoom", @"label": @"Toggle PinchZoom"},
                      @{@"key": @"toggleAutoScaleMinMax", @"label": @"Toggle auto scale min/max"},
+                     @{@"key": @"toggleData", @"label": @"Toggle Data"},
                      ];
     
-    _chartView.delegate = self;
+    [self setupBarLineChartView:_chartView];
     
-    _chartView.descriptionText = @"";
-    _chartView.noDataTextDescription = @"You need to provide data for the chart.";
+    _chartView.delegate = self;
     
     _chartView.drawBarShadowEnabled = NO;
     _chartView.drawValueAboveBarEnabled = YES;
     
     _chartView.maxVisibleValueCount = 60;
-    _chartView.pinchZoomEnabled = NO;
-    _chartView.drawGridBackgroundEnabled = NO;
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBottom;
@@ -72,13 +69,16 @@
     leftAxis.valueFormatter.positiveSuffix = @" $";
     leftAxis.labelPosition = YAxisLabelPositionOutsideChart;
     leftAxis.spaceTop = 0.15;
+    leftAxis.customAxisMin = 0.0; // this replaces startAtZero = YES
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
+    rightAxis.enabled = YES;
     rightAxis.drawGridLinesEnabled = NO;
     rightAxis.labelFont = [UIFont systemFontOfSize:10.f];
     rightAxis.labelCount = 8;
     rightAxis.valueFormatter = leftAxis.valueFormatter;
     rightAxis.spaceTop = 0.15;
+    rightAxis.customAxisMin = 0.0; // this replaces startAtZero = YES
     
     _chartView.legend.position = ChartLegendPositionBelowChartLeft;
     _chartView.legend.form = ChartLegendFormSquare;
@@ -97,6 +97,17 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)updateChartData
+{
+    if (self.shouldHideData)
+    {
+        _chartView.data = nil;
+        return;
+    }
+    
+    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
+}
+
 - (void)setDataCount:(int)count range:(double)range
 {
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
@@ -111,7 +122,7 @@
     for (int i = 0; i < count; i++)
     {
         double mult = (range + 1);
-        double val = (double) (arc4random_uniform(mult));
+        double val =  (double) (arc4random_uniform(mult));
         [yVals addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
     
@@ -129,70 +140,7 @@
 
 - (void)optionTapped:(NSString *)key
 {
-    if ([key isEqualToString:@"toggleValues"])
-    {
-        for (ChartDataSet *set in _chartView.data.dataSets)
-        {
-            set.drawValuesEnabled = !set.isDrawValuesEnabled;
-        }
-        
-        [_chartView setNeedsDisplay];
-    }
-    
-    if ([key isEqualToString:@"toggleHighlight"])
-    {
-        _chartView.highlightEnabled = !_chartView.isHighlightEnabled;
-        
-        [_chartView setNeedsDisplay];
-    }
-    
-    if ([key isEqualToString:@"toggleHighlightArrow"])
-    {
-        _chartView.drawHighlightArrowEnabled = !_chartView.isDrawHighlightArrowEnabled;
-        
-        [_chartView setNeedsDisplay];
-    }
-    
-    if ([key isEqualToString:@"toggleStartZero"])
-    {
-        _chartView.leftAxis.startAtZeroEnabled = !_chartView.leftAxis.isStartAtZeroEnabled;
-        _chartView.rightAxis.startAtZeroEnabled = !_chartView.rightAxis.isStartAtZeroEnabled;
-        
-        [_chartView notifyDataSetChanged];
-    }
-    
-    if ([key isEqualToString:@"animateX"])
-    {
-        [_chartView animateWithXAxisDuration:3.0];
-    }
-    
-    if ([key isEqualToString:@"animateY"])
-    {
-        [_chartView animateWithYAxisDuration:3.0];
-    }
-    
-    if ([key isEqualToString:@"animateXY"])
-    {
-        [_chartView animateWithXAxisDuration:3.0 yAxisDuration:3.0];
-    }
-    
-    if ([key isEqualToString:@"saveToGallery"])
-    {
-        [_chartView saveToCameraRoll];
-    }
-    
-    if ([key isEqualToString:@"togglePinchZoom"])
-    {
-        _chartView.pinchZoomEnabled = !_chartView.isPinchZoomEnabled;
-        
-        [_chartView setNeedsDisplay];
-    }
-    
-    if ([key isEqualToString:@"toggleAutoScaleMinMax"])
-    {
-        _chartView.autoScaleMinMaxEnabled = !_chartView.isAutoScaleMinMaxEnabled;
-        [_chartView notifyDataSetChanged];
-    }
+    [super handleOption:key forChartView:_chartView];
 }
 
 #pragma mark - Actions
@@ -202,7 +150,7 @@
     _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
     _sliderTextY.text = [@((int)_sliderY.value) stringValue];
     
-    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
+    [self updateChartData];
 }
 
 #pragma mark - ChartViewDelegate

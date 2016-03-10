@@ -28,8 +28,9 @@ public class ScatterChartView: BarLineChartViewBase, ScatterChartDataProvider
     public override func calcMinMax()
     {
         super.calcMinMax()
+        guard let data = _data else { return }
 
-        if (_deltaX == 0.0 && _data.yValCount > 0)
+        if (_deltaX == 0.0 && data.yValCount > 0)
         {
             _deltaX = 1.0
         }

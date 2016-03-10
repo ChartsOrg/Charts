@@ -12,7 +12,8 @@
 //
 
 import Foundation
-import UIKit
+import CoreGraphics
+
 
 public class ChartAxisRendererBase: ChartRendererBase
 {

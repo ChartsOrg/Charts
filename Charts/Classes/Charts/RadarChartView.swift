@@ -13,7 +13,7 @@
 
 import Foundation
 import CoreGraphics
-import UIKit
+
 
 /// Implementation of the RadarChart, a "spidernet"-like chart. It works best
 /// when displaying 5-10 entries per DataSet.
@@ -26,10 +26,10 @@ public class RadarChartView: PieRadarChartViewBase
     public var innerWebLineWidth = CGFloat(0.75)
     
     /// color for the web lines that come from the center
-    public var webColor = UIColor(red: 122/255.0, green: 122/255.0, blue: 122.0/255.0, alpha: 1.0)
+    public var webColor = NSUIColor(red: 122/255.0, green: 122/255.0, blue: 122.0/255.0, alpha: 1.0)
     
     /// color for the web lines in between the lines that come from the center.
-    public var innerWebColor = UIColor(red: 122/255.0, green: 122/255.0, blue: 122.0/255.0, alpha: 1.0)
+    public var innerWebColor = NSUIColor(red: 122/255.0, green: 122/255.0, blue: 122.0/255.0, alpha: 1.0)
     
     /// transparency the grid is drawn with (0.0 - 1.0)
     public var webAlpha: CGFloat = 150.0 / 255.0
@@ -76,49 +76,32 @@ public class RadarChartView: PieRadarChartViewBase
     internal override func calcMinMax()
     {
         super.calcMinMax()
+        guard let data = _data else { return }
         
-        let minLeft = _data.getYMin(.Left)
-        let maxLeft = _data.getYMax(.Left)
+        let minLeft = !isnan(_yAxis.customAxisMin)
+            ? _yAxis.customAxisMin
+            : data.getYMin(.Left)
+        let maxLeft = !isnan(_yAxis.customAxisMax)
+            ? _yAxis.customAxisMax
+            : data.getYMax(.Left)
         
-        _chartXMax = Double(_data.xVals.count) - 1.0
+        _chartXMax = Double(data.xVals.count) - 1.0
         _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
         
-        let leftRange = CGFloat(abs(maxLeft - (_yAxis.isStartAtZeroEnabled ? 0.0 : minLeft)))
+        let leftRange = CGFloat(abs(maxLeft - minLeft))
         
         let topSpaceLeft = Double(leftRange * _yAxis.spaceTop)
         let bottomSpaceLeft = Double(leftRange * _yAxis.spaceBottom)
         
-        // Consider sticking one of the edges of the axis to zero (0.0)
+        // Use the values as they are
+        _yAxis.axisMinimum = !isnan(_yAxis.customAxisMin)
+            ? _yAxis.customAxisMin
+            : (minLeft - bottomSpaceLeft)
+        _yAxis.axisMaximum = !isnan(_yAxis.customAxisMax)
+            ? _yAxis.customAxisMax
+            : (maxLeft + topSpaceLeft)
         
-        if _yAxis.isStartAtZeroEnabled
-        {
-            if minLeft < 0.0 && maxLeft < 0.0
-            {
-                // If the values are all negative, let's stay in the negative zone
-                _yAxis.axisMinimum = min(0.0, !isnan(_yAxis.customAxisMin) ? _yAxis.customAxisMin : (minLeft - bottomSpaceLeft))
-                _yAxis.axisMaximum = 0.0
-            }
-            else if minLeft >= 0.0
-            {
-                // We have positive values only, stay in the positive zone
-            _yAxis.axisMinimum = 0.0
-                _yAxis.axisMaximum = max(0.0, !isnan(_yAxis.customAxisMax) ? _yAxis.customAxisMax : (maxLeft + topSpaceLeft))
-        }
-            else
-            {
-                // Stick the minimum to 0.0 or less, and maximum to 0.0 or more (startAtZero for negative/positive at the same time)
-                _yAxis.axisMinimum = min(0.0, !isnan(_yAxis.customAxisMin) ? _yAxis.customAxisMin : (minLeft - bottomSpaceLeft))
-                _yAxis.axisMaximum = max(0.0, !isnan(_yAxis.customAxisMax) ? _yAxis.customAxisMax : (maxLeft + topSpaceLeft))
-            }
-        }
-        else
-        {
-            // Use the values as they are
-            _yAxis.axisMinimum = !isnan(_yAxis.customAxisMin) ? _yAxis.customAxisMin : (minLeft - bottomSpaceLeft)
-            _yAxis.axisMaximum = !isnan(_yAxis.customAxisMax) ? _yAxis.customAxisMax : (maxLeft + topSpaceLeft)
-        }
-        
-        _chartXMax = Double(_data.xVals.count) - 1.0
+        _chartXMax = Double(data.xVals.count) - 1.0
         _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
         
         _yAxis.axisRange = abs(_yAxis.axisMaximum - _yAxis.axisMinimum)
@@ -138,21 +121,16 @@ public class RadarChartView: PieRadarChartViewBase
     
     public override func notifyDataSetChanged()
     {
-        if (_dataNotSet)
-        {
-            return
-        }
-        
         calcMinMax()
         
         _yAxis?._defaultValueFormatter = _defaultValueFormatter
         
         _yAxisRenderer?.computeAxis(yMin: _yAxis.axisMinimum, yMax: _yAxis.axisMaximum)
-        _xAxisRenderer?.computeAxis(xValAverageLength: _data.xValAverageLength, xValues: _data.xVals)
+        _xAxisRenderer?.computeAxis(xValAverageLength: data?.xValAverageLength ?? 0, xValues: data?.xVals ?? [])
         
-        if (_legend !== nil && !_legend.isLegendCustom)
+        if let data = _data, legend = _legend where !legend.isLegendCustom
         {
-            _legendRenderer?.computeLegend(_data)
+            _legendRenderer?.computeLegend(data)
         }
         
         calculateOffsets()
@@ -164,12 +142,12 @@ public class RadarChartView: PieRadarChartViewBase
     {
         super.drawRect(rect)
 
-        if (_dataNotSet)
+        if _data === nil
         {
             return
         }
         
-        let optionalContext = UIGraphicsGetCurrentContext()
+        let optionalContext = NSUIGraphicsGetCurrentContext()
         guard let context = optionalContext else { return }
         
         _xAxisRenderer?.renderAxisLabels(context: context)
@@ -210,7 +188,7 @@ public class RadarChartView: PieRadarChartViewBase
     /// - returns: the angle that each slice in the radar chart occupies.
     public var sliceAngle: CGFloat
     {
-        return 360.0 / CGFloat(_data.xValCount)
+        return 360.0 / CGFloat(_data?.xValCount ?? 0)
     }
 
     public override func indexForAngle(angle: CGFloat) -> Int
@@ -220,7 +198,7 @@ public class RadarChartView: PieRadarChartViewBase
         
         let sliceAngle = self.sliceAngle
         
-        for (var i = 0; i < _data.xValCount; i++)
+        for (var i = 0; i < (_data?.xValCount ?? 0); i++)
         {
             if (sliceAngle * CGFloat(i + 1) - sliceAngle / 2.0 > a)
             {
@@ -264,7 +242,7 @@ public class RadarChartView: PieRadarChartViewBase
 
     internal override var requiredBaseOffset: CGFloat
     {
-        return _xAxis.isEnabled && _xAxis.isDrawLabelsEnabled ? _xAxis.labelWidth : 10.0
+        return _xAxis.isEnabled && _xAxis.isDrawLabelsEnabled ? _xAxis.labelRotatedWidth : 10.0
     }
 
     public override var radius: CGFloat
