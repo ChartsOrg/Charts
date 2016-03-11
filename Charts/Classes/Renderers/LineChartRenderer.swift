@@ -645,7 +645,7 @@ public class LineChartRenderer: LineRadarChartRenderer
     
     private var _highlightPointBuffer = CGPoint()
     
-    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight], pixelPoint: CGPoint)
     {
         guard let
             lineData = dataProvider?.lineData,
@@ -659,13 +659,55 @@ public class LineChartRenderer: LineRadarChartRenderer
         {
             guard let set = lineData.getDataSetByIndex(indices[i].dataSetIndex) as? ILineChartDataSet else { continue }
             
-            if !set.isHighlightEnabled
+            if set.isHighlightCrossEnabled
             {
+                let xIndex = indices[i].xIndex; // get the x-position
+                
+                if (CGFloat(xIndex) > CGFloat(chartXMax) * animator.phaseX)
+                {
+                    continue
+                }
+                
+                let yValue = set.yValForXIndex(xIndex)
+                if (yValue.isNaN)
+                {
+                    continue
+                }
+                
+                _highlightPointBuffer = pixelPoint;
+            }
+            else if set.isHighlightEnabled
+            {
+                
+                let xIndex = indices[i].xIndex; // get the x-position
+                
+                if (CGFloat(xIndex) > CGFloat(chartXMax) * animator.phaseX)
+                {
+                    continue
+                }
+                
+                let yValue = set.yValForXIndex(xIndex)
+                if (yValue.isNaN)
+                {
+                    continue
+                }
+                
+                let y = CGFloat(yValue) * animator.phaseY; // get the y-position
+                
+                _highlightPointBuffer.x = CGFloat(xIndex)
+                _highlightPointBuffer.y = y
+                
+                let trans = dataProvider?.getTransformer(set.axisDependency)
+                
+                trans?.pointValueToPixel(&_highlightPointBuffer)
+
+            }else{
                 continue
             }
             
             CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
             CGContextSetLineWidth(context, set.highlightLineWidth)
+            
             if (set.highlightLineDashLengths != nil)
             {
                 CGContextSetLineDash(context, set.highlightLineDashPhase, set.highlightLineDashLengths!, set.highlightLineDashLengths!.count)
@@ -674,28 +716,6 @@ public class LineChartRenderer: LineRadarChartRenderer
             {
                 CGContextSetLineDash(context, 0.0, nil, 0)
             }
-            
-            let xIndex = indices[i].xIndex; // get the x-position
-            
-            if (CGFloat(xIndex) > CGFloat(chartXMax) * animator.phaseX)
-            {
-                continue
-            }
-            
-            let yValue = set.yValForXIndex(xIndex)
-            if (yValue.isNaN)
-            {
-                continue
-            }
-            
-            let y = CGFloat(yValue) * animator.phaseY; // get the y-position
-            
-            _highlightPointBuffer.x = CGFloat(xIndex)
-            _highlightPointBuffer.y = y
-            
-            let trans = dataProvider?.getTransformer(set.axisDependency)
-            
-            trans?.pointValueToPixel(&_highlightPointBuffer)
             
             // draw the lines
             drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)

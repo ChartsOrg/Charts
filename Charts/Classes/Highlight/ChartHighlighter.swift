@@ -92,7 +92,7 @@ public class ChartHighlighter : NSObject
             let dataSet = self.chart!.data!.getDataSetByIndex(i)
             
             // dont include datasets that cannot be highlighted
-            if !dataSet.isHighlightEnabled
+            if !dataSet.isHighlightEnabled && !dataSet.isHighlightCrossEnabled
             {
                 continue
             }

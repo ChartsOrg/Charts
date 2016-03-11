@@ -117,11 +117,11 @@ public class CombinedChartRenderer: ChartDataRendererBase
         }
     }
     
-    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight], pixelPoint : CGPoint)
     {
         for renderer in _renderers
         {
-            renderer.drawHighlighted(context: context, indices: indices)
+            renderer.drawHighlighted(context: context, indices: indices, pixelPoint : CGPointZero)
         }
     }
     

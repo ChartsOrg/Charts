@@ -230,7 +230,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         // if highlighting is enabled
         if (valuesToHighlight())
         {
-            renderer?.drawHighlighted(context: context, indices: _indicesToHighlight)
+            renderer?.drawHighlighted(context: context, indices: _indicesToHighlight, pixelPoint : _crossHighlight)
         }
 
         // Removes clipping rectangle
@@ -767,7 +767,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                 
                 _lastPanPoint = recognizer.translationInView(self)
             }
-            else if self.isHighlightPerDragEnabled
+            else if self.isHighlightPerDragEnabled || self.isHighlightCrossDragEnabled
             {
                 // We will only handle highlights on NSUIGestureRecognizerState.Changed
                 
@@ -785,13 +785,16 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                 
                 _lastPanPoint = originalTranslation
             }
-            else if (isHighlightPerDragEnabled)
+            else if (isHighlightPerDragEnabled || highlightCrossDragEnabled)
             {
-                let h = getHighlightByTouchPoint(recognizer.locationInView(self))
+                let point = recognizer.locationInView(self);
+                _crossHighlight = point;
+                let h = getHighlightByTouchPoint(point)
                 
                 let lastHighlighted = self.lastHighlighted
                 
-                if ((h === nil && lastHighlighted !== nil) ||
+                if (isHighlightCrossDragEnabled ||
+                    (h === nil && lastHighlighted !== nil) ||
                     (h !== nil && lastHighlighted === nil) ||
                     (h !== nil && lastHighlighted !== nil && !h!.isEqual(lastHighlighted)))
                 {
@@ -904,7 +907,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         if (gestureRecognizer == _panGestureRecognizer)
         {
             if _data === nil || !_dragEnabled ||
-                (self.hasNoDragOffset && self.isFullyZoomedOut && !self.isHighlightPerDragEnabled)
+                (self.hasNoDragOffset && self.isFullyZoomedOut && !self.isHighlightPerDragEnabled && !self.isHighlightCrossDragEnabled)
             {
                 return false
             }
@@ -1581,6 +1584,17 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     public var isHighlightPerDragEnabled: Bool
     {
         return highlightPerDragEnabled
+    }
+    
+    /// 十字线
+    public var highlightCrossDragEnabled = true
+    
+    ///十字线 参照highlightPerDragEnabled
+    ///
+    /// **default**: true
+    public var isHighlightCrossDragEnabled: Bool
+        {
+            return highlightCrossDragEnabled
     }
     
     /// **default**: true

@@ -323,7 +323,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
     
     private var _highlightPointBuffer = CGPoint()
     
-    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight], pixelPoint : CGPoint)
     {
         guard let
             dataProvider = dataProvider,
@@ -339,19 +339,33 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
             
             guard let set = candleData.getDataSetByIndex(indices[i].dataSetIndex) as? ICandleChartDataSet else { continue }
             
-            if (!set.isHighlightEnabled)
+            if (set.isHighlightCrossEnabled)
             {
+                _highlightPointBuffer = pixelPoint
+            }
+            else if (set.isHighlightEnabled)
+            {
+                guard let e = set.entryForXIndex(xIndex) as? CandleChartDataEntry else { continue }
+                
+                if e.xIndex != xIndex
+                {
+                    continue
+                }
+                
+                let trans = dataProvider.getTransformer(set.axisDependency)
+
+                let low = CGFloat(e.low) * animator.phaseY
+                let high = CGFloat(e.high) * animator.phaseY
+                let y = (low + high) / 2.0
+                
+                _highlightPointBuffer.x = CGFloat(xIndex)
+                _highlightPointBuffer.y = y
+                
+                trans.pointValueToPixel(&_highlightPointBuffer)
+                
+            }else{
                 continue
             }
-            
-            guard let e = set.entryForXIndex(xIndex) as? CandleChartDataEntry else { continue }
-            
-            if e.xIndex != xIndex
-            {
-                continue
-            }
-            
-            let trans = dataProvider.getTransformer(set.axisDependency)
             
             CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
             CGContextSetLineWidth(context, set.highlightLineWidth)
@@ -363,15 +377,6 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
             {
                 CGContextSetLineDash(context, 0.0, nil, 0)
             }
-            
-            let low = CGFloat(e.low) * animator.phaseY
-            let high = CGFloat(e.high) * animator.phaseY
-            let y = (low + high) / 2.0
-            
-            _highlightPointBuffer.x = CGFloat(xIndex)
-            _highlightPointBuffer.y = y
-            
-            trans.pointValueToPixel(&_highlightPointBuffer)
             
             // draw the lines
             drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)

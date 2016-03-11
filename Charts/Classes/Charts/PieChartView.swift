@@ -97,7 +97,7 @@ public class PieChartView: PieRadarChartViewBase
         
         if (valuesToHighlight())
         {
-            renderer!.drawHighlighted(context: context, indices: _indicesToHighlight)
+            renderer!.drawHighlighted(context: context, indices: _indicesToHighlight, pixelPoint: CGPointZero)
         }
         
         renderer!.drawExtras(context: context)

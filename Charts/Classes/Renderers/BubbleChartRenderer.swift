@@ -218,7 +218,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
         
     }
     
-    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight], pixelPoint: CGPoint)
     {
         guard let
             dataProvider = dataProvider,

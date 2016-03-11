@@ -225,6 +225,12 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     /// - returns: true if value highlighting is enabled for this dataset
     public var isHighlightEnabled: Bool { return highlightEnabled }
     
+    ///设置为 true 激活自定义十字线  > highlightEnabled
+    public var highlightCrossEnabled = true
+    
+    /// - returns: 如果自定义十字线激活，返回true
+    public var isHighlightCrossEnabled: Bool { return highlightCrossEnabled }
+    
     /// the formatter used to customly format the values
     internal var _valueFormatter: NSNumberFormatter? = ChartUtils.defaultValueFormatter()
     

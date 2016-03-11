@@ -510,7 +510,7 @@ public class PieChartRenderer: ChartDataRendererBase
         }
     }
     
-    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight], pixelPoint: CGPoint)
     {
         guard let
             chart = chart,

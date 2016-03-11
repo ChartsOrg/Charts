@@ -46,5 +46,14 @@ public class LineScatterCandleRadarChartRenderer: ChartDataRendererBase
             CGContextAddLineToPoint(context, viewPortHandler.contentRight, point.y)
             CGContextStrokePath(context)
         }
+        
+        if set.isHighlightCrossEnabled
+        {
+            CGContextBeginPath(context)
+            CGContextAddArc(context, point.x, point.y, 2.0, 0.0, CGFloat(M_PI) * 2, 1)
+            CGContextSetFillColorWithColor(context,  set.highlightColor.CGColor)
+            CGContextFillPath(context)
+            CGContextStrokePath(context)
+        }
     }
 }

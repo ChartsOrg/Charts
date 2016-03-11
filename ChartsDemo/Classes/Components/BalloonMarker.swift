@@ -12,8 +12,8 @@
 //
 
 import Foundation
-;
-import Charts;
+
+import Charts
 
 public class BalloonMarker: ChartMarker
 {

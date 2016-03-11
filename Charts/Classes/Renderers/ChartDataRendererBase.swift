@@ -43,7 +43,7 @@ public class ChartDataRendererBase: ChartRendererBase
     /// Draws all highlight indicators for the values that are currently highlighted.
     ///
     /// - parameter indices: the highlighted values
-    public func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    public func drawHighlighted(context context: CGContext, indices: [ChartHighlight], pixelPoint : CGPoint)
     {
         fatalError("drawHighlighted() cannot be called on ChartDataRendererBase")
     }

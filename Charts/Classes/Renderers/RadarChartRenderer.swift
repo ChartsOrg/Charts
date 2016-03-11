@@ -280,7 +280,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
     
     private var _highlightPointBuffer = CGPoint()
 
-    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight], pixelPoint: CGPoint)
     {
         guard let
             chart = chart,
@@ -311,34 +311,38 @@ public class RadarChartRenderer: LineRadarChartRenderer
         {
             guard let set = chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as? IRadarChartDataSet else { continue }
             
-            if !set.isHighlightEnabled
+            if set.isHighlightCrossEnabled
             {
+                _highlightPointBuffer = pixelPoint
+            }
+            else if set.isHighlightEnabled
+            {
+                // get the index to highlight
+                let xIndex = indices[i].xIndex
+                
+                let e = set.entryForXIndex(xIndex)
+                if e?.xIndex != xIndex
+                {
+                    continue
+                }
+                
+                let j = set.entryIndex(entry: e!)
+                let y = (e!.value - chart.chartYMin)
+                
+                if (y.isNaN)
+                {
+                    continue
+                }
+                
+                _highlightPointBuffer = ChartUtils.getPosition(
+                    center: center,
+                    dist: CGFloat(y) * factor * phaseY,
+                    angle: sliceangle * CGFloat(j) * phaseX + chart.rotationAngle)
+            }else{
                 continue
             }
             
             CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
-            
-            // get the index to highlight
-            let xIndex = indices[i].xIndex
-            
-            let e = set.entryForXIndex(xIndex)
-            if e?.xIndex != xIndex
-            {
-                continue
-            }
-            
-            let j = set.entryIndex(entry: e!)
-            let y = (e!.value - chart.chartYMin)
-            
-            if (y.isNaN)
-            {
-                continue
-            }
-            
-            _highlightPointBuffer = ChartUtils.getPosition(
-                center: center,
-                dist: CGFloat(y) * factor * phaseY,
-                angle: sliceangle * CGFloat(j) * phaseX + chart.rotationAngle)
             
             // draw the lines
             drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)

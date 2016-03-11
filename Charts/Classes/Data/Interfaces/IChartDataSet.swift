@@ -157,6 +157,12 @@ public protocol IChartDataSet
     /// - returns: true if value highlighting is enabled for this dataset
     var isHighlightEnabled: Bool { get }
     
+    /// 设置true，激活自定义十字线  > highlightEnabled
+    var highlightCrossEnabled: Bool { get set }
+    
+    /// - returns: 返回自定义十字线是否激活
+    var isHighlightCrossEnabled: Bool { get }
+    
     /// The formatter used to customly format the values
     var valueFormatter: NSNumberFormatter? { get set }
     

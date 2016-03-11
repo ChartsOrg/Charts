@@ -458,7 +458,7 @@ public class BarChartRenderer: ChartDataRendererBase
     
     private var _highlightArrowPtsBuffer = [CGPoint](count: 3, repeatedValue: CGPoint())
     
-    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight], pixelPoint: CGPoint)
     {
         guard let
             dataProvider = dataProvider,

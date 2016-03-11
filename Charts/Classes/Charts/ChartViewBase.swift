@@ -120,6 +120,9 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     /// array of Highlight objects that reference the highlighted slices in the chart
     internal var _indicesToHighlight = [ChartHighlight]()
     
+    /// 十字线的点
+    public var _crossHighlight : CGPoint = CGPointZero
+    
     /// if set to true, the marker is drawn when a value is clicked
     public var drawMarkers = true
     
