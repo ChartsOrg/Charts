@@ -785,7 +785,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                 
                 _lastPanPoint = originalTranslation
             }
-            else if (isHighlightPerDragEnabled || highlightCrossDragEnabled)
+            else if (isHighlightPerDragEnabled || isHighlightCrossDragEnabled)
             {
                 let point = recognizer.locationInView(self);
                 _crossHighlight = point;
