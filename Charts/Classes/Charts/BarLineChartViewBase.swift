@@ -52,6 +52,9 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// Sets the minimum offset (padding) around the chart, defaults to 10
     public var minOffset = CGFloat(10.0)
     
+    /// flag indicating if the chart should stay at the same position after a rotation or not. Default is false.
+    public var keepPositionOnRotation: Bool = false
+    
     /// the object representing the left y-axis
     internal var _leftAxis: ChartYAxis!
     
@@ -133,6 +136,27 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             self.addGestureRecognizer(_pinchGestureRecognizer)
             _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
         #endif
+    }
+    
+    public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>)
+    {
+        //Saving current position of chart.
+        var oldPoint: CGPoint?
+        if (keepPositionOnRotation && (keyPath == "frame" || keyPath == "bounds"))
+        {
+            oldPoint = viewPortHandler.contentRect.origin
+            getTransformer(.Left).pixelToValue(&oldPoint!)
+        }
+        
+        //Superclass transforms chart.
+        super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+        
+        //Restoring old position of chart
+        if var newPoint = oldPoint where keepPositionOnRotation
+        {
+            getTransformer(.Left).pointValueToPixel(&newPoint)
+            viewPortHandler.centerViewPort(pt: newPoint, chart: self)
+        }
     }
     
     public override func drawRect(rect: CGRect)
