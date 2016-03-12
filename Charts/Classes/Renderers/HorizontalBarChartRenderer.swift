@@ -21,6 +21,8 @@ import CoreGraphics
 
 public class HorizontalBarChartRenderer: BarChartRenderer
 {
+    public var drawValueAboveBarWhenNeededEnabled = true
+    
     public override init(dataProvider: BarChartDataProvider?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
         super.init(dataProvider: dataProvider, animator: animator, viewPortHandler: viewPortHandler)
@@ -259,10 +261,19 @@ public class HorizontalBarChartRenderer: BarChartRenderer
             let valueOffsetPlus: CGFloat = 5.0
             var posOffset: CGFloat
             var negOffset: CGFloat
+
+            let barWidth: CGFloat = 0.5
+            let dataSetOffset = (barData.dataSetCount - 1)
+            let groupSpace = barData.groupSpace
+            let groupSpaceHalf = groupSpace / 2.0
+            var barRect = CGRect()
             
             for (var dataSetIndex = 0, count = barData.dataSetCount; dataSetIndex < count; dataSetIndex++)
             {
                 guard let dataSet = dataSets[dataSetIndex] as? IBarChartDataSet else { continue }
+             
+                let barSpace = dataSet.barSpace
+                let barSpaceHalf = barSpace / 2.0
                 
                 if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
                 {
@@ -309,10 +320,29 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                         let val = e.value
                         let valueText = formatter.stringFromNumber(val)!
                         
+                        // Calculate the barRect for the value
+                        let x = CGFloat(e.xIndex + e.xIndex * dataSetOffset) + CGFloat(dataSetIndex)
+                            + groupSpace * CGFloat(e.xIndex) + groupSpaceHalf
+                        let bottom = x - barWidth + barSpaceHalf
+                        let top = x + barWidth - barSpaceHalf
+                        let right = isInverted ? (val <= 0.0 ? CGFloat(val) : 0) : (val >= 0.0 ? CGFloat(val) : 0)
+                        let left = isInverted ? (val >= 0.0 ? CGFloat(val) : 0) : (val <= 0.0 ? CGFloat(val) : 0)
+                        
+                        barRect.origin.x = left
+                        barRect.size.width = right - left
+                        barRect.origin.y = top
+                        barRect.size.height = bottom - top
+                        
+                        trans.rectValueToPixel(&barRect)
+                        
                         // calculate the correct offset depending on the draw position of the value
                         let valueTextWidth = valueText.sizeWithAttributes([NSFontAttributeName: valueFont]).width
-                        posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
-                        negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
+                        
+                        // Check if the value text width fits in the bar width
+                        let forceValueAboveBar = drawValueAboveBarWhenNeededEnabled && valueTextWidth > barRect.size.width - valueOffsetPlus
+                        
+                        posOffset = (drawValueAboveBar || forceValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
+                        negOffset = (drawValueAboveBar || forceValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
                         
                         if (isInverted)
                         {
