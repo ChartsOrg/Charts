@@ -288,6 +288,39 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         _leftAxisTransformer.prepareMatrixOffset(_leftAxis.isInverted)
     }
     
+    /// The data for the chart
+    public override var data: ChartData?
+    {
+        get
+        {
+            return _data
+        }
+        set
+        {
+            if newValue == nil
+            {
+                print("Charts: data argument is nil on setData()", terminator: "\n")
+                return
+            } else {
+                //Testing datasets for using a disabled axisDependency
+                if let datasets = newValue?.dataSets {
+                    for ds in datasets {
+                        if _leftAxis.enabled == false && ds.axisDependency == ChartYAxis.AxisDependency.Left {
+                            print("Charts: dataset with incorrect axisDependency. Left axis is disabled!", terminator: "\n")
+                            return
+                        } else if _rightAxis.enabled == false && ds.axisDependency == ChartYAxis.AxisDependency.Right {
+                            print("Charts: dataset with incorrect axisDependency. Right axis is disabled!", terminator: "\n")
+                            return
+                        }
+                    }
+                }
+
+            }
+
+            super.data = newValue
+        }
+    }
+
     public override func notifyDataSetChanged()
     {
         calcMinMax()
