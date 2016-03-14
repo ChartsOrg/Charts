@@ -19,6 +19,7 @@
 @protected
     NSArray *months;
     NSArray *parties;
+    BOOL shouldRenderBarBorders;
 }
 
 @property (nonatomic, strong) IBOutlet UIButton *optionsButton;
