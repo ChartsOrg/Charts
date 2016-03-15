@@ -723,4 +723,103 @@ public class LineChartRenderer: LineRadarChartRenderer
         
         CGContextRestoreGState(context)
     }
+    
+    /// 绘制十字线的y轴文字
+    public override func drawHighlightIndicator(context context: CGContext, indices: [ChartHighlight], pixelPoint: CGPoint, chart : ChartViewBase)
+    {
+        guard let
+            lineData = dataProvider?.lineData,
+            chartXMax = dataProvider?.chartXMax,
+            animator = animator
+            else { return }
+        
+        CGContextSaveGState(context)
+        
+        for (var i = 0; i < indices.count; i++)
+        {
+            guard let set = lineData.getDataSetByIndex(indices[i].dataSetIndex) as? ILineChartDataSet else { continue }
+            
+            if set.isHighlightCrossEnabled
+            {
+                
+                let xIndex = indices[i].xIndex; // get the x-position
+                
+                if (CGFloat(xIndex) > CGFloat(chartXMax) * animator.phaseX)
+                {
+                    continue
+                }
+                
+                let yValue = set.yValForXIndex(xIndex)
+                if (yValue.isNaN)
+                {
+                    continue
+                }
+                
+                let y = CGFloat(yValue) * animator.phaseY; // get the y-position
+                
+                _highlightPointBuffer.x = CGFloat(xIndex)
+                _highlightPointBuffer.y = y
+                
+                let trans = dataProvider?.getTransformer(set.axisDependency)
+
+                trans?.pointValueToPixel(&_highlightPointBuffer)
+                
+            }else{
+                continue
+            }
+            
+            let chartView = chart as! LineChartView
+            var point = pixelPoint
+            if point.y < viewPortHandler.contentTop
+            {
+                point.y = viewPortHandler.contentTop
+            }else if point.y > viewPortHandler.contentBottom
+            {
+                point.y = viewPortHandler.contentBottom
+            }
+            
+            
+            var ratio = (1 - (point.y - viewPortHandler.contentTop) / viewPortHandler.contentHeight)
+            if ratio > 1.0 {
+                ratio = 1.0
+            }else if ratio < 0.0 {
+                ratio = 0.0
+            }
+            //绘制背景
+            let leftRect = CGRectMake(0, point.y-14/2, viewPortHandler.contentLeft, 14)
+            let rightRect = CGRectMake(viewPortHandler.contentRight, point.y-14/2, chartView.bounds.size.width - viewPortHandler.contentRight, 14)
+            let path1 = CGPathCreateWithRoundedRect(leftRect, 3.0, 3.0, nil)
+            let path2 = CGPathCreateWithRoundedRect(rightRect, 3.0, 3.0, nil)
+            
+            CGContextBeginPath(context)
+            CGContextAddPath(context, path1)
+            CGContextAddPath(context, path2)
+            
+            // filled is usually drawn with less alpha
+            CGContextSetAlpha(context, 1.0)
+            
+            CGContextSetFillColorWithColor(context, UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.6).CGColor)
+            CGContextFillPath(context)
+            
+            //绘制文字
+            let leftValue = ratio * CGFloat( chartView.leftAxis.customAxisMax)
+            let leftText = NSString.init(format: "%d", Int(leftValue))
+            let paragraphStyle = NSMutableParagraphStyle.init()
+            paragraphStyle.alignment = .Right
+            
+            leftText.drawInRect(leftRect, withAttributes: [NSFontAttributeName: UIFont.boldSystemFontOfSize(11),NSForegroundColorAttributeName : UIColor.init(colorLiteralRed: 222/255.0, green: 222/255.0, blue: 222/255.0, alpha: 0.6),NSParagraphStyleAttributeName : paragraphStyle])
+
+
+            let rightValue = ratio * CGFloat(chartView.rightAxis.customAxisMax)
+            let rightText = NSString.init(format: "%.2f", rightValue)
+            
+            rightText.drawInRect(rightRect, withAttributes: [NSFontAttributeName: UIFont.boldSystemFontOfSize(11),NSForegroundColorAttributeName : UIColor.init(colorLiteralRed: 222/255.0, green: 222/255.0, blue: 222/255.0, alpha: 0.6)])
+            
+            
+            
+
+        }
+        
+        CGContextRestoreGState(context)
+    }
 }

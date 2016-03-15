@@ -77,7 +77,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
         }
         
         let rawInterval = range / Double(labelCount)
-        var interval = ChartUtils.roundToNextSignificant(number: Double(rawInterval))
+        var interval = yAxis.isRound ? ChartUtils.roundToNextSignificant(number: Double(rawInterval)) : rawInterval
         let intervalMagnitude = pow(10.0, round(log10(interval)))
         let intervalSigDigit = (interval / intervalMagnitude)
         if (intervalSigDigit > 5)

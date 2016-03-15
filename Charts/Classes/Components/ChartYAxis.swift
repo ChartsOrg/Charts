@@ -55,6 +55,18 @@ public class ChartYAxis: ChartAxisBase
     /// flag that indicates if the axis is inverted or not
     public var inverted = false
     
+    ///Y轴数字是否四舍五入
+    public var round = true
+    
+    public var isRound : Bool  {
+        set {
+            round = newValue
+        }
+        get {
+            return round;
+        }
+    }
+    
     /// This property is deprecated - Use `customAxisMin` instead.
     public var startAtZeroEnabled: Bool
     {

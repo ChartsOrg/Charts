@@ -105,10 +105,10 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         _leftAxisTransformer = ChartTransformer(viewPortHandler: _viewPortHandler)
         _rightAxisTransformer = ChartTransformer(viewPortHandler: _viewPortHandler)
-        
+
         _leftYAxisRenderer = ChartYAxisRenderer(viewPortHandler: _viewPortHandler, yAxis: _leftAxis, transformer: _leftAxisTransformer)
         _rightYAxisRenderer = ChartYAxisRenderer(viewPortHandler: _viewPortHandler, yAxis: _rightAxis, transformer: _rightAxisTransformer)
-        
+
         _xAxisRenderer = ChartXAxisRenderer(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer)
         
         self.highlighter = ChartHighlighter(chart: self)
@@ -151,10 +151,12 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         if (_xAxisRenderer !== nil)
         {
+            //计算x轴的范围
             _xAxisRenderer!.calcXBounds(chart: self, xAxisModulus: _xAxis.axisLabelModulus)
         }
         if (renderer !== nil)
         {
+            //计算图表范围
             renderer!.calcXBounds(chart: self, xAxisModulus: _xAxis.axisLabelModulus)
         }
 
@@ -169,7 +171,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         {
             _rightYAxisRenderer?.computeAxis(yMin: _rightAxis.axisMinimum, yMax: _rightAxis.axisMaximum)
         }
-        
+        //渲染轴线
         _xAxisRenderer?.renderAxisLine(context: context)
         _leftYAxisRenderer?.renderAxisLine(context: context)
         _rightYAxisRenderer?.renderAxisLine(context: context)
@@ -192,7 +194,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         // make sure the graph values and grid cannot be drawn outside the content-rect
         CGContextSaveGState(context)
-
+        //裁剪绘制图表区域
         CGContextClipToRect(context, _viewPortHandler.contentRect)
         
         if (_xAxis.isDrawLimitLinesBehindDataEnabled)
@@ -207,11 +209,11 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         {
             _rightYAxisRenderer?.renderLimitLines(context: context)
         }
-        
+        //渲染器绘制网格线？
         _xAxisRenderer?.renderGridLines(context: context)
         _leftYAxisRenderer?.renderGridLines(context: context)
         _rightYAxisRenderer?.renderGridLines(context: context)
-        
+        //渲染器绘制数据线？
         renderer?.drawData(context: context)
         
         if (!_xAxis.isDrawLimitLinesBehindDataEnabled)
@@ -226,30 +228,40 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         {
             _rightYAxisRenderer?.renderLimitLines(context: context)
         }
-
+        
+        var isHighlight = false
         // if highlighting is enabled
         if (valuesToHighlight())
         {
             renderer?.drawHighlighted(context: context, indices: _indicesToHighlight, pixelPoint : _crossHighlight)
+            isHighlight = true
         }
 
         // Removes clipping rectangle
+        //恢复绘制区域大小
         CGContextRestoreGState(context)
         
         renderer!.drawExtras(context: context)
-        
+        //渲染器绘制轴线上的文本
         _xAxisRenderer.renderAxisLabels(context: context)
         _leftYAxisRenderer.renderAxisLabels(context: context)
         _rightYAxisRenderer.renderAxisLabels(context: context)
+        
 
         renderer!.drawValues(context: context)
-
+        //图例渲染器绘制图例
         _legendRenderer.renderLegend(context: context)
         // drawLegend()
+        
+        //绘制十字线的数值
+        if isHighlight {
+            renderer?.drawHighlightIndicator(context: context, indices: _indicesToHighlight, pixelPoint: _crossHighlight, chart : self)
+        }
 
         drawMarkers(context: context)
 
         drawDescription(context: context)
+        
     }
     
     internal func prepareValuePxMatrix()
@@ -1595,6 +1607,15 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     public var isHighlightCrossDragEnabled: Bool
         {
             return highlightCrossDragEnabled
+    }
+    
+    /// 绘制十字线的指示器
+    public var drawCrossIndicatorEnabled = true
+    
+    /// **default**: true 十字线的Y轴数字
+    public var isDrawCrossIndicatorEnabled: Bool
+        {
+            return drawCrossIndicatorEnabled
     }
     
     /// **default**: true

@@ -41,10 +41,18 @@ public class ChartDataRendererBase: ChartRendererBase
     }
     
     /// Draws all highlight indicators for the values that are currently highlighted.
+    /// 绘制所有高亮的指示器
     ///
     /// - parameter indices: the highlighted values
     public func drawHighlighted(context context: CGContext, indices: [ChartHighlight], pixelPoint : CGPoint)
     {
         fatalError("drawHighlighted() cannot be called on ChartDataRendererBase")
     }
+    
+    ///绘制高亮指示器的文字
+    public func drawHighlightIndicator(context context: CGContext, indices: [ChartHighlight], pixelPoint : CGPoint, chart : ChartViewBase)
+    {
+        fatalError("drawHighlighted() cannot be called on ChartDataRendererBase")
+    }
+
 }

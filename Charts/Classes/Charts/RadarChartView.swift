@@ -37,6 +37,18 @@ public class RadarChartView: PieRadarChartViewBase
     /// flag indicating if the web lines should be drawn or not
     public var drawWeb = true
     
+    /// 绘制Y轴刻度
+    public var drawYLabels = true
+    
+    /// 绘制X轴刻度
+    public var drawXLabels = true
+    
+    /// 绘制连接点为一个圆
+    public var drawCircleEnabled = false
+    
+    /// 连接点圆圈的半径
+    public var drawCircleRadius : CGFloat = 4.0;
+    
     /// modulus that determines how many labels and web-lines are skipped before the next is drawn
     private var _skipWebLineCount = 0
     
@@ -150,15 +162,16 @@ public class RadarChartView: PieRadarChartViewBase
         let optionalContext = NSUIGraphicsGetCurrentContext()
         guard let context = optionalContext else { return }
         
-        _xAxisRenderer?.renderAxisLabels(context: context)
-
+        if drawXLabels {
+            _xAxisRenderer?.renderAxisLabels(context: context)
+        }
         if (drawWeb)
         {
             renderer!.drawExtras(context: context)
         }
         
         _yAxisRenderer.renderLimitLines(context: context)
-
+    
         renderer!.drawData(context: context)
 
         if (valuesToHighlight())
@@ -166,8 +179,10 @@ public class RadarChartView: PieRadarChartViewBase
             renderer!.drawHighlighted(context: context, indices: _indicesToHighlight, pixelPoint: CGPointZero)
         }
 
-        _yAxisRenderer.renderAxisLabels(context: context)
-
+        if drawYLabels {
+            _yAxisRenderer.renderAxisLabels(context: context)
+        }
+        
         renderer!.drawValues(context: context)
 
         _legendRenderer.renderLegend(context: context)

@@ -54,6 +54,14 @@ public class LineScatterCandleRadarChartRenderer: ChartDataRendererBase
             CGContextSetFillColorWithColor(context,  set.highlightColor.CGColor)
             CGContextFillPath(context)
             CGContextStrokePath(context)
+            
+//            let dataEntry = set.entryForXIndex(Int(point.x))
+//            let text = String(dataEntry?.xIndex) as NSString
+//            text.drawInRect(CGRectMake(viewPortHandler.contentLeft, point.y, 40, 20), withAttributes: [NSFontAttributeName: UIFont.boldSystemFontOfSize(14)])
+//            text.drawInRect(CGRectMake(viewPortHandler.contentRight-40, point.y, 40, 20), withAttributes: [NSFontAttributeName: UIFont.boldSystemFontOfSize(14)])
+            
         }
+        
+        
     }
 }

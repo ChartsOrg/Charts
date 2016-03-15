@@ -59,7 +59,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
     }
     
     /// Draws the RadarDataSet
-    ///
+    /// 绘制雷达图线条
     /// - parameter context:
     /// - parameter dataSet:
     /// - parameter mostEntries: the entry count of the dataset with the most entries
@@ -85,6 +85,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         let path = CGPathCreateMutable()
         var hasMovedToPoint = false
         
+        var circles = [CGPoint]()
         for (var j = 0; j < entryCount; j++)
         {
             guard let e = dataSet.entryForIndex(j) else { continue }
@@ -97,6 +98,11 @@ public class RadarChartRenderer: LineRadarChartRenderer
             if p.x.isNaN
             {
                 continue
+            }
+            
+            if chart.drawCircleEnabled
+            {
+                circles.append(p)
             }
             
             if !hasMovedToPoint
@@ -142,6 +148,24 @@ public class RadarChartRenderer: LineRadarChartRenderer
             CGContextBeginPath(context)
             CGContextAddPath(context, path)
             CGContextStrokePath(context)
+        }
+        
+        if chart.drawCircleEnabled
+        {
+            for (var j = 0; j < circles.count; j++)
+            {   
+                let p = circles[j]
+                
+                let radius = chart.drawCircleRadius
+//                let circle = CGRectMake(p.x - radius, p.y - radius, radius * 2, radius * 2)
+                
+                CGContextSetFillColorWithColor(context, UIColor.greenColor().CGColor)
+                CGContextSetRGBStrokeColor(context, 1, 0, 0, 1)
+                CGContextSetLineWidth(context, 2)
+                CGContextAddArc(context, p.x, p.y, radius, 0, CGFloat(M_PI * 2), 1)
+                CGContextDrawPath(context, .FillStroke)
+                
+            }
         }
         
         CGContextRestoreGState(context)
