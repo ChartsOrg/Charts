@@ -25,6 +25,10 @@ public class ChartDataEntry: NSObject
     /// optional spot for additional data this Entry represents
     public var data: AnyObject?
     
+    /// optional value to represent a more precise location on the x-axis than the standard xIndex
+    /// Not supported by all chart types
+    public var xNumericVal = Double(0.0)
+    
     public override required init()
     {
         super.init()
@@ -36,6 +40,15 @@ public class ChartDataEntry: NSObject
         
         self.value = value
         self.xIndex = xIndex
+    }
+    
+    public init(value: Double, xIndex: Int, xNumericVal: Double)
+    {
+        super.init()
+        
+        self.value = value
+        self.xIndex = xIndex
+        self.xNumericVal = xNumericVal
     }
     
     public init(value: Double, xIndex: Int, data: AnyObject?)
@@ -70,8 +83,13 @@ public class ChartDataEntry: NSObject
         {
             return false
         }
+
+        if (!ChartUtils.Math.equalDoubles(object!.xNumericVal, doubleB: xNumericVal))
+        {
+            return false
+        }
         
-        if (fabs(object!.value - value) > 0.00001)
+        if (!ChartUtils.Math.equalDoubles(object!.value, doubleB: value))
         {
             return false
         }
@@ -95,6 +113,7 @@ public class ChartDataEntry: NSObject
         copy.value = value
         copy.xIndex = xIndex
         copy.data = data
+        copy.xNumericVal = xNumericVal
         
         return copy
     }
@@ -118,6 +137,11 @@ public func ==(lhs: ChartDataEntry, rhs: ChartDataEntry) -> Bool
     }
     
     if (lhs.xIndex != rhs.xIndex)
+    {
+        return false
+    }
+    
+    if (fabs(lhs.xNumericVal - rhs.xNumericVal) > 0.00001)
     {
         return false
     }

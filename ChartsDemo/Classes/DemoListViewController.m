@@ -14,6 +14,7 @@
 #import "DemoListViewController.h"
 #import "LineChart1ViewController.h"
 #import "LineChart2ViewController.h"
+#import "TimeLineChartViewController.h"
 #import "BarChartViewController.h"
 #import "HorizontalBarChartViewController.h"
 #import "CombinedChartViewController.h"
@@ -52,6 +53,11 @@
                           @"title": @"Line Chart",
                           @"subtitle": @"A simple demonstration of the linechart.",
                           @"class": LineChart1ViewController.class
+                          },
+                      @{
+                          @"title": @"Time Line Chart",
+                          @"subtitle": @"A demonstration of the linechart using x-axis to represent time.",
+                          @"class": TimeLineChartViewController.class
                           },
                       @{
                           @"title": @"Line Chart (Dual YAxis)",
