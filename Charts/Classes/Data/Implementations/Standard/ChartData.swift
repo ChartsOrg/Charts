@@ -25,6 +25,10 @@ public class ChartData: NSObject
     internal var _rightAxisMin = Double(0.0)
     private var _yValCount = Int(0)
     
+    /// Note: xNumericVal is not supported by all chart types
+    internal var _xNumericValMax = Double(0.0)
+    internal var _xNumericValMin = Double(0.0)
+
     /// the last start value used for calcMinMax
     internal var _lastStart: Int = 0
     
@@ -153,6 +157,8 @@ public class ChartData: NSObject
         {
             _yMax = 0.0
             _yMin = 0.0
+            _xNumericValMax = 0.0
+            _xNumericValMin = 0.0
         }
         else
         {
@@ -161,6 +167,8 @@ public class ChartData: NSObject
             
             _yMin = DBL_MAX
             _yMax = -DBL_MAX
+            _xNumericValMin = DBL_MAX
+            _xNumericValMax = -DBL_MAX
             
             for (var i = 0; i < _dataSets.count; i++)
             {
@@ -175,12 +183,24 @@ public class ChartData: NSObject
                 {
                     _yMax = _dataSets[i].yMax
                 }
+                
+                if (_dataSets[i].xNumericValMin < _xNumericValMin)
+                {
+                    _xNumericValMin = _dataSets[i].xNumericValMin
+                }
+                
+                if (_dataSets[i].xNumericValMax > _xNumericValMax)
+                {
+                    _xNumericValMax = _dataSets[i].xNumericValMax
+                }
             }
             
             if (_yMin == DBL_MAX)
             {
                 _yMin = 0.0
                 _yMax = 0.0
+                _xNumericValMin = 0.0
+                _xNumericValMax = 0.0
             }
             
             // left axis
@@ -312,6 +332,30 @@ public class ChartData: NSObject
         {
             return _rightAxisMax
         }
+    }
+    
+    /// - returns: the smallest xNumericVal the data object contains.
+    /// Note: xNumericVal is not supported by all chart types
+    public var xNumericValMin: Double
+        {
+            return _xNumericValMin
+    }
+    
+    public func getXNumericValMin() -> Double
+    {
+        return _xNumericValMin
+    }
+    
+    /// - returns: the greatest xNumericVal the data object contains.
+    /// Note: xNumericVal is not supported by all chart types
+    public var xNumericValMax: Double
+        {
+            return _xNumericValMax
+    }
+    
+    public func getXNumericValMax() -> Double
+    {
+        return _xNumericValMax
     }
     
     /// - returns: the average length (in characters) across all values in the x-vals array
@@ -478,6 +522,8 @@ public class ChartData: NSObject
         {
             _yMax = d.yMax
             _yMin = d.yMin
+            _xNumericValMax = d.xNumericValMax
+            _xNumericValMin = d.xNumericValMin
             
             if (d.axisDependency == .Left)
             {
@@ -499,6 +545,14 @@ public class ChartData: NSObject
             if (_yMin > d.yMin)
             {
                 _yMin = d.yMin
+            }
+            if (_xNumericValMax < d.xNumericValMax)
+            {
+                _xNumericValMax = d.xNumericValMax
+            }
+            if (_xNumericValMin > d.xNumericValMin)
+            {
+                _xNumericValMin = d.xNumericValMin
             }
             
             if (d.axisDependency == .Left)
@@ -592,6 +646,7 @@ public class ChartData: NSObject
         if _dataSets != nil && _dataSets.count > dataSetIndex && dataSetIndex >= 0
         {
             let val = e.value
+            let xNumericVal = e.xNumericVal
             let set = _dataSets[dataSetIndex]
             
             if !set.addEntry(e) { return }
@@ -600,6 +655,8 @@ public class ChartData: NSObject
             {
                 _yMin = val
                 _yMax = val
+                _xNumericValMin = xNumericVal
+                _xNumericValMax = xNumericVal
                 
                 if (set.axisDependency == .Left)
                 {
@@ -621,6 +678,14 @@ public class ChartData: NSObject
                 if (_yMin > val)
                 {
                     _yMin = val
+                }
+                if (_xNumericValMax < xNumericVal)
+                {
+                    _xNumericValMax = xNumericVal
+                }
+                if (_xNumericValMin > xNumericVal)
+                {
+                    _xNumericValMin = xNumericVal
                 }
                 
                 if (set.axisDependency == .Left)

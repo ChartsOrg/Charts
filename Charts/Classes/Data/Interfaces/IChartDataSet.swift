@@ -34,11 +34,23 @@ public protocol IChartDataSet
     /// - returns: the maximum y-value this DataSet holds
     var yMax: Double { get }
     
+    /// - returns: the minimum xNumericVal this DataSet holds
+    /// Note: xNumericVal is not supported by all chart types
+    var xNumericValMin: Double { get }
+    
+    /// - returns: the maximum xNumericVal this DataSet holds
+    /// Note: xNumericVal is not supported by all chart types
+    var xNumericValMax: Double { get }
+    
     /// - returns: the number of y-values this DataSet represents
     var entryCount: Int { get }
     
     /// - returns: the value of the Entry object at the given xIndex. Returns NaN if no value is at the given x-index.
     func yValForXIndex(x: Int) -> Double
+    
+    /// - returns: the xNumericValue of the Entry object at the given xIndex. Returns NaN if no xNumericValue is at the given x-index.
+    /// Note: xNumericVal is not supported by all chart types
+    func xNumericValForXIndex(x: Int) -> Double
     
     /// - returns: the entry object found at the given index (not x-index!)
     /// - throws: out of bounds
