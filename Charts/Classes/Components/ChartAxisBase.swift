@@ -13,22 +13,23 @@
 //
 
 import Foundation
-import UIKit
+import CoreGraphics
 
 public class ChartAxisBase: ChartComponentBase
 {
-    public var labelFont = UIFont.systemFontOfSize(10.0)
-    public var labelTextColor = UIColor.blackColor()
+    public var labelFont = NSUIFont.systemFontOfSize(10.0)
+    public var labelTextColor = NSUIColor.blackColor()
     
-    public var axisLineColor = UIColor.grayColor()
+    public var axisLineColor = NSUIColor.grayColor()
     public var axisLineWidth = CGFloat(0.5)
     public var axisLineDashPhase = CGFloat(0.0)
     public var axisLineDashLengths: [CGFloat]!
     
-    public var gridColor = UIColor.grayColor().colorWithAlphaComponent(0.9)
+    public var gridColor = NSUIColor.grayColor().colorWithAlphaComponent(0.9)
     public var gridLineWidth = CGFloat(0.5)
     public var gridLineDashPhase = CGFloat(0.0)
     public var gridLineDashLengths: [CGFloat]!
+    public var gridLineCap = CGLineCap.Butt
     
     public var drawGridLinesEnabled = true
     public var drawAxisLineEnabled = true

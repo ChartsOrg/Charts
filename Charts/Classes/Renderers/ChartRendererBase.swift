@@ -20,10 +20,10 @@ public class ChartRendererBase: NSObject
     public var viewPortHandler: ChartViewPortHandler!
     
     /// the minimum value on the x-axis that should be plotted
-    internal var _minX: Int = 0
+    public var minX: Int = 0
     
     /// the maximum value on the x-axis that should be plotted
-    internal var _maxX: Int = 0
+    public var maxX: Int = 0
     
     public override init()
     {
@@ -35,19 +35,6 @@ public class ChartRendererBase: NSObject
         super.init()
         self.viewPortHandler = viewPortHandler
     }
-
-    /// - returns: true if the specified value fits in between the provided min and max bounds, false if not.
-    internal func fitsBounds(val: Double, min: Double, max: Double) -> Bool
-    {
-        if (val < min || val > max)
-        {
-            return false
-        }
-        else
-        {
-            return true
-        }
-    }
     
     /// Calculates the minimum and maximum x-value the chart can currently display (with the given zoom level).
     public func calcXBounds(chart chart: BarLineChartViewBase, xAxisModulus: Int)
@@ -57,8 +44,8 @@ public class ChartRendererBase: NSObject
         
         let subLow = (low % xAxisModulus == 0) ? xAxisModulus : 0
         
-        _minX = max((low / xAxisModulus) * (xAxisModulus) - subLow, 0)
-        _maxX = min((high / xAxisModulus) * (xAxisModulus) + xAxisModulus, Int(chart.chartXMax))
+        minX = max((low / xAxisModulus) * (xAxisModulus) - subLow, 0)
+        maxX = min((high / xAxisModulus) * (xAxisModulus) + xAxisModulus, Int(chart.chartXMax))
     }
 }
         

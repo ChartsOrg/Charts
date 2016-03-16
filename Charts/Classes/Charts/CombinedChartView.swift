@@ -38,7 +38,7 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
         self.highlighter = CombinedHighlighter(chart: self)
         
         /// WORKAROUND: Swift 2.0 compiler malfunctions when optimizations are enabled, and assigning directly to _fillFormatter causes a crash with a EXC_BAD_ACCESS. See https://github.com/danielgindi/ios-charts/issues/406
-        let workaroundFormatter = BarLineChartFillFormatter()
+        let workaroundFormatter = ChartDefaultFillFormatter()
         _fillFormatter = workaroundFormatter
         
         renderer = CombinedChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
@@ -47,15 +47,16 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
     override func calcMinMax()
     {
         super.calcMinMax()
+        guard let data = _data else { return }
         
         if (self.barData !== nil || self.candleData !== nil || self.bubbleData !== nil)
         {
             _chartXMin = -0.5
-            _chartXMax = Double(_data.xVals.count) - 0.5
+            _chartXMax = Double(data.xVals.count) - 0.5
             
             if (self.bubbleData !== nil)
             {
-                for set in self.bubbleData?.dataSets as! [BubbleChartDataSet]
+                for set in self.bubbleData?.dataSets as! [IBubbleChartDataSet]
                 {
                     let xmin = set.xMin
                     let xmax = set.xMax
@@ -105,7 +106,7 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
             _fillFormatter = newValue
             if (_fillFormatter == nil)
             {
-                _fillFormatter = BarLineChartFillFormatter()
+                _fillFormatter = ChartDefaultFillFormatter()
             }
         }
     }
@@ -196,7 +197,7 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
         set { (renderer as! CombinedChartRenderer!).drawValueAboveBarEnabled = newValue }
     }
     
-    /// if set to true, a grey area is darawn behind each bar that indicates the maximum value
+    /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     public var drawBarShadowEnabled: Bool
     {
         get { return (renderer as! CombinedChartRenderer!).drawBarShadowEnabled }
