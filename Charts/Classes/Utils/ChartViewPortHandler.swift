@@ -173,6 +173,12 @@ public class ChartViewPortHandler: NSObject
 
     // MARK: - Scaling/Panning etc.
     
+    /// Zooms by the specified zoom factors.
+    public func zoom(scaleX scaleX: CGFloat, scaleY: CGFloat) -> CGAffineTransform
+    {
+        return CGAffineTransformScale(_touchMatrix, scaleX, scaleY)
+    }
+    
     /// Zooms around the specified center
     public func zoom(scaleX scaleX: CGFloat, scaleY: CGFloat, x: CGFloat, y: CGFloat) -> CGAffineTransform
     {
@@ -194,6 +200,27 @@ public class ChartViewPortHandler: NSObject
         return zoom(scaleX: 0.7, scaleY: 0.7, x: x, y: y)
     }
     
+    /// Sets the scale factor to the specified values.
+    public func setZoom(scaleX scaleX: CGFloat, scaleY: CGFloat) -> CGAffineTransform
+    {
+        var matrix = _touchMatrix
+        matrix.a = scaleX
+        matrix.d = scaleY
+        return matrix
+    }
+    
+    /// Sets the scale factor to the specified values. x and y is pivot.
+    public func setZoom(scaleX scaleX: CGFloat, scaleY: CGFloat, x: CGFloat, y: CGFloat) -> CGAffineTransform
+    {
+        var matrix = _touchMatrix
+        matrix.a = 1.0
+        matrix.d = 1.0
+        matrix = CGAffineTransformTranslate(matrix, x, y)
+        matrix = CGAffineTransformScale(matrix, scaleX, scaleY)
+        matrix = CGAffineTransformTranslate(matrix, -x, -y)
+        return matrix
+    }
+    
     /// Resets all zooming and dragging and makes the chart fit exactly it's bounds.
     public func fitScreen() -> CGAffineTransform
     {
@@ -203,7 +230,20 @@ public class ChartViewPortHandler: NSObject
         return CGAffineTransformIdentity
     }
     
+    /// Translates to the specified point.
+    public func translate(pt pt: CGPoint) -> CGAffineTransform
+    {
+        let translateX = pt.x - offsetLeft
+        let translateY = pt.y - offsetTop
+        
+        let matrix = CGAffineTransformConcat(_touchMatrix, CGAffineTransformMakeTranslation(-translateX, -translateY))
+        
+        return matrix
+    }
+    
     /// Centers the viewport around the specified position (x-index and y-value) in the chart.
+    /// Centering the viewport outside the bounds of the chart is not possible.
+    /// Makes most sense in combination with the setScaleMinima(...) method.
     public func centerViewPort(pt pt: CGPoint, chart: ChartViewBase)
     {
         let translateX = pt.x - offsetLeft
@@ -230,7 +270,7 @@ public class ChartViewPortHandler: NSObject
     /// limits the maximum scale and X translation of the given matrix
     private func limitTransAndScale(inout matrix matrix: CGAffineTransform, content: CGRect?)
     {
-        // min scale-x is 1, max is the max CGFloat
+        // min scale-x is 1
         _scaleX = min(max(_minScaleX, matrix.a), _maxScaleX)
         
         // min scale-y is 1
@@ -247,12 +287,10 @@ public class ChartViewPortHandler: NSObject
         }
         
         let maxTransX = -width * (_scaleX - 1.0)
-        let newTransX = min(max(matrix.tx, maxTransX - _transOffsetX), _transOffsetX)
-        _transX = newTransX
+        _transX = min(max(matrix.tx, maxTransX - _transOffsetX), _transOffsetX)
         
         let maxTransY = height * (_scaleY - 1.0)
-        let newTransY = max(min(matrix.ty, maxTransY + _transOffsetY), -_transOffsetY)
-        _transY = newTransY
+        _transY = max(min(matrix.ty, maxTransY + _transOffsetY), -_transOffsetY)
         
         matrix.tx = _transX
         matrix.a = _scaleX
@@ -397,6 +435,30 @@ public class ChartViewPortHandler: NSObject
     public var scaleY: CGFloat
     {
         return _scaleY
+    }
+    
+    /// - returns: the minimum x-scale factor
+    public var minScaleX: CGFloat
+    {
+        return _minScaleX
+    }
+    
+    /// - returns: the minimum y-scale factor
+    public var minScaleY: CGFloat
+    {
+        return _minScaleY
+    }
+    
+    /// - returns: the minimum x-scale factor
+    public var maxScaleX: CGFloat
+    {
+        return _maxScaleX
+    }
+    
+    /// - returns: the minimum y-scale factor
+    public var maxScaleY: CGFloat
+    {
+        return _maxScaleY
     }
     
     /// - returns: the translation (drag / pan) distance on the x-axis

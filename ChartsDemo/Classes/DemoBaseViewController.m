@@ -76,6 +76,77 @@
     
 }
 
+#pragma mark - Common option actions
+
+- (void)handleOption:(NSString *)key forChartView:(ChartViewBase *)chartView
+{
+    if ([key isEqualToString:@"toggleValues"])
+    {
+        for (id<IChartDataSet> set in chartView.data.dataSets)
+        {
+            set.drawValuesEnabled = !set.isDrawValuesEnabled;
+        }
+        
+        [chartView setNeedsDisplay];
+    }
+    
+    if ([key isEqualToString:@"toggleHighlight"])
+    {
+        chartView.data.highlightEnabled = !chartView.data.isHighlightEnabled;
+        [chartView setNeedsDisplay];
+    }
+    
+    if ([key isEqualToString:@"animateX"])
+    {
+        [chartView animateWithXAxisDuration:3.0];
+    }
+    
+    if ([key isEqualToString:@"animateY"])
+    {
+        [chartView animateWithYAxisDuration:3.0];
+    }
+    
+    if ([key isEqualToString:@"animateXY"])
+    {
+        [chartView animateWithXAxisDuration:3.0 yAxisDuration:3.0];
+    }
+    
+    if ([key isEqualToString:@"saveToGallery"])
+    {
+        [chartView saveToCameraRoll];
+    }
+    
+    if ([key isEqualToString:@"togglePinchZoom"])
+    {
+        BarLineChartViewBase *barLineChart = (BarLineChartViewBase *)chartView;
+        barLineChart.pinchZoomEnabled = !barLineChart.isPinchZoomEnabled;
+        
+        [chartView setNeedsDisplay];
+    }
+    
+    if ([key isEqualToString:@"toggleAutoScaleMinMax"])
+    {
+        BarLineChartViewBase *barLineChart = (BarLineChartViewBase *)chartView;
+        barLineChart.autoScaleMinMaxEnabled = !barLineChart.isAutoScaleMinMaxEnabled;
+        
+        [chartView notifyDataSetChanged];
+    }
+    
+    if ([key isEqualToString:@"toggleHighlightArrow"])
+    {
+        BarChartView *barChart = (BarChartView *)chartView;
+        barChart.drawHighlightArrowEnabled = !barChart.isDrawHighlightArrowEnabled;
+        
+        [chartView setNeedsDisplay];
+    }
+    
+    if ([key isEqualToString:@"toggleData"])
+    {
+        _shouldHideData = !_shouldHideData;
+        [self updateChartData];
+    }
+}
+
 #pragma mark - Actions
 
 - (IBAction)optionsButtonTapped:(id)sender
@@ -178,6 +249,80 @@
         
         [self optionTapped:self.options[indexPath.row][@"key"]];
     }
+}
+
+#pragma mark - Stubs for chart view
+
+- (void)updateChartData
+{
+    // Override this
+}
+
+- (void)setupPieChartView:(PieChartView *)chartView
+{
+    chartView.usePercentValuesEnabled = YES;
+    chartView.drawSlicesUnderHoleEnabled = NO;
+    chartView.holeRadiusPercent = 0.58;
+    chartView.transparentCircleRadiusPercent = 0.61;
+    chartView.descriptionText = @"";
+    [chartView setExtraOffsetsWithLeft:5.f top:10.f right:5.f bottom:5.f];
+    
+    chartView.drawCenterTextEnabled = YES;
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSMutableAttributedString *centerText = [[NSMutableAttributedString alloc] initWithString:@"iOS Charts\nby Daniel Cohen Gindi"];
+    [centerText setAttributes:@{
+                                NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:12.f],
+                                NSParagraphStyleAttributeName: paragraphStyle
+                                } range:NSMakeRange(0, centerText.length)];
+    [centerText addAttributes:@{
+                                NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f],
+                                NSForegroundColorAttributeName: UIColor.grayColor
+                                } range:NSMakeRange(10, centerText.length - 10)];
+    [centerText addAttributes:@{
+                                NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-LightItalic" size:10.f],
+                                NSForegroundColorAttributeName: [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]
+                                } range:NSMakeRange(centerText.length - 19, 19)];
+    chartView.centerAttributedText = centerText;
+    
+    chartView.drawHoleEnabled = YES;
+    chartView.rotationAngle = 0.0;
+    chartView.rotationEnabled = YES;
+    chartView.highlightPerTapEnabled = YES;
+    
+    ChartLegend *l = chartView.legend;
+    l.position = ChartLegendPositionRightOfChart;
+    l.xEntrySpace = 7.0;
+    l.yEntrySpace = 0.0;
+    l.yOffset = 0.0;
+}
+
+- (void)setupRadarChartView:(RadarChartView *)chartView
+{
+    chartView.descriptionText = @"";
+    chartView.noDataTextDescription = @"You need to provide data for the chart.";
+}
+
+- (void)setupBarLineChartView:(BarLineChartViewBase *)chartView
+{
+    chartView.descriptionText = @"";
+    chartView.noDataTextDescription = @"You need to provide data for the chart.";
+    
+    chartView.drawGridBackgroundEnabled = NO;
+    
+    chartView.dragEnabled = YES;
+    [chartView setScaleEnabled:YES];
+    chartView.pinchZoomEnabled = NO;
+    
+    // ChartYAxis *leftAxis = chartView.leftAxis;
+    
+    ChartXAxis *xAxis = chartView.xAxis;
+    xAxis.labelPosition = XAxisLabelPositionBottom;
+    
+    chartView.rightAxis.enabled = NO;
 }
 
 @end

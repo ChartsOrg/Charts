@@ -131,6 +131,7 @@ public class BarChartHighlighter: ChartHighlighter
         }
 
         if let ranges = getRanges(entry: entry!)
+            where ranges.count > 0
         {
             let stackIndex = getClosestStackIndex(ranges: ranges, value: yValue)
             let h = ChartHighlight(xIndex: xIndex, dataSetIndex: dataSetIndex, stackIndex: stackIndex, range: ranges[stackIndex])
