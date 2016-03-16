@@ -54,6 +54,11 @@
                           @"class": LineChart1ViewController.class
                           },
                       @{
+                          @"title": @"Time Chart",
+                          @"subtitle": @"A demonstration of the linechart using x-axis to represent time.",
+                          @"class": LineChart1ViewController.class
+                          },
+                      @{
                           @"title": @"Line Chart (Dual YAxis)",
                           @"subtitle": @"Demonstration of the linechart with dual y-axis.",
                           @"class": LineChart2ViewController.class
