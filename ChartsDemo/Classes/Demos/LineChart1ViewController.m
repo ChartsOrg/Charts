@@ -165,6 +165,8 @@
     set1.fill = [ChartFill fillWithLinearGradient:gradient angle:90.f];
     set1.drawFilledEnabled = YES;
     
+    CGGradientRelease(gradient);
+    
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
     [dataSets addObject:set1];
     
