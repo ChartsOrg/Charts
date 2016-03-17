@@ -35,6 +35,7 @@
                      @{@"key": @"toggleYLabels", @"label": @"Toggle Y-Values"},
                      @{@"key": @"toggleRotate", @"label": @"Toggle Rotate"},
                      @{@"key": @"toggleFill", @"label": @"Toggle Fill"},
+                     @{@"key": @"toggleHighlightCircle", @"label": @"Toggle highlight circle"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
                      @{@"key": @"animateXY", @"label": @"Animate XY"},
@@ -153,12 +154,23 @@
         _chartView.rotationEnabled = !_chartView.isRotationEnabled;
         return;
     }
-
+    
     if ([key isEqualToString:@"toggleFill"])
     {
         for (RadarChartDataSet *set in _chartView.data.dataSets)
         {
             set.drawFilledEnabled = !set.isDrawFilledEnabled;
+        }
+        
+        [_chartView setNeedsDisplay];
+        return;
+    }
+    
+    if ([key isEqualToString:@"toggleHighlightCircle"])
+    {
+        for (RadarChartDataSet *set in _chartView.data.dataSets)
+        {
+            set.drawHighlightCircleEnabled = !set.drawHighlightCircleEnabled;
         }
         
         [_chartView setNeedsDisplay];
