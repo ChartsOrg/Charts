@@ -85,7 +85,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         let path = CGPathCreateMutable()
         var hasMovedToPoint = false
         
-        for (var j = 0; j < entryCount; j++)
+        for j in 0 ..< entryCount
         {
             guard let e = dataSet.entryForIndex(j) else { continue }
             
@@ -167,7 +167,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         let yoffset = CGFloat(5.0)
         
-        for (var i = 0, count = data.dataSetCount; i < count; i++)
+        for i in 0 ..< data.dataSetCount
         {
             let dataSet = data.getDataSetByIndex(i) as! IRadarChartDataSet
             
@@ -178,7 +178,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
             
             let entryCount = dataSet.entryCount
             
-            for (var j = 0; j < entryCount; j++)
+            for j in 0 ..< entryCount
             {
                 guard let e = dataSet.entryForIndex(j) else { continue }
                 
@@ -235,7 +235,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         let xIncrements = 1 + chart.skipWebLineCount
         
-        for var i = 0, xValCount = data.xValCount; i < xValCount; i += xIncrements
+        for i in 0.stride(to: data.xValCount, by: xIncrements)
         {
             let p = ChartUtils.getPosition(
                 center: center,
@@ -257,9 +257,9 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         let labelCount = chart.yAxis.entryCount
         
-        for (var j = 0; j < labelCount; j++)
+        for j in 0 ..< labelCount
         {
-            for (var i = 0, xValCount = data.xValCount; i < xValCount; i++)
+            for i in 0 ..< data.xValCount
             {
                 let r = CGFloat(chart.yAxis.entries[j] - chart.chartYMin) * factor
 
@@ -307,7 +307,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         let center = chart.centerOffsets
         
-        for (var i = 0; i < indices.count; i++)
+        for i in 0 ..< indices.count
         {
             guard let set = chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as? IRadarChartDataSet else { continue }
             

@@ -244,7 +244,7 @@ public class ChartYAxis: ChartAxisBase
     {
         var longest = ""
         
-        for (var i = 0; i < entries.count; i++)
+        for i in 0 ..< entries.count
         {
             let text = getFormattedLabel(i)
             
