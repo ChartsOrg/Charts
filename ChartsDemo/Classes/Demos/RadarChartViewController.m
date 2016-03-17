@@ -31,11 +31,11 @@
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
+                     @{@"key": @"toggleHighlightCircle", @"label": @"Toggle highlight circle"},
                      @{@"key": @"toggleXLabels", @"label": @"Toggle X-Values"},
                      @{@"key": @"toggleYLabels", @"label": @"Toggle Y-Values"},
                      @{@"key": @"toggleRotate", @"label": @"Toggle Rotate"},
                      @{@"key": @"toggleFill", @"label": @"Toggle Fill"},
-                     @{@"key": @"toggleHighlightCircle", @"label": @"Toggle highlight circle"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
                      @{@"key": @"animateXY", @"label": @"Animate XY"},
