@@ -158,6 +158,10 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             getTransformer(.Left).pointValueToPixel(&newPoint)
             viewPortHandler.centerViewPort(pt: newPoint, chart: self)
         }
+        else
+        {
+            viewPortHandler.refresh(newMatrix: viewPortHandler.touchMatrix, chart: self, invalidate: true)
+        }
     }
     
     public override func drawRect(rect: CGRect)
