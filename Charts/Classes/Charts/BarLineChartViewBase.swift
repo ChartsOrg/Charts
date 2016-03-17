@@ -53,7 +53,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     public var minOffset = CGFloat(10.0)
     
     /// Sets whether the chart should keep its position (zoom / scroll) after a rotation (orientation change)
-    /// - default: false
+    /// **default**: false
     public var keepPositionOnRotation: Bool = false
     
     /// the object representing the left y-axis

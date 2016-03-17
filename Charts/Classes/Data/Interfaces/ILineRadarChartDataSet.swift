@@ -25,11 +25,11 @@ public protocol ILineRadarChartDataSet: ILineScatterCandleRadarChartDataSet
     var fillColor: NSUIColor { get set }
 
     /// Returns the object that is used for filling the area below the line.
-    /// - default: nil
+    /// **default**: nil
     var fill: ChartFill? { get set }
     
     /// The alpha value that is used for filling the line surface.
-    /// - default: 0.33
+    /// **default**: 0.33
     var fillAlpha: CGFloat { get set }
     
     /// line width of the chart (min = 0.2, max = 10)

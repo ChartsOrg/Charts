@@ -137,7 +137,7 @@ public class ChartYAxis: ChartAxisBase
     public var minWidth = CGFloat(0)
     
     /// the maximum width that the axis can take.
-    /// use zero for disabling the maximum
+    /// use Infinity for disabling the maximum.
     /// 
     /// **default**: CGFloat.infinity
     public var maxWidth = CGFloat(CGFloat.infinity)
