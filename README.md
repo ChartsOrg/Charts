@@ -104,15 +104,15 @@ Features
  - Dragging / Panning (with touch-gesture)
  - Combined-Charts (line-, bar-, scatter-, candle-stick-, bubble-)
  - Dual (separate) Axes
- - Customizeable Axes (both x- and y-axis)
- - Highlighting values (with customizeable popup-views)
+ - Customizable Axes (both x- and y-axis)
+ - Highlighting values (with customizable popup-views)
  - Save chart to camera-roll / export to PNG/JPEG
  - Predefined color templates
- - Legends (generated automatically, customizeable)
- - Customizeable Axes (both x- and y-axis)
+ - Legends (generated automatically, customizable)
+ - Customizable Axes (both x- and y-axis)
  - Animations (build up animations, on both x- and y-axis)
  - Limit lines (providing additional information, maximums, ...)
- - Fully customizeable (paints, typefaces, legends, colors, background, gestures, dashed lines, ...)
+ - Fully customizable (paints, typefaces, legends, colors, background, gestures, dashed lines, ...)
  - Plotting data directly from [**Realm.io**](https://realm.io) mobile database
 
 **Chart types:**
