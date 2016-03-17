@@ -172,7 +172,6 @@
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
     [dataSets addObject:set1];
     
-    // TODO: switch to the new TimeLineChartData
     TimeLineChartData *data = [[TimeLineChartData alloc] initWithXVals:xVals dataSets:dataSets];
     
     _chartView.data = data;
