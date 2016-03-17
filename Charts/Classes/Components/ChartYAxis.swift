@@ -139,8 +139,8 @@ public class ChartYAxis: ChartAxisBase
     /// the maximum width that the axis can take.
     /// use zero for disabling the maximum
     /// 
-    /// **default**: 0.0 (no maximum specified)
-    public var maxWidth = CGFloat(0)
+    /// **default**: CGFloat.infinity
+    public var maxWidth = CGFloat(CGFloat.infinity)
     
     /// When true, axis labels are controlled by the `granularity` property.
     /// When false, axis values could possibly be repeated.
