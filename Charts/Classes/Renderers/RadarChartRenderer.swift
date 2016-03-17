@@ -345,10 +345,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
             
             if (set.isDrawHighlightCircleEnabled)
             {
-                let p = ChartUtils.getPosition(center: center, dist: CGFloat(y) * factor,
-                    angle: sliceangle * CGFloat(j) + chart.rotationAngle)
-                
-                if (!p.x.isNaN && !p.y.isNaN)
+                if (!_highlightPointBuffer.x.isNaN && !_highlightPointBuffer.y.isNaN)
                 {
                     var strokeColor = set.highlightCircleStrokeColor
                     if strokeColor == nil
@@ -362,7 +359,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
                     
                     drawHighlightCircle(
                         context: context,
-                        atPoint: p,
+                        atPoint: _highlightPointBuffer,
                         innerRadius: set.highlightCircleInnerRadius,
                         outerRadius: set.highlightCircleOuterRadius,
                         fillColor: set.highlightCircleFillColor,
