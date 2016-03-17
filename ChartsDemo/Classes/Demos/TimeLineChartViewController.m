@@ -16,7 +16,7 @@
 
 @interface TimeLineChartViewController () <ChartViewDelegate>
 
-@property (nonatomic, strong) IBOutlet LineChartView *chartView;
+@property (nonatomic, strong) IBOutlet TimeLineChartView *chartView;
 @property (nonatomic, strong) IBOutlet UISlider *sliderX;
 @property (nonatomic, strong) IBOutlet UISlider *sliderY;
 @property (nonatomic, strong) IBOutlet UITextField *sliderTextX;
@@ -139,10 +139,14 @@
     {
         double mult = (range + 1);
         double val = (double) (arc4random_uniform(mult)) + 3;
-        [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+        
+        // TODO: populate this with more realistic data
+        double xNumericVal = (double) i;
+        
+        [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i xNumericVal: xNumericVal]];
     }
     
-    LineChartDataSet *set1 = [[LineChartDataSet alloc] initWithYVals:yVals label:@"Time DataSet"];
+    TimeLineChartDataSet *set1 = [[TimeLineChartDataSet alloc] initWithYVals:yVals label:@"Time DataSet"];
     
     set1.lineDashLengths = @[@5.f, @2.5f];
     set1.highlightLineDashLengths = @[@5.f, @2.5f];
@@ -168,7 +172,8 @@
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
     [dataSets addObject:set1];
     
-    LineChartData *data = [[LineChartData alloc] initWithXVals:xVals dataSets:dataSets];
+    // TODO: switch to the new TimeLineChartData
+    TimeLineChartData *data = [[TimeLineChartData alloc] initWithXVals:xVals dataSets:dataSets];
     
     _chartView.data = data;
 }
