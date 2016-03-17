@@ -64,9 +64,6 @@ public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         }
     }
     
-    /// Line cap type, default is CGLineCap.Butt
-    public var lineCapType = CGLineCap.Butt
-    
     /// If true, cubic lines are drawn instead of linear
     public var drawCubicEnabled = false
     
@@ -133,6 +130,9 @@ public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     /// I.e. [2, 3] will paint [--   --   ]
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
     public var lineDashLengths: [CGFloat]?
+    
+    /// Line cap type, default is CGLineCap.Butt
+    public var lineCapType = CGLineCap.Butt
     
     /// formatter for customizing the position of the fill-line
     private var _fillFormatter: ChartFillFormatter = ChartDefaultFillFormatter()
