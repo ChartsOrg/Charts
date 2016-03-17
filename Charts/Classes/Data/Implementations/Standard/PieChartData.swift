@@ -30,11 +30,11 @@ public class PieChartData: ChartData
         super.init(xVals: xVals, dataSets: dataSets)
     }
 
-    var dataSet: PieChartDataSet?
+    var dataSet: IPieChartDataSet?
     {
         get
         {
-            return dataSets.count > 0 ? dataSets[0] as? PieChartDataSet : nil
+            return dataSets.count > 0 ? dataSets[0] as? IPieChartDataSet : nil
         }
         set
         {
