@@ -30,7 +30,7 @@ public class RealmRadarDataSet: RealmLineRadarDataSet, IRadarChartDataSet
     // MARK: - Styling functions and accessors
     
     /// flag indicating whether highlight circle should be drawn or not
-    /// - default: false
+    /// **default**: false
     public var drawHighlightCircleEnabled: Bool = false
     
     /// - returns: true if highlight circle should be drawn, false if not

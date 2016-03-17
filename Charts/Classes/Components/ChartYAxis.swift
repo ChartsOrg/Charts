@@ -137,10 +137,10 @@ public class ChartYAxis: ChartAxisBase
     public var minWidth = CGFloat(0)
     
     /// the maximum width that the axis can take.
-    /// use zero for disabling the maximum
+    /// use Infinity for disabling the maximum.
     /// 
-    /// **default**: 0.0 (no maximum specified)
-    public var maxWidth = CGFloat(0)
+    /// **default**: CGFloat.infinity
+    public var maxWidth = CGFloat(CGFloat.infinity)
     
     /// When true, axis labels are controlled by the `granularity` property.
     /// When false, axis values could possibly be repeated.
@@ -239,7 +239,7 @@ public class ChartYAxis: ChartAxisBase
     
     public func getRequiredHeightSpace() -> CGFloat
     {
-        return requiredSize().height + yOffset
+        return requiredSize().height
     }
 
     public override func getLongestLabel() -> String

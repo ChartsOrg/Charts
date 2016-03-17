@@ -393,7 +393,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     
     /// Set this to false to prevent values from being highlighted by tap gesture.
     /// Values can still be highlighted via drag or programmatically.
-    /// - default: true
+    /// **default**: true
     public var highlightPerTapEnabled: Bool
     {
         get { return _highlightPerTapEnabled }

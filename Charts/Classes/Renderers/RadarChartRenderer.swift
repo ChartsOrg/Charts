@@ -377,8 +377,8 @@ public class RadarChartRenderer: LineRadarChartRenderer
         atPoint point: CGPoint,
         innerRadius: CGFloat,
         outerRadius: CGFloat,
-        fillColor: UIColor?,
-        strokeColor: UIColor?,
+        fillColor: NSUIColor?,
+        strokeColor: NSUIColor?,
         strokeWidth: CGFloat)
     {
         CGContextSaveGState(context)

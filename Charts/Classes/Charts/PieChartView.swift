@@ -557,7 +557,7 @@ public class PieChartView: PieRadarChartViewBase
     
     /// The max angle that is used for calculating the pie-circle.
     /// 360 means it's a full pie-chart, 180 results in a half-pie-chart.
-    /// - default: 360.0
+    /// **default**: 360.0
     public var maxAngle: CGFloat
     {
         get
