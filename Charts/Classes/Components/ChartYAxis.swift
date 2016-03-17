@@ -239,7 +239,7 @@ public class ChartYAxis: ChartAxisBase
     
     public func getRequiredHeightSpace() -> CGFloat
     {
-        return requiredSize().height + yOffset
+        return requiredSize().height
     }
 
     public override func getLongestLabel() -> String
