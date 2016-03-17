@@ -64,6 +64,9 @@ public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         }
     }
     
+    /// Line cap type, default is CGLineCap.Butt
+    public var lineCapType = CGLineCap.Butt
+    
     /// If true, cubic lines are drawn instead of linear
     public var drawCubicEnabled = false
     

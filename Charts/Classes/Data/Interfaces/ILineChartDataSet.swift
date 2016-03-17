@@ -26,6 +26,9 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     /// **default**: 0.2
     var cubicIntensity: CGFloat { get set }
     
+    /// Line cap type, default is CGLineCap.Butt
+    var lineCapType: CGLineCap { get set }
+    
     /// If true, cubic lines are drawn instead of linear
     var drawCubicEnabled: Bool { get set }
     
