@@ -360,14 +360,13 @@ public class PieRadarChartViewBase: ChartViewBase
         fatalError("requiredBaseOffset cannot be called on PieRadarChartViewBase")
     }
     
-    public override var chartXMax: Double
+    public override var chartYMax: Double
     {
         return 0.0
     }
     
-    public override var chartXMin: Double
+    public override var chartYMin: Double
     {
-        getSelectionDetailsAtIndex(1);
         return 0.0
     }
     
