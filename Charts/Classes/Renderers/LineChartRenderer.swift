@@ -134,18 +134,6 @@ public class LineChartRenderer: LineRadarChartRenderer
             // let the spline start
             CGPathMoveToPoint(cubicPath, &valueToPixelMatrix, CGFloat(cur.xIndex), CGFloat(cur.value) * phaseY)
             
-            prevDx = CGFloat(cur.xIndex - prev.xIndex) * intensity
-            prevDy = CGFloat(cur.value - prev.value) * intensity
-            
-            curDx = CGFloat(next.xIndex - cur.xIndex) * intensity
-            curDy = CGFloat(next.value - cur.value) * intensity
-            
-            // the first cubic
-            CGPathAddCurveToPoint(cubicPath, &valueToPixelMatrix,
-                CGFloat(prev.xIndex) + prevDx, (CGFloat(prev.value) + prevDy) * phaseY,
-                CGFloat(cur.xIndex) - curDx, (CGFloat(cur.value) - curDy) * phaseY,
-                CGFloat(cur.xIndex), CGFloat(cur.value) * phaseY)
-            
             for (var j = minx + 1, count = min(size, entryCount - 1); j < count; j++)
             {
                 prevPrev = prev
