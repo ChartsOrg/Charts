@@ -52,7 +52,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// Sets the minimum offset (padding) around the chart, defaults to 10
     public var minOffset = CGFloat(10.0)
     
-    /// flag indicating if the chart should stay at the same position after a rotation or not. Default is false.
+    /// Sets whether the chart should keep its position (zoom / scroll) after a rotation (orientation change)
+    /// - default: false
     public var keepPositionOnRotation: Bool = false
     
     /// the object representing the left y-axis
@@ -140,7 +141,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     
     public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>)
     {
-        //Saving current position of chart.
+        // Saving current position of chart.
         var oldPoint: CGPoint?
         if (keepPositionOnRotation && (keyPath == "frame" || keyPath == "bounds"))
         {
@@ -148,10 +149,10 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             getTransformer(.Left).pixelToValue(&oldPoint!)
         }
         
-        //Superclass transforms chart.
+        // Superclass transforms chart.
         super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
         
-        //Restoring old position of chart
+        // Restoring old position of chart
         if var newPoint = oldPoint where keepPositionOnRotation
         {
             getTransformer(.Left).pointValueToPixel(&newPoint)
