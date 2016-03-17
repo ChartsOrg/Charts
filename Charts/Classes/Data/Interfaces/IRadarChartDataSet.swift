@@ -28,7 +28,7 @@ public protocol IRadarChartDataSet: ILineRadarChartDataSet
     var highlightCircleFillColor: UIColor? { get set }
     
     /// The stroke color for highlight circle.
-    /// If `nil`, the the color of the dataset is taken.
+    /// If `nil`, the color of the dataset is taken.
     var highlightCircleStrokeColor: UIColor? { get set }
     
     var highlightCircleStrokeAlpha: CGFloat { get set }

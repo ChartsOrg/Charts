@@ -33,12 +33,13 @@ public class RealmRadarDataSet: RealmLineRadarDataSet, IRadarChartDataSet
     /// - default: false
     public var drawHighlightCircleEnabled: Bool = false
     
+    /// - returns: true if highlight circle should be drawn, false if not
     public var isDrawHighlightCircleEnabled: Bool { return drawHighlightCircleEnabled }
     
     public var highlightCircleFillColor: UIColor? = UIColor.whiteColor()
     
     /// The stroke color for highlight circle.
-    /// If `nil`, the the color of the dataset is taken.
+    /// If `nil`, the color of the dataset is taken.
     public var highlightCircleStrokeColor: UIColor?
     
     public var highlightCircleStrokeAlpha: CGFloat = 0.3
