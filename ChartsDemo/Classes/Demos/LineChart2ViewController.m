@@ -78,14 +78,14 @@
     leftAxis.customAxisMin = 0.0;
     leftAxis.drawGridLinesEnabled = YES;
     leftAxis.drawZeroLineEnabled = NO;
-    leftAxis.allowRepeatedValues = NO;
+    leftAxis.granularityEnabled = YES;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.labelTextColor = UIColor.redColor;
     rightAxis.customAxisMax = 900.0;
     rightAxis.customAxisMin = -200.0;
     rightAxis.drawGridLinesEnabled = NO;
-    rightAxis.allowRepeatedValues = YES;
+    rightAxis.granularityEnabled = NO;
     
     _sliderX.value = 19.0;
     _sliderY.value = 30.0;

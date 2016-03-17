@@ -76,12 +76,18 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             return
         }
         
+        // Find out how much spacing (in y value space) between axis values
         let rawInterval = range / Double(labelCount)
         var interval = ChartUtils.roundToNextSignificant(number: Double(rawInterval))
-        if !yAxis.allowRepeatedValues
+        
+        // If granularity is enabled, then do not allow the interval to go below specified granularity.
+        // This is used to avoid repeated values when rounding values for display.
+        if yAxis.granularityEnabled
         {
             interval = interval < yAxis.granuality ? yAxis.granuality : interval
         }
+        
+        // Normalize interval
         let intervalMagnitude = pow(10.0, round(log10(interval)))
         let intervalSigDigit = (interval / intervalMagnitude)
         if (intervalSigDigit > 5)

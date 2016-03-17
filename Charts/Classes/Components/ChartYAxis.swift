@@ -142,12 +142,15 @@ public class ChartYAxis: ChartAxisBase
     /// **default**: 0.0 (no maximum specified)
     public var maxWidth = CGFloat(0)
     
-    /// if true, axis values will be repeated
-    public var allowRepeatedValues = false
+    /// When true, axis labels are controlled by the `granularity` property.
+    /// When false, axis values could possibly be repeated.
+    /// This could happen if two adjacent axis values are rounded to same value.
+    /// If using granularity this could be avoided by having fewer axis values visible.
+    public var granularityEnabled = true
     
-    /// the minimum diference value of the axis values
+    /// the minimum interval between axis values
     ///
-    /// **default**: 1
+    /// **default**: 1.0
     public var granuality = Double(1.0)
     
     public override init()
