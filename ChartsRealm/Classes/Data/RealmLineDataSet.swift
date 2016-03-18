@@ -121,6 +121,9 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
     public var lineDashLengths: [CGFloat]?
     
+    /// Line cap type, default is CGLineCap.Butt
+    public var lineCapType = CGLineCap.Butt
+    
     /// formatter for customizing the position of the fill-line
     private var _fillFormatter: ChartFillFormatter = ChartDefaultFillFormatter()
     

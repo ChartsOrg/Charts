@@ -342,6 +342,67 @@ public class RadarChartRenderer: LineRadarChartRenderer
             
             // draw the lines
             drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)
+            
+            if (set.isDrawHighlightCircleEnabled)
+            {
+                if (!_highlightPointBuffer.x.isNaN && !_highlightPointBuffer.y.isNaN)
+                {
+                    var strokeColor = set.highlightCircleStrokeColor
+                    if strokeColor == nil
+                    {
+                        strokeColor = set.colorAt(0)
+                    }
+                    if set.highlightCircleStrokeAlpha < 1.0
+                    {
+                        strokeColor = strokeColor?.colorWithAlphaComponent(set.highlightCircleStrokeAlpha)
+                    }
+                    
+                    drawHighlightCircle(
+                        context: context,
+                        atPoint: _highlightPointBuffer,
+                        innerRadius: set.highlightCircleInnerRadius,
+                        outerRadius: set.highlightCircleOuterRadius,
+                        fillColor: set.highlightCircleFillColor,
+                        strokeColor: strokeColor,
+                        strokeWidth: set.highlightCircleStrokeWidth)
+                }
+            }
+        }
+        
+        CGContextRestoreGState(context)
+    }
+    
+    internal func drawHighlightCircle(
+        context context: CGContext,
+        atPoint point: CGPoint,
+        innerRadius: CGFloat,
+        outerRadius: CGFloat,
+        fillColor: NSUIColor?,
+        strokeColor: NSUIColor?,
+        strokeWidth: CGFloat)
+    {
+        CGContextSaveGState(context)
+        
+        if let fillColor = fillColor
+        {
+            CGContextBeginPath(context)
+            CGContextAddEllipseInRect(context, CGRectMake(point.x - outerRadius, point.y - outerRadius, outerRadius * 2.0, outerRadius * 2.0))
+            if innerRadius > 0.0
+            {
+                CGContextAddEllipseInRect(context, CGRectMake(point.x - innerRadius, point.y - innerRadius, innerRadius * 2.0, innerRadius * 2.0))
+            }
+            
+            CGContextSetFillColorWithColor(context, fillColor.CGColor)
+            CGContextEOFillPath(context)
+        }
+            
+        if let strokeColor = strokeColor
+        {
+            CGContextBeginPath(context)
+            CGContextAddEllipseInRect(context, CGRectMake(point.x - outerRadius, point.y - outerRadius, outerRadius * 2.0, outerRadius * 2.0))
+            CGContextSetStrokeColorWithColor(context, strokeColor.CGColor)
+            CGContextSetLineWidth(context, strokeWidth)
+            CGContextStrokePath(context)
         }
         
         CGContextRestoreGState(context)

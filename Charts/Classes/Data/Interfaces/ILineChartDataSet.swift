@@ -77,6 +77,9 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
     var lineDashLengths: [CGFloat]? { get set }
     
+    /// Line cap type, default is CGLineCap.Butt
+    var lineCapType: CGLineCap { get set }
+    
     /// Sets a custom FillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
     var fillFormatter: ChartFillFormatter? { get set }
 }
