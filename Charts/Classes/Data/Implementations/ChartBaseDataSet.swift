@@ -61,6 +61,18 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         fatalError("yMax is not implemented in ChartBaseDataSet")
     }
     
+    /// Note: xNumericVal is not supported by all chart types
+    public var xNumericValMin: Double
+        {
+            fatalError("xNumericValMin is not implemented in ChartBaseDataSet")
+    }
+    
+    /// Note: xNumericVal is not supported by all chart types
+    public var xNumericValMax: Double
+        {
+            fatalError("xNumericValMax is not implemented in ChartBaseDataSet")
+    }
+    
     public var entryCount: Int
     {
         fatalError("entryCount is not implemented in ChartBaseDataSet")
