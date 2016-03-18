@@ -140,6 +140,16 @@ public class ChartDataSet: ChartBaseDataSet
         else { return Double.NaN }
     }
     
+    /// - returns: the xNumericValue of the Entry object at the given xIndex. Returns NaN if no xNumericValue is at the given x-index.
+    /// Note: not all chart types support xNumericVal
+    public override func xNumericValForXIndex(x: Int) -> Double
+    {
+        let e = self.entryForXIndex(x)
+        
+        if (e !== nil && e!.xIndex == x) { return e!.xNumericVal }
+        else { return Double.NaN }
+    }
+
     /// - returns: the entry object found at the given index (not x-index!)
     /// - throws: out of bounds
     /// if `i` is out of bounds, it may throw an out-of-bounds exception

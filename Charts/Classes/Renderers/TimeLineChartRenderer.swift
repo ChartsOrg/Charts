@@ -19,38 +19,34 @@ import CoreGraphics
 #endif
 
 // TODO: So much duplication with LineChartRenderer because we need access to the extra xNumericMin/Max data.  Definite refactoring needed.
-public class TimeLineChartRenderer: LineRadarChartRenderer
+public class TimeLineChartRenderer: LineChartRenderer
 {
-    public weak var dataProvider: TimeLineChartDataProvider?
-    
-    public init(dataProvider: TimeLineChartDataProvider?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
+    public override init(dataProvider: LineChartDataProvider?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
-        super.init(animator: animator, viewPortHandler: viewPortHandler)
-        
-        self.dataProvider = dataProvider
+        super.init(dataProvider: dataProvider, animator: animator, viewPortHandler: viewPortHandler)
     }
 
     public override func drawData(context context: CGContext)
     {
-        guard let timeLineData = dataProvider?.timeLineData else { return }
+        guard let lineData = dataProvider?.lineData else { return }
         
-        for (var i = 0; i < timeLineData.dataSetCount; i++)
+        for (var i = 0; i < lineData.dataSetCount; i++)
         {
-            guard let set = timeLineData.getDataSetByIndex(i) else { continue }
+            guard let set = lineData.getDataSetByIndex(i) else { continue }
             
             if set.isVisible
             {
-                if !(set is ITimeLineChartDataSet)
+                if !(set is ILineChartDataSet)
                 {
-                    fatalError("Datasets for TimeLineChartRenderer must conform to ITimeLineChartDataSet")
+                    fatalError("Datasets for TimeLineChartRenderer must conform to ILineChartDataSet")
                 }
                 
-                drawDataSet(context: context, dataSet: set as! ITimeLineChartDataSet)
+                drawDataSet(context: context, dataSet: set as! ILineChartDataSet)
             }
         }
     }
     
-    public func drawDataSet(context context: CGContext, dataSet: ITimeLineChartDataSet)
+    public override func drawDataSet(context context: CGContext, dataSet: ILineChartDataSet)
     {
         let entryCount = dataSet.entryCount
         
@@ -84,7 +80,7 @@ public class TimeLineChartRenderer: LineRadarChartRenderer
         CGContextRestoreGState(context)
     }
     
-    public func drawCubic(context context: CGContext, dataSet: ITimeLineChartDataSet)
+    public override func drawCubic(context context: CGContext, dataSet: ILineChartDataSet)
     {
         guard let
             trans = dataProvider?.getTransformer(dataSet.axisDependency),
@@ -204,7 +200,7 @@ public class TimeLineChartRenderer: LineRadarChartRenderer
         CGContextRestoreGState(context)
     }
     
-    public func drawCubicFill(context context: CGContext, dataSet: ITimeLineChartDataSet, spline: CGMutablePath, matrix: CGAffineTransform, from: Int, to: Int)
+    public override func drawCubicFill(context context: CGContext, dataSet: ILineChartDataSet, spline: CGMutablePath, matrix: CGAffineTransform, from: Int, to: Int)
     {
         guard let dataProvider = dataProvider else { return }
         
@@ -242,7 +238,7 @@ public class TimeLineChartRenderer: LineRadarChartRenderer
     
     private var _lineSegments = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    public func drawLinear(context context: CGContext, dataSet: ITimeLineChartDataSet)
+    public override func drawLinear(context context: CGContext, dataSet: ILineChartDataSet)
     {
         guard let
             trans = dataProvider?.getTransformer(dataSet.axisDependency),
@@ -402,7 +398,7 @@ public class TimeLineChartRenderer: LineRadarChartRenderer
         }
     }
     
-    public func drawLinearFill(context context: CGContext, dataSet: ITimeLineChartDataSet, minx: Int, maxx: Int, trans: ChartTransformer)
+    public override func drawLinearFill(context context: CGContext, dataSet: ILineChartDataSet, minx: Int, maxx: Int, trans: ChartTransformer)
     {
         guard let dataProvider = dataProvider else { return }
         
@@ -424,7 +420,9 @@ public class TimeLineChartRenderer: LineRadarChartRenderer
     }
     
     /// Generates the path that is used for filled drawing.
-    private func generateFilledPath(dataSet dataSet: ITimeLineChartDataSet, fillMin: CGFloat, from: Int, to: Int, var matrix: CGAffineTransform) -> CGPath
+    /// TODO: when refactoring this to get ride of code duplication this is one of the first places to look since its an exact duplication
+    /// of a private function in LineChartRenderer
+    private func generateFilledPath(dataSet dataSet: ILineChartDataSet, fillMin: CGFloat, from: Int, to: Int, var matrix: CGAffineTransform) -> CGPath
     {
         let phaseX = animator?.phaseX ?? 1.0
         let phaseY = animator?.phaseY ?? 1.0
@@ -470,13 +468,13 @@ public class TimeLineChartRenderer: LineRadarChartRenderer
     {
         guard let
             dataProvider = dataProvider,
-            timeLineData = dataProvider.timeLineData,
+            lineData = dataProvider.lineData,
             animator = animator
             else { return }
         
-        if (CGFloat(timeLineData.yValCount) < CGFloat(dataProvider.maxVisibleValueCount) * viewPortHandler.scaleX)
+        if (CGFloat(lineData.yValCount) < CGFloat(dataProvider.maxVisibleValueCount) * viewPortHandler.scaleX)
         {
-            var dataSets = timeLineData.dataSets
+            var dataSets = lineData.dataSets
             
             let phaseX = animator.phaseX
             let phaseY = animator.phaseY
@@ -485,7 +483,7 @@ public class TimeLineChartRenderer: LineRadarChartRenderer
             
             for (var i = 0; i < dataSets.count; i++)
             {
-                guard let dataSet = dataSets[i] as? ITimeLineChartDataSet else { continue }
+                guard let dataSet = dataSets[i] as? ILineChartDataSet else { continue }
                 
                 if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
                 {
@@ -557,14 +555,14 @@ public class TimeLineChartRenderer: LineRadarChartRenderer
     {
         guard let
             dataProvider = dataProvider,
-            timeLineData = dataProvider.timeLineData,
+            lineData = dataProvider.lineData,
             animator = animator
             else { return }
         
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
         
-        let dataSets = timeLineData.dataSets
+        let dataSets = lineData.dataSets
         
         var pt = CGPoint()
         var rect = CGRect()
@@ -573,7 +571,7 @@ public class TimeLineChartRenderer: LineRadarChartRenderer
         
         for (var i = 0, count = dataSets.count; i < count; i++)
         {
-            guard let dataSet = timeLineData.getDataSetByIndex(i) as? ITimeLineChartDataSet else { continue }
+            guard let dataSet = lineData.getDataSetByIndex(i) as? ILineChartDataSet else { continue }
             
             if !dataSet.isVisible || !dataSet.isDrawCirclesEnabled || dataSet.entryCount == 0
             {
@@ -648,7 +646,7 @@ public class TimeLineChartRenderer: LineRadarChartRenderer
     public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
     {
         guard let
-            timeLineData = dataProvider?.timeLineData,
+            lineData = dataProvider?.lineData,
             chartXMax = dataProvider?.chartXMax,
             animator = animator
             else { return }
@@ -657,7 +655,7 @@ public class TimeLineChartRenderer: LineRadarChartRenderer
         
         for (var i = 0; i < indices.count; i++)
         {
-            guard let set = timeLineData.getDataSetByIndex(indices[i].dataSetIndex) as? ITimeLineChartDataSet else { continue }
+            guard let set = lineData.getDataSetByIndex(indices[i].dataSetIndex) as? ILineChartDataSet else { continue }
             
             if !set.isHighlightEnabled
             {

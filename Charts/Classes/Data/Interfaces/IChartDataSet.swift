@@ -40,6 +40,9 @@ public protocol IChartDataSet
     /// - returns: the value of the Entry object at the given xIndex. Returns NaN if no value is at the given x-index.
     func yValForXIndex(x: Int) -> Double
     
+    /// - returns: the xNumericValue of the Entry object at the given xIndex. Returns NaN if no xNumericValue is at the given x-index.
+    func xNumericValForXIndex(x: Int) -> Double
+    
     /// - returns: the entry object found at the given index (not x-index!)
     /// - throws: out of bounds
     /// if `i` is out of bounds, it may throw an out-of-bounds exception

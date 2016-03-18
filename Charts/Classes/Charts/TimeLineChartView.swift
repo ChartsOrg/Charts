@@ -15,7 +15,7 @@ import Foundation
 import CoreGraphics
 
 /// Chart that do all that line charts do and also support using the x axis to represent time
-public class TimeLineChartView: LineChartView, TimeLineChartDataProvider
+public class TimeLineChartView: LineChartView
 {
     internal override func initialize()
     {
@@ -35,8 +35,4 @@ public class TimeLineChartView: LineChartView, TimeLineChartDataProvider
             _deltaX = 1.0
         }
     }
-    
-    // MARK: - TimeLineChartDataProvider
-    
-    public var timeLineData: TimeLineChartData? { return _data as? TimeLineChartData }
 }

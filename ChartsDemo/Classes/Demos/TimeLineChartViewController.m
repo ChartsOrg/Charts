@@ -146,7 +146,7 @@
         [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i xNumericVal: xNumericVal]];
     }
     
-    TimeLineChartDataSet *set1 = [[TimeLineChartDataSet alloc] initWithYVals:yVals label:@"Time DataSet"];
+    LineChartDataSet *set1 = [[LineChartDataSet alloc] initWithYVals:yVals label:@"Time DataSet"];
     
     set1.lineDashLengths = @[@5.f, @2.5f];
     set1.highlightLineDashLengths = @[@5.f, @2.5f];
@@ -172,7 +172,7 @@
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
     [dataSets addObject:set1];
     
-    TimeLineChartData *data = [[TimeLineChartData alloc] initWithXVals:xVals dataSets:dataSets];
+    LineChartData *data = [[LineChartData alloc] initWithXVals:xVals dataSets:dataSets];
     
     _chartView.data = data;
 }
