@@ -137,6 +137,8 @@ public class PieChartRenderer: ChartDataRendererBase
                 if (!chart.needsHighlight(xIndex: e.xIndex,
                     dataSetIndex: data.indexOfDataSet(dataSet)))
                 {
+                    let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
+                    
                     CGContextSetFillColorWithColor(context, dataSet.colorAt(j).CGColor)
                     
                     let sliceSpaceAngleOuter = visibleAngleCount == 1 ?
@@ -169,9 +171,9 @@ public class PieChartRenderer: ChartDataRendererBase
                         sweepAngleOuter * ChartUtils.Math.FDEG2RAD)
 
                     if drawInnerArc &&
-                        (innerRadius > 0.0 || sliceSpace > 0.0)
+                        (innerRadius > 0.0 || accountForSliceSpacing)
                     {
-                        if sliceSpace > 0.0
+                        if accountForSliceSpacing
                         {
                             var minSpacedRadius = calculateMinimumRadiusForSpacedSlice(
                                 center: center,
@@ -185,7 +187,7 @@ public class PieChartRenderer: ChartDataRendererBase
                             {
                                 minSpacedRadius = -minSpacedRadius
                             }
-                            innerRadius = max(innerRadius, minSpacedRadius)
+                            innerRadius = min(max(innerRadius, minSpacedRadius), radius)
                         }
                         
                         let sliceSpaceAngleInner = visibleAngleCount == 1 || innerRadius == 0.0 ?
@@ -215,7 +217,7 @@ public class PieChartRenderer: ChartDataRendererBase
                     }
                     else
                     {
-                        if sliceSpace > 0.0
+                        if accountForSliceSpacing
                         {
                             let angleMiddle = startAngleOuter + sweepAngleOuter / 2.0
                             
@@ -577,6 +579,8 @@ public class PieChartRenderer: ChartDataRendererBase
             let shift = set.selectionShift
             let highlightedRadius = radius + shift
             
+            let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
+            
             CGContextSetFillColorWithColor(context, set.colorAt(xIndex).CGColor)
             
             let sliceSpaceAngleOuter = visibleAngleCount == 1 ?
@@ -618,7 +622,7 @@ public class PieChartRenderer: ChartDataRendererBase
                 sweepAngleShifted * ChartUtils.Math.FDEG2RAD)
             
             var sliceSpaceRadius: CGFloat = 0.0
-            if sliceSpace > 0.0
+            if accountForSliceSpacing
             {
                 sliceSpaceRadius = calculateMinimumRadiusForSpacedSlice(
                     center: center,
@@ -631,16 +635,16 @@ public class PieChartRenderer: ChartDataRendererBase
             }
             
             if drawInnerArc &&
-                (innerRadius > 0.0 || sliceSpace > 0.0)
+                (innerRadius > 0.0 || accountForSliceSpacing)
             {
-                if sliceSpace > 0.0
+                if accountForSliceSpacing
                 {
                     var minSpacedRadius = sliceSpaceRadius
                     if minSpacedRadius < 0.0
                     {
                         minSpacedRadius = -minSpacedRadius
                     }
-                    innerRadius = max(innerRadius, minSpacedRadius)
+                    innerRadius = min(max(innerRadius, minSpacedRadius), radius)
                 }
                 
                 let sliceSpaceAngleInner = visibleAngleCount == 1 || innerRadius == 0.0 ?
@@ -670,7 +674,7 @@ public class PieChartRenderer: ChartDataRendererBase
             }
             else
             {
-                if sliceSpace > 0.0
+                if accountForSliceSpacing
                 {
                     let angleMiddle = startAngleOuter + sweepAngleOuter / 2.0
                     

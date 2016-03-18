@@ -51,8 +51,8 @@
     
     [self setupBarLineChartView:_chartView];
     
-    _chartView.leftAxis.axisMaximum = 150.f;
-    _chartView.leftAxis.axisMinimum = 0.f;
+    _chartView.leftAxis.customAxisMax = 150.f;
+    _chartView.leftAxis.customAxisMin = 0.f;
     _chartView.leftAxis.drawGridLinesEnabled = NO;
     _chartView.xAxis.drawGridLinesEnabled = NO;
     

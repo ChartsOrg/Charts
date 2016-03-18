@@ -104,11 +104,9 @@ public class ChartYAxis: ChartAxisBase
     /// A custom minimum value for this axis. 
     /// If set, this value will not be calculated automatically depending on the provided data. 
     /// Use `resetCustomAxisMin()` to undo this.
-    /// Do not forget to set startAtZeroEnabled = false if you use this method.
-    /// Otherwise, the axis-minimum value will still be forced to 0.
     public var customAxisMin = Double.NaN
         
-    /// Set a custom maximum value for this axis. 
+    /// A custom maximum value for this axis. 
     /// If set, this value will not be calculated automatically depending on the provided data. 
     /// Use `resetCustomAxisMax()` to undo this.
     public var customAxisMax = Double.NaN
