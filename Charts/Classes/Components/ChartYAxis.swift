@@ -79,7 +79,7 @@ public class ChartYAxis: ChartAxisBase
     public var forceLabelsEnabled = false
 
     /// flag that indicates if the zero-line should be drawn regardless of other grid lines
-    public var drawZeroLineEnabled = true
+    public var drawZeroLineEnabled = false
     
     /// Color of the zero line
     public var zeroLineColor: NSUIColor? = NSUIColor.grayColor()
