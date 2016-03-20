@@ -95,6 +95,8 @@
 		65BF12B11BFC9B00005C28D9 /* RealmLineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BF12AF1BFC9B00005C28D9 /* RealmLineChartViewController.xib */; };
 		65BF12B61BFC9B50005C28D9 /* RealmBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65BF12B41BFC9B50005C28D9 /* RealmBarChartViewController.m */; };
 		65BF12B71BFC9B50005C28D9 /* RealmBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BF12B51BFC9B50005C28D9 /* RealmBarChartViewController.xib */; };
+		900B36EE1C9A26DA007EDCB9 /* TimeLineChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900B36EC1C9A26DA007EDCB9 /* TimeLineChartViewController.m */; };
+		900B36EF1C9A26DA007EDCB9 /* TimeLineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900B36ED1C9A26DA007EDCB9 /* TimeLineChartViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -298,6 +300,9 @@
 		65BF12B31BFC9B50005C28D9 /* RealmBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealmBarChartViewController.h; sourceTree = "<group>"; };
 		65BF12B41BFC9B50005C28D9 /* RealmBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealmBarChartViewController.m; sourceTree = "<group>"; };
 		65BF12B51BFC9B50005C28D9 /* RealmBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RealmBarChartViewController.xib; sourceTree = "<group>"; };
+		900B36EB1C9A26DA007EDCB9 /* TimeLineChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeLineChartViewController.h; sourceTree = "<group>"; };
+		900B36EC1C9A26DA007EDCB9 /* TimeLineChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeLineChartViewController.m; sourceTree = "<group>"; };
+		900B36ED1C9A26DA007EDCB9 /* TimeLineChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimeLineChartViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -397,8 +402,8 @@
 			children = (
 				5B8E087E1C635B5200438BAF /* Charts.framework */,
 				5B8E08801C635B5200438BAF /* Charts.framework */,
-				5B8E08821C635B5200438BAF /* ChartsTests.xctest */,
 				65B3F6571C73B4F6000983D0 /* Charts.framework */,
+				5B8E08821C635B5200438BAF /* ChartsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -435,6 +440,9 @@
 		5BD8F06F1AB89C7100566E05 /* Demos */ = {
 			isa = PBXGroup;
 			children = (
+				900B36EB1C9A26DA007EDCB9 /* TimeLineChartViewController.h */,
+				900B36EC1C9A26DA007EDCB9 /* TimeLineChartViewController.m */,
+				900B36ED1C9A26DA007EDCB9 /* TimeLineChartViewController.xib */,
 				5BEAED0F1ABBFB2B0013F194 /* AnotherBarChartViewController.h */,
 				5BEAED101ABBFB2B0013F194 /* AnotherBarChartViewController.m */,
 				5BEAED111ABBFB2B0013F194 /* AnotherBarChartViewController.xib */,
@@ -702,6 +710,7 @@
 				5BD47E661ABB424E008FCEC6 /* BarChartViewController.xib in Resources */,
 				5BDEDC421ABB7F73007D3A60 /* HorizontalBarChartViewController.xib in Resources */,
 				5B4AC19F1C4C19340028D1A6 /* RealmWikiExampleChartViewController.xib in Resources */,
+				900B36EF1C9A26DA007EDCB9 /* TimeLineChartViewController.xib in Resources */,
 				5BDEDC481ABB871E007D3A60 /* CombinedChartViewController.xib in Resources */,
 				5B7B3AD91C437CBC001C109B /* RealmDemoListViewController.xib in Resources */,
 				5B4316371AB8D8B70009FCAA /* Default-736h@3x.png in Resources */,
@@ -739,6 +748,7 @@
 				5B4AC14C1C47E7250028D1A6 /* RealmBubbleChartViewController.m in Sources */,
 				65BF125A1BFBC6EE005C28D9 /* RealmDemoBaseViewController.m in Sources */,
 				5BEAED251ABC0BE20013F194 /* MultipleBarChartViewController.m in Sources */,
+				900B36EE1C9A26DA007EDCB9 /* TimeLineChartViewController.m in Sources */,
 				5B57BBB81A9B26AA0036A6CC /* AppDelegate.m in Sources */,
 				5B7B3AD81C437CBC001C109B /* RealmDemoListViewController.m in Sources */,
 				55E356511ADC638F00A57971 /* BubbleChartViewController.m in Sources */,
@@ -864,6 +874,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = ../ChartsRealm/ThirdParty/Realm/ios;
 				INFOPLIST_FILE = "Supporting Files/Info.plist";
@@ -881,6 +892,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = ../ChartsRealm/ThirdParty/Realm/ios;
 				INFOPLIST_FILE = "Supporting Files/Info.plist";

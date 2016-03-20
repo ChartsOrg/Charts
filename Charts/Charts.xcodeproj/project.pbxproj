@@ -300,6 +300,8 @@
 		65F06FAE1BE826010074498D /* IPieChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06FAC1BE826010074498D /* IPieChartDataSet.swift */; };
 		65F06FB01BE826090074498D /* IRadarChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06FAF1BE826090074498D /* IRadarChartDataSet.swift */; };
 		65F06FB11BE826090074498D /* IRadarChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06FAF1BE826090074498D /* IRadarChartDataSet.swift */; };
+		900B37061C9A7566007EDCB9 /* TimeLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900B37051C9A7566007EDCB9 /* TimeLineChartView.swift */; };
+		900B370A1C9A787A007EDCB9 /* TimeLineChartRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900B37091C9A787A007EDCB9 /* TimeLineChartRenderer.swift */; };
 		A52C5C3F1BAC5D1100594CDD /* ChartAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A546D1AA5D2DC000F57C2 /* ChartAnimator.swift */; };
 		A52C5C401BAC5D1100594CDD /* ChartAnimationEasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B378F161AD500A4009414A4 /* ChartAnimationEasing.swift */; };
 		A52C5C411BAC5D1100594CDD /* BarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54981AA66B14000F57C2 /* BarChartView.swift */; };
@@ -506,6 +508,8 @@
 		65F06FA91BE818AA0074498D /* IBarChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IBarChartDataSet.swift; sourceTree = "<group>"; };
 		65F06FAC1BE826010074498D /* IPieChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPieChartDataSet.swift; sourceTree = "<group>"; };
 		65F06FAF1BE826090074498D /* IRadarChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IRadarChartDataSet.swift; sourceTree = "<group>"; };
+		900B37051C9A7566007EDCB9 /* TimeLineChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeLineChartView.swift; sourceTree = "<group>"; };
+		900B37091C9A787A007EDCB9 /* TimeLineChartRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeLineChartRenderer.swift; sourceTree = "<group>"; };
 		A52C5C371BAC5CA400594CDD /* Charts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Charts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDC77DC51C0A991A00C27BCF /* BarChartTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -603,6 +607,7 @@
 		5B759ED41A9F98A90039D97F /* Renderers */ = {
 			isa = PBXGroup;
 			children = (
+				900B37091C9A787A007EDCB9 /* TimeLineChartRenderer.swift */,
 				5B6A54961AA66AD2000F57C2 /* BarChartRenderer.swift */,
 				55E3565A1ADC63EB00A57971 /* BubbleChartRenderer.swift */,
 				5B6A54941AA66AC0000F57C2 /* CandleStickChartRenderer.swift */,
@@ -681,6 +686,7 @@
 		5BA8EC661A9D151C00CE82E1 /* Charts */ = {
 			isa = PBXGroup;
 			children = (
+				900B37051C9A7566007EDCB9 /* TimeLineChartView.swift */,
 				5B6A54981AA66B14000F57C2 /* BarChartView.swift */,
 				5B6A549A1AA66B2C000F57C2 /* BarLineChartViewBase.swift */,
 				55E356521ADC63BF00A57971 /* BubbleChartView.swift */,
@@ -1039,6 +1045,7 @@
 				5B6A548B1AA66A3D000F57C2 /* LineChartRenderer.swift in Sources */,
 				5B6A54821AA5DF34000F57C2 /* ChartYAxisRendererRadarChart.swift in Sources */,
 				659400B81BF463C1004F9C27 /* ChartDataEntry.swift in Sources */,
+				900B370A1C9A787A007EDCB9 /* TimeLineChartRenderer.swift in Sources */,
 				5BCAA74A1C7CAA4E00F83F3B /* ChartViewPortJob.swift in Sources */,
 				5BD4C5821BCDBF6C00462351 /* ScatterChartDataProvider.swift in Sources */,
 				5B6A54931AA66AAB000F57C2 /* CombinedChartRenderer.swift in Sources */,
@@ -1101,6 +1108,7 @@
 				5B4AC1CD1C58F55B0028D1A6 /* LineRadarChartRenderer.swift in Sources */,
 				5BCAA7531C7CB03900F83F3B /* AnimatedMoveViewJob.swift in Sources */,
 				65F06F9E1BE814800074498D /* IScatterChartDataSet.swift in Sources */,
+				900B37061C9A7566007EDCB9 /* TimeLineChartView.swift in Sources */,
 				5BD4C57E1BCDBF6C00462351 /* BubbleChartDataProvider.swift in Sources */,
 				5B6A54971AA66AD2000F57C2 /* BarChartRenderer.swift in Sources */,
 				659400CA1BF463C2004F9C27 /* RadarChartData.swift in Sources */,
@@ -1445,6 +1453,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1492,6 +1501,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_NS_ASSERTIONS = NO;

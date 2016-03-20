@@ -29,6 +29,17 @@ public class ChartUtils
         internal static let FRAD2DEG = CGFloat(180.0 / M_PI)
         internal static let DEG2RAD = M_PI / 180.0
         internal static let RAD2DEG = 180.0 / M_PI
+        internal static let EPSILON = 0.00001
+        
+        internal static func equalDoubles(doubleA: Double, doubleB: Double) -> Bool {
+            
+            if (fabs(doubleA - doubleB) > ChartUtils.Math.EPSILON)
+            {
+                return false
+            }
+            
+            return true
+        }
     }
     
     internal class func roundToNextSignificant(number number: Double) -> Double
