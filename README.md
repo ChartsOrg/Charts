@@ -1,7 +1,8 @@
 **Version 2.2.3**, synced to [MPAndroidChart #5f51623](https://github.com/PhilJay/MPAndroidChart/commit/5f51623)
 
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
-  ![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/danielgindi/ios-charts.svg)](https://github.com/danielgindi/ios-charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Build Status](https://travis-ci.org/danielgindi/ios-charts.svg?branch=master)](https://travis-ci.org/danielgindi/ios-charts)
+  ![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/danielgindi/ios-charts.svg)](https://github.com/danielgindi/ios-charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Build Status](https://travis-ci.org/danielgindi/ios-charts.svg?branch=master)](https://travis-ci.org/danielgindi/ios-charts) 
+[![Join the chat at https://gitter.im/danielgindi/ios-charts](https://badges.gitter.im/danielgindi/ios-charts.svg)](https://gitter.im/danielgindi/ios-charts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 * Xcode 7 / Swift 2.0
 * iOS 7.0 (Drag .swift files to your project)
@@ -16,8 +17,6 @@ I've chosen to write it in `Swift` as it can be highly optimized by the compiler
 **An amazing feature** of this library now, for Android, iOS, tvOS and OSX, is the time it saves you when developing for both platforms, as the learning curve is singleton- it happens only once, and the code stays very similar so developers don't have to go around and re-invent the app to produce the same output with a different library. (And that's not even considering the fact that there's not really another good choice out there currently...)
 
 ## Usage
-
-[![Join the chat at https://gitter.im/danielgindi/ios-charts](https://badges.gitter.im/danielgindi/ios-charts.svg)](https://gitter.im/danielgindi/ios-charts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 In order to correctly compile:
 
