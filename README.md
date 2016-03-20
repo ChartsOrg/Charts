@@ -17,6 +17,8 @@ I've chosen to write it in `Swift` as it can be highly optimized by the compiler
 
 ## Usage
 
+[![Join the chat at https://gitter.im/danielgindi/ios-charts](https://badges.gitter.im/danielgindi/ios-charts.svg)](https://gitter.im/danielgindi/ios-charts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 In order to correctly compile:
 
 1. Drag the `Charts.xcodeproj` to your project  
