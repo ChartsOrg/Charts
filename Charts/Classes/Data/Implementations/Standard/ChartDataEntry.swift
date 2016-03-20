@@ -84,12 +84,12 @@ public class ChartDataEntry: NSObject
             return false
         }
 
-        if (fabs(object!.xNumericVal - xNumericVal) > 0.00001)
+        if (!ChartUtils.Math.equalDoubles(object!.xNumericVal, doubleB: xNumericVal))
         {
             return false
         }
         
-        if (fabs(object!.value - value) > 0.00001)
+        if (!ChartUtils.Math.equalDoubles(object!.value, doubleB: value))
         {
             return false
         }
