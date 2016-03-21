@@ -59,7 +59,7 @@ public class BarChartRenderer: ChartDataRendererBase
         
         CGContextSaveGState(context)
         
-        let trans = dataProvider.getTransformer(dataSet.axisDependency)
+        let trans = dataProvider.getBarChartTransformer(dataSet.axisDependency)
         
         let drawBarShadowEnabled: Bool = dataProvider.isDrawBarShadowEnabled
         let dataSetOffset = (barData.dataSetCount - 1)
@@ -306,7 +306,7 @@ public class BarChartRenderer: ChartDataRendererBase
                 
                 guard let formatter = dataSet.valueFormatter else { continue }
                 
-                let trans = dataProvider.getTransformer(dataSet.axisDependency)
+                let trans = dataProvider.getBarChartTransformer(dataSet.axisDependency)
                 
                 let phaseY = animator.phaseY
                 let dataSetCount = barData.dataSetCount
@@ -488,13 +488,13 @@ public class BarChartRenderer: ChartDataRendererBase
             
             let barspaceHalf = set.barSpace / 2.0
             
-            let trans = dataProvider.getTransformer(set.axisDependency)
+            let trans = dataProvider.getBarChartTransformer(set.axisDependency)
             
             CGContextSetFillColorWithColor(context, set.highlightColor.CGColor)
             CGContextSetAlpha(context, set.highlightAlpha)
             
             // check outofbounds
-            if (CGFloat(index) < (CGFloat(dataProvider.chartXMax) * animator.phaseX) / CGFloat(setCount))
+            if (CGFloat(index) < (CGFloat(dataProvider.barChartXMax) * animator.phaseX) / CGFloat(setCount))
             {
                 let e = set.entryForXIndex(index) as! BarChartDataEntry!
                 

@@ -17,6 +17,7 @@
 #import "BarChartViewController.h"
 #import "HorizontalBarChartViewController.h"
 #import "CombinedChartViewController.h"
+#import "GroupedCombinedChartViewController.h"
 #import "PieChartViewController.h"
 #import "ScatterChartViewController.h"
 #import "StackedBarChartViewController.h"
@@ -72,6 +73,11 @@
                           @"title": @"Combined Chart",
                           @"subtitle": @"Demonstrates how to create a combined chart (bar and line in this case).",
                           @"class": CombinedChartViewController.class
+                          },
+                      @{
+                          @"title": @"Grouped Combined Chart",
+                          @"subtitle": @"Demonstrates how to create a grouped combined chart (bar and line in this case).",
+                          @"class": GroupedCombinedChartViewController.class
                           },
                       @{
                           @"title": @"Pie Chart",

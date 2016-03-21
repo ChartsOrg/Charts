@@ -20,6 +20,16 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
     /// the fill-formatter used for determining the position of the fill-line
     internal var _fillFormatter: ChartFillFormatter!
     
+    internal var _barChartXMax = Double(0.0)
+    internal var _barChartXMin = Double(0.0)
+    internal var _barChartDeltaX = CGFloat(0.0)
+    
+    internal var _barChartLeftYAxisRenderer: ChartYAxisRenderer!
+    internal var _barChartRightYAxisRenderer: ChartYAxisRenderer!
+    
+    internal var _barChartLeftAxisTransformer: ChartTransformer!
+    internal var _barChartRightAxisTransformer: ChartTransformer!
+    
     /// enum that allows to specify the order in which the different data objects for the combined-chart are drawn
     @objc
     public enum CombinedChartDrawOrder: Int
@@ -40,6 +50,12 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
         /// WORKAROUND: Swift 2.0 compiler malfunctions when optimizations are enabled, and assigning directly to _fillFormatter causes a crash with a EXC_BAD_ACCESS. See https://github.com/danielgindi/ios-charts/issues/406
         let workaroundFormatter = ChartDefaultFillFormatter()
         _fillFormatter = workaroundFormatter
+        
+        _barChartLeftAxisTransformer = ChartTransformer(viewPortHandler: _viewPortHandler)
+        _barChartRightAxisTransformer = ChartTransformer(viewPortHandler: _viewPortHandler)
+        
+        _barChartLeftYAxisRenderer = ChartYAxisRenderer(viewPortHandler: _viewPortHandler, yAxis: _leftAxis, transformer: _leftAxisTransformer)
+        _barChartRightYAxisRenderer = ChartYAxisRenderer(viewPortHandler: _viewPortHandler, yAxis: _rightAxis, transformer: _rightAxisTransformer)
         
         renderer = CombinedChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
     }
@@ -72,6 +88,26 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
                     }
                 }
             }
+            
+            if (self.barData !== nil)
+            {
+                let barData = self.barData
+                
+                _barChartXMin = _chartXMin
+                _barChartXMax = _chartXMax
+                _barChartDeltaX = _deltaX
+                // increase deltax by 1 because the bars have a width of 1
+                _barChartDeltaX += 0.5
+                
+                // extend xDelta to make space for multiple datasets (if ther are one)
+                _barChartDeltaX *= CGFloat(barData!.dataSetCount)
+                
+                let maxEntry = _data.xValCount
+                
+                let groupSpace = barData!.groupSpace
+                _barChartDeltaX += CGFloat(maxEntry) * groupSpace
+                _barChartXMax = Double(_barChartDeltaX) - _barChartXMin
+            }
         }
         
         _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
@@ -80,6 +116,78 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
         {
             _deltaX = 1.0
         }
+    }
+    
+    internal override func prepareValuePxMatrix()
+    {
+        super.prepareValuePxMatrix()
+        
+        _barChartRightAxisTransformer.prepareMatrixValuePx(chartXMin: _barChartXMin, deltaX: _barChartDeltaX, deltaY: CGFloat(_rightAxis.axisRange), chartYMin: _rightAxis.axisMinimum)
+        _barChartLeftAxisTransformer.prepareMatrixValuePx(chartXMin: _barChartXMin, deltaX: _barChartDeltaX, deltaY: CGFloat(_leftAxis.axisRange), chartYMin: _leftAxis.axisMinimum)
+    }
+    
+    internal override func prepareOffsetMatrix()
+    {
+        super.prepareOffsetMatrix()
+        
+        _barChartRightAxisTransformer.prepareMatrixOffset(_rightAxis.isInverted)
+        _barChartLeftAxisTransformer.prepareMatrixOffset(_leftAxis.isInverted)
+    }
+    
+    /// Returns the Transformer class that contains all matrices and is
+    /// responsible for transforming values into pixels on the screen and
+    /// backwards.
+    public func getBarChartTransformer(which: ChartYAxis.AxisDependency) -> ChartTransformer
+    {
+        if (which == .Left)
+        {
+            return _barChartLeftAxisTransformer
+        }
+        else
+        {
+            return _barChartRightAxisTransformer
+        }
+    }
+    
+    public override func getMarkerPosition(entry e: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
+    {
+        let dataSetIndex = highlight.dataSetIndex
+        let dataSet = _data.getDataSetByIndex(dataSetIndex)
+        var xPos = CGFloat(e.xIndex)
+        var yPos = e.value
+        
+        if (dataSet!.dynamicType === BarChartDataSet.self)
+        {
+            let bd = (_data as! CombinedChartData).barData
+            let space = bd.groupSpace
+            
+            let barDataSetIndex = bd.indexOfDataSet(dataSet)
+            
+            let x = CGFloat(e.xIndex * (bd.dataSetCount - 1) + barDataSetIndex) + space * CGFloat(e.xIndex) + space / 2.0
+            
+            xPos += x
+            
+            if let barEntry = e as? BarChartDataEntry
+            {
+                if barEntry.values != nil && highlight.range !== nil
+                {
+                    yPos = highlight.range!.to
+                }
+            }
+        }
+        
+        var pt = CGPoint(x: xPos, y: CGFloat(yPos) * _animator.phaseY)
+        
+        if (dataSet!.dynamicType === BarChartDataSet.self)
+        {
+            getBarChartTransformer(_data.getDataSetByIndex(dataSetIndex)!.axisDependency).pointValueToPixel(&pt)
+        }
+        else
+        {
+            getTransformer(_data.getDataSetByIndex(dataSetIndex)!.axisDependency).pointValueToPixel(&pt)
+        }
+        
+        return pt
     }
     
     public override var data: ChartData?
@@ -137,6 +245,16 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
             }
             return (_data as! CombinedChartData!).barData
         }
+    }
+    
+    public var barChartXMax: Double
+        {
+            return _barChartXMax
+    }
+    
+    public var barChartXMin: Double
+        {
+            return _barChartXMin
     }
     
     // MARK: - ScatterChartDataProvider

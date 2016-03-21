@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		13D38A461B708CE1009D4C4D /* GroupedCombinedChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13D38A451B708CE1009D4C4D /* GroupedCombinedChartViewController.m */; };
 		55E356501ADC638F00A57971 /* BubbleChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55E3564D1ADC638F00A57971 /* BubbleChartViewController.xib */; };
 		55E356511ADC638F00A57971 /* BubbleChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E3564F1ADC638F00A57971 /* BubbleChartViewController.m */; };
 		5B0CC7851ABB875400665592 /* PieChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CC7831ABB875400665592 /* PieChartViewController.m */; };
@@ -173,6 +174,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		13D38A441B708CE1009D4C4D /* GroupedCombinedChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupedCombinedChartViewController.h; sourceTree = "<group>"; };
+		13D38A451B708CE1009D4C4D /* GroupedCombinedChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupedCombinedChartViewController.m; sourceTree = "<group>"; };
 		55E3564D1ADC638F00A57971 /* BubbleChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BubbleChartViewController.xib; sourceTree = "<group>"; };
 		55E3564E1ADC638F00A57971 /* BubbleChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BubbleChartViewController.h; sourceTree = "<group>"; };
 		55E3564F1ADC638F00A57971 /* BubbleChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BubbleChartViewController.m; sourceTree = "<group>"; };
@@ -453,6 +456,8 @@
 				5BDEDC441ABB871E007D3A60 /* CombinedChartViewController.h */,
 				5BDEDC451ABB871E007D3A60 /* CombinedChartViewController.m */,
 				5BDEDC461ABB871E007D3A60 /* CombinedChartViewController.xib */,
+				13D38A441B708CE1009D4C4D /* GroupedCombinedChartViewController.h */,
+				13D38A451B708CE1009D4C4D /* GroupedCombinedChartViewController.m */,
 				5BEAED2E1ABC18F00013F194 /* CubicLineChartViewController.h */,
 				5BEAED2F1ABC18F00013F194 /* CubicLineChartViewController.m */,
 				5BEAED301ABC18F00013F194 /* CubicLineChartViewController.xib */,
@@ -762,6 +767,7 @@
 				5BEAED361ABC192F0013F194 /* RadarChartViewController.m in Sources */,
 				5B6654D11BB0A36F00890030 /* MyCustomXValueFormatter.m in Sources */,
 				5B9624411B38608C007763E2 /* NegativeStackedBarChartViewController.m in Sources */,
+				13D38A461B708CE1009D4C4D /* GroupedCombinedChartViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -154,6 +154,21 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
     
     // MARK: - BarChartDataProbider
     
+    public func getBarChartTransformer(which: ChartYAxis.AxisDependency) -> ChartTransformer
+    {
+        return super.getTransformer(which)
+    }
+    
+    public var barChartXMax: Double
+        {
+            return _chartXMax
+    }
+    
+    public var barChartXMin: Double
+        {
+            return _chartXMin
+    }
+    
     public var barData: BarChartData? { return _data as? BarChartData }
     
     /// - returns: true if drawing the highlighting arrow is enabled, false if not
