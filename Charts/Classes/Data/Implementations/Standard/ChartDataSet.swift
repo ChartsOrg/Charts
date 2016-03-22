@@ -58,6 +58,10 @@ public class ChartDataSet: ChartBaseDataSet
     internal var _yMax = Double(0.0)
     internal var _yMin = Double(0.0)
     
+    /// Note: xNumericVal is not supported by all chart types
+    internal var _xNumericValMax = Double(0.0)
+    internal var _xNumericValMin = Double(0.0)
+
     /// the last start value used for calcMinMax
     internal var _lastStart: Int = 0
     
@@ -97,6 +101,8 @@ public class ChartDataSet: ChartBaseDataSet
         
         _yMin = DBL_MAX
         _yMax = -DBL_MAX
+        _xNumericValMin = DBL_MAX
+        _xNumericValMax = -DBL_MAX
         
         for (var i = start; i <= endValue; i++)
         {
@@ -112,6 +118,14 @@ public class ChartDataSet: ChartBaseDataSet
                 {
                     _yMax = e.value
                 }
+                if (e.xNumericVal < _xNumericValMin)
+                {
+                    _xNumericValMin = e.xNumericVal
+                }
+                if (e.xNumericVal > _xNumericValMax)
+                {
+                    _xNumericValMax = e.xNumericVal
+                }
             }
         }
         
@@ -119,6 +133,8 @@ public class ChartDataSet: ChartBaseDataSet
         {
             _yMin = 0.0
             _yMax = 0.0
+            _xNumericValMin = 0.0
+            _xNumericValMax = 0.0
         }
     }
     
@@ -127,6 +143,14 @@ public class ChartDataSet: ChartBaseDataSet
     
     /// - returns: the maximum y-value this DataSet holds
     public override var yMax: Double { return _yMax }
+    
+    /// - returns: the minimum xNumericVal this DataSet holds
+    /// Note: xNumericVal is not supported by all chart types
+    public override var xNumericValMin: Double { return _xNumericValMin }
+    
+    /// - returns: the maximum xNumericVal this DataSet holds
+    /// Note: xNumericVal is not supported by all chart types
+    public override var xNumericValMax: Double { return _xNumericValMax }
     
     /// - returns: the number of y-values this DataSet represents
     public override var entryCount: Int { return _yVals?.count ?? 0 }
@@ -140,6 +164,16 @@ public class ChartDataSet: ChartBaseDataSet
         else { return Double.NaN }
     }
     
+    /// - returns: the xNumericValue of the Entry object at the given xIndex. Returns NaN if no xNumericValue is at the given x-index.
+    /// Note: not all chart types support xNumericVal
+    public override func xNumericValForXIndex(x: Int) -> Double
+    {
+        let e = self.entryForXIndex(x)
+        
+        if (e !== nil && e!.xIndex == x) { return e!.xNumericVal }
+        else { return Double.NaN }
+    }
+
     /// - returns: the entry object found at the given index (not x-index!)
     /// - throws: out of bounds
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
@@ -300,6 +334,7 @@ public class ChartDataSet: ChartBaseDataSet
     public override func addEntry(e: ChartDataEntry) -> Bool
     {
         let val = e.value
+        let xNumericVal = e.xNumericVal
         
         if (_yVals == nil)
         {
@@ -310,6 +345,8 @@ public class ChartDataSet: ChartBaseDataSet
         {
             _yMax = val
             _yMin = val
+            _xNumericValMax = xNumericVal
+            _xNumericValMin = xNumericVal
         }
         else
         {
@@ -320,6 +357,14 @@ public class ChartDataSet: ChartBaseDataSet
             if (_yMin > val)
             {
                 _yMin = val
+            }
+            if (_xNumericValMax < xNumericVal)
+            {
+                _xNumericValMax = xNumericVal
+            }
+            if (_xNumericValMin > xNumericVal)
+            {
+                _xNumericValMin = xNumericVal
             }
         }
         
@@ -336,6 +381,7 @@ public class ChartDataSet: ChartBaseDataSet
     public override func addEntryOrdered(e: ChartDataEntry) -> Bool
     {
         let val = e.value
+        let xNumericVal = e.xNumericVal
         
         if (_yVals == nil)
         {
@@ -346,6 +392,8 @@ public class ChartDataSet: ChartBaseDataSet
         {
             _yMax = val
             _yMin = val
+            _xNumericValMax = xNumericVal
+            _xNumericValMin = xNumericVal
         }
         else
         {
@@ -356,6 +404,14 @@ public class ChartDataSet: ChartBaseDataSet
             if (_yMin > val)
             {
                 _yMin = val
+            }
+            if (_xNumericValMax < xNumericVal)
+            {
+                _xNumericValMax = xNumericVal
+            }
+            if (_xNumericValMin > xNumericVal)
+            {
+                _xNumericValMin = xNumericVal
             }
         }
         
@@ -474,6 +530,8 @@ public class ChartDataSet: ChartBaseDataSet
         copy._yVals = _yVals
         copy._yMax = _yMax
         copy._yMin = _yMin
+        copy._xNumericValMax = _xNumericValMax
+        copy._xNumericValMin = _xNumericValMin
         copy._lastStart = _lastStart
         copy._lastEnd = _lastEnd
 
