@@ -8,10 +8,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PiePolylineChartViewController">
             <connections>
                 <outlet property="chartView" destination="anE-ka-ll7" id="BRq-3t-UUC"/>
-                <outlet property="sliderTextX" destination="lre-9A-Aye" id="A5s-Gl-dkP"/>
-                <outlet property="sliderTextY" destination="n9H-fM-jsG" id="xZW-tC-Iwb"/>
-                <outlet property="sliderX" destination="ekR-nK-ppT" id="Tyb-qV-EPe"/>
-                <outlet property="sliderY" destination="2id-KM-MqZ" id="N9U-3Q-ITU"/>
+                <outlet property="sliderTextX" destination="lre-9A-Aye" id="4hp-s0-eLS"/>
+                <outlet property="sliderTextY" destination="n9H-fM-jsG" id="fmW-Bk-rsP"/>
+                <outlet property="sliderX" destination="ekR-nK-ppT" id="lVn-aU-IGK"/>
+                <outlet property="sliderY" destination="2id-KM-MqZ" id="N2P-Rc-qng"/>
                 <outlet property="view" destination="30c-YJ-tW9" id="t6X-9C-FoQ"/>
             </connections>
         </placeholder>
@@ -37,9 +37,15 @@
                 </view>
                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="25" translatesAutoresizingMaskIntoConstraints="NO" id="ekR-nK-ppT">
                     <rect key="frame" x="6" y="573" width="285" height="31"/>
+                    <connections>
+                        <action selector="slidersValueChanged:" destination="-1" eventType="valueChanged" id="cIX-Vt-DyR"/>
+                    </connections>
                 </slider>
                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="200" translatesAutoresizingMaskIntoConstraints="NO" id="2id-KM-MqZ">
                     <rect key="frame" x="6" y="611" width="285" height="31"/>
+                    <connections>
+                        <action selector="slidersValueChanged:" destination="-1" eventType="valueChanged" id="hZJ-5h-ugC"/>
+                    </connections>
                 </slider>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="500" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n9H-fM-jsG">
                     <rect key="frame" x="297" y="611" width="70" height="30"/>
