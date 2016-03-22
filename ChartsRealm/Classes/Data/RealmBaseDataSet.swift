@@ -337,7 +337,9 @@ public class RealmBaseDataSet: ChartBaseDataSet
         let foundIndex = results.indexOfObjectWithPredicate(
             NSPredicate(format: "%K == %d", _xIndexField!, x)
         )
-                
+        
+        // TODO: Figure out a way to quickly find the closest index
+        
         return Int(foundIndex)
     }
     
