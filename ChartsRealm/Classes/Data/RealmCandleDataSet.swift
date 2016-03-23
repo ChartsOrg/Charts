@@ -107,7 +107,7 @@ public class RealmCandleDataSet: RealmLineScatterCandleRadarDataSet, ICandleChar
         _yMin = DBL_MAX
         _yMax = -DBL_MAX
         
-        for (var i = start; i <= endValue; i++)
+        for i in start ... endValue
         {
             let e = _cache[i - _cacheFirst] as! CandleChartDataEntry
             

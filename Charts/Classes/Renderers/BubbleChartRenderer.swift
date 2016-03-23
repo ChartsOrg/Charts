@@ -89,7 +89,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
         let maxBubbleHeight: CGFloat = abs(viewPortHandler.contentBottom - viewPortHandler.contentTop)
         let referenceSize: CGFloat = min(maxBubbleHeight, maxBubbleWidth)
         
-        for (var j = minx; j < maxx; j++)
+        for j in minx ..< maxx
         {
             guard let entry = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { continue }
             
@@ -174,7 +174,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
                 let minx = max(dataSet.entryIndex(entry: entryFrom), 0)
                 let maxx = min(dataSet.entryIndex(entry: entryTo) + 1, entryCount)
                 
-                for (var j = minx; j < maxx; j++)
+                for j in minx ..< maxx
                 {
                     guard let e = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { break }
                     

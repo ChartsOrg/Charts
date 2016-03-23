@@ -73,10 +73,10 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     
     /// - returns: the color at the given index of the DataSet's circle-color array.
     /// Performs a IndexOutOfBounds check by modulus.
-    public func getCircleColor(var index: Int) -> NSUIColor?
+    public func getCircleColor(index: Int) -> NSUIColor?
     {
         let size = circleColors.count
-        index = index % size
+        let index = index % size
         if (index >= size)
         {
             return nil

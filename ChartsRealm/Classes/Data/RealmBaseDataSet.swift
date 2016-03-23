@@ -163,7 +163,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
             _cache.removeAll()
             _cache.reserveCapacity(end - start + 1)
             
-            for (var i = UInt(start), max = UInt(end + 1); i < max; i++)
+            for i in UInt(start) ..< UInt(end + 1)
             {
                 _cache.append(buildEntryFromResultObject(results.objectAtIndex(i), atIndex: i))
             }
@@ -177,7 +177,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
             var newEntries = [ChartDataEntry]()
             newEntries.reserveCapacity(start - _cacheFirst)
             
-            for (var i = UInt(start), max = UInt(_cacheFirst); i < max; i++)
+            for i in UInt(start) ..< UInt(_cacheFirst)
             {
                 newEntries.append(buildEntryFromResultObject(results.objectAtIndex(i), atIndex: i))
             }
@@ -189,7 +189,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
         
         if end > _cacheLast
         {
-            for (var i = UInt(_cacheLast + 1), max = UInt(end + 1); i < max; i++)
+            for i in UInt(_cacheLast + 1) ..< UInt(end + 1)
             {
                 _cache.append(buildEntryFromResultObject(results.objectAtIndex(i), atIndex: i))
             }
@@ -252,7 +252,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
         _yMin = DBL_MAX
         _yMax = -DBL_MAX
         
-        for (var i = start; i <= endValue; i++)
+        for i in start ... endValue
         {
             let e = _cache[i - _cacheFirst]
             
@@ -348,7 +348,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
     /// - parameter e: the entry to search for
     public override func entryIndex(entry e: ChartDataEntry) -> Int
     {
-        for (var i = 0; i < _cache.count; i++)
+        for i in 0 ..< _cache.count
         {
             if (_cache[i] === e || _cache[i].isEqual(e))
             {

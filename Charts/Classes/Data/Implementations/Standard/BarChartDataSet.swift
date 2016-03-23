@@ -52,13 +52,13 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
     {
         _entryCountStacks = 0
         
-        for (var i = 0; i < yVals.count; i++)
+        for i in 0 ..< yVals.count
         {
             let vals = yVals[i].values
             
             if (vals == nil)
             {
-                _entryCountStacks++
+                _entryCountStacks += 1
             }
             else
             {
@@ -70,7 +70,7 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
     /// calculates the maximum stacksize that occurs in the Entries array of this DataSet
     private func calcStackSize(yVals: [BarChartDataEntry]!)
     {
-        for (var i = 0; i < yVals.count; i++)
+        for i in 0 ..< yVals.count
         {
             if let vals = yVals[i].values
             {
@@ -108,7 +108,7 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
         _yMin = DBL_MAX
         _yMax = -DBL_MAX
         
-        for (var i = start; i <= endValue; i++)
+        for i in start ... endValue
         {
             if let e = _yVals[i] as? BarChartDataEntry
             {

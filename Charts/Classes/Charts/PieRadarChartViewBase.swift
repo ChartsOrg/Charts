@@ -60,12 +60,12 @@ public class PieRadarChartViewBase: ChartViewBase
     {
         super.initialize()
         
-        _tapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: Selector("tapGestureRecognized:"))
+        _tapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: #selector(PieRadarChartViewBase.tapGestureRecognized(_:)))
         
         self.addGestureRecognizer(_tapGestureRecognizer)
 
         #if !os(tvOS)
-            _rotationGestureRecognizer = NSUIRotationGestureRecognizer(target: self, action: Selector("rotationGestureRecognized:"))
+            _rotationGestureRecognizer = NSUIRotationGestureRecognizer(target: self, action: #selector(PieRadarChartViewBase.rotationGestureRecognized(_:)))
             self.addGestureRecognizer(_rotationGestureRecognizer)
             _rotationGestureRecognizer.enabled = rotationWithTwoFingers
         #endif
@@ -378,7 +378,7 @@ public class PieRadarChartViewBase: ChartViewBase
         
         guard let data = _data else { return vals }
 
-        for (var i = 0; i < data.dataSetCount; i++)
+        for i in 0 ..< data.dataSetCount
         {
             guard let dataSet = data.getDataSetByIndex(i) else { continue }
             
@@ -543,7 +543,7 @@ public class PieRadarChartViewBase: ChartViewBase
             if _decelerationAngularVelocity != 0.0
             {
                 _decelerationLastTime = CACurrentMediaTime()
-                _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: Selector("decelerationLoop"))
+                _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(PieRadarChartViewBase.decelerationLoop))
                 _decelerationDisplayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
             }
         }
@@ -695,18 +695,21 @@ public class PieRadarChartViewBase: ChartViewBase
         _velocitySamples.append(AngularVelocitySample(time: currentTime, angle: angleForPoint(x: touchLocation.x, y: touchLocation.y)))
         
         // Remove samples older than our sample time - 1 seconds
-        for (var i = 0, count = _velocitySamples.count; i < count - 2; i++)
+        var i = 0, count = _velocitySamples.count
+        while (i < count - 2)
         {
             if (currentTime - _velocitySamples[i].time > 1.0)
             {
                 _velocitySamples.removeAtIndex(0)
-                i--
-                count--
+                i -= 1
+                count -= 1
             }
             else
             {
                 break
             }
+            
+            i += 1
         }
     }
     
@@ -722,7 +725,7 @@ public class PieRadarChartViewBase: ChartViewBase
         
         // Look for a sample that's closest to the latest sample, but not the same, so we can deduce the direction
         var beforeLastSample = firstSample
-        for (var i = _velocitySamples.count - 1; i >= 0; i--)
+        for i in (_velocitySamples.count - 1).stride(through: 0, by: -1)
         {
             beforeLastSample = _velocitySamples[i]
             if (beforeLastSample.angle != lastSample.angle)
@@ -942,7 +945,7 @@ public class PieRadarChartViewBase: ChartViewBase
                 if (_decelerationAngularVelocity != 0.0)
                 {
                     _decelerationLastTime = CACurrentMediaTime()
-                    _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: Selector("decelerationLoop"))
+                    _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(PieRadarChartViewBase.decelerationLoop))
                     _decelerationDisplayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
                 }
             }
