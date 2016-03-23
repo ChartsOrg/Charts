@@ -161,7 +161,7 @@ public class BarChartHighlighter: ChartHighlighter
             }
             else
             {
-                stackIndex++
+                stackIndex += 1
             }
         }
         
@@ -219,7 +219,8 @@ public class BarChartHighlighter: ChartHighlighter
         var ranges = [ChartRange]()
         ranges.reserveCapacity(values!.count)
         
-        for (var i = 0, count = values!.count; i < count; i++)
+        let count = values!.count
+        for i in 0 ..< count
         {
             let value = values![i]
             

@@ -27,8 +27,10 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
     }
 
     /// Computes the axis values.
-    public override func computeAxis(var yMin yMin: Double, var yMax: Double)
+    public override func computeAxis(yMin yMin: Double, yMax: Double)
     {
+        var yMinVar = yMin
+        var yMaxVar = yMax
         guard let yAxis = yAxis else { return }
         
         // calculate the starting and entry point of the y-labels (depending on zoom / contentrect bounds)
@@ -39,17 +41,17 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
             
             if (!yAxis.isInverted)
             {
-                yMin = Double(p1.x)
-                yMax = Double(p2.x)
+                yMinVar = Double(p1.x)
+                yMaxVar = Double(p2.x)
             }
             else
             {
-                yMin = Double(p2.x)
-                yMax = Double(p1.x)
+                yMinVar = Double(p2.x)
+                yMaxVar = Double(p1.x)
             }
         }
         
-        computeAxisValues(min: yMin, max: yMax)
+        computeAxisValues(min: yMinVar, max: yMaxVar)
     }
 
     /// draws the y-axis labels to the screen
@@ -65,7 +67,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         var positions = [CGPoint]()
         positions.reserveCapacity(yAxis.entries.count)
         
-        for (var i = 0; i < yAxis.entries.count; i++)
+        for i in 0 ..< yAxis.entries.count
         {
             positions.append(CGPoint(x: CGFloat(yAxis.entries[i]), y: 0.0))
         }
@@ -162,7 +164,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         let labelFont = yAxis.labelFont
         let labelTextColor = yAxis.labelTextColor
         
-        for (var i = 0; i < yAxis.entryCount; i++)
+        for i in 0 ..< yAxis.entryCount
         {
             let text = yAxis.getFormattedLabel(i)
             
@@ -206,7 +208,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
             }
             
             // draw the horizontal grid
-            for (var i = 0; i < yAxis.entryCount; i++)
+            for i in 0 ..< yAxis.entryCount
             {
                 position.x = CGFloat(yAxis.entries[i])
                 position.y = 0.0
@@ -255,7 +257,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         
         var position = CGPoint(x: 0.0, y: 0.0)
         
-        for (var i = 0; i < limitLines.count; i++)
+        for i in 0 ..< limitLines.count
         {
             let l = limitLines[i]
             

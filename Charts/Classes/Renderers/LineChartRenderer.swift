@@ -34,7 +34,7 @@ public class LineChartRenderer: LineRadarChartRenderer
     {
         guard let lineData = dataProvider?.lineData else { return }
         
-        for (var i = 0; i < lineData.dataSetCount; i++)
+        for i in 0 ..< lineData.dataSetCount
         {
             guard let set = lineData.getDataSetByIndex(i) else { continue }
             
@@ -134,23 +134,26 @@ public class LineChartRenderer: LineRadarChartRenderer
             // let the spline start
             CGPathMoveToPoint(cubicPath, &valueToPixelMatrix, CGFloat(cur.xIndex), CGFloat(cur.value) * phaseY)
             
-            for (var j = minx + 1, count = min(size, entryCount - 1); j < count; j++)
-            {
-                prevPrev = prev
-                prev = cur
-                cur = next
-                next = dataSet.entryForIndex(j + 1)
-                
-                if next == nil { break }
-                
-                prevDx = CGFloat(cur.xIndex - prevPrev.xIndex) * intensity
-                prevDy = CGFloat(cur.value - prevPrev.value) * intensity
-                curDx = CGFloat(next.xIndex - prev.xIndex) * intensity
-                curDy = CGFloat(next.value - prev.value) * intensity
-                
-                CGPathAddCurveToPoint(cubicPath, &valueToPixelMatrix, CGFloat(prev.xIndex) + prevDx, (CGFloat(prev.value) + prevDy) * phaseY,
-                    CGFloat(cur.xIndex) - curDx,
-                    (CGFloat(cur.value) - curDy) * phaseY, CGFloat(cur.xIndex), CGFloat(cur.value) * phaseY)
+            let count = min(size, entryCount - 1)
+            if minx + 1 < count {
+                for j in minx + 1 ..< count
+                {
+                    prevPrev = prev
+                    prev = cur
+                    cur = next
+                    next = dataSet.entryForIndex(j + 1)
+                    
+                    if next == nil { break }
+                    
+                    prevDx = CGFloat(cur.xIndex - prevPrev.xIndex) * intensity
+                    prevDy = CGFloat(cur.value - prevPrev.value) * intensity
+                    curDx = CGFloat(next.xIndex - prev.xIndex) * intensity
+                    curDy = CGFloat(next.value - prev.value) * intensity
+                    
+                    CGPathAddCurveToPoint(cubicPath, &valueToPixelMatrix, CGFloat(prev.xIndex) + prevDx, (CGFloat(prev.value) + prevDy) * phaseY,
+                                          CGFloat(cur.xIndex) - curDx,
+                                          (CGFloat(cur.value) - curDy) * phaseY, CGFloat(cur.xIndex), CGFloat(cur.value) * phaseY)
+                }
             }
             
             if (size > entryCount - 1)
@@ -267,63 +270,66 @@ public class LineChartRenderer: LineRadarChartRenderer
                 _lineSegments = [CGPoint](count: pointsPerEntryPair, repeatedValue: CGPoint())
             }
             
-            for (var j = minx, count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))); j < count; j++)
-            {
-                if (count > 1 && j == count - 1)
-                { // Last point, we have already drawn a line to this point
-                    break
-                }
-                
-                var e: ChartDataEntry! = dataSet.entryForIndex(j)
-                
-                if e == nil { continue }
-                
-                _lineSegments[0].x = CGFloat(e.xIndex)
-                _lineSegments[0].y = CGFloat(e.value) * phaseY
-                
-                if (j + 1 < count)
+            let count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx)))
+            if minx < count {
+                for j in minx..<count
                 {
-                    e = dataSet.entryForIndex(j + 1)
+                    if (count > 1 && j == count - 1)
+                    { // Last point, we have already drawn a line to this point
+                        break
+                    }
                     
-                    if e == nil { break }
+                    var e: ChartDataEntry! = dataSet.entryForIndex(j)
                     
-                    if isDrawSteppedEnabled
+                    if e == nil { continue }
+                    
+                    _lineSegments[0].x = CGFloat(e.xIndex)
+                    _lineSegments[0].y = CGFloat(e.value) * phaseY
+                    
+                    if (j + 1 < count)
                     {
-                        _lineSegments[1] = CGPoint(x: CGFloat(e.xIndex), y: _lineSegments[0].y)
-                        _lineSegments[2] = _lineSegments[1]
-                        _lineSegments[3] = CGPoint(x: CGFloat(e.xIndex), y: CGFloat(e.value) * phaseY)
+                        e = dataSet.entryForIndex(j + 1)
+                        
+                        if e == nil { break }
+                        
+                        if isDrawSteppedEnabled
+                        {
+                            _lineSegments[1] = CGPoint(x: CGFloat(e.xIndex), y: _lineSegments[0].y)
+                            _lineSegments[2] = _lineSegments[1]
+                            _lineSegments[3] = CGPoint(x: CGFloat(e.xIndex), y: CGFloat(e.value) * phaseY)
+                        }
+                        else
+                        {
+                            _lineSegments[1] = CGPoint(x: CGFloat(e.xIndex), y: CGFloat(e.value) * phaseY)
+                        }
                     }
                     else
                     {
-                        _lineSegments[1] = CGPoint(x: CGFloat(e.xIndex), y: CGFloat(e.value) * phaseY)
+                        _lineSegments[1] = _lineSegments[0]
                     }
+                    
+                    for i in 0..<_lineSegments.count
+                    {
+                        _lineSegments[i] = CGPointApplyAffineTransform(_lineSegments[i], valueToPixelMatrix)
+                    }
+                    
+                    if (!viewPortHandler.isInBoundsRight(_lineSegments[0].x))
+                    {
+                        break
+                    }
+                    
+                    // make sure the lines don't do shitty things outside bounds
+                    if (!viewPortHandler.isInBoundsLeft(_lineSegments[1].x)
+                        || (!viewPortHandler.isInBoundsTop(_lineSegments[0].y) && !viewPortHandler.isInBoundsBottom(_lineSegments[1].y))
+                        || (!viewPortHandler.isInBoundsTop(_lineSegments[0].y) && !viewPortHandler.isInBoundsBottom(_lineSegments[1].y)))
+                    {
+                        continue
+                    }
+                    
+                    // get the color that is set for this line-segment
+                    CGContextSetStrokeColorWithColor(context, dataSet.colorAt(j).CGColor)
+                    CGContextStrokeLineSegments(context, _lineSegments, pointsPerEntryPair)
                 }
-                else
-                {
-                    _lineSegments[1] = _lineSegments[0]
-                }
-
-                for i in 0..<_lineSegments.count
-                {
-                    _lineSegments[i] = CGPointApplyAffineTransform(_lineSegments[i], valueToPixelMatrix)
-                }
-                
-                if (!viewPortHandler.isInBoundsRight(_lineSegments[0].x))
-                {
-                    break
-                }
-                
-                // make sure the lines don't do shitty things outside bounds
-                if (!viewPortHandler.isInBoundsLeft(_lineSegments[1].x)
-                    || (!viewPortHandler.isInBoundsTop(_lineSegments[0].y) && !viewPortHandler.isInBoundsBottom(_lineSegments[1].y))
-                    || (!viewPortHandler.isInBoundsTop(_lineSegments[0].y) && !viewPortHandler.isInBoundsBottom(_lineSegments[1].y)))
-                {
-                    continue
-                }
-                
-                // get the color that is set for this line-segment
-                CGContextSetStrokeColorWithColor(context, dataSet.colorAt(j).CGColor)
-                CGContextStrokeLineSegments(context, _lineSegments, pointsPerEntryPair)
             }
         }
         else
@@ -343,38 +349,46 @@ public class LineChartRenderer: LineRadarChartRenderer
             {
                 let count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx)))
                 
-                for (var x = count > 1 ? minx + 1 : minx, j = 0; x < count; x++)
-                {
-                    e1 = dataSet.entryForIndex(x == 0 ? 0 : (x - 1))
-                    e2 = dataSet.entryForIndex(x)
-                    
-                    if e1 == nil || e2 == nil { continue }
-                    
-                    _lineSegments[j++] = CGPointApplyAffineTransform(
-                        CGPoint(
-                            x: CGFloat(e1.xIndex),
-                            y: CGFloat(e1.value) * phaseY
-                        ), valueToPixelMatrix)
-                    
-                    if isDrawSteppedEnabled
+                var j = 0
+                let start = (count > 1 ? minx + 1 : minx)
+                if start < count {
+                    for x in start ..< count
                     {
-                        _lineSegments[j++] = CGPointApplyAffineTransform(
+                        e1 = dataSet.entryForIndex(x == 0 ? 0 : (x - 1))
+                        e2 = dataSet.entryForIndex(x)
+                        
+                        if e1 == nil || e2 == nil { continue }
+                        
+                        _lineSegments[j] = CGPointApplyAffineTransform(
                             CGPoint(
-                                x: CGFloat(e2.xIndex),
+                                x: CGFloat(e1.xIndex),
                                 y: CGFloat(e1.value) * phaseY
                             ), valueToPixelMatrix)
-                        _lineSegments[j++] = CGPointApplyAffineTransform(
+                        j += 1
+                        
+                        if isDrawSteppedEnabled
+                        {
+                            _lineSegments[j] = CGPointApplyAffineTransform(
+                                CGPoint(
+                                    x: CGFloat(e2.xIndex),
+                                    y: CGFloat(e1.value) * phaseY
+                                ), valueToPixelMatrix)
+                            j += 1
+                            _lineSegments[j] = CGPointApplyAffineTransform(
+                                CGPoint(
+                                    x: CGFloat(e2.xIndex),
+                                    y: CGFloat(e1.value) * phaseY
+                                ), valueToPixelMatrix)
+                            j += 1
+                        }
+                        
+                        _lineSegments[j] = CGPointApplyAffineTransform(
                             CGPoint(
                                 x: CGFloat(e2.xIndex),
-                                y: CGFloat(e1.value) * phaseY
+                                y: CGFloat(e2.value) * phaseY
                             ), valueToPixelMatrix)
+                        j += 1
                     }
-                    
-                    _lineSegments[j++] = CGPointApplyAffineTransform(
-                        CGPoint(
-                            x: CGFloat(e2.xIndex),
-                            y: CGFloat(e2.value) * phaseY
-                        ), valueToPixelMatrix)
                 }
                 
                 let size = max((count - minx - 1) * pointsPerEntryPair, pointsPerEntryPair)
@@ -414,8 +428,9 @@ public class LineChartRenderer: LineRadarChartRenderer
     }
     
     /// Generates the path that is used for filled drawing.
-    private func generateFilledPath(dataSet dataSet: ILineChartDataSet, fillMin: CGFloat, from: Int, to: Int, var matrix: CGAffineTransform) -> CGPath
+    private func generateFilledPath(dataSet dataSet: ILineChartDataSet, fillMin: CGFloat, from: Int, to: Int, matrix: CGAffineTransform) -> CGPath
     {
+        var matrixVar = matrix
         let phaseX = animator?.phaseX ?? 1.0
         let phaseY = animator?.phaseY ?? 1.0
         let isDrawSteppedEnabled = dataSet.isDrawSteppedEnabled
@@ -427,29 +442,32 @@ public class LineChartRenderer: LineRadarChartRenderer
         e = dataSet.entryForIndex(from)
         if e != nil
         {
-            CGPathMoveToPoint(filled, &matrix, CGFloat(e.xIndex), fillMin)
-            CGPathAddLineToPoint(filled, &matrix, CGFloat(e.xIndex), CGFloat(e.value) * phaseY)
+            CGPathMoveToPoint(filled, &matrixVar, CGFloat(e.xIndex), fillMin)
+            CGPathAddLineToPoint(filled, &matrixVar, CGFloat(e.xIndex), CGFloat(e.value) * phaseY)
         }
         
         // create a new path
-        for (var x = from + 1, count = Int(ceil(CGFloat(to - from) * phaseX + CGFloat(from))); x < count; x++)
-        {
-            guard let e = dataSet.entryForIndex(x) else { continue }
-            
-            if isDrawSteppedEnabled
+        let count = Int(ceil(CGFloat(to - from) * phaseX + CGFloat(from)))
+        if from + 1 < count {
+            for x in from + 1 ..< count
             {
-                guard let ePrev = dataSet.entryForIndex(x-1) else { continue }
-                CGPathAddLineToPoint(filled, &matrix, CGFloat(e.xIndex), CGFloat(ePrev.value) * phaseY)
+                guard let e = dataSet.entryForIndex(x) else { continue }
+                
+                if isDrawSteppedEnabled
+                {
+                    guard let ePrev = dataSet.entryForIndex(x-1) else { continue }
+                    CGPathAddLineToPoint(filled, &matrixVar, CGFloat(e.xIndex), CGFloat(ePrev.value) * phaseY)
+                }
+                
+                CGPathAddLineToPoint(filled, &matrixVar, CGFloat(e.xIndex), CGFloat(e.value) * phaseY)
             }
-            
-            CGPathAddLineToPoint(filled, &matrix, CGFloat(e.xIndex), CGFloat(e.value) * phaseY)
         }
         
         // close up
         e = dataSet.entryForIndex(max(min(Int(ceil(CGFloat(to - from) * phaseX + CGFloat(from))) - 1, dataSet.entryCount - 1), 0))
         if e != nil
         {
-            CGPathAddLineToPoint(filled, &matrix, CGFloat(e.xIndex), fillMin)
+            CGPathAddLineToPoint(filled, &matrixVar, CGFloat(e.xIndex), fillMin)
         }
         CGPathCloseSubpath(filled)
         
@@ -473,7 +491,7 @@ public class LineChartRenderer: LineRadarChartRenderer
             
             var pt = CGPoint()
             
-            for (var i = 0; i < dataSets.count; i++)
+            for i in 0 ..< dataSets.count
             {
                 guard let dataSet = dataSets[i] as? ILineChartDataSet else { continue }
                 
@@ -508,7 +526,8 @@ public class LineChartRenderer: LineRadarChartRenderer
                 let minx = max(dataSet.entryIndex(entry: entryFrom) - diff, 0)
                 let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo) + 1), entryCount)
                 
-                for (var j = minx, count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))); j < count; j++)
+                let count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx)))
+                for j in minx ..< count
                 {
                     guard let e = dataSet.entryForIndex(j) else { break }
                     
@@ -561,7 +580,8 @@ public class LineChartRenderer: LineRadarChartRenderer
         
         CGContextSaveGState(context)
         
-        for (var i = 0, count = dataSets.count; i < count; i++)
+        let count = dataSets.count
+        for i in 0 ..< count
         {
             guard let dataSet = lineData.getDataSetByIndex(i) as? ILineChartDataSet else { continue }
             
@@ -590,7 +610,8 @@ public class LineChartRenderer: LineRadarChartRenderer
             let minx = max(dataSet.entryIndex(entry: entryFrom) - diff, 0)
             let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo) + 1), entryCount)
             
-            for (var j = minx, count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))); j < count; j++)
+            let count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx)))
+            for j in minx ..< count
             {
                 guard let e = dataSet.entryForIndex(j) else { break }
 
@@ -645,7 +666,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         
         CGContextSaveGState(context)
         
-        for (var i = 0; i < indices.count; i++)
+        for i in 0 ..< indices.count
         {
             guard let set = lineData.getDataSetByIndex(indices[i].dataSetIndex) as? ILineChartDataSet else { continue }
             

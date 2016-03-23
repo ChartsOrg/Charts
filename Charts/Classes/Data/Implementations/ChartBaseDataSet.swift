@@ -165,13 +165,14 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     
     /// - returns: the color at the given index of the DataSet's color array.
     /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
-    public func colorAt(var index: Int) -> NSUIColor
+    public func colorAt(index: Int) -> NSUIColor
     {
-        if (index < 0)
+        var indexVar = index
+        if (indexVar < 0)
         {
-            index = 0
+            indexVar = 0
         }
-        return colors[index % colors.count]
+        return colors[indexVar % colors.count]
     }
     
     /// Resets all colors of this DataSet and recreates the colors array.
@@ -265,13 +266,14 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     }
     
     /// - returns: the color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
-    public func valueTextColorAt(var index: Int) -> NSUIColor
+    public func valueTextColorAt(index: Int) -> NSUIColor
     {
-        if (index < 0)
+        var indexVar = index
+        if (indexVar < 0)
         {
-            index = 0
+            indexVar = 0
         }
-        return valueColors[index % valueColors.count]
+        return valueColors[indexVar % valueColors.count]
     }
     
     /// the font for the value-text labels
@@ -306,7 +308,8 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     {
         var desc = description + ":"
         
-        for (var i = 0, count = self.entryCount; i < count; i++)
+        let count = self.entryCount
+        for i in 0 ..< count
         {
             desc += "\n" + (self.entryForIndex(i)?.description ?? "")
         }

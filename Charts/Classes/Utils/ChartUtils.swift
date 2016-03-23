@@ -74,7 +74,7 @@ public class ChartUtils
         var index = -Int.max
         var distance = DBL_MAX
         
-        for (var i = 0; i < valsAtIndex.count; i++)
+        for i in 0 ..< valsAtIndex.count
         {
             let sel = valsAtIndex[i]
             
@@ -97,7 +97,8 @@ public class ChartUtils
     {
         var distance = DBL_MAX
         
-        for (var i = 0, count = valsAtIndex.count; i < count; i++)
+        let count = valsAtIndex.count
+        for i in 0 ..< count
         {
             let sel = valsAtIndex[i]
             
@@ -123,20 +124,21 @@ public class ChartUtils
         )
     }
     
-    public class func drawText(context context: CGContext, text: String, var point: CGPoint, align: NSTextAlignment, attributes: [String : AnyObject]?)
+    public class func drawText(context context: CGContext, text: String, point: CGPoint, align: NSTextAlignment, attributes: [String : AnyObject]?)
     {
+        var pointVar = point
         if (align == .Center)
         {
-            point.x -= text.sizeWithAttributes(attributes).width / 2.0
+            pointVar.x -= text.sizeWithAttributes(attributes).width / 2.0
         }
         else if (align == .Right)
         {
-            point.x -= text.sizeWithAttributes(attributes).width
+            pointVar.x -= text.sizeWithAttributes(attributes).width
         }
         
         NSUIGraphicsPushContext(context)
         
-        (text as NSString).drawAtPoint(point, withAttributes: attributes)
+        (text as NSString).drawAtPoint(pointVar, withAttributes: attributes)
         
         NSUIGraphicsPopContext()
     }
@@ -248,14 +250,15 @@ public class ChartUtils
     }
     
     /// - returns: an angle between 0.0 < 360.0 (not less than zero, less than 360)
-    internal class func normalizedAngleFromAngle(var angle: CGFloat) -> CGFloat
+    internal class func normalizedAngleFromAngle(angle: CGFloat) -> CGFloat
     {
-        while (angle < 0.0)
+        var angleVar = angle
+        while (angleVar < 0.0)
         {
-            angle += 360.0
+            angleVar += 360.0
         }
         
-        return angle % 360.0
+        return angleVar % 360.0
     }
     
     private class func generateDefaultValueFormatter() -> NSNumberFormatter

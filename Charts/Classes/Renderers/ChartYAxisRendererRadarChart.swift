@@ -78,7 +78,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
             
             var v = yMin
             
-            for (var i = 0; i < labelCount; i++)
+            for _ in 0 ..< labelCount
             {
                 yAxis.entries.append(v)
                 v += step
@@ -114,12 +114,10 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
                 
                 let last = ChartUtils.nextUp(floor(Double(yMax) / interval) * interval)
                 
-                var f: Double
-                var i: Int
                 var n = 0
-                for (f = first; f <= last; f += interval)
+                for _ in first.stride(through: last, by: interval)
                 {
-                    ++n
+                     n += 1
                 }
                 
                 if (isnan(yAxis.customAxisMax))
@@ -133,9 +131,11 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
                     yAxis.entries = [Double](count: n, repeatedValue: 0.0)
                 }
                 
-                for (f = first, i = 0; i < n; f += interval, ++i)
+                var f: Double = first
+                for i in 0 ..< n
                 {
                     yAxis.entries[i] = Double(f)
+                    f += interval
                 }
             }
         }
@@ -172,7 +172,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         
         let labelLineHeight = yAxis.labelFont.lineHeight
         
-        for (var j = 0; j < labelCount; j++)
+        for j in 0 ..< labelCount
         {
             if (j == labelCount - 1 && yAxis.isDrawTopYLabelEntryEnabled == false)
             {
@@ -212,7 +212,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         
         let center = chart.centerOffsets
         
-        for (var i = 0; i < limitLines.count; i++)
+        for i in 0 ..< limitLines.count
         {
             let l = limitLines[i]
             
@@ -236,7 +236,8 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
             
             CGContextBeginPath(context)
             
-            for (var j = 0, count = chart.data!.xValCount; j < count; j++)
+            let count = chart.data!.xValCount
+            for j in 0 ..< count
             {
                 let p = ChartUtils.getPosition(center: center, dist: r, angle: sliceangle * CGFloat(j) + chart.rotationAngle)
                 
