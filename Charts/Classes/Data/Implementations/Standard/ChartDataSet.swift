@@ -98,19 +98,21 @@ public class ChartDataSet: ChartBaseDataSet
         _yMin = DBL_MAX
         _yMax = -DBL_MAX
         
-        for (var i = start; i <= endValue; i += 1)
-        {
-            let e = _yVals[i]
-            
-            if (!e.value.isNaN)
+        if start <= endValue {
+            for i in start ... endValue
             {
-                if (e.value < _yMin)
+                let e = _yVals[i]
+                
+                if (!e.value.isNaN)
                 {
-                    _yMin = e.value
-                }
-                if (e.value > _yMax)
-                {
-                    _yMax = e.value
+                    if (e.value < _yMin)
+                    {
+                        _yMin = e.value
+                    }
+                    if (e.value > _yMax)
+                    {
+                        _yMax = e.value
+                    }
                 }
             }
         }
@@ -189,7 +191,7 @@ public class ChartDataSet: ChartBaseDataSet
                 }
                 
                 high = _yVals.count
-                for (; m < high; m += 1)
+                while m < high
                 {
                     entry = _yVals[m]
                     if (entry.xIndex == x)
@@ -200,6 +202,8 @@ public class ChartDataSet: ChartBaseDataSet
                     {
                         break
                     }
+                    
+                    m += 1
                 }
             }
             
@@ -281,7 +285,7 @@ public class ChartDataSet: ChartBaseDataSet
     /// - parameter e: the entry to search for
     public override func entryIndex(entry e: ChartDataEntry) -> Int
     {
-        for (var i = 0; i < _yVals.count; i += 1)
+        for i in 0 ..< _yVals.count
         {
             if _yVals[i] === e
             {
@@ -384,7 +388,7 @@ public class ChartDataSet: ChartBaseDataSet
     {
         var removed = false
         
-        for (var i = 0; i < _yVals.count; i += 1)
+        for i in 0 ..< _yVals.count
         {
             if (_yVals[i] === entry)
             {

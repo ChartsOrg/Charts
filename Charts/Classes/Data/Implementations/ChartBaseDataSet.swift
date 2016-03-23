@@ -306,7 +306,8 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     {
         var desc = description + ":"
         
-        for (var i = 0, count = self.entryCount; i < count; i += 1)
+        let count = self.entryCount
+        for i in 0 ..< count
         {
             desc += "\n" + (self.entryForIndex(i)?.description ?? "")
         }

@@ -53,7 +53,8 @@ public class HorizontalBarChartRenderer: BarChartRenderer
         var y: Double
         
         // do the drawing
-        for (var j = 0, count = Int(ceil(CGFloat(dataSet.entryCount) * animator.phaseX)); j < count; j += 1)
+        let count = Int(ceil(CGFloat(dataSet.entryCount) * animator.phaseX))
+        for j in 0 ..< count
         {
             guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
             
@@ -158,7 +159,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                 }
                 
                 // fill the stack
-                for (var k = 0; k < vals.count; k += 1)
+                for k in 0 ..< vals.count
                 {
                     let value = vals[k]
                     
@@ -260,7 +261,8 @@ public class HorizontalBarChartRenderer: BarChartRenderer
             var posOffset: CGFloat
             var negOffset: CGFloat
             
-            for (var dataSetIndex = 0, count = barData.dataSetCount; dataSetIndex < count; dataSetIndex += 1)
+            let count = barData.dataSetCount
+            for dataSetIndex in 0 ..< count
             {
                 guard let dataSet = dataSets[dataSetIndex] as? IBarChartDataSet else { continue }
                 
@@ -285,7 +287,8 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                 // if only single values are drawn (sum)
                 if (!dataSet.isStacked)
                 {
-                    for (var j = 0, count = Int(ceil(CGFloat(dataSet.entryCount) * animator.phaseX)); j < count; j += 1)
+                    let count = Int(ceil(CGFloat(dataSet.entryCount) * animator.phaseX))
+                    for j in 0 ..< count
                     {
                         guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
                         
@@ -334,7 +337,8 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                 {
                     // if each value of a potential stack should be drawn
                     
-                    for (var j = 0, count = Int(ceil(CGFloat(dataSet.entryCount) * animator.phaseX)); j < count; j += 1)
+                    let count = Int(ceil(CGFloat(dataSet.entryCount) * animator.phaseX))
+                    for j in 0 ..< count
                     {
                         guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
                         
@@ -391,7 +395,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                             var posY = 0.0
                             var negY = -e.negativeSum
                             
-                            for (var k = 0; k < vals.count; k += 1)
+                            for k in 0 ..< vals.count
                             {
                                 let value = vals[k]
                                 var y: Double
@@ -412,7 +416,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                             
                             trans.pointValuesToPixel(&transformed)
                             
-                            for (var k = 0; k < transformed.count; k += 1)
+                            for k in 0 ..< transformed.count
                             {
                                 let val = vals[k]
                                 let valueText = formatter.stringFromNumber(val)!

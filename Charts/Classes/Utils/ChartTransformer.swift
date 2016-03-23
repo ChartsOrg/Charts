@@ -104,7 +104,8 @@ public class ChartTransformer: NSObject
     public func pointValuesToPixel(inout pts: [CGPoint])
     {
         let trans = valueToPixelMatrix
-        for (var i = 0, count = pts.count; i < count; i += 1)
+        let count = pts.count
+        for i in 0 ..< count
         {
             pts[i] = CGPointApplyAffineTransform(pts[i], trans)
         }
@@ -158,7 +159,7 @@ public class ChartTransformer: NSObject
     {
         let trans = valueToPixelMatrix
         
-        for (var i = 0; i < rects.count; i += 1)
+        for i in 0 ..< rects.count
         {
             rects[i] = CGRectApplyAffineTransform(rects[i], trans)
         }
@@ -169,7 +170,7 @@ public class ChartTransformer: NSObject
     {
         let trans = pixelToValueMatrix
         
-        for (var i = 0; i < pixels.count; i += 1)
+        for i in 0 ..< pixels.count
         {
             pixels[i] = CGPointApplyAffineTransform(pixels[i], trans)
         }

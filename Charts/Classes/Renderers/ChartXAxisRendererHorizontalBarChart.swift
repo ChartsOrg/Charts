@@ -256,7 +256,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         
         var position = CGPoint(x: 0.0, y: 0.0)
         
-        for (var i = 0; i < limitLines.count; i += 1)
+        for i in 0 ..< limitLines.count
         {
             let l = limitLines[i]
             

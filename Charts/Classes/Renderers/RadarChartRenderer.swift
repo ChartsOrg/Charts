@@ -85,7 +85,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         let path = CGPathCreateMutable()
         var hasMovedToPoint = false
         
-        for (var j = 0; j < entryCount; j += 1)
+        for j in 0 ..< entryCount
         {
             guard let e = dataSet.entryForIndex(j) else { continue }
             
@@ -167,7 +167,8 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         let yoffset = CGFloat(5.0)
         
-        for (var i = 0, count = data.dataSetCount; i < count; i += 1)
+        let count = data.dataSetCount
+        for i in 0 ..< count
         {
             let dataSet = data.getDataSetByIndex(i) as! IRadarChartDataSet
             
@@ -178,7 +179,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
             
             let entryCount = dataSet.entryCount
             
-            for (var j = 0; j < entryCount; j += 1)
+            for j in 0 ..< entryCount
             {
                 guard let e = dataSet.entryForIndex(j) else { continue }
                 
@@ -235,7 +236,8 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         let xIncrements = 1 + chart.skipWebLineCount
         
-        for var i = 0, xValCount = data.xValCount; i < xValCount; i += xIncrements
+        let xValCount = data.xValCount
+        for i in 0.stride(to: xValCount, by: xIncrements)
         {
             let p = ChartUtils.getPosition(
                 center: center,
@@ -257,9 +259,10 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         let labelCount = chart.yAxis.entryCount
         
-        for (var j = 0; j < labelCount; j += 1)
+        for j in 0 ..< labelCount
         {
-            for (var i = 0, xValCount = data.xValCount; i < xValCount; i += 1)
+            let xValCount = data.xValCount
+            for i in 0 ..< xValCount
             {
                 let r = CGFloat(chart.yAxis.entries[j] - chart.chartYMin) * factor
 
@@ -307,7 +310,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         let center = chart.centerOffsets
         
-        for (var i = 0; i < indices.count; i += 1)
+        for i in 0 ..< indices.count
         {
             guard let set = chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as? IRadarChartDataSet else { continue }
             

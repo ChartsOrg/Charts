@@ -124,7 +124,7 @@ public class ChartLegend: ChartComponentBase
         var maxH = CGFloat(0.0)
         
         var labels = self.labels
-        for (var i = 0; i < labels.count; i += 1)
+        for i in 0 ..< labels.count
         {
             if (labels[i] == nil)
             {
@@ -160,7 +160,8 @@ public class ChartLegend: ChartComponentBase
         var height = CGFloat(0.0)
         
         var labels = self.labels
-        for (var i = 0, count = labels.count; i < count; i += 1)
+        let count = labels.count
+        for i in 0 ..< count
         {
             if (labels[i] != nil)
             {
@@ -276,7 +277,7 @@ public class ChartLegend: ChartComponentBase
             var requiredWidth: CGFloat = 0.0
             var stackedStartIndex: Int = -1
             
-            for (var i = 0; i < labelCount; i += 1)
+            for i in 0 ..< labelCount
             {
                 let drawingForm = colors[i] != nil
                 

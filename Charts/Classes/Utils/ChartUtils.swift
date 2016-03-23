@@ -74,7 +74,7 @@ public class ChartUtils
         var index = -Int.max
         var distance = DBL_MAX
         
-        for (var i = 0; i < valsAtIndex.count; i += 1)
+        for i in 0 ..< valsAtIndex.count
         {
             let sel = valsAtIndex[i]
             
@@ -97,7 +97,8 @@ public class ChartUtils
     {
         var distance = DBL_MAX
         
-        for (var i = 0, count = valsAtIndex.count; i < count; i += 1)
+        let count = valsAtIndex.count
+        for i in 0 ..< count
         {
             let sel = valsAtIndex[i]
             

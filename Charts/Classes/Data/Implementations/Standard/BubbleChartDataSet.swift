@@ -55,41 +55,43 @@ public class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubble
         _yMin = yMin(entries[start])
         _yMax = yMax(entries[start])
         
-        for (var i = start; i <= endValue; i += 1)
-        {
-            let entry = entries[i]
-
-            let ymin = yMin(entry)
-            let ymax = yMax(entry)
-            
-            if (ymin < _yMin)
+        if start <= endValue {
+            for i in start ... endValue
             {
-                _yMin = ymin
-            }
-            
-            if (ymax > _yMax)
-            {
-                _yMax = ymax
-            }
-            
-            let xmin = xMin(entry)
-            let xmax = xMax(entry)
-            
-            if (xmin < _xMin)
-            {
-                _xMin = xmin
-            }
-            
-            if (xmax > _xMax)
-            {
-                _xMax = xmax
-            }
-
-            let size = largestSize(entry)
-            
-            if (size > _maxSize)
-            {
-                _maxSize = size
+                let entry = entries[i]
+                
+                let ymin = yMin(entry)
+                let ymax = yMax(entry)
+                
+                if (ymin < _yMin)
+                {
+                    _yMin = ymin
+                }
+                
+                if (ymax > _yMax)
+                {
+                    _yMax = ymax
+                }
+                
+                let xmin = xMin(entry)
+                let xmax = xMax(entry)
+                
+                if (xmin < _xMin)
+                {
+                    _xMin = xmin
+                }
+                
+                if (xmax > _xMax)
+                {
+                    _xMax = xmax
+                }
+                
+                let size = largestSize(entry)
+                
+                if (size > _maxSize)
+                {
+                    _maxSize = size
+                }
             }
         }
     }

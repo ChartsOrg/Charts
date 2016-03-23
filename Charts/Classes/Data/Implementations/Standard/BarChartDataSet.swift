@@ -52,7 +52,7 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
     {
         _entryCountStacks = 0
         
-        for (var i = 0; i < yVals.count; i += 1)
+        for i in 0 ..< yVals.count
         {
             let vals = yVals[i].values
             
@@ -70,7 +70,7 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
     /// calculates the maximum stacksize that occurs in the Entries array of this DataSet
     private func calcStackSize(yVals: [BarChartDataEntry]!)
     {
-        for (var i = 0; i < yVals.count; i += 1)
+        for i in 0 ..< yVals.count
         {
             if let vals = yVals[i].values
             {
@@ -108,34 +108,36 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
         _yMin = DBL_MAX
         _yMax = -DBL_MAX
         
-        for (var i = start; i <= endValue; i += 1)
-        {
-            if let e = _yVals[i] as? BarChartDataEntry
+        if start <= endValue {
+            for i in start ... endValue
             {
-                if !e.value.isNaN
+                if let e = _yVals[i] as? BarChartDataEntry
                 {
-                    if e.values == nil
+                    if !e.value.isNaN
                     {
-                        if e.value < _yMin
+                        if e.values == nil
                         {
-                            _yMin = e.value
+                            if e.value < _yMin
+                            {
+                                _yMin = e.value
+                            }
+                            
+                            if e.value > _yMax
+                            {
+                                _yMax = e.value
+                            }
                         }
-                        
-                        if e.value > _yMax
+                        else
                         {
-                            _yMax = e.value
-                        }
-                    }
-                    else
-                    {
-                        if -e.negativeSum < _yMin
-                        {
-                            _yMin = -e.negativeSum
-                        }
-                        
-                        if e.positiveSum > _yMax
-                        {
-                            _yMax = e.positiveSum
+                            if -e.negativeSum < _yMin
+                            {
+                                _yMin = -e.negativeSum
+                            }
+                            
+                            if e.positiveSum > _yMax
+                            {
+                                _yMax = e.positiveSum
+                            }
                         }
                     }
                 }

@@ -58,18 +58,20 @@ public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChar
         _yMin = DBL_MAX
         _yMax = -DBL_MAX
         
-        for (var i = start; i <= endValue; i += 1)
-        {
-            let e = entries[i]
-            
-            if (e.low < _yMin)
+        if start <= endValue {
+            for i in start ... endValue
             {
-                _yMin = e.low
-            }
-            
-            if (e.high > _yMax)
-            {
-                _yMax = e.high
+                let e = entries[i]
+                
+                if (e.low < _yMin)
+                {
+                    _yMin = e.low
+                }
+                
+                if (e.high > _yMax)
+                {
+                    _yMax = e.high
+                }
             }
         }
     }

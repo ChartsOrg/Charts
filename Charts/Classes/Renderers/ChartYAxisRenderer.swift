@@ -114,7 +114,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             
             var v = yMin
             
-            for (var i = 0; i < labelCount; i += 1)
+            for _ in 0 ..< labelCount
             {
                 yAxis.entries.append(v)
                 v += step
@@ -135,10 +135,8 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
                 let first = ceil(Double(yMin) / interval) * interval
                 let last = ChartUtils.nextUp(floor(Double(yMax) / interval) * interval)
                 
-                var f: Double
-                var i: Int
                 var n = 0
-                for (f = first; f <= last; f += interval)
+                for _ in first.stride(through: last, by: interval)
                 {
                      n += 1
                 }
@@ -153,7 +151,8 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
                     yAxis.entries.removeRange(n..<yAxis.entries.count)
                 }
                 
-                for (f = first, i = 0; i < n; f += interval, i += 1)
+                var f: Double = first
+                for i in 0 ..< n
                 {
                     if (f == 0.0)
                     { // Fix for IEEE negative zero case (Where value == -0.0, and 0.0 == -0.0)
@@ -161,6 +160,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
                     }
                     
                     yAxis.entries[i] = Double(f)
+                    f += interval
                 }
             }
         }
@@ -273,7 +273,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
         
         var pt = CGPoint()
         
-        for (var i = 0; i < yAxis.entryCount; i += 1)
+        for i in 0 ..< yAxis.entryCount
         {
             let text = yAxis.getFormattedLabel(i)
             
@@ -327,7 +327,8 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             var position = CGPoint(x: 0.0, y: 0.0)
             
             // draw the horizontal grid
-            for (var i = 0, count = yAxis.entryCount; i < count; i += 1)
+            let count = yAxis.entryCount
+            for i in 0 ..< count
             {
                 position.x = 0.0
                 position.y = CGFloat(yAxis.entries[i])
@@ -411,7 +412,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
         
         var position = CGPoint(x: 0.0, y: 0.0)
         
-        for (var i = 0; i < limitLines.count; i += 1)
+        for i in 0 ..< limitLines.count
         {
             let l = limitLines[i]
             

@@ -87,30 +87,32 @@ public class ChartHighlighter : NSObject
         var vals = [ChartSelectionDetail]()
         var pt = CGPoint()
         
-        for (var i = 0, dataSetCount = self.chart?.data?.dataSetCount; i < dataSetCount; i += 1)
-        {
-            let dataSet = self.chart!.data!.getDataSetByIndex(i)
-            
-            // dont include datasets that cannot be highlighted
-            if !dataSet.isHighlightEnabled
+        if let dataSetCount = self.chart?.data?.dataSetCount {
+            for i in 0 ..< dataSetCount
             {
-                continue
-            }
-            
-            // extract all y-values from all DataSets at the given x-index
-            let yVal: Double = dataSet.yValForXIndex(xIndex)
-            if yVal.isNaN
-            {
-                continue
-            }
-            
-            pt.y = CGFloat(yVal)
-            
-            self.chart!.getTransformer(dataSet.axisDependency).pointValueToPixel(&pt)
-            
-            if !pt.y.isNaN
-            {
-                vals.append(ChartSelectionDetail(value: Double(pt.y), dataSetIndex: i, dataSet: dataSet))
+                let dataSet = self.chart!.data!.getDataSetByIndex(i)
+                
+                // dont include datasets that cannot be highlighted
+                if !dataSet.isHighlightEnabled
+                {
+                    continue
+                }
+                
+                // extract all y-values from all DataSets at the given x-index
+                let yVal: Double = dataSet.yValForXIndex(xIndex)
+                if yVal.isNaN
+                {
+                    continue
+                }
+                
+                pt.y = CGFloat(yVal)
+                
+                self.chart!.getTransformer(dataSet.axisDependency).pointValueToPixel(&pt)
+                
+                if !pt.y.isNaN
+                {
+                    vals.append(ChartSelectionDetail(value: Double(pt.y), dataSetIndex: i, dataSet: dataSet))
+                }
             }
         }
         

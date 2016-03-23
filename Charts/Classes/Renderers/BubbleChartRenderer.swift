@@ -89,44 +89,46 @@ public class BubbleChartRenderer: ChartDataRendererBase
         let maxBubbleHeight: CGFloat = abs(viewPortHandler.contentBottom - viewPortHandler.contentTop)
         let referenceSize: CGFloat = min(maxBubbleHeight, maxBubbleWidth)
         
-        for (var j = minx; j < maxx; j += 1)
-        {
-            guard let entry = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { continue }
-            
-            _pointBuffer.x = CGFloat(entry.xIndex - minx) * phaseX + CGFloat(minx)
-            _pointBuffer.y = CGFloat(entry.value) * phaseY
-            _pointBuffer = CGPointApplyAffineTransform(_pointBuffer, valueToPixelMatrix)
-            
-            let shapeSize = getShapeSize(entrySize: entry.size, maxSize: dataSet.maxSize, reference: referenceSize)
-            let shapeHalf = shapeSize / 2.0
-            
-            if (!viewPortHandler.isInBoundsTop(_pointBuffer.y + shapeHalf)
-                || !viewPortHandler.isInBoundsBottom(_pointBuffer.y - shapeHalf))
+        if minx < maxx {
+            for j in minx ..< maxx
             {
-                continue
+                guard let entry = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { continue }
+                
+                _pointBuffer.x = CGFloat(entry.xIndex - minx) * phaseX + CGFloat(minx)
+                _pointBuffer.y = CGFloat(entry.value) * phaseY
+                _pointBuffer = CGPointApplyAffineTransform(_pointBuffer, valueToPixelMatrix)
+                
+                let shapeSize = getShapeSize(entrySize: entry.size, maxSize: dataSet.maxSize, reference: referenceSize)
+                let shapeHalf = shapeSize / 2.0
+                
+                if (!viewPortHandler.isInBoundsTop(_pointBuffer.y + shapeHalf)
+                    || !viewPortHandler.isInBoundsBottom(_pointBuffer.y - shapeHalf))
+                {
+                    continue
+                }
+                
+                if (!viewPortHandler.isInBoundsLeft(_pointBuffer.x + shapeHalf))
+                {
+                    continue
+                }
+                
+                if (!viewPortHandler.isInBoundsRight(_pointBuffer.x - shapeHalf))
+                {
+                    break
+                }
+                
+                let color = dataSet.colorAt(entry.xIndex)
+                
+                let rect = CGRect(
+                    x: _pointBuffer.x - shapeHalf,
+                    y: _pointBuffer.y - shapeHalf,
+                    width: shapeSize,
+                    height: shapeSize
+                )
+                
+                CGContextSetFillColorWithColor(context, color.CGColor)
+                CGContextFillEllipseInRect(context, rect)
             }
-            
-            if (!viewPortHandler.isInBoundsLeft(_pointBuffer.x + shapeHalf))
-            {
-                continue
-            }
-            
-            if (!viewPortHandler.isInBoundsRight(_pointBuffer.x - shapeHalf))
-            {
-                break
-            }
-            
-            let color = dataSet.colorAt(entry.xIndex)
-            
-            let rect = CGRect(
-                x: _pointBuffer.x - shapeHalf,
-                y: _pointBuffer.y - shapeHalf,
-                width: shapeSize,
-                height: shapeSize
-            )
-
-            CGContextSetFillColorWithColor(context, color.CGColor)
-            CGContextFillEllipseInRect(context, rect)
         }
         
         CGContextRestoreGState(context)
@@ -174,40 +176,42 @@ public class BubbleChartRenderer: ChartDataRendererBase
                 let minx = max(dataSet.entryIndex(entry: entryFrom), 0)
                 let maxx = min(dataSet.entryIndex(entry: entryTo) + 1, entryCount)
                 
-                for (var j = minx; j < maxx; j += 1)
-                {
-                    guard let e = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { break }
-                    
-                    let valueTextColor = dataSet.valueTextColorAt(j).colorWithAlphaComponent(alpha)
-                    
-                    pt.x = CGFloat(e.xIndex - minx) * phaseX + CGFloat(minx)
-                    pt.y = CGFloat(e.value) * phaseY
-                    pt = CGPointApplyAffineTransform(pt, valueToPixelMatrix)
-                    
-                    if (!viewPortHandler.isInBoundsRight(pt.x))
+                if minx < maxx {
+                    for j in minx ..< maxx
                     {
-                        break
+                        guard let e = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { break }
+                        
+                        let valueTextColor = dataSet.valueTextColorAt(j).colorWithAlphaComponent(alpha)
+                        
+                        pt.x = CGFloat(e.xIndex - minx) * phaseX + CGFloat(minx)
+                        pt.y = CGFloat(e.value) * phaseY
+                        pt = CGPointApplyAffineTransform(pt, valueToPixelMatrix)
+                        
+                        if (!viewPortHandler.isInBoundsRight(pt.x))
+                        {
+                            break
+                        }
+                        
+                        if ((!viewPortHandler.isInBoundsLeft(pt.x) || !viewPortHandler.isInBoundsY(pt.y)))
+                        {
+                            continue
+                        }
+                        
+                        let text = formatter.stringFromNumber(e.size)
+                        
+                        // Larger font for larger bubbles?
+                        let valueFont = dataSet.valueFont
+                        let lineHeight = valueFont.lineHeight
+                        
+                        ChartUtils.drawText(
+                            context: context,
+                            text: text!,
+                            point: CGPoint(
+                                x: pt.x,
+                                y: pt.y - (0.5 * lineHeight)),
+                            align: .Center,
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
                     }
-                    
-                    if ((!viewPortHandler.isInBoundsLeft(pt.x) || !viewPortHandler.isInBoundsY(pt.y)))
-                    {
-                        continue
-                    }
-                    
-                    let text = formatter.stringFromNumber(e.size)
-                    
-                    // Larger font for larger bubbles?
-                    let valueFont = dataSet.valueFont
-                    let lineHeight = valueFont.lineHeight
-
-                    ChartUtils.drawText(
-                        context: context,
-                        text: text!,
-                        point: CGPoint(
-                            x: pt.x,
-                            y: pt.y - (0.5 * lineHeight)),
-                        align: .Center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
                 }
             }
         }
