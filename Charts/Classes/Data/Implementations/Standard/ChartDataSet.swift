@@ -98,7 +98,7 @@ public class ChartDataSet: ChartBaseDataSet
         _yMin = DBL_MAX
         _yMax = -DBL_MAX
         
-        for (var i = start; i <= endValue; i++)
+        for (var i = start; i <= endValue; i += 1)
         {
             let e = _yVals[i]
             
@@ -185,11 +185,11 @@ public class ChartDataSet: ChartBaseDataSet
             {
                 while (m > 0 && _yVals[m - 1].xIndex == x)
                 {
-                    m--
+                    m -= 1
                 }
                 
                 high = _yVals.count
-                for (; m < high; m++)
+                for (; m < high; m += 1)
                 {
                     entry = _yVals[m]
                     if (entry.xIndex == x)
@@ -235,7 +235,7 @@ public class ChartDataSet: ChartBaseDataSet
             {
                 while (m > 0 && _yVals[m - 1].xIndex == x)
                 {
-                    m--
+                    m -= 1
                 }
                 
                 return m
@@ -281,7 +281,7 @@ public class ChartDataSet: ChartBaseDataSet
     /// - parameter e: the entry to search for
     public override func entryIndex(entry e: ChartDataEntry) -> Int
     {
-        for (var i = 0; i < _yVals.count; i++)
+        for (var i = 0; i < _yVals.count; i += 1)
         {
             if _yVals[i] === e
             {
@@ -364,7 +364,7 @@ public class ChartDataSet: ChartBaseDataSet
             var closestIndex = entryIndex(xIndex: e.xIndex, rounding: .Closest)
             if _yVals[closestIndex].xIndex < e.xIndex
             {
-                closestIndex++
+                closestIndex += 1
             }
             _yVals.insert(e, atIndex: closestIndex)
             
@@ -384,7 +384,7 @@ public class ChartDataSet: ChartBaseDataSet
     {
         var removed = false
         
-        for (var i = 0; i < _yVals.count; i++)
+        for (var i = 0; i < _yVals.count; i += 1)
         {
             if (_yVals[i] === entry)
             {

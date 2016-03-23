@@ -78,7 +78,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
             
             var v = yMin
             
-            for (var i = 0; i < labelCount; i++)
+            for (var i = 0; i < labelCount; i += 1)
             {
                 yAxis.entries.append(v)
                 v += step
@@ -119,7 +119,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
                 var n = 0
                 for (f = first; f <= last; f += interval)
                 {
-                    ++n
+                     n += 1
                 }
                 
                 if (isnan(yAxis.customAxisMax))
@@ -133,7 +133,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
                     yAxis.entries = [Double](count: n, repeatedValue: 0.0)
                 }
                 
-                for (f = first, i = 0; i < n; f += interval, ++i)
+                for (f = first, i = 0; i < n; f += interval, i += 1)
                 {
                     yAxis.entries[i] = Double(f)
                 }
@@ -172,7 +172,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         
         let labelLineHeight = yAxis.labelFont.lineHeight
         
-        for (var j = 0; j < labelCount; j++)
+        for (var j = 0; j < labelCount; j += 1)
         {
             if (j == labelCount - 1 && yAxis.isDrawTopYLabelEntryEnabled == false)
             {
@@ -212,7 +212,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         
         let center = chart.centerOffsets
         
-        for (var i = 0; i < limitLines.count; i++)
+        for (var i = 0; i < limitLines.count; i += 1)
         {
             let l = limitLines[i]
             
@@ -236,7 +236,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
             
             CGContextBeginPath(context)
             
-            for (var j = 0, count = chart.data!.xValCount; j < count; j++)
+            for (var j = 0, count = chart.data!.xValCount; j < count; j += 1)
             {
                 let p = ChartUtils.getPosition(center: center, dist: r, angle: sliceangle * CGFloat(j) + chart.rotationAngle)
                 

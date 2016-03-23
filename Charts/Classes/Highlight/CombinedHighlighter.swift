@@ -31,9 +31,9 @@ public class CombinedHighlighter: ChartHighlighter
             
             var pt = CGPoint()
             
-            for var i = 0; i < dataObjects.count; i++
+            for var i = 0; i < dataObjects.count; i += 1
             {
-                for var j = 0; j < dataObjects[i].dataSetCount; j++
+                for var j = 0; j < dataObjects[i].dataSetCount; j += 1
                 {
                     let dataSet = dataObjects[i].getDataSetByIndex(j)
                     

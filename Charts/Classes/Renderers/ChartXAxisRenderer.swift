@@ -38,7 +38,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         
         let max = Int(round(xValAverageLength + Double(xAxis.spaceBetweenLabels)))
         
-        for (var i = 0; i < max; i++)
+        for (var i = 0; i < max; i += 1)
         {
             a += "h"
         }
@@ -284,7 +284,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         
         var position = CGPoint(x: 0.0, y: 0.0)
         
-        for (var i = 0; i < limitLines.count; i++)
+        for (var i = 0; i < limitLines.count; i += 1)
         {
             let l = limitLines[i]
             

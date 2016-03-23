@@ -110,7 +110,7 @@ public class ChartDataApproximatorFilter: ChartDataBaseFilter
         
         // create a new array with series, only take the kept ones
         var reducedEntries = [ChartDataEntry]()
-        for (var i = 0; i < entries.count; i++)
+        for (var i = 0; i < entries.count; i += 1)
         {
             if (keep[i])
             {
@@ -143,7 +143,7 @@ public class ChartDataApproximatorFilter: ChartDataBaseFilter
         let firstEntry = entries[start]
         let lastEntry = entries[end]
         
-        for (var i = start + 1; i < end; i++)
+        for (var i = start + 1; i < end; i += 1)
         {
             let dist = calcAngleBetweenLines(firstEntry, end1: lastEntry, start2: firstEntry, end2: entries[i])
             

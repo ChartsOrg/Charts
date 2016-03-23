@@ -78,7 +78,7 @@ public class ChartAxisBase: ChartComponentBase
     /// Removes the specified ChartLimitLine from the axis.
     public func removeLimitLine(line: ChartLimitLine)
     {
-        for (var i = 0; i < _limitLines.count; i++)
+        for (var i = 0; i < _limitLines.count; i += 1)
         {
             if (_limitLines[i] === line)
             {

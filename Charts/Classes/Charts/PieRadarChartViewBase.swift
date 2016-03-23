@@ -378,7 +378,7 @@ public class PieRadarChartViewBase: ChartViewBase
         
         guard let data = _data else { return vals }
 
-        for (var i = 0; i < data.dataSetCount; i++)
+        for (var i = 0; i < data.dataSetCount; i += 1)
         {
             guard let dataSet = data.getDataSetByIndex(i) else { continue }
             
@@ -695,13 +695,13 @@ public class PieRadarChartViewBase: ChartViewBase
         _velocitySamples.append(AngularVelocitySample(time: currentTime, angle: angleForPoint(x: touchLocation.x, y: touchLocation.y)))
         
         // Remove samples older than our sample time - 1 seconds
-        for (var i = 0, count = _velocitySamples.count; i < count - 2; i++)
+        for (var i = 0, count = _velocitySamples.count; i < count - 2; i += 1)
         {
             if (currentTime - _velocitySamples[i].time > 1.0)
             {
                 _velocitySamples.removeAtIndex(0)
-                i--
-                count--
+                i -= 1
+                count -= 1
             }
             else
             {
@@ -722,7 +722,7 @@ public class PieRadarChartViewBase: ChartViewBase
         
         // Look for a sample that's closest to the latest sample, but not the same, so we can deduce the direction
         var beforeLastSample = firstSample
-        for (var i = _velocitySamples.count - 1; i >= 0; i--)
+        for (var i = _velocitySamples.count - 1; i >= 0; i -= 1)
         {
             beforeLastSample = _velocitySamples[i]
             if (beforeLastSample.angle != lastSample.angle)

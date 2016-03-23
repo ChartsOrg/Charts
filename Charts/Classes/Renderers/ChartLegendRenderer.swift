@@ -221,7 +221,7 @@ public class ChartLegendRenderer: ChartRendererBase
                 if (posX == originPosX && legendPosition == .BelowChartCenter && lineIndex < calculatedLineSizes.count)
                 {
                     posX += (direction == .RightToLeft ? calculatedLineSizes[lineIndex].width : -calculatedLineSizes[lineIndex].width) / 2.0
-                    lineIndex++
+                    lineIndex += 1
                 }
                 
                 let drawingForm = colors[i] != nil

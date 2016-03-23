@@ -69,7 +69,7 @@ public class BarChartDataEntry: ChartDataEntry
         while (index > stackIndex && index >= 0)
         {
             remainder += values![index]
-            index--
+            index -= 1
         }
         
         return remainder

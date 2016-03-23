@@ -198,7 +198,7 @@ public class RadarChartView: PieRadarChartViewBase
         
         let sliceAngle = self.sliceAngle
         
-        for (var i = 0; i < (_data?.xValCount ?? 0); i++)
+        for (var i = 0; i < (_data?.xValCount ?? 0); i += 1)
         {
             if (sliceAngle * CGFloat(i + 1) - sliceAngle / 2.0 > a)
             {

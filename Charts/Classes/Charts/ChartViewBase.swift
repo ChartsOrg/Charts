@@ -521,7 +521,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
             return
         }
 
-        for (var i = 0, count = _indicesToHighlight.count; i < count; i++)
+        for (var i = 0, count = _indicesToHighlight.count; i < count; i += 1)
         {
             let highlight = _indicesToHighlight[i]
             let xIndex = highlight.xIndex
@@ -766,7 +766,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         
         guard let data = _data else { return vals }
 
-        for (var i = 0, count = data.dataSetCount; i < count; i++)
+        for (var i = 0, count = data.dataSetCount; i < count; i += 1)
         {
             let set = data.getDataSetByIndex(i)
             let e = set.entryForXIndex(xIndex)

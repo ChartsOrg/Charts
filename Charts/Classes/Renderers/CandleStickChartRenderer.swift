@@ -71,7 +71,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
         
         CGContextSetLineWidth(context, dataSet.shadowWidth)
         
-        for (var j = minx, count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))); j < count; j++)
+        for (var j = minx, count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))); j < count; j += 1)
         {
             // get the entry
             guard let e = dataSet.entryForIndex(j) as? CandleChartDataEntry else { continue }
@@ -262,7 +262,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
             
             var pt = CGPoint()
             
-            for (var i = 0; i < dataSets.count; i++)
+            for (var i = 0; i < dataSets.count; i += 1)
             {
                 let dataSet = dataSets[i]
                 
@@ -286,7 +286,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                 let lineHeight = valueFont.lineHeight
                 let yOffset: CGFloat = lineHeight + 5.0
                 
-                for (var j = minx, count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))); j < count; j++)
+                for (var j = minx, count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))); j < count; j += 1)
                 {
                     guard let e = dataSet.entryForIndex(j) as? CandleChartDataEntry else { break }
                     
@@ -333,7 +333,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
         
         CGContextSaveGState(context)
         
-        for (var i = 0; i < indices.count; i++)
+        for (var i = 0; i < indices.count; i += 1)
         {
             let xIndex = indices[i].xIndex; // get the x-position
             

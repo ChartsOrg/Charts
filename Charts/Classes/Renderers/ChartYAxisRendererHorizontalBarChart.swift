@@ -65,7 +65,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         var positions = [CGPoint]()
         positions.reserveCapacity(yAxis.entries.count)
         
-        for (var i = 0; i < yAxis.entries.count; i++)
+        for (var i = 0; i < yAxis.entries.count; i += 1)
         {
             positions.append(CGPoint(x: CGFloat(yAxis.entries[i]), y: 0.0))
         }
@@ -162,7 +162,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         let labelFont = yAxis.labelFont
         let labelTextColor = yAxis.labelTextColor
         
-        for (var i = 0; i < yAxis.entryCount; i++)
+        for (var i = 0; i < yAxis.entryCount; i += 1)
         {
             let text = yAxis.getFormattedLabel(i)
             
@@ -206,7 +206,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
             }
             
             // draw the horizontal grid
-            for (var i = 0; i < yAxis.entryCount; i++)
+            for (var i = 0; i < yAxis.entryCount; i += 1)
             {
                 position.x = CGFloat(yAxis.entries[i])
                 position.y = 0.0
@@ -255,7 +255,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         
         var position = CGPoint(x: 0.0, y: 0.0)
         
-        for (var i = 0; i < limitLines.count; i++)
+        for (var i = 0; i < limitLines.count; i += 1)
         {
             let l = limitLines[i]
             

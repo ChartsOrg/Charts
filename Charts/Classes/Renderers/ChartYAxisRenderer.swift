@@ -114,7 +114,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             
             var v = yMin
             
-            for (var i = 0; i < labelCount; i++)
+            for (var i = 0; i < labelCount; i += 1)
             {
                 yAxis.entries.append(v)
                 v += step
@@ -140,7 +140,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
                 var n = 0
                 for (f = first; f <= last; f += interval)
                 {
-                    ++n
+                     n += 1
                 }
                 
                 if (yAxis.entries.count < n)
@@ -153,7 +153,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
                     yAxis.entries.removeRange(n..<yAxis.entries.count)
                 }
                 
-                for (f = first, i = 0; i < n; f += interval, ++i)
+                for (f = first, i = 0; i < n; f += interval, i += 1)
                 {
                     if (f == 0.0)
                     { // Fix for IEEE negative zero case (Where value == -0.0, and 0.0 == -0.0)
@@ -273,7 +273,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
         
         var pt = CGPoint()
         
-        for (var i = 0; i < yAxis.entryCount; i++)
+        for (var i = 0; i < yAxis.entryCount; i += 1)
         {
             let text = yAxis.getFormattedLabel(i)
             
@@ -327,7 +327,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             var position = CGPoint(x: 0.0, y: 0.0)
             
             // draw the horizontal grid
-            for (var i = 0, count = yAxis.entryCount; i < count; i++)
+            for (var i = 0, count = yAxis.entryCount; i < count; i += 1)
             {
                 position.x = 0.0
                 position.y = CGFloat(yAxis.entries[i])
@@ -411,7 +411,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
         
         var position = CGPoint(x: 0.0, y: 0.0)
         
-        for (var i = 0; i < limitLines.count; i++)
+        for (var i = 0; i < limitLines.count; i += 1)
         {
             let l = limitLines[i]
             

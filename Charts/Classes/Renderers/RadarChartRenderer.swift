@@ -85,7 +85,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         let path = CGPathCreateMutable()
         var hasMovedToPoint = false
         
-        for (var j = 0; j < entryCount; j++)
+        for (var j = 0; j < entryCount; j += 1)
         {
             guard let e = dataSet.entryForIndex(j) else { continue }
             
@@ -167,7 +167,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         let yoffset = CGFloat(5.0)
         
-        for (var i = 0, count = data.dataSetCount; i < count; i++)
+        for (var i = 0, count = data.dataSetCount; i < count; i += 1)
         {
             let dataSet = data.getDataSetByIndex(i) as! IRadarChartDataSet
             
@@ -178,7 +178,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
             
             let entryCount = dataSet.entryCount
             
-            for (var j = 0; j < entryCount; j++)
+            for (var j = 0; j < entryCount; j += 1)
             {
                 guard let e = dataSet.entryForIndex(j) else { continue }
                 
@@ -257,9 +257,9 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         let labelCount = chart.yAxis.entryCount
         
-        for (var j = 0; j < labelCount; j++)
+        for (var j = 0; j < labelCount; j += 1)
         {
-            for (var i = 0, xValCount = data.xValCount; i < xValCount; i++)
+            for (var i = 0, xValCount = data.xValCount; i < xValCount; i += 1)
             {
                 let r = CGFloat(chart.yAxis.entries[j] - chart.chartYMin) * factor
 
@@ -307,7 +307,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         let center = chart.centerOffsets
         
-        for (var i = 0; i < indices.count; i++)
+        for (var i = 0; i < indices.count; i += 1)
         {
             guard let set = chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as? IRadarChartDataSet else { continue }
             

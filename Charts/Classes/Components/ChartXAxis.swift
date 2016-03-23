@@ -111,7 +111,7 @@ public class ChartXAxis: ChartAxisBase
     {
         var longest = ""
         
-        for (var i = 0; i < values.count; i++)
+        for (var i = 0; i < values.count; i += 1)
         {
             let text = values[i]
             

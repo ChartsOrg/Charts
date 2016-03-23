@@ -186,12 +186,12 @@ public class PieChartView: PieRadarChartViewBase
 
         var cnt = 0
 
-        for (var i = 0; i < data.dataSetCount; i++)
+        for (var i = 0; i < data.dataSetCount; i += 1)
         {
             let set = dataSets[i]
             let entryCount = set.entryCount
 
-            for (var j = 0; j < entryCount; j++)
+            for (var j = 0; j < entryCount; j += 1)
             {
                 guard let e = set.entryForIndex(j) else { continue }
                 
@@ -206,7 +206,7 @@ public class PieChartView: PieRadarChartViewBase
                     _absoluteAngles.append(_absoluteAngles[cnt - 1] + _drawAngles[cnt])
                 }
 
-                cnt++
+                cnt += 1
             }
         }
     }
@@ -220,7 +220,7 @@ public class PieChartView: PieRadarChartViewBase
             return false
         }
         
-        for (var i = 0; i < _indicesToHighlight.count; i++)
+        for (var i = 0; i < _indicesToHighlight.count; i += 1)
         {
             // check if the xvalue for the given dataset needs highlight
             if (_indicesToHighlight[i].xIndex == xIndex
@@ -249,7 +249,7 @@ public class PieChartView: PieRadarChartViewBase
     {
         // take the current angle of the chart into consideration
         let a = ChartUtils.normalizedAngleFromAngle(angle - self.rotationAngle)
-        for (var i = 0; i < _absoluteAngles.count; i++)
+        for (var i = 0; i < _absoluteAngles.count; i += 1)
         {
             if (_absoluteAngles[i] > a)
             {
@@ -265,7 +265,7 @@ public class PieChartView: PieRadarChartViewBase
     {
         var dataSets = _data?.dataSets ?? []
         
-        for (var i = 0; i < dataSets.count; i++)
+        for (var i = 0; i < dataSets.count; i += 1)
         {
             if (dataSets[i].entryForXIndex(xIndex) !== nil)
             {
