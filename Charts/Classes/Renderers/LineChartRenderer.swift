@@ -428,8 +428,9 @@ public class LineChartRenderer: LineRadarChartRenderer
     }
     
     /// Generates the path that is used for filled drawing.
-    private func generateFilledPath(dataSet dataSet: ILineChartDataSet, fillMin: CGFloat, from: Int, to: Int, var matrix: CGAffineTransform) -> CGPath
+    private func generateFilledPath(dataSet dataSet: ILineChartDataSet, fillMin: CGFloat, from: Int, to: Int, matrix: CGAffineTransform) -> CGPath
     {
+        var matrixVar = matrix
         let phaseX = animator?.phaseX ?? 1.0
         let phaseY = animator?.phaseY ?? 1.0
         let isDrawSteppedEnabled = dataSet.isDrawSteppedEnabled
@@ -441,8 +442,8 @@ public class LineChartRenderer: LineRadarChartRenderer
         e = dataSet.entryForIndex(from)
         if e != nil
         {
-            CGPathMoveToPoint(filled, &matrix, CGFloat(e.xIndex), fillMin)
-            CGPathAddLineToPoint(filled, &matrix, CGFloat(e.xIndex), CGFloat(e.value) * phaseY)
+            CGPathMoveToPoint(filled, &matrixVar, CGFloat(e.xIndex), fillMin)
+            CGPathAddLineToPoint(filled, &matrixVar, CGFloat(e.xIndex), CGFloat(e.value) * phaseY)
         }
         
         // create a new path
@@ -455,10 +456,10 @@ public class LineChartRenderer: LineRadarChartRenderer
                 if isDrawSteppedEnabled
                 {
                     guard let ePrev = dataSet.entryForIndex(x-1) else { continue }
-                    CGPathAddLineToPoint(filled, &matrix, CGFloat(e.xIndex), CGFloat(ePrev.value) * phaseY)
+                    CGPathAddLineToPoint(filled, &matrixVar, CGFloat(e.xIndex), CGFloat(ePrev.value) * phaseY)
                 }
                 
-                CGPathAddLineToPoint(filled, &matrix, CGFloat(e.xIndex), CGFloat(e.value) * phaseY)
+                CGPathAddLineToPoint(filled, &matrixVar, CGFloat(e.xIndex), CGFloat(e.value) * phaseY)
             }
         }
         
@@ -466,7 +467,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         e = dataSet.entryForIndex(max(min(Int(ceil(CGFloat(to - from) * phaseX + CGFloat(from))) - 1, dataSet.entryCount - 1), 0))
         if e != nil
         {
-            CGPathAddLineToPoint(filled, &matrix, CGFloat(e.xIndex), fillMin)
+            CGPathAddLineToPoint(filled, &matrixVar, CGFloat(e.xIndex), fillMin)
         }
         CGPathCloseSubpath(filled)
         

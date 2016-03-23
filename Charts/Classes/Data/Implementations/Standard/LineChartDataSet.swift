@@ -83,15 +83,16 @@ public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     
     /// - returns: the color at the given index of the DataSet's circle-color array.
     /// Performs a IndexOutOfBounds check by modulus.
-    public func getCircleColor(var index: Int) -> NSUIColor?
+    public func getCircleColor(index: Int) -> NSUIColor?
     {
+        var indexVar = index
         let size = circleColors.count
-        index = index % size
-        if (index >= size)
+        indexVar = indexVar % size
+        if (indexVar >= size)
         {
             return nil
         }
-        return circleColors[index]
+        return circleColors[indexVar]
     }
     
     /// Sets the one and ONLY color that should be used for this DataSet.

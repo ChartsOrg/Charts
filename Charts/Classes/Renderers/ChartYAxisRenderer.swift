@@ -31,8 +31,10 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
     }
     
     /// Computes the axis values.
-    public func computeAxis(var yMin yMin: Double, var yMax: Double)
+    public func computeAxis(yMin yMin: Double, yMax: Double)
     {
+        var yMinVar = yMin
+        var yMaxVar = yMax
         guard let yAxis = yAxis else { return }
         
         // calculate the starting and entry point of the y-labels (depending on
@@ -44,17 +46,17 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             
             if (!yAxis.isInverted)
             {
-                yMin = Double(p2.y)
-                yMax = Double(p1.y)
+                yMinVar = Double(p2.y)
+                yMaxVar = Double(p1.y)
             }
             else
             {
-                yMin = Double(p1.y)
-                yMax = Double(p2.y)
+                yMinVar = Double(p1.y)
+                yMaxVar = Double(p2.y)
             }
         }
         
-        computeAxisValues(min: yMin, max: yMax)
+        computeAxisValues(min: yMinVar, max: yMaxVar)
     }
     
     /// Sets up the y-axis labels. Computes the desired number of labels between

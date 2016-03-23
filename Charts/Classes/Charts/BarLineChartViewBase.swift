@@ -855,31 +855,32 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         }
     }
     
-    private func performPanChange(var translation translation: CGPoint) -> Bool
+    private func performPanChange(translation translation: CGPoint) -> Bool
     {
+        var translationVar = translation
         if (isAnyAxisInverted && _closestDataSetToTouch !== nil
             && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
         {
             if (self is HorizontalBarChartView)
             {
-                translation.x = -translation.x
+                translationVar.x = -translationVar.x
             }
             else
             {
-                translation.y = -translation.y
+                translationVar.y = -translationVar.y
             }
         }
         
         let originalMatrix = _viewPortHandler.touchMatrix
         
-        var matrix = CGAffineTransformMakeTranslation(translation.x, translation.y)
+        var matrix = CGAffineTransformMakeTranslation(translationVar.x, translationVar.y)
         matrix = CGAffineTransformConcat(originalMatrix, matrix)
         
         matrix = _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
         
         if (delegate !== nil)
         {
-            delegate?.chartTranslated?(self, dX: translation.x, dY: translation.y)
+            delegate?.chartTranslated?(self, dX: translationVar.x, dY: translationVar.y)
         }
         
         // Did we managed to actually drag or did we reach the edge?
@@ -1642,11 +1643,12 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// (encapsulated in a `CGPoint`). This method transforms pixel coordinates to
     /// coordinates / values in the chart. This is the opposite method to
     /// `getPixelsForValues(...)`.
-    public func getValueByTouchPoint(var pt pt: CGPoint, axis: ChartYAxis.AxisDependency) -> CGPoint
+    public func getValueByTouchPoint(pt pt: CGPoint, axis: ChartYAxis.AxisDependency) -> CGPoint
     {
-        getTransformer(axis).pixelToValue(&pt)
+        var ptVar = pt
+        getTransformer(axis).pixelToValue(&ptVar)
 
-        return pt
+        return ptVar
     }
 
     /// Transforms the given chart values into pixels. This is the opposite
