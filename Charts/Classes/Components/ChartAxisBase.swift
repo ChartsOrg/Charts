@@ -31,10 +31,13 @@ public class ChartAxisBase: ChartComponentBase
     public var gridLineDashLengths: [CGFloat]!
     public var gridLineCap = CGLineCap.Butt
     
+    /// 启用网格线绘制
     public var drawGridLinesEnabled = true
+    
+    /// 启用轴线绘制
     public var drawAxisLineEnabled = true
     
-    /// flag that indicates of the labels of this axis should be drawn or not
+    /// flag that indicates of the labels of this axis should be drawn or not 启用标签文本绘制
     public var drawLabelsEnabled = true
     
     /// array of limitlines that can be set for the axis

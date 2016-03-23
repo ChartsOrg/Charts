@@ -316,13 +316,17 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             
             var position = CGPoint(x: 0.0, y: 0.0)
             
-            // draw the horizontal grid
+            // draw the horizontal grid 绘制Y轴对应的横线，顺序是从下向上
             for (var i = 0, count = yAxis.entryCount; i < count; i++)
             {
                 position.x = 0.0
                 position.y = CGFloat(yAxis.entries[i])
                 position = CGPointApplyAffineTransform(position, valueToPixelMatrix)
-                
+                if i==0 {
+                    position.y -= ceil(yAxis.gridLineWidth) / 2;
+                }else if i == yAxis.entryCount-1 {
+                    position.y += ceil(yAxis.gridLineWidth) / 2;
+                }
                 _gridLineBuffer[0].x = viewPortHandler.contentLeft
                 _gridLineBuffer[0].y = position.y
                 _gridLineBuffer[1].x = viewPortHandler.contentRight

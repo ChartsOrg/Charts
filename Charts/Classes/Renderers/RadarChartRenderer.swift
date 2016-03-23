@@ -100,7 +100,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
                 continue
             }
             
-            if chart.drawCircleEnabled
+            if dataSet.drawCircleEnabled
             {
                 circles.append(p)
             }
@@ -150,17 +150,18 @@ public class RadarChartRenderer: LineRadarChartRenderer
             CGContextStrokePath(context)
         }
         
-        if chart.drawCircleEnabled
+        if dataSet.drawCircleEnabled
         {
             for (var j = 0; j < circles.count; j++)
             {   
                 let p = circles[j]
                 
-                let radius = chart.drawCircleRadius
+                let radius = dataSet.drawCircleRadius
 //                let circle = CGRectMake(p.x - radius, p.y - radius, radius * 2, radius * 2)
                 
-                CGContextSetFillColorWithColor(context, UIColor.greenColor().CGColor)
-                CGContextSetRGBStrokeColor(context, 1, 0, 0, 1)
+                CGContextSetFillColorWithColor(context, dataSet.drawCircleFillColor.CGColor)
+
+                CGContextSetStrokeColorWithColor(context, dataSet.drawCircleStrokeColor.CGColor)
                 CGContextSetLineWidth(context, 2)
                 CGContextAddArc(context, p.x, p.y, radius, 0, CGFloat(M_PI * 2), 1)
                 CGContextDrawPath(context, .FillStroke)

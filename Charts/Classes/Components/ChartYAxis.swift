@@ -90,7 +90,7 @@ public class ChartYAxis: ChartAxisBase
     /// if true, the set number of y-labels will be forced
     public var forceLabelsEnabled = false
 
-    /// flag that indicates if the zero-line should be drawn regardless of other grid lines
+    /// flag that indicates if the zero-line should be drawn regardless of other grid lines 启用Y轴坐标为0的线条绘制
     public var drawZeroLineEnabled = true
     
     /// Color of the zero line

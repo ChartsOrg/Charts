@@ -43,12 +43,6 @@ public class RadarChartView: PieRadarChartViewBase
     /// 绘制X轴刻度
     public var drawXLabels = true
     
-    /// 绘制连接点为一个圆
-    public var drawCircleEnabled = false
-    
-    /// 连接点圆圈的半径
-    public var drawCircleRadius : CGFloat = 4.0;
-    
     /// modulus that determines how many labels and web-lines are skipped before the next is drawn
     private var _skipWebLineCount = 0
     

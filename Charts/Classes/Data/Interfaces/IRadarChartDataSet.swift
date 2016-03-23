@@ -20,4 +20,15 @@ public protocol IRadarChartDataSet: ILineRadarChartDataSet
     
     // MARK: - Styling functions and accessors
     
+    /// 绘制连接点为一个圆
+    var drawCircleEnabled : Bool { get set }
+    
+    /// 连接点圆圈的半径
+    var drawCircleRadius : CGFloat { get set }
+    
+    /// 连接点圆圈的边框颜色
+    var drawCircleStrokeColor : UIColor {get set}
+    
+    ///连接点圆圈的填充色
+    var drawCircleFillColor : UIColor {get set}
 }

@@ -34,6 +34,49 @@ public class RadarChartDataSet: LineRadarChartDataSet, IRadarChartDataSet
         initialize()
     }
     
+    private var _drawCircleEnabled = false
+    public var drawCircleEnabled : Bool
+    {
+        get {
+            return _drawCircleEnabled
+        }
+        set {
+            _drawCircleEnabled = newValue
+        }
+    }
+    
+    private var _drawCircleRadius : CGFloat = 4.0
+    public var drawCircleRadius : CGFloat
+    {
+        set {
+            _drawCircleRadius = newValue
+        }
+        get{
+            return _drawCircleRadius
+        }
+    }
+    
+    private var _drawCircleStrokeColor : UIColor = UIColor.clearColor()
+    public var drawCircleStrokeColor : UIColor
+        {
+        set {
+            _drawCircleStrokeColor = newValue
+        }
+        get{
+            return _drawCircleStrokeColor
+        }
+    }
+    
+    private var _drawCircleFillColor : UIColor = UIColor.clearColor()
+    public var drawCircleFillColor : UIColor
+        {
+        set {
+            _drawCircleFillColor = newValue
+        }
+        get{
+            return _drawCircleFillColor
+        }
+    }
     // MARK: - Data functions and accessors
     
     // MARK: - Styling functions and accessors
