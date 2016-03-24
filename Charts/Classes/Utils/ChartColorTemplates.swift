@@ -118,7 +118,7 @@ public class ChartColorTemplates: NSObject
                         argb[i] = argb[i] + UInt(val)
                     }
                     
-                    i = i + 1
+                    i += 1
                 }
             }
             

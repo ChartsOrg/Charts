@@ -85,8 +85,9 @@ public class RadarChartRenderer: LineRadarChartRenderer
         let path = CGPathCreateMutable()
         var hasMovedToPoint = false
         
+
         var circles = [CGPoint]()
-        for (var j = 0; j < entryCount; j++)
+        for j in 0 ..< entryCount
         {
             guard let e = dataSet.entryForIndex(j) else { continue }
             
@@ -192,7 +193,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         let yoffset = CGFloat(5.0)
         
-        for (var i = 0, count = data.dataSetCount; i < count; i++)
+        for i in 0 ..< data.dataSetCount
         {
             let dataSet = data.getDataSetByIndex(i) as! IRadarChartDataSet
             
@@ -203,7 +204,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
             
             let entryCount = dataSet.entryCount
             
-            for (var j = 0; j < entryCount; j++)
+            for j in 0 ..< entryCount
             {
                 guard let e = dataSet.entryForIndex(j) else { continue }
                 
@@ -260,7 +261,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         let xIncrements = 1 + chart.skipWebLineCount
         
-        for var i = 0, xValCount = data.xValCount; i < xValCount; i += xIncrements
+        for i in 0.stride(to: data.xValCount, by: xIncrements)
         {
             let p = ChartUtils.getPosition(
                 center: center,
@@ -282,9 +283,9 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         let labelCount = chart.yAxis.entryCount
         
-        for (var j = 0; j < labelCount; j++)
+        for j in 0 ..< labelCount
         {
-            for (var i = 0, xValCount = data.xValCount; i < xValCount; i++)
+            for i in 0 ..< data.xValCount
             {
                 let r = CGFloat(chart.yAxis.entries[j] - chart.chartYMin) * factor
 
@@ -332,7 +333,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         let center = chart.centerOffsets
         
-        for (var i = 0; i < indices.count; i++)
+        for i in 0 ..< indices.count
         {
             guard let set = chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as? IRadarChartDataSet else { continue }
             
@@ -371,6 +372,67 @@ public class RadarChartRenderer: LineRadarChartRenderer
             
             // draw the lines
             drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)
+            
+            if (set.isDrawHighlightCircleEnabled)
+            {
+                if (!_highlightPointBuffer.x.isNaN && !_highlightPointBuffer.y.isNaN)
+                {
+                    var strokeColor = set.highlightCircleStrokeColor
+                    if strokeColor == nil
+                    {
+                        strokeColor = set.colorAt(0)
+                    }
+                    if set.highlightCircleStrokeAlpha < 1.0
+                    {
+                        strokeColor = strokeColor?.colorWithAlphaComponent(set.highlightCircleStrokeAlpha)
+                    }
+                    
+                    drawHighlightCircle(
+                        context: context,
+                        atPoint: _highlightPointBuffer,
+                        innerRadius: set.highlightCircleInnerRadius,
+                        outerRadius: set.highlightCircleOuterRadius,
+                        fillColor: set.highlightCircleFillColor,
+                        strokeColor: strokeColor,
+                        strokeWidth: set.highlightCircleStrokeWidth)
+                }
+            }
+        }
+        
+        CGContextRestoreGState(context)
+    }
+    
+    internal func drawHighlightCircle(
+        context context: CGContext,
+        atPoint point: CGPoint,
+        innerRadius: CGFloat,
+        outerRadius: CGFloat,
+        fillColor: NSUIColor?,
+        strokeColor: NSUIColor?,
+        strokeWidth: CGFloat)
+    {
+        CGContextSaveGState(context)
+        
+        if let fillColor = fillColor
+        {
+            CGContextBeginPath(context)
+            CGContextAddEllipseInRect(context, CGRectMake(point.x - outerRadius, point.y - outerRadius, outerRadius * 2.0, outerRadius * 2.0))
+            if innerRadius > 0.0
+            {
+                CGContextAddEllipseInRect(context, CGRectMake(point.x - innerRadius, point.y - innerRadius, innerRadius * 2.0, innerRadius * 2.0))
+            }
+            
+            CGContextSetFillColorWithColor(context, fillColor.CGColor)
+            CGContextEOFillPath(context)
+        }
+            
+        if let strokeColor = strokeColor
+        {
+            CGContextBeginPath(context)
+            CGContextAddEllipseInRect(context, CGRectMake(point.x - outerRadius, point.y - outerRadius, outerRadius * 2.0, outerRadius * 2.0))
+            CGContextSetStrokeColorWithColor(context, strokeColor.CGColor)
+            CGContextSetLineWidth(context, strokeWidth)
+            CGContextStrokePath(context)
         }
         
         CGContextRestoreGState(context)

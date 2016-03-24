@@ -116,11 +116,9 @@ public class ChartYAxis: ChartAxisBase
     /// A custom minimum value for this axis. 
     /// If set, this value will not be calculated automatically depending on the provided data. 
     /// Use `resetCustomAxisMin()` to undo this.
-    /// Do not forget to set startAtZeroEnabled = false if you use this method.
-    /// Otherwise, the axis-minimum value will still be forced to 0.
     public var customAxisMin = Double.NaN
         
-    /// Set a custom maximum value for this axis. 
+    /// A custom maximum value for this axis. 
     /// If set, this value will not be calculated automatically depending on the provided data. 
     /// Use `resetCustomAxisMax()` to undo this.
     public var customAxisMax = Double.NaN
@@ -149,10 +147,21 @@ public class ChartYAxis: ChartAxisBase
     public var minWidth = CGFloat(0)
     
     /// the maximum width that the axis can take.
-    /// use zero for disabling the maximum
+    /// use Infinity for disabling the maximum.
     /// 
-    /// **default**: 0.0 (no maximum specified)
-    public var maxWidth = CGFloat(0)
+    /// **default**: CGFloat.infinity
+    public var maxWidth = CGFloat(CGFloat.infinity)
+    
+    /// When true, axis labels are controlled by the `granularity` property.
+    /// When false, axis values could possibly be repeated.
+    /// This could happen if two adjacent axis values are rounded to same value.
+    /// If using granularity this could be avoided by having fewer axis values visible.
+    public var granularityEnabled = true
+    
+    /// the minimum interval between axis values
+    ///
+    /// **default**: 1.0
+    public var granuality = Double(1.0)
     
     public override init()
     {
@@ -240,14 +249,14 @@ public class ChartYAxis: ChartAxisBase
     
     public func getRequiredHeightSpace() -> CGFloat
     {
-        return requiredSize().height + yOffset
+        return requiredSize().height
     }
 
     public override func getLongestLabel() -> String
     {
         var longest = ""
         
-        for (var i = 0; i < entries.count; i++)
+        for i in 0 ..< entries.count
         {
             let text = getFormattedLabel(i)
             

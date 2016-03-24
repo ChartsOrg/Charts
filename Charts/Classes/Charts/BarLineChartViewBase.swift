@@ -52,6 +52,10 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// Sets the minimum offset (padding) around the chart, defaults to 10
     public var minOffset = CGFloat(10.0)
     
+    /// Sets whether the chart should keep its position (zoom / scroll) after a rotation (orientation change)
+    /// **default**: false
+    public var keepPositionOnRotation: Bool = false
+    
     /// the object representing the left y-axis
     internal var _leftAxis: ChartYAxis!
     
@@ -113,10 +117,10 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         self.highlighter = ChartHighlighter(chart: self)
         
-        _tapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: Selector("tapGestureRecognized:"))
-        _doubleTapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: Selector("doubleTapGestureRecognized:"))
+        _tapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: #selector(BarLineChartViewBase.tapGestureRecognized(_:)))
+        _doubleTapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: #selector(BarLineChartViewBase.doubleTapGestureRecognized(_:)))
         _doubleTapGestureRecognizer.nsuiNumberOfTapsRequired = 2
-        _panGestureRecognizer = NSUIPanGestureRecognizer(target: self, action: Selector("panGestureRecognized:"))
+        _panGestureRecognizer = NSUIPanGestureRecognizer(target: self, action: #selector(BarLineChartViewBase.panGestureRecognized(_:)))
         
         _panGestureRecognizer.delegate = self
         
@@ -128,11 +132,36 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         _panGestureRecognizer.enabled = _dragEnabled
 
         #if !os(tvOS)
-            _pinchGestureRecognizer = NSUIPinchGestureRecognizer(target: self, action: Selector("pinchGestureRecognized:"))
+            _pinchGestureRecognizer = NSUIPinchGestureRecognizer(target: self, action: #selector(BarLineChartViewBase.pinchGestureRecognized(_:)))
             _pinchGestureRecognizer.delegate = self
             self.addGestureRecognizer(_pinchGestureRecognizer)
             _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
         #endif
+    }
+    
+    public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>)
+    {
+        // Saving current position of chart.
+        var oldPoint: CGPoint?
+        if (keepPositionOnRotation && (keyPath == "frame" || keyPath == "bounds"))
+        {
+            oldPoint = viewPortHandler.contentRect.origin
+            getTransformer(.Left).pixelToValue(&oldPoint!)
+        }
+        
+        // Superclass transforms chart.
+        super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+        
+        // Restoring old position of chart
+        if var newPoint = oldPoint where keepPositionOnRotation
+        {
+            getTransformer(.Left).pointValueToPixel(&newPoint)
+            viewPortHandler.centerViewPort(pt: newPoint, chart: self)
+        }
+        else
+        {
+            viewPortHandler.refresh(newMatrix: viewPortHandler.touchMatrix, chart: self, invalidate: true)
+        }
     }
     
     public override func drawRect(rect: CGRect)
@@ -826,7 +855,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                     _decelerationLastTime = CACurrentMediaTime()
                     _decelerationVelocity = recognizer.velocityInView(self)
                     
-                    _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: Selector("decelerationLoop"))
+                    _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(BarLineChartViewBase.decelerationLoop))
                     _decelerationDisplayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
                 }
                 
@@ -841,8 +870,10 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         }
     }
     
-    private func performPanChange(var translation translation: CGPoint) -> Bool
+    private func performPanChange(translation translation: CGPoint) -> Bool
     {
+        var translation = translation
+        
         if (isAnyAxisInverted && _closestDataSetToTouch !== nil
             && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
         {
@@ -1648,8 +1679,10 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// (encapsulated in a `CGPoint`). This method transforms pixel coordinates to
     /// coordinates / values in the chart. This is the opposite method to
     /// `getPixelsForValues(...)`.
-    public func getValueByTouchPoint(var pt pt: CGPoint, axis: ChartYAxis.AxisDependency) -> CGPoint
+    public func getValueByTouchPoint(pt pt: CGPoint, axis: ChartYAxis.AxisDependency) -> CGPoint
     {
+        var pt = pt
+        
         getTransformer(axis).pixelToValue(&pt)
 
         return pt

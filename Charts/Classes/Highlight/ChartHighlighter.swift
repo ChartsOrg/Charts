@@ -87,7 +87,7 @@ public class ChartHighlighter : NSObject
         var vals = [ChartSelectionDetail]()
         var pt = CGPoint()
         
-        for (var i = 0, dataSetCount = self.chart?.data?.dataSetCount; i < dataSetCount; i++)
+        for i in 0 ..< (self.chart?.data?.dataSetCount ?? 0)
         {
             let dataSet = self.chart!.data!.getDataSetByIndex(i)
             

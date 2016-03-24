@@ -45,7 +45,7 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     
     /// - returns: the color at the given index of the DataSet's circle-color array.
     /// Performs a IndexOutOfBounds check by modulus.
-    func getCircleColor(var index: Int) -> NSUIColor?
+    func getCircleColor(index: Int) -> NSUIColor?
     
     /// Sets the one and ONLY color that should be used for this DataSet.
     /// Internally, this recreates the colors array and adds the specified color.
@@ -76,6 +76,9 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     /// I.e. [2, 3] will paint [--   --   ]
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
     var lineDashLengths: [CGFloat]? { get set }
+    
+    /// Line cap type, default is CGLineCap.Butt
+    var lineCapType: CGLineCap { get set }
     
     /// Sets a custom FillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
     var fillFormatter: ChartFillFormatter? { get set }

@@ -111,12 +111,12 @@ public class PieChartRenderer: ChartDataRendererBase
         let userInnerRadius = drawInnerArc ? radius * chart.holeRadiusPercent : 0.0
         
         var visibleAngleCount = 0
-        for (var j = 0; j < entryCount; j++)
+        for j in 0 ..< entryCount
         {
             guard let e = dataSet.entryForIndex(j) else { continue }
             if ((abs(e.value) > 0.000001))
             {
-                visibleAngleCount++;
+                visibleAngleCount += 1
             }
         }
         
@@ -124,7 +124,7 @@ public class PieChartRenderer: ChartDataRendererBase
 
         CGContextSaveGState(context)
         
-        for (var j = 0; j < entryCount; j++)
+        for j in 0 ..< entryCount
         {
             let sliceAngle = drawAngles[j]
             var innerRadius = userInnerRadius
@@ -137,6 +137,8 @@ public class PieChartRenderer: ChartDataRendererBase
                 if (!chart.needsHighlight(xIndex: e.xIndex,
                     dataSetIndex: data.indexOfDataSet(dataSet)))
                 {
+                    let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
+                    
                     CGContextSetFillColorWithColor(context, dataSet.colorAt(j).CGColor)
                     
                     let sliceSpaceAngleOuter = visibleAngleCount == 1 ?
@@ -169,9 +171,9 @@ public class PieChartRenderer: ChartDataRendererBase
                         sweepAngleOuter * ChartUtils.Math.FDEG2RAD)
 
                     if drawInnerArc &&
-                        (innerRadius > 0.0 || sliceSpace > 0.0)
+                        (innerRadius > 0.0 || accountForSliceSpacing)
                     {
-                        if sliceSpace > 0.0
+                        if accountForSliceSpacing
                         {
                             var minSpacedRadius = calculateMinimumRadiusForSpacedSlice(
                                 center: center,
@@ -185,7 +187,7 @@ public class PieChartRenderer: ChartDataRendererBase
                             {
                                 minSpacedRadius = -minSpacedRadius
                             }
-                            innerRadius = max(innerRadius, minSpacedRadius)
+                            innerRadius = min(max(innerRadius, minSpacedRadius), radius)
                         }
                         
                         let sliceSpaceAngleInner = visibleAngleCount == 1 || innerRadius == 0.0 ?
@@ -215,7 +217,7 @@ public class PieChartRenderer: ChartDataRendererBase
                     }
                     else
                     {
-                        if sliceSpace > 0.0
+                        if accountForSliceSpacing
                         {
                             let angleMiddle = startAngleOuter + sweepAngleOuter / 2.0
                             
@@ -300,7 +302,7 @@ public class PieChartRenderer: ChartDataRendererBase
         var angle: CGFloat = 0.0
         var xIndex = 0
         
-        for (var i = 0; i < dataSets.count; i++)
+        for i in 0 ..< dataSets.count
         {
             guard let dataSet = dataSets[i] as? IPieChartDataSet else { continue }
             
@@ -315,7 +317,7 @@ public class PieChartRenderer: ChartDataRendererBase
             
             guard let formatter = dataSet.valueFormatter else { continue }
             
-            for (var j = 0, entryCount = dataSet.entryCount; j < entryCount; j++)
+            for j in 0 ..< dataSet.entryCount
             {
                 if (drawXVals && !drawYVals && (j >= data.xValCount || data.xVals[j] == nil))
                 {
@@ -400,7 +402,7 @@ public class PieChartRenderer: ChartDataRendererBase
                     )
                 }
                 
-                xIndex++
+                xIndex += 1
             }
         }
     }
@@ -533,7 +535,7 @@ public class PieChartRenderer: ChartDataRendererBase
         let drawInnerArc = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled
         let userInnerRadius = drawInnerArc ? radius * chart.holeRadiusPercent : 0.0
         
-        for (var i = 0; i < indices.count; i++)
+        for i in 0 ..< indices.count
         {
             // get the index to highlight
             let xIndex = indices[i].xIndex
@@ -551,12 +553,12 @@ public class PieChartRenderer: ChartDataRendererBase
             
             let entryCount = set.entryCount
             var visibleAngleCount = 0
-            for (var j = 0; j < entryCount; j++)
+            for j in 0 ..< entryCount
             {
                 guard let e = set.entryForIndex(j) else { continue }
                 if ((abs(e.value) > 0.000001))
                 {
-                    visibleAngleCount++;
+                    visibleAngleCount += 1
                 }
             }
             
@@ -576,6 +578,8 @@ public class PieChartRenderer: ChartDataRendererBase
             
             let shift = set.selectionShift
             let highlightedRadius = radius + shift
+            
+            let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
             
             CGContextSetFillColorWithColor(context, set.colorAt(xIndex).CGColor)
             
@@ -618,7 +622,7 @@ public class PieChartRenderer: ChartDataRendererBase
                 sweepAngleShifted * ChartUtils.Math.FDEG2RAD)
             
             var sliceSpaceRadius: CGFloat = 0.0
-            if sliceSpace > 0.0
+            if accountForSliceSpacing
             {
                 sliceSpaceRadius = calculateMinimumRadiusForSpacedSlice(
                     center: center,
@@ -631,16 +635,16 @@ public class PieChartRenderer: ChartDataRendererBase
             }
             
             if drawInnerArc &&
-                (innerRadius > 0.0 || sliceSpace > 0.0)
+                (innerRadius > 0.0 || accountForSliceSpacing)
             {
-                if sliceSpace > 0.0
+                if accountForSliceSpacing
                 {
                     var minSpacedRadius = sliceSpaceRadius
                     if minSpacedRadius < 0.0
                     {
                         minSpacedRadius = -minSpacedRadius
                     }
-                    innerRadius = max(innerRadius, minSpacedRadius)
+                    innerRadius = min(max(innerRadius, minSpacedRadius), radius)
                 }
                 
                 let sliceSpaceAngleInner = visibleAngleCount == 1 || innerRadius == 0.0 ?
@@ -670,7 +674,7 @@ public class PieChartRenderer: ChartDataRendererBase
             }
             else
             {
-                if sliceSpace > 0.0
+                if accountForSliceSpacing
                 {
                     let angleMiddle = startAngleOuter + sweepAngleOuter / 2.0
                     

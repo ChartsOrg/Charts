@@ -396,7 +396,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     
     /// Set this to false to prevent values from being highlighted by tap gesture.
     /// Values can still be highlighted via drag or programmatically.
-    /// - default: true
+    /// **default**: true
     public var highlightPerTapEnabled: Bool
     {
         get { return _highlightPerTapEnabled }
@@ -524,7 +524,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
             return
         }
 
-        for (var i = 0, count = _indicesToHighlight.count; i < count; i++)
+        for i in 0 ..< _indicesToHighlight.count
         {
             let highlight = _indicesToHighlight[i]
             let xIndex = highlight.xIndex
@@ -769,7 +769,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         
         guard let data = _data else { return vals }
 
-        for (var i = 0, count = data.dataSetCount; i < count; i++)
+        for i in 0 ..< data.dataSetCount
         {
             let set = data.getDataSetByIndex(i)
             let e = set.entryForXIndex(xIndex)

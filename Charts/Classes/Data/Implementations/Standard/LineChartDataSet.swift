@@ -83,10 +83,10 @@ public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     
     /// - returns: the color at the given index of the DataSet's circle-color array.
     /// Performs a IndexOutOfBounds check by modulus.
-    public func getCircleColor(var index: Int) -> NSUIColor?
+    public func getCircleColor(index: Int) -> NSUIColor?
     {
         let size = circleColors.count
-        index = index % size
+        let index = index % size
         if (index >= size)
         {
             return nil
@@ -130,6 +130,9 @@ public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     /// I.e. [2, 3] will paint [--   --   ]
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
     public var lineDashLengths: [CGFloat]?
+    
+    /// Line cap type, default is CGLineCap.Butt
+    public var lineCapType = CGLineCap.Butt
     
     /// formatter for customizing the position of the fill-line
     private var _fillFormatter: ChartFillFormatter = ChartDefaultFillFormatter()

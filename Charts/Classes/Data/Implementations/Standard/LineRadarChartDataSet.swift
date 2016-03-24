@@ -36,11 +36,11 @@ public class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRad
     }
     
     /// The object that is used for filling the area below the line.
-    /// - default: nil
+    /// **default**: nil
     public var fill: ChartFill?
     
     /// The alpha value that is used for filling the line surface,
-    /// - default: 0.33
+    /// **default**: 0.33
     public var fillAlpha = CGFloat(0.33)
     
     private var _lineWidth = CGFloat(1.0)
@@ -71,8 +71,12 @@ public class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRad
         }
     }
     
+    /// Set to true if the DataSet should be drawn filled (surface), and not just as a line.
+    /// Disabling this will give great performance boost.
+    /// Please note that this method uses the path clipping for drawing the filled area (with images, gradients and layers).
     public var drawFilledEnabled = false
     
+    /// Returns true if filled drawing is enabled, false if not
     public var isDrawFilledEnabled: Bool
     {
         return drawFilledEnabled

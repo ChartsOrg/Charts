@@ -1,7 +1,8 @@
 **Version 2.2.3**, synced to [MPAndroidChart #5f51623](https://github.com/PhilJay/MPAndroidChart/commit/5f51623)
 
 ![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
-  ![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/danielgindi/ios-charts.svg)](https://github.com/danielgindi/ios-charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Build Status](https://travis-ci.org/danielgindi/ios-charts.svg?branch=master)](https://travis-ci.org/danielgindi/ios-charts)
+  ![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/danielgindi/ios-charts.svg)](https://github.com/danielgindi/ios-charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Build Status](https://travis-ci.org/danielgindi/ios-charts.svg?branch=master)](https://travis-ci.org/danielgindi/ios-charts) 
+[![Join the chat at https://gitter.im/danielgindi/ios-charts](https://badges.gitter.im/danielgindi/ios-charts.svg)](https://gitter.im/danielgindi/ios-charts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 * Xcode 7 / Swift 2.0
 * iOS 7.0 (Drag .swift files to your project)
@@ -92,7 +93,7 @@ If you are having questions or problems, you should:
  - Study the (Still incomplete [![Doc-Percent](https://img.shields.io/cocoapods/metrics/doc-percent/Charts.svg)](http://cocoadocs.org/docsets/Charts/)) [**Pod-Documentation**](http://cocoadocs.org/docsets/Charts/)
  - Search or open questions on [**stackoverflow**](http://stackoverflow.com/questions/tagged/ios-charts) with the `ios-charts` tag
  - Search [**known issues**](https://github.com/danielgindi/ios-charts/issues) for your problem (open and closed)
- - Create new issues (please **search known issues before**, do not create duplicate issues)
+ - Create new issues (please :fire: **search known issues before** :fire:, do not create duplicate issues)
 
 
 Features
@@ -104,15 +105,15 @@ Features
  - Dragging / Panning (with touch-gesture)
  - Combined-Charts (line-, bar-, scatter-, candle-stick-, bubble-)
  - Dual (separate) Axes
- - Customizeable Axes (both x- and y-axis)
- - Highlighting values (with customizeable popup-views)
+ - Customizable Axes (both x- and y-axis)
+ - Highlighting values (with customizable popup-views)
  - Save chart to camera-roll / export to PNG/JPEG
  - Predefined color templates
- - Legends (generated automatically, customizeable)
- - Customizeable Axes (both x- and y-axis)
+ - Legends (generated automatically, customizable)
+ - Customizable Axes (both x- and y-axis)
  - Animations (build up animations, on both x- and y-axis)
  - Limit lines (providing additional information, maximums, ...)
- - Fully customizeable (paints, typefaces, legends, colors, background, gestures, dashed lines, ...)
+ - Fully customizable (paints, typefaces, legends, colors, background, gestures, dashed lines, ...)
  - Plotting data directly from [**Realm.io**](https://realm.io) mobile database
 
 **Chart types:**

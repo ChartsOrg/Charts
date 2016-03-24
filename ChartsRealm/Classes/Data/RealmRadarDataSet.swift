@@ -28,4 +28,25 @@ public class RealmRadarDataSet: RealmLineRadarDataSet, IRadarChartDataSet
     // MARK: - Data functions and accessors
     
     // MARK: - Styling functions and accessors
+    
+    /// flag indicating whether highlight circle should be drawn or not
+    /// **default**: false
+    public var drawHighlightCircleEnabled: Bool = false
+    
+    /// - returns: true if highlight circle should be drawn, false if not
+    public var isDrawHighlightCircleEnabled: Bool { return drawHighlightCircleEnabled }
+    
+    public var highlightCircleFillColor: UIColor? = UIColor.whiteColor()
+    
+    /// The stroke color for highlight circle.
+    /// If `nil`, the color of the dataset is taken.
+    public var highlightCircleStrokeColor: UIColor?
+    
+    public var highlightCircleStrokeAlpha: CGFloat = 0.3
+    
+    public var highlightCircleInnerRadius: CGFloat = 3.0
+    
+    public var highlightCircleOuterRadius: CGFloat = 4.0
+    
+    public var highlightCircleStrokeWidth: CGFloat = 2.0
 }
