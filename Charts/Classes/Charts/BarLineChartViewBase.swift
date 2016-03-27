@@ -190,15 +190,6 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         // execute all drawing commands
         drawGridBackground(context: context)
         
-        if (_leftAxis.isEnabled)
-        {
-            _leftYAxisRenderer?.computeAxis(yMin: _leftAxis.axisMinimum, yMax: _leftAxis.axisMaximum)
-        }
-        if (_rightAxis.isEnabled)
-        {
-            _rightYAxisRenderer?.computeAxis(yMin: _rightAxis.axisMinimum, yMax: _rightAxis.axisMaximum)
-        }
-        
         _xAxisRenderer?.renderAxisLine(context: context)
         _leftYAxisRenderer?.renderAxisLine(context: context)
         _rightYAxisRenderer?.renderAxisLine(context: context)
