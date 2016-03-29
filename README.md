@@ -110,7 +110,6 @@ Features
  - Save chart to camera-roll / export to PNG/JPEG
  - Predefined color templates
  - Legends (generated automatically, customizable)
- - Customizable Axes (both x- and y-axis)
  - Animations (build up animations, on both x- and y-axis)
  - Limit lines (providing additional information, maximums, ...)
  - Fully customizable (paints, typefaces, legends, colors, background, gestures, dashed lines, ...)
