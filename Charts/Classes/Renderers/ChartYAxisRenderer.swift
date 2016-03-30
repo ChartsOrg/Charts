@@ -85,7 +85,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
         // This is used to avoid repeated values when rounding values for display.
         if yAxis.granularityEnabled
         {
-            interval = interval < yAxis.granuality ? yAxis.granuality : interval
+            interval = interval < yAxis.granularity ? yAxis.granularity : interval
         }
         
         // Normalize interval
