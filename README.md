@@ -4,7 +4,7 @@
   ![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/danielgindi/ios-charts.svg)](https://github.com/danielgindi/ios-charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Build Status](https://travis-ci.org/danielgindi/ios-charts.svg?branch=master)](https://travis-ci.org/danielgindi/ios-charts) 
 [![Join the chat at https://gitter.im/danielgindi/ios-charts](https://badges.gitter.im/danielgindi/ios-charts.svg)](https://gitter.im/danielgindi/ios-charts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-* Xcode 7.3 / Swift 2.1 / 3.0
+* Xcode 7.3 / Swift 2.2 / 3.0
 * iOS 7.0 (Drag .swift files to your project)
 * iOS 8.0 / 9.0 (Use as an **Embedded** Framework)
 * tvOS 9.0
