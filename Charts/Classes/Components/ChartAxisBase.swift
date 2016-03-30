@@ -108,8 +108,8 @@ public class ChartAxisBase: ChartComponentBase
     
     /// - returns: the LimitLines of this axis.
     public var limitLines : [ChartLimitLine]
-        {
-            return _limitLines
+    {
+        return _limitLines
     }
     
     // MARK: Custom axis ranges
