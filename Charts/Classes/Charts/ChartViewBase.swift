@@ -80,14 +80,8 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     /// if true, units are drawn next to the values in the chart
     internal var _drawUnitInChart = false
     
-    /// the number of x-values the chart displays
-    internal var _deltaX = CGFloat(1.0)
-        
-    /// the minimum x-value of the chart, regardless of zoom or translation.
-    internal var _chartXMin = Double(0.0)
-    
-    /// the maximum x-value of the chart, regardless of zoom or translation.
-    internal var _chartXMax = Double(0.0)
+    /// the object representing the labels on the x-axis
+    internal var _xAxis: ChartXAxis!
     
     /// the legend object containing all data associated with the legend
     internal var _legend: ChartLegend!
@@ -182,6 +176,8 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         
         _legend = ChartLegend()
         _legendRenderer = ChartLegendRenderer(viewPortHandler: _viewPortHandler, legend: _legend)
+        
+        _xAxis = ChartXAxis()
         
         self.addObserver(self, forKeyPath: "bounds", options: .New, context: nil)
         self.addObserver(self, forKeyPath: "frame", options: .New, context: nil)
@@ -526,7 +522,8 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
             let highlight = _indicesToHighlight[i]
             let xIndex = highlight.xIndex
 
-            if (xIndex <= Int(_deltaX) && xIndex <= Int(_deltaX * _animator.phaseX))
+            let deltaX = _xAxis.axisRange
+            if xIndex <= Int(deltaX) && xIndex <= Int(CGFloat(deltaX) * _animator.phaseX)
             {
                 let e = _data?.getEntryForHighlight(highlight)
                 if (e === nil || e!.xIndex != highlight.xIndex)
@@ -692,12 +689,12 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     
     public var chartXMax: Double
     {
-        return _chartXMax
+        return _xAxis._axisMaximum
     }
     
     public var chartXMin: Double
     {
-        return _chartXMin
+        return _xAxis._axisMinimum
     }
     
     public var xValCount: Int

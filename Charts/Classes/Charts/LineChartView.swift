@@ -29,9 +29,9 @@ public class LineChartView: BarLineChartViewBase, LineChartDataProvider
         super.calcMinMax()
         guard let data = _data else { return }
         
-        if (_deltaX == 0.0 && data.yValCount > 0)
+        if _xAxis.axisRange == 0.0 && data.yValCount > 0
         {
-            _deltaX = 1.0
+            _xAxis.axisRange = 1.0
         }
     }
     

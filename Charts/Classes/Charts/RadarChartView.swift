@@ -43,9 +43,6 @@ public class RadarChartView: PieRadarChartViewBase
     /// the object reprsenting the y-axis labels
     private var _yAxis: ChartYAxis!
     
-    /// the object representing the x-axis labels
-    private var _xAxis: ChartXAxis!
-    
     internal var _yAxisRenderer: ChartYAxisRendererRadarChart!
     internal var _xAxisRenderer: ChartXAxisRendererRadarChart!
     
@@ -64,7 +61,6 @@ public class RadarChartView: PieRadarChartViewBase
         super.initialize()
         
         _yAxis = ChartYAxis(position: .Left)
-        _xAxis = ChartXAxis()
         _xAxis.spaceBetweenLabels = 0
         
         renderer = RadarChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
@@ -78,8 +74,9 @@ public class RadarChartView: PieRadarChartViewBase
         super.calcMinMax()
         guard let data = _data else { return }
         
-        _chartXMax = Double(data.xVals.count) - 1.0
-        _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
+        // calculate / set x-axis range
+        _xAxis._axisMaximum = Double(data.xVals.count) - 1.0
+        _xAxis.axisRange = Double(abs(_xAxis._axisMaximum - _xAxis._axisMinimum))
         
         _yAxis.calcMinMax(min: data.getYMin(.Left), max: data.getYMax(.Left))
     }

@@ -51,8 +51,8 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
         
         if (self.barData !== nil || self.candleData !== nil || self.bubbleData !== nil)
         {
-            _chartXMin = -0.5
-            _chartXMax = Double(data.xVals.count) - 0.5
+            _xAxis._axisMinimum = -0.5
+            _xAxis._axisMaximum = Double(data.xVals.count) - 0.5
             
             if (self.bubbleData !== nil)
             {
@@ -63,22 +63,22 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
                     
                     if (xmin < chartXMin)
                     {
-                        _chartXMin = xmin
+                        _xAxis._axisMinimum = xmin
                     }
                     
                     if (xmax > chartXMax)
                     {
-                        _chartXMax = xmax
+                        _xAxis._axisMaximum = xmax
                     }
                 }
             }
         }
         
-        _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
+        _xAxis.axisRange = abs(_xAxis._axisMaximum - _xAxis._axisMinimum)
         
-        if (_deltaX == 0.0 && self.lineData?.yValCount > 0)
+        if _xAxis.axisRange == 0.0 && self.lineData?.yValCount > 0
         {
-            _deltaX = 1.0
+            _xAxis.axisRange = 1.0
         }
     }
     
