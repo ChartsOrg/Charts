@@ -61,7 +61,7 @@
     leftAxis.valueFormatter.maximumFractionDigits = 1;
     leftAxis.valueFormatter.negativeSuffix = @" $";
     leftAxis.valueFormatter.positiveSuffix = @" $";
-    leftAxis.customAxisMin = 0.0; // this replaces startAtZero = YES
+    leftAxis.axisMinValue = 0.0; // this replaces startAtZero = YES
     
     _chartView.rightAxis.enabled = NO;
     

@@ -63,8 +63,8 @@
     _chartView.drawValueAboveBarEnabled = YES;
     
     _chartView.leftAxis.enabled = NO;
-    _chartView.rightAxis.customAxisMax = 25.0;
-    _chartView.rightAxis.customAxisMin = -25.0;
+    _chartView.rightAxis.axisMaxValue = 25.0;
+    _chartView.rightAxis.axisMinValue = -25.0;
     _chartView.rightAxis.drawGridLinesEnabled = NO;
     _chartView.rightAxis.drawZeroLineEnabled = YES;
     _chartView.rightAxis.labelCount = 7;

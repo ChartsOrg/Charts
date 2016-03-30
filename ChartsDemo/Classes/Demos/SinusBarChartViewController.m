@@ -63,16 +63,16 @@
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     leftAxis.labelCount = 6;
-    leftAxis.customAxisMin = -2.5;
-    leftAxis.customAxisMax = 2.5;
+    leftAxis.axisMinValue = -2.5;
+    leftAxis.axisMaxValue = 2.5;
     leftAxis.granularity = 0.1;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.drawGridLinesEnabled = NO;
     rightAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     rightAxis.labelCount = 6;
-    rightAxis.customAxisMin = -2.5;
-    rightAxis.customAxisMax = 2.5;
+    rightAxis.axisMinValue = -2.5;
+    rightAxis.axisMaxValue = 2.5;
     rightAxis.granularity = 0.1;
         
     ChartLegend *l = _chartView.legend;

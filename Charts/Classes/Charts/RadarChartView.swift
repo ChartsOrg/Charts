@@ -78,33 +78,10 @@ public class RadarChartView: PieRadarChartViewBase
         super.calcMinMax()
         guard let data = _data else { return }
         
-        let minLeft = !isnan(_yAxis.customAxisMin)
-            ? _yAxis.customAxisMin
-            : data.getYMin(.Left)
-        let maxLeft = !isnan(_yAxis.customAxisMax)
-            ? _yAxis.customAxisMax
-            : data.getYMax(.Left)
-        
         _chartXMax = Double(data.xVals.count) - 1.0
         _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
         
-        let leftRange = CGFloat(abs(maxLeft - minLeft))
-        
-        let topSpaceLeft = Double(leftRange * _yAxis.spaceTop)
-        let bottomSpaceLeft = Double(leftRange * _yAxis.spaceBottom)
-        
-        // Use the values as they are
-        _yAxis.axisMinimum = !isnan(_yAxis.customAxisMin)
-            ? _yAxis.customAxisMin
-            : (minLeft - bottomSpaceLeft)
-        _yAxis.axisMaximum = !isnan(_yAxis.customAxisMax)
-            ? _yAxis.customAxisMax
-            : (maxLeft + topSpaceLeft)
-        
-        _chartXMax = Double(data.xVals.count) - 1.0
-        _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
-        
-        _yAxis.axisRange = abs(_yAxis.axisMaximum - _yAxis.axisMinimum)
+        _yAxis.calcMinMax(min: data.getYMin(.Left), max: data.getYMax(.Left))
     }
 
     public override func getMarkerPosition(entry entry: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
@@ -125,7 +102,7 @@ public class RadarChartView: PieRadarChartViewBase
         
         _yAxis?._defaultValueFormatter = _defaultValueFormatter
         
-        _yAxisRenderer?.computeAxis(yMin: _yAxis.axisMinimum, yMax: _yAxis.axisMaximum)
+        _yAxisRenderer?.computeAxis(yMin: _yAxis._axisMinimum, yMax: _yAxis._axisMaximum)
         _xAxisRenderer?.computeAxis(xValAverageLength: data?.xValAverageLength ?? 0, xValues: data?.xVals ?? [])
         
         if let data = _data, legend = _legend where !legend.isLegendCustom
@@ -252,10 +229,10 @@ public class RadarChartView: PieRadarChartViewBase
     }
 
     /// - returns: the maximum value this chart can display on it's y-axis.
-    public override var chartYMax: Double { return _yAxis.axisMaximum; }
+    public override var chartYMax: Double { return _yAxis._axisMaximum; }
     
     /// - returns: the minimum value this chart can display on it's y-axis.
-    public override var chartYMin: Double { return _yAxis.axisMinimum; }
+    public override var chartYMin: Double { return _yAxis._axisMinimum; }
     
     /// - returns: the range of y-values this chart can display.
     public var yRange: Double { return _yAxis.axisRange}

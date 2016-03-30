@@ -120,7 +120,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
                     n += 1
                 }
                 
-                if (isnan(yAxis.customAxisMax))
+                if !yAxis.isAxisMaxCustom
                 {
                     n += 1
                 }
@@ -147,10 +147,10 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         {
             // If startAtZero is disabled, and the first label is lower that the axis minimum,
             // Then adjust the axis minimum
-            yAxis.axisMinimum = yAxis.entries[0]
+            yAxis._axisMinimum = yAxis.entries[0]
         }
-        yAxis.axisMaximum = yAxis.entries[yAxis.entryCount - 1]
-        yAxis.axisRange = abs(yAxis.axisMaximum - yAxis.axisMinimum)
+        yAxis._axisMaximum = yAxis.entries[yAxis.entryCount - 1]
+        yAxis.axisRange = abs(yAxis._axisMaximum - yAxis._axisMinimum)
     }
     
     public override func renderAxisLabels(context context: CGContext)
@@ -182,7 +182,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
                 break
             }
             
-            let r = CGFloat(yAxis.entries[j] - yAxis.axisMinimum) * factor
+            let r = CGFloat(yAxis.entries[j] - yAxis._axisMinimum) * factor
             
             let p = ChartUtils.getPosition(center: center, dist: r, angle: chart.rotationAngle)
             

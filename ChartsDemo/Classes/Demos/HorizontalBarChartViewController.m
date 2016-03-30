@@ -66,14 +66,14 @@
     leftAxis.drawAxisLineEnabled = YES;
     leftAxis.drawGridLinesEnabled = YES;
     leftAxis.gridLineWidth = .3;
-    leftAxis.customAxisMin = 0.0; // this replaces startAtZero = YES
+    leftAxis.axisMinValue = 0.0; // this replaces startAtZero = YES
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.enabled = YES;
     rightAxis.labelFont = [UIFont systemFontOfSize:10.f];
     rightAxis.drawAxisLineEnabled = YES;
     rightAxis.drawGridLinesEnabled = NO;
-    rightAxis.customAxisMin = 0.0; // this replaces startAtZero = YES
+    rightAxis.axisMinValue = 0.0; // this replaces startAtZero = YES
     
     _chartView.legend.position = ChartLegendPositionBelowChartLeft;
     _chartView.legend.form = ChartLegendFormSquare;

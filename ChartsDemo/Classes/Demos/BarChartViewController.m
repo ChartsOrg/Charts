@@ -69,7 +69,7 @@
     leftAxis.valueFormatter.positiveSuffix = @" $";
     leftAxis.labelPosition = YAxisLabelPositionOutsideChart;
     leftAxis.spaceTop = 0.15;
-    leftAxis.customAxisMin = 0.0; // this replaces startAtZero = YES
+    leftAxis.axisMinValue = 0.0; // this replaces startAtZero = YES
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.enabled = YES;
@@ -78,7 +78,7 @@
     rightAxis.labelCount = 8;
     rightAxis.valueFormatter = leftAxis.valueFormatter;
     rightAxis.spaceTop = 0.15;
-    rightAxis.customAxisMin = 0.0; // this replaces startAtZero = YES
+    rightAxis.axisMinValue = 0.0; // this replaces startAtZero = YES
     
     _chartView.legend.position = ChartLegendPositionBelowChartLeft;
     _chartView.legend.form = ChartLegendFormSquare;
