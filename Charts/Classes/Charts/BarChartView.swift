@@ -54,7 +54,7 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
         
         let groupSpace = barData.groupSpace
         _xAxis.axisRange += Double(barData.xValCount) * Double(groupSpace)
-        _xAxis._axisMinimum = _xAxis.axisRange - _xAxis._axisMinimum
+        _xAxis._axisMaximum = _xAxis.axisRange - _xAxis._axisMinimum
     }
     
     /// - returns: the Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the BarChart.
