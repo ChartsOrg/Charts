@@ -79,6 +79,7 @@ public class PieChartView: PieRadarChartViewBase
         super.initialize()
         
         renderer = PieChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
+        _xAxis = nil
     }
     
     public override func drawRect(rect: CGRect)
@@ -243,6 +244,12 @@ public class PieChartView: PieRadarChartViewBase
     private func calcAngle(value: Double, yValueSum: Double) -> CGFloat
     {
         return CGFloat(value) / CGFloat(yValueSum) * _maxAngle
+    }
+    
+    /// This will throw an exception, PieChart has no XAxis object.
+    public override var xAxis: ChartXAxis
+    {
+        fatalError("PieChart has no XAxis")
     }
     
     public override func indexForAngle(angle: CGFloat) -> Int

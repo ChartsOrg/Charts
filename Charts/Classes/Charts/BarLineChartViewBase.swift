@@ -1688,14 +1688,6 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             return _rightAxis
         }
     }
-
-    /// - returns: the object representing all x-labels, this method can be used to
-    /// acquire the XAxis object and modify it (e.g. change the position of the
-    /// labels)
-    public var xAxis: ChartXAxis
-    {
-        return _xAxis
-    }
     
     /// flag that indicates if pinch-zoom is enabled. if true, both x and y axis can be scaled simultaneously with 2 fingers, if false, x and y axis can be scaled separately
     public var pinchZoomEnabled: Bool

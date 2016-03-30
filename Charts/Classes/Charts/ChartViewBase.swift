@@ -42,6 +42,14 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
 {
     // MARK: - Properties
     
+    /// - returns: the object representing all x-labels, this method can be used to
+    /// acquire the XAxis object and modify it (e.g. change the position of the
+    /// labels)
+    public var xAxis: ChartXAxis
+    {
+        return _xAxis
+    }
+    
     /// the default value formatter
     internal var _defaultValueFormatter: NSNumberFormatter = ChartUtils.defaultValueFormatter()
     
