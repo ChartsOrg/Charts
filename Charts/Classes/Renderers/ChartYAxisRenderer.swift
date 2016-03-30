@@ -89,7 +89,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
         }
         
         // Normalize interval
-        let intervalMagnitude = pow(10.0, round(log10(interval)))
+        let intervalMagnitude = ChartUtils.roundToNextSignificant(number: pow(10.0, floor(log10(interval))))
         let intervalSigDigit = (interval / intervalMagnitude)
         if (intervalSigDigit > 5)
         {
