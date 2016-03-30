@@ -69,6 +69,18 @@ public class ChartAxisBase: ChartComponentBase
     /// **default**: false
     public var isDrawLimitLinesBehindDataEnabled: Bool { return drawLimitLinesBehindDataEnabled; }
     
+    /// Flag indicating that the axis-min value has been customized
+    internal var _customAxisMin: Bool = false
+    
+    /// Flag indicating that the axis-max value has been customized
+    internal var _customAxisMax: Bool = false
+    
+    public var _axisMaximum = Double(0)
+    public var _axisMinimum = Double(0)
+    
+    /// the total range of values this axis covers
+    public var axisRange = Double(0)
+    
     /// Adds a new ChartLimitLine to this axis.
     public func addLimitLine(line: ChartLimitLine)
     {
@@ -98,5 +110,55 @@ public class ChartAxisBase: ChartComponentBase
     public var limitLines : [ChartLimitLine]
         {
             return _limitLines
+    }
+    
+    // MARK: Custom axis ranges
+    
+    /// By calling this method, any custom minimum value that has been previously set is reseted, and the calculation is done automatically.
+    public func resetCustomAxisMin()
+    {
+        _customAxisMin = false
+    }
+    
+    public var isAxisMinCustom: Bool { return _customAxisMin }
+    
+    /// By calling this method, any custom maximum value that has been previously set is reseted, and the calculation is done automatically.
+    public func resetCustomAxisMax()
+    {
+        _customAxisMax = false
+    }
+    
+    public var isAxisMaxCustom: Bool { return _customAxisMax }
+    
+    /// The minimum value for this axis.
+    /// If set, this value will not be calculated automatically depending on the provided data.
+    /// Use `resetCustomAxisMin()` to undo this.
+    public var axisMinValue: Double
+    {
+        get
+        {
+            return _axisMinimum
+        }
+        set
+        {
+            _customAxisMin = true
+            _axisMinimum = newValue
+        }
+    }
+    
+    /// The maximum value for this axis.
+    /// If set, this value will not be calculated automatically depending on the provided data.
+    /// Use `resetCustomAxisMin()` to undo this.
+    public var axisMaxValue: Double
+    {
+        get
+        {
+            return _axisMaximum
+        }
+        set
+        {
+            _customAxisMax = true
+            _axisMaximum = newValue
+        }
     }
 }

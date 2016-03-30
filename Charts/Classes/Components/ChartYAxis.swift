@@ -75,41 +75,6 @@ public class ChartYAxis: ChartAxisBase
         }
     }
     
-    /// The minimum value for this axis.
-    /// If set, this value will not be calculated automatically depending on the provided data.
-    /// Use `resetCustomAxisMin()` to undo this.
-    public var axisMinValue: Double
-    {
-        get
-        {
-            return _axisMinimum
-        }
-        set
-        {
-            customAxisMin = true
-            _axisMinimum = newValue
-        }
-    }
-    
-    /// The maximum value for this axis.
-    /// If set, this value will not be calculated automatically depending on the provided data.
-    /// Use `resetCustomAxisMin()` to undo this.
-    public var axisMaxValue: Double
-    {
-        get
-        {
-            return _axisMaximum
-        }
-        set
-        {
-            customAxisMax = true
-            _axisMaximum = newValue
-        }
-    }
-    
-    public var isAxisMinCustom: Bool { return customAxisMin }
-    public var isAxisMaxCustom: Bool { return customAxisMax }
-    
     /// if true, the set number of y-labels will be forced
     public var forceLabelsEnabled = false
 
@@ -135,24 +100,12 @@ public class ChartYAxis: ChartAxisBase
     
     /// the formatter used to customly format the y-labels
     internal var _defaultValueFormatter = NSNumberFormatter()
-    
-    /// Flag indicating that the axis-min value has been customized
-    private var customAxisMin: Bool = false
-    
-    /// Flag indicating that the axis-max value has been customized
-    private var customAxisMax: Bool = false
 
     /// axis space from the largest value to the top in percent of the total axis range
     public var spaceTop = CGFloat(0.1)
 
     /// axis space from the smallest value to the bottom in percent of the total axis range
     public var spaceBottom = CGFloat(0.1)
-    
-    public var _axisMaximum = Double(0)
-    public var _axisMinimum = Double(0)
-    
-    /// the total range of values this axis covers
-    public var axisRange = Double(0)
     
     /// the position of the y-labels relative to the chart
     public var labelPosition = YAxisLabelPosition.OutsideChart
@@ -245,18 +198,6 @@ public class ChartYAxis: ChartAxisBase
         }
     }
     
-    /// By calling this method, any custom minimum value that has been previously set is reseted, and the calculation is done automatically.
-    public func resetCustomAxisMin()
-    {
-        customAxisMin = false
-    }
-    
-    /// By calling this method, any custom maximum value that has been previously set is reseted, and the calculation is done automatically.
-    public func resetCustomAxisMax()
-    {
-        customAxisMax = false
-    }
-    
     public func requiredSize() -> CGSize
     {
         let label = getLongestLabel() as NSString
@@ -332,8 +273,8 @@ public class ChartYAxis: ChartAxisBase
     public func calcMinMax(min dataMin: Double, max dataMax: Double)
     {
         // if custom, use value as is, else use data value
-        var min = customAxisMin ? _axisMinimum : dataMin
-        var max = customAxisMax ? _axisMaximum : dataMax
+        var min = _customAxisMin ? _axisMinimum : dataMin
+        var max = _customAxisMax ? _axisMaximum : dataMax
 
         // temporary range (before calculations)
         let range = abs(max - min)
@@ -346,14 +287,14 @@ public class ChartYAxis: ChartAxisBase
         }
 
         // bottom-space only effects non-custom min
-        if !customAxisMin
+        if !_customAxisMin
         {
             let bottomSpace = range / 100.0 * Double(spaceBottom)
             _axisMinimum = min - bottomSpace
         }
 
         // top-space only effects non-custom max
-        if !customAxisMax
+        if !_customAxisMax
         {
             let topSpace = range / 100.0 * Double(spaceTop)
             _axisMaximum = max + topSpace
