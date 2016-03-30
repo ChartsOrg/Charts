@@ -65,6 +65,7 @@
     leftAxis.labelCount = 6;
     leftAxis.customAxisMin = -2.5;
     leftAxis.customAxisMax = 2.5;
+    leftAxis.granularity = 0.1;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.drawGridLinesEnabled = NO;
@@ -72,6 +73,7 @@
     rightAxis.labelCount = 6;
     rightAxis.customAxisMin = -2.5;
     rightAxis.customAxisMax = 2.5;
+    rightAxis.granularity = 0.1;
         
     ChartLegend *l = _chartView.legend;
     l.position = ChartLegendPositionBelowChartLeft;
