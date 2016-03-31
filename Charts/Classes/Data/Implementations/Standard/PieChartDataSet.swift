@@ -75,4 +75,35 @@ public class PieChartDataSet: ChartDataSet, IPieChartDataSet
         copy.selectionShift = selectionShift
         return copy
     }
+    
+    private var _needLineForLabel = Bool(false)
+    
+    /// the  draw the value outside the slice
+    public var needLineForLabel: Bool
+        {
+        get
+        {
+            return _needLineForLabel
+        }
+        set
+        {
+            _needLineForLabel = newValue
+        }
+    }
+    
+    private var _needLabelColorSameAsSlice = Bool(false)
+   
+    /// the  draw the value the same color as slice
+    public var needLabelColorSameAsSlice: Bool
+        {
+        get
+        {
+            return _needLabelColorSameAsSlice
+        }
+        set
+        {
+            _needLabelColorSameAsSlice = newValue
+        }
+    }
+    
 }

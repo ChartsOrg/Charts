@@ -344,21 +344,79 @@ public class PieChartRenderer: ChartDataRendererBase
 
                 angle = angle + offset
                 
+                var attr:[String : AnyObject]
+                
+                if (dataSet.needLabelColorSameAsSlice)
+                {
+                    attr = [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.colorAt(j)]
+                }
+                else {
+                    attr = [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                }
+                
                 // calculate the text position
-                let x = r
+                let starPointX = r
                     * cos((rotationAngle + angle * phaseY) * ChartUtils.Math.FDEG2RAD)
                     + center.x
-                var y = r
+                let startPointY = r
                     * sin((rotationAngle + angle * phaseY) * ChartUtils.Math.FDEG2RAD)
                     + center.y
+                
+                var endPoint:CGPoint = CGPointMake(starPointX, startPointY)
+                
+                var drawReverseDirection:Bool = Bool(false);
+                var plotOffset:CGFloat = 40.0
+                let lineWith:CGFloat = 2.0
+                let lineColor = dataSet.colorAt(j)
 
+                if (dataSet.needLineForLabel)
+                {
+                    let radius = chart.radius
+                    
+                    let breakPointOffset = radius / 10
+                    
+                    let breakPointRadius = radius + breakPointOffset
+                    
+                    let plotX = breakPointRadius
+                        * cos((rotationAngle + angle * phaseY) * ChartUtils.Math.FDEG2RAD)
+                        + center.x
+                    let plotY = breakPointRadius
+                        * sin((rotationAngle + angle * phaseY) * ChartUtils.Math.FDEG2RAD)
+                        + center.y
+                    
+                    CGContextSetStrokeColorWithColor(context, lineColor.CGColor);
+                    
+                    // Draw them with a 2.0 stroke width so they are a bit more visible.
+                    CGContextSetLineWidth(context, lineWith);
+                    
+                    CGContextMoveToPoint(context, starPointX, startPointY); //start at this point
+                    
+                    CGContextAddLineToPoint(context, plotX, plotY); //draw to this point
+                    
+                    drawReverseDirection =  (breakPointOffset * cos((rotationAngle + angle * phaseY) * ChartUtils.Math.FDEG2RAD)) < 0// (plotX < startPointY)
+                    
+                    if (drawReverseDirection)
+                    {
+                        plotOffset = plotOffset*(-1);
+                    }
+                    
+                    endPoint = CGPointMake(plotX+plotOffset, plotY)
+                    // and now draw the Path!
+                    CGContextStrokePath(context);
+                }
+                
                 let value = usePercentValuesEnabled ? e.value / yValueSum * 100.0 : e.value
                 
                 let val = formatter.stringFromNumber(value)!
                 
                 let lineHeight = valueFont.lineHeight
+                let x = endPoint.x
+                var y = endPoint.y
+                
                 y -= lineHeight
                 
+                var valueWidth:(CGFloat) = 0
+               
                 // draw everything, depending on settings
                 if (drawXVals && drawYVals)
                 {
@@ -367,8 +425,10 @@ public class PieChartRenderer: ChartDataRendererBase
                         text: val,
                         point: CGPoint(x: x, y: y),
                         align: .Center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                        attributes: attr
                     )
+                    
+                    valueWidth = val.sizeWithAttributes(attr).width
                     
                     if (j < data.xValCount && data.xVals[j] != nil)
                     {
@@ -377,9 +437,17 @@ public class PieChartRenderer: ChartDataRendererBase
                             text: data.xVals[j]!,
                             point: CGPoint(x: x, y: y + lineHeight),
                             align: .Center,
-                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                            attributes: attr
                         )
+                       
+                        let xLabelWidth = data.xVals[j]!.sizeWithAttributes(attr).width
+                        
+                        if (xLabelWidth > valueWidth)
+                        {
+                           valueWidth = xLabelWidth
+                        }
                     }
+                    
                 }
                 else if (drawXVals)
                 {
@@ -388,8 +456,11 @@ public class PieChartRenderer: ChartDataRendererBase
                         text: data.xVals[j]!,
                         point: CGPoint(x: x, y: y + lineHeight / 2.0),
                         align: .Center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                        attributes: attr
                     )
+                    
+                    valueWidth = val.sizeWithAttributes(attr).width
+                    
                 }
                 else if (drawYVals)
                 {
@@ -398,8 +469,28 @@ public class PieChartRenderer: ChartDataRendererBase
                         text: val,
                         point: CGPoint(x: x, y: y + lineHeight / 2.0),
                         align: .Center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                        attributes: attr
                     )
+                    
+                    valueWidth = val.sizeWithAttributes(attr).width
+                }
+                
+                if (dataSet.needLineForLabel)
+                {
+                    if (drawReverseDirection)
+                    {
+                        valueWidth = valueWidth*(-1);
+                    }
+
+                    CGContextSetStrokeColorWithColor(context, lineColor.CGColor);
+                    
+                    // Draw them with a 2.0 stroke width so they are a bit more visible.
+                    CGContextSetLineWidth(context, lineWith);
+                    
+                    CGContextMoveToPoint(context, endPoint.x - plotOffset, endPoint.y); //start at this point
+                    CGContextAddLineToPoint(context, endPoint.x + valueWidth , endPoint.y); //draw to this point
+                    // and now draw the Path!
+                    CGContextStrokePath(context);
                 }
                 
                 xIndex += 1

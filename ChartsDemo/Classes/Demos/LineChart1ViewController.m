@@ -171,7 +171,7 @@
     [dataSets addObject:set1];
     
     LineChartData *data = [[LineChartData alloc] initWithXVals:xVals dataSets:dataSets];
-    
+   
     _chartView.data = data;
 }
 
