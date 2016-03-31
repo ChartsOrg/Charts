@@ -440,7 +440,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         }
         
         // create a new path
-        for x in from + 1 ..< max(from + 1, Int(ceil(CGFloat(to - from) * phaseX + CGFloat(from))))
+        for x in (from + 1).stride(to: Int(ceil(CGFloat(to - from) * phaseX + CGFloat(from))), by: 1)
         {
             guard let e = dataSet.entryForIndex(x) else { continue }
             
