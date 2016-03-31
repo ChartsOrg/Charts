@@ -29,6 +29,6 @@
 
 @property (nonatomic, unsafe_unretained) RLMProperty *property;
 
-@property (nonatomic) id underlyingValue;
+@property (nonatomic, strong) id underlyingValue;
 
 @end

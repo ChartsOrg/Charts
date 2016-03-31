@@ -42,6 +42,7 @@ FOUNDATION_EXTERN BOOL RLMPropertyTypeIsNumeric(RLMPropertyType propertyType);
                               objectClassName:(NSString *)objectClassName;
 
 - (instancetype)initSwiftOptionalPropertyWithName:(NSString *)name
+                                          indexed:(BOOL)indexed
                                              ivar:(Ivar)ivar
                                      propertyType:(RLMPropertyType)propertyType;
 

@@ -49,14 +49,13 @@ RLM_ASSUME_NONNULL_BEGIN
 // schema based upon all currently registered object classes
 + (instancetype)partialSharedSchema;
 
-// schema based on tables in a Realm
-+ (instancetype)dynamicSchemaFromRealm:(RLMRealm *)realm;
-
 // class for string
 + (nullable Class)classForString:(NSString *)className;
 
 // shallow copy for reusing schema properties accross the same Realm on multiple threads
 - (instancetype)shallowCopy;
+
++ (RLMObjectSchema *)sharedSchemaForClass:(Class)cls;
 
 @end
 

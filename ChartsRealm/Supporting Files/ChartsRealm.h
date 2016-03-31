@@ -12,7 +12,7 @@
 //  https://github.com/danielgindi/ios-charts
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for ChartsRealm.
 FOUNDATION_EXPORT double ChartsRealmVersionNumber;

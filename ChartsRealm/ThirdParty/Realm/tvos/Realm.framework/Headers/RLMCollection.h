@@ -20,7 +20,7 @@
 
 RLM_ASSUME_NONNULL_BEGIN
 
-@class RLMRealm, RLMResults, RLMObject, RLMSortDescriptor;
+@class RLMRealm, RLMResults, RLMObject, RLMSortDescriptor, RLMNotificationToken;
 
 /**
  A homogenous collection of `RLMObject`s like `RLMArray` or `RLMResults`.
@@ -95,6 +95,9 @@ RLM_ASSUME_NONNULL_BEGIN
  */
 - (NSUInteger)indexOfObjectWhere:(NSString *)predicateFormat, ...;
 
+/// :nodoc:
+- (NSUInteger)indexOfObjectWhere:(NSString *)predicateFormat args:(va_list)args;
+
 /**
  Gets the index of the first object matching the predicate.
  
@@ -112,6 +115,9 @@ RLM_ASSUME_NONNULL_BEGIN
  @return    An RLMResults of objects that match the given predicate
  */
 - (RLMResults *)objectsWhere:(NSString *)predicateFormat, ...;
+
+/// :nodoc:
+- (RLMResults *)objectsWhere:(NSString *)predicateFormat args:(va_list)args;
 
 /**
  Get objects matching the given predicate in the RLMCollection.
@@ -162,6 +168,16 @@ RLM_ASSUME_NONNULL_BEGIN
  @param key   The name of the property.
  */
 - (void)setValue:(nullable id)value forKey:(NSString *)key;
+
+#pragma mark - Notifications
+
+/**
+ Register a block to be called each time the collection changes.
+
+ @param block The block to be called each time the collection changes.
+ @return A token which must be held for as long as you want notifications to be delivered.
+ */
+- (RLMNotificationToken *)addNotificationBlock:(void (^)(id<RLMCollection> collection))block RLM_WARN_UNUSED_RESULT;
 
 @end
 
