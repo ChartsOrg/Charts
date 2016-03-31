@@ -15,6 +15,7 @@
 import Foundation
 import CoreGraphics
 
+/// Base class for all axes
 public class ChartAxisBase: ChartComponentBase
 {
     public var labelFont = NSUIFont.systemFontOfSize(10.0)
@@ -75,8 +76,15 @@ public class ChartAxisBase: ChartComponentBase
     /// Flag indicating that the axis-max value has been customized
     internal var _customAxisMax: Bool = false
     
-    public var _axisMaximum = Double(0)
+    /// Do not touch this directly, instead, use axisMinValue.
+    /// This is automatically calculated to represent the real min value,
+    /// and is used when calculating the effective minimum.
     public var _axisMinimum = Double(0)
+    
+    /// Do not touch this directly, instead, use axisMaxValue.
+    /// This is automatically calculated to represent the real max value,
+    /// and is used when calculating the effective maximum.
+    public var _axisMaximum = Double(0)
     
     /// the total range of values this axis covers
     public var axisRange = Double(0)
