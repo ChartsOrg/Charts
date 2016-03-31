@@ -137,8 +137,6 @@ public class PieChartView: PieRadarChartViewBase
     
     internal override func calcMinMax()
     {
-        super.calcMinMax()
-        
         calcAngles()
     }
     
