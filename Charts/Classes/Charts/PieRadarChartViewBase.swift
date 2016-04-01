@@ -337,7 +337,11 @@ public class PieRadarChartViewBase: ChartViewBase
     /// - returns: the diameter of the pie- or radar-chart
     public var diameter: CGFloat
     {
-        let content = _viewPortHandler.contentRect
+        var content = _viewPortHandler.contentRect
+        content.origin.x += extraLeftOffset
+        content.origin.y += extraTopOffset
+        content.size.width -= extraLeftOffset + extraRightOffset
+        content.size.height -= extraTopOffset + extraBottomOffset
         return min(content.width, content.height)
     }
 
