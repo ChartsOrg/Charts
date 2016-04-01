@@ -45,6 +45,8 @@
     _chartView.legend.enabled = NO;
     _chartView.delegate = self;
     
+    [_chartView setExtraOffsetsWithLeft:0.f top:50.f right:0.f bottom:50.f];
+    
     _sliderX.value = 3.0;
     _sliderY.value = 100.0;
     [self slidersValueChanged:nil];

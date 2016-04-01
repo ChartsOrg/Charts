@@ -31,13 +31,6 @@
                         <action selector="optionsButtonTapped:" destination="-1" eventType="touchUpInside" id="NI7-mV-kT4"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="anE-ka-ll7" customClass="PieChartView" customModule="Charts">
-                    <rect key="frame" x="0.0" y="100" width="375" height="250"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="250" id="XuT-Ui-Ria"/>
-                    </constraints>
-                </view>
                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="25" translatesAutoresizingMaskIntoConstraints="NO" id="ekR-nK-ppT">
                     <rect key="frame" x="6" y="573" width="285" height="31"/>
                     <connections>
@@ -68,6 +61,18 @@
                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="anE-ka-ll7" customClass="PieChartView" customModule="Charts">
+                    <rect key="frame" x="0.0" y="47" width="375" height="501"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="25" id="XuT-Ui-Ria"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="XuT-Ui-Ria"/>
+                        </mask>
+                    </variation>
+                </view>
             </subviews>
             <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
@@ -80,7 +85,8 @@
                 <constraint firstItem="n9H-fM-jsG" firstAttribute="centerY" secondItem="2id-KM-MqZ" secondAttribute="centerY" id="O0I-Eo-Qq5"/>
                 <constraint firstItem="anE-ka-ll7" firstAttribute="leading" secondItem="30c-YJ-tW9" secondAttribute="leading" id="RiV-Bw-HVx"/>
                 <constraint firstItem="2id-KM-MqZ" firstAttribute="top" secondItem="ekR-nK-ppT" secondAttribute="bottom" constant="8" id="TCF-2x-BF2"/>
-                <constraint firstItem="anE-ka-ll7" firstAttribute="top" secondItem="30c-YJ-tW9" secondAttribute="top" constant="100" id="cq6-Wq-JBT"/>
+                <constraint firstItem="ekR-nK-ppT" firstAttribute="top" secondItem="anE-ka-ll7" secondAttribute="bottom" constant="25" id="VRh-6e-hvp"/>
+                <constraint firstItem="anE-ka-ll7" firstAttribute="top" secondItem="30c-YJ-tW9" secondAttribute="top" constant="47" id="cq6-Wq-JBT"/>
                 <constraint firstItem="ekR-nK-ppT" firstAttribute="top" secondItem="anE-ka-ll7" secondAttribute="bottom" constant="100" id="lym-Gz-c9p"/>
                 <constraint firstAttribute="trailing" secondItem="anE-ka-ll7" secondAttribute="trailing" id="n8e-xI-OiN"/>
                 <constraint firstItem="lre-9A-Aye" firstAttribute="leading" secondItem="ekR-nK-ppT" secondAttribute="trailing" constant="8" id="pCP-XY-Sh8"/>
