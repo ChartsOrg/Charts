@@ -19,6 +19,13 @@ import CoreGraphics
 #endif
 
 @objc
+public enum PieChartValuePosition: Int
+{
+    case InsideSlice
+    case OutsideSlice
+}
+
+@objc
 public protocol IPieChartDataSet: IChartDataSet
 {
     // MARK: - Styling functions and accessors
@@ -30,4 +37,25 @@ public protocol IPieChartDataSet: IChartDataSet
     
     /// indicates the selection distance of a pie slice
     var selectionShift: CGFloat { get set }
+    
+    var xValuePosition: PieChartValuePosition { get set }
+    var yValuePosition: PieChartValuePosition { get set }
+    
+    /// When valuePosition is OutsideSlice, indicates line color
+    var valueLineColor: NSUIColor? { get set }
+    
+    /// When valuePosition is OutsideSlice, indicates line width
+    var valueLineWidth: CGFloat { get set }
+    
+    /// When valuePosition is OutsideSlice, indicates offset as percentage out of the slice size
+    var valueLinePart1OffsetPercentage: CGFloat { get set }
+    
+    /// When valuePosition is OutsideSlice, indicates length of first half of the line
+    var valueLinePart1Length: CGFloat { get set }
+    
+    /// When valuePosition is OutsideSlice, indicates length of second half of the line
+    var valueLinePart2Length: CGFloat { get set }
+    
+    /// When valuePosition is OutsideSlice, this allows variable line length
+    var valueLineVariableLength: Bool { get set }
 }

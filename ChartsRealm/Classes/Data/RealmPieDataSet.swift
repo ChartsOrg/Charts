@@ -57,6 +57,27 @@ public class RealmPieDataSet: RealmBaseDataSet, IPieChartDataSet
     /// indicates the selection distance of a pie slice
     public var selectionShift = CGFloat(18.0)
     
+    public var xValuePosition: PieChartValuePosition = .InsideSlice
+    public var yValuePosition: PieChartValuePosition = .InsideSlice
+    
+    /// When valuePosition is OutsideSlice, indicates line color
+    public var valueLineColor: NSUIColor? = UIColor.blackColor()
+    
+    /// When valuePosition is OutsideSlice, indicates line width
+    public var valueLineWidth: CGFloat = 1.0
+    
+    /// When valuePosition is OutsideSlice, indicates offset as percentage out of the slice size
+    public var valueLinePart1OffsetPercentage: CGFloat = 0.0
+    
+    /// When valuePosition is OutsideSlice, indicates length of first half of the line
+    public var valueLinePart1Length: CGFloat = 0.1
+    
+    /// When valuePosition is OutsideSlice, indicates length of second half of the line
+    public var valueLinePart2Length: CGFloat = 0.2
+    
+    /// When valuePosition is OutsideSlice, this allows variable line length
+    public var valueLineVariableLength: Bool = true
+    
     // MARK: - NSCopying
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
