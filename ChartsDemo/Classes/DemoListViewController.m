@@ -80,7 +80,7 @@
                           @"class": PieChartViewController.class
                           },
                       @{
-                          @"title": @"Pie Polyline Chart",
+                          @"title": @"Pie Chart with value lines",
                           @"subtitle": @"A simple demonstration of the pie chart with polyline notes.",
                           @"class": PiePolylineChartViewController.class
                           },

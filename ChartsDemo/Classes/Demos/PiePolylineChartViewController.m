@@ -42,10 +42,6 @@
     
     [self setupPieChartView:_chartView];
     
-    PiePolylineChartRenderer *pieChartRender = [[PiePolylineChartRenderer alloc] initWithChart:self.chartView animator:self.chartView.chartAnimator viewPortHandler:self.chartView.viewPortHandler];
-    pieChartRender.polylineLengths = @[@0.4, @0.5];
-    self.chartView.renderer = pieChartRender;
-    
     _chartView.legend.enabled = NO;
     _chartView.delegate = self;
     
@@ -106,6 +102,12 @@
     [colors addObject:[UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]];
     
     dataSet.colors = colors;
+    
+    dataSet.valueLinePart1OffsetPercentage = 0.8;
+    dataSet.valueLinePart1Length = 0.4;
+    dataSet.valueLinePart2Length = 0.5;
+    //dataSet.xValuePosition = PieChartValuePositionOutsideSlice;
+    dataSet.yValuePosition = PieChartValuePositionOutsideSlice;
     
     PieChartData *data = [[PieChartData alloc] initWithXVals:xVals dataSet:dataSet];
     
