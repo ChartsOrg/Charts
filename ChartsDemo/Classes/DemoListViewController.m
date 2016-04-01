@@ -18,6 +18,7 @@
 #import "HorizontalBarChartViewController.h"
 #import "CombinedChartViewController.h"
 #import "PieChartViewController.h"
+#import "PiePolylineChartViewController.h"
 #import "ScatterChartViewController.h"
 #import "StackedBarChartViewController.h"
 #import "NegativeStackedBarChartViewController.h"
@@ -77,6 +78,11 @@
                           @"title": @"Pie Chart",
                           @"subtitle": @"A simple demonstration of the pie chart.",
                           @"class": PieChartViewController.class
+                          },
+                      @{
+                          @"title": @"Pie Polyline Chart",
+                          @"subtitle": @"A simple demonstration of the pie chart with polyline notes.",
+                          @"class": PiePolylineChartViewController.class
                           },
                       @{
                           @"title": @"Scatter Chart",

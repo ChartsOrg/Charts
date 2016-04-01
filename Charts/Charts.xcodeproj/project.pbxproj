@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0439A34D1C9FF26300496F83 /* PiePolylineChartRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0439A34C1C9FF26300496F83 /* PiePolylineChartRenderer.swift */; };
 		06AEE7A71BDC3F8B009875AE /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BA8EC401A9D14DC00CE82E1 /* Charts.framework */; };
 		06AEE7AE1BDC3FC6009875AE /* LineChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AEE7AD1BDC3FC6009875AE /* LineChartTests.swift */; };
 		06AEE7C21BDC4277009875AE /* FBSnapshotTestCase.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 06AEE7C11BDC4277009875AE /* FBSnapshotTestCase.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -382,6 +383,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0439A34C1C9FF26300496F83 /* PiePolylineChartRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PiePolylineChartRenderer.swift; sourceTree = "<group>"; };
 		06AEE7A21BDC3F8B009875AE /* ChartsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChartsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		06AEE7A61BDC3F8B009875AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06AEE7AD1BDC3FC6009875AE /* LineChartTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartTests.swift; sourceTree = "<group>"; };
@@ -625,6 +627,7 @@
 				5B6A547D1AA5DF1A000F57C2 /* ChartYAxisRenderer.swift */,
 				5B6A547F1AA5DF28000F57C2 /* ChartYAxisRendererHorizontalBarChart.swift */,
 				5B6A54811AA5DF34000F57C2 /* ChartYAxisRendererRadarChart.swift */,
+				0439A34C1C9FF26300496F83 /* PiePolylineChartRenderer.swift */,
 			);
 			path = Renderers;
 			sourceTree = "<group>";
@@ -1131,6 +1134,7 @@
 				5B680D2A1A9D17C30026A057 /* ChartUtils.swift in Sources */,
 				659400C81BF463C1004F9C27 /* PieChartDataSet.swift in Sources */,
 				5B0032451B6524AD00B6A2FE /* ChartHighlight.swift in Sources */,
+				0439A34D1C9FF26300496F83 /* PiePolylineChartRenderer.swift in Sources */,
 				65F06F8E1BE807040074498D /* IChartDataSet.swift in Sources */,
 				5B680D201A9D17C30026A057 /* ChartLegend.swift in Sources */,
 				5BCAA7561C7CB0DE00F83F3B /* AnimatedZoomViewJob.swift in Sources */,
