@@ -200,7 +200,7 @@ public class ChartLegendRenderer: ChartRendererBase
                 || legendPosition == .AboveChartRight
                 || legendPosition == .AboveChartCenter)
             {
-                posY = 0
+                posY = yoffset
             }
             else
             {
