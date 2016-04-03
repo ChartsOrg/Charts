@@ -37,6 +37,8 @@ public class RadarDemoViewController: NSViewController
         ds2.colors = [NSUIColor.blueColor()]
         data.addDataSet(ds2)
         self.radarChartView.data = data
+        self.radarChartView.descriptionText = "Radarchart Demo"
+
     }
     
     override public func viewWillAppear()
