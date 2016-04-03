@@ -39,6 +39,8 @@ public class BarDemoViewController: NSViewController
         self.barChartView.data = data
         
         self.barChartView.gridBackgroundColor = NSUIColor.whiteColor()
+        
+        self.barChartView.descriptionText = "Barchart Demo"
     }
     
     @IBAction func save(sender: AnyObject)
