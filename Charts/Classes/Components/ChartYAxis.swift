@@ -128,7 +128,7 @@ public class ChartYAxis: ChartAxisBase
     /// When false, axis values could possibly be repeated.
     /// This could happen if two adjacent axis values are rounded to same value.
     /// If using granularity this could be avoided by having fewer axis values visible.
-    public var granularityEnabled = true
+    public var granularityEnabled = false
     
     /// The minimum interval between axis values.
     /// This can be used to avoid label duplicating when zooming in.
