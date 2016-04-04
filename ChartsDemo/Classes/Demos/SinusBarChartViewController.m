@@ -65,6 +65,7 @@
     leftAxis.labelCount = 6;
     leftAxis.axisMinValue = -2.5;
     leftAxis.axisMaxValue = 2.5;
+    leftAxis.granularityEnabled = true;
     leftAxis.granularity = 0.1;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
