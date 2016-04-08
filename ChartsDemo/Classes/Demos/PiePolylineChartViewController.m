@@ -106,8 +106,8 @@
     dataSet.colors = colors;
     
     dataSet.valueLinePart1OffsetPercentage = 0.8;
-    dataSet.valueLinePart1Length = 0.4;
-    dataSet.valueLinePart2Length = 0.5;
+    dataSet.valueLinePart1Length = 0.3;
+    dataSet.valueLinePart2Length = 0.4;
     //dataSet.xValuePosition = PieChartValuePositionOutsideSlice;
     dataSet.yValuePosition = PieChartValuePositionOutsideSlice;
     

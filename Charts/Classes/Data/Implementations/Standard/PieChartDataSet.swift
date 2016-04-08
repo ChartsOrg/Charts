@@ -76,13 +76,13 @@ public class PieChartDataSet: ChartDataSet, IPieChartDataSet
     public var valueLineWidth: CGFloat = 1.0
     
     /// When valuePosition is OutsideSlice, indicates offset as percentage out of the slice size
-    public var valueLinePart1OffsetPercentage: CGFloat = 0.5
+    public var valueLinePart1OffsetPercentage: CGFloat = 0.75
     
     /// When valuePosition is OutsideSlice, indicates length of first half of the line
-    public var valueLinePart1Length: CGFloat = 0.1
+    public var valueLinePart1Length: CGFloat = 0.3
     
     /// When valuePosition is OutsideSlice, indicates length of second half of the line
-    public var valueLinePart2Length: CGFloat = 0.2
+    public var valueLinePart2Length: CGFloat = 0.4
     
     /// When valuePosition is OutsideSlice, this allows variable line length
     public var valueLineVariableLength: Bool = true
