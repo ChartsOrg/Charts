@@ -325,8 +325,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         _xAxis.axisRange = .abs(_xAxis._axisMaximum - _xAxis._axisMinimum);
         
         // calculate axis range (min / max) according to provided data
-        _leftAxis.calcMinMax(min: _data?.getYMin(.Left) ?? 0.0, max: _data?.getYMax(.Left) ?? 0.0)
-        _rightAxis.calcMinMax(min: _data?.getYMin(.Right) ?? 0.0, max: _data?.getYMax(.Right) ?? 0.0)
+        _leftAxis.calculate(min: _data?.getYMin(.Left) ?? 0.0, max: _data?.getYMax(.Left) ?? 0.0)
+        _rightAxis.calculate(min: _data?.getYMin(.Right) ?? 0.0, max: _data?.getYMax(.Right) ?? 0.0)
     }
     
     internal override func calculateOffsets()

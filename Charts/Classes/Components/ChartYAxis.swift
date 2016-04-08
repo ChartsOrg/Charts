@@ -285,7 +285,7 @@ public class ChartYAxis: ChartAxisBase
     /// Calculates the minimum, maximum and range values of the YAxis with the given minimum and maximum values from the chart data.
     /// - parameter dataMin: the y-min value according to chart data
     /// - parameter dataMax: the y-max value according to chart
-    public func calcMinMax(min dataMin: Double, max dataMax: Double)
+    public func calculate(min dataMin: Double, max dataMax: Double)
     {
         // if custom, use value as is, else use data value
         var min = _customAxisMin ? _axisMinimum : dataMin

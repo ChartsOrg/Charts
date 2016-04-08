@@ -78,7 +78,7 @@ public class RadarChartView: PieRadarChartViewBase
         _xAxis._axisMaximum = Double(data.xVals.count) - 1.0
         _xAxis.axisRange = Double(abs(_xAxis._axisMaximum - _xAxis._axisMinimum))
         
-        _yAxis.calcMinMax(min: data.getYMin(.Left), max: data.getYMax(.Left))
+        _yAxis.calculate(min: data.getYMin(.Left), max: data.getYMax(.Left))
     }
 
     public override func getMarkerPosition(entry entry: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
