@@ -121,25 +121,14 @@
         [xVals addObject:[@(i) stringValue]];
     }
     
-    NSMutableArray *yVals = [[NSMutableArray alloc] init];
+    NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < count; i++)
     {
         double mult = range / 2.0;
         double val = (double) (arc4random_uniform(mult)) + 50;
-        [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+        [yVals1 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
-    
-    LineChartDataSet *set1 = [[LineChartDataSet alloc] initWithYVals:yVals label:@"DataSet 1"];
-    set1.axisDependency = AxisDependencyLeft;
-    [set1 setColor:[UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]];
-    [set1 setCircleColor:UIColor.whiteColor];
-    set1.lineWidth = 2.0;
-    set1.circleRadius = 3.0;
-    set1.fillAlpha = 65/255.0;
-    set1.fillColor = [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f];
-    set1.highlightColor = [UIColor colorWithRed:244/255.f green:117/255.f blue:117/255.f alpha:1.f];
-    set1.drawCircleHoleEnabled = NO;
     
     NSMutableArray *yVals2 = [[NSMutableArray alloc] init];
     
@@ -150,26 +139,50 @@
         [yVals2 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
     
-    LineChartDataSet *set2 = [[LineChartDataSet alloc] initWithYVals:yVals2 label:@"DataSet 2"];
-    set2.axisDependency = AxisDependencyRight;
-    [set2 setColor:UIColor.redColor];
-    [set2 setCircleColor:UIColor.whiteColor];
-    set2.lineWidth = 2.0;
-    set2.circleRadius = 3.0;
-    set2.fillAlpha = 65/255.0;
-    set2.fillColor = UIColor.redColor;
-    set2.highlightColor = [UIColor colorWithRed:244/255.f green:117/255.f blue:117/255.f alpha:1.f];
-    set2.drawCircleHoleEnabled = NO;
+    LineChartDataSet *set1 = nil, *set2 = nil;
     
-    NSMutableArray *dataSets = [[NSMutableArray alloc] init];
-    [dataSets addObject:set2];
-    [dataSets addObject:set1];
-    
-    LineChartData *data = [[LineChartData alloc] initWithXVals:xVals dataSets:dataSets];
-    [data setValueTextColor:UIColor.whiteColor];
-    [data setValueFont:[UIFont systemFontOfSize:9.f]];
-    
-    _chartView.data = data;
+    if (_chartView.data.dataSetCount > 0)
+    {
+        set1 = (LineChartDataSet *)_chartView.data.dataSets[0];
+        set2 = (LineChartDataSet *)_chartView.data.dataSets[1];
+        set1.yVals = yVals1;
+        set2.yVals = yVals2;
+        [_chartView notifyDataSetChanged];
+    }
+    else
+    {
+        set1 = [[LineChartDataSet alloc] initWithYVals:yVals1 label:@"DataSet 1"];
+        set1.axisDependency = AxisDependencyLeft;
+        [set1 setColor:[UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]];
+        [set1 setCircleColor:UIColor.whiteColor];
+        set1.lineWidth = 2.0;
+        set1.circleRadius = 3.0;
+        set1.fillAlpha = 65/255.0;
+        set1.fillColor = [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f];
+        set1.highlightColor = [UIColor colorWithRed:244/255.f green:117/255.f blue:117/255.f alpha:1.f];
+        set1.drawCircleHoleEnabled = NO;
+        
+        set2 = [[LineChartDataSet alloc] initWithYVals:yVals2 label:@"DataSet 2"];
+        set2.axisDependency = AxisDependencyRight;
+        [set2 setColor:UIColor.redColor];
+        [set2 setCircleColor:UIColor.whiteColor];
+        set2.lineWidth = 2.0;
+        set2.circleRadius = 3.0;
+        set2.fillAlpha = 65/255.0;
+        set2.fillColor = UIColor.redColor;
+        set2.highlightColor = [UIColor colorWithRed:244/255.f green:117/255.f blue:117/255.f alpha:1.f];
+        set2.drawCircleHoleEnabled = NO;
+        
+        NSMutableArray *dataSets = [[NSMutableArray alloc] init];
+        [dataSets addObject:set2];
+        [dataSets addObject:set1];
+        
+        LineChartData *data = [[LineChartData alloc] initWithXVals:xVals dataSets:dataSets];
+        [data setValueTextColor:UIColor.whiteColor];
+        [data setValueFont:[UIFont systemFontOfSize:9.f]];
+        
+        _chartView.data = data;
+    }
 }
 
 - (void)optionTapped:(NSString *)key
