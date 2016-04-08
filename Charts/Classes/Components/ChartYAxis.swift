@@ -55,7 +55,8 @@ public class ChartYAxis: ChartAxisBase
     /// flag that indicates if the axis is inverted or not
     public var inverted = false
     
-    /// This property is deprecated - Use `customAxisMin` instead.
+    /// This property is deprecated - Use `axisMinValue` instead.
+    @available(*, deprecated=1.0, message="Use axisMinValue instead.")
     public var startAtZeroEnabled: Bool
     {
         get
@@ -271,8 +272,8 @@ public class ChartYAxis: ChartAxisBase
     
     public var isInverted: Bool { return inverted; }
     
-    /// This is deprecated now, use `customAxisMin`
-    @available(*, deprecated=1.0, message="Use customAxisMin instead.")
+    /// This is deprecated now, use `axisMinValue`
+    @available(*, deprecated=1.0, message="Use axisMinValue instead.")
     public var isStartAtZeroEnabled: Bool { return startAtZeroEnabled }
 
     /// - returns: true if focing the y-label count is enabled. Default: false
