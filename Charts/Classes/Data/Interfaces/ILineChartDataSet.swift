@@ -15,27 +15,38 @@ import Foundation
 import CoreGraphics
 
 @objc
+public enum LineChartMode: Int
+{
+    case Linear
+    case Stepped
+    case CubicBezier
+    case HorizontalBezier
+}
+
+@objc
 public protocol ILineChartDataSet: ILineRadarChartDataSet
 {
     // MARK: - Data functions and accessors
     
     // MARK: - Styling functions and accessors
     
+    var mode: LineChartMode { get set }
+    
     /// Intensity for cubic lines (min = 0.05, max = 1)
     ///
     /// **default**: 0.2
     var cubicIntensity: CGFloat { get set }
     
-    /// If true, cubic lines are drawn instead of linear
+    @available(*, deprecated=1.0, message="Use `mode` instead.")
     var drawCubicEnabled: Bool { get set }
     
-    /// - returns: true if drawing cubic lines is enabled, false if not.
+    @available(*, deprecated=1.0, message="Use `mode` instead.")
     var isDrawCubicEnabled: Bool { get }
     
-    /// If true, stepped lines are drawn instead of linear
+    @available(*, deprecated=1.0, message="Use `mode` instead.")
     var drawSteppedEnabled: Bool { get set }
     
-    /// - returns: true if drawing stepped lines is enabled, false if not.
+    @available(*, deprecated=1.0, message="Use `mode` instead.")
     var isDrawSteppedEnabled: Bool { get }
 
     /// The radius of the drawn circles.

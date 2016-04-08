@@ -72,19 +72,23 @@ public class LineChartRenderer: LineRadarChartRenderer
         }
         
         // if drawing cubic lines is enabled
-        if (dataSet.isDrawCubicEnabled)
+        switch dataSet.mode
         {
-            drawCubic(context: context, dataSet: dataSet)
-        }
-        else
-        { // draw normal (straight) lines
+        case .Linear: fallthrough
+        case .Stepped:
             drawLinear(context: context, dataSet: dataSet)
+            
+        case .CubicBezier:
+            drawCubicBezier(context: context, dataSet: dataSet)
+            
+        case .HorizontalBezier:
+            drawHorizontalBezier(context: context, dataSet: dataSet)
         }
         
         CGContextRestoreGState(context)
     }
     
-    public func drawCubic(context context: CGContext, dataSet: ILineChartDataSet)
+    public func drawCubicBezier(context context: CGContext, dataSet: ILineChartDataSet)
     {
         guard let
             trans = dataProvider?.getTransformer(dataSet.axisDependency),
@@ -168,9 +172,87 @@ public class LineChartRenderer: LineRadarChartRenderer
                 curDy = CGFloat(next.value - prev.value) * intensity
                 
                 // the last cubic
-                CGPathAddCurveToPoint(cubicPath, &valueToPixelMatrix, CGFloat(prev.xIndex) + prevDx, (CGFloat(prev.value) + prevDy) * phaseY,
-                    CGFloat(cur.xIndex) - curDx,
-                    (CGFloat(cur.value) - curDy) * phaseY, CGFloat(cur.xIndex), CGFloat(cur.value) * phaseY)
+                CGPathAddCurveToPoint(cubicPath, &valueToPixelMatrix,
+                                      CGFloat(prev.xIndex) + prevDx,
+                                      (CGFloat(prev.value) + prevDy) * phaseY,
+                                      CGFloat(cur.xIndex) - curDx,
+                                      (CGFloat(cur.value) - curDy) * phaseY,
+                                      CGFloat(cur.xIndex),
+                                      CGFloat(cur.value) * phaseY)
+            }
+        }
+        
+        CGContextSaveGState(context)
+        
+        if (dataSet.isDrawFilledEnabled)
+        {
+            // Copy this path because we make changes to it
+            let fillPath = CGPathCreateMutableCopy(cubicPath)
+            
+            drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, from: minx, to: size)
+        }
+        
+        CGContextBeginPath(context)
+        CGContextAddPath(context, cubicPath)
+        CGContextSetStrokeColorWithColor(context, drawingColor.CGColor)
+        CGContextStrokePath(context)
+        
+        CGContextRestoreGState(context)
+    }
+    
+    public func drawHorizontalBezier(context context: CGContext, dataSet: ILineChartDataSet)
+    {
+        guard let
+            trans = dataProvider?.getTransformer(dataSet.axisDependency),
+            animator = animator
+            else { return }
+        
+        let entryCount = dataSet.entryCount
+        
+        guard let
+            entryFrom = dataSet.entryForXIndex(self.minX < 0 ? self.minX : 0, rounding: .Down),
+            entryTo = dataSet.entryForXIndex(self.maxX, rounding: .Up)
+            else { return }
+        
+        let diff = (entryFrom == entryTo) ? 1 : 0
+        let minx = max(dataSet.entryIndex(entry: entryFrom) - diff - 1, 0)
+        let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo) + 1), entryCount)
+        
+        let phaseX = animator.phaseX
+        let phaseY = animator.phaseY
+        
+        // get the color that is specified for this position from the DataSet
+        let drawingColor = dataSet.colors.first!
+        
+        // the path for the cubic-spline
+        let cubicPath = CGPathCreateMutable()
+        
+        var valueToPixelMatrix = trans.valueToPixelMatrix
+        
+        let size = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx)))
+        
+        if (size - minx >= 2)
+        {
+            var prev: ChartDataEntry! = dataSet.entryForIndex(minx)
+            var cur: ChartDataEntry! = prev
+            
+            if cur == nil { return }
+            
+            // let the spline start
+            CGPathMoveToPoint(cubicPath, &valueToPixelMatrix, CGFloat(cur.xIndex), CGFloat(cur.value) * phaseY)
+            
+            for j in minx + 1 ..< min(size, entryCount)
+            {
+                prev = cur
+                cur = dataSet.entryForIndex(j)
+                
+                let cpx = CGFloat(prev.xIndex) + CGFloat(cur.xIndex - prev.xIndex) / 2.0
+                
+                CGPathAddCurveToPoint(cubicPath,
+                                      &valueToPixelMatrix,
+                                      cpx, CGFloat(prev.value) * phaseY,
+                                      cpx, CGFloat(cur.value) * phaseY,
+                                      CGFloat(cur.xIndex), CGFloat(cur.value) * phaseY)
             }
         }
         
@@ -240,7 +322,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         let valueToPixelMatrix = trans.valueToPixelMatrix
         
         let entryCount = dataSet.entryCount
-        let isDrawSteppedEnabled = dataSet.isDrawSteppedEnabled
+        let isDrawSteppedEnabled = dataSet.mode == .Stepped
         let pointsPerEntryPair = isDrawSteppedEnabled ? 4 : 2
         
         let phaseX = animator.phaseX
@@ -425,7 +507,7 @@ public class LineChartRenderer: LineRadarChartRenderer
     {
         let phaseX = animator?.phaseX ?? 1.0
         let phaseY = animator?.phaseY ?? 1.0
-        let isDrawSteppedEnabled = dataSet.isDrawSteppedEnabled
+        let isDrawSteppedEnabled = dataSet.mode == .Stepped
         var matrix = matrix
         
         var e: ChartDataEntry!

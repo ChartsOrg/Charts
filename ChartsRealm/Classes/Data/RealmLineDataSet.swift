@@ -29,6 +29,8 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     
     // MARK: - Styling functions and accessors
     
+    public var mode: LineChartMode = LineChartMode.Linear
+    
     private var _cubicIntensity = CGFloat(0.2)
     
     /// Intensity for cubic lines (min = 0.05, max = 1)
@@ -54,16 +56,36 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
         }
     }
     
-    /// If true, cubic lines are drawn instead of linear
-    public var drawCubicEnabled = false
+    @available(*, deprecated=1.0, message="Use `mode` instead.")
+    public var drawCubicEnabled: Bool
+    {
+        get
+        {
+            return mode == .CubicBezier
+        }
+        set
+        {
+            mode = newValue ? LineChartMode.CubicBezier : LineChartMode.Linear
+        }
+    }
     
-    /// - returns: true if drawing cubic lines is enabled, false if not.
+    @available(*, deprecated=1.0, message="Use `mode` instead.")
     public var isDrawCubicEnabled: Bool { return drawCubicEnabled }
     
-    /// If true, stepped lines are drawn instead of linear
-    public var drawSteppedEnabled = false
-
-    /// - returns: true if drawing stepped lines is enabled, false if not.
+    @available(*, deprecated=1.0, message="Use `mode` instead.")
+    public var drawSteppedEnabled: Bool
+    {
+        get
+        {
+            return mode == .Stepped
+        }
+        set
+        {
+            mode = newValue ? LineChartMode.Stepped : LineChartMode.Linear
+        }
+    }
+    
+    @available(*, deprecated=1.0, message="Use `mode` instead.")
     public var isDrawSteppedEnabled: Bool { return drawSteppedEnabled }
 
     /// The radius of the drawn circles.
@@ -157,9 +179,10 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
         copy.cubicIntensity = cubicIntensity
         copy.lineDashPhase = lineDashPhase
         copy.lineDashLengths = lineDashLengths
+        copy.lineCapType = lineCapType
         copy.drawCirclesEnabled = drawCirclesEnabled
-        copy.drawCubicEnabled = drawCubicEnabled
-        copy.drawSteppedEnabled = drawSteppedEnabled
+        copy.drawCircleHoleEnabled = drawCircleHoleEnabled
+        copy.mode = mode
         return copy
     }
     
