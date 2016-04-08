@@ -30,6 +30,9 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     
     // MARK: - Styling functions and accessors
     
+    /// The drawing mode for this line dataset
+    ///
+    /// **default**: Linear
     var mode: LineChartMode { get set }
     
     /// Intensity for cubic lines (min = 0.05, max = 1)

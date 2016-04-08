@@ -29,6 +29,9 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     
     // MARK: - Styling functions and accessors
     
+    /// The drawing mode for this line dataset
+    ///
+    /// **default**: Linear
     public var mode: LineChartMode = LineChartMode.Linear
     
     private var _cubicIntensity = CGFloat(0.2)
