@@ -51,6 +51,8 @@
                      @{@"key": @"toggleFilled", @"label": @"Toggle Filled"},
                      @{@"key": @"toggleCircles", @"label": @"Toggle Circles"},
                      @{@"key": @"toggleCubic", @"label": @"Toggle Cubic"},
+                     @{@"key": @"toggleHorizontalCubic", @"label": @"Toggle Horizontal Cubic"},
+                     @{@"key": @"toggleStepped", @"label": @"Toggle Stepped"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
@@ -179,6 +181,27 @@
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
             set.drawCubicEnabled = !set.isDrawCubicEnabled;
+        }
+        
+        [_chartView setNeedsDisplay];
+        return;
+    }
+    
+    if ([key isEqualToString:@"toggleStepped"])
+    {
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
+        {
+            set.drawSteppedEnabled = !set.isDrawSteppedEnabled;
+        }
+        
+        [_chartView setNeedsDisplay];
+    }
+    
+    if ([key isEqualToString:@"toggleHorizontalCubic"])
+    {
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
+        {
+            set.mode = set.mode == LineChartModeCubicBezier ? LineChartModeHorizontalBezier : LineChartModeCubicBezier;
         }
         
         [_chartView setNeedsDisplay];

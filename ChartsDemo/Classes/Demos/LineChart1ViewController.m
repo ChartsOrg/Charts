@@ -37,6 +37,7 @@
                      @{@"key": @"toggleFilled", @"label": @"Toggle Filled"},
                      @{@"key": @"toggleCircles", @"label": @"Toggle Circles"},
                      @{@"key": @"toggleCubic", @"label": @"Toggle Cubic"},
+                     @{@"key": @"toggleHorizontalCubic", @"label": @"Toggle Horizontal Cubic"},
                      @{@"key": @"toggleStepped", @"label": @"Toggle Stepped"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
@@ -218,6 +219,17 @@
         }
 
         [_chartView setNeedsDisplay];
+    }
+    
+    if ([key isEqualToString:@"toggleHorizontalCubic"])
+    {
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
+        {
+            set.mode = set.mode == LineChartModeCubicBezier ? LineChartModeHorizontalBezier : LineChartModeCubicBezier;
+        }
+        
+        [_chartView setNeedsDisplay];
+        return;
     }
     
     [super handleOption:key forChartView:_chartView];
