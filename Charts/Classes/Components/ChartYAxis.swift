@@ -130,11 +130,26 @@ public class ChartYAxis: ChartAxisBase
     /// If using granularity this could be avoided by having fewer axis values visible.
     public var granularityEnabled = false
     
+    private var _granularity = Double(1.0)
+    
     /// The minimum interval between axis values.
     /// This can be used to avoid label duplicating when zooming in.
     ///
     /// **default**: 1.0
-    public var granularity = Double(1.0)
+    public var granularity: Double
+    {
+        get
+        {
+            return _granularity
+        }
+        set
+        {
+            _granularity = newValue
+            
+            // set this to true if it was disabled, as it makes no sense to set this property with granularity disabled
+            granularityEnabled = true
+        }
+    }
     
     public override init()
     {
