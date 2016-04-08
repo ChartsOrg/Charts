@@ -109,6 +109,8 @@ public class PieChartRenderer: ChartDataRendererBase
         let radius = chart.radius
         let drawInnerArc = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled
         let userInnerRadius = drawInnerArc ? radius * chart.holeRadiusPercent : 0.0
+        let linePointRadius = (radius - userInnerRadius) / 2.0;
+        let centerLineRadius = innerRadius + linePointRadius;
         
         var visibleAngleCount = 0
         for j in 0 ..< entryCount
@@ -123,6 +125,16 @@ public class PieChartRenderer: ChartDataRendererBase
         let sliceSpace = visibleAngleCount <= 1 ? 0.0 : dataSet.sliceSpace
 
         CGContextSaveGState(context)
+        
+        let pathInner = CGPathCreateMutable()
+        CGPathAddArc(pathInner, nil, circleBox.midX, circleBox.midY, centerLineRadius, CGFloat(-M_PI_2), CGFloat(M_PI_2*3), false)
+        CGPathCloseSubpath(pathInner)
+        
+        
+        CGContextBeginPath(context)
+        CGContextAddPath(context, pathInner)
+        CGContextSetStrokeColorWithColor(context,  UIColor(red: 215/255.0, green: 215/255.0, blue: 215/255.0, alpha: 1.0).CGColor)
+        CGContextStrokePath(context)
         
         for j in 0 ..< entryCount
         {
@@ -251,6 +263,32 @@ public class PieChartRenderer: ChartDataRendererBase
                     }
                     
                     CGPathCloseSubpath(path)
+                    
+                    //drawing line rounded endings and center ring
+                    
+                    
+                    let х1 = circleBox.midX + (cos(startAngle * ChartUtils.Math.FDEG2RAD) * centerLineRadius);
+                    let y1 = circleBox.midY + (sin(startAngle * ChartUtils.Math.FDEG2RAD) * centerLineRadius);
+                    
+                    let x2 = circleBox.midX + (cos(endAngle * ChartUtils.Math.FDEG2RAD) * centerLineRadius);
+                    let y2 = circleBox.midY + (sin(endAngle * ChartUtils.Math.FDEG2RAD) * centerLineRadius);
+                    
+                    CGPathMoveToPoint(path, nil, х1, y1)
+                    CGPathAddArc(path, nil, х1, y1, linePointRadius, CGFloat(-M_PI_2), CGFloat(M_PI_2*3), false)
+                    CGPathCloseSubpath(path)
+                    
+                    
+                    CGPathMoveToPoint(path, nil, x2, y2)
+                    CGPathAddArc(path, nil, x2, y2, linePointRadius, CGFloat(-M_PI_2), CGFloat(M_PI_2*3), false)
+                    CGPathCloseSubpath(path)
+                    
+                    
+//                    CGContextBeginPath(context)
+//                    CGContextAddPath(context, path)
+//                    CGContextSetFillColorWithColor(context, dataSet.colorAt(j).CGColor)
+//                    CGContextFillPath(context)
+                    
+                    //
                     
                     CGContextBeginPath(context)
                     CGContextAddPath(context, path)
