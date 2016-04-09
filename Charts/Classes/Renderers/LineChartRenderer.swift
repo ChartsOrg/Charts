@@ -138,12 +138,12 @@ public class LineChartRenderer: LineRadarChartRenderer
             // let the spline start
             CGPathMoveToPoint(cubicPath, &valueToPixelMatrix, CGFloat(cur.xIndex), CGFloat(cur.value) * phaseY)
             
-            for j in minx + 1 ..< min(size, entryCount - 1)
+            for j in minx + 1 ..< min(size, entryCount)
             {
                 prevPrev = prev
                 prev = cur
                 cur = next
-                next = dataSet.entryForIndex(j + 1)
+                next = entryCount > j + 1 ? dataSet.entryForIndex(j + 1) : cur
                 
                 if next == nil { break }
                 
@@ -152,26 +152,6 @@ public class LineChartRenderer: LineRadarChartRenderer
                 curDx = CGFloat(next.xIndex - prev.xIndex) * intensity
                 curDy = CGFloat(next.value - prev.value) * intensity
                 
-                CGPathAddCurveToPoint(cubicPath, &valueToPixelMatrix, CGFloat(prev.xIndex) + prevDx, (CGFloat(prev.value) + prevDy) * phaseY,
-                    CGFloat(cur.xIndex) - curDx,
-                    (CGFloat(cur.value) - curDy) * phaseY, CGFloat(cur.xIndex), CGFloat(cur.value) * phaseY)
-            }
-            
-            if (size > entryCount - 1)
-            {
-                prevPrev = dataSet.entryForIndex(entryCount - (entryCount >= 3 ? 3 : 2))
-                prev = dataSet.entryForIndex(entryCount - 2)
-                cur = dataSet.entryForIndex(entryCount - 1)
-                next = cur
-                
-                if prevPrev == nil || prev == nil || cur == nil { return }
-                
-                prevDx = CGFloat(cur.xIndex - prevPrev.xIndex) * intensity
-                prevDy = CGFloat(cur.value - prevPrev.value) * intensity
-                curDx = CGFloat(next.xIndex - prev.xIndex) * intensity
-                curDy = CGFloat(next.value - prev.value) * intensity
-                
-                // the last cubic
                 CGPathAddCurveToPoint(cubicPath, &valueToPixelMatrix,
                                       CGFloat(prev.xIndex) + prevDx,
                                       (CGFloat(prev.value) + prevDy) * phaseY,
