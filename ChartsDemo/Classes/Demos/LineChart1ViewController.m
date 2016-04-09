@@ -37,6 +37,7 @@
                      @{@"key": @"toggleFilled", @"label": @"Toggle Filled"},
                      @{@"key": @"toggleCircles", @"label": @"Toggle Circles"},
                      @{@"key": @"toggleCubic", @"label": @"Toggle Cubic"},
+                     @{@"key": @"toggleHorizontalCubic", @"label": @"Toggle Horizontal Cubic"},
                      @{@"key": @"toggleStepped", @"label": @"Toggle Stepped"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
@@ -142,37 +143,47 @@
         [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
     
-    LineChartDataSet *set1 = [[LineChartDataSet alloc] initWithYVals:yVals label:@"DataSet 1"];
-    
-    set1.lineDashLengths = @[@5.f, @2.5f];
-    set1.highlightLineDashLengths = @[@5.f, @2.5f];
-    [set1 setColor:UIColor.blackColor];
-    [set1 setCircleColor:UIColor.blackColor];
-    set1.lineWidth = 1.0;
-    set1.circleRadius = 3.0;
-    set1.drawCircleHoleEnabled = NO;
-    set1.valueFont = [UIFont systemFontOfSize:9.f];
-    //set1.fillAlpha = 65/255.0;
-    //set1.fillColor = UIColor.blackColor;
-    
-    NSArray *gradientColors = @[
-                        (id)[ChartColorTemplates colorFromString:@"#00ff0000"].CGColor,
-                        (id)[ChartColorTemplates colorFromString:@"#ffff0000"].CGColor
-                        ];
-    CGGradientRef gradient = CGGradientCreateWithColors(nil, (CFArrayRef)gradientColors, nil);
-    
-    set1.fillAlpha = 1.f;
-    set1.fill = [ChartFill fillWithLinearGradient:gradient angle:90.f];
-    set1.drawFilledEnabled = YES;
-    
-    CGGradientRelease(gradient);
-    
-    NSMutableArray *dataSets = [[NSMutableArray alloc] init];
-    [dataSets addObject:set1];
-    
-    LineChartData *data = [[LineChartData alloc] initWithXVals:xVals dataSets:dataSets];
-    
-    _chartView.data = data;
+    LineChartDataSet *set1 = nil;
+    if (_chartView.data.dataSetCount > 0)
+    {
+        set1 = (LineChartDataSet *)_chartView.data.dataSets[0];
+        set1.yVals = yVals;
+        [_chartView notifyDataSetChanged];
+    }
+    else
+    {
+        set1 = [[LineChartDataSet alloc] initWithYVals:yVals label:@"DataSet 1"];
+        
+        set1.lineDashLengths = @[@5.f, @2.5f];
+        set1.highlightLineDashLengths = @[@5.f, @2.5f];
+        [set1 setColor:UIColor.blackColor];
+        [set1 setCircleColor:UIColor.blackColor];
+        set1.lineWidth = 1.0;
+        set1.circleRadius = 3.0;
+        set1.drawCircleHoleEnabled = NO;
+        set1.valueFont = [UIFont systemFontOfSize:9.f];
+        //set1.fillAlpha = 65/255.0;
+        //set1.fillColor = UIColor.blackColor;
+        
+        NSArray *gradientColors = @[
+                                    (id)[ChartColorTemplates colorFromString:@"#00ff0000"].CGColor,
+                                    (id)[ChartColorTemplates colorFromString:@"#ffff0000"].CGColor
+                                    ];
+        CGGradientRef gradient = CGGradientCreateWithColors(nil, (CFArrayRef)gradientColors, nil);
+        
+        set1.fillAlpha = 1.f;
+        set1.fill = [ChartFill fillWithLinearGradient:gradient angle:90.f];
+        set1.drawFilledEnabled = YES;
+        
+        CGGradientRelease(gradient);
+        
+        NSMutableArray *dataSets = [[NSMutableArray alloc] init];
+        [dataSets addObject:set1];
+        
+        LineChartData *data = [[LineChartData alloc] initWithXVals:xVals dataSets:dataSets];
+        
+        _chartView.data = data;
+    }
 }
 
 - (void)optionTapped:(NSString *)key
@@ -218,6 +229,17 @@
         }
 
         [_chartView setNeedsDisplay];
+    }
+    
+    if ([key isEqualToString:@"toggleHorizontalCubic"])
+    {
+        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
+        {
+            set.mode = set.mode == LineChartModeCubicBezier ? LineChartModeHorizontalBezier : LineChartModeCubicBezier;
+        }
+        
+        [_chartView setNeedsDisplay];
+        return;
     }
     
     [super handleOption:key forChartView:_chartView];

@@ -64,7 +64,19 @@ public class ChartDataSet: ChartBaseDataSet
     /// the last end value used for calcMinMax
     internal var _lastEnd: Int = 0
     
-    public var yVals: [ChartDataEntry] { return _yVals }
+    /// the array of y-values that this DataSet represents.
+    public var yVals: [ChartDataEntry]
+    {
+        get
+        {
+            return _yVals
+        }
+        set
+        {
+            _yVals = newValue
+            notifyDataSetChanged()
+        }
+    }
     
     /// Use this method to tell the data set that the underlying data has changed
     public override func notifyDataSetChanged()
