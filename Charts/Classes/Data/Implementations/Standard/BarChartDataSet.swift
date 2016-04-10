@@ -182,7 +182,7 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
     public var barBorderWidth : CGFloat = 0.0
 
     /// the color drawing borders around the bars.
-    public var barBorderColor = NSUIColor(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0)
+    public var barBorderColor = NSUIColor.blackColor()
 
     /// the alpha value (transparency) that is used for drawing the highlight indicator bar. min = 0.0 (fully transparent), max = 1.0 (fully opaque)
     public var highlightAlpha = CGFloat(120.0 / 255.0)
