@@ -173,7 +173,6 @@
     [set setColor:[UIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f]];
     set.valueTextColor = [UIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f];
     set.valueFont = [UIFont systemFontOfSize:10.f];
-    set.barBorderWidth = shouldRenderBarBorders ? 1.0 : 0.0;
 
     set.axisDependency = AxisDependencyLeft;
     

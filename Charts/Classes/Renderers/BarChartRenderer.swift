@@ -250,12 +250,12 @@ public class BarChartRenderer: ChartDataRendererBase
 
     internal func drawDataSetBorder(context context: CGContext, dataSet: IBarChartDataSet, rect:CGRect)
     {
-        if (dataSet.barBorderWidth > 0){
+        if (dataSet.barBorderWidth > 0)
+        {
             CGContextSetStrokeColorWithColor(context, dataSet.barBorderColor.CGColor)
             CGContextSetLineWidth(context, dataSet.barBorderWidth)
             CGContextStrokeRect(context, rect)
         }
-
     }
 
     /// Prepares a bar for being highlighted.

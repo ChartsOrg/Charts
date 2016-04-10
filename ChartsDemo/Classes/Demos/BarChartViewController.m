@@ -129,7 +129,6 @@
     
     BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithYVals:yVals label:@"DataSet"];
     set1.barSpace = 0.35;
-    set1.barBorderWidth = shouldRenderBarBorders ? 1.0 : 0.0;
 
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
     [dataSets addObject:set1];

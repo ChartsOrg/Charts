@@ -126,13 +126,12 @@
     
     BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithYVals:yVals1 label:@"Company A"];
     [set1 setColor:[UIColor colorWithRed:104/255.f green:241/255.f blue:175/255.f alpha:1.f]];
-    [set1 setBarBorderWidth:(shouldRenderBarBorders ? 1.0 : 0.0)];
+    
     BarChartDataSet *set2 = [[BarChartDataSet alloc] initWithYVals:yVals2 label:@"Company B"];
     [set2 setColor:[UIColor colorWithRed:164/255.f green:228/255.f blue:251/255.f alpha:1.f]];
-    //[set2 setBarBorderWidth:(shouldRenderBarBorders ? 1.0 : 0.0)];
+    
     BarChartDataSet *set3 = [[BarChartDataSet alloc] initWithYVals:yVals3 label:@"Company C"];
     [set3 setColor:[UIColor colorWithRed:242/255.f green:247/255.f blue:158/255.f alpha:1.f]];
-    [set3 setBarBorderWidth:(shouldRenderBarBorders ? 1.0 : 0.0)];
 
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
     [dataSets addObject:set1];

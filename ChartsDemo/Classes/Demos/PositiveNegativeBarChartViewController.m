@@ -153,7 +153,6 @@
     set.barSpace = 0.4f;
     set.colors = colors;
     set.valueColors = colors;
-    set.barBorderWidth = shouldRenderBarBorders ? 1.0 : 0.0;
 
     BarChartData *data = [[BarChartData alloc] initWithXVals:dates dataSet:set];
     [data setValueFont:[UIFont systemFontOfSize:13.f]];

@@ -122,7 +122,6 @@
     BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithYVals:yVals label:@"Statistics Vienna 2014"];
     set1.colors = @[ChartColorTemplates.vordiplom[0], ChartColorTemplates.vordiplom[1], ChartColorTemplates.vordiplom[2]];
     set1.stackLabels = @[@"Births", @"Divorces", @"Marriages"];
-    set1.barBorderWidth = shouldRenderBarBorders ? 1.0 : 0.0;
 
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
     [dataSets addObject:set1];
