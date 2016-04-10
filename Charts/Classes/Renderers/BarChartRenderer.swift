@@ -248,7 +248,7 @@ public class BarChartRenderer: ChartDataRendererBase
         CGContextRestoreGState(context)
     }
 
-    internal func drawDataSetBorder(context context: CGContext, dataSet: IBarChartDataSet, rect:CGRect)
+    internal func drawDataSetBorder(context context: CGContext, dataSet: IBarChartDataSet, rect: CGRect)
     {
         if (dataSet.barBorderWidth > 0)
         {
