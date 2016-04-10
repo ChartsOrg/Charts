@@ -89,12 +89,12 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
         }
         
         // Normalize interval
-        let intervalMagnitude = ChartUtils.roundToNextSignificant(number: pow(10.0, floor(log10(interval))))
-        let intervalSigDigit = (interval / intervalMagnitude)
+        let intervalMagnitude = ChartUtils.roundToNextSignificant(number: pow(10.0, Double(Int(log10(interval)))))
+        let intervalSigDigit = Int(interval / intervalMagnitude)
         if (intervalSigDigit > 5)
         {
             // Use one order of magnitude higher, to avoid intervals like 0.9 or 90
-            interval = floor(10.0 * intervalMagnitude)
+            interval = floor(10.0 * Double(intervalMagnitude))
         }
         
         // force label count
