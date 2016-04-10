@@ -133,13 +133,16 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             }
             else
             {
-                let first = ceil(Double(yMin) / interval) * interval
-                let last = ChartUtils.nextUp(floor(Double(yMax) / interval) * interval)
+                let first = interval == 0.0 ? 0.0 : ceil(Double(yMin) / interval) * interval
+                let last = interval == 0.0 ? 0.0 : ChartUtils.nextUp(floor(Double(yMax) / interval) * interval)
                 
                 var n = 0
-                for _ in first.stride(through: last, by: interval)
+                if last != first
                 {
-                    n += 1
+                    for _ in first.stride(through: last, by: interval)
+                    {
+                        n += 1
+                    }
                 }
                 
                 if (yAxis.entries.count < n)
