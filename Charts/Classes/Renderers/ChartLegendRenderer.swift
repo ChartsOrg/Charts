@@ -142,6 +142,7 @@ public class ChartLegendRenderer: ChartRendererBase
         let formSize = legend.formSize
         let formToTextSpace = legend.formToTextSpace
         let xEntrySpace = legend.xEntrySpace
+        let yEntrySpace = legend.yEntrySpace
         let direction = legend.direction
 
         // space between the entries
@@ -209,13 +210,12 @@ public class ChartLegendRenderer: ChartRendererBase
             
             var lineIndex: Int = 0
             
-            
             for i in 0..<labels.count
             {
                 if (i < calculatedLabelBreakPoints.count && calculatedLabelBreakPoints[i])
                 {
                     posX = originPosX
-                    posY += labelLineHeight
+                    posY += labelLineHeight + yEntrySpace
                 }
                 
                 if (posX == originPosX &&
@@ -371,12 +371,12 @@ public class ChartLegendRenderer: ChartRendererBase
                     }
                     else
                     {
-                        posY += labelLineHeight
+                        posY += labelLineHeight + yEntrySpace
                         drawLabel(context: context, x: x, y: posY, label: labels[i]!, font: labelFont, textColor: labelTextColor)
                     }
                     
                     // make a step down
-                    posY += labelLineHeight
+                    posY += labelLineHeight + yEntrySpace
                     stack = 0.0
                 }
                 else
@@ -385,7 +385,6 @@ public class ChartLegendRenderer: ChartRendererBase
                     wasStacked = true
                 }
             }
-            
         }
     }
 
