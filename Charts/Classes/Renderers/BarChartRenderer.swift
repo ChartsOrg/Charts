@@ -73,6 +73,9 @@ public class BarChartRenderer: ChartDataRendererBase
         let phaseY = animator.phaseY
         var barRect = CGRect()
         var barShadow = CGRect()
+        let borderWidth = dataSet.barBorderWidth
+        let borderColor = dataSet.barBorderColor
+        let drawBorder = borderWidth > 0.0
         var y: Double
         
         // do the drawing
@@ -136,8 +139,13 @@ public class BarChartRenderer: ChartDataRendererBase
                 // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
                 CGContextSetFillColorWithColor(context, dataSet.colorAt(j).CGColor)
                 CGContextFillRect(context, barRect)
-
-                self.drawDataSetBorder(context: context, dataSet: dataSet, rect: barRect)
+                
+                if drawBorder
+                {
+                    CGContextSetStrokeColorWithColor(context, borderColor.CGColor)
+                    CGContextSetLineWidth(context, borderWidth)
+                    CGContextStrokeRect(context, barRect)
+                }
             }
             else
             {
@@ -239,23 +247,18 @@ public class BarChartRenderer: ChartDataRendererBase
                     // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
                     CGContextSetFillColorWithColor(context, dataSet.colorAt(k).CGColor)
                     CGContextFillRect(context, barRect)
-
-                    self.drawDataSetBorder(context: context, dataSet: dataSet, rect: barRect)
+                    
+                    if drawBorder
+                    {
+                        CGContextSetStrokeColorWithColor(context, borderColor.CGColor)
+                        CGContextSetLineWidth(context, borderWidth)
+                        CGContextStrokeRect(context, barRect)
+                    }
                 }
             }
         }
         
         CGContextRestoreGState(context)
-    }
-
-    internal func drawDataSetBorder(context context: CGContext, dataSet: IBarChartDataSet, rect: CGRect)
-    {
-        if (dataSet.barBorderWidth > 0)
-        {
-            CGContextSetStrokeColorWithColor(context, dataSet.barBorderColor.CGColor)
-            CGContextSetLineWidth(context, dataSet.barBorderWidth)
-            CGContextStrokeRect(context, rect)
-        }
     }
 
     /// Prepares a bar for being highlighted.
