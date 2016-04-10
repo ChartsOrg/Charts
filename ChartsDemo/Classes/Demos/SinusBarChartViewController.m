@@ -117,15 +117,25 @@
         [entries addObject:[[BarChartDataEntry alloc] initWithValue:sinf(M_PI * (i % 128) / 64.0) xIndex:i]];
     }
     
-    BarChartDataSet *set = [[BarChartDataSet alloc] initWithYVals:entries label:@"Sinus Function"];
-    set.barSpace = 0.4;
-    [set setColor:[UIColor colorWithRed:240/255.f green:120/255.f blue:124/255.f alpha:1.f]];
-    
-    BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSet:set];
-    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
-    [data setDrawValues:NO];
-    
-    _chartView.data = data;
+    BarChartDataSet *set = nil;
+    if (_chartView.data.dataSetCount > 0)
+    {
+        set = (BarChartDataSet *)_chartView.data.dataSets[0];
+        set.yVals = entries;
+        [_chartView notifyDataSetChanged];
+    }
+    else
+    {
+        set = [[BarChartDataSet alloc] initWithYVals:entries label:@"Sinus Function"];
+        set.barSpace = 0.4;
+        [set setColor:[UIColor colorWithRed:240/255.f green:120/255.f blue:124/255.f alpha:1.f]];
+        
+        BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSet:set];
+        [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
+        [data setDrawValues:NO];
+        
+        _chartView.data = data;
+    }
 }
 
 - (void)optionTapped:(NSString *)key
