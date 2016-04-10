@@ -186,7 +186,7 @@ public class ChartLegendRenderer: ChartRendererBase
             }
             else // .BelowChartCenter || .AboveChartCenter
             {
-                originPosX = viewPortHandler.contentLeft + contentWidth / 2.0
+                originPosX = viewPortHandler.contentLeft + contentWidth / 2.0 + xoffset
             }
             
             var calculatedLineSizes = legend.calculatedLineSizes
