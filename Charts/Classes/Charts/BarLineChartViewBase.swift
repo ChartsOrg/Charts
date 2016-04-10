@@ -329,6 +329,71 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         _rightAxis.calculate(min: _data?.getYMin(.Right) ?? 0.0, max: _data?.getYMax(.Right) ?? 0.0)
     }
     
+    internal func calculateLegendOffsets(inout offsetLeft offsetLeft: CGFloat, inout offsetTop: CGFloat, inout offsetRight: CGFloat, inout offsetBottom: CGFloat)
+    {
+        // setup offsets for legend
+        if _legend !== nil && _legend.isEnabled && !_legend.drawInside
+        {
+            switch _legend.orientation
+            {
+            case .Vertical:
+                
+                switch _legend.horizontalAlignment
+                {
+                case .Left:
+                    offsetLeft += min(_legend.neededWidth, _viewPortHandler.chartWidth * _legend.maxSizePercent) + _legend.xOffset
+                    
+                case .Right:
+                    offsetRight += min(_legend.neededWidth, _viewPortHandler.chartWidth * _legend.maxSizePercent) + _legend.xOffset
+                    
+                case .Center:
+                    
+                    switch _legend.verticalAlignment
+                    {
+                    case .Top:
+                        offsetTop += min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent) + _legend.yOffset
+                        if xAxis.isEnabled && xAxis.isDrawLabelsEnabled
+                        {
+                            offsetTop += xAxis.labelRotatedHeight
+                        }
+                        
+                    case .Bottom:
+                        offsetBottom += min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent) + _legend.yOffset
+                        if xAxis.isEnabled && xAxis.isDrawLabelsEnabled
+                        {
+                            offsetBottom += xAxis.labelRotatedHeight
+                        }
+                        
+                    default:
+                        break;
+                    }
+                }
+                
+            case .Horizontal:
+                
+                switch _legend.verticalAlignment
+                {
+                case .Top:
+                    offsetTop += min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent) + _legend.yOffset
+                    if xAxis.isEnabled && xAxis.isDrawLabelsEnabled
+                    {
+                        offsetTop += xAxis.labelRotatedHeight
+                    }
+                    
+                case .Bottom:
+                    offsetBottom += min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent) + _legend.yOffset
+                    if xAxis.isEnabled && xAxis.isDrawLabelsEnabled
+                    {
+                        offsetBottom += xAxis.labelRotatedHeight
+                    }
+                    
+                default:
+                    break;
+                }
+            }
+        }
+    }
+    
     internal override func calculateOffsets()
     {
         if (!_customViewPortEnabled)
@@ -338,42 +403,10 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             var offsetTop = CGFloat(0.0)
             var offsetBottom = CGFloat(0.0)
             
-            // setup offsets for legend
-            if (_legend !== nil && _legend.isEnabled)
-            {
-                if (_legend.position == .RightOfChart
-                    || _legend.position == .RightOfChartCenter)
-                {
-                    offsetRight += min(_legend.neededWidth, _viewPortHandler.chartWidth * _legend.maxSizePercent) + _legend.xOffset * 2.0
-                }
-                if (_legend.position == .LeftOfChart
-                    || _legend.position == .LeftOfChartCenter)
-                {
-                    offsetLeft += min(_legend.neededWidth, _viewPortHandler.chartWidth * _legend.maxSizePercent) + _legend.xOffset * 2.0
-                }
-                else if (_legend.position == .BelowChartLeft
-                    || _legend.position == .BelowChartRight
-                    || _legend.position == .BelowChartCenter)
-                {
-                    // It's possible that we do not need this offset anymore as it
-                    //   is available through the extraOffsets, but changing it can mean
-                    //   changing default visibility for existing apps.
-                    let yOffset = _legend.textHeightMax
-                    
-                    offsetBottom += min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
-                }
-                else if (_legend.position == .AboveChartLeft
-                    || _legend.position == .AboveChartRight
-                    || _legend.position == .AboveChartCenter)
-                {
-                    // It's possible that we do not need this offset anymore as it
-                    //   is available through the extraOffsets, but changing it can mean
-                    //   changing default visibility for existing apps.
-                    let yOffset = _legend.textHeightMax
-                    
-                    offsetTop += min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
-                }
-            }
+            calculateLegendOffsets(offsetLeft: &offsetLeft,
+                                   offsetTop: &offsetTop,
+                                   offsetRight: &offsetRight,
+                                   offsetBottom: &offsetBottom)
             
             // offsets for y-labels
             if (leftAxis.needsOffset)

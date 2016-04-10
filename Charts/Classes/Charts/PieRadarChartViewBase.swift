@@ -97,112 +97,121 @@ public class PieRadarChartViewBase: ChartViewBase
         var legendBottom = CGFloat(0.0)
         var legendTop = CGFloat(0.0)
 
-        if (_legend != nil && _legend.enabled)
+        if _legend != nil && _legend.enabled && !_legend.drawInside
         {
             var fullLegendWidth = min(_legend.neededWidth, _viewPortHandler.chartWidth * _legend.maxSizePercent)
             fullLegendWidth += _legend.formSize + _legend.formToTextSpace
             
-            if (_legend.position == .RightOfChartCenter)
+            switch _legend.orientation
             {
-                // this is the space between the legend and the chart
-                let spacing = CGFloat(13.0)
-
-                legendRight = fullLegendWidth + spacing
-            }
-            else if (_legend.position == .RightOfChart)
-            {
-                // this is the space between the legend and the chart
-                let spacing = CGFloat(8.0)
+            case .Vertical:
                 
-                let legendWidth = fullLegendWidth + spacing
-                let legendHeight = _legend.neededHeight + _legend.textHeightMax
-
-                let c = self.midPoint
-
-                let bottomRight = CGPoint(x: self.bounds.width - legendWidth + 15.0, y: legendHeight + 15)
-                let distLegend = distanceToCenter(x: bottomRight.x, y: bottomRight.y)
-
-                let reference = getPosition(center: c, dist: self.radius,
-                    angle: angleForPoint(x: bottomRight.x, y: bottomRight.y))
-
-                let distReference = distanceToCenter(x: reference.x, y: reference.y)
-                let minOffset = CGFloat(5.0)
-
-                if (distLegend < distReference)
-                {
-                    let diff = distReference - distLegend
-                    legendRight = minOffset + diff
-                }
-
-                if (bottomRight.y >= c.y && self.bounds.height - legendWidth > self.bounds.width)
-                {
-                    legendRight = legendWidth
-                }
-            }
-            else if (_legend.position == .LeftOfChartCenter)
-            {
-                // this is the space between the legend and the chart
-                let spacing = CGFloat(13.0)
-
-                legendLeft = fullLegendWidth + spacing
-            }
-            else if (_legend.position == .LeftOfChart)
-            {
-
-                // this is the space between the legend and the chart
-                let spacing = CGFloat(8.0)
+                var xLegendOffset: CGFloat = 0.0
                 
-                let legendWidth = fullLegendWidth + spacing
-                let legendHeight = _legend.neededHeight + _legend.textHeightMax
-
-                let c = self.midPoint
-
-                let bottomLeft = CGPoint(x: legendWidth - 15.0, y: legendHeight + 15)
-                let distLegend = distanceToCenter(x: bottomLeft.x, y: bottomLeft.y)
-
-                let reference = getPosition(center: c, dist: self.radius,
-                    angle: angleForPoint(x: bottomLeft.x, y: bottomLeft.y))
-
-                let distReference = distanceToCenter(x: reference.x, y: reference.y)
-                let min = CGFloat(5.0)
-
-                if (distLegend < distReference)
+                if _legend.horizontalAlignment == .Left
+                    || _legend.horizontalAlignment == .Right
                 {
-                    let diff = distReference - distLegend
-                    legendLeft = min + diff
+                    if _legend.verticalAlignment == .Center
+                    {
+                        // this is the space between the legend and the chart
+                        let spacing = CGFloat(13.0)
+                        
+                        xLegendOffset = fullLegendWidth + spacing
+                    }
+                    else
+                    {
+                        // this is the space between the legend and the chart
+                        let spacing = CGFloat(8.0)
+                        
+                        let legendWidth = fullLegendWidth + spacing
+                        let legendHeight = _legend.neededHeight + _legend.textHeightMax
+                        
+                        let c = self.midPoint
+                        
+                        let bottomX = _legend.horizontalAlignment == .Right
+                            ? self.bounds.width - legendWidth + 15.0
+                            : legendWidth - 15.0
+                        let bottomY = legendHeight + 15
+                        let distLegend = distanceToCenter(x: bottomX, y: bottomY)
+                        
+                        let reference = getPosition(center: c, dist: self.radius,
+                                                    angle: angleForPoint(x: bottomX, y: bottomY))
+                        
+                        let distReference = distanceToCenter(x: reference.x, y: reference.y)
+                        let minOffset = CGFloat(5.0)
+                        
+                        if (bottomY >= c.y
+                            && self.bounds.height - legendWidth > self.bounds.width)
+                        {
+                            xLegendOffset = legendWidth
+                        }
+                        else if (distLegend < distReference)
+                        {
+                            let diff = distReference - distLegend
+                            xLegendOffset = minOffset + diff
+                        }
+                    }
                 }
-
-                if (bottomLeft.y >= c.y && self.bounds.height - legendWidth > self.bounds.width)
+                
+                switch _legend.horizontalAlignment
                 {
-                    legendLeft = legendWidth
+                case .Left:
+                    legendLeft = xLegendOffset
+                    
+                case .Right:
+                    legendRight = xLegendOffset
+                    
+                case .Center:
+                    
+                    switch _legend.verticalAlignment
+                    {
+                    case .Top:
+                        legendTop = min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent)
+                        
+                    case .Bottom:
+                        legendBottom = min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent)
+                        
+                    default:
+                        break;
+                    }
                 }
-            }
-            else if (_legend.position == .BelowChartLeft
-                    || _legend.position == .BelowChartRight
-                    || _legend.position == .BelowChartCenter)
-            {
-                // It's possible that we do not need this offset anymore as it
-                //   is available through the extraOffsets, but changing it can mean
-                //   changing default visibility for existing apps.
-                let yOffset = self.requiredLegendOffset
+            
+            case .Horizontal:
                 
-                legendBottom = min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
-            }
-            else if (_legend.position == .AboveChartLeft
-                || _legend.position == .AboveChartRight
-                || _legend.position == .AboveChartCenter)
-            {
-                // It's possible that we do not need this offset anymore as it
-                //   is available through the extraOffsets, but changing it can mean
-                //   changing default visibility for existing apps.
-                let yOffset = self.requiredLegendOffset
+                var yLegendOffset: CGFloat = 0.0
                 
-                legendTop = min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
+                if _legend.verticalAlignment == .Top
+                    || _legend.verticalAlignment == .Bottom
+                {
+                    // It's possible that we do not need this offset anymore as it
+                    //   is available through the extraOffsets, but changing it can mean
+                    //   changing default visibility for existing apps.
+                    let yOffset = self.requiredLegendOffset
+                    
+                    yLegendOffset = min(
+                        _legend.neededHeight + yOffset,
+                        _viewPortHandler.chartHeight * _legend.maxSizePercent)
+                }
+                
+                switch _legend.verticalAlignment
+                {
+                case .Top:
+                    
+                    legendTop = yLegendOffset
+                    
+                case .Bottom:
+                    
+                    legendBottom = yLegendOffset
+                    
+                default:
+                    break;
+                }
             }
 
             legendLeft += self.requiredBaseOffset
             legendRight += self.requiredBaseOffset
             legendTop += self.requiredBaseOffset
+            legendBottom += self.requiredBaseOffset
         }
         
         legendTop += self.extraTopOffset
@@ -214,7 +223,7 @@ public class PieRadarChartViewBase: ChartViewBase
         
         if (self.isKindOfClass(RadarChartView))
         {
-            let x = (self as! RadarChartView).xAxis
+            let x = self.xAxis
             
             if x.isEnabled && x.drawLabelsEnabled
             {

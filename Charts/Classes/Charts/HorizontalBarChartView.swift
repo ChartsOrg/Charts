@@ -43,42 +43,10 @@ public class HorizontalBarChartView: BarChartView
         offsetTop: CGFloat = 0.0,
         offsetBottom: CGFloat = 0.0
         
-        // setup offsets for legend
-        if (_legend !== nil && _legend.isEnabled)
-        {
-            if (_legend.position == .RightOfChart
-                || _legend.position == .RightOfChartCenter)
-            {
-                offsetRight += min(_legend.neededWidth, _viewPortHandler.chartWidth * _legend.maxSizePercent) + _legend.xOffset * 2.0
-            }
-            else if (_legend.position == .LeftOfChart
-                || _legend.position == .LeftOfChartCenter)
-            {
-                offsetLeft += min(_legend.neededWidth, _viewPortHandler.chartWidth * _legend.maxSizePercent) + _legend.xOffset * 2.0
-            }
-            else if (_legend.position == .BelowChartLeft
-                || _legend.position == .BelowChartRight
-                || _legend.position == .BelowChartCenter)
-            {
-                // It's possible that we do not need this offset anymore as it
-                //   is available through the extraOffsets, but changing it can mean
-                //   changing default visibility for existing apps.
-                let yOffset = _legend.textHeightMax + 2.5 * 2.0
-                
-                offsetBottom += min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
-            }
-            else if (_legend.position == .AboveChartLeft
-                || _legend.position == .AboveChartRight
-                || _legend.position == .AboveChartCenter)
-            {
-                // It's possible that we do not need this offset anymore as it
-                //   is available through the extraOffsets, but changing it can mean
-                //   changing default visibility for existing apps.
-                let yOffset = _legend.textHeightMax
-                
-                offsetTop += min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
-            }
-        }
+        calculateLegendOffsets(offsetLeft: &offsetLeft,
+                               offsetTop: &offsetTop,
+                               offsetRight: &offsetRight,
+                               offsetBottom: &offsetBottom)
         
         // offsets for y-labels
         if (_leftAxis.needsOffset)

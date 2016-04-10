@@ -22,6 +22,8 @@ import CoreGraphics
 
 public class ChartLegend: ChartComponentBase
 {
+    /// This property is deprecated - Use `position`, `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.
+    @available(*, deprecated=1.0, message="Use `position`, `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.")
     @objc(ChartLegendPosition)
     public enum Position: Int
     {
@@ -46,6 +48,29 @@ public class ChartLegend: ChartComponentBase
         case Square
         case Circle
         case Line
+    }
+    
+    @objc(ChartLegendHorizontalAlignment)
+    public enum HorizontalAlignment: Int
+    {
+        case Left
+        case Center
+        case Right
+    }
+    
+    @objc(ChartLegendVerticalAlignment)
+    public enum VerticalAlignment: Int
+    {
+        case Top
+        case Center
+        case Bottom
+    }
+    
+    @objc(ChartLegendOrientation)
+    public enum Orientation: Int
+    {
+        case Horizontal
+        case Vertical
     }
     
     @objc(ChartLegendDirection)
@@ -74,9 +99,99 @@ public class ChartLegend: ChartComponentBase
     /// 
     /// **default**: false (automatic legend)
     private var _isLegendCustom = false
-
-    public var position = Position.BelowChartLeft
-    public var direction = Direction.LeftToRight
+    
+    /// This property is deprecated - Use `position`, `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.
+    @available(*, deprecated=1.0, message="Use `position`, `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.")
+    public var position: Position
+    {
+        get
+        {
+            if orientation == .Vertical && horizontalAlignment == .Center && verticalAlignment == .Center
+            {
+                return .PiechartCenter
+            }
+            else if orientation == .Horizontal
+            {
+                if verticalAlignment == .Top
+                {
+                    return horizontalAlignment == .Left ? .AboveChartLeft : (horizontalAlignment == .Right ? .AboveChartRight : .AboveChartCenter)
+                }
+                else
+                {
+                    return horizontalAlignment == .Left ? .BelowChartLeft : (horizontalAlignment == .Right ? .BelowChartRight : .BelowChartCenter)
+                }
+            }
+            else
+            {
+                if horizontalAlignment == .Left
+                {
+                    return verticalAlignment == .Top && drawInside ? .LeftOfChartInside : (verticalAlignment == .Center ? .LeftOfChartCenter : .LeftOfChart)
+                }
+                else
+                {
+                    return verticalAlignment == .Top && drawInside ? .RightOfChartInside : (verticalAlignment == .Center ? .RightOfChartCenter : .RightOfChart)
+                }
+            }
+        }
+        set
+        {
+            switch newValue
+            {
+            case .LeftOfChart: fallthrough
+            case .LeftOfChartInside: fallthrough
+            case .LeftOfChartCenter:
+                horizontalAlignment = .Left
+                verticalAlignment = newValue == .LeftOfChartCenter ? .Center : .Top
+                orientation = .Vertical
+                
+            case .RightOfChart: fallthrough
+            case .RightOfChartInside: fallthrough
+            case .RightOfChartCenter:
+                horizontalAlignment = .Right
+                verticalAlignment = newValue == .RightOfChartCenter ? .Center : .Top
+                orientation = .Vertical
+                
+            case .AboveChartLeft: fallthrough
+            case .AboveChartCenter: fallthrough
+            case .AboveChartRight:
+                horizontalAlignment = newValue == .AboveChartLeft ? .Left : (newValue == .AboveChartRight ? .Right : .Center)
+                verticalAlignment = .Top
+                orientation = .Horizontal
+                
+            case .BelowChartLeft: fallthrough
+            case .BelowChartCenter: fallthrough
+            case .BelowChartRight:
+                horizontalAlignment = newValue == .BelowChartLeft ? .Left : (newValue == .BelowChartRight ? .Right : .Center)
+                verticalAlignment = .Bottom
+                orientation = .Horizontal
+                
+            case .PiechartCenter:
+                horizontalAlignment = .Center
+                verticalAlignment = .Center
+                orientation = .Vertical
+            }
+            
+            drawInside = newValue == .LeftOfChartInside || newValue == .RightOfChartInside
+        }
+    }
+    
+    /// The horizontal alignment of the legend
+    public var horizontalAlignment: HorizontalAlignment = HorizontalAlignment.Left
+    
+    /// The vertical alignment of the legend
+    public var verticalAlignment: VerticalAlignment = VerticalAlignment.Bottom
+    
+    /// The orientation of the legend
+    public var orientation: Orientation = Orientation.Horizontal
+    
+    /// Flag indicating whether the legend will draw inside the chart or outside
+    public var drawInside: Bool = false
+    
+    /// Flag indicating whether the legend will draw inside the chart or outside
+    public var isDrawInsideEnabled: Bool { return drawInside }
+    
+    /// The text direction of the legend
+    public var direction: Direction = Direction.LeftToRight
 
     public var font: NSUIFont = NSUIFont.systemFontOfSize(10.0)
     public var textColor = NSUIColor.blackColor()
@@ -154,46 +269,11 @@ public class ChartLegend: ChartComponentBase
         return labels[index]
     }
     
+    /// This function is deprecated - Please read `neededWidth`/`neededHeight` after `calculateDimensions` was called.
+    @available(*, deprecated=1.0, message="Please read `neededWidth`/`neededHeight` after `calculateDimensions` was called.")
     public func getFullSize(labelFont: NSUIFont) -> CGSize
     {
-        var width = CGFloat(0.0)
-        var height = CGFloat(0.0)
-        
-        var labels = self.labels
-        let count = labels.count
-        for i in 0 ..< count
-        {
-            if (labels[i] != nil)
-            {
-                // make a step to the left
-                if (colors[i] != nil)
-                {
-                    width += formSize + formToTextSpace
-                }
-                
-                let size = (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont])
-                
-                width += size.width
-                height += size.height
-                
-                if (i < count - 1)
-                {
-                    width += xEntrySpace
-                    height += yEntrySpace
-                }
-            }
-            else
-            {
-                width += formSize + stackSpace
-                
-                if (i < count - 1)
-                {
-                    width += stackSpace
-                }
-            }
-        }
-        
-        return CGSize(width: width, height: height)
+        return CGSize(width: neededWidth, height: neededHeight)
     }
 
     public var neededWidth = CGFloat(0.0)
@@ -202,12 +282,11 @@ public class ChartLegend: ChartComponentBase
     public var textHeightMax = CGFloat(0.0)
     
     /// flag that indicates if word wrapping is enabled
-    /// this is currently supported only for: `BelowChartLeft`, `BelowChartRight`, `BelowChartCenter`.
-    /// note that word wrapping a legend takes a toll on performance.
+    /// this is currently supported only for `orientation == Horizontal`.
     /// you may want to set maxSizePercent when word wrapping, to set the point where the text wraps.
     /// 
     /// **default**: false
-    public var wordWrapEnabled = false
+    public var wordWrapEnabled = true
     
     /// if this is set, then word wrapping the legend is enabled.
     public var isWordWrapEnabled: Bool { return wordWrapEnabled }
@@ -215,47 +294,88 @@ public class ChartLegend: ChartComponentBase
     /// The maximum relative size out of the whole chart view in percent.
     /// If the legend is to the right/left of the chart, then this affects the width of the legend.
     /// If the legend is to the top/bottom of the chart, then this affects the height of the legend.
-    /// If the legend is the center of the piechart, then this defines the size of the rectangular bounds out of the size of the "hole".
     /// 
     /// **default**: 0.95 (95%)
     public var maxSizePercent: CGFloat = 0.95
     
     public func calculateDimensions(labelFont labelFont: NSUIFont, viewPortHandler: ChartViewPortHandler)
     {
-        switch position
+        let maxEntrySize = getMaximumEntrySize(labelFont)
+        textWidthMax = maxEntrySize.width
+        textHeightMax = maxEntrySize.height
+        
+        switch orientation
         {
+        case .Vertical:
             
-        case .RightOfChart: fallthrough
-        case .RightOfChartCenter: fallthrough
-        case .LeftOfChart: fallthrough
-        case .LeftOfChartCenter: fallthrough
-        case .PiechartCenter: fallthrough
-        case .RightOfChartInside: fallthrough
-        case .LeftOfChartInside:
+            var maxWidth = CGFloat(0.0)
+            var width = CGFloat(0.0)
+            var maxHeight = CGFloat(0.0)
+            let labelLineHeight = labelFont.lineHeight
             
-            let maxEntrySize = getMaximumEntrySize(labelFont)
-            let fullSize = getFullSize(labelFont)
+            var labels = self.labels
+            let count = labels.count
+            var wasStacked = false
             
-            if position == .RightOfChartInside || position == .LeftOfChartInside
+            for i in 0 ..< count
             {
-                neededWidth = fullSize.width
-                neededHeight = maxEntrySize.height
-            }
-            else
-            {
-                neededWidth = maxEntrySize.width
-                neededHeight = fullSize.height
+                let drawingForm = colors[i] != nil
+                
+                if !wasStacked
+                {
+                    width = 0.0
+                }
+                
+                if drawingForm
+                {
+                    if wasStacked
+                    {
+                        width += stackSpace
+                    }
+                    width += formSize
+                }
+                
+                if labels[i] != nil
+                {
+                    let size = (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont])
+                    
+                    if drawingForm && !wasStacked
+                    {
+                        width += formToTextSpace
+                    }
+                    else if wasStacked
+                    {
+                        maxWidth = max(maxWidth, width)
+                        maxHeight += labelLineHeight + yEntrySpace
+                        width = 0.0
+                        wasStacked = false
+                    }
+                    
+                    width += size.width
+                    
+                    if (i < count - 1)
+                    {
+                        maxHeight += labelLineHeight + yEntrySpace
+                    }
+                }
+                else
+                {
+                    wasStacked = true
+                    width += formSize
+                    
+                    if (i < count - 1)
+                    {
+                        width += stackSpace
+                    }
+                }
+                
+                maxWidth = max(maxWidth, width)
             }
             
-            textWidthMax = maxEntrySize.width
-            textHeightMax = maxEntrySize.height
+            neededWidth = maxWidth
+            neededHeight = maxHeight
             
-        case .BelowChartLeft: fallthrough
-        case .BelowChartRight: fallthrough
-        case .BelowChartCenter: fallthrough
-        case .AboveChartLeft: fallthrough
-        case .AboveChartRight: fallthrough
-        case .AboveChartCenter:
+        case .Horizontal:
             
             var labels = self.labels
             var colors = self.colors
@@ -268,7 +388,7 @@ public class ChartLegend: ChartComponentBase
             let stackSpace = self.stackSpace
             let wordWrapEnabled = self.wordWrapEnabled
             
-            let contentWidth: CGFloat = viewPortHandler.contentWidth
+            let contentWidth: CGFloat = viewPortHandler.contentWidth * maxSizePercent
             
             // Prepare arrays for calculated layout
             if (calculatedLabelSizes.count != labelCount)
@@ -360,10 +480,6 @@ public class ChartLegend: ChartComponentBase
                 stackedStartIndex = labels[i] != nil ? -1 : stackedStartIndex
             }
             
-            let maxEntrySize = getMaximumEntrySize(labelFont)
-            
-            textWidthMax = maxEntrySize.width
-            textHeightMax = maxEntrySize.height
             neededWidth = maxLineWidth
             neededHeight = labelLineHeight * CGFloat(calculatedLineSizes.count) +
                 yEntrySpace * CGFloat(calculatedLineSizes.count == 0 ? 0 : (calculatedLineSizes.count - 1))
