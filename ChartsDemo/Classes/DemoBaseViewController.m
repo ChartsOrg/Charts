@@ -145,6 +145,16 @@
         _shouldHideData = !_shouldHideData;
         [self updateChartData];
     }
+    
+    if ([key isEqualToString:@"toggleBarBorders"])
+    {
+        for (id<IBarChartDataSet> set in chartView.data.dataSets)
+        {
+            set.barBorderWidth = set.barBorderWidth == 1.0 ? 0.0 : 1.0;
+        }
+        
+        [chartView setNeedsDisplay];
+    }
 }
 
 #pragma mark - Actions

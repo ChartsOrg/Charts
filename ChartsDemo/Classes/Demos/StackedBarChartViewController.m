@@ -43,7 +43,8 @@
                      @{@"key": @"togglePinchZoom", @"label": @"Toggle PinchZoom"},
                      @{@"key": @"toggleAutoScaleMinMax", @"label": @"Toggle auto scale min/max"},
                      @{@"key": @"toggleData", @"label": @"Toggle Data"},
-                     ];
+                     @{@"key": @"toggleBarBorders", @"label": @"Show Bar Borders"},
+                    ];
     
     _chartView.delegate = self;
     
@@ -121,7 +122,7 @@
     BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithYVals:yVals label:@"Statistics Vienna 2014"];
     set1.colors = @[ChartColorTemplates.vordiplom[0], ChartColorTemplates.vordiplom[1], ChartColorTemplates.vordiplom[2]];
     set1.stackLabels = @[@"Births", @"Divorces", @"Marriages"];
-    
+
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
     [dataSets addObject:set1];
     

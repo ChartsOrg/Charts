@@ -39,6 +39,7 @@
                      @{@"key": @"togglePinchZoom", @"label": @"Toggle PinchZoom"},
                      @{@"key": @"toggleAutoScaleMinMax", @"label": @"Toggle auto scale min/max"},
                      @{@"key": @"toggleData", @"label": @"Toggle Data"},
+                     @{@"key": @"toggleBarBorders", @"label": @"Show Bar Borders"},
                      ];
     
     [self setupBarLineChartView:_chartView];
@@ -152,7 +153,7 @@
     set.barSpace = 0.4f;
     set.colors = colors;
     set.valueColors = colors;
-    
+
     BarChartData *data = [[BarChartData alloc] initWithXVals:dates dataSet:set];
     [data setValueFont:[UIFont systemFontOfSize:13.f]];
     

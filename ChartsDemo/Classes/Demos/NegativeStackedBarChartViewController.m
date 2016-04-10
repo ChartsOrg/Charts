@@ -39,6 +39,7 @@
                      @{@"key": @"togglePinchZoom", @"label": @"Toggle PinchZoom"},
                      @{@"key": @"toggleAutoScaleMinMax", @"label": @"Toggle auto scale min/max"},
                      @{@"key": @"toggleData", @"label": @"Toggle Data"},
+                     @{@"key": @"toggleBarBorders", @"label": @"Show Bar Borders"},
                      ];
     
     NSNumberFormatter *customFormatter = [[NSNumberFormatter alloc] init];
@@ -124,7 +125,7 @@
     set.stackLabels = @[
                         @"Men", @"Women"
                         ];
-    
+
     NSArray *xVals = @[ @"0-10", @"10-20", @"20-30", @"30-40", @"40-50", @"50-60", @"60-70", @"70-80", @"80-90", @"90-100", @"100+" ];
     
     BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSet:set];
