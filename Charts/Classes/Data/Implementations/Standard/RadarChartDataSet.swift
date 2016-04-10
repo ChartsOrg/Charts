@@ -13,6 +13,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 
 public class RadarChartDataSet: LineRadarChartDataSet, IRadarChartDataSet
