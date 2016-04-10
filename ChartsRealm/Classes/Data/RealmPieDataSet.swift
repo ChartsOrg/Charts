@@ -58,8 +58,8 @@ public class RealmPieDataSet: RealmBaseDataSet, IPieChartDataSet
     /// indicates the selection distance of a pie slice
     public var selectionShift = CGFloat(18.0)
     
-    public var xValuePosition: PieChartValuePosition = .InsideSlice
-    public var yValuePosition: PieChartValuePosition = .InsideSlice
+    public var xValuePosition: PieChartDataSet.ValuePosition = .InsideSlice
+    public var yValuePosition: PieChartDataSet.ValuePosition = .InsideSlice
     
     /// When valuePosition is OutsideSlice, indicates line color
     public var valueLineColor: NSUIColor? = UIColor.blackColor()

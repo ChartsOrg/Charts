@@ -32,7 +32,7 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     /// The drawing mode for this line dataset
     ///
     /// **default**: Linear
-    public var mode: LineChartMode = LineChartMode.Linear
+    public var mode: LineChartDataSet.Mode = LineChartDataSet.Mode.Linear
     
     private var _cubicIntensity = CGFloat(0.2)
     
@@ -68,7 +68,7 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
         }
         set
         {
-            mode = newValue ? LineChartMode.CubicBezier : LineChartMode.Linear
+            mode = newValue ? LineChartDataSet.Mode.CubicBezier : LineChartDataSet.Mode.Linear
         }
     }
     
@@ -84,7 +84,7 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
         }
         set
         {
-            mode = newValue ? LineChartMode.Stepped : LineChartMode.Linear
+            mode = newValue ? LineChartDataSet.Mode.Stepped : LineChartDataSet.Mode.Linear
         }
     }
     

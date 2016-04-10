@@ -14,14 +14,6 @@
 import Foundation
 import CoreGraphics
 
-@objc
-public enum LineChartMode: Int
-{
-    case Linear
-    case Stepped
-    case CubicBezier
-    case HorizontalBezier
-}
 
 @objc
 public protocol ILineChartDataSet: ILineRadarChartDataSet
@@ -33,7 +25,7 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     /// The drawing mode for this line dataset
     ///
     /// **default**: Linear
-    var mode: LineChartMode { get set }
+    var mode: LineChartDataSet.Mode { get set }
     
     /// Intensity for cubic lines (min = 0.05, max = 1)
     ///

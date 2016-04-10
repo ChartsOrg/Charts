@@ -26,7 +26,7 @@ public protocol IScatterChartDataSet: ILineScatterCandleRadarChartDataSet
     
     // The type of shape that is set to be drawn where the values are at
     // **default**: .Square
-    var scatterShape: ScatterChartDataSet.ScatterShape { get set }
+    var scatterShape: ScatterChartDataSet.Shape { get set }
     
     // The radius of the hole in the shape (applies to Square, Circle and Triangle)
     // Set this to <= 0 to remove holes.

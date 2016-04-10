@@ -25,8 +25,8 @@ import CoreGraphics
 /// Customizations that affect the value range of the axis need to be applied before setting data for the chart.
 public class ChartYAxis: ChartAxisBase
 {
-    @objc
-    public enum YAxisLabelPosition: Int
+    @objc(YAxisLabelPosition)
+    public enum LabelPosition: Int
     {
         case OutsideChart
         case InsideChart
@@ -109,7 +109,7 @@ public class ChartYAxis: ChartAxisBase
     public var spaceBottom = CGFloat(0.1)
     
     /// the position of the y-labels relative to the chart
-    public var labelPosition = YAxisLabelPosition.OutsideChart
+    public var labelPosition = LabelPosition.OutsideChart
     
     /// the side this axis object represents
     private var _axisDependency = AxisDependency.Left

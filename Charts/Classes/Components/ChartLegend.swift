@@ -22,8 +22,8 @@ import CoreGraphics
 
 public class ChartLegend: ChartComponentBase
 {
-    @objc
-    public enum ChartLegendPosition: Int
+    @objc(ChartLegendPosition)
+    public enum Position: Int
     {
         case RightOfChart
         case RightOfChartCenter
@@ -40,16 +40,16 @@ public class ChartLegend: ChartComponentBase
         case PiechartCenter
     }
     
-    @objc
-    public enum ChartLegendForm: Int
+    @objc(ChartLegendForm)
+    public enum Form: Int
     {
         case Square
         case Circle
         case Line
     }
     
-    @objc
-    public enum ChartLegendDirection: Int
+    @objc(ChartLegendDirection)
+    public enum Direction: Int
     {
         case LeftToRight
         case RightToLeft
@@ -75,13 +75,13 @@ public class ChartLegend: ChartComponentBase
     /// **default**: false (automatic legend)
     private var _isLegendCustom = false
 
-    public var position = ChartLegendPosition.BelowChartLeft
-    public var direction = ChartLegendDirection.LeftToRight
+    public var position = Position.BelowChartLeft
+    public var direction = Direction.LeftToRight
 
     public var font: NSUIFont = NSUIFont.systemFontOfSize(10.0)
     public var textColor = NSUIColor.blackColor()
 
-    public var form = ChartLegendForm.Square
+    public var form = Form.Square
     public var formSize = CGFloat(8.0)
     public var formLineWidth = CGFloat(1.5)
     

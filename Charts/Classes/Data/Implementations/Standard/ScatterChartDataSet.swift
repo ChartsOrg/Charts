@@ -16,8 +16,8 @@ import CoreGraphics
 
 public class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterChartDataSet
 {
-    @objc
-    public enum ScatterShape: Int
+    @objc(ScatterShape)
+    public enum Shape: Int
     {
         case Square
         case Circle
@@ -32,7 +32,7 @@ public class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterCh
     
     // The type of shape that is set to be drawn where the values are at
     // **default**: .Square
-    public var scatterShape = ScatterChartDataSet.ScatterShape.Square
+    public var scatterShape = ScatterChartDataSet.Shape.Square
     
     // The radius of the hole in the shape (applies to Square, Circle and Triangle)
     // **default**: 0.0

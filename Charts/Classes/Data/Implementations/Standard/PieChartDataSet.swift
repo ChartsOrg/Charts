@@ -17,6 +17,13 @@ import CoreGraphics
 
 public class PieChartDataSet: ChartDataSet, IPieChartDataSet
 {
+    @objc(PieChartValuePosition)
+    public enum ValuePosition: Int
+    {
+        case InsideSlice
+        case OutsideSlice
+    }
+    
     private func initialize()
     {
         self.valueTextColor = NSUIColor.whiteColor()
@@ -66,8 +73,8 @@ public class PieChartDataSet: ChartDataSet, IPieChartDataSet
     /// indicates the selection distance of a pie slice
     public var selectionShift = CGFloat(18.0)
     
-    public var xValuePosition: PieChartValuePosition = .InsideSlice
-    public var yValuePosition: PieChartValuePosition = .InsideSlice
+    public var xValuePosition: ValuePosition = .InsideSlice
+    public var yValuePosition: ValuePosition = .InsideSlice
     
     /// When valuePosition is OutsideSlice, indicates line color
     public var valueLineColor: NSUIColor? = NSUIColor.blackColor()

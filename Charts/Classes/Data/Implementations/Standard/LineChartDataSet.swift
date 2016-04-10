@@ -17,6 +17,15 @@ import CoreGraphics
 
 public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
 {
+    @objc(LineChartMode)
+    public enum Mode: Int
+    {
+        case Linear
+        case Stepped
+        case CubicBezier
+        case HorizontalBezier
+    }
+    
     private func initialize()
     {
         // default color
@@ -42,7 +51,7 @@ public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     /// The drawing mode for this line dataset
     ///
     /// **default**: Linear
-    public var mode: LineChartMode = LineChartMode.Linear
+    public var mode: Mode = Mode.Linear
     
     private var _cubicIntensity = CGFloat(0.2)
     
@@ -78,7 +87,7 @@ public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         }
         set
         {
-            mode = newValue ? LineChartMode.CubicBezier : LineChartMode.Linear
+            mode = newValue ? LineChartDataSet.Mode.CubicBezier : LineChartDataSet.Mode.Linear
         }
     }
     
@@ -94,7 +103,7 @@ public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         }
         set
         {
-            mode = newValue ? LineChartMode.Stepped : LineChartMode.Linear
+            mode = newValue ? LineChartDataSet.Mode.Stepped : LineChartDataSet.Mode.Linear
         }
     }
     

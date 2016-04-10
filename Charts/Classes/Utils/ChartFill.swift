@@ -17,8 +17,8 @@ import CoreGraphics
 
 public class ChartFill: NSObject
 {
-    @objc
-    public enum ChartFillType: Int
+    @objc(ChartFillType)
+    public enum Type: Int
     {
         case Empty
         case Color
@@ -29,7 +29,7 @@ public class ChartFill: NSObject
         case Layer
     }
     
-    private var _type: ChartFillType = ChartFillType.Empty
+    private var _type: Type = Type.Empty
     private var _color: CGColorRef?
     private var _gradient: CGGradientRef?
     private var _gradientAngle: CGFloat = 0.0
@@ -42,7 +42,7 @@ public class ChartFill: NSObject
     
     // MARK: Properties
     
-    public var type: ChartFillType
+    public var type: Type
     {
         return _type
     }
