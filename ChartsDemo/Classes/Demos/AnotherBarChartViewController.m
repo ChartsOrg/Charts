@@ -42,6 +42,7 @@
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"},
                      @{@"key": @"togglePinchZoom", @"label": @"Toggle PinchZoom"},
                      @{@"key": @"toggleData", @"label": @"Toggle Data"},
+                     @{@"key": @"toggleBarBorders", @"label": @"Show Bar Borders"},
                      ];
     
     _chartView.delegate = self;
@@ -106,6 +107,7 @@
     BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithYVals:yVals label:@"DataSet"];
     set1.colors = ChartColorTemplates.vordiplom;
     set1.drawValuesEnabled = NO;
+    set1.barBorderWidth = shouldRenderBarBorders ? 1.0 : 0.0;
     
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
     [dataSets addObject:set1];

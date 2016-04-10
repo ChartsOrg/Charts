@@ -145,6 +145,12 @@
         _shouldHideData = !_shouldHideData;
         [self updateChartData];
     }
+    
+    if ([key isEqualToString:@"toggleBarBorders"])
+    {
+        shouldRenderBarBorders = !shouldRenderBarBorders;
+        [self updateChartData];
+    }
 }
 
 #pragma mark - Actions

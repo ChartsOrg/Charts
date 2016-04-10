@@ -113,6 +113,8 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                 // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
                 CGContextSetFillColorWithColor(context, dataSet.colorAt(j).CGColor)
                 CGContextFillRect(context, barRect)
+
+                self.drawDataSetBorder(context: context, dataSet: dataSet, rect: barRect)
             }
             else
             {
@@ -215,6 +217,8 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                     // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
                     CGContextSetFillColorWithColor(context, dataSet.colorAt(k).CGColor)
                     CGContextFillRect(context, barRect)
+
+                    self.drawDataSetBorder(context: context, dataSet: dataSet, rect: barRect)
                 }
             }
         }
