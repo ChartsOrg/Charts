@@ -222,27 +222,41 @@ public class ChartLegend: ChartComponentBase
     
     public func calculateDimensions(labelFont labelFont: NSUIFont, viewPortHandler: ChartViewPortHandler)
     {
-        if (position == .RightOfChart
-            || position == .RightOfChartCenter
-            || position == .LeftOfChart
-            || position == .LeftOfChartCenter
-            || position == .PiechartCenter)
+        switch position
         {
+            
+        case .RightOfChart: fallthrough
+        case .RightOfChartCenter: fallthrough
+        case .LeftOfChart: fallthrough
+        case .LeftOfChartCenter: fallthrough
+        case .PiechartCenter: fallthrough
+        case .RightOfChartInside: fallthrough
+        case .LeftOfChartInside:
+            
             let maxEntrySize = getMaximumEntrySize(labelFont)
             let fullSize = getFullSize(labelFont)
             
-            neededWidth = maxEntrySize.width
-            neededHeight = fullSize.height
+            if position == .RightOfChartInside || position == .LeftOfChartInside
+            {
+                neededWidth = fullSize.width
+                neededHeight = maxEntrySize.height
+            }
+            else
+            {
+                neededWidth = maxEntrySize.width
+                neededHeight = fullSize.height
+            }
+            
             textWidthMax = maxEntrySize.width
             textHeightMax = maxEntrySize.height
-        }
-        else if (position == .BelowChartLeft
-            || position == .BelowChartRight
-            || position == .BelowChartCenter
-            || position == .AboveChartLeft
-            || position == .AboveChartRight
-            || position == .AboveChartCenter)
-        {
+            
+        case .BelowChartLeft: fallthrough
+        case .BelowChartRight: fallthrough
+        case .BelowChartCenter: fallthrough
+        case .AboveChartLeft: fallthrough
+        case .AboveChartRight: fallthrough
+        case .AboveChartCenter:
+            
             var labels = self.labels
             var colors = self.colors
             let labelCount = labels.count
@@ -353,17 +367,6 @@ public class ChartLegend: ChartComponentBase
             neededWidth = maxLineWidth
             neededHeight = labelLineHeight * CGFloat(calculatedLineSizes.count) +
                 yEntrySpace * CGFloat(calculatedLineSizes.count == 0 ? 0 : (calculatedLineSizes.count - 1))
-        }
-        else
-        {
-            let maxEntrySize = getMaximumEntrySize(labelFont)
-            let fullSize = getFullSize(labelFont)
-            
-            /* RightOfChartInside, LeftOfChartInside */
-            neededWidth = fullSize.width
-            neededHeight = maxEntrySize.height
-            textWidthMax = maxEntrySize.width
-            textHeightMax = maxEntrySize.height
         }
     }
     
