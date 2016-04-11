@@ -40,7 +40,6 @@ public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     // MARK: - Styling functions and accessors
     
     private var _cubicIntensity = CGFloat(0.2)
-    private var _circleHoleRadius = CGFloat(4.0)
     
     /// Intensity for cubic lines (min = 0.05, max = 1)
     ///
@@ -80,13 +79,19 @@ public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     /// The radius of the drawn circles.
     public var circleRadius = CGFloat(8.0)
     
-    /// The radius of the drawn circles.
-    public var circleHoleRadius : CGFloat {
-        get {
+    private var _circleHoleRadius = CGFloat(4.0)
+    
+    /// The hole radius of the drawn circles (new value is set only if it is less than circleRadius value)
+    public var circleHoleRadius : CGFloat
+    {
+        get
+        {
             return _circleHoleRadius;
         }
-        set {
-            if newValue < self.circleRadius {
+        set
+        {
+            if newValue < self.circleRadius
+            {
                 _circleHoleRadius = newValue
             }
         }
