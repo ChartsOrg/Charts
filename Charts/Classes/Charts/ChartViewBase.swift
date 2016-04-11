@@ -530,7 +530,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
             let highlight = _indicesToHighlight[i]
             let xIndex = highlight.xIndex
 
-            let deltaX = _xAxis.axisRange
+            let deltaX = _xAxis?.axisRange ?? Double(_data?.xVals.count ?? 0 ) - 1
             if xIndex <= Int(deltaX) && xIndex <= Int(CGFloat(deltaX) * _animator.phaseX)
             {
                 let e = _data?.getEntryForHighlight(highlight)
