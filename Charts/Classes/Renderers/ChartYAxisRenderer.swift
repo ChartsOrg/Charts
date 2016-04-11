@@ -137,7 +137,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
                 let last = interval == 0.0 ? 0.0 : ChartUtils.nextUp(floor(Double(yMax) / interval) * interval)
                 
                 var n = 0
-                if last != first
+                if interval != 0.0
                 {
                     for _ in first.stride(through: last, by: interval)
                     {
