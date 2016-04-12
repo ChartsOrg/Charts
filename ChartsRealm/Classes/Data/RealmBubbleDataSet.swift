@@ -101,7 +101,7 @@ public class RealmBubbleDataSet: RealmBarLineScatterCandleBubbleDataSet, IBubble
         _yMin = yMin(_cache[start - _cacheFirst] as! BubbleChartDataEntry)
         _yMax = yMax(_cache[start - _cacheFirst] as! BubbleChartDataEntry)
         
-        for i in start ... endValue
+        for i in start.stride(through: endValue, by: 1)
         {
             let entry = _cache[i - _cacheFirst] as! BubbleChartDataEntry
             
