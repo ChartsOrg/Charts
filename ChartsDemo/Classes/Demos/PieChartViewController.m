@@ -35,6 +35,7 @@
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Y-Values"},
                      @{@"key": @"toggleXValues", @"label": @"Toggle X-Values"},
+                     @{@"key": @"toggleXValuesMinimumAngle", @"label": @"Toggle X-Values Minimum Angle"},
                      @{@"key": @"togglePercent", @"label": @"Toggle Percent"},
                      @{@"key": @"toggleHole", @"label": @"Toggle Hole"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
@@ -49,6 +50,7 @@
     [self setupPieChartView:_chartView];
     
     _chartView.delegate = self;
+    _chartView.drawSliceTextMinimumAngle = 20;
     
     _sliderX.value = 3.0;
     _sliderY.value = 100.0;
@@ -130,6 +132,17 @@
         _chartView.drawSliceTextEnabled = !_chartView.isDrawSliceTextEnabled;
         
         [_chartView setNeedsDisplay];
+        return;
+    }
+    
+    if ([key isEqualToString:@"toggleXValuesMinimumAngle"])
+    {
+        if (_chartView.drawSliceTextMinimumAngle == 0){
+            _chartView.drawSliceTextMinimumAngle = 20;
+        } else {
+            _chartView.drawSliceTextMinimumAngle = 0;
+        }
+        
         return;
     }
     

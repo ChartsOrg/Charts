@@ -297,6 +297,7 @@ public class PieChartRenderer: ChartDataRendererBase
         let yValueSum = (data as! PieChartData).yValueSum
         
         let drawXVals = chart.isDrawSliceTextEnabled
+        let drawSliceTextMinimumAngle = chart.drawSliceTextMinimumAngle
         let usePercentValuesEnabled = chart.usePercentValuesEnabled
         
         var angle: CGFloat = 0.0
@@ -359,10 +360,10 @@ public class PieChartRenderer: ChartDataRendererBase
                 let sliceXBase = cos(transformedAngle * ChartUtils.Math.FDEG2RAD)
                 let sliceYBase = sin(transformedAngle * ChartUtils.Math.FDEG2RAD)
                 
-                let drawXOutside = drawXVals && xValuePosition == .OutsideSlice
-                let drawYOutside = drawYVals && yValuePosition == .OutsideSlice
-                let drawXInside = drawXVals && xValuePosition == .InsideSlice
-                let drawYInside = drawYVals && yValuePosition == .InsideSlice
+                let drawXOutside = Double(sliceAngle) > drawSliceTextMinimumAngle && drawXVals && xValuePosition == .OutsideSlice
+                let drawYOutside = Double(sliceAngle) > drawSliceTextMinimumAngle && drawYVals && yValuePosition == .OutsideSlice
+                let drawXInside = Double(sliceAngle) > drawSliceTextMinimumAngle && drawXVals && xValuePosition == .InsideSlice
+                let drawYInside = Double(sliceAngle) > drawSliceTextMinimumAngle && drawYVals && yValuePosition == .InsideSlice
                 
                 if drawXOutside || drawYOutside
                 {
