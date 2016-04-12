@@ -119,7 +119,7 @@
     pFormatter.percentSymbol = @" %";
     [data setValueFormatter:pFormatter];
     [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:11.f]];
-    [data setValueTextColor:UIColor.whiteColor];
+    [data setValueTextColor:UIColor.blackColor];
     
     _chartView.data = data;
     [_chartView highlightValues:nil];
