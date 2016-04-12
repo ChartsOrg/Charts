@@ -30,6 +30,9 @@ public class PieRadarChartViewBase: ChartViewBase
     /// flag that indicates if rotation is enabled or not
     public var rotationEnabled = true
     
+    /// flat that indicates if the the events will submit to the parent
+    public var eventParentEnabled =  true;
+    
     /// Sets the minimum offset (padding) around the chart, defaults to 0.0
     public var minOffset = CGFloat(0.0)
 
@@ -415,6 +418,8 @@ public class PieRadarChartViewBase: ChartViewBase
     
     public var isRotationEnabled: Bool { return rotationEnabled; }
     
+    public var isEventParentEnabled: Bool {return eventParentEnabled; }
+    
     /// flag that indicates if rotation is done with two fingers or one.
     /// when the chart is inside a scrollview, you need a two-finger rotation because a one-finger rotation eats up all touch events.
     ///
@@ -588,7 +593,7 @@ public class PieRadarChartViewBase: ChartViewBase
             }
         }
         
-        if (!_isRotating)
+        if (!_isRotating && eventParentEnabled)
         {
             super.nsuiTouchesBegan(touches, withEvent: event)
         }
@@ -605,7 +610,7 @@ public class PieRadarChartViewBase: ChartViewBase
             processRotationGestureMoved(location: touchLocation)
         }
         
-        if (!_isRotating)
+        if (!_isRotating && eventParentEnabled)
         {
             super.nsuiTouchesMoved(touches, withEvent: event)
         }
@@ -613,7 +618,7 @@ public class PieRadarChartViewBase: ChartViewBase
     
     public override func nsuiTouchesEnded(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
     {
-        if (!_isRotating)
+        if (!_isRotating && eventParentEnabled)
         {
             super.nsuiTouchesEnded(touches, withEvent: event)
         }
