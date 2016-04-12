@@ -138,6 +138,7 @@
     {
         set1 = [[BarChartDataSet alloc] initWithYVals:yVals label:@"DataSet"];
         set1.barSpace = 0.35;
+        [set1 setColors:ChartColorTemplates.material];
         
         NSMutableArray *dataSets = [[NSMutableArray alloc] init];
         [dataSets addObject:set1];
