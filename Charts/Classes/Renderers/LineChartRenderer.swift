@@ -98,12 +98,12 @@ public class LineChartRenderer: LineRadarChartRenderer
         let entryCount = dataSet.entryCount
         
         guard let
-            entryFrom = dataSet.entryForXIndex(self.minX < 0 ? self.minX : 0, rounding: .Down),
+            entryFrom = dataSet.entryForXIndex(self.minX < 0 ? 0 : self.minX, rounding: .Down),
             entryTo = dataSet.entryForXIndex(self.maxX, rounding: .Up)
             else { return }
         
         let diff = (entryFrom == entryTo) ? 1 : 0
-        let minx = max(dataSet.entryIndex(entry: entryFrom) - diff - 1, 0)
+        let minx = max(dataSet.entryIndex(entry: entryFrom) - diff, 0)
         let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo) + 1), entryCount)
         
         let phaseX = max(0.0, min(1.0, animator.phaseX))
@@ -190,12 +190,12 @@ public class LineChartRenderer: LineRadarChartRenderer
         let entryCount = dataSet.entryCount
         
         guard let
-            entryFrom = dataSet.entryForXIndex(self.minX < 0 ? self.minX : 0, rounding: .Down),
+            entryFrom = dataSet.entryForXIndex(self.minX < 0 ? 0 : self.minX, rounding: .Down),
             entryTo = dataSet.entryForXIndex(self.maxX, rounding: .Up)
             else { return }
         
         let diff = (entryFrom == entryTo) ? 1 : 0
-        let minx = max(dataSet.entryIndex(entry: entryFrom) - diff - 1, 0)
+        let minx = max(dataSet.entryIndex(entry: entryFrom) - diff, 0)
         let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo) + 1), entryCount)
         
         let phaseX = max(0.0, min(1.0, animator.phaseX))
@@ -309,7 +309,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         let phaseY = animator.phaseY
 
         guard let
-            entryFrom = dataSet.entryForXIndex(self.minX < 0 ? self.minX : 0, rounding: .Down),
+            entryFrom = dataSet.entryForXIndex(self.minX < 0 ? 0 : self.minX, rounding: .Down),
             entryTo = dataSet.entryForXIndex(self.maxX, rounding: .Up)
             else { return }
         
@@ -446,9 +446,12 @@ public class LineChartRenderer: LineRadarChartRenderer
                     j += 1
                 }
                 
-                let size = max((count - minx - 1) * pointsPerEntryPair, pointsPerEntryPair)
-                CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor)
-                CGContextStrokeLineSegments(context, _lineSegments, size)
+                if j > 0
+                {
+                    let size = max((count - minx - 1) * pointsPerEntryPair, pointsPerEntryPair)
+                    CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor)
+                    CGContextStrokeLineSegments(context, _lineSegments, size)
+                }
             }
         }
         
@@ -570,7 +573,7 @@ public class LineChartRenderer: LineRadarChartRenderer
                 let entryCount = dataSet.entryCount
                 
                 guard let
-                    entryFrom = dataSet.entryForXIndex(self.minX < 0 ? self.minX : 0, rounding: .Down),
+                    entryFrom = dataSet.entryForXIndex(self.minX < 0 ? 0 : self.minX, rounding: .Down),
                     entryTo = dataSet.entryForXIndex(self.maxX, rounding: .Up)
                     else { continue }
                 
@@ -652,7 +655,7 @@ public class LineChartRenderer: LineRadarChartRenderer
             let isDrawCircleHoleEnabled = dataSet.isDrawCircleHoleEnabled
             
             guard let
-                entryFrom = dataSet.entryForXIndex(self.minX < 0 ? self.minX : 0, rounding: .Down),
+                entryFrom = dataSet.entryForXIndex(self.minX < 0 ? 0 : self.minX, rounding: .Down),
                 entryTo = dataSet.entryForXIndex(self.maxX, rounding: .Up)
                 else { continue }
             
