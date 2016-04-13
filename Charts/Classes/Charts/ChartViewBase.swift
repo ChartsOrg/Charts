@@ -355,7 +355,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         if (font == nil)
         {
             #if os(tvOS)
-                // 23 is the smallest recommened font size on the TV
+                // 23 is the smallest recommended font size on the TV
                 font = NSUIFont.systemFontOfSize(23, weight: UIFontWeightMedium)
             #else
                 font = NSUIFont.systemFontOfSize(NSUIFont.systemFontSize())
