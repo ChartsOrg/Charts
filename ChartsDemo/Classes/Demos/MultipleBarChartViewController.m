@@ -133,6 +133,7 @@
         set1.yVals = yVals1;
         set2.yVals = yVals2;
         set3.yVals = yVals3;
+        _chartView.data.xValsObjc = xVals;
         [_chartView notifyDataSetChanged];
     }
     else
