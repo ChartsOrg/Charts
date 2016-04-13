@@ -546,7 +546,7 @@ public class ChartViewPortHandler: NSObject
     /// - returns: true if both drag offsets (x and y) are zero or smaller.
     public var hasNoDragOffset: Bool
     {
-        return _transOffsetX <= 0.0 && _transOffsetY <= 0.0 ? true : false
+        return _transOffsetX <= 0.0 && _transOffsetY <= 0.0
     }
     
     /// - returns: true if the chart is not yet fully zoomed out on the x-axis
