@@ -24,6 +24,8 @@ public class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubble
     public var xMin: Double { return _xMin }
     public var xMax: Double { return _xMax }
     public var maxSize: CGFloat { return _maxSize }
+    public var normalizeSizeEnabled: Bool = true
+    public var isNormalizeSizeEnabled: Bool { return normalizeSizeEnabled }
     
     public override func calcMinMax(start start: Int, end: Int)
     {

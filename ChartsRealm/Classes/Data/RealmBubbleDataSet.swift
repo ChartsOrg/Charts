@@ -60,6 +60,8 @@ public class RealmBubbleDataSet: RealmBarLineScatterCandleBubbleDataSet, IBubble
     public var xMin: Double { return _xMin }
     public var xMax: Double { return _xMax }
     public var maxSize: CGFloat { return _maxSize }
+    public var normalizeSizeEnabled: Bool = true
+    public var isNormalizeSizeEnabled: Bool { return normalizeSizeEnabled }
     
     internal override func buildEntryFromResultObject(object: RLMObject, atIndex: UInt) -> ChartDataEntry
     {
