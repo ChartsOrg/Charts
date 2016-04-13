@@ -329,7 +329,14 @@ public class ChartData: NSObject
     /// - returns: the x-values the chart represents
     public var xVals: [String?]
     {
-        return _xVals
+        get
+        {
+            return _xVals
+        }
+        set
+        {
+            _xVals = newValue
+        }
     }
     
     ///Adds a new x-value to the chart data.
@@ -910,5 +917,15 @@ public class ChartData: NSObject
     /// MARK: - ObjC compatibility
     
     /// - returns: the average length (in characters) across all values in the x-vals array
-    public var xValsObjc: [NSObject] { return ChartUtils.bridgedObjCGetStringArray(swift: _xVals); }
+    public var xValsObjc: [NSObject]
+    {
+        get
+        {
+            return ChartUtils.bridgedObjCGetStringArray(swift: _xVals);
+        }
+        set
+        {
+            _xVals = ChartUtils.bridgedObjCGetStringArray(objc: newValue)
+        }
+    }
 }
