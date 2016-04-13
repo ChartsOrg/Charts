@@ -828,6 +828,11 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                 _isDragging = false
             }
             
+            if (isClearHighlightsOnDragCompletionEnabled)
+            {
+                self.highlightValue(highlight: nil, callDelegate: true)
+            }
+            
             if (_outerScrollView !== nil)
             {
                 _outerScrollView?.scrollEnabled = true
@@ -1593,6 +1598,17 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     public var isHighlightPerDragEnabled: Bool
     {
         return highlightPerDragEnabled
+    }
+    
+    /// flag that indicates if highlights should be cleard when the drag completes is enabled
+    public var clearHighlightsOnDragCompletionEnabled = false
+    
+    /// If set to true, clearing all highlights when the drag is completed is enabled
+    ///
+    /// **default**: false
+    public var isClearHighlightsOnDragCompletionEnabled: Bool
+    {
+        return clearHighlightsOnDragCompletionEnabled
     }
     
     /// **default**: true
