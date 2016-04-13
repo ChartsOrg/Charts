@@ -57,7 +57,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
             animator = animator
             else { return }
         
-        let phaseX = animator.phaseX
+        let phaseX = max(0.0, min(1.0, animator.phaseX))
         let phaseY = animator.phaseY
         let barSpace = dataSet.barSpace
         let showCandleBar = dataSet.showCandleBar
@@ -257,7 +257,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
         {
             var dataSets = candleData.dataSets
             
-            let phaseX = animator.phaseX
+            let phaseX = max(0.0, min(1.0, animator.phaseX))
             let phaseY = animator.phaseY
             
             var pt = CGPoint()

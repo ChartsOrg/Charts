@@ -66,7 +66,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
         
         let trans = dataProvider.getTransformer(dataSet.axisDependency)
         
-        let phaseX = animator.phaseX
+        let phaseX = max(0.0, min(1.0, animator.phaseX))
         let phaseY = animator.phaseY
         
         let entryCount = dataSet.entryCount
@@ -153,7 +153,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
         {
             guard let dataSets = bubbleData.dataSets as? [IBubbleChartDataSet] else { return }
             
-            let phaseX = animator.phaseX
+            let phaseX = max(0.0, min(1.0, animator.phaseX))
             let phaseY = animator.phaseY
             
             var pt = CGPoint()
@@ -236,7 +236,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
         
         CGContextSaveGState(context)
         
-        let phaseX = animator.phaseX
+        let phaseX = max(0.0, min(1.0, animator.phaseX))
         let phaseY = animator.phaseY
         
         for indice in indices

@@ -274,7 +274,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
         {
             guard let dataSets = scatterData.dataSets as? [IScatterChartDataSet] else { return }
             
-            let phaseX = animator.phaseX
+            let phaseX = max(0.0, min(1.0, animator.phaseX))
             let phaseY = animator.phaseY
             
             var pt = CGPoint()
