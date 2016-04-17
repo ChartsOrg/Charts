@@ -745,7 +745,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         if (recognizer.state == NSUIGestureRecognizerState.Began)
         {
             if _data === nil
-            { // If we have no data, we have nothing to pan and no data to highlight
+            { // If we have no data, we have nothing to drag and no data to highlight
                 return;
             }
             let h = getHighlightByTouchPoint(recognizer.locationInView(self))
