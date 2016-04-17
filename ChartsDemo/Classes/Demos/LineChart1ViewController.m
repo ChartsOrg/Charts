@@ -54,10 +54,14 @@
     _chartView.descriptionText = @"";
     _chartView.noDataTextDescription = @"You need to provide data for the chart.";
     
-    _chartView.dragEnabled = YES;
-    [_chartView setScaleEnabled:YES];
+    _chartView.dragEnabled = NO;
+    [_chartView setScaleEnabled:NO];
     _chartView.pinchZoomEnabled = YES;
     _chartView.drawGridBackgroundEnabled = NO;
+    _chartView.clearHighlightsOnDragCompletionEnabled = YES;
+    _chartView.longPressEnabled = YES;
+    
+    
 
     // x-axis limit line
     ChartLimitLine *llXAxis = [[ChartLimitLine alloc] initWithLimit:10.0 label:@"Index 10"];
@@ -129,6 +133,8 @@
 {
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
     
+    NSLog(@"Count = %d", count);
+    
     for (int i = 0; i < count; i++)
     {
         [xVals addObject:[@(i) stringValue]];
@@ -140,6 +146,8 @@
     {
         double mult = (range + 1);
         double val = (double) (arc4random_uniform(mult)) + 3;
+        NSLog(@"Added element = %d", i);
+
         [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
     
