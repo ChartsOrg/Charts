@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
@@ -52,10 +52,13 @@ public class HorizontalBarChartRenderer: BarChartRenderer
         let phaseY = animator.phaseY
         var barRect = CGRect()
         var barShadow = CGRect()
+        let borderWidth = dataSet.barBorderWidth
+        let borderColor = dataSet.barBorderColor
+        let drawBorder = borderWidth > 0.0
         var y: Double
         
         // do the drawing
-        for (var j = 0, count = Int(ceil(CGFloat(dataSet.entryCount) * animator.phaseX)); j < count; j++)
+        for j in 0 ..< Int(ceil(CGFloat(dataSet.entryCount) * animator.phaseX))
         {
             guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
             
@@ -115,6 +118,13 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                 // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
                 CGContextSetFillColorWithColor(context, dataSet.colorAt(j).CGColor)
                 CGContextFillRect(context, barRect)
+                
+                if drawBorder
+                {
+                    CGContextSetStrokeColorWithColor(context, borderColor.CGColor)
+                    CGContextSetLineWidth(context, borderWidth)
+                    CGContextStrokeRect(context, barRect)
+                }
             }
             else
             {
@@ -160,7 +170,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                 }
                 
                 // fill the stack
-                for (var k = 0; k < vals.count; k++)
+                for k in 0 ..< vals.count
                 {
                     let value = vals[k]
                     
@@ -217,6 +227,13 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                     // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
                     CGContextSetFillColorWithColor(context, dataSet.colorAt(k).CGColor)
                     CGContextFillRect(context, barRect)
+                    
+                    if drawBorder
+                    {
+                        CGContextSetStrokeColorWithColor(context, borderColor.CGColor)
+                        CGContextSetLineWidth(context, borderWidth)
+                        CGContextStrokeRect(context, barRect)
+                    }
                 }
             }
         }
@@ -268,7 +285,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
             let groupSpaceHalf = groupSpace / 2.0
             var barRect = CGRect()
             
-            for (var dataSetIndex = 0, count = barData.dataSetCount; dataSetIndex < count; dataSetIndex++)
+            for dataSetIndex in 0 ..< barData.dataSetCount
             {
                 guard let dataSet = dataSets[dataSetIndex] as? IBarChartDataSet else { continue }
              
@@ -296,7 +313,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                 // if only single values are drawn (sum)
                 if (!dataSet.isStacked)
                 {
-                    for (var j = 0, count = Int(ceil(CGFloat(dataSet.entryCount) * animator.phaseX)); j < count; j++)
+                    for j in 0 ..< Int(ceil(CGFloat(dataSet.entryCount) * animator.phaseX))
                     {
                         guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
                         
@@ -364,7 +381,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                 {
                     // if each value of a potential stack should be drawn
                     
-                    for (var j = 0, count = Int(ceil(CGFloat(dataSet.entryCount) * animator.phaseX)); j < count; j++)
+                    for j in 0 ..< Int(ceil(CGFloat(dataSet.entryCount) * animator.phaseX))
                     {
                         guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
                         
@@ -421,7 +438,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                             var posY = 0.0
                             var negY = -e.negativeSum
                             
-                            for (var k = 0; k < vals.count; k++)
+                            for k in 0 ..< vals.count
                             {
                                 let value = vals[k]
                                 var y: Double
@@ -442,7 +459,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                             
                             trans.pointValuesToPixel(&transformed)
                             
-                            for (var k = 0; k < transformed.count; k++)
+                            for k in 0 ..< transformed.count
                             {
                                 let val = vals[k]
                                 let valueText = formatter.stringFromNumber(val)!

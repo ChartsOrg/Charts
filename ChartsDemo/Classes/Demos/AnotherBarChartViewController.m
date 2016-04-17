@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 #import "AnotherBarChartViewController.h"
@@ -42,6 +42,7 @@
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"},
                      @{@"key": @"togglePinchZoom", @"label": @"Toggle PinchZoom"},
                      @{@"key": @"toggleData", @"label": @"Toggle Data"},
+                     @{@"key": @"toggleBarBorders", @"label": @"Show Bar Borders"},
                      ];
     
     _chartView.delegate = self;
@@ -103,16 +104,27 @@
         [xVals addObject:[@((int)((BarChartDataEntry *)yVals[i]).value) stringValue]];
     }
     
-    BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithYVals:yVals label:@"DataSet"];
-    set1.colors = ChartColorTemplates.vordiplom;
-    set1.drawValuesEnabled = NO;
-    
-    NSMutableArray *dataSets = [[NSMutableArray alloc] init];
-    [dataSets addObject:set1];
-    
-    BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSets:dataSets];
-    
-    _chartView.data = data;
+    BarChartDataSet *set1 = nil;
+    if (_chartView.data.dataSetCount > 0)
+    {
+        set1 = (BarChartDataSet *)_chartView.data.dataSets[0];
+        set1.yVals = yVals;
+        _chartView.data.xValsObjc = xVals;
+        [_chartView notifyDataSetChanged];
+    }
+    else
+    {
+        set1 = [[BarChartDataSet alloc] initWithYVals:yVals label:@"DataSet"];
+        set1.colors = ChartColorTemplates.vordiplom;
+        set1.drawValuesEnabled = NO;
+        
+        NSMutableArray *dataSets = [[NSMutableArray alloc] init];
+        [dataSets addObject:set1];
+        
+        BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSets:dataSets];
+        
+        _chartView.data = data;
+    }
 }
 
 - (void)optionTapped:(NSString *)key

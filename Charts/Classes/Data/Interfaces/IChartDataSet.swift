@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
@@ -143,7 +143,7 @@ public protocol IChartDataSet
     
     /// - returns: the color at the given index of the DataSet's color array.
     /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
-    func colorAt(var index: Int) -> NSUIColor
+    func colorAt(index: Int) -> NSUIColor
     
     func resetColors()
     
@@ -166,7 +166,7 @@ public protocol IChartDataSet
     var valueTextColor: NSUIColor { get set }
     
     /// - returns: the color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
-    func valueTextColorAt(var index: Int) -> NSUIColor
+    func valueTextColorAt(index: Int) -> NSUIColor
     
     /// the font for the value-text labels
     var valueFont: NSUIFont { get set }

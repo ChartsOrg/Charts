@@ -1,3 +1,179 @@
+0.98.6 Release notes (2016-03-25)
+=============================================================
+
+Prebuilt frameworks are now built with Xcode 7.3.
+
+### API breaking changes
+
+* None.
+
+### Enhancements
+
+* None.
+
+### Bugfixes
+
+* Fix running unit tests on iOS simulators and devices with Xcode 7.3.
+
+0.98.5 Release notes (2016-03-14)
+=============================================================
+
+### API breaking changes
+
+* None.
+
+### Enhancements
+
+* None.
+
+### Bugfixes
+
+* Fix a crash when opening a Realm on 32-bit iOS devices.
+
+0.98.4 Release notes (2016-03-10)
+=============================================================
+
+### API breaking changes
+
+* None.
+
+### Enhancements
+
+* None.
+
+### Bugfixes
+
+* Properly report changes made by adding an object to a Realm with
+  addOrUpdate:/createOrUpdate: to KVO observers for existing objects with that
+  primary key.
+* Fix crashes and assorted issues when a migration which added object link
+  properties is rolled back due to an error in the migration block.
+* Fix assertion failures when deleting objects within a migration block of a
+  type which had an object link property added in that migration.
+* Fix an assertion failure in `Query::apply_patch` when updating certain kinds
+  of queries after a write transaction is committed.
+
+0.98.3 Release notes (2016-02-26)
+=============================================================
+
+### Enhancements
+
+* Initializing the shared schema is 3x faster.
+
+### Bugfixes
+
+* Using Realm Objective-C from Swift while having Realm Swift linked no longer causes that the
+  declared `ignoredProperties` are not taken into account.
+* Fix assertion failures when rolling back a migration which added Object link
+  properties to a class.
+* Fix potential errors when cancelling a write transaction which modified
+  multiple `RLMArray`/`List` properties.
+* Report the correct value for inWriteTransaction after attempting to commit a
+  write transaction fails.
+* Support CocoaPods 1.0 beginning from prerelease 1.0.0.beta.4 while retaining
+  backwards compatibility with 0.39.
+
+0.98.2 Release notes (2016-02-18)
+=============================================================
+
+### API breaking changes
+
+* None.
+
+### Enhancements
+
+* Aggregate operations (`ANY`, `NONE`, `@count`, `SUBQUERY`, etc.) are now supported for key paths
+  that begin with an object relationship so long as there is a `RLMArray`/`List` property at some
+  point in a key path.
+* Predicates of the form `%@ IN arrayProperty` are now supported.
+
+### Bugfixes
+
+* Use of KVC collection operators on Swift collection types no longer throws an exception.
+* Fix reporting of inWriteTransaction in notifications triggered by
+  `beginWriteTransaction`.
+* The contents of `List` and `Optional` properties are now correctly preserved when copying
+  a Swift object from one Realm to another, and performing other operations that result in a
+  Swift object graph being recursively traversed from Objective-C.
+* Fix a deadlock when queries are performed within a Realm notification block.
+* The `ANY` / `SOME` / `NONE` qualifiers are now required in comparisons involving a key path that
+  traverse a `RLMArray`/`List` property. Previously they were only required if the first key in the
+  key path was an `RLMArray`/`List` property.
+* Fix several scenarios where the default schema would be initialized
+  incorrectly if the first Realm opened used a restricted class subset (via
+  `objectClasses`/`objectTypes`).
+
+0.98.1 Release notes (2016-02-10)
+=============================================================
+
+### Bugfixes
+
+* Fix crashes when deleting an object containing an `RLMArray`/`List` which had
+  previously been queried.
+* Fix a crash when deleting an object containing an `RLMArray`/`List` with
+  active notification blocks.
+* Fix duplicate file warnings when building via CocoaPods.
+* Fix crash or incorrect results when calling `indexOfObject:` on an
+  `RLMResults` derived from an `RLMArray`.
+
+0.98.0 Release notes (2016-02-04)
+=============================================================
+
+### API breaking changes
+
+* `+[RLMRealm realmWithPath:]`/`Realm.init(path:)` now inherits from the default
+  configuration.
+* Swift 1.2 is no longer supported.
+
+### Enhancements
+
+* Add `addNotificationBlock` to `RLMResults`, `Results`, `RLMArray`, and
+  `List`, which calls the given block whenever the collection changes.
+* Do a lot of the work for keeping `RLMResults`/`Results` up-to-date after
+  write transactions on a background thread to help avoid blocking the main
+  thread.
+* `NSPredicate`'s `SUBQUERY` operator is now supported. It has the following limitations:
+  * `@count` is the only operator that may be applied to the `SUBQUERY` expression.
+  * The `SUBQUERY(…).@count` expression must be compared with a constant.
+  * Correlated subqueries are not yet supported.
+
+### Bugfixes
+
+* None.
+
+0.97.1 Release notes (2016-01-29)
+=============================================================
+
+### API breaking changes
+
+* None.
+
+### Enhancements
+
+* Swift: Added `Error` enum allowing to catch errors e.g. thrown on initializing
+  `RLMRealm`/`Realm` instances.
+* Fail with `RLMErrorFileNotFound` instead of the more generic `RLMErrorFileAccess`,
+  if no file was found when a realm was opened as read-only or if the directory part
+  of the specified path was not found when a copy should be written. 
+* Greatly improve performance when deleting objects with one or more indexed
+  properties.
+* Indexing `BOOL`/`Bool` and `NSDate` properties are now supported.
+* Swift: Add support for indexing optional properties.
+
+### Bugfixes
+
+* Fix incorrect results or crashes when using `-[RLMResults setValue:forKey:]`
+  on an RLMResults which was filtered on the key being set.
+* Fix crashes when an RLMRealm is deallocated from the wrong thread.
+* Fix incorrect results from aggregate methods on `Results`/`RLMResults` after
+  objects which were previously in the results are deleted.
+* Fix a crash when adding a new property to an existing class with over a
+  million objects in the Realm.
+* Fix errors when opening encrypted Realm files created with writeCopyToPath.
+* Fix crashes or incorrect results for queries that use relationship equality
+  in cases where the `RLMResults` is kept alive and instances of the target class
+  of the relationship are deleted.
+
 0.97.0 Release notes (2015-12-17)
 =============================================================
 

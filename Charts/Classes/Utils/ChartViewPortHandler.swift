@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
@@ -316,7 +316,14 @@ public class ChartViewPortHandler: NSObject
     /// Sets the maximum scale factor for the x-axis
     public func setMaximumScaleX(xScale: CGFloat)
     {
-        _maxScaleX = xScale
+        var newValue = xScale
+        
+        if (newValue == 0.0)
+        {
+            newValue = CGFloat.max
+        }
+        
+        _maxScaleX = newValue
         
         limitTransAndScale(matrix: &_touchMatrix, content: _contentRect)
     }
@@ -325,10 +332,15 @@ public class ChartViewPortHandler: NSObject
     public func setMinMaxScaleX(minScaleX minScaleX: CGFloat, maxScaleX: CGFloat)
     {
         var newMin = minScaleX
+        var newMax = minScaleY
         
         if (newMin < 1.0)
         {
             newMin = 1.0
+        }
+        if (newMax == 0.0)
+        {
+            newMax = CGFloat.max
         }
         
         _minScaleX = newMin
@@ -355,7 +367,14 @@ public class ChartViewPortHandler: NSObject
     /// Sets the maximum scale factor for the y-axis
     public func setMaximumScaleY(yScale: CGFloat)
     {
-        _maxScaleY = yScale
+        var newValue = yScale
+        
+        if (newValue == 0.0)
+        {
+            newValue = CGFloat.max
+        }
+        
+        _maxScaleY = newValue
         
         limitTransAndScale(matrix: &_touchMatrix, content: _contentRect)
     }
@@ -527,7 +546,7 @@ public class ChartViewPortHandler: NSObject
     /// - returns: true if both drag offsets (x and y) are zero or smaller.
     public var hasNoDragOffset: Bool
     {
-        return _transOffsetX <= 0.0 && _transOffsetY <= 0.0 ? true : false
+        return _transOffsetX <= 0.0 && _transOffsetY <= 0.0
     }
     
     /// - returns: true if the chart is not yet fully zoomed out on the x-axis

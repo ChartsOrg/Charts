@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 #import "DemoListViewController.h"
@@ -18,6 +18,7 @@
 #import "HorizontalBarChartViewController.h"
 #import "CombinedChartViewController.h"
 #import "PieChartViewController.h"
+#import "PiePolylineChartViewController.h"
 #import "ScatterChartViewController.h"
 #import "StackedBarChartViewController.h"
 #import "NegativeStackedBarChartViewController.h"
@@ -77,6 +78,11 @@
                           @"title": @"Pie Chart",
                           @"subtitle": @"A simple demonstration of the pie chart.",
                           @"class": PieChartViewController.class
+                          },
+                      @{
+                          @"title": @"Pie Chart with value lines",
+                          @"subtitle": @"A simple demonstration of the pie chart with polyline notes.",
+                          @"class": PiePolylineChartViewController.class
                           },
                       @{
                           @"title": @"Scatter Chart",

@@ -6,7 +6,7 @@
 //    Copyright 2015 Pierre-Marc Airoldi
 //    Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
@@ -26,13 +26,13 @@ public class BubbleChartView: BarLineChartViewBase, BubbleChartDataProvider
         super.calcMinMax()
         guard let data = _data else { return }
         
-        if (_deltaX == 0.0 && data.yValCount > 0)
+        if _xAxis.axisRange == 0.0 && data.yValCount > 0
         {
-            _deltaX = 1.0
+            _xAxis.axisRange = 1.0
         }
         
-        _chartXMin = -0.5
-        _chartXMax = Double(data.xVals.count) - 0.5
+        _xAxis._axisMinimum = -0.5
+        _xAxis._axisMaximum = Double(data.xVals.count) - 0.5
         
         if renderer as? BubbleChartRenderer !== nil,
             let sets = data.dataSets as? [IBubbleChartDataSet]
@@ -42,19 +42,19 @@ public class BubbleChartView: BarLineChartViewBase, BubbleChartDataProvider
                 let xmin = set.xMin
                 let xmax = set.xMax
                 
-                if (xmin < _chartXMin)
+                if (xmin < _xAxis._axisMinimum)
                 {
-                    _chartXMin = xmin
+                    _xAxis._axisMinimum = xmin
                 }
                 
-                if (xmax > _chartXMax)
+                if (xmax > _xAxis._axisMaximum)
                 {
-                    _chartXMax = xmax
+                    _xAxis._axisMaximum = xmax
                 }
             }
         }
         
-        _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
+        _xAxis.axisRange = abs(_xAxis._axisMaximum - _xAxis._axisMinimum)
     }
     
     // MARK: - BubbleChartDataProbider

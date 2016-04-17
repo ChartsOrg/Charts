@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
@@ -142,6 +142,11 @@ public class ChartLegendRenderer: ChartRendererBase
         let formSize = legend.formSize
         let formToTextSpace = legend.formToTextSpace
         let xEntrySpace = legend.xEntrySpace
+        let yEntrySpace = legend.yEntrySpace
+        
+        let orientation = legend.orientation
+        let horizontalAlignment = legend.horizontalAlignment
+        let verticalAlignment = legend.verticalAlignment
         let direction = legend.direction
 
         // space between the entries
@@ -149,45 +154,71 @@ public class ChartLegendRenderer: ChartRendererBase
 
         let yoffset = legend.yOffset
         let xoffset = legend.xOffset
+        var originPosX: CGFloat = 0.0
         
-        let legendPosition = legend.position
-        
-        switch (legendPosition)
+        switch horizontalAlignment
         {
-        case
-        .BelowChartLeft,
-        .BelowChartRight,
-        .BelowChartCenter,
-        .AboveChartLeft,
-        .AboveChartRight,
-        .AboveChartCenter:
+        case .Left:
             
-            let contentWidth: CGFloat = viewPortHandler.contentWidth
-            
-            var originPosX: CGFloat
-            
-            if (legendPosition == .BelowChartLeft || legendPosition == .AboveChartLeft)
+            if orientation == .Vertical
+            {
+                originPosX = xoffset
+            }
+            else
             {
                 originPosX = viewPortHandler.contentLeft + xoffset
-                
-                if (direction == .RightToLeft)
-                {
-                    originPosX += legend.neededWidth
-                }
             }
-            else if (legendPosition == .BelowChartRight || legendPosition == .AboveChartRight)
+            
+            if (direction == .RightToLeft)
+            {
+                originPosX += legend.neededWidth
+            }
+            
+        case .Right:
+            
+            if orientation == .Vertical
+            {
+                originPosX = viewPortHandler.chartWidth - xoffset
+            }
+            else
             {
                 originPosX = viewPortHandler.contentRight - xoffset
-                
-                if (direction == .LeftToRight)
-                {
-                    originPosX -= legend.neededWidth
-                }
             }
-            else // .BelowChartCenter || .AboveChartCenter
+            
+            if (direction == .LeftToRight)
             {
-                originPosX = viewPortHandler.contentLeft + contentWidth / 2.0
+                originPosX -= legend.neededWidth
             }
+            
+        case .Center:
+            
+            if orientation == .Vertical
+            {
+                originPosX = viewPortHandler.chartWidth / 2.0
+            }
+            else
+            {
+                originPosX = viewPortHandler.contentLeft
+                    + viewPortHandler.contentWidth / 2.0
+            }
+            
+            originPosX += (direction == .LeftToRight
+                    ? +xoffset
+                    : -xoffset)
+            
+            // Horizontally layed out legends do the center offset on a line basis,
+            // So here we offset the vertical ones only.
+            if orientation == .Vertical
+            {
+                originPosX += (direction == .LeftToRight
+                    ? -legend.neededWidth / 2.0 + xoffset
+                    : legend.neededWidth / 2.0 - xoffset)
+            }
+        }
+        
+        switch orientation
+        {
+        case .Horizontal:
             
             var calculatedLineSizes = legend.calculatedLineSizes
             var calculatedLabelSizes = legend.calculatedLabelSizes
@@ -196,32 +227,36 @@ public class ChartLegendRenderer: ChartRendererBase
             var posX: CGFloat = originPosX
             var posY: CGFloat
             
-            if (legendPosition == .AboveChartLeft
-                || legendPosition == .AboveChartRight
-                || legendPosition == .AboveChartCenter)
+            switch verticalAlignment
             {
-                posY = 0
-            }
-            else
-            {
+            case .Top:
+                posY = yoffset
+                
+            case .Bottom:
                 posY = viewPortHandler.chartHeight - yoffset - legend.neededHeight
+                
+            case .Center:
+                posY = (viewPortHandler.chartHeight - legend.neededHeight) / 2.0 + yoffset
             }
             
             var lineIndex: Int = 0
-            
             
             for i in 0..<labels.count
             {
                 if (i < calculatedLabelBreakPoints.count && calculatedLabelBreakPoints[i])
                 {
                     posX = originPosX
-                    posY += labelLineHeight
+                    posY += labelLineHeight + yEntrySpace
                 }
                 
-                if (posX == originPosX && legendPosition == .BelowChartCenter && lineIndex < calculatedLineSizes.count)
+                if (posX == originPosX &&
+                    horizontalAlignment == .Center &&
+                    lineIndex < calculatedLineSizes.count)
                 {
-                    posX += (direction == .RightToLeft ? calculatedLineSizes[lineIndex].width : -calculatedLineSizes[lineIndex].width) / 2.0
-                    lineIndex++
+                    posX += (direction == .RightToLeft
+                        ? calculatedLineSizes[lineIndex].width
+                        : -calculatedLineSizes[lineIndex].width) / 2.0
+                    lineIndex += 1
                 }
                 
                 let drawingForm = colors[i] != nil
@@ -269,80 +304,54 @@ public class ChartLegendRenderer: ChartRendererBase
                 }
             }
             
-        case
-        .PiechartCenter,
-        .RightOfChart,
-        .RightOfChartCenter,
-        .RightOfChartInside,
-        .LeftOfChart,
-        .LeftOfChartCenter,
-        .LeftOfChartInside:
+        case .Vertical:
             
             // contains the stacked legend size in pixels
             var stack = CGFloat(0.0)
             var wasStacked = false
-            var posX: CGFloat = 0.0, posY: CGFloat = 0.0
             
-            if (legendPosition == .PiechartCenter)
+            var posY: CGFloat = 0.0
+            
+            switch verticalAlignment
             {
-                posX = viewPortHandler.chartWidth / 2.0 + (direction == .LeftToRight ? -legend.textWidthMax / 2.0 : legend.textWidthMax / 2.0)
+            case .Top:
+                posY = (horizontalAlignment == .Center
+                    ? 0.0
+                    : viewPortHandler.contentTop)
+                posY += yoffset
+                
+            case .Bottom:
+                posY = (horizontalAlignment == .Center
+                    ? viewPortHandler.chartHeight
+                    : viewPortHandler.contentBottom)
+                posY -= legend.neededHeight + yoffset
+                
+            case .Center:
+                
                 posY = viewPortHandler.chartHeight / 2.0 - legend.neededHeight / 2.0 + legend.yOffset
-            }
-            else
-            {
-                let isRightAligned = legendPosition == .RightOfChart ||
-                    legendPosition == .RightOfChartCenter ||
-                    legendPosition == .RightOfChartInside
-                
-                if (isRightAligned)
-                {
-                    posX = viewPortHandler.chartWidth - xoffset
-                    if (direction == .LeftToRight)
-                    {
-                        posX -= legend.textWidthMax
-                    }
-                }
-                else
-                {
-                    posX = xoffset
-                    if (direction == .RightToLeft)
-                    {
-                        posX += legend.textWidthMax
-                    }
-                }
-                
-                switch legendPosition
-                {
-                case .RightOfChart, .LeftOfChart:
-                    posY = viewPortHandler.contentTop + yoffset
-                case .RightOfChartCenter, .LeftOfChartCenter:
-                    posY = viewPortHandler.chartHeight / 2.0 - legend.neededHeight / 2.0
-                default: // case .RightOfChartInside, .LeftOfChartInside
-                    posY = viewPortHandler.contentTop + yoffset
-                }
             }
             
             for i in 0..<labels.count
             {
                 let drawingForm = colors[i] != nil
-                var x = posX
+                var posX = originPosX
                 
                 if (drawingForm)
                 {
                     if (direction == .LeftToRight)
                     {
-                        x += stack
+                        posX += stack
                     }
                     else
                     {
-                        x -= formSize - stack
+                        posX -= formSize - stack
                     }
                     
-                    drawForm(context: context, x: x, y: posY + formYOffset, colorIndex: i, legend: legend)
+                    drawForm(context: context, x: posX, y: posY + formYOffset, colorIndex: i, legend: legend)
                     
                     if (direction == .LeftToRight)
                     {
-                        x += formSize
+                        posX += formSize
                     }
                 }
                 
@@ -350,30 +359,30 @@ public class ChartLegendRenderer: ChartRendererBase
                 {
                     if (drawingForm && !wasStacked)
                     {
-                        x += direction == .LeftToRight ? formToTextSpace : -formToTextSpace
+                        posX += direction == .LeftToRight ? formToTextSpace : -formToTextSpace
                     }
                     else if (wasStacked)
                     {
-                        x = posX
+                        posX = originPosX
                     }
                     
                     if (direction == .RightToLeft)
                     {
-                        x -= (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width
+                        posX -= (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width
                     }
                     
                     if (!wasStacked)
                     {
-                        drawLabel(context: context, x: x, y: posY, label: labels[i]!, font: labelFont, textColor: labelTextColor)
+                        drawLabel(context: context, x: posX, y: posY, label: labels[i]!, font: labelFont, textColor: labelTextColor)
                     }
                     else
                     {
-                        posY += labelLineHeight
-                        drawLabel(context: context, x: x, y: posY, label: labels[i]!, font: labelFont, textColor: labelTextColor)
+                        posY += labelLineHeight + yEntrySpace
+                        drawLabel(context: context, x: posX, y: posY, label: labels[i]!, font: labelFont, textColor: labelTextColor)
                     }
                     
                     // make a step down
-                    posY += labelLineHeight
+                    posY += labelLineHeight + yEntrySpace
                     stack = 0.0
                 }
                 else
@@ -382,7 +391,6 @@ public class ChartLegendRenderer: ChartRendererBase
                     wasStacked = true
                 }
             }
-            
         }
     }
 

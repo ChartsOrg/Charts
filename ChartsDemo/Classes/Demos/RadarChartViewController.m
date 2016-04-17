@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 #import "RadarChartViewController.h"
@@ -31,6 +31,7 @@
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
+                     @{@"key": @"toggleHighlightCircle", @"label": @"Toggle highlight circle"},
                      @{@"key": @"toggleXLabels", @"label": @"Toggle X-Values"},
                      @{@"key": @"toggleYLabels", @"label": @"Toggle Y-Values"},
                      @{@"key": @"toggleRotate", @"label": @"Toggle Rotate"},
@@ -60,7 +61,7 @@
     ChartYAxis *yAxis = _chartView.yAxis;
     yAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:9.f];
     yAxis.labelCount = 5;
-    yAxis.customAxisMin = 0.0;
+    yAxis.axisMinValue = 0.0;
     
     ChartLegend *l = _chartView.legend;
     l.position = ChartLegendPositionRightOfChart;
@@ -153,12 +154,23 @@
         _chartView.rotationEnabled = !_chartView.isRotationEnabled;
         return;
     }
-
+    
     if ([key isEqualToString:@"toggleFill"])
     {
         for (RadarChartDataSet *set in _chartView.data.dataSets)
         {
             set.drawFilledEnabled = !set.isDrawFilledEnabled;
+        }
+        
+        [_chartView setNeedsDisplay];
+        return;
+    }
+    
+    if ([key isEqualToString:@"toggleHighlightCircle"])
+    {
+        for (RadarChartDataSet *set in _chartView.data.dataSets)
+        {
+            set.drawHighlightCircleEnabled = !set.drawHighlightCircleEnabled;
         }
         
         [_chartView setNeedsDisplay];

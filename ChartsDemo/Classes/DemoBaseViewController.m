@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 #import "DemoBaseViewController.h"
@@ -152,6 +152,16 @@
     {
         _shouldHideData = !_shouldHideData;
         [self updateChartData];
+    }
+    
+    if ([key isEqualToString:@"toggleBarBorders"])
+    {
+        for (id<IBarChartDataSet> set in chartView.data.dataSets)
+        {
+            set.barBorderWidth = set.barBorderWidth == 1.0 ? 0.0 : 1.0;
+        }
+        
+        [chartView setNeedsDisplay];
     }
 }
 

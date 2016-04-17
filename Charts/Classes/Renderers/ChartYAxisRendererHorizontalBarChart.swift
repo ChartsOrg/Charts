@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
@@ -27,9 +27,11 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
     }
 
     /// Computes the axis values.
-    public override func computeAxis(var yMin yMin: Double, var yMax: Double)
+    public override func computeAxis(yMin yMin: Double, yMax: Double)
     {
         guard let yAxis = yAxis else { return }
+        
+        var yMin = yMin, yMax = yMax
         
         // calculate the starting and entry point of the y-labels (depending on zoom / contentrect bounds)
         if (viewPortHandler.contentHeight > 10.0 && !viewPortHandler.isFullyZoomedOutX)
@@ -65,7 +67,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         var positions = [CGPoint]()
         positions.reserveCapacity(yAxis.entries.count)
         
-        for (var i = 0; i < yAxis.entries.count; i++)
+        for i in 0 ..< yAxis.entries.count
         {
             positions.append(CGPoint(x: CGFloat(yAxis.entries[i]), y: 0.0))
         }
@@ -162,7 +164,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         let labelFont = yAxis.labelFont
         let labelTextColor = yAxis.labelTextColor
         
-        for (var i = 0; i < yAxis.entryCount; i++)
+        for i in 0 ..< yAxis.entryCount
         {
             let text = yAxis.getFormattedLabel(i)
             
@@ -206,7 +208,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
             }
             
             // draw the horizontal grid
-            for (var i = 0; i < yAxis.entryCount; i++)
+            for i in 0 ..< yAxis.entryCount
             {
                 position.x = CGFloat(yAxis.entries[i])
                 position.y = 0.0
@@ -255,7 +257,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         
         var position = CGPoint(x: 0.0, y: 0.0)
         
-        for (var i = 0; i < limitLines.count; i++)
+        for i in 0 ..< limitLines.count
         {
             let l = limitLines[i]
             

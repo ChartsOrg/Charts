@@ -6,7 +6,7 @@
 //    Copyright 2015 Pierre-Marc Airoldi
 //    Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 #import "BubbleChartViewController.h"
@@ -61,7 +61,7 @@
     yl.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     yl.spaceTop = 0.3;
     yl.spaceBottom = 0.3;
-    yl.customAxisMin = 0.0; // this replaces startAtZero = YES
+    yl.axisMinValue = 0.0; // this replaces startAtZero = YES
 
     _chartView.rightAxis.enabled = NO;
     

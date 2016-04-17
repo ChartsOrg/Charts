@@ -9,7 +9,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
@@ -74,7 +74,7 @@ public class ChartUtils
         var index = -Int.max
         var distance = DBL_MAX
         
-        for (var i = 0; i < valsAtIndex.count; i++)
+        for i in 0 ..< valsAtIndex.count
         {
             let sel = valsAtIndex[i]
             
@@ -97,7 +97,7 @@ public class ChartUtils
     {
         var distance = DBL_MAX
         
-        for (var i = 0, count = valsAtIndex.count; i < count; i++)
+        for i in 0 ..< valsAtIndex.count
         {
             let sel = valsAtIndex[i]
             
@@ -123,8 +123,10 @@ public class ChartUtils
         )
     }
     
-    public class func drawText(context context: CGContext, text: String, var point: CGPoint, align: NSTextAlignment, attributes: [String : AnyObject]?)
+    public class func drawText(context context: CGContext, text: String, point: CGPoint, align: NSTextAlignment, attributes: [String : AnyObject]?)
     {
+        var point = point
+        
         if (align == .Center)
         {
             point.x -= text.sizeWithAttributes(attributes).width / 2.0
@@ -248,8 +250,10 @@ public class ChartUtils
     }
     
     /// - returns: an angle between 0.0 < 360.0 (not less than zero, less than 360)
-    internal class func normalizedAngleFromAngle(var angle: CGFloat) -> CGFloat
+    internal class func normalizedAngleFromAngle(angle: CGFloat) -> CGFloat
     {
+        var angle = angle
+        
         while (angle < 0.0)
         {
             angle += 360.0

@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
@@ -25,16 +25,16 @@ public protocol IScatterChartDataSet: ILineScatterCandleRadarChartDataSet
     var scatterShapeSize: CGFloat { get set }
     
     // The type of shape that is set to be drawn where the values are at
-    // - default: .Square
-    var scatterShape: ScatterChartDataSet.ScatterShape { get set }
+    // **default**: .Square
+    var scatterShape: ScatterChartDataSet.Shape { get set }
     
     // The radius of the hole in the shape (applies to Square, Circle and Triangle)
     // Set this to <= 0 to remove holes.
-    // - default: 0.0
+    // **default**: 0.0
     var scatterShapeHoleRadius: CGFloat { get set }
     
     // Color for the hole in the shape. Setting to `nil` will behave as transparent.
-    // - default: nil
+    // **default**: nil
     var scatterShapeHoleColor: NSUIColor? { get set }
     
     // Custom path object to draw where the values are at.

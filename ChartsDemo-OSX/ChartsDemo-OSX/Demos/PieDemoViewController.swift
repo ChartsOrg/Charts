@@ -44,6 +44,8 @@ public class PieDemoViewController: NSViewController
         self.pieChartView.centerAttributedText = centerText
         
         self.pieChartView.data = data
+        
+        self.pieChartView.descriptionText = "Piechart Demo"
     }
     
     override public func viewWillAppear()

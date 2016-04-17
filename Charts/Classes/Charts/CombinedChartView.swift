@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
@@ -21,8 +21,8 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
     internal var _fillFormatter: ChartFillFormatter!
     
     /// enum that allows to specify the order in which the different data objects for the combined-chart are drawn
-    @objc
-    public enum CombinedChartDrawOrder: Int
+    @objc(CombinedChartDrawOrder)
+    public enum DrawOrder: Int
     {
         case Bar
         case Bubble
@@ -37,7 +37,7 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
         
         self.highlighter = CombinedHighlighter(chart: self)
         
-        /// WORKAROUND: Swift 2.0 compiler malfunctions when optimizations are enabled, and assigning directly to _fillFormatter causes a crash with a EXC_BAD_ACCESS. See https://github.com/danielgindi/ios-charts/issues/406
+        /// WORKAROUND: Swift 2.0 compiler malfunctions when optimizations are enabled, and assigning directly to _fillFormatter causes a crash with a EXC_BAD_ACCESS. See https://github.com/danielgindi/Charts/issues/406
         let workaroundFormatter = ChartDefaultFillFormatter()
         _fillFormatter = workaroundFormatter
         
@@ -51,8 +51,8 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
         
         if (self.barData !== nil || self.candleData !== nil || self.bubbleData !== nil)
         {
-            _chartXMin = -0.5
-            _chartXMax = Double(data.xVals.count) - 0.5
+            _xAxis._axisMinimum = -0.5
+            _xAxis._axisMaximum = Double(data.xVals.count) - 0.5
             
             if (self.bubbleData !== nil)
             {
@@ -63,22 +63,22 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
                     
                     if (xmin < chartXMin)
                     {
-                        _chartXMin = xmin
+                        _xAxis._axisMinimum = xmin
                     }
                     
                     if (xmax > chartXMax)
                     {
-                        _chartXMax = xmax
+                        _xAxis._axisMaximum = xmax
                     }
                 }
             }
         }
         
-        _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
+        _xAxis.axisRange = abs(_xAxis._axisMaximum - _xAxis._axisMinimum)
         
-        if (_deltaX == 0.0 && self.lineData?.yValCount > 0)
+        if _xAxis.axisRange == 0.0 && self.lineData?.yValCount > 0
         {
-            _deltaX = 1.0
+            _xAxis.axisRange = 1.0
         }
     }
     
@@ -224,7 +224,7 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
         }
         set
         {
-            (renderer as! CombinedChartRenderer!).drawOrder = newValue.map { CombinedChartDrawOrder(rawValue: $0)! }
+            (renderer as! CombinedChartRenderer!).drawOrder = newValue.map { DrawOrder(rawValue: $0)! }
         }
     }
 }

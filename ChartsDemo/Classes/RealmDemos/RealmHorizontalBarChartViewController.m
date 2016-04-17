@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 #import "RealmHorizontalBarChartViewController.h"
@@ -48,7 +48,7 @@
     
     [self setupBarLineChartView:_chartView];
     
-    _chartView.leftAxis.customAxisMin = 0.0;
+    _chartView.leftAxis.axisMinValue = 0.0;
     _chartView.drawValueAboveBarEnabled = NO;
 
     [self setData];

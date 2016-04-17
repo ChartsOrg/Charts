@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
@@ -60,12 +60,12 @@ public class PieRadarChartViewBase: ChartViewBase
     {
         super.initialize()
         
-        _tapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: Selector("tapGestureRecognized:"))
+        _tapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: #selector(PieRadarChartViewBase.tapGestureRecognized(_:)))
         
         self.addGestureRecognizer(_tapGestureRecognizer)
 
         #if !os(tvOS)
-            _rotationGestureRecognizer = NSUIRotationGestureRecognizer(target: self, action: Selector("rotationGestureRecognized:"))
+            _rotationGestureRecognizer = NSUIRotationGestureRecognizer(target: self, action: #selector(PieRadarChartViewBase.rotationGestureRecognized(_:)))
             self.addGestureRecognizer(_rotationGestureRecognizer)
             _rotationGestureRecognizer.enabled = rotationWithTwoFingers
         #endif
@@ -73,7 +73,7 @@ public class PieRadarChartViewBase: ChartViewBase
     
     internal override func calcMinMax()
     {
-        _deltaX = CGFloat((_data?.xVals.count ?? 0) - 1)
+        _xAxis.axisRange = Double((_data?.xVals.count ?? 0) - 1)
     }
     
     public override func notifyDataSetChanged()
@@ -97,112 +97,121 @@ public class PieRadarChartViewBase: ChartViewBase
         var legendBottom = CGFloat(0.0)
         var legendTop = CGFloat(0.0)
 
-        if (_legend != nil && _legend.enabled)
+        if _legend != nil && _legend.enabled && !_legend.drawInside
         {
             var fullLegendWidth = min(_legend.neededWidth, _viewPortHandler.chartWidth * _legend.maxSizePercent)
             fullLegendWidth += _legend.formSize + _legend.formToTextSpace
             
-            if (_legend.position == .RightOfChartCenter)
+            switch _legend.orientation
             {
-                // this is the space between the legend and the chart
-                let spacing = CGFloat(13.0)
-
-                legendRight = fullLegendWidth + spacing
-            }
-            else if (_legend.position == .RightOfChart)
-            {
-                // this is the space between the legend and the chart
-                let spacing = CGFloat(8.0)
+            case .Vertical:
                 
-                let legendWidth = fullLegendWidth + spacing
-                let legendHeight = _legend.neededHeight + _legend.textHeightMax
-
-                let c = self.midPoint
-
-                let bottomRight = CGPoint(x: self.bounds.width - legendWidth + 15.0, y: legendHeight + 15)
-                let distLegend = distanceToCenter(x: bottomRight.x, y: bottomRight.y)
-
-                let reference = getPosition(center: c, dist: self.radius,
-                    angle: angleForPoint(x: bottomRight.x, y: bottomRight.y))
-
-                let distReference = distanceToCenter(x: reference.x, y: reference.y)
-                let minOffset = CGFloat(5.0)
-
-                if (distLegend < distReference)
-                {
-                    let diff = distReference - distLegend
-                    legendRight = minOffset + diff
-                }
-
-                if (bottomRight.y >= c.y && self.bounds.height - legendWidth > self.bounds.width)
-                {
-                    legendRight = legendWidth
-                }
-            }
-            else if (_legend.position == .LeftOfChartCenter)
-            {
-                // this is the space between the legend and the chart
-                let spacing = CGFloat(13.0)
-
-                legendLeft = fullLegendWidth + spacing
-            }
-            else if (_legend.position == .LeftOfChart)
-            {
-
-                // this is the space between the legend and the chart
-                let spacing = CGFloat(8.0)
+                var xLegendOffset: CGFloat = 0.0
                 
-                let legendWidth = fullLegendWidth + spacing
-                let legendHeight = _legend.neededHeight + _legend.textHeightMax
-
-                let c = self.midPoint
-
-                let bottomLeft = CGPoint(x: legendWidth - 15.0, y: legendHeight + 15)
-                let distLegend = distanceToCenter(x: bottomLeft.x, y: bottomLeft.y)
-
-                let reference = getPosition(center: c, dist: self.radius,
-                    angle: angleForPoint(x: bottomLeft.x, y: bottomLeft.y))
-
-                let distReference = distanceToCenter(x: reference.x, y: reference.y)
-                let min = CGFloat(5.0)
-
-                if (distLegend < distReference)
+                if _legend.horizontalAlignment == .Left
+                    || _legend.horizontalAlignment == .Right
                 {
-                    let diff = distReference - distLegend
-                    legendLeft = min + diff
+                    if _legend.verticalAlignment == .Center
+                    {
+                        // this is the space between the legend and the chart
+                        let spacing = CGFloat(13.0)
+                        
+                        xLegendOffset = fullLegendWidth + spacing
+                    }
+                    else
+                    {
+                        // this is the space between the legend and the chart
+                        let spacing = CGFloat(8.0)
+                        
+                        let legendWidth = fullLegendWidth + spacing
+                        let legendHeight = _legend.neededHeight + _legend.textHeightMax
+                        
+                        let c = self.midPoint
+                        
+                        let bottomX = _legend.horizontalAlignment == .Right
+                            ? self.bounds.width - legendWidth + 15.0
+                            : legendWidth - 15.0
+                        let bottomY = legendHeight + 15
+                        let distLegend = distanceToCenter(x: bottomX, y: bottomY)
+                        
+                        let reference = getPosition(center: c, dist: self.radius,
+                                                    angle: angleForPoint(x: bottomX, y: bottomY))
+                        
+                        let distReference = distanceToCenter(x: reference.x, y: reference.y)
+                        let minOffset = CGFloat(5.0)
+                        
+                        if (bottomY >= c.y
+                            && self.bounds.height - legendWidth > self.bounds.width)
+                        {
+                            xLegendOffset = legendWidth
+                        }
+                        else if (distLegend < distReference)
+                        {
+                            let diff = distReference - distLegend
+                            xLegendOffset = minOffset + diff
+                        }
+                    }
                 }
-
-                if (bottomLeft.y >= c.y && self.bounds.height - legendWidth > self.bounds.width)
+                
+                switch _legend.horizontalAlignment
                 {
-                    legendLeft = legendWidth
+                case .Left:
+                    legendLeft = xLegendOffset
+                    
+                case .Right:
+                    legendRight = xLegendOffset
+                    
+                case .Center:
+                    
+                    switch _legend.verticalAlignment
+                    {
+                    case .Top:
+                        legendTop = min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent)
+                        
+                    case .Bottom:
+                        legendBottom = min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent)
+                        
+                    default:
+                        break;
+                    }
                 }
-            }
-            else if (_legend.position == .BelowChartLeft
-                    || _legend.position == .BelowChartRight
-                    || _legend.position == .BelowChartCenter)
-            {
-                // It's possible that we do not need this offset anymore as it
-                //   is available through the extraOffsets, but changing it can mean
-                //   changing default visibility for existing apps.
-                let yOffset = self.requiredLegendOffset
+            
+            case .Horizontal:
                 
-                legendBottom = min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
-            }
-            else if (_legend.position == .AboveChartLeft
-                || _legend.position == .AboveChartRight
-                || _legend.position == .AboveChartCenter)
-            {
-                // It's possible that we do not need this offset anymore as it
-                //   is available through the extraOffsets, but changing it can mean
-                //   changing default visibility for existing apps.
-                let yOffset = self.requiredLegendOffset
+                var yLegendOffset: CGFloat = 0.0
                 
-                legendTop = min(_legend.neededHeight + yOffset, _viewPortHandler.chartHeight * _legend.maxSizePercent)
+                if _legend.verticalAlignment == .Top
+                    || _legend.verticalAlignment == .Bottom
+                {
+                    // It's possible that we do not need this offset anymore as it
+                    //   is available through the extraOffsets, but changing it can mean
+                    //   changing default visibility for existing apps.
+                    let yOffset = self.requiredLegendOffset
+                    
+                    yLegendOffset = min(
+                        _legend.neededHeight + yOffset,
+                        _viewPortHandler.chartHeight * _legend.maxSizePercent)
+                }
+                
+                switch _legend.verticalAlignment
+                {
+                case .Top:
+                    
+                    legendTop = yLegendOffset
+                    
+                case .Bottom:
+                    
+                    legendBottom = yLegendOffset
+                    
+                default:
+                    break;
+                }
             }
 
             legendLeft += self.requiredBaseOffset
             legendRight += self.requiredBaseOffset
             legendTop += self.requiredBaseOffset
+            legendBottom += self.requiredBaseOffset
         }
         
         legendTop += self.extraTopOffset
@@ -214,7 +223,7 @@ public class PieRadarChartViewBase: ChartViewBase
         
         if (self.isKindOfClass(RadarChartView))
         {
-            let x = (self as! RadarChartView).xAxis
+            let x = self.xAxis
             
             if x.isEnabled && x.drawLabelsEnabled
             {
@@ -337,7 +346,11 @@ public class PieRadarChartViewBase: ChartViewBase
     /// - returns: the diameter of the pie- or radar-chart
     public var diameter: CGFloat
     {
-        let content = _viewPortHandler.contentRect
+        var content = _viewPortHandler.contentRect
+        content.origin.x += extraLeftOffset
+        content.origin.y += extraTopOffset
+        content.size.width -= extraLeftOffset + extraRightOffset
+        content.size.height -= extraTopOffset + extraBottomOffset
         return min(content.width, content.height)
     }
 
@@ -360,14 +373,13 @@ public class PieRadarChartViewBase: ChartViewBase
         fatalError("requiredBaseOffset cannot be called on PieRadarChartViewBase")
     }
     
-    public override var chartXMax: Double
+    public override var chartYMax: Double
     {
         return 0.0
     }
     
-    public override var chartXMin: Double
+    public override var chartYMin: Double
     {
-        getSelectionDetailsAtIndex(1);
         return 0.0
     }
     
@@ -379,7 +391,7 @@ public class PieRadarChartViewBase: ChartViewBase
         
         guard let data = _data else { return vals }
 
-        for (var i = 0; i < data.dataSetCount; i++)
+        for i in 0 ..< data.dataSetCount
         {
             guard let dataSet = data.getDataSetByIndex(i) else { continue }
             
@@ -544,7 +556,7 @@ public class PieRadarChartViewBase: ChartViewBase
             if _decelerationAngularVelocity != 0.0
             {
                 _decelerationLastTime = CACurrentMediaTime()
-                _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: Selector("decelerationLoop"))
+                _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(PieRadarChartViewBase.decelerationLoop))
                 _decelerationDisplayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
             }
         }
@@ -696,18 +708,21 @@ public class PieRadarChartViewBase: ChartViewBase
         _velocitySamples.append(AngularVelocitySample(time: currentTime, angle: angleForPoint(x: touchLocation.x, y: touchLocation.y)))
         
         // Remove samples older than our sample time - 1 seconds
-        for (var i = 0, count = _velocitySamples.count; i < count - 2; i++)
+        var i = 0, count = _velocitySamples.count
+        while (i < count - 2)
         {
             if (currentTime - _velocitySamples[i].time > 1.0)
             {
                 _velocitySamples.removeAtIndex(0)
-                i--
-                count--
+                i -= 1
+                count -= 1
             }
             else
             {
                 break
             }
+            
+            i += 1
         }
     }
     
@@ -723,7 +738,7 @@ public class PieRadarChartViewBase: ChartViewBase
         
         // Look for a sample that's closest to the latest sample, but not the same, so we can deduce the direction
         var beforeLastSample = firstSample
-        for (var i = _velocitySamples.count - 1; i >= 0; i--)
+        for i in (_velocitySamples.count - 1).stride(through: 0, by: -1)
         {
             beforeLastSample = _velocitySamples[i]
             if (beforeLastSample.angle != lastSample.angle)
@@ -943,7 +958,7 @@ public class PieRadarChartViewBase: ChartViewBase
                 if (_decelerationAngularVelocity != 0.0)
                 {
                     _decelerationLastTime = CACurrentMediaTime()
-                    _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: Selector("decelerationLoop"))
+                    _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(PieRadarChartViewBase.decelerationLoop))
                     _decelerationDisplayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
                 }
             }

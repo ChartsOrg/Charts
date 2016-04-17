@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
@@ -35,7 +35,7 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
         
         self.highlighter = BarChartHighlighter(chart: self)
         
-        _chartXMin = -0.5
+        _xAxis._axisMinimum = -0.5
     }
     
     internal override func calcMinMax()
@@ -47,14 +47,14 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
         let barData = data as! BarChartData
         
         // increase deltax by 1 because the bars have a width of 1
-        _deltaX += 0.5
+        _xAxis.axisRange += 0.5
         
         // extend xDelta to make space for multiple datasets (if ther are one)
-        _deltaX *= CGFloat(data.dataSetCount)
+        _xAxis.axisRange *= Double(data.dataSetCount)
         
         let groupSpace = barData.groupSpace
-        _deltaX += CGFloat(barData.xValCount) * groupSpace
-        _chartXMax = Double(_deltaX) - _chartXMin
+        _xAxis.axisRange += Double(barData.xValCount) * Double(groupSpace)
+        _xAxis._axisMaximum = _xAxis.axisRange - _xAxis._axisMinimum
     }
     
     /// - returns: the Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the BarChart.

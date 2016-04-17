@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
@@ -38,7 +38,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         
         let max = Int(round(xValAverageLength + Double(xAxis.spaceBetweenLabels)))
         
-        for (var i = 0; i < max; i++)
+        for _ in 0 ..< max
         {
             a += "h"
         }
@@ -284,7 +284,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         
         var position = CGPoint(x: 0.0, y: 0.0)
         
-        for (var i = 0; i < limitLines.count; i++)
+        for i in 0 ..< limitLines.count
         {
             let l = limitLines[i]
             

@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 #import "PositiveNegativeBarChartViewController.h"
@@ -39,6 +39,7 @@
                      @{@"key": @"togglePinchZoom", @"label": @"Toggle PinchZoom"},
                      @{@"key": @"toggleAutoScaleMinMax", @"label": @"Toggle auto scale min/max"},
                      @{@"key": @"toggleData", @"label": @"Toggle Data"},
+                     @{@"key": @"toggleBarBorders", @"label": @"Show Bar Borders"},
                      ];
     
     [self setupBarLineChartView:_chartView];
@@ -148,7 +149,7 @@
         }
     }
     
-    BarChartDataSet *set = [[BarChartDataSet alloc] initWithYVals:values label:@"Values"];
+    BarChartDataSet *set = set = [[BarChartDataSet alloc] initWithYVals:values label:@"Values"];
     set.barSpace = 0.4f;
     set.colors = colors;
     set.valueColors = colors;

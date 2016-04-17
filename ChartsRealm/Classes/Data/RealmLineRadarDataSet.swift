@@ -9,10 +9,11 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
+import CoreGraphics
 
 import Charts
 import Realm
@@ -39,11 +40,11 @@ public class RealmLineRadarDataSet: RealmLineScatterCandleRadarDataSet, ILineRad
     }
     
     /// The object that is used for filling the area below the line.
-    /// - default: nil
+    /// **default**: nil
     public var fill: ChartFill?
     
     /// The alpha value that is used for filling the line surface,
-    /// - default: 0.33
+    /// **default**: 0.33
     public var fillAlpha = CGFloat(0.33)
     
     private var _lineWidth = CGFloat(1.0)

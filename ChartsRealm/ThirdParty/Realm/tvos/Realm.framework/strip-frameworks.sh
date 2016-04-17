@@ -35,6 +35,9 @@ code_sign() {
   /usr/bin/codesign --force --sign ${EXPANDED_CODE_SIGN_IDENTITY} --preserve-metadata=identifier,entitlements "$1"
 }
 
+# Set working directory to product’s embedded frameworks 
+cd "${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}"
+
 if [ "$ACTION" = "install" ]; then
   echo "Copy .bcsymbolmap files to .xcarchive"
   find . -name '*.bcsymbolmap' -type f -exec mv {} "${CONFIGURATION_BUILD_DIR}" \;
@@ -44,7 +47,6 @@ else
 fi
 
 echo "Stripping frameworks"
-cd "${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}"
 
 for file in $(find . -type f -perm +111); do
   # Skip non-dynamic libraries

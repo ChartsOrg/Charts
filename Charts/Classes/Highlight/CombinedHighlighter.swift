@@ -9,7 +9,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
@@ -31,9 +31,9 @@ public class CombinedHighlighter: ChartHighlighter
             
             var pt = CGPoint()
             
-            for var i = 0; i < dataObjects.count; i++
+            for i in 0 ..< dataObjects.count
             {
-                for var j = 0; j < dataObjects[i].dataSetCount; j++
+                for j in 0 ..< dataObjects[i].dataSetCount
                 {
                     let dataSet = dataObjects[i].getDataSetByIndex(j)
                     

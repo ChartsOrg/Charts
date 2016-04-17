@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 #import "SinusBarChartViewController.h"
@@ -63,15 +63,18 @@
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     leftAxis.labelCount = 6;
-    leftAxis.axisMinimum = -2.5;
-    leftAxis.axisMaximum = 2.5;
+    leftAxis.axisMinValue = -2.5;
+    leftAxis.axisMaxValue = 2.5;
+    leftAxis.granularityEnabled = true;
+    leftAxis.granularity = 0.1;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.drawGridLinesEnabled = NO;
     rightAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     rightAxis.labelCount = 6;
-    rightAxis.axisMinimum = -2.5;
-    rightAxis.axisMaximum = 2.5;
+    rightAxis.axisMinValue = -2.5;
+    rightAxis.axisMaxValue = 2.5;
+    rightAxis.granularity = 0.1;
         
     ChartLegend *l = _chartView.legend;
     l.position = ChartLegendPositionBelowChartLeft;
@@ -114,15 +117,26 @@
         [entries addObject:[[BarChartDataEntry alloc] initWithValue:sinf(M_PI * (i % 128) / 64.0) xIndex:i]];
     }
     
-    BarChartDataSet *set = [[BarChartDataSet alloc] initWithYVals:entries label:@"Sinus Function"];
-    set.barSpace = 0.4;
-    [set setColor:[UIColor colorWithRed:240/255.f green:120/255.f blue:124/255.f alpha:1.f]];
-    
-    BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSet:set];
-    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
-    [data setDrawValues:NO];
-    
-    _chartView.data = data;
+    BarChartDataSet *set = nil;
+    if (_chartView.data.dataSetCount > 0)
+    {
+        set = (BarChartDataSet *)_chartView.data.dataSets[0];
+        set.yVals = entries;
+        _chartView.data.xValsObjc = xVals;
+        [_chartView notifyDataSetChanged];
+    }
+    else
+    {
+        set = [[BarChartDataSet alloc] initWithYVals:entries label:@"Sinus Function"];
+        set.barSpace = 0.4;
+        [set setColor:[UIColor colorWithRed:240/255.f green:120/255.f blue:124/255.f alpha:1.f]];
+        
+        BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSet:set];
+        [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
+        [data setDrawValues:NO];
+        
+        _chartView.data = data;
+    }
 }
 
 - (void)optionTapped:(NSString *)key

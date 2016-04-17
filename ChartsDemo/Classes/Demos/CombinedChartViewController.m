@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 #import "CombinedChartViewController.h"
@@ -35,6 +35,7 @@
                      @{@"key": @"toggleBarValues", @"label": @"Toggle Bar Values"},
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"},
                      @{@"key": @"toggleData", @"label": @"Toggle Data"},
+                     @{@"key": @"toggleBarBorders", @"label": @"Show Bar Borders"},
                      ];
     
     _chartView.delegate = self;
@@ -55,11 +56,11 @@
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.drawGridLinesEnabled = NO;
-    rightAxis.customAxisMin = 0.0; // this replaces startAtZero = YES
+    rightAxis.axisMinValue = 0.0; // this replaces startAtZero = YES
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.drawGridLinesEnabled = NO;
-    leftAxis.customAxisMin = 0.0; // this replaces startAtZero = YES
+    leftAxis.axisMinValue = 0.0; // this replaces startAtZero = YES
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBothSided;
@@ -172,7 +173,7 @@
     [set setColor:[UIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f]];
     set.valueTextColor = [UIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f];
     set.valueFont = [UIFont systemFontOfSize:10.f];
-    
+
     set.axisDependency = AxisDependencyLeft;
     
     [d addDataSet:set];

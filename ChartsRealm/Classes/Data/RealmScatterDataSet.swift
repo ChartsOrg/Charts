@@ -9,10 +9,11 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
+import CoreGraphics
 
 import Charts
 import Realm
@@ -24,15 +25,15 @@ public class RealmScatterDataSet: RealmLineScatterCandleRadarDataSet, IScatterCh
     public var scatterShapeSize = CGFloat(15.0)
     
     // The type of shape that is set to be drawn where the values are at
-    // - default: .Square
-    public var scatterShape = ScatterChartDataSet.ScatterShape.Square
+    // **default**: .Square
+    public var scatterShape = ScatterChartDataSet.Shape.Square
     
     // The radius of the hole in the shape (applies to Square, Circle and Triangle)
-    // - default: 0.0
+    // **default**: 0.0
     public var scatterShapeHoleRadius: CGFloat = 0.0
     
     // Color for the hole in the shape. Setting to `nil` will behave as transparent.
-    // - default: nil
+    // **default**: nil
     public var scatterShapeHoleColor: NSUIColor? = nil
     
     // Custom path object to draw where the values are at.

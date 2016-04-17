@@ -9,7 +9,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
@@ -28,6 +28,11 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     // MARK: - Data functions and accessors
     
     // MARK: - Styling functions and accessors
+    
+    /// The drawing mode for this line dataset
+    ///
+    /// **default**: Linear
+    public var mode: LineChartDataSet.Mode = LineChartDataSet.Mode.Linear
     
     private var _cubicIntensity = CGFloat(0.2)
     
@@ -54,16 +59,36 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
         }
     }
     
-    /// If true, cubic lines are drawn instead of linear
-    public var drawCubicEnabled = false
+    @available(*, deprecated=1.0, message="Use `mode` instead.")
+    public var drawCubicEnabled: Bool
+    {
+        get
+        {
+            return mode == .CubicBezier
+        }
+        set
+        {
+            mode = newValue ? LineChartDataSet.Mode.CubicBezier : LineChartDataSet.Mode.Linear
+        }
+    }
     
-    /// - returns: true if drawing cubic lines is enabled, false if not.
+    @available(*, deprecated=1.0, message="Use `mode` instead.")
     public var isDrawCubicEnabled: Bool { return drawCubicEnabled }
     
-    /// If true, stepped lines are drawn instead of linear
-    public var drawSteppedEnabled = false
-
-    /// - returns: true if drawing stepped lines is enabled, false if not.
+    @available(*, deprecated=1.0, message="Use `mode` instead.")
+    public var drawSteppedEnabled: Bool
+    {
+        get
+        {
+            return mode == .Stepped
+        }
+        set
+        {
+            mode = newValue ? LineChartDataSet.Mode.Stepped : LineChartDataSet.Mode.Linear
+        }
+    }
+    
+    @available(*, deprecated=1.0, message="Use `mode` instead.")
     public var isDrawSteppedEnabled: Bool { return drawSteppedEnabled }
 
     /// The radius of the drawn circles.
@@ -73,10 +98,10 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     
     /// - returns: the color at the given index of the DataSet's circle-color array.
     /// Performs a IndexOutOfBounds check by modulus.
-    public func getCircleColor(var index: Int) -> NSUIColor?
+    public func getCircleColor(index: Int) -> NSUIColor?
     {
         let size = circleColors.count
-        index = index % size
+        let index = index % size
         if (index >= size)
         {
             return nil
@@ -121,6 +146,9 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
     public var lineDashLengths: [CGFloat]?
     
+    /// Line cap type, default is CGLineCap.Butt
+    public var lineCapType = CGLineCap.Butt
+    
     /// formatter for customizing the position of the fill-line
     private var _fillFormatter: ChartFillFormatter = ChartDefaultFillFormatter()
     
@@ -154,9 +182,10 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
         copy.cubicIntensity = cubicIntensity
         copy.lineDashPhase = lineDashPhase
         copy.lineDashLengths = lineDashLengths
+        copy.lineCapType = lineCapType
         copy.drawCirclesEnabled = drawCirclesEnabled
-        copy.drawCubicEnabled = drawCubicEnabled
-        copy.drawSteppedEnabled = drawSteppedEnabled
+        copy.drawCircleHoleEnabled = drawCircleHoleEnabled
+        copy.mode = mode
         return copy
     }
     

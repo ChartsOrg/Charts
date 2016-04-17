@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
@@ -43,9 +43,6 @@ public class RadarChartView: PieRadarChartViewBase
     /// the object reprsenting the y-axis labels
     private var _yAxis: ChartYAxis!
     
-    /// the object representing the x-axis labels
-    private var _xAxis: ChartXAxis!
-    
     internal var _yAxisRenderer: ChartYAxisRendererRadarChart!
     internal var _xAxisRenderer: ChartXAxisRendererRadarChart!
     
@@ -64,7 +61,6 @@ public class RadarChartView: PieRadarChartViewBase
         super.initialize()
         
         _yAxis = ChartYAxis(position: .Left)
-        _xAxis = ChartXAxis()
         _xAxis.spaceBetweenLabels = 0
         
         renderer = RadarChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
@@ -78,33 +74,11 @@ public class RadarChartView: PieRadarChartViewBase
         super.calcMinMax()
         guard let data = _data else { return }
         
-        let minLeft = !isnan(_yAxis.customAxisMin)
-            ? _yAxis.customAxisMin
-            : data.getYMin(.Left)
-        let maxLeft = !isnan(_yAxis.customAxisMax)
-            ? _yAxis.customAxisMax
-            : data.getYMax(.Left)
+        // calculate / set x-axis range
+        _xAxis._axisMaximum = Double(data.xVals.count) - 1.0
+        _xAxis.axisRange = Double(abs(_xAxis._axisMaximum - _xAxis._axisMinimum))
         
-        _chartXMax = Double(data.xVals.count) - 1.0
-        _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
-        
-        let leftRange = CGFloat(abs(maxLeft - minLeft))
-        
-        let topSpaceLeft = Double(leftRange * _yAxis.spaceTop)
-        let bottomSpaceLeft = Double(leftRange * _yAxis.spaceBottom)
-        
-        // Use the values as they are
-        _yAxis.axisMinimum = !isnan(_yAxis.customAxisMin)
-            ? _yAxis.customAxisMin
-            : (minLeft - bottomSpaceLeft)
-        _yAxis.axisMaximum = !isnan(_yAxis.customAxisMax)
-            ? _yAxis.customAxisMax
-            : (maxLeft + topSpaceLeft)
-        
-        _chartXMax = Double(data.xVals.count) - 1.0
-        _deltaX = CGFloat(abs(_chartXMax - _chartXMin))
-        
-        _yAxis.axisRange = abs(_yAxis.axisMaximum - _yAxis.axisMinimum)
+        _yAxis.calculate(min: data.getYMin(.Left), max: data.getYMax(.Left))
     }
 
     public override func getMarkerPosition(entry entry: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
@@ -125,7 +99,7 @@ public class RadarChartView: PieRadarChartViewBase
         
         _yAxis?._defaultValueFormatter = _defaultValueFormatter
         
-        _yAxisRenderer?.computeAxis(yMin: _yAxis.axisMinimum, yMax: _yAxis.axisMaximum)
+        _yAxisRenderer?.computeAxis(yMin: _yAxis._axisMinimum, yMax: _yAxis._axisMaximum)
         _xAxisRenderer?.computeAxis(xValAverageLength: data?.xValAverageLength ?? 0, xValues: data?.xVals ?? [])
         
         if let data = _data, legend = _legend where !legend.isLegendCustom
@@ -198,7 +172,7 @@ public class RadarChartView: PieRadarChartViewBase
         
         let sliceAngle = self.sliceAngle
         
-        for (var i = 0; i < (_data?.xValCount ?? 0); i++)
+        for i in 0 ..< (_data?.xValCount ?? 0)
         {
             if (sliceAngle * CGFloat(i + 1) - sliceAngle / 2.0 > a)
             {
@@ -215,12 +189,6 @@ public class RadarChartView: PieRadarChartViewBase
         return _yAxis
     }
 
-    /// - returns: the object that represents all x-labels that are placed around the RadarChart.
-    public var xAxis: ChartXAxis
-    {
-        return _xAxis
-    }
-    
     /// Sets the number of web-lines that should be skipped on chart web before the next one is drawn. This targets the lines that come from the center of the RadarChart.
     /// if count = 1 -> 1 line is skipped in between
     public var skipWebLineCount: Int
@@ -252,10 +220,10 @@ public class RadarChartView: PieRadarChartViewBase
     }
 
     /// - returns: the maximum value this chart can display on it's y-axis.
-    public override var chartYMax: Double { return _yAxis.axisMaximum; }
+    public override var chartYMax: Double { return _yAxis._axisMaximum; }
     
     /// - returns: the minimum value this chart can display on it's y-axis.
-    public override var chartYMin: Double { return _yAxis.axisMinimum; }
+    public override var chartYMin: Double { return _yAxis._axisMinimum; }
     
     /// - returns: the range of y-values this chart can display.
     public var yRange: Double { return _yAxis.axisRange}

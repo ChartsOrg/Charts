@@ -9,7 +9,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 //  Based on https://github.com/PhilJay/MPAndroidChart/commit/c42b880
 
@@ -41,6 +41,14 @@ public protocol ChartViewDelegate
 public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
 {
     // MARK: - Properties
+    
+    /// - returns: the object representing all x-labels, this method can be used to
+    /// acquire the XAxis object and modify it (e.g. change the position of the
+    /// labels)
+    public var xAxis: ChartXAxis
+    {
+        return _xAxis
+    }
     
     /// the default value formatter
     internal var _defaultValueFormatter: NSNumberFormatter = ChartUtils.defaultValueFormatter()
@@ -80,14 +88,8 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     /// if true, units are drawn next to the values in the chart
     internal var _drawUnitInChart = false
     
-    /// the number of x-values the chart displays
-    internal var _deltaX = CGFloat(1.0)
-        
-    /// the minimum x-value of the chart, regardless of zoom or translation.
-    internal var _chartXMin = Double(0.0)
-    
-    /// the maximum x-value of the chart, regardless of zoom or translation.
-    internal var _chartXMax = Double(0.0)
+    /// the object representing the labels on the x-axis
+    internal var _xAxis: ChartXAxis!
     
     /// the legend object containing all data associated with the legend
     internal var _legend: ChartLegend!
@@ -182,6 +184,8 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         
         _legend = ChartLegend()
         _legendRenderer = ChartLegendRenderer(viewPortHandler: _viewPortHandler, legend: _legend)
+        
+        _xAxis = ChartXAxis()
         
         self.addObserver(self, forKeyPath: "bounds", options: .New, context: nil)
         self.addObserver(self, forKeyPath: "frame", options: .New, context: nil)
@@ -351,7 +355,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         if (font == nil)
         {
             #if os(tvOS)
-                // 23 is the smallest recommened font size on the TV
+                // 23 is the smallest recommended font size on the TV
                 font = NSUIFont.systemFontOfSize(23, weight: UIFontWeightMedium)
             #else
                 font = NSUIFont.systemFontOfSize(NSUIFont.systemFontSize())
@@ -393,7 +397,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     
     /// Set this to false to prevent values from being highlighted by tap gesture.
     /// Values can still be highlighted via drag or programmatically.
-    /// - default: true
+    /// **default**: true
     public var highlightPerTapEnabled: Bool
     {
         get { return _highlightPerTapEnabled }
@@ -521,12 +525,13 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
             return
         }
 
-        for (var i = 0, count = _indicesToHighlight.count; i < count; i++)
+        for i in 0 ..< _indicesToHighlight.count
         {
             let highlight = _indicesToHighlight[i]
             let xIndex = highlight.xIndex
 
-            if (xIndex <= Int(_deltaX) && xIndex <= Int(_deltaX * _animator.phaseX))
+            let deltaX = _xAxis?.axisRange ?? (Double(_data?.xValCount ?? 0) - 1)
+            if xIndex <= Int(deltaX) && xIndex <= Int(CGFloat(deltaX) * _animator.phaseX)
             {
                 let e = _data?.getEntryForHighlight(highlight)
                 if (e === nil || e!.xIndex != highlight.xIndex)
@@ -692,12 +697,12 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     
     public var chartXMax: Double
     {
-        return _chartXMax
+        return _xAxis._axisMaximum
     }
     
     public var chartXMin: Double
     {
-        return _chartXMin
+        return _xAxis._axisMinimum
     }
     
     public var xValCount: Int
@@ -766,7 +771,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         
         guard let data = _data else { return vals }
 
-        for (var i = 0, count = data.dataSetCount; i < count; i++)
+        for i in 0 ..< data.dataSetCount
         {
             let set = data.getDataSetByIndex(i)
             let e = set.entryForXIndex(xIndex)

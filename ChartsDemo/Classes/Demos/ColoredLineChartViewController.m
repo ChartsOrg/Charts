@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 #import "ColoredLineChartViewController.h"
@@ -28,24 +28,26 @@
     
     self.title = @"Colored Line Chart";
     
-    LineChartData *data = [self dataWithCount:36 range:100];
-    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:7.f]];
-    
-    NSArray *colors = @[
-                        [UIColor colorWithRed:137/255.f green:230/255.f blue:81/255.f alpha:1.f],
-                        [UIColor colorWithRed:240/255.f green:240/255.f blue:30/255.f alpha:1.f],
-                        [UIColor colorWithRed:89/255.f green:199/255.f blue:250/255.f alpha:1.f],
-                        [UIColor colorWithRed:250/255.f green:104/255.f blue:104/255.f alpha:1.f],
-                        ];
-    
     for (int i = 0; i < _chartViews.count; i++)
     {
+        LineChartData *data = [self dataWithCount:36 range:100];
+        [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:7.f]];
+        
+        NSArray *colors = @[
+                            [UIColor colorWithRed:137/255.f green:230/255.f blue:81/255.f alpha:1.f],
+                            [UIColor colorWithRed:240/255.f green:240/255.f blue:30/255.f alpha:1.f],
+                            [UIColor colorWithRed:89/255.f green:199/255.f blue:250/255.f alpha:1.f],
+                            [UIColor colorWithRed:250/255.f green:104/255.f blue:104/255.f alpha:1.f],
+                            ];
+        
         [self setupChart:_chartViews[i] data:data color:colors[i % colors.count]];
     }
 }
 
 - (void)setupChart:(LineChartView *)chart data:(LineChartData *)data color:(UIColor *)color
 {
+    [[data getDataSetByIndex:0] setValueTextColor:color];
+
     chart.delegate = self;
     chart.backgroundColor = color;
     
@@ -95,9 +97,9 @@
     LineChartDataSet *set1 = [[LineChartDataSet alloc] initWithYVals:yVals label:@"DataSet 1"];
     
     set1.lineWidth = 1.75;
-    set1.circleRadius = 3.0;
+    set1.circleRadius = 5.0;
     [set1 setColor:UIColor.whiteColor];
-    [set1 setCircleColor:UIColor.whiteColor];
+    [set1 setCircleHoleColor:UIColor.whiteColor];
     set1.highlightColor = UIColor.whiteColor;
     set1.drawValuesEnabled = NO;
     

@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
@@ -30,11 +30,11 @@ public class PieChartData: ChartData
         super.init(xVals: xVals, dataSets: dataSets)
     }
 
-    var dataSet: PieChartDataSet?
+    var dataSet: IPieChartDataSet?
     {
         get
         {
-            return dataSets.count > 0 ? dataSets[0] as? PieChartDataSet : nil
+            return dataSets.count > 0 ? dataSets[0] as? IPieChartDataSet : nil
         }
         set
         {

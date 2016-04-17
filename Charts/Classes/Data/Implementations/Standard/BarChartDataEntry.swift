@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
@@ -69,7 +69,7 @@ public class BarChartDataEntry: ChartDataEntry
         while (index > stackIndex && index >= 0)
         {
             remainder += values![index]
-            index--
+            index -= 1
         }
         
         return remainder

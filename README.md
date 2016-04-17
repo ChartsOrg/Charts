@@ -1,9 +1,12 @@
-**Version 2.2.3**, synced to [MPAndroidChart #5f51623](https://github.com/PhilJay/MPAndroidChart/commit/5f51623)
+**Version 2.2.4**, synced to [MPAndroidChart #2e41714](https://github.com/PhilJay/MPAndroidChart/commit/2e41714)
 
-![alt tag](https://raw.github.com/danielgindi/ios-charts/master/Assets/feature_graphic.png)
-  ![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/danielgindi/ios-charts.svg)](https://github.com/danielgindi/ios-charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Build Status](https://travis-ci.org/danielgindi/ios-charts.svg?branch=master)](https://travis-ci.org/danielgindi/ios-charts)
+![alt tag](https://raw.github.com/danielgindi/Charts/master/Assets/feature_graphic.png)
+  ![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/danielgindi/Charts.svg)](https://github.com/danielgindi/Charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Build Status](https://travis-ci.org/danielgindi/Charts.svg?branch=master)](https://travis-ci.org/danielgindi/Charts) 
+[![Join the chat at https://gitter.im/danielgindi/Charts](https://badges.gitter.im/danielgindi/Charts.svg)](https://gitter.im/danielgindi/Charts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-* Xcode 7 / Swift 2.0
+## Just a heads up: We've renamed from *ios-charts* to **Charts**.
+
+* Xcode 7.3 / Swift 2.2 / 3.0
 * iOS 7.0 (Drag .swift files to your project)
 * iOS 8.0 / 9.0 (Use as an **Embedded** Framework)
 * tvOS 9.0
@@ -67,11 +70,15 @@ pod 'Charts/Realm'
 Charts now include Carthage prebuilt binaries.
 
 ```carthage
-github "danielgindi/ios-charts" == 2.2.3
-github "danielgindi/ios-charts" ~> 2.2.3
+github "danielgindi/Charts" == 2.2.4
+github "danielgindi/Charts" ~> 2.2.4
 ```
 
 In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts && carthage archive ChartsRealm`.
+
+## 3rd party bindings
+
+Xamarin (by @Flash3001): *iOS* - [GitHub](https://github.com/Flash3001/iOSCharts.Xamarin)/[NuGet](https://www.nuget.org/packages/iOSCharts/). *Android* - [GitHub](https://github.com/Flash3001/MPAndroidChart.Xamarin)/[NuGet](https://www.nuget.org/packages/MPAndroidChart/).
 
 ## Help
 
@@ -87,11 +94,11 @@ Questions & Issues
 
 If you are having questions or problems, you should:
 
- - Make sure you are using the latest version of the library. Check the [**release-section**](https://github.com/danielgindi/ios-charts/releases).
+ - Make sure you are using the latest version of the library. Check the [**release-section**](https://github.com/danielgindi/Charts/releases).
  - Study the Android version's [**Documentation-Wiki**](https://github.com/PhilJay/MPAndroidChart/wiki)
  - Study the (Still incomplete [![Doc-Percent](https://img.shields.io/cocoapods/metrics/doc-percent/Charts.svg)](http://cocoadocs.org/docsets/Charts/)) [**Pod-Documentation**](http://cocoadocs.org/docsets/Charts/)
  - Search or open questions on [**stackoverflow**](http://stackoverflow.com/questions/tagged/ios-charts) with the `ios-charts` tag
- - Search [**known issues**](https://github.com/danielgindi/ios-charts/issues) for your problem (open and closed)
+ - Search [**known issues**](https://github.com/danielgindi/Charts/issues) for your problem (open and closed)
  - Create new issues (please :fire: **search known issues before** :fire:, do not create duplicate issues)
 
 
@@ -104,15 +111,14 @@ Features
  - Dragging / Panning (with touch-gesture)
  - Combined-Charts (line-, bar-, scatter-, candle-stick-, bubble-)
  - Dual (separate) Axes
- - Customizeable Axes (both x- and y-axis)
- - Highlighting values (with customizeable popup-views)
+ - Customizable Axes (both x- and y-axis)
+ - Highlighting values (with customizable popup-views)
  - Save chart to camera-roll / export to PNG/JPEG
  - Predefined color templates
- - Legends (generated automatically, customizeable)
- - Customizeable Axes (both x- and y-axis)
+ - Legends (generated automatically, customizable)
  - Animations (build up animations, on both x- and y-axis)
  - Limit lines (providing additional information, maximums, ...)
- - Fully customizeable (paints, typefaces, legends, colors, background, gestures, dashed lines, ...)
+ - Fully customizable (paints, typefaces, legends, colors, background, gestures, dashed lines, ...)
  - Plotting data directly from [**Realm.io**](https://realm.io) mobile database
 
 **Chart types:**
@@ -173,7 +179,7 @@ Documentation
 Currently there's no need for documentation for the iOS/tvOS/OSX version, as the API is **95% the same** as on Android.  
 You can read the official [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) documentation here: [**Wiki**](https://github.com/PhilJay/MPAndroidChart/wiki)
 
-Or you can see the [**ChartsDemo**](https://github.com/danielgindi/ios-charts/tree/master/ChartsDemo) project and learn the how-tos from it.
+Or you can see the [**ChartsDemo**](https://github.com/danielgindi/Charts/tree/master/ChartsDemo) project and learn the how-tos from it.
 
 
 Special Thanks

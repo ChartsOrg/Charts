@@ -32,8 +32,8 @@ class BarChartTests: FBSnapshotTestCase
         dataSet = BarChartDataSet(yVals: entries, label: "Bar chart unit test data")
         
         chart = BarChartView(frame: CGRectMake(0, 0, 480, 350))
-        chart.leftAxis.customAxisMin = 0.0
-        chart.rightAxis.customAxisMin = 0.0
+        chart.leftAxis.axisMinValue = 0.0
+        chart.rightAxis.axisMinValue = 0.0
         chart.data = BarChartData(xVals: xValues, dataSet: dataSet)
     }
     

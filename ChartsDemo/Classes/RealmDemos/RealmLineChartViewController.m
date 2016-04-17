@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 #import "RealmLineChartViewController.h"
@@ -51,8 +51,8 @@
     
     [self setupBarLineChartView:_chartView];
     
-    _chartView.leftAxis.axisMaximum = 150.f;
-    _chartView.leftAxis.axisMinimum = 0.f;
+    _chartView.leftAxis.axisMaxValue = 150.f;
+    _chartView.leftAxis.axisMinValue = 0.f;
     _chartView.leftAxis.drawGridLinesEnabled = NO;
     _chartView.xAxis.drawGridLinesEnabled = NO;
     

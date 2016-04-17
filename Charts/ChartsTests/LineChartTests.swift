@@ -32,8 +32,8 @@ class LineChartTests: FBSnapshotTestCase
         dataSet = LineChartDataSet(yVals: entries, label: "First unit test data")
         
         chart = LineChartView(frame: CGRectMake(0, 0, 480, 350))
-        chart.leftAxis.customAxisMin = 0.0
-        chart.rightAxis.customAxisMin = 0.0
+        chart.leftAxis.axisMinValue = 0.0
+        chart.rightAxis.axisMinValue = 0.0
         chart.data = LineChartData(xVals: xValues, dataSet: dataSet)
     }
     

@@ -8,7 +8,7 @@
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 #import "ScatterChartViewController.h"
@@ -61,7 +61,7 @@
     
     ChartYAxis *yl = _chartView.leftAxis;
     yl.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
-    yl.customAxisMin = 0.0; // this replaces startAtZero = YES
+    yl.axisMinValue = 0.0; // this replaces startAtZero = YES
     
     _chartView.rightAxis.enabled = NO;
     
