@@ -125,6 +125,12 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     /// if set to true, the marker is drawn when a value is clicked
     public var drawMarkers = true
     
+    /// if set to true, the marker is drawn at the top of the view
+    public var drawMarkersAtTop = false
+    
+    /// if set to true, the marker is drawn at the top of the view
+    public var keepMarkersInHorizontalViewport = false
+    
     /// the view that represents the marker
     public var marker: ChartMarker?
     
@@ -539,7 +545,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
                     continue
                 }
                 
-                let pos = getMarkerPosition(entry: e!, highlight: highlight)
+                var pos = getMarkerPosition(entry: e!, highlight: highlight)
 
                 // check bounds
                 if (!_viewPortHandler.isInBounds(x: pos.x, y: pos.y))
@@ -551,6 +557,24 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
                 marker!.refreshContent(entry: e!, highlight: highlight)
 
                 let markerSize = marker!.size
+                
+                // keep the markers inside
+                
+                if(drawMarkersAtTop)
+                {
+                    pos = CGPoint(x: pos.x, y: 0)
+                }
+                
+                if(keepMarkersInHorizontalViewport)
+                {
+                    let overlapWidth = markerSize.width/2
+                    if pos.x < overlapWidth {
+                        pos = CGPoint(x: overlapWidth, y: pos.y)
+                    } else if pos.x > self.bounds.size.width - overlapWidth {
+                        pos = CGPoint(x: self.bounds.size.width - overlapWidth, y: pos.y)
+                    }
+                }
+                
                 if (pos.y - markerSize.height <= 0.0)
                 {
                     let y = markerSize.height - pos.y
