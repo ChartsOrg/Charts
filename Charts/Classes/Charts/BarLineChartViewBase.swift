@@ -1842,6 +1842,19 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
 
     /// - returns: true if both drag offsets (x and y) are zero or smaller.
     public var hasNoDragOffset: Bool { return _viewPortHandler.hasNoDragOffset; }
+    
+    /// the minimum duration to trigger a long press gesture
+    public var longPressGestureMinDuration: CFTimeInterval
+        {
+        get
+        {
+            return _longPressGestureRecognizer.minimumPressDuration
+        }
+        set
+        {
+            _longPressGestureRecognizer.minimumPressDuration = newValue
+        }
+    }
 
     /// The X axis renderer. This is a read-write property so you can set your own custom renderer here.
     /// **default**: An instance of ChartXAxisRenderer
