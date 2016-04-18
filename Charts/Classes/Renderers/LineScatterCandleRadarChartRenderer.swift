@@ -17,6 +17,9 @@ import CoreGraphics
 
 public class LineScatterCandleRadarChartRenderer: ChartDataRendererBase
 {
+    public var verticalTopInset: CGFloat = 0.0
+    public var verticalBottomInset: CGFloat = 0.0
+    
     public override init(animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
@@ -33,8 +36,8 @@ public class LineScatterCandleRadarChartRenderer: ChartDataRendererBase
         if set.isVerticalHighlightIndicatorEnabled
         {
             CGContextBeginPath(context)
-            CGContextMoveToPoint(context, point.x, viewPortHandler.contentTop)
-            CGContextAddLineToPoint(context, point.x, viewPortHandler.contentBottom)
+            CGContextMoveToPoint(context, point.x, viewPortHandler.contentTop + verticalTopInset)
+            CGContextAddLineToPoint(context, point.x, viewPortHandler.contentBottom - verticalBottomInset)
             CGContextStrokePath(context)
         }
         
