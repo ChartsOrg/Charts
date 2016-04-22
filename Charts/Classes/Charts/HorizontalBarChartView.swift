@@ -34,6 +34,10 @@ public class HorizontalBarChartView: BarChartView
         _xAxisRenderer = ChartXAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer, chart: self)
         
         self.highlighter = HorizontalBarChartHighlighter(chart: self)
+        
+        // default horizontal bar chart yAxis label offset
+        _leftAxis.yOffset = 2.5
+        _rightAxis.yOffset = 2.5
     }
     
     internal override func calculateOffsets()

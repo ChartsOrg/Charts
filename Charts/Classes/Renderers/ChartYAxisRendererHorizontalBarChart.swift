@@ -75,7 +75,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         transformer.pointValuesToPixel(&positions)
         
         let lineHeight = yAxis.labelFont.lineHeight
-        let baseYOffset: CGFloat = 2.5
+        let baseYOffset: CGFloat = yAxis.yOffset
         
         let dependency = yAxis.axisDependency
         let labelPosition = yAxis.labelPosition
@@ -109,7 +109,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         // And here we pull the line back up
         yPos -= lineHeight
         
-        drawYLabels(context: context, fixedPosition: yPos, positions: positions, offset: yAxis.yOffset)
+        drawYLabels(context: context, fixedPosition: yPos, positions: positions)
     }
     
     private var _axisLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
@@ -157,7 +157,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
     }
 
     /// draws the y-labels on the specified x-position
-    public func drawYLabels(context context: CGContext, fixedPosition: CGFloat, positions: [CGPoint], offset: CGFloat)
+    public func drawYLabels(context context: CGContext, fixedPosition: CGFloat, positions: [CGPoint])
     {
         guard let yAxis = yAxis else { return }
         
@@ -173,7 +173,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
                 return
             }
             
-            ChartUtils.drawText(context: context, text: text, point: CGPoint(x: positions[i].x, y: fixedPosition - offset), align: .Center, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
+            ChartUtils.drawText(context: context, text: text, point: CGPoint(x: positions[i].x, y: fixedPosition), align: .Center, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
         }
     }
 
