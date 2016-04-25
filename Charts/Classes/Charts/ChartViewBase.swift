@@ -868,6 +868,13 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
 			UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil)
 		}
     }
+    
+    public func getSnapshot() -> UIImage{
+        if let img = getChartImage(transparent: false) {
+            return img
+        }
+        return UIImage.init()
+    }
     #endif
     
     internal var _viewportJobs = [ChartViewPortJob]()
