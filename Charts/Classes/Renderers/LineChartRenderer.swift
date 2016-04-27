@@ -322,6 +322,12 @@ public class LineChartRenderer: LineRadarChartRenderer
         let minx = max(dataSet.entryIndex(entry: entryFrom) - diff, 0)
         let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo) + 1), entryCount)
         
+        // if drawing filled is enabled
+        if (dataSet.isDrawFilledEnabled && entryCount > 0)
+        {
+            drawLinearFill(context: context, dataSet: dataSet, minx: minx, maxx: maxx, trans: trans)
+        }
+        
         CGContextSaveGState(context)
         
         CGContextSetLineCap(context, dataSet.lineCapType)
@@ -461,12 +467,6 @@ public class LineChartRenderer: LineRadarChartRenderer
         }
         
         CGContextRestoreGState(context)
-        
-        // if drawing filled is enabled
-        if (dataSet.isDrawFilledEnabled && entryCount > 0)
-        {
-            drawLinearFill(context: context, dataSet: dataSet, minx: minx, maxx: maxx, trans: trans)
-        }
     }
     
     public func drawLinearFill(context context: CGContext, dataSet: ILineChartDataSet, minx: Int, maxx: Int, trans: ChartTransformer)
