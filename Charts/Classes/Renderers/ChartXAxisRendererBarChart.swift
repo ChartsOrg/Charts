@@ -168,7 +168,9 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
         guard let
             xAxis = xAxis,
             barData = chart?.data as? BarChartData
-            else { return }
+            else {
+                return
+        }
         
         var limitLines = xAxis.limitLines
         
