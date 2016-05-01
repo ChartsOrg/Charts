@@ -450,6 +450,13 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     
     /// Highlights the value at the given x-index in the given DataSet.
     /// Provide -1 as the x-index to undo all highlighting.
+    public func highlightValue(xIndex xIndex: Int, dataSetIndex: Int)
+    {
+        highlightValue(xIndex: xIndex, dataSetIndex: dataSetIndex, callDelegate: true)
+    }
+    
+    /// Highlights the value at the given x-index in the given DataSet.
+    /// Provide -1 as the x-index to undo all highlighting.
     public func highlightValue(xIndex xIndex: Int, dataSetIndex: Int, callDelegate: Bool)
     {
         guard let data = _data else
@@ -482,7 +489,9 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         {
             // set the indices to highlight
             entry = _data?.getEntryForHighlight(h!)
-            if (entry === nil || entry!.xIndex != h?.xIndex)
+            if (entry == nil ||
+                entry?.xIndex != h?.xIndex ||
+                (entry?.value != h!.value && !isnan(h!.value)))
             {
                 h = nil
                 entry = nil

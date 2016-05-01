@@ -71,6 +71,11 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         fatalError("yValForXIndex is not implemented in ChartBaseDataSet")
     }
     
+    public func yValsForXIndex(x: Int) -> [Double]
+    {
+        fatalError("yValsForXIndex is not implemented in ChartBaseDataSet")
+    }
+    
     public func entryForIndex(i: Int) -> ChartDataEntry?
     {
         fatalError("entryForIndex is not implemented in ChartBaseDataSet")
@@ -84,6 +89,11 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     public func entryForXIndex(x: Int) -> ChartDataEntry?
     {
         fatalError("entryForXIndex is not implemented in ChartBaseDataSet")
+    }
+    
+    public func entriesForXIndex(x: Int) -> [ChartDataEntry]
+    {
+        fatalError("entriesForXIndex is not implemented in ChartBaseDataSet")
     }
     
     public func entryIndex(xIndex x: Int, rounding: ChartDataSetRounding) -> Int

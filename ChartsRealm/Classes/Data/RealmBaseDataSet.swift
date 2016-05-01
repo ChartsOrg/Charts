@@ -294,6 +294,20 @@ public class RealmBaseDataSet: ChartBaseDataSet
         else { return Double.NaN }
     }
     
+    /// - returns: all of the y values of the Entry objects at the given xIndex. Returns NaN if no value is at the given x-index.
+    public override func yValsForXIndex(x: Int) -> [Double]
+    {
+        let entries = self.entriesForXIndex(x)
+        
+        var yVals = [Double]()
+        for e in entries
+        {
+            yVals.append(e.value)
+        }
+        
+        return yVals
+    }
+    
     /// - returns: the entry object found at the given index (not x-index!)
     /// - throws: out of bounds
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
@@ -325,6 +339,36 @@ public class RealmBaseDataSet: ChartBaseDataSet
     public override func entryForXIndex(x: Int) -> ChartDataEntry?
     {
         return entryForXIndex(x, rounding: .Closest)
+    }
+    
+    /// - returns: all Entry objects found at the given xIndex with binary search.
+    /// An empty array if no Entry object at that index.
+    public override func entriesForXIndex(x: Int) -> [ChartDataEntry]
+    {
+        var entries = [ChartDataEntry]()
+        
+        guard let results = _results else { return entries }
+        
+        if _xIndexField == nil
+        {
+            if results.count > UInt(x)
+            {
+                entries.append(buildEntryFromResultObject(results.objectAtIndex(UInt(x)), atIndex: UInt(x)))
+            }
+        }
+        else
+        {
+            let foundObjects = results.objectsWithPredicate(
+                NSPredicate(format: "%K == %d", _xIndexField!, x)
+            )
+            
+            for e in foundObjects
+            {
+                entries.append(buildEntryFromResultObject(e as! RLMObject, atIndex: UInt(x)))
+            }
+        }
+        
+        return entries
     }
     
     /// - returns: the array-index of the specified entry

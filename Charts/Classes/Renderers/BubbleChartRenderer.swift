@@ -241,24 +241,20 @@ public class BubbleChartRenderer: ChartDataRendererBase
         
         for indice in indices
         {
-            guard let dataSet = bubbleData.getDataSetByIndex(indice.dataSetIndex) as? IBubbleChartDataSet else { continue }
+            guard let dataSet = bubbleData.getDataSetByIndex(indice.dataSetIndex) as? IBubbleChartDataSet
+                where dataSet.isHighlightEnabled
+                else { continue }
             
-            if (!dataSet.isHighlightEnabled)
-            {
-                continue
-            }
+            guard let
+                entry = bubbleData.getEntryForHighlight(indice) as? BubbleChartDataEntry
+                where entry.xIndex == indice.xIndex
+                else { continue }
             
             let entryFrom = dataSet.entryForXIndex(self.minX)
             let entryTo = dataSet.entryForXIndex(self.maxX)
             
             let minx = max(dataSet.entryIndex(entry: entryFrom!), 0)
             let maxx = min(dataSet.entryIndex(entry: entryTo!) + 1, dataSet.entryCount)
-            
-            let entry: BubbleChartDataEntry! = bubbleData.getEntryForHighlight(indice) as! BubbleChartDataEntry
-            if (entry === nil || entry.xIndex != indice.xIndex)
-            {
-                continue
-            }
             
             let trans = dataProvider.getTransformer(dataSet.axisDependency)
             
