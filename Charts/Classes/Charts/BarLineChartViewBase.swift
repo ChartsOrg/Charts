@@ -1952,6 +1952,6 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             data = _data
             else { return Int(round(pt.x)) }
 
-        return min(data.xValCount - 1, Int(floor(pt.x)))
+        return min(data.xValCount - 1, Int(round(pt.x)))
     }
 }
