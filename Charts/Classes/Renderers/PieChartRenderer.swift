@@ -360,10 +360,10 @@ public class PieChartRenderer: ChartDataRendererBase
                 let sliceXBase = cos(transformedAngle * ChartUtils.Math.FDEG2RAD)
                 let sliceYBase = sin(transformedAngle * ChartUtils.Math.FDEG2RAD)
                 
-                let drawXOutside = Double(sliceAngle) > drawSliceTextMinimumAngle && drawXVals && xValuePosition == .OutsideSlice
-                let drawYOutside = Double(sliceAngle) > drawSliceTextMinimumAngle && drawYVals && yValuePosition == .OutsideSlice
-                let drawXInside = Double(sliceAngle) > drawSliceTextMinimumAngle && drawXVals && xValuePosition == .InsideSlice
-                let drawYInside = Double(sliceAngle) > drawSliceTextMinimumAngle && drawYVals && yValuePosition == .InsideSlice
+                let drawXOutside = sliceAngle > drawSliceTextMinimumAngle && drawXVals && xValuePosition == .OutsideSlice
+                let drawYOutside = sliceAngle > drawSliceTextMinimumAngle && drawYVals && yValuePosition == .OutsideSlice
+                let drawXInside = sliceAngle > drawSliceTextMinimumAngle && drawXVals && xValuePosition == .InsideSlice
+                let drawYInside = sliceAngle > drawSliceTextMinimumAngle && drawYVals && yValuePosition == .InsideSlice
                 
                 if drawXOutside || drawYOutside
                 {

@@ -25,7 +25,7 @@ public class PieChartView: PieRadarChartViewBase
     private var _circleBox = CGRect()
     
     private var _drawXLabelsEnabled = true
-    private var _drawXLabelsMinimumAngle: Double = 0
+    private var _drawXLabelsMinimumAngle: CGFloat = 0
     
     /// array that holds the width of each pie-slice in degrees
     private var _drawAngles = [CGFloat]()
@@ -515,7 +515,7 @@ public class PieChartView: PieRadarChartViewBase
         }
     }
     
-    public var drawSliceTextMinimumAngle: Double
+    public var drawSliceTextMinimumAngle: CGFloat
     {
         get
         {
