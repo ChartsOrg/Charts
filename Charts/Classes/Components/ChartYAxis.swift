@@ -46,6 +46,9 @@ public class ChartYAxis: ChartAxisBase
     /// the number of y-label entries the y-labels should have, default 6
     private var _labelCount = Int(6)
     
+    /// indicates if the bottom y-label entry is drawn or not
+    public var drawBottomYLabelEntryEnabled = true
+    
     /// indicates if the top y-label entry is drawn or not
     public var drawTopYLabelEntryEnabled = true
     
@@ -281,6 +284,7 @@ public class ChartYAxis: ChartAxisBase
 
     public var isShowOnlyMinMaxEnabled: Bool { return showOnlyMinMaxEnabled; }
     
+    public var isDrawBottomYLabelEntryEnabled: Bool { return drawBottomYLabelEntryEnabled; }
     public var isDrawTopYLabelEntryEnabled: Bool { return drawTopYLabelEntryEnabled; }
     
     /// Calculates the minimum, maximum and range values of the YAxis with the given minimum and maximum values from the chart data.
