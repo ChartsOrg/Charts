@@ -1618,7 +1618,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             return nil
         }
 
-        return self.highlighter?.getHighlight(x: Double(pt.x), y: Double(pt.y))
+        return self.highlighter?.getHighlight(x: pt.x, y: pt.y)
     }
 
     /// - returns: the x and y values in the chart at the given touch point
