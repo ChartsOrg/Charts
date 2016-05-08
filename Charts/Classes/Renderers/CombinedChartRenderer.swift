@@ -146,7 +146,7 @@ public class CombinedChartRenderer: ChartDataRendererBase
             
             let dataIndex = data == nil ? nil : (chart?.data as? CombinedChartData)?.allData.indexOf(data!)
             
-            let dataIndices = indices.filter{ $0.dataIndex == dataIndex }
+            let dataIndices = indices.filter{ $0.dataIndex == dataIndex || $0.dataIndex == -1 }
             
             renderer.drawHighlighted(context: context, indices: dataIndices)
         }

@@ -1595,6 +1595,12 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         return highlightPerDragEnabled
     }
     
+    /// Set this to `true` to make the highlight full-bar oriented, `false` to make it highlight single values
+    public var highlightFullBarEnabled: Bool = false
+    
+    /// - returns: true the highlight is be full-bar oriented, false if single-value
+    public var isHighlightFullBarEnabled: Bool { return highlightFullBarEnabled }
+    
     /// **default**: true
     /// - returns: true if drawing the grid background is enabled, false if not.
     public var isDrawGridBackgroundEnabled: Bool

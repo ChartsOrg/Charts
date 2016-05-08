@@ -718,50 +718,57 @@ public class LineChartRenderer: LineRadarChartRenderer
         
         CGContextSaveGState(context)
         
-        for i in 0 ..< indices.count
+        for high in indices
         {
-            guard let set = lineData.getDataSetByIndex(indices[i].dataSetIndex) as? ILineChartDataSet else { continue }
+            let minDataSetIndex = high.dataSetIndex == -1 ? 0 : high.dataSetIndex
+            let maxDataSetIndex = high.dataSetIndex == -1 ? lineData.dataSetCount : (high.dataSetIndex + 1)
+            if maxDataSetIndex - minDataSetIndex < 1 { continue }
             
-            if !set.isHighlightEnabled
+            for dataSetIndex in minDataSetIndex..<maxDataSetIndex
             {
-                continue
+                guard let set = lineData.getDataSetByIndex(dataSetIndex) as? ILineChartDataSet else { continue }
+                
+                if !set.isHighlightEnabled
+                {
+                    continue
+                }
+                
+                CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
+                CGContextSetLineWidth(context, set.highlightLineWidth)
+                if (set.highlightLineDashLengths != nil)
+                {
+                    CGContextSetLineDash(context, set.highlightLineDashPhase, set.highlightLineDashLengths!, set.highlightLineDashLengths!.count)
+                }
+                else
+                {
+                    CGContextSetLineDash(context, 0.0, nil, 0)
+                }
+                
+                let xIndex = high.xIndex; // get the x-position
+                
+                if (CGFloat(xIndex) > CGFloat(chartXMax) * animator.phaseX)
+                {
+                    continue
+                }
+                
+                let yValue = set.yValForXIndex(xIndex)
+                if (yValue.isNaN)
+                {
+                    continue
+                }
+                
+                let y = CGFloat(yValue) * animator.phaseY; // get the y-position
+                
+                _highlightPointBuffer.x = CGFloat(xIndex)
+                _highlightPointBuffer.y = y
+                
+                let trans = dataProvider?.getTransformer(set.axisDependency)
+                
+                trans?.pointValueToPixel(&_highlightPointBuffer)
+                
+                // draw the lines
+                drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)
             }
-            
-            CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
-            CGContextSetLineWidth(context, set.highlightLineWidth)
-            if (set.highlightLineDashLengths != nil)
-            {
-                CGContextSetLineDash(context, set.highlightLineDashPhase, set.highlightLineDashLengths!, set.highlightLineDashLengths!.count)
-            }
-            else
-            {
-                CGContextSetLineDash(context, 0.0, nil, 0)
-            }
-            
-            let xIndex = indices[i].xIndex; // get the x-position
-            
-            if (CGFloat(xIndex) > CGFloat(chartXMax) * animator.phaseX)
-            {
-                continue
-            }
-            
-            let yValue = set.yValForXIndex(xIndex)
-            if (yValue.isNaN)
-            {
-                continue
-            }
-            
-            let y = CGFloat(yValue) * animator.phaseY; // get the y-position
-            
-            _highlightPointBuffer.x = CGFloat(xIndex)
-            _highlightPointBuffer.y = y
-            
-            let trans = dataProvider?.getTransformer(set.axisDependency)
-            
-            trans?.pointValueToPixel(&_highlightPointBuffer)
-            
-            // draw the lines
-            drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)
         }
         
         CGContextRestoreGState(context)

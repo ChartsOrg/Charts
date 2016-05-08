@@ -489,16 +489,19 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         {
             // set the indices to highlight
             entry = _data?.getEntryForHighlight(h!)
-            if (entry == nil ||
-                entry?.xIndex != h?.xIndex ||
-                (entry?.value != h!.value && !isnan(h!.value)))
+            if (entry == nil)
             {
                 h = nil
-                entry = nil
                 _indicesToHighlight.removeAll(keepCapacity: false)
             }
             else
             {
+                if self is BarLineChartViewBase
+                    && (self as! BarLineChartViewBase).isHighlightFullBarEnabled
+                {
+                    h = ChartHighlight(xIndex: h!.xIndex, value: Double.NaN, dataIndex: -1, dataSetIndex: -1, stackIndex: -1)
+                }
+                
                 _indicesToHighlight = [h!]
             }
         }

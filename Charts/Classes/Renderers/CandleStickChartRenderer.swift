@@ -333,48 +333,55 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
         
         CGContextSaveGState(context)
         
-        for i in 0 ..< indices.count
+        for high in indices
         {
-            let xIndex = indices[i].xIndex; // get the x-position
+            let minDataSetIndex = high.dataSetIndex == -1 ? 0 : high.dataSetIndex
+            let maxDataSetIndex = high.dataSetIndex == -1 ? candleData.dataSetCount : (high.dataSetIndex + 1)
+            if maxDataSetIndex - minDataSetIndex < 1 { continue }
             
-            guard let set = candleData.getDataSetByIndex(indices[i].dataSetIndex) as? ICandleChartDataSet else { continue }
-            
-            if (!set.isHighlightEnabled)
+            for dataSetIndex in minDataSetIndex..<maxDataSetIndex
             {
-                continue
+                guard let set = candleData.getDataSetByIndex(dataSetIndex) as? ICandleChartDataSet else { continue }
+                
+                if (!set.isHighlightEnabled)
+                {
+                    continue
+                }
+                
+                let xIndex = high.xIndex; // get the x-position
+                
+                guard let e = set.entryForXIndex(xIndex) as? CandleChartDataEntry else { continue }
+                
+                if e.xIndex != xIndex
+                {
+                    continue
+                }
+                
+                let trans = dataProvider.getTransformer(set.axisDependency)
+                
+                CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
+                CGContextSetLineWidth(context, set.highlightLineWidth)
+                if (set.highlightLineDashLengths != nil)
+                {
+                    CGContextSetLineDash(context, set.highlightLineDashPhase, set.highlightLineDashLengths!, set.highlightLineDashLengths!.count)
+                }
+                else
+                {
+                    CGContextSetLineDash(context, 0.0, nil, 0)
+                }
+                
+                let lowValue = CGFloat(e.low) * animator.phaseY
+                let highValue = CGFloat(e.high) * animator.phaseY
+                let y = (lowValue + highValue) / 2.0
+                
+                _highlightPointBuffer.x = CGFloat(xIndex)
+                _highlightPointBuffer.y = y
+                
+                trans.pointValueToPixel(&_highlightPointBuffer)
+                
+                // draw the lines
+                drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)
             }
-            
-            guard let e = set.entryForXIndex(xIndex) as? CandleChartDataEntry else { continue }
-            
-            if e.xIndex != xIndex
-            {
-                continue
-            }
-            
-            let trans = dataProvider.getTransformer(set.axisDependency)
-            
-            CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
-            CGContextSetLineWidth(context, set.highlightLineWidth)
-            if (set.highlightLineDashLengths != nil)
-            {
-                CGContextSetLineDash(context, set.highlightLineDashPhase, set.highlightLineDashLengths!, set.highlightLineDashLengths!.count)
-            }
-            else
-            {
-                CGContextSetLineDash(context, 0.0, nil, 0)
-            }
-            
-            let low = CGFloat(e.low) * animator.phaseY
-            let high = CGFloat(e.high) * animator.phaseY
-            let y = (low + high) / 2.0
-            
-            _highlightPointBuffer.x = CGFloat(xIndex)
-            _highlightPointBuffer.y = y
-            
-            trans.pointValueToPixel(&_highlightPointBuffer)
-            
-            // draw the lines
-            drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)
         }
         
         CGContextRestoreGState(context)
