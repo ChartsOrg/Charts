@@ -148,9 +148,12 @@
     
     if ([key isEqualToString:@"toggleBarBorders"])
     {
-        for (id<IBarChartDataSet> set in chartView.data.dataSets)
+        for (id<IBarChartDataSet, NSObject> set in chartView.data.dataSets)
         {
-            set.barBorderWidth = set.barBorderWidth == 1.0 ? 0.0 : 1.0;
+            if ([set conformsToProtocol:@protocol(IBarChartDataSet)])
+            {
+                set.barBorderWidth = set.barBorderWidth == 1.0 ? 0.0 : 1.0;
+            }
         }
         
         [chartView setNeedsDisplay];
