@@ -799,6 +799,11 @@ public class BarLineChartViewBase: ChartViewBase, UIGestureRecognizerDelegate
                 _outerScrollView?.scrollEnabled = true
                 _outerScrollView = nil
             }
+            
+            if (delegate !== nil)
+            {
+                delegate?.chartPanEnded?(self)
+            }
         }
     }
     
