@@ -304,10 +304,10 @@ public class BubbleChartRenderer: ChartDataRendererBase
                         break
                     }
                     
-                    if (high.xIndex < minx || high.xIndex >= maxx)
-                    {
-                        continue
-                    }
+//                    if (high.xIndex < minx || high.xIndex >= maxx)
+//                    {
+//                        continue
+//                    }
                     
                     let originalColor = dataSet.colorAt(entry.xIndex)
                     
