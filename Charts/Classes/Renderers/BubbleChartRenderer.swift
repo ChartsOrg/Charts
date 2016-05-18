@@ -260,10 +260,8 @@ public class BubbleChartRenderer: ChartDataRendererBase
                     if !isnan(high.value) && entry.value != high.value { continue }
                     
                     let entryFrom = dataSet.entryForXIndex(self.minX)
-                    let entryTo = dataSet.entryForXIndex(self.maxX)
                     
                     let minx = max(dataSet.entryIndex(entry: entryFrom!), 0)
-                    let maxx = min(dataSet.entryIndex(entry: entryTo!) + 1, dataSet.entryCount)
                     
                     let trans = dataProvider.getTransformer(dataSet.axisDependency)
                     
@@ -302,11 +300,6 @@ public class BubbleChartRenderer: ChartDataRendererBase
                     if (!viewPortHandler.isInBoundsRight(_pointBuffer.x - shapeHalf))
                     {
                         break
-                    }
-                    
-                    if (high.xIndex < minx || high.xIndex >= maxx)
-                    {
-                        continue
                     }
                     
                     let originalColor = dataSet.colorAt(entry.xIndex)

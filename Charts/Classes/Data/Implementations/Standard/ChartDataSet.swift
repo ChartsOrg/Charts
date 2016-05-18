@@ -201,52 +201,56 @@ public class ChartDataSet: ChartBaseDataSet
     {
         var entries = [ChartDataEntry]()
         
-        var low = 0
-        var high = _yVals.count - 1
-        
-        while (low <= high)
-        {
-            var m = (high + low) / 2
-            var entry = _yVals[m]
-            
-            if (x == entry.xIndex)
-            {
-                while (m > 0 && _yVals[m - 1].xIndex == x)
-                {
-                    m -= 1
-                }
-                
-                high = _yVals.count
-                while (m < high)
-                {
-                    entry = _yVals[m]
-                    if (entry.xIndex == x)
-                    {
-                        entries.append(entry)
-                    }
-                    else
-                    {
-                        break
-                    }
-                    
-                    m += 1
-                }
-                
-                break
-            }
-            else
-            {
-                if (x > _yVals[m].xIndex)
-                {
-                    low = m + 1
-                }
-                else
-                {
-                    high = m - 1
-                }
+        for val in _yVals{
+            if val.xIndex == x {
+                entries.append(val)
             }
         }
-        
+//        var low = 0
+//        var high = _yVals.count - 1
+//        
+//        while (low <= high)
+//        {
+//            var m = (high + low) / 2
+//            var entry = _yVals[m]
+//            
+//            if (x == entry.xIndex)
+//            {
+//                while (m > 0 && _yVals[m - 1].xIndex == x)
+//                {
+//                    m -= 1
+//                }
+//                
+//                high = _yVals.count
+//                while (m < high)
+//                {
+//                    entry = _yVals[m]
+//                    if (entry.xIndex == x)
+//                    {
+//                        entries.append(entry)
+//                    }
+//                    else
+//                    {
+//                        break
+//                    }
+//                    
+//                    m += 1
+//                }
+//                
+//                break
+//            }
+//            else
+//            {
+//                if (x > _yVals[m].xIndex)
+//                {
+//                    low = m + 1
+//                }
+//                else
+//                {
+//                    high = m - 1
+//                }
+//            }
+//        }
         return entries
     }
     
