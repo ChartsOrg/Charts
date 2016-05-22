@@ -98,6 +98,7 @@
     
     set1.lineWidth = 1.75;
     set1.circleRadius = 5.0;
+    set1.circleHoleRadius = 2.5f;
     [set1 setColor:UIColor.whiteColor];
     [set1 setCircleHoleColor:UIColor.whiteColor];
     set1.highlightColor = UIColor.whiteColor;
