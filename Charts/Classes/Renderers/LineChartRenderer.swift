@@ -631,7 +631,6 @@ public class LineChartRenderer: LineRadarChartRenderer
         
         var pt = CGPoint()
         var rect = CGRect()
-        var holeRect = CGRect()
         
         CGContextSaveGState(context)
         
@@ -715,12 +714,12 @@ public class LineChartRenderer: LineRadarChartRenderer
                     if drawCircleHole
                     {
                         CGContextSetFillColorWithColor(context, dataSet.circleHoleColor!.CGColor)
-                        
+                     
                         // The hole rect
-                        holeRect.origin.x = pt.x - circleHoleRadius
-                        holeRect.origin.y = pt.y - circleHoleRadius
-                        holeRect.size.width = circleHoleDiameter
-                        holeRect.size.height = circleHoleDiameter
+                        rect.origin.x = pt.x - circleHoleRadius
+                        rect.origin.y = pt.y - circleHoleRadius
+                        rect.size.width = circleHoleDiameter
+                        rect.size.height = circleHoleDiameter
                         
                         CGContextFillEllipseInRect(context, rect)
                     }
