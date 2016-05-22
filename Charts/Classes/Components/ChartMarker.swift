@@ -15,7 +15,7 @@ import Foundation
 import CoreGraphics
 
 
-public class ChartMarker: ChartComponentBase
+public class ChartMarker: NSObject
 {
     /// The marker image to render
     public var image: NSUIImage?
