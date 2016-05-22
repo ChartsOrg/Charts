@@ -180,6 +180,8 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! RealmLineDataSet
+        copy.circleRadius = circleRadius
+        copy.circleHoleRadius = circleHoleRadius
         copy.circleColors = circleColors
         copy.circleRadius = circleRadius
         copy.cubicIntensity = cubicIntensity
