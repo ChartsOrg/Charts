@@ -690,7 +690,9 @@ public class LineChartRenderer: LineRadarChartRenderer
                 rect.size.height = circleDiameter
                 CGContextFillEllipseInRect(context, rect)
                 
-                if (isDrawCircleHoleEnabled)
+                if isDrawCircleHoleEnabled &&
+                    circleHoleRadius < circleRadius &&
+                    circleHoleRadius > 0.0
                 {
                     CGContextSetFillColorWithColor(context, dataSet.circleHoleColor.CGColor)
                     

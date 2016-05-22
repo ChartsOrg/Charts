@@ -113,23 +113,8 @@ public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     /// The radius of the drawn circles.
     public var circleRadius = CGFloat(8.0)
     
-    private var _circleHoleRadius = CGFloat(4.0)
-    
-    /// The hole radius of the drawn circles (new value is set only if it is less than circleRadius value)
-    public var circleHoleRadius : CGFloat
-    {
-        get
-        {
-            return _circleHoleRadius;
-        }
-        set
-        {
-            if newValue < self.circleRadius
-            {
-                _circleHoleRadius = newValue
-            }
-        }
-    }
+    /// The hole radius of the drawn circles
+    public var circleHoleRadius = CGFloat(4.0)
     
     public var circleColors = [NSUIColor]()
     
