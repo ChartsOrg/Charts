@@ -62,7 +62,7 @@ class LineChartTests: FBSnapshotTestCase
     
     func testIsCubic()
     {
-        dataSet.drawCubicEnabled = true
+        dataSet.mode = LineChartDataSet.Mode.CubicBezier
         FBSnapshotVerifyView(chart)
     }
     
