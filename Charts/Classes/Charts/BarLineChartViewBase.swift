@@ -216,51 +216,54 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         // make sure the graph values and grid cannot be drawn outside the content-rect
         CGContextSaveGState(context)
-
         CGContextClipToRect(context, _viewPortHandler.contentRect)
         
         _xAxisRenderer?.renderGridLines(context: context)
         _leftYAxisRenderer?.renderGridLines(context: context)
         _rightYAxisRenderer?.renderGridLines(context: context)
         
-        if (_xAxis.isDrawLimitLinesBehindDataEnabled)
+        if _xAxis.isDrawLimitLinesBehindDataEnabled
         {
             _xAxisRenderer?.renderLimitLines(context: context)
         }
-        if (_leftAxis.isDrawLimitLinesBehindDataEnabled)
+        if _leftAxis.isDrawLimitLinesBehindDataEnabled
         {
             _leftYAxisRenderer?.renderLimitLines(context: context)
         }
-        if (_rightAxis.isDrawLimitLinesBehindDataEnabled)
+        if _rightAxis.isDrawLimitLinesBehindDataEnabled
         {
             _rightYAxisRenderer?.renderLimitLines(context: context)
         }
         
         renderer?.drawData(context: context)
-
+        
         // if highlighting is enabled
         if (valuesToHighlight())
         {
             renderer?.drawHighlighted(context: context, indices: _indicesToHighlight)
         }
-
-        // Removes clipping rectangle
+        
         CGContextRestoreGState(context)
         
         renderer!.drawExtras(context: context)
         
-        if (!_xAxis.isDrawLimitLinesBehindDataEnabled)
+        CGContextSaveGState(context)
+        CGContextClipToRect(context, _viewPortHandler.contentRect)
+        
+        if !_xAxis.isDrawLimitLinesBehindDataEnabled
         {
             _xAxisRenderer?.renderLimitLines(context: context)
         }
-        if (!_leftAxis.isDrawLimitLinesBehindDataEnabled)
+        if !_leftAxis.isDrawLimitLinesBehindDataEnabled
         {
             _leftYAxisRenderer?.renderLimitLines(context: context)
         }
-        if (!_rightAxis.isDrawLimitLinesBehindDataEnabled)
+        if !_rightAxis.isDrawLimitLinesBehindDataEnabled
         {
             _rightYAxisRenderer?.renderLimitLines(context: context)
         }
+        
+        CGContextRestoreGState(context)
         
         _xAxisRenderer.renderAxisLabels(context: context)
         _leftYAxisRenderer.renderAxisLabels(context: context)
