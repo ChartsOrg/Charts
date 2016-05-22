@@ -710,7 +710,7 @@ public class LineChartRenderer: LineRadarChartRenderer
                 }
                 else
                 {
-                    CGContextFillEllipseInRect(context, holeRect)
+                    CGContextFillEllipseInRect(context, rect)
                     
                     if drawCircleHole
                     {
