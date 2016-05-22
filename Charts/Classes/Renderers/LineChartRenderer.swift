@@ -631,6 +631,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         
         var pt = CGPoint()
         var rect = CGRect()
+        var holeRect = CGRect()
         
         CGContextSaveGState(context)
         
@@ -682,25 +683,48 @@ public class LineChartRenderer: LineRadarChartRenderer
                     continue
                 }
                 
+                let drawCircleHole = isDrawCircleHoleEnabled &&
+                    circleHoleRadius < circleRadius &&
+                    circleHoleRadius > 0.0
+                let drawTransparentCircleHole = drawCircleHole &&
+                    (dataSet.circleHoleColor == nil ||
+                    dataSet.circleHoleColor == NSUIColor.clearColor())
+                
                 CGContextSetFillColorWithColor(context, dataSet.getCircleColor(j)!.CGColor)
                 
                 rect.origin.x = pt.x - circleRadius
                 rect.origin.y = pt.y - circleRadius
                 rect.size.width = circleDiameter
                 rect.size.height = circleDiameter
-                CGContextFillEllipseInRect(context, rect)
                 
-                if isDrawCircleHoleEnabled &&
-                    circleHoleRadius < circleRadius &&
-                    circleHoleRadius > 0.0
+                if drawTransparentCircleHole
                 {
-                    CGContextSetFillColorWithColor(context, dataSet.circleHoleColor.CGColor)
+                    // Begin path for circle with hole
+                    CGContextBeginPath(context)
+                    CGContextAddEllipseInRect(context, rect)
                     
-                    rect.origin.x = pt.x - circleHoleRadius
-                    rect.origin.y = pt.y - circleHoleRadius
-                    rect.size.width = circleHoleDiameter
-                    rect.size.height = circleHoleDiameter
-                    CGContextFillEllipseInRect(context, rect)
+                    // Cut hole in path
+                    CGContextAddArc(context, pt.x, pt.y, circleHoleRadius, 0.0, CGFloat(M_PI_2), 1)
+                    
+                    // Fill in-between
+                    CGContextFillPath(context)
+                }
+                else
+                {
+                    CGContextFillEllipseInRect(context, holeRect)
+                    
+                    if drawCircleHole
+                    {
+                        CGContextSetFillColorWithColor(context, dataSet.circleHoleColor!.CGColor)
+                        
+                        // The hole rect
+                        holeRect.origin.x = pt.x - circleHoleRadius
+                        holeRect.origin.y = pt.y - circleHoleRadius
+                        holeRect.size.width = circleHoleDiameter
+                        holeRect.size.height = circleHoleDiameter
+                        
+                        CGContextFillEllipseInRect(context, rect)
+                    }
                 }
             }
         }
