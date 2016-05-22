@@ -43,7 +43,7 @@ public class ChartMarker: NSObject
     /// - By default returns the self.offset property. You can return any other value to override that.
     public func offsetForDrawingAtPos(point: CGPoint) -> CGPoint
     {
-        return offset;
+        return offset
     }
     
     /// Draws the ChartMarker on the given position on the given context
