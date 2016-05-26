@@ -108,7 +108,7 @@
     {
         double val = (double) (arc4random_uniform(range));
         double size = (double) (arc4random_uniform(range));
-        [yVals1 addObject:[[BubbleChartDataEntry alloc] initWithXIndex:i value:val size:size]];
+        [yVals1 addObject:[[BubbleChartDataEntry alloc] initWithXIndex:i value:val size:i+1]];
         
         val = (double) (arc4random_uniform(range));
         size = (double) (arc4random_uniform(range));
@@ -122,12 +122,17 @@
     BubbleChartDataSet *set1 = [[BubbleChartDataSet alloc] initWithYVals:yVals1 label:@"DS 1"];
     [set1 setColor:ChartColorTemplates.colorful[0] alpha:0.50f];
     [set1 setDrawValuesEnabled:YES];
+    [set1 setTypeNormlizeSize:NormalizeTypeExactNormalize];
+    
     BubbleChartDataSet *set2 = [[BubbleChartDataSet alloc] initWithYVals:yVals2 label:@"DS 2"];
     [set2 setColor:ChartColorTemplates.colorful[1] alpha:0.50f];
     [set2 setDrawValuesEnabled:YES];
+    [set2 setTypeNormlizeSize:NormalizeTypeExactNormalize];
+    
     BubbleChartDataSet *set3 = [[BubbleChartDataSet alloc] initWithYVals:yVals3 label:@"DS 3"];
     [set3 setColor:ChartColorTemplates.colorful[2] alpha:0.50f];
     [set3 setDrawValuesEnabled:YES];
+    [set3 setTypeNormlizeSize:NormalizeTypeExactNormalize];
     
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
     [dataSets addObject:set1];

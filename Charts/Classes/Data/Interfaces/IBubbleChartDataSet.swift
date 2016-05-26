@@ -14,6 +14,12 @@
 import Foundation
 import CoreGraphics
 
+@objc public enum NormalizeType : Int {
+    case NoNormalize
+    case SqrtNormalize
+    case ExactNormalize
+}
+
 @objc
 public protocol IBubbleChartDataSet: IBarLineScatterCandleBubbleChartDataSet
 {
@@ -22,7 +28,7 @@ public protocol IBubbleChartDataSet: IBarLineScatterCandleBubbleChartDataSet
     var xMin: Double { get }
     var xMax: Double { get }
     var maxSize: CGFloat { get }
-    var isNormalizeSizeEnabled: Bool { get }
+    var isTypeNormalizeSize: NormalizeType { get }
     
     // MARK: - Styling functions and accessors
     
