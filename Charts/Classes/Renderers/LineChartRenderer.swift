@@ -103,7 +103,7 @@ public class LineChartRenderer: LineRadarChartRenderer
             else { return }
         
         let diff = (entryFrom == entryTo) ? 1 : 0
-        let minx = max(dataSet.entryIndex(entry: entryFrom) - diff, 0)
+        let minx = max(dataSet.entryIndex(entry: entryFrom) - diff - 1, 0)
         let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo) + 1), entryCount)
         
         let phaseX = max(0.0, min(1.0, animator.phaseX))
@@ -313,7 +313,12 @@ public class LineChartRenderer: LineRadarChartRenderer
             entryTo = dataSet.entryForXIndex(self.maxX, rounding: .Up)
             else { return }
         
-        let diff = (entryFrom == entryTo) ? 1 : 0
+        var diff = (entryFrom == entryTo) ? 1 : 0
+        if dataSet.mode == .CubicBezier
+        {
+            diff += 1
+        }
+        
         let minx = max(dataSet.entryIndex(entry: entryFrom) - diff, 0)
         let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo) + 1), entryCount)
         
@@ -577,7 +582,12 @@ public class LineChartRenderer: LineRadarChartRenderer
                     entryTo = dataSet.entryForXIndex(self.maxX, rounding: .Up)
                     else { continue }
                 
-                let diff = (entryFrom == entryTo) ? 1 : 0
+                var diff = (entryFrom == entryTo) ? 1 : 0
+                if dataSet.mode == .CubicBezier
+                {
+                    diff += 1
+                }
+                
                 let minx = max(dataSet.entryIndex(entry: entryFrom) - diff, 0)
                 let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo) + 1), entryCount)
                 
@@ -665,7 +675,12 @@ public class LineChartRenderer: LineRadarChartRenderer
                 entryTo = dataSet.entryForXIndex(self.maxX, rounding: .Up)
                 else { continue }
             
-            let diff = (entryFrom == entryTo) ? 1 : 0
+            var diff = (entryFrom == entryTo) ? 1 : 0
+            if dataSet.mode == .CubicBezier
+            {
+                diff += 1
+            }
+            
             let minx = max(dataSet.entryIndex(entry: entryFrom) - diff, 0)
             let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo) + 1), entryCount)
             
