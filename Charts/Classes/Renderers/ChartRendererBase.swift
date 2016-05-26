@@ -37,7 +37,7 @@ public class ChartRendererBase: NSObject
     }
     
     /// Calculates the minimum and maximum x-value the chart can currently display (with the given zoom level).
-    public func calcXBounds(chart chart: BarLineChartViewBase, xAxisModulus: Int)
+    public func calcXBounds(chart chart: BarLineScatterCandleBubbleChartDataProvider, xAxisModulus: Int)
     {
         let low = chart.lowestVisibleXIndex
         let high = chart.highestVisibleXIndex

@@ -152,7 +152,7 @@ public class CombinedChartRenderer: ChartDataRendererBase
         }
     }
     
-    public override func calcXBounds(chart chart: BarLineChartViewBase, xAxisModulus: Int)
+    public override func calcXBounds(chart chart: BarLineScatterCandleBubbleChartDataProvider, xAxisModulus: Int)
     {
         for renderer in _renderers
         {
