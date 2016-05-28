@@ -273,7 +273,7 @@ public class ChartUtils
             CGContextTranslateCTM(context, translate.x, translate.y)
             CGContextRotateCTM(context, angleRadians)
             
-            (text as NSString).drawWithRect(rect, options: .UsesLineFragmentOrigin, attributes: attributes, context: nil)
+            (text as NSString).drawWithRect(rect, options: .UsesLineFragmentOrigin, attributes: attributes)
             
             CGContextRestoreGState(context)
         }
@@ -288,7 +288,7 @@ public class ChartUtils
             rect.origin.x += point.x
             rect.origin.y += point.y
             
-            (text as NSString).drawWithRect(rect, options: .UsesLineFragmentOrigin, attributes: attributes, context: nil)
+            (text as NSString).drawWithRect(rect, options: .UsesLineFragmentOrigin, attributes: attributes)
         }
         
         NSUIGraphicsPopContext()
@@ -296,7 +296,7 @@ public class ChartUtils
     
     internal class func drawMultilineText(context context: CGContext, text: String, point: CGPoint, attributes: [String : AnyObject]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
     {
-        let rect = text.boundingRectWithSize(constrainedToSize, options: .UsesLineFragmentOrigin, attributes: attributes, context: nil)
+        let rect = text.boundingRectWithSize(constrainedToSize, options: .UsesLineFragmentOrigin, attributes: attributes)
         drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, attributes: attributes, constrainedToSize: constrainedToSize, anchor: anchor, angleRadians: angleRadians)
     }
     
