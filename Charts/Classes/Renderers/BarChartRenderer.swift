@@ -489,100 +489,96 @@ public class BarChartRenderer: ChartDataRendererBase
         let drawHighlightArrowEnabled = dataProvider.isDrawHighlightArrowEnabled
         var barRect = CGRect()
         
-        for high in indices
+        for i in 0 ..< indices.count
         {
-            let minDataSetIndex = high.dataSetIndex == -1 ? 0 : high.dataSetIndex
-            let maxDataSetIndex = high.dataSetIndex == -1 ? barData.dataSetCount : (high.dataSetIndex + 1)
-            if maxDataSetIndex - minDataSetIndex < 1 { continue }
+            let h = indices[i]
+            let index = h.xIndex
             
-            for dataSetIndex in minDataSetIndex..<maxDataSetIndex
+            let dataSetIndex = h.dataSetIndex
+            
+            guard let set = barData.getDataSetByIndex(dataSetIndex) as? IBarChartDataSet else { continue }
+            
+            if (!set.isHighlightEnabled)
             {
-                guard let set = barData.getDataSetByIndex(dataSetIndex) as? IBarChartDataSet else { continue }
+                continue
+            }
+            
+            let barspaceHalf = set.barSpace / 2.0
+            
+            let trans = dataProvider.getTransformer(set.axisDependency)
+            
+            CGContextSetFillColorWithColor(context, set.highlightColor.CGColor)
+            CGContextSetAlpha(context, set.highlightAlpha)
+            
+            // check outofbounds
+            if (CGFloat(index) < (CGFloat(dataProvider.chartXMax) * animator.phaseX) / CGFloat(setCount))
+            {
+                let e = set.entryForXIndex(index) as! BarChartDataEntry!
                 
-                if (!set.isHighlightEnabled)
+                if (e === nil || e.xIndex != index)
                 {
                     continue
                 }
                 
-                let barspaceHalf = set.barSpace / 2.0
+                let groupspace = barData.groupSpace
+                let isStack = h.stackIndex < 0 ? false : true
+
+                // calculate the correct x-position
+                let x = CGFloat(index * setCount + dataSetIndex) + groupspace / 2.0 + groupspace * CGFloat(index)
                 
-                let trans = dataProvider.getTransformer(set.axisDependency)
+                let y1: Double
+                let y2: Double
                 
-                CGContextSetFillColorWithColor(context, set.highlightColor.CGColor)
-                CGContextSetAlpha(context, set.highlightAlpha)
-                
-                let index = high.xIndex
-                
-                // check outofbounds
-                if (CGFloat(index) < (CGFloat(dataProvider.chartXMax) * animator.phaseX) / CGFloat(setCount))
+                if (isStack)
                 {
-                    let e = set.entryForXIndex(index) as! BarChartDataEntry!
+                    y1 = h.range?.from ?? 0.0
+                    y2 = h.range?.to ?? 0.0
+                }
+                else
+                {
+                    y1 = e.value
+                    y2 = 0.0
+                }
+
+                prepareBarHighlight(x: x, y1: y1, y2: y2, barspacehalf: barspaceHalf, trans: trans, rect: &barRect)
+                
+                CGContextFillRect(context, barRect)
+                
+                if (drawHighlightArrowEnabled)
+                {
+                    CGContextSetAlpha(context, 1.0)
                     
-                    if (e === nil || e.xIndex != index)
-                    {
-                        continue
-                    }
+                    // distance between highlight arrow and bar
+                    let offsetY = animator.phaseY * 0.07
                     
-                    let groupspace = barData.groupSpace
-                    let isStack = high.stackIndex < 0 ? false : true
+                    CGContextSaveGState(context)
                     
-                    // calculate the correct x-position
-                    let x = CGFloat(index * setCount + dataSetIndex) + groupspace / 2.0 + groupspace * CGFloat(index)
+                    let pixelToValueMatrix = trans.pixelToValueMatrix
+                    let xToYRel = abs(sqrt(pixelToValueMatrix.b * pixelToValueMatrix.b + pixelToValueMatrix.d * pixelToValueMatrix.d) / sqrt(pixelToValueMatrix.a * pixelToValueMatrix.a + pixelToValueMatrix.c * pixelToValueMatrix.c))
                     
-                    let y1: Double
-                    let y2: Double
+                    let arrowWidth = set.barSpace / 2.0
+                    let arrowHeight = arrowWidth * xToYRel
                     
-                    if (isStack)
-                    {
-                        y1 = high.range?.from ?? 0.0
-                        y2 = high.range?.to ?? 0.0
-                    }
-                    else
-                    {
-                        y1 = e.value
-                        y2 = 0.0
-                    }
+                    let yArrow = (y1 > -y2 ? y1 : y1) * Double(animator.phaseY)
                     
-                    prepareBarHighlight(x: x, y1: y1, y2: y2, barspacehalf: barspaceHalf, trans: trans, rect: &barRect)
+                    _highlightArrowPtsBuffer[0].x = CGFloat(x) + 0.4
+                    _highlightArrowPtsBuffer[0].y = CGFloat(yArrow) + offsetY
+                    _highlightArrowPtsBuffer[1].x = CGFloat(x) + 0.4 + arrowWidth
+                    _highlightArrowPtsBuffer[1].y = CGFloat(yArrow) + offsetY - arrowHeight
+                    _highlightArrowPtsBuffer[2].x = CGFloat(x) + 0.4 + arrowWidth
+                    _highlightArrowPtsBuffer[2].y = CGFloat(yArrow) + offsetY + arrowHeight
                     
-                    CGContextFillRect(context, barRect)
+                    trans.pointValuesToPixel(&_highlightArrowPtsBuffer)
                     
-                    if (drawHighlightArrowEnabled)
-                    {
-                        CGContextSetAlpha(context, 1.0)
-                        
-                        // distance between highlight arrow and bar
-                        let offsetY = animator.phaseY * 0.07
-                        
-                        CGContextSaveGState(context)
-                        
-                        let pixelToValueMatrix = trans.pixelToValueMatrix
-                        let xToYRel = abs(sqrt(pixelToValueMatrix.b * pixelToValueMatrix.b + pixelToValueMatrix.d * pixelToValueMatrix.d) / sqrt(pixelToValueMatrix.a * pixelToValueMatrix.a + pixelToValueMatrix.c * pixelToValueMatrix.c))
-                        
-                        let arrowWidth = set.barSpace / 2.0
-                        let arrowHeight = arrowWidth * xToYRel
-                        
-                        let yArrow = (y1 > -y2 ? y1 : y1) * Double(animator.phaseY)
-                        
-                        _highlightArrowPtsBuffer[0].x = CGFloat(x) + 0.4
-                        _highlightArrowPtsBuffer[0].y = CGFloat(yArrow) + offsetY
-                        _highlightArrowPtsBuffer[1].x = CGFloat(x) + 0.4 + arrowWidth
-                        _highlightArrowPtsBuffer[1].y = CGFloat(yArrow) + offsetY - arrowHeight
-                        _highlightArrowPtsBuffer[2].x = CGFloat(x) + 0.4 + arrowWidth
-                        _highlightArrowPtsBuffer[2].y = CGFloat(yArrow) + offsetY + arrowHeight
-                        
-                        trans.pointValuesToPixel(&_highlightArrowPtsBuffer)
-                        
-                        CGContextBeginPath(context)
-                        CGContextMoveToPoint(context, _highlightArrowPtsBuffer[0].x, _highlightArrowPtsBuffer[0].y)
-                        CGContextAddLineToPoint(context, _highlightArrowPtsBuffer[1].x, _highlightArrowPtsBuffer[1].y)
-                        CGContextAddLineToPoint(context, _highlightArrowPtsBuffer[2].x, _highlightArrowPtsBuffer[2].y)
-                        CGContextClosePath(context)
-                        
-                        CGContextFillPath(context)
-                        
-                        CGContextRestoreGState(context)
-                    }
+                    CGContextBeginPath(context)
+                    CGContextMoveToPoint(context, _highlightArrowPtsBuffer[0].x, _highlightArrowPtsBuffer[0].y)
+                    CGContextAddLineToPoint(context, _highlightArrowPtsBuffer[1].x, _highlightArrowPtsBuffer[1].y)
+                    CGContextAddLineToPoint(context, _highlightArrowPtsBuffer[2].x, _highlightArrowPtsBuffer[2].y)
+                    CGContextClosePath(context)
+                    
+                    CGContextFillPath(context)
+                    
+                    CGContextRestoreGState(context)
                 }
             }
         }

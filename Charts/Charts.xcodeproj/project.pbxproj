@@ -107,9 +107,6 @@
 		5BCAA7541C7CB03900F83F3B /* AnimatedMoveViewJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCAA7521C7CB03900F83F3B /* AnimatedMoveViewJob.swift */; };
 		5BCAA7561C7CB0DE00F83F3B /* AnimatedZoomViewJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCAA7551C7CB0DE00F83F3B /* AnimatedZoomViewJob.swift */; };
 		5BCAA7571C7CB0DE00F83F3B /* AnimatedZoomViewJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BCAA7551C7CB0DE00F83F3B /* AnimatedZoomViewJob.swift */; };
-		5BCB60CB1CFB936500E9945E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BCB60CA1CFB936500E9945E /* QuartzCore.framework */; };
-		5BCB60CD1CFB936900E9945E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BCB60CC1CFB936900E9945E /* UIKit.framework */; };
-		5BCB60D11CFB937D00E9945E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BCB60D01CFB937D00E9945E /* QuartzCore.framework */; };
 		5BD4C57C1BCDBF6C00462351 /* BarChartDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD4C5751BCDBF6C00462351 /* BarChartDataProvider.swift */; };
 		5BD4C57D1BCDBF6C00462351 /* BarLineScatterCandleBubbleChartDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD4C5761BCDBF6C00462351 /* BarLineScatterCandleBubbleChartDataProvider.swift */; };
 		5BD4C57E1BCDBF6C00462351 /* BubbleChartDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD4C5771BCDBF6C00462351 /* BubbleChartDataProvider.swift */; };
@@ -460,9 +457,6 @@
 		5BCAA74F1C7CAD4C00F83F3B /* AnimatedViewPortJob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedViewPortJob.swift; sourceTree = "<group>"; };
 		5BCAA7521C7CB03900F83F3B /* AnimatedMoveViewJob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedMoveViewJob.swift; sourceTree = "<group>"; };
 		5BCAA7551C7CB0DE00F83F3B /* AnimatedZoomViewJob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedZoomViewJob.swift; sourceTree = "<group>"; };
-		5BCB60CA1CFB936500E9945E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.2.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
-		5BCB60CC1CFB936900E9945E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.2.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		5BCB60D01CFB937D00E9945E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		5BD4C5751BCDBF6C00462351 /* BarChartDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartDataProvider.swift; sourceTree = "<group>"; };
 		5BD4C5761BCDBF6C00462351 /* BarLineScatterCandleBubbleChartDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarLineScatterCandleBubbleChartDataProvider.swift; sourceTree = "<group>"; };
 		5BD4C5771BCDBF6C00462351 /* BubbleChartDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleChartDataProvider.swift; sourceTree = "<group>"; };
@@ -538,7 +532,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BCB60D11CFB937D00E9945E /* QuartzCore.framework in Frameworks */,
 				65B3F6891C73C093000983D0 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -547,8 +540,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BCB60CB1CFB936500E9945E /* QuartzCore.framework in Frameworks */,
-				5BCB60CD1CFB936900E9945E /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -568,12 +559,9 @@
 		06AEE7C31BDC427F009875AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5BCB60D01CFB937D00E9945E /* QuartzCore.framework */,
-				5BCB60CA1CFB936500E9945E /* QuartzCore.framework */,
-				65B3F6861C73BEA7000983D0 /* QuartzCore.framework */,
-				5BCB60CC1CFB936900E9945E /* UIKit.framework */,
-				65B3F6841C73BE9E000983D0 /* UIKit.framework */,
 				65B3F6881C73C093000983D0 /* Cocoa.framework */,
+				65B3F6861C73BEA7000983D0 /* QuartzCore.framework */,
+				65B3F6841C73BE9E000983D0 /* UIKit.framework */,
 				06AEE7C11BDC4277009875AE /* FBSnapshotTestCase.framework */,
 			);
 			name = Frameworks;
@@ -953,7 +941,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = dcg;
 				TargetAttributes = {
 					06AEE7A11BDC3F8B009875AE = {
@@ -1533,7 +1521,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 2.2.5;
+				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
@@ -1554,7 +1542,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 2.2.5;
+				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
@@ -1573,7 +1561,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 2.2.5;
+				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
@@ -1582,7 +1570,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.ChartsOSX;
 				PRODUCT_NAME = Charts;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.11;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -1595,7 +1583,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 2.2.5;
+				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
@@ -1604,7 +1592,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.ChartsOSX;
 				PRODUCT_NAME = Charts;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.11;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -1616,7 +1604,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 2.2.5;
+				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
@@ -1640,7 +1628,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 2.2.5;
+				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";

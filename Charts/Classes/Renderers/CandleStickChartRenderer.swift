@@ -71,7 +71,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
         
         CGContextSetLineWidth(context, dataSet.shadowWidth)
         
-        for j in minx.stride(to: Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))), by: 1)
+        for j in minx ..< Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx)))
         {
             // get the entry
             guard let e = dataSet.entryForIndex(j) as? CandleChartDataEntry else { continue }
@@ -286,7 +286,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                 let lineHeight = valueFont.lineHeight
                 let yOffset: CGFloat = lineHeight + 5.0
                 
-                for j in minx.stride(to: Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx))), by: 1)
+                for j in minx ..< Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx)))
                 {
                     guard let e = dataSet.entryForIndex(j) as? CandleChartDataEntry else { break }
                     
@@ -333,55 +333,48 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
         
         CGContextSaveGState(context)
         
-        for high in indices
+        for i in 0 ..< indices.count
         {
-            let minDataSetIndex = high.dataSetIndex == -1 ? 0 : high.dataSetIndex
-            let maxDataSetIndex = high.dataSetIndex == -1 ? candleData.dataSetCount : (high.dataSetIndex + 1)
-            if maxDataSetIndex - minDataSetIndex < 1 { continue }
+            let xIndex = indices[i].xIndex; // get the x-position
             
-            for dataSetIndex in minDataSetIndex..<maxDataSetIndex
+            guard let set = candleData.getDataSetByIndex(indices[i].dataSetIndex) as? ICandleChartDataSet else { continue }
+            
+            if (!set.isHighlightEnabled)
             {
-                guard let set = candleData.getDataSetByIndex(dataSetIndex) as? ICandleChartDataSet else { continue }
-                
-                if (!set.isHighlightEnabled)
-                {
-                    continue
-                }
-                
-                let xIndex = high.xIndex; // get the x-position
-                
-                guard let e = set.entryForXIndex(xIndex) as? CandleChartDataEntry else { continue }
-                
-                if e.xIndex != xIndex
-                {
-                    continue
-                }
-                
-                let trans = dataProvider.getTransformer(set.axisDependency)
-                
-                CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
-                CGContextSetLineWidth(context, set.highlightLineWidth)
-                if (set.highlightLineDashLengths != nil)
-                {
-                    CGContextSetLineDash(context, set.highlightLineDashPhase, set.highlightLineDashLengths!, set.highlightLineDashLengths!.count)
-                }
-                else
-                {
-                    CGContextSetLineDash(context, 0.0, nil, 0)
-                }
-                
-                let lowValue = CGFloat(e.low) * animator.phaseY
-                let highValue = CGFloat(e.high) * animator.phaseY
-                let y = (lowValue + highValue) / 2.0
-                
-                _highlightPointBuffer.x = CGFloat(xIndex)
-                _highlightPointBuffer.y = y
-                
-                trans.pointValueToPixel(&_highlightPointBuffer)
-                
-                // draw the lines
-                drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)
+                continue
             }
+            
+            guard let e = set.entryForXIndex(xIndex) as? CandleChartDataEntry else { continue }
+            
+            if e.xIndex != xIndex
+            {
+                continue
+            }
+            
+            let trans = dataProvider.getTransformer(set.axisDependency)
+            
+            CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
+            CGContextSetLineWidth(context, set.highlightLineWidth)
+            if (set.highlightLineDashLengths != nil)
+            {
+                CGContextSetLineDash(context, set.highlightLineDashPhase, set.highlightLineDashLengths!, set.highlightLineDashLengths!.count)
+            }
+            else
+            {
+                CGContextSetLineDash(context, 0.0, nil, 0)
+            }
+            
+            let low = CGFloat(e.low) * animator.phaseY
+            let high = CGFloat(e.high) * animator.phaseY
+            let y = (low + high) / 2.0
+            
+            _highlightPointBuffer.x = CGFloat(xIndex)
+            _highlightPointBuffer.y = y
+            
+            trans.pointValueToPixel(&_highlightPointBuffer)
+            
+            // draw the lines
+            drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)
         }
         
         CGContextRestoreGState(context)

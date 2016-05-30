@@ -897,7 +897,7 @@ public class PieRadarChartViewBase: ChartViewBase
                     // get the dataset that is closest to the selection (PieChart only has one DataSet)
                     if (self.isKindOfClass(RadarChartView))
                     {
-                        dataSetIndex = ChartUtils.closestDataSetIndexByValue(valsAtIndex: valsAtIndex, value: Double(distance / (self as! RadarChartView).factor), axis: nil) ?? -1
+                        dataSetIndex = ChartUtils.closestDataSetIndex(valsAtIndex, value: Double(distance / (self as! RadarChartView).factor), axis: nil)
                     }
                     
                     if (dataSetIndex < 0)

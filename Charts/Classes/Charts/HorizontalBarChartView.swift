@@ -157,7 +157,7 @@ public class HorizontalBarChartView: BarChartView
             return nil
         }
         
-        return self.highlighter?.getHighlight(x: pt.y, y: pt.x)
+        return self.highlighter?.getHighlight(x: Double(pt.y), y: Double(pt.x))
     }
     
     public override var lowestVisibleXIndex: Int
