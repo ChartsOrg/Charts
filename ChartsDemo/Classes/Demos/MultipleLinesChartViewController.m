@@ -55,7 +55,8 @@
     
     _chartView.drawBordersEnabled = YES;
     
-    _chartView.leftAxis.enabled = NO;
+    _chartView.leftAxis.drawAxisLineEnabled = NO;
+    _chartView.leftAxis.drawGridLinesEnabled = NO;
     _chartView.rightAxis.drawAxisLineEnabled = NO;
     _chartView.rightAxis.drawGridLinesEnabled = NO;
     _chartView.xAxis.drawAxisLineEnabled = NO;

@@ -37,9 +37,6 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
         
         self.highlighter = CombinedHighlighter(chart: self)
         
-        // Old default behaviour
-        self.highlightFullBarEnabled = true
-        
         /// WORKAROUND: Swift 2.0 compiler malfunctions when optimizations are enabled, and assigning directly to _fillFormatter causes a crash with a EXC_BAD_ACCESS. See https://github.com/danielgindi/Charts/issues/406
         let workaroundFormatter = ChartDefaultFillFormatter()
         _fillFormatter = workaroundFormatter

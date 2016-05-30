@@ -216,54 +216,51 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         // make sure the graph values and grid cannot be drawn outside the content-rect
         CGContextSaveGState(context)
+
         CGContextClipToRect(context, _viewPortHandler.contentRect)
         
         _xAxisRenderer?.renderGridLines(context: context)
         _leftYAxisRenderer?.renderGridLines(context: context)
         _rightYAxisRenderer?.renderGridLines(context: context)
         
-        if _xAxis.isDrawLimitLinesBehindDataEnabled
+        if (_xAxis.isDrawLimitLinesBehindDataEnabled)
         {
             _xAxisRenderer?.renderLimitLines(context: context)
         }
-        if _leftAxis.isDrawLimitLinesBehindDataEnabled
+        if (_leftAxis.isDrawLimitLinesBehindDataEnabled)
         {
             _leftYAxisRenderer?.renderLimitLines(context: context)
         }
-        if _rightAxis.isDrawLimitLinesBehindDataEnabled
+        if (_rightAxis.isDrawLimitLinesBehindDataEnabled)
         {
             _rightYAxisRenderer?.renderLimitLines(context: context)
         }
         
         renderer?.drawData(context: context)
-        
+
         // if highlighting is enabled
         if (valuesToHighlight())
         {
             renderer?.drawHighlighted(context: context, indices: _indicesToHighlight)
         }
-        
+
+        // Removes clipping rectangle
         CGContextRestoreGState(context)
         
         renderer!.drawExtras(context: context)
         
-        CGContextSaveGState(context)
-        CGContextClipToRect(context, _viewPortHandler.contentRect)
-        
-        if !_xAxis.isDrawLimitLinesBehindDataEnabled
+        if (!_xAxis.isDrawLimitLinesBehindDataEnabled)
         {
             _xAxisRenderer?.renderLimitLines(context: context)
         }
-        if !_leftAxis.isDrawLimitLinesBehindDataEnabled
+        if (!_leftAxis.isDrawLimitLinesBehindDataEnabled)
         {
             _leftYAxisRenderer?.renderLimitLines(context: context)
         }
-        if !_rightAxis.isDrawLimitLinesBehindDataEnabled
+        if (!_rightAxis.isDrawLimitLinesBehindDataEnabled)
         {
             _rightYAxisRenderer?.renderLimitLines(context: context)
         }
-        
-        CGContextRestoreGState(context)
         
         _xAxisRenderer.renderAxisLabels(context: context)
         _leftYAxisRenderer.renderAxisLabels(context: context)
@@ -1598,12 +1595,6 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         return highlightPerDragEnabled
     }
     
-    /// Set this to `true` to make the highlight full-bar oriented, `false` to make it highlight single values
-    public var highlightFullBarEnabled: Bool = false
-    
-    /// - returns: true the highlight is be full-bar oriented, false if single-value
-    public var isHighlightFullBarEnabled: Bool { return highlightFullBarEnabled }
-    
     /// **default**: true
     /// - returns: true if drawing the grid background is enabled, false if not.
     public var isDrawGridBackgroundEnabled: Bool
@@ -1627,7 +1618,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             return nil
         }
 
-        return self.highlighter?.getHighlight(x: pt.x, y: pt.y)
+        return self.highlighter?.getHighlight(x: Double(pt.x), y: Double(pt.y))
     }
 
     /// - returns: the x and y values in the chart at the given touch point

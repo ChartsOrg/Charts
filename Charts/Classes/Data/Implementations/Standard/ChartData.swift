@@ -439,18 +439,7 @@ public class ChartData: NSObject
         }
         else
         {
-            // The value of the highlighted entry could be NaN - if we are not interested in highlighting a specific value.
-        
-            let entries = _dataSets[highlight.dataSetIndex].entriesForXIndex(highlight.xIndex)
-            for e in entries
-            {
-                if e.value == highlight.value || isnan(highlight.value)
-                {
-                    return e
-                }
-            }
-            
-            return nil
+            return _dataSets[highlight.dataSetIndex].entryForXIndex(highlight.xIndex)
         }
     }
     

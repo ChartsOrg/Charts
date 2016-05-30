@@ -66,7 +66,7 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
             return nil
         }
 
-        return self.highlighter?.getHighlight(x: pt.x, y: pt.y)
+        return self.highlighter?.getHighlight(x: Double(pt.x), y: Double(pt.y))
     }
         
     /// - returns: the bounding box of the specified Entry in the specified DataSet. Returns null if the Entry could not be found in the charts data.

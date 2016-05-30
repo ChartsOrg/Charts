@@ -17,75 +17,82 @@ import CoreGraphics
 
 public class HorizontalBarChartHighlighter: BarChartHighlighter
 {
-    public override func getHighlight(x x: CGFloat, y: CGFloat) -> ChartHighlight?
+    public override func getHighlight(x x: Double, y: Double) -> ChartHighlight?
     {
-        if let barData = self.chart?.data as? BarChartData
+        let h = super.getHighlight(x: x, y: y)
+        
+        if h === nil
         {
-            let xIndex = getXIndex(x)
-            let baseNoSpace = getBase(x)
-            let setCount = barData.dataSetCount
-            var dataSetIndex = Int(baseNoSpace) % setCount
-            
-            if dataSetIndex < 0
-            {
-                dataSetIndex = 0
-            }
-            else if dataSetIndex >= setCount
-            {
-                dataSetIndex = setCount - 1
-            }
-            
-            guard let selectionDetail = getSelectionDetail(xIndex: xIndex, y: y, dataSetIndex: dataSetIndex)
-                else { return nil }
-            
-            if let set = barData.getDataSetByIndex(dataSetIndex) as? IBarChartDataSet
-                where set.isStacked
-            {
-                var pt = CGPoint(x: y, y: 0.0)
-                
-                // take any transformer to determine the x-axis value
-                self.chart?.getTransformer(set.axisDependency).pixelToValue(&pt)
-                
-                return getStackedHighlight(selectionDetail: selectionDetail,
-                                           set: set,
-                                           xIndex: xIndex,
-                                           yValue: Double(pt.x))
-            }
-            
-            return ChartHighlight(xIndex: xIndex,
-                                  value: selectionDetail.value,
-                                  dataIndex: selectionDetail.dataIndex,
-                                  dataSetIndex: selectionDetail.dataSetIndex,
-                                  stackIndex: -1)
-        }
-        return nil
-    }
-    
-    public override func getXIndex(x: CGFloat) -> Int
-    {
-        if let barData = self.chart?.data as? BarChartData
-            where !barData.isGrouped
-        {
-            // create an array of the touch-point
-            var pt = CGPoint(x: 0.0, y: x)
-            
-            // take any transformer to determine the x-axis value
-            self.chart?.getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
-            
-            return Int(round(pt.y))
+            return h
         }
         else
         {
-            return getXIndex(x)
+            if let set = self.chart?.data?.getDataSetByIndex(h!.dataSetIndex) as? BarChartDataSet
+            {
+                if set.isStacked
+                {
+                    // create an array of the touch-point
+                    var pt = CGPoint()
+                    pt.x = CGFloat(y)
+                    
+                    // take any transformer to determine the x-axis value
+                    self.chart?.getTransformer(set.axisDependency).pixelToValue(&pt)
+                    
+                    return getStackedHighlight(old: h, set: set, xIndex: h!.xIndex, dataSetIndex: h!.dataSetIndex, yValue: Double(pt.x))
+                }
+            }
+            
+            return h
+        }
+    }
+    
+    public override func getXIndex(x: Double) -> Int
+    {
+        if let barChartData = self.chart?.data as? BarChartData
+        {
+            if !barChartData.isGrouped
+            {
+                // create an array of the touch-point
+                var pt = CGPoint(x: 0.0, y: x)
+                
+                // take any transformer to determine the x-axis value
+                self.chart?.getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
+                
+                return Int(round(pt.y))
+            }
+            else
+            {
+                let baseNoSpace = getBase(x)
+                
+                let setCount = barChartData.dataSetCount
+                var xIndex = Int(baseNoSpace) / setCount
+                
+                let valCount = barChartData.xValCount
+                
+                if xIndex < 0
+                {
+                    xIndex = 0
+                }
+                else if xIndex >= valCount
+                {
+                    xIndex = valCount - 1
+                }
+                
+                return xIndex
+            }
+        }
+        else
+        {
+            return 0
         }
     }
     
     /// Returns the base y-value to the corresponding x-touch value in pixels.
     /// - parameter y:
     /// - returns:
-    public override func getBase(y: CGFloat) -> Double
+    public override func getBase(y: Double) -> Double
     {
-        if let barData = self.chart?.data as? BarChartData
+        if let barChartData = self.chart?.data as? BarChartData
         {
             // create an array of the touch-point
             var pt = CGPoint()
@@ -95,12 +102,12 @@ public class HorizontalBarChartHighlighter: BarChartHighlighter
             self.chart?.getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
             let yVal = Double(pt.y)
             
-            let setCount = barData.dataSetCount ?? 0
+            let setCount = barChartData.dataSetCount ?? 0
             
             // calculate how often the group-space appears
-            let steps = Int(yVal / (Double(setCount) + Double(barData.groupSpace)))
+            let steps = Int(yVal / (Double(setCount) + Double(barChartData.groupSpace)))
             
-            let groupSpaceSum = Double(barData.groupSpace) * Double(steps)
+            let groupSpaceSum = Double(barChartData.groupSpace) * Double(steps)
             
             let baseNoSpace = yVal - groupSpaceSum
             

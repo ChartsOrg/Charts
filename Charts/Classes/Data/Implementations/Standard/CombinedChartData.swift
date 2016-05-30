@@ -177,7 +177,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
             data.append(bubbleData)
         }
         
-        return data
+        return data;
     }
     
     public override func notifyDataChanged()
@@ -204,42 +204,5 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
         
         super.notifyDataChanged() // recalculate everything
-    }
-    
-    
-    /// Get the Entry for a corresponding highlight object
-    ///
-    /// - parameter highlight:
-    /// - returns: the entry that is highlighted
-    public override func getEntryForHighlight(highlight: ChartHighlight) -> ChartDataEntry?
-    {
-        let dataObjects = allData
-        
-        if highlight.dataIndex >= dataObjects.count
-        {
-            return nil
-        }
-        
-        let data = dataObjects[highlight.dataIndex]
-        
-        if highlight.dataSetIndex >= data.dataSetCount
-        {
-            return nil
-        }
-        else
-        {
-            // The value of the highlighted entry could be NaN - if we are not interested in highlighting a specific value.
-            
-            let entries = data.getDataSetByIndex(highlight.dataSetIndex).entriesForXIndex(highlight.xIndex)
-            for e in entries
-            {
-                if e.value == highlight.value || isnan(highlight.value)
-                {
-                    return e
-                }
-            }
-            
-            return nil
-        }
     }
 }

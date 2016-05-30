@@ -40,9 +40,6 @@ public protocol IChartDataSet
     /// - returns: the value of the Entry object at the given xIndex. Returns NaN if no value is at the given x-index.
     func yValForXIndex(x: Int) -> Double
     
-    /// - returns: all of the y values of the Entry objects at the given xIndex. Returns NaN if no value is at the given x-index.
-    func yValsForXIndex(x: Int) -> [Double]
-    
     /// - returns: the entry object found at the given index (not x-index!)
     /// - throws: out of bounds
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
@@ -57,10 +54,6 @@ public protocol IChartDataSet
     /// If the no Entry at the specifed x-index is found, this method returns the Entry at the closest x-index.
     /// nil if no Entry object at that index.
     func entryForXIndex(x: Int) -> ChartDataEntry?
-    
-    /// - returns: all Entry objects found at the given xIndex with binary search.
-    /// An empty array if no Entry object at that index.
-    func entriesForXIndex(x: Int) -> [ChartDataEntry]
     
     /// - returns: the array-index of the specified entry
     ///
