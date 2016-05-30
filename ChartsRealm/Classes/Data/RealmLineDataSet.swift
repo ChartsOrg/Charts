@@ -94,6 +94,9 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     /// The radius of the drawn circles.
     public var circleRadius = CGFloat(8.0)
     
+    /// The hole radius of the drawn circles
+    public var circleHoleRadius = CGFloat(4.0)
+    
     public var circleColors = [NSUIColor]()
     
     /// - returns: the color at the given index of the DataSet's circle-color array.
@@ -130,7 +133,7 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     public var isDrawCirclesEnabled: Bool { return drawCirclesEnabled }
     
     /// The color of the inner circle (the circle-hole).
-    public var circleHoleColor = NSUIColor.whiteColor()
+    public var circleHoleColor: NSUIColor? = NSUIColor.whiteColor()
     
     /// True if drawing circles for this DataSet is enabled, false if not
     public var drawCircleHoleEnabled = true
@@ -177,6 +180,8 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! RealmLineDataSet
+        copy.circleRadius = circleRadius
+        copy.circleHoleRadius = circleHoleRadius
         copy.circleColors = circleColors
         copy.circleRadius = circleRadius
         copy.cubicIntensity = cubicIntensity

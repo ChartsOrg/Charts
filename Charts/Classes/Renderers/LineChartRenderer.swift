@@ -103,7 +103,7 @@ public class LineChartRenderer: LineRadarChartRenderer
             else { return }
         
         let diff = (entryFrom == entryTo) ? 1 : 0
-        let minx = max(dataSet.entryIndex(entry: entryFrom) - diff, 0)
+        let minx = max(dataSet.entryIndex(entry: entryFrom) - diff - 1, 0)
         let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo) + 1), entryCount)
         
         let phaseX = max(0.0, min(1.0, animator.phaseX))
@@ -313,7 +313,12 @@ public class LineChartRenderer: LineRadarChartRenderer
             entryTo = dataSet.entryForXIndex(self.maxX, rounding: .Up)
             else { return }
         
-        let diff = (entryFrom == entryTo) ? 1 : 0
+        var diff = (entryFrom == entryTo) ? 1 : 0
+        if dataSet.mode == .CubicBezier
+        {
+            diff += 1
+        }
+        
         let minx = max(dataSet.entryIndex(entry: entryFrom) - diff, 0)
         let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo) + 1), entryCount)
         
@@ -577,7 +582,12 @@ public class LineChartRenderer: LineRadarChartRenderer
                     entryTo = dataSet.entryForXIndex(self.maxX, rounding: .Up)
                     else { continue }
                 
-                let diff = (entryFrom == entryTo) ? 1 : 0
+                var diff = (entryFrom == entryTo) ? 1 : 0
+                if dataSet.mode == .CubicBezier
+                {
+                    diff += 1
+                }
+                
                 let minx = max(dataSet.entryIndex(entry: entryFrom) - diff, 0)
                 let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo) + 1), entryCount)
                 
@@ -650,16 +660,27 @@ public class LineChartRenderer: LineRadarChartRenderer
             
             let circleRadius = dataSet.circleRadius
             let circleDiameter = circleRadius * 2.0
-            let circleHoleDiameter = circleRadius
-            let circleHoleRadius = circleHoleDiameter / 2.0
-            let isDrawCircleHoleEnabled = dataSet.isDrawCircleHoleEnabled
+            let circleHoleRadius = dataSet.circleHoleRadius
+            let circleHoleDiameter = circleHoleRadius * 2.0
+            
+            let drawCircleHole = dataSet.isDrawCircleHoleEnabled &&
+                circleHoleRadius < circleRadius &&
+                circleHoleRadius > 0.0
+            let drawTransparentCircleHole = drawCircleHole &&
+                (dataSet.circleHoleColor == nil ||
+                    dataSet.circleHoleColor == NSUIColor.clearColor())
             
             guard let
                 entryFrom = dataSet.entryForXIndex(self.minX < 0 ? 0 : self.minX, rounding: .Down),
                 entryTo = dataSet.entryForXIndex(self.maxX, rounding: .Up)
                 else { continue }
             
-            let diff = (entryFrom == entryTo) ? 1 : 0
+            var diff = (entryFrom == entryTo) ? 1 : 0
+            if dataSet.mode == .CubicBezier
+            {
+                diff += 1
+            }
+            
             let minx = max(dataSet.entryIndex(entry: entryFrom) - diff, 0)
             let maxx = min(max(minx + 2, dataSet.entryIndex(entry: entryTo) + 1), entryCount)
             
@@ -688,17 +709,35 @@ public class LineChartRenderer: LineRadarChartRenderer
                 rect.origin.y = pt.y - circleRadius
                 rect.size.width = circleDiameter
                 rect.size.height = circleDiameter
-                CGContextFillEllipseInRect(context, rect)
                 
-                if (isDrawCircleHoleEnabled)
+                if drawTransparentCircleHole
                 {
-                    CGContextSetFillColorWithColor(context, dataSet.circleHoleColor.CGColor)
+                    // Begin path for circle with hole
+                    CGContextBeginPath(context)
+                    CGContextAddEllipseInRect(context, rect)
                     
-                    rect.origin.x = pt.x - circleHoleRadius
-                    rect.origin.y = pt.y - circleHoleRadius
-                    rect.size.width = circleHoleDiameter
-                    rect.size.height = circleHoleDiameter
+                    // Cut hole in path
+                    CGContextAddArc(context, pt.x, pt.y, circleHoleRadius, 0.0, CGFloat(M_PI_2), 1)
+                    
+                    // Fill in-between
+                    CGContextFillPath(context)
+                }
+                else
+                {
                     CGContextFillEllipseInRect(context, rect)
+                    
+                    if drawCircleHole
+                    {
+                        CGContextSetFillColorWithColor(context, dataSet.circleHoleColor!.CGColor)
+                     
+                        // The hole rect
+                        rect.origin.x = pt.x - circleHoleRadius
+                        rect.origin.y = pt.y - circleHoleRadius
+                        rect.size.width = circleHoleDiameter
+                        rect.size.height = circleHoleDiameter
+                        
+                        CGContextFillEllipseInRect(context, rect)
+                    }
                 }
             }
         }
@@ -718,50 +757,57 @@ public class LineChartRenderer: LineRadarChartRenderer
         
         CGContextSaveGState(context)
         
-        for i in 0 ..< indices.count
+        for high in indices
         {
-            guard let set = lineData.getDataSetByIndex(indices[i].dataSetIndex) as? ILineChartDataSet else { continue }
+            let minDataSetIndex = high.dataSetIndex == -1 ? 0 : high.dataSetIndex
+            let maxDataSetIndex = high.dataSetIndex == -1 ? lineData.dataSetCount : (high.dataSetIndex + 1)
+            if maxDataSetIndex - minDataSetIndex < 1 { continue }
             
-            if !set.isHighlightEnabled
+            for dataSetIndex in minDataSetIndex..<maxDataSetIndex
             {
-                continue
+                guard let set = lineData.getDataSetByIndex(dataSetIndex) as? ILineChartDataSet else { continue }
+                
+                if !set.isHighlightEnabled
+                {
+                    continue
+                }
+                
+                CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
+                CGContextSetLineWidth(context, set.highlightLineWidth)
+                if (set.highlightLineDashLengths != nil)
+                {
+                    CGContextSetLineDash(context, set.highlightLineDashPhase, set.highlightLineDashLengths!, set.highlightLineDashLengths!.count)
+                }
+                else
+                {
+                    CGContextSetLineDash(context, 0.0, nil, 0)
+                }
+                
+                let xIndex = high.xIndex; // get the x-position
+                
+                if (CGFloat(xIndex) > CGFloat(chartXMax) * animator.phaseX)
+                {
+                    continue
+                }
+                
+                let yValue = set.yValForXIndex(xIndex)
+                if (yValue.isNaN)
+                {
+                    continue
+                }
+                
+                let y = CGFloat(yValue) * animator.phaseY; // get the y-position
+                
+                _highlightPointBuffer.x = CGFloat(xIndex)
+                _highlightPointBuffer.y = y
+                
+                let trans = dataProvider?.getTransformer(set.axisDependency)
+                
+                trans?.pointValueToPixel(&_highlightPointBuffer)
+                
+                // draw the lines
+                drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)
             }
-            
-            CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
-            CGContextSetLineWidth(context, set.highlightLineWidth)
-            if (set.highlightLineDashLengths != nil)
-            {
-                CGContextSetLineDash(context, set.highlightLineDashPhase, set.highlightLineDashLengths!, set.highlightLineDashLengths!.count)
-            }
-            else
-            {
-                CGContextSetLineDash(context, 0.0, nil, 0)
-            }
-            
-            let xIndex = indices[i].xIndex; // get the x-position
-            
-            if (CGFloat(xIndex) > CGFloat(chartXMax) * animator.phaseX)
-            {
-                continue
-            }
-            
-            let yValue = set.yValForXIndex(xIndex)
-            if (yValue.isNaN)
-            {
-                continue
-            }
-            
-            let y = CGFloat(yValue) * animator.phaseY; // get the y-position
-            
-            _highlightPointBuffer.x = CGFloat(xIndex)
-            _highlightPointBuffer.y = y
-            
-            let trans = dataProvider?.getTransformer(set.axisDependency)
-            
-            trans?.pointValueToPixel(&_highlightPointBuffer)
-            
-            // draw the lines
-            drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)
         }
         
         CGContextRestoreGState(context)

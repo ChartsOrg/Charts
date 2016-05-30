@@ -34,5 +34,5 @@ public class ChartComponentBase: NSObject
         super.init()
     }
 
-    public var isEnabled: Bool { return enabled; }
+    public var isEnabled: Bool { return enabled }
 }
