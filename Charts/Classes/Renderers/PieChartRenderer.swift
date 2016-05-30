@@ -604,7 +604,7 @@ public class PieChartRenderer: ChartDataRendererBase
                 boundingRect = CGRectInset(boundingRect, (boundingRect.width - boundingRect.width * chart.centerTextRadiusPercent) / 2.0, (boundingRect.height - boundingRect.height * chart.centerTextRadiusPercent) / 2.0)
             }
             
-            let textBounds = centerAttributedText.boundingRectWithSize(boundingRect.size, options: [.UsesLineFragmentOrigin, .UsesFontLeading, .TruncatesLastVisibleLine])
+            let textBounds = centerAttributedText.boundingRectWithSize(boundingRect.size, options: [.UsesLineFragmentOrigin, .UsesFontLeading, .TruncatesLastVisibleLine], context: nil)
             
             var drawingRect = boundingRect
             drawingRect.origin.x += (boundingRect.size.width - textBounds.size.width) / 2.0
@@ -618,7 +618,7 @@ public class PieChartRenderer: ChartDataRendererBase
             CGContextAddPath(context, clippingPath)
             CGContextClip(context)
             
-            centerAttributedText.drawWithRect(drawingRect, options: [.UsesLineFragmentOrigin, .UsesFontLeading, .TruncatesLastVisibleLine])
+            centerAttributedText.drawWithRect(drawingRect, options: [.UsesLineFragmentOrigin, .UsesFontLeading, .TruncatesLastVisibleLine], context: nil)
             
             CGContextRestoreGState(context)
         }
