@@ -499,7 +499,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
                 if self is BarLineChartViewBase
                     && (self as! BarLineChartViewBase).isHighlightFullBarEnabled
                 {
-                    h = ChartHighlight(xIndex: h!.xIndex, value: Double.NaN, dataIndex: -1, dataSetIndex: -1, stackIndex: -1)
+                    h = ChartHighlight(xIndex: h!.xIndex, value: Double.NaN, dataIndex: 0, dataSetIndex: 0, stackIndex: -1)
                 }
                 
                 _indicesToHighlight = [h!]
