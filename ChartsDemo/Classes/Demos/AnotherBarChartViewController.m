@@ -125,6 +125,8 @@
         
         _chartView.data = data;
     }
+    
+    [_chartView setNeedsDisplay];
 }
 
 - (void)optionTapped:(NSString *)key
