@@ -137,6 +137,7 @@
         set1 = (LineChartDataSet *)_chartView.data.dataSets[0];
         set1.yVals = yVals1;
         _chartView.data.xValsObjc = xVals;
+        [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
     }
     else

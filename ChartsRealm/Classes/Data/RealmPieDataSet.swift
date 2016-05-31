@@ -62,7 +62,7 @@ public class RealmPieDataSet: RealmBaseDataSet, IPieChartDataSet
     public var yValuePosition: PieChartDataSet.ValuePosition = .InsideSlice
     
     /// When valuePosition is OutsideSlice, indicates line color
-    public var valueLineColor: NSUIColor? = UIColor.blackColor()
+    public var valueLineColor: NSUIColor? = NSUIColor.blackColor()
     
     /// When valuePosition is OutsideSlice, indicates line width
     public var valueLineWidth: CGFloat = 1.0
