@@ -94,7 +94,9 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
         if (intervalSigDigit > 5)
         {
             // Use one order of magnitude higher, to avoid intervals like 0.9 or 90
-            interval = floor(10.0 * Double(intervalMagnitude))
+            // The interval sometimes end up having a value of `0`,
+            // which makes the app crash.
+            interval = max(floor(10.0 * Double(intervalMagnitude)), 1)
         }
         
         // force label count
