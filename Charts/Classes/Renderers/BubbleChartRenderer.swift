@@ -124,8 +124,6 @@ public class BubbleChartRenderer: ChartDataRendererBase
             
             let shapeSize = getShapeSize(entrySize: entry.size, maxSize: dataSet.maxSize, reference: referenceSize, normalizeType: typeNormalizeSize)
             
-            print(shapeSize);
-            
             let shapeHalf = shapeSize / 2.0
             
             if (!viewPortHandler.isInBoundsTop(_pointBuffer.y + shapeHalf)
