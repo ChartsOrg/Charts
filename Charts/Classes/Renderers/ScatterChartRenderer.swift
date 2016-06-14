@@ -251,7 +251,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                 CGContextTranslateCTM(context, point.x, point.y)
                 
                 CGContextBeginPath(context)
-                CGContextAddPath(context, customShape)
+                CGContextAddPath(context, customShape!)
                 CGContextFillPath(context)
                 
                 CGContextRestoreGState(context)
