@@ -33,6 +33,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     private var _pinchZoomEnabled = false
     private var _doubleTapToZoomEnabled = true
     private var _dragEnabled = true
+    private var _longPresses = false
     
     private var _scaleXEnabled = true
     private var _scaleYEnabled = true
@@ -77,6 +78,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     #endif
     internal var _panGestureRecognizer: NSUIPanGestureRecognizer!
     
+    internal var _longPressGestureRecognizer: NSUILongPressGestureRecognizer!
     /// flag that indicates if a custom viewport offset has been set
     private var _customViewPortEnabled = false
     
@@ -119,6 +121,10 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         _panGestureRecognizer.delegate = self
         
+        _longPressGestureRecognizer = NSUILongPressGestureRecognizer(target: self, action: #selector(BarLineChartViewBase.longPressGestureRecongnized(_:)))
+        _longPressGestureRecognizer.minimumPressDuration = 0.5
+        _longPressGestureRecognizer.delegate = self
+        self.addGestureRecognizer(_longPressGestureRecognizer)
         self.addGestureRecognizer(_tapGestureRecognizer)
         self.addGestureRecognizer(_doubleTapGestureRecognizer)
         self.addGestureRecognizer(_panGestureRecognizer)
@@ -734,6 +740,15 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         }
     }
     #endif
+    @objc private func longPressGestureRecongnized(recognizer: NSUIPanGestureRecognizer) {
+        if (recognizer.state == NSUIGestureRecognizerState.Began){
+            _longPresses = true;
+            
+            _closestDataSetToTouch = getDataSetByTouchPoint(recognizer.nsuiLocationOfTouch(0, inView: self))
+        } else if (recognizer.state == NSUIGestureRecognizerState.Ended || recognizer.state == NSUIGestureRecognizerState.Cancelled) {
+            _longPresses = false;
+        }
+    }
     
     @objc private func panGestureRecognized(recognizer: NSUIPanGestureRecognizer)
     {
@@ -750,7 +765,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             //  * If we're zoomed in, then obviously we have something to drag.
             //  * If we have a drag offset - we always have something to drag
             if self.isDragEnabled &&
-                (!self.hasNoDragOffset || !self.isFullyZoomedOut)
+            (!self.hasNoDragOffset || !self.isFullyZoomedOut) && !_longPresses
             {
                 _isDragging = true
                 
@@ -965,7 +980,11 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         if ((gestureRecognizer.isKindOfClass(NSUIPinchGestureRecognizer) &&
             otherGestureRecognizer.isKindOfClass(NSUIPanGestureRecognizer)) ||
             (gestureRecognizer.isKindOfClass(NSUIPanGestureRecognizer) &&
-                otherGestureRecognizer.isKindOfClass(NSUIPinchGestureRecognizer)))
+            otherGestureRecognizer.isKindOfClass(NSUIPinchGestureRecognizer)) ||
+            (gestureRecognizer.isKindOfClass(NSUIPanGestureRecognizer) &&
+            otherGestureRecognizer.isKindOfClass(NSUILongPressGestureRecognizer)) ||
+            (gestureRecognizer.isKindOfClass(NSUILongPressGestureRecognizer) &&
+            otherGestureRecognizer.isKindOfClass(NSUIPanGestureRecognizer)) )
         {
             return true
         }
@@ -1016,6 +1035,11 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                 
                 return true
             }
+        }
+        if ((gestureRecognizer.isKindOfClass(NSUILongPressGestureRecognizer) &&
+        otherGestureRecognizer.isKindOfClass(NSUIPanGestureRecognizer)) || (gestureRecognizer.isKindOfClass(NSUIPanGestureRecognizer) &&
+            otherGestureRecognizer.isKindOfClass(NSUILongPressGestureRecognizer))) {
+            return true
         }
         
         return false

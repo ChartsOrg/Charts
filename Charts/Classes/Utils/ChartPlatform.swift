@@ -17,6 +17,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 	public typealias NSUIGestureRecognizerDelegate = UIGestureRecognizerDelegate
 	public typealias NSUITapGestureRecognizer = UITapGestureRecognizer
 	public typealias NSUIPanGestureRecognizer = UIPanGestureRecognizer
+    public typealias NSUILongPressGestureRecognizer = UILongPressGestureRecognizer
 #if !os(tvOS)
     public typealias NSUIPinchGestureRecognizer = UIPinchGestureRecognizer
     public typealias NSUIRotationGestureRecognizer = UIRotationGestureRecognizer
