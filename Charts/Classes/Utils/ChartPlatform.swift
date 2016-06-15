@@ -108,7 +108,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 			self.nsuiTouchesEnded(touches, withEvent: event)
 		}
 
-		public final override func touchesCancelled(touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
+		public final override func touchesCancelled(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
         {
 			self.nsuiTouchesCancelled(touches, withEvent: event)
 		}
@@ -130,7 +130,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 		public func nsuiTouchesCancelled(touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
         {
-			super.touchesCancelled(touches, withEvent: event!)
+			super.touchesCancelled(touches!, withEvent: event!)
 		}
 
 		var nsuiLayer: CALayer?
