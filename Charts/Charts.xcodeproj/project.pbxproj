@@ -958,24 +958,15 @@
 				TargetAttributes = {
 					06AEE7A11BDC3F8B009875AE = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = 4ZBD65B36X;
-						DevelopmentTeamName = "Robert Bell";
-						LastSwiftMigration = 0800;
 					};
 					5BA8EC3F1A9D14DC00CE82E1 = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = 4ZBD65B36X;
-						DevelopmentTeamName = "Robert Bell";
-						LastSwiftMigration = 0800;
 					};
 					65B3F5BE1C7370BE000983D0 = {
 						CreatedOnToolsVersion = 7.2.1;
-						ProvisioningStyle = Automatic;
 					};
 					A52C5C361BAC5CA400594CDD = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = 4ZBD65B36X;
-						DevelopmentTeamName = "Robert Bell";
 					};
 				};
 			};
@@ -1586,7 +1577,7 @@
 		65B3F5C51C7370BE000983D0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1607,7 +1598,7 @@
 		65B3F5C61C7370BE000983D0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = YES;
