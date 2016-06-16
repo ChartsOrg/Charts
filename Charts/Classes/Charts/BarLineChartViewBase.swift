@@ -744,7 +744,19 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         if (recognizer.state == NSUIGestureRecognizerState.Began){
             _longPresses = true;
             
-            _closestDataSetToTouch = getDataSetByTouchPoint(recognizer.nsuiLocationOfTouch(0, inView: self))
+            let h = getHighlightByTouchPoint(recognizer.locationInView(self))
+            
+            if (h === nil || h!.isEqual(self.lastHighlighted))
+            {
+                self.highlightValue(highlight: nil, callDelegate: true)
+                self.lastHighlighted = nil
+            }
+            else
+            {
+                self.lastHighlighted = h
+                self.highlightValue(highlight: h, callDelegate: true)
+            }
+            
         } else if (recognizer.state == NSUIGestureRecognizerState.Ended || recognizer.state == NSUIGestureRecognizerState.Cancelled) {
             _longPresses = false;
         }

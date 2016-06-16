@@ -370,9 +370,9 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                     CGContextSetLineDash(context, 0.0, nil, 0)
                 }
                 
-                let lowValue = CGFloat(e.low) * animator.phaseY
-                let highValue = CGFloat(e.high) * animator.phaseY
-                let y = (lowValue + highValue) / 2.0
+                let y = CGFloat(e.close) * animator.phaseY
+//                let highValue = CGFloat(e.high) * animator.phaseY
+         
                 
                 _highlightPointBuffer.x = CGFloat(xIndex)
                 _highlightPointBuffer.y = y

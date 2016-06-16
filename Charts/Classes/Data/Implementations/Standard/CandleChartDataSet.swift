@@ -137,7 +137,7 @@ public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChar
     
     /// Are increasing values drawn as filled?
     /// increasing candlesticks are traditionally hollow
-    public var increasingFilled = false
+    public var increasingFilled = true
     
     /// Are increasing values drawn as filled?
     public var isIncreasingFilled: Bool { return increasingFilled }
