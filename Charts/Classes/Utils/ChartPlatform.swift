@@ -130,7 +130,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 		public func nsuiTouchesCancelled(touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
         {
-			super.touchesCancelled(touches, withEvent: event!)
+			super.touchesCancelled(touches!, withEvent: event!)
 		}
 
 		var nsuiLayer: CALayer?
@@ -550,8 +550,8 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 			let colorSpace = CGColorSpaceCreateDeviceRGB()
 			let ctx = CGBitmapContextCreate(nil, width, height, 8, 4*width, colorSpace, (opaque ?  CGImageAlphaInfo.NoneSkipFirst.rawValue : CGImageAlphaInfo.PremultipliedFirst.rawValue))
-			CGContextConcatCTM(ctx, CGAffineTransformMake(1, 0, 0, -1, 0, CGFloat(height)))
-			CGContextScaleCTM(ctx, scale, scale)
+			CGContextConcatCTM(ctx!, CGAffineTransformMake(1, 0, 0, -1, 0, CGFloat(height)))
+			CGContextScaleCTM(ctx!, scale, scale)
 			NSUIGraphicsPushContext(ctx!)
 		}
 	}
@@ -562,9 +562,9 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
         {
 			let ctx = NSUIGraphicsGetCurrentContext()
 			let scale = imageContextStack.last!
-			if let theCGImage = CGBitmapContextCreateImage(ctx)
+			if let theCGImage = CGBitmapContextCreateImage(ctx!)
             {
-				let size = CGSizeMake(CGFloat(CGBitmapContextGetWidth(ctx)) / scale, CGFloat(CGBitmapContextGetHeight(ctx)) / scale)
+				let size = CGSizeMake(CGFloat(CGBitmapContextGetWidth(ctx!)) / scale, CGFloat(CGBitmapContextGetHeight(ctx!)) / scale)
 				let image = NSImage(CGImage: theCGImage, size: size)
 				return image
 			}
