@@ -371,8 +371,6 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                 }
                 
                 let y = CGFloat(e.close) * animator.phaseY
-//                let highValue = CGFloat(e.high) * animator.phaseY
-         
                 
                 _highlightPointBuffer.x = CGFloat(xIndex)
                 _highlightPointBuffer.y = y

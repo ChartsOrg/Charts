@@ -53,6 +53,7 @@
     _chartView.maxVisibleValueCount = 60;
     _chartView.pinchZoomEnabled = NO;
     _chartView.drawGridBackgroundEnabled = NO;
+    _chartView.scaleYEnabled = NO;
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBottom;

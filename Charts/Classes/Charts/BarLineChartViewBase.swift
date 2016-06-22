@@ -603,7 +603,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             return
         }
         
-        if (recognizer.state == NSUIGestureRecognizerState.Ended)
+        if (recognizer.state == NSUIGestureRecognizerState.Began)
         {
             if !self.isHighLightPerTapEnabled { return }
             
@@ -620,6 +620,12 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                 self.highlightValue(highlight: h, callDelegate: true)
             }
         }
+        
+        if (recognizer.state == NSUIGestureRecognizerState.Ended)
+        {
+            self.highlightValue(highlight: nil, callDelegate: true)
+        }
+        
     }
     
     @objc private func doubleTapGestureRecognized(recognizer: NSUITapGestureRecognizer)
@@ -759,6 +765,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             
         } else if (recognizer.state == NSUIGestureRecognizerState.Ended || recognizer.state == NSUIGestureRecognizerState.Cancelled) {
             _longPresses = false;
+            
+            self.highlightValue(highlight: nil, callDelegate: true)
         }
     }
     
@@ -856,6 +864,9 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                 }
                 
                 _isDragging = false
+            } else {
+                
+                self.highlightValue(highlight: nil, callDelegate: true)
             }
             
             if (_outerScrollView !== nil)

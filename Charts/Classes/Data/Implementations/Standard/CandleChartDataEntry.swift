@@ -27,24 +27,6 @@ public class CandleChartDataEntry: ChartDataEntry
     /// open value
     public var open = Double(0.0)
     
-//    lazy var EMAValueDict:Dictionary<Int,NSNumber> = {
-//        var dic = [Int: NSNumber]()
-//        return dic;
-//    }()
-//    
-//    public func EMAValueFor(num num: Int) -> NSNumber? {
-//        
-//        let ema = EMAValueDict[num]
-//        if ema != nil {
-//            return ema!
-//        }
-//        return nil;
-//    }
-//    public func setEMAValueFor(num num: Int, val:Double) {
-//        
-//       EMAValueDict[num] =  NSNumber(double: val)
-//    }
-    
     public required init()
     {
         super.init()
@@ -95,11 +77,6 @@ public class CandleChartDataEntry: ChartDataEntry
         }
         
         if (object!.data !== data && !object!.data.isEqual(self.data))
-        {
-            return false
-        }
-        
-        if ((object as! CandleChartDataEntry).xIndex != xIndex)
         {
             return false
         }
