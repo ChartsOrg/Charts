@@ -333,9 +333,17 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         _xAxis._axisMaximum = Double((_data?.xVals.count ?? 0) - 1)
         _xAxis.axisRange = .abs(_xAxis._axisMaximum - _xAxis._axisMinimum);
         
+        xMinMaxProvider!.xMinMax(self) //for custom calc xminmax
+        
         // calculate axis range (min / max) according to provided data
         _leftAxis.calculate(min: _data?.getYMin(.Left) ?? 0.0, max: _data?.getYMax(.Left) ?? 0.0)
         _rightAxis.calculate(min: _data?.getYMin(.Right) ?? 0.0, max: _data?.getYMax(.Right) ?? 0.0)
+    }
+    
+    override public func xMinMax(chartView: ChartViewBase) {
+    
+        chartView._xAxis._axisMaximum = Double((_data?.xVals.count ?? 0) - 1)
+        chartView._xAxis.axisRange = .abs(_xAxis._axisMaximum - _xAxis._axisMinimum);
     }
     
     internal func calculateLegendOffsets(inout offsetLeft offsetLeft: CGFloat, inout offsetTop: CGFloat, inout offsetRight: CGFloat, inout offsetBottom: CGFloat)

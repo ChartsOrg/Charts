@@ -34,4 +34,12 @@ public protocol ChartDataProvider
     var centerOffsets: CGPoint { get }
     
     var data: ChartData? { get }
+    
+    var xMinMaxProvider:XMinMaxProvider?{get set}
+}
+
+@objc
+public protocol XMinMaxProvider {
+//    func calcMinMax()
+    func xMinMax(chartView:ChartViewBase)
 }

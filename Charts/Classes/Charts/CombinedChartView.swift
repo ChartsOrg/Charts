@@ -50,12 +50,14 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
     override func calcMinMax()
     {
         super.calcMinMax()
-        guard let data = _data else { return }
+    }
+    public override func xMinMax(chartView: ChartViewBase) {
         
+        guard let data = _data else { return }
         if (self.barData !== nil || self.candleData !== nil || self.bubbleData !== nil)
         {
             _xAxis._axisMinimum = -0.5
-            _xAxis._axisMaximum = Double(data.xVals.count) - 0.5
+            _xAxis._axisMaximum = Double(data.xVals.count) + 0.5
             
             if (self.bubbleData !== nil)
             {
