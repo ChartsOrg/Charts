@@ -20,7 +20,7 @@ public class ChartHighlight: NSObject
     private var _xIndex = Int(0)
     
     /// the y-value of the highlighted value
-    private var _value = Double.NaN
+    private var _value = Double.nan
     
     /// the index of the data object - in case it refers to more than one
     private var _dataIndex = Int(0)
@@ -94,14 +94,14 @@ public class ChartHighlight: NSObject
     /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
     public convenience init(xIndex x: Int, dataSetIndex: Int, stackIndex: Int)
     {
-        self.init(xIndex: x, value: Double.NaN, dataSetIndex: dataSetIndex, stackIndex: stackIndex, range: nil)
+        self.init(xIndex: x, value: Double.nan, dataSetIndex: dataSetIndex, stackIndex: stackIndex, range: nil)
     }
     
     /// - parameter xIndex: the index of the highlighted value on the x-axis
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
     public convenience init(xIndex x: Int, dataSetIndex: Int)
     {
-        self.init(xIndex: x, value: Double.NaN, dataSetIndex: dataSetIndex, stackIndex: -1, range: nil)
+        self.init(xIndex: x, value: Double.nan, dataSetIndex: dataSetIndex, stackIndex: -1, range: nil)
     }
     
     public var xIndex: Int { return _xIndex }
@@ -120,14 +120,14 @@ public class ChartHighlight: NSObject
         return "Highlight, xIndex: \(_xIndex), dataIndex (combined charts): \(_dataIndex),dataSetIndex: \(_dataSetIndex), stackIndex (only stacked barentry): \(_stackIndex), value: \(_value)"
     }
     
-    public override func isEqual(object: AnyObject?) -> Bool
+    public override func isEqual(_ object: AnyObject?) -> Bool
     {
         if (object === nil)
         {
             return false
         }
         
-        if (!object!.isKindOfClass(self.dynamicType))
+        if (!object!.isKind(of: self.dynamicType))
         {
             return false
         }
@@ -168,7 +168,7 @@ func ==(lhs: ChartHighlight, rhs: ChartHighlight) -> Bool
         return true
     }
     
-    if (!lhs.isKindOfClass(rhs.dynamicType))
+    if (!lhs.isKind(of: rhs.dynamicType))
     {
         return false
     }

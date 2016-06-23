@@ -19,7 +19,7 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
 {
     private func initialize()
     {
-        self.highlightColor = NSUIColor.blackColor()
+        self.highlightColor = NSUIColor.black()
         
         self.calcStackSize(yVals as! [BarChartDataEntry])
         self.calcEntryCountIncludingStacks(yVals as! [BarChartDataEntry])
@@ -48,7 +48,7 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
     
     /// Calculates the total number of entries this DataSet represents, including
     /// stacks. All values belonging to a stack are calculated separately.
-    private func calcEntryCountIncludingStacks(yVals: [BarChartDataEntry]!)
+    private func calcEntryCountIncludingStacks(_ yVals: [BarChartDataEntry]!)
     {
         _entryCountStacks = 0
         
@@ -68,7 +68,7 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
     }
     
     /// calculates the maximum stacksize that occurs in the Entries array of this DataSet
-    private func calcStackSize(yVals: [BarChartDataEntry]!)
+    private func calcStackSize(_ yVals: [BarChartDataEntry]!)
     {
         for i in 0 ..< yVals.count
         {
@@ -82,7 +82,7 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
         }
     }
     
-    public override func calcMinMax(start start : Int, end: Int)
+    public override func calcMinMax(start : Int, end: Int)
     {
         let yValCount = _yVals.count
         
@@ -108,7 +108,7 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
         _yMin = DBL_MAX
         _yMax = -DBL_MAX
         
-        for i in start.stride(through: endValue, by: 1)
+        for i in stride(from: start, through: endValue, by: 1)
         {
             if let e = _yVals[i] as? BarChartDataEntry
             {
@@ -182,14 +182,14 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
     public var barBorderWidth : CGFloat = 0.0
 
     /// the color drawing borders around the bars.
-    public var barBorderColor = NSUIColor.blackColor()
+    public var barBorderColor = NSUIColor.black()
 
     /// the alpha value (transparency) that is used for drawing the highlight indicator bar. min = 0.0 (fully transparent), max = 1.0 (fully opaque)
     public var highlightAlpha = CGFloat(120.0 / 255.0)
     
     // MARK: - NSCopying
     
-    public override func copyWithZone(zone: NSZone) -> AnyObject
+    public override func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! BarChartDataSet
         copy._stackSize = _stackSize

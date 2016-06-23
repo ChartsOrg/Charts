@@ -25,7 +25,7 @@ public class ChartDefaultFillFormatter: NSObject, ChartFillFormatter
     {
     }
     
-    public func getFillLinePosition(dataSet dataSet: ILineChartDataSet, dataProvider: LineChartDataProvider) -> CGFloat
+    public func getFillLinePosition(dataSet: ILineChartDataSet, dataProvider: LineChartDataProvider) -> CGFloat
     {
         var fillMin = CGFloat(0.0)
         

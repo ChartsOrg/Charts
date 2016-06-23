@@ -22,7 +22,7 @@ public protocol IBubbleChartDataSet: IBarLineScatterCandleBubbleChartDataSet
     var xMin: Double { get }
     var xMax: Double { get }
     var maxSize: CGFloat { get }
-    var isNormalizeSizeEnabled: Bool { get }
+    var normalizeSizeEnabled: Bool { get }
     
     // MARK: - Styling functions and accessors
     
