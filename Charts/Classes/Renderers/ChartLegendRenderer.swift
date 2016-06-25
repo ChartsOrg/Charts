@@ -369,7 +369,7 @@ public class ChartLegendRenderer: ChartRendererBase
                     
                     if (direction == .rightToLeft)
                     {
-                        posX -= (labels[i] as NSString!).size(withAttributes: [NSFontAttributeName: labelFont]).width
+                        posX -= (labels[i] as NSString!).size(attributes: [NSFontAttributeName: labelFont]).width
                     }
                     
                     if (!wasStacked)

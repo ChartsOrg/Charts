@@ -217,7 +217,7 @@ public class ChartYAxis: ChartAxisBase
     public func requiredSize() -> CGSize
     {
         let label = getLongestLabel() as NSString
-        var size = label.size(withAttributes: [NSFontAttributeName: labelFont])
+        var size = label.size(attributes: [NSFontAttributeName: labelFont])
         size.width += xOffset * 2.0
         size.height += yOffset * 2.0
         size.width = max(minWidth, min(size.width, maxWidth > 0.0 ? maxWidth : size.width))

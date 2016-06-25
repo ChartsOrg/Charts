@@ -85,7 +85,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
                     // avoid clipping of the last
                     if (i == xAxis.values.count - 1)
                     {
-                        let width = label!.size(withAttributes: labelAttrs).width
+                        let width = label!.size(attributes: labelAttrs).width
                         
                         if (position.x + width / 2.0 > viewPortHandler.contentRight)
                         {
@@ -94,7 +94,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
                     }
                     else if (i == 0)
                     { // avoid clipping of the first
-                        let width = label!.size(withAttributes: labelAttrs).width
+                        let width = label!.size(attributes: labelAttrs).width
                         
                         if (position.x - width / 2.0 < viewPortHandler.contentLeft)
                         {

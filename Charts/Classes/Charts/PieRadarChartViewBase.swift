@@ -543,7 +543,7 @@ public class PieRadarChartViewBase: ChartViewBase
             {
                 _decelerationLastTime = CACurrentMediaTime()
                 _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(PieRadarChartViewBase.decelerationLoop))
-                _decelerationDisplayLink.addToRunLoop(RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
+                _decelerationDisplayLink.add(to: RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
             }
         }
     }
@@ -557,7 +557,7 @@ public class PieRadarChartViewBase: ChartViewBase
     }
     
     #if !os(OSX)
-    public override func nsuiTouchesBegan(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    public override func nsuiTouchesBegan(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
     {
         // if rotation by touch is enabled
         if (rotationEnabled)
@@ -566,51 +566,50 @@ public class PieRadarChartViewBase: ChartViewBase
             
             if (!rotationWithTwoFingers)
             {
-                let touch = touches.first as NSUITouch!
-                
-                let touchLocation = touch.locationInView(self)
-                
-                processRotationGestureBegan(location: touchLocation)
+				if let touch = touches.first as NSUITouch! {
+					let touchLocation = touch.location(in: self)
+					processRotationGestureBegan(location: touchLocation)
+				}
             }
         }
         
         if (!_isRotating)
         {
-            super.nsuiTouchesBegan(touches, withEvent: event)
+            super.nsuiTouchesBegan(touches, with: event)
         }
     }
     
-    public override func nsuiTouchesMoved(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    public override func nsuiTouchesMoved(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
     {
         if (rotationEnabled && !rotationWithTwoFingers)
         {
-            let touch = touches.first as NSUITouch!
-            
-            let touchLocation = touch.locationInView(self)
-            
-            processRotationGestureMoved(location: touchLocation)
+            if let touch = touches.first as NSUITouch!
+			{
+				let touchLocation = touch.location(in: self)
+				processRotationGestureMoved(location: touchLocation)
+			}
         }
         
         if (!_isRotating)
         {
-            super.nsuiTouchesMoved(touches, withEvent: event)
+            super.nsuiTouchesMoved(touches, with: event)
         }
     }
     
-    public override func nsuiTouchesEnded(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    public override func nsuiTouchesEnded(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
     {
         if (!_isRotating)
         {
-            super.nsuiTouchesEnded(touches, withEvent: event)
+            super.nsuiTouchesEnded(touches, with: event)
         }
         
         if (rotationEnabled && !rotationWithTwoFingers)
         {
-            let touch = touches.first as NSUITouch!
-            
-            let touchLocation = touch.locationInView(self)
-            
-            processRotationGestureEnded(location: touchLocation)
+			if let touch = touches.first as NSUITouch!
+			{
+				let touchLocation = touch.location(in: self)
+				processRotationGestureEnded(location: touchLocation)
+			}
         }
         
         if (_isRotating)
@@ -619,9 +618,9 @@ public class PieRadarChartViewBase: ChartViewBase
         }
     }
     
-    public override func nsuiTouchesCancelled(touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
+    public override func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, with event: NSUIEvent?)
     {
-        super.nsuiTouchesCancelled(touches, withEvent: event)
+        super.nsuiTouchesCancelled(touches, with: event)
         
         processRotationGestureCancelled()
     }
@@ -789,7 +788,7 @@ public class PieRadarChartViewBase: ChartViewBase
     {
         if (_decelerationDisplayLink !== nil)
         {
-            _decelerationDisplayLink.removeFromRunLoop(RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
+            _decelerationDisplayLink.remove(from: RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
             _decelerationDisplayLink = nil
         }
     }
@@ -945,7 +944,7 @@ public class PieRadarChartViewBase: ChartViewBase
                 {
                     _decelerationLastTime = CACurrentMediaTime()
                     _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(PieRadarChartViewBase.decelerationLoop))
-                    _decelerationDisplayLink.addToRunLoop(RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
+                    _decelerationDisplayLink.add(to: RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
                 }
             }
         }

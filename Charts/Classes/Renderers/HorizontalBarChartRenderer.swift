@@ -327,7 +327,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                         let valueText = formatter.string(from: val)!
                         
                         // calculate the correct offset depending on the draw position of the value
-                        let valueTextWidth = valueText.size(withAttributes: [NSFontAttributeName: valueFont]).width
+                        let valueTextWidth = valueText.size(attributes: [NSFontAttributeName: valueFont]).width
                         posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
                         negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
                         
@@ -381,7 +381,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                             let valueText = formatter.string(from: val)!
                             
                             // calculate the correct offset depending on the draw position of the value
-                            let valueTextWidth = valueText.size(withAttributes: [NSFontAttributeName: valueFont]).width
+                            let valueTextWidth = valueText.size(attributes: [NSFontAttributeName: valueFont]).width
                             posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
                             negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
                             
@@ -435,7 +435,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                                 let valueText = formatter.string(from: val)!
                                 
                                 // calculate the correct offset depending on the draw position of the value
-                                let valueTextWidth = valueText.size(withAttributes: [NSFontAttributeName: valueFont]).width
+                                let valueTextWidth = valueText.size(attributes: [NSFontAttributeName: valueFont]).width
                                 posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
                                 negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
                                 

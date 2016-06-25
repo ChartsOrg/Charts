@@ -45,7 +45,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         
         let widthText = a as NSString
         
-        let labelSize = widthText.size(withAttributes: [NSFontAttributeName: xAxis.labelFont])
+        let labelSize = widthText.size(attributes: [NSFontAttributeName: xAxis.labelFont])
         
         let labelWidth = labelSize.width
         let labelHeight = labelSize.height

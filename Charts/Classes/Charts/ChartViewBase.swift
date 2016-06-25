@@ -157,7 +157,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         super.init(frame: frame)
 
 		#if os(iOS)
-			self.backgroundColor = NSUIColor.clearColor()
+			self.backgroundColor = NSUIColor.clear()
 		#endif
         initialize()
     }
@@ -356,7 +356,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         {
             #if os(tvOS)
                 // 23 is the smallest recommended font size on the TV
-                font = NSUIFont.systemFontOfSize(23, weight: UIFontWeightMedium)
+                font = NSUIFont.systemFont(ofSize: 23, weight: UIFontWeightMedium)
             #else
                 font = NSUIFont.systemFont(ofSize: NSUIFont.systemFontSize())
             #endif
@@ -804,7 +804,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     /// - returns: the bitmap that represents the chart.
     public func getChartImage(transparent: Bool) -> NSUIImage?
     {
-        NSUIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque || !transparent, NSUIMainScreen()?.nsuiScale ?? 1.0)
+        NSUIGraphicsBeginImageContextWithOptions(size: bounds.size, isOpaque || !transparent, NSUIMainScreen()?.nsuiScale ?? 1.0)
 		defer { NSUIGraphicsEndImageContext() }
         
 		if let context = NSUIGraphicsGetCurrentContext() {
@@ -850,20 +850,22 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     public func saveToPath(_ path: String, format: ImageFormat, compressionQuality: Double) throws -> Bool
     {
 		if let image = getChartImage(transparent: format != .jpeg) {
-			var imageData: Data!
+			var imageData: NSData?
 			switch (format)
 			{
 			case .png:
-				imageData = NSUIImagePNGRepresentation(image)
+				imageData = NSUIImagePNGRepresentation(image: image)
 				break
 				
 			case .jpeg:
-				imageData = NSUIImageJPEGRepresentation(image, CGFloat(compressionQuality))
+				imageData = NSUIImageJPEGRepresentation(image: image, CGFloat(compressionQuality))
 				break
 			}
 
-			try imageData.write(to: URL(fileURLWithPath: path), options: .atomicWrite)
-			return true
+			if let d = imageData {
+				try d.write(to: URL(fileURLWithPath: path), options: .atomicWrite)
+				return true
+			}
 		}
 		return false
     }
@@ -969,35 +971,35 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     
     // MARK: - Touches
     
-    public override func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    public override func nsuiTouchesBegan(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
     {
         if (!_interceptTouchEvents)
         {
-            super.nsuiTouchesBegan(touches, withEvent: event)
+            super.nsuiTouchesBegan(touches, with: event)
         }
     }
     
-    public override func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    public override func nsuiTouchesMoved(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
     {
         if (!_interceptTouchEvents)
         {
-            super.nsuiTouchesMoved(touches, withEvent: event)
+            super.nsuiTouchesMoved(touches, with: event)
         }
     }
     
-    public override func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    public override func nsuiTouchesEnded(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
     {
         if (!_interceptTouchEvents)
         {
-            super.nsuiTouchesEnded(touches, withEvent: event)
+            super.nsuiTouchesEnded(touches, with: event)
         }
     }
     
-    public override func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
+    public override func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, with event: NSUIEvent?)
     {
         if (!_interceptTouchEvents)
         {
-            super.nsuiTouchesCancelled(touches, withEvent: event)
+            super.nsuiTouchesCancelled(touches, with: event)
         }
     }
 }

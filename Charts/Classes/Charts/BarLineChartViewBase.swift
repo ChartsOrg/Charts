@@ -661,8 +661,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                 }
                 else
                 {
-                    let x = abs(recognizer.location(in: self).x - recognizer.nsuiLocationOfTouch(1, inView: self).x)
-                    let y = abs(recognizer.location(in: self).y - recognizer.nsuiLocationOfTouch(1, inView: self).y)
+                    let x = abs(recognizer.location(in: self).x - recognizer.nsuiLocationOf(touch: 1, in: self).x)
+                    let y = abs(recognizer.location(in: self).y - recognizer.nsuiLocationOf(touch: 1, in: self).y)
                     
                     if (x > y)
                     {
@@ -753,7 +753,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             {
                 _isDragging = true
                 
-                _closestDataSetToTouch = getDataSetByTouchPoint(recognizer.nsuiLocationOfTouch(0, inView: self))
+                _closestDataSetToTouch = getDataSetByTouchPoint(recognizer.nsuiLocationOf(touch: 0, in: self))
                 
                 let translation = recognizer.translation(in: self)
                 let didUserDrag = (self is HorizontalBarChartView) ? translation.y != 0.0 : translation.x != 0.0
@@ -773,7 +773,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                     if (_outerScrollView !== nil)
                     {
                         // Prevent the parent scroll view from scrolling
-                        _outerScrollView?.scrollEnabled = false
+                        _outerScrollView?.isScrollEnabled = false
                     }
                 }
                 
@@ -824,7 +824,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                     _decelerationVelocity = recognizer.velocity(in: self)
                     
                     _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(BarLineChartViewBase.decelerationLoop))
-                    _decelerationDisplayLink.addToRunLoop(RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
+                    _decelerationDisplayLink.add(to: RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
                 }
                 
                 _isDragging = false
@@ -832,7 +832,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             
             if (_outerScrollView !== nil)
             {
-                _outerScrollView?.scrollEnabled = true
+                _outerScrollView?.isScrollEnabled = true
                 _outerScrollView = nil
             }
         }
@@ -875,7 +875,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     {
         if (_decelerationDisplayLink !== nil)
         {
-            _decelerationDisplayLink.removeFromRunLoop(RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
+            _decelerationDisplayLink.remove(from: RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
             _decelerationDisplayLink = nil
         }
     }
@@ -940,7 +940,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     }
     
     #if !os(OSX)
-    public override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool
+    public override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool
     {
         if (!super.gestureRecognizerShouldBegin(gestureRecognizer))
         {
@@ -988,7 +988,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
 
             var foundScrollView = scrollView as? NSUIScrollView
             
-            if (foundScrollView !== nil && !foundScrollView!.scrollEnabled)
+            if (foundScrollView !== nil && !foundScrollView!.isScrollEnabled)
             {
                 foundScrollView = nil
             }

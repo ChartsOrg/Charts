@@ -34,7 +34,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
        
         let longest = xAxis.getLongestLabel() as NSString
         
-        let labelSize = longest.size(withAttributes: [NSFontAttributeName: xAxis.labelFont])
+        let labelSize = longest.size(attributes: [NSFontAttributeName: xAxis.labelFont])
         
         let labelWidth = floor(labelSize.width + xAxis.xOffset * 3.5)
         let labelHeight = labelSize.height

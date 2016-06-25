@@ -71,14 +71,14 @@ public class AnimatedViewPortJob: ChartViewPortJob
         updateAnimationPhase(_startTime)
         
         _displayLink = NSUIDisplayLink(target: self, selector: #selector(AnimatedViewPortJob.animationLoop))
-        _displayLink.addToRunLoop(RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
+        _displayLink.add(to: RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
     }
     
     public func stop(finish: Bool)
     {
         if (_displayLink != nil)
         {
-            _displayLink.removeFromRunLoop(RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
+            _displayLink.remove(from: RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
             _displayLink = nil
             
             if finish
