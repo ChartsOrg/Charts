@@ -18,10 +18,10 @@ import CoreGraphics
 public class ChartTransformer: NSObject
 {
     /// matrix to map the values to the screen pixels
-    internal var _matrixValueToPx = CGAffineTransformIdentity
+    internal var _matrixValueToPx = CGAffineTransform.identity
 
     /// matrix for handling the different offsets of the chart
-    internal var _matrixOffset = CGAffineTransformIdentity
+    internal var _matrixOffset = CGAffineTransform.identity
 
     internal var _viewPortHandler: ChartViewPortHandler
 
@@ -31,7 +31,7 @@ public class ChartTransformer: NSObject
     }
 
     /// Prepares the matrix that transforms values to pixels. Calculates the scale factors from the charts size and offsets.
-    public func prepareMatrixValuePx(chartXMin chartXMin: Double, deltaX: CGFloat, deltaY: CGFloat, chartYMin: Double)
+    public func prepareMatrixValuePx(chartXMin: Double, deltaX: CGFloat, deltaY: CGFloat, chartYMin: Double)
     {
         var scaleX = (_viewPortHandler.contentWidth / deltaX)
         var scaleY = (_viewPortHandler.contentHeight / deltaY)
@@ -46,27 +46,27 @@ public class ChartTransformer: NSObject
         }
 
         // setup all matrices
-        _matrixValueToPx = CGAffineTransformIdentity
-        _matrixValueToPx = CGAffineTransformScale(_matrixValueToPx, scaleX, -scaleY)
-        _matrixValueToPx = CGAffineTransformTranslate(_matrixValueToPx, CGFloat(-chartXMin), CGFloat(-chartYMin))
+        _matrixValueToPx = CGAffineTransform.identity
+        _matrixValueToPx = _matrixValueToPx.scaleBy(x: scaleX, y: -scaleY)
+        _matrixValueToPx = _matrixValueToPx.translateBy(x: CGFloat(-chartXMin), y: CGFloat(-chartYMin))
     }
 
     /// Prepares the matrix that contains all offsets.
-    public func prepareMatrixOffset(inverted: Bool)
+    public func prepareMatrixOffset(_ inverted: Bool)
     {
         if (!inverted)
         {
-            _matrixOffset = CGAffineTransformMakeTranslation(_viewPortHandler.offsetLeft, _viewPortHandler.chartHeight - _viewPortHandler.offsetBottom)
+            _matrixOffset = CGAffineTransform(translationX: _viewPortHandler.offsetLeft, y: _viewPortHandler.chartHeight - _viewPortHandler.offsetBottom)
         }
         else
         {
-            _matrixOffset = CGAffineTransformMakeScale(1.0, -1.0)
-            _matrixOffset = CGAffineTransformTranslate(_matrixOffset, _viewPortHandler.offsetLeft, -_viewPortHandler.offsetTop)
+            _matrixOffset = CGAffineTransform(scaleX: 1.0, y: -1.0)
+            _matrixOffset = _matrixOffset.translateBy(x: _viewPortHandler.offsetLeft, y: -_viewPortHandler.offsetTop)
         }
     }
     
     /// Transforms an Entry into a transformed point for bar chart
-    public func getTransformedValueBarChart(entry entry: ChartDataEntry, xIndex: Int, dataSetIndex: Int, phaseY: CGFloat, dataSetCount: Int, groupSpace: CGFloat) -> CGPoint
+    public func getTransformedValueBarChart(entry: ChartDataEntry, xIndex: Int, dataSetIndex: Int, phaseY: CGFloat, dataSetCount: Int, groupSpace: CGFloat) -> CGPoint
     {
         // calculate the x-position, depending on datasetcount
         let x = CGFloat(xIndex + (xIndex * (dataSetCount - 1)) + dataSetIndex) + groupSpace * CGFloat(xIndex) + groupSpace / 2.0
@@ -83,7 +83,7 @@ public class ChartTransformer: NSObject
     }
     
     /// Transforms an Entry into a transformed point for horizontal bar chart
-    public func getTransformedValueHorizontalBarChart(entry entry: ChartDataEntry, xIndex: Int, dataSetIndex: Int, phaseY: CGFloat, dataSetCount: Int, groupSpace: CGFloat) -> CGPoint
+    public func getTransformedValueHorizontalBarChart(entry: ChartDataEntry, xIndex: Int, dataSetIndex: Int, phaseY: CGFloat, dataSetCount: Int, groupSpace: CGFloat) -> CGPoint
     {
         // calculate the x-position, depending on datasetcount
         let x = CGFloat(xIndex + (xIndex * (dataSetCount - 1)) + dataSetIndex) + groupSpace * CGFloat(xIndex) + groupSpace / 2.0
@@ -101,28 +101,28 @@ public class ChartTransformer: NSObject
 
     /// Transform an array of points with all matrices.
     // VERY IMPORTANT: Keep matrix order "value-touch-offset" when transforming.
-    public func pointValuesToPixel(inout pts: [CGPoint])
+    public func pointValuesToPixel(_ pts: inout [CGPoint])
     {
         let trans = valueToPixelMatrix
         for i in 0 ..< pts.count
         {
-            pts[i] = CGPointApplyAffineTransform(pts[i], trans)
+            pts[i] = pts[i].apply(transform: trans)
         }
     }
     
-    public func pointValueToPixel(inout point: CGPoint)
+    public func pointValueToPixel(_ point: inout CGPoint)
     {
-        point = CGPointApplyAffineTransform(point, valueToPixelMatrix)
+        point = point.apply(transform: valueToPixelMatrix)
     }
     
     /// Transform a rectangle with all matrices.
-    public func rectValueToPixel(inout r: CGRect)
+    public func rectValueToPixel(_ r: inout CGRect)
     {
-        r = CGRectApplyAffineTransform(r, valueToPixelMatrix)
+        r = r.apply(transform: valueToPixelMatrix)
     }
     
     /// Transform a rectangle with all matrices with potential animation phases.
-    public func rectValueToPixel(inout r: CGRect, phaseY: CGFloat)
+    public func rectValueToPixel(_ r: inout CGRect, phaseY: CGFloat)
     {
         // multiply the height of the rect with the phase
         var bottom = r.origin.y + r.size.height
@@ -131,17 +131,17 @@ public class ChartTransformer: NSObject
         r.size.height = bottom - top
         r.origin.y = top
 
-        r = CGRectApplyAffineTransform(r, valueToPixelMatrix)
+        r = r.apply(transform: valueToPixelMatrix)
     }
     
     /// Transform a rectangle with all matrices.
-    public func rectValueToPixelHorizontal(inout r: CGRect)
+    public func rectValueToPixelHorizontal(_ r: inout CGRect)
     {
-        r = CGRectApplyAffineTransform(r, valueToPixelMatrix)
+        r = r.apply(transform: valueToPixelMatrix)
     }
     
     /// Transform a rectangle with all matrices with potential animation phases.
-    public func rectValueToPixelHorizontal(inout r: CGRect, phaseY: CGFloat)
+    public func rectValueToPixelHorizontal(_ r: inout CGRect, phaseY: CGFloat)
     {
         // multiply the height of the rect with the phase
         var right = r.origin.x + r.size.width
@@ -150,59 +150,55 @@ public class ChartTransformer: NSObject
         r.size.width = right - left
         r.origin.x = left
         
-        r = CGRectApplyAffineTransform(r, valueToPixelMatrix)
+        r = r.apply(transform: valueToPixelMatrix)
     }
 
     /// transforms multiple rects with all matrices
-    public func rectValuesToPixel(inout rects: [CGRect])
+    public func rectValuesToPixel(_ rects: inout [CGRect])
     {
         let trans = valueToPixelMatrix
         
         for i in 0 ..< rects.count
         {
-            rects[i] = CGRectApplyAffineTransform(rects[i], trans)
+            rects[i] = rects[i].apply(transform: trans)
         }
     }
     
     /// Transforms the given array of touch points (pixels) into values on the chart.
-    public func pixelsToValue(inout pixels: [CGPoint])
+    public func pixelsToValue(_ pixels: inout [CGPoint])
     {
         let trans = pixelToValueMatrix
         
         for i in 0 ..< pixels.count
         {
-            pixels[i] = CGPointApplyAffineTransform(pixels[i], trans)
+            pixels[i] = pixels[i].apply(transform: trans)
         }
     }
     
     /// Transforms the given touch point (pixels) into a value on the chart.
-    public func pixelToValue(inout pixel: CGPoint)
+    public func pixelToValue(_ pixel: inout CGPoint)
     {
-        pixel = CGPointApplyAffineTransform(pixel, pixelToValueMatrix)
+        pixel = pixel.apply(transform: pixelToValueMatrix)
     }
     
     /// - returns: the x and y values in the chart at the given touch point
     /// (encapsulated in a PointD). This method transforms pixel coordinates to
     /// coordinates / values in the chart.
-    public func getValueByTouchPoint(point: CGPoint) -> CGPoint
+    public func getValueByTouchPoint(_ point: CGPoint) -> CGPoint
     {
-        return CGPointApplyAffineTransform(point, pixelToValueMatrix)
+        return point.apply(transform: pixelToValueMatrix)
     }
     
     public var valueToPixelMatrix: CGAffineTransform
     {
         return
-            CGAffineTransformConcat(
-                CGAffineTransformConcat(
-                    _matrixValueToPx,
-                    _viewPortHandler.touchMatrix
-                ),
-                _matrixOffset
+            _matrixValueToPx.concat(_viewPortHandler.touchMatrix
+                ).concat(_matrixOffset
         )
     }
     
     public var pixelToValueMatrix: CGAffineTransform
     {
-        return CGAffineTransformInvert(valueToPixelMatrix)
+        return valueToPixelMatrix.invert()
     }
 }

@@ -52,9 +52,9 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             return numberOfTouches()
         }
         
-        final func nsuiLocationOfTouch(touch: Int, inView: UIView?) -> CGPoint
+        final func nsuiLocationOf(touch: Int, in view: UIView?) -> CGPoint
         {
-            return super.locationOfTouch(touch, inView: inView)
+            return super.location(ofTouch: touch, in: view)
         }
     }
     
@@ -84,53 +84,53 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             }
         }
         
-        final func nsuiLocationOfTouch(touch: Int, inView: UIView?) -> CGPoint
+        final func nsuiLocationOf(touch: Int, in view: UIView?) -> CGPoint
         {
-            return super.locationOfTouch(touch, inView: inView)
+            return super.location(ofTouch: touch, in: view)
         }
     }
 #endif
 
 	public class NSUIView: UIView
     {
-		public final override func touchesBegan(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+		public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
         {
-			self.nsuiTouchesBegan(touches, withEvent: event)
+			self.nsuiTouchesBegan(touches, with: event)
 		}
 
-		public final override func touchesMoved(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+		public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?)
         {
-			self.nsuiTouchesMoved(touches, withEvent: event)
+			self.nsuiTouchesMoved(touches, with: event)
 		}
 
-		public final override func touchesEnded(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+		public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?)
         {
-			self.nsuiTouchesEnded(touches, withEvent: event)
+			self.nsuiTouchesEnded(touches, with: event)
 		}
 
-		public final override func touchesCancelled(touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
+		public override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?)
         {
-			self.nsuiTouchesCancelled(touches, withEvent: event)
+			self.nsuiTouchesCancelled(touches, with: event)
 		}
 
-		public func nsuiTouchesBegan(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+		public func nsuiTouchesBegan(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
         {
-			super.touchesBegan(touches, withEvent: event!)
+			super.touchesBegan(touches, with: event!)
 		}
 
-		public func nsuiTouchesMoved(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+		public func nsuiTouchesMoved(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
         {
-			super.touchesMoved(touches, withEvent: event!)
+			super.touchesMoved(touches, with: event!)
 		}
 
-		public func nsuiTouchesEnded(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+		public func nsuiTouchesEnded(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
         {
-			super.touchesEnded(touches, withEvent: event!)
+			super.touchesEnded(touches, with: event!)
 		}
 
-		public func nsuiTouchesCancelled(touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
+		public func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, with event: NSUIEvent?)
         {
-			super.touchesCancelled(touches, withEvent: event!)
+			super.touchesCancelled(touches ?? [], with: event!)
 		}
 
 		var nsuiLayer: CALayer?
@@ -155,7 +155,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
         }
     }
 
-    func NSUIGraphicsGetCurrentContext() -> CGContextRef?
+    func NSUIGraphicsGetCurrentContext() -> CGContext?
     {
 		return UIGraphicsGetCurrentContext()
 	}
@@ -165,7 +165,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		return UIGraphicsGetImageFromCurrentImageContext()
 	}
 
-	func NSUIGraphicsPushContext(context: CGContextRef)
+	func NSUIGraphicsPushContext(_ context: CGContext)
     {
 		UIGraphicsPushContext(context)
 	}
@@ -192,7 +192,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	func NSUIMainScreen() -> NSUIScreen?
     {
-		return NSUIScreen.mainScreen()
+		return NSUIScreen.main()
 	}
 
 	func NSUIGraphicsBeginImageContextWithOptions(size: CGSize, _ opaque: Bool, _ scale: CGFloat)
@@ -224,7 +224,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 	/** On OS X there is no CADisplayLink. Use a 60 fps timer to render the animations. */
 	public class NSUIDisplayLink
     {
-        private var timer: NSTimer?
+        private var timer: Timer?
         private var displayLink: CVDisplayLink?
         private var _timestamp: CFTimeInterval = 0.0
         
@@ -245,17 +245,17 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             {
                 CVDisplayLinkSetOutputCallback(displayLink!, { (displayLink, inNow, inOutputTime, flagsIn, flagsOut, userData) -> CVReturn in
                     
-                    let _self = unsafeBitCast(userData, NSUIDisplayLink.self)
+                    let _self = unsafeBitCast(userData, to: NSUIDisplayLink.self)
                     
                     _self._timestamp = CFAbsoluteTimeGetCurrent()
-                    _self._target?.performSelectorOnMainThread(_self._selector, withObject: _self, waitUntilDone: false)
+                    _self._target?.performSelector(onMainThread: _self._selector, with: _self, waitUntilDone: false)
                     
                     return kCVReturnSuccess
-                    }, UnsafeMutablePointer(unsafeAddressOf(self)))
+                    }, UnsafeMutablePointer(unsafeAddress(of: self)))
             }
             else
             {
-                timer = NSTimer(timeInterval: 1.0 / 60.0, target: target, selector: selector, userInfo: nil, repeats: true)
+                timer = Timer(timeInterval: 1.0 / 60.0, target: target, selector: selector, userInfo: nil, repeats: true)
             }
 		}
         
@@ -264,7 +264,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             stop()
         }
 
-		public func addToRunLoop(runloop: NSRunLoop, forMode: String)
+		public func add(to runloop: RunLoop, forMode: String)
         {
             if displayLink != nil
             {
@@ -272,11 +272,11 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             }
             else if timer != nil
             {
-                runloop.addTimer(timer!, forMode: forMode)
+                runloop.add(timer!, forMode: RunLoopMode(rawValue: forMode))
             }
 		}
 
-		public func removeFromRunLoop(runloop: NSRunLoop, forMode: String)
+		public func remove(from runloop: RunLoop, forMode: String)
         {
             stop()
 		}
@@ -323,9 +323,9 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		}
         
         /// FIXME: Currently there are no more than 1 touch in OSX gestures, and not way to create custom touch gestures.
-		final func nsuiLocationOfTouch(touch: Int, inView: NSView?) -> NSPoint
+		final func nsuiLocationOf(touch: Int, in: NSView?) -> NSPoint
         {
-			return super.locationInView(inView)
+			return super.location(in: view)
 		}
     }
     
@@ -359,9 +359,9 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
         }
         
         /// FIXME: Currently there are no more than 1 touch in OSX gestures, and not way to create custom touch gestures.
-        final func nsuiLocationOfTouch(touch: Int, inView: NSView?) -> NSPoint
+        final func nsuiLocationOf(touch: Int, in view: NSView?) -> NSPoint
         {
-            return super.locationInView(inView)
+            return super.location(in: view)
         }
     }
 
@@ -375,54 +375,54 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	public class NSUIView: NSView
     {
-		public final override var flipped: Bool
+		public final override var isFlipped: Bool
         {
 			return true
 		}
 
 		func setNeedsDisplay()
         {
-			self.setNeedsDisplayInRect(self.bounds)
+			self.setNeedsDisplay(self.bounds)
 		}
 
-		public final override func touchesBeganWithEvent(event: NSEvent)
+		public final override func touchesBegan(with event: NSEvent)
         {
-			self.nsuiTouchesBegan(event.touchesMatchingPhase(.Any, inView: self), withEvent: event)
+			self.nsuiTouchesBegan(event.touches(matching: .any, in: self), with: event)
 		}
 
-		public final override func touchesEndedWithEvent(event: NSEvent)
+		public final override func touchesEnded(with event: NSEvent)
         {
-			self.nsuiTouchesEnded(event.touchesMatchingPhase(.Any, inView: self), withEvent: event)
+			self.nsuiTouchesEnded(event.touches(matching: .any, in: self), with: event)
 		}
 
-		public final override func touchesMovedWithEvent(event: NSEvent)
+		public final override func touchesMoved(with event: NSEvent)
         {
-			self.nsuiTouchesMoved(event.touchesMatchingPhase(.Any, inView: self), withEvent: event)
+			self.nsuiTouchesMoved(event.touches(matching: .any, in: self), with: event)
 		}
 
-		public override func touchesCancelledWithEvent(event: NSEvent)
+		public override func touchesCancelled(with event: NSEvent)
         {
-			self.nsuiTouchesCancelled(event.touchesMatchingPhase(.Any, inView: self), withEvent: event)
+			self.nsuiTouchesCancelled(event.touches(matching: .any, in: self), with: event)
 		}
 
-		public func nsuiTouchesBegan(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+		public func nsuiTouchesBegan(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
         {
-			super.touchesBeganWithEvent(event!)
+			super.touchesBegan(with: event!)
 		}
 
-		public func nsuiTouchesMoved(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+		public func nsuiTouchesMoved(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
         {
-			super.touchesMovedWithEvent(event!)
+			super.touchesMoved(with: event!)
 		}
 
-		public func nsuiTouchesEnded(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+		public func nsuiTouchesEnded(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
         {
-			super.touchesEndedWithEvent(event!)
+			super.touchesEnded(with: event!)
 		}
 
-		public func nsuiTouchesCancelled(touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
+		public func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, with event: NSUIEvent?)
         {
-			super.touchesCancelledWithEvent(event!)
+			super.touchesCancelled(with: event!)
         }
         
 		var backgroundColor: NSUIColor?
@@ -431,11 +431,11 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             {
                 return self.layer?.backgroundColor == nil
                     ? nil
-                    : NSColor(CGColor: self.layer!.backgroundColor!)
+                    : NSColor(cgColor: self.layer!.backgroundColor!)
             }
             set
             {
-                self.layer?.backgroundColor = newValue == nil ? nil : newValue!.CGColor
+                self.layer?.backgroundColor = newValue == nil ? nil : newValue!.cgColor
             }
         }
 
@@ -464,16 +464,16 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	extension NSImage
     {
-		var CGImage: CGImageRef?
+		var cgImage: CGImage?
         {
-            return self.CGImageForProposedRect(nil, context: nil, hints: nil)
+            return self.cgImage(forProposedRect: nil, context: nil, hints: nil)
 		}
 	}
 
 	extension NSTouch
     {
 		/** Touch locations on OS X are relative to the trackpad, whereas on iOS they are actually *on* the view. */
-		func locationInView(view: NSView) -> NSPoint
+		func locationInView(_ view: NSView) -> NSPoint
         {
 			let n = self.normalizedPosition
 			let b = view.bounds
@@ -483,7 +483,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	extension NSScrollView
     {
-		var scrollEnabled: Bool
+		var isScrollEnabled: Bool
         {
 			get
             {
@@ -491,23 +491,23 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 			}
             set
             {
-                // FIXME: We can't disable  scrolling it on OSX
+                // FIXME: We can't disable scrolling it on OSX
             }
 		}
 	}
 
-	func NSUIGraphicsGetCurrentContext() -> CGContextRef?
+	func NSUIGraphicsGetCurrentContext() -> CGContext?
     {
-		return NSGraphicsContext.currentContext()?.CGContext
+		return NSGraphicsContext.current()?.cgContext
 	}
 
-	func NSUIGraphicsPushContext(context: CGContextRef)
+	func NSUIGraphicsPushContext(_ context: CGContext)
     {
-		let address = unsafeAddressOf(context)
+		let address = unsafeAddress(of: context)
 		let ptr: UnsafeMutablePointer<CGContext> = UnsafeMutablePointer(UnsafePointer<CGContext>(address))
 		let cx = NSGraphicsContext(graphicsPort: ptr, flipped: true)
 		NSGraphicsContext.saveGraphicsState()
-		NSGraphicsContext.setCurrentContext(cx)
+		NSGraphicsContext.setCurrent(cx)
 	}
 
 	func NSUIGraphicsPopContext()
@@ -515,20 +515,20 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		NSGraphicsContext.restoreGraphicsState()
 	}
 
-	func NSUIImagePNGRepresentation(image: NSUIImage) -> NSData?
+	func NSUIImagePNGRepresentation(image: NSUIImage) -> Data?
     {
 		image.lockFocus()
 		let rep = NSBitmapImageRep(focusedViewRect: NSMakeRect(0, 0, image.size.width, image.size.height))
 		image.unlockFocus()
-		return rep?.representationUsingType(.NSPNGFileType, properties: [:])
+		return rep?.representation(using: .PNG, properties: [:])
 	}
 
-	func NSUIImageJPEGRepresentation(image: NSUIImage, _ quality: CGFloat = 0.9) -> NSData?
+	func NSUIImageJPEGRepresentation(image: NSUIImage, _ quality: CGFloat = 0.9) -> Data?
     {
 		image.lockFocus()
 		let rep = NSBitmapImageRep(focusedViewRect: NSMakeRect(0, 0, image.size.width, image.size.height))
 		image.unlockFocus()
-		return rep?.representationUsingType(.NSJPEGFileType, properties: [NSImageCompressionFactor: quality])
+		return rep?.representation(using: .JPEG, properties: [NSImageCompressionFactor: quality])
 	}
 
 	private var imageContextStack: [CGFloat] = []
@@ -538,7 +538,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		var scale = scale
 		if scale == 0.0
         {
-			scale = NSScreen.mainScreen()?.backingScaleFactor ?? 1.0
+			scale = NSScreen.main()?.backingScaleFactor ?? 1.0
 		}
 
 		let width = Int(size.width * scale)
@@ -549,9 +549,9 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 			imageContextStack.append(scale)
 
 			let colorSpace = CGColorSpaceCreateDeviceRGB()
-			let ctx = CGBitmapContextCreate(nil, width, height, 8, 4*width, colorSpace, (opaque ?  CGImageAlphaInfo.NoneSkipFirst.rawValue : CGImageAlphaInfo.PremultipliedFirst.rawValue))
-			CGContextConcatCTM(ctx, CGAffineTransformMake(1, 0, 0, -1, 0, CGFloat(height)))
-			CGContextScaleCTM(ctx, scale, scale)
+			let ctx = CGContext(data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 4*width, space: colorSpace, bitmapInfo: (opaque ?  CGImageAlphaInfo.noneSkipFirst.rawValue : CGImageAlphaInfo.premultipliedFirst.rawValue))
+			ctx?.concatCTM(CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: CGFloat(height)))
+			ctx?.scale(x: scale, y: scale)
 			NSUIGraphicsPushContext(ctx!)
 		}
 	}
@@ -562,10 +562,10 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
         {
 			let ctx = NSUIGraphicsGetCurrentContext()
 			let scale = imageContextStack.last!
-			if let theCGImage = CGBitmapContextCreateImage(ctx)
+			if let theCGImage = ctx?.makeImage()
             {
-				let size = CGSizeMake(CGFloat(CGBitmapContextGetWidth(ctx)) / scale, CGFloat(CGBitmapContextGetHeight(ctx)) / scale)
-				let image = NSImage(CGImage: theCGImage, size: size)
+				let size = CGSize(width: CGFloat((ctx?.width)!) / scale, height: CGFloat((ctx?.height)!) / scale)
+				let image = NSImage(cgImage: theCGImage, size: size)
 				return image
 			}
 		}
@@ -583,7 +583,15 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	func NSUIMainScreen() -> NSUIScreen?
     {
-		return NSUIScreen.mainScreen()
+		return NSUIScreen.main()
+	}
+
+	extension NSString {
+		/** On OS X, only size(withAttributes:) exists. It is expected that OSX will catch up and also change to 
+		size(attributes:). For now, use this as proxy. */
+		@nonobjc func size(attributes: [String: AnyObject]?) -> NSSize {
+			return self.size(withAttributes: attributes)
+		}
 	}
 
 #endif
