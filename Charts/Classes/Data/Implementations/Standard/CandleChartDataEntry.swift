@@ -70,36 +70,25 @@ public class CandleChartDataEntry: ChartDataEntry
         {
             return false
         }
-        
-        if (!object!.isKindOfClass(self.dynamicType))
+        guard let obj = (object as? CandleChartDataEntry)
+            else {
+                return false
+        }
+
+        if (obj.high != high)
+        {
+            return false
+        }
+        if (obj.low != low)
+        {
+            return false
+        }
+        if (obj.close != close)
         {
             return false
         }
         
-        if (object!.data !== data && !object!.data.isEqual(self.data))
-        {
-            return false
-        }
-        
-        if ((object as! CandleChartDataEntry).high != high)
-        {
-            return false
-        }
-        if ((object as! CandleChartDataEntry).low != low)
-        {
-            return false
-        }
-        if ((object as! CandleChartDataEntry).close != close)
-        {
-            return false
-        }
-        
-        if ((object as! CandleChartDataEntry).open != open)
-        {
-            return false
-        }
-        
-        if (fabs(object!.value - value) > 0.00001)
+        if (obj.open != open)
         {
             return false
         }

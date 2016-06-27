@@ -15,6 +15,8 @@ public class KlineChartDataEntry: CandleChartDataEntry {
         super.init()
     }
     
+     var _qualificationType:KlineQualification = .KDJ
+    
     public override init(xIndex: Int, shadowH: Double, shadowL: Double, open: Double, close: Double)
     {
         super.init(xIndex: xIndex, shadowH: shadowH, shadowL: shadowL, open: open, close: close)
@@ -31,7 +33,7 @@ public class KlineChartDataEntry: CandleChartDataEntry {
 //    var MA30:Double = 0.0
     var EMA5:Double {
         get {
-           return EMAValueFor(num: 5)!
+           return EMAValueFor(num: 5)
         } set {
             setEMAValueFor(num: 5, val: newValue)
         }
@@ -39,7 +41,7 @@ public class KlineChartDataEntry: CandleChartDataEntry {
 
     var EMA10:Double {
         get {
-           return EMAValueFor(num: 10)!
+           return EMAValueFor(num: 10)
         } set {
             setEMAValueFor(num: 10, val: newValue)
         }
@@ -47,7 +49,7 @@ public class KlineChartDataEntry: CandleChartDataEntry {
     
     var EMA30:Double {
         get {
-          return  EMAValueFor(num: 30)!
+          return  EMAValueFor(num: 30)
         } set {
             setEMAValueFor(num: 30, val: newValue)
         }
@@ -75,59 +77,57 @@ public class KlineChartDataEntry: CandleChartDataEntry {
         return dic;
     }()
     
-    public func EMAValueFor(num num: Int) -> Double? {
+    public func EMAValueFor(num num: Int) -> Double {
         
         let ema = EMAValueDict[num]
         if ema != nil {
             return ema!
         }
-        return nil;
+        return close;
     }
     public func setEMAValueFor(num num: Int, val:Double) {
         
         EMAValueDict[num] = val
     }
     
-    public override var xIndex: Int {
-        get {
-            if (self.dataSet != nil) {
-                
-                return (dataSet?.yVals.indexOf(self))!
-            } else {
-                return self.xIndex;
-            }
-        } set {
-            self.xIndex = newValue;
-            
-        }
-    }
-    
-
+//    public override var xIndex: Int {
+//        get {
+//            if (dataSet != nil) {
+//                
+//                return (dataSet?.yVals.indexOf(self))!
+//            } else {
+//                return self.xIndex;
+//            }
+//        } set {
+////            self.xIndex = newValue;
+//            
+//        }
+//    }
     
     public func calcQualification()  {
         
         if lastEntry == nil {
-            EMA5 = close
-            EMA10 = close
-            EMA30 = close
-//            MA5 = close
-//            MA10 = close
-//            MA30 = close
             NineClocksMax = high
             NineClocksMin = low
-            
         } else {
-            
-            caclNineMaxANDNineMin()
         }
-        caclMA()
-        caclEMA()
-        caclDIF()
-        caclDEA()
-        caclMACD()
-        caclRSV_9()
-        caclKDJ()
-        
+        switch _qualificationType {
+        case .KDJ:
+            caclNineMaxANDNineMin()
+            caclRSV_9()
+            caclKDJ()
+            
+        case .MACD:
+            caclDIF()
+            caclDEA()
+            caclMACD()
+        case .VOL: break
+        case .RSI: break
+        case .BIAS: break
+        case .BOLL: break
+        case .WR: break
+        case .ASI: break
+        }
     }
     
     func caclMA() {
@@ -141,7 +141,9 @@ public class KlineChartDataEntry: CandleChartDataEntry {
     }
     
     func caclDIF() {
-        DIF = EMA10 - EMA30
+        
+        
+        DIF = caclEMAFor(num: 12) - caclEMAFor(num: 26)
     }
     func  caclDEA () {
         if lastEntry == nil {
@@ -181,8 +183,14 @@ public class KlineChartDataEntry: CandleChartDataEntry {
         
         let curIndex = (dataSet?.yVals.indexOf(self))
         if (curIndex < 9) {
-            NineClocksMin = min((lastEntry?.NineClocksMin)!, low)
-            NineClocksMax = max((lastEntry?.NineClocksMax)!, high)
+            if lastEntry == nil {
+                NineClocksMax = high
+                NineClocksMin = low
+            } else {
+                NineClocksMin = min((lastEntry?.NineClocksMin)!, low)
+                NineClocksMax = max((lastEntry?.NineClocksMax)!, high)
+            }
+
         } else {
             
             let entry = dataSet?.yVals[curIndex! - 9] as! KlineChartDataEntry;
@@ -215,41 +223,46 @@ public class KlineChartDataEntry: CandleChartDataEntry {
         nineClocksNeedCacl = false
     }
     
-        public func caclEMAFor(num num: Int) -> Double {
-            
-
-            if dataSet == nil {
-                return close
-            }
-           
-            let yVals = dataSet!.yVals
-             let index:Int = yVals.indexOf(self)!
-            if index == 0 {
-                return close
-            }
-          
-            guard EMAValueFor(num: num) == nil
-             else
-            {
-                return EMAValueFor(num: num)!
-            }
-            
-            if index < num {
-                let subVals = Array(yVals[0..<index+1]).map({ (entry) -> Double in
-    
-                    return entry.value;
-                })
-                let avg:Double =  (subVals as NSArray).valueForKeyPath("@avg.doubleValue") as! Double
-                
-                setEMAValueFor(num: num, val: avg)
-                return avg
-            } else {
-    
-                let avg = yVals[index].value / Double(num) + (lastEntry?.EMAValueFor(num: num))! * ( Double((num - 1))/Double(num))
-                setEMAValueFor(num: num, val: avg)
-                
-                return avg
-            }
+    public func caclEMAFor(num num: Int) -> Double {
+        
+        
+        if dataSet == nil {
+            setEMAValueFor(num: num, val: close)
+            return close
         }
+        
+        let yVals = dataSet!.yVals
+        let index:Int = yVals.indexOf(self)!
+        
+        let ema = EMAValueDict[num]
+        
+        guard ema == nil
+            else
+        {
+            return ema!
+        }
+        
+        if index == 0 {
+            setEMAValueFor(num: num, val: close)
+            return close
+        }
+        
+        if index < num {
+            let subVals = Array(yVals[0..<index+1]).map({ (entry) -> Double in
+                
+                return entry.value;
+            })
+            let avg:Double =  (subVals as NSArray).valueForKeyPath("@avg.doubleValue") as! Double
+            
+            setEMAValueFor(num: num, val: avg)
+            return avg
+        } else {
+            
+            let avg = yVals[index].value / Double(num) + (lastEntry?.caclEMAFor(num: num))! * ( Double((num - 1))/Double(num))
+            setEMAValueFor(num: num, val: avg)
+            
+            return avg
+        }
+    }
 
 }

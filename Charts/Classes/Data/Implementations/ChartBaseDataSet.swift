@@ -61,6 +61,17 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         fatalError("yMax is not implemented in ChartBaseDataSet")
     }
     
+    public var yMinXIndex: Int
+    {
+        fatalError("yMin is not implemented in ChartBaseDataSet")
+    }
+    
+    public var yMaxXIndex: Int
+    {
+        fatalError("yMax is not implemented in ChartBaseDataSet")
+    }
+    
+    
     public var entryCount: Int
     {
         fatalError("entryCount is not implemented in ChartBaseDataSet")
@@ -289,8 +300,14 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     /// the font for the value-text labels
     public var valueFont: NSUIFont = NSUIFont.systemFontOfSize(7.0)
     
+    public var minMaxFont: NSUIFont = NSUIFont.systemFontOfSize(13)
+    
     /// Set this to true to draw y-values on the chart
     public var drawValuesEnabled = true
+    
+    public var drawMinMaxValueEnable = false
+    
+    public var colorForMinMaxValue = NSUIColor.blackColor()
     
     /// Returns true if y-value drawing is enabled, false if not
     public var isDrawValuesEnabled: Bool

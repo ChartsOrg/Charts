@@ -69,7 +69,11 @@
 //    ChartXAxis *xAxis = _chartView.xAxis;
 //    xAxis.labelPosition = XAxisLabelPositionBothSided;
     
-    [self updateChartData];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+        [self updateChartData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -109,7 +113,7 @@
 //    data.barData = [self generateBarData];
 //    data.bubbleData = [self generateBubbleData];
 //    data.scatterData = [self generateScatterData];
-        _chartView.klineData = [self generateCandleData];
+    [self generateCandleData];
     
  
 }
@@ -145,7 +149,17 @@
 //    }
 //    
 //    [super handleOption:key forChartView:_chartView];
+    
+    if (self.chartView.klineData.qualificationType == KlineQualificationMACD) {
+        self.chartView.klineData.qualificationType = KlineQualificationKDJ;
+//        self.chartView.d
+    } else {
+        self.chartView.klineData.qualificationType = KlineQualificationMACD;
+    }
+    
+    [self.chartView resetData];
 }
+
 
 //- (LineChartData *)generateLineData
 //{
@@ -252,11 +266,19 @@
     return d;
 }
 
-- (KlineChartData *)generateCandleData
+- (void )generateCandleData
 {
- 
+   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+       
+      KlineChartData *data = [self setDataCount:(1000) range:3000];
+       
+       dispatch_async(dispatch_get_main_queue(), ^{
+           _chartView.klineData = data;
+       });
     
-    return  [self setDataCount:(500 ) range:3000];
+   });
+    
+//    return
 }
 
 - (KlineChartData *)setDataCount:(int)count range:(double)range
@@ -282,22 +304,20 @@
         [yVals1 addObject:[[KlineChartDataEntry alloc] initWithXIndex:i shadowH:val + high shadowL:val - low open:even ? val + open : val - open close:even ? val - close : val + close]];
     }
     
-    KlineChartDataSet *set1 = [[KlineChartDataSet alloc] initWithYVals:yVals1 label:@"Data Set"];
+    KlineChartDataSet *set1 = [[KlineChartDataSet alloc] initWithYVals:yVals1 label:@"KLine"];
     set1.axisDependency = AxisDependencyLeft;
     set1.drawValuesEnabled = false;
     set1.shadowColorSameAsCandle = true;
-    set1.MA5Color = [UIColor redColor];
-    set1.MA10Color = [UIColor greenColor];
-    set1.MA30Color = [UIColor blueColor];
     [set1 setColor:[UIColor colorWithWhite:80/255.f alpha:1.f]];
     
     set1.shadowColor = UIColor.darkGrayColor;
     set1.shadowWidth = 0.7;
-    set1.increasingColor = UIColor.redColor;
-    set1.decreasingColor = [UIColor colorWithRed:122/255.f green:242/255.f blue:84/255.f alpha:1.f];
+    set1.increasingColor =  [UIColor colorWithRed:255/255.f green:48/255.f blue:66/255.f alpha:1.f];
+    set1.decreasingColor = [UIColor colorWithRed:0/255.f green:191/255.f blue:128/255.f alpha:1.f];
     set1.neutralColor = UIColor.blueColor;
     
     KlineChartData *data = [[KlineChartData alloc] initWithXVals:xVals dataSet:set1];
+    data.qualificationType = KlineQualificationMACD;
     
     return data;
 }

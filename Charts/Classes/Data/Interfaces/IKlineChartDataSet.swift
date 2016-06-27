@@ -12,7 +12,14 @@ import CoreGraphics
 @objc
 public protocol IKlineChartDataSet: ICandleChartDataSet
 {
-     var MA5Color: NSUIColor? { get set }
-     var MA10Color: NSUIColor? { get set }
-     var MA30Color: NSUIColor? { get set }
+     var MA5Color: NSUIColor { get set }
+     var MA10Color: NSUIColor { get set }
+     var MA30Color: NSUIColor { get set }
+    var KDJ_KColor: NSUIColor { get set }
+    var KDJ_DColor: NSUIColor { get set }
+    var KDJ_JColor: NSUIColor { get set }
+    var MACD_DIFColor: NSUIColor { get set }
+    var MACD_DEAColor: NSUIColor { get set }
+    var MACD_Color: NSUIColor { get set }
+    
 }

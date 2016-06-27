@@ -1863,6 +1863,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         return min(leftAxis._axisMinimum, rightAxis._axisMinimum)
     }
     
+//    public override
+    
     /// - returns: true if either the left or the right or both axes are inverted.
     public var isAnyAxisInverted: Bool
     {

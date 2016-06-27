@@ -713,6 +713,13 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate ,
         return _data?.yMin ?? 0.0
     }
     
+    public var chartYMaxXIndex: Int {
+      return  _data?.yMaxXIndex ?? 0
+    }
+    
+    public var chartYMinXIndex: Int {
+        return  _data?.yMinXIndex ?? 0
+    }
     public var chartXMax: Double
     {
         return _xAxis._axisMaximum

@@ -34,6 +34,9 @@ public protocol IChartDataSet
     /// - returns: the maximum y-value this DataSet holds
     var yMax: Double { get }
     
+    var yMinXIndex:Int  { get }
+    var yMaxXIndex:Int  { get }
+    
     /// - returns: the number of y-values this DataSet represents
     var entryCount: Int { get }
     
@@ -144,6 +147,7 @@ public protocol IChartDataSet
     /// List representing all colors that are used for drawing the actual values for this DataSet
     var valueColors: [NSUIColor] { get }
     
+    var colorForMinMaxValue:NSUIColor { get set }
     /// All the colors that are used for this DataSet.
     /// Colors are reused as soon as the number of Entries the DataSet represents is higher than the size of the colors array.
     var colors: [NSUIColor] { get }
@@ -178,8 +182,12 @@ public protocol IChartDataSet
     /// the font for the value-text labels
     var valueFont: NSUIFont { get set }
     
+    var minMaxFont: NSUIFont { get set }
+    
     /// Set this to true to draw y-values on the chart
     var drawValuesEnabled: Bool { get set }
+    
+    var drawMinMaxValueEnable: Bool {get set}
     
     /// Returns true if y-value drawing is enabled, false if not
     var isDrawValuesEnabled: Bool { get }

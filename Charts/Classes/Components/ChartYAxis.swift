@@ -49,6 +49,8 @@ public class ChartYAxis: ChartAxisBase
     /// indicates if the top y-label entry is drawn or not
     public var drawTopYLabelEntryEnabled = true
     
+    public var drawTopLowRntry = true
+    
     /// if true, the y-labels show only the minimum and maximum value
     public var showOnlyMinMaxEnabled = false
     
@@ -76,6 +78,8 @@ public class ChartYAxis: ChartAxisBase
         }
     }
     
+//    public var minEntryXIndex = 0
+//    public var maxEntryXindex = 0
     /// if true, the set number of y-labels will be forced
     public var forceLabelsEnabled = false
 

@@ -65,11 +65,13 @@ public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChar
             if (e.low < _yMin)
             {
                 _yMin = e.low
+                _yMinXIndex = e.xIndex
             }
             
             if (e.high > _yMax)
             {
                 _yMax = e.high
+                _yMaxXIndex = e.xIndex
             }
         }
     }
