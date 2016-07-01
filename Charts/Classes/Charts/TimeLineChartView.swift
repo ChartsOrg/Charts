@@ -36,9 +36,9 @@ public class TimeLineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatte
     
     //    var currentScale
     
-    lazy var lineView:LineChartView! = {
+    lazy var lineView:CombinedChartView! = {
         
-        let cdView = LineChartView()
+        let cdView = CombinedChartView()
         cdView.scaleYEnabled = false
         cdView.scaleXEnabled = false
         cdView.doubleTapToZoomEnabled = false;
@@ -54,16 +54,25 @@ public class TimeLineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatte
         cdView.leftAxis.gridLineDashLengths = [2,2]
         cdView.leftAxis.drawAxisLineEnabled = false
         cdView.leftAxis.gridColor = UIColor(white: 0.86, alpha: 0.8);
-        cdView.leftAxis.labelCount = 4;
         cdView.leftAxis.maxWidth = 70;
-        cdView.leftAxis.labelTextColor = UIColor(white: 0.5, alpha: 1);
+        cdView.leftAxis.labelTextColor = UIColor(white: 0.4, alpha: 1);
         cdView.leftAxis.labelPosition = ChartYAxis.LabelPosition.InsideChart
         cdView.leftAxis.drawTopYLabelEntryEnabled = true
         
         //        cdView.rightAxis.enabled = false
 //        cdView.rightAxis.drawLabelsEnabled = false
         cdView.rightAxis.drawGridLinesEnabled = false
+        cdView.rightAxis.customValueFormatter = self
+        cdView.leftAxis.customValueFormatter = self
         cdView.rightAxis.drawAxisLineEnabled = false
+        cdView.rightAxis.labelPosition = ChartYAxis.LabelPosition.InsideChart
+        
+        cdView.rightAxis.maxWidth = 70;
+        cdView.rightAxis.labelTextColor = UIColor(white: 0.4, alpha: 1);
+        cdView.leftAxis.labelCount = 3;
+        cdView.leftAxis.forceLabelsEnabled = true;
+        cdView.rightAxis.labelCount = 3;
+        cdView.rightAxis.forceLabelsEnabled = true;
 //        cdView.
         
         
@@ -103,12 +112,14 @@ public class TimeLineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatte
         cdView.leftAxis.gridLineDashLengths = [2,2]
         cdView.leftAxis.drawAxisLineEnabled = false
         cdView.leftAxis.gridColor = UIColor(white: 0.86, alpha: 0.8);
-        cdView.leftAxis.labelCount = 4;
+        cdView.leftAxis.labelCount = 3;
+        cdView.leftAxis.forceLabelsEnabled = true
         cdView.leftAxis.maxWidth = 70;
         cdView.leftAxis.labelTextColor = UIColor(white: 0.5, alpha: 1);
         cdView.leftAxis.labelPosition = ChartYAxis.LabelPosition.InsideChart
         cdView.leftAxis.drawTopYLabelEntryEnabled = true
         
+        cdView.leftAxis._customValueFormatter = self
         //        cdView.rightAxis.enabled = false
         cdView.rightAxis.drawLabelsEnabled = false
         cdView.rightAxis.drawGridLinesEnabled = false
@@ -137,34 +148,92 @@ public class TimeLineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatte
         return ""
     }
     
-    public func stringForNumber(number:NSNumber, xIndex: Int, max:Double) -> String {
+    public func stringForNumber(number:NSNumber, xIndex: Int, max:Double, yAxis:ChartYAxis) -> NSAttributedString {
         
-        let value = number.doubleValue;
-        
-        var string = ""
-        
-        var  sValue = value;
-        if max > 999999999.0 {
-            sValue = value / 100000000.0
-            string = "亿"
-        } else if max > 99999999.0 {
-            sValue = value / 10000000.0
-            string = "千万"
-        } else if max > 9999999.0 {
-            sValue = value / 1000000.0
-            string = "百万"
-        } else if max > 100000.0 {
+           let value = number.doubleValue;
+        if yAxis == qualificationView.leftAxis  {
             
-            sValue = value / 10000.0
-            string = "万"
-        } else {
-            string = "0"
+            var string = ""
+            
+            var  sValue = value;
+            if max > 999999999.0 {
+                sValue = value / 100000000.0
+                string = "亿"
+            } else if max > 99999999.0 {
+                sValue = value / 10000000.0
+                string = "千万"
+            } else if max > 9999999.0 {
+                sValue = value / 1000000.0
+                string = "百万"
+            } else if max > 100000.0 {
+                
+                sValue = value / 10000.0
+                string = "万"
+            } else {
+                string = "0"
+            }
+            if value == 0 {
+                return NSAttributedString(string:string)
+            } else {
+                return  NSAttributedString(string:String(format: "%.2f", sValue))
+            }
+        } else if yAxis == lineView.rightAxis {
+            
+            guard let lineData = timeLineData else { return NSAttributedString(string:"")}
+            let value = (value - (lineData.limit)) / (lineData.limit);
+            
+            var color:NSUIColor = lineView.rightAxis.labelTextColor;
+            
+            if let dataSet = lineData.dataSets[0] as? TimeLineChartDataSet {
+                
+                if value > 0 {
+                    color = dataSet.increasingColor
+                } else if value < 0 {
+                    color = dataSet.decreasingColor
+                }
+            }
+        let formatter = NSNumberFormatter()
+            formatter.numberStyle = NSNumberFormatterStyle.PercentStyle;
+            formatter.maximumFractionDigits = 2;
+            formatter.minimumFractionDigits = 1;
+            formatter.positivePrefix = "+"
+            formatter.negativePrefix = "-"
+            
+           let string = formatter.stringFromNumber(NSNumber(double: value));
+            
+            guard string != nil else { return  NSAttributedString(string:"")}
+            
+            let attributeString = NSAttributedString(string: string!, attributes: [NSForegroundColorAttributeName : color])
+            return attributeString;
+            
+        } else if yAxis == lineView.leftAxis {
+            
+            
+          let string = (lineView.leftAxis.valueFormatter ?? lineView.leftAxis._defaultValueFormatter).stringFromNumber(number)
+            
+            guard let lineData = timeLineData else { return NSAttributedString(string:"")}
+            let value = (value - (lineData.limit)) / (lineData.limit);
+            
+            var color:NSUIColor = lineView.rightAxis.labelTextColor;
+            
+            if let dataSet = lineData.dataSets[0] as? TimeLineChartDataSet {
+                
+                if value > 0 {
+                    color = dataSet.increasingColor
+                } else if value < 0 {
+                    color = dataSet.decreasingColor
+                }
+            }
+
+            guard string != nil else { return  NSAttributedString(string:"")}
+            
+            let attributeString = NSAttributedString(string: string!, attributes: [NSForegroundColorAttributeName : color])
+            return attributeString;
+            
         }
-        if value == 0 {
-            return string
-        } else {
-            return String(format: "%.2f", sValue);
-        }
+
+    
+        return NSAttributedString(string:"")
     }
     
     private var qualificationData:CombinedChartData!
@@ -191,14 +260,20 @@ public class TimeLineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatte
         } else {
             let  lineData = timeLineData!
             
+            
+            let data  = CombinedChartData(xVals: lineData.xVals)
+            
             qualificationView.legend.enabled = false
             qualificationView.leftAxis.axisMinValue = 0
             qualificationView.leftAxis.customValueFormatter = self;
             qualificationView.leftAxis.showOnlyMinMaxEnabled  = true;
+        
+            data.lineData = lineData.mainLineData;
+            lineView.data = data;
             
-            lineView.rightAxis.addLimitLine(ChartLimitLine(limit: 0.0, label: "0.0%"))
-            
-            lineView.data = lineData.mainLineData;
+//            let limit =ChartLimitLine(limit: lineData.limit, label: String(format: "%.2f", lineData.limit))
+////            limit.lineColor = 
+//            lineView.leftAxis.addLimitLine()
 //            lineView.setVisibleXRange(minXRange: CGFloat(minVisibleCount), maxXRange: CGFloat(maxVisibleCount));
             
             qualificationView.descriptionText = "(VOL)"
@@ -212,9 +287,9 @@ public class TimeLineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatte
             
             lineView.leftAxis.axisMaxValue = lineData.yMax;
             lineView.leftAxis.axisMinValue = lineData.yMin;
+            lineView.rightAxis.axisMaxValue = lineData.yMax;
+            lineView.rightAxis.axisMinValue = lineData.yMin;
             
-            lineView.rightAxis.axisMaxValue = lineData._rightAxisMax;
-            lineView.rightAxis.axisMinValue = lineData._rightAxisMin;
             
 //            qualificationView.viewPortHandler.setMinMaxScaleX(minScaleX: lineView.viewPortHandler.minScaleX, maxScaleX: lineView.viewPortHandler.maxScaleX)
             redrawLengend(Int(lineData._lastEnd))
@@ -285,10 +360,18 @@ public class TimeLineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatte
         let dataSet =  kLineData.dataSets[0] as! TimeLineChartDataSet
         
         guard let entry = dataSet.entryForXIndex(xIndex) else  { return }
-        let entryTimeline = entry as! TimelineDataEntry
-        lineView.legend.colors = [dataSet.colorAt(0),dataSet.avgColor]
-        lineView.legend.labels = [String.init(format: "%@:%.2f", dataSet.label!,entryTimeline.current) ,String.init(format: "%@:%.2f", dataSet.mainLineDataSets[0].label!,entryTimeline.avg)]
-        
+        if  let entryTimeline = entry as? TimelineDataEntry {
+            
+            lineView.legend.colors = [dataSet.colorAt(0)]
+            lineView.legend.labels = [String(format: "%@:%.2f","当前",entryTimeline.current)]
+            
+            if dataSet.avgVisibe {
+                
+                lineView.legend.colors.append(dataSet.avgColor)
+                lineView.legend.labels.append(String(format: "%@:%.2f","均价",entryTimeline.avg))
+            }
+        }
+
         lineView.legend.calculateDimensions(labelFont: lineView.legend.font, viewPortHandler: lineView.viewPortHandler)
         
 //        qualificationView.legend.colors = [dataSet.MACD_DIFColor,dataSet.MACD_DEAColor,dataSet.MACD_Color]

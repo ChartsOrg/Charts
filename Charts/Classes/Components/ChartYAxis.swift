@@ -262,7 +262,7 @@ public class ChartYAxis: ChartAxisBase
         
         for i in 0 ..< entries.count
         {
-            let text = getFormattedLabel(i)
+            let text = getFormattedLabel(i).string
             
             if (longest.characters.count < text.characters.count)
             {
@@ -274,18 +274,18 @@ public class ChartYAxis: ChartAxisBase
     }
 
     /// - returns: the formatted y-label at the specified index. This will either use the auto-formatter or the custom formatter (if one is set).
-    public func getFormattedLabel(index: Int) -> String
+    public func getFormattedLabel(index: Int) -> NSAttributedString
     {
         if (index < 0 || index >= entries.count)
         {
-            return ""
+            return NSAttributedString(string: "");
         }
         if hasCustomValueFormatter  {
             
-            return customValueFormatter!.stringForNumber(entries[index], xIndex:index, max:axisMaxValue)
+            return customValueFormatter!.stringForNumber(entries[index], xIndex:index, max:axisMaxValue,yAxis:self)
         }
 //
-        return (valueFormatter ?? _defaultValueFormatter).stringFromNumber(entries[index])!
+        return NSAttributedString(string:(valueFormatter ?? _defaultValueFormatter).stringFromNumber(entries[index])!)
     }
     
     /// - returns: true if this axis needs horizontal offset, false if no offset is needed.

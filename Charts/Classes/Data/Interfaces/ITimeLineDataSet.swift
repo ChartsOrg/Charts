@@ -27,4 +27,6 @@ public protocol ITimeLineDataSet: ILineChartDataSet {
     
     var yMinRange:Double { get }
     var yMaxRange:Double { get }
+    
+    var avgVisibe:Bool { get set }
 }

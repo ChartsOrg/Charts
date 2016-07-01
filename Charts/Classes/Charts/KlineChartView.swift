@@ -171,7 +171,7 @@ public class KlineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatter ,
         return original;
     }
     
-    public func stringForNumber(number:NSNumber, xIndex: Int, max:Double) -> String {
+    public func stringForNumber(number:NSNumber, xIndex: Int, max:Double ,yAxis: ChartYAxis) -> NSAttributedString {
         
         let value = number.doubleValue;
         
@@ -195,9 +195,9 @@ public class KlineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatter ,
             string = "0"
         }
         if value == 0 {
-            return string
+            return NSAttributedString(string:string)
         } else {
-            return String(format: "%.2f", sValue);
+            return  NSAttributedString(string:String(format: "%.2f", sValue));
         }
     }
     

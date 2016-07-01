@@ -270,7 +270,7 @@
 {
    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
        
-      KlineChartData *data = [self setDataCount:(500) range:200];
+      TimeLineData *data = [self setDataCount:(500) range:200];
        
        dispatch_async(dispatch_get_main_queue(), ^{
            _chartView.timeLineData = data;
@@ -281,7 +281,7 @@
 //    return
 }
 
-- (KlineChartData *)setDataCount:(int)count range:(double)range
+- (TimeLineData *)setDataCount:(int)count range:(double)range
 {
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
     
@@ -296,15 +296,15 @@
     {
         double mult = (range + 1);
         double val = (double) (arc4random_uniform(40)) + mult;
-        double high = (double) (arc4random_uniform(9)) + 8.0;
-        double low = (double) (arc4random_uniform(9)) + 8.0;
+        double high = (double) (arc4random_uniform(50)) - 20.0;
+        double low = (double) (arc4random_uniform(50)) - 20.0;
         double open = (double) (arc4random_uniform(6)) + 1.0;
         double current = (double)  (arc4random_uniform(range / 10)) - (range/20);
         double close = mult;
-        double volume = (double) (arc4random_uniform(10));
+        double volume = (double) (arc4random_uniform(20)) - 10;
         BOOL even = i % 2 == 0;
         
-        [yVals1 addObject: [[TimelineDataEntry alloc] initWithXIndex:i shadowH:(current + high)  shadowL:(current - low) open:(even ? val + open : val - open) close:(close) current:(close + current) range:(close / (close + current)) volume:100 + volume money:5000]];
+        [yVals1 addObject: [[TimelineDataEntry alloc] initWithXIndex:i shadowH:(close + high )  shadowL:(close + low) open:(even ? val + open : val - open) close:(close) current:(close + current) range:(close / (close + current)) volume:100 + volume money: ((close + high + low + close)/ 2) * (100 + volume)]];
 
     }
     
@@ -319,6 +319,20 @@
     set1.drawHorizontalHighlightValueEnable = YES;
     set1.drawHorizontalHighlightIndicatorEnabled = YES;
     set1.drawCirclesEnabled = NO;
+    [set1 setColor:[UIColor colorWithRed:45/255.f green:187/255.f blue:227/255.f alpha:1.f]];
+    set1.fillColor = [UIColor colorWithRed:45/255.f green:187/255.f blue:227/255.f alpha:1.f];
+    set1.fillAlpha = 0.5;
+    
+    NSArray *gradientColors = @[
+                                (id)[ChartColorTemplates colorFromString:@"#992dbde5"].CGColor,
+                                (id)[ChartColorTemplates colorFromString:@"#ff2dbde5"].CGColor
+                                ];
+    CGGradientRef gradient = CGGradientCreateWithColors(nil, (CFArrayRef)gradientColors, nil);
+    
+    set1.fill = [ChartFill fillWithLinearGradient:gradient angle:90.f];
+    set1.drawFilledEnabled = YES;
+    set1.avgVisibe = YES;
+    CGGradientRelease(gradient);
     
     
     TimeLineData *data = [[TimeLineData alloc] initWithXVals:xVals dataSet:set1];

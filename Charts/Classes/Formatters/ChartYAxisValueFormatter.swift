@@ -20,6 +20,6 @@ public protocol ChartYAxisValueFormatter
     /// - parameter original:        the original x-axis label to be drawn
     /// - parameter viewPortHandler: provides information about the current chart state (scale, translation, ...)
     ///
-    func stringForNumber(number:NSNumber, xIndex: Int, max:Double) -> String
+    func stringForNumber(number:NSNumber, xIndex: Int, max:Double ,yAxis:ChartYAxis) -> NSAttributedString
     
 }

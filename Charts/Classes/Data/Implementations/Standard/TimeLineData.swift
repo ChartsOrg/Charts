@@ -14,6 +14,8 @@ public class TimeLineData: LineChartData {
     
    public var qulificationBarData:BarChartData = BarChartData()
     
+    public var limit:Double = 0.0
+    
     public override init()
     {
         super.init()
@@ -73,6 +75,7 @@ public class TimeLineData: LineChartData {
         
         if line.mainLineDataSets.count != 0 {
             mainLineData = LineChartData(xVals: xVals, dataSets:line.mainLineDataSets)
+            limit = (line.entryForIndex(0) as! TimelineDataEntry).close;
         }
         if line.qulificationBarDataSets.count  != 0 {
             qulificationBarData = BarChartData(xVals: xVals, dataSets:line.qulificationBarDataSets)

@@ -13,6 +13,19 @@ public class TimeLineChartDataSet: LineChartDataSet,ITimeLineDataSet {
     
     internal var _yMaxRange = Double(0.0)
     internal var _yMinRange = Double(0.0)
+    
+    internal var _avgVisibe:Bool = false
+    
+    public var avgVisibe: Bool {
+        
+        get {
+           return _avgVisibe
+        } set {
+            _avgVisibe = newValue
+            
+        }
+    }
+    
     /// - returns: the minimum y-value this DataSet holds
     public  var yMinRange: Double { return _yMinRange }
     
@@ -92,7 +105,7 @@ public class TimeLineChartDataSet: LineChartDataSet,ITimeLineDataSet {
         }
         
         let  positive = ( entries[_lastStart].close - yMin)
-        let neg  = (entries[_lastStart].high - yMax)
+        let neg  = (entries[_lastStart].close - yMax)
         
         let  range = max( abs(positive), abs(neg))
         _yMin = entries[_lastStart].close - range
@@ -105,7 +118,6 @@ public class TimeLineChartDataSet: LineChartDataSet,ITimeLineDataSet {
         
         var barArray = [ChartDataEntry]()
         var lineArray = [ChartDataEntry]()
-        var rangeArray = [ChartDataEntry] ()
         var originArray = [ChartDataEntry]()
         var colorArray = [NSUIColor]()
         for i in 0 ..< yVals.count
@@ -114,7 +126,6 @@ public class TimeLineChartDataSet: LineChartDataSet,ITimeLineDataSet {
 
             var color:NSUIColor!
             let line  =  BarChartDataEntry(value: entry.avg, xIndex: i)
-            let rangeLine  =  BarChartDataEntry(value: entry.range, xIndex: i)
             let origin  = BarChartDataEntry(value: entry.value, xIndex: i)
             let entryBar =  BarChartDataEntry(value: entry.volume, xIndex: i)
             if (entry.current - entry.close >= 0) {
@@ -127,7 +138,6 @@ public class TimeLineChartDataSet: LineChartDataSet,ITimeLineDataSet {
             colorArray.append(color)
             barArray.append(entryBar)
             lineArray.append(line)
-            rangeArray.append(rangeLine);
 
         }
         
@@ -136,6 +146,8 @@ public class TimeLineChartDataSet: LineChartDataSet,ITimeLineDataSet {
         origin.fillAlpha = fillAlpha;
         origin.fillColor = fillColor;
         origin.fill = fill;
+        origin.drawFilledEnabled = drawFilledEnabled
+//        origin.
         origin.colors = colors
         origin.circleHoleColor = circleHoleColor;
         origin.drawValuesEnabled = drawValuesEnabled
@@ -148,25 +160,7 @@ public class TimeLineChartDataSet: LineChartDataSet,ITimeLineDataSet {
         origin.highlightLineWidth = highlightLineWidth;
         origin.drawHorizontalHighlightValueEnable = true;
         origin.drawHorizontalHighlightIndicatorEnabled = true;
-        
-        let rangeDataSet = LineChartDataSet(yVals: rangeArray, label: "当前")
-        rangeDataSet.mode = LineChartDataSet.Mode.Linear
-        rangeDataSet.fillAlpha = fillAlpha;
-        rangeDataSet.fillColor = fillColor;
-        rangeDataSet.fill = fill;
-        rangeDataSet.colors = colors
-        rangeDataSet.circleHoleColor = circleHoleColor;
-        rangeDataSet.drawValuesEnabled = drawValuesEnabled
-        rangeDataSet.circleHoleRadius = circleHoleRadius;
-        rangeDataSet.circleColors = circleColors;
-        rangeDataSet.drawCirclesEnabled = drawCirclesEnabled
-        rangeDataSet.highlightEnabled = highlightEnabled;
-        rangeDataSet.highlightLineDashPhase = highlightLineDashPhase;
-        rangeDataSet.highlightColor = highlightColor;
-        rangeDataSet.highlightLineWidth = highlightLineWidth;
-        rangeDataSet.drawHorizontalHighlightValueEnable = true;
-        rangeDataSet.drawHorizontalHighlightIndicatorEnabled = true;
-        
+
         let lineDataSet = LineChartDataSet(yVals: lineArray, label: "avg")
         lineDataSet.drawCirclesEnabled = false
         lineDataSet.drawValuesEnabled = false
@@ -176,6 +170,7 @@ public class TimeLineChartDataSet: LineChartDataSet,ITimeLineDataSet {
         lineDataSet.highlightLineWidth = highlightLineWidth;
         lineDataSet.drawHorizontalHighlightIndicatorEnabled = false;
         lineDataSet.lineWidth = 0.5;
+        lineDataSet.visible = self.avgVisibe;
 
         let barDataSet = BarChartDataSet(yVals: barArray, label: "VOL")
         barDataSet.drawValuesEnabled = false
@@ -187,7 +182,7 @@ public class TimeLineChartDataSet: LineChartDataSet,ITimeLineDataSet {
         barDataSet.valueColors = colorArray
         
         //
-        _mainLineDataSets = [origin,rangeDataSet,lineDataSet]
+        _mainLineDataSets = [origin, lineDataSet]
         _qulificationBarDataSets = [barDataSet]
         //        difDataSet.en
     }
