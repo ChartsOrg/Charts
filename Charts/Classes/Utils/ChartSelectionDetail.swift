@@ -13,6 +13,7 @@
 //
 
 import Foundation
+import CoreGraphics.CGBase
 
 public class ChartSelectionDetail: NSObject
 {
