@@ -10,6 +10,7 @@ cache:
 
 before_install:
   - brew update
+  - brew upgrade carthage
   - cd Charts && carthage bootstrap
 
 script:
