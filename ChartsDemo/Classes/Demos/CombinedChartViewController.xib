@@ -27,7 +27,7 @@
                         <action selector="optionsButtonTapped:" destination="-1" eventType="touchUpInside" id="ig5-8o-JhO"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="620" translatesAutoresizingMaskIntoConstraints="NO" id="Oqd-Ej-1xl" customClass="KlineChartView" customModule="Charts">
+                <view contentMode="scaleToFill" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="620" translatesAutoresizingMaskIntoConstraints="NO" id="Oqd-Ej-1xl" customClass="TimeLineChartView" customModule="Charts">
                     <rect key="frame" x="0.0" y="47" width="375" height="620"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>

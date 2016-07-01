@@ -448,9 +448,47 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                 
                 // draw the lines
                 drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)
+                
+                drawHighlightValues(context: context, point: _highlightPointBuffer, set: set, value:e.close)
             }
         }
         
         CGContextRestoreGState(context)
+    }
+    
+    func drawHighlightValues(context context: CGContext, point: CGPoint, set: ILineScatterCandleRadarChartDataSet ,value:Double) {
+
+        if set.isHorizontalHighlightIndicatorEnabled && set.isHorizontalHighlightValueEnable
+        {
+            guard let formatter = set.valueFormatter else { return }
+
+            let valueFont = set.highlightFont
+            let labelAttrs = [NSFontAttributeName: valueFont,NSForegroundColorAttributeName: set.highlightTextColor]
+            
+            let string = formatter.stringFromNumber(value)!
+            
+            let  stringSize = (string as NSString!).sizeWithAttributes(labelAttrs)
+            
+            let inset = UIEdgeInsetsMake(1, 1, 1, 1)
+            
+            CGContextSetFillColorWithColor(context, NSUIColor.whiteColor().CGColor)
+            CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
+            CGContextSetLineWidth(context, 0.5)
+            let path = CGPathCreateWithRoundedRect(CGRectMake(viewPortHandler.contentLeft, point.y - valueFont.lineHeight / 2.0 - inset.top, stringSize.width + inset.left + inset.right, stringSize.height + inset.top + inset.bottom), 2, 2, nil)
+            
+            CGContextAddPath(context, path)
+            
+            
+            CGContextDrawPath(context, CGPathDrawingMode.FillStroke)
+
+            ChartUtils.drawText(context: context,
+                                text: formatter.stringFromNumber(value)!,
+                                point: CGPoint(
+                                    x: viewPortHandler.contentLeft + inset.left,
+                                    y: point.y - valueFont.lineHeight / 2.0),
+                                align: .Left,
+                                attributes: labelAttrs)
+        }
+        
     }
 }

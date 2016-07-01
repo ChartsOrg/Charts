@@ -48,7 +48,6 @@
 		5B7B3AE51C438198001C109B /* RealmPieChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B7B3AE31C438198001C109B /* RealmPieChartViewController.xib */; };
 		5B7B3AE91C4445E7001C109B /* RealmScatterChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7B3AE71C4445E7001C109B /* RealmScatterChartViewController.m */; };
 		5B7B3AEA1C4445E7001C109B /* RealmScatterChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B7B3AE81C4445E7001C109B /* RealmScatterChartViewController.xib */; };
-		5B8E08971C635B8B00438BAF /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8E087E1C635B5200438BAF /* Charts.framework */; };
 		5B8E08981C635B8B00438BAF /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8E087E1C635B5200438BAF /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5B8E089B1C635B8B00438BAF /* ChartsRealm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8E08941C635B6D00438BAF /* ChartsRealm.framework */; };
 		5B8E089C1C635B8B00438BAF /* ChartsRealm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8E08941C635B6D00438BAF /* ChartsRealm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -97,6 +96,7 @@
 		65BF12B11BFC9B00005C28D9 /* RealmLineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BF12AF1BFC9B00005C28D9 /* RealmLineChartViewController.xib */; };
 		65BF12B61BFC9B50005C28D9 /* RealmBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65BF12B41BFC9B50005C28D9 /* RealmBarChartViewController.m */; };
 		65BF12B71BFC9B50005C28D9 /* RealmBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BF12B51BFC9B50005C28D9 /* RealmBarChartViewController.xib */; };
+		8FEC0F761D213D4F004CEA0A /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B8E087E1C635B5200438BAF /* Charts.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -155,6 +155,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 65B3F5BF1C7370BE000983D0;
 			remoteInfo = Charts;
+		};
+		8FEC0F741D213D25004CEA0A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5B8E088D1C635B6D00438BAF /* ChartsRealm.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5BA899431CADB7F20012ED64;
+			remoteInfo = "ChartsRealm-OSX";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -310,9 +317,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5B4AC1441C4468620028D1A6 /* Realm.framework in Frameworks */,
-				5B8E08971C635B8B00438BAF /* Charts.framework in Frameworks */,
 				5B8E089B1C635B8B00438BAF /* ChartsRealm.framework in Frameworks */,
+				5B4AC1441C4468620028D1A6 /* Realm.framework in Frameworks */,
+				8FEC0F761D213D4F004CEA0A /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,6 +420,7 @@
 			children = (
 				5B8E08941C635B6D00438BAF /* ChartsRealm.framework */,
 				5B8E08961C635B6D00438BAF /* ChartsRealm.framework */,
+				8FEC0F751D213D25004CEA0A /* ChartsRealm.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -669,6 +677,13 @@
 			fileType = wrapper.framework;
 			path = Charts.framework;
 			remoteRef = 65B3F6561C73B4F6000983D0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8FEC0F751D213D25004CEA0A /* ChartsRealm.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ChartsRealm.framework;
+			remoteRef = 8FEC0F741D213D25004CEA0A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

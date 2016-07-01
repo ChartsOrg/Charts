@@ -1,5 +1,5 @@
 //
-//  KlineChartView.swift
+//  TimeLineChartView.swift
 //  Charts
 //
 //  Created by 迅牛 on 16/6/16.
@@ -10,20 +10,7 @@ import Foundation
 import CoreGraphics
 
 @objc
-public enum KLineViewType: Int {
-    
-    case Min = -1
-    case Day = 0
-    case Week
-    case Month
-    case Year
-}
-
-@objc
-public class KlineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatter ,ChartYAxisValueFormatter ,XMinMaxProvider {
-    
-    public var kLineViewType = KLineViewType.Day
-    
+public class TimeLineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatter ,ChartYAxisValueFormatter ,XMinMaxProvider {
     
     public weak var delegate: ChartViewDelegate?
     let minDateFormatter:NSDateFormatter = {
@@ -46,18 +33,14 @@ public class KlineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatter ,
     
     public var maxVisibleCount:Int = 200
     public var minVisibleCount:Int = 20
-
-    func YxisValueFormatter() -> NSNumberFormatter {
-        
-        return ChartUtils.defaultValueFormatter()
-    }
     
-//    var currentScale
+    //    var currentScale
     
-    lazy var candleView:CombinedChartView! = {
+    lazy var lineView:LineChartView! = {
         
-        let cdView = CombinedChartView()
+        let cdView = LineChartView()
         cdView.scaleYEnabled = false
+        cdView.scaleXEnabled = false
         cdView.doubleTapToZoomEnabled = false;
         cdView.delegate = self
         cdView.drawGridBackgroundEnabled = true
@@ -77,12 +60,13 @@ public class KlineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatter ,
         cdView.leftAxis.labelPosition = ChartYAxis.LabelPosition.InsideChart
         cdView.leftAxis.drawTopYLabelEntryEnabled = true
         
-//        cdView.rightAxis.enabled = false
-        cdView.rightAxis.drawLabelsEnabled = false
+        //        cdView.rightAxis.enabled = false
+//        cdView.rightAxis.drawLabelsEnabled = false
         cdView.rightAxis.drawGridLinesEnabled = false
         cdView.rightAxis.drawAxisLineEnabled = false
+//        cdView.
         
-
+        
         cdView.xAxis.drawAxisLineEnabled = false
         cdView.xAxis.gridColor = UIColor(white: 0.86, alpha: 0.8);
         cdView.xAxis.labelPosition = ChartXAxis.LabelPosition.Bottom
@@ -90,11 +74,13 @@ public class KlineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatter ,
         cdView.xAxis.spaceBetweenLabels = 20
         cdView.xAxis.gridLineDashLengths = [2,2]
         cdView.xAxis.avoidFirstLastClippingEnabled = true
-        cdView.xAxis.valueFormatter = self
+        //        cdView.xAxis.enabled = false;
         cdView.descriptionText = ""
         cdView.legend.horizontalAlignment = ChartLegend.HorizontalAlignment.Left
         cdView.legend.verticalAlignment = ChartLegend.VerticalAlignment.Top
-
+        
+        cdView.xAxis.valueFormatter = self
+        
         
         return cdView
     }()
@@ -103,6 +89,8 @@ public class KlineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatter ,
         
         let cdView = CombinedChartView()
         cdView.scaleYEnabled = false
+        cdView.scaleXEnabled = false
+        
         cdView.doubleTapToZoomEnabled = false;
         cdView.delegate = self
         cdView.drawGridBackgroundEnabled = true
@@ -135,40 +123,18 @@ public class KlineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatter ,
         cdView.xAxis.spaceBetweenLabels = 20
         cdView.xAxis.gridLineDashLengths = [2,2]
         
-//        cdView.setDescriptionTextPosition(x: 20, y: 10)
+        //        cdView.setDescriptionTextPosition(x: 20, y: 10)
         cdView.descriptionTextAlign = NSTextAlignment.Right
-
+        
         cdView.legend.horizontalAlignment = ChartLegend.HorizontalAlignment.Left
         cdView.legend.verticalAlignment = ChartLegend.VerticalAlignment.Top
-
+        
         return cdView
     }()
     
     public func stringForXValue(index: Int, original: String, viewPortHandler: ChartViewPortHandler) -> String {
         
-        
-        let  date:NSDate = NSDate(timeIntervalSince1970: (original as NSString).doubleValue)
-        switch kLineViewType {
-        case .Min:
-            if candleView.xAxis.axisRange > 100 {
-                return dayDateFormatter.stringFromDate(date);
-            }
-            return minDateFormatter.stringFromDate(date);
-        case .Day:
-            if candleView.xAxis.axisRange > 100 {
-                return monthDateFormatter.stringFromDate(date);
-            }
-            return dayDateFormatter.stringFromDate(date);
-        case .Month:
-             return monthDateFormatter.stringFromDate(date);
-            
-        case .Year:
-            return monthDateFormatter.stringFromDate(date);
-
-        default:
-            break
-        }
-        return original;
+        return ""
     }
     
     public func stringForNumber(number:NSNumber, xIndex: Int, max:Double) -> String {
@@ -201,18 +167,16 @@ public class KlineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatter ,
         }
     }
     
-    private var candleData:CombinedChartData!
-    
     private var qualificationData:CombinedChartData!
-
-    private var _klineData:KlineChartData?
     
-    var klineData:KlineChartData? {
+    private var _timeLineData:TimeLineData?
+    
+    var timeLineData:TimeLineData? {
         get {
-            return _klineData;
+            return _timeLineData;
         } set {
-            _klineData = newValue
-//            _klineData.isVisibKline = false
+            _timeLineData = newValue
+            //            _klineData.isVisibKline = false
             
             resetData()
             defualtAnimation()
@@ -221,162 +185,135 @@ public class KlineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatter ,
     
     func resetData() {
         
-        if klineData == nil {
-            candleData = CombinedChartData()
+        if _timeLineData == nil {
             qualificationData = CombinedChartData()
             
         } else {
-            let  kLinwData = klineData!
+            let  lineData = timeLineData!
             
-            if klineData?._qualificationType == .VOL {
-                
-                qualificationView.legend.enabled = false
-                qualificationView.leftAxis.axisMinValue = 0
-                qualificationView.leftAxis.customValueFormatter = self;
-                qualificationView.leftAxis.showOnlyMinMaxEnabled  = true;
-            } else {
-                qualificationView.leftAxis.showOnlyMinMaxEnabled  = false;
-                qualificationView.legend.enabled = true;
-                qualificationView.leftAxis.resetCustomAxisMin()
-                qualificationView.leftAxis.customValueFormatter = nil;
-            }
+            qualificationView.legend.enabled = false
+            qualificationView.leftAxis.axisMinValue = 0
+            qualificationView.leftAxis.customValueFormatter = self;
+            qualificationView.leftAxis.showOnlyMinMaxEnabled  = true;
             
-            candleData = CombinedChartData(xVals: kLinwData.xVals)
-            candleData.candleData = kLinwData;
-            candleData.lineData = kLinwData.emaLineData;
+            lineView.rightAxis.addLimitLine(ChartLimitLine(limit: 0.0, label: "0.0%"))
             
-            candleView.data = candleData;
-            candleView.setVisibleXRange(minXRange: CGFloat(minVisibleCount), maxXRange: CGFloat(maxVisibleCount));
+            lineView.data = lineData.mainLineData;
+//            lineView.setVisibleXRange(minXRange: CGFloat(minVisibleCount), maxXRange: CGFloat(maxVisibleCount));
             
+            qualificationView.descriptionText = "(VOL)"
             
-            var string = ""
-            
-            switch kLinwData._qualificationType {
-            case .KDJ:
-                string = "KDJ(9,3,3)"
-            case .MACD:
-                string = "MACD(12,26,9)"
-            default:
-                string = ""
-            }
-            
-            qualificationView.descriptionText = string
-            
-            qualificationData = CombinedChartData(xVals: kLinwData.xVals)
-            if kLinwData.quaLificationLineData != nil {
-                qualificationData.lineData = kLinwData.quaLificationLineData
-            }
-            if kLinwData.quaLificationBarData != nil {
-                qualificationData.barData = kLinwData.quaLificationBarData
+            qualificationData = CombinedChartData(xVals: lineData.xVals)
+
+            if lineData.qulificationBarData.dataSets.count != 0 {
+                qualificationData.barData = lineData.qulificationBarData
             }
             qualificationView.data = qualificationData
             
-            qualificationView.viewPortHandler.setMinMaxScaleX(minScaleX: candleView.viewPortHandler.minScaleX, maxScaleX: candleView.viewPortHandler.maxScaleX)
-            redrawLengend(Int(kLinwData._lastEnd))
+            lineView.leftAxis.axisMaxValue = lineData.yMax;
+            lineView.leftAxis.axisMinValue = lineData.yMin;
+            
+            lineView.rightAxis.axisMaxValue = lineData._rightAxisMax;
+            lineView.rightAxis.axisMinValue = lineData._rightAxisMin;
+            
+//            qualificationView.viewPortHandler.setMinMaxScaleX(minScaleX: lineView.viewPortHandler.minScaleX, maxScaleX: lineView.viewPortHandler.maxScaleX)
+            redrawLengend(Int(lineData._lastEnd))
             
         }
     }
-
-    func defualtAnimation() {
     
-        var matrix = CGAffineTransformMakeScale(candleView.viewPortHandler.scaleX * 2, candleView.viewPortHandler.scaleY)
-        matrix = CGAffineTransformConcat(matrix, CGAffineTransformMakeTranslation(-((candleView.viewPortHandler.contentWidth * candleView.viewPortHandler.scaleX * 2) - candleView.viewPortHandler.contentWidth) , 0))
-        qualificationView.viewPortHandler.refresh(newMatrix: matrix, chart: qualificationView, invalidate: true)
-        candleView.viewPortHandler.refresh(newMatrix: matrix, chart: candleView, invalidate: true)
+    func defualtAnimation() {
         
-        guard let kLineData = klineData else { return }
-        redrawLengend(Int(kLineData._lastEnd))
+//        var matrix = CGAffineTransformMakeScale(lineView.viewPortHandler.scaleX * 2, lineView.viewPortHandler.scaleY)
+//        matrix = CGAffineTransformConcat(matrix, CGAffineTransformMakeTranslation(-((lineView.viewPortHandler.contentWidth * lineView.viewPortHandler.scaleX * 2) - lineView.viewPortHandler.contentWidth) , 0))
+//        qualificationView.viewPortHandler.refresh(newMatrix: matrix, chart: qualificationView, invalidate: true)
+//        lineView.viewPortHandler.refresh(newMatrix: matrix, chart: lineView, invalidate: true)
+//        
+        guard let lineData = timeLineData else { return }
+        redrawLengend(Int(lineData._lastEnd))
     }
     public override func awakeFromNib() {
         initView()
     }
     
     private func initView() {
-        candleView.xMinMaxProvider = self
+        lineView.xMinMaxProvider = self
         qualificationView.xMinMaxProvider = self
-        addSubview(candleView)
+        addSubview(lineView)
         addSubview(qualificationView)
-
+        
     }
     
     public func xMinMax(chartView: ChartViewBase) {
-
-       chartView._xAxis._axisMinimum = -0.5
-        guard candleData != nil else {
+        
+        chartView._xAxis._axisMinimum = -0.5
+        guard timeLineData != nil else {
             return
         }
-       chartView._xAxis._axisMaximum = Double(candleData.xVals.count) + 0.5
-       chartView._xAxis.axisRange = abs(chartView._xAxis._axisMaximum - chartView._xAxis._axisMinimum)
+        chartView._xAxis._axisMaximum = Double(timeLineData!.xVals.count) + 0.5
+        chartView._xAxis.axisRange = abs(chartView._xAxis._axisMaximum - chartView._xAxis._axisMinimum)
         
     }
-
+    
     override init(frame: CGRect) {
-         super.init(frame: frame)
+        super.init(frame: frame)
         initView()
-       
+        
     }
     
     required public init?(coder aDecoder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
+        //        fatalError("init(coder:) has not been implemented")
         super.init(coder: aDecoder)
     }
-
+    
     public override func layoutSubviews() {
         super.layoutSubviews()
         
-        candleView.frame = CGRect(x: 0,y: 0,width: self.bounds.width ,height: self.bounds.height * 2.0 / 3.0 );
+        lineView.frame = CGRect(x: 0,y: 0,width: self.bounds.width ,height: self.bounds.height * 2.0 / 3.0 );
         qualificationView.frame = CGRect(x: 0,y: self.bounds.height * 2.0 / 3.0 ,width:self.bounds.width, height: self.bounds.height * 1.0 / 3.0 );
         
-        guard let kLineData = klineData else { return }
+        guard let kLineData = timeLineData else { return }
         redrawLengend(Int(kLineData._lastEnd))
     }
     
     public func redrawLengend(xIndex:Int) {
-    
         
-        guard let kLineData = klineData else { return }
+        
+        guard let kLineData = timeLineData else { return }
         guard kLineData.dataSets.count > 0 else { return }
-        guard kLineData.dataSets[0] is KlineChartDataSet else { return }
-        let dataSet =  kLineData.dataSets[0] as! KlineChartDataSet
+        guard kLineData.dataSets[0] is TimeLineChartDataSet else { return }
+        let dataSet =  kLineData.dataSets[0] as! TimeLineChartDataSet
         
         guard let entry = dataSet.entryForXIndex(xIndex) else  { return }
-        let entryKline = entry as! KlineChartDataEntry
-        candleView.legend.colors = [dataSet.MA5Color,dataSet.MA10Color,dataSet.MA30Color]
-        candleView.legend.labels = [String.init(format: "%@:%.2f", dataSet.ema5DataSet.label!,entryKline.EMA5) ,String.init(format: "%@:%.2f", dataSet.ema10DataSet.label!,entryKline.EMA10),String.init(format: "%@:%.2f", dataSet.ema30DataSet.label!,entryKline.EMA30)]
-        candleView.legend.calculateDimensions(labelFont: candleView.legend.font, viewPortHandler: candleView.viewPortHandler)
+        let entryTimeline = entry as! TimelineDataEntry
+        lineView.legend.colors = [dataSet.colorAt(0),dataSet.avgColor]
+        lineView.legend.labels = [String.init(format: "%@:%.2f", dataSet.label!,entryTimeline.current) ,String.init(format: "%@:%.2f", dataSet.mainLineDataSets[0].label!,entryTimeline.avg)]
         
-        switch kLineData.qualificationType {
-        case .KDJ:
-            qualificationView.legend.colors = [dataSet.KDJ_KColor,dataSet.KDJ_DColor,dataSet.KDJ_JColor]
-            qualificationView.legend.labels = [String.init(format: "%@:%.2f", "K",entryKline.KDJ_K) ,String.init(format: "%@:%.2f", "D",entryKline.KDJ_D),String.init(format: "%@:%.2f", "J",entryKline.KDJ_J)]
-        case .MACD:
-            
-            qualificationView.legend.colors = [dataSet.MACD_DIFColor,dataSet.MACD_DEAColor,dataSet.MACD_Color]
-            qualificationView.legend.labels = [String.init(format: "%@:%.2f", "DIF",entryKline.DIF) ,String.init(format: "%@:%.2f", "DEA",entryKline.DEA),String.init(format: "%@:%.2f", "MACD",entryKline.MACD)]
-
-        default:
-            return
-        }
-        qualificationView.legend.calculateDimensions(labelFont: qualificationView.legend.font, viewPortHandler: qualificationView.viewPortHandler)
+        lineView.legend.calculateDimensions(labelFont: lineView.legend.font, viewPortHandler: lineView.viewPortHandler)
+        
+//        qualificationView.legend.colors = [dataSet.MACD_DIFColor,dataSet.MACD_DEAColor,dataSet.MACD_Color]
+//        qualificationView.legend.labels = [String.init(format: "%@:%.2f", "DIF",entryKline.DIF) ,String.init(format: "%@:%.2f", "DEA",entryKline.DEA),String.init(format: "%@:%.2f", "MACD",entryKline.MACD)]
+//  
+//        qualificationView.legend.calculateDimensions(labelFont: qualificationView.legend.font, viewPortHandler: qualificationView.viewPortHandler)
     }
     public func chartValueNothingSelected(chartView: ChartViewBase) {
-
-        if chartView == candleView {
+        
+        if chartView == lineView {
             qualificationView.highlightValue(nil)
             
         } else if chartView == qualificationView {
-            candleView.highlightValue(nil)
+            lineView.highlightValue(nil)
             
         }
-            guard let kLineData = klineData else { return }
-            redrawLengend(Int(kLineData._lastEnd))
-        delegate?.chartValueNothingSelected?(chartView);
+        guard let lineData = timeLineData else { return }
+        redrawLengend(Int(lineData._lastEnd))
+        delegate?.chartValueNothingSelected?(lineView);
     }
     public func chartValueSelected(chartView: ChartViewBase, entry: ChartDataEntry, dataSetIndex: Int, highlight: ChartHighlight) {
         
         Swift.print("dataSetIndex \(dataSetIndex)")
         
-        if chartView == candleView {
+        if chartView == lineView {
             
             if qualificationView.highlighted.count == 0 || (qualificationView.highlighted.count != 0 && qualificationView.highlighted[0].xIndex != highlight.xIndex) {
                 
@@ -384,9 +321,9 @@ public class KlineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatter ,
             }
         } else if chartView == qualificationView {
             
-            if candleView.highlighted.count == 0 || (candleView.highlighted.count != 0 && candleView.highlighted[0].xIndex != highlight.xIndex) {
+            if lineView.highlighted.count == 0 || (lineView.highlighted.count != 0 && lineView.highlighted[0].xIndex != highlight.xIndex) {
                 
-                candleView.highlightValue(xIndex: highlight.xIndex, dataSetIndex: 0, callDelegate: true)
+                lineView.highlightValue(xIndex: highlight.xIndex, dataSetIndex: 0, callDelegate: true)
             }
         }
         redrawLengend(highlight.xIndex)
@@ -400,51 +337,27 @@ public class KlineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatter ,
     public func chartScaled(chartView: ChartViewBase, scaleX: CGFloat, scaleY: CGFloat) {
         
         chartViewRefreshAnother(chartView)
-        
-        guard let kLineData = klineData else { return }
-        
-        if chartView.viewPortHandler.scaleX < chartView.viewPortHandler.minScaleX + 0.1 {
-            
-            
-            guard kLineData.isVisibKline == true
-                else {
-                    return
-            }
-            kLineData.isVisibKline = false
-            
-            resetData()
-        } else if chartView.viewPortHandler.scaleX > chartView.viewPortHandler.minScaleX + 0.2 {
-            
-            guard kLineData.isVisibKline == false
-                else {
-                    return
-            }
-            kLineData.isVisibKline = true
-            
-            resetData()
-            
-        }
-        
+
         delegate?.chartScaled?(chartView, scaleX: scaleX, scaleY: scaleY)
     }
     
     func chartViewRefreshAnother(chartView: ChartViewBase) {
         
         var  anotherView:ChartViewBase!
-        if chartView == candleView {
+        if chartView == lineView {
             anotherView = qualificationView
         } else if chartView == qualificationView {
-            anotherView = candleView
+            anotherView = lineView
         }
         
         var matrix = CGAffineTransformMakeScale(chartView.viewPortHandler.scaleX, chartView.viewPortHandler.scaleY)
         matrix = CGAffineTransformConcat(matrix, CGAffineTransformMakeTranslation(chartView.viewPortHandler.transX, 0))
         
         anotherView.viewPortHandler.refresh(newMatrix: matrix, chart: anotherView, invalidate: true)
-
-            guard let kLineData = klineData else { return }
-            redrawLengend(Int(kLineData._lastEnd))
-
+        
+        guard let lineData = timeLineData else { return }
+        redrawLengend(Int(lineData._lastEnd))
+        
     }
     
     

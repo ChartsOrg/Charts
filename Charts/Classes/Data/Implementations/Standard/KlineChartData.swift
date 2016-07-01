@@ -24,7 +24,7 @@ public enum KlineQualification: Int {
 @objc
 public class KlineChartData: CandleChartData {
     
-    var _qualificationType:KlineQualification = .KDJ
+    var _qualificationType:KlineQualification = .VOL
     
     var qualificationType:KlineQualification {
         

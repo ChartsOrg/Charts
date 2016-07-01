@@ -23,7 +23,13 @@ public class RealmLineScatterCandleRadarDataSet: RealmBarLineScatterCandleBubble
     // MARK: - Data functions and accessors
     
     // MARK: - Styling functions and accessors
+    public var drawHorizontalHighlightValueEnable = true
     
+    public var isHorizontalHighlightValueEnable: Bool { return drawHorizontalHighlightValueEnable}
+
+    public var highlightTextColor = NSUIColor(white: 0.4, alpha: 1)
+    
+    public var highlightFont = NSUIFont.systemFontOfSize(14)
     /// Enables / disables the horizontal highlight-indicator. If disabled, the indicator is not drawn.
     public var drawHorizontalHighlightIndicatorEnabled = true
     

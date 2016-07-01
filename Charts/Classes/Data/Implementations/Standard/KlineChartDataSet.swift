@@ -31,9 +31,9 @@ public class KlineChartDataSet: CandleChartDataSet,IKlineChartDataSet {
         highlightLineWidth = 1.0
         highlightColor = NSUIColor(white: 0.3, alpha: 1);
         drawMinMaxValueEnable = true
-        calcEMA()
-        calcQualification()
-        
+    }
+    public override func notifyDataSetChanged() {
+        super.notifyDataSetChanged()
     }
     
     internal func calcQualification()  {
@@ -46,13 +46,69 @@ public class KlineChartDataSet: CandleChartDataSet,IKlineChartDataSet {
             calcKDJ()
         case .MACD:
             calcMACD()
-        case .VOL: break
+        case .VOL:
+            caclVolum()
         case .RSI: break
         case .BIAS: break
         case .BOLL: break
         case .WR: break
         case .ASI: break
         }
+    }
+    
+    func caclVolum() {
+        
+        var maArray = [ChartDataEntry]()
+        var volumArray = [ChartDataEntry]()
+        var colorArray = [NSUIColor]()
+        
+        for i in 0 ..< yVals.count
+        {
+            let entry = (yVals[i] as! KlineChartDataEntry)
+            entry.dataSet = self
+            if (i == 0) {
+                
+            } else {
+                entry.lastEntry = (yVals[i - 1] as? KlineChartDataEntry)
+            }
+            entry._qualificationType = _qualificationType
+            entry.calcQualification()
+            
+            let entryMA = BarChartDataEntry(value: entry.volume_MA5, xIndex: i);
+            let entryVolum = BarChartDataEntry(value: entry.volume, xIndex: i);
+            var color:NSUIColor!
+            if (entry.close - entry.open >= 0) {
+                color = increasingColor
+            } else {
+                color = decreasingColor
+            }
+            
+            colorArray.append(color);
+            maArray.append(entryMA);
+            volumArray.append(entryVolum);
+            
+        }
+        
+        
+        let maDataSet = LineChartDataSet(yVals: maArray, label: "MA5")
+        maDataSet.drawCirclesEnabled = false
+        maDataSet.drawValuesEnabled = false
+        maDataSet.mode = LineChartDataSet.Mode.Linear
+        maDataSet.setColor(MA5Color)
+        maDataSet.highlightColor = highlightColor;
+        maDataSet.highlightLineWidth = highlightLineWidth;
+        maDataSet.drawHorizontalHighlightIndicatorEnabled = false;
+
+        let volumDataSet = BarChartDataSet(yVals: volumArray, label: "MACD")
+        volumDataSet.drawValuesEnabled = false
+        volumDataSet.highlightColor = highlightColor;
+        volumDataSet.colors = colorArray
+        volumDataSet.barSpace = 0.3
+        volumDataSet.valueColors = colorArray
+        volumDataSet.barShadowColor = NSUIColor.clearColor()
+        qualiLineDataSets = [maDataSet]
+        qualiBarDataSets = [volumDataSet]
+        
     }
     
     func calcMACD() {
@@ -94,7 +150,7 @@ public class KlineChartDataSet: CandleChartDataSet,IKlineChartDataSet {
         deaDataSet.drawCirclesEnabled = false
         //        kDataSet.highlightEnabled = false
         deaDataSet.drawValuesEnabled = false
-        deaDataSet.mode = LineChartDataSet.Mode.CubicBezier
+        deaDataSet.mode = LineChartDataSet.Mode.Linear
         deaDataSet.setColor(MACD_DEAColor)
         deaDataSet.highlightColor = highlightColor;
         deaDataSet.highlightLineWidth = highlightLineWidth;
@@ -105,29 +161,22 @@ public class KlineChartDataSet: CandleChartDataSet,IKlineChartDataSet {
         difDataSet.drawCirclesEnabled = false
         //        dDataSet.highlightEnabled = false
         difDataSet.drawValuesEnabled = false
-        difDataSet.mode = LineChartDataSet.Mode.CubicBezier
+        difDataSet.mode = LineChartDataSet.Mode.Linear
         difDataSet.setColor(MACD_DIFColor)
         difDataSet.highlightColor = highlightColor;
         difDataSet.highlightLineWidth = highlightLineWidth;
         difDataSet.drawHorizontalHighlightIndicatorEnabled = false;
         
-        //         dDataSet.drawHorizontalHighlightIndicatorEnabled = false
-        
         let macdDataSet = BarChartDataSet(yVals: macdArray, label: "MACD")
-//        difDataSet.drawCirclesEnabled = false
-        //        jDataSet.highlightEnabled = false
         macdDataSet.drawValuesEnabled = false
-//        difDataSet.mode = LineChartDataSet.Mode.CubicBezier
         macdDataSet.highlightColor = highlightColor;
         macdDataSet.colors = colorArray
-        macdDataSet.barSpace = 0.4
+        macdDataSet.barSpace = 0.7
         macdDataSet.valueColors = colorArray
         macdDataSet.barShadowColor = NSUIColor.clearColor()
-        difDataSet.drawHorizontalHighlightIndicatorEnabled = false;
-//
+        
         qualiLineDataSets = [deaDataSet,difDataSet]
         qualiBarDataSets = [macdDataSet]
-//        difDataSet.en
     }
     
     func calcKDJ() {
@@ -161,7 +210,7 @@ public class KlineChartDataSet: CandleChartDataSet,IKlineChartDataSet {
         kDataSet.drawCirclesEnabled = false
         //        kDataSet.highlightEnabled = false
         kDataSet.drawValuesEnabled = false
-        kDataSet.mode = LineChartDataSet.Mode.CubicBezier
+        kDataSet.mode = LineChartDataSet.Mode.Linear
         kDataSet.setColor(KDJ_KColor)
         kDataSet.highlightColor = highlightColor;
         kDataSet.highlightLineWidth = highlightLineWidth;
@@ -171,7 +220,7 @@ public class KlineChartDataSet: CandleChartDataSet,IKlineChartDataSet {
         dDataSet.drawCirclesEnabled = false
         //        dDataSet.highlightEnabled = false
         dDataSet.drawValuesEnabled = false
-        dDataSet.mode = LineChartDataSet.Mode.CubicBezier
+        dDataSet.mode = LineChartDataSet.Mode.Linear
         dDataSet.setColor(KDJ_DColor)
         dDataSet.highlightColor = highlightColor;
         dDataSet.highlightLineWidth = highlightLineWidth;
@@ -179,9 +228,8 @@ public class KlineChartDataSet: CandleChartDataSet,IKlineChartDataSet {
         
         let jDataSet = LineChartDataSet(yVals: jArray, label: "J")
         jDataSet.drawCirclesEnabled = false
-        //        jDataSet.highlightEnabled = false
         jDataSet.drawValuesEnabled = false
-        jDataSet.mode = LineChartDataSet.Mode.CubicBezier
+        jDataSet.mode = LineChartDataSet.Mode.Linear
         jDataSet.highlightColor = highlightColor;
         jDataSet.highlightLineWidth = highlightLineWidth;
         jDataSet.drawVerticalHighlightIndicatorEnabled = false
@@ -222,7 +270,7 @@ public class KlineChartDataSet: CandleChartDataSet,IKlineChartDataSet {
         ema5DataSet.drawCirclesEnabled = false
         ema5DataSet.highlightEnabled = false
         ema5DataSet.drawValuesEnabled = false
-        ema5DataSet.mode = LineChartDataSet.Mode.CubicBezier
+        ema5DataSet.mode = LineChartDataSet.Mode.Linear
         
         ema5DataSet.setColor(MA5Color)
         //        ema5DataSet.mode = LineChartDataSet.Mode.CubicBezier
@@ -231,14 +279,14 @@ public class KlineChartDataSet: CandleChartDataSet,IKlineChartDataSet {
         ema10DataSet.drawCirclesEnabled = false
         ema10DataSet.highlightEnabled = false
         ema10DataSet.drawValuesEnabled = false
-        ema10DataSet.mode = LineChartDataSet.Mode.CubicBezier
+        ema10DataSet.mode = LineChartDataSet.Mode.Linear
         //        ema10DataSet.mode = LineChartDataSet.Mode.CubicBezier
         ema30DataSet = LineChartDataSet(yVals: ma30Array, label: "EMA30")
         ema30DataSet.setColor(MA30Color)
         ema30DataSet.drawCirclesEnabled = false
         ema30DataSet.highlightEnabled = false
         ema30DataSet.drawValuesEnabled = false
-        ema30DataSet.mode = LineChartDataSet.Mode.CubicBezier
+        ema30DataSet.mode = LineChartDataSet.Mode.Linear
         
         lineDataSet = LineChartDataSet(yVals: valueArray, label:label)
         lineDataSet.drawCirclesEnabled = false

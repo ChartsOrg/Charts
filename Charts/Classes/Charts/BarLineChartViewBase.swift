@@ -243,12 +243,6 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         renderer?.drawData(context: context)
         
-        // if highlighting is enabled
-        if (valuesToHighlight())
-        {
-            renderer?.drawHighlighted(context: context, indices: _indicesToHighlight)
-        }
-        
         CGContextRestoreGState(context)
         
         renderer!.drawExtras(context: context)
@@ -275,6 +269,12 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         _leftYAxisRenderer.renderAxisLabels(context: context)
         _rightYAxisRenderer.renderAxisLabels(context: context)
 
+        // if highlighting is enabled
+        if (valuesToHighlight())
+        {
+            renderer?.drawHighlighted(context: context, indices: _indicesToHighlight)
+        }
+        
         renderer!.drawValues(context: context)
 
         _legendRenderer.renderLegend(context: context)
@@ -283,6 +283,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         drawMarkers(context: context)
 
         drawDescription(context: context)
+        
+
     }
     
     internal func prepareValuePxMatrix()

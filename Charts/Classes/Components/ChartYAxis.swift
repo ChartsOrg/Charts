@@ -218,6 +218,27 @@ public class ChartYAxis: ChartAxisBase
         }
     }
     
+    internal weak var _customValueFormatter:ChartYAxisValueFormatter?
+    
+    public var hasCustomValueFormatter: Bool {
+        
+        guard _customValueFormatter  != nil else {
+            return false
+        }
+        
+        return true
+    }
+    public var customValueFormatter:ChartYAxisValueFormatter? {
+        
+        get {
+            return _customValueFormatter
+        } set {
+            
+            _customValueFormatter = newValue
+        }
+    }
+    
+    
     public func requiredSize() -> CGSize
     {
         let label = getLongestLabel() as NSString
@@ -232,6 +253,8 @@ public class ChartYAxis: ChartAxisBase
     {
         return requiredSize().height
     }
+    
+    
 
     public override func getLongestLabel() -> String
     {
@@ -257,7 +280,11 @@ public class ChartYAxis: ChartAxisBase
         {
             return ""
         }
-        
+        if hasCustomValueFormatter  {
+            
+            return customValueFormatter!.stringForNumber(entries[index], xIndex:index, max:axisMaxValue)
+        }
+//
         return (valueFormatter ?? _defaultValueFormatter).stringFromNumber(entries[index])!
     }
     

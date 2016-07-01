@@ -9,14 +9,14 @@
 import UIKit
 
 public class KlineChartDataEntry: CandleChartDataEntry {
+    var volume:Double = 0.0;
+    
+    var _qualificationType:KlineQualification = .KDJ
     
     public required init()
     {
         super.init()
     }
-    
-     var _qualificationType:KlineQualification = .KDJ
-    
     public override init(xIndex: Int, shadowH: Double, shadowL: Double, open: Double, close: Double)
     {
         super.init(xIndex: xIndex, shadowH: shadowH, shadowL: shadowL, open: open, close: close)
@@ -27,7 +27,17 @@ public class KlineChartDataEntry: CandleChartDataEntry {
         super.init(xIndex: xIndex, shadowH: shadowH, shadowL: shadowL, open: open, close: close, data:data)
     }
     
-    var volume:Double = 0.0;
+    
+    public init(xIndex: Int, shadowH: Double, shadowL: Double, open: Double, close: Double, volume: Double) {
+        self.volume = volume;
+        super.init(xIndex: xIndex, shadowH: shadowH, shadowL: shadowL, open: open, close: close)
+    }
+    
+    public init(xIndex: Int, shadowH: Double, shadowL: Double, open: Double, close: Double, volume: Double, data: AnyObject?) {
+        self.volume = volume;
+        super.init(xIndex: xIndex, shadowH: shadowH, shadowL: shadowL, open: open, close: close, data:data)
+    }
+    
 //    var MA5:Double = 0.0;
 //    var MA10:Double = 0.0
 //    var MA30:Double = 0.0
@@ -77,6 +87,11 @@ public class KlineChartDataEntry: CandleChartDataEntry {
         return dic;
     }()
     
+    lazy var volumMAValueDict:Dictionary<Int,Double> = {
+        var dic = [Int: Double]()
+        return dic;
+    }()
+    
     public func EMAValueFor(num num: Int) -> Double {
         
         let ema = EMAValueDict[num]
@@ -90,20 +105,19 @@ public class KlineChartDataEntry: CandleChartDataEntry {
         EMAValueDict[num] = val
     }
     
-//    public override var xIndex: Int {
-//        get {
-//            if (dataSet != nil) {
-//                
-//                return (dataSet?.yVals.indexOf(self))!
-//            } else {
-//                return self.xIndex;
-//            }
-//        } set {
-////            self.xIndex = newValue;
-//            
-//        }
-//    }
-    
+    public func volumMAValueFor(num num: Int) -> Double {
+        
+        let ema = volumMAValueDict[num]
+        if ema != nil {
+            return ema!
+        }
+        return volume;
+    }
+    public func setvolumMAValueFor(num num: Int, val:Double) {
+        
+        volumMAValueDict[num] = val
+    }
+
     public func calcQualification()  {
         
         if lastEntry == nil {
@@ -121,7 +135,8 @@ public class KlineChartDataEntry: CandleChartDataEntry {
             caclDIF()
             caclDEA()
             caclMACD()
-        case .VOL: break
+        case .VOL:
+            caclVolum()
         case .RSI: break
         case .BIAS: break
         case .BOLL: break
@@ -134,46 +149,68 @@ public class KlineChartDataEntry: CandleChartDataEntry {
     
     }
     
+    func caclVolum() {
+        
+        if volume_MA5 == 0 {
+            volume_MA5 = caclVolumMA(num: 5);
+        }
+
+    }
     func caclEMA() {
+        
         EMA5 = caclEMAFor(num: 5);
         EMA10 = caclEMAFor(num: 10);
         EMA30 = caclEMAFor(num: 30);
     }
     
     func caclDIF() {
-        
-        
-        DIF = caclEMAFor(num: 12) - caclEMAFor(num: 26)
+        if DIF == 0 {
+            DIF = caclEMAFor(num: 12) - caclEMAFor(num: 26)
+        }
+
     }
     func  caclDEA () {
-        if lastEntry == nil {
-            DEA = DIF * 0.2
-        } else {
-            DEA = (lastEntry?.DEA)! * 0.8 + DIF * 0.2
+        if DEA == 0 {
+            if lastEntry == nil {
+                DEA = DIF * 0.2
+            } else {
+                DEA = (lastEntry?.DEA)! * 0.8 + DIF * 0.2
+            }
         }
+
     }
     func caclMACD() {
-        MACD = DIF * 2 + DEA
+        
+        if MACD == 0 {
+            MACD = DIF * 2 + DEA
+        }
     }
     func caclRSV_9 () {
-        if NineClocksMax == NineClocksMin {
-            RSV_9 = 100;
-        } else {
-          RSV_9 = (close - NineClocksMin) / (NineClocksMax - NineClocksMin) * 100
+        
+        if RSV_9 == 100 || RSV_9 == 0{
+            
+            if NineClocksMax == NineClocksMin {
+                RSV_9 = 100;
+            } else {
+                RSV_9 = (close - NineClocksMin) / (NineClocksMax - NineClocksMin) * 100
+            }
         }
+
     }
     func caclKDJ() {
         
-        if lastEntry == nil {
-            KDJ_K = (RSV_9 + 2.0 * 50.27)/3.0
-            KDJ_D = (KDJ_K + 2.0 * 50.27) / 3.0
-            KDJ_J = (3 * KDJ_K - 2 * KDJ_D)
-        } else {
-            KDJ_K = (RSV_9 + 2.0 * lastEntry!.KDJ_K)/3.0
-            KDJ_D = (KDJ_K + 2.0 * lastEntry!.KDJ_D) / 3.0
-            KDJ_J = (3 * KDJ_K - 2 * KDJ_D)
+        if (KDJ_K == 0 || KDJ_K == 50.27) && (KDJ_D == 0 || KDJ_D == 10.27) {
+            
+            if lastEntry == nil {
+                KDJ_K = (RSV_9 + 2.0 * 50.27)/3.0
+                KDJ_D = (KDJ_K + 2.0 * 50.27) / 3.0
+                KDJ_J = (3 * KDJ_K - 2 * KDJ_D)
+            } else {
+                KDJ_K = (RSV_9 + 2.0 * lastEntry!.KDJ_K)/3.0
+                KDJ_D = (KDJ_K + 2.0 * lastEntry!.KDJ_D) / 3.0
+                KDJ_J = (3 * KDJ_K - 2 * KDJ_D)
+            }
         }
-        
 
     }
     func caclNineMaxANDNineMin() {
@@ -221,6 +258,40 @@ public class KlineChartDataEntry: CandleChartDataEntry {
             }
         }
         nineClocksNeedCacl = false
+    }
+    
+    public func caclVolumMA(num num:Int) -> Double {
+     
+        
+        if dataSet == nil {
+            setvolumMAValueFor(num: num, val: volume)
+            return volume
+        }
+        
+        let yVals = dataSet!.yVals
+        let index:Int = yVals.indexOf(self)!
+        
+        let ema = volumMAValueDict[num]
+        
+        guard ema == nil
+            else
+        {
+            return ema!
+        }
+        
+        if index == 0 {
+            setvolumMAValueFor(num: num, val: volume)
+            return volume
+        }
+        
+        let subVals = Array(yVals[0..<index+1]).map({ (entry) -> Double in
+            
+            return (entry as! KlineChartDataEntry).volume;
+        })
+        let avg:Double =  (subVals as NSArray).valueForKeyPath("@avg.doubleValue") as! Double
+        
+         setvolumMAValueFor(num: num, val: avg)
+        return avg
     }
     
     public func caclEMAFor(num num: Int) -> Double {

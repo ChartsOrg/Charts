@@ -18,7 +18,7 @@
 
 @interface CombinedChartViewController () <ChartViewDelegate>
 
-@property (nonatomic, strong) IBOutlet KlineChartView *chartView;
+@property (nonatomic, strong) IBOutlet TimeLineChartView *chartView;
 
 @property (nonatomic, strong) CandleChartData *candleData;
 
@@ -86,7 +86,7 @@
 {
     if (self.shouldHideData)
     {
-        _chartView.klineData = nil;
+        _chartView.timeLineData = nil;
         return;
     }
     
@@ -150,12 +150,12 @@
 //    
 //    [super handleOption:key forChartView:_chartView];
     
-    if (self.chartView.klineData.qualificationType == KlineQualificationMACD) {
-        self.chartView.klineData.qualificationType = KlineQualificationKDJ;
-//        self.chartView.d
-    } else {
-        self.chartView.klineData.qualificationType = KlineQualificationMACD;
-    }
+//    if (self.chartView.klineData.qualificationType == KlineQualificationMACD) {
+//        self.chartView.klineData.qualificationType = KlineQualificationVOL;
+////        self.chartView.d
+//    } else {
+//        self.chartView.klineData.qualificationType = KlineQualificationMACD;
+//    }
     
     [self.chartView resetData];
 }
@@ -270,10 +270,10 @@
 {
    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
        
-      KlineChartData *data = [self setDataCount:(1000) range:3000];
+      KlineChartData *data = [self setDataCount:(500) range:200];
        
        dispatch_async(dispatch_get_main_queue(), ^{
-           _chartView.klineData = data;
+           _chartView.timeLineData = data;
        });
     
    });
@@ -299,25 +299,29 @@
         double high = (double) (arc4random_uniform(9)) + 8.0;
         double low = (double) (arc4random_uniform(9)) + 8.0;
         double open = (double) (arc4random_uniform(6)) + 1.0;
-        double close = (double) (arc4random_uniform(6)) + 1.0;
+        double current = (double)  (arc4random_uniform(range / 10)) - (range/20);
+        double close = mult;
+        double volume = (double) (arc4random_uniform(10));
         BOOL even = i % 2 == 0;
-        [yVals1 addObject:[[KlineChartDataEntry alloc] initWithXIndex:i shadowH:val + high shadowL:val - low open:even ? val + open : val - open close:even ? val - close : val + close]];
+        
+        [yVals1 addObject: [[TimelineDataEntry alloc] initWithXIndex:i shadowH:(current + high)  shadowL:(current - low) open:(even ? val + open : val - open) close:(close) current:(close + current) range:(close / (close + current)) volume:100 + volume money:5000]];
+
     }
     
-    KlineChartDataSet *set1 = [[KlineChartDataSet alloc] initWithYVals:yVals1 label:@"KLine"];
+    TimeLineChartDataSet *set1 = [[TimeLineChartDataSet alloc] initWithYVals:yVals1 label:@"timeLine"];
     set1.axisDependency = AxisDependencyLeft;
     set1.drawValuesEnabled = false;
-    set1.shadowColorSameAsCandle = true;
+
     [set1 setColor:[UIColor colorWithWhite:80/255.f alpha:1.f]];
     
-    set1.shadowColor = UIColor.darkGrayColor;
-    set1.shadowWidth = 0.7;
     set1.increasingColor =  [UIColor colorWithRed:255/255.f green:48/255.f blue:66/255.f alpha:1.f];
     set1.decreasingColor = [UIColor colorWithRed:0/255.f green:191/255.f blue:128/255.f alpha:1.f];
-    set1.neutralColor = UIColor.blueColor;
+    set1.drawHorizontalHighlightValueEnable = YES;
+    set1.drawHorizontalHighlightIndicatorEnabled = YES;
+    set1.drawCirclesEnabled = NO;
     
-    KlineChartData *data = [[KlineChartData alloc] initWithXVals:xVals dataSet:set1];
-    data.qualificationType = KlineQualificationMACD;
+    
+    TimeLineData *data = [[TimeLineData alloc] initWithXVals:xVals dataSet:set1];
     
     return data;
 }

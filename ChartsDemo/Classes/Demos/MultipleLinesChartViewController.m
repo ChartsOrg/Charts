@@ -116,6 +116,7 @@
         LineChartDataSet *d = [[LineChartDataSet alloc] initWithYVals:values label:[NSString stringWithFormat:@"DataSet %d", z + 1]];
         d.lineWidth = 2.5;
         d.circleRadius = 4.0;
+        d.drawFilledEnabled = YES;
         
         UIColor *color = colors[z % colors.count];
         [d setColor:color];
