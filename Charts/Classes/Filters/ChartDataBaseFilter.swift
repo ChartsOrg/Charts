@@ -21,7 +21,7 @@ public class ChartDataBaseFilter: NSObject
         super.init()
     }
     
-    public func filter(points: [ChartDataEntry]) -> [ChartDataEntry]
+    public func filter(_ points: [ChartDataEntry]) -> [ChartDataEntry]
     {
         fatalError("filter() cannot be called on ChartDataBaseFilter")
     }

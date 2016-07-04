@@ -60,7 +60,7 @@ public class RadarChartView: PieRadarChartViewBase
     {
         super.initialize()
         
-        _yAxis = ChartYAxis(position: .Left)
+        _yAxis = ChartYAxis(position: .left)
         _xAxis.spaceBetweenLabels = 0
         
         renderer = RadarChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
@@ -78,10 +78,10 @@ public class RadarChartView: PieRadarChartViewBase
         _xAxis._axisMaximum = Double(data.xVals.count) - 1.0
         _xAxis.axisRange = Double(abs(_xAxis._axisMaximum - _xAxis._axisMinimum))
         
-        _yAxis.calculate(min: data.getYMin(.Left), max: data.getYMax(.Left))
+        _yAxis.calculate(min: data.getYMin(.left), max: data.getYMax(.left))
     }
 
-    public override func getMarkerPosition(entry entry: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
+    public override func getMarkerPosition(entry: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
     {
         let angle = self.sliceAngle * CGFloat(entry.xIndex) + self.rotationAngle
         let val = CGFloat(entry.value) * self.factor
@@ -112,9 +112,9 @@ public class RadarChartView: PieRadarChartViewBase
         setNeedsDisplay()
     }
     
-    public override func drawRect(rect: CGRect)
+    public override func draw(_ rect: CGRect)
     {
-        super.drawRect(rect)
+        super.draw(rect)
 
         if _data === nil
         {
@@ -165,7 +165,7 @@ public class RadarChartView: PieRadarChartViewBase
         return 360.0 / CGFloat(_data?.xValCount ?? 0)
     }
 
-    public override func indexForAngle(angle: CGFloat) -> Int
+    public override func indexForAngle(_ angle: CGFloat) -> Int
     {
         // take the current angle of the chart into consideration
         let a = ChartUtils.normalizedAngleFromAngle(angle - self.rotationAngle)
@@ -210,7 +210,7 @@ public class RadarChartView: PieRadarChartViewBase
 
     internal override var requiredBaseOffset: CGFloat
     {
-        return _xAxis.isEnabled && _xAxis.isDrawLabelsEnabled ? _xAxis.labelRotatedWidth : 10.0
+        return _xAxis.enabled && _xAxis.drawLabelsEnabled ? _xAxis.labelRotatedWidth : 10.0
     }
 
     public override var radius: CGFloat
