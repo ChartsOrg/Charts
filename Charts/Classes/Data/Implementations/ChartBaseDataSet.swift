@@ -24,7 +24,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         
         // default color
         colors.append(NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
-        valueColors.append(NSUIColor.blackColor())
+        valueColors.append(NSUIColor.black())
     }
     
     public init(label: String?)
@@ -33,7 +33,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         
         // default color
         colors.append(NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
-        valueColors.append(NSUIColor.blackColor())
+        valueColors.append(NSUIColor.black())
         
         self.label = label
     }
@@ -46,7 +46,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         calcMinMax(start: 0, end: entryCount - 1)
     }
     
-    public func calcMinMax(start start: Int, end: Int)
+    public func calcMinMax(start: Int, end: Int)
     {
         fatalError("calcMinMax is not implemented in ChartBaseDataSet")
     }
@@ -66,32 +66,32 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         fatalError("entryCount is not implemented in ChartBaseDataSet")
     }
     
-    public func yValForXIndex(x: Int) -> Double
+    public func yValForXIndex(_ x: Int) -> Double
     {
         fatalError("yValForXIndex is not implemented in ChartBaseDataSet")
     }
     
-    public func yValsForXIndex(x: Int) -> [Double]
+    public func yValsForXIndex(_ x: Int) -> [Double]
     {
         fatalError("yValsForXIndex is not implemented in ChartBaseDataSet")
     }
     
-    public func entryForIndex(i: Int) -> ChartDataEntry?
+    public func entryForIndex(_ i: Int) -> ChartDataEntry?
     {
         fatalError("entryForIndex is not implemented in ChartBaseDataSet")
     }
     
-    public func entryForXIndex(x: Int, rounding: ChartDataSetRounding) -> ChartDataEntry?
+    public func entryForXIndex(_ x: Int, rounding: ChartDataSetRounding) -> ChartDataEntry?
     {
         fatalError("entryForXIndex is not implemented in ChartBaseDataSet")
     }
     
-    public func entryForXIndex(x: Int) -> ChartDataEntry?
+    public func entryForXIndex(_ x: Int) -> ChartDataEntry?
     {
         fatalError("entryForXIndex is not implemented in ChartBaseDataSet")
     }
     
-    public func entriesForXIndex(x: Int) -> [ChartDataEntry]
+    public func entriesForXIndex(_ x: Int) -> [ChartDataEntry]
     {
         fatalError("entriesForXIndex is not implemented in ChartBaseDataSet")
     }
@@ -106,22 +106,22 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         fatalError("entryIndex is not implemented in ChartBaseDataSet")
     }
     
-    public func addEntry(e: ChartDataEntry) -> Bool
+    public func addEntry(_ e: ChartDataEntry) -> Bool
     {
         fatalError("addEntry is not implemented in ChartBaseDataSet")
     }
     
-    public func addEntryOrdered(e: ChartDataEntry) -> Bool
+    public func addEntryOrdered(_ e: ChartDataEntry) -> Bool
     {
         fatalError("addEntryOrdered is not implemented in ChartBaseDataSet")
     }
     
-    public func removeEntry(entry: ChartDataEntry) -> Bool
+    public func removeEntry(_ entry: ChartDataEntry) -> Bool
     {
         fatalError("removeEntry is not implemented in ChartBaseDataSet")
     }
     
-    public func removeEntry(xIndex xIndex: Int) -> Bool
+    public func removeEntry(xIndex: Int) -> Bool
     {
         if let entry = entryForXIndex(xIndex)
         {
@@ -148,7 +148,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         return false
     }
     
-    public func contains(e: ChartDataEntry) -> Bool
+    public func contains(_ e: ChartDataEntry) -> Bool
     {
         fatalError("removeEntry is not implemented in ChartBaseDataSet")
     }
@@ -171,11 +171,11 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     public var label: String? = "DataSet"
     
     /// The axis this DataSet should be plotted against.
-    public var axisDependency = ChartYAxis.AxisDependency.Left
+    public var axisDependency = ChartYAxis.AxisDependency.left
     
     /// - returns: the color at the given index of the DataSet's color array.
     /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
-    public func colorAt(index: Int) -> NSUIColor
+    public func colorAt(_ index: Int) -> NSUIColor
     {
         var index = index
         if (index < 0)
@@ -188,12 +188,12 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     /// Resets all colors of this DataSet and recreates the colors array.
     public func resetColors()
     {
-        colors.removeAll(keepCapacity: false)
+        colors.removeAll(keepingCapacity: false)
     }
     
     /// Adds a new color to the colors array of the DataSet.
     /// - parameter color: the color to add
-    public func addColor(color: NSUIColor)
+    public func addColor(_ color: NSUIColor)
     {
         colors.append(color)
     }
@@ -201,30 +201,30 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     /// Sets the one and **only** color that should be used for this DataSet.
     /// Internally, this recreates the colors array and adds the specified color.
     /// - parameter color: the color to set
-    public func setColor(color: NSUIColor)
+    public func setColor(_ color: NSUIColor)
     {
-        colors.removeAll(keepCapacity: false)
+        colors.removeAll(keepingCapacity: false)
         colors.append(color)
     }
     
     /// Sets colors to a single color a specific alpha value.
     /// - parameter color: the color to set
     /// - parameter alpha: alpha to apply to the set `color`
-    public func setColor(color: NSUIColor, alpha: CGFloat)
+    public func setColor(_ color: NSUIColor, alpha: CGFloat)
     {
-        setColor(color.colorWithAlphaComponent(alpha))
+        setColor(color.withAlphaComponent(alpha))
     }
     
     /// Sets colors with a specific alpha value.
     /// - parameter colors: the colors to set
     /// - parameter alpha: alpha to apply to the set `colors`
-    public func setColors(colors: [NSUIColor], alpha: CGFloat)
+    public func setColors(_ colors: [NSUIColor], alpha: CGFloat)
     {
         var colorsWithAlpha = colors
         
         for i in 0 ..< colorsWithAlpha.count
         {
-            colorsWithAlpha[i] = colorsWithAlpha[i] .colorWithAlphaComponent(alpha)
+            colorsWithAlpha[i] = colorsWithAlpha[i] .withAlphaComponent(alpha)
         }
         
         self.colors = colorsWithAlpha
@@ -233,14 +233,12 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     /// if true, value highlighting is enabled
     public var highlightEnabled = true
     
-    /// - returns: true if value highlighting is enabled for this dataset
-    public var isHighlightEnabled: Bool { return highlightEnabled }
     
     /// the formatter used to customly format the values
-    internal var _valueFormatter: NSNumberFormatter? = ChartUtils.defaultValueFormatter()
+    internal var _valueFormatter: NumberFormatter? = ChartUtils.defaultValueFormatter()
     
     /// The formatter used to customly format the values
-    public var valueFormatter: NSNumberFormatter?
+    public var valueFormatter: NumberFormatter?
     {
         get
         {
@@ -270,13 +268,13 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         }
         set
         {
-            valueColors.removeAll(keepCapacity: false)
+            valueColors.removeAll(keepingCapacity: false)
             valueColors.append(newValue)
         }
     }
     
     /// - returns: the color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
-    public func valueTextColorAt(index: Int) -> NSUIColor
+    public func valueTextColorAt(_ index: Int) -> NSUIColor
     {
         var index = index
         if (index < 0)
@@ -287,25 +285,13 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     }
     
     /// the font for the value-text labels
-    public var valueFont: NSUIFont = NSUIFont.systemFontOfSize(7.0)
+    public var valueFont: NSUIFont = NSUIFont.systemFont(ofSize: 7.0)
     
     /// Set this to true to draw y-values on the chart
     public var drawValuesEnabled = true
     
-    /// Returns true if y-value drawing is enabled, false if not
-    public var isDrawValuesEnabled: Bool
-    {
-        return drawValuesEnabled
-    }
-    
     /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
     public var visible = true
-    
-    /// Returns true if this DataSet is visible inside the chart, or false if it is currently hidden.
-    public var isVisible: Bool
-    {
-        return visible
-    }
     
     // MARK: - NSObject
     
@@ -328,7 +314,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     
     // MARK: - NSCopying
     
-    public func copyWithZone(zone: NSZone) -> AnyObject
+    public func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = self.dynamicType.init()
         

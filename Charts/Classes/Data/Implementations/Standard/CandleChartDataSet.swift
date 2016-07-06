@@ -30,7 +30,7 @@ public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChar
     
     // MARK: - Data functions and accessors
     
-    public override func calcMinMax(start start: Int, end: Int)
+    public override func calcMinMax(start: Int, end: Int)
     {
         let yValCount = self.entryCount
         
@@ -58,7 +58,7 @@ public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChar
         _yMin = DBL_MAX
         _yMax = -DBL_MAX
         
-        for i in start.stride(through: endValue, by: 1)
+        for i in stride(from: start, through: endValue, by: 1)
         {
             let e = entries[i]
             
@@ -123,9 +123,6 @@ public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChar
     /// use candle color for the shadow
     public var shadowColorSameAsCandle = false
     
-    /// Is the shadow color same as the candle color?
-    public var isShadowColorSameAsCandle: Bool { return shadowColorSameAsCandle }
-    
     /// color for open == close
     public var neutralColor: NSUIColor?
     
@@ -139,13 +136,7 @@ public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChar
     /// increasing candlesticks are traditionally hollow
     public var increasingFilled = false
     
-    /// Are increasing values drawn as filled?
-    public var isIncreasingFilled: Bool { return increasingFilled }
-    
     /// Are decreasing values drawn as filled?
     /// descreasing candlesticks are traditionally filled
     public var decreasingFilled = true
-    
-    /// Are decreasing values drawn as filled?
-    public var isDecreasingFilled: Bool { return decreasingFilled }
 }

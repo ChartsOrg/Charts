@@ -26,7 +26,7 @@ public protocol IChartDataSet
     /// If your data is in a database, you might query for the min/max and put them in variables.
     /// - parameter start: the index of the first y entry to calculate
     /// - parameter end: the index of the last y entry to calculate
-    func calcMinMax(start start: Int, end: Int)
+    func calcMinMax(start: Int, end: Int)
     
     /// - returns: the minimum y-value this DataSet holds
     var yMin: Double { get }
@@ -38,29 +38,29 @@ public protocol IChartDataSet
     var entryCount: Int { get }
     
     /// - returns: the value of the Entry object at the given xIndex. Returns NaN if no value is at the given x-index.
-    func yValForXIndex(x: Int) -> Double
+    func yValForXIndex(_ x: Int) -> Double
     
     /// - returns: all of the y values of the Entry objects at the given xIndex. Returns NaN if no value is at the given x-index.
-    func yValsForXIndex(x: Int) -> [Double]
+    func yValsForXIndex(_ x: Int) -> [Double]
     
     /// - returns: the entry object found at the given index (not x-index!)
     /// - throws: out of bounds
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
-    func entryForIndex(i: Int) -> ChartDataEntry?
+    func entryForIndex(_ i: Int) -> ChartDataEntry?
     
     /// - returns: the first Entry object found at the given xIndex with binary search.
     /// If the no Entry at the specifed x-index is found, this method returns the Entry at the closest x-index.
     /// nil if no Entry object at that index.
-    func entryForXIndex(x: Int, rounding: ChartDataSetRounding) -> ChartDataEntry?
+    func entryForXIndex(_ x: Int, rounding: ChartDataSetRounding) -> ChartDataEntry?
     
     /// - returns: the first Entry object found at the given xIndex with binary search.
     /// If the no Entry at the specifed x-index is found, this method returns the Entry at the closest x-index.
     /// nil if no Entry object at that index.
-    func entryForXIndex(x: Int) -> ChartDataEntry?
+    func entryForXIndex(_ x: Int) -> ChartDataEntry?
     
     /// - returns: all Entry objects found at the given xIndex with binary search.
     /// An empty array if no Entry object at that index.
-    func entriesForXIndex(x: Int) -> [ChartDataEntry]
+    func entriesForXIndex(_ x: Int) -> [ChartDataEntry]
     
     /// - returns: the array-index of the specified entry
     ///
@@ -80,7 +80,7 @@ public protocol IChartDataSet
     /// Entries are added to the end of the list.
     /// - parameter e: the entry to add
     /// - returns: true if the entry was added successfully, false if this feature is not supported
-    func addEntry(e: ChartDataEntry) -> Bool
+    func addEntry(_ e: ChartDataEntry) -> Bool
     
     /// Adds an Entry to the DataSet dynamically.
     /// Entries are added to their appropriate index respective to it's x-index.
@@ -91,7 +91,7 @@ public protocol IChartDataSet
     /// Entries are added to the end of the list.
     /// - parameter e: the entry to add
     /// - returns: true if the entry was added successfully, false if this feature is not supported
-    func addEntryOrdered(e: ChartDataEntry) -> Bool
+    func addEntryOrdered(_ e: ChartDataEntry) -> Bool
     
     /// Removes an Entry from the DataSet dynamically.
     ///
@@ -99,7 +99,7 @@ public protocol IChartDataSet
     ///
     /// - parameter entry: the entry to remove
     /// - returns: true if the entry was removed successfully, false if the entry does not exist or if this feature is not supported
-    func removeEntry(entry: ChartDataEntry) -> Bool
+    func removeEntry(_ entry: ChartDataEntry) -> Bool
     
     /// Removes the Entry object that has the given xIndex from the DataSet.
     ///
@@ -107,7 +107,7 @@ public protocol IChartDataSet
     ///
     /// - parameter xIndex: the xIndex to remove
     /// - returns: true if the entry was removed successfully, false if the entry does not exist or if this feature is not supported
-    func removeEntry(xIndex xIndex: Int) -> Bool
+    func removeEntry(xIndex: Int) -> Bool
     
     /// Removes the first Entry (at index 0) of this DataSet from the entries array.
     ///
@@ -126,7 +126,7 @@ public protocol IChartDataSet
     /// Checks if this DataSet contains the specified Entry.
     ///
     /// - returns: true if contains the entry, false if not.
-    func contains(e: ChartDataEntry) -> Bool
+    func contains(_ e: ChartDataEntry) -> Bool
     
     /// Removes all values from this DataSet and does all necessary recalculations.
     ///
@@ -150,22 +150,19 @@ public protocol IChartDataSet
     
     /// - returns: the color at the given index of the DataSet's color array.
     /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
-    func colorAt(index: Int) -> NSUIColor
+    func colorAt(_ index: Int) -> NSUIColor
     
     func resetColors()
     
-    func addColor(color: NSUIColor)
+    func addColor(_ color: NSUIColor)
     
-    func setColor(color: NSUIColor)
+    func setColor(_ color: NSUIColor)
     
     /// if true, value highlighting is enabled
     var highlightEnabled: Bool { get set }
     
-    /// - returns: true if value highlighting is enabled for this dataset
-    var isHighlightEnabled: Bool { get }
-    
     /// The formatter used to customly format the values
-    var valueFormatter: NSNumberFormatter? { get set }
+    var valueFormatter: NumberFormatter? { get set }
     
     /// Sets/get a single color for value text.
     /// Setting the color clears the colors array and adds a single color.
@@ -173,7 +170,7 @@ public protocol IChartDataSet
     var valueTextColor: NSUIColor { get set }
     
     /// - returns: the color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
-    func valueTextColorAt(index: Int) -> NSUIColor
+    func valueTextColorAt(_ index: Int) -> NSUIColor
     
     /// the font for the value-text labels
     var valueFont: NSUIFont { get set }
@@ -181,12 +178,6 @@ public protocol IChartDataSet
     /// Set this to true to draw y-values on the chart
     var drawValuesEnabled: Bool { get set }
     
-    /// Returns true if y-value drawing is enabled, false if not
-    var isDrawValuesEnabled: Bool { get }
-    
     /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
     var visible: Bool { get set }
-    
-    /// Returns true if this DataSet is visible inside the chart, or false if it is currently hidden.
-    var isVisible: Bool { get }
 }

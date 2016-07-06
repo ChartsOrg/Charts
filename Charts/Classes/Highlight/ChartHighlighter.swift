@@ -29,7 +29,7 @@ public class ChartHighlighter : NSObject
     /// - parameter x:
     /// - parameter y:
     /// - returns:
-    public func getHighlight(x x: CGFloat, y: CGFloat) -> ChartHighlight?
+    public func getHighlight(x: CGFloat, y: CGFloat) -> ChartHighlight?
     {
         let xIndex = getXIndex(x)
         
@@ -43,13 +43,13 @@ public class ChartHighlighter : NSObject
     /// Returns the corresponding x-index for a given touch-position in pixels.
     /// - parameter x:
     /// - returns:
-    public func getXIndex(x: CGFloat) -> Int
+    public func getXIndex(_ x: CGFloat) -> Int
     {
         // create an array of the touch-point
         var pt = CGPoint(x: x, y: 0.0)
         
         // take any transformer to determine the x-axis value
-        self.chart?.getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
+        self.chart?.getTransformer(ChartYAxis.AxisDependency.left).pixelToValue(&pt)
         
         return Int(round(pt.x))
     }
@@ -59,14 +59,14 @@ public class ChartHighlighter : NSObject
     /// - parameter y:
     /// - parameter dataSetIndex: A dataset index to look at - or nil, to figure that out automatically
     /// - returns:
-    public func getSelectionDetail(xIndex xIndex: Int, y: CGFloat, dataSetIndex: Int?) -> ChartSelectionDetail?
+    public func getSelectionDetail(xIndex: Int, y: CGFloat, dataSetIndex: Int?) -> ChartSelectionDetail?
     {
         let valsAtIndex = getSelectionDetailsAtIndex(xIndex, dataSetIndex: dataSetIndex)
         
-        let leftdist = ChartUtils.getMinimumDistance(valsAtIndex, y: y, axis: ChartYAxis.AxisDependency.Left)
-        let rightdist = ChartUtils.getMinimumDistance(valsAtIndex, y: y, axis: ChartYAxis.AxisDependency.Right)
+        let leftdist = ChartUtils.getMinimumDistance(valsAtIndex, y: y, axis: ChartYAxis.AxisDependency.left)
+        let rightdist = ChartUtils.getMinimumDistance(valsAtIndex, y: y, axis: ChartYAxis.AxisDependency.right)
         
-        let axis = leftdist < rightdist ? ChartYAxis.AxisDependency.Left : ChartYAxis.AxisDependency.Right
+        let axis = leftdist < rightdist ? ChartYAxis.AxisDependency.left : ChartYAxis.AxisDependency.right
         
         let detail = ChartUtils.closestSelectionDetailByPixelY(valsAtIndex: valsAtIndex, y: y, axis: axis)
         
@@ -77,7 +77,7 @@ public class ChartHighlighter : NSObject
     /// - parameter xIndex:
     /// - parameter dataSetIndex: A dataset index to look at - or nil, to figure that out automatically
     /// - returns:
-    public func getSelectionDetailsAtIndex(xIndex: Int, dataSetIndex: Int?) -> [ChartSelectionDetail]
+    public func getSelectionDetailsAtIndex(_ xIndex: Int, dataSetIndex: Int?) -> [ChartSelectionDetail]
     {
         var vals = [ChartSelectionDetail]()
         var pt = CGPoint()
@@ -93,27 +93,27 @@ public class ChartHighlighter : NSObject
                 continue
             }
             
-            let dataSet = data.getDataSetByIndex(i)
-            
-            // dont include datasets that cannot be highlighted
-            if !dataSet.isHighlightEnabled
-            {
-                continue
-            }
-            
-            // extract all y-values from all DataSets at the given x-index
-            let yVals: [Double] = dataSet.yValsForXIndex(xIndex)
-            for yVal in yVals
-            {
-                pt.y = CGFloat(yVal)
-                
-                self.chart!.getTransformer(dataSet.axisDependency).pointValueToPixel(&pt)
-                
-                if !pt.y.isNaN
-                {
-                    vals.append(ChartSelectionDetail(y: pt.y, value: yVal, dataSetIndex: i, dataSet: dataSet))
-                }
-            }
+			if let dataSet = data.getDataSetByIndex(i) {
+				// dont include datasets that cannot be highlighted
+				if !dataSet.highlightEnabled
+				{
+					continue
+				}
+				
+				// extract all y-values from all DataSets at the given x-index
+				let yVals: [Double] = dataSet.yValsForXIndex(xIndex)
+				for yVal in yVals
+				{
+					pt.y = CGFloat(yVal)
+					
+					self.chart!.getTransformer(dataSet.axisDependency).pointValueToPixel(&pt)
+					
+					if !pt.y.isNaN
+					{
+						vals.append(ChartSelectionDetail(y: pt.y, value: yVal, dataSetIndex: i, dataSet: dataSet))
+					}
+				}
+			}
         }
         
         return vals
