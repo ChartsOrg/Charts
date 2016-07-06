@@ -60,7 +60,8 @@ public class KlineChartData: CandleChartData {
     internal override func initialize(dataSets: [IChartDataSet])
     {
         super.initialize(dataSets)
-        
+        calcEMA(dataSets)
+        calcQualification(dataSets);
     }
     
     public override init(xVals: [String?]?, dataSets: [IChartDataSet]?)
@@ -71,8 +72,6 @@ public class KlineChartData: CandleChartData {
     public override init(xVals: [NSObject]?, dataSets: [IChartDataSet]?)
     {
         super.init(xVals: xVals, dataSets: dataSets)
-        calcEMA(dataSets)
-        calcQualification(dataSets);
     }
     
     public override func notifyDataChanged()

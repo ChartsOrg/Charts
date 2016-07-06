@@ -176,9 +176,10 @@ public class TimeLineChartDataSet: LineChartDataSet,ITimeLineDataSet {
         barDataSet.drawValuesEnabled = false
         barDataSet.highlightColor = highlightColor;
         barDataSet.colors = colorArray
-        barDataSet.barSpace = 0.3
+        barDataSet.barSpace = 0.1
         barDataSet.barShadowColor = NSUIColor.clearColor();
-        barDataSet.highlightAlpha = 0.5
+        barDataSet.highlightAlpha = 1
+        barDataSet.highlightLineWidth = 1;
         barDataSet.valueColors = colorArray
         
         //

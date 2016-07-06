@@ -24,6 +24,8 @@ public class KlineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatter ,
     
     public var kLineViewType = KLineViewType.Day
     
+    public var didAutoShowLast:Bool = false
+    
     
     public weak var delegate: ChartViewDelegate?
     let minDateFormatter:NSDateFormatter = {
@@ -82,7 +84,6 @@ public class KlineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatter ,
         cdView.rightAxis.drawGridLinesEnabled = false
         cdView.rightAxis.drawAxisLineEnabled = false
         
-
         cdView.xAxis.drawAxisLineEnabled = false
         cdView.xAxis.gridColor = UIColor(white: 0.86, alpha: 0.8);
         cdView.xAxis.labelPosition = ChartXAxis.LabelPosition.Bottom
@@ -90,12 +91,13 @@ public class KlineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatter ,
         cdView.xAxis.spaceBetweenLabels = 20
         cdView.xAxis.gridLineDashLengths = [2,2]
         cdView.xAxis.avoidFirstLastClippingEnabled = true
-        cdView.xAxis.valueFormatter = self
+       unowned let dele = self
+        cdView.xAxis.valueFormatter = dele
         cdView.descriptionText = ""
         cdView.legend.horizontalAlignment = ChartLegend.HorizontalAlignment.Left
         cdView.legend.verticalAlignment = ChartLegend.VerticalAlignment.Top
 
-        
+        cdView.noDataText = "没有数据"
         return cdView
     }()
     
@@ -141,21 +143,32 @@ public class KlineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatter ,
         cdView.legend.horizontalAlignment = ChartLegend.HorizontalAlignment.Left
         cdView.legend.verticalAlignment = ChartLegend.VerticalAlignment.Top
 
+        cdView.noDataText = ""
         return cdView
     }()
     
-    public func stringForXValue(index: Int, original: String, viewPortHandler: ChartViewPortHandler) -> String {
+    public  func stringForXValue(index: Int, original: String, viewPortHandler: ChartViewPortHandler) -> String {
         
         
         let  date:NSDate = NSDate(timeIntervalSince1970: (original as NSString).doubleValue)
         switch kLineViewType {
         case .Min:
-            if candleView.xAxis.axisRange > 100 {
+            guard let klineData = klineData else { break }
+            guard let viewPortHandler = candleView.viewPortHandler else { break }
+            
+        let stickWidth = viewPortHandler.contentWidth / CGFloat(abs(klineData._lastStart - klineData._lastEnd))
+            
+            if stickWidth < 4 {
                 return dayDateFormatter.stringFromDate(date);
             }
             return minDateFormatter.stringFromDate(date);
         case .Day:
-            if candleView.xAxis.axisRange > 100 {
+            guard let klineData = klineData else { break }
+            guard let viewPortHandler = candleView.viewPortHandler else { break }
+            
+            let stickWidth = viewPortHandler.contentWidth / CGFloat(abs(klineData._lastStart - klineData._lastEnd))
+            
+            if stickWidth < 4 {
                 return monthDateFormatter.stringFromDate(date);
             }
             return dayDateFormatter.stringFromDate(date);
@@ -213,9 +226,8 @@ public class KlineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatter ,
         } set {
             _klineData = newValue
 //            _klineData.isVisibKline = false
-            
+            didAutoShowLast = false
             resetData()
-            defualtAnimation()
         }
     }
     
@@ -246,9 +258,7 @@ public class KlineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatter ,
             candleData.lineData = kLinwData.emaLineData;
             
             candleView.data = candleData;
-            candleView.setVisibleXRange(minXRange: CGFloat(minVisibleCount), maxXRange: CGFloat(maxVisibleCount));
-            
-            
+        
             var string = ""
             
             switch kLinwData._qualificationType {
@@ -279,13 +289,16 @@ public class KlineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatter ,
 
     func defualtAnimation() {
     
-        var matrix = CGAffineTransformMakeScale(candleView.viewPortHandler.scaleX * 2, candleView.viewPortHandler.scaleY)
-        matrix = CGAffineTransformConcat(matrix, CGAffineTransformMakeTranslation(-((candleView.viewPortHandler.contentWidth * candleView.viewPortHandler.scaleX * 2) - candleView.viewPortHandler.contentWidth) , 0))
+        candleView.setVisibleXRange(minXRange: CGFloat(minVisibleCount), maxXRange: CGFloat(maxVisibleCount));
+        var matrix = CGAffineTransformMakeScale(candleView.viewPortHandler.scaleX * 1.2, candleView.viewPortHandler.scaleY)
+        matrix = CGAffineTransformConcat(matrix, CGAffineTransformMakeTranslation(-((candleView.viewPortHandler.contentWidth * candleView.viewPortHandler.scaleX * 1.2) - candleView.viewPortHandler.contentWidth) , 0))
         qualificationView.viewPortHandler.refresh(newMatrix: matrix, chart: qualificationView, invalidate: true)
         candleView.viewPortHandler.refresh(newMatrix: matrix, chart: candleView, invalidate: true)
         
         guard let kLineData = klineData else { return }
         redrawLengend(Int(kLineData._lastEnd))
+        
+        didAutoShowLast = true
     }
     public override func awakeFromNib() {
         initView()
@@ -329,6 +342,11 @@ public class KlineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatter ,
         
         guard let kLineData = klineData else { return }
         redrawLengend(Int(kLineData._lastEnd))
+        
+        if didAutoShowLast == false {
+            
+            defualtAnimation()
+        }
     }
     
     public func redrawLengend(xIndex:Int) {

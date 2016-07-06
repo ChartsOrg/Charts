@@ -182,31 +182,31 @@ public class KlineChartDataEntry: CandleChartDataEntry {
     func caclMACD() {
         
         if MACD == 0 {
-            MACD = DIF * 2 + DEA
+            MACD = (DIF - DEA) * 2
         }
     }
     func caclRSV_9 () {
         
-        if RSV_9 == 100 || RSV_9 == 0{
+        if RSV_9 == 50 || RSV_9 == 0{
             
-            if NineClocksMax == NineClocksMin {
-                RSV_9 = 100;
+            if NineClocksMax <= NineClocksMin {
+                RSV_9 = 50.0;
             } else {
-                RSV_9 = (close - NineClocksMin) / (NineClocksMax - NineClocksMin) * 100
+                RSV_9 = (close - NineClocksMin) / (NineClocksMax - NineClocksMin) * 100.0
             }
         }
 
     }
     func caclKDJ() {
         
-        if (KDJ_K == 0 || KDJ_K == 50.27) && (KDJ_D == 0 || KDJ_D == 10.27) {
+        if (KDJ_K == 0 || KDJ_K == 50) && (KDJ_D == 0 || KDJ_D == 50) {
             
             if lastEntry == nil {
-                KDJ_K = (RSV_9 + 2.0 * 50.27)/3.0
-                KDJ_D = (KDJ_K + 2.0 * 50.27) / 3.0
+                KDJ_K = (RSV_9 + 2.0 * 50.0) / 3.0
+                KDJ_D = (KDJ_K + 2.0 * 50.0) / 3.0
                 KDJ_J = (3 * KDJ_K - 2 * KDJ_D)
             } else {
-                KDJ_K = (RSV_9 + 2.0 * lastEntry!.KDJ_K)/3.0
+                KDJ_K = (RSV_9 + 2.0 * lastEntry!.KDJ_K) / 3.0
                 KDJ_D = (KDJ_K + 2.0 * lastEntry!.KDJ_D) / 3.0
                 KDJ_J = (3 * KDJ_K - 2 * KDJ_D)
             }
@@ -217,8 +217,10 @@ public class KlineChartDataEntry: CandleChartDataEntry {
         
         guard nineClocksNeedCacl
             else { return }
+         nineClocksNeedCacl = false
         
         let curIndex = (dataSet?.yVals.indexOf(self))
+        
         if (curIndex < 9) {
             if lastEntry == nil {
                 NineClocksMax = high
@@ -234,7 +236,7 @@ public class KlineChartDataEntry: CandleChartDataEntry {
             
             if entry.low == lastEntry?.NineClocksMin {
                 
-                let subVals = Array(dataSet!.yVals[0..<curIndex!+1]).map({ (entry) -> Double in
+                let subVals = Array(dataSet!.yVals[(curIndex! - 8)..<curIndex!+1]).map({ (entry) -> Double in
                     return (entry as! KlineChartDataEntry).low
                 })
                 let min :Double =  (subVals as NSArray).valueForKeyPath("@min.doubleValue") as! Double
@@ -246,18 +248,18 @@ public class KlineChartDataEntry: CandleChartDataEntry {
             }
             if entry.high == lastEntry?.NineClocksMax {
                 
-                let subVals = Array(dataSet!.yVals[0..<curIndex!+1]).map({ (entry) -> Double in
-                    return (entry as! KlineChartDataEntry).low
+                let subVals = Array(dataSet!.yVals[(curIndex! - 8)..<curIndex!+1]).map({ (entry) -> Double in
+                    return (entry as! KlineChartDataEntry).high
                 })
                 let max :Double =  (subVals as NSArray).valueForKeyPath("@max.doubleValue") as! Double
                 
                 NineClocksMax = max
                 
             } else {
-                NineClocksMin = min((lastEntry?.NineClocksMin)!, low)
+                NineClocksMax = max((lastEntry?.NineClocksMax)!, high)
             }
         }
-        nineClocksNeedCacl = false
+
     }
     
     public func caclVolumMA(num num:Int) -> Double {
@@ -284,13 +286,13 @@ public class KlineChartDataEntry: CandleChartDataEntry {
             return volume
         }
         
-        let subVals = Array(yVals[0..<index+1]).map({ (entry) -> Double in
+        let subVals = Array(yVals[max(0,index - (num - 1))..<index+1]).map({ (entry) -> Double in
             
-            return (entry as! KlineChartDataEntry).volume;
+            return  (entry as! KlineChartDataEntry).volume;
         })
         let avg:Double =  (subVals as NSArray).valueForKeyPath("@avg.doubleValue") as! Double
         
-         setvolumMAValueFor(num: num, val: avg)
+        setvolumMAValueFor(num: num, val: avg)
         return avg
     }
     
@@ -318,22 +320,23 @@ public class KlineChartDataEntry: CandleChartDataEntry {
             return close
         }
         
-        if index < num {
-            let subVals = Array(yVals[0..<index+1]).map({ (entry) -> Double in
-                
-                return entry.value;
-            })
-            let avg:Double =  (subVals as NSArray).valueForKeyPath("@avg.doubleValue") as! Double
-            
-            setEMAValueFor(num: num, val: avg)
-            return avg
-        } else {
-            
-            let avg = yVals[index].value / Double(num) + (lastEntry?.caclEMAFor(num: num))! * ( Double((num - 1))/Double(num))
-            setEMAValueFor(num: num, val: avg)
-            
-            return avg
-        }
+//        if index < num { 
+//            let subVals = Array(yVals[0..<index+1]).map({ (entry) -> Double in
+//                
+//                return entry.value;
+//            })
+//            let avg:Double =  (subVals as NSArray).valueForKeyPath("@avg.doubleValue") as! Double
+//            
+//            setEMAValueFor(num: num, val: avg)
+//            return avg
+//        } else {
+        let a = yVals[index].value * 2 / Double(num + 1)
+        let b  = (lastEntry?.caclEMAFor(num: num))! * ( Double(num - 1) / Double(num + 1))
+        let avg = a + b
+        return avg
+//        }
+        
+//        return
     }
 
 }

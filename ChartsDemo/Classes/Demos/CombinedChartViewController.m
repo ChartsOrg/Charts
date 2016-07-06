@@ -270,7 +270,7 @@
 {
    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
        
-      TimeLineData *data = [self setDataCount:(500) range:200];
+      TimeLineData *data = [self setDataCount:(100) range:200];
        
        dispatch_async(dispatch_get_main_queue(), ^{
            _chartView.timeLineData = data;
@@ -285,11 +285,24 @@
 {
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
     
-    for (int i = 0; i < count; i++)
+    
+    NSString *string = @"2016/07/05 09:30";
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat =  @"yyyy/MM/dd hh:mm";
+    
+    NSTimeInterval time = [[formatter dateFromString:string] timeIntervalSince1970];
+    
+    for (int i = 0; i < 120; i++)
     {
-        [xVals addObject:[@(i + 1990) stringValue]];
+        [xVals addObject:[@(time += 60) stringValue]];
     }
     
+    time += 4800;
+//    time = [[formatter dateFromString:string] timeIntervalSince1970];
+    for (int i = 0; i < 150; i++)
+    {
+        [xVals addObject:[@(time += 60) stringValue]];
+    }
     NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < count; i++)
@@ -304,7 +317,7 @@
         double volume = (double) (arc4random_uniform(20)) - 10;
         BOOL even = i % 2 == 0;
         
-        [yVals1 addObject: [[TimelineDataEntry alloc] initWithXIndex:i shadowH:(close + high )  shadowL:(close + low) open:(even ? val + open : val - open) close:(close) current:(close + current) range:(close / (close + current)) volume:100 + volume money: ((close + high + low + close)/ 2) * (100 + volume)]];
+        [yVals1 addObject: [[TimelineDataEntry alloc] initWithXIndex:i shadowH:(close + high )  shadowL:(close + low) open:(even ? val + open : val - open) close:(close) current:(close + current) range:(close / (close + current)) volume:100 + volume money: ((close + high + low + close)/ 2) * (100 + volume) time:100000]];
 
     }
     

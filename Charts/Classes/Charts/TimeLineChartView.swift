@@ -15,23 +15,11 @@ public class TimeLineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatte
     public weak var delegate: ChartViewDelegate?
     let minDateFormatter:NSDateFormatter = {
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "hh:mm"
+        dateFormatter.dateFormat = "hh:mm:ss"
         return dateFormatter;
     }()
     
-    let dayDateFormatter:NSDateFormatter = {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy/MM/dd"
-        return dateFormatter;
-    }()
-    
-    let monthDateFormatter:NSDateFormatter = {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "yyyy/MM"
-        return dateFormatter;
-    }()
-    
-    public var maxVisibleCount:Int = 200
+    public var maxVisibleCount:Int = 270
     public var minVisibleCount:Int = 20
     
     //    var currentScale
@@ -55,7 +43,7 @@ public class TimeLineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatte
         cdView.leftAxis.drawAxisLineEnabled = false
         cdView.leftAxis.gridColor = UIColor(white: 0.86, alpha: 0.8);
         cdView.leftAxis.maxWidth = 70;
-        cdView.leftAxis.labelTextColor = UIColor(white: 0.4, alpha: 1);
+        cdView.leftAxis.labelTextColor = UIColor(white: 0.3, alpha: 1);
         cdView.leftAxis.labelPosition = ChartYAxis.LabelPosition.InsideChart
         cdView.leftAxis.drawTopYLabelEntryEnabled = true
         
@@ -68,10 +56,10 @@ public class TimeLineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatte
         cdView.rightAxis.labelPosition = ChartYAxis.LabelPosition.InsideChart
         
         cdView.rightAxis.maxWidth = 70;
-        cdView.rightAxis.labelTextColor = UIColor(white: 0.4, alpha: 1);
-        cdView.leftAxis.labelCount = 3;
+        cdView.rightAxis.labelTextColor = UIColor(white: 0.3, alpha: 1);
+        cdView.leftAxis.labelCount = 5;
         cdView.leftAxis.forceLabelsEnabled = true;
-        cdView.rightAxis.labelCount = 3;
+        cdView.rightAxis.labelCount = 5;
         cdView.rightAxis.forceLabelsEnabled = true;
 //        cdView.
         
@@ -80,7 +68,8 @@ public class TimeLineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatte
         cdView.xAxis.gridColor = UIColor(white: 0.86, alpha: 0.8);
         cdView.xAxis.labelPosition = ChartXAxis.LabelPosition.Bottom
         cdView.xAxis.drawGridLinesEnabled = true;
-        cdView.xAxis.spaceBetweenLabels = 20
+        cdView.xAxis.spaceBetweenLabels = 1;
+        cdView.xAxis.setLabelsToSkip(120);
         cdView.xAxis.gridLineDashLengths = [2,2]
         cdView.xAxis.avoidFirstLastClippingEnabled = true
         //        cdView.xAxis.enabled = false;
@@ -90,6 +79,7 @@ public class TimeLineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatte
         
         cdView.xAxis.valueFormatter = self
         
+        cdView.noDataText = "没有数据"
         
         return cdView
     }()
@@ -99,7 +89,6 @@ public class TimeLineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatte
         let cdView = CombinedChartView()
         cdView.scaleYEnabled = false
         cdView.scaleXEnabled = false
-        
         cdView.doubleTapToZoomEnabled = false;
         cdView.delegate = self
         cdView.drawGridBackgroundEnabled = true
@@ -131,7 +120,7 @@ public class TimeLineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatte
         cdView.xAxis.gridColor = UIColor(white: 0.86, alpha: 0.8);
         cdView.xAxis.labelPosition = ChartXAxis.LabelPosition.Bottom
         cdView.xAxis.drawGridLinesEnabled = true;
-        cdView.xAxis.spaceBetweenLabels = 20
+        cdView.xAxis.setLabelsToSkip(120);
         cdView.xAxis.gridLineDashLengths = [2,2]
         
         //        cdView.setDescriptionTextPosition(x: 20, y: 10)
@@ -140,12 +129,26 @@ public class TimeLineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatte
         cdView.legend.horizontalAlignment = ChartLegend.HorizontalAlignment.Left
         cdView.legend.verticalAlignment = ChartLegend.VerticalAlignment.Top
         
+        
+         cdView.noDataText = ""
         return cdView
     }()
     
     public func stringForXValue(index: Int, original: String, viewPortHandler: ChartViewPortHandler) -> String {
         
-        return ""
+        let  date:NSDate = NSDate(timeIntervalSince1970: (original as NSString).doubleValue)
+        
+        let calender = NSCalendar.currentCalendar()
+        let dateCompnent = calender.components(NSCalendarUnit.Hour, fromDate: date)
+        if dateCompnent.hour < 11 {
+            return "9:30"
+        } else if ( dateCompnent.hour > 11 && dateCompnent.hour < 14) {
+            
+            return "11:30/13:00";
+        } else {
+            return "15:00"
+        }
+    
     }
     
     public func stringForNumber(number:NSNumber, xIndex: Int, max:Double, yAxis:ChartYAxis) -> NSAttributedString {
@@ -270,6 +273,7 @@ public class TimeLineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatte
         
             data.lineData = lineData.mainLineData;
             lineView.data = data;
+            lineView.setVisibleXRangeMaximum(270);
             
 //            let limit =ChartLimitLine(limit: lineData.limit, label: String(format: "%.2f", lineData.limit))
 ////            limit.lineColor = 
@@ -325,7 +329,7 @@ public class TimeLineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatte
         guard timeLineData != nil else {
             return
         }
-        chartView._xAxis._axisMaximum = Double(timeLineData!.xVals.count) + 0.5
+        chartView._xAxis._axisMaximum = Double(270) + 0.5
         chartView._xAxis.axisRange = abs(chartView._xAxis._axisMaximum - chartView._xAxis._axisMinimum)
         
     }
@@ -362,14 +366,22 @@ public class TimeLineChartView:UIView,ChartViewDelegate ,ChartXAxisValueFormatte
         guard let entry = dataSet.entryForXIndex(xIndex) else  { return }
         if  let entryTimeline = entry as? TimelineDataEntry {
             
-            lineView.legend.colors = [dataSet.colorAt(0)]
-            lineView.legend.labels = [String(format: "%@:%.2f","当前",entryTimeline.current)]
+            lineView.legend.colors = [NSUIColor.clearColor()]
+            lineView.legend.labels = [String(format: "%@:%@","时间",minDateFormatter.stringFromDate(NSDate(timeIntervalSince1970:entryTimeline.time)))];
             
+            lineView.legend.colors.append(dataSet.colorAt(0))
+            lineView.legend.labels.append(String(format: "%@:%.2f","现价",entryTimeline.current))
+
             if dataSet.avgVisibe {
                 
                 lineView.legend.colors.append(dataSet.avgColor)
                 lineView.legend.labels.append(String(format: "%@:%.2f","均价",entryTimeline.avg))
             }
+            
+            let uni = stringForNumber(0, xIndex:0, max:entryTimeline.volume, yAxis: qualificationView.leftAxis)
+            
+            lineView.legend.colors.append(UIColor.blackColor());
+            lineView.legend.labels.append(String(format: "%@:%@%@","成交", stringForNumber(entryTimeline.volume, xIndex: entryTimeline.xIndex, max:entryTimeline.volume, yAxis: qualificationView.leftAxis).string,(uni.string != "0" ? uni.string :"")))
         }
 
         lineView.legend.calculateDimensions(labelFont: lineView.legend.font, viewPortHandler: lineView.viewPortHandler)

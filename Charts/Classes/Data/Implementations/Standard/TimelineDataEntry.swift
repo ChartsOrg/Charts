@@ -14,6 +14,7 @@ public class TimelineDataEntry: CandleChartDataEntry {
     internal var _range:Double = 0.0
     public var volume:Double = 0.0
     public var money:Double = 0.0
+    public var time:Double = 0
     public var avg:Double {
         
         if volume == 0 {
@@ -52,19 +53,21 @@ public class TimelineDataEntry: CandleChartDataEntry {
     }
     
     
-    public init(xIndex: Int, shadowH: Double, shadowL: Double, open: Double, close: Double, current:Double, range:Double, volume:Double, money:Double) {
+    public init(xIndex: Int, shadowH: Double, shadowL: Double, open: Double, close: Double, current:Double, range:Double, volume:Double, money:Double ,time:Double) {
         self.volume = volume;
         self.money = money
         self.current = current
         self._range = range
+        self.time = time;
         super.init(xIndex: xIndex, shadowH: shadowH, shadowL: shadowL, open: open, close: close)
     }
     
-    public init(xIndex: Int, shadowH: Double, shadowL: Double, open: Double, close: Double, current:Double, range:Double, volume:Double, money:Double, data: AnyObject?) {
+    public init(xIndex: Int, shadowH: Double, shadowL: Double, open: Double, close: Double, current:Double, range:Double, volume:Double, money:Double, data: AnyObject? ,time:Double) {
         self.volume = volume;
         self.money = money
         self.current = current
         self._range = range
+        self.time = time;
         super.init(xIndex: xIndex, shadowH: shadowH, shadowL: shadowL, open: open, close: close)
     }
 }

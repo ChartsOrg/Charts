@@ -971,6 +971,15 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             {
                 return false
             }
+            
+            if !isScaleYEnabled && !_longPresses{
+                
+               let translation = _panGestureRecognizer.velocityInView(self)
+                
+                if  translation.y > 100 ||  translation.y < -100 {
+                     return false
+                }
+            }
         }
         else
         {
