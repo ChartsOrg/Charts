@@ -30,12 +30,11 @@
     
     [self writeRandomDataToDbWithObjectCount:20];
     
-    self.title = @"Realm.io Bar Chart Chart";
+    self.title = @"Realm.io Bar Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
-                     @{@"key": @"toggleHighlightArrow", @"label": @"Toggle Highlight Arrow"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
                      @{@"key": @"animateXY", @"label": @"Animate XY"},
@@ -64,17 +63,18 @@
     
     RLMResults *results = [RealmDemoData allObjectsInRealm:realm];
     
-    RealmBarDataSet *set = [[RealmBarDataSet alloc] initWithResults:results yValueField:@"value" xIndexField:@"xIndex"];
+    RealmBarDataSet *set = [[RealmBarDataSet alloc] initWithResults:results xValueField:@"xValue" yValueField:@"yValue"];
     set.colors = @[[ChartColorTemplates colorFromString:@"#FF5722"],
                    [ChartColorTemplates colorFromString:@"#03A9F4"]];
     set.label = @"Realm BarDataSet";
 
     NSArray<id <IChartDataSet>> *dataSets = @[set];
 
-    RealmBarData *data = [[RealmBarData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
+    BarChartData *data = [[BarChartData alloc] initWithDataSets:dataSets];
     [self styleData:data];
     
-    [_chartView zoom:5.f scaleY:1.f x:0.f y:0.f];
+    [_chartView zoomWithScaleX:5.f scaleY:1.f x:0.f y:0.f];
+    _chartView.fitBars = YES;
     _chartView.data = data;
     
     [_chartView animateWithYAxisDuration:1.4 easingOption:ChartEasingOptionEaseInOutQuart];

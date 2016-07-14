@@ -178,6 +178,8 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     {
         _animator = ChartAnimator()
         _animator.delegate = self
+        
+        maxHighlightDistance = 70.0
 
         _viewPortHandler = ChartViewPortHandler()
         _viewPortHandler.setChartDimens(width: bounds.size.width, height: bounds.size.height)
@@ -235,7 +237,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     {
         guard let data = _data else { return true }
 
-        if (data.yValCount <= 0)
+        if data.entryCount <= 0
         {
             return true
         }
@@ -270,7 +272,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         // check if a custom formatter is set or not
         var reference = Double(0.0)
         
-        if let data = _data where data.xValCount >= 2
+        if let data = _data where data.entryCount >= 2
         {
             reference = fabs(max - min)
         }
@@ -450,14 +452,14 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     
     /// Highlights the value at the given x-index in the given DataSet.
     /// Provide -1 as the x-index to undo all highlighting.
-    public func highlightValue(xIndex xIndex: Int, dataSetIndex: Int)
+    public func highlightValue(x x: Double, dataSetIndex: Int)
     {
-        highlightValue(xIndex: xIndex, dataSetIndex: dataSetIndex, callDelegate: true)
+        highlightValue(x: x, dataSetIndex: dataSetIndex, callDelegate: true)
     }
     
     /// Highlights the value at the given x-index in the given DataSet.
-    /// Provide -1 as the x-index to undo all highlighting.
-    public func highlightValue(xIndex xIndex: Int, dataSetIndex: Int, callDelegate: Bool)
+    /// Provide -1 as the dataSetIndex to undo all highlighting.
+    public func highlightValue(x x: Double, dataSetIndex: Int, callDelegate: Bool)
     {
         guard let data = _data else
         {
@@ -465,13 +467,13 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
             return
         }
 
-        if (xIndex < 0 || dataSetIndex < 0 || xIndex >= data.xValCount || dataSetIndex >= data.dataSetCount)
+        if dataSetIndex < 0 || dataSetIndex >= data.dataSetCount
         {
             highlightValue(highlight: nil, callDelegate: callDelegate)
         }
         else
         {
-            highlightValue(highlight: ChartHighlight(xIndex: xIndex, dataSetIndex: dataSetIndex), callDelegate: callDelegate)
+            highlightValue(highlight: ChartHighlight(x: x, dataSetIndex: dataSetIndex), callDelegate: callDelegate)
         }
     }
 
@@ -499,7 +501,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
                 if self is BarLineChartViewBase
                     && (self as! BarLineChartViewBase).isHighlightFullBarEnabled
                 {
-                    h = ChartHighlight(xIndex: h!.xIndex, value: Double.NaN, dataIndex: -1, dataSetIndex: -1, stackIndex: -1)
+                    h = ChartHighlight(x: h!.x, y: Double.NaN, dataIndex: -1, dataSetIndex: -1, stackIndex: -1)
                 }
                 
                 _indicesToHighlight = [h!]
@@ -540,38 +542,38 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         for i in 0 ..< _indicesToHighlight.count
         {
             let highlight = _indicesToHighlight[i]
-            let xIndex = highlight.xIndex
-
-            let deltaX = _xAxis?.axisRange ?? (Double(_data?.xValCount ?? 0) - 1)
-            if xIndex <= Int(deltaX) && xIndex <= Int(CGFloat(deltaX) * _animator.phaseX)
+            
+            guard let
+                set = data?.getDataSetByIndex(highlight.dataSetIndex),
+                e = _data?.getEntryForHighlight(highlight)
+                else { continue }
+            
+            let entryIndex = set.entryIndex(entry: e)
+            if entryIndex > Int(Double(set.entryCount) * _animator.phaseX)
             {
-                let e = _data?.getEntryForHighlight(highlight)
-                if (e === nil || e!.xIndex != highlight.xIndex)
-                {
-                    continue
-                }
-                
-                let pos = getMarkerPosition(entry: e!, highlight: highlight)
+                continue
+            }
 
-                // check bounds
-                if (!_viewPortHandler.isInBounds(x: pos.x, y: pos.y))
-                {
-                    continue
-                }
+            let pos = getMarkerPosition(entry: e, highlight: highlight)
 
-                // callbacks to update the content
-                marker!.refreshContent(entry: e!, highlight: highlight)
+            // check bounds
+            if !_viewPortHandler.isInBounds(x: pos.x, y: pos.y)
+            {
+                continue
+            }
 
-                let markerSize = marker!.size
-                if (pos.y - markerSize.height <= 0.0)
-                {
-                    let y = markerSize.height - pos.y
-                    marker!.draw(context: context, point: CGPoint(x: pos.x, y: pos.y + y))
-                }
-                else
-                {
-                    marker!.draw(context: context, point: pos)
-                }
+            // callbacks to update the content
+            marker!.refreshContent(entry: e, highlight: highlight)
+
+            let markerSize = marker!.size
+            if pos.y - markerSize.height <= 0.0
+            {
+                let y = markerSize.height - pos.y
+                marker!.draw(context: context, point: CGPoint(x: pos.x, y: pos.y + y))
+            }
+            else
+            {
+                marker!.draw(context: context, point: pos)
             }
         }
     }
@@ -717,18 +719,13 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         return _xAxis._axisMinimum
     }
     
-    public var xValCount: Int
+    public var xRange: Double
     {
-        return _data?.xValCount ?? 0
+        return _xAxis.axisRange
     }
     
-    /// - returns: the total number of (y) values the chart holds (across all DataSets)
-    public var valueCount: Int
-    {
-        return _data?.yValCount ?? 0
-    }
-    
-    /// *Note: (Equivalent of getCenter() in MPAndroidChart, as center is already a standard in iOS that returns the center point relative to superview, and MPAndroidChart returns relative to self)*
+    /// *
+    /// - note: (Equivalent of getCenter() in MPAndroidChart, as center is already a standard in iOS that returns the center point relative to superview, and MPAndroidChart returns relative to self)*
     /// - returns: the center point of the chart (the whole View) in pixels.
     public var midPoint: CGPoint
     {
@@ -765,19 +762,8 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         return _viewPortHandler.contentRect
     }
     
-    /// - returns: the x-value at the given index
-    public func getXValue(index: Int) -> String!
-    {
-        guard let data = _data where data.xValCount > index else
-        {
-            return nil
-        }
-
-        return data.xVals[index]
-    }
-    
     /// Get all Entry objects at the given index across all DataSets.
-    public func getEntriesAtIndex(xIndex: Int) -> [ChartDataEntry]
+    public func getEntriesAtIndex(xValue: Double) -> [ChartDataEntry]
     {
         var vals = [ChartDataEntry]()
         
@@ -786,7 +772,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         for i in 0 ..< data.dataSetCount
         {
             let set = data.getDataSetByIndex(i)
-            let e = set.entryForXIndex(xIndex)
+            let e = set.entryForXPos(xValue)
             if (e !== nil)
             {
                 vals.append(e!)
@@ -964,6 +950,16 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
             
             _dragDecelerationFrictionCoef = val
         }
+    }
+    
+    /// The maximum distance in screen pixels away from an entry causing it to highlight.
+    /// **default**: 70.0
+    public var maxHighlightDistance: CGFloat = 70.0
+    
+    /// the number of maximum visible drawn values on the chart only active when `drawValuesEnabled` is enabled
+    public var maxVisibleCount: Int
+    {
+        return Int(INT_MAX)
     }
     
     // MARK: - ChartAnimatorDelegate

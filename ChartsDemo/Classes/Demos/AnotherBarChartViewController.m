@@ -35,7 +35,6 @@
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
-                     @{@"key": @"toggleHighlightArrow", @"label": @"Toggle Highlight Arrow"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
                      @{@"key": @"animateXY", @"label": @"Animate XY"},
@@ -50,14 +49,13 @@
     _chartView.descriptionText = @"";
     _chartView.noDataTextDescription = @"You need to provide data for the chart.";
     
-    _chartView.maxVisibleValueCount = 60;
+    _chartView.maxVisibleCount = 60;
     _chartView.pinchZoomEnabled = NO;
     _chartView.drawBarShadowEnabled = NO;
     _chartView.drawGridBackgroundEnabled = NO;
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBottom;
-    xAxis.spaceBetweenLabels = 0.0;
     xAxis.drawGridLinesEnabled = NO;
     
     _chartView.leftAxis.drawGridLinesEnabled = NO;
@@ -95,35 +93,29 @@
     {
         double mult = (range + 1);
         double val = (double) (arc4random_uniform(mult)) + mult / 3.0;
-        [yVals addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
-    }
-    
-    NSMutableArray *xVals = [[NSMutableArray alloc] init];
-    for (int i = 0; i < count; i++)
-    {
-        [xVals addObject:[@((int)((BarChartDataEntry *)yVals[i]).value) stringValue]];
+        [yVals addObject:[[BarChartDataEntry alloc] initWithX:i y:val]];
     }
     
     BarChartDataSet *set1 = nil;
     if (_chartView.data.dataSetCount > 0)
     {
         set1 = (BarChartDataSet *)_chartView.data.dataSets[0];
-        set1.yVals = yVals;
-        _chartView.data.xValsObjc = xVals;
+        set1.values = yVals;
         [_chartView notifyDataSetChanged];
     }
     else
     {
-        set1 = [[BarChartDataSet alloc] initWithYVals:yVals label:@"DataSet"];
+        set1 = [[BarChartDataSet alloc] initWithValues:yVals label:@"DataSet"];
         set1.colors = ChartColorTemplates.vordiplom;
         set1.drawValuesEnabled = NO;
         
         NSMutableArray *dataSets = [[NSMutableArray alloc] init];
         [dataSets addObject:set1];
         
-        BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSets:dataSets];
+        BarChartData *data = [[BarChartData alloc] initWithDataSets:dataSets];
         
         _chartView.data = data;
+        _chartView.fitBars = YES;
     }
     
     [_chartView setNeedsDisplay];

@@ -21,12 +21,8 @@ public protocol IChartDataSet
     /// Use this method to tell the data set that the underlying data has changed
     func notifyDataSetChanged()
     
-    /// This is an opportunity to calculate the minimum and maximum y value in the specified range.
-    /// If your data is in an array, you might loop over them to find the values.
-    /// If your data is in a database, you might query for the min/max and put them in variables.
-    /// - parameter start: the index of the first y entry to calculate
-    /// - parameter end: the index of the last y entry to calculate
-    func calcMinMax(start start: Int, end: Int)
+    /// Calculates the minimum and maximum x and y values (_xMin, _xMax, _yMin, _yMax).
+    func calcMinMax()
     
     /// - returns: the minimum y-value this DataSet holds
     var yMin: Double { get }
@@ -34,39 +30,47 @@ public protocol IChartDataSet
     /// - returns: the maximum y-value this DataSet holds
     var yMax: Double { get }
     
+    /// - returns: the minimum x-value this DataSet holds
+    var xMin: Double { get }
+    
+    /// - returns: the maximum x-value this DataSet holds
+    var xMax: Double { get }
+    
     /// - returns: the number of y-values this DataSet represents
     var entryCount: Int { get }
     
-    /// - returns: the value of the Entry object at the given xIndex. Returns NaN if no value is at the given x-index.
-    func yValForXIndex(x: Int) -> Double
+    /// - returns: the value of the Entry object at the given x-pos. Returns NaN if no value is at the given x-pos.
+    func yValueForXValue(x: Double) -> Double
     
-    /// - returns: all of the y values of the Entry objects at the given xIndex. Returns NaN if no value is at the given x-index.
-    func yValsForXIndex(x: Int) -> [Double]
+    /// - returns: all of the y values of the Entry objects at the given x-pos. Returns NaN if no value is at the given x-pos.
+    func yValuesForXValue(x: Double) -> [Double]
     
-    /// - returns: the entry object found at the given index (not x-index!)
+    /// - returns: the entry object found at the given index (not x-value!)
     /// - throws: out of bounds
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
     func entryForIndex(i: Int) -> ChartDataEntry?
     
-    /// - returns: the first Entry object found at the given xIndex with binary search.
-    /// If the no Entry at the specifed x-index is found, this method returns the Entry at the closest x-index.
-    /// nil if no Entry object at that index.
-    func entryForXIndex(x: Int, rounding: ChartDataSetRounding) -> ChartDataEntry?
+    /// - returns: the first Entry object found at the given x-pos with binary search.
+    /// If the no Entry at the specifed x-pos is found, this method returns the Entry at the closest x-pox.
+    /// nil if no Entry object at that x-pos.
+    /// - parameter x: the x-pos
+    /// - parameter rounding: determine whether to round up/down/closest if there is no Entry matching the provided x-pos
+    func entryForXPos(x: Double, rounding: ChartDataSetRounding) -> ChartDataEntry?
     
-    /// - returns: the first Entry object found at the given xIndex with binary search.
-    /// If the no Entry at the specifed x-index is found, this method returns the Entry at the closest x-index.
-    /// nil if no Entry object at that index.
-    func entryForXIndex(x: Int) -> ChartDataEntry?
+    /// - returns: the first Entry object found at the given x-pos with binary search.
+    /// If the no Entry at the specifed x-pos is found, this method returns the Entry at the closest x-pos.
+    /// nil if no Entry object at that x-pos.
+    func entryForXPos(x: Double) -> ChartDataEntry?
     
-    /// - returns: all Entry objects found at the given xIndex with binary search.
-    /// An empty array if no Entry object at that index.
-    func entriesForXIndex(x: Int) -> [ChartDataEntry]
+    /// - returns: all Entry objects found at the given x-pos with binary search.
+    /// An empty array if no Entry object at that x-pos.
+    func entriesForXPos(x: Double) -> [ChartDataEntry]
     
     /// - returns: the array-index of the specified entry
     ///
-    /// - parameter x: x-index of the entry to search for
-    /// - parameter rounding: x-index of the entry to search for
-    func entryIndex(xIndex x: Int, rounding: ChartDataSetRounding) -> Int
+    /// - parameter x: x-pos of the entry to search for
+    /// - parameter rounding: x-pos of the entry to search for
+    func entryIndex(x x: Double, rounding: ChartDataSetRounding) -> Int
     
     /// - returns: the array-index of the specified entry
     ///
@@ -83,7 +87,7 @@ public protocol IChartDataSet
     func addEntry(e: ChartDataEntry) -> Bool
     
     /// Adds an Entry to the DataSet dynamically.
-    /// Entries are added to their appropriate index respective to it's x-index.
+    /// Entries are added to their appropriate index in the values array respective to their x-position.
     /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
     ///
     /// *optional feature, can return false if not implemented*
@@ -101,13 +105,21 @@ public protocol IChartDataSet
     /// - returns: true if the entry was removed successfully, false if the entry does not exist or if this feature is not supported
     func removeEntry(entry: ChartDataEntry) -> Bool
     
-    /// Removes the Entry object that has the given xIndex from the DataSet.
+    /// Removes the Entry object at the given index in the values array from the DataSet.
     ///
     /// *optional feature, can return false if not implemented*
     ///
-    /// - parameter xIndex: the xIndex to remove
+    /// - parameter index: the index of the entry to remove
     /// - returns: true if the entry was removed successfully, false if the entry does not exist or if this feature is not supported
-    func removeEntry(xIndex xIndex: Int) -> Bool
+    func removeEntry(index index: Int) -> Bool
+    
+    /// Removes the Entry object closest to the given x-pos from the DataSet.
+    ///
+    /// *optional feature, can return false if not implemented*
+    ///
+    /// - parameter x: the x-pos to remove
+    /// - returns: true if the entry was removed successfully, false if the entry does not exist or if this feature is not supported
+    func removeEntry(x x: Double) -> Bool
     
     /// Removes the first Entry (at index 0) of this DataSet from the entries array.
     ///

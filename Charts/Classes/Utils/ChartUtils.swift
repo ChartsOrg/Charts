@@ -69,48 +69,12 @@ public class ChartUtils
     }
     
     /// - returns: the index of the DataSet that contains the closest value on the y-axis
-    internal class func closestDataSetIndexByPixelY(
-        valsAtIndex valsAtIndex: [ChartSelectionDetail],
-                    y: CGFloat,
-                    axis: ChartYAxis.AxisDependency?) -> Int?
-    {
-        return closestSelectionDetailByPixelY(valsAtIndex: valsAtIndex, y: y, axis: axis)?.dataSetIndex
-    }
-    
-    /// - returns: the index of the DataSet that contains the closest value on the y-axis
     internal class func closestDataSetIndexByValue(
         valsAtIndex valsAtIndex: [ChartSelectionDetail],
                     value: Double,
                     axis: ChartYAxis.AxisDependency?) -> Int?
     {
         return closestSelectionDetailByValue(valsAtIndex: valsAtIndex, value: value, axis: axis)?.dataSetIndex
-    }
-    
-    /// - returns: the `ChartSelectionDetail` of the closest value on the y-axis
-    internal class func closestSelectionDetailByPixelY(
-        valsAtIndex valsAtIndex: [ChartSelectionDetail],
-                    y: CGFloat,
-                    axis: ChartYAxis.AxisDependency?) -> ChartSelectionDetail?
-    {
-        var distance = CGFloat.max
-        var detail: ChartSelectionDetail?
-        
-        for i in 0 ..< valsAtIndex.count
-        {
-            let sel = valsAtIndex[i]
-            
-            if (axis == nil || sel.dataSet?.axisDependency == axis)
-            {
-                let cdistance = abs(sel.y - y)
-                if (cdistance < distance)
-                {
-                    detail = sel
-                    distance = cdistance
-                }
-            }
-        }
-        
-        return detail
     }
     
     /// - returns: the `ChartSelectionDetail` of the closest value on the y-axis
@@ -126,10 +90,10 @@ public class ChartUtils
         {
             let sel = valsAtIndex[i]
             
-            if (axis == nil || sel.dataSet?.axisDependency == axis)
+            if axis == nil || sel.dataSet?.axisDependency == axis
             {
-                let cdistance = abs(sel.value - value)
-                if (cdistance < distance)
+                let cdistance = abs(sel.yValue - value)
+                if cdistance < distance
                 {
                     detail = sel
                     distance = cdistance
@@ -138,31 +102,6 @@ public class ChartUtils
         }
         
         return detail
-    }
-    
-    /// - returns: the minimum distance from a touch-y-value (in pixels) to the closest y-value (in pixels) that is displayed in the chart.
-    internal class func getMinimumDistance(
-        valsAtIndex: [ChartSelectionDetail],
-        y: CGFloat,
-        axis: ChartYAxis.AxisDependency) -> CGFloat
-    {
-        var distance = CGFloat.max
-        
-        for i in 0 ..< valsAtIndex.count
-        {
-            let sel = valsAtIndex[i]
-            
-            if (sel.dataSet!.axisDependency == axis)
-            {
-                let cdistance = abs(sel.y - y)
-                if (cdistance < distance)
-                {
-                    distance = cdistance
-                }
-            }
-        }
-        
-        return distance
     }
     
     /// Calculates the position around a center point, depending on the distance from the center, and the angle of the position around the center.

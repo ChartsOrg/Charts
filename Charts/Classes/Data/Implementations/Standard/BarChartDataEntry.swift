@@ -16,7 +16,7 @@ import Foundation
 public class BarChartDataEntry: ChartDataEntry
 {
     /// the values the stacked barchart holds
-    private var _values: [Double]?
+    private var _yVals: [Double]?
     
     /// the sum of all negative values this entry (if stacked) contains
     private var _negativeSum: Double = 0.0
@@ -30,45 +30,45 @@ public class BarChartDataEntry: ChartDataEntry
     }
     
     /// Constructor for stacked bar entries.
-    public init(values: [Double], xIndex: Int)
+    public init(x: Double, yValues: [Double])
     {
-        super.init(value: BarChartDataEntry.calcSum(values), xIndex: xIndex)
-        self.values = values
+        super.init(x: x, y: BarChartDataEntry.calcSum(yValues))
+        self._yVals = yValues
         calcPosNegSum()
     }
     
     /// Constructor for normal bars (not stacked).
-    public override init(value: Double, xIndex: Int)
+    public override init(x: Double, y: Double)
     {
-        super.init(value: value, xIndex: xIndex)
+        super.init(x: x, y: y)
     }
     
     /// Constructor for stacked bar entries.
-    public init(values: [Double], xIndex: Int, label: String)
+    public init(x: Double, yValues: [Double], label: String)
     {
-        super.init(value: BarChartDataEntry.calcSum(values), xIndex: xIndex, data: label)
-        self.values = values
+        super.init(x: x, y: BarChartDataEntry.calcSum(yValues), data: label)
+        self.yValues = yValues
     }
     
     /// Constructor for normal bars (not stacked).
-    public override init(value: Double, xIndex: Int, data: AnyObject?)
+    public override init(x: Double, y: Double, data: AnyObject?)
     {
-        super.init(value: value, xIndex: xIndex, data: data)
+        super.init(x: x, y: y, data: data)
     }
     
     public func getBelowSum(stackIndex :Int) -> Double
     {
-        if (values == nil)
+        if (_yVals == nil)
         {
             return 0
         }
         
         var remainder: Double = 0.0
-        var index = values!.count - 1
+        var index = _yVals!.count - 1
         
         while (index > stackIndex && index >= 0)
         {
-            remainder += values![index]
+            remainder += _yVals![index]
             index -= 1
         }
         
@@ -89,7 +89,7 @@ public class BarChartDataEntry: ChartDataEntry
 
     public func calcPosNegSum()
     {
-        if _values == nil
+        if _yVals == nil
         {
             _positiveSum = 0.0
             _negativeSum = 0.0
@@ -99,7 +99,7 @@ public class BarChartDataEntry: ChartDataEntry
         var sumNeg: Double = 0.0
         var sumPos: Double = 0.0
         
-        for f in _values!
+        for f in _yVals!
         {
             if f < 0.0
             {
@@ -118,16 +118,16 @@ public class BarChartDataEntry: ChartDataEntry
     // MARK: Accessors
     
     /// the values the stacked barchart holds
-    public var isStacked: Bool { return _values != nil }
+    public var isStacked: Bool { return _yVals != nil }
     
     /// the values the stacked barchart holds
-    public var values: [Double]?
+    public var yValues: [Double]?
     {
-        get { return self._values }
+        get { return self._yVals }
         set
         {
-            self.value = BarChartDataEntry.calcSum(newValue)
-            self._values = newValue
+            self.y = BarChartDataEntry.calcSum(newValue)
+            self._yVals = newValue
             calcPosNegSum()
         }
     }
@@ -137,8 +137,8 @@ public class BarChartDataEntry: ChartDataEntry
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! BarChartDataEntry
-        copy._values = _values
-        copy.value = value
+        copy._yVals = _yVals
+        copy.y = y
         copy._negativeSum = _negativeSum
         return copy
     }

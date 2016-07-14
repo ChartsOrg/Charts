@@ -17,7 +17,7 @@ import CoreGraphics
 
 public class LineRadarChartRenderer: LineScatterCandleRadarChartRenderer
 {
-    public override init(animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
+    public override init(animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
     }
@@ -25,6 +25,9 @@ public class LineRadarChartRenderer: LineScatterCandleRadarChartRenderer
     /// Draws the provided path in filled mode with the provided drawable.
     public func drawFilledPath(context context: CGContext, path: CGPath, fill: ChartFill, fillAlpha: CGFloat)
     {
+        guard let viewPortHandler = self.viewPortHandler
+            else { return }
+        
         CGContextSaveGState(context)
         CGContextBeginPath(context)
         CGContextAddPath(context, path)

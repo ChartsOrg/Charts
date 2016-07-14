@@ -18,9 +18,6 @@ public class CombinedChartRenderer: ChartDataRendererBase
 {
     public weak var chart: CombinedChartView?
     
-    /// flag that enables or disables the highlighting arrow
-    public var drawHighlightArrowEnabled = false
-    
     /// if set to true, all values are drawn above their bars, instead of below their top
     public var drawValueAboveBarEnabled = true
     
@@ -31,7 +28,7 @@ public class CombinedChartRenderer: ChartDataRendererBase
     
     internal var _drawOrder: [CombinedChartView.DrawOrder] = [.Bar, .Bubble, .Line, .Candle, .Scatter]
     
-    public init(chart: CombinedChartView, animator: ChartAnimator, viewPortHandler: ChartViewPortHandler)
+    public init(chart: CombinedChartView?, animator: ChartAnimator, viewPortHandler: ChartViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -47,7 +44,8 @@ public class CombinedChartRenderer: ChartDataRendererBase
         
         guard let
             chart = chart,
-            animator = animator
+            animator = animator,
+            viewPortHandler = self.viewPortHandler
             else { return }
 
         for order in drawOrder
@@ -91,6 +89,14 @@ public class CombinedChartRenderer: ChartDataRendererBase
             }
         }
 
+    }
+    
+    public override func initBuffers()
+    {
+        for renderer in _renderers
+        {
+            renderer.initBuffers()
+        }
     }
     
     public override func drawData(context context: CGContext)
@@ -151,14 +157,6 @@ public class CombinedChartRenderer: ChartDataRendererBase
             renderer.drawHighlighted(context: context, indices: dataIndices)
         }
     }
-    
-    public override func calcXBounds(chart chart: BarLineScatterCandleBubbleChartDataProvider, xAxisModulus: Int)
-    {
-        for renderer in _renderers
-        {
-            renderer.calcXBounds(chart: chart, xAxisModulus: xAxisModulus)
-        }
-    }
 
     /// - returns: the sub-renderer object at the specified index.
     public func getSubRenderer(index index: Int) -> ChartDataRendererBase?
@@ -181,9 +179,6 @@ public class CombinedChartRenderer: ChartDataRendererBase
     }
     
     // MARK: Accessors
-    
-    /// - returns: true if drawing the highlighting arrow is enabled, false if not
-    public var isDrawHighlightArrowEnabled: Bool { return drawHighlightArrowEnabled; }
     
     /// - returns: true if drawing values above bars is enabled, false if not
     public var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled; }

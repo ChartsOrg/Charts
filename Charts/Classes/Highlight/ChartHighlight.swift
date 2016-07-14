@@ -16,11 +16,17 @@ import Foundation
 
 public class ChartHighlight: NSObject
 {
-    /// the x-index of the highlighted value
-    private var _xIndex = Int(0)
+    /// the x-value of the highlighted value
+    private var _x = Double.NaN
     
     /// the y-value of the highlighted value
-    private var _value = Double.NaN
+    private var _y = Double.NaN
+    
+    /// the x-pixel of the highlight
+    private var _xPx = CGFloat.NaN
+    
+    /// the y-pixel of the highlight
+    private var _yPx = CGFloat.NaN
     
     /// the index of the data object - in case it refers to more than one
     private var _dataIndex = Int(0)
@@ -41,71 +47,77 @@ public class ChartHighlight: NSObject
         super.init()
     }
     
-    /// - parameter xIndex: the index of the highlighted value on the x-axis
-    /// - parameter value: the y-value of the highlighted value
+    /// - parameter x: the x-value of the highlighted value
+    /// - parameter y: the y-value of the highlighted value
     /// - parameter dataIndex: the index of the Data the highlighted value belongs to
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
     /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
     /// - parameter range: the range the selected stack-value is in
-    public init(xIndex x: Int, value: Double, dataIndex: Int, dataSetIndex: Int, stackIndex: Int, range: ChartRange?)
+    public init(
+        x: Double, y: Double,
+        dataIndex: Int, dataSetIndex: Int,
+        stackIndex: Int, range: ChartRange?)
     {
         super.init()
         
-        _xIndex = x
-        _value = value
+        _x = x
+        _y = y
         _dataIndex = dataIndex
         _dataSetIndex = dataSetIndex
         _stackIndex = stackIndex
         _range = range
     }
     
-    /// - parameter xIndex: the index of the highlighted value on the x-axis
-    /// - parameter value: the y-value of the highlighted value
+    /// - parameter x: the x-value of the highlighted value
+    /// - parameter y: the y-value of the highlighted value
     /// - parameter dataIndex: the index of the Data the highlighted value belongs to
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
     /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
-    public convenience init(xIndex x: Int, value: Double, dataIndex: Int, dataSetIndex: Int, stackIndex: Int)
+    public convenience init(
+        x: Double, y: Double,
+        dataIndex: Int, dataSetIndex: Int,
+        stackIndex: Int)
     {
-        self.init(xIndex: x, value: value, dataIndex: dataIndex, dataSetIndex: dataSetIndex, stackIndex: stackIndex, range: nil)
+        self.init(x: x, y: y, dataIndex: dataIndex, dataSetIndex: dataSetIndex, stackIndex: stackIndex, range: nil)
     }
     
-    /// - parameter xIndex: the index of the highlighted value on the x-axis
-    /// - parameter value: the y-value of the highlighted value
+    /// - parameter x: the x-value of the highlighted value
+    /// - parameter y: the y-value of the highlighted value
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
     /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
     /// - parameter range: the range the selected stack-value is in
-    public convenience init(xIndex x: Int, value: Double, dataSetIndex: Int, stackIndex: Int, range: ChartRange?)
+    public convenience init(x: Double, y: Double, xPx: CGFloat, yPx: CGFloat, dataSetIndex: Int, stackIndex: Int, range: ChartRange?)
     {
-        self.init(xIndex: x, value: value, dataIndex: 0, dataSetIndex: dataSetIndex, stackIndex: stackIndex, range: range)
+        self.init(x: x, y: y, dataIndex: 0, dataSetIndex: dataSetIndex, stackIndex: stackIndex, range: range)
     }
     
-    /// - parameter xIndex: the index of the highlighted value on the x-axis
-    /// - parameter value: the y-value of the highlighted value
+    /// - parameter x: the x-value of the highlighted value
+    /// - parameter y: the y-value of the highlighted value
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
     /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
     /// - parameter range: the range the selected stack-value is in
-    public convenience init(xIndex x: Int, value: Double, dataSetIndex: Int, stackIndex: Int)
+    public convenience init(x: Double, y: Double, dataSetIndex: Int, stackIndex: Int)
     {
-        self.init(xIndex: x, value: value, dataIndex: 0, dataSetIndex: dataSetIndex, stackIndex: stackIndex, range: nil)
+        self.init(x: x, y: y, dataIndex: 0, dataSetIndex: dataSetIndex, stackIndex: stackIndex, range: nil)
     }
     
-    /// - parameter xIndex: the index of the highlighted value on the x-axis
+    /// - parameter x: the x-value of the highlighted value
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
     /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
-    public convenience init(xIndex x: Int, dataSetIndex: Int, stackIndex: Int)
+    public convenience init(x: Double, dataSetIndex: Int, stackIndex: Int)
     {
-        self.init(xIndex: x, value: Double.NaN, dataSetIndex: dataSetIndex, stackIndex: stackIndex, range: nil)
+        self.init(x: x, y: Double.NaN, dataIndex: 0, dataSetIndex: dataSetIndex, stackIndex: stackIndex, range: nil)
     }
     
-    /// - parameter xIndex: the index of the highlighted value on the x-axis
+    /// - parameter x: the x-value of the highlighted value
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
-    public convenience init(xIndex x: Int, dataSetIndex: Int)
+    public convenience init(x: Double, dataSetIndex: Int)
     {
-        self.init(xIndex: x, value: Double.NaN, dataSetIndex: dataSetIndex, stackIndex: -1, range: nil)
+        self.init(x: x, y: Double.NaN, dataIndex: 0, dataSetIndex: dataSetIndex, stackIndex: -1, range: nil)
     }
     
-    public var xIndex: Int { return _xIndex }
-    public var value: Double { return _value }
+    public var x: Double { return _x }
+    public var y: Double { return _y }
     public var dataIndex: Int { return _dataIndex }
     public var dataSetIndex: Int { return _dataSetIndex }
     public var stackIndex: Int { return _stackIndex }
@@ -117,7 +129,7 @@ public class ChartHighlight: NSObject
     
     public override var description: String
     {
-        return "Highlight, xIndex: \(_xIndex), dataIndex (combined charts): \(_dataIndex),dataSetIndex: \(_dataSetIndex), stackIndex (only stacked barentry): \(_stackIndex), value: \(_value)"
+        return "Highlight, x: \(_x), y: \(_y), dataIndex (combined charts): \(_dataIndex), dataSetIndex: \(_dataSetIndex), stackIndex (only stacked barentry): \(_stackIndex)"
     }
     
     public override func isEqual(object: AnyObject?) -> Bool
@@ -132,12 +144,17 @@ public class ChartHighlight: NSObject
             return false
         }
         
-        if (object!.xIndex != _xIndex)
+        if (object!.x != _x)
         {
             return false
         }
         
-        if (object!.dataIndex != dataIndex)
+        if (object!.y != _y)
+        {
+            return false
+        }
+        
+        if (object!.dataIndex != _dataIndex)
         {
             return false
         }
@@ -148,11 +165,6 @@ public class ChartHighlight: NSObject
         }
         
         if (object!.stackIndex != _stackIndex)
-        {
-            return false
-        }
-        
-        if (object!.value != value)
         {
             return false
         }
@@ -173,7 +185,12 @@ func ==(lhs: ChartHighlight, rhs: ChartHighlight) -> Bool
         return false
     }
     
-    if (lhs._xIndex != rhs._xIndex)
+    if (lhs._x != rhs._x)
+    {
+        return false
+    }
+    
+    if (lhs._y != rhs._y)
     {
         return false
     }
@@ -189,11 +206,6 @@ func ==(lhs: ChartHighlight, rhs: ChartHighlight) -> Bool
     }
     
     if (lhs._stackIndex != rhs._stackIndex)
-    {
-        return false
-    }
-    
-    if (lhs._value != rhs._value)
     {
         return false
     }

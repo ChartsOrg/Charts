@@ -30,7 +30,7 @@
     
     [self writeRandomDataToDbWithObjectCount:45];
     
-    self.title = @"Realm.io Scatter Chart Chart";
+    self.title = @"Realm.io Scatter Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
@@ -67,7 +67,7 @@
     
     RLMResults *results = [RealmDemoData allObjectsInRealm:realm];
     
-    RealmScatterDataSet *set = [[RealmScatterDataSet alloc] initWithResults:results yValueField:@"value" xIndexField:@"xIndex"];
+    RealmScatterDataSet *set = [[RealmScatterDataSet alloc] initWithResults:results xValueField:@"xValue" yValueField:@"yValue"];
     
     set.label = @"Realm ScatterDataSet";
     set.scatterShapeSize = 9.f;
@@ -76,10 +76,10 @@
     
     NSArray<id <IChartDataSet>> *dataSets = @[set];
     
-    RealmScatterData *data = [[RealmScatterData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
+    ScatterChartData *data = [[ScatterChartData alloc] initWithDataSets:dataSets];
     [self styleData:data];
     
-    [_chartView zoom:5.f scaleY:1.f x:0.f y:0.f];
+    [_chartView zoomWithScaleX:5.f scaleY:1.f x:0.f y:0.f];
     _chartView.data = data;
     
     [_chartView animateWithYAxisDuration:1.4 easingOption:ChartEasingOptionEaseInOutQuart];

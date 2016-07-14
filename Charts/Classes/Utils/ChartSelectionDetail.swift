@@ -17,61 +17,40 @@ import CoreGraphics
 
 public class ChartSelectionDetail: NSObject
 {
-    private var _y = CGFloat.NaN
-    private var _value = Double(0)
-    private var _dataIndex = Int(0)
-    private var _dataSetIndex = Int(0)
-    private var _dataSet: IChartDataSet!
+    public var x = CGFloat.NaN
+    public var y = CGFloat.NaN
+    public var xValue = Double(0)
+    public var yValue = Double(0)
+    public var dataIndex = Int(0)
+    public var dataSetIndex = Int(0)
+    public var dataSet: IChartDataSet!
     
     public override init()
     {
         super.init()
     }
     
-    public init(y: CGFloat, value: Double, dataIndex: Int, dataSetIndex: Int, dataSet: IChartDataSet)
+    public init(x: CGFloat, y: CGFloat, xValue: Double, yValue: Double, dataIndex: Int, dataSetIndex: Int, dataSet: IChartDataSet)
     {
         super.init()
         
-        _y = y
-        _value = value
-        _dataIndex = dataIndex
-        _dataSetIndex = dataSetIndex
-        _dataSet = dataSet
+        self.x = x
+        self.y = y
+        self.xValue = xValue
+        self.yValue = yValue
+        self.dataIndex = dataIndex
+        self.dataSetIndex = dataSetIndex
+        self.dataSet = dataSet
     }
     
-    public convenience init(y: CGFloat, value: Double, dataSetIndex: Int, dataSet: IChartDataSet)
+    public convenience init(x: CGFloat, y: CGFloat, xValue: Double, yValue: Double, dataSetIndex: Int, dataSet: IChartDataSet)
     {
-        self.init(y: y, value: value, dataIndex: 0, dataSetIndex: dataSetIndex, dataSet: dataSet)
+        self.init(x: x, y: y, xValue: xValue, yValue: yValue, dataIndex: 0, dataSetIndex: dataSetIndex, dataSet: dataSet)
     }
     
-    public convenience init(value: Double, dataSetIndex: Int, dataSet: IChartDataSet)
+    public convenience init(xValue: Double, yValue: Double, dataSetIndex: Int, dataSet: IChartDataSet)
     {
-        self.init(y: CGFloat.NaN, value: value, dataIndex: 0, dataSetIndex: dataSetIndex, dataSet: dataSet)
-    }
-    
-    public var y: CGFloat
-    {
-        return _y
-    }
-    
-    public var value: Double
-    {
-        return _value
-    }
-    
-    public var dataIndex: Int
-    {
-        return _dataIndex
-    }
-    
-    public var dataSetIndex: Int
-    {
-        return _dataSetIndex
-    }
-    
-    public var dataSet: IChartDataSet?
-    {
-        return _dataSet
+        self.init(x: CGFloat.NaN, y: CGFloat.NaN, xValue: xValue, yValue: yValue, dataIndex: 0, dataSetIndex: dataSetIndex, dataSet: dataSet)
     }
     
     // MARK: NSObject
@@ -88,17 +67,22 @@ public class ChartSelectionDetail: NSObject
             return false
         }
         
-        if (object!.value != _value)
+        if (object!.xValue != self.xValue)
         {
             return false
         }
         
-        if (object!.dataSetIndex != _dataSetIndex)
+        if (object!.yValue != self.yValue)
         {
             return false
         }
         
-        if (object!.dataSet !== _dataSet)
+        if (object!.dataSetIndex != self.dataSetIndex)
+        {
+            return false
+        }
+        
+        if (object!.dataSet !== self.dataSet)
         {
             return false
         }
@@ -119,7 +103,12 @@ public func ==(lhs: ChartSelectionDetail, rhs: ChartSelectionDetail) -> Bool
         return false
     }
     
-    if (lhs.value != rhs.value)
+    if (lhs.xValue != rhs.xValue)
+    {
+        return false
+    }
+    
+    if (lhs.yValue != rhs.yValue)
     {
         return false
     }

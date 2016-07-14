@@ -31,56 +31,60 @@ public class ChartHighlighter : NSObject
     /// - returns:
     public func getHighlight(x x: CGFloat, y: CGFloat) -> ChartHighlight?
     {
-        let xIndex = getXIndex(x)
+        let xVal = Double(getValsForTouch(x: x, y: y).x)
         
         guard let
-            selectionDetail = getSelectionDetail(xIndex: xIndex, y: y, dataSetIndex: nil)
+            selectionDetail = getSelectionDetail(xValue: xVal, x: x, y: y)
             else { return nil }
         
-        return ChartHighlight(xIndex: xIndex, value: selectionDetail.value, dataIndex: selectionDetail.dataIndex, dataSetIndex: selectionDetail.dataSetIndex, stackIndex: -1)
+        return ChartHighlight(
+            x: selectionDetail.xValue,
+            y: selectionDetail.yValue,
+            dataIndex: selectionDetail.dataIndex,
+            dataSetIndex: selectionDetail.dataSetIndex,
+            stackIndex: -1)
     }
     
-    /// Returns the corresponding x-index for a given touch-position in pixels.
+    /// Returns the corresponding x-pos for a given touch-position in pixels.
     /// - parameter x:
     /// - returns:
-    public func getXIndex(x: CGFloat) -> Int
+    public func getValsForTouch(x x: CGFloat, y: CGFloat) -> CGPoint
     {
-        // create an array of the touch-point
-        var pt = CGPoint(x: x, y: 0.0)
+        guard let chart = self.chart
+            else { return CGPointZero }
         
-        // take any transformer to determine the x-axis value
-        self.chart?.getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
-        
-        return Int(round(pt.x))
+        // take any transformer to determine the values
+        return chart.getTransformer(ChartYAxis.AxisDependency.Left).valueForTouchPoint(x: x, y: y)
     }
     
-    /// Returns the corresponding ChartSelectionDetail for a given xIndex and y-touch position in pixels.
-    /// - parameter xIndex:
+    /// Returns the corresponding ChartSelectionDetail for a given x-value and xy-touch position in pixels.
+    /// - parameter xValue:
+    /// - parameter x:
     /// - parameter y:
-    /// - parameter dataSetIndex: A dataset index to look at - or nil, to figure that out automatically
     /// - returns:
-    public func getSelectionDetail(xIndex xIndex: Int, y: CGFloat, dataSetIndex: Int?) -> ChartSelectionDetail?
+    public func getSelectionDetail(xValue xVal: Double, x: CGFloat, y: CGFloat) -> ChartSelectionDetail?
     {
-        let valsAtIndex = getSelectionDetailsAtIndex(xIndex, dataSetIndex: dataSetIndex)
+        guard let chart = chart
+            else { return nil }
         
-        let leftdist = ChartUtils.getMinimumDistance(valsAtIndex, y: y, axis: ChartYAxis.AxisDependency.Left)
-        let rightdist = ChartUtils.getMinimumDistance(valsAtIndex, y: y, axis: ChartYAxis.AxisDependency.Right)
+        let valsAtIndex = getSelectionDetailsAtIndex(xVal)
+        
+        let leftdist = getMinimumDistance(valsAtIndex, y: y, axis: ChartYAxis.AxisDependency.Left)
+        let rightdist = getMinimumDistance(valsAtIndex, y: y, axis: ChartYAxis.AxisDependency.Right)
         
         let axis = leftdist < rightdist ? ChartYAxis.AxisDependency.Left : ChartYAxis.AxisDependency.Right
         
-        let detail = ChartUtils.closestSelectionDetailByPixelY(valsAtIndex: valsAtIndex, y: y, axis: axis)
+        let detail = closestSelectionDetailByPixel(valsAtIndex: valsAtIndex, x: x, y: y, axis: axis, minSelectionDistance: chart.maxHighlightDistance)
         
         return detail
     }
     
-    /// Returns a list of SelectionDetail object corresponding to the given xIndex.
-    /// - parameter xIndex:
-    /// - parameter dataSetIndex: A dataset index to look at - or nil, to figure that out automatically
+    /// Returns a list of SelectionDetail object corresponding to the given x-value.
+    /// - parameter xValue:
     /// - returns:
-    public func getSelectionDetailsAtIndex(xIndex: Int, dataSetIndex: Int?) -> [ChartSelectionDetail]
+    public func getSelectionDetailsAtIndex(xValue: Double) -> [ChartSelectionDetail]
     {
         var vals = [ChartSelectionDetail]()
-        var pt = CGPoint()
         
         guard let
             data = self.chart?.data
@@ -88,11 +92,6 @@ public class ChartHighlighter : NSObject
         
         for i in 0 ..< data.dataSetCount
         {
-            if dataSetIndex != nil && dataSetIndex != i
-            {
-                continue
-            }
-            
             let dataSet = data.getDataSetByIndex(i)
             
             // dont include datasets that cannot be highlighted
@@ -101,21 +100,106 @@ public class ChartHighlighter : NSObject
                 continue
             }
             
-            // extract all y-values from all DataSets at the given x-index
-            let yVals: [Double] = dataSet.yValsForXIndex(xIndex)
-            for yVal in yVals
+            // extract all y-values from all DataSets at the given x-value.
+            // some datasets (i.e bubble charts) make sense to have multiple values for an x-value. We'll have to find a way to handle that later on. It's more complicated now when x-indices are floating point.
+            
+            if let details = getDetails(dataSet, dataSetIndex: i, xValue: xValue, rounding: .Up)
             {
-                pt.y = CGFloat(yVal)
-                
-                self.chart!.getTransformer(dataSet.axisDependency).pointValueToPixel(&pt)
-                
-                if !pt.y.isNaN
-                {
-                    vals.append(ChartSelectionDetail(y: pt.y, value: yVal, dataSetIndex: i, dataSet: dataSet))
-                }
+                vals.append(details)
+            }
+            
+            if let details = getDetails(dataSet, dataSetIndex: i, xValue: xValue, rounding: .Down)
+            {
+                vals.append(details)
             }
         }
         
         return vals
+    }
+    
+    internal func getDetails(
+        set: IChartDataSet,
+        dataSetIndex: Int,
+        xValue: Double,
+        rounding: ChartDataSetRounding) -> ChartSelectionDetail?
+    {
+        guard let chart = self.chart
+            else { return nil }
+        
+        if let e = set.entryForXPos(xValue, rounding: rounding)
+        {
+            let px = chart.getTransformer(set.axisDependency).pixelForValue(x: e.x, y: e.y)
+            
+            return ChartSelectionDetail(x: px.x, y: px.y, xValue: e.x, yValue: e.y, dataSetIndex: dataSetIndex, dataSet: set)
+        }
+        
+        return nil
+    }
+
+    // - MARK: - Utilities
+    
+    /// - returns: the `ChartSelectionDetail` of the closest value on the x-y cartesian axes
+    internal func closestSelectionDetailByPixel(
+        valsAtIndex valsAtIndex: [ChartSelectionDetail],
+                    x: CGFloat,
+                    y: CGFloat,
+                    axis: ChartYAxis.AxisDependency?,
+                    minSelectionDistance: CGFloat) -> ChartSelectionDetail?
+    {
+        var distance = minSelectionDistance
+        var detail: ChartSelectionDetail?
+        
+        for i in 0 ..< valsAtIndex.count
+        {
+            let sel = valsAtIndex[i]
+            
+            if (axis == nil || sel.dataSet?.axisDependency == axis)
+            {
+                let cDistance = getDistance(x: x, y: y, selX: sel.x, selY: sel.y)
+                
+                if (cDistance < distance)
+                {
+                    detail = sel
+                    distance = cDistance
+                }
+            }
+        }
+        
+        return detail
+    }
+    
+    /// - returns: the minimum distance from a touch-y-value (in pixels) to the closest y-value (in pixels) that is displayed in the chart.
+    internal func getMinimumDistance(
+        valsAtIndex: [ChartSelectionDetail],
+        y: CGFloat,
+        axis: ChartYAxis.AxisDependency) -> CGFloat
+    {
+        var distance = CGFloat.max
+        
+        for i in 0 ..< valsAtIndex.count
+        {
+            let sel = valsAtIndex[i]
+            
+            if (sel.dataSet!.axisDependency == axis)
+            {
+                let cdistance = abs(getSelectionPos(sel: sel) - y)
+                if (cdistance < distance)
+                {
+                    distance = cdistance
+                }
+            }
+        }
+        
+        return distance
+    }
+    
+    internal func getSelectionPos(sel sel: ChartSelectionDetail) -> CGFloat
+    {
+        return sel.y
+    }
+    
+    internal func getDistance(x x: CGFloat, y: CGFloat, selX: CGFloat, selY: CGFloat) -> CGFloat
+    {
+        return hypot(x - selX, y - selY)
     }
 }

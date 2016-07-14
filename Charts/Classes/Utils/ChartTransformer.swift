@@ -64,40 +64,6 @@ public class ChartTransformer: NSObject
             _matrixOffset = CGAffineTransformTranslate(_matrixOffset, _viewPortHandler.offsetLeft, -_viewPortHandler.offsetTop)
         }
     }
-    
-    /// Transforms an Entry into a transformed point for bar chart
-    public func getTransformedValueBarChart(entry entry: ChartDataEntry, xIndex: Int, dataSetIndex: Int, phaseY: CGFloat, dataSetCount: Int, groupSpace: CGFloat) -> CGPoint
-    {
-        // calculate the x-position, depending on datasetcount
-        let x = CGFloat(xIndex + (xIndex * (dataSetCount - 1)) + dataSetIndex) + groupSpace * CGFloat(xIndex) + groupSpace / 2.0
-        let y = entry.value
-        
-        var valuePoint = CGPoint(
-            x: x,
-            y: CGFloat(y) * phaseY
-        )
-        
-        pointValueToPixel(&valuePoint)
-        
-        return valuePoint
-    }
-    
-    /// Transforms an Entry into a transformed point for horizontal bar chart
-    public func getTransformedValueHorizontalBarChart(entry entry: ChartDataEntry, xIndex: Int, dataSetIndex: Int, phaseY: CGFloat, dataSetCount: Int, groupSpace: CGFloat) -> CGPoint
-    {
-        // calculate the x-position, depending on datasetcount
-        let x = CGFloat(xIndex + (xIndex * (dataSetCount - 1)) + dataSetIndex) + groupSpace * CGFloat(xIndex) + groupSpace / 2.0
-        let y = entry.value
-        
-        var valuePoint = CGPoint(
-            x: CGFloat(y) * phaseY,
-            y: x
-        )
-        
-        pointValueToPixel(&valuePoint)
-        
-        return valuePoint
-    }
 
     /// Transform an array of points with all matrices.
     // VERY IMPORTANT: Keep matrix order "value-touch-offset" when transforming.
@@ -115,6 +81,11 @@ public class ChartTransformer: NSObject
         point = CGPointApplyAffineTransform(point, valueToPixelMatrix)
     }
     
+    public func pixelForValue(x x: Double, y: Double) -> CGPoint
+    {
+        return CGPointApplyAffineTransform(CGPoint(x: x, y: y), valueToPixelMatrix)
+    }
+    
     /// Transform a rectangle with all matrices.
     public func rectValueToPixel(inout r: CGRect)
     {
@@ -122,12 +93,12 @@ public class ChartTransformer: NSObject
     }
     
     /// Transform a rectangle with all matrices with potential animation phases.
-    public func rectValueToPixel(inout r: CGRect, phaseY: CGFloat)
+    public func rectValueToPixel(inout r: CGRect, phaseY: Double)
     {
         // multiply the height of the rect with the phase
         var bottom = r.origin.y + r.size.height
-        bottom *= phaseY
-        let top = r.origin.y * phaseY
+        bottom *= CGFloat(phaseY)
+        let top = r.origin.y * CGFloat(phaseY)
         r.size.height = bottom - top
         r.origin.y = top
 
@@ -141,12 +112,11 @@ public class ChartTransformer: NSObject
     }
     
     /// Transform a rectangle with all matrices with potential animation phases.
-    public func rectValueToPixelHorizontal(inout r: CGRect, phaseY: CGFloat)
+    public func rectValueToPixelHorizontal(inout r: CGRect, phaseY: Double)
     {
         // multiply the height of the rect with the phase
-        var right = r.origin.x + r.size.width
-        right *= phaseY
-        let left = r.origin.x * phaseY
+        let left = r.origin.x * CGFloat(phaseY)
+        let right = (r.origin.x + r.size.width) * CGFloat(phaseY)
         r.size.width = right - left
         r.origin.x = left
         
@@ -182,11 +152,19 @@ public class ChartTransformer: NSObject
     }
     
     /// - returns: the x and y values in the chart at the given touch point
-    /// (encapsulated in a PointD). This method transforms pixel coordinates to
+    /// (encapsulated in a CGPoint). This method transforms pixel coordinates to
     /// coordinates / values in the chart.
-    public func getValueByTouchPoint(point: CGPoint) -> CGPoint
+    public func valueForTouchPoint(point: CGPoint) -> CGPoint
     {
         return CGPointApplyAffineTransform(point, pixelToValueMatrix)
+    }
+    
+    /// - returns: the x and y values in the chart at the given touch point
+    /// (x/y). This method transforms pixel coordinates to
+    /// coordinates / values in the chart.
+    public func valueForTouchPoint(x x: CGFloat, y: CGFloat) -> CGPoint
+    {
+        return CGPointApplyAffineTransform(CGPoint(x: x, y: y), pixelToValueMatrix)
     }
     
     public var valueToPixelMatrix: CGAffineTransform

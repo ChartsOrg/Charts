@@ -17,11 +17,11 @@ import CoreGraphics
 #endif
 
 
-public class BubbleChartRenderer: ChartDataRendererBase
+public class BubbleChartRenderer: BarLineScatterCandleBubbleChartRenderer
 {
     public weak var dataProvider: BubbleChartDataProvider?
     
-    public init(dataProvider: BubbleChartDataProvider?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
+    public init(dataProvider: BubbleChartDataProvider?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -61,26 +61,18 @@ public class BubbleChartRenderer: ChartDataRendererBase
     {
         guard let
             dataProvider = dataProvider,
+            viewPortHandler = self.viewPortHandler,
             animator = animator
             else { return }
         
         let trans = dataProvider.getTransformer(dataSet.axisDependency)
         
-        let phaseX = max(0.0, min(1.0, animator.phaseX))
         let phaseY = animator.phaseY
         
-        let entryCount = dataSet.entryCount
+        let bounds = xBounds(dataProvider, dataSet: dataSet, animator: animator)
         
         let valueToPixelMatrix = trans.valueToPixelMatrix
-        
-        guard let
-            entryFrom = dataSet.entryForXIndex(self.minX),
-            entryTo = dataSet.entryForXIndex(self.maxX)
-            else { return }
-        
-        let minx = max(dataSet.entryIndex(entry: entryFrom), 0)
-        let maxx = min(dataSet.entryIndex(entry: entryTo) + 1, entryCount)
-        
+    
         _sizeBuffer[0].x = 0.0
         _sizeBuffer[0].y = 0.0
         _sizeBuffer[1].x = 1.0
@@ -97,12 +89,12 @@ public class BubbleChartRenderer: ChartDataRendererBase
         let maxBubbleHeight: CGFloat = abs(viewPortHandler.contentBottom - viewPortHandler.contentTop)
         let referenceSize: CGFloat = min(maxBubbleHeight, maxBubbleWidth)
         
-        for j in minx ..< maxx
+        for j in bounds.min ... bounds.range + bounds.min
         {
             guard let entry = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { continue }
             
-            _pointBuffer.x = CGFloat(entry.xIndex - minx) * phaseX + CGFloat(minx)
-            _pointBuffer.y = CGFloat(entry.value) * phaseY
+            _pointBuffer.x = CGFloat(entry.x)
+            _pointBuffer.y = CGFloat(entry.y * phaseY)
             _pointBuffer = CGPointApplyAffineTransform(_pointBuffer, valueToPixelMatrix)
             
             let shapeSize = getShapeSize(entrySize: entry.size, maxSize: dataSet.maxSize, reference: referenceSize, normalizeSize: normalizeSize)
@@ -124,7 +116,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
                 break
             }
             
-            let color = dataSet.colorAt(entry.xIndex)
+            let color = dataSet.colorAt(Int(entry.x))
             
             let rect = CGRect(
                 x: _pointBuffer.x - shapeHalf,
@@ -144,12 +136,13 @@ public class BubbleChartRenderer: ChartDataRendererBase
     {
         guard let
             dataProvider = dataProvider,
+            viewPortHandler = self.viewPortHandler,
             bubbleData = dataProvider.bubbleData,
             animator = animator
             else { return }
         
         // if values are drawn
-        if (bubbleData.yValCount < Int(ceil(CGFloat(dataProvider.maxVisibleValueCount) * viewPortHandler.scaleX)))
+        if isDrawingValuesAllowed(dataProvider: dataProvider)
         {
             guard let dataSets = bubbleData.dataSets as? [IBubbleChartDataSet] else { return }
             
@@ -169,27 +162,19 @@ public class BubbleChartRenderer: ChartDataRendererBase
                 
                 guard let formatter = dataSet.valueFormatter else { continue }
                 
+                let bounds = xBounds(dataProvider, dataSet: dataSet, animator: animator)
+                
                 let trans = dataProvider.getTransformer(dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix
                 
-                let entryCount = dataSet.entryCount
-                
-                guard let
-                    entryFrom = dataSet.entryForXIndex(self.minX),
-                    entryTo = dataSet.entryForXIndex(self.maxX)
-                    else { continue }
-                
-                let minx = max(dataSet.entryIndex(entry: entryFrom), 0)
-                let maxx = min(dataSet.entryIndex(entry: entryTo) + 1, entryCount)
-                
-                for j in minx ..< maxx
+                for j in bounds.min ... bounds.range + bounds.min
                 {
                     guard let e = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { break }
                     
-                    let valueTextColor = dataSet.valueTextColorAt(j).colorWithAlphaComponent(alpha)
+                    let valueTextColor = dataSet.valueTextColorAt(j).colorWithAlphaComponent(CGFloat(alpha))
                     
-                    pt.x = CGFloat(e.xIndex - minx) * phaseX + CGFloat(minx)
-                    pt.y = CGFloat(e.value) * phaseY
+                    pt.x = CGFloat(e.x)
+                    pt.y = CGFloat(e.y * phaseY)
                     pt = CGPointApplyAffineTransform(pt, valueToPixelMatrix)
                     
                     if (!viewPortHandler.isInBoundsRight(pt.x))
@@ -230,13 +215,13 @@ public class BubbleChartRenderer: ChartDataRendererBase
     {
         guard let
             dataProvider = dataProvider,
+            viewPortHandler = self.viewPortHandler,
             bubbleData = dataProvider.bubbleData,
             animator = animator
             else { return }
         
         CGContextSaveGState(context)
         
-        let phaseX = max(0.0, min(1.0, animator.phaseX))
         let phaseY = animator.phaseY
         
         for high in indices
@@ -251,19 +236,19 @@ public class BubbleChartRenderer: ChartDataRendererBase
                     where dataSet.isHighlightEnabled
                     else { continue }
                 
-                let entries = dataSet.entriesForXIndex(high.xIndex)
+                let bounds = xBounds(dataProvider, dataSet: dataSet, animator: animator)
+                
+                let entries = dataSet.entriesForXPos(high.x)
                 
                 for entry in entries
                 {
                     guard let entry = entry as? BubbleChartDataEntry
                         else { continue }
-                    if !isnan(high.value) && entry.value != high.value { continue }
                     
-                    let entryFrom = dataSet.entryForXIndex(self.minX)
-                    let entryTo = dataSet.entryForXIndex(self.maxX)
+                    // FIXME: On Android, add y equals...
                     
-                    let minx = max(dataSet.entryIndex(entry: entryFrom!), 0)
-                    let maxx = min(dataSet.entryIndex(entry: entryTo!) + 1, dataSet.entryCount)
+                    // If `y` is NAN, then the selection is of any value on this x. Otherwise- it's a single, specific value selection.
+                    if !isnan(high.y) && entry.y != high.y { continue }
                     
                     let trans = dataProvider.getTransformer(dataSet.axisDependency)
                     
@@ -281,8 +266,8 @@ public class BubbleChartRenderer: ChartDataRendererBase
                     let maxBubbleHeight: CGFloat = abs(viewPortHandler.contentBottom - viewPortHandler.contentTop)
                     let referenceSize: CGFloat = min(maxBubbleHeight, maxBubbleWidth)
                     
-                    _pointBuffer.x = CGFloat(entry.xIndex - minx) * phaseX + CGFloat(minx)
-                    _pointBuffer.y = CGFloat(entry.value) * phaseY
+                    _pointBuffer.x = CGFloat(entry.x)
+                    _pointBuffer.y = CGFloat(entry.y * phaseY)
                     trans.pointValueToPixel(&_pointBuffer)
                     
                     let shapeSize = getShapeSize(entrySize: entry.size, maxSize: dataSet.maxSize, reference: referenceSize, normalizeSize: normalizeSize)
@@ -304,12 +289,12 @@ public class BubbleChartRenderer: ChartDataRendererBase
                         break
                     }
                     
-                    if (high.xIndex < minx || high.xIndex >= maxx)
+                    if high.x < Double(bounds.min) || high.x >= Double(bounds.max)
                     {
                         continue
                     }
                     
-                    let originalColor = dataSet.colorAt(entry.xIndex)
+                    let originalColor = dataSet.colorAt(Int(entry.x))
                     
                     var h: CGFloat = 0.0
                     var s: CGFloat = 0.0

@@ -30,7 +30,7 @@
     
     [self writeRandomCandleDataToDbWithObjectCount:50];
     
-    self.title = @"Realm.io CandleStick Chart Chart";
+    self.title = @"Realm.io CandleStick Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
@@ -68,7 +68,7 @@
     
     RLMResults *results = [RealmDemoData allObjectsInRealm:realm];
     
-    RealmCandleDataSet *set = [[RealmCandleDataSet alloc] initWithResults:results highField:@"high" lowField:@"low" openField:@"open" closeField:@"close" xIndexField:@"xIndex"];
+    RealmCandleDataSet *set = [[RealmCandleDataSet alloc] initWithResults:results xValueField:@"xValue" highField:@"high" lowField:@"low" openField:@"open" closeField:@"close"];
 
     set.label = @"Realm CandleDataSet";
     set.shadowColor = UIColor.darkGrayColor;
@@ -81,10 +81,10 @@
     
     NSArray<id <IChartDataSet>> *dataSets = @[set];
     
-    RealmCandleData *data = [[RealmCandleData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
+    CandleChartData *data = [[CandleChartData alloc] initWithDataSets:dataSets];
     [self styleData:data];
     
-    [_chartView zoom:5.f scaleY:1.f x:0.f y:0.f];
+    [_chartView zoomWithScaleX:5.f scaleY:1.f x:0.f y:0.f];
     _chartView.data = data;
     
     [_chartView animateWithYAxisDuration:1.4 easingOption:ChartEasingOptionEaseInOutQuart];

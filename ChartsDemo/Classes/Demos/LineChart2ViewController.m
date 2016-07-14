@@ -67,11 +67,10 @@
     _chartView.legend.position = ChartLegendPositionBelowChartLeft;
     
     ChartXAxis *xAxis = _chartView.xAxis;
-    xAxis.labelFont = [UIFont systemFontOfSize:12.f];
+    xAxis.labelFont = [UIFont systemFontOfSize:11.f];
     xAxis.labelTextColor = UIColor.whiteColor;
     xAxis.drawGridLinesEnabled = NO;
     xAxis.drawAxisLineEnabled = NO;
-    xAxis.spaceBetweenLabels = 1.0;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.labelTextColor = [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f];
@@ -114,20 +113,13 @@
 
 - (void)setDataCount:(int)count range:(double)range
 {
-    NSMutableArray *xVals = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < count; i++)
-    {
-        [xVals addObject:[@(i) stringValue]];
-    }
-    
     NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < count; i++)
     {
         double mult = range / 2.0;
         double val = (double) (arc4random_uniform(mult)) + 50;
-        [yVals1 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+        [yVals1 addObject:[[ChartDataEntry alloc] initWithX:i y:val]];
     }
     
     NSMutableArray *yVals2 = [[NSMutableArray alloc] init];
@@ -136,7 +128,7 @@
     {
         double mult = range;
         double val = (double) (arc4random_uniform(mult)) + 450;
-        [yVals2 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+        [yVals2 addObject:[[ChartDataEntry alloc] initWithX:i y:val]];
     }
     
     LineChartDataSet *set1 = nil, *set2 = nil;
@@ -145,15 +137,14 @@
     {
         set1 = (LineChartDataSet *)_chartView.data.dataSets[0];
         set2 = (LineChartDataSet *)_chartView.data.dataSets[1];
-        set1.yVals = yVals1;
-        set2.yVals = yVals2;
-        _chartView.data.xValsObjc = xVals;
+        set1.values = yVals1;
+        set2.values = yVals2;
         [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
     }
     else
     {
-        set1 = [[LineChartDataSet alloc] initWithYVals:yVals1 label:@"DataSet 1"];
+        set1 = [[LineChartDataSet alloc] initWithValues:yVals1 label:@"DataSet 1"];
         set1.axisDependency = AxisDependencyLeft;
         [set1 setColor:[UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]];
         [set1 setCircleColor:UIColor.whiteColor];
@@ -164,7 +155,7 @@
         set1.highlightColor = [UIColor colorWithRed:244/255.f green:117/255.f blue:117/255.f alpha:1.f];
         set1.drawCircleHoleEnabled = NO;
         
-        set2 = [[LineChartDataSet alloc] initWithYVals:yVals2 label:@"DataSet 2"];
+        set2 = [[LineChartDataSet alloc] initWithValues:yVals2 label:@"DataSet 2"];
         set2.axisDependency = AxisDependencyRight;
         [set2 setColor:UIColor.redColor];
         [set2 setCircleColor:UIColor.whiteColor];
@@ -179,7 +170,7 @@
         [dataSets addObject:set2];
         [dataSets addObject:set1];
         
-        LineChartData *data = [[LineChartData alloc] initWithXVals:xVals dataSets:dataSets];
+        LineChartData *data = [[LineChartData alloc] initWithDataSets:dataSets];
         [data setValueTextColor:UIColor.whiteColor];
         [data setValueFont:[UIFont systemFontOfSize:9.f]];
         
@@ -262,9 +253,9 @@
 {
     NSLog(@"chartValueSelected");
     
-    [_chartView centerViewToAnimatedWithXIndex:entry.xIndex yValue:entry.value axis:[_chartView.data getDataSetByIndex:dataSetIndex].axisDependency duration:1.0];
-    //[_chartView moveViewToAnimatedWithXIndex:entry.xIndex yValue:entry.value axis:[_chartView.data getDataSetByIndex:dataSetIndex].axisDependency duration:1.0];
-    //[_chartView zoomAndCenterViewAnimatedWithScaleX:1.8 scaleY:1.8 xIndex:entry.xIndex yValue:entry.value axis:[_chartView.data getDataSetByIndex:dataSetIndex].axisDependency duration:1.0];
+    [_chartView centerViewToAnimatedWithXValue:entry.x yValue:entry.y axis:[_chartView.data getDataSetByIndex:dataSetIndex].axisDependency duration:1.0];
+    //[_chartView moveViewToAnimatedWithXValue:entry.x yValue:entry.y axis:[_chartView.data getDataSetByIndex:dataSetIndex].axisDependency duration:1.0];
+    //[_chartView zoomAndCenterViewAnimatedWithScaleX:1.8 scaleY:1.8 xValue:entry.x yValue:entry.y axis:[_chartView.data getDataSetByIndex:dataSetIndex].axisDependency duration:1.0];
 
 }
 

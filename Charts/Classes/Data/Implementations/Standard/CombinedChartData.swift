@@ -26,14 +26,9 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         super.init()
     }
     
-    public override init(xVals: [String?]?, dataSets: [IChartDataSet]?)
+    public override init(dataSets: [IChartDataSet]?)
     {
-        super.init(xVals: xVals, dataSets: dataSets)
-    }
-    
-    public override init(xVals: [NSObject]?, dataSets: [IChartDataSet]?)
-    {
-        super.init(xVals: xVals, dataSets: dataSets)
+        super.init(dataSets: dataSets)
     }
     
     public var lineData: LineChartData!
@@ -50,12 +45,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
                 _dataSets.append(dataSet)
             }
             
-            checkIsLegal(newValue.dataSets)
-            
-            calcMinMax(start: _lastStart, end: _lastEnd)
-            calcYValueCount()
-            
-            calcXValAverageLength()
+            calcMinMax()
         }
     }
     
@@ -73,12 +63,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
                 _dataSets.append(dataSet)
             }
             
-            checkIsLegal(newValue.dataSets)
-            
-            calcMinMax(start: _lastStart, end: _lastEnd)
-            calcYValueCount()
-            
-            calcXValAverageLength()
+            calcMinMax()
         }
     }
     
@@ -96,12 +81,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
                 _dataSets.append(dataSet)
             }
             
-            checkIsLegal(newValue.dataSets)
-            
-            calcMinMax(start: _lastStart, end: _lastEnd)
-            calcYValueCount()
-        
-            calcXValAverageLength()
+            calcMinMax()
         }
     }
     
@@ -119,12 +99,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
                 _dataSets.append(dataSet)
             }
             
-            checkIsLegal(newValue.dataSets)
-            
-            calcMinMax(start: _lastStart, end: _lastEnd)
-            calcYValueCount()
-            
-            calcXValAverageLength()
+            calcMinMax()
         }
     }
     
@@ -142,12 +117,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
                 _dataSets.append(dataSet)
             }
             
-            checkIsLegal(newValue.dataSets)
-            
-            calcMinMax(start: _lastStart, end: _lastEnd)
-            calcYValueCount()
-            
-            calcXValAverageLength()
+            calcMinMax()
         }
     }
     
@@ -229,11 +199,11 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         else
         {
             // The value of the highlighted entry could be NaN - if we are not interested in highlighting a specific value.
-            
-            let entries = data.getDataSetByIndex(highlight.dataSetIndex).entriesForXIndex(highlight.xIndex)
+            // FIXME: Implement on Android
+            let entries = data.getDataSetByIndex(highlight.dataSetIndex).entriesForXPos(highlight.x)
             for e in entries
             {
-                if e.value == highlight.value || isnan(highlight.value)
+                if e.y == highlight.y || isnan(highlight.y)
                 {
                     return e
                 }

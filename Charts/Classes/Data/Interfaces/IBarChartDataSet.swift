@@ -21,9 +21,6 @@ public protocol IBarChartDataSet: IBarLineScatterCandleBubbleChartDataSet
     
     // MARK: - Styling functions and accessors
     
-    /// space indicator between the bars in percentage of the whole width of one value (0.15 == 15% of bar width)
-    var barSpace: CGFloat { get set }
-    
     /// - returns: true if this DataSet is stacked (stacksize > 1) or not.
     var isStacked: Bool { get }
     

@@ -92,13 +92,6 @@
 
 - (void)setDataCount:(int)count range:(double)range
 {
-    NSMutableArray *xVals = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < count; i++)
-    {
-        [xVals addObject:[@(i) stringValue]];
-    }
-    
     NSArray *colors = @[ChartColorTemplates.vordiplom[0], ChartColorTemplates.vordiplom[1], ChartColorTemplates.vordiplom[2]];
     
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
@@ -110,10 +103,10 @@
         for (int i = 0; i < count; i++)
         {
             double val = (double) (arc4random_uniform(range) + 3);
-            [values addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+            [values addObject:[[ChartDataEntry alloc] initWithX:i y:val]];
         }
         
-        LineChartDataSet *d = [[LineChartDataSet alloc] initWithYVals:values label:[NSString stringWithFormat:@"DataSet %d", z + 1]];
+        LineChartDataSet *d = [[LineChartDataSet alloc] initWithValues:values label:[NSString stringWithFormat:@"DataSet %d", z + 1]];
         d.lineWidth = 2.5;
         d.circleRadius = 4.0;
         
@@ -127,7 +120,7 @@
     ((LineChartDataSet *)dataSets[0]).colors = ChartColorTemplates.vordiplom;
     ((LineChartDataSet *)dataSets[0]).circleColors = ChartColorTemplates.vordiplom;
     
-    LineChartData *data = [[LineChartData alloc] initWithXVals:xVals dataSets:dataSets];
+    LineChartData *data = [[LineChartData alloc] initWithDataSets:dataSets];
     [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:7.f]];
     _chartView.data = data;
 }

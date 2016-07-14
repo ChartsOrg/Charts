@@ -18,6 +18,14 @@ import CoreGraphics
 /// Base class for all axes
 public class ChartAxisBase: ChartComponentBase
 {
+    public override init()
+    {
+        super.init()
+    }
+    
+    /// Custom formatter that is used instead of the auto-formatter if set
+    private var _axisValueFormatter: ChartAxisValueFormatter?
+    
     public var labelFont = NSUIFont.systemFontOfSize(10.0)
     public var labelTextColor = NSUIColor.blackColor()
     
@@ -38,6 +46,18 @@ public class ChartAxisBase: ChartComponentBase
     /// flag that indicates of the labels of this axis should be drawn or not
     public var drawLabelsEnabled = true
     
+    private var _centerAxisLabelsEnabled = false
+    public var centerAxisLabelsEnabled: Bool
+    {
+        get { return _centerAxisLabelsEnabled && entryCount > 1 }
+        set { _centerAxisLabelsEnabled = newValue }
+    }
+    
+    public var isCenterAxisLabelsEnabled: Bool
+    {
+        get { return centerAxisLabelsEnabled }
+    }
+
     /// array of limitlines that can be set for the axis
     private var _limitLines = [ChartLimitLine]()
     
@@ -48,15 +68,110 @@ public class ChartAxisBase: ChartComponentBase
 
     /// the flag can be used to turn off the antialias for grid lines
     public var gridAntialiasEnabled = true
-
-    public override init()
+    
+    /// the actual array of entries
+    public var entries = [Double]()
+    
+    /// axis label entries only used for centered labels
+    public var centeredEntries = [Double]()
+    
+    /// the number of entries the legend contains
+    public var entryCount: Int { return entries.count; }
+    
+    /// the number of y-label entries the y-labels should have
+    ///
+    /// **default**: 6
+    private var _labelCount = Int(6)
+    
+    /// the number of decimal digits to use (for the default formatter
+    public var decimals: Int = 0
+    
+    /// When true, axis labels are controlled by the `granularity` property.
+    /// When false, axis values could possibly be repeated.
+    /// This could happen if two adjacent axis values are rounded to same value.
+    /// If using granularity this could be avoided by having fewer axis values visible.
+    public var granularityEnabled = false
+    
+    private var _granularity = Double(1.0)
+    
+    /// The minimum interval between axis values.
+    /// This can be used to avoid label duplicating when zooming in.
+    ///
+    /// **default**: 1.0
+    public var granularity: Double
     {
-        super.init()
+        get
+        {
+            return _granularity
+        }
+        set
+        {
+            _granularity = newValue
+            
+            // set this to true if it was disabled, as it makes no sense to set this property with granularity disabled
+            granularityEnabled = true
+        }
     }
+    
+    /// The minimum interval between axis values.
+    public var isGranularityEnabled: Bool
+    {
+        get
+        {
+            return granularityEnabled
+        }
+    }
+    
+    /// if true, the set number of y-labels will be forced
+    public var forceLabelsEnabled = false
     
     public func getLongestLabel() -> String
     {
-        fatalError("getLongestLabel() cannot be called on ChartAxisBase")
+        var longest = ""
+        
+        for i in 0 ..< entries.count
+        {
+            let text = getFormattedLabel(i)
+            
+            if longest.characters.count < text.characters.count
+            {
+                longest = text
+            }
+        }
+        
+        return longest
+    }
+    
+    /// - returns: the formatted label at the specified index. This will either use the auto-formatter or the custom formatter (if one is set).
+    public func getFormattedLabel(index: Int) -> String
+    {
+        if (index < 0 || index >= entries.count)
+        {
+            return ""
+        }
+        
+        return valueFormatter?.stringForValue(entries[index], axis: self) ?? ""
+    }
+    
+    /// Sets the formatter to be used for formatting the axis labels.
+    /// If no formatter is set, the chart will automatically determine a reasonable formatting (concerning decimals) for all the values that are drawn inside the chart.
+    /// Use `nil` to use the formatter calculated by the chart.
+    public var valueFormatter: ChartAxisValueFormatter?
+    {
+        get
+        {
+            if _axisValueFormatter == nil ||
+                (_axisValueFormatter is ChartDefaultAxisValueFormatter && (_axisValueFormatter as? ChartDefaultAxisValueFormatter)?.decimals != decimals)
+            {
+                _axisValueFormatter = ChartDefaultAxisValueFormatter(decimals: decimals)
+            }
+            
+            return _axisValueFormatter
+        }
+        set
+        {
+            _axisValueFormatter = newValue ?? ChartDefaultAxisValueFormatter(decimals: decimals)
+        }
     }
     
     public var isDrawGridLinesEnabled: Bool { return drawGridLinesEnabled; }
@@ -88,6 +203,43 @@ public class ChartAxisBase: ChartComponentBase
     
     /// the total range of values this axis covers
     public var axisRange = Double(0)
+    
+    /// the number of label entries the y-axis should have
+    /// max = 25,
+    /// min = 2,
+    /// default = 6,
+    /// be aware that this number is not fixed and can only be approximated
+    public var labelCount: Int
+    {
+        get
+        {
+            return _labelCount
+        }
+        set
+        {
+            _labelCount = newValue
+            
+            if (_labelCount > 25)
+            {
+                _labelCount = 25
+            }
+            if (_labelCount < 2)
+            {
+                _labelCount = 2
+            }
+            
+            forceLabelsEnabled = false
+        }
+    }
+    
+    public func setLabelCount(count: Int, force: Bool)
+    {
+        self.labelCount = count
+        forceLabelsEnabled = force
+    }
+    
+    /// - returns: true if focing the y-label count is enabled. Default: false
+    public var isForceLabelsEnabled: Bool { return forceLabelsEnabled }
     
     /// Adds a new ChartLimitLine to this axis.
     public func addLimitLine(line: ChartLimitLine)
@@ -151,6 +303,7 @@ public class ChartAxisBase: ChartComponentBase
         {
             _customAxisMin = true
             _axisMinimum = newValue
+            axisRange = abs(_axisMaximum - newValue)
         }
     }
     
@@ -167,6 +320,33 @@ public class ChartAxisBase: ChartComponentBase
         {
             _customAxisMax = true
             _axisMaximum = newValue
+            axisRange = abs(_axisMaximum - newValue)
         }
+    }
+    
+    /// Calculates the minimum, maximum and range values of the YAxis with the given minimum and maximum values from the chart data.
+    /// - parameter dataMin: the y-min value according to chart data
+    /// - parameter dataMax: the y-max value according to chart
+    public func calculate(min dataMin: Double, max dataMax: Double)
+    {
+        // if custom, use value as is, else use data value
+        var min = _customAxisMin ? _axisMinimum : dataMin
+        var max = _customAxisMax ? _axisMaximum : dataMax
+        
+        // temporary range (before calculations)
+        let range = abs(max - min)
+        
+        // in case all values are equal
+        if range == 0.0
+        {
+            max = max + 1.0
+            min = min - 1.0
+        }
+        
+        _axisMinimum = min
+        _axisMaximum = max
+        
+        // actual range
+        axisRange = abs(max - min)
     }
 }

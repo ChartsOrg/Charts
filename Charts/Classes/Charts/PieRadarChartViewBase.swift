@@ -73,7 +73,15 @@ public class PieRadarChartViewBase: ChartViewBase
     
     internal override func calcMinMax()
     {
-        _xAxis.axisRange = Double((_data?.xVals.count ?? 0) - 1)
+        /*_xAxis.axisRange = Double((_data?.xVals.count ?? 0) - 1)*/
+    }
+    
+    public override var maxVisibleCount: Int
+    {
+        get
+        {
+            return data?.entryCount ?? 0
+        }
     }
     
     public override func notifyDataSetChanged()
@@ -385,7 +393,7 @@ public class PieRadarChartViewBase: ChartViewBase
     
     /// The SelectionDetail objects give information about the value at the selected index and the DataSet it belongs to.
     /// - returns: an array of SelectionDetail objects for the given x-index.
-    public func getSelectionDetailsAtIndex(xIndex: Int) -> [ChartSelectionDetail]
+    public func getSelectionDetailsAtIndex(xValue: Double) -> [ChartSelectionDetail]
     {
         var vals = [ChartSelectionDetail]()
         
@@ -401,13 +409,13 @@ public class PieRadarChartViewBase: ChartViewBase
             }
             
             // extract all y-values from all DataSets at the given x-index
-            let yVal = dataSet.yValForXIndex(xIndex)
+            let yVal = dataSet.yValueForXValue(xValue)
             if (yVal.isNaN)
             {
                 continue
             }
             
-            vals.append(ChartSelectionDetail(value: yVal, dataSetIndex: i, dataSet: dataSet))
+            vals.append(ChartSelectionDetail(xValue: 0.0, yValue: yVal, dataSetIndex: i, dataSet: dataSet))
         }
         
         return vals
@@ -463,7 +471,7 @@ public class PieRadarChartViewBase: ChartViewBase
         
         _spinAnimator = ChartAnimator()
         _spinAnimator.updateBlock = {
-            self.rotationAngle = (toAngle - fromAngle) * self._spinAnimator.phaseX + fromAngle
+            self.rotationAngle = (toAngle - fromAngle) * CGFloat(self._spinAnimator.phaseX) + fromAngle
         }
         _spinAnimator.stopBlock = { self._spinAnimator = nil; }
         
@@ -877,7 +885,7 @@ public class PieRadarChartViewBase: ChartViewBase
                 
                 if (self.isKindOfClass(PieChartView))
                 {
-                    angle /= _animator.phaseY
+                    angle /= CGFloat(_animator.phaseY)
                 }
                 
                 let index = indexForAngle(angle)
@@ -890,14 +898,17 @@ public class PieRadarChartViewBase: ChartViewBase
                 }
                 else
                 {
-                    let valsAtIndex = getSelectionDetailsAtIndex(index)
+                    let valsAtIndex = getSelectionDetailsAtIndex(Double(index))
                     
                     var dataSetIndex = 0
                     
                     // get the dataset that is closest to the selection (PieChart only has one DataSet)
                     if (self.isKindOfClass(RadarChartView))
                     {
-                        dataSetIndex = ChartUtils.closestDataSetIndexByValue(valsAtIndex: valsAtIndex, value: Double(distance / (self as! RadarChartView).factor), axis: nil) ?? -1
+                        dataSetIndex = ChartUtils.closestDataSetIndexByValue(
+                            valsAtIndex: valsAtIndex,
+                            value: Double(distance / (self as! RadarChartView).factor),
+                            axis: nil) ?? -1
                     }
                     
                     if (dataSetIndex < 0)
@@ -907,7 +918,7 @@ public class PieRadarChartViewBase: ChartViewBase
                     }
                     else
                     {
-                        let h = ChartHighlight(xIndex: index, dataSetIndex: dataSetIndex)
+                        let h = ChartHighlight(x: Double(index), dataSetIndex: dataSetIndex)
                         
                         if (_lastHighlight !== nil && h == _lastHighlight)
                         {

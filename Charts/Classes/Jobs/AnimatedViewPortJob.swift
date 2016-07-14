@@ -31,7 +31,7 @@ public class AnimatedViewPortJob: ChartViewPortJob
     
     public init(
         viewPortHandler: ChartViewPortHandler,
-        xIndex: CGFloat,
+        xValue: Double,
         yValue: Double,
         transformer: ChartTransformer,
         view: ChartViewBase,
@@ -41,7 +41,7 @@ public class AnimatedViewPortJob: ChartViewPortJob
         easing: ChartEasingFunctionBlock?)
     {
         super.init(viewPortHandler: viewPortHandler,
-            xIndex: xIndex,
+            xValue: xValue,
             yValue: yValue,
             transformer: transformer,
             view: view)
@@ -108,7 +108,7 @@ public class AnimatedViewPortJob: ChartViewPortJob
         
         if _easing != nil
         {
-            phase = _easing!(elapsed: elapsed, duration: duration)
+            phase = CGFloat(_easing!(elapsed: elapsed, duration: duration))
         }
         else
         {

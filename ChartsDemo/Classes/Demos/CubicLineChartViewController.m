@@ -115,35 +115,27 @@
 
 - (void)setDataCount:(int)count range:(double)range
 {
-    NSMutableArray *xVals = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < count; i++)
-    {
-        [xVals addObject:[@(i + 1990) stringValue]];
-    }
-    
     NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < count; i++)
     {
         double mult = (range + 1);
         double val = (double) (arc4random_uniform(mult)) + 20;
-        [yVals1 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+        [yVals1 addObject:[[ChartDataEntry alloc] initWithX:i y:val]];
     }
     
     LineChartDataSet *set1 = nil;
     if (_chartView.data.dataSetCount > 0)
     {
         set1 = (LineChartDataSet *)_chartView.data.dataSets[0];
-        set1.yVals = yVals1;
-        _chartView.data.xValsObjc = xVals;
+        set1.values = yVals1;
         [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
     }
     else
     {
-        set1 = [[LineChartDataSet alloc] initWithYVals:yVals1 label:@"DataSet 1"];
-        set1.drawCubicEnabled = YES;
+        set1 = [[LineChartDataSet alloc] initWithValues:yVals1 label:@"DataSet 1"];
+        set1.mode = LineChartModeCubicBezier;
         set1.cubicIntensity = 0.2;
         set1.drawCirclesEnabled = NO;
         set1.lineWidth = 1.8;
@@ -156,7 +148,7 @@
         set1.drawHorizontalHighlightIndicatorEnabled = NO;
         set1.fillFormatter = [[CubicLineSampleFillFormatter alloc] init];
         
-        LineChartData *data = [[LineChartData alloc] initWithXVals:xVals dataSet:set1];
+        LineChartData *data = [[LineChartData alloc] initWithDataSet:set1];
         [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:9.f]];
         [data setDrawValues:NO];
         
@@ -192,7 +184,7 @@
     {
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
-            set.drawCubicEnabled = !set.isDrawCubicEnabled;
+            set.mode = set.mode == LineChartModeCubicBezier ? LineChartModeLinear : LineChartModeCubicBezier;
         }
         
         [_chartView setNeedsDisplay];
@@ -203,7 +195,7 @@
     {
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
-            set.drawSteppedEnabled = !set.isDrawSteppedEnabled;
+            set.mode = set.mode == LineChartModeStepped ? LineChartModeLinear : LineChartModeStepped;
         }
         
         [_chartView setNeedsDisplay];
