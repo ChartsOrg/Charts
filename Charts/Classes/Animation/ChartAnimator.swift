@@ -71,7 +71,7 @@ public class ChartAnimator: NSObject
     {
         if (_displayLink != nil)
         {
-            _displayLink.remove(from: RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
+            _displayLink.remove(from: RunLoop.main, forMode: RunLoopMode.commonModes)
             _displayLink = nil
             
             _enabledX = false
@@ -196,7 +196,7 @@ public class ChartAnimator: NSObject
         if (_enabledX || _enabledY)
         {
             _displayLink = NSUIDisplayLink(target: self, selector: #selector(ChartAnimator.animationLoop))
-            _displayLink.add(to: RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
+            _displayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
         }
     }
     
@@ -262,7 +262,7 @@ public class ChartAnimator: NSObject
             if _displayLink === nil
             {
                 _displayLink = NSUIDisplayLink(target: self, selector: #selector(ChartAnimator.animationLoop))
-                _displayLink.add(to: RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
+                _displayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
             }
         }
     }
@@ -306,7 +306,7 @@ public class ChartAnimator: NSObject
             if _displayLink === nil
             {
                 _displayLink = NSUIDisplayLink(target: self, selector: #selector(ChartAnimator.animationLoop))
-                _displayLink.add(to: RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
+                _displayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
             }
         }
     }
