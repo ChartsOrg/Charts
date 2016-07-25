@@ -21,9 +21,8 @@ extern "C" {
 #endif
 
 #import <Realm/RLMSchema.h>
-#import <Realm/RLMDefines.h>
 
-RLM_ASSUME_NONNULL_BEGIN
+NS_ASSUME_NONNULL_BEGIN
 
 @class RLMRealm;
 
@@ -39,9 +38,9 @@ RLM_ASSUME_NONNULL_BEGIN
 
  @return An `RLMSchema` containing only the given classes.
  */
-+ (instancetype)schemaWithObjectClasses:(NSArray RLM_GENERIC(Class) *)classes;
++ (instancetype)schemaWithObjectClasses:(NSArray<Class> *)classes;
 
-@property (nonatomic, readwrite, copy) NSArray RLM_GENERIC(RLMObjectSchema *) *objectSchema;
+@property (nonatomic, readwrite, copy) NSArray<RLMObjectSchema *> *objectSchema;
 
 // schema based on runtime objects
 + (instancetype)sharedSchema;
@@ -55,11 +54,11 @@ RLM_ASSUME_NONNULL_BEGIN
 // shallow copy for reusing schema properties accross the same Realm on multiple threads
 - (instancetype)shallowCopy;
 
-+ (RLMObjectSchema *)sharedSchemaForClass:(Class)cls;
++ (nullable RLMObjectSchema *)sharedSchemaForClass:(Class)cls;
 
 @end
 
-RLM_ASSUME_NONNULL_END
+NS_ASSUME_NONNULL_END
 
 #ifdef __cplusplus
 }

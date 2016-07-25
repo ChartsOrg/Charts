@@ -20,17 +20,19 @@
 
 #import <Realm/RLMObjectBase.h>
 
-RLM_ASSUME_NONNULL_BEGIN
+NS_ASSUME_NONNULL_BEGIN
 
+@class RLMPropertyDescriptor;
 @class RLMRealm;
 @class RLMResults;
 @class RLMObjectSchema;
 
 /**
- 
- In Realm you define your model classes by subclassing `RLMObject` and adding properties to be persisted.
- You then instantiate and use your custom subclasses instead of using the `RLMObject` class directly.
- 
+ `RLMObject` is a base class for model objects representing data stored in Realms.
+
+ Define your model classes by subclassing `RLMObject` and adding properties to be managed.
+ Then instantiate and use your custom subclasses instead of using the `RLMObject` class directly.
+
      // Dog.h
      @interface Dog : RLMObject
      @property NSString *name;
@@ -48,15 +50,19 @@ RLM_ASSUME_NONNULL_BEGIN
  - `BOOL` or `bool`
  - `NSDate`
  - `NSData`
- - `NSNumber<X>`, where X is one of RLMInt, RLMFloat, RLMDouble or RLMBool, for optional number properties
- - `RLMObject` subclasses, so you can have many-to-one relationships.
- - `RLMArray<X>`, where X is an `RLMObject` subclass, so you can have many-to-many relationships.
+ - `NSNumber<X>`, where `X` is one of `RLMInt`, `RLMFloat`, `RLMDouble` or `RLMBool`, for optional number properties
+ - `RLMObject` subclasses, to model many-to-one relationships.
+ - `RLMArray<X>`, where `X` is an `RLMObject` subclass, to model many-to-many relationships.
 
  ### Querying
  
- You can query an object directly via the class methods: `allObjects`, `objectsWhere:`, and `objectsWithPredicate:`.
- These methods allow you to easily query a custom subclass for instances of this class in the
- default Realm. To search in a Realm other than the default Realm use the interface on an RLMRealm instance.
+ You can initiate queries directly via the class methods: `allObjects`, `objectsWhere:`, and `objectsWithPredicate:`.
+ These methods allow you to easily query a custom subclass for instances of that class in the default Realm.
+ 
+ To search in a Realm other than the default Realm, use the `allObjectsInRealm:`, `objectsInRealm:where:`,
+ and `objectsInRealm:withPredicate:` class methods.
+ 
+ @see `RLMRealm`
  
  ### Relationships
  
@@ -66,18 +72,19 @@ RLM_ASSUME_NONNULL_BEGIN
 
  All `RLMObject` properties (including properties you create in subclasses) are
  [Key-Value Observing compliant](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html),
- except for `realm` and `objectSchema`. There are several Realm-specific things
- to keep in mind when observing Realm objects:
+ except for `realm` and `objectSchema`.
+ 
+ Keep the following tips in mind when observing Realm objects:
 
  1. Unlike `NSMutableArray` properties, `RLMArray` properties do not require
     using the proxy object returned from `-mutableArrayValueForKey:`, or defining
     KVC mutation methods on the containing class. You can simply call methods on
-    the RLMArray directly and the changes will be observed by the containing
+    the `RLMArray` directly; any changes will be automatically observed by the containing
     object.
- 2. Standalone `RLMObjects` cannot be added to a Realm while they have any
+ 2. Unmanaged `RLMObject` instances cannot be added to a Realm while they have any
     observed properties.
- 3. Modifying persisted `RLMObjects` in `-observeValueForKeyPath:ofObject:change:context:`
-    is problematic. Properties may change when the Realm is not in a write
+ 3. Modifying managed `RLMObject`s within `-observeValueForKeyPath:ofObject:change:context:`
+    is not recommended. Properties may change even when the Realm is not in a write
     transaction (for example, when `-[RLMRealm refresh]` is called after changes
     are made on a different thread), and notifications sent prior to the change
     being applied (when `NSKeyValueObservingOptionPrior` is used) may be sent at
@@ -89,29 +96,29 @@ RLM_ASSUME_NONNULL_BEGIN
 #pragma mark - Creating & Initializing Objects
 
 /**
- Initialize a standalone RLMObject
+ Initializes an unmanaged instance of a Realm object.
+
+ Call `addObject:` on an `RLMRealm` instance to add an unmanaged object into that Realm.
  
- Initialize an unpersisted instance of this object.
- Call addObject: on an RLMRealm to add standalone object to a realm.
- 
- @see [RLMRealm addObject:]:
+ @see `[RLMRealm addObject:]`
  */
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 
 
 /**
- Initialize a standalone RLMObject with values from an NSArray or NSDictionary
+ Initializes an unmanaged instance of a Realm object.
  
- Initialize an unpersisted instance of this object.
- Call addObject: on an RLMRealm to add standalone object to a realm.
+ Pass in an `NSArray` or `NSDictionary` instance to set the values of the object's properties.
+
+ Call `addObject:` on an `RLMRealm` instance to add an unmanaged object into that Realm.
  
- @see [RLMRealm addObject:]:
+ @see `[RLMRealm addObject:]`
  */
 - (instancetype)initWithValue:(id)value NS_DESIGNATED_INITIALIZER;
 
 
 /**
- Helper to return the class name for an RLMObject subclass.
+ Returns the class name for a Realm object subclass.
 
  @warning Do not override. Realm relies on this method returning the exact class
           name.
@@ -121,110 +128,116 @@ RLM_ASSUME_NONNULL_BEGIN
 + (NSString *)className;
 
 /**
- Create an RLMObject in the default Realm with a given value.
-
- Creates an instance of this object and adds it to the default Realm populating
- the object with the given value.
+ Creates an instance of a Realm object with a given value, and adds it to the default Realm.
  
- If nested objects are included in the argument, `createInDefaultRealmWithValue:` will be called
+ If nested objects are included in the argument, `createInDefaultRealmWithValue:` will be recursively called
  on them.
+ 
+ The `value` argument can be a key-value coding compliant object, an array or dictionary returned from the methods in
+ `NSJSONSerialization`, or an array containing one element for each managed property. An exception will be thrown if
+ any required properties are not present and those properties were not defined with default values.
 
- @param value   The value used to populate the object. This can be any key/value coding compliant
-                object, or a JSON object such as those returned from the methods in NSJSONSerialization, or
-                an NSArray with one object for each persisted property. An exception will be
-                thrown if any required properties are not present and no default is set.
+ When passing in an array as the `value` argument, all properties must be present, valid and in the same order as the
+ properties defined in the model.
 
- When passing in an NSArray, all properties must be present, valid and in the same order as the properties defined in the model.
+ @param value    The value used to populate the object.
 
- @see   defaultPropertyValues
+ @see   `defaultPropertyValues`
  */
 + (instancetype)createInDefaultRealmWithValue:(id)value;
 
 /**
- Create an RLMObject in a Realm with a given object.
+ Creates an instance of a Realm object with a given value, and adds it to the specified Realm.
  
- Creates an instance of this object and adds it to the given Realm populating
- the object with the given object.
- 
- If nested objects are included in the argument, `createInRealm:withValue:` will be called
+ If nested objects are included in the argument, `createInRealm:withValue:` will be recursively called
  on them.
  
- @param realm   The Realm in which this object is persisted.
- @param value   The value used to populate the object. This can be any key/value coding compliant
-                object, or a JSON object such as those returned from the methods in NSJSONSerialization, or
-                an NSArray with one object for each persisted property. An exception will be
-                thrown if any required properties are not present and no default is set.
-                
-                When passing in an NSArray, all properties must be present, valid and in the same order as the properties defined in the model.
- 
- @see   defaultPropertyValues
+ The `value` argument can be a key-value coding compliant object, an array or dictionary returned from the methods in
+ `NSJSONSerialization`, or an array containing one element for each managed property. An exception will be thrown if any
+ required properties are not present and those properties were not defined with default values.
+
+ When passing in an array as the `value` argument, all properties must be present, valid and in the same order as the
+ properties defined in the model.
+
+ @param realm    The Realm which should manage the newly-created object.
+ @param value    The value used to populate the object.
+
+ @see   `defaultPropertyValues`
  */
 + (instancetype)createInRealm:(RLMRealm *)realm withValue:(id)value;
 
 /**
- Create or update an RLMObject in the default Realm with a given object.
+ Creates or updates a Realm object within the default Realm.
 
- This method can only be called on object types with a primary key defined. If there is already
- an object with the same primary key value in the default RLMRealm its values are updated and the object
- is returned. Otherwise this creates and populates a new instance of this object in the default Realm.
+ This method may only be called on Realm object types with a primary key defined. If there is already
+ an object with the same primary key value in the default Realm, its values are updated and the object
+ is returned. Otherwise, this method creates and populates a new instance of the object in the default Realm.
  
  If nested objects are included in the argument, `createOrUpdateInDefaultRealmWithValue:` will be
- called on them if have a primary key (`createInDefaultRealmWithValue:` otherwise).
+ recursively called on them if they have primary keys, `createInDefaultRealmWithValue:` if they do not.
+
+ If the argument is a Realm object already managed by the default Realm, the argument's type is the same
+ as the receiver, and the objects have identical values for their managed properties, this method does nothing.
  
- This is a no-op if the argument is an RLMObject of the same type already backed by the target realm.
+ The `value` argument is used to populate the object. It can be a key-value coding compliant object, an array or
+ dictionary returned from the methods in `NSJSONSerialization`, or an array containing one element for each managed
+ property. An exception will be thrown if any required properties are not present and those properties were not defined
+ with default values.
 
- @param value   The value used to populate the object. This can be any key/value coding compliant
-                object, or a JSON object such as those returned from the methods in NSJSONSerialization, or
-                an NSArray with one object for each persisted property. An exception will be
-                thrown if any required properties are not present and no default is set.
+ When passing in an array as the `value` argument, all properties must be present, valid and in the same order as the
+ properties defined in the model.
 
- When passing in an NSArray, all properties must be present, valid and in the same order as the properties defined in the model.
+ @param value    The value used to populate the object.
 
- @see   defaultPropertyValues, primaryKey
+ @see   `defaultPropertyValues`, `primaryKey`
  */
 + (instancetype)createOrUpdateInDefaultRealmWithValue:(id)value;
 
 /**
- Create or update an RLMObject with a given object.
+ Creates or updates an Realm object within a specified Realm.
 
- This method can only be called on object types with a primary key defined. If there is already
- an object with the same primary key value in the provided RLMRealm its values are updated and the object
- is returned. Otherwise this creates and populates a new instance of this object in the provided Realm.
+ This method may only be called on Realm object types with a primary key defined. If there is already
+ an object with the same primary key value in the given Realm, its values are updated and the object
+ is returned. Otherwise this method creates and populates a new instance of this object in the given Realm.
  
  If nested objects are included in the argument, `createOrUpdateInRealm:withValue:` will be
- called on them if have a primary key (`createInRealm:withValue:` otherwise).
+ recursively called on them if they have primary keys, `createInRealm:withValue:` if they do not.
 
- This is a no-op if the argument is an RLMObject of the same type already backed by the target realm.
+ If the argument is a Realm object already managed by the given Realm, the argument's type is the same
+ as the receiver, and the objects have identical values for their managed properties, this method does nothing.
+ 
+ The `value` argument is used to populate the object. It can be a key-value coding compliant object, an array or
+ dictionary returned from the methods in `NSJSONSerialization`, or an array containing one element for each managed
+ property. An exception will be thrown if any required properties are not present and those properties were not defined
+ with default values.
 
- @param realm   The Realm in which this object is persisted.
- @param value   The value used to populate the object. This can be any key/value coding compliant
-                object, or a JSON object such as those returned from the methods in NSJSONSerialization, or
-                an NSArray with one object for each persisted property. An exception will be
-                thrown if any required properties are not present and no default is set.
+ When passing in an array as the `value` argument, all properties must be present, valid and in the same order as the
+ properties defined in the model.
 
- When passing in an NSArray, all properties must be present, valid and in the same order as the properties defined in the model.
+ @param realm    The Realm which should own the object.
+ @param value    The value used to populate the object.
 
- @see   defaultPropertyValues, primaryKey
+ @see   `defaultPropertyValues`, `primaryKey`
  */
 + (instancetype)createOrUpdateInRealm:(RLMRealm *)realm withValue:(id)value;
 
 #pragma mark - Properties
 
 /**
- The Realm in which this object is persisted. Returns nil for standalone objects.
+ The Realm which manages the object, or `nil` if the object is unmanaged.
  */
 @property (nonatomic, readonly, nullable) RLMRealm *realm;
 
 /**
- The ObjectSchema which lists the persisted properties for this object.
+ The object schema which lists the managed properties for the object.
  */
 @property (nonatomic, readonly) RLMObjectSchema *objectSchema;
 
 /**
- Indicates if an object can no longer be accessed.
+ Indicates if the object can no longer be accessed because it is now invalid.
  
- An object can no longer be accessed if the object has been deleted from the containing `realm` or
- if `invalidate` is called on the containing `realm`.
+ An object can no longer be accessed if the object has been deleted from the Realm that manages it, or
+ if `invalidate` is called on that Realm.
  */
 @property (nonatomic, readonly, getter = isInvalidated) BOOL invalidated;
 
@@ -232,68 +245,84 @@ RLM_ASSUME_NONNULL_BEGIN
 #pragma mark - Customizing your Objects
 
 /**
- Return an array of property names for properties which should be indexed. Only supported
- for string and int properties.
- @return    NSArray of property names.
+ Returns an array of property names for properties which should be indexed.
+ 
+ Only string, integer, boolean, and `NSDate` properties are supported.
+
+ @return    An array of property names.
  */
-+ (NSArray RLM_GENERIC(NSString *) *)indexedProperties;
++ (NSArray<NSString *> *)indexedProperties;
 
 /**
- Implement to indicate the default values to be used for each property.
+ Override this method to specify the default values to be used for each property.
  
- @return    NSDictionary mapping property names to their default values.
+ @return    A dictionary mapping property names to their default values.
  */
 + (nullable NSDictionary *)defaultPropertyValues;
 
 /**
- Implement to designate a property as the primary key for an RLMObject subclass. Only properties of
- type RLMPropertyTypeString and RLMPropertyTypeInt can be designated as the primary key. Primary key 
- properties enforce uniqueness for each value whenever the property is set which incurs some overhead.
+ Override this method to specify the name of a property to be used as the primary key.
+ 
+ Only properties of types `RLMPropertyTypeString` and `RLMPropertyTypeInt` can be designated as the primary key.
+ Primary key properties enforce uniqueness for each value whenever the property is set, which incurs minor overhead.
  Indexes are created automatically for primary key properties.
 
- @return    Name of the property designated as the primary key.
+ @return    The name of the property designated as the primary key.
  */
 + (nullable NSString *)primaryKey;
 
 /**
- Implement to return an array of property names to ignore. These properties will not be persisted
- and are treated as transient.
- 
- @return    NSArray of property names to ignore.
+ Override this method to specify the names of properties to ignore. These properties will not be managed by the Realm
+ that manages the object.
+
+ @return    An array of property names to ignore.
  */
-+ (nullable NSArray RLM_GENERIC(NSString *) *)ignoredProperties;
++ (nullable NSArray<NSString *> *)ignoredProperties;
 
 /**
- Implement to return an array of property names that should not allow storing nil.
+ Override this method to specify the names of properties that are non-optional (i.e. cannot be assigned a `nil` value).
 
- By default, all properties of a type that support storing nil are considered optional properties.
- To require that an object in a Realm always have a non-nil value for a property,
+ By default, all properties of a type whose values can be set to `nil` are considered optional properties.
+ To require that an object in a Realm always store a non-`nil` value for a property,
  add the name of the property to the array returned from this method.
  
- Currently Object properties cannot be required. Array and NSNumber properties
- can, but it makes little sense to do so: arrays do not support storing nil, and
+ Properties of `RLMObject` type cannot be non-optional. Array and `NSNumber` properties
+ can be non-optional, but there is no reason to do so: arrays do not support storing nil, and
  if you want a non-optional number you should instead use the primitive type.
 
- @return    NSArray of property names that are required.
+ @return    An array of property names that are required.
  */
-+ (NSArray RLM_GENERIC(NSString *) *)requiredProperties;
++ (NSArray<NSString *> *)requiredProperties;
+
+/**
+ Override this method to provide information related to properties containing linking objects.
+ 
+ Each property of type `RLMLinkingObjects` must have a key in the dictionary returned by this method consisting
+ of the property name. The corresponding value must be an instance of `RLMPropertyDescriptor` that describes the class
+ and property that the property is linked to.
+
+     return @{ @"owners": [RLMPropertyDescriptor descriptorWithClass:Owner.class propertyName:@"dogs"] };
+
+ @return     A dictionary mapping property names to `RLMPropertyDescriptor` instances.
+ */
++ (NSDictionary<NSString *, RLMPropertyDescriptor *> *)linkingObjectsProperties;
 
 
 #pragma mark - Getting & Querying Objects from the Default Realm
 
 /**
- Get all objects of this type from the default Realm.
+ Returns all objects of this object type from the default Realm.
  
- @return    An RLMResults of all objects of this type in the default Realm.
+ @return    An `RLMResults` containing all objects of this type in the default Realm.
  */
 + (RLMResults *)allObjects;
 
 /**
- Get objects matching the given predicate for this type from the default Realm.
+ Returns all objects of this object type matching the given predicate from the default Realm.
  
- @param predicateFormat The predicate format string which can accept variable arguments.
+ @param predicateFormat A predicate format string, optionally followed by a variable number of arguments.
  
- @return    An RLMResults of objects of the subclass type in the default Realm that match the given predicate
+ @return    An `RLMResults` containing all objects of this type in the default Realm that match the given predicate.
  */
 + (RLMResults *)objectsWhere:(NSString *)predicateFormat, ...;
 
@@ -302,16 +331,16 @@ RLM_ASSUME_NONNULL_BEGIN
 
 
 /**
- Get objects matching the given predicate for this type from the default Realm.
+ Returns all objects of this object type matching the given predicate from the default Realm.
 
- @param predicate   The predicate to filter the objects.
+ @param predicate   The predicate with which to filter the objects.
 
- @return    An RLMResults of objects of the subclass type in the default Realm that match the given predicate
+ @return    An `RLMResults` containing all objects of this type in the default Realm that match the given predicate.
  */
 + (RLMResults *)objectsWithPredicate:(nullable NSPredicate *)predicate;
 
 /**
- Get the single object with the given primary key from the default Realm.
+ Retrieves the single instance of this object type with the given primary key from the default Realm.
 
  Returns the object from the default Realm which has the given primary key, or
  `nil` if the object does not exist. This is slightly faster than the otherwise
@@ -319,8 +348,8 @@ RLM_ASSUME_NONNULL_BEGIN
 
  This method requires that `primaryKey` be overridden on the receiving subclass.
 
- @return    An object of the subclass type or nil if an object with the given primary key does not exist.
- @see       -primaryKey
+ @return    An object of this object type, or `nil` if an object with the given primary key does not exist.
+ @see       `-primaryKey`
  */
 + (nullable instancetype)objectForPrimaryKey:(nullable id)primaryKey;
 
@@ -328,21 +357,21 @@ RLM_ASSUME_NONNULL_BEGIN
 #pragma mark - Querying Specific Realms
 
 /**
- Get all objects of this type from the specified Realm.
+ Returns all objects of this object type from the specified Realm.
 
- @param realm   The Realm instance to query.
+ @param realm   The Realm to query.
 
- @return        An RLMResults of all objects of this type in the specified Realm.
+ @return        An `RLMResults` containing all objects of this type in the specified Realm.
  */
 + (RLMResults *)allObjectsInRealm:(RLMRealm *)realm;
 
 /**
- Get objects matching the given predicate for this type from the specified Realm.
+ Returns all objects of this object type matching the given predicate from the specified Realm.
 
- @param predicateFormat The predicate format string which can accept variable arguments.
- @param realm           The Realm instance to query.
+ @param predicateFormat A predicate format string, optionally followed by a variable number of arguments.
+ @param realm           The Realm to query.
 
- @return    An RLMResults of objects of the subclass type in the specified Realm that match the given predicate
+ @return    An `RLMResults` containing all objects of this type in the specified Realm that match the given predicate.
  */
 + (RLMResults *)objectsInRealm:(RLMRealm *)realm where:(NSString *)predicateFormat, ...;
 
@@ -350,17 +379,17 @@ RLM_ASSUME_NONNULL_BEGIN
 + (RLMResults *)objectsInRealm:(RLMRealm *)realm where:(NSString *)predicateFormat args:(va_list)args;
 
 /**
- Get objects matching the given predicate for this type from the specified Realm.
+ Returns all objects of this object type matching the given predicate from the specified Realm.
 
- @param predicate   The predicate to filter the objects.
- @param realm       The Realm instance to query.
+ @param predicate   A predicate to use to filter the elements.
+ @param realm       The Realm to query.
 
- @return    An RLMResults of objects of the subclass type in the specified Realm that match the given predicate
+ @return    An `RLMResults` containing all objects of this type in the specified Realm that match the given predicate.
  */
 + (RLMResults *)objectsInRealm:(RLMRealm *)realm withPredicate:(nullable NSPredicate *)predicate;
 
 /**
- Get the single object with the given primary key from the specified Realm.
+ Retrieves the single instance of this object type with the given primary key from the specified Realm.
 
  Returns the object from the specified Realm which has the given primary key, or
  `nil` if the object does not exist. This is slightly faster than the otherwise
@@ -368,32 +397,23 @@ RLM_ASSUME_NONNULL_BEGIN
 
  This method requires that `primaryKey` be overridden on the receiving subclass.
 
- @return    An object of the subclass type or nil if an object with the given primary key does not exist.
- @see       -primaryKey
+ @return    An object of this object type, or `nil` if an object with the given primary key does not exist.
+ @see       `-primaryKey`
  */
 + (nullable instancetype)objectInRealm:(RLMRealm *)realm forPrimaryKey:(nullable id)primaryKey;
 
 #pragma mark - Other Instance Methods
 
 /**
- Get an `NSArray` of objects of type `className` which have this object as the given property value. This can
- be used to get the inverse relationship value for `RLMObject` and `RLMArray` properties.
+ Returns YES if another Realm object instance points to the same object as the receiver in the Realm managing
+ the receiver.
+ 
+ For object types with a primary, key, `isEqual:` is overridden to use this method (along with a corresponding
+ implementation for `hash`).
 
- @param className   The type of object on which the relationship to query is defined.
- @param property    The name of the property which defines the relationship.
+ @param object  The object to compare the receiver to.
 
- @return    An NSArray of objects of type `className` which have this object as their value for the `property` property.
- */
-- (NSArray *)linkingObjectsOfClass:(NSString *)className forProperty:(NSString *)property;
-
-/**
- Returns YES if another RLMObject points to the same object in an RLMRealm. For RLMObject types
- with a primary, key, `isEqual:` is overridden to use this method (along with a corresponding
- implementation for `hash`.
-
- @param object  The object to compare to.
-
- @return    YES if the object represents the same object in the same RLMRealm.
+ @return    A Boolean indicating whether the object represents the same object as the receiver.
  */
 - (BOOL)isEqualToObject:(RLMObject *)object;
 
@@ -410,9 +430,9 @@ RLM_ASSUME_NONNULL_BEGIN
 #pragma mark - RLMArray Property Declaration
 
 /**
- Properties on RLMObjects of type RLMArray must have an associated type. A type is associated
- with an RLMArray property by defining a protocol for the object type which the RLMArray will
- hold. To define the protocol for an object you can use the macro RLM_ARRAY_TYPE:
+ Properties on `RLMObject`s of type `RLMArray` must have an associated type. A type is associated
+ with an `RLMArray` property by defining a protocol for the object type that the array should contain.
+ To define the protocol for an object, you can use the macro RLM_ARRAY_TYPE:
  
      RLM_ARRAY_TYPE(ObjectType)
      ...
@@ -422,4 +442,4 @@ RLM_ASSUME_NONNULL_BEGIN
 @protocol RLM_OBJECT_SUBCLASS <NSObject>   \
 @end
 
-RLM_ASSUME_NONNULL_END
+NS_ASSUME_NONNULL_END

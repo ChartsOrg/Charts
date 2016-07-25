@@ -21,64 +21,59 @@
 @class RLMObjectSchema, RLMRealm;
 
 /**
- This function is useful only in specialized circumstances, for example, when building components
- that integrate with Realm. If you are simply building an app on Realm, it is
- recommended to retrieve `realm` via `RLMObject`.
+ Returns the Realm that manages the object, if one exists.
  
- @param object	an RLMObjectBase obtained via a Swift Object or RLMObject
+ @warning  This function is useful only in specialized circumstances, for example, when building components
+           that integrate with Realm. If you are simply building an app on Realm, it is
+           recommended to retrieve the Realm that manages the object via `RLMObject`.
+
+ @param object	An `RLMObjectBase` obtained via a Swift `Object` or `RLMObject`.
  
- @return The Realm in which this object is persisted. Returns nil for standalone objects.
+ @return The Realm which manages this object. Returns `nil `for unmanaged objects.
  */
 FOUNDATION_EXTERN RLMRealm *RLMObjectBaseRealm(RLMObjectBase *object);
 
 /**
- This function is useful only in specialized circumstances, for example, when building components
- that integrate with Realm. If you are simply building an app on Realm, it is
- recommended to retrieve `objectSchema` via `RLMObject`.
+ Returns an `RLMObjectSchema` which describes the managed properties of the object.
  
- @param object	an RLMObjectBase obtained via a Swift Object or RLMObject
+ @warning  This function is useful only in specialized circumstances, for example, when building components
+           that integrate with Realm. If you are simply building an app on Realm, it is
+           recommended to retrieve `objectSchema` via `RLMObject`.
+
+ @param object	An `RLMObjectBase` obtained via a Swift `Object` or `RLMObject`.
  
- @return The ObjectSchema which lists the persisted properties for this object.
+ @return The object schema which lists the managed properties for the object.
  */
 FOUNDATION_EXTERN RLMObjectSchema *RLMObjectBaseObjectSchema(RLMObjectBase *object);
 
 /**
- This function is useful only in specialized circumstances, for example, when building components
- that integrate with Realm. If you are simply building an app on Realm, it is
- recommended to retrieve the linking objects via `RLMObject`.
- 
- @param object		an RLMObjectBase obtained via a Swift Object or RLMObject
- @param className	The type of object on which the relationship to query is defined.
- @param property	The name of the property which defines the relationship.
- 
- @return An NSArray of objects of type `className` which have this object as their value for the `property` property.
- */
-FOUNDATION_EXTERN NSArray *RLMObjectBaseLinkingObjectsOfClass(RLMObjectBase *object, NSString *className, NSString *property);
+ Returns the object corresponding to a key value.
 
-/**
- This function is useful only in specialized circumstances, for example, when building components
- that integrate with Realm. If you are simply building an app on Realm, it is
- recommended to retrieve key values via `RLMObject`.
+ @warning  This function is useful only in specialized circumstances, for example, when building components
+           that integrate with Realm. If you are simply building an app on Realm, it is
+           recommended to retrieve key values via `RLMObject`.
+
+ @warning Will throw an `NSUndefinedKeyException` if `key` is not present on the object.
  
- @warning Will throw `NSUndefinedKeyException` if key is not present on the object
+ @param object	An `RLMObjectBase` obtained via a Swift `Object` or `RLMObject`.
+ @param key		The name of the property.
  
- @param object	an RLMObjectBase obtained via a Swift Object or RLMObject
- @param key		The name of the property
- 
- @return the object for the property requested
+ @return The object for the property requested.
  */
 FOUNDATION_EXTERN id RLMObjectBaseObjectForKeyedSubscript(RLMObjectBase *object, NSString *key);
 
 /**
- This function is useful only in specialized circumstances, for example, when building components
- that integrate with Realm. If you are simply building an app on Realm, it is
- recommended to set key values via `RLMObject`.
+ Sets a value for a key on the object.
  
- @warning Will throw `NSUndefinedKeyException` if key is not present on the object
+ @warning  This function is useful only in specialized circumstances, for example, when building components
+           that integrate with Realm. If you are simply building an app on Realm, it is
+           recommended to set key values via `RLMObject`.
+
+ @warning Will throw an `NSUndefinedKeyException` if `key` is not present on the object.
  
- @param object	an RLMObjectBase obtained via a Swift Object or RLMObject
- @param key		The name of the property
- @param obj		The object to set as the value of the key
+ @param object	An `RLMObjectBase` obtained via a Swift `Object` or `RLMObject`.
+ @param key		The name of the property.
+ @param obj		The object to set as the value of the key.
  */
 FOUNDATION_EXTERN void RLMObjectBaseSetObjectForKeyedSubscript(RLMObjectBase *object, NSString *key, id obj);
 
