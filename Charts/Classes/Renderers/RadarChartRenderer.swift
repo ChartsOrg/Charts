@@ -171,7 +171,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         {
             let dataSet = data.getDataSetByIndex(i) as! IRadarChartDataSet
             
-            if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
+            if (!dataSet.isDrawValuesEnabled && !dataSet.isDrawIconsEnabled) || dataSet.entryCount == 0
             {
                 continue
             }
@@ -191,14 +191,29 @@ public class RadarChartRenderer: LineRadarChartRenderer
                 
                 guard let formatter = dataSet.valueFormatter else { continue }
                 
-                ChartUtils.drawText(
-                    context: context,
-                    text: formatter.stringFromNumber(e.value)!,
-                    point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
-                    align: .Center,
-                    attributes: [NSFontAttributeName: valueFont,
-                        NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
-                )
+                if dataSet.isDrawValuesEnabled {
+                    ChartUtils.drawText(
+                        context: context,
+                        text: formatter.stringFromNumber(e.value)!,
+                        point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
+                        align: .Center,
+                        attributes: [NSFontAttributeName: valueFont,
+                            NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                    )
+                }
+                
+                if let icon = e.data as? NSUIImage where dataSet.isDrawIconsEnabled {
+                    let pIcon = ChartUtils.getPosition(
+                        center: center,
+                        dist: CGFloat(e.value) * factor * phaseY + dataSet.iconsOffset.height,
+                        angle: sliceangle * CGFloat(j) * phaseX + chart.rotationAngle)
+                    
+                    ChartUtils.drawImage(context: context,
+                                         image: icon,
+                                         point: pIcon,
+                                         expectedSize: icon.size,
+                                         offset: CGSizeZero)
+                }
             }
         }
     }

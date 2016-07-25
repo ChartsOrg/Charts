@@ -30,6 +30,7 @@
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
+                     @{@"key": @"toggleIcons", @"label": @"Toggle Icons"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
                      @{@"key": @"toggleHighlightCircle", @"label": @"Toggle highlight circle"},
                      @{@"key": @"toggleXLabels", @"label": @"Toggle X-Values"},
@@ -101,7 +102,7 @@
     
     for (int i = 0; i < count; i++)
     {
-        [yVals1 addObject:[[ChartDataEntry alloc] initWithValue:(arc4random_uniform(mult) + mult / 2) xIndex:i]];
+        [yVals1 addObject:[[ChartDataEntry alloc] initWithValue:(arc4random_uniform(mult) + mult / 2) xIndex:i data: [UIImage imageNamed:@"icon"]]];
         [yVals2 addObject:[[ChartDataEntry alloc] initWithValue:(arc4random_uniform(mult) + mult / 2) xIndex:i]];
     }
     
@@ -117,6 +118,7 @@
     set1.fillColor = ChartColorTemplates.vordiplom[0];
     set1.drawFilledEnabled = YES;
     set1.lineWidth = 2.0;
+    set1.iconsOffset = CGSizeMake(0, 10);
     
     RadarChartDataSet *set2 = [[RadarChartDataSet alloc] initWithYVals:yVals2 label:@"Set 2"];
     [set2 setColor:ChartColorTemplates.vordiplom[4]];

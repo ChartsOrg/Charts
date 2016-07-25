@@ -34,6 +34,7 @@
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
+                     @{@"key": @"toggleIcons", @"label": @"Toggle Icons"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
                      @{@"key": @"toggleHighlightArrow", @"label": @"Toggle Highlight Arrow"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
@@ -121,7 +122,7 @@
     {
         double mult = (range + 1);
         double val = (double) (arc4random_uniform(mult));
-        [yVals addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
+        [yVals addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i data: [UIImage imageNamed:@"icon"]]];
     }
     
     BarChartDataSet *set1 = nil;

@@ -174,7 +174,7 @@ public class ChartUtils
         )
     }
     
-    public class func drawImage(context context: CGContext, image: UIImage, point: CGPoint, expectedSize: CGSize, offset: CGSize)
+    public class func drawImage(context context: CGContext, image: NSUIImage, point: CGPoint, expectedSize: CGSize, offset: CGSize)
     {
         var drawOffset = CGPoint()
         drawOffset.x += point.x + offset.width

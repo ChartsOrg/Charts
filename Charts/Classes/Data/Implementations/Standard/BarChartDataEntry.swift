@@ -37,6 +37,14 @@ public class BarChartDataEntry: ChartDataEntry
         calcPosNegSum()
     }
     
+    /// Constructor for stacked bar entries. One data object for whole stack
+    public init(values: [Double], xIndex: Int, data: AnyObject?)
+    {
+        super.init(value: BarChartDataEntry.calcSum(values), xIndex: xIndex, data: data)
+        self.values = values
+        calcPosNegSum()
+    }
+    
     /// Constructor for normal bars (not stacked).
     public override init(value: Double, xIndex: Int)
     {
