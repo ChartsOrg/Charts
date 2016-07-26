@@ -22,18 +22,24 @@
 
 @class RLMObjectBase;
 
-FOUNDATION_EXTERN BOOL RLMPropertyTypeIsNullable(RLMPropertyType propertyType);
-FOUNDATION_EXTERN BOOL RLMPropertyTypeIsNumeric(RLMPropertyType propertyType);
+BOOL RLMPropertyTypeIsNullable(RLMPropertyType propertyType);
+BOOL RLMPropertyTypeIsComputed(RLMPropertyType propertyType);
 
 // private property interface
-@interface RLMProperty ()
+@interface RLMProperty () {
+@public
+    RLMPropertyType _type;
+    Ivar _swiftIvar;
+}
 
 - (instancetype)initWithName:(NSString *)name
                      indexed:(BOOL)indexed
+      linkPropertyDescriptor:(RLMPropertyDescriptor *)linkPropertyDescriptor
                     property:(objc_property_t)property;
 
 - (instancetype)initSwiftPropertyWithName:(NSString *)name
                                   indexed:(BOOL)indexed
+                   linkPropertyDescriptor:(RLMPropertyDescriptor *)linkPropertyDescriptor
                                  property:(objc_property_t)property
                                  instance:(RLMObjectBase *)objectInstance;
 
@@ -46,8 +52,14 @@ FOUNDATION_EXTERN BOOL RLMPropertyTypeIsNumeric(RLMPropertyType propertyType);
                                              ivar:(Ivar)ivar
                                      propertyType:(RLMPropertyType)propertyType;
 
+- (instancetype)initSwiftLinkingObjectsPropertyWithName:(NSString *)name
+                                                   ivar:(Ivar)ivar
+                                        objectClassName:(NSString *)objectClassName
+                                 linkOriginPropertyName:(NSString *)linkOriginPropertyName;
+
 // private setters
 @property (nonatomic, assign) NSUInteger column;
+@property (nonatomic, readwrite) NSString *name;
 @property (nonatomic, readwrite, assign) RLMPropertyType type;
 @property (nonatomic, readwrite) BOOL indexed;
 @property (nonatomic, readwrite) BOOL optional;
@@ -58,13 +70,14 @@ FOUNDATION_EXTERN BOOL RLMPropertyTypeIsNumeric(RLMPropertyType propertyType);
 @property (nonatomic, copy) NSString *objcRawType;
 @property (nonatomic, assign) BOOL isPrimary;
 @property (nonatomic, assign) Ivar swiftIvar;
-@property (nonatomic, assign) NSUInteger declarationIndex;
 
 // getter and setter names
 @property (nonatomic, copy) NSString *getterName;
 @property (nonatomic, copy) NSString *setterName;
 @property (nonatomic) SEL getterSel;
 @property (nonatomic) SEL setterSel;
+
+- (RLMProperty *)copyWithNewName:(NSString *)name;
 
 @end
 
@@ -81,12 +94,14 @@ FOUNDATION_EXTERN BOOL RLMPropertyTypeIsNumeric(RLMPropertyType propertyType);
  @param name            The property name.
  @param type            The property type.
  @param objectClassName The object type used for Object and Array types.
- 
+ @param linkOriginPropertyName The property name of the origin of a link. Used for linking objects properties.
+
  @return    An initialized instance of RLMProperty.
  */
 - (instancetype)initWithName:(NSString *)name
                         type:(RLMPropertyType)type
              objectClassName:(NSString *)objectClassName
+      linkOriginPropertyName:(NSString *)linkOriginPropertyName
                      indexed:(BOOL)indexed
                     optional:(BOOL)optional;
 @end

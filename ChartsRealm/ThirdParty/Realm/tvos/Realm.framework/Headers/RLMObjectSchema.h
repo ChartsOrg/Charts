@@ -17,16 +17,15 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #import <Foundation/Foundation.h>
-#import <Realm/RLMDefines.h>
 
-RLM_ASSUME_NONNULL_BEGIN
+NS_ASSUME_NONNULL_BEGIN
 
 @class RLMProperty;
 
 /**
  This class represents Realm model object schemas.
 
- When using Realm, RLMObjectSchema objects allow performing migrations and
+ When using Realm, `RLMObjectSchema` instances allow performing migrations and
  introspecting the database's schema.
 
  Object schemas map to tables in the core database.
@@ -36,38 +35,38 @@ RLM_ASSUME_NONNULL_BEGIN
 #pragma mark - Properties
 
 /**
- Array of persisted RLMProperty objects for an object.
+ An array of `RLMProperty` instances representing the managed properties of a class described by the schema.
  
- @see RLMProperty
+ @see `RLMProperty`
  */
-@property (nonatomic, readonly, copy) NSArray RLM_GENERIC(RLMProperty *) *properties;
+@property (nonatomic, readonly, copy) NSArray<RLMProperty *> *properties;
 
 /**
- The name of the class this schema describes.
+ The name of the class the schema describes.
  */
 @property (nonatomic, readonly) NSString *className;
 
 /**
- The property which is the primary key for this object (if any).
+ The property which serves as the primary key for the class the schema describes, if any.
  */
 @property (nonatomic, readonly, nullable) RLMProperty *primaryKeyProperty;
 
 #pragma mark - Methods
 
 /**
- Retrieve an RLMProperty object by name.
+ Retrieves an `RLMProperty` object by the property name.
  
  @param propertyName The property's name.
  
- @return RLMProperty object or nil if there is no property with the given name.
+ @return An `RLMProperty` object, or `nil` if there is no property with the given name.
  */
 - (nullable RLMProperty *)objectForKeyedSubscript:(id <NSCopying>)propertyName;
 
 /**
- Returns YES if equal to objectSchema
+  Returns a Boolean value that indicates whether two `RLMObjectSchema` instances are equal.
 */
 - (BOOL)isEqualToObjectSchema:(RLMObjectSchema *)objectSchema;
 
 @end
 
-RLM_ASSUME_NONNULL_END
+NS_ASSUME_NONNULL_END

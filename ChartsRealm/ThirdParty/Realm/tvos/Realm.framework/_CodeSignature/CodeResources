@@ -6,43 +6,39 @@
 	<dict>
 		<key>CHANGELOG.md</key>
 		<data>
-		ITzch5xw9HT+qCF2kFm9jnfI9/0=
+		zXC9GoOO62m8A+ssRMrRvtHTUns=
 		</data>
 		<key>Headers/RLMArray.h</key>
 		<data>
-		cWNUcfhY6hCPSbG1XTBUk6upsvM=
+		uwABGQIIbPvwv/3dfkts/aFv2nA=
 		</data>
 		<key>Headers/RLMCollection.h</key>
 		<data>
-		NaMCSK+nyb1Pqcg3yQKxbaqY8Us=
+		ozoR1ZfHpG16FxZL3gz++OfTeHU=
 		</data>
 		<key>Headers/RLMConstants.h</key>
 		<data>
-		JziISMzAF+7cdG5K+Uhudb4IsTA=
-		</data>
-		<key>Headers/RLMDefines.h</key>
-		<data>
-		yh8n2Di0gnu6CRX5+5Cm/7ND2wE=
+		QK9xySIIs2KxGuTxkpCogRdsKhY=
 		</data>
 		<key>Headers/RLMMigration.h</key>
 		<data>
-		A4sSaGlSDsQXHcZdUzapdp/hau0=
+		Upb1uBnk2c4csjTBDOIRjSWpYLQ=
 		</data>
 		<key>Headers/RLMObject.h</key>
 		<data>
-		fscotHX2wNSSis/Q/u6wXc44x98=
+		uIQgjz/saNIgPSD3R/QNZKUD9V0=
 		</data>
 		<key>Headers/RLMObjectBase.h</key>
 		<data>
-		fXWWphrRK0lge69TTsBoTRfLIfM=
+		lhIb6uDuGS7gsnhY9IoK6ftFltg=
 		</data>
 		<key>Headers/RLMObjectBase_Dynamic.h</key>
 		<data>
-		FBN57naxDdaazOlw9Nr0xzFqNSs=
+		EKX4Y+cTXDntdc6qKgXRDIohdKU=
 		</data>
 		<key>Headers/RLMObjectSchema.h</key>
 		<data>
-		M+w0HEHJ6KK7GXfRJ7y9bXkNeEo=
+		0iwhBX+w2w6vwRBMUahgjrxAZFI=
 		</data>
 		<key>Headers/RLMPlatform.h</key>
 		<data>
@@ -50,27 +46,27 @@
 		</data>
 		<key>Headers/RLMProperty.h</key>
 		<data>
-		0eitI2tVWsqzamYEBn7BgMXX2Ok=
+		Q5kC+ImHWb0wivlJRCKZJgUjoCM=
 		</data>
 		<key>Headers/RLMRealm.h</key>
 		<data>
-		yI37+etIOP1lbiMx47ZNHZitOQQ=
+		KqZak3xZBb/MPQHRfVGTuArveUA=
 		</data>
 		<key>Headers/RLMRealmConfiguration.h</key>
 		<data>
-		yZ+GwRhf3S99mmMZ4Rwuhv2jBXY=
+		rPkXhlFegfCF900atoUpY/QeIfg=
 		</data>
 		<key>Headers/RLMRealm_Dynamic.h</key>
 		<data>
-		hFGhGxu2S3Y6dPqCpZy3SO7W7nA=
+		rMbMdfL8OWCW7vxQrkCbtBG+Ozs=
 		</data>
 		<key>Headers/RLMResults.h</key>
 		<data>
-		wAjPg6EEAPutMjaL9KdXM4D7X6k=
+		MvCXTOwVhI2F+wQJ2A/53DarbUU=
 		</data>
 		<key>Headers/RLMSchema.h</key>
 		<data>
-		ucTfsMHStZKxGPQonKt1ObQhKdw=
+		ghUo85HBJowbt1LZJ7pmBiLGx1k=
 		</data>
 		<key>Headers/Realm.h</key>
 		<data>
@@ -78,7 +74,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		hYW/s2OtTH31rtByEtHk3nAHSOo=
+		LyfZKD4Ap94vlh8sTgQWet5yXPE=
 		</data>
 		<key>LICENSE</key>
 		<data>
@@ -90,7 +86,7 @@
 		</data>
 		<key>PrivateHeaders/RLMAccessor.h</key>
 		<data>
-		goWWAaGV8ebKEnQuc+Cv+2A7GCU=
+		75hNrcmdWiEHAJXTcruJ9TlGOVI=
 		</data>
 		<key>PrivateHeaders/RLMArray_Private.h</key>
 		<data>
@@ -106,15 +102,15 @@
 		</data>
 		<key>PrivateHeaders/RLMObjectSchema_Private.h</key>
 		<data>
-		eRu3sG//nx+XMcgyaQBRYv+wZUU=
+		c6R1BiELwwEgdJ8pe8UuNAhk/XI=
 		</data>
 		<key>PrivateHeaders/RLMObjectStore.h</key>
 		<data>
-		C3sQjl4EiGEA6EsB/O+qlF391Vo=
+		/tYQf2k1yE8Bi8dxwuOgRDhgoR0=
 		</data>
 		<key>PrivateHeaders/RLMObject_Private.h</key>
 		<data>
-		gohElc8a9YwnkPlPojtt7dO9tq4=
+		TokoS6rvywXqITu+5GWLir33J6c=
 		</data>
 		<key>PrivateHeaders/RLMOptionalBase.h</key>
 		<data>
@@ -122,7 +118,7 @@
 		</data>
 		<key>PrivateHeaders/RLMProperty_Private.h</key>
 		<data>
-		hxLiKqn6eqddwZL6shdLWkdXgdw=
+		kgOpMUFl2M0ioxpsqh5KVX3sOxk=
 		</data>
 		<key>PrivateHeaders/RLMRealmConfiguration_Private.h</key>
 		<data>
@@ -134,15 +130,15 @@
 		</data>
 		<key>PrivateHeaders/RLMRealm_Private.h</key>
 		<data>
-		vEqy9gRmkUt8ZsS8RaU1f9+p0dg=
+		p8u1tYHz6lGPQfY4vORH/ClsO+I=
 		</data>
 		<key>PrivateHeaders/RLMResults_Private.h</key>
 		<data>
-		CXr8fqruIV+V8/QWCmANg/Y+Ba0=
+		/T/8CchGRukZ21gRP7QjzywWp70=
 		</data>
 		<key>PrivateHeaders/RLMSchema_Private.h</key>
 		<data>
-		8QMc6dI6R/oJj7n/pGF0BWj/quk=
+		PUz9hg9z0udLAE9gsCUXOU3MZFU=
 		</data>
 		<key>strip-frameworks.sh</key>
 		<data>
@@ -155,110 +151,99 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ITzch5xw9HT+qCF2kFm9jnfI9/0=
+			zXC9GoOO62m8A+ssRMrRvtHTUns=
 			</data>
 			<key>hash2</key>
 			<data>
-			Dl3shQKgMH93SV5ZcmDpg6QKt50fqdzPLHLsDr1u5f8=
+			sA+2QW+v0gBZHyIKcPTqttWQnwOH1NaA5/ui5QYCs8Q=
 			</data>
 		</dict>
 		<key>Headers/RLMArray.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			cWNUcfhY6hCPSbG1XTBUk6upsvM=
+			uwABGQIIbPvwv/3dfkts/aFv2nA=
 			</data>
 			<key>hash2</key>
 			<data>
-			NPCMiYy+8VyuTLPF2eliCpJohVd7bKKJ9CQITmiVtbM=
+			dOw2Q9kZvd3SPTjVcfv9rbhmhik2gDnBhaDxncIaZ08=
 			</data>
 		</dict>
 		<key>Headers/RLMCollection.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			NaMCSK+nyb1Pqcg3yQKxbaqY8Us=
+			ozoR1ZfHpG16FxZL3gz++OfTeHU=
 			</data>
 			<key>hash2</key>
 			<data>
-			8tNoEvzzPHGIb/+jSgqe6VLfUZW34S7uouVkkI6w78w=
+			qTnBB+55s0G2piioJoasY7C+RAWFF83HWSUDKDcjzZg=
 			</data>
 		</dict>
 		<key>Headers/RLMConstants.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			JziISMzAF+7cdG5K+Uhudb4IsTA=
+			QK9xySIIs2KxGuTxkpCogRdsKhY=
 			</data>
 			<key>hash2</key>
 			<data>
-			0SaFwr/R2i17PrD++e9y5R+pwhwUCFqwNN9c0+yMNBo=
-			</data>
-		</dict>
-		<key>Headers/RLMDefines.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			yh8n2Di0gnu6CRX5+5Cm/7ND2wE=
-			</data>
-			<key>hash2</key>
-			<data>
-			KWeS0gTrzoi4Rn9JiQFReIAiX+SHaxgR8aJO2mdiHCg=
+			Sgk7E7UCLNchE27yTitoLM00k20rKG7kqK+7YZEyZGE=
 			</data>
 		</dict>
 		<key>Headers/RLMMigration.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			A4sSaGlSDsQXHcZdUzapdp/hau0=
+			Upb1uBnk2c4csjTBDOIRjSWpYLQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			N402NYDZzB+AJ9Xo3gTxGZTgAN8hAuMxfsLY9iFthjc=
+			m9robDLV4T2f19KSCHt0dFDjIAuTVH2QhHlNH3G/1Bc=
 			</data>
 		</dict>
 		<key>Headers/RLMObject.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			fscotHX2wNSSis/Q/u6wXc44x98=
+			uIQgjz/saNIgPSD3R/QNZKUD9V0=
 			</data>
 			<key>hash2</key>
 			<data>
-			yQ+TzXopwSeIkz4+4QJQ+l5vdH7LGi9XI+1g/7d31lg=
+			M+8p0tpL4SVtbJ24NoYSGKm5ZxTrjcf6WPBDne1yk74=
 			</data>
 		</dict>
 		<key>Headers/RLMObjectBase.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			fXWWphrRK0lge69TTsBoTRfLIfM=
+			lhIb6uDuGS7gsnhY9IoK6ftFltg=
 			</data>
 			<key>hash2</key>
 			<data>
-			u+XcMcac6LckajZoSnqOFuDeqMd77Dd3FamI2Cdbqf0=
+			G53eLjzOTE5I5tKDtQ1kFFEQ94YSP2moqi3D5oggFxY=
 			</data>
 		</dict>
 		<key>Headers/RLMObjectBase_Dynamic.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			FBN57naxDdaazOlw9Nr0xzFqNSs=
+			EKX4Y+cTXDntdc6qKgXRDIohdKU=
 			</data>
 			<key>hash2</key>
 			<data>
-			XHXpLc3BadSu6SKt001q9UvOBVifKpJ4YTq3OYCEG6M=
+			QvvKJDMKD1uadgpJLU5+/NXMgKBtVRMMqPafTPLozAU=
 			</data>
 		</dict>
 		<key>Headers/RLMObjectSchema.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			M+w0HEHJ6KK7GXfRJ7y9bXkNeEo=
+			0iwhBX+w2w6vwRBMUahgjrxAZFI=
 			</data>
 			<key>hash2</key>
 			<data>
-			MZK1zmDSyoWNDy1bXgoEFHHRnmoXz8kKcZPBrXrgLWU=
+			M8EJbk0IRQSEQrOUrAB1Z/XsyScr9K5TiSAMLfDMilA=
 			</data>
 		</dict>
 		<key>Headers/RLMPlatform.h</key>
@@ -276,66 +261,66 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			0eitI2tVWsqzamYEBn7BgMXX2Ok=
+			Q5kC+ImHWb0wivlJRCKZJgUjoCM=
 			</data>
 			<key>hash2</key>
 			<data>
-			hfIl8X3PIQEWzsFmZFkxNbZDKZl1sjxMgLNWwq9DwvM=
+			fplGcdxM7I77FakJcPnLOgmJU/s9W875Lbuu7ecLrC4=
 			</data>
 		</dict>
 		<key>Headers/RLMRealm.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			yI37+etIOP1lbiMx47ZNHZitOQQ=
+			KqZak3xZBb/MPQHRfVGTuArveUA=
 			</data>
 			<key>hash2</key>
 			<data>
-			3cFVEget/p71Svz8XWQARerUmpIC6xOsrPQBNPc8AbQ=
+			Xt4YAhTjQvn/V+WsV2bpOsiokRsisShOrDv/hotDG9k=
 			</data>
 		</dict>
 		<key>Headers/RLMRealmConfiguration.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			yZ+GwRhf3S99mmMZ4Rwuhv2jBXY=
+			rPkXhlFegfCF900atoUpY/QeIfg=
 			</data>
 			<key>hash2</key>
 			<data>
-			TmLhEJn1TA8k94jB3bwkeYBQw9QC4lUp1CMsx6tegU8=
+			mu2kyrENIdjoWL5v8hr4Au13R92aDKdeQNBqI/J47qo=
 			</data>
 		</dict>
 		<key>Headers/RLMRealm_Dynamic.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			hFGhGxu2S3Y6dPqCpZy3SO7W7nA=
+			rMbMdfL8OWCW7vxQrkCbtBG+Ozs=
 			</data>
 			<key>hash2</key>
 			<data>
-			xCltXy6L2lSnK3BVv8C+uLZ5Q9EF+7yr0FFy48pmnfs=
+			tTq+8WI+g7185DSOdUJ5rVcOW6C2K9cpX8WNRG5yHf8=
 			</data>
 		</dict>
 		<key>Headers/RLMResults.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			wAjPg6EEAPutMjaL9KdXM4D7X6k=
+			MvCXTOwVhI2F+wQJ2A/53DarbUU=
 			</data>
 			<key>hash2</key>
 			<data>
-			Q4bNBfVjk7AQL3a630+QuIDXhqr4Sf6sqZJTyQ9Z0y0=
+			Z9YbHvGGV4sIbeUSTLNP1QkZM8sos5HHtheGtnqERCE=
 			</data>
 		</dict>
 		<key>Headers/RLMSchema.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			ucTfsMHStZKxGPQonKt1ObQhKdw=
+			ghUo85HBJowbt1LZJ7pmBiLGx1k=
 			</data>
 			<key>hash2</key>
 			<data>
-			V+XRXp6JbdtCQqQNO393QNEZI80qAFgwBcAZN7Y9l7U=
+			VrvqQXzLjvCaXTZRKL+YELB98ZabH3rGyt+Kqio3oUM=
 			</data>
 		</dict>
 		<key>Headers/Realm.h</key>
@@ -375,11 +360,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			goWWAaGV8ebKEnQuc+Cv+2A7GCU=
+			75hNrcmdWiEHAJXTcruJ9TlGOVI=
 			</data>
 			<key>hash2</key>
 			<data>
-			FyZ0YfraHHpDMuPM5pWId+1rFXpqqYgkZjkfahbcgPs=
+			FENhe+olPtwfnYg1YkmfZfOVKkBIyS2yKBfDOXg0Itg=
 			</data>
 		</dict>
 		<key>PrivateHeaders/RLMArray_Private.h</key>
@@ -419,33 +404,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			eRu3sG//nx+XMcgyaQBRYv+wZUU=
+			c6R1BiELwwEgdJ8pe8UuNAhk/XI=
 			</data>
 			<key>hash2</key>
 			<data>
-			KN6y3Re4ftRn3QyEnyiBiC57HEHz5qd1dRzoWTzWBkQ=
+			tGVoXPQmFp24J39Vqn2/XwrwkU9D4/KapRF+0eAwam0=
 			</data>
 		</dict>
 		<key>PrivateHeaders/RLMObjectStore.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			C3sQjl4EiGEA6EsB/O+qlF391Vo=
+			/tYQf2k1yE8Bi8dxwuOgRDhgoR0=
 			</data>
 			<key>hash2</key>
 			<data>
-			E2refwsuaOInx7jJ+mdUNG1u7wDHh9KNNvNlx8HqE6A=
+			D2cYE1f5ex/+54mNSyIZFkPpQCkZQ9W9u9kkWIluvF0=
 			</data>
 		</dict>
 		<key>PrivateHeaders/RLMObject_Private.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			gohElc8a9YwnkPlPojtt7dO9tq4=
+			TokoS6rvywXqITu+5GWLir33J6c=
 			</data>
 			<key>hash2</key>
 			<data>
-			aXYcPafNTJLRjV8+oEkiIciFbqptKdylspnyG19qyUw=
+			CNs0Mgr/l1BkY0Myx6W09l0Twcf7gxDqsMSLQOWbWxo=
 			</data>
 		</dict>
 		<key>PrivateHeaders/RLMOptionalBase.h</key>
@@ -463,11 +448,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			hxLiKqn6eqddwZL6shdLWkdXgdw=
+			kgOpMUFl2M0ioxpsqh5KVX3sOxk=
 			</data>
 			<key>hash2</key>
 			<data>
-			lwDPWTohtncfKFzjuBru1fukOMa1N190XINZHaKiYf8=
+			fobcX/nLVMFvokSD0v6LPmuTKSXVe6O+Nb86nCPUpmg=
 			</data>
 		</dict>
 		<key>PrivateHeaders/RLMRealmConfiguration_Private.h</key>
@@ -496,33 +481,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			vEqy9gRmkUt8ZsS8RaU1f9+p0dg=
+			p8u1tYHz6lGPQfY4vORH/ClsO+I=
 			</data>
 			<key>hash2</key>
 			<data>
-			fPHz2iYLQiN3Sp1sLtDlBYBFiLWlZi+H80V2dxtG+cI=
+			lXJMh1rSzAGgys3mAf2Lf2MUWj9oh+oVscoRwLIHzwk=
 			</data>
 		</dict>
 		<key>PrivateHeaders/RLMResults_Private.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			CXr8fqruIV+V8/QWCmANg/Y+Ba0=
+			/T/8CchGRukZ21gRP7QjzywWp70=
 			</data>
 			<key>hash2</key>
 			<data>
-			VaUgmA6FEe0wlVDDy/G5yAtdHbITgFa/s8oyhrQsmKU=
+			DDRgHRjS5W50GveVmkY9KPLhtCshm9TzsZniOFyFxAM=
 			</data>
 		</dict>
 		<key>PrivateHeaders/RLMSchema_Private.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			8QMc6dI6R/oJj7n/pGF0BWj/quk=
+			PUz9hg9z0udLAE9gsCUXOU3MZFU=
 			</data>
 			<key>hash2</key>
 			<data>
-			594l8OsLJAV9We6eKjpyF5CdM1+IYfoY5ipzo+JYf4Q=
+			CzlUAhWs3QGgha3m2M6C1ZMX8PZAdymGMO0x94kNVVc=
 			</data>
 		</dict>
 		<key>strip-frameworks.sh</key>
