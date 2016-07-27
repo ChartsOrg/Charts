@@ -109,6 +109,7 @@
     {
         set1 = (BarChartDataSet *)_chartView.data.dataSets[0];
         set1.yVals = yVals;
+        _chartView.data.xValsObjc = xVals;
         [_chartView notifyDataSetChanged];
     }
     else
@@ -124,6 +125,8 @@
         
         _chartView.data = data;
     }
+    
+    [_chartView setNeedsDisplay];
 }
 
 - (void)optionTapped:(NSString *)key

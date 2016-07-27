@@ -122,6 +122,7 @@
     {
         set = (BarChartDataSet *)_chartView.data.dataSets[0];
         set.yVals = entries;
+        _chartView.data.xValsObjc = xVals;
         [_chartView notifyDataSetChanged];
     }
     else

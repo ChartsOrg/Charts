@@ -137,7 +137,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
                 let last = interval == 0.0 ? 0.0 : ChartUtils.nextUp(floor(Double(yMax) / interval) * interval)
                 
                 var n = 0
-                if interval != 0.0
+                if interval != 0.0 && last != first
                 {
                     for _ in first.stride(through: last, by: interval)
                     {
@@ -452,7 +452,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             let label = l.label
             
             // if drawing the limit-value label is enabled
-            if (label.characters.count > 0)
+            if (l.drawLabelEnabled && label.characters.count > 0)
             {
                 let labelLineHeight = l.valueFont.lineHeight
                 

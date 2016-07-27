@@ -50,13 +50,19 @@ public class BalloonMarker: ChartMarker
             return
         }
         
-        var rect = CGRect(origin: point, size: _size)
+        let offset = self.offsetForDrawingAtPos(point)
+        
+        var rect = CGRect(
+            origin: CGPoint(
+                x: point.x + offset.x,
+                y: point.y + offset.y),
+            size: _size)
         rect.origin.x -= _size.width / 2.0
         rect.origin.y -= _size.height
         
         CGContextSaveGState(context)
         
-        CGContextSetFillColorWithColor(context, color?.CGColor)
+        CGContextSetFillColorWithColor(context, (color?.CGColor)!)
         CGContextBeginPath(context)
         CGContextMoveToPoint(context,
             rect.origin.x,

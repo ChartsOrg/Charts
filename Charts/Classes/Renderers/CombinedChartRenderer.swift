@@ -121,11 +121,38 @@ public class CombinedChartRenderer: ChartDataRendererBase
     {
         for renderer in _renderers
         {
-            renderer.drawHighlighted(context: context, indices: indices)
+            var data: ChartData?
+            
+            if renderer is BarChartRenderer
+            {
+                data = (renderer as! BarChartRenderer).dataProvider?.barData
+            }
+            else if renderer is LineChartRenderer
+            {
+                data = (renderer as! LineChartRenderer).dataProvider?.lineData
+            }
+            else if renderer is CandleStickChartRenderer
+            {
+                data = (renderer as! CandleStickChartRenderer).dataProvider?.candleData
+            }
+            else if renderer is ScatterChartRenderer
+            {
+                data = (renderer as! ScatterChartRenderer).dataProvider?.scatterData
+            }
+            else if renderer is BubbleChartRenderer
+            {
+                data = (renderer as! BubbleChartRenderer).dataProvider?.bubbleData
+            }
+            
+            let dataIndex = data == nil ? nil : (chart?.data as? CombinedChartData)?.allData.indexOf(data!)
+            
+            let dataIndices = indices.filter{ $0.dataIndex == dataIndex || $0.dataIndex == -1 }
+            
+            renderer.drawHighlighted(context: context, indices: dataIndices)
         }
     }
     
-    public override func calcXBounds(chart chart: BarLineChartViewBase, xAxisModulus: Int)
+    public override func calcXBounds(chart chart: BarLineScatterCandleBubbleChartDataProvider, xAxisModulus: Int)
     {
         for renderer in _renderers
         {

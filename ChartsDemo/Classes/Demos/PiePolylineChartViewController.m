@@ -45,7 +45,7 @@
     _chartView.legend.enabled = NO;
     _chartView.delegate = self;
     
-    [_chartView setExtraOffsetsWithLeft:0.f top:50.f right:0.f bottom:50.f];
+    [_chartView setExtraOffsetsWithLeft:20.f top:0.f right:20.f bottom:0.f];
     
     _sliderX.value = 3.0;
     _sliderY.value = 100.0;
@@ -106,7 +106,7 @@
     dataSet.colors = colors;
     
     dataSet.valueLinePart1OffsetPercentage = 0.8;
-    dataSet.valueLinePart1Length = 0.3;
+    dataSet.valueLinePart1Length = 0.2;
     dataSet.valueLinePart2Length = 0.4;
     //dataSet.xValuePosition = PieChartValuePositionOutsideSlice;
     dataSet.yValuePosition = PieChartValuePositionOutsideSlice;

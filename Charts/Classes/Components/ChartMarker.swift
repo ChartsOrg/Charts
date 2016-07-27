@@ -15,7 +15,7 @@ import Foundation
 import CoreGraphics
 
 
-public class ChartMarker: ChartComponentBase
+public class ChartMarker: NSObject
 {
     /// The marker image to render
     public var image: NSUIImage?
@@ -43,7 +43,7 @@ public class ChartMarker: ChartComponentBase
     /// - By default returns the self.offset property. You can return any other value to override that.
     public func offsetForDrawingAtPos(point: CGPoint) -> CGPoint
     {
-        return offset;
+        return offset
     }
     
     /// Draws the ChartMarker on the given position on the given context
