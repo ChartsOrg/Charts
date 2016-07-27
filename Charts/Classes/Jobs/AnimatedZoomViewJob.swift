@@ -15,7 +15,7 @@ import CoreGraphics
 public class AnimatedZoomChartViewJob: AnimatedViewPortJob
 {
     internal var yAxis: ChartYAxis?
-    internal var xValCount: Int = 0
+    internal var xAxisRange: Double = 0.0
     internal var scaleX: CGFloat = 0.0
     internal var scaleY: CGFloat = 0.0
     internal var zoomOriginX: CGFloat = 0.0
@@ -28,7 +28,7 @@ public class AnimatedZoomChartViewJob: AnimatedViewPortJob
         transformer: ChartTransformer,
         view: ChartViewBase,
         yAxis: ChartYAxis,
-        xValCount: Int,
+        xAxisRange: Double,
         scaleX: CGFloat,
         scaleY: CGFloat,
         xOrigin: CGFloat,
@@ -41,7 +41,7 @@ public class AnimatedZoomChartViewJob: AnimatedViewPortJob
         easing: ChartEasingFunctionBlock?)
     {
         super.init(viewPortHandler: viewPortHandler,
-            xIndex: 0.0,
+            xValue: 0.0,
             yValue: 0.0,
             transformer: transformer,
             view: view,
@@ -51,7 +51,7 @@ public class AnimatedZoomChartViewJob: AnimatedViewPortJob
             easing: easing)
         
         self.yAxis = yAxis
-        self.xValCount = xValCount
+        self.xAxisRange = xAxisRange
         self.scaleX = scaleX
         self.scaleY = scaleY
         self.zoomCenterX = zoomCenterX
@@ -75,7 +75,7 @@ public class AnimatedZoomChartViewJob: AnimatedViewPortJob
         viewPortHandler.refresh(newMatrix: matrix, chart: view, invalidate: false)
         
         let valsInView = CGFloat(yAxis?.axisRange ?? 0.0) / viewPortHandler.scaleY
-        let xsInView = CGFloat(xValCount) / viewPortHandler.scaleX
+        let xsInView = CGFloat(xAxisRange) / viewPortHandler.scaleX
         
         var pt = CGPoint(
             x: zoomOriginX + ((zoomCenterX - xsInView / 2.0) - zoomOriginX) * phase,

@@ -35,10 +35,10 @@ public class ChartAnimator: NSObject
     public var stopBlock: (() -> Void)?
     
     /// the phase that is animated and influences the drawn values on the x-axis
-    public var phaseX: CGFloat = 1.0
+    public var phaseX: Double = 1.0
     
     /// the phase that is animated and influences the drawn values on the y-axis
-    public var phaseY: CGFloat = 1.0
+    public var phaseY: Double = 1.0
     
     private var _startTimeX: NSTimeInterval = 0.0
     private var _startTimeY: NSTimeInterval = 0.0
@@ -122,7 +122,7 @@ public class ChartAnimator: NSObject
             }
             else
             {
-                phaseX = CGFloat(elapsed / duration)
+                phaseX = Double(elapsed / duration)
             }
         }
         if (_enabledY)
@@ -141,7 +141,7 @@ public class ChartAnimator: NSObject
             }
             else
             {
-                phaseY = CGFloat(elapsed / duration)
+                phaseY = Double(elapsed / duration)
             }
         }
     }

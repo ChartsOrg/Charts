@@ -24,14 +24,6 @@ public class CandleStickChartView: BarLineChartViewBase, CandleChartDataProvider
         renderer = CandleStickChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
         _xAxis._axisMinimum = -0.5
     }
-
-    internal override func calcMinMax()
-    {
-        super.calcMinMax()
-
-        _xAxis._axisMaximum += 0.5
-        _xAxis.axisRange = abs(_xAxis._axisMaximum - _xAxis._axisMinimum)
-    }
     
     // MARK: - CandleChartDataProvider
     

@@ -13,6 +13,7 @@
 
 #import "MultipleBarChartViewController.h"
 #import "ChartsDemo-Swift.h"
+#import "IntAxisValueFormatter.h"
 
 @interface MultipleBarChartViewController () <ChartViewDelegate>
 
@@ -35,7 +36,6 @@
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
-                     @{@"key": @"toggleHighlightArrow", @"label": @"Toggle Highlight Arrow"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
                      @{@"key": @"animateXY", @"label": @"Animate XY"},
@@ -65,11 +65,16 @@
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
+    xAxis.granularity = 1.f;
+    xAxis.centerAxisLabelsEnabled = YES;
+    xAxis.valueFormatter = [[IntAxisValueFormatter alloc] init];
+    
+    NSNumberFormatter *leftAxisFormatter = [[NSNumberFormatter alloc] init];
+    leftAxisFormatter.maximumFractionDigits = 1;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
-    leftAxis.valueFormatter = [[NSNumberFormatter alloc] init];
-    leftAxis.valueFormatter.maximumFractionDigits = 1;
+    leftAxis.valueFormatter = [[ChartDefaultAxisValueFormatter alloc] initWithFormatter:leftAxisFormatter];
     leftAxis.drawGridLinesEnabled = NO;
     leftAxis.spaceTop = 0.25;
     
@@ -99,29 +104,30 @@
 
 - (void)setDataCount:(int)count range:(double)range
 {
-    NSMutableArray *xVals = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < count; i++)
-    {
-        [xVals addObject:[@(i + 1990) stringValue]];
-    }
-    
+    float groupSpace = 0.04f;
+    float barSpace = 0.02f;
+    float barWidth = 0.3f;
+    // (0.3 + 0.02) * 3 + 0.04 = 1.00
+
     NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
     NSMutableArray *yVals2 = [[NSMutableArray alloc] init];
     NSMutableArray *yVals3 = [[NSMutableArray alloc] init];
     
     double mult = range * 1000.f;
     
-    for (int i = 0; i < count; i++)
+    int startYear = 1980;
+    int endYear = startYear + _sliderX.value;
+
+    for (int i = startYear; i < endYear; i++)
     {
         double val = (double) (arc4random_uniform(mult) + 3.0);
-        [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
+        [yVals1 addObject:[[BarChartDataEntry alloc] initWithX:i y:val]];
         
         val = (double) (arc4random_uniform(mult) + 3.0);
-        [yVals2 addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
+        [yVals2 addObject:[[BarChartDataEntry alloc] initWithX:i y:val]];
         
         val = (double) (arc4random_uniform(mult) + 3.0);
-        [yVals3 addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
+        [yVals3 addObject:[[BarChartDataEntry alloc] initWithX:i y:val]];
     }
     
     BarChartDataSet *set1 = nil, *set2 = nil, *set3 = nil;
@@ -130,21 +136,26 @@
         set1 = (BarChartDataSet *)_chartView.data.dataSets[0];
         set2 = (BarChartDataSet *)_chartView.data.dataSets[1];
         set3 = (BarChartDataSet *)_chartView.data.dataSets[2];
-        set1.yVals = yVals1;
-        set2.yVals = yVals2;
-        set3.yVals = yVals3;
-        _chartView.data.xValsObjc = xVals;
+        set1.values = yVals1;
+        set2.values = yVals2;
+        set3.values = yVals3;
+        
+        _chartView.barData.barWidth = barWidth;
+        _chartView.xAxis.axisMinValue = startYear;
+        _chartView.xAxis.axisMaxValue = [_chartView.barData groupWidthWithGroupSpace:groupSpace barSpace: barSpace] * _sliderX.value + startYear;
+        [_chartView groupBarsFromX: startYear groupSpace: groupSpace barSpace: barSpace];
+        
         [_chartView notifyDataSetChanged];
     }
     else
     {
-        set1 = [[BarChartDataSet alloc] initWithYVals:yVals1 label:@"Company A"];
+        set1 = [[BarChartDataSet alloc] initWithValues:yVals1 label:@"Company A"];
         [set1 setColor:[UIColor colorWithRed:104/255.f green:241/255.f blue:175/255.f alpha:1.f]];
         
-        set2 = [[BarChartDataSet alloc] initWithYVals:yVals2 label:@"Company B"];
+        set2 = [[BarChartDataSet alloc] initWithValues:yVals2 label:@"Company B"];
         [set2 setColor:[UIColor colorWithRed:164/255.f green:228/255.f blue:251/255.f alpha:1.f]];
         
-        set3 = [[BarChartDataSet alloc] initWithYVals:yVals3 label:@"Company C"];
+        set3 = [[BarChartDataSet alloc] initWithValues:yVals3 label:@"Company C"];
         [set3 setColor:[UIColor colorWithRed:242/255.f green:247/255.f blue:158/255.f alpha:1.f]];
         
         NSMutableArray *dataSets = [[NSMutableArray alloc] init];
@@ -152,9 +163,12 @@
         [dataSets addObject:set2];
         [dataSets addObject:set3];
         
-        BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSets:dataSets];
-        data.groupSpace = 0.8;
+        BarChartData *data = [[BarChartData alloc] initWithDataSets:dataSets];
         [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
+        
+        [_chartView.barData groupBarsFromX:0.0 groupSpace: groupSpace barSpace: barSpace];
+        _chartView.xAxis.axisMinValue = 0.0;
+        _chartView.xAxis.axisMaxValue = [_chartView.barData groupWidthWithGroupSpace:groupSpace barSpace: barSpace] * (double)count;
         
         _chartView.data = data;
     }
@@ -169,7 +183,10 @@
 
 - (IBAction)slidersValueChanged:(id)sender
 {
-    _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
+    int startYear = 1980;
+    int endYear = startYear + _sliderX.value;
+
+    _sliderTextX.text = [NSString stringWithFormat:@"%d-%d", startYear, endYear];
     _sliderTextY.text = [@((int)_sliderY.value) stringValue];
     
     [self updateChartData];

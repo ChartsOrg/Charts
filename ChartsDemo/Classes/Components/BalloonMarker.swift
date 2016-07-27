@@ -104,7 +104,7 @@ public class BalloonMarker: ChartMarker
     
     public override func refreshContent(entry entry: ChartDataEntry, highlight: ChartHighlight)
     {
-        let label = entry.value.description
+        let label = entry.y.description
         labelns = label as NSString
         
         _drawAttributes.removeAll()

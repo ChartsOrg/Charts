@@ -43,10 +43,10 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     /// Use this method to tell the data set that the underlying data has changed
     public func notifyDataSetChanged()
     {
-        calcMinMax(start: 0, end: entryCount - 1)
+        calcMinMax()
     }
     
-    public func calcMinMax(start start: Int, end: Int)
+    public func calcMinMax()
     {
         fatalError("calcMinMax is not implemented in ChartBaseDataSet")
     }
@@ -61,19 +61,29 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         fatalError("yMax is not implemented in ChartBaseDataSet")
     }
     
+    public var xMin: Double
+    {
+        fatalError("xMin is not implemented in ChartBaseDataSet")
+    }
+    
+    public var xMax: Double
+    {
+        fatalError("xMax is not implemented in ChartBaseDataSet")
+    }
+    
     public var entryCount: Int
     {
         fatalError("entryCount is not implemented in ChartBaseDataSet")
     }
     
-    public func yValForXIndex(x: Int) -> Double
+    public func yValueForXValue(x: Double) -> Double
     {
-        fatalError("yValForXIndex is not implemented in ChartBaseDataSet")
+        fatalError("yValueForXValue is not implemented in ChartBaseDataSet")
     }
     
-    public func yValsForXIndex(x: Int) -> [Double]
+    public func yValuesForXValue(x: Double) -> [Double]
     {
-        fatalError("yValsForXIndex is not implemented in ChartBaseDataSet")
+        fatalError("yValuesForXValue is not implemented in ChartBaseDataSet")
     }
     
     public func entryForIndex(i: Int) -> ChartDataEntry?
@@ -81,29 +91,29 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         fatalError("entryForIndex is not implemented in ChartBaseDataSet")
     }
     
-    public func entryForXIndex(x: Int, rounding: ChartDataSetRounding) -> ChartDataEntry?
+    public func entryForXPos(x: Double, rounding: ChartDataSetRounding) -> ChartDataEntry?
     {
-        fatalError("entryForXIndex is not implemented in ChartBaseDataSet")
+        fatalError("entryForXPos(x, rounding) is not implemented in ChartBaseDataSet")
     }
     
-    public func entryForXIndex(x: Int) -> ChartDataEntry?
+    public func entryForXPos(x: Double) -> ChartDataEntry?
     {
-        fatalError("entryForXIndex is not implemented in ChartBaseDataSet")
+        fatalError("entryForXPos(x) is not implemented in ChartBaseDataSet")
     }
     
-    public func entriesForXIndex(x: Int) -> [ChartDataEntry]
+    public func entriesForXPos(x: Double) -> [ChartDataEntry]
     {
-        fatalError("entriesForXIndex is not implemented in ChartBaseDataSet")
+        fatalError("entriesForXPos is not implemented in ChartBaseDataSet")
     }
     
-    public func entryIndex(xIndex x: Int, rounding: ChartDataSetRounding) -> Int
+    public func entryIndex(x x: Double, rounding: ChartDataSetRounding) -> Int
     {
-        fatalError("entryIndex is not implemented in ChartBaseDataSet")
+        fatalError("entryIndex(x, rounding) is not implemented in ChartBaseDataSet")
     }
     
     public func entryIndex(entry e: ChartDataEntry) -> Int
     {
-        fatalError("entryIndex is not implemented in ChartBaseDataSet")
+        fatalError("entryIndex(entry) is not implemented in ChartBaseDataSet")
     }
     
     public func addEntry(e: ChartDataEntry) -> Bool
@@ -121,9 +131,18 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         fatalError("removeEntry is not implemented in ChartBaseDataSet")
     }
     
-    public func removeEntry(xIndex xIndex: Int) -> Bool
+    public func removeEntry(index index: Int) -> Bool
     {
-        if let entry = entryForXIndex(xIndex)
+        if let entry = entryForIndex(index)
+        {
+            return removeEntry(entry)
+        }
+        return false
+    }
+    
+    public func removeEntry(x x: Double) -> Bool
+    {
+        if let entry = entryForXPos(x)
         {
             return removeEntry(entry)
         }
@@ -132,18 +151,24 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     
     public func removeFirst() -> Bool
     {
-        if let entry = entryForIndex(0)
+        if entryCount > 0
         {
-            return removeEntry(entry)
+            if let entry = entryForIndex(0)
+            {
+                return removeEntry(entry)
+            }
         }
         return false
     }
     
     public func removeLast() -> Bool
     {
-        if let entry = entryForIndex(entryCount - 1)
+        if entryCount > 0
         {
-            return removeEntry(entry)
+            if let entry = entryForIndex(entryCount - 1)
+            {
+                return removeEntry(entry)
+            }
         }
         return false
     }

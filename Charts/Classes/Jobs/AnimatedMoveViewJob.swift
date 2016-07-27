@@ -20,7 +20,7 @@ public class AnimatedMoveChartViewJob: AnimatedViewPortJob
 {
     public override init(
         viewPortHandler: ChartViewPortHandler,
-        xIndex: CGFloat,
+        xValue: Double,
         yValue: Double,
         transformer: ChartTransformer,
         view: ChartViewBase,
@@ -30,7 +30,7 @@ public class AnimatedMoveChartViewJob: AnimatedViewPortJob
         easing: ChartEasingFunctionBlock?)
     {
         super.init(viewPortHandler: viewPortHandler,
-            xIndex: xIndex,
+            xValue: xValue,
             yValue: yValue,
             transformer: transformer,
             view: view,
@@ -49,7 +49,7 @@ public class AnimatedMoveChartViewJob: AnimatedViewPortJob
             else { return }
         
         var pt = CGPoint(
-            x: xOrigin + (xIndex - xOrigin) * phase,
+            x: xOrigin + (CGFloat(xValue) - xOrigin) * phase,
             y: yOrigin + (CGFloat(yValue) - yOrigin) * phase
         );
         

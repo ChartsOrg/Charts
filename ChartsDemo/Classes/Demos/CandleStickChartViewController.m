@@ -50,13 +50,12 @@
     _chartView.descriptionText = @"";
     _chartView.noDataTextDescription = @"You need to provide data for the chart.";
     
-    _chartView.maxVisibleValueCount = 60;
+    _chartView.maxVisibleCount = 60;
     _chartView.pinchZoomEnabled = NO;
     _chartView.drawGridBackgroundEnabled = NO;
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBottom;
-    xAxis.spaceBetweenLabels = 2.0;
     xAxis.drawGridLinesEnabled = NO;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
@@ -93,13 +92,6 @@
 
 - (void)setDataCount:(int)count range:(double)range
 {
-    NSMutableArray *xVals = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < count; i++)
-    {
-        [xVals addObject:[@(i + 1990) stringValue]];
-    }
-    
     NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < count; i++)
@@ -111,10 +103,10 @@
         double open = (double) (arc4random_uniform(6)) + 1.0;
         double close = (double) (arc4random_uniform(6)) + 1.0;
         BOOL even = i % 2 == 0;
-        [yVals1 addObject:[[CandleChartDataEntry alloc] initWithXIndex:i shadowH:val + high shadowL:val - low open:even ? val + open : val - open close:even ? val - close : val + close]];
+        [yVals1 addObject:[[CandleChartDataEntry alloc] initWithX:i shadowH:val + high shadowL:val - low open:even ? val + open : val - open close:even ? val - close : val + close]];
     }
         
-    CandleChartDataSet *set1 = [[CandleChartDataSet alloc] initWithYVals:yVals1 label:@"Data Set"];
+    CandleChartDataSet *set1 = [[CandleChartDataSet alloc] initWithValues:yVals1 label:@"Data Set"];
     set1.axisDependency = AxisDependencyLeft;
     [set1 setColor:[UIColor colorWithWhite:80/255.f alpha:1.f]];
     
@@ -126,7 +118,7 @@
     set1.increasingFilled = NO;
     set1.neutralColor = UIColor.blueColor;
     
-    CandleChartData *data = [[CandleChartData alloc] initWithXVals:xVals dataSet:set1];
+    CandleChartData *data = [[CandleChartData alloc] initWithDataSet:set1];
     
     _chartView.data = data;
 }

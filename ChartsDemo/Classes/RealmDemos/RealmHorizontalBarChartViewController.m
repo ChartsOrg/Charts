@@ -30,12 +30,11 @@
     
     [self writeRandomStackedDataToDbWithObjectCount:50];
     
-    self.title = @"Realm.io Horizontal Bar Chart Chart";
+    self.title = @"Realm.io Horizontal Bar Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
-                     @{@"key": @"toggleHighlightArrow", @"label": @"Toggle Highlight Arrow"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
                      @{@"key": @"animateXY", @"label": @"Animate XY"},
@@ -67,8 +66,8 @@
     
     RLMResults *results = [RealmDemoData allObjectsInRealm:realm];
     
-    // RealmBarDataSet *set = [[RealmBarDataSet alloc] initWithResults:results yValueField:@"value" xIndexField:@"xIndex"];
-    RealmBarDataSet *set = [[RealmBarDataSet alloc] initWithResults:results yValueField:@"stackValues" xIndexField:@"xIndex" stackValueField:@"floatValue"]; // stacked entries
+    // RealmBarDataSet *set = [[RealmBarDataSet alloc] initWithResults:results yValueField:@@"yValue" xValueField:@"xIndex"];
+    RealmBarDataSet *set = [[RealmBarDataSet alloc] initWithResults:results xValueField:@"xValue" yValueField:@"stackValues" stackValueField:@"floatValue"]; // stacked entries
 
     set.colors = @[
                    [ChartColorTemplates colorFromString:@"#8BC34A"],
@@ -85,7 +84,7 @@
     
     NSArray<id <IChartDataSet>> *dataSets = @[set];
     
-    RealmBarData *data = [[RealmBarData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
+    BarChartData *data = [[BarChartData alloc] initWithDataSets:dataSets];
     [self styleData:data];
     data.valueTextColor = UIColor.whiteColor;
     

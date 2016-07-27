@@ -20,14 +20,14 @@ public class MoveChartViewJob: ChartViewPortJob
 {
     public override init(
         viewPortHandler: ChartViewPortHandler,
-        xIndex: CGFloat,
+        xValue: Double,
         yValue: Double,
         transformer: ChartTransformer,
         view: ChartViewBase)
     {
         super.init(
             viewPortHandler: viewPortHandler,
-            xIndex: xIndex,
+            xValue: xValue,
             yValue: yValue,
             transformer: transformer,
             view: view)
@@ -42,7 +42,7 @@ public class MoveChartViewJob: ChartViewPortJob
             else { return }
         
         var pt = CGPoint(
-            x: xIndex,
+            x: CGFloat(xValue),
             y: CGFloat(yValue)
         );
         

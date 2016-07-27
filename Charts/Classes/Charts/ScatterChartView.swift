@@ -22,21 +22,6 @@ public class ScatterChartView: BarLineChartViewBase, ScatterChartDataProvider
         super.initialize()
         
         renderer = ScatterChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
-        _xAxis._axisMinimum = -0.5
-    }
-
-    public override func calcMinMax()
-    {
-        super.calcMinMax()
-        guard let data = _data else { return }
-
-        if _xAxis.axisRange == 0.0 && data.yValCount > 0
-        {
-            _xAxis.axisRange = 1.0
-        }
-        
-        _xAxis._axisMaximum += 0.5
-        _xAxis.axisRange = abs(_xAxis._axisMaximum - _xAxis._axisMinimum)
     }
     
     // MARK: - ScatterChartDataProbider

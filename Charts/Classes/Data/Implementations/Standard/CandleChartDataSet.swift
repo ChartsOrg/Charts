@@ -23,14 +23,14 @@ public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChar
         super.init()
     }
     
-    public override init(yVals: [ChartDataEntry]?, label: String?)
+    public override init(values: [ChartDataEntry]?, label: String?)
     {
-        super.init(yVals: yVals, label: label)
+        super.init(values: values, label: label)
     }
     
     // MARK: - Data functions and accessors
     
-    public override func calcMinMax(start start: Int, end: Int)
+    public override func calcMinMax()
     {
         let yValCount = self.entryCount
         
@@ -39,29 +39,13 @@ public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChar
             return
         }
         
-        var entries = yVals as! [CandleChartDataEntry]
-        
-        var endValue : Int
-        
-        if end == 0 || end >= yValCount
-        {
-            endValue = yValCount - 1
-        }
-        else
-        {
-            endValue = end
-        }
-        
-        _lastStart = start
-        _lastEnd = end
-        
-        _yMin = DBL_MAX
         _yMax = -DBL_MAX
+        _yMin = DBL_MAX
+        _xMax = -DBL_MAX
+        _xMin = DBL_MAX
         
-        for i in start.stride(through: endValue, by: 1)
+        for e in _values as! [CandleChartDataEntry]
         {
-            let e = entries[i]
-            
             if (e.low < _yMin)
             {
                 _yMin = e.low
@@ -70,6 +54,16 @@ public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChar
             if (e.high > _yMax)
             {
                 _yMax = e.high
+            }
+            
+            if (e.x < _xMin)
+            {
+                _xMin = e.x
+            }
+            
+            if (e.x > _xMax)
+            {
+                _xMax = e.x
             }
         }
     }

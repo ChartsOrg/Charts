@@ -19,8 +19,6 @@ public protocol IBubbleChartDataSet: IBarLineScatterCandleBubbleChartDataSet
 {
     // MARK: - Data functions and accessors
     
-    var xMin: Double { get }
-    var xMax: Double { get }
     var maxSize: CGFloat { get }
     var isNormalizeSizeEnabled: Bool { get }
     

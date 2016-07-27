@@ -24,7 +24,7 @@ public class ChartLegendRenderer: ChartRendererBase
     /// the legend object this renderer renders
     public var legend: ChartLegend?
 
-    public init(viewPortHandler: ChartViewPortHandler, legend: ChartLegend?)
+    public init(viewPortHandler: ChartViewPortHandler?, legend: ChartLegend?)
     {
         super.init(viewPortHandler: viewPortHandler)
         
@@ -34,7 +34,10 @@ public class ChartLegendRenderer: ChartRendererBase
     /// Prepares the legend and calculates all needed forms, labels and colors.
     public func computeLegend(data: ChartData)
     {
-        guard let legend = legend else { return }
+        guard let
+            legend = legend,
+            viewPortHandler = self.viewPortHandler
+            else { return }
         
         if (!legend.isLegendCustom)
         {
@@ -70,12 +73,11 @@ public class ChartLegendRenderer: ChartRendererBase
                 }
                 else if (dataSet is IPieChartDataSet)
                 {
-                    var xVals = data.xVals
                     let pds = dataSet as! IPieChartDataSet
                     
-                    for j in 0..<min(clrs.count, entryCount, xVals.count)
+                    for j in 0..<min(clrs.count, entryCount)
                     {
-                        labels.append(xVals[j])
+                        labels.append((pds.entryForIndex(j) as? PieChartDataEntry)?.label)
                         colors.append(clrs[j])
                     }
                     
@@ -124,7 +126,10 @@ public class ChartLegendRenderer: ChartRendererBase
     
     public func renderLegend(context context: CGContext)
     {
-        guard let legend = legend else { return }
+        guard let
+            legend = legend,
+            viewPortHandler = self.viewPortHandler
+            else { return }
         
         if !legend.enabled
         {

@@ -24,17 +24,6 @@ public class LineChartView: BarLineChartViewBase, LineChartDataProvider
         renderer = LineChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
     }
     
-    internal override func calcMinMax()
-    {
-        super.calcMinMax()
-        guard let data = _data else { return }
-        
-        if _xAxis.axisRange == 0.0 && data.yValCount > 0
-        {
-            _xAxis.axisRange = 1.0
-        }
-    }
-    
     // MARK: - LineChartDataProvider
     
     public var lineData: LineChartData? { return _data as? LineChartData }

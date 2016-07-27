@@ -19,18 +19,55 @@ import CoreGraphics
 #endif
 
 
-public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
+public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRenderer
 {
-    public override init(viewPortHandler: ChartViewPortHandler, xAxis: ChartXAxis, transformer: ChartTransformer!, chart: BarChartView)
+    internal var chart: BarChartView?
+    
+    public init(viewPortHandler: ChartViewPortHandler?, xAxis: ChartXAxis?, transformer: ChartTransformer?, chart: BarChartView?)
     {
-        super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: transformer, chart: chart)
+        super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: transformer)
+        
+        self.chart = chart
     }
     
-    public override func computeAxis(xValAverageLength xValAverageLength: Double, xValues: [String?])
+    public override func computeAxis(min min: Double, max: Double, inverted: Bool)
     {
-        guard let xAxis = xAxis else { return }
+        guard let
+            viewPortHandler = self.viewPortHandler
+            else { return }
         
-        xAxis.values = xValues
+        var min = min, max = max
+        
+        if let transformer = self.transformer
+        {
+            // calculate the starting and entry point of the y-labels (depending on
+            // zoom / contentrect bounds)
+            if viewPortHandler.contentWidth > 10 && !viewPortHandler.isFullyZoomedOutX
+            {
+                let p1 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom))
+                let p2 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
+                
+                if inverted
+                {
+                    min = Double(p2.y)
+                    max = Double(p1.y)
+                }
+                else
+                {
+                    min = Double(p1.y)
+                    max = Double(p2.y)
+                }
+            }
+        }
+        
+        computeAxisValues(min: min, max: max);
+    }
+    
+    public override func computeSize()
+    {
+        guard let
+            xAxis = self.axis as? ChartXAxis
+            else { return }
        
         let longest = xAxis.getLongestLabel() as NSString
         
@@ -49,7 +86,10 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
 
     public override func renderAxisLabels(context context: CGContext)
     {
-        guard let xAxis = xAxis else { return }
+        guard let
+            xAxis = self.axis as? ChartXAxis,
+            viewPortHandler = self.viewPortHandler
+            else { return }
         
         if !xAxis.isEnabled || !xAxis.isDrawLabelsEnabled || chart?.data === nil
         {
@@ -85,52 +125,70 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
     public override func drawLabels(context context: CGContext, pos: CGFloat, anchor: CGPoint)
     {
         guard let
-            xAxis = xAxis,
-            bd = chart?.data as? BarChartData
+            xAxis = self.axis as? ChartXAxis,
+            transformer = self.transformer,
+            viewPortHandler = self.viewPortHandler
             else { return }
         
         let labelFont = xAxis.labelFont
         let labelTextColor = xAxis.labelTextColor
         let labelRotationAngleRadians = xAxis.labelRotationAngle * ChartUtils.Math.FDEG2RAD
         
+        let centeringEnabled = xAxis.isCenterAxisLabelsEnabled
+        
         // pre allocate to save performance (dont allocate in loop)
         var position = CGPoint(x: 0.0, y: 0.0)
         
-        let step = bd.dataSetCount
-        
-        for i in self.minX.stride(to: min(self.maxX + 1, xAxis.values.count), by: xAxis.axisLabelModulus)
+        for i in 0.stride(to: xAxis.entryCount, by: 1)
         {
-            let label = xAxis.values[i]
-            
-            if (label == nil)
-            {
-                continue
-            }
+            // only fill x values
             
             position.x = 0.0
-            position.y = CGFloat(i * step) + CGFloat(i) * bd.groupSpace + bd.groupSpace / 2.0
             
-            // consider groups (center label for each group)
-            if (step > 1)
+            if centeringEnabled
             {
-                position.y += (CGFloat(step) - 1.0) / 2.0
+                position.y = CGFloat(xAxis.centeredEntries[i])
+            }
+            else
+            {
+                position.y = CGFloat(xAxis.entries[i])
             }
             
             transformer.pointValueToPixel(&position)
             
-            if (viewPortHandler.isInBoundsY(position.y))
+            if viewPortHandler.isInBoundsY(position.y)
             {
-                drawLabel(context: context, label: label!, xIndex: i, x: pos, y: position.y, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor], anchor: anchor, angleRadians: labelRotationAngleRadians)
+                if let label = xAxis.valueFormatter?.stringForValue(xAxis.entries[i], axis: xAxis)
+                {
+                    drawLabel(
+                        context: context,
+                        formattedLabel: label,
+                        x: pos,
+                        y: position.y,
+                        attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor],
+                        anchor: anchor,
+                        angleRadians: labelRotationAngleRadians)
+                }
             }
         }
     }
     
-    public func drawLabel(context context: CGContext, label: String, xIndex: Int, x: CGFloat, y: CGFloat, attributes: [String: NSObject], anchor: CGPoint, angleRadians: CGFloat)
+    public func drawLabel(
+        context context: CGContext,
+                formattedLabel: String,
+                x: CGFloat,
+                y: CGFloat,
+                attributes: [String: NSObject],
+                anchor: CGPoint,
+                angleRadians: CGFloat)
     {
-        guard let xAxis = xAxis else { return }
-        
-        let formattedLabel = xAxis.valueFormatter?.stringForXValue(xIndex, original: label, viewPortHandler: viewPortHandler) ?? label
-        ChartUtils.drawText(context: context, text: formattedLabel, point: CGPoint(x: x, y: y), attributes: attributes, anchor: anchor, angleRadians: angleRadians)
+        ChartUtils.drawText(
+            context: context,
+            text: formattedLabel,
+            point: CGPoint(x: x, y: y),
+            attributes: attributes,
+            anchor: anchor,
+            angleRadians: angleRadians)
     }
     
     private var _gridLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
@@ -138,8 +196,9 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
     public override func renderGridLines(context context: CGContext)
     {
         guard let
-            xAxis = xAxis,
-            bd = chart?.data as? BarChartData
+            xAxis = self.axis as? ChartXAxis,
+            viewPortHandler = self.viewPortHandler,
+            transformer = self.transformer
             else { return }
         
         if !xAxis.isEnabled || !xAxis.isDrawGridLinesEnabled
@@ -163,19 +222,17 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
             CGContextSetLineDash(context, 0.0, nil, 0)
         }
         
+        // pre allocate to save performance (dont allocate in loop)
         var position = CGPoint(x: 0.0, y: 0.0)
         
-        // take into consideration that multiple DataSets increase _deltaX
-        let step = bd.dataSetCount
-        
-        for i in self.minX.stride(to: min(self.maxX + 1, xAxis.values.count), by: xAxis.axisLabelModulus)
+        for i in 0.stride(to: xAxis.entryCount, by: 1)
         {
             position.x = 0.0
-            position.y = CGFloat(i * step) + CGFloat(i) * bd.groupSpace - 0.5
+            position.y = CGFloat(xAxis.entries[i])
             
             transformer.pointValueToPixel(&position)
             
-            if (viewPortHandler.isInBoundsY(position.y))
+            if viewPortHandler.isInBoundsY(position.y)
             {
                 _gridLineSegmentsBuffer[0].x = viewPortHandler.contentLeft
                 _gridLineSegmentsBuffer[0].y = position.y
@@ -192,7 +249,10 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
     
     public override func renderAxisLine(context context: CGContext)
     {
-        guard let xAxis = xAxis else { return }
+        guard let
+            xAxis = self.axis as? ChartXAxis,
+            viewPortHandler = self.viewPortHandler
+            else { return }
         
         if (!xAxis.isEnabled || !xAxis.isDrawAxisLineEnabled)
         {
@@ -241,7 +301,11 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
     
     public override func renderLimitLines(context context: CGContext)
     {
-        guard let xAxis = xAxis else { return }
+        guard let
+            xAxis = self.axis as? ChartXAxis,
+            viewPortHandler = self.viewPortHandler,
+            transformer = self.transformer
+            else { return }
         
         var limitLines = xAxis.limitLines
         

@@ -23,7 +23,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
 {
     public weak var chart: RadarChartView?
 
-    public init(chart: RadarChartView, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
+    public init(chart: RadarChartView?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -38,15 +38,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         if (radarData != nil)
         {
-            var mostEntries = 0
-            
-            for set in radarData!.dataSets
-            {
-                if set.entryCount > mostEntries
-                {
-                    mostEntries = set.entryCount
-                }
-            }
+            let mostEntries = radarData?.maxEntryCountSet?.entryCount ?? 0
             
             for set in radarData!.dataSets as! [IRadarChartDataSet]
             {
@@ -91,8 +83,8 @@ public class RadarChartRenderer: LineRadarChartRenderer
             
             let p = ChartUtils.getPosition(
                 center: center,
-                dist: CGFloat(e.value - chart.chartYMin) * factor * phaseY,
-                angle: sliceangle * CGFloat(j) * phaseX + chart.rotationAngle)
+                dist: CGFloat((e.y - chart.chartYMin) * Double(factor) * phaseY),
+                angle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
             
             if p.x.isNaN
             {
@@ -184,8 +176,8 @@ public class RadarChartRenderer: LineRadarChartRenderer
                 
                 let p = ChartUtils.getPosition(
                     center: center,
-                    dist: CGFloat(e.value) * factor * phaseY,
-                    angle: sliceangle * CGFloat(j) * phaseX + chart.rotationAngle)
+                    dist: CGFloat(e.y) * factor * CGFloat(phaseY),
+                    angle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
                 
                 let valueFont = dataSet.valueFont
                 
@@ -193,7 +185,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
                 
                 ChartUtils.drawText(
                     context: context,
-                    text: formatter.stringFromNumber(e.value)!,
+                    text: formatter.stringFromNumber(e.y)!,
                     point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
                     align: .Center,
                     attributes: [NSFontAttributeName: valueFont,
@@ -234,8 +226,9 @@ public class RadarChartRenderer: LineRadarChartRenderer
         CGContextSetAlpha(context, chart.webAlpha)
         
         let xIncrements = 1 + chart.skipWebLineCount
-        
-        for i in 0.stride(to: data.xValCount, by: xIncrements)
+        let maxEntryCount = chart.data?.maxEntryCountSet?.entryCount ?? 0
+
+        for i in 0.stride(to: maxEntryCount, by: xIncrements)
         {
             let p = ChartUtils.getPosition(
                 center: center,
@@ -259,7 +252,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         for j in 0 ..< labelCount
         {
-            for i in 0 ..< data.xValCount
+            for i in 0 ..< data.entryCount
             {
                 let r = CGFloat(chart.yAxis.entries[j] - chart.chartYMin) * factor
 
@@ -319,16 +312,16 @@ public class RadarChartRenderer: LineRadarChartRenderer
             CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
             
             // get the index to highlight
-            let xIndex = indices[i].xIndex
+            let x = indices[i].x
             
-            let e = set.entryForXIndex(xIndex)
-            if e?.xIndex != xIndex
+            let e = set.entryForXPos(x)
+            if e?.x != x
             {
                 continue
             }
             
             let j = set.entryIndex(entry: e!)
-            let y = (e!.value - chart.chartYMin)
+            let y = (e!.y - chart.chartYMin)
             
             if (y.isNaN)
             {
@@ -337,8 +330,8 @@ public class RadarChartRenderer: LineRadarChartRenderer
             
             _highlightPointBuffer = ChartUtils.getPosition(
                 center: center,
-                dist: CGFloat(y) * factor * phaseY,
-                angle: sliceangle * CGFloat(j) * phaseX + chart.rotationAngle)
+                dist: CGFloat(y) * factor * CGFloat(phaseY),
+                angle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
             
             // draw the lines
             drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)

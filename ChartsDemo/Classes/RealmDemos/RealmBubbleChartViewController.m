@@ -30,7 +30,7 @@
     
     [self writeRandomBubbleDataToDbWithObjectCount:10];
     
-    self.title = @"Realm.io Bubble Chart Chart";
+    self.title = @"Realm.io Bubble Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
@@ -67,14 +67,14 @@
     
     RLMResults *results = [RealmDemoData allObjectsInRealm:realm];
     
-    RealmBubbleDataSet *set = [[RealmBubbleDataSet alloc] initWithResults:results yValueField:@"value" xIndexField:@"xIndex" sizeField:@"bubbleSize"];
+    RealmBubbleDataSet *set = [[RealmBubbleDataSet alloc] initWithResults:results xValueField:@"xValue" yValueField:@"yValue" sizeField:@"bubbleSize"];
     
     set.label = @"Realm BubbleDataSet";
     [set setColors:ChartColorTemplates.colorful alpha:0.43f];
     
     NSArray<id <IChartDataSet>> *dataSets = @[set];
     
-    RealmBubbleData *data = [[RealmBubbleData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
+    BubbleChartData *data = [[BubbleChartData alloc] initWithDataSets:dataSets];
     [self styleData:data];
     
     _chartView.data = data;

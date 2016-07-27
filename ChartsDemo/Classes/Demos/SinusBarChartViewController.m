@@ -33,7 +33,6 @@
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
-                     @{@"key": @"toggleHighlightArrow", @"label": @"Toggle Highlight Arrow"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
                      @{@"key": @"animateXY", @"label": @"Animate XY"},
@@ -50,7 +49,7 @@
     
     _chartView.drawBarShadowEnabled = NO;
     _chartView.drawValueAboveBarEnabled = YES;
-    _chartView.maxVisibleValueCount = 60;
+    _chartView.maxVisibleCount = 60;
     _chartView.pinchZoomEnabled = NO;
     _chartView.drawGridBackgroundEnabled = NO;
     
@@ -108,32 +107,30 @@
 
 - (void)setDataCount:(int)count
 {
-    NSMutableArray *xVals = [[NSMutableArray alloc] init];
     NSMutableArray *entries = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < count; i++)
     {
-        [xVals addObject:[@(i) stringValue]];
-        [entries addObject:[[BarChartDataEntry alloc] initWithValue:sinf(M_PI * (i % 128) / 64.0) xIndex:i]];
+        [entries addObject:[[BarChartDataEntry alloc] initWithX:(double)i y:sinf(M_PI * (i % 128) / 64.0)]];
     }
     
     BarChartDataSet *set = nil;
     if (_chartView.data.dataSetCount > 0)
     {
         set = (BarChartDataSet *)_chartView.data.dataSets[0];
-        set.yVals = entries;
-        _chartView.data.xValsObjc = xVals;
+        set.values = entries;
         [_chartView notifyDataSetChanged];
     }
     else
     {
-        set = [[BarChartDataSet alloc] initWithYVals:entries label:@"Sinus Function"];
-        set.barSpace = 0.4;
+        set = [[BarChartDataSet alloc] initWithValues:entries label:@"Sinus Function"];
         [set setColor:[UIColor colorWithRed:240/255.f green:120/255.f blue:124/255.f alpha:1.f]];
         
-        BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSet:set];
+        BarChartData *data = [[BarChartData alloc] initWithDataSet:set];
         [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
         [data setDrawValues:NO];
+        
+        data.barWidth = 0.8;
         
         _chartView.data = data;
     }

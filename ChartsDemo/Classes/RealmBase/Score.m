@@ -11,7 +11,7 @@
 @implementation Score
 
 - (id)initWithTotalScore:(float)totalScore
-                 scoreNr:(NSInteger)scoreNr
+                 scoreNr:(double)scoreNr
               playerName:(NSString *)playerName
 {
     self = [super init];

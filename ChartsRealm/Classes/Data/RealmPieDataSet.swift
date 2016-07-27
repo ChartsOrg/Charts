@@ -27,6 +27,34 @@ public class RealmPieDataSet: RealmBaseDataSet, IPieChartDataSet
         self.valueFont = NSUIFont.systemFontOfSize(13.0)
     }
     
+    public required init()
+    {
+        super.init()
+    }
+    
+    public init(results: RLMResults?, yValueField: String, labelField: String?)
+    {
+        _labelField = labelField
+        
+        super.init(results: results, xValueField: nil, yValueField: yValueField, label: nil)
+    }
+    
+    // MARK: - Data functions and accessors
+    
+    internal var _labelField: String?
+    
+    internal override func buildEntryFromResultObject(object: RLMObject, x: Double) -> ChartDataEntry
+    {
+        if _labelField == nil
+        {
+            return PieChartDataEntry(value: object[_yValueField!] as! Double);
+        }
+        else
+        {
+            return PieChartDataEntry(value: object[_yValueField!] as! Double, label: object[_labelField!] as? String);
+        }
+    }
+        
     // MARK: - Styling functions and accessors
     
     private var _sliceSpace = CGFloat(0.0)

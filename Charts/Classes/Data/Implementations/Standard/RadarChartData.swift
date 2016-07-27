@@ -22,18 +22,22 @@ public class RadarChartData: ChartData
     public var highlightLineDashPhase = CGFloat(0.0)
     public var highlightLineDashLengths: [CGFloat]?
     
+    /// Sets labels that should be drawn around the RadarChart at the end of each web line.
+    public var labels = [String]()
+    
+    /// Sets the labels that should be drawn around the RadarChart at the end of each web line.
+    public func setLabels(labels: String...)
+    {
+        self.labels = labels
+    }
+    
     public override init()
     {
         super.init()
     }
     
-    public override init(xVals: [String?]?, dataSets: [IChartDataSet]?)
+    public override init(dataSets: [IChartDataSet]?)
     {
-        super.init(xVals: xVals, dataSets: dataSets)
-    }
-    
-    public override init(xVals: [NSObject]?, dataSets: [IChartDataSet]?)
-    {
-        super.init(xVals: xVals, dataSets: dataSets)
+        super.init(dataSets: dataSets)
     }
 }

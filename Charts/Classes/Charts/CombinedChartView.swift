@@ -47,44 +47,6 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
         renderer = CombinedChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
     }
     
-    override func calcMinMax()
-    {
-        super.calcMinMax()
-        guard let data = _data else { return }
-        
-        if (self.barData !== nil || self.candleData !== nil || self.bubbleData !== nil)
-        {
-            _xAxis._axisMinimum = -0.5
-            _xAxis._axisMaximum = Double(data.xVals.count) - 0.5
-            
-            if (self.bubbleData !== nil)
-            {
-                for set in self.bubbleData?.dataSets as! [IBubbleChartDataSet]
-                {
-                    let xmin = set.xMin
-                    let xmax = set.xMax
-                    
-                    if (xmin < chartXMin)
-                    {
-                        _xAxis._axisMinimum = xmin
-                    }
-                    
-                    if (xmax > chartXMax)
-                    {
-                        _xAxis._axisMaximum = xmax
-                    }
-                }
-            }
-        }
-        
-        _xAxis.axisRange = abs(_xAxis._axisMaximum - _xAxis._axisMinimum)
-        
-        if _xAxis.axisRange == 0.0 && self.lineData?.yValCount > 0
-        {
-            _xAxis.axisRange = 1.0
-        }
-    }
-    
     public override var data: ChartData?
     {
         get
@@ -95,6 +57,7 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
         {
             super.data = newValue
             (renderer as! CombinedChartRenderer?)!.createRenderers()
+            renderer?.initBuffers()
         }
     }
     
@@ -186,13 +149,6 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
     
     // MARK: - Accessors
     
-    /// flag that enables or disables the highlighting arrow
-    public var drawHighlightArrowEnabled: Bool
-    {
-        get { return (renderer as! CombinedChartRenderer!).drawHighlightArrowEnabled }
-        set { (renderer as! CombinedChartRenderer!).drawHighlightArrowEnabled = newValue }
-    }
-    
     /// if set to true, all values are drawn above their bars, instead of below their top
     public var drawValueAboveBarEnabled: Bool
         {
@@ -206,9 +162,6 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
         get { return (renderer as! CombinedChartRenderer!).drawBarShadowEnabled }
         set { (renderer as! CombinedChartRenderer!).drawBarShadowEnabled = newValue }
     }
-    
-    /// - returns: true if drawing the highlighting arrow is enabled, false if not
-    public var isDrawHighlightArrowEnabled: Bool { return (renderer as! CombinedChartRenderer!).drawHighlightArrowEnabled; }
     
     /// - returns: true if drawing values above bars is enabled, false if not
     public var isDrawValueAboveBarEnabled: Bool { return (renderer as! CombinedChartRenderer!).drawValueAboveBarEnabled; }

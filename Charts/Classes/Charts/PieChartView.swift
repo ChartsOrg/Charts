@@ -156,14 +156,15 @@ public class PieChartView: PieRadarChartViewBase
         
         let rotationAngle = self.rotationAngle
         
-        let i = e.xIndex
+        guard let entryIndex = data?.dataSets[0].entryIndex(x: highlight.x, rounding: .Closest)
+            else { return CGPoint(x: 0.0, y: 0.0) }
         
         // offset needed to center the drawn text in the slice
-        let offset = drawAngles[i] / 2.0
+        let offset = drawAngles[entryIndex] / 2.0
         
         // calculate the text position
-        let x: CGFloat = (r * cos(((rotationAngle + absoluteAngles[i] - offset) * _animator.phaseY) * ChartUtils.Math.FDEG2RAD) + center.x)
-        let y: CGFloat = (r * sin(((rotationAngle + absoluteAngles[i] - offset) * _animator.phaseY) * ChartUtils.Math.FDEG2RAD) + center.y)
+        let x: CGFloat = (r * cos(((rotationAngle + absoluteAngles[entryIndex] - offset) * CGFloat(_animator.phaseY)) * ChartUtils.Math.FDEG2RAD) + center.x)
+        let y: CGFloat = (r * sin(((rotationAngle + absoluteAngles[entryIndex] - offset) * CGFloat(_animator.phaseY)) * ChartUtils.Math.FDEG2RAD) + center.y)
         
         return CGPoint(x: x, y: y)
     }
@@ -176,8 +177,10 @@ public class PieChartView: PieRadarChartViewBase
         
         guard let data = _data else { return }
 
-        _drawAngles.reserveCapacity(data.yValCount)
-        _absoluteAngles.reserveCapacity(data.yValCount)
+        let entryCount = data.entryCount
+        
+        _drawAngles.reserveCapacity(entryCount)
+        _absoluteAngles.reserveCapacity(entryCount)
         
         let yValueSum = (_data as! PieChartData).yValueSum
         
@@ -194,7 +197,7 @@ public class PieChartView: PieRadarChartViewBase
             {
                 guard let e = set.entryForIndex(j) else { continue }
                 
-                _drawAngles.append(calcAngle(abs(e.value), yValueSum: yValueSum))
+                _drawAngles.append(calcAngle(abs(e.y), yValueSum: yValueSum))
 
                 if (cnt == 0)
                 {
@@ -211,7 +214,7 @@ public class PieChartView: PieRadarChartViewBase
     }
     
     /// checks if the given index in the given DataSet is set for highlighting or not
-    public func needsHighlight(xIndex xIndex: Int, dataSetIndex: Int) -> Bool
+    public func needsHighlight(xValue xValue: Double, dataSetIndex: Int) -> Bool
     {
         // no highlight
         if (!valuesToHighlight() || dataSetIndex < 0)
@@ -222,7 +225,7 @@ public class PieChartView: PieRadarChartViewBase
         for i in 0 ..< _indicesToHighlight.count
         {
             // check if the xvalue for the given dataset needs highlight
-            if (_indicesToHighlight[i].xIndex == xIndex
+            if (_indicesToHighlight[i].x == xValue
                 && _indicesToHighlight[i].dataSetIndex == dataSetIndex)
             {
                 return true
@@ -266,13 +269,13 @@ public class PieChartView: PieRadarChartViewBase
     }
     
     /// - returns: the index of the DataSet this x-index belongs to.
-    public func dataSetIndexForIndex(xIndex: Int) -> Int
+    public func dataSetIndexForIndex(xValue: Double) -> Int
     {
         var dataSets = _data?.dataSets ?? []
         
         for i in 0 ..< dataSets.count
         {
-            if (dataSets[i].entryForXIndex(xIndex) !== nil)
+            if (dataSets[i].entryForXPos(xValue) !== nil)
             {
                 return i
             }
@@ -298,7 +301,7 @@ public class PieChartView: PieRadarChartViewBase
     
     /// The color for the hole that is drawn in the center of the PieChart (if enabled).
     /// 
-    /// *Note: Use holeTransparent with holeColor = nil to make the hole transparent.*
+    /// - note: Use holeTransparent with holeColor = nil to make the hole transparent.*
     public var holeColor: NSUIColor?
     {
         get

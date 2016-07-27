@@ -17,20 +17,20 @@ public class ChartViewPortJob
 {
     internal var point: CGPoint = CGPoint()
     internal weak var viewPortHandler: ChartViewPortHandler?
-    internal var xIndex: CGFloat = 0.0
+    internal var xValue: Double = 0.0
     internal var yValue: Double = 0.0
     internal weak var transformer: ChartTransformer?
     internal weak var view: ChartViewBase?
     
     public init(
         viewPortHandler: ChartViewPortHandler,
-        xIndex: CGFloat,
+        xValue: Double,
         yValue: Double,
         transformer: ChartTransformer,
         view: ChartViewBase)
     {
         self.viewPortHandler = viewPortHandler
-        self.xIndex = xIndex
+        self.xValue = xValue
         self.yValue = yValue
         self.transformer = transformer
         self.view = view
