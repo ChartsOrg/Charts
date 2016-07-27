@@ -100,6 +100,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		136083331D10AAC200D57921 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5B8E088D1C635B6D00438BAF /* ChartsRealm.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5BA899431CADB7F20012ED64;
+			remoteInfo = "ChartsRealm-OSX";
+		};
 		5B8E087D1C635B5200438BAF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5B8E08771C635B5200438BAF /* Charts.xcodeproj */;
@@ -413,6 +420,7 @@
 			children = (
 				5B8E08941C635B6D00438BAF /* ChartsRealm.framework */,
 				5B8E08961C635B6D00438BAF /* ChartsRealm.framework */,
+				136083341D10AAC200D57921 /* ChartsRealm.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -597,6 +605,7 @@
 				TargetAttributes = {
 					5B57BBAE1A9B26AA0036A6CC = {
 						CreatedOnToolsVersion = 6.1.1;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -629,6 +638,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		136083341D10AAC200D57921 /* ChartsRealm.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ChartsRealm.framework;
+			remoteRef = 136083331D10AAC200D57921 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		5B8E087E1C635B5200438BAF /* Charts.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -882,6 +898,7 @@
 				PRODUCT_NAME = ChartsDemo;
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/ChartsDemo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -898,6 +915,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ChartsDemo;
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/ChartsDemo-Bridging-Header.h";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};

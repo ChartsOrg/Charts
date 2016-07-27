@@ -37,6 +37,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     private var _scaleXEnabled = true
     private var _scaleYEnabled = true
     
+    private var _longPressEnabled = false
+    
     /// the color for the background of the chart-drawing area (everything behind the grid lines).
     public var gridBackgroundColor = NSUIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0)
     
@@ -76,6 +78,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     internal var _pinchGestureRecognizer: NSUIPinchGestureRecognizer!
     #endif
     internal var _panGestureRecognizer: NSUIPanGestureRecognizer!
+    internal var _longPressGestureRecognizer: NSUILongPressGestureRecognizer!
+
     
     /// flag that indicates if a custom viewport offset has been set
     private var _customViewPortEnabled = false
@@ -131,6 +135,11 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             _pinchGestureRecognizer.delegate = self
             self.addGestureRecognizer(_pinchGestureRecognizer)
             _pinchGestureRecognizer.enabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
+            
+            _longPressGestureRecognizer = NSUILongPressGestureRecognizer(target: self, action: #selector(BarLineChartViewBase.longPressGestureRecognized(_:)))
+            _longPressGestureRecognizer.delegate = self
+            self.addGestureRecognizer(_longPressGestureRecognizer)
+            _longPressGestureRecognizer.enabled = _longPressEnabled
         #endif
     }
     
@@ -733,6 +742,44 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             }
         }
     }
+    
+    @objc private func longPressGestureRecognized(recognizer: NSUILongPressGestureRecognizer)
+    {
+        if (recognizer.state == NSUIGestureRecognizerState.Began)
+        {
+            if _data === nil
+            { // If we have no data, we have nothing to drag and no data to highlight
+                return;
+            }
+            let h = getHighlightByTouchPoint(recognizer.locationInView(self))
+            self.lastHighlighted = h
+            self.highlightValue(highlight: h, callDelegate: true)
+        }
+        else if (recognizer.state == NSUIGestureRecognizerState.Changed)
+        {
+            if (isHighlightPerDragEnabled)
+            {
+                let h = getHighlightByTouchPoint(recognizer.locationInView(self))
+                
+                let lastHighlighted = self.lastHighlighted
+                
+                if ((h === nil && lastHighlighted !== nil) ||
+                    (h !== nil && lastHighlighted === nil) ||
+                    (h !== nil && lastHighlighted !== nil && !h!.isEqual(lastHighlighted)))
+                {
+                    self.lastHighlighted = h
+                    self.highlightValue(highlight: h, callDelegate: true)
+                }
+            }
+        }
+        else if (recognizer.state == NSUIGestureRecognizerState.Ended)
+        {
+            if (isClearHighlightsOnDragCompletionEnabled)
+            {
+                self.highlightValue(highlight: nil, callDelegate: true)
+            }
+        }
+    }
     #endif
     
     @objc private func panGestureRecognized(recognizer: NSUIPanGestureRecognizer)
@@ -829,6 +876,11 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                 }
                 
                 _isDragging = false
+            }
+            
+            if (isClearHighlightsOnDragCompletionEnabled)
+            {
+                self.highlightValue(highlight: nil, callDelegate: true)
             }
             
             if (_outerScrollView !== nil)
@@ -1562,6 +1614,22 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     public var isScaleXEnabled: Bool { return scaleXEnabled; }
     public var isScaleYEnabled: Bool { return scaleYEnabled; }
     
+    public var longPressEnabled: Bool
+        {
+        get
+        {
+            return _longPressEnabled
+        }
+        set
+        {
+            if (_longPressEnabled != newValue)
+            {
+                _longPressEnabled = newValue
+                _longPressGestureRecognizer.enabled = _longPressEnabled
+            }
+        }
+    }
+    
     /// flag that indicates if double tap zoom is enabled or not
     public var doubleTapToZoomEnabled: Bool
     {
@@ -1591,13 +1659,26 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     
     /// If set to true, highlighting per dragging over a fully zoomed out chart is enabled
     /// You might want to disable this when using inside a `NSUIScrollView`
-    /// 
+    /// This applies to dragging via either Pan or Long Press gestures
+    ///
     /// **default**: true
     public var isHighlightPerDragEnabled: Bool
     {
         return highlightPerDragEnabled
     }
     
+    /// flag that indicates if highlights should be cleard when the drag completes is enabled
+    public var clearHighlightsOnDragCompletionEnabled = false
+    
+    /// If set to true, clearing all highlights when the drag is completed is enabled
+    /// This applies to dragging via either Pan or Long Press gestures
+    ///
+    /// **default**: false
+    public var isClearHighlightsOnDragCompletionEnabled: Bool
+    {
+        return clearHighlightsOnDragCompletionEnabled
+    }
+
     /// Set this to `true` to make the highlight full-bar oriented, `false` to make it highlight single values
     public var highlightFullBarEnabled: Bool = false
     
@@ -1770,6 +1851,19 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
 
     /// - returns: true if both drag offsets (x and y) are zero or smaller.
     public var hasNoDragOffset: Bool { return _viewPortHandler.hasNoDragOffset; }
+    
+    /// the minimum duration to trigger a long press gesture
+    public var longPressGestureMinDuration: CFTimeInterval
+        {
+        get
+        {
+            return _longPressGestureRecognizer.minimumPressDuration
+        }
+        set
+        {
+            _longPressGestureRecognizer.minimumPressDuration = newValue
+        }
+    }
 
     /// The X axis renderer. This is a read-write property so you can set your own custom renderer here.
     /// **default**: An instance of ChartXAxisRenderer
