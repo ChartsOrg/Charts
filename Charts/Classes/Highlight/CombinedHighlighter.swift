@@ -17,42 +17,63 @@ import CoreGraphics
 
 public class CombinedHighlighter: ChartHighlighter
 {
-    /// Returns a list of SelectionDetail object corresponding to the given xValue.
-    /// - parameter xValue:
-    /// - returns:
-    public override func getSelectionDetailsAtIndex(xValue: Double) -> [ChartSelectionDetail]
+    /// bar highlighter for supporting stacked highlighting
+    private var barHighlighter: BarChartHighlighter?
+    
+    public init(chart: CombinedChartDataProvider, barDataProvider: BarChartDataProvider)
     {
-        var vals = [ChartSelectionDetail]()
+        super.init(chart: chart)
         
-        guard let
-            data = self.chart?.data as? CombinedChartData
+        // if there is BarData, create a BarHighlighter
+        self.barHighlighter = barDataProvider.barData == nil ? nil : BarChartHighlighter(chart: barDataProvider)
+    }
+    
+    public override func getHighlights(xPos xValue: Double, x: CGFloat, y: CGFloat) -> [ChartHighlight]
+    {
+        var vals = [ChartHighlight]()
+        
+        guard let chart = self.chart as? CombinedChartDataProvider
             else { return vals }
         
-        // get all chartdata objects
-        var dataObjects = data.allData
-        
-        for i in 0 ..< dataObjects.count
+        if let dataObjects = chart.combinedData?.allData
         {
-            for j in 0 ..< dataObjects[i].dataSetCount
+            for i in 0..<dataObjects.count
             {
-                let dataSet = dataObjects[i].getDataSetByIndex(j)
+                let dataObject = dataObjects[i]
                 
-                // don't include datasets that cannot be highlighted
-                if !dataSet.isHighlightEnabled
+                // in case of BarData, let the BarHighlighter take over
+                if barHighlighter != nil && dataObject is BarChartData
                 {
-                    continue
+                    if let high = barHighlighter?.getHighlight(x: x, y: y)
+                    {
+                        high.dataIndex = i
+                        vals.append(high)
+                    }
                 }
-                
-                if let s1 = getDetails(dataSet, dataSetIndex: j, xValue: xValue, rounding: .Up)
+                else
                 {
-                    s1.dataIndex = i
-                    vals.append(s1)
-                }
-                
-                if let s2 = getDetails(dataSet, dataSetIndex: j, xValue: xValue, rounding: .Down)
-                {
-                    s2.dataIndex = i
-                    vals.append(s2)
+                    for j in 0..<dataObject.dataSetCount
+                    {
+                        let dataSet = dataObjects[i].getDataSetByIndex(j)
+                        
+                        // don't include datasets that cannot be highlighted
+                        if !dataSet.isHighlightEnabled
+                        {
+                            continue
+                        }
+                        
+                        if let s1 = buildHighlight(dataSet: dataSet, dataSetIndex: j, xValue: xValue, rounding: .Up)
+                        {
+                            s1.dataIndex = i
+                            vals.append(s1)
+                        }
+                        
+                        if let s2 = buildHighlight(dataSet: dataSet, dataSetIndex: j, xValue: xValue, rounding: .Down)
+                        {
+                            s2.dataIndex = i
+                            vals.append(s2)
+                        }
+                    }
                 }
             }
         }

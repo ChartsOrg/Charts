@@ -451,23 +451,6 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         prepareValuePxMatrix()
     }
     
-    public override func getMarkerPosition(entry e: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
-    {
-        guard let data = _data else { return CGPointZero }
-        
-        let dataSetIndex = highlight.dataSetIndex
-        let xPos = e.x
-        let yPos = e.y * _animator.phaseY
-        
-        // position of the marker depends on selected value index and value
-        var pt = CGPoint(x: CGFloat(xPos), y: CGFloat(yPos * _animator.phaseY))
-        
-        getTransformer(data.getDataSetByIndex(dataSetIndex)!.axisDependency)
-            .pointValueToPixel(&pt)
-        
-        return pt
-    }
-    
     /// draws the grid background
     internal func drawGridBackground(context context: CGContext)
     {
@@ -1560,18 +1543,6 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     {
         return drawBordersEnabled
     }
-    
-    /// - returns: the Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the Line-, Scatter-, or CandleStick-Chart.
-    public func getHighlightByTouchPoint(pt: CGPoint) -> ChartHighlight?
-    {
-        if _data === nil
-        {
-            Swift.print("Can't select by touch. No data set.")
-            return nil
-        }
-
-        return self.highlighter?.getHighlight(x: pt.x, y: pt.y)
-    }
 
     /// - returns: the x and y values in the chart at the given touch point
     /// (encapsulated in a `CGPoint`). This method transforms pixel coordinates to
@@ -1602,7 +1573,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         let h = getHighlightByTouchPoint(pt)
         if (h !== nil)
         {
-            return _data!.getEntryForHighlight(h!)
+            return _data!.entryForHighlight(h!)
         }
         return nil
     }

@@ -226,94 +226,89 @@ public class BubbleChartRenderer: BarLineScatterCandleBubbleChartRenderer
         
         for high in indices
         {
-            let minDataSetIndex = high.dataSetIndex == -1 ? 0 : high.dataSetIndex
-            let maxDataSetIndex = high.dataSetIndex == -1 ? bubbleData.dataSetCount : (high.dataSetIndex + 1)
-            if maxDataSetIndex - minDataSetIndex < 1 { continue }
+            guard let dataSet = bubbleData.getDataSetByIndex(high.dataSetIndex) as? IBubbleChartDataSet
+                where dataSet.isHighlightEnabled
+                else { continue }
             
-            for dataSetIndex in minDataSetIndex..<maxDataSetIndex
+            let bounds = xBounds(dataProvider, dataSet: dataSet, animator: animator)
+            
+            let entries = dataSet.entriesForXPos(high.x)
+            
+            for entry in entries
             {
-                guard let dataSet = bubbleData.getDataSetByIndex(dataSetIndex) as? IBubbleChartDataSet
-                    where dataSet.isHighlightEnabled
+                guard let entry = entry as? BubbleChartDataEntry
                     else { continue }
+
+                // FIXME: On Android, add y equals...
                 
-                let bounds = xBounds(dataProvider, dataSet: dataSet, animator: animator)
+                // If `y` is NAN, then the selection is of any value on this x. Otherwise- it's a single, specific value selection.
+                if !isnan(high.y) && entry.y != high.y { continue }
                 
-                let entries = dataSet.entriesForXPos(high.x)
+                let trans = dataProvider.getTransformer(dataSet.axisDependency)
                 
-                for entry in entries
+                _sizeBuffer[0].x = 0.0
+                _sizeBuffer[0].y = 0.0
+                _sizeBuffer[1].x = 1.0
+                _sizeBuffer[1].y = 0.0
+                
+                trans.pointValuesToPixel(&_sizeBuffer)
+                
+                let normalizeSize = dataSet.isNormalizeSizeEnabled
+                
+                // calcualte the full width of 1 step on the x-axis
+                let maxBubbleWidth: CGFloat = abs(_sizeBuffer[1].x - _sizeBuffer[0].x)
+                let maxBubbleHeight: CGFloat = abs(viewPortHandler.contentBottom - viewPortHandler.contentTop)
+                let referenceSize: CGFloat = min(maxBubbleHeight, maxBubbleWidth)
+                
+                _pointBuffer.x = CGFloat(entry.x)
+                _pointBuffer.y = CGFloat(entry.y * phaseY)
+                trans.pointValueToPixel(&_pointBuffer)
+                
+                let shapeSize = getShapeSize(entrySize: entry.size, maxSize: dataSet.maxSize, reference: referenceSize, normalizeSize: normalizeSize)
+                let shapeHalf = shapeSize / 2.0
+                
+                if (!viewPortHandler.isInBoundsTop(_pointBuffer.y + shapeHalf)
+                    || !viewPortHandler.isInBoundsBottom(_pointBuffer.y - shapeHalf))
                 {
-                    guard let entry = entry as? BubbleChartDataEntry
-                        else { continue }
-                    
-                    // FIXME: On Android, add y equals...
-                    
-                    // If `y` is NAN, then the selection is of any value on this x. Otherwise- it's a single, specific value selection.
-                    if !isnan(high.y) && entry.y != high.y { continue }
-                    
-                    let trans = dataProvider.getTransformer(dataSet.axisDependency)
-                    
-                    _sizeBuffer[0].x = 0.0
-                    _sizeBuffer[0].y = 0.0
-                    _sizeBuffer[1].x = 1.0
-                    _sizeBuffer[1].y = 0.0
-                    
-                    trans.pointValuesToPixel(&_sizeBuffer)
-                    
-                    let normalizeSize = dataSet.isNormalizeSizeEnabled
-                    
-                    // calcualte the full width of 1 step on the x-axis
-                    let maxBubbleWidth: CGFloat = abs(_sizeBuffer[1].x - _sizeBuffer[0].x)
-                    let maxBubbleHeight: CGFloat = abs(viewPortHandler.contentBottom - viewPortHandler.contentTop)
-                    let referenceSize: CGFloat = min(maxBubbleHeight, maxBubbleWidth)
-                    
-                    _pointBuffer.x = CGFloat(entry.x)
-                    _pointBuffer.y = CGFloat(entry.y * phaseY)
-                    trans.pointValueToPixel(&_pointBuffer)
-                    
-                    let shapeSize = getShapeSize(entrySize: entry.size, maxSize: dataSet.maxSize, reference: referenceSize, normalizeSize: normalizeSize)
-                    let shapeHalf = shapeSize / 2.0
-                    
-                    if (!viewPortHandler.isInBoundsTop(_pointBuffer.y + shapeHalf)
-                        || !viewPortHandler.isInBoundsBottom(_pointBuffer.y - shapeHalf))
-                    {
-                        continue
-                    }
-                    
-                    if (!viewPortHandler.isInBoundsLeft(_pointBuffer.x + shapeHalf))
-                    {
-                        continue
-                    }
-                    
-                    if (!viewPortHandler.isInBoundsRight(_pointBuffer.x - shapeHalf))
-                    {
-                        break
-                    }
-                    
-                    if high.x < Double(bounds.min) || high.x >= Double(bounds.max)
-                    {
-                        continue
-                    }
-                    
-                    let originalColor = dataSet.colorAt(Int(entry.x))
-                    
-                    var h: CGFloat = 0.0
-                    var s: CGFloat = 0.0
-                    var b: CGFloat = 0.0
-                    var a: CGFloat = 0.0
-                    
-                    originalColor.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
-                    
-                    let color = NSUIColor(hue: h, saturation: s, brightness: b * 0.5, alpha: a)
-                    let rect = CGRect(
-                        x: _pointBuffer.x - shapeHalf,
-                        y: _pointBuffer.y - shapeHalf,
-                        width: shapeSize,
-                        height: shapeSize)
-                    
-                    CGContextSetLineWidth(context, dataSet.highlightCircleWidth)
-                    CGContextSetStrokeColorWithColor(context, color.CGColor)
-                    CGContextStrokeEllipseInRect(context, rect)
+                    continue
                 }
+                
+                if (!viewPortHandler.isInBoundsLeft(_pointBuffer.x + shapeHalf))
+                {
+                    continue
+                }
+                
+                if (!viewPortHandler.isInBoundsRight(_pointBuffer.x - shapeHalf))
+                {
+                    break
+                }
+                
+                if high.x < Double(bounds.min) || high.x >= Double(bounds.max)
+                {
+                    continue
+                }
+                
+                let originalColor = dataSet.colorAt(Int(entry.x))
+                
+                var h: CGFloat = 0.0
+                var s: CGFloat = 0.0
+                var b: CGFloat = 0.0
+                var a: CGFloat = 0.0
+                
+                originalColor.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
+                
+                let color = NSUIColor(hue: h, saturation: s, brightness: b * 0.5, alpha: a)
+                let rect = CGRect(
+                    x: _pointBuffer.x - shapeHalf,
+                    y: _pointBuffer.y - shapeHalf,
+                    width: shapeSize,
+                    height: shapeSize)
+                
+                CGContextSetLineWidth(context, dataSet.highlightCircleWidth)
+                CGContextSetStrokeColorWithColor(context, color.CGColor)
+                CGContextStrokeEllipseInRect(context, rect)
+                
+                high.setDraw(x: _pointBuffer.x, y: _pointBuffer.y)
             }
         }
         

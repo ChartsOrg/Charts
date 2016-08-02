@@ -324,45 +324,40 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
         
         for high in indices
         {
-            let minDataSetIndex = high.dataSetIndex == -1 ? 0 : high.dataSetIndex
-            let maxDataSetIndex = high.dataSetIndex == -1 ? candleData.dataSetCount : (high.dataSetIndex + 1)
-            if maxDataSetIndex - minDataSetIndex < 1 { continue }
+            guard let set = candleData.getDataSetByIndex(high.dataSetIndex) as? ICandleChartDataSet
+                where set.isHighlightEnabled
+                else { continue }
             
-            for dataSetIndex in minDataSetIndex..<maxDataSetIndex
+            guard let e = set.entryForXPos(high.x) as? CandleChartDataEntry else { continue }
+            
+            if !isInBoundsX(entry: e, dataSet: set)
             {
-                guard let set = candleData.getDataSetByIndex(dataSetIndex) as? ICandleChartDataSet else { continue }
-                
-                if (!set.isHighlightEnabled)
-                {
-                    continue
-                }
-                
-                let xPos = high.x; // get the x-position
-                
-                guard let e = set.entryForXPos(xPos) as? CandleChartDataEntry else { continue }
-                
-                let trans = dataProvider.getTransformer(set.axisDependency)
-                
-                CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
-                CGContextSetLineWidth(context, set.highlightLineWidth)
-                if (set.highlightLineDashLengths != nil)
-                {
-                    CGContextSetLineDash(context, set.highlightLineDashPhase, set.highlightLineDashLengths!, set.highlightLineDashLengths!.count)
-                }
-                else
-                {
-                    CGContextSetLineDash(context, 0.0, nil, 0)
-                }
-                
-                let lowValue = e.low * Double(animator.phaseY)
-                let highValue = e.high * Double(animator.phaseY)
-                let y = (lowValue + highValue) / 2.0
-                
-                let pt = trans.pixelForValue(x: xPos, y: y)
-                
-                // draw the lines
-                drawHighlightLines(context: context, point: pt, set: set)
+                continue
             }
+            
+            let trans = dataProvider.getTransformer(set.axisDependency)
+            
+            CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
+            CGContextSetLineWidth(context, set.highlightLineWidth)
+            if (set.highlightLineDashLengths != nil)
+            {
+                CGContextSetLineDash(context, set.highlightLineDashPhase, set.highlightLineDashLengths!, set.highlightLineDashLengths!.count)
+            }
+            else
+            {
+                CGContextSetLineDash(context, 0.0, nil, 0)
+            }
+            
+            let lowValue = e.low * Double(animator.phaseY)
+            let highValue = e.high * Double(animator.phaseY)
+            let y = (lowValue + highValue) / 2.0
+            
+            let pt = trans.pixelForValue(x: e.x, y: y)
+            
+            high.setDraw(pt: pt)
+            
+            // draw the lines
+            drawHighlightLines(context: context, point: pt, set: set)
         }
         
         CGContextRestoreGState(context)

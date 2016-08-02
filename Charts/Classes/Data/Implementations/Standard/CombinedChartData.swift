@@ -150,6 +150,16 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         return data
     }
     
+    public func dataByIndex(index: Int) -> ChartData
+    {
+        return allData[index]
+    }
+    
+    public func dataIndex(data: ChartData) -> Int?
+    {
+        return allData.indexOf(data)
+    }
+    
     public override func notifyDataChanged()
     {
         if (_lineData !== nil)
@@ -181,7 +191,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
     ///
     /// - parameter highlight:
     /// - returns: the entry that is highlighted
-    public override func getEntryForHighlight(highlight: ChartHighlight) -> ChartDataEntry?
+    public override func entryForHighlight(highlight: ChartHighlight) -> ChartDataEntry?
     {
         let dataObjects = allData
         
@@ -199,7 +209,6 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         else
         {
             // The value of the highlighted entry could be NaN - if we are not interested in highlighting a specific value.
-            // FIXME: Implement on Android
             let entries = data.getDataSetByIndex(highlight.dataSetIndex).entriesForXPos(highlight.x)
             for e in entries
             {

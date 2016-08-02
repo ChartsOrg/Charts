@@ -111,7 +111,6 @@ public class PieChartRenderer: ChartDataRendererBase
     {
         guard let
             chart = chart,
-            data = chart.data,
             animator = animator
             else {return }
         
@@ -150,10 +149,9 @@ public class PieChartRenderer: ChartDataRendererBase
             guard let e = dataSet.entryForIndex(j) else { continue }
             
             // draw only if the value is greater than zero
-            if ((abs(e.y) > 0.000001))
+            if (abs(e.y) > 0.000001)
             {
-                if (!chart.needsHighlight(xValue: e.x,
-                    dataSetIndex: data.indexOfDataSet(dataSet)))
+                if !chart.needsHighlight(index: j)
                 {
                     let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
                     
@@ -664,8 +662,8 @@ public class PieChartRenderer: ChartDataRendererBase
         for i in 0 ..< indices.count
         {
             // get the index to highlight
-            let x = indices[i].x
-            if x >= Double(drawAngles.count)
+            let index = Int(indices[i].x)
+            if index >= drawAngles.count
             {
                 continue
             }
@@ -676,8 +674,6 @@ public class PieChartRenderer: ChartDataRendererBase
             {
                 continue
             }
-            
-            let entryIndex = set.entryIndex(x: x, rounding: .Closest)
 
             let entryCount = set.entryCount
             var visibleAngleCount = 0
@@ -690,18 +686,18 @@ public class PieChartRenderer: ChartDataRendererBase
                 }
             }
             
-            if (x == 0)
+            if index == 0
             {
                 angle = 0.0
             }
             else
             {
-                angle = absoluteAngles[entryIndex - 1] * CGFloat(phaseX)
+                angle = absoluteAngles[index - 1] * CGFloat(phaseX)
             }
             
             let sliceSpace = visibleAngleCount <= 1 ? 0.0 : set.sliceSpace
             
-            let sliceAngle = drawAngles[entryIndex]
+            let sliceAngle = drawAngles[index]
             var innerRadius = userInnerRadius
             
             let shift = set.selectionShift
@@ -709,7 +705,7 @@ public class PieChartRenderer: ChartDataRendererBase
             
             let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
             
-            CGContextSetFillColorWithColor(context, set.colorAt(entryIndex).CGColor)
+            CGContextSetFillColorWithColor(context, set.colorAt(index).CGColor)
             
             let sliceSpaceAngleOuter = visibleAngleCount == 1 ?
                 0.0 :

@@ -66,6 +66,8 @@ public class RadarChartView: PieRadarChartViewBase
         
         _yAxisRenderer = ChartYAxisRendererRadarChart(viewPortHandler: _viewPortHandler, yAxis: _yAxis, chart: self)
         _xAxisRenderer = ChartXAxisRendererRadarChart(viewPortHandler: _viewPortHandler, xAxis: _xAxis, chart: self)
+        
+        self.highlighter = RadarChartHighlighter(chart: self)
     }
 
     internal override func calcMinMax()
@@ -76,18 +78,6 @@ public class RadarChartView: PieRadarChartViewBase
         
         _yAxis.calculate(min: data.getYMin(.Left), max: data.getYMax(.Left))
         _xAxis.calculate(min: 0.0, max: Double(data.maxEntryCountSet?.entryCount ?? 0))
-    }
-
-    public override func getMarkerPosition(entry entry: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
-    {
-        let angle = Double(self.sliceAngle) * entry.x * _animator.phaseX + Double(self.rotationAngle)
-        let val = entry.y * Double(self.factor) * _animator.phaseX
-        let c = self.centerOffsets
-        
-        let p = CGPoint(x: c.x + CGFloat(val * cos(angle * ChartUtils.Math.DEG2RAD)),
-            y: c.y + CGFloat(val * sin(angle * ChartUtils.Math.DEG2RAD)))
-
-        return p
     }
     
     public override func notifyDataSetChanged()
@@ -172,15 +162,22 @@ public class RadarChartView: PieRadarChartViewBase
         
         let sliceAngle = self.sliceAngle
         
-        for i in 0 ..< (_data?.entryCount ?? 0)
+        let max = _data?.maxEntryCountSet?.entryCount ?? 0
+        
+        var index = 0
+        
+        for i in 0..<max
         {
-            if (sliceAngle * CGFloat(i + 1) - sliceAngle / 2.0 > a)
+            let referenceAngle = sliceAngle * CGFloat(i + 1) - sliceAngle / 2.0
+            
+            if referenceAngle > a
             {
-                return i
+                index = i
+                break
             }
         }
         
-        return 0
+        return index
     }
 
     /// - returns: the object that represents all y-labels of the RadarChart.

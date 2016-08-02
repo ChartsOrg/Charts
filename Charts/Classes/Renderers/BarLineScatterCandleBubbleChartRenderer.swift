@@ -20,6 +20,21 @@ public class BarLineScatterCandleBubbleChartRenderer: ChartDataRendererBase
         super.init(animator: animator, viewPortHandler: viewPortHandler)
     }
     
+    /// Checks if the provided entry object is in bounds for drawing considering the current animation phase.
+    internal func isInBoundsX(entry e: ChartDataEntry, dataSet: IBarLineScatterCandleBubbleChartDataSet) -> Bool
+    {
+        let entryIndex = dataSet.entryIndex(entry: e)
+        
+        if Double(entryIndex) >= Double(dataSet.entryCount) * (animator?.phaseX ?? 1.0)
+        {
+            return false
+        }
+        else
+        {
+            return true
+        }
+    }
+
     /// Calculates and returns the x-bounds for the given DataSet in terms of index in their values array.
     /// This includes minimum and maximum visible x, as well as range.
     internal func xBounds(chart: BarLineScatterCandleBubbleChartDataProvider,

@@ -47,7 +47,7 @@ public class RealmPieDataSet: RealmBaseDataSet, IPieChartDataSet
     {
         if _labelField == nil
         {
-            return PieChartDataEntry(value: object[_yValueField!] as! Double);
+            return PieChartDataEntry(value: object[_yValueField!] as! Double)
         }
         else
         {

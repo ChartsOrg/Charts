@@ -28,6 +28,11 @@ public class RealmRadarDataSet: RealmLineRadarDataSet, IRadarChartDataSet
     
     // MARK: - Data functions and accessors
     
+    internal override func buildEntryFromResultObject(object: RLMObject, x: Double) -> ChartDataEntry
+    {
+        return RadarChartDataEntry(value: object[_yValueField!] as! Double)
+    }
+    
     // MARK: - Styling functions and accessors
     
     /// flag indicating whether highlight circle should be drawn or not

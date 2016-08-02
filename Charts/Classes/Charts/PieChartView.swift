@@ -80,6 +80,8 @@ public class PieChartView: PieRadarChartViewBase
         
         renderer = PieChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
         _xAxis = nil
+        
+        self.highlighter = PieChartHighlighter(chart: self)
     }
     
     public override func drawRect(rect: CGRect)
@@ -140,7 +142,7 @@ public class PieChartView: PieRadarChartViewBase
         calcAngles()
     }
     
-    public override func getMarkerPosition(entry e: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
+    public override func getMarkerPosition(highlight highlight: ChartHighlight) -> CGPoint
     {
         let center = self.centerCircleBox
         var r = self.radius
@@ -156,8 +158,7 @@ public class PieChartView: PieRadarChartViewBase
         
         let rotationAngle = self.rotationAngle
         
-        guard let entryIndex = data?.dataSets[0].entryIndex(x: highlight.x, rounding: .Closest)
-            else { return CGPoint(x: 0.0, y: 0.0) }
+        let entryIndex = Int(highlight.x)
         
         // offset needed to center the drawn text in the slice
         let offset = drawAngles[entryIndex] / 2.0
@@ -213,11 +214,11 @@ public class PieChartView: PieRadarChartViewBase
         }
     }
     
-    /// checks if the given index in the given DataSet is set for highlighting or not
-    public func needsHighlight(xValue xValue: Double, dataSetIndex: Int) -> Bool
+    /// Checks if the given index is set to be highlighted.
+    public func needsHighlight(index index: Int) -> Bool
     {
         // no highlight
-        if (!valuesToHighlight() || dataSetIndex < 0)
+        if !valuesToHighlight()
         {
             return false
         }
@@ -225,8 +226,7 @@ public class PieChartView: PieRadarChartViewBase
         for i in 0 ..< _indicesToHighlight.count
         {
             // check if the xvalue for the given dataset needs highlight
-            if (_indicesToHighlight[i].x == xValue
-                && _indicesToHighlight[i].dataSetIndex == dataSetIndex)
+            if Int(_indicesToHighlight[i].x) == index
             {
                 return true
             }

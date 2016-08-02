@@ -68,42 +68,6 @@ public class ChartUtils
         }
     }
     
-    /// - returns: the index of the DataSet that contains the closest value on the y-axis
-    internal class func closestDataSetIndexByValue(
-        valsAtIndex valsAtIndex: [ChartSelectionDetail],
-                    value: Double,
-                    axis: ChartYAxis.AxisDependency?) -> Int?
-    {
-        return closestSelectionDetailByValue(valsAtIndex: valsAtIndex, value: value, axis: axis)?.dataSetIndex
-    }
-    
-    /// - returns: the `ChartSelectionDetail` of the closest value on the y-axis
-    internal class func closestSelectionDetailByValue(
-        valsAtIndex valsAtIndex: [ChartSelectionDetail],
-                    value: Double,
-                    axis: ChartYAxis.AxisDependency?) -> ChartSelectionDetail?
-    {
-        var distance = DBL_MAX
-        var detail: ChartSelectionDetail?
-        
-        for i in 0 ..< valsAtIndex.count
-        {
-            let sel = valsAtIndex[i]
-            
-            if axis == nil || sel.dataSet?.axisDependency == axis
-            {
-                let cdistance = abs(sel.yValue - value)
-                if cdistance < distance
-                {
-                    detail = sel
-                    distance = cdistance
-                }
-            }
-        }
-        
-        return detail
-    }
-    
     /// Calculates the position around a center point, depending on the distance from the center, and the angle of the position around the center.
     internal class func getPosition(center center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
     {

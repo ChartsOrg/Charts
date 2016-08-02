@@ -23,66 +23,67 @@ public class BarChartHighlighter: ChartHighlighter
         {
             let pos = getValsForTouch(x: x, y: y)
             
-            guard let selectionDetail = getSelectionDetail(xValue: Double(pos.x), x: x, y: y)
+            guard let high = getHighlight(xValue: Double(pos.x), x: x, y: y)
                 else { return nil }
             
-            if let set = barData.getDataSetByIndex(selectionDetail.dataSetIndex) as? IBarChartDataSet
+            if let set = barData.getDataSetByIndex(high.dataSetIndex) as? IBarChartDataSet
                 where set.isStacked
             {
-                return getStackedHighlight(selectionDetail: selectionDetail,
+                return getStackedHighlight(high: high,
                                            set: set,
                                            xValue: Double(pos.x),
                                            yValue: Double(pos.y))
             }
             
-            return ChartHighlight(x: selectionDetail.xValue,
-                                  y: selectionDetail.yValue,
-                                  dataIndex: selectionDetail.dataIndex,
-                                  dataSetIndex: selectionDetail.dataSetIndex,
-                                  stackIndex: -1)
+            return high
         }
         return nil
     }
     
-    internal override func getDistance(x x: CGFloat, y: CGFloat, selX: CGFloat, selY: CGFloat) -> CGFloat
+    internal override func getDistance(x1 x1: CGFloat, y1: CGFloat, x2: CGFloat, y2: CGFloat) -> CGFloat
     {
-        return abs(x - selX)
+        return abs(x1 - x2)
     }
     
     /// This method creates the Highlight object that also indicates which value of a stacked BarEntry has been selected.
-    /// - parameter selectionDetail: the selection detail to work with looking for stacked values
+    /// - parameter high: the Highlight to work with looking for stacked values
     /// - parameter set:
     /// - parameter xIndex:
     /// - parameter yValue:
     /// - returns:
-    public func getStackedHighlight(selectionDetail selectionDetail: ChartSelectionDetail,
-                                                    set: IBarChartDataSet,
-                                                    xValue: Double,
-                                                    yValue: Double) -> ChartHighlight?
+    public func getStackedHighlight(high high: ChartHighlight,
+                                         set: IBarChartDataSet,
+                                         xValue: Double,
+                                         yValue: Double) -> ChartHighlight?
     {
-        guard let entry = set.entryForXPos(xValue) as? BarChartDataEntry
+        guard let
+            chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider,
+            entry = set.entryForXPos(xValue) as? BarChartDataEntry
             else { return nil }
         
         // Not stacked
         if entry.yValues == nil
         {
-            return ChartHighlight(x: entry.x,
-                                  y: entry.y,
-                                  dataIndex: selectionDetail.dataIndex,
-                                  dataSetIndex: selectionDetail.dataSetIndex,
-                                  stackIndex: -1)
+            return high
         }
         
         if let ranges = getRanges(entry: entry)
             where ranges.count > 0
         {
             let stackIndex = getClosestStackIndex(ranges: ranges, value: yValue)
+            
+            let range = ranges[stackIndex]
+            
+            let pixel = chart.getTransformer(set.axisDependency).pixelForValue(x: high.x, y: range.to)
+
             return ChartHighlight(x: entry.x,
-                                  y: entry.positiveSum - entry.negativeSum,
-                                  dataIndex: selectionDetail.dataIndex,
-                                  dataSetIndex: selectionDetail.dataSetIndex,
+                                  y: entry.y,
+                                  xPx: pixel.x,
+                                  yPx: pixel.y,
+                                  dataSetIndex: high.dataSetIndex,
                                   stackIndex: stackIndex,
-                                  range: ranges[stackIndex])
+                                  range: range,
+                                  axis: high.axis)
         }
         
         return nil
@@ -98,7 +99,7 @@ public class BarChartHighlighter: ChartHighlighter
         {
             return 0
         }
-
+        
         var stackIndex = 0
         
         for range in ranges!

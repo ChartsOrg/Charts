@@ -64,6 +64,8 @@
                              @(CombinedChartDrawOrderScatter)
                              ];
     
+    _chartView.highlightFullBarEnabled = NO;
+    
     ChartLegend *l = _chartView.legend;
     l.wordWrapEnabled = YES;
     l.position = ChartLegendPositionBelowChartCenter;
@@ -184,18 +186,24 @@
     
     for (int index = 0; index < ITEM_COUNT; index++)
     {
-        [entries1 addObject:[[BarChartDataEntry alloc] initWithX:index + 0.5 y:(arc4random_uniform(25) + 25)]];
-        [entries2 addObject:[[BarChartDataEntry alloc] initWithX:index + 0.5 y:(arc4random_uniform(25) + 25)]];
+        [entries1 addObject:[[BarChartDataEntry alloc] initWithX:0.0 y:(arc4random_uniform(25) + 25)]];
+        
+        // stacked
+        [entries2 addObject:[[BarChartDataEntry alloc] initWithX:0.0 yValues:@[@(arc4random_uniform(13) + 12), @(arc4random_uniform(13) + 12)]]];
     }
-    
+
     BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithValues:entries1 label:@"Bar 1"];
     [set1 setColor:[UIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f]];
     set1.valueTextColor = [UIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f];
     set1.valueFont = [UIFont systemFontOfSize:10.f];
     set1.axisDependency = AxisDependencyLeft;
     
-    BarChartDataSet *set2 = [[BarChartDataSet alloc] initWithValues:entries2 label:@"Bar 2"];
-    [set2 setColor:[UIColor colorWithRed:61/255.f green:165/255.f blue:255/255.f alpha:1.f]];
+    BarChartDataSet *set2 = [[BarChartDataSet alloc] initWithValues:entries2 label:@""];
+    set2.stackLabels = @[@"Stack 1", @"Stack 2"];
+    set2.colors = @[
+                    [UIColor colorWithRed:61/255.f green:165/255.f blue:255/255.f alpha:1.f],
+                    [UIColor colorWithRed:23/255.f green:197/255.f blue:255/255.f alpha:1.f]
+                    ];
     set2.valueTextColor = [UIColor colorWithRed:61/255.f green:165/255.f blue:255/255.f alpha:1.f];
     set2.valueFont = [UIFont systemFontOfSize:10.f];
     set2.axisDependency = AxisDependencyLeft;
@@ -285,7 +293,7 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry highlight:(ChartHighlight * __nonnull)highlight
 {
     NSLog(@"chartValueSelected");
 }

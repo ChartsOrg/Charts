@@ -15,7 +15,7 @@ import Foundation
 import CoreGraphics
 
 /// This chart class allows the combination of lines, bars, scatter and candle data all displayed in one chart area.
-public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, BarChartDataProvider, ScatterChartDataProvider, CandleChartDataProvider, BubbleChartDataProvider
+public class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
 {
     /// the fill-formatter used for determining the position of the fill-line
     internal var _fillFormatter: ChartFillFormatter!
@@ -35,7 +35,7 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
     {
         super.initialize()
         
-        self.highlighter = CombinedHighlighter(chart: self)
+        self.highlighter = CombinedHighlighter(chart: self, barDataProvider: self)
         
         // Old default behaviour
         self.highlightFullBarEnabled = true
@@ -56,6 +56,9 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
         set
         {
             super.data = newValue
+            
+            self.highlighter = CombinedHighlighter(chart: self, barDataProvider: self)
+            
             (renderer as! CombinedChartRenderer?)!.createRenderers()
             renderer?.initBuffers()
         }
@@ -74,6 +77,16 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
             {
                 _fillFormatter = ChartDefaultFillFormatter()
             }
+        }
+    }
+    
+    // MARK: - CombinedChartDataProvider
+    
+    public var combinedData: CombinedChartData?
+    {
+        get
+        {
+            return _data as? CombinedChartData
         }
     }
     

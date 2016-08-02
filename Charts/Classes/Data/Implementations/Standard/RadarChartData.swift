@@ -40,4 +40,9 @@ public class RadarChartData: ChartData
     {
         super.init(dataSets: dataSets)
     }
+    
+    public override func entryForHighlight(highlight: ChartHighlight) -> ChartDataEntry?
+    {
+        return getDataSetByIndex(highlight.dataSetIndex)?.entryForIndex(Int(highlight.x))
+    }
 }

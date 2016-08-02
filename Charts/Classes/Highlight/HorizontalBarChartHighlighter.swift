@@ -23,48 +23,44 @@ public class HorizontalBarChartHighlighter: BarChartHighlighter
         {
             let pos = getValsForTouch(x: y, y: x)
             
-            guard let selectionDetail = getSelectionDetail(xValue: Double(pos.y), x: y, y: x)
+            guard let high = getHighlight(xValue: Double(pos.y), x: y, y: x)
                 else { return nil }
             
-            if let set = barData.getDataSetByIndex(selectionDetail.dataSetIndex) as? IBarChartDataSet
+            if let set = barData.getDataSetByIndex(high.dataSetIndex) as? IBarChartDataSet
                 where set.isStacked
             {
-                return getStackedHighlight(selectionDetail: selectionDetail,
+                return getStackedHighlight(high: high,
                                            set: set,
                                            xValue: Double(pos.y),
                                            yValue: Double(pos.x))
             }
             
-            return ChartHighlight(x: selectionDetail.xValue,
-                                  y: selectionDetail.yValue,
-                                  dataIndex: selectionDetail.dataIndex,
-                                  dataSetIndex: selectionDetail.dataSetIndex,
-                                  stackIndex: -1)
+            return high
         }
         return nil
     }
     
-    internal override func getDetails(
-        set: IChartDataSet,
+    internal override func buildHighlight(
+        dataSet set: IChartDataSet,
         dataSetIndex: Int,
         xValue: Double,
-        rounding: ChartDataSetRounding) -> ChartSelectionDetail?
+        rounding: ChartDataSetRounding) -> ChartHighlight?
     {
-        guard let chart = self.chart
+        guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider
             else { return nil }
         
         if let e = set.entryForXPos(xValue, rounding: rounding)
         {
             let px = chart.getTransformer(set.axisDependency).pixelForValue(x: e.y, y: e.x)
             
-            return ChartSelectionDetail(x: px.x, y: px.y, xValue: e.x, yValue: e.y, dataSetIndex: dataSetIndex, dataSet: set)
+            return ChartHighlight(x: e.x, y: e.y, xPx: px.x, yPx: px.y,dataSetIndex: dataSetIndex, axis: set.axisDependency)
         }
         
         return nil
     }
     
-    internal override func getDistance(x x: CGFloat, y: CGFloat, selX: CGFloat, selY: CGFloat) -> CGFloat
+    internal override func getDistance(x1 x1: CGFloat, y1: CGFloat, x2: CGFloat, y2: CGFloat) -> CGFloat
     {
-        return abs(y - selY)
+        return abs(y1 - y2)
     }
 }

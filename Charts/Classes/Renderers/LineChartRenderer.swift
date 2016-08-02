@@ -691,45 +691,44 @@ public class LineChartRenderer: LineRadarChartRenderer
         
         for high in indices
         {
-            let minDataSetIndex = high.dataSetIndex == -1 ? 0 : high.dataSetIndex
-            let maxDataSetIndex = high.dataSetIndex == -1 ? lineData.dataSetCount : (high.dataSetIndex + 1)
-            if maxDataSetIndex - minDataSetIndex < 1 { continue }
+            guard let set = lineData.getDataSetByIndex(high.dataSetIndex) as? ILineChartDataSet
+                where set.isHighlightEnabled
+                else { continue }
             
-            for dataSetIndex in minDataSetIndex..<maxDataSetIndex
+            guard let e = set.entryForXPos(high.x) else { continue }
+            
+            if !isInBoundsX(entry: e, dataSet: set)
             {
-                guard let set = lineData.getDataSetByIndex(dataSetIndex) as? ILineChartDataSet else { continue }
-                
-                if !set.isHighlightEnabled
-                {
-                    continue
-                }
-                
-                CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
-                CGContextSetLineWidth(context, set.highlightLineWidth)
-                if (set.highlightLineDashLengths != nil)
-                {
-                    CGContextSetLineDash(context, set.highlightLineDashPhase, set.highlightLineDashLengths!, set.highlightLineDashLengths!.count)
-                }
-                else
-                {
-                    CGContextSetLineDash(context, 0.0, nil, 0)
-                }
-                
-                let x = high.x; // get the x-position
-                let y = high.y * Double(animator.phaseY)
-                
-                if (x > chartXMax * animator.phaseX)
-                {
-                    continue
-                }
-                
-                let trans = dataProvider.getTransformer(set.axisDependency)
-                
-                let pt = trans.pixelForValue(x: x, y: y)
-                
-                // draw the lines
-                drawHighlightLines(context: context, point: pt, set: set)
+                continue
             }
+        
+            CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
+            CGContextSetLineWidth(context, set.highlightLineWidth)
+            if (set.highlightLineDashLengths != nil)
+            {
+                CGContextSetLineDash(context, set.highlightLineDashPhase, set.highlightLineDashLengths!, set.highlightLineDashLengths!.count)
+            }
+            else
+            {
+                CGContextSetLineDash(context, 0.0, nil, 0)
+            }
+            
+            let x = high.x; // get the x-position
+            let y = high.y * Double(animator.phaseY)
+            
+            if (x > chartXMax * animator.phaseX)
+            {
+                continue
+            }
+            
+            let trans = dataProvider.getTransformer(set.axisDependency)
+            
+            let pt = trans.pixelForValue(x: x, y: y)
+            
+            high.setDraw(pt: pt)
+            
+            // draw the lines
+            drawHighlightLines(context: context, point: pt, set: set)
         }
         
         CGContextRestoreGState(context)

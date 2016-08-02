@@ -147,8 +147,8 @@
     
     for (int i = 0; i < cnt; i++)
     {
-        [yVals1 addObject:[[ChartDataEntry alloc] initWithX:i y:(arc4random_uniform(mult) + min)]];
-        [yVals2 addObject:[[ChartDataEntry alloc] initWithX:i y:(arc4random_uniform(mult) + min)]];
+        [yVals1 addObject:[[RadarChartDataEntry alloc] initWithValue:(arc4random_uniform(mult) + min)]];
+        [yVals2 addObject:[[RadarChartDataEntry alloc] initWithValue:(arc4random_uniform(mult) + min)]];
     }
     
     RadarChartDataSet *set1 = [[RadarChartDataSet alloc] initWithValues:yVals1 label:@"Last Week"];
@@ -252,7 +252,7 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry highlight:(ChartHighlight * __nonnull)highlight
 {
     NSLog(@"chartValueSelected");
 }

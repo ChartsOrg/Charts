@@ -26,7 +26,7 @@ public protocol ChartViewDelegate
     /// Called when a value has been selected inside the chart.
     /// - parameter entry: The selected Entry.
     /// - parameter dataSetIndex: The index in the datasets array of the data object the Entrys DataSet is in.
-    optional func chartValueSelected(chartView: ChartViewBase, entry: ChartDataEntry, dataSetIndex: Int, highlight: ChartHighlight)
+    optional func chartValueSelected(chartView: ChartViewBase, entry: ChartDataEntry, highlight: ChartHighlight)
     
     // Called when nothing has been selected or an "un-select" has been made.
     optional func chartValueNothingSelected(chartView: ChartViewBase)
@@ -108,7 +108,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     /// object responsible for rendering the data
     public var renderer: ChartDataRendererBase?
     
-    public var highlighter: ChartHighlighter?
+    public var highlighter: IChartHighlighter?
     
     /// object that manages the bounds and drawing constraints of the chart
     internal var _viewPortHandler: ChartViewPortHandler!
@@ -490,7 +490,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         else
         {
             // set the indices to highlight
-            entry = _data?.getEntryForHighlight(h!)
+            entry = _data?.entryForHighlight(h!)
             if (entry == nil)
             {
                 h = nil
@@ -501,7 +501,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
                 if self is BarLineChartViewBase
                     && (self as! BarLineChartViewBase).isHighlightFullBarEnabled
                 {
-                    h = ChartHighlight(x: h!.x, y: Double.NaN, dataIndex: -1, dataSetIndex: -1, stackIndex: -1)
+                    h = ChartHighlight(x: h!.x, y: Double.NaN, xPx: CGFloat.NaN, yPx: CGFloat.NaN, dataSetIndex: -1, axis: .Left)
                 }
                 
                 _indicesToHighlight = [h!]
@@ -517,7 +517,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
             else
             {
                 // notify the listener
-                delegate!.chartValueSelected?(self, entry: entry!, dataSetIndex: h!.dataSetIndex, highlight: h!)
+                delegate!.chartValueSelected?(self, entry: entry!, highlight: h!)
             }
         }
         
@@ -525,6 +525,20 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         setNeedsDisplay()
     }
     
+    /// Returns the Highlight object (contains x-index and DataSet index) of the
+    /// selected value at the given touch point inside the Line-, Scatter-, or
+    /// CandleStick-Chart.
+    public func getHighlightByTouchPoint(pt: CGPoint) -> ChartHighlight?
+    {
+        if _data === nil
+        {
+            Swift.print("Can't select by touch. No data set.")
+            return nil
+        }
+        
+        return self.highlighter?.getHighlight(x: pt.x, y: pt.y)
+    }
+
     /// The last value that was highlighted via touch.
     public var lastHighlighted: ChartHighlight?
   
@@ -545,7 +559,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
             
             guard let
                 set = data?.getDataSetByIndex(highlight.dataSetIndex),
-                e = _data?.getEntryForHighlight(highlight)
+                e = _data?.entryForHighlight(highlight)
                 else { continue }
             
             let entryIndex = set.entryIndex(entry: e)
@@ -554,7 +568,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
                 continue
             }
 
-            let pos = getMarkerPosition(entry: e, highlight: highlight)
+            let pos = getMarkerPosition(highlight: highlight)
 
             // check bounds
             if !_viewPortHandler.isInBounds(x: pos.x, y: pos.y)
@@ -579,9 +593,9 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     }
     
     /// - returns: the actual position in pixels of the MarkerView for the given Entry in the given DataSet.
-    public func getMarkerPosition(entry entry: ChartDataEntry, highlight: ChartHighlight) -> CGPoint
+    public func getMarkerPosition(highlight highlight: ChartHighlight) -> CGPoint
     {
-        fatalError("getMarkerPosition() cannot be called on ChartViewBase")
+        return CGPoint(x: highlight.drawX, y: highlight.drawY)
     }
     
     // MARK: - Animation

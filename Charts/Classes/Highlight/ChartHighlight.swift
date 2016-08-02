@@ -29,7 +29,7 @@ public class ChartHighlight: NSObject
     private var _yPx = CGFloat.NaN
     
     /// the index of the data object - in case it refers to more than one
-    private var _dataIndex = Int(0)
+    public var dataIndex = Int(-1)
     
     /// the index of the dataset the highlighted value is in
     private var _dataSetIndex = Int(0)
@@ -41,7 +41,16 @@ public class ChartHighlight: NSObject
     
     /// the range of the bar that is selected (only for stacked-barchart)
     private var _range: ChartRange?
-
+    
+    /// the axis the highlighted value belongs to
+    private var _axis: ChartYAxis.AxisDependency = ChartYAxis.AxisDependency.Left
+    
+    /// the x-position (pixels) on which this highlight object was last drawn
+    public var drawX: CGFloat = 0.0
+    
+    /// the y-position (pixels) on which this highlight object was last drawn
+    public var drawY: CGFloat = 0.0
+    
     public override init()
     {
         super.init()
@@ -49,87 +58,122 @@ public class ChartHighlight: NSObject
     
     /// - parameter x: the x-value of the highlighted value
     /// - parameter y: the y-value of the highlighted value
+    /// - parameter xPx: the x-pixel of the highlighted value
+    /// - parameter yPx: the y-pixel of the highlighted value
     /// - parameter dataIndex: the index of the Data the highlighted value belongs to
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
     /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
     /// - parameter range: the range the selected stack-value is in
+    /// - parameter axis: the axis the highlighted value belongs to
     public init(
         x: Double, y: Double,
-        dataIndex: Int, dataSetIndex: Int,
-        stackIndex: Int, range: ChartRange?)
+        xPx: CGFloat, yPx: CGFloat,
+        dataIndex: Int,
+        dataSetIndex: Int,
+        stackIndex: Int,
+        range: ChartRange?,
+        axis: ChartYAxis.AxisDependency)
     {
         super.init()
         
         _x = x
         _y = y
-        _dataIndex = dataIndex
+        _xPx = xPx
+        _yPx = yPx
+        self.dataIndex = dataIndex
         _dataSetIndex = dataSetIndex
         _stackIndex = stackIndex
         _range = range
+        _axis = axis
     }
     
     /// - parameter x: the x-value of the highlighted value
     /// - parameter y: the y-value of the highlighted value
+    /// - parameter xPx: the x-pixel of the highlighted value
+    /// - parameter yPx: the y-pixel of the highlighted value
+    /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
+    /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
+    /// - parameter range: the range the selected stack-value is in
+    /// - parameter axis: the axis the highlighted value belongs to
+    public convenience init(
+        x: Double, y: Double,
+        xPx: CGFloat, yPx: CGFloat,
+        dataSetIndex: Int,
+        stackIndex: Int, range: ChartRange?,
+        axis: ChartYAxis.AxisDependency)
+    {
+        self.init(x: x, y: y, xPx: xPx, yPx: yPx,
+                  dataIndex: 0,
+                  dataSetIndex: dataSetIndex,
+                  stackIndex: stackIndex,
+                  range: range,
+                  axis: axis)
+    }
+    
+    /// - parameter x: the x-value of the highlighted value
+    /// - parameter y: the y-value of the highlighted value
+    /// - parameter xPx: the x-pixel of the highlighted value
+    /// - parameter yPx: the y-pixel of the highlighted value
     /// - parameter dataIndex: the index of the Data the highlighted value belongs to
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
     /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
-    public convenience init(
+    /// - parameter axis: the axis the highlighted value belongs to
+    public init(
         x: Double, y: Double,
-        dataIndex: Int, dataSetIndex: Int,
-        stackIndex: Int)
+        xPx: CGFloat, yPx: CGFloat,
+        dataSetIndex: Int,
+        axis: ChartYAxis.AxisDependency)
     {
-        self.init(x: x, y: y, dataIndex: dataIndex, dataSetIndex: dataSetIndex, stackIndex: stackIndex, range: nil)
-    }
-    
-    /// - parameter x: the x-value of the highlighted value
-    /// - parameter y: the y-value of the highlighted value
-    /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
-    /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
-    /// - parameter range: the range the selected stack-value is in
-    public convenience init(x: Double, y: Double, xPx: CGFloat, yPx: CGFloat, dataSetIndex: Int, stackIndex: Int, range: ChartRange?)
-    {
-        self.init(x: x, y: y, dataIndex: 0, dataSetIndex: dataSetIndex, stackIndex: stackIndex, range: range)
-    }
-    
-    /// - parameter x: the x-value of the highlighted value
-    /// - parameter y: the y-value of the highlighted value
-    /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
-    /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
-    /// - parameter range: the range the selected stack-value is in
-    public convenience init(x: Double, y: Double, dataSetIndex: Int, stackIndex: Int)
-    {
-        self.init(x: x, y: y, dataIndex: 0, dataSetIndex: dataSetIndex, stackIndex: stackIndex, range: nil)
+        super.init()
+        
+        _x = x
+        _y = y
+        _xPx = xPx
+        _yPx = yPx
+        _dataSetIndex = dataSetIndex
+        _axis = axis
     }
     
     /// - parameter x: the x-value of the highlighted value
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
-    /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
-    public convenience init(x: Double, dataSetIndex: Int, stackIndex: Int)
+    public init(x: Double, dataSetIndex: Int)
     {
-        self.init(x: x, y: Double.NaN, dataIndex: 0, dataSetIndex: dataSetIndex, stackIndex: stackIndex, range: nil)
-    }
-    
-    /// - parameter x: the x-value of the highlighted value
-    /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
-    public convenience init(x: Double, dataSetIndex: Int)
-    {
-        self.init(x: x, y: Double.NaN, dataIndex: 0, dataSetIndex: dataSetIndex, stackIndex: -1, range: nil)
+        _x = x
+        _dataSetIndex = dataSetIndex
     }
     
     public var x: Double { return _x }
     public var y: Double { return _y }
-    public var dataIndex: Int { return _dataIndex }
+    public var xPx: CGFloat { return _xPx }
+    public var yPx: CGFloat { return _yPx }
     public var dataSetIndex: Int { return _dataSetIndex }
     public var stackIndex: Int { return _stackIndex }
+    public var axis: ChartYAxis.AxisDependency { return _axis }
+    
+    public var isStacked: Bool { return _stackIndex >= 0 }
     
     /// - returns: the range of values the selected value of a stacked bar is in. (this is only relevant for stacked-barchart)
     public var range: ChartRange? { return _range }
+    
+    /// Sets the x- and y-position (pixels) where this highlight was last drawn.
+    public func setDraw(x x: CGFloat, y: CGFloat)
+    {
+        self.drawX = x
+        self.drawY = y
+    }
+    
+    /// Sets the x- and y-position (pixels) where this highlight was last drawn.
+    public func setDraw(pt pt: CGPoint)
+    {
+        self.drawX = pt.x
+        self.drawY = pt.y
+    }
 
     // MARK: NSObject
     
     public override var description: String
     {
-        return "Highlight, x: \(_x), y: \(_y), dataIndex (combined charts): \(_dataIndex), dataSetIndex: \(_dataSetIndex), stackIndex (only stacked barentry): \(_stackIndex)"
+        return "Highlight, x: \(_x), y: \(_y), dataIndex (combined charts): \(dataIndex), dataSetIndex: \(_dataSetIndex), stackIndex (only stacked barentry): \(_stackIndex)"
     }
     
     public override func isEqual(object: AnyObject?) -> Bool
@@ -154,7 +198,7 @@ public class ChartHighlight: NSObject
             return false
         }
         
-        if (object!.dataIndex != _dataIndex)
+        if (object!.dataIndex != dataIndex)
         {
             return false
         }
@@ -195,7 +239,7 @@ func ==(lhs: ChartHighlight, rhs: ChartHighlight) -> Bool
         return false
     }
     
-    if (lhs._dataIndex != rhs._dataIndex)
+    if (lhs.dataIndex != rhs.dataIndex)
     {
         return false
     }

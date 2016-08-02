@@ -18,7 +18,7 @@ import CoreGraphics
     import UIKit
 #endif
 
-public class BarChartRenderer: ChartDataRendererBase
+public class BarChartRenderer: BarLineScatterCandleBubbleChartRenderer
 {
     private class Buffer
     {
@@ -514,15 +514,13 @@ public class BarChartRenderer: ChartDataRendererBase
         
         for high in indices
         {
-            let minDataSetIndex = high.dataSetIndex == -1 ? 0 : high.dataSetIndex
-            let maxDataSetIndex = high.dataSetIndex == -1 ? barData.dataSetCount : (high.dataSetIndex + 1)
-            if maxDataSetIndex - minDataSetIndex < 1 { continue }
+            guard let set = barData.getDataSetByIndex(high.dataSetIndex) as? IBarChartDataSet
+                where set.isHighlightEnabled
+                else { continue }
             
-            for dataSetIndex in minDataSetIndex..<maxDataSetIndex
+            if let e = set.entryForXPos(high.x) as? BarChartDataEntry
             {
-                guard let set = barData.getDataSetByIndex(dataSetIndex) as? IBarChartDataSet else { continue }
-                
-                if !set.isHighlightEnabled
+                if !isInBoundsX(entry: e, dataSet: set)
                 {
                     continue
                 }
@@ -532,41 +530,36 @@ public class BarChartRenderer: ChartDataRendererBase
                 CGContextSetFillColorWithColor(context, set.highlightColor.CGColor)
                 CGContextSetAlpha(context, set.highlightAlpha)
                 
-                let x = high.x
+                let isStack = high.stackIndex >= 0 && e.isStacked
                 
-                if let e = set.entryForXPos(x) as? BarChartDataEntry
+                let y1: Double
+                let y2: Double
+                
+                if isStack
                 {
-                    let entryIndex = set.entryIndex(entry: e)
-                    if Double(entryIndex) > Double(set.entryCount) * (animator?.phaseX ?? 1.0)
-                    {
-                        continue
-                    }
-
-                    let isStack = high.stackIndex >= 0 && e.isStacked
-                    
-                    let y1: Double
-                    let y2: Double
-                    
-                    if isStack
-                    {
-                        y1 = high.range?.from ?? 0.0
-                        y2 = high.range?.to ?? 0.0
-                    }
-                    else
-                    {
-                        y1 = e.y
-                        y2 = 0.0
-                    }
-                    
-                    prepareBarHighlight(x: e.x, y1: y1, y2: y2, barWidthHalf: barData.barWidth / 2.0, trans: trans, rect: &barRect)
-
-                    // prepareBarHighlight(y1: y1, y2: y2, interval: interval, entryIndex: entryIndex, dataSetIndex: dataSetIndex, dataSetCount: setCount, barSpace: barSpace, groupSpace: groupSpace, trans: trans, rect: &barRect)
-                    
-                    CGContextFillRect(context, barRect)
+                    y1 = high.range?.from ?? 0.0
+                    y2 = high.range?.to ?? 0.0
                 }
+                else
+                {
+                    y1 = e.y
+                    y2 = 0.0
+                }
+                
+                prepareBarHighlight(x: e.x, y1: y1, y2: y2, barWidthHalf: barData.barWidth / 2.0, trans: trans, rect: &barRect)
+                
+                setHighlightDrawPos(highlight: high, barRect: barRect)
+                
+                CGContextFillRect(context, barRect)
             }
         }
         
         CGContextRestoreGState(context)
+    }
+    
+    /// Sets the drawing position of the highlight object based on the riven bar-rect.
+    internal func setHighlightDrawPos(highlight high: ChartHighlight, barRect: CGRect)
+    {
+        high.setDraw(x: barRect.midX, y: barRect.origin.y)
     }
 }

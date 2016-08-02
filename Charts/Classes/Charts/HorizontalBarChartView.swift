@@ -100,6 +100,11 @@ public class HorizontalBarChartView: BarChartView
         _leftAxisTransformer.prepareMatrixValuePx(chartXMin: _leftAxis._axisMinimum, deltaX: CGFloat(_leftAxis.axisRange), deltaY: CGFloat(_xAxis.axisRange), chartYMin: _xAxis._axisMinimum)
     }
     
+    public override func getMarkerPosition(highlight highlight: ChartHighlight) -> CGPoint
+    {
+        return CGPoint(x: highlight.drawY, y: highlight.drawX)
+    }
+    
     public override func getBarBounds(e: BarChartDataEntry) -> CGRect
     {
         guard let

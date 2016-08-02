@@ -69,7 +69,7 @@
     xl.labelPosition = XAxisLabelPositionBottom;
     xl.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     
-    _sliderX.value = 1.0;
+    _sliderX.value = 10.0;
     _sliderY.value = 50.0;
     [self slidersValueChanged:nil];
 }

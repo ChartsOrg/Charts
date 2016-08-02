@@ -279,7 +279,7 @@ public class PieRadarChartViewBase: ChartViewBase
     
     /// Calculates the position around a center point, depending on the distance
     /// from the center, and the angle of the position around the center.
-    internal func getPosition(center center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
+    public func getPosition(center center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
     {
         return CGPoint(x: center.x + dist * cos(angle * ChartUtils.Math.FDEG2RAD),
                 y: center.y + dist * sin(angle * ChartUtils.Math.FDEG2RAD))
@@ -389,36 +389,6 @@ public class PieRadarChartViewBase: ChartViewBase
     public override var chartYMin: Double
     {
         return 0.0
-    }
-    
-    /// The SelectionDetail objects give information about the value at the selected index and the DataSet it belongs to.
-    /// - returns: an array of SelectionDetail objects for the given x-index.
-    public func getSelectionDetailsAtIndex(xValue: Double) -> [ChartSelectionDetail]
-    {
-        var vals = [ChartSelectionDetail]()
-        
-        guard let data = _data else { return vals }
-
-        for i in 0 ..< data.dataSetCount
-        {
-            guard let dataSet = data.getDataSetByIndex(i) else { continue }
-            
-            if !dataSet.isHighlightEnabled
-            {
-                continue
-            }
-            
-            // extract all y-values from all DataSets at the given x-index
-            let yVal = dataSet.yValueForXValue(xValue)
-            if (yVal.isNaN)
-            {
-                continue
-            }
-            
-            vals.append(ChartSelectionDetail(xValue: 0.0, yValue: yVal, dataSetIndex: i, dataSet: dataSet))
-        }
-        
-        return vals
     }
     
     public var isRotationEnabled: Bool { return rotationEnabled; }
@@ -860,79 +830,9 @@ public class PieRadarChartViewBase: ChartViewBase
             if !self.isHighLightPerTapEnabled { return }
             
             let location = recognizer.locationInView(self)
-            let distance = distanceToCenter(x: location.x, y: location.y)
             
-            // check if a slice was touched
-            if (distance > self.radius)
-            {
-                // if no slice was touched, highlight nothing
-                self.highlightValues(nil)
-                
-                if _lastHighlight == nil
-                {
-                    self.highlightValues(nil) // do not call delegate
-                }
-                else
-                {
-                    self.highlightValue(highlight: nil, callDelegate: true) // call delegate
-                }
-                
-                _lastHighlight = nil
-            }
-            else
-            {
-                var angle = angleForPoint(x: location.x, y: location.y)
-                
-                if (self.isKindOfClass(PieChartView))
-                {
-                    angle /= CGFloat(_animator.phaseY)
-                }
-                
-                let index = indexForAngle(angle)
-                
-                // check if the index could be found
-                if (index < 0)
-                {
-                    self.highlightValues(nil)
-                    _lastHighlight = nil
-                }
-                else
-                {
-                    let valsAtIndex = getSelectionDetailsAtIndex(Double(index))
-                    
-                    var dataSetIndex = 0
-                    
-                    // get the dataset that is closest to the selection (PieChart only has one DataSet)
-                    if (self.isKindOfClass(RadarChartView))
-                    {
-                        dataSetIndex = ChartUtils.closestDataSetIndexByValue(
-                            valsAtIndex: valsAtIndex,
-                            value: Double(distance / (self as! RadarChartView).factor),
-                            axis: nil) ?? -1
-                    }
-                    
-                    if (dataSetIndex < 0)
-                    {
-                        self.highlightValues(nil)
-                        _lastHighlight = nil
-                    }
-                    else
-                    {
-                        let h = ChartHighlight(x: Double(index), dataSetIndex: dataSetIndex)
-                        
-                        if (_lastHighlight !== nil && h == _lastHighlight)
-                        {
-                            self.highlightValue(highlight: nil, callDelegate: true)
-                            _lastHighlight = nil
-                        }
-                        else
-                        {
-                            self.highlightValue(highlight: h, callDelegate: true)
-                            _lastHighlight = h
-                        }
-                    }
-                }
-            }
+            let high = self.getHighlightByTouchPoint(location)
+            self.highlightValue(high)
         }
     }
     

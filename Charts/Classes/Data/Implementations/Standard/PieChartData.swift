@@ -77,6 +77,11 @@ public class PieChartData: ChartData
         return nil
     }
     
+    public override func entryForHighlight(highlight: ChartHighlight) -> ChartDataEntry?
+    {
+        return dataSet?.entryForIndex(Int(highlight.x))
+    }
+    
     public override func addDataSet(d: IChartDataSet!)
     {   
         super.addDataSet(d)

@@ -277,61 +277,53 @@ public class RadarChartRenderer: LineRadarChartRenderer
     {
         guard let
             chart = chart,
-            data = chart.data as? RadarChartData,
+            radarData = chart.data as? RadarChartData,
             animator = animator
             else { return }
         
         CGContextSaveGState(context)
-        CGContextSetLineWidth(context, data.highlightLineWidth)
-        if (data.highlightLineDashLengths != nil)
-        {
-            CGContextSetLineDash(context, data.highlightLineDashPhase, data.highlightLineDashLengths!, data.highlightLineDashLengths!.count)
-        }
-        else
-        {
-            CGContextSetLineDash(context, 0.0, nil, 0)
-        }
-        
-        let phaseX = animator.phaseX
-        let phaseY = animator.phaseY
         
         let sliceangle = chart.sliceAngle
+        
+        // calculate the factor that is needed for transforming the value pixels
         let factor = chart.factor
         
         let center = chart.centerOffsets
         
-        for i in 0 ..< indices.count
+        for high in indices
         {
-            guard let set = chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as? IRadarChartDataSet else { continue }
+            guard let set = chart.data?.getDataSetByIndex(high.dataSetIndex) as? IRadarChartDataSet
+                where set.isHighlightEnabled
+                else { continue }
             
-            if !set.isHighlightEnabled
+            guard let e = set.entryForIndex(Int(high.x)) as? RadarChartDataEntry
+                else { continue }
+            
+            if !isInBoundsX(entry: e, dataSet: set)
             {
                 continue
+            }
+            
+            CGContextSetLineWidth(context, radarData.highlightLineWidth)
+            if (radarData.highlightLineDashLengths != nil)
+            {
+                CGContextSetLineDash(context, radarData.highlightLineDashPhase, radarData.highlightLineDashLengths!, radarData.highlightLineDashLengths!.count)
+            }
+            else
+            {
+                CGContextSetLineDash(context, 0.0, nil, 0)
             }
             
             CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
             
-            // get the index to highlight
-            let x = indices[i].x
-            
-            let e = set.entryForXPos(x)
-            if e?.x != x
-            {
-                continue
-            }
-            
-            let j = set.entryIndex(entry: e!)
-            let y = (e!.y - chart.chartYMin)
-            
-            if (y.isNaN)
-            {
-                continue
-            }
+            let y = e.y - chart.chartYMin
             
             _highlightPointBuffer = ChartUtils.getPosition(
                 center: center,
-                dist: CGFloat(y) * factor * CGFloat(phaseY),
-                angle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
+                dist: CGFloat(y) * factor * CGFloat(animator.phaseY),
+                angle: sliceangle * CGFloat(high.x) * CGFloat(animator.phaseX) + chart.rotationAngle)
+            
+            high.setDraw(pt: _highlightPointBuffer)
             
             // draw the lines
             drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)

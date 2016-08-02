@@ -392,7 +392,7 @@ public class ChartData: NSObject
     ///
     /// - parameter highlight:
     /// - returns: the entry that is highlighted
-    public func getEntryForHighlight(highlight: ChartHighlight) -> ChartDataEntry?
+    public func entryForHighlight(highlight: ChartHighlight) -> ChartDataEntry?
     {
         if highlight.dataSetIndex >= dataSets.count
         {
@@ -400,18 +400,7 @@ public class ChartData: NSObject
         }
         else
         {
-            // The value of the highlighted entry could be NaN - if we are not interested in highlighting a specific value.
-            // FIXME: Fix on android
-            let entries = _dataSets[highlight.dataSetIndex].entriesForXPos(highlight.x)
-            for e in entries
-            {
-                if e.y == highlight.y || isnan(highlight.y)
-                {
-                    return e
-                }
-            }
-            
-            return nil
+            return dataSets[highlight.dataSetIndex].entryForXPos(highlight.x)
         }
     }
     
