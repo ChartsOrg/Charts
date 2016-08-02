@@ -89,6 +89,24 @@ public class PieChartRenderer: ChartDataRendererBase
         return spacedRadius
     }
     
+    /// Calculates the sliceSpace to use based on visible values and their size compared to the set sliceSpace.
+    public func getSliceSpace(dataSet dataSet: IPieChartDataSet) -> CGFloat
+    {
+        guard let
+            viewPortHandler = self.viewPortHandler,
+            data = chart?.data as? PieChartData
+            else { return dataSet.sliceSpace }
+        
+        let spaceSizeRatio = dataSet.sliceSpace / min(viewPortHandler.contentWidth, viewPortHandler.contentHeight)
+        let minValueRatio = dataSet.yMin / data.yValueSum * 2.0
+        
+        let sliceSpace = spaceSizeRatio > CGFloat(minValueRatio)
+            ? 0.0
+            : dataSet.sliceSpace
+        
+        return sliceSpace
+    }
+
     public func drawDataSet(context context: CGContext, dataSet: IPieChartDataSet)
     {
         guard let
@@ -120,7 +138,7 @@ public class PieChartRenderer: ChartDataRendererBase
             }
         }
         
-        let sliceSpace = visibleAngleCount <= 1 ? 0.0 : dataSet.sliceSpace
+        let sliceSpace = visibleAngleCount <= 1 ? 0.0 : getSliceSpace(dataSet: dataSet)
 
         CGContextSaveGState(context)
         
@@ -339,7 +357,7 @@ public class PieChartRenderer: ChartDataRendererBase
                 }
                 
                 let sliceAngle = drawAngles[xIndex]
-                let sliceSpace = dataSet.sliceSpace
+                let sliceSpace = getSliceSpace(dataSet: dataSet)
                 let sliceSpaceMiddleAngle = sliceSpace / (ChartUtils.Math.FDEG2RAD * labelRadius)
                 
                 // offset needed to center the drawn text in the slice
