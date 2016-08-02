@@ -179,24 +179,37 @@
 
 - (BarChartData *)generateBarData
 {
-    BarChartData *d = [[BarChartData alloc] init];
-    d.barWidth = 0.8;
-    
-    NSMutableArray *entries = [[NSMutableArray alloc] init];
+    NSMutableArray<BarChartDataEntry *> *entries1 = [[NSMutableArray alloc] init];
+    NSMutableArray<BarChartDataEntry *> *entries2 = [[NSMutableArray alloc] init];
     
     for (int index = 0; index < ITEM_COUNT; index++)
     {
-        [entries addObject:[[BarChartDataEntry alloc] initWithX:index + 0.5 y:(arc4random_uniform(25) + 25)]];
+        [entries1 addObject:[[BarChartDataEntry alloc] initWithX:index + 0.5 y:(arc4random_uniform(25) + 25)]];
+        [entries2 addObject:[[BarChartDataEntry alloc] initWithX:index + 0.5 y:(arc4random_uniform(25) + 25)]];
     }
     
-    BarChartDataSet *set = [[BarChartDataSet alloc] initWithValues:entries label:@"Bar DataSet"];
-    [set setColor:[UIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f]];
-    set.valueTextColor = [UIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f];
-    set.valueFont = [UIFont systemFontOfSize:10.f];
-
-    set.axisDependency = AxisDependencyLeft;
+    BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithValues:entries1 label:@"Bar 1"];
+    [set1 setColor:[UIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f]];
+    set1.valueTextColor = [UIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f];
+    set1.valueFont = [UIFont systemFontOfSize:10.f];
+    set1.axisDependency = AxisDependencyLeft;
     
-    [d addDataSet:set];
+    BarChartDataSet *set2 = [[BarChartDataSet alloc] initWithValues:entries2 label:@"Bar 2"];
+    [set2 setColor:[UIColor colorWithRed:61/255.f green:165/255.f blue:255/255.f alpha:1.f]];
+    set2.valueTextColor = [UIColor colorWithRed:61/255.f green:165/255.f blue:255/255.f alpha:1.f];
+    set2.valueFont = [UIFont systemFontOfSize:10.f];
+    set2.axisDependency = AxisDependencyLeft;
+
+    float groupSpace = 0.06f;
+    float barSpace = 0.02f; // x2 dataset
+    float barWidth = 0.45f; // x2 dataset
+    // (0.45 + 0.02) * 2 + 0.06 = 1.00 -> interval per "group"
+    
+    BarChartData *d = [[BarChartData alloc] initWithDataSets:@[set1, set2]];
+    d.barWidth = barWidth;
+    
+    // make this BarData object grouped
+    [d groupBarsFromX:0.0 groupSpace:groupSpace barSpace:barSpace]; // start at x = 0
     
     return d;
 }
