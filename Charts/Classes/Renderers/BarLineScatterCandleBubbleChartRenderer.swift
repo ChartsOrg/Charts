@@ -41,6 +41,7 @@ public class BarLineScatterCandleBubbleChartRenderer: ChartDataRendererBase
         /// range of visible entry indices
         public let range: Int
 
+        /// Calculates the minimum and maximum x values as well as the range between them.
         public init(chart: BarLineScatterCandleBubbleChartDataProvider,
                     dataSet: IBarLineScatterCandleBubbleChartDataSet,
                     animator: ChartAnimator?)
