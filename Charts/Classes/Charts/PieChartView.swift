@@ -35,7 +35,7 @@ public class PieChartView: PieRadarChartViewBase
     /// if true, the hole inside the chart will be drawn
     private var _drawHoleEnabled = true
     
-    private var _holeColor: NSUIColor? = NSUIColor.white()
+    private var _holeColor: NSUIColor? = NSUIColor.white
     
     /// if true, the hole will see-through to the inner tips of the slices
     private var _drawSlicesUnderHoleEnabled = false
@@ -44,7 +44,7 @@ public class PieChartView: PieRadarChartViewBase
     private var _usePercentValuesEnabled = false
     
     /// variable for the text that is drawn in the center of the pie-chart
-    private var _centerAttributedText: AttributedString?
+    private var _centerAttributedText: NSAttributedString?
     
     /// indicates the size of the hole in the center of the piechart
     ///
@@ -358,13 +358,13 @@ public class PieChartView: PieRadarChartViewBase
             }
             else
             {
-                let paragraphStyle = NSParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+                let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
                 paragraphStyle.lineBreakMode = NSLineBreakMode.byTruncatingTail
                 paragraphStyle.alignment = .center
                 
                 attrString = NSMutableAttributedString(string: newValue!)
                 attrString?.setAttributes([
-                    NSForegroundColorAttributeName: NSUIColor.black(),
+                    NSForegroundColorAttributeName: NSUIColor.black,
                     NSFontAttributeName: NSUIFont.systemFont(ofSize: 12.0),
                     NSParagraphStyleAttributeName: paragraphStyle
                     ], range: NSMakeRange(0, attrString!.length))
@@ -374,7 +374,7 @@ public class PieChartView: PieRadarChartViewBase
     }
     
     /// the text that is displayed in the center of the pie-chart
-    public var centerAttributedText: AttributedString?
+    public var centerAttributedText: NSAttributedString?
     {
         get
         {

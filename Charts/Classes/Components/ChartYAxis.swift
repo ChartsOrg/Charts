@@ -83,7 +83,7 @@ public class ChartYAxis: ChartAxisBase
     public var drawZeroLineEnabled = false
     
     /// Color of the zero line
-    public var zeroLineColor: NSUIColor? = NSUIColor.gray()
+    public var zeroLineColor: NSUIColor? = NSUIColor.gray
     
     /// Width of the zero line
     public var zeroLineWidth: CGFloat = 1.0

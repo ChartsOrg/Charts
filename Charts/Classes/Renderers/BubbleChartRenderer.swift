@@ -103,7 +103,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
             
             _pointBuffer.x = CGFloat(entry.xIndex - minx) * phaseX + CGFloat(minx)
             _pointBuffer.y = CGFloat(entry.value) * phaseY
-            _pointBuffer = _pointBuffer.apply(transform: valueToPixelMatrix)
+            _pointBuffer = _pointBuffer.applying(valueToPixelMatrix)
             
             let shapeSize = getShapeSize(entrySize: entry.size, maxSize: dataSet.maxSize, reference: referenceSize, normalizeSize: normalizeSize)
             let shapeHalf = shapeSize / 2.0
@@ -190,7 +190,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
                     
                     pt.x = CGFloat(e.xIndex - minx) * phaseX + CGFloat(minx)
                     pt.y = CGFloat(e.value) * phaseY
-                    pt = pt.apply(transform: valueToPixelMatrix)
+                    pt = pt.applying(valueToPixelMatrix)
                     
                     if (!viewPortHandler.isInBoundsRight(pt.x))
                     {
