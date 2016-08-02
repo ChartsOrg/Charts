@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		050273441D50E15B00CE581B /* ChartMarkerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 050273431D50E15B00CE581B /* ChartMarkerProtocol.swift */; };
 		06AEE7A71BDC3F8B009875AE /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BA8EC401A9D14DC00CE82E1 /* Charts.framework */; };
 		06AEE7AE1BDC3FC6009875AE /* LineChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AEE7AD1BDC3FC6009875AE /* LineChartTests.swift */; };
 		06AEE7C21BDC4277009875AE /* FBSnapshotTestCase.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 06AEE7C11BDC4277009875AE /* FBSnapshotTestCase.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -385,6 +386,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		050273431D50E15B00CE581B /* ChartMarkerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartMarkerProtocol.swift; sourceTree = "<group>"; };
 		06AEE7A21BDC3F8B009875AE /* ChartsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChartsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		06AEE7A61BDC3F8B009875AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06AEE7AD1BDC3FC6009875AE /* LineChartTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartTests.swift; sourceTree = "<group>"; };
@@ -719,6 +721,7 @@
 				5B6A546A1AA5C23F000F57C2 /* ChartMarker.swift */,
 				5BA8EC6D1A9D151C00CE82E1 /* ChartXAxis.swift */,
 				5BA8EC6E1A9D151C00CE82E1 /* ChartYAxis.swift */,
+				050273431D50E15B00CE581B /* ChartMarkerProtocol.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1066,6 +1069,7 @@
 				5B6654DB1BB0A86F00890030 /* ChartXAxisValueFormatter.swift in Sources */,
 				5B6A54A31AA66B7C000F57C2 /* LineChartView.swift in Sources */,
 				5B6A54891AA66A1A000F57C2 /* PieChartRenderer.swift in Sources */,
+				050273441D50E15B00CE581B /* ChartMarkerProtocol.swift in Sources */,
 				5B6A54991AA66B14000F57C2 /* BarChartView.swift in Sources */,
 				659400B41BF463C1004F9C27 /* CandleChartDataSet.swift in Sources */,
 				5B680D231A9D17C30026A057 /* ChartYAxis.swift in Sources */,
