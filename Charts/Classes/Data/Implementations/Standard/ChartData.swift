@@ -79,7 +79,7 @@ public class ChartData: NSObject
         _rightAxisMin = DBL_MAX
         
         // left axis
-        let firstLeft = getFirstLeft()
+        let firstLeft = getFirstLeft(dataSets: dataSets)
         
         if firstLeft !== nil
         {
@@ -104,7 +104,7 @@ public class ChartData: NSObject
         }
         
         // right axis
-        let firstRight = getFirstRight()
+        let firstRight = getFirstRight(dataSets: dataSets)
         
         if firstRight !== nil
         {
@@ -571,9 +571,9 @@ public class ChartData: NSObject
     }
     
     /// - returns: the first DataSet from the datasets-array that has it's dependency on the left axis. Returns null if no DataSet with left dependency could be found.
-    public func getFirstLeft() -> IChartDataSet?
+    public func getFirstLeft(dataSets dataSets: [IChartDataSet]) -> IChartDataSet?
     {
-        for dataSet in _dataSets
+        for dataSet in dataSets
         {
             if (dataSet.axisDependency == .Left)
             {
@@ -585,7 +585,7 @@ public class ChartData: NSObject
     }
     
     /// - returns: the first DataSet from the datasets-array that has it's dependency on the right axis. Returns null if no DataSet with right dependency could be found.
-    public func getFirstRight() -> IChartDataSet?
+    public func getFirstRight(dataSets dataSets: [IChartDataSet]) -> IChartDataSet?
     {
         for dataSet in _dataSets
         {

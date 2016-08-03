@@ -39,6 +39,7 @@
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"},
                      @{@"key": @"toggleData", @"label": @"Toggle Data"},
                      @{@"key": @"toggleBarBorders", @"label": @"Show Bar Borders"},
+                     @{@"key": @"removeDataSet", @"label": @"Remove random set"},
                      ];
     
     months = @[
@@ -146,6 +147,14 @@
         
         [_chartView setNeedsDisplay];
         return;
+    }
+    
+    if ([key isEqualToString:@"removeDataSet"])
+    {
+        int rnd = (int)arc4random_uniform((float)_chartView.data.dataSetCount);
+        [_chartView.data removeDataSet:[_chartView.data getDataSetByIndex:rnd]];
+        [_chartView.data notifyDataChanged];
+        [_chartView notifyDataSetChanged];
     }
     
     [super handleOption:key forChartView:_chartView];

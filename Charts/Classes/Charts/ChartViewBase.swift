@@ -450,8 +450,8 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         highlightValue(highlight: highlight, callDelegate: false)
     }
     
-    /// Highlights the value at the given x-index in the given DataSet.
-    /// Provide -1 as the x-index to undo all highlighting.
+    /// Highlights the value at the given x-position in the given DataSet.
+    /// Provide -1 as the dataSetIndex to undo all highlighting.
     public func highlightValue(x x: Double, dataSetIndex: Int)
     {
         highlightValue(x: x, dataSetIndex: dataSetIndex, callDelegate: true)

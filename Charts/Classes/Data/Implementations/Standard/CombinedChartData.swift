@@ -40,11 +40,6 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         set
         {
             _lineData = newValue
-            for dataSet in newValue.dataSets
-            {
-                _dataSets.append(dataSet)
-            }
-            
             calcMinMax()
         }
     }
@@ -58,11 +53,6 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         set
         {
             _barData = newValue
-            for dataSet in newValue.dataSets
-            {
-                _dataSets.append(dataSet)
-            }
-            
             calcMinMax()
         }
     }
@@ -76,11 +66,6 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         set
         {
             _scatterData = newValue
-            for dataSet in newValue.dataSets
-            {
-                _dataSets.append(dataSet)
-            }
-            
             calcMinMax()
         }
     }
@@ -94,11 +79,6 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         set
         {
             _candleData = newValue
-            for dataSet in newValue.dataSets
-            {
-                _dataSets.append(dataSet)
-            }
-            
             calcMinMax()
         }
     }
@@ -112,12 +92,72 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         set
         {
             _bubbleData = newValue
-            for dataSet in newValue.dataSets
+            calcMinMax()
+        }
+    }
+    
+    public override func calcMinMax()
+    {
+        _dataSets.removeAll()
+        
+        _yMax = -DBL_MAX
+        _yMin = DBL_MAX
+        _xMax = -DBL_MAX
+        _xMin = DBL_MAX
+        
+        _leftAxisMax = -DBL_MAX
+        _leftAxisMin = DBL_MAX
+        _rightAxisMax = -DBL_MAX
+        _rightAxisMin = DBL_MAX
+        
+        let allData = self.allData
+        
+        for data in allData
+        {
+            data.calcMinMax()
+            
+            let sets = data.dataSets
+            _dataSets.appendContentsOf(sets)
+            
+            if data.yMax > _yMax
             {
-                _dataSets.append(dataSet)
+                _yMax = data.yMax
             }
             
-            calcMinMax()
+            if data.yMin < _yMin
+            {
+                _yMin = data.yMin
+            }
+            
+            if data.xMax > _xMax
+            {
+                _xMax = data.xMax
+            }
+            
+            if data.xMin < _xMin
+            {
+                _xMin = data.xMin
+            }
+            
+            if data.yMax > _leftAxisMax
+            {
+                _leftAxisMax = data.yMax
+            }
+            
+            if data.yMin < _leftAxisMin
+            {
+                _leftAxisMin = data.yMin
+            }
+            
+            if data.yMax > _rightAxisMax
+            {
+                _rightAxisMax = data.yMax
+            }
+            
+            if data.yMin < _rightAxisMin
+            {
+                _rightAxisMin = data.yMin
+            }
         }
     }
     
@@ -158,6 +198,43 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
     public func dataIndex(data: ChartData) -> Int?
     {
         return allData.indexOf(data)
+    }
+    
+    public override func removeDataSet(dataSet: IChartDataSet!) -> Bool
+    {
+        let datas = allData
+        
+        var success = false
+        
+        for data in datas
+        {
+            success = data.removeDataSet(dataSet)
+            
+            if success
+            {
+                break
+            }
+        }
+        
+        return success
+    }
+    
+    public override func removeDataSetByIndex(index: Int) -> Bool
+    {
+        print("removeDataSet(index) not supported for CombinedData", terminator: "\n")
+        return false
+    }
+    
+    public override func removeEntry(entry: ChartDataEntry, dataSetIndex: Int) -> Bool
+    {
+        print("removeEntry(entry, dataSetIndex) not supported for CombinedData", terminator: "\n")
+        return false
+    }
+    
+    public override func removeEntry(xValue xValue: Double, dataSetIndex: Int) -> Bool
+    {
+        print("removeEntry(xValue, dataSetIndex) not supported for CombinedData", terminator: "\n")
+        return false
     }
     
     public override func notifyDataChanged()

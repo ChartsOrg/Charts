@@ -59,6 +59,21 @@ public class PieChartDataEntry: ChartDataEntry
         set { y = value }
     }
     
+    @available(*, deprecated=1.0, message="Pie entries do not have x values")
+    public override var x: Double
+    {
+        get
+        {
+            print("Pie entries do not have x values");
+            return super.x
+        }
+        set
+        {
+            super.x = newValue
+            print("Pie entries do not have x values");
+        }
+    }
+    
     // MARK: NSCopying
     
     public override func copyWithZone(zone: NSZone) -> AnyObject
