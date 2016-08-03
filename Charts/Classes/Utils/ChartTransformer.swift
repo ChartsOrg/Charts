@@ -47,8 +47,8 @@ public class ChartTransformer: NSObject
 
         // setup all matrices
         _matrixValueToPx = CGAffineTransform.identity
-        _matrixValueToPx = _matrixValueToPx.scaleBy(x: scaleX, y: -scaleY)
-        _matrixValueToPx = _matrixValueToPx.translateBy(x: CGFloat(-chartXMin), y: CGFloat(-chartYMin))
+        _matrixValueToPx = _matrixValueToPx.scaledBy(x: scaleX, y: -scaleY)
+        _matrixValueToPx = _matrixValueToPx.translatedBy(x: CGFloat(-chartXMin), y: CGFloat(-chartYMin))
     }
 
     /// Prepares the matrix that contains all offsets.
@@ -61,7 +61,7 @@ public class ChartTransformer: NSObject
         else
         {
             _matrixOffset = CGAffineTransform(scaleX: 1.0, y: -1.0)
-            _matrixOffset = _matrixOffset.translateBy(x: _viewPortHandler.offsetLeft, y: -_viewPortHandler.offsetTop)
+            _matrixOffset = _matrixOffset.translatedBy(x: _viewPortHandler.offsetLeft, y: -_viewPortHandler.offsetTop)
         }
     }
     

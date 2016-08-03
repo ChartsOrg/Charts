@@ -220,8 +220,8 @@ public class ChartUtils
             }
             
             context.saveGState()
-            context.translate(x: translate.x, y: translate.y)
-            context.rotate(byAngle: angleRadians)
+            context.translateBy(x: translate.x, y: translate.y)
+            context.rotate(by: angleRadians)
             
             (text as NSString).draw(at: drawOffset, withAttributes: attributes)
             
@@ -270,8 +270,8 @@ public class ChartUtils
             }
             
             context.saveGState()
-            context.translate(x: translate.x, y: translate.y)
-            context.rotate(byAngle: angleRadians)
+            context.translateBy(x: translate.x, y: translate.y)
+            context.rotate(by: angleRadians)
             
             (text as NSString).draw(with: rect, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
             

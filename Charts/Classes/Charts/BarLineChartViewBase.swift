@@ -216,7 +216,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         // make sure the graph values and grid cannot be drawn outside the content-rect
         context.saveGState()
-        context.clip(_viewPortHandler.contentRect)
+        context.clip(to: _viewPortHandler.contentRect)
         
         _xAxisRenderer?.renderGridLines(context: context)
         _leftYAxisRenderer?.renderGridLines(context: context)
@@ -248,7 +248,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         renderer!.drawExtras(context: context)
         
         context.saveGState()
-        context.clip(_viewPortHandler.contentRect)
+        context.clip(to: _viewPortHandler.contentRect)
         
         if !_xAxis.drawLimitLinesBehindDataEnabled
         {
@@ -325,7 +325,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         // calculate / set x-axis range
         _xAxis._axisMaximum = Double((_data?.xVals.count ?? 0) - 1)
-        _xAxis.axisRange = .abs(_xAxis._axisMaximum - _xAxis._axisMinimum);
+        _xAxis.axisRange = abs(_xAxis._axisMaximum - _xAxis._axisMinimum);
         
         // calculate axis range (min / max) according to provided data
         _leftAxis.calculate(min: _data?.getYMin(.left) ?? 0.0, max: _data?.getYMax(.left) ?? 0.0)
@@ -718,7 +718,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                     matrix = matrix.scaledBy(x: scaleX, y: scaleY)
                     matrix = matrix.translatedBy(x: -location.x, y: -location.y)
                     
-                    matrix = _viewPortHandler.touchMatrix.concat(matrix)
+                    matrix = _viewPortHandler.touchMatrix.concatenating(matrix)
                     
                     _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
                     
@@ -858,7 +858,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         let originalMatrix = _viewPortHandler.touchMatrix
         
         var matrix = CGAffineTransform(translationX: translation.x, y: translation.y)
-        matrix = originalMatrix.concat(matrix)
+        matrix = originalMatrix.concatenating(matrix)
         
         matrix = _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
         

@@ -292,7 +292,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                     
                     pt.x = CGFloat(e.xIndex)
                     pt.y = CGFloat(e.high) * phaseY
-                    pt = pt.apply(transform: valueToPixelMatrix)
+                    pt = pt.applying(valueToPixelMatrix)
                     
                     if (!viewPortHandler.isInBoundsRight(pt.x))
                     {

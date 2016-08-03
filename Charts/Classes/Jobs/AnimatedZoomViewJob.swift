@@ -77,7 +77,9 @@ public class AnimatedZoomChartViewJob: AnimatedViewPortJob
         let valsInView = CGFloat(yAxis?.axisRange ?? 0.0) / viewPortHandler.scaleY
         let xsInView = CGFloat(xValCount) / viewPortHandler.scaleX
         
-        var pt = CGPoint(x: (zoomOriginX + ((zoomCenterX - xsInView / 2.0) - zoomOriginX) * phase), y: (zoomOriginY + ((zoomCenterY + valsInView / 2.0) - zoomOriginY) * phase))
+        let x = zoomOriginX + ((zoomCenterX - xsInView / 2.0) - zoomOriginX) * phase
+        let y = zoomOriginY + ((zoomCenterY + valsInView / 2.0) - zoomOriginY) * phase
+        var pt = CGPoint(x: x, y: y)
         
         transformer.pointValueToPixel(&pt)
         

@@ -267,7 +267,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
 
             position.x = 0.0
             position.y = CGFloat(l.limit)
-            position = position.apply(transform: trans)
+            position = position.applying(trans)
             
             _limitLineSegmentsBuffer[0].x = viewPortHandler.contentLeft
             _limitLineSegmentsBuffer[0].y = position.y
