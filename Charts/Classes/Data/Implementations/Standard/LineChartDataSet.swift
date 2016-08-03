@@ -143,7 +143,7 @@ public class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     public var drawCirclesEnabled = true
     
     /// The color of the inner circle (the circle-hole).
-    public var circleHoleColor: NSUIColor? = NSUIColor.white()
+    public var circleHoleColor: NSUIColor? = NSUIColor.white
     
     /// True if drawing circles for this DataSet is enabled, false if not
     public var drawCircleHoleEnabled = true

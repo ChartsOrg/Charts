@@ -148,7 +148,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
     {
         guard let xAxis = xAxis else { return }
         
-        let paraStyle = NSParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+        let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         paraStyle.alignment = .center
         
         let labelAttrs = [NSFontAttributeName: xAxis.labelFont,
@@ -177,7 +177,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
             
             position.x = CGFloat(i)
             position.y = 0.0
-            position = position.apply(transform: valueToPixelMatrix)
+            position = position.applying(valueToPixelMatrix)
             
             if (viewPortHandler.isInBoundsX(position.x))
             {
@@ -251,7 +251,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         {
             position.x = CGFloat(i)
             position.y = 0.0
-            position = position.apply(transform: valueToPixelMatrix)
+            position = position.applying(valueToPixelMatrix)
             
             if (position.x >= viewPortHandler.offsetLeft
                 && position.x <= viewPortHandler.chartWidth)
@@ -295,7 +295,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
 
             position.x = CGFloat(l.limit)
             position.y = 0.0
-            position = position.apply(transform: trans)
+            position = position.applying(trans)
             
             renderLimitLineLine(context: context, limitLine: l, position: position)
             renderLimitLineLabel(context: context, limitLine: l, position: position, yOffset: 2.0 + l.yOffset)

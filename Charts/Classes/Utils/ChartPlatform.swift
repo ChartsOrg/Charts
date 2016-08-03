@@ -29,7 +29,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     {
         final func nsuiNumberOfTouches() -> Int
         {
-            return numberOfTouches()
+            return numberOfTouches
         }
         
         final var nsuiNumberOfTapsRequired: Int
@@ -49,7 +49,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     {
         final func nsuiNumberOfTouches() -> Int
         {
-            return numberOfTouches()
+            return numberOfTouches
         }
         
         final func nsuiLocationOf(touch: Int, in view: UIView?) -> CGPoint
@@ -192,7 +192,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	func NSUIMainScreen() -> NSUIScreen?
     {
-		return NSUIScreen.main()
+		return NSUIScreen.main
 	}
 
 	func NSUIGraphicsBeginImageContextWithOptions(size: CGSize, _ opaque: Bool, _ scale: CGFloat)
