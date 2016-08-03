@@ -44,9 +44,9 @@ typedef NS_OPTIONS(NSUInteger, RLMCreationOptions) {
     // If the property is a link or array property, upsert the linked objects
     // if they have a primary key, and insert them otherwise.
     RLMCreationOptionsCreateOrUpdate = 1 << 0,
-    // Allow standalone objects to be promoted to persisted objects
+    // Allow unmanaged objects to be promoted to managed objects
     // if false objects are copied during object creation
-    RLMCreationOptionsPromoteStandalone = 1 << 1,
+    RLMCreationOptionsPromoteUnmanaged = 1 << 1,
 };
 
 
@@ -78,7 +78,7 @@ RLMObjectBase *RLMCreateObjectInRealmWithValue(RLMRealm *realm, NSString *classN
 //
 
 
-// switch List<> properties from being backed by standalone RLMArrays to RLMArrayLinkView
+// switch List<> properties from being backed by unmanaged RLMArrays to RLMArrayLinkView
 void RLMInitializeSwiftAccessorGenerics(RLMObjectBase *object);
 
 #ifdef __cplusplus

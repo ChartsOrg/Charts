@@ -19,67 +19,65 @@
 #import <Foundation/Foundation.h>
 
 #import <Realm/RLMCollection.h>
-#import <Realm/RLMDefines.h>
 
-RLM_ASSUME_NONNULL_BEGIN
+NS_ASSUME_NONNULL_BEGIN
 
-@class RLMObject, RLMRealm, RLMResults RLM_GENERIC_COLLECTION, RLMNotificationToken;
+@class RLMObject, RLMRealm, RLMResults<RLMObjectType: RLMObject *>, RLMNotificationToken;
 
 /**
+ `RLMArray` is the container type in Realm used to define to-many relationships.
 
- RLMArray is the container type in Realm used to define to-many relationships.
-
- Unlike an NSArray, RLMArrays hold a single type, specified by the `objectClassName` property.
+ Unlike an `NSArray`, `RLMArray`s hold a single type, specified by the `objectClassName` property.
  This is referred to in these docs as the “type” of the array.
 
- When declaring an RLMArray property, the type must be marked as conforming to a
+ When declaring an `RLMArray` property, the type must be marked as conforming to a
  protocol by the same name as the objects it should contain (see the
- `RLM_ARRAY_TYPE` macro). RLMArray properties can also use Objective-C generics
- if available. For example:
+ `RLM_ARRAY_TYPE` macro). In addition, the property can be declared using Objective-C
+ generics for better compile-time type safety.
 
      RLM_ARRAY_TYPE(ObjectType)
      ...
      @property RLMArray<ObjectType *><ObjectType> *arrayOfObjectTypes;
 
- RLMArrays can be queried with the same predicates as RLMObject and RLMResults.
+ `RLMArray`s can be queried with the same predicates as `RLMObject` and `RLMResult`s.
 
- RLMArrays cannot be created directly. RLMArray properties on RLMObjects are
+ `RLMArray`s cannot be created directly. `RLMArray` properties on `RLMObject`s are
  lazily created when accessed, or can be obtained by querying a Realm.
 
  ### Key-Value Observing
 
- RLMArray supports array key-value observing on RLMArray properties on RLMObject
- subclasses, and the `invalidated` property on RLMArray instances themselves is
- key-value observing compliant when the RLMArray is attached to a persisted
- RLMObject (RLMArrays on standalone RLMObjects will never become invalidated).
+ `RLMArray` supports array key-value observing on `RLMArray` properties on `RLMObject`
+ subclasses, and the `invalidated` property on `RLMArray` instances themselves is
+ key-value observing compliant when the `RLMArray` is attached to a managed
+ `RLMObject` (`RLMArray`s on unmanaged `RLMObject`s will never become invalidated).
 
- Because RLMArrays are attached to the object which they are a property of, they
+ Because `RLMArray`s are attached to the object which they are a property of, they
  do not require using the mutable collection proxy objects from
  `-mutableArrayValueForKey:` or KVC-compatible mutation methods on the containing
- object. Instead, you can call the mutation methods on the RLMArray directly.
+ object. Instead, you can call the mutation methods on the `RLMArray` directly.
  */
 
-@interface RLMArray RLM_GENERIC_COLLECTION : NSObject<RLMCollection, NSFastEnumeration>
+@interface RLMArray<RLMObjectType: RLMObject *> : NSObject<RLMCollection, NSFastEnumeration>
 
 #pragma mark - Properties
- 
+
 /**
- Number of objects in the array.
+ The number of objects in the array.
  */
 @property (nonatomic, readonly, assign) NSUInteger count;
 
 /**
- The class name (i.e. type) of the RLMObjects contained in this RLMArray.
+ The class name (i.e. type) of the `RLMObject`s contained in the array.
  */
 @property (nonatomic, readonly, copy) NSString *objectClassName;
 
 /**
- The Realm in which this array is persisted. Returns nil for standalone arrays.
+ The Realm which manages the array. Returns `nil` for unmanaged arrays.
  */
 @property (nonatomic, readonly, nullable) RLMRealm *realm;
 
 /**
- Indicates if an array can no longer be accessed.
+ Indicates if the array can no longer be accessed.
  */
 @property (nonatomic, readonly, getter = isInvalidated) BOOL invalidated;
 
@@ -90,25 +88,25 @@ RLM_ASSUME_NONNULL_BEGIN
 
  @param index   The index to look up.
 
- @return An RLMObject of the type contained in this RLMArray.
+ @return An `RLMObject` of the type contained in the array.
  */
 - (RLMObjectType)objectAtIndex:(NSUInteger)index;
 
 /**
  Returns the first object in the array.
 
- Returns `nil` if called on an empty RLMArray.
+ Returns `nil` if called on an empty array.
 
- @return An RLMObject of the type contained in this RLMArray.
+ @return An `RLMObject` of the type contained in the array.
  */
 - (nullable RLMObjectType)firstObject;
 
 /**
  Returns the last object in the array.
 
- Returns `nil` if called on an empty RLMArray.
+ Returns `nil` if called on an empty array.
 
- @return An RLMObject of the type contained in this RLMArray.
+ @return An `RLMObject` of the type contained in the array.
  */
 - (nullable RLMObjectType)lastObject;
 
@@ -119,77 +117,77 @@ RLM_ASSUME_NONNULL_BEGIN
 /**
  Adds an object to the end of the array.
 
- @warning This method can only be called during a write transaction.
+ @warning This method may only be called during a write transaction.
 
- @param object  An RLMObject of the type contained in this RLMArray.
+ @param object  An `RLMObject` of the type contained in the array.
  */
-- (void)addObject:(RLMObjectArgument)object;
+- (void)addObject:(RLMObjectType)object;
 
 /**
- Adds an array of objects at the end of the array.
+ Adds an array of objects to the end of the array.
 
- @warning This method can only be called during a write transaction.
+ @warning This method may only be called during a write transaction.
 
- @param objects     An enumerable object such as NSArray or RLMResults which contains objects of the
-                    same class as this RLMArray.
+ @param objects     An enumerable object such as `NSArray` or `RLMResults` which contains objects of the
+                    same class as the array.
  */
 - (void)addObjects:(id<NSFastEnumeration>)objects;
 
 /**
  Inserts an object at the given index.
 
- Throws an exception when the index exceeds the bounds of this RLMArray.
+ Throws an exception if the index exceeds the bounds of the array.
 
- @warning This method can only be called during a write transaction.
+ @warning This method may only be called during a write transaction.
 
- @param anObject  An RLMObject of the type contained in this RLMArray.
- @param index   The array index at which the object is inserted.
+ @param anObject  An `RLMObject` of the type contained in the array.
+ @param index   The index at which to insert the object.
  */
-- (void)insertObject:(RLMObjectArgument)anObject atIndex:(NSUInteger)index;
+- (void)insertObject:(RLMObjectType)anObject atIndex:(NSUInteger)index;
 
 /**
- Removes an object at a given index.
+ Removes an object at the given index.
 
- Throws an exception when the index exceeds the bounds of this RLMArray.
+ Throws an exception if the index exceeds the bounds of the array.
 
- @warning This method can only be called during a write transaction.
+ @warning This method may only be called during a write transaction.
 
  @param index   The array index identifying the object to be removed.
  */
 - (void)removeObjectAtIndex:(NSUInteger)index;
 
 /**
- Removes the last object in an RLMArray.
+ Removes the last object in the array.
 
- @warning This method can only be called during a write transaction.
+ @warning This method may only be called during a write transaction.
 */
 - (void)removeLastObject;
 
 /**
- Removes all objects from an RLMArray.
+ Removes all objects from the array.
 
- @warning This method can only be called during a write transaction.
+ @warning This method may only be called during a write transaction.
  */
 - (void)removeAllObjects;
 
 /**
  Replaces an object at the given index with a new object.
 
- Throws an exception when the index exceeds the bounds of this RLMArray.
+ Throws an exception if the index exceeds the bounds of the array.
 
- @warning This method can only be called during a write transaction.
+ @warning This method may only be called during a write transaction.
 
- @param index       The array index of the object to be replaced.
- @param anObject    An object (of the same type as returned from the objectClassName selector).
+ @param index       The index of the object to be replaced.
+ @param anObject    An object (of the same type as returned from the `objectClassName` selector).
  */
-- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(RLMObjectArgument)anObject;
+- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(RLMObjectType)anObject;
 
 /**
  Moves the object at the given source index to the given destination index.
 
- Throws an exception when the index exceeds the bounds of this RLMArray.
+ Throws an exception if the index exceeds the bounds of the array.
 
- @warning This method can only be called during a write transaction.
+ @warning This method may only be called during a write transaction.
 
  @param sourceIndex      The index of the object to be moved.
  @param destinationIndex The index to which the object at `sourceIndex` should be moved.
@@ -197,34 +195,34 @@ RLM_ASSUME_NONNULL_BEGIN
 - (void)moveObjectAtIndex:(NSUInteger)sourceIndex toIndex:(NSUInteger)destinationIndex;
 
 /**
- Exchanges the objects in the array at given indexes.
+ Exchanges the objects in the array at given indices.
 
- Throws an exception when either index exceeds the bounds of this RLMArray.
+ Throws an exception if either index exceeds the bounds of the array.
 
- @warning This method can only be called during a write transaction.
+ @warning This method may only be called during a write transaction.
 
- @param index1 The index of the object with which to replace the object at index `index2`.
- @param index2 The index of the object with which to replace the object at index `index1`.
+ @param index1 The index of the object which should replace the object at index `index2`.
+ @param index2 The index of the object which should replace the object at index `index1`.
  */
 - (void)exchangeObjectAtIndex:(NSUInteger)index1 withObjectAtIndex:(NSUInteger)index2;
 
 #pragma mark - Querying an Array
 
 /**
- Gets the index of an object.
+ Returns the index of an object in the array.
 
- Returns NSNotFound if the object is not found in this RLMArray.
+ Returns `NSNotFound` if the object is not found in the array.
 
- @param object  An object (of the same type as returned from the objectClassName selector).
+ @param object  An object (of the same type as returned from the `objectClassName` selector).
  */
-- (NSUInteger)indexOfObject:(RLMObjectArgument)object;
+- (NSUInteger)indexOfObject:(RLMObjectType)object;
 
 /**
- Gets the index of the first object matching the predicate.
+ Returns the index of the first object in the array matching the predicate.
 
- @param predicateFormat The predicate format string which can accept variable arguments.
+ @param predicateFormat A predicate format string, optionally followed by a variable number of arguments.
 
- @return    Index of object or NSNotFound if the object is not found in this RLMArray.
+ @return    The index of the object, or `NSNotFound` if the object is not found in the array.
  */
 - (NSUInteger)indexOfObjectWhere:(NSString *)predicateFormat, ...;
 
@@ -232,53 +230,53 @@ RLM_ASSUME_NONNULL_BEGIN
 - (NSUInteger)indexOfObjectWhere:(NSString *)predicateFormat args:(va_list)args;
 
 /**
- Gets the index of the first object matching the predicate.
+ Returns the index of the first object in the array matching the predicate.
 
- @param predicate   The predicate to filter the objects.
+ @param predicate   The predicate with which to filter the objects.
 
- @return    Index of object or NSNotFound if the object is not found in this RLMArray.
+ @return    The index of the object, or `NSNotFound` if the object is not found in the array.
  */
 - (NSUInteger)indexOfObjectWithPredicate:(NSPredicate *)predicate;
 
 /**
- Get objects matching the given predicate in the RLMArray.
+ Returns all the objects matching the given predicate in the array.
 
- @param predicateFormat The predicate format string which can accept variable arguments.
+ @param predicateFormat A predicate format string, optionally followed by a variable number of arguments.
 
- @return                An RLMResults of objects that match the given predicate
+ @return                An `RLMResults` of objects that match the given predicate.
  */
-- (RLMResults RLM_GENERIC_RETURN*)objectsWhere:(NSString *)predicateFormat, ...;
+- (RLMResults<RLMObjectType> *)objectsWhere:(NSString *)predicateFormat, ...;
 
 /// :nodoc:
-- (RLMResults RLM_GENERIC_RETURN*)objectsWhere:(NSString *)predicateFormat args:(va_list)args;
+- (RLMResults<RLMObjectType> *)objectsWhere:(NSString *)predicateFormat args:(va_list)args;
 
 /**
- Get objects matching the given predicate in the RLMArray.
+ Returns all the objects matching the given predicate in the array.
 
- @param predicate   The predicate to filter the objects.
+ @param predicate   The predicate with which to filter the objects.
 
- @return            An RLMResults of objects that match the given predicate
+ @return            An `RLMResults` of objects that match the given predicate
  */
-- (RLMResults RLM_GENERIC_RETURN*)objectsWithPredicate:(NSPredicate *)predicate;
+- (RLMResults<RLMObjectType> *)objectsWithPredicate:(NSPredicate *)predicate;
 
 /**
- Get a sorted RLMResults from an RLMArray
+ Returns a sorted `RLMResults` from the array.
 
  @param property    The property name to sort by.
- @param ascending   The direction to sort by.
+ @param ascending   The direction to sort in.
 
- @return    An RLMResults sorted by the specified property.
+ @return    An `RLMResults` sorted by the specified property.
  */
-- (RLMResults RLM_GENERIC_RETURN*)sortedResultsUsingProperty:(NSString *)property ascending:(BOOL)ascending;
+- (RLMResults<RLMObjectType> *)sortedResultsUsingProperty:(NSString *)property ascending:(BOOL)ascending;
 
 /**
- Get a sorted RLMResults from an RLMArray
+ Returns a sorted `RLMResults` from the array.
 
  @param properties  An array of `RLMSortDescriptor`s to sort by.
 
- @return    An RLMResults sorted by the specified properties.
+ @return    An `RLMResults` sorted by the specified properties.
  */
-- (RLMResults RLM_GENERIC_RETURN*)sortedResultsUsingDescriptors:(NSArray *)properties;
+- (RLMResults<RLMObjectType> *)sortedResultsUsingDescriptors:(NSArray *)properties;
 
 /// :nodoc:
 - (RLMObjectType)objectAtIndexedSubscript:(NSUInteger)index;
@@ -289,69 +287,76 @@ RLM_ASSUME_NONNULL_BEGIN
 #pragma mark - Notifications
 
 /**
- Register a block to be called each time the RLMArray changes.
+ Registers a block to be called each time the array changes.
 
  The block will be asynchronously called with the initial array, and then
- called again after each write transaction which changes the array or any
- items contained in the array. You must retain the returned token for as long as
- you want the block to continue to be called. To stop receiving updates, call
- `-stop` on the token.
+ called again after each write transaction which changes any of the objects in
+ the array, which objects are in the results, or the order of the objects in the
+ array.
 
- The error parameter will always be `nil`, and is present only for compatiblity
- with the RLMResults version of this method, which can potentially fail.
+ The `changes` parameter will be `nil` the first time the block is called.
+ For each call after that, it will contain information about
+ which rows in the array were added, removed or modified. If a write transaction
+ did not modify any objects in the array, the block is not called at all.
+ See the `RLMCollectionChange` documentation for information on how the changes
+ are reported and an example of updating a `UITableView`.
+
+ If an error occurs the block will be called with `nil` for the results
+ parameter and a non-`nil` error. Currently the only errors that can occur are
+ when opening the Realm on the background worker thread.
+
+ Notifications are delivered via the standard run loop, and so can't be
+ delivered while the run loop is blocked by other activity. When
+ notifications can't be delivered instantly, multiple notifications may be
+ coalesced into a single notification. This can include the notification
+ with the initial results. For example, the following code performs a write
+ transaction immediately after adding the notification block, so there is no
+ opportunity for the initial notification to be delivered first. As a
+ result, the initial notification will reflect the state of the Realm after
+ the write transaction.
+
+     Person *person = [[Person allObjectsInRealm:realm] firstObject];
+     NSLog(@"person.dogs.count: %zu", person.dogs.count); // => 0
+     self.token = [person.dogs addNotificationBlock(RLMArray<Dog *> *dogs,
+                                                    RLMCollectionChange *changes,
+                                                    NSError *error) {
+         // Only fired once for the example
+         NSLog(@"dogs.count: %zu", dogs.count) // => 1
+     }];
+     [realm transactionWithBlock:^{
+         Dog *dog = [[Dog alloc] init];
+         dog.name = @"Rex";
+         [person.dogs addObject:dog];
+     }];
+     // end of run loop execution context
+
+ You must retain the returned token for as long as you want updates to continue
+ to be sent to the block. To stop receiving updates, call `-stop` on the token.
+
+ @warning This method cannot be called during a write transaction, or when the
+          containing Realm is read-only.
+ @warning This method may only be called on a managed array.
 
  @param block The block to be called each time the array changes.
- @return A token which must be held for as long as you want notifications to be delivered.
+ @return A token which must be held for as long as you want updates to be delivered.
  */
-- (RLMNotificationToken *)addNotificationBlock:(void (^)(RLMArray RLM_GENERIC_RETURN *array, NSError *))block RLM_WARN_UNUSED_RESULT;
+- (RLMNotificationToken *)addNotificationBlock:(void (^)(RLMArray<RLMObjectType> *__nullable array,
+                                                         RLMCollectionChange *__nullable changes,
+                                                         NSError *__nullable error))block __attribute__((warn_unused_result));
 
 #pragma mark - Unavailable Methods
 
 /**
- -[RLMArray init] is not available because RLMArrays cannot be created directly.
- RLMArray properties on RLMObjects are lazily created when accessed, or can be obtained by querying a Realm.
+ `-[RLMArray init]` is not available because `RLMArray`s cannot be created directly.
+ `RLMArray` properties on `RLMObject`s are lazily created when accessed, or can be obtained by querying a Realm.
  */
 - (instancetype)init __attribute__((unavailable("RLMArrays cannot be created directly")));
 
 /**
- +[RLMArray new] is not available because RLMArrays cannot be created directly.
- RLMArray properties on RLMObjects are lazily created when accessed, or can be obtained by querying a Realm.
+ `+[RLMArray new]` is not available because `RLMArray`s cannot be created directly.
+ `RLMArray` properties on `RLMObject`s are lazily created when accessed, or can be obtained by querying a Realm.
  */
 + (instancetype)new __attribute__((unavailable("RLMArrays cannot be created directly")));
-
-@end
-
-/**
- An RLMSortDescriptor stores a property name and a sort order for use with
- `sortedResultsUsingDescriptors:`. It is similar to NSSortDescriptor, but supports
- only the subset of functionality which can be efficiently run by the query
- engine. RLMSortDescriptor instances are immutable.
- */
-@interface RLMSortDescriptor : NSObject
-
-#pragma mark - Properties
- 
-/**
- The name of the property which this sort descriptor orders results by.
- */
-@property (nonatomic, readonly) NSString *property;
-
-/**
- Whether this descriptor sorts in ascending or descending order.
- */
-@property (nonatomic, readonly) BOOL ascending;
-
-#pragma mark - Methods
-
-/**
- Returns a new sort descriptor for the given property name and order.
- */
-+ (instancetype)sortDescriptorWithProperty:(NSString *)propertyName ascending:(BOOL)ascending;
-
-/**
- Returns a copy of the receiver with the sort order reversed.
- */
-- (instancetype)reversedSortDescriptor;
 
 @end
 
@@ -361,4 +366,4 @@ RLM_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithObjectClassName:(NSString *)objectClassName;
 @end
 
-RLM_ASSUME_NONNULL_END
+NS_ASSUME_NONNULL_END
