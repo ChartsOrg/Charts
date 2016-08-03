@@ -40,7 +40,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// the color for the background of the chart-drawing area (everything behind the grid lines).
     public var gridBackgroundColor = NSUIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0)
     
-    public var borderColor = NSUIColor.black()
+    public var borderColor = NSUIColor.black
     public var borderLineWidth: CGFloat = 1.0
     
     /// flag indicating if the grid background should be drawn or not
@@ -216,7 +216,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         // make sure the graph values and grid cannot be drawn outside the content-rect
         context.saveGState()
-        context.clipTo(_viewPortHandler.contentRect)
+        context.clip(_viewPortHandler.contentRect)
         
         _xAxisRenderer?.renderGridLines(context: context)
         _leftYAxisRenderer?.renderGridLines(context: context)
@@ -248,7 +248,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         renderer!.drawExtras(context: context)
         
         context.saveGState()
-        context.clipTo(_viewPortHandler.contentRect)
+        context.clip(_viewPortHandler.contentRect)
         
         if !_xAxis.drawLimitLinesBehindDataEnabled
         {
@@ -715,8 +715,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                     let scaleY = canZoomMoreY ? recognizer.nsuiScale : 1.0
                     
                     var matrix = CGAffineTransform(translationX: location.x, y: location.y)
-                    matrix = matrix.scaleBy(x: scaleX, y: scaleY)
-                    matrix = matrix.translateBy(x: -location.x, y: -location.y)
+                    matrix = matrix.scaledBy(x: scaleX, y: scaleY)
+                    matrix = matrix.translatedBy(x: -location.x, y: -location.y)
                     
                     matrix = _viewPortHandler.touchMatrix.concat(matrix)
                     

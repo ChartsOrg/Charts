@@ -190,7 +190,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
                     
                     pt.x = CGFloat(e.xIndex - minx) * phaseX + CGFloat(minx)
                     pt.y = CGFloat(e.value) * phaseY
-                    pt = pt.apply(transform: valueToPixelMatrix)
+                    pt = pt.applying(transform: valueToPixelMatrix)
                     
                     if (!viewPortHandler.isInBoundsRight(pt.x))
                     {

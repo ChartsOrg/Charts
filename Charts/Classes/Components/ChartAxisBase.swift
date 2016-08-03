@@ -19,14 +19,14 @@ import CoreGraphics
 public class ChartAxisBase: ChartComponentBase
 {
     public var labelFont = NSUIFont.systemFont(ofSize: 10.0)
-    public var labelTextColor = NSUIColor.black()
+    public var labelTextColor = NSUIColor.black
     
-    public var axisLineColor = NSUIColor.gray()
+    public var axisLineColor = NSUIColor.gray
     public var axisLineWidth = CGFloat(0.5)
     public var axisLineDashPhase = CGFloat(0.0)
     public var axisLineDashLengths: [CGFloat]!
     
-    public var gridColor = NSUIColor.gray().withAlphaComponent(0.9)
+    public var gridColor = NSUIColor.gray.withAlphaComponent(0.9)
     public var gridLineWidth = CGFloat(0.5)
     public var gridLineDashPhase = CGFloat(0.0)
     public var gridLineDashLengths: [CGFloat]!

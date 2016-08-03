@@ -106,19 +106,19 @@ public class ChartTransformer: NSObject
         let trans = valueToPixelMatrix
         for i in 0 ..< pts.count
         {
-            pts[i] = pts[i].apply(transform: trans)
+            pts[i] = pts[i].applying(trans)
         }
     }
     
     public func pointValueToPixel(_ point: inout CGPoint)
     {
-        point = point.apply(transform: valueToPixelMatrix)
+        point = point.applying(valueToPixelMatrix)
     }
     
     /// Transform a rectangle with all matrices.
     public func rectValueToPixel(_ r: inout CGRect)
     {
-        r = r.apply(transform: valueToPixelMatrix)
+        r = r.applying(valueToPixelMatrix)
     }
     
     /// Transform a rectangle with all matrices with potential animation phases.
@@ -131,13 +131,13 @@ public class ChartTransformer: NSObject
         r.size.height = bottom - top
         r.origin.y = top
 
-        r = r.apply(transform: valueToPixelMatrix)
+        r = r.applying(valueToPixelMatrix)
     }
     
     /// Transform a rectangle with all matrices.
     public func rectValueToPixelHorizontal(_ r: inout CGRect)
     {
-        r = r.apply(transform: valueToPixelMatrix)
+        r = r.applying(valueToPixelMatrix)
     }
     
     /// Transform a rectangle with all matrices with potential animation phases.
@@ -150,7 +150,7 @@ public class ChartTransformer: NSObject
         r.size.width = right - left
         r.origin.x = left
         
-        r = r.apply(transform: valueToPixelMatrix)
+        r = r.applying(valueToPixelMatrix)
     }
 
     /// transforms multiple rects with all matrices
@@ -160,7 +160,7 @@ public class ChartTransformer: NSObject
         
         for i in 0 ..< rects.count
         {
-            rects[i] = rects[i].apply(transform: trans)
+            rects[i] = rects[i].applying(trans)
         }
     }
     
@@ -171,14 +171,14 @@ public class ChartTransformer: NSObject
         
         for i in 0 ..< pixels.count
         {
-            pixels[i] = pixels[i].apply(transform: trans)
+            pixels[i] = pixels[i].applying(trans)
         }
     }
     
     /// Transforms the given touch point (pixels) into a value on the chart.
     public func pixelToValue(_ pixel: inout CGPoint)
     {
-        pixel = pixel.apply(transform: pixelToValueMatrix)
+        pixel = pixel.applying(pixelToValueMatrix)
     }
     
     /// - returns: the x and y values in the chart at the given touch point
@@ -186,19 +186,19 @@ public class ChartTransformer: NSObject
     /// coordinates / values in the chart.
     public func getValueByTouchPoint(_ point: CGPoint) -> CGPoint
     {
-        return point.apply(transform: pixelToValueMatrix)
+        return point.applying(pixelToValueMatrix)
     }
     
     public var valueToPixelMatrix: CGAffineTransform
     {
         return
-            _matrixValueToPx.concat(_viewPortHandler.touchMatrix
-                ).concat(_matrixOffset
+            _matrixValueToPx.concatenating(_viewPortHandler.touchMatrix
+                ).concatenating(_matrixOffset
         )
     }
     
     public var pixelToValueMatrix: CGAffineTransform
     {
-        return valueToPixelMatrix.invert()
+        return valueToPixelMatrix.inverted()
     }
 }
