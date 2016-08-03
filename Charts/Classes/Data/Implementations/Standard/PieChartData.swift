@@ -49,7 +49,7 @@ public class PieChartData: ChartData
         }
     }
     
-    public override func getDataSetByIndex(index: Int) -> IChartDataSet?
+    public override func getDataSetByIndex(_ index: Int) -> IChartDataSet?
     {
         if (index != 0)
         {
@@ -58,7 +58,7 @@ public class PieChartData: ChartData
         return super.getDataSetByIndex(index)
     }
     
-    public override func getDataSetByLabel(label: String, ignorecase: Bool) -> IChartDataSet?
+    public override func getDataSetByLabel(_ label: String, ignorecase: Bool) -> IChartDataSet?
     {
         if (dataSets.count == 0 || dataSets[0].label == nil)
         {
@@ -67,7 +67,7 @@ public class PieChartData: ChartData
         
         if (ignorecase)
         {
-            if (label.caseInsensitiveCompare(dataSets[0].label!) == NSComparisonResult.OrderedSame)
+            if (label.caseInsensitiveCompare(dataSets[0].label!) == ComparisonResult.orderedSame)
             {
                 return dataSets[0]
             }
@@ -82,7 +82,7 @@ public class PieChartData: ChartData
         return nil
     }
     
-    public override func addDataSet(d: IChartDataSet!)
+    public override func addDataSet(_ d: IChartDataSet!)
     {
         if (_dataSets == nil)
         {
@@ -96,7 +96,7 @@ public class PieChartData: ChartData
     /// Also recalculates all minimum and maximum values.
     ///
     /// - returns: true if a DataSet was removed, false if no DataSet could be removed.
-    public override func removeDataSetByIndex(index: Int) -> Bool
+    public override func removeDataSetByIndex(_ index: Int) -> Bool
     {
         if (_dataSets == nil || index >= _dataSets.count || index < 0)
         {

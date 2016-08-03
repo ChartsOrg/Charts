@@ -56,7 +56,7 @@ public class BarChartDataEntry: ChartDataEntry
         super.init(value: value, xIndex: xIndex, data: data)
     }
     
-    public func getBelowSum(stackIndex :Int) -> Double
+    public func getBelowSum(_ stackIndex :Int) -> Double
     {
         if (values == nil)
         {
@@ -134,7 +134,7 @@ public class BarChartDataEntry: ChartDataEntry
     
     // MARK: NSCopying
     
-    public override func copyWithZone(zone: NSZone) -> AnyObject
+    public override func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! BarChartDataEntry
         copy._values = _values
@@ -147,7 +147,7 @@ public class BarChartDataEntry: ChartDataEntry
     ///
     /// - parameter vals:
     /// - returns:
-    private static func calcSum(vals: [Double]?) -> Double
+    private static func calcSum(_ vals: [Double]?) -> Double
     {
         if vals == nil
         {

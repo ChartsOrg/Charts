@@ -29,7 +29,7 @@ public class ChartRange: NSObject
 
     /// Returns true if this range contains (if the value is in between) the given value, false if not.
     /// - parameter value:
-    public func contains(value: Double) -> Bool
+    public func contains(_ value: Double) -> Bool
     {
         if value > from && value <= to
         {
@@ -41,12 +41,12 @@ public class ChartRange: NSObject
         }
     }
     
-    public func isLarger(value: Double) -> Bool
+    public func isLarger(_ value: Double) -> Bool
     {
         return value > to
     }
     
-    public func isSmaller(value: Double) -> Bool
+    public func isSmaller(_ value: Double) -> Bool
     {
         return value < from
     }

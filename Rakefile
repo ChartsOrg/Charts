@@ -13,7 +13,7 @@ end
 def test_targets
   [
     :ios,
-    # :tvos #no tvOS fbsnapshot
+    :tvos
   ]
 end
 
