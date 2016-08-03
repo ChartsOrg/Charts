@@ -39,6 +39,9 @@
 		5B57BBB51A9B26AA0036A6CC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B57BBB41A9B26AA0036A6CC /* main.m */; };
 		5B57BBB81A9B26AA0036A6CC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B57BBB71A9B26AA0036A6CC /* AppDelegate.m */; };
 		5B57BBBB1A9B26AA0036A6CC /* DemoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B57BBBA1A9B26AA0036A6CC /* DemoListViewController.m */; };
+		5B613DA41D526AD5000F1E98 /* radar_marker@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B613DA31D526AD5000F1E98 /* radar_marker@3x.png */; };
+		5B613DB31D526DED000F1E98 /* RadarMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B613DB21D526DED000F1E98 /* RadarMarkerView.swift */; };
+		5B613DB51D526EA8000F1E98 /* RadarMarkerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B613DB41D526EA8000F1E98 /* RadarMarkerView.xib */; };
 		5B7B3AD81C437CBC001C109B /* RealmDemoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7B3AD61C437CBC001C109B /* RealmDemoListViewController.m */; };
 		5B7B3AD91C437CBC001C109B /* RealmDemoListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B7B3AD71C437CBC001C109B /* RealmDemoListViewController.xib */; };
 		5B7B3ADF1C437F61001C109B /* RealmCandleChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7B3ADD1C437F61001C109B /* RealmCandleChartViewController.m */; };
@@ -226,6 +229,9 @@
 		5B57BBB71A9B26AA0036A6CC /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		5B57BBB91A9B26AA0036A6CC /* DemoListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DemoListViewController.h; sourceTree = "<group>"; };
 		5B57BBBA1A9B26AA0036A6CC /* DemoListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoListViewController.m; sourceTree = "<group>"; };
+		5B613DA31D526AD5000F1E98 /* radar_marker@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "radar_marker@3x.png"; sourceTree = "<group>"; };
+		5B613DB21D526DED000F1E98 /* RadarMarkerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadarMarkerView.swift; sourceTree = "<group>"; };
+		5B613DB41D526EA8000F1E98 /* RadarMarkerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RadarMarkerView.xib; sourceTree = "<group>"; };
 		5B7B3AD51C437CBC001C109B /* RealmDemoListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealmDemoListViewController.h; sourceTree = "<group>"; };
 		5B7B3AD61C437CBC001C109B /* RealmDemoListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealmDemoListViewController.m; sourceTree = "<group>"; };
 		5B7B3AD71C437CBC001C109B /* RealmDemoListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RealmDemoListViewController.xib; sourceTree = "<group>"; };
@@ -408,6 +414,14 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		5B613DA21D526AD5000F1E98 /* markers */ = {
+			isa = PBXGroup;
+			children = (
+				5B613DA31D526AD5000F1E98 /* radar_marker@3x.png */,
+			);
+			path = markers;
+			sourceTree = "<group>";
+		};
 		5B8E08781C635B5200438BAF /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -435,6 +449,7 @@
 				5B8EAF2F1AB32E15009697AA /* Images.xcassets */,
 				5B43161E1AB8D8AE0009FCAA /* app-icon */,
 				5B4316301AB8D8B70009FCAA /* launch-image */,
+				5B613DA21D526AD5000F1E98 /* markers */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -443,6 +458,8 @@
 			isa = PBXGroup;
 			children = (
 				5BD47E5A1ABB0263008FCEC6 /* BalloonMarker.swift */,
+				5B613DB21D526DED000F1E98 /* RadarMarkerView.swift */,
+				5B613DB41D526EA8000F1E98 /* RadarMarkerView.xib */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -713,6 +730,7 @@
 				5B4316281AB8D8AE0009FCAA /* Icon-29@3x.png in Resources */,
 				5B4316361AB8D8B70009FCAA /* Default-667h@2x.png in Resources */,
 				5BEAED2D1ABC160F0013F194 /* CandleStickChartViewController.xib in Resources */,
+				5B613DB51D526EA8000F1E98 /* RadarMarkerView.xib in Resources */,
 				5BD47E611ABB3C91008FCEC6 /* LineChart2ViewController.xib in Resources */,
 				5BEAED131ABBFB2B0013F194 /* AnotherBarChartViewController.xib in Resources */,
 				5BEAED411ABC1AC60013F194 /* SinusBarChartViewController.xib in Resources */,
@@ -727,6 +745,7 @@
 				5B4AC1571C47EDC50028D1A6 /* RealmRadarChartViewController.xib in Resources */,
 				5B4316381AB8D8B70009FCAA /* Default@2x.png in Resources */,
 				5B9624421B38608C007763E2 /* NegativeStackedBarChartViewController.xib in Resources */,
+				5B613DA41D526AD5000F1E98 /* radar_marker@3x.png in Resources */,
 				5BE7E7631C693098000A0377 /* PositiveNegativeBarChartViewController.xib in Resources */,
 				65BF12B71BFC9B50005C28D9 /* RealmBarChartViewController.xib in Resources */,
 				5B0CC7861ABB875400665592 /* PieChartViewController.xib in Resources */,
@@ -775,6 +794,7 @@
 				5BEAED401ABC1AC60013F194 /* SinusBarChartViewController.m in Sources */,
 				5BE7E7621C693098000A0377 /* PositiveNegativeBarChartViewController.m in Sources */,
 				5B7B3AE91C4445E7001C109B /* RealmScatterChartViewController.m in Sources */,
+				5B613DB31D526DED000F1E98 /* RadarMarkerView.swift in Sources */,
 				5B7B3ADF1C437F61001C109B /* RealmCandleChartViewController.m in Sources */,
 				5B4AC14C1C47E7250028D1A6 /* RealmBubbleChartViewController.m in Sources */,
 				65BF125A1BFBC6EE005C28D9 /* RealmDemoBaseViewController.m in Sources */,
