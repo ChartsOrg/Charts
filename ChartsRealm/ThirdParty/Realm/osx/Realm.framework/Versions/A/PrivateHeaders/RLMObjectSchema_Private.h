@@ -16,45 +16,42 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
+#import <Realm/RLMDefines.h>
 #import <Realm/RLMObjectSchema.h>
 
-NS_ASSUME_NONNULL_BEGIN
+RLM_ASSUME_NONNULL_BEGIN
 
 @class RLMRealm;
 
 // RLMObjectSchema private
-@interface RLMObjectSchema () {
-@public
-    bool _isSwiftClass;
-}
+@interface RLMObjectSchema ()
 
 // writable redecleration
-@property (nonatomic, readwrite, copy) NSArray<RLMProperty *> *properties;
+@property (nonatomic, readwrite, copy) NSArray RLM_GENERIC(RLMProperty *) *properties;
 @property (nonatomic, readwrite, assign) bool isSwiftClass;
 
 // class used for this object schema
 @property (nonatomic, readwrite, assign) Class objectClass;
 @property (nonatomic, readwrite, assign) Class accessorClass;
-@property (nonatomic, readwrite, assign) Class unmanagedClass;
+@property (nonatomic, readwrite, assign) Class standaloneClass;
 
 @property (nonatomic, readwrite, nullable) RLMProperty *primaryKeyProperty;
 
-@property (nonatomic, copy) NSArray<RLMProperty *> *computedProperties;
-@property (nonatomic, readonly) NSArray<RLMProperty *> *swiftGenericProperties;
+@property (nonatomic, readonly) NSArray RLM_GENERIC(RLMProperty *) *propertiesInDeclaredOrder;
 
 // The Realm retains its object schemas, so they need to not retain the Realm
 @property (nonatomic, unsafe_unretained, nullable) RLMRealm *realm;
 // returns a cached or new schema for a given object class
 + (instancetype)schemaForObjectClass:(Class)objectClass;
 
-- (RLMProperty *)propertyForTableColumn:(size_t)tableCol;
+- (void)sortPropertiesByColumn;
 
 @end
 
 @interface RLMObjectSchema (Dynamic)
 /**
  This method is useful only in specialized circumstances, for example, when accessing objects
- in a Realm produced externally. If you are simply building an app on Realm, it is not recommended
+ in a Realm produced externally. If you are simply building an app on Realm, it is not recommened
  to use this method as an [RLMObjectSchema](RLMObjectSchema) is generated automatically for every [RLMObject](RLMObject) subclass.
  
  Initialize an RLMObjectSchema with classname, objectClass, and an array of properties
@@ -62,12 +59,12 @@ NS_ASSUME_NONNULL_BEGIN
  @warning This method is useful only in specialized circumstances.
  
  @param objectClassName     The name of the class used to refer to objects of this type.
- @param objectClass         The Objective-C class used when creating instances of this type.
- @param properties          An array of RLMProperty instances describing the managed properties for this type.
+ @param objectClass         The objective-c class used when creating instances of this type.
+ @param properties          An array RLMProperty describing the persisted properties for this type.
  
  @return    An initialized instance of RLMObjectSchema.
  */
 - (instancetype)initWithClassName:(NSString *)objectClassName objectClass:(Class)objectClass properties:(NSArray *)properties;
 @end
 
-NS_ASSUME_NONNULL_END
+RLM_ASSUME_NONNULL_END

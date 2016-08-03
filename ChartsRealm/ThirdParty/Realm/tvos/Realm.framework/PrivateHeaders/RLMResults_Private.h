@@ -22,8 +22,4 @@
 
 @interface RLMResults ()
 @property (nonatomic, unsafe_unretained) RLMObjectSchema *objectSchema;
-@property (nonatomic, readonly, getter=isAttached) BOOL attached;
-
-+ (instancetype)emptyDetachedResults;
-
 @end

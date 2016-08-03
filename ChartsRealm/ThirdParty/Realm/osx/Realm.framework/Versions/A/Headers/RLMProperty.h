@@ -18,8 +18,9 @@
 
 #import <Foundation/Foundation.h>
 #import <Realm/RLMConstants.h>
+#import <Realm/RLMDefines.h>
 
-NS_ASSUME_NONNULL_BEGIN
+RLM_ASSUME_NONNULL_BEGIN
 
 /// :nodoc:
 @protocol RLMInt
@@ -42,80 +43,53 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 /**
- `RLMProperty` instances represent properties managed by a Realm in the context of an object schema. Such properties may
- be persisted to a Realm file or computed from other data from the Realm.
+ This class models properties persisted to Realm in an RLMObjectSchema.
  
- When using Realm, `RLMProperty` instances allow performing migrations and introspecting the database's schema.
+ When using Realm, RLMProperty objects allow performing migrations and 
+ introspecting the database's schema.
  
- These property instances map to columns in the core database.
+ These properties map to columns in the core database.
  */
 @interface RLMProperty : NSObject
 
 #pragma mark - Properties
 
 /**
- The name of the property.
+ Property name.
  */
 @property (nonatomic, readonly) NSString *name;
 
 /**
- The type of the property.
+ Property type.
  
- @see `RLMPropertyType`
+ @see RLMPropertyType
  */
 @property (nonatomic, readonly) RLMPropertyType type;
 
 /**
- Indicates whether this property is indexed.
+ Indicates if this property is indexed.
  
- @see `RLMObject`
+ @see RLMObject
  */
 @property (nonatomic, readonly) BOOL indexed;
 
 /**
- For `RLMObject` and `RLMArray` properties, the name of the class of object stored in the property.
+ Object class name - specify object types for RLMObject and RLMArray properties.
  */
 @property (nonatomic, readonly, copy, nullable) NSString *objectClassName;
 
 /**
- For linking objects properties, the property name of the property the linking objects property is linked to.
- */
-@property (nonatomic, readonly, copy, nullable) NSString *linkOriginPropertyName;
-
-/**
- Indicates whether this property is optional.
+ Whether this property is optional.
  */
 @property (nonatomic, readonly) BOOL optional;
 
 #pragma mark - Methods
 
 /**
- Returns a Boolean value that indicates whether a given property object is equal to the receiver.
+ Returns YES if property objects are equal.
  */
 - (BOOL)isEqualToProperty:(RLMProperty *)property;
 
 @end
 
-
-/**
- An `RLMPropertyDescriptor` instance represents a specific property on a given class.
- */
-@interface RLMPropertyDescriptor : NSObject
-
-/**
- Creates and returns a property descriptor.
-
- @param objectClass  The class of this property descriptor.
- @param propertyName The name of this property descriptor.
- */
-+ (instancetype)descriptorWithClass:(Class)objectClass propertyName:(NSString *)propertyName;
-
-/// The class of the property.
-@property (nonatomic, readonly) Class objectClass;
-
-/// The name of the property.
-@property (nonatomic, readonly) NSString *propertyName;
-
-@end
-
-NS_ASSUME_NONNULL_END
+RLM_ASSUME_NONNULL_END

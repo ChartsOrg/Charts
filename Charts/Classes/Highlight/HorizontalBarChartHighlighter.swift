@@ -76,7 +76,7 @@ public class HorizontalBarChartHighlighter: BarChartHighlighter
         }
         else
         {
-            return super.getXIndex(x)
+            return getXIndex(x)
         }
     }
     

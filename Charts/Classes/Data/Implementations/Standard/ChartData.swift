@@ -671,7 +671,7 @@ public class ChartData: NSObject
         }
         else
         {
-            print("ChartData.addEntry() - dataSetIndex out of range.", terminator: "\n")
+            print("ChartData.addEntry() - dataSetIndex our of range.", terminator: "\n")
         }
     }
     

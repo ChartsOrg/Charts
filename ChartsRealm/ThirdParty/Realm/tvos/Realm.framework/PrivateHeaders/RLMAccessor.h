@@ -18,6 +18,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import <Realm/RLMDefines.h>
 
 @class RLMObjectSchema, RLMProperty, RLMObjectBase, RLMProperty;
 
@@ -27,7 +28,7 @@ typedef NSUInteger RLMCreationOptions;
 typedef NS_OPTIONS(NSUInteger, RLMCreationOptions);
 #endif
 
-NS_ASSUME_NONNULL_BEGIN
+RLM_ASSUME_NONNULL_BEGIN
 
 //
 // Accessors Class Creation/Caching
@@ -35,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // get accessor classes for an object class - generates classes if not cached
 Class RLMAccessorClassForObjectClass(Class objectClass, RLMObjectSchema *schema, NSString *prefix);
-Class RLMUnmanagedAccessorClassForObjectClass(Class objectClass, RLMObjectSchema *schema);
+Class RLMStandaloneAccessorClassForObjectClass(Class objectClass, RLMObjectSchema *schema);
 
 // Check if a given class is a generated accessor class
 bool RLMIsGeneratedClass(Class cls);
@@ -60,4 +61,4 @@ void RLMReplaceClassNameMethod(Class accessorClass, NSString *className);
 // Replace sharedSchema method for the given class
 void RLMReplaceSharedSchemaMethod(Class accessorClass, RLMObjectSchema * __nullable schema);
 
-NS_ASSUME_NONNULL_END
+RLM_ASSUME_NONNULL_END

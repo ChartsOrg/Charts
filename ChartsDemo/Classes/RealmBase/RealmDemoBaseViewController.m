@@ -45,8 +45,8 @@
 {
     self.edgesForExtendedLayout = UIRectEdgeNone;
     
-    NSURL *defaultRealmPath = [RLMRealmConfiguration defaultConfiguration].fileURL;
-    [[NSFileManager defaultManager] removeItemAtURL:defaultRealmPath error:nil];
+    NSString *defaultRealmPath = [RLMRealmConfiguration defaultConfiguration].path;
+    [[NSFileManager defaultManager] removeItemAtPath:defaultRealmPath error:nil];
 }
 
 static float randomFloatBetween(float from, float to)
