@@ -53,6 +53,8 @@ public class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterCh
         let copy = super.copyWithZone(zone) as! ScatterChartDataSet
         copy.scatterShapeSize = scatterShapeSize
         copy.scatterShape = scatterShape
+        copy.scatterShapeHoleRadius = scatterShapeHoleRadius
+        copy.scatterShapeHoleColor = scatterShapeHoleColor
         copy.customScatterShape = customScatterShape
         return copy
     }
