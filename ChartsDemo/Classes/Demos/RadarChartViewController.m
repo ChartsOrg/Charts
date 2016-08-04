@@ -141,16 +141,17 @@
     double min = 20;
     int cnt = 5;
     
-    NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
-    NSMutableArray *yVals2 = [[NSMutableArray alloc] init];
+    NSMutableArray *entries1 = [[NSMutableArray alloc] init];
+    NSMutableArray *entries2 = [[NSMutableArray alloc] init];
     
+    // NOTE: The order of the entries when being added to the entries array determines their position around the center of the chart.
     for (int i = 0; i < cnt; i++)
     {
-        [yVals1 addObject:[[RadarChartDataEntry alloc] initWithValue:(arc4random_uniform(mult) + min)]];
-        [yVals2 addObject:[[RadarChartDataEntry alloc] initWithValue:(arc4random_uniform(mult) + min)]];
+        [entries1 addObject:[[RadarChartDataEntry alloc] initWithValue:(arc4random_uniform(mult) + min)]];
+        [entries2 addObject:[[RadarChartDataEntry alloc] initWithValue:(arc4random_uniform(mult) + min)]];
     }
     
-    RadarChartDataSet *set1 = [[RadarChartDataSet alloc] initWithValues:yVals1 label:@"Last Week"];
+    RadarChartDataSet *set1 = [[RadarChartDataSet alloc] initWithValues:entries1 label:@"Last Week"];
     [set1 setColor:[UIColor colorWithRed:103/255.0 green:110/255.0 blue:129/255.0 alpha:1.0]];
     set1.fillColor = [UIColor colorWithRed:103/255.0 green:110/255.0 blue:129/255.0 alpha:1.0];
     set1.drawFilledEnabled = YES;
@@ -159,7 +160,7 @@
     set1.drawHighlightCircleEnabled = YES;
     [set1 setDrawHighlightIndicators:NO];
 
-    RadarChartDataSet *set2 = [[RadarChartDataSet alloc] initWithValues:yVals2 label:@"This Week"];
+    RadarChartDataSet *set2 = [[RadarChartDataSet alloc] initWithValues:entries2 label:@"This Week"];
     [set2 setColor:[UIColor colorWithRed:121/255.0 green:162/255.0 blue:175/255.0 alpha:1.0]];
     set2.fillColor = [UIColor colorWithRed:121/255.0 green:162/255.0 blue:175/255.0 alpha:1.0];
     set2.drawFilledEnabled = YES;

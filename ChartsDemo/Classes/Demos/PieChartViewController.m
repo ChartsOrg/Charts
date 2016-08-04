@@ -112,6 +112,16 @@
     [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:11.f]];
     [data setValueTextColor:UIColor.whiteColor];
     
+    ChartLegend *l = _chartView.legend;
+    l.position = ChartLegendPositionRightOfChart;
+    l.xEntrySpace = 7.0;
+    l.yEntrySpace = 0.0;
+    l.yOffset = 0.0;
+    
+    // entry label styling
+    _chartView.entryLabelColor = UIColor.whiteColor;
+    _chartView.entryLabelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.f];
+    
     _chartView.data = data;
     [_chartView highlightValues:nil];
 }

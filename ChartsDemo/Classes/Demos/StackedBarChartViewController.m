@@ -55,6 +55,7 @@
     _chartView.drawGridBackgroundEnabled = NO;
     _chartView.drawBarShadowEnabled = NO;
     _chartView.drawValueAboveBarEnabled = NO;
+    _chartView.highlightFullBarEnabled = NO;
     
     NSNumberFormatter *leftAxisFormatter = [[NSNumberFormatter alloc] init];
     leftAxisFormatter.maximumFractionDigits = 1;

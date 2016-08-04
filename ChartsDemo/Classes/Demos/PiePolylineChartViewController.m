@@ -75,15 +75,14 @@
 {
     double mult = range;
     
-    NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
+    NSMutableArray *entries = [[NSMutableArray alloc] init];
     
-    // IMPORTANT: In a PieChart, no values (Entry) should have the same xIndex (even if from different DataSets), since no values can be drawn above each other.
     for (int i = 0; i < count; i++)
     {
-        [yVals1 addObject:[[PieChartDataEntry alloc] initWithValue:(arc4random_uniform(mult) + mult / 5) label:parties[i % parties.count]]];
+        [entries addObject:[[PieChartDataEntry alloc] initWithValue:(arc4random_uniform(mult) + mult / 5) label:parties[i % parties.count]]];
     }
     
-    PieChartDataSet *dataSet = [[PieChartDataSet alloc] initWithValues:yVals1 label:@"Election Results"];
+    PieChartDataSet *dataSet = [[PieChartDataSet alloc] initWithValues:entries label:@"Election Results"];
     dataSet.sliceSpace = 2.0;
     
     // add a lot of colors
@@ -184,7 +183,7 @@
 
 - (IBAction)slidersValueChanged:(id)sender
 {
-    _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
+    _sliderTextX.text = [@((int)_sliderX.value) stringValue];
     _sliderTextY.text = [@((int)_sliderY.value) stringValue];
     
     [self updateChartData];

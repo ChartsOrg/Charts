@@ -59,7 +59,6 @@
     xAxis.labelFont = [UIFont systemFontOfSize:10.f];
     xAxis.drawAxisLineEnabled = YES;
     xAxis.drawGridLinesEnabled = NO;
-    xAxis.gridLineWidth = .3;
     xAxis.granularity = 10.0;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
@@ -81,6 +80,8 @@
     _chartView.legend.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
     _chartView.legend.xEntrySpace = 4.0;
     
+    [_chartView setVisibleXRangeWithMinXRange:10.0 maxXRange:50.0];
+
     _chartView.fitBars = YES;
     
     _sliderX.value = 11.0;

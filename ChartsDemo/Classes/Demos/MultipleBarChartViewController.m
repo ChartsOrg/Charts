@@ -113,7 +113,7 @@
     NSMutableArray *yVals2 = [[NSMutableArray alloc] init];
     NSMutableArray *yVals3 = [[NSMutableArray alloc] init];
     
-    double mult = range * 1000.f;
+    double mult = range * 10000.f;
     
     int startYear = 1980;
     int endYear = startYear + _sliderX.value;
