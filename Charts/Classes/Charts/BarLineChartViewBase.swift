@@ -1196,12 +1196,12 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// - parameter axis: - which axis should be used as a reference for the y-axis
     public func moveViewToY(yValue: Double, axis: ChartYAxis.AxisDependency)
     {
-        let valsInView = getDeltaY(axis) / Double(_viewPortHandler.scaleY)
+        let yInView = getDeltaY(axis) / Double(_viewPortHandler.scaleY)
         
         let job = MoveChartViewJob(
             viewPortHandler: viewPortHandler,
             xValue: 0.0,
-            yValue: yValue + valsInView / 2.0,
+            yValue: yValue + yInView / 2.0,
             transformer: getTransformer(axis),
             view: self)
         
@@ -1216,12 +1216,12 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// - parameter axis: - which axis should be used as a reference for the y-axis
     public func moveViewTo(xValue xValue: Double, yValue: Double, axis: ChartYAxis.AxisDependency)
     {
-        let valsInView = getDeltaY(axis) / Double(_viewPortHandler.scaleY)
+        let yInView = getDeltaY(axis) / Double(_viewPortHandler.scaleY)
         
         let job = MoveChartViewJob(
             viewPortHandler: viewPortHandler,
             xValue: xValue,
-            yValue: yValue + valsInView / 2.0,
+            yValue: yValue + yInView / 2.0,
             transformer: getTransformer(axis),
             view: self)
         
@@ -1247,12 +1247,12 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             pt: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop),
             axis: axis)
         
-        let valsInView = getDeltaY(axis) / Double(_viewPortHandler.scaleY)
+        let yInView = getDeltaY(axis) / Double(_viewPortHandler.scaleY)
         
         let job = AnimatedMoveChartViewJob(
             viewPortHandler: viewPortHandler,
             xValue: xValue,
-            yValue: yValue + valsInView / 2.0,
+            yValue: yValue + yInView / 2.0,
             transformer: getTransformer(axis),
             view: self,
             xOrigin: bounds.x,
@@ -1309,13 +1309,13 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         yValue: Double,
         axis: ChartYAxis.AxisDependency)
     {
-        let valsInView = getDeltaY(axis) / Double(_viewPortHandler.scaleY)
-        let xsInView = xAxis.axisRange / Double(_viewPortHandler.scaleX)
+        let yInView = getDeltaY(axis) / Double(_viewPortHandler.scaleY)
+        let xInView = xAxis.axisRange / Double(_viewPortHandler.scaleX)
         
         let job = MoveChartViewJob(
             viewPortHandler: viewPortHandler,
-            xValue: xValue - xsInView / 2.0,
-            yValue: yValue + valsInView / 2.0,
+            xValue: xValue - xInView / 2.0,
+            yValue: yValue + yInView / 2.0,
             transformer: getTransformer(axis),
             view: self)
         
@@ -1340,13 +1340,13 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             pt: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop),
             axis: axis)
         
-        let valsInView = getDeltaY(axis) / Double(_viewPortHandler.scaleY)
-        let xsInView = xAxis.axisRange / Double(_viewPortHandler.scaleX)
+        let yInView = getDeltaY(axis) / Double(_viewPortHandler.scaleY)
+        let xInView = xAxis.axisRange / Double(_viewPortHandler.scaleX)
         
         let job = AnimatedMoveChartViewJob(
             viewPortHandler: viewPortHandler,
-            xValue: xValue - xsInView / 2.0,
-            yValue: yValue + valsInView / 2.0,
+            xValue: xValue - xInView / 2.0,
+            yValue: yValue + yInView / 2.0,
             transformer: getTransformer(axis),
             view: self,
             xOrigin: bounds.x,
