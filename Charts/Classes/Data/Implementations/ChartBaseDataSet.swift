@@ -262,26 +262,28 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     public var isHighlightEnabled: Bool { return highlightEnabled }
     
     /// the formatter used to customly format the values
-    internal var _valueFormatter: NSNumberFormatter? = ChartUtils.defaultValueFormatter()
+    internal var _valueFormatter: NSNumberFormatter?
     
     /// The formatter used to customly format the values
     public var valueFormatter: NSNumberFormatter?
     {
         get
         {
+            if needsFormatter
+            {
+                _valueFormatter = ChartUtils.defaultValueFormatter()
+            }
             return _valueFormatter
         }
         set
         {
-            if newValue == nil
-            {
-                _valueFormatter = ChartUtils.defaultValueFormatter()
-            }
-            else
-            {
-                _valueFormatter = newValue
-            }
+            _valueFormatter = newValue
         }
+    }
+    
+    public var needsFormatter: Bool
+    {
+        return _valueFormatter == nil
     }
     
     /// Sets/get a single color for value text.

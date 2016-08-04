@@ -179,6 +179,9 @@ public protocol IChartDataSet
     /// The formatter used to customly format the values
     var valueFormatter: NSNumberFormatter? { get set }
     
+    /// - returns: true if the valueFormatter object of this DataSet is null.
+    var needsFormatter: Bool { get }
+    
     /// Sets/get a single color for value text.
     /// Setting the color clears the colors array and adds a single color.
     /// Getting will return the first color in the array.
