@@ -193,56 +193,20 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRenderer
     
     private var _gridLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
-    public override func renderGridLines(context context: CGContext)
+    public override func drawGridLine(context context: CGContext, x: CGFloat, y: CGFloat)
     {
         guard let
-            xAxis = self.axis as? ChartXAxis,
-            viewPortHandler = self.viewPortHandler,
-            transformer = self.transformer
+            viewPortHandler = self.viewPortHandler
             else { return }
         
-        if !xAxis.isEnabled || !xAxis.isDrawGridLinesEnabled
+        if viewPortHandler.isInBoundsY(y)
         {
-            return
+            _gridLineSegmentsBuffer[0].x = viewPortHandler.contentLeft
+            _gridLineSegmentsBuffer[0].y = y
+            _gridLineSegmentsBuffer[1].x = viewPortHandler.contentRight
+            _gridLineSegmentsBuffer[1].y = y
+            CGContextStrokeLineSegments(context, _gridLineSegmentsBuffer, 2)
         }
-        
-        CGContextSaveGState(context)
-        
-        CGContextSetShouldAntialias(context, xAxis.gridAntialiasEnabled)
-        CGContextSetStrokeColorWithColor(context, xAxis.gridColor.CGColor)
-        CGContextSetLineWidth(context, xAxis.gridLineWidth)
-        CGContextSetLineCap(context, xAxis.gridLineCap)
-        
-        if (xAxis.gridLineDashLengths != nil)
-        {
-            CGContextSetLineDash(context, xAxis.gridLineDashPhase, xAxis.gridLineDashLengths, xAxis.gridLineDashLengths.count)
-        }
-        else
-        {
-            CGContextSetLineDash(context, 0.0, nil, 0)
-        }
-        
-        // pre allocate to save performance (dont allocate in loop)
-        var position = CGPoint(x: 0.0, y: 0.0)
-        
-        for i in 0.stride(to: xAxis.entryCount, by: 1)
-        {
-            position.x = 0.0
-            position.y = CGFloat(xAxis.entries[i])
-            
-            transformer.pointValueToPixel(&position)
-            
-            if viewPortHandler.isInBoundsY(position.y)
-            {
-                _gridLineSegmentsBuffer[0].x = viewPortHandler.contentLeft
-                _gridLineSegmentsBuffer[0].y = position.y
-                _gridLineSegmentsBuffer[1].x = viewPortHandler.contentRight
-                _gridLineSegmentsBuffer[1].y = position.y
-                CGContextStrokeLineSegments(context, _gridLineSegmentsBuffer, 2)
-            }
-        }
-        
-        CGContextRestoreGState(context)
     }
     
     private var _axisLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())

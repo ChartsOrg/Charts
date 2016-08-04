@@ -289,7 +289,6 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
     {
         guard let
             xAxis = self.axis as? ChartXAxis,
-            viewPortHandler = self.viewPortHandler,
             transformer = self.transformer
             else { return }
         
@@ -323,21 +322,30 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         for i in 0.stride(to: entries.count, by: 1)
         {
             position.x = CGFloat(entries[i])
-            position.y = 0.0
+            position.y = position.x
             position = CGPointApplyAffineTransform(position, valueToPixelMatrix)
             
-            if (position.x >= viewPortHandler.offsetLeft
-                && position.x <= viewPortHandler.chartWidth)
-            {
-                _gridLineSegmentsBuffer[0].x = position.x
-                _gridLineSegmentsBuffer[0].y = viewPortHandler.contentTop
-                _gridLineSegmentsBuffer[1].x = position.x
-                _gridLineSegmentsBuffer[1].y = viewPortHandler.contentBottom
-                CGContextStrokeLineSegments(context, _gridLineSegmentsBuffer, 2)
-            }
+            drawGridLine(context: context, x: position.x, y: position.y)
         }
         
         CGContextRestoreGState(context)
+    }
+    
+    public func drawGridLine(context context: CGContext, x: CGFloat, y: CGFloat)
+    {
+        guard let
+            viewPortHandler = self.viewPortHandler
+            else { return }
+        
+        if x >= viewPortHandler.offsetLeft
+            && x <= viewPortHandler.chartWidth
+        {
+            _gridLineSegmentsBuffer[0].x = x
+            _gridLineSegmentsBuffer[0].y = viewPortHandler.contentTop
+            _gridLineSegmentsBuffer[1].x = x
+            _gridLineSegmentsBuffer[1].y = viewPortHandler.contentBottom
+            CGContextStrokeLineSegments(context, _gridLineSegmentsBuffer, 2)
+        }
     }
     
     public override func renderLimitLines(context context: CGContext)
