@@ -39,9 +39,6 @@ public class ChartHighlight: NSObject
     /// **default**: -1
     private var _stackIndex = Int(-1)
     
-    /// the range of the bar that is selected (only for stacked-barchart)
-    private var _range: ChartRange?
-    
     /// the axis the highlighted value belongs to
     private var _axis: ChartYAxis.AxisDependency = ChartYAxis.AxisDependency.Left
     
@@ -63,7 +60,6 @@ public class ChartHighlight: NSObject
     /// - parameter dataIndex: the index of the Data the highlighted value belongs to
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
     /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
-    /// - parameter range: the range the selected stack-value is in
     /// - parameter axis: the axis the highlighted value belongs to
     public init(
         x: Double, y: Double,
@@ -71,7 +67,6 @@ public class ChartHighlight: NSObject
         dataIndex: Int,
         dataSetIndex: Int,
         stackIndex: Int,
-        range: ChartRange?,
         axis: ChartYAxis.AxisDependency)
     {
         super.init()
@@ -83,7 +78,6 @@ public class ChartHighlight: NSObject
         self.dataIndex = dataIndex
         _dataSetIndex = dataSetIndex
         _stackIndex = stackIndex
-        _range = range
         _axis = axis
     }
     
@@ -93,20 +87,18 @@ public class ChartHighlight: NSObject
     /// - parameter yPx: the y-pixel of the highlighted value
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
     /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
-    /// - parameter range: the range the selected stack-value is in
     /// - parameter axis: the axis the highlighted value belongs to
     public convenience init(
         x: Double, y: Double,
         xPx: CGFloat, yPx: CGFloat,
         dataSetIndex: Int,
-        stackIndex: Int, range: ChartRange?,
+        stackIndex: Int,
         axis: ChartYAxis.AxisDependency)
     {
         self.init(x: x, y: y, xPx: xPx, yPx: yPx,
                   dataIndex: 0,
                   dataSetIndex: dataSetIndex,
                   stackIndex: stackIndex,
-                  range: range,
                   axis: axis)
     }
     
@@ -142,6 +134,15 @@ public class ChartHighlight: NSObject
         _dataSetIndex = dataSetIndex
     }
     
+    /// - parameter x: the x-value of the highlighted value
+    /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
+    /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
+    public convenience init(x: Double, dataSetIndex: Int, stackIndex: Int)
+    {
+        self.init(x: x, dataSetIndex: dataSetIndex)
+        _stackIndex = stackIndex
+    }
+    
     public var x: Double { return _x }
     public var y: Double { return _y }
     public var xPx: CGFloat { return _xPx }
@@ -151,9 +152,6 @@ public class ChartHighlight: NSObject
     public var axis: ChartYAxis.AxisDependency { return _axis }
     
     public var isStacked: Bool { return _stackIndex >= 0 }
-    
-    /// - returns: the range of values the selected value of a stacked bar is in. (this is only relevant for stacked-barchart)
-    public var range: ChartRange? { return _range }
     
     /// Sets the x- and y-position (pixels) where this highlight was last drawn.
     public func setDraw(x x: CGFloat, y: CGFloat)

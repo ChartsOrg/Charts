@@ -196,4 +196,10 @@ public class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             (renderer as! CombinedChartRenderer!).drawOrder = newValue.map { DrawOrder(rawValue: $0)! }
         }
     }
+    
+    /// Set this to `true` to make the highlight operation full-bar oriented, `false` to make it highlight single values
+    public var highlightFullBarEnabled: Bool = false
+    
+    /// - returns: true the highlight is be full-bar oriented, false if single-value
+    public var isHighlightFullBarEnabled: Bool { return highlightFullBarEnabled }
 }

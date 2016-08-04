@@ -55,6 +55,10 @@ public class ChartHighlighter : NSObject, IChartHighlighter
             else { return nil }
         
         let closestValues = getHighlights(xPos: xVal, x: x, y: y)
+        if closestValues.isEmpty
+        {
+            return nil
+        }
         
         let leftAxisMinDist = getMinimumDistance(closestValues, y: y, axis: ChartYAxis.AxisDependency.Left)
         let rightAxisMinDist = getMinimumDistance(closestValues, y: y, axis: ChartYAxis.AxisDependency.Right)
@@ -93,14 +97,9 @@ public class ChartHighlighter : NSObject, IChartHighlighter
             // extract all y-values from all DataSets at the given x-value.
             // some datasets (i.e bubble charts) make sense to have multiple values for an x-value. We'll have to find a way to handle that later on. It's more complicated now when x-indices are floating point.
             
-            if let details = buildHighlight(dataSet: dataSet, dataSetIndex: i, xValue: xValue, rounding: .Up)
+            if let high = buildHighlight(dataSet: dataSet, dataSetIndex: i, xValue: xValue, rounding: .Closest)
             {
-                vals.append(details)
-            }
-            
-            if let details = buildHighlight(dataSet: dataSet, dataSetIndex: i, xValue: xValue, rounding: .Down)
-            {
-                vals.append(details)
+                vals.append(high)
             }
         }
         

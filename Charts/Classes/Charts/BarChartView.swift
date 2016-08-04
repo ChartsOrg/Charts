@@ -118,6 +118,15 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
         barData.groupBars(fromX: fromX, groupSpace: groupSpace, barSpace: barSpace)
         notifyDataSetChanged()
     }
+    
+    /// Highlights the value at the given x-position in the given DataSet. Provide -1 as the dataSetIndex to undo all highlighting.
+    /// - parameter x:
+    /// - parameter dataSetIndex:
+    /// - parameter stackIndex: the index inside the stack - only relevant for stacked entries
+    public func highlightValue(x x: Double, dataSetIndex: Int, stackIndex: Int)
+    {
+        highlightValue(ChartHighlight(x: x, dataSetIndex: dataSetIndex, stackIndex: stackIndex))
+    }
 
     // MARK: Accessors
     
@@ -146,6 +155,13 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
     /// Adds half of the bar width to each side of the x-axis range in order to allow the bars of the barchart to be fully displayed.
     /// **default**: false
     public var fitBars = false
+    
+    /// Set this to `true` to make the highlight operation full-bar oriented, `false` to make it highlight single values (relevant only for stacked).
+    /// If enabled, highlighting operations will highlight the whole bar, even if only a single stack entry was tapped.
+    public var highlightFullBarEnabled: Bool = false
+    
+    /// - returns: true the highlight is be full-bar oriented, false if single-value
+    public var isHighlightFullBarEnabled: Bool { return highlightFullBarEnabled }
     
     // MARK: - BarChartDataProbider
     

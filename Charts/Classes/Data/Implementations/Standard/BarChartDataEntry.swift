@@ -18,6 +18,9 @@ public class BarChartDataEntry: ChartDataEntry
     /// the values the stacked barchart holds
     private var _yVals: [Double]?
     
+    /// the ranges for the individual stack values - automatically calculated
+    private var _ranges: [ChartRange]?
+    
     /// the sum of all negative values this entry (if stacked) contains
     private var _negativeSum: Double = 0.0
     
@@ -34,6 +37,7 @@ public class BarChartDataEntry: ChartDataEntry
     {
         super.init(x: x, y: BarChartDataEntry.calcSum(yValues))
         self._yVals = yValues
+        calcRanges()
         calcPosNegSum()
     }
     
@@ -47,7 +51,9 @@ public class BarChartDataEntry: ChartDataEntry
     public init(x: Double, yValues: [Double], label: String)
     {
         super.init(x: x, y: BarChartDataEntry.calcSum(yValues), data: label)
-        self.yValues = yValues
+        self._yVals = yValues
+        calcRanges()
+        calcPosNegSum()
     }
     
     /// Constructor for normal bars (not stacked).
@@ -114,7 +120,49 @@ public class BarChartDataEntry: ChartDataEntry
         _negativeSum = sumNeg
         _positiveSum = sumPos
     }
-
+    
+    /// Splits up the stack-values of the given bar-entry into Range objects.
+    /// - parameter entry:
+    /// - returns:
+    public func calcRanges()
+    {
+        let values = yValues
+        if values?.isEmpty != false
+        {
+            return
+        }
+        
+        if _ranges == nil
+        {
+            _ranges = [ChartRange]()
+        }
+        else
+        {
+            _ranges?.removeAll()
+        }
+        
+        _ranges?.reserveCapacity(values!.count)
+        
+        var negRemain = -negativeSum
+        var posRemain: Double = 0.0
+        
+        for i in 0 ..< values!.count
+        {
+            let value = values![i]
+            
+            if value < 0
+            {
+                _ranges?.append(ChartRange(from: negRemain, to: negRemain + abs(value)))
+                negRemain += abs(value)
+            }
+            else
+            {
+                _ranges?.append(ChartRange(from: posRemain, to: posRemain+value))
+                posRemain += value
+            }
+        }
+    }
+    
     // MARK: Accessors
     
     /// the values the stacked barchart holds
@@ -128,8 +176,15 @@ public class BarChartDataEntry: ChartDataEntry
         {
             self.y = BarChartDataEntry.calcSum(newValue)
             self._yVals = newValue
+            calcRanges()
             calcPosNegSum()
         }
+    }
+    
+    /// - returns: the ranges of the individual stack-entries. Will return null if this entry is not stacked.
+    public var ranges: [ChartRange]?
+    {
+        return _ranges
     }
     
     // MARK: NSCopying

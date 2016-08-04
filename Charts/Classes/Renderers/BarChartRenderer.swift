@@ -537,8 +537,18 @@ public class BarChartRenderer: BarLineScatterCandleBubbleChartRenderer
                 
                 if isStack
                 {
-                    y1 = high.range?.from ?? 0.0
-                    y2 = high.range?.to ?? 0.0
+                    if dataProvider.isHighlightFullBarEnabled
+                    {
+                        y1 = e.positiveSum
+                        y2 = -e.negativeSum
+                    }
+                    else
+                    {
+                        let range = e.ranges?[high.stackIndex]
+                        
+                        y1 = range?.from ?? 0.0
+                        y2 = range?.to ?? 0.0
+                    }
                 }
                 else
                 {

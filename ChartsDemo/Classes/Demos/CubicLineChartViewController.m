@@ -75,6 +75,7 @@
     [_chartView setScaleEnabled:YES];
     _chartView.pinchZoomEnabled = NO;
     _chartView.drawGridBackgroundEnabled = NO;
+    _chartView.maxHighlightDistance = 100.0;
     
     _chartView.xAxis.enabled = NO;
     

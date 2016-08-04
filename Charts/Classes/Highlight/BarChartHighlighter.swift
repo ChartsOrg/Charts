@@ -19,17 +19,21 @@ public class BarChartHighlighter: ChartHighlighter
 {
     public override func getHighlight(x x: CGFloat, y: CGFloat) -> ChartHighlight?
     {
+        let high = super.getHighlight(x: x, y: y)
+        
+        if high == nil
+        {
+            return nil
+        }
+        
         if let barData = self.chart?.data as? BarChartData
         {
             let pos = getValsForTouch(x: x, y: y)
             
-            guard let high = getHighlight(xValue: Double(pos.x), x: x, y: y)
-                else { return nil }
-            
-            if let set = barData.getDataSetByIndex(high.dataSetIndex) as? IBarChartDataSet
+            if let set = barData.getDataSetByIndex(high!.dataSetIndex) as? IBarChartDataSet
                 where set.isStacked
             {
-                return getStackedHighlight(high: high,
+                return getStackedHighlight(high: high!,
                                            set: set,
                                            xValue: Double(pos.x),
                                            yValue: Double(pos.y))
@@ -67,14 +71,14 @@ public class BarChartHighlighter: ChartHighlighter
             return high
         }
         
-        if let ranges = getRanges(entry: entry)
+        if let ranges = entry.ranges
             where ranges.count > 0
         {
             let stackIndex = getClosestStackIndex(ranges: ranges, value: yValue)
             
-            let range = ranges[stackIndex]
-            
-            let pixel = chart.getTransformer(set.axisDependency).pixelForValue(x: high.x, y: range.to)
+            let pixel = chart
+                .getTransformer(set.axisDependency)
+                .pixelForValue(x: high.x, y: ranges[stackIndex].to)
 
             return ChartHighlight(x: entry.x,
                                   y: entry.y,
@@ -82,7 +86,6 @@ public class BarChartHighlighter: ChartHighlighter
                                   yPx: pixel.y,
                                   dataSetIndex: high.dataSetIndex,
                                   stackIndex: stackIndex,
-                                  range: range,
                                   axis: high.axis)
         }
         
@@ -117,41 +120,5 @@ public class BarChartHighlighter: ChartHighlighter
         let length = max(ranges!.count - 1, 0)
         
         return (value > ranges![length].to) ? length : 0
-    }
-    
-    /// Splits up the stack-values of the given bar-entry into Range objects.
-    /// - parameter entry:
-    /// - returns:
-    public func getRanges(entry entry: BarChartDataEntry) -> [ChartRange]?
-    {
-        let values = entry.yValues
-        if (values == nil)
-        {
-            return nil
-        }
-        
-        var negRemain = -entry.negativeSum
-        var posRemain: Double = 0.0
-        
-        var ranges = [ChartRange]()
-        ranges.reserveCapacity(values!.count)
-        
-        for i in 0 ..< values!.count
-        {
-            let value = values![i]
-            
-            if value < 0
-            {
-                ranges.append(ChartRange(from: negRemain, to: negRemain + abs(value)))
-                negRemain += abs(value)
-            }
-            else
-            {
-                ranges.append(ChartRange(from: posRemain, to: posRemain+value))
-                posRemain += value
-            }
-        }
-        
-        return ranges
     }
 }

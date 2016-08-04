@@ -181,8 +181,6 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     {
         _animator = ChartAnimator()
         _animator.delegate = self
-        
-        maxHighlightDistance = 70.0
 
         _viewPortHandler = ChartViewPortHandler()
         _viewPortHandler.setChartDimens(width: bounds.size.width, height: bounds.size.height)
@@ -207,15 +205,15 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         }
         set
         {
-            _offsetsCalculated = false
             _data = newValue
+            _offsetsCalculated = false
             
-            // calculate how many digits are needed
-            if let data = _data
+            if _data == nil
             {
-                calculateFormatter(min: data.getYMin(), max: data.getYMax())
+                return
             }
             
+            setupDefaultFormatter(min: _data!.getYMin(), max: _data!.getYMax())
             notifyDataSetChanged()
         }
     }
@@ -224,17 +222,18 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     public func clear()
     {
         _data = nil
+        _offsetsCalculated = false
         _indicesToHighlight.removeAll()
         setNeedsDisplay()
     }
     
-    /// Removes all DataSets (and thereby Entries) from the chart. Does not remove the x-values. Also refreshes the chart by calling setNeedsDisplay().
+    /// Removes all DataSets (and thereby Entries) from the chart. Does not set the data object to nil. Also refreshes the chart by calling setNeedsDisplay().
     public func clearValues()
     {
         _data?.clearValues()
         setNeedsDisplay()
     }
-    
+
     /// - returns: true if the chart is empty (meaning it's data object is either null or contains no entries).
     public func isEmpty() -> Bool
     {
@@ -257,7 +256,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         fatalError("notifyDataSetChanged() cannot be called on ChartViewBase")
     }
     
-    /// calculates the offsets of the chart to the border depending on the position of an eventual legend or depending on the length of the y-axis and x-axis labels and their position
+    /// Calculates the offsets of the chart to the border depending on the position of an eventual legend or depending on the length of the y-axis and x-axis labels and their position
     internal func calculateOffsets()
     {
         fatalError("calculateOffsets() cannot be called on ChartViewBase")
@@ -270,7 +269,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     }
     
     /// calculates the required number of digits for the values that might be drawn in the chart (if enabled), and creates the default value formatter
-    internal func calculateFormatter(min min: Double, max: Double)
+    internal func setupDefaultFormatter(min min: Double, max: Double)
     {
         // check if a custom formatter is set or not
         var reference = Double(0.0)
@@ -503,12 +502,6 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
             }
             else
             {
-                if self is BarLineChartViewBase
-                    && (self as! BarLineChartViewBase).isHighlightFullBarEnabled
-                {
-                    h = ChartHighlight(x: h!.x, y: Double.NaN, xPx: CGFloat.NaN, yPx: CGFloat.NaN, dataSetIndex: -1, axis: .Left)
-                }
-                
                 _indicesToHighlight = [h!]
             }
         }
@@ -972,8 +965,8 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     }
     
     /// The maximum distance in screen pixels away from an entry causing it to highlight.
-    /// **default**: 70.0
-    public var maxHighlightDistance: CGFloat = 70.0
+    /// **default**: 40.0
+    public var maxHighlightDistance: CGFloat = 40.0
     
     /// the number of maximum visible drawn values on the chart only active when `drawValuesEnabled` is enabled
     public var maxVisibleCount: Int

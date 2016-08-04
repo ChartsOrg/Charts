@@ -62,16 +62,10 @@ public class CombinedHighlighter: ChartHighlighter
                             continue
                         }
                         
-                        if let s1 = buildHighlight(dataSet: dataSet, dataSetIndex: j, xValue: xValue, rounding: .Up)
+                        if let s1 = buildHighlight(dataSet: dataSet, dataSetIndex: j, xValue: xValue, rounding: .Closest)
                         {
                             s1.dataIndex = i
                             vals.append(s1)
-                        }
-                        
-                        if let s2 = buildHighlight(dataSet: dataSet, dataSetIndex: j, xValue: xValue, rounding: .Down)
-                        {
-                            s2.dataIndex = i
-                            vals.append(s2)
                         }
                     }
                 }

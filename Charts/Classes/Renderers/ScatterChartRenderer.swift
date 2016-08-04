@@ -276,7 +276,6 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
         {
             guard let dataSets = scatterData.dataSets as? [IScatterChartDataSet] else { return }
             
-            let phaseX = max(0.0, min(1.0, animator.phaseX))
             let phaseY = animator.phaseY
             
             var pt = CGPoint()
@@ -297,12 +296,12 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                 let trans = dataProvider.getTransformer(dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix
                 
-                let entryCount = dataSet.entryCount
-                
                 let shapeSize = dataSet.scatterShapeSize
                 let lineHeight = valueFont.lineHeight
                 
-                for j in 0 ..< Int(ceil(Double(entryCount) * phaseX))
+                let bounds = xBounds(dataProvider, dataSet: dataSet, animator: animator)
+                
+                for j in (bounds.min + 1).stride(through: bounds.range + bounds.min, by: 1)
                 {
                     guard let e = dataSet.entryForIndex(j) else { break }
                     

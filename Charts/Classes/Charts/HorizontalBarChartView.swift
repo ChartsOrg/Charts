@@ -159,7 +159,6 @@ public class HorizontalBarChartView: BarChartView
         getTransformer(.Left).pixelToValue(&pt)
         
         return max(xAxis._axisMinimum, Double(pt.y))
-        // FIXME: Update in Android
     }
     
     /// - returns: the highest x-index (value on the x-axis) that is still visible on the chart.
@@ -172,5 +171,45 @@ public class HorizontalBarChartView: BarChartView
         getTransformer(.Left).pixelToValue(&pt)
         
         return min(xAxis._axisMaximum, Double(pt.y))
+    }
+    
+    // MARK: - Viewport
+    
+    public override func setVisibleXRangeMaximum(maxXRange: Double)
+    {
+        let xScale = xAxis.axisRange / maxXRange
+        viewPortHandler.setMinimumScaleX(CGFloat(xScale))
+    }
+    
+    public override func setVisibleXRangeMinimum(minXRange: Double)
+    {
+        let xScale = xAxis.axisRange / minXRange
+        viewPortHandler.setMaximumScaleX(CGFloat(xScale))
+    }
+    
+    public override func setVisibleXRange(minXRange minXRange: Double, maxXRange: Double)
+    {
+        let minScale = xAxis.axisRange / minXRange
+        let maxScale = xAxis.axisRange / maxXRange
+        viewPortHandler.setMinMaxScaleX(minScaleX: CGFloat(minScale), maxScaleX: CGFloat(maxScale))
+    }
+    
+    public override func setVisibleYRangeMaximum(maxYRange: Double, axis: ChartYAxis.AxisDependency)
+    {
+        let yScale = getDeltaY(axis) / maxYRange
+        viewPortHandler.setMinimumScaleY(CGFloat(yScale))
+    }
+    
+    public override func setVisibleYRangeMinimum(minYRange: Double, axis: ChartYAxis.AxisDependency)
+    {
+        let yScale = getDeltaY(axis) / minYRange
+        viewPortHandler.setMaximumScaleY(CGFloat(yScale))
+    }
+    
+    public override func setVisibleYRange(minYRange minYRange: Double, maxYRange: Double, axis: ChartYAxis.AxisDependency)
+    {
+        let minScale = getDeltaY(axis) / minYRange
+        let maxScale = getDeltaY(axis) / maxYRange
+        viewPortHandler.setMinMaxScaleY(minScaleY: CGFloat(minScale), maxScaleY: CGFloat(maxScale))
     }
 }
