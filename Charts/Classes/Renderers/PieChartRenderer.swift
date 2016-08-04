@@ -312,7 +312,7 @@ public class PieChartRenderer: ChartDataRendererBase
         
         let yValueSum = (data as! PieChartData).yValueSum
         
-        let drawXVals = chart.isDrawSliceTextEnabled
+        let drawEntryLabels = chart.isDrawEntryLabelsEnabled
         let usePercentValuesEnabled = chart.usePercentValuesEnabled
         
         var angle: CGFloat = 0.0
@@ -325,9 +325,9 @@ public class PieChartRenderer: ChartDataRendererBase
         {
             guard let dataSet = dataSets[i] as? IPieChartDataSet else { continue }
             
-            let drawYVals = dataSet.isDrawValuesEnabled
+            let drawValues = dataSet.isDrawValuesEnabled
             
-            if (!drawYVals && !drawXVals)
+            if !drawValues && !drawEntryLabels
             {
                 continue
             }
@@ -371,10 +371,10 @@ public class PieChartRenderer: ChartDataRendererBase
                 let sliceXBase = cos(transformedAngle * ChartUtils.Math.FDEG2RAD)
                 let sliceYBase = sin(transformedAngle * ChartUtils.Math.FDEG2RAD)
                 
-                let drawXOutside = drawXVals && xValuePosition == .OutsideSlice
-                let drawYOutside = drawYVals && yValuePosition == .OutsideSlice
-                let drawXInside = drawXVals && xValuePosition == .InsideSlice
-                let drawYInside = drawYVals && yValuePosition == .InsideSlice
+                let drawXOutside = drawEntryLabels && xValuePosition == .OutsideSlice
+                let drawYOutside = drawValues && yValuePosition == .OutsideSlice
+                let drawXInside = drawEntryLabels && xValuePosition == .InsideSlice
+                let drawYInside = drawValues && yValuePosition == .InsideSlice
                 
                 if drawXOutside || drawYOutside
                 {

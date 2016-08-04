@@ -24,7 +24,8 @@ public class PieChartView: PieRadarChartViewBase
     /// rect object that represents the bounds of the piechart, needed for drawing the circle
     private var _circleBox = CGRect()
     
-    private var _drawXLabelsEnabled = true
+    /// flag indicating if entry labels should be drawn or not
+    private var _drawEntryLabelsEnabled = true
     
     /// array that holds the width of each pie-slice in degrees
     private var _drawAngles = [CGFloat]()
@@ -503,26 +504,50 @@ public class PieChartView: PieRadarChartViewBase
         }
     }
     
-    /// set this to true to draw the x-value text into the pie slices
+    /// set this to true to draw the enrty labels into the pie slices
+    @available(*, deprecated=1.0, message="Use `drawEntryLabelsEnabled` instead.")
     public var drawSliceTextEnabled: Bool
     {
         get
         {
-            return _drawXLabelsEnabled
+            return drawEntryLabelsEnabled
         }
         set
         {
-            _drawXLabelsEnabled = newValue
-            setNeedsDisplay()
+            drawEntryLabelsEnabled = newValue
         }
     }
     
-    /// - returns: true if drawing x-values is enabled, false if not
+    /// - returns: true if drawing entry labels is enabled, false if not
+    @available(*, deprecated=1.0, message="Use `isDrawEntryLabelsEnabled` instead.")
     public var isDrawSliceTextEnabled: Bool
     {
         get
         {
-            return drawSliceTextEnabled
+            return isDrawEntryLabelsEnabled
+        }
+    }
+    
+    /// Set this to true to draw the enrty labels into the pie slices
+    public var drawEntryLabelsEnabled: Bool
+    {
+        get
+        {
+            return _drawEntryLabelsEnabled
+        }
+        set
+        {
+            _drawEntryLabelsEnabled = newValue
+            setNeedsDisplay()
+        }
+    }
+    
+    /// - returns: true if drawing entry labels is enabled, false if not
+    public var isDrawEntryLabelsEnabled: Bool
+    {
+        get
+        {
+            return drawEntryLabelsEnabled
         }
     }
     
