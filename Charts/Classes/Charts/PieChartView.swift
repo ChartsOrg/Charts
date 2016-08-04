@@ -38,6 +38,12 @@ public class PieChartView: PieRadarChartViewBase
     
     private var _holeColor: NSUIColor? = NSUIColor.whiteColor()
     
+    /// Sets the color the entry labels are drawn with.
+    private var _entryLabelColor: NSUIColor? = NSUIColor.whiteColor()
+    
+    /// Sets the font the entry labels are drawn with.
+    private var _entryLabelFont: NSUIFont? = NSUIFont(name: "HelveticaNeue", size: 13.0)
+    
     /// if true, the hole will see-through to the inner tips of the slices
     private var _drawSlicesUnderHoleEnabled = false
     
@@ -542,6 +548,28 @@ public class PieChartView: PieRadarChartViewBase
         get
         {
             return isDrawEntryLabelsEnabled
+        }
+    }
+    
+    /// The color the entry labels are drawn with.
+    public var entryLabelColor: NSUIColor?
+    {
+        get { return _entryLabelColor }
+        set
+        {
+            _entryLabelColor = newValue
+            setNeedsDisplay()
+        }
+    }
+    
+    /// The font the entry labels are drawn with.
+    public var entryLabelFont: NSUIFont?
+    {
+        get { return _entryLabelFont }
+        set
+        {
+            _entryLabelFont = newValue
+            setNeedsDisplay()
         }
     }
     

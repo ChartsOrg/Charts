@@ -314,6 +314,8 @@ public class PieChartRenderer: ChartDataRendererBase
         
         let drawEntryLabels = chart.isDrawEntryLabelsEnabled
         let usePercentValuesEnabled = chart.usePercentValuesEnabled
+        let entryLabelColor = chart.entryLabelColor
+        let entryLabelFont = chart.entryLabelFont
         
         var angle: CGFloat = 0.0
         var xIndex = 0
@@ -375,6 +377,8 @@ public class PieChartRenderer: ChartDataRendererBase
                 let drawYOutside = drawValues && yValuePosition == .OutsideSlice
                 let drawXInside = drawEntryLabels && xValuePosition == .InsideSlice
                 let drawYInside = drawValues && yValuePosition == .InsideSlice
+                
+                let valueTextColor = dataSet.valueTextColorAt(j)
                 
                 if drawXOutside || drawYOutside
                 {
@@ -441,7 +445,7 @@ public class PieChartRenderer: ChartDataRendererBase
                             text: valueText,
                             point: labelPoint,
                             align: align,
-                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
                         )
                         
                         if (j < data.entryCount && pe?.label != nil)
@@ -451,7 +455,9 @@ public class PieChartRenderer: ChartDataRendererBase
                                 text: pe!.label!,
                                 point: CGPoint(x: labelPoint.x, y: labelPoint.y + lineHeight),
                                 align: align,
-                                attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                                attributes: [
+                                    NSFontAttributeName: valueFont ?? valueFont,
+                                    NSForegroundColorAttributeName: valueTextColor]
                             )
                         }
                     }
@@ -462,7 +468,9 @@ public class PieChartRenderer: ChartDataRendererBase
                             text: pe!.label!,
                             point: CGPoint(x: labelPoint.x, y: labelPoint.y + lineHeight / 2.0),
                             align: align,
-                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                            attributes: [
+                                NSFontAttributeName: valueFont ?? valueFont,
+                                NSForegroundColorAttributeName: valueTextColor]
                         )
                     }
                     else if drawYOutside
@@ -472,7 +480,7 @@ public class PieChartRenderer: ChartDataRendererBase
                             text: valueText,
                             point: CGPoint(x: labelPoint.x, y: labelPoint.y + lineHeight / 2.0),
                             align: align,
-                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
                         )
                     }
                 }
@@ -490,7 +498,7 @@ public class PieChartRenderer: ChartDataRendererBase
                             text: valueText,
                             point: CGPoint(x: x, y: y),
                             align: .Center,
-                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
                         )
                         
                         if j < data.entryCount && pe?.label != nil
@@ -500,7 +508,9 @@ public class PieChartRenderer: ChartDataRendererBase
                                 text: pe!.label!,
                                 point: CGPoint(x: x, y: y + lineHeight),
                                 align: .Center,
-                                attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                                attributes: [
+                                    NSFontAttributeName: valueFont ?? valueFont,
+                                    NSForegroundColorAttributeName: valueTextColor]
                             )
                         }
                     }
@@ -511,7 +521,9 @@ public class PieChartRenderer: ChartDataRendererBase
                             text: pe!.label!,
                             point: CGPoint(x: x, y: y + lineHeight / 2.0),
                             align: .Center,
-                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                            attributes: [
+                                NSFontAttributeName: valueFont ?? valueFont,
+                                NSForegroundColorAttributeName: valueTextColor]
                         )
                     }
                     else if drawYInside
@@ -521,7 +533,7 @@ public class PieChartRenderer: ChartDataRendererBase
                             text: valueText,
                             point: CGPoint(x: x, y: y + lineHeight / 2.0),
                             align: .Center,
-                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
                         )
                     }
                 }
