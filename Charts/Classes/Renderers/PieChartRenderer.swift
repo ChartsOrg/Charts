@@ -607,8 +607,17 @@ public class PieChartRenderer: ChartDataRendererBase
         if chart.drawCenterTextEnabled && centerAttributedText.length > 0
         {
             let center = chart.centerCircleBox
+            let offset = chart.centerTextOffset
             let innerRadius = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled ? chart.radius * chart.holeRadiusPercent : chart.radius
-            let holeRect = CGRect(x: center.x - innerRadius, y: center.y - innerRadius, width: innerRadius * 2.0, height: innerRadius * 2.0)
+            
+            let x = center.x + offset.x
+            let y = center.y + offset.y
+            
+            let holeRect = CGRect(
+                x: x - innerRadius,
+                y: y - innerRadius,
+                width: innerRadius * 2.0,
+                height: innerRadius * 2.0)
             var boundingRect = holeRect
             
             if (chart.centerTextRadiusPercent > 0.0)

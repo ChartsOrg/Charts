@@ -47,6 +47,9 @@ public class PieChartView: PieRadarChartViewBase
     /// variable for the text that is drawn in the center of the pie-chart
     private var _centerAttributedText: NSAttributedString?
     
+    /// the offset on the x- and y-axis the center text has in dp.
+    private var _centerTextOffset: CGPoint = CGPoint()
+    
     /// indicates the size of the hole in the center of the piechart
     ///
     /// **default**: `0.5`
@@ -402,6 +405,20 @@ public class PieChartView: PieRadarChartViewBase
         set
         {
             _centerAttributedText = newValue
+            setNeedsDisplay()
+        }
+    }
+    
+    /// Sets the offset the center text should have from it's original position in dp. Default x = 0, y = 0
+    public var centerTextOffset: CGPoint
+    {
+        get
+        {
+            return _centerTextOffset
+        }
+        set
+        {
+            _centerTextOffset = newValue
             setNeedsDisplay()
         }
     }
