@@ -379,6 +379,26 @@ public class ChartViewPortHandler: NSObject
         limitTransAndScale(matrix: &_touchMatrix, content: _contentRect)
     }
     
+    public func setMinMaxScaleY(minScaleY minScaleY: CGFloat, maxScaleY: CGFloat)
+    {
+        var minScaleY = minScaleY, maxScaleY = maxScaleY
+        
+        if minScaleY < 1.0
+        {
+            minScaleY = 1.0
+        }
+        
+        if maxScaleY == 0.0
+        {
+            maxScaleY = CGFloat.max
+        }
+        
+        _minScaleY = minScaleY
+        _maxScaleY = maxScaleY
+        
+        limitTransAndScale(matrix: &_touchMatrix, content: _contentRect)
+    }
+
     public var touchMatrix: CGAffineTransform
     {
         return _touchMatrix

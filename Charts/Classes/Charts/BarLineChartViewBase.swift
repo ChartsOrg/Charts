@@ -536,12 +536,12 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         if (recognizer.state == NSUIGestureRecognizerState.Ended)
         {
-            if _data !== nil && _doubleTapToZoomEnabled
+            if _data !== nil && _doubleTapToZoomEnabled && data?.entryCount > 0
             {
                 var location = recognizer.locationInView(self)
                 location.x = location.x - _viewPortHandler.offsetLeft
                 
-                if (isAnyAxisInverted && _closestDataSetToTouch !== nil && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
+                if isTouchInverted()
                 {
                     location.y = -(location.y - _viewPortHandler.offsetTop)
                 }
@@ -612,8 +612,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                 {
                     var location = recognizer.locationInView(self)
                     location.x = location.x - _viewPortHandler.offsetLeft
-
-                    if (isAnyAxisInverted && _closestDataSetToTouch !== nil && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
+                    
+                    if isTouchInverted()
                     {
                         location.y = -(location.y - _viewPortHandler.offsetTop)
                     }
@@ -754,8 +754,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     {
         var translation = translation
         
-        if (isAnyAxisInverted && _closestDataSetToTouch !== nil
-            && getAxis(_closestDataSetToTouch.axisDependency).isInverted)
+        if isTouchInverted()
         {
             if (self is HorizontalBarChartView)
             {
@@ -781,6 +780,13 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         // Did we managed to actually drag or did we reach the edge?
         return matrix.tx != originalMatrix.tx || matrix.ty != originalMatrix.ty
+    }
+    
+    private func isTouchInverted() -> Bool
+    {
+        return isAnyAxisInverted &&
+            _closestDataSetToTouch !== nil &&
+            getAxis(_closestDataSetToTouch.axisDependency).isInverted
     }
     
     public func stopDeceleration()
@@ -1110,7 +1116,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     }
     
     /// Sets the size of the area (range on the x-axis) that should be maximum visible at once (no further zooming out allowed).
-    /// If this is e.g. set to 10, no more than 10 values on the x-axis can be viewed at once without scrolling.
+    /// If this is e.g. set to 10, no more than a range of 10 values on the x-axis can be viewed at once without scrolling.
     public func setVisibleXRangeMaximum(maxXRange: Double)
     {
         let xScale = _xAxis.axisRange / maxXRange
@@ -1118,7 +1124,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     }
     
     /// Sets the size of the area (range on the x-axis) that should be minimum visible at once (no further zooming in allowed).
-    /// If this is e.g. set to 10, no less than 10 values on the x-axis can be viewed at once without scrolling.
+    /// If this is e.g. set to 10, no less than a range of 10 values on the x-axis can be viewed at once without scrolling.
     public func setVisibleXRangeMinimum(minXRange: Double)
     {
         let xScale = _xAxis.axisRange / minXRange
@@ -1130,15 +1136,15 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// at once without scrolling
     public func setVisibleXRange(minXRange minXRange: Double, maxXRange: Double)
     {
-        let maxScale = _xAxis.axisRange / minXRange
         let minScale = _xAxis.axisRange / maxXRange
+        let maxScale = _xAxis.axisRange / minXRange
         _viewPortHandler.setMinMaxScaleX(
             minScaleX: CGFloat(minScale),
             maxScaleX: CGFloat(maxScale))
     }
     
     /// Sets the size of the area (range on the y-axis) that should be maximum visible at once.
-    /// 
+    ///
     /// - parameter yRange:
     /// - parameter axis: - the axis for which this limit should apply
     public func setVisibleYRangeMaximum(maxYRange: Double, axis: ChartYAxis.AxisDependency)
@@ -1146,8 +1152,30 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         let yScale = getDeltaY(axis) / maxYRange
         _viewPortHandler.setMinimumScaleY(CGFloat(yScale))
     }
+    
+    /// Sets the size of the area (range on the y-axis) that should be minimum visible at once, no further zooming in possible.
+    ///
+    /// - parameter yRange:
+    /// - parameter axis: - the axis for which this limit should apply
+    public func setVisibleYRangeMinimum(minYRange: Double, axis: ChartYAxis.AxisDependency)
+    {
+        let yScale = getDeltaY(axis) / minYRange
+        _viewPortHandler.setMaximumScaleY(CGFloat(yScale))
+    }
 
-    /// Moves the left side of the current viewport to the specified x-index.
+    /// Limits the maximum and minimum y range that can be visible by pinching and zooming.
+    ///
+    /// - parameter minYRange:
+    /// - parameter maxYRange:
+    /// - parameter axis:
+    public func setVisibleYRange(minYRange minYRange: Double, maxYRange: Double, axis: ChartYAxis.AxisDependency)
+    {
+        let minScale = getDeltaY(axis) / minYRange
+        let maxScale = getDeltaY(axis) / maxYRange
+        _viewPortHandler.setMinMaxScaleY(minScaleY: CGFloat(minScale), maxScaleY: CGFloat(maxScale))
+    }
+    
+    /// Moves the left side of the current viewport to the specified x-value.
     /// This also refreshes the chart by calling setNeedsDisplay().
     public func moveViewToX(xValue: Double)
     {
@@ -1180,7 +1208,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         addViewportJob(job)
     }
 
-    /// This will move the left side of the current viewport to the specified x-index on the x-axis, and center the viewport to the specified y-value on the y-axis.
+    /// This will move the left side of the current viewport to the specified x-value on the x-axis, and center the viewport to the specified y-value on the y-axis.
     /// This also refreshes the chart by calling setNeedsDisplay().
     /// 
     /// - parameter xValue:
@@ -1270,7 +1298,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         moveViewToAnimated(xValue: xValue, yValue: yValue, axis: axis, duration: duration, easingOption: .EaseInOutSine)
     }
     
-    /// This will move the center of the current viewport to the specified x-index and y-value.
+    /// This will move the center of the current viewport to the specified x-value and y-value.
     /// This also refreshes the chart by calling setNeedsDisplay().
     ///
     /// - parameter xValue:
