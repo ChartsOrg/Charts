@@ -176,7 +176,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
                 
                 let p = ChartUtils.getPosition(
                     center: center,
-                    dist: CGFloat(e.y) * factor * CGFloat(phaseY),
+                    dist: CGFloat(e.y - chart.chartYMin) * factor * CGFloat(phaseY),
                     angle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
                 
                 let valueFont = dataSet.valueFont

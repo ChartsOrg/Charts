@@ -213,23 +213,23 @@ public class ChartDataSet: ChartBaseDataSet
         var low = 0
         var high = _values.count - 1
         
-        while (low <= high)
+        while low <= high
         {
             var m = (high + low) / 2
             var entry = _values[m]
             
-            if (x == entry.x)
+            if x == entry.x
             {
-                while (m > 0 && _values[m - 1].x == x)
+                while m > 0 && _values[m - 1].x == x
                 {
                     m -= 1
                 }
                 
                 high = _values.count
-                while (m < high)
+                while m < high
                 {
                     entry = _values[m]
-                    if (entry.x == x)
+                    if entry.x == x
                     {
                         entries.append(entry)
                     }
@@ -245,7 +245,7 @@ public class ChartDataSet: ChartBaseDataSet
             }
             else
             {
-                if (x > entry.x)
+                if x > entry.x
                 {
                     low = m + 1
                 }
@@ -269,14 +269,14 @@ public class ChartDataSet: ChartBaseDataSet
         var high = _values.count - 1
         var closest = -1
         
-        while (low <= high)
+        while low <= high
         {
             var m = (high + low) / 2
             let entry = _values[m]
             
-            if (x == entry.x)
+            if x == entry.x
             {
-                while (m > 0 && _values[m - 1].x == x)
+                while m > 0 && _values[m - 1].x == x
                 {
                     m -= 1
                 }
@@ -284,7 +284,7 @@ public class ChartDataSet: ChartBaseDataSet
                 return m
             }
             
-            if (x > entry.x)
+            if x > entry.x
             {
                 low = m + 1
             }
