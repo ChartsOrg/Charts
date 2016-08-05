@@ -1,4 +1,4 @@
-**Version 2.2.5**, synced to [MPAndroidChart #1b9b3da](https://github.com/PhilJay/MPAndroidChart/commit/1b9b3da)
+**Version 3.0**, synced to [MPAndroidChart #1b9b3da](https://github.com/PhilJay/MPAndroidChart/commit/a233e38)
 
 ![alt tag](https://raw.github.com/danielgindi/Charts/master/Assets/feature_graphic.png)
   ![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/danielgindi/Charts.svg)](https://github.com/danielgindi/Charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Build Status](https://travis-ci.org/danielgindi/Charts.svg?branch=master)](https://travis-ci.org/danielgindi/Charts) 
