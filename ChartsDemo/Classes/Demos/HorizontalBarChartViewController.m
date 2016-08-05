@@ -79,8 +79,6 @@
     _chartView.legend.formSize = 8.0;
     _chartView.legend.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
     _chartView.legend.xEntrySpace = 4.0;
-    
-    [_chartView setVisibleXRangeWithMinXRange:10.0 maxXRange:50.0];
 
     _chartView.fitBars = YES;
     
