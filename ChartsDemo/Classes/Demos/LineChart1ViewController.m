@@ -34,6 +34,7 @@
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
+                     @{@"key": @"toggleIcons", @"label": @"Toggle Icons"},
                      @{@"key": @"toggleFilled", @"label": @"Toggle Filled"},
                      @{@"key": @"toggleCircles", @"label": @"Toggle Circles"},
                      @{@"key": @"toggleCubic", @"label": @"Toggle Cubic"},
@@ -140,7 +141,7 @@
     {
         double mult = (range + 1);
         double val = (double) (arc4random_uniform(mult)) + 3;
-        [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+        [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i data:[UIImage imageNamed:@"icon"]]];
     }
     
     LineChartDataSet *set1 = nil;

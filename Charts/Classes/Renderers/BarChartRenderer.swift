@@ -301,7 +301,7 @@ public class BarChartRenderer: ChartDataRendererBase
             {
                 guard let dataSet = dataSets[dataSetIndex] as? IBarChartDataSet else { continue }
                 
-                if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
+                if (!dataSet.isDrawValuesEnabled && !dataSet.isDrawIconsEnabled) || dataSet.entryCount == 0
                 {
                     continue
                 }
@@ -358,13 +358,23 @@ public class BarChartRenderer: ChartDataRendererBase
                         
                         let val = e.value
 
-                        drawValue(context: context,
-                            value: formatter.stringFromNumber(val)!,
-                            xPos: valuePoint.x,
-                            yPos: valuePoint.y + (val >= 0.0 ? posOffset : negOffset),
-                            font: valueFont,
-                            align: .Center,
-                            color: dataSet.valueTextColorAt(j))
+                        if dataSet.isDrawValuesEnabled {
+                            draw(context: context,
+                                value: formatter.stringFromNumber(val)!,
+                                xPos: valuePoint.x,
+                                yPos: valuePoint.y + (val >= 0.0 ? posOffset : negOffset),
+                                font: valueFont,
+                                align: .Center,
+                                color: dataSet.valueTextColorAt(j))
+                        }
+                        
+                        if dataSet.isDrawIconsEnabled {
+                            draw(context: context,
+                                 icon: e.data as? NSUIImage,
+                                 xPos: valuePoint.x,
+                                 yPos: valuePoint.y + (val >= 0.0 ? posOffset : negOffset),
+                                 offset: dataSet.iconsOffset)
+                        }
                     }
                 }
                 else
@@ -393,13 +403,23 @@ public class BarChartRenderer: ChartDataRendererBase
                                 continue
                             }
                             
-                            drawValue(context: context,
-                                value: formatter.stringFromNumber(e.value)!,
-                                xPos: valuePoint.x,
-                                yPos: valuePoint.y + (e.value >= 0.0 ? posOffset : negOffset),
-                                font: valueFont,
-                                align: .Center,
-                                color: dataSet.valueTextColorAt(j))
+                            if dataSet.isDrawValuesEnabled {
+                                draw(context: context,
+                                    value: formatter.stringFromNumber(e.value)!,
+                                    xPos: valuePoint.x,
+                                    yPos: valuePoint.y + (e.value >= 0.0 ? posOffset : negOffset),
+                                    font: valueFont,
+                                    align: .Center,
+                                    color: dataSet.valueTextColorAt(j))
+                            }
+                            
+                            if dataSet.isDrawIconsEnabled {
+                                draw(context: context,
+                                     icon: e.data as? NSUIImage,
+                                     xPos: valuePoint.x,
+                                     yPos: valuePoint.y + (e.value >= 0.0 ? posOffset : negOffset),
+                                     offset: dataSet.iconsOffset)
+                            }
                         }
                         else
                         {
@@ -447,13 +467,24 @@ public class BarChartRenderer: ChartDataRendererBase
                                     continue
                                 }
                                 
-                                drawValue(context: context,
-                                    value: formatter.stringFromNumber(vals[k])!,
-                                    xPos: x,
-                                    yPos: y,
-                                    font: valueFont,
-                                    align: .Center,
-                                    color: dataSet.valueTextColorAt(j))
+                                if dataSet.isDrawValuesEnabled {
+                                    draw(context: context,
+                                        value: formatter.stringFromNumber(vals[k])!,
+                                        xPos: x,
+                                        yPos: y,
+                                        font: valueFont,
+                                        align: .Center,
+                                        color: dataSet.valueTextColorAt(j))
+                                }
+                                
+                                //draw icon only on top bar of stack
+                                if dataSet.isDrawIconsEnabled && k == transformed.count-1 {
+                                    draw(context: context,
+                                         icon: e.data as? NSUIImage,
+                                         xPos: x,
+                                         yPos: y,
+                                         offset: dataSet.iconsOffset)
+                                }
                             }
                         }
                     }
@@ -463,9 +494,19 @@ public class BarChartRenderer: ChartDataRendererBase
     }
     
     /// Draws a value at the specified x and y position.
-    public func drawValue(context context: CGContext, value: String, xPos: CGFloat, yPos: CGFloat, font: NSUIFont, align: NSTextAlignment, color: NSUIColor)
+    public func draw(context context: CGContext, value: String, xPos: CGFloat, yPos: CGFloat, font: NSUIFont, align: NSTextAlignment, color: NSUIColor)
     {
-        ChartUtils.drawText(context: context, text: value, point: CGPoint(x: xPos, y: yPos), align: align, attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: color])
+        let point = CGPoint(x: xPos, y: yPos)
+        ChartUtils.drawText(context: context, text: value, point: point, align: align, attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: color])
+    }
+    
+    /// Draws a value at the specified x and y position.
+    public func draw(context context: CGContext, icon: NSUIImage?, xPos: CGFloat, yPos: CGFloat, offset: CGSize)
+    {
+        let point = CGPoint(x: xPos, y: yPos)
+        if let iconImage = icon {
+            ChartUtils.drawImage(context: context, image: iconImage, point: point, expectedSize: iconImage.size, offset: offset)
+        }
     }
     
     public override func drawExtras(context context: CGContext)

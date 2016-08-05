@@ -25,11 +25,13 @@ class BarChartTests: FBSnapshotTestCase
         
         for (i, value) in values.enumerate()
         {
-            entries.append(BarChartDataEntry.init(value: value, xIndex: i))
+            entries.append(BarChartDataEntry.init(value: value, xIndex: i, data: UIImage(named: "icon", inBundle: NSBundle(forClass: self.classForCoder), compatibleWithTraitCollection: nil)))
             xValues.append("\(i)")
         }
         
         dataSet = BarChartDataSet(yVals: entries, label: "Bar chart unit test data")
+        dataSet.drawIconsEnabled = false
+        dataSet.iconsOffset = CGSize(width: 0, height: -10.0)
         
         chart = BarChartView(frame: CGRectMake(0, 0, 480, 350))
         chart.leftAxis.axisMinValue = 0.0
@@ -76,6 +78,12 @@ class BarChartTests: FBSnapshotTestCase
     func testHideVerticalGridlines()
     {
         chart.xAxis.drawGridLinesEnabled = false
+        FBSnapshotVerifyView(chart)
+    }
+    
+    func testDrawIcons()
+    {
+        dataSet.drawIconsEnabled = true
         FBSnapshotVerifyView(chart)
     }
 }

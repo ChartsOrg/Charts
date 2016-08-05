@@ -266,7 +266,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
             {
                 let dataSet = dataSets[i]
                 
-                if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
+                if (!dataSet.isDrawValuesEnabled && !dataSet.isDrawIconsEnabled) || dataSet.entryCount == 0
                 {
                     continue
                 }
@@ -304,14 +304,26 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                         continue
                     }
                     
-                    ChartUtils.drawText(
-                        context: context,
-                        text: formatter.stringFromNumber(e.high)!,
-                        point: CGPoint(
-                            x: pt.x,
-                            y: pt.y - yOffset),
-                        align: .Center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)])
+                    if dataSet.isDrawValuesEnabled {
+                        ChartUtils.drawText(
+                            context: context,
+                            text: formatter.stringFromNumber(e.high)!,
+                            point: CGPoint(
+                                x: pt.x,
+                                y: pt.y - yOffset),
+                            align: .Center,
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)])
+                    }
+                    
+                    if let icon = e.data as? NSUIImage where dataSet.isDrawIconsEnabled {
+                        ChartUtils.drawImage(context: context,
+                                             image: icon,
+                                             point: CGPoint(
+                                                x: pt.x,
+                                                y: pt.y),
+                                             expectedSize: icon.size,
+                                             offset: dataSet.iconsOffset)
+                    }
                 }
             }
         }

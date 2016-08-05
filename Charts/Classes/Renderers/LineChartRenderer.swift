@@ -555,7 +555,7 @@ public class LineChartRenderer: LineRadarChartRenderer
             {
                 guard let dataSet = dataSets[i] as? ILineChartDataSet else { continue }
                 
-                if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
+                if (!dataSet.isDrawValuesEnabled && !dataSet.isDrawIconsEnabled) || dataSet.entryCount == 0
                 {
                     continue
                 }
@@ -609,13 +609,25 @@ public class LineChartRenderer: LineRadarChartRenderer
                         continue
                     }
                     
-                    ChartUtils.drawText(context: context,
-                        text: formatter.stringFromNumber(e.value)!,
-                        point: CGPoint(
-                            x: pt.x,
-                            y: pt.y - CGFloat(valOffset) - valueFont.lineHeight),
-                        align: .Center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)])
+                    if dataSet.isDrawValuesEnabled{
+                        ChartUtils.drawText(context: context,
+                            text: formatter.stringFromNumber(e.value)!,
+                            point: CGPoint(
+                                x: pt.x,
+                                y: pt.y - CGFloat(valOffset) - valueFont.lineHeight),
+                            align: .Center,
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)])
+                    }
+                    
+                    if let icon = e.data as? NSUIImage where dataSet.isDrawIconsEnabled {
+                        ChartUtils.drawImage(context: context,
+                                             image: icon,
+                                             point: CGPoint(
+                                                x: pt.x,
+                                                y: pt.y),
+                                             expectedSize: icon.size,
+                                             offset: dataSet.iconsOffset)
+                    }
                 }
             }
         }

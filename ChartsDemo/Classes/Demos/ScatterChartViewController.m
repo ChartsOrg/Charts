@@ -34,6 +34,7 @@
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
+                     @{@"key": @"toggleIcons", @"label": @"Toggle Icons"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
@@ -107,7 +108,7 @@
     for (int i = 0; i < count; i++)
     {
         double val = (double) (arc4random_uniform(range)) + 3;
-        [yVals1 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+        [yVals1 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i data:[UIImage imageNamed:@"icon"]]];
         
         val = (double) (arc4random_uniform(range)) + 3;
         [yVals2 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];

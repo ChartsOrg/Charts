@@ -181,8 +181,17 @@ public protocol IChartDataSet
     /// Set this to true to draw y-values on the chart
     var drawValuesEnabled: Bool { get set }
     
+    /// Set this to true to draw y-icon on the chart
+    var drawIconsEnabled: Bool { get set }
+    
+    /// Offset of icon image drawn on chart in relation to value text (even if it is not visible). For radial charts (Pie, Radar, etc) only height-value of CGSize matters - as distance from center.
+    var iconsOffset: CGSize { get set }
+    
     /// Returns true if y-value drawing is enabled, false if not
     var isDrawValuesEnabled: Bool { get }
+    
+    /// Returns true if y-icon drawing is enabled, false if not
+    var isDrawIconsEnabled: Bool { get }
     
     /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
     var visible: Bool { get set }

@@ -281,7 +281,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
             {
                 guard let dataSet = dataSets[dataSetIndex] as? IBarChartDataSet else { continue }
                 
-                if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
+                if (!dataSet.isDrawValuesEnabled && !dataSet.isDrawIconsEnabled) || dataSet.entryCount == 0
                 {
                     continue
                 }
@@ -337,14 +337,23 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                             negOffset = -negOffset - valueTextWidth
                         }
                         
-                        drawValue(
-                            context: context,
-                            value: valueText,
-                            xPos: valuePoint.x + (val >= 0.0 ? posOffset : negOffset),
-                            yPos: valuePoint.y + yOffset,
-                            font: valueFont,
-                            align: textAlign,
-                            color: dataSet.valueTextColorAt(j))
+                        if dataSet.isDrawValuesEnabled {
+                            draw(context: context,
+                                value: valueText,
+                                xPos: valuePoint.x + (val >= 0.0 ? posOffset : negOffset),
+                                yPos: valuePoint.y + yOffset,
+                                font: valueFont,
+                                align: textAlign,
+                                color: dataSet.valueTextColorAt(j))
+                        }
+                        
+                        if dataSet.isDrawIconsEnabled {
+                            draw(context: context,
+                                icon: e.data as? NSUIImage,
+                                xPos: valuePoint.x + (val >= 0.0 ? posOffset : negOffset),
+                                yPos: valuePoint.y,
+                                offset: dataSet.iconsOffset)
+                        }
                     }
                 }
                 else
@@ -391,14 +400,23 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                                 negOffset = -negOffset - valueTextWidth
                             }
                             
-                            drawValue(
-                                context: context,
-                                value: valueText,
-                                xPos: valuePoint.x + (val >= 0.0 ? posOffset : negOffset),
-                                yPos: valuePoint.y + yOffset,
-                                font: valueFont,
-                                align: textAlign,
-                                color: dataSet.valueTextColorAt(j))
+                            if dataSet.isDrawValuesEnabled {
+                                draw(context: context,
+                                    value: valueText,
+                                    xPos: valuePoint.x + (val >= 0.0 ? posOffset : negOffset),
+                                    yPos: valuePoint.y + yOffset,
+                                    font: valueFont,
+                                    align: textAlign,
+                                    color: dataSet.valueTextColorAt(j))
+                            }
+                            
+                            if dataSet.isDrawIconsEnabled {
+                                draw(context: context,
+                                    icon: e.data as? NSUIImage,
+                                    xPos: valuePoint.x + (val >= 0.0 ? posOffset : negOffset),
+                                    yPos: valuePoint.y,
+                                    offset: dataSet.iconsOffset)
+                            }
                         }
                         else
                         {
@@ -463,13 +481,23 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                                     continue
                                 }
                                 
-                                drawValue(context: context,
-                                    value: valueText,
-                                    xPos: x,
-                                    yPos: y + yOffset,
-                                    font: valueFont,
-                                    align: textAlign,
-                                    color: dataSet.valueTextColorAt(j))
+                                if dataSet.isDrawValuesEnabled {
+                                    draw(context: context,
+                                        value: valueText,
+                                        xPos: x,
+                                        yPos: y + yOffset,
+                                        font: valueFont,
+                                        align: textAlign,
+                                        color: dataSet.valueTextColorAt(j))
+                                }
+                                
+                                if dataSet.isDrawIconsEnabled {
+                                    draw(context: context,
+                                         icon: e.data as? NSUIImage,
+                                         xPos: x,
+                                         yPos: y,
+                                         offset: dataSet.iconsOffset)
+                                }
                             }
                         }
                     }

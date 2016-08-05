@@ -174,6 +174,30 @@ public class ChartUtils
         )
     }
     
+    public class func drawImage(context context: CGContext, image: NSUIImage, point: CGPoint, expectedSize: CGSize, offset: CGSize)
+    {
+        var drawOffset = CGPoint()
+        drawOffset.x += point.x + offset.width
+        drawOffset.x -= expectedSize.width / 2
+        drawOffset.y += point.y + offset.height
+        drawOffset.y -= expectedSize.height / 2
+        
+        UIGraphicsPushContext(context)
+        
+        if image.size.width != expectedSize.width && image.size.height != expectedSize.height {
+            UIGraphicsBeginImageContextWithOptions(expectedSize, false, 0.0)
+            image.drawInRect(CGRect(origin: CGPointZero, size: expectedSize))
+            let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            scaledImage.drawAtPoint(drawOffset)
+        }
+        else {
+            image.drawAtPoint(drawOffset)
+        }
+        
+        UIGraphicsPopContext()
+    }
+    
     public class func drawText(context context: CGContext, text: String, point: CGPoint, align: NSTextAlignment, attributes: [String : AnyObject]?)
     {
         var point = point

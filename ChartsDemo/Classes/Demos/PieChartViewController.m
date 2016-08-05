@@ -35,6 +35,7 @@
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Y-Values"},
                      @{@"key": @"toggleXValues", @"label": @"Toggle X-Values"},
+                     @{@"key": @"toggleIcons", @"label": @"Toggle Icons"},
                      @{@"key": @"togglePercent", @"label": @"Toggle Percent"},
                      @{@"key": @"toggleHole", @"label": @"Toggle Hole"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
@@ -83,7 +84,7 @@
     // IMPORTANT: In a PieChart, no values (Entry) should have the same xIndex (even if from different DataSets), since no values can be drawn above each other.
     for (int i = 0; i < count; i++)
     {
-        [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:(arc4random_uniform(mult) + mult / 5) xIndex:i]];
+        [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:(arc4random_uniform(mult) + mult / 5) xIndex:i data:[UIImage imageNamed:@"icon"]]];
     }
     
     NSMutableArray *xVals = [[NSMutableArray alloc] init];
@@ -95,6 +96,7 @@
     
     PieChartDataSet *dataSet = [[PieChartDataSet alloc] initWithYVals:yVals1 label:@"Election Results"];
     dataSet.sliceSpace = 2.0;
+    dataSet.iconsOffset = CGSizeMake(0, 40);
     
     // add a lot of colors
     

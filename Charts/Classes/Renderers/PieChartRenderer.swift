@@ -311,7 +311,7 @@ public class PieChartRenderer: ChartDataRendererBase
             
             let drawYVals = dataSet.isDrawValuesEnabled
             
-            if (!drawYVals && !drawXVals)
+            if (!drawYVals && !drawXVals && !dataSet.isDrawIconsEnabled)
             {
                 continue
             }
@@ -512,6 +512,19 @@ public class PieChartRenderer: ChartDataRendererBase
                             attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
                         )
                     }
+                }
+                
+                
+                if let icon = e.data as? NSUIImage where dataSet.isDrawIconsEnabled {
+                    // calculate the text position
+                    let x = (labelRadius + dataSet.iconsOffset.height) * sliceXBase + center.x  //TODO: make radial
+                    let y = (labelRadius + dataSet.iconsOffset.height) * sliceYBase + center.y
+                    
+                    ChartUtils.drawImage(context: context,
+                                         image: icon,
+                                         point: CGPoint(x:x, y:y),
+                                         expectedSize: icon.size,
+                                         offset: CGSizeZero)
                 }
                 
                 xIndex += 1

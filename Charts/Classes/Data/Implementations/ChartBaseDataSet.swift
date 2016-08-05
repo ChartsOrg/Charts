@@ -298,6 +298,18 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         return drawValuesEnabled
     }
     
+    /// Set this to true to draw y-icon on the chart
+    public var drawIconsEnabled = true
+    
+    /// Returns true if y-icon drawing is enabled, false if not
+    public var isDrawIconsEnabled: Bool
+    {
+        return drawIconsEnabled
+    }
+    
+    /// Offset of icon image drawn on chart in relation to value text (even if it is not visible). For radial charts (Pie, Radar, etc) only height-value of CGSize matters - as distance from center.
+    public var iconsOffset = CGSize(width: 0,height: 0)
+    
     /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
     public var visible = true
     
