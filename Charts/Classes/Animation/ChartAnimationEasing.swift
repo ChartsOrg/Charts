@@ -142,7 +142,8 @@ internal struct EasingFunctions
         {
             return 0.5 * position * position
         }
-        return -0.5 * ((--position) * (position - 2.0) - 1.0)
+        
+        return -0.5 * ((position - 1.0) * (position - 3.0) - 1.0)
     }
     
     internal static let EaseInCubic = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
@@ -152,7 +153,7 @@ internal struct EasingFunctions
     
     internal static let EaseOutCubic = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
         var position = Double(elapsed / duration)
-        position--
+        position -= 1.0
         return (position * position * position + 1.0)
     }
     
@@ -173,7 +174,7 @@ internal struct EasingFunctions
     
     internal static let EaseOutQuart = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
         var position = Double(elapsed / duration)
-        position--
+        position -= 1.0
         return -(position * position * position * position - 1.0)
     }
     
@@ -194,7 +195,7 @@ internal struct EasingFunctions
     
     internal static let EaseOutQuint = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
         var position = Double(elapsed / duration)
-        position--
+        position -= 1.0
         return (position * position * position * position * position + 1.0)
     }
     
@@ -261,7 +262,7 @@ internal struct EasingFunctions
     
     internal static let EaseOutCirc = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
         var position = Double(elapsed / duration)
-        position--
+        position -= 1.0
         return Double( sqrt(1 - position * position) )
     }
     
