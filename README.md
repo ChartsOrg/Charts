@@ -7,7 +7,6 @@
 ## Just a heads up: We've renamed from *ios-charts* to **Charts**.
 
 * Xcode 7.3 / Swift 2.2 / 3.0
-* iOS 7.0 (Drag .swift files to your project)
 * iOS 8.0 / 9.0 (Use as an **Embedded** Framework)
 * tvOS 9.0
 * OSX 10.11
