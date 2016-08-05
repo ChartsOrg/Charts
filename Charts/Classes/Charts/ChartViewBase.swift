@@ -25,7 +25,7 @@ public protocol ChartViewDelegate
 {
     /// Called when a value has been selected inside the chart.
     /// - parameter entry: The selected Entry.
-    /// - parameter dataSetIndex: The index in the datasets array of the data object the Entrys DataSet is in.
+    /// - parameter highlight: The corresponding highlight object that contains information about the highlighted position such as dataSetIndex etc.
     optional func chartValueSelected(chartView: ChartViewBase, entry: ChartDataEntry, highlight: ChartHighlight)
     
     // Called when nothing has been selected or an "un-select" has been made.
