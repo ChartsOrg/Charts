@@ -20,7 +20,7 @@ import Realm.Dynamic
 
 public class RealmLineData: LineChartData
 {
-    public init(results: RLMResults?, xValueField: String, dataSets: [IChartDataSet]?)
+    public init(results: RLMResults<RLMObject>?, xValueField: String, dataSets: [IChartDataSet]?)
     {
         if results == nil
         {

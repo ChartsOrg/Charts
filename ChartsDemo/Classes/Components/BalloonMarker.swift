@@ -37,13 +37,13 @@ public class BalloonMarker: ChartMarker
         self.font = font
         self.insets = insets
         
-        _paragraphStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as? NSMutableParagraphStyle
-        _paragraphStyle?.alignment = .Center
+        _paragraphStyle = NSParagraphStyle.default.mutableCopy() as? NSMutableParagraphStyle
+        _paragraphStyle?.alignment = .center
     }
     
     public override var size: CGSize { return _size; }
     
-    public override func draw(context context: CGContext, point: CGPoint)
+    public override func draw(context: CGContext, point: CGPoint)
     {
         if (labelns == nil)
         {
@@ -60,49 +60,41 @@ public class BalloonMarker: ChartMarker
         rect.origin.x -= _size.width / 2.0
         rect.origin.y -= _size.height
         
-        CGContextSaveGState(context)
+        context.saveGState()
         
-        CGContextSetFillColorWithColor(context, color?.CGColor)
-        CGContextBeginPath(context)
-        CGContextMoveToPoint(context,
-            rect.origin.x,
-            rect.origin.y)
-        CGContextAddLineToPoint(context,
-            rect.origin.x + rect.size.width,
-            rect.origin.y)
-        CGContextAddLineToPoint(context,
-            rect.origin.x + rect.size.width,
-            rect.origin.y + rect.size.height - arrowSize.height)
-        CGContextAddLineToPoint(context,
-            rect.origin.x + (rect.size.width + arrowSize.width) / 2.0,
-            rect.origin.y + rect.size.height - arrowSize.height)
-        CGContextAddLineToPoint(context,
-            rect.origin.x + rect.size.width / 2.0,
-            rect.origin.y + rect.size.height)
-        CGContextAddLineToPoint(context,
-            rect.origin.x + (rect.size.width - arrowSize.width) / 2.0,
-            rect.origin.y + rect.size.height - arrowSize.height)
-        CGContextAddLineToPoint(context,
-            rect.origin.x,
-            rect.origin.y + rect.size.height - arrowSize.height)
-        CGContextAddLineToPoint(context,
-            rect.origin.x,
-            rect.origin.y)
-        CGContextFillPath(context)
+        context.setFillColor((color?.cgColor)!)
+        context.beginPath()
+        context.moveTo(x: rect.origin.x,
+            y: rect.origin.y)
+        context.addLineTo(x: rect.origin.x + rect.size.width,
+            y: rect.origin.y)
+        context.addLineTo(x: rect.origin.x + rect.size.width,
+            y: rect.origin.y + rect.size.height - arrowSize.height)
+        context.addLineTo(x: rect.origin.x + (rect.size.width + arrowSize.width) / 2.0,
+            y: rect.origin.y + rect.size.height - arrowSize.height)
+        context.addLineTo(x: rect.origin.x + rect.size.width / 2.0,
+            y: rect.origin.y + rect.size.height)
+        context.addLineTo(x: rect.origin.x + (rect.size.width - arrowSize.width) / 2.0,
+            y: rect.origin.y + rect.size.height - arrowSize.height)
+        context.addLineTo(x: rect.origin.x,
+            y: rect.origin.y + rect.size.height - arrowSize.height)
+        context.addLineTo(x: rect.origin.x,
+            y: rect.origin.y)
+        context.fillPath()
         
         rect.origin.y += self.insets.top
         rect.size.height -= self.insets.top + self.insets.bottom
         
         UIGraphicsPushContext(context)
         
-        labelns?.drawInRect(rect, withAttributes: _drawAttributes)
+        labelns?.draw(in: rect, withAttributes: _drawAttributes)
         
         UIGraphicsPopContext()
         
-        CGContextRestoreGState(context)
+        context.restoreGState()
     }
     
-    public override func refreshContent(entry entry: ChartDataEntry, highlight: ChartHighlight)
+    public override func refreshContent(entry: ChartDataEntry, highlight: ChartHighlight)
     {
         let label = entry.value.description
         labelns = label as NSString
@@ -111,7 +103,7 @@ public class BalloonMarker: ChartMarker
         _drawAttributes[NSFontAttributeName] = self.font
         _drawAttributes[NSParagraphStyleAttributeName] = _paragraphStyle
         
-        _labelSize = labelns?.sizeWithAttributes(_drawAttributes) ?? CGSizeZero
+        _labelSize = labelns?.size(attributes: _drawAttributes) ?? CGSize.zero
         _size.width = _labelSize.width + self.insets.left + self.insets.right
         _size.height = _labelSize.height + self.insets.top + self.insets.bottom
         _size.width = max(minimumSize.width, _size.width)

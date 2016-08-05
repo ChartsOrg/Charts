@@ -84,7 +84,7 @@ public class RealmLineRadarDataSet: RealmLineScatterCandleRadarDataSet, ILineRad
     
     // MARK: NSCopying
     
-    public override func copyWithZone(zone: NSZone) -> AnyObject
+    public override func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! RealmLineRadarDataSet
         copy.fillColor = fillColor

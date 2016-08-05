@@ -17,7 +17,7 @@ import Realm
 public class RealmChartUtils: NSObject
 {
     /// Transforms the given Realm-ResultSet into an xValue array, using the specified xValueField
-    public static func toXVals(results results: RLMResults, xValueField: String) -> [String]
+    public static func toXVals(results: RLMResults<RLMObject>, xValueField: String) -> [String]
     {
         let addedValues = NSMutableSet()
         var xVals = [String]()
@@ -25,10 +25,10 @@ public class RealmChartUtils: NSObject
         for object in results
         {
             let xVal = (object as! RLMObject)[xValueField] as! String!
-            if !addedValues.containsObject(xVal)
+            if !addedValues.contains(xVal!)
             {
-                addedValues.addObject(xVal)
-                xVals.append(xVal)
+                addedValues.add(xVal!)
+                xVals.append(xVal!)
             }
         }
         
@@ -36,18 +36,18 @@ public class RealmChartUtils: NSObject
     }
 }
 
-extension RLMResults: SequenceType
+extension RLMResults: Sequence
 {
-    public func generate() -> NSFastGenerator
+    public func makeIterator() -> NSFastEnumerationIterator
     {
-        return NSFastGenerator(self)
+        return NSFastEnumerationIterator(self)
     }
 }
 
-extension RLMArray: SequenceType
+extension RLMArray: Sequence
 {
-    public func generate() -> NSFastGenerator
+    public func makeIterator() -> NSFastEnumerationIterator
     {
-        return NSFastGenerator(self)
+        return NSFastEnumerationIterator(self)
     }
 }

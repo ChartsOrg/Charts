@@ -47,7 +47,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
         initialize()
     }
     
-    public init(results: RLMResults?, yValueField: String, xIndexField: String?, label: String?)
+    public init(results: RLMResults<RLMObject>?, yValueField: String, xIndexField: String?, label: String?)
     {
         super.init()
         
@@ -59,24 +59,24 @@ public class RealmBaseDataSet: ChartBaseDataSet
         _results = results
         _yValueField = yValueField
         _xIndexField = xIndexField
-        _results = _results?.sortedResultsUsingProperty(_xIndexField!, ascending: true)
+        _results = _results?.sortedResults(usingProperty: _xIndexField!, ascending: true)
         
         notifyDataSetChanged()
         
         initialize()
     }
     
-    public convenience init(results: RLMResults?, yValueField: String, label: String?)
+    public convenience init(results: RLMResults<RLMObject>?, yValueField: String, label: String?)
     {
         self.init(results: results, yValueField: yValueField, xIndexField: nil, label: label)
     }
     
-    public convenience init(results: RLMResults?, yValueField: String, xIndexField: String?)
+    public convenience init(results: RLMResults<RLMObject>?, yValueField: String, xIndexField: String?)
     {
         self.init(results: results, yValueField: yValueField, xIndexField: xIndexField, label: "DataSet")
     }
     
-    public convenience init(results: RLMResults?, yValueField: String)
+    public convenience init(results: RLMResults<RLMObject>?, yValueField: String)
     {
         self.init(results: results, yValueField: yValueField)
     }
@@ -106,12 +106,12 @@ public class RealmBaseDataSet: ChartBaseDataSet
         self.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, yValueField: yValueField, xIndexField: nil, label: label)
     }
     
-    public func loadResults(realm realm: RLMRealm, modelName: String)
+    public func loadResults(realm: RLMRealm, modelName: String)
     {
         loadResults(realm: realm, modelName: modelName, predicate: nil)
     }
     
-    public func loadResults(realm realm: RLMRealm, modelName: String, predicate: NSPredicate?)
+    public func loadResults(realm: RLMRealm, modelName: String, predicate: NSPredicate?)
     {
         if predicate == nil
         {
@@ -119,12 +119,12 @@ public class RealmBaseDataSet: ChartBaseDataSet
         }
         else
         {
-            _results = realm.objects(modelName, withPredicate: predicate)
+            _results = realm.objects(modelName, with: predicate)
         }
         
         if _xIndexField != nil
         {
-            _results = _results?.sortedResultsUsingProperty(_xIndexField!, ascending: true)
+            _results = _results?.sortedResults(usingProperty: _xIndexField!, ascending: true)
         }
     
         notifyDataSetChanged()
@@ -132,7 +132,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
     
     // MARK: - Data functions and accessors
     
-    internal var _results: RLMResults?
+    internal var _results: RLMResults<RLMObject>?
     internal var _yValueField: String?
     internal var _xIndexField: String?
     internal var _cache = [ChartDataEntry]()
@@ -149,7 +149,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
     internal var _lastEnd: Int = 0
     
     /// Makes sure that the cache is populated for the specified range
-    internal func ensureCache(start start: Int, end: Int)
+    internal func ensureCache(start: Int, end: Int)
     {
         if start <= _cacheLast && end >= _cacheFirst
         {
@@ -165,7 +165,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
             
             for i in UInt(start) ..< UInt(end + 1)
             {
-                _cache.append(buildEntryFromResultObject(results.objectAtIndex(i), atIndex: i))
+                _cache.append(buildEntryFromResultObject(results.object(at: i), atIndex: i))
             }
             
             _cacheFirst = start
@@ -179,10 +179,10 @@ public class RealmBaseDataSet: ChartBaseDataSet
             
             for i in UInt(start) ..< UInt(_cacheFirst)
             {
-                newEntries.append(buildEntryFromResultObject(results.objectAtIndex(i), atIndex: i))
+                newEntries.append(buildEntryFromResultObject(results.object(at: i), atIndex: i))
             }
             
-            _cache.insertContentsOf(newEntries, at: 0)
+            _cache.insert(contentsOf: newEntries, at: 0)
             
             _cacheFirst = start
         }
@@ -191,14 +191,14 @@ public class RealmBaseDataSet: ChartBaseDataSet
         {
             for i in UInt(_cacheLast + 1) ..< UInt(end + 1)
             {
-                _cache.append(buildEntryFromResultObject(results.objectAtIndex(i), atIndex: i))
+                _cache.append(buildEntryFromResultObject(results.object(at: i), atIndex: i))
             }
             
             _cacheLast = end
         }
     }
     
-    internal func buildEntryFromResultObject(object: RLMObject, atIndex: UInt) -> ChartDataEntry
+    internal func buildEntryFromResultObject(_ object: RLMObject, atIndex: UInt) -> ChartDataEntry
     {
         let entry = ChartDataEntry(value: object[_yValueField!] as! Double, xIndex: _xIndexField == nil ? Int(atIndex) : object[_xIndexField!] as! Int)
         
@@ -219,7 +219,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
         calcMinMax(start: _lastStart, end: _lastEnd)
     }
     
-    public override func calcMinMax(start start: Int, end: Int)
+    public override func calcMinMax(start: Int, end: Int)
     {
         let yValCount = self.entryCount
         
@@ -252,7 +252,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
         _yMin = DBL_MAX
         _yMax = -DBL_MAX
         
-        for i in start.stride(through: endValue, by: 1)
+        for i in stride(from: start, through: endValue, by: 1)
         {
             let e = _cache[i - _cacheFirst]
             
@@ -286,16 +286,16 @@ public class RealmBaseDataSet: ChartBaseDataSet
     public override var entryCount: Int { return Int(_results?.count ?? 0) }
     
     /// - returns: the value of the Entry object at the given xIndex. Returns NaN if no value is at the given x-index.
-    public override func yValForXIndex(x: Int) -> Double
+    public override func yValForXIndex(_ x: Int) -> Double
     {
         let e = self.entryForXIndex(x)
         
         if (e !== nil && e!.xIndex == x) { return e!.value }
-        else { return Double.NaN }
+        else { return Double.nan }
     }
     
     /// - returns: all of the y values of the Entry objects at the given xIndex. Returns NaN if no value is at the given x-index.
-    public override func yValsForXIndex(x: Int) -> [Double]
+    public override func yValsForXIndex(_ x: Int) -> [Double]
     {
         let entries = self.entriesForXIndex(x)
         
@@ -311,7 +311,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
     /// - returns: the entry object found at the given index (not x-index!)
     /// - throws: out of bounds
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
-    public override func entryForIndex(i: Int) -> ChartDataEntry?
+    public override func entryForIndex(_ i: Int) -> ChartDataEntry?
     {
         if i < _lastStart || i > _lastEnd
         {
@@ -323,7 +323,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
     /// - returns: the first Entry object found at the given xIndex with binary search.
     /// If the no Entry at the specifed x-index is found, this method returns the Entry at the closest x-index.
     /// nil if no Entry object at that index.
-    public override func entryForXIndex(x: Int, rounding: ChartDataSetRounding) -> ChartDataEntry?
+    public override func entryForXIndex(_ x: Int, rounding: ChartDataSetRounding) -> ChartDataEntry?
     {
         let index = self.entryIndex(xIndex: x, rounding: rounding)
         if (index > -1)
@@ -336,14 +336,14 @@ public class RealmBaseDataSet: ChartBaseDataSet
     /// - returns: the first Entry object found at the given xIndex with binary search.
     /// If the no Entry at the specifed x-index is found, this method returns the Entry at the closest x-index.
     /// nil if no Entry object at that index.
-    public override func entryForXIndex(x: Int) -> ChartDataEntry?
+    public override func entryForXIndex(_ x: Int) -> ChartDataEntry?
     {
-        return entryForXIndex(x, rounding: .Closest)
+        return entryForXIndex(x, rounding: .closest)
     }
     
     /// - returns: all Entry objects found at the given xIndex with binary search.
     /// An empty array if no Entry object at that index.
-    public override func entriesForXIndex(x: Int) -> [ChartDataEntry]
+    public override func entriesForXIndex(_ x: Int) -> [ChartDataEntry]
     {
         var entries = [ChartDataEntry]()
         
@@ -353,13 +353,13 @@ public class RealmBaseDataSet: ChartBaseDataSet
         {
             if results.count > UInt(x)
             {
-                entries.append(buildEntryFromResultObject(results.objectAtIndex(UInt(x)), atIndex: UInt(x)))
+                entries.append(buildEntryFromResultObject(results.object(at: UInt(x)), atIndex: UInt(x)))
             }
         }
         else
         {
-            let foundObjects = results.objectsWithPredicate(
-                NSPredicate(format: "%K == %d", _xIndexField!, x)
+            let foundObjects = results.objects(
+                with: NSPredicate(format: "%K == %d", _xIndexField!, x)
             )
             
             for e in foundObjects
@@ -378,8 +378,8 @@ public class RealmBaseDataSet: ChartBaseDataSet
     {
         guard let results = _results else { return -1 }
         
-        let foundIndex = results.indexOfObjectWithPredicate(
-            NSPredicate(format: "%K == %d", _xIndexField!, x)
+        let foundIndex = results.indexOfObject(
+            with: NSPredicate(format: "%K == %d", _xIndexField!, x)
         )
         
         // TODO: Figure out a way to quickly find the closest index
@@ -404,26 +404,26 @@ public class RealmBaseDataSet: ChartBaseDataSet
     }
     
     /// Not supported on Realm datasets
-    public override func addEntry(e: ChartDataEntry) -> Bool
+    public override func addEntry(_ e: ChartDataEntry) -> Bool
     {
         return false
     }
     
     /// Not supported on Realm datasets
-    public override func addEntryOrdered(e: ChartDataEntry) -> Bool
+    public override func addEntryOrdered(_ e: ChartDataEntry) -> Bool
     {
         return false
     }
     
     /// Not supported on Realm datasets
-    public override func removeEntry(entry: ChartDataEntry) -> Bool
+    public override func removeEntry(_ entry: ChartDataEntry) -> Bool
     {
         return false
     }
     
     /// Checks if this DataSet contains the specified Entry.
     /// - returns: true if contains the entry, false if not.
-    public override func contains(e: ChartDataEntry) -> Bool
+    public override func contains(_ e: ChartDataEntry) -> Bool
     {
         for entry in _cache
         {
@@ -456,7 +456,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
     
     // MARK: - NSCopying
     
-    public override func copyWithZone(zone: NSZone) -> AnyObject
+    public override func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! RealmBaseDataSet
         

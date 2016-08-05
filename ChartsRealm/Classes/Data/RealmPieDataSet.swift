@@ -23,8 +23,8 @@ public class RealmPieDataSet: RealmBaseDataSet, IPieChartDataSet
 {
     public override func initialize()
     {
-        self.valueTextColor = NSUIColor.whiteColor()
-        self.valueFont = NSUIFont.systemFontOfSize(13.0)
+        self.valueTextColor = NSUIColor.white
+        self.valueFont = NSUIFont.systemFont(ofSize: 13.0)
     }
     
     // MARK: - Styling functions and accessors
@@ -58,11 +58,11 @@ public class RealmPieDataSet: RealmBaseDataSet, IPieChartDataSet
     /// indicates the selection distance of a pie slice
     public var selectionShift = CGFloat(18.0)
     
-    public var xValuePosition: PieChartDataSet.ValuePosition = .InsideSlice
-    public var yValuePosition: PieChartDataSet.ValuePosition = .InsideSlice
+    public var xValuePosition: PieChartDataSet.ValuePosition = .insideSlice
+    public var yValuePosition: PieChartDataSet.ValuePosition = .insideSlice
     
     /// When valuePosition is OutsideSlice, indicates line color
-    public var valueLineColor: NSUIColor? = NSUIColor.blackColor()
+    public var valueLineColor: NSUIColor? = NSUIColor.black
     
     /// When valuePosition is OutsideSlice, indicates line width
     public var valueLineWidth: CGFloat = 1.0
@@ -81,7 +81,7 @@ public class RealmPieDataSet: RealmBaseDataSet, IPieChartDataSet
     
     // MARK: - NSCopying
     
-    public override func copyWithZone(zone: NSZone) -> AnyObject
+    public override func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! RealmPieDataSet
         copy._sliceSpace = _sliceSpace

@@ -23,7 +23,7 @@ public class RealmRadarDataSet: RealmLineRadarDataSet, IRadarChartDataSet
 {
     public override func initialize()
     {
-        self.valueFont = NSUIFont.systemFontOfSize(13.0)
+        self.valueFont = NSUIFont.systemFont(ofSize: 13.0)
     }
     
     // MARK: - Data functions and accessors
@@ -37,7 +37,7 @@ public class RealmRadarDataSet: RealmLineRadarDataSet, IRadarChartDataSet
     /// - returns: true if highlight circle should be drawn, false if not
     public var isDrawHighlightCircleEnabled: Bool { return drawHighlightCircleEnabled }
     
-    public var highlightCircleFillColor: NSUIColor? = NSUIColor.whiteColor()
+    public var highlightCircleFillColor: NSUIColor? = NSUIColor.white
     
     /// The stroke color for highlight circle.
     /// If `nil`, the color of the dataset is taken.
