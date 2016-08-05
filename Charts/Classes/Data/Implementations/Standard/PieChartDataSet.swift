@@ -26,7 +26,7 @@ public class PieChartDataSet: ChartDataSet, IPieChartDataSet
     
     private func initialize()
     {
-        self.valueTextColor = NSUIColor.white()
+        self.valueTextColor = NSUIColor.white
         self.valueFont = NSUIFont.systemFont(ofSize: 13.0)
     }
     
@@ -77,7 +77,7 @@ public class PieChartDataSet: ChartDataSet, IPieChartDataSet
     public var yValuePosition: ValuePosition = .insideSlice
     
     /// When valuePosition is OutsideSlice, indicates line color
-    public var valueLineColor: NSUIColor? = NSUIColor.black()
+    public var valueLineColor: NSUIColor? = NSUIColor.black
     
     /// When valuePosition is OutsideSlice, indicates line width
     public var valueLineWidth: CGFloat = 1.0

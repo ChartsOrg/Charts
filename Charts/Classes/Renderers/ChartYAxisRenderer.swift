@@ -291,7 +291,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             
             pt.x = 0
             pt.y = CGFloat(yAxis.entries[i])
-            pt = pt.apply(transform: valueToPixelMatrix)
+            pt = pt.applying(valueToPixelMatrix)
             
             pt.x = fixedPosition
             pt.y += offset
@@ -338,7 +338,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             {
                 position.x = 0.0
                 position.y = CGFloat(yAxis.entries[i])
-                position = position.apply(transform: valueToPixelMatrix)
+                position = position.applying(valueToPixelMatrix)
                 
                 _gridLineBuffer[0].x = viewPortHandler.contentLeft
                 _gridLineBuffer[0].y = position.y
@@ -429,7 +429,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             
             position.x = 0.0
             position.y = CGFloat(l.limit)
-            position = position.apply(transform: trans)
+            position = position.applying(trans)
             
             _limitLineSegmentsBuffer[0].x = viewPortHandler.contentLeft
             _limitLineSegmentsBuffer[0].y = position.y

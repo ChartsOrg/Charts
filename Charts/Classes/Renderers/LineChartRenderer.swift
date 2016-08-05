@@ -272,8 +272,8 @@ public class LineChartRenderer: LineRadarChartRenderer
 
         var pt1 = CGPoint(x: CGFloat(xTo), y: fillMin)
         var pt2 = CGPoint(x: CGFloat(xFrom), y: fillMin)
-        pt1 = pt1.apply(transform: matrix)
-        pt2 = pt2.apply(transform: matrix)
+        pt1 = pt1.applying(matrix)
+        pt2 = pt2.applying(matrix)
         
         spline.addLineTo(nil, x: pt1.x, y: pt1.y)
         spline.addLineTo(nil, x: pt2.x, y: pt2.y)
@@ -372,7 +372,7 @@ public class LineChartRenderer: LineRadarChartRenderer
 
                 for i in 0..<_lineSegments.count
                 {
-                    _lineSegments[i] = _lineSegments[i].apply(transform: valueToPixelMatrix)
+                    _lineSegments[i] = _lineSegments[i].applying(valueToPixelMatrix)
                 }
                 
                 if (!viewPortHandler.isInBoundsRight(_lineSegments[0].x))
@@ -421,7 +421,7 @@ public class LineChartRenderer: LineRadarChartRenderer
                     _lineSegments[j] = CGPoint(
                            x: CGFloat(e1.xIndex),
                             y: CGFloat(e1.value) * phaseY
-                        ).apply(transform: valueToPixelMatrix)
+                        ).applying(valueToPixelMatrix)
                     j += 1
                     
                     if drawSteppedEnabled
@@ -429,20 +429,20 @@ public class LineChartRenderer: LineRadarChartRenderer
                         _lineSegments[j] = CGPoint(
                                x: CGFloat(e2.xIndex),
                                 y: CGFloat(e1.value) * phaseY
-                            ).apply(transform: valueToPixelMatrix)
+                            ).applying(valueToPixelMatrix)
                         j += 1
                         
                         _lineSegments[j] = CGPoint(
                                x: CGFloat(e2.xIndex),
                                 y: CGFloat(e1.value) * phaseY
-                            ).apply(transform: valueToPixelMatrix)
+                            ).applying(valueToPixelMatrix)
                         j += 1
                     }
                     
                     _lineSegments[j] = CGPoint(
                            x: CGFloat(e2.xIndex),
                             y: CGFloat(e2.value) * phaseY
-                        ).apply(transform: valueToPixelMatrix)
+                        ).applying(valueToPixelMatrix)
                     j += 1
                 }
                 
@@ -592,7 +592,7 @@ public class LineChartRenderer: LineRadarChartRenderer
                     
                     pt.x = CGFloat(e.xIndex)
                     pt.y = CGFloat(e.value) * phaseY
-                    pt = pt.apply(transform: valueToPixelMatrix)
+                    pt = pt.applying(valueToPixelMatrix)
                     
                     if (!viewPortHandler.isInBoundsRight(pt.x))
                     {
@@ -663,7 +663,7 @@ public class LineChartRenderer: LineRadarChartRenderer
                 circleHoleRadius > 0.0
             let drawTransparentCircleHole = drawCircleHole &&
                 (dataSet.circleHoleColor == nil ||
-                    dataSet.circleHoleColor == NSUIColor.clear())
+                    dataSet.circleHoleColor == NSUIColor.clear)
             
             guard let
                 entryFrom = dataSet.entryForXIndex(self.minX < 0 ? 0 : self.minX, rounding: .down),
@@ -685,7 +685,7 @@ public class LineChartRenderer: LineRadarChartRenderer
 
                 pt.x = CGFloat(e.xIndex)
                 pt.y = CGFloat(e.value) * phaseY
-                pt = pt.apply(transform: valueToPixelMatrix)
+                pt = pt.applying(valueToPixelMatrix)
                 
                 if (!viewPortHandler.isInBoundsRight(pt.x))
                 {

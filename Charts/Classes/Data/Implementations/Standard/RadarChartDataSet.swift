@@ -43,7 +43,7 @@ public class RadarChartDataSet: LineRadarChartDataSet, IRadarChartDataSet
     /// **default**: false
     public var drawHighlightCircleEnabled: Bool = false
     
-    public var highlightCircleFillColor: NSUIColor? = NSUIColor.white()
+    public var highlightCircleFillColor: NSUIColor? = NSUIColor.white
     
     /// The stroke color for highlight circle.
     /// If `nil`, the color of the dataset is taken.

@@ -87,7 +87,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
             
             point.x = CGFloat(e.xIndex)
             point.y = CGFloat(e.value) * phaseY
-            point = point.apply(transform: valueToPixelMatrix);            
+            point = point.applying(valueToPixelMatrix);
             
             if (!viewPortHandler.isInBoundsRight(point.x))
             {
@@ -248,7 +248,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                 
                 // transform the provided custom path
                 context.saveGState()
-                context.translate(x: point.x, y: point.y)
+                context.translateBy(x: point.x, y: point.y)
                 
                 context.beginPath()
                 context.addPath(customShape!)
@@ -306,7 +306,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                     
                     pt.x = CGFloat(e.xIndex)
                     pt.y = CGFloat(e.value) * phaseY
-                    pt = pt.apply(transform: valueToPixelMatrix)
+                    pt = pt.applying(valueToPixelMatrix)
                     
                     if (!viewPortHandler.isInBoundsRight(pt.x))
                     {

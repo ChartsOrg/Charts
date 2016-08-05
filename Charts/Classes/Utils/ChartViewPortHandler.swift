@@ -176,15 +176,15 @@ public class ChartViewPortHandler: NSObject
     /// Zooms by the specified zoom factors.
     public func zoom(scaleX: CGFloat, scaleY: CGFloat) -> CGAffineTransform
     {
-        return _touchMatrix.scaleBy(x: scaleX, y: scaleY)
+        return _touchMatrix.scaledBy(x: scaleX, y: scaleY)
     }
     
     /// Zooms around the specified center
     public func zoom(scaleX: CGFloat, scaleY: CGFloat, x: CGFloat, y: CGFloat) -> CGAffineTransform
     {
-        var matrix = _touchMatrix.translateBy(x: x, y: y)
-        matrix = matrix.scaleBy(x: scaleX, y: scaleY)
-        matrix = matrix.translateBy(x: -x, y: -y)
+        var matrix = _touchMatrix.translatedBy(x: x, y: y)
+        matrix = matrix.scaledBy(x: scaleX, y: scaleY)
+        matrix = matrix.translatedBy(x: -x, y: -y)
         return matrix
     }
     
@@ -215,9 +215,9 @@ public class ChartViewPortHandler: NSObject
         var matrix = _touchMatrix
         matrix.a = 1.0
         matrix.d = 1.0
-        matrix = matrix.translateBy(x: x, y: y)
-        matrix = matrix.scaleBy(x: scaleX, y: scaleY)
-        matrix = matrix.translateBy(x: -x, y: -y)
+        matrix = matrix.translatedBy(x: x, y: y)
+        matrix = matrix.scaledBy(x: scaleX, y: scaleY)
+        matrix = matrix.translatedBy(x: -x, y: -y)
         return matrix
     }
     
@@ -236,7 +236,7 @@ public class ChartViewPortHandler: NSObject
         let translateX = pt.x - offsetLeft
         let translateY = pt.y - offsetTop
         
-        let matrix = _touchMatrix.concat(CGAffineTransform(translationX: -translateX, y: -translateY))
+        let matrix = _touchMatrix.concatenating(CGAffineTransform(translationX: -translateX, y: -translateY))
         
         return matrix
     }
@@ -249,7 +249,7 @@ public class ChartViewPortHandler: NSObject
         let translateX = pt.x - offsetLeft
         let translateY = pt.y - offsetTop
         
-        let matrix = _touchMatrix.concat(CGAffineTransform(translationX: -translateX, y: -translateY))
+        let matrix = _touchMatrix.concatenating(CGAffineTransform(translationX: -translateX, y: -translateY))
         
         refresh(newMatrix: matrix, chart: chart, invalidate: true)
     }

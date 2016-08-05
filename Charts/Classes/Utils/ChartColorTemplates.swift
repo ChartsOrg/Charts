@@ -201,6 +201,6 @@ public class ChartColorTemplates: NSObject
             )
         }
         
-        return NSUIColor.clear()
+        return NSUIColor.clear
     }
 }

@@ -268,7 +268,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
             
             position.x = CGFloat(l.limit)
             position.y = 0.0
-            position = position.apply(transform: trans)
+            position = position.applying(trans)
             
             _limitLineSegmentsBuffer[0].x = position.x
             _limitLineSegmentsBuffer[0].y = viewPortHandler.contentTop
