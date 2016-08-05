@@ -59,7 +59,11 @@ public class RealmBaseDataSet: ChartBaseDataSet
         _results = results
         _yValueField = yValueField
         _xValueField = xValueField
-        _results = _results?.sortedResultsUsingProperty(_xValueField!, ascending: true)
+        
+        if _xValueField != nil
+        {
+            _results = _results?.sortedResultsUsingProperty(_xValueField!, ascending: true)
+        }
         
         notifyDataSetChanged()
         
@@ -297,19 +301,69 @@ public class RealmBaseDataSet: ChartBaseDataSet
     /// An empty array if no Entry object at that x-pos.
     public override func entriesForXPos(x: Double) -> [ChartDataEntry]
     {
-        var entries = [ChartDataEntry]()
+        /*var entries = [ChartDataEntry]()
         
         guard let results = _results else { return entries }
         
         if _xValueField != nil
         {
             let foundObjects = results.objectsWithPredicate(
-                NSPredicate(format: "%K == %@", _xValueField!, x)
+                NSPredicate(format: "%K == %f", _xValueField!, x)
             )
             
             for e in foundObjects
             {
                 entries.append(buildEntryFromResultObject(e as! RLMObject, x: x))
+            }
+        }
+        
+        return entries*/
+        
+        var entries = [ChartDataEntry]()
+        
+        var low = 0
+        var high = _cache.count - 1
+        
+        while low <= high
+        {
+            var m = (high + low) / 2
+            var entry = _cache[m]
+            
+            if x == entry.x
+            {
+                while m > 0 && _cache[m - 1].x == x
+                {
+                    m -= 1
+                }
+                
+                high = _cache.count
+                while m < high
+                {
+                    entry = _cache[m]
+                    if entry.x == x
+                    {
+                        entries.append(entry)
+                    }
+                    else
+                    {
+                        break
+                    }
+                    
+                    m += 1
+                }
+                
+                break
+            }
+            else
+            {
+                if x > entry.x
+                {
+                    low = m + 1
+                }
+                else
+                {
+                    high = m - 1
+                }
             }
         }
         
@@ -321,15 +375,68 @@ public class RealmBaseDataSet: ChartBaseDataSet
     /// - parameter x: x-pos of the entry to search for
     public override func entryIndex(x x: Double, rounding: ChartDataSetRounding) -> Int
     {
-        guard let results = _results else { return -1 }
+        /*guard let results = _results else { return -1 }
         
         let foundIndex = results.indexOfObjectWithPredicate(
-            NSPredicate(format: "%K == %@", _xValueField!, x)
+            NSPredicate(format: "%K == %f", _xValueField!, x)
         )
         
         // TODO: Figure out a way to quickly find the closest index
         
-        return Int(foundIndex)
+        return Int(foundIndex)*/
+        
+        var low = 0
+        var high = _cache.count - 1
+        var closest = -1
+        
+        while low <= high
+        {
+            var m = (high + low) / 2
+            let entry = _cache[m]
+            
+            if x == entry.x
+            {
+                while m > 0 && _cache[m - 1].x == x
+                {
+                    m -= 1
+                }
+                
+                return m
+            }
+            
+            if x > entry.x
+            {
+                low = m + 1
+            }
+            else
+            {
+                high = m - 1
+            }
+            
+            closest = m
+        }
+        
+        if closest != -1
+        {
+            if rounding == .Up
+            {
+                let closestXIndex = _cache[closest].x
+                if closestXIndex < x && closest < _cache.count - 1
+                {
+                    closest = closest + 1
+                }
+            }
+            else if rounding == .Down
+            {
+                let closestXIndex = _cache[closest].x
+                if closestXIndex > x && closest > 0
+                {
+                    closest = closest - 1
+                }
+            }
+        }
+        
+        return closest
     }
     
     /// - returns: the array-index of the specified entry

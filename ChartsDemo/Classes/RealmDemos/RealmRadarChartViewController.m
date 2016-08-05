@@ -30,7 +30,7 @@
     
     [self writeRandomDataToDbWithObjectCount:7];
     
-    self.title = @"Realm.io Pie Chart";
+    self.title = @"Realm.io Radar Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
@@ -73,7 +73,7 @@
     RLMResults *results = [RealmDemoData allObjectsInRealm:realm];
     
     // RealmRadarDataSet *set = [[RealmRadarDataSet alloc] initWithResults:results yValueField:@"stackValues" xValueField:@"xIndex"]; // normal entries
-    RealmRadarDataSet *set = [[RealmRadarDataSet alloc] initWithResults:results xValueField:@"xValue" yValueField:@"yValue"]; // stacked entries
+    RealmRadarDataSet *set = [[RealmRadarDataSet alloc] initWithResults:results yValueField:@"yValue"]; // stacked entries
     
     set.label = @"Realm RadarDataSet";
     set.drawFilledEnabled = YES;
