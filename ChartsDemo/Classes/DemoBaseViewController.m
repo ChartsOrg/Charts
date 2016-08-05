@@ -84,7 +84,7 @@
     {
         for (id<IChartDataSet> set in chartView.data.dataSets)
         {
-            set.drawValuesEnabled = !set.isDrawValuesEnabled;
+            set.drawValuesEnabled = !set.drawValuesEnabled;
         }
         
         [chartView setNeedsDisplay];
@@ -92,7 +92,7 @@
     
     if ([key isEqualToString:@"toggleHighlight"])
     {
-        chartView.data.highlightEnabled = !chartView.data.isHighlightEnabled;
+        chartView.data.highlightEnabled = !chartView.data.highlightEnabled;
         [chartView setNeedsDisplay];
     }
     
@@ -119,7 +119,7 @@
     if ([key isEqualToString:@"togglePinchZoom"])
     {
         BarLineChartViewBase *barLineChart = (BarLineChartViewBase *)chartView;
-        barLineChart.pinchZoomEnabled = !barLineChart.isPinchZoomEnabled;
+        barLineChart.pinchZoomEnabled = !barLineChart.pinchZoomEnabled;
         
         [chartView setNeedsDisplay];
     }
@@ -127,7 +127,7 @@
     if ([key isEqualToString:@"toggleAutoScaleMinMax"])
     {
         BarLineChartViewBase *barLineChart = (BarLineChartViewBase *)chartView;
-        barLineChart.autoScaleMinMaxEnabled = !barLineChart.isAutoScaleMinMaxEnabled;
+        barLineChart.autoScaleMinMaxEnabled = !barLineChart.autoScaleMinMaxEnabled;
         
         [chartView notifyDataSetChanged];
     }
@@ -135,7 +135,7 @@
     if ([key isEqualToString:@"toggleHighlightArrow"])
     {
         BarChartView *barChart = (BarChartView *)chartView;
-        barChart.drawHighlightArrowEnabled = !barChart.isDrawHighlightArrowEnabled;
+        barChart.drawHighlightArrowEnabled = !barChart.drawHighlightArrowEnabled;
         
         [chartView setNeedsDisplay];
     }

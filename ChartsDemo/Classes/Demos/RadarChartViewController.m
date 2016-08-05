@@ -135,7 +135,7 @@
 {
     if ([key isEqualToString:@"toggleXLabels"])
     {
-        _chartView.xAxis.drawLabelsEnabled = !_chartView.xAxis.isDrawLabelsEnabled;
+        _chartView.xAxis.drawLabelsEnabled = !_chartView.xAxis.drawLabelsEnabled;
         
         [_chartView notifyDataSetChanged];
         [_chartView setNeedsDisplay];
@@ -144,14 +144,14 @@
     
     if ([key isEqualToString:@"toggleYLabels"])
     {
-        _chartView.yAxis.drawLabelsEnabled = !_chartView.yAxis.isDrawLabelsEnabled;
+        _chartView.yAxis.drawLabelsEnabled = !_chartView.yAxis.drawLabelsEnabled;
         [_chartView setNeedsDisplay];
         return;
     }
 
     if ([key isEqualToString:@"toggleRotate"])
     {
-        _chartView.rotationEnabled = !_chartView.isRotationEnabled;
+        _chartView.rotationEnabled = !_chartView.rotationEnabled;
         return;
     }
     
@@ -159,7 +159,7 @@
     {
         for (RadarChartDataSet *set in _chartView.data.dataSets)
         {
-            set.drawFilledEnabled = !set.isDrawFilledEnabled;
+            set.drawFilledEnabled = !set.drawFilledEnabled;
         }
         
         [_chartView setNeedsDisplay];
