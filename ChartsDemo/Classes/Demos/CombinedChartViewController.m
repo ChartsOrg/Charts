@@ -105,7 +105,7 @@
         {
             if ([set isKindOfClass:LineChartDataSet.class])
             {
-                set.drawValuesEnabled = !set.isDrawValuesEnabled;
+                set.drawValuesEnabled = !set.drawValuesEnabled;
             }
         }
         
@@ -119,7 +119,7 @@
         {
             if ([set isKindOfClass:BarChartDataSet.class])
             {
-                set.drawValuesEnabled = !set.isDrawValuesEnabled;
+                set.drawValuesEnabled = !set.drawValuesEnabled;
             }
         }
         

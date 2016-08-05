@@ -127,7 +127,7 @@
 {
     if ([key isEqualToString:@"toggleXValues"])
     {
-        _chartView.drawSliceTextEnabled = !_chartView.isDrawSliceTextEnabled;
+        _chartView.drawSliceTextEnabled = !_chartView.drawSliceTextEnabled;
         
         [_chartView setNeedsDisplay];
         return;
@@ -135,7 +135,7 @@
     
     if ([key isEqualToString:@"togglePercent"])
     {
-        _chartView.usePercentValuesEnabled = !_chartView.isUsePercentValuesEnabled;
+        _chartView.usePercentValuesEnabled = !_chartView.usePercentValuesEnabled;
         
         [_chartView setNeedsDisplay];
         return;
@@ -143,7 +143,7 @@
     
     if ([key isEqualToString:@"toggleHole"])
     {
-        _chartView.drawHoleEnabled = !_chartView.isDrawHoleEnabled;
+        _chartView.drawHoleEnabled = !_chartView.drawHoleEnabled;
         
         [_chartView setNeedsDisplay];
         return;
@@ -151,7 +151,7 @@
     
     if ([key isEqualToString:@"drawCenter"])
     {
-        _chartView.drawCenterTextEnabled = !_chartView.isDrawCenterTextEnabled;
+        _chartView.drawCenterTextEnabled = !_chartView.drawCenterTextEnabled;
         
         [_chartView setNeedsDisplay];
         return;

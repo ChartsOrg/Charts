@@ -194,7 +194,7 @@
     {
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
-            set.drawFilledEnabled = !set.isDrawFilledEnabled;
+            set.drawFilledEnabled = !set.drawFilledEnabled;
         }
         
         [_chartView setNeedsDisplay];
@@ -205,7 +205,7 @@
     {
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
-            set.drawCirclesEnabled = !set.isDrawCirclesEnabled;
+            set.drawCirclesEnabled = !set.drawCirclesEnabled;
         }
         
         [_chartView setNeedsDisplay];
@@ -216,7 +216,7 @@
     {
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
-            set.drawCubicEnabled = !set.isDrawCubicEnabled;
+            set.drawCubicEnabled = !set.drawCubicEnabled;
         }
         
         [_chartView setNeedsDisplay];
@@ -227,7 +227,7 @@
     {
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
-            set.drawSteppedEnabled = !set.isDrawSteppedEnabled;
+            set.drawSteppedEnabled = !set.drawSteppedEnabled;
         }
 
         [_chartView setNeedsDisplay];
