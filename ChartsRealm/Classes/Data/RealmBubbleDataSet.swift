@@ -30,14 +30,14 @@ public class RealmBubbleDataSet: RealmBarLineScatterCandleBubbleDataSet, IBubble
         super.init()
     }
     
-    public init(results: RLMResults?, yValueField: String, xIndexField: String, sizeField: String, label: String?)
+    public init(results: RLMResults<RLMObject>?, yValueField: String, xIndexField: String, sizeField: String, label: String?)
     {
         _sizeField = sizeField
         
         super.init(results: results, yValueField: yValueField, xIndexField: xIndexField, label: label)
     }
     
-    public convenience init(results: RLMResults?, yValueField: String, xIndexField: String, sizeField: String)
+    public convenience init(results: RLMResults<RLMObject>?, yValueField: String, xIndexField: String, sizeField: String)
     {
         self.init(results: results, yValueField: yValueField, xIndexField: xIndexField, sizeField: sizeField, label: "DataSet")
     }
@@ -63,14 +63,14 @@ public class RealmBubbleDataSet: RealmBarLineScatterCandleBubbleDataSet, IBubble
     public var normalizeSizeEnabled: Bool = true
     public var isNormalizeSizeEnabled: Bool { return normalizeSizeEnabled }
     
-    internal override func buildEntryFromResultObject(object: RLMObject, atIndex: UInt) -> ChartDataEntry
+    internal override func buildEntryFromResultObject(_ object: RLMObject, atIndex: UInt) -> ChartDataEntry
     {
         let entry = BubbleChartDataEntry(xIndex: _xIndexField == nil ? Int(atIndex) : object[_xIndexField!] as! Int, value: object[_yValueField!] as! Double, size: object[_sizeField!] as! CGFloat)
         
         return entry
     }
     
-    public override func calcMinMax(start start: Int, end: Int)
+    public override func calcMinMax(start: Int, end: Int)
     {
         let yValCount = self.entryCount
         
@@ -103,7 +103,7 @@ public class RealmBubbleDataSet: RealmBarLineScatterCandleBubbleDataSet, IBubble
         _yMin = yMin(_cache[start - _cacheFirst] as! BubbleChartDataEntry)
         _yMax = yMax(_cache[start - _cacheFirst] as! BubbleChartDataEntry)
         
-        for i in start.stride(through: endValue, by: 1)
+        for i in stride(from: start, through: endValue, by: 1)
         {
             let entry = _cache[i - _cacheFirst] as! BubbleChartDataEntry
             
@@ -142,27 +142,27 @@ public class RealmBubbleDataSet: RealmBarLineScatterCandleBubbleDataSet, IBubble
         }
     }
     
-    private func yMin(entry: BubbleChartDataEntry) -> Double
+    private func yMin(_ entry: BubbleChartDataEntry) -> Double
     {
         return entry.value
     }
     
-    private func yMax(entry: BubbleChartDataEntry) -> Double
+    private func yMax(_ entry: BubbleChartDataEntry) -> Double
     {
         return entry.value
     }
     
-    private func xMin(entry: BubbleChartDataEntry) -> Double
+    private func xMin(_ entry: BubbleChartDataEntry) -> Double
     {
         return Double(entry.xIndex)
     }
     
-    private func xMax(entry: BubbleChartDataEntry) -> Double
+    private func xMax(_ entry: BubbleChartDataEntry) -> Double
     {
         return Double(entry.xIndex)
     }
     
-    private func largestSize(entry: BubbleChartDataEntry) -> CGFloat
+    private func largestSize(_ entry: BubbleChartDataEntry) -> CGFloat
     {
         return entry.size
     }
@@ -174,7 +174,7 @@ public class RealmBubbleDataSet: RealmBarLineScatterCandleBubbleDataSet, IBubble
     
     // MARK: - NSCopying
     
-    public override func copyWithZone(zone: NSZone) -> AnyObject
+    public override func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! RealmBubbleDataSet
         copy._xMin = _xMin

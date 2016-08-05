@@ -31,7 +31,7 @@ public class RealmCandleDataSet: RealmLineScatterCandleRadarDataSet, ICandleChar
         super.init()
     }
 
-    public init(results: RLMResults?, highField: String, lowField: String, openField: String, closeField: String, xIndexField: String, label: String?)
+    public init(results: RLMResults<RLMObject>?, highField: String, lowField: String, openField: String, closeField: String, xIndexField: String, label: String?)
     {
         _highField = highField
         _lowField = lowField
@@ -41,7 +41,7 @@ public class RealmCandleDataSet: RealmLineScatterCandleRadarDataSet, ICandleChar
         super.init(results: results, yValueField: "", xIndexField: xIndexField, label: label)
     }
     
-    public convenience init(results: RLMResults?, highField: String, lowField: String, openField: String, closeField: String, xIndexField: String)
+    public convenience init(results: RLMResults<RLMObject>?, highField: String, lowField: String, openField: String, closeField: String, xIndexField: String)
     {
         self.init(results: results, highField: highField, lowField: lowField, openField: openField, closeField: closeField, xIndexField: xIndexField, label: "DataSet")
     }
@@ -63,7 +63,7 @@ public class RealmCandleDataSet: RealmLineScatterCandleRadarDataSet, ICandleChar
     internal var _openField: String?
     internal var _closeField: String?
     
-    internal override func buildEntryFromResultObject(object: RLMObject, atIndex: UInt) -> ChartDataEntry
+    internal override func buildEntryFromResultObject(_ object: RLMObject, atIndex: UInt) -> ChartDataEntry
     {
         let entry = CandleChartDataEntry(
             xIndex: _xIndexField == nil ? Int(atIndex) : object[_xIndexField!] as! Int,
@@ -75,7 +75,7 @@ public class RealmCandleDataSet: RealmLineScatterCandleRadarDataSet, ICandleChar
         return entry
     }
     
-    public override func calcMinMax(start start: Int, end: Int)
+    public override func calcMinMax(start: Int, end: Int)
     {
         let yValCount = self.entryCount
         
@@ -108,7 +108,7 @@ public class RealmCandleDataSet: RealmLineScatterCandleRadarDataSet, ICandleChar
         _yMin = DBL_MAX
         _yMax = -DBL_MAX
         
-        for i in start.stride(through: endValue, by: 1)
+        for i in stride(from: start, through: endValue, by: 1)
         {
             let e = _cache[i - _cacheFirst] as! CandleChartDataEntry
             

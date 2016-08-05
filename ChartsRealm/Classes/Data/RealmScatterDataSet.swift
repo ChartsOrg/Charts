@@ -26,7 +26,7 @@ public class RealmScatterDataSet: RealmLineScatterCandleRadarDataSet, IScatterCh
     
     // The type of shape that is set to be drawn where the values are at
     // **default**: .Square
-    public var scatterShape = ScatterChartDataSet.Shape.Square
+    public var scatterShape = ScatterChartDataSet.Shape.square
     
     // The radius of the hole in the shape (applies to Square, Circle and Triangle)
     // **default**: 0.0
@@ -47,7 +47,7 @@ public class RealmScatterDataSet: RealmLineScatterCandleRadarDataSet, IScatterCh
     
     // MARK: NSCopying
     
-    public override func copyWithZone(zone: NSZone) -> AnyObject
+    public override func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! RealmScatterDataSet
         copy.scatterShapeSize = scatterShapeSize

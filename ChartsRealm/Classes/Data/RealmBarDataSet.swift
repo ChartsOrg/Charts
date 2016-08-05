@@ -23,7 +23,7 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
 {
     public override func initialize()
     {
-        self.highlightColor = NSUIColor.blackColor()
+        self.highlightColor = NSUIColor.black
     }
     
     public required init()
@@ -31,29 +31,29 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
         super.init()
     }
     
-    public override init(results: RLMResults?, yValueField: String, xIndexField: String?, label: String?)
+    public override init(results: RLMResults<RLMObject>?, yValueField: String, xIndexField: String?, label: String?)
     {
         super.init(results: results, yValueField: yValueField, xIndexField: xIndexField, label: label)
     }
     
-    public init(results: RLMResults?, yValueField: String, xIndexField: String?, stackValueField: String, label: String?)
+    public init(results: RLMResults<RLMObject>?, yValueField: String, xIndexField: String?, stackValueField: String, label: String?)
     {
         _stackValueField = stackValueField
         
         super.init(results: results, yValueField: yValueField, xIndexField: xIndexField, label: label)
     }
     
-    public convenience init(results: RLMResults?, yValueField: String, xIndexField: String?, stackValueField: String)
+    public convenience init(results: RLMResults<RLMObject>?, yValueField: String, xIndexField: String?, stackValueField: String)
     {
         self.init(results: results, yValueField: yValueField, xIndexField: xIndexField, stackValueField: stackValueField, label: "DataSet")
     }
     
-    public convenience init(results: RLMResults?, yValueField: String, stackValueField: String, label: String)
+    public convenience init(results: RLMResults<RLMObject>?, yValueField: String, stackValueField: String, label: String)
     {
         self.init(results: results, yValueField: yValueField, xIndexField: nil, stackValueField: stackValueField, label: label)
     }
     
-    public convenience init(results: RLMResults?, yValueField: String, stackValueField: String)
+    public convenience init(results: RLMResults<RLMObject>?, yValueField: String, stackValueField: String)
     {
         self.init(results: results, yValueField: yValueField, xIndexField: nil, stackValueField: stackValueField)
     }
@@ -102,7 +102,7 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
     /// is calculated from the Entries that are added to the DataSet
     private var _stackSize = 1
     
-    internal override func buildEntryFromResultObject(object: RLMObject, atIndex: UInt) -> ChartDataEntry
+    internal override func buildEntryFromResultObject(_ object: RLMObject, atIndex: UInt) -> ChartDataEntry
     {
         let value = object[_yValueField!]
         let entry: BarChartDataEntry
@@ -125,7 +125,7 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
     }
     
     /// calculates the maximum stacksize that occurs in the Entries array of this DataSet
-    private func calcStackSize(yVals: [BarChartDataEntry]!)
+    private func calcStackSize(_ yVals: [BarChartDataEntry]!)
     {
         for i in 0 ..< yVals.count
         {
@@ -139,7 +139,7 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
         }
     }
     
-    public override func calcMinMax(start start : Int, end: Int)
+    public override func calcMinMax(start : Int, end: Int)
     {
         let yValCount = self.entryCount
         
@@ -172,7 +172,7 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
         _yMin = DBL_MAX
         _yMax = -DBL_MAX
         
-        for i in start.stride(through: endValue, by: 1)
+        for i in stride(from: start, through: endValue, by: 1)
         {
             if let e = _cache[i - _cacheFirst] as? BarChartDataEntry
             {
@@ -247,7 +247,7 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
     
     // MARK: - NSCopying
     
-    public override func copyWithZone(zone: NSZone) -> AnyObject
+    public override func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! RealmBarDataSet
         copy._stackSize = _stackSize

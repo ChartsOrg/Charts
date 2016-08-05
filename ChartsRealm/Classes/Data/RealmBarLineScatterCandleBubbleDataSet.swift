@@ -31,7 +31,7 @@ public class RealmBarLineScatterCandleBubbleDataSet: RealmBaseDataSet, IBarLineS
     
     // MARK: - NSCopying
     
-    public override func copyWithZone(zone: NSZone) -> AnyObject
+    public override func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! RealmBarLineScatterCandleBubbleDataSet
         copy.highlightColor = highlightColor
