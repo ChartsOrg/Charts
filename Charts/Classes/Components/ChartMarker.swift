@@ -15,7 +15,7 @@ import Foundation
 import CoreGraphics
 
 
-public class ChartMarker: NSObject
+public class ChartMarker: NSObject, ChartMarkerProtocol
 {
     /// The marker image to render
     public var image: NSUIImage?
@@ -30,11 +30,6 @@ public class ChartMarker: NSObject
         {
             return image!.size
         }
-    }
-    
-    public override init()
-    {
-        super.init()
     }
     
     /// Returns the offset for drawing at the specific `point`
