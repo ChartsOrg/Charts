@@ -43,6 +43,12 @@ public class BarLineScatterCandleBubbleChartRenderer: ChartDataRendererBase
     {
         return XBounds(chart: chart, dataSet: dataSet, animator: animator)
     }
+    
+    /// - returns: `true` if the DataSet values should be drawn, `false` if not.
+    internal func shouldDrawValues(forDataSet set: IChartDataSet) -> Bool
+    {
+        return set.isVisible && set.isDrawValuesEnabled
+    }
 
     /// Class representing the bounds of the current viewport in terms of indices in the values array of a DataSet.
     public class XBounds

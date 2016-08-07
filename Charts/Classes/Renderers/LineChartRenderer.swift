@@ -52,9 +52,7 @@ public class LineChartRenderer: LineRadarChartRenderer
     
     public func drawDataSet(context context: CGContext, dataSet: ILineChartDataSet)
     {
-        let entryCount = dataSet.entryCount
-        
-        if (entryCount < 1)
+        if dataSet.entryCount < 1
         {
             return
         }
@@ -515,7 +513,7 @@ public class LineChartRenderer: LineRadarChartRenderer
             {
                 guard let dataSet = dataSets[i] as? ILineChartDataSet else { continue }
                 
-                if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
+                if !shouldDrawValues(forDataSet: dataSet)
                 {
                     continue
                 }

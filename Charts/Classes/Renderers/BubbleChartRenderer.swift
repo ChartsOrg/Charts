@@ -34,7 +34,7 @@ public class BubbleChartRenderer: BarLineScatterCandleBubbleChartRenderer
         
         for set in bubbleData.dataSets as! [IBubbleChartDataSet]
         {
-            if set.isVisible && set.entryCount > 0
+            if set.isVisible
             {
                 drawDataSet(context: context, dataSet: set)
             }
@@ -153,7 +153,7 @@ public class BubbleChartRenderer: BarLineScatterCandleBubbleChartRenderer
             
             for dataSet in dataSets
             {
-                if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
+                if !shouldDrawValues(forDataSet: dataSet)
                 {
                     continue
                 }

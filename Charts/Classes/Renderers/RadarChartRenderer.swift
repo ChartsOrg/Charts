@@ -42,7 +42,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
             
             for set in radarData!.dataSets as! [IRadarChartDataSet]
             {
-                if set.isVisible && set.entryCount > 0
+                if set.isVisible
                 {
                     drawDataSet(context: context, dataSet: set, mostEntries: mostEntries)
                 }
@@ -163,7 +163,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         {
             let dataSet = data.getDataSetByIndex(i) as! IRadarChartDataSet
             
-            if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
+            if !shouldDrawValues(forDataSet: dataSet)
             {
                 continue
             }

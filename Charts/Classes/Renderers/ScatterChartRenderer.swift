@@ -126,7 +126,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
             {
                 let dataSet = dataSets[i]
                 
-                if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
+                if !shouldDrawValues(forDataSet: dataSet)
                 {
                     continue
                 }

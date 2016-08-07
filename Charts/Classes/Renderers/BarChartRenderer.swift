@@ -186,7 +186,7 @@ public class BarChartRenderer: BarLineScatterCandleBubbleChartRenderer
         {
             guard let set = barData.getDataSetByIndex(i) else { continue }
             
-            if set.isVisible && set.entryCount > 0
+            if set.isVisible
             {
                 if !(set is IBarChartDataSet)
                 {
@@ -326,7 +326,7 @@ public class BarChartRenderer: BarLineScatterCandleBubbleChartRenderer
             {
                 guard let dataSet = dataSets[dataSetIndex] as? IBarChartDataSet else { continue }
                 
-                if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
+                if !shouldDrawValues(forDataSet: dataSet)
                 {
                     continue
                 }
