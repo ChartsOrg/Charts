@@ -198,6 +198,8 @@ public class BarChartRenderer: BarLineScatterCandleBubbleChartRenderer
         }
     }
     
+    private var _barShadowRectBuffer: CGRect = CGRect()
+    
     public func drawDataSet(context context: CGContext, dataSet: IBarChartDataSet, index: Int)
     {
         guard let
@@ -215,6 +217,47 @@ public class BarChartRenderer: BarLineScatterCandleBubbleChartRenderer
         let drawBorder = borderWidth > 0.0
         
         CGContextSaveGState(context)
+        
+        // draw the bar shadow before the values
+        if dataProvider.isDrawBarShadowEnabled
+        {
+            guard let
+                animator = animator,
+                barData = dataProvider.barData
+                else { return }
+            
+            let barWidth = barData.barWidth
+            let barWidthHalf = barWidth / 2.0
+            var x: Double = 0.0
+            
+            for i in 0.stride(to: min(Int(ceil(Double(dataSet.entryCount) * animator.phaseX)), dataSet.entryCount), by: 1)
+            {
+                guard let e = dataSet.entryForIndex(i) as? BarChartDataEntry else { continue }
+                
+                x = e.x
+                
+                _barShadowRectBuffer.origin.x = CGFloat(x - barWidthHalf)
+                _barShadowRectBuffer.size.width = CGFloat(barWidth)
+                
+                trans.rectValueToPixel(&_barShadowRectBuffer)
+                
+                if !viewPortHandler.isInBoundsLeft(_barShadowRectBuffer.origin.x + _barShadowRectBuffer.size.width)
+                {
+                    continue
+                }
+                
+                if !viewPortHandler.isInBoundsRight(_barShadowRectBuffer.origin.x)
+                {
+                    break
+                }
+                
+                _barShadowRectBuffer.origin.y = viewPortHandler.contentTop
+                _barShadowRectBuffer.size.height = viewPortHandler.contentHeight
+                
+                CGContextSetFillColorWithColor(context, dataSet.barShadowColor.CGColor)
+                CGContextFillRect(context, _barShadowRectBuffer)
+            }
+        }
         
         let buffer = _buffers[index]
         

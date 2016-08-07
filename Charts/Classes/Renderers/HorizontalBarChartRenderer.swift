@@ -131,7 +131,6 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                 var negY = -e.negativeSum
                 var yStart = 0.0
                 
-                
                 // fill the stack
                 for k in 0 ..< vals!.count
                 {
@@ -175,6 +174,8 @@ public class HorizontalBarChartRenderer: BarChartRenderer
         }
     }
     
+    private var _barShadowRectBuffer: CGRect = CGRect()
+    
     public override func drawDataSet(context context: CGContext, dataSet: IBarChartDataSet, index: Int)
     {
         guard let
@@ -193,29 +194,48 @@ public class HorizontalBarChartRenderer: BarChartRenderer
         
         CGContextSaveGState(context)
         
-        let buffer = _buffers[index]
-        
         // draw the bar shadow before the values
         if dataProvider.isDrawBarShadowEnabled
         {
-            for j in 0.stride(to: buffer.rects.count, by: 1)
+            guard let
+                animator = animator,
+                barData = dataProvider.barData
+                else { return }
+            
+            let barWidth = barData.barWidth
+            let barWidthHalf = barWidth / 2.0
+            var x: Double = 0.0
+            
+            for i in 0.stride(to: min(Int(ceil(Double(dataSet.entryCount) * animator.phaseX)), dataSet.entryCount), by: 1)
             {
-                let barRect = buffer.rects[j]
+                guard let e = dataSet.entryForIndex(i) as? BarChartDataEntry else { continue }
                 
-                if (!viewPortHandler.isInBoundsTop(barRect.origin.y + barRect.size.height))
+                x = e.x
+                
+                _barShadowRectBuffer.origin.y = CGFloat(x - barWidthHalf)
+                _barShadowRectBuffer.size.height = CGFloat(barWidth)
+                
+                trans.rectValueToPixel(&_barShadowRectBuffer)
+                
+                if !viewPortHandler.isInBoundsTop(_barShadowRectBuffer.origin.y + _barShadowRectBuffer.size.height)
                 {
                     break
                 }
                 
-                if (!viewPortHandler.isInBoundsBottom(barRect.origin.y))
+                if !viewPortHandler.isInBoundsBottom(_barShadowRectBuffer.origin.y)
                 {
                     continue
                 }
                 
+                _barShadowRectBuffer.origin.x = viewPortHandler.contentLeft
+                _barShadowRectBuffer.size.width = viewPortHandler.contentWidth
+                
                 CGContextSetFillColorWithColor(context, dataSet.barShadowColor.CGColor)
-                CGContextFillRect(context, barRect)
+                CGContextFillRect(context, _barShadowRectBuffer)
             }
         }
+        
+        let buffer = _buffers[index]
         
         let isSingleColor = dataSet.colors.count == 1
         
