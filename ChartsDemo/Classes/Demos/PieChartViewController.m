@@ -50,8 +50,8 @@
     
     _chartView.delegate = self;
     
-    _sliderX.value = 3.0;
-    _sliderY.value = 100.0;
+    _sliderX.value = 4.0;
+    _sliderY.value = 10.0;
     [self slidersValueChanged:nil];
     
     [_chartView animateWithXAxisDuration:1.4 easingOption:ChartEasingOptionEaseOutBack];

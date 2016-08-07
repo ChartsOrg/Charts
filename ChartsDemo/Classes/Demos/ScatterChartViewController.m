@@ -60,6 +60,7 @@
     ChartLegend *l = _chartView.legend;
     l.position = ChartLegendPositionRightOfChart;
     l.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
+    l.xOffset = 5.0;
     
     ChartYAxis *yl = _chartView.leftAxis;
     yl.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
