@@ -21,8 +21,6 @@ import CoreGraphics
 
 public class ChartXAxisRenderer: ChartAxisRendererBase
 {
-    // FIXME: Remove xAxis property on Android
-    
     public init(viewPortHandler: ChartViewPortHandler?, xAxis: ChartXAxis?, transformer: ChartTransformer?)
     {
         super.init(viewPortHandler: viewPortHandler, transformer: transformer, axis: xAxis)
@@ -105,7 +103,6 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         
         if (xAxis.labelPosition == .Top)
         {
-            // FIXME: Anchor on Android
             drawLabels(context: context, pos: viewPortHandler.contentTop - yOffset, anchor: CGPoint(x: 0.5, y: 1.0))
         }
         else if (xAxis.labelPosition == .TopInside)

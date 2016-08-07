@@ -21,8 +21,6 @@ import CoreGraphics
 
 public class ChartYAxisRenderer: ChartAxisRendererBase
 {
-    // FIXME: Remove yAxis property on Android
-    
     public init(viewPortHandler: ChartViewPortHandler?, yAxis: ChartYAxis?, transformer: ChartTransformer?)
     {
         super.init(viewPortHandler: viewPortHandler, transformer: transformer, axis: yAxis)

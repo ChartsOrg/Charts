@@ -63,7 +63,6 @@ public class ChartDataEntryBase: NSObject
             return false
         }
         
-        // FIXME: On Android too, those should be epsilons
         if fabs(object!.y - y) > DBL_EPSILON
         {
             return false

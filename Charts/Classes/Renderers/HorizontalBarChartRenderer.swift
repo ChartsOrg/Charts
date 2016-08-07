@@ -217,8 +217,6 @@ public class HorizontalBarChartRenderer: BarChartRenderer
             }
         }
         
-        // FIXME: DRY code on Android
-        
         let isSingleColor = dataSet.colors.count == 1
         
         if isSingleColor
@@ -319,7 +317,6 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                 
                 let trans = dataProvider.getTransformer(dataSet.axisDependency)
                 
-                // FIXME: Put in variable on Android
                 let phaseY = animator.phaseY
                 
                 let buffer = _buffers[dataSetIndex]

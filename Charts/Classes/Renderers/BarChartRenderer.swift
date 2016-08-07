@@ -240,8 +240,6 @@ public class BarChartRenderer: BarLineScatterCandleBubbleChartRenderer
             }
         }
         
-        // FIXME: DRY code on Android
-        
         let isSingleColor = dataSet.colors.count == 1
         
         if isSingleColor
@@ -351,7 +349,6 @@ public class BarChartRenderer: BarLineScatterCandleBubbleChartRenderer
                 
                 let trans = dataProvider.getTransformer(dataSet.axisDependency)
                 
-                // FIXME: Put in variable on Android
                 let phaseY = animator.phaseY
         
                 // if only single values are drawn (sum)
