@@ -232,17 +232,18 @@ public class BubbleChartRenderer: BarLineScatterCandleBubbleChartRenderer
             
             let bounds = xBounds(dataProvider, dataSet: dataSet, animator: animator)
             
+            // In bubble charts - it makes sense to have multiple bubbles on the same X value in the same dataset.
+            
             let entries = dataSet.entriesForXPos(high.x)
             
             for entry in entries
             {
                 guard let entry = entry as? BubbleChartDataEntry
                     else { continue }
-
-                // FIXME: On Android, add y equals...
                 
-                // If `y` is NAN, then the selection is of any value on this x. Otherwise- it's a single, specific value selection.
-                if !isnan(high.y) && entry.y != high.y { continue }
+                if entry.y != high.y { continue }
+                
+                if !isInBoundsX(entry: entry, dataSet: dataSet) { continue }
                 
                 let trans = dataProvider.getTransformer(dataSet.axisDependency)
                 
