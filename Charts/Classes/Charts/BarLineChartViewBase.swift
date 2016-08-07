@@ -973,30 +973,34 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// - parameter scaleY: if < 1 --> zoom out, if > 1 --> zoom in
     /// - parameter x:
     /// - parameter y:
-    public func zoom(scaleX scaleX: CGFloat, scaleY: CGFloat, x: CGFloat, y: CGFloat)
+    public func zoom(
+        scaleX scaleX: CGFloat,
+               scaleY: CGFloat,
+               x: CGFloat,
+               y: CGFloat)
     {
-        let matrix = _viewPortHandler.zoom(scaleX: scaleX, scaleY: scaleY, x: x, y: y)
+        let matrix = _viewPortHandler.zoom(scaleX: scaleX, scaleY: scaleY, x: x, y: -y)
         _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
         
         // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
         calculateOffsets()
         setNeedsDisplay()
     }
-
+    
     /// Zooms in or out by the given scale factor.
-    /// x and y are the values (**not pixels**) which to zoom to or from (the values of the zoom center).
+    /// x and y are the values (**not pixels**) of the zoom center.
     ///
     /// - parameter scaleX: if < 1 --> zoom out, if > 1 --> zoom in
     /// - parameter scaleY: if < 1 --> zoom out, if > 1 --> zoom in
     /// - parameter xValue:
     /// - parameter yValue:
     /// - parameter axis:
-    public func zoomAndCenter(
+    public func zoom(
         scaleX scaleX: CGFloat,
-        scaleY: CGFloat,
-        xValue: Double,
-        yValue: Double,
-        axis: ChartYAxis.AxisDependency)
+               scaleY: CGFloat,
+               xValue: Double,
+               yValue: Double,
+               axis: ChartYAxis.AxisDependency)
     {
         let job = ZoomChartViewJob(
             viewPortHandler: viewPortHandler,
@@ -1008,6 +1012,26 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             axis: axis,
             view: self)
         addViewportJob(job)
+    }
+    
+    /// Zooms to the center of the chart with the given scale factor.
+    ///
+    /// - parameter scaleX: if < 1 --> zoom out, if > 1 --> zoom in
+    /// - parameter scaleY: if < 1 --> zoom out, if > 1 --> zoom in
+    /// - parameter xValue:
+    /// - parameter yValue:
+    /// - parameter axis:
+    public func zoomToCenter(
+        scaleX scaleX: CGFloat,
+               scaleY: CGFloat)
+    {
+        let center = centerOffsets
+        let matrix = viewPortHandler.zoom(
+            scaleX: scaleX,
+            scaleY: scaleY,
+            x: center.x,
+            y: -center.y)
+        viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
     }
     
     /// Zooms by the specified scale factor to the specified values on the specified axis.
@@ -1149,7 +1173,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// - parameter axis: - the axis for which this limit should apply
     public func setVisibleYRangeMaximum(maxYRange: Double, axis: ChartYAxis.AxisDependency)
     {
-        let yScale = getDeltaY(axis) / maxYRange
+        let yScale = getAxisRange(axis) / maxYRange
         _viewPortHandler.setMinimumScaleY(CGFloat(yScale))
     }
     
@@ -1159,7 +1183,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// - parameter axis: - the axis for which this limit should apply
     public func setVisibleYRangeMinimum(minYRange: Double, axis: ChartYAxis.AxisDependency)
     {
-        let yScale = getDeltaY(axis) / minYRange
+        let yScale = getAxisRange(axis) / minYRange
         _viewPortHandler.setMaximumScaleY(CGFloat(yScale))
     }
 
@@ -1170,8 +1194,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// - parameter axis:
     public func setVisibleYRange(minYRange minYRange: Double, maxYRange: Double, axis: ChartYAxis.AxisDependency)
     {
-        let minScale = getDeltaY(axis) / minYRange
-        let maxScale = getDeltaY(axis) / maxYRange
+        let minScale = getAxisRange(axis) / minYRange
+        let maxScale = getAxisRange(axis) / maxYRange
         _viewPortHandler.setMinMaxScaleY(minScaleY: CGFloat(minScale), maxScaleY: CGFloat(maxScale))
     }
     
@@ -1196,7 +1220,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// - parameter axis: - which axis should be used as a reference for the y-axis
     public func moveViewToY(yValue: Double, axis: ChartYAxis.AxisDependency)
     {
-        let yInView = getDeltaY(axis) / Double(_viewPortHandler.scaleY)
+        let yInView = getAxisRange(axis) / Double(_viewPortHandler.scaleY)
         
         let job = MoveChartViewJob(
             viewPortHandler: viewPortHandler,
@@ -1216,7 +1240,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// - parameter axis: - which axis should be used as a reference for the y-axis
     public func moveViewTo(xValue xValue: Double, yValue: Double, axis: ChartYAxis.AxisDependency)
     {
-        let yInView = getDeltaY(axis) / Double(_viewPortHandler.scaleY)
+        let yInView = getAxisRange(axis) / Double(_viewPortHandler.scaleY)
         
         let job = MoveChartViewJob(
             viewPortHandler: viewPortHandler,
@@ -1247,7 +1271,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             pt: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop),
             axis: axis)
         
-        let yInView = getDeltaY(axis) / Double(_viewPortHandler.scaleY)
+        let yInView = getAxisRange(axis) / Double(_viewPortHandler.scaleY)
         
         let job = AnimatedMoveChartViewJob(
             viewPortHandler: viewPortHandler,
@@ -1309,7 +1333,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         yValue: Double,
         axis: ChartYAxis.AxisDependency)
     {
-        let yInView = getDeltaY(axis) / Double(_viewPortHandler.scaleY)
+        let yInView = getAxisRange(axis) / Double(_viewPortHandler.scaleY)
         let xInView = xAxis.axisRange / Double(_viewPortHandler.scaleX)
         
         let job = MoveChartViewJob(
@@ -1340,7 +1364,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             pt: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop),
             axis: axis)
         
-        let yInView = getDeltaY(axis) / Double(_viewPortHandler.scaleY)
+        let yInView = getAxisRange(axis) / Double(_viewPortHandler.scaleY)
         let xInView = xAxis.axisRange / Double(_viewPortHandler.scaleX)
         
         let job = AnimatedMoveChartViewJob(
@@ -1419,8 +1443,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
 
     // MARK: - Accessors
     
-    /// - returns: the delta-y value (y-value range) of the specified axis.
-    public func getDeltaY(axis: ChartYAxis.AxisDependency) -> Double
+    /// - returns: he range of the specified axis.
+    public func getAxisRange(axis: ChartYAxis.AxisDependency) -> Double
     {
         if (axis == .Left)
         {
@@ -1580,13 +1604,6 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     public func getPixelForValue(x: Double, y: Double, axis: ChartYAxis.AxisDependency) -> CGPoint
     {
         return getTransformer(axis).pixelForValue(x: x, y: y)
-    }
-
-    /// - returns: the y-value at the given touch position (must not necessarily be
-    /// a value contained in one of the datasets)
-    public func getYValueByTouchPoint(pt pt: CGPoint, axis: ChartYAxis.AxisDependency) -> CGFloat
-    {
-        return valueForTouchPoint(pt: pt, axis: axis).y
     }
     
     /// - returns: the Entry object displayed at the touched position of the chart

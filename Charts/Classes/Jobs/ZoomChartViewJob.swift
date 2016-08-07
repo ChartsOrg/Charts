@@ -55,12 +55,12 @@ public class ZoomChartViewJob: ChartViewPortJob
         var matrix = viewPortHandler.setZoom(scaleX: scaleX, scaleY: scaleY)
         viewPortHandler.refresh(newMatrix: matrix, chart: view, invalidate: false)
         
-        let valsInView = (view as! BarLineChartViewBase).getDeltaY(axisDependency) / Double(viewPortHandler.scaleY)
-        let xsInView = (view as! BarLineChartViewBase).xAxis.axisRange / Double(viewPortHandler.scaleX)
+        let yValsInView = (view as! BarLineChartViewBase).getAxis(axisDependency).axisRange / Double(viewPortHandler.scaleY)
+        let xValsInView = (view as! BarLineChartViewBase).xAxis.axisRange / Double(viewPortHandler.scaleX)
         
         var pt = CGPoint(
-            x: CGFloat(xValue - xsInView / 2.0),
-            y: CGFloat(yValue + valsInView / 2.0)
+            x: CGFloat(xValue - xValsInView / 2.0),
+            y: CGFloat(yValue + yValsInView / 2.0)
         )
         
         transformer.pointValueToPixel(&pt)

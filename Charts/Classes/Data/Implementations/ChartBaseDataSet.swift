@@ -255,6 +255,14 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         self.colors = colorsWithAlpha
     }
     
+    /// Sets colors with a specific alpha value.
+    /// - parameter colors: the colors to set
+    /// - parameter alpha: alpha to apply to the set `colors`
+    public func setColors(colors: NSUIColor...)
+    {
+        self.colors = colors
+    }
+    
     /// if true, value highlighting is enabled
     public var highlightEnabled = true
     

@@ -71,7 +71,7 @@
     _chartView.xAxis.gridLineDashLengths = @[@10.0, @10.0];
     _chartView.xAxis.gridLineDashPhase = 0.f;
     
-    ChartLimitLine *ll1 = [[ChartLimitLine alloc] initWithLimit:130.0 label:@"Upper Limit"];
+    ChartLimitLine *ll1 = [[ChartLimitLine alloc] initWithLimit:150.0 label:@"Upper Limit"];
     ll1.lineWidth = 4.0;
     ll1.lineDashLengths = @[@5.f, @5.f];
     ll1.labelPosition = ChartLimitLabelPositionRightTop;
@@ -87,7 +87,7 @@
     [leftAxis removeAllLimitLines];
     [leftAxis addLimitLine:ll1];
     [leftAxis addLimitLine:ll2];
-    leftAxis.axisMaxValue = 220.0;
+    leftAxis.axisMaxValue = 200.0;
     leftAxis.axisMinValue = -50.0;
     leftAxis.gridLineDashLengths = @[@5.f, @5.f];
     leftAxis.drawZeroLineEnabled = NO;

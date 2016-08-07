@@ -196,20 +196,20 @@ public class HorizontalBarChartView: BarChartView
     
     public override func setVisibleYRangeMaximum(maxYRange: Double, axis: ChartYAxis.AxisDependency)
     {
-        let yScale = getDeltaY(axis) / maxYRange
+        let yScale = getAxisRange(axis) / maxYRange
         viewPortHandler.setMinimumScaleX(CGFloat(yScale))
     }
     
     public override func setVisibleYRangeMinimum(minYRange: Double, axis: ChartYAxis.AxisDependency)
     {
-        let yScale = getDeltaY(axis) / minYRange
+        let yScale = getAxisRange(axis) / minYRange
         viewPortHandler.setMaximumScaleX(CGFloat(yScale))
     }
     
     public override func setVisibleYRange(minYRange minYRange: Double, maxYRange: Double, axis: ChartYAxis.AxisDependency)
     {
-        let minScale = getDeltaY(axis) / minYRange
-        let maxScale = getDeltaY(axis) / maxYRange
+        let minScale = getAxisRange(axis) / minYRange
+        let maxScale = getAxisRange(axis) / maxYRange
         viewPortHandler.setMinMaxScaleX(minScaleX: CGFloat(minScale), maxScaleX: CGFloat(maxScale))
     }
 }
