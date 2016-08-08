@@ -42,6 +42,7 @@
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"},
                      @{@"key": @"togglePinchZoom", @"label": @"Toggle PinchZoom"},
                      @{@"key": @"toggleAutoScaleMinMax", @"label": @"Toggle auto scale min/max"},
+                     @{@"key": @"toggleDrawValueAboveBar", @"label": @"Toggle draw value above bar"},
                      @{@"key": @"toggleData", @"label": @"Toggle Data"},
                      @{@"key": @"toggleBarBorders", @"label": @"Show Bar Borders"},
                      ];
@@ -51,7 +52,7 @@
     _chartView.delegate = self;
     
     _chartView.drawBarShadowEnabled = NO;
-    _chartView.drawValueAboveBarEnabled = YES;
+    _chartView.drawValueAboveBarEnabled = NO;
     
     _chartView.maxVisibleValueCount = 60;
     

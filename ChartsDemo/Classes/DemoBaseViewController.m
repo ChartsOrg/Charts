@@ -140,6 +140,14 @@
         [chartView setNeedsDisplay];
     }
     
+    if ([key isEqualToString:@"toggleDrawValueAboveBar"])
+    {
+        BarChartView *barChart = (BarChartView *)chartView;
+        barChart.drawValueAboveBarEnabled = !barChart.drawValueAboveBarEnabled;
+        
+        [chartView setNeedsDisplay];
+    }
+    
     if ([key isEqualToString:@"toggleData"])
     {
         _shouldHideData = !_shouldHideData;
