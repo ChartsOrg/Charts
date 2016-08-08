@@ -285,7 +285,7 @@ public class PieChartView: PieRadarChartViewBase
         
         for i in 0 ..< dataSets.count
         {
-            if (dataSets[i].entryForXPos(xValue) !== nil)
+            if (dataSets[i].entryForXValue(xValue) !== nil)
             {
                 return i
             }

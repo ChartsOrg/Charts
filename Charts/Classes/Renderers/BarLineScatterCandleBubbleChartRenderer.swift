@@ -72,8 +72,8 @@ public class BarLineScatterCandleBubbleChartRenderer: ChartDataRendererBase
             let low = chart.lowestVisibleX
             let high = chart.highestVisibleX
 
-            let entryFrom = dataSet.entryForXPos(low, rounding: ChartDataSetRounding.Down)
-            let entryTo = dataSet.entryForXPos(high, rounding: ChartDataSetRounding.Up)
+            let entryFrom = dataSet.entryForXValue(low, rounding: ChartDataSetRounding.Down)
+            let entryTo = dataSet.entryForXValue(high, rounding: ChartDataSetRounding.Up)
 
             self.min = entryFrom == nil ? 0 : dataSet.entryIndex(entry: entryFrom!)
             self.max = entryTo == nil ? 0 : dataSet.entryIndex(entry: entryTo!)

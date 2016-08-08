@@ -91,19 +91,19 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         fatalError("entryForIndex is not implemented in ChartBaseDataSet")
     }
     
-    public func entryForXPos(x: Double, rounding: ChartDataSetRounding) -> ChartDataEntry?
+    public func entryForXValue(x: Double, rounding: ChartDataSetRounding) -> ChartDataEntry?
     {
-        fatalError("entryForXPos(x, rounding) is not implemented in ChartBaseDataSet")
+        fatalError("entryForXValue(x, rounding) is not implemented in ChartBaseDataSet")
     }
     
-    public func entryForXPos(x: Double) -> ChartDataEntry?
+    public func entryForXValue(x: Double) -> ChartDataEntry?
     {
-        fatalError("entryForXPos(x) is not implemented in ChartBaseDataSet")
+        fatalError("entryForXValue(x) is not implemented in ChartBaseDataSet")
     }
     
-    public func entriesForXPos(x: Double) -> [ChartDataEntry]
+    public func entriesForXValue(x: Double) -> [ChartDataEntry]
     {
-        fatalError("entriesForXPos is not implemented in ChartBaseDataSet")
+        fatalError("entriesForXValue is not implemented in ChartBaseDataSet")
     }
     
     public func entryIndex(x x: Double, rounding: ChartDataSetRounding) -> Int
@@ -142,7 +142,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     
     public func removeEntry(x x: Double) -> Bool
     {
-        if let entry = entryForXPos(x)
+        if let entry = entryForXValue(x)
         {
             return removeEntry(entry)
         }

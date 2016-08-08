@@ -54,7 +54,7 @@ public class ChartHighlighter : NSObject, IChartHighlighter
         guard let chart = chart
             else { return nil }
         
-        let closestValues = getHighlights(xPos: xVal, x: x, y: y)
+        let closestValues = getHighlights(xValue: xVal, x: x, y: y)
         if closestValues.isEmpty
         {
             return nil
@@ -76,7 +76,7 @@ public class ChartHighlighter : NSObject, IChartHighlighter
     /// - parameter x: touch position
     /// - parameter y: touch position
     /// - returns:
-    public func getHighlights(xPos xValue: Double, x: CGFloat, y: CGFloat) -> [ChartHighlight]
+    public func getHighlights(xValue xValue: Double, x: CGFloat, y: CGFloat) -> [ChartHighlight]
     {
         var vals = [ChartHighlight]()
         
@@ -116,7 +116,7 @@ public class ChartHighlighter : NSObject, IChartHighlighter
         guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider
             else { return nil }
         
-        if let e = set.entryForXPos(xValue, rounding: rounding)
+        if let e = set.entryForXValue(xValue, rounding: rounding)
         {
             let px = chart.getTransformer(set.axisDependency).pixelForValues(x: e.x, y: e.y)
             

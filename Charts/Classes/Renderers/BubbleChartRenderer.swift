@@ -234,7 +234,7 @@ public class BubbleChartRenderer: BarLineScatterCandleBubbleChartRenderer
             
             // In bubble charts - it makes sense to have multiple bubbles on the same X value in the same dataset.
             
-            let entries = dataSet.entriesForXPos(high.x)
+            let entries = dataSet.entriesForXValue(high.x)
             
             for entry in entries
             {

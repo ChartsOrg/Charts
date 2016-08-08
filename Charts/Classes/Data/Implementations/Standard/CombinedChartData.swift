@@ -286,7 +286,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         else
         {
             // The value of the highlighted entry could be NaN - if we are not interested in highlighting a specific value.
-            let entries = data.getDataSetByIndex(highlight.dataSetIndex).entriesForXPos(highlight.x)
+            let entries = data.getDataSetByIndex(highlight.dataSetIndex).entriesForXValue(highlight.x)
             for e in entries
             {
                 if e.y == highlight.y || isnan(highlight.y)

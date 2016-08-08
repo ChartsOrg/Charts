@@ -400,7 +400,7 @@ public class ChartData: NSObject
         }
         else
         {
-            return dataSets[highlight.dataSetIndex].entryForXPos(highlight.x)
+            return dataSets[highlight.dataSetIndex].entryForXValue(highlight.x)
         }
     }
     
@@ -527,7 +527,7 @@ public class ChartData: NSObject
             return false
         }
         
-        if let entry = _dataSets[dataSetIndex].entryForXPos(xValue)
+        if let entry = _dataSets[dataSetIndex].entryForXValue(xValue)
         {
             return removeEntry(entry, dataSetIndex: dataSetIndex)
         }
@@ -547,7 +547,7 @@ public class ChartData: NSObject
         {
             let set = _dataSets[i]
             
-            if (e === set.entryForXPos(e.x))
+            if (e === set.entryForXValue(e.x))
             {
                 return set
             }

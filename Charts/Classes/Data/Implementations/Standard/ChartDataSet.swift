@@ -14,7 +14,7 @@
 
 import Foundation
 
-/// Determines how to round DataSet index values for `ChartDataSet.entryIndex(x, rounding)` when an exact x-pos is not found.
+/// Determines how to round DataSet index values for `ChartDataSet.entryIndex(x, rounding)` when an exact x-value is not found.
 @objc
 public enum ChartDataSetRounding: Int
 {
@@ -153,7 +153,7 @@ public class ChartDataSet: ChartBaseDataSet
     /// - returns: the value of the Entry object at the given xIndex. Returns NaN if no value is at the given x-index.
     public override func yValueForXValue(x: Double) -> Double
     {
-        let e = self.entryForXPos(x)
+        let e = self.entryForXValue(x)
         
         if (e !== nil && e!.x == x) { return e!.y }
         else { return Double.NaN }
@@ -162,7 +162,7 @@ public class ChartDataSet: ChartBaseDataSet
     /// - returns: all of the y values of the Entry objects at the given xIndex. Returns NaN if no value is at the given x-index.
     public override func yValuesForXValue(x: Double) -> [Double]
     {
-        let entries = self.entriesForXPos(x)
+        let entries = self.entriesForXValue(x)
         
         var yVals = [Double]()
         for e in entries
@@ -181,12 +181,12 @@ public class ChartDataSet: ChartBaseDataSet
         return _values[i]
     }
     
-    /// - returns: the first Entry object found at the given x-pos with binary search.
-    /// If the no Entry at the specifed x-pos is found, this method returns the Entry at the closest x-pox.
-    /// nil if no Entry object at that x-pos.
-    /// - parameter x: the x-pos
-    /// - parameter rounding: determine whether to round up/down/closest if there is no Entry matching the provided x-pos
-    public override func entryForXPos(x: Double, rounding: ChartDataSetRounding) -> ChartDataEntry?
+    /// - returns: the first Entry object found at the given x-value with binary search.
+    /// If the no Entry at the specifed x-value is found, this method returns the Entry at the closest x-value.
+    /// nil if no Entry object at that x-value.
+    /// - parameter x: the x-value
+    /// - parameter rounding: determine whether to round up/down/closest if there is no Entry matching the provided x-value
+    public override func entryForXValue(x: Double, rounding: ChartDataSetRounding) -> ChartDataEntry?
     {
         let index = self.entryIndex(x: x, rounding: rounding)
         if (index > -1)
@@ -196,17 +196,17 @@ public class ChartDataSet: ChartBaseDataSet
         return nil
     }
     
-    /// - returns: the first Entry object found at the given x-pos with binary search.
-    /// If the no Entry at the specifed x-pos is found, this method returns the Entry at the closest x-pos.
-    /// nil if no Entry object at that x-pos.
-    public override func entryForXPos(x: Double) -> ChartDataEntry?
+    /// - returns: the first Entry object found at the given x-value with binary search.
+    /// If the no Entry at the specifed x-value is found, this method returns the Entry at the closest x-value.
+    /// nil if no Entry object at that x-value.
+    public override func entryForXValue(x: Double) -> ChartDataEntry?
     {
-        return entryForXPos(x, rounding: .Closest)
+        return entryForXValue(x, rounding: .Closest)
     }
     
     /// - returns: all Entry objects found at the given xIndex with binary search.
     /// An empty array if no Entry object at that index.
-    public override func entriesForXPos(x: Double) -> [ChartDataEntry]
+    public override func entriesForXValue(x: Double) -> [ChartDataEntry]
     {
         var entries = [ChartDataEntry]()
         

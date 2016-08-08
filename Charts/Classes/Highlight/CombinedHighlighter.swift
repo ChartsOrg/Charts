@@ -28,7 +28,7 @@ public class CombinedHighlighter: ChartHighlighter
         self.barHighlighter = barDataProvider.barData == nil ? nil : BarChartHighlighter(chart: barDataProvider)
     }
     
-    public override func getHighlights(xPos xValue: Double, x: CGFloat, y: CGFloat) -> [ChartHighlight]
+    public override func getHighlights(xValue xValue: Double, x: CGFloat, y: CGFloat) -> [ChartHighlight]
     {
         var vals = [ChartHighlight]()
         

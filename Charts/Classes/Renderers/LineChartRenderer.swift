@@ -693,7 +693,7 @@ public class LineChartRenderer: LineRadarChartRenderer
                 where set.isHighlightEnabled
                 else { continue }
             
-            guard let e = set.entryForXPos(high.x) else { continue }
+            guard let e = set.entryForXValue(high.x) else { continue }
             
             if !isInBoundsX(entry: e, dataSet: set)
             {

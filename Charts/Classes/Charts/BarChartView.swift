@@ -99,8 +99,8 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
         return bounds
     }
     
-    /// Groups all BarDataSet objects this data object holds together by modifying the x-position of their entries.
-    /// Previously set x-positions of entries will be overwritten. Leaves space between bars and groups as specified by the parameters.
+    /// Groups all BarDataSet objects this data object holds together by modifying the x-value of their entries.
+    /// Previously set x-values of entries will be overwritten. Leaves space between bars and groups as specified by the parameters.
     /// Calls `notifyDataSetChanged()` afterwards.
     ///
     /// - parameter fromX: the starting point on the x-axis where the grouping should begin
@@ -119,7 +119,7 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
         notifyDataSetChanged()
     }
     
-    /// Highlights the value at the given x-position in the given DataSet. Provide -1 as the dataSetIndex to undo all highlighting.
+    /// Highlights the value at the given x-value in the given DataSet. Provide -1 as the dataSetIndex to undo all highlighting.
     /// - parameter x:
     /// - parameter dataSetIndex:
     /// - parameter stackIndex: the index inside the stack - only relevant for stacked entries

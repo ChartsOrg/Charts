@@ -454,14 +454,14 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         highlightValue(highlight: highlight, callDelegate: false)
     }
     
-    /// Highlights the value at the given x-position in the given DataSet.
+    /// Highlights the value at the given x-value in the given DataSet.
     /// Provide -1 as the dataSetIndex to undo all highlighting.
     public func highlightValue(x x: Double, dataSetIndex: Int)
     {
         highlightValue(x: x, dataSetIndex: dataSetIndex, callDelegate: true)
     }
     
-    /// Highlights the value at the given x-index in the given DataSet.
+    /// Highlights the value at the given x-value in the given DataSet.
     /// Provide -1 as the dataSetIndex to undo all highlighting.
     public func highlightValue(x x: Double, dataSetIndex: Int, callDelegate: Bool)
     {
@@ -784,7 +784,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         for i in 0 ..< data.dataSetCount
         {
             let set = data.getDataSetByIndex(i)
-            let e = set.entryForXPos(xValue)
+            let e = set.entryForXValue(xValue)
             if (e !== nil)
             {
                 vals.append(e!)

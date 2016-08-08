@@ -39,10 +39,10 @@ public protocol IChartDataSet
     /// - returns: the number of y-values this DataSet represents
     var entryCount: Int { get }
     
-    /// - returns: the value of the Entry object at the given x-pos. Returns NaN if no value is at the given x-pos.
+    /// - returns: the value of the Entry object at the given x-value. Returns NaN if no value is at the given x-value.
     func yValueForXValue(x: Double) -> Double
     
-    /// - returns: all of the y values of the Entry objects at the given x-pos. Returns NaN if no value is at the given x-pos.
+    /// - returns: all of the y values of the Entry objects at the given x-value. Returns NaN if no value is at the given x-value.
     func yValuesForXValue(x: Double) -> [Double]
     
     /// - returns: the entry object found at the given index (not x-value!)
@@ -50,26 +50,26 @@ public protocol IChartDataSet
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
     func entryForIndex(i: Int) -> ChartDataEntry?
     
-    /// - returns: the first Entry object found at the given x-pos with binary search.
-    /// If the no Entry at the specifed x-pos is found, this method returns the Entry at the closest x-pox.
-    /// nil if no Entry object at that x-pos.
-    /// - parameter x: the x-pos
-    /// - parameter rounding: determine whether to round up/down/closest if there is no Entry matching the provided x-pos
-    func entryForXPos(x: Double, rounding: ChartDataSetRounding) -> ChartDataEntry?
+    /// - returns: the first Entry object found at the given x-value with binary search.
+    /// If the no Entry at the specifed x-value is found, this method returns the Entry at the closest x-pox.
+    /// nil if no Entry object at that x-value.
+    /// - parameter x: the x-value
+    /// - parameter rounding: determine whether to round up/down/closest if there is no Entry matching the provided x-value
+    func entryForXValue(x: Double, rounding: ChartDataSetRounding) -> ChartDataEntry?
     
-    /// - returns: the first Entry object found at the given x-pos with binary search.
-    /// If the no Entry at the specifed x-pos is found, this method returns the Entry at the closest x-pos.
-    /// nil if no Entry object at that x-pos.
-    func entryForXPos(x: Double) -> ChartDataEntry?
+    /// - returns: the first Entry object found at the given x-value with binary search.
+    /// If the no Entry at the specifed x-value is found, this method returns the Entry at the closest x-value.
+    /// nil if no Entry object at that x-value.
+    func entryForXValue(x: Double) -> ChartDataEntry?
     
-    /// - returns: all Entry objects found at the given x-pos with binary search.
-    /// An empty array if no Entry object at that x-pos.
-    func entriesForXPos(x: Double) -> [ChartDataEntry]
+    /// - returns: all Entry objects found at the given x-value with binary search.
+    /// An empty array if no Entry object at that x-value.
+    func entriesForXValue(x: Double) -> [ChartDataEntry]
     
     /// - returns: the array-index of the specified entry
     ///
-    /// - parameter x: x-pos of the entry to search for
-    /// - parameter rounding: x-pos of the entry to search for
+    /// - parameter x: x-value of the entry to search for
+    /// - parameter rounding: x-value of the entry to search for
     func entryIndex(x x: Double, rounding: ChartDataSetRounding) -> Int
     
     /// - returns: the array-index of the specified entry
@@ -113,11 +113,11 @@ public protocol IChartDataSet
     /// - returns: true if the entry was removed successfully, false if the entry does not exist or if this feature is not supported
     func removeEntry(index index: Int) -> Bool
     
-    /// Removes the Entry object closest to the given x-pos from the DataSet.
+    /// Removes the Entry object closest to the given x-value from the DataSet.
     ///
     /// *optional feature, can return false if not implemented*
     ///
-    /// - parameter x: the x-pos to remove
+    /// - parameter x: the x-value to remove
     /// - returns: true if the entry was removed successfully, false if the entry does not exist or if this feature is not supported
     func removeEntry(x x: Double) -> Bool
     

@@ -49,7 +49,7 @@ public class HorizontalBarChartHighlighter: BarChartHighlighter
         guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider
             else { return nil }
         
-        if let e = set.entryForXPos(xValue, rounding: rounding)
+        if let e = set.entryForXValue(xValue, rounding: rounding)
         {
             let px = chart.getTransformer(set.axisDependency).pixelForValues(x: e.y, y: e.x)
             

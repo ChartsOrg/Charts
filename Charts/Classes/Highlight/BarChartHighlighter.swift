@@ -62,7 +62,7 @@ public class BarChartHighlighter: ChartHighlighter
     {
         guard let
             chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider,
-            entry = set.entryForXPos(xValue) as? BarChartDataEntry
+            entry = set.entryForXValue(xValue) as? BarChartDataEntry
             else { return nil }
         
         // Not stacked

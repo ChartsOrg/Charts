@@ -558,7 +558,7 @@ public class BarChartRenderer: BarLineScatterCandleBubbleChartRenderer
                 where set.isHighlightEnabled
                 else { continue }
             
-            if let e = set.entryForXPos(high.x) as? BarChartDataEntry
+            if let e = set.entryForXValue(high.x) as? BarChartDataEntry
             {
                 if !isInBoundsX(entry: e, dataSet: set)
                 {
