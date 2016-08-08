@@ -53,7 +53,7 @@ public class PieRadarChartHighlighter: ChartHighlighter
         }
     }
     
-    /// Returns the closest Highlight object of the given objects based on the touch position inside the chart.
+    /// - returns: The closest Highlight object of the given objects based on the touch position inside the chart.
     /// - parameter index:
     /// - parameter x:
     /// - parameter y:

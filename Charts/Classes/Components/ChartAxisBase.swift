@@ -108,7 +108,7 @@ public class ChartAxisBase: ChartComponentBase
         {
             _granularity = newValue
             
-            // set this to true if it was disabled, as it makes no sense to set this property with granularity disabled
+            // set this to `true` if it was disabled, as it makes no sense to set this property with granularity disabled
             granularityEnabled = true
         }
     }
@@ -142,7 +142,7 @@ public class ChartAxisBase: ChartComponentBase
         return longest
     }
     
-    /// - returns: the formatted label at the specified index. This will either use the auto-formatter or the custom formatter (if one is set).
+    /// - returns: The formatted label at the specified index. This will either use the auto-formatter or the custom formatter (if one is set).
     public func getFormattedLabel(index: Int) -> String
     {
         if (index < 0 || index >= entries.count)
@@ -238,7 +238,7 @@ public class ChartAxisBase: ChartComponentBase
         forceLabelsEnabled = force
     }
     
-    /// - returns: true if focing the y-label count is enabled. Default: false
+    /// - returns: `true` if focing the y-label count is enabled. Default: false
     public var isForceLabelsEnabled: Bool { return forceLabelsEnabled }
     
     /// Adds a new ChartLimitLine to this axis.
@@ -266,7 +266,7 @@ public class ChartAxisBase: ChartComponentBase
         _limitLines.removeAll(keepCapacity: false)
     }
     
-    /// - returns: the LimitLines of this axis.
+    /// - returns: The LimitLines of this axis.
     public var limitLines : [ChartLimitLine]
     {
         return _limitLines

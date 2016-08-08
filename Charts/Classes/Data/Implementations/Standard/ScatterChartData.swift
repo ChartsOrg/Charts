@@ -26,7 +26,7 @@ public class ScatterChartData: BarLineScatterCandleBubbleChartData
         super.init(dataSets: dataSets)
     }
     
-    /// - returns: the maximum shape-size across all DataSets.
+    /// - returns: The maximum shape-size across all DataSets.
     public func getGreatestShapeSize() -> CGFloat
     {
         var max = CGFloat(0.0)

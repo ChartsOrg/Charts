@@ -143,7 +143,7 @@ public class ChartYAxis: ChartAxisBase
         return requiredSize().height
     }
     
-    /// - returns: true if this axis needs horizontal offset, false if no offset is needed.
+    /// - returns: `true` if this axis needs horizontal offset, `false` ifno offset is needed.
     public var needsOffset: Bool
     {
         if (isEnabled && isDrawLabelsEnabled && labelPosition == .OutsideChart)

@@ -464,49 +464,49 @@ public class ChartViewPortHandler: NSObject
         return (_contentRect.origin.y + _contentRect.size.height) >= normalizedY ? true : false
     }
     
-    /// - returns: the current x-scale factor
+    /// - returns: The current x-scale factor
     public var scaleX: CGFloat
     {
         return _scaleX
     }
     
-    /// - returns: the current y-scale factor
+    /// - returns: The current y-scale factor
     public var scaleY: CGFloat
     {
         return _scaleY
     }
     
-    /// - returns: the minimum x-scale factor
+    /// - returns: The minimum x-scale factor
     public var minScaleX: CGFloat
     {
         return _minScaleX
     }
     
-    /// - returns: the minimum y-scale factor
+    /// - returns: The minimum y-scale factor
     public var minScaleY: CGFloat
     {
         return _minScaleY
     }
     
-    /// - returns: the minimum x-scale factor
+    /// - returns: The minimum x-scale factor
     public var maxScaleX: CGFloat
     {
         return _maxScaleX
     }
     
-    /// - returns: the minimum y-scale factor
+    /// - returns: The minimum y-scale factor
     public var maxScaleY: CGFloat
     {
         return _maxScaleY
     }
     
-    /// - returns: the translation (drag / pan) distance on the x-axis
+    /// - returns: The translation (drag / pan) distance on the x-axis
     public var transX: CGFloat
     {
         return _transX
     }
     
-    /// - returns: the translation (drag / pan) distance on the y-axis
+    /// - returns: The translation (drag / pan) distance on the y-axis
     public var transY: CGFloat
     {
         return _transY
@@ -525,7 +525,7 @@ public class ChartViewPortHandler: NSObject
         }
     }
     
-    /// - returns: true if the chart is fully zoomed out on it's y-axis (vertical).
+    /// - returns: `true` if the chart is fully zoomed out on it's y-axis (vertical).
     public var isFullyZoomedOutY: Bool
     {
         if (_scaleY > _minScaleY || _minScaleY > 1.0)
@@ -538,7 +538,7 @@ public class ChartViewPortHandler: NSObject
         }
     }
     
-    /// - returns: true if the chart is fully zoomed out on it's x-axis (horizontal).
+    /// - returns: `true` if the chart is fully zoomed out on it's x-axis (horizontal).
     public var isFullyZoomedOutX: Bool
     {
         if (_scaleX > _minScaleX || _minScaleX > 1.0)
@@ -563,31 +563,31 @@ public class ChartViewPortHandler: NSObject
         _transOffsetY = offset
     }
     
-    /// - returns: true if both drag offsets (x and y) are zero or smaller.
+    /// - returns: `true` if both drag offsets (x and y) are zero or smaller.
     public var hasNoDragOffset: Bool
     {
         return _transOffsetX <= 0.0 && _transOffsetY <= 0.0
     }
     
-    /// - returns: true if the chart is not yet fully zoomed out on the x-axis
+    /// - returns: `true` if the chart is not yet fully zoomed out on the x-axis
     public var canZoomOutMoreX: Bool
     {
         return (_scaleX > _minScaleX)
     }
     
-    /// - returns: true if the chart is not yet fully zoomed in on the x-axis
+    /// - returns: `true` if the chart is not yet fully zoomed in on the x-axis
     public var canZoomInMoreX: Bool
     {
         return (_scaleX < _maxScaleX)
     }
     
-    /// - returns: true if the chart is not yet fully zoomed out on the y-axis
+    /// - returns: `true` if the chart is not yet fully zoomed out on the y-axis
     public var canZoomOutMoreY: Bool
     {
         return (_scaleY > _minScaleY)
     }
     
-    /// - returns: true if the chart is not yet fully zoomed in on the y-axis
+    /// - returns: `true` if the chart is not yet fully zoomed in on the y-axis
     public var canZoomInMoreY: Bool
     {
         return (_scaleY < _maxScaleY)

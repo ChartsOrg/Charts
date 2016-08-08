@@ -90,7 +90,7 @@ public class PieChartData: ChartData
     /// Removes the DataSet at the given index in the DataSet array from the data object.
     /// Also recalculates all minimum and maximum values.
     ///
-    /// - returns: true if a DataSet was removed, false if no DataSet could be removed.
+    /// - returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
     public override func removeDataSetByIndex(index: Int) -> Bool
     {
         if index >= _dataSets.count || index < 0
@@ -101,7 +101,7 @@ public class PieChartData: ChartData
         return false
     }
     
-    /// - returns: the total y-value sum across all DataSet objects the this object represents.
+    /// - returns: The total y-value sum across all DataSet objects the this object represents.
     public var yValueSum: Double
     {
         guard let dataSet = dataSet else { return 0.0 }

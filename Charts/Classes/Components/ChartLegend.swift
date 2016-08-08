@@ -513,7 +513,7 @@ public class ChartLegend: ChartComponentBase
     }
     
     /// **default**: false (automatic legend)
-    /// - returns: true if a custom legend labels and colors has been set
+    /// - returns: `true` if a custom legend labels and colors has been set
     public var isLegendCustom: Bool
     {
         return _isLegendCustom

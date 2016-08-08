@@ -42,7 +42,7 @@ public class RadarChartHighlighter: PieRadarChartHighlighter
         return closest
     }
     
-    /// Returns an array of Highlight objects for the given index.
+    /// - returns: An array of Highlight objects for the given index.
     /// The Highlight objects give information about the value at the selected index and DataSet it belongs to.
     ///
     /// - parameter index:

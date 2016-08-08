@@ -158,7 +158,7 @@ public class CombinedChartRenderer: ChartDataRendererBase
         }
     }
 
-    /// - returns: the sub-renderer object at the specified index.
+    /// - returns: The sub-renderer object at the specified index.
     public func getSubRenderer(index index: Int) -> ChartDataRendererBase?
     {
         if (index >= _renderers.count || index < 0)
@@ -171,7 +171,7 @@ public class CombinedChartRenderer: ChartDataRendererBase
         }
     }
 
-    /// Returns all sub-renderers.
+    /// - returns: All sub-renderers.
     public var subRenderers: [ChartDataRendererBase]
     {
         get { return _renderers }
@@ -180,10 +180,10 @@ public class CombinedChartRenderer: ChartDataRendererBase
     
     // MARK: Accessors
     
-    /// - returns: true if drawing values above bars is enabled, false if not
+    /// - returns: `true` if drawing values above bars is enabled, `false` ifnot
     public var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled; }
     
-    /// - returns: true if drawing shadows (maxvalue) for each bar is enabled, false if not
+    /// - returns: `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
     public var isDrawBarShadowEnabled: Bool { return drawBarShadowEnabled; }
     
     /// the order in which the provided data objects should be drawn.

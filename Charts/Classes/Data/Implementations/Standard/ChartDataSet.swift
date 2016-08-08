@@ -135,22 +135,22 @@ public class ChartDataSet: ChartBaseDataSet
         }
     }
     
-    /// - returns: the minimum y-value this DataSet holds
+    /// - returns: The minimum y-value this DataSet holds
     public override var yMin: Double { return _yMin }
     
-    /// - returns: the maximum y-value this DataSet holds
+    /// - returns: The maximum y-value this DataSet holds
     public override var yMax: Double { return _yMax }
     
-    /// - returns: the minimum x-value this DataSet holds
+    /// - returns: The minimum x-value this DataSet holds
     public override var xMin: Double { return _xMin }
     
-    /// - returns: the maximum x-value this DataSet holds
+    /// - returns: The maximum x-value this DataSet holds
     public override var xMax: Double { return _xMax }
     
-    /// - returns: the number of y-values this DataSet represents
+    /// - returns: The number of y-values this DataSet represents
     public override var entryCount: Int { return _values?.count ?? 0 }
     
-    /// - returns: the value of the Entry object at the given xIndex. Returns NaN if no value is at the given x-index.
+    /// - returns: The value of the Entry object at the given xIndex. Returns NaN if no value is at the given x-index.
     public override func yValueForXValue(x: Double) -> Double
     {
         let e = self.entryForXValue(x)
@@ -159,7 +159,7 @@ public class ChartDataSet: ChartBaseDataSet
         else { return Double.NaN }
     }
     
-    /// - returns: all of the y values of the Entry objects at the given xIndex. Returns NaN if no value is at the given x-index.
+    /// - returns: All of the y values of the Entry objects at the given xIndex. Returns NaN if no value is at the given x-index.
     public override func yValuesForXValue(x: Double) -> [Double]
     {
         let entries = self.entriesForXValue(x)
@@ -173,7 +173,7 @@ public class ChartDataSet: ChartBaseDataSet
         return yVals
     }
     
-    /// - returns: the entry object found at the given index (not x-value!)
+    /// - returns: The entry object found at the given index (not x-value!)
     /// - throws: out of bounds
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
     public override func entryForIndex(i: Int) -> ChartDataEntry?
@@ -181,7 +181,7 @@ public class ChartDataSet: ChartBaseDataSet
         return _values[i]
     }
     
-    /// - returns: the first Entry object found at the given x-value with binary search.
+    /// - returns: The first Entry object found at the given x-value with binary search.
     /// If the no Entry at the specifed x-value is found, this method returns the Entry at the closest x-value.
     /// nil if no Entry object at that x-value.
     /// - parameter x: the x-value
@@ -196,7 +196,7 @@ public class ChartDataSet: ChartBaseDataSet
         return nil
     }
     
-    /// - returns: the first Entry object found at the given x-value with binary search.
+    /// - returns: The first Entry object found at the given x-value with binary search.
     /// If the no Entry at the specifed x-value is found, this method returns the Entry at the closest x-value.
     /// nil if no Entry object at that x-value.
     public override func entryForXValue(x: Double) -> ChartDataEntry?
@@ -204,7 +204,7 @@ public class ChartDataSet: ChartBaseDataSet
         return entryForXValue(x, rounding: .Closest)
     }
     
-    /// - returns: all Entry objects found at the given xIndex with binary search.
+    /// - returns: All Entry objects found at the given xIndex with binary search.
     /// An empty array if no Entry object at that index.
     public override func entriesForXValue(x: Double) -> [ChartDataEntry]
     {
@@ -259,7 +259,7 @@ public class ChartDataSet: ChartBaseDataSet
         return entries
     }
     
-    /// - returns: the array-index of the specified entry
+    /// - returns: The array-index of the specified entry
     ///
     /// - parameter x: x-index of the entry to search for
     /// - parameter rounding: x-index of the entry to search for
@@ -319,7 +319,7 @@ public class ChartDataSet: ChartBaseDataSet
         return closest
     }
     
-    /// - returns: the array-index of the specified entry
+    /// - returns: The array-index of the specified entry
     ///
     /// - parameter e: the entry to search for
     public override func entryIndex(entry e: ChartDataEntry) -> Int
@@ -339,7 +339,7 @@ public class ChartDataSet: ChartBaseDataSet
     /// Entries are added to the end of the list.
     /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
     /// - parameter e: the entry to add
-    /// - returns: true
+    /// - returns: True
     public override func addEntry(e: ChartDataEntry) -> Bool
     {
         if (_values == nil)
@@ -358,7 +358,7 @@ public class ChartDataSet: ChartBaseDataSet
     /// Entries are added to their appropriate index respective to it's x-index.
     /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
     /// - parameter e: the entry to add
-    /// - returns: true
+    /// - returns: True
     public override func addEntryOrdered(e: ChartDataEntry) -> Bool
     {
         if (_values == nil)
@@ -388,7 +388,7 @@ public class ChartDataSet: ChartBaseDataSet
     /// Removes an Entry from the DataSet dynamically.
     /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
     /// - parameter entry: the entry to remove
-    /// - returns: true if the entry was removed successfully, else if the entry does not exist
+    /// - returns: `true` if the entry was removed successfully, else if the entry does not exist
     public override func removeEntry(entry: ChartDataEntry) -> Bool
     {
         var removed = false
@@ -413,7 +413,7 @@ public class ChartDataSet: ChartBaseDataSet
     
     /// Removes the first Entry (at index 0) of this DataSet from the entries array.
     ///
-    /// - returns: true if successful, false if not.
+    /// - returns: `true` if successful, `false` ifnot.
     public override func removeFirst() -> Bool
     {
         let entry: ChartDataEntry? = _values.isEmpty ? nil : _values.removeFirst()
@@ -430,7 +430,7 @@ public class ChartDataSet: ChartBaseDataSet
     
     /// Removes the last Entry (at index size-1) of this DataSet from the entries array.
     ///
-    /// - returns: true if successful, false if not.
+    /// - returns: `true` if successful, `false` ifnot.
     public override func removeLast() -> Bool
     {
         let entry: ChartDataEntry? = _values.isEmpty ? nil : _values.removeLast()
@@ -446,7 +446,7 @@ public class ChartDataSet: ChartBaseDataSet
     }
     
     /// Checks if this DataSet contains the specified Entry.
-    /// - returns: true if contains the entry, false if not.
+    /// - returns: `true` if contains the entry, `false` ifnot.
     public override func contains(e: ChartDataEntry) -> Bool
     {
         for entry in _values

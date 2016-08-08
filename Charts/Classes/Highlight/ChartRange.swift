@@ -27,7 +27,7 @@ public class ChartRange: NSObject
         super.init()
     }
 
-    /// Returns true if this range contains (if the value is in between) the given value, false if not.
+    /// - returns: `true` if this range contains (if the value is in between) the given value, `false` ifnot.
     /// - parameter value:
     public func contains(value: Double) -> Bool
     {

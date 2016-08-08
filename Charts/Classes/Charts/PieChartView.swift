@@ -278,7 +278,7 @@ public class PieChartView: PieRadarChartViewBase
         return -1; // return -1 if no index found
     }
     
-    /// - returns: the index of the DataSet this x-index belongs to.
+    /// - returns: The index of the DataSet this x-index belongs to.
     public func dataSetIndexForIndex(xValue: Double) -> Int
     {
         var dataSets = _data?.dataSets ?? []
@@ -294,7 +294,7 @@ public class PieChartView: PieRadarChartViewBase
         return -1
     }
     
-    /// - returns: an integer array of all the different angles the chart slices
+    /// - returns: An integer array of all the different angles the chart slices
     /// have the angles in the returned array determine how much space (of 360°)
     /// each slice takes
     public var drawAngles: [CGFloat]
@@ -302,7 +302,7 @@ public class PieChartView: PieRadarChartViewBase
         return _drawAngles
     }
 
-    /// - returns: the absolute angles of the different chart slices (where the
+    /// - returns: The absolute angles of the different chart slices (where the
     /// slices end)
     public var absoluteAngles: [CGFloat]
     {
@@ -347,7 +347,7 @@ public class PieChartView: PieRadarChartViewBase
         return drawSlicesUnderHoleEnabled
     }
     
-    /// true if the hole in the center of the pie-chart is set to be visible, false if not
+    /// `true` if the hole in the center of the pie-chart is set to be visible, `false` ifnot
     public var drawHoleEnabled: Bool
     {
         get
@@ -361,7 +361,7 @@ public class PieChartView: PieRadarChartViewBase
         }
     }
     
-    /// - returns: true if the hole in the center of the pie-chart is set to be visible, false if not
+    /// - returns: `true` if the hole in the center of the pie-chart is set to be visible, `false` ifnot
     public var isDrawHoleEnabled: Bool
     {
         get
@@ -429,7 +429,7 @@ public class PieChartView: PieRadarChartViewBase
         }
     }
     
-    /// true if drawing the center text is enabled
+    /// `true` if drawing the center text is enabled
     public var drawCenterTextEnabled: Bool
     {
         get
@@ -443,7 +443,7 @@ public class PieChartView: PieRadarChartViewBase
         }
     }
     
-    /// - returns: true if drawing the center text is enabled
+    /// - returns: `true` if drawing the center text is enabled
     public var isDrawCenterTextEnabled: Bool
     {
         get
@@ -467,13 +467,13 @@ public class PieChartView: PieRadarChartViewBase
         return _circleBox.width / 2.0
     }
     
-    /// - returns: the circlebox, the boundingbox of the pie-chart slices
+    /// - returns: The circlebox, the boundingbox of the pie-chart slices
     public var circleBox: CGRect
     {
         return _circleBox
     }
     
-    /// - returns: the center of the circlebox
+    /// - returns: The center of the circlebox
     public var centerCircleBox: CGPoint
     {
         return CGPoint(x: _circleBox.midX, y: _circleBox.midY)
@@ -541,7 +541,7 @@ public class PieChartView: PieRadarChartViewBase
         }
     }
     
-    /// - returns: true if drawing entry labels is enabled, false if not
+    /// - returns: `true` if drawing entry labels is enabled, `false` ifnot
     @available(*, deprecated=1.0, message="Use `isDrawEntryLabelsEnabled` instead.")
     public var isDrawSliceTextEnabled: Bool
     {
@@ -587,7 +587,7 @@ public class PieChartView: PieRadarChartViewBase
         }
     }
     
-    /// - returns: true if drawing entry labels is enabled, false if not
+    /// - returns: `true` if drawing entry labels is enabled, `false` ifnot
     public var isDrawEntryLabelsEnabled: Bool
     {
         get
@@ -610,7 +610,7 @@ public class PieChartView: PieRadarChartViewBase
         }
     }
     
-    /// - returns: true if drawing x-values is enabled, false if not
+    /// - returns: `true` if drawing x-values is enabled, `false` ifnot
     public var isUsePercentValuesEnabled: Bool
     {
         get

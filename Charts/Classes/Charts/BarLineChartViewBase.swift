@@ -1443,7 +1443,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
 
     // MARK: - Accessors
     
-    /// - returns: he range of the specified axis.
+    /// - returns: The range of the specified axis.
     public func getAxisRange(axis: ChartYAxis.AxisDependency) -> Double
     {
         if (axis == .Left)
@@ -1456,7 +1456,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         }
     }
 
-    /// - returns: the position (in pixels) the provided Entry has inside the chart view
+    /// - returns: The position (in pixels) the provided Entry has inside the chart view
     public func getPosition(e: ChartDataEntry, axis: ChartYAxis.AxisDependency) -> CGPoint
     {
         var vals = CGPoint(x: CGFloat(e.x), y: CGFloat(e.y))
@@ -1558,7 +1558,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     }
     
     /// **default**: true
-    /// - returns: true if zooming via double-tap is enabled false if not.
+    /// - returns: `true` if zooming via double-tap is enabled `false` ifnot.
     public var isDoubleTapToZoomEnabled: Bool
     {
         return doubleTapToZoomEnabled
@@ -1577,20 +1577,20 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     }
     
     /// **default**: true
-    /// - returns: true if drawing the grid background is enabled, false if not.
+    /// - returns: `true` if drawing the grid background is enabled, `false` ifnot.
     public var isDrawGridBackgroundEnabled: Bool
     {
         return drawGridBackgroundEnabled
     }
     
     /// **default**: false
-    /// - returns: true if drawing the borders rectangle is enabled, false if not.
+    /// - returns: `true` if drawing the borders rectangle is enabled, `false` ifnot.
     public var isDrawBordersEnabled: Bool
     {
         return drawBordersEnabled
     }
 
-    /// - returns: the x and y values in the chart at the given touch point
+    /// - returns: The x and y values in the chart at the given touch point
     /// (encapsulated in a `CGPoint`). This method transforms pixel coordinates to
     /// coordinates / values in the chart. This is the opposite method to
     /// `getPixelsForValues(...)`.
@@ -1606,7 +1606,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         return getTransformer(axis).pixelForValues(x: x, y: y)
     }
     
-    /// - returns: the Entry object displayed at the touched position of the chart
+    /// - returns: The Entry object displayed at the touched position of the chart
     public func getEntryByTouchPoint(pt: CGPoint) -> ChartDataEntry!
     {
         let h = getHighlightByTouchPoint(pt)
@@ -1617,7 +1617,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         return nil
     }
     
-    /// - returns: the DataSet object displayed at the touched position of the chart
+    /// - returns: The DataSet object displayed at the touched position of the chart
     public func getDataSetByTouchPoint(pt: CGPoint) -> IBarLineScatterCandleBubbleChartDataSet!
     {
         let h = getHighlightByTouchPoint(pt)
@@ -1628,7 +1628,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         return nil
     }
 
-    /// - returns: the current x-scale factor
+    /// - returns: The current x-scale factor
     public var scaleX: CGFloat
     {
         if (_viewPortHandler === nil)
@@ -1638,7 +1638,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         return _viewPortHandler.scaleX
     }
 
-    /// - returns: the current y-scale factor
+    /// - returns: The current y-scale factor
     public var scaleY: CGFloat
     {
         if (_viewPortHandler === nil)
@@ -1651,18 +1651,18 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// if the chart is fully zoomed out, return true
     public var isFullyZoomedOut: Bool { return _viewPortHandler.isFullyZoomedOut; }
 
-    /// - returns: the left y-axis object. In the horizontal bar-chart, this is the
+    /// - returns: The left y-axis object. In the horizontal bar-chart, this is the
     /// top axis.
     public var leftAxis: ChartYAxis
     {
         return _leftAxis
     }
 
-    /// - returns: the right y-axis object. In the horizontal bar-chart, this is the
+    /// - returns: The right y-axis object. In the horizontal bar-chart, this is the
     /// bottom axis.
     public var rightAxis: ChartYAxis { return _rightAxis; }
 
-    /// - returns: the y-axis object to the corresponding AxisDependency. In the
+    /// - returns: The y-axis object to the corresponding AxisDependency. In the
     /// horizontal bar-chart, LEFT == top, RIGHT == BOTTOM
     public func getAxis(axis: ChartYAxis.AxisDependency) -> ChartYAxis
     {
@@ -1696,7 +1696,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     }
 
     /// **default**: false
-    /// - returns: true if pinch-zoom is enabled, false if not
+    /// - returns: `true` if pinch-zoom is enabled, `false` ifnot
     public var isPinchZoomEnabled: Bool { return pinchZoomEnabled; }
 
     /// Set an offset in dp that allows the user to drag the chart over it's
@@ -1713,7 +1713,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         _viewPortHandler.setDragOffsetY(offset)
     }
 
-    /// - returns: true if both drag offsets (x and y) are zero or smaller.
+    /// - returns: `true` if both drag offsets (x and y) are zero or smaller.
     public var hasNoDragOffset: Bool { return _viewPortHandler.hasNoDragOffset; }
 
     /// The X axis renderer. This is a read-write property so you can set your own custom renderer here.
@@ -1753,7 +1753,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         return min(leftAxis._axisMinimum, rightAxis._axisMinimum)
     }
     
-    /// - returns: true if either the left or the right or both axes are inverted.
+    /// - returns: `true` if either the left or the right or both axes are inverted.
     public var isAnyAxisInverted: Bool
     {
         return _leftAxis.isInverted || _rightAxis.isInverted
@@ -1768,7 +1768,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     }
     
     /// **default**: false
-    /// - returns: true if auto scaling on the y axis is enabled.
+    /// - returns: `true` if auto scaling on the y axis is enabled.
     public var isAutoScaleMinMaxEnabled : Bool { return autoScaleMinMaxEnabled; }
     
     /// Sets a minimum width to the specified y axis.
@@ -1785,7 +1785,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     }
     
     /// **default**: 0.0
-    /// - returns: the (custom) minimum width of the specified Y axis.
+    /// - returns: The (custom) minimum width of the specified Y axis.
     public func getYAxisMinWidth(which: ChartYAxis.AxisDependency) -> CGFloat
     {
         if (which == .Left)
@@ -1814,7 +1814,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// Zero (0.0) means there's no maximum width
     ///
     /// **default**: 0.0 (no maximum specified)
-    /// - returns: the (custom) maximum width of the specified Y axis.
+    /// - returns: The (custom) maximum width of the specified Y axis.
     public func getYAxisMaxWidth(which: ChartYAxis.AxisDependency) -> CGFloat
     {
         if (which == .Left)
@@ -1842,7 +1842,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     
     // MARK: - BarLineScatterCandleBubbleChartDataProvider
     
-    /// - returns: the Transformer class that contains all matrices and is
+    /// - returns: The Transformer class that contains all matrices and is
     /// responsible for transforming values into pixels on the screen and
     /// backwards.
     public func getTransformer(which: ChartYAxis.AxisDependency) -> ChartTransformer
@@ -1875,7 +1875,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         return getAxis(axis).isInverted
     }
     
-    /// - returns: the lowest x-index (value on the x-axis) that is still visible on he chart.
+    /// - returns: The lowest x-index (value on the x-axis) that is still visible on he chart.
     public var lowestVisibleX: Double
     {
         var pt = CGPoint(
@@ -1887,7 +1887,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         return max(xAxis._axisMinimum, Double(pt.x))
     }
     
-    /// - returns: the highest x-index (value on the x-axis) that is still visible on the chart.
+    /// - returns: The highest x-index (value on the x-axis) that is still visible on the chart.
     public var highestVisibleX: Double
     {
         var pt = CGPoint(

@@ -20,7 +20,7 @@ public protocol ChartAxisValueFormatter : NSObjectProtocol
     ///
     /// For performance reasons, avoid excessive calculations and memory allocations inside this method.
     ///
-    /// - returns: the customized label that is drawn on the x-axis.
+    /// - returns: The customized label that is drawn on the x-axis.
     /// - parameter value:           the value that is currently being drawn
     /// - parameter axis:            the axis that the value belongs to
     ///

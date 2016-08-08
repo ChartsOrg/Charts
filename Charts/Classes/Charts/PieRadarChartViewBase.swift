@@ -247,7 +247,7 @@ public class PieRadarChartViewBase: ChartViewBase
         _viewPortHandler.restrainViewPort(offsetLeft: offsetLeft, offsetTop: offsetTop, offsetRight: offsetRight, offsetBottom: offsetBottom)
     }
 
-    /// - returns: the angle relative to the chart center for the given point on the chart in degrees.
+    /// - returns: The angle relative to the chart center for the given point on the chart in degrees.
     /// The angle is always between 0 and 360°, 0° is NORTH, 90° is EAST, ...
     public func angleForPoint(x x: CGFloat, y: CGFloat) -> CGFloat
     {
@@ -285,7 +285,7 @@ public class PieRadarChartViewBase: ChartViewBase
                 y: center.y + dist * sin(angle * ChartUtils.Math.FDEG2RAD))
     }
 
-    /// - returns: the distance of a certain point on the chart to the center of the chart.
+    /// - returns: The distance of a certain point on the chart to the center of the chart.
     public func distanceToCenter(x x: CGFloat, y: CGFloat) -> CGFloat
     {
         let c = self.centerOffsets
@@ -319,7 +319,7 @@ public class PieRadarChartViewBase: ChartViewBase
         return dist
     }
 
-    /// - returns: the xIndex for the given angle around the center of the chart.
+    /// - returns: The xIndex for the given angle around the center of the chart.
     /// -1 if not found / outofbounds.
     public func indexForAngle(angle: CGFloat) -> Int
     {
@@ -329,7 +329,7 @@ public class PieRadarChartViewBase: ChartViewBase
     /// current rotation angle of the pie chart
     ///
     /// **default**: 270 --> top (NORTH)
-    /// - returns: will always return a normalized value, which will be between 0.0 < 360.0
+    /// - returns: Will always return a normalized value, which will be between 0.0 < 360.0
     public var rotationAngle: CGFloat
     {
         get
@@ -351,7 +351,7 @@ public class PieRadarChartViewBase: ChartViewBase
         return _rawRotationAngle
     }
 
-    /// - returns: the diameter of the pie- or radar-chart
+    /// - returns: The diameter of the pie- or radar-chart
     public var diameter: CGFloat
     {
         var content = _viewPortHandler.contentRect
@@ -362,19 +362,19 @@ public class PieRadarChartViewBase: ChartViewBase
         return min(content.width, content.height)
     }
 
-    /// - returns: the radius of the chart in pixels.
+    /// - returns: The radius of the chart in pixels.
     public var radius: CGFloat
     {
         fatalError("radius cannot be called on PieRadarChartViewBase")
     }
 
-    /// - returns: the required offset for the chart legend.
+    /// - returns: The required offset for the chart legend.
     internal var requiredLegendOffset: CGFloat
     {
         fatalError("requiredLegendOffset cannot be called on PieRadarChartViewBase")
     }
 
-    /// - returns: the base offset needed for the chart without calculating the
+    /// - returns: The base offset needed for the chart without calculating the
     /// legend size.
     internal var requiredBaseOffset: CGFloat
     {
@@ -804,7 +804,7 @@ public class PieRadarChartViewBase: ChartViewBase
         }
     }
     
-    /// - returns: the distance between two points
+    /// - returns: The distance between two points
     private func distance(eventX eventX: CGFloat, startX: CGFloat, eventY: CGFloat, startY: CGFloat) -> CGFloat
     {
         let dx = eventX - startX
@@ -812,7 +812,7 @@ public class PieRadarChartViewBase: ChartViewBase
         return sqrt(dx * dx + dy * dy)
     }
     
-    /// - returns: the distance between two points
+    /// - returns: The distance between two points
     private func distance(from from: CGPoint, to: CGPoint) -> CGFloat
     {
         let dx = from.x - to.x

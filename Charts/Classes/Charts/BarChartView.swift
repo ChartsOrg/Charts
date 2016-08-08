@@ -62,7 +62,7 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
             max: data.getYMax(.Right))
     }
     
-    /// - returns: the Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the BarChart.
+    /// - returns: The Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the BarChart.
     public override func getHighlightByTouchPoint(pt: CGPoint) -> ChartHighlight?
     {
         if _data === nil
@@ -74,7 +74,7 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
         return self.highlighter?.getHighlight(x: pt.x, y: pt.y)
     }
         
-    /// - returns: the bounding box of the specified Entry in the specified DataSet. Returns null if the Entry could not be found in the charts data.
+    /// - returns: The bounding box of the specified Entry in the specified DataSet. Returns null if the Entry could not be found in the charts data.
     public func getBarBounds(e: BarChartDataEntry) -> CGRect
     {
         guard let
@@ -160,16 +160,16 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
     /// If enabled, highlighting operations will highlight the whole bar, even if only a single stack entry was tapped.
     public var highlightFullBarEnabled: Bool = false
     
-    /// - returns: true the highlight is be full-bar oriented, false if single-value
+    /// - returns: `true` the highlight is be full-bar oriented, `false` ifsingle-value
     public var isHighlightFullBarEnabled: Bool { return highlightFullBarEnabled }
     
     // MARK: - BarChartDataProbider
     
     public var barData: BarChartData? { return _data as? BarChartData }
     
-    /// - returns: true if drawing values above bars is enabled, false if not
+    /// - returns: `true` if drawing values above bars is enabled, `false` ifnot
     public var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled }
     
-    /// - returns: true if drawing shadows (maxvalue) for each bar is enabled, false if not
+    /// - returns: `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
     public var isDrawBarShadowEnabled: Bool { return drawBarShadowEnabled }
 }

@@ -224,22 +224,22 @@ public class RealmBaseDataSet: ChartBaseDataSet
         }
     }
 
-    /// - returns: the minimum y-value this DataSet holds
+    /// - returns: The minimum y-value this DataSet holds
     public override var yMin: Double { return _yMin }
     
-    /// - returns: the maximum y-value this DataSet holds
+    /// - returns: The maximum y-value this DataSet holds
     public override var yMax: Double { return _yMax }
     
-    /// - returns: the minimum x-value this DataSet holds
+    /// - returns: The minimum x-value this DataSet holds
     public override var xMin: Double { return _xMin }
     
-    /// - returns: the maximum x-value this DataSet holds
+    /// - returns: The maximum x-value this DataSet holds
     public override var xMax: Double { return _xMax }
     
-    /// - returns: the number of y-values this DataSet represents
+    /// - returns: The number of y-values this DataSet represents
     public override var entryCount: Int { return Int(_results?.count ?? 0) }
     
-    /// - returns: the value of the Entry object at the given x-value. Returns NaN if no value is at the given x-value.
+    /// - returns: The value of the Entry object at the given x-value. Returns NaN if no value is at the given x-value.
     public override func yValueForXValue(x: Double) -> Double
     {
         let e = self.entryForXValue(x)
@@ -248,7 +248,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
         else { return Double.NaN }
     }
     
-    /// - returns: all of the y values of the Entry objects at the given x-value. Returns NaN if no value is at the given x-value.
+    /// - returns: All of the y values of the Entry objects at the given x-value. Returns NaN if no value is at the given x-value.
     public override func yValuesForXValue(x: Double) -> [Double]
     {
         let entries = self.entriesForXValue(x)
@@ -262,7 +262,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
         return yVals
     }
     
-    /// - returns: the entry object found at the given index (not x-value!)
+    /// - returns: The entry object found at the given index (not x-value!)
     /// - throws: out of bounds
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
     public override func entryForIndex(i: Int) -> ChartDataEntry?
@@ -274,7 +274,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
         return _cache[i]
     }
     
-    /// - returns: the first Entry object found at the given x-value with binary search.
+    /// - returns: The first Entry object found at the given x-value with binary search.
     /// If the no Entry at the specifed x-value is found, this method returns the Entry at the closest x-value.
     /// nil if no Entry object at that x-value.
     /// - parameter x: the x-value
@@ -289,7 +289,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
         return nil
     }
     
-    /// - returns: the first Entry object found at the given x-value with binary search.
+    /// - returns: The first Entry object found at the given x-value with binary search.
     /// If the no Entry at the specifed x-value is found, this method returns the Entry at the closest x-value.
     /// nil if no Entry object at that x-value.
     public override func entryForXValue(x: Double) -> ChartDataEntry?
@@ -297,7 +297,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
         return entryForXValue(x, rounding: .Closest)
     }
     
-    /// - returns: all Entry objects found at the given x-value with binary search.
+    /// - returns: All Entry objects found at the given x-value with binary search.
     /// An empty array if no Entry object at that x-value.
     public override func entriesForXValue(x: Double) -> [ChartDataEntry]
     {
@@ -370,7 +370,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
         return entries
     }
     
-    /// - returns: the array-index of the specified entry
+    /// - returns: The array-index of the specified entry
     ///
     /// - parameter x: x-value of the entry to search for
     public override func entryIndex(x x: Double, rounding: ChartDataSetRounding) -> Int
@@ -439,7 +439,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
         return closest
     }
     
-    /// - returns: the array-index of the specified entry
+    /// - returns: The array-index of the specified entry
     ///
     /// - parameter e: the entry to search for
     public override func entryIndex(entry e: ChartDataEntry) -> Int
@@ -474,7 +474,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
     }
     
     /// Checks if this DataSet contains the specified Entry.
-    /// - returns: true if contains the entry, false if not.
+    /// - returns: `true` if contains the entry, `false` ifnot.
     public override func contains(e: ChartDataEntry) -> Bool
     {
         for entry in _cache
@@ -488,7 +488,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
         return false
     }
     
-    /// Returns the fieldname that represents the "y-values" in the realm-data.
+    /// - returns: The fieldname that represents the "y-values" in the realm-data.
     public var yValueField: String?
     {
         get
@@ -497,7 +497,7 @@ public class RealmBaseDataSet: ChartBaseDataSet
         }
     }
     
-    /// Returns the fieldname that represents the "x-values" in the realm-data.
+    /// - returns: The fieldname that represents the "x-values" in the realm-data.
     public var xValueField: String?
     {
         get

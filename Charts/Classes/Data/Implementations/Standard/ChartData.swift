@@ -225,13 +225,13 @@ public class ChartData: NSObject
         }
     }
     
-    /// - returns: the number of LineDataSets this object contains
+    /// - returns: The number of LineDataSets this object contains
     public var dataSetCount: Int
     {
         return _dataSets.count
     }
     
-    /// - returns: the smallest y-value the data object contains.
+    /// - returns: The smallest y-value the data object contains.
     public var yMin: Double
     {
         return _yMin
@@ -269,7 +269,7 @@ public class ChartData: NSObject
         }
     }
     
-    /// - returns: the greatest y-value the data object contains.
+    /// - returns: The greatest y-value the data object contains.
     public var yMax: Double
     {
         return _yMax
@@ -307,18 +307,18 @@ public class ChartData: NSObject
         }
     }
     
-    /// - returns: the minimum x-value the data object contains.
+    /// - returns: The minimum x-value the data object contains.
     public var xMin: Double
     {
         return _xMin
     }
-    /// - returns: the maximum x-value the data object contains.
+    /// - returns: The maximum x-value the data object contains.
     public var xMax: Double
     {
         return _xMax
     }
     
-    /// - returns: all DataSet objects this ChartData object holds.
+    /// - returns: All DataSet objects this ChartData object holds.
     public var dataSets: [IChartDataSet]
     {
         get
@@ -339,7 +339,7 @@ public class ChartData: NSObject
     /// - parameter dataSets: the DataSet array to search
     /// - parameter type:
     /// - parameter ignorecase: if true, the search is not case-sensitive
-    /// - returns: the index of the DataSet Object with the given label. Sensitive or not.
+    /// - returns: The index of the DataSet Object with the given label. Sensitive or not.
     internal func getDataSetIndexByLabel(label: String, ignorecase: Bool) -> Int
     {
         if (ignorecase)
@@ -370,7 +370,7 @@ public class ChartData: NSObject
         return -1
     }
     
-    /// - returns: the labels of all DataSets as a string array.
+    /// - returns: The labels of all DataSets as a string array.
     internal func dataSetLabels() -> [String]
     {
         var types = [String]()
@@ -391,7 +391,7 @@ public class ChartData: NSObject
     /// Get the Entry for a corresponding highlight object
     ///
     /// - parameter highlight:
-    /// - returns: the entry that is highlighted
+    /// - returns: The entry that is highlighted
     public func entryForHighlight(highlight: ChartHighlight) -> ChartDataEntry?
     {
         if highlight.dataSetIndex >= dataSets.count
@@ -408,7 +408,7 @@ public class ChartData: NSObject
     ///
     /// - parameter label:
     /// - parameter ignorecase:
-    /// - returns: the DataSet Object with the given label. Sensitive or not.
+    /// - returns: The DataSet Object with the given label. Sensitive or not.
     public func getDataSetByLabel(label: String, ignorecase: Bool) -> IChartDataSet?
     {
         let index = getDataSetIndexByLabel(label, ignorecase: ignorecase)
@@ -443,7 +443,7 @@ public class ChartData: NSObject
     /// Removes the given DataSet from this data object.
     /// Also recalculates all minimum and maximum values.
     ///
-    /// - returns: true if a DataSet was removed, false if no DataSet could be removed.
+    /// - returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
     public func removeDataSet(dataSet: IChartDataSet!) -> Bool
     {
         if dataSet === nil
@@ -465,7 +465,7 @@ public class ChartData: NSObject
     /// Removes the DataSet at the given index in the DataSet array from the data object. 
     /// Also recalculates all minimum and maximum values. 
     ///
-    /// - returns: true if a DataSet was removed, false if no DataSet could be removed.
+    /// - returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
     public func removeDataSetByIndex(index: Int) -> Bool
     {
         if index >= _dataSets.count || index < 0
@@ -519,7 +519,7 @@ public class ChartData: NSObject
     
     /// Removes the Entry object closest to the given xIndex from the ChartDataSet at the
     /// specified index. 
-    /// - returns: true if an entry was removed, false if no Entry was found that meets the specified requirements.
+    /// - returns: `true` if an entry was removed, `false` ifno Entry was found that meets the specified requirements.
     public func removeEntry(xValue xValue: Double, dataSetIndex: Int) -> Bool
     {
         if dataSetIndex >= _dataSets.count
@@ -535,7 +535,7 @@ public class ChartData: NSObject
         return false
     }
     
-    /// - returns: the DataSet that contains the provided Entry, or null, if no DataSet contains this entry.
+    /// - returns: The DataSet that contains the provided Entry, or null, if no DataSet contains this entry.
     public func getDataSetForEntry(e: ChartDataEntry!) -> IChartDataSet?
     {
         if (e == nil)
@@ -556,7 +556,7 @@ public class ChartData: NSObject
         return nil
     }
 
-    /// - returns: the index of the provided DataSet in the DataSet array of this data object, or -1 if it does not exist.
+    /// - returns: The index of the provided DataSet in the DataSet array of this data object, or -1 if it does not exist.
     public func indexOfDataSet(dataSet: IChartDataSet) -> Int
     {
         for i in 0 ..< _dataSets.count
@@ -570,7 +570,7 @@ public class ChartData: NSObject
         return -1
     }
     
-    /// - returns: the first DataSet from the datasets-array that has it's dependency on the left axis. Returns null if no DataSet with left dependency could be found.
+    /// - returns: The first DataSet from the datasets-array that has it's dependency on the left axis. Returns null if no DataSet with left dependency could be found.
     public func getFirstLeft(dataSets dataSets: [IChartDataSet]) -> IChartDataSet?
     {
         for dataSet in dataSets
@@ -584,7 +584,7 @@ public class ChartData: NSObject
         return nil
     }
     
-    /// - returns: the first DataSet from the datasets-array that has it's dependency on the right axis. Returns null if no DataSet with right dependency could be found.
+    /// - returns: The first DataSet from the datasets-array that has it's dependency on the right axis. Returns null if no DataSet with right dependency could be found.
     public func getFirstRight(dataSets dataSets: [IChartDataSet]) -> IChartDataSet?
     {
         for dataSet in _dataSets
@@ -598,7 +598,7 @@ public class ChartData: NSObject
         return nil
     }
     
-    /// - returns: all colors used across all DataSet objects this object represents.
+    /// - returns: All colors used across all DataSet objects this object represents.
     public func getColors() -> [NSUIColor]?
     {
         var clrcnt = 0
@@ -696,7 +696,7 @@ public class ChartData: NSObject
     }
     
     /// Checks if this data object contains the specified DataSet. 
-    /// - returns: true if so, false if not.
+    /// - returns: `true` if so, `false` ifnot.
     public func contains(dataSet dataSet: IChartDataSet) -> Bool
     {
         for set in dataSets
@@ -723,7 +723,7 @@ public class ChartData: NSObject
         return count
     }
 
-    /// - returns: the DataSet object with the maximum number of entries or null if there are no DataSets.
+    /// - returns: The DataSet object with the maximum number of entries or null if there are no DataSets.
     public var maxEntryCountSet: IChartDataSet?
     {
         if _dataSets.count == 0

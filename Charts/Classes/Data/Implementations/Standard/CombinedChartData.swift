@@ -161,7 +161,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    /// - returns: all data objects in row: line-bar-scatter-candle-bubble if not null.
+    /// - returns: All data objects in row: line-bar-scatter-candle-bubble if not null.
     public var allData: [ChartData]
     {
         var data = [ChartData]()
@@ -267,7 +267,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
     /// Get the Entry for a corresponding highlight object
     ///
     /// - parameter highlight:
-    /// - returns: the entry that is highlighted
+    /// - returns: The entry that is highlighted
     public override func entryForHighlight(highlight: ChartHighlight) -> ChartDataEntry?
     {
         let dataObjects = allData

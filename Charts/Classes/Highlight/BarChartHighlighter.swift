@@ -92,7 +92,7 @@ public class BarChartHighlighter: ChartHighlighter
         return nil
     }
     
-    /// Returns the index of the closest value inside the values array / ranges (stacked barchart) to the value given as a parameter.
+    /// - returns: The index of the closest value inside the values array / ranges (stacked barchart) to the value given as a parameter.
     /// - parameter entry:
     /// - parameter value:
     /// - returns:

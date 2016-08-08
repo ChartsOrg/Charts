@@ -52,7 +52,7 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     
     var circleColors: [NSUIColor] { get set }
     
-    /// - returns: the color at the given index of the DataSet's circle-color array.
+    /// - returns: The color at the given index of the DataSet's circle-color array.
     /// Performs a IndexOutOfBounds check by modulus.
     func getCircleColor(index: Int) -> NSUIColor?
     
@@ -66,16 +66,16 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     /// If true, drawing circles is enabled
     var drawCirclesEnabled: Bool { get set }
     
-    /// - returns: true if drawing circles for this DataSet is enabled, false if not
+    /// - returns: `true` if drawing circles for this DataSet is enabled, `false` ifnot
     var isDrawCirclesEnabled: Bool { get }
     
     /// The color of the inner circle (the circle-hole).
     var circleHoleColor: NSUIColor? { get set }
     
-    /// True if drawing circles for this DataSet is enabled, false if not
+    /// `true` if drawing circles for this DataSet is enabled, `false` ifnot
     var drawCircleHoleEnabled: Bool { get set }
     
-    /// - returns: true if drawing the circle-holes is enabled, false if not.
+    /// - returns: `true` if drawing the circle-holes is enabled, `false` ifnot.
     var isDrawCircleHoleEnabled: Bool { get }
     
     /// This is how much (in pixels) into the dash pattern are we starting from.

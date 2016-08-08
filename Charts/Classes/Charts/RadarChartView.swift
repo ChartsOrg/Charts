@@ -141,7 +141,7 @@ public class RadarChartView: PieRadarChartViewBase
         drawMarkers(context: context)
     }
 
-    /// - returns: the factor that is needed to transform values into pixels.
+    /// - returns: The factor that is needed to transform values into pixels.
     public var factor: CGFloat
     {
         let content = _viewPortHandler.contentRect
@@ -149,7 +149,7 @@ public class RadarChartView: PieRadarChartViewBase
                 / CGFloat(_yAxis.axisRange)
     }
 
-    /// - returns: the angle that each slice in the radar chart occupies.
+    /// - returns: The angle that each slice in the radar chart occupies.
     public var sliceAngle: CGFloat
     {
         return 360.0 / CGFloat(_data?.maxEntryCountSet?.entryCount ?? 0)
@@ -180,7 +180,7 @@ public class RadarChartView: PieRadarChartViewBase
         return index
     }
 
-    /// - returns: the object that represents all y-labels of the RadarChart.
+    /// - returns: The object that represents all y-labels of the RadarChart.
     public var yAxis: ChartYAxis
     {
         return _yAxis
@@ -216,12 +216,12 @@ public class RadarChartView: PieRadarChartViewBase
         return min(content.width / 2.0, content.height / 2.0)
     }
 
-    /// - returns: the maximum value this chart can display on it's y-axis.
+    /// - returns: The maximum value this chart can display on it's y-axis.
     public override var chartYMax: Double { return _yAxis._axisMaximum }
     
-    /// - returns: the minimum value this chart can display on it's y-axis.
+    /// - returns: The minimum value this chart can display on it's y-axis.
     public override var chartYMin: Double { return _yAxis._axisMinimum }
     
-    /// - returns: the range of y-values this chart can display.
+    /// - returns: The range of y-values this chart can display.
     public var yRange: Double { return _yAxis.axisRange }
 }

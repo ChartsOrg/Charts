@@ -17,11 +17,10 @@ public protocol IShapeRenderer : NSObjectProtocol
     /// Renders the provided ScatterDataSet with a shape.
     ///
     /// - parameter context:         CGContext for drawing on
-    /// - parameter dataSet:         the DataSet to be drawn
-    /// - parameter viewPortHandler: contains information about the current state of the view
-    /// - parameter buffer:          buffer containing the transformed values of all entries in the DataSet:
-    /// - parameter renderPaint:     Paint object used for styling and drawing
-    /// - parameter shapeSize:
+    /// - parameter dataSet:         The DataSet to be drawn
+    /// - parameter viewPortHandler: Contains information about the current state of the view
+    /// - parameter point:           Position to draw the shape at
+    /// - parameter color:           Color to draw the shape
     func renderShape(
         context context: CGContext,
                 dataSet: IScatterChartDataSet,

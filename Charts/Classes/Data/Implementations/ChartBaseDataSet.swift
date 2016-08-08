@@ -198,7 +198,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     /// The axis this DataSet should be plotted against.
     public var axisDependency = ChartYAxis.AxisDependency.Left
     
-    /// - returns: the color at the given index of the DataSet's color array.
+    /// - returns: The color at the given index of the DataSet's color array.
     /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
     public func colorAt(index: Int) -> NSUIColor
     {
@@ -266,7 +266,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     /// if true, value highlighting is enabled
     public var highlightEnabled = true
     
-    /// - returns: true if value highlighting is enabled for this dataset
+    /// - returns: `true` if value highlighting is enabled for this dataset
     public var isHighlightEnabled: Bool { return highlightEnabled }
     
     /// the formatter used to customly format the values
@@ -310,7 +310,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         }
     }
     
-    /// - returns: the color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
+    /// - returns: The color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
     public func valueTextColorAt(index: Int) -> NSUIColor
     {
         var index = index
@@ -327,7 +327,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     /// Set this to true to draw y-values on the chart
     public var drawValuesEnabled = true
     
-    /// Returns true if y-value drawing is enabled, false if not
+    /// - returns: `true` if y-value drawing is enabled, `false` ifnot
     public var isDrawValuesEnabled: Bool
     {
         return drawValuesEnabled
@@ -336,7 +336,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
     public var visible = true
     
-    /// Returns true if this DataSet is visible inside the chart, or false if it is currently hidden.
+    /// - returns: `true` if this DataSet is visible inside the chart, or `false` ifit is currently hidden.
     public var isVisible: Bool
     {
         return visible

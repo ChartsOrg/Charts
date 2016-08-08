@@ -54,7 +54,7 @@ public class ChartXAxis: ChartAxisBase
     /// - note: currently supports all charts except pie/radar/horizontal-bar*
     public var wordWrapEnabled = false
     
-    /// - returns: true if word wrapping the labels is enabled
+    /// - returns: `true` if word wrapping the labels is enabled
     public var isWordWrapEnabled: Bool { return wordWrapEnabled }
     
     /// the width for wrapping the labels, as percentage out of one value width.

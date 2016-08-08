@@ -52,13 +52,13 @@ public class CandleChartDataEntry: ChartDataEntry
         self.close = close
     }
     
-    /// - returns: the overall range (difference) between shadow-high and shadow-low.
+    /// - returns: The overall range (difference) between shadow-high and shadow-low.
     public var shadowRange: Double
     {
         return abs(high - low)
     }
     
-    /// - returns: the body size (difference between open and close).
+    /// - returns: The body size (difference between open and close).
     public var bodyRange: Double
     {
         return abs(open - close)

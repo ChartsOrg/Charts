@@ -176,10 +176,10 @@ public class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         set { (renderer as! CombinedChartRenderer!).drawBarShadowEnabled = newValue }
     }
     
-    /// - returns: true if drawing values above bars is enabled, false if not
+    /// - returns: `true` if drawing values above bars is enabled, `false` ifnot
     public var isDrawValueAboveBarEnabled: Bool { return (renderer as! CombinedChartRenderer!).drawValueAboveBarEnabled; }
     
-    /// - returns: true if drawing shadows (maxvalue) for each bar is enabled, false if not
+    /// - returns: `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
     public var isDrawBarShadowEnabled: Bool { return (renderer as! CombinedChartRenderer!).drawBarShadowEnabled; }
     
     /// the order in which the provided data objects should be drawn.
@@ -200,6 +200,6 @@ public class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     /// Set this to `true` to make the highlight operation full-bar oriented, `false` to make it highlight single values
     public var highlightFullBarEnabled: Bool = false
     
-    /// - returns: true the highlight is be full-bar oriented, false if single-value
+    /// - returns: `true` the highlight is be full-bar oriented, `false` ifsingle-value
     public var isHighlightFullBarEnabled: Bool { return highlightFullBarEnabled }
 }

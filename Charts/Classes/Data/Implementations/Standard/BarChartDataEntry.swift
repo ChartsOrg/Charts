@@ -81,13 +81,13 @@ public class BarChartDataEntry: ChartDataEntry
         return remainder
     }
     
-    /// - returns: the sum of all negative values this entry (if stacked) contains. (this is a positive number)
+    /// - returns: The sum of all negative values this entry (if stacked) contains. (this is a positive number)
     public var negativeSum: Double
     {
         return _negativeSum
     }
     
-    /// - returns: the sum of all positive values this entry (if stacked) contains.
+    /// - returns: The sum of all positive values this entry (if stacked) contains.
     public var positiveSum: Double
     {
         return _positiveSum
@@ -181,7 +181,7 @@ public class BarChartDataEntry: ChartDataEntry
         }
     }
     
-    /// - returns: the ranges of the individual stack-entries. Will return null if this entry is not stacked.
+    /// - returns: The ranges of the individual stack-entries. Will return null if this entry is not stacked.
     public var ranges: [ChartRange]?
     {
         return _ranges

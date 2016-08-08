@@ -189,13 +189,13 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
         }
     }
     
-    /// - returns: the maximum number of bars that can be stacked upon another in this DataSet.
+    /// - returns: The maximum number of bars that can be stacked upon another in this DataSet.
     public var stackSize: Int
     {
         return _stackSize
     }
     
-    /// - returns: true if this DataSet is stacked (stacksize > 1) or not.
+    /// - returns: `true` if this DataSet is stacked (stacksize > 1) or not.
     public var isStacked: Bool
     {
         return _stackSize > 1 ? true : false

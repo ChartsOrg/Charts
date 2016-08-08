@@ -71,12 +71,12 @@ public class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRad
         }
     }
     
-    /// Set to true if the DataSet should be drawn filled (surface), and not just as a line.
+    /// Set to `true` if the DataSet should be drawn filled (surface), and not just as a line.
     /// Disabling this will give great performance boost.
     /// Please note that this method uses the path clipping for drawing the filled area (with images, gradients and layers).
     public var drawFilledEnabled = false
     
-    /// Returns true if filled drawing is enabled, false if not
+    /// - returns: `true` if filled drawing is enabled, `false` ifnot
     public var isDrawFilledEnabled: Bool
     {
         return drawFilledEnabled

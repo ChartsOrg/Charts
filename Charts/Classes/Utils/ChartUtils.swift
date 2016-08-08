@@ -203,7 +203,7 @@ public class ChartUtils
         drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, attributes: attributes, constrainedToSize: constrainedToSize, anchor: anchor, angleRadians: angleRadians)
     }
     
-    /// - returns: an angle between 0.0 < 360.0 (not less than zero, less than 360)
+    /// - returns: An angle between 0.0 < 360.0 (not less than zero, less than 360)
     internal class func normalizedAngleFromAngle(angle: CGFloat) -> CGFloat
     {
         var angle = angle
@@ -226,7 +226,7 @@ public class ChartUtils
         return formatter
     }
     
-    /// - returns: the default value formatter used for all chart components that needs a default
+    /// - returns: The default value formatter used for all chart components that needs a default
     internal class func defaultValueFormatter() -> NSNumberFormatter
     {
         return _defaultValueFormatter

@@ -42,7 +42,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
 {
     // MARK: - Properties
     
-    /// - returns: the object representing all x-labels, this method can be used to
+    /// - returns: The object representing all x-labels, this method can be used to
     /// acquire the XAxis object and modify it (e.g. change the position of the
     /// labels)
     public var xAxis: ChartXAxis
@@ -239,7 +239,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         setNeedsDisplay()
     }
 
-    /// - returns: true if the chart is empty (meaning it's data object is either null or contains no entries).
+    /// - returns: `true` if the chart is empty (meaning it's data object is either null or contains no entries).
     public func isEmpty() -> Bool
     {
         guard let data = _data else { return true }
@@ -400,7 +400,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     
     // MARK: - Highlighting
     
-    /// - returns: the array of currently highlighted values. This might an empty if nothing is highlighted.
+    /// - returns: The array of currently highlighted values. This might an empty if nothing is highlighted.
     public var highlighted: [ChartHighlight]
     {
         return _indicesToHighlight
@@ -415,14 +415,14 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         set { _highlightPerTapEnabled = newValue }
     }
     
-    /// Returns true if values can be highlighted via tap gesture, false if not.
+    /// - returns: `true` if values can be highlighted via tap gesture, `false` ifnot.
     public var isHighLightPerTapEnabled: Bool
     {
         return highlightPerTapEnabled
     }
     
     /// Checks if the highlight array is null, has a length of zero or if the first object is null.
-    /// - returns: true if there are values to highlight, false if there are no values to highlight.
+    /// - returns: `true` if there are values to highlight, `false` ifthere are no values to highlight.
     public func valuesToHighlight() -> Bool
     {
         return _indicesToHighlight.count > 0
@@ -528,7 +528,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         setNeedsDisplay()
     }
     
-    /// Returns the Highlight object (contains x-index and DataSet index) of the
+    /// - returns: The Highlight object (contains x-index and DataSet index) of the
     /// selected value at the given touch point inside the Line-, Scatter-, or
     /// CandleStick-Chart.
     public func getHighlightByTouchPoint(pt: CGPoint) -> ChartHighlight?
@@ -588,7 +588,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         }
     }
     
-    /// - returns: the actual position in pixels of the MarkerView for the given Entry in the given DataSet.
+    /// - returns: The actual position in pixels of the MarkerView for the given Entry in the given DataSet.
     public func getMarkerPosition(highlight highlight: ChartHighlight) -> CGPoint
     {
         return CGPoint(x: highlight.drawX, y: highlight.drawY)
@@ -596,7 +596,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     
     // MARK: - Animation
     
-    /// - returns: the animator responsible for animating chart values.
+    /// - returns: The animator responsible for animating chart values.
     public var chartAnimator: ChartAnimator!
     {
         return _animator
@@ -707,13 +707,13 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     
     // MARK: - Accessors
 
-    /// - returns: the current y-max value across all DataSets
+    /// - returns: The current y-max value across all DataSets
     public var chartYMax: Double
     {
         return _data?.yMax ?? 0.0
     }
 
-    /// - returns: the current y-min value across all DataSets
+    /// - returns: The current y-min value across all DataSets
     public var chartYMin: Double
     {
         return _data?.yMin ?? 0.0
@@ -736,7 +736,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     
     /// *
     /// - note: (Equivalent of getCenter() in MPAndroidChart, as center is already a standard in iOS that returns the center point relative to superview, and MPAndroidChart returns relative to self)*
-    /// - returns: the center point of the chart (the whole View) in pixels.
+    /// - returns: The center point of the chart (the whole View) in pixels.
     public var midPoint: CGPoint
     {
         let bounds = self.bounds
@@ -748,25 +748,25 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         descriptionTextPosition = CGPoint(x: x, y: y)
     }
     
-    /// - returns: the center of the chart taking offsets under consideration. (returns the center of the content rectangle)
+    /// - returns: The center of the chart taking offsets under consideration. (returns the center of the content rectangle)
     public var centerOffsets: CGPoint
     {
         return _viewPortHandler.contentCenter
     }
     
-    /// - returns: the Legend object of the chart. This method can be used to get an instance of the legend in order to customize the automatically generated Legend.
+    /// - returns: The Legend object of the chart. This method can be used to get an instance of the legend in order to customize the automatically generated Legend.
     public var legend: ChartLegend
     {
         return _legend
     }
     
-    /// - returns: the renderer object responsible for rendering / drawing the Legend.
+    /// - returns: The renderer object responsible for rendering / drawing the Legend.
     public var legendRenderer: ChartLegendRenderer!
     {
         return _legendRenderer
     }
     
-    /// - returns: the rectangle that defines the borders of the chart-value surface (into which the actual values are drawn).
+    /// - returns: The rectangle that defines the borders of the chart-value surface (into which the actual values are drawn).
     public var contentRect: CGRect
     {
         return _viewPortHandler.contentRect
@@ -792,14 +792,14 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         return vals
     }
     
-    /// - returns: the ViewPortHandler of the chart that is responsible for the
+    /// - returns: The ViewPortHandler of the chart that is responsible for the
     /// content area of the chart and its offsets and dimensions.
     public var viewPortHandler: ChartViewPortHandler!
     {
         return _viewPortHandler
     }
     
-    /// - returns: the bitmap that represents the chart.
+    /// - returns: The bitmap that represents the chart.
     public func getChartImage(transparent transparent: Bool) -> NSUIImage?
     {
         NSUIGraphicsBeginImageContextWithOptions(bounds.size, opaque || !transparent, NSUIMainScreen()?.nsuiScale ?? 1.0)
@@ -847,7 +847,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     /// - parameter format: the format to save
     /// - parameter compressionQuality: compression quality for lossless formats (JPEG)
     ///
-    /// - returns: true if the image was saved successfully
+    /// - returns: `true` if the image was saved successfully
     public func saveToPath(path: String, format: ImageFormat, compressionQuality: Double) -> Bool
     {
 		if let image = getChartImage(transparent: format != .JPEG) {
@@ -930,7 +930,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     }
     
     /// **default**: true
-    /// - returns: true if chart continues to scroll after touch up, false if not.
+    /// - returns: `true` if chart continues to scroll after touch up, `false` ifnot.
     public var isDragDecelerationEnabled: Bool
         {
             return dragDecelerationEnabled
