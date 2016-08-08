@@ -184,7 +184,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
         
     }
     
-    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext, indices: [Highlight])
     {
         guard let
             dataProvider = dataProvider,

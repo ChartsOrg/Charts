@@ -26,7 +26,7 @@ public protocol ChartViewDelegate
     /// Called when a value has been selected inside the chart.
     /// - parameter entry: The selected Entry.
     /// - parameter highlight: The corresponding highlight object that contains information about the highlighted position such as dataSetIndex etc.
-    optional func chartValueSelected(chartView: ChartViewBase, entry: ChartDataEntry, highlight: ChartHighlight)
+    optional func chartValueSelected(chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight)
     
     // Called when nothing has been selected or an "un-select" has been made.
     optional func chartValueNothingSelected(chartView: ChartViewBase)
@@ -123,7 +123,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     private var _offsetsCalculated = false
     
     /// array of Highlight objects that reference the highlighted slices in the chart
-    internal var _indicesToHighlight = [ChartHighlight]()
+    internal var _indicesToHighlight = [Highlight]()
     
     /// `true` if drawing the marker is enabled when tapping on values
     /// (use the `marker` property to specify a marker)
@@ -401,7 +401,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     // MARK: - Highlighting
     
     /// - returns: The array of currently highlighted values. This might an empty if nothing is highlighted.
-    public var highlighted: [ChartHighlight]
+    public var highlighted: [Highlight]
     {
         return _indicesToHighlight
     }
@@ -432,10 +432,10 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     /// null or an empty array to undo all highlighting. 
     /// This should be used to programmatically highlight values. 
     /// This DOES NOT generate a callback to the delegate.
-    public func highlightValues(highs: [ChartHighlight]?)
+    public func highlightValues(highs: [Highlight]?)
     {
         // set the indices to highlight
-        _indicesToHighlight = highs ?? [ChartHighlight]()
+        _indicesToHighlight = highs ?? [Highlight]()
         
         if (_indicesToHighlight.isEmpty)
         {
@@ -454,7 +454,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     /// Highlights the values represented by the provided Highlight object
     /// This DOES NOT generate a callback to the delegate.
     /// - parameter highlight: contains information about which entry should be highlighted
-    public func highlightValue(highlight: ChartHighlight?)
+    public func highlightValue(highlight: Highlight?)
     {
         highlightValue(highlight: highlight, callDelegate: false)
     }
@@ -482,12 +482,12 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         }
         else
         {
-            highlightValue(highlight: ChartHighlight(x: x, dataSetIndex: dataSetIndex), callDelegate: callDelegate)
+            highlightValue(highlight: Highlight(x: x, dataSetIndex: dataSetIndex), callDelegate: callDelegate)
         }
     }
 
     /// Highlights the value selected by touch gesture.
-    public func highlightValue(highlight highlight: ChartHighlight?, callDelegate: Bool)
+    public func highlightValue(highlight highlight: Highlight?, callDelegate: Bool)
     {
         var entry: ChartDataEntry?
         var h = highlight
@@ -531,7 +531,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     /// - returns: The Highlight object (contains x-index and DataSet index) of the
     /// selected value at the given touch point inside the Line-, Scatter-, or
     /// CandleStick-Chart.
-    public func getHighlightByTouchPoint(pt: CGPoint) -> ChartHighlight?
+    public func getHighlightByTouchPoint(pt: CGPoint) -> Highlight?
     {
         if _data === nil
         {
@@ -543,7 +543,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     }
 
     /// The last value that was highlighted via touch.
-    public var lastHighlighted: ChartHighlight?
+    public var lastHighlighted: Highlight?
   
     // MARK: - Markers
 
@@ -589,7 +589,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     }
     
     /// - returns: The actual position in pixels of the MarkerView for the given Entry in the given DataSet.
-    public func getMarkerPosition(highlight highlight: ChartHighlight) -> CGPoint
+    public func getMarkerPosition(highlight highlight: Highlight) -> CGPoint
     {
         return CGPoint(x: highlight.drawX, y: highlight.drawY)
     }

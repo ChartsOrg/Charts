@@ -268,7 +268,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
     ///
     /// - parameter highlight:
     /// - returns: The entry that is highlighted
-    public override func entryForHighlight(highlight: ChartHighlight) -> ChartDataEntry?
+    public override func entryForHighlight(highlight: Highlight) -> ChartDataEntry?
     {
         let dataObjects = allData
         

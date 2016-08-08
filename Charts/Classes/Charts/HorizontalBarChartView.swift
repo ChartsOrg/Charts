@@ -33,7 +33,7 @@ public class HorizontalBarChartView: BarChartView
         _rightYAxisRenderer = ChartYAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, yAxis: _rightAxis, transformer: _rightAxisTransformer)
         _xAxisRenderer = ChartXAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer, chart: self)
         
-        self.highlighter = HorizontalBarChartHighlighter(chart: self)
+        self.highlighter = HorizontalBarHighlighter(chart: self)
     }
     
     internal override func calculateOffsets()
@@ -100,7 +100,7 @@ public class HorizontalBarChartView: BarChartView
         _leftAxisTransformer.prepareMatrixValuePx(chartXMin: _leftAxis._axisMinimum, deltaX: CGFloat(_leftAxis.axisRange), deltaY: CGFloat(_xAxis.axisRange), chartYMin: _xAxis._axisMinimum)
     }
     
-    public override func getMarkerPosition(highlight highlight: ChartHighlight) -> CGPoint
+    public override func getMarkerPosition(highlight highlight: Highlight) -> CGPoint
     {
         return CGPoint(x: highlight.drawY, y: highlight.drawX)
     }
@@ -138,7 +138,7 @@ public class HorizontalBarChartView: BarChartView
         return vals
     }
 
-    public override func getHighlightByTouchPoint(pt: CGPoint) -> ChartHighlight?
+    public override func getHighlightByTouchPoint(pt: CGPoint) -> Highlight?
     {
         if _data === nil
         {

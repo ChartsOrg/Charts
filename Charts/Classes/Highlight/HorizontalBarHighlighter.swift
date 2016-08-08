@@ -15,9 +15,10 @@
 import Foundation
 import CoreGraphics
 
-public class HorizontalBarChartHighlighter: BarChartHighlighter
+@objc(HorizontalBarChartHighlighter)
+public class HorizontalBarHighlighter: BarHighlighter
 {
-    public override func getHighlight(x x: CGFloat, y: CGFloat) -> ChartHighlight?
+    public override func getHighlight(x x: CGFloat, y: CGFloat) -> Highlight?
     {
         if let barData = self.chart?.data as? BarChartData
         {
@@ -44,7 +45,7 @@ public class HorizontalBarChartHighlighter: BarChartHighlighter
         dataSet set: IChartDataSet,
         dataSetIndex: Int,
         xValue: Double,
-        rounding: ChartDataSetRounding) -> ChartHighlight?
+        rounding: ChartDataSetRounding) -> Highlight?
     {
         guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider
             else { return nil }
@@ -53,7 +54,7 @@ public class HorizontalBarChartHighlighter: BarChartHighlighter
         {
             let px = chart.getTransformer(set.axisDependency).pixelForValues(x: e.y, y: e.x)
             
-            return ChartHighlight(x: e.x, y: e.y, xPx: px.x, yPx: px.y,dataSetIndex: dataSetIndex, axis: set.axisDependency)
+            return Highlight(x: e.x, y: e.y, xPx: px.x, yPx: px.y,dataSetIndex: dataSetIndex, axis: set.axisDependency)
         }
         
         return nil

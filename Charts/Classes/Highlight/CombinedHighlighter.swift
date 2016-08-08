@@ -15,22 +15,23 @@
 import Foundation
 import CoreGraphics
 
+@objc(CombinedChartHighlighter)
 public class CombinedHighlighter: ChartHighlighter
 {
     /// bar highlighter for supporting stacked highlighting
-    private var barHighlighter: BarChartHighlighter?
+    private var barHighlighter: BarHighlighter?
     
     public init(chart: CombinedChartDataProvider, barDataProvider: BarChartDataProvider)
     {
         super.init(chart: chart)
         
         // if there is BarData, create a BarHighlighter
-        self.barHighlighter = barDataProvider.barData == nil ? nil : BarChartHighlighter(chart: barDataProvider)
+        self.barHighlighter = barDataProvider.barData == nil ? nil : BarHighlighter(chart: barDataProvider)
     }
     
-    public override func getHighlights(xValue xValue: Double, x: CGFloat, y: CGFloat) -> [ChartHighlight]
+    public override func getHighlights(xValue xValue: Double, x: CGFloat, y: CGFloat) -> [Highlight]
     {
-        var vals = [ChartHighlight]()
+        var vals = [Highlight]()
         
         guard let chart = self.chart as? CombinedChartDataProvider
             else { return vals }

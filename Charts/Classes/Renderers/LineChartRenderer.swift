@@ -675,7 +675,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         CGContextRestoreGState(context)
     }
     
-    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext, indices: [Highlight])
     {
         guard let
             dataProvider = dataProvider,

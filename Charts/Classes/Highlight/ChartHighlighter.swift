@@ -25,7 +25,7 @@ public class ChartHighlighter : NSObject, IChartHighlighter
         self.chart = chart
     }
     
-    public func getHighlight(x x: CGFloat, y: CGFloat) -> ChartHighlight?
+    public func getHighlight(x x: CGFloat, y: CGFloat) -> Highlight?
     {
         let xVal = Double(getValsForTouch(x: x, y: y).x)
         
@@ -49,7 +49,7 @@ public class ChartHighlighter : NSObject, IChartHighlighter
     /// - parameter x:
     /// - parameter y:
     /// - returns:
-    public func getHighlight(xValue xVal: Double, x: CGFloat, y: CGFloat) -> ChartHighlight?
+    public func getHighlight(xValue xVal: Double, x: CGFloat, y: CGFloat) -> Highlight?
     {
         guard let chart = chart
             else { return nil }
@@ -76,9 +76,9 @@ public class ChartHighlighter : NSObject, IChartHighlighter
     /// - parameter x: touch position
     /// - parameter y: touch position
     /// - returns:
-    public func getHighlights(xValue xValue: Double, x: CGFloat, y: CGFloat) -> [ChartHighlight]
+    public func getHighlights(xValue xValue: Double, x: CGFloat, y: CGFloat) -> [Highlight]
     {
-        var vals = [ChartHighlight]()
+        var vals = [Highlight]()
         
         guard let
             data = self.chart?.data
@@ -111,7 +111,7 @@ public class ChartHighlighter : NSObject, IChartHighlighter
         dataSet set: IChartDataSet,
         dataSetIndex: Int,
         xValue: Double,
-        rounding: ChartDataSetRounding) -> ChartHighlight?
+        rounding: ChartDataSetRounding) -> Highlight?
     {
         guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider
             else { return nil }
@@ -120,7 +120,7 @@ public class ChartHighlighter : NSObject, IChartHighlighter
         {
             let px = chart.getTransformer(set.axisDependency).pixelForValues(x: e.x, y: e.y)
             
-            return ChartHighlight(x: e.x, y: e.y, xPx: px.x, yPx: px.y, dataSetIndex: dataSetIndex, axis: set.axisDependency)
+            return Highlight(x: e.x, y: e.y, xPx: px.x, yPx: px.y, dataSetIndex: dataSetIndex, axis: set.axisDependency)
         }
         
         return nil
@@ -130,14 +130,14 @@ public class ChartHighlighter : NSObject, IChartHighlighter
     
     /// - returns: The `ChartHighlight` of the closest value on the x-y cartesian axes
     internal func closestSelectionDetailByPixel(
-        closestValues closestValues: [ChartHighlight],
+        closestValues closestValues: [Highlight],
                     x: CGFloat,
                     y: CGFloat,
                     axis: ChartYAxis.AxisDependency?,
-                    minSelectionDistance: CGFloat) -> ChartHighlight?
+                    minSelectionDistance: CGFloat) -> Highlight?
     {
         var distance = minSelectionDistance
-        var closest: ChartHighlight?
+        var closest: Highlight?
         
         for i in 0 ..< closestValues.count
         {
@@ -160,7 +160,7 @@ public class ChartHighlighter : NSObject, IChartHighlighter
     
     /// - returns: The minimum distance from a touch-y-value (in pixels) to the closest y-value (in pixels) that is displayed in the chart.
     internal func getMinimumDistance(
-        closestValues: [ChartHighlight],
+        closestValues: [Highlight],
         y: CGFloat,
         axis: ChartYAxis.AxisDependency) -> CGFloat
     {
@@ -183,7 +183,7 @@ public class ChartHighlighter : NSObject, IChartHighlighter
         return distance
     }
     
-    internal func getHighlightPos(high high: ChartHighlight) -> CGFloat
+    internal func getHighlightPos(high high: Highlight) -> CGFloat
     {
         return high.yPx
     }

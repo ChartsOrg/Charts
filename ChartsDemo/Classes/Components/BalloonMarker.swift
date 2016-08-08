@@ -97,7 +97,7 @@ public class BalloonMarker: MarkerImage
         CGContextRestoreGState(context)
     }
     
-    public override func refreshContent(entry entry: ChartDataEntry, highlight: ChartHighlight)
+    public override func refreshContent(entry entry: ChartDataEntry, highlight: Highlight)
     {
         let label = entry.y.description
         labelns = label as NSString

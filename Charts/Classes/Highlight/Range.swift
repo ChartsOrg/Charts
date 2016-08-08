@@ -14,7 +14,8 @@
 
 import Foundation
 
-public class ChartRange: NSObject
+@objc(ChartRange)
+public class Range: NSObject
 {
     public var from: Double
     public var to: Double

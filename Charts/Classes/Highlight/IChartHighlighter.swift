@@ -19,5 +19,5 @@ public protocol IChartHighlighter : NSObjectProtocol
     /// - parameter x:
     /// - parameter y:
     /// - returns:
-    func getHighlight(x x: CGFloat, y: CGFloat) -> ChartHighlight?
+    func getHighlight(x x: CGFloat, y: CGFloat) -> Highlight?
 }

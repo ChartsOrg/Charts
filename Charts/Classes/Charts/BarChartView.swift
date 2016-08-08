@@ -29,7 +29,7 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
         
         renderer = BarChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
         
-        self.highlighter = BarChartHighlighter(chart: self)
+        self.highlighter = BarHighlighter(chart: self)
     }
     
     internal override func calcMinMax()
@@ -63,7 +63,7 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
     }
     
     /// - returns: The Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the BarChart.
-    public override func getHighlightByTouchPoint(pt: CGPoint) -> ChartHighlight?
+    public override func getHighlightByTouchPoint(pt: CGPoint) -> Highlight?
     {
         if _data === nil
         {
@@ -125,7 +125,7 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
     /// - parameter stackIndex: the index inside the stack - only relevant for stacked entries
     public func highlightValue(x x: Double, dataSetIndex: Int, stackIndex: Int)
     {
-        highlightValue(ChartHighlight(x: x, dataSetIndex: dataSetIndex, stackIndex: stackIndex))
+        highlightValue(Highlight(x: x, dataSetIndex: dataSetIndex, stackIndex: stackIndex))
     }
 
     // MARK: Accessors

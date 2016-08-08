@@ -91,7 +91,7 @@ public class PieChartView: PieRadarChartViewBase
         renderer = PieChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
         _xAxis = nil
         
-        self.highlighter = PieChartHighlighter(chart: self)
+        self.highlighter = PieHighlighter(chart: self)
     }
     
     public override func drawRect(rect: CGRect)
@@ -152,7 +152,7 @@ public class PieChartView: PieRadarChartViewBase
         calcAngles()
     }
     
-    public override func getMarkerPosition(highlight highlight: ChartHighlight) -> CGPoint
+    public override func getMarkerPosition(highlight highlight: Highlight) -> CGPoint
     {
         let center = self.centerCircleBox
         var r = self.radius

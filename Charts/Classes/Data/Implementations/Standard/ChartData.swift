@@ -392,7 +392,7 @@ public class ChartData: NSObject
     ///
     /// - parameter highlight:
     /// - returns: The entry that is highlighted
-    public func entryForHighlight(highlight: ChartHighlight) -> ChartDataEntry?
+    public func entryForHighlight(highlight: Highlight) -> ChartDataEntry?
     {
         if highlight.dataSetIndex >= dataSets.count
         {

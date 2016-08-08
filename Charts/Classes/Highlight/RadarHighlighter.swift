@@ -15,9 +15,10 @@
 import Foundation
 import CoreGraphics
 
-public class RadarChartHighlighter: PieRadarChartHighlighter
+@objc(RadarChartHighlighter)
+public class RadarHighlighter: PieRadarHighlighter
 {
-    public override func closestHighlight(index index: Int, x: CGFloat, y: CGFloat) -> ChartHighlight?
+    public override func closestHighlight(index index: Int, x: CGFloat, y: CGFloat) -> Highlight?
     {
         guard let chart = self.chart as? RadarChartView
             else { return nil }
@@ -26,7 +27,7 @@ public class RadarChartHighlighter: PieRadarChartHighlighter
         
         let distanceToCenter = Double(chart.distanceToCenter(x: x, y: y) / chart.factor)
         
-        var closest: ChartHighlight? = nil
+        var closest: Highlight? = nil
         var distance = DBL_MAX
         
         for high in highlights
@@ -46,9 +47,9 @@ public class RadarChartHighlighter: PieRadarChartHighlighter
     /// The Highlight objects give information about the value at the selected index and DataSet it belongs to.
     ///
     /// - parameter index:
-    internal func getHighlights(index index: Int) -> [ChartHighlight]
+    internal func getHighlights(index index: Int) -> [Highlight]
     {
-        var vals = [ChartHighlight]()
+        var vals = [Highlight]()
         
         guard let chart = self.chart as? RadarChartView
             else { return vals }
@@ -73,7 +74,7 @@ public class RadarChartHighlighter: PieRadarChartHighlighter
                 dist: CGFloat(y) * factor * CGFloat(phaseY),
                 angle: sliceangle * CGFloat(index) * CGFloat(phaseX) + chart.rotationAngle)
             
-            vals.append(ChartHighlight(x: Double(index), y: entry.y, xPx: p.x, yPx: p.y, dataSetIndex: i, axis: dataSet.axisDependency))
+            vals.append(Highlight(x: Double(index), y: entry.y, xPx: p.x, yPx: p.y, dataSetIndex: i, axis: dataSet.axisDependency))
         }
         
         return vals

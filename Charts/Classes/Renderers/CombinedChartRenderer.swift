@@ -123,7 +123,7 @@ public class CombinedChartRenderer: ChartDataRendererBase
         }
     }
     
-    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext, indices: [Highlight])
     {
         for renderer in _renderers
         {

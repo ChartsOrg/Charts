@@ -14,7 +14,8 @@
 
 import Foundation
 
-public class ChartHighlight: NSObject
+@objc(ChartHighlight)
+public class Highlight: NSObject
 {
     /// the x-value of the highlighted value
     private var _x = Double.NaN
@@ -215,7 +216,7 @@ public class ChartHighlight: NSObject
     }
 }
 
-func ==(lhs: ChartHighlight, rhs: ChartHighlight) -> Bool
+func ==(lhs: Highlight, rhs: Highlight) -> Bool
 {
     if (lhs === rhs)
     {

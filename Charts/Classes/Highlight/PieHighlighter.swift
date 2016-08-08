@@ -15,9 +15,10 @@
 import Foundation
 import CoreGraphics
 
-public class PieChartHighlighter: PieRadarChartHighlighter
+@objc(PieChartHighlighter)
+public class PieHighlighter: PieRadarHighlighter
 {
-    public override func closestHighlight(index index: Int, x: CGFloat, y: CGFloat) -> ChartHighlight?
+    public override func closestHighlight(index index: Int, x: CGFloat, y: CGFloat) -> Highlight?
     {
         guard let set = chart?.data?.dataSets[0]
             else { return nil }
@@ -25,6 +26,6 @@ public class PieChartHighlighter: PieRadarChartHighlighter
         guard let entry = set.entryForIndex(index)
             else { return nil }
         
-        return ChartHighlight(x: Double(index), y: entry.y, xPx: x, yPx: y, dataSetIndex: 0, axis: set.axisDependency)
+        return Highlight(x: Double(index), y: entry.y, xPx: x, yPx: y, dataSetIndex: 0, axis: set.axisDependency)
     }
 }

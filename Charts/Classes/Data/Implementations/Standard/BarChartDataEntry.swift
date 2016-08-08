@@ -19,7 +19,7 @@ public class BarChartDataEntry: ChartDataEntry
     private var _yVals: [Double]?
     
     /// the ranges for the individual stack values - automatically calculated
-    private var _ranges: [ChartRange]?
+    private var _ranges: [Range]?
     
     /// the sum of all negative values this entry (if stacked) contains
     private var _negativeSum: Double = 0.0
@@ -134,7 +134,7 @@ public class BarChartDataEntry: ChartDataEntry
         
         if _ranges == nil
         {
-            _ranges = [ChartRange]()
+            _ranges = [Range]()
         }
         else
         {
@@ -152,12 +152,12 @@ public class BarChartDataEntry: ChartDataEntry
             
             if value < 0
             {
-                _ranges?.append(ChartRange(from: negRemain, to: negRemain + abs(value)))
+                _ranges?.append(Range(from: negRemain, to: negRemain + abs(value)))
                 negRemain += abs(value)
             }
             else
             {
-                _ranges?.append(ChartRange(from: posRemain, to: posRemain+value))
+                _ranges?.append(Range(from: posRemain, to: posRemain+value))
                 posRemain += value
             }
         }
@@ -182,7 +182,7 @@ public class BarChartDataEntry: ChartDataEntry
     }
     
     /// - returns: The ranges of the individual stack-entries. Will return null if this entry is not stacked.
-    public var ranges: [ChartRange]?
+    public var ranges: [Range]?
     {
         return _ranges
     }

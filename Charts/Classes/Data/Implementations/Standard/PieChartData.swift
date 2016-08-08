@@ -77,7 +77,7 @@ public class PieChartData: ChartData
         return nil
     }
     
-    public override func entryForHighlight(highlight: ChartHighlight) -> ChartDataEntry?
+    public override func entryForHighlight(highlight: Highlight) -> ChartDataEntry?
     {
         return dataSet?.entryForIndex(Int(highlight.x))
     }

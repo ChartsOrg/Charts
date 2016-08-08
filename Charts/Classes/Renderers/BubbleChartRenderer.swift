@@ -211,7 +211,7 @@ public class BubbleChartRenderer: BarLineScatterCandleBubbleChartRenderer
         
     }
     
-    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext, indices: [Highlight])
     {
         guard let
             dataProvider = dataProvider,

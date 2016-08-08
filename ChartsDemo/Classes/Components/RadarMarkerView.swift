@@ -22,7 +22,7 @@ public class RadarMarkerView: MarkerView
         self.offset.y = -self.frame.size.height - 7.0
     }
     
-    public override func refreshContent(entry entry: ChartDataEntry, highlight: ChartHighlight)
+    public override func refreshContent(entry entry: ChartDataEntry, highlight: Highlight)
     {
         label?.text = String.init(format: "%d %%", Int(round(entry.y)))
         layoutIfNeeded()

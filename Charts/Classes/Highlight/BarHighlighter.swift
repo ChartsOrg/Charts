@@ -15,9 +15,10 @@
 import Foundation
 import CoreGraphics
 
-public class BarChartHighlighter: ChartHighlighter
+@objc(BarChartHighlighter)
+public class BarHighlighter: ChartHighlighter
 {
-    public override func getHighlight(x x: CGFloat, y: CGFloat) -> ChartHighlight?
+    public override func getHighlight(x x: CGFloat, y: CGFloat) -> Highlight?
     {
         let high = super.getHighlight(x: x, y: y)
         
@@ -55,10 +56,10 @@ public class BarChartHighlighter: ChartHighlighter
     /// - parameter xIndex:
     /// - parameter yValue:
     /// - returns:
-    public func getStackedHighlight(high high: ChartHighlight,
+    public func getStackedHighlight(high high: Highlight,
                                          set: IBarChartDataSet,
                                          xValue: Double,
-                                         yValue: Double) -> ChartHighlight?
+                                         yValue: Double) -> Highlight?
     {
         guard let
             chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider,
@@ -79,14 +80,14 @@ public class BarChartHighlighter: ChartHighlighter
             let pixel = chart
                 .getTransformer(set.axisDependency)
                 .pixelForValues(x: high.x, y: ranges[stackIndex].to)
-
-            return ChartHighlight(x: entry.x,
-                                  y: entry.y,
-                                  xPx: pixel.x,
-                                  yPx: pixel.y,
-                                  dataSetIndex: high.dataSetIndex,
-                                  stackIndex: stackIndex,
-                                  axis: high.axis)
+            
+            return Highlight(x: entry.x,
+                             y: entry.y,
+                             xPx: pixel.x,
+                             yPx: pixel.y,
+                             dataSetIndex: high.dataSetIndex,
+                             stackIndex: stackIndex,
+                             axis: high.axis)
         }
         
         return nil
@@ -96,7 +97,7 @@ public class BarChartHighlighter: ChartHighlighter
     /// - parameter entry:
     /// - parameter value:
     /// - returns:
-    public func getClosestStackIndex(ranges ranges: [ChartRange]?, value: Double) -> Int
+    public func getClosestStackIndex(ranges ranges: [Range]?, value: Double) -> Int
     {
         if ranges == nil
         {

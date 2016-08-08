@@ -541,7 +541,7 @@ public class BarChartRenderer: BarLineScatterCandleBubbleChartRenderer
         
     }
     
-    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext, indices: [Highlight])
     {
         guard let
             dataProvider = dataProvider,
@@ -608,7 +608,7 @@ public class BarChartRenderer: BarLineScatterCandleBubbleChartRenderer
     }
     
     /// Sets the drawing position of the highlight object based on the riven bar-rect.
-    internal func setHighlightDrawPos(highlight high: ChartHighlight, barRect: CGRect)
+    internal func setHighlightDrawPos(highlight high: Highlight, barRect: CGRect)
     {
         high.setDraw(x: barRect.midX, y: barRect.origin.y)
     }

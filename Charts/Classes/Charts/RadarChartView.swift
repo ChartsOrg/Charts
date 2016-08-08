@@ -67,7 +67,7 @@ public class RadarChartView: PieRadarChartViewBase
         _yAxisRenderer = ChartYAxisRendererRadarChart(viewPortHandler: _viewPortHandler, yAxis: _yAxis, chart: self)
         _xAxisRenderer = ChartXAxisRendererRadarChart(viewPortHandler: _viewPortHandler, xAxis: _xAxis, chart: self)
         
-        self.highlighter = RadarChartHighlighter(chart: self)
+        self.highlighter = RadarHighlighter(chart: self)
     }
 
     internal override func calcMinMax()

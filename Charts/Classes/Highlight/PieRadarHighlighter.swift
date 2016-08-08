@@ -15,9 +15,10 @@
 import Foundation
 import CoreGraphics
 
-public class PieRadarChartHighlighter: ChartHighlighter
+@objc(PieRadarChartHighlighter)
+public class PieRadarHighlighter: ChartHighlighter
 {    
-    public override func getHighlight(x x: CGFloat, y: CGFloat) -> ChartHighlight?
+    public override func getHighlight(x x: CGFloat, y: CGFloat) -> Highlight?
     {
         guard let chart = self.chart as? PieRadarChartViewBase
             else { return nil }
@@ -57,7 +58,7 @@ public class PieRadarChartHighlighter: ChartHighlighter
     /// - parameter index:
     /// - parameter x:
     /// - parameter y:
-    public func closestHighlight(index index: Int, x: CGFloat, y: CGFloat) -> ChartHighlight?
+    public func closestHighlight(index index: Int, x: CGFloat, y: CGFloat) -> Highlight?
     {
         fatalError("closestHighlight(index, x, y) cannot be called on PieRadarChartHighlighter")
     }
