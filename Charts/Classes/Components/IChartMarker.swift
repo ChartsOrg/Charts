@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 @objc
-public protocol ChartMarker: NSObjectProtocol
+public protocol IChartMarker: NSObjectProtocol
 {
     /// Use this to return the desired offset you wish the MarkerView to have on the x-axis.
     var offset: CGPoint { get }

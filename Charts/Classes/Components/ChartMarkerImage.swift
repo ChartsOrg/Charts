@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 
-public class ChartMarkerImage: NSObject, ChartMarker
+public class ChartMarkerImage: NSObject, IChartMarker
 {
     /// The marker image to render
     public var image: NSUIImage?

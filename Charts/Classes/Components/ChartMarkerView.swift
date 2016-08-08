@@ -16,7 +16,7 @@ import CoreGraphics
     import UIKit
 #endif
 
-public class ChartMarkerView: NSUIView, ChartMarker
+public class ChartMarkerView: NSUIView, IChartMarker
 {
     public var offset: CGPoint = CGPoint()
     
