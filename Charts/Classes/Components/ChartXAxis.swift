@@ -25,6 +25,7 @@ public class ChartXAxis: ChartAxisBase
         case BothSided
         case TopInside
         case BottomInside
+        case BottomOutside
     }
     
     public var values = [String?]()

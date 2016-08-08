@@ -74,6 +74,16 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         {
             drawLabels(context: context, pos: viewPortHandler.contentLeft + xoffset, anchor: CGPoint(x: 0.0, y: 0.5))
         }
+        else if (xAxis.labelPosition == .BottomOutside)
+        {
+            let bar = self.chart?.data?.dataSets[0] as! IBarChartDataSet!
+            
+            let anchor_y = CGFloat(viewPortHandler.contentHeight * viewPortHandler.scaleY / CGFloat(xAxis.values.count) * (1.0 - bar.barSpace) / xAxis.labelHeight)*0.5 + 1.0
+            
+            
+            
+            drawLabels(context: context, pos: viewPortHandler.contentLeft + xoffset, anchor: CGPoint(x: 0.0, y: anchor_y))
+        }
         else
         { // BOTH SIDED
             drawLabels(context: context, pos: viewPortHandler.contentRight + xoffset, anchor: CGPoint(x: 0.0, y: 0.5))
@@ -97,7 +107,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         var position = CGPoint(x: 0.0, y: 0.0)
         
         let step = bd.dataSetCount
-        
+    
         for i in self.minX.stride(to: min(self.maxX + 1, xAxis.values.count), by: xAxis.axisLabelModulus)
         {
             let label = xAxis.values[i]
@@ -118,10 +128,8 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
             
             transformer.pointValueToPixel(&position)
             
-            if (viewPortHandler.isInBoundsY(position.y))
-            {
-                drawLabel(context: context, label: label!, xIndex: i, x: pos, y: position.y, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor], anchor: anchor, angleRadians: labelRotationAngleRadians)
-            }
+            drawLabel(context: context, label: label!, xIndex: i, x: pos, y: position.y, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor], anchor: anchor, angleRadians: labelRotationAngleRadians)
+            
         }
     }
     
