@@ -39,12 +39,6 @@ public protocol IChartDataSet
     /// - returns: The number of y-values this DataSet represents
     var entryCount: Int { get }
     
-    /// - returns: The value of the Entry object at the given x-value. Returns NaN if no value is at the given x-value.
-    func yValueForXValue(x: Double) -> Double
-    
-    /// - returns: All of the y values of the Entry objects at the given x-value. Returns NaN if no value is at the given x-value.
-    func yValuesForXValue(x: Double) -> [Double]
-    
     /// - returns: The entry object found at the given index (not x-value!)
     /// - throws: out of bounds
     /// if `i` is out of bounds, it may throw an out-of-bounds exception

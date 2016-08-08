@@ -75,17 +75,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     {
         fatalError("entryCount is not implemented in ChartBaseDataSet")
     }
-    
-    public func yValueForXValue(x: Double) -> Double
-    {
-        fatalError("yValueForXValue is not implemented in ChartBaseDataSet")
-    }
-    
-    public func yValuesForXValue(x: Double) -> [Double]
-    {
-        fatalError("yValuesForXValue is not implemented in ChartBaseDataSet")
-    }
-    
+        
     public func entryForIndex(i: Int) -> ChartDataEntry?
     {
         fatalError("entryForIndex is not implemented in ChartBaseDataSet")

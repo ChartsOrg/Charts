@@ -239,29 +239,6 @@ public class RealmBaseDataSet: ChartBaseDataSet
     /// - returns: The number of y-values this DataSet represents
     public override var entryCount: Int { return Int(_results?.count ?? 0) }
     
-    /// - returns: The value of the Entry object at the given x-value. Returns NaN if no value is at the given x-value.
-    public override func yValueForXValue(x: Double) -> Double
-    {
-        let e = self.entryForXValue(x)
-        
-        if (e !== nil && e!.x == x) { return e!.y }
-        else { return Double.NaN }
-    }
-    
-    /// - returns: All of the y values of the Entry objects at the given x-value. Returns NaN if no value is at the given x-value.
-    public override func yValuesForXValue(x: Double) -> [Double]
-    {
-        let entries = self.entriesForXValue(x)
-        
-        var yVals = [Double]()
-        for e in entries
-        {
-            yVals.append(e.y)
-        }
-        
-        return yVals
-    }
-    
     /// - returns: The entry object found at the given index (not x-value!)
     /// - throws: out of bounds
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
