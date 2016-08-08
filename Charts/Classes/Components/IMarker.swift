@@ -15,7 +15,7 @@ import CoreGraphics
 @objc(IChartMarker)
 public protocol IMarker: NSObjectProtocol
 {
-    /// Use this to return the desired offset you wish the MarkerView to have on the x-axis.
+    /// Use this to return the desired offset you wish the IMarker to have on the x-axis.
     var offset: CGPoint { get }
     
     /// The marker's size
