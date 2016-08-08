@@ -12,7 +12,7 @@
 import Foundation
 import Charts
 
-public class RadarMarkerView: ChartMarkerView
+public class RadarMarkerView: MarkerView
 {
     @IBOutlet var label: UILabel?
     

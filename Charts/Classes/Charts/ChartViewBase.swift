@@ -129,7 +129,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     public var drawMarkers = true
     
     /// the view that represents the marker
-    public var marker: IChartMarker?
+    public var marker: IMarker?
     
     private var _interceptTouchEvents = false
     
