@@ -89,7 +89,7 @@ public class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         let maxBubbleHeight: CGFloat = abs(viewPortHandler.contentBottom - viewPortHandler.contentTop)
         let referenceSize: CGFloat = min(maxBubbleHeight, maxBubbleWidth)
         
-        for j in (bounds.min + 1).stride(through: bounds.range + bounds.min, by: 1)
+        for j in bounds.min.stride(through: bounds.range + bounds.min, by: 1)
         {
             guard let entry = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { continue }
             
@@ -167,7 +167,7 @@ public class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
                 let trans = dataProvider.getTransformer(dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix
                 
-                for j in (bounds.min + 1).stride(through: bounds.range + bounds.min, by: 1)
+                for j in bounds.min.stride(through: bounds.range + bounds.min, by: 1)
                 {
                     guard let e = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { break }
                     
@@ -229,9 +229,7 @@ public class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
             guard let dataSet = bubbleData.getDataSetByIndex(high.dataSetIndex) as? IBubbleChartDataSet
                 where dataSet.isHighlightEnabled
                 else { continue }
-            
-            let bounds = xBounds(dataProvider, dataSet: dataSet, animator: animator)
-            
+                        
             // In bubble charts - it makes sense to have multiple bubbles on the same X value in the same dataset.
             
             let entries = dataSet.entriesForXValue(high.x)
@@ -282,11 +280,6 @@ public class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
                 if (!viewPortHandler.isInBoundsRight(_pointBuffer.x - shapeHalf))
                 {
                     break
-                }
-                
-                if high.x < Double(bounds.min) || high.x >= Double(bounds.max)
-                {
-                    continue
                 }
                 
                 let originalColor = dataSet.colorAt(Int(entry.x))

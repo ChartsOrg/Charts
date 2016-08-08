@@ -143,7 +143,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarRenderer
                 
                 let bounds = xBounds(dataProvider, dataSet: dataSet, animator: animator)
                 
-                for j in (bounds.min + 1).stride(through: bounds.range + bounds.min, by: 1)
+                for j in bounds.min.stride(through: bounds.range + bounds.min, by: 1)
                 {
                     guard let e = dataSet.entryForIndex(j) else { break }
                     
