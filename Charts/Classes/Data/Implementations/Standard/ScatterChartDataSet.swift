@@ -50,7 +50,7 @@ public class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterCh
     /// The IShapeRenderer responsible for rendering this DataSet.
     /// This can also be used to set a custom IShapeRenderer aside from the default ones.
     /// **default**: `SquareShapeRenderer`
-    public var shapeRenderer: IShapeRenderer?
+    public var shapeRenderer: IShapeRenderer? = SquareShapeRenderer()
     
     public class func renderer(forShape shape: Shape) -> IShapeRenderer
     {
