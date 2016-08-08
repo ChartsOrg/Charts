@@ -27,7 +27,7 @@ public class BarHighlighter: ChartHighlighter
             return nil
         }
         
-        if let barData = self.chart?.data as? BarChartData
+        if let barData = (self.chart as? BarChartDataProvider)?.barData
         {
             let pos = getValsForTouch(x: x, y: y)
             
