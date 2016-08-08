@@ -55,12 +55,12 @@ public class MarkerView: NSUIView, IMarker
     }
     
     @objc
-    public class func viewFromXib() -> MarkerView
+    public class func viewFromXib() -> MarkerView?
     {
         return NSBundle.mainBundle().loadNibNamed(
             String(self),
             owner: nil,
-            options: nil)[0] as! MarkerView
+            options: nil)[0] as? MarkerView
     }
     
 }
