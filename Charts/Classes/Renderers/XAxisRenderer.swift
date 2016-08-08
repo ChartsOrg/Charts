@@ -1,5 +1,5 @@
 //
-//  ChartXAxisRenderer.swift
+//  XAxisRenderer.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 3/3/15.
@@ -18,10 +18,10 @@ import CoreGraphics
     import UIKit
 #endif
 
-
-public class ChartXAxisRenderer: ChartAxisRendererBase
+@objc(ChartXAxisRenderer)
+public class XAxisRenderer: AxisRendererBase
 {
-    public init(viewPortHandler: ChartViewPortHandler?, xAxis: ChartXAxis?, transformer: ChartTransformer?)
+    public init(viewPortHandler: ViewPortHandler?, xAxis: ChartXAxis?, transformer: Transformer?)
     {
         super.init(viewPortHandler: viewPortHandler, transformer: transformer, axis: xAxis)
     }

@@ -1,5 +1,5 @@
 //
-//  ChartAxisRendererBase.swift
+//  AxisRendererBase.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 3/3/15.
@@ -14,21 +14,21 @@
 import Foundation
 import CoreGraphics
 
-
-public class ChartAxisRendererBase: ChartRendererBase
+@objc(ChartAxisRendererBase)
+public class AxisRendererBase: Renderer
 {
     /// base axis this axis renderer works with
     public var axis: ChartAxisBase?
     
     /// transformer to transform values to screen pixels and return
-    public var transformer: ChartTransformer?
+    public var transformer: Transformer?
     
     public override init()
     {
         super.init()
     }
     
-    public init(viewPortHandler: ChartViewPortHandler?, transformer: ChartTransformer?, axis: ChartAxisBase?)
+    public init(viewPortHandler: ViewPortHandler?, transformer: Transformer?, axis: ChartAxisBase?)
     {
         super.init(viewPortHandler: viewPortHandler)
         
@@ -39,25 +39,25 @@ public class ChartAxisRendererBase: ChartRendererBase
     /// Draws the axis labels on the specified context
     public func renderAxisLabels(context context: CGContext)
     {
-        fatalError("renderAxisLabels() cannot be called on ChartAxisRendererBase")
+        fatalError("renderAxisLabels() cannot be called on AxisRendererBase")
     }
     
     /// Draws the grid lines belonging to the axis.
     public func renderGridLines(context context: CGContext)
     {
-        fatalError("renderGridLines() cannot be called on ChartAxisRendererBase")
+        fatalError("renderGridLines() cannot be called on AxisRendererBase")
     }
     
     /// Draws the line that goes alongside the axis.
     public func renderAxisLine(context context: CGContext)
     {
-        fatalError("renderAxisLine() cannot be called on ChartAxisRendererBase")
+        fatalError("renderAxisLine() cannot be called on AxisRendererBase")
     }
     
     /// Draws the LimitLines associated with this axis to the screen.
     public func renderLimitLines(context context: CGContext)
     {
-        fatalError("renderLimitLines() cannot be called on ChartAxisRendererBase")
+        fatalError("renderLimitLines() cannot be called on AxisRendererBase")
     }
     
     /// Computes the axis values.

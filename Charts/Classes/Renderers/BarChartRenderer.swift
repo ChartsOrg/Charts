@@ -18,7 +18,7 @@ import CoreGraphics
     import UIKit
 #endif
 
-public class BarChartRenderer: BarLineScatterCandleBubbleChartRenderer
+public class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 {
     private class Buffer
     {
@@ -27,7 +27,7 @@ public class BarChartRenderer: BarLineScatterCandleBubbleChartRenderer
     
     public weak var dataProvider: BarChartDataProvider?
     
-    public init(dataProvider: BarChartDataProvider?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler?)
+    public init(dataProvider: BarChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -328,7 +328,7 @@ public class BarChartRenderer: BarLineScatterCandleBubbleChartRenderer
           y1: Double,
           y2: Double,
           barWidthHalf: Double,
-          trans: ChartTransformer,
+          trans: Transformer,
           inout rect: CGRect)
     {
         let left = x - barWidthHalf

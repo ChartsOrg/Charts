@@ -1,5 +1,5 @@
 //
-//  ChartTransformer.swift
+//  Transformer.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 6/3/15.
@@ -15,7 +15,8 @@ import Foundation
 import CoreGraphics
 
 /// Transformer class that contains all matrices and is responsible for transforming values into pixels on the screen and backwards.
-public class ChartTransformer: NSObject
+@objc(ChartTransformer)
+public class Transformer: NSObject
 {
     /// matrix to map the values to the screen pixels
     internal var _matrixValueToPx = CGAffineTransformIdentity
@@ -23,9 +24,9 @@ public class ChartTransformer: NSObject
     /// matrix for handling the different offsets of the chart
     internal var _matrixOffset = CGAffineTransformIdentity
 
-    internal var _viewPortHandler: ChartViewPortHandler
+    internal var _viewPortHandler: ViewPortHandler
 
-    public init(viewPortHandler: ChartViewPortHandler)
+    public init(viewPortHandler: ViewPortHandler)
     {
         _viewPortHandler = viewPortHandler
     }

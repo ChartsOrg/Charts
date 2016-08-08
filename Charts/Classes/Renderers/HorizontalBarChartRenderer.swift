@@ -26,7 +26,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
         var rects = [CGRect]()
     }
     
-    public override init(dataProvider: BarChartDataProvider?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler?)
+    public override init(dataProvider: BarChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
         super.init(dataProvider: dataProvider, animator: animator, viewPortHandler: viewPortHandler)
     }
@@ -282,7 +282,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
           y1: Double,
           y2: Double,
           barWidthHalf: Double,
-          trans: ChartTransformer,
+          trans: Transformer,
           inout rect: CGRect)
     {
         let top = x - barWidthHalf

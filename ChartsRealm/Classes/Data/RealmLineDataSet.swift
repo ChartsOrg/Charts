@@ -153,10 +153,10 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     public var lineCapType = CGLineCap.Butt
     
     /// formatter for customizing the position of the fill-line
-    private var _fillFormatter: ChartFillFormatter = ChartDefaultFillFormatter()
+    private var _fillFormatter: FillFormatter = DefaultFillFormatter()
     
     /// Sets a custom FillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
-    public var fillFormatter: ChartFillFormatter?
+    public var fillFormatter: FillFormatter?
     {
         get
         {
@@ -166,7 +166,7 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
         {
             if newValue == nil
             {
-                _fillFormatter = ChartDefaultFillFormatter()
+                _fillFormatter = DefaultFillFormatter()
             }
             else
             {

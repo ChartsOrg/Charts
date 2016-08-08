@@ -1,5 +1,5 @@
 //
-//  AnimatedMoveChartViewJob.swift
+//  AnimatedMoveViewJob.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -16,13 +16,13 @@ import CoreGraphics
     import UIKit
 #endif
 
-public class AnimatedMoveChartViewJob: AnimatedViewPortJob
+public class AnimatedMoveViewJob: AnimatedViewPortJob
 {
     public override init(
-        viewPortHandler: ChartViewPortHandler,
+        viewPortHandler: ViewPortHandler,
         xValue: Double,
         yValue: Double,
-        transformer: ChartTransformer,
+        transformer: Transformer,
         view: ChartViewBase,
         xOrigin: CGFloat,
         yOrigin: CGFloat,

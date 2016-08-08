@@ -429,7 +429,7 @@ public class PieRadarChartViewBase: ChartViewBase
     
     // MARK: - Animation
     
-    private var _spinAnimator: ChartAnimator!
+    private var _spinAnimator: Animator!
     
     /// Applys a spin animation to the Chart.
     public func spin(duration duration: NSTimeInterval, fromAngle: CGFloat, toAngle: CGFloat, easing: ChartEasingFunctionBlock?)
@@ -439,7 +439,7 @@ public class PieRadarChartViewBase: ChartViewBase
             _spinAnimator.stop()
         }
         
-        _spinAnimator = ChartAnimator()
+        _spinAnimator = Animator()
         _spinAnimator.updateBlock = {
             self.rotationAngle = (toAngle - fromAngle) * CGFloat(self._spinAnimator.phaseX) + fromAngle
         }

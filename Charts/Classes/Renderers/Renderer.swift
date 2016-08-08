@@ -1,5 +1,5 @@
 //
-//  ChartRendererBase.swift
+//  Renderer.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 3/3/15.
@@ -14,17 +14,18 @@
 import Foundation
 import CoreGraphics
 
-public class ChartRendererBase: NSObject
+@objc(ChartRenderer)
+public class Renderer: NSObject
 {
     /// the component that handles the drawing area of the chart and it's offsets
-    public var viewPortHandler: ChartViewPortHandler?
+    public var viewPortHandler: ViewPortHandler?
     
     public override init()
     {
         super.init()
     }
     
-    public init(viewPortHandler: ChartViewPortHandler?)
+    public init(viewPortHandler: ViewPortHandler?)
     {
         super.init()
         self.viewPortHandler = viewPortHandler

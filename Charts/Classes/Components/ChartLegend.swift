@@ -291,7 +291,7 @@ public class ChartLegend: ChartComponentBase
     /// **default**: 0.95 (95%)
     public var maxSizePercent: CGFloat = 0.95
     
-    public func calculateDimensions(labelFont labelFont: NSUIFont, viewPortHandler: ChartViewPortHandler)
+    public func calculateDimensions(labelFont labelFont: NSUIFont, viewPortHandler: ViewPortHandler)
     {
         let maxEntrySize = getMaximumEntrySize(labelFont)
         textWidthMax = maxEntrySize.width

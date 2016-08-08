@@ -1,5 +1,5 @@
 //
-//  ZoomChartViewJob.swift
+//  ZoomViewJob.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -16,19 +16,20 @@ import CoreGraphics
     import UIKit
 #endif
 
-public class ZoomChartViewJob: ChartViewPortJob
+@objc(ZoomChartViewJob)
+public class ZoomViewJob: ViewPortJob
 {
     internal var scaleX: CGFloat = 0.0
     internal var scaleY: CGFloat = 0.0
     internal var axisDependency: ChartYAxis.AxisDependency = ChartYAxis.AxisDependency.Left
     
     public init(
-        viewPortHandler: ChartViewPortHandler,
+        viewPortHandler: ViewPortHandler,
         scaleX: CGFloat,
         scaleY: CGFloat,
         xValue: Double,
         yValue: Double,
-        transformer: ChartTransformer,
+        transformer: Transformer,
         axis: ChartYAxis.AxisDependency,
         view: ChartViewBase)
     {

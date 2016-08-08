@@ -19,11 +19,11 @@ import CoreGraphics
 #endif
 
 
-public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
+public class ScatterChartRenderer: LineScatterCandleRadarRenderer
 {
     public weak var dataProvider: ScatterChartDataProvider?
     
-    public init(dataProvider: ScatterChartDataProvider?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler?)
+    public init(dataProvider: ScatterChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         

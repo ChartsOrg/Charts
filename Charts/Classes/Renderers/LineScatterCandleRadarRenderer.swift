@@ -1,5 +1,5 @@
 //
-//  LineScatterCandleRadarChartRenderer.swift
+//  LineScatterCandleRadarRenderer.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 29/7/15.
@@ -14,10 +14,10 @@
 import Foundation
 import CoreGraphics
 
-
-public class LineScatterCandleRadarChartRenderer: BarLineScatterCandleBubbleChartRenderer
+@objc(LineScatterCandleRadarChartRenderer)
+public class LineScatterCandleRadarRenderer: BarLineScatterCandleBubbleRenderer
 {
-    public override init(animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler?)
+    public override init(animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
     }

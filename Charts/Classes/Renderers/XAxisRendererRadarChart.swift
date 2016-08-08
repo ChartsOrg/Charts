@@ -1,5 +1,5 @@
 //
-//  ChartXAxisRendererRadarChart.swift
+//  XAxisRendererRadarChart.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 3/3/15.
@@ -18,12 +18,11 @@ import CoreGraphics
     import UIKit
 #endif
 
-
-public class ChartXAxisRendererRadarChart: ChartXAxisRenderer
+public class XAxisRendererRadarChart: XAxisRenderer
 {
     public weak var chart: RadarChartView?
     
-    public init(viewPortHandler: ChartViewPortHandler?, xAxis: ChartXAxis?, chart: RadarChartView?)
+    public init(viewPortHandler: ViewPortHandler?, xAxis: ChartXAxis?, chart: RadarChartView?)
     {
         super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: nil)
         

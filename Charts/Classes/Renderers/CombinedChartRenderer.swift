@@ -14,7 +14,7 @@
 import Foundation
 import CoreGraphics
 
-public class CombinedChartRenderer: ChartDataRendererBase
+public class CombinedChartRenderer: DataRenderer
 {
     public weak var chart: CombinedChartView?
     
@@ -24,11 +24,11 @@ public class CombinedChartRenderer: ChartDataRendererBase
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     public var drawBarShadowEnabled = true
     
-    internal var _renderers = [ChartDataRendererBase]()
+    internal var _renderers = [DataRenderer]()
     
     internal var _drawOrder: [CombinedChartView.DrawOrder] = [.Bar, .Bubble, .Line, .Candle, .Scatter]
     
-    public init(chart: CombinedChartView?, animator: ChartAnimator, viewPortHandler: ChartViewPortHandler?)
+    public init(chart: CombinedChartView?, animator: Animator, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -40,7 +40,7 @@ public class CombinedChartRenderer: ChartDataRendererBase
     /// Creates the renderers needed for this combined-renderer in the required order. Also takes the DrawOrder into consideration.
     internal func createRenderers()
     {
-        _renderers = [ChartDataRendererBase]()
+        _renderers = [DataRenderer]()
         
         guard let
             chart = chart,
@@ -159,7 +159,7 @@ public class CombinedChartRenderer: ChartDataRendererBase
     }
 
     /// - returns: The sub-renderer object at the specified index.
-    public func getSubRenderer(index index: Int) -> ChartDataRendererBase?
+    public func getSubRenderer(index index: Int) -> DataRenderer?
     {
         if (index >= _renderers.count || index < 0)
         {
@@ -172,7 +172,7 @@ public class CombinedChartRenderer: ChartDataRendererBase
     }
 
     /// - returns: All sub-renderers.
-    public var subRenderers: [ChartDataRendererBase]
+    public var subRenderers: [DataRenderer]
     {
         get { return _renderers }
         set { _renderers = newValue }

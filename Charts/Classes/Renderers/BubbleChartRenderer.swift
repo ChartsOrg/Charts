@@ -17,11 +17,11 @@ import CoreGraphics
 #endif
 
 
-public class BubbleChartRenderer: BarLineScatterCandleBubbleChartRenderer
+public class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
 {
     public weak var dataProvider: BubbleChartDataProvider?
     
-    public init(dataProvider: BubbleChartDataProvider?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler?)
+    public init(dataProvider: BubbleChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         

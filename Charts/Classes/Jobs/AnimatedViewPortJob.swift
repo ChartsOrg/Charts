@@ -16,7 +16,7 @@ import CoreGraphics
     import UIKit
 #endif
 
-public class AnimatedViewPortJob: ChartViewPortJob
+public class AnimatedViewPortJob: ViewPortJob
 {
     internal var phase: CGFloat = 1.0
     internal var xOrigin: CGFloat = 0.0
@@ -30,10 +30,10 @@ public class AnimatedViewPortJob: ChartViewPortJob
     private var _easing: ChartEasingFunctionBlock?
     
     public init(
-        viewPortHandler: ChartViewPortHandler,
+        viewPortHandler: ViewPortHandler,
         xValue: Double,
         yValue: Double,
-        transformer: ChartTransformer,
+        transformer: Transformer,
         view: ChartViewBase,
         xOrigin: CGFloat,
         yOrigin: CGFloat,

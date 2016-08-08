@@ -19,11 +19,11 @@ import CoreGraphics
 #endif
 
 
-public class LineChartRenderer: LineRadarChartRenderer
+public class LineChartRenderer: LineRadarRenderer
 {
     public weak var dataProvider: LineChartDataProvider?
     
-    public init(dataProvider: LineChartDataProvider?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler?)
+    public init(dataProvider: LineChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -428,7 +428,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         }
     }
     
-    public func drawLinearFill(context context: CGContext, dataSet: ILineChartDataSet, trans: ChartTransformer, bounds: XBounds)
+    public func drawLinearFill(context context: CGContext, dataSet: ILineChartDataSet, trans: Transformer, bounds: XBounds)
     {
         guard let dataProvider = dataProvider else { return }
         

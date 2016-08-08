@@ -18,7 +18,7 @@ import CoreGraphics
 public class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
 {
     /// the fill-formatter used for determining the position of the fill-line
-    internal var _fillFormatter: ChartFillFormatter!
+    internal var _fillFormatter: FillFormatter!
     
     /// enum that allows to specify the order in which the different data objects for the combined-chart are drawn
     @objc(CombinedChartDrawOrder)
@@ -41,7 +41,7 @@ public class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         self.highlightFullBarEnabled = true
         
         /// WORKAROUND: Swift 2.0 compiler malfunctions when optimizations are enabled, and assigning directly to _fillFormatter causes a crash with a EXC_BAD_ACCESS. See https://github.com/danielgindi/Charts/issues/406
-        let workaroundFormatter = ChartDefaultFillFormatter()
+        let workaroundFormatter = DefaultFillFormatter()
         _fillFormatter = workaroundFormatter
         
         renderer = CombinedChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
@@ -64,7 +64,7 @@ public class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         }
     }
     
-    public var fillFormatter: ChartFillFormatter
+    public var fillFormatter: FillFormatter
     {
         get
         {
@@ -75,7 +75,7 @@ public class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             _fillFormatter = newValue
             if (_fillFormatter == nil)
             {
-                _fillFormatter = ChartDefaultFillFormatter()
+                _fillFormatter = DefaultFillFormatter()
             }
         }
     }

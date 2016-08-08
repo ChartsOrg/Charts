@@ -1,5 +1,5 @@
 //
-//  BarLineScatterCandleBubbleChartRenderer.swift
+//  BarLineScatterCandleBubbleRenderer.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -12,10 +12,10 @@
 import Foundation
 import CoreGraphics
 
-
-public class BarLineScatterCandleBubbleChartRenderer: ChartDataRendererBase
+@objc(BarLineScatterCandleBubbleChartRenderer)
+public class BarLineScatterCandleBubbleRenderer: DataRenderer
 {
-    public override init(animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler?)
+    public override init(animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
     }
@@ -39,7 +39,7 @@ public class BarLineScatterCandleBubbleChartRenderer: ChartDataRendererBase
     /// This includes minimum and maximum visible x, as well as range.
     internal func xBounds(chart: BarLineScatterCandleBubbleChartDataProvider,
                           dataSet: IBarLineScatterCandleBubbleChartDataSet,
-                          animator: ChartAnimator?) -> XBounds
+                          animator: Animator?) -> XBounds
     {
         return XBounds(chart: chart, dataSet: dataSet, animator: animator)
     }
@@ -65,7 +65,7 @@ public class BarLineScatterCandleBubbleChartRenderer: ChartDataRendererBase
         /// Calculates the minimum and maximum x values as well as the range between them.
         public init(chart: BarLineScatterCandleBubbleChartDataProvider,
                     dataSet: IBarLineScatterCandleBubbleChartDataSet,
-                    animator: ChartAnimator?)
+                    animator: Animator?)
         {
             let phaseX = Swift.max(0.0, Swift.min(1.0, animator?.phaseX ?? 1.0))
 

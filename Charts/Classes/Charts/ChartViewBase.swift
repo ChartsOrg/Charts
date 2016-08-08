@@ -38,7 +38,7 @@ public protocol ChartViewDelegate
     optional func chartTranslated(chartView: ChartViewBase, dX: CGFloat, dY: CGFloat)
 }
 
-public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
+public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
 {
     // MARK: - Properties
     
@@ -106,18 +106,18 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     /// text that is displayed when the chart is empty that describes why the chart is empty
     public var noDataTextDescription: String?
     
-    internal var _legendRenderer: ChartLegendRenderer!
+    internal var _legendRenderer: LegendRenderer!
     
     /// object responsible for rendering the data
-    public var renderer: ChartDataRendererBase?
+    public var renderer: DataRenderer?
     
     public var highlighter: IChartHighlighter?
     
     /// object that manages the bounds and drawing constraints of the chart
-    internal var _viewPortHandler: ChartViewPortHandler!
+    internal var _viewPortHandler: ViewPortHandler!
     
     /// object responsible for animations
-    internal var _animator: ChartAnimator!
+    internal var _animator: Animator!
     
     /// flag that indicates if offsets calculation has already been done or not
     private var _offsetsCalculated = false
@@ -184,14 +184,14 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     
     internal func initialize()
     {
-        _animator = ChartAnimator()
+        _animator = Animator()
         _animator.delegate = self
 
-        _viewPortHandler = ChartViewPortHandler()
+        _viewPortHandler = ViewPortHandler()
         _viewPortHandler.setChartDimens(width: bounds.size.width, height: bounds.size.height)
         
         _legend = ChartLegend()
-        _legendRenderer = ChartLegendRenderer(viewPortHandler: _viewPortHandler, legend: _legend)
+        _legendRenderer = LegendRenderer(viewPortHandler: _viewPortHandler, legend: _legend)
         
         _xAxis = ChartXAxis()
         
@@ -597,7 +597,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     // MARK: - Animation
     
     /// - returns: The animator responsible for animating chart values.
-    public var chartAnimator: ChartAnimator!
+    public var chartAnimator: Animator!
     {
         return _animator
     }
@@ -761,7 +761,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     }
     
     /// - returns: The renderer object responsible for rendering / drawing the Legend.
-    public var legendRenderer: ChartLegendRenderer!
+    public var legendRenderer: LegendRenderer!
     {
         return _legendRenderer
     }
@@ -794,7 +794,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     
     /// - returns: The ViewPortHandler of the chart that is responsible for the
     /// content area of the chart and its offsets and dimensions.
-    public var viewPortHandler: ChartViewPortHandler!
+    public var viewPortHandler: ViewPortHandler!
     {
         return _viewPortHandler
     }
@@ -878,7 +878,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     }
     #endif
     
-    internal var _viewportJobs = [ChartViewPortJob]()
+    internal var _viewportJobs = [ViewPortJob]()
     
     public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>)
     {
@@ -904,7 +904,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         }
     }
     
-    public func removeViewportJob(job: ChartViewPortJob)
+    public func removeViewportJob(job: ViewPortJob)
     {
         if let index = _viewportJobs.indexOf({ $0 === job })
         {
@@ -917,7 +917,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         _viewportJobs.removeAll(keepCapacity: false)
     }
     
-    public func addViewportJob(job: ChartViewPortJob)
+    public func addViewportJob(job: ViewPortJob)
     {
         if (_viewPortHandler.hasChartDimens)
         {
@@ -972,14 +972,14 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         return Int(INT_MAX)
     }
     
-    // MARK: - ChartAnimatorDelegate
+    // MARK: - AnimatorDelegate
     
-    public func chartAnimatorUpdated(chartAnimator: ChartAnimator)
+    public func animatorUpdated(chartAnimator: Animator)
     {
         setNeedsDisplay()
     }
     
-    public func chartAnimatorStopped(chartAnimator: ChartAnimator)
+    public func animatorStopped(chartAnimator: Animator)
     {
         
     }

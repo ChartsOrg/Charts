@@ -1,5 +1,5 @@
 //
-//  ChartTransformerHorizontalBarChart.swift
+//  TransformerHorizontalBarChart.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 1/4/15.
@@ -14,7 +14,8 @@
 import Foundation
 import CoreGraphics
 
-public class ChartTransformerHorizontalBarChart: ChartTransformer
+@objc(ChartTransformerHorizontalBarChart)
+public class TransformerHorizontalBarChart: Transformer
 {
     /// Prepares the matrix that contains all offsets.
     public override func prepareMatrixOffset(inverted: Bool)

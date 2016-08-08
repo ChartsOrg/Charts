@@ -1,5 +1,5 @@
 //
-//  ChartFill.swift
+//  Fill.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 27/01/2016.
@@ -15,7 +15,8 @@
 import Foundation
 import CoreGraphics
 
-public class ChartFill: NSObject
+@objc(ChartFill)
+public class Fill: NSObject
 {
     @objc(ChartFillType)
     public enum Type: Int
@@ -179,19 +180,19 @@ public class ChartFill: NSObject
     
     // MARK: Constructors
     
-    public class func fillWithCGColor(CGColor: CGColorRef) -> ChartFill
+    public class func fillWithCGColor(CGColor: CGColorRef) -> Fill
     {
-        return ChartFill(CGColor: CGColor)
+        return Fill(CGColor: CGColor)
     }
     
-    public class func fillWithColor(color: NSUIColor) -> ChartFill
+    public class func fillWithColor(color: NSUIColor) -> Fill
     {
-        return ChartFill(color: color)
+        return Fill(color: color)
     }
     
-    public class func fillWithLinearGradient(linearGradient: CGGradientRef, angle: CGFloat) -> ChartFill
+    public class func fillWithLinearGradient(linearGradient: CGGradientRef, angle: CGFloat) -> Fill
     {
-        return ChartFill(linearGradient: linearGradient, angle: angle)
+        return Fill(linearGradient: linearGradient, angle: angle)
     }
     
     public class func fillWithRadialGradient(
@@ -200,9 +201,9 @@ public class ChartFill: NSObject
         startRadiusPercent: CGFloat,
         endOffsetPercent: CGPoint,
         endRadiusPercent: CGFloat
-        ) -> ChartFill
+        ) -> Fill
     {
-        return ChartFill(
+        return Fill(
             radialGradient: radialGradient,
             startOffsetPercent: startOffsetPercent,
             startRadiusPercent: startRadiusPercent,
@@ -211,34 +212,34 @@ public class ChartFill: NSObject
         )
     }
     
-    public class func fillWithRadialGradient(radialGradient: CGGradientRef) -> ChartFill
+    public class func fillWithRadialGradient(radialGradient: CGGradientRef) -> Fill
     {
-        return ChartFill(radialGradient: radialGradient)
+        return Fill(radialGradient: radialGradient)
     }
     
-    public class func fillWithCGImage(CGImage: CGImageRef, tiled: Bool) -> ChartFill
+    public class func fillWithCGImage(CGImage: CGImageRef, tiled: Bool) -> Fill
     {
-        return ChartFill(CGImage: CGImage, tiled: tiled)
+        return Fill(CGImage: CGImage, tiled: tiled)
     }
     
-    public class func fillWithImage(image: NSUIImage, tiled: Bool) -> ChartFill
+    public class func fillWithImage(image: NSUIImage, tiled: Bool) -> Fill
     {
-        return ChartFill(image: image, tiled: tiled)
+        return Fill(image: image, tiled: tiled)
     }
     
-    public class func fillWithCGImage(CGImage: CGImageRef) -> ChartFill
+    public class func fillWithCGImage(CGImage: CGImageRef) -> Fill
     {
-        return ChartFill(CGImage: CGImage)
+        return Fill(CGImage: CGImage)
     }
     
-    public class func fillWithImage(image: NSUIImage) -> ChartFill
+    public class func fillWithImage(image: NSUIImage) -> Fill
     {
-        return ChartFill(image: image)
+        return Fill(image: image)
     }
     
-    public class func fillWithCGLayer(CGLayer: CGLayerRef) -> ChartFill
+    public class func fillWithCGLayer(CGLayer: CGLayerRef) -> Fill
     {
-        return ChartFill(CGLayer: CGLayer)
+        return Fill(CGLayer: CGLayer)
     }
     
     // MARK: Drawing code

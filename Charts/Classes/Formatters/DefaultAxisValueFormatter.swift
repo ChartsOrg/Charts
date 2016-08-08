@@ -1,5 +1,5 @@
 //
-//  ChartDefaultAxisValueFormatter.swift
+//  DefaultAxisValueFormatter.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -11,7 +11,8 @@
 
 import Foundation
 
-public class ChartDefaultAxisValueFormatter: NSObject, ChartAxisValueFormatter
+@objc(ChartDefaultAxisValueFormatter)
+public class DefaultAxisValueFormatter: NSObject, AxisValueFormatter
 {
     public var formatter: NSNumberFormatter?
     

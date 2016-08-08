@@ -1,5 +1,5 @@
 //
-//  LineRadarChartRenderer.swift
+//  LineRadarRenderer.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 27/01/2016.
@@ -14,16 +14,16 @@
 import Foundation
 import CoreGraphics
 
-
-public class LineRadarChartRenderer: LineScatterCandleRadarChartRenderer
+@objc(LineRadarChartRenderer)
+public class LineRadarRenderer: LineScatterCandleRadarRenderer
 {
-    public override init(animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler?)
+    public override init(animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
     }
     
     /// Draws the provided path in filled mode with the provided drawable.
-    public func drawFilledPath(context context: CGContext, path: CGPath, fill: ChartFill, fillAlpha: CGFloat)
+    public func drawFilledPath(context context: CGContext, path: CGPath, fill: Fill, fillAlpha: CGFloat)
     {
         guard let viewPortHandler = self.viewPortHandler
             else { return }

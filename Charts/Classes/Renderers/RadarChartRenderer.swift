@@ -19,11 +19,11 @@ import CoreGraphics
 #endif
 
 
-public class RadarChartRenderer: LineRadarChartRenderer
+public class RadarChartRenderer: LineRadarRenderer
 {
     public weak var chart: RadarChartView?
 
-    public init(chart: RadarChartView?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler?)
+    public init(chart: RadarChartView?, animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         

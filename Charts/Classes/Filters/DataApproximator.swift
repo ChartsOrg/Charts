@@ -1,5 +1,5 @@
 //
-//  ChartDataApproximator.swift
+//  DataApproximator.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -11,8 +11,8 @@
 
 import Foundation
 
-@objc
-public class ChartDataApproximator: NSObject
+@objc(ChartDataApproximator)
+public class DataApproximator: NSObject
 {
     /// uses the douglas peuker algorithm to reduce the given arraylist of entries
     public class func reduceWithDouglasPeuker(points: [CGPoint], tolerance: CGFloat) -> [CGPoint]

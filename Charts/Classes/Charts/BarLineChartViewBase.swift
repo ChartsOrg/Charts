@@ -62,13 +62,13 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// the object representing the right y-axis
     internal var _rightAxis: ChartYAxis!
 
-    internal var _leftYAxisRenderer: ChartYAxisRenderer!
-    internal var _rightYAxisRenderer: ChartYAxisRenderer!
+    internal var _leftYAxisRenderer: YAxisRenderer!
+    internal var _rightYAxisRenderer: YAxisRenderer!
     
-    internal var _leftAxisTransformer: ChartTransformer!
-    internal var _rightAxisTransformer: ChartTransformer!
+    internal var _leftAxisTransformer: Transformer!
+    internal var _rightAxisTransformer: Transformer!
     
-    internal var _xAxisRenderer: ChartXAxisRenderer!
+    internal var _xAxisRenderer: XAxisRenderer!
     
     internal var _tapGestureRecognizer: NSUITapGestureRecognizer!
     internal var _doubleTapGestureRecognizer: NSUITapGestureRecognizer!
@@ -102,13 +102,13 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         _leftAxis = ChartYAxis(position: .Left)
         _rightAxis = ChartYAxis(position: .Right)
         
-        _leftAxisTransformer = ChartTransformer(viewPortHandler: _viewPortHandler)
-        _rightAxisTransformer = ChartTransformer(viewPortHandler: _viewPortHandler)
+        _leftAxisTransformer = Transformer(viewPortHandler: _viewPortHandler)
+        _rightAxisTransformer = Transformer(viewPortHandler: _viewPortHandler)
         
-        _leftYAxisRenderer = ChartYAxisRenderer(viewPortHandler: _viewPortHandler, yAxis: _leftAxis, transformer: _leftAxisTransformer)
-        _rightYAxisRenderer = ChartYAxisRenderer(viewPortHandler: _viewPortHandler, yAxis: _rightAxis, transformer: _rightAxisTransformer)
+        _leftYAxisRenderer = YAxisRenderer(viewPortHandler: _viewPortHandler, yAxis: _leftAxis, transformer: _leftAxisTransformer)
+        _rightYAxisRenderer = YAxisRenderer(viewPortHandler: _viewPortHandler, yAxis: _rightAxis, transformer: _rightAxisTransformer)
         
-        _xAxisRenderer = ChartXAxisRenderer(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer)
+        _xAxisRenderer = XAxisRenderer(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer)
         
         self.highlighter = ChartHighlighter(chart: self)
         
@@ -1002,7 +1002,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                yValue: Double,
                axis: ChartYAxis.AxisDependency)
     {
-        let job = ZoomChartViewJob(
+        let job = ZoomViewJob(
             viewPortHandler: viewPortHandler,
             scaleX: scaleX,
             scaleY: scaleY,
@@ -1056,7 +1056,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             pt: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop),
             axis: axis)
         
-        let job = AnimatedZoomChartViewJob(
+        let job = AnimatedZoomViewJob(
             viewPortHandler: viewPortHandler,
             transformer: getTransformer(axis),
             view: self,
@@ -1203,7 +1203,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// This also refreshes the chart by calling setNeedsDisplay().
     public func moveViewToX(xValue: Double)
     {
-        let job = MoveChartViewJob(
+        let job = MoveViewJob(
             viewPortHandler: viewPortHandler,
             xValue: xValue,
             yValue: 0.0,
@@ -1222,7 +1222,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     {
         let yInView = getAxisRange(axis) / Double(_viewPortHandler.scaleY)
         
-        let job = MoveChartViewJob(
+        let job = MoveViewJob(
             viewPortHandler: viewPortHandler,
             xValue: 0.0,
             yValue: yValue + yInView / 2.0,
@@ -1242,7 +1242,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     {
         let yInView = getAxisRange(axis) / Double(_viewPortHandler.scaleY)
         
-        let job = MoveChartViewJob(
+        let job = MoveViewJob(
             viewPortHandler: viewPortHandler,
             xValue: xValue,
             yValue: yValue + yInView / 2.0,
@@ -1273,7 +1273,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         let yInView = getAxisRange(axis) / Double(_viewPortHandler.scaleY)
         
-        let job = AnimatedMoveChartViewJob(
+        let job = AnimatedMoveViewJob(
             viewPortHandler: viewPortHandler,
             xValue: xValue,
             yValue: yValue + yInView / 2.0,
@@ -1336,7 +1336,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         let yInView = getAxisRange(axis) / Double(_viewPortHandler.scaleY)
         let xInView = xAxis.axisRange / Double(_viewPortHandler.scaleX)
         
-        let job = MoveChartViewJob(
+        let job = MoveViewJob(
             viewPortHandler: viewPortHandler,
             xValue: xValue - xInView / 2.0,
             yValue: yValue + yInView / 2.0,
@@ -1367,7 +1367,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         let yInView = getAxisRange(axis) / Double(_viewPortHandler.scaleY)
         let xInView = xAxis.axisRange / Double(_viewPortHandler.scaleX)
         
-        let job = AnimatedMoveChartViewJob(
+        let job = AnimatedMoveViewJob(
             viewPortHandler: viewPortHandler,
             xValue: xValue - xInView / 2.0,
             yValue: yValue + yInView / 2.0,
@@ -1717,27 +1717,27 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     public var hasNoDragOffset: Bool { return _viewPortHandler.hasNoDragOffset; }
 
     /// The X axis renderer. This is a read-write property so you can set your own custom renderer here.
-    /// **default**: An instance of ChartXAxisRenderer
+    /// **default**: An instance of XAxisRenderer
     /// - returns: The current set X axis renderer
-    public var xAxisRenderer: ChartXAxisRenderer
+    public var xAxisRenderer: XAxisRenderer
     {
         get { return _xAxisRenderer }
         set { _xAxisRenderer = newValue }
     }
     
     /// The left Y axis renderer. This is a read-write property so you can set your own custom renderer here.
-    /// **default**: An instance of ChartYAxisRenderer
+    /// **default**: An instance of YAxisRenderer
     /// - returns: The current set left Y axis renderer
-    public var leftYAxisRenderer: ChartYAxisRenderer
+    public var leftYAxisRenderer: YAxisRenderer
     {
         get { return _leftYAxisRenderer }
         set { _leftYAxisRenderer = newValue }
     }
     
     /// The right Y axis renderer. This is a read-write property so you can set your own custom renderer here.
-    /// **default**: An instance of ChartYAxisRenderer
+    /// **default**: An instance of YAxisRenderer
     /// - returns: The current set right Y axis renderer
-    public var rightYAxisRenderer: ChartYAxisRenderer
+    public var rightYAxisRenderer: YAxisRenderer
     {
         get { return _rightYAxisRenderer }
         set { _rightYAxisRenderer = newValue }
@@ -1845,7 +1845,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// - returns: The Transformer class that contains all matrices and is
     /// responsible for transforming values into pixels on the screen and
     /// backwards.
-    public func getTransformer(which: ChartYAxis.AxisDependency) -> ChartTransformer
+    public func getTransformer(which: ChartYAxis.AxisDependency) -> Transformer
     {
         if (which == .Left)
         {

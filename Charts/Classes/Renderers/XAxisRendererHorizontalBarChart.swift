@@ -1,5 +1,5 @@
 //
-//  ChartXAxisRendererHorizontalBarChart.swift
+//  XAxisRendererHorizontalBarChart.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 3/3/15.
@@ -18,12 +18,11 @@ import CoreGraphics
     import UIKit
 #endif
 
-
-public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRenderer
+public class XAxisRendererHorizontalBarChart: XAxisRenderer
 {
     internal var chart: BarChartView?
     
-    public init(viewPortHandler: ChartViewPortHandler?, xAxis: ChartXAxis?, transformer: ChartTransformer?, chart: BarChartView?)
+    public init(viewPortHandler: ViewPortHandler?, xAxis: ChartXAxis?, transformer: Transformer?, chart: BarChartView?)
     {
         super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: transformer)
         

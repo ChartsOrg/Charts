@@ -1,5 +1,5 @@
 //
-//  ChartDefaultFillFormatter.swift
+//  DefaultFillFormatter.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 04/02/2016.
@@ -19,7 +19,8 @@ import CoreGraphics
 #endif
 
 /// Default formatter that calculates the position of the filled line.
-public class ChartDefaultFillFormatter: NSObject, ChartFillFormatter
+@objc(ChartDefaultFillFormatter)
+public class DefaultFillFormatter: NSObject, FillFormatter
 {
     public override init()
     {

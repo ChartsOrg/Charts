@@ -1,5 +1,5 @@
 //
-//  ChartLegendRenderer.swift
+//  LegendRenderer.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 4/3/15.
@@ -18,13 +18,13 @@ import CoreGraphics
     import UIKit
 #endif
 
-
-public class ChartLegendRenderer: ChartRendererBase
+@objc(ChartLegendRenderer)
+public class LegendRenderer: Renderer
 {
     /// the legend object this renderer renders
     public var legend: ChartLegend?
 
-    public init(viewPortHandler: ChartViewPortHandler?, legend: ChartLegend?)
+    public init(viewPortHandler: ViewPortHandler?, legend: ChartLegend?)
     {
         super.init(viewPortHandler: viewPortHandler)
         

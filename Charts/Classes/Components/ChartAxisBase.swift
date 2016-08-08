@@ -24,7 +24,7 @@ public class ChartAxisBase: ChartComponentBase
     }
     
     /// Custom formatter that is used instead of the auto-formatter if set
-    private var _axisValueFormatter: ChartAxisValueFormatter?
+    private var _axisValueFormatter: AxisValueFormatter?
     
     public var labelFont = NSUIFont.systemFontOfSize(10.0)
     public var labelTextColor = NSUIColor.blackColor()
@@ -156,21 +156,21 @@ public class ChartAxisBase: ChartComponentBase
     /// Sets the formatter to be used for formatting the axis labels.
     /// If no formatter is set, the chart will automatically determine a reasonable formatting (concerning decimals) for all the values that are drawn inside the chart.
     /// Use `nil` to use the formatter calculated by the chart.
-    public var valueFormatter: ChartAxisValueFormatter?
+    public var valueFormatter: AxisValueFormatter?
     {
         get
         {
             if _axisValueFormatter == nil ||
-                (_axisValueFormatter is ChartDefaultAxisValueFormatter && (_axisValueFormatter as? ChartDefaultAxisValueFormatter)?.decimals != decimals)
+                (_axisValueFormatter is DefaultAxisValueFormatter && (_axisValueFormatter as? DefaultAxisValueFormatter)?.decimals != decimals)
             {
-                _axisValueFormatter = ChartDefaultAxisValueFormatter(decimals: decimals)
+                _axisValueFormatter = DefaultAxisValueFormatter(decimals: decimals)
             }
             
             return _axisValueFormatter
         }
         set
         {
-            _axisValueFormatter = newValue ?? ChartDefaultAxisValueFormatter(decimals: decimals)
+            _axisValueFormatter = newValue ?? DefaultAxisValueFormatter(decimals: decimals)
         }
     }
     

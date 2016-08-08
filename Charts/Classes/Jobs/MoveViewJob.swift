@@ -1,5 +1,5 @@
 //
-//  MoveChartViewJob.swift
+//  MoveViewJob.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -16,13 +16,14 @@ import CoreGraphics
     import UIKit
 #endif
 
-public class MoveChartViewJob: ChartViewPortJob
+@objc(MoveChartViewJob)
+public class MoveViewJob: ViewPortJob
 {
     public override init(
-        viewPortHandler: ChartViewPortHandler,
+        viewPortHandler: ViewPortHandler,
         xValue: Double,
         yValue: Double,
-        transformer: ChartTransformer,
+        transformer: Transformer,
         view: ChartViewBase)
     {
         super.init(

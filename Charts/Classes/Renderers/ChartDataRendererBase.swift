@@ -1,5 +1,5 @@
 //
-//  ChartDataRendererBase.swift
+//  DataRenderer.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 4/3/15.
@@ -14,11 +14,12 @@
 import Foundation
 import CoreGraphics
 
-public class ChartDataRendererBase: ChartRendererBase
+@objc(ChartDataRendererBase)
+public class DataRenderer: Renderer
 {
-    public var animator: ChartAnimator?
+    public var animator: Animator?
     
-    public init(animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler?)
+    public init(animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
         super.init(viewPortHandler: viewPortHandler)
         
@@ -27,17 +28,17 @@ public class ChartDataRendererBase: ChartRendererBase
 
     public func drawData(context context: CGContext)
     {
-        fatalError("drawData() cannot be called on ChartDataRendererBase")
+        fatalError("drawData() cannot be called on DataRenderer")
     }
     
     public func drawValues(context context: CGContext)
     {
-        fatalError("drawValues() cannot be called on ChartDataRendererBase")
+        fatalError("drawValues() cannot be called on DataRenderer")
     }
     
     public func drawExtras(context context: CGContext)
     {
-        fatalError("drawExtras() cannot be called on ChartDataRendererBase")
+        fatalError("drawExtras() cannot be called on DataRenderer")
     }
     
     /// Draws all highlight indicators for the values that are currently highlighted.
@@ -45,7 +46,7 @@ public class ChartDataRendererBase: ChartRendererBase
     /// - parameter indices: the highlighted values
     public func drawHighlighted(context context: CGContext, indices: [Highlight])
     {
-        fatalError("drawHighlighted() cannot be called on ChartDataRendererBase")
+        fatalError("drawHighlighted() cannot be called on DataRenderer")
     }
     
     /// An opportunity for initializing internal buffers used for rendering with a new size.

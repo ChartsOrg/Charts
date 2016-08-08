@@ -1,5 +1,5 @@
 //
-//  ChartViewPortHandler.swift
+//  ViewPortHandler.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 27/2/15.
@@ -15,7 +15,8 @@ import Foundation
 import CoreGraphics
 
 /// Class that contains information about the charts current viewport settings, including offsets, scale & translation levels, ...
-public class ChartViewPortHandler: NSObject
+@objc(ChartViewPortHandler)
+public class ViewPortHandler: NSObject
 {
     /// matrix used for touch events
     private var _touchMatrix = CGAffineTransformIdentity

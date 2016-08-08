@@ -1,5 +1,5 @@
 //
-//  ChartAnimator.swift
+//  Animator.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 3/3/15.
@@ -18,19 +18,20 @@ import CoreGraphics
     import UIKit
 #endif
 
-@objc
-public protocol ChartAnimatorDelegate
+@objc(ChartAnimatorDelegate)
+public protocol AnimatorDelegate
 {
     /// Called when the Animator has stepped.
-    func chartAnimatorUpdated(chartAnimator: ChartAnimator)
+    func animatorUpdated(chartAnimator: Animator)
     
     /// Called when the Animator has stopped.
-    func chartAnimatorStopped(chartAnimator: ChartAnimator)
+    func animatorStopped(chartAnimator: Animator)
 }
 
-public class ChartAnimator: NSObject
+@objc(ChartAnimator)
+public class Animator: NSObject
 {
-    public weak var delegate: ChartAnimatorDelegate?
+    public weak var delegate: AnimatorDelegate?
     public var updateBlock: (() -> Void)?
     public var stopBlock: (() -> Void)?
     
@@ -85,7 +86,7 @@ public class ChartAnimator: NSObject
                 
                 if (delegate != nil)
                 {
-                    delegate!.chartAnimatorUpdated(self)
+                    delegate!.animatorUpdated(self)
                 }
                 if (updateBlock != nil)
                 {
@@ -95,7 +96,7 @@ public class ChartAnimator: NSObject
             
             if (delegate != nil)
             {
-                delegate!.chartAnimatorStopped(self)
+                delegate!.animatorStopped(self)
             }
             if (stopBlock != nil)
             {
@@ -154,7 +155,7 @@ public class ChartAnimator: NSObject
         
         if (delegate != nil)
         {
-            delegate!.chartAnimatorUpdated(self)
+            delegate!.animatorUpdated(self)
         }
         if (updateBlock != nil)
         {
@@ -195,7 +196,7 @@ public class ChartAnimator: NSObject
         
         if (_enabledX || _enabledY)
         {
-            _displayLink = NSUIDisplayLink(target: self, selector: #selector(ChartAnimator.animationLoop))
+            _displayLink = NSUIDisplayLink(target: self, selector: #selector(Animator.animationLoop))
             _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
         }
     }
@@ -261,7 +262,7 @@ public class ChartAnimator: NSObject
         {
             if _displayLink === nil
             {
-                _displayLink = NSUIDisplayLink(target: self, selector: #selector(ChartAnimator.animationLoop))
+                _displayLink = NSUIDisplayLink(target: self, selector: #selector(Animator.animationLoop))
                 _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
             }
         }
@@ -305,7 +306,7 @@ public class ChartAnimator: NSObject
         {
             if _displayLink === nil
             {
-                _displayLink = NSUIDisplayLink(target: self, selector: #selector(ChartAnimator.animationLoop))
+                _displayLink = NSUIDisplayLink(target: self, selector: #selector(Animator.animationLoop))
                 _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
             }
         }

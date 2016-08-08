@@ -19,11 +19,11 @@ import CoreGraphics
 #endif
 
 
-public class PieChartRenderer: ChartDataRendererBase
+public class PieChartRenderer: DataRenderer
 {
     public weak var chart: PieChartView?
     
-    public init(chart: PieChartView?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler?)
+    public init(chart: PieChartView?, animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
