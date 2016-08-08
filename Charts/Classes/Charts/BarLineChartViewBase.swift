@@ -1031,7 +1031,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             scaleY: scaleY,
             x: center.x,
             y: -center.y)
-        viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
+        viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
     }
     
     /// Zooms by the specified scale factor to the specified values on the specified axis.
