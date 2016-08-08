@@ -22,7 +22,6 @@ public class BalloonMarker: MarkerImage
     
     private var labelns: NSString?
     private var _labelSize: CGSize = CGSize()
-    private var _size: CGSize = CGSize()
     private var _paragraphStyle: NSMutableParagraphStyle?
     private var _drawAttributes = [String : AnyObject]()
     
@@ -38,8 +37,6 @@ public class BalloonMarker: MarkerImage
         _paragraphStyle?.alignment = .Center
     }
     
-    public override var size: CGSize { return _size; }
-    
     public override func draw(context context: CGContext, point: CGPoint)
     {
         if (labelns == nil)
@@ -48,14 +45,15 @@ public class BalloonMarker: MarkerImage
         }
         
         let offset = self.offsetForDrawingAtPos(point)
+        let size = self.size
         
         var rect = CGRect(
             origin: CGPoint(
                 x: point.x + offset.x,
                 y: point.y + offset.y),
-            size: _size)
-        rect.origin.x -= _size.width / 2.0
-        rect.origin.y -= _size.height
+            size: size)
+        rect.origin.x -= size.width / 2.0
+        rect.origin.y -= size.height
         
         CGContextSaveGState(context)
         
@@ -109,9 +107,12 @@ public class BalloonMarker: MarkerImage
         _drawAttributes[NSParagraphStyleAttributeName] = _paragraphStyle
         
         _labelSize = labelns?.sizeWithAttributes(_drawAttributes) ?? CGSizeZero
-        _size.width = _labelSize.width + self.insets.left + self.insets.right
-        _size.height = _labelSize.height + self.insets.top + self.insets.bottom
-        _size.width = max(minimumSize.width, _size.width)
-        _size.height = max(minimumSize.height, _size.height)
+        
+        var size = CGSize()
+        size.width = _labelSize.width + self.insets.left + self.insets.right
+        size.height = _labelSize.height + self.insets.top + self.insets.bottom
+        size.width = max(minimumSize.width, size.width)
+        size.height = max(minimumSize.height, size.height)
+        self.size = size
     }
 }

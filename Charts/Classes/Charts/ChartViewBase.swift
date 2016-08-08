@@ -125,10 +125,15 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     /// array of Highlight objects that reference the highlighted slices in the chart
     internal var _indicesToHighlight = [ChartHighlight]()
     
-    /// if set to true, the marker is drawn when a value is clicked
+    /// `true` if drawing the marker is enabled when tapping on values
+    /// (use the `marker` property to specify a marker)
     public var drawMarkers = true
     
-    /// the view that represents the marker
+    /// - returns: `true` if drawing the marker is enabled when tapping on values
+    /// (use the `marker` property to specify a marker)
+    public var isDrawMarkersEnabled: Bool { return drawMarkers }
+    
+    /// The marker that is displayed when a value is clicked on the chart
     public var marker: IMarker?
     
     private var _interceptTouchEvents = false
@@ -546,11 +551,12 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     internal func drawMarkers(context context: CGContext)
     {
         // if there is no marker view or drawing marker is disabled
-        if (marker === nil || !drawMarkers || !valuesToHighlight())
-        {
-            return
-        }
-
+        guard
+            let marker = marker
+            where isDrawMarkersEnabled &&
+                valuesToHighlight()
+            else { return }
+        
         for i in 0 ..< _indicesToHighlight.count
         {
             let highlight = _indicesToHighlight[i]
@@ -575,18 +581,10 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
             }
 
             // callbacks to update the content
-            marker!.refreshContent(entry: e, highlight: highlight)
-
-            let markerSize = marker!.size
-            if pos.y - markerSize.height <= 0.0
-            {
-                let y = markerSize.height - pos.y
-                marker!.draw(context: context, point: CGPoint(x: pos.x, y: pos.y + y))
-            }
-            else
-            {
-                marker!.draw(context: context, point: pos)
-            }
+            marker.refreshContent(entry: e, highlight: highlight)
+            
+            // draw the marker
+            marker.draw(context: context, point: pos)
         }
     }
     

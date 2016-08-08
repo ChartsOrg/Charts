@@ -15,23 +15,25 @@ import CoreGraphics
 @objc(IChartMarker)
 public protocol IMarker: NSObjectProtocol
 {
-    /// Use this to return the desired offset you wish the IMarker to have on the x-axis.
+    /// - returns: The desired offset you wish the IMarker to have on the x-axis.
+    ///
+    /// By returning x: -(width / 2) you will center the IMarker horizontally.
+    ///
+    /// By returning y: -(height / 2) you will center the IMarker vertically.
     var offset: CGPoint { get }
     
-    /// The marker's size
-    var size: CGSize { get }
-    
-    /// Returns the offset for drawing at the specific `point`
+    /// - returns: The offset for drawing at the specific `point`.
+    ///            If you have no adjustments to make, return self.offset().
     ///
     /// - parameter point: This is the point at which the marker wants to be drawn. You can adjust the offset conditionally based on this argument.
-    /// - By default returns the self.offset property. You can return any other value to override that.
     func offsetForDrawingAtPos(point: CGPoint) -> CGPoint
     
-    /// Draws the ChartMarker on the given position on the given context
-    func draw(context context: CGContext, point: CGPoint)
-    
-    /// This method enables a custom ChartMarker to update it's content everytime the MarkerView is redrawn according to the data entry it points to.
+    /// This method enables a custom IMarker to update it's content every time the IMarker is redrawn according to the data entry it points to.
     ///
-    /// - parameter highlight: the highlight object contains information about the highlighted value such as it's dataset-index, the selected range or stack-index (only stacked bar entries).
+    /// - parameter entry: The Entry the IMarker belongs to. This can also be any subclass of Entry, like BarEntry or CandleEntry, simply cast it at runtime.
+    /// - parameter highlight: The highlight object contains information about the highlighted value such as it's dataset-index, the selected range or stack-index (only stacked bar entries).
     func refreshContent(entry entry: ChartDataEntry, highlight: ChartHighlight)
+    
+    /// Draws the IMarker on the given position on the given context
+    func draw(context context: CGContext, point: CGPoint)
 }

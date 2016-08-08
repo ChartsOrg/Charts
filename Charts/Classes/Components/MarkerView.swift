@@ -21,37 +21,55 @@ public class MarkerView: NSUIView, IMarker
 {
     public var offset: CGPoint = CGPoint()
     
-    public var size: CGSize
-    {
-        get
-        {
-            return self.frame.size
-        }
-    }
+    public weak var chartView: ChartViewBase?
     
     public func offsetForDrawingAtPos(point: CGPoint) -> CGPoint
     {
+        var offset = self.offset
+        
+        let chart = self.chartView
+        
+        let width = self.bounds.size.width
+        let height = self.bounds.size.height
+        
+        if point.x + offset.x < 0.0
+        {
+            offset.x = -point.x
+        }
+        else if chart != nil && point.x + width + offset.x > chart!.bounds.size.width
+        {
+            offset.x = chart!.bounds.size.width - point.x - width
+        }
+        
+        if point.y + offset.y < 0
+        {
+            offset.y = -point.y
+        }
+        else if chart != nil && point.y + height + offset.y > chart!.bounds.size.height
+        {
+            offset.y = chart!.bounds.size.height - point.y - height
+        }
+        
         return offset
-    }
-    
-    public func draw(context context: CGContext, point: CGPoint)
-    {
-        let offset = self.offsetForDrawingAtPos(point)
-        let size = self.size
-        
-        let rect = CGRect(x: point.x + offset.x, y: point.y + offset.y, width: size.width, height: size.height)
-        
-        CGContextSaveGState(context)
-        CGContextTranslateCTM(context, rect.origin.x, rect.origin.y)
-        NSUIGraphicsPushContext(context)
-        self.nsuiLayer?.renderInContext(context)
-        NSUIGraphicsPopContext()
-        CGContextRestoreGState(context)
     }
     
     public func refreshContent(entry entry: ChartDataEntry, highlight: ChartHighlight)
     {
         // Do nothing here...
+    }
+    
+    public func draw(context context: CGContext, point: CGPoint)
+    {
+        let offset = self.offsetForDrawingAtPos(point)
+        
+        CGContextSaveGState(context)
+        CGContextTranslateCTM(context,
+                              point.x + offset.x,
+                              point.y + offset.y)
+        NSUIGraphicsPushContext(context)
+        self.nsuiLayer?.renderInContext(context)
+        NSUIGraphicsPopContext()
+        CGContextRestoreGState(context)
     }
     
     @objc

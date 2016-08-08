@@ -62,6 +62,7 @@
     _chartView.webAlpha = 1.0;
     
     RadarMarkerView *marker = (RadarMarkerView *)[RadarMarkerView viewFromXib];
+    marker.chartView = _chartView;
     _chartView.marker = marker;
     
     ChartXAxis *xAxis = _chartView.xAxis;
