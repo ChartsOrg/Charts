@@ -51,7 +51,7 @@ public class HorizontalBarChartHighlighter: BarChartHighlighter
         
         if let e = set.entryForXPos(xValue, rounding: rounding)
         {
-            let px = chart.getTransformer(set.axisDependency).pixelForValue(x: e.y, y: e.x)
+            let px = chart.getTransformer(set.axisDependency).pixelForValues(x: e.y, y: e.x)
             
             return ChartHighlight(x: e.x, y: e.y, xPx: px.x, yPx: px.y,dataSetIndex: dataSetIndex, axis: set.axisDependency)
         }

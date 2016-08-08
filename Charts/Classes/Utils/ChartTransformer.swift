@@ -81,7 +81,7 @@ public class ChartTransformer: NSObject
         point = CGPointApplyAffineTransform(point, valueToPixelMatrix)
     }
     
-    public func pixelForValue(x x: Double, y: Double) -> CGPoint
+    public func pixelForValues(x x: Double, y: Double) -> CGPoint
     {
         return CGPointApplyAffineTransform(CGPoint(x: x, y: y), valueToPixelMatrix)
     }
@@ -135,7 +135,7 @@ public class ChartTransformer: NSObject
     }
     
     /// Transforms the given array of touch points (pixels) into values on the chart.
-    public func pixelsToValue(inout pixels: [CGPoint])
+    public func pixelsToValues(inout pixels: [CGPoint])
     {
         let trans = pixelToValueMatrix
         
@@ -146,7 +146,7 @@ public class ChartTransformer: NSObject
     }
     
     /// Transforms the given touch point (pixels) into a value on the chart.
-    public func pixelToValue(inout pixel: CGPoint)
+    public func pixelToValues(inout pixel: CGPoint)
     {
         pixel = CGPointApplyAffineTransform(pixel, pixelToValueMatrix)
     }

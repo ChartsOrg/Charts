@@ -78,7 +78,7 @@ public class BarChartHighlighter: ChartHighlighter
             
             let pixel = chart
                 .getTransformer(set.axisDependency)
-                .pixelForValue(x: high.x, y: ranges[stackIndex].to)
+                .pixelForValues(x: high.x, y: ranges[stackIndex].to)
 
             return ChartHighlight(x: entry.x,
                                   y: entry.y,

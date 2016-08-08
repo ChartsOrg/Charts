@@ -246,7 +246,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         CGContextSetStrokeColorWithColor(context, zeroLineColor.CGColor)
         CGContextSetLineWidth(context, yAxis.zeroLineWidth)
         
-        let pos = transformer.pixelForValue(x: 0.0, y: 0.0)
+        let pos = transformer.pixelForValues(x: 0.0, y: 0.0)
         
         if yAxis.zeroLineDashLengths != nil
         {

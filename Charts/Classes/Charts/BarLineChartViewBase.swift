@@ -141,7 +141,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         if (keepPositionOnRotation && (keyPath == "frame" || keyPath == "bounds"))
         {
             oldPoint = viewPortHandler.contentRect.origin
-            getTransformer(.Left).pixelToValue(&oldPoint!)
+            getTransformer(.Left).pixelToValues(&oldPoint!)
         }
         
         // Superclass transforms chart.
@@ -1601,9 +1601,9 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
 
     /// Transforms the given chart values into pixels. This is the opposite
     /// method to `valueForTouchPoint(...)`.
-    public func getPixelForValue(x: Double, y: Double, axis: ChartYAxis.AxisDependency) -> CGPoint
+    public func pixelForValues(x x: Double, y: Double, axis: ChartYAxis.AxisDependency) -> CGPoint
     {
-        return getTransformer(axis).pixelForValue(x: x, y: y)
+        return getTransformer(axis).pixelForValues(x: x, y: y)
     }
     
     /// - returns: the Entry object displayed at the touched position of the chart
@@ -1882,7 +1882,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             x: viewPortHandler.contentLeft,
             y: viewPortHandler.contentBottom)
         
-        getTransformer(.Left).pixelToValue(&pt)
+        getTransformer(.Left).pixelToValues(&pt)
         
         return max(xAxis._axisMinimum, Double(pt.x))
     }
@@ -1894,7 +1894,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             x: viewPortHandler.contentRight,
             y: viewPortHandler.contentBottom)
         
-        getTransformer(.Left).pixelToValue(&pt)
+        getTransformer(.Left).pixelToValues(&pt)
 
         return min(xAxis._axisMaximum, Double(pt.x))
     }

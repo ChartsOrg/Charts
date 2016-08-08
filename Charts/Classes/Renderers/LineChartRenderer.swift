@@ -721,7 +721,7 @@ public class LineChartRenderer: LineRadarChartRenderer
             
             let trans = dataProvider.getTransformer(set.axisDependency)
             
-            let pt = trans.pixelForValue(x: x, y: y)
+            let pt = trans.pixelForValues(x: x, y: y)
             
             high.setDraw(pt: pt)
             

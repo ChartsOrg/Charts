@@ -118,7 +118,7 @@ public class ChartHighlighter : NSObject, IChartHighlighter
         
         if let e = set.entryForXPos(xValue, rounding: rounding)
         {
-            let px = chart.getTransformer(set.axisDependency).pixelForValue(x: e.x, y: e.y)
+            let px = chart.getTransformer(set.axisDependency).pixelForValues(x: e.x, y: e.y)
             
             return ChartHighlight(x: e.x, y: e.y, xPx: px.x, yPx: px.y, dataSetIndex: dataSetIndex, axis: set.axisDependency)
         }
