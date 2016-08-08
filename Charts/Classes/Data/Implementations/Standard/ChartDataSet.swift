@@ -263,60 +263,48 @@ public class ChartDataSet: ChartBaseDataSet
     ///
     /// - parameter x: x-index of the entry to search for
     /// - parameter rounding: x-index of the entry to search for
-    public override func entryIndex(x x: Double, rounding: ChartDataSetRounding) -> Int
+    public override func entryIndex(x xValue: Double, rounding: ChartDataSetRounding) -> Int
     {
         var low = 0
         var high = _values.count - 1
-        var closest = -1
         
-        while low <= high
+        while low < high
         {
-            var m = (high + low) / 2
-            let entry = _values[m]
+            let m = (low + high) / 2
             
-            if x == entry.x
-            {
-                while m > 0 && _values[m - 1].x == x
-                {
-                    m -= 1
-                }
-                
-                return m
-            }
+            let d1 = abs(_values[m].x - xValue)
+            let d2 = abs(_values[m + 1].x - xValue)
             
-            if x > entry.x
+            if d2 <= d1
             {
                 low = m + 1
             }
             else
             {
-                high = m - 1
+                high = m
             }
-            
-            closest = m
         }
         
-        if closest != -1
+        if high != -1
         {
+            let closestXValue = _values[high].x
             if rounding == .Up
             {
-                let closestXIndex = _values[closest].x
-                if closestXIndex < x && closest < _values.count - 1
+                if closestXValue < xValue && high < _values.count - 1
                 {
-                    closest = closest + 1
+                    high += 1
                 }
             }
             else if rounding == .Down
             {
-                let closestXIndex = _values[closest].x
-                if closestXIndex > x && closest > 0
+                if closestXValue > xValue && high > 0
                 {
-                    closest = closest - 1
+                    high -= 1
                 }
             }
         }
         
-        return closest
+        return high
     }
     
     /// - returns: The array-index of the specified entry
