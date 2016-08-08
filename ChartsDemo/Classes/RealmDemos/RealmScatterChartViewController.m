@@ -72,7 +72,7 @@
     set.label = @"Realm ScatterDataSet";
     set.scatterShapeSize = 9.f;
     [set setColor:[ChartColorTemplates colorFromString:@"#CDDC39"]];
-    set.scatterShape = ScatterShapeCircle;
+    [set setScatterShape:ScatterShapeCircle];
     
     NSArray<id <IChartDataSet>> *dataSets = @[set];
     

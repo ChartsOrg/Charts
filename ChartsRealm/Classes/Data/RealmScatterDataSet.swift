@@ -33,51 +33,17 @@ public class RealmScatterDataSet: RealmLineScatterCandleRadarDataSet, IScatterCh
     /// **default**: nil
     public var scatterShapeHoleColor: NSUIColor? = nil
     
-    private var _scatterShape: ScatterChartDataSet.Shape = ScatterChartDataSet.Shape.Square
-    
     /// Sets the ScatterShape this DataSet should be drawn with.
-    /// This will search for an available ShapeRenderer and set this renderer for the DataSet
-    public var scatterShape: ScatterChartDataSet.Shape
+    /// This will search for an available IShapeRenderer and set this renderer for the DataSet
+    public func setScatterShape(shape: ScatterChartDataSet.Shape)
     {
-        get
-        {
-            return _scatterShape
-        }
-        set
-        {
-            _scatterShape = newValue
-            
-            switch _scatterShape
-            {
-            case .Square: _shapeRenderer = SquareShapeRenderer()
-            case .Circle: _shapeRenderer = CircleShapeRenderer()
-            case .Triangle: _shapeRenderer = TriangleShapeRenderer()
-            case .Cross: _shapeRenderer = CrossShapeRenderer()
-            case .X: _shapeRenderer = XShapeRenderer()
-            case .ChevronUp: _shapeRenderer = ChevronUpShapeRenderer()
-            case .ChevronDown: _shapeRenderer = ChevronDownShapeRenderer()
-            case .Custom: break // Do nothing. Leave it as it is.
-            }
-        }
+        self.shapeRenderer = ScatterChartDataSet.renderer(forShape: shape)
     }
     
-    private var _shapeRenderer: IShapeRenderer?
-    
-    /// The ShapeRenderer responsible for rendering this DataSet.
-    /// This can also be used to set a custom ShapeRenderer aside from the default ones.
+    /// The IShapeRenderer responsible for rendering this DataSet.
+    /// This can also be used to set a custom IShapeRenderer aside from the default ones.
     /// **default**: `SquareShapeRenderer`
     public var shapeRenderer: IShapeRenderer?
-    {
-        get
-        {
-            return _shapeRenderer
-        }
-        set
-        {
-            _scatterShape = .Custom
-            _shapeRenderer = newValue
-        }
-    }
     
     public override func initialize()
     {
@@ -89,9 +55,7 @@ public class RealmScatterDataSet: RealmLineScatterCandleRadarDataSet, IScatterCh
     public override func copyWithZone(zone: NSZone) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! RealmScatterDataSet
-        copy._scatterShape = _scatterShape
         copy.scatterShapeSize = scatterShapeSize
-        copy.scatterShape = scatterShape
         copy.scatterShapeHoleRadius = scatterShapeHoleRadius
         copy.scatterShapeHoleColor = scatterShapeHoleColor
         copy.shapeRenderer = shapeRenderer
