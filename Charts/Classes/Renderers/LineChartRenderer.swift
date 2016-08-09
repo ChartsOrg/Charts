@@ -97,7 +97,7 @@ public class LineChartRenderer: LineRadarRenderer
         
         let phaseY = animator.phaseY
         
-        let bounds = xBounds(dataProvider, dataSet: dataSet, animator: animator)
+        _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
         
         // get the color that is specified for this position from the DataSet
         let drawingColor = dataSet.colors.first!
@@ -109,29 +109,29 @@ public class LineChartRenderer: LineRadarRenderer
         
         var valueToPixelMatrix = trans.valueToPixelMatrix
         
-        if bounds.range >= 1
+        if _xBounds.range >= 1
         {
             var prevDx: CGFloat = 0.0
             var prevDy: CGFloat = 0.0
             var curDx: CGFloat = 0.0
             var curDy: CGFloat = 0.0
             
-            var prevPrev: ChartDataEntry! = dataSet.entryForIndex(bounds.min)
+            var prevPrev: ChartDataEntry! = dataSet.entryForIndex(_xBounds.min)
             var prev: ChartDataEntry! = prevPrev
             var cur: ChartDataEntry! = prev
-            var next: ChartDataEntry! = dataSet.entryForIndex(bounds.min + 1)
+            var next: ChartDataEntry! = dataSet.entryForIndex(_xBounds.min + 1)
             
             if cur == nil || next == nil { return }
             
             // let the spline start
             CGPathMoveToPoint(cubicPath, &valueToPixelMatrix, CGFloat(cur.x), CGFloat(cur.y * phaseY))
             
-            for j in (bounds.min + 1).stride(through: bounds.range + bounds.min, by: 1)
+            for j in (_xBounds.min + 1).stride(through: _xBounds.range + _xBounds.min, by: 1)
             {
                 prevPrev = prev
                 prev = cur
                 cur = next
-                next = bounds.max > j + 1 ? dataSet.entryForIndex(j + 1) : cur
+                next = _xBounds.max > j + 1 ? dataSet.entryForIndex(j + 1) : cur
                 
                 if next == nil { break }
                 
@@ -157,7 +157,7 @@ public class LineChartRenderer: LineRadarRenderer
             // Copy this path because we make changes to it
             let fillPath = CGPathCreateMutableCopy(cubicPath)
             
-            drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, bounds: bounds)
+            drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, bounds: _xBounds)
         }
         
         CGContextBeginPath(context)
@@ -179,7 +179,7 @@ public class LineChartRenderer: LineRadarRenderer
         
         let phaseY = animator.phaseY
         
-        let bounds = xBounds(dataProvider, dataSet: dataSet, animator: animator)
+        _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
         
         // get the color that is specified for this position from the DataSet
         let drawingColor = dataSet.colors.first!
@@ -189,9 +189,9 @@ public class LineChartRenderer: LineRadarRenderer
         
         var valueToPixelMatrix = trans.valueToPixelMatrix
         
-        if bounds.range >= 1
+        if _xBounds.range >= 1
         {
-            var prev: ChartDataEntry! = dataSet.entryForIndex(bounds.min)
+            var prev: ChartDataEntry! = dataSet.entryForIndex(_xBounds.min)
             var cur: ChartDataEntry! = prev
             
             if cur == nil { return }
@@ -199,7 +199,7 @@ public class LineChartRenderer: LineRadarRenderer
             // let the spline start
             CGPathMoveToPoint(cubicPath, &valueToPixelMatrix, CGFloat(cur.x), CGFloat(cur.x * phaseY))
             
-            for j in (bounds.min + 1).stride(through: bounds.range + bounds.min, by: 1)
+            for j in (_xBounds.min + 1).stride(through: _xBounds.range + _xBounds.min, by: 1)
             {
                 prev = cur
                 cur = dataSet.entryForIndex(j)
@@ -221,7 +221,7 @@ public class LineChartRenderer: LineRadarRenderer
             // Copy this path because we make changes to it
             let fillPath = CGPathCreateMutableCopy(cubicPath)
             
-            drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, bounds: bounds)
+            drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, bounds: _xBounds)
         }
         
         CGContextBeginPath(context)
@@ -287,7 +287,7 @@ public class LineChartRenderer: LineRadarRenderer
         
         let phaseY = animator.phaseY
         
-        let bounds = xBounds(dataProvider, dataSet: dataSet, animator: animator)
+        _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
         
         CGContextSaveGState(context)
         
@@ -301,7 +301,7 @@ public class LineChartRenderer: LineRadarRenderer
                 _lineSegments = [CGPoint](count: pointsPerEntryPair, repeatedValue: CGPoint())
             }
             
-            for j in bounds.min.stride(through: bounds.range + bounds.min, by: 1)
+            for j in _xBounds.min.stride(through: _xBounds.range + _xBounds.min, by: 1)
             {
                 var e: ChartDataEntry! = dataSet.entryForIndex(j)
                 
@@ -310,7 +310,7 @@ public class LineChartRenderer: LineRadarRenderer
                 _lineSegments[0].x = CGFloat(e.x)
                 _lineSegments[0].y = CGFloat(e.y * phaseY)
                 
-                if j < bounds.range
+                if j < _xBounds.range
                 {
                     e = dataSet.entryForIndex(j + 1)
                     
@@ -366,12 +366,12 @@ public class LineChartRenderer: LineRadarRenderer
                 _lineSegments = [CGPoint](count: max((entryCount) * pointsPerEntryPair, pointsPerEntryPair), repeatedValue: CGPoint())
             }
             
-            e1 = dataSet.entryForIndex(bounds.min)
+            e1 = dataSet.entryForIndex(_xBounds.min)
             
             if e1 != nil
             {
                 var j = 0
-                for x in bounds.min.stride(through: bounds.range + bounds.min, by: 1)
+                for x in _xBounds.min.stride(through: _xBounds.range + _xBounds.min, by: 1)
                 {
                     e1 = dataSet.entryForIndex(x == 0 ? 0 : (x - 1))
                     e2 = dataSet.entryForIndex(x)
@@ -412,7 +412,7 @@ public class LineChartRenderer: LineRadarRenderer
                 
                 if j > 0
                 {
-                    let size = max((bounds.range + 1) * pointsPerEntryPair, pointsPerEntryPair)
+                    let size = max((_xBounds.range + 1) * pointsPerEntryPair, pointsPerEntryPair)
                     CGContextSetStrokeColorWithColor(context, dataSet.colorAt(0).CGColor)
                     CGContextStrokeLineSegments(context, _lineSegments, size)
                 }
@@ -424,7 +424,7 @@ public class LineChartRenderer: LineRadarRenderer
         // if drawing filled is enabled
         if (dataSet.isDrawFilledEnabled && entryCount > 0)
         {
-            drawLinearFill(context: context, dataSet: dataSet, trans: trans, bounds: bounds)
+            drawLinearFill(context: context, dataSet: dataSet, trans: trans, bounds: _xBounds)
         }
     }
     
@@ -533,9 +533,9 @@ public class LineChartRenderer: LineRadarRenderer
                     valOffset = valOffset / 2
                 }
                 
-                let bounds = xBounds(dataProvider, dataSet: dataSet, animator: animator)
+                _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
                 
-                for j in bounds.min.stride(to: Int(ceil(Double(bounds.max - bounds.min) * phaseX + Double(bounds.min))), by: 1)
+                for j in _xBounds.min.stride(to: Int(ceil(Double(_xBounds.max - _xBounds.min) * phaseX + Double(_xBounds.min))), by: 1)
                 {
                     guard let e = dataSet.entryForIndex(j) else { break }
                     
@@ -600,7 +600,7 @@ public class LineChartRenderer: LineRadarRenderer
             let trans = dataProvider.getTransformer(dataSet.axisDependency)
             let valueToPixelMatrix = trans.valueToPixelMatrix
             
-            let bounds = xBounds(dataProvider, dataSet: dataSet, animator: animator)
+            _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
             
             let circleRadius = dataSet.circleRadius
             let circleDiameter = circleRadius * 2.0
@@ -614,7 +614,7 @@ public class LineChartRenderer: LineRadarRenderer
                 (dataSet.circleHoleColor == nil ||
                     dataSet.circleHoleColor == NSUIColor.clearColor())
             
-            for j in bounds.min.stride(through: bounds.range + bounds.min, by: 1)
+            for j in _xBounds.min.stride(through: _xBounds.range + _xBounds.min, by: 1)
             {
                 guard let e = dataSet.entryForIndex(j) else { break }
 

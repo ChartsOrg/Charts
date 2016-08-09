@@ -141,9 +141,9 @@ public class ScatterChartRenderer: LineScatterCandleRadarRenderer
                 let shapeSize = dataSet.scatterShapeSize
                 let lineHeight = valueFont.lineHeight
                 
-                let bounds = xBounds(dataProvider, dataSet: dataSet, animator: animator)
+                _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
                 
-                for j in bounds.min.stride(through: bounds.range + bounds.min, by: 1)
+                for j in _xBounds.min.stride(through: _xBounds.range + _xBounds.min, by: 1)
                 {
                     guard let e = dataSet.entryForIndex(j) else { break }
                     

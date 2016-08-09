@@ -15,6 +15,8 @@ import CoreGraphics
 @objc(BarLineScatterCandleBubbleChartRenderer)
 public class BarLineScatterCandleBubbleRenderer: DataRenderer
 {
+    internal var _xBounds = XBounds() // Reusable XBounds object
+    
     public override init(animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
@@ -54,27 +56,39 @@ public class BarLineScatterCandleBubbleRenderer: DataRenderer
     public class XBounds
     {
         /// minimum visible entry index
-        public let min: Int
+        public var min: Int = 0
 
         /// maximum visible entry index
-        public let max: Int
+        public var max: Int = 0
 
         /// range of visible entry indices
-        public let range: Int
+        public var range: Int = 0
 
-        /// Calculates the minimum and maximum x values as well as the range between them.
+        public init()
+        {
+            
+        }
+        
         public init(chart: BarLineScatterCandleBubbleChartDataProvider,
                     dataSet: IBarLineScatterCandleBubbleChartDataSet,
                     animator: Animator?)
         {
+            self.set(chart: chart, dataSet: dataSet, animator: animator)
+        }
+        
+        /// Calculates the minimum and maximum x values as well as the range between them.
+        public func set(chart chart: BarLineScatterCandleBubbleChartDataProvider,
+                              dataSet: IBarLineScatterCandleBubbleChartDataSet,
+                              animator: Animator?)
+        {
             let phaseX = Swift.max(0.0, Swift.min(1.0, animator?.phaseX ?? 1.0))
-
+            
             let low = chart.lowestVisibleX
             let high = chart.highestVisibleX
-
+            
             let entryFrom = dataSet.entryForXValue(low, rounding: ChartDataSetRounding.Down)
             let entryTo = dataSet.entryForXValue(high, rounding: ChartDataSetRounding.Up)
-
+            
             self.min = entryFrom == nil ? 0 : dataSet.entryIndex(entry: entryFrom!)
             self.max = entryTo == nil ? 0 : dataSet.entryIndex(entry: entryTo!)
             range = Int(Double(self.max - self.min) * phaseX)

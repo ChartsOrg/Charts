@@ -69,7 +69,7 @@ public class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         
         let phaseY = animator.phaseY
         
-        let bounds = xBounds(dataProvider, dataSet: dataSet, animator: animator)
+        _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
         
         let valueToPixelMatrix = trans.valueToPixelMatrix
     
@@ -89,7 +89,7 @@ public class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         let maxBubbleHeight: CGFloat = abs(viewPortHandler.contentBottom - viewPortHandler.contentTop)
         let referenceSize: CGFloat = min(maxBubbleHeight, maxBubbleWidth)
         
-        for j in bounds.min.stride(through: bounds.range + bounds.min, by: 1)
+        for j in _xBounds.min.stride(through: _xBounds.range + _xBounds.min, by: 1)
         {
             guard let entry = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { continue }
             
@@ -162,12 +162,12 @@ public class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
                 
                 guard let formatter = dataSet.valueFormatter else { continue }
                 
-                let bounds = xBounds(dataProvider, dataSet: dataSet, animator: animator)
+                _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
                 
                 let trans = dataProvider.getTransformer(dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix
                 
-                for j in bounds.min.stride(through: bounds.range + bounds.min, by: 1)
+                for j in _xBounds.min.stride(through: _xBounds.range + _xBounds.min, by: 1)
                 {
                     guard let e = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { break }
                     

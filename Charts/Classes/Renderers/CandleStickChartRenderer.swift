@@ -63,13 +63,13 @@ public class CandleStickChartRenderer: LineScatterCandleRadarRenderer
         let barSpace = dataSet.barSpace
         let showCandleBar = dataSet.showCandleBar
         
-        let bounds = xBounds(dataProvider, dataSet: dataSet, animator: animator)
+        _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
         
         CGContextSaveGState(context)
         
         CGContextSetLineWidth(context, dataSet.shadowWidth)
         
-        for j in bounds.min.stride(through: bounds.range + bounds.min, by: 1)
+        for j in _xBounds.min.stride(through: _xBounds.range + _xBounds.min, by: 1)
         {
             // get the entry
             guard let e = dataSet.entryForIndex(j) as? CandleChartDataEntry else { continue }
@@ -272,12 +272,12 @@ public class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 let trans = dataProvider.getTransformer(dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix
                 
-                let bounds = xBounds(dataProvider, dataSet: dataSet, animator: animator)
+                _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
                 
                 let lineHeight = valueFont.lineHeight
                 let yOffset: CGFloat = lineHeight + 5.0
                 
-                for j in bounds.min.stride(through: bounds.range + bounds.min, by: 1)
+                for j in _xBounds.min.stride(through: _xBounds.range + _xBounds.min, by: 1)
                 {
                     guard let e = dataSet.entryForIndex(j) as? CandleChartDataEntry else { break }
                     
