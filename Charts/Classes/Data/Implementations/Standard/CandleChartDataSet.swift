@@ -65,11 +65,13 @@ public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChar
             if (e.low < _yMin)
             {
                 _yMin = e.low
+                _yMinXIndex = e.xIndex
             }
             
             if (e.high > _yMax)
             {
                 _yMax = e.high
+                _yMaxXIndex = e.xIndex
             }
         }
     }
@@ -137,7 +139,7 @@ public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChar
     
     /// Are increasing values drawn as filled?
     /// increasing candlesticks are traditionally hollow
-    public var increasingFilled = false
+    public var increasingFilled = true
     
     /// Are increasing values drawn as filled?
     public var isIncreasingFilled: Bool { return increasingFilled }

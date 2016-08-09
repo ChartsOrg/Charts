@@ -57,7 +57,8 @@ public class ChartDataSet: ChartBaseDataSet
     internal var _yVals: [ChartDataEntry]!
     internal var _yMax = Double(0.0)
     internal var _yMin = Double(0.0)
-    
+    internal var _yMinXIndex = 0
+    internal var _yMaxXIndex = 0
     /// the last start value used for calcMinMax
     internal var _lastStart: Int = 0
     
@@ -119,10 +120,12 @@ public class ChartDataSet: ChartBaseDataSet
                 if (e.value < _yMin)
                 {
                     _yMin = e.value
+                    _yMinXIndex = e.xIndex
                 }
                 if (e.value > _yMax)
                 {
                     _yMax = e.value
+                    _yMaxXIndex = e.xIndex
                 }
             }
         }
@@ -139,6 +142,14 @@ public class ChartDataSet: ChartBaseDataSet
     
     /// - returns: the maximum y-value this DataSet holds
     public override var yMax: Double { return _yMax }
+    
+    
+    /// - returns: the minimum y-value this DataSet holds
+    public override var yMaxXIndex: Int { return _yMaxXIndex }
+    
+    /// - returns: the maximum y-value this DataSet holds
+    public override var yMinXIndex: Int { return _yMinXIndex }
+    
     
     /// - returns: the number of y-values this DataSet represents
     public override var entryCount: Int { return _yVals?.count ?? 0 }

@@ -270,7 +270,6 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                 {
                     continue
                 }
-                
                 let valueFont = dataSet.valueFont
                 
                 guard let formatter = dataSet.valueFormatter else { continue }
@@ -319,6 +318,76 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
     
     public override func drawExtras(context context: CGContext)
     {
+//        dataProvider
+        guard let
+            dataProvider = dataProvider,
+            candleData = dataProvider.candleData,
+            animator = animator
+            else { return }
+        
+        var dataSets = candleData.dataSets
+        
+//        let phaseX = max(0.0, min(1.0, animator.phaseX))
+        let phaseY = animator.phaseY
+        
+        var pt = CGPoint()
+        
+        for i in 0 ..< dataSets.count
+        {
+            let dataSet = dataSets[i]
+            
+            guard dataSet.drawMinMaxValueEnable == true  else {continue}
+
+            let valueFont = dataSet.minMaxFont
+            let color = dataSet.colorForMinMaxValue
+            
+            guard let formatter = dataSet.valueFormatter else { continue }
+            
+            let trans = dataProvider.getTransformer(dataSet.axisDependency)
+            let valueToPixelMatrix = trans.valueToPixelMatrix
+
+            
+            let lineHeight = valueFont.lineHeight
+            var yOffset: CGFloat = lineHeight + 1.0
+            
+            if let entryHigh = dataSet.entryForXIndex(dataProvider.chartYMaxXIndex) as? CandleChartDataEntry  {
+                
+                pt.x = CGFloat(dataProvider.chartYMaxXIndex)
+                pt.y = CGFloat(entryHigh.high) * phaseY
+                pt = CGPointApplyAffineTransform(pt, valueToPixelMatrix)
+        
+                ChartUtils.drawText(
+                    context: context,
+                    text: formatter.stringFromNumber(entryHigh.high)!,
+                    point: CGPoint(
+                        x: pt.x,
+                        y: pt.y - yOffset),
+                    align: .Center,
+                    attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: color])
+            }
+            
+             yOffset = (-1.0)
+            
+            if let entryLow = dataSet.entryForXIndex(dataProvider.chartYMinXIndex) as? CandleChartDataEntry  {
+                
+                pt.x = CGFloat(dataProvider.chartYMinXIndex)
+                pt.y = CGFloat(entryLow.low) * phaseY
+                pt = CGPointApplyAffineTransform(pt, valueToPixelMatrix)
+                
+                ChartUtils.drawText(
+                    context: context,
+                    text: formatter.stringFromNumber(entryLow.low)!,
+                    point: CGPoint(
+                        x: pt.x,
+                        y: pt.y - yOffset),
+                    align: .Center,
+                    attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: color])
+            }
+   
+                
+
+        }
+        
     }
     
     private var _highlightPointBuffer = CGPoint()
@@ -370,9 +439,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                     CGContextSetLineDash(context, 0.0, nil, 0)
                 }
                 
-                let lowValue = CGFloat(e.low) * animator.phaseY
-                let highValue = CGFloat(e.high) * animator.phaseY
-                let y = (lowValue + highValue) / 2.0
+                let y = CGFloat(e.close) * animator.phaseY
                 
                 _highlightPointBuffer.x = CGFloat(xIndex)
                 _highlightPointBuffer.y = y
@@ -381,9 +448,47 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                 
                 // draw the lines
                 drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)
+                
+                drawHighlightValues(context: context, point: _highlightPointBuffer, set: set, value:e.close)
             }
         }
         
         CGContextRestoreGState(context)
+    }
+    
+    func drawHighlightValues(context context: CGContext, point: CGPoint, set: ILineScatterCandleRadarChartDataSet ,value:Double) {
+
+        if set.isHorizontalHighlightIndicatorEnabled && set.isHorizontalHighlightValueEnable
+        {
+            guard let formatter = set.valueFormatter else { return }
+
+            let valueFont = set.highlightFont
+            let labelAttrs = [NSFontAttributeName: valueFont,NSForegroundColorAttributeName: set.highlightTextColor]
+            
+            let string = formatter.stringFromNumber(value)!
+            
+            let  stringSize = (string as NSString!).sizeWithAttributes(labelAttrs)
+            
+            let inset = UIEdgeInsetsMake(1, 1, 1, 1)
+            
+            CGContextSetFillColorWithColor(context, NSUIColor.whiteColor().CGColor)
+            CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
+            CGContextSetLineWidth(context, 0.5)
+            let path = CGPathCreateWithRoundedRect(CGRectMake(viewPortHandler.contentLeft, point.y - valueFont.lineHeight / 2.0 - inset.top, stringSize.width + inset.left + inset.right, stringSize.height + inset.top + inset.bottom), 2, 2, nil)
+            
+            CGContextAddPath(context, path)
+            
+            
+            CGContextDrawPath(context, CGPathDrawingMode.FillStroke)
+
+            ChartUtils.drawText(context: context,
+                                text: formatter.stringFromNumber(value)!,
+                                point: CGPoint(
+                                    x: viewPortHandler.contentLeft + inset.left,
+                                    y: point.y - valueFont.lineHeight / 2.0),
+                                align: .Left,
+                                attributes: labelAttrs)
+        }
+        
     }
 }

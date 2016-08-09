@@ -38,7 +38,7 @@ public protocol ChartViewDelegate
     optional func chartTranslated(chartView: ChartViewBase, dX: CGFloat, dY: CGFloat)
 }
 
-public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
+public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate ,XMinMaxProvider
 {
     // MARK: - Properties
     
@@ -263,7 +263,13 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     {
         fatalError("calcMinMax() cannot be called on ChartViewBase")
     }
+    public func xMinMax(chartView:ChartViewBase) {
+        
+        fatalError("xMinMax() cannot be called on ChartViewBase")
+    }
     
+    
+
     /// calculates the required number of digits for the values that might be drawn in the chart (if enabled), and creates the default value formatter
     internal func calculateFormatter(min min: Double, max: Double)
     {
@@ -707,6 +713,13 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         return _data?.yMin ?? 0.0
     }
     
+    public var chartYMaxXIndex: Int {
+      return  _data?.yMaxXIndex ?? 0
+    }
+    
+    public var chartYMinXIndex: Int {
+        return  _data?.yMinXIndex ?? 0
+    }
     public var chartXMax: Double
     {
         return _xAxis._axisMaximum
@@ -717,6 +730,17 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         return _xAxis._axisMinimum
     }
     
+    private var _xMinMaxProvider: XMinMaxProvider!
+    
+    public var xMinMaxProvider: XMinMaxProvider? {
+        get {
+             return _xMinMaxProvider ?? self
+        } set {
+            _xMinMaxProvider = newValue ?? self
+        }
+    }
+    
+
     public var xValCount: Int
     {
         return _data?.xValCount ?? 0
@@ -1002,6 +1026,8 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         {
             super.nsuiTouchesEnded(touches, withEvent: event)
         }
+        
+        self.highlightValue(highlight: nil, callDelegate: true)
     }
     
     public override func nsuiTouchesCancelled(touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)

@@ -34,7 +34,7 @@ public class CandleChartDataEntry: ChartDataEntry
     
     public init(xIndex: Int, shadowH: Double, shadowL: Double, open: Double, close: Double)
     {
-        super.init(value: (shadowH + shadowL) / 2.0, xIndex: xIndex)
+        super.init(value: close , xIndex: xIndex)
         
         self.high = shadowH
         self.low = shadowL
@@ -44,7 +44,7 @@ public class CandleChartDataEntry: ChartDataEntry
     
     public init(xIndex: Int, shadowH: Double, shadowL: Double, open: Double, close: Double, data: AnyObject?)
     {
-        super.init(value: (shadowH + shadowL) / 2.0, xIndex: xIndex, data: data)
+        super.init(value: close , xIndex: xIndex, data: data)
         
         self.high = shadowH
         self.low = shadowL
@@ -64,17 +64,55 @@ public class CandleChartDataEntry: ChartDataEntry
         return abs(open - close)
     }
     
+    public override func isEqual(object: AnyObject?) -> Bool
+    {
+        if (object === nil)
+        {
+            return false
+        }
+        guard let obj = (object as? CandleChartDataEntry)
+            else {
+                return false
+        }
+
+        if (obj.high != high)
+        {
+            return false
+        }
+        if (obj.low != low)
+        {
+            return false
+        }
+        if (obj.close != close)
+        {
+            return false
+        }
+        
+        if (obj.open != open)
+        {
+            return false
+        }
+        
+        return true
+    }
+
+    
     /// the center value of the candle. (Middle value between high and low)
     public override var value: Double
     {
         get
         {
-            return super.value
+            return close
         }
-        set
+        set (val)
         {
-            super.value = (high + low) / 2.0
+            close = val
         }
+    }
+    
+    public override var description: String
+    {
+        return "CandleChartDataEntry, xIndex: \(xIndex), high \(high) low \(low) value \(value) , open \(open) close \(close)"
     }
     
     // MARK: NSCopying
@@ -83,9 +121,9 @@ public class CandleChartDataEntry: ChartDataEntry
     {
         let copy = super.copyWithZone(zone) as! CandleChartDataEntry
         copy.high = high
-        copy.high = low
-        copy.high = open
-        copy.high = close
+        copy.low = low
+        copy.open = open
+        copy.close = close
         return copy
     }
 }

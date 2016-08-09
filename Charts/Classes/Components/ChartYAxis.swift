@@ -49,6 +49,8 @@ public class ChartYAxis: ChartAxisBase
     /// indicates if the top y-label entry is drawn or not
     public var drawTopYLabelEntryEnabled = true
     
+    public var drawTopLowRntry = true
+    
     /// if true, the y-labels show only the minimum and maximum value
     public var showOnlyMinMaxEnabled = false
     
@@ -76,6 +78,8 @@ public class ChartYAxis: ChartAxisBase
         }
     }
     
+//    public var minEntryXIndex = 0
+//    public var maxEntryXindex = 0
     /// if true, the set number of y-labels will be forced
     public var forceLabelsEnabled = false
 
@@ -214,6 +218,27 @@ public class ChartYAxis: ChartAxisBase
         }
     }
     
+    internal weak var _customValueFormatter:ChartYAxisValueFormatter?
+    
+    public var hasCustomValueFormatter: Bool {
+        
+        guard _customValueFormatter  != nil else {
+            return false
+        }
+        
+        return true
+    }
+    public var customValueFormatter:ChartYAxisValueFormatter? {
+        
+        get {
+            return _customValueFormatter
+        } set {
+            
+            _customValueFormatter = newValue
+        }
+    }
+    
+    
     public func requiredSize() -> CGSize
     {
         let label = getLongestLabel() as NSString
@@ -228,6 +253,8 @@ public class ChartYAxis: ChartAxisBase
     {
         return requiredSize().height
     }
+    
+    
 
     public override func getLongestLabel() -> String
     {
@@ -235,7 +262,7 @@ public class ChartYAxis: ChartAxisBase
         
         for i in 0 ..< entries.count
         {
-            let text = getFormattedLabel(i)
+            let text = getFormattedLabel(i).string
             
             if (longest.characters.count < text.characters.count)
             {
@@ -247,14 +274,18 @@ public class ChartYAxis: ChartAxisBase
     }
 
     /// - returns: the formatted y-label at the specified index. This will either use the auto-formatter or the custom formatter (if one is set).
-    public func getFormattedLabel(index: Int) -> String
+    public func getFormattedLabel(index: Int) -> NSAttributedString
     {
         if (index < 0 || index >= entries.count)
         {
-            return ""
+            return NSAttributedString(string: "");
         }
-        
-        return (valueFormatter ?? _defaultValueFormatter).stringFromNumber(entries[index])!
+        if hasCustomValueFormatter  {
+            
+            return customValueFormatter!.stringForNumber(entries[index], xIndex:index, max:axisMaxValue,yAxis:self)
+        }
+//
+        return NSAttributedString(string:(valueFormatter ?? _defaultValueFormatter).stringFromNumber(entries[index])!)
     }
     
     /// - returns: true if this axis needs horizontal offset, false if no offset is needed.

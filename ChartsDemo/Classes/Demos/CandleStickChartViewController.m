@@ -53,6 +53,7 @@
     _chartView.maxVisibleValueCount = 60;
     _chartView.pinchZoomEnabled = NO;
     _chartView.drawGridBackgroundEnabled = NO;
+    _chartView.scaleYEnabled = NO;
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBottom;
@@ -120,10 +121,8 @@
     
     set1.shadowColor = UIColor.darkGrayColor;
     set1.shadowWidth = 0.7;
-    set1.decreasingColor = UIColor.redColor;
-    set1.decreasingFilled = YES;
-    set1.increasingColor = [UIColor colorWithRed:122/255.f green:242/255.f blue:84/255.f alpha:1.f];
-    set1.increasingFilled = NO;
+    set1.increasingColor = UIColor.redColor;
+    set1.decreasingColor = [UIColor colorWithRed:122/255.f green:242/255.f blue:84/255.f alpha:1.f];
     set1.neutralColor = UIColor.blueColor;
     
     CandleChartData *data = [[CandleChartData alloc] initWithXVals:xVals dataSet:set1];

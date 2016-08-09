@@ -18,7 +18,9 @@
 
 @interface CombinedChartViewController () <ChartViewDelegate>
 
-@property (nonatomic, strong) IBOutlet CombinedChartView *chartView;
+@property (nonatomic, strong) IBOutlet TimeLineChartView *chartView;
+
+@property (nonatomic, strong) CandleChartData *candleData;
 
 @end
 
@@ -37,35 +39,41 @@
                      @{@"key": @"toggleData", @"label": @"Toggle Data"},
                      @{@"key": @"toggleBarBorders", @"label": @"Show Bar Borders"},
                      ];
+//    
+//    _chartView.delegate = self;
+//    
+//    _chartView.descriptionText = @"";
+//    _chartView.noDataTextDescription = @"You need to provide data for the chart.";
+//    
+//    _chartView.drawGridBackgroundEnabled = NO;
+//    _chartView.drawBarShadowEnabled = NO;
+//    
+//    _chartView.autoScaleMinMaxEnabled = YES;
+//    _chartView.drawOrder = @[
+////                             @(CombinedChartDrawOrderBar),
+////                             @(CombinedChartDrawOrderBubble),
+//                            @(CombinedChartDrawOrderLine),
+//                             @(CombinedChartDrawOrderCandle),
+//                        
+////                             @(CombinedChartDrawOrderScatter)
+//                             ];
+//    
+//    ChartYAxis *rightAxis = _chartView.rightAxis;
+//    rightAxis.drawGridLinesEnabled = NO;
+////    rightAxis.axisMinValue = 0.0; // this replaces startAtZero = YES
+//    
+//    ChartYAxis *leftAxis = _chartView.leftAxis;
+//    leftAxis.drawGridLinesEnabled = NO;
+////    leftAxis.axisMinValue = 0.0; // this replaces startAtZero = YES
+//    
+//    ChartXAxis *xAxis = _chartView.xAxis;
+//    xAxis.labelPosition = XAxisLabelPositionBothSided;
     
-    _chartView.delegate = self;
-    
-    _chartView.descriptionText = @"";
-    _chartView.noDataTextDescription = @"You need to provide data for the chart.";
-    
-    _chartView.drawGridBackgroundEnabled = NO;
-    _chartView.drawBarShadowEnabled = NO;
-    
-    _chartView.drawOrder = @[
-                             @(CombinedChartDrawOrderBar),
-                             @(CombinedChartDrawOrderBubble),
-                             @(CombinedChartDrawOrderCandle),
-                             @(CombinedChartDrawOrderLine),
-                             @(CombinedChartDrawOrderScatter)
-                             ];
-    
-    ChartYAxis *rightAxis = _chartView.rightAxis;
-    rightAxis.drawGridLinesEnabled = NO;
-    rightAxis.axisMinValue = 0.0; // this replaces startAtZero = YES
-    
-    ChartYAxis *leftAxis = _chartView.leftAxis;
-    leftAxis.drawGridLinesEnabled = NO;
-    leftAxis.axisMinValue = 0.0; // this replaces startAtZero = YES
-    
-    ChartXAxis *xAxis = _chartView.xAxis;
-    xAxis.labelPosition = XAxisLabelPositionBothSided;
-    
-    [self updateChartData];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+        [self updateChartData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -78,7 +86,7 @@
 {
     if (self.shouldHideData)
     {
-        _chartView.data = nil;
+        _chartView.timeLineData = nil;
         return;
     }
     
@@ -87,76 +95,131 @@
 
 - (void)setChartData
 {
-    CombinedChartData *data = [[CombinedChartData alloc] initWithXVals:months];
-    data.lineData = [self generateLineData];
-    data.barData = [self generateBarData];
-    data.bubbleData = [self generateBubbleData];
-    //data.scatterData = [self generateScatterData];
-    //data.candleData = [self generateCandleData];
+//    NSMutableArray *xVals = [[NSMutableArray alloc] init];
+//    
+//    for (int i = 0; i < 50; i++)
+//    {
+//        [xVals addObject:[@(i + 1990) stringValue]];
+//    }
+//    KlineChartData *data = [[KlineChartData alloc] initWithXVals:xVals];
+
+
+//    data.candleData =
+//    da
+//    self.candleData =  [self generateCandleData];
+//    data.candleData = self.candleData;
+//    data.lineData = [self generateLineData];
+//    data.candleData = nil;
+//    data.barData = [self generateBarData];
+//    data.bubbleData = [self generateBubbleData];
+//    data.scatterData = [self generateScatterData];
+    [self generateCandleData];
     
-    _chartView.data = data;
+ 
 }
 
 - (void)optionTapped:(NSString *)key
 {
-    if ([key isEqualToString:@"toggleLineValues"])
-    {
-        for (NSObject<IChartDataSet> *set in _chartView.data.dataSets)
-        {
-            if ([set isKindOfClass:LineChartDataSet.class])
-            {
-                set.drawValuesEnabled = !set.isDrawValuesEnabled;
-            }
-        }
-        
-        [_chartView setNeedsDisplay];
-        return;
-    }
+//    if ([key isEqualToString:@"toggleLineValues"])
+//    {
+//        for (NSObject<IChartDataSet> *set in _chartView.data.dataSets)
+//        {
+//            if ([set isKindOfClass:LineChartDataSet.class])
+//            {
+//                set.drawValuesEnabled = !set.isDrawValuesEnabled;
+//            }
+//        }
+//        
+//        [_chartView setNeedsDisplay];
+//        return;
+//    }
+//    
+//    if ([key isEqualToString:@"toggleBarValues"])
+//    {
+//        for (NSObject<IChartDataSet> *set in _chartView.data.dataSets)
+//        {
+//            if ([set isKindOfClass:BarChartDataSet.class])
+//            {
+//                set.drawValuesEnabled = !set.isDrawValuesEnabled;
+//            }
+//        }
+//        
+//        [_chartView setNeedsDisplay];
+//        return;
+//    }
+//    
+//    [super handleOption:key forChartView:_chartView];
     
-    if ([key isEqualToString:@"toggleBarValues"])
-    {
-        for (NSObject<IChartDataSet> *set in _chartView.data.dataSets)
-        {
-            if ([set isKindOfClass:BarChartDataSet.class])
-            {
-                set.drawValuesEnabled = !set.isDrawValuesEnabled;
-            }
-        }
-        
-        [_chartView setNeedsDisplay];
-        return;
-    }
+//    if (self.chartView.klineData.qualificationType == KlineQualificationMACD) {
+//        self.chartView.klineData.qualificationType = KlineQualificationVOL;
+////        self.chartView.d
+//    } else {
+//        self.chartView.klineData.qualificationType = KlineQualificationMACD;
+//    }
     
-    [super handleOption:key forChartView:_chartView];
+    [self.chartView resetData];
 }
 
-- (LineChartData *)generateLineData
-{
-    LineChartData *d = [[LineChartData alloc] init];
-    
-    NSMutableArray *entries = [[NSMutableArray alloc] init];
-    
-    for (int index = 0; index < ITEM_COUNT; index++)
-    {
-        [entries addObject:[[ChartDataEntry alloc] initWithValue:(arc4random_uniform(15) + 10) xIndex:index]];
-    }
-    
-    LineChartDataSet *set = [[LineChartDataSet alloc] initWithYVals:entries label:@"Line DataSet"];
-    [set setColor:[UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f]];
-    set.lineWidth = 2.5;
-    [set setCircleColor:[UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f]];
-    set.fillColor = [UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f];
-    set.drawCubicEnabled = YES;
-    set.drawValuesEnabled = YES;
-    set.valueFont = [UIFont systemFontOfSize:10.f];
-    set.valueTextColor = [UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f];
-    
-    set.axisDependency = AxisDependencyLeft;
-    
-    [d addDataSet:set];
-    
-    return d;
-}
+
+//- (LineChartData *)generateLineData
+//{
+
+
+//    NSArray *entries = [((CandleChartDataSet *)[self candleData].dataSets[0]) EMAValuesForNum:5];
+//    
+//    LineChartDataSet *set = [[LineChartDataSet alloc] initWithYVals:entries label:@"Line DataSet"];
+//    [set setColor:[UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f]];
+//    set.lineWidth = 2.5;
+//    [set setCircleColor:[UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f]];
+//    set.fillColor = [UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f];
+//    set.drawCubicEnabled = YES;
+//     set.drawCirclesEnabled = NO;
+//    set.drawValuesEnabled = NO;
+//    set.valueFont = [UIFont systemFontOfSize:10.f];
+//    set.valueTextColor = [UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f];
+//    
+//    set.axisDependency = AxisDependencyLeft;
+//    
+//        NSArray *entries1 = [((CandleChartDataSet *)[self candleData].dataSets[0]) EMAValuesForNum:10];
+//    LineChartDataSet *set1 = [[LineChartDataSet alloc] initWithYVals:entries1 label:@"Line DataSet"];
+//    [set1 setColor:[UIColor colorWithRed:220/255.f green:0 blue:70 alpha:1.f]];
+//    set1.lineWidth = 2.5;
+//    [set1 setCircleColor:[UIColor colorWithRed:220/255.f green:0 blue:0 alpha:1.f]];
+//    set1.fillColor = [UIColor colorWithRed:220/255.f  green:0 blue:0 alpha:1.f];
+//    set1.drawCubicEnabled = YES;
+//    set1.drawCirclesEnabled = NO;
+//    set1.drawValuesEnabled = NO;
+//    set1.valueFont = [UIFont systemFontOfSize:10.f];
+//    set1.valueTextColor = [UIColor colorWithRed:220/255.f green:0 blue:0 alpha:1.f];
+//    set.axisDependency = AxisDependencyLeft;
+//    
+//            NSArray *entries2 = [((CandleChartDataSet *)[self candleData].dataSets[0]) EMAValuesForNum:30];
+//    LineChartDataSet *set2 = [[LineChartDataSet alloc] initWithYVals:entries2 label:@"Line DataSet"];
+//    [set2 setColor:[UIColor colorWithRed:0 green:220/255.f blue:0 alpha:1.f]];
+//    set2.lineWidth = 2.5;
+//    [set2 setCircleColor:[UIColor colorWithRed:0 green:220/255.f blue:0 alpha:1.f]];
+//    set2.fillColor = [UIColor colorWithRed:0  green:220/255.f blue:0 alpha:1.f];
+//    set2.drawCubicEnabled = YES;
+//    set2.drawValuesEnabled = NO;
+//     set2.drawCirclesEnabled = NO;
+//    set2.valueFont = [UIFont systemFontOfSize:10.f];
+//    set2.valueTextColor = [UIColor colorWithRed:0 green:220/255.f blue:0 alpha:1.f];
+//    set2.axisDependency = AxisDependencyLeft;
+//    
+//    
+//    NSMutableArray *xVals = [[NSMutableArray alloc] init];
+//    
+//    for (int i = 0; i < 50; i++)
+//    {
+//        [xVals addObject:[@(i + 1990) stringValue]];
+//    }
+//    
+////    var sets = 
+//    
+//    LineChartData *data = [[LineChartData alloc] initWithXVals:xVals dataSets:@[set,set1,set2]];
+//
+//    return data;
+//}
 
 - (BarChartData *)generateBarData
 {
@@ -203,26 +266,91 @@
     return d;
 }
 
-- (CandleChartData *)generateCandleData
+- (void )generateCandleData
 {
-    CandleChartData *d = [[CandleChartData alloc] init];
+   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+       
+      TimeLineData *data = [self setDataCount:(100) range:200];
+       
+       dispatch_async(dispatch_get_main_queue(), ^{
+           _chartView.timeLineData = data;
+       });
     
-    NSMutableArray *entries = [[NSMutableArray alloc] init];
+   });
     
-    for (int index = 0; index < ITEM_COUNT; index++)
+//    return
+}
+
+- (TimeLineData *)setDataCount:(int)count range:(double)range
+{
+    NSMutableArray *xVals = [[NSMutableArray alloc] init];
+    
+    
+    NSString *string = @"2016/07/05 09:30";
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat =  @"yyyy/MM/dd hh:mm";
+    
+    NSTimeInterval time = [[formatter dateFromString:string] timeIntervalSince1970];
+    
+    for (int i = 0; i < 120; i++)
     {
-        [entries addObject:[[CandleChartDataEntry alloc] initWithXIndex:index shadowH:20.0 shadowL:10.0 open:13.0 close:17.0]];
+        [xVals addObject:[@(time += 60) stringValue]];
     }
     
-    CandleChartDataSet *set = [[CandleChartDataSet alloc] initWithYVals:entries label:@"Candle DataSet"];
-    [set setColor:[UIColor colorWithRed:80/255.f green:80/255.f blue:80/255.f alpha:1.f]];
-    set.barSpace = 0.3;
-    set.valueFont = [UIFont systemFontOfSize:10.f];
-    [set setDrawValuesEnabled:NO];
+    time += 4800;
+//    time = [[formatter dateFromString:string] timeIntervalSince1970];
+    for (int i = 0; i < 150; i++)
+    {
+        [xVals addObject:[@(time += 60) stringValue]];
+    }
+    NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
     
-    [d addDataSet:set];
+    for (int i = 0; i < count; i++)
+    {
+        double mult = (range + 1);
+        double val = (double) (arc4random_uniform(40)) + mult;
+        double high = (double) (arc4random_uniform(50)) - 20.0;
+        double low = (double) (arc4random_uniform(50)) - 20.0;
+        double open = (double) (arc4random_uniform(6)) + 1.0;
+        double current = (double)  (arc4random_uniform(range / 10)) - (range/20);
+        double close = mult;
+        double volume = (double) (arc4random_uniform(20)) - 10;
+        BOOL even = i % 2 == 0;
+        
+        [yVals1 addObject: [[TimelineDataEntry alloc] initWithXIndex:i shadowH:(close + high )  shadowL:(close + low) open:(even ? val + open : val - open) close:(close) current:(close + current) range:(close / (close + current)) volume:100 + volume money: ((close + high + low + close)/ 2) * (100 + volume) time:100000]];
+
+    }
     
-    return d;
+    TimeLineChartDataSet *set1 = [[TimeLineChartDataSet alloc] initWithYVals:yVals1 label:@"timeLine"];
+    set1.axisDependency = AxisDependencyLeft;
+    set1.drawValuesEnabled = false;
+
+    [set1 setColor:[UIColor colorWithWhite:80/255.f alpha:1.f]];
+    
+    set1.increasingColor =  [UIColor colorWithRed:255/255.f green:48/255.f blue:66/255.f alpha:1.f];
+    set1.decreasingColor = [UIColor colorWithRed:0/255.f green:191/255.f blue:128/255.f alpha:1.f];
+    set1.drawHorizontalHighlightValueEnable = YES;
+    set1.drawHorizontalHighlightIndicatorEnabled = YES;
+    set1.drawCirclesEnabled = NO;
+    [set1 setColor:[UIColor colorWithRed:45/255.f green:187/255.f blue:227/255.f alpha:1.f]];
+    set1.fillColor = [UIColor colorWithRed:45/255.f green:187/255.f blue:227/255.f alpha:1.f];
+    set1.fillAlpha = 0.5;
+    
+    NSArray *gradientColors = @[
+                                (id)[ChartColorTemplates colorFromString:@"#992dbde5"].CGColor,
+                                (id)[ChartColorTemplates colorFromString:@"#ff2dbde5"].CGColor
+                                ];
+    CGGradientRef gradient = CGGradientCreateWithColors(nil, (CFArrayRef)gradientColors, nil);
+    
+    set1.fill = [ChartFill fillWithLinearGradient:gradient angle:90.f];
+    set1.drawFilledEnabled = YES;
+    set1.avgVisibe = YES;
+    CGGradientRelease(gradient);
+    
+    
+    TimeLineData *data = [[TimeLineData alloc] initWithXVals:xVals dataSet:set1];
+    
+    return data;
 }
 
 - (BubbleChartData *)generateBubbleData
@@ -252,7 +380,7 @@
 
 - (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
 {
-    NSLog(@"chartValueSelected");
+    NSLog(@"chartValueSelected %@",entry);
 }
 
 - (void)chartValueNothingSelected:(ChartViewBase * __nonnull)chartView

@@ -23,6 +23,11 @@ public protocol ChartDataProvider
     /// - returns: the maximum x-value of the chart, regardless of zoom or translation.
     var chartXMax: Double { get }
     
+    var chartYMinXIndex:Int { get }
+    
+    var chartYMaxXIndex:Int { get }
+
+    
     /// - returns: the minimum y-value of the chart, regardless of zoom or translation.
     var chartYMin: Double { get }
     
@@ -34,4 +39,12 @@ public protocol ChartDataProvider
     var centerOffsets: CGPoint { get }
     
     var data: ChartData? { get }
+    
+    var xMinMaxProvider:XMinMaxProvider?{get set}
+}
+
+@objc
+public protocol XMinMaxProvider {
+//    func calcMinMax()
+    func xMinMax(chartView:ChartViewBase)
 }

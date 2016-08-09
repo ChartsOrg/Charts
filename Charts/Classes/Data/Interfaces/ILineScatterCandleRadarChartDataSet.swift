@@ -23,11 +23,18 @@ public protocol ILineScatterCandleRadarChartDataSet: IBarLineScatterCandleBubble
     /// Enables / disables the horizontal highlight-indicator. If disabled, the indicator is not drawn.
     var drawHorizontalHighlightIndicatorEnabled: Bool { get set }
     
+    var highlightTextColor: NSUIColor { get set }
+    var highlightFont: NSUIFont { get set }
+    
     /// Enables / disables the vertical highlight-indicator. If disabled, the indicator is not drawn.
     var drawVerticalHighlightIndicatorEnabled: Bool { get set }
     
+    var drawHorizontalHighlightValueEnable: Bool { get set }
+    
     /// - returns: true if horizontal highlight indicator lines are enabled (drawn)
     var isHorizontalHighlightIndicatorEnabled: Bool { get }
+    
+    var isHorizontalHighlightValueEnable: Bool { get }
     
     /// - returns: true if vertical highlight indicator lines are enabled (drawn)
     var isVerticalHighlightIndicatorEnabled: Bool { get }

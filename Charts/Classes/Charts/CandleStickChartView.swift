@@ -29,6 +29,10 @@ public class CandleStickChartView: BarLineChartViewBase, CandleChartDataProvider
     {
         super.calcMinMax()
 
+
+    }
+    public override func xMinMax(chartView: ChartViewBase) {
+        
         _xAxis._axisMaximum += 0.5
         _xAxis.axisRange = abs(_xAxis._axisMaximum - _xAxis._axisMinimum)
     }

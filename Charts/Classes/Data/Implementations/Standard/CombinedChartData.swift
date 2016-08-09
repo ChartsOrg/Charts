@@ -44,6 +44,9 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
         set
         {
+            if newValue == nil {
+                return
+            }
             _lineData = newValue
             for dataSet in newValue.dataSets
             {
@@ -122,6 +125,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
             checkIsLegal(newValue.dataSets)
             
             calcMinMax(start: _lastStart, end: _lastEnd)
+            
             calcYValueCount()
             
             calcXValAverageLength()
@@ -178,6 +182,113 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
         
         return data
+    }
+    
+    override func calcMinMax(start start: Int, end: Int) {
+        _yMin = DBL_MAX
+        _yMax = -DBL_MAX
+        _leftAxisMin =  DBL_MAX
+        _leftAxisMax = -DBL_MAX
+        _rightAxisMax = -DBL_MAX
+        _rightAxisMin = DBL_MAX
+        
+        if (_lineData !== nil)
+        {
+            _lineData.calcMinMax(start: start, end: end)
+            
+            if lineData.yMin < _yMin {
+                _yMin = lineData.yMin
+                _yMinXIndex = lineData.yMinXIndex
+            }
+            
+            if lineData.yMax > _yMax {
+                _yMax = lineData.yMax
+                _yMaxXIndex = lineData.yMaxXIndex
+            }
+            _leftAxisMin = min(_lineData._leftAxisMin, _leftAxisMin);
+            _leftAxisMax = max(_lineData._leftAxisMax, _leftAxisMax);
+            _rightAxisMin = min(_lineData._rightAxisMin, _rightAxisMin);
+            _rightAxisMax = max(_lineData._rightAxisMax, _rightAxisMax);
+        }
+        if (_barData !== nil)
+        {
+            _barData.calcMinMax(start: start, end: end)
+            
+            if _barData.yMin < _yMin {
+                _yMin = _barData.yMin
+                _yMinXIndex = _barData.yMinXIndex
+            }
+            
+            if _barData.yMax > _yMax {
+                _yMax = _barData.yMax
+                _yMaxXIndex = _barData.yMaxXIndex
+            }
+            
+            _leftAxisMin = min(_barData._leftAxisMin, _leftAxisMin);
+            _leftAxisMax = max(_barData._leftAxisMax, _leftAxisMax);
+            _rightAxisMin = min(_barData._rightAxisMin, _rightAxisMin);
+            _rightAxisMax = max(_barData._rightAxisMax, _rightAxisMax);
+        }
+        if (_scatterData !== nil)
+        {
+            _scatterData.calcMinMax(start: start, end: end)
+            
+            if _scatterData.yMin < _yMin {
+                _yMin = _scatterData.yMin
+                _yMinXIndex = _scatterData.yMinXIndex
+            }
+            
+            if _scatterData.yMax > _yMax {
+                _yMax = _scatterData.yMax
+                _yMaxXIndex = _scatterData.yMaxXIndex
+            }
+            
+            _leftAxisMin = min(_scatterData._leftAxisMin, _leftAxisMin);
+            _leftAxisMax = max(_scatterData._leftAxisMax, _leftAxisMax);
+            _rightAxisMin = min(_scatterData._rightAxisMin, _rightAxisMin);
+            _rightAxisMax = max(_scatterData._rightAxisMax, _rightAxisMax);
+        }
+        if (_candleData !== nil)
+        {
+            _candleData.calcMinMax(start: start, end: end)
+            
+            if _candleData.yMin < _yMin {
+                _yMin = _candleData.yMin
+                _yMinXIndex = _candleData.yMinXIndex
+            }
+            
+            if _candleData.yMax > _yMax {
+                _yMax = _candleData.yMax
+                _yMaxXIndex = _candleData.yMaxXIndex
+            }
+            
+            _leftAxisMin = min(_candleData._leftAxisMin, _leftAxisMin);
+            _leftAxisMax = max(_candleData._leftAxisMax, _leftAxisMax);
+            _rightAxisMin = min(_candleData._rightAxisMin, _rightAxisMin);
+            _rightAxisMax = max(_candleData._rightAxisMax, _rightAxisMax);
+        }
+        if (_bubbleData !== nil)
+        {
+            _bubbleData.calcMinMax(start: start, end: end)
+            
+            if _bubbleData.yMin < _yMin {
+                _yMin = _bubbleData.yMin
+                _yMinXIndex = _bubbleData.yMinXIndex
+            }
+            
+            if _bubbleData.yMax > _yMax {
+                _yMax = _bubbleData.yMax
+                _yMaxXIndex = _bubbleData.yMaxXIndex
+            }
+            
+            _leftAxisMin = min(_bubbleData._leftAxisMin, _leftAxisMin);
+            _leftAxisMax = max(_bubbleData._leftAxisMax, _leftAxisMax);
+            _rightAxisMin = min(_bubbleData._rightAxisMin, _rightAxisMin);
+            _rightAxisMax = max(_bubbleData._rightAxisMax, _rightAxisMax);
+        }
+        
+//        _leftAxisMin = min(_lin, <#T##y: T##T#>, <#T##z: T##T#>, <#T##rest: T...##T#>)
+//            handleEmptyAxis(firstLeft, firstRight: firstRight)
     }
     
     public override func notifyDataChanged()

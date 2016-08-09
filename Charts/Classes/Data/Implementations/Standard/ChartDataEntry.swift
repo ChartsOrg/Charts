@@ -16,6 +16,7 @@ import Foundation
 
 public class ChartDataEntry: NSObject
 {
+//    public weak var chartDataSet: ChartDataSet?
     /// the actual value (y axis)
     public var value = Double(0.0)
     

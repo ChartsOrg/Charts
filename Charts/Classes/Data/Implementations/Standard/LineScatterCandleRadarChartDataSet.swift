@@ -23,6 +23,14 @@ public class LineScatterCandleRadarChartDataSet: BarLineScatterCandleBubbleChart
     /// Enables / disables the horizontal highlight-indicator. If disabled, the indicator is not drawn.
     public var drawHorizontalHighlightIndicatorEnabled = true
     
+    public var drawHorizontalHighlightValueEnable = true
+    
+    public var isHorizontalHighlightValueEnable: Bool { return drawHorizontalHighlightValueEnable}
+    
+    
+    public var highlightTextColor = NSUIColor(white: 0.4, alpha: 1)
+    
+    public var highlightFont = NSUIFont.systemFontOfSize(11.0)
     /// Enables / disables the vertical highlight-indicator. If disabled, the indicator is not drawn.
     public var drawVerticalHighlightIndicatorEnabled = true
     

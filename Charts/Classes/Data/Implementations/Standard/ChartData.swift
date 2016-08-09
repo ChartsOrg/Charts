@@ -25,6 +25,9 @@ public class ChartData: NSObject
     internal var _rightAxisMin = Double(0.0)
     private var _yValCount = Int(0)
     
+    internal var _yMinXIndex = 0
+    internal var _yMaxXIndex = 0
+    
     /// the last start value used for calcMinMax
     internal var _lastStart: Int = 0
     
@@ -164,16 +167,21 @@ public class ChartData: NSObject
             
             for i in 0 ..< _dataSets.count
             {
+                guard (_dataSets[i].isVisible == true)
+                    else { continue }
                 _dataSets[i].calcMinMax(start: start, end: end)
                 
                 if (_dataSets[i].yMin < _yMin)
                 {
                     _yMin = _dataSets[i].yMin
+                    _yMinXIndex = _dataSets[i].yMinXIndex
                 }
                 
                 if (_dataSets[i].yMax > _yMax)
                 {
                     _yMax = _dataSets[i].yMax
+                    
+                    _yMaxXIndex = _dataSets[i].yMaxXIndex
                 }
             }
             
@@ -193,6 +201,10 @@ public class ChartData: NSObject
 
                 for dataSet in _dataSets
                 {
+                    guard dataSet.isVisible
+                     else {
+                        continue
+                    }
                     if (dataSet.axisDependency == .Left)
                     {
                         if (dataSet.yMin < _leftAxisMin)
@@ -218,6 +230,11 @@ public class ChartData: NSObject
                 
                 for dataSet in _dataSets
                 {
+                    guard dataSet.isVisible
+                        else {
+                            continue
+                    }
+                    
                     if (dataSet.axisDependency == .Right)
                     {
                         if (dataSet.yMin < _rightAxisMin)
@@ -277,6 +294,16 @@ public class ChartData: NSObject
     public func getYMin() -> Double
     {
         return _yMin
+    }
+    
+    public var yMaxXIndex: Int
+    {
+        return _yMaxXIndex
+    }
+    
+    public var yMinXIndex: Int
+    {
+        return _yMinXIndex
     }
     
     public func getYMin(axis: ChartYAxis.AxisDependency) -> Double

@@ -33,6 +33,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     private var _pinchZoomEnabled = false
     private var _doubleTapToZoomEnabled = true
     private var _dragEnabled = true
+    private var _longPresses = false
     
     private var _scaleXEnabled = true
     private var _scaleYEnabled = true
@@ -77,6 +78,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     #endif
     internal var _panGestureRecognizer: NSUIPanGestureRecognizer!
     
+    internal var _longPressGestureRecognizer: NSUILongPressGestureRecognizer!
     /// flag that indicates if a custom viewport offset has been set
     private var _customViewPortEnabled = false
     
@@ -119,6 +121,10 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         _panGestureRecognizer.delegate = self
         
+        _longPressGestureRecognizer = NSUILongPressGestureRecognizer(target: self, action: #selector(BarLineChartViewBase.longPressGestureRecongnized(_:)))
+        _longPressGestureRecognizer.minimumPressDuration = 0.5
+        _longPressGestureRecognizer.delegate = self
+        self.addGestureRecognizer(_longPressGestureRecognizer)
         self.addGestureRecognizer(_tapGestureRecognizer)
         self.addGestureRecognizer(_doubleTapGestureRecognizer)
         self.addGestureRecognizer(_panGestureRecognizer)
@@ -237,12 +243,6 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         renderer?.drawData(context: context)
         
-        // if highlighting is enabled
-        if (valuesToHighlight())
-        {
-            renderer?.drawHighlighted(context: context, indices: _indicesToHighlight)
-        }
-        
         CGContextRestoreGState(context)
         
         renderer!.drawExtras(context: context)
@@ -269,6 +269,12 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         _leftYAxisRenderer.renderAxisLabels(context: context)
         _rightYAxisRenderer.renderAxisLabels(context: context)
 
+        // if highlighting is enabled
+        if (valuesToHighlight())
+        {
+            renderer?.drawHighlighted(context: context, indices: _indicesToHighlight)
+        }
+        
         renderer!.drawValues(context: context)
 
         _legendRenderer.renderLegend(context: context)
@@ -277,6 +283,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         drawMarkers(context: context)
 
         drawDescription(context: context)
+        
+
     }
     
     internal func prepareValuePxMatrix()
@@ -327,9 +335,17 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         _xAxis._axisMaximum = Double((_data?.xVals.count ?? 0) - 1)
         _xAxis.axisRange = .abs(_xAxis._axisMaximum - _xAxis._axisMinimum);
         
+        xMinMaxProvider!.xMinMax(self) //for custom calc xminmax
+        
         // calculate axis range (min / max) according to provided data
         _leftAxis.calculate(min: _data?.getYMin(.Left) ?? 0.0, max: _data?.getYMax(.Left) ?? 0.0)
         _rightAxis.calculate(min: _data?.getYMin(.Right) ?? 0.0, max: _data?.getYMax(.Right) ?? 0.0)
+    }
+    
+    override public func xMinMax(chartView: ChartViewBase) {
+    
+        chartView._xAxis._axisMaximum = Double((_data?.xVals.count ?? 0) - 1)
+        chartView._xAxis.axisRange = .abs(_xAxis._axisMaximum - _xAxis._axisMinimum);
     }
     
     internal func calculateLegendOffsets(inout offsetLeft offsetLeft: CGFloat, inout offsetTop: CGFloat, inout offsetRight: CGFloat, inout offsetBottom: CGFloat)
@@ -597,7 +613,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             return
         }
         
-        if (recognizer.state == NSUIGestureRecognizerState.Ended)
+        if (recognizer.state == NSUIGestureRecognizerState.Began)
         {
             if !self.isHighLightPerTapEnabled { return }
             
@@ -614,6 +630,12 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                 self.highlightValue(highlight: h, callDelegate: true)
             }
         }
+        
+        if (recognizer.state == NSUIGestureRecognizerState.Ended)
+        {
+            self.highlightValue(highlight: nil, callDelegate: true)
+        }
+        
     }
     
     @objc private func doubleTapGestureRecognized(recognizer: NSUITapGestureRecognizer)
@@ -734,6 +756,29 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         }
     }
     #endif
+    @objc private func longPressGestureRecongnized(recognizer: NSUIPanGestureRecognizer) {
+        if (recognizer.state == NSUIGestureRecognizerState.Began){
+            _longPresses = true;
+            
+            let h = getHighlightByTouchPoint(recognizer.locationInView(self))
+            
+            if (h === nil || h!.isEqual(self.lastHighlighted))
+            {
+                self.highlightValue(highlight: nil, callDelegate: true)
+                self.lastHighlighted = nil
+            }
+            else
+            {
+                self.lastHighlighted = h
+                self.highlightValue(highlight: h, callDelegate: true)
+            }
+            
+        } else if (recognizer.state == NSUIGestureRecognizerState.Ended || recognizer.state == NSUIGestureRecognizerState.Cancelled) {
+            _longPresses = false;
+            
+            self.highlightValue(highlight: nil, callDelegate: true)
+        }
+    }
     
     @objc private func panGestureRecognized(recognizer: NSUIPanGestureRecognizer)
     {
@@ -750,7 +795,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             //  * If we're zoomed in, then obviously we have something to drag.
             //  * If we have a drag offset - we always have something to drag
             if self.isDragEnabled &&
-                (!self.hasNoDragOffset || !self.isFullyZoomedOut)
+            (!self.hasNoDragOffset || !self.isFullyZoomedOut) && !_longPresses
             {
                 _isDragging = true
                 
@@ -829,6 +874,9 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                 }
                 
                 _isDragging = false
+            } else {
+                
+                self.highlightValue(highlight: nil, callDelegate: true)
             }
             
             if (_outerScrollView !== nil)
@@ -923,6 +971,15 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             {
                 return false
             }
+            
+            if !isScaleYEnabled && !_longPresses{
+                
+               let translation = _panGestureRecognizer.velocityInView(self)
+                
+                if  translation.y > 100 ||  translation.y < -100 {
+                     return false
+                }
+            }
         }
         else
         {
@@ -965,7 +1022,11 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         if ((gestureRecognizer.isKindOfClass(NSUIPinchGestureRecognizer) &&
             otherGestureRecognizer.isKindOfClass(NSUIPanGestureRecognizer)) ||
             (gestureRecognizer.isKindOfClass(NSUIPanGestureRecognizer) &&
-                otherGestureRecognizer.isKindOfClass(NSUIPinchGestureRecognizer)))
+            otherGestureRecognizer.isKindOfClass(NSUIPinchGestureRecognizer)) ||
+            (gestureRecognizer.isKindOfClass(NSUIPanGestureRecognizer) &&
+            otherGestureRecognizer.isKindOfClass(NSUILongPressGestureRecognizer)) ||
+            (gestureRecognizer.isKindOfClass(NSUILongPressGestureRecognizer) &&
+            otherGestureRecognizer.isKindOfClass(NSUIPanGestureRecognizer)) )
         {
             return true
         }
@@ -1016,6 +1077,11 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                 
                 return true
             }
+        }
+        if ((gestureRecognizer.isKindOfClass(NSUILongPressGestureRecognizer) &&
+        otherGestureRecognizer.isKindOfClass(NSUIPanGestureRecognizer)) || (gestureRecognizer.isKindOfClass(NSUIPanGestureRecognizer) &&
+            otherGestureRecognizer.isKindOfClass(NSUILongPressGestureRecognizer))) {
+            return true
         }
         
         return false
@@ -1818,6 +1884,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     {
         return min(leftAxis._axisMinimum, rightAxis._axisMinimum)
     }
+    
+//    public override
     
     /// - returns: true if either the left or the right or both axes are inverted.
     public var isAnyAxisInverted: Bool

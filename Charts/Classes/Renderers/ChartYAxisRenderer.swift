@@ -296,7 +296,18 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             pt.x = fixedPosition
             pt.y += offset
             
-            ChartUtils.drawText(context: context, text: text, point: pt, align: textAlign, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
+        var range:NSRange = NSMakeRange(0, 0)
+            var attributes = text.attributesAtIndex(0, effectiveRange: &range);
+            
+            if attributes[NSFontAttributeName] == nil {
+                attributes[NSFontAttributeName] = labelFont;
+            }
+            if attributes[NSForegroundColorAttributeName]  == nil {
+                
+                attributes[NSForegroundColorAttributeName] = labelTextColor
+            }
+            
+            ChartUtils.drawText(context: context, text: text.string, point: pt, align: textAlign, attributes:attributes)
         }
     }
     
