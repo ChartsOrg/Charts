@@ -53,8 +53,6 @@
     _chartView.descriptionText = @"";
     _chartView.noDataTextDescription = @"You need to provide data for the chart.";
     
-    _chartView.drawBordersEnabled = YES;
-    
     _chartView.leftAxis.enabled = NO;
     _chartView.rightAxis.drawAxisLineEnabled = NO;
     _chartView.rightAxis.drawGridLinesEnabled = NO;
@@ -62,6 +60,7 @@
     _chartView.xAxis.drawGridLinesEnabled = NO;
 
     _chartView.drawGridBackgroundEnabled = NO;
+    _chartView.drawBordersEnabled = NO;
     _chartView.dragEnabled = YES;
     [_chartView setScaleEnabled:YES];
     _chartView.pinchZoomEnabled = NO;
@@ -109,6 +108,7 @@
         LineChartDataSet *d = [[LineChartDataSet alloc] initWithValues:values label:[NSString stringWithFormat:@"DataSet %d", z + 1]];
         d.lineWidth = 2.5;
         d.circleRadius = 4.0;
+        d.circleHoleRadius = 2.0;
         
         UIColor *color = colors[z % colors.count];
         [d setColor:color];

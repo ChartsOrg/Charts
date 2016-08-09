@@ -41,7 +41,7 @@
     NSString *monthName = months[month % months.count];
     NSString *yearName = [@(year) stringValue];
     
-    if (_chart.visibleXRange > 30 * axis.labelCount)
+    if (_chart.visibleXRange > 30 * 6)
     {
         return [NSString stringWithFormat:@"%@ %@", monthName, yearName];
     }

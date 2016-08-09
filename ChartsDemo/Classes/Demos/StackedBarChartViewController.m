@@ -60,6 +60,7 @@
     NSNumberFormatter *leftAxisFormatter = [[NSNumberFormatter alloc] init];
     leftAxisFormatter.maximumFractionDigits = 1;
     leftAxisFormatter.negativeSuffix = @" $";
+    leftAxisFormatter.positiveSuffix = @" $";
 
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.valueFormatter = [[ChartDefaultAxisValueFormatter alloc] initWithFormatter:leftAxisFormatter];
@@ -77,7 +78,7 @@
     l.formToTextSpace = 4.0;
     l.xEntrySpace = 6.0;
     
-    _sliderX.value = 11.0;
+    _sliderX.value = 12.0;
     _sliderY.value = 100.0;
     [self slidersValueChanged:nil];
 }
@@ -123,7 +124,7 @@
     else
     {
         set1 = [[BarChartDataSet alloc] initWithValues:yVals label:@"Statistics Vienna 2014"];
-        set1.colors = @[ChartColorTemplates.vordiplom[0], ChartColorTemplates.vordiplom[1], ChartColorTemplates.vordiplom[2]];
+        set1.colors = @[ChartColorTemplates.material[0], ChartColorTemplates.material[1], ChartColorTemplates.material[2]];
         set1.stackLabels = @[@"Births", @"Divorces", @"Marriages"];
         
         NSMutableArray *dataSets = [[NSMutableArray alloc] init];
@@ -139,11 +140,8 @@
         [data setValueFormatter:[[ChartDefaultValueFormatter alloc] initWithFormatter:formatter]];
         [data setValueTextColor:UIColor.whiteColor];
         
-        data.barWidth = 0.8;
-        
-        _chartView.data = data;
-        
         _chartView.fitBars = YES;
+        _chartView.data = data;
     }
 }
 

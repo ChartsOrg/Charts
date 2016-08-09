@@ -174,6 +174,8 @@
     [set setColor:[UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f]];
     set.lineWidth = 2.5;
     [set setCircleColor:[UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f]];
+    set.circleRadius = 5.0;
+    set.circleHoleRadius = 2.5;
     set.fillColor = [UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f];
     set.mode = LineChartModeCubicBezier;
     set.drawValuesEnabled = YES;
@@ -243,7 +245,7 @@
     
     ScatterChartDataSet *set = [[ScatterChartDataSet alloc] initWithValues:entries label:@"Scatter DataSet"];
     set.colors = ChartColorTemplates.material;
-    set.scatterShapeSize = 7.5;
+    set.scatterShapeSize = 4.5;
     [set setDrawValuesEnabled:NO];
     set.valueFont = [UIFont systemFontOfSize:10.f];
     

@@ -92,6 +92,16 @@
     _chartView.legend.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
     _chartView.legend.xEntrySpace = 4.0;
     
+    XYMarkerView *marker = [[XYMarkerView alloc]
+                                  initWithColor: [UIColor colorWithWhite:180/255. alpha:1.0]
+                                  font: [UIFont systemFontOfSize:12.0]
+                                  textColor: UIColor.whiteColor
+                                  insets: UIEdgeInsetsMake(8.0, 8.0, 20.0, 8.0)
+                                  xAxisValueFormatter: _chartView.xAxis.valueFormatter];
+    marker.chartView = _chartView;
+    marker.minimumSize = CGSizeMake(80.f, 40.f);
+    _chartView.marker = marker;
+    
     _sliderX.value = 11.0;
     _sliderY.value = 50.0;
     [self slidersValueChanged:nil];

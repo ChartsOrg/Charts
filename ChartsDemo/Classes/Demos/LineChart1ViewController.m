@@ -98,7 +98,11 @@
     //[_chartView.viewPortHandler setMaximumScaleY: 2.f];
     //[_chartView.viewPortHandler setMaximumScaleX: 2.f];
     
-    BalloonMarker *marker = [[BalloonMarker alloc] initWithColor:[UIColor colorWithWhite:180/255. alpha:1.0] font:[UIFont systemFontOfSize:12.0] insets: UIEdgeInsetsMake(8.0, 8.0, 20.0, 8.0)];
+    BalloonMarker *marker = [[BalloonMarker alloc]
+                             initWithColor: [UIColor colorWithWhite:180/255. alpha:1.0]
+                             font: [UIFont systemFontOfSize:12.0]
+                             textColor: UIColor.whiteColor
+                             insets: UIEdgeInsetsMake(8.0, 8.0, 20.0, 8.0)];
     marker.chartView = _chartView;
     marker.minimumSize = CGSizeMake(80.f, 40.f);
     _chartView.marker = marker;

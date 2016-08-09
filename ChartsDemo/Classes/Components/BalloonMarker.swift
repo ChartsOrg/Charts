@@ -12,11 +12,13 @@
 import Foundation
 import Charts
 
+@objc
 public class BalloonMarker: MarkerImage
 {
     public var color: UIColor?
     public var arrowSize = CGSize(width: 15, height: 11)
     public var font: UIFont?
+    public var textColor: UIColor?
     public var insets = UIEdgeInsets()
     public var minimumSize = CGSize()
     
@@ -25,16 +27,25 @@ public class BalloonMarker: MarkerImage
     private var _paragraphStyle: NSMutableParagraphStyle?
     private var _drawAttributes = [String : AnyObject]()
     
-    public init(color: UIColor, font: UIFont, insets: UIEdgeInsets)
+    public init(color: UIColor, font: UIFont, textColor: UIColor, insets: UIEdgeInsets)
     {
         super.init()
         
         self.color = color
         self.font = font
+        self.textColor = textColor
         self.insets = insets
         
         _paragraphStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as? NSMutableParagraphStyle
         _paragraphStyle?.alignment = .Center
+    }
+    
+    public override func offsetForDrawingAtPos(point: CGPoint) -> CGPoint
+    {
+        let size = self.size
+        var point = point
+        point.y -= size.height
+        return super.offsetForDrawingAtPos(point)
     }
     
     public override func draw(context context: CGContext, point: CGPoint)
@@ -99,12 +110,17 @@ public class BalloonMarker: MarkerImage
     
     public override func refreshContent(entry entry: ChartDataEntry, highlight: Highlight)
     {
-        let label = entry.y.description
+        setLabel(String(entry.y))
+    }
+    
+    public func setLabel(label: String)
+    {
         labelns = label as NSString
         
         _drawAttributes.removeAll()
         _drawAttributes[NSFontAttributeName] = self.font
         _drawAttributes[NSParagraphStyleAttributeName] = _paragraphStyle
+        _drawAttributes[NSForegroundColorAttributeName] = self.textColor
         
         _labelSize = labelns?.sizeWithAttributes(_drawAttributes) ?? CGSizeZero
         
