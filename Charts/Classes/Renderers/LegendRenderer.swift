@@ -229,7 +229,7 @@ public class LegendRenderer: Renderer
             var calculatedLabelSizes = legend.calculatedLabelSizes
             var calculatedLabelBreakPoints = legend.calculatedLabelBreakPoints
             
-            var posX: CGFloat = originPosX + xoffset
+            var posX: CGFloat = originPosX
             var posY: CGFloat
             
             switch verticalAlignment
@@ -339,7 +339,7 @@ public class LegendRenderer: Renderer
             for i in 0..<labels.count
             {
                 let drawingForm = colors[i] != nil
-                var posX = originPosX + xoffset
+                var posX = originPosX
                 
                 if (drawingForm)
                 {
