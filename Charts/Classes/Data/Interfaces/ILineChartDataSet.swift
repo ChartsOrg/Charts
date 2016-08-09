@@ -89,6 +89,6 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     /// Line cap type, default is CGLineCap.Butt
     var lineCapType: CGLineCap { get set }
     
-    /// Sets a custom FillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
-    var fillFormatter: FillFormatter? { get set }
+    /// Sets a custom IFillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
+    var fillFormatter: IFillFormatter? { get set }
 }

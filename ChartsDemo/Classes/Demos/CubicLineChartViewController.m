@@ -14,7 +14,7 @@
 #import "CubicLineChartViewController.h"
 #import "ChartsDemo-Swift.h"
 
-@interface CubicLineSampleFillFormatter : NSObject <ChartFillFormatter>
+@interface CubicLineSampleFillFormatter : NSObject <IChartFillFormatter>
 {
 }
 @end

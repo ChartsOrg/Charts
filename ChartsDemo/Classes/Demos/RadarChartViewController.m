@@ -14,7 +14,7 @@
 #import "RadarChartViewController.h"
 #import "ChartsDemo-Swift.h"
 
-@interface RadarChartViewController () <ChartViewDelegate, ChartAxisValueFormatter>
+@interface RadarChartViewController () <ChartViewDelegate, IChartAxisValueFormatter>
 {
     NSArray<NSString *> *activities;
     UIColor *originalBarBgColor;
@@ -263,7 +263,7 @@
     NSLog(@"chartValueNothingSelected");
 }
 
-#pragma mark - AxisValueFormatter
+#pragma mark - IAxisValueFormatter
 
 - (NSString *)stringForValue:(double)value
                         axis:(ChartAxisBase *)axis

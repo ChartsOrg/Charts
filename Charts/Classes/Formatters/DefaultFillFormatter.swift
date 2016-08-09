@@ -20,7 +20,7 @@ import CoreGraphics
 
 /// Default formatter that calculates the position of the filled line.
 @objc(ChartDefaultFillFormatter)
-public class DefaultFillFormatter: NSObject, FillFormatter
+public class DefaultFillFormatter: NSObject, IFillFormatter
 {
     public override init()
     {

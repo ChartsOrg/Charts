@@ -16,7 +16,7 @@
 
 #define ITEM_COUNT 12
 
-@interface CombinedChartViewController () <ChartViewDelegate, ChartAxisValueFormatter>
+@interface CombinedChartViewController () <ChartViewDelegate, IChartAxisValueFormatter>
 {
     NSArray<NSString *> *months;
 }
@@ -311,7 +311,7 @@
     NSLog(@"chartValueNothingSelected");
 }
 
-#pragma mark - AxisValueFormatter
+#pragma mark - IAxisValueFormatter
 
 - (NSString *)stringForValue:(double)value
                         axis:(ChartAxisBase *)axis

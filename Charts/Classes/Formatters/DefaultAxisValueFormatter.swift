@@ -12,7 +12,7 @@
 import Foundation
 
 @objc(ChartDefaultAxisValueFormatter)
-public class DefaultAxisValueFormatter: NSObject, AxisValueFormatter
+public class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
 {
     public var formatter: NSNumberFormatter?
     

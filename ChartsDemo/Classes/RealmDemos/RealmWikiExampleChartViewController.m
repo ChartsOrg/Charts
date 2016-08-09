@@ -16,7 +16,7 @@
 #import <Realm/Realm.h>
 #import "Score.h"
 
-@interface RealmWikiExampleChartViewController () <ChartViewDelegate, ChartAxisValueFormatter>
+@interface RealmWikiExampleChartViewController () <ChartViewDelegate, IChartAxisValueFormatter>
 {
     RLMResults<Score *> *results;
 }
@@ -165,7 +165,7 @@
     }
 }
 
-#pragma mark - AxisValueFormatter
+#pragma mark - IAxisValueFormatter
 
 - (NSString *)stringForValue:(double)value
                         axis:(ChartAxisBase *)axis
