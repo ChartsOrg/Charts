@@ -82,16 +82,18 @@
 
 - (int)daysForMonth:(int)month year:(int)year
 {
+    // month is 0-based
+    
     if (month == 1)
     {
-        if (year == 2016 || year == 2020)
+        int x400 = month % 400;
+        if (x400 < 0)
         {
-            return 29;
+            x400 = -x400;
         }
-        else
-        {
-            return 28;
-        }
+        BOOL is29 = (month % 4) == 0 && x400 != 100 && x400 != 200 && x400 != 300;
+        
+        return is29 ? 29 : 28;
     }
     
     if (month == 3 || month == 5 || month == 8 || month == 10)
