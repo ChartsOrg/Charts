@@ -450,7 +450,7 @@ public class ViewPortHandler: NSObject
     
     public func isInBoundsRight(x: CGFloat) -> Bool
     {
-        let x = CGFloat(Int(x * 100.0)) / 100.0
+        let x = floor(x * 100.0) / 100.0
         return (_contentRect.origin.x + _contentRect.size.width) >= x - 1.0 ? true : false
     }
     
@@ -461,7 +461,7 @@ public class ViewPortHandler: NSObject
     
     public func isInBoundsBottom(y: CGFloat) -> Bool
     {
-        let normalizedY = CGFloat(Int(y * 100.0)) / 100.0
+        let normalizedY = floor(y * 100.0) / 100.0
         return (_contentRect.origin.y + _contentRect.size.height) >= normalizedY ? true : false
     }
     
