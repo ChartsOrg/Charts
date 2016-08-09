@@ -1,5 +1,5 @@
 //
-//  DefaultAxisValueFormatter.swift
+//  DefaultValueFormatter.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -11,8 +11,8 @@
 
 import Foundation
 
-@objc(ChartDefaultAxisValueFormatter)
-public class DefaultAxisValueFormatter: NSObject, AxisValueFormatter
+@objc(ChartDefaultValueFormatter)
+public class DefaultValueFormatter: NSObject, IValueFormatter
 {
     public var formatter: NSNumberFormatter?
     
@@ -57,7 +57,9 @@ public class DefaultAxisValueFormatter: NSObject, AxisValueFormatter
     }
     
     public func stringForValue(value: Double,
-                               axis: ChartAxisBase) -> String
+                        entry: ChartDataEntry,
+                        dataSetIndex: Int,
+                        viewPortHandler: ViewPortHandler?) -> String
     {
         return formatter?.stringFromNumber(value) ?? ""
     }

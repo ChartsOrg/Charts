@@ -185,7 +185,11 @@ public class RadarChartRenderer: LineRadarRenderer
                 
                 ChartUtils.drawText(
                     context: context,
-                    text: formatter.stringFromNumber(e.y)!,
+                    text: formatter.stringForValue(
+                        e.y,
+                        entry: e,
+                        dataSetIndex: i,
+                        viewPortHandler: viewPortHandler),
                     point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
                     align: .Center,
                     attributes: [NSFontAttributeName: valueFont,

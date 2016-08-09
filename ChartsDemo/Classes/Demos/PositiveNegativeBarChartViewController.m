@@ -162,7 +162,7 @@
     
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     formatter.maximumFractionDigits = 1;
-    [data setValueFormatter:formatter];
+    [data setValueFormatter:[[ChartDefaultValueFormatter alloc] initWithFormatter:formatter]];
     
     data.barWidth = 0.8;
     

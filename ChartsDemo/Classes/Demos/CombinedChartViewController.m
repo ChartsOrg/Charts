@@ -56,6 +56,7 @@
     
     _chartView.drawGridBackgroundEnabled = NO;
     _chartView.drawBarShadowEnabled = NO;
+    _chartView.highlightFullBarEnabled = NO;
     
     _chartView.drawOrder = @[
                              @(CombinedChartDrawOrderBar),
@@ -64,8 +65,6 @@
                              @(CombinedChartDrawOrderLine),
                              @(CombinedChartDrawOrderScatter)
                              ];
-    
-    _chartView.highlightFullBarEnabled = NO;
     
     ChartLegend *l = _chartView.legend;
     l.wordWrapEnabled = YES;
@@ -245,7 +244,7 @@
     ScatterChartDataSet *set = [[ScatterChartDataSet alloc] initWithValues:entries label:@"Scatter DataSet"];
     set.colors = ChartColorTemplates.material;
     set.scatterShapeSize = 7.5;
-    [set setDrawValuesEnabled:YES];
+    [set setDrawValuesEnabled:NO];
     set.valueFont = [UIFont systemFontOfSize:10.f];
     
     [d addDataSet:set];

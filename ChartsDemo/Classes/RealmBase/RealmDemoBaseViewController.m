@@ -203,7 +203,7 @@ static float randomFloatBetween(float from, float to)
     
     data.valueFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:8.f];
     data.valueTextColor = UIColor.darkGrayColor;
-    data.valueFormatter = percentFormatter;
+    data.valueFormatter = [[ChartDefaultValueFormatter alloc] initWithFormatter:percentFormatter];
 }
 
 @end

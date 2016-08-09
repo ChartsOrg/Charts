@@ -170,8 +170,8 @@ public protocol IChartDataSet
     /// - returns: `true` if value highlighting is enabled for this dataset
     var isHighlightEnabled: Bool { get }
     
-    /// The formatter used to customly format the values
-    var valueFormatter: NSNumberFormatter? { get set }
+    /// Custom formatter that is used instead of the auto-formatter if set
+    var valueFormatter: IValueFormatter? { get set }
     
     /// - returns: `true` if the valueFormatter object of this DataSet is null.
     var needsFormatter: Bool { get }

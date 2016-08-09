@@ -21,7 +21,7 @@ import CoreGraphics
 
 public class ChartUtils
 {
-    private static var _defaultValueFormatter: NSNumberFormatter = ChartUtils.generateDefaultValueFormatter()
+    private static var _defaultValueFormatter: IValueFormatter = ChartUtils.generateDefaultValueFormatter()
     
     internal struct Math
     {
@@ -216,18 +216,14 @@ public class ChartUtils
         return angle % 360.0
     }
     
-    private class func generateDefaultValueFormatter() -> NSNumberFormatter
+    private class func generateDefaultValueFormatter() -> IValueFormatter
     {
-        let formatter = NSNumberFormatter()
-        formatter.minimumIntegerDigits = 1
-        formatter.maximumFractionDigits = 1
-        formatter.minimumFractionDigits = 1
-        formatter.usesGroupingSeparator = true
+        let formatter = DefaultValueFormatter(decimals: 1)
         return formatter
     }
     
     /// - returns: The default value formatter used for all chart components that needs a default
-    internal class func defaultValueFormatter() -> NSNumberFormatter
+    public class func defaultValueFormatter() -> IValueFormatter
     {
         return _defaultValueFormatter
     }

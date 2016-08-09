@@ -417,9 +417,14 @@ public class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                         }
                         
                         let val = e.y
-
-                        drawValue(context: context,
-                            value: formatter.stringFromNumber(val)!,
+                        
+                        drawValue(
+                            context: context,
+                            value: formatter.stringForValue(
+                                val,
+                                entry: e,
+                                dataSetIndex: dataSetIndex,
+                                viewPortHandler: viewPortHandler),
                             xPos: x,
                             yPos: val >= 0.0
                                 ? (rect.origin.y + posOffset)
@@ -459,14 +464,19 @@ public class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                 continue
                             }
                             
-                            drawValue(context: context,
-                                      value: formatter.stringFromNumber(e.y)!,
-                                      xPos: x,
-                                      yPos: rect.origin.y +
-                                        (e.y >= 0 ? posOffset : negOffset),
-                                      font: valueFont,
-                                      align: .Center,
-                                      color: dataSet.valueTextColorAt(index))
+                            drawValue(
+                                context: context,
+                                value: formatter.stringForValue(
+                                    e.y,
+                                    entry: e,
+                                    dataSetIndex: dataSetIndex,
+                                    viewPortHandler: viewPortHandler),
+                                xPos: x,
+                                yPos: rect.origin.y +
+                                    (e.y >= 0 ? posOffset : negOffset),
+                                font: valueFont,
+                                align: .Center,
+                                color: dataSet.valueTextColorAt(index))
                         }
                         else
                         {
@@ -513,8 +523,13 @@ public class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                     continue
                                 }
                                 
-                                drawValue(context: context,
-                                    value: formatter.stringFromNumber(vals[k])!,
+                                drawValue(
+                                    context: context,
+                                    value: formatter.stringForValue(
+                                        vals[k],
+                                        entry: e,
+                                        dataSetIndex: dataSetIndex,
+                                        viewPortHandler: viewPortHandler),
                                     xPos: x,
                                     yPos: y,
                                     font: valueFont,

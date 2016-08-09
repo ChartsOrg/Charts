@@ -50,8 +50,8 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         return _xAxis
     }
     
-    /// the default value formatter
-    internal var _defaultValueFormatter: NSNumberFormatter = ChartUtils.defaultValueFormatter()
+    /// The default IValueFormatter that has been determined by the chart considering the provided minimum and maximum values.
+    internal var _defaultValueFormatter: IValueFormatter? = DefaultValueFormatter(decimals: 0)
     
     /// object that holds all data that was originally set for the chart, before it was modified or any filtering algorithms had been applied
     internal var _data: ChartData?
@@ -218,7 +218,18 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
                 return
             }
             
+            // calculate how many digits are needed
             setupDefaultFormatter(min: _data!.getYMin(), max: _data!.getYMax())
+            
+            for set in _data!.dataSets
+            {
+                if set.needsFormatter || set.valueFormatter === _defaultValueFormatter
+                {
+                    set.valueFormatter = _defaultValueFormatter
+                }
+            }
+            
+            // let the chart know there is new data
             notifyDataSetChanged()
         }
     }
@@ -290,10 +301,15 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             reference = absMin > absMax ? absMin : absMax
         }
         
-        let digits = ChartUtils.decimals(reference)
     
-        _defaultValueFormatter.maximumFractionDigits = digits
-        _defaultValueFormatter.minimumFractionDigits = digits
+        if _defaultValueFormatter is DefaultValueFormatter
+        {
+            // setup the formatter with a new number of digits
+            let digits = ChartUtils.decimals(reference)
+            
+            (_defaultValueFormatter as? DefaultValueFormatter)?.decimals
+             = digits
+        }
     }
     
     public override func drawRect(rect: CGRect)

@@ -136,7 +136,7 @@
         
         BarChartData *data = [[BarChartData alloc] initWithDataSets:dataSets];
         [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:7.f]];
-        [data setValueFormatter:formatter];
+        [data setValueFormatter:[[ChartDefaultValueFormatter alloc] initWithFormatter:formatter]];
         [data setValueTextColor:UIColor.whiteColor];
         
         data.barWidth = 0.8;

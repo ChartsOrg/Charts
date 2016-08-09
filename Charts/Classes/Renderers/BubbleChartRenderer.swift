@@ -151,8 +151,10 @@ public class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
             
             var pt = CGPoint()
             
-            for dataSet in dataSets
+            for i in 0..<dataSets.count
             {
+                let dataSet = dataSets[i]
+                
                 if !shouldDrawValues(forDataSet: dataSet)
                 {
                     continue
@@ -187,7 +189,11 @@ public class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
                         continue
                     }
                     
-                    let text = formatter.stringFromNumber(e.size)
+                    let text = formatter.stringForValue(
+                        Double(e.size),
+                        entry: e,
+                        dataSetIndex: i,
+                        viewPortHandler: viewPortHandler)
                     
                     // Larger font for larger bubbles?
                     let valueFont = dataSet.valueFont
@@ -195,7 +201,7 @@ public class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
 
                     ChartUtils.drawText(
                         context: context,
-                        text: text!,
+                        text: text,
                         point: CGPoint(
                             x: pt.x,
                             y: pt.y - (0.5 * lineHeight)),

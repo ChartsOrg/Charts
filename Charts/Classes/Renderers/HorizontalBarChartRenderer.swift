@@ -368,7 +368,11 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                         }
                         
                         let val = e.y
-                        let valueText = formatter.stringFromNumber(val)!
+                        let valueText = formatter.stringForValue(
+                            val,
+                            entry: e,
+                            dataSetIndex: dataSetIndex,
+                            viewPortHandler: viewPortHandler)
                         
                         // calculate the correct offset depending on the draw position of the value
                         let valueTextWidth = valueText.sizeWithAttributes([NSFontAttributeName: valueFont]).width
@@ -425,7 +429,11 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                             }
                             
                             let val = e.y
-                            let valueText = formatter.stringFromNumber(val)!
+                            let valueText = formatter.stringForValue(
+                                val,
+                                entry: e,
+                                dataSetIndex: dataSetIndex,
+                                viewPortHandler: viewPortHandler)
                             
                             // calculate the correct offset depending on the draw position of the value
                             let valueTextWidth = valueText.sizeWithAttributes([NSFontAttributeName: valueFont]).width
@@ -480,7 +488,11 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                             for k in 0 ..< transformed.count
                             {
                                 let val = vals[k]
-                                let valueText = formatter.stringFromNumber(val)!
+                                let valueText = formatter.stringForValue(
+                                    val,
+                                    entry: e,
+                                    dataSetIndex: dataSetIndex,
+                                    viewPortHandler: viewPortHandler)
                                 
                                 // calculate the correct offset depending on the draw position of the value
                                 let valueTextWidth = valueText.sizeWithAttributes([NSFontAttributeName: valueFont]).width

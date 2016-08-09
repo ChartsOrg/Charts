@@ -163,11 +163,15 @@ public class ScatterChartRenderer: LineScatterCandleRadarRenderer
                         continue
                     }
                     
-                    let text = formatter.stringFromNumber(e.y)
+                    let text = formatter.stringForValue(
+                        e.y,
+                        entry: e,
+                        dataSetIndex: i,
+                        viewPortHandler: viewPortHandler)
                     
                     ChartUtils.drawText(
                         context: context,
-                        text: text!,
+                        text: text,
                         point: CGPoint(
                             x: pt.x,
                             y: pt.y - shapeSize - lineHeight),
