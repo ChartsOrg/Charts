@@ -14,7 +14,19 @@ import Foundation
 @objc(ChartDefaultValueFormatter)
 public class DefaultValueFormatter: NSObject, IValueFormatter
 {
+    
+    public var hasAutoDecimals: Bool = false
+    
+    private var _formatter: NSNumberFormatter?
     public var formatter: NSNumberFormatter?
+    {
+        get { return _formatter }
+        set
+        {
+            hasAutoDecimals = false
+            _formatter = newValue
+        }
+    }
     
     private var _decimals: Int?
     public var decimals: Int?
@@ -38,6 +50,7 @@ public class DefaultValueFormatter: NSObject, IValueFormatter
         super.init()
         
         self.formatter = NSNumberFormatter()
+        hasAutoDecimals = true
     }
     
     public init(formatter: NSNumberFormatter)
@@ -54,6 +67,7 @@ public class DefaultValueFormatter: NSObject, IValueFormatter
         self.formatter = NSNumberFormatter()
         self.formatter?.usesGroupingSeparator = true
         self.decimals = decimals
+        hasAutoDecimals = true
     }
     
     public func stringForValue(value: Double,

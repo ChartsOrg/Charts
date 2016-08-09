@@ -157,11 +157,13 @@ public class ChartAxisBase: ChartComponentBase
     /// If no formatter is set, the chart will automatically determine a reasonable formatting (concerning decimals) for all the values that are drawn inside the chart.
     /// Use `nil` to use the formatter calculated by the chart.
     public var valueFormatter: IAxisValueFormatter?
-    {
+        {
         get
         {
             if _axisValueFormatter == nil ||
-                (_axisValueFormatter is DefaultAxisValueFormatter && (_axisValueFormatter as? DefaultAxisValueFormatter)?.decimals != decimals)
+                (_axisValueFormatter is DefaultAxisValueFormatter &&
+                    (_axisValueFormatter as! DefaultAxisValueFormatter).hasAutoDecimals &&
+                    (_axisValueFormatter as! DefaultAxisValueFormatter).decimals != decimals)
             {
                 _axisValueFormatter = DefaultAxisValueFormatter(decimals: decimals)
             }

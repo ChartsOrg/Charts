@@ -276,7 +276,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         }
         set
         {
-            if _valueFormatter == nil { return }
+            if newValue == nil { return }
             
             _valueFormatter = newValue
         }
