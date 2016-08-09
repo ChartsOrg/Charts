@@ -19,7 +19,7 @@ public protocol BarChartDataProvider: BarLineScatterCandleBubbleChartDataProvide
 {
     var barData: BarChartData? { get }
     
-    var isDrawBarShadowEnabled: Bool { get }
-    var isDrawValueAboveBarEnabled: Bool { get }
-    var isDrawHighlightArrowEnabled: Bool { get }
+    var drawBarShadowEnabled: Bool { get }
+    var drawValueAboveBarEnabled: Bool { get }
+    var drawHighlightArrowEnabled: Bool { get }
 }

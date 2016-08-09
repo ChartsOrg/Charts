@@ -20,11 +20,11 @@ public class ChartXAxis: ChartAxisBase
     @objc(XAxisLabelPosition)
     public enum LabelPosition: Int
     {
-        case Top
-        case Bottom
-        case BothSided
-        case TopInside
-        case BottomInside
+        case top
+        case bottom
+        case bothSided
+        case topInside
+        case bottomInside
     }
     
     public var values = [String?]()
@@ -83,7 +83,7 @@ public class ChartXAxis: ChartAxisBase
     }
     
     /// the position of the x-labels relative to the chart
-    public var labelPosition = LabelPosition.Top
+    public var labelPosition = LabelPosition.top
     
     /// if set to true, word wrapping the labels will be enabled.
     /// word wrapping is done using `(value width * labelRotatedWidth)`
@@ -91,11 +91,8 @@ public class ChartXAxis: ChartAxisBase
     /// *Note: currently supports all charts except pie/radar/horizontal-bar*
     public var wordWrapEnabled = false
     
-    /// - returns: true if word wrapping the labels is enabled
-    public var isWordWrapEnabled: Bool { return wordWrapEnabled }
-    
     /// the width for wrapping the labels, as percentage out of one value width.
-    /// used only when isWordWrapEnabled = true.
+    /// used only when wordWrapEnabled = true.
     /// 
     /// **default**: 1.0
     public var wordWrapWidthPercent: CGFloat = 1.0
@@ -123,16 +120,11 @@ public class ChartXAxis: ChartAxisBase
         
         return longest
     }
-    
-    public var isAvoidFirstLastClippingEnabled: Bool
-    {
-        return avoidFirstLastClippingEnabled
-    }
 
     /// Sets the number of labels that should be skipped on the axis before the next label is drawn. 
     /// This will disable the feature that automatically calculates an adequate space between the axis labels and set the number of labels to be skipped to the fixed number provided by this method. 
     /// Call `resetLabelsToSkip(...)` to re-enable automatic calculation.
-    public func setLabelsToSkip(count: Int)
+    public func setLabelsToSkip(_ count: Int)
     {
         _isAxisModulusCustom = true
 

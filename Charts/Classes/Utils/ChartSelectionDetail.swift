@@ -17,7 +17,7 @@ import CoreGraphics
 
 public class ChartSelectionDetail: NSObject
 {
-    private var _y = CGFloat.NaN
+    private var _y = CGFloat.nan
     private var _value = Double(0)
     private var _dataIndex = Int(0)
     private var _dataSetIndex = Int(0)
@@ -46,7 +46,7 @@ public class ChartSelectionDetail: NSObject
     
     public convenience init(value: Double, dataSetIndex: Int, dataSet: IChartDataSet)
     {
-        self.init(y: CGFloat.NaN, value: value, dataIndex: 0, dataSetIndex: dataSetIndex, dataSet: dataSet)
+        self.init(y: CGFloat.nan, value: value, dataIndex: 0, dataSetIndex: dataSetIndex, dataSet: dataSet)
     }
     
     public var y: CGFloat
@@ -76,14 +76,14 @@ public class ChartSelectionDetail: NSObject
     
     // MARK: NSObject
     
-    public override func isEqual(object: AnyObject?) -> Bool
+    public override func isEqual(_ object: AnyObject?) -> Bool
     {
         if (object === nil)
         {
             return false
         }
         
-        if (!object!.isKindOfClass(self.dynamicType))
+        if (!object!.isKind(of: self.dynamicType))
         {
             return false
         }
@@ -114,7 +114,7 @@ public func ==(lhs: ChartSelectionDetail, rhs: ChartSelectionDetail) -> Bool
         return true
     }
     
-    if (!lhs.isKindOfClass(rhs.dynamicType))
+    if (!lhs.isKind(of: rhs.dynamicType))
     {
         return false
     }
