@@ -42,6 +42,18 @@ public class PieChartDataSet: ChartDataSet, IPieChartDataSet
         initialize()
     }
     
+    internal override func calcMinMax(entry e: ChartDataEntry)
+    {
+        if e.y < _yMin
+        {
+            _yMin = e.y
+        }
+        if e.y > _yMax
+        {
+            _yMax = e.y
+        }
+    }
+    
     // MARK: - Styling functions and accessors
     
     private var _sliceSpace = CGFloat(0.0)
