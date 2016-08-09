@@ -81,7 +81,7 @@ public class ChartHighlighter : NSObject, IChartHighlighter
         var vals = [Highlight]()
         
         guard let
-            data = self.chart?.data
+            data = self.data
             else { return vals }
         
         for i in 0 ..< data.dataSetCount
@@ -191,5 +191,10 @@ public class ChartHighlighter : NSObject, IChartHighlighter
     internal func getDistance(x1 x1: CGFloat, y1: CGFloat, x2: CGFloat, y2: CGFloat) -> CGFloat
     {
         return hypot(x1 - x2, y1 - y2)
+    }
+    
+    internal var data: ChartData?
+    {
+        return chart?.data
     }
 }

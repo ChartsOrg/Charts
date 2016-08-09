@@ -50,6 +50,11 @@ public class BarHighlighter: ChartHighlighter
         return abs(x1 - x2)
     }
     
+    internal override var data: ChartData?
+    {
+        return (chart as? BarChartDataProvider)?.barData
+    }
+    
     /// This method creates the Highlight object that also indicates which value of a stacked BarEntry has been selected.
     /// - parameter high: the Highlight to work with looking for stacked values
     /// - parameter set:
