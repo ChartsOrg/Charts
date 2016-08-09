@@ -63,6 +63,8 @@
     chart.legend.enabled = NO;
     
     chart.leftAxis.enabled = NO;
+    chart.leftAxis.spaceTop = 40.0;
+    chart.leftAxis.spaceBottom = 40.0;
     chart.rightAxis.enabled = NO;
     chart.xAxis.enabled = NO;
     

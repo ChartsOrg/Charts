@@ -119,6 +119,7 @@
     {
         set = (BarChartDataSet *)_chartView.data.dataSets[0];
         set.values = entries;
+        [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
     }
     else
@@ -145,7 +146,7 @@
 
 - (IBAction)slidersValueChanged:(id)sender
 {
-    _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
+    _sliderTextX.text = [@((int)_sliderX.value) stringValue];
     
     [self updateChartData];
 }

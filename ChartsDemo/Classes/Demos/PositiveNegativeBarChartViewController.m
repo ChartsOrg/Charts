@@ -78,8 +78,8 @@
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.drawLabelsEnabled = NO;
-    leftAxis.spaceTop = 0.25f;
-    leftAxis.spaceBottom = 0.25f;
+    leftAxis.spaceTop = 25.0;
+    leftAxis.spaceBottom = 25.0;
     leftAxis.drawAxisLineEnabled = NO;
     leftAxis.drawGridLinesEnabled = NO;
     leftAxis.drawZeroLineEnabled = YES;

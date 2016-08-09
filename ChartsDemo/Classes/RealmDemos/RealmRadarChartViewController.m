@@ -97,6 +97,7 @@
     {
         _chartView.xAxis.drawLabelsEnabled = !_chartView.xAxis.isDrawLabelsEnabled;
         
+        [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
         [_chartView setNeedsDisplay];
         return;

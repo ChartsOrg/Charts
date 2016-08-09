@@ -99,6 +99,7 @@
             set.shadowColorSameAsCandle = !set.shadowColorSameAsCandle;
         }
         
+        [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
         return;
     }

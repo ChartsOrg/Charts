@@ -87,7 +87,7 @@
     rightAxis.drawGridLinesEnabled = NO;
     rightAxis.granularityEnabled = NO;
     
-    _sliderX.value = 19.0;
+    _sliderX.value = 20.0;
     _sliderY.value = 30.0;
     [self slidersValueChanged:nil];
     
@@ -108,7 +108,7 @@
         return;
     }
     
-    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
+    [self setDataCount:_sliderX.value + 1 range:_sliderY.value];
 }
 
 - (void)setDataCount:(int)count range:(double)range
@@ -241,7 +241,7 @@
 
 - (IBAction)slidersValueChanged:(id)sender
 {
-    _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
+    _sliderTextX.text = [@((int)_sliderX.value) stringValue];
     _sliderTextY.text = [@((int)_sliderY.value) stringValue];
     
     [self updateChartData];

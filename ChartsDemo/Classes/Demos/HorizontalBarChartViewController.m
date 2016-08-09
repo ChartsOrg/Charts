@@ -82,7 +82,7 @@
 
     _chartView.fitBars = YES;
     
-    _sliderX.value = 11.0;
+    _sliderX.value = 12.0;
     _sliderY.value = 50.0;
     [self slidersValueChanged:nil];
     
@@ -103,7 +103,7 @@
         return;
     }
     
-    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
+    [self setDataCount:_sliderX.value + 1 range:_sliderY.value];
 }
 
 - (void)setDataCount:(int)count range:(double)range
@@ -125,6 +125,7 @@
     {
         set1 = (BarChartDataSet *)_chartView.data.dataSets[0];
         set1.values = yVals;
+        [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
     }
     else
@@ -151,7 +152,7 @@
 
 - (IBAction)slidersValueChanged:(id)sender
 {
-    _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
+    _sliderTextX.text = [@((int)_sliderX.value) stringValue];
     _sliderTextY.text = [@((int)_sliderY.value) stringValue];
     
     [self updateChartData];

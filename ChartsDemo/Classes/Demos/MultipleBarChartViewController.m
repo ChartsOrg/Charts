@@ -66,7 +66,9 @@
     
     ChartLegend *legend = _chartView.legend;
     legend.position = ChartLegendPositionRightOfChartInside;
-    legend.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
+    legend.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:8.f];
+    legend.yOffset = 0.0;
+    legend.yEntrySpace = 0.0;
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
@@ -79,13 +81,14 @@
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
-    leftAxis.valueFormatter = [[ChartDefaultAxisValueFormatter alloc] initWithFormatter:leftAxisFormatter];
+    leftAxis.valueFormatter = [[LargeValueFormatter alloc] init];
     leftAxis.drawGridLinesEnabled = NO;
     leftAxis.spaceTop = 0.25;
+    leftAxis.axisMinValue = 0;
     
     _chartView.rightAxis.enabled = NO;
     
-    _sliderX.value = 9.0;
+    _sliderX.value = 10.0;
     _sliderY.value = 100.0;
     [self slidersValueChanged:nil];
 }
@@ -104,7 +107,7 @@
         return;
     }
     
-    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
+    [self setDataCount:_sliderX.value range:_sliderY.value];
 }
 
 - (void)setDataCount:(int)count range:(double)range
@@ -118,7 +121,7 @@
     NSMutableArray *yVals2 = [[NSMutableArray alloc] init];
     NSMutableArray *yVals3 = [[NSMutableArray alloc] init];
     
-    double mult = range * 10000.f;
+    double mult = range * 100000.f;
     
     int startYear = 1980;
     int endYear = startYear + _sliderX.value;
@@ -145,11 +148,13 @@
         set2.values = yVals2;
         set3.values = yVals3;
         
-        _chartView.barData.barWidth = barWidth;
-        _chartView.xAxis.axisMinValue = startYear;
-        _chartView.xAxis.axisMaxValue = [_chartView.barData groupWidthWithGroupSpace:groupSpace barSpace: barSpace] * _sliderX.value + startYear;
-        [_chartView groupBarsFromX: startYear groupSpace: groupSpace barSpace: barSpace];
+        BarChartData *data = _chartView.barData;
         
+        _chartView.xAxis.axisMinValue = startYear;
+        _chartView.xAxis.axisMaxValue = [data groupWidthWithGroupSpace:groupSpace barSpace: barSpace] * _sliderX.value + startYear;
+        [data groupBarsFromX: startYear groupSpace: groupSpace barSpace: barSpace];
+        
+        [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
     }
     else
@@ -170,10 +175,13 @@
         
         BarChartData *data = [[BarChartData alloc] initWithDataSets:dataSets];
         [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
+        [data setValueFormatter:[[LargeValueFormatter alloc] init]];
         
-        [_chartView.barData groupBarsFromX:0.0 groupSpace: groupSpace barSpace: barSpace];
-        _chartView.xAxis.axisMinValue = 0.0;
-        _chartView.xAxis.axisMaxValue = [_chartView.barData groupWidthWithGroupSpace:groupSpace barSpace: barSpace] * (double)count;
+        data.barWidth = barWidth;
+        
+        _chartView.xAxis.axisMinValue = startYear;
+        _chartView.xAxis.axisMaxValue = [data groupWidthWithGroupSpace:groupSpace barSpace: barSpace] * _sliderX.value + startYear;
+        [data groupBarsFromX: startYear groupSpace: groupSpace barSpace: barSpace];
         
         _chartView.data = data;
     }

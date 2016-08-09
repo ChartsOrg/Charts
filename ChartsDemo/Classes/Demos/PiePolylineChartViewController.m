@@ -47,7 +47,7 @@
     
     [_chartView setExtraOffsetsWithLeft:20.f top:0.f right:20.f bottom:0.f];
     
-    _sliderX.value = 3.0;
+    _sliderX.value = 4.0;
     _sliderY.value = 100.0;
     [self slidersValueChanged:nil];
     
@@ -68,7 +68,7 @@
         return;
     }
     
-    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
+    [self setDataCount:_sliderX.value range:_sliderY.value];
 }
 
 - (void)setDataCount:(int)count range:(double)range

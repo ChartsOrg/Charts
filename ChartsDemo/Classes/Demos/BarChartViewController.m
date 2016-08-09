@@ -102,7 +102,7 @@
     marker.minimumSize = CGSizeMake(80.f, 40.f);
     _chartView.marker = marker;
     
-    _sliderX.value = 11.0;
+    _sliderX.value = 12.0;
     _sliderY.value = 50.0;
     [self slidersValueChanged:nil];
 }
@@ -121,7 +121,7 @@
         return;
     }
     
-    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
+    [self setDataCount:_sliderX.value + 1 range:_sliderY.value];
 }
 
 - (void)setDataCount:(int)count range:(double)range

@@ -89,7 +89,7 @@
         return;
     }
     
-    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
+    [self setDataCount:_sliderX.value + 1 range:_sliderY.value];
 }
 
 - (void)setDataCount:(int)count range:(double)range
@@ -146,7 +146,7 @@
 
 - (IBAction)slidersValueChanged:(id)sender
 {
-    _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
+    _sliderTextX.text = [@((int)_sliderX.value) stringValue];
     _sliderTextY.text = [@((int)_sliderY.value) stringValue];
     
     [self updateChartData];

@@ -43,6 +43,7 @@
 		5B613DB31D526DED000F1E98 /* RadarMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B613DB21D526DED000F1E98 /* RadarMarkerView.swift */; };
 		5B613DB51D526EA8000F1E98 /* RadarMarkerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B613DB41D526EA8000F1E98 /* RadarMarkerView.xib */; };
 		5B613DF01D5A50B6000F1E98 /* XYMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B613DEF1D5A50B6000F1E98 /* XYMarkerView.swift */; };
+		5B613DF21D5A60DF000F1E98 /* LargeValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B613DF11D5A60DF000F1E98 /* LargeValueFormatter.swift */; };
 		5B7B3AD81C437CBC001C109B /* RealmDemoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7B3AD61C437CBC001C109B /* RealmDemoListViewController.m */; };
 		5B7B3AD91C437CBC001C109B /* RealmDemoListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B7B3AD71C437CBC001C109B /* RealmDemoListViewController.xib */; };
 		5B7B3ADF1C437F61001C109B /* RealmCandleChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B7B3ADD1C437F61001C109B /* RealmCandleChartViewController.m */; };
@@ -234,6 +235,7 @@
 		5B613DB21D526DED000F1E98 /* RadarMarkerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadarMarkerView.swift; sourceTree = "<group>"; };
 		5B613DB41D526EA8000F1E98 /* RadarMarkerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RadarMarkerView.xib; sourceTree = "<group>"; };
 		5B613DEF1D5A50B6000F1E98 /* XYMarkerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XYMarkerView.swift; sourceTree = "<group>"; };
+		5B613DF11D5A60DF000F1E98 /* LargeValueFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LargeValueFormatter.swift; sourceTree = "<group>"; };
 		5B7B3AD51C437CBC001C109B /* RealmDemoListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealmDemoListViewController.h; sourceTree = "<group>"; };
 		5B7B3AD61C437CBC001C109B /* RealmDemoListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealmDemoListViewController.m; sourceTree = "<group>"; };
 		5B7B3AD71C437CBC001C109B /* RealmDemoListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RealmDemoListViewController.xib; sourceTree = "<group>"; };
@@ -541,6 +543,7 @@
 				5BE377DD1D425151006EB34F /* DayAxisValueFormatter.m */,
 				5BE377F01D47FDF1006EB34F /* IntAxisValueFormatter.h */,
 				5BE377F11D47FDF1006EB34F /* IntAxisValueFormatter.m */,
+				5B613DF11D5A60DF000F1E98 /* LargeValueFormatter.swift */,
 			);
 			path = Formatters;
 			sourceTree = "<group>";
@@ -782,6 +785,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B613DF21D5A60DF000F1E98 /* LargeValueFormatter.swift in Sources */,
 				5BEAED1B1ABBFB340013F194 /* ScatterChartViewController.m in Sources */,
 				5B4AC19E1C4C19340028D1A6 /* RealmWikiExampleChartViewController.m in Sources */,
 				5B4AC1561C47EDC50028D1A6 /* RealmRadarChartViewController.m in Sources */,

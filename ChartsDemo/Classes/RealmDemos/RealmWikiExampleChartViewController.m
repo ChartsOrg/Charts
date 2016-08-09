@@ -41,9 +41,7 @@
     [self setupBarLineChartView:_barChartView];
     
     _lineChartView.extraBottomOffset = 5.f;
-    _lineChartView.extraRightOffset = 15.f;
     _barChartView.extraBottomOffset = 5.f;
-    _barChartView.extraRightOffset = 15.f;
     
     _lineChartView.leftAxis.drawGridLinesEnabled = NO;
     _lineChartView.xAxis.drawGridLinesEnabled = NO;
@@ -133,8 +131,9 @@
     BarChartData *barData = [[BarChartData alloc] initWithDataSets:barDataSets];
     [self styleData:barData];
     
-    _barChartView.fitBars = YES;
     _barChartView.data = barData;
+    _barChartView.fitBars = YES;
+    [_barChartView notifyDataSetChanged];
     [_barChartView animateWithYAxisDuration:1.4
                                 easingOption:ChartEasingOptionEaseInOutQuart];
 }

@@ -145,7 +145,7 @@
 
 - (IBAction)slidersValueChanged:(id)sender
 {
-    _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
+    _sliderTextX.text = [@((int)_sliderX.value) stringValue];
     _sliderTextY.text = [@((int)_sliderY.value) stringValue];
     
     [self updateChartData];
