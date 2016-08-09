@@ -111,7 +111,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// object responsible for rendering the data
     public var renderer: DataRenderer?
     
-    public var highlighter: IChartHighlighter?
+    public var highlighter: IHighlighter?
     
     /// object that manages the bounds and drawing constraints of the chart
     internal var _viewPortHandler: ViewPortHandler!

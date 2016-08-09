@@ -1,5 +1,5 @@
 //
-//  IChartHighlighter.swift
+//  IHighlighter.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -12,8 +12,8 @@
 import Foundation
 import CoreGraphics
 
-@objc
-public protocol IChartHighlighter : NSObjectProtocol
+@objc(IChartHighlighter)
+public protocol IHighlighter : NSObjectProtocol
 {
     /// - returns: A Highlight object corresponding to the given x- and y- touch positions in pixels.
     /// - parameter x:

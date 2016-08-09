@@ -15,7 +15,7 @@
 import Foundation
 import CoreGraphics
 
-public class ChartHighlighter : NSObject, IChartHighlighter
+public class ChartHighlighter : NSObject, IHighlighter
 {
     /// instance of the data-provider
     public weak var chart: ChartDataProvider?

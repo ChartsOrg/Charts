@@ -1,5 +1,5 @@
 //
-//  PieRadarChartHighlighter.swift
+//  PieRadarHighlighter.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 26/7/15.

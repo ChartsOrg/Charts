@@ -1,5 +1,5 @@
 //
-//  ChartHighlight.swift
+//  Highlight.swift
 //  Charts
 //
 //  Created by Daniel Cohen Gindi on 23/2/15.
