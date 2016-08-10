@@ -1,8 +1,6 @@
 //
-//  PieChartViewController.m
+//  HalfPieChartViewController.m
 //  ChartsDemo
-//
-//  Created by Daniel Cohen Gindi on 17/3/15.
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
@@ -11,26 +9,22 @@
 //  https://github.com/danielgindi/Charts
 //
 
-#import "PieChartViewController.h"
+#import "HalfPieChartViewController.h"
 #import "ChartsDemo-Swift.h"
 
-@interface PieChartViewController () <ChartViewDelegate>
+@interface HalfPieChartViewController () <ChartViewDelegate>
 
 @property (nonatomic, strong) IBOutlet PieChartView *chartView;
-@property (nonatomic, strong) IBOutlet UISlider *sliderX;
-@property (nonatomic, strong) IBOutlet UISlider *sliderY;
-@property (nonatomic, strong) IBOutlet UITextField *sliderTextX;
-@property (nonatomic, strong) IBOutlet UITextField *sliderTextY;
 
 @end
 
-@implementation PieChartViewController
+@implementation HalfPieChartViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.title = @"Pie Bar Chart";
+    self.title = @"Half Pie Bar Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Y-Values"},
@@ -50,8 +44,18 @@
     
     _chartView.delegate = self;
     
+    _chartView.holeColor = UIColor.whiteColor;
+    _chartView.transparentCircleColor = [UIColor.whiteColor colorWithAlphaComponent:0.43];
+    _chartView.holeRadiusPercent = 0.58;
+    _chartView.rotationEnabled = NO;
+    _chartView.highlightPerTapEnabled = YES;
+    
+    _chartView.maxAngle = 180.0; // Half chart
+    _chartView.rotationAngle = 180.0; // Rotate to make the half on the upper side
+    _chartView.centerTextOffset = CGPointMake(0.0, -20.0);
+    
     ChartLegend *l = _chartView.legend;
-    l.position = ChartLegendPositionRightOfChart;
+    l.position = ChartLegendPositionAboveChartCenter;
     l.xEntrySpace = 7.0;
     l.yEntrySpace = 0.0;
     l.yOffset = 0.0;
@@ -60,9 +64,7 @@
     _chartView.entryLabelColor = UIColor.whiteColor;
     _chartView.entryLabelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.f];
     
-    _sliderX.value = 4.0;
-    _sliderY.value = 100.0;
-    [self slidersValueChanged:nil];
+    [self updateChartData];
     
     [_chartView animateWithXAxisDuration:1.4 easingOption:ChartEasingOptionEaseOutBack];
 }
@@ -81,7 +83,7 @@
         return;
     }
     
-    [self setDataCount:_sliderX.value range:_sliderY.value];
+    [self setDataCount:4 range:100];
 }
 
 - (void)setDataCount:(int)count range:(double)range
@@ -97,19 +99,10 @@
     }
     
     PieChartDataSet *dataSet = [[PieChartDataSet alloc] initWithValues:values label:@"Election Results"];
-    dataSet.sliceSpace = 2.0;
+    dataSet.sliceSpace = 3.0;
+    dataSet.selectionShift = 5.0;
     
-    // add a lot of colors
-    
-    NSMutableArray *colors = [[NSMutableArray alloc] init];
-    [colors addObjectsFromArray:ChartColorTemplates.vordiplom];
-    [colors addObjectsFromArray:ChartColorTemplates.joyful];
-    [colors addObjectsFromArray:ChartColorTemplates.colorful];
-    [colors addObjectsFromArray:ChartColorTemplates.liberty];
-    [colors addObjectsFromArray:ChartColorTemplates.pastel];
-    [colors addObject:[UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f]];
-    
-    dataSet.colors = colors;
+    dataSet.colors = ChartColorTemplates.material;
     
     PieChartData *data = [[PieChartData alloc] initWithDataSet:dataSet];
     
@@ -119,11 +112,13 @@
     pFormatter.multiplier = @1.f;
     pFormatter.percentSymbol = @" %";
     [data setValueFormatter:[[ChartDefaultValueFormatter alloc] initWithFormatter:pFormatter]];
+    
     [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:11.f]];
     [data setValueTextColor:UIColor.whiteColor];
     
     _chartView.data = data;
-    [_chartView highlightValues:nil];
+    
+    [_chartView setNeedsDisplay];
 }
 
 - (void)optionTapped:(NSString *)key
@@ -187,15 +182,7 @@
     [super handleOption:key forChartView:_chartView];
 }
 
-#pragma mark - Actions
-
-- (IBAction)slidersValueChanged:(id)sender
-{
-    _sliderTextX.text = [@((int)_sliderX.value) stringValue];
-    _sliderTextY.text = [@((int)_sliderY.value) stringValue];
-    
-    [self updateChartData];
-}
+#pragma mark - Action
 
 #pragma mark - ChartViewDelegate
 

@@ -30,7 +30,7 @@
 {
     [super viewDidLoad];
     
-    self.title = @"Line Chart 1 Chart";
+    self.title = @"Line Chart 1";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
