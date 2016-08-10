@@ -162,4 +162,46 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
         
         CGContextRestoreGState(context)
     }
+    
+    public override func renderLimitLines(context context: CGContext)
+    {
+        guard let
+            xAxis = xAxis,
+            barData = chart?.data as? BarChartData
+            else {
+                return
+        }
+        
+        var limitLines = xAxis.limitLines
+        
+        if (limitLines.count == 0)
+        {
+            return
+        }
+        
+        CGContextSaveGState(context)
+        
+        let trans = transformer.valueToPixelMatrix
+        
+        var position = CGPoint(x: 0.0, y: 0.0)
+        
+        for i in 0 ..< limitLines.count
+        {
+            let l = limitLines[i]
+            
+            if !l.isEnabled
+            {
+                continue
+            }
+            
+            position.x = CGFloat(l.limit * Double(barData.dataSetCount)) + CGFloat(l.limit) * barData.groupSpace - 0.5 + (CGFloat(barData.dataSetCount) + barData.groupSpace) / 2.0
+            position.y = 0.0
+            position = CGPointApplyAffineTransform(position, trans)
+            
+            renderLimitLineLine(context: context, limitLine: l, position: position)
+            renderLimitLineLabel(context: context, limitLine: l, position: position, yOffset: 2.0 + l.yOffset)
+        }
+        
+        CGContextRestoreGState(context)
+    }
 }

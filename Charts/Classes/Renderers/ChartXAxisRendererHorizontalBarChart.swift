@@ -241,7 +241,12 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
     
     public override func renderLimitLines(context context: CGContext)
     {
-        guard let xAxis = xAxis else { return }
+        guard let
+            xAxis = xAxis,
+            barData = chart?.data as? BarChartData
+            else {
+                return
+        }
         
         var limitLines = xAxis.limitLines
         
@@ -266,7 +271,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
             }
 
             position.x = 0.0
-            position.y = CGFloat(l.limit)
+            position.y = CGFloat(l.limit * Double(barData.dataSetCount)) + CGFloat(l.limit) * barData.groupSpace - 0.5 + (CGFloat(barData.dataSetCount) + barData.groupSpace) / 2.0
             position = CGPointApplyAffineTransform(position, trans)
             
             _limitLineSegmentsBuffer[0].x = viewPortHandler.contentLeft
