@@ -45,13 +45,13 @@ public class XAxisRenderer: AxisRendererBase
                 
                 if inverted
                 {
-                    min = Double(p2.y)
-                    max = Double(p1.y)
+                    min = Double(p2.x)
+                    max = Double(p1.x)
                 }
                 else
                 {
-                    min = Double(p1.y)
-                    max = Double(p2.y)
+                    min = Double(p1.x)
+                    max = Double(p2.x)
                 }
             }
         }
