@@ -22,46 +22,76 @@ import CoreGraphics
 @objc(ChartDefaultFillFormatter)
 public class DefaultFillFormatter: NSObject, IFillFormatter
 {
+    public typealias Block = (dataSet: ILineChartDataSet,
+        dataProvider: LineChartDataProvider) -> CGFloat
+    
+    public var block: Block?
+    
     public override init()
     {
+        
     }
     
-    public func getFillLinePosition(dataSet dataSet: ILineChartDataSet, dataProvider: LineChartDataProvider) -> CGFloat
+    public init(block: Block)
     {
-        var fillMin = CGFloat(0.0)
-        
-        if (dataSet.yMax > 0.0 && dataSet.yMin < 0.0)
+        self.block = block
+    }
+    
+    public static func withBlock(block: Block?) -> DefaultFillFormatter?
+    {
+        if block == nil
         {
-            fillMin = 0.0
+            return nil
+        }
+        
+        return DefaultFillFormatter(block: block!)
+    }
+    
+    public func getFillLinePosition(
+        dataSet dataSet: ILineChartDataSet,
+                dataProvider: LineChartDataProvider) -> CGFloat
+    {
+        if block != nil
+        {
+            return block!(dataSet: dataSet, dataProvider: dataProvider)
         }
         else
         {
-            if let data = dataProvider.data
+            var fillMin = CGFloat(0.0)
+            
+            if (dataSet.yMax > 0.0 && dataSet.yMin < 0.0)
             {
-                var max: Double, min: Double
-                
-                if (data.yMax > 0.0)
-                {
-                    max = 0.0
-                }
-                else
-                {
-                    max = dataProvider.chartYMax
-                }
-                
-                if (data.yMin < 0.0)
-                {
-                    min = 0.0
-                }
-                else
-                {
-                    min = dataProvider.chartYMin
-                }
-                
-                fillMin = CGFloat(dataSet.yMin >= 0.0 ? min : max)
+                fillMin = 0.0
             }
+            else
+            {
+                if let data = dataProvider.data
+                {
+                    var max: Double, min: Double
+                    
+                    if (data.yMax > 0.0)
+                    {
+                        max = 0.0
+                    }
+                    else
+                    {
+                        max = dataProvider.chartYMax
+                    }
+                    
+                    if (data.yMin < 0.0)
+                    {
+                        min = 0.0
+                    }
+                    else
+                    {
+                        min = dataProvider.chartYMin
+                    }
+                    
+                    fillMin = CGFloat(dataSet.yMin >= 0.0 ? min : max)
+                }
+            }
+            
+            return fillMin
         }
-        
-        return fillMin
     }
 }
