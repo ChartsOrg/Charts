@@ -196,12 +196,12 @@ public class ChartAxisBase: ChartComponentBase
     /// Do not touch this directly, instead, use axisMinValue.
     /// This is automatically calculated to represent the real min value,
     /// and is used when calculating the effective minimum.
-    public var _axisMinimum = Double(0)
+    internal var _axisMinimum = Double(0)
     
     /// Do not touch this directly, instead, use axisMaxValue.
     /// This is automatically calculated to represent the real max value,
     /// and is used when calculating the effective maximum.
-    public var _axisMaximum = Double(0)
+    internal var _axisMaximum = Double(0)
     
     /// the total range of values this axis covers
     public var axisRange = Double(0)
