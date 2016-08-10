@@ -28,8 +28,8 @@ public class BarChartData: BarLineScatterCandleBubbleChartData
     
     /// The width of the bars on the x-axis, in values (not pixels)
     ///
-    /// **default**: 1.0
-    public var barWidth = Double(1.0)
+    /// **default**: 0.85
+    public var barWidth = Double(0.85)
     
     /// Groups all BarDataSet objects this data object holds together by modifying the x-value of their entries.
     /// Previously set x-values of entries will be overwritten. Leaves space between bars and groups as specified by the parameters.
