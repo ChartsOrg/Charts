@@ -284,6 +284,11 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
         {
             let text = yAxis.getFormattedLabel(i)
             
+            if (!yAxis.isDrawBottomYLabelEntryEnabled && i == 0)
+            {
+                continue
+            }
+            
             if (!yAxis.isDrawTopYLabelEntryEnabled && i >= yAxis.entryCount - 1)
             {
                 break
