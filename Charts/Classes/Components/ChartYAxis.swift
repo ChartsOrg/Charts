@@ -43,27 +43,6 @@ public class ChartYAxis: ChartAxisBase
     /// flag that indicates if the axis is inverted or not
     public var inverted = false
     
-    /// This property is deprecated - Use `axisMinimum` instead.
-    @available(*, deprecated=1.0, message="Use axisMinimum instead.")
-    public var startAtZeroEnabled: Bool
-    {
-        get
-        {
-            return isAxisMinCustom && _axisMinimum == 0.0
-        }
-        set
-        {
-            if newValue
-            {
-                axisMinimum = 0.0
-            }
-            else
-            {
-                resetCustomAxisMin()
-            }
-        }
-    }
-
     /// flag that indicates if the zero-line should be drawn regardless of other grid lines
     public var drawZeroLineEnabled = false
     
@@ -188,10 +167,6 @@ public class ChartYAxis: ChartAxisBase
         // calc actual range
         axisRange = abs(_axisMaximum - _axisMinimum)
     }
-
-    /// This is deprecated now, use `axisMinimum`
-    @available(*, deprecated=1.0, message="Use axisMinimum instead.")
-    public var isStartAtZeroEnabled: Bool { return startAtZeroEnabled }
     
     public var isDrawTopYLabelEntryEnabled: Bool { return drawTopYLabelEntryEnabled; }
 
