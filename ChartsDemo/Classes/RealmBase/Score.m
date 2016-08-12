@@ -1,8 +1,6 @@
 //
 //  Score.m
 //  ChartsDemo
-//
-//  Created by Daniel Cohen Gindi on 17/01/2015.
 //  Copyright © 2015 dcg. All rights reserved.
 //
 

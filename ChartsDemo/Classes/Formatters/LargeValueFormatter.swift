@@ -1,8 +1,6 @@
 //
 //  LargeValueFormatter.swift
 //  ChartsDemo
-//
-//  Created by Daniel Cohen Gindi on 09/08/2016.
 //  Copyright © 2016 dcg. All rights reserved.
 //
 
