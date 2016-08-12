@@ -2,8 +2,6 @@
 //  BalloonMarker.swift
 //  ChartsDemo
 //
-//  Created by Daniel Cohen Gindi on 19/3/15.
-//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -12,36 +10,43 @@
 //
 
 import Foundation
-;
-import Charts;
+import Charts
 
-public class BalloonMarker: ChartMarker
+@objc
+public class BalloonMarker: MarkerImage
 {
     public var color: UIColor?
     public var arrowSize = CGSize(width: 15, height: 11)
     public var font: UIFont?
+    public var textColor: UIColor?
     public var insets = UIEdgeInsets()
     public var minimumSize = CGSize()
     
     private var labelns: NSString?
     private var _labelSize: CGSize = CGSize()
-    private var _size: CGSize = CGSize()
     private var _paragraphStyle: NSMutableParagraphStyle?
     private var _drawAttributes = [String : AnyObject]()
     
-    public init(color: UIColor, font: UIFont, insets: UIEdgeInsets)
+    public init(color: UIColor, font: UIFont, textColor: UIColor, insets: UIEdgeInsets)
     {
         super.init()
         
         self.color = color
         self.font = font
+        self.textColor = textColor
         self.insets = insets
         
         _paragraphStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as? NSMutableParagraphStyle
         _paragraphStyle?.alignment = .Center
     }
     
-    public override var size: CGSize { return _size; }
+    public override func offsetForDrawingAtPos(point: CGPoint) -> CGPoint
+    {
+        let size = self.size
+        var point = point
+        point.y -= size.height
+        return super.offsetForDrawingAtPos(point)
+    }
     
     public override func draw(context context: CGContext, point: CGPoint)
     {
@@ -51,14 +56,15 @@ public class BalloonMarker: ChartMarker
         }
         
         let offset = self.offsetForDrawingAtPos(point)
+        let size = self.size
         
         var rect = CGRect(
             origin: CGPoint(
                 x: point.x + offset.x,
                 y: point.y + offset.y),
-            size: _size)
-        rect.origin.x -= _size.width / 2.0
-        rect.origin.y -= _size.height
+            size: size)
+        rect.origin.x -= size.width / 2.0
+        rect.origin.y -= size.height
         
         CGContextSaveGState(context)
         
@@ -102,19 +108,27 @@ public class BalloonMarker: ChartMarker
         CGContextRestoreGState(context)
     }
     
-    public override func refreshContent(entry entry: ChartDataEntry, highlight: ChartHighlight)
+    public override func refreshContent(entry entry: ChartDataEntry, highlight: Highlight)
     {
-        let label = entry.value.description
+        setLabel(String(entry.y))
+    }
+    
+    public func setLabel(label: String)
+    {
         labelns = label as NSString
         
         _drawAttributes.removeAll()
         _drawAttributes[NSFontAttributeName] = self.font
         _drawAttributes[NSParagraphStyleAttributeName] = _paragraphStyle
+        _drawAttributes[NSForegroundColorAttributeName] = self.textColor
         
         _labelSize = labelns?.sizeWithAttributes(_drawAttributes) ?? CGSizeZero
-        _size.width = _labelSize.width + self.insets.left + self.insets.right
-        _size.height = _labelSize.height + self.insets.top + self.insets.bottom
-        _size.width = max(minimumSize.width, _size.width)
-        _size.height = max(minimumSize.height, _size.height)
+        
+        var size = CGSize()
+        size.width = _labelSize.width + self.insets.left + self.insets.right
+        size.height = _labelSize.height + self.insets.top + self.insets.bottom
+        size.width = max(minimumSize.width, size.width)
+        size.height = max(minimumSize.height, size.height)
+        self.size = size
     }
 }

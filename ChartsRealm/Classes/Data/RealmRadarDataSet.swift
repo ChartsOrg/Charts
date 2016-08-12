@@ -26,7 +26,32 @@ public class RealmRadarDataSet: RealmLineRadarDataSet, IRadarChartDataSet
         self.valueFont = NSUIFont.systemFontOfSize(13.0)
     }
     
+    public required init()
+    {
+        super.init()
+    }
+    
+    public init(results: RLMResults?, yValueField: String, label: String?)
+    {
+        super.init(results: results, xValueField: nil, yValueField: yValueField, label: label)
+    }
+    
+    public convenience init(results: RLMResults?, yValueField: String)
+    {
+        self.init(results: results, yValueField: yValueField, label: "DataSet")
+    }
+    
+    public init(realm: RLMRealm?, modelName: String, resultsWhere: String, yValueField: String, label: String?)
+    {
+        super.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, xValueField: nil, yValueField: yValueField, label: label)
+    }
+    
     // MARK: - Data functions and accessors
+    
+    internal override func buildEntryFromResultObject(object: RLMObject, x: Double) -> ChartDataEntry
+    {
+        return RadarChartDataEntry(value: object[_yValueField!] as! Double)
+    }
     
     // MARK: - Styling functions and accessors
     
@@ -34,7 +59,7 @@ public class RealmRadarDataSet: RealmLineRadarDataSet, IRadarChartDataSet
     /// **default**: false
     public var drawHighlightCircleEnabled: Bool = false
     
-    /// - returns: true if highlight circle should be drawn, false if not
+    /// - returns: `true` if highlight circle should be drawn, `false` ifnot
     public var isDrawHighlightCircleEnabled: Bool { return drawHighlightCircleEnabled }
     
     public var highlightCircleFillColor: NSUIColor? = NSUIColor.whiteColor()

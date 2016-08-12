@@ -36,10 +36,22 @@ public class PieChartDataSet: ChartDataSet, IPieChartDataSet
         initialize()
     }
     
-    public override init(yVals: [ChartDataEntry]?, label: String?)
+    public override init(values: [ChartDataEntry]?, label: String?)
     {
-        super.init(yVals: yVals, label: label)
+        super.init(values: values, label: label)
         initialize()
+    }
+    
+    internal override func calcMinMax(entry e: ChartDataEntry)
+    {
+        if e.y < _yMin
+        {
+            _yMin = e.y
+        }
+        if e.y > _yMax
+        {
+            _yMax = e.y
+        }
     }
     
     // MARK: - Styling functions and accessors

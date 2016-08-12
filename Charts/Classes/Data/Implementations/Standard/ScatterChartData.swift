@@ -21,17 +21,12 @@ public class ScatterChartData: BarLineScatterCandleBubbleChartData
         super.init()
     }
     
-    public override init(xVals: [String?]?, dataSets: [IChartDataSet]?)
+    public override init(dataSets: [IChartDataSet]?)
     {
-        super.init(xVals: xVals, dataSets: dataSets)
+        super.init(dataSets: dataSets)
     }
     
-    public override init(xVals: [NSObject]?, dataSets: [IChartDataSet]?)
-    {
-        super.init(xVals: xVals, dataSets: dataSets)
-    }
-    
-    /// - returns: the maximum shape-size across all DataSets.
+    /// - returns: The maximum shape-size across all DataSets.
     public func getGreatestShapeSize() -> CGFloat
     {
         var max = CGFloat(0.0)

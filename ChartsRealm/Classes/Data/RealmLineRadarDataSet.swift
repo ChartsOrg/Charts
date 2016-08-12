@@ -41,7 +41,7 @@ public class RealmLineRadarDataSet: RealmLineScatterCandleRadarDataSet, ILineRad
     
     /// The object that is used for filling the area below the line.
     /// **default**: nil
-    public var fill: ChartFill?
+    public var fill: Fill?
     
     /// The alpha value that is used for filling the line surface,
     /// **default**: 0.33

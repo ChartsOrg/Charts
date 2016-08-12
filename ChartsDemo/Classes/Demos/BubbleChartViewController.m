@@ -50,7 +50,7 @@
     _chartView.drawGridBackgroundEnabled = NO;
     _chartView.dragEnabled = YES;
     [_chartView setScaleEnabled:YES];
-    _chartView.maxVisibleValueCount = 200;
+    _chartView.maxVisibleCount = 200;
     _chartView.pinchZoomEnabled = YES;
     
     ChartLegend *l = _chartView.legend;
@@ -61,7 +61,7 @@
     yl.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     yl.spaceTop = 0.3;
     yl.spaceBottom = 0.3;
-    yl.axisMinValue = 0.0; // this replaces startAtZero = YES
+    yl.axisMinimum = 0.0; // this replaces startAtZero = YES
 
     _chartView.rightAxis.enabled = NO;
     
@@ -69,7 +69,7 @@
     xl.labelPosition = XAxisLabelPositionBottom;
     xl.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     
-    _sliderX.value = 5.0;
+    _sliderX.value = 10.0;
     _sliderY.value = 50.0;
     [self slidersValueChanged:nil];
 }
@@ -88,18 +88,11 @@
         return;
     }
     
-    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
+    [self setDataCount:_sliderX.value range:_sliderY.value];
 }
 
 - (void)setDataCount:(int)count range:(double)range
 {
-    NSMutableArray *xVals = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < count; i++)
-    {
-        [xVals addObject:[@(i) stringValue]];
-    }
-    
     NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
     NSMutableArray *yVals2 = [[NSMutableArray alloc] init];
     NSMutableArray *yVals3 = [[NSMutableArray alloc] init];
@@ -108,24 +101,24 @@
     {
         double val = (double) (arc4random_uniform(range));
         double size = (double) (arc4random_uniform(range));
-        [yVals1 addObject:[[BubbleChartDataEntry alloc] initWithXIndex:i value:val size:size]];
+        [yVals1 addObject:[[BubbleChartDataEntry alloc] initWithX:i y:val size:size]];
         
         val = (double) (arc4random_uniform(range));
         size = (double) (arc4random_uniform(range));
-        [yVals2 addObject:[[BubbleChartDataEntry alloc] initWithXIndex:i value:val size:size]];
+        [yVals2 addObject:[[BubbleChartDataEntry alloc] initWithX:i y:val size:size]];
         
         val = (double) (arc4random_uniform(range));
         size = (double) (arc4random_uniform(range));
-        [yVals3 addObject:[[BubbleChartDataEntry alloc] initWithXIndex:i value:val size:size]];
+        [yVals3 addObject:[[BubbleChartDataEntry alloc] initWithX:i y:val size:size]];
     }
     
-    BubbleChartDataSet *set1 = [[BubbleChartDataSet alloc] initWithYVals:yVals1 label:@"DS 1"];
+    BubbleChartDataSet *set1 = [[BubbleChartDataSet alloc] initWithValues:yVals1 label:@"DS 1"];
     [set1 setColor:ChartColorTemplates.colorful[0] alpha:0.50f];
     [set1 setDrawValuesEnabled:YES];
-    BubbleChartDataSet *set2 = [[BubbleChartDataSet alloc] initWithYVals:yVals2 label:@"DS 2"];
+    BubbleChartDataSet *set2 = [[BubbleChartDataSet alloc] initWithValues:yVals2 label:@"DS 2"];
     [set2 setColor:ChartColorTemplates.colorful[1] alpha:0.50f];
     [set2 setDrawValuesEnabled:YES];
-    BubbleChartDataSet *set3 = [[BubbleChartDataSet alloc] initWithYVals:yVals3 label:@"DS 3"];
+    BubbleChartDataSet *set3 = [[BubbleChartDataSet alloc] initWithValues:yVals3 label:@"DS 3"];
     [set3 setColor:ChartColorTemplates.colorful[2] alpha:0.50f];
     [set3 setDrawValuesEnabled:YES];
     
@@ -134,7 +127,8 @@
     [dataSets addObject:set2];
     [dataSets addObject:set3];
     
-    BubbleChartData *data = [[BubbleChartData alloc] initWithXVals:xVals dataSets:dataSets];
+    BubbleChartData *data = [[BubbleChartData alloc] initWithDataSets:dataSets];
+    [data setDrawValues:NO];
     [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:7.f]];
     [data setHighlightCircleWidth: 1.5];
     [data setValueTextColor:UIColor.whiteColor];
@@ -151,7 +145,7 @@
 
 - (IBAction)slidersValueChanged:(id)sender
 {
-    _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
+    _sliderTextX.text = [@((int)_sliderX.value) stringValue];
     _sliderTextY.text = [@((int)_sliderY.value) stringValue];
     
     [self updateChartData];

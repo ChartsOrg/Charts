@@ -30,10 +30,10 @@ public class RealmLineScatterCandleRadarDataSet: RealmBarLineScatterCandleBubble
     /// Enables / disables the vertical highlight-indicator. If disabled, the indicator is not drawn.
     public var drawVerticalHighlightIndicatorEnabled = true
     
-    /// - returns: true if horizontal highlight indicator lines are enabled (drawn)
+    /// - returns: `true` if horizontal highlight indicator lines are enabled (drawn)
     public var isHorizontalHighlightIndicatorEnabled: Bool { return drawHorizontalHighlightIndicatorEnabled }
     
-    /// - returns: true if vertical highlight indicator lines are enabled (drawn)
+    /// - returns: `true` if vertical highlight indicator lines are enabled (drawn)
     public var isVerticalHighlightIndicatorEnabled: Bool { return drawVerticalHighlightIndicatorEnabled }
     
     /// Enables / disables both vertical and horizontal highlight-indicators.

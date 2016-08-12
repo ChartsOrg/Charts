@@ -17,7 +17,6 @@
 @interface DemoBaseViewController : UIViewController
 {
 @protected
-    NSArray *months;
     NSArray *parties;
 }
 

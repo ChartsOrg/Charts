@@ -11,11 +11,11 @@
 @interface Score : RLMObject
 
 @property (nonatomic, assign) float totalScore;
-@property (nonatomic, assign) NSInteger scoreNr;
+@property (nonatomic, assign) double scoreNr;
 @property (nonatomic, strong) NSString *playerName;
 
 - (id)initWithTotalScore:(float)totalScore
-                 scoreNr:(NSInteger)scoreNr
+                 scoreNr:(double)scoreNr
               playerName:(NSString *)playerName;
 
 @end

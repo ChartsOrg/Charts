@@ -21,8 +21,8 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
     {
         self.highlightColor = NSUIColor.blackColor()
         
-        self.calcStackSize(yVals as! [BarChartDataEntry])
-        self.calcEntryCountIncludingStacks(yVals as! [BarChartDataEntry])
+        self.calcStackSize(values as! [BarChartDataEntry])
+        self.calcEntryCountIncludingStacks(values as! [BarChartDataEntry])
     }
     
     public required init()
@@ -31,9 +31,9 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
         initialize()
     }
     
-    public override init(yVals: [ChartDataEntry]?, label: String?)
+    public override init(values: [ChartDataEntry]?, label: String?)
     {
-        super.init(yVals: yVals, label: label)
+        super.init(values: values, label: label)
         initialize()
     }
 
@@ -54,7 +54,7 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
         
         for i in 0 ..< yVals.count
         {
-            let vals = yVals[i].values
+            let vals = yVals[i].yValues
             
             if (vals == nil)
             {
@@ -72,7 +72,7 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
     {
         for i in 0 ..< yVals.count
         {
-            if let vals = yVals[i].values
+            if let vals = yVals[i].yValues
             {
                 if vals.count > _stackSize
                 {
@@ -82,86 +82,73 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
         }
     }
     
-    public override func calcMinMax(start start : Int, end: Int)
+    public override func calcMinMax()
     {
-        let yValCount = _yVals.count
-        
-        if yValCount == 0
+        if _values.count == 0
         {
             return
         }
         
-        var endValue : Int
-        
-        if end == 0 || end >= yValCount
-        {
-            endValue = yValCount - 1
-        }
-        else
-        {
-            endValue = end
-        }
-        
-        _lastStart = start
-        _lastEnd = endValue
-        
-        _yMin = DBL_MAX
         _yMax = -DBL_MAX
+        _yMin = DBL_MAX
+        _xMax = -DBL_MAX
+        _xMin = DBL_MAX
         
-        for i in start.stride(through: endValue, by: 1)
+        for e in _values as! [BarChartDataEntry]
         {
-            if let e = _yVals[i] as? BarChartDataEntry
+            if !e.y.isNaN
             {
-                if !e.value.isNaN
+                if e.yValues == nil
                 {
-                    if e.values == nil
+                    if e.y < _yMin
                     {
-                        if e.value < _yMin
-                        {
-                            _yMin = e.value
-                        }
-                        
-                        if e.value > _yMax
-                        {
-                            _yMax = e.value
-                        }
+                        _yMin = e.y
                     }
-                    else
+                    
+                    if e.y > _yMax
                     {
-                        if -e.negativeSum < _yMin
-                        {
-                            _yMin = -e.negativeSum
-                        }
-                        
-                        if e.positiveSum > _yMax
-                        {
-                            _yMax = e.positiveSum
-                        }
+                        _yMax = e.y
                     }
+                }
+                else
+                {
+                    if -e.negativeSum < _yMin
+                    {
+                        _yMin = -e.negativeSum
+                    }
+                    
+                    if e.positiveSum > _yMax
+                    {
+                        _yMax = e.positiveSum
+                    }
+                }
+                
+                if e.x < _xMin
+                {
+                    _xMin = e.x
+                }
+                
+                if e.x > _xMax
+                {
+                    _xMax = e.x
                 }
             }
         }
-        
-        if (_yMin == DBL_MAX)
-        {
-            _yMin = 0.0
-            _yMax = 0.0
-        }
     }
     
-    /// - returns: the maximum number of bars that can be stacked upon another in this DataSet.
+    /// - returns: The maximum number of bars that can be stacked upon another in this DataSet.
     public var stackSize: Int
     {
         return _stackSize
     }
     
-    /// - returns: true if this DataSet is stacked (stacksize > 1) or not.
+    /// - returns: `true` if this DataSet is stacked (stacksize > 1) or not.
     public var isStacked: Bool
     {
         return _stackSize > 1 ? true : false
     }
     
-    /// - returns: the overall entry count, including counting each stack-value individually
+    /// - returns: The overall entry count, including counting each stack-value individually
     public var entryCountStacks: Int
     {
         return _entryCountStacks
@@ -171,9 +158,6 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
     public var stackLabels: [String] = ["Stack"]
     
     // MARK: - Styling functions and accessors
-    
-    /// space indicator between the bars in percentage of the whole width of one value (0.15 == 15% of bar width)
-    public var barSpace: CGFloat = 0.15
     
     /// the color used for drawing the bar-shadows. The bar shadows is a surface behind the bar that indicates the maximum value
     public var barShadowColor = NSUIColor(red: 215.0/255.0, green: 215.0/255.0, blue: 215.0/255.0, alpha: 1.0)
@@ -195,7 +179,7 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
         copy._stackSize = _stackSize
         copy._entryCountStacks = _entryCountStacks
         copy.stackLabels = stackLabels
-        copy.barSpace = barSpace
+
         copy.barShadowColor = barShadowColor
         copy.highlightAlpha = highlightAlpha
         return copy

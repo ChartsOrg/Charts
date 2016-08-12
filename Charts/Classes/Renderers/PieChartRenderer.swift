@@ -19,11 +19,11 @@ import CoreGraphics
 #endif
 
 
-public class PieChartRenderer: ChartDataRendererBase
+public class PieChartRenderer: DataRenderer
 {
     public weak var chart: PieChartView?
     
-    public init(chart: PieChartView, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
+    public init(chart: PieChartView?, animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -89,11 +89,28 @@ public class PieChartRenderer: ChartDataRendererBase
         return spacedRadius
     }
     
+    /// Calculates the sliceSpace to use based on visible values and their size compared to the set sliceSpace.
+    public func getSliceSpace(dataSet dataSet: IPieChartDataSet) -> CGFloat
+    {
+        guard let
+            viewPortHandler = self.viewPortHandler,
+            data = chart?.data as? PieChartData
+            else { return dataSet.sliceSpace }
+        
+        let spaceSizeRatio = dataSet.sliceSpace / min(viewPortHandler.contentWidth, viewPortHandler.contentHeight)
+        let minValueRatio = dataSet.yMin / data.yValueSum * 2.0
+        
+        let sliceSpace = spaceSizeRatio > CGFloat(minValueRatio)
+            ? 0.0
+            : dataSet.sliceSpace
+        
+        return sliceSpace
+    }
+
     public func drawDataSet(context context: CGContext, dataSet: IPieChartDataSet)
     {
         guard let
             chart = chart,
-            data = chart.data,
             animator = animator
             else {return }
         
@@ -114,13 +131,13 @@ public class PieChartRenderer: ChartDataRendererBase
         for j in 0 ..< entryCount
         {
             guard let e = dataSet.entryForIndex(j) else { continue }
-            if ((abs(e.value) > 0.000001))
+            if ((abs(e.y) > 0.000001))
             {
                 visibleAngleCount += 1
             }
         }
         
-        let sliceSpace = visibleAngleCount <= 1 ? 0.0 : dataSet.sliceSpace
+        let sliceSpace = visibleAngleCount <= 1 ? 0.0 : getSliceSpace(dataSet: dataSet)
 
         CGContextSaveGState(context)
         
@@ -132,10 +149,9 @@ public class PieChartRenderer: ChartDataRendererBase
             guard let e = dataSet.entryForIndex(j) else { continue }
             
             // draw only if the value is greater than zero
-            if ((abs(e.value) > 0.000001))
+            if (abs(e.y) > 0.000001)
             {
-                if (!chart.needsHighlight(xIndex: e.xIndex,
-                    dataSetIndex: data.indexOfDataSet(dataSet)))
+                if !chart.needsHighlight(index: j)
                 {
                     let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
                     
@@ -144,8 +160,8 @@ public class PieChartRenderer: ChartDataRendererBase
                     let sliceSpaceAngleOuter = visibleAngleCount == 1 ?
                         0.0 :
                         sliceSpace / (ChartUtils.Math.FDEG2RAD * radius)
-                    let startAngleOuter = rotationAngle + (angle + sliceSpaceAngleOuter / 2.0) * phaseY
-                    var sweepAngleOuter = (sliceAngle - sliceSpaceAngleOuter) * phaseY
+                    let startAngleOuter = rotationAngle + (angle + sliceSpaceAngleOuter / 2.0) * CGFloat(phaseY)
+                    var sweepAngleOuter = (sliceAngle - sliceSpaceAngleOuter) * CGFloat(phaseY)
                     if (sweepAngleOuter < 0.0)
                     {
                         sweepAngleOuter = 0.0
@@ -178,7 +194,7 @@ public class PieChartRenderer: ChartDataRendererBase
                             var minSpacedRadius = calculateMinimumRadiusForSpacedSlice(
                                 center: center,
                                 radius: radius,
-                                angle: sliceAngle * phaseY,
+                                angle: sliceAngle * CGFloat(phaseY),
                                 arcStartPointX: arcStartPointX,
                                 arcStartPointY: arcStartPointY,
                                 startAngle: startAngleOuter,
@@ -193,8 +209,8 @@ public class PieChartRenderer: ChartDataRendererBase
                         let sliceSpaceAngleInner = visibleAngleCount == 1 || innerRadius == 0.0 ?
                             0.0 :
                             sliceSpace / (ChartUtils.Math.FDEG2RAD * innerRadius)
-                        let startAngleInner = rotationAngle + (angle + sliceSpaceAngleInner / 2.0) * phaseY
-                        var sweepAngleInner = (sliceAngle - sliceSpaceAngleInner) * phaseY
+                        let startAngleInner = rotationAngle + (angle + sliceSpaceAngleInner / 2.0) * CGFloat(phaseY)
+                        var sweepAngleInner = (sliceAngle - sliceSpaceAngleInner) * CGFloat(phaseY)
                         if (sweepAngleInner < 0.0)
                         {
                             sweepAngleInner = 0.0
@@ -225,7 +241,7 @@ public class PieChartRenderer: ChartDataRendererBase
                                 calculateMinimumRadiusForSpacedSlice(
                                     center: center,
                                     radius: radius,
-                                    angle: sliceAngle * phaseY,
+                                    angle: sliceAngle * CGFloat(phaseY),
                                     arcStartPointX: arcStartPointX,
                                     arcStartPointY: arcStartPointY,
                                     startAngle: startAngleOuter,
@@ -258,7 +274,7 @@ public class PieChartRenderer: ChartDataRendererBase
                 }
             }
             
-            angle += sliceAngle * phaseX
+            angle += sliceAngle * CGFloat(phaseX)
         }
         
         CGContextRestoreGState(context)
@@ -296,8 +312,10 @@ public class PieChartRenderer: ChartDataRendererBase
         
         let yValueSum = (data as! PieChartData).yValueSum
         
-        let drawXVals = chart.isDrawSliceTextEnabled
+        let drawEntryLabels = chart.isDrawEntryLabelsEnabled
         let usePercentValuesEnabled = chart.usePercentValuesEnabled
+        let entryLabelColor = chart.entryLabelColor
+        let entryLabelFont = chart.entryLabelFont
         
         var angle: CGFloat = 0.0
         var xIndex = 0
@@ -309,9 +327,9 @@ public class PieChartRenderer: ChartDataRendererBase
         {
             guard let dataSet = dataSets[i] as? IPieChartDataSet else { continue }
             
-            let drawYVals = dataSet.isDrawValuesEnabled
+            let drawValues = dataSet.isDrawValuesEnabled
             
-            if (!drawYVals && !drawXVals)
+            if !drawValues && !drawEntryLabels
             {
                 continue
             }
@@ -326,12 +344,8 @@ public class PieChartRenderer: ChartDataRendererBase
             
             for j in 0 ..< dataSet.entryCount
             {
-                if (drawXVals && !drawYVals && (j >= data.xValCount || data.xVals[j] == nil))
-                {
-                    continue
-                }
-                
                 guard let e = dataSet.entryForIndex(j) else { continue }
+                let pe = e as? PieChartDataEntry
                 
                 if (xIndex == 0)
                 {
@@ -339,11 +353,11 @@ public class PieChartRenderer: ChartDataRendererBase
                 }
                 else
                 {
-                    angle = absoluteAngles[xIndex - 1] * phaseX
+                    angle = absoluteAngles[xIndex - 1] * CGFloat(phaseX)
                 }
                 
                 let sliceAngle = drawAngles[xIndex]
-                let sliceSpace = dataSet.sliceSpace
+                let sliceSpace = getSliceSpace(dataSet: dataSet)
                 let sliceSpaceMiddleAngle = sliceSpace / (ChartUtils.Math.FDEG2RAD * labelRadius)
                 
                 // offset needed to center the drawn text in the slice
@@ -351,18 +365,24 @@ public class PieChartRenderer: ChartDataRendererBase
 
                 angle = angle + angleOffset
                 
-                let transformedAngle = rotationAngle + angle * phaseY
+                let transformedAngle = rotationAngle + angle * CGFloat(phaseY)
                 
-                let value = usePercentValuesEnabled ? e.value / yValueSum * 100.0 : e.value
-                let valueText = formatter.stringFromNumber(value)!
+                let value = usePercentValuesEnabled ? e.y / yValueSum * 100.0 : e.y
+                let valueText = formatter.stringForValue(
+                    value,
+                    entry: e,
+                    dataSetIndex: i,
+                    viewPortHandler: viewPortHandler)
                 
                 let sliceXBase = cos(transformedAngle * ChartUtils.Math.FDEG2RAD)
                 let sliceYBase = sin(transformedAngle * ChartUtils.Math.FDEG2RAD)
                 
-                let drawXOutside = drawXVals && xValuePosition == .OutsideSlice
-                let drawYOutside = drawYVals && yValuePosition == .OutsideSlice
-                let drawXInside = drawXVals && xValuePosition == .InsideSlice
-                let drawYInside = drawYVals && yValuePosition == .InsideSlice
+                let drawXOutside = drawEntryLabels && xValuePosition == .OutsideSlice
+                let drawYOutside = drawValues && yValuePosition == .OutsideSlice
+                let drawXInside = drawEntryLabels && xValuePosition == .InsideSlice
+                let drawYInside = drawValues && yValuePosition == .InsideSlice
+                
+                let valueTextColor = dataSet.valueTextColorAt(j)
                 
                 if drawXOutside || drawYOutside
                 {
@@ -429,28 +449,32 @@ public class PieChartRenderer: ChartDataRendererBase
                             text: valueText,
                             point: labelPoint,
                             align: align,
-                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
                         )
                         
-                        if (j < data.xValCount && data.xVals[j] != nil)
+                        if (j < data.entryCount && pe?.label != nil)
                         {
                             ChartUtils.drawText(
                                 context: context,
-                                text: data.xVals[j]!,
+                                text: pe!.label!,
                                 point: CGPoint(x: labelPoint.x, y: labelPoint.y + lineHeight),
                                 align: align,
-                                attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                                attributes: [
+                                    NSFontAttributeName: valueFont ?? valueFont,
+                                    NSForegroundColorAttributeName: valueTextColor]
                             )
                         }
                     }
-                    else if drawXOutside
+                    else if drawXOutside && pe?.label != nil
                     {
                         ChartUtils.drawText(
                             context: context,
-                            text: data.xVals[j]!,
+                            text: pe!.label!,
                             point: CGPoint(x: labelPoint.x, y: labelPoint.y + lineHeight / 2.0),
                             align: align,
-                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                            attributes: [
+                                NSFontAttributeName: valueFont ?? valueFont,
+                                NSForegroundColorAttributeName: valueTextColor]
                         )
                     }
                     else if drawYOutside
@@ -460,7 +484,7 @@ public class PieChartRenderer: ChartDataRendererBase
                             text: valueText,
                             point: CGPoint(x: labelPoint.x, y: labelPoint.y + lineHeight / 2.0),
                             align: align,
-                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
                         )
                     }
                 }
@@ -478,28 +502,32 @@ public class PieChartRenderer: ChartDataRendererBase
                             text: valueText,
                             point: CGPoint(x: x, y: y),
                             align: .Center,
-                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
                         )
                         
-                        if j < data.xValCount && data.xVals[j] != nil
+                        if j < data.entryCount && pe?.label != nil
                         {
                             ChartUtils.drawText(
                                 context: context,
-                                text: data.xVals[j]!,
+                                text: pe!.label!,
                                 point: CGPoint(x: x, y: y + lineHeight),
                                 align: .Center,
-                                attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                                attributes: [
+                                    NSFontAttributeName: valueFont ?? valueFont,
+                                    NSForegroundColorAttributeName: valueTextColor]
                             )
                         }
                     }
-                    else if drawXInside
+                    else if drawXInside && pe?.label != nil
                     {
                         ChartUtils.drawText(
                             context: context,
-                            text: data.xVals[j]!,
+                            text: pe!.label!,
                             point: CGPoint(x: x, y: y + lineHeight / 2.0),
                             align: .Center,
-                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                            attributes: [
+                                NSFontAttributeName: valueFont ?? valueFont,
+                                NSForegroundColorAttributeName: valueTextColor]
                         )
                     }
                     else if drawYInside
@@ -509,7 +537,7 @@ public class PieChartRenderer: ChartDataRendererBase
                             text: valueText,
                             point: CGPoint(x: x, y: y + lineHeight / 2.0),
                             align: .Center,
-                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
                         )
                     }
                 }
@@ -561,7 +589,7 @@ public class PieChartRenderer: ChartDataRendererBase
                     let secondHoleRadius = radius * chart.transparentCircleRadiusPercent
                     
                     // make transparent
-                    CGContextSetAlpha(context, alpha);
+                    CGContextSetAlpha(context, CGFloat(alpha))
                     CGContextSetFillColorWithColor(context, transparentCircleColor.CGColor)
                     
                     // draw the transparent-circle
@@ -595,8 +623,17 @@ public class PieChartRenderer: ChartDataRendererBase
         if chart.drawCenterTextEnabled && centerAttributedText.length > 0
         {
             let center = chart.centerCircleBox
+            let offset = chart.centerTextOffset
             let innerRadius = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled ? chart.radius * chart.holeRadiusPercent : chart.radius
-            let holeRect = CGRect(x: center.x - innerRadius, y: center.y - innerRadius, width: innerRadius * 2.0, height: innerRadius * 2.0)
+            
+            let x = center.x + offset.x
+            let y = center.y + offset.y
+            
+            let holeRect = CGRect(
+                x: x - innerRadius,
+                y: y - innerRadius,
+                width: innerRadius * 2.0,
+                height: innerRadius * 2.0)
             var boundingRect = holeRect
             
             if (chart.centerTextRadiusPercent > 0.0)
@@ -624,7 +661,7 @@ public class PieChartRenderer: ChartDataRendererBase
         }
     }
     
-    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext, indices: [Highlight])
     {
         guard let
             chart = chart,
@@ -650,8 +687,8 @@ public class PieChartRenderer: ChartDataRendererBase
         for i in 0 ..< indices.count
         {
             // get the index to highlight
-            let xIndex = indices[i].xIndex
-            if (xIndex >= drawAngles.count)
+            let index = Int(indices[i].x)
+            if index >= drawAngles.count
             {
                 continue
             }
@@ -662,30 +699,30 @@ public class PieChartRenderer: ChartDataRendererBase
             {
                 continue
             }
-            
+
             let entryCount = set.entryCount
             var visibleAngleCount = 0
             for j in 0 ..< entryCount
             {
                 guard let e = set.entryForIndex(j) else { continue }
-                if ((abs(e.value) > 0.000001))
+                if ((abs(e.y) > 0.000001))
                 {
                     visibleAngleCount += 1
                 }
             }
             
-            if (xIndex == 0)
+            if index == 0
             {
                 angle = 0.0
             }
             else
             {
-                angle = absoluteAngles[xIndex - 1] * phaseX
+                angle = absoluteAngles[index - 1] * CGFloat(phaseX)
             }
             
             let sliceSpace = visibleAngleCount <= 1 ? 0.0 : set.sliceSpace
             
-            let sliceAngle = drawAngles[xIndex]
+            let sliceAngle = drawAngles[index]
             var innerRadius = userInnerRadius
             
             let shift = set.selectionShift
@@ -693,7 +730,7 @@ public class PieChartRenderer: ChartDataRendererBase
             
             let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
             
-            CGContextSetFillColorWithColor(context, set.colorAt(xIndex).CGColor)
+            CGContextSetFillColorWithColor(context, set.colorAt(index).CGColor)
             
             let sliceSpaceAngleOuter = visibleAngleCount == 1 ?
                 0.0 :
@@ -703,15 +740,15 @@ public class PieChartRenderer: ChartDataRendererBase
                 0.0 :
                 sliceSpace / (ChartUtils.Math.FDEG2RAD * highlightedRadius)
             
-            let startAngleOuter = rotationAngle + (angle + sliceSpaceAngleOuter / 2.0) * phaseY
-            var sweepAngleOuter = (sliceAngle - sliceSpaceAngleOuter) * phaseY
+            let startAngleOuter = rotationAngle + (angle + sliceSpaceAngleOuter / 2.0) * CGFloat(phaseY)
+            var sweepAngleOuter = (sliceAngle - sliceSpaceAngleOuter) * CGFloat(phaseY)
             if (sweepAngleOuter < 0.0)
             {
                 sweepAngleOuter = 0.0
             }
             
-            let startAngleShifted = rotationAngle + (angle + sliceSpaceAngleShifted / 2.0) * phaseY
-            var sweepAngleShifted = (sliceAngle - sliceSpaceAngleShifted) * phaseY
+            let startAngleShifted = rotationAngle + (angle + sliceSpaceAngleShifted / 2.0) * CGFloat(phaseY)
+            var sweepAngleShifted = (sliceAngle - sliceSpaceAngleShifted) * CGFloat(phaseY)
             if (sweepAngleShifted < 0.0)
             {
                 sweepAngleShifted = 0.0
@@ -739,7 +776,7 @@ public class PieChartRenderer: ChartDataRendererBase
                 sliceSpaceRadius = calculateMinimumRadiusForSpacedSlice(
                     center: center,
                     radius: radius,
-                    angle: sliceAngle * phaseY,
+                    angle: sliceAngle * CGFloat(phaseY),
                     arcStartPointX: center.x + radius * cos(startAngleOuter * ChartUtils.Math.FDEG2RAD),
                     arcStartPointY: center.y + radius * sin(startAngleOuter * ChartUtils.Math.FDEG2RAD),
                     startAngle: startAngleOuter,
@@ -762,8 +799,8 @@ public class PieChartRenderer: ChartDataRendererBase
                 let sliceSpaceAngleInner = visibleAngleCount == 1 || innerRadius == 0.0 ?
                     0.0 :
                     sliceSpace / (ChartUtils.Math.FDEG2RAD * innerRadius)
-                let startAngleInner = rotationAngle + (angle + sliceSpaceAngleInner / 2.0) * phaseY
-                var sweepAngleInner = (sliceAngle - sliceSpaceAngleInner) * phaseY
+                let startAngleInner = rotationAngle + (angle + sliceSpaceAngleInner / 2.0) * CGFloat(phaseY)
+                var sweepAngleInner = (sliceAngle - sliceSpaceAngleInner) * CGFloat(phaseY)
                 if (sweepAngleInner < 0.0)
                 {
                     sweepAngleInner = 0.0

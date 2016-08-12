@@ -21,20 +21,18 @@ class LineChartTests: FBSnapshotTestCase
             99, 14, 84, 48, 40, 71, 106, 41, 45, 61]
         
         var entries: [ChartDataEntry] = Array()
-        var xValues: [String] = Array()
         
         for (i, value) in values.enumerate()
         {
-            entries.append(ChartDataEntry.init(value: value, xIndex: i))
-            xValues.append("\(i)")
+            entries.append(ChartDataEntry(x: Double(i), y: value))
         }
         
-        dataSet = LineChartDataSet(yVals: entries, label: "First unit test data")
+        dataSet = LineChartDataSet(values: entries, label: "First unit test data")
         
         chart = LineChartView(frame: CGRectMake(0, 0, 480, 350))
-        chart.leftAxis.axisMinValue = 0.0
-        chart.rightAxis.axisMinValue = 0.0
-        chart.data = LineChartData(xVals: xValues, dataSet: dataSet)
+        chart.leftAxis.axisMinimum = 0.0
+        chart.rightAxis.axisMinimum = 0.0
+        chart.data = LineChartData(dataSet: dataSet)
     }
     
     override func tearDown()

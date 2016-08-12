@@ -40,23 +40,14 @@ public class ChartYAxis: ChartAxisBase
         case Right
     }
     
-    public var entries = [Double]()
-    public var entryCount: Int { return entries.count; }
-    
-    /// the number of y-label entries the y-labels should have, default 6
-    private var _labelCount = Int(6)
-    
     /// indicates if the top y-label entry is drawn or not
     public var drawTopYLabelEntryEnabled = true
-    
-    /// if true, the y-labels show only the minimum and maximum value
-    public var showOnlyMinMaxEnabled = false
     
     /// flag that indicates if the axis is inverted or not
     public var inverted = false
     
-    /// This property is deprecated - Use `axisMinValue` instead.
-    @available(*, deprecated=1.0, message="Use axisMinValue instead.")
+    /// This property is deprecated - Use `axisMinimum` instead.
+    @available(*, deprecated=1.0, message="Use axisMinimum instead.")
     public var startAtZeroEnabled: Bool
     {
         get
@@ -67,7 +58,7 @@ public class ChartYAxis: ChartAxisBase
         {
             if newValue
             {
-                axisMinValue = 0.0
+                axisMinimum = 0.0
             }
             else
             {
@@ -75,9 +66,6 @@ public class ChartYAxis: ChartAxisBase
             }
         }
     }
-    
-    /// if true, the set number of y-labels will be forced
-    public var forceLabelsEnabled = false
 
     /// flag that indicates if the zero-line should be drawn regardless of other grid lines
     public var drawZeroLineEnabled = false
@@ -95,12 +83,6 @@ public class ChartYAxis: ChartAxisBase
     /// I.e. [2, 3] will paint [--   --   ]
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
     public var zeroLineDashLengths: [CGFloat]?
-    
-    /// the formatter used to customly format the y-labels
-    public var valueFormatter: NSNumberFormatter?
-    
-    /// the formatter used to customly format the y-labels
-    internal var _defaultValueFormatter = NSNumberFormatter()
 
     /// axis space from the largest value to the top in percent of the total axis range
     public var spaceTop = CGFloat(0.1)
@@ -125,41 +107,10 @@ public class ChartYAxis: ChartAxisBase
     /// **default**: CGFloat.infinity
     public var maxWidth = CGFloat(CGFloat.infinity)
     
-    /// When true, axis labels are controlled by the `granularity` property.
-    /// When false, axis values could possibly be repeated.
-    /// This could happen if two adjacent axis values are rounded to same value.
-    /// If using granularity this could be avoided by having fewer axis values visible.
-    public var granularityEnabled = false
-    
-    private var _granularity = Double(1.0)
-    
-    /// The minimum interval between axis values.
-    /// This can be used to avoid label duplicating when zooming in.
-    ///
-    /// **default**: 1.0
-    public var granularity: Double
-    {
-        get
-        {
-            return _granularity
-        }
-        set
-        {
-            _granularity = newValue
-            
-            // set this to true if it was disabled, as it makes no sense to set this property with granularity disabled
-            granularityEnabled = true
-        }
-    }
-    
     public override init()
     {
         super.init()
         
-        _defaultValueFormatter.minimumIntegerDigits = 1
-        _defaultValueFormatter.maximumFractionDigits = 1
-        _defaultValueFormatter.minimumFractionDigits = 1
-        _defaultValueFormatter.usesGroupingSeparator = true
         self.yOffset = 0.0
     }
     
@@ -169,49 +120,12 @@ public class ChartYAxis: ChartAxisBase
         
         _axisDependency = position
         
-        _defaultValueFormatter.minimumIntegerDigits = 1
-        _defaultValueFormatter.maximumFractionDigits = 1
-        _defaultValueFormatter.minimumFractionDigits = 1
-        _defaultValueFormatter.usesGroupingSeparator = true
         self.yOffset = 0.0
     }
     
     public var axisDependency: AxisDependency
     {
         return _axisDependency
-    }
-    
-    public func setLabelCount(count: Int, force: Bool)
-    {
-        _labelCount = count
-        
-        if (_labelCount > 25)
-        {
-            _labelCount = 25
-        }
-        if (_labelCount < 2)
-        {
-            _labelCount = 2
-        }
-    
-        forceLabelsEnabled = force
-    }
-    
-    /// the number of label entries the y-axis should have
-    /// max = 25,
-    /// min = 2,
-    /// default = 6,
-    /// be aware that this number is not fixed and can only be approximated
-    public var labelCount: Int
-    {
-        get
-        {
-            return _labelCount
-        }
-        set
-        {
-            setLabelCount(newValue, force: false);
-        }
     }
     
     public func requiredSize() -> CGSize
@@ -228,36 +142,8 @@ public class ChartYAxis: ChartAxisBase
     {
         return requiredSize().height
     }
-
-    public override func getLongestLabel() -> String
-    {
-        var longest = ""
-        
-        for i in 0 ..< entries.count
-        {
-            let text = getFormattedLabel(i)
-            
-            if (longest.characters.count < text.characters.count)
-            {
-                longest = text
-            }
-        }
-        
-        return longest
-    }
-
-    /// - returns: the formatted y-label at the specified index. This will either use the auto-formatter or the custom formatter (if one is set).
-    public func getFormattedLabel(index: Int) -> String
-    {
-        if (index < 0 || index >= entries.count)
-        {
-            return ""
-        }
-        
-        return (valueFormatter ?? _defaultValueFormatter).stringFromNumber(entries[index])!
-    }
     
-    /// - returns: true if this axis needs horizontal offset, false if no offset is needed.
+    /// - returns: `true` if this axis needs horizontal offset, `false` ifno offset is needed.
     public var needsOffset: Bool
     {
         if (isEnabled && isDrawLabelsEnabled && labelPosition == .OutsideChart)
@@ -272,52 +158,44 @@ public class ChartYAxis: ChartAxisBase
     
     public var isInverted: Bool { return inverted; }
     
-    /// This is deprecated now, use `axisMinValue`
-    @available(*, deprecated=1.0, message="Use axisMinValue instead.")
-    public var isStartAtZeroEnabled: Bool { return startAtZeroEnabled }
-
-    /// - returns: true if focing the y-label count is enabled. Default: false
-    public var isForceLabelsEnabled: Bool { return forceLabelsEnabled }
-
-    public var isShowOnlyMinMaxEnabled: Bool { return showOnlyMinMaxEnabled; }
-    
-    public var isDrawTopYLabelEntryEnabled: Bool { return drawTopYLabelEntryEnabled; }
-    
-    /// Calculates the minimum, maximum and range values of the YAxis with the given minimum and maximum values from the chart data.
-    /// - parameter dataMin: the y-min value according to chart data
-    /// - parameter dataMax: the y-max value according to chart
-    public func calculate(min dataMin: Double, max dataMax: Double)
+    public override func calculate(min dataMin: Double, max dataMax: Double)
     {
         // if custom, use value as is, else use data value
         var min = _customAxisMin ? _axisMinimum : dataMin
         var max = _customAxisMax ? _axisMaximum : dataMax
-
+        
         // temporary range (before calculations)
         let range = abs(max - min)
-
+        
         // in case all values are equal
         if range == 0.0
         {
             max = max + 1.0
             min = min - 1.0
         }
-
+        
         // bottom-space only effects non-custom min
         if !_customAxisMin
         {
-            let bottomSpace = range * Double(spaceBottom)
-            _axisMinimum = min - bottomSpace
+            let bottomSpace = range / 100.0 * Double(spaceBottom)
+            _axisMinimum = (min - bottomSpace)
         }
-
+        
         // top-space only effects non-custom max
         if !_customAxisMax
         {
-            let topSpace = range * Double(spaceTop)
-            _axisMaximum = max + topSpace
+            let topSpace = range / 100.0 * Double(spaceTop)
+            _axisMaximum = (max + topSpace)
         }
-
+        
         // calc actual range
         axisRange = abs(_axisMaximum - _axisMinimum)
     }
+
+    /// This is deprecated now, use `axisMinimum`
+    @available(*, deprecated=1.0, message="Use axisMinimum instead.")
+    public var isStartAtZeroEnabled: Bool { return startAtZeroEnabled }
+    
+    public var isDrawTopYLabelEntryEnabled: Bool { return drawTopYLabelEntryEnabled; }
 
 }

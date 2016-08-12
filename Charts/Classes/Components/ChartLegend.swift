@@ -268,13 +268,6 @@ public class ChartLegend: ChartComponentBase
     {
         return labels[index]
     }
-    
-    /// This function is deprecated - Please read `neededWidth`/`neededHeight` after `calculateDimensions` was called.
-    @available(*, deprecated=1.0, message="Please read `neededWidth`/`neededHeight` after `calculateDimensions` was called.")
-    public func getFullSize(labelFont: NSUIFont) -> CGSize
-    {
-        return CGSize(width: neededWidth, height: neededHeight)
-    }
 
     public var neededWidth = CGFloat(0.0)
     public var neededHeight = CGFloat(0.0)
@@ -298,7 +291,7 @@ public class ChartLegend: ChartComponentBase
     /// **default**: 0.95 (95%)
     public var maxSizePercent: CGFloat = 0.95
     
-    public func calculateDimensions(labelFont labelFont: NSUIFont, viewPortHandler: ChartViewPortHandler)
+    public func calculateDimensions(labelFont labelFont: NSUIFont, viewPortHandler: ViewPortHandler)
     {
         let maxEntrySize = getMaximumEntrySize(labelFont)
         textWidthMax = maxEntrySize.width
@@ -484,6 +477,9 @@ public class ChartLegend: ChartComponentBase
             neededHeight = labelLineHeight * CGFloat(calculatedLineSizes.count) +
                 yEntrySpace * CGFloat(calculatedLineSizes.count == 0 ? 0 : (calculatedLineSizes.count - 1))
         }
+        
+        neededWidth += xOffset
+        neededHeight += yOffset
     }
     
     /// MARK: - Custom legend
@@ -517,7 +513,7 @@ public class ChartLegend: ChartComponentBase
     }
     
     /// **default**: false (automatic legend)
-    /// - returns: true if a custom legend labels and colors has been set
+    /// - returns: `true` if a custom legend labels and colors has been set
     public var isLegendCustom: Bool
     {
         return _isLegendCustom
