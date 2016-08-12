@@ -64,7 +64,7 @@
 
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.valueFormatter = [[ChartDefaultAxisValueFormatter alloc] initWithFormatter:leftAxisFormatter];
-    leftAxis.axisMinValue = 0.0; // this replaces startAtZero = YES
+    leftAxis.axisMinimum = 0.0; // this replaces startAtZero = YES
     
     _chartView.rightAxis.enabled = NO;
     

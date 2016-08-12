@@ -61,7 +61,7 @@
     yl.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     yl.spaceTop = 0.3;
     yl.spaceBottom = 0.3;
-    yl.axisMinValue = 0.0; // this replaces startAtZero = YES
+    yl.axisMinimum = 0.0; // this replaces startAtZero = YES
 
     _chartView.rightAxis.enabled = NO;
     

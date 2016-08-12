@@ -46,8 +46,8 @@ public class ChartYAxis: ChartAxisBase
     /// flag that indicates if the axis is inverted or not
     public var inverted = false
     
-    /// This property is deprecated - Use `axisMinValue` instead.
-    @available(*, deprecated=1.0, message="Use axisMinValue instead.")
+    /// This property is deprecated - Use `axisMinimum` instead.
+    @available(*, deprecated=1.0, message="Use axisMinimum instead.")
     public var startAtZeroEnabled: Bool
     {
         get
@@ -58,7 +58,7 @@ public class ChartYAxis: ChartAxisBase
         {
             if newValue
             {
-                axisMinValue = 0.0
+                axisMinimum = 0.0
             }
             else
             {
@@ -192,8 +192,8 @@ public class ChartYAxis: ChartAxisBase
         axisRange = abs(_axisMaximum - _axisMinimum)
     }
 
-    /// This is deprecated now, use `axisMinValue`
-    @available(*, deprecated=1.0, message="Use axisMinValue instead.")
+    /// This is deprecated now, use `axisMinimum`
+    @available(*, deprecated=1.0, message="Use axisMinimum instead.")
     public var isStartAtZeroEnabled: Bool { return startAtZeroEnabled }
     
     public var isDrawTopYLabelEntryEnabled: Bool { return drawTopYLabelEntryEnabled; }

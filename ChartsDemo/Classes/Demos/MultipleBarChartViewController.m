@@ -84,7 +84,7 @@
     leftAxis.valueFormatter = [[LargeValueFormatter alloc] init];
     leftAxis.drawGridLinesEnabled = NO;
     leftAxis.spaceTop = 0.25;
-    leftAxis.axisMinValue = 0;
+    leftAxis.axisMinimum = 0;
     
     _chartView.rightAxis.enabled = NO;
     
@@ -150,8 +150,8 @@
         
         BarChartData *data = _chartView.barData;
         
-        _chartView.xAxis.axisMinValue = startYear;
-        _chartView.xAxis.axisMaxValue = [data groupWidthWithGroupSpace:groupSpace barSpace: barSpace] * _sliderX.value + startYear;
+        _chartView.xAxis.axisMinimum = startYear;
+        _chartView.xAxis.axisMaximum = [data groupWidthWithGroupSpace:groupSpace barSpace: barSpace] * _sliderX.value + startYear;
         [data groupBarsFromX: startYear groupSpace: groupSpace barSpace: barSpace];
         
         [_chartView.data notifyDataChanged];
@@ -179,8 +179,8 @@
         
         data.barWidth = barWidth;
         
-        _chartView.xAxis.axisMinValue = startYear;
-        _chartView.xAxis.axisMaxValue = [data groupWidthWithGroupSpace:groupSpace barSpace: barSpace] * _sliderX.value + startYear;
+        _chartView.xAxis.axisMinimum = startYear;
+        _chartView.xAxis.axisMaximum = [data groupWidthWithGroupSpace:groupSpace barSpace: barSpace] * _sliderX.value + startYear;
         [data groupBarsFromX: startYear groupSpace: groupSpace barSpace: barSpace];
         
         _chartView.data = data;

@@ -52,8 +52,8 @@
     xAxis.enabled = NO;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
-    leftAxis.axisMaxValue = 900.0;
-    leftAxis.axisMinValue = -250.0;
+    leftAxis.axisMaximum = 900.0;
+    leftAxis.axisMinimum = -250.0;
     leftAxis.drawAxisLineEnabled = NO;
     leftAxis.drawZeroLineEnabled = NO;
     leftAxis.drawGridLinesEnabled = NO;
@@ -125,7 +125,7 @@
         set1.highlightColor = [UIColor colorWithRed:244/255.0 green:117/255.0 blue:117/255.0 alpha:1.0];
         set1.drawCircleHoleEnabled = NO;
         set1.fillFormatter = [ChartDefaultFillFormatter withBlock:^CGFloat(id<ILineChartDataSet>  _Nonnull dataSet, id<LineChartDataProvider>  _Nonnull dataProvider) {
-            return _chartView.leftAxis.axisMinValue;
+            return _chartView.leftAxis.axisMinimum;
         }];
         
         set2 = [[LineChartDataSet alloc] initWithValues:yVals2 label:@"DataSet 2"];
@@ -140,7 +140,7 @@
         set2.highlightColor = [UIColor colorWithRed:244/255.0 green:117/255.0 blue:117/255.0 alpha:1.0];
         set2.drawCircleHoleEnabled = NO;
         set2.fillFormatter = [ChartDefaultFillFormatter withBlock:^CGFloat(id<ILineChartDataSet>  _Nonnull dataSet, id<LineChartDataProvider>  _Nonnull dataProvider) {
-            return _chartView.leftAxis.axisMaxValue;
+            return _chartView.leftAxis.axisMaximum;
         }];
         
         NSMutableArray *dataSets = [[NSMutableArray alloc] init];

@@ -193,12 +193,12 @@ public class ChartAxisBase: ChartComponentBase
     /// Flag indicating that the axis-max value has been customized
     internal var _customAxisMax: Bool = false
     
-    /// Do not touch this directly, instead, use axisMinValue.
+    /// Do not touch this directly, instead, use axisMinimum.
     /// This is automatically calculated to represent the real min value,
     /// and is used when calculating the effective minimum.
     internal var _axisMinimum = Double(0)
     
-    /// Do not touch this directly, instead, use axisMaxValue.
+    /// Do not touch this directly, instead, use axisMaximum.
     /// This is automatically calculated to represent the real max value,
     /// and is used when calculating the effective maximum.
     internal var _axisMaximum = Double(0)
@@ -292,10 +292,26 @@ public class ChartAxisBase: ChartComponentBase
     
     public var isAxisMaxCustom: Bool { return _customAxisMax }
     
+    /// This property is deprecated - Use `axisMinimum` instead.
+    @available(*, deprecated=1.0, message="Use axisMinimum instead.")
+    public var axisMinValue: Double
+    {
+        get { return axisMinimum }
+        set { axisMinimum = newValue }
+    }
+    
+    /// This property is deprecated - Use `axisMaximum` instead.
+    @available(*, deprecated=1.0, message="Use axisMaximum instead.")
+    public var axisMaxValue: Double
+    {
+        get { return axisMaximum }
+        set { axisMaximum = newValue }
+    }
+    
     /// The minimum value for this axis.
     /// If set, this value will not be calculated automatically depending on the provided data.
     /// Use `resetCustomAxisMin()` to undo this.
-    public var axisMinValue: Double
+    public var axisMinimum: Double
     {
         get
         {
@@ -312,7 +328,7 @@ public class ChartAxisBase: ChartComponentBase
     /// The maximum value for this axis.
     /// If set, this value will not be calculated automatically depending on the provided data.
     /// Use `resetCustomAxisMin()` to undo this.
-    public var axisMaxValue: Double
+    public var axisMaximum: Double
     {
         get
         {

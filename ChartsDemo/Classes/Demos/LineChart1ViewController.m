@@ -87,8 +87,8 @@
     [leftAxis removeAllLimitLines];
     [leftAxis addLimitLine:ll1];
     [leftAxis addLimitLine:ll2];
-    leftAxis.axisMaxValue = 200.0;
-    leftAxis.axisMinValue = -50.0;
+    leftAxis.axisMaximum = 200.0;
+    leftAxis.axisMinimum = -50.0;
     leftAxis.gridLineDashLengths = @[@5.f, @5.f];
     leftAxis.drawZeroLineEnabled = NO;
     leftAxis.drawLimitLinesBehindDataEnabled = YES;

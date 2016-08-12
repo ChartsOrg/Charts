@@ -69,8 +69,8 @@
     xAxis.drawGridLinesEnabled = NO;
     xAxis.drawAxisLineEnabled = NO;
     xAxis.labelTextColor = [UIColor lightGrayColor];
-    xAxis.axisMinValue = 0.0;
-    xAxis.axisMaxValue = 5.0;
+    xAxis.axisMinimum = 0.0;
+    xAxis.axisMaximum = 5.0;
     xAxis.labelCount = 5;
     xAxis.centerAxisLabelsEnabled = YES;
     xAxis.granularity = 1.0;

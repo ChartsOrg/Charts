@@ -72,15 +72,15 @@
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.drawGridLinesEnabled = NO;
-    rightAxis.axisMinValue = 0.0; // this replaces startAtZero = YES
+    rightAxis.axisMinimum = 0.0; // this replaces startAtZero = YES
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.drawGridLinesEnabled = NO;
-    leftAxis.axisMinValue = 0.0; // this replaces startAtZero = YES
+    leftAxis.axisMinimum = 0.0; // this replaces startAtZero = YES
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBothSided;
-    xAxis.axisMinValue = 0.0;
+    xAxis.axisMinimum = 0.0;
     xAxis.granularity = 1.0;
     xAxis.valueFormatter = self;
     
@@ -113,7 +113,7 @@
     data.scatterData = [self generateScatterData];
     data.candleData = [self generateCandleData];
     
-    _chartView.xAxis.axisMaxValue = data.xMax + 0.25;
+    _chartView.xAxis.axisMaximum = data.xMax + 0.25;
 
     _chartView.data = data;
 }

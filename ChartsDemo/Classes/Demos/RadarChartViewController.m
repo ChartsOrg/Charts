@@ -75,8 +75,8 @@
     ChartYAxis *yAxis = _chartView.yAxis;
     yAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:9.f];
     yAxis.labelCount = 5;
-    yAxis.axisMinValue = 0.0;
-    yAxis.axisMaxValue = 80.0;
+    yAxis.axisMinimum = 0.0;
+    yAxis.axisMaximum = 80.0;
     yAxis.drawLabelsEnabled = NO;
     
     ChartLegend *l = _chartView.legend;

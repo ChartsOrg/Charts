@@ -47,7 +47,7 @@
     
     [self setupBarLineChartView:_chartView];
     
-    _chartView.leftAxis.axisMinValue = 0.0;
+    _chartView.leftAxis.axisMinimum = 0.0;
     _chartView.drawValueAboveBarEnabled = NO;
 
     [self setData];

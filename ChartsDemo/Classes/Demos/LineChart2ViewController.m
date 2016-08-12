@@ -74,16 +74,16 @@
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.labelTextColor = [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f];
-    leftAxis.axisMaxValue = 200.0;
-    leftAxis.axisMinValue = 0.0;
+    leftAxis.axisMaximum = 200.0;
+    leftAxis.axisMinimum = 0.0;
     leftAxis.drawGridLinesEnabled = YES;
     leftAxis.drawZeroLineEnabled = NO;
     leftAxis.granularityEnabled = YES;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.labelTextColor = UIColor.redColor;
-    rightAxis.axisMaxValue = 900.0;
-    rightAxis.axisMinValue = -200.0;
+    rightAxis.axisMaximum = 900.0;
+    rightAxis.axisMinimum = -200.0;
     rightAxis.drawGridLinesEnabled = NO;
     rightAxis.granularityEnabled = NO;
     

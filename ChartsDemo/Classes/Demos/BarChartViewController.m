@@ -75,7 +75,7 @@
     leftAxis.valueFormatter = [[ChartDefaultAxisValueFormatter alloc] initWithFormatter:leftAxisFormatter];
     leftAxis.labelPosition = YAxisLabelPositionOutsideChart;
     leftAxis.spaceTop = 0.15;
-    leftAxis.axisMinValue = 0.0; // this replaces startAtZero = YES
+    leftAxis.axisMinimum = 0.0; // this replaces startAtZero = YES
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.enabled = YES;
@@ -84,7 +84,7 @@
     rightAxis.labelCount = 8;
     rightAxis.valueFormatter = leftAxis.valueFormatter;
     rightAxis.spaceTop = 0.15;
-    rightAxis.axisMinValue = 0.0; // this replaces startAtZero = YES
+    rightAxis.axisMinimum = 0.0; // this replaces startAtZero = YES
     
     _chartView.legend.position = ChartLegendPositionBelowChartLeft;
     _chartView.legend.form = ChartLegendFormSquare;
@@ -128,8 +128,8 @@
 {
     double start = 0.0;
     
-    _chartView.xAxis.axisMinValue = start;
-    _chartView.xAxis.axisMaxValue = start + count + 2;
+    _chartView.xAxis.axisMinimum = start;
+    _chartView.xAxis.axisMaximum = start + count + 2;
     
     NSMutableArray *yVals = [[NSMutableArray alloc] init];
     

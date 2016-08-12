@@ -64,8 +64,8 @@
     _chartView.drawValueAboveBarEnabled = YES;
     
     _chartView.leftAxis.enabled = NO;
-    _chartView.rightAxis.axisMaxValue = 25.0;
-    _chartView.rightAxis.axisMinValue = -25.0;
+    _chartView.rightAxis.axisMaximum = 25.0;
+    _chartView.rightAxis.axisMinimum = -25.0;
     _chartView.rightAxis.drawGridLinesEnabled = NO;
     _chartView.rightAxis.drawZeroLineEnabled = YES;
     _chartView.rightAxis.labelCount = 7;
@@ -76,8 +76,8 @@
     xAxis.labelPosition = XAxisLabelPositionBothSided;
     xAxis.drawGridLinesEnabled = NO;
     xAxis.drawAxisLineEnabled = NO;
-    xAxis.axisMinValue = 0.0;
-    xAxis.axisMaxValue = 110.0;
+    xAxis.axisMinimum = 0.0;
+    xAxis.axisMaximum = 110.0;
     xAxis.centerAxisLabelsEnabled = YES;
     xAxis.labelCount = 12;
     xAxis.granularity = 10.0;
