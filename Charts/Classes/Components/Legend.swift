@@ -1,5 +1,5 @@
 //
-//  ChartLegend.swift
+//  Legend.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -16,8 +16,8 @@ import CoreGraphics
     import UIKit
 #endif
 
-
-public class ChartLegend: ChartComponentBase
+@objc(ChartLegend)
+public class Legend: ComponentBase
 {
     /// This property is deprecated - Use `position`, `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.
     @available(*, deprecated=1.0, message="Use `position`, `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.")

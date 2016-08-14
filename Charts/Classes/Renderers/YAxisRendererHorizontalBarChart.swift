@@ -18,7 +18,7 @@ import CoreGraphics
 
 public class YAxisRendererHorizontalBarChart: YAxisRenderer
 {
-    public override init(viewPortHandler: ViewPortHandler?, yAxis: ChartYAxis?, transformer: Transformer?)
+    public override init(viewPortHandler: ViewPortHandler?, yAxis: YAxis?, transformer: Transformer?)
     {
         super.init(viewPortHandler: viewPortHandler, yAxis: yAxis, transformer: transformer)
     }
@@ -58,7 +58,7 @@ public class YAxisRendererHorizontalBarChart: YAxisRenderer
     public override func renderAxisLabels(context context: CGContext)
     {
         guard let
-            yAxis = axis as? ChartYAxis,
+            yAxis = axis as? YAxis,
             viewPortHandler = self.viewPortHandler
             else { return }
         
@@ -114,7 +114,7 @@ public class YAxisRendererHorizontalBarChart: YAxisRenderer
     public override func renderAxisLine(context context: CGContext)
     {
         guard let
-            yAxis = axis as? ChartYAxis,
+            yAxis = axis as? YAxis,
             viewPortHandler = self.viewPortHandler
             else { return }
         
@@ -164,7 +164,7 @@ public class YAxisRendererHorizontalBarChart: YAxisRenderer
                 offset: CGFloat)
     {
         guard let
-            yAxis = axis as? ChartYAxis
+            yAxis = axis as? YAxis
             else { return }
         
         let labelFont = yAxis.labelFont
@@ -216,7 +216,7 @@ public class YAxisRendererHorizontalBarChart: YAxisRenderer
     public override func transformedPositions() -> [CGPoint]
     {
         guard let
-            yAxis = self.axis as? ChartYAxis,
+            yAxis = self.axis as? YAxis,
             transformer = self.transformer
             else { return [CGPoint]() }
         
@@ -239,7 +239,7 @@ public class YAxisRendererHorizontalBarChart: YAxisRenderer
     public override func drawZeroLine(context context: CGContext)
     {
         guard let
-            yAxis = self.axis as? ChartYAxis,
+            yAxis = self.axis as? YAxis,
             viewPortHandler = self.viewPortHandler,
             transformer = self.transformer,
             zeroLineColor = yAxis.zeroLineColor
@@ -275,7 +275,7 @@ public class YAxisRendererHorizontalBarChart: YAxisRenderer
     public override func renderLimitLines(context context: CGContext)
     {
         guard let
-            yAxis = axis as? ChartYAxis,
+            yAxis = axis as? YAxis,
             viewPortHandler = self.viewPortHandler,
             transformer = self.transformer
             else { return }

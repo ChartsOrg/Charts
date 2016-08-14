@@ -256,7 +256,7 @@ public class PieChartView: PieRadarChartViewBase
     }
     
     /// This will throw an exception, PieChart has no XAxis object.
-    public override var xAxis: ChartXAxis
+    public override var xAxis: XAxis
     {
         fatalError("PieChart has no XAxis")
     }

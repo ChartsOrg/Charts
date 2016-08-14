@@ -42,7 +42,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - returns: The object representing all x-labels, this method can be used to
     /// acquire the XAxis object and modify it (e.g. change the position of the
     /// labels)
-    public var xAxis: ChartXAxis
+    public var xAxis: XAxis
     {
         return _xAxis
     }
@@ -86,10 +86,10 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     internal var _drawUnitInChart = false
     
     /// the object representing the labels on the x-axis
-    internal var _xAxis: ChartXAxis!
+    internal var _xAxis: XAxis!
     
     /// the legend object containing all data associated with the legend
-    internal var _legend: ChartLegend!
+    internal var _legend: Legend!
     
     /// delegate to receive chart events
     public weak var delegate: ChartViewDelegate?
@@ -187,10 +187,10 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         _viewPortHandler = ViewPortHandler()
         _viewPortHandler.setChartDimens(width: bounds.size.width, height: bounds.size.height)
         
-        _legend = ChartLegend()
+        _legend = Legend()
         _legendRenderer = LegendRenderer(viewPortHandler: _viewPortHandler, legend: _legend)
         
-        _xAxis = ChartXAxis()
+        _xAxis = XAxis()
         
         self.addObserver(self, forKeyPath: "bounds", options: .New, context: nil)
         self.addObserver(self, forKeyPath: "frame", options: .New, context: nil)
@@ -768,7 +768,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     }
     
     /// - returns: The Legend object of the chart. This method can be used to get an instance of the legend in order to customize the automatically generated Legend.
-    public var legend: ChartLegend
+    public var legend: Legend
     {
         return _legend
     }

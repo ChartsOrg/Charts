@@ -71,7 +71,7 @@ public class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
     }
     
     public func stringForValue(value: Double,
-                               axis: ChartAxisBase?) -> String
+                               axis: AxisBase?) -> String
     {
         return formatter?.stringFromNumber(value) ?? ""
     }

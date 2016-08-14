@@ -20,9 +20,9 @@ import CoreGraphics
 public class LegendRenderer: Renderer
 {
     /// the legend object this renderer renders
-    public var legend: ChartLegend?
+    public var legend: Legend?
 
-    public init(viewPortHandler: ViewPortHandler?, legend: ChartLegend?)
+    public init(viewPortHandler: ViewPortHandler?, legend: Legend?)
     {
         super.init(viewPortHandler: viewPortHandler)
         
@@ -495,7 +495,7 @@ public class LegendRenderer: Renderer
                 x: CGFloat,
                 y: CGFloat,
                 entry: LegendEntry,
-                legend: ChartLegend)
+                legend: Legend)
     {
         guard let formColor = entry.formColor
             where formColor != NSUIColor.clearColor()

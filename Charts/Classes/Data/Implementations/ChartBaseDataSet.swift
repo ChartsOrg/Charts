@@ -183,7 +183,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     public var label: String? = "DataSet"
     
     /// The axis this DataSet should be plotted against.
-    public var axisDependency = ChartYAxis.AxisDependency.Left
+    public var axisDependency = YAxis.AxisDependency.Left
     
     /// - returns: The color at the given index of the DataSet's color array.
     /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
@@ -315,7 +315,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     public var valueFont: NSUIFont = NSUIFont.systemFontOfSize(7.0)
     
     /// The form to draw for this dataset in the legend.
-    public var form = ChartLegend.Form.Default
+    public var form = Legend.Form.Default
     
     /// The form size to draw for this dataset in the legend.
     ///

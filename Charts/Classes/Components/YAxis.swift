@@ -1,5 +1,5 @@
 //
-//  ChartYAxis.swift
+//  YAxis.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -20,7 +20,8 @@ import CoreGraphics
 /// Class representing the y-axis labels settings and its entries.
 /// Be aware that not all features the YLabels class provides are suitable for the RadarChart.
 /// Customizations that affect the value range of the axis need to be applied before setting data for the chart.
-public class ChartYAxis: ChartAxisBase
+@objc(ChartYAxis)
+public class YAxis: AxisBase
 {
     @objc(YAxisLabelPosition)
     public enum LabelPosition: Int

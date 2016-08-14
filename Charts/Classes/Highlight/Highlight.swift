@@ -38,7 +38,7 @@ public class Highlight: NSObject
     private var _stackIndex = Int(-1)
     
     /// the axis the highlighted value belongs to
-    private var _axis: ChartYAxis.AxisDependency = ChartYAxis.AxisDependency.Left
+    private var _axis: YAxis.AxisDependency = YAxis.AxisDependency.Left
     
     /// the x-position (pixels) on which this highlight object was last drawn
     public var drawX: CGFloat = 0.0
@@ -65,7 +65,7 @@ public class Highlight: NSObject
         dataIndex: Int,
         dataSetIndex: Int,
         stackIndex: Int,
-        axis: ChartYAxis.AxisDependency)
+        axis: YAxis.AxisDependency)
     {
         super.init()
         
@@ -91,7 +91,7 @@ public class Highlight: NSObject
         xPx: CGFloat, yPx: CGFloat,
         dataSetIndex: Int,
         stackIndex: Int,
-        axis: ChartYAxis.AxisDependency)
+        axis: YAxis.AxisDependency)
     {
         self.init(x: x, y: y, xPx: xPx, yPx: yPx,
                   dataIndex: 0,
@@ -112,7 +112,7 @@ public class Highlight: NSObject
         x: Double, y: Double,
         xPx: CGFloat, yPx: CGFloat,
         dataSetIndex: Int,
-        axis: ChartYAxis.AxisDependency)
+        axis: YAxis.AxisDependency)
     {
         super.init()
         
@@ -147,7 +147,7 @@ public class Highlight: NSObject
     public var yPx: CGFloat { return _yPx }
     public var dataSetIndex: Int { return _dataSetIndex }
     public var stackIndex: Int { return _stackIndex }
-    public var axis: ChartYAxis.AxisDependency { return _axis }
+    public var axis: YAxis.AxisDependency { return _axis }
     
     public var isStacked: Bool { return _stackIndex >= 0 }
     

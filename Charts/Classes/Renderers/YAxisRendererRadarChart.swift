@@ -20,7 +20,7 @@ public class YAxisRendererRadarChart: YAxisRenderer
 {
     private weak var chart: RadarChartView?
     
-    public init(viewPortHandler: ViewPortHandler?, yAxis: ChartYAxis?, chart: RadarChartView?)
+    public init(viewPortHandler: ViewPortHandler?, yAxis: YAxis?, chart: RadarChartView?)
     {
         super.init(viewPortHandler: viewPortHandler, yAxis: yAxis, transformer: nil)
         
@@ -30,7 +30,7 @@ public class YAxisRendererRadarChart: YAxisRenderer
     public override func computeAxisValues(min yMin: Double, max yMax: Double)
     {
         guard let
-            axis = axis as? ChartYAxis
+            axis = axis as? YAxis
             else { return }
         
         let labelCount = axis.labelCount
@@ -161,7 +161,7 @@ public class YAxisRendererRadarChart: YAxisRenderer
     public override func renderAxisLabels(context context: CGContext)
     {
         guard let
-            yAxis = axis as? ChartYAxis,
+            yAxis = axis as? YAxis,
             chart = chart
             else { return }
         
@@ -200,7 +200,7 @@ public class YAxisRendererRadarChart: YAxisRenderer
     public override func renderLimitLines(context context: CGContext)
     {
         guard let
-            yAxis = axis as? ChartYAxis,
+            yAxis = axis as? YAxis,
             chart = chart,
             data = chart.data
             else { return }

@@ -14,7 +14,7 @@ import CoreGraphics
 
 public class AnimatedZoomViewJob: AnimatedViewPortJob
 {
-    internal var yAxis: ChartYAxis?
+    internal var yAxis: YAxis?
     internal var xAxisRange: Double = 0.0
     internal var scaleX: CGFloat = 0.0
     internal var scaleY: CGFloat = 0.0
@@ -27,7 +27,7 @@ public class AnimatedZoomViewJob: AnimatedViewPortJob
         viewPortHandler: ViewPortHandler,
         transformer: Transformer,
         view: ChartViewBase,
-        yAxis: ChartYAxis,
+        yAxis: YAxis,
         xAxisRange: Double,
         scaleX: CGFloat,
         scaleY: CGFloat,

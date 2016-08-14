@@ -20,7 +20,7 @@ public class XAxisRendererRadarChart: XAxisRenderer
 {
     public weak var chart: RadarChartView?
     
-    public init(viewPortHandler: ViewPortHandler?, xAxis: ChartXAxis?, chart: RadarChartView?)
+    public init(viewPortHandler: ViewPortHandler?, xAxis: XAxis?, chart: RadarChartView?)
     {
         super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: nil)
         
@@ -30,7 +30,7 @@ public class XAxisRendererRadarChart: XAxisRenderer
     public override func renderAxisLabels(context context: CGContext)
     {
         guard let
-            xAxis = axis as? ChartXAxis,
+            xAxis = axis as? XAxis,
             chart = chart
             else { return }
         

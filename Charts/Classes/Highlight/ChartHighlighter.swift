@@ -38,7 +38,7 @@ public class ChartHighlighter : NSObject, IHighlighter
             else { return CGPointZero }
         
         // take any transformer to determine the values
-        return chart.getTransformer(ChartYAxis.AxisDependency.Left).valueForTouchPoint(x: x, y: y)
+        return chart.getTransformer(YAxis.AxisDependency.Left).valueForTouchPoint(x: x, y: y)
     }
     
     /// - returns: The corresponding ChartHighlight for a given x-value and xy-touch position in pixels.
@@ -57,10 +57,10 @@ public class ChartHighlighter : NSObject, IHighlighter
             return nil
         }
         
-        let leftAxisMinDist = getMinimumDistance(closestValues, y: y, axis: ChartYAxis.AxisDependency.Left)
-        let rightAxisMinDist = getMinimumDistance(closestValues, y: y, axis: ChartYAxis.AxisDependency.Right)
+        let leftAxisMinDist = getMinimumDistance(closestValues, y: y, axis: YAxis.AxisDependency.Left)
+        let rightAxisMinDist = getMinimumDistance(closestValues, y: y, axis: YAxis.AxisDependency.Right)
         
-        let axis = leftAxisMinDist < rightAxisMinDist ? ChartYAxis.AxisDependency.Left : ChartYAxis.AxisDependency.Right
+        let axis = leftAxisMinDist < rightAxisMinDist ? YAxis.AxisDependency.Left : YAxis.AxisDependency.Right
         
         let detail = closestSelectionDetailByPixel(closestValues: closestValues, x: x, y: y, axis: axis, minSelectionDistance: chart.maxHighlightDistance)
         
@@ -130,7 +130,7 @@ public class ChartHighlighter : NSObject, IHighlighter
         closestValues closestValues: [Highlight],
                     x: CGFloat,
                     y: CGFloat,
-                    axis: ChartYAxis.AxisDependency?,
+                    axis: YAxis.AxisDependency?,
                     minSelectionDistance: CGFloat) -> Highlight?
     {
         var distance = minSelectionDistance
@@ -159,7 +159,7 @@ public class ChartHighlighter : NSObject, IHighlighter
     internal func getMinimumDistance(
         closestValues: [Highlight],
         y: CGFloat,
-        axis: ChartYAxis.AxisDependency) -> CGFloat
+        axis: YAxis.AxisDependency) -> CGFloat
     {
         var distance = CGFloat.max
         

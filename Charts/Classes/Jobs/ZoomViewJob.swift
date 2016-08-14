@@ -21,7 +21,7 @@ public class ZoomViewJob: ViewPortJob
 {
     internal var scaleX: CGFloat = 0.0
     internal var scaleY: CGFloat = 0.0
-    internal var axisDependency: ChartYAxis.AxisDependency = ChartYAxis.AxisDependency.Left
+    internal var axisDependency: YAxis.AxisDependency = YAxis.AxisDependency.Left
     
     public init(
         viewPortHandler: ViewPortHandler,
@@ -30,7 +30,7 @@ public class ZoomViewJob: ViewPortJob
         xValue: Double,
         yValue: Double,
         transformer: Transformer,
-        axis: ChartYAxis.AxisDependency,
+        axis: YAxis.AxisDependency,
         view: ChartViewBase)
     {
         super.init(

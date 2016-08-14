@@ -16,7 +16,7 @@ import CoreGraphics
 public class AxisRendererBase: Renderer
 {
     /// base axis this axis renderer works with
-    public var axis: ChartAxisBase?
+    public var axis: AxisBase?
     
     /// transformer to transform values to screen pixels and return
     public var transformer: Transformer?
@@ -26,7 +26,7 @@ public class AxisRendererBase: Renderer
         super.init()
     }
     
-    public init(viewPortHandler: ViewPortHandler?, transformer: Transformer?, axis: ChartAxisBase?)
+    public init(viewPortHandler: ViewPortHandler?, transformer: Transformer?, axis: AxisBase?)
     {
         super.init(viewPortHandler: viewPortHandler)
         

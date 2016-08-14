@@ -126,7 +126,7 @@ public class ChartData: NSObject
         }
     }
     
-    public func calcMinMax(entry e: ChartDataEntry, axis: ChartYAxis.AxisDependency)
+    public func calcMinMax(entry e: ChartDataEntry, axis: YAxis.AxisDependency)
     {
         if _yMax < e.y
         {
@@ -240,7 +240,7 @@ public class ChartData: NSObject
         return _yMin
     }
     
-    public func getYMin(axis: ChartYAxis.AxisDependency) -> Double
+    public func getYMin(axis: YAxis.AxisDependency) -> Double
     {
         if axis == .Left
         {
@@ -278,7 +278,7 @@ public class ChartData: NSObject
         return _yMax
     }
     
-    public func getYMax(axis: ChartYAxis.AxisDependency) -> Double
+    public func getYMax(axis: YAxis.AxisDependency) -> Double
     {
         if axis == .Left
         {

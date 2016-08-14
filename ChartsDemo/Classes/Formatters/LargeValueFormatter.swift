@@ -51,7 +51,7 @@ public class LargeValueFormatter: NSObject, IValueFormatter, IAxisValueFormatter
         return r
     }
     
-    public func stringForValue(value: Double, axis: ChartAxisBase?) -> String
+    public func stringForValue(value: Double, axis: AxisBase?) -> String
     {
         return format(value)
     }

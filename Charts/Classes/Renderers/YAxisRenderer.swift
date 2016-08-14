@@ -19,7 +19,7 @@ import CoreGraphics
 @objc(ChartYAxisRenderer)
 public class YAxisRenderer: AxisRendererBase
 {
-    public init(viewPortHandler: ViewPortHandler?, yAxis: ChartYAxis?, transformer: Transformer?)
+    public init(viewPortHandler: ViewPortHandler?, yAxis: YAxis?, transformer: Transformer?)
     {
         super.init(viewPortHandler: viewPortHandler, transformer: transformer, axis: yAxis)
     }
@@ -28,7 +28,7 @@ public class YAxisRenderer: AxisRendererBase
     public override func renderAxisLabels(context context: CGContext)
     {
         guard let
-            yAxis = self.axis as? ChartYAxis,
+            yAxis = self.axis as? YAxis,
             viewPortHandler = self.viewPortHandler
             else { return }
         
@@ -88,7 +88,7 @@ public class YAxisRenderer: AxisRendererBase
     public override func renderAxisLine(context context: CGContext)
     {
         guard let
-            yAxis = self.axis as? ChartYAxis,
+            yAxis = self.axis as? YAxis,
             viewPortHandler = self.viewPortHandler
             else { return }
         
@@ -139,7 +139,7 @@ public class YAxisRenderer: AxisRendererBase
                 textAlign: NSTextAlignment)
     {
         guard let
-            yAxis = self.axis as? ChartYAxis
+            yAxis = self.axis as? YAxis
             else { return }
         
         let labelFont = yAxis.labelFont
@@ -166,7 +166,7 @@ public class YAxisRenderer: AxisRendererBase
     public override func renderGridLines(context context: CGContext)
     {
         guard let
-            yAxis = self.axis as? ChartYAxis
+            yAxis = self.axis as? YAxis
             else { return }
         
         if !yAxis.isEnabled
@@ -238,7 +238,7 @@ public class YAxisRenderer: AxisRendererBase
     public func transformedPositions() -> [CGPoint]
     {
         guard let
-            yAxis = self.axis as? ChartYAxis,
+            yAxis = self.axis as? YAxis,
             transformer = self.transformer
             else { return [CGPoint]() }
         
@@ -261,7 +261,7 @@ public class YAxisRenderer: AxisRendererBase
     public func drawZeroLine(context context: CGContext)
     {
         guard let
-            yAxis = self.axis as? ChartYAxis,
+            yAxis = self.axis as? YAxis,
             viewPortHandler = self.viewPortHandler,
             transformer = self.transformer,
             zeroLineColor = yAxis.zeroLineColor
@@ -297,7 +297,7 @@ public class YAxisRenderer: AxisRendererBase
     public override func renderLimitLines(context context: CGContext)
     {
         guard let
-            yAxis = self.axis as? ChartYAxis,
+            yAxis = self.axis as? YAxis,
             viewPortHandler = self.viewPortHandler,
             transformer = self.transformer
             else { return }

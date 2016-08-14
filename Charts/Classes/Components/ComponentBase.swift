@@ -1,5 +1,5 @@
 //
-//  ChartComponentBase.swift
+//  ComponentBase.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -14,7 +14,8 @@ import CoreGraphics
 
 
 /// This class encapsulates everything both Axis, Legend and LimitLines have in common
-public class ChartComponentBase: NSObject
+@objc(ChartComponentBase)
+public class ComponentBase: NSObject
 {
     /// flag that indicates if this component is enabled or not
     public var enabled = true

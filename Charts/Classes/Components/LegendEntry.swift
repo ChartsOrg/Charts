@@ -33,7 +33,7 @@ public class LegendEntry: NSObject
     /// - parameter formLineDashLengths:    Line dash configurationas NaN to use the legend's default.
     /// - parameter formColor:              The color for drawing the form.
     public init(label: String?,
-                form: ChartLegend.Form,
+                form: Legend.Form,
                 formSize: CGFloat,
                 formLineWidth: CGFloat,
                 formLineDashPhase: CGFloat,
@@ -58,7 +58,7 @@ public class LegendEntry: NSObject
     /// `None` will avoid drawing a form, and any related space.
     /// `Empty` will avoid drawing a form, but keep its space.
     /// `Default` will use the Legend's default.
-    public var form: ChartLegend.Form = .Default
+    public var form: Legend.Form = .Default
     
     /// Form size will be considered except for when .None is used
     ///

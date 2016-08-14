@@ -19,7 +19,7 @@ import CoreGraphics
 @objc(ChartXAxisRenderer)
 public class XAxisRenderer: AxisRendererBase
 {
-    public init(viewPortHandler: ViewPortHandler?, xAxis: ChartXAxis?, transformer: Transformer?)
+    public init(viewPortHandler: ViewPortHandler?, xAxis: XAxis?, transformer: Transformer?)
     {
         super.init(viewPortHandler: viewPortHandler, transformer: transformer, axis: xAxis)
     }
@@ -67,7 +67,7 @@ public class XAxisRenderer: AxisRendererBase
     public func computeSize()
     {
         guard let
-            xAxis = self.axis as? ChartXAxis
+            xAxis = self.axis as? XAxis
             else { return }
         
         let longest = xAxis.getLongestLabel()
@@ -88,7 +88,7 @@ public class XAxisRenderer: AxisRendererBase
     public override func renderAxisLabels(context context: CGContext)
     {
         guard let
-            xAxis = self.axis as? ChartXAxis,
+            xAxis = self.axis as? XAxis,
             viewPortHandler = self.viewPortHandler
             else { return }
         
@@ -127,7 +127,7 @@ public class XAxisRenderer: AxisRendererBase
     public override func renderAxisLine(context context: CGContext)
     {
         guard let
-            xAxis = self.axis as? ChartXAxis,
+            xAxis = self.axis as? XAxis,
             viewPortHandler = self.viewPortHandler
             else { return }
         
@@ -178,7 +178,7 @@ public class XAxisRenderer: AxisRendererBase
     public func drawLabels(context context: CGContext, pos: CGFloat, anchor: CGPoint)
     {
         guard let
-            xAxis = self.axis as? ChartXAxis,
+            xAxis = self.axis as? XAxis,
             viewPortHandler = self.viewPortHandler,
             transformer = self.transformer
             else { return }
@@ -283,7 +283,7 @@ public class XAxisRenderer: AxisRendererBase
     public override func renderGridLines(context context: CGContext)
     {
         guard let
-            xAxis = self.axis as? ChartXAxis,
+            xAxis = self.axis as? XAxis,
             transformer = self.transformer
             else { return }
         
@@ -353,7 +353,7 @@ public class XAxisRenderer: AxisRendererBase
     public override func renderLimitLines(context context: CGContext)
     {
         guard let
-            xAxis = self.axis as? ChartXAxis,
+            xAxis = self.axis as? XAxis,
             viewPortHandler = self.viewPortHandler,
             transformer = self.transformer
             else { return }

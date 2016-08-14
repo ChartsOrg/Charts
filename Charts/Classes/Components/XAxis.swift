@@ -1,5 +1,5 @@
 //
-//  ChartXAxis.swift
+//  XAxis.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -12,7 +12,8 @@
 import Foundation
 import CoreGraphics
 
-public class ChartXAxis: ChartAxisBase
+@objc(ChartXAxis)
+public class XAxis: AxisBase
 {
     @objc(XAxisLabelPosition)
     public enum LabelPosition: Int

@@ -20,7 +20,7 @@ public class XAxisRendererHorizontalBarChart: XAxisRenderer
 {
     internal var chart: BarChartView?
     
-    public init(viewPortHandler: ViewPortHandler?, xAxis: ChartXAxis?, transformer: Transformer?, chart: BarChartView?)
+    public init(viewPortHandler: ViewPortHandler?, xAxis: XAxis?, transformer: Transformer?, chart: BarChartView?)
     {
         super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: transformer)
         
@@ -63,7 +63,7 @@ public class XAxisRendererHorizontalBarChart: XAxisRenderer
     public override func computeSize()
     {
         guard let
-            xAxis = self.axis as? ChartXAxis
+            xAxis = self.axis as? XAxis
             else { return }
        
         let longest = xAxis.getLongestLabel() as NSString
@@ -84,7 +84,7 @@ public class XAxisRendererHorizontalBarChart: XAxisRenderer
     public override func renderAxisLabels(context context: CGContext)
     {
         guard let
-            xAxis = self.axis as? ChartXAxis,
+            xAxis = self.axis as? XAxis,
             viewPortHandler = self.viewPortHandler
             else { return }
         
@@ -122,7 +122,7 @@ public class XAxisRendererHorizontalBarChart: XAxisRenderer
     public override func drawLabels(context context: CGContext, pos: CGFloat, anchor: CGPoint)
     {
         guard let
-            xAxis = self.axis as? ChartXAxis,
+            xAxis = self.axis as? XAxis,
             transformer = self.transformer,
             viewPortHandler = self.viewPortHandler
             else { return }
@@ -218,7 +218,7 @@ public class XAxisRendererHorizontalBarChart: XAxisRenderer
     public override func renderAxisLine(context context: CGContext)
     {
         guard let
-            xAxis = self.axis as? ChartXAxis,
+            xAxis = self.axis as? XAxis,
             viewPortHandler = self.viewPortHandler
             else { return }
         
@@ -270,7 +270,7 @@ public class XAxisRendererHorizontalBarChart: XAxisRenderer
     public override func renderLimitLines(context context: CGContext)
     {
         guard let
-            xAxis = self.axis as? ChartXAxis,
+            xAxis = self.axis as? XAxis,
             viewPortHandler = self.viewPortHandler,
             transformer = self.transformer
             else { return }

@@ -55,10 +55,10 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     public var keepPositionOnRotation: Bool = false
     
     /// the object representing the left y-axis
-    internal var _leftAxis: ChartYAxis!
+    internal var _leftAxis: YAxis!
     
     /// the object representing the right y-axis
-    internal var _rightAxis: ChartYAxis!
+    internal var _rightAxis: YAxis!
 
     internal var _leftYAxisRenderer: YAxisRenderer!
     internal var _rightYAxisRenderer: YAxisRenderer!
@@ -97,8 +97,8 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     {
         super.initialize()
         
-        _leftAxis = ChartYAxis(position: .Left)
-        _rightAxis = ChartYAxis(position: .Right)
+        _leftAxis = YAxis(position: .Left)
+        _rightAxis = YAxis(position: .Right)
         
         _leftAxisTransformer = Transformer(viewPortHandler: _viewPortHandler)
         _rightAxisTransformer = Transformer(viewPortHandler: _viewPortHandler)
@@ -994,7 +994,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                scaleY: CGFloat,
                xValue: Double,
                yValue: Double,
-               axis: ChartYAxis.AxisDependency)
+               axis: YAxis.AxisDependency)
     {
         let job = ZoomViewJob(
             viewPortHandler: viewPortHandler,
@@ -1042,7 +1042,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         scaleY: CGFloat,
         xValue: Double,
         yValue: Double,
-        axis: ChartYAxis.AxisDependency,
+        axis: YAxis.AxisDependency,
         duration: NSTimeInterval,
         easing: ChartEasingFunctionBlock?)
     {
@@ -1084,7 +1084,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         scaleY: CGFloat,
         xValue: Double,
         yValue: Double,
-        axis: ChartYAxis.AxisDependency,
+        axis: YAxis.AxisDependency,
         duration: NSTimeInterval,
         easingOption: ChartEasingOption)
     {
@@ -1105,7 +1105,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         scaleY: CGFloat,
         xValue: Double,
         yValue: Double,
-        axis: ChartYAxis.AxisDependency,
+        axis: YAxis.AxisDependency,
         duration: NSTimeInterval)
     {
         zoomAndCenterViewAnimated(scaleX: scaleX, scaleY: scaleY, xValue: xValue, yValue: yValue, axis: axis, duration: duration, easingOption: .EaseInOutSine)
@@ -1174,7 +1174,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     ///
     /// - parameter yRange:
     /// - parameter axis: - the axis for which this limit should apply
-    public func setVisibleYRangeMaximum(maxYRange: Double, axis: ChartYAxis.AxisDependency)
+    public func setVisibleYRangeMaximum(maxYRange: Double, axis: YAxis.AxisDependency)
     {
         let yScale = getAxisRange(axis) / maxYRange
         _viewPortHandler.setMinimumScaleY(CGFloat(yScale))
@@ -1184,7 +1184,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     ///
     /// - parameter yRange:
     /// - parameter axis: - the axis for which this limit should apply
-    public func setVisibleYRangeMinimum(minYRange: Double, axis: ChartYAxis.AxisDependency)
+    public func setVisibleYRangeMinimum(minYRange: Double, axis: YAxis.AxisDependency)
     {
         let yScale = getAxisRange(axis) / minYRange
         _viewPortHandler.setMaximumScaleY(CGFloat(yScale))
@@ -1195,7 +1195,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// - parameter minYRange:
     /// - parameter maxYRange:
     /// - parameter axis:
-    public func setVisibleYRange(minYRange minYRange: Double, maxYRange: Double, axis: ChartYAxis.AxisDependency)
+    public func setVisibleYRange(minYRange minYRange: Double, maxYRange: Double, axis: YAxis.AxisDependency)
     {
         let minScale = getAxisRange(axis) / minYRange
         let maxScale = getAxisRange(axis) / maxYRange
@@ -1221,7 +1221,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// 
     /// - parameter yValue:
     /// - parameter axis: - which axis should be used as a reference for the y-axis
-    public func moveViewToY(yValue: Double, axis: ChartYAxis.AxisDependency)
+    public func moveViewToY(yValue: Double, axis: YAxis.AxisDependency)
     {
         let yInView = getAxisRange(axis) / Double(_viewPortHandler.scaleY)
         
@@ -1241,7 +1241,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// - parameter xValue:
     /// - parameter yValue:
     /// - parameter axis: - which axis should be used as a reference for the y-axis
-    public func moveViewTo(xValue xValue: Double, yValue: Double, axis: ChartYAxis.AxisDependency)
+    public func moveViewTo(xValue xValue: Double, yValue: Double, axis: YAxis.AxisDependency)
     {
         let yInView = getAxisRange(axis) / Double(_viewPortHandler.scaleY)
         
@@ -1266,7 +1266,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     public func moveViewToAnimated(
         xValue xValue: Double,
         yValue: Double,
-        axis: ChartYAxis.AxisDependency,
+        axis: YAxis.AxisDependency,
         duration: NSTimeInterval,
         easing: ChartEasingFunctionBlock?)
     {
@@ -1301,7 +1301,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     public func moveViewToAnimated(
         xValue xValue: Double,
         yValue: Double,
-        axis: ChartYAxis.AxisDependency,
+        axis: YAxis.AxisDependency,
         duration: NSTimeInterval,
         easingOption: ChartEasingOption)
     {
@@ -1319,7 +1319,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     public func moveViewToAnimated(
         xValue xValue: Double,
         yValue: Double,
-        axis: ChartYAxis.AxisDependency,
+        axis: YAxis.AxisDependency,
         duration: NSTimeInterval)
     {
         moveViewToAnimated(xValue: xValue, yValue: yValue, axis: axis, duration: duration, easingOption: .EaseInOutSine)
@@ -1334,7 +1334,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     public func centerViewTo(
         xValue xValue: Double,
         yValue: Double,
-        axis: ChartYAxis.AxisDependency)
+        axis: YAxis.AxisDependency)
     {
         let yInView = getAxisRange(axis) / Double(_viewPortHandler.scaleY)
         let xInView = xAxis.axisRange / Double(_viewPortHandler.scaleX)
@@ -1359,7 +1359,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     public func centerViewToAnimated(
         xValue xValue: Double,
         yValue: Double,
-        axis: ChartYAxis.AxisDependency,
+        axis: YAxis.AxisDependency,
         duration: NSTimeInterval,
         easing: ChartEasingFunctionBlock?)
     {
@@ -1394,7 +1394,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     public func centerViewToAnimated(
         xValue xValue: Double,
         yValue: Double,
-        axis: ChartYAxis.AxisDependency,
+        axis: YAxis.AxisDependency,
         duration: NSTimeInterval,
         easingOption: ChartEasingOption)
     {
@@ -1411,7 +1411,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     public func centerViewToAnimated(
         xValue xValue: Double,
         yValue: Double,
-        axis: ChartYAxis.AxisDependency,
+        axis: YAxis.AxisDependency,
         duration: NSTimeInterval)
     {
         centerViewToAnimated(xValue: xValue, yValue: yValue, axis: axis, duration: duration, easingOption: .EaseInOutSine)
@@ -1447,7 +1447,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     // MARK: - Accessors
     
     /// - returns: The range of the specified axis.
-    public func getAxisRange(axis: ChartYAxis.AxisDependency) -> Double
+    public func getAxisRange(axis: YAxis.AxisDependency) -> Double
     {
         if (axis == .Left)
         {
@@ -1460,7 +1460,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     }
 
     /// - returns: The position (in pixels) the provided Entry has inside the chart view
-    public func getPosition(e: ChartDataEntry, axis: ChartYAxis.AxisDependency) -> CGPoint
+    public func getPosition(e: ChartDataEntry, axis: YAxis.AxisDependency) -> CGPoint
     {
         var vals = CGPoint(x: CGFloat(e.x), y: CGFloat(e.y))
 
@@ -1597,14 +1597,14 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// (encapsulated in a `CGPoint`). This method transforms pixel coordinates to
     /// coordinates / values in the chart. This is the opposite method to
     /// `getPixelsForValues(...)`.
-    public func valueForTouchPoint(pt pt: CGPoint, axis: ChartYAxis.AxisDependency) -> CGPoint
+    public func valueForTouchPoint(pt pt: CGPoint, axis: YAxis.AxisDependency) -> CGPoint
     {
         return getTransformer(axis).valueForTouchPoint(pt)
     }
 
     /// Transforms the given chart values into pixels. This is the opposite
     /// method to `valueForTouchPoint(...)`.
-    public func pixelForValues(x x: Double, y: Double, axis: ChartYAxis.AxisDependency) -> CGPoint
+    public func pixelForValues(x x: Double, y: Double, axis: YAxis.AxisDependency) -> CGPoint
     {
         return getTransformer(axis).pixelForValues(x: x, y: y)
     }
@@ -1656,18 +1656,18 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
 
     /// - returns: The left y-axis object. In the horizontal bar-chart, this is the
     /// top axis.
-    public var leftAxis: ChartYAxis
+    public var leftAxis: YAxis
     {
         return _leftAxis
     }
 
     /// - returns: The right y-axis object. In the horizontal bar-chart, this is the
     /// bottom axis.
-    public var rightAxis: ChartYAxis { return _rightAxis; }
+    public var rightAxis: YAxis { return _rightAxis; }
 
     /// - returns: The y-axis object to the corresponding AxisDependency. In the
     /// horizontal bar-chart, LEFT == top, RIGHT == BOTTOM
-    public func getAxis(axis: ChartYAxis.AxisDependency) -> ChartYAxis
+    public func getAxis(axis: YAxis.AxisDependency) -> YAxis
     {
         if (axis == .Left)
         {
@@ -1775,7 +1775,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     public var isAutoScaleMinMaxEnabled : Bool { return autoScaleMinMaxEnabled; }
     
     /// Sets a minimum width to the specified y axis.
-    public func setYAxisMinWidth(which: ChartYAxis.AxisDependency, width: CGFloat)
+    public func setYAxisMinWidth(which: YAxis.AxisDependency, width: CGFloat)
     {
         if (which == .Left)
         {
@@ -1789,7 +1789,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     
     /// **default**: 0.0
     /// - returns: The (custom) minimum width of the specified Y axis.
-    public func getYAxisMinWidth(which: ChartYAxis.AxisDependency) -> CGFloat
+    public func getYAxisMinWidth(which: YAxis.AxisDependency) -> CGFloat
     {
         if (which == .Left)
         {
@@ -1802,7 +1802,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     }
     /// Sets a maximum width to the specified y axis.
     /// Zero (0.0) means there's no maximum width
-    public func setYAxisMaxWidth(which: ChartYAxis.AxisDependency, width: CGFloat)
+    public func setYAxisMaxWidth(which: YAxis.AxisDependency, width: CGFloat)
     {
         if (which == .Left)
         {
@@ -1818,7 +1818,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     ///
     /// **default**: 0.0 (no maximum specified)
     /// - returns: The (custom) maximum width of the specified Y axis.
-    public func getYAxisMaxWidth(which: ChartYAxis.AxisDependency) -> CGFloat
+    public func getYAxisMaxWidth(which: YAxis.AxisDependency) -> CGFloat
     {
         if (which == .Left)
         {
@@ -1831,7 +1831,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     }
 
     /// - returns the width of the specified y axis.
-    public func getYAxisWidth(which: ChartYAxis.AxisDependency) -> CGFloat
+    public func getYAxisWidth(which: YAxis.AxisDependency) -> CGFloat
     {
         if (which == .Left)
         {
@@ -1848,7 +1848,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     /// - returns: The Transformer class that contains all matrices and is
     /// responsible for transforming values into pixels on the screen and
     /// backwards.
-    public func getTransformer(which: ChartYAxis.AxisDependency) -> Transformer
+    public func getTransformer(which: YAxis.AxisDependency) -> Transformer
     {
         if (which == .Left)
         {
@@ -1873,7 +1873,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         }
     }
     
-    public func isInverted(axis: ChartYAxis.AxisDependency) -> Bool
+    public func isInverted(axis: YAxis.AxisDependency) -> Bool
     {
         return getAxis(axis).isInverted
     }

@@ -39,7 +39,7 @@ public class RadarChartView: PieRadarChartViewBase
     private var _skipWebLineCount = 0
     
     /// the object reprsenting the y-axis labels
-    private var _yAxis: ChartYAxis!
+    private var _yAxis: YAxis!
     
     internal var _yAxisRenderer: YAxisRendererRadarChart!
     internal var _xAxisRenderer: XAxisRendererRadarChart!
@@ -58,7 +58,7 @@ public class RadarChartView: PieRadarChartViewBase
     {
         super.initialize()
         
-        _yAxis = ChartYAxis(position: .Left)
+        _yAxis = YAxis(position: .Left)
         
         renderer = RadarChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
         
@@ -179,7 +179,7 @@ public class RadarChartView: PieRadarChartViewBase
     }
 
     /// - returns: The object that represents all y-labels of the RadarChart.
-    public var yAxis: ChartYAxis
+    public var yAxis: YAxis
     {
         return _yAxis
     }

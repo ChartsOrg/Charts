@@ -1,5 +1,5 @@
 //
-//  ChartAxisBase.swift
+//  AxisBase.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -13,7 +13,8 @@ import Foundation
 import CoreGraphics
 
 /// Base class for all axes
-public class ChartAxisBase: ChartComponentBase
+@objc(ChartAxisBase)
+public class AxisBase: ComponentBase
 {
     public override init()
     {

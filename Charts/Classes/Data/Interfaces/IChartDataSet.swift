@@ -143,7 +143,7 @@ public protocol IChartDataSet
     var label: String? { get }
     
     /// The axis this DataSet should be plotted against.
-    var axisDependency: ChartYAxis.AxisDependency { get }
+    var axisDependency: YAxis.AxisDependency { get }
     
     /// List representing all colors that are used for drawing the actual values for this DataSet
     var valueColors: [NSUIColor] { get }
@@ -188,7 +188,7 @@ public protocol IChartDataSet
     /// The form to draw for this dataset in the legend.
     ///
     /// Return `.Default` to use the default legend form.
-    var form: ChartLegend.Form { get }
+    var form: Legend.Form { get }
     
     /// The form size to draw for this dataset in the legend.
     ///
