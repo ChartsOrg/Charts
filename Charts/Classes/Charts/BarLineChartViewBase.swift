@@ -573,13 +573,27 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                     let x = abs(recognizer.locationInView(self).x - recognizer.nsuiLocationOfTouch(1, inView: self).x)
                     let y = abs(recognizer.locationInView(self).y - recognizer.nsuiLocationOfTouch(1, inView: self).y)
                     
-                    if (x > y)
+                    if (_scaleXEnabled != _scaleYEnabled)
                     {
-                        _gestureScaleAxis = .X
+                        if (_scaleXEnabled)
+                        {
+                            _gestureScaleAxis = .X
+                        }
+                        else
+                        {
+                            _gestureScaleAxis = .Y   
+                        }
                     }
                     else
                     {
-                        _gestureScaleAxis = .Y
+                        if (x > y)
+                        {
+                            _gestureScaleAxis = .X
+                        }
+                        else
+                        {
+                            _gestureScaleAxis = .Y
+                        }
                     }
                 }
             }
