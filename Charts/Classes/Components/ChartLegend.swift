@@ -206,7 +206,7 @@ public class ChartLegend: ChartComponentBase
     public var formSize = CGFloat(8.0)
     
     /// The line width for forms that consist of lines
-    public var formLineWidth = CGFloat(1.5)
+    public var formLineWidth = CGFloat(3.0)
     
     /// Line dash configuration for shapes that consist of lines.
     ///
