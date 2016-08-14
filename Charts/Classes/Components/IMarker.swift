@@ -15,7 +15,7 @@ import CoreGraphics
 @objc(IChartMarker)
 public protocol IMarker: NSObjectProtocol
 {
-    /// - returns: The desired offset you wish the IMarker to have on the x-axis.
+    /// - returns: The desired (general) offset you wish the IMarker to have on the x-axis.
     ///
     /// By returning x: -(width / 2) you will center the IMarker horizontally.
     ///
@@ -23,6 +23,7 @@ public protocol IMarker: NSObjectProtocol
     var offset: CGPoint { get }
     
     /// - returns: The offset for drawing at the specific `point`.
+    ///            This allows conditional adjusting of the Marker position.
     ///            If you have no adjustments to make, return self.offset().
     ///
     /// - parameter point: This is the point at which the marker wants to be drawn. You can adjust the offset conditionally based on this argument.
