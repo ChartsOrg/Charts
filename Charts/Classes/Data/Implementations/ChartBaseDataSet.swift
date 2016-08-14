@@ -327,6 +327,18 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     /// Return `NaN` to use the default legend form line width.
     public var formLineWidth: CGFloat = CGFloat.NaN
     
+    /// Line dash configuration for legend shapes that consist of lines.
+    ///
+    /// This is how much (in pixels) into the dash pattern are we starting from.
+    public var formLineDashPhase: CGFloat = 0.0
+    
+    /// Line dash configuration for legend shapes that consist of lines.
+    ///
+    /// This is the actual dash pattern.
+    /// I.e. [2, 3] will paint [--   --   ]
+    /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
+    public var formLineDashLengths: [CGFloat]? = nil
+    
     /// Set this to true to draw y-values on the chart
     public var drawValuesEnabled = true
     

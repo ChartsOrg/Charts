@@ -200,6 +200,18 @@ public protocol IChartDataSet
     /// Return `NaN` to use the default legend form line width.
     var formLineWidth: CGFloat { get }
     
+    /// Line dash configuration for legend shapes that consist of lines.
+    ///
+    /// This is how much (in pixels) into the dash pattern are we starting from.
+    var formLineDashPhase: CGFloat { get }
+    
+    /// Line dash configuration for legend shapes that consist of lines.
+    ///
+    /// This is the actual dash pattern.
+    /// I.e. [2, 3] will paint [--   --   ]
+    /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
+    var formLineDashLengths: [CGFloat]? { get }
+    
     /// Set this to true to draw y-values on the chart
     var drawValuesEnabled: Bool { get set }
     

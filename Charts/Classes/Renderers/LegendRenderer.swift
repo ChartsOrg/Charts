@@ -63,6 +63,8 @@ public class LegendRenderer: Renderer
                                 form: dataSet.form,
                                 formSize: dataSet.formSize,
                                 formLineWidth: dataSet.formLineWidth,
+                                formLineDashPhase: dataSet.formLineDashPhase,
+                                formLineDashLengths: dataSet.formLineDashLengths,
                                 formColor: clrs[j]
                             )
                         )
@@ -78,6 +80,8 @@ public class LegendRenderer: Renderer
                                 form: .None,
                                 formSize: CGFloat.NaN,
                                 formLineWidth: CGFloat.NaN,
+                                formLineDashPhase: 0.0,
+                                formLineDashLengths: nil,
                                 formColor: nil
                             )
                         )
@@ -95,6 +99,8 @@ public class LegendRenderer: Renderer
                                 form: dataSet.form,
                                 formSize: dataSet.formSize,
                                 formLineWidth: dataSet.formLineWidth,
+                                formLineDashPhase: dataSet.formLineDashPhase,
+                                formLineDashLengths: dataSet.formLineDashLengths,
                                 formColor: clrs[j]
                             )
                         )
@@ -110,6 +116,8 @@ public class LegendRenderer: Renderer
                                 form: .None,
                                 formSize: CGFloat.NaN,
                                 formLineWidth: CGFloat.NaN,
+                                formLineDashPhase: 0.0,
+                                formLineDashLengths: nil,
                                 formColor: nil
                             )
                         )
@@ -126,6 +134,8 @@ public class LegendRenderer: Renderer
                             form: dataSet.form,
                             formSize: dataSet.formSize,
                             formLineWidth: dataSet.formLineWidth,
+                            formLineDashPhase: dataSet.formLineDashPhase,
+                            formLineDashLengths: dataSet.formLineDashLengths,
                             formColor: candleDataSet.decreasingColor
                         )
                     )
@@ -136,6 +146,8 @@ public class LegendRenderer: Renderer
                             form: dataSet.form,
                             formSize: dataSet.formSize,
                             formLineWidth: dataSet.formLineWidth,
+                            formLineDashPhase: dataSet.formLineDashPhase,
+                            formLineDashLengths: dataSet.formLineDashLengths,
                             formColor: candleDataSet.increasingColor
                         )
                     )
@@ -163,6 +175,8 @@ public class LegendRenderer: Renderer
                                 form: dataSet.form,
                                 formSize: dataSet.formSize,
                                 formLineWidth: dataSet.formLineWidth,
+                                formLineDashPhase: dataSet.formLineDashPhase,
+                                formLineDashLengths: dataSet.formLineDashLengths,
                                 formColor: clrs[j]
                             )
                         )
@@ -522,8 +536,20 @@ public class LegendRenderer: Renderer
         case .Line:
             
             let formLineWidth = isnan(entry.formLineWidth) ? legend.formLineWidth : entry.formLineWidth
+            let formLineDashPhase = isnan(entry.formLineDashPhase) ? legend.formLineDashPhase : entry.formLineDashPhase
+            let formLineDashLengths = entry.formLineDashLengths == nil ? legend.formLineDashLengths : entry.formLineDashLengths
             
             CGContextSetLineWidth(context, formLineWidth)
+            
+            if formLineDashLengths != nil && formLineDashLengths!.count > 0
+            {
+                CGContextSetLineDash(context, formLineDashPhase, formLineDashLengths!, formLineDashLengths!.count)
+            }
+            else
+            {
+                CGContextSetLineDash(context, 0.0, nil, 0)
+            }
+            
             CGContextSetStrokeColorWithColor(context, formColor.CGColor)
             
             _formLineSegmentsBuffer[0].x = x

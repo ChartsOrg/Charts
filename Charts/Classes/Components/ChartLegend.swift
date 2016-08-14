@@ -208,6 +208,18 @@ public class ChartLegend: ChartComponentBase
     /// The line width for forms that consist of lines
     public var formLineWidth = CGFloat(1.5)
     
+    /// Line dash configuration for shapes that consist of lines.
+    ///
+    /// This is how much (in pixels) into the dash pattern are we starting from.
+    public var formLineDashPhase: CGFloat = 0.0
+    
+    /// Line dash configuration for shapes that consist of lines.
+    ///
+    /// This is the actual dash pattern.
+    /// I.e. [2, 3] will paint [--   --   ]
+    /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
+    public var formLineDashLengths: [CGFloat]?
+    
     public var xEntrySpace = CGFloat(6.0)
     public var yEntrySpace = CGFloat(0.0)
     public var formToTextSpace = CGFloat(5.0)

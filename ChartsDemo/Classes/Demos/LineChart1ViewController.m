@@ -161,6 +161,9 @@
         set1.circleRadius = 3.0;
         set1.drawCircleHoleEnabled = NO;
         set1.valueFont = [UIFont systemFontOfSize:9.f];
+        set1.formLineDashLengths = @[@5.f, @2.5f];
+        set1.formLineWidth = 1.0;
+        set1.formSize = 15.0;
         
         NSArray *gradientColors = @[
                                     (id)[ChartColorTemplates colorFromString:@"#00ff0000"].CGColor,
