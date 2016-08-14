@@ -129,7 +129,7 @@ public class PieChartRenderer: DataRenderer
         for j in 0 ..< entryCount
         {
             guard let e = dataSet.entryForIndex(j) else { continue }
-            if ((abs(e.y) > 0.000001))
+            if ((abs(e.y) > DBL_EPSILON))
             {
                 visibleAngleCount += 1
             }
@@ -147,7 +147,7 @@ public class PieChartRenderer: DataRenderer
             guard let e = dataSet.entryForIndex(j) else { continue }
             
             // draw only if the value is greater than zero
-            if (abs(e.y) > 0.000001)
+            if (abs(e.y) > DBL_EPSILON)
             {
                 if !chart.needsHighlight(index: j)
                 {
@@ -703,7 +703,7 @@ public class PieChartRenderer: DataRenderer
             for j in 0 ..< entryCount
             {
                 guard let e = set.entryForIndex(j) else { continue }
-                if ((abs(e.y) > 0.000001))
+                if ((abs(e.y) > DBL_EPSILON))
                 {
                     visibleAngleCount += 1
                 }
