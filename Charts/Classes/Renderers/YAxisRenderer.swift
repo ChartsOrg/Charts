@@ -179,6 +179,8 @@ public class YAxisRenderer: AxisRendererBase
             let positions = transformedPositions()
             
             CGContextSaveGState(context)
+            defer { CGContextRestoreGState(context) }
+            CGContextClipToRect(context, self.gridClippingRect)
             
             CGContextSetShouldAntialias(context, yAxis.gridAntialiasEnabled)
             CGContextSetStrokeColorWithColor(context, yAxis.gridColor.CGColor)
@@ -199,8 +201,6 @@ public class YAxisRenderer: AxisRendererBase
             {
                 drawGridLine(context: context, position: positions[i])
             }
-            
-            CGContextRestoreGState(context)
         }
 
         if yAxis.drawZeroLineEnabled
@@ -208,6 +208,13 @@ public class YAxisRenderer: AxisRendererBase
             // draw zero line
             drawZeroLine(context: context);
         }
+    }
+    
+    public var gridClippingRect: CGRect
+    {
+        var contentRect = viewPortHandler?.contentRect ?? CGRectZero
+        contentRect.insetInPlace(dx: 0.0, dy: -(self.axis?.gridLineWidth ?? 0.0) / 2.0)
+        return contentRect
     }
     
     private var _gridLineBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
@@ -261,6 +268,10 @@ public class YAxisRenderer: AxisRendererBase
             else { return }
         
         CGContextSaveGState(context)
+        defer { CGContextRestoreGState(context) }
+        var clippingRect = viewPortHandler.contentRect
+        clippingRect.insetInPlace(dx: 0.0, dy: yAxis.zeroLineWidth / 2.0)
+        CGContextClipToRect(context, clippingRect)
         
         CGContextSetStrokeColorWithColor(context, zeroLineColor.CGColor)
         CGContextSetLineWidth(context, yAxis.zeroLineWidth)
@@ -279,8 +290,6 @@ public class YAxisRenderer: AxisRendererBase
         CGContextMoveToPoint(context, viewPortHandler.contentLeft, pos.y - 1.0)
         CGContextAddLineToPoint(context, viewPortHandler.contentRight, pos.y - 1.0)
         CGContextDrawPath(context, CGPathDrawingMode.Stroke)
-        
-        CGContextRestoreGState(context)
     }
     
     private var _limitLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
@@ -314,6 +323,12 @@ public class YAxisRenderer: AxisRendererBase
             {
                 continue
             }
+            
+            CGContextSaveGState(context)
+            defer { CGContextRestoreGState(context) }
+            var clippingRect = viewPortHandler.contentRect
+            clippingRect.insetInPlace(dx: 0.0, dy: -l.lineWidth / 2.0)
+            CGContextClipToRect(context, clippingRect)
             
             position.x = 0.0
             position.y = CGFloat(l.limit)

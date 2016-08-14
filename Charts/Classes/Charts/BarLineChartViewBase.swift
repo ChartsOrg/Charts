@@ -205,10 +205,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             }
         }
         
-        // make sure the graph values and grid cannot be drawn outside the content-rect
-        CGContextSaveGState(context)
-        CGContextClipToRect(context, _viewPortHandler.contentRect)
-        
+        // The renderers are responsible for clipping, to account for line-width center etc.
         _xAxisRenderer?.renderGridLines(context: context)
         _leftYAxisRenderer?.renderGridLines(context: context)
         _rightYAxisRenderer?.renderGridLines(context: context)
@@ -226,6 +223,9 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             _rightYAxisRenderer?.renderLimitLines(context: context)
         }
         
+        // make sure the data cannot be drawn outside the content-rect
+        CGContextSaveGState(context)
+        CGContextClipToRect(context, _viewPortHandler.contentRect)
         renderer?.drawData(context: context)
         
         // if highlighting is enabled
@@ -237,9 +237,6 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         CGContextRestoreGState(context)
         
         renderer!.drawExtras(context: context)
-        
-        CGContextSaveGState(context)
-        CGContextClipToRect(context, _viewPortHandler.contentRect)
         
         if !_xAxis.isDrawLimitLinesBehindDataEnabled
         {
@@ -253,8 +250,6 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         {
             _rightYAxisRenderer?.renderLimitLines(context: context)
         }
-        
-        CGContextRestoreGState(context)
         
         _xAxisRenderer.renderAxisLabels(context: context)
         _leftYAxisRenderer.renderAxisLabels(context: context)

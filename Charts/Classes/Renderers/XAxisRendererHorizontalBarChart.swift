@@ -188,6 +188,13 @@ public class XAxisRendererHorizontalBarChart: XAxisRenderer
             angleRadians: angleRadians)
     }
     
+    public override var gridClippingRect: CGRect
+    {
+        var contentRect = viewPortHandler?.contentRect ?? CGRectZero
+        contentRect.insetInPlace(dx: 0.0, dy: -(self.axis?.gridLineWidth ?? 0.0) / 2.0)
+        return contentRect
+    }
+    
     private var _gridLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
     public override func drawGridLine(context context: CGContext, x: CGFloat, y: CGFloat)
@@ -275,8 +282,6 @@ public class XAxisRendererHorizontalBarChart: XAxisRenderer
             return
         }
         
-        CGContextSaveGState(context)
-        
         let trans = transformer.valueToPixelMatrix
         
         var position = CGPoint(x: 0.0, y: 0.0)
@@ -289,6 +294,12 @@ public class XAxisRendererHorizontalBarChart: XAxisRenderer
             {
                 continue
             }
+            
+            CGContextSaveGState(context)
+            defer { CGContextRestoreGState(context) }
+            var clippingRect = viewPortHandler.contentRect
+            clippingRect.insetInPlace(dx: 0.0, dy: -l.lineWidth / 2.0)
+            CGContextClipToRect(context, clippingRect)
 
             position.x = 0.0
             position.y = CGFloat(l.limit)
@@ -364,7 +375,5 @@ public class XAxisRendererHorizontalBarChart: XAxisRenderer
                 }
             }
         }
-        
-        CGContextRestoreGState(context)
     }
 }

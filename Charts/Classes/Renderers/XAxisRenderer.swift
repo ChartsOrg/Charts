@@ -293,6 +293,8 @@ public class XAxisRenderer: AxisRendererBase
         }
         
         CGContextSaveGState(context)
+        defer { CGContextRestoreGState(context) }
+        CGContextClipToRect(context, self.gridClippingRect)
         
         CGContextSetShouldAntialias(context, xAxis.gridAntialiasEnabled)
         CGContextSetStrokeColorWithColor(context, xAxis.gridColor.CGColor)
@@ -322,8 +324,13 @@ public class XAxisRenderer: AxisRendererBase
             
             drawGridLine(context: context, x: position.x, y: position.y)
         }
-        
-        CGContextRestoreGState(context)
+    }
+    
+    public var gridClippingRect: CGRect
+    {
+        var contentRect = viewPortHandler?.contentRect ?? CGRectZero
+        contentRect.insetInPlace(dx: -(self.axis?.gridLineWidth ?? 0.0) / 2.0, dy: 0.0)
+        return contentRect
     }
     
     public func drawGridLine(context context: CGContext, x: CGFloat, y: CGFloat)
@@ -347,6 +354,7 @@ public class XAxisRenderer: AxisRendererBase
     {
         guard let
             xAxis = self.axis as? ChartXAxis,
+            viewPortHandler = self.viewPortHandler,
             transformer = self.transformer
             else { return }
         
@@ -356,8 +364,6 @@ public class XAxisRenderer: AxisRendererBase
         {
             return
         }
-        
-        CGContextSaveGState(context)
         
         let trans = transformer.valueToPixelMatrix
         
@@ -371,7 +377,13 @@ public class XAxisRenderer: AxisRendererBase
             {
                 continue
             }
-
+            
+            CGContextSaveGState(context)
+            defer { CGContextRestoreGState(context) }
+            var clippingRect = viewPortHandler.contentRect
+            clippingRect.insetInPlace(dx: -l.lineWidth / 2.0, dy: 0.0)
+            CGContextClipToRect(context, clippingRect)
+            
             position.x = CGFloat(l.limit)
             position.y = 0.0
             position = CGPointApplyAffineTransform(position, trans)
@@ -379,8 +391,6 @@ public class XAxisRenderer: AxisRendererBase
             renderLimitLineLine(context: context, limitLine: l, position: position)
             renderLimitLineLabel(context: context, limitLine: l, position: position, yOffset: 2.0 + l.yOffset)
         }
-        
-        CGContextRestoreGState(context)
     }
     
     private var _limitLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())

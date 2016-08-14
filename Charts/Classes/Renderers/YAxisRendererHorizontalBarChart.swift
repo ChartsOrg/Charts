@@ -188,6 +188,13 @@ public class YAxisRendererHorizontalBarChart: YAxisRenderer
         }
     }
     
+    public override var gridClippingRect: CGRect
+    {
+        var contentRect = viewPortHandler?.contentRect ?? CGRectZero
+        contentRect.insetInPlace(dx: -(self.axis?.gridLineWidth ?? 0.0) / 2.0, dy: 0.0)
+        return contentRect
+    }
+    
     private var _gridLineBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
     public override func drawGridLine(
@@ -239,6 +246,10 @@ public class YAxisRendererHorizontalBarChart: YAxisRenderer
             else { return }
         
         CGContextSaveGState(context)
+        defer { CGContextRestoreGState(context) }
+        var clippingRect = viewPortHandler.contentRect
+        clippingRect.insetInPlace(dx: yAxis.zeroLineWidth / 2.0, dy: 0.0)
+        CGContextClipToRect(context, clippingRect)
         
         CGContextSetStrokeColorWithColor(context, zeroLineColor.CGColor)
         CGContextSetLineWidth(context, yAxis.zeroLineWidth)
@@ -257,8 +268,6 @@ public class YAxisRendererHorizontalBarChart: YAxisRenderer
         CGContextMoveToPoint(context, pos.x - 1.0, viewPortHandler.contentTop)
         CGContextAddLineToPoint(context, pos.x - 1.0, viewPortHandler.contentBottom)
         CGContextDrawPath(context, CGPathDrawingMode.Stroke)
-        
-        CGContextRestoreGState(context)
     }
     
     private var _limitLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
@@ -292,6 +301,12 @@ public class YAxisRendererHorizontalBarChart: YAxisRenderer
             {
                 continue
             }
+            
+            CGContextSaveGState(context)
+            defer { CGContextRestoreGState(context) }
+            var clippingRect = viewPortHandler.contentRect
+            clippingRect.insetInPlace(dx: -l.lineWidth / 2.0, dy: 0.0)
+            CGContextClipToRect(context, clippingRect)
             
             position.x = CGFloat(l.limit)
             position.y = 0.0
