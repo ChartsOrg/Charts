@@ -185,6 +185,21 @@ public protocol IChartDataSet
     /// the font for the value-text labels
     var valueFont: NSUIFont { get set }
     
+    /// The form to draw for this dataset in the legend.
+    ///
+    /// Return `.Default` to use the default legend form.
+    var form: ChartLegend.Form { get }
+    
+    /// The form size to draw for this dataset in the legend.
+    ///
+    /// Return `NaN` to use the default legend form size.
+    var formSize: CGFloat { get }
+    
+    /// The line width for drawing the form of this dataset in the legend
+    ///
+    /// Return `NaN` to use the default legend form line width.
+    var formLineWidth: CGFloat { get }
+    
     /// Set this to true to draw y-values on the chart
     var drawValuesEnabled: Bool { get set }
     

@@ -314,6 +314,19 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     /// the font for the value-text labels
     public var valueFont: NSUIFont = NSUIFont.systemFontOfSize(7.0)
     
+    /// The form to draw for this dataset in the legend.
+    public var form = ChartLegend.Form.Default
+    
+    /// The form size to draw for this dataset in the legend.
+    ///
+    /// Return `NaN` to use the default legend form size.
+    public var formSize: CGFloat = CGFloat.NaN
+    
+    /// The line width for drawing the form of this dataset in the legend
+    ///
+    /// Return `NaN` to use the default legend form line width.
+    public var formLineWidth: CGFloat = CGFloat.NaN
+    
     /// Set this to true to draw y-values on the chart
     public var drawValuesEnabled = true
     

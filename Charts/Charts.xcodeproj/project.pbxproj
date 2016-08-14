@@ -174,6 +174,7 @@
 		5BD4C5821BCDBF6C00462351 /* ScatterChartDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD4C57B1BCDBF6C00462351 /* ScatterChartDataProvider.swift */; };
 		5BD8F06D1AB897D500566E05 /* ViewPortHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BD8F06C1AB897D500566E05 /* ViewPortHandler.swift */; };
 		5BD8F06E1AB89AD800566E05 /* HorizontalBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B6A54A01AA66B6A000F57C2 /* HorizontalBarChartView.swift */; };
+		5BDFEF241D6093F0000A869A /* LegendEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDFEF231D6093F0000A869A /* LegendEntry.swift */; };
 		5BE377E01D44A17A006EB34F /* IAxisValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE377DF1D44A17A006EB34F /* IAxisValueFormatter.swift */; };
 		5BE377E91D44D6D0006EB34F /* ChartDataEntryBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE377E81D44D6D0006EB34F /* ChartDataEntryBase.swift */; };
 		5BE377EA1D44D6D0006EB34F /* ChartDataEntryBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE377E81D44D6D0006EB34F /* ChartDataEntryBase.swift */; };
@@ -539,6 +540,7 @@
 		5BD4C57A1BCDBF6C00462351 /* LineChartDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartDataProvider.swift; sourceTree = "<group>"; };
 		5BD4C57B1BCDBF6C00462351 /* ScatterChartDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScatterChartDataProvider.swift; sourceTree = "<group>"; };
 		5BD8F06C1AB897D500566E05 /* ViewPortHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewPortHandler.swift; sourceTree = "<group>"; };
+		5BDFEF231D6093F0000A869A /* LegendEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegendEntry.swift; sourceTree = "<group>"; };
 		5BE377DF1D44A17A006EB34F /* IAxisValueFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAxisValueFormatter.swift; sourceTree = "<group>"; };
 		5BE377E81D44D6D0006EB34F /* ChartDataEntryBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartDataEntryBase.swift; sourceTree = "<group>"; };
 		659400871BF463C1004F9C27 /* BarChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartData.swift; sourceTree = "<group>"; };
@@ -808,6 +810,7 @@
 				5B6556F61AB72BA000FFBFD3 /* ChartComponentBase.swift */,
 				5BA8EC6B1A9D151C00CE82E1 /* ChartLegend.swift */,
 				5BA8EC6C1A9D151C00CE82E1 /* ChartLimitLine.swift */,
+				5BDFEF231D6093F0000A869A /* LegendEntry.swift */,
 				5B6A546A1AA5C23F000F57C2 /* IMarker.swift */,
 				5B613DAE1D526BBF000F1E98 /* MarkerImage.swift */,
 				5B613DAA1D526B60000F1E98 /* MarkerView.swift */,
@@ -1200,6 +1203,7 @@
 				5B4AC1CA1C58A2B90028D1A6 /* Fill.swift in Sources */,
 				65B3F6321C739F7F000983D0 /* Platform.swift in Sources */,
 				5BD4C5811BCDBF6C00462351 /* LineChartDataProvider.swift in Sources */,
+				5BDFEF241D6093F0000A869A /* LegendEntry.swift in Sources */,
 				659400AC1BF463C1004F9C27 /* BubbleChartDataEntry.swift in Sources */,
 				5B613DE91D5A069F000F1E98 /* DefaultValueFormatter.swift in Sources */,
 				5B6A54851AA669C9000F57C2 /* ScatterChartRenderer.swift in Sources */,

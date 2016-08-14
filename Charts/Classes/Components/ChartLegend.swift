@@ -42,8 +42,22 @@ public class ChartLegend: ChartComponentBase
     @objc(ChartLegendForm)
     public enum Form: Int
     {
+        /// Avoid drawing a form
+        case None
+        
+        /// Do not draw the a form, but leave space for it
+        case Empty
+        
+        /// Use default (default dataset's form to the legend's form)
+        case Default
+        
+        /// Draw a square
         case Square
+        
+        /// Draw a circle
         case Circle
+        
+        /// Draw a horizontal line
         case Line
     }
     
@@ -76,21 +90,13 @@ public class ChartLegend: ChartComponentBase
         case LeftToRight
         case RightToLeft
     }
-
-    /// the legend colors array, each color is for the form drawn at the same index
-    public var colors = [NSUIColor?]()
     
-    // the legend text array. a nil label will start a group.
-    public var labels = [String?]()
+    /// The legend entries array
+    public var entries = [LegendEntry]()
     
-    internal var _extraColors = [NSUIColor?]()
-    internal var _extraLabels = [String?]()
-    
-    /// colors that will be appended to the end of the colors array after calculating the legend.
-    public var extraColors: [NSUIColor?] { return _extraColors; }
-    
-    /// labels that will be appended to the end of the labels array after calculating the legend. a nil label will start a group.
-    public var extraLabels: [String?] { return _extraLabels; }
+    /// Entries that will be appended to the end of the auto calculated entries after calculating the legend.
+    /// (if the legend has already been calculated, you will need to call notifyDataSetChanged() to let the changes take effect)
+    public var extraEntries = [LegendEntry]()
     
     /// Are the legend labels/colors a custom value or auto calculated? If false, then it's auto, if true, then custom.
     /// 
@@ -193,8 +199,13 @@ public class ChartLegend: ChartComponentBase
     public var font: NSUIFont = NSUIFont.systemFontOfSize(10.0)
     public var textColor = NSUIColor.blackColor()
 
+    /// The form/shape of the legend forms
     public var form = Form.Square
+    
+    /// The size of the legend forms
     public var formSize = CGFloat(8.0)
+    
+    /// The line width for forms that consist of lines
     public var formLineWidth = CGFloat(1.5)
     
     public var xEntrySpace = CGFloat(6.0)
@@ -214,20 +225,11 @@ public class ChartLegend: ChartComponentBase
         self.yOffset = 3.0
     }
     
-    public init(colors: [NSUIColor?], labels: [String?])
+    public init(entries: [LegendEntry])
     {
         super.init()
         
-        self.colors = colors
-        self.labels = labels
-    }
-    
-    public init(colors: [NSObject], labels: [NSObject])
-    {
-        super.init()
-        
-        self.colorsObjc = colors
-        self.labelsObjc = labels
+        self.entries = entries
     }
     
     public func getMaximumEntrySize(font: NSUIFont) -> CGSize
@@ -235,15 +237,20 @@ public class ChartLegend: ChartComponentBase
         var maxW = CGFloat(0.0)
         var maxH = CGFloat(0.0)
         
-        var labels = self.labels
-        for i in 0 ..< labels.count
+        var maxFormSize: CGFloat = 0.0
+
+        for entry in entries
         {
-            if (labels[i] == nil)
+            let formSize = isnan(entry.formSize) ? self.formSize : entry.formSize
+            if formSize > maxFormSize
             {
-                continue
+                maxFormSize = formSize
             }
             
-            let size = (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: font])
+            guard let label = entry.label
+                else { continue }
+            
+            let size = (label as NSString!).sizeWithAttributes([NSFontAttributeName: font])
             
             if (size.width > maxW)
             {
@@ -256,14 +263,9 @@ public class ChartLegend: ChartComponentBase
         }
         
         return CGSize(
-            width: maxW + formSize + formToTextSpace,
+            width: maxW + maxFormSize + formToTextSpace,
             height: maxH
         )
-    }
-    
-    public func getLabel(index: Int) -> String?
-    {
-        return labels[index]
     }
 
     public var neededWidth = CGFloat(0.0)
@@ -291,6 +293,15 @@ public class ChartLegend: ChartComponentBase
     public func calculateDimensions(labelFont labelFont: NSUIFont, viewPortHandler: ViewPortHandler)
     {
         let maxEntrySize = getMaximumEntrySize(labelFont)
+        let defaultFormSize = self.formSize
+        let stackSpace = self.stackSpace
+        let formToTextSpace = self.formToTextSpace
+        let xEntrySpace = self.xEntrySpace
+        let yEntrySpace = self.yEntrySpace
+        let wordWrapEnabled = self.wordWrapEnabled
+        let entries = self.entries
+        let entryCount = entries.count
+        
         textWidthMax = maxEntrySize.width
         textHeightMax = maxEntrySize.height
         
@@ -303,13 +314,14 @@ public class ChartLegend: ChartComponentBase
             var maxHeight = CGFloat(0.0)
             let labelLineHeight = labelFont.lineHeight
             
-            var labels = self.labels
-            let count = labels.count
             var wasStacked = false
             
-            for i in 0 ..< count
+            for i in 0 ..< entryCount
             {
-                let drawingForm = colors[i] != nil
+                let e = entries[i]
+                let drawingForm = e.form != .None
+                let formSize = isnan(e.formSize) ? defaultFormSize : e.formSize
+                let label = e.label
                 
                 if !wasStacked
                 {
@@ -325,9 +337,9 @@ public class ChartLegend: ChartComponentBase
                     width += formSize
                 }
                 
-                if labels[i] != nil
+                if label != nil
                 {
-                    let size = (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont])
+                    let size = (label as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont])
                     
                     if drawingForm && !wasStacked
                     {
@@ -343,7 +355,7 @@ public class ChartLegend: ChartComponentBase
                     
                     width += size.width
                     
-                    if (i < count - 1)
+                    if i < entryCount - 1
                     {
                         maxHeight += labelLineHeight + yEntrySpace
                     }
@@ -353,7 +365,7 @@ public class ChartLegend: ChartComponentBase
                     wasStacked = true
                     width += formSize
                     
-                    if (i < count - 1)
+                    if i < entryCount - 1
                     {
                         width += stackSpace
                     }
@@ -367,28 +379,19 @@ public class ChartLegend: ChartComponentBase
             
         case .Horizontal:
             
-            var labels = self.labels
-            var colors = self.colors
-            let labelCount = labels.count
-            
             let labelLineHeight = labelFont.lineHeight
-            let formSize = self.formSize
-            let formToTextSpace = self.formToTextSpace
-            let xEntrySpace = self.xEntrySpace
-            let stackSpace = self.stackSpace
-            let wordWrapEnabled = self.wordWrapEnabled
             
             let contentWidth: CGFloat = viewPortHandler.contentWidth * maxSizePercent
             
             // Prepare arrays for calculated layout
-            if (calculatedLabelSizes.count != labelCount)
+            if (calculatedLabelSizes.count != entryCount)
             {
-                calculatedLabelSizes = [CGSize](count: labelCount, repeatedValue: CGSize())
+                calculatedLabelSizes = [CGSize](count: entryCount, repeatedValue: CGSize())
             }
             
-            if (calculatedLabelBreakPoints.count != labelCount)
+            if (calculatedLabelBreakPoints.count != entryCount)
             {
-                calculatedLabelBreakPoints = [Bool](count: labelCount, repeatedValue: false)
+                calculatedLabelBreakPoints = [Bool](count: entryCount, repeatedValue: false)
             }
             
             calculatedLineSizes.removeAll(keepCapacity: true)
@@ -401,9 +404,11 @@ public class ChartLegend: ChartComponentBase
             var requiredWidth: CGFloat = 0.0
             var stackedStartIndex: Int = -1
             
-            for i in 0 ..< labelCount
+            for i in 0 ..< entryCount
             {
-                let drawingForm = colors[i] != nil
+                let e = entries[i]
+                let drawingForm = e.form != .None
+                let label = e.label
                 
                 calculatedLabelBreakPoints[i] = false
                 
@@ -419,9 +424,9 @@ public class ChartLegend: ChartComponentBase
                 }
                 
                 // grouped forms have null labels
-                if (labels[i] != nil)
+                if label != nil
                 {
-                    calculatedLabelSizes[i] = (labels[i] as NSString!).sizeWithAttributes(labelAttrs)
+                    calculatedLabelSizes[i] = (label as NSString!).sizeWithAttributes(labelAttrs)
                     requiredWidth += drawingForm ? formToTextSpace + formSize : 0.0
                     requiredWidth += calculatedLabelSizes[i].width
                 }
@@ -437,7 +442,7 @@ public class ChartLegend: ChartComponentBase
                     }
                 }
                 
-                if (labels[i] != nil || i == labelCount - 1)
+                if label != nil || i == entryCount - 1
                 {
                     let requiredSpacing = currentLineWidth == 0.0 ? 0.0 : xEntrySpace
                     
@@ -460,14 +465,14 @@ public class ChartLegend: ChartComponentBase
                         currentLineWidth = requiredWidth
                     }
                     
-                    if (i == labelCount - 1)
+                    if (i == entryCount - 1)
                     { // Add last line size to array
                         calculatedLineSizes.append(CGSize(width: currentLineWidth, height: labelLineHeight))
                         maxLineWidth = max(maxLineWidth, currentLineWidth)
                     }
                 }
                 
-                stackedStartIndex = labels[i] != nil ? -1 : stackedStartIndex
+                stackedStartIndex = label != nil ? -1 : stackedStartIndex
             }
             
             neededWidth = maxLineWidth
@@ -481,94 +486,362 @@ public class ChartLegend: ChartComponentBase
     
     /// MARK: - Custom legend
     
-    /// colors and labels that will be appended to the end of the auto calculated colors and labels after calculating the legend.
-    /// (if the legend has already been calculated, you will need to call notifyDataSetChanged() to let the changes take effect)
-    public func setExtra(colors colors: [NSUIColor?], labels: [String?])
-    {
-        self._extraLabels = labels
-        self._extraColors = colors
-    }
-    
-    /// Sets a custom legend's labels and colors arrays.
-    /// The colors count should match the labels count.
-    /// * Each color is for the form drawn at the same index.
+    /// Sets a custom legend's entries array.
     /// * A nil label will start a group.
-    /// * A nil color will avoid drawing a form, and a clearColor will leave a space for the form.
-    /// This will disable the feature that automatically calculates the legend labels and colors from the datasets.
+    /// This will disable the feature that automatically calculates the legend entries from the datasets.
     /// Call `resetCustom(...)` to re-enable automatic calculation (and then `notifyDataSetChanged()` is needed).
-    public func setCustom(colors colors: [NSUIColor?], labels: [String?])
+    public func setCustom(entries entries: [LegendEntry])
     {
-        self.labels = labels
-        self.colors = colors
+        self.entries = entries
         _isLegendCustom = true
     }
     
-    /// Calling this will disable the custom legend labels (set by `setLegend(...)`). Instead, the labels will again be calculated automatically (after `notifyDataSetChanged()` is called).
+    /// Calling this will disable the custom legend entries (set by `setLegend(...)`). Instead, the entries will again be calculated automatically (after `notifyDataSetChanged()` is called).
     public func resetCustom()
     {
         _isLegendCustom = false
     }
     
     /// **default**: false (automatic legend)
-    /// - returns: `true` if a custom legend labels and colors has been set
+    /// - returns: `true` if a custom legend entries has been set
     public var isLegendCustom: Bool
     {
         return _isLegendCustom
     }
     
-    /// MARK: - ObjC compatibility
+    // MARK: - Deprecated stuff
     
-    /// colors that will be appended to the end of the colors array after calculating the legend.
-    public var extraColorsObjc: [NSObject] { return ChartUtils.bridgedObjCGetNSUIColorArray(swift: _extraColors); }
+    /// This property is deprecated - Use `entries`.
+    @available(*, deprecated=1.0, message="Use `entries`.")
+    public var colors: [NSUIColor?]
+    {
+        get
+        {
+            var old = [NSUIColor?]()
+            for e in entries
+            {
+                old.append(
+                    e.form == .None ? nil :
+                        (e.form == .Empty ? NSUIColor.clearColor() :
+                        e.formColor))
+            }
+            return old
+        }
+        set
+        {
+            for i in 0 ..< newValue.count
+            {
+                if entries.count <= i
+                {
+                    entries.append(LegendEntry())
+                }
+                entries[i].formColor = newValue[i]
+                
+                if newValue[i] == nil
+                {
+                    entries[i].form = .None
+                }
+                else if newValue[i] == NSUIColor.clearColor()
+                {
+                    entries[i].form = .Empty
+                }
+            }
+        }
+    }
     
-    /// labels that will be appended to the end of the labels array after calculating the legend. a nil label will start a group.
-    public var extraLabelsObjc: [NSObject] { return ChartUtils.bridgedObjCGetStringArray(swift: _extraLabels); }
+    /// This property is deprecated - Use `entries`.
+    @available(*, deprecated=1.0, message="Use `entries`.")
+    public var labels: [String?]
+    {
+        get
+        {
+            var old = [String?]()
+            for e in entries
+            {
+                old.append(e.label)
+            }
+            return old
+        }
+        set
+        {
+            for i in 0 ..< newValue.count
+            {
+                if entries.count <= i
+                {
+                    entries.append(LegendEntry())
+                }
+                entries[i].label = newValue[i]
+            }
+        }
+    }
     
-    /// the legend colors array, each color is for the form drawn at the same index
-    /// (ObjC bridging functions, as Swift 1.2 does not bridge optionals in array to `NSNull`s)
+    
+    /// This property is deprecated - Use `extraEntries`.
+    @available(*, deprecated=1.0, message="Use `extraEntries`.")
+    public var extraColors: [NSUIColor?]
+    {
+        get
+        {
+            var old = [NSUIColor?]()
+            for e in extraEntries
+            {
+                old.append(
+                    e.form == .None ? nil :
+                        (e.form == .Empty ? NSUIColor.clearColor() :
+                            e.formColor))
+            }
+            return old
+        }
+        set
+        {
+            if extraEntries.count > newValue.count
+            {
+                extraEntries.removeRange(newValue.count ..< extraEntries.count)
+            }
+            
+            for i in 0 ..< newValue.count
+            {
+                extraEntries[i].formColor = newValue[i]
+                
+                if newValue[i] == nil
+                {
+                    extraEntries[i].form = .None
+                }
+                else if newValue[i] == NSUIColor.clearColor()
+                {
+                    extraEntries[i].form = .Empty
+                }
+            }
+        }
+    }
+    
+    /// This property is deprecated - Use `extraEntries`.
+    @available(*, deprecated=1.0, message="Use `extraEntries`.")
+    public var extraLabels: [String?]
+    {
+        get
+        {
+            var old = [String?]()
+            for e in extraEntries
+            {
+                old.append(e.label)
+            }
+            return old
+        }
+        set
+        {
+            if extraEntries.count > newValue.count
+            {
+                extraEntries.removeRange(newValue.count ..< extraEntries.count)
+            }
+            
+            for i in 0 ..< newValue.count
+            {
+                extraEntries[i].label = newValue[i]
+            }
+        }
+    }
+    
+    /// This constructor is deprecated - Use `init(entries:)`
+    @available(*, deprecated=1.0, message="Use `init(entries:)`")
+    public init(colors: [NSUIColor?], labels: [String?])
+    {
+        super.init()
+        
+        var entries = [LegendEntry]()
+        
+        for i in 0 ..< min(colors.count, labels.count)
+        {
+            let entry = LegendEntry()
+            entry.formColor = colors[i]
+            entry.label = labels[i]
+            
+            if entry.formColor == nil
+            {
+                entry.form = .None
+            }
+            else if entry.formColor == NSUIColor.clearColor()
+            {
+                entry.form = .Empty
+            }
+            
+            entries.append(entry)
+        }
+        
+        self.entries = entries
+    }
+    
+    /// This constructor is deprecated - Use `init(entries:)`
+    @available(*, deprecated=1.0, message="Use `init(entries:)`")
+    public init(colors: [NSObject], labels: [NSObject])
+    {
+        super.init()
+        
+        var entries = [LegendEntry]()
+        
+        for i in 0 ..< min(colors.count, labels.count)
+        {
+            let entry = LegendEntry()
+            entry.formColor = colors[i] as? NSUIColor
+            entry.label = labels[i] as? String
+            
+            if entry.formColor == nil
+            {
+                entry.form = .None
+            }
+            else if entry.formColor == NSUIColor.clearColor()
+            {
+                entry.form = .Empty
+            }
+            
+            entries.append(entry)
+        }
+        
+        self.entries = entries
+    }
+    
+    /// This property is deprecated - Use `extraEntries`
+    @available(*, deprecated=1.0, message="Use `extraEntries`")
+    public var extraColorsObjc: [NSObject]
+    {
+        return ChartUtils.bridgedObjCGetNSUIColorArray(swift: extraColors)
+    }
+    
+    /// This property is deprecated - Use `extraLabels`
+    @available(*, deprecated=1.0, message="Use `extraLabels`")
+    public var extraLabelsObjc: [NSObject]
+    {
+        return ChartUtils.bridgedObjCGetStringArray(swift: extraLabels)
+    }
+    
+    /// This property is deprecated - Use `colors`
+    @available(*, deprecated=1.0, message="Use `colors`")
     public var colorsObjc: [NSObject]
     {
-        get { return ChartUtils.bridgedObjCGetNSUIColorArray(swift: colors); }
-        set { self.colors = ChartUtils.bridgedObjCGetNSUIColorArray(objc: newValue); }
+        get { return ChartUtils.bridgedObjCGetNSUIColorArray(swift: colors) }
+        set { self.colors = ChartUtils.bridgedObjCGetNSUIColorArray(objc: newValue) }
     }
     
-    // the legend text array. a nil label will start a group.
-    /// (ObjC bridging functions, as Swift 1.2 does not bridge optionals in array to `NSNull`s)
+    /// This property is deprecated - Use `labels`
+    @available(*, deprecated=1.0, message="Use `labels`")
     public var labelsObjc: [NSObject]
     {
-        get { return ChartUtils.bridgedObjCGetStringArray(swift: labels); }
-        set { self.labels = ChartUtils.bridgedObjCGetStringArray(objc: newValue); }
+        get { return ChartUtils.bridgedObjCGetStringArray(swift: labels) }
+        set { self.labels = ChartUtils.bridgedObjCGetStringArray(objc: newValue) }
     }
     
-    /// colors and labels that will be appended to the end of the auto calculated colors and labels after calculating the legend.
-    /// (if the legend has already been calculated, you will need to call `notifyDataSetChanged()` to let the changes take effect)
+    /// This function is deprecated - Use `entries`
+    @available(*, deprecated=1.0, message="Use `entries`")
+    public func getLabel(index: Int) -> String?
+    {
+        return entries[index].label
+    }
+    
+    /// This function is deprecated - Use `Use `extra(entries:)`
+    @available(*, deprecated=1.0, message="Use `extra(entries:)`")
+    public func setExtra(colors colors: [NSUIColor?], labels: [String?])
+    {
+        var entries = [LegendEntry]()
+        
+        for i in 0 ..< min(colors.count, labels.count)
+        {
+            let entry = LegendEntry()
+            entry.formColor = colors[i]
+            entry.label = labels[i]
+            
+            if entry.formColor == nil
+            {
+                entry.form = .None
+            }
+            else if entry.formColor == NSUIColor.clearColor()
+            {
+                entry.form = .Empty
+            }
+            
+            entries.append(entry)
+        }
+        
+        self.extraEntries = entries
+    }
+    
+    /// This function is deprecated - Use `Use `extra(entries:)`
+    @available(*, deprecated=1.0, message="Use `extra(entries:)`")
     public func setExtra(colors colors: [NSObject], labels: [NSObject])
     {
-        if (colors.count != labels.count)
+        var entries = [LegendEntry]()
+        
+        for i in 0 ..< min(colors.count, labels.count)
         {
-            fatalError("ChartLegend:setExtra() - colors array and labels array need to be of same size")
+            let entry = LegendEntry()
+            entry.formColor = colors[i] as? NSUIColor
+            entry.label = labels[i] as? String
+            
+            if entry.formColor == nil
+            {
+                entry.form = .None
+            }
+            else if entry.formColor == NSUIColor.clearColor()
+            {
+                entry.form = .Empty
+            }
+            
+            entries.append(entry)
         }
         
-        self._extraLabels = ChartUtils.bridgedObjCGetStringArray(objc: labels)
-        self._extraColors = ChartUtils.bridgedObjCGetNSUIColorArray(objc: colors)
+        self.extraEntries = entries
     }
     
-    /// Sets a custom legend's labels and colors arrays.
-    /// The colors count should match the labels count.
-    /// * Each color is for the form drawn at the same index.
-    /// * A nil label will start a group.
-    /// * A nil color will avoid drawing a form, and a clearColor will leave a space for the form.
-    /// This will disable the feature that automatically calculates the legend labels and colors from the datasets.
-    /// Call `resetLegendToAuto(...)` to re-enable automatic calculation, and then if needed - call `notifyDataSetChanged()` on the chart to make it refresh the data.
-    public func setCustom(colors colors: [NSObject], labels: [NSObject])
+    /// This function is deprecated - Use `Use `setCustom(entries:)`
+    @available(*, deprecated=1.0, message="Use `setCustom(entries:)`")
+    public func setCustom(colors colors: [NSUIColor?], labels: [String?])
     {
-        if (colors.count != labels.count)
+        var entries = [LegendEntry]()
+        
+        for i in 0 ..< min(colors.count, labels.count)
         {
-            fatalError("ChartLegend:setCustom() - colors array and labels array need to be of same size")
+            let entry = LegendEntry()
+            entry.formColor = colors[i]
+            entry.label = labels[i]
+            
+            if entry.formColor == nil
+            {
+                entry.form = .None
+            }
+            else if entry.formColor == NSUIColor.clearColor()
+            {
+                entry.form = .Empty
+            }
+            
+            entries.append(entry)
         }
         
-        self.labelsObjc = labels
-        self.colorsObjc = colors
-        _isLegendCustom = true
+        setCustom(entries: entries)
+    }
+    
+    /// This function is deprecated - Use `Use `setCustom(entries:)`
+    @available(*, deprecated=1.0, message="Use `setCustom(entries:)`")
+    public func setCustom(colors colors: [NSObject], labels: [NSObject])
+    {
+        var entries = [LegendEntry]()
+        
+        for i in 0 ..< min(colors.count, labels.count)
+        {
+            let entry = LegendEntry()
+            entry.formColor = colors[i] as? NSUIColor
+            entry.label = labels[i] as? String
+            
+            if entry.formColor == nil
+            {
+                entry.form = .None
+            }
+            else if entry.formColor == NSUIColor.clearColor()
+            {
+                entry.form = .Empty
+            }
+            
+            entries.append(entry)
+        }
+        
+        setCustom(entries: entries)
     }
 }

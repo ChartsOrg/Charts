@@ -39,8 +39,7 @@ public class LegendRenderer: Renderer
         
         if (!legend.isLegendCustom)
         {
-            var labels = [String?]()
-            var colors = [NSUIColor?]()
+            var entries: [LegendEntry] = []
             
             // loop for building up the colors and labels used in the legend
             for i in 0..<data.dataSetCount
@@ -58,15 +57,30 @@ public class LegendRenderer: Renderer
                     
                     for j in 0..<min(clrs.count, bds.stackSize)
                     {
-                        labels.append(sLabels[j % sLabels.count])
-                        colors.append(clrs[j])
+                        entries.append(
+                            LegendEntry(
+                                label: sLabels[j % sLabels.count],
+                                form: dataSet.form,
+                                formSize: dataSet.formSize,
+                                formLineWidth: dataSet.formLineWidth,
+                                formColor: clrs[j]
+                            )
+                        )
                     }
                     
-                    if (bds.label != nil)
+                    if dataSet.label != nil
                     {
                         // add the legend description label
-                        colors.append(nil)
-                        labels.append(bds.label)
+                        
+                        entries.append(
+                            LegendEntry(
+                                label: dataSet.label,
+                                form: .None,
+                                formSize: CGFloat.NaN,
+                                formLineWidth: CGFloat.NaN,
+                                formColor: nil
+                            )
+                        )
                     }
                 }
                 else if (dataSet is IPieChartDataSet)
@@ -75,47 +89,88 @@ public class LegendRenderer: Renderer
                     
                     for j in 0..<min(clrs.count, entryCount)
                     {
-                        labels.append((pds.entryForIndex(j) as? PieChartDataEntry)?.label)
-                        colors.append(clrs[j])
+                        entries.append(
+                            LegendEntry(
+                                label: (pds.entryForIndex(j) as? PieChartDataEntry)?.label,
+                                form: dataSet.form,
+                                formSize: dataSet.formSize,
+                                formLineWidth: dataSet.formLineWidth,
+                                formColor: clrs[j]
+                            )
+                        )
                     }
                     
-                    if (pds.label != nil)
+                    if dataSet.label != nil
                     {
                         // add the legend description label
-                        colors.append(nil)
-                        labels.append(pds.label)
+                        
+                        entries.append(
+                            LegendEntry(
+                                label: dataSet.label,
+                                form: .None,
+                                formSize: CGFloat.NaN,
+                                formLineWidth: CGFloat.NaN,
+                                formColor: nil
+                            )
+                        )
                     }
                 }
                 else if (dataSet is ICandleChartDataSet
                     && (dataSet as! ICandleChartDataSet).decreasingColor != nil)
                 {
-                    colors.append((dataSet as! ICandleChartDataSet).decreasingColor)
-                    colors.append((dataSet as! ICandleChartDataSet).increasingColor)
-                    labels.append(nil)
-                    labels.append(dataSet.label)
+                    let candleDataSet = dataSet as! ICandleChartDataSet
+                    
+                    entries.append(
+                        LegendEntry(
+                            label: nil,
+                            form: dataSet.form,
+                            formSize: dataSet.formSize,
+                            formLineWidth: dataSet.formLineWidth,
+                            formColor: candleDataSet.decreasingColor
+                        )
+                    )
+                    
+                    entries.append(
+                        LegendEntry(
+                            label: dataSet.label,
+                            form: dataSet.form,
+                            formSize: dataSet.formSize,
+                            formLineWidth: dataSet.formLineWidth,
+                            formColor: candleDataSet.increasingColor
+                        )
+                    )
                 }
                 else
                 { // all others
                     
                     for j in 0..<min(clrs.count, entryCount)
                     {
+                        let label: String?
+                        
                         // if multiple colors are set for a DataSet, group them
                         if (j < clrs.count - 1 && j < entryCount - 1)
                         {
-                            labels.append(nil)
+                            label = nil
                         }
                         else
                         { // add label to the last entry
-                            labels.append(dataSet.label)
+                            label = dataSet.label
                         }
                         
-                        colors.append(clrs[j])
+                        entries.append(
+                            LegendEntry(
+                                label: label,
+                                form: dataSet.form,
+                                formSize: dataSet.formSize,
+                                formLineWidth: dataSet.formLineWidth,
+                                formColor: clrs[j]
+                            )
+                        )
                     }
                 }
             }
             
-            legend.colors = colors + legend._extraColors
-            legend.labels = labels + legend._extraLabels
+            legend.entries = entries + legend.extraEntries
         }
         
         // calculate all dimensions of the legend
@@ -139,10 +194,9 @@ public class LegendRenderer: Renderer
         let labelLineHeight = labelFont.lineHeight
         let formYOffset = labelLineHeight / 2.0
 
-        var labels = legend.labels
-        var colors = legend.colors
+        var entries = legend.entries
         
-        let formSize = legend.formSize
+        let defaultFormSize = legend.formSize
         let formToTextSpace = legend.formToTextSpace
         let xEntrySpace = legend.xEntrySpace
         let yEntrySpace = legend.yEntrySpace
@@ -244,8 +298,12 @@ public class LegendRenderer: Renderer
             
             var lineIndex: Int = 0
             
-            for i in 0..<labels.count
+            for i in 0 ..< entries.count
             {
+                let e = entries[i]
+                let drawingForm = e.form != .None
+                let formSize = isnan(e.formSize) ? defaultFormSize : e.formSize
+                
                 if (i < calculatedLabelBreakPoints.count && calculatedLabelBreakPoints[i])
                 {
                     posX = originPosX
@@ -262,17 +320,21 @@ public class LegendRenderer: Renderer
                     lineIndex += 1
                 }
                 
-                let drawingForm = colors[i] != nil
-                let isStacked = labels[i] == nil // grouped forms have null labels
+                let isStacked = e.label == nil // grouped forms have null labels
                 
-                if (drawingForm)
+                if drawingForm
                 {
                     if (direction == .RightToLeft)
                     {
                         posX -= formSize
                     }
                     
-                    drawForm(context: context, x: posX, y: posY + formYOffset, colorIndex: i, legend: legend)
+                    drawForm(
+                        context: context,
+                        x: posX,
+                        y: posY + formYOffset,
+                        entry: e,
+                        legend: legend)
                     
                     if (direction == .LeftToRight)
                     {
@@ -292,7 +354,13 @@ public class LegendRenderer: Renderer
                         posX -= calculatedLabelSizes[i].width
                     }
                     
-                    drawLabel(context: context, x: posX, y: posY, label: labels[i]!, font: labelFont, textColor: labelTextColor)
+                    drawLabel(
+                        context: context,
+                        x: posX,
+                        y: posY,
+                        label: e.label!,
+                        font: labelFont,
+                        textColor: labelTextColor)
                     
                     if (direction == .LeftToRight)
                     {
@@ -334,9 +402,12 @@ public class LegendRenderer: Renderer
                 posY = viewPortHandler.chartHeight / 2.0 - legend.neededHeight / 2.0 + legend.yOffset
             }
             
-            for i in 0..<labels.count
+            for i in 0 ..< entries.count
             {
-                let drawingForm = colors[i] != nil
+                let e = entries[i]
+                let drawingForm = e.form != .None
+                let formSize = isnan(e.formSize) ? defaultFormSize : e.formSize
+                
                 var posX = originPosX
                 
                 if (drawingForm)
@@ -350,7 +421,12 @@ public class LegendRenderer: Renderer
                         posX -= formSize - stack
                     }
                     
-                    drawForm(context: context, x: posX, y: posY + formYOffset, colorIndex: i, legend: legend)
+                    drawForm(
+                        context: context,
+                        x: posX,
+                        y: posY + formYOffset,
+                        entry: e,
+                        legend: legend)
                     
                     if (direction == .LeftToRight)
                     {
@@ -358,7 +434,7 @@ public class LegendRenderer: Renderer
                     }
                 }
                 
-                if (labels[i] != nil)
+                if (e.label != nil)
                 {
                     if (drawingForm && !wasStacked)
                     {
@@ -371,17 +447,17 @@ public class LegendRenderer: Renderer
                     
                     if (direction == .RightToLeft)
                     {
-                        posX -= (labels[i] as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width
+                        posX -= (e.label as NSString!).sizeWithAttributes([NSFontAttributeName: labelFont]).width
                     }
                     
                     if (!wasStacked)
                     {
-                        drawLabel(context: context, x: posX, y: posY, label: labels[i]!, font: labelFont, textColor: labelTextColor)
+                        drawLabel(context: context, x: posX, y: posY, label: e.label!, font: labelFont, textColor: labelTextColor)
                     }
                     else
                     {
                         posY += labelLineHeight + yEntrySpace
-                        drawLabel(context: context, x: posX, y: posY, label: labels[i]!, font: labelFont, textColor: labelTextColor)
+                        drawLabel(context: context, x: posX, y: posY, label: e.label!, font: labelFont, textColor: labelTextColor)
                     }
                     
                     // make a step down
@@ -400,33 +476,59 @@ public class LegendRenderer: Renderer
     private var _formLineSegmentsBuffer = [CGPoint](count: 2, repeatedValue: CGPoint())
     
     /// Draws the Legend-form at the given position with the color at the given index.
-    public func drawForm(context context: CGContext, x: CGFloat, y: CGFloat, colorIndex: Int, legend: ChartLegend)
+    public func drawForm(
+        context context: CGContext,
+                x: CGFloat,
+                y: CGFloat,
+                entry: LegendEntry,
+                legend: ChartLegend)
     {
-        guard let formColor = legend.colors[colorIndex] where formColor != NSUIColor.clearColor() else {
-            return
+        guard let formColor = entry.formColor
+            where formColor != NSUIColor.clearColor()
+            else { return }
+        
+        var form = entry.form
+        if form == .Default
+        {
+            form = legend.form
         }
         
-        let formsize = legend.formSize
+        let formSize = isnan(entry.formSize) ? legend.formSize : entry.formSize
         
         CGContextSaveGState(context)
         defer { CGContextRestoreGState(context) }
         
-        switch (legend.form)
+        switch form
         {
+        case .None:
+            // Do nothing
+            break
+            
+        case .Empty:
+            // Do not draw, but keep space for the form
+            break
+            
+        case .Default: fallthrough
         case .Circle:
+            
             CGContextSetFillColorWithColor(context, formColor.CGColor)
-            CGContextFillEllipseInRect(context, CGRect(x: x, y: y - formsize / 2.0, width: formsize, height: formsize))
+            CGContextFillEllipseInRect(context, CGRect(x: x, y: y - formSize / 2.0, width: formSize, height: formSize))
+            
         case .Square:
+            
             CGContextSetFillColorWithColor(context, formColor.CGColor)
-            CGContextFillRect(context, CGRect(x: x, y: y - formsize / 2.0, width: formsize, height: formsize))
+            CGContextFillRect(context, CGRect(x: x, y: y - formSize / 2.0, width: formSize, height: formSize))
+            
         case .Line:
             
-            CGContextSetLineWidth(context, legend.formLineWidth)
+            let formLineWidth = isnan(entry.formLineWidth) ? legend.formLineWidth : entry.formLineWidth
+            
+            CGContextSetLineWidth(context, formLineWidth)
             CGContextSetStrokeColorWithColor(context, formColor.CGColor)
             
             _formLineSegmentsBuffer[0].x = x
             _formLineSegmentsBuffer[0].y = y
-            _formLineSegmentsBuffer[1].x = x + formsize
+            _formLineSegmentsBuffer[1].x = x + formSize
             _formLineSegmentsBuffer[1].y = y
             CGContextStrokeLineSegments(context, _formLineSegmentsBuffer, 2)
         }
