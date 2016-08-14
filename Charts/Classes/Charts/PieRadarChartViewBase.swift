@@ -105,8 +105,7 @@ public class PieRadarChartViewBase: ChartViewBase
 
         if _legend != nil && _legend.enabled && !_legend.drawInside
         {
-            var fullLegendWidth = min(_legend.neededWidth, _viewPortHandler.chartWidth * _legend.maxSizePercent)
-            fullLegendWidth += _legend.formSize + _legend.formToTextSpace
+            let fullLegendWidth = min(_legend.neededWidth, _viewPortHandler.chartWidth * _legend.maxSizePercent)
             
             switch _legend.orientation
             {
