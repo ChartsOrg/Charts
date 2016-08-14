@@ -165,8 +165,8 @@
         set2.drawCircleHoleEnabled = NO;
         
         NSMutableArray *dataSets = [[NSMutableArray alloc] init];
-        [dataSets addObject:set2];
         [dataSets addObject:set1];
+        [dataSets addObject:set2];
         
         LineChartData *data = [[LineChartData alloc] initWithDataSets:dataSets];
         [data setValueTextColor:UIColor.whiteColor];
