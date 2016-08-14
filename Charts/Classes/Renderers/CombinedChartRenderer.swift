@@ -20,7 +20,7 @@ public class CombinedChartRenderer: DataRenderer
     public var drawValueAboveBarEnabled = true
     
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
-    public var drawBarShadowEnabled = true
+    public var drawBarShadowEnabled = false
     
     internal var _renderers = [DataRenderer]()
     
