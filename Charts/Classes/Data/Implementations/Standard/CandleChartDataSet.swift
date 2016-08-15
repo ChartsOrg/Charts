@@ -28,42 +28,22 @@ public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChar
     
     // MARK: - Data functions and accessors
     
-    public override func calcMinMax()
+    public override func calcMinMax(entry e: ChartDataEntry)
     {
-        let yValCount = self.entryCount
+        guard let e = e as? CandleChartDataEntry
+            else { return }
         
-        if yValCount == 0
+        if (e.low < _yMin)
         {
-            return
+            _yMin = e.low
         }
         
-        _yMax = -DBL_MAX
-        _yMin = DBL_MAX
-        _xMax = -DBL_MAX
-        _xMin = DBL_MAX
-        
-        for e in _values as! [CandleChartDataEntry]
+        if (e.high > _yMax)
         {
-            if (e.low < _yMin)
-            {
-                _yMin = e.low
-            }
-            
-            if (e.high > _yMax)
-            {
-                _yMax = e.high
-            }
-            
-            if (e.x < _xMin)
-            {
-                _xMin = e.x
-            }
-            
-            if (e.x > _xMax)
-            {
-                _xMax = e.x
-            }
+            _yMax = e.high
         }
+        
+        calcMinMaxX(entry: e)
     }
     
     // MARK: - Styling functions and accessors

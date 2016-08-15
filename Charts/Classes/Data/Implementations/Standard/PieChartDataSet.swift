@@ -41,14 +41,7 @@ public class PieChartDataSet: ChartDataSet, IPieChartDataSet
     
     internal override func calcMinMax(entry e: ChartDataEntry)
     {
-        if e.y < _yMin
-        {
-            _yMin = e.y
-        }
-        if e.y > _yMax
-        {
-            _yMax = e.y
-        }
+        calcMinMaxY(entry: e)
     }
     
     // MARK: - Styling functions and accessors

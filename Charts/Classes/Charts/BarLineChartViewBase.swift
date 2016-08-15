@@ -25,8 +25,6 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     
     /// flag that indicates if auto scaling on the y axis is enabled
     private var _autoScaleMinMaxEnabled = false
-    private var _autoScaleLastLowestVisibleX: Double?
-    private var _autoScaleLastHighestVisibleX: Double?
     
     private var _pinchZoomEnabled = false
     private var _doubleTapToZoomEnabled = true
@@ -189,20 +187,9 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         _leftYAxisRenderer?.renderAxisLine(context: context)
         _rightYAxisRenderer?.renderAxisLine(context: context)
 
-        if (_autoScaleMinMaxEnabled)
+        if _autoScaleMinMaxEnabled
         {
-            let lowestVisibleX = self.lowestVisibleX,
-                highestVisibleX = self.highestVisibleX
-            
-            if (_autoScaleLastLowestVisibleX == nil || _autoScaleLastLowestVisibleX != lowestVisibleX ||
-                _autoScaleLastHighestVisibleX == nil || _autoScaleLastHighestVisibleX != highestVisibleX)
-            {
-                calcMinMax()
-                calculateOffsets()
-                
-                _autoScaleLastLowestVisibleX = lowestVisibleX
-                _autoScaleLastHighestVisibleX = highestVisibleX
-            }
+            autoScale()
         }
         
         // The renderers are responsible for clipping, to account for line-width center etc.
@@ -264,6 +251,26 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         drawDescription(context: context)
     }
     
+    private var _autoScaleLastLowestVisibleX: Double?
+    private var _autoScaleLastHighestVisibleX: Double?
+    
+    /// Performs auto scaling of the axis by recalculating the minimum and maximum y-values based on the entries currently in view.
+    internal func autoScale()
+    {
+        guard let data = _data
+            else { return }
+        
+        data.calcMinMaxY(fromX: self.lowestVisibleX, toX: self.highestVisibleX)
+        
+        _xAxis.calculate(min: data.xMin, max: data.xMax)
+        
+        // calculate axis range (min / max) according to provided data
+        _leftAxis.calculate(min: data.getYMin(.Left), max: data.getYMax(.Left))
+        _rightAxis.calculate(min: data.getYMin(.Right), max: data.getYMax(.Right))
+        
+        calculateOffsets();
+    }
+    
     internal func prepareValuePxMatrix()
     {
         _rightAxisTransformer.prepareMatrixValuePx(chartXMin: _xAxis._axisMinimum, deltaX: CGFloat(xAxis.axisRange), deltaY: CGFloat(_rightAxis.axisRange), chartYMin: _rightAxis._axisMinimum)
@@ -305,11 +312,6 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     
     internal override func calcMinMax()
     {
-        if _autoScaleMinMaxEnabled
-        {
-            _data?.calcMinMax()
-        }
-        
         // calculate / set x-axis range
         _xAxis.calculate(min: _data?.xMin ?? 0.0, max: _data?.xMax ?? 0.0)
         

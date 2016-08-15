@@ -38,7 +38,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         set
         {
             _lineData = newValue
-            calcMinMax()
+            notifyDataChanged()
         }
     }
     
@@ -51,7 +51,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         set
         {
             _barData = newValue
-            calcMinMax()
+            notifyDataChanged()
         }
     }
     
@@ -64,7 +64,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         set
         {
             _scatterData = newValue
-            calcMinMax()
+            notifyDataChanged()
         }
     }
     
@@ -77,7 +77,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         set
         {
             _candleData = newValue
-            calcMinMax()
+            notifyDataChanged()
         }
     }
     
@@ -90,7 +90,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         set
         {
             _bubbleData = newValue
-            calcMinMax()
+            notifyDataChanged()
         }
     }
     

@@ -109,10 +109,41 @@ public class ChartDataSet: ChartBaseDataSet
         }
     }
     
-    /// Updates the min and max x and y value of this DataSet based on the given Entry.
-    ///
-    /// - parameter e:
-    internal func calcMinMax(entry e: ChartDataEntry)
+    public override func calcMinMaxY(fromX fromX: Double, toX: Double)
+    {
+        if _values.count == 0
+        {
+            return
+        }
+        
+        _yMax = -DBL_MAX
+        _yMin = DBL_MAX
+        
+        let indexFrom = entryIndex(x: fromX, rounding: .Down)
+        let indexTo = entryIndex(x: toX, rounding: .Up)
+        
+        if indexTo <= indexFrom { return }
+        
+        for i in indexFrom..<indexTo
+        {
+            // only recalculate y
+            calcMinMaxY(entry: _values[i])
+        }
+    }
+    
+    public func calcMinMaxX(entry e: ChartDataEntry)
+    {
+        if e.x < _xMin
+        {
+            _xMin = e.x
+        }
+        if e.x > _xMax
+        {
+            _xMax = e.x
+        }
+    }
+    
+    internal func calcMinMaxY(entry e: ChartDataEntry)
     {
         if e.y < _yMin
         {
@@ -122,14 +153,15 @@ public class ChartDataSet: ChartBaseDataSet
         {
             _yMax = e.y
         }
-        if e.x < _xMin
-        {
-            _xMin = e.x
-        }
-        if e.x > _xMax
-        {
-            _xMax = e.x
-        }
+    }
+    
+    /// Updates the min and max x and y value of this DataSet based on the given Entry.
+    ///
+    /// - parameter e:
+    internal func calcMinMax(entry e: ChartDataEntry)
+    {
+        calcMinMaxX(entry: e)
+        calcMinMaxY(entry: e)
     }
     
     /// - returns: The minimum y-value this DataSet holds

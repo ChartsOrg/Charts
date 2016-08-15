@@ -80,57 +80,39 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
         }
     }
     
-    public override func calcMinMax()
+    public override func calcMinMax(entry e: ChartDataEntry)
     {
-        if _values.count == 0
-        {
-            return
-        }
+        guard let e = e as? BarChartDataEntry
+            else { return }
         
-        _yMax = -DBL_MAX
-        _yMin = DBL_MAX
-        _xMax = -DBL_MAX
-        _xMin = DBL_MAX
-        
-        for e in _values as! [BarChartDataEntry]
+        if !e.y.isNaN
         {
-            if !e.y.isNaN
+            if e.yValues == nil
             {
-                if e.yValues == nil
+                if e.y < _yMin
                 {
-                    if e.y < _yMin
-                    {
-                        _yMin = e.y
-                    }
-                    
-                    if e.y > _yMax
-                    {
-                        _yMax = e.y
-                    }
-                }
-                else
-                {
-                    if -e.negativeSum < _yMin
-                    {
-                        _yMin = -e.negativeSum
-                    }
-                    
-                    if e.positiveSum > _yMax
-                    {
-                        _yMax = e.positiveSum
-                    }
+                    _yMin = e.y
                 }
                 
-                if e.x < _xMin
+                if e.y > _yMax
                 {
-                    _xMin = e.x
-                }
-                
-                if e.x > _xMax
-                {
-                    _xMax = e.x
+                    _yMax = e.y
                 }
             }
+            else
+            {
+                if -e.negativeSum < _yMin
+                {
+                    _yMin = -e.negativeSum
+                }
+                
+                if e.positiveSum > _yMax
+                {
+                    _yMax = e.positiveSum
+                }
+            }
+            
+            calcMinMaxX(entry: e)
         }
     }
     

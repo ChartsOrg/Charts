@@ -47,14 +47,25 @@ public class ChartData: NSObject
     
     internal func initialize(dataSets: [IChartDataSet])
     {
-        calcMinMax()
+        notifyDataChanged()
     }
     
     /// Call this method to let the ChartData know that the underlying data has changed.
     /// Calling this performs all necessary recalculations needed when the contained data has changed.
     public func notifyDataChanged()
     {
-        initialize(_dataSets)
+        calcMinMax()
+    }
+    
+    public func calcMinMaxY(fromX fromX: Double, toX: Double)
+    {
+        for set in _dataSets
+        {
+            set.calcMinMaxY(fromX: fromX, toX: toX)
+        }
+        
+        // apply the new data
+        calcMinMax()
     }
     
     /// calc minimum and maximum y value over all datasets
@@ -126,6 +137,7 @@ public class ChartData: NSObject
         }
     }
     
+    /// Adjusts the current minimum and maximum values based on the provided Entry object.
     public func calcMinMax(entry e: ChartDataEntry, axis: YAxis.AxisDependency)
     {
         if _yMax < e.y
@@ -174,6 +186,7 @@ public class ChartData: NSObject
         }
     }
     
+    /// Adjusts the minimum and maximum values based on the given DataSet.
     public func calcMinMax(dataSet d: IChartDataSet)
     {
         if _yMax < d.yMax
@@ -325,7 +338,7 @@ public class ChartData: NSObject
         set
         {
             _dataSets = newValue
-            initialize(_dataSets)
+            notifyDataChanged()
         }
     }
     

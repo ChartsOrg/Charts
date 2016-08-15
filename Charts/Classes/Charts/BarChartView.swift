@@ -35,11 +35,6 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
         guard let data = self.data as? BarChartData
             else { return }
         
-        if self.autoScaleMinMaxEnabled
-        {
-            data.calcMinMax()
-        }
-        
         if fitBars
         {
             _xAxis.calculate(

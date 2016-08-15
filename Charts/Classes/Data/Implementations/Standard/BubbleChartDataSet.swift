@@ -23,30 +23,18 @@ public class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubble
     public var normalizeSizeEnabled: Bool = true
     public var isNormalizeSizeEnabled: Bool { return normalizeSizeEnabled }
     
-    public override func calcMinMax()
+    public override func calcMinMax(entry e: ChartDataEntry)
     {
-        if self.entryCount == 0
-        {
-            return
-        }
-    
-        // need chart width to guess this properly
+        guard let e = e as? BubbleChartDataEntry
+            else { return }
         
-        _yMax = -DBL_MAX
-        _yMin = DBL_MAX
-        _xMax = -DBL_MAX
-        _xMin = DBL_MAX
+        super.calcMinMax(entry: e)
         
-        for e in values as! [BubbleChartDataEntry]
+        let size = e.size
+        
+        if size > _maxSize
         {
-            calcMinMax(entry: e)
-            
-            let size = e.size
-            
-            if size > _maxSize
-            {
-                _maxSize = size
-            }
+            _maxSize = size
         }
     }
     
