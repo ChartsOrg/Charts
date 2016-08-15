@@ -287,6 +287,12 @@ public class LineChartRenderer: LineRadarRenderer
         
         _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
         
+        // if drawing filled is enabled
+        if (dataSet.isDrawFilledEnabled && entryCount > 0)
+        {
+            drawLinearFill(context: context, dataSet: dataSet, trans: trans, bounds: _xBounds)
+        }
+        
         CGContextSaveGState(context)
         
         CGContextSetLineCap(context, dataSet.lineCapType)
@@ -418,12 +424,6 @@ public class LineChartRenderer: LineRadarRenderer
         }
         
         CGContextRestoreGState(context)
-        
-        // if drawing filled is enabled
-        if (dataSet.isDrawFilledEnabled && entryCount > 0)
-        {
-            drawLinearFill(context: context, dataSet: dataSet, trans: trans, bounds: _xBounds)
-        }
     }
     
     public func drawLinearFill(context context: CGContext, dataSet: ILineChartDataSet, trans: Transformer, bounds: XBounds)
