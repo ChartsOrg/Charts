@@ -499,13 +499,13 @@ public class ViewPortHandler: NSObject
     /// - returns: `true` if the chart is fully zoomed out on it's y-axis (vertical).
     public var isFullyZoomedOutY: Bool
     {
-        return _scaleY > _minScaleY || _minScaleY > 1.0
+        return _scaleY <= _minScaleY && _minScaleY <= 1.0
     }
     
     /// - returns: `true` if the chart is fully zoomed out on it's x-axis (horizontal).
     public var isFullyZoomedOutX: Bool
     {
-        return _scaleX > _minScaleX || _minScaleX > 1.0
+        return _scaleX <= _minScaleX && _minScaleX <= 1.0
     }
     
     /// Set an offset in pixels that allows the user to drag the chart over it's bounds on the x-axis.
