@@ -108,10 +108,10 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         self.highlighter = ChartHighlighter(chart: self)
         
-        _tapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: #selector(BarLineChartViewBase.tapGestureRecognized(_:)))
-        _doubleTapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: #selector(BarLineChartViewBase.doubleTapGestureRecognized(_:)))
+        _tapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: #selector(tapGestureRecognized(_:)))
+        _doubleTapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: #selector(doubleTapGestureRecognized(_:)))
         _doubleTapGestureRecognizer.nsuiNumberOfTapsRequired = 2
-        _panGestureRecognizer = NSUIPanGestureRecognizer(target: self, action: #selector(BarLineChartViewBase.panGestureRecognized(_:)))
+        _panGestureRecognizer = NSUIPanGestureRecognizer(target: self, action: #selector(panGestureRecognized(_:)))
         
         _panGestureRecognizer.delegate = self
         

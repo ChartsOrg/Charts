@@ -70,7 +70,7 @@ public class AnimatedViewPortJob: ViewPortJob
         
         updateAnimationPhase(_startTime)
         
-        _displayLink = NSUIDisplayLink(target: self, selector: #selector(AnimatedViewPortJob.animationLoop))
+        _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
         _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
     }
     

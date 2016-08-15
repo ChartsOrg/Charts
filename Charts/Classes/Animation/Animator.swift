@@ -194,7 +194,7 @@ public class Animator: NSObject
         
         if (_enabledX || _enabledY)
         {
-            _displayLink = NSUIDisplayLink(target: self, selector: #selector(Animator.animationLoop))
+            _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
             _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
         }
     }
@@ -260,7 +260,7 @@ public class Animator: NSObject
         {
             if _displayLink === nil
             {
-                _displayLink = NSUIDisplayLink(target: self, selector: #selector(Animator.animationLoop))
+                _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
                 _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
             }
         }
@@ -304,7 +304,7 @@ public class Animator: NSObject
         {
             if _displayLink === nil
             {
-                _displayLink = NSUIDisplayLink(target: self, selector: #selector(Animator.animationLoop))
+                _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
                 _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
             }
         }

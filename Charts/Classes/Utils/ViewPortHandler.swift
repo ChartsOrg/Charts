@@ -407,60 +407,39 @@ public class ViewPortHandler: NSObject
     
     public func isInBoundsX(x: CGFloat) -> Bool
     {
-        if (isInBoundsLeft(x) && isInBoundsRight(x))
-        {
-            return true
-        }
-        else
-        {
-            return false
-        }
+        return isInBoundsLeft(x) && isInBoundsRight(x)
     }
     
     public func isInBoundsY(y: CGFloat) -> Bool
     {
-        if (isInBoundsTop(y) && isInBoundsBottom(y))
-        {
-            return true
-        }
-        else
-        {
-            return false
-        }
+        return isInBoundsTop(y) && isInBoundsBottom(y)
     }
     
     public func isInBounds(x x: CGFloat, y: CGFloat) -> Bool
     {
-        if (isInBoundsX(x) && isInBoundsY(y))
-        {
-            return true
-        }
-        else
-        {
-            return false
-        }
+        return isInBoundsX(x) && isInBoundsY(y)
     }
     
     public func isInBoundsLeft(x: CGFloat) -> Bool
     {
-        return _contentRect.origin.x <= x + 1.0 ? true : false
+        return _contentRect.origin.x <= x + 1.0
     }
     
     public func isInBoundsRight(x: CGFloat) -> Bool
     {
         let x = floor(x * 100.0) / 100.0
-        return (_contentRect.origin.x + _contentRect.size.width) >= x - 1.0 ? true : false
+        return (_contentRect.origin.x + _contentRect.size.width) >= x - 1.0
     }
     
     public func isInBoundsTop(y: CGFloat) -> Bool
     {
-        return _contentRect.origin.y <= y ? true : false
+        return _contentRect.origin.y <= y
     }
     
     public func isInBoundsBottom(y: CGFloat) -> Bool
     {
         let normalizedY = floor(y * 100.0) / 100.0
-        return (_contentRect.origin.y + _contentRect.size.height) >= normalizedY ? true : false
+        return (_contentRect.origin.y + _contentRect.size.height) >= normalizedY
     }
     
     /// - returns: The current x-scale factor
@@ -514,40 +493,19 @@ public class ViewPortHandler: NSObject
     /// if the chart is fully zoomed out, return true
     public var isFullyZoomedOut: Bool
     {
-        if (isFullyZoomedOutX && isFullyZoomedOutY)
-        {
-            return true
-        }
-        else
-        {
-            return false
-        }
+        return isFullyZoomedOutX && isFullyZoomedOutY
     }
     
     /// - returns: `true` if the chart is fully zoomed out on it's y-axis (vertical).
     public var isFullyZoomedOutY: Bool
     {
-        if (_scaleY > _minScaleY || _minScaleY > 1.0)
-        {
-            return false
-        }
-        else
-        {
-            return true
-        }
+        return _scaleY > _minScaleY || _minScaleY > 1.0
     }
     
     /// - returns: `true` if the chart is fully zoomed out on it's x-axis (horizontal).
     public var isFullyZoomedOutX: Bool
     {
-        if (_scaleX > _minScaleX || _minScaleX > 1.0)
-        {
-            return false
-        }
-        else
-        {
-            return true
-        }
+        return _scaleX > _minScaleX || _minScaleX > 1.0
     }
     
     /// Set an offset in pixels that allows the user to drag the chart over it's bounds on the x-axis.
@@ -571,24 +529,24 @@ public class ViewPortHandler: NSObject
     /// - returns: `true` if the chart is not yet fully zoomed out on the x-axis
     public var canZoomOutMoreX: Bool
     {
-        return (_scaleX > _minScaleX)
+        return _scaleX > _minScaleX
     }
     
     /// - returns: `true` if the chart is not yet fully zoomed in on the x-axis
     public var canZoomInMoreX: Bool
     {
-        return (_scaleX < _maxScaleX)
+        return _scaleX < _maxScaleX
     }
     
     /// - returns: `true` if the chart is not yet fully zoomed out on the y-axis
     public var canZoomOutMoreY: Bool
     {
-        return (_scaleY > _minScaleY)
+        return _scaleY > _minScaleY
     }
     
     /// - returns: `true` if the chart is not yet fully zoomed in on the y-axis
     public var canZoomInMoreY: Bool
     {
-        return (_scaleY < _maxScaleY)
+        return _scaleY < _maxScaleY
     }
 }
