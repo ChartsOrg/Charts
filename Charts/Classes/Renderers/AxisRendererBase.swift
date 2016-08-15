@@ -110,7 +110,11 @@ public class AxisRendererBase: Renderer
         }
         
         // Find out how much spacing (in y value space) between axis values
-        let rawInterval = range / Double(labelCount)
+        var rawInterval = range / Double(labelCount)
+        if isinf(rawInterval)
+        {
+            rawInterval = range > 0.0 && !isinf(range) ? range : 1.0
+        }
         var interval = ChartUtils.roundToNextSignificant(number: Double(rawInterval))
         
         // If granularity is enabled, then do not allow the interval to go below specified granularity.
