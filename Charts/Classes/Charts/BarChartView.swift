@@ -104,7 +104,7 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
         guard let barData = self.barData
             else
         {
-            print("You need to set data for the chart before grouping bars.", terminator: "\n")
+            Swift.print("You need to set data for the chart before grouping bars.", terminator: "\n")
             return
         }
         
