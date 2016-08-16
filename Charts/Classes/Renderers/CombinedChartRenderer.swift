@@ -47,7 +47,7 @@ public class CombinedChartRenderer: ChartDataRendererBase
         
         guard let
             chart = chart,
-            animator = animator
+            let animator = animator
             else { return }
 
         for order in drawOrder

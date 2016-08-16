@@ -30,16 +30,16 @@ public class ChartFill: NSObject
         case layer
     }
     
-    private var _type: ChartFillType = ChartFillType.empty
-    private var _color: CGColor?
-    private var _gradient: CGGradient?
-    private var _gradientAngle: CGFloat = 0.0
-    private var _gradientStartOffsetPercent: CGPoint = CGPoint()
-    private var _gradientStartRadiusPercent: CGFloat = 0.0
-    private var _gradientEndOffsetPercent: CGPoint = CGPoint()
-    private var _gradientEndRadiusPercent: CGFloat = 0.0
-    private var _image: CGImage?
-    private var _layer: CGLayer?
+    fileprivate var _type: ChartFillType = ChartFillType.empty
+    fileprivate var _color: CGColor?
+    fileprivate var _gradient: CGGradient?
+    fileprivate var _gradientAngle: CGFloat = 0.0
+    fileprivate var _gradientStartOffsetPercent: CGPoint = CGPoint()
+    fileprivate var _gradientStartRadiusPercent: CGFloat = 0.0
+    fileprivate var _gradientEndOffsetPercent: CGPoint = CGPoint()
+    fileprivate var _gradientEndRadiusPercent: CGFloat = 0.0
+    fileprivate var _image: CGImage?
+    fileprivate var _layer: CGLayer?
     
     // MARK: Properties
     
@@ -267,17 +267,17 @@ public class ChartFill: NSObject
         case .image:
             
             context.clip()
-            context.draw(in: rect, image: _image!)
+            context.draw(_image!, in: rect)
             
         case .tiledImage:
             
             context.clip()
-            context.draw(in: rect, byTiling: _image!)
+            context.draw(_image!, in: rect, byTiling: true)
             
         case .layer:
             
             context.clip()
-            context.draw(in: rect, layer: _layer!)
+            context.draw(_layer!, in: rect)
             
         case .linearGradient:
             

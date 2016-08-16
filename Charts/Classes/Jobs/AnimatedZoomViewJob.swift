@@ -64,8 +64,8 @@ public class AnimatedZoomChartViewJob: AnimatedViewPortJob
     {
         guard let
             viewPortHandler = viewPortHandler,
-            transformer = transformer,
-            view = view
+            let transformer = transformer,
+            let view = view
             else { return }
         
         let scaleX = xOrigin + (self.scaleX - xOrigin) * phase

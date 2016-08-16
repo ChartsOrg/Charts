@@ -79,7 +79,7 @@ public class CombinedChartView: BarLineChartViewBase, LineChartDataProvider, Bar
         
         _xAxis.axisRange = abs(_xAxis._axisMaximum - _xAxis._axisMinimum)
         
-        if _xAxis.axisRange == 0.0 && self.lineData?.yValCount > 0
+        if _xAxis.axisRange == 0.0 && (self.lineData?.yValCount)! > 0
         {
             _xAxis.axisRange = 1.0
         }

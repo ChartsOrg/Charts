@@ -118,7 +118,7 @@ public class ChartAnimator: NSObject
            
             if (_easingX != nil)
             {
-                phaseX = _easingX!(elapsed: elapsed, duration: duration)
+                phaseX = _easingX!(elapsed, duration)
             }
             else
             {
@@ -137,7 +137,7 @@ public class ChartAnimator: NSObject
             
             if (_easingY != nil)
             {
-                phaseY = _easingY!(elapsed: elapsed, duration: duration)
+                phaseY = _easingY!(elapsed, duration)
             }
             else
             {

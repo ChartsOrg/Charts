@@ -30,8 +30,8 @@ public class HorizontalBarChartRenderer: BarChartRenderer
     {
         guard let
             dataProvider = dataProvider,
-            barData = dataProvider.barData,
-            animator = animator
+            let barData = dataProvider.barData,
+            let animator = animator
             else { return }
         
         context.saveGState()
@@ -263,8 +263,8 @@ public class HorizontalBarChartRenderer: BarChartRenderer
         {
             guard let
                 dataProvider = dataProvider,
-                barData = dataProvider.barData,
-                animator = animator
+                let barData = dataProvider.barData,
+                let animator = animator
                 else { return }
             
             var dataSets = barData.dataSets
@@ -324,7 +324,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                         }
                         
                         let val = e.value
-                        let valueText = formatter.string(from: val)!
+                        let valueText = formatter.string(from: val as NSNumber)!
                         
                         // calculate the correct offset depending on the draw position of the value
                         let valueTextWidth = valueText.size(attributes: [NSFontAttributeName: valueFont]).width
@@ -378,7 +378,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                             }
                             
                             let val = e.value
-                            let valueText = formatter.string(from: val)!
+                            let valueText = formatter.string(from: val as NSNumber)!
                             
                             // calculate the correct offset depending on the draw position of the value
                             let valueTextWidth = valueText.size(attributes: [NSFontAttributeName: valueFont]).width
@@ -432,7 +432,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
                             for k in 0 ..< transformed.count
                             {
                                 let val = vals[k]
-                                let valueText = formatter.string(from: val)!
+                                let valueText = formatter.string(from: val as NSNumber)!
                                 
                                 // calculate the correct offset depending on the draw position of the value
                                 let valueTextWidth = valueText.size(attributes: [NSFontAttributeName: valueFont]).width
@@ -480,7 +480,7 @@ public class HorizontalBarChartRenderer: BarChartRenderer
     
     internal override func passesCheck() -> Bool
     {
-        guard let dataProvider = dataProvider, barData = dataProvider.barData else { return false }
+        guard let dataProvider = dataProvider, let barData = dataProvider.barData else { return false }
         
         return CGFloat(barData.yValCount) < CGFloat(dataProvider.maxVisibleValueCount) * viewPortHandler.scaleY
     }

@@ -33,8 +33,9 @@ public class LineScatterCandleRadarChartRenderer: ChartDataRendererBase
         if set.isVerticalHighlightIndicatorEnabled
         {
             context.beginPath()
-            context.moveTo(x: point.x, y: viewPortHandler.contentTop)
-            context.addLineTo(x: point.x, y: viewPortHandler.contentBottom)
+            
+            context.move(to: CGPoint(x: point.x, y: viewPortHandler.contentTop))
+            context.addLine(to: CGPoint(x: point.x, y: viewPortHandler.contentBottom))
             context.strokePath()
         }
         
@@ -42,8 +43,8 @@ public class LineScatterCandleRadarChartRenderer: ChartDataRendererBase
         if set.isHorizontalHighlightIndicatorEnabled
         {
             context.beginPath()
-            context.moveTo(x: viewPortHandler.contentLeft, y: point.y)
-            context.addLineTo(x: viewPortHandler.contentRight, y: point.y)
+            context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: point.y))
+            context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: point.y))
             context.strokePath()
         }
     }

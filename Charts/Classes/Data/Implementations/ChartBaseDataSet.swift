@@ -297,7 +297,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     
     public override var description: String
     {
-        return String(format: "%@, label: %@, %i entries", arguments: [NSStringFromClass(self.dynamicType), self.label ?? "", self.entryCount])
+        return String(format: "%@, label: %@, %i entries", arguments: [NSStringFromClass(type(of: self)), self.label ?? "", self.entryCount])
     }
     
     public override var debugDescription: String
@@ -316,7 +316,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     
     public func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
-        let copy = self.dynamicType.init()
+        let copy = type(of: self).init()
         
         copy.colors = colors
         copy.valueColors = valueColors

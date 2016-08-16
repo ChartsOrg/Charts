@@ -129,11 +129,11 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         context.setLineWidth(yAxis.axisLineWidth)
         if (yAxis.axisLineDashLengths != nil)
         {
-            context.setLineDash(phase: yAxis.axisLineDashPhase, lengths: yAxis.axisLineDashLengths, count: yAxis.axisLineDashLengths.count)
+            context.setLineDash(phase: yAxis.axisLineDashPhase, lengths: yAxis.axisLineDashLengths)
         }
         else
         {
-            context.setLineDash(phase: 0.0, lengths: nil, count: 0)
+            context.setLineDash(phase: 0.0, lengths: [])
         }
 
         if (yAxis.axisDependency == .left)
@@ -142,7 +142,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
             _axisLineSegmentsBuffer[0].y = viewPortHandler.contentTop
             _axisLineSegmentsBuffer[1].x = viewPortHandler.contentRight
             _axisLineSegmentsBuffer[1].y = viewPortHandler.contentTop
-            context.strokeLineSegments(between: _axisLineSegmentsBuffer, count: 2)
+            context.strokeLineSegments(between: _axisLineSegmentsBuffer)
         }
         else
         {
@@ -150,7 +150,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
             _axisLineSegmentsBuffer[0].y = viewPortHandler.contentBottom
             _axisLineSegmentsBuffer[1].x = viewPortHandler.contentRight
             _axisLineSegmentsBuffer[1].y = viewPortHandler.contentBottom
-            context.strokeLineSegments(between: _axisLineSegmentsBuffer, count: 2)
+            context.strokeLineSegments(between: _axisLineSegmentsBuffer)
         }
         
         context.restoreGState()
@@ -200,11 +200,11 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
 
             if (yAxis.gridLineDashLengths != nil)
             {
-                context.setLineDash(phase: yAxis.gridLineDashPhase, lengths: yAxis.gridLineDashLengths, count: yAxis.gridLineDashLengths.count)
+                context.setLineDash(phase: yAxis.gridLineDashPhase, lengths: yAxis.gridLineDashLengths)
             }
             else
             {
-                context.setLineDash(phase: 0.0, lengths: nil, count: 0)
+                context.setLineDash(phase: 0.0, lengths: [])
             }
             
             // draw the horizontal grid
@@ -215,8 +215,8 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
                 transformer.pointValueToPixel(&position)
                 
                 context.beginPath()
-                context.moveTo(x: position.x, y: viewPortHandler.contentTop)
-                context.addLineTo(x: position.x, y: viewPortHandler.contentBottom)
+                context.move(to: position)
+                context.addLine(to: position)
                 context.strokePath()
             }
             
@@ -279,14 +279,14 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
             context.setLineWidth(l.lineWidth)
             if (l.lineDashLengths != nil)
             {
-                context.setLineDash(phase: l.lineDashPhase, lengths: l.lineDashLengths!, count: l.lineDashLengths!.count)
+                context.setLineDash(phase: l.lineDashPhase, lengths: l.lineDashLengths!)
             }
             else
             {
-                context.setLineDash(phase: 0.0, lengths: nil, count: 0)
+                context.setLineDash(phase: 0.0, lengths: [])
             }
             
-            context.strokeLineSegments(between: _limitLineSegmentsBuffer, count: 2)
+            context.strokeLineSegments(between: _limitLineSegmentsBuffer)
 
             let label = l.label
 

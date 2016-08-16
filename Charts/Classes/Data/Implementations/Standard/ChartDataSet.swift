@@ -393,7 +393,7 @@ public class ChartDataSet: ChartBaseDataSet
             }
         }
         
-        if _yVals.last?.xIndex > e.xIndex
+        if (_yVals.last?.xIndex)! > e.xIndex
         {
             var closestIndex = entryIndex(xIndex: e.xIndex, rounding: .closest)
             if _yVals[closestIndex].xIndex < e.xIndex

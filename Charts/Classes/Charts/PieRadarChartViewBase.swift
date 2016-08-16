@@ -80,7 +80,7 @@ public class PieRadarChartViewBase: ChartViewBase
     {
         calcMinMax()
         
-        if let data = _data where _legend !== nil
+        if let data = _data , _legend !== nil
         {
             _legendRenderer.computeLegend(data)
         }
