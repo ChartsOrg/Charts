@@ -394,7 +394,7 @@ public class ChartUtils
             }
             else
             {
-                newArray.append(val!)
+                newArray.append(val! as NSObject)
             }
         }
         return newArray

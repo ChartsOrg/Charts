@@ -191,10 +191,7 @@ public class ChartTransformer: NSObject
     
     public var valueToPixelMatrix: CGAffineTransform
     {
-        return
-            _matrixValueToPx.concatenating(_viewPortHandler.touchMatrix
-                ).concatenating(_matrixOffset
-        )
+        return _matrixValueToPx.concatenating(_viewPortHandler.touchMatrix).concatenating(_matrixOffset)
     }
     
     public var pixelToValueMatrix: CGAffineTransform

@@ -17,24 +17,24 @@ import Foundation
 public class ChartHighlight: NSObject
 {
     /// the x-index of the highlighted value
-    private var _xIndex = Int(0)
+    fileprivate var _xIndex = Int(0)
     
     /// the y-value of the highlighted value
-    private var _value = Double.nan
+    fileprivate var _value = Double.nan
     
     /// the index of the data object - in case it refers to more than one
-    private var _dataIndex = Int(0)
+    fileprivate var _dataIndex = Int(0)
     
     /// the index of the dataset the highlighted value is in
-    private var _dataSetIndex = Int(0)
+    fileprivate var _dataSetIndex = Int(0)
     
     /// index which value of a stacked bar entry is highlighted
     /// 
     /// **default**: -1
-    private var _stackIndex = Int(-1)
+    fileprivate var _stackIndex = Int(-1)
     
     /// the range of the bar that is selected (only for stacked-barchart)
-    private var _range: ChartRange?
+    fileprivate var _range: ChartRange?
 
     public override init()
     {
@@ -120,39 +120,38 @@ public class ChartHighlight: NSObject
         return "Highlight, xIndex: \(_xIndex), dataIndex (combined charts): \(_dataIndex),dataSetIndex: \(_dataSetIndex), stackIndex (only stacked barentry): \(_stackIndex), value: \(_value)"
     }
     
-    public override func isEqual(_ object: AnyObject?) -> Bool
+    public override func isEqual(_ object: Any?) -> Bool
     {
-        if (object === nil)
+        guard let obj = object as AnyObject?, obj != nil else {
+            return false
+        }
+        
+        if (!obj.isKind(of: type(of: self)))
         {
             return false
         }
         
-        if (!object!.isKind(of: self.dynamicType))
+        if (obj.xIndex != _xIndex)
         {
             return false
         }
         
-        if (object!.xIndex != _xIndex)
+        if (obj.dataIndex != dataIndex)
         {
             return false
         }
         
-        if (object!.dataIndex != dataIndex)
+        if (obj.dataSetIndex != _dataSetIndex)
         {
             return false
         }
         
-        if (object!.dataSetIndex != _dataSetIndex)
+        if (obj.stackIndex != _stackIndex)
         {
             return false
         }
         
-        if (object!.stackIndex != _stackIndex)
-        {
-            return false
-        }
-        
-        if (object!.value != value)
+        if (obj.value != value)
         {
             return false
         }
@@ -168,7 +167,7 @@ func ==(lhs: ChartHighlight, rhs: ChartHighlight) -> Bool
         return true
     }
     
-    if (!lhs.isKind(of: rhs.dynamicType))
+    if (!lhs.isKind(of: type(of: rhs)))
     {
         return false
     }

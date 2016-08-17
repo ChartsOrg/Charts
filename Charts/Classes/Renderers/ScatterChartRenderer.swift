@@ -56,7 +56,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
     {
         guard let
             dataProvider = dataProvider,
-            animator = animator
+            let animator = animator
             else { return }
         
         let trans = dataProvider.getTransformer(dataSet.axisDependency)
@@ -173,18 +173,18 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                 
                 // create a triangle path
                 context.beginPath()
-                context.moveTo(x: point.x, y: point.y - shapeHalf)
-                context.addLineTo(x: point.x + shapeHalf, y: point.y + shapeHalf)
-                context.addLineTo(x: point.x - shapeHalf, y: point.y + shapeHalf)
+                context.move(to: CGPoint(x: point.x, y: point.y - shapeHalf))
+                context.addLine(to: CGPoint(x: point.x + shapeHalf, y: point.y + shapeHalf))
+                context.addLine(to: CGPoint(x: point.x - shapeHalf, y: point.y + shapeHalf))
                 
                 if shapeHoleSize > 0.0
                 {
-                    context.addLineTo(x: point.x, y: point.y - shapeHalf)
+                    context.addLine(to: CGPoint(x: point.x, y: point.y - shapeHalf))
                     
-                    context.moveTo(x: point.x - shapeHalf + shapeStrokeSize, y: point.y + shapeHalf - shapeStrokeSize)
-                    context.addLineTo(x: point.x + shapeHalf - shapeStrokeSize, y: point.y + shapeHalf - shapeStrokeSize)
-                    context.addLineTo(x: point.x, y: point.y - shapeHalf + shapeStrokeSize)
-                    context.addLineTo(x: point.x - shapeHalf + shapeStrokeSize, y: point.y + shapeHalf - shapeStrokeSize)
+                    context.move(to: CGPoint(x: point.x - shapeHalf + shapeStrokeSize, y: point.y + shapeHalf - shapeStrokeSize))
+                    context.addLine(to: CGPoint(x: point.x + shapeHalf - shapeStrokeSize, y: point.y + shapeHalf - shapeStrokeSize))
+                    context.addLine(to: CGPoint(x: point.x, y: point.y - shapeHalf + shapeStrokeSize))
+                    context.addLine(to: CGPoint(x: point.x - shapeHalf + shapeStrokeSize, y: point.y + shapeHalf - shapeStrokeSize))
                 }
                 
                 context.closePath()
@@ -197,9 +197,9 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                     
                     // create a triangle path
                     context.beginPath()
-                    context.moveTo(x: point.x, y: point.y - shapeHalf + shapeStrokeSize)
-                    context.addLineTo(x: point.x + shapeHalf - shapeStrokeSize, y: point.y + shapeHalf - shapeStrokeSize)
-                    context.addLineTo(x: point.x - shapeHalf + shapeStrokeSize, y: point.y + shapeHalf - shapeStrokeSize)
+                    context.move(to: CGPoint(x: point.x, y: point.y - shapeHalf + shapeStrokeSize))
+                    context.addLine(to: CGPoint(x: point.x + shapeHalf - shapeStrokeSize, y: point.y + shapeHalf - shapeStrokeSize))
+                    context.addLine(to: CGPoint(x: point.x - shapeHalf + shapeStrokeSize, y: point.y + shapeHalf - shapeStrokeSize))
                     context.closePath()
                     
                     context.fillPath()
@@ -212,13 +212,13 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                 _lineSegments[0].y = point.y
                 _lineSegments[1].x = point.x + shapeHalf
                 _lineSegments[1].y = point.y
-                context.strokeLineSegments(between: _lineSegments, count: 2)
+                context.strokeLineSegments(between: _lineSegments)
                 
                 _lineSegments[0].x = point.x
                 _lineSegments[0].y = point.y - shapeHalf
                 _lineSegments[1].x = point.x
                 _lineSegments[1].y = point.y + shapeHalf
-                context.strokeLineSegments(between: _lineSegments, count: 2)
+                context.strokeLineSegments(between: _lineSegments)
             }
             else if (shape == .x)
             {
@@ -227,13 +227,13 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                 _lineSegments[0].y = point.y - shapeHalf
                 _lineSegments[1].x = point.x + shapeHalf
                 _lineSegments[1].y = point.y + shapeHalf
-                context.strokeLineSegments(between: _lineSegments, count: 2)
+                context.strokeLineSegments(between: _lineSegments)
                 
                 _lineSegments[0].x = point.x + shapeHalf
                 _lineSegments[0].y = point.y - shapeHalf
                 _lineSegments[1].x = point.x - shapeHalf
                 _lineSegments[1].y = point.y + shapeHalf
-                context.strokeLineSegments(between: _lineSegments, count: 2)
+                context.strokeLineSegments(between: _lineSegments)
             }
             else if (shape == .custom)
             {
@@ -265,8 +265,8 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
     {
         guard let
             dataProvider = dataProvider,
-            scatterData = dataProvider.scatterData,
-            animator = animator
+            let scatterData = dataProvider.scatterData,
+            let animator = animator
             else { return }
         
         // if values are drawn
@@ -320,7 +320,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                         continue
                     }
                     
-                    let text = formatter.string(from: e.value)
+                    let text = formatter.string(from: e.value as NSNumber)
                     
                     ChartUtils.drawText(
                         context: context,
@@ -347,8 +347,8 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
     {
         guard let
             dataProvider = dataProvider,
-            scatterData = dataProvider.scatterData,
-            animator = animator
+            let scatterData = dataProvider.scatterData,
+            let animator = animator
             else { return }
         
         let chartXMax = dataProvider.chartXMax
@@ -374,11 +374,11 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                 context.setLineWidth(set.highlightLineWidth)
                 if (set.highlightLineDashLengths != nil)
                 {
-                    context.setLineDash(phase: set.highlightLineDashPhase, lengths: set.highlightLineDashLengths!, count: set.highlightLineDashLengths!.count)
+                    context.setLineDash(phase: set.highlightLineDashPhase, lengths: set.highlightLineDashLengths!)
                 }
                 else
                 {
-                    context.setLineDash(phase: 0.0, lengths: nil, count: 0)
+                    context.setLineDash(phase: 0.0, lengths: [])
                 }
                 
                 let xIndex = high.xIndex; // get the x-position

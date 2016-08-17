@@ -86,7 +86,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
     {
         guard let
             xAxis = xAxis,
-            bd = chart?.data as? BarChartData
+            let bd = chart?.data as? BarChartData
             else { return }
         
         let labelFont = xAxis.labelFont
@@ -139,7 +139,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
     {
         guard let
             xAxis = xAxis,
-            bd = chart?.data as? BarChartData
+            let bd = chart?.data as? BarChartData
             else { return }
         
         if !xAxis.enabled || !xAxis.drawGridLinesEnabled
@@ -156,11 +156,11 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         
         if (xAxis.gridLineDashLengths != nil)
         {
-            context.setLineDash(phase: xAxis.gridLineDashPhase, lengths: xAxis.gridLineDashLengths, count: xAxis.gridLineDashLengths.count)
+            context.setLineDash(phase: xAxis.gridLineDashPhase, lengths: xAxis.gridLineDashLengths)
         }
         else
         {
-            context.setLineDash(phase: 0.0, lengths: nil, count: 0)
+            context.setLineDash(phase: 0.0, lengths: [])
         }
         
         var position = CGPoint(x: 0.0, y: 0.0)
@@ -181,7 +181,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
                 _gridLineSegmentsBuffer[0].y = position.y
                 _gridLineSegmentsBuffer[1].x = viewPortHandler.contentRight
                 _gridLineSegmentsBuffer[1].y = position.y
-                context.strokeLineSegments(between: _gridLineSegmentsBuffer, count: 2)
+                context.strokeLineSegments(between: _gridLineSegmentsBuffer)
             }
         }
         
@@ -205,11 +205,11 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         context.setLineWidth(xAxis.axisLineWidth)
         if (xAxis.axisLineDashLengths != nil)
         {
-            context.setLineDash(phase: xAxis.axisLineDashPhase, lengths: xAxis.axisLineDashLengths, count: xAxis.axisLineDashLengths.count)
+            context.setLineDash(phase: xAxis.axisLineDashPhase, lengths: xAxis.axisLineDashLengths)
         }
         else
         {
-            context.setLineDash(phase: 0.0, lengths: nil, count: 0)
+            context.setLineDash(phase: 0.0, lengths: [])
         }
         
         if (xAxis.labelPosition == .top
@@ -220,7 +220,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
             _axisLineSegmentsBuffer[0].y = viewPortHandler.contentTop
             _axisLineSegmentsBuffer[1].x = viewPortHandler.contentRight
             _axisLineSegmentsBuffer[1].y = viewPortHandler.contentBottom
-            context.strokeLineSegments(between: _axisLineSegmentsBuffer, count: 2)
+            context.strokeLineSegments(between: _axisLineSegmentsBuffer)
         }
         
         if (xAxis.labelPosition == .bottom
@@ -231,7 +231,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
             _axisLineSegmentsBuffer[0].y = viewPortHandler.contentTop
             _axisLineSegmentsBuffer[1].x = viewPortHandler.contentLeft
             _axisLineSegmentsBuffer[1].y = viewPortHandler.contentBottom
-            context.strokeLineSegments(between: _axisLineSegmentsBuffer, count: 2)
+            context.strokeLineSegments(between: _axisLineSegmentsBuffer)
         }
         
         context.restoreGState()
@@ -278,14 +278,14 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
             context.setLineWidth(l.lineWidth)
             if (l.lineDashLengths != nil)
             {
-                context.setLineDash(phase: l.lineDashPhase, lengths: l.lineDashLengths!, count: l.lineDashLengths!.count)
+                context.setLineDash(phase: l.lineDashPhase, lengths: l.lineDashLengths!)
             }
             else
             {
-                context.setLineDash(phase: 0.0, lengths: nil, count: 0)
+                context.setLineDash(phase: 0.0, lengths: [])
             }
             
-            context.strokeLineSegments(between: _limitLineSegmentsBuffer, count: 2)
+            context.strokeLineSegments(between: _limitLineSegmentsBuffer)
             
             let label = l.label
             

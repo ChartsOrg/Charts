@@ -46,7 +46,7 @@ public class BarChartDataEntry: ChartDataEntry
     /// Constructor for stacked bar entries.
     public init(values: [Double], xIndex: Int, label: String)
     {
-        super.init(value: BarChartDataEntry.calcSum(values), xIndex: xIndex, data: label)
+        super.init(value: BarChartDataEntry.calcSum(values), xIndex: xIndex, data: label as AnyObject?)
         self.values = values
     }
     

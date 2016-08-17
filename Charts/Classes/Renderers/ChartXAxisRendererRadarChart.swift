@@ -34,7 +34,7 @@ public class ChartXAxisRendererRadarChart: ChartXAxisRenderer
     {
         guard let
             xAxis = xAxis,
-            chart = chart
+            let chart = chart
             else { return }
         
         if (!xAxis.enabled || !xAxis.drawLabelsEnabled)

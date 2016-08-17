@@ -67,7 +67,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
     {
         guard let
             chart = chart,
-            animator = animator
+            let animator = animator
             else { return }
         
         context.saveGState()
@@ -101,12 +101,12 @@ public class RadarChartRenderer: LineRadarChartRenderer
             
             if !hasMovedToPoint
             {
-                path.moveTo(nil, x: p.x, y: p.y)
+                path.move(to: CGPoint(x: p.x, y: p.y))
                 hasMovedToPoint = true
             }
             else
             {
-                path.addLineTo(nil, x: p.x, y: p.y)
+                path.addLine(to: CGPoint(x: p.x, y: p.y))
             }
         }
         
@@ -114,7 +114,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         if dataSet.entryCount < mostEntries
         {
             // if this is not the largest set, draw a line to the center before closing
-            path.addLineTo(nil, x: center.x, y: center.y)
+            path.addLine(to: CGPoint(x: center.x, y: center.y))
         }
         
         path.closeSubpath()
@@ -151,8 +151,8 @@ public class RadarChartRenderer: LineRadarChartRenderer
     {
         guard let
             chart = chart,
-            data = chart.data,
-            animator = animator
+            let data = chart.data,
+            let animator = animator
             else { return }
         
         let phaseX = animator.phaseX
@@ -193,7 +193,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
                 
                 ChartUtils.drawText(
                     context: context,
-                    text: formatter.string(from: e.value)!,
+                    text: formatter.string(from: e.value as NSNumber)!,
                     point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
                     align: .center,
                     attributes: [NSFontAttributeName: valueFont,
@@ -214,7 +214,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
     {
         guard let
             chart = chart,
-            data = chart.data
+            let data = chart.data
             else { return }
         
         let sliceangle = chart.sliceAngle
@@ -247,7 +247,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
             _webLineSegmentsBuffer[1].x = p.x
             _webLineSegmentsBuffer[1].y = p.y
             
-            context.strokeLineSegments(between: _webLineSegmentsBuffer, count: 2)
+            context.strokeLineSegments(between: _webLineSegmentsBuffer)
         }
         
         // draw the inner-web
@@ -271,7 +271,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
                 _webLineSegmentsBuffer[1].x = p2.x
                 _webLineSegmentsBuffer[1].y = p2.y
                 
-                context.strokeLineSegments(between: _webLineSegmentsBuffer, count: 2)
+                context.strokeLineSegments(between: _webLineSegmentsBuffer)
             }
         }
         
@@ -284,19 +284,19 @@ public class RadarChartRenderer: LineRadarChartRenderer
     {
         guard let
             chart = chart,
-            data = chart.data as? RadarChartData,
-            animator = animator
+            let data = chart.data as? RadarChartData,
+            let animator = animator
             else { return }
         
         context.saveGState()
         context.setLineWidth(data.highlightLineWidth)
         if (data.highlightLineDashLengths != nil)
         {
-            context.setLineDash(phase: data.highlightLineDashPhase, lengths: data.highlightLineDashLengths!, count: data.highlightLineDashLengths!.count)
+            context.setLineDash(phase: data.highlightLineDashPhase, lengths: data.highlightLineDashLengths!)
         }
         else
         {
-            context.setLineDash(phase: 0.0, lengths: nil, count: 0)
+            context.setLineDash(phase: 0.0, lengths: [])
         }
         
         let phaseX = animator.phaseX
@@ -386,20 +386,20 @@ public class RadarChartRenderer: LineRadarChartRenderer
         if let fillColor = fillColor
         {
             context.beginPath()
-            context.addEllipse(inRect: CGRect(x: point.x - outerRadius, y: point.y - outerRadius, width: outerRadius * 2.0, height: outerRadius * 2.0))
+            context.addEllipse(in: CGRect(x: point.x - outerRadius, y: point.y - outerRadius, width: outerRadius * 2.0, height: outerRadius * 2.0))
             if innerRadius > 0.0
             {
-                context.addEllipse(inRect: CGRect(x: point.x - innerRadius, y: point.y - innerRadius, width: innerRadius * 2.0, height: innerRadius * 2.0))
+                context.addEllipse(in: CGRect(x: point.x - innerRadius, y: point.y - innerRadius, width: innerRadius * 2.0, height: innerRadius * 2.0))
             }
             
             context.setFillColor(fillColor.cgColor)
-            context.eoFillPath()
+            context.fillPath()
         }
             
         if let strokeColor = strokeColor
         {
             context.beginPath()
-            context.addEllipse(inRect: CGRect(x: point.x - outerRadius, y: point.y - outerRadius, width: outerRadius * 2.0, height: outerRadius * 2.0))
+            context.addEllipse(in: CGRect(x: point.x - outerRadius, y: point.y - outerRadius, width: outerRadius * 2.0, height: outerRadius * 2.0))
             context.setStrokeColor(strokeColor.cgColor)
             context.setLineWidth(strokeWidth)
             context.strokePath()

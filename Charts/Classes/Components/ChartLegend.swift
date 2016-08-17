@@ -195,6 +195,7 @@ public class ChartLegend: ChartComponentBase
 
     public var font: NSUIFont = NSUIFont.systemFont(ofSize: 10.0)
     public var textColor = NSUIColor.black
+
     public var form = Form.square
     public var formSize = CGFloat(8.0)
     public var formLineWidth = CGFloat(1.5)

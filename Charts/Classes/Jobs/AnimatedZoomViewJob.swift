@@ -64,8 +64,8 @@ public class AnimatedZoomChartViewJob: AnimatedViewPortJob
     {
         guard let
             viewPortHandler = viewPortHandler,
-            transformer = transformer,
-            view = view
+            let transformer = transformer,
+            let view = view
             else { return }
         
         let scaleX = xOrigin + (self.scaleX - xOrigin) * phase
@@ -79,6 +79,7 @@ public class AnimatedZoomChartViewJob: AnimatedViewPortJob
         
         let x = zoomOriginX + ((zoomCenterX - xsInView / 2.0) - zoomOriginX) * phase
         let y = zoomOriginY + ((zoomCenterY + valsInView / 2.0) - zoomOriginY) * phase
+        
         var pt = CGPoint(x: x, y: y)
         
         transformer.pointValueToPixel(&pt)
