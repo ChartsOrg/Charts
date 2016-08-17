@@ -80,7 +80,7 @@ public class AnimatedZoomChartViewJob: AnimatedViewPortJob
         let x = zoomOriginX + ((zoomCenterX - xsInView / 2.0) - zoomOriginX) * phase
         let y = zoomOriginY + ((zoomCenterY + valsInView / 2.0) - zoomOriginY) * phase
         
-        var pt = CGPoint(x: x,y: y)
+        var pt = CGPoint(x: x, y: y)
         
         transformer.pointValueToPixel(&pt)
         

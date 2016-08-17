@@ -400,7 +400,7 @@ public class ChartLegendRenderer: ChartRendererBase
     /// Draws the Legend-form at the given position with the color at the given index.
     public func drawForm(context: CGContext, x: CGFloat, y: CGFloat, colorIndex: Int, legend: ChartLegend)
     {
-        guard let formColor = legend.colors[colorIndex] , formColor != NSUIColor.clear else {
+        guard let formColor = legend.colors[colorIndex], formColor != NSUIColor.clear else {
             return
         }
         

@@ -38,7 +38,7 @@ public class RealmLineScatterCandleRadarDataSet: RealmBarLineScatterCandleBubble
     
     /// Enables / disables both vertical and horizontal highlight-indicators.
     /// :param: enabled
-    public func setDrawHighlightIndicators(enabled: Bool)
+    public func setDrawHighlightIndicators(_ enabled: Bool)
     {
         drawHorizontalHighlightIndicatorEnabled = enabled
         drawVerticalHighlightIndicatorEnabled = enabled
@@ -46,7 +46,7 @@ public class RealmLineScatterCandleRadarDataSet: RealmBarLineScatterCandleBubble
     
     // MARK: NSCopying
     
-    public override func copyWithZone(zone: NSZone) -> AnyObject
+    public override func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! RealmLineScatterCandleRadarDataSet
         copy.drawHorizontalHighlightIndicatorEnabled = drawHorizontalHighlightIndicatorEnabled
