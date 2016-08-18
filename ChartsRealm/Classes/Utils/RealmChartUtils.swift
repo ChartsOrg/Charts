@@ -22,9 +22,10 @@ public class RealmChartUtils: NSObject
         let addedValues = NSMutableSet()
         var xVals = [String]()
         
-        for object in results
+        for i in 0..<results.count
         {
-            let xVal = (object as! RLMObject)[xValueField] as! String!
+            let object = results[i] as! RLMObject
+            let xVal = object[xValueField] as! String!
             if !addedValues.contains(xVal!)
             {
                 addedValues.add(xVal!)
@@ -33,21 +34,5 @@ public class RealmChartUtils: NSObject
         }
         
         return xVals
-    }
-}
-
-extension RLMResults: Sequence
-{
-    public func makeIterator() -> NSFastEnumerationIterator
-    {
-        return NSFastEnumerationIterator(self)
-    }
-}
-
-extension RLMArray: Sequence
-{
-    public func makeIterator() -> NSFastEnumerationIterator
-    {
-        return NSFastEnumerationIterator(self)
     }
 }

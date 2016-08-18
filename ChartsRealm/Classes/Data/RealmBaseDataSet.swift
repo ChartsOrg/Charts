@@ -362,9 +362,10 @@ public class RealmBaseDataSet: ChartBaseDataSet
                 with: NSPredicate(format: "%K == %d", _xIndexField!, x)
             )
             
-            for e in foundObjects
+            for i in 0..<foundObjects.count
             {
-                entries.append(buildEntryFromResultObject(e as! RLMObject, atIndex: UInt(x)))
+                let e = foundObjects[i] as! RLMObject
+                entries.append(buildEntryFromResultObject(e, atIndex: UInt(x)))
             }
         }
         

@@ -15,7 +15,7 @@
 import Foundation
 
 
-public class ChartData: NSObject
+open class ChartData: NSObject
 {
     internal var _yMax = Double(0.0)
     internal var _yMin = Double(0.0)

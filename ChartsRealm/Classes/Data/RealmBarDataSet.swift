@@ -110,9 +110,10 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
         if value is RLMArray
         {
             var values = [Double]()
-            for val in value as! RLMArray
+            for i in 0..<(value as! RLMArray).count
             {
-                values.append((val as! RLMObject)[_stackValueField!] as! Double)
+                let val = (value as! RLMArray)[i]
+                values.append(val[_stackValueField!] as! Double)
             }
             entry = BarChartDataEntry(values: values, xIndex: _xIndexField == nil ? Int(atIndex) : object[_xIndexField!] as! Int)
         }
