@@ -306,7 +306,7 @@ public class ChartAnimator: NSObject
             if _displayLink === nil
             {
                 _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
-                _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
+                _displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
             }
         }
     }
