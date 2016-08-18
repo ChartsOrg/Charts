@@ -31,7 +31,7 @@ public class BarChartRenderer: ChartDataRendererBase
     
     public override func drawData(context: CGContext)
     {
-        guard let dataProvider = dataProvider, barData = dataProvider.barData else { return }
+        guard let dataProvider = dataProvider, let barData = dataProvider.barData else { return }
         
         for i in 0 ..< barData.dataSetCount
         {
@@ -53,8 +53,8 @@ public class BarChartRenderer: ChartDataRendererBase
     {
         guard let
             dataProvider = dataProvider,
-            barData = dataProvider.barData,
-            animator = animator
+            let barData = dataProvider.barData,
+            let animator = animator
             else { return }
         
         context.saveGState()
@@ -286,8 +286,8 @@ public class BarChartRenderer: ChartDataRendererBase
         {
             guard let
                 dataProvider = dataProvider,
-                barData = dataProvider.barData,
-                animator = animator
+                let barData = dataProvider.barData,
+                let animator = animator
                 else { return }
             
             var dataSets = barData.dataSets
@@ -359,7 +359,7 @@ public class BarChartRenderer: ChartDataRendererBase
                         let val = e.value
 
                         drawValue(context: context,
-                            value: formatter.string(from: val)!,
+                                  value: formatter.string(from: NSNumber(value: val))!,
                             xPos: valuePoint.x,
                             yPos: valuePoint.y + (val >= 0.0 ? posOffset : negOffset),
                             font: valueFont,
@@ -394,7 +394,7 @@ public class BarChartRenderer: ChartDataRendererBase
                             }
                             
                             drawValue(context: context,
-                                value: formatter.string(from: e.value)!,
+                                value: formatter.string(from: NSNumber(value: e.value))!,
                                 xPos: valuePoint.x,
                                 yPos: valuePoint.y + (e.value >= 0.0 ? posOffset : negOffset),
                                 font: valueFont,
@@ -448,7 +448,7 @@ public class BarChartRenderer: ChartDataRendererBase
                                 }
                                 
                                 drawValue(context: context,
-                                    value: formatter.string(from: vals[k])!,
+                                    value: formatter.string(from: NSNumber(value: vals[k]))!,
                                     xPos: x,
                                     yPos: y,
                                     font: valueFont,
@@ -479,8 +479,8 @@ public class BarChartRenderer: ChartDataRendererBase
     {
         guard let
             dataProvider = dataProvider,
-            barData = dataProvider.barData,
-            animator = animator
+            let barData = dataProvider.barData,
+            let animator = animator
             else { return }
         
         context.saveGState()
@@ -577,9 +577,9 @@ public class BarChartRenderer: ChartDataRendererBase
 							trans.pointValuesToPixel(&_highlightArrowPtsBuffer)
 							
 							context.beginPath()
-							context.moveTo(x: _highlightArrowPtsBuffer[0].x, y: _highlightArrowPtsBuffer[0].y)
-							context.addLineTo(x: _highlightArrowPtsBuffer[1].x, y: _highlightArrowPtsBuffer[1].y)
-							context.addLineTo(x: _highlightArrowPtsBuffer[2].x, y: _highlightArrowPtsBuffer[2].y)
+							context.move(to: CGPoint(x: _highlightArrowPtsBuffer[0].x, y: _highlightArrowPtsBuffer[0].y))
+							context.addLine(to: CGPoint(x: _highlightArrowPtsBuffer[1].x, y: _highlightArrowPtsBuffer[1].y))
+							context.addLine(to: CGPoint(x: _highlightArrowPtsBuffer[2].x, y: _highlightArrowPtsBuffer[2].y))
 							context.closePath()
 							
 							context.fillPath()
@@ -596,7 +596,7 @@ public class BarChartRenderer: ChartDataRendererBase
     
     internal func passesCheck() -> Bool
     {
-        guard let dataProvider = dataProvider, barData = dataProvider.barData else { return false }
+        guard let dataProvider = dataProvider, let barData = dataProvider.barData else { return false }
         
         return CGFloat(barData.yValCount) < CGFloat(dataProvider.maxVisibleValueCount) * viewPortHandler.scaleX
     }

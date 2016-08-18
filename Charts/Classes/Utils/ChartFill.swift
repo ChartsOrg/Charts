@@ -267,17 +267,17 @@ public class ChartFill: NSObject
         case .image:
             
             context.clip()
-            context.draw(in: rect, image: _image!)
+            context.draw(_image!, in: rect)
             
         case .tiledImage:
             
             context.clip()
-            context.draw(in: rect, byTiling: _image!)
+            context.draw(_image!, in: rect, byTiling: true)
             
         case .layer:
             
             context.clip()
-            context.draw(in: rect, layer: _layer!)
+            context.draw(_layer!, in: rect)
             
         case .linearGradient:
             
