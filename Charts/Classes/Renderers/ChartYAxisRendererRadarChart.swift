@@ -157,7 +157,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
     {
         guard let
             yAxis = yAxis,
-            chart = chart
+            let chart = chart
             else { return }
         
         if (!yAxis.enabled || !yAxis.drawLabelsEnabled)
@@ -196,7 +196,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
     {
         guard let
             yAxis = yAxis,
-            chart = chart
+            let chart = chart
             else { return }
         
         var limitLines = yAxis.limitLines
@@ -228,11 +228,11 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
             context.setLineWidth(l.lineWidth)
             if (l.lineDashLengths != nil)
             {
-                context.setLineDash(phase: l.lineDashPhase, lengths: l.lineDashLengths!, count: l.lineDashLengths!.count)
+                context.setLineDash(phase: l.lineDashPhase, lengths: l.lineDashLengths!)
             }
             else
             {
-                context.setLineDash(phase: 0.0, lengths: nil, count: 0)
+                context.setLineDash(phase: 0.0, lengths: [])
             }
             
             let r = CGFloat(l.limit - chart.chartYMin) * factor
@@ -245,11 +245,11 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
                 
                 if (j == 0)
                 {
-                    context.moveTo(x: p.x, y: p.y)
+                    context.move(to: CGPoint(x: p.x, y: p.y))
                 }
                 else
                 {
-                    context.addLineTo(x: p.x, y: p.y)
+                    context.addLine(to: CGPoint(x: p.x, y: p.y))
                 }
             }
             

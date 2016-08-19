@@ -14,7 +14,7 @@
 import Foundation
 import CoreGraphics
 
-public class BarChartData: BarLineScatterCandleBubbleChartData
+open class BarChartData: BarLineScatterCandleBubbleChartData
 {
     public override init()
     {

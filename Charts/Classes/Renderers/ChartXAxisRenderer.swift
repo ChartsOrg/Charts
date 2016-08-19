@@ -111,11 +111,11 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         context.setLineWidth(xAxis.axisLineWidth)
         if (xAxis.axisLineDashLengths != nil)
         {
-            context.setLineDash(phase: xAxis.axisLineDashPhase, lengths: xAxis.axisLineDashLengths, count: xAxis.axisLineDashLengths.count)
+            context.setLineDash(phase: xAxis.axisLineDashPhase, lengths: xAxis.axisLineDashLengths)
         }
         else
         {
-            context.setLineDash(phase: 0.0, lengths: nil, count: 0)
+            context.setLineDash(phase: 0.0, lengths: [])
         }
 
         if (xAxis.labelPosition == .top
@@ -126,7 +126,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
             _axisLineSegmentsBuffer[0].y = viewPortHandler.contentTop
             _axisLineSegmentsBuffer[1].x = viewPortHandler.contentRight
             _axisLineSegmentsBuffer[1].y = viewPortHandler.contentTop
-            context.strokeLineSegments(between: _axisLineSegmentsBuffer, count: 2)
+            context.strokeLineSegments(between: _axisLineSegmentsBuffer)
         }
 
         if (xAxis.labelPosition == .bottom
@@ -137,7 +137,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
             _axisLineSegmentsBuffer[0].y = viewPortHandler.contentBottom
             _axisLineSegmentsBuffer[1].x = viewPortHandler.contentRight
             _axisLineSegmentsBuffer[1].y = viewPortHandler.contentBottom
-            context.strokeLineSegments(between: _axisLineSegmentsBuffer, count: 2)
+            context.strokeLineSegments(between: _axisLineSegmentsBuffer)
         }
         
         context.restoreGState()
@@ -153,7 +153,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         
         let labelAttrs = [NSFontAttributeName: xAxis.labelFont,
             NSForegroundColorAttributeName: xAxis.labelTextColor,
-            NSParagraphStyleAttributeName: paraStyle]
+            NSParagraphStyleAttributeName: paraStyle] as [String : Any]
         let labelRotationAngleRadians = xAxis.labelRotationAngle * ChartUtils.Math.FDEG2RAD
         
         let valueToPixelMatrix = transformer.valueToPixelMatrix
@@ -203,7 +203,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
                     }
                 }
                 
-                drawLabel(context: context, label: label!, xIndex: i, x: position.x, y: pos, attributes: labelAttrs, constrainedToSize: labelMaxSize, anchor: anchor, angleRadians: labelRotationAngleRadians)
+                drawLabel(context: context, label: label!, xIndex: i, x: position.x, y: pos, attributes: labelAttrs as! [String : NSObject], constrainedToSize: labelMaxSize, anchor: anchor, angleRadians: labelRotationAngleRadians)
             }
         }
     }
@@ -236,11 +236,11 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         
         if (xAxis.gridLineDashLengths != nil)
         {
-            context.setLineDash(phase: xAxis.gridLineDashPhase, lengths: xAxis.gridLineDashLengths, count: xAxis.gridLineDashLengths.count)
+            context.setLineDash(phase: xAxis.gridLineDashPhase, lengths: xAxis.gridLineDashLengths)
         }
         else
         {
-            context.setLineDash(phase: 0.0, lengths: nil, count: 0)
+            context.setLineDash(phase: 0.0, lengths: [])
         }
         
         let valueToPixelMatrix = transformer.valueToPixelMatrix
@@ -260,7 +260,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
                 _gridLineSegmentsBuffer[0].y = viewPortHandler.contentTop
                 _gridLineSegmentsBuffer[1].x = position.x
                 _gridLineSegmentsBuffer[1].y = viewPortHandler.contentBottom
-                context.strokeLineSegments(between: _gridLineSegmentsBuffer, count: 2)
+                context.strokeLineSegments(between: _gridLineSegmentsBuffer)
             }
         }
         
@@ -317,14 +317,14 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         context.setLineWidth(limitLine.lineWidth)
         if (limitLine.lineDashLengths != nil)
         {
-            context.setLineDash(phase: limitLine.lineDashPhase, lengths: limitLine.lineDashLengths!, count: limitLine.lineDashLengths!.count)
+            context.setLineDash(phase: limitLine.lineDashPhase, lengths: limitLine.lineDashLengths!)
         }
         else
         {
-            context.setLineDash(phase: 0.0, lengths: nil, count: 0)
+            context.setLineDash(phase: 0.0, lengths: [])
         }
         
-        context.strokeLineSegments(between: _limitLineSegmentsBuffer, count: 2)
+        context.strokeLineSegments(between: _limitLineSegmentsBuffer)
     }
     
     public func renderLimitLineLabel(context: CGContext, limitLine: ChartLimitLine, position: CGPoint, yOffset: CGFloat)

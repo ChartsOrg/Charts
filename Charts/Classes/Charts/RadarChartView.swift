@@ -102,7 +102,7 @@ public class RadarChartView: PieRadarChartViewBase
         _yAxisRenderer?.computeAxis(yMin: _yAxis._axisMinimum, yMax: _yAxis._axisMaximum)
         _xAxisRenderer?.computeAxis(xValAverageLength: data?.xValAverageLength ?? 0, xValues: data?.xVals ?? [])
         
-        if let data = _data, legend = _legend where !legend.isLegendCustom
+        if let data = _data, let legend = _legend, !legend.isLegendCustom
         {
             _legendRenderer?.computeLegend(data)
         }
