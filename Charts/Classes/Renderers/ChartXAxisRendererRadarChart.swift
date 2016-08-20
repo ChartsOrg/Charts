@@ -32,10 +32,9 @@ public class ChartXAxisRendererRadarChart: ChartXAxisRenderer
     
     public override func renderAxisLabels(context: CGContext)
     {
-        guard let
-            xAxis = xAxis,
-            chart = chart
-            else { return }
+        guard let xAxis = xAxis,
+              let chart = chart
+        else { return }
         
         if (!xAxis.enabled || !xAxis.drawLabelsEnabled)
         {

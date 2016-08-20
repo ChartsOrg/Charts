@@ -75,14 +75,17 @@ public class ChartSelectionDetail: NSObject
     
     // MARK: NSObject
     
-    public override func isEqual(_ object: AnyObject?) -> Bool
+    public override func isEqual(_ object: Any?) -> Bool
     {
+        
+        let object = object as? AnyObject
+        
         if (object === nil)
         {
             return false
         }
         
-        if (!object!.isKind(of: self.dynamicType))
+        if (!object!.isKind(of: type(of: self)))
         {
             return false
         }
@@ -113,7 +116,7 @@ public func ==(lhs: ChartSelectionDetail, rhs: ChartSelectionDetail) -> Bool
         return true
     }
     
-    if (!lhs.isKind(of: rhs.dynamicType))
+    if (!lhs.isKind(of: type(of: rhs)))
     {
         return false
     }

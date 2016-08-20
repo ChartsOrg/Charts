@@ -38,8 +38,7 @@ public class BarChartHighlighter: ChartHighlighter
             guard let selectionDetail = getSelectionDetail(xIndex: xIndex, y: y, dataSetIndex: dataSetIndex)
                 else { return nil }
             
-            if let set = barData.getDataSetByIndex(dataSetIndex) as? IBarChartDataSet
-                where set.isStacked
+            if let set = barData.getDataSetByIndex(dataSetIndex) as? IBarChartDataSet, set.isStacked
             {
                 var pt = CGPoint(x: 0.0, y: y)
                 
@@ -139,8 +138,7 @@ public class BarChartHighlighter: ChartHighlighter
                                   stackIndex: -1)
         }
 
-        if let ranges = getRanges(entry: entry)
-            where ranges.count > 0
+        if let ranges = getRanges(entry: entry), ranges.count > 0
         {
             let stackIndex = getClosestStackIndex(ranges: ranges, value: yValue)
             return ChartHighlight(xIndex: xIndex,

@@ -393,7 +393,7 @@ public class ChartDataSet: ChartBaseDataSet
             }
         }
         
-        if _yVals.last?.xIndex > e.xIndex
+        if let xIndex = _yVals.last?.xIndex, xIndex > e.xIndex
         {
             var closestIndex = entryIndex(xIndex: e.xIndex, rounding: .closest)
             if _yVals[closestIndex].xIndex < e.xIndex
@@ -501,7 +501,7 @@ public class ChartDataSet: ChartBaseDataSet
 
     // MARK: - NSCopying
     
-    public override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    public override func copyWithZone(_ zone: NSZone?) -> Any
     {
         let copy = super.copyWithZone(zone) as! ChartDataSet
         

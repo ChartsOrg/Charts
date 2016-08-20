@@ -80,7 +80,7 @@ public class PieRadarChartViewBase: ChartViewBase
     {
         calcMinMax()
         
-        if let data = _data where _legend !== nil
+        if let data = _data, _legend !== nil
         {
             _legendRenderer.computeLegend(data)
         }
@@ -543,7 +543,7 @@ public class PieRadarChartViewBase: ChartViewBase
             {
                 _decelerationLastTime = CACurrentMediaTime()
                 _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(PieRadarChartViewBase.decelerationLoop))
-                _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoopMode(rawValue: RunLoopMode.commonModes.rawValue))
+                _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
             }
         }
     }
@@ -788,7 +788,7 @@ public class PieRadarChartViewBase: ChartViewBase
     {
         if (_decelerationDisplayLink !== nil)
         {
-            _decelerationDisplayLink.remove(from: RunLoop.main, forMode: RunLoopMode(rawValue: RunLoopMode.commonModes.rawValue))
+            _decelerationDisplayLink.remove(from: RunLoop.main, forMode: RunLoopMode.commonModes)
             _decelerationDisplayLink = nil
         }
     }
@@ -944,7 +944,7 @@ public class PieRadarChartViewBase: ChartViewBase
                 {
                     _decelerationLastTime = CACurrentMediaTime()
                     _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(PieRadarChartViewBase.decelerationLoop))
-                    _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoopMode(rawValue: RunLoopMode.commonModes.rawValue))
+                    _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
                 }
             }
         }

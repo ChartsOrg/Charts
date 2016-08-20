@@ -241,11 +241,11 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
         context.setLineWidth(yAxis.axisLineWidth)
         if (yAxis.axisLineDashLengths != nil)
         {
-            context.setLineDash(phase: yAxis.axisLineDashPhase, lengths: yAxis.axisLineDashLengths, count: yAxis.axisLineDashLengths.count)
+            context.setLineDash(phase: yAxis.axisLineDashPhase, lengths: yAxis.axisLineDashLengths)
         }
         else
         {
-            context.setLineDash(phase: 0.0, lengths: nil, count: 0)
+            context.setLineDash(phase: 0.0, lengths: [])
         }
         
         if (yAxis.axisDependency == .left)
@@ -254,7 +254,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             _axisLineSegmentsBuffer[0].y = viewPortHandler.contentTop
             _axisLineSegmentsBuffer[1].x = viewPortHandler.contentLeft
             _axisLineSegmentsBuffer[1].y = viewPortHandler.contentBottom
-            context.strokeLineSegments(between: _axisLineSegmentsBuffer, count: 2)
+            context.strokeLineSegments(between: _axisLineSegmentsBuffer)
         }
         else
         {
@@ -262,7 +262,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             _axisLineSegmentsBuffer[0].y = viewPortHandler.contentTop
             _axisLineSegmentsBuffer[1].x = viewPortHandler.contentRight
             _axisLineSegmentsBuffer[1].y = viewPortHandler.contentBottom
-            context.strokeLineSegments(between: _axisLineSegmentsBuffer, count: 2)
+            context.strokeLineSegments(between: _axisLineSegmentsBuffer)
         }
         
         context.restoreGState()
@@ -322,11 +322,11 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             
             if (yAxis.gridLineDashLengths != nil)
             {
-                context.setLineDash(phase: yAxis.gridLineDashPhase, lengths: yAxis.gridLineDashLengths, count: yAxis.gridLineDashLengths.count)
+                context.setLineDash(phase: yAxis.gridLineDashPhase, lengths: yAxis.gridLineDashLengths)
             }
             else
             {
-                context.setLineDash(phase: 0.0, lengths: nil, count: 0)
+                context.setLineDash(phase: 0.0, lengths: [])
             }
             
             let valueToPixelMatrix = transformer.valueToPixelMatrix
@@ -344,7 +344,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
                 _gridLineBuffer[0].y = position.y
                 _gridLineBuffer[1].x = viewPortHandler.contentRight
                 _gridLineBuffer[1].y = position.y
-                context.strokeLineSegments(between: _gridLineBuffer, count: 2)
+                context.strokeLineSegments(between: _gridLineBuffer)
             }
             
             context.restoreGState()
@@ -373,10 +373,9 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
         y1: CGFloat,
         y2: CGFloat)
     {
-        guard let
-            yAxis = yAxis,
-            zeroLineColor = yAxis.zeroLineColor
-            else { return }
+        guard let yAxis = yAxis,
+              let zeroLineColor = yAxis.zeroLineColor
+        else { return }
         
         context.saveGState()
         
@@ -385,15 +384,15 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
         
         if (yAxis.zeroLineDashLengths != nil)
         {
-            context.setLineDash(phase: yAxis.zeroLineDashPhase, lengths: yAxis.zeroLineDashLengths!, count: yAxis.zeroLineDashLengths!.count)
+            context.setLineDash(phase: yAxis.zeroLineDashPhase, lengths: yAxis.zeroLineDashLengths!)
         }
         else
         {
-            context.setLineDash(phase: 0.0, lengths: nil, count: 0)
+        context.setLineDash(phase: 0.0, lengths: [])
         }
         
-        context.moveTo(x: x1, y: y1)
-        context.addLineTo(x: x2, y: y2)
+        context.move(to: CGPoint(x: x1, y: y1))
+        context.addLine(to: CGPoint(x: x2, y: y2))
         context.drawPath(using: CGPathDrawingMode.stroke)
         
         context.restoreGState()
@@ -440,14 +439,14 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
             context.setLineWidth(l.lineWidth)
             if (l.lineDashLengths != nil)
             {
-                context.setLineDash(phase: l.lineDashPhase, lengths: l.lineDashLengths!, count: l.lineDashLengths!.count)
+                context.setLineDash(phase: l.lineDashPhase, lengths: l.lineDashLengths!)
             }
             else
             {
-                context.setLineDash(phase: 0.0, lengths: nil, count: 0)
+                context.setLineDash(phase: 0.0, lengths: [])
             }
             
-            context.strokeLineSegments(between: _limitLineSegmentsBuffer, count: 2)
+            context.strokeLineSegments(between: _limitLineSegmentsBuffer)
             
             let label = l.label
             

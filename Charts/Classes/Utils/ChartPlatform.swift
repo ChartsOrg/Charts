@@ -180,12 +180,12 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		UIGraphicsEndImageContext()
 	}
 
-	func NSUIImagePNGRepresentation(image: NSUIImage) -> NSData?
+	func NSUIImagePNGRepresentation(image: NSUIImage) -> Data?
     {
 		return UIImagePNGRepresentation(image)
 	}
 
-	func NSUIImageJPEGRepresentation(image: NSUIImage, _ quality: CGFloat = 0.8) -> NSData?
+	func NSUIImageJPEGRepresentation(image: NSUIImage, _ quality: CGFloat = 0.8) -> Data?
     {
 		return UIImageJPEGRepresentation(image, quality)
 	}
@@ -264,7 +264,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             stop()
         }
 
-		public func add(to runloop: RunLoop, forMode: String)
+		public func add(to runloop: RunLoop, forMode: RunLoopMode)
         {
             if displayLink != nil
             {
@@ -272,11 +272,11 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             }
             else if timer != nil
             {
-                runloop.add(timer!, forMode: RunLoopMode(rawValue: forMode))
+                runloop.add(timer!, forMode: forMode)
             }
 		}
 
-		public func remove(from runloop: RunLoop, forMode: String)
+		public func remove(from runloop: RunLoop, forMode: RunLoopMode)
         {
             stop()
 		}

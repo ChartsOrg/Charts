@@ -35,11 +35,10 @@ public class MoveChartViewJob: ChartViewPortJob
     
     public override func doJob()
     {
-        guard let
-            viewPortHandler = viewPortHandler,
-            transformer = transformer,
-            view = view
-            else { return }
+        guard let viewPortHandler = viewPortHandler,
+              let transformer = transformer,
+              let view = view
+        else { return }
         
         var pt = CGPoint(
             x: xIndex,

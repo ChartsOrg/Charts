@@ -48,7 +48,7 @@ public class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterCh
     
     // MARK: NSCopying
     
-    public override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    public override func copyWithZone(_ zone: NSZone?) -> Any
     {
         let copy = super.copyWithZone(zone) as! ScatterChartDataSet
         copy.scatterShapeSize = scatterShapeSize

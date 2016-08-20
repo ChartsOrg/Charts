@@ -38,30 +38,32 @@ public class ChartDataEntry: NSObject
         self.xIndex = xIndex
     }
     
-    public init(value: Double, xIndex: Int, data: AnyObject?)
+    public init(value: Double, xIndex: Int, data: Any?)
     {
         super.init()
         
         self.value = value
         self.xIndex = xIndex
-        self.data = data
+        self.data = data as AnyObject
     }
     
     // MARK: NSObject
     
-    public override func isEqual(_ object: AnyObject?) -> Bool
+    public override func isEqual(_ object: Any?) -> Bool
     {
+        let object = object as? AnyObject
+        
         if (object === nil)
         {
             return false
         }
         
-        if (!object!.isKind(of: self.dynamicType))
+        if (!object!.isKind(of: type(of: self)))
         {
             return false
         }
 
-		if let d = object as? ChartDataEntry where d.data !== self.data || !d.isEqual(self.data)
+		if let d = object as? ChartDataEntry, d.data !== self.data || !d.isEqual(self.data)
 		{
 			return false
 		}
@@ -88,9 +90,9 @@ public class ChartDataEntry: NSObject
     
     // MARK: NSCopying
     
-    public func copyWithZone(_ zone: NSZone?) -> AnyObject
+    public func copyWithZone(_ zone: NSZone?) -> Any
     {
-        let copy = self.dynamicType.init()
+        let copy = type(of: self).init()
         
         copy.value = value
         copy.xIndex = xIndex
@@ -107,7 +109,7 @@ public func ==(lhs: ChartDataEntry, rhs: ChartDataEntry) -> Bool
         return true
     }
     
-    if (!lhs.isKind(of: rhs.dynamicType))
+    if (!lhs.isKind(of: type(of: rhs)))
     {
         return false
     }

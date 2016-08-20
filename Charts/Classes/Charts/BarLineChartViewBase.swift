@@ -134,7 +134,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         #endif
     }
     
-    public override func observeValue(forKeyPath keyPath: String?, of object: AnyObject?, change: [NSKeyValueChangeKey : AnyObject]?, context: UnsafeMutablePointer<Void>?)
+    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?)
     {
         // Saving current position of chart.
         var oldPoint: CGPoint?
@@ -148,7 +148,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         
         // Restoring old position of chart
-        if var newPoint = oldPoint where keepPositionOnRotation
+        if var newPoint = oldPoint, keepPositionOnRotation
         {
             getTransformer(.left).pointValueToPixel(&newPoint)
             viewPortHandler.centerViewPort(pt: newPoint, chart: self)
@@ -824,7 +824,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
                     _decelerationVelocity = recognizer.velocity(in: self)
                     
                     _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(BarLineChartViewBase.decelerationLoop))
-                    _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoopMode(rawValue: RunLoopMode.commonModes.rawValue))
+                    _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
                 }
                 
                 _isDragging = false
@@ -875,7 +875,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     {
         if (_decelerationDisplayLink !== nil)
         {
-            _decelerationDisplayLink.remove(from: RunLoop.main, forMode: RunLoopMode(rawValue: RunLoopMode.commonModes.rawValue))
+            _decelerationDisplayLink.remove(from: RunLoop.main, forMode: RunLoopMode.commonModes)
             _decelerationDisplayLink = nil
         }
     }
@@ -981,7 +981,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
             
             // If there is two scrollview together, we pick the superview of the inner scrollview.
             // In the case of UITableViewWrepperView, the superview will be UITableView
-			if let superViewOfScrollView = scrollView?.superview where superViewOfScrollView is NSUIScrollView
+			if let superViewOfScrollView = scrollView?.superview, superViewOfScrollView is NSUIScrollView
             {
                 scrollView = superViewOfScrollView
             }
