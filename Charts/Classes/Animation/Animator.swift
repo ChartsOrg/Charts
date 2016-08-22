@@ -41,7 +41,7 @@ public class Animator: NSObject
     
     private var _startTimeX: NSTimeInterval = 0.0
     private var _startTimeY: NSTimeInterval = 0.0
-    private var _displayLink: NSUIDisplayLink!
+    private var _displayLink: NSUIDisplayLink?
     
     private var _durationX: NSTimeInterval = 0.0
     private var _durationY: NSTimeInterval = 0.0
@@ -68,9 +68,9 @@ public class Animator: NSObject
     
     public func stop()
     {
-        if (_displayLink != nil)
+        if _displayLink != nil
         {
-            _displayLink.removeFromRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
+            _displayLink?.removeFromRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
             _displayLink = nil
             
             _enabledX = false
@@ -192,10 +192,10 @@ public class Animator: NSObject
         // Take care of the first frame if rendering is already scheduled...
         updateAnimationPhases(_startTimeX)
         
-        if (_enabledX || _enabledY)
+        if _enabledX || _enabledY
         {
             _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
-            _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
+            _displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
         }
     }
     
@@ -258,10 +258,10 @@ public class Animator: NSObject
         
         if (_enabledX || _enabledY)
         {
-            if _displayLink === nil
+            if _displayLink == nil
             {
                 _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
-                _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
+                _displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
             }
         }
     }
@@ -302,10 +302,10 @@ public class Animator: NSObject
         
         if (_enabledX || _enabledY)
         {
-            if _displayLink === nil
+            if _displayLink == nil
             {
                 _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
-                _displayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
+                _displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
             }
         }
     }
