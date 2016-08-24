@@ -77,30 +77,29 @@ open class ChartSelectionDetail: NSObject
     
     open override func isEqual(_ object: Any?) -> Bool
     {
+        if (object == nil)
+        {
+            return false
+        }
+
+		let object = object as AnyObject
         
-        let object = object as? AnyObject
-        
-        if (object === nil)
+        if (!object.isKind(of: type(of: self)))
         {
             return false
         }
         
-        if (!object!.isKind(of: type(of: self)))
+        if (object.value != _value)
         {
             return false
         }
         
-        if (object!.value != _value)
+        if (object.dataSetIndex != _dataSetIndex)
         {
             return false
         }
         
-        if (object!.dataSetIndex != _dataSetIndex)
-        {
-            return false
-        }
-        
-        if (object!.dataSet !== _dataSet)
+        if (object.dataSet !== _dataSet)
         {
             return false
         }

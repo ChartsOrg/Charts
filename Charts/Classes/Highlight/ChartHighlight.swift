@@ -122,40 +122,39 @@ open class ChartHighlight: NSObject
     
     open override func isEqual(_ object: Any?) -> Bool
     {
+        if (object == nil)
+        {
+            return false
+        }
+
+		let object = object as AnyObject
         
-        let object = object as? AnyObject
-        
-        if (object === nil)
+        if (!object.isKind(of: type(of: self)))
         {
             return false
         }
         
-        if (!object!.isKind(of: type(of: self)))
+        if (object.xIndex != _xIndex)
         {
             return false
         }
         
-        if (object!.xIndex != _xIndex)
+        if (object.dataIndex != dataIndex)
         {
             return false
         }
         
-        if (object!.dataIndex != dataIndex)
+        if (object.dataSetIndex != _dataSetIndex)
         {
             return false
         }
         
-        if (object!.dataSetIndex != _dataSetIndex)
+        if (object.stackIndex != _stackIndex)
         {
             return false
         }
         
-        if (object!.stackIndex != _stackIndex)
-        {
-            return false
-        }
-        
-        if (object!.value != value)
+        if (object.value != value)
         {
             return false
         }
