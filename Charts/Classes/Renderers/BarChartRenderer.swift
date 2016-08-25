@@ -357,7 +357,7 @@ public class BarChartRenderer: ChartDataRendererBase
                         let val = e.value
 
                         drawValue(context: context,
-                            value: formatter.string(for: val)!,
+                            value: formatter.string(from: val as NSNumber)!,
                             xPos: valuePoint.x,
                             yPos: valuePoint.y + (val >= 0.0 ? posOffset : negOffset),
                             font: valueFont,
@@ -392,7 +392,7 @@ public class BarChartRenderer: ChartDataRendererBase
                             }
                             
                             drawValue(context: context,
-                                value: formatter.string(for:e.value)!,
+                                value: formatter.string(from: e.value as NSNumber)!,
                                 xPos: valuePoint.x,
                                 yPos: valuePoint.y + (e.value >= 0.0 ? posOffset : negOffset),
                                 font: valueFont,
@@ -446,7 +446,7 @@ public class BarChartRenderer: ChartDataRendererBase
                                 }
                                 
                                 drawValue(context: context,
-                                    value: formatter.string(for:vals[k])!,
+                                    value: formatter.string(from: vals[k] as NSNumber)!,
                                     xPos: x,
                                     yPos: y,
                                     font: valueFont,

@@ -43,7 +43,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
         }
     }
     
-    private var _shadowPoints = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _shadowPoints = [CGPoint](repeating: CGPoint(), count: 4)
     private var _rangePoints = [CGPoint](repeating: CGPoint(), count: 2)
     private var _openPoints = [CGPoint](repeating: CGPoint(), count: 2)
     private var _closePoints = [CGPoint](repeating: CGPoint(), count: 2)
@@ -304,7 +304,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
                     
                     ChartUtils.drawText(
                         context: context,
-                        text: formatter.string(for: e.high)!,
+                        text: formatter.string(from: e.high as NSNumber)!,
                         point: CGPoint(
                             x: pt.x,
                             y: pt.y - yOffset),

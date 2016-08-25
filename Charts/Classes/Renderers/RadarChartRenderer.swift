@@ -191,7 +191,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
                 
                 ChartUtils.drawText(
                     context: context,
-                    text: formatter.string(for: e.value)!,
+                    text: formatter.string(from: e.value as NSNumber)!,
                     point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
                     align: .center,
                     attributes: [NSFontAttributeName: valueFont,
@@ -389,7 +389,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
             }
             
             context.setFillColor(fillColor.cgColor)
-            context.fillPath()
+            context.fillPath(using: .evenOdd)
         }
             
         if let strokeColor = strokeColor

@@ -1895,8 +1895,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         
         getTransformer(.left).pixelToValue(&pt)
 
-        guard let
-            data = _data
+        guard let data = _data
             else { return Int(round(pt.x)) }
 
         return min(data.xValCount - 1, Int(floor(pt.x)))

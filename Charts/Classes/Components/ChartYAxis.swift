@@ -254,7 +254,7 @@ public class ChartYAxis: ChartAxisBase
             return ""
         }
         
-        return (valueFormatter ?? _defaultValueFormatter).string(for: entries[index])!
+        return (valueFormatter ?? _defaultValueFormatter).string(from: entries[index] as NSNumber)!
     }
     
     /// - returns: true if this axis needs horizontal offset, false if no offset is needed.

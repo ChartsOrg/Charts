@@ -318,7 +318,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
                         continue
                     }
                     
-                    let text = formatter.string(for: e.value)
+                    let text = formatter.string(from: e.value as NSNumber)
                     
                     ChartUtils.drawText(
                         context: context,

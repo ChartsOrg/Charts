@@ -231,7 +231,7 @@ public class PieChartRenderer: ChartDataRendererBase
                     
                     context.beginPath()
                     context.addPath(path)
-                    context.fillPath()
+                    context.fillPath(using: .evenOdd)
                 }
             }
             
@@ -330,7 +330,7 @@ public class PieChartRenderer: ChartDataRendererBase
                 let transformedAngle = rotationAngle + angle * phaseY
                 
                 let value = usePercentValuesEnabled ? e.value / yValueSum * 100.0 : e.value
-                let valueText = formatter.string(for: value)!
+                let valueText = formatter.string(from: value as NSNumber)!
                 
                 let sliceXBase = cos(transformedAngle * ChartUtils.Math.FDEG2RAD)
                 let sliceYBase = sin(transformedAngle * ChartUtils.Math.FDEG2RAD)
@@ -551,7 +551,7 @@ public class PieChartRenderer: ChartDataRendererBase
                         y: center.y - holeRadius,
                         width: holeRadius * 2.0,
                         height: holeRadius * 2.0))
-                    context.fillPath()
+                    context.fillPath(using: .evenOdd)
                 }
             }
             
@@ -601,8 +601,8 @@ public class PieChartRenderer: ChartDataRendererBase
     public override func drawHighlighted(context: CGContext, indices: [ChartHighlight])
     {
         guard let chart = chart,
-            let data = chart.data,
-            let animator = animator
+              let data = chart.data,
+              let animator = animator
         else { return }
         
         context.saveGState()
@@ -764,7 +764,7 @@ public class PieChartRenderer: ChartDataRendererBase
             
             context.beginPath()
             context.addPath(path)
-            context.fillPath()
+            context.fillPath(using: .evenOdd)
         }
         
         context.restoreGState()
