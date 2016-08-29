@@ -202,7 +202,7 @@ public class LineChartRenderer: LineRadarRenderer
                 prev = cur
                 cur = dataSet.entryForIndex(j)
                 
-                let cpx = CGFloat(prev.x + (cur.x - prev.x)) / 2.0
+                let cpx = CGFloat(prev.x + (cur.x - prev.x) / 2.0)
                 
                 CGPathAddCurveToPoint(cubicPath,
                                       &valueToPixelMatrix,
