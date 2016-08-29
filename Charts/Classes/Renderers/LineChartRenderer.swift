@@ -195,7 +195,7 @@ public class LineChartRenderer: LineRadarRenderer
             if cur == nil { return }
             
             // let the spline start
-            CGPathMoveToPoint(cubicPath, &valueToPixelMatrix, CGFloat(cur.x), CGFloat(cur.x * phaseY))
+            CGPathMoveToPoint(cubicPath, &valueToPixelMatrix, CGFloat(cur.x), CGFloat(cur.y * phaseY))
             
             for j in (_xBounds.min + 1).stride(through: _xBounds.range + _xBounds.min, by: 1)
             {
