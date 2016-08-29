@@ -72,7 +72,6 @@
     
     RealmLineDataSet *set = [[RealmLineDataSet alloc] initWithResults:results xValueField:@"xValue" yValueField:@"yValue"];
     
-    set.drawCubicEnabled = NO;
     set.label = @"Realm LineDataSet";
     set.drawCircleHoleEnabled = NO;
     set.color = [ChartColorTemplates colorFromString:@"#FF5722"];
@@ -119,7 +118,7 @@
     {
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
-            set.drawCubicEnabled = !set.isDrawCubicEnabled;
+            set.mode = set.mode == LineChartModeCubicBezier ? LineChartModeLinear : LineChartModeCubicBezier;
         }
         
         [_chartView setNeedsDisplay];
