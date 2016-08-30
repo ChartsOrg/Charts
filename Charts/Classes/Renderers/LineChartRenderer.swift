@@ -115,7 +115,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         // the path for the cubic-spline
         let cubicPath = CGMutablePath()
         
-        var valueToPixelMatrix = trans.valueToPixelMatrix
+        let valueToPixelMatrix = trans.valueToPixelMatrix
         
         let size = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx)))
         
@@ -197,7 +197,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         // the path for the cubic-spline
         let cubicPath = CGMutablePath()
         
-        var valueToPixelMatrix = trans.valueToPixelMatrix
+        let valueToPixelMatrix = trans.valueToPixelMatrix
         
         let size = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx)))
         
@@ -475,7 +475,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         let phaseX = max(0.0, min(1.0, animator?.phaseX ?? 1.0))
         let phaseY = animator?.phaseY ?? 1.0
         let drawSteppedEnabled = dataSet.mode == .stepped
-        var matrix = matrix
+        let matrix = matrix
         
         var e: ChartDataEntry!
         
