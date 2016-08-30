@@ -38,8 +38,7 @@ public class HorizontalBarChartHighlighter: BarChartHighlighter
             guard let selectionDetail = getSelectionDetail(xIndex: xIndex, y: y, dataSetIndex: dataSetIndex)
                 else { return nil }
             
-            if let set = barData.getDataSetByIndex(dataSetIndex) as? IBarChartDataSet
-                where set.isStacked
+            if let set = barData.getDataSetByIndex(dataSetIndex) as? IBarChartDataSet, set.isStacked
             {
                 var pt = CGPoint(x: y, y: 0.0)
                 
@@ -63,8 +62,7 @@ public class HorizontalBarChartHighlighter: BarChartHighlighter
     
     public override func getXIndex(_ x: CGFloat) -> Int
     {
-        if let barData = self.chart?.data as? BarChartData
-            where !barData.isGrouped
+        if let barData = self.chart?.data as? BarChartData, !barData.isGrouped
         {
             // create an array of the touch-point
             var pt = CGPoint(x: 0.0, y: x)

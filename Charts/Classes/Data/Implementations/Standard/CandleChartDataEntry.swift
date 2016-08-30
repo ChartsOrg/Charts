@@ -79,7 +79,7 @@ public class CandleChartDataEntry: ChartDataEntry
     
     // MARK: NSCopying
     
-    public override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    public override func copyWithZone(_ zone: NSZone?) -> Any
     {
         let copy = super.copyWithZone(zone) as! CandleChartDataEntry
         copy.high = high

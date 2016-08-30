@@ -45,10 +45,9 @@ public class CombinedChartRenderer: ChartDataRendererBase
     {
         _renderers = [ChartDataRendererBase]()
         
-        guard let
-            chart = chart,
-            animator = animator
-            else { return }
+        guard let chart = chart,
+              let animator = animator
+        else { return }
 
         for order in drawOrder
         {

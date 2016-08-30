@@ -33,8 +33,7 @@ public class ChartHighlighter : NSObject
     {
         let xIndex = getXIndex(x)
         
-        guard let
-            selectionDetail = getSelectionDetail(xIndex: xIndex, y: y, dataSetIndex: nil)
+        guard let selectionDetail = getSelectionDetail(xIndex: xIndex, y: y, dataSetIndex: nil)
             else { return nil }
         
         return ChartHighlight(xIndex: xIndex, value: selectionDetail.value, dataIndex: selectionDetail.dataIndex, dataSetIndex: selectionDetail.dataSetIndex, stackIndex: -1)
@@ -82,8 +81,7 @@ public class ChartHighlighter : NSObject
         var vals = [ChartSelectionDetail]()
         var pt = CGPoint()
         
-        guard let
-            data = self.chart?.data
+        guard let data = self.chart?.data
             else { return vals }
         
         for i in 0 ..< data.dataSetCount

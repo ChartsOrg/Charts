@@ -25,8 +25,7 @@ public class CombinedHighlighter: ChartHighlighter
         var vals = [ChartSelectionDetail]()
         var pt = CGPoint()
         
-        guard let
-            data = self.chart?.data as? CombinedChartData
+        guard let data = self.chart?.data as? CombinedChartData
             else { return vals }
         
         // get all chartdata objects

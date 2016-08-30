@@ -30,7 +30,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
     
     public override func drawData(context: CGContext)
     {
-        guard let dataProvider = dataProvider, bubbleData = dataProvider.bubbleData else { return }
+        guard let dataProvider = dataProvider, let bubbleData = dataProvider.bubbleData else { return }
         
         for set in bubbleData.dataSets as! [IBubbleChartDataSet]
         {
@@ -59,10 +59,9 @@ public class BubbleChartRenderer: ChartDataRendererBase
     
     public func drawDataSet(context: CGContext, dataSet: IBubbleChartDataSet)
     {
-        guard let
-            dataProvider = dataProvider,
-            animator = animator
-            else { return }
+        guard let dataProvider = dataProvider,
+              let animator = animator
+        else { return }
         
         let trans = dataProvider.getTransformer(dataSet.axisDependency)
         
@@ -73,10 +72,9 @@ public class BubbleChartRenderer: ChartDataRendererBase
         
         let valueToPixelMatrix = trans.valueToPixelMatrix
         
-        guard let
-            entryFrom = dataSet.entryForXIndex(self.minX),
-            entryTo = dataSet.entryForXIndex(self.maxX)
-            else { return }
+        guard let entryFrom = dataSet.entryForXIndex(self.minX),
+              let entryTo = dataSet.entryForXIndex(self.maxX)
+        else { return }
         
         let minx = max(dataSet.entryIndex(entry: entryFrom), 0)
         let maxx = min(dataSet.entryIndex(entry: entryTo) + 1, entryCount)
@@ -142,11 +140,10 @@ public class BubbleChartRenderer: ChartDataRendererBase
     
     public override func drawValues(context: CGContext)
     {
-        guard let
-            dataProvider = dataProvider,
-            bubbleData = dataProvider.bubbleData,
-            animator = animator
-            else { return }
+        guard let dataProvider = dataProvider,
+              let bubbleData = dataProvider.bubbleData,
+              let animator = animator
+        else { return }
         
         // if values are drawn
         if (bubbleData.yValCount < Int(ceil(CGFloat(dataProvider.maxVisibleValueCount) * viewPortHandler.scaleX)))
@@ -174,10 +171,9 @@ public class BubbleChartRenderer: ChartDataRendererBase
                 
                 let entryCount = dataSet.entryCount
                 
-                guard let
-                    entryFrom = dataSet.entryForXIndex(self.minX),
-                    entryTo = dataSet.entryForXIndex(self.maxX)
-                    else { continue }
+                guard let entryFrom = dataSet.entryForXIndex(self.minX),
+                      let entryTo = dataSet.entryForXIndex(self.maxX)
+                else { continue }
                 
                 let minx = max(dataSet.entryIndex(entry: entryFrom), 0)
                 let maxx = min(dataSet.entryIndex(entry: entryTo) + 1, entryCount)
@@ -202,7 +198,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
                         continue
                     }
                     
-                    let text = formatter.string(from: e.size)
+                    let text = formatter.string(from: e.size as NSNumber)
                     
                     // Larger font for larger bubbles?
                     let valueFont = dataSet.valueFont
@@ -228,11 +224,10 @@ public class BubbleChartRenderer: ChartDataRendererBase
     
     public override func drawHighlighted(context: CGContext, indices: [ChartHighlight])
     {
-        guard let
-            dataProvider = dataProvider,
-            bubbleData = dataProvider.bubbleData,
-            animator = animator
-            else { return }
+        guard let dataProvider = dataProvider,
+              let bubbleData = dataProvider.bubbleData,
+              let animator = animator
+        else { return }
         
         context.saveGState()
         
@@ -247,9 +242,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
             
             for dataSetIndex in minDataSetIndex..<maxDataSetIndex
             {
-                guard let dataSet = bubbleData.getDataSetByIndex(dataSetIndex) as? IBubbleChartDataSet
-                    where dataSet.highlightEnabled
-                    else { continue }
+                guard let dataSet = bubbleData.getDataSetByIndex(dataSetIndex) as? IBubbleChartDataSet, dataSet.highlightEnabled else { continue }
                 
                 let entries = dataSet.entriesForXIndex(high.xIndex)
                 

@@ -28,7 +28,7 @@ public class BarLineScatterCandleBubbleChartDataSet: ChartDataSet, IBarLineScatt
     
     // MARK: - NSCopying
     
-    public override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    public override func copyWithZone(_ zone: NSZone?) -> Any
     {
         let copy = super.copyWithZone(zone) as! BarLineScatterCandleBubbleChartDataSet
         copy.highlightColor = highlightColor

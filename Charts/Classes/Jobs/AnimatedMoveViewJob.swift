@@ -42,11 +42,10 @@ public class AnimatedMoveChartViewJob: AnimatedViewPortJob
     
     internal override func animationUpdate()
     {
-        guard let
-            viewPortHandler = viewPortHandler,
-            transformer = transformer,
-            view = view
-            else { return }
+        guard let viewPortHandler = viewPortHandler,
+              let transformer = transformer,
+              let view = view
+        else { return }
         
         var pt = CGPoint(
             x: xOrigin + (xIndex - xOrigin) * phase,

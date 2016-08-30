@@ -62,11 +62,10 @@ public class AnimatedZoomChartViewJob: AnimatedViewPortJob
     
     internal override func animationUpdate()
     {
-        guard let
-            viewPortHandler = viewPortHandler,
-            transformer = transformer,
-            view = view
-            else { return }
+        guard let viewPortHandler = viewPortHandler,
+              let transformer = transformer,
+              let view = view
+        else { return }
         
         let scaleX = xOrigin + (self.scaleX - xOrigin) * phase
         let scaleY = yOrigin + (self.scaleY - yOrigin) * phase

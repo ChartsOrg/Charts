@@ -33,15 +33,14 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
     /// draws the x-labels on the specified y-position
     public override func drawLabels(context: CGContext, pos: CGFloat, anchor: CGPoint)
     {
-        guard let
-            xAxis = xAxis,
-            barData = chart?.data as? BarChartData
-            else { return }
+        guard let xAxis = xAxis,
+              let barData = chart?.data as? BarChartData
+        else { return }
         
         let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         paraStyle.alignment = .center
         
-        let labelAttrs = [NSFontAttributeName: xAxis.labelFont,
+        let labelAttrs: [String : NSObject] = [NSFontAttributeName: xAxis.labelFont,
             NSForegroundColorAttributeName: xAxis.labelTextColor,
             NSParagraphStyleAttributeName: paraStyle]
         let labelRotationAngleRadians = xAxis.labelRotationAngle * ChartUtils.Math.FDEG2RAD
@@ -112,9 +111,8 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
     
     public override func renderGridLines(context: CGContext)
     {
-        guard let
-            xAxis = xAxis,
-            barData = chart?.data as? BarChartData
+        guard let xAxis = xAxis,
+              let barData = chart?.data as? BarChartData
             else { return }
         
         if (!xAxis.drawGridLinesEnabled || !xAxis.enabled)
@@ -133,11 +131,11 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
         
         if (xAxis.gridLineDashLengths != nil)
         {
-            context.setLineDash(phase: xAxis.gridLineDashPhase, lengths: xAxis.gridLineDashLengths, count: xAxis.gridLineDashLengths.count)
+            context.setLineDash(phase: xAxis.gridLineDashPhase, lengths: xAxis.gridLineDashLengths)
         }
         else
         {
-            context.setLineDash(phase: 0.0, lengths: nil, count: 0)
+            context.setLineDash(phase: 0.0, lengths: [])
         }
         
         let valueToPixelMatrix = transformer.valueToPixelMatrix
@@ -156,7 +154,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
                 _gridLineSegmentsBuffer[0].y = viewPortHandler.contentTop
                 _gridLineSegmentsBuffer[1].x = position.x
                 _gridLineSegmentsBuffer[1].y = viewPortHandler.contentBottom
-                context.strokeLineSegments(between: _gridLineSegmentsBuffer, count: 2)
+                context.strokeLineSegments(between: _gridLineSegmentsBuffer)
             }
         }
         

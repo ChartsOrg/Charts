@@ -51,7 +51,7 @@ public class BarChartDataEntry: ChartDataEntry
     }
     
     /// Constructor for normal bars (not stacked).
-    public override init(value: Double, xIndex: Int, data: AnyObject?)
+    public override init(value: Double, xIndex: Int, data: Any?)
     {
         super.init(value: value, xIndex: xIndex, data: data)
     }
@@ -134,7 +134,7 @@ public class BarChartDataEntry: ChartDataEntry
     
     // MARK: NSCopying
     
-    public override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    public override func copyWithZone(_ zone: NSZone?) -> Any
     {
         let copy = super.copyWithZone(zone) as! BarChartDataEntry
         copy._values = _values

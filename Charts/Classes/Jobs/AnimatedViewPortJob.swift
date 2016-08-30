@@ -108,7 +108,7 @@ public class AnimatedViewPortJob: ChartViewPortJob
         
         if _easing != nil
         {
-            phase = _easing!(elapsed: elapsed, duration: duration)
+            phase = _easing!(elapsed, duration)
         }
         else
         {

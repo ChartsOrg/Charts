@@ -270,7 +270,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
         // check if a custom formatter is set or not
         var reference = Double(0.0)
         
-        if let data = _data where data.xValCount >= 2
+        if let data = _data, data.xValCount >= 2
         {
             reference = fabs(max - min)
         }
@@ -300,9 +300,8 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
             defer { context.restoreGState() }
             
             let hasText = noDataText.characters.count > 0
-            let hasDescription = noDataTextDescription?.characters.count > 0
             var textHeight = hasText ? infoFont.lineHeight : 0.0
-            if hasDescription
+            if let hasDescription = noDataTextDescription?.characters, hasDescription.count > 0
             {
                 textHeight += infoFont.lineHeight
             }
@@ -768,7 +767,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     /// - returns: the x-value at the given index
     public func getXValue(_ index: Int) -> String!
     {
-        guard let data = _data where data.xValCount > index else
+        guard let data = _data, data.xValCount > index else
         {
             return nil
         }
@@ -850,7 +849,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     public func saveToPath(_ path: String, format: ImageFormat, compressionQuality: Double) throws -> Bool
     {
 		if let image = getChartImage(transparent: format != .jpeg) {
-			var imageData: NSData?
+			var imageData: Data?
 			switch (format)
 			{
 			case .png:
@@ -882,7 +881,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
     
     internal var _viewportJobs = [ChartViewPortJob]()
     
-    public override func observeValue(forKeyPath keyPath: String?, of object: AnyObject?, change: [NSKeyValueChangeKey : AnyObject]?, context: UnsafeMutablePointer<Void>?)
+    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?)
     {
         if (keyPath == "bounds" || keyPath == "frame")
         {
@@ -890,7 +889,7 @@ public class ChartViewBase: NSUIView, ChartDataProvider, ChartAnimatorDelegate
             
             if (_viewPortHandler !== nil &&
                 (bounds.size.width != _viewPortHandler.chartWidth ||
-                bounds.size.height != _viewPortHandler.chartHeight))
+                    bounds.size.height != _viewPortHandler.chartHeight))
             {
                 _viewPortHandler.setChartDimens(width: bounds.size.width, height: bounds.size.height)
                 
