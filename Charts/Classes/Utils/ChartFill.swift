@@ -16,7 +16,7 @@ import Foundation
 import CoreGraphics
 import QuartzCore
 
-public class ChartFill: NSObject
+open class ChartFill: NSObject
 {
     @objc(ChartFillType)
     public enum ChartFillType: Int
@@ -43,52 +43,52 @@ public class ChartFill: NSObject
     
     // MARK: Properties
     
-    public var type: ChartFillType
+    open var type: ChartFillType
     {
         return _type
     }
     
-    public var color: CGColor?
+    open var color: CGColor?
     {
         return _color
     }
     
-    public var gradient: CGGradient?
+    open var gradient: CGGradient?
     {
         return _gradient
     }
     
-    public var gradientAngle: CGFloat
+    open var gradientAngle: CGFloat
     {
         return _gradientAngle
     }
     
-    public var gradientStartOffsetPercent: CGPoint
+    open var gradientStartOffsetPercent: CGPoint
     {
         return _gradientStartOffsetPercent
     }
     
-    public var gradientStartRadiusPercent: CGFloat
+    open var gradientStartRadiusPercent: CGFloat
     {
         return _gradientStartRadiusPercent
     }
     
-    public var gradientEndOffsetPercent: CGPoint
+    open var gradientEndOffsetPercent: CGPoint
     {
         return _gradientEndOffsetPercent
     }
     
-    public var gradientEndRadiusPercent: CGFloat
+    open var gradientEndRadiusPercent: CGFloat
     {
         return _gradientEndRadiusPercent
     }
     
-    public var image: CGImage?
+    open var image: CGImage?
     {
         return _image
     }
     
-    public var layer: CGLayer?
+    open var layer: CGLayer?
     {
         return _layer
     }
@@ -180,22 +180,22 @@ public class ChartFill: NSObject
     
     // MARK: Constructors
     
-    public class func fillWithCGColor(_ color: CGColor) -> ChartFill
+    open class func fillWithCGColor(_ color: CGColor) -> ChartFill
     {
         return ChartFill(color: color)
     }
     
-    public class func fillWithColor(_ color: NSUIColor) -> ChartFill
+    open class func fillWithColor(_ color: NSUIColor) -> ChartFill
     {
         return ChartFill(nsuiColor: color)
     }
     
-    public class func fillWithLinearGradient(_ linearGradient: CGGradient, angle: CGFloat) -> ChartFill
+    open class func fillWithLinearGradient(_ linearGradient: CGGradient, angle: CGFloat) -> ChartFill
     {
         return ChartFill(linearGradient: linearGradient, angle: angle)
     }
     
-    public class func fillWithRadialGradient(
+    open class func fillWithRadialGradient(
         _ radialGradient: CGGradient,
         startOffsetPercent: CGPoint,
         startRadiusPercent: CGFloat,
@@ -212,32 +212,32 @@ public class ChartFill: NSObject
         )
     }
     
-    public class func fillWithRadialGradient(_ radialGradient: CGGradient) -> ChartFill
+    open class func fillWithRadialGradient(_ radialGradient: CGGradient) -> ChartFill
     {
         return ChartFill(radialGradient: radialGradient)
     }
     
-    public class func fillWithCGImage(_ image: CGImage, tiled: Bool) -> ChartFill
+    open class func fillWithCGImage(_ image: CGImage, tiled: Bool) -> ChartFill
     {
         return ChartFill(image: image, tiled: tiled)
     }
     
-    public class func fillWithImage(_ image: NSUIImage, tiled: Bool) -> ChartFill
+    open class func fillWithImage(_ image: NSUIImage, tiled: Bool) -> ChartFill
     {
         return ChartFill(image: image.cgImage!, tiled: tiled)
     }
     
-    public class func fillWithCGImage(_ image: CGImage) -> ChartFill
+    open class func fillWithCGImage(_ image: CGImage) -> ChartFill
     {
         return ChartFill(image: image)
     }
     
-    public class func fillWithImage(_ image: NSUIImage) -> ChartFill
+    open class func fillWithImage(_ image: NSUIImage) -> ChartFill
     {
         return ChartFill(nsuiImage: image)
     }
     
-    public class func fillWithCGLayer(_ layer: CGLayer) -> ChartFill
+    open class func fillWithCGLayer(_ layer: CGLayer) -> ChartFill
     {
         return ChartFill(layer: layer)
     }
@@ -245,7 +245,7 @@ public class ChartFill: NSObject
     // MARK: Drawing code
     
     /// Draws the provided path in filled mode with the provided area
-    public func fillPath(
+    open func fillPath(
         context: CGContext,
         rect: CGRect)
     {

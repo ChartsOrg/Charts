@@ -14,10 +14,10 @@
 import Foundation
 
 /// An interface for providing custom x-axis Strings.
-public class ChartDefaultXAxisValueFormatter: NSObject, ChartXAxisValueFormatter
+open class ChartDefaultXAxisValueFormatter: NSObject, ChartXAxisValueFormatter
 {
     
-    public func stringForXValue(_ index: Int, original: String, viewPortHandler: ChartViewPortHandler) -> String
+    open func stringForXValue(_ index: Int, original: String, viewPortHandler: ChartViewPortHandler) -> String
     {
         return original // just return original, no adjustments
     }

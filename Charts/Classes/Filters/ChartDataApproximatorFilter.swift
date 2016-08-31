@@ -14,7 +14,7 @@
 
 import Foundation
 
-public class ChartDataApproximatorFilter: ChartDataBaseFilter
+open class ChartDataApproximatorFilter: ChartDataBaseFilter
 {
     @objc
     public enum ApproximatorType: Int
@@ -24,14 +24,14 @@ public class ChartDataApproximatorFilter: ChartDataBaseFilter
     }
     
     /// the type of filtering algorithm to use
-    public var type = ApproximatorType.none
+    open var type = ApproximatorType.none
     
     /// the tolerance to be filtered with
     /// When using the Douglas-Peucker-Algorithm, the tolerance is an angle in degrees, that will trigger the filtering
-    public var tolerance = Double(0.0)
+    open var tolerance = Double(0.0)
     
-    public var scaleRatio = Double(1.0)
-    public var deltaRatio = Double(1.0)
+    open var scaleRatio = Double(1.0)
+    open var deltaRatio = Double(1.0)
     
     public override init()
     {
@@ -49,14 +49,14 @@ public class ChartDataApproximatorFilter: ChartDataBaseFilter
     
     /// Sets type and tolerance.
     /// If tolerance <= 0, no filtering will be done.
-    public func setup(_ type: ApproximatorType, tolerance: Double)
+    open func setup(_ type: ApproximatorType, tolerance: Double)
     {
         self.type = type
         self.tolerance = tolerance
     }
     
     /// Sets the ratios for x- and y-axis, as well as the ratio of the scale levels
-    public func setRatios(_ deltaRatio: Double, scaleRatio: Double)
+    open func setRatios(_ deltaRatio: Double, scaleRatio: Double)
     {
         self.deltaRatio = deltaRatio
         self.scaleRatio = scaleRatio
@@ -65,7 +65,7 @@ public class ChartDataApproximatorFilter: ChartDataBaseFilter
     /// Filters according to type. Uses the pre set set tolerance
     ///
     /// - parameter points: the points to filter
-    public override func filter(_ points: [ChartDataEntry]) -> [ChartDataEntry]
+    open override func filter(_ points: [ChartDataEntry]) -> [ChartDataEntry]
     {
         return filter(points, tolerance: tolerance)
     }
@@ -74,7 +74,7 @@ public class ChartDataApproximatorFilter: ChartDataBaseFilter
     ///
     /// - parameter points: the points to filter
     /// - parameter tolerance: the angle in degrees that will trigger the filtering
-    public func filter(_ points: [ChartDataEntry], tolerance: Double) -> [ChartDataEntry]
+    open func filter(_ points: [ChartDataEntry], tolerance: Double) -> [ChartDataEntry]
     {
         if (tolerance <= 0)
         {

@@ -15,9 +15,9 @@
 import Foundation
 import CoreGraphics
 
-public class HorizontalBarChartHighlighter: BarChartHighlighter
+open class HorizontalBarChartHighlighter: BarChartHighlighter
 {
-    public override func getHighlight(x: CGFloat, y: CGFloat) -> ChartHighlight?
+    open override func getHighlight(x: CGFloat, y: CGFloat) -> ChartHighlight?
     {
         if let barData = self.chart?.data as? BarChartData
         {
@@ -60,7 +60,7 @@ public class HorizontalBarChartHighlighter: BarChartHighlighter
         return nil
     }
     
-    public override func getXIndex(_ x: CGFloat) -> Int
+    open override func getXIndex(_ x: CGFloat) -> Int
     {
         if let barData = self.chart?.data as? BarChartData, !barData.isGrouped
         {
@@ -81,7 +81,7 @@ public class HorizontalBarChartHighlighter: BarChartHighlighter
     /// Returns the base y-value to the corresponding x-touch value in pixels.
     /// - parameter y:
     /// - returns:
-    public override func getBase(_ y: CGFloat) -> Double
+    open override func getBase(_ y: CGFloat) -> Double
     {
         if let barData = self.chart?.data as? BarChartData
         {
@@ -93,7 +93,7 @@ public class HorizontalBarChartHighlighter: BarChartHighlighter
             self.chart?.getTransformer(ChartYAxis.AxisDependency.left).pixelToValue(&pt)
             let yVal = Double(pt.y)
             
-            let setCount = barData.dataSetCount ?? 0
+            let setCount = barData.dataSetCount 
             
             // calculate how often the group-space appears
             let steps = Int(yVal / (Double(setCount) + Double(barData.groupSpace)))

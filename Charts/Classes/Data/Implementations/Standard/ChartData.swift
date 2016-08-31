@@ -15,7 +15,7 @@
 import Foundation
 
 
-public class ChartData: NSObject
+open class ChartData: NSObject
 {
     internal var _yMax = Double(0.0)
     internal var _yMin = Double(0.0)
@@ -140,7 +140,7 @@ public class ChartData: NSObject
     
     /// Call this method to let the ChartData know that the underlying data has changed.
     /// Calling this performs all necessary recalculations needed when the contained data has changed.
-    public func notifyDataChanged()
+    open func notifyDataChanged()
     {
         initialize(_dataSets)
     }
@@ -259,7 +259,7 @@ public class ChartData: NSObject
     }
     
     /// - returns: the number of LineDataSets this object contains
-    public var dataSetCount: Int
+    open var dataSetCount: Int
     {
         if (_dataSets == nil)
         {
@@ -269,17 +269,17 @@ public class ChartData: NSObject
     }
     
     /// - returns: the smallest y-value the data object contains.
-    public var yMin: Double
+    open var yMin: Double
     {
         return _yMin
     }
     
-    public func getYMin() -> Double
+    open func getYMin() -> Double
     {
         return _yMin
     }
     
-    public func getYMin(_ axis: ChartYAxis.AxisDependency) -> Double
+    open func getYMin(_ axis: ChartYAxis.AxisDependency) -> Double
     {
         if (axis == .left)
         {
@@ -292,17 +292,17 @@ public class ChartData: NSObject
     }
     
     /// - returns: the greatest y-value the data object contains.
-    public var yMax: Double
+    open var yMax: Double
     {
         return _yMax
     }
     
-    public func getYMax() -> Double
+    open func getYMax() -> Double
     {
         return _yMax
     }
     
-    public func getYMax(_ axis: ChartYAxis.AxisDependency) -> Double
+    open func getYMax(_ axis: ChartYAxis.AxisDependency) -> Double
     {
         if (axis == .left)
         {
@@ -315,19 +315,19 @@ public class ChartData: NSObject
     }
     
     /// - returns: the average length (in characters) across all values in the x-vals array
-    public var xValAverageLength: Double
+    open var xValAverageLength: Double
     {
         return _xValAverageLength
     }
     
     /// - returns: the total number of y-values across all DataSet objects the this object represents.
-    public var yValCount: Int
+    open var yValCount: Int
     {
         return _yValCount
     }
     
     /// - returns: the x-values the chart represents
-    public var xVals: [String?]
+    open var xVals: [String?]
     {
         get
         {
@@ -340,19 +340,19 @@ public class ChartData: NSObject
     }
     
     ///Adds a new x-value to the chart data.
-    public func addXValue(_ xVal: String?)
+    open func addXValue(_ xVal: String?)
     {
         _xVals.append(xVal)
     }
     
     /// Removes the x-value at the specified index.
-    public func removeXValue(_ index: Int)
+    open func removeXValue(_ index: Int)
     {
         _xVals.remove(at: index)
     }
     
     /// - returns: the array of ChartDataSets this object holds.
-    public var dataSets: [IChartDataSet]
+    open var dataSets: [IChartDataSet]
     {
         get
         {
@@ -404,7 +404,7 @@ public class ChartData: NSObject
     }
     
     /// - returns: the total number of x-values this ChartData object represents (the size of the x-values array)
-    public var xValCount: Int
+    open var xValCount: Int
     {
         return _xVals.count
     }
@@ -431,7 +431,7 @@ public class ChartData: NSObject
     ///
     /// - parameter highlight:
     /// - returns: the entry that is highlighted
-    public func getEntryForHighlight(_ highlight: ChartHighlight) -> ChartDataEntry?
+    open func getEntryForHighlight(_ highlight: ChartHighlight) -> ChartDataEntry?
     {
         if highlight.dataSetIndex >= dataSets.count
         {
@@ -459,7 +459,7 @@ public class ChartData: NSObject
     /// - parameter label:
     /// - parameter ignorecase:
     /// - returns: the DataSet Object with the given label. Sensitive or not.
-    public func getDataSetByLabel(_ label: String, ignorecase: Bool) -> IChartDataSet?
+    open func getDataSetByLabel(_ label: String, ignorecase: Bool) -> IChartDataSet?
     {
         let index = getDataSetIndexByLabel(label, ignorecase: ignorecase)
         
@@ -473,7 +473,7 @@ public class ChartData: NSObject
         }
     }
     
-    public func getDataSetByIndex(_ index: Int) -> IChartDataSet!
+    open func getDataSetByIndex(_ index: Int) -> IChartDataSet!
     {
         if (_dataSets == nil || index < 0 || index >= _dataSets.count)
         {
@@ -483,7 +483,7 @@ public class ChartData: NSObject
         return _dataSets[index]
     }
     
-    public func addDataSet(_ d: IChartDataSet!)
+    open func addDataSet(_ d: IChartDataSet!)
     {
         if (_dataSets == nil)
         {
@@ -548,7 +548,7 @@ public class ChartData: NSObject
         handleEmptyAxis(getFirstLeft(), firstRight: getFirstRight())
     }
     
-    public func handleEmptyAxis(_ firstLeft: IChartDataSet?, firstRight: IChartDataSet?)
+    open func handleEmptyAxis(_ firstLeft: IChartDataSet?, firstRight: IChartDataSet?)
     {
         // in case there is only one axis, adjust the second axis
         if (firstLeft === nil)
@@ -567,7 +567,7 @@ public class ChartData: NSObject
     /// Also recalculates all minimum and maximum values.
     ///
     /// - returns: true if a DataSet was removed, false if no DataSet could be removed.
-    public func removeDataSet(_ dataSet: IChartDataSet!) -> Bool
+    open func removeDataSet(_ dataSet: IChartDataSet!) -> Bool
     {
         if (_dataSets == nil || dataSet === nil)
         {
@@ -589,7 +589,7 @@ public class ChartData: NSObject
     /// Also recalculates all minimum and maximum values. 
     ///
     /// - returns: true if a DataSet was removed, false if no DataSet could be removed.
-    public func removeDataSetByIndex(_ index: Int) -> Bool
+    open func removeDataSetByIndex(_ index: Int) -> Bool
     {
         if (_dataSets == nil || index >= _dataSets.count || index < 0)
         {
@@ -605,7 +605,7 @@ public class ChartData: NSObject
     }
     
     /// Adds an Entry to the DataSet at the specified index. Entries are added to the end of the list.
-    public func addEntry(_ e: ChartDataEntry, dataSetIndex: Int)
+    open func addEntry(_ e: ChartDataEntry, dataSetIndex: Int)
     {
         if _dataSets != nil && _dataSets.count > dataSetIndex && dataSetIndex >= 0
         {
@@ -676,7 +676,7 @@ public class ChartData: NSObject
     }
     
     /// Removes the given Entry object from the DataSet at the specified index.
-    public func removeEntry(_ entry: ChartDataEntry!, dataSetIndex: Int) -> Bool
+    open func removeEntry(_ entry: ChartDataEntry!, dataSetIndex: Int) -> Bool
     {
         // entry null, outofbounds
         if (entry === nil || dataSetIndex >= _dataSets.count)
@@ -700,7 +700,7 @@ public class ChartData: NSObject
     /// Removes the Entry object at the given xIndex from the ChartDataSet at the
     /// specified index. 
     /// - returns: true if an entry was removed, false if no Entry was found that meets the specified requirements.
-    public func removeEntryByXIndex(_ xIndex: Int, dataSetIndex: Int) -> Bool
+    open func removeEntryByXIndex(_ xIndex: Int, dataSetIndex: Int) -> Bool
     {
         if (dataSetIndex >= _dataSets.count)
         {
@@ -718,7 +718,7 @@ public class ChartData: NSObject
     }
     
     /// - returns: the DataSet that contains the provided Entry, or null, if no DataSet contains this entry.
-    public func getDataSetForEntry(_ e: ChartDataEntry!) -> IChartDataSet?
+    open func getDataSetForEntry(_ e: ChartDataEntry!) -> IChartDataSet?
     {
         if (e == nil)
         {
@@ -739,7 +739,7 @@ public class ChartData: NSObject
     }
     
     /// - returns: the index of the provided DataSet inside the DataSets array of this data object. -1 if the DataSet was not found.
-    public func indexOfDataSet(_ dataSet: IChartDataSet) -> Int
+    open func indexOfDataSet(_ dataSet: IChartDataSet) -> Int
     {
         for i in 0 ..< _dataSets.count
         {
@@ -753,7 +753,7 @@ public class ChartData: NSObject
     }
     
     /// - returns: the first DataSet from the datasets-array that has it's dependency on the left axis. Returns null if no DataSet with left dependency could be found.
-    public func getFirstLeft() -> IChartDataSet?
+    open func getFirstLeft() -> IChartDataSet?
     {
         for dataSet in _dataSets
         {
@@ -767,7 +767,7 @@ public class ChartData: NSObject
     }
     
     /// - returns: the first DataSet from the datasets-array that has it's dependency on the right axis. Returns null if no DataSet with right dependency could be found.
-    public func getFirstRight() -> IChartDataSet?
+    open func getFirstRight() -> IChartDataSet?
     {
         for dataSet in _dataSets
         {
@@ -781,7 +781,7 @@ public class ChartData: NSObject
     }
     
     /// - returns: all colors used across all DataSet objects this object represents.
-    public func getColors() -> [NSUIColor]?
+    open func getColors() -> [NSUIColor]?
     {
         if (_dataSets == nil)
         {
@@ -811,7 +811,7 @@ public class ChartData: NSObject
     }
     
     /// Generates an x-values array filled with numbers in range specified by the parameters. Can be used for convenience.
-    public func generateXVals(_ from: Int, to: Int) -> [String]
+    open func generateXVals(_ from: Int, to: Int) -> [String]
     {
         var xvals = [String]()
         
@@ -824,7 +824,7 @@ public class ChartData: NSObject
     }
     
     /// Sets a custom ValueFormatter for all DataSets this data object contains.
-    public func setValueFormatter(_ formatter: NumberFormatter!)
+    open func setValueFormatter(_ formatter: NumberFormatter!)
     {
         for set in dataSets
         {
@@ -833,7 +833,7 @@ public class ChartData: NSObject
     }
     
     /// Sets the color of the value-text (color in which the value-labels are drawn) for all DataSets this data object contains.
-    public func setValueTextColor(_ color: NSUIColor!)
+    open func setValueTextColor(_ color: NSUIColor!)
     {
         for set in dataSets
         {
@@ -842,7 +842,7 @@ public class ChartData: NSObject
     }
     
     /// Sets the font for all value-labels for all DataSets this data object contains.
-    public func setValueFont(_ font: NSUIFont!)
+    open func setValueFont(_ font: NSUIFont!)
     {
         for set in dataSets
         {
@@ -851,7 +851,7 @@ public class ChartData: NSObject
     }
     
     /// Enables / disables drawing values (value-text) for all DataSets this data object contains.
-    public func setDrawValues(_ enabled: Bool)
+    open func setDrawValues(_ enabled: Bool)
     {
         for set in dataSets
         {
@@ -861,7 +861,7 @@ public class ChartData: NSObject
     
     /// Enables / disables highlighting values for all DataSets this data object contains.
     /// If set to true, this means that values can be highlighted programmatically or by touch gesture.
-    public var highlightEnabled: Bool
+    open var highlightEnabled: Bool
     {
         get
         {
@@ -886,7 +886,7 @@ public class ChartData: NSObject
     
     /// Clears this data object from all DataSets and removes all Entries.
     /// Don't forget to invalidate the chart after this.
-    public func clearValues()
+    open func clearValues()
     {
         dataSets.removeAll(keepingCapacity: false)
         notifyDataChanged()
@@ -894,7 +894,7 @@ public class ChartData: NSObject
     
     /// Checks if this data object contains the specified Entry. 
     /// - returns: true if so, false if not.
-    public func contains(entry: ChartDataEntry) -> Bool
+    open func contains(entry: ChartDataEntry) -> Bool
     {
         for set in dataSets
         {
@@ -909,7 +909,7 @@ public class ChartData: NSObject
     
     /// Checks if this data object contains the specified DataSet. 
     /// - returns: true if so, false if not.
-    public func contains(dataSet: IChartDataSet) -> Bool
+    open func contains(dataSet: IChartDataSet) -> Bool
     {
         for set in dataSets
         {
@@ -925,7 +925,7 @@ public class ChartData: NSObject
     /// MARK: - ObjC compatibility
     
     /// - returns: the average length (in characters) across all values in the x-vals array
-    public var xValsObjc: [NSObject]
+    open var xValsObjc: [NSObject]
     {
         get
         {

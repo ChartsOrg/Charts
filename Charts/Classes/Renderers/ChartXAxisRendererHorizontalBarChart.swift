@@ -19,14 +19,14 @@ import CoreGraphics
 #endif
 
 
-public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
+open class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
 {
     public override init(viewPortHandler: ChartViewPortHandler, xAxis: ChartXAxis, transformer: ChartTransformer!, chart: BarChartView)
     {
         super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: transformer, chart: chart)
     }
     
-    public override func computeAxis(xValAverageLength: Double, xValues: [String?])
+    open override func computeAxis(xValAverageLength: Double, xValues: [String?])
     {
         guard let xAxis = xAxis else { return }
         
@@ -47,7 +47,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         xAxis.labelRotatedHeight = round(labelRotatedSize.height)
     }
 
-    public override func renderAxisLabels(context: CGContext)
+    open override func renderAxisLabels(context: CGContext)
     {
         guard let xAxis = xAxis else { return }
         
@@ -82,7 +82,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
     }
 
     /// draws the x-labels on the specified y-position
-    public override func drawLabels(context: CGContext, pos: CGFloat, anchor: CGPoint)
+    open override func drawLabels(context: CGContext, pos: CGFloat, anchor: CGPoint)
     {
         guard let xAxis = xAxis,
               let bd = chart?.data as? BarChartData
@@ -124,7 +124,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
         }
     }
     
-    public func drawLabel(context: CGContext, label: String, xIndex: Int, x: CGFloat, y: CGFloat, attributes: [String: NSObject], anchor: CGPoint, angleRadians: CGFloat)
+    open func drawLabel(context: CGContext, label: String, xIndex: Int, x: CGFloat, y: CGFloat, attributes: [String: NSObject], anchor: CGPoint, angleRadians: CGFloat)
     {
         guard let xAxis = xAxis else { return }
         
@@ -134,7 +134,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
     
     private var _gridLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    public override func renderGridLines(context: CGContext)
+    open override func renderGridLines(context: CGContext)
     {
         guard let xAxis = xAxis,
               let bd = chart?.data as? BarChartData
@@ -188,7 +188,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
     
     private var _axisLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    public override func renderAxisLine(context: CGContext)
+    open override func renderAxisLine(context: CGContext)
     {
         guard let xAxis = xAxis else { return }
         
@@ -237,7 +237,7 @@ public class ChartXAxisRendererHorizontalBarChart: ChartXAxisRendererBarChart
     
     private var _limitLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    public override func renderLimitLines(context: CGContext)
+    open override func renderLimitLines(context: CGContext)
     {
         guard let xAxis = xAxis else { return }
         

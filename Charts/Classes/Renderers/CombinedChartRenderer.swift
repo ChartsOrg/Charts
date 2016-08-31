@@ -14,18 +14,18 @@
 import Foundation
 import CoreGraphics
 
-public class CombinedChartRenderer: ChartDataRendererBase
+open class CombinedChartRenderer: ChartDataRendererBase
 {
-    public weak var chart: CombinedChartView?
+    open weak var chart: CombinedChartView?
     
     /// flag that enables or disables the highlighting arrow
-    public var drawHighlightArrowEnabled = false
+    open var drawHighlightArrowEnabled = false
     
     /// if set to true, all values are drawn above their bars, instead of below their top
-    public var drawValueAboveBarEnabled = true
+    open var drawValueAboveBarEnabled = true
     
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
-    public var drawBarShadowEnabled = true
+    open var drawBarShadowEnabled = true
     
     internal var _renderers = [ChartDataRendererBase]()
     
@@ -92,7 +92,7 @@ public class CombinedChartRenderer: ChartDataRendererBase
 
     }
     
-    public override func drawData(context: CGContext)
+    open override func drawData(context: CGContext)
     {
         for renderer in _renderers
         {
@@ -100,7 +100,7 @@ public class CombinedChartRenderer: ChartDataRendererBase
         }
     }
     
-    public override func drawValues(context: CGContext)
+    open override func drawValues(context: CGContext)
     {
         for renderer in _renderers
         {
@@ -108,7 +108,7 @@ public class CombinedChartRenderer: ChartDataRendererBase
         }
     }
     
-    public override func drawExtras(context: CGContext)
+    open override func drawExtras(context: CGContext)
     {
         for renderer in _renderers
         {
@@ -116,7 +116,7 @@ public class CombinedChartRenderer: ChartDataRendererBase
         }
     }
     
-    public override func drawHighlighted(context: CGContext, indices: [ChartHighlight])
+    open override func drawHighlighted(context: CGContext, indices: [ChartHighlight])
     {
         for renderer in _renderers
         {
@@ -151,7 +151,7 @@ public class CombinedChartRenderer: ChartDataRendererBase
         }
     }
     
-    public override func calcXBounds(chart: BarLineScatterCandleBubbleChartDataProvider, xAxisModulus: Int)
+    open override func calcXBounds(chart: BarLineScatterCandleBubbleChartDataProvider, xAxisModulus: Int)
     {
         for renderer in _renderers
         {
@@ -160,7 +160,7 @@ public class CombinedChartRenderer: ChartDataRendererBase
     }
 
     /// - returns: the sub-renderer object at the specified index.
-    public func getSubRenderer(index: Int) -> ChartDataRendererBase?
+    open func getSubRenderer(index: Int) -> ChartDataRendererBase?
     {
         if (index >= _renderers.count || index < 0)
         {
@@ -173,7 +173,7 @@ public class CombinedChartRenderer: ChartDataRendererBase
     }
 
     /// Returns all sub-renderers.
-    public var subRenderers: [ChartDataRendererBase]
+    open var subRenderers: [ChartDataRendererBase]
     {
         get { return _renderers }
         set { _renderers = newValue }
@@ -184,7 +184,7 @@ public class CombinedChartRenderer: ChartDataRendererBase
     /// the order in which the provided data objects should be drawn.
     /// The earlier you place them in the provided array, the further they will be in the background.
     /// e.g. if you provide [DrawOrder.Bar, DrawOrder.Line], the bars will be drawn behind the lines.
-    public var drawOrder: [CombinedChartView.DrawOrder]
+    open var drawOrder: [CombinedChartView.DrawOrder]
     {
         get
         {

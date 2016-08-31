@@ -14,16 +14,16 @@
 
 import Foundation
 
-public class ChartDataEntry: NSObject
+open class ChartDataEntry: NSObject
 {
     /// the actual value (y axis)
-    public var value = Double(0.0)
+    open var value = Double(0.0)
     
     /// the index on the x-axis
-    public var xIndex = Int(0)
+    open var xIndex = Int(0)
     
     /// optional spot for additional data this Entry represents
-    public var data: AnyObject?
+    open var data: AnyObject?
     
     public override required init()
     {
@@ -49,7 +49,7 @@ public class ChartDataEntry: NSObject
     
     // MARK: NSObject
     
-    public override func isEqual(_ object: Any?) -> Bool
+    open override func isEqual(_ object: Any?) -> Bool
     {
         let object = object as? AnyObject
         
@@ -83,14 +83,14 @@ public class ChartDataEntry: NSObject
     
     // MARK: NSObject
     
-    public override var description: String
+    open override var description: String
     {
         return "ChartDataEntry, xIndex: \(xIndex), value \(value)"
     }
     
     // MARK: NSCopying
     
-    public func copyWithZone(_ zone: NSZone?) -> Any
+    open func copyWithZone(_ zone: NSZone?) -> Any
     {
         let copy = type(of: self).init()
         

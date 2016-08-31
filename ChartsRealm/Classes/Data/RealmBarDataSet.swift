@@ -19,9 +19,9 @@ import Charts
 import Realm
 import Realm.Dynamic
 
-public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartDataSet
+open class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartDataSet
 {
-    public override func initialize()
+    open override func initialize()
     {
         self.highlightColor = NSUIColor.black
     }
@@ -85,7 +85,7 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
         self.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, yValueField: yValueField, xIndexField: nil, stackValueField: stackValueField, label: nil)
     }
     
-    public override func notifyDataSetChanged()
+    open override func notifyDataSetChanged()
     {
         _cache.removeAll()
         ensureCache(start: 0, end: entryCount - 1)
@@ -139,7 +139,7 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
         }
     }
     
-    public override func calcMinMax(start : Int, end: Int)
+    open override func calcMinMax(start : Int, end: Int)
     {
         let yValCount = self.entryCount
         
@@ -214,40 +214,40 @@ public class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartD
     }
     
     /// - returns: the maximum number of bars that can be stacked upon another in this DataSet.
-    public var stackSize: Int
+    open var stackSize: Int
     {
         return _stackSize
     }
     
     /// - returns: true if this DataSet is stacked (stacksize > 1) or not.
-    public var isStacked: Bool
+    open var isStacked: Bool
     {
         return _stackSize > 1 ? true : false
     }
     
     /// array of labels used to describe the different values of the stacked bars
-    public var stackLabels: [String] = ["Stack"]
+    open var stackLabels: [String] = ["Stack"]
     
     // MARK: - Styling functions and accessors
     
     /// space indicator between the bars in percentage of the whole width of one value (0.15 == 15% of bar width)
-    public var barSpace: CGFloat = 0.15
+    open var barSpace: CGFloat = 0.15
     
     /// the color used for drawing the bar-shadows. The bar shadows is a surface behind the bar that indicates the maximum value
-    public var barShadowColor = NSUIColor(red: 215.0/255.0, green: 215.0/255.0, blue: 215.0/255.0, alpha: 1.0)
+    open var barShadowColor = NSUIColor(red: 215.0/255.0, green: 215.0/255.0, blue: 215.0/255.0, alpha: 1.0)
 
     /// the width used for drawing borders around the bars. If borderWidth == 0, no border will be drawn.
-    public var barBorderWidth : CGFloat = 0.0
+    open var barBorderWidth : CGFloat = 0.0
 
     /// the color drawing borders around the bars.
-    public var barBorderColor = NSUIColor(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0)
+    open var barBorderColor = NSUIColor(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0)
 
     /// the alpha value (transparency) that is used for drawing the highlight indicator bar. min = 0.0 (fully transparent), max = 1.0 (fully opaque)
-    public var highlightAlpha = CGFloat(120.0 / 255.0)
+    open var highlightAlpha = CGFloat(120.0 / 255.0)
     
     // MARK: - NSCopying
     
-    public override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! RealmBarDataSet
         copy._stackSize = _stackSize

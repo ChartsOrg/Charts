@@ -19,9 +19,9 @@ import CoreGraphics
 #endif
 
 
-public class ChartXAxisRenderer: ChartAxisRendererBase
+open class ChartXAxisRenderer: ChartAxisRendererBase
 {
-    public var xAxis: ChartXAxis?
+    open var xAxis: ChartXAxis?
   
     public init(viewPortHandler: ChartViewPortHandler, xAxis: ChartXAxis, transformer: ChartTransformer!)
     {
@@ -30,7 +30,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         self.xAxis = xAxis
     }
     
-    public func computeAxis(xValAverageLength: Double, xValues: [String?])
+    open func computeAxis(xValAverageLength: Double, xValues: [String?])
     {
         guard let xAxis = xAxis else { return }
         
@@ -60,7 +60,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         xAxis.values = xValues
     }
     
-    public override func renderAxisLabels(context: CGContext)
+    open override func renderAxisLabels(context: CGContext)
     {
         guard let xAxis = xAxis else { return }
         
@@ -96,7 +96,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
     
     private var _axisLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    public override func renderAxisLine(context: CGContext)
+    open override func renderAxisLine(context: CGContext)
     {
         guard let xAxis = xAxis else { return }
         
@@ -144,7 +144,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
     }
     
     /// draws the x-labels on the specified y-position
-    public func drawLabels(context: CGContext, pos: CGFloat, anchor: CGPoint)
+    open func drawLabels(context: CGContext, pos: CGFloat, anchor: CGPoint)
     {
         guard let xAxis = xAxis else { return }
         
@@ -208,7 +208,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         }
     }
     
-    public func drawLabel(context: CGContext, label: String, xIndex: Int, x: CGFloat, y: CGFloat, attributes: [String: NSObject], constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
+    open func drawLabel(context: CGContext, label: String, xIndex: Int, x: CGFloat, y: CGFloat, attributes: [String: NSObject], constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
     {
         guard let xAxis = xAxis else { return }
         
@@ -218,7 +218,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
     
     private var _gridLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    public override func renderGridLines(context: CGContext)
+    open override func renderGridLines(context: CGContext)
     {
         guard let xAxis = xAxis else { return }
         
@@ -267,7 +267,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         context.restoreGState()
     }
     
-    public override func renderLimitLines(context: CGContext)
+    open override func renderLimitLines(context: CGContext)
     {
         guard let xAxis = xAxis else { return }
         
@@ -306,7 +306,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
     
     private var _limitLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    public func renderLimitLineLine(context: CGContext, limitLine: ChartLimitLine, position: CGPoint)
+    open func renderLimitLineLine(context: CGContext, limitLine: ChartLimitLine, position: CGPoint)
     {
         _limitLineSegmentsBuffer[0].x = position.x
         _limitLineSegmentsBuffer[0].y = viewPortHandler.contentTop
@@ -327,7 +327,7 @@ public class ChartXAxisRenderer: ChartAxisRendererBase
         context.strokeLineSegments(between: _limitLineSegmentsBuffer)
     }
     
-    public func renderLimitLineLabel(context: CGContext, limitLine: ChartLimitLine, position: CGPoint, yOffset: CGFloat)
+    open func renderLimitLineLabel(context: CGContext, limitLine: ChartLimitLine, position: CGPoint, yOffset: CGFloat)
     {
         let label = limitLine.label
         

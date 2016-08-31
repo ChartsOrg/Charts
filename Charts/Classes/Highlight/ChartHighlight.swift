@@ -14,7 +14,7 @@
 
 import Foundation
 
-public class ChartHighlight: NSObject
+open class ChartHighlight: NSObject
 {
     /// the x-index of the highlighted value
     fileprivate var _xIndex = Int(0)
@@ -104,23 +104,23 @@ public class ChartHighlight: NSObject
         self.init(xIndex: x, value: Double.nan, dataSetIndex: dataSetIndex, stackIndex: -1, range: nil)
     }
     
-    public var xIndex: Int { return _xIndex }
-    public var value: Double { return _value }
-    public var dataIndex: Int { return _dataIndex }
-    public var dataSetIndex: Int { return _dataSetIndex }
-    public var stackIndex: Int { return _stackIndex }
+    open var xIndex: Int { return _xIndex }
+    open var value: Double { return _value }
+    open var dataIndex: Int { return _dataIndex }
+    open var dataSetIndex: Int { return _dataSetIndex }
+    open var stackIndex: Int { return _stackIndex }
     
     /// - returns: the range of values the selected value of a stacked bar is in. (this is only relevant for stacked-barchart)
-    public var range: ChartRange? { return _range }
+    open var range: ChartRange? { return _range }
 
     // MARK: NSObject
     
-    public override var description: String
+    open override var description: String
     {
         return "Highlight, xIndex: \(_xIndex), dataIndex (combined charts): \(_dataIndex),dataSetIndex: \(_dataSetIndex), stackIndex (only stacked barentry): \(_stackIndex), value: \(_value)"
     }
     
-    public override func isEqual(_ object: Any?) -> Bool
+    open override func isEqual(_ object: Any?) -> Bool
     {
         
         let object = object as? AnyObject

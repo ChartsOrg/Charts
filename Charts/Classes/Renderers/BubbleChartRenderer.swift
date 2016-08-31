@@ -17,9 +17,9 @@ import CoreGraphics
 #endif
 
 
-public class BubbleChartRenderer: ChartDataRendererBase
+open class BubbleChartRenderer: ChartDataRendererBase
 {
-    public weak var dataProvider: BubbleChartDataProvider?
+    open weak var dataProvider: BubbleChartDataProvider?
     
     public init(dataProvider: BubbleChartDataProvider?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
@@ -28,7 +28,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
         self.dataProvider = dataProvider
     }
     
-    public override func drawData(context: CGContext)
+    open override func drawData(context: CGContext)
     {
         guard let dataProvider = dataProvider, let bubbleData = dataProvider.bubbleData else { return }
         
@@ -57,7 +57,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
     private var _pointBuffer = CGPoint()
     private var _sizeBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    public func drawDataSet(context: CGContext, dataSet: IBubbleChartDataSet)
+    open func drawDataSet(context: CGContext, dataSet: IBubbleChartDataSet)
     {
         guard let dataProvider = dataProvider,
               let animator = animator
@@ -138,7 +138,7 @@ public class BubbleChartRenderer: ChartDataRendererBase
         context.restoreGState()
     }
     
-    public override func drawValues(context: CGContext)
+    open override func drawValues(context: CGContext)
     {
         guard let dataProvider = dataProvider,
               let bubbleData = dataProvider.bubbleData,
@@ -217,12 +217,12 @@ public class BubbleChartRenderer: ChartDataRendererBase
         }
     }
     
-    public override func drawExtras(context: CGContext)
+    open override func drawExtras(context: CGContext)
     {
         
     }
     
-    public override func drawHighlighted(context: CGContext, indices: [ChartHighlight])
+    open override func drawHighlighted(context: CGContext, indices: [ChartHighlight])
     {
         guard let dataProvider = dataProvider,
               let bubbleData = dataProvider.bubbleData,

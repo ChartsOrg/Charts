@@ -15,7 +15,7 @@ import Foundation
 import CoreGraphics
 
 /// Chart that draws bars.
-public class BarChartView: BarLineChartViewBase, BarChartDataProvider
+open class BarChartView: BarLineChartViewBase, BarChartDataProvider
 {
     /// flag that enables or disables the highlighting arrow
     private var _drawHighlightArrowEnabled = false
@@ -58,7 +58,7 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
     }
     
     /// - returns: the Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the BarChart.
-    public override func getHighlightByTouchPoint(_ pt: CGPoint) -> ChartHighlight?
+    open override func getHighlightByTouchPoint(_ pt: CGPoint) -> ChartHighlight?
     {
         if _data === nil
         {
@@ -70,7 +70,7 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
     }
         
     /// - returns: the bounding box of the specified Entry in the specified DataSet. Returns null if the Entry could not be found in the charts data.
-    public func getBarBounds(_ e: BarChartDataEntry) -> CGRect
+    open func getBarBounds(_ e: BarChartDataEntry) -> CGRect
     {
         guard let set = _data?.getDataSetForEntry(e) as? IBarChartDataSet
             else { return CGRect.null }
@@ -94,7 +94,7 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
         return bounds
     }
     
-    public override var lowestVisibleXIndex: Int
+    open override var lowestVisibleXIndex: Int
     {
         let step = CGFloat(_data?.dataSetCount ?? 0)
         let div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
@@ -105,7 +105,7 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
         return Int((pt.x <= CGFloat(chartXMin)) ? 0.0 : (pt.x / div) + 1.0)
     }
 
-    public override var highestVisibleXIndex: Int
+    open override var highestVisibleXIndex: Int
     {
         let step = CGFloat(_data?.dataSetCount ?? 0)
         let div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
@@ -119,7 +119,7 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
     // MARK: Accessors
     
     /// flag that enables or disables the highlighting arrow
-    public var drawHighlightArrowEnabled: Bool
+    open var drawHighlightArrowEnabled: Bool
     {
         get { return _drawHighlightArrowEnabled; }
         set
@@ -130,7 +130,7 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
     }
     
     /// if set to true, all values are drawn above their bars, instead of below their top
-    public var drawValueAboveBarEnabled: Bool
+    open var drawValueAboveBarEnabled: Bool
     {
         get { return _drawValueAboveBarEnabled; }
         set
@@ -141,7 +141,7 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
     }
     
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
-    public var drawBarShadowEnabled: Bool
+    open var drawBarShadowEnabled: Bool
     {
         get { return _drawBarShadowEnabled; }
         set
@@ -153,5 +153,5 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
     
     // MARK: - BarChartDataProbider
     
-    public var barData: BarChartData? { return _data as? BarChartData }
+    open var barData: BarChartData? { return _data as? BarChartData }
 }

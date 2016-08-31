@@ -18,7 +18,7 @@ import Charts
 import Realm
 import Realm.Dynamic
 
-public class RealmScatterData: ScatterChartData
+open class RealmScatterData: ScatterChartData
 {
     public init(results: RLMResults<RLMObject>?, xValueField: String, dataSets: [IChartDataSet]?)
     {

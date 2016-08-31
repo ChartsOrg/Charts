@@ -19,9 +19,9 @@ import CoreGraphics
 #endif
 
 
-public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
+open class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
 {
-    public weak var dataProvider: CandleChartDataProvider?
+    open weak var dataProvider: CandleChartDataProvider?
     
     public init(dataProvider: CandleChartDataProvider?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
@@ -30,7 +30,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
         self.dataProvider = dataProvider
     }
     
-    public override func drawData(context: CGContext)
+    open override func drawData(context: CGContext)
     {
         guard let dataProvider = dataProvider, let candleData = dataProvider.candleData else { return }
 
@@ -50,7 +50,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
     private var _bodyRect = CGRect()
     private var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
     
-    public func drawDataSet(context: CGContext, dataSet: ICandleChartDataSet)
+    open func drawDataSet(context: CGContext, dataSet: ICandleChartDataSet)
     {
         guard let trans = dataProvider?.getTransformer(dataSet.axisDependency),
               let animator = animator
@@ -243,7 +243,7 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
         context.restoreGState()
     }
     
-    public override func drawValues(context: CGContext)
+    open override func drawValues(context: CGContext)
     {
         guard let dataProvider = dataProvider,
               let candleData = dataProvider.candleData,
@@ -315,13 +315,13 @@ public class CandleStickChartRenderer: LineScatterCandleRadarChartRenderer
         }
     }
     
-    public override func drawExtras(context: CGContext)
+    open override func drawExtras(context: CGContext)
     {
     }
     
     private var _highlightPointBuffer = CGPoint()
     
-    public override func drawHighlighted(context: CGContext, indices: [ChartHighlight])
+    open override func drawHighlighted(context: CGContext, indices: [ChartHighlight])
     {
         guard let dataProvider = dataProvider,
               let candleData = dataProvider.candleData,

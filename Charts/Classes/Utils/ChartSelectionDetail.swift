@@ -14,7 +14,7 @@
 
 import Foundation
 
-public class ChartSelectionDetail: NSObject
+open class ChartSelectionDetail: NSObject
 {
     private var _y = CGFloat.nan
     private var _value = Double(0)
@@ -48,34 +48,34 @@ public class ChartSelectionDetail: NSObject
         self.init(y: CGFloat.nan, value: value, dataIndex: 0, dataSetIndex: dataSetIndex, dataSet: dataSet)
     }
     
-    public var y: CGFloat
+    open var y: CGFloat
     {
         return _y
     }
     
-    public var value: Double
+    open var value: Double
     {
         return _value
     }
     
-    public var dataIndex: Int
+    open var dataIndex: Int
     {
         return _dataIndex
     }
     
-    public var dataSetIndex: Int
+    open var dataSetIndex: Int
     {
         return _dataSetIndex
     }
     
-    public var dataSet: IChartDataSet?
+    open var dataSet: IChartDataSet?
     {
         return _dataSet
     }
     
     // MARK: NSObject
     
-    public override func isEqual(_ object: Any?) -> Bool
+    open override func isEqual(_ object: Any?) -> Bool
     {
         
         let object = object as? AnyObject

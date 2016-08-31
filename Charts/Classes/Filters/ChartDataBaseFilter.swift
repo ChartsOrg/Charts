@@ -14,14 +14,14 @@
 
 import Foundation
 
-public class ChartDataBaseFilter: NSObject
+open class ChartDataBaseFilter: NSObject
 {
     public override init()
     {
         super.init()
     }
     
-    public func filter(_ points: [ChartDataEntry]) -> [ChartDataEntry]
+    open func filter(_ points: [ChartDataEntry]) -> [ChartDataEntry]
     {
         fatalError("filter() cannot be called on ChartDataBaseFilter")
     }

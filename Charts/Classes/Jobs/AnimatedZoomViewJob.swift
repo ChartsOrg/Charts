@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-public class AnimatedZoomChartViewJob: AnimatedViewPortJob
+open class AnimatedZoomChartViewJob: AnimatedViewPortJob
 {
     internal var yAxis: ChartYAxis?
     internal var xValCount: Int = 0

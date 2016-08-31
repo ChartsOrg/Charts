@@ -18,9 +18,9 @@ import CoreGraphics
     import UIKit
 #endif
 
-public class BarChartRenderer: ChartDataRendererBase
+open class BarChartRenderer: ChartDataRendererBase
 {
-    public weak var dataProvider: BarChartDataProvider?
+    open weak var dataProvider: BarChartDataProvider?
     
     public init(dataProvider: BarChartDataProvider?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
@@ -29,7 +29,7 @@ public class BarChartRenderer: ChartDataRendererBase
         self.dataProvider = dataProvider
     }
     
-    public override func drawData(context: CGContext)
+    open override func drawData(context: CGContext)
     {
         guard let dataProvider = dataProvider, let barData = dataProvider.barData else { return }
         
@@ -49,7 +49,7 @@ public class BarChartRenderer: ChartDataRendererBase
         }
     }
     
-    public func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int)
+    open func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int)
     {
         guard let dataProvider = dataProvider,
               let barData = dataProvider.barData,
@@ -261,7 +261,7 @@ public class BarChartRenderer: ChartDataRendererBase
     }
 
     /// Prepares a bar for being highlighted.
-    public func prepareBarHighlight(x: CGFloat, y1: Double, y2: Double, barspacehalf: CGFloat, trans: ChartTransformer, rect: inout CGRect)
+    open func prepareBarHighlight(x: CGFloat, y1: Double, y2: Double, barspacehalf: CGFloat, trans: ChartTransformer, rect: inout CGRect)
     {
         let barWidth: CGFloat = 0.5
         
@@ -278,7 +278,7 @@ public class BarChartRenderer: ChartDataRendererBase
         trans.rectValueToPixel(&rect, phaseY: animator?.phaseY ?? 1.0)
     }
     
-    public override func drawValues(context: CGContext)
+    open override func drawValues(context: CGContext)
     {
         // if values are drawn
         if (passesCheck())
@@ -461,19 +461,19 @@ public class BarChartRenderer: ChartDataRendererBase
     }
     
     /// Draws a value at the specified x and y position.
-    public func drawValue(context: CGContext, value: String, xPos: CGFloat, yPos: CGFloat, font: NSUIFont, align: NSTextAlignment, color: NSUIColor)
+    open func drawValue(context: CGContext, value: String, xPos: CGFloat, yPos: CGFloat, font: NSUIFont, align: NSTextAlignment, color: NSUIColor)
     {
         ChartUtils.drawText(context: context, text: value, point: CGPoint(x: xPos, y: yPos), align: align, attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: color])
     }
     
-    public override func drawExtras(context: CGContext)
+    open override func drawExtras(context: CGContext)
     {
         
     }
     
     private var _highlightArrowPtsBuffer = [CGPoint](repeating: CGPoint(), count: 3)
     
-    public override func drawHighlighted(context: CGContext, indices: [ChartHighlight])
+    open override func drawHighlighted(context: CGContext, indices: [ChartHighlight])
     {
         guard let dataProvider = dataProvider,
               let barData = dataProvider.barData,

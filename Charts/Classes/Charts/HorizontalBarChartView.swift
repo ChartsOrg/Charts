@@ -19,7 +19,7 @@ import CoreGraphics
 #endif
 
 /// BarChart with horizontal bar orientation. In this implementation, x- and y-axis are switched.
-public class HorizontalBarChartView: BarChartView
+open class HorizontalBarChartView: BarChartView
 {
     internal override func initialize()
     {
@@ -117,7 +117,7 @@ public class HorizontalBarChartView: BarChartView
         }
     }
     
-    public override func getBarBounds(_ e: BarChartDataEntry) -> CGRect
+    open override func getBarBounds(_ e: BarChartDataEntry) -> CGRect
     {
         guard let
             set = _data?.getDataSetForEntry(e) as? IBarChartDataSet
@@ -140,7 +140,7 @@ public class HorizontalBarChartView: BarChartView
         return bounds
     }
     
-    public override func getPosition(_ e: ChartDataEntry, axis: ChartYAxis.AxisDependency) -> CGPoint
+    open override func getPosition(_ e: ChartDataEntry, axis: ChartYAxis.AxisDependency) -> CGPoint
     {
         var vals = CGPoint(x: CGFloat(e.value), y: CGFloat(e.xIndex))
         
@@ -149,7 +149,7 @@ public class HorizontalBarChartView: BarChartView
         return vals
     }
 
-    public override func getHighlightByTouchPoint(_ pt: CGPoint) -> ChartHighlight?
+    open override func getHighlightByTouchPoint(_ pt: CGPoint) -> ChartHighlight?
     {
         if _data === nil
         {
@@ -160,7 +160,7 @@ public class HorizontalBarChartView: BarChartView
         return self.highlighter?.getHighlight(x: pt.y, y: pt.x)
     }
     
-    public override var lowestVisibleXIndex: Int
+    open override var lowestVisibleXIndex: Int
     {
         let step = CGFloat(_data?.dataSetCount ?? 0)
         let div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
@@ -171,7 +171,7 @@ public class HorizontalBarChartView: BarChartView
         return Int(((pt.y <= 0.0) ? 0.0 : pt.y / div) + 1.0)
     }
     
-    public override var highestVisibleXIndex: Int
+    open override var highestVisibleXIndex: Int
     {
         let step = CGFloat(_data?.dataSetCount ?? 0)
         let div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace

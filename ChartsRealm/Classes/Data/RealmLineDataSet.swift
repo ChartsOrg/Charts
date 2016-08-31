@@ -18,9 +18,9 @@ import Charts
 import Realm
 import Realm.Dynamic
 
-public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
+open class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
 {
-    public override func initialize()
+    open override func initialize()
     {
         circleColors.append(NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
     }
@@ -32,14 +32,14 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     /// The drawing mode for this line dataset
     ///
     /// **default**: Linear
-    public var mode: LineChartDataSet.Mode = LineChartDataSet.Mode.linear
+    open var mode: LineChartDataSet.Mode = LineChartDataSet.Mode.linear
     
     private var _cubicIntensity = CGFloat(0.2)
     
     /// Intensity for cubic lines (min = 0.05, max = 1)
     ///
     /// **default**: 0.2
-    public var cubicIntensity: CGFloat
+    open var cubicIntensity: CGFloat
     {
         get
         {
@@ -60,7 +60,7 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     }
     
     @available(*, deprecated: 1.0, message: "Use `mode` instead.")
-    public var drawCubicEnabled: Bool
+    open var drawCubicEnabled: Bool
     {
         get
         {
@@ -73,10 +73,10 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     }
     
     @available(*, deprecated: 1.0, message: "Use `mode` instead.")
-    public var isDrawCubicEnabled: Bool { return drawCubicEnabled }
+    open var isDrawCubicEnabled: Bool { return drawCubicEnabled }
     
     @available(*, deprecated: 1.0, message: "Use `mode` instead.")
-    public var drawSteppedEnabled: Bool
+    open var drawSteppedEnabled: Bool
     {
         get
         {
@@ -89,19 +89,19 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     }
     
     @available(*, deprecated: 1.0, message: "Use `mode` instead.")
-    public var isDrawSteppedEnabled: Bool { return drawSteppedEnabled }
+    open var isDrawSteppedEnabled: Bool { return drawSteppedEnabled }
 
     /// The radius of the drawn circles.
-    public var circleRadius = CGFloat(8.0)
+    open var circleRadius = CGFloat(8.0)
     
     /// The hole radius of the drawn circles
-    public var circleHoleRadius = CGFloat(4.0)
+    open var circleHoleRadius = CGFloat(4.0)
     
-    public var circleColors = [NSUIColor]()
+    open var circleColors = [NSUIColor]()
     
     /// - returns: the color at the given index of the DataSet's circle-color array.
     /// Performs a IndexOutOfBounds check by modulus.
-    public func getCircleColor(_ index: Int) -> NSUIColor?
+    open func getCircleColor(_ index: Int) -> NSUIColor?
     {
         let size = circleColors.count
         let index = index % size
@@ -114,49 +114,49 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     
     /// Sets the one and ONLY color that should be used for this DataSet.
     /// Internally, this recreates the colors array and adds the specified color.
-    public func setCircleColor(_ color: NSUIColor)
+    open func setCircleColor(_ color: NSUIColor)
     {
         circleColors.removeAll(keepingCapacity: false)
         circleColors.append(color)
     }
     
     /// Resets the circle-colors array and creates a new one
-    public func resetCircleColors(_ index: Int)
+    open func resetCircleColors(_ index: Int)
     {
         circleColors.removeAll(keepingCapacity: false)
     }
     
     /// If true, drawing circles is enabled
-    public var drawCirclesEnabled = true
+    open var drawCirclesEnabled = true
     
     /// - returns: true if drawing circles for this DataSet is enabled, false if not
-    public var isDrawCirclesEnabled: Bool { return drawCirclesEnabled }
+    open var isDrawCirclesEnabled: Bool { return drawCirclesEnabled }
     
     /// The color of the inner circle (the circle-hole).
-    public var circleHoleColor: NSUIColor? = NSUIColor.white
+    open var circleHoleColor: NSUIColor? = NSUIColor.white
     
     /// True if drawing circles for this DataSet is enabled, false if not
-    public var drawCircleHoleEnabled = true
+    open var drawCircleHoleEnabled = true
     
     /// - returns: true if drawing the circle-holes is enabled, false if not.
-    public var isDrawCircleHoleEnabled: Bool { return drawCircleHoleEnabled }
+    open var isDrawCircleHoleEnabled: Bool { return drawCircleHoleEnabled }
     
     /// This is how much (in pixels) into the dash pattern are we starting from.
-    public var lineDashPhase = CGFloat(0.0)
+    open var lineDashPhase = CGFloat(0.0)
     
     /// This is the actual dash pattern.
     /// I.e. [2, 3] will paint [--   --   ]
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
-    public var lineDashLengths: [CGFloat]?
+    open var lineDashLengths: [CGFloat]?
     
     /// Line cap type, default is CGLineCap.Butt
-    public var lineCapType = CGLineCap.butt
+    open var lineCapType = CGLineCap.butt
     
     /// formatter for customizing the position of the fill-line
     private var _fillFormatter: ChartFillFormatter = ChartDefaultFillFormatter()
     
     /// Sets a custom FillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
-    public var fillFormatter: ChartFillFormatter?
+    open var fillFormatter: ChartFillFormatter?
     {
         get
         {
@@ -177,7 +177,7 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     
     // MARK: NSCopying
     
-    public override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! RealmLineDataSet
         copy.circleRadius = circleRadius

@@ -19,9 +19,9 @@ import CoreGraphics
 #endif
 
 
-public class ChartXAxisRendererRadarChart: ChartXAxisRenderer
+open class ChartXAxisRendererRadarChart: ChartXAxisRenderer
 {
-    public weak var chart: RadarChartView?
+    open weak var chart: RadarChartView?
     
     public init(viewPortHandler: ChartViewPortHandler, xAxis: ChartXAxis, chart: RadarChartView)
     {
@@ -30,7 +30,7 @@ public class ChartXAxisRendererRadarChart: ChartXAxisRenderer
         self.chart = chart
     }
     
-    public override func renderAxisLabels(context: CGContext)
+    open override func renderAxisLabels(context: CGContext)
     {
         guard let xAxis = xAxis,
               let chart = chart
@@ -71,7 +71,7 @@ public class ChartXAxisRendererRadarChart: ChartXAxisRenderer
         }
     }
     
-    public func drawLabel(context: CGContext, label: String, xIndex: Int, x: CGFloat, y: CGFloat, attributes: [String: NSObject], anchor: CGPoint, angleRadians: CGFloat)
+    open func drawLabel(context: CGContext, label: String, xIndex: Int, x: CGFloat, y: CGFloat, attributes: [String: NSObject], anchor: CGPoint, angleRadians: CGFloat)
     {
         guard let xAxis = xAxis else { return }
         
@@ -79,7 +79,7 @@ public class ChartXAxisRendererRadarChart: ChartXAxisRenderer
         ChartUtils.drawText(context: context, text: formattedLabel, point: CGPoint(x: x, y: y), attributes: attributes, anchor: anchor, angleRadians: angleRadians)
     }
     
-    public override func renderLimitLines(context: CGContext)
+    open override func renderLimitLines(context: CGContext)
     {
         /// XAxis LimitLines on RadarChart not yet supported.
     }

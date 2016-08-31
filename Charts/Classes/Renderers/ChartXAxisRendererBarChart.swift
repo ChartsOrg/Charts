@@ -19,9 +19,9 @@ import CoreGraphics
 #endif
 
 
-public class ChartXAxisRendererBarChart: ChartXAxisRenderer
+open class ChartXAxisRendererBarChart: ChartXAxisRenderer
 {
-    public weak var chart: BarChartView?
+    open weak var chart: BarChartView?
     
     public init(viewPortHandler: ChartViewPortHandler, xAxis: ChartXAxis, transformer: ChartTransformer!, chart: BarChartView)
     {
@@ -31,7 +31,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
     }
     
     /// draws the x-labels on the specified y-position
-    public override func drawLabels(context: CGContext, pos: CGFloat, anchor: CGPoint)
+    open override func drawLabels(context: CGContext, pos: CGFloat, anchor: CGPoint)
     {
         guard let xAxis = xAxis,
               let barData = chart?.data as? BarChartData
@@ -109,7 +109,7 @@ public class ChartXAxisRendererBarChart: ChartXAxisRenderer
     
     private var _gridLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    public override func renderGridLines(context: CGContext)
+    open override func renderGridLines(context: CGContext)
     {
         guard let xAxis = xAxis,
               let barData = chart?.data as? BarChartData

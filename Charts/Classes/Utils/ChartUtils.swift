@@ -19,7 +19,7 @@ import CoreGraphics
     import UIKit
 #endif
 
-public class ChartUtils
+open class ChartUtils
 {
     private static var _defaultValueFormatter: NumberFormatter = ChartUtils.generateDefaultValueFormatter()
     
@@ -174,7 +174,7 @@ public class ChartUtils
         )
     }
     
-    public class func drawText(context: CGContext, text: String, point: CGPoint, align: NSTextAlignment, attributes: [String : AnyObject]?)
+    open class func drawText(context: CGContext, text: String, point: CGPoint, align: NSTextAlignment, attributes: [String : AnyObject]?)
     {
         var point = point
         
@@ -194,7 +194,7 @@ public class ChartUtils
         NSUIGraphicsPopContext()
     }
     
-    public class func drawText(context: CGContext, text: String, point: CGPoint, attributes: [String : AnyObject]?, anchor: CGPoint, angleRadians: CGFloat)
+    open class func drawText(context: CGContext, text: String, point: CGPoint, attributes: [String : AnyObject]?, anchor: CGPoint, angleRadians: CGFloat)
     {
         var drawOffset = CGPoint()
         

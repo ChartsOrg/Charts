@@ -16,7 +16,7 @@ import CoreGraphics
     import UIKit
 #endif
 
-public class MoveChartViewJob: ChartViewPortJob
+open class MoveChartViewJob: ChartViewPortJob
 {
     public override init(
         viewPortHandler: ChartViewPortHandler,
@@ -33,7 +33,7 @@ public class MoveChartViewJob: ChartViewPortJob
             view: view)
     }
     
-    public override func doJob()
+    open override func doJob()
     {
         guard let viewPortHandler = viewPortHandler,
               let transformer = transformer,

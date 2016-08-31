@@ -15,7 +15,7 @@ import Foundation
 import CoreGraphics
 
 
-public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDataSet
+open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDataSet
 {
     private func initialize()
     {
@@ -82,7 +82,7 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
         }
     }
     
-    public override func calcMinMax(start : Int, end: Int)
+    open override func calcMinMax(start : Int, end: Int)
     {
         let yValCount = _yVals.count
         
@@ -150,46 +150,46 @@ public class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartD
     }
     
     /// - returns: the maximum number of bars that can be stacked upon another in this DataSet.
-    public var stackSize: Int
+    open var stackSize: Int
     {
         return _stackSize
     }
     
     /// - returns: true if this DataSet is stacked (stacksize > 1) or not.
-    public var isStacked: Bool
+    open var isStacked: Bool
     {
         return _stackSize > 1 ? true : false
     }
     
     /// - returns: the overall entry count, including counting each stack-value individually
-    public var entryCountStacks: Int
+    open var entryCountStacks: Int
     {
         return _entryCountStacks
     }
     
     /// array of labels used to describe the different values of the stacked bars
-    public var stackLabels: [String] = ["Stack"]
+    open var stackLabels: [String] = ["Stack"]
     
     // MARK: - Styling functions and accessors
     
     /// space indicator between the bars in percentage of the whole width of one value (0.15 == 15% of bar width)
-    public var barSpace: CGFloat = 0.15
+    open var barSpace: CGFloat = 0.15
     
     /// the color used for drawing the bar-shadows. The bar shadows is a surface behind the bar that indicates the maximum value
-    public var barShadowColor = NSUIColor(red: 215.0/255.0, green: 215.0/255.0, blue: 215.0/255.0, alpha: 1.0)
+    open var barShadowColor = NSUIColor(red: 215.0/255.0, green: 215.0/255.0, blue: 215.0/255.0, alpha: 1.0)
 
     /// the width used for drawing borders around the bars. If borderWidth == 0, no border will be drawn.
-    public var barBorderWidth : CGFloat = 0.0
+    open var barBorderWidth : CGFloat = 0.0
 
     /// the color drawing borders around the bars.
-    public var barBorderColor = NSUIColor.black
+    open var barBorderColor = NSUIColor.black
 
     /// the alpha value (transparency) that is used for drawing the highlight indicator bar. min = 0.0 (fully transparent), max = 1.0 (fully opaque)
-    public var highlightAlpha = CGFloat(120.0 / 255.0)
+    open var highlightAlpha = CGFloat(120.0 / 255.0)
     
     // MARK: - NSCopying
     
-    public override func copyWithZone(_ zone: NSZone?) -> Any
+    open override func copyWithZone(_ zone: NSZone?) -> Any
     {
         let copy = super.copyWithZone(zone) as! BarChartDataSet
         copy._stackSize = _stackSize

@@ -16,7 +16,7 @@ import CoreGraphics
     import UIKit
 #endif
 
-public class ZoomChartViewJob: ChartViewPortJob
+open class ZoomChartViewJob: ChartViewPortJob
 {
     internal var scaleX: CGFloat = 0.0
     internal var scaleY: CGFloat = 0.0
@@ -44,7 +44,7 @@ public class ZoomChartViewJob: ChartViewPortJob
         self.axisDependency = axis
     }
     
-    public override func doJob()
+    open override func doJob()
     {
         guard let viewPortHandler = viewPortHandler,
               let transformer = transformer,

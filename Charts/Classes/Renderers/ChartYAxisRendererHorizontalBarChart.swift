@@ -19,7 +19,7 @@ import CoreGraphics
 #endif
 
 
-public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
+open class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
 {
     public override init(viewPortHandler: ChartViewPortHandler, yAxis: ChartYAxis, transformer: ChartTransformer!)
     {
@@ -27,7 +27,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
     }
 
     /// Computes the axis values.
-    public override func computeAxis(yMin: Double, yMax: Double)
+    open override func computeAxis(yMin: Double, yMax: Double)
     {
         guard let yAxis = yAxis else { return }
         
@@ -55,7 +55,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
     }
 
     /// draws the y-axis labels to the screen
-    public override func renderAxisLabels(context: CGContext)
+    open override func renderAxisLabels(context: CGContext)
     {
         guard let yAxis = yAxis else { return }
         
@@ -114,7 +114,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
     
     private var _axisLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    public override func renderAxisLine(context: CGContext)
+    open override func renderAxisLine(context: CGContext)
     {
         guard let yAxis = yAxis else { return }
         
@@ -157,7 +157,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
     }
 
     /// draws the y-labels on the specified x-position
-    public func drawYLabels(context: CGContext, fixedPosition: CGFloat, positions: [CGPoint], offset: CGFloat)
+    open func drawYLabels(context: CGContext, fixedPosition: CGFloat, positions: [CGPoint], offset: CGFloat)
     {
         guard let yAxis = yAxis else { return }
         
@@ -177,7 +177,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
         }
     }
 
-    public override func renderGridLines(context: CGContext)
+    open override func renderGridLines(context: CGContext)
     {
         guard let yAxis = yAxis else { return }
         
@@ -240,7 +240,7 @@ public class ChartYAxisRendererHorizontalBarChart: ChartYAxisRenderer
     
     private var _limitLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    public override func renderLimitLines(context: CGContext)
+    open override func renderLimitLines(context: CGContext)
     {
         guard let yAxis = yAxis else { return }
         

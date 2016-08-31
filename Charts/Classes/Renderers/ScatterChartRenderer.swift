@@ -19,9 +19,9 @@ import CoreGraphics
 #endif
 
 
-public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
+open class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
 {
-    public weak var dataProvider: ScatterChartDataProvider?
+    open weak var dataProvider: ScatterChartDataProvider?
     
     public init(dataProvider: ScatterChartDataProvider?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
@@ -30,7 +30,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
         self.dataProvider = dataProvider
     }
     
-    public override func drawData(context: CGContext)
+    open override func drawData(context: CGContext)
     {
         guard let scatterData = dataProvider?.scatterData else { return }
         
@@ -52,7 +52,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
     
     private var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
     
-    public func drawDataSet(context: CGContext, dataSet: IScatterChartDataSet)
+    open func drawDataSet(context: CGContext, dataSet: IScatterChartDataSet)
     {
         guard let dataProvider = dataProvider,
               let animator = animator
@@ -260,7 +260,7 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
         context.restoreGState()
     }
     
-    public override func drawValues(context: CGContext)
+    open override func drawValues(context: CGContext)
     {
         guard let dataProvider = dataProvider,
               let scatterData = dataProvider.scatterData,
@@ -334,14 +334,14 @@ public class ScatterChartRenderer: LineScatterCandleRadarChartRenderer
         }
     }
     
-    public override func drawExtras(context: CGContext)
+    open override func drawExtras(context: CGContext)
     {
         
     }
     
     private var _highlightPointBuffer = CGPoint()
     
-    public override func drawHighlighted(context: CGContext, indices: [ChartHighlight])
+    open override func drawHighlighted(context: CGContext, indices: [ChartHighlight])
     {
         guard let dataProvider = dataProvider,
               let scatterData = dataProvider.scatterData,

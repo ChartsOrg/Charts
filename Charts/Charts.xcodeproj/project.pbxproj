@@ -394,7 +394,7 @@
 		5B0032441B6524AD00B6A2FE /* ChartHighlight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartHighlight.swift; sourceTree = "<group>"; };
 		5B0032461B6524D300B6A2FE /* ChartRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartRange.swift; sourceTree = "<group>"; };
 		5B0032481B6525FC00B6A2FE /* ChartHighlighter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartHighlighter.swift; sourceTree = "<group>"; };
-		5B00324A1B652BF900B6A2FE /* BarChartHighlighter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartHighlighter.swift; sourceTree = "<group>"; };
+		5B00324A1B652BF900B6A2FE /* BarChartHighlighter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = BarChartHighlighter.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5B00324C1B65351C00B6A2FE /* HorizontalBarChartHighlighter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalBarChartHighlighter.swift; sourceTree = "<group>"; };
 		5B378F161AD500A4009414A4 /* ChartAnimationEasing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartAnimationEasing.swift; sourceTree = "<group>"; };
 		5B4AC1711C4AB2AF0028D1A6 /* ChartBaseDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ChartBaseDataSet.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -457,7 +457,7 @@
 		5BBBD9E01C80976300D01235 /* ZoomChartViewJob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomChartViewJob.swift; sourceTree = "<group>"; };
 		5BCAA7491C7CAA4E00F83F3B /* ChartViewPortJob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartViewPortJob.swift; sourceTree = "<group>"; };
 		5BCAA74C1C7CAB4900F83F3B /* MoveChartViewJob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoveChartViewJob.swift; sourceTree = "<group>"; };
-		5BCAA74F1C7CAD4C00F83F3B /* AnimatedViewPortJob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedViewPortJob.swift; sourceTree = "<group>"; };
+		5BCAA74F1C7CAD4C00F83F3B /* AnimatedViewPortJob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AnimatedViewPortJob.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5BCAA7521C7CB03900F83F3B /* AnimatedMoveViewJob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedMoveViewJob.swift; sourceTree = "<group>"; };
 		5BCAA7551C7CB0DE00F83F3B /* AnimatedZoomViewJob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedZoomViewJob.swift; sourceTree = "<group>"; };
 		5BCB60CA1CFB936500E9945E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS9.2.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -472,7 +472,7 @@
 		5BD4C57B1BCDBF6C00462351 /* ScatterChartDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScatterChartDataProvider.swift; sourceTree = "<group>"; };
 		5BD8F06C1AB897D500566E05 /* ChartViewPortHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartViewPortHandler.swift; sourceTree = "<group>"; };
 		659400871BF463C1004F9C27 /* BarChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartData.swift; sourceTree = "<group>"; };
-		659400881BF463C1004F9C27 /* BarChartDataEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartDataEntry.swift; sourceTree = "<group>"; };
+		659400881BF463C1004F9C27 /* BarChartDataEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = BarChartDataEntry.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		659400891BF463C1004F9C27 /* BarChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartDataSet.swift; sourceTree = "<group>"; };
 		6594008A1BF463C1004F9C27 /* BarLineScatterCandleBubbleChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarLineScatterCandleBubbleChartData.swift; sourceTree = "<group>"; };
 		6594008B1BF463C1004F9C27 /* BarLineScatterCandleBubbleChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarLineScatterCandleBubbleChartDataSet.swift; sourceTree = "<group>"; };

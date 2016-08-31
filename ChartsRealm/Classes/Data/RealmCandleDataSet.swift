@@ -19,9 +19,9 @@ import Charts
 import Realm
 import Realm.Dynamic
 
-public class RealmCandleDataSet: RealmLineScatterCandleRadarDataSet, ICandleChartDataSet
+open class RealmCandleDataSet: RealmLineScatterCandleRadarDataSet, ICandleChartDataSet
 {
-    public override func initialize()
+    open override func initialize()
     {
 
     }
@@ -75,7 +75,7 @@ public class RealmCandleDataSet: RealmLineScatterCandleRadarDataSet, ICandleChar
         return entry
     }
     
-    public override func calcMinMax(start: Int, end: Int)
+    open override func calcMinMax(start: Int, end: Int)
     {
         let yValCount = self.entryCount
         
@@ -133,7 +133,7 @@ public class RealmCandleDataSet: RealmLineScatterCandleRadarDataSet, ICandleChar
     
     /// the space that is left out on the left and right side of each candle,
     /// **default**: 0.1 (10%), max 0.45, min 0.0
-    public var barSpace: CGFloat
+    open var barSpace: CGFloat
     {
         set
         {
@@ -160,42 +160,42 @@ public class RealmCandleDataSet: RealmLineScatterCandleRadarDataSet, ICandleChar
     /// when false, only "ticks" will show
     ///
     /// **default**: true
-    public var showCandleBar: Bool = true
+    open var showCandleBar: Bool = true
     
     /// the width of the candle-shadow-line in pixels.
     ///
     /// **default**: 3.0
-    public var shadowWidth = CGFloat(1.5)
+    open var shadowWidth = CGFloat(1.5)
     
     /// the color of the shadow line
-    public var shadowColor: NSUIColor?
+    open var shadowColor: NSUIColor?
     
     /// use candle color for the shadow
-    public var shadowColorSameAsCandle = false
+    open var shadowColorSameAsCandle = false
     
     /// Is the shadow color same as the candle color?
-    public var isShadowColorSameAsCandle: Bool { return shadowColorSameAsCandle }
+    open var isShadowColorSameAsCandle: Bool { return shadowColorSameAsCandle }
     
     /// color for open == close
-    public var neutralColor: NSUIColor?
+    open var neutralColor: NSUIColor?
     
     /// color for open > close
-    public var increasingColor: NSUIColor?
+    open var increasingColor: NSUIColor?
     
     /// color for open < close
-    public var decreasingColor: NSUIColor?
+    open var decreasingColor: NSUIColor?
     
     /// Are increasing values drawn as filled?
     /// increasing candlesticks are traditionally hollow
-    public var increasingFilled = false
+    open var increasingFilled = false
     
     /// Are increasing values drawn as filled?
-    public var isIncreasingFilled: Bool { return increasingFilled }
+    open var isIncreasingFilled: Bool { return increasingFilled }
     
     /// Are decreasing values drawn as filled?
     /// descreasing candlesticks are traditionally filled
-    public var decreasingFilled = true
+    open var decreasingFilled = true
     
     /// Are decreasing values drawn as filled?
-    public var isDecreasingFilled: Bool { return decreasingFilled }
+    open var isDecreasingFilled: Bool { return decreasingFilled }
 }

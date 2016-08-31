@@ -14,10 +14,10 @@
 
 import Foundation
 
-public class ChartRange: NSObject
+open class ChartRange: NSObject
 {
-    public var from: Double
-    public var to: Double
+    open var from: Double
+    open var to: Double
     
     public init(from: Double, to: Double)
     {
@@ -29,7 +29,7 @@ public class ChartRange: NSObject
 
     /// Returns true if this range contains (if the value is in between) the given value, false if not.
     /// - parameter value:
-    public func contains(_ value: Double) -> Bool
+    open func contains(_ value: Double) -> Bool
     {
         if value > from && value <= to
         {
@@ -41,12 +41,12 @@ public class ChartRange: NSObject
         }
     }
     
-    public func isLarger(_ value: Double) -> Bool
+    open func isLarger(_ value: Double) -> Bool
     {
         return value > to
     }
     
-    public func isSmaller(_ value: Double) -> Bool
+    open func isSmaller(_ value: Double) -> Bool
     {
         return value < from
     }

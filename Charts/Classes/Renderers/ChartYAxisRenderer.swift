@@ -19,9 +19,9 @@ import CoreGraphics
 #endif
 
 
-public class ChartYAxisRenderer: ChartAxisRendererBase
+open class ChartYAxisRenderer: ChartAxisRendererBase
 {
-    public var yAxis: ChartYAxis?
+    open var yAxis: ChartYAxis?
     
     public init(viewPortHandler: ChartViewPortHandler, yAxis: ChartYAxis, transformer: ChartTransformer!)
     {
@@ -31,7 +31,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
     }
     
     /// Computes the axis values.
-    public func computeAxis(yMin: Double, yMax: Double)
+    open func computeAxis(yMin: Double, yMax: Double)
     {
         guard let yAxis = yAxis else { return }
         var yMin = yMin, yMax = yMax
@@ -61,7 +61,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
     /// Sets up the y-axis labels. Computes the desired number of labels between
     /// the two given extremes. Unlike the papareXLabels() method, this method
     /// needs to be called upon every refresh of the view.
-    public func computeAxisValues(min: Double, max: Double)
+    open func computeAxisValues(min: Double, max: Double)
     {
         guard let yAxis = yAxis else { return }
         
@@ -174,7 +174,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
     }
     
     /// draws the y-axis labels to the screen
-    public override func renderAxisLabels(context: CGContext)
+    open override func renderAxisLabels(context: CGContext)
     {
         guard let yAxis = yAxis else { return }
         
@@ -226,7 +226,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
     
     private var _axisLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    public override func renderAxisLine(context: CGContext)
+    open override func renderAxisLine(context: CGContext)
     {
         guard let yAxis = yAxis else { return }
         
@@ -302,7 +302,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
     
     private var _gridLineBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    public override func renderGridLines(context: CGContext)
+    open override func renderGridLines(context: CGContext)
     {
         guard let yAxis = yAxis else { return }
         
@@ -366,7 +366,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
     }
     
     /// Draws the zero line at the specified position.
-    public func drawZeroLine(
+    open func drawZeroLine(
         context: CGContext,
         x1: CGFloat,
         x2: CGFloat,
@@ -400,7 +400,7 @@ public class ChartYAxisRenderer: ChartAxisRendererBase
     
     private var _limitLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    public override func renderLimitLines(context: CGContext)
+    open override func renderLimitLines(context: CGContext)
     {
         guard let yAxis = yAxis else { return }
         
