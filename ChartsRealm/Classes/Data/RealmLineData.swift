@@ -18,7 +18,7 @@ import Charts
 import Realm
 import Realm.Dynamic
 
-public class RealmLineData: LineChartData
+open class RealmLineData: LineChartData
 {
     public init(results: RLMResults<RLMObject>?, xValueField: String, dataSets: [IChartDataSet]?)
     {

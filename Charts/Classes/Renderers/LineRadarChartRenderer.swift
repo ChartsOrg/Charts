@@ -15,7 +15,7 @@ import Foundation
 import CoreGraphics
 
 
-public class LineRadarChartRenderer: LineScatterCandleRadarChartRenderer
+open class LineRadarChartRenderer: LineScatterCandleRadarChartRenderer
 {
     public override init(animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
@@ -23,7 +23,7 @@ public class LineRadarChartRenderer: LineScatterCandleRadarChartRenderer
     }
     
     /// Draws the provided path in filled mode with the provided drawable.
-    public func drawFilledPath(context: CGContext, path: CGPath, fill: ChartFill, fillAlpha: CGFloat)
+    open func drawFilledPath(context: CGContext, path: CGPath, fill: ChartFill, fillAlpha: CGFloat)
     {
         context.saveGState()
         context.beginPath()
@@ -38,7 +38,7 @@ public class LineRadarChartRenderer: LineScatterCandleRadarChartRenderer
     }
     
     /// Draws the provided path in filled mode with the provided color and alpha.
-    public func drawFilledPath(context: CGContext, path: CGPath, fillColor: NSUIColor, fillAlpha: CGFloat)
+    open func drawFilledPath(context: CGContext, path: CGPath, fillColor: NSUIColor, fillAlpha: CGFloat)
     {
         context.saveGState()
         context.beginPath()

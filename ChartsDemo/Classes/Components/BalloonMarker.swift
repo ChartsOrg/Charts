@@ -15,13 +15,13 @@ import Foundation
 ;
 import Charts;
 
-public class BalloonMarker: ChartMarker
+open class BalloonMarker: ChartMarker
 {
-    public var color: UIColor?
-    public var arrowSize = CGSize(width: 15, height: 11)
-    public var font: UIFont?
-    public var insets = UIEdgeInsets()
-    public var minimumSize = CGSize()
+    open var color: UIColor?
+    open var arrowSize = CGSize(width: 15, height: 11)
+    open var font: UIFont?
+    open var insets = UIEdgeInsets()
+    open var minimumSize = CGSize()
     
     private var labelns: NSString?
     private var _labelSize: CGSize = CGSize()
@@ -41,9 +41,9 @@ public class BalloonMarker: ChartMarker
         _paragraphStyle?.alignment = .center
     }
     
-    public override var size: CGSize { return _size; }
+    open override var size: CGSize { return _size; }
     
-    public override func draw(context: CGContext, point: CGPoint)
+    open override func draw(context: CGContext, point: CGPoint)
     {
         if (labelns == nil)
         {
@@ -94,7 +94,7 @@ public class BalloonMarker: ChartMarker
         context.restoreGState()
     }
     
-    public override func refreshContent(entry: ChartDataEntry, highlight: ChartHighlight)
+    open override func refreshContent(entry: ChartDataEntry, highlight: ChartHighlight)
     {
         let label = entry.value.description
         labelns = label as NSString

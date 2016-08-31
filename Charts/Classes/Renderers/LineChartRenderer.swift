@@ -19,9 +19,9 @@ import CoreGraphics
 #endif
 
 
-public class LineChartRenderer: LineRadarChartRenderer
+open class LineChartRenderer: LineRadarChartRenderer
 {
-    public weak var dataProvider: LineChartDataProvider?
+    open weak var dataProvider: LineChartDataProvider?
     
     public init(dataProvider: LineChartDataProvider?, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
@@ -30,7 +30,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         self.dataProvider = dataProvider
     }
     
-    public override func drawData(context: CGContext)
+    open override func drawData(context: CGContext)
     {
         guard let lineData = dataProvider?.lineData else { return }
         
@@ -50,7 +50,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         }
     }
     
-    public func drawDataSet(context: CGContext, dataSet: ILineChartDataSet)
+    open func drawDataSet(context: CGContext, dataSet: ILineChartDataSet)
     {
         let entryCount = dataSet.entryCount
         
@@ -88,7 +88,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         context.restoreGState()
     }
     
-    public func drawCubicBezier(context: CGContext, dataSet: ILineChartDataSet)
+    open func drawCubicBezier(context: CGContext, dataSet: ILineChartDataSet)
     {
         guard let trans = dataProvider?.getTransformer(dataSet.axisDependency),
               let animator = animator
@@ -115,7 +115,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         // the path for the cubic-spline
         let cubicPath = CGMutablePath()
         
-        var valueToPixelMatrix = trans.valueToPixelMatrix
+        let valueToPixelMatrix = trans.valueToPixelMatrix
         
         let size = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx)))
         
@@ -172,7 +172,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         context.restoreGState()
     }
     
-    public func drawHorizontalBezier(context: CGContext, dataSet: ILineChartDataSet)
+    open func drawHorizontalBezier(context: CGContext, dataSet: ILineChartDataSet)
     {
         guard let trans = dataProvider?.getTransformer(dataSet.axisDependency),
               let animator = animator
@@ -197,7 +197,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         // the path for the cubic-spline
         let cubicPath = CGMutablePath()
         
-        var valueToPixelMatrix = trans.valueToPixelMatrix
+        let valueToPixelMatrix = trans.valueToPixelMatrix
         
         let size = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx)))
         
@@ -240,7 +240,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         context.restoreGState()
     }
     
-    public func drawCubicFill(context: CGContext, dataSet: ILineChartDataSet, spline: CGMutablePath, matrix: CGAffineTransform, from: Int, to: Int)
+    open func drawCubicFill(context: CGContext, dataSet: ILineChartDataSet, spline: CGMutablePath, matrix: CGAffineTransform, from: Int, to: Int)
     {
         guard let dataProvider = dataProvider else { return }
         
@@ -278,7 +278,7 @@ public class LineChartRenderer: LineRadarChartRenderer
     
     private var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
     
-    public func drawLinear(context: CGContext, dataSet: ILineChartDataSet)
+    open func drawLinear(context: CGContext, dataSet: ILineChartDataSet)
     {
         guard let trans = dataProvider?.getTransformer(dataSet.axisDependency),
               let animator = animator
@@ -448,7 +448,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         }
     }
     
-    public func drawLinearFill(context: CGContext, dataSet: ILineChartDataSet, minx: Int, maxx: Int, trans: ChartTransformer)
+    open func drawLinearFill(context: CGContext, dataSet: ILineChartDataSet, minx: Int, maxx: Int, trans: ChartTransformer)
     {
         guard let dataProvider = dataProvider else { return }
         
@@ -475,7 +475,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         let phaseX = max(0.0, min(1.0, animator?.phaseX ?? 1.0))
         let phaseY = animator?.phaseY ?? 1.0
         let drawSteppedEnabled = dataSet.mode == .stepped
-        var matrix = matrix
+        let matrix = matrix
         
         var e: ChartDataEntry!
         
@@ -513,7 +513,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         return filled
     }
     
-    public override func drawValues(context: CGContext)
+    open override func drawValues(context: CGContext)
     {
         guard let dataProvider = dataProvider,
               let lineData = dataProvider.lineData,
@@ -598,7 +598,7 @@ public class LineChartRenderer: LineRadarChartRenderer
         }
     }
     
-    public override func drawExtras(context: CGContext)
+    open override func drawExtras(context: CGContext)
     {
         drawCircles(context: context)
     }
@@ -722,7 +722,7 @@ public class LineChartRenderer: LineRadarChartRenderer
     
     private var _highlightPointBuffer = CGPoint()
     
-    public override func drawHighlighted(context: CGContext, indices: [ChartHighlight])
+    open override func drawHighlighted(context: CGContext, indices: [ChartHighlight])
     {
         guard let lineData = dataProvider?.lineData,
               let chartXMax = dataProvider?.chartXMax,

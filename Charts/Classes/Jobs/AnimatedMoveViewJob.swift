@@ -16,7 +16,7 @@ import CoreGraphics
     import UIKit
 #endif
 
-public class AnimatedMoveChartViewJob: AnimatedViewPortJob
+open class AnimatedMoveChartViewJob: AnimatedViewPortJob
 {
     public override init(
         viewPortHandler: ChartViewPortHandler,

@@ -19,9 +19,9 @@ import CoreGraphics
 #endif
 
 
-public class RadarChartRenderer: LineRadarChartRenderer
+open class RadarChartRenderer: LineRadarChartRenderer
 {
-    public weak var chart: RadarChartView?
+    open weak var chart: RadarChartView?
 
     public init(chart: RadarChartView, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
     {
@@ -30,7 +30,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         self.chart = chart
     }
     
-    public override func drawData(context: CGContext)
+    open override func drawData(context: CGContext)
     {
         guard let chart = chart else { return }
         
@@ -146,7 +146,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         context.restoreGState()
     }
     
-    public override func drawValues(context: CGContext)
+    open override func drawValues(context: CGContext)
     {
         guard let chart = chart,
               let data = chart.data,
@@ -201,14 +201,14 @@ public class RadarChartRenderer: LineRadarChartRenderer
         }
     }
     
-    public override func drawExtras(context: CGContext)
+    open override func drawExtras(context: CGContext)
     {
         drawWeb(context: context)
     }
     
     private var _webLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    public func drawWeb(context: CGContext)
+    open func drawWeb(context: CGContext)
     {
         guard let chart = chart,
               let data = chart.data
@@ -277,7 +277,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
     
     private var _highlightPointBuffer = CGPoint()
 
-    public override func drawHighlighted(context: CGContext, indices: [ChartHighlight])
+    open override func drawHighlighted(context: CGContext, indices: [ChartHighlight])
     {
         guard let chart = chart,
               let data = chart.data as? RadarChartData,

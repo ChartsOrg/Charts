@@ -19,10 +19,10 @@ import CoreGraphics
 #endif
 
 
-public class ChartLegendRenderer: ChartRendererBase
+open class ChartLegendRenderer: ChartRendererBase
 {
     /// the legend object this renderer renders
-    public var legend: ChartLegend?
+    open var legend: ChartLegend?
 
     public init(viewPortHandler: ChartViewPortHandler, legend: ChartLegend?)
     {
@@ -32,7 +32,7 @@ public class ChartLegendRenderer: ChartRendererBase
     }
 
     /// Prepares the legend and calculates all needed forms, labels and colors.
-    public func computeLegend(_ data: ChartData)
+    open func computeLegend(_ data: ChartData)
     {
         guard let legend = legend else { return }
         
@@ -122,7 +122,7 @@ public class ChartLegendRenderer: ChartRendererBase
         legend.calculateDimensions(labelFont: legend.font, viewPortHandler: viewPortHandler)
     }
     
-    public func renderLegend(context: CGContext)
+    open func renderLegend(context: CGContext)
     {
         guard let legend = legend else { return }
         
@@ -398,7 +398,7 @@ public class ChartLegendRenderer: ChartRendererBase
     private var _formLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
     /// Draws the Legend-form at the given position with the color at the given index.
-    public func drawForm(context: CGContext, x: CGFloat, y: CGFloat, colorIndex: Int, legend: ChartLegend)
+    open func drawForm(context: CGContext, x: CGFloat, y: CGFloat, colorIndex: Int, legend: ChartLegend)
     {
         guard let formColor = legend.colors[colorIndex], formColor != NSUIColor.clear else {
             return
@@ -431,7 +431,7 @@ public class ChartLegendRenderer: ChartRendererBase
     }
 
     /// Draws the provided label at the given position.
-    public func drawLabel(context: CGContext, x: CGFloat, y: CGFloat, label: String, font: NSUIFont, textColor: NSUIColor)
+    open func drawLabel(context: CGContext, x: CGFloat, y: CGFloat, label: String, font: NSUIFont, textColor: NSUIColor)
     {
         ChartUtils.drawText(context: context, text: label, point: CGPoint(x: x, y: y), align: .left, attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: textColor])
     }

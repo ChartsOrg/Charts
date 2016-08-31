@@ -19,7 +19,7 @@ import CoreGraphics
 #endif
 
 
-public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
+open class ChartYAxisRendererRadarChart: ChartYAxisRenderer
 {
     private weak var chart: RadarChartView?
     
@@ -30,12 +30,12 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         self.chart = chart
     }
     
-    public override func computeAxis(yMin: Double, yMax: Double)
+    open override func computeAxis(yMin: Double, yMax: Double)
     {
         computeAxisValues(min: yMin, max: yMax)
     }
     
-    public override func computeAxisValues(min yMin: Double, max yMax: Double)
+    open override func computeAxisValues(min yMin: Double, max yMax: Double)
     {
         guard let yAxis = yAxis else { return }
         
@@ -153,7 +153,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         yAxis.axisRange = abs(yAxis._axisMaximum - yAxis._axisMinimum)
     }
     
-    public override func renderAxisLabels(context: CGContext)
+    open override func renderAxisLabels(context: CGContext)
     {
         guard let yAxis = yAxis,
               let chart = chart
@@ -191,7 +191,7 @@ public class ChartYAxisRendererRadarChart: ChartYAxisRenderer
         }
     }
     
-    public override func renderLimitLines(context: CGContext)
+    open override func renderLimitLines(context: CGContext)
     {
         guard let yAxis = yAxis,
               let chart = chart

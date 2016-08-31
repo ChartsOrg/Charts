@@ -14,10 +14,10 @@
 import Foundation
 import CoreGraphics
 
-public class ChartTransformerHorizontalBarChart: ChartTransformer
+open class ChartTransformerHorizontalBarChart: ChartTransformer
 {
     /// Prepares the matrix that contains all offsets.
-    public override func prepareMatrixOffset(_ inverted: Bool)
+    open override func prepareMatrixOffset(_ inverted: Bool)
     {
         if (!inverted)
         {

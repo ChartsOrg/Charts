@@ -18,7 +18,7 @@ import Charts
 import Realm
 import Realm.Dynamic
 
-public class RealmBubbleData: BubbleChartData
+open class RealmBubbleData: BubbleChartData
 {
     public init(results: RLMResults<RLMObject>?, xValueField: String, dataSets: [IChartDataSet]?)
     {

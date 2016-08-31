@@ -16,7 +16,7 @@ import CoreGraphics
     import UIKit
 #endif
 
-public class AnimatedViewPortJob: ChartViewPortJob
+open class AnimatedViewPortJob: ChartViewPortJob
 {
     internal var phase: CGFloat = 1.0
     internal var xOrigin: CGFloat = 0.0
@@ -57,12 +57,12 @@ public class AnimatedViewPortJob: ChartViewPortJob
         stop(finish: false)
     }
     
-    public override func doJob()
+    open override func doJob()
     {
         start()
     }
     
-    public func start()
+    open func start()
     {
         _startTime = CACurrentMediaTime()
         _endTime = _startTime + _duration
@@ -74,7 +74,7 @@ public class AnimatedViewPortJob: ChartViewPortJob
         _displayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
     }
     
-    public func stop(finish: Bool)
+    open func stop(finish: Bool)
     {
         if (_displayLink != nil)
         {

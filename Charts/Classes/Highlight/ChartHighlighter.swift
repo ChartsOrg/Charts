@@ -15,10 +15,10 @@
 import Foundation
 import CoreGraphics
 
-public class ChartHighlighter : NSObject
+open class ChartHighlighter : NSObject
 {
     /// instance of the data-provider
-    public weak var chart: BarLineChartViewBase?
+    open weak var chart: BarLineChartViewBase?
     
     public init(chart: BarLineChartViewBase)
     {
@@ -29,7 +29,7 @@ public class ChartHighlighter : NSObject
     /// - parameter x:
     /// - parameter y:
     /// - returns:
-    public func getHighlight(x: CGFloat, y: CGFloat) -> ChartHighlight?
+    open func getHighlight(x: CGFloat, y: CGFloat) -> ChartHighlight?
     {
         let xIndex = getXIndex(x)
         
@@ -42,7 +42,7 @@ public class ChartHighlighter : NSObject
     /// Returns the corresponding x-index for a given touch-position in pixels.
     /// - parameter x:
     /// - returns:
-    public func getXIndex(_ x: CGFloat) -> Int
+    open func getXIndex(_ x: CGFloat) -> Int
     {
         // create an array of the touch-point
         var pt = CGPoint(x: x, y: 0.0)
@@ -58,7 +58,7 @@ public class ChartHighlighter : NSObject
     /// - parameter y:
     /// - parameter dataSetIndex: A dataset index to look at - or nil, to figure that out automatically
     /// - returns:
-    public func getSelectionDetail(xIndex: Int, y: CGFloat, dataSetIndex: Int?) -> ChartSelectionDetail?
+    open func getSelectionDetail(xIndex: Int, y: CGFloat, dataSetIndex: Int?) -> ChartSelectionDetail?
     {
         let valsAtIndex = getSelectionDetailsAtIndex(xIndex, dataSetIndex: dataSetIndex)
         
@@ -76,7 +76,7 @@ public class ChartHighlighter : NSObject
     /// - parameter xIndex:
     /// - parameter dataSetIndex: A dataset index to look at - or nil, to figure that out automatically
     /// - returns:
-    public func getSelectionDetailsAtIndex(_ xIndex: Int, dataSetIndex: Int?) -> [ChartSelectionDetail]
+    open func getSelectionDetailsAtIndex(_ xIndex: Int, dataSetIndex: Int?) -> [ChartSelectionDetail]
     {
         var vals = [ChartSelectionDetail]()
         var pt = CGPoint()

@@ -14,16 +14,16 @@
 import Foundation
 import CoreGraphics
 
-public class ChartRendererBase: NSObject
+open class ChartRendererBase: NSObject
 {
     /// the component that handles the drawing area of the chart and it's offsets
-    public var viewPortHandler: ChartViewPortHandler!
+    open var viewPortHandler: ChartViewPortHandler!
     
     /// the minimum value on the x-axis that should be plotted
-    public var minX: Int = 0
+    open var minX: Int = 0
     
     /// the maximum value on the x-axis that should be plotted
-    public var maxX: Int = 0
+    open var maxX: Int = 0
     
     public override init()
     {
@@ -37,7 +37,7 @@ public class ChartRendererBase: NSObject
     }
     
     /// Calculates the minimum and maximum x-value the chart can currently display (with the given zoom level).
-    public func calcXBounds(chart: BarLineScatterCandleBubbleChartDataProvider, xAxisModulus: Int)
+    open func calcXBounds(chart: BarLineScatterCandleBubbleChartDataProvider, xAxisModulus: Int)
     {
         let low = chart.lowestVisibleXIndex
         let high = chart.highestVisibleXIndex

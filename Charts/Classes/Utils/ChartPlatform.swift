@@ -91,44 +91,44 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     }
 #endif
 
-	public class NSUIView: UIView
+	open class NSUIView: UIView
     {
-		public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+		open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
         {
 			self.nsuiTouchesBegan(touches, with: event)
 		}
 
-		public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?)
+		open override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?)
         {
 			self.nsuiTouchesMoved(touches, with: event)
 		}
 
-		public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?)
+		open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?)
         {
 			self.nsuiTouchesEnded(touches, with: event)
 		}
 
-		public override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?)
+		open override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?)
         {
 			self.nsuiTouchesCancelled(touches, with: event)
 		}
 
-		public func nsuiTouchesBegan(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
+		open func nsuiTouchesBegan(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
         {
 			super.touchesBegan(touches, with: event!)
 		}
 
-		public func nsuiTouchesMoved(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
+		open func nsuiTouchesMoved(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
         {
 			super.touchesMoved(touches, with: event!)
 		}
 
-		public func nsuiTouchesEnded(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
+		open func nsuiTouchesEnded(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
         {
 			super.touchesEnded(touches, with: event!)
 		}
 
-		public func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, with event: NSUIEvent?)
+		open func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, with event: NSUIEvent?)
         {
 			super.touchesCancelled(touches ?? [], with: event!)
 		}
@@ -222,7 +222,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 	public typealias NSUIScreen = NSScreen
 
 	/** On OS X there is no CADisplayLink. Use a 60 fps timer to render the animations. */
-	public class NSUIDisplayLink
+	open class NSUIDisplayLink
     {
         private var timer: Timer?
         private var displayLink: CVDisplayLink?
@@ -231,7 +231,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
         private weak var _target: AnyObject?
         private var _selector: Selector
         
-        public var timestamp: CFTimeInterval
+        open var timestamp: CFTimeInterval
         {
             return _timestamp
         }
@@ -264,7 +264,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             stop()
         }
 
-		public func add(to runloop: RunLoop, forMode: RunLoopMode)
+		open func add(to runloop: RunLoop, forMode: RunLoopMode)
         {
             if displayLink != nil
             {
@@ -276,7 +276,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             }
 		}
 
-		public func remove(from runloop: RunLoop, forMode: RunLoopMode)
+		open func remove(from runloop: RunLoop, forMode: RunLoopMode)
         {
             stop()
 		}
@@ -373,9 +373,9 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		}
 	}
 
-	public class NSUIView: NSView
+	open class NSUIView: NSView
     {
-		public final override var isFlipped: Bool
+		open final override var isFlipped: Bool
         {
 			return true
 		}
@@ -385,42 +385,42 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 			self.setNeedsDisplay(self.bounds)
 		}
 
-		public final override func touchesBegan(with event: NSEvent)
+		open final override func touchesBegan(with event: NSEvent)
         {
 			self.nsuiTouchesBegan(event.touches(matching: .any, in: self), with: event)
 		}
 
-		public final override func touchesEnded(with event: NSEvent)
+		open final override func touchesEnded(with event: NSEvent)
         {
 			self.nsuiTouchesEnded(event.touches(matching: .any, in: self), with: event)
 		}
 
-		public final override func touchesMoved(with event: NSEvent)
+		open final override func touchesMoved(with event: NSEvent)
         {
 			self.nsuiTouchesMoved(event.touches(matching: .any, in: self), with: event)
 		}
 
-		public override func touchesCancelled(with event: NSEvent)
+		open override func touchesCancelled(with event: NSEvent)
         {
 			self.nsuiTouchesCancelled(event.touches(matching: .any, in: self), with: event)
 		}
 
-		public func nsuiTouchesBegan(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
+		open func nsuiTouchesBegan(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
         {
 			super.touchesBegan(with: event!)
 		}
 
-		public func nsuiTouchesMoved(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
+		open func nsuiTouchesMoved(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
         {
 			super.touchesMoved(with: event!)
 		}
 
-		public func nsuiTouchesEnded(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
+		open func nsuiTouchesEnded(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
         {
 			super.touchesEnded(with: event!)
 		}
 
-		public func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, with event: NSUIEvent?)
+		open func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, with event: NSUIEvent?)
         {
 			super.touchesCancelled(with: event!)
         }

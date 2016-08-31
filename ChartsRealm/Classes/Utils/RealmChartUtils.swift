@@ -14,10 +14,10 @@
 import Foundation
 import Realm
 
-public class RealmChartUtils: NSObject
+open class RealmChartUtils: NSObject
 {
     /// Transforms the given Realm-ResultSet into an xValue array, using the specified xValueField
-    public static func toXVals(results: RLMResults<RLMObject>, xValueField: String) -> [String]
+    open static func toXVals(results: RLMResults<RLMObject>, xValueField: String) -> [String]
     {
         let addedValues = NSMutableSet()
         var xVals = [String]()
@@ -38,7 +38,7 @@ public class RealmChartUtils: NSObject
 
 extension RLMResults: Sequence
 {
-    public func makeIterator() -> NSFastEnumerationIterator
+    open func makeIterator() -> NSFastEnumerationIterator
     {
         return NSFastEnumerationIterator(self)
     }
@@ -46,7 +46,7 @@ extension RLMResults: Sequence
 
 extension RLMArray: Sequence
 {
-    public func makeIterator() -> NSFastEnumerationIterator
+    open func makeIterator() -> NSFastEnumerationIterator
     {
         return NSFastEnumerationIterator(self)
     }

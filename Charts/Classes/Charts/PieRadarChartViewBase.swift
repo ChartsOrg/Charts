@@ -19,7 +19,7 @@ import CoreGraphics
 #endif
 
 /// Base class of PieChartView and RadarChartView.
-public class PieRadarChartViewBase: ChartViewBase
+open class PieRadarChartViewBase: ChartViewBase
 {
     /// holds the normalized version of the current rotation angle of the chart
     private var _rotationAngle = CGFloat(270.0)
@@ -28,10 +28,10 @@ public class PieRadarChartViewBase: ChartViewBase
     private var _rawRotationAngle = CGFloat(270.0)
     
     /// flag that indicates if rotation is enabled or not
-    public var rotationEnabled = true
+    open var rotationEnabled = true
     
     /// Sets the minimum offset (padding) around the chart, defaults to 0.0
-    public var minOffset = CGFloat(0.0)
+    open var minOffset = CGFloat(0.0)
 
     /// iOS && OSX only: Enabled multi-touch rotation using two fingers.
     private var _rotationWithTwoFingers = false
@@ -76,7 +76,7 @@ public class PieRadarChartViewBase: ChartViewBase
         _xAxis.axisRange = Double((_data?.xVals.count ?? 0) - 1)
     }
     
-    public override func notifyDataSetChanged()
+    open override func notifyDataSetChanged()
     {
         calcMinMax()
         
@@ -241,7 +241,7 @@ public class PieRadarChartViewBase: ChartViewBase
 
     /// - returns: the angle relative to the chart center for the given point on the chart in degrees.
     /// The angle is always between 0 and 360°, 0° is NORTH, 90° is EAST, ...
-    public func angleForPoint(x: CGFloat, y: CGFloat) -> CGFloat
+    open func angleForPoint(x: CGFloat, y: CGFloat) -> CGFloat
     {
         let c = centerOffsets
         
@@ -278,7 +278,7 @@ public class PieRadarChartViewBase: ChartViewBase
     }
 
     /// - returns: the distance of a certain point on the chart to the center of the chart.
-    public func distanceToCenter(x: CGFloat, y: CGFloat) -> CGFloat
+    open func distanceToCenter(x: CGFloat, y: CGFloat) -> CGFloat
     {
         let c = self.centerOffsets
 
@@ -313,7 +313,7 @@ public class PieRadarChartViewBase: ChartViewBase
 
     /// - returns: the xIndex for the given angle around the center of the chart.
     /// -1 if not found / outofbounds.
-    public func indexForAngle(_ angle: CGFloat) -> Int
+    open func indexForAngle(_ angle: CGFloat) -> Int
     {
         fatalError("indexForAngle() cannot be called on PieRadarChartViewBase")
     }
@@ -322,7 +322,7 @@ public class PieRadarChartViewBase: ChartViewBase
     ///
     /// **default**: 270 --> top (NORTH)
     /// - returns: will always return a normalized value, which will be between 0.0 < 360.0
-    public var rotationAngle: CGFloat
+    open var rotationAngle: CGFloat
     {
         get
         {
@@ -338,13 +338,13 @@ public class PieRadarChartViewBase: ChartViewBase
     
     /// gets the raw version of the current rotation angle of the pie chart the returned value could be any value, negative or positive, outside of the 360 degrees. 
     /// this is used when working with rotation direction, mainly by gestures and animations.
-    public var rawRotationAngle: CGFloat
+    open var rawRotationAngle: CGFloat
     {
         return _rawRotationAngle
     }
 
     /// - returns: the diameter of the pie- or radar-chart
-    public var diameter: CGFloat
+    open var diameter: CGFloat
     {
         var content = _viewPortHandler.contentRect
         content.origin.x += extraLeftOffset
@@ -355,7 +355,7 @@ public class PieRadarChartViewBase: ChartViewBase
     }
 
     /// - returns: the radius of the chart in pixels.
-    public var radius: CGFloat
+    open var radius: CGFloat
     {
         fatalError("radius cannot be called on PieRadarChartViewBase")
     }
@@ -373,19 +373,19 @@ public class PieRadarChartViewBase: ChartViewBase
         fatalError("requiredBaseOffset cannot be called on PieRadarChartViewBase")
     }
     
-    public override var chartYMax: Double
+    open override var chartYMax: Double
     {
         return 0.0
     }
     
-    public override var chartYMin: Double
+    open override var chartYMin: Double
     {
         return 0.0
     }
     
     /// The SelectionDetail objects give information about the value at the selected index and the DataSet it belongs to.
     /// - returns: an array of SelectionDetail objects for the given x-index.
-    public func getSelectionDetailsAtIndex(_ xIndex: Int) -> [ChartSelectionDetail]
+    open func getSelectionDetailsAtIndex(_ xIndex: Int) -> [ChartSelectionDetail]
     {
         var vals = [ChartSelectionDetail]()
         
@@ -420,7 +420,7 @@ public class PieRadarChartViewBase: ChartViewBase
     /// On OSX this will keep two-finger multitouch rotation, and one-pointer mouse rotation.
     /// 
     /// **default**: false
-    public var rotationWithTwoFingers: Bool
+    open var rotationWithTwoFingers: Bool
     {
         get
         {
@@ -440,7 +440,7 @@ public class PieRadarChartViewBase: ChartViewBase
     private var _spinAnimator: ChartAnimator!
     
     /// Applys a spin animation to the Chart.
-    public func spin(duration: TimeInterval, fromAngle: CGFloat, toAngle: CGFloat, easing: ChartEasingFunctionBlock?)
+    open func spin(duration: TimeInterval, fromAngle: CGFloat, toAngle: CGFloat, easing: ChartEasingFunctionBlock?)
     {
         if (_spinAnimator != nil)
         {
@@ -456,17 +456,17 @@ public class PieRadarChartViewBase: ChartViewBase
         _spinAnimator.animate(xAxisDuration: duration, easing: easing)
     }
     
-    public func spin(duration: TimeInterval, fromAngle: CGFloat, toAngle: CGFloat, easingOption: ChartEasingOption)
+    open func spin(duration: TimeInterval, fromAngle: CGFloat, toAngle: CGFloat, easingOption: ChartEasingOption)
     {
         spin(duration: duration, fromAngle: fromAngle, toAngle: toAngle, easing: easingFunctionFromOption(easingOption))
     }
     
-    public func spin(duration: TimeInterval, fromAngle: CGFloat, toAngle: CGFloat)
+    open func spin(duration: TimeInterval, fromAngle: CGFloat, toAngle: CGFloat)
     {
         spin(duration: duration, fromAngle: fromAngle, toAngle: toAngle, easing: nil)
     }
     
-    public func stopSpinAnimation()
+    open func stopSpinAnimation()
     {
         if (_spinAnimator != nil)
         {
@@ -557,7 +557,7 @@ public class PieRadarChartViewBase: ChartViewBase
     }
     
     #if !os(OSX)
-    public override func nsuiTouchesBegan(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
+    open override func nsuiTouchesBegan(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
     {
         // if rotation by touch is enabled
         if (rotationEnabled)
@@ -579,7 +579,7 @@ public class PieRadarChartViewBase: ChartViewBase
         }
     }
     
-    public override func nsuiTouchesMoved(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
+    open override func nsuiTouchesMoved(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
     {
         if (rotationEnabled && !rotationWithTwoFingers)
         {
@@ -596,7 +596,7 @@ public class PieRadarChartViewBase: ChartViewBase
         }
     }
     
-    public override func nsuiTouchesEnded(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
+    open override func nsuiTouchesEnded(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
     {
         if (!_isRotating)
         {
@@ -618,7 +618,7 @@ public class PieRadarChartViewBase: ChartViewBase
         }
     }
     
-    public override func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, with event: NSUIEvent?)
+    open override func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, with event: NSUIEvent?)
     {
         super.nsuiTouchesCancelled(touches, with: event)
         
@@ -627,7 +627,7 @@ public class PieRadarChartViewBase: ChartViewBase
     #endif
     
     #if os(OSX)
-    public override func mouseDown(_ theEvent: NSEvent)
+    open override func mouseDown(_ theEvent: NSEvent)
     {
         // if rotation by touch is enabled
         if rotationEnabled
@@ -645,7 +645,7 @@ public class PieRadarChartViewBase: ChartViewBase
         }
     }
     
-    public override func mouseDragged(_ theEvent: NSEvent)
+    open override func mouseDragged(_ theEvent: NSEvent)
     {
         if rotationEnabled
         {
@@ -660,7 +660,7 @@ public class PieRadarChartViewBase: ChartViewBase
         }
     }
     
-    public override func mouseUp(_ theEvent: NSEvent)
+    open override func mouseUp(_ theEvent: NSEvent)
     {
         if !_isRotating
         {
@@ -784,7 +784,7 @@ public class PieRadarChartViewBase: ChartViewBase
         self.rotationAngle = angleForPoint(x: x, y: y) - _startAngle
     }
     
-    public func stopDeceleration()
+    open func stopDeceleration()
     {
         if (_decelerationDisplayLink !== nil)
         {

@@ -13,7 +13,7 @@
 
 import Foundation
 
-public class CombinedChartData: BarLineScatterCandleBubbleChartData
+open class CombinedChartData: BarLineScatterCandleBubbleChartData
 {
     private var _lineData: LineChartData!
     private var _barData: BarChartData!
@@ -36,7 +36,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         super.init(xVals: xVals, dataSets: dataSets)
     }
     
-    public var lineData: LineChartData!
+    open var lineData: LineChartData!
     {
         get
         {
@@ -59,7 +59,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    public var barData: BarChartData!
+    open var barData: BarChartData!
     {
         get
         {
@@ -82,7 +82,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    public var scatterData: ScatterChartData!
+    open var scatterData: ScatterChartData!
     {
         get
         {
@@ -105,7 +105,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    public var candleData: CandleChartData!
+    open var candleData: CandleChartData!
     {
         get
         {
@@ -128,7 +128,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    public var bubbleData: BubbleChartData!
+    open var bubbleData: BubbleChartData!
     {
         get
         {
@@ -152,7 +152,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
     }
     
     /// - returns: all data objects in row: line-bar-scatter-candle-bubble if not null.
-    public var allData: [ChartData]
+    open var allData: [ChartData]
     {
         var data = [ChartData]()
         
@@ -180,7 +180,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         return data
     }
     
-    public override func notifyDataChanged()
+    open override func notifyDataChanged()
     {
         if (_lineData !== nil)
         {
@@ -211,7 +211,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
     ///
     /// - parameter highlight:
     /// - returns: the entry that is highlighted
-    public override func getEntryForHighlight(_ highlight: ChartHighlight) -> ChartDataEntry?
+    open override func getEntryForHighlight(_ highlight: ChartHighlight) -> ChartDataEntry?
     {
         let dataObjects = allData
         

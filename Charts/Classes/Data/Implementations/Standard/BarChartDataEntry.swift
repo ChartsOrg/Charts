@@ -13,7 +13,7 @@
 
 import Foundation
 
-public class BarChartDataEntry: ChartDataEntry
+open class BarChartDataEntry: ChartDataEntry
 {
     /// the values the stacked barchart holds
     private var _values: [Double]?
@@ -56,7 +56,7 @@ public class BarChartDataEntry: ChartDataEntry
         super.init(value: value, xIndex: xIndex, data: data)
     }
     
-    public func getBelowSum(_ stackIndex :Int) -> Double
+    open func getBelowSum(_ stackIndex :Int) -> Double
     {
         if (values == nil)
         {
@@ -76,18 +76,18 @@ public class BarChartDataEntry: ChartDataEntry
     }
     
     /// - returns: the sum of all negative values this entry (if stacked) contains. (this is a positive number)
-    public var negativeSum: Double
+    open var negativeSum: Double
     {
         return _negativeSum
     }
     
     /// - returns: the sum of all positive values this entry (if stacked) contains.
-    public var positiveSum: Double
+    open var positiveSum: Double
     {
         return _positiveSum
     }
 
-    public func calcPosNegSum()
+    open func calcPosNegSum()
     {
         if _values == nil
         {
@@ -118,10 +118,10 @@ public class BarChartDataEntry: ChartDataEntry
     // MARK: Accessors
     
     /// the values the stacked barchart holds
-    public var isStacked: Bool { return _values != nil }
+    open var isStacked: Bool { return _values != nil }
     
     /// the values the stacked barchart holds
-    public var values: [Double]?
+    open var values: [Double]?
     {
         get { return self._values }
         set
@@ -134,7 +134,7 @@ public class BarChartDataEntry: ChartDataEntry
     
     // MARK: NSCopying
     
-    public override func copyWithZone(_ zone: NSZone?) -> Any
+    open override func copyWithZone(_ zone: NSZone?) -> Any
     {
         let copy = super.copyWithZone(zone) as! BarChartDataEntry
         copy._values = _values
