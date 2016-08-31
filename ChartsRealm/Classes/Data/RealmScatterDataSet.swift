@@ -47,7 +47,7 @@ open class RealmScatterDataSet: RealmLineScatterCandleRadarDataSet, IScatterChar
     
     // MARK: NSCopying
     
-    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    open override func copyWithZone(_ zone: NSZone?) -> Any
     {
         let copy = super.copyWithZone(zone) as! RealmScatterDataSet
         copy.scatterShapeSize = scatterShapeSize
