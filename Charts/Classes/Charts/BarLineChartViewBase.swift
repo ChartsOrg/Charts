@@ -949,7 +949,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         setNeedsDisplay()
     }
 
-    /// Zooms out by 0.7, from the charts center. center.
+    /// Zooms out by 0.7, from the charts center.
     public func zoomOut()
     {
         let center = _viewPortHandler.contentCenter
@@ -960,6 +960,12 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
         // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
         calculateOffsets()
         setNeedsDisplay()
+    }
+
+    /// Zooms out to original size, centered.
+    public func resetZoom() {
+
+        zoom(0, scaleY: 0, x: 0, y: 0)
     }
 
     /// Zooms in or out by the given scale factor. x and y are the coordinates
