@@ -491,7 +491,11 @@ public class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                 let value = vals[k]
                                 var y: Double
                                 
-                                if value >= 0.0
+                                if value == 0.0
+                                {
+                                    y = value
+                                }
+                                else if value > 0.0
                                 {
                                     posY += value
                                     y = posY
