@@ -243,7 +243,7 @@ public class Fill: NSObject
     
     /// Draws the provided path in filled mode with the provided area
     public func fillPath(
-        context context: CGContext,
+        context: CGContext,
         rect: CGRect)
     {
         let fillType = _type
@@ -258,23 +258,23 @@ public class Fill: NSObject
         {
         case .Color:
             
-            CGContextSetFillColorWithColor(context, _color)
+            CGContextSetFillColorWithColor(context, _color!)
             CGContextFillPath(context)
             
         case .Image:
             
             CGContextClip(context)
-            CGContextDrawImage(context, rect, _image)
+            CGContextDrawImage(context, rect, _image!)
             
         case .TiledImage:
             
             CGContextClip(context)
-            CGContextDrawTiledImage(context, rect, _image)
+            CGContextDrawTiledImage(context, rect, _image!)
             
         case .Layer:
             
             CGContextClip(context)
-            CGContextDrawLayerInRect(context, rect, _layer)
+            CGContextDrawLayerInRect(context, rect, _layer!)
             
         case .LinearGradient:
             
@@ -294,7 +294,7 @@ public class Fill: NSObject
             CGContextClip(context)
             CGContextDrawLinearGradient(
                 context,
-                _gradient,
+                _gradient!,
                 startPoint,
                 endPoint,
                 [.DrawsAfterEndLocation, .DrawsBeforeStartLocation]
@@ -308,7 +308,7 @@ public class Fill: NSObject
             CGContextClip(context)
             CGContextDrawRadialGradient(
                 context,
-                _gradient,
+                _gradient!,
                 CGPointMake(
                     centerPoint.x + rect.width * _gradientStartOffsetPercent.x,
                     centerPoint.y + rect.height * _gradientStartOffsetPercent.y

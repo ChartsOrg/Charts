@@ -33,7 +33,7 @@ public class LineRadarRenderer: LineScatterCandleRadarRenderer
         // filled is usually drawn with less alpha
         CGContextSetAlpha(context, fillAlpha)
         
-        fill.fillPath(context: context, rect: viewPortHandler.contentRect)
+        fill.fillPath(context, rect: viewPortHandler.contentRect)
         
         CGContextRestoreGState(context)
     }

@@ -68,7 +68,7 @@ public class BalloonMarker: MarkerImage
         
         CGContextSaveGState(context)
         
-        CGContextSetFillColorWithColor(context, color?.CGColor)
+        CGContextSetFillColorWithColor(context, (color?.CGColor)!)
         CGContextBeginPath(context)
         CGContextMoveToPoint(context,
             rect.origin.x,

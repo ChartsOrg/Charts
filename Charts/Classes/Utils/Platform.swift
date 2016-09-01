@@ -108,7 +108,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 			self.nsuiTouchesEnded(touches, withEvent: event)
 		}
 
-		public final override func touchesCancelled(touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
+		public final override func touchesCancelled(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
         {
 			self.nsuiTouchesCancelled(touches, withEvent: event)
 		}
@@ -130,7 +130,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 		public func nsuiTouchesCancelled(touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
         {
-			super.touchesCancelled(touches, withEvent: event!)
+			super.touchesCancelled(touches!, withEvent: event!)
 		}
 
 		var nsuiLayer: CALayer?
@@ -520,7 +520,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		image.lockFocus()
 		let rep = NSBitmapImageRep(focusedViewRect: NSMakeRect(0, 0, image.size.width, image.size.height))
 		image.unlockFocus()
-		return rep?.representationUsingType(.NSPNGFileType, properties: [:])
+		return rep?.representationUsingType(.JPEG, properties: [:])
 	}
 
 	func NSUIImageJPEGRepresentation(image: NSUIImage, _ quality: CGFloat = 0.9) -> NSData?
@@ -528,7 +528,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		image.lockFocus()
 		let rep = NSBitmapImageRep(focusedViewRect: NSMakeRect(0, 0, image.size.width, image.size.height))
 		image.unlockFocus()
-		return rep?.representationUsingType(.NSJPEGFileType, properties: [NSImageCompressionFactor: quality])
+		return rep?.representationUsingType(.JPEG, properties: [NSImageCompressionFactor: quality])
 	}
 
 	private var imageContextStack: [CGFloat] = []
@@ -549,10 +549,12 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 			imageContextStack.append(scale)
 
 			let colorSpace = CGColorSpaceCreateDeviceRGB()
-			let ctx = CGBitmapContextCreate(nil, width, height, 8, 4*width, colorSpace, (opaque ?  CGImageAlphaInfo.NoneSkipFirst.rawValue : CGImageAlphaInfo.PremultipliedFirst.rawValue))
+			guard
+                let ctx = CGBitmapContextCreate(nil, width, height, 8, 4*width, colorSpace, (opaque ?  CGImageAlphaInfo.NoneSkipFirst.rawValue : CGImageAlphaInfo.PremultipliedFirst.rawValue))
+                else { return }
 			CGContextConcatCTM(ctx, CGAffineTransformMake(1, 0, 0, -1, 0, CGFloat(height)))
 			CGContextScaleCTM(ctx, scale, scale)
-			NSUIGraphicsPushContext(ctx!)
+			NSUIGraphicsPushContext(ctx)
 		}
 	}
 
@@ -560,7 +562,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     {
 		if !imageContextStack.isEmpty
         {
-			let ctx = NSUIGraphicsGetCurrentContext()
+            guard let ctx = NSUIGraphicsGetCurrentContext() else { return nil }
 			let scale = imageContextStack.last!
 			if let theCGImage = CGBitmapContextCreateImage(ctx)
             {
