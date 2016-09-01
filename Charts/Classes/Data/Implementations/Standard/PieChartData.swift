@@ -2,8 +2,6 @@
 //  PieData.swift
 //  Charts
 //
-//  Created by Daniel Cohen Gindi on 24/2/15.
-//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -20,14 +18,9 @@ public class PieChartData: ChartData
         super.init()
     }
     
-    public override init(xVals: [String?]?, dataSets: [IChartDataSet]?)
+    public override init(dataSets: [IChartDataSet]?)
     {
-        super.init(xVals: xVals, dataSets: dataSets)
-    }
-
-    public override init(xVals: [NSObject]?, dataSets: [IChartDataSet]?)
-    {
-        super.init(xVals: xVals, dataSets: dataSets)
+        super.init(dataSets: dataSets)
     }
 
     var dataSet: IPieChartDataSet?
@@ -82,23 +75,23 @@ public class PieChartData: ChartData
         return nil
     }
     
-    public override func addDataSet(d: IChartDataSet!)
+    public override func entryForHighlight(highlight: Highlight) -> ChartDataEntry?
     {
-        if (_dataSets == nil)
-        {
-            return
-        }
-        
+        return dataSet?.entryForIndex(Int(highlight.x))
+    }
+    
+    public override func addDataSet(d: IChartDataSet!)
+    {   
         super.addDataSet(d)
     }
     
     /// Removes the DataSet at the given index in the DataSet array from the data object.
     /// Also recalculates all minimum and maximum values.
     ///
-    /// - returns: true if a DataSet was removed, false if no DataSet could be removed.
+    /// - returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
     public override func removeDataSetByIndex(index: Int) -> Bool
     {
-        if (_dataSets == nil || index >= _dataSets.count || index < 0)
+        if index >= _dataSets.count || index < 0
         {
             return false
         }
@@ -106,7 +99,7 @@ public class PieChartData: ChartData
         return false
     }
     
-    /// - returns: the total y-value sum across all DataSet objects the this object represents.
+    /// - returns: The total y-value sum across all DataSet objects the this object represents.
     public var yValueSum: Double
     {
         guard let dataSet = dataSet else { return 0.0 }
@@ -115,7 +108,7 @@ public class PieChartData: ChartData
         
         for i in 0..<dataSet.entryCount
         {
-            yValueSum += dataSet.entryForIndex(i)?.value ?? 0.0
+            yValueSum += dataSet.entryForIndex(i)?.y ?? 0.0
         }
         
         return yValueSum

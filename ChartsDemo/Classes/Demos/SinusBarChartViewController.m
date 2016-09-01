@@ -2,8 +2,6 @@
 //  SinusBarChartViewController.m
 //  ChartsDemo
 //
-//  Created by Daniel Cohen Gindi on 17/3/15.
-//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -33,7 +31,6 @@
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
-                     @{@"key": @"toggleHighlightArrow", @"label": @"Toggle Highlight Arrow"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
                      @{@"key": @"animateXY", @"label": @"Animate XY"},
@@ -50,7 +47,7 @@
     
     _chartView.drawBarShadowEnabled = NO;
     _chartView.drawValueAboveBarEnabled = YES;
-    _chartView.maxVisibleValueCount = 60;
+    _chartView.maxVisibleCount = 60;
     _chartView.pinchZoomEnabled = NO;
     _chartView.drawGridBackgroundEnabled = NO;
     
@@ -63,8 +60,8 @@
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     leftAxis.labelCount = 6;
-    leftAxis.axisMinValue = -2.5;
-    leftAxis.axisMaxValue = 2.5;
+    leftAxis.axisMinimum = -2.5;
+    leftAxis.axisMaximum = 2.5;
     leftAxis.granularityEnabled = true;
     leftAxis.granularity = 0.1;
     
@@ -72,8 +69,8 @@
     rightAxis.drawGridLinesEnabled = NO;
     rightAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     rightAxis.labelCount = 6;
-    rightAxis.axisMinValue = -2.5;
-    rightAxis.axisMaxValue = 2.5;
+    rightAxis.axisMinimum = -2.5;
+    rightAxis.axisMaximum = 2.5;
     rightAxis.granularity = 0.1;
         
     ChartLegend *l = _chartView.legend;
@@ -108,32 +105,31 @@
 
 - (void)setDataCount:(int)count
 {
-    NSMutableArray *xVals = [[NSMutableArray alloc] init];
     NSMutableArray *entries = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < count; i++)
     {
-        [xVals addObject:[@(i) stringValue]];
-        [entries addObject:[[BarChartDataEntry alloc] initWithValue:sinf(M_PI * (i % 128) / 64.0) xIndex:i]];
+        [entries addObject:[[BarChartDataEntry alloc] initWithX:(double)i y:sinf(M_PI * (i % 128) / 64.0)]];
     }
     
     BarChartDataSet *set = nil;
     if (_chartView.data.dataSetCount > 0)
     {
         set = (BarChartDataSet *)_chartView.data.dataSets[0];
-        set.yVals = entries;
-        _chartView.data.xValsObjc = xVals;
+        set.values = entries;
+        [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
     }
     else
     {
-        set = [[BarChartDataSet alloc] initWithYVals:entries label:@"Sinus Function"];
-        set.barSpace = 0.4;
+        set = [[BarChartDataSet alloc] initWithValues:entries label:@"Sinus Function"];
         [set setColor:[UIColor colorWithRed:240/255.f green:120/255.f blue:124/255.f alpha:1.f]];
         
-        BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSet:set];
+        BarChartData *data = [[BarChartData alloc] initWithDataSet:set];
         [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
         [data setDrawValues:NO];
+        
+        data.barWidth = 0.8;
         
         _chartView.data = data;
     }
@@ -148,14 +144,14 @@
 
 - (IBAction)slidersValueChanged:(id)sender
 {
-    _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
+    _sliderTextX.text = [@((int)_sliderX.value) stringValue];
     
     [self updateChartData];
 }
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry highlight:(ChartHighlight * __nonnull)highlight
 {
     NSLog(@"chartValueSelected");
 }

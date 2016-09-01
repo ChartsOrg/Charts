@@ -2,9 +2,6 @@
 //  BaseDataSet.swift
 //  Charts
 //
-//  Created by Daniel Cohen Gindi on 16/1/15.
-
-//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -43,12 +40,17 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     /// Use this method to tell the data set that the underlying data has changed
     public func notifyDataSetChanged()
     {
-        calcMinMax(start: 0, end: entryCount - 1)
+        calcMinMax()
     }
     
-    public func calcMinMax(start start: Int, end: Int)
+    public func calcMinMax()
     {
         fatalError("calcMinMax is not implemented in ChartBaseDataSet")
+    }
+    
+    public func calcMinMaxY(fromX fromX: Double, toX: Double)
+    {
+        fatalError("calcMinMaxY(fromX:, toX:) is not implemented in ChartBaseDataSet")
     }
     
     public var yMin: Double
@@ -61,49 +63,49 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         fatalError("yMax is not implemented in ChartBaseDataSet")
     }
     
+    public var xMin: Double
+    {
+        fatalError("xMin is not implemented in ChartBaseDataSet")
+    }
+    
+    public var xMax: Double
+    {
+        fatalError("xMax is not implemented in ChartBaseDataSet")
+    }
+    
     public var entryCount: Int
     {
         fatalError("entryCount is not implemented in ChartBaseDataSet")
     }
-    
-    public func yValForXIndex(x: Int) -> Double
-    {
-        fatalError("yValForXIndex is not implemented in ChartBaseDataSet")
-    }
-    
-    public func yValsForXIndex(x: Int) -> [Double]
-    {
-        fatalError("yValsForXIndex is not implemented in ChartBaseDataSet")
-    }
-    
+        
     public func entryForIndex(i: Int) -> ChartDataEntry?
     {
         fatalError("entryForIndex is not implemented in ChartBaseDataSet")
     }
     
-    public func entryForXIndex(x: Int, rounding: ChartDataSetRounding) -> ChartDataEntry?
+    public func entryForXValue(x: Double, rounding: ChartDataSetRounding) -> ChartDataEntry?
     {
-        fatalError("entryForXIndex is not implemented in ChartBaseDataSet")
+        fatalError("entryForXValue(x, rounding) is not implemented in ChartBaseDataSet")
     }
     
-    public func entryForXIndex(x: Int) -> ChartDataEntry?
+    public func entryForXValue(x: Double) -> ChartDataEntry?
     {
-        fatalError("entryForXIndex is not implemented in ChartBaseDataSet")
+        fatalError("entryForXValue(x) is not implemented in ChartBaseDataSet")
     }
     
-    public func entriesForXIndex(x: Int) -> [ChartDataEntry]
+    public func entriesForXValue(x: Double) -> [ChartDataEntry]
     {
-        fatalError("entriesForXIndex is not implemented in ChartBaseDataSet")
+        fatalError("entriesForXValue is not implemented in ChartBaseDataSet")
     }
     
-    public func entryIndex(xIndex x: Int, rounding: ChartDataSetRounding) -> Int
+    public func entryIndex(x x: Double, rounding: ChartDataSetRounding) -> Int
     {
-        fatalError("entryIndex is not implemented in ChartBaseDataSet")
+        fatalError("entryIndex(x, rounding) is not implemented in ChartBaseDataSet")
     }
     
     public func entryIndex(entry e: ChartDataEntry) -> Int
     {
-        fatalError("entryIndex is not implemented in ChartBaseDataSet")
+        fatalError("entryIndex(entry) is not implemented in ChartBaseDataSet")
     }
     
     public func addEntry(e: ChartDataEntry) -> Bool
@@ -121,9 +123,18 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         fatalError("removeEntry is not implemented in ChartBaseDataSet")
     }
     
-    public func removeEntry(xIndex xIndex: Int) -> Bool
+    public func removeEntry(index index: Int) -> Bool
     {
-        if let entry = entryForXIndex(xIndex)
+        if let entry = entryForIndex(index)
+        {
+            return removeEntry(entry)
+        }
+        return false
+    }
+    
+    public func removeEntry(x x: Double) -> Bool
+    {
+        if let entry = entryForXValue(x)
         {
             return removeEntry(entry)
         }
@@ -132,18 +143,24 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     
     public func removeFirst() -> Bool
     {
-        if let entry = entryForIndex(0)
+        if entryCount > 0
         {
-            return removeEntry(entry)
+            if let entry = entryForIndex(0)
+            {
+                return removeEntry(entry)
+            }
         }
         return false
     }
     
     public func removeLast() -> Bool
     {
-        if let entry = entryForIndex(entryCount - 1)
+        if entryCount > 0
         {
-            return removeEntry(entry)
+            if let entry = entryForIndex(entryCount - 1)
+            {
+                return removeEntry(entry)
+            }
         }
         return false
     }
@@ -171,9 +188,9 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     public var label: String? = "DataSet"
     
     /// The axis this DataSet should be plotted against.
-    public var axisDependency = ChartYAxis.AxisDependency.Left
+    public var axisDependency = YAxis.AxisDependency.Left
     
-    /// - returns: the color at the given index of the DataSet's color array.
+    /// - returns: The color at the given index of the DataSet's color array.
     /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
     public func colorAt(index: Int) -> NSUIColor
     {
@@ -230,33 +247,46 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         self.colors = colorsWithAlpha
     }
     
+    /// Sets colors with a specific alpha value.
+    /// - parameter colors: the colors to set
+    /// - parameter alpha: alpha to apply to the set `colors`
+    public func setColors(colors: NSUIColor...)
+    {
+        self.colors = colors
+    }
+    
     /// if true, value highlighting is enabled
     public var highlightEnabled = true
     
-    /// - returns: true if value highlighting is enabled for this dataset
+    /// - returns: `true` if value highlighting is enabled for this dataset
     public var isHighlightEnabled: Bool { return highlightEnabled }
     
-    /// the formatter used to customly format the values
-    internal var _valueFormatter: NSNumberFormatter? = ChartUtils.defaultValueFormatter()
+    /// Custom formatter that is used instead of the auto-formatter if set
+    internal var _valueFormatter: IValueFormatter?
     
-    /// The formatter used to customly format the values
-    public var valueFormatter: NSNumberFormatter?
+    /// Custom formatter that is used instead of the auto-formatter if set
+    public var valueFormatter: IValueFormatter?
     {
         get
         {
+            if needsFormatter
+            {
+                return ChartUtils.defaultValueFormatter()
+            }
+            
             return _valueFormatter
         }
         set
         {
-            if newValue == nil
-            {
-                _valueFormatter = ChartUtils.defaultValueFormatter()
-            }
-            else
-            {
-                _valueFormatter = newValue
-            }
+            if newValue == nil { return }
+            
+            _valueFormatter = newValue
         }
+    }
+    
+    public var needsFormatter: Bool
+    {
+        return _valueFormatter == nil
     }
     
     /// Sets/get a single color for value text.
@@ -275,7 +305,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
         }
     }
     
-    /// - returns: the color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
+    /// - returns: The color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
     public func valueTextColorAt(index: Int) -> NSUIColor
     {
         var index = index
@@ -289,10 +319,35 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     /// the font for the value-text labels
     public var valueFont: NSUIFont = NSUIFont.systemFontOfSize(7.0)
     
+    /// The form to draw for this dataset in the legend.
+    public var form = Legend.Form.Default
+    
+    /// The form size to draw for this dataset in the legend.
+    ///
+    /// Return `NaN` to use the default legend form size.
+    public var formSize: CGFloat = CGFloat.NaN
+    
+    /// The line width for drawing the form of this dataset in the legend
+    ///
+    /// Return `NaN` to use the default legend form line width.
+    public var formLineWidth: CGFloat = CGFloat.NaN
+    
+    /// Line dash configuration for legend shapes that consist of lines.
+    ///
+    /// This is how much (in pixels) into the dash pattern are we starting from.
+    public var formLineDashPhase: CGFloat = 0.0
+    
+    /// Line dash configuration for legend shapes that consist of lines.
+    ///
+    /// This is the actual dash pattern.
+    /// I.e. [2, 3] will paint [--   --   ]
+    /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
+    public var formLineDashLengths: [CGFloat]? = nil
+    
     /// Set this to true to draw y-values on the chart
     public var drawValuesEnabled = true
     
-    /// Returns true if y-value drawing is enabled, false if not
+    /// - returns: `true` if y-value drawing is enabled, `false` ifnot
     public var isDrawValuesEnabled: Bool
     {
         return drawValuesEnabled
@@ -301,7 +356,7 @@ public class ChartBaseDataSet: NSObject, IChartDataSet
     /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
     public var visible = true
     
-    /// Returns true if this DataSet is visible inside the chart, or false if it is currently hidden.
+    /// - returns: `true` if this DataSet is visible inside the chart, or `false` ifit is currently hidden.
     public var isVisible: Bool
     {
         return visible

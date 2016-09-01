@@ -2,9 +2,6 @@
 //  ChartAnimationUtils.swift
 //  Charts
 //
-//  Created by Daniel Cohen Gindi on 23/2/15.
-
-//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -51,7 +48,7 @@ public enum ChartEasingOption: Int
     case EaseInOutBounce
 }
 
-public typealias ChartEasingFunctionBlock = ((elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat)
+public typealias ChartEasingFunctionBlock = ((elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double)
 
 internal func easingFunctionFromOption(easing: ChartEasingOption) -> ChartEasingFunctionBlock
 {
@@ -124,40 +121,41 @@ internal func easingFunctionFromOption(easing: ChartEasingOption) -> ChartEasing
 
 internal struct EasingFunctions
 {
-    internal static let Linear = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in return CGFloat(elapsed / duration); }
+    internal static let Linear = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in return Double(elapsed / duration); }
     
-    internal static let EaseInQuad = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
-        var position = CGFloat(elapsed / duration)
+    internal static let EaseInQuad = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
+        var position = Double(elapsed / duration)
         return position * position
     }
     
-    internal static let EaseOutQuad = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
-        var position = CGFloat(elapsed / duration)
+    internal static let EaseOutQuad = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
+        var position = Double(elapsed / duration)
         return -position * (position - 2.0)
     }
     
-    internal static let EaseInOutQuad = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
-        var position = CGFloat(elapsed / (duration / 2.0))
+    internal static let EaseInOutQuad = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
+        var position = Double(elapsed / (duration / 2.0))
         if (position < 1.0)
         {
             return 0.5 * position * position
         }
-        return -0.5 * ((--position) * (position - 2.0) - 1.0)
+        
+        return -0.5 * ((position - 1.0) * (position - 3.0) - 1.0)
     }
     
-    internal static let EaseInCubic = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
-        var position = CGFloat(elapsed / duration)
+    internal static let EaseInCubic = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
+        var position = Double(elapsed / duration)
         return position * position * position
     }
     
-    internal static let EaseOutCubic = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
-        var position = CGFloat(elapsed / duration)
-        position--
+    internal static let EaseOutCubic = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
+        var position = Double(elapsed / duration)
+        position -= 1.0
         return (position * position * position + 1.0)
     }
     
-    internal static let EaseInOutCubic = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
-        var position = CGFloat(elapsed / (duration / 2.0))
+    internal static let EaseInOutCubic = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
+        var position = Double(elapsed / (duration / 2.0))
         if (position < 1.0)
         {
             return 0.5 * position * position * position
@@ -166,19 +164,19 @@ internal struct EasingFunctions
         return 0.5 * (position * position * position + 2.0)
     }
     
-    internal static let EaseInQuart = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
-        var position = CGFloat(elapsed / duration)
+    internal static let EaseInQuart = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
+        var position = Double(elapsed / duration)
         return position * position * position * position
     }
     
-    internal static let EaseOutQuart = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
-        var position = CGFloat(elapsed / duration)
-        position--
+    internal static let EaseOutQuart = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
+        var position = Double(elapsed / duration)
+        position -= 1.0
         return -(position * position * position * position - 1.0)
     }
     
-    internal static let EaseInOutQuart = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
-        var position = CGFloat(elapsed / (duration / 2.0))
+    internal static let EaseInOutQuart = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
+        var position = Double(elapsed / (duration / 2.0))
         if (position < 1.0)
         {
             return 0.5 * position * position * position * position
@@ -187,19 +185,19 @@ internal struct EasingFunctions
         return -0.5 * (position * position * position * position - 2.0)
     }
     
-    internal static let EaseInQuint = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
-        var position = CGFloat(elapsed / duration)
+    internal static let EaseInQuint = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
+        var position = Double(elapsed / duration)
         return position * position * position * position * position
     }
     
-    internal static let EaseOutQuint = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
-        var position = CGFloat(elapsed / duration)
-        position--
+    internal static let EaseOutQuint = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
+        var position = Double(elapsed / duration)
+        position -= 1.0
         return (position * position * position * position * position + 1.0)
     }
     
-    internal static let EaseInOutQuint = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
-        var position = CGFloat(elapsed / (duration / 2.0))
+    internal static let EaseInOutQuint = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
+        var position = Double(elapsed / (duration / 2.0))
         if (position < 1.0)
         {
             return 0.5 * position * position * position * position * position
@@ -211,30 +209,30 @@ internal struct EasingFunctions
         }
     }
     
-    internal static let EaseInSine = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
+    internal static let EaseInSine = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
         var position: NSTimeInterval = elapsed / duration
-        return CGFloat( -cos(position * M_PI_2) + 1.0 )
+        return Double( -cos(position * M_PI_2) + 1.0 )
     }
     
-    internal static let EaseOutSine = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
+    internal static let EaseOutSine = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
         var position: NSTimeInterval = elapsed / duration
-        return CGFloat( sin(position * M_PI_2) )
+        return Double( sin(position * M_PI_2) )
     }
     
-    internal static let EaseInOutSine = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
+    internal static let EaseInOutSine = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
         var position: NSTimeInterval = elapsed / duration
-        return CGFloat( -0.5 * (cos(M_PI * position) - 1.0) )
+        return Double( -0.5 * (cos(M_PI * position) - 1.0) )
     }
     
-    internal static let EaseInExpo = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
-        return (elapsed == 0) ? 0.0 : CGFloat(pow(2.0, 10.0 * (elapsed / duration - 1.0)))
+    internal static let EaseInExpo = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
+        return (elapsed == 0) ? 0.0 : Double(pow(2.0, 10.0 * (elapsed / duration - 1.0)))
     }
     
-    internal static let EaseOutExpo = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
-        return (elapsed == duration) ? 1.0 : (-CGFloat(pow(2.0, -10.0 * elapsed / duration)) + 1.0)
+    internal static let EaseOutExpo = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
+        return (elapsed == duration) ? 1.0 : (-Double(pow(2.0, -10.0 * elapsed / duration)) + 1.0)
     }
     
-    internal static let EaseInOutExpo = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
+    internal static let EaseInOutExpo = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
         if (elapsed == 0)
         {
             return 0.0
@@ -247,35 +245,35 @@ internal struct EasingFunctions
         var position: NSTimeInterval = elapsed / (duration / 2.0)
         if (position < 1.0)
         {
-            return CGFloat( 0.5 * pow(2.0, 10.0 * (position - 1.0)) )
+            return Double( 0.5 * pow(2.0, 10.0 * (position - 1.0)) )
         }
         
         position = position - 1.0
-        return CGFloat( 0.5 * (-pow(2.0, -10.0 * position) + 2.0) )
+        return Double( 0.5 * (-pow(2.0, -10.0 * position) + 2.0) )
     }
     
-    internal static let EaseInCirc = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
-        var position = CGFloat(elapsed / duration)
-        return -(CGFloat(sqrt(1.0 - position * position)) - 1.0)
+    internal static let EaseInCirc = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
+        var position = Double(elapsed / duration)
+        return -(Double(sqrt(1.0 - position * position)) - 1.0)
     }
     
-    internal static let EaseOutCirc = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
-        var position = CGFloat(elapsed / duration)
-        position--
-        return CGFloat( sqrt(1 - position * position) )
+    internal static let EaseOutCirc = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
+        var position = Double(elapsed / duration)
+        position -= 1.0
+        return Double( sqrt(1 - position * position) )
     }
     
-    internal static let EaseInOutCirc = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
+    internal static let EaseInOutCirc = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
         var position: NSTimeInterval = elapsed / (duration / 2.0)
         if (position < 1.0)
         {
-            return CGFloat( -0.5 * (sqrt(1.0 - position * position) - 1.0) )
+            return Double( -0.5 * (sqrt(1.0 - position * position) - 1.0) )
         }
         position -= 2.0
-        return CGFloat( 0.5 * (sqrt(1.0 - position * position) + 1.0) )
+        return Double( 0.5 * (sqrt(1.0 - position * position) + 1.0) )
     }
     
-    internal static let EaseInElastic = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
+    internal static let EaseInElastic = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
         if (elapsed == 0.0)
         {
             return 0.0
@@ -290,10 +288,10 @@ internal struct EasingFunctions
         var p = duration * 0.3
         var s = p / (2.0 * M_PI) * asin(1.0)
         position -= 1.0
-        return CGFloat( -(pow(2.0, 10.0 * position) * sin((position * duration - s) * (2.0 * M_PI) / p)) )
+        return Double( -(pow(2.0, 10.0 * position) * sin((position * duration - s) * (2.0 * M_PI) / p)) )
     }
     
-    internal static let EaseOutElastic = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
+    internal static let EaseOutElastic = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
         if (elapsed == 0.0)
         {
             return 0.0
@@ -307,10 +305,10 @@ internal struct EasingFunctions
         
         var p = duration * 0.3
         var s = p / (2.0 * M_PI) * asin(1.0)
-        return CGFloat( pow(2.0, -10.0 * position) * sin((position * duration - s) * (2.0 * M_PI) / p) + 1.0 )
+        return Double( pow(2.0, -10.0 * position) * sin((position * duration - s) * (2.0 * M_PI) / p) + 1.0 )
     }
     
-    internal static let EaseInOutElastic = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
+    internal static let EaseInOutElastic = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
         if (elapsed == 0.0)
         {
             return 0.0
@@ -327,66 +325,66 @@ internal struct EasingFunctions
         if (position < 1.0)
         {
             position -= 1.0
-            return CGFloat( -0.5 * (pow(2.0, 10.0 * position) * sin((position * duration - s) * (2.0 * M_PI) / p)) )
+            return Double( -0.5 * (pow(2.0, 10.0 * position) * sin((position * duration - s) * (2.0 * M_PI) / p)) )
         }
         position -= 1.0
-        return CGFloat( pow(2.0, -10.0 * position) * sin((position * duration - s) * (2.0 * M_PI) / p) * 0.5 + 1.0 )
+        return Double( pow(2.0, -10.0 * position) * sin((position * duration - s) * (2.0 * M_PI) / p) * 0.5 + 1.0 )
     }
     
-    internal static let EaseInBack = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
+    internal static let EaseInBack = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
         let s: NSTimeInterval = 1.70158
         var position: NSTimeInterval = elapsed / duration
-        return CGFloat( position * position * ((s + 1.0) * position - s) )
+        return Double( position * position * ((s + 1.0) * position - s) )
     }
     
-    internal static let EaseOutBack = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
+    internal static let EaseOutBack = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
         let s: NSTimeInterval = 1.70158
         var position: NSTimeInterval = elapsed / duration
         position -= 1.0
-        return CGFloat( position * position * ((s + 1.0) * position + s) + 1.0 )
+        return Double( position * position * ((s + 1.0) * position + s) + 1.0 )
     }
     
-    internal static let EaseInOutBack = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
+    internal static let EaseInOutBack = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
         var s: NSTimeInterval = 1.70158
         var position: NSTimeInterval = elapsed / (duration / 2.0)
         if (position < 1.0)
         {
             s *= 1.525
-            return CGFloat( 0.5 * (position * position * ((s + 1.0) * position - s)) )
+            return Double( 0.5 * (position * position * ((s + 1.0) * position - s)) )
         }
         s *= 1.525
         position -= 2.0
-        return CGFloat( 0.5 * (position * position * ((s + 1.0) * position + s) + 2.0) )
+        return Double( 0.5 * (position * position * ((s + 1.0) * position + s) + 2.0) )
     }
     
-    internal static let EaseInBounce = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
+    internal static let EaseInBounce = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
         return 1.0 - EaseOutBounce(duration - elapsed, duration)
     }
     
-    internal static let EaseOutBounce = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
+    internal static let EaseOutBounce = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
         var position: NSTimeInterval = elapsed / duration
         if (position < (1.0 / 2.75))
         {
-            return CGFloat( 7.5625 * position * position )
+            return Double( 7.5625 * position * position )
         }
         else if (position < (2.0 / 2.75))
         {
             position -= (1.5 / 2.75)
-            return CGFloat( 7.5625 * position * position + 0.75 )
+            return Double( 7.5625 * position * position + 0.75 )
         }
         else if (position < (2.5 / 2.75))
         {
             position -= (2.25 / 2.75)
-            return CGFloat( 7.5625 * position * position + 0.9375 )
+            return Double( 7.5625 * position * position + 0.9375 )
         }
         else
         {
             position -= (2.625 / 2.75)
-            return CGFloat( 7.5625 * position * position + 0.984375 )
+            return Double( 7.5625 * position * position + 0.984375 )
         }
     }
     
-    internal static let EaseInOutBounce = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> CGFloat in
+    internal static let EaseInOutBounce = { (elapsed: NSTimeInterval, duration: NSTimeInterval) -> Double in
         if (elapsed < (duration / 2.0))
         {
             return EaseInBounce(elapsed * 2.0, duration) * 0.5

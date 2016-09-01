@@ -15,40 +15,26 @@
 		5B4AC1821C4C12B80028D1A6 /* RealmChartUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AC1811C4C12B80028D1A6 /* RealmChartUtils.swift */; };
 		5B4AC1831C4C12B80028D1A6 /* RealmChartUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AC1811C4C12B80028D1A6 /* RealmChartUtils.swift */; };
 		5B680D3D1A9D1AD90026A057 /* ChartsRealm.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B680D3C1A9D1AD90026A057 /* ChartsRealm.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5B88D8851C634EBB00B54CBD /* RealmBarData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8731C634EBB00B54CBD /* RealmBarData.swift */; };
-		5B88D8861C634EBB00B54CBD /* RealmBarData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8731C634EBB00B54CBD /* RealmBarData.swift */; };
 		5B88D8871C634EBB00B54CBD /* RealmBarDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8741C634EBB00B54CBD /* RealmBarDataSet.swift */; };
 		5B88D8881C634EBB00B54CBD /* RealmBarDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8741C634EBB00B54CBD /* RealmBarDataSet.swift */; };
 		5B88D8891C634EBB00B54CBD /* RealmBarLineScatterCandleBubbleDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8751C634EBB00B54CBD /* RealmBarLineScatterCandleBubbleDataSet.swift */; };
 		5B88D88A1C634EBB00B54CBD /* RealmBarLineScatterCandleBubbleDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8751C634EBB00B54CBD /* RealmBarLineScatterCandleBubbleDataSet.swift */; };
 		5B88D88B1C634EBB00B54CBD /* RealmBaseDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8761C634EBB00B54CBD /* RealmBaseDataSet.swift */; };
 		5B88D88C1C634EBB00B54CBD /* RealmBaseDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8761C634EBB00B54CBD /* RealmBaseDataSet.swift */; };
-		5B88D88D1C634EBB00B54CBD /* RealmBubbleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8771C634EBB00B54CBD /* RealmBubbleData.swift */; };
-		5B88D88E1C634EBB00B54CBD /* RealmBubbleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8771C634EBB00B54CBD /* RealmBubbleData.swift */; };
 		5B88D88F1C634EBB00B54CBD /* RealmBubbleDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8781C634EBB00B54CBD /* RealmBubbleDataSet.swift */; };
 		5B88D8901C634EBB00B54CBD /* RealmBubbleDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8781C634EBB00B54CBD /* RealmBubbleDataSet.swift */; };
-		5B88D8911C634EBB00B54CBD /* RealmCandleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8791C634EBB00B54CBD /* RealmCandleData.swift */; };
-		5B88D8921C634EBB00B54CBD /* RealmCandleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8791C634EBB00B54CBD /* RealmCandleData.swift */; };
 		5B88D8931C634EBB00B54CBD /* RealmCandleDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D87A1C634EBB00B54CBD /* RealmCandleDataSet.swift */; };
 		5B88D8941C634EBB00B54CBD /* RealmCandleDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D87A1C634EBB00B54CBD /* RealmCandleDataSet.swift */; };
-		5B88D8951C634EBB00B54CBD /* RealmLineData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D87B1C634EBB00B54CBD /* RealmLineData.swift */; };
-		5B88D8961C634EBB00B54CBD /* RealmLineData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D87B1C634EBB00B54CBD /* RealmLineData.swift */; };
 		5B88D8971C634EBB00B54CBD /* RealmLineDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D87C1C634EBB00B54CBD /* RealmLineDataSet.swift */; };
 		5B88D8981C634EBB00B54CBD /* RealmLineDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D87C1C634EBB00B54CBD /* RealmLineDataSet.swift */; };
 		5B88D8991C634EBB00B54CBD /* RealmLineRadarDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D87D1C634EBB00B54CBD /* RealmLineRadarDataSet.swift */; };
 		5B88D89A1C634EBB00B54CBD /* RealmLineRadarDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D87D1C634EBB00B54CBD /* RealmLineRadarDataSet.swift */; };
 		5B88D89B1C634EBB00B54CBD /* RealmLineScatterCandleRadarDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D87E1C634EBB00B54CBD /* RealmLineScatterCandleRadarDataSet.swift */; };
 		5B88D89C1C634EBB00B54CBD /* RealmLineScatterCandleRadarDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D87E1C634EBB00B54CBD /* RealmLineScatterCandleRadarDataSet.swift */; };
-		5B88D89D1C634EBB00B54CBD /* RealmPieData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D87F1C634EBB00B54CBD /* RealmPieData.swift */; };
-		5B88D89E1C634EBB00B54CBD /* RealmPieData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D87F1C634EBB00B54CBD /* RealmPieData.swift */; };
 		5B88D89F1C634EBB00B54CBD /* RealmPieDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8801C634EBB00B54CBD /* RealmPieDataSet.swift */; };
 		5B88D8A01C634EBB00B54CBD /* RealmPieDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8801C634EBB00B54CBD /* RealmPieDataSet.swift */; };
-		5B88D8A11C634EBB00B54CBD /* RealmRadarData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8811C634EBB00B54CBD /* RealmRadarData.swift */; };
-		5B88D8A21C634EBB00B54CBD /* RealmRadarData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8811C634EBB00B54CBD /* RealmRadarData.swift */; };
 		5B88D8A31C634EBB00B54CBD /* RealmRadarDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8821C634EBB00B54CBD /* RealmRadarDataSet.swift */; };
 		5B88D8A41C634EBB00B54CBD /* RealmRadarDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8821C634EBB00B54CBD /* RealmRadarDataSet.swift */; };
-		5B88D8A51C634EBB00B54CBD /* RealmScatterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8831C634EBB00B54CBD /* RealmScatterData.swift */; };
-		5B88D8A61C634EBB00B54CBD /* RealmScatterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8831C634EBB00B54CBD /* RealmScatterData.swift */; };
 		5B88D8A71C634EBB00B54CBD /* RealmScatterDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8841C634EBB00B54CBD /* RealmScatterDataSet.swift */; };
 		5B88D8A81C634EBB00B54CBD /* RealmScatterDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8841C634EBB00B54CBD /* RealmScatterDataSet.swift */; };
 		5B88D8B51C63504200B54CBD /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B88D8B01C63502500B54CBD /* Charts.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -57,20 +43,13 @@
 		5BA899281CADB7F20012ED64 /* RealmLineDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D87C1C634EBB00B54CBD /* RealmLineDataSet.swift */; };
 		5BA899291CADB7F20012ED64 /* RealmChartUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AC1811C4C12B80028D1A6 /* RealmChartUtils.swift */; };
 		5BA8992A1CADB7F20012ED64 /* RealmScatterDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8841C634EBB00B54CBD /* RealmScatterDataSet.swift */; };
-		5BA8992B1CADB7F20012ED64 /* RealmBarData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8731C634EBB00B54CBD /* RealmBarData.swift */; };
 		5BA8992C1CADB7F20012ED64 /* RealmBarDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8741C634EBB00B54CBD /* RealmBarDataSet.swift */; };
 		5BA8992D1CADB7F20012ED64 /* RealmBaseDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8761C634EBB00B54CBD /* RealmBaseDataSet.swift */; };
 		5BA8992E1CADB7F20012ED64 /* RealmCandleDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D87A1C634EBB00B54CBD /* RealmCandleDataSet.swift */; };
-		5BA8992F1CADB7F20012ED64 /* RealmCandleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8791C634EBB00B54CBD /* RealmCandleData.swift */; };
-		5BA899301CADB7F20012ED64 /* RealmBubbleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8771C634EBB00B54CBD /* RealmBubbleData.swift */; };
 		5BA899311CADB7F20012ED64 /* RealmBarLineScatterCandleBubbleDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8751C634EBB00B54CBD /* RealmBarLineScatterCandleBubbleDataSet.swift */; };
-		5BA899321CADB7F20012ED64 /* RealmScatterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8831C634EBB00B54CBD /* RealmScatterData.swift */; };
 		5BA899331CADB7F20012ED64 /* RealmBubbleDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8781C634EBB00B54CBD /* RealmBubbleDataSet.swift */; };
 		5BA899341CADB7F20012ED64 /* RealmLineScatterCandleRadarDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D87E1C634EBB00B54CBD /* RealmLineScatterCandleRadarDataSet.swift */; };
 		5BA899351CADB7F20012ED64 /* RealmRadarDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8821C634EBB00B54CBD /* RealmRadarDataSet.swift */; };
-		5BA899361CADB7F20012ED64 /* RealmLineData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D87B1C634EBB00B54CBD /* RealmLineData.swift */; };
-		5BA899371CADB7F20012ED64 /* RealmPieData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D87F1C634EBB00B54CBD /* RealmPieData.swift */; };
-		5BA899381CADB7F20012ED64 /* RealmRadarData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8811C634EBB00B54CBD /* RealmRadarData.swift */; };
 		5BA8993A1CADB7F20012ED64 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B88D8B01C63502500B54CBD /* Charts.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		5BA8993E1CADB7F20012ED64 /* ChartsRealm.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B680D3C1A9D1AD90026A057 /* ChartsRealm.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5BA8994C1CADB8EC0012ED64 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BA8994A1CADB8EC0012ED64 /* Realm.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -116,23 +95,16 @@
 		5B4AC1321C44684E0028D1A6 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
 		5B4AC1811C4C12B80028D1A6 /* RealmChartUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmChartUtils.swift; sourceTree = "<group>"; };
 		5B680D3C1A9D1AD90026A057 /* ChartsRealm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartsRealm.h; sourceTree = "<group>"; };
-		5B88D8731C634EBB00B54CBD /* RealmBarData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmBarData.swift; sourceTree = "<group>"; };
 		5B88D8741C634EBB00B54CBD /* RealmBarDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmBarDataSet.swift; sourceTree = "<group>"; };
 		5B88D8751C634EBB00B54CBD /* RealmBarLineScatterCandleBubbleDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmBarLineScatterCandleBubbleDataSet.swift; sourceTree = "<group>"; };
 		5B88D8761C634EBB00B54CBD /* RealmBaseDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmBaseDataSet.swift; sourceTree = "<group>"; };
-		5B88D8771C634EBB00B54CBD /* RealmBubbleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmBubbleData.swift; sourceTree = "<group>"; };
 		5B88D8781C634EBB00B54CBD /* RealmBubbleDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmBubbleDataSet.swift; sourceTree = "<group>"; };
-		5B88D8791C634EBB00B54CBD /* RealmCandleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmCandleData.swift; sourceTree = "<group>"; };
 		5B88D87A1C634EBB00B54CBD /* RealmCandleDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmCandleDataSet.swift; sourceTree = "<group>"; };
-		5B88D87B1C634EBB00B54CBD /* RealmLineData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmLineData.swift; sourceTree = "<group>"; };
 		5B88D87C1C634EBB00B54CBD /* RealmLineDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmLineDataSet.swift; sourceTree = "<group>"; };
 		5B88D87D1C634EBB00B54CBD /* RealmLineRadarDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmLineRadarDataSet.swift; sourceTree = "<group>"; };
 		5B88D87E1C634EBB00B54CBD /* RealmLineScatterCandleRadarDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmLineScatterCandleRadarDataSet.swift; sourceTree = "<group>"; };
-		5B88D87F1C634EBB00B54CBD /* RealmPieData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmPieData.swift; sourceTree = "<group>"; };
 		5B88D8801C634EBB00B54CBD /* RealmPieDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmPieDataSet.swift; sourceTree = "<group>"; };
-		5B88D8811C634EBB00B54CBD /* RealmRadarData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmRadarData.swift; sourceTree = "<group>"; };
 		5B88D8821C634EBB00B54CBD /* RealmRadarDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmRadarDataSet.swift; sourceTree = "<group>"; };
-		5B88D8831C634EBB00B54CBD /* RealmScatterData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmScatterData.swift; sourceTree = "<group>"; };
 		5B88D8841C634EBB00B54CBD /* RealmScatterDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmScatterDataSet.swift; sourceTree = "<group>"; };
 		5B88D8A91C63502400B54CBD /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = ../Charts/Charts.xcodeproj; sourceTree = "<group>"; };
 		5BA899431CADB7F20012ED64 /* ChartsRealm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ChartsRealm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -276,23 +248,16 @@
 		5BA8EC6F1A9D151C00CE82E1 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				5B88D8731C634EBB00B54CBD /* RealmBarData.swift */,
 				5B88D8741C634EBB00B54CBD /* RealmBarDataSet.swift */,
 				5B88D8751C634EBB00B54CBD /* RealmBarLineScatterCandleBubbleDataSet.swift */,
 				5B88D8761C634EBB00B54CBD /* RealmBaseDataSet.swift */,
-				5B88D8771C634EBB00B54CBD /* RealmBubbleData.swift */,
 				5B88D8781C634EBB00B54CBD /* RealmBubbleDataSet.swift */,
-				5B88D8791C634EBB00B54CBD /* RealmCandleData.swift */,
 				5B88D87A1C634EBB00B54CBD /* RealmCandleDataSet.swift */,
-				5B88D87B1C634EBB00B54CBD /* RealmLineData.swift */,
 				5B88D87C1C634EBB00B54CBD /* RealmLineDataSet.swift */,
 				5B88D87D1C634EBB00B54CBD /* RealmLineRadarDataSet.swift */,
 				5B88D87E1C634EBB00B54CBD /* RealmLineScatterCandleRadarDataSet.swift */,
-				5B88D87F1C634EBB00B54CBD /* RealmPieData.swift */,
 				5B88D8801C634EBB00B54CBD /* RealmPieDataSet.swift */,
-				5B88D8811C634EBB00B54CBD /* RealmRadarData.swift */,
 				5B88D8821C634EBB00B54CBD /* RealmRadarDataSet.swift */,
-				5B88D8831C634EBB00B54CBD /* RealmScatterData.swift */,
 				5B88D8841C634EBB00B54CBD /* RealmScatterDataSet.swift */,
 			);
 			path = Data;
@@ -398,7 +363,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = dcg;
 				TargetAttributes = {
 					5BA8EC3F1A9D14DC00CE82E1 = {
@@ -502,20 +467,13 @@
 				5BA899281CADB7F20012ED64 /* RealmLineDataSet.swift in Sources */,
 				5BA899291CADB7F20012ED64 /* RealmChartUtils.swift in Sources */,
 				5BA8992A1CADB7F20012ED64 /* RealmScatterDataSet.swift in Sources */,
-				5BA8992B1CADB7F20012ED64 /* RealmBarData.swift in Sources */,
 				5BA8992C1CADB7F20012ED64 /* RealmBarDataSet.swift in Sources */,
 				5BA8992D1CADB7F20012ED64 /* RealmBaseDataSet.swift in Sources */,
 				5BA8992E1CADB7F20012ED64 /* RealmCandleDataSet.swift in Sources */,
-				5BA8992F1CADB7F20012ED64 /* RealmCandleData.swift in Sources */,
-				5BA899301CADB7F20012ED64 /* RealmBubbleData.swift in Sources */,
 				5BA899311CADB7F20012ED64 /* RealmBarLineScatterCandleBubbleDataSet.swift in Sources */,
-				5BA899321CADB7F20012ED64 /* RealmScatterData.swift in Sources */,
 				5BA899331CADB7F20012ED64 /* RealmBubbleDataSet.swift in Sources */,
 				5BA899341CADB7F20012ED64 /* RealmLineScatterCandleRadarDataSet.swift in Sources */,
 				5BA899351CADB7F20012ED64 /* RealmRadarDataSet.swift in Sources */,
-				5BA899361CADB7F20012ED64 /* RealmLineData.swift in Sources */,
-				5BA899371CADB7F20012ED64 /* RealmPieData.swift in Sources */,
-				5BA899381CADB7F20012ED64 /* RealmRadarData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,20 +486,13 @@
 				5B88D8971C634EBB00B54CBD /* RealmLineDataSet.swift in Sources */,
 				5B4AC1821C4C12B80028D1A6 /* RealmChartUtils.swift in Sources */,
 				5B88D8A71C634EBB00B54CBD /* RealmScatterDataSet.swift in Sources */,
-				5B88D8851C634EBB00B54CBD /* RealmBarData.swift in Sources */,
 				5B88D8871C634EBB00B54CBD /* RealmBarDataSet.swift in Sources */,
 				5B88D88B1C634EBB00B54CBD /* RealmBaseDataSet.swift in Sources */,
 				5B88D8931C634EBB00B54CBD /* RealmCandleDataSet.swift in Sources */,
-				5B88D8911C634EBB00B54CBD /* RealmCandleData.swift in Sources */,
-				5B88D88D1C634EBB00B54CBD /* RealmBubbleData.swift in Sources */,
 				5B88D8891C634EBB00B54CBD /* RealmBarLineScatterCandleBubbleDataSet.swift in Sources */,
-				5B88D8A51C634EBB00B54CBD /* RealmScatterData.swift in Sources */,
 				5B88D88F1C634EBB00B54CBD /* RealmBubbleDataSet.swift in Sources */,
 				5B88D89B1C634EBB00B54CBD /* RealmLineScatterCandleRadarDataSet.swift in Sources */,
 				5B88D8A31C634EBB00B54CBD /* RealmRadarDataSet.swift in Sources */,
-				5B88D8951C634EBB00B54CBD /* RealmLineData.swift in Sources */,
-				5B88D89D1C634EBB00B54CBD /* RealmPieData.swift in Sources */,
-				5B88D8A11C634EBB00B54CBD /* RealmRadarData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -554,20 +505,13 @@
 				5B88D8981C634EBB00B54CBD /* RealmLineDataSet.swift in Sources */,
 				5B4AC1831C4C12B80028D1A6 /* RealmChartUtils.swift in Sources */,
 				5B88D8A81C634EBB00B54CBD /* RealmScatterDataSet.swift in Sources */,
-				5B88D8861C634EBB00B54CBD /* RealmBarData.swift in Sources */,
 				5B88D8881C634EBB00B54CBD /* RealmBarDataSet.swift in Sources */,
 				5B88D88C1C634EBB00B54CBD /* RealmBaseDataSet.swift in Sources */,
 				5B88D8941C634EBB00B54CBD /* RealmCandleDataSet.swift in Sources */,
-				5B88D8921C634EBB00B54CBD /* RealmCandleData.swift in Sources */,
-				5B88D88E1C634EBB00B54CBD /* RealmBubbleData.swift in Sources */,
 				5B88D88A1C634EBB00B54CBD /* RealmBarLineScatterCandleBubbleDataSet.swift in Sources */,
-				5B88D8A61C634EBB00B54CBD /* RealmScatterData.swift in Sources */,
 				5B88D8901C634EBB00B54CBD /* RealmBubbleDataSet.swift in Sources */,
 				5B88D89C1C634EBB00B54CBD /* RealmLineScatterCandleRadarDataSet.swift in Sources */,
 				5B88D8A41C634EBB00B54CBD /* RealmRadarDataSet.swift in Sources */,
-				5B88D8961C634EBB00B54CBD /* RealmLineData.swift in Sources */,
-				5B88D89E1C634EBB00B54CBD /* RealmPieData.swift in Sources */,
-				5B88D8A21C634EBB00B54CBD /* RealmRadarData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -643,8 +587,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -653,6 +599,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -690,8 +637,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
@@ -699,6 +648,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -708,6 +658,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -771,6 +722,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 2.2.5;
@@ -799,6 +751,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 2.2.5;

@@ -2,9 +2,6 @@
 //  RealmLineDataSet.swift
 //  Charts
 //
-//  Created by Daniel Cohen Gindi on 23/2/15.
-
-//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -99,7 +96,7 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     
     public var circleColors = [NSUIColor]()
     
-    /// - returns: the color at the given index of the DataSet's circle-color array.
+    /// - returns: The color at the given index of the DataSet's circle-color array.
     /// Performs a IndexOutOfBounds check by modulus.
     public func getCircleColor(index: Int) -> NSUIColor?
     {
@@ -129,16 +126,16 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     /// If true, drawing circles is enabled
     public var drawCirclesEnabled = true
     
-    /// - returns: true if drawing circles for this DataSet is enabled, false if not
+    /// - returns: `true` if drawing circles for this DataSet is enabled, `false` ifnot
     public var isDrawCirclesEnabled: Bool { return drawCirclesEnabled }
     
     /// The color of the inner circle (the circle-hole).
     public var circleHoleColor: NSUIColor? = NSUIColor.whiteColor()
     
-    /// True if drawing circles for this DataSet is enabled, false if not
+    /// `true` if drawing circles for this DataSet is enabled, `false` ifnot
     public var drawCircleHoleEnabled = true
     
-    /// - returns: true if drawing the circle-holes is enabled, false if not.
+    /// - returns: `true` if drawing the circle-holes is enabled, `false` ifnot.
     public var isDrawCircleHoleEnabled: Bool { return drawCircleHoleEnabled }
     
     /// This is how much (in pixels) into the dash pattern are we starting from.
@@ -153,10 +150,10 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
     public var lineCapType = CGLineCap.Butt
     
     /// formatter for customizing the position of the fill-line
-    private var _fillFormatter: ChartFillFormatter = ChartDefaultFillFormatter()
+    private var _fillFormatter: IFillFormatter = DefaultFillFormatter()
     
-    /// Sets a custom FillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
-    public var fillFormatter: ChartFillFormatter?
+    /// Sets a custom IFillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
+    public var fillFormatter: IFillFormatter?
     {
         get
         {
@@ -166,7 +163,7 @@ public class RealmLineDataSet: RealmLineRadarDataSet, ILineChartDataSet
         {
             if newValue == nil
             {
-                _fillFormatter = ChartDefaultFillFormatter()
+                _fillFormatter = DefaultFillFormatter()
             }
             else
             {

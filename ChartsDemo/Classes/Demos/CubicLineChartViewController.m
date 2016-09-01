@@ -2,8 +2,6 @@
 //  CubicLineChartViewController.m
 //  ChartsDemo
 //
-//  Created by Daniel Cohen Gindi on 17/3/15.
-//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -14,7 +12,7 @@
 #import "CubicLineChartViewController.h"
 #import "ChartsDemo-Swift.h"
 
-@interface CubicLineSampleFillFormatter : NSObject <ChartFillFormatter>
+@interface CubicLineSampleFillFormatter : NSObject <IChartFillFormatter>
 {
 }
 @end
@@ -75,6 +73,7 @@
     [_chartView setScaleEnabled:YES];
     _chartView.pinchZoomEnabled = NO;
     _chartView.drawGridBackgroundEnabled = NO;
+    _chartView.maxHighlightDistance = 300.0;
     
     _chartView.xAxis.enabled = NO;
     
@@ -89,7 +88,7 @@
     _chartView.rightAxis.enabled = NO;
     _chartView.legend.enabled = NO;
     
-    _sliderX.value = 44.0;
+    _sliderX.value = 45.0;
     _sliderY.value = 100.0;
     [self slidersValueChanged:nil];
     
@@ -110,40 +109,32 @@
         return;
     }
     
-    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
+    [self setDataCount:_sliderX.value + 1 range:_sliderY.value];
 }
 
 - (void)setDataCount:(int)count range:(double)range
 {
-    NSMutableArray *xVals = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < count; i++)
-    {
-        [xVals addObject:[@(i + 1990) stringValue]];
-    }
-    
     NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < count; i++)
     {
         double mult = (range + 1);
         double val = (double) (arc4random_uniform(mult)) + 20;
-        [yVals1 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+        [yVals1 addObject:[[ChartDataEntry alloc] initWithX:i y:val]];
     }
     
     LineChartDataSet *set1 = nil;
     if (_chartView.data.dataSetCount > 0)
     {
         set1 = (LineChartDataSet *)_chartView.data.dataSets[0];
-        set1.yVals = yVals1;
-        _chartView.data.xValsObjc = xVals;
+        set1.values = yVals1;
         [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
     }
     else
     {
-        set1 = [[LineChartDataSet alloc] initWithYVals:yVals1 label:@"DataSet 1"];
-        set1.drawCubicEnabled = YES;
+        set1 = [[LineChartDataSet alloc] initWithValues:yVals1 label:@"DataSet 1"];
+        set1.mode = LineChartModeCubicBezier;
         set1.cubicIntensity = 0.2;
         set1.drawCirclesEnabled = NO;
         set1.lineWidth = 1.8;
@@ -156,7 +147,7 @@
         set1.drawHorizontalHighlightIndicatorEnabled = NO;
         set1.fillFormatter = [[CubicLineSampleFillFormatter alloc] init];
         
-        LineChartData *data = [[LineChartData alloc] initWithXVals:xVals dataSet:set1];
+        LineChartData *data = [[LineChartData alloc] initWithDataSet:set1];
         [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:9.f]];
         [data setDrawValues:NO];
         
@@ -192,7 +183,7 @@
     {
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
-            set.drawCubicEnabled = !set.isDrawCubicEnabled;
+            set.mode = set.mode == LineChartModeCubicBezier ? LineChartModeLinear : LineChartModeCubicBezier;
         }
         
         [_chartView setNeedsDisplay];
@@ -203,7 +194,7 @@
     {
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
-            set.drawSteppedEnabled = !set.isDrawSteppedEnabled;
+            set.mode = set.mode == LineChartModeStepped ? LineChartModeLinear : LineChartModeStepped;
         }
         
         [_chartView setNeedsDisplay];
@@ -227,7 +218,7 @@
 
 - (IBAction)slidersValueChanged:(id)sender
 {
-    _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
+    _sliderTextX.text = [@((int)_sliderX.value) stringValue];
     _sliderTextY.text = [@((int)_sliderY.value) stringValue];
     
     [self updateChartData];
@@ -235,7 +226,7 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry highlight:(ChartHighlight * __nonnull)highlight
 {
     NSLog(@"chartValueSelected");
 }

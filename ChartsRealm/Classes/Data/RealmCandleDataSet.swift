@@ -2,9 +2,6 @@
 //  RealmCandleDataSet.swift
 //  Charts
 //
-//  Created by Daniel Cohen Gindi on 23/2/15.
-
-//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -31,29 +28,29 @@ public class RealmCandleDataSet: RealmLineScatterCandleRadarDataSet, ICandleChar
         super.init()
     }
 
-    public init(results: RLMResults?, highField: String, lowField: String, openField: String, closeField: String, xIndexField: String, label: String?)
+    public init(results: RLMResults?, xValueField: String, highField: String, lowField: String, openField: String, closeField: String, label: String?)
     {
         _highField = highField
         _lowField = lowField
         _openField = openField
         _closeField = closeField
         
-        super.init(results: results, yValueField: "", xIndexField: xIndexField, label: label)
+        super.init(results: results, xValueField: xValueField, yValueField: "", label: label)
     }
     
-    public convenience init(results: RLMResults?, highField: String, lowField: String, openField: String, closeField: String, xIndexField: String)
+    public convenience init(results: RLMResults?, xValueField: String, highField: String, lowField: String, openField: String, closeField: String)
     {
-        self.init(results: results, highField: highField, lowField: lowField, openField: openField, closeField: closeField, xIndexField: xIndexField, label: "DataSet")
+        self.init(results: results, xValueField: xValueField, highField: highField, lowField: lowField, openField: openField, closeField: closeField, label: "DataSet")
     }
     
-    public init(realm: RLMRealm?, modelName: String, resultsWhere: String, highField: String, lowField: String, openField: String, closeField: String, xIndexField: String, label: String?)
+    public init(realm: RLMRealm?, modelName: String, resultsWhere: String, xValueField: String, highField: String, lowField: String, openField: String, closeField: String, label: String?)
     {
         _highField = highField
         _lowField = lowField
         _openField = openField
         _closeField = closeField
         
-        super.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, yValueField: "", xIndexField: xIndexField, label: label)
+        super.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, xValueField: xValueField, yValueField: "", label: label)
     }
     
     // MARK: - Data functions and accessors
@@ -63,10 +60,10 @@ public class RealmCandleDataSet: RealmLineScatterCandleRadarDataSet, ICandleChar
     internal var _openField: String?
     internal var _closeField: String?
     
-    internal override func buildEntryFromResultObject(object: RLMObject, atIndex: UInt) -> ChartDataEntry
+    internal override func buildEntryFromResultObject(object: RLMObject, x: Double) -> ChartDataEntry
     {
         let entry = CandleChartDataEntry(
-            xIndex: _xIndexField == nil ? Int(atIndex) : object[_xIndexField!] as! Int,
+            x: _xValueField == nil ? x : object[_xValueField!] as! Double,
             shadowH: object[_highField!] as! Double,
             shadowL: object[_lowField!] as! Double,
             open: object[_openField!] as! Double,
@@ -75,43 +72,20 @@ public class RealmCandleDataSet: RealmLineScatterCandleRadarDataSet, ICandleChar
         return entry
     }
     
-    public override func calcMinMax(start start: Int, end: Int)
+    public override func calcMinMax()
     {
-        let yValCount = self.entryCount
-        
-        if yValCount == 0
-        {
-            return
-        }
-        
-        var endValue : Int
-        
-        if end == 0 || end >= yValCount
-        {
-            endValue = yValCount - 1
-        }
-        else
-        {
-            endValue = end
-        }
-        
-        ensureCache(start: start, end: endValue)
-        
         if _cache.count == 0
         {
             return
         }
         
-        _lastStart = start
-        _lastEnd = end
-        
-        _yMin = DBL_MAX
         _yMax = -DBL_MAX
+        _yMin = DBL_MAX
+        _xMax = -DBL_MAX
+        _xMin = DBL_MAX
         
-        for i in start.stride(through: endValue, by: 1)
+        for e in _cache as! [CandleChartDataEntry]
         {
-            let e = _cache[i - _cacheFirst] as! CandleChartDataEntry
-            
             if (e.low < _yMin)
             {
                 _yMin = e.low
@@ -120,6 +94,15 @@ public class RealmCandleDataSet: RealmLineScatterCandleRadarDataSet, ICandleChar
             if (e.high > _yMax)
             {
                 _yMax = e.high
+            }
+            
+            if e.x < _xMin
+            {
+                _xMin = e.x
+            }
+            if e.x > _xMax
+            {
+                _xMax = e.x
             }
         }
     }

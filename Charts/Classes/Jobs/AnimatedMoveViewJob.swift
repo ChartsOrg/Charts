@@ -1,5 +1,5 @@
 //
-//  AnimatedMoveChartViewJob.swift
+//  AnimatedMoveViewJob.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -16,13 +16,13 @@ import CoreGraphics
     import UIKit
 #endif
 
-public class AnimatedMoveChartViewJob: AnimatedViewPortJob
+public class AnimatedMoveViewJob: AnimatedViewPortJob
 {
     public override init(
-        viewPortHandler: ChartViewPortHandler,
-        xIndex: CGFloat,
+        viewPortHandler: ViewPortHandler,
+        xValue: Double,
         yValue: Double,
-        transformer: ChartTransformer,
+        transformer: Transformer,
         view: ChartViewBase,
         xOrigin: CGFloat,
         yOrigin: CGFloat,
@@ -30,7 +30,7 @@ public class AnimatedMoveChartViewJob: AnimatedViewPortJob
         easing: ChartEasingFunctionBlock?)
     {
         super.init(viewPortHandler: viewPortHandler,
-            xIndex: xIndex,
+            xValue: xValue,
             yValue: yValue,
             transformer: transformer,
             view: view,
@@ -49,7 +49,7 @@ public class AnimatedMoveChartViewJob: AnimatedViewPortJob
             else { return }
         
         var pt = CGPoint(
-            x: xOrigin + (xIndex - xOrigin) * phase,
+            x: xOrigin + (CGFloat(xValue) - xOrigin) * phase,
             y: yOrigin + (CGFloat(yValue) - yOrigin) * phase
         );
         

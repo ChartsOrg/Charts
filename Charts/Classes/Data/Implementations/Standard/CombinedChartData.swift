@@ -2,8 +2,6 @@
 //  CombinedChartData.swift
 //  Charts
 //
-//  Created by Daniel Cohen Gindi on 26/2/15.
-//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -26,14 +24,9 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         super.init()
     }
     
-    public override init(xVals: [String?]?, dataSets: [IChartDataSet]?)
+    public override init(dataSets: [IChartDataSet]?)
     {
-        super.init(xVals: xVals, dataSets: dataSets)
-    }
-    
-    public override init(xVals: [NSObject]?, dataSets: [IChartDataSet]?)
-    {
-        super.init(xVals: xVals, dataSets: dataSets)
+        super.init(dataSets: dataSets)
     }
     
     public var lineData: LineChartData!
@@ -45,17 +38,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         set
         {
             _lineData = newValue
-            for dataSet in newValue.dataSets
-            {
-                _dataSets.append(dataSet)
-            }
-            
-            checkIsLegal(newValue.dataSets)
-            
-            calcMinMax(start: _lastStart, end: _lastEnd)
-            calcYValueCount()
-            
-            calcXValAverageLength()
+            notifyDataChanged()
         }
     }
     
@@ -68,17 +51,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         set
         {
             _barData = newValue
-            for dataSet in newValue.dataSets
-            {
-                _dataSets.append(dataSet)
-            }
-            
-            checkIsLegal(newValue.dataSets)
-            
-            calcMinMax(start: _lastStart, end: _lastEnd)
-            calcYValueCount()
-            
-            calcXValAverageLength()
+            notifyDataChanged()
         }
     }
     
@@ -91,17 +64,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         set
         {
             _scatterData = newValue
-            for dataSet in newValue.dataSets
-            {
-                _dataSets.append(dataSet)
-            }
-            
-            checkIsLegal(newValue.dataSets)
-            
-            calcMinMax(start: _lastStart, end: _lastEnd)
-            calcYValueCount()
-        
-            calcXValAverageLength()
+            notifyDataChanged()
         }
     }
     
@@ -114,17 +77,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         set
         {
             _candleData = newValue
-            for dataSet in newValue.dataSets
-            {
-                _dataSets.append(dataSet)
-            }
-            
-            checkIsLegal(newValue.dataSets)
-            
-            calcMinMax(start: _lastStart, end: _lastEnd)
-            calcYValueCount()
-            
-            calcXValAverageLength()
+            notifyDataChanged()
         }
     }
     
@@ -137,21 +90,76 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         set
         {
             _bubbleData = newValue
-            for dataSet in newValue.dataSets
-            {
-                _dataSets.append(dataSet)
-            }
-            
-            checkIsLegal(newValue.dataSets)
-            
-            calcMinMax(start: _lastStart, end: _lastEnd)
-            calcYValueCount()
-            
-            calcXValAverageLength()
+            notifyDataChanged()
         }
     }
     
-    /// - returns: all data objects in row: line-bar-scatter-candle-bubble if not null.
+    public override func calcMinMax()
+    {
+        _dataSets.removeAll()
+        
+        _yMax = -DBL_MAX
+        _yMin = DBL_MAX
+        _xMax = -DBL_MAX
+        _xMin = DBL_MAX
+        
+        _leftAxisMax = -DBL_MAX
+        _leftAxisMin = DBL_MAX
+        _rightAxisMax = -DBL_MAX
+        _rightAxisMin = DBL_MAX
+        
+        let allData = self.allData
+        
+        for data in allData
+        {
+            data.calcMinMax()
+            
+            let sets = data.dataSets
+            _dataSets.appendContentsOf(sets)
+            
+            if data.yMax > _yMax
+            {
+                _yMax = data.yMax
+            }
+            
+            if data.yMin < _yMin
+            {
+                _yMin = data.yMin
+            }
+            
+            if data.xMax > _xMax
+            {
+                _xMax = data.xMax
+            }
+            
+            if data.xMin < _xMin
+            {
+                _xMin = data.xMin
+            }
+            
+            if data.yMax > _leftAxisMax
+            {
+                _leftAxisMax = data.yMax
+            }
+            
+            if data.yMin < _leftAxisMin
+            {
+                _leftAxisMin = data.yMin
+            }
+            
+            if data.yMax > _rightAxisMax
+            {
+                _rightAxisMax = data.yMax
+            }
+            
+            if data.yMin < _rightAxisMin
+            {
+                _rightAxisMin = data.yMin
+            }
+        }
+    }
+    
+    /// - returns: All data objects in row: line-bar-scatter-candle-bubble if not null.
     public var allData: [ChartData]
     {
         var data = [ChartData]()
@@ -178,6 +186,53 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
         
         return data
+    }
+    
+    public func dataByIndex(index: Int) -> ChartData
+    {
+        return allData[index]
+    }
+    
+    public func dataIndex(data: ChartData) -> Int?
+    {
+        return allData.indexOf(data)
+    }
+    
+    public override func removeDataSet(dataSet: IChartDataSet!) -> Bool
+    {
+        let datas = allData
+        
+        var success = false
+        
+        for data in datas
+        {
+            success = data.removeDataSet(dataSet)
+            
+            if success
+            {
+                break
+            }
+        }
+        
+        return success
+    }
+    
+    public override func removeDataSetByIndex(index: Int) -> Bool
+    {
+        print("removeDataSet(index) not supported for CombinedData", terminator: "\n")
+        return false
+    }
+    
+    public override func removeEntry(entry: ChartDataEntry, dataSetIndex: Int) -> Bool
+    {
+        print("removeEntry(entry, dataSetIndex) not supported for CombinedData", terminator: "\n")
+        return false
+    }
+    
+    public override func removeEntry(xValue xValue: Double, dataSetIndex: Int) -> Bool
+    {
+        print("removeEntry(xValue, dataSetIndex) not supported for CombinedData", terminator: "\n")
+        return false
     }
     
     public override func notifyDataChanged()
@@ -210,8 +265,8 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
     /// Get the Entry for a corresponding highlight object
     ///
     /// - parameter highlight:
-    /// - returns: the entry that is highlighted
-    public override func getEntryForHighlight(highlight: ChartHighlight) -> ChartDataEntry?
+    /// - returns: The entry that is highlighted
+    public override func entryForHighlight(highlight: Highlight) -> ChartDataEntry?
     {
         let dataObjects = allData
         
@@ -229,11 +284,10 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         else
         {
             // The value of the highlighted entry could be NaN - if we are not interested in highlighting a specific value.
-            
-            let entries = data.getDataSetByIndex(highlight.dataSetIndex).entriesForXIndex(highlight.xIndex)
+            let entries = data.getDataSetByIndex(highlight.dataSetIndex).entriesForXValue(highlight.x)
             for e in entries
             {
-                if e.value == highlight.value || isnan(highlight.value)
+                if e.y == highlight.y || isnan(highlight.y)
                 {
                     return e
                 }

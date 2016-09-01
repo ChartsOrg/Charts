@@ -2,8 +2,6 @@
 //  RealmCandleChartViewController.m
 //  ChartsDemo
 //
-//  Created by Daniel Cohen Gindi on 17/3/15.
-//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -30,7 +28,7 @@
     
     [self writeRandomCandleDataToDbWithObjectCount:50];
     
-    self.title = @"Realm.io CandleStick Chart Chart";
+    self.title = @"Realm.io CandleStick Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
@@ -68,7 +66,7 @@
     
     RLMResults *results = [RealmDemoData allObjectsInRealm:realm];
     
-    RealmCandleDataSet *set = [[RealmCandleDataSet alloc] initWithResults:results highField:@"high" lowField:@"low" openField:@"open" closeField:@"close" xIndexField:@"xIndex"];
+    RealmCandleDataSet *set = [[RealmCandleDataSet alloc] initWithResults:results xValueField:@"xValue" highField:@"high" lowField:@"low" openField:@"open" closeField:@"close"];
 
     set.label = @"Realm CandleDataSet";
     set.shadowColor = UIColor.darkGrayColor;
@@ -81,10 +79,10 @@
     
     NSArray<id <IChartDataSet>> *dataSets = @[set];
     
-    RealmCandleData *data = [[RealmCandleData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
+    CandleChartData *data = [[CandleChartData alloc] initWithDataSets:dataSets];
     [self styleData:data];
     
-    [_chartView zoom:5.f scaleY:1.f x:0.f y:0.f];
+    [_chartView zoomWithScaleX:5.f scaleY:1.f x:0.f y:0.f];
     _chartView.data = data;
     
     [_chartView animateWithYAxisDuration:1.4 easingOption:ChartEasingOptionEaseInOutQuart];
@@ -99,6 +97,7 @@
             set.shadowColorSameAsCandle = !set.shadowColorSameAsCandle;
         }
         
+        [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
         return;
     }
@@ -108,7 +107,7 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry highlight:(ChartHighlight * __nonnull)highlight
 {
     NSLog(@"chartValueSelected");
 }

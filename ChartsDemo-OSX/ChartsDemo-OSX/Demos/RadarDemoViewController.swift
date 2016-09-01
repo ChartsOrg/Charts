@@ -21,19 +21,18 @@ public class RadarDemoViewController: NSViewController
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        let xs = Array(1..<10).map { return Double($0) }
-        let ys1 = xs.map { i in return sin(Double(i / 2.0 / 3.141 * 1.5)) }
-        let ys2 = xs.map { i in return cos(Double(i / 2.0 / 3.141)) }
+        let ys1 = Array(1..<10).map { x in return sin(Double(x) / 2.0 / 3.141 * 1.5) }
+        let ys2 = Array(1..<10).map { x in return cos(Double(x) / 2.0 / 3.141) }
         
-        let yse1 = ys1.enumerate().map { idx, i in return ChartDataEntry(value: i, xIndex: idx) }
-        let yse2 = ys2.enumerate().map { idx, i in return ChartDataEntry(value: i, xIndex: idx) }
+        let yse1 = ys1.enumerate().map { x, y in return RadarChartDataEntry(value: y) }
+        let yse2 = ys2.enumerate().map { x, y in return RadarChartDataEntry(value: y) }
         
-        let data = RadarChartData(xVals: xs)
-        let ds1 = RadarChartDataSet(yVals: yse1, label: "Hello")
+        let data = RadarChartData()
+        let ds1 = RadarChartDataSet(values: yse1, label: "Hello")
         ds1.colors = [NSUIColor.redColor()]
         data.addDataSet(ds1)
         
-        let ds2 = RadarChartDataSet(yVals: yse2, label: "World")
+        let ds2 = RadarChartDataSet(values: yse2, label: "World")
         ds2.colors = [NSUIColor.blueColor()]
         data.addDataSet(ds2)
         self.radarChartView.data = data

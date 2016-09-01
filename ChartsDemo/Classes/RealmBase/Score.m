@@ -1,8 +1,6 @@
 //
 //  Score.m
 //  ChartsDemo
-//
-//  Created by Daniel Cohen Gindi on 17/01/2015.
 //  Copyright © 2015 dcg. All rights reserved.
 //
 
@@ -11,7 +9,7 @@
 @implementation Score
 
 - (id)initWithTotalScore:(float)totalScore
-                 scoreNr:(NSInteger)scoreNr
+                 scoreNr:(double)scoreNr
               playerName:(NSString *)playerName
 {
     self = [super init];

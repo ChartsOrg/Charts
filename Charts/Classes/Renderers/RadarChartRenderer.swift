@@ -2,8 +2,6 @@
 //  RadarChartRenderer.swift
 //  Charts
 //
-//  Created by Daniel Cohen Gindi on 4/3/15.
-//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -19,11 +17,11 @@ import CoreGraphics
 #endif
 
 
-public class RadarChartRenderer: LineRadarChartRenderer
+public class RadarChartRenderer: LineRadarRenderer
 {
     public weak var chart: RadarChartView?
 
-    public init(chart: RadarChartView, animator: ChartAnimator?, viewPortHandler: ChartViewPortHandler)
+    public init(chart: RadarChartView?, animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -38,19 +36,11 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         if (radarData != nil)
         {
-            var mostEntries = 0
-            
-            for set in radarData!.dataSets
-            {
-                if set.entryCount > mostEntries
-                {
-                    mostEntries = set.entryCount
-                }
-            }
+            let mostEntries = radarData?.maxEntryCountSet?.entryCount ?? 0
             
             for set in radarData!.dataSets as! [IRadarChartDataSet]
             {
-                if set.isVisible && set.entryCount > 0
+                if set.isVisible
                 {
                     drawDataSet(context: context, dataSet: set, mostEntries: mostEntries)
                 }
@@ -91,8 +81,8 @@ public class RadarChartRenderer: LineRadarChartRenderer
             
             let p = ChartUtils.getPosition(
                 center: center,
-                dist: CGFloat(e.value - chart.chartYMin) * factor * phaseY,
-                angle: sliceangle * CGFloat(j) * phaseX + chart.rotationAngle)
+                dist: CGFloat((e.y - chart.chartYMin) * Double(factor) * phaseY),
+                angle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
             
             if p.x.isNaN
             {
@@ -171,7 +161,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         {
             let dataSet = data.getDataSetByIndex(i) as! IRadarChartDataSet
             
-            if !dataSet.isDrawValuesEnabled || dataSet.entryCount == 0
+            if !shouldDrawValues(forDataSet: dataSet)
             {
                 continue
             }
@@ -184,8 +174,8 @@ public class RadarChartRenderer: LineRadarChartRenderer
                 
                 let p = ChartUtils.getPosition(
                     center: center,
-                    dist: CGFloat(e.value) * factor * phaseY,
-                    angle: sliceangle * CGFloat(j) * phaseX + chart.rotationAngle)
+                    dist: CGFloat(e.y - chart.chartYMin) * factor * CGFloat(phaseY),
+                    angle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
                 
                 let valueFont = dataSet.valueFont
                 
@@ -193,7 +183,11 @@ public class RadarChartRenderer: LineRadarChartRenderer
                 
                 ChartUtils.drawText(
                     context: context,
-                    text: formatter.stringFromNumber(e.value)!,
+                    text: formatter.stringForValue(
+                        e.y,
+                        entry: e,
+                        dataSetIndex: i,
+                        viewPortHandler: viewPortHandler),
                     point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
                     align: .Center,
                     attributes: [NSFontAttributeName: valueFont,
@@ -234,8 +228,9 @@ public class RadarChartRenderer: LineRadarChartRenderer
         CGContextSetAlpha(context, chart.webAlpha)
         
         let xIncrements = 1 + chart.skipWebLineCount
-        
-        for i in 0.stride(to: data.xValCount, by: xIncrements)
+        let maxEntryCount = chart.data?.maxEntryCountSet?.entryCount ?? 0
+
+        for i in 0.stride(to: maxEntryCount, by: xIncrements)
         {
             let p = ChartUtils.getPosition(
                 center: center,
@@ -259,7 +254,7 @@ public class RadarChartRenderer: LineRadarChartRenderer
         
         for j in 0 ..< labelCount
         {
-            for i in 0 ..< data.xValCount
+            for i in 0 ..< data.entryCount
             {
                 let r = CGFloat(chart.yAxis.entries[j] - chart.chartYMin) * factor
 
@@ -280,65 +275,57 @@ public class RadarChartRenderer: LineRadarChartRenderer
     
     private var _highlightPointBuffer = CGPoint()
 
-    public override func drawHighlighted(context context: CGContext, indices: [ChartHighlight])
+    public override func drawHighlighted(context context: CGContext, indices: [Highlight])
     {
         guard let
             chart = chart,
-            data = chart.data as? RadarChartData,
+            radarData = chart.data as? RadarChartData,
             animator = animator
             else { return }
         
         CGContextSaveGState(context)
-        CGContextSetLineWidth(context, data.highlightLineWidth)
-        if (data.highlightLineDashLengths != nil)
-        {
-            CGContextSetLineDash(context, data.highlightLineDashPhase, data.highlightLineDashLengths!, data.highlightLineDashLengths!.count)
-        }
-        else
-        {
-            CGContextSetLineDash(context, 0.0, nil, 0)
-        }
-        
-        let phaseX = animator.phaseX
-        let phaseY = animator.phaseY
         
         let sliceangle = chart.sliceAngle
+        
+        // calculate the factor that is needed for transforming the value pixels
         let factor = chart.factor
         
         let center = chart.centerOffsets
         
-        for i in 0 ..< indices.count
+        for high in indices
         {
-            guard let set = chart.data?.getDataSetByIndex(indices[i].dataSetIndex) as? IRadarChartDataSet else { continue }
+            guard let set = chart.data?.getDataSetByIndex(high.dataSetIndex) as? IRadarChartDataSet
+                where set.isHighlightEnabled
+                else { continue }
             
-            if !set.isHighlightEnabled
+            guard let e = set.entryForIndex(Int(high.x)) as? RadarChartDataEntry
+                else { continue }
+            
+            if !isInBoundsX(entry: e, dataSet: set)
             {
                 continue
+            }
+            
+            CGContextSetLineWidth(context, radarData.highlightLineWidth)
+            if (radarData.highlightLineDashLengths != nil)
+            {
+                CGContextSetLineDash(context, radarData.highlightLineDashPhase, radarData.highlightLineDashLengths!, radarData.highlightLineDashLengths!.count)
+            }
+            else
+            {
+                CGContextSetLineDash(context, 0.0, nil, 0)
             }
             
             CGContextSetStrokeColorWithColor(context, set.highlightColor.CGColor)
             
-            // get the index to highlight
-            let xIndex = indices[i].xIndex
-            
-            let e = set.entryForXIndex(xIndex)
-            if e?.xIndex != xIndex
-            {
-                continue
-            }
-            
-            let j = set.entryIndex(entry: e!)
-            let y = (e!.value - chart.chartYMin)
-            
-            if (y.isNaN)
-            {
-                continue
-            }
+            let y = e.y - chart.chartYMin
             
             _highlightPointBuffer = ChartUtils.getPosition(
                 center: center,
-                dist: CGFloat(y) * factor * phaseY,
-                angle: sliceangle * CGFloat(j) * phaseX + chart.rotationAngle)
+                dist: CGFloat(y) * factor * CGFloat(animator.phaseY),
+                angle: sliceangle * CGFloat(high.x) * CGFloat(animator.phaseX) + chart.rotationAngle)
+            
+            high.setDraw(pt: _highlightPointBuffer)
             
             // draw the lines
             drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)

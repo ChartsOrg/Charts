@@ -2,8 +2,6 @@
 //  HorizontalBarChartView.swift
 //  Charts
 //
-//  Created by Daniel Cohen Gindi on 4/3/15.
-//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -25,15 +23,15 @@ public class HorizontalBarChartView: BarChartView
     {
         super.initialize()
         
-        _leftAxisTransformer = ChartTransformerHorizontalBarChart(viewPortHandler: _viewPortHandler)
-        _rightAxisTransformer = ChartTransformerHorizontalBarChart(viewPortHandler: _viewPortHandler)
+        _leftAxisTransformer = TransformerHorizontalBarChart(viewPortHandler: _viewPortHandler)
+        _rightAxisTransformer = TransformerHorizontalBarChart(viewPortHandler: _viewPortHandler)
         
         renderer = HorizontalBarChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
-        _leftYAxisRenderer = ChartYAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, yAxis: _leftAxis, transformer: _leftAxisTransformer)
-        _rightYAxisRenderer = ChartYAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, yAxis: _rightAxis, transformer: _rightAxisTransformer)
-        _xAxisRenderer = ChartXAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer, chart: self)
+        _leftYAxisRenderer = YAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, yAxis: _leftAxis, transformer: _leftAxisTransformer)
+        _rightYAxisRenderer = YAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, yAxis: _rightAxis, transformer: _rightAxisTransformer)
+        _xAxisRenderer = XAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer, chart: self)
         
-        self.highlighter = HorizontalBarChartHighlighter(chart: self)
+        self.highlighter = HorizontalBarHighlighter(chart: self)
     }
     
     internal override func calculateOffsets()
@@ -99,37 +97,26 @@ public class HorizontalBarChartView: BarChartView
         _rightAxisTransformer.prepareMatrixValuePx(chartXMin: _rightAxis._axisMinimum, deltaX: CGFloat(_rightAxis.axisRange), deltaY: CGFloat(_xAxis.axisRange), chartYMin: _xAxis._axisMinimum)
         _leftAxisTransformer.prepareMatrixValuePx(chartXMin: _leftAxis._axisMinimum, deltaX: CGFloat(_leftAxis.axisRange), deltaY: CGFloat(_xAxis.axisRange), chartYMin: _xAxis._axisMinimum)
     }
-
-    internal override func calcModulus()
+    
+    public override func getMarkerPosition(highlight highlight: Highlight) -> CGPoint
     {
-        if let data = _data
-        {
-            _xAxis.axisLabelModulus = Int(ceil((CGFloat(data.xValCount) * _xAxis.labelRotatedHeight) / (_viewPortHandler.contentHeight * viewPortHandler.touchMatrix.d)))
-        }
-        else
-        {
-            _xAxis.axisLabelModulus = 1
-        }
-        
-        if (_xAxis.axisLabelModulus < 1)
-        {
-            _xAxis.axisLabelModulus = 1
-        }
+        return CGPoint(x: highlight.drawY, y: highlight.drawX)
     }
     
     public override func getBarBounds(e: BarChartDataEntry) -> CGRect
     {
         guard let
-            set = _data?.getDataSetForEntry(e) as? IBarChartDataSet
+            data = _data as? BarChartData,
+            set = data.getDataSetForEntry(e) as? IBarChartDataSet
             else { return CGRectNull }
         
-        let barspace = set.barSpace
-        let y = CGFloat(e.value)
-        let x = CGFloat(e.xIndex)
+        let y = e.y
+        let x = e.x
         
-        let spaceHalf = barspace / 2.0
-        let top = x - 0.5 + spaceHalf
-        let bottom = x + 0.5 - spaceHalf
+        let barWidth = data.barWidth
+        
+        let top = x - 0.5 + barWidth / 2.0
+        let bottom = x + 0.5 - barWidth / 2.0
         let left = y >= 0.0 ? y : 0.0
         let right = y <= 0.0 ? y : 0.0
         
@@ -140,16 +127,16 @@ public class HorizontalBarChartView: BarChartView
         return bounds
     }
     
-    public override func getPosition(e: ChartDataEntry, axis: ChartYAxis.AxisDependency) -> CGPoint
+    public override func getPosition(e: ChartDataEntry, axis: YAxis.AxisDependency) -> CGPoint
     {
-        var vals = CGPoint(x: CGFloat(e.value), y: CGFloat(e.xIndex))
+        var vals = CGPoint(x: CGFloat(e.y), y: CGFloat(e.x))
         
         getTransformer(axis).pointValueToPixel(&vals)
         
         return vals
     }
 
-    public override func getHighlightByTouchPoint(pt: CGPoint) -> ChartHighlight?
+    public override func getHighlightByTouchPoint(pt: CGPoint) -> Highlight?
     {
         if _data === nil
         {
@@ -160,25 +147,67 @@ public class HorizontalBarChartView: BarChartView
         return self.highlighter?.getHighlight(x: pt.y, y: pt.x)
     }
     
-    public override var lowestVisibleXIndex: Int
+    /// - returns: The lowest x-index (value on the x-axis) that is still visible on he chart.
+    public override var lowestVisibleX: Double
     {
-        let step = CGFloat(_data?.dataSetCount ?? 0)
-        let div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
+        var pt = CGPoint(
+            x: viewPortHandler.contentLeft,
+            y: viewPortHandler.contentBottom)
         
-        var pt = CGPoint(x: _viewPortHandler.contentLeft, y: _viewPortHandler.contentBottom)
-        getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
+        getTransformer(.Left).pixelToValues(&pt)
         
-        return Int(((pt.y <= 0.0) ? 0.0 : pt.y / div) + 1.0)
+        return max(xAxis._axisMinimum, Double(pt.y))
     }
     
-    public override var highestVisibleXIndex: Int
+    /// - returns: The highest x-index (value on the x-axis) that is still visible on the chart.
+    public override var highestVisibleX: Double
     {
-        let step = CGFloat(_data?.dataSetCount ?? 0)
-        let div = (step <= 1.0) ? 1.0 : step + (_data as! BarChartData).groupSpace
+        var pt = CGPoint(
+            x: viewPortHandler.contentLeft,
+            y: viewPortHandler.contentTop)
         
-        var pt = CGPoint(x: _viewPortHandler.contentLeft, y: _viewPortHandler.contentTop)
-        getTransformer(ChartYAxis.AxisDependency.Left).pixelToValue(&pt)
+        getTransformer(.Left).pixelToValues(&pt)
         
-        return Int((pt.y >= CGFloat(chartXMax)) ? CGFloat(chartXMax) / div : (pt.y / div))
+        return min(xAxis._axisMaximum, Double(pt.y))
+    }
+    
+    // MARK: - Viewport
+    
+    public override func setVisibleXRangeMaximum(maxXRange: Double)
+    {
+        let xScale = xAxis.axisRange / maxXRange
+        viewPortHandler.setMinimumScaleY(CGFloat(xScale))
+    }
+    
+    public override func setVisibleXRangeMinimum(minXRange: Double)
+    {
+        let xScale = xAxis.axisRange / minXRange
+        viewPortHandler.setMaximumScaleY(CGFloat(xScale))
+    }
+    
+    public override func setVisibleXRange(minXRange minXRange: Double, maxXRange: Double)
+    {
+        let minScale = xAxis.axisRange / minXRange
+        let maxScale = xAxis.axisRange / maxXRange
+        viewPortHandler.setMinMaxScaleY(minScaleY: CGFloat(minScale), maxScaleY: CGFloat(maxScale))
+    }
+    
+    public override func setVisibleYRangeMaximum(maxYRange: Double, axis: YAxis.AxisDependency)
+    {
+        let yScale = getAxisRange(axis) / maxYRange
+        viewPortHandler.setMinimumScaleX(CGFloat(yScale))
+    }
+    
+    public override func setVisibleYRangeMinimum(minYRange: Double, axis: YAxis.AxisDependency)
+    {
+        let yScale = getAxisRange(axis) / minYRange
+        viewPortHandler.setMaximumScaleX(CGFloat(yScale))
+    }
+    
+    public override func setVisibleYRange(minYRange minYRange: Double, maxYRange: Double, axis: YAxis.AxisDependency)
+    {
+        let minScale = getAxisRange(axis) / minYRange
+        let maxScale = getAxisRange(axis) / maxYRange
+        viewPortHandler.setMinMaxScaleX(minScaleX: CGFloat(minScale), maxScaleX: CGFloat(maxScale))
     }
 }

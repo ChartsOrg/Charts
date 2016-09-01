@@ -2,8 +2,6 @@
 //  PieChartViewController.m
 //  ChartsDemo
 //
-//  Created by Daniel Cohen Gindi on 17/3/15.
-//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -50,7 +48,17 @@
     
     _chartView.delegate = self;
     
-    _sliderX.value = 3.0;
+    ChartLegend *l = _chartView.legend;
+    l.position = ChartLegendPositionRightOfChart;
+    l.xEntrySpace = 7.0;
+    l.yEntrySpace = 0.0;
+    l.yOffset = 0.0;
+    
+    // entry label styling
+    _chartView.entryLabelColor = UIColor.whiteColor;
+    _chartView.entryLabelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.f];
+    
+    _sliderX.value = 4.0;
     _sliderY.value = 100.0;
     [self slidersValueChanged:nil];
     
@@ -71,29 +79,22 @@
         return;
     }
     
-    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
+    [self setDataCount:_sliderX.value range:_sliderY.value];
 }
 
 - (void)setDataCount:(int)count range:(double)range
 {
     double mult = range;
     
-    NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
+    NSMutableArray *values = [[NSMutableArray alloc] init];
     
     // IMPORTANT: In a PieChart, no values (Entry) should have the same xIndex (even if from different DataSets), since no values can be drawn above each other.
     for (int i = 0; i < count; i++)
     {
-        [yVals1 addObject:[[BarChartDataEntry alloc] initWithValue:(arc4random_uniform(mult) + mult / 5) xIndex:i]];
+        [values addObject:[[PieChartDataEntry alloc] initWithValue:(arc4random_uniform(mult) + mult / 5) label:parties[i % parties.count]]];
     }
     
-    NSMutableArray *xVals = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < count; i++)
-    {
-        [xVals addObject:parties[i % parties.count]];
-    }
-    
-    PieChartDataSet *dataSet = [[PieChartDataSet alloc] initWithYVals:yVals1 label:@"Election Results"];
+    PieChartDataSet *dataSet = [[PieChartDataSet alloc] initWithValues:values label:@"Election Results"];
     dataSet.sliceSpace = 2.0;
     
     // add a lot of colors
@@ -108,14 +109,14 @@
     
     dataSet.colors = colors;
     
-    PieChartData *data = [[PieChartData alloc] initWithXVals:xVals dataSet:dataSet];
+    PieChartData *data = [[PieChartData alloc] initWithDataSet:dataSet];
     
     NSNumberFormatter *pFormatter = [[NSNumberFormatter alloc] init];
     pFormatter.numberStyle = NSNumberFormatterPercentStyle;
     pFormatter.maximumFractionDigits = 1;
     pFormatter.multiplier = @1.f;
     pFormatter.percentSymbol = @" %";
-    [data setValueFormatter:pFormatter];
+    [data setValueFormatter:[[ChartDefaultValueFormatter alloc] initWithFormatter:pFormatter]];
     [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:11.f]];
     [data setValueTextColor:UIColor.whiteColor];
     
@@ -188,7 +189,7 @@
 
 - (IBAction)slidersValueChanged:(id)sender
 {
-    _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
+    _sliderTextX.text = [@((int)_sliderX.value) stringValue];
     _sliderTextY.text = [@((int)_sliderY.value) stringValue];
     
     [self updateChartData];
@@ -196,7 +197,7 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry highlight:(ChartHighlight * __nonnull)highlight
 {
     NSLog(@"chartValueSelected");
 }

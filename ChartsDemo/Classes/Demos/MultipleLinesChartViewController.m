@@ -2,8 +2,6 @@
 //  MultipleLinesChartViewController.m
 //  ChartsDemo
 //
-//  Created by Daniel Cohen Gindi on 17/3/15.
-//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -53,8 +51,6 @@
     _chartView.descriptionText = @"";
     _chartView.noDataTextDescription = @"You need to provide data for the chart.";
     
-    _chartView.drawBordersEnabled = YES;
-    
     _chartView.leftAxis.enabled = NO;
     _chartView.rightAxis.drawAxisLineEnabled = NO;
     _chartView.rightAxis.drawGridLinesEnabled = NO;
@@ -62,13 +58,14 @@
     _chartView.xAxis.drawGridLinesEnabled = NO;
 
     _chartView.drawGridBackgroundEnabled = NO;
+    _chartView.drawBordersEnabled = NO;
     _chartView.dragEnabled = YES;
     [_chartView setScaleEnabled:YES];
     _chartView.pinchZoomEnabled = NO;
     
     _chartView.legend.position = ChartLegendPositionRightOfChart;
     
-    _sliderX.value = 19.0;
+    _sliderX.value = 20.0;
     _sliderY.value = 10.0;
     [self slidersValueChanged:nil];
 }
@@ -87,18 +84,11 @@
         return;
     }
     
-    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
+    [self setDataCount:_sliderX.value range:_sliderY.value];
 }
 
 - (void)setDataCount:(int)count range:(double)range
 {
-    NSMutableArray *xVals = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < count; i++)
-    {
-        [xVals addObject:[@(i) stringValue]];
-    }
-    
     NSArray *colors = @[ChartColorTemplates.vordiplom[0], ChartColorTemplates.vordiplom[1], ChartColorTemplates.vordiplom[2]];
     
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
@@ -110,12 +100,13 @@
         for (int i = 0; i < count; i++)
         {
             double val = (double) (arc4random_uniform(range) + 3);
-            [values addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+            [values addObject:[[ChartDataEntry alloc] initWithX:i y:val]];
         }
         
-        LineChartDataSet *d = [[LineChartDataSet alloc] initWithYVals:values label:[NSString stringWithFormat:@"DataSet %d", z + 1]];
+        LineChartDataSet *d = [[LineChartDataSet alloc] initWithValues:values label:[NSString stringWithFormat:@"DataSet %d", z + 1]];
         d.lineWidth = 2.5;
         d.circleRadius = 4.0;
+        d.circleHoleRadius = 2.0;
         
         UIColor *color = colors[z % colors.count];
         [d setColor:color];
@@ -127,7 +118,7 @@
     ((LineChartDataSet *)dataSets[0]).colors = ChartColorTemplates.vordiplom;
     ((LineChartDataSet *)dataSets[0]).circleColors = ChartColorTemplates.vordiplom;
     
-    LineChartData *data = [[LineChartData alloc] initWithXVals:xVals dataSets:dataSets];
+    LineChartData *data = [[LineChartData alloc] initWithDataSets:dataSets];
     [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:7.f]];
     _chartView.data = data;
 }
@@ -160,7 +151,7 @@
     {
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
-            set.drawCubicEnabled = !set.isDrawCubicEnabled;
+            set.mode = set.mode == LineChartModeCubicBezier ? LineChartModeLinear : LineChartModeCubicBezier;
         }
         
         [_chartView setNeedsDisplay];
@@ -184,7 +175,7 @@
 
 - (IBAction)slidersValueChanged:(id)sender
 {
-    _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
+    _sliderTextX.text = [@((int)_sliderX.value) stringValue];
     _sliderTextY.text = [@((int)_sliderY.value) stringValue];
     
     [self updateChartData];
@@ -192,7 +183,7 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry highlight:(ChartHighlight * __nonnull)highlight
 {
     NSLog(@"chartValueSelected");
 }

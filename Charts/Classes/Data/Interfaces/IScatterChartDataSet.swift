@@ -2,8 +2,6 @@
 //  IScatterChartDataSet.swift
 //  Charts
 //
-//  Created by Daniel Cohen Gindi on 26/2/15.
-//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -21,23 +19,18 @@ public protocol IScatterChartDataSet: ILineScatterCandleRadarChartDataSet
     
     // MARK: - Styling functions and accessors
     
-    // The size the scatter shape will have
-    var scatterShapeSize: CGFloat { get set }
+    /// - returns: The size the scatter shape will have
+    var scatterShapeSize: CGFloat { get }
     
-    // The type of shape that is set to be drawn where the values are at
-    // **default**: .Square
-    var scatterShape: ScatterChartDataSet.Shape { get set }
+    /// - returns: The radius of the hole in the shape (applies to Square, Circle and Triangle)
+    /// Set this to <= 0 to remove holes.
+    /// **default**: 0.0
+    var scatterShapeHoleRadius: CGFloat { get }
     
-    // The radius of the hole in the shape (applies to Square, Circle and Triangle)
-    // Set this to <= 0 to remove holes.
-    // **default**: 0.0
-    var scatterShapeHoleRadius: CGFloat { get set }
+    /// - returns: Color for the hole in the shape. Setting to `nil` will behave as transparent.
+    /// **default**: nil
+    var scatterShapeHoleColor: NSUIColor? { get }
     
-    // Color for the hole in the shape. Setting to `nil` will behave as transparent.
-    // **default**: nil
-    var scatterShapeHoleColor: NSUIColor? { get set }
-    
-    // Custom path object to draw where the values are at.
-    // This is used when shape is set to Custom.
-    var customScatterShape: CGPath? { get set }
+    /// - returns: The IShapeRenderer responsible for rendering this DataSet.
+    var shapeRenderer: IShapeRenderer? { get }
 }

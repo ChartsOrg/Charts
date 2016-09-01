@@ -2,8 +2,6 @@
 //  ScatterChartDataSet.swift
 //  Charts
 //
-//  Created by Daniel Cohen Gindi on 26/2/15.
-//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -16,6 +14,7 @@ import CoreGraphics
 
 public class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterChartDataSet
 {
+    
     @objc(ScatterShape)
     public enum Shape: Int
     {
@@ -24,27 +23,46 @@ public class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterCh
         case Triangle
         case Cross
         case X
-        case Custom
+        case ChevronUp
+        case ChevronDown
     }
     
-    // The size the scatter shape will have
+    /// The size the scatter shape will have
     public var scatterShapeSize = CGFloat(10.0)
     
-    // The type of shape that is set to be drawn where the values are at
-    // **default**: .Square
-    public var scatterShape = ScatterChartDataSet.Shape.Square
-    
-    // The radius of the hole in the shape (applies to Square, Circle and Triangle)
-    // **default**: 0.0
+    /// The radius of the hole in the shape (applies to Square, Circle and Triangle)
+    /// **default**: 0.0
     public var scatterShapeHoleRadius: CGFloat = 0.0
     
-    // Color for the hole in the shape. Setting to `nil` will behave as transparent.
-    // **default**: nil
+    /// Color for the hole in the shape. Setting to `nil` will behave as transparent.
+    /// **default**: nil
     public var scatterShapeHoleColor: NSUIColor? = nil
     
-    // Custom path object to draw where the values are at.
-    // This is used when shape is set to Custom.
-    public var customScatterShape: CGPath?
+    /// Sets the ScatterShape this DataSet should be drawn with.
+    /// This will search for an available IShapeRenderer and set this renderer for the DataSet
+    public func setScatterShape(shape: Shape)
+    {
+        self.shapeRenderer = ScatterChartDataSet.renderer(forShape: shape)
+    }
+    
+    /// The IShapeRenderer responsible for rendering this DataSet.
+    /// This can also be used to set a custom IShapeRenderer aside from the default ones.
+    /// **default**: `SquareShapeRenderer`
+    public var shapeRenderer: IShapeRenderer? = SquareShapeRenderer()
+    
+    public class func renderer(forShape shape: Shape) -> IShapeRenderer
+    {
+        switch shape
+        {
+        case .Square: return SquareShapeRenderer()
+        case .Circle: return CircleShapeRenderer()
+        case .Triangle: return TriangleShapeRenderer()
+        case .Cross: return CrossShapeRenderer()
+        case .X: return XShapeRenderer()
+        case .ChevronUp: return ChevronUpShapeRenderer()
+        case .ChevronDown: return ChevronDownShapeRenderer()
+        }
+    }
     
     // MARK: NSCopying
     
@@ -52,8 +70,9 @@ public class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterCh
     {
         let copy = super.copyWithZone(zone) as! ScatterChartDataSet
         copy.scatterShapeSize = scatterShapeSize
-        copy.scatterShape = scatterShape
-        copy.customScatterShape = customScatterShape
+        copy.scatterShapeHoleRadius = scatterShapeHoleRadius
+        copy.scatterShapeHoleColor = scatterShapeHoleColor
+        copy.shapeRenderer = shapeRenderer
         return copy
     }
 }
