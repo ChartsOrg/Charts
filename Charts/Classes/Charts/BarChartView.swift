@@ -39,7 +39,8 @@ public class BarChartView: BarLineChartViewBase, BarChartDataProvider
         {
             _xAxis.calculate(
                 min: data.xMin - data.barWidth / 2.0,
-                max: data.xMax - data.barWidth / 2.0)
+                //Add instead substract to increase the size of the range
+                max: data.xMax + data.barWidth / 2.0)
         }
         else
         {
