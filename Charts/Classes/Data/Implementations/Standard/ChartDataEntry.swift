@@ -51,14 +51,14 @@ open class ChartDataEntry: NSObject
     
     open override func isEqual(_ object: Any?) -> Bool
     {
-        let object = object as? AnyObject
-        
-        if (object === nil)
-        {
-            return false
-        }
-        
-        if (!object!.isKind(of: type(of: self)))
+		if (object == nil)
+		{
+			return false
+		}
+
+        let object = object as AnyObject
+
+        if (!object.isKind(of: type(of: self)))
         {
             return false
         }
@@ -68,12 +68,12 @@ open class ChartDataEntry: NSObject
 			return false
 		}
         
-        if (object!.xIndex != xIndex)
+        if (object.xIndex != xIndex)
         {
             return false
         }
         
-        if (fabs(object!.value - value) > 0.00001)
+        if (fabs(object.value - value) > 0.00001)
         {
             return false
         }

@@ -200,6 +200,12 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		UIGraphicsBeginImageContextWithOptions(size, opaque, scale)
 	}
 
+	extension NSUIFont {
+		static var nsuiSystemFontSize: CGFloat {
+			return NSUIFont.systemFontSize
+		}
+	}
+
 #endif
 
 #if os(OSX)
@@ -220,6 +226,12 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 	public typealias NSUIPinchGestureRecognizer = NSMagnificationGestureRecognizer
 	public typealias NSUIRotationGestureRecognizer = NSRotationGestureRecognizer
 	public typealias NSUIScreen = NSScreen
+
+	extension NSUIFont {
+		static var nsuiSystemFontSize: CGFloat {
+			return NSUIFont.systemFontSize()
+		}
+	}
 
 	/** On OS X there is no CADisplayLink. Use a 60 fps timer to render the animations. */
 	open class NSUIDisplayLink
@@ -251,7 +263,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
                     _self._target?.performSelector(onMainThread: _self._selector, with: _self, waitUntilDone: false)
                     
                     return kCVReturnSuccess
-                    }, UnsafeMutablePointer(unsafeAddress(of: self)))
+					}, Unmanaged.passUnretained(self).toOpaque())
             }
             else
             {
@@ -375,7 +387,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	open class NSUIView: NSView
     {
-		open final override var isFlipped: Bool
+		open override var isFlipped: Bool
         {
 			return true
 		}
@@ -385,17 +397,17 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 			self.setNeedsDisplay(self.bounds)
 		}
 
-		open final override func touchesBegan(with event: NSEvent)
+		open override func touchesBegan(with event: NSEvent)
         {
 			self.nsuiTouchesBegan(event.touches(matching: .any, in: self), with: event)
 		}
 
-		open final override func touchesEnded(with event: NSEvent)
+		open override func touchesEnded(with event: NSEvent)
         {
 			self.nsuiTouchesEnded(event.touches(matching: .any, in: self), with: event)
 		}
 
-		open final override func touchesMoved(with event: NSEvent)
+		open override func touchesMoved(with event: NSEvent)
         {
 			self.nsuiTouchesMoved(event.touches(matching: .any, in: self), with: event)
 		}
@@ -503,9 +515,8 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	func NSUIGraphicsPushContext(_ context: CGContext)
     {
-		let address = unsafeAddress(of: context)
-		let ptr: UnsafeMutablePointer<CGContext> = UnsafeMutablePointer(UnsafePointer<CGContext>(address))
-		let cx = NSGraphicsContext(graphicsPort: ptr, flipped: true)
+		let address = Unmanaged.passUnretained(context).toOpaque()
+		let cx = NSGraphicsContext(graphicsPort: address, flipped: true)
 		NSGraphicsContext.saveGraphicsState()
 		NSGraphicsContext.setCurrent(cx)
 	}
@@ -550,8 +561,8 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 			let colorSpace = CGColorSpaceCreateDeviceRGB()
 			let ctx = CGContext(data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 4*width, space: colorSpace, bitmapInfo: (opaque ?  CGImageAlphaInfo.noneSkipFirst.rawValue : CGImageAlphaInfo.premultipliedFirst.rawValue))
-			ctx?.concatCTM(CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: CGFloat(height)))
-			ctx?.scale(x: scale, y: scale)
+			ctx?.concatenate(CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: CGFloat(height)))
+			ctx?.scaleBy(x: scale, y: scale)
 			NSUIGraphicsPushContext(ctx!)
 		}
 	}
@@ -584,6 +595,13 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 	func NSUIMainScreen() -> NSUIScreen?
     {
 		return NSUIScreen.main()
+	}
+
+	extension NSParagraphStyle {
+		// This, oddly, is different on iOS (default is a static function on OS X)
+		static var `default`: NSParagraphStyle {
+			return NSParagraphStyle.default()
+		}
 	}
 
 	extension NSString {

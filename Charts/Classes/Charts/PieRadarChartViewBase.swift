@@ -627,7 +627,7 @@ open class PieRadarChartViewBase: ChartViewBase
     #endif
     
     #if os(OSX)
-    open override func mouseDown(_ theEvent: NSEvent)
+    open override func mouseDown(with theEvent: NSEvent)
     {
         // if rotation by touch is enabled
         if rotationEnabled
@@ -641,11 +641,11 @@ open class PieRadarChartViewBase: ChartViewBase
         
         if !_isRotating
         {
-            super.mouseDown(theEvent)
+            super.mouseDown(with: theEvent)
         }
     }
-    
-    open override func mouseDragged(_ theEvent: NSEvent)
+
+    open override func mouseDragged(with theEvent: NSEvent)
     {
         if rotationEnabled
         {
@@ -656,15 +656,15 @@ open class PieRadarChartViewBase: ChartViewBase
         
         if !_isRotating
         {
-            super.mouseDragged(theEvent)
+            super.mouseDragged(with: theEvent)
         }
     }
-    
-    open override func mouseUp(_ theEvent: NSEvent)
+
+    open override func mouseUp(with theEvent: NSEvent)
     {
         if !_isRotating
         {
-            super.mouseUp(theEvent)
+            super.mouseUp(with: theEvent)
         }
         
         if rotationEnabled
