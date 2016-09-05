@@ -200,8 +200,10 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		UIGraphicsBeginImageContextWithOptions(size, opaque, scale)
 	}
 
-	extension NSUIFont {
-		static var nsuiSystemFontSize: CGFloat {
+	extension NSUIFont
+    {
+		static var nsuiSystemFontSize: CGFloat
+        {
 			return NSUIFont.systemFontSize
 		}
 	}
@@ -227,8 +229,10 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 	public typealias NSUIRotationGestureRecognizer = NSRotationGestureRecognizer
 	public typealias NSUIScreen = NSScreen
 
-	extension NSUIFont {
-		static var nsuiSystemFontSize: CGFloat {
+	extension NSUIFont
+    {
+		static var nsuiSystemFontSize: CGFloat
+        {
 			return NSUIFont.systemFontSize()
 		}
 	}
@@ -597,17 +601,21 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		return NSUIScreen.main()
 	}
 
-	extension NSParagraphStyle {
+	extension NSParagraphStyle
+    {
 		// This, oddly, is different on iOS (default is a static function on OS X)
-		static var `default`: NSParagraphStyle {
+		static var `default`: NSParagraphStyle
+        {
 			return NSParagraphStyle.default()
 		}
 	}
 
-	extension NSString {
+	extension NSString
+    {
 		/** On OS X, only size(withAttributes:) exists. It is expected that OSX will catch up and also change to 
 		size(attributes:). For now, use this as proxy. */
-		@nonobjc func size(attributes: [String: AnyObject]?) -> NSSize {
+		@nonobjc func size(attributes: [String: AnyObject]?) -> NSSize
+        {
 			return self.size(withAttributes: attributes)
 		}
 	}
