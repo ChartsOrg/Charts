@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0621EFDF1D7FC591001BA58B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0621EFDE1D7FC591001BA58B /* Cocoa.framework */; };
 		06AEE7A71BDC3F8B009875AE /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BA8EC401A9D14DC00CE82E1 /* Charts.framework */; };
 		06AEE7AE1BDC3FC6009875AE /* LineChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AEE7AD1BDC3FC6009875AE /* LineChartTests.swift */; };
 		06AEE7C21BDC4277009875AE /* FBSnapshotTestCase.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 06AEE7C11BDC4277009875AE /* FBSnapshotTestCase.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -340,7 +341,6 @@
 		65B3F6341C739F7F000983D0 /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B3F6311C739F7F000983D0 /* Platform.swift */; };
 		65B3F6851C73BE9E000983D0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65B3F6841C73BE9E000983D0 /* UIKit.framework */; };
 		65B3F6871C73BEA7000983D0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65B3F6861C73BEA7000983D0 /* QuartzCore.framework */; };
-		65B3F6891C73C093000983D0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65B3F6881C73C093000983D0 /* Cocoa.framework */; };
 		65F06F8E1BE807040074498D /* IChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06F8D1BE807040074498D /* IChartDataSet.swift */; };
 		65F06F8F1BE807040074498D /* IChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06F8D1BE807040074498D /* IChartDataSet.swift */; };
 		65F06F941BE812210074498D /* IBarLineScatterCandleBubbleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06F931BE812210074498D /* IBarLineScatterCandleBubbleChartDataSet.swift */; };
@@ -442,6 +442,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0621EFDE1D7FC591001BA58B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		06AEE7A21BDC3F8B009875AE /* ChartsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChartsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		06AEE7A61BDC3F8B009875AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06AEE7AD1BDC3FC6009875AE /* LineChartTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartTests.swift; sourceTree = "<group>"; };
@@ -614,8 +615,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0621EFDF1D7FC591001BA58B /* Cocoa.framework in Frameworks */,
 				5BCB60D11CFB937D00E9945E /* QuartzCore.framework in Frameworks */,
-				65B3F6891C73C093000983D0 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -644,6 +645,7 @@
 		06AEE7C31BDC427F009875AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0621EFDE1D7FC591001BA58B /* Cocoa.framework */,
 				5BCB60D01CFB937D00E9945E /* QuartzCore.framework */,
 				5BCB60CA1CFB936500E9945E /* QuartzCore.framework */,
 				65B3F6861C73BEA7000983D0 /* QuartzCore.framework */,
@@ -1012,9 +1014,9 @@
 			productReference = 5BA8EC401A9D14DC00CE82E1 /* Charts.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		65B3F5BE1C7370BE000983D0 /* Charts-OSX */ = {
+		65B3F5BE1C7370BE000983D0 /* Charts-macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 65B3F5C41C7370BE000983D0 /* Build configuration list for PBXNativeTarget "Charts-OSX" */;
+			buildConfigurationList = 65B3F5C41C7370BE000983D0 /* Build configuration list for PBXNativeTarget "Charts-macOS" */;
 			buildPhases = (
 				65B3F5BA1C7370BE000983D0 /* Sources */,
 				65B3F5BB1C7370BE000983D0 /* Frameworks */,
@@ -1025,14 +1027,14 @@
 			);
 			dependencies = (
 			);
-			name = "Charts-OSX";
+			name = "Charts-macOS";
 			productName = Charts;
 			productReference = 65B3F5BF1C7370BE000983D0 /* Charts.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		A52C5C361BAC5CA400594CDD /* Charts-TV */ = {
+		A52C5C361BAC5CA400594CDD /* Charts-tvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A52C5C3E1BAC5CA400594CDD /* Build configuration list for PBXNativeTarget "Charts-TV" */;
+			buildConfigurationList = A52C5C3E1BAC5CA400594CDD /* Build configuration list for PBXNativeTarget "Charts-tvOS" */;
 			buildPhases = (
 				A52C5C321BAC5CA400594CDD /* Sources */,
 				A52C5C331BAC5CA400594CDD /* Frameworks */,
@@ -1043,7 +1045,7 @@
 			);
 			dependencies = (
 			);
-			name = "Charts-TV";
+			name = "Charts-tvOS";
 			productName = ChartsTV;
 			productReference = A52C5C371BAC5CA400594CDD /* Charts.framework */;
 			productType = "com.apple.product-type.framework";
@@ -1086,8 +1088,8 @@
 			projectRoot = "";
 			targets = (
 				5BA8EC3F1A9D14DC00CE82E1 /* Charts-iOS */,
-				A52C5C361BAC5CA400594CDD /* Charts-TV */,
-				65B3F5BE1C7370BE000983D0 /* Charts-OSX */,
+				A52C5C361BAC5CA400594CDD /* Charts-tvOS */,
+				65B3F5BE1C7370BE000983D0 /* Charts-macOS */,
 				06AEE7A11BDC3F8B009875AE /* ChartsTests */,
 			);
 		};
@@ -1635,14 +1637,19 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = Charts;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -1675,13 +1682,18 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = Charts;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -1696,11 +1708,12 @@
 				DYLIB_CURRENT_VERSION = 2.2.5;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
+				INFOPLIST_FILE = "$(inherited)";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = Charts;
+				PRODUCT_MODULE_NAME = "$(inherited)";
+				PRODUCT_NAME = "$(inherited)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1717,11 +1730,12 @@
 				DYLIB_CURRENT_VERSION = 2.2.5;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
+				INFOPLIST_FILE = "$(inherited)";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = Charts;
+				PRODUCT_MODULE_NAME = "$(inherited)";
+				PRODUCT_NAME = "$(inherited)";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -1736,12 +1750,12 @@
 				DYLIB_CURRENT_VERSION = 2.2.5;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
+				INFOPLIST_FILE = "$(inherited)";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.ChartsOSX;
-				PRODUCT_NAME = Charts;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.Charts;
+				PRODUCT_MODULE_NAME = "$(inherited)";
+				PRODUCT_NAME = "$(inherited)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 			};
@@ -1758,12 +1772,12 @@
 				DYLIB_CURRENT_VERSION = 2.2.5;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
+				INFOPLIST_FILE = "$(inherited)";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.ChartsOSX;
-				PRODUCT_NAME = Charts;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.Charts;
+				PRODUCT_MODULE_NAME = "$(inherited)";
+				PRODUCT_NAME = "$(inherited)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 			};
@@ -1779,16 +1793,16 @@
 				DYLIB_CURRENT_VERSION = 2.2.5;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
+				INFOPLIST_FILE = "$(inherited)";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.ChartsTV;
-				PRODUCT_NAME = Charts;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.Charts;
+				PRODUCT_MODULE_NAME = "$(inherited)";
+				PRODUCT_NAME = "$(inherited)";
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
 		};
@@ -1803,15 +1817,15 @@
 				DYLIB_CURRENT_VERSION = 2.2.5;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
+				INFOPLIST_FILE = "$(inherited)";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.ChartsTV;
-				PRODUCT_NAME = Charts;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.Charts;
+				PRODUCT_MODULE_NAME = "$(inherited)";
+				PRODUCT_NAME = "$(inherited)";
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
 		};
@@ -1845,7 +1859,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		65B3F5C41C7370BE000983D0 /* Build configuration list for PBXNativeTarget "Charts-OSX" */ = {
+		65B3F5C41C7370BE000983D0 /* Build configuration list for PBXNativeTarget "Charts-macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				65B3F5C51C7370BE000983D0 /* Debug */,
@@ -1854,7 +1868,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A52C5C3E1BAC5CA400594CDD /* Build configuration list for PBXNativeTarget "Charts-TV" */ = {
+		A52C5C3E1BAC5CA400594CDD /* Build configuration list for PBXNativeTarget "Charts-tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A52C5C3C1BAC5CA400594CDD /* Debug */,
