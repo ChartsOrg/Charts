@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "65B3F5BE1C7370BE000983D0"
                BuildableName = "Charts.framework"
-               BlueprintName = "Charts-OSX"
+               BlueprintName = "Charts-macOS"
                ReferencedContainer = "container:Charts.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,7 +47,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "65B3F5BE1C7370BE000983D0"
             BuildableName = "Charts.framework"
-            BlueprintName = "Charts-OSX"
+            BlueprintName = "Charts-macOS"
             ReferencedContainer = "container:Charts.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -65,7 +65,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "65B3F5BE1C7370BE000983D0"
             BuildableName = "Charts.framework"
-            BlueprintName = "Charts-OSX"
+            BlueprintName = "Charts-macOS"
             ReferencedContainer = "container:Charts.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

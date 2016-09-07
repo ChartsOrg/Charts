@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5BA899241CADB7F20012ED64"
-               BuildableName = "ChartsRealm.framework"
-               BlueprintName = "ChartsRealm-OSX"
-               ReferencedContainer = "container:ChartsRealm.xcodeproj">
+               BlueprintIdentifier = "A52C5C361BAC5CA400594CDD"
+               BuildableName = "Charts.framework"
+               BlueprintName = "Charts-tvOS"
+               ReferencedContainer = "container:Charts.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5BA899241CADB7F20012ED64"
-            BuildableName = "ChartsRealm.framework"
-            BlueprintName = "ChartsRealm-OSX"
-            ReferencedContainer = "container:ChartsRealm.xcodeproj">
+            BlueprintIdentifier = "A52C5C361BAC5CA400594CDD"
+            BuildableName = "Charts.framework"
+            BlueprintName = "Charts-tvOS"
+            ReferencedContainer = "container:Charts.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +63,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5BA899241CADB7F20012ED64"
-            BuildableName = "ChartsRealm.framework"
-            BlueprintName = "ChartsRealm-OSX"
-            ReferencedContainer = "container:ChartsRealm.xcodeproj">
+            BlueprintIdentifier = "A52C5C361BAC5CA400594CDD"
+            BuildableName = "Charts.framework"
+            BlueprintName = "Charts-tvOS"
+            ReferencedContainer = "container:Charts.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
