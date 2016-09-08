@@ -64,22 +64,22 @@ open class BalloonMarker: ChartMarker
         
         context.setFillColor((color?.cgColor)!)
         context.beginPath()
-        context.moveTo(x: rect.origin.x,
-            y: rect.origin.y)
-        context.addLineTo(x: rect.origin.x + rect.size.width,
-            y: rect.origin.y)
-        context.addLineTo(x: rect.origin.x + rect.size.width,
-            y: rect.origin.y + rect.size.height - arrowSize.height)
-        context.addLineTo(x: rect.origin.x + (rect.size.width + arrowSize.width) / 2.0,
-            y: rect.origin.y + rect.size.height - arrowSize.height)
-        context.addLineTo(x: rect.origin.x + rect.size.width / 2.0,
-            y: rect.origin.y + rect.size.height)
-        context.addLineTo(x: rect.origin.x + (rect.size.width - arrowSize.width) / 2.0,
-            y: rect.origin.y + rect.size.height - arrowSize.height)
-        context.addLineTo(x: rect.origin.x,
-            y: rect.origin.y + rect.size.height - arrowSize.height)
-        context.addLineTo(x: rect.origin.x,
-            y: rect.origin.y)
+        context.move(to: CGPoint(x: rect.origin.x,
+                                 y: rect.origin.y))
+        context.addLine(to: CGPoint(x: rect.origin.x + rect.size.width,
+                                    y: rect.origin.y))
+        context.addLine(to: CGPoint(x: rect.origin.x + rect.size.width,
+                                    y: rect.origin.y + rect.size.height - arrowSize.height))
+        context.addLine(to: CGPoint(x: rect.origin.x + (rect.size.width + arrowSize.width) / 2.0,
+                                    y: rect.origin.y + rect.size.height - arrowSize.height))
+        context.addLine(to: CGPoint(x: rect.origin.x + rect.size.width / 2.0,
+                                    y: rect.origin.y + rect.size.height))
+        context.addLine(to: CGPoint(x: rect.origin.x + (rect.size.width - arrowSize.width) / 2.0,
+                                    y: rect.origin.y + rect.size.height - arrowSize.height))
+        context.addLine(to: CGPoint(x: rect.origin.x,
+                                    y: rect.origin.y + rect.size.height - arrowSize.height))
+        context.addLine(to: CGPoint(x: rect.origin.x,
+                                    y: rect.origin.y))
         context.fillPath()
         
         rect.origin.y += self.insets.top
