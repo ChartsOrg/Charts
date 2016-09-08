@@ -24,7 +24,7 @@ open class RealmChartUtils: NSObject
         
         for object in results
         {
-            let xVal = (object as! RLMObject)[xValueField] as! String!
+            let xVal = object[xValueField] as! String!
             if !addedValues.contains(xVal!)
             {
                 addedValues.add(xVal!)
@@ -35,19 +35,39 @@ open class RealmChartUtils: NSObject
         return xVals
     }
 }
+extension RLMObject {
+    // Swift query convenience functions
+    public class func objects(where predicateFormat: String, _ args: CVarArg...) -> RLMResults<RLMObject> {
+        return objects(with: NSPredicate(format: predicateFormat, arguments: getVaList(args)))
+    }
 
-extension RLMResults: Sequence
-{
-    open func makeIterator() -> NSFastEnumerationIterator
-    {
-        return NSFastEnumerationIterator(self)
+    public class func objects(in realm: RLMRealm,
+                              where predicateFormat: String,
+                              _ args: CVarArg...) -> RLMResults<RLMObject> {
+        return objects(in: realm, with: NSPredicate(format: predicateFormat, arguments: getVaList(args)))
     }
 }
 
-extension RLMArray: Sequence
-{
-    open func makeIterator() -> NSFastEnumerationIterator
-    {
-        return NSFastEnumerationIterator(self)
+public final class RLMIterator: IteratorProtocol {
+    private let iteratorBase: NSFastEnumerationIterator
+
+    internal init(collection: RLMCollection) {
+        iteratorBase = NSFastEnumerationIterator(collection)
+    }
+
+    public func next() -> RLMObject? {
+        return iteratorBase.next() as! RLMObject?
+    }
+}
+
+// Sequence conformance for RLMArray and RLMResults is provided by RLMCollection's
+// `makeIterator()` implementation.
+extension RLMArray: Sequence {}
+extension RLMResults: Sequence {}
+
+extension RLMCollection {
+    // Support Sequence-style enumeration
+    public func makeIterator() -> RLMIterator {
+        return RLMIterator(collection: self)
     }
 }
