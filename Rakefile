@@ -3,7 +3,7 @@ def type
 end
 
 def project_name
-  "Charts/Charts.xcodeproj"
+  "Charts.xcodeproj"
 end
 
 def configuration
@@ -19,8 +19,8 @@ end
 
 def schemes
   {
-    ios: 'Charts-iOS',
-    tvos: 'Charts-TV'
+    ios: 'Charts',
+    tvos: 'Charts'
   }
 end
 

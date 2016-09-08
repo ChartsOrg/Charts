@@ -1,3 +1,0 @@
-framework module RealmSwift {
-    header "RealmSwift-Swift.h"
-}
