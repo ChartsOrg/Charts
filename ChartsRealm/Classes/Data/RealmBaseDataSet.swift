@@ -364,7 +364,7 @@ open class RealmBaseDataSet: ChartBaseDataSet
             
             for e in foundObjects
             {
-                entries.append(buildEntryFromResultObject(e as! RLMObject, atIndex: UInt(x)))
+                entries.append(buildEntryFromResultObject(e, atIndex: UInt(x)))
             }
         }
         
