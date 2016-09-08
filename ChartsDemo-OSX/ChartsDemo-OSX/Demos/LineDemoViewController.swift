@@ -12,11 +12,11 @@ import Foundation
 import Cocoa
 import Charts
 
-public class LineDemoViewController: NSViewController
+open class LineDemoViewController: NSViewController
 {
     @IBOutlet var lineChartView: LineChartView!
     
-    override public func viewDidLoad()
+    override open func viewDidLoad()
     {
         super.viewDidLoad()
         
@@ -25,25 +25,25 @@ public class LineDemoViewController: NSViewController
         let ys1 = xs.map { i in return sin(Double(i / 2.0 / 3.141 * 1.5)) }
         let ys2 = xs.map { i in return cos(Double(i / 2.0 / 3.141)) }
         
-        let yse1 = ys1.enumerate().map { idx, i in return ChartDataEntry(value: i, xIndex: idx) }
-        let yse2 = ys2.enumerate().map { idx, i in return ChartDataEntry(value: i, xIndex: idx) }
+        let yse1 = ys1.enumerated().map { idx, i in return ChartDataEntry(value: i, xIndex: idx) }
+        let yse2 = ys2.enumerated().map { idx, i in return ChartDataEntry(value: i, xIndex: idx) }
         
         let data = LineChartData(xVals: xs)
         let ds1 = LineChartDataSet(yVals: yse1, label: "Hello")
-        ds1.colors = [NSUIColor.redColor()]
+        ds1.colors = [NSUIColor.red]
         data.addDataSet(ds1)
         
         let ds2 = LineChartDataSet(yVals: yse2, label: "World")
-        ds2.colors = [NSUIColor.blueColor()]
+        ds2.colors = [NSUIColor.blue]
         data.addDataSet(ds2)
         self.lineChartView.data = data
         
-        self.lineChartView.gridBackgroundColor = NSUIColor.whiteColor()
+        self.lineChartView.gridBackgroundColor = NSUIColor.white
 
         self.lineChartView.descriptionText = "Linechart Demo"
     }
     
-    override public func viewWillAppear()
+    override open func viewWillAppear()
     {
         self.lineChartView.animate(xAxisDuration: 0.0, yAxisDuration: 1.0)
     }
