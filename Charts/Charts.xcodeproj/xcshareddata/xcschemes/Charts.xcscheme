@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5BA8EC3F1A9D14DC00CE82E1"
+               BlueprintIdentifier = "06165F231D8110E600722320"
                BuildableName = "Charts.framework"
-               BlueprintName = "Charts-iOS"
+               BlueprintName = "Charts"
                ReferencedContainer = "container:Charts.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "06AEE7A11BDC3F8B009875AE"
+               BlueprintIdentifier = "06165F2D1D8110E600722320"
                BuildableName = "ChartsTests.xctest"
                BlueprintName = "ChartsTests"
                ReferencedContainer = "container:Charts.xcodeproj">
@@ -42,9 +42,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5BA8EC3F1A9D14DC00CE82E1"
+            BlueprintIdentifier = "06165F231D8110E600722320"
             BuildableName = "Charts.framework"
-            BlueprintName = "Charts-iOS"
+            BlueprintName = "Charts"
             ReferencedContainer = "container:Charts.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,9 +64,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5BA8EC3F1A9D14DC00CE82E1"
+            BlueprintIdentifier = "06165F231D8110E600722320"
             BuildableName = "Charts.framework"
-            BlueprintName = "Charts-iOS"
+            BlueprintName = "Charts"
             ReferencedContainer = "container:Charts.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -89,9 +89,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5BA8EC3F1A9D14DC00CE82E1"
+            BlueprintIdentifier = "06165F231D8110E600722320"
             BuildableName = "Charts.framework"
-            BlueprintName = "Charts-iOS"
+            BlueprintName = "Charts"
             ReferencedContainer = "container:Charts.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
