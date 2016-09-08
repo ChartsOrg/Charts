@@ -28,7 +28,7 @@ open class RadarDemoViewController: NSViewController
         let yse1 = ys1.enumerated().map { idx, i in return ChartDataEntry(value: i, xIndex: idx) }
         let yse2 = ys2.enumerated().map { idx, i in return ChartDataEntry(value: i, xIndex: idx) }
         
-        let data = RadarChartData(xVals: xs)
+        let data = RadarChartData(xVals: xs as [NSObject])
         let ds1 = RadarChartDataSet(yVals: yse1, label: "Hello")
         ds1.colors = [NSUIColor.red]
         data.addDataSet(ds1)

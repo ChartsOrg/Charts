@@ -28,7 +28,7 @@ open class BarDemoViewController: NSViewController
         let yse1 = ys1.enumerated().map { idx, i in return BarChartDataEntry(value: i, xIndex: idx) }
         let yse2 = ys2.enumerated().map { idx, i in return BarChartDataEntry(value: i, xIndex: idx) }
         
-        let data = BarChartData(xVals: xs)
+        let data = BarChartData(xVals: xs as [NSObject])
         let ds1 = BarChartDataSet(yVals: yse1, label: "Hello")
         ds1.colors = [NSUIColor.red]
         data.addDataSet(ds1)
@@ -52,7 +52,14 @@ open class BarDemoViewController: NSViewController
             {
                 if let path = panel.url?.path
                 {
-                    self.barChartView.saveToPath(path, format: .PNG, compressionQuality: 1.0)
+                    do
+                    {
+                        _ = try self.barChartView.saveToPath(path, format: .png, compressionQuality: 1.0)
+                    }
+                    catch
+                    {
+                        print("Saving encounter errors")
+                    }
                 }
             }
         }

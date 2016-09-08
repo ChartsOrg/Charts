@@ -28,7 +28,7 @@ open class LineDemoViewController: NSViewController
         let yse1 = ys1.enumerated().map { idx, i in return ChartDataEntry(value: i, xIndex: idx) }
         let yse2 = ys2.enumerated().map { idx, i in return ChartDataEntry(value: i, xIndex: idx) }
         
-        let data = LineChartData(xVals: xs)
+        let data = LineChartData(xVals: xs as [NSObject])
         let ds1 = LineChartDataSet(yVals: yse1, label: "Hello")
         ds1.colors = [NSUIColor.red]
         data.addDataSet(ds1)
