@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		06AEE7A71BDC3F8B009875AE /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BA8EC401A9D14DC00CE82E1 /* Charts.framework */; };
-		06AEE7AE1BDC3FC6009875AE /* LineChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AEE7AD1BDC3FC6009875AE /* LineChartTests.swift */; };
-		06AEE7C21BDC4277009875AE /* FBSnapshotTestCase.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 06AEE7C11BDC4277009875AE /* FBSnapshotTestCase.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		55E356531ADC63BF00A57971 /* BubbleChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E356521ADC63BF00A57971 /* BubbleChartView.swift */; };
 		55E3565B1ADC63EB00A57971 /* BubbleChartRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3565A1ADC63EB00A57971 /* BubbleChartRenderer.swift */; };
 		5B0032451B6524AD00B6A2FE /* Highlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0032441B6524AD00B6A2FE /* Highlight.swift */; };
@@ -145,34 +142,9 @@
 		65F06FAA1BE818AA0074498D /* IBarChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06FA91BE818AA0074498D /* IBarChartDataSet.swift */; };
 		65F06FAD1BE826010074498D /* IPieChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06FAC1BE826010074498D /* IPieChartDataSet.swift */; };
 		65F06FB01BE826090074498D /* IRadarChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F06FAF1BE826090074498D /* IRadarChartDataSet.swift */; };
-		DDC77DC61C0A991A00C27BCF /* BarChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDC77DC51C0A991A00C27BCF /* BarChartTests.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		06AEE7A81BDC3F8B009875AE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5BA8EC371A9D14DC00CE82E1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5BA8EC3F1A9D14DC00CE82E1;
-			remoteInfo = "Charts-iOS";
-		};
-/* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		06AEE7BE1BDC41D0009875AE /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				06AEE7C21BDC4277009875AE /* FBSnapshotTestCase.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		06AEE7A21BDC3F8B009875AE /* ChartsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChartsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		06AEE7A61BDC3F8B009875AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06AEE7AD1BDC3FC6009875AE /* LineChartTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartTests.swift; sourceTree = "<group>"; };
 		06AEE7C11BDC4277009875AE /* FBSnapshotTestCase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSnapshotTestCase.framework; path = Carthage/Build/iOS/FBSnapshotTestCase.framework; sourceTree = "<group>"; };
@@ -321,14 +293,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		06AEE79F1BDC3F8B009875AE /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				06AEE7A71BDC3F8B009875AE /* Charts.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5BA8EC3C1A9D14DC00CE82E1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -464,7 +428,6 @@
 			isa = PBXGroup;
 			children = (
 				5BA8EC401A9D14DC00CE82E1 /* Charts.framework */,
-				06AEE7A21BDC3F8B009875AE /* ChartsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -667,25 +630,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		06AEE7A11BDC3F8B009875AE /* ChartsTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 06AEE7AA1BDC3F8B009875AE /* Build configuration list for PBXNativeTarget "ChartsTests" */;
-			buildPhases = (
-				06AEE79E1BDC3F8B009875AE /* Sources */,
-				06AEE79F1BDC3F8B009875AE /* Frameworks */,
-				06AEE7A01BDC3F8B009875AE /* Resources */,
-				06AEE7BE1BDC41D0009875AE /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				06AEE7A91BDC3F8B009875AE /* PBXTargetDependency */,
-			);
-			name = ChartsTests;
-			productName = ChartsTests;
-			productReference = 06AEE7A21BDC3F8B009875AE /* ChartsTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		5BA8EC3F1A9D14DC00CE82E1 /* Charts-iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5BA8EC561A9D14DC00CE82E1 /* Build configuration list for PBXNativeTarget "Charts-iOS" */;
@@ -712,14 +656,12 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = dcg;
 				TargetAttributes = {
-					06AEE7A11BDC3F8B009875AE = {
-						CreatedOnToolsVersion = 7.1;
-					};
 					5BA8EC3F1A9D14DC00CE82E1 = {
 						CreatedOnToolsVersion = 6.1.1;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -736,19 +678,11 @@
 			projectRoot = "";
 			targets = (
 				5BA8EC3F1A9D14DC00CE82E1 /* Charts-iOS */,
-				06AEE7A11BDC3F8B009875AE /* ChartsTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		06AEE7A01BDC3F8B009875AE /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5BA8EC3E1A9D14DC00CE82E1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -759,15 +693,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		06AEE79E1BDC3F8B009875AE /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DDC77DC61C0A991A00C27BCF /* BarChartTests.swift in Sources */,
-				06AEE7AE1BDC3FC6009875AE /* LineChartTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5BA8EC3B1A9D14DC00CE82E1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -909,52 +834,7 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		06AEE7A91BDC3F8B009875AE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5BA8EC3F1A9D14DC00CE82E1 /* Charts-iOS */;
-			targetProxy = 06AEE7A81BDC3F8B009875AE /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
-		06AEE7AB1BDC3F8B009875AE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = ChartsTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pierremarcairoldi.ChartsTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		06AEE7AC1BDC3F8B009875AE /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = ChartsTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pierremarcairoldi.ChartsTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		5BA8EC541A9D14DC00CE82E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -969,8 +849,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -979,6 +861,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1016,8 +899,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
@@ -1025,6 +910,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1034,6 +920,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1047,6 +934,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 2.2.5;
@@ -1059,6 +947,7 @@
 				PRODUCT_NAME = Charts;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -1068,6 +957,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 2.2.5;
@@ -1079,21 +969,13 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Charts;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		06AEE7AA1BDC3F8B009875AE /* Build configuration list for PBXNativeTarget "ChartsTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				06AEE7AB1BDC3F8B009875AE /* Debug */,
-				06AEE7AC1BDC3F8B009875AE /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		5BA8EC3A1A9D14DC00CE82E1 /* Build configuration list for PBXProject "Charts" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
