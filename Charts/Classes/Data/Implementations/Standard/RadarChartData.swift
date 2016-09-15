@@ -13,18 +13,18 @@ import Foundation
 import CoreGraphics
 
 
-public class RadarChartData: ChartData
+open class RadarChartData: ChartData
 {
-    public var highlightColor = NSUIColor(red: 255.0/255.0, green: 187.0/255.0, blue: 115.0/255.0, alpha: 1.0)
-    public var highlightLineWidth = CGFloat(1.0)
-    public var highlightLineDashPhase = CGFloat(0.0)
-    public var highlightLineDashLengths: [CGFloat]?
+    open var highlightColor = NSUIColor(red: 255.0/255.0, green: 187.0/255.0, blue: 115.0/255.0, alpha: 1.0)
+    open var highlightLineWidth = CGFloat(1.0)
+    open var highlightLineDashPhase = CGFloat(0.0)
+    open var highlightLineDashLengths: [CGFloat]?
     
     /// Sets labels that should be drawn around the RadarChart at the end of each web line.
-    public var labels = [String]()
+    open var labels = [String]()
     
     /// Sets the labels that should be drawn around the RadarChart at the end of each web line.
-    public func setLabels(labels: String...)
+    open func setLabels(_ labels: String...)
     {
         self.labels = labels
     }
@@ -39,7 +39,7 @@ public class RadarChartData: ChartData
         super.init(dataSets: dataSets)
     }
     
-    public override func entryForHighlight(highlight: Highlight) -> ChartDataEntry?
+    open override func entryForHighlight(_ highlight: Highlight) -> ChartDataEntry?
     {
         return getDataSetByIndex(highlight.dataSetIndex)?.entryForIndex(Int(highlight.x))
     }

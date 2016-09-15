@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 
-public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChartDataSet
+open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChartDataSet
 {
     
     public required init()
@@ -28,17 +28,17 @@ public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChar
     
     // MARK: - Data functions and accessors
     
-    public override func calcMinMax(entry e: ChartDataEntry)
+    open override func calcMinMax(entry e: ChartDataEntry)
     {
         guard let e = e as? CandleChartDataEntry
             else { return }
         
-        if (e.low < _yMin)
+        if e.low < _yMin
         {
             _yMin = e.low
         }
         
-        if (e.high > _yMax)
+        if e.high > _yMax
         {
             _yMax = e.high
         }
@@ -51,19 +51,19 @@ public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChar
     /// the space between the candle entries
     ///
     /// **default**: 0.1 (10%)
-    private var _barSpace = CGFloat(0.1)
+    fileprivate var _barSpace = CGFloat(0.1)
     
     /// the space that is left out on the left and right side of each candle,
     /// **default**: 0.1 (10%), max 0.45, min 0.0
-    public var barSpace: CGFloat
+    open var barSpace: CGFloat
     {
         set
         {
-            if (newValue < 0.0)
+            if newValue < 0.0
             {
                 _barSpace = 0.0
             }
-            else if (newValue > 0.45)
+            else if newValue > 0.45
             {
                 _barSpace = 0.45
             }
@@ -82,42 +82,42 @@ public class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChar
     /// when false, only "ticks" will show
     ///
     /// **default**: true
-    public var showCandleBar: Bool = true
+    open var showCandleBar: Bool = true
     
     /// the width of the candle-shadow-line in pixels.
     ///
     /// **default**: 1.5
-    public var shadowWidth = CGFloat(1.5)
+    open var shadowWidth = CGFloat(1.5)
     
     /// the color of the shadow line
-    public var shadowColor: NSUIColor?
+    open var shadowColor: NSUIColor?
     
     /// use candle color for the shadow
-    public var shadowColorSameAsCandle = false
+    open var shadowColorSameAsCandle = false
     
     /// Is the shadow color same as the candle color?
-    public var isShadowColorSameAsCandle: Bool { return shadowColorSameAsCandle }
+    open var isShadowColorSameAsCandle: Bool { return shadowColorSameAsCandle }
     
     /// color for open == close
-    public var neutralColor: NSUIColor?
+    open var neutralColor: NSUIColor?
     
     /// color for open > close
-    public var increasingColor: NSUIColor?
+    open var increasingColor: NSUIColor?
     
     /// color for open < close
-    public var decreasingColor: NSUIColor?
+    open var decreasingColor: NSUIColor?
     
     /// Are increasing values drawn as filled?
     /// increasing candlesticks are traditionally hollow
-    public var increasingFilled = false
+    open var increasingFilled = false
     
     /// Are increasing values drawn as filled?
-    public var isIncreasingFilled: Bool { return increasingFilled }
+    open var isIncreasingFilled: Bool { return increasingFilled }
     
     /// Are decreasing values drawn as filled?
     /// descreasing candlesticks are traditionally filled
-    public var decreasingFilled = true
+    open var decreasingFilled = true
     
     /// Are decreasing values drawn as filled?
-    public var isDecreasingFilled: Bool { return decreasingFilled }
+    open var isDecreasingFilled: Bool { return decreasingFilled }
 }

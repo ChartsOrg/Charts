@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-public class PieChartDataEntry: ChartDataEntry
+open class PieChartDataEntry: ChartDataEntry
 {
     public required init()
     {
@@ -51,32 +51,32 @@ public class PieChartDataEntry: ChartDataEntry
     
     // MARK: Data property accessors
     
-    public var label: String?
+    open var label: String?
     
-    public var value: Double
+    open var value: Double
     {
         get { return y }
         set { y = value }
     }
     
-    @available(*, deprecated=1.0, message="Pie entries do not have x values")
-    public override var x: Double
+    @available(*, deprecated: 1.0, message: "Pie entries do not have x values")
+    open override var x: Double
     {
         get
         {
-            print("Pie entries do not have x values");
+            print("Pie entries do not have x values")
             return super.x
         }
         set
         {
             super.x = newValue
-            print("Pie entries do not have x values");
+            print("Pie entries do not have x values")
         }
     }
     
     // MARK: NSCopying
     
-    public override func copyWithZone(zone: NSZone) -> AnyObject
+    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! PieChartDataEntry
         copy.label = label

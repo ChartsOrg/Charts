@@ -11,10 +11,10 @@
 
 import Foundation
 
-public class ChartDataEntry: ChartDataEntryBase
+open class ChartDataEntry: ChartDataEntryBase
 {
     /// the x value
-    public var x = Double(0.0)
+    open var x = Double(0.0)
     
     public required init()
     {
@@ -47,14 +47,14 @@ public class ChartDataEntry: ChartDataEntryBase
     
     // MARK: NSObject
     
-    public override func isEqual(object: AnyObject?) -> Bool
+    open override func isEqual(_ object: Any?) -> Bool
     {
         if !super.isEqual(object)
         {
             return false
         }
         
-        if fabs(object!.x - x) > DBL_EPSILON
+        if fabs((object! as AnyObject).x - x) > DBL_EPSILON
         {
             return false
         }
@@ -64,16 +64,16 @@ public class ChartDataEntry: ChartDataEntryBase
     
     // MARK: NSObject
     
-    public override var description: String
+    open override var description: String
     {
         return "ChartDataEntry, x: \(x), y \(y)"
     }
     
     // MARK: NSCopying
     
-    public func copyWithZone(zone: NSZone) -> AnyObject
+    open func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
-        let copy = self.dynamicType.init()
+        let copy = type(of: self).init()
         
         copy.x = x
         copy.y = y
@@ -90,7 +90,7 @@ public func ==(lhs: ChartDataEntry, rhs: ChartDataEntry) -> Bool
         return true
     }
     
-    if !lhs.isKindOfClass(rhs.dynamicType)
+    if !lhs.isKind(of: type(of: rhs))
     {
         return false
     }

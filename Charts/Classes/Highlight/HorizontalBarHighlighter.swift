@@ -13,9 +13,9 @@ import Foundation
 import CoreGraphics
 
 @objc(HorizontalBarChartHighlighter)
-public class HorizontalBarHighlighter: BarHighlighter
+open class HorizontalBarHighlighter: BarHighlighter
 {
-    public override func getHighlight(x x: CGFloat, y: CGFloat) -> Highlight?
+    open override func getHighlight(x: CGFloat, y: CGFloat) -> Highlight?
     {
         if let barData = self.chart?.data as? BarChartData
         {
@@ -24,8 +24,8 @@ public class HorizontalBarHighlighter: BarHighlighter
             guard let high = getHighlight(xValue: Double(pos.y), x: y, y: x)
                 else { return nil }
             
-            if let set = barData.getDataSetByIndex(high.dataSetIndex) as? IBarChartDataSet
-                where set.isStacked
+            if let set = barData.getDataSetByIndex(high.dataSetIndex) as? IBarChartDataSet,
+                set.isStacked
             {
                 return getStackedHighlight(high: high,
                                            set: set,
@@ -49,7 +49,7 @@ public class HorizontalBarHighlighter: BarHighlighter
         
         if let e = set.entryForXValue(xValue, rounding: rounding)
         {
-            let px = chart.getTransformer(set.axisDependency).pixelForValues(x: e.y, y: e.x)
+            let px = chart.getTransformer(forAxis: set.axisDependency).pixelForValues(x: e.y, y: e.x)
             
             return Highlight(x: e.x, y: e.y, xPx: px.x, yPx: px.y,dataSetIndex: dataSetIndex, axis: set.axisDependency)
         }
@@ -57,7 +57,7 @@ public class HorizontalBarHighlighter: BarHighlighter
         return nil
     }
     
-    internal override func getDistance(x1 x1: CGFloat, y1: CGFloat, x2: CGFloat, y2: CGFloat) -> CGFloat
+    internal override func getDistance(x1: CGFloat, y1: CGFloat, x2: CGFloat, y2: CGFloat) -> CGFloat
     {
         return abs(y1 - y2)
     }

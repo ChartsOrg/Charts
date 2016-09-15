@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 @objc(LineRadarChartRenderer)
-public class LineRadarRenderer: LineScatterCandleRadarRenderer
+open class LineRadarRenderer: LineScatterCandleRadarRenderer
 {
     public override init(animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
@@ -21,36 +21,36 @@ public class LineRadarRenderer: LineScatterCandleRadarRenderer
     }
     
     /// Draws the provided path in filled mode with the provided drawable.
-    public func drawFilledPath(context context: CGContext, path: CGPath, fill: Fill, fillAlpha: CGFloat)
+    open func drawFilledPath(context: CGContext, path: CGPath, fill: Fill, fillAlpha: CGFloat)
     {
         guard let viewPortHandler = self.viewPortHandler
             else { return }
         
-        CGContextSaveGState(context)
-        CGContextBeginPath(context)
-        CGContextAddPath(context, path)
+        context.saveGState()
+        context.beginPath()
+        context.addPath(path)
         
         // filled is usually drawn with less alpha
-        CGContextSetAlpha(context, fillAlpha)
+        context.setAlpha(fillAlpha)
         
         fill.fillPath(context: context, rect: viewPortHandler.contentRect)
         
-        CGContextRestoreGState(context)
+        context.restoreGState()
     }
     
     /// Draws the provided path in filled mode with the provided color and alpha.
-    public func drawFilledPath(context context: CGContext, path: CGPath, fillColor: NSUIColor, fillAlpha: CGFloat)
+    open func drawFilledPath(context: CGContext, path: CGPath, fillColor: NSUIColor, fillAlpha: CGFloat)
     {
-        CGContextSaveGState(context)
-        CGContextBeginPath(context)
-        CGContextAddPath(context, path)
+        context.saveGState()
+        context.beginPath()
+        context.addPath(path)
         
         // filled is usually drawn with less alpha
-        CGContextSetAlpha(context, fillAlpha)
+        context.setAlpha(fillAlpha)
         
-        CGContextSetFillColorWithColor(context, fillColor.CGColor)
-        CGContextFillPath(context)
+        context.setFillColor(fillColor.cgColor)
+        context.fillPath()
         
-        CGContextRestoreGState(context)
+        context.restoreGState()
     }
 }

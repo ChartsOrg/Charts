@@ -12,8 +12,6 @@
 		5B4AC1351C44684E0028D1A6 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4AC12F1C44684E0028D1A6 /* RealmSwift.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5B4AC1381C44684E0028D1A6 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4AC1311C44684E0028D1A6 /* Realm.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5B4AC13A1C44684E0028D1A6 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B4AC1321C44684E0028D1A6 /* RealmSwift.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		5B4AC1821C4C12B80028D1A6 /* RealmChartUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AC1811C4C12B80028D1A6 /* RealmChartUtils.swift */; };
-		5B4AC1831C4C12B80028D1A6 /* RealmChartUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AC1811C4C12B80028D1A6 /* RealmChartUtils.swift */; };
 		5B680D3D1A9D1AD90026A057 /* ChartsRealm.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B680D3C1A9D1AD90026A057 /* ChartsRealm.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5B88D8871C634EBB00B54CBD /* RealmBarDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8741C634EBB00B54CBD /* RealmBarDataSet.swift */; };
 		5B88D8881C634EBB00B54CBD /* RealmBarDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8741C634EBB00B54CBD /* RealmBarDataSet.swift */; };
@@ -41,7 +39,6 @@
 		5BA899261CADB7F20012ED64 /* RealmLineRadarDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D87D1C634EBB00B54CBD /* RealmLineRadarDataSet.swift */; };
 		5BA899271CADB7F20012ED64 /* RealmPieDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8801C634EBB00B54CBD /* RealmPieDataSet.swift */; };
 		5BA899281CADB7F20012ED64 /* RealmLineDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D87C1C634EBB00B54CBD /* RealmLineDataSet.swift */; };
-		5BA899291CADB7F20012ED64 /* RealmChartUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4AC1811C4C12B80028D1A6 /* RealmChartUtils.swift */; };
 		5BA8992A1CADB7F20012ED64 /* RealmScatterDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8841C634EBB00B54CBD /* RealmScatterDataSet.swift */; };
 		5BA8992C1CADB7F20012ED64 /* RealmBarDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8741C634EBB00B54CBD /* RealmBarDataSet.swift */; };
 		5BA8992D1CADB7F20012ED64 /* RealmBaseDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B88D8761C634EBB00B54CBD /* RealmBaseDataSet.swift */; };
@@ -93,7 +90,6 @@
 		5B4AC12F1C44684E0028D1A6 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
 		5B4AC1311C44684E0028D1A6 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
 		5B4AC1321C44684E0028D1A6 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
-		5B4AC1811C4C12B80028D1A6 /* RealmChartUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmChartUtils.swift; sourceTree = "<group>"; };
 		5B680D3C1A9D1AD90026A057 /* ChartsRealm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartsRealm.h; sourceTree = "<group>"; };
 		5B88D8741C634EBB00B54CBD /* RealmBarDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmBarDataSet.swift; sourceTree = "<group>"; };
 		5B88D8751C634EBB00B54CBD /* RealmBarLineScatterCandleBubbleDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmBarLineScatterCandleBubbleDataSet.swift; sourceTree = "<group>"; };
@@ -240,7 +236,6 @@
 			isa = PBXGroup;
 			children = (
 				5BA8EC6F1A9D151C00CE82E1 /* Data */,
-				5BA8EC781A9D151C00CE82E1 /* Utils */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -261,14 +256,6 @@
 				5B88D8841C634EBB00B54CBD /* RealmScatterDataSet.swift */,
 			);
 			path = Data;
-			sourceTree = "<group>";
-		};
-		5BA8EC781A9D151C00CE82E1 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				5B4AC1811C4C12B80028D1A6 /* RealmChartUtils.swift */,
-			);
-			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -363,12 +350,13 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = dcg;
 				TargetAttributes = {
 					5BA8EC3F1A9D14DC00CE82E1 = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = EF7AZ55H5Q;
+						LastSwiftMigration = 0800;
 					};
 					A52C5C361BAC5CA400594CDD = {
 						CreatedOnToolsVersion = 7.1;
@@ -464,7 +452,6 @@
 				5BA899261CADB7F20012ED64 /* RealmLineRadarDataSet.swift in Sources */,
 				5BA899271CADB7F20012ED64 /* RealmPieDataSet.swift in Sources */,
 				5BA899281CADB7F20012ED64 /* RealmLineDataSet.swift in Sources */,
-				5BA899291CADB7F20012ED64 /* RealmChartUtils.swift in Sources */,
 				5BA8992A1CADB7F20012ED64 /* RealmScatterDataSet.swift in Sources */,
 				5BA8992C1CADB7F20012ED64 /* RealmBarDataSet.swift in Sources */,
 				5BA8992D1CADB7F20012ED64 /* RealmBaseDataSet.swift in Sources */,
@@ -483,7 +470,6 @@
 				5B88D8991C634EBB00B54CBD /* RealmLineRadarDataSet.swift in Sources */,
 				5B88D89F1C634EBB00B54CBD /* RealmPieDataSet.swift in Sources */,
 				5B88D8971C634EBB00B54CBD /* RealmLineDataSet.swift in Sources */,
-				5B4AC1821C4C12B80028D1A6 /* RealmChartUtils.swift in Sources */,
 				5B88D8A71C634EBB00B54CBD /* RealmScatterDataSet.swift in Sources */,
 				5B88D8871C634EBB00B54CBD /* RealmBarDataSet.swift in Sources */,
 				5B88D88B1C634EBB00B54CBD /* RealmBaseDataSet.swift in Sources */,
@@ -502,7 +488,6 @@
 				5B88D89A1C634EBB00B54CBD /* RealmLineRadarDataSet.swift in Sources */,
 				5B88D8A01C634EBB00B54CBD /* RealmPieDataSet.swift in Sources */,
 				5B88D8981C634EBB00B54CBD /* RealmLineDataSet.swift in Sources */,
-				5B4AC1831C4C12B80028D1A6 /* RealmChartUtils.swift in Sources */,
 				5B88D8A81C634EBB00B54CBD /* RealmScatterDataSet.swift in Sources */,
 				5B88D8881C634EBB00B54CBD /* RealmBarDataSet.swift in Sources */,
 				5B88D88C1C634EBB00B54CBD /* RealmBaseDataSet.swift in Sources */,
@@ -586,8 +571,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -596,6 +583,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -633,8 +621,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
@@ -642,6 +632,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -651,6 +642,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -680,6 +672,7 @@
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -704,6 +697,7 @@
 				PRODUCT_NAME = ChartsRealm;
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -712,6 +706,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 2.2.5;
@@ -740,6 +735,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 2.2.5;

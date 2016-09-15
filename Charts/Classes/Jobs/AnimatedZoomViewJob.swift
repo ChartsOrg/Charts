@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-public class AnimatedZoomViewJob: AnimatedViewPortJob
+open class AnimatedZoomViewJob: AnimatedViewPortJob
 {
     internal var yAxis: YAxis?
     internal var xAxisRange: Double = 0.0
@@ -37,7 +37,7 @@ public class AnimatedZoomViewJob: AnimatedViewPortJob
         zoomCenterY: CGFloat,
         zoomOriginX: CGFloat,
         zoomOriginY: CGFloat,
-        duration: NSTimeInterval,
+        duration: TimeInterval,
         easing: ChartEasingFunctionBlock?)
     {
         super.init(viewPortHandler: viewPortHandler,
@@ -62,17 +62,17 @@ public class AnimatedZoomViewJob: AnimatedViewPortJob
     
     internal override func animationUpdate()
     {
-        guard let
-            viewPortHandler = viewPortHandler,
-            transformer = transformer,
-            view = view
+        guard
+            let viewPortHandler = viewPortHandler,
+            let transformer = transformer,
+            let view = view
             else { return }
         
         let scaleX = xOrigin + (self.scaleX - xOrigin) * phase
         let scaleY = yOrigin + (self.scaleY - yOrigin) * phase
         
         var matrix = viewPortHandler.setZoom(scaleX: scaleX, scaleY: scaleY)
-        viewPortHandler.refresh(newMatrix: matrix, chart: view, invalidate: false)
+        let _ = viewPortHandler.refresh(newMatrix: matrix, chart: view, invalidate: false)
         
         let valsInView = CGFloat(yAxis?.axisRange ?? 0.0) / viewPortHandler.scaleY
         let xsInView = CGFloat(xAxisRange) / viewPortHandler.scaleX
@@ -85,7 +85,7 @@ public class AnimatedZoomViewJob: AnimatedViewPortJob
         transformer.pointValueToPixel(&pt)
         
         matrix = viewPortHandler.translate(pt: pt)
-        viewPortHandler.refresh(newMatrix: matrix, chart: view, invalidate: true)
+        let _ = viewPortHandler.refresh(newMatrix: matrix, chart: view, invalidate: true)
     }
     
     internal override func animationEnd()

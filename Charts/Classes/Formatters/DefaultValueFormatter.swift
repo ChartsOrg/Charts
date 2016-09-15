@@ -12,13 +12,13 @@
 import Foundation
 
 @objc(ChartDefaultValueFormatter)
-public class DefaultValueFormatter: NSObject, IValueFormatter
+open class DefaultValueFormatter: NSObject, IValueFormatter
 {
     
-    public var hasAutoDecimals: Bool = false
+    open var hasAutoDecimals: Bool = false
     
-    private var _formatter: NSNumberFormatter?
-    public var formatter: NSNumberFormatter?
+    fileprivate var _formatter: NumberFormatter?
+    open var formatter: NumberFormatter?
     {
         get { return _formatter }
         set
@@ -28,8 +28,8 @@ public class DefaultValueFormatter: NSObject, IValueFormatter
         }
     }
     
-    private var _decimals: Int?
-    public var decimals: Int?
+    fileprivate var _decimals: Int?
+    open var decimals: Int?
     {
         get { return _decimals }
         set
@@ -49,11 +49,11 @@ public class DefaultValueFormatter: NSObject, IValueFormatter
     {
         super.init()
         
-        self.formatter = NSNumberFormatter()
+        self.formatter = NumberFormatter()
         hasAutoDecimals = true
     }
     
-    public init(formatter: NSNumberFormatter)
+    public init(formatter: NumberFormatter)
     {
         super.init()
         
@@ -64,18 +64,18 @@ public class DefaultValueFormatter: NSObject, IValueFormatter
     {
         super.init()
         
-        self.formatter = NSNumberFormatter()
+        self.formatter = NumberFormatter()
         self.formatter?.usesGroupingSeparator = true
         self.decimals = decimals
         hasAutoDecimals = true
     }
     
-    public func stringForValue(value: Double,
-                        entry: ChartDataEntry,
-                        dataSetIndex: Int,
-                        viewPortHandler: ViewPortHandler?) -> String
+    open func stringForValue(_ value: Double,
+                             entry: ChartDataEntry,
+                             dataSetIndex: Int,
+                             viewPortHandler: ViewPortHandler?) -> String
     {
-        return formatter?.stringFromNumber(value) ?? ""
+        return formatter?.string(from: NSNumber(floatLiteral: value)) ?? ""
     }
     
 }

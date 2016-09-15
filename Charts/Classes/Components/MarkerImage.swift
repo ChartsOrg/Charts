@@ -17,24 +17,24 @@ import CoreGraphics
 #endif
 
 @objc(ChartMarkerImage)
-public class MarkerImage: NSObject, IMarker
+open class MarkerImage: NSObject, IMarker
 {
     /// The marker image to render
-    public var image: NSUIImage?
+    open var image: NSUIImage?
     
-    public var offset: CGPoint = CGPoint()
+    open var offset: CGPoint = CGPoint()
     
-    public weak var chartView: ChartViewBase?
+    open weak var chartView: ChartViewBase?
     
     /// As long as size is 0.0/0.0 - it will default to the image's size
-    public var size: CGSize = CGSize()
+    open var size: CGSize = CGSize()
     
     public override init()
     {
         super.init()
     }
     
-    public func offsetForDrawingAtPos(point: CGPoint) -> CGPoint
+    open func offsetForDrawing(atPoint point: CGPoint) -> CGPoint
     {
         var offset = self.offset
         
@@ -75,14 +75,14 @@ public class MarkerImage: NSObject, IMarker
         return offset
     }
     
-    public func refreshContent(entry entry: ChartDataEntry, highlight: Highlight)
+    open func refreshContent(entry: ChartDataEntry, highlight: Highlight)
     {
         // Do nothing here...
     }
     
-    public func draw(context context: CGContext, point: CGPoint)
+    open func draw(context: CGContext, point: CGPoint)
     {
-        let offset = self.offsetForDrawingAtPos(point)
+        let offset = self.offsetForDrawing(atPoint: point)
         
         var size = self.size
         
@@ -102,7 +102,7 @@ public class MarkerImage: NSObject, IMarker
             height: size.height)
         
         NSUIGraphicsPushContext(context)
-        image!.drawInRect(rect)
+        image!.draw(in: rect)
         NSUIGraphicsPopContext()
     }
 }

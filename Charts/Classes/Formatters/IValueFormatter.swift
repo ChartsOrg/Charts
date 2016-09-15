@@ -34,7 +34,7 @@ public protocol IValueFormatter : NSObjectProtocol
     ///
     /// - parameter viewPortHandler: provides information about the current chart state (scale, translation, ...)
     ///
-    func stringForValue(value: Double,
+    func stringForValue(_ value: Double,
                         entry: ChartDataEntry,
                         dataSetIndex: Int,
                         viewPortHandler: ViewPortHandler?) -> String

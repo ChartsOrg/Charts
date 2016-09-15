@@ -10,26 +10,26 @@
 //
 import Foundation
 
-public class XShapeRenderer : NSObject, IShapeRenderer
+open class XShapeRenderer : NSObject, IShapeRenderer
 {
-    public func renderShape(
-        context context: CGContext,
-                dataSet: IScatterChartDataSet,
-                viewPortHandler: ViewPortHandler,
-                point: CGPoint,
-                color: NSUIColor)
+    open func renderShape(
+        context: CGContext,
+        dataSet: IScatterChartDataSet,
+        viewPortHandler: ViewPortHandler,
+        point: CGPoint,
+        color: NSUIColor)
     {
         let shapeSize = dataSet.scatterShapeSize
         let shapeHalf = shapeSize / 2.0
         
-        CGContextSetLineWidth(context, 1.0)
-        CGContextSetStrokeColorWithColor(context, color.CGColor)
+        context.setLineWidth(1.0)
+        context.setStrokeColor(color.cgColor)
         
-        CGContextBeginPath(context)
-        CGContextMoveToPoint(context, point.x - shapeHalf, point.y - shapeHalf)
-        CGContextAddLineToPoint(context, point.x + shapeHalf, point.y + shapeHalf)
-        CGContextMoveToPoint(context, point.x + shapeHalf, point.y - shapeHalf)
-        CGContextAddLineToPoint(context, point.x - shapeHalf, point.y + shapeHalf)
-        CGContextStrokePath(context)
+        context.beginPath()
+        context.move(to: CGPoint(x: point.x - shapeHalf, y: point.y - shapeHalf))
+        context.addLine(to: CGPoint(x: point.x + shapeHalf, y: point.y + shapeHalf))
+        context.move(to: CGPoint(x: point.x + shapeHalf, y: point.y - shapeHalf))
+        context.addLine(to: CGPoint(x: point.x - shapeHalf, y: point.y + shapeHalf))
+        context.strokePath()
     }
 }

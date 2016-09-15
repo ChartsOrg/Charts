@@ -24,7 +24,7 @@ public protocol IChartDataSet
     
     /// Calculates the min and max y-values from the Entry closest to the given fromX to the Entry closest to the given toX value.
     /// This is only needed for the autoScaleMinMax feature.
-    func calcMinMaxY(fromX fromX: Double, toX: Double)
+    func calcMinMaxY(fromX: Double, toX: Double)
     
     /// - returns: The minimum y-value this DataSet holds
     var yMin: Double { get }
@@ -44,29 +44,29 @@ public protocol IChartDataSet
     /// - returns: The entry object found at the given index (not x-value!)
     /// - throws: out of bounds
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
-    func entryForIndex(i: Int) -> ChartDataEntry?
+    func entryForIndex(_ i: Int) -> ChartDataEntry?
     
     /// - returns: The first Entry object found at the given x-value with binary search.
     /// If the no Entry at the specifed x-value is found, this method returns the Entry at the closest x-pox.
     /// nil if no Entry object at that x-value.
     /// - parameter x: the x-value
     /// - parameter rounding: determine whether to round up/down/closest if there is no Entry matching the provided x-value
-    func entryForXValue(x: Double, rounding: ChartDataSetRounding) -> ChartDataEntry?
+    func entryForXValue(_ x: Double, rounding: ChartDataSetRounding) -> ChartDataEntry?
     
     /// - returns: The first Entry object found at the given x-value with binary search.
     /// If the no Entry at the specifed x-value is found, this method returns the Entry at the closest x-value.
     /// nil if no Entry object at that x-value.
-    func entryForXValue(x: Double) -> ChartDataEntry?
+    func entryForXValue(_ x: Double) -> ChartDataEntry?
     
     /// - returns: All Entry objects found at the given x-value with binary search.
     /// An empty array if no Entry object at that x-value.
-    func entriesForXValue(x: Double) -> [ChartDataEntry]
+    func entriesForXValue(_ x: Double) -> [ChartDataEntry]
     
     /// - returns: The array-index of the specified entry
     ///
     /// - parameter x: x-value of the entry to search for
     /// - parameter rounding: x-value of the entry to search for
-    func entryIndex(x x: Double, rounding: ChartDataSetRounding) -> Int
+    func entryIndex(x: Double, rounding: ChartDataSetRounding) -> Int
     
     /// - returns: The array-index of the specified entry
     ///
@@ -80,7 +80,7 @@ public protocol IChartDataSet
     /// Entries are added to the end of the list.
     /// - parameter e: the entry to add
     /// - returns: `true` if the entry was added successfully, `false` ifthis feature is not supported
-    func addEntry(e: ChartDataEntry) -> Bool
+    func addEntry(_ e: ChartDataEntry) -> Bool
     
     /// Adds an Entry to the DataSet dynamically.
     /// Entries are added to their appropriate index in the values array respective to their x-position.
@@ -91,7 +91,7 @@ public protocol IChartDataSet
     /// Entries are added to the end of the list.
     /// - parameter e: the entry to add
     /// - returns: `true` if the entry was added successfully, `false` ifthis feature is not supported
-    func addEntryOrdered(e: ChartDataEntry) -> Bool
+    func addEntryOrdered(_ e: ChartDataEntry) -> Bool
     
     /// Removes an Entry from the DataSet dynamically.
     ///
@@ -99,7 +99,7 @@ public protocol IChartDataSet
     ///
     /// - parameter entry: the entry to remove
     /// - returns: `true` if the entry was removed successfully, `false` ifthe entry does not exist or if this feature is not supported
-    func removeEntry(entry: ChartDataEntry) -> Bool
+    func removeEntry(_ entry: ChartDataEntry) -> Bool
     
     /// Removes the Entry object at the given index in the values array from the DataSet.
     ///
@@ -107,7 +107,7 @@ public protocol IChartDataSet
     ///
     /// - parameter index: the index of the entry to remove
     /// - returns: `true` if the entry was removed successfully, `false` ifthe entry does not exist or if this feature is not supported
-    func removeEntry(index index: Int) -> Bool
+    func removeEntry(index: Int) -> Bool
     
     /// Removes the Entry object closest to the given x-value from the DataSet.
     ///
@@ -115,7 +115,7 @@ public protocol IChartDataSet
     ///
     /// - parameter x: the x-value to remove
     /// - returns: `true` if the entry was removed successfully, `false` ifthe entry does not exist or if this feature is not supported
-    func removeEntry(x x: Double) -> Bool
+    func removeEntry(x: Double) -> Bool
     
     /// Removes the first Entry (at index 0) of this DataSet from the entries array.
     ///
@@ -134,7 +134,7 @@ public protocol IChartDataSet
     /// Checks if this DataSet contains the specified Entry.
     ///
     /// - returns: `true` if contains the entry, `false` ifnot.
-    func contains(e: ChartDataEntry) -> Bool
+    func contains(_ e: ChartDataEntry) -> Bool
     
     /// Removes all values from this DataSet and does all necessary recalculations.
     ///
@@ -158,13 +158,13 @@ public protocol IChartDataSet
     
     /// - returns: The color at the given index of the DataSet's color array.
     /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
-    func colorAt(index: Int) -> NSUIColor
+    func color(atIndex: Int) -> NSUIColor
     
     func resetColors()
     
-    func addColor(color: NSUIColor)
+    func addColor(_ color: NSUIColor)
     
-    func setColor(color: NSUIColor)
+    func setColor(_ color: NSUIColor)
     
     /// if true, value highlighting is enabled
     var highlightEnabled: Bool { get set }
@@ -184,7 +184,7 @@ public protocol IChartDataSet
     var valueTextColor: NSUIColor { get set }
     
     /// - returns: The color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
-    func valueTextColorAt(index: Int) -> NSUIColor
+    func valueTextColorAt(_ index: Int) -> NSUIColor
     
     /// the font for the value-text labels
     var valueFont: NSUIFont { get set }

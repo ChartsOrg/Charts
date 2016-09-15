@@ -17,11 +17,11 @@ import CoreGraphics
 #endif
 
 @objc(ZoomChartViewJob)
-public class ZoomViewJob: ViewPortJob
+open class ZoomViewJob: ViewPortJob
 {
     internal var scaleX: CGFloat = 0.0
     internal var scaleY: CGFloat = 0.0
-    internal var axisDependency: YAxis.AxisDependency = YAxis.AxisDependency.Left
+    internal var axisDependency: YAxis.AxisDependency = YAxis.AxisDependency.left
     
     public init(
         viewPortHandler: ViewPortHandler,
@@ -45,16 +45,16 @@ public class ZoomViewJob: ViewPortJob
         self.axisDependency = axis
     }
     
-    public override func doJob()
+    open override func doJob()
     {
-        guard let
-            viewPortHandler = viewPortHandler,
-            transformer = transformer,
-            view = view
+        guard
+            let viewPortHandler = viewPortHandler,
+            let transformer = transformer,
+            let view = view
             else { return }
         
         var matrix = viewPortHandler.setZoom(scaleX: scaleX, scaleY: scaleY)
-        viewPortHandler.refresh(newMatrix: matrix, chart: view, invalidate: false)
+        let _ = viewPortHandler.refresh(newMatrix: matrix, chart: view, invalidate: false)
         
         let yValsInView = (view as! BarLineChartViewBase).getAxis(axisDependency).axisRange / Double(viewPortHandler.scaleY)
         let xValsInView = (view as! BarLineChartViewBase).xAxis.axisRange / Double(viewPortHandler.scaleX)
@@ -67,7 +67,7 @@ public class ZoomViewJob: ViewPortJob
         transformer.pointValueToPixel(&pt)
         
         matrix = viewPortHandler.translate(pt: pt)
-        viewPortHandler.refresh(newMatrix: matrix, chart: view, invalidate: false)
+        let _ = viewPortHandler.refresh(newMatrix: matrix, chart: view, invalidate: false)
         
         (view as! BarLineChartViewBase).calculateOffsets()
         view.setNeedsDisplay()

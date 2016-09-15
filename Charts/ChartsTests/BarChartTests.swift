@@ -30,7 +30,7 @@ class BarChartTests: FBSnapshotTestCase
         dataSet = BarChartDataSet(values: entries, label: "Bar chart unit test data")
         
         let data = BarChartData(dataSet: dataSet)
-        data.barWidth = 0.85;
+        data.barWidth = 0.85
         
         chart = BarChartView(frame: CGRectMake(0, 0, 480, 350))
         chart.leftAxis.axisMinimum = 0.0
