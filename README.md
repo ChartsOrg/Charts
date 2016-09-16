@@ -4,12 +4,12 @@
   ![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/danielgindi/Charts.svg)](https://github.com/danielgindi/Charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Build Status](https://travis-ci.org/danielgindi/Charts.svg?branch=master)](https://travis-ci.org/danielgindi/Charts) 
 [![Join the chat at https://gitter.im/danielgindi/Charts](https://badges.gitter.im/danielgindi/Charts.svg)](https://gitter.im/danielgindi/Charts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-## Just a heads up: We've renamed from *ios-charts* to **Charts**.
+## Just a heads up: Charts 3.0 is **not** yet released to CocoaPods, as the version is not finalized yet.
 
-* Xcode 7.3 / Swift 2.2 / 3.0
-* iOS 8.0 / 9.0 (Use as an **Embedded** Framework)
-* tvOS 9.0
-* OSX 10.11
+* Xcode 8.0 / Swift 3.0
+* iOS >= 8.0 (Use as an **Embedded** Framework)
+* tvOS >= 9.0
+* OSX >= 10.11
 
 Okay so there's this beautiful library called [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) by [Philipp Jahoda](https://www.linkedin.com/in/philippjahoda) which has become very popular amongst Android developers, and in the meanwhile there's no decent charting solution for iOS.
 
@@ -23,19 +23,12 @@ In order to correctly compile:
 
 1. Drag the `Charts.xcodeproj` to your project  
 2. Go to your target's settings, hit the "+" under the "Embedded Binaries" section, and select the Charts.framework  
-3. **Temporary workaround**: Xcode 6.3.1 has a bug, where you have to build your project once before actually writing the `@import` line. So hit "Build" now!  
-4. `@import Charts`  
-5.  When using Swift in an ObjC project:
+3. `@import Charts`  
+4.  When using Swift in an ObjC project:
    - You need to import your Bridging Header. Usually it is "*YourProject-Swift.h*", so in ChartsDemo it's "*ChartsDemo-Swift.h*". Do not try to actually include "*ChartsDemo-Swift.h*" in your project :-)
    - Under "Build Options", mark "Embedded Content Contains Swift Code"
-6. When using [Realm.io](https://realm.io/):
+5. When using [Realm.io](https://realm.io/):
    - Note that the Realm framework is not linked with Charts - it is only there for *optional* bindings. Which means that you need to have the framework in your project, and in a compatible version to whatever is compiled with Charts. We will do our best to always compile against the latest version.
-
-
-If you want to compile for iOS 7:
-
-1. Drag the code itself (.swift files) to your project. As sadly, Swift currently does not support compiling Frameworks for iOS 7.
-2. Make sure that the files are added to the Target membership.
 
 ## Troubleshooting
 
