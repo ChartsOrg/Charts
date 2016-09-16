@@ -71,7 +71,7 @@ typedef void (^RLMObjectMigrationBlock)(RLMObject * __nullable oldObject, RLMObj
             to `className`. Instead, treat them as `RLMObject`s and use keyed subscripting to access
             properties.
  */
-- (void)enumerateObjects:(NSString *)className block:(RLMObjectMigrationBlock)block;
+- (void)enumerateObjects:(NSString *)className block:(__attribute__((noescape)) RLMObjectMigrationBlock)block;
 
 /**
  Creates and returns an `RLMObject` instance of type `className` in the Realm being migrated.

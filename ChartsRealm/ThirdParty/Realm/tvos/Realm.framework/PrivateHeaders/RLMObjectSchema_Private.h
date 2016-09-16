@@ -18,9 +18,9 @@
 
 #import <Realm/RLMObjectSchema.h>
 
-NS_ASSUME_NONNULL_BEGIN
+#import <objc/runtime.h>
 
-@class RLMRealm;
+NS_ASSUME_NONNULL_BEGIN
 
 // RLMObjectSchema private
 @interface RLMObjectSchema () {
@@ -42,13 +42,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSArray<RLMProperty *> *computedProperties;
 @property (nonatomic, readonly) NSArray<RLMProperty *> *swiftGenericProperties;
 
-// The Realm retains its object schemas, so they need to not retain the Realm
-@property (nonatomic, unsafe_unretained, nullable) RLMRealm *realm;
 // returns a cached or new schema for a given object class
 + (instancetype)schemaForObjectClass:(Class)objectClass;
-
-- (RLMProperty *)propertyForTableColumn:(size_t)tableCol;
-
 @end
 
 @interface RLMObjectSchema (Dynamic)
