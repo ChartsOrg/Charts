@@ -12,9 +12,9 @@
 import Foundation
 import CoreGraphics
 
-public class BubbleChartView: BarLineChartViewBase, BubbleChartDataProvider
+open class BubbleChartView: BarLineChartViewBase, BubbleChartDataProvider
 {
-    public override func initialize()
+    open override func initialize()
     {
         super.initialize()
         
@@ -23,5 +23,5 @@ public class BubbleChartView: BarLineChartViewBase, BubbleChartDataProvider
     
     // MARK: - BubbleChartDataProbider
     
-    public var bubbleData: BubbleChartData? { return _data as? BubbleChartData }
+    open var bubbleData: BubbleChartData? { return _data as? BubbleChartData }
 }

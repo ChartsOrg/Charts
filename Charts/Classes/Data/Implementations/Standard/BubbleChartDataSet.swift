@@ -13,17 +13,17 @@ import Foundation
 import CoreGraphics
 
 
-public class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubbleChartDataSet
+open class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubbleChartDataSet
 {
     // MARK: - Data functions and accessors
     
     internal var _maxSize = CGFloat(0.0)
     
-    public var maxSize: CGFloat { return _maxSize }
-    public var normalizeSizeEnabled: Bool = true
-    public var isNormalizeSizeEnabled: Bool { return normalizeSizeEnabled }
+    open var maxSize: CGFloat { return _maxSize }
+    open var normalizeSizeEnabled: Bool = true
+    open var isNormalizeSizeEnabled: Bool { return normalizeSizeEnabled }
     
-    public override func calcMinMax(entry e: ChartDataEntry)
+    open override func calcMinMax(entry e: ChartDataEntry)
     {
         guard let e = e as? BubbleChartDataEntry
             else { return }
@@ -41,11 +41,11 @@ public class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubble
     // MARK: - Styling functions and accessors
     
     /// Sets/gets the width of the circle that surrounds the bubble when highlighted
-    public var highlightCircleWidth: CGFloat = 2.5
+    open var highlightCircleWidth: CGFloat = 2.5
     
     // MARK: - NSCopying
     
-    public override func copyWithZone(zone: NSZone) -> AnyObject
+    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! BubbleChartDataSet
         copy._xMin = _xMin

@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 @objc(BarLineScatterCandleBubbleChartRenderer)
-public class BarLineScatterCandleBubbleRenderer: DataRenderer
+open class BarLineScatterCandleBubbleRenderer: DataRenderer
 {
     internal var _xBounds = XBounds() // Reusable XBounds object
     
@@ -53,16 +53,16 @@ public class BarLineScatterCandleBubbleRenderer: DataRenderer
     }
 
     /// Class representing the bounds of the current viewport in terms of indices in the values array of a DataSet.
-    public class XBounds
+    open class XBounds
     {
         /// minimum visible entry index
-        public var min: Int = 0
+        open var min: Int = 0
 
         /// maximum visible entry index
-        public var max: Int = 0
+        open var max: Int = 0
 
         /// range of visible entry indices
-        public var range: Int = 0
+        open var range: Int = 0
 
         public init()
         {
@@ -77,17 +77,17 @@ public class BarLineScatterCandleBubbleRenderer: DataRenderer
         }
         
         /// Calculates the minimum and maximum x values as well as the range between them.
-        public func set(chart chart: BarLineScatterCandleBubbleChartDataProvider,
-                              dataSet: IBarLineScatterCandleBubbleChartDataSet,
-                              animator: Animator?)
+        open func set(chart: BarLineScatterCandleBubbleChartDataProvider,
+                      dataSet: IBarLineScatterCandleBubbleChartDataSet,
+                      animator: Animator?)
         {
             let phaseX = Swift.max(0.0, Swift.min(1.0, animator?.phaseX ?? 1.0))
             
             let low = chart.lowestVisibleX
             let high = chart.highestVisibleX
             
-            let entryFrom = dataSet.entryForXValue(low, rounding: ChartDataSetRounding.Down)
-            let entryTo = dataSet.entryForXValue(high, rounding: ChartDataSetRounding.Up)
+            let entryFrom = dataSet.entryForXValue(low, rounding: ChartDataSetRounding.down)
+            let entryTo = dataSet.entryForXValue(high, rounding: ChartDataSetRounding.up)
             
             self.min = entryFrom == nil ? 0 : dataSet.entryIndex(entry: entryFrom!)
             self.max = entryTo == nil ? 0 : dataSet.entryIndex(entry: entryTo!)

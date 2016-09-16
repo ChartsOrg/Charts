@@ -12,13 +12,13 @@
 import Foundation
 
 @objc(ChartDefaultAxisValueFormatter)
-public class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
+open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
 {
     
-    public var hasAutoDecimals: Bool = false
+    open var hasAutoDecimals: Bool = false
     
-    private var _formatter: NSNumberFormatter?
-    public var formatter: NSNumberFormatter?
+    fileprivate var _formatter: NumberFormatter?
+    open var formatter: NumberFormatter?
     {
         get { return _formatter }
         set
@@ -28,8 +28,8 @@ public class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
         }
     }
     
-    private var _decimals: Int?
-    public var decimals: Int?
+    fileprivate var _decimals: Int?
+    open var decimals: Int?
     {
         get { return _decimals }
         set
@@ -49,11 +49,11 @@ public class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
     {
         super.init()
         
-        self.formatter = NSNumberFormatter()
+        self.formatter = NumberFormatter()
         hasAutoDecimals = true
     }
     
-    public init(formatter: NSNumberFormatter)
+    public init(formatter: NumberFormatter)
     {
         super.init()
         
@@ -64,16 +64,16 @@ public class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
     {
         super.init()
         
-        self.formatter = NSNumberFormatter()
+        self.formatter = NumberFormatter()
         self.formatter?.usesGroupingSeparator = true
         self.decimals = decimals
         hasAutoDecimals = true
     }
     
-    public func stringForValue(value: Double,
+    open func stringForValue(_ value: Double,
                                axis: AxisBase?) -> String
     {
-        return formatter?.stringFromNumber(value) ?? ""
+        return formatter?.string(from: NSNumber(floatLiteral: value)) ?? ""
     }
     
 }

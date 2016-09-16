@@ -14,13 +14,13 @@ import CoreGraphics
 
 /// Transformer class that contains all matrices and is responsible for transforming values into pixels on the screen and backwards.
 @objc(ChartTransformer)
-public class Transformer: NSObject
+open class Transformer: NSObject
 {
     /// matrix to map the values to the screen pixels
-    internal var _matrixValueToPx = CGAffineTransformIdentity
+    internal var _matrixValueToPx = CGAffineTransform.identity
 
     /// matrix for handling the different offsets of the chart
-    internal var _matrixOffset = CGAffineTransformIdentity
+    internal var _matrixOffset = CGAffineTransform.identity
 
     internal var _viewPortHandler: ViewPortHandler
 
@@ -30,7 +30,7 @@ public class Transformer: NSObject
     }
 
     /// Prepares the matrix that transforms values to pixels. Calculates the scale factors from the charts size and offsets.
-    public func prepareMatrixValuePx(chartXMin chartXMin: Double, deltaX: CGFloat, deltaY: CGFloat, chartYMin: Double)
+    open func prepareMatrixValuePx(chartXMin: Double, deltaX: CGFloat, deltaY: CGFloat, chartYMin: Double)
     {
         var scaleX = (_viewPortHandler.contentWidth / deltaX)
         var scaleY = (_viewPortHandler.contentHeight / deltaY)
@@ -45,54 +45,54 @@ public class Transformer: NSObject
         }
 
         // setup all matrices
-        _matrixValueToPx = CGAffineTransformIdentity
-        _matrixValueToPx = CGAffineTransformScale(_matrixValueToPx, scaleX, -scaleY)
-        _matrixValueToPx = CGAffineTransformTranslate(_matrixValueToPx, CGFloat(-chartXMin), CGFloat(-chartYMin))
+        _matrixValueToPx = CGAffineTransform.identity
+        _matrixValueToPx = _matrixValueToPx.scaledBy(x: scaleX, y: -scaleY)
+        _matrixValueToPx = _matrixValueToPx.translatedBy(x: CGFloat(-chartXMin), y: CGFloat(-chartYMin))
     }
 
     /// Prepares the matrix that contains all offsets.
-    public func prepareMatrixOffset(inverted: Bool)
+    open func prepareMatrixOffset(inverted: Bool)
     {
-        if (!inverted)
+        if !inverted
         {
-            _matrixOffset = CGAffineTransformMakeTranslation(_viewPortHandler.offsetLeft, _viewPortHandler.chartHeight - _viewPortHandler.offsetBottom)
+            _matrixOffset = CGAffineTransform(translationX: _viewPortHandler.offsetLeft, y: _viewPortHandler.chartHeight - _viewPortHandler.offsetBottom)
         }
         else
         {
-            _matrixOffset = CGAffineTransformMakeScale(1.0, -1.0)
-            _matrixOffset = CGAffineTransformTranslate(_matrixOffset, _viewPortHandler.offsetLeft, -_viewPortHandler.offsetTop)
+            _matrixOffset = CGAffineTransform(scaleX: 1.0, y: -1.0)
+            _matrixOffset = _matrixOffset.translatedBy(x: _viewPortHandler.offsetLeft, y: -_viewPortHandler.offsetTop)
         }
     }
 
     /// Transform an array of points with all matrices.
     // VERY IMPORTANT: Keep matrix order "value-touch-offset" when transforming.
-    public func pointValuesToPixel(inout pts: [CGPoint])
+    open func pointValuesToPixel(_ points: inout [CGPoint])
     {
         let trans = valueToPixelMatrix
-        for i in 0 ..< pts.count
+        for i in 0 ..< points.count
         {
-            pts[i] = CGPointApplyAffineTransform(pts[i], trans)
+            points[i] = points[i].applying(trans)
         }
     }
     
-    public func pointValueToPixel(inout point: CGPoint)
+    open func pointValueToPixel(_ point: inout CGPoint)
     {
-        point = CGPointApplyAffineTransform(point, valueToPixelMatrix)
+        point = point.applying(valueToPixelMatrix)
     }
     
-    public func pixelForValues(x x: Double, y: Double) -> CGPoint
+    open func pixelForValues(x: Double, y: Double) -> CGPoint
     {
-        return CGPointApplyAffineTransform(CGPoint(x: x, y: y), valueToPixelMatrix)
+        return CGPoint(x: x, y: y).applying(valueToPixelMatrix)
     }
     
     /// Transform a rectangle with all matrices.
-    public func rectValueToPixel(inout r: CGRect)
+    open func rectValueToPixel(_ r: inout CGRect)
     {
-        r = CGRectApplyAffineTransform(r, valueToPixelMatrix)
+        r = r.applying(valueToPixelMatrix)
     }
     
     /// Transform a rectangle with all matrices with potential animation phases.
-    public func rectValueToPixel(inout r: CGRect, phaseY: Double)
+    open func rectValueToPixel(_ r: inout CGRect, phaseY: Double)
     {
         // multiply the height of the rect with the phase
         var bottom = r.origin.y + r.size.height
@@ -101,17 +101,17 @@ public class Transformer: NSObject
         r.size.height = bottom - top
         r.origin.y = top
 
-        r = CGRectApplyAffineTransform(r, valueToPixelMatrix)
+        r = r.applying(valueToPixelMatrix)
     }
     
     /// Transform a rectangle with all matrices.
-    public func rectValueToPixelHorizontal(inout r: CGRect)
+    open func rectValueToPixelHorizontal(_ r: inout CGRect)
     {
-        r = CGRectApplyAffineTransform(r, valueToPixelMatrix)
+        r = r.applying(valueToPixelMatrix)
     }
     
     /// Transform a rectangle with all matrices with potential animation phases.
-    public func rectValueToPixelHorizontal(inout r: CGRect, phaseY: Double)
+    open func rectValueToPixelHorizontal(_ r: inout CGRect, phaseY: Double)
     {
         // multiply the height of the rect with the phase
         let left = r.origin.x * CGFloat(phaseY)
@@ -119,67 +119,63 @@ public class Transformer: NSObject
         r.size.width = right - left
         r.origin.x = left
         
-        r = CGRectApplyAffineTransform(r, valueToPixelMatrix)
+        r = r.applying(valueToPixelMatrix)
     }
 
     /// transforms multiple rects with all matrices
-    public func rectValuesToPixel(inout rects: [CGRect])
+    open func rectValuesToPixel(_ rects: inout [CGRect])
     {
         let trans = valueToPixelMatrix
         
         for i in 0 ..< rects.count
         {
-            rects[i] = CGRectApplyAffineTransform(rects[i], trans)
+            rects[i] = rects[i].applying(trans)
         }
     }
     
     /// Transforms the given array of touch points (pixels) into values on the chart.
-    public func pixelsToValues(inout pixels: [CGPoint])
+    open func pixelsToValues(_ pixels: inout [CGPoint])
     {
         let trans = pixelToValueMatrix
         
         for i in 0 ..< pixels.count
         {
-            pixels[i] = CGPointApplyAffineTransform(pixels[i], trans)
+            pixels[i] = pixels[i].applying(trans)
         }
     }
     
     /// Transforms the given touch point (pixels) into a value on the chart.
-    public func pixelToValues(inout pixel: CGPoint)
+    open func pixelToValues(_ pixel: inout CGPoint)
     {
-        pixel = CGPointApplyAffineTransform(pixel, pixelToValueMatrix)
+        pixel = pixel.applying(pixelToValueMatrix)
     }
     
     /// - returns: The x and y values in the chart at the given touch point
     /// (encapsulated in a CGPoint). This method transforms pixel coordinates to
     /// coordinates / values in the chart.
-    public func valueForTouchPoint(point: CGPoint) -> CGPoint
+    open func valueForTouchPoint(_ point: CGPoint) -> CGPoint
     {
-        return CGPointApplyAffineTransform(point, pixelToValueMatrix)
+        return point.applying(pixelToValueMatrix)
     }
     
     /// - returns: The x and y values in the chart at the given touch point
     /// (x/y). This method transforms pixel coordinates to
     /// coordinates / values in the chart.
-    public func valueForTouchPoint(x x: CGFloat, y: CGFloat) -> CGPoint
+    open func valueForTouchPoint(x: CGFloat, y: CGFloat) -> CGPoint
     {
-        return CGPointApplyAffineTransform(CGPoint(x: x, y: y), pixelToValueMatrix)
+        return CGPoint(x: x, y: y).applying(pixelToValueMatrix)
     }
     
-    public var valueToPixelMatrix: CGAffineTransform
+    open var valueToPixelMatrix: CGAffineTransform
     {
         return
-            CGAffineTransformConcat(
-                CGAffineTransformConcat(
-                    _matrixValueToPx,
-                    _viewPortHandler.touchMatrix
-                ),
-                _matrixOffset
+            _matrixValueToPx.concatenating(_viewPortHandler.touchMatrix
+                ).concatenating(_matrixOffset
         )
     }
     
-    public var pixelToValueMatrix: CGAffineTransform
+    open var pixelToValueMatrix: CGAffineTransform
     {
-        return CGAffineTransformInvert(valueToPixelMatrix)
+        return valueToPixelMatrix.inverted()
     }
 }

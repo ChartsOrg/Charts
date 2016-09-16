@@ -11,19 +11,19 @@
 
 import Foundation
 
-public class BarChartDataEntry: ChartDataEntry
+open class BarChartDataEntry: ChartDataEntry
 {
     /// the values the stacked barchart holds
-    private var _yVals: [Double]?
+    fileprivate var _yVals: [Double]?
     
     /// the ranges for the individual stack values - automatically calculated
-    private var _ranges: [Range]?
+    fileprivate var _ranges: [Range]?
     
     /// the sum of all negative values this entry (if stacked) contains
-    private var _negativeSum: Double = 0.0
+    fileprivate var _negativeSum: Double = 0.0
     
     /// the sum of all positive values this entry (if stacked) contains
-    private var _positiveSum: Double = 0.0
+    fileprivate var _positiveSum: Double = 0.0
     
     public required init()
     {
@@ -33,7 +33,7 @@ public class BarChartDataEntry: ChartDataEntry
     /// Constructor for stacked bar entries.
     public init(x: Double, yValues: [Double])
     {
-        super.init(x: x, y: BarChartDataEntry.calcSum(yValues))
+        super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues))
         self._yVals = yValues
         calcRanges()
         calcPosNegSum()
@@ -48,7 +48,7 @@ public class BarChartDataEntry: ChartDataEntry
     /// Constructor for stacked bar entries.
     public init(x: Double, yValues: [Double], label: String)
     {
-        super.init(x: x, y: BarChartDataEntry.calcSum(yValues), data: label)
+        super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues), data: label as AnyObject?)
         self._yVals = yValues
         calcRanges()
         calcPosNegSum()
@@ -60,9 +60,9 @@ public class BarChartDataEntry: ChartDataEntry
         super.init(x: x, y: y, data: data)
     }
     
-    public func getBelowSum(stackIndex :Int) -> Double
+    open func sumBelow(stackIndex :Int) -> Double
     {
-        if (_yVals == nil)
+        if _yVals == nil
         {
             return 0
         }
@@ -80,18 +80,18 @@ public class BarChartDataEntry: ChartDataEntry
     }
     
     /// - returns: The sum of all negative values this entry (if stacked) contains. (this is a positive number)
-    public var negativeSum: Double
+    open var negativeSum: Double
     {
         return _negativeSum
     }
     
     /// - returns: The sum of all positive values this entry (if stacked) contains.
-    public var positiveSum: Double
+    open var positiveSum: Double
     {
         return _positiveSum
     }
 
-    public func calcPosNegSum()
+    open func calcPosNegSum()
     {
         if _yVals == nil
         {
@@ -122,7 +122,7 @@ public class BarChartDataEntry: ChartDataEntry
     /// Splits up the stack-values of the given bar-entry into Range objects.
     /// - parameter entry:
     /// - returns:
-    public func calcRanges()
+    open func calcRanges()
     {
         let values = yValues
         if values?.isEmpty != false
@@ -164,15 +164,15 @@ public class BarChartDataEntry: ChartDataEntry
     // MARK: Accessors
     
     /// the values the stacked barchart holds
-    public var isStacked: Bool { return _yVals != nil }
+    open var isStacked: Bool { return _yVals != nil }
     
     /// the values the stacked barchart holds
-    public var yValues: [Double]?
+    open var yValues: [Double]?
     {
         get { return self._yVals }
         set
         {
-            self.y = BarChartDataEntry.calcSum(newValue)
+            self.y = BarChartDataEntry.calcSum(values: newValue)
             self._yVals = newValue
             calcRanges()
             calcPosNegSum()
@@ -180,14 +180,14 @@ public class BarChartDataEntry: ChartDataEntry
     }
     
     /// - returns: The ranges of the individual stack-entries. Will return null if this entry is not stacked.
-    public var ranges: [Range]?
+    open var ranges: [Range]?
     {
         return _ranges
     }
     
     // MARK: NSCopying
     
-    public override func copyWithZone(zone: NSZone) -> AnyObject
+    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! BarChartDataEntry
         copy._yVals = _yVals
@@ -200,16 +200,14 @@ public class BarChartDataEntry: ChartDataEntry
     ///
     /// - parameter vals:
     /// - returns:
-    private static func calcSum(vals: [Double]?) -> Double
+    fileprivate static func calcSum(values: [Double]?) -> Double
     {
-        if vals == nil
-        {
-            return 0.0
-        }
+        guard let values = values
+            else { return 0.0 }
         
         var sum = 0.0
         
-        for f in vals!
+        for f in values
         {
             sum += f
         }

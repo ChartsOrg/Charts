@@ -17,26 +17,26 @@ import CoreGraphics
 #endif
 
 /// Base class of PieChartView and RadarChartView.
-public class PieRadarChartViewBase: ChartViewBase
+open class PieRadarChartViewBase: ChartViewBase
 {
     /// holds the normalized version of the current rotation angle of the chart
-    private var _rotationAngle = CGFloat(270.0)
+    fileprivate var _rotationAngle = CGFloat(270.0)
     
     /// holds the raw version of the current rotation angle of the chart
-    private var _rawRotationAngle = CGFloat(270.0)
+    fileprivate var _rawRotationAngle = CGFloat(270.0)
     
     /// flag that indicates if rotation is enabled or not
-    public var rotationEnabled = true
+    open var rotationEnabled = true
     
     /// Sets the minimum offset (padding) around the chart, defaults to 0.0
-    public var minOffset = CGFloat(0.0)
+    open var minOffset = CGFloat(0.0)
 
     /// iOS && OSX only: Enabled multi-touch rotation using two fingers.
-    private var _rotationWithTwoFingers = false
+    fileprivate var _rotationWithTwoFingers = false
     
-    private var _tapGestureRecognizer: NSUITapGestureRecognizer!
+    fileprivate var _tapGestureRecognizer: NSUITapGestureRecognizer!
     #if !os(tvOS)
-    private var _rotationGestureRecognizer: NSUIRotationGestureRecognizer!
+    fileprivate var _rotationGestureRecognizer: NSUIRotationGestureRecognizer!
     #endif
     
     public override init(frame: CGRect)
@@ -65,7 +65,7 @@ public class PieRadarChartViewBase: ChartViewBase
         #if !os(tvOS)
             _rotationGestureRecognizer = NSUIRotationGestureRecognizer(target: self, action: #selector(rotationGestureRecognized(_:)))
             self.addGestureRecognizer(_rotationGestureRecognizer)
-            _rotationGestureRecognizer.enabled = rotationWithTwoFingers
+            _rotationGestureRecognizer.isEnabled = rotationWithTwoFingers
         #endif
     }
     
@@ -74,7 +74,7 @@ public class PieRadarChartViewBase: ChartViewBase
         /*_xAxis.axisRange = Double((_data?.xVals.count ?? 0) - 1)*/
     }
     
-    public override var maxVisibleCount: Int
+    open override var maxVisibleCount: Int
     {
         get
         {
@@ -82,13 +82,13 @@ public class PieRadarChartViewBase: ChartViewBase
         }
     }
     
-    public override func notifyDataSetChanged()
+    open override func notifyDataSetChanged()
     {
         calcMinMax()
         
-        if let data = _data where _legend !== nil
+        if let data = _data , _legend !== nil
         {
-            _legendRenderer.computeLegend(data)
+            _legendRenderer.computeLegend(data: data)
         }
         
         calculateOffsets()
@@ -109,14 +109,14 @@ public class PieRadarChartViewBase: ChartViewBase
             
             switch _legend.orientation
             {
-            case .Vertical:
+            case .vertical:
                 
                 var xLegendOffset: CGFloat = 0.0
                 
-                if _legend.horizontalAlignment == .Left
-                    || _legend.horizontalAlignment == .Right
+                if _legend.horizontalAlignment == .left
+                    || _legend.horizontalAlignment == .right
                 {
-                    if _legend.verticalAlignment == .Center
+                    if _legend.verticalAlignment == .center
                     {
                         // this is the space between the legend and the chart
                         let spacing = CGFloat(13.0)
@@ -133,7 +133,7 @@ public class PieRadarChartViewBase: ChartViewBase
                         
                         let c = self.midPoint
                         
-                        let bottomX = _legend.horizontalAlignment == .Right
+                        let bottomX = _legend.horizontalAlignment == .right
                             ? self.bounds.width - legendWidth + 15.0
                             : legendWidth - 15.0
                         let bottomY = legendHeight + 15
@@ -145,12 +145,12 @@ public class PieRadarChartViewBase: ChartViewBase
                         let distReference = distanceToCenter(x: reference.x, y: reference.y)
                         let minOffset = CGFloat(5.0)
                         
-                        if (bottomY >= c.y
-                            && self.bounds.height - legendWidth > self.bounds.width)
+                        if bottomY >= c.y
+                            && self.bounds.height - legendWidth > self.bounds.width
                         {
                             xLegendOffset = legendWidth
                         }
-                        else if (distLegend < distReference)
+                        else if distLegend < distReference
                         {
                             let diff = distReference - distLegend
                             xLegendOffset = minOffset + diff
@@ -160,33 +160,33 @@ public class PieRadarChartViewBase: ChartViewBase
                 
                 switch _legend.horizontalAlignment
                 {
-                case .Left:
+                case .left:
                     legendLeft = xLegendOffset
                     
-                case .Right:
+                case .right:
                     legendRight = xLegendOffset
                     
-                case .Center:
+                case .center:
                     
                     switch _legend.verticalAlignment
                     {
-                    case .Top:
+                    case .top:
                         legendTop = min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent)
                         
-                    case .Bottom:
+                    case .bottom:
                         legendBottom = min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent)
                         
                     default:
-                        break;
+                        break
                     }
                 }
             
-            case .Horizontal:
+            case .horizontal:
                 
                 var yLegendOffset: CGFloat = 0.0
                 
-                if _legend.verticalAlignment == .Top
-                    || _legend.verticalAlignment == .Bottom
+                if _legend.verticalAlignment == .top
+                    || _legend.verticalAlignment == .bottom
                 {
                     // It's possible that we do not need this offset anymore as it
                     //   is available through the extraOffsets, but changing it can mean
@@ -200,16 +200,16 @@ public class PieRadarChartViewBase: ChartViewBase
                 
                 switch _legend.verticalAlignment
                 {
-                case .Top:
+                case .top:
                     
                     legendTop = yLegendOffset
                     
-                case .Bottom:
+                case .bottom:
                     
                     legendBottom = yLegendOffset
                     
                 default:
-                    break;
+                    break
                 }
             }
 
@@ -226,7 +226,7 @@ public class PieRadarChartViewBase: ChartViewBase
         
         var minOffset = self.minOffset
         
-        if (self.isKindOfClass(RadarChartView))
+        if (self.isKind(of: RadarChartView.self))
         {
             let x = self.xAxis
             
@@ -246,7 +246,7 @@ public class PieRadarChartViewBase: ChartViewBase
 
     /// - returns: The angle relative to the chart center for the given point on the chart in degrees.
     /// The angle is always between 0 and 360°, 0° is NORTH, 90° is EAST, ...
-    public func angleForPoint(x x: CGFloat, y: CGFloat) -> CGFloat
+    open func angleForPoint(x: CGFloat, y: CGFloat) -> CGFloat
     {
         let c = centerOffsets
         
@@ -257,7 +257,7 @@ public class PieRadarChartViewBase: ChartViewBase
 
         var angle = r * ChartUtils.Math.RAD2DEG
 
-        if (x > c.x)
+        if x > c.x
         {
             angle = 360.0 - angle
         }
@@ -266,7 +266,7 @@ public class PieRadarChartViewBase: ChartViewBase
         angle = angle + 90.0
 
         // neutralize overflow
-        if (angle > 360.0)
+        if angle > 360.0
         {
             angle = angle - 360.0
         }
@@ -276,14 +276,14 @@ public class PieRadarChartViewBase: ChartViewBase
     
     /// Calculates the position around a center point, depending on the distance
     /// from the center, and the angle of the position around the center.
-    public func getPosition(center center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
+    open func getPosition(center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
     {
         return CGPoint(x: center.x + dist * cos(angle * ChartUtils.Math.FDEG2RAD),
                 y: center.y + dist * sin(angle * ChartUtils.Math.FDEG2RAD))
     }
 
     /// - returns: The distance of a certain point on the chart to the center of the chart.
-    public func distanceToCenter(x x: CGFloat, y: CGFloat) -> CGFloat
+    open func distanceToCenter(x: CGFloat, y: CGFloat) -> CGFloat
     {
         let c = self.centerOffsets
 
@@ -292,7 +292,7 @@ public class PieRadarChartViewBase: ChartViewBase
         var xDist = CGFloat(0.0)
         var yDist = CGFloat(0.0)
 
-        if (x > c.x)
+        if x > c.x
         {
             xDist = x - c.x
         }
@@ -301,7 +301,7 @@ public class PieRadarChartViewBase: ChartViewBase
             xDist = c.x - x
         }
 
-        if (y > c.y)
+        if y > c.y
         {
             yDist = y - c.y
         }
@@ -318,7 +318,7 @@ public class PieRadarChartViewBase: ChartViewBase
 
     /// - returns: The xIndex for the given angle around the center of the chart.
     /// -1 if not found / outofbounds.
-    public func indexForAngle(angle: CGFloat) -> Int
+    open func indexForAngle(_ angle: CGFloat) -> Int
     {
         fatalError("indexForAngle() cannot be called on PieRadarChartViewBase")
     }
@@ -327,7 +327,7 @@ public class PieRadarChartViewBase: ChartViewBase
     ///
     /// **default**: 270 --> top (NORTH)
     /// - returns: Will always return a normalized value, which will be between 0.0 < 360.0
-    public var rotationAngle: CGFloat
+    open var rotationAngle: CGFloat
     {
         get
         {
@@ -343,13 +343,13 @@ public class PieRadarChartViewBase: ChartViewBase
     
     /// gets the raw version of the current rotation angle of the pie chart the returned value could be any value, negative or positive, outside of the 360 degrees. 
     /// this is used when working with rotation direction, mainly by gestures and animations.
-    public var rawRotationAngle: CGFloat
+    open var rawRotationAngle: CGFloat
     {
         return _rawRotationAngle
     }
 
     /// - returns: The diameter of the pie- or radar-chart
-    public var diameter: CGFloat
+    open var diameter: CGFloat
     {
         var content = _viewPortHandler.contentRect
         content.origin.x += extraLeftOffset
@@ -360,7 +360,7 @@ public class PieRadarChartViewBase: ChartViewBase
     }
 
     /// - returns: The radius of the chart in pixels.
-    public var radius: CGFloat
+    open var radius: CGFloat
     {
         fatalError("radius cannot be called on PieRadarChartViewBase")
     }
@@ -378,17 +378,17 @@ public class PieRadarChartViewBase: ChartViewBase
         fatalError("requiredBaseOffset cannot be called on PieRadarChartViewBase")
     }
     
-    public override var chartYMax: Double
+    open override var chartYMax: Double
     {
         return 0.0
     }
     
-    public override var chartYMin: Double
+    open override var chartYMin: Double
     {
         return 0.0
     }
     
-    public var isRotationEnabled: Bool { return rotationEnabled; }
+    open var isRotationEnabled: Bool { return rotationEnabled }
     
     /// flag that indicates if rotation is done with two fingers or one.
     /// when the chart is inside a scrollview, you need a two-finger rotation because a one-finger rotation eats up all touch events.
@@ -397,7 +397,7 @@ public class PieRadarChartViewBase: ChartViewBase
     /// On OSX this will keep two-finger multitouch rotation, and one-pointer mouse rotation.
     /// 
     /// **default**: false
-    public var rotationWithTwoFingers: Bool
+    open var rotationWithTwoFingers: Bool
     {
         get
         {
@@ -407,7 +407,7 @@ public class PieRadarChartViewBase: ChartViewBase
         {
             _rotationWithTwoFingers = newValue
             #if !os(tvOS)
-                _rotationGestureRecognizer.enabled = _rotationWithTwoFingers
+                _rotationGestureRecognizer.isEnabled = _rotationWithTwoFingers
             #endif
         }
     }
@@ -419,19 +419,19 @@ public class PieRadarChartViewBase: ChartViewBase
     /// On OSX this will keep two-finger multitouch rotation, and one-pointer mouse rotation.
     ///
     /// **default**: false
-    public var isRotationWithTwoFingers: Bool
+    open var isRotationWithTwoFingers: Bool
     {
         return _rotationWithTwoFingers
     }
     
     // MARK: - Animation
     
-    private var _spinAnimator: Animator!
+    fileprivate var _spinAnimator: Animator!
     
     /// Applys a spin animation to the Chart.
-    public func spin(duration duration: NSTimeInterval, fromAngle: CGFloat, toAngle: CGFloat, easing: ChartEasingFunctionBlock?)
+    open func spin(duration: TimeInterval, fromAngle: CGFloat, toAngle: CGFloat, easing: ChartEasingFunctionBlock?)
     {
-        if (_spinAnimator != nil)
+        if _spinAnimator != nil
         {
             _spinAnimator.stop()
         }
@@ -440,24 +440,24 @@ public class PieRadarChartViewBase: ChartViewBase
         _spinAnimator.updateBlock = {
             self.rotationAngle = (toAngle - fromAngle) * CGFloat(self._spinAnimator.phaseX) + fromAngle
         }
-        _spinAnimator.stopBlock = { self._spinAnimator = nil; }
+        _spinAnimator.stopBlock = { self._spinAnimator = nil }
         
         _spinAnimator.animate(xAxisDuration: duration, easing: easing)
     }
     
-    public func spin(duration duration: NSTimeInterval, fromAngle: CGFloat, toAngle: CGFloat, easingOption: ChartEasingOption)
+    open func spin(duration: TimeInterval, fromAngle: CGFloat, toAngle: CGFloat, easingOption: ChartEasingOption)
     {
         spin(duration: duration, fromAngle: fromAngle, toAngle: toAngle, easing: easingFunctionFromOption(easingOption))
     }
     
-    public func spin(duration duration: NSTimeInterval, fromAngle: CGFloat, toAngle: CGFloat)
+    open func spin(duration: TimeInterval, fromAngle: CGFloat, toAngle: CGFloat)
     {
         spin(duration: duration, fromAngle: fromAngle, toAngle: toAngle, easing: nil)
     }
     
-    public func stopSpinAnimation()
+    open func stopSpinAnimation()
     {
-        if (_spinAnimator != nil)
+        if _spinAnimator != nil
         {
             _spinAnimator.stop()
         }
@@ -465,23 +465,23 @@ public class PieRadarChartViewBase: ChartViewBase
     
     // MARK: - Gestures
     
-    private var _rotationGestureStartPoint: CGPoint!
-    private var _isRotating = false
-    private var _startAngle = CGFloat(0.0)
+    fileprivate var _rotationGestureStartPoint: CGPoint!
+    fileprivate var _isRotating = false
+    fileprivate var _startAngle = CGFloat(0.0)
     
-    private struct AngularVelocitySample
+    fileprivate struct AngularVelocitySample
     {
-        var time: NSTimeInterval
+        var time: TimeInterval
         var angle: CGFloat
     }
     
-    private var _velocitySamples = [AngularVelocitySample]()
+    fileprivate var _velocitySamples = [AngularVelocitySample]()
     
-    private var _decelerationLastTime: NSTimeInterval = 0.0
-    private var _decelerationDisplayLink: NSUIDisplayLink!
-    private var _decelerationAngularVelocity: CGFloat = 0.0
+    fileprivate var _decelerationLastTime: TimeInterval = 0.0
+    fileprivate var _decelerationDisplayLink: NSUIDisplayLink!
+    fileprivate var _decelerationAngularVelocity: CGFloat = 0.0
     
-    internal final func processRotationGestureBegan(location location: CGPoint)
+    internal final func processRotationGestureBegan(location: CGPoint)
     {
         self.resetVelocity()
         
@@ -495,7 +495,7 @@ public class PieRadarChartViewBase: ChartViewBase
         _rotationGestureStartPoint = location
     }
     
-    internal final func processRotationGestureMoved(location location: CGPoint)
+    internal final func processRotationGestureMoved(location: CGPoint)
     {
         if isDragDecelerationEnabled
         {
@@ -518,7 +518,7 @@ public class PieRadarChartViewBase: ChartViewBase
         }
     }
     
-    internal final func processRotationGestureEnded(location location: CGPoint)
+    internal final func processRotationGestureEnded(location: CGPoint)
     {
         if isDragDecelerationEnabled
         {
@@ -532,83 +532,83 @@ public class PieRadarChartViewBase: ChartViewBase
             {
                 _decelerationLastTime = CACurrentMediaTime()
                 _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(PieRadarChartViewBase.decelerationLoop))
-                _decelerationDisplayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
+                _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
             }
         }
     }
     
     internal final func processRotationGestureCancelled()
     {
-        if (_isRotating)
+        if _isRotating
         {
             _isRotating = false
         }
     }
     
     #if !os(OSX)
-    public override func nsuiTouchesBegan(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    open override func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
     {
         // if rotation by touch is enabled
-        if (rotationEnabled)
+        if rotationEnabled
         {
             stopDeceleration()
             
-            if (!rotationWithTwoFingers)
+            if !rotationWithTwoFingers
             {
                 let touch = touches.first as NSUITouch!
                 
-                let touchLocation = touch.locationInView(self)
+                let touchLocation = touch?.location(in: self)
                 
-                processRotationGestureBegan(location: touchLocation)
+                processRotationGestureBegan(location: touchLocation!)
             }
         }
         
-        if (!_isRotating)
+        if !_isRotating
         {
             super.nsuiTouchesBegan(touches, withEvent: event)
         }
     }
     
-    public override func nsuiTouchesMoved(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    open override func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
     {
-        if (rotationEnabled && !rotationWithTwoFingers)
+        if rotationEnabled && !rotationWithTwoFingers
         {
             let touch = touches.first as NSUITouch!
             
-            let touchLocation = touch.locationInView(self)
+            let touchLocation = touch?.location(in: self)
             
-            processRotationGestureMoved(location: touchLocation)
+            processRotationGestureMoved(location: touchLocation!)
         }
         
-        if (!_isRotating)
+        if !_isRotating
         {
             super.nsuiTouchesMoved(touches, withEvent: event)
         }
     }
     
-    public override func nsuiTouchesEnded(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    open override func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
     {
-        if (!_isRotating)
+        if !_isRotating
         {
             super.nsuiTouchesEnded(touches, withEvent: event)
         }
         
-        if (rotationEnabled && !rotationWithTwoFingers)
+        if rotationEnabled && !rotationWithTwoFingers
         {
             let touch = touches.first as NSUITouch!
             
-            let touchLocation = touch.locationInView(self)
+            let touchLocation = touch?.location(in: self)
             
-            processRotationGestureEnded(location: touchLocation)
+            processRotationGestureEnded(location: touchLocation!)
         }
         
-        if (_isRotating)
+        if _isRotating
         {
             _isRotating = false
         }
     }
     
-    public override func nsuiTouchesCancelled(touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
+    open override func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
     {
         super.nsuiTouchesCancelled(touches, withEvent: event)
         
@@ -617,49 +617,49 @@ public class PieRadarChartViewBase: ChartViewBase
     #endif
     
     #if os(OSX)
-    public override func mouseDown(theEvent: NSEvent)
+    open override func mouseDown(with theEvent: NSEvent)
     {
         // if rotation by touch is enabled
         if rotationEnabled
         {
             stopDeceleration()
         
-            let location = self.convertPoint(theEvent.locationInWindow, fromView: nil)
+            let location = self.convert(theEvent.locationInWindow, from: nil)
             
             processRotationGestureBegan(location: location)
         }
         
         if !_isRotating
         {
-            super.mouseDown(theEvent)
+            super.mouseDown(with: theEvent)
         }
     }
     
-    public override func mouseDragged(theEvent: NSEvent)
+    open override func mouseDragged(with theEvent: NSEvent)
     {
         if rotationEnabled
         {
-            let location = self.convertPoint(theEvent.locationInWindow, fromView: nil)
+            let location = self.convert(theEvent.locationInWindow, from: nil)
             
             processRotationGestureMoved(location: location)
         }
         
         if !_isRotating
         {
-            super.mouseDragged(theEvent)
+            super.mouseDragged(with: theEvent)
         }
     }
     
-    public override func mouseUp(theEvent: NSEvent)
+    open override func mouseUp(with theEvent: NSEvent)
     {
         if !_isRotating
         {
-            super.mouseUp(theEvent)
+            super.mouseUp(with: theEvent)
         }
         
         if rotationEnabled
         {
-            let location = self.convertPoint(theEvent.locationInWindow, fromView: nil)
+            let location = self.convert(theEvent.locationInWindow, from: nil)
             
             processRotationGestureEnded(location: location)
         }
@@ -671,12 +671,12 @@ public class PieRadarChartViewBase: ChartViewBase
     }
     #endif
     
-    private func resetVelocity()
+    fileprivate func resetVelocity()
     {
-        _velocitySamples.removeAll(keepCapacity: false)
+        _velocitySamples.removeAll(keepingCapacity: false)
     }
     
-    private func sampleVelocity(touchLocation touchLocation: CGPoint)
+    fileprivate func sampleVelocity(touchLocation: CGPoint)
     {
         let currentTime = CACurrentMediaTime()
         
@@ -686,9 +686,9 @@ public class PieRadarChartViewBase: ChartViewBase
         var i = 0, count = _velocitySamples.count
         while (i < count - 2)
         {
-            if (currentTime - _velocitySamples[i].time > 1.0)
+            if currentTime - _velocitySamples[i].time > 1.0
             {
-                _velocitySamples.removeAtIndex(0)
+                _velocitySamples.remove(at: 0)
                 i -= 1
                 count -= 1
             }
@@ -701,9 +701,9 @@ public class PieRadarChartViewBase: ChartViewBase
         }
     }
     
-    private func calculateVelocity() -> CGFloat
+    fileprivate func calculateVelocity() -> CGFloat
     {
-        if (_velocitySamples.isEmpty)
+        if _velocitySamples.isEmpty
         {
             return 0.0
         }
@@ -713,10 +713,10 @@ public class PieRadarChartViewBase: ChartViewBase
         
         // Look for a sample that's closest to the latest sample, but not the same, so we can deduce the direction
         var beforeLastSample = firstSample
-        for i in (_velocitySamples.count - 1).stride(through: 0, by: -1)
+        for i in stride(from: (_velocitySamples.count - 1), through: 0, by: -1)
         {
             beforeLastSample = _velocitySamples[i]
-            if (beforeLastSample.angle != lastSample.angle)
+            if beforeLastSample.angle != lastSample.angle
             {
                 break
             }
@@ -724,7 +724,7 @@ public class PieRadarChartViewBase: ChartViewBase
         
         // Calculate the sampling time
         var timeDelta = lastSample.time - firstSample.time
-        if (timeDelta == 0.0)
+        if timeDelta == 0.0
         {
             timeDelta = 0.1
         }
@@ -738,11 +738,11 @@ public class PieRadarChartViewBase: ChartViewBase
         }
         
         // Now if the "gesture" is over a too big of an angle - then we know the angles are inverted, and we need to move them closer to each other from both sides of the 360.0 wrapping point
-        if (lastSample.angle - firstSample.angle > 180.0)
+        if lastSample.angle - firstSample.angle > 180.0
         {
             firstSample.angle += 360.0
         }
-        else if (firstSample.angle - lastSample.angle > 180.0)
+        else if firstSample.angle - lastSample.angle > 180.0
         {
             lastSample.angle += 360.0
         }
@@ -751,7 +751,7 @@ public class PieRadarChartViewBase: ChartViewBase
         var velocity = abs((lastSample.angle - firstSample.angle) / CGFloat(timeDelta))
         
         // Direction?
-        if (!clockwise)
+        if !clockwise
         {
             velocity = -velocity
         }
@@ -760,7 +760,7 @@ public class PieRadarChartViewBase: ChartViewBase
     }
     
     /// sets the starting angle of the rotation, this is only used by the touch listener, x and y is the touch position
-    private func setGestureStartAngle(x x: CGFloat, y: CGFloat)
+    fileprivate func setGestureStartAngle(x: CGFloat, y: CGFloat)
     {
         _startAngle = angleForPoint(x: x, y: y)
         
@@ -769,21 +769,21 @@ public class PieRadarChartViewBase: ChartViewBase
     }
     
     /// updates the view rotation depending on the given touch position, also takes the starting angle into consideration
-    private func updateGestureRotation(x x: CGFloat, y: CGFloat)
+    fileprivate func updateGestureRotation(x: CGFloat, y: CGFloat)
     {
         self.rotationAngle = angleForPoint(x: x, y: y) - _startAngle
     }
     
-    public func stopDeceleration()
+    open func stopDeceleration()
     {
-        if (_decelerationDisplayLink !== nil)
+        if _decelerationDisplayLink !== nil
         {
-            _decelerationDisplayLink.removeFromRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
+            _decelerationDisplayLink.remove(from: RunLoop.main, forMode: RunLoopMode.commonModes)
             _decelerationDisplayLink = nil
         }
     }
     
-    @objc private func decelerationLoop()
+    @objc fileprivate func decelerationLoop()
     {
         let currentTime = CACurrentMediaTime()
         
@@ -802,7 +802,7 @@ public class PieRadarChartViewBase: ChartViewBase
     }
     
     /// - returns: The distance between two points
-    private func distance(eventX eventX: CGFloat, startX: CGFloat, eventY: CGFloat, startY: CGFloat) -> CGFloat
+    fileprivate func distance(eventX: CGFloat, startX: CGFloat, eventY: CGFloat, startY: CGFloat) -> CGFloat
     {
         let dx = eventX - startX
         let dy = eventY - startY
@@ -810,7 +810,7 @@ public class PieRadarChartViewBase: ChartViewBase
     }
     
     /// - returns: The distance between two points
-    private func distance(from from: CGPoint, to: CGPoint) -> CGFloat
+    fileprivate func distance(from: CGPoint, to: CGPoint) -> CGFloat
     {
         let dx = from.x - to.x
         let dy = from.y - to.y
@@ -818,15 +818,15 @@ public class PieRadarChartViewBase: ChartViewBase
     }
     
     /// reference to the last highlighted object
-    private var _lastHighlight: Highlight!
+    fileprivate var _lastHighlight: Highlight!
     
-    @objc private func tapGestureRecognized(recognizer: NSUITapGestureRecognizer)
+    @objc fileprivate func tapGestureRecognized(_ recognizer: NSUITapGestureRecognizer)
     {
-        if (recognizer.state == NSUIGestureRecognizerState.Ended)
+        if recognizer.state == NSUIGestureRecognizerState.ended
         {
             if !self.isHighLightPerTapEnabled { return }
             
-            let location = recognizer.locationInView(self)
+            let location = recognizer.location(in: self)
             
             let high = self.getHighlightByTouchPoint(location)
             self.highlightValue(high)
@@ -834,40 +834,40 @@ public class PieRadarChartViewBase: ChartViewBase
     }
     
     #if !os(tvOS)
-    @objc private func rotationGestureRecognized(recognizer: NSUIRotationGestureRecognizer)
+    @objc fileprivate func rotationGestureRecognized(_ recognizer: NSUIRotationGestureRecognizer)
     {
-        if (recognizer.state == NSUIGestureRecognizerState.Began)
+        if recognizer.state == NSUIGestureRecognizerState.began
         {
             stopDeceleration()
             
             _startAngle = self.rawRotationAngle
         }
         
-        if (recognizer.state == NSUIGestureRecognizerState.Began || recognizer.state == NSUIGestureRecognizerState.Changed)
+        if recognizer.state == NSUIGestureRecognizerState.began || recognizer.state == NSUIGestureRecognizerState.changed
         {
             let angle = ChartUtils.Math.FRAD2DEG * recognizer.nsuiRotation
             
             self.rotationAngle = _startAngle + angle
             setNeedsDisplay()
         }
-        else if (recognizer.state == NSUIGestureRecognizerState.Ended)
+        else if recognizer.state == NSUIGestureRecognizerState.ended
         {
             let angle = ChartUtils.Math.FRAD2DEG * recognizer.nsuiRotation
             
             self.rotationAngle = _startAngle + angle
             setNeedsDisplay()
             
-            if (isDragDecelerationEnabled)
+            if isDragDecelerationEnabled
             {
                 stopDeceleration()
                 
                 _decelerationAngularVelocity = ChartUtils.Math.FRAD2DEG * recognizer.velocity
                 
-                if (_decelerationAngularVelocity != 0.0)
+                if _decelerationAngularVelocity != 0.0
                 {
                     _decelerationLastTime = CACurrentMediaTime()
                     _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(PieRadarChartViewBase.decelerationLoop))
-                    _decelerationDisplayLink.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
+                    _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
                 }
             }
         }

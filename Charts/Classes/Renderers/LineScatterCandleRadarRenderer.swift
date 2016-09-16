@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 @objc(LineScatterCandleRadarChartRenderer)
-public class LineScatterCandleRadarRenderer: BarLineScatterCandleBubbleRenderer
+open class LineScatterCandleRadarRenderer: BarLineScatterCandleBubbleRenderer
 {
     public override init(animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
@@ -25,7 +25,7 @@ public class LineScatterCandleRadarRenderer: BarLineScatterCandleBubbleRenderer
     /// :param: points
     /// :param: horizontal
     /// :param: vertical
-    public func drawHighlightLines(context context: CGContext, point: CGPoint, set: ILineScatterCandleRadarChartDataSet)
+    open func drawHighlightLines(context: CGContext, point: CGPoint, set: ILineScatterCandleRadarChartDataSet)
     {
         guard let
             viewPortHandler = self.viewPortHandler
@@ -34,19 +34,19 @@ public class LineScatterCandleRadarRenderer: BarLineScatterCandleBubbleRenderer
         // draw vertical highlight lines
         if set.isVerticalHighlightIndicatorEnabled
         {
-            CGContextBeginPath(context)
-            CGContextMoveToPoint(context, point.x, viewPortHandler.contentTop)
-            CGContextAddLineToPoint(context, point.x, viewPortHandler.contentBottom)
-            CGContextStrokePath(context)
+            context.beginPath()
+            context.move(to: CGPoint(x: point.x, y: viewPortHandler.contentTop))
+            context.addLine(to: CGPoint(x: point.x, y: viewPortHandler.contentBottom))
+            context.strokePath()
         }
         
         // draw horizontal highlight lines
         if set.isHorizontalHighlightIndicatorEnabled
         {
-            CGContextBeginPath(context)
-            CGContextMoveToPoint(context, viewPortHandler.contentLeft, point.y)
-            CGContextAddLineToPoint(context, viewPortHandler.contentRight, point.y)
-            CGContextStrokePath(context)
+            context.beginPath()
+            context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: point.y))
+            context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: point.y))
+            context.strokePath()
         }
     }
 }

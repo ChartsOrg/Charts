@@ -7,10 +7,10 @@
 import Foundation
 import Charts
 
-public class XYMarkerView: BalloonMarker
+open class XYMarkerView: BalloonMarker
 {
-    public var xAxisValueFormatter: IAxisValueFormatter?
-    private var yFormatter = NSNumberFormatter()
+    open var xAxisValueFormatter: IAxisValueFormatter?
+    fileprivate var yFormatter = NumberFormatter()
     
     public init(color: UIColor, font: UIFont, textColor: UIColor, insets: UIEdgeInsets,
                 xAxisValueFormatter: IAxisValueFormatter)
@@ -21,9 +21,9 @@ public class XYMarkerView: BalloonMarker
         yFormatter.maximumFractionDigits = 1
     }
     
-    public override func refreshContent(entry entry: ChartDataEntry, highlight: Highlight)
+    open override func refreshContent(entry: ChartDataEntry, highlight: Highlight)
     {
-        setLabel("x: " + xAxisValueFormatter!.stringForValue(entry.x, axis: nil) + ", y: " + yFormatter.stringFromNumber(entry.y)!)
+        setLabel("x: " + xAxisValueFormatter!.stringForValue(entry.x, axis: nil) + ", y: " + yFormatter.string(from: NSNumber(floatLiteral: entry.y))!)
     }
     
 }

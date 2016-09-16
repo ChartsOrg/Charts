@@ -20,6 +20,8 @@
 
 @class RLMArray;
 
+NS_ASSUME_NONNULL_BEGIN
+
 // A base class for Swift generic Lists to make it possible to interact with
 // them from obj-c
 @interface RLMListBase : NSObject <NSFastEnumeration>
@@ -27,3 +29,5 @@
 
 - (instancetype)initWithArray:(RLMArray *)array;
 @end
+
+NS_ASSUME_NONNULL_END

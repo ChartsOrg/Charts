@@ -19,5 +19,5 @@ public protocol IHighlighter : NSObjectProtocol
     /// - parameter x:
     /// - parameter y:
     /// - returns:
-    func getHighlight(x x: CGFloat, y: CGFloat) -> Highlight?
+    func getHighlight(x: CGFloat, y: CGFloat) -> Highlight?
 }

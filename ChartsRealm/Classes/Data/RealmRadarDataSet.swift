@@ -16,11 +16,11 @@ import Charts
 import Realm
 import Realm.Dynamic
 
-public class RealmRadarDataSet: RealmLineRadarDataSet, IRadarChartDataSet
+open class RealmRadarDataSet: RealmLineRadarDataSet, IRadarChartDataSet
 {
-    public override func initialize()
+    open override func initialize()
     {
-        self.valueFont = NSUIFont.systemFontOfSize(13.0)
+        self.valueFont = NSUIFont.systemFont(ofSize: 13.0)
     }
     
     public required init()
@@ -28,12 +28,12 @@ public class RealmRadarDataSet: RealmLineRadarDataSet, IRadarChartDataSet
         super.init()
     }
     
-    public init(results: RLMResults?, yValueField: String, label: String?)
+    public init(results: RLMResults<RLMObject>?, yValueField: String, label: String?)
     {
         super.init(results: results, xValueField: nil, yValueField: yValueField, label: label)
     }
     
-    public convenience init(results: RLMResults?, yValueField: String)
+    public convenience init(results: RLMResults<RLMObject>?, yValueField: String)
     {
         self.init(results: results, yValueField: yValueField, label: "DataSet")
     }
@@ -45,7 +45,7 @@ public class RealmRadarDataSet: RealmLineRadarDataSet, IRadarChartDataSet
     
     // MARK: - Data functions and accessors
     
-    internal override func buildEntryFromResultObject(object: RLMObject, x: Double) -> ChartDataEntry
+    internal override func buildEntryFromResultObject(_ object: RLMObject, x: Double) -> ChartDataEntry
     {
         return RadarChartDataEntry(value: object[_yValueField!] as! Double)
     }
@@ -54,22 +54,22 @@ public class RealmRadarDataSet: RealmLineRadarDataSet, IRadarChartDataSet
     
     /// flag indicating whether highlight circle should be drawn or not
     /// **default**: false
-    public var drawHighlightCircleEnabled: Bool = false
+    open var drawHighlightCircleEnabled: Bool = false
     
     /// - returns: `true` if highlight circle should be drawn, `false` ifnot
-    public var isDrawHighlightCircleEnabled: Bool { return drawHighlightCircleEnabled }
+    open var isDrawHighlightCircleEnabled: Bool { return drawHighlightCircleEnabled }
     
-    public var highlightCircleFillColor: NSUIColor? = NSUIColor.whiteColor()
+    open var highlightCircleFillColor: NSUIColor? = NSUIColor.white
     
     /// The stroke color for highlight circle.
     /// If `nil`, the color of the dataset is taken.
-    public var highlightCircleStrokeColor: NSUIColor?
+    open var highlightCircleStrokeColor: NSUIColor?
     
-    public var highlightCircleStrokeAlpha: CGFloat = 0.3
+    open var highlightCircleStrokeAlpha: CGFloat = 0.3
     
-    public var highlightCircleInnerRadius: CGFloat = 3.0
+    open var highlightCircleInnerRadius: CGFloat = 3.0
     
-    public var highlightCircleOuterRadius: CGFloat = 4.0
+    open var highlightCircleOuterRadius: CGFloat = 4.0
     
-    public var highlightCircleStrokeWidth: CGFloat = 2.0
+    open var highlightCircleStrokeWidth: CGFloat = 2.0
 }

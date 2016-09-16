@@ -16,9 +16,9 @@ import Charts
 import Realm
 import Realm.Dynamic
 
-public class RealmBubbleDataSet: RealmBarLineScatterCandleBubbleDataSet, IBubbleChartDataSet
+open class RealmBubbleDataSet: RealmBarLineScatterCandleBubbleDataSet, IBubbleChartDataSet
 {
-    public override func initialize()
+    open override func initialize()
     {
     }
     
@@ -27,14 +27,14 @@ public class RealmBubbleDataSet: RealmBarLineScatterCandleBubbleDataSet, IBubble
         super.init()
     }
     
-    public init(results: RLMResults?, xValueField: String, yValueField: String, sizeField: String, label: String?)
+    public init(results: RLMResults<RLMObject>?, xValueField: String, yValueField: String, sizeField: String, label: String?)
     {
         _sizeField = sizeField
         
         super.init(results: results, xValueField: xValueField, yValueField: yValueField, label: label)
     }
     
-    public convenience init(results: RLMResults?, xValueField: String, yValueField: String, sizeField: String)
+    public convenience init(results: RLMResults<RLMObject>?, xValueField: String, yValueField: String, sizeField: String)
     {
         self.init(results: results, xValueField: xValueField, yValueField: yValueField, sizeField: sizeField, label: "DataSet")
     }
@@ -52,18 +52,18 @@ public class RealmBubbleDataSet: RealmBarLineScatterCandleBubbleDataSet, IBubble
     
     internal var _maxSize = CGFloat(0.0)
     
-    public var maxSize: CGFloat { return _maxSize }
-    public var normalizeSizeEnabled: Bool = true
-    public var isNormalizeSizeEnabled: Bool { return normalizeSizeEnabled }
+    open var maxSize: CGFloat { return _maxSize }
+    open var normalizeSizeEnabled: Bool = true
+    open var isNormalizeSizeEnabled: Bool { return normalizeSizeEnabled }
     
-    internal override func buildEntryFromResultObject(object: RLMObject, x: Double) -> ChartDataEntry
+    internal override func buildEntryFromResultObject(_ object: RLMObject, x: Double) -> ChartDataEntry
     {
         let entry = BubbleChartDataEntry(x: _xValueField == nil ? x : object[_xValueField!] as! Double, y: object[_yValueField!] as! Double, size: object[_sizeField!] as! CGFloat)
         
         return entry
     }
     
-    public override func calcMinMax()
+    open override func calcMinMax()
     {
         if _cache.count == 0
         {
@@ -91,11 +91,11 @@ public class RealmBubbleDataSet: RealmBarLineScatterCandleBubbleDataSet, IBubble
     // MARK: - Styling functions and accessors
     
     /// Sets/gets the width of the circle that surrounds the bubble when highlighted
-    public var highlightCircleWidth: CGFloat = 2.5
+    open var highlightCircleWidth: CGFloat = 2.5
     
     // MARK: - NSCopying
     
-    public override func copyWithZone(zone: NSZone) -> AnyObject
+    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! RealmBubbleDataSet
         copy._xMin = _xMin

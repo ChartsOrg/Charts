@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return An `RLMProperty` object, or `nil` if there is no property with the given name.
  */
-- (nullable RLMProperty *)objectForKeyedSubscript:(id <NSCopying>)propertyName;
+- (nullable RLMProperty *)objectForKeyedSubscript:(NSString *)propertyName;
 
 /**
   Returns a Boolean value that indicates whether two `RLMObjectSchema` instances are equal.

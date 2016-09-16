@@ -1,3 +1,35 @@
+x.x.x Release notes (yyyy-MM-dd)
+=============================================================
+
+### API breaking changes
+
+* Deprecate `migrateRealm:` in favor of new `performMigrationForConfiguration:error:` method
+  that follows Cocoa's' NSError conventions.
+* Fix issue where `RLMResults` used `id `instead of its generic type type as the return
+  type of subscript.
+* Fix incorrect truncation of the constant value for queries of the form
+  `column < value` for `float` and `double` columns.
+
+### Enhancements
+
+* Improve error message when using NSNumber incorrectly in Swift models.
+* Fix compilation with Swift 2.3 using Xcode 8 beta 2.
+* Further reduce the download size of the prebuilt static libraries.
+* Improve sort performance, especially on non-nullable columns.
+* Allow partial initialization of object by `initWithValue:`, deferring
+  required property checks until object is added to Realm.
+
+### Bugfixes
+
+* Fix crash when an aggregate is accessed as an `Int8`, `Int16`, `Int32`, or `Int64`.
+* Fix a race condition that could lead to a crash if an RLMArray or List was
+  deallocated on a different thread than it was created on.
+* Fix a crash when the last reference to an observed object is released from
+  within the observation.
+* Fix a crash when `initWithValue:` is used to create a nested object for a class
+  with an uninitialized schema.
+* Enforce uniqueness for `RealmOptional` primary keys when using the `value` setter.
+
 1.0.2 Release notes (2016-07-13)
 =============================================================
 

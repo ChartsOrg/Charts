@@ -7,17 +7,17 @@
 import Foundation
 import Charts
 
-public class LargeValueFormatter: NSObject, IValueFormatter, IAxisValueFormatter
+open class LargeValueFormatter: NSObject, IValueFormatter, IAxisValueFormatter
 {
-    private static let MAX_LENGTH = 5
+    fileprivate static let MAX_LENGTH = 5
     
     /// Suffix to be appended after the values.
     ///
     /// **default**: suffix: ["", "k", "m", "b", "t"]
-    public var suffix = ["", "k", "m", "b", "t"]
+    open var suffix = ["", "k", "m", "b", "t"]
     
     /// An appendix text to be added at the end of the formatted value.
-    public var appendix: String?
+    open var appendix: String?
     
     public override init()
     {
@@ -29,7 +29,7 @@ public class LargeValueFormatter: NSObject, IValueFormatter, IAxisValueFormatter
         self.appendix = appendix
     }
     
-    private func format(value: Double) -> String
+    fileprivate func format(value: Double) -> String
     {
         var sig = value
         var length = 0
@@ -51,13 +51,18 @@ public class LargeValueFormatter: NSObject, IValueFormatter, IAxisValueFormatter
         return r
     }
     
-    public func stringForValue(value: Double, axis: AxisBase?) -> String
+    open func stringForValue(
+        _ value: Double, axis: AxisBase?) -> String
     {
-        return format(value)
+        return format(value: value)
     }
     
-    public func stringForValue(value: Double, entry: ChartDataEntry, dataSetIndex: Int, viewPortHandler: ViewPortHandler?) -> String
+    open func stringForValue(
+        _ value: Double,
+        entry: ChartDataEntry,
+        dataSetIndex: Int,
+        viewPortHandler: ViewPortHandler?) -> String
     {
-        return format(value)
+        return format(value: value)
     }
 }

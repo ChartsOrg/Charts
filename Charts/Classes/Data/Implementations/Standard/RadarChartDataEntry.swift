@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-public class RadarChartDataEntry: ChartDataEntry
+open class RadarChartDataEntry: ChartDataEntry
 {
     public required init()
     {
@@ -34,7 +34,7 @@ public class RadarChartDataEntry: ChartDataEntry
     
     // MARK: Data property accessors
     
-    public var value: Double
+    open var value: Double
     {
         get { return y }
         set { y = value }
@@ -42,7 +42,7 @@ public class RadarChartDataEntry: ChartDataEntry
     
     // MARK: NSCopying
     
-    public override func copyWithZone(zone: NSZone) -> AnyObject
+    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! RadarChartDataEntry
         

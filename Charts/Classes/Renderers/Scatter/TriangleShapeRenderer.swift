@@ -10,14 +10,14 @@
 //
 import Foundation
 
-public class TriangleShapeRenderer : NSObject, IShapeRenderer
+open class TriangleShapeRenderer : NSObject, IShapeRenderer
 {
-    public func renderShape(
-        context context: CGContext,
-                dataSet: IScatterChartDataSet,
-                viewPortHandler: ViewPortHandler,
-                point: CGPoint,
-                color: NSUIColor)
+    open func renderShape(
+        context: CGContext,
+        dataSet: IScatterChartDataSet,
+        viewPortHandler: ViewPortHandler,
+        point: CGPoint,
+        color: NSUIColor)
     {
         let shapeSize = dataSet.scatterShapeSize
         let shapeHalf = shapeSize / 2.0
@@ -26,40 +26,40 @@ public class TriangleShapeRenderer : NSObject, IShapeRenderer
         let shapeHoleColor = dataSet.scatterShapeHoleColor
         let shapeStrokeSize = (shapeSize - shapeHoleSize) / 2.0
         
-        CGContextSetFillColorWithColor(context, color.CGColor)
+        context.setFillColor(color.cgColor)
         
         // create a triangle path
-        CGContextBeginPath(context)
-        CGContextMoveToPoint(context, point.x, point.y - shapeHalf)
-        CGContextAddLineToPoint(context, point.x + shapeHalf, point.y + shapeHalf)
-        CGContextAddLineToPoint(context, point.x - shapeHalf, point.y + shapeHalf)
+        context.beginPath()
+        context.move(to: CGPoint(x: point.x, y: point.y - shapeHalf))
+        context.addLine(to: CGPoint(x: point.x + shapeHalf, y: point.y + shapeHalf))
+        context.addLine(to: CGPoint(x: point.x - shapeHalf, y: point.y + shapeHalf))
         
         if shapeHoleSize > 0.0
         {
-            CGContextAddLineToPoint(context, point.x, point.y - shapeHalf)
+            context.addLine(to: CGPoint(x: point.x, y: point.y - shapeHalf))
             
-            CGContextMoveToPoint(context, point.x - shapeHalf + shapeStrokeSize, point.y + shapeHalf - shapeStrokeSize)
-            CGContextAddLineToPoint(context, point.x + shapeHalf - shapeStrokeSize, point.y + shapeHalf - shapeStrokeSize)
-            CGContextAddLineToPoint(context, point.x, point.y - shapeHalf + shapeStrokeSize)
-            CGContextAddLineToPoint(context, point.x - shapeHalf + shapeStrokeSize, point.y + shapeHalf - shapeStrokeSize)
+            context.move(to: CGPoint(x: point.x - shapeHalf + shapeStrokeSize, y: point.y + shapeHalf - shapeStrokeSize))
+            context.addLine(to: CGPoint(x: point.x + shapeHalf - shapeStrokeSize, y: point.y + shapeHalf - shapeStrokeSize))
+            context.addLine(to: CGPoint(x: point.x, y: point.y - shapeHalf + shapeStrokeSize))
+            context.addLine(to: CGPoint(x: point.x - shapeHalf + shapeStrokeSize, y: point.y + shapeHalf - shapeStrokeSize))
         }
         
-        CGContextClosePath(context)
+        context.closePath()
         
-        CGContextFillPath(context)
+        context.fillPath()
         
         if shapeHoleSize > 0.0 && shapeHoleColor != nil
         {
-            CGContextSetFillColorWithColor(context, shapeHoleColor!.CGColor)
+            context.setFillColor(shapeHoleColor!.cgColor)
             
             // create a triangle path
-            CGContextBeginPath(context)
-            CGContextMoveToPoint(context, point.x, point.y - shapeHalf + shapeStrokeSize)
-            CGContextAddLineToPoint(context, point.x + shapeHalf - shapeStrokeSize, point.y + shapeHalf - shapeStrokeSize)
-            CGContextAddLineToPoint(context, point.x - shapeHalf + shapeStrokeSize, point.y + shapeHalf - shapeStrokeSize)
-            CGContextClosePath(context)
+            context.beginPath()
+            context.move(to: CGPoint(x: point.x, y: point.y - shapeHalf + shapeStrokeSize))
+            context.addLine(to: CGPoint(x: point.x + shapeHalf - shapeStrokeSize, y: point.y + shapeHalf - shapeStrokeSize))
+            context.addLine(to: CGPoint(x: point.x - shapeHalf + shapeStrokeSize, y: point.y + shapeHalf - shapeStrokeSize))
+            context.closePath()
             
-            CGContextFillPath(context)
+            context.fillPath()
         }
     }
 }

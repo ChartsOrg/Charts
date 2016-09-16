@@ -301,7 +301,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSNumber *)averageOfProperty:(NSString *)property;
 
 /// :nodoc:
-- (id)objectAtIndexedSubscript:(NSUInteger)index;
+- (RLMObjectType)objectAtIndexedSubscript:(NSUInteger)index;
 
 #pragma mark - Unavailable Methods
 
