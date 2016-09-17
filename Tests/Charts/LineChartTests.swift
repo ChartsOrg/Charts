@@ -22,14 +22,14 @@ class LineChartTests: FBSnapshotTestCase
         
         var entries: [ChartDataEntry] = Array()
         
-        for (i, value) in values.enumerate()
+        for (i, value) in values.enumerated()
         {
             entries.append(ChartDataEntry(x: Double(i), y: value))
         }
         
         dataSet = LineChartDataSet(values: entries, label: "First unit test data")
         
-        chart = LineChartView(frame: CGRectMake(0, 0, 480, 350))
+        chart = LineChartView(frame: CGRect(x: 0, y: 0, width: 480, height: 350))
         chart.leftAxis.axisMinimum = 0.0
         chart.rightAxis.axisMinimum = 0.0
         chart.data = LineChartData(dataSet: dataSet)
@@ -60,7 +60,7 @@ class LineChartTests: FBSnapshotTestCase
     
     func testIsCubic()
     {
-        dataSet.mode = LineChartDataSet.Mode.CubicBezier
+        dataSet.mode = LineChartDataSet.Mode.cubicBezier
         FBSnapshotVerifyView(chart)
     }
     

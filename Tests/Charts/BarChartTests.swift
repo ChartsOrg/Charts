@@ -22,7 +22,7 @@ class BarChartTests: FBSnapshotTestCase
         
         var entries: [ChartDataEntry] = Array()
         
-        for (i, value) in values.enumerate()
+        for (i, value) in values.enumerated()
         {
             entries.append(BarChartDataEntry(x: Double(i), y: value))
         }
@@ -32,7 +32,7 @@ class BarChartTests: FBSnapshotTestCase
         let data = BarChartData(dataSet: dataSet)
         data.barWidth = 0.85
         
-        chart = BarChartView(frame: CGRectMake(0, 0, 480, 350))
+        chart = BarChartView(frame: CGRect(x: 0, y: 0, width: 480, height: 350))
         chart.leftAxis.axisMinimum = 0.0
         chart.rightAxis.axisMinimum = 0.0
         chart.data = data
