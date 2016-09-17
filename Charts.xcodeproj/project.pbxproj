@@ -154,7 +154,6 @@
 		06B120F31D811E8E00D14B02 /* RealmPieDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B120E61D811E8E00D14B02 /* RealmPieDataSet.swift */; };
 		06B120F41D811E8E00D14B02 /* RealmRadarDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B120E71D811E8E00D14B02 /* RealmRadarDataSet.swift */; };
 		06B120F51D811E8E00D14B02 /* RealmScatterDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B120E81D811E8E00D14B02 /* RealmScatterDataSet.swift */; };
-		06B120F61D811E8E00D14B02 /* RealmChartUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B120EA1D811E8E00D14B02 /* RealmChartUtils.swift */; };
 		06B120F91D811E9600D14B02 /* ChartsRealm.h in Headers */ = {isa = PBXBuildFile; fileRef = 06B120F71D811E9600D14B02 /* ChartsRealm.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		06B121041D811F1600D14B02 /* ChartsRealm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B120D51D811E6200D14B02 /* ChartsRealm.framework */; };
 		06B121141D81208F00D14B02 /* ChartsRealmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B121131D81208F00D14B02 /* ChartsRealmTest.swift */; };
@@ -329,7 +328,6 @@
 		06B120E61D811E8E00D14B02 /* RealmPieDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmPieDataSet.swift; sourceTree = "<group>"; };
 		06B120E71D811E8E00D14B02 /* RealmRadarDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmRadarDataSet.swift; sourceTree = "<group>"; };
 		06B120E81D811E8E00D14B02 /* RealmScatterDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmScatterDataSet.swift; sourceTree = "<group>"; };
-		06B120EA1D811E8E00D14B02 /* RealmChartUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmChartUtils.swift; sourceTree = "<group>"; };
 		06B120F71D811E9600D14B02 /* ChartsRealm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChartsRealm.h; path = "Source/Supporting Files/ChartsRealm.h"; sourceTree = "<group>"; };
 		06B120F81D811E9600D14B02 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Source/Supporting Files/Info.plist"; sourceTree = "<group>"; };
 		06B120FF1D811F1600D14B02 /* ChartsRealmTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChartsRealmTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -706,7 +704,6 @@
 			isa = PBXGroup;
 			children = (
 				06B120DD1D811E8E00D14B02 /* Data */,
-				06B120E91D811E8E00D14B02 /* Utils */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -737,15 +734,6 @@
 			);
 			name = Data;
 			path = Source/ChartsRealm/Data;
-			sourceTree = "<group>";
-		};
-		06B120E91D811E8E00D14B02 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				06B120EA1D811E8E00D14B02 /* RealmChartUtils.swift */,
-			);
-			name = Utils;
-			path = Source/ChartsRealm/Utils;
 			sourceTree = "<group>";
 		};
 		06B1210A1D811F2D00D14B02 /* ChartsRealmTests */ = {
@@ -1132,7 +1120,6 @@
 				06B120F31D811E8E00D14B02 /* RealmPieDataSet.swift in Sources */,
 				06B120F21D811E8E00D14B02 /* RealmLineScatterCandleRadarDataSet.swift in Sources */,
 				06B120F41D811E8E00D14B02 /* RealmRadarDataSet.swift in Sources */,
-				06B120F61D811E8E00D14B02 /* RealmChartUtils.swift in Sources */,
 				06B120EB1D811E8E00D14B02 /* RealmBarDataSet.swift in Sources */,
 				06B120F11D811E8E00D14B02 /* RealmLineRadarDataSet.swift in Sources */,
 				06B120EF1D811E8E00D14B02 /* RealmCandleDataSet.swift in Sources */,
