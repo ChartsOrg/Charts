@@ -19,6 +19,6 @@ Pod::Spec.new do |s|
   s.subspec "Realm" do |ss|
     ss.source_files  = "Source/ChartsRealm/**/*.swift"
     ss.dependency "Charts/Core"
-    ss.dependency "RealmSwift", "~> 1.0.2"
+    ss.dependency "RealmSwift", "~> 1.1"
   end
 end
