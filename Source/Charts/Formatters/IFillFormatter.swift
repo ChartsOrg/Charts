@@ -17,5 +17,5 @@ import CoreGraphics
 public protocol IFillFormatter
 {
     /// - returns: The vertical (y-axis) position where the filled-line of the LineDataSet should end.
-    func getFillLinePosition(dataSet dataSet: ILineChartDataSet, dataProvider: LineChartDataProvider) -> CGFloat
+    func getFillLinePosition(dataSet: ILineChartDataSet, dataProvider: LineChartDataProvider) -> CGFloat
 }

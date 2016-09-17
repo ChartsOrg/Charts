@@ -13,10 +13,10 @@ import Foundation
 import CoreGraphics
 
 @objc(CombinedChartHighlighter)
-public class CombinedHighlighter: ChartHighlighter
+open class CombinedHighlighter: ChartHighlighter
 {
     /// bar highlighter for supporting stacked highlighting
-    private var barHighlighter: BarHighlighter?
+    fileprivate var barHighlighter: BarHighlighter?
     
     public init(chart: CombinedChartDataProvider, barDataProvider: BarChartDataProvider)
     {
@@ -26,7 +26,7 @@ public class CombinedHighlighter: ChartHighlighter
         self.barHighlighter = barDataProvider.barData == nil ? nil : BarHighlighter(chart: barDataProvider)
     }
     
-    public override func getHighlights(xValue xValue: Double, x: CGFloat, y: CGFloat) -> [Highlight]
+    open override func getHighlights(xValue: Double, x: CGFloat, y: CGFloat) -> [Highlight]
     {
         var vals = [Highlight]()
         
@@ -52,7 +52,8 @@ public class CombinedHighlighter: ChartHighlighter
                 {
                     for j in 0..<dataObject.dataSetCount
                     {
-                        let dataSet = dataObjects[i].getDataSetByIndex(j)
+                        guard let dataSet = dataObjects[i].getDataSetByIndex(j)
+                            else { continue }
                         
                         // don't include datasets that cannot be highlighted
                         if !dataSet.isHighlightEnabled
@@ -60,7 +61,7 @@ public class CombinedHighlighter: ChartHighlighter
                             continue
                         }
                         
-                        if let s1 = buildHighlight(dataSet: dataSet, dataSetIndex: j, xValue: xValue, rounding: .Closest)
+                        if let s1 = buildHighlight(dataSet: dataSet, dataSetIndex: j, xValue: xValue, rounding: .closest)
                         {
                             s1.dataIndex = i
                             vals.append(s1)

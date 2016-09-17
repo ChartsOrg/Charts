@@ -97,7 +97,7 @@
     _barChartView.xAxis.valueFormatter = self;
     
     // Line chart
-    RealmLineDataSet *lineDataSet = [[RealmLineDataSet alloc] initWithResults:results xValueField:@"scoreNr" yValueField:@"totalScore"];
+    RealmLineDataSet *lineDataSet = [[RealmLineDataSet alloc] initWithResults:(RLMResults<RLMObject *> *)results xValueField:@"scoreNr" yValueField:@"totalScore"];
     lineDataSet.drawCubicEnabled = NO;
     lineDataSet.label = @"Result Scores";
     lineDataSet.drawCircleHoleEnabled = NO;
@@ -117,7 +117,7 @@
                                 easingOption:ChartEasingOptionEaseInOutQuart];
     
     // Bar chart
-    RealmBarDataSet *barDataSet = [[RealmBarDataSet alloc] initWithResults:results xValueField:@"scoreNr" yValueField:@"totalScore"];
+    RealmBarDataSet *barDataSet = [[RealmBarDataSet alloc] initWithResults:(RLMResults<RLMObject *> *)results xValueField:@"scoreNr" yValueField:@"totalScore"];
     barDataSet.colors = @[
                           [ChartColorTemplates colorFromString:@"#FF5722"],
                           [ChartColorTemplates colorFromString:@"#03A9F4"],

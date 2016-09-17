@@ -11,13 +11,13 @@
 
 import Foundation
 
-public class CombinedChartData: BarLineScatterCandleBubbleChartData
+open class CombinedChartData: BarLineScatterCandleBubbleChartData
 {
-    private var _lineData: LineChartData!
-    private var _barData: BarChartData!
-    private var _scatterData: ScatterChartData!
-    private var _candleData: CandleChartData!
-    private var _bubbleData: BubbleChartData!
+    fileprivate var _lineData: LineChartData!
+    fileprivate var _barData: BarChartData!
+    fileprivate var _scatterData: ScatterChartData!
+    fileprivate var _candleData: CandleChartData!
+    fileprivate var _bubbleData: BubbleChartData!
     
     public override init()
     {
@@ -29,7 +29,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         super.init(dataSets: dataSets)
     }
     
-    public var lineData: LineChartData!
+    open var lineData: LineChartData!
     {
         get
         {
@@ -42,7 +42,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    public var barData: BarChartData!
+    open var barData: BarChartData!
     {
         get
         {
@@ -55,7 +55,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    public var scatterData: ScatterChartData!
+    open var scatterData: ScatterChartData!
     {
         get
         {
@@ -68,7 +68,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    public var candleData: CandleChartData!
+    open var candleData: CandleChartData!
     {
         get
         {
@@ -81,7 +81,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    public var bubbleData: BubbleChartData!
+    open var bubbleData: BubbleChartData!
     {
         get
         {
@@ -94,7 +94,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    public override func calcMinMax()
+    open override func calcMinMax()
     {
         _dataSets.removeAll()
         
@@ -115,7 +115,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
             data.calcMinMax()
             
             let sets = data.dataSets
-            _dataSets.appendContentsOf(sets)
+            _dataSets.append(contentsOf: sets)
             
             if data.yMax > _yMax
             {
@@ -160,7 +160,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
     }
     
     /// - returns: All data objects in row: line-bar-scatter-candle-bubble if not null.
-    public var allData: [ChartData]
+    open var allData: [ChartData]
     {
         var data = [ChartData]()
         
@@ -188,17 +188,17 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         return data
     }
     
-    public func dataByIndex(index: Int) -> ChartData
+    open func dataByIndex(_ index: Int) -> ChartData
     {
         return allData[index]
     }
     
-    public func dataIndex(data: ChartData) -> Int?
+    open func dataIndex(_ data: ChartData) -> Int?
     {
-        return allData.indexOf(data)
+        return allData.index(of: data)
     }
     
-    public override func removeDataSet(dataSet: IChartDataSet!) -> Bool
+    open override func removeDataSet(_ dataSet: IChartDataSet!) -> Bool
     {
         let datas = allData
         
@@ -217,43 +217,43 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
         return success
     }
     
-    public override func removeDataSetByIndex(index: Int) -> Bool
+    open override func removeDataSetByIndex(_ index: Int) -> Bool
     {
         print("removeDataSet(index) not supported for CombinedData", terminator: "\n")
         return false
     }
     
-    public override func removeEntry(entry: ChartDataEntry, dataSetIndex: Int) -> Bool
+    open override func removeEntry(_ entry: ChartDataEntry, dataSetIndex: Int) -> Bool
     {
         print("removeEntry(entry, dataSetIndex) not supported for CombinedData", terminator: "\n")
         return false
     }
     
-    public override func removeEntry(xValue xValue: Double, dataSetIndex: Int) -> Bool
+    open override func removeEntry(xValue: Double, dataSetIndex: Int) -> Bool
     {
         print("removeEntry(xValue, dataSetIndex) not supported for CombinedData", terminator: "\n")
         return false
     }
     
-    public override func notifyDataChanged()
+    open override func notifyDataChanged()
     {
-        if (_lineData !== nil)
+        if _lineData !== nil
         {
             _lineData.notifyDataChanged()
         }
-        if (_barData !== nil)
+        if _barData !== nil
         {
             _barData.notifyDataChanged()
         }
-        if (_scatterData !== nil)
+        if _scatterData !== nil
         {
             _scatterData.notifyDataChanged()
         }
-        if (_candleData !== nil)
+        if _candleData !== nil
         {
             _candleData.notifyDataChanged()
         }
-        if (_bubbleData !== nil)
+        if _bubbleData !== nil
         {
             _bubbleData.notifyDataChanged()
         }
@@ -266,7 +266,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
     ///
     /// - parameter highlight:
     /// - returns: The entry that is highlighted
-    public override func entryForHighlight(highlight: Highlight) -> ChartDataEntry?
+    open override func entryForHighlight(_ highlight: Highlight) -> ChartDataEntry?
     {
         let dataObjects = allData
         
@@ -287,7 +287,7 @@ public class CombinedChartData: BarLineScatterCandleBubbleChartData
             let entries = data.getDataSetByIndex(highlight.dataSetIndex).entriesForXValue(highlight.x)
             for e in entries
             {
-                if e.y == highlight.y || isnan(highlight.y)
+                if e.y == highlight.y || highlight.y.isNaN
                 {
                     return e
                 }

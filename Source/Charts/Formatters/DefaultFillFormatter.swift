@@ -18,46 +18,41 @@ import CoreGraphics
 
 /// Default formatter that calculates the position of the filled line.
 @objc(ChartDefaultFillFormatter)
-public class DefaultFillFormatter: NSObject, IFillFormatter
+open class DefaultFillFormatter: NSObject, IFillFormatter
 {
-    public typealias Block = (dataSet: ILineChartDataSet,
-        dataProvider: LineChartDataProvider) -> CGFloat
+    public typealias Block = (_ dataSet: ILineChartDataSet,
+        _ dataProvider: LineChartDataProvider) -> CGFloat
     
-    public var block: Block?
+    open var block: Block?
     
     public override init()
     {
         
     }
     
-    public init(block: Block)
+    public init(block: @escaping Block)
     {
         self.block = block
     }
     
-    public static func withBlock(block: Block?) -> DefaultFillFormatter?
+    public static func with(block: @escaping Block) -> DefaultFillFormatter?
     {
-        if block == nil
-        {
-            return nil
-        }
-        
-        return DefaultFillFormatter(block: block!)
+        return DefaultFillFormatter(block: block)
     }
     
-    public func getFillLinePosition(
-        dataSet dataSet: ILineChartDataSet,
-                dataProvider: LineChartDataProvider) -> CGFloat
+    open func getFillLinePosition(
+        dataSet: ILineChartDataSet,
+        dataProvider: LineChartDataProvider) -> CGFloat
     {
         if block != nil
         {
-            return block!(dataSet: dataSet, dataProvider: dataProvider)
+            return block!(dataSet, dataProvider)
         }
         else
         {
             var fillMin = CGFloat(0.0)
             
-            if (dataSet.yMax > 0.0 && dataSet.yMin < 0.0)
+            if dataSet.yMax > 0.0 && dataSet.yMin < 0.0
             {
                 fillMin = 0.0
             }
@@ -67,7 +62,7 @@ public class DefaultFillFormatter: NSObject, IFillFormatter
                 {
                     var max: Double, min: Double
                     
-                    if (data.yMax > 0.0)
+                    if data.yMax > 0.0
                     {
                         max = 0.0
                     }
@@ -76,7 +71,7 @@ public class DefaultFillFormatter: NSObject, IFillFormatter
                         max = dataProvider.chartYMax
                     }
                     
-                    if (data.yMin < 0.0)
+                    if data.yMin < 0.0
                     {
                         min = 0.0
                     }

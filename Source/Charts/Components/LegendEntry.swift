@@ -17,7 +17,7 @@ import CoreGraphics
 #endif
 
 @objc(ChartLegendEntry)
-public class LegendEntry: NSObject
+open class LegendEntry: NSObject
 {
     public override init()
     {
@@ -51,31 +51,31 @@ public class LegendEntry: NSObject
     
     /// The legend entry text.
     /// A `nil` label will start a group.
-    public var label: String?
+    open var label: String?
     
     /// The form to draw for this entry.
     ///
     /// `None` will avoid drawing a form, and any related space.
     /// `Empty` will avoid drawing a form, but keep its space.
     /// `Default` will use the Legend's default.
-    public var form: Legend.Form = .Default
+    open var form: Legend.Form = .default
     
     /// Form size will be considered except for when .None is used
     ///
     /// Set as NaN to use the legend's default
-    public var formSize: CGFloat = CGFloat.NaN
+    open var formSize: CGFloat = CGFloat.nan
     
     /// Line width used for shapes that consist of lines.
     ///
     /// Set to NaN to use the legend's default.
-    public var formLineWidth: CGFloat = CGFloat.NaN
+    open var formLineWidth: CGFloat = CGFloat.nan
     
     /// Line dash configuration for shapes that consist of lines.
     ///
     /// This is how much (in pixels) into the dash pattern are we starting from.
     ///
     /// Set to NaN to use the legend's default.
-    public var formLineDashPhase: CGFloat = 0.0
+    open var formLineDashPhase: CGFloat = 0.0
     
     /// Line dash configuration for shapes that consist of lines.
     ///
@@ -84,8 +84,8 @@ public class LegendEntry: NSObject
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
     ///
     /// Set to nil to use the legend's default.
-    public var formLineDashLengths: [CGFloat]?
+    open var formLineDashLengths: [CGFloat]?
     
     /// The color for drawing the form
-    public var formColor: NSUIColor?
+    open var formColor: NSUIColor?
 }

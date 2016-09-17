@@ -10,14 +10,14 @@
 //
 import Foundation
 
-public class CircleShapeRenderer : NSObject, IShapeRenderer
+open class CircleShapeRenderer : NSObject, IShapeRenderer
 {
-    public func renderShape(
-        context context: CGContext,
-                dataSet: IScatterChartDataSet,
-                viewPortHandler: ViewPortHandler,
-                point: CGPoint,
-                color: NSUIColor)
+    open func renderShape(
+        context: CGContext,
+        dataSet: IScatterChartDataSet,
+        viewPortHandler: ViewPortHandler,
+        point: CGPoint,
+        color: NSUIColor)
     {
         let shapeSize = dataSet.scatterShapeSize
         let shapeHalf = shapeSize / 2.0
@@ -29,34 +29,34 @@ public class CircleShapeRenderer : NSObject, IShapeRenderer
         
         if shapeHoleSize > 0.0
         {
-            CGContextSetStrokeColorWithColor(context, color.CGColor)
-            CGContextSetLineWidth(context, shapeStrokeSize)
+            context.setStrokeColor(color.cgColor)
+            context.setLineWidth(shapeStrokeSize)
             var rect = CGRect()
             rect.origin.x = point.x - shapeHoleSizeHalf - shapeStrokeSizeHalf
             rect.origin.y = point.y - shapeHoleSizeHalf - shapeStrokeSizeHalf
             rect.size.width = shapeHoleSize + shapeStrokeSize
             rect.size.height = shapeHoleSize + shapeStrokeSize
-            CGContextStrokeEllipseInRect(context, rect)
+            context.strokeEllipse(in: rect)
             
             if let shapeHoleColor = shapeHoleColor
             {
-                CGContextSetFillColorWithColor(context, shapeHoleColor.CGColor)
+                context.setFillColor(shapeHoleColor.cgColor)
                 rect.origin.x = point.x - shapeHoleSizeHalf
                 rect.origin.y = point.y - shapeHoleSizeHalf
                 rect.size.width = shapeHoleSize
                 rect.size.height = shapeHoleSize
-                CGContextFillEllipseInRect(context, rect)
+                context.fillEllipse(in: rect)
             }
         }
         else
         {
-            CGContextSetFillColorWithColor(context, color.CGColor)
+            context.setFillColor(color.cgColor)
             var rect = CGRect()
             rect.origin.x = point.x - shapeHalf
             rect.origin.y = point.y - shapeHalf
             rect.size.width = shapeSize
             rect.size.height = shapeSize
-            CGContextFillEllipseInRect(context, rect)
+            context.fillEllipse(in: rect)
         }
     }
 }

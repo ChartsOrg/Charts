@@ -17,7 +17,7 @@ import CoreGraphics
 #endif
 
 /// BarChart with horizontal bar orientation. In this implementation, x- and y-axis are switched.
-public class HorizontalBarChartView: BarChartView
+open class HorizontalBarChartView: BarChartView
 {
     internal override func initialize()
     {
@@ -47,30 +47,30 @@ public class HorizontalBarChartView: BarChartView
                                offsetBottom: &offsetBottom)
         
         // offsets for y-labels
-        if (_leftAxis.needsOffset)
+        if _leftAxis.needsOffset
         {
             offsetTop += _leftAxis.getRequiredHeightSpace()
         }
         
-        if (_rightAxis.needsOffset)
+        if _rightAxis.needsOffset
         {
             offsetBottom += _rightAxis.getRequiredHeightSpace()
         }
         
         let xlabelwidth = _xAxis.labelRotatedWidth
         
-        if (_xAxis.isEnabled)
+        if _xAxis.isEnabled
         {
             // offsets for x-labels
-            if (_xAxis.labelPosition == .Bottom)
+            if _xAxis.labelPosition == .bottom
             {
                 offsetLeft += xlabelwidth
             }
-            else if (_xAxis.labelPosition == .Top)
+            else if _xAxis.labelPosition == .top
             {
                 offsetRight += xlabelwidth
             }
-            else if (_xAxis.labelPosition == .BothSided)
+            else if _xAxis.labelPosition == .bothSided
             {
                 offsetLeft += xlabelwidth
                 offsetRight += xlabelwidth
@@ -98,17 +98,17 @@ public class HorizontalBarChartView: BarChartView
         _leftAxisTransformer.prepareMatrixValuePx(chartXMin: _leftAxis._axisMinimum, deltaX: CGFloat(_leftAxis.axisRange), deltaY: CGFloat(_xAxis.axisRange), chartYMin: _xAxis._axisMinimum)
     }
     
-    public override func getMarkerPosition(highlight highlight: Highlight) -> CGPoint
+    open override func getMarkerPosition(highlight: Highlight) -> CGPoint
     {
         return CGPoint(x: highlight.drawY, y: highlight.drawX)
     }
     
-    public override func getBarBounds(e: BarChartDataEntry) -> CGRect
+    open override func getBarBounds(entry e: BarChartDataEntry) -> CGRect
     {
-        guard let
-            data = _data as? BarChartData,
-            set = data.getDataSetForEntry(e) as? IBarChartDataSet
-            else { return CGRectNull }
+        guard
+            let data = _data as? BarChartData,
+            let set = data.getDataSetForEntry(e) as? IBarChartDataSet
+            else { return CGRect.null }
         
         let y = e.y
         let x = e.x
@@ -122,21 +122,21 @@ public class HorizontalBarChartView: BarChartView
         
         var bounds = CGRect(x: left, y: top, width: right - left, height: bottom - top)
         
-        getTransformer(set.axisDependency).rectValueToPixel(&bounds)
+        getTransformer(forAxis: set.axisDependency).rectValueToPixel(&bounds)
         
         return bounds
     }
     
-    public override func getPosition(e: ChartDataEntry, axis: YAxis.AxisDependency) -> CGPoint
+    open override func getPosition(entry e: ChartDataEntry, axis: YAxis.AxisDependency) -> CGPoint
     {
         var vals = CGPoint(x: CGFloat(e.y), y: CGFloat(e.x))
         
-        getTransformer(axis).pointValueToPixel(&vals)
+        getTransformer(forAxis: axis).pointValueToPixel(&vals)
         
         return vals
     }
 
-    public override func getHighlightByTouchPoint(pt: CGPoint) -> Highlight?
+    open override func getHighlightByTouchPoint(_ pt: CGPoint) -> Highlight?
     {
         if _data === nil
         {
@@ -148,66 +148,66 @@ public class HorizontalBarChartView: BarChartView
     }
     
     /// - returns: The lowest x-index (value on the x-axis) that is still visible on he chart.
-    public override var lowestVisibleX: Double
+    open override var lowestVisibleX: Double
     {
         var pt = CGPoint(
             x: viewPortHandler.contentLeft,
             y: viewPortHandler.contentBottom)
         
-        getTransformer(.Left).pixelToValues(&pt)
+        getTransformer(forAxis: .left).pixelToValues(&pt)
         
         return max(xAxis._axisMinimum, Double(pt.y))
     }
     
     /// - returns: The highest x-index (value on the x-axis) that is still visible on the chart.
-    public override var highestVisibleX: Double
+    open override var highestVisibleX: Double
     {
         var pt = CGPoint(
             x: viewPortHandler.contentLeft,
             y: viewPortHandler.contentTop)
         
-        getTransformer(.Left).pixelToValues(&pt)
+        getTransformer(forAxis: .left).pixelToValues(&pt)
         
         return min(xAxis._axisMaximum, Double(pt.y))
     }
     
     // MARK: - Viewport
     
-    public override func setVisibleXRangeMaximum(maxXRange: Double)
+    open override func setVisibleXRangeMaximum(_ maxXRange: Double)
     {
         let xScale = xAxis.axisRange / maxXRange
         viewPortHandler.setMinimumScaleY(CGFloat(xScale))
     }
     
-    public override func setVisibleXRangeMinimum(minXRange: Double)
+    open override func setVisibleXRangeMinimum(_ minXRange: Double)
     {
         let xScale = xAxis.axisRange / minXRange
         viewPortHandler.setMaximumScaleY(CGFloat(xScale))
     }
     
-    public override func setVisibleXRange(minXRange minXRange: Double, maxXRange: Double)
+    open override func setVisibleXRange(minXRange: Double, maxXRange: Double)
     {
         let minScale = xAxis.axisRange / minXRange
         let maxScale = xAxis.axisRange / maxXRange
         viewPortHandler.setMinMaxScaleY(minScaleY: CGFloat(minScale), maxScaleY: CGFloat(maxScale))
     }
     
-    public override func setVisibleYRangeMaximum(maxYRange: Double, axis: YAxis.AxisDependency)
+    open override func setVisibleYRangeMaximum(_ maxYRange: Double, axis: YAxis.AxisDependency)
     {
-        let yScale = getAxisRange(axis) / maxYRange
+        let yScale = getAxisRange(axis: axis) / maxYRange
         viewPortHandler.setMinimumScaleX(CGFloat(yScale))
     }
     
-    public override func setVisibleYRangeMinimum(minYRange: Double, axis: YAxis.AxisDependency)
+    open override func setVisibleYRangeMinimum(_ minYRange: Double, axis: YAxis.AxisDependency)
     {
-        let yScale = getAxisRange(axis) / minYRange
+        let yScale = getAxisRange(axis: axis) / minYRange
         viewPortHandler.setMaximumScaleX(CGFloat(yScale))
     }
     
-    public override func setVisibleYRange(minYRange minYRange: Double, maxYRange: Double, axis: YAxis.AxisDependency)
+    open override func setVisibleYRange(minYRange: Double, maxYRange: Double, axis: YAxis.AxisDependency)
     {
-        let minScale = getAxisRange(axis) / minYRange
-        let maxScale = getAxisRange(axis) / maxYRange
+        let minScale = getAxisRange(axis: axis) / minYRange
+        let maxScale = getAxisRange(axis: axis) / maxYRange
         viewPortHandler.setMinMaxScaleX(minScaleX: CGFloat(minScale), maxScaleX: CGFloat(maxScale))
     }
 }

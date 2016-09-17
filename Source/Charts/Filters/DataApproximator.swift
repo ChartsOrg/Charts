@@ -12,10 +12,10 @@
 import Foundation
 
 @objc(ChartDataApproximator)
-public class DataApproximator: NSObject
+open class DataApproximator: NSObject
 {
     /// uses the douglas peuker algorithm to reduce the given arraylist of entries
-    public class func reduceWithDouglasPeuker(points: [CGPoint], tolerance: CGFloat) -> [CGPoint]
+    open class func reduceWithDouglasPeuker(_ points: [CGPoint], tolerance: CGFloat) -> [CGPoint]
     {
         // if a shape has 2 or less points it cannot be reduced
         if tolerance <= 0 || points.count < 3
@@ -23,14 +23,14 @@ public class DataApproximator: NSObject
             return points
         }
         
-        var keep = [Bool](count: points.count, repeatedValue: false)
+        var keep = [Bool](repeating: false, count: points.count)
         
         // first and last always stay
         keep[0] = true
         keep[points.count - 1] = true
         
         // first and last entry are entry point to recursion
-        reduceWithDouglasPeuker(points,
+        reduceWithDouglasPeuker(points: points,
                                 tolerance: tolerance,
                                 start: 0,
                                 end: points.count - 1,
@@ -55,14 +55,14 @@ public class DataApproximator: NSObject
     /// - parameter tolerance:
     /// - parameter start:
     /// - parameter end:
-    public class func reduceWithDouglasPeuker(
+    open class func reduceWithDouglasPeuker(
         points: [CGPoint],
         tolerance: CGFloat,
         start: Int,
         end: Int,
-        inout keep: [Bool])
+        keep: inout [Bool])
     {
-        if (end <= start + 1)
+        if end <= start + 1
         {
             // recursion finished
             return
@@ -90,12 +90,12 @@ public class DataApproximator: NSObject
             keep[greatestIndex] = true
             
             // recursive call
-            reduceWithDouglasPeuker(points, tolerance: tolerance, start: start, end: greatestIndex, keep: &keep)
-            reduceWithDouglasPeuker(points, tolerance: tolerance, start: greatestIndex, end: end, keep: &keep)
+            reduceWithDouglasPeuker(points: points, tolerance: tolerance, start: start, end: greatestIndex, keep: &keep)
+            reduceWithDouglasPeuker(points: points, tolerance: tolerance, start: greatestIndex, end: end, keep: &keep)
         } // else don't keep the point...
     }
     
-    private class Line
+    fileprivate class Line
     {
         var sxey: CGFloat
         var exsy: CGFloat

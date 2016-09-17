@@ -24,7 +24,7 @@ public protocol IAxisValueFormatter : NSObjectProtocol
     /// - parameter value:           the value that is currently being drawn
     /// - parameter axis:            the axis that the value belongs to
     ///
-    func stringForValue(value: Double,
+    func stringForValue(_ value: Double,
                         axis: AxisBase?) -> String
     
 }
