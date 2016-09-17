@@ -180,6 +180,7 @@
 /* Begin PBXFileReference section */
 		06165F241D8110E600722320 /* Charts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Charts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		06165F2E1D8110E600722320 /* ChartsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChartsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		063FF0401D8CC9940094A042 /* Carthage.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Carthage.xcconfig; sourceTree = "<group>"; };
 		06B11FAC1D811B6600D14B02 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Source/Supporting Files/Info.plist"; sourceTree = "<group>"; };
 		06B11FAE1D811B7000D14B02 /* Charts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Charts.h; path = "Source/Supporting Files/Charts.h"; sourceTree = "<group>"; };
 		06B11FB11D811B8900D14B02 /* Animator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
@@ -374,6 +375,7 @@
 		06165F1A1D8110E600722320 = {
 			isa = PBXGroup;
 			children = (
+				063FF0401D8CC9940094A042 /* Carthage.xcconfig */,
 				06500D381D81115900156E8A /* Charts */,
 				06165F321D8110E700722320 /* ChartsTests */,
 				06B120CD1D811D9D00D14B02 /* ChartsRealm */,
@@ -1156,6 +1158,7 @@
 /* Begin XCBuildConfiguration section */
 		06165F361D8110E700722320 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 063FF0401D8CC9940094A042 /* Carthage.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1180,22 +1183,6 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				"FRAMEWORK_SEARCH_PATHS[sdk=appletvos*]" = (
-					"$(SRCROOT)/Carthage/Build/tvOS/",
-					"$(inherited)",
-				);
-				"FRAMEWORK_SEARCH_PATHS[sdk=iphoneos*]" = (
-					"$(SRCROOT)/Carthage/Build/iOS/",
-					"$(inherited)",
-				);
-				"FRAMEWORK_SEARCH_PATHS[sdk=macosx*]" = (
-					"$(SRCROOT)/Carthage/Build/Mac/",
-					"$(inherited)",
-				);
-				"FRAMEWORK_SEARCH_PATHS[sdk=watchos*]" = (
-					"$(SRCROOT)/Carthage/Build/watchOS/",
-					"$(inherited)",
-				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1228,6 +1215,7 @@
 		};
 		06165F371D8110E700722320 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 063FF0401D8CC9940094A042 /* Carthage.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1252,22 +1240,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				"FRAMEWORK_SEARCH_PATHS[sdk=appletvos*]" = (
-					"$(SRCROOT)/Carthage/Build/tvOS/",
-					"$(inherited)",
-				);
-				"FRAMEWORK_SEARCH_PATHS[sdk=iphoneos*]" = (
-					"$(SRCROOT)/Carthage/Build/iOS/",
-					"$(inherited)",
-				);
-				"FRAMEWORK_SEARCH_PATHS[sdk=macosx*]" = (
-					"$(SRCROOT)/Carthage/Build/Mac/",
-					"$(inherited)",
-				);
-				"FRAMEWORK_SEARCH_PATHS[sdk=watchos*]" = (
-					"$(SRCROOT)/Carthage/Build/watchOS/",
-					"$(inherited)",
-				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
