@@ -33,6 +33,7 @@ class BarChartTests: FBSnapshotTestCase
         data.barWidth = 0.85
         
         chart = BarChartView(frame: CGRect(x: 0, y: 0, width: 480, height: 350))
+        chart.backgroundColor = NSUIColor.clear
         chart.leftAxis.axisMinimum = 0.0
         chart.rightAxis.axisMinimum = 0.0
         chart.data = data
