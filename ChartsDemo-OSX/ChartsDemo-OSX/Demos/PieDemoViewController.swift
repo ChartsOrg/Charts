@@ -44,7 +44,7 @@ open class PieDemoViewController: NSViewController
         
         self.pieChartView.data = data
         
-        self.pieChartView.descriptionText = "Piechart Demo"
+        self.pieChartView.chartDescription?.text = "Piechart Demo"
     }
     
     override open func viewWillAppear()
