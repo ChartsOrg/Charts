@@ -9,13 +9,26 @@
 * Xcode 8.0 / Swift 3.0
 * iOS >= 8.0 (Use as an **Embedded** Framework)
 * tvOS >= 9.0
-* OSX >= 10.11
+* macOS >= 10.11
 
 Okay so there's this beautiful library called [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) by [Philipp Jahoda](https://www.linkedin.com/in/philippjahoda) which has become very popular amongst Android developers, and in the meanwhile there's no decent charting solution for iOS.
 
 I've chosen to write it in `Swift` as it can be highly optimized by the compiler, and can be used in both `Swift` and `ObjC` project. The demo project is written in `ObjC` to demonstrate how it works.
 
-**An amazing feature** of this library now, for Android, iOS, tvOS and OSX, is the time it saves you when developing for both platforms, as the learning curve is singleton- it happens only once, and the code stays very similar so developers don't have to go around and re-invent the app to produce the same output with a different library. (And that's not even considering the fact that there's not really another good choice out there currently...)
+**An amazing feature** of this library now, for Android, iOS, tvOS and macOS, is the time it saves you when developing for both platforms, as the learning curve is singleton- it happens only once, and the code stays very similar so developers don't have to go around and re-invent the app to produce the same output with a different library. (And that's not even considering the fact that there's not really another good choice out there currently...)
+
+## Having trouble running the demo?
+
+* `ChartsDemo/ChartsDemo.xcodeproj` is the demo project for iOS/tvOS
+* `ChartsDemo-OSX/ChartsDemo-OSX.xcodeproj` is the demo project for macOS
+* Make sure you are running a supported version of Xcode.
+  * Usually it is specified here a few lines above.
+  * In most cases it will be the latest Xcode version.
+* Make sure that your project supports Swift 3.0
+* Run `carthage update` in the project folder, to fetch dependencies (i.e Realm).
+  * Realm is not required for using Charts - it is just a feature. But as the demo demonstrates Realm - you have to have it when running the demo.
+  * If you don't have Carthage - you can get it [here](https://github.com/Carthage/Carthage/releases).
+
 
 ## Usage
 
@@ -168,7 +181,7 @@ Features
 
 Documentation
 =======
-Currently there's no need for documentation for the iOS/tvOS/OSX version, as the API is **95% the same** as on Android.  
+Currently there's no need for documentation for the iOS/tvOS/macOS version, as the API is **95% the same** as on Android.  
 You can read the official [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) documentation here: [**Wiki**](https://github.com/PhilJay/MPAndroidChart/wiki)
 
 Or you can see the [**ChartsDemo**](https://github.com/danielgindi/Charts/tree/master/ChartsDemo) project and learn the how-tos from it.
