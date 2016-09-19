@@ -25,7 +25,7 @@ I've chosen to write it in `Swift` as it can be highly optimized by the compiler
   * Usually it is specified here a few lines above.
   * In most cases it will be the latest Xcode version.
 * Make sure that your project supports Swift 3.0
-* Run `carthage update` in the project folder, to fetch dependencies (i.e Realm).
+* Run `carthage checkout` in the project folder, to fetch dependencies (i.e Realm).
   * Realm is not required for using Charts - it is just a feature. But as the demo demonstrates Realm - you have to have it when running the demo.
   * If you don't have Carthage - you can get it [here](https://github.com/Carthage/Carthage/releases).
 
