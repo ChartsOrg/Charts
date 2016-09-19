@@ -48,8 +48,7 @@
     
     _chartView.delegate = self;
     
-    _chartView.chartDescription.enabled = NO;;
-    _chartView.noDataTextDescription = @"You need to provide data for the chart.";
+    _chartView.chartDescription.enabled = NO;
     
     _chartView.drawBarShadowEnabled = NO;
     _chartView.drawValueAboveBarEnabled = YES;

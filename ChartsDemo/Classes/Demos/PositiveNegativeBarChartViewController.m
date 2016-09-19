@@ -54,7 +54,7 @@
     _chartView.drawBarShadowEnabled = NO;
     _chartView.drawValueAboveBarEnabled = YES;
     
-    _chartView.chartDescription.enabled = NO;;
+    _chartView.chartDescription.enabled = NO;
     
     // scaling can now only be done on x- and y-axis separately
     _chartView.pinchZoomEnabled = NO;

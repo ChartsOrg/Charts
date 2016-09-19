@@ -38,8 +38,7 @@
     
     _chartView.drawBordersEnabled = YES;
     
-    _chartView.chartDescription.enabled = NO;;
-    _chartView.noDataTextDescription = @"You need to provide data for the chart.";
+    _chartView.chartDescription.enabled = NO;
     
     _chartView.pinchZoomEnabled = NO;
     _chartView.dragEnabled = YES;

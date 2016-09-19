@@ -83,10 +83,6 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// 1 is an invalid value, and will be converted to 0.999 automatically.
     fileprivate var _dragDecelerationFrictionCoef: CGFloat = 0.9
     
-    /// font object for drawing the information text when there are no values in the chart
-    open var infoFont: NSUIFont! = NSUIFont(name: "HelveticaNeue", size: 12.0)
-    open var infoTextColor: NSUIColor! = NSUIColor(red: 247.0/255.0, green: 189.0/255.0, blue: 51.0/255.0, alpha: 1.0) // orange
-    
     /// if true, units are drawn next to the values in the chart
     internal var _drawUnitInChart = false
     
@@ -158,11 +154,11 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// text that is displayed when the chart is empty
     open var noDataText = "No chart data available."
     
+    /// Font to be used for the no data text.
+    open var noDataFont: NSUIFont! = NSUIFont(name: "HelveticaNeue", size: 12.0)
+    
     /// color of the no data text
     open var noDataTextColor: NSUIColor = NSUIColor.black
-    
-    /// text that is displayed when the chart is empty that describes why the chart is empty
-    open var noDataTextDescription: String?
     
     internal var _legendRenderer: LegendRenderer!
     
@@ -379,41 +375,21 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         
         let frame = self.bounds
 
-        if _data === nil
+        if _data === nil && noDataText.characters.count > 0
         {
             context.saveGState()
             defer { context.restoreGState() }
             
-            let hasText = noDataText.characters.count > 0
-            let hasDescription = (noDataTextDescription?.characters.count ?? 0) > 0
-            var textHeight = hasText ? infoFont.lineHeight : 0.0
-            if hasDescription
-            {
-                textHeight += infoFont.lineHeight
-            }
-            
-            // if no data, inform the user
-            
-            var y = (frame.height - textHeight) / 2.0
-            
-            context.setStrokeColor(noDataTextColor.cgColor)
-            
-            if hasText
-            {
-                ChartUtils.drawText(
-                    context: context,
-                    text: noDataText,
-                    point: CGPoint(x: frame.width / 2.0, y: y),
-                    align: .center,
-                    attributes: [NSFontAttributeName: infoFont, NSForegroundColorAttributeName: infoTextColor]
-                )
-                y = y + infoFont.lineHeight
-            }
-            
-            if (noDataTextDescription != nil && (noDataTextDescription!).characters.count > 0)
-            {
-                ChartUtils.drawText(context: context, text: noDataTextDescription!, point: CGPoint(x: frame.width / 2.0, y: y), align: .center, attributes: [NSFontAttributeName: infoFont, NSForegroundColorAttributeName: infoTextColor])
-            }
+            ChartUtils.drawMultilineText(
+                context: context,
+                text: noDataText,
+                point: CGPoint(x: frame.width / 2.0, y: frame.height / 2.0),
+                attributes:
+                [NSFontAttributeName: noDataFont,
+                 NSForegroundColorAttributeName: noDataTextColor],
+                constrainedToSize: self.bounds.size,
+                anchor: CGPoint(x: 0.5, y: 0.5),
+                angleRadians: 0.0)
             
             return
         }

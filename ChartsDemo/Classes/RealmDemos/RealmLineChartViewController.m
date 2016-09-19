@@ -49,6 +49,9 @@
     
     [self setupBarLineChartView:_chartView];
     
+    // enable description text
+    _chartView.chartDescription.enabled = YES;
+    
     _chartView.leftAxis.axisMaximum = 150.f;
     _chartView.leftAxis.axisMinimum = 0.f;
     _chartView.leftAxis.drawGridLinesEnabled = NO;

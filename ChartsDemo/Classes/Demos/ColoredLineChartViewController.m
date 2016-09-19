@@ -49,8 +49,7 @@
     chart.delegate = self;
     chart.backgroundColor = color;
     
-    chart.chartDescription.enabled = NO;;
-    chart.noDataTextDescription = @"You need to provide data for the chart.";
+    chart.chartDescription.enabled = NO;
     
     chart.drawGridBackgroundEnabled = NO;
     chart.dragEnabled = YES;
