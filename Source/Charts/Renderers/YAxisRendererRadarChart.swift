@@ -36,18 +36,15 @@ open class YAxisRendererRadarChart: YAxisRenderer
         let labelCount = axis.labelCount
         let range = abs(yMax - yMin)
         
-        if labelCount == 0 || range <= 0
+        if labelCount == 0 || range <= 0 || range.isInfinite
         {
             axis.entries = [Double]()
+            axis.centeredEntries = [Double]()
             return
         }
         
         // Find out how much spacing (in yValue space) between axis values
-        var rawInterval = range / Double(labelCount)
-        if rawInterval.isInfinite
-        {
-            rawInterval = range > 0.0 && !range.isInfinite ? range : 1.0
-        }
+        let rawInterval = range / Double(labelCount)
         var interval = ChartUtils.roundToNextSignificant(number: Double(rawInterval))
         
         // If granularity is enabled, then do not allow the interval to go below specified granularity.
