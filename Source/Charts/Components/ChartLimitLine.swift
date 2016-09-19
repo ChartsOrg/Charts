@@ -33,10 +33,12 @@ open class ChartLimitLine: ComponentBase
     open var lineColor = NSUIColor(red: 237.0/255.0, green: 91.0/255.0, blue: 91.0/255.0, alpha: 1.0)
     open var lineDashPhase = CGFloat(0.0)
     open var lineDashLengths: [CGFloat]?
+    
     open var valueTextColor = NSUIColor.black
     open var valueFont = NSUIFont.systemFont(ofSize: 13.0)
-    open var label = ""
+    
     open var drawLabelEnabled = true
+    open var label = ""
     open var labelPosition = LabelPosition.rightTop
     
     public override init()

@@ -262,7 +262,7 @@
     chartView.drawSlicesUnderHoleEnabled = NO;
     chartView.holeRadiusPercent = 0.58;
     chartView.transparentCircleRadiusPercent = 0.61;
-    chartView.descriptionText = @"";
+    chartView.chartDescription.enabled = NO;;
     [chartView setExtraOffsetsWithLeft:5.f top:10.f right:5.f bottom:5.f];
     
     chartView.drawCenterTextEnabled = YES;
@@ -300,13 +300,13 @@
 
 - (void)setupRadarChartView:(RadarChartView *)chartView
 {
-    chartView.descriptionText = @"";
+    chartView.chartDescription.enabled = NO;;
     chartView.noDataTextDescription = @"You need to provide data for the chart.";
 }
 
 - (void)setupBarLineChartView:(BarLineChartViewBase *)chartView
 {
-    chartView.descriptionText = @"";
+    chartView.chartDescription.enabled = NO;;
     chartView.noDataTextDescription = @"You need to provide data for the chart.";
     
     chartView.drawGridBackgroundEnabled = NO;

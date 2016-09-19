@@ -20,11 +20,11 @@ open class ComponentBase: NSObject
     /// flag that indicates if this component is enabled or not
     open var enabled = true
     
-    /// Sets the used x-axis offset for the labels on this axis.
+    /// The offset this component has on the x-axis
     /// **default**: 5.0
     open var xOffset = CGFloat(5.0)
     
-    /// Sets the used y-axis offset for the labels on this axis.
+    /// The offset this component has on the x-axis
     /// **default**: 5.0 (or 0.0 on ChartYAxis)
     open var yOffset = CGFloat(5.0)
     

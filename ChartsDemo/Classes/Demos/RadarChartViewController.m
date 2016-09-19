@@ -52,7 +52,7 @@
     
     _chartView.delegate = self;
     
-    _chartView.descriptionText = @"";
+    _chartView.chartDescription.enabled = NO;;
     _chartView.webLineWidth = 1.0;
     _chartView.innerWebLineWidth = 1.0;
     _chartView.webColor = UIColor.lightGrayColor;

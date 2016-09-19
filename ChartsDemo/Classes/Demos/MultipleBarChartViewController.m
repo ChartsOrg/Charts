@@ -46,7 +46,7 @@
     
     _chartView.delegate = self;
     
-    _chartView.descriptionText = @"";
+    _chartView.chartDescription.enabled = NO;;
     _chartView.noDataTextDescription = @"You need to provide data for the chart.";
     
     _chartView.pinchZoomEnabled = NO;

@@ -83,32 +83,73 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// 1 is an invalid value, and will be converted to 0.999 automatically.
     fileprivate var _dragDecelerationFrictionCoef: CGFloat = 0.9
     
-    /// Font object used for drawing the description text (by default in the bottom right corner of the chart)
-    open var descriptionFont: NSUIFont? = NSUIFont(name: "HelveticaNeue", size: 9.0)
-    
-    /// Text color used for drawing the description text
-    open var descriptionTextColor: NSUIColor? = NSUIColor.black
-    
-    /// Text align used for drawing the description text
-    open var descriptionTextAlign: NSTextAlignment = NSTextAlignment.right
-    
-    /// Custom position for the description text in pixels on the screen.
-    open var descriptionTextPosition: CGPoint? = nil
-    
     /// font object for drawing the information text when there are no values in the chart
     open var infoFont: NSUIFont! = NSUIFont(name: "HelveticaNeue", size: 12.0)
     open var infoTextColor: NSUIColor! = NSUIColor(red: 247.0/255.0, green: 189.0/255.0, blue: 51.0/255.0, alpha: 1.0) // orange
     
-    /// description text that appears in the bottom right corner of the chart
-    open var descriptionText = "Description"
-    
     /// if true, units are drawn next to the values in the chart
     internal var _drawUnitInChart = false
     
-    /// the object representing the labels on the x-axis
+    /// The object representing the labels on the x-axis
     internal var _xAxis: XAxis!
     
-    /// the legend object containing all data associated with the legend
+    /// The `Description` object of the chart.
+    /// This should have been called just "description", but
+    open var chartDescription: Description?
+    
+    /// This property is deprecated - Use `chartDescription.text` instead.
+    @available(*, deprecated: 1.0, message: "Use `chartDescription.text` instead.")
+    open var descriptionText: String
+    {
+        get { return chartDescription?.text ?? "" }
+        set { chartDescription?.text = newValue }
+    }
+    
+    /// This property is deprecated - Use `chartDescription.font` instead.
+    @available(*, deprecated: 1.0, message: "Use `chartDescription.font` instead.")
+    open var descriptionFont: NSUIFont?
+    {
+        get { return chartDescription?.font }
+        set
+        {
+            if let value = newValue
+            {
+                chartDescription?.font = value
+            }
+        }
+    }
+    
+    /// This property is deprecated - Use `chartDescription.textColor` instead.
+    @available(*, deprecated: 1.0, message: "Use `chartDescription.textColor` instead.")
+    open var descriptionTextColor: NSUIColor?
+    {
+        get { return chartDescription?.textColor }
+        set
+        {
+            if let value = newValue
+            {
+                chartDescription?.textColor = value
+            }
+        }
+    }
+    
+    /// This property is deprecated - Use `chartDescription.textAlign` instead.
+    @available(*, deprecated: 1.0, message: "Use `chartDescription.textAlign` instead.")
+    open var descriptionTextAlign: NSTextAlignment
+    {
+        get { return chartDescription?.textAlign ?? NSTextAlignment.right }
+        set { chartDescription?.textAlign = newValue }
+    }
+    
+    /// This property is deprecated - Use `chartDescription.position` instead.
+    @available(*, deprecated: 1.0, message: "Use `chartDescription.position` instead.")
+    open var descriptionTextPosition: CGPoint?
+    {
+        get { return chartDescription?.position }
+        set { chartDescription?.position = newValue }
+    }
+    
+    /// The legend object containing all data associated with the legend
     internal var _legend: Legend!
     
     /// delegate to receive chart events
@@ -206,6 +247,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
 
         _viewPortHandler = ViewPortHandler()
         _viewPortHandler.setChartDimens(width: bounds.size.width, height: bounds.size.height)
+        
+        chartDescription = Description()
         
         _legend = Legend()
         _legendRenderer = LegendRenderer(viewPortHandler: _viewPortHandler, legend: _legend)
@@ -382,55 +425,39 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         }
     }
     
-    /// draws the description text in the bottom right corner of the chart
+    /// Draws the description text in the bottom right corner of the chart (per default)
     internal func drawDescription(context: CGContext)
     {
-        if (descriptionText.lengthOfBytes(using: String.Encoding.utf16) == 0)
-        {
-            return
-        }
+        // check if description should be drawn
+        guard
+            let description = chartDescription,
+            description.isEnabled,
+            let descriptionText = description.text,
+            descriptionText.lengthOfBytes(using: String.Encoding.utf16) > 0
+            else { return }
         
-        let frame = self.bounds
+        var position = description.position
+
+        // if no position specified, draw on default position
+        if position == nil
+        {
+            let frame = self.bounds
+            position = CGPoint(
+                x: frame.width - _viewPortHandler.offsetRight - description.xOffset,
+                y: frame.height - _viewPortHandler.offsetBottom - description.yOffset - description.font.lineHeight)
+        }
         
         var attrs = [String : AnyObject]()
         
-        var font = descriptionFont
-        
-        if font == nil
-        {
-            #if os(tvOS)
-                // 23 is the smallest recommended font size on the TV
-                font = NSUIFont.systemFont(ofSize: 23)
-            #elseif os(OSX)
-                font = NSUIFont.systemFont(ofSize: NSUIFont.systemFontSize())
-            #else
-                font = NSUIFont.systemFont(ofSize: NSUIFont.systemFontSize)
-            #endif
-        }
-        
-        attrs[NSFontAttributeName] = font
-        attrs[NSForegroundColorAttributeName] = descriptionTextColor
+        attrs[NSFontAttributeName] = description.font
+        attrs[NSForegroundColorAttributeName] = description.textColor
 
-        if descriptionTextPosition == nil
-        {
-            ChartUtils.drawText(
-                context: context,
-                text: descriptionText,
-                point: CGPoint(
-                    x: frame.width - _viewPortHandler.offsetRight - 10.0,
-                    y: frame.height - _viewPortHandler.offsetBottom - 10.0 - (font?.lineHeight ?? 0.0)),
-                align: descriptionTextAlign,
-                attributes: attrs)
-        }
-        else
-        {
-            ChartUtils.drawText(
-                context: context,
-                text: descriptionText,
-                point: descriptionTextPosition!,
-                align: descriptionTextAlign,
-                attributes: attrs)
-        }
+        ChartUtils.drawText(
+            context: context,
+            text: descriptionText,
+            point: position!,
+            align: description.textAlign,
+            attributes: attrs)
     }
     
     // MARK: - Highlighting
@@ -776,11 +803,6 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     {
         let bounds = self.bounds
         return CGPoint(x: bounds.origin.x + bounds.size.width / 2.0, y: bounds.origin.y + bounds.size.height / 2.0)
-    }
-    
-    open func setDescriptionTextPosition(x: CGFloat, y: CGFloat)
-    {
-        descriptionTextPosition = CGPoint(x: x, y: y)
     }
     
     /// - returns: The center of the chart taking offsets under consideration. (returns the center of the content rectangle)

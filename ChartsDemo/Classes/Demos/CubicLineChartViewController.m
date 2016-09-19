@@ -66,7 +66,7 @@
     [_chartView setViewPortOffsetsWithLeft:0.f top:20.f right:0.f bottom:0.f];
     _chartView.backgroundColor = [UIColor colorWithRed:104/255.f green:241/255.f blue:175/255.f alpha:1.f];
 
-    _chartView.descriptionText = @"";
+    _chartView.chartDescription.enabled = NO;;
     _chartView.noDataTextDescription = @"You need to provide data for the chart.";
     
     _chartView.dragEnabled = YES;

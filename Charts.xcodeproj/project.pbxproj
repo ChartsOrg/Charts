@@ -158,6 +158,7 @@
 		06B121041D811F1600D14B02 /* ChartsRealm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B120D51D811E6200D14B02 /* ChartsRealm.framework */; };
 		06B121141D81208F00D14B02 /* ChartsRealmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B121131D81208F00D14B02 /* ChartsRealmTest.swift */; };
 		06B121151D81214300D14B02 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06165F241D8110E600722320 /* Charts.framework */; };
+		5B56A9CD1D905EB300F58178 /* Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B56A9CC1D905EB300F58178 /* Description.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -335,6 +336,7 @@
 		06B1210F1D81201100D14B02 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Tests/Supporting Files/Info.plist"; sourceTree = "<group>"; };
 		06B121111D81201C00D14B02 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Tests/Supporting Files/Info.plist"; sourceTree = SOURCE_ROOT; };
 		06B121131D81208F00D14B02 /* ChartsRealmTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChartsRealmTest.swift; path = Tests/ChartsRealm/ChartsRealmTest.swift; sourceTree = "<group>"; };
+		5B56A9CC1D905EB300F58178 /* Description.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Description.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -477,6 +479,7 @@
 				06B11FC11D811B8900D14B02 /* AxisBase.swift */,
 				06B11FC21D811B8900D14B02 /* ChartLimitLine.swift */,
 				06B11FC31D811B8900D14B02 /* ComponentBase.swift */,
+				5B56A9CC1D905EB300F58178 /* Description.swift */,
 				06B11FC41D811B8900D14B02 /* IMarker.swift */,
 				06B11FC51D811B8900D14B02 /* Legend.swift */,
 				06B11FC61D811B8900D14B02 /* LegendEntry.swift */,
@@ -987,6 +990,7 @@
 				06B120C41D811B8900D14B02 /* Transformer.swift in Sources */,
 				06B1206C1D811B8900D14B02 /* LineChartData.swift in Sources */,
 				06B1208F1D811B8900D14B02 /* IHighlighter.swift in Sources */,
+				5B56A9CD1D905EB300F58178 /* Description.swift in Sources */,
 				06B120921D811B8900D14B02 /* RadarHighlighter.swift in Sources */,
 				06B120771D811B8900D14B02 /* ScatterChartDataSet.swift in Sources */,
 				06B120791D811B8900D14B02 /* IBarLineScatterCandleBubbleChartDataSet.swift in Sources */,
