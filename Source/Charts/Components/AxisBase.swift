@@ -45,6 +45,9 @@ open class AxisBase: ComponentBase
     open var drawLabelsEnabled = true
     
     fileprivate var _centerAxisLabelsEnabled = false
+
+    /// Centers the axis labels instead of drawing them at their original position.
+    /// This is useful especially for grouped BarChart.
     open var centerAxisLabelsEnabled: Bool
     {
         get { return _centerAxisLabelsEnabled && entryCount > 1 }
