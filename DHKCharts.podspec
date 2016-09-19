@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = "8.0"
   s.tvos.deployment_target = "9.0"
   s.osx.deployment_target = "10.11"
-  s.source = { :git => "https://github.com/danielgindi/Charts.git", :tag => "v#{s.version}" }
+  s.source = { :git => "https://github.com/DuetHealth/ios-charts.git", :tag => "#{s.version}" }
   s.default_subspec = "Core"
   s.prepare_command = "sed -i '' -e 's/import Charts//g' ChartsRealm/Classes/**/*.swift"
 
