@@ -383,18 +383,18 @@ open class LineChartRenderer: LineRadarChartRenderer
             
             var e1: ChartDataEntry!
             var e2: ChartDataEntry!
+
+            let count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx)))
             
-            if (_lineSegments.count != max((entryCount - 1) * pointsPerEntryPair, pointsPerEntryPair))
+            if (_lineSegments.count != max((count - minx - 1) * pointsPerEntryPair, pointsPerEntryPair))
             {
-                _lineSegments = [CGPoint](repeating: CGPoint(), count: max((entryCount - 1) * pointsPerEntryPair, pointsPerEntryPair))
+                _lineSegments = [CGPoint](repeating: CGPoint(), count: max((count - minx - 1) * pointsPerEntryPair, pointsPerEntryPair))
             }
             
             e1 = dataSet.entryForIndex(minx)
             
             if e1 != nil
             {
-                let count = Int(ceil(CGFloat(maxx - minx) * phaseX + CGFloat(minx)))
-                
                 var j = 0
 				for x in stride(from: (count > 1 ? minx + 1 : minx), to: count, by: 1)
                 {
