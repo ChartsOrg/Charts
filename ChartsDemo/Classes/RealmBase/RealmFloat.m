@@ -1,6 +1,8 @@
 //
 //  RealmFloat.m
 //  ChartsDemo
+//
+//  Created by Daniel Cohen Gindi on 17/11/2015.
 //  Copyright © 2015 dcg. All rights reserved.
 //
 

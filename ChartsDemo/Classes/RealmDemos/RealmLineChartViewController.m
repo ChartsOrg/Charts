@@ -2,6 +2,8 @@
 //  RealmLineChartViewController.m
 //  ChartsDemo
 //
+//  Created by Daniel Cohen Gindi on 17/3/15.
+//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -28,7 +30,7 @@
     
     [self writeRandomDataToDbWithObjectCount:40];
     
-    self.title = @"Realm.io Line Chart";
+    self.title = @"Realm.io Line Chart Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
@@ -49,11 +51,8 @@
     
     [self setupBarLineChartView:_chartView];
     
-    // enable description text
-    _chartView.chartDescription.enabled = YES;
-    
-    _chartView.leftAxis.axisMaximum = 150.f;
-    _chartView.leftAxis.axisMinimum = 0.f;
+    _chartView.leftAxis.axisMaxValue = 150.f;
+    _chartView.leftAxis.axisMinValue = 0.f;
     _chartView.leftAxis.drawGridLinesEnabled = NO;
     _chartView.xAxis.drawGridLinesEnabled = NO;
     
@@ -73,8 +72,9 @@
     
     RLMResults *results = [RealmDemoData allObjectsInRealm:realm];
     
-    RealmLineDataSet *set = [[RealmLineDataSet alloc] initWithResults:results xValueField:@"xValue" yValueField:@"yValue"];
+    RealmLineDataSet *set = [[RealmLineDataSet alloc] initWithResults:results yValueField:@"value" xIndexField:@"xIndex"];
     
+    set.drawCubicEnabled = NO;
     set.label = @"Realm LineDataSet";
     set.drawCircleHoleEnabled = NO;
     set.color = [ChartColorTemplates colorFromString:@"#FF5722"];
@@ -84,10 +84,10 @@
     
     NSArray<id <IChartDataSet>> *dataSets = @[set];
     
-    LineChartData *data = [[LineChartData alloc] initWithDataSets:dataSets];
+    RealmLineData *data = [[RealmLineData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
     [self styleData:data];
     
-    [_chartView zoomWithScaleX:5.f scaleY:1.f x:0.f y:0.f];
+    [_chartView zoom:5.f scaleY:1.f x:0.f y:0.f];
     _chartView.data = data;
     
     [_chartView animateWithYAxisDuration:1.4 easingOption:ChartEasingOptionEaseInOutQuart];
@@ -121,7 +121,7 @@
     {
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
-            set.mode = set.mode == LineChartModeCubicBezier ? LineChartModeLinear : LineChartModeCubicBezier;
+            set.drawCubicEnabled = !set.isDrawCubicEnabled;
         }
         
         [_chartView setNeedsDisplay];
@@ -144,7 +144,7 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
 {
     NSLog(@"chartValueSelected");
 }

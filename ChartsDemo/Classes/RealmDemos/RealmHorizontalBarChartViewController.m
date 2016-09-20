@@ -2,6 +2,8 @@
 //  RealmHorizontalBarChartViewController.m
 //  ChartsDemo
 //
+//  Created by Daniel Cohen Gindi on 17/3/15.
+//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -28,11 +30,12 @@
     
     [self writeRandomStackedDataToDbWithObjectCount:50];
     
-    self.title = @"Realm.io Horizontal Bar Chart";
+    self.title = @"Realm.io Horizontal Bar Chart Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
+                     @{@"key": @"toggleHighlightArrow", @"label": @"Toggle Highlight Arrow"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
                      @{@"key": @"animateXY", @"label": @"Animate XY"},
@@ -45,7 +48,7 @@
     
     [self setupBarLineChartView:_chartView];
     
-    _chartView.leftAxis.axisMinimum = 0.0;
+    _chartView.leftAxis.axisMinValue = 0.0;
     _chartView.drawValueAboveBarEnabled = NO;
 
     [self setData];
@@ -64,8 +67,8 @@
     
     RLMResults *results = [RealmDemoData allObjectsInRealm:realm];
     
-    // RealmBarDataSet *set = [[RealmBarDataSet alloc] initWithResults:results yValueField:@@"yValue" xValueField:@"xIndex"];
-    RealmBarDataSet *set = [[RealmBarDataSet alloc] initWithResults:results xValueField:@"xValue" yValueField:@"stackValues" stackValueField:@"floatValue"]; // stacked entries
+    // RealmBarDataSet *set = [[RealmBarDataSet alloc] initWithResults:results yValueField:@"value" xIndexField:@"xIndex"];
+    RealmBarDataSet *set = [[RealmBarDataSet alloc] initWithResults:results yValueField:@"stackValues" xIndexField:@"xIndex" stackValueField:@"floatValue"]; // stacked entries
 
     set.colors = @[
                    [ChartColorTemplates colorFromString:@"#8BC34A"],
@@ -82,7 +85,7 @@
     
     NSArray<id <IChartDataSet>> *dataSets = @[set];
     
-    BarChartData *data = [[BarChartData alloc] initWithDataSets:dataSets];
+    RealmBarData *data = [[RealmBarData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
     [self styleData:data];
     data.valueTextColor = UIColor.whiteColor;
     
@@ -98,7 +101,7 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
 {
     NSLog(@"chartValueSelected");
 }

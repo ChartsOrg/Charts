@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
-        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PiePolylineChartViewController">
@@ -22,26 +21,30 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Acu-Hm-ONQ">
+                    <rect key="frame" x="289" y="4" width="78" height="35"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                     <inset key="contentEdgeInsets" minX="10" minY="7" maxX="10" maxY="7"/>
                     <state key="normal" title="Options">
-                        <color key="titleColor" red="0.24040704965591431" green="0.48385584354400635" blue="0.68625134229660034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleColor" red="0.29803921570000003" green="0.56078431370000004" blue="0.74117647060000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
                         <action selector="optionsButtonTapped:" destination="-1" eventType="touchUpInside" id="NI7-mV-kT4"/>
                     </connections>
                 </button>
                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="25" translatesAutoresizingMaskIntoConstraints="NO" id="ekR-nK-ppT">
+                    <rect key="frame" x="6" y="573" width="285" height="31"/>
                     <connections>
                         <action selector="slidersValueChanged:" destination="-1" eventType="valueChanged" id="cIX-Vt-DyR"/>
                     </connections>
                 </slider>
                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="200" translatesAutoresizingMaskIntoConstraints="NO" id="2id-KM-MqZ">
+                    <rect key="frame" x="6" y="611" width="285" height="31"/>
                     <connections>
                         <action selector="slidersValueChanged:" destination="-1" eventType="valueChanged" id="hZJ-5h-ugC"/>
                     </connections>
                 </slider>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="500" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n9H-fM-jsG">
+                    <rect key="frame" x="297" y="611" width="70" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="70" id="JgC-Vw-8li"/>
                         <constraint firstAttribute="height" constant="30" id="qzd-1L-bEO"/>
@@ -50,6 +53,7 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="500" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lre-9A-Aye">
+                    <rect key="frame" x="297" y="573" width="70" height="30"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="Ybz-Xr-teI"/>
                         <constraint firstAttribute="width" constant="70" id="pvO-Pm-Nqo"/>
@@ -58,7 +62,8 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="anE-ka-ll7" customClass="PieChartView" customModule="Charts">
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    <rect key="frame" x="0.0" y="47" width="375" height="501"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="25" id="XuT-Ui-Ria"/>
                     </constraints>
@@ -69,7 +74,7 @@
                     </variation>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="2id-KM-MqZ" secondAttribute="bottom" constant="26" id="0AC-oM-f39"/>
                 <constraint firstItem="ekR-nK-ppT" firstAttribute="leading" secondItem="30c-YJ-tW9" secondAttribute="leading" constant="8" id="0Fb-4W-iQd"/>
@@ -89,6 +94,7 @@
                 <constraint firstItem="2id-KM-MqZ" firstAttribute="leading" secondItem="30c-YJ-tW9" secondAttribute="leading" constant="8" id="sl2-pO-S2f"/>
                 <constraint firstItem="Acu-Hm-ONQ" firstAttribute="top" secondItem="30c-YJ-tW9" secondAttribute="top" constant="4" id="wBl-J9-CLZ"/>
             </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="lym-Gz-c9p"/>

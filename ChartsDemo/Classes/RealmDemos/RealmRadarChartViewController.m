@@ -2,6 +2,8 @@
 //  RealmRadarChartViewController.m
 //  ChartsDemo
 //
+//  Created by Daniel Cohen Gindi on 17/3/15.
+//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -28,7 +30,7 @@
     
     [self writeRandomDataToDbWithObjectCount:7];
     
-    self.title = @"Realm.io Radar Chart";
+    self.title = @"Realm.io Pie Chart Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
@@ -49,7 +51,6 @@
     [self setupRadarChartView:_chartView];
     
     _chartView.yAxis.enabled = NO;
-    _chartView.xAxis.enabled = NO;
     _chartView.webAlpha = 0.7f;
     _chartView.innerWebColor = UIColor.darkGrayColor;
     _chartView.webColor = UIColor.grayColor;
@@ -70,8 +71,8 @@
     
     RLMResults *results = [RealmDemoData allObjectsInRealm:realm];
     
-    // RealmRadarDataSet *set = [[RealmRadarDataSet alloc] initWithResults:results yValueField:@"stackValues" xValueField:@"xIndex"]; // normal entries
-    RealmRadarDataSet *set = [[RealmRadarDataSet alloc] initWithResults:results yValueField:@"yValue"]; // stacked entries
+    // RealmRadarDataSet *set = [[RealmRadarDataSet alloc] initWithResults:results yValueField:@"stackValues" xIndexField:@"xIndex"]; // normal entries
+    RealmRadarDataSet *set = [[RealmRadarDataSet alloc] initWithResults:results yValueField:@"value" xIndexField:@"xIndex"]; // stacked entries
     
     set.label = @"Realm RadarDataSet";
     set.drawFilledEnabled = YES;
@@ -82,7 +83,7 @@
     
     NSArray<id <IChartDataSet>> *dataSets = @[set];
 
-    RadarChartData *data = [[RadarChartData alloc] initWithDataSets:dataSets];
+    RadarChartData *data = [[RadarChartData alloc] initWithXVals:@[@"2013", @"2014", @"2015", @"2016", @"2017", @"2018", @"2019"] dataSets:dataSets];
     [self styleData:data];
     
     _chartView.data = data;
@@ -95,7 +96,6 @@
     {
         _chartView.xAxis.drawLabelsEnabled = !_chartView.xAxis.isDrawLabelsEnabled;
         
-        [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
         [_chartView setNeedsDisplay];
         return;
@@ -154,7 +154,7 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
 {
     NSLog(@"chartValueSelected");
 }

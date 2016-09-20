@@ -2,6 +2,8 @@
 //  DemoBaseViewController.m
 //  ChartsDemo
 //
+//  Created by Daniel Cohen Gindi on 13/3/15.
+//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -42,6 +44,11 @@
 - (void)initialize
 {
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    
+    months = @[
+        @"Jan", @"Feb", @"Mar", @"Apr", @"May", @"Jun", @"Jul", @"Aug", @"Sep",
+        @"Oct", @"Nov", @"Dec"
+        ];
     
     parties = @[
         @"Party A", @"Party B", @"Party C", @"Party D", @"Party E", @"Party F",
@@ -123,6 +130,14 @@
         barLineChart.autoScaleMinMaxEnabled = !barLineChart.isAutoScaleMinMaxEnabled;
         
         [chartView notifyDataSetChanged];
+    }
+    
+    if ([key isEqualToString:@"toggleHighlightArrow"])
+    {
+        BarChartView *barChart = (BarChartView *)chartView;
+        barChart.drawHighlightArrowEnabled = !barChart.isDrawHighlightArrowEnabled;
+        
+        [chartView setNeedsDisplay];
     }
     
     if ([key isEqualToString:@"toggleData"])
@@ -262,7 +277,7 @@
     chartView.drawSlicesUnderHoleEnabled = NO;
     chartView.holeRadiusPercent = 0.58;
     chartView.transparentCircleRadiusPercent = 0.61;
-    chartView.chartDescription.enabled = NO;
+    chartView.descriptionText = @"";
     [chartView setExtraOffsetsWithLeft:5.f top:10.f right:5.f bottom:5.f];
     
     chartView.drawCenterTextEnabled = YES;
@@ -300,12 +315,14 @@
 
 - (void)setupRadarChartView:(RadarChartView *)chartView
 {
-    chartView.chartDescription.enabled = NO;
+    chartView.descriptionText = @"";
+    chartView.noDataTextDescription = @"You need to provide data for the chart.";
 }
 
 - (void)setupBarLineChartView:(BarLineChartViewBase *)chartView
 {
-    chartView.chartDescription.enabled = NO;
+    chartView.descriptionText = @"";
+    chartView.noDataTextDescription = @"You need to provide data for the chart.";
     
     chartView.drawGridBackgroundEnabled = NO;
     

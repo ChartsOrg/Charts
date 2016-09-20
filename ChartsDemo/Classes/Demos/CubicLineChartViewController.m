@@ -2,6 +2,8 @@
 //  CubicLineChartViewController.m
 //  ChartsDemo
 //
+//  Created by Daniel Cohen Gindi on 17/3/15.
+//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -12,7 +14,7 @@
 #import "CubicLineChartViewController.h"
 #import "ChartsDemo-Swift.h"
 
-@interface CubicLineSampleFillFormatter : NSObject <IChartFillFormatter>
+@interface CubicLineSampleFillFormatter : NSObject <ChartFillFormatter>
 {
 }
 @end
@@ -66,13 +68,13 @@
     [_chartView setViewPortOffsetsWithLeft:0.f top:20.f right:0.f bottom:0.f];
     _chartView.backgroundColor = [UIColor colorWithRed:104/255.f green:241/255.f blue:175/255.f alpha:1.f];
 
-    _chartView.chartDescription.enabled = NO;
+    _chartView.descriptionText = @"";
+    _chartView.noDataTextDescription = @"You need to provide data for the chart.";
     
     _chartView.dragEnabled = YES;
     [_chartView setScaleEnabled:YES];
     _chartView.pinchZoomEnabled = NO;
     _chartView.drawGridBackgroundEnabled = NO;
-    _chartView.maxHighlightDistance = 300.0;
     
     _chartView.xAxis.enabled = NO;
     
@@ -87,7 +89,7 @@
     _chartView.rightAxis.enabled = NO;
     _chartView.legend.enabled = NO;
     
-    _sliderX.value = 45.0;
+    _sliderX.value = 44.0;
     _sliderY.value = 100.0;
     [self slidersValueChanged:nil];
     
@@ -108,32 +110,40 @@
         return;
     }
     
-    [self setDataCount:_sliderX.value + 1 range:_sliderY.value];
+    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
 }
 
 - (void)setDataCount:(int)count range:(double)range
 {
+    NSMutableArray *xVals = [[NSMutableArray alloc] init];
+    
+    for (int i = 0; i < count; i++)
+    {
+        [xVals addObject:[@(i + 1990) stringValue]];
+    }
+    
     NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < count; i++)
     {
         double mult = (range + 1);
         double val = (double) (arc4random_uniform(mult)) + 20;
-        [yVals1 addObject:[[ChartDataEntry alloc] initWithX:i y:val]];
+        [yVals1 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
     
     LineChartDataSet *set1 = nil;
     if (_chartView.data.dataSetCount > 0)
     {
         set1 = (LineChartDataSet *)_chartView.data.dataSets[0];
-        set1.values = yVals1;
+        set1.yVals = yVals1;
+        _chartView.data.xValsObjc = xVals;
         [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
     }
     else
     {
-        set1 = [[LineChartDataSet alloc] initWithValues:yVals1 label:@"DataSet 1"];
-        set1.mode = LineChartModeCubicBezier;
+        set1 = [[LineChartDataSet alloc] initWithYVals:yVals1 label:@"DataSet 1"];
+        set1.drawCubicEnabled = YES;
         set1.cubicIntensity = 0.2;
         set1.drawCirclesEnabled = NO;
         set1.lineWidth = 1.8;
@@ -146,7 +156,7 @@
         set1.drawHorizontalHighlightIndicatorEnabled = NO;
         set1.fillFormatter = [[CubicLineSampleFillFormatter alloc] init];
         
-        LineChartData *data = [[LineChartData alloc] initWithDataSet:set1];
+        LineChartData *data = [[LineChartData alloc] initWithXVals:xVals dataSet:set1];
         [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:9.f]];
         [data setDrawValues:NO];
         
@@ -182,7 +192,7 @@
     {
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
-            set.mode = set.mode == LineChartModeCubicBezier ? LineChartModeLinear : LineChartModeCubicBezier;
+            set.drawCubicEnabled = !set.isDrawCubicEnabled;
         }
         
         [_chartView setNeedsDisplay];
@@ -193,7 +203,7 @@
     {
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
-            set.mode = set.mode == LineChartModeStepped ? LineChartModeLinear : LineChartModeStepped;
+            set.drawSteppedEnabled = !set.isDrawSteppedEnabled;
         }
         
         [_chartView setNeedsDisplay];
@@ -217,7 +227,7 @@
 
 - (IBAction)slidersValueChanged:(id)sender
 {
-    _sliderTextX.text = [@((int)_sliderX.value) stringValue];
+    _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
     _sliderTextY.text = [@((int)_sliderY.value) stringValue];
     
     [self updateChartData];
@@ -225,7 +235,7 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
 {
     NSLog(@"chartValueSelected");
 }

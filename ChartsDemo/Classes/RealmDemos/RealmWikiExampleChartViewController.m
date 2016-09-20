@@ -2,6 +2,8 @@
 //  RealmWikiExampleChartViewController.m
 //  ChartsDemo
 //
+//  Created by Daniel Cohen Gindi on 17/01/2016.
+//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -14,10 +16,7 @@
 #import <Realm/Realm.h>
 #import "Score.h"
 
-@interface RealmWikiExampleChartViewController () <ChartViewDelegate, IChartAxisValueFormatter>
-{
-    RLMResults<Score *> *results;
-}
+@interface RealmWikiExampleChartViewController () <ChartViewDelegate>
 
 @property (nonatomic, strong) IBOutlet LineChartView *lineChartView;
 @property (nonatomic, strong) IBOutlet BarChartView *barChartView;
@@ -39,17 +38,15 @@
     [self setupBarLineChartView:_barChartView];
     
     _lineChartView.extraBottomOffset = 5.f;
+    _lineChartView.extraRightOffset = 15.f;
     _barChartView.extraBottomOffset = 5.f;
+    _barChartView.extraRightOffset = 15.f;
     
     _lineChartView.leftAxis.drawGridLinesEnabled = NO;
     _lineChartView.xAxis.drawGridLinesEnabled = NO;
-    _lineChartView.xAxis.labelCount = 5;
-    _lineChartView.xAxis.granularity = 1.0;
     _barChartView.leftAxis.drawGridLinesEnabled = NO;
     _barChartView.xAxis.drawGridLinesEnabled = NO;
-    _barChartView.xAxis.labelCount = 5;
-    _barChartView.xAxis.granularity = 1.0;
-    
+
     // setup realm
     RLMRealm *realm = [RLMRealm defaultRealm];
     
@@ -59,19 +56,19 @@
     [realm deleteObjects:Score.allObjects];
     
     // write some demo-data into the realm.io database
-    Score *score1 = [[Score alloc] initWithTotalScore:100.f scoreNr:0.0 playerName:@"Peter"];
+    Score *score1 = [[Score alloc] initWithTotalScore:100.f scoreNr:0 playerName:@"Peter"];
     [realm addObject:score1];
     
-    Score *score2 = [[Score alloc] initWithTotalScore:110.f scoreNr:1.0 playerName:@"Lisa"];
+    Score *score2 = [[Score alloc] initWithTotalScore:110.f scoreNr:1 playerName:@"Lisa"];
     [realm addObject:score2];
     
-    Score *score3 = [[Score alloc] initWithTotalScore:130.f scoreNr:2.0 playerName:@"Dennis"];
+    Score *score3 = [[Score alloc] initWithTotalScore:130.f scoreNr:2 playerName:@"Dennis"];
     [realm addObject:score3];
     
-    Score *score4 = [[Score alloc] initWithTotalScore:70.f scoreNr:3.0 playerName:@"Luke"];
+    Score *score4 = [[Score alloc] initWithTotalScore:70.f scoreNr:3 playerName:@"Luke"];
     [realm addObject:score4];
     
-    Score *score5 = [[Score alloc] initWithTotalScore:80.f scoreNr:4.0 playerName:@"Sarah"];
+    Score *score5 = [[Score alloc] initWithTotalScore:80.f scoreNr:4 playerName:@"Sarah"];
     [realm addObject:score5];
     
     // commit changes to realm db
@@ -91,15 +88,12 @@
 {
     RLMRealm *realm = [RLMRealm defaultRealm];
     
-    results = [Score allObjectsInRealm:realm];
-    
-    _lineChartView.xAxis.valueFormatter = self;
-    _barChartView.xAxis.valueFormatter = self;
-    
     // Line chart
-    RealmLineDataSet *lineDataSet = [[RealmLineDataSet alloc] initWithResults:(RLMResults<RLMObject *> *)results xValueField:@"scoreNr" yValueField:@"totalScore"];
+    RLMResults *results = [Score allObjectsInRealm:realm];
+    
+    RealmLineDataSet *lineDataSet = [[RealmLineDataSet alloc] initWithResults:results yValueField:@"totalScore" xIndexField:@"scoreNr"];
     lineDataSet.drawCubicEnabled = NO;
-    lineDataSet.label = @"Result Scores";
+    lineDataSet.label = @"Realm LineDataSet";
     lineDataSet.drawCircleHoleEnabled = NO;
     [lineDataSet setColor:[ChartColorTemplates colorFromString:@"#FF5722"]];
     [lineDataSet setCircleColor:[ChartColorTemplates colorFromString:@"#FF5722"]];
@@ -108,7 +102,7 @@
     
     NSArray<id <IChartDataSet>> *lineDataSets = @[lineDataSet];
     
-    LineChartData *lineData = [[LineChartData alloc] initWithDataSets:lineDataSets];
+    RealmLineData *lineData = [[RealmLineData alloc] initWithResults:results xValueField:@"playerName" dataSets:lineDataSets];
     [self styleData:lineData];
     
     // set data
@@ -117,7 +111,7 @@
                                 easingOption:ChartEasingOptionEaseInOutQuart];
     
     // Bar chart
-    RealmBarDataSet *barDataSet = [[RealmBarDataSet alloc] initWithResults:(RLMResults<RLMObject *> *)results xValueField:@"scoreNr" yValueField:@"totalScore"];
+    RealmBarDataSet *barDataSet = [[RealmBarDataSet alloc] initWithResults:results yValueField:@"totalScore" xIndexField:@"scoreNr"];
     barDataSet.colors = @[
                           [ChartColorTemplates colorFromString:@"#FF5722"],
                           [ChartColorTemplates colorFromString:@"#03A9F4"],
@@ -126,19 +120,17 @@
     
     NSArray<id <IChartDataSet>> *barDataSets = @[barDataSet];
     
-    BarChartData *barData = [[BarChartData alloc] initWithDataSets:barDataSets];
+    RealmBarData *barData = [[RealmBarData alloc] initWithResults:results xValueField:@"playerName" dataSets:barDataSets];
     [self styleData:barData];
     
     _barChartView.data = barData;
-    _barChartView.fitBars = YES;
-    [_barChartView notifyDataSetChanged];
     [_barChartView animateWithYAxisDuration:1.4
                                 easingOption:ChartEasingOptionEaseInOutQuart];
 }
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
 {
     if (chartView == _lineChartView)
     {
@@ -160,14 +152,6 @@
     {
         NSLog(@"chartValueNothingSelected in Bar Chart");
     }
-}
-
-#pragma mark - IAxisValueFormatter
-
-- (NSString *)stringForValue:(double)value
-                        axis:(ChartAxisBase *)axis
-{
-    return ((Score *)results[(int)value]).playerName;
 }
 
 @end

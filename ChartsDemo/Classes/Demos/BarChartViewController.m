@@ -2,6 +2,8 @@
 //  BarChartViewController.m
 //  ChartsDemo
 //
+//  Created by Daniel Cohen Gindi on 17/3/15.
+//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -11,7 +13,6 @@
 
 #import "BarChartViewController.h"
 #import "ChartsDemo-Swift.h"
-#import "DayAxisValueFormatter.h"
 
 @interface BarChartViewController () <ChartViewDelegate>
 
@@ -34,6 +35,7 @@
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
+                     @{@"key": @"toggleHighlightArrow", @"label": @"Toggle Highlight Arrow"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
                      @{@"key": @"animateXY", @"label": @"Animate XY"},
@@ -51,29 +53,24 @@
     _chartView.drawBarShadowEnabled = NO;
     _chartView.drawValueAboveBarEnabled = YES;
     
-    _chartView.maxVisibleCount = 60;
+    _chartView.maxVisibleValueCount = 60;
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBottom;
     xAxis.labelFont = [UIFont systemFontOfSize:10.f];
     xAxis.drawGridLinesEnabled = NO;
-    xAxis.granularity = 1.0; // only intervals of 1 day
-    xAxis.labelCount = 7;
-    xAxis.valueFormatter = [[DayAxisValueFormatter alloc] initForChart:_chartView];
-    
-    NSNumberFormatter *leftAxisFormatter = [[NSNumberFormatter alloc] init];
-    leftAxisFormatter.minimumFractionDigits = 0;
-    leftAxisFormatter.maximumFractionDigits = 1;
-    leftAxisFormatter.negativeSuffix = @" $";
-    leftAxisFormatter.positiveSuffix = @" $";
+    xAxis.spaceBetweenLabels = 2.0;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.labelFont = [UIFont systemFontOfSize:10.f];
     leftAxis.labelCount = 8;
-    leftAxis.valueFormatter = [[ChartDefaultAxisValueFormatter alloc] initWithFormatter:leftAxisFormatter];
+    leftAxis.valueFormatter = [[NSNumberFormatter alloc] init];
+    leftAxis.valueFormatter.maximumFractionDigits = 1;
+    leftAxis.valueFormatter.negativeSuffix = @" $";
+    leftAxis.valueFormatter.positiveSuffix = @" $";
     leftAxis.labelPosition = YAxisLabelPositionOutsideChart;
     leftAxis.spaceTop = 0.15;
-    leftAxis.axisMinimum = 0.0; // this replaces startAtZero = YES
+    leftAxis.axisMinValue = 0.0; // this replaces startAtZero = YES
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.enabled = YES;
@@ -82,7 +79,7 @@
     rightAxis.labelCount = 8;
     rightAxis.valueFormatter = leftAxis.valueFormatter;
     rightAxis.spaceTop = 0.15;
-    rightAxis.axisMinimum = 0.0; // this replaces startAtZero = YES
+    rightAxis.axisMinValue = 0.0; // this replaces startAtZero = YES
     
     _chartView.legend.position = ChartLegendPositionBelowChartLeft;
     _chartView.legend.form = ChartLegendFormSquare;
@@ -90,17 +87,7 @@
     _chartView.legend.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
     _chartView.legend.xEntrySpace = 4.0;
     
-    XYMarkerView *marker = [[XYMarkerView alloc]
-                                  initWithColor: [UIColor colorWithWhite:180/255. alpha:1.0]
-                                  font: [UIFont systemFontOfSize:12.0]
-                                  textColor: UIColor.whiteColor
-                                  insets: UIEdgeInsetsMake(8.0, 8.0, 20.0, 8.0)
-                                  xAxisValueFormatter: _chartView.xAxis.valueFormatter];
-    marker.chartView = _chartView;
-    marker.minimumSize = CGSizeMake(80.f, 40.f);
-    _chartView.marker = marker;
-    
-    _sliderX.value = 12.0;
+    _sliderX.value = 11.0;
     _sliderY.value = 50.0;
     [self slidersValueChanged:nil];
 }
@@ -119,45 +106,47 @@
         return;
     }
     
-    [self setDataCount:_sliderX.value + 1 range:_sliderY.value];
+    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
 }
 
 - (void)setDataCount:(int)count range:(double)range
 {
-    double start = 0.0;
+    NSMutableArray *xVals = [[NSMutableArray alloc] init];
     
-    _chartView.xAxis.axisMinimum = start;
-    _chartView.xAxis.axisMaximum = start + count + 2;
+    for (int i = 0; i < count; i++)
+    {
+        [xVals addObject:months[i % 12]];
+    }
     
     NSMutableArray *yVals = [[NSMutableArray alloc] init];
     
-    for (int i = start; i < start + count + 1; i++)
+    for (int i = 0; i < count; i++)
     {
         double mult = (range + 1);
-        double val = (double) (arc4random_uniform(mult));
-        [yVals addObject:[[BarChartDataEntry alloc] initWithX:(double)i + 1.0 y:val]];
+        double val =  (double) (arc4random_uniform(mult));
+        [yVals addObject:[[BarChartDataEntry alloc] initWithValue:val xIndex:i]];
     }
     
     BarChartDataSet *set1 = nil;
     if (_chartView.data.dataSetCount > 0)
     {
         set1 = (BarChartDataSet *)_chartView.data.dataSets[0];
-        set1.values = yVals;
+        set1.yVals = yVals;
+        _chartView.data.xValsObjc = xVals;
         [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
     }
     else
     {
-        set1 = [[BarChartDataSet alloc] initWithValues:yVals label:@"The year 2017"];
+        set1 = [[BarChartDataSet alloc] initWithYVals:yVals label:@"DataSet"];
+        set1.barSpace = 0.35;
         [set1 setColors:ChartColorTemplates.material];
         
         NSMutableArray *dataSets = [[NSMutableArray alloc] init];
         [dataSets addObject:set1];
         
-        BarChartData *data = [[BarChartData alloc] initWithDataSets:dataSets];
+        BarChartData *data = [[BarChartData alloc] initWithXVals:xVals dataSets:dataSets];
         [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
-        
-        data.barWidth = 0.9f;
         
         _chartView.data = data;
     }
@@ -172,7 +161,7 @@
 
 - (IBAction)slidersValueChanged:(id)sender
 {
-    _sliderTextX.text = [@((int)_sliderX.value + 2) stringValue];
+    _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
     _sliderTextY.text = [@((int)_sliderY.value) stringValue];
     
     [self updateChartData];
@@ -180,7 +169,7 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
 {
     NSLog(@"chartValueSelected");
 }

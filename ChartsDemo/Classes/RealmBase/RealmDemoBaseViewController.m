@@ -2,6 +2,8 @@
 //  RealmDemoBaseViewController.m
 //  ChartsDemo
 //
+//  Created by Daniel Cohen Gindi on 13/3/15.
+//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -62,7 +64,7 @@ static float randomFloatBetween(float from, float to)
     
     for (int i = 0; i < objectCount; i++)
     {
-        RealmDemoData *d = [[RealmDemoData alloc] initWithXValue:i yValue:randomFloatBetween(40.f, 100.f)];
+        RealmDemoData *d = [[RealmDemoData alloc] initWithValue:randomFloatBetween(40.f, 100.f) xIndex:i xValue:[@(i) stringValue]];
         [realm addObject:d];
     }
     
@@ -84,7 +86,7 @@ static float randomFloatBetween(float from, float to)
         
         NSArray<NSNumber *> *stack = @[@(val1), @(val2), @(100.f - val1 - val2)];
         
-        RealmDemoData *d = [[RealmDemoData alloc] initWithXValue:i stackValues:stack];
+        RealmDemoData *d = [[RealmDemoData alloc] initWithStackValues:stack xIndex:i xValue:[@(i) stringValue]];
         [realm addObject:d];
     }
     
@@ -112,11 +114,12 @@ static float randomFloatBetween(float from, float to)
         
         BOOL even = i % 2 == 0;
         
-        RealmDemoData *d = [[RealmDemoData alloc] initWithXValue:i
-                                                            high:val + high
-                                                             low:val - low
-                                                            open:even ? val + open : val - open
-                                                           close:even ? val - close : val + close];
+        RealmDemoData *d = [[RealmDemoData alloc] initWithHigh:val + high
+                                                           low:val - low
+                                                          open:even ? val + open : val - open
+                                                         close:even ? val - close : val + close
+                                                        xIndex:i
+                                                        xValue:[@(i) stringValue]];
         
         [realm addObject:d];
     }
@@ -134,9 +137,7 @@ static float randomFloatBetween(float from, float to)
     
     for (int i = 0; i < objectCount; i++)
     {
-        RealmDemoData *d = [[RealmDemoData alloc] initWithXValue:i
-                                                          yValue:randomFloatBetween(30.f, 130.f)
-                                                      bubbleSize:randomFloatBetween(15.f, 35.f)];
+        RealmDemoData *d = [[RealmDemoData alloc] initWithValue:randomFloatBetween(30.f, 130.f) xIndex:i bubbleSize:randomFloatBetween(15.f, 35.f) xValue:[@(i) stringValue]];
         [realm addObject:d];
     }
     
@@ -171,8 +172,7 @@ static float randomFloatBetween(float from, float to)
     
     for (int i = 0; i < values.count; i++)
     {
-        RealmDemoData *d = [[RealmDemoData alloc] initWithYValue:randomFloatBetween(values[i].floatValue, 23.f)
-                                                           label:xValues[i]];
+        RealmDemoData *d = [[RealmDemoData alloc] initWithValue:randomFloatBetween(values[i].floatValue, 23.f) xIndex:i xValue:xValues[i]];
         [realm addObject:d];
     }
     
@@ -190,7 +190,7 @@ static float randomFloatBetween(float from, float to)
     ChartYAxis *leftAxis = chartView.leftAxis;
     leftAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:8.f];
     leftAxis.labelTextColor = UIColor.darkGrayColor;
-    leftAxis.valueFormatter = [[ChartDefaultAxisValueFormatter alloc] initWithFormatter:percentFormatter];
+    leftAxis.valueFormatter = percentFormatter;
 }
 
 - (void)styleData:(ChartData *)data
@@ -201,7 +201,7 @@ static float randomFloatBetween(float from, float to)
     
     data.valueFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:8.f];
     data.valueTextColor = UIColor.darkGrayColor;
-    data.valueFormatter = [[ChartDefaultValueFormatter alloc] initWithFormatter:percentFormatter];
+    data.valueFormatter = percentFormatter;
 }
 
 @end

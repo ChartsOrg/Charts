@@ -2,6 +2,8 @@
 //  RealmScatterChartViewController.m
 //  ChartsDemo
 //
+//  Created by Daniel Cohen Gindi on 17/3/15.
+//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -28,7 +30,7 @@
     
     [self writeRandomDataToDbWithObjectCount:45];
     
-    self.title = @"Realm.io Scatter Chart";
+    self.title = @"Realm.io Scatter Chart Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
@@ -65,19 +67,19 @@
     
     RLMResults *results = [RealmDemoData allObjectsInRealm:realm];
     
-    RealmScatterDataSet *set = [[RealmScatterDataSet alloc] initWithResults:results xValueField:@"xValue" yValueField:@"yValue"];
+    RealmScatterDataSet *set = [[RealmScatterDataSet alloc] initWithResults:results yValueField:@"value" xIndexField:@"xIndex"];
     
     set.label = @"Realm ScatterDataSet";
     set.scatterShapeSize = 9.f;
     [set setColor:[ChartColorTemplates colorFromString:@"#CDDC39"]];
-    [set setScatterShape:ScatterShapeCircle];
+    set.scatterShape = ScatterShapeCircle;
     
     NSArray<id <IChartDataSet>> *dataSets = @[set];
     
-    ScatterChartData *data = [[ScatterChartData alloc] initWithDataSets:dataSets];
+    RealmScatterData *data = [[RealmScatterData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
     [self styleData:data];
     
-    [_chartView zoomWithScaleX:5.f scaleY:1.f x:0.f y:0.f];
+    [_chartView zoom:5.f scaleY:1.f x:0.f y:0.f];
     _chartView.data = data;
     
     [_chartView animateWithYAxisDuration:1.4 easingOption:ChartEasingOptionEaseInOutQuart];
@@ -90,7 +92,7 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
 {
     NSLog(@"chartValueSelected");
 }

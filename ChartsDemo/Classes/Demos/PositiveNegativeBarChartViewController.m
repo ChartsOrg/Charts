@@ -2,6 +2,8 @@
 //  PositiveNegativeBarChartViewController.m
 //  ChartsDemo
 //
+//  Created by Daniel Cohen Gindi on 08/02/2016.
+//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -12,10 +14,7 @@
 #import "PositiveNegativeBarChartViewController.h"
 #import "ChartsDemo-Swift.h"
 
-@interface PositiveNegativeBarChartViewController () <ChartViewDelegate, IChartAxisValueFormatter>
-{
-    NSArray<NSDictionary *> *dataList;
-}
+@interface PositiveNegativeBarChartViewController () <ChartViewDelegate>
 
 @property (nonatomic, strong) IBOutlet BarChartView *chartView;
 
@@ -32,6 +31,7 @@
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
+                     @{@"key": @"toggleHighlightArrow", @"label": @"Toggle Highlight Arrow"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
                      @{@"key": @"animateXY", @"label": @"Animate XY"},
@@ -54,7 +54,7 @@
     _chartView.drawBarShadowEnabled = NO;
     _chartView.drawValueAboveBarEnabled = YES;
     
-    _chartView.chartDescription.enabled = NO;
+    _chartView.descriptionText = @"";
     
     // scaling can now only be done on x- and y-axis separately
     _chartView.pinchZoomEnabled = NO;
@@ -66,18 +66,13 @@
     xAxis.labelFont = [UIFont systemFontOfSize:13.f];
     xAxis.drawGridLinesEnabled = NO;
     xAxis.drawAxisLineEnabled = NO;
+    xAxis.spaceBetweenLabels = 2.0;
     xAxis.labelTextColor = [UIColor lightGrayColor];
-    xAxis.axisMinimum = 0.0;
-    xAxis.axisMaximum = 5.0;
-    xAxis.labelCount = 5;
-    xAxis.centerAxisLabelsEnabled = YES;
-    xAxis.granularity = 1.0;
-    xAxis.valueFormatter = self;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.drawLabelsEnabled = NO;
-    leftAxis.spaceTop = 25.0;
-    leftAxis.spaceBottom = 25.0;
+    leftAxis.spaceTop = 0.25f;
+    leftAxis.spaceBottom = 0.25f;
     leftAxis.drawAxisLineEnabled = NO;
     leftAxis.drawGridLinesEnabled = NO;
     leftAxis.drawZeroLineEnabled = YES;
@@ -110,25 +105,26 @@
 - (void)setChartData
 {
     // THIS IS THE ORIGINAL DATA YOU WANT TO PLOT
-    dataList = @[
-                                          @{@"xValue": @(0.5),
+    NSArray<NSDictionary *> *dataList = @[
+                                          @{@"xIndex": @(0),
                                             @"yValue": @(-224.1f),
-                                            @"xLabel": @"12-19"},
-                                          @{@"xValue": @(1.5),
+                                            @"xValue": @"12-19"},
+                                          @{@"xIndex": @(1),
                                             @"yValue": @(238.5f),
-                                            @"xLabel": @"12-30"},
-                                          @{@"xValue": @(2.5),
+                                            @"xValue": @"12-30"},
+                                          @{@"xIndex": @(2),
                                             @"yValue": @(1280.1f),
-                                            @"xLabel": @"12-31"},
-                                          @{@"xValue": @(3.5),
+                                            @"xValue": @"12-31"},
+                                          @{@"xIndex": @(3),
                                             @"yValue": @(-442.3f),
-                                            @"xLabel": @"01-01"},
-                                          @{@"xValue": @(4.5),
+                                            @"xValue": @"01-01"},
+                                          @{@"xIndex": @(4),
                                             @"yValue": @(-2280.1f),
-                                            @"xLabel": @"01-02"},
+                                            @"xValue": @"01-02"},
                                           ];
     
     NSMutableArray<BarChartDataEntry *> *values = [[NSMutableArray alloc] init];
+    NSMutableArray<NSString *> *dates = [[NSMutableArray alloc] init];
     NSMutableArray<UIColor *> *colors = [[NSMutableArray alloc] init];
     
     UIColor *green = [UIColor colorWithRed:110/255.f green:190/255.f blue:102/255.f alpha:1.f];
@@ -137,8 +133,10 @@
     for (int i = 0; i < dataList.count; i++)
     {
         NSDictionary *d = dataList[i];
-        BarChartDataEntry *entry = [[BarChartDataEntry alloc] initWithX:[d[@"xValue"] doubleValue] y:[d[@"yValue"] doubleValue]];
+        BarChartDataEntry *entry = [[BarChartDataEntry alloc] initWithValue:[d[@"yValue"] doubleValue] xIndex:[d[@"xIndex"] integerValue]];
         [values addObject:entry];
+        
+        [dates addObject:d[@"xValue"]];
         
         // specific colors
         if ([d[@"yValue"] doubleValue] >= 0.f)
@@ -151,18 +149,17 @@
         }
     }
     
-    BarChartDataSet *set = set = [[BarChartDataSet alloc] initWithValues:values label:@"Values"];
+    BarChartDataSet *set = set = [[BarChartDataSet alloc] initWithYVals:values label:@"Values"];
+    set.barSpace = 0.4f;
     set.colors = colors;
     set.valueColors = colors;
     
-    BarChartData *data = [[BarChartData alloc] initWithDataSet:set];
+    BarChartData *data = [[BarChartData alloc] initWithXVals:dates dataSet:set];
     [data setValueFont:[UIFont systemFontOfSize:13.f]];
     
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     formatter.maximumFractionDigits = 1;
-    [data setValueFormatter:[[ChartDefaultValueFormatter alloc] initWithFormatter:formatter]];
-    
-    data.barWidth = 0.8;
+    [data setValueFormatter:formatter];
     
     _chartView.data = data;
 }
@@ -174,7 +171,7 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
 {
     NSLog(@"chartValueSelected");
 }
@@ -182,15 +179,6 @@
 - (void)chartValueNothingSelected:(ChartViewBase * __nonnull)chartView
 {
     NSLog(@"chartValueNothingSelected");
-}
-
-#pragma mark - IAxisValueFormatter
-
-- (NSString *)stringForValue:(double)value
-                        axis:(ChartAxisBase *)axis
-{
-    return dataList[MIN(MAX((int) value, 0), dataList.count - 1)][@"xLabel"];
-
 }
 
 @end
