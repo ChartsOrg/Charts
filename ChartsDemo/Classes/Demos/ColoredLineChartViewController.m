@@ -2,8 +2,6 @@
 //  ColoredLineChartViewController.m
 //  ChartsDemo
 //
-//  Created by Daniel Cohen Gindi on 17/3/15.
-//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -51,8 +49,7 @@
     chart.delegate = self;
     chart.backgroundColor = color;
     
-    chart.descriptionText = @"";
-    chart.noDataTextDescription = @"You need to provide data for the chart.";
+    chart.chartDescription.enabled = NO;
     
     chart.drawGridBackgroundEnabled = NO;
     chart.dragEnabled = YES;
@@ -63,6 +60,8 @@
     chart.legend.enabled = NO;
     
     chart.leftAxis.enabled = NO;
+    chart.leftAxis.spaceTop = 40.0;
+    chart.leftAxis.spaceBottom = 40.0;
     chart.rightAxis.enabled = NO;
     chart.xAxis.enabled = NO;
     
@@ -79,22 +78,15 @@
 
 - (LineChartData *)dataWithCount:(int)count range:(double)range
 {
-    NSMutableArray *xVals = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < count; i++)
-    {
-        [xVals addObject:[@(i % 12) stringValue]];
-    }
-    
     NSMutableArray *yVals = [[NSMutableArray alloc] init];
     
     for (int i = 0; i < count; i++)
     {
         double val = (double) (arc4random_uniform(range)) + 3;
-        [yVals addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+        [yVals addObject:[[ChartDataEntry alloc] initWithX:i y:val]];
     }
     
-    LineChartDataSet *set1 = [[LineChartDataSet alloc] initWithYVals:yVals label:@"DataSet 1"];
+    LineChartDataSet *set1 = [[LineChartDataSet alloc] initWithValues:yVals label:@"DataSet 1"];
     
     set1.lineWidth = 1.75;
     set1.circleRadius = 5.0;
@@ -104,12 +96,12 @@
     set1.highlightColor = UIColor.whiteColor;
     set1.drawValuesEnabled = NO;
     
-    return [[LineChartData alloc] initWithXVals:xVals dataSet:set1];
+    return [[LineChartData alloc] initWithDataSet:set1];
 }
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry highlight:(ChartHighlight * __nonnull)highlight
 {
     NSLog(@"chartValueSelected");
 }

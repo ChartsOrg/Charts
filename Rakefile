@@ -3,7 +3,7 @@ def type
 end
 
 def project_name
-  "Charts/Charts.xcodeproj"
+  "Charts.xcodeproj"
 end
 
 def configuration
@@ -19,8 +19,9 @@ end
 
 def schemes
   {
-    ios: 'Charts-iOS',
-    tvos: 'Charts-TV'
+    ios: 'Charts',
+    tvos: 'Charts',
+    osx: 'Charts'
   }
 end
 
@@ -34,7 +35,7 @@ end
 
 def devices
   {
-    ios: "name='iPhone 6s'",
+    ios: "name='iPhone 7'",
     osx: "arch='x86_64'",
     tvos: "name='Apple TV 1080p'"
   }

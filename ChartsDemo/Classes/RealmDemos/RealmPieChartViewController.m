@@ -2,8 +2,6 @@
 //  RealmPieChartViewController.m
 //  ChartsDemo
 //
-//  Created by Daniel Cohen Gindi on 17/3/15.
-//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -30,7 +28,7 @@
     
     [self writeRandomPieDataToDb];
     
-    self.title = @"Realm.io Pie Chart Chart";
+    self.title = @"Realm.io Pie Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Y-Values"},
@@ -80,7 +78,7 @@
     
     RLMResults *results = [RealmDemoData allObjectsInRealm:realm];
     
-    RealmPieDataSet *set = [[RealmPieDataSet alloc] initWithResults:results yValueField:@"value" xIndexField:@"xIndex"];
+    RealmPieDataSet *set = [[RealmPieDataSet alloc] initWithResults:results yValueField:@"yValue" labelField:@"label"];
     
     set.valueFont = [UIFont systemFontOfSize:9.f];
     set.colors = ChartColorTemplates.vordiplom;
@@ -89,7 +87,7 @@
     
     NSArray<id <IChartDataSet>> *dataSets = @[set];
     
-    RealmPieData *data = [[RealmPieData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
+    PieChartData *data = [[PieChartData alloc] initWithDataSets:dataSets];
     [self styleData:data];
     data.valueTextColor = UIColor.whiteColor;
     data.valueFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.f];
@@ -161,7 +159,7 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry highlight:(ChartHighlight * __nonnull)highlight
 {
     NSLog(@"chartValueSelected");
 }

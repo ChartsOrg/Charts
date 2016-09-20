@@ -2,8 +2,6 @@
 //  RealmBubbleChartViewController.m
 //  ChartsDemo
 //
-//  Created by Daniel Cohen Gindi on 17/3/15.
-//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
@@ -30,7 +28,7 @@
     
     [self writeRandomBubbleDataToDbWithObjectCount:10];
     
-    self.title = @"Realm.io Bubble Chart Chart";
+    self.title = @"Realm.io Bubble Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
@@ -67,14 +65,14 @@
     
     RLMResults *results = [RealmDemoData allObjectsInRealm:realm];
     
-    RealmBubbleDataSet *set = [[RealmBubbleDataSet alloc] initWithResults:results yValueField:@"value" xIndexField:@"xIndex" sizeField:@"bubbleSize"];
+    RealmBubbleDataSet *set = [[RealmBubbleDataSet alloc] initWithResults:results xValueField:@"xValue" yValueField:@"yValue" sizeField:@"bubbleSize"];
     
     set.label = @"Realm BubbleDataSet";
     [set setColors:ChartColorTemplates.colorful alpha:0.43f];
     
     NSArray<id <IChartDataSet>> *dataSets = @[set];
     
-    RealmBubbleData *data = [[RealmBubbleData alloc] initWithResults:results xValueField:@"xValue" dataSets:dataSets];
+    BubbleChartData *data = [[BubbleChartData alloc] initWithDataSets:dataSets];
     [self styleData:data];
     
     _chartView.data = data;
@@ -89,7 +87,7 @@
 
 #pragma mark - ChartViewDelegate
 
-- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry dataSetIndex:(NSInteger)dataSetIndex highlight:(ChartHighlight * __nonnull)highlight
+- (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry highlight:(ChartHighlight * __nonnull)highlight
 {
     NSLog(@"chartValueSelected");
 }
