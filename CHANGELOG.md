@@ -1,5 +1,12 @@
 # Change Log
 
+## [v2.3.0](https://github.com/danielgindi/charts/tree/v2.3.0) (2016-09-20)
+[Full Changelog](https://github.com/danielgindi/charts/compare/v2.3.0...v2.2.5)
+
+**Implemented enhancements:**
+
+- Support for Xcode 8 and Swift 2.3
+
 ## [v2.2.5](https://github.com/danielgindi/charts/tree/v2.2.5) (2016-05-29)
 [Full Changelog](https://github.com/danielgindi/charts/compare/v2.2.5...v2.2.4)
 
