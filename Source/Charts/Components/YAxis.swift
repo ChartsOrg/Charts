@@ -154,14 +154,14 @@ open class YAxis: AxisBase
         // bottom-space only effects non-custom min
         if !_customAxisMin
         {
-            let bottomSpace = range / 100.0 * Double(spaceBottom)
+            let bottomSpace = range * Double(spaceBottom)
             _axisMinimum = (min - bottomSpace)
         }
         
         // top-space only effects non-custom max
         if !_customAxisMax
         {
-            let topSpace = range / 100.0 * Double(spaceTop)
+            let topSpace = range * Double(spaceTop)
             _axisMaximum = (max + topSpace)
         }
         
