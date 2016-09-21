@@ -10,7 +10,6 @@ Pod::Spec.new do |s|
   s.osx.deployment_target = "10.11"
   s.source = { :git => "https://github.com/danielgindi/Charts.git", :tag => "v#{s.version}" }
   s.default_subspec = "Core"
-  s.prepare_command = "sed -i '' -e 's/import Charts//g' Source/ChartsRealm/**/*.swift"
 
   s.subspec "Core" do |ss|
     ss.source_files  = "Source/Charts/**/*.swift"
