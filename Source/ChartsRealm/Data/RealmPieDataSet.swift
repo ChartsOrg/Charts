@@ -11,9 +11,8 @@
 
 import Foundation
 import CoreGraphics
-#if NEEDS_CHARTS
+
 import Charts
-#endif
 import Realm
 import Realm.Dynamic
 
