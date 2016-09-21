@@ -73,7 +73,10 @@
     rightAxis.granularity = 0.1;
         
     ChartLegend *l = _chartView.legend;
-    l.position = ChartLegendPositionBelowChartLeft;
+    l.horizontalAlignment = ChartLegendHorizontalAlignmentLeft;
+    l.verticalAlignment = ChartLegendVerticalAlignmentBottom;
+    l.orientation = ChartLegendOrientationHorizontal;
+    l.drawInside = NO;
     l.form = ChartLegendFormSquare;
     l.formSize = 9.0;
     l.font = [UIFont systemFontOfSize:11.f];

@@ -292,7 +292,10 @@
     chartView.highlightPerTapEnabled = YES;
     
     ChartLegend *l = chartView.legend;
-    l.position = ChartLegendPositionRightOfChart;
+    l.horizontalAlignment = ChartLegendHorizontalAlignmentRight;
+    l.verticalAlignment = ChartLegendVerticalAlignmentTop;
+    l.orientation = ChartLegendOrientationVertical;
+    l.drawInside = NO;
     l.xEntrySpace = 7.0;
     l.yEntrySpace = 0.0;
     l.yOffset = 0.0;

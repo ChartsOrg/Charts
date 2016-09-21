@@ -53,7 +53,10 @@
     _chartView.pinchZoomEnabled = YES;
     
     ChartLegend *l = _chartView.legend;
-    l.position = ChartLegendPositionRightOfChart;
+    l.horizontalAlignment = ChartLegendHorizontalAlignmentRight;
+    l.verticalAlignment = ChartLegendVerticalAlignmentTop;
+    l.orientation = ChartLegendOrientationVertical;
+    l.drawInside = NO;
     l.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     
     ChartYAxis *yl = _chartView.leftAxis;

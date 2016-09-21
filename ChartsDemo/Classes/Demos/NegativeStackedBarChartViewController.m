@@ -83,7 +83,10 @@
     _chartView.rightAxis.labelFont = [UIFont systemFontOfSize:9.f];
     
     ChartLegend *l = _chartView.legend;
-    l.position = ChartLegendPositionBelowChartRight;
+    l.horizontalAlignment = ChartLegendHorizontalAlignmentRight;
+    l.verticalAlignment = ChartLegendVerticalAlignmentBottom;
+    l.orientation = ChartLegendOrientationHorizontal;
+    l.drawInside = NO;
     l.formSize = 8.f;
     l.formToTextSpace = 4.f;
     l.xEntrySpace = 6.f;

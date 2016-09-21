@@ -72,11 +72,15 @@
     rightAxis.drawGridLinesEnabled = NO;
     rightAxis.axisMinimum = 0.0; // this replaces startAtZero = YES
     
-    _chartView.legend.position = ChartLegendPositionBelowChartLeft;
-    _chartView.legend.form = ChartLegendFormSquare;
-    _chartView.legend.formSize = 8.0;
-    _chartView.legend.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
-    _chartView.legend.xEntrySpace = 4.0;
+    ChartLegend *l = _chartView.legend;
+    l.horizontalAlignment = ChartLegendHorizontalAlignmentLeft;
+    l.verticalAlignment = ChartLegendVerticalAlignmentBottom;
+    l.orientation = ChartLegendOrientationHorizontal;
+    l.drawInside = NO;
+    l.form = ChartLegendFormSquare;
+    l.formSize = 8.0;
+    l.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11.f];
+    l.xEntrySpace = 4.0;
 
     _chartView.fitBars = YES;
     

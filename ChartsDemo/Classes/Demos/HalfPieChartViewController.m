@@ -55,7 +55,10 @@
     _chartView.centerTextOffset = CGPointMake(0.0, -20.0);
     
     ChartLegend *l = _chartView.legend;
-    l.position = ChartLegendPositionAboveChartCenter;
+    l.horizontalAlignment = ChartLegendHorizontalAlignmentCenter;
+    l.verticalAlignment = ChartLegendVerticalAlignmentTop;
+    l.orientation = ChartLegendOrientationHorizontal;
+    l.drawInside = NO;
     l.xEntrySpace = 7.0;
     l.yEntrySpace = 0.0;
     l.yOffset = 0.0;

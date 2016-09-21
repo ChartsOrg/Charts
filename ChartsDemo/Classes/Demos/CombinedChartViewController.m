@@ -65,7 +65,10 @@
     
     ChartLegend *l = _chartView.legend;
     l.wordWrapEnabled = YES;
-    l.position = ChartLegendPositionBelowChartCenter;
+    l.horizontalAlignment = ChartLegendHorizontalAlignmentCenter;
+    l.verticalAlignment = ChartLegendVerticalAlignmentBottom;
+    l.orientation = ChartLegendOrientationHorizontal;
+    l.drawInside = NO;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.drawGridLinesEnabled = NO;

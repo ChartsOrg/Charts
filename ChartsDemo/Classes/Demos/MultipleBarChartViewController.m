@@ -62,7 +62,10 @@
     _chartView.marker = marker;
     
     ChartLegend *legend = _chartView.legend;
-    legend.position = ChartLegendPositionRightOfChartInside;
+    legend.horizontalAlignment = ChartLegendHorizontalAlignmentRight;
+    legend.verticalAlignment = ChartLegendVerticalAlignmentTop;
+    legend.orientation = ChartLegendOrientationVertical;
+    legend.drawInside = YES;
     legend.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:8.f];
     legend.yOffset = 0.0;
     legend.yEntrySpace = 0.0;
