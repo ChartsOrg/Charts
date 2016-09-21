@@ -41,6 +41,19 @@ def devices
   }
 end
 
+# UUIDs of the Xcode 8 simulators from Travis CI
+def uuids
+  {
+    ios: '5F911B30-5F23-403B-9697-1DFDC24773C8', # iPhone 7
+    tvos: '273D776F-196E-4F2A-AEF2-E1E3EAE99B47' # Apple TV 1080p
+  }
+end
+
+def open_simulator_and_sleep(uuid)
+  return if uuid.nil? # Don't need a sleep on macOS because it runs first.
+  sh "xcrun instruments -w '#{uuid}' || sleep 15"
+end
+
 def xcodebuild(type, name, scheme, configuration, sdk, destination, tasks, xcprety_args: '')
 
   # set either workspace or project flag for xcodebuild
@@ -63,6 +76,8 @@ def execute(tasks, platform, xcprety_args)
   sdk = sdks[platform]
   scheme = schemes[platform]
   destination = devices[platform]
+
+  open_simulator_and_sleep(uuids[platform])
 
   # check if xcodebuild needs to be run on multiple devices
   if destination.respond_to?('map')
