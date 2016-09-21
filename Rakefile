@@ -95,8 +95,7 @@ task :test do
 
   test_targets.map do |platform|
     execute 'build test', platform, xcprety_args: '--test'
+    sh "killall Simulator"
   end
-
-  sh "killall Simulator"
 
 end
