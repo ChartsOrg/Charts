@@ -209,7 +209,11 @@ open class AxisRendererBase: Renderer
             axis.centeredEntries.reserveCapacity(n)
             axis.centeredEntries.removeAll()
             
-            let offset = (axis.entries[1] - axis.entries[0]) / 2.0
+            var offset: Double = 0.0
+            if axis.entries.count > 1
+            {
+                offset = (axis.entries[1] - axis.entries[0]) / 2.0
+            }
             
             for i in 0 ..< n
             {
