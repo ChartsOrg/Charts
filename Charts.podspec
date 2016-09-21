@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = "Charts"
-  s.version = "2.2.5"
+  s.version = "3.0.0"
   s.summary = "Charts is a powerful & easy to use chart library for iOS, tvOS and OSX (and Android)"
   s.homepage = "https://github.com/danielgindi/Charts"
   s.license = { :type => "Apache License, Version 2.0", :file => "LICENSE" }
@@ -10,7 +10,6 @@ Pod::Spec.new do |s|
   s.osx.deployment_target = "10.11"
   s.source = { :git => "https://github.com/danielgindi/Charts.git", :tag => "v#{s.version}" }
   s.default_subspec = "Core"
-  s.prepare_command = "sed -i '' -e 's/import Charts//g' Source/ChartsRealm/**/*.swift"
 
   s.subspec "Core" do |ss|
     ss.source_files  = "Source/Charts/**/*.swift"
