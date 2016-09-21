@@ -373,7 +373,6 @@ open class LineChartRenderer: LineRadarRenderer
                 // make sure the lines don't do shitty things outside bounds
                 if !viewPortHandler.isInBoundsLeft(_lineSegments[1].x)
                     || (!viewPortHandler.isInBoundsTop(_lineSegments[0].y) && !viewPortHandler.isInBoundsBottom(_lineSegments[1].y))
-                    || (!viewPortHandler.isInBoundsTop(_lineSegments[0].y) && !viewPortHandler.isInBoundsBottom(_lineSegments[1].y))
                 {
                     continue
                 }
