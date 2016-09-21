@@ -114,22 +114,33 @@ open class LineChartRenderer: LineRadarRenderer
             var curDx: CGFloat = 0.0
             var curDy: CGFloat = 0.0
             
-            var prevPrev: ChartDataEntry! = dataSet.entryForIndex(_xBounds.min)
-            var prev: ChartDataEntry! = prevPrev
-            var cur: ChartDataEntry! = prev
-            var next: ChartDataEntry! = dataSet.entryForIndex(_xBounds.min + 1)
+            // Take an extra point from the left, and an extra from the right.
+            // That's because we need 4 points for a cubic bezier (cubic=4), otherwise we get lines moving and doing weird stuff on the edges of the chart.
+            // So in the starting `prev` and `cur`, go -2, -1
+            // And in the `lastIndex`, add +1
             
-            if cur == nil || next == nil { return }
+            let firstIndex = _xBounds.min + 1
+            let lastIndex = _xBounds.min + _xBounds.range
+            
+            var prevPrev: ChartDataEntry! = nil
+            var prev: ChartDataEntry! = dataSet.entryForIndex(max(firstIndex - 2, 0))
+            var cur: ChartDataEntry! = dataSet.entryForIndex(max(firstIndex - 1, 0))
+            var next: ChartDataEntry! = cur
+            var nextIndex: Int = -1
+            
+            if cur == nil { return }
             
             // let the spline start
             cubicPath.move(to: CGPoint(x: CGFloat(cur.x), y: CGFloat(cur.y * phaseY)), transform: valueToPixelMatrix)
             
-            for j in stride(from: (_xBounds.min + 1), through: _xBounds.range + _xBounds.min, by: 1)
+            for j in stride(from: firstIndex, through: lastIndex, by: 1)
             {
                 prevPrev = prev
                 prev = cur
-                cur = next
-                next = _xBounds.max > j + 1 ? dataSet.entryForIndex(j + 1) : cur
+                cur = nextIndex == j ? next : dataSet.entryForIndex(j)
+                
+                nextIndex = j + 1 < dataSet.entryCount ? j + 1 : j
+                next = dataSet.entryForIndex(nextIndex)
                 
                 if next == nil { break }
                 
