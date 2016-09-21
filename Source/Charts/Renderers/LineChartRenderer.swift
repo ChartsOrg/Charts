@@ -338,7 +338,7 @@ open class LineChartRenderer: LineRadarRenderer
                 _lineSegments[0].x = CGFloat(e.x)
                 _lineSegments[0].y = CGFloat(e.y * phaseY)
                 
-                if j < _xBounds.range
+                if j < _xBounds.max
                 {
                     e = dataSet.entryForIndex(j + 1)
                     
