@@ -6,7 +6,7 @@
 
 ## Just a heads up: Charts 3.0 is **not** yet released to CocoaPods, as the version is not finalized yet.
 
-* Xcode 8.0 / Swift 3.0
+* Xcode 8.0 / Swift 3.0 (For Swift 2.3 support please use [Charts 2.3.0](https://github.com/danielgindi/Charts/tree/v2.3.0))
 * iOS >= 8.0 (Use as an **Embedded** Framework)
 * tvOS >= 9.0
 * macOS >= 10.11
