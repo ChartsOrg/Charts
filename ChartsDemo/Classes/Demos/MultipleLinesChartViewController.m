@@ -69,7 +69,7 @@
     l.drawInside = NO;
     
     _sliderX.value = 20.0;
-    _sliderY.value = 10.0;
+    _sliderY.value = 100.0;
     [self slidersValueChanged:nil];
 }
 
