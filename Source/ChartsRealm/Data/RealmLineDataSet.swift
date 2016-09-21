@@ -10,8 +10,9 @@
 //
 
 import Foundation
-
+#if NEEDS_CHARTS
 import Charts
+#endif
 import Realm
 import Realm.Dynamic
 
