@@ -124,6 +124,9 @@ public class PieChartRenderer: DataRenderer
         let radius = chart.radius
         let drawInnerArc = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled
         let userInnerRadius = drawInnerArc ? radius * chart.holeRadiusPercent : 0.0
+        let drawShadows = chart.drawShadowsEnabled
+        let shadowOffset = chart.shadowOffset
+        let shadowBlur = chart.shadowBlur
         
         var visibleAngleCount = 0
         for j in 0 ..< entryCount
@@ -152,7 +155,11 @@ public class PieChartRenderer: DataRenderer
                 if !chart.needsHighlight(index: j)
                 {
                     let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
-                    
+
+                    if drawShadows {
+                        CGContextSetShadowWithColor(context, shadowOffset, shadowBlur, dataSet.colorAt(j).colorWithAlphaComponent(0.3).CGColor)
+                    }
+
                     CGContextSetFillColorWithColor(context, dataSet.colorAt(j).CGColor)
                     
                     let sliceSpaceAngleOuter = visibleAngleCount == 1 ?
@@ -681,7 +688,10 @@ public class PieChartRenderer: DataRenderer
         let radius = chart.radius
         let drawInnerArc = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled
         let userInnerRadius = drawInnerArc ? radius * chart.holeRadiusPercent : 0.0
-        
+        let drawShadows = chart.drawShadowsEnabled
+        let shadowOffset = chart.shadowOffset
+        let shadowBlur = chart.shadowBlur
+
         for i in 0 ..< indices.count
         {
             // get the index to highlight
@@ -728,6 +738,10 @@ public class PieChartRenderer: DataRenderer
             
             let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
             
+            if drawShadows {
+                CGContextSetShadowWithColor(context, shadowOffset, shadowBlur, set.colorAt(index).colorWithAlphaComponent(0.3).CGColor)
+            }
+
             CGContextSetFillColorWithColor(context, set.colorAt(index).CGColor)
             
             let sliceSpaceAngleOuter = visibleAngleCount == 1 ?

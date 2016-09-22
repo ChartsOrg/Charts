@@ -72,6 +72,15 @@ public class PieChartView: PieRadarChartViewBase
     /// maximum angle for this pie
     private var _maxAngle: CGFloat = 360.0
 
+    /// draw shadows under pie slices
+    private var _drawShadowsEnabled: Bool = false
+
+    /// Shadow offset, default value = 0, 10
+    private var _shadowOffset: CGSize = CGSize(width: 0, height: 10)
+
+    /// Shadow blur, default value = 10
+    private var _shadowBlur: CGFloat = 10
+
     public override init(frame: CGRect)
     {
         super.init(frame: frame)
@@ -275,7 +284,7 @@ public class PieChartView: PieRadarChartViewBase
         
         return -1; // return -1 if no index found
     }
-    
+
     /// - returns: The index of the DataSet this x-index belongs to.
     public func dataSetIndexForIndex(xValue: Double) -> Int
     {
@@ -628,6 +637,51 @@ public class PieChartView: PieRadarChartViewBase
         {
             _centerTextRadiusPercent = newValue
             setNeedsDisplay()
+        }
+    }
+
+    public var drawShadowsEnabled: Bool
+    {
+        get
+        {
+            return _drawShadowsEnabled
+        }
+        set
+        {
+            _drawShadowsEnabled = newValue
+            setNeedsDisplay()
+        }
+    }
+
+    public var shadowOffset: CGSize
+    {
+        get
+        {
+            return _shadowOffset
+        }
+        set
+        {
+            _shadowOffset = newValue
+            if _drawShadowsEnabled
+            {
+                setNeedsDisplay()
+            }
+        }
+    }
+
+    public var shadowBlur: CGFloat
+    {
+        get
+        {
+            return _shadowBlur
+        }
+        set
+        {
+            _shadowBlur = newValue
+            if _drawShadowsEnabled
+            {
+                setNeedsDisplay()
+            }
         }
     }
     
