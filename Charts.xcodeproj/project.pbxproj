@@ -810,6 +810,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 06165F3B1D8110E700722320 /* Build configuration list for PBXNativeTarget "ChartsTests" */;
 			buildPhases = (
+				064DBAE11D93813D002584CD /* Build Dependencies */,
 				06165F2A1D8110E600722320 /* Sources */,
 				06165F2B1D8110E600722320 /* Frameworks */,
 				06165F2C1D8110E600722320 /* Resources */,
@@ -829,6 +830,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 06B120DA1D811E6200D14B02 /* Build configuration list for PBXNativeTarget "ChartsRealm" */;
 			buildPhases = (
+				061DF29D1D93774D0002B03B /* Build Dependencies */,
 				06B120D01D811E6200D14B02 /* Sources */,
 				06B120D11D811E6200D14B02 /* Frameworks */,
 				06B120D21D811E6200D14B02 /* Headers */,
@@ -847,6 +849,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 06B121071D811F1600D14B02 /* Build configuration list for PBXNativeTarget "ChartsRealmTests" */;
 			buildPhases = (
+				064DBAE21D938156002584CD /* Build Dependencies */,
 				06B120FB1D811F1600D14B02 /* Sources */,
 				06B120FC1D811F1600D14B02 /* Frameworks */,
 				06B120FD1D811F1600D14B02 /* Resources */,
@@ -937,6 +940,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		061DF29D1D93774D0002B03B /* Build Dependencies */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"",
+			);
+			name = "Build Dependencies";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "exec \"${SRCROOT}/scripts/build-dependencies.sh\"\n";
+		};
+		064DBAE11D93813D002584CD /* Build Dependencies */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build Dependencies";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "exec \"${SRCROOT}/scripts/build-dependencies.sh\"\n";
+		};
+		064DBAE21D938156002584CD /* Build Dependencies */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build Dependencies";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "exec \"${SRCROOT}/scripts/build-dependencies.sh\"\n";
+		};
 		06500E641D8116FC00156E8A /* Copy Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -950,7 +996,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "case \"$PLATFORM_NAME\" in\nmacosx) plat=Mac;;\niphone*) plat=iOS;;\nwatch*) plat=watchOS;;\nappletv*) plat=tvOS;;\n*) echo \"error: Unknown PLATFORM_NAME: $PLATFORM_NAME\"; exit 1;;\nesac\nfor (( n = 0; n < SCRIPT_INPUT_FILE_COUNT; n++ )); do\nVAR=SCRIPT_INPUT_FILE_$n\nframework=$(basename \"${!VAR}\")\nexport SCRIPT_INPUT_FILE_$n=\"$SRCROOT\"/Carthage/Build/$plat/\"$framework\".framework\ndone\n\n/usr/local/bin/carthage copy-frameworks || exit\n\nfor (( n = 0; n < SCRIPT_INPUT_FILE_COUNT; n++ )); do\nVAR=SCRIPT_INPUT_FILE_$n\nsource=${!VAR}.dSYM\ndest=${BUILT_PRODUCTS_DIR}/$(basename \"$source\")\nditto \"$source\" \"$dest\" || exit\ndone";
+			shellScript = "exec \"${SRCROOT}/scripts/copy-carthage-frameworks.sh\"\n";
 		};
 		06B121161D81215D00D14B02 /* Copy Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -966,7 +1012,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "case \"$PLATFORM_NAME\" in\nmacosx) plat=Mac;;\niphone*) plat=iOS;;\nwatch*) plat=watchOS;;\nappletv*) plat=tvOS;;\n*) echo \"error: Unknown PLATFORM_NAME: $PLATFORM_NAME\"; exit 1;;\nesac\nfor (( n = 0; n < SCRIPT_INPUT_FILE_COUNT; n++ )); do\nVAR=SCRIPT_INPUT_FILE_$n\nframework=$(basename \"${!VAR}\")\nexport SCRIPT_INPUT_FILE_$n=\"$SRCROOT\"/Carthage/Build/$plat/\"$framework\".framework\ndone\n\n/usr/local/bin/carthage copy-frameworks || exit\n\nfor (( n = 0; n < SCRIPT_INPUT_FILE_COUNT; n++ )); do\nVAR=SCRIPT_INPUT_FILE_$n\nsource=${!VAR}.dSYM\ndest=${BUILT_PRODUCTS_DIR}/$(basename \"$source\")\nditto \"$source\" \"$dest\" || exit\ndone";
+			shellScript = "exec \"${SRCROOT}/scripts/copy-carthage-frameworks.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1164,7 +1210,6 @@
 /* Begin XCBuildConfiguration section */
 		06165F361D8110E700722320 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 063FF0401D8CC9940094A042 /* Carthage.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1221,7 +1266,6 @@
 		};
 		06165F371D8110E700722320 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 063FF0401D8CC9940094A042 /* Carthage.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1308,6 +1352,7 @@
 		};
 		06165F3C1D8110E700722320 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 063FF0401D8CC9940094A042 /* Carthage.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1322,6 +1367,7 @@
 		};
 		06165F3D1D8110E700722320 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 063FF0401D8CC9940094A042 /* Carthage.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1335,6 +1381,7 @@
 		};
 		06B120DB1D811E6200D14B02 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 063FF0401D8CC9940094A042 /* Carthage.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -1354,6 +1401,7 @@
 		};
 		06B120DC1D811E6200D14B02 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 063FF0401D8CC9940094A042 /* Carthage.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -1373,6 +1421,7 @@
 		};
 		06B121081D811F1600D14B02 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 063FF0401D8CC9940094A042 /* Carthage.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1387,6 +1436,7 @@
 		};
 		06B121091D811F1600D14B02 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 063FF0401D8CC9940094A042 /* Carthage.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
