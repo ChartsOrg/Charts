@@ -728,12 +728,13 @@ public class PieChartRenderer: DataRenderer
                 angle = absoluteAngles[index - 1] * CGFloat(phaseX)
             }
             
-            let sliceSpace = visibleAngleCount <= 1 ? 0.0 : set.sliceSpace
-            
+            let sliceSpace = visibleAngleCount <= 1 ? 0.0 : set.selectionSliceSpace
+
             let sliceAngle = drawAngles[index]
             var innerRadius = userInnerRadius
             
             let shift = set.selectionShift
+            let innerShift = set.innerSelectionShift
             let highlightedRadius = radius + shift
             
             let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
@@ -829,7 +830,7 @@ public class PieChartRenderer: DataRenderer
                     nil,
                     center.x,
                     center.y,
-                    innerRadius,
+                    innerRadius + innerShift,
                     endAngleInner * ChartUtils.Math.FDEG2RAD,
                     -sweepAngleInner * ChartUtils.Math.FDEG2RAD)
             }

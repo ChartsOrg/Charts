@@ -55,6 +55,7 @@ public class RealmPieDataSet: RealmBaseDataSet, IPieChartDataSet
     // MARK: - Styling functions and accessors
     
     private var _sliceSpace = CGFloat(0.0)
+    private var _selectionSliceSpace = CGFloat(0.0)
     
     /// the space in pixels between the pie-slices
     /// **default**: 0
@@ -79,9 +80,34 @@ public class RealmPieDataSet: RealmBaseDataSet, IPieChartDataSet
             _sliceSpace = space
         }
     }
-    
+
+    /// the space in pixels between the pie-slices
+    /// **default**: 0
+    /// **maximum**: 50
+    public var selectionSliceSpace: CGFloat
+        {
+        get
+        {
+            return _selectionSliceSpace
+        }
+        set
+        {
+            var space = newValue
+            if (space > 50.0)
+            {
+                space = 50.0
+            }
+            if (space < 0.0)
+            {
+                space = 0.0
+            }
+            _selectionSliceSpace = space
+        }
+    }
+
     /// indicates the selection distance of a pie slice
     public var selectionShift = CGFloat(18.0)
+    public var innerSelectionShift = CGFloat(0)
     
     public var xValuePosition: PieChartDataSet.ValuePosition = .InsideSlice
     public var yValuePosition: PieChartDataSet.ValuePosition = .InsideSlice

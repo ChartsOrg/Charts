@@ -25,9 +25,11 @@ public protocol IPieChartDataSet: IChartDataSet
     /// **default**: 0
     /// **maximum**: 20
     var sliceSpace: CGFloat { get set }
+    var selectionSliceSpace: CGFloat { get set }
     
     /// indicates the selection distance of a pie slice
     var selectionShift: CGFloat { get set }
+    var innerSelectionShift: CGFloat { get set }
     
     var xValuePosition: PieChartDataSet.ValuePosition { get set }
     var yValuePosition: PieChartDataSet.ValuePosition { get set }
