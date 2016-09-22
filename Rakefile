@@ -19,8 +19,8 @@ end
 
 def schemes
   [
-    "Charts"
-    # "ChartsRealm"
+    "Charts",
+    "ChartsRealm"
   ]
 end
 
