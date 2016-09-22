@@ -29,33 +29,53 @@ public protocol AnimatorDelegate
 @objc(ChartAnimator)
 public class Animator: NSObject
 {
+    public enum Dimension: Int {
+        case X, Y, H
+    }
+
+    public struct State
+    {
+        var phase:      Double          = 1.0
+        var duration:   NSTimeInterval  = 0.0
+        var startTime:  NSTimeInterval  = 0.0
+        var endTime:    NSTimeInterval  = 0.0
+        var enabled:    Bool            = false
+        var easing:     ChartEasingFunctionBlock?
+
+        mutating func updatePhase(currentTime: NSTimeInterval) {
+            var elapsed = currentTime - startTime
+            if elapsed > duration
+            {
+                elapsed = duration
+            }
+            self.phase = easing?(elapsed: elapsed, duration: duration) ?? Double(elapsed / duration)
+        }
+    }
+
+    private var animatedDimensions: [Dimension: State] = [:]
+
     public weak var delegate: AnimatorDelegate?
     public var updateBlock: (() -> Void)?
     public var stopBlock: (() -> Void)?
     
     /// the phase that is animated and influences the drawn values on the x-axis
-    public var phaseX: Double = 1.0
+    public var phaseX: Double {
+        return animatedDimensions[.X]?.phase ?? 1.0
+    }
     
     /// the phase that is animated and influences the drawn values on the y-axis
-    public var phaseY: Double = 1.0
+    public var phaseY: Double {
+        return animatedDimensions[.Y]?.phase ?? 1.0
+    }
     
-    private var _startTimeX: NSTimeInterval = 0.0
-    private var _startTimeY: NSTimeInterval = 0.0
     private var _displayLink: NSUIDisplayLink?
     
-    private var _durationX: NSTimeInterval = 0.0
-    private var _durationY: NSTimeInterval = 0.0
-    
-    private var _endTimeX: NSTimeInterval = 0.0
-    private var _endTimeY: NSTimeInterval = 0.0
-    private var _endTime: NSTimeInterval = 0.0
-    
-    private var _enabledX: Bool = false
-    private var _enabledY: Bool = false
-    
-    private var _easingX: ChartEasingFunctionBlock?
-    private var _easingY: ChartEasingFunctionBlock?
-    
+    private var _endTime: NSTimeInterval {
+        return animatedDimensions.reduce(0) { (m, animation) -> NSTimeInterval in
+            return max(m, animation.1.endTime)
+        }
+    }
+
     public override init()
     {
         super.init()
@@ -73,14 +93,12 @@ public class Animator: NSObject
             _displayLink?.removeFromRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
             _displayLink = nil
             
-            _enabledX = false
-            _enabledY = false
+            disableAllAnimations()
             
             // If we stopped an animation in the middle, we do not want to leave it like this
-            if phaseX != 1.0 || phaseY != 1.0
+            if hasUnfinishedAnimations()
             {
-                phaseX = 1.0
-                phaseY = 1.0
+                finishAllAnimations()
                 
                 if (delegate != nil)
                 {
@@ -102,46 +120,42 @@ public class Animator: NSObject
             }
         }
     }
+
+    private func hasUnfinishedAnimations() -> Bool {
+        return animatedDimensions.reduce(false) { (has, animation) -> Bool in
+            return has || animation.1.phase != 1.0
+        }
+    }
+
+    private func hasEnabledAnimations() -> Bool {
+        return animatedDimensions.reduce(true, combine: { (has, animation) -> Bool in
+            return has && animation.1.enabled
+        })
+    }
+
+    private func disableAllAnimations() {
+        for (dim, _) in animatedDimensions {
+            animatedDimensions[dim]?.enabled = false
+        }
+    }
+
+    private func finishAllAnimations() {
+        for (dim, _) in animatedDimensions {
+            animatedDimensions[dim]?.enabled = false
+            animatedDimensions[dim]?.phase = 1.0
+        }
+    }
     
     private func updateAnimationPhases(currentTime: NSTimeInterval)
     {
-        if (_enabledX)
-        {
-            let elapsedTime: NSTimeInterval = currentTime - _startTimeX
-            let duration: NSTimeInterval = _durationX
-            var elapsed: NSTimeInterval = elapsedTime
-            if (elapsed > duration)
+        for (dim, _) in animatedDimensions {
+            guard let enabled = animatedDimensions[dim]?.enabled where enabled else { continue }
+            var elapsed = currentTime - animatedDimensions[dim]!.startTime
+            if elapsed > animatedDimensions[dim]!.duration
             {
-                elapsed = duration
+                elapsed = animatedDimensions[dim]!.duration
             }
-           
-            if (_easingX != nil)
-            {
-                phaseX = _easingX!(elapsed: elapsed, duration: duration)
-            }
-            else
-            {
-                phaseX = Double(elapsed / duration)
-            }
-        }
-        if (_enabledY)
-        {
-            let elapsedTime: NSTimeInterval = currentTime - _startTimeY
-            let duration: NSTimeInterval = _durationY
-            var elapsed: NSTimeInterval = elapsedTime
-            if (elapsed > duration)
-            {
-                elapsed = duration
-            }
-            
-            if (_easingY != nil)
-            {
-                phaseY = _easingY!(elapsed: elapsed, duration: duration)
-            }
-            else
-            {
-                phaseY = Double(elapsed / duration)
-            }
+            animatedDimensions[dim]!.updatePhase(currentTime)
         }
     }
     
@@ -175,24 +189,22 @@ public class Animator: NSObject
     public func animate(xAxisDuration xAxisDuration: NSTimeInterval, yAxisDuration: NSTimeInterval, easingX: ChartEasingFunctionBlock?, easingY: ChartEasingFunctionBlock?)
     {
         stop()
+
+        let startTimeX = CACurrentMediaTime()
+        let startTimeY = startTimeX
+        let endTimeX = startTimeX + xAxisDuration
+        let endTimeY = startTimeY + yAxisDuration
         
-        _startTimeX = CACurrentMediaTime()
-        _startTimeY = _startTimeX
-        _durationX = xAxisDuration
-        _durationY = yAxisDuration
-        _endTimeX = _startTimeX + xAxisDuration
-        _endTimeY = _startTimeY + yAxisDuration
-        _endTime = _endTimeX > _endTimeY ? _endTimeX : _endTimeY
-        _enabledX = xAxisDuration > 0.0
-        _enabledY = yAxisDuration > 0.0
-        
-        _easingX = easingX
-        _easingY = easingY
-        
+        let animationX = State(phase: 0.0, duration: xAxisDuration, startTime: startTimeX, endTime: endTimeX, enabled: xAxisDuration > 0.0, easing: easingX)
+        let animationY = State(phase: 0.0, duration: yAxisDuration, startTime: startTimeY, endTime: endTimeY, enabled: yAxisDuration > 0.0, easing: easingY)
+
+        animatedDimensions[.X] = animationX
+        animatedDimensions[.Y] = animationY
+
         // Take care of the first frame if rendering is already scheduled...
-        updateAnimationPhases(_startTimeX)
+        updateAnimationPhases(startTimeX)
         
-        if _enabledX || _enabledY
+        if hasEnabledAnimations()
         {
             _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
             _displayLink?.addToRunLoop(NSRunLoop.mainRunLoop(), forMode: NSRunLoopCommonModes)
@@ -245,18 +257,17 @@ public class Animator: NSObject
     /// - parameter easing: an easing function for the animation
     public func animate(xAxisDuration xAxisDuration: NSTimeInterval, easing: ChartEasingFunctionBlock?)
     {
-        _startTimeX = CACurrentMediaTime()
-        _durationX = xAxisDuration
-        _endTimeX = _startTimeX + xAxisDuration
-        _endTime = _endTimeX > _endTimeY ? _endTimeX : _endTimeY
-        _enabledX = xAxisDuration > 0.0
-        
-        _easingX = easing
-        
+        let startTimeX = CACurrentMediaTime()
+        let endTimeX = startTimeX + xAxisDuration
+
+        let animationX = State(phase: 0.0, duration: xAxisDuration, startTime: startTimeX, endTime: endTimeX, enabled: xAxisDuration > 0.0, easing: easing)
+
+        animatedDimensions[.X] = animationX
+
         // Take care of the first frame if rendering is already scheduled...
-        updateAnimationPhases(_startTimeX)
-        
-        if (_enabledX || _enabledY)
+        updateAnimationPhases(startTimeX)
+
+        if hasEnabledAnimations()
         {
             if _displayLink == nil
             {
@@ -289,18 +300,17 @@ public class Animator: NSObject
     /// - parameter easing: an easing function for the animation
     public func animate(yAxisDuration yAxisDuration: NSTimeInterval, easing: ChartEasingFunctionBlock?)
     {
-        _startTimeY = CACurrentMediaTime()
-        _durationY = yAxisDuration
-        _endTimeY = _startTimeY + yAxisDuration
-        _endTime = _endTimeX > _endTimeY ? _endTimeX : _endTimeY
-        _enabledY = yAxisDuration > 0.0
-        
-        _easingY = easing
-        
+        let startTimeY = CACurrentMediaTime()
+        let endTimeY = startTimeY + yAxisDuration
+
+        let animationY = State(phase: 0.0, duration: yAxisDuration, startTime: startTimeY, endTime: endTimeY, enabled: yAxisDuration > 0.0, easing: easing)
+
+        animatedDimensions[.Y] = animationY
+
         // Take care of the first frame if rendering is already scheduled...
-        updateAnimationPhases(_startTimeY)
-        
-        if (_enabledX || _enabledY)
+        updateAnimationPhases(startTimeY)
+
+        if hasEnabledAnimations()
         {
             if _displayLink == nil
             {
