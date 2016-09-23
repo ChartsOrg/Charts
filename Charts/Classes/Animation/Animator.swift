@@ -121,6 +121,10 @@ public class Animator: NSObject
         }
     }
 
+    public func phase(dimension: Dimension) -> Double {
+        return animatedDimensions[dimension]?.phase ?? 1.0
+    }
+
     private func hasUnfinishedAnimations() -> Bool {
         return animatedDimensions.reduce(false) { (has, animation) -> Bool in
             return has || animation.1.phase != 1.0
@@ -129,7 +133,7 @@ public class Animator: NSObject
 
     private func hasEnabledAnimations() -> Bool {
         return animatedDimensions.reduce(true, combine: { (has, animation) -> Bool in
-            return has && animation.1.enabled
+            return has || animation.1.enabled
         })
     }
 

@@ -186,6 +186,22 @@ public class PieChartView: PieRadarChartViewBase
         
         return CGPoint(x: x, y: y)
     }
+
+    public func animateHighlight(duration: NSTimeInterval) {
+        guard let lighter = self.highlighter as? PieHighlighter
+            , dataSet = self.data?.dataSets[0]
+            else { return }
+
+        var highs = [Highlight]()
+        for index in 0..<dataSet.entryCount {
+            if let highlight = lighter.closestHighlight(index: index, x: 0, y: 0) {
+                highs.append(highlight)
+            }
+        }
+
+        self.highlightValues(highs)
+        _animator.animate(.H, duration: duration)
+    }
     
     /// calculates the needed angles for the chart slices
     private func calcAngles()

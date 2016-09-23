@@ -176,7 +176,6 @@ public class PieChartRenderer: DataRenderer
                     let arcStartPointY = center.y + radius * sin(startAngleOuter * ChartUtils.Math.FDEG2RAD)
 
                     let path = CGPathCreateMutable()
-//                    print("SET OUTER RADIUS", radius)
                     CGPathMoveToPoint(
                         path,
                         nil,
@@ -221,7 +220,6 @@ public class PieChartRenderer: DataRenderer
                             sweepAngleInner = 0.0
                         }
                         let endAngleInner = startAngleInner + sweepAngleInner
-//                        print("SET INNER RADIUS", innerRadius)
 
                         CGPathAddLineToPoint(
                             path,
@@ -679,6 +677,7 @@ public class PieChartRenderer: DataRenderer
         
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
+        let phaseH = animator.phase(.H)
         
         var angle: CGFloat = 0.0
         let rotationAngle = chart.rotationAngle
@@ -728,15 +727,15 @@ public class PieChartRenderer: DataRenderer
             {
                 angle = absoluteAngles[index - 1] * CGFloat(phaseX)
             }
-            
-            let sliceSpace = visibleAngleCount <= 1 ? 0.0 : set.selectionSliceSpace
 
+            let sliceSpace: CGFloat = visibleAngleCount <= 1 ? 0.0 : CGFloat(abs(set.sliceSpace - set.selectionSliceSpace)) * CGFloat(phaseH)
+
+            let innerShift = set.innerSelectionShift
             let sliceAngle = drawAngles[index]
-            var innerRadius = userInnerRadius
+            var innerRadius = userInnerRadius + innerShift * CGFloat(phaseH)
             
             let shift = set.selectionShift
-            let innerShift = set.innerSelectionShift
-            let highlightedRadius = radius + shift
+            let highlightedRadius = radius + shift * CGFloat(phaseH)
             
             let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
             
@@ -770,7 +769,6 @@ public class PieChartRenderer: DataRenderer
             
             let path = CGPathCreateMutable()
 
-//            print("HIGHLIGHT OUTER RADIUS", highlightedRadius)
             CGPathMoveToPoint(
                 path,
                 nil,
@@ -822,7 +820,6 @@ public class PieChartRenderer: DataRenderer
                 }
                 let endAngleInner = startAngleInner + sweepAngleInner
 
-//                print("HIGHLIGHT INNER RADIUS", innerRadius + innerShift)
                 CGPathAddLineToPoint(
                     path,
                     nil,
@@ -833,7 +830,7 @@ public class PieChartRenderer: DataRenderer
                     nil,
                     center.x,
                     center.y,
-                    innerRadius + innerShift,
+                    innerRadius,
                     endAngleInner * ChartUtils.Math.FDEG2RAD,
                     -sweepAngleInner * ChartUtils.Math.FDEG2RAD)
             }
