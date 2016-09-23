@@ -47,6 +47,7 @@ public class PieChartDataSet: ChartDataSet, IPieChartDataSet
     // MARK: - Styling functions and accessors
     
     private var _sliceSpace = CGFloat(0.0)
+    private var _selectionSliceSpace = CGFloat(0.0)
     
     /// the space in pixels between the pie-slices
     /// **default**: 0
@@ -71,9 +72,31 @@ public class PieChartDataSet: ChartDataSet, IPieChartDataSet
             _sliceSpace = space
         }
     }
+
+    public var selectionSliceSpace: CGFloat
+    {
+        get
+        {
+            return _selectionSliceSpace
+        }
+        set
+        {
+            var space = newValue
+            if (space > 20.0)
+            {
+                space = 20.0
+            }
+            if (space < 0.0)
+            {
+                space = 0.0
+            }
+            _selectionSliceSpace = space
+        }
+    }
     
     /// indicates the selection distance of a pie slice
     public var selectionShift = CGFloat(18.0)
+    public var innerSelectionShift = CGFloat(0)
     
     public var xValuePosition: ValuePosition = .InsideSlice
     public var yValuePosition: ValuePosition = .InsideSlice

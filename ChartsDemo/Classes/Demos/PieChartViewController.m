@@ -38,10 +38,12 @@
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
                      @{@"key": @"animateXY", @"label": @"Animate XY"},
+                     @{@"key": @"animateH", @"label": @"Animate Highlighted"},
                      @{@"key": @"spin", @"label": @"Spin"},
                      @{@"key": @"drawCenter", @"label": @"Draw CenterText"},
                      @{@"key": @"saveToGallery", @"label": @"Save to Camera Roll"},
                      @{@"key": @"toggleData", @"label": @"Toggle Data"},
+                     @{@"key": @"toggleShadows", @"label": @"Toggle slices shadows"},
                      ];
     
     [self setupPieChartView:_chartView];
@@ -145,7 +147,7 @@
     if ([key isEqualToString:@"toggleHole"])
     {
         _chartView.drawHoleEnabled = !_chartView.isDrawHoleEnabled;
-        
+
         [_chartView setNeedsDisplay];
         return;
     }
@@ -175,10 +177,24 @@
         [_chartView animateWithXAxisDuration:1.4 yAxisDuration:1.4];
         return;
     }
-    
+
+    if ([key isEqualToString:@"animateH"])
+    {
+        [_chartView animateHighlight: 1.4];
+        return;
+    }
+
     if ([key isEqualToString:@"spin"])
     {
         [_chartView spinWithDuration:2.0 fromAngle:_chartView.rotationAngle toAngle:_chartView.rotationAngle + 360.f easingOption:ChartEasingOptionEaseInCubic];
+        return;
+    }
+
+    if ([key isEqualToString:@"toggleShadows"])
+    {
+        _chartView.drawShadowsEnabled = !_chartView.drawShadowsEnabled;
+
+        [_chartView setNeedsDisplay];
         return;
     }
     

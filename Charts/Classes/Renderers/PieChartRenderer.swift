@@ -124,6 +124,9 @@ public class PieChartRenderer: DataRenderer
         let radius = chart.radius
         let drawInnerArc = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled
         let userInnerRadius = drawInnerArc ? radius * chart.holeRadiusPercent : 0.0
+        let drawShadows = chart.drawShadowsEnabled
+        let shadowOffset = chart.shadowOffset
+        let shadowBlur = chart.shadowBlur
         
         var visibleAngleCount = 0
         for j in 0 ..< entryCount
@@ -152,7 +155,11 @@ public class PieChartRenderer: DataRenderer
                 if !chart.needsHighlight(index: j)
                 {
                     let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
-                    
+
+                    if drawShadows {
+                        CGContextSetShadowWithColor(context, shadowOffset, shadowBlur, dataSet.colorAt(j).colorWithAlphaComponent(0.3).CGColor)
+                    }
+
                     CGContextSetFillColorWithColor(context, dataSet.colorAt(j).CGColor)
                     
                     let sliceSpaceAngleOuter = visibleAngleCount == 1 ?
@@ -169,7 +176,6 @@ public class PieChartRenderer: DataRenderer
                     let arcStartPointY = center.y + radius * sin(startAngleOuter * ChartUtils.Math.FDEG2RAD)
 
                     let path = CGPathCreateMutable()
-                    
                     CGPathMoveToPoint(
                         path,
                         nil,
@@ -214,7 +220,7 @@ public class PieChartRenderer: DataRenderer
                             sweepAngleInner = 0.0
                         }
                         let endAngleInner = startAngleInner + sweepAngleInner
-                        
+
                         CGPathAddLineToPoint(
                             path,
                             nil,
@@ -671,6 +677,7 @@ public class PieChartRenderer: DataRenderer
         
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
+        let phaseH = animator.phase(.H)
         
         var angle: CGFloat = 0.0
         let rotationAngle = chart.rotationAngle
@@ -681,7 +688,10 @@ public class PieChartRenderer: DataRenderer
         let radius = chart.radius
         let drawInnerArc = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled
         let userInnerRadius = drawInnerArc ? radius * chart.holeRadiusPercent : 0.0
-        
+        let drawShadows = chart.drawShadowsEnabled
+        let shadowOffset = chart.shadowOffset
+        let shadowBlur = chart.shadowBlur
+
         for i in 0 ..< indices.count
         {
             // get the index to highlight
@@ -717,17 +727,22 @@ public class PieChartRenderer: DataRenderer
             {
                 angle = absoluteAngles[index - 1] * CGFloat(phaseX)
             }
-            
-            let sliceSpace = visibleAngleCount <= 1 ? 0.0 : set.sliceSpace
-            
+
+            let sliceSpace: CGFloat = visibleAngleCount <= 1 ? 0.0 : CGFloat(abs(set.sliceSpace - set.selectionSliceSpace)) * CGFloat(phaseH)
+
+            let innerShift = set.innerSelectionShift
             let sliceAngle = drawAngles[index]
-            var innerRadius = userInnerRadius
+            var innerRadius = userInnerRadius + innerShift * CGFloat(phaseH)
             
             let shift = set.selectionShift
-            let highlightedRadius = radius + shift
+            let highlightedRadius = radius + shift * CGFloat(phaseH)
             
             let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
             
+            if drawShadows {
+                CGContextSetShadowWithColor(context, shadowOffset, shadowBlur, set.colorAt(index).colorWithAlphaComponent(0.3).CGColor)
+            }
+
             CGContextSetFillColorWithColor(context, set.colorAt(index).CGColor)
             
             let sliceSpaceAngleOuter = visibleAngleCount == 1 ?
@@ -753,7 +768,7 @@ public class PieChartRenderer: DataRenderer
             }
             
             let path = CGPathCreateMutable()
-            
+
             CGPathMoveToPoint(
                 path,
                 nil,
@@ -804,7 +819,7 @@ public class PieChartRenderer: DataRenderer
                     sweepAngleInner = 0.0
                 }
                 let endAngleInner = startAngleInner + sweepAngleInner
-                
+
                 CGPathAddLineToPoint(
                     path,
                     nil,
