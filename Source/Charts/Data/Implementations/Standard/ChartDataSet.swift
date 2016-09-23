@@ -10,26 +10,6 @@
 //
 
 import Foundation
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 /// Determines how to round DataSet index values for `ChartDataSet.entryIndex(x, rounding)` when an exact x-value is not found.
 @objc
@@ -402,7 +382,7 @@ open class ChartDataSet: ChartBaseDataSet
         
         calcMinMax(entry: e)
         
-        if _values.last?.x > e.x
+        if _values.count > 0 && _values.last!.x > e.x
         {
             var closestIndex = entryIndex(x: e.x, rounding: .up)
             while _values[closestIndex].x < e.x
