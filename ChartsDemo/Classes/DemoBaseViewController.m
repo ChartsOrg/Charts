@@ -106,7 +106,7 @@
     
     if ([key isEqualToString:@"saveToGallery"])
     {
-        [chartView saveToCameraRoll];
+        UIImageWriteToSavedPhotosAlbum([chartView getChartImageWithTransparent:NO], nil, nil, nil);
     }
     
     if ([key isEqualToString:@"togglePinchZoom"])
