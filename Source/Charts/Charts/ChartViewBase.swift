@@ -889,16 +889,6 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
 		return true
     }
     
-    #if !os(tvOS) && !os(OSX)
-    /// Saves the current state of the chart to the camera roll
-    open func saveToCameraRoll()
-    {
-		if let img = getChartImage(transparent: false) {
-			UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil)
-		}
-    }
-    #endif
-    
     internal var _viewportJobs = [ViewPortJob]()
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?)
