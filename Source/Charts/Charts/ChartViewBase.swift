@@ -389,7 +389,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             let description = chartDescription,
             description.isEnabled,
             let descriptionText = description.text,
-            descriptionText.lengthOfBytes(using: String.Encoding.utf16) > 0
+            descriptionText.characters.count > 0
             else { return }
         
         var position = description.position
