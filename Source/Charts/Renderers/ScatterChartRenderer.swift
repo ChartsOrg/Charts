@@ -194,8 +194,6 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
             let animator = animator
             else { return }
         
-        let chartXMax = dataProvider.chartXMax
-        
         context.saveGState()
         
         for high in indices
@@ -205,41 +203,37 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                 set.isHighlightEnabled
                 else { continue }
             
-            guard let e = set.entryForIndex(Int(high.x))
-                else { continue }
+            let entries = set.entriesForXValue(high.x)
             
-            if !isInBoundsX(entry: e, dataSet: set)
+            for entry in entries
             {
-                continue
+                if entry.y != high.y { continue }
+                
+                if !isInBoundsX(entry: entry, dataSet: set) { continue }
+                
+                context.setStrokeColor(set.highlightColor.cgColor)
+                context.setLineWidth(set.highlightLineWidth)
+                if set.highlightLineDashLengths != nil
+                {
+                    context.setLineDash(phase: set.highlightLineDashPhase, lengths: set.highlightLineDashLengths!)
+                }
+                else
+                {
+                    context.setLineDash(phase: 0.0, lengths: [])
+                }
+                
+                let x = entry.x // get the x-position
+                let y = entry.y * Double(animator.phaseY)
+                
+                let trans = dataProvider.getTransformer(forAxis: set.axisDependency)
+                
+                let pt = trans.pixelForValues(x: x, y: y)
+                
+                high.setDraw(pt: pt)
+                
+                // draw the lines
+                drawHighlightLines(context: context, point: pt, set: set)
             }
-        
-            context.setStrokeColor(set.highlightColor.cgColor)
-            context.setLineWidth(set.highlightLineWidth)
-            if set.highlightLineDashLengths != nil
-            {
-                context.setLineDash(phase: set.highlightLineDashPhase, lengths: set.highlightLineDashLengths!)
-            }
-            else
-            {
-                context.setLineDash(phase: 0.0, lengths: [])
-            }
-            
-            let x = high.x // get the x-position
-            let y = high.y * Double(animator.phaseY)
-            
-            if x > chartXMax * animator.phaseX
-            {
-                continue
-            }
-            
-            let trans = dataProvider.getTransformer(forAxis: set.axisDependency)
-            
-            let pt = trans.pixelForValues(x: x, y: y)
-            
-            high.setDraw(pt: pt)
-            
-            // draw the lines
-            drawHighlightLines(context: context, point: pt, set: set)
         }
         
         context.restoreGState()
