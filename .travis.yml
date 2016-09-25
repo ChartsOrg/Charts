@@ -16,5 +16,5 @@ before_install:
 script:
   - bundle exec rake test
 
-# after_success:
-#   - bash <(curl -s https://codecov.io/bash)
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
