@@ -1005,6 +1005,7 @@
 			);
 			inputPaths = (
 				FBSnapshotTestCase,
+				Realm,
 			);
 			name = "Copy Carthage Frameworks";
 			outputPaths = (
@@ -1423,7 +1424,6 @@
 			baseConfigurationReference = 063FF0401D8CC9940094A042 /* Carthage.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1439,7 +1439,6 @@
 			baseConfigurationReference = 063FF0401D8CC9940094A042 /* Carthage.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Tests/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
