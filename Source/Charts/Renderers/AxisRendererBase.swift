@@ -129,9 +129,8 @@ open class AxisRendererBase: Renderer
             // Use one order of magnitude higher, to avoid intervals like 0.9 or 90
             interval = floor(10.0 * Double(intervalMagnitude))
         }
-        
-        let centeringEnabled = axis.centerAxisLabelsEnabled
-        var n = centeringEnabled ? 1 : 0
+
+        var n = axis.centerAxisLabelsEnabled ? 1 : 0
         
         // force label count
         if axis.isForceLabelsEnabled
@@ -158,7 +157,7 @@ open class AxisRendererBase: Renderer
         
             var first = interval == 0.0 ? 0.0 : ceil(yMin / interval) * interval
             
-            if centeringEnabled
+            if axis.centerAxisLabelsEnabled
             {
                 first -= interval
             }
@@ -204,16 +203,12 @@ open class AxisRendererBase: Renderer
             axis.decimals = 0
         }
         
-        if centeringEnabled
+        if axis.centerAxisLabelsEnabled
         {
             axis.centeredEntries.reserveCapacity(n)
             axis.centeredEntries.removeAll()
             
-            var offset: Double = 0.0
-            if axis.entries.count > 1
-            {
-                offset = (axis.entries[1] - axis.entries[0]) / 2.0
-            }
+            let offset: Double = interval / 2.0
             
             for i in 0 ..< n
             {
