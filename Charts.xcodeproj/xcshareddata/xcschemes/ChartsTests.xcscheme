@@ -9,14 +9,14 @@
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "06B120D41D811E6200D14B02"
-               BuildableName = "ChartsRealm.framework"
-               BlueprintName = "ChartsRealm"
+               BlueprintIdentifier = "06165F2D1D8110E600722320"
+               BuildableName = "ChartsTests.xctest"
+               BlueprintName = "ChartsTests"
                ReferencedContainer = "container:Charts.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,16 +29,17 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       codeCoverageEnabled = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "06165F2D1D8110E600722320"
+               BuildableName = "ChartsTests.xctest"
+               BlueprintName = "ChartsTests"
+               ReferencedContainer = "container:Charts.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "06B120D41D811E6200D14B02"
-            BuildableName = "ChartsRealm.framework"
-            BlueprintName = "ChartsRealm"
-            ReferencedContainer = "container:Charts.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -55,12 +56,19 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "06B120D41D811E6200D14B02"
-            BuildableName = "ChartsRealm.framework"
-            BlueprintName = "ChartsRealm"
+            BlueprintIdentifier = "06165F2D1D8110E600722320"
+            BuildableName = "ChartsTests.xctest"
+            BlueprintName = "ChartsTests"
             ReferencedContainer = "container:Charts.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "FB_REFERENCE_IMAGE_DIR"
+            value = "$(SOURCE_ROOT)/Tests/ReferenceImages"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -73,9 +81,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "06B120D41D811E6200D14B02"
-            BuildableName = "ChartsRealm.framework"
-            BlueprintName = "ChartsRealm"
+            BlueprintIdentifier = "06165F2D1D8110E600722320"
+            BuildableName = "ChartsTests.xctest"
+            BlueprintName = "ChartsTests"
             ReferencedContainer = "container:Charts.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

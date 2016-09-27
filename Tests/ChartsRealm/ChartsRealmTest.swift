@@ -1,8 +1,9 @@
 import XCTest
 import FBSnapshotTestCase
-@testable import Charts
+import Charts
+@testable import ChartsRealm
 
-class BarChartTests: FBSnapshotTestCase
+class ChartsRealmTest: FBSnapshotTestCase
 {
     override func setUp()
     {

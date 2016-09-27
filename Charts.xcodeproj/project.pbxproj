@@ -141,8 +141,6 @@
 		06B120C41D811B8900D14B02 /* Transformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B120401D811B8900D14B02 /* Transformer.swift */; };
 		06B120C51D811B8900D14B02 /* TransformerHorizontalBarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B120411D811B8900D14B02 /* TransformerHorizontalBarChart.swift */; };
 		06B120C61D811B8900D14B02 /* ViewPortHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B120421D811B8900D14B02 /* ViewPortHandler.swift */; };
-		06B120CA1D811BFC00D14B02 /* BarChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B120C71D811BFC00D14B02 /* BarChartTests.swift */; };
-		06B120CC1D811BFC00D14B02 /* LineChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B120C91D811BFC00D14B02 /* LineChartTests.swift */; };
 		06B120EB1D811E8E00D14B02 /* RealmBarDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B120DE1D811E8E00D14B02 /* RealmBarDataSet.swift */; };
 		06B120EC1D811E8E00D14B02 /* RealmBarLineScatterCandleBubbleDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B120DF1D811E8E00D14B02 /* RealmBarLineScatterCandleBubbleDataSet.swift */; };
 		06B120ED1D811E8E00D14B02 /* RealmBaseDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B120E01D811E8E00D14B02 /* RealmBaseDataSet.swift */; };
@@ -155,9 +153,11 @@
 		06B120F41D811E8E00D14B02 /* RealmRadarDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B120E71D811E8E00D14B02 /* RealmRadarDataSet.swift */; };
 		06B120F51D811E8E00D14B02 /* RealmScatterDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B120E81D811E8E00D14B02 /* RealmScatterDataSet.swift */; };
 		06B120F91D811E9600D14B02 /* ChartsRealm.h in Headers */ = {isa = PBXBuildFile; fileRef = 06B120F71D811E9600D14B02 /* ChartsRealm.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		06B121041D811F1600D14B02 /* ChartsRealm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B120D51D811E6200D14B02 /* ChartsRealm.framework */; };
-		06B121141D81208F00D14B02 /* ChartsRealmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B121131D81208F00D14B02 /* ChartsRealmTest.swift */; };
 		06B121151D81214300D14B02 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06165F241D8110E600722320 /* Charts.framework */; };
+		06B3C0F11D99F82700B1DF43 /* ChartsRealm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B120D51D811E6200D14B02 /* ChartsRealm.framework */; };
+		06B3C0F71D99F85400B1DF43 /* BarChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3C0F31D99F85400B1DF43 /* BarChartTests.swift */; };
+		06B3C0F81D99F85400B1DF43 /* LineChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3C0F41D99F85400B1DF43 /* LineChartTests.swift */; };
+		06B3C0F91D99F85400B1DF43 /* ChartsRealmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3C0F61D99F85400B1DF43 /* ChartsRealmTest.swift */; };
 		5B56A9CD1D905EB300F58178 /* Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B56A9CC1D905EB300F58178 /* Description.swift */; };
 /* End PBXBuildFile section */
 
@@ -169,7 +169,7 @@
 			remoteGlobalIDString = 06165F231D8110E600722320;
 			remoteInfo = Charts;
 		};
-		06B121051D811F1600D14B02 /* PBXContainerItemProxy */ = {
+		06B3C0EF1D99F82300B1DF43 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 06165F1B1D8110E600722320 /* Project object */;
 			proxyType = 1;
@@ -316,8 +316,6 @@
 		06B120401D811B8900D14B02 /* Transformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transformer.swift; sourceTree = "<group>"; };
 		06B120411D811B8900D14B02 /* TransformerHorizontalBarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransformerHorizontalBarChart.swift; sourceTree = "<group>"; };
 		06B120421D811B8900D14B02 /* ViewPortHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewPortHandler.swift; sourceTree = "<group>"; };
-		06B120C71D811BFC00D14B02 /* BarChartTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BarChartTests.swift; path = Tests/Charts/BarChartTests.swift; sourceTree = SOURCE_ROOT; };
-		06B120C91D811BFC00D14B02 /* LineChartTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LineChartTests.swift; path = Tests/Charts/LineChartTests.swift; sourceTree = SOURCE_ROOT; };
 		06B120D51D811E6200D14B02 /* ChartsRealm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ChartsRealm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		06B120DE1D811E8E00D14B02 /* RealmBarDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmBarDataSet.swift; sourceTree = "<group>"; };
 		06B120DF1D811E8E00D14B02 /* RealmBarLineScatterCandleBubbleDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmBarLineScatterCandleBubbleDataSet.swift; sourceTree = "<group>"; };
@@ -332,10 +330,10 @@
 		06B120E81D811E8E00D14B02 /* RealmScatterDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmScatterDataSet.swift; sourceTree = "<group>"; };
 		06B120F71D811E9600D14B02 /* ChartsRealm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChartsRealm.h; path = "Source/Supporting Files/ChartsRealm.h"; sourceTree = "<group>"; };
 		06B120F81D811E9600D14B02 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Source/Supporting Files/Info.plist"; sourceTree = "<group>"; };
-		06B120FF1D811F1600D14B02 /* ChartsRealmTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChartsRealmTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		06B1210F1D81201100D14B02 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Tests/Supporting Files/Info.plist"; sourceTree = "<group>"; };
 		06B121111D81201C00D14B02 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Tests/Supporting Files/Info.plist"; sourceTree = SOURCE_ROOT; };
-		06B121131D81208F00D14B02 /* ChartsRealmTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChartsRealmTest.swift; path = Tests/ChartsRealm/ChartsRealmTest.swift; sourceTree = "<group>"; };
+		06B3C0F31D99F85400B1DF43 /* BarChartTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartTests.swift; sourceTree = "<group>"; };
+		06B3C0F41D99F85400B1DF43 /* LineChartTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartTests.swift; sourceTree = "<group>"; };
+		06B3C0F61D99F85400B1DF43 /* ChartsRealmTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartsRealmTest.swift; sourceTree = "<group>"; };
 		5B56A9CC1D905EB300F58178 /* Description.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Description.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -351,6 +349,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06B3C0F11D99F82700B1DF43 /* ChartsRealm.framework in Frameworks */,
 				06165F2F1D8110E600722320 /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -363,14 +362,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		06B120FC1D811F1600D14B02 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				06B121041D811F1600D14B02 /* ChartsRealm.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -379,9 +370,8 @@
 			children = (
 				063FF0401D8CC9940094A042 /* Carthage.xcconfig */,
 				06500D381D81115900156E8A /* Charts */,
-				06165F321D8110E700722320 /* ChartsTests */,
 				06B120CD1D811D9D00D14B02 /* ChartsRealm */,
-				06B1210A1D811F2D00D14B02 /* ChartsRealmTests */,
+				06165F321D8110E700722320 /* ChartsTests */,
 				06165F251D8110E600722320 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -392,7 +382,6 @@
 				06165F241D8110E600722320 /* Charts.framework */,
 				06165F2E1D8110E600722320 /* ChartsTests.xctest */,
 				06B120D51D811E6200D14B02 /* ChartsRealm.framework */,
-				06B120FF1D811F1600D14B02 /* ChartsRealmTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -400,8 +389,8 @@
 		06165F321D8110E700722320 /* ChartsTests */ = {
 			isa = PBXGroup;
 			children = (
-				06B120C71D811BFC00D14B02 /* BarChartTests.swift */,
-				06B120C91D811BFC00D14B02 /* LineChartTests.swift */,
+				06B3C0F21D99F85400B1DF43 /* Charts */,
+				06B3C0F51D99F85400B1DF43 /* ChartsRealm */,
 				06B1210D1D811FF200D14B02 /* Supporting Files */,
 			);
 			path = ChartsTests;
@@ -741,15 +730,6 @@
 			path = Source/ChartsRealm/Data;
 			sourceTree = "<group>";
 		};
-		06B1210A1D811F2D00D14B02 /* ChartsRealmTests */ = {
-			isa = PBXGroup;
-			children = (
-				06B121131D81208F00D14B02 /* ChartsRealmTest.swift */,
-				06B1210E1D811FFB00D14B02 /* Supporting Files */,
-			);
-			name = ChartsRealmTests;
-			sourceTree = "<group>";
-		};
 		06B1210D1D811FF200D14B02 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -758,13 +738,24 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		06B1210E1D811FFB00D14B02 /* Supporting Files */ = {
+		06B3C0F21D99F85400B1DF43 /* Charts */ = {
 			isa = PBXGroup;
 			children = (
-				06B1210F1D81201100D14B02 /* Info.plist */,
+				06B3C0F31D99F85400B1DF43 /* BarChartTests.swift */,
+				06B3C0F41D99F85400B1DF43 /* LineChartTests.swift */,
 			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
+			name = Charts;
+			path = Tests/Charts;
+			sourceTree = SOURCE_ROOT;
+		};
+		06B3C0F51D99F85400B1DF43 /* ChartsRealm */ = {
+			isa = PBXGroup;
+			children = (
+				06B3C0F61D99F85400B1DF43 /* ChartsRealmTest.swift */,
+			);
+			name = ChartsRealm;
+			path = Tests/ChartsRealm;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -819,6 +810,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				06B3C0F01D99F82300B1DF43 /* PBXTargetDependency */,
 				06165F311D8110E600722320 /* PBXTargetDependency */,
 			);
 			name = ChartsTests;
@@ -845,26 +837,6 @@
 			productReference = 06B120D51D811E6200D14B02 /* ChartsRealm.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		06B120FE1D811F1600D14B02 /* ChartsRealmTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 06B121071D811F1600D14B02 /* Build configuration list for PBXNativeTarget "ChartsRealmTests" */;
-			buildPhases = (
-				064DBAE21D938156002584CD /* Build Dependencies */,
-				06B120FB1D811F1600D14B02 /* Sources */,
-				06B120FC1D811F1600D14B02 /* Frameworks */,
-				06B120FD1D811F1600D14B02 /* Resources */,
-				06B121161D81215D00D14B02 /* Copy Carthage Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				06B121061D811F1600D14B02 /* PBXTargetDependency */,
-			);
-			name = ChartsRealmTests;
-			productName = ChartsRealmTests;
-			productReference = 06B120FF1D811F1600D14B02 /* ChartsRealmTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -883,9 +855,6 @@
 					06B120D41D811E6200D14B02 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
-					06B120FE1D811F1600D14B02 = {
-						CreatedOnToolsVersion = 7.3.1;
-					};
 				};
 			};
 			buildConfigurationList = 06165F1E1D8110E600722320 /* Build configuration list for PBXProject "Charts" */;
@@ -901,9 +870,8 @@
 			projectRoot = "";
 			targets = (
 				06165F231D8110E600722320 /* Charts */,
-				06165F2D1D8110E600722320 /* ChartsTests */,
 				06B120D41D811E6200D14B02 /* ChartsRealm */,
-				06B120FE1D811F1600D14B02 /* ChartsRealmTests */,
+				06165F2D1D8110E600722320 /* ChartsTests */,
 			);
 		};
 /* End PBXProject section */
@@ -924,13 +892,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		06B120D31D811E6200D14B02 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		06B120FD1D811F1600D14B02 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -969,36 +930,7 @@
 			shellPath = /bin/sh;
 			shellScript = "exec \"${SRCROOT}/scripts/build-dependencies.sh\"\n";
 		};
-		064DBAE21D938156002584CD /* Build Dependencies */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Build Dependencies";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "exec \"${SRCROOT}/scripts/build-dependencies.sh\"\n";
-		};
 		06500E641D8116FC00156E8A /* Copy Carthage Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				FBSnapshotTestCase,
-			);
-			name = "Copy Carthage Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "exec \"${SRCROOT}/scripts/copy-carthage-frameworks.sh\"\n";
-		};
-		06B121161D81215D00D14B02 /* Copy Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1161,8 +1093,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06B120CC1D811BFC00D14B02 /* LineChartTests.swift in Sources */,
-				06B120CA1D811BFC00D14B02 /* BarChartTests.swift in Sources */,
+				06B3C0F91D99F85400B1DF43 /* ChartsRealmTest.swift in Sources */,
+				06B3C0F81D99F85400B1DF43 /* LineChartTests.swift in Sources */,
+				06B3C0F71D99F85400B1DF43 /* BarChartTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1184,14 +1117,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		06B120FB1D811F1600D14B02 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				06B121141D81208F00D14B02 /* ChartsRealmTest.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1200,10 +1125,10 @@
 			target = 06165F231D8110E600722320 /* Charts */;
 			targetProxy = 06165F301D8110E600722320 /* PBXContainerItemProxy */;
 		};
-		06B121061D811F1600D14B02 /* PBXTargetDependency */ = {
+		06B3C0F01D99F82300B1DF43 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 06B120D41D811E6200D14B02 /* ChartsRealm */;
-			targetProxy = 06B121051D811F1600D14B02 /* PBXContainerItemProxy */;
+			targetProxy = 06B3C0EF1D99F82300B1DF43 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1419,35 +1344,6 @@
 			};
 			name = Release;
 		};
-		06B121081D811F1600D14B02 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 063FF0401D8CC9940094A042 /* Carthage.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = "$(SRCROOT)/Tests/Supporting Files/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.ChartsRealmTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-			};
-			name = Debug;
-		};
-		06B121091D811F1600D14B02 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 063FF0401D8CC9940094A042 /* Carthage.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = "$(SRCROOT)/Tests/Supporting Files/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.ChartsRealmTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1483,15 +1379,6 @@
 			buildConfigurations = (
 				06B120DB1D811E6200D14B02 /* Debug */,
 				06B120DC1D811E6200D14B02 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		06B121071D811F1600D14B02 /* Build configuration list for PBXNativeTarget "ChartsRealmTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				06B121081D811F1600D14B02 /* Debug */,
-				06B121091D811F1600D14B02 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
