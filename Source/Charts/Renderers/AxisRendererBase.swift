@@ -130,7 +130,7 @@ open class AxisRendererBase: Renderer
             interval = floor(10.0 * Double(intervalMagnitude))
         }
 
-        var n = axis.centerAxisLabelsEnabled ? 1 : 0
+        var n = 1
         
         // force label count
         if axis.isForceLabelsEnabled
