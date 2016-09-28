@@ -60,7 +60,7 @@ def xcodebuild(type, name, scheme, configuration, sdk, destination, tasks, xcpre
     abort "Invalid project type, use `:project` for xcodeproj and `:workspace` for xcworkspace."
   end
 
-  sh "set -o pipefail && xcodebuild #{project_type} '#{name}' -scheme '#{scheme}' -configuration '#{configuration}' -sdk #{sdk} -destination #{destination} #{tasks} | xcpretty -c #{xcprety_args}"
+  sh "set -o pipefail && xcodebuild #{project_type} '#{name}' -scheme '#{scheme}' -configuration '#{configuration}' -sdk #{sdk} -destination #{destination} #{tasks} | bundle exec xcpretty -c #{xcprety_args}"
 
 end
 
