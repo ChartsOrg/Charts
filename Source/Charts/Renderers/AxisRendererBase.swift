@@ -129,13 +129,13 @@ open class AxisRendererBase: Renderer
             // Use one order of magnitude higher, to avoid intervals like 0.9 or 90
             interval = floor(10.0 * Double(intervalMagnitude))
         }
-
-        var n = 1
+        
+        var n = axis.centerAxisLabelsEnabled ? 1 : 0
         
         // force label count
         if axis.isForceLabelsEnabled
         {
-            let step = Double(range) / Double(labelCount - 1)
+            interval = Double(range) / Double(labelCount - 1)
             
             // Ensure stops contains at least n elements.
             axis.entries.removeAll(keepingCapacity: true)
@@ -146,7 +146,7 @@ open class AxisRendererBase: Renderer
             for _ in 0 ..< labelCount
             {
                 axis.entries.append(v)
-                v += step
+                v += interval
             }
             
             n = labelCount
