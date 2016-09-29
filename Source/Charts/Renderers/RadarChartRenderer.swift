@@ -299,7 +299,7 @@ open class RadarChartRenderer: LineRadarRenderer
                 set.isHighlightEnabled
                 else { continue }
             
-            guard let e = set.entryForXValue(high.x) as? RadarChartDataEntry
+            guard let e = set.entryForIndex(Int(high.x)) as? RadarChartDataEntry
                 else { continue }
             
             if !isInBoundsX(entry: e, dataSet: set)
