@@ -50,6 +50,12 @@ open class ChartUtils
         }
         
         let i = roundToNextSignificant(number: Double(number))
+        
+        if i.isInfinite
+        {
+            return 0
+        }
+        
         return Int(ceil(-log10(i))) + 2
     }
     

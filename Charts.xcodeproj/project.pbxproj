@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		06165F2F1D8110E600722320 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06165F241D8110E600722320 /* Charts.framework */; };
+		06761B5E1D98176000D5CE09 /* ChartUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06761B5D1D98176000D5CE09 /* ChartUtilsTests.swift */; };
 		06B11FAF1D811B7000D14B02 /* Charts.h in Headers */ = {isa = PBXBuildFile; fileRef = 06B11FAE1D811B7000D14B02 /* Charts.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		06B120431D811B8900D14B02 /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B11FB11D811B8900D14B02 /* Animator.swift */; };
 		06B120441D811B8900D14B02 /* ChartAnimationEasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B11FB21D811B8900D14B02 /* ChartAnimationEasing.swift */; };
@@ -182,6 +183,7 @@
 		06165F241D8110E600722320 /* Charts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Charts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		06165F2E1D8110E600722320 /* ChartsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChartsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		063FF0401D8CC9940094A042 /* Carthage.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Carthage.xcconfig; sourceTree = "<group>"; };
+		06761B5D1D98176000D5CE09 /* ChartUtilsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChartUtilsTests.swift; path = Tests/Charts/ChartUtilsTests.swift; sourceTree = SOURCE_ROOT; };
 		06B11FAC1D811B6600D14B02 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Source/Supporting Files/Info.plist"; sourceTree = "<group>"; };
 		06B11FAE1D811B7000D14B02 /* Charts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Charts.h; path = "Source/Supporting Files/Charts.h"; sourceTree = "<group>"; };
 		06B11FB11D811B8900D14B02 /* Animator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
@@ -391,6 +393,7 @@
 			children = (
 				06B3C0F21D99F85400B1DF43 /* Charts */,
 				06B3C0F51D99F85400B1DF43 /* ChartsRealm */,
+				06761B5D1D98176000D5CE09 /* ChartUtilsTests.swift */,
 				06B1210D1D811FF200D14B02 /* Supporting Files */,
 			);
 			path = ChartsTests;
@@ -1096,6 +1099,7 @@
 				06B3C0F91D99F85400B1DF43 /* ChartsRealmTest.swift in Sources */,
 				06B3C0F81D99F85400B1DF43 /* LineChartTests.swift in Sources */,
 				06B3C0F71D99F85400B1DF43 /* BarChartTests.swift in Sources */,
+				06761B5E1D98176000D5CE09 /* ChartUtilsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
