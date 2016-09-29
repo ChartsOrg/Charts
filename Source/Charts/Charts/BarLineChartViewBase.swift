@@ -246,9 +246,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
         _legendRenderer.renderLegend(context: context)
 
-        drawMarkers(context: context)
-
         drawDescription(context: context)
+        
+        drawMarkers(context: context)
     }
     
     fileprivate var _autoScaleLastLowestVisibleX: Double?
