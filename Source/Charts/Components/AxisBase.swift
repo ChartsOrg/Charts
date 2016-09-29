@@ -50,7 +50,7 @@ open class AxisBase: ComponentBase
     /// This is useful especially for grouped BarChart.
     open var centerAxisLabelsEnabled: Bool
     {
-        get { return _centerAxisLabelsEnabled && entryCount > 1 }
+        get { return _centerAxisLabelsEnabled && entryCount > 0 }
         set { _centerAxisLabelsEnabled = newValue }
     }
     
