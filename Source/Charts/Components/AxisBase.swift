@@ -334,7 +334,7 @@ open class AxisBase: ComponentBase
     
     /// The maximum value for this axis.
     /// If set, this value will not be calculated automatically depending on the provided data.
-    /// Use `resetCustomAxisMin()` to undo this.
+    /// Use `resetCustomAxisMax()` to undo this.
     open var axisMaximum: Double
     {
         get
