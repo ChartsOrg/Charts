@@ -60,8 +60,8 @@
     chart.legend.enabled = NO;
     
     chart.leftAxis.enabled = NO;
-    chart.leftAxis.spaceTop = 40.0;
-    chart.leftAxis.spaceBottom = 40.0;
+    chart.leftAxis.spaceTop = 0.4;
+    chart.leftAxis.spaceBottom = 0.4;
     chart.rightAxis.enabled = NO;
     chart.xAxis.enabled = NO;
     
