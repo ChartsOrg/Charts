@@ -67,8 +67,6 @@
     xAxis.drawGridLinesEnabled = NO;
     xAxis.drawAxisLineEnabled = NO;
     xAxis.labelTextColor = [UIColor lightGrayColor];
-    xAxis.axisMinimum = 0.0;
-    xAxis.axisMaximum = 5.0;
     xAxis.labelCount = 5;
     xAxis.centerAxisLabelsEnabled = YES;
     xAxis.granularity = 1.0;
@@ -111,19 +109,19 @@
 {
     // THIS IS THE ORIGINAL DATA YOU WANT TO PLOT
     dataList = @[
-                                          @{@"xValue": @(0.5),
+                                          @{@"xValue": @(0),
                                             @"yValue": @(-224.1f),
                                             @"xLabel": @"12-19"},
-                                          @{@"xValue": @(1.5),
+                                          @{@"xValue": @(1),
                                             @"yValue": @(238.5f),
                                             @"xLabel": @"12-30"},
-                                          @{@"xValue": @(2.5),
+                                          @{@"xValue": @(2),
                                             @"yValue": @(1280.1f),
                                             @"xLabel": @"12-31"},
-                                          @{@"xValue": @(3.5),
+                                          @{@"xValue": @(3),
                                             @"yValue": @(-442.3f),
                                             @"xLabel": @"01-01"},
-                                          @{@"xValue": @(4.5),
+                                          @{@"xValue": @(4),
                                             @"yValue": @(-2280.1f),
                                             @"xLabel": @"01-02"},
                                           ];

@@ -130,16 +130,13 @@
 {
     double start = 0.0;
     
-    _chartView.xAxis.axisMinimum = start;
-    _chartView.xAxis.axisMaximum = start + count + 2;
-    
     NSMutableArray *yVals = [[NSMutableArray alloc] init];
     
     for (int i = start; i < start + count + 1; i++)
     {
         double mult = (range + 1);
         double val = (double) (arc4random_uniform(mult));
-        [yVals addObject:[[BarChartDataEntry alloc] initWithX:(double)i + 1.0 y:val]];
+        [yVals addObject:[[BarChartDataEntry alloc] initWithX:(double)i y:val]];
     }
     
     BarChartDataSet *set1 = nil;
