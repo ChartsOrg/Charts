@@ -224,6 +224,7 @@ open class ChartDataSet: ChartBaseDataSet
             var m = (high + low) / 2
             var entry = _values[m]
             
+            // if we have a match
             if x == entry.x
             {
                 while m > 0 && _values[m - 1].x == x
@@ -232,6 +233,8 @@ open class ChartDataSet: ChartBaseDataSet
                 }
                 
                 high = _values.count
+                
+                // loop over all "equal" entries
                 while m < high
                 {
                     entry = _values[m]
