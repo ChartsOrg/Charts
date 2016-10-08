@@ -143,7 +143,7 @@ open class ChartDataSet: ChartBaseDataSet
         }
     }
     
-    internal func calcMinMaxY(entry e: ChartDataEntry)
+    open func calcMinMaxY(entry e: ChartDataEntry)
     {
         if e.y < _yMin
         {
