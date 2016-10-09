@@ -448,8 +448,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
 
     /// Highlights the values at the given indices in the given DataSets. Provide
     /// null or an empty array to undo all highlighting. 
-    /// This should be used to programmatically highlight values. 
-    /// This DOES NOT generate a callback to the delegate.
+    /// This should be used to programmatically highlight values.
+    /// This method *will not* call the delegate.
     open func highlightValues(_ highs: [Highlight]?)
     {
         // set the indices to highlight
@@ -468,44 +468,71 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         setNeedsDisplay()
     }
     
-    
-    /// Highlights the values represented by the provided Highlight object
-    /// This DOES NOT generate a callback to the delegate.
-    /// - parameter highlight: contains information about which entry should be highlighted
-    open func highlightValue(_ highlight: Highlight?)
-    {
-        highlightValue(highlight: highlight, callDelegate: false)
-    }
-    
-    /// Highlights the value at the given x-value in the given DataSet.
+    /// Highlights any y-value at the given x-value in the given DataSet.
     /// Provide -1 as the dataSetIndex to undo all highlighting.
+    /// This method will call the delegate.
+    /// - parameter x: The x-value to highlight
+    /// - parameter dataSetIndex: The dataset index to search in
     open func highlightValue(x: Double, dataSetIndex: Int)
     {
         highlightValue(x: x, dataSetIndex: dataSetIndex, callDelegate: true)
     }
     
-    /// Highlights the value at the given x-value in the given DataSet.
+    /// Highlights the value at the given x-value and y-value in the given DataSet.
     /// Provide -1 as the dataSetIndex to undo all highlighting.
+    /// This method will call the delegate.
+    /// - parameter x: The x-value to highlight
+    /// - parameter y: The y-value to highlight. Supply `NaN` for "any"
+    /// - parameter dataSetIndex: The dataset index to search in
+    open func highlightValue(x: Double, y: Double, dataSetIndex: Int)
+    {
+        highlightValue(x: x, y: y, dataSetIndex: dataSetIndex, callDelegate: true)
+    }
+    
+    /// Highlights any y-value at the given x-value in the given DataSet.
+    /// Provide -1 as the dataSetIndex to undo all highlighting.
+    /// - parameter x: The x-value to highlight
+    /// - parameter dataSetIndex: The dataset index to search in
+    /// - parameter callDelegate: Should the delegate be called for this change
     open func highlightValue(x: Double, dataSetIndex: Int, callDelegate: Bool)
+    {
+        highlightValue(x: x, y: Double.nan, dataSetIndex: dataSetIndex, callDelegate: callDelegate)
+    }
+    
+    /// Highlights the value at the given x-value and y-value in the given DataSet.
+    /// Provide -1 as the dataSetIndex to undo all highlighting.
+    /// - parameter x: The x-value to highlight
+    /// - parameter y: The y-value to highlight. Supply `NaN` for "any"
+    /// - parameter dataSetIndex: The dataset index to search in
+    /// - parameter callDelegate: Should the delegate be called for this change
+    open func highlightValue(x: Double, y: Double, dataSetIndex: Int, callDelegate: Bool)
     {
         guard let data = _data else
         {
             Swift.print("Value not highlighted because data is nil")
             return
         }
-
+        
         if dataSetIndex < 0 || dataSetIndex >= data.dataSetCount
         {
-            highlightValue(highlight: nil, callDelegate: callDelegate)
+            highlightValue(nil, callDelegate: callDelegate)
         }
         else
         {
-            highlightValue(highlight: Highlight(x: x, dataSetIndex: dataSetIndex), callDelegate: callDelegate)
+            highlightValue(Highlight(x: x, y: y, dataSetIndex: dataSetIndex), callDelegate: callDelegate)
         }
+    }
+    
+    /// Highlights the values represented by the provided Highlight object
+    /// This method *will not* call the delegate.
+    /// - parameter highlight: contains information about which entry should be highlighted
+    open func highlightValue(_ highlight: Highlight?)
+    {
+        highlightValue(highlight, callDelegate: false)
     }
 
     /// Highlights the value selected by touch gesture.
-    open func highlightValue(highlight: Highlight?, callDelegate: Bool)
+    open func highlightValue(_ highlight: Highlight?, callDelegate: Bool)
     {
         var entry: ChartDataEntry?
         var h = highlight
@@ -783,26 +810,6 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     open var contentRect: CGRect
     {
         return _viewPortHandler.contentRect
-    }
-    
-    /// Get all Entry objects at the given index across all DataSets.
-    open func getEntriesAtIndex(_ xValue: Double) -> [ChartDataEntry]
-    {
-        var vals = [ChartDataEntry]()
-        
-        guard let data = _data else { return vals }
-
-        for i in 0 ..< data.dataSetCount
-        {
-            guard let set = data.getDataSetByIndex(i)
-                else { continue }
-            if let e = set.entryForXValue(xValue)
-            {
-                vals.append(e)
-            }
-        }
-        
-        return vals
     }
     
     /// - returns: The ViewPortHandler of the chart that is responsible for the

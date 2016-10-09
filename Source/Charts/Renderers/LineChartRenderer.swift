@@ -712,7 +712,7 @@ open class LineChartRenderer: LineRadarRenderer
                 , set.isHighlightEnabled
                 else { continue }
             
-            guard let e = set.entryForXValue(high.x) else { continue }
+            guard let e = set.entryForXValue(high.x, closestToY: high.y) else { continue }
             
             if !isInBoundsX(entry: e, dataSet: set)
             {

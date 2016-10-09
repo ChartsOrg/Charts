@@ -47,26 +47,39 @@ public protocol IChartDataSet
     func entryForIndex(_ i: Int) -> ChartDataEntry?
     
     /// - returns: The first Entry object found at the given x-value with binary search.
-    /// If the no Entry at the specifed x-value is found, this method returns the Entry at the closest x-pox.
+    /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value according to the rounding.
     /// nil if no Entry object at that x-value.
-    /// - parameter x: the x-value
+    /// - parameter xValue: the x-value
+    /// - parameter closestToY: If there are multiple y-values for the specified x-value,
     /// - parameter rounding: determine whether to round up/down/closest if there is no Entry matching the provided x-value
-    func entryForXValue(_ x: Double, rounding: ChartDataSetRounding) -> ChartDataEntry?
+    func entryForXValue(
+        _ xValue: Double,
+        closestToY yValue: Double,
+        rounding: ChartDataSetRounding) -> ChartDataEntry?
     
     /// - returns: The first Entry object found at the given x-value with binary search.
-    /// If the no Entry at the specifed x-value is found, this method returns the Entry at the closest x-value.
+    /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value.
     /// nil if no Entry object at that x-value.
-    func entryForXValue(_ x: Double) -> ChartDataEntry?
+    /// - parameter xValue: the x-value
+    /// - parameter closestToY: If there are multiple y-values for the specified x-value,
+    func entryForXValue(
+        _ xValue: Double,
+        closestToY yValue: Double) -> ChartDataEntry?
     
     /// - returns: All Entry objects found at the given x-value with binary search.
     /// An empty array if no Entry object at that x-value.
-    func entriesForXValue(_ x: Double) -> [ChartDataEntry]
+    func entriesForXValue(_ xValue: Double) -> [ChartDataEntry]
     
-    /// - returns: The array-index of the specified entry
+    /// - returns: The array-index of the specified entry.
+    /// If the no Entry at the specified x-value is found, this method returns the index of the Entry at the closest x-value according to the rounding.
     ///
-    /// - parameter x: x-value of the entry to search for
-    /// - parameter rounding: x-value of the entry to search for
-    func entryIndex(x: Double, rounding: ChartDataSetRounding) -> Int
+    /// - parameter xValue: x-value of the entry to search for
+    /// - parameter closestToY: If there are multiple y-values for the specified x-value,
+    /// - parameter rounding: Rounding method if exact value was not found
+    func entryIndex(
+        x xValue: Double,
+        closestToY yValue: Double,
+        rounding: ChartDataSetRounding) -> Int
     
     /// - returns: The array-index of the specified entry
     ///

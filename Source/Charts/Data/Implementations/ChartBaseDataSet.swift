@@ -83,14 +83,19 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
         fatalError("entryForIndex is not implemented in ChartBaseDataSet")
     }
     
-    open func entryForXValue(_ x: Double, rounding: ChartDataSetRounding) -> ChartDataEntry?
+    open func entryForXValue(
+        _ x: Double,
+        closestToY y: Double,
+        rounding: ChartDataSetRounding) -> ChartDataEntry?
     {
-        fatalError("entryForXValue(x, rounding) is not implemented in ChartBaseDataSet")
+        fatalError("entryForXValue(x, closestToY, rounding) is not implemented in ChartBaseDataSet")
     }
     
-    open func entryForXValue(_ x: Double) -> ChartDataEntry?
+    open func entryForXValue(
+        _ x: Double,
+        closestToY y: Double) -> ChartDataEntry?
     {
-        fatalError("entryForXValue(x) is not implemented in ChartBaseDataSet")
+        fatalError("entryForXValue(x, closestToY) is not implemented in ChartBaseDataSet")
     }
     
     open func entriesForXValue(_ x: Double) -> [ChartDataEntry]
@@ -98,9 +103,12 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
         fatalError("entriesForXValue is not implemented in ChartBaseDataSet")
     }
     
-    open func entryIndex(x: Double, rounding: ChartDataSetRounding) -> Int
+    open func entryIndex(
+        x xValue: Double,
+        closestToY y: Double,
+        rounding: ChartDataSetRounding) -> Int
     {
-        fatalError("entryIndex(x, rounding) is not implemented in ChartBaseDataSet")
+        fatalError("entryIndex(x, closestToY, rounding) is not implemented in ChartBaseDataSet")
     }
     
     open func entryIndex(entry e: ChartDataEntry) -> Int
@@ -134,7 +142,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     
     open func removeEntry(x: Double) -> Bool
     {
-        if let entry = entryForXValue(x)
+        if let entry = entryForXValue(x, closestToY: Double.nan)
         {
             return removeEntry(entry)
         }

@@ -125,10 +125,12 @@ open class Highlight: NSObject
     }
     
     /// - parameter x: the x-value of the highlighted value
+    /// - parameter y: the y-value of the highlighted value
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
-    public init(x: Double, dataSetIndex: Int)
+    public init(x: Double, y: Double, dataSetIndex: Int)
     {
         _x = x
+        _y = y
         _dataSetIndex = dataSetIndex
     }
     
@@ -137,7 +139,7 @@ open class Highlight: NSObject
     /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
     public convenience init(x: Double, dataSetIndex: Int, stackIndex: Int)
     {
-        self.init(x: x, dataSetIndex: dataSetIndex)
+        self.init(x: x, y: Double.nan, dataSetIndex: dataSetIndex)
         _stackIndex = stackIndex
     }
     

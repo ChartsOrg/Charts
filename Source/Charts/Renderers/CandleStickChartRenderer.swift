@@ -331,7 +331,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 set.isHighlightEnabled
                 else { continue }
             
-            guard let e = set.entryForXValue(high.x) as? CandleChartDataEntry else { continue }
+            guard let e = set.entryForXValue(high.x, closestToY: high.y) as? CandleChartDataEntry else { continue }
             
             if !isInBoundsX(entry: e, dataSet: set)
             {

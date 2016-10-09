@@ -203,37 +203,32 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                 set.isHighlightEnabled
                 else { continue }
             
-            let entries = set.entriesForXValue(high.x)
+            guard let entry = set.entryForXValue(high.x, closestToY: high.y) else { continue }
             
-            for entry in entries
+            if !isInBoundsX(entry: entry, dataSet: set) { continue }
+            
+            context.setStrokeColor(set.highlightColor.cgColor)
+            context.setLineWidth(set.highlightLineWidth)
+            if set.highlightLineDashLengths != nil
             {
-                if entry.y != high.y { continue }
-                
-                if !isInBoundsX(entry: entry, dataSet: set) { continue }
-                
-                context.setStrokeColor(set.highlightColor.cgColor)
-                context.setLineWidth(set.highlightLineWidth)
-                if set.highlightLineDashLengths != nil
-                {
-                    context.setLineDash(phase: set.highlightLineDashPhase, lengths: set.highlightLineDashLengths!)
-                }
-                else
-                {
-                    context.setLineDash(phase: 0.0, lengths: [])
-                }
-                
-                let x = entry.x // get the x-position
-                let y = entry.y * Double(animator.phaseY)
-                
-                let trans = dataProvider.getTransformer(forAxis: set.axisDependency)
-                
-                let pt = trans.pixelForValues(x: x, y: y)
-                
-                high.setDraw(pt: pt)
-                
-                // draw the lines
-                drawHighlightLines(context: context, point: pt, set: set)
+                context.setLineDash(phase: set.highlightLineDashPhase, lengths: set.highlightLineDashLengths!)
             }
+            else
+            {
+                context.setLineDash(phase: 0.0, lengths: [])
+            }
+            
+            let x = entry.x // get the x-position
+            let y = entry.y * Double(animator.phaseY)
+            
+            let trans = dataProvider.getTransformer(forAxis: set.axisDependency)
+            
+            let pt = trans.pixelForValues(x: x, y: y)
+            
+            high.setDraw(pt: pt)
+            
+            // draw the lines
+            drawHighlightLines(context: context, point: pt, set: set)
         }
         
         context.restoreGState()

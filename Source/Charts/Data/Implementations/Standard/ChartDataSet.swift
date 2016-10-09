@@ -119,8 +119,8 @@ open class ChartDataSet: ChartBaseDataSet
         _yMax = -DBL_MAX
         _yMin = DBL_MAX
         
-        let indexFrom = entryIndex(x: fromX, rounding: .down)
-        let indexTo = entryIndex(x: toX, rounding: .up)
+        let indexFrom = entryIndex(x: fromX, closestToY: Double.nan, rounding: .down)
+        let indexTo = entryIndex(x: toX, closestToY: Double.nan, rounding: .up)
         
         if indexTo <= indexFrom { return }
         
@@ -188,13 +188,17 @@ open class ChartDataSet: ChartBaseDataSet
     }
     
     /// - returns: The first Entry object found at the given x-value with binary search.
-    /// If the no Entry at the specifed x-value is found, this method returns the Entry at the closest x-value.
+    /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value according to the rounding.
     /// nil if no Entry object at that x-value.
-    /// - parameter x: the x-value
+    /// - parameter xValue: the x-value
+    /// - parameter closestToY: If there are multiple y-values for the specified x-value,
     /// - parameter rounding: determine whether to round up/down/closest if there is no Entry matching the provided x-value
-    open override func entryForXValue(_ x: Double, rounding: ChartDataSetRounding) -> ChartDataEntry?
+    open override func entryForXValue(
+        _ xValue: Double,
+        closestToY yValue: Double,
+        rounding: ChartDataSetRounding) -> ChartDataEntry?
     {
-        let index = self.entryIndex(x: x, rounding: rounding)
+        let index = self.entryIndex(x: xValue, closestToY: yValue, rounding: rounding)
         if index > -1
         {
             return _values[index]
@@ -203,16 +207,20 @@ open class ChartDataSet: ChartBaseDataSet
     }
     
     /// - returns: The first Entry object found at the given x-value with binary search.
-    /// If the no Entry at the specifed x-value is found, this method returns the Entry at the closest x-value.
+    /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value.
     /// nil if no Entry object at that x-value.
-    open override func entryForXValue(_ x: Double) -> ChartDataEntry?
+    /// - parameter xValue: the x-value
+    /// - parameter closestToY: If there are multiple y-values for the specified x-value,
+    open override func entryForXValue(
+        _ xValue: Double,
+        closestToY yValue: Double) -> ChartDataEntry?
     {
-        return entryForXValue(x, rounding: .closest)
+        return entryForXValue(xValue, closestToY: yValue, rounding: .closest)
     }
     
     /// - returns: All Entry objects found at the given xIndex with binary search.
     /// An empty array if no Entry object at that index.
-    open override func entriesForXValue(_ x: Double) -> [ChartDataEntry]
+    open override func entriesForXValue(_ xValue: Double) -> [ChartDataEntry]
     {
         var entries = [ChartDataEntry]()
         
@@ -225,9 +233,9 @@ open class ChartDataSet: ChartBaseDataSet
             var entry = _values[m]
             
             // if we have a match
-            if x == entry.x
+            if xValue == entry.x
             {
-                while m > 0 && _values[m - 1].x == x
+                while m > 0 && _values[m - 1].x == xValue
                 {
                     m -= 1
                 }
@@ -238,7 +246,7 @@ open class ChartDataSet: ChartBaseDataSet
                 while m < high
                 {
                     entry = _values[m]
-                    if entry.x == x
+                    if entry.x == xValue
                     {
                         entries.append(entry)
                     }
@@ -254,7 +262,7 @@ open class ChartDataSet: ChartBaseDataSet
             }
             else
             {
-                if x > entry.x
+                if xValue > entry.x
                 {
                     low = m + 1
                 }
@@ -268,14 +276,20 @@ open class ChartDataSet: ChartBaseDataSet
         return entries
     }
     
-    /// - returns: The array-index of the specified entry
+    /// - returns: The array-index of the specified entry.
+    /// If the no Entry at the specified x-value is found, this method returns the index of the Entry at the closest x-value according to the rounding.
     ///
-    /// - parameter x: x-index of the entry to search for
-    /// - parameter rounding: x-index of the entry to search for
-    open override func entryIndex(x xValue: Double, rounding: ChartDataSetRounding) -> Int
+    /// - parameter xValue: x-value of the entry to search for
+    /// - parameter closestToY: If there are multiple y-values for the specified x-value,
+    /// - parameter rounding: Rounding method if exact value was not found
+    open override func entryIndex(
+        x xValue: Double,
+        closestToY yValue: Double,
+        rounding: ChartDataSetRounding) -> Int
     {
         var low = 0
         var high = _values.count - 1
+        var closest = high
         
         while low < high
         {
@@ -312,28 +326,62 @@ open class ChartDataSet: ChartBaseDataSet
                     low = m + 1
                 }
             }
+            
+            closest = high
         }
         
-        if high != -1
+        if closest != -1
         {
-            let closestXValue = _values[high].x
+            let closestXValue = _values[closest].x
+            
             if rounding == .up
             {
-                if closestXValue < xValue && high < _values.count - 1
+                // If rounding up, and found x-value is lower than specified x, and we can go upper...
+                if closestXValue < xValue && closest < _values.count - 1
                 {
-                    high += 1
+                    closest += 1
                 }
             }
             else if rounding == .down
             {
-                if closestXValue > xValue && high > 0
+                // If rounding down, and found x-value is upper than specified x, and we can go lower...
+                if closestXValue > xValue && closest > 0
                 {
-                    high -= 1
+                    closest -= 1
                 }
+            }
+            
+            // Search by closest to y-value
+            if !yValue.isNaN
+            {
+                while closest > 0 && _values[closest - 1].x == closestXValue
+                {
+                    closest -= 1
+                }
+                
+                var closestYValue = _values[closest].y
+                var closestYIndex = closest
+                
+                while true
+                {
+                    closest += 1
+                    if closest >= _values.count { break }
+                    
+                    let value = _values[closest]
+                    
+                    if value.x != closestXValue { break }
+                    if abs(value.y - yValue) < abs(closestYValue - yValue)
+                    {
+                        closestYValue = yValue
+                        closestYIndex = closest
+                    }
+                }
+                
+                closest = closestYIndex
             }
         }
         
-        return high
+        return closest
     }
     
     /// - returns: The array-index of the specified entry
@@ -387,7 +435,7 @@ open class ChartDataSet: ChartBaseDataSet
         
         if _values.count > 0 && _values.last!.x > e.x
         {
-            var closestIndex = entryIndex(x: e.x, rounding: .up)
+            var closestIndex = entryIndex(x: e.x, closestToY: e.y, rounding: .up)
             while _values[closestIndex].x < e.x
             {
                 closestIndex += 1

@@ -252,13 +252,17 @@ open class RealmBaseDataSet: ChartBaseDataSet
     }
     
     /// - returns: The first Entry object found at the given x-value with binary search.
-    /// If the no Entry at the specifed x-value is found, this method returns the Entry at the closest x-value.
+    /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value according to the rounding.
     /// nil if no Entry object at that x-value.
-    /// - parameter x: the x-value
+    /// - parameter xValue: the x-value
+    /// - parameter closestToY: If there are multiple y-values for the specified x-value,
     /// - parameter rounding: determine whether to round up/down/closest if there is no Entry matching the provided x-value
-    open override func entryForXValue(_ x: Double, rounding: ChartDataSetRounding) -> ChartDataEntry?
+    open override func entryForXValue(
+        _ xValue: Double,
+        closestToY yValue: Double,
+        rounding: ChartDataSetRounding) -> ChartDataEntry?
     {
-        let index = self.entryIndex(x: x, rounding: rounding)
+        let index = self.entryIndex(x: xValue, closestToY: yValue, rounding: rounding)
         if index > -1
         {
             return entryForIndex(index)
@@ -267,16 +271,20 @@ open class RealmBaseDataSet: ChartBaseDataSet
     }
     
     /// - returns: The first Entry object found at the given x-value with binary search.
-    /// If the no Entry at the specifed x-value is found, this method returns the Entry at the closest x-value.
+    /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value.
     /// nil if no Entry object at that x-value.
-    open override func entryForXValue(_ x: Double) -> ChartDataEntry?
+    /// - parameter xValue: the x-value
+    /// - parameter closestToY: If there are multiple y-values for the specified x-value,
+    open override func entryForXValue(
+        _ xValue: Double,
+        closestToY y: Double) -> ChartDataEntry?
     {
-        return entryForXValue(x, rounding: .closest)
+        return entryForXValue(xValue, closestToY: y, rounding: .closest)
     }
     
     /// - returns: All Entry objects found at the given x-value with binary search.
     /// An empty array if no Entry object at that x-value.
-    open override func entriesForXValue(_ x: Double) -> [ChartDataEntry]
+    open override func entriesForXValue(_ xValue: Double) -> [ChartDataEntry]
     {
         /*var entries = [ChartDataEntry]()
         
@@ -306,9 +314,9 @@ open class RealmBaseDataSet: ChartBaseDataSet
             var m = (high + low) / 2
             var entry = _cache[m]
             
-            if x == entry.x
+            if xValue == entry.x
             {
-                while m > 0 && _cache[m - 1].x == x
+                while m > 0 && _cache[m - 1].x == xValue
                 {
                     m -= 1
                 }
@@ -317,7 +325,7 @@ open class RealmBaseDataSet: ChartBaseDataSet
                 while m < high
                 {
                     entry = _cache[m]
-                    if entry.x == x
+                    if entry.x == xValue
                     {
                         entries.append(entry)
                     }
@@ -333,7 +341,7 @@ open class RealmBaseDataSet: ChartBaseDataSet
             }
             else
             {
-                if x > entry.x
+                if xValue > entry.x
                 {
                     low = m + 1
                 }
@@ -347,10 +355,16 @@ open class RealmBaseDataSet: ChartBaseDataSet
         return entries
     }
     
-    /// - returns: The array-index of the specified entry
+    /// - returns: The array-index of the specified entry.
+    /// If the no Entry at the specified x-value is found, this method returns the index of the Entry at the closest x-value according to the rounding.
     ///
-    /// - parameter x: x-value of the entry to search for
-    open override func entryIndex(x: Double, rounding: ChartDataSetRounding) -> Int
+    /// - parameter xValue: x-value of the entry to search for
+    /// - parameter closestToY: If there are multiple y-values for the specified x-value,
+    /// - parameter rounding: Rounding method if exact value was not found
+    open override func entryIndex(
+        x xValue: Double,
+        closestToY yValue: Double,
+        rounding: ChartDataSetRounding) -> Int
     {
         /*guard let results = _results else { return -1 }
         
@@ -364,52 +378,95 @@ open class RealmBaseDataSet: ChartBaseDataSet
         
         var low = 0
         var high = _cache.count - 1
-        var closest = -1
+        var closest = high
         
-        while low <= high
+        while low < high
         {
-            var m = (high + low) / 2
-            let entry = _cache[m]
+            let m = (low + high) / 2
             
-            if x == entry.x
-            {
-                while m > 0 && _cache[m - 1].x == x
-                {
-                    m -= 1
-                }
-                
-                return m
-            }
+            let d1 = _cache[m].x - xValue
+            let d2 = _cache[m + 1].x - xValue
+            let ad1 = abs(d1), ad2 = abs(d2)
             
-            if x > entry.x
+            if ad2 < ad1
             {
+                // [m + 1] is closer to xValue
+                // Search in an higher place
                 low = m + 1
+            }
+            else if ad1 < ad2
+            {
+                // [m] is closer to xValue
+                // Search in a lower place
+                high = m
             }
             else
             {
-                high = m - 1
+                // We have multiple sequential x-value with same distance
+                
+                if d1 >= 0.0
+                {
+                    // Search in a lower place
+                    high = m
+                }
+                else if d1 < 0.0
+                {
+                    // Search in an higher place
+                    low = m + 1
+                }
             }
             
-            closest = m
+            closest = high
         }
         
         if closest != -1
         {
+            let closestXValue = _cache[closest].x
+            
             if rounding == .up
             {
-                let closestXIndex = _cache[closest].x
-                if closestXIndex < x && closest < _cache.count - 1
+                // If rounding up, and found x-value is lower than specified x, and we can go upper...
+                if closestXValue < xValue && closest < _cache.count - 1
                 {
-                    closest = closest + 1
+                    closest += 1
                 }
             }
             else if rounding == .down
             {
-                let closestXIndex = _cache[closest].x
-                if closestXIndex > x && closest > 0
+                // If rounding down, and found x-value is upper than specified x, and we can go lower...
+                if closestXValue > xValue && closest > 0
                 {
-                    closest = closest - 1
+                    closest -= 1
                 }
+            }
+            
+            // Search by closest to y-value
+            if !yValue.isNaN
+            {
+                while closest > 0 && _cache[closest - 1].x == closestXValue
+                {
+                    closest -= 1
+                }
+                
+                var closestYValue = _cache[closest].y
+                var closestYIndex = closest
+                
+                while true
+                {
+                    closest += 1
+                    if closest >= _cache.count { break }
+                    
+                    let value = _cache[closest]
+                    
+                    if value.x != closestXValue { break }
+                    if abs(value.y - yValue) < abs(closestYValue - yValue)
+                    {
+                        closestYValue = yValue
+                        closestYIndex = closest
+                    }
+                }
+                
+                closest = closestYIndex
             }
         }
         

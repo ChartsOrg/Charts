@@ -410,7 +410,7 @@ open class ChartData: NSObject
         }
         else
         {
-            return dataSets[highlight.dataSetIndex].entryForXValue(highlight.x)
+            return dataSets[highlight.dataSetIndex].entryForXValue(highlight.x, closestToY: highlight.y)
         }
     }
     
@@ -537,7 +537,7 @@ open class ChartData: NSObject
             return false
         }
         
-        if let entry = _dataSets[dataSetIndex].entryForXValue(xValue)
+        if let entry = _dataSets[dataSetIndex].entryForXValue(xValue, closestToY: Double.nan)
         {
             return removeEntry(entry, dataSetIndex: dataSetIndex)
         }
@@ -557,7 +557,7 @@ open class ChartData: NSObject
         {
             let set = _dataSets[i]
             
-            if (e === set.entryForXValue(e.x))
+            if e === set.entryForXValue(e.x, closestToY: e.y)
             {
                 return set
             }

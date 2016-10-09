@@ -61,10 +61,12 @@ open class CombinedHighlighter: ChartHighlighter
                             continue
                         }
                         
-                        if let s1 = buildHighlight(dataSet: dataSet, dataSetIndex: j, xValue: xValue, rounding: .closest)
+                        let highs = buildHighlights(dataSet: dataSet, dataSetIndex: j, xValue: xValue, rounding: .closest)
+                        
+                        for high in highs
                         {
-                            s1.dataIndex = i
-                            vals.append(s1)
+                            high.dataIndex = i
+                            vals.append(high)
                         }
                     }
                 }

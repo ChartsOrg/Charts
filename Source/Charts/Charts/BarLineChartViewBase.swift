@@ -511,12 +511,12 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             
             if h === nil || h!.isEqual(self.lastHighlighted)
             {
-                self.highlightValue(highlight: nil, callDelegate: true)
+                self.highlightValue(nil, callDelegate: true)
                 self.lastHighlighted = nil
             }
             else
             {
-                self.highlightValue(highlight: h, callDelegate: true)
+                self.highlightValue(h, callDelegate: true)
                 self.lastHighlighted = h
             }
         }
@@ -715,7 +715,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                     (h !== nil && lastHighlighted !== nil && !h!.isEqual(lastHighlighted)))
                 {
                     self.lastHighlighted = h
-                    self.highlightValue(highlight: h, callDelegate: true)
+                    self.highlightValue(h, callDelegate: true)
                 }
             }
         }
