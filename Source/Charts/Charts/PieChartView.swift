@@ -31,6 +31,9 @@ open class PieChartView: PieRadarChartViewBase
     /// array that holds the absolute angle in degrees of each slice
     fileprivate var _absoluteAngles = [CGFloat]()
     
+    /// if true, the tap inside hole highlights nothing, otherwise highlights closest dataset
+    fileprivate var _tapHoleEnabled = false
+    
     /// if true, the hole inside the chart will be drawn
     fileprivate var _drawHoleEnabled = true
     
@@ -344,6 +347,28 @@ open class PieChartView: PieRadarChartViewBase
     {
         return drawSlicesUnderHoleEnabled
     }
+    
+    open var tapHoleEnabled: Bool
+        {
+        get
+        {
+            return _tapHoleEnabled
+        }
+        set
+        {
+            _tapHoleEnabled = newValue
+        }
+    }
+    
+    open var isTapHoleEnabled: Bool
+        {
+        get
+        {
+            return _tapHoleEnabled
+        }
+    }
+
+
     
     /// `true` if the hole in the center of the pie-chart is set to be visible, `false` ifnot
     open var drawHoleEnabled: Bool
