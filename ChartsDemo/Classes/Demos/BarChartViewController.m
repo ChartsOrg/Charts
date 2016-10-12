@@ -128,7 +128,7 @@
 
 - (void)setDataCount:(int)count range:(double)range
 {
-    double start = 0.0;
+    double start = 1.0;
     
     NSMutableArray *yVals = [[NSMutableArray alloc] init];
     
