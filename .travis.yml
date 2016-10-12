@@ -15,6 +15,7 @@ cache:
 
 before_install:
   - brew update
+  - carthage version
   - carthage bootstrap --platform $PLATFORM
 
 script:
