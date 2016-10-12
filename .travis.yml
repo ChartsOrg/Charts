@@ -14,7 +14,7 @@ cache:
   - bundler
 
 before_install:
-  - brew update
+  - brew update && brew upgrade
   - carthage version
   - carthage bootstrap --platform $PLATFORM
 
