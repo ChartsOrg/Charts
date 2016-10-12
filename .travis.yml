@@ -4,14 +4,14 @@ language: objective-c
 env:
   global:
     - LANG=en_US.UTF-8
+    
+  matrix:
+    - PLATFORM="iOS"
+    - PLATFORM="tvOS"
+    - PLATFORM="macOS"
 
 cache:
   - bundler
-
-matrix:
-  - PLATFORM="iOS"
-  - PLATFORM="tvOS"
-  - PLATFORM="macOS"
 
 before_install:
   - brew update
