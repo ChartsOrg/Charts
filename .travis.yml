@@ -1,6 +1,5 @@
 osx_image: xcode8
 language: objective-c
-rvm: "2.2.2"
 
 env:
   global:
@@ -9,12 +8,18 @@ env:
 cache:
   - bundler
 
+matrix:
+  - PLATFORM="iOS"
+  - PLATFORM="tvOS"
+  - PLATFORM="macOS"
+
 before_install:
   - brew update
-  - carthage bootstrap
+  - carthage bootstrap --platform $PLATFORM
 
 script:
-  - bundle exec rake test
+  - bundle exec rake ci[$PLATFORM]
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+
