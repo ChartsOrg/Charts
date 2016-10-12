@@ -1,6 +1,9 @@
 osx_image: xcode8
 language: objective-c
 
+rvm:
+  - 2.2
+
 env:
   global:
     - LANG=en_US.UTF-8
