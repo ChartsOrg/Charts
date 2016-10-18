@@ -29,7 +29,7 @@ open class BezierChartView: BarLineChartViewBase, LineChartDataProvider {
     override func initialize() {
         super.initialize()
         
-        renderer = LineChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
+        renderer = BezierChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
         
         if let recognizer = _panGestureRecognizer {
             self.removeGestureRecognizer(recognizer)
@@ -38,6 +38,9 @@ open class BezierChartView: BarLineChartViewBase, LineChartDataProvider {
         _panGestureRecognizer = NSUIPanGestureRecognizer(target: self, action: #selector(onPanGestureRecognized(_:)))
         _panGestureRecognizer.delegate = self
         self.addGestureRecognizer(_panGestureRecognizer)
+        
+        self.highlightPerTapEnabled = false
+        //self.highlightPerDragEnabled = false
     }
     
     // MARK: - LineChartDataProvider
@@ -143,7 +146,9 @@ open class BezierChartView: BarLineChartViewBase, LineChartDataProvider {
                     if canUpdateEntryX {
                         selectedData.entry.x = newX
                     }
-                    selectedData.entry.y = newY
+                    if newY <= leftAxis.axisMaximum && newY >= leftAxis.axisMinimum {
+                        selectedData.entry.y = newY
+                    }
                     
                     // redraw the chart
                     setNeedsDisplay()

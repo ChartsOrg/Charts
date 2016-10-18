@@ -161,8 +161,7 @@
 		06B3C0F91D99F85400B1DF43 /* ChartsRealmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3C0F61D99F85400B1DF43 /* ChartsRealmTest.swift */; };
 		5B56A9CD1D905EB300F58178 /* Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B56A9CC1D905EB300F58178 /* Description.swift */; };
 		C3342A821DB086E8007F7184 /* BezierChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3342A811DB086E8007F7184 /* BezierChartView.swift */; };
-		C3342A831DB086E8007F7184 /* BezierChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3342A811DB086E8007F7184 /* BezierChartView.swift */; };
-		C3342A841DB086E8007F7184 /* BezierChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3342A811DB086E8007F7184 /* BezierChartView.swift */; };
+		C3ED0AEB1DB6B1E700A8385E /* BezierChartRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3ED0AEA1DB6B1E700A8385E /* BezierChartRenderer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -341,6 +340,7 @@
 		06B3C0F61D99F85400B1DF43 /* ChartsRealmTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartsRealmTest.swift; sourceTree = "<group>"; };
 		5B56A9CC1D905EB300F58178 /* Description.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Description.swift; sourceTree = "<group>"; };
 		C3342A811DB086E8007F7184 /* BezierChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BezierChartView.swift; sourceTree = "<group>"; };
+		C3ED0AEA1DB6B1E700A8385E /* BezierChartRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BezierChartRenderer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -645,6 +645,7 @@
 				06B120231D811B8900D14B02 /* HorizontalBarChartRenderer.swift */,
 				06B120241D811B8900D14B02 /* LegendRenderer.swift */,
 				06B120251D811B8900D14B02 /* LineChartRenderer.swift */,
+				C3ED0AEA1DB6B1E700A8385E /* BezierChartRenderer.swift */,
 				06B120261D811B8900D14B02 /* LineRadarRenderer.swift */,
 				06B120271D811B8900D14B02 /* LineScatterCandleRadarRenderer.swift */,
 				06B120281D811B8900D14B02 /* PieChartRenderer.swift */,
@@ -982,6 +983,7 @@
 				06B120921D811B8900D14B02 /* RadarHighlighter.swift in Sources */,
 				06B120771D811B8900D14B02 /* ScatterChartDataSet.swift in Sources */,
 				06B120791D811B8900D14B02 /* IBarLineScatterCandleBubbleChartDataSet.swift in Sources */,
+				C3ED0AEB1DB6B1E700A8385E /* BezierChartRenderer.swift in Sources */,
 				06B1205A1D811B8900D14B02 /* YAxis.swift in Sources */,
 				06B120651D811B8900D14B02 /* CandleChartDataEntry.swift in Sources */,
 				06B120911D811B8900D14B02 /* PieRadarHighlighter.swift in Sources */,
@@ -1105,7 +1107,6 @@
 				06B3C0F91D99F85400B1DF43 /* ChartsRealmTest.swift in Sources */,
 				06B3C0F81D99F85400B1DF43 /* LineChartTests.swift in Sources */,
 				06B3C0F71D99F85400B1DF43 /* BarChartTests.swift in Sources */,
-				C3342A841DB086E8007F7184 /* BezierChartView.swift in Sources */,
 				06761B5E1D98176000D5CE09 /* ChartUtilsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1123,7 +1124,6 @@
 				06B120EF1D811E8E00D14B02 /* RealmCandleDataSet.swift in Sources */,
 				06B120EE1D811E8E00D14B02 /* RealmBubbleDataSet.swift in Sources */,
 				06B120F01D811E8E00D14B02 /* RealmLineDataSet.swift in Sources */,
-				C3342A831DB086E8007F7184 /* BezierChartView.swift in Sources */,
 				06B120ED1D811E8E00D14B02 /* RealmBaseDataSet.swift in Sources */,
 				06B120F51D811E8E00D14B02 /* RealmScatterDataSet.swift in Sources */,
 			);
