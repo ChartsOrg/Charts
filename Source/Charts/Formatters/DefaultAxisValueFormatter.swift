@@ -14,6 +14,11 @@ import Foundation
 @objc(ChartDefaultAxisValueFormatter)
 open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
 {
+    public typealias Block = (
+        _ value: Double,
+        _ axis: AxisBase?) -> String
+    
+    open var block: Block?
     
     open var hasAutoDecimals: Bool = false
     
@@ -70,10 +75,29 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
         hasAutoDecimals = true
     }
     
+    public init(block: @escaping Block)
+    {
+        super.init()
+        
+        self.block = block
+    }
+    
+    public static func with(block: @escaping Block) -> DefaultAxisValueFormatter?
+    {
+        return DefaultAxisValueFormatter(block: block)
+    }
+    
     open func stringForValue(_ value: Double,
                                axis: AxisBase?) -> String
     {
-        return formatter?.string(from: NSNumber(floatLiteral: value)) ?? ""
+        if block != nil
+        {
+            return block!(value, axis)
+        }
+        else
+        {
+            return formatter?.string(from: NSNumber(floatLiteral: value)) ?? ""
+        }
     }
     
 }
