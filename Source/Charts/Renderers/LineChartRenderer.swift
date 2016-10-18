@@ -518,7 +518,6 @@ open class LineChartRenderer: LineRadarRenderer
         {
             var dataSets = lineData.dataSets
             
-            let phaseX = max(0.0, min(1.0, animator.phaseX))
             let phaseY = animator.phaseY
             
             var pt = CGPoint()
