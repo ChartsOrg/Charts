@@ -75,8 +75,8 @@ pod 'Charts/Realm'
 Charts now include Carthage prebuilt binaries.
 
 ```carthage
-github "danielgindi/Charts" == 2.2.5
-github "danielgindi/Charts" ~> 2.2.5
+github "danielgindi/Charts" == 3.0.0
+github "danielgindi/Charts" ~> 3.0.0
 ```
 
 In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts && carthage archive ChartsRealm`.
