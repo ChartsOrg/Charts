@@ -139,3 +139,8 @@ task :ci, [:platform] do |_task, args|
     end
   end
 end
+
+desc 'updated the podspec on cocoapods'
+task :update_pod do 
+  sh "bundle exec pod trunk push Charts.podspec --allow-warnings"
+end
