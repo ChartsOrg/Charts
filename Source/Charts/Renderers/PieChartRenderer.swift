@@ -268,7 +268,7 @@ open class PieChartRenderer: DataRenderer
         let center = chart.centerCircleBox
         
         // get whole the radius
-        let radius = chart.radius + chart.radius * chart.dataLabelOffset
+        let radius = chart.radius
         //to update the radius value on basis of offset value.
         radius += radius * chart.dataLabelOffset
         let rotationAngle = chart.rotationAngle
