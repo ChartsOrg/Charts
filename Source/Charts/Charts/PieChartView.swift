@@ -71,6 +71,9 @@ open class PieChartView: PieRadarChartViewBase
     
     /// maximum angle for this pie
     fileprivate var _maxAngle: CGFloat = 360.0
+    
+    /// Extra offset value to be added in the radius to move data label outside the char
+    fileprivate var _dataLabelOffset: CGFloat = 0.0
 
     public override init(frame: CGRect)
     {
@@ -657,6 +660,30 @@ open class PieChartView: PieRadarChartViewBase
             {
                 _maxAngle = 90.0
             }
+        }
+    }
+    
+    /// The offset value that is used for shifting the data label outside of the center of chart.
+    /// **default**: 0.0
+    open var dataLabelOffset: CGFloat
+    {
+        get
+        {
+            return _dataLabelOffset
+        }
+        set
+        {
+            _dataLabelOffset = newValue
+            
+            if _dataLabelOffset > 1.0
+            {
+                _dataLabelOffset = 1.0
+            }
+            
+            if _dataLabelOffset < 0.0
+            {
+                _maxAngle = 0.0
+            }            
         }
     }
 }
