@@ -72,7 +72,7 @@ open class PieChartView: PieRadarChartViewBase
     /// maximum angle for this pie
     fileprivate var _maxAngle: CGFloat = 360.0
     
-    /// Extra offset value to be added in the radius to move data label outside the char
+    /// Extra offset value to be added in the radius to move data label outside the chart
     fileprivate var _dataLabelOffset: CGFloat = 0.0
 
     public override init(frame: CGRect)
