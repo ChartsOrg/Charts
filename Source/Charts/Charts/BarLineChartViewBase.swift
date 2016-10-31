@@ -44,6 +44,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     /// Sets drawing the borders rectangle to true. If this is enabled, there is no point drawing the axis-lines of x- and y-axis.
     open var drawBordersEnabled = false
+    
+    /// When enabled, the values will be clipped to contentRect, otherwise they can bleed outside the content rect.
+    open var clipValuesToContentEnabled: Bool = false
 
     /// Sets the minimum offset (padding) around the chart, defaults to 10
     open var minOffset = CGFloat(10.0)
@@ -242,7 +245,19 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         _leftYAxisRenderer.renderAxisLabels(context: context)
         _rightYAxisRenderer.renderAxisLabels(context: context)
 
-        renderer!.drawValues(context: context)
+        if clipValuesToContentEnabled
+        {
+            context.saveGState()
+            context.clip(to: _viewPortHandler.contentRect)
+            
+            renderer!.drawValues(context: context)
+            
+            context.restoreGState()
+        }
+        else
+        {
+            renderer!.drawValues(context: context)
+        }
 
         _legendRenderer.renderLegend(context: context)
 
