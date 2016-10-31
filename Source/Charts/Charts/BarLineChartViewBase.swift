@@ -42,7 +42,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// flag indicating if the grid background should be drawn or not
     open var drawGridBackgroundEnabled = false
     
-    /// Sets drawing the borders rectangle to true. If this is enabled, there is no point drawing the axis-lines of x- and y-axis.
+    /// When enabled, the borders rectangle will be rendered.
+    /// If this is enabled, there is no point drawing the axis-lines of x- and y-axis.
     open var drawBordersEnabled = false
     
     /// When enabled, the values will be clipped to contentRect, otherwise they can bleed outside the content rect.
