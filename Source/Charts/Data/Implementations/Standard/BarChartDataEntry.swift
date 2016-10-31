@@ -150,12 +150,12 @@ open class BarChartDataEntry: ChartDataEntry
             
             if value < 0
             {
-                _ranges?.append(Range(from: negRemain, to: negRemain + abs(value)))
+                _ranges?.append(Range(from: negRemain, to: negRemain + value))
                 negRemain += abs(value)
             }
             else
             {
-                _ranges?.append(Range(from: posRemain, to: posRemain+value))
+                _ranges?.append(Range(from: posRemain, to: posRemain + value))
                 posRemain += value
             }
         }
