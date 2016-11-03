@@ -235,6 +235,15 @@ public protocol IChartDataSet
     /// - returns: `true` if y-value drawing is enabled, `false` ifnot
     var isDrawValuesEnabled: Bool { get }
     
+    /// Set this to true to draw y-icon on the chart
+    var drawIconsEnabled: Bool { get set }
+    
+    /// Returns true if y-icon drawing is enabled, false if not
+    var isDrawIconsEnabled: Bool { get }
+    
+    /// Offset of y-icons drawn on the chart
+    var iconsOffset: CGSize { get set }
+    
     /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
     var visible: Bool { get set }
     

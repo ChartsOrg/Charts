@@ -360,6 +360,18 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     {
         return drawValuesEnabled
     }
+
+    /// Set this to true to draw y-icon on the chart
+    open var drawIconsEnabled = true
+    
+    /// Returns true if y-icon drawing is enabled, false if not
+    open var isDrawIconsEnabled: Bool
+    {
+        return drawIconsEnabled
+    }
+    
+    /// Offset of icon position from chart's default icon position
+    open var iconsOffset = CGSize(width: 0,height: 0)
     
     /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
     open var visible = true
