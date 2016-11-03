@@ -43,6 +43,11 @@ In order to correctly compile:
 5. When using [Realm.io](https://realm.io/):
    - Note that the Realm framework is not linked with Charts - it is only there for *optional* bindings. Which means that you need to have the framework in your project, and in a compatible version to whatever is compiled with Charts. We will do our best to always compile against the latest version.
 
+## 3rd party tutorials
+
+* [Using Realm and Charts with Swift 3 in iOS 10 (Sami Korpela)](https://medium.com/@skoli/using-realm-and-charts-with-swift-3-in-ios-10-40c42e3838c0#.2gyymwfh8)
+* Want your tutorial to show here? Create a PR!
+
 ## Troubleshooting
 
 #### Can't compile?

@@ -35,8 +35,8 @@ open class BarChartDataEntry: ChartDataEntry
     {
         super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues))
         self._yVals = yValues
-        calcRanges()
         calcPosNegSum()
+        calcRanges()
     }
     
     /// Constructor for normal bars (not stacked).
@@ -50,8 +50,8 @@ open class BarChartDataEntry: ChartDataEntry
     {
         super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues), data: label as AnyObject?)
         self._yVals = yValues
-        calcRanges()
         calcPosNegSum()
+        calcRanges()
     }
     
     /// Constructor for normal bars (not stacked).
@@ -150,12 +150,12 @@ open class BarChartDataEntry: ChartDataEntry
             
             if value < 0
             {
-                _ranges?.append(Range(from: negRemain, to: negRemain + abs(value)))
-                negRemain += abs(value)
+                _ranges?.append(Range(from: negRemain, to: negRemain - value))
+                negRemain -= value
             }
             else
             {
-                _ranges?.append(Range(from: posRemain, to: posRemain+value))
+                _ranges?.append(Range(from: posRemain, to: posRemain + value))
                 posRemain += value
             }
         }
@@ -174,8 +174,8 @@ open class BarChartDataEntry: ChartDataEntry
         {
             self.y = BarChartDataEntry.calcSum(values: newValue)
             self._yVals = newValue
-            calcRanges()
             calcPosNegSum()
+            calcRanges()
         }
     }
     
