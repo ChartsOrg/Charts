@@ -470,17 +470,6 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		}
 	}
 
-	extension NSTouch
-    {
-		/** Touch locations on OS X are relative to the trackpad, whereas on iOS they are actually *on* the view. */
-		func locationInView(view: NSView) -> NSPoint
-        {
-			let n = self.normalizedPosition
-			let b = view.bounds
-			return NSPoint(x: b.origin.x + b.size.width * n.x, y: b.origin.y + b.size.height * n.y)
-		}
-	}
-
 	extension NSScrollView
     {
 		var scrollEnabled: Bool
