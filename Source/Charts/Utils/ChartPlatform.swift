@@ -509,7 +509,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		image.lockFocus()
 		let rep = NSBitmapImageRep(focusedViewRect: NSMakeRect(0, 0, image.size.width, image.size.height))
 		image.unlockFocus()
-		return rep?.representationUsingType(.JPEG, properties: [:])
+		return rep?.representationUsingType(.PNG, properties: [:])
 	}
 
 	func NSUIImageJPEGRepresentation(image: NSUIImage, _ quality: CGFloat = 0.9) -> NSData?
