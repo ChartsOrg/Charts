@@ -107,11 +107,10 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
         {
 			self.nsuiTouchesEnded(touches, withEvent: event)
 		}
-
-		public final override func touchesCancelled(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
-        {
-			self.nsuiTouchesCancelled(touches, withEvent: event)
-		}
+    
+    public override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+      self.nsuiTouchesCancelled(touches, withEvent: event)
+    }
 
 		public func nsuiTouchesBegan(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
         {
@@ -509,7 +508,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		image.lockFocus()
 		let rep = NSBitmapImageRep(focusedViewRect: NSMakeRect(0, 0, image.size.width, image.size.height))
 		image.unlockFocus()
-		return rep?.representationUsingType(.PNG, properties: [:])
+		return rep?.representationUsingType(.NSPNGFileType, properties: [:])
 	}
 
 	func NSUIImageJPEGRepresentation(image: NSUIImage, _ quality: CGFloat = 0.9) -> NSData?
@@ -517,7 +516,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		image.lockFocus()
 		let rep = NSBitmapImageRep(focusedViewRect: NSMakeRect(0, 0, image.size.width, image.size.height))
 		image.unlockFocus()
-		return rep?.representationUsingType(.JPEG, properties: [NSImageCompressionFactor: quality])
+		return rep?.representationUsingType(.NSJPEGFileType, properties: [NSImageCompressionFactor: quality])
 	}
 
 	private var imageContextStack: [CGFloat] = []
