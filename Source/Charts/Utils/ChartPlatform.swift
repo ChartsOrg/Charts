@@ -107,11 +107,10 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
         {
 			self.nsuiTouchesEnded(touches, withEvent: event)
 		}
-
-		public final override func touchesCancelled(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
-        {
-			self.nsuiTouchesCancelled(touches, withEvent: event)
-		}
+    
+    public override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+      self.nsuiTouchesCancelled(touches, withEvent: event)
+    }
 
 		public func nsuiTouchesBegan(touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
         {
@@ -467,17 +466,6 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		var CGImage: CGImageRef?
         {
             return self.CGImageForProposedRect(nil, context: nil, hints: nil)
-		}
-	}
-
-	extension NSTouch
-    {
-		/** Touch locations on OS X are relative to the trackpad, whereas on iOS they are actually *on* the view. */
-		func locationInView(view: NSView) -> NSPoint
-        {
-			let n = self.normalizedPosition
-			let b = view.bounds
-			return NSPoint(x: b.origin.x + b.size.width * n.x, y: b.origin.y + b.size.height * n.y)
 		}
 	}
 

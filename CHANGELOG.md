@@ -1,5 +1,12 @@
 # Change Log
 
+## [v2.3.1](https://github.com/danielgindi/charts/tree/v2.3.1) (2016-11-03)
+[Full Changelog](https://github.com/danielgindi/charts/compare/v2.3.1...v2.3.0)
+
+**Fixed bugs:**
+- NSTouch extension for `locationInView` made the compiler error because it clashes with objc selector. Since it was not used in the library code it was removed.
+- Fix the image type of `NSUIImagePNGRepresentation` to be png instead of jpeg
+
 ## [v2.3.0](https://github.com/danielgindi/charts/tree/v2.3.0) (2016-09-20)
 [Full Changelog](https://github.com/danielgindi/charts/compare/v2.3.0...v2.2.5)
 
