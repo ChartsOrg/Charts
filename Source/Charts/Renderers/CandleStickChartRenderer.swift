@@ -293,18 +293,30 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                         continue
                     }
                     
-                    ChartUtils.drawText(
-                        context: context,
-                        text: formatter.stringForValue(
-                            e.high,
-                            entry: e,
-                            dataSetIndex: i,
-                            viewPortHandler: viewPortHandler),
-                        point: CGPoint(
-                            x: pt.x,
-                            y: pt.y - yOffset),
-                        align: .center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)])
+                    if dataSet.isDrawValuesEnabled {
+                        ChartUtils.drawText(
+                            context: context,
+                            text: formatter.stringForValue(
+                                e.high,
+                                entry: e,
+                                dataSetIndex: i,
+                                viewPortHandler: viewPortHandler),
+                            point: CGPoint(
+                                x: pt.x,
+                                y: pt.y - yOffset),
+                            align: .center,
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)])
+                    }
+                    
+                    if let icon = e.data as? NSUIImage, dataSet.isDrawIconsEnabled {
+                        ChartUtils.drawImage(context: context,
+                                             image: icon,
+                                             point: CGPoint(
+                                                x: pt.x,
+                                                y: pt.y),
+                                             expectedSize: icon.size,
+                                             offset: dataSet.iconsOffset)
+                    }
                 }
             }
         }
