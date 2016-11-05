@@ -32,6 +32,7 @@
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
+                     @{@"key": @"toggleIcons", @"label": @"Toggle Icons"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
@@ -103,11 +104,11 @@
     {
         double val = (double) (arc4random_uniform(range));
         double size = (double) (arc4random_uniform(range));
-        [yVals1 addObject:[[BubbleChartDataEntry alloc] initWithX:i y:val size:size]];
+        [yVals1 addObject:[[BubbleChartDataEntry alloc] initWithX:i y:val size:size data: [UIImage imageNamed:@"icon"]]];
         
         val = (double) (arc4random_uniform(range));
         size = (double) (arc4random_uniform(range));
-        [yVals2 addObject:[[BubbleChartDataEntry alloc] initWithX:i y:val size:size]];
+        [yVals2 addObject:[[BubbleChartDataEntry alloc] initWithX:i y:val size:size data: [UIImage imageNamed:@"icon"]]];
         
         val = (double) (arc4random_uniform(range));
         size = (double) (arc4random_uniform(range));
@@ -118,6 +119,7 @@
     [set1 setColor:ChartColorTemplates.colorful[0] alpha:0.50f];
     [set1 setDrawValuesEnabled:YES];
     BubbleChartDataSet *set2 = [[BubbleChartDataSet alloc] initWithValues:yVals2 label:@"DS 2"];
+    set1.iconsOffset = CGSizeMake(0, 15);
     [set2 setColor:ChartColorTemplates.colorful[1] alpha:0.50f];
     [set2 setDrawValuesEnabled:YES];
     BubbleChartDataSet *set3 = [[BubbleChartDataSet alloc] initWithValues:yVals3 label:@"DS 3"];

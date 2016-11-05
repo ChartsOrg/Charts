@@ -36,6 +36,7 @@
                      @{@"key": @"toggleCircles", @"label": @"Toggle Circles"},
                      @{@"key": @"toggleCubic", @"label": @"Toggle Cubic"},
                      @{@"key": @"toggleHorizontalCubic", @"label": @"Toggle Horizontal Cubic"},
+                     @{@"key": @"toggleIcons", @"label": @"Toggle Icons"},
                      @{@"key": @"toggleStepped", @"label": @"Toggle Stepped"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
@@ -137,7 +138,7 @@
     for (int i = 0; i < count; i++)
     {
         double val = arc4random_uniform(range) + 3;
-        [values addObject:[[ChartDataEntry alloc] initWithX:i y:val]];
+        [values addObject:[[ChartDataEntry alloc] initWithX:i y:val data: [UIImage imageNamed:@"icon"]]];
     }
     
     LineChartDataSet *set1 = nil;
