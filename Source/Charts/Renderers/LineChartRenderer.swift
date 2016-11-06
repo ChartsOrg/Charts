@@ -636,6 +636,10 @@ open class LineChartRenderer: LineRadarRenderer
             {
                 guard let e = dataSet.entryForIndex(j) else { break }
 
+                guard !dataSet.circleIndexesNotToDraw.contains(j) else {
+                    continue
+                }
+                
                 pt.x = CGFloat(e.x)
                 pt.y = CGFloat(e.y * phaseY)
                 pt = pt.applying(valueToPixelMatrix)
