@@ -14,7 +14,7 @@
 
 @interface PieChartViewController () <ChartViewDelegate>
 
-@property (nonatomic, strong) IBOutlet PieChartView *chartView;
+@property (nonatomic, strong) IBOutlet PieChartInnerPercentageView *chartView;
 @property (nonatomic, strong) IBOutlet UISlider *sliderX;
 @property (nonatomic, strong) IBOutlet UISlider *sliderY;
 @property (nonatomic, strong) IBOutlet UITextField *sliderTextX;
@@ -60,7 +60,7 @@
     // entry label styling
     _chartView.entryLabelColor = UIColor.whiteColor;
     _chartView.entryLabelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.f];
-    
+    _chartView.innerCirclePercentage = 50.0;
     _sliderX.value = 4.0;
     _sliderY.value = 100.0;
     [self slidersValueChanged:nil];
