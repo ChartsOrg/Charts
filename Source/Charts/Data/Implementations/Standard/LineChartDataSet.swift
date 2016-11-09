@@ -46,6 +46,12 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     
     // MARK: - Styling functions and accessors
     
+    /// If true, gradient lines are drawn instead of solid
+    open var drawGradientEnabled = false
+    
+    /// - returns: true if drawing gradeint lines is enabled, false if not.
+    open var isDrawGradientEnabled: Bool { return drawGradientEnabled }
+    
     /// The drawing mode for this line dataset
     ///
     /// **default**: Linear
@@ -172,6 +178,9 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
     open var lineDashLengths: [CGFloat]?
     
+    /// This is the points where gradient should change color
+    open var gradientPositions: [CGFloat]?
+    
     /// Line cap type, default is CGLineCap.Butt
     open var lineCapType = CGLineCap.butt
     
@@ -212,6 +221,7 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         copy.drawCirclesEnabled = drawCirclesEnabled
         copy.drawCircleHoleEnabled = drawCircleHoleEnabled
         copy.mode = mode
+        copy.drawGradientEnabled = drawGradientEnabled
         return copy
     }
 }

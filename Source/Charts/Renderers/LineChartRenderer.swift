@@ -173,10 +173,16 @@ open class LineChartRenderer: LineRadarRenderer
             drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, bounds: _xBounds)
         }
         
-        context.beginPath()
-        context.addPath(cubicPath)
-        context.setStrokeColor(drawingColor.cgColor)
-        context.strokePath()
+        if dataSet.isDrawGradientEnabled
+        {
+            drawGradientLine(context: context, dataSet: dataSet, spline: cubicPath, matrix: valueToPixelMatrix)
+        }
+        else {
+            context.beginPath()
+            context.addPath(cubicPath)
+            context.setStrokeColor(drawingColor.cgColor)
+            context.strokePath()
+        }
         
         context.restoreGState()
     }
@@ -751,6 +757,83 @@ open class LineChartRenderer: LineRadarRenderer
             drawHighlightLines(context: context, point: pt, set: set)
         }
         
+        context.restoreGState()
+    }
+    
+    internal func drawGradientLine(context: CGContext, dataSet: ILineChartDataSet, spline: CGPath, matrix: CGAffineTransform)
+    {
+        context.saveGState()
+        let gradientPath = spline.copy(strokingWithWidth: dataSet.lineWidth, lineCap: .butt, lineJoin: .miter, miterLimit: 10)
+        context.addPath(gradientPath)
+        context.drawPath(using: .fill)
+        
+        let boundingBox = gradientPath.boundingBox;
+        let gradientStart = CGPoint(x: 0, y: boundingBox.maxY);
+        let gradientEnd   = CGPoint(x: 0, y: boundingBox.minY);
+        var gradientLocations : [CGFloat] = []
+        var gradientColors : [CGFloat] = []
+        var cRed : CGFloat = 0
+        var cGreen : CGFloat = 0
+        var cBlue : CGFloat = 0
+        var cAlpha : CGFloat = 0
+        
+        //Set lower bound color
+        gradientLocations.append(0)
+        var cColor = dataSet.color(atIndex: 0)
+        if cColor.getRed(&cRed, green: &cGreen, blue: &cBlue, alpha: &cAlpha) {
+            gradientColors += [cRed, cGreen, cBlue, cAlpha]
+        }
+        
+        guard let gradientPositions = dataSet.gradientPositions else {
+            return
+        }
+        
+        //Set middle colors
+        for position in gradientPositions {
+            var positionLocation = CGPoint(x: 0, y: position)
+            positionLocation = positionLocation.applying(matrix)
+            let normPositionLocation = (positionLocation.y - gradientStart.y) / (gradientEnd.y - gradientStart.y)
+            if (normPositionLocation < 0) {
+                gradientLocations.append(0)
+            } else if (normPositionLocation > 1) {
+                gradientLocations.append(1)
+            } else {
+                gradientLocations.append(normPositionLocation)
+            }
+        }
+        for i in 0 ..< dataSet.colors.count {
+            cColor = dataSet.color(atIndex: i)
+            if cColor.getRed(&cRed, green: &cGreen, blue: &cBlue, alpha: &cAlpha) {
+                gradientColors += [cRed, cGreen, cBlue, cAlpha]
+            }
+        }
+        
+        //Set upper bound color
+        gradientLocations.append(1)
+        cColor = dataSet.color(atIndex: dataSet.colors.count - 1)
+        if cColor.getRed(&cRed, green: &cGreen, blue: &cBlue, alpha: &cAlpha) {
+            gradientColors += [cRed, cGreen, cBlue, cAlpha]
+        }
+        
+        //Define gradient
+        let baseSpace = CGColorSpaceCreateDeviceRGB()
+        var gradient : CGGradient?
+        if (dataSet.gradientPositions!.count > 1) {
+            gradient = CGGradient(colorSpace: baseSpace, colorComponents: gradientColors, locations: gradientLocations, count: gradientColors.count / 4)
+        } else {
+            gradient = CGGradient(colorSpace: baseSpace, colorComponents: gradientColors, locations: nil, count: gradientColors.count / 4)
+        }
+        
+        //Draw gradient path
+        guard let unwrappedGradient = gradient else {
+            return
+        }
+        
+        context.beginPath()
+        context.addPath(gradientPath)
+        context.clip()
+        context.drawLinearGradient(unwrappedGradient, start: gradientStart, end: gradientEnd, options: CGGradientDrawingOptions(rawValue: 0))
+        gradient = nil
         context.restoreGState()
     }
 }

@@ -20,6 +20,12 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     
     // MARK: - Styling functions and accessors
     
+    /// If true, gradient lines are drawn instead of solid
+    var drawGradientEnabled: Bool { get set }
+    
+    /// - returns: true if drawing gradeint lines is enabled, false if not.
+    var isDrawGradientEnabled: Bool { get }
+    
     /// The drawing mode for this line dataset
     ///
     /// **default**: Linear
@@ -83,6 +89,9 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     /// I.e. [2, 3] will paint [--   --   ]
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
     var lineDashLengths: [CGFloat]? { get set }
+    
+    /// This is the points where gradient should change color
+    var gradientPositions: [CGFloat]? { get set }
     
     /// Line cap type, default is CGLineCap.Butt
     var lineCapType: CGLineCap { get set }
