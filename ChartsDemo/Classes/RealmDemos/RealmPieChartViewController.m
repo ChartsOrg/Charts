@@ -16,7 +16,7 @@
 
 @interface RealmPieChartViewController () <ChartViewDelegate>
 
-@property (nonatomic, strong) IBOutlet PieChartView *chartView;
+@property (nonatomic, strong) IBOutlet PieChartInnerPercentageView *chartView;
 
 @end
 
