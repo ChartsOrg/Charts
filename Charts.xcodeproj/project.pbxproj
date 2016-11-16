@@ -160,6 +160,7 @@
 		06B3C0F81D99F85400B1DF43 /* LineChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3C0F41D99F85400B1DF43 /* LineChartTests.swift */; };
 		06B3C0F91D99F85400B1DF43 /* ChartsRealmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3C0F61D99F85400B1DF43 /* ChartsRealmTest.swift */; };
 		5B56A9CD1D905EB300F58178 /* Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B56A9CC1D905EB300F58178 /* Description.swift */; };
+		5BF8813B1DDC4DF70033370C /* IndexAxisValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF8813A1DDC4DF70033370C /* IndexAxisValueFormatter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -337,6 +338,7 @@
 		06B3C0F41D99F85400B1DF43 /* LineChartTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartTests.swift; sourceTree = "<group>"; };
 		06B3C0F61D99F85400B1DF43 /* ChartsRealmTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartsRealmTest.swift; sourceTree = "<group>"; };
 		5B56A9CC1D905EB300F58178 /* Description.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Description.swift; sourceTree = "<group>"; };
+		5BF8813A1DDC4DF70033370C /* IndexAxisValueFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexAxisValueFormatter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -574,6 +576,7 @@
 				06B11FFD1D811B8900D14B02 /* IAxisValueFormatter.swift */,
 				06B11FFE1D811B8900D14B02 /* IFillFormatter.swift */,
 				06B11FFF1D811B8900D14B02 /* IValueFormatter.swift */,
+				5BF8813A1DDC4DF70033370C /* IndexAxisValueFormatter.swift */,
 			);
 			name = Formatters;
 			path = Source/Charts/Formatters;
@@ -1061,6 +1064,7 @@
 				06B1209D1D811B8900D14B02 /* AnimatedViewPortJob.swift in Sources */,
 				06B120721D811B8900D14B02 /* PieChartDataSet.swift in Sources */,
 				06B1206B1D811B8900D14B02 /* CombinedChartData.swift in Sources */,
+				5BF8813B1DDC4DF70033370C /* IndexAxisValueFormatter.swift in Sources */,
 				06B120AB1D811B8900D14B02 /* LineChartRenderer.swift in Sources */,
 				06B120C31D811B8900D14B02 /* Platform.swift in Sources */,
 				06B1207E1D811B8900D14B02 /* ILineRadarChartDataSet.swift in Sources */,
