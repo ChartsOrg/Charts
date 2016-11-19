@@ -95,10 +95,10 @@ open class ChartUtils
             image.draw(in: CGRect(origin: CGPoint(x: 0, y: 0), size: expectedSize))
             let scaledImage = NSUIGraphicsGetImageFromCurrentImageContext()
             NSUIGraphicsEndImageContext()
-            scaledImage?.draw(in: CGRect(origin: point, size: expectedSize))
+            scaledImage?.draw(in: CGRect(origin: drawOffset, size: expectedSize))
         }
         else {
-            image.draw(in: CGRect(origin: point, size: expectedSize))
+            image.draw(in: CGRect(origin: drawOffset, size: expectedSize))
         }
         
         NSUIGraphicsPopContext()
