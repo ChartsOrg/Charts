@@ -346,7 +346,7 @@ open class PieChartRenderer: DataRenderer
                 
                 let transformedAngle = rotationAngle + angle * CGFloat(phaseY)
                 
-                let value = usePercentValuesEnabled ? e.y / yValueSum * 100.0 : e.y
+                let value = usePercentValuesEnabled ? e.y / yValueSum : e.y
                 let valueText = formatter.stringForValue(
                     value,
                     entry: e,
