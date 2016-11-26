@@ -1,8 +1,6 @@
 //
 //  RealmDemoData.h
 //  ChartsDemo
-//
-//  Created by Daniel Cohen Gindi on 17/11/2015.
 //  Copyright © 2015 dcg. All rights reserved.
 //
 
@@ -11,38 +9,41 @@
 
 @interface RealmDemoData : RLMObject
 
-- (id)initWithValue:(float)value
-             xIndex:(int)xIndex
-             xValue:(NSString *)xValue;
+- (id)initWithYValue:(double)yValue;
 
-- (id)initWithStackValues:(NSArray<NSNumber *> *)stackValues
-                   xIndex:(int)xIndex
-                   xValue:(NSString *)xValue;
+- (id)initWithXValue:(double)xValue
+              yValue:(double)yValue;
 
-- (id)initWithHigh:(float)high
-               low:(float)low
-              open:(float)open
-             close:(float)close
-            xIndex:(int)xIndex xValue:(NSString *)xValue;
+- (id)initWithXValue:(double)xValue
+         stackValues:(NSArray<NSNumber *> *)stackValues;
 
-- (id)initWithValue:(float)value
-             xIndex:(int)xIndex
-         bubbleSize:(float)bubbleSize
-             xValue:(NSString *)xValue;
+- (id)initWithXValue:(double)xValue
+                high:(double)high
+                 low:(double)low
+                open:(double)open
+               close:(double)close;
 
-@property (nonatomic, assign) float value;
+- (id)initWithXValue:(double)xValue
+              yValue:(double)yValue
+          bubbleSize:(double)bubbleSize;
 
-@property (nonatomic, assign) float open;
-@property (nonatomic, assign) float close;
-@property (nonatomic, assign) float high;
-@property (nonatomic, assign) float low;
+/// Constructor for pie chart
+- (id)initWithYValue:(double)yValue
+               label:(NSString *)label;
 
-@property (nonatomic, assign) float bubbleSize;
+@property (nonatomic, assign) double xValue;
+@property (nonatomic, assign) double yValue;
+
+@property (nonatomic, assign) double open;
+@property (nonatomic, assign) double close;
+@property (nonatomic, assign) double high;
+@property (nonatomic, assign) double low;
+
+@property (nonatomic, assign) double bubbleSize;
 
 @property (nonatomic, strong) RLMArray<RealmFloat> *stackValues;
-@property (nonatomic, assign) int xIndex;
 
-@property (nonatomic, strong) NSString *xValue;
+@property (nonatomic, strong) NSString *label;
 
 @property (nonatomic, strong) NSString *someStringField;
 
