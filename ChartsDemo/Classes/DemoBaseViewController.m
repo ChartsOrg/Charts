@@ -143,6 +143,28 @@
         
         [chartView setNeedsDisplay];
     }
+
+    if ([key isEqualToString:@"toggleRoundedBarsAllCorners"])
+    {
+        ((BarChartView *)chartView).drawRoundedBarEnabled = YES;
+
+        [chartView setNeedsDisplay];
+    }
+
+    if ([key isEqualToString:@"toggleRoundedBarsTopCorners"])
+    {
+        ((BarChartView *)chartView).drawRoundedBarEnabled = YES;
+        
+        for (id<IBarChartDataSet, NSObject> set in chartView.data.dataSets)
+        {
+            if ([set conformsToProtocol:@protocol(IBarChartDataSet)])
+            {
+                set.barRoundingCorners = UIRectCornerTopLeft | UIRectCornerTopRight;
+            }
+        }
+
+        [chartView setNeedsDisplay];
+    }
 }
 
 #pragma mark - Actions

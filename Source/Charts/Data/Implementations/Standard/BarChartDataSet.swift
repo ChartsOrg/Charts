@@ -146,6 +146,9 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
     /// the color drawing borders around the bars.
     open var barBorderColor = NSUIColor.black
 
+    /// the option rounding bar corners
+    open var barRoundingCorners: UIRectCorner = .allCorners
+
     /// the alpha value (transparency) that is used for drawing the highlight indicator bar. min = 0.0 (fully transparent), max = 1.0 (fully opaque)
     open var highlightAlpha = CGFloat(120.0 / 255.0)
     

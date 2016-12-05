@@ -22,6 +22,9 @@ open class CombinedChartRenderer: DataRenderer
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     open var drawBarShadowEnabled = false
     
+    /// if set to true, a rounded rectangle with the corners is drawn on each bar
+    open var drawRoundedBarEnabled = false
+
     internal var _renderers = [DataRenderer]()
     
     internal var _drawOrder: [CombinedChartView.DrawOrder] = [.bar, .bubble, .line, .candle, .scatter]
