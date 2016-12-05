@@ -537,7 +537,7 @@ open class PieChartRenderer: DataRenderer
                                          image: icon,
                                          point: CGPoint(x:x, y:y),
                                          expectedSize: icon.size,
-                                         offset: CGSize(width: 0, height: 0))
+                                         offset: CGSize(width: 0, height: dataSet.iconsOffset.width))
                 }
 
                 xIndex += 1

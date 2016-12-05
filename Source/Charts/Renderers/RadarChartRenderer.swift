@@ -206,7 +206,7 @@ open class RadarChartRenderer: LineRadarRenderer
                                          image: icon,
                                          point: pIcon,
                                          expectedSize: icon.size,
-                                         offset: CGSize(width: 0, height: 0))
+                                         offset: CGSize(width: 0, height: dataSet.iconsOffset.width))
                 }
 
             }
