@@ -60,9 +60,9 @@ open class BarHighlighter: ChartHighlighter
     /// - parameter yValue:
     /// - returns:
     open func getStackedHighlight(high: Highlight,
-                                         set: IBarChartDataSet,
-                                         xValue: Double,
-                                         yValue: Double) -> Highlight?
+                                  set: IBarChartDataSet,
+                                  xValue: Double,
+                                  yValue: Double) -> Highlight?
     {
         guard
             let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider,

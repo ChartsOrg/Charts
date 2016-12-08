@@ -91,6 +91,7 @@ open class PieChartRenderer: DataRenderer
     open func getSliceSpace(dataSet: IPieChartDataSet) -> CGFloat
     {
         guard
+            dataSet.automaticallyDisableSliceSpacing,
             let viewPortHandler = self.viewPortHandler,
             let data = chart?.data as? PieChartData
             else { return dataSet.sliceSpace }

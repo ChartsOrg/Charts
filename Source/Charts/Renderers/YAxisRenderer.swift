@@ -269,7 +269,7 @@ open class YAxisRenderer: AxisRendererBase
         clippingRect.origin.y -= yAxis.zeroLineWidth / 2.0
         clippingRect.size.height += yAxis.zeroLineWidth
         context.clip(to: clippingRect)
-        
+
         context.setStrokeColor(zeroLineColor.cgColor)
         context.setLineWidth(yAxis.zeroLineWidth)
         
@@ -284,8 +284,8 @@ open class YAxisRenderer: AxisRendererBase
             context.setLineDash(phase: 0.0, lengths: [])
         }
         
-        context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: pos.y - 1.0))
-        context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: pos.y - 1.0))
+        context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: pos.y))
+        context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: pos.y))
         context.drawPath(using: CGPathDrawingMode.stroke)
     }
     

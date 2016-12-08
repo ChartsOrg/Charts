@@ -3,42 +3,55 @@ def type
 end
 
 def project_name
-  "Charts.xcodeproj"
+  'Charts.xcodeproj'
 end
 
 def configuration
-  "Debug"
+  'Debug'
 end
 
 def test_platforms
   [
-    :ios,
-    :tvos
+    :iOS,
+    :tvOS
   ]
 end
 
-def schemes
+def build_platforms
   [
-    "ChartsTests"
+    :macOS
+  ]
+end
+
+def build_schemes
+  %w(
+    Charts
+    ChartsRealm
+  )
+end
+
+def test_schemes
+  [
+    'ChartsTests'
   ]
 end
 
 def devices
   {
-    ios: { 
-      sdk: "iphonesimulator", 
-      device: "name='iPhone 7'", 
-      uuid: "5F911B30-5F23-403B-9697-1DFDC24773C8" 
+    iOS: {
+      sdk: 'iphonesimulator',
+      device: "name='iPhone 7'",
+      uuid: '5F911B30-5F23-403B-9697-1DFDC24773C8'
     },
-    macos: { 
-      sdk: "macosx", 
-      device: "arch='x86_64'", 
-      uuid: nil 
+    macOS: {
+      sdk: 'macosx',
+      device: "arch='x86_64'",
+      uuid: nil
     },
-    tvos: { 
-      sdk: "appletvsimulator", 
-      device: "name='Apple TV 1080p'", 
-      uuid: "273D776F-196E-4F2A-AEF2-E1E3EAE99B47" 
+    tvOS: {
+      sdk: 'appletvsimulator',
+      device: "name='Apple TV 1080p'",
+      uuid: '273D776F-196E-4F2A-AEF2-E1E3EAE99B47'
     }
   }
 end
@@ -48,62 +61,86 @@ def open_simulator_and_sleep(uuid)
   sh "xcrun instruments -w '#{uuid}' || sleep 15"
 end
 
-def xcodebuild(type, name, scheme, configuration, sdk, destination, tasks, xcprety_args: '')
-
+def xcodebuild(type, name, scheme, configuration, sdk, destination, tasks, xcprety_args)
   # set either workspace or project flag for xcodebuild
   case type
   when :project
-    project_type = "-project"
+    project_type = '-project'
   when :workspace
-    project_type = "-workspace"
+    project_type = '-workspace'
   else
-    abort "Invalid project type, use `:project` for xcodeproj and `:workspace` for xcworkspace."
+    abort 'Invalid project type, use `:project` for xcodeproj and `:workspace` for xcworkspace.'
   end
 
   sh "set -o pipefail && xcodebuild #{project_type} '#{name}' -scheme '#{scheme}' -configuration '#{configuration}' -sdk #{sdk} -destination #{destination} #{tasks} | bundle exec xcpretty -c #{xcprety_args}"
-
 end
 
-def run_xcodebuild(schemes, tasks, destination, is_test, xcprety_args)
+def run_xcodebuild(schemes_to_execute, tasks, destination, is_test, xcprety_args)
   sdk = destination[:sdk]
   device = destination[:device]
   uuid = destination[:uuid]
 
-  if is_test
-    open_simulator_and_sleep uuid
-  end
+  open_simulator_and_sleep uuid if is_test
 
-  schemes.each do |scheme| 
+  schemes_to_execute.each do |scheme|
     xcodebuild type, project_name, scheme, configuration, sdk, device, tasks, xcprety_args
   end
 
-  if is_test
-    sh "killall Simulator"
-  end
+  sh 'killall Simulator' if is_test
 end
 
-def execute(tasks, platform, xcprety_args)
-
-  is_test = tasks.include?("test")
+def execute(tasks, platform, xcprety_args: '')
+  is_test = tasks.include?('test')
 
   # platform specific settings
   destination = devices[platform]
 
+  schemes = is_test ? test_schemes : build_schemes
+
   # check if xcodebuild needs to be run on multiple devices
   if destination.is_a?(Array)
     destination.each do |destination|
-        run_xcodebuild schemes, tasks, destination, is_test, xcprety_args
+      run_xcodebuild schemes, tasks, destination, is_test, xcprety_args
     end
-  else 
+  else
     run_xcodebuild schemes, tasks, destination, is_test, xcprety_args
   end
 end
 
-desc "Build, then run tests."
-task :test do
-
-  test_platforms.each do |platform|
-    execute "build test", platform, xcprety_args: "--test"
+def arg_to_key(string_key)
+  case string_key.downcase
+  when 'ios'
+    :iOS
+  when 'tvos'
+    :tvOS
+  when 'macos'
+    :macOS
+  when 'watchos'
+    :watchOS
+  else
+    abort 'Invalid platform, use `iOS`, `tvOS`, `macOS` or `watchOS`'
   end
+end
 
+desc 'Run CI tasks. Build and test or build depending on the platform.'
+task :ci, [:platform] do |_task, args|
+  platform = arg_to_key(args[:platform]) if args.has_key?(:platform)
+
+  if test_platforms.include?(platform)
+    execute 'clean build test', platform
+  elsif build_platforms.include?(platform)
+    execute 'clean build', platform
+  else
+    test_platforms.each do |platform|
+      execute 'clean build test', platform
+    end
+    build_platforms.each do |platform|
+      execute 'clean build', platform
+    end
+  end
+end
+
+desc 'updated the podspec on cocoapods'
+task :update_pod do 
+  sh "bundle exec pod trunk push Charts.podspec --allow-warnings"
 end

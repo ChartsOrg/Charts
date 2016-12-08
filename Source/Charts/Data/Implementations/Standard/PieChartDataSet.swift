@@ -71,6 +71,9 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
             _sliceSpace = space
         }
     }
+
+    /// When enabled, slice spacing will be 0.0 when the smallest value is going to be smaller than the slice spacing itself.
+    open var automaticallyDisableSliceSpacing: Bool = false
     
     /// indicates the selection distance of a pie slice
     open var selectionShift = CGFloat(18.0)

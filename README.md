@@ -1,10 +1,10 @@
-**Version 3.0**, synced to [MPAndroidChart #1b9b3da](https://github.com/PhilJay/MPAndroidChart/commit/a233e38)
+**Version 3.0.1**, synced to [MPAndroidChart #345b4bc](https://github.com/PhilJay/MPAndroidChart/commit/345b4bc)
 
 ![alt tag](https://raw.github.com/danielgindi/Charts/master/Assets/feature_graphic.png)
   ![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/danielgindi/Charts.svg)](https://github.com/danielgindi/Charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Build Status](https://travis-ci.org/danielgindi/Charts.svg?branch=master)](https://travis-ci.org/danielgindi/Charts) [![codecov](https://codecov.io/gh/danielgindi/Charts/branch/master/graph/badge.svg)](https://codecov.io/gh/danielgindi/Charts)
 [![Join the chat at https://gitter.im/danielgindi/Charts](https://badges.gitter.im/danielgindi/Charts.svg)](https://gitter.im/danielgindi/Charts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-## Just a heads up: Charts 3.0 is **not** yet released to CocoaPods, as the version is not finalized yet.
+### Just a heads up: Charts 3.0 has some breaking changes. Please read [the release/migration notes](https://github.com/danielgindi/Charts/releases/tag/v3.0.0). 
 
 * Xcode 8.0 / Swift 3.0 (For Swift 2.3 support please use [Charts 2.3.0](https://github.com/danielgindi/Charts/tree/v2.3.0))
 * iOS >= 8.0 (Use as an **Embedded** Framework)
@@ -43,6 +43,11 @@ In order to correctly compile:
 5. When using [Realm.io](https://realm.io/):
    - Note that the Realm framework is not linked with Charts - it is only there for *optional* bindings. Which means that you need to have the framework in your project, and in a compatible version to whatever is compiled with Charts. We will do our best to always compile against the latest version.
 
+## 3rd party tutorials
+
+* [Using Realm and Charts with Swift 3 in iOS 10 (Sami Korpela)](https://medium.com/@skoli/using-realm-and-charts-with-swift-3-in-ios-10-40c42e3838c0#.2gyymwfh8)
+* Want your tutorial to show here? Create a PR!
+
 ## Troubleshooting
 
 #### Can't compile?
@@ -75,8 +80,8 @@ pod 'Charts/Realm'
 Charts now include Carthage prebuilt binaries.
 
 ```carthage
-github "danielgindi/Charts" == 2.2.5
-github "danielgindi/Charts" ~> 2.2.5
+github "danielgindi/Charts" == 3.0.1
+github "danielgindi/Charts" ~> 3.0.1
 ```
 
 In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts && carthage archive ChartsRealm`.

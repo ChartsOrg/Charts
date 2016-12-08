@@ -518,7 +518,6 @@ open class LineChartRenderer: LineRadarRenderer
         {
             var dataSets = lineData.dataSets
             
-            let phaseX = max(0.0, min(1.0, animator.phaseX))
             let phaseY = animator.phaseY
             
             var pt = CGPoint()
@@ -549,7 +548,7 @@ open class LineChartRenderer: LineRadarRenderer
                 
                 _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
                 
-                for j in stride(from: _xBounds.min, to: Int(ceil(Double(_xBounds.max - _xBounds.min) * phaseX + Double(_xBounds.min))), by: 1)
+                for j in stride(from: _xBounds.min, through: min(_xBounds.min + _xBounds.range, _xBounds.max), by: 1)
                 {
                     guard let e = dataSet.entryForIndex(j) else { break }
                     
@@ -666,10 +665,14 @@ open class LineChartRenderer: LineRadarRenderer
                     context.addEllipse(in: rect)
                     
                     // Cut hole in path
-                    context.addArc(center: pt, radius: circleHoleRadius, startAngle: 0.0, endAngle: CGFloat(M_PI_2), clockwise: true)
+                    rect.origin.x = pt.x - circleHoleRadius
+                    rect.origin.y = pt.y - circleHoleRadius
+                    rect.size.width = circleHoleDiameter
+                    rect.size.height = circleHoleDiameter
+                    context.addEllipse(in: rect)
                     
                     // Fill in-between
-                    context.fillPath()
+                    context.fillPath(using: .evenOdd)
                 }
                 else
                 {
