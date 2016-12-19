@@ -134,7 +134,13 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 {
                     let value = vals![k]
                     
-                    if value >= 0.0
+                    if value == 0.0 && (posY == 0.0 || negY == 0.0)
+                    {
+                        // Take care of the situation of a 0.0 value, which overlaps a non-zero bar
+                        y = value
+                        yStart = y
+                    }
+                    else if value >= 0.0
                     {
                         y = posY
                         yStart = posY + value
@@ -467,7 +473,12 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                 let value = vals[k]
                                 var y: Double
                                 
-                                if value >= 0.0
+                                if value == 0.0 && (posY == 0.0 || negY == 0.0)
+                                {
+                                    // Take care of the situation of a 0.0 value, which overlaps a non-zero bar
+                                    y = value
+                                }
+                                else if value >= 0.0
                                 {
                                     posY += value
                                     y = posY
@@ -503,7 +514,9 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                     negOffset = -negOffset - valueTextWidth
                                 }
                                 
-                                let x = transformed[k].x + (val >= 0 ? posOffset : negOffset)
+                                let drawBelow = (val == 0.0 && negY == 0.0 && posY > 0.0) || val < 0.0
+
+                                let x = transformed[k].x + (drawBelow ? negOffset : posOffset)
                                 let y = rect.origin.y + rect.size.height / 2.0
                                 
                                 if (!viewPortHandler.isInBoundsTop(y))

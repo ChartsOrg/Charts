@@ -132,13 +132,18 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 var negY = -e.negativeSum
                 var yStart = 0.0
                 
-                
                 // fill the stack
                 for k in 0 ..< vals!.count
                 {
                     let value = vals![k]
                     
-                    if value >= 0.0
+                    if value == 0.0 && (posY == 0.0 || negY == 0.0)
+                    {
+                        // Take care of the situation of a 0.0 value, which overlaps a non-zero bar
+                        y = value
+                        yStart = y
+                    }
+                    else if value >= 0.0
                     {
                         y = posY
                         yStart = posY + value
@@ -494,7 +499,12 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                 let value = vals[k]
                                 var y: Double
                                 
-                                if value >= 0.0
+                                if value == 0.0 && (posY == 0.0 || negY == 0.0)
+                                {
+                                    // Take care of the situation of a 0.0 value, which overlaps a non-zero bar
+                                    y = value
+                                }
+                                else if value >= 0.0
                                 {
                                     posY += value
                                     y = posY
@@ -512,7 +522,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                             
                             for k in 0 ..< transformed.count
                             {
-                                let y = transformed[k].y + (vals[k] >= 0 ? posOffset : negOffset)
+                                let val = vals[k]
+                                let drawBelow = (val == 0.0 && negY == 0.0 && posY > 0.0) || val < 0.0
+                                let y = transformed[k].y + (drawBelow ? negOffset : posOffset)
                                 
                                 if !viewPortHandler.isInBoundsRight(x)
                                 {
