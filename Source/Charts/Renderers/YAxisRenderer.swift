@@ -141,14 +141,12 @@ open class YAxisRenderer: AxisRendererBase
         let labelFont = yAxis.labelFont
         let labelTextColor = yAxis.labelTextColor
         
-        for i in 0 ..< yAxis.entryCount
+        let from = yAxis.isDrawBottomYLabelEntryEnabled ? 0 : 1
+        let to = yAxis.isDrawTopYLabelEntryEnabled ? yAxis.entryCount : (yAxis.entryCount - 1)
+        
+        for i in stride(from: from, to: to, by: 1)
         {
             let text = yAxis.getFormattedLabel(i)
-            
-            if !yAxis.isDrawTopYLabelEntryEnabled && i >= yAxis.entryCount - 1
-            {
-                break
-            }
             
             ChartUtils.drawText(
                 context: context,
