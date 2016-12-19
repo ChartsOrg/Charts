@@ -14,6 +14,7 @@ import Foundation
 import Charts
 #endif
 import Realm
+import RealmSwift
 import Realm.Dynamic
 
 open class RealmBaseDataSet: ChartBaseDataSet
@@ -83,7 +84,7 @@ open class RealmBaseDataSet: ChartBaseDataSet
         self.init(results: results, yValueField: yValueField)
     }
     
-    public init(realm: RLMRealm?, modelName: String, resultsWhere: String, xValueField: String?, yValueField: String, label: String?)
+    public init(realm: Realm?, modelName: String, resultsWhere: String, xValueField: String?, yValueField: String, label: String?)
     {
         super.init()
         
@@ -101,6 +102,11 @@ open class RealmBaseDataSet: ChartBaseDataSet
         }
         
         initialize()
+    }
+    
+    public init(realm: RLMRealm?, modelName: String, resultsWhere: String, xValueField: String?, yValueField: String, label: String?)
+    {
+        self.init(realm == nil ? nil : ObjectiveCSupport.convert(realm))
     }
     
     public convenience init(realm: RLMRealm?, modelName: String, resultsWhere: String, yValueField: String, label: String?)
