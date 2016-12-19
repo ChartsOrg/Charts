@@ -457,6 +457,16 @@ open class XAxisRenderer: AxisRendererBase
                     align: .left,
                     attributes: [NSFontAttributeName: limitLine.valueFont, NSForegroundColorAttributeName: limitLine.valueTextColor])
             }
+            else if limitLine.labelPosition == .centerBottom
+            {
+                ChartUtils.drawText(context: context,
+                                    text: label,
+                                    point: CGPoint(
+                                        x: position.x,
+                                        y: viewPortHandler.contentBottom - labelLineHeight),
+                                    align: .center,
+                                    attributes: [NSFontAttributeName: limitLine.valueFont, NSForegroundColorAttributeName: limitLine.valueTextColor])
+            }
             else if limitLine.labelPosition == .leftTop
             {
                 ChartUtils.drawText(context: context,
