@@ -944,7 +944,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     /// MARK: Viewport modifiers
     
-    /// Zooms in by 1.4, into the charts center. center.
+    /// Zooms in by 1.4, into the charts center.
     open func zoomIn()
     {
         let center = _viewPortHandler.contentCenter
@@ -957,7 +957,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         setNeedsDisplay()
     }
 
-    /// Zooms out by 0.7, from the charts center. center.
+    /// Zooms out by 0.7, from the charts center.
     open func zoomOut()
     {
         let center = _viewPortHandler.contentCenter
@@ -965,6 +965,17 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         let matrix = _viewPortHandler.zoomOut(x: center.x, y: -center.y)
         let _ = _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
 
+        // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
+        calculateOffsets()
+        setNeedsDisplay()
+    }
+    
+    /// Zooms out to original size.
+    open func resetZoom()
+    {
+        let matrix = _viewPortHandler.resetZoom()
+        let _ = _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
+        
         // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
         calculateOffsets()
         setNeedsDisplay()
