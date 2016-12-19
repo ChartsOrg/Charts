@@ -406,6 +406,13 @@ open class XAxisRenderer: AxisRendererBase
         
         context.beginPath()
         context.move(to: CGPoint(x: position.x, y: viewPortHandler.contentTop))
+        
+        if limitLine.labelPosition == .centerBottom {
+            context.addLine(to: CGPoint(x: position.x, y: viewPortHandler.contentBottom-limitLine.valueFont.lineHeight))
+        } else {
+            context.addLine(to: CGPoint(x: position.x, y: viewPortHandler.contentBottom))
+        }
+        
         context.addLine(to: CGPoint(x: position.x, y: viewPortHandler.contentBottom))
         
         context.setStrokeColor(limitLine.lineColor.cgColor)
