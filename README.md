@@ -39,7 +39,8 @@ In order to correctly compile:
 3. `@import Charts`  
 4.  When using Swift in an ObjC project:
    - You need to import your Bridging Header. Usually it is "*YourProject-Swift.h*", so in ChartsDemo it's "*ChartsDemo-Swift.h*". Do not try to actually include "*ChartsDemo-Swift.h*" in your project :-)
-   - Under "Build Options", mark "Embedded Content Contains Swift Code"
+   - (Xcode 8.1 and earlier) Under "Build Options", mark "Embedded Content Contains Swift Code"
+   - (Xcode 8.2+) Under "Build Options", mark "Always Embed Swift Standard Libraries"
 5. When using [Realm.io](https://realm.io/):
    - Note that the Realm framework is not linked with Charts - it is only there for *optional* bindings. Which means that you need to have the framework in your project, and in a compatible version to whatever is compiled with Charts. We will do our best to always compile against the latest version.
 
