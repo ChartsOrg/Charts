@@ -15,6 +15,7 @@ import CoreGraphics
 import Charts
 #endif
 import Realm
+import RealmSwift
 import Realm.Dynamic
 
 open class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartDataSet
@@ -41,9 +42,33 @@ open class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartDat
         super.init(results: results, xValueField: xValueField, yValueField: yValueField, label: label)
     }
     
+    public convenience init(results: Results<Object>?, xValueField: String?, yValueField: String, stackValueField: String, label: String?)
+    {
+        var converted: RLMResults<RLMObject>?
+        
+        if results != nil
+        {
+            converted = ObjectiveCSupport.convert(object: results!)
+        }
+        
+        self.init(results: converted, xValueField: xValueField, yValueField: yValueField, stackValueField: stackValueField, label: label)
+    }
+    
     public convenience init(results: RLMResults<RLMObject>?, xValueField: String?, yValueField: String, stackValueField: String)
     {
         self.init(results: results, xValueField: xValueField, yValueField: yValueField, stackValueField: stackValueField, label: "DataSet")
+    }
+    
+    public convenience init(results: Results<Object>?, xValueField: String?, yValueField: String, stackValueField: String)
+    {
+        var converted: RLMResults<RLMObject>?
+        
+        if results != nil
+        {
+            converted = ObjectiveCSupport.convert(object: results!)
+        }
+        
+        self.init(results: converted, xValueField: xValueField, yValueField: yValueField, stackValueField: stackValueField, label: "DataSet")
     }
     
     public convenience init(results: RLMResults<RLMObject>?, yValueField: String, stackValueField: String, label: String)
@@ -51,9 +76,33 @@ open class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartDat
         self.init(results: results, xValueField: nil, yValueField: yValueField, stackValueField: stackValueField, label: label)
     }
     
+    public convenience init(results: Results<Object>?, yValueField: String, stackValueField: String, label: String)
+    {
+        var converted: RLMResults<RLMObject>?
+        
+        if results != nil
+        {
+            converted = ObjectiveCSupport.convert(object: results!)
+        }
+        
+        self.init(results: converted, yValueField: yValueField, stackValueField: stackValueField, label: label)
+    }
+    
     public convenience init(results: RLMResults<RLMObject>?, yValueField: String, stackValueField: String)
     {
         self.init(results: results, xValueField: nil, yValueField: yValueField, stackValueField: stackValueField)
+    }
+    
+    public convenience init(results: Results<Object>?, yValueField: String, stackValueField: String)
+    {
+        var converted: RLMResults<RLMObject>?
+        
+        if results != nil
+        {
+            converted = ObjectiveCSupport.convert(object: results!)
+        }
+        
+        self.init(results: converted, yValueField: yValueField, stackValueField: stackValueField)
     }
     
     public override init(realm: RLMRealm?, modelName: String, resultsWhere: String, xValueField: String?, yValueField: String, label: String?)
@@ -68,9 +117,33 @@ open class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartDat
         super.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, xValueField: xValueField, yValueField: yValueField, label: label)
     }
     
+    public convenience init(realm: Realm?, modelName: String, resultsWhere: String, xValueField: String?, yValueField: String, stackValueField: String, label: String?)
+    {
+        var converted: RLMRealm?
+        
+        if realm != nil
+        {
+            converted = ObjectiveCSupport.convert(object: realm!)
+        }
+        
+        self.init(realm: converted, modelName: modelName, resultsWhere: resultsWhere, xValueField: xValueField, yValueField: yValueField, label: label)
+    }
+    
     public convenience init(realm: RLMRealm?, modelName: String, resultsWhere: String, xValueField: String?, yValueField: String, stackValueField: String)
     {
         self.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, xValueField: nil, yValueField: yValueField, stackValueField: stackValueField)
+    }
+    
+    public convenience init(realm: Realm?, modelName: String, resultsWhere: String, xValueField: String?, yValueField: String, stackValueField: String)
+    {
+        var converted: RLMRealm?
+        
+        if realm != nil
+        {
+            converted = ObjectiveCSupport.convert(object: realm!)
+        }
+        
+        self.init(realm: converted, modelName: modelName, resultsWhere: resultsWhere, xValueField: nil, yValueField: yValueField, stackValueField: stackValueField)
     }
     
     public convenience init(realm: RLMRealm?, modelName: String, resultsWhere: String, yValueField: String, stackValueField: String, label: String?)
@@ -78,9 +151,33 @@ open class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartDat
         self.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, xValueField: nil, yValueField: yValueField, stackValueField: stackValueField, label: label)
     }
     
+    public convenience init(realm: Realm?, modelName: String, resultsWhere: String, yValueField: String, stackValueField: String, label: String?)
+    {
+        var converted: RLMRealm?
+        
+        if realm != nil
+        {
+            converted = ObjectiveCSupport.convert(object: realm!)
+        }
+        
+        self.init(realm: converted, modelName: modelName, resultsWhere: resultsWhere, xValueField: nil, yValueField: yValueField, stackValueField: stackValueField, label: label)
+    }
+    
     public convenience init(realm: RLMRealm?, modelName: String, resultsWhere: String, yValueField: String, stackValueField: String)
     {
         self.init(realm: realm, modelName: modelName, resultsWhere: resultsWhere, xValueField: nil, yValueField: yValueField, stackValueField: stackValueField, label: nil)
+    }
+    
+    public convenience init(realm: Realm?, modelName: String, resultsWhere: String, yValueField: String, stackValueField: String)
+    {
+        var converted: RLMRealm?
+        
+        if realm != nil
+        {
+            converted = ObjectiveCSupport.convert(object: realm!)
+        }
+        
+        self.init(realm: converted, modelName: modelName, resultsWhere: resultsWhere, xValueField: nil, yValueField: yValueField, stackValueField: stackValueField, label: nil)
     }
     
     open override func notifyDataSetChanged()
