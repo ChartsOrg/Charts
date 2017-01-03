@@ -224,6 +224,10 @@ open class YAxisRenderer: AxisRendererBase
             let viewPortHandler = self.viewPortHandler
             else { return }
         
+        guard
+            !position.y.isNaN
+            else { return }
+        
         context.beginPath()
         context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: position.y))
         context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: position.y))
