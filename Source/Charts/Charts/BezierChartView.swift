@@ -39,8 +39,8 @@ open class BezierChartView: BarLineChartViewBase, LineChartDataProvider {
         _panGestureRecognizer.delegate = self
         self.addGestureRecognizer(_panGestureRecognizer)
         
-        self.highlightPerTapEnabled = false
-        //self.highlightPerDragEnabled = false
+        self.highlightPerTapEnabled = true
+        self.highlightPerDragEnabled = true
     }
     
     // MARK: - LineChartDataProvider

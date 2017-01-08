@@ -115,6 +115,10 @@ open class XAxisRenderer: AxisRendererBase
         {
             drawLabels(context: context, pos: viewPortHandler.contentBottom - yOffset - xAxis.labelRotatedHeight, anchor: CGPoint(x: 0.5, y: 0.0))
         }
+        else if xAxis.labelPosition == .center
+        {
+            drawLabels(context: context, pos: viewPortHandler.contentBottom/2.0 - xAxis.labelRotatedHeight, anchor: CGPoint(x: 0.5, y: 0.5))
+        }
         else
         { // BOTH SIDED
             drawLabels(context: context, pos: viewPortHandler.contentTop - yOffset, anchor: CGPoint(x: 0.5, y: 1.0))
