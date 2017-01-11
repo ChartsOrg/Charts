@@ -480,51 +480,67 @@ open class PieChartRenderer: DataRenderer
                  
                     if drawXInside && drawYInside
                     {
-                        ChartUtils.drawText(
-                            context: context,
-                            text: valueText,
-                            point: CGPoint(x: x, y: y),
-                            align: .center,
-                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
-                        )
+                        let attributes = [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
+                        let size = pe!.label!.size(attributes: attributes)
                         
-                        if j < data.entryCount && pe?.label != nil
-                        {
+                        if chart.limitXLableSizeInSlice == true && size.width > ((labelRadius * sliceAngle * ChartUtils.Math.FDEG2RAD) + 10) {
+                        } else {
                             ChartUtils.drawText(
                                 context: context,
-                                text: pe!.label!,
-                                point: CGPoint(x: x, y: y + lineHeight),
+                                text: valueText,
+                                point: CGPoint(x: x, y: y),
                                 align: .center,
-                                attributes: [
-                                    NSFontAttributeName: entryLabelFont ?? valueFont,
-                                    NSForegroundColorAttributeName: entryLabelColor ?? valueTextColor]
+                                attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
                             )
+                            
+                        }
+                        if j < data.entryCount && pe?.label != nil
+                        {
+                            if chart.limitXLableSizeInSlice == true && size.width > ((labelRadius * sliceAngle * ChartUtils.Math.FDEG2RAD) + 10) {
+                            } else {
+                                ChartUtils.drawText(
+                                    context: context,
+                                    text: pe!.label!,
+                                    point: CGPoint(x: x, y: y + lineHeight),
+                                    align: .center,
+                                    attributes: [
+                                        NSFontAttributeName: entryLabelFont ?? valueFont,
+                                        NSForegroundColorAttributeName: entryLabelColor ?? valueTextColor]
+                                )
+                                
+                            }
                         }
                     }
                     else if drawXInside
                     {
-                        if j < data.entryCount && pe?.label != nil
-                        {
+                        let attributes = [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
+                        let size = pe!.label!.size(attributes: attributes)
+                        
+                        if chart.limitXLableSizeInSlice == true && size.width > ((labelRadius * sliceAngle * ChartUtils.Math.FDEG2RAD) + 10) {
+                        } else {
                             ChartUtils.drawText(
                                 context: context,
                                 text: pe!.label!,
                                 point: CGPoint(x: x, y: y + lineHeight / 2.0),
                                 align: .center,
-                                attributes: [
-                                    NSFontAttributeName: entryLabelFont ?? valueFont,
-                                    NSForegroundColorAttributeName: entryLabelColor ?? valueTextColor]
+                                attributes: attributes
                             )
                         }
                     }
                     else if drawYInside
                     {
-                        ChartUtils.drawText(
-                            context: context,
-                            text: valueText,
-                            point: CGPoint(x: x, y: y + lineHeight / 2.0),
-                            align: .center,
-                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
-                        )
+                        let attributes = [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
+                        let size = pe!.label!.size(attributes: attributes)
+                        if chart.limitXLableSizeInSlice == true && size.width > ((labelRadius * sliceAngle * ChartUtils.Math.FDEG2RAD) + 10) {
+                        } else {
+                            ChartUtils.drawText(
+                                context: context,
+                                text: valueText,
+                                point: CGPoint(x: x, y: y + lineHeight / 2.0),
+                                align: .center,
+                                attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
+                            )
+                        }
                     }
                 }
                 
