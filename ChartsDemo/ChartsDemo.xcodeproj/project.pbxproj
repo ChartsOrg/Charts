@@ -110,6 +110,8 @@
 		65BF12B11BFC9B00005C28D9 /* RealmLineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BF12AF1BFC9B00005C28D9 /* RealmLineChartViewController.xib */; };
 		65BF12B61BFC9B50005C28D9 /* RealmBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65BF12B41BFC9B50005C28D9 /* RealmBarChartViewController.m */; };
 		65BF12B71BFC9B50005C28D9 /* RealmBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BF12B51BFC9B50005C28D9 /* RealmBarChartViewController.xib */; };
+		B6CF68981E2DBB6000A3E027 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6CF68951E2DBB5A00A3E027 /* RealmSwift.framework */; };
+		B6CF68991E2DBB6000A3E027 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B6CF68951E2DBB5A00A3E027 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -159,6 +161,7 @@
 			files = (
 				0630AE561D81271B008859B0 /* ChartsRealm.framework in Embed Frameworks */,
 				0630AE381D8126B1008859B0 /* Realm.framework in Embed Frameworks */,
+				B6CF68991E2DBB6000A3E027 /* RealmSwift.framework in Embed Frameworks */,
 				0630AE521D81271B008859B0 /* Charts.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -312,6 +315,7 @@
 		65BF12B31BFC9B50005C28D9 /* RealmBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealmBarChartViewController.h; sourceTree = "<group>"; };
 		65BF12B41BFC9B50005C28D9 /* RealmBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealmBarChartViewController.m; sourceTree = "<group>"; };
 		65BF12B51BFC9B50005C28D9 /* RealmBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RealmBarChartViewController.xib; sourceTree = "<group>"; };
+		B6CF68951E2DBB5A00A3E027 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = ../Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -321,6 +325,7 @@
 			files = (
 				0630AE551D81271B008859B0 /* ChartsRealm.framework in Frameworks */,
 				0630AE371D8126B1008859B0 /* Realm.framework in Frameworks */,
+				B6CF68981E2DBB6000A3E027 /* RealmSwift.framework in Frameworks */,
 				0630AE511D81271B008859B0 /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -539,6 +544,7 @@
 		65BF124F1BFBBF9A005C28D9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B6CF68951E2DBB5A00A3E027 /* RealmSwift.framework */,
 				0630AE361D8126B1008859B0 /* Realm.framework */,
 			);
 			name = Frameworks;
