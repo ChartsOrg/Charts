@@ -40,8 +40,8 @@ def devices
   {
     iOS: {
       sdk: 'iphonesimulator',
-      device: "name='iPhone 7'",
-      uuid: '5F911B30-5F23-403B-9697-1DFDC24773C8'
+      device: "id='22FA2149-1241-469C-BF6D-462D3837DB72'",
+      uuid: '22FA2149-1241-469C-BF6D-462D3837DB72'
     },
     macOS: {
       sdk: 'macosx',
@@ -50,8 +50,8 @@ def devices
     },
     tvOS: {
       sdk: 'appletvsimulator',
-      device: "name='Apple TV 1080p'",
-      uuid: '273D776F-196E-4F2A-AEF2-E1E3EAE99B47'
+      device: "id='5761D8AB-2838-4681-A528-D0949FF240C5'",
+      uuid: '5761D8AB-2838-4681-A528-D0949FF240C5'
     }
   }
 end
