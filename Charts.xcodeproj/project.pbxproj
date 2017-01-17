@@ -944,6 +944,7 @@
 			inputPaths = (
 				FBSnapshotTestCase,
 				Realm,
+				RealmSwift,
 			);
 			name = "Copy Carthage Frameworks";
 			outputPaths = (
