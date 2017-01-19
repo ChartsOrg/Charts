@@ -100,7 +100,7 @@ open class BarHighlighter: ChartHighlighter
     /// - parameter entry:
     /// - parameter value:
     /// - returns:
-    open func getClosestStackIndex(ranges: [Range]?, value: Double) -> Int
+    open func getClosestStackIndex(ranges: [ChartRange]?, value: Double) -> Int
     {
         if ranges == nil
         {

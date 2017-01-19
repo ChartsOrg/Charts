@@ -90,7 +90,7 @@
 		06B120901D811B8900D14B02 /* PieHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B120071D811B8900D14B02 /* PieHighlighter.swift */; };
 		06B120911D811B8900D14B02 /* PieRadarHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B120081D811B8900D14B02 /* PieRadarHighlighter.swift */; };
 		06B120921D811B8900D14B02 /* RadarHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B120091D811B8900D14B02 /* RadarHighlighter.swift */; };
-		06B120931D811B8900D14B02 /* Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B1200A1D811B8900D14B02 /* Range.swift */; };
+		06B120931D811B8900D14B02 /* ChartRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B1200A1D811B8900D14B02 /* ChartRange.swift */; };
 		06B120941D811B8900D14B02 /* BarChartDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B1200C1D811B8900D14B02 /* BarChartDataProvider.swift */; };
 		06B120951D811B8900D14B02 /* BarLineScatterCandleBubbleChartDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B1200D1D811B8900D14B02 /* BarLineScatterCandleBubbleChartDataProvider.swift */; };
 		06B120961D811B8900D14B02 /* BubbleChartDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B1200E1D811B8900D14B02 /* BubbleChartDataProvider.swift */; };
@@ -267,7 +267,7 @@
 		06B120071D811B8900D14B02 /* PieHighlighter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieHighlighter.swift; sourceTree = "<group>"; };
 		06B120081D811B8900D14B02 /* PieRadarHighlighter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieRadarHighlighter.swift; sourceTree = "<group>"; };
 		06B120091D811B8900D14B02 /* RadarHighlighter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadarHighlighter.swift; sourceTree = "<group>"; };
-		06B1200A1D811B8900D14B02 /* Range.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Range.swift; sourceTree = "<group>"; };
+		06B1200A1D811B8900D14B02 /* ChartRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartRange.swift; sourceTree = "<group>"; };
 		06B1200C1D811B8900D14B02 /* BarChartDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartDataProvider.swift; sourceTree = "<group>"; };
 		06B1200D1D811B8900D14B02 /* BarLineScatterCandleBubbleChartDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarLineScatterCandleBubbleChartDataProvider.swift; sourceTree = "<group>"; };
 		06B1200E1D811B8900D14B02 /* BubbleChartDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleChartDataProvider.swift; sourceTree = "<group>"; };
@@ -594,7 +594,7 @@
 				06B120071D811B8900D14B02 /* PieHighlighter.swift */,
 				06B120081D811B8900D14B02 /* PieRadarHighlighter.swift */,
 				06B120091D811B8900D14B02 /* RadarHighlighter.swift */,
-				06B1200A1D811B8900D14B02 /* Range.swift */,
+				06B1200A1D811B8900D14B02 /* ChartRange.swift */,
 			);
 			name = Highlight;
 			path = Source/Charts/Highlight;
@@ -1084,7 +1084,7 @@
 				06B120641D811B8900D14B02 /* CandleChartData.swift in Sources */,
 				06B120AA1D811B8900D14B02 /* LegendRenderer.swift in Sources */,
 				06B120B41D811B8900D14B02 /* CrossShapeRenderer.swift in Sources */,
-				06B120931D811B8900D14B02 /* Range.swift in Sources */,
+				06B120931D811B8900D14B02 /* ChartRange.swift in Sources */,
 				06B120A21D811B8900D14B02 /* AxisRendererBase.swift in Sources */,
 				06B1208E1D811B8900D14B02 /* HorizontalBarHighlighter.swift in Sources */,
 				06B1206E1D811B8900D14B02 /* LineRadarChartDataSet.swift in Sources */,
