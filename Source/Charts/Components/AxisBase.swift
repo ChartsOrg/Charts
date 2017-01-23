@@ -243,7 +243,7 @@ open class AxisBase: ComponentBase
     
     open func setLabelCount(_ count: Int, force: Bool)
     {
-        self.labelCount = count
+        _labelCount = count
         forceLabelsEnabled = force
     }
     
