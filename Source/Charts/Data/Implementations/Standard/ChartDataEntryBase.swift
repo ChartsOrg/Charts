@@ -58,7 +58,7 @@ open class ChartDataEntryBase: NSObject
             return false
         }
         
-        if (object! as AnyObject).data !== data && !((object! as AnyObject).data??.isEqual(self.data))!
+        if (object! as AnyObject).data as AnyObject? !== data && !((object! as AnyObject).data??.isEqual(self.data))!
         {
             return false
         }
