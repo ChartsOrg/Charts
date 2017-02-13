@@ -73,7 +73,7 @@ open class ChartDataSet: ChartBaseDataSet
     /// - note: Calls `notifyDataSetChanged()` after setting a new value.
     /// - returns: The array of y-values that this DataSet represents.
     open var values: [ChartDataEntry]
-    {
+        {
         get
         {
             return _values
@@ -184,7 +184,11 @@ open class ChartDataSet: ChartBaseDataSet
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
     open override func entryForIndex(_ i: Int) -> ChartDataEntry?
     {
-        return _values[i]
+        if _values.indices.contains(i){
+            return _values[i]
+        }else{
+            return nil
+        }
     }
     
     /// - returns: The first Entry object found at the given x-value with binary search.
@@ -533,7 +537,7 @@ open class ChartDataSet: ChartBaseDataSet
     }
     
     // MARK: - Data functions and accessors
-
+    
     // MARK: - NSCopying
     
     open override func copyWithZone(_ zone: NSZone?) -> AnyObject
@@ -543,7 +547,7 @@ open class ChartDataSet: ChartBaseDataSet
         copy._values = _values
         copy._yMax = _yMax
         copy._yMin = _yMin
-
+        
         return copy
     }
 }
