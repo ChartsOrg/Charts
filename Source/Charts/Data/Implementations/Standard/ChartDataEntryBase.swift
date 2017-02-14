@@ -63,7 +63,7 @@ open class ChartDataEntryBase: NSObject
             return false
         }
         
-        if fabs((object! as AnyObject).y - y) > Double.ulpOfOne
+        if fabs((object! as AnyObject).y - y) > .ulpOfOne
         {
             return false
         }
@@ -96,7 +96,7 @@ public func ==(lhs: ChartDataEntryBase, rhs: ChartDataEntryBase) -> Bool
         return false
     }
     
-    if fabs(lhs.y - rhs.y) > Double.ulpOfOne
+    if fabs(lhs.y - rhs.y) > .ulpOfOne
     {
         return false
     }

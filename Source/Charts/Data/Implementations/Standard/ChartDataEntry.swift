@@ -100,12 +100,12 @@ public func ==(lhs: ChartDataEntry, rhs: ChartDataEntry) -> Bool
         return false
     }
     
-    if fabs(lhs.x - rhs.x) > Double.ulpOfOne
+    if fabs(lhs.x - rhs.x) > .ulpOfOne
     {
         return false
     }
     
-    if fabs(lhs.y - rhs.y) > Double.ulpOfOne
+    if fabs(lhs.y - rhs.y) > .ulpOfOne
     {
         return false
     }
