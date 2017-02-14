@@ -54,7 +54,7 @@ open class ChartDataEntry: ChartDataEntryBase
             return false
         }
         
-        if fabs((object! as AnyObject).x - x) > Double.ulpOfOne
+        if fabs((object! as AnyObject).x - x) > .ulpOfOne
         {
             return false
         }
