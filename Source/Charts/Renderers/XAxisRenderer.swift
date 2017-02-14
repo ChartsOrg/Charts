@@ -413,8 +413,6 @@ open class XAxisRenderer: AxisRendererBase
             context.addLine(to: CGPoint(x: position.x, y: viewPortHandler.contentBottom))
         }
         
-        context.addLine(to: CGPoint(x: position.x, y: viewPortHandler.contentBottom))
-        
         context.setStrokeColor(limitLine.lineColor.cgColor)
         context.setLineWidth(limitLine.lineWidth)
         if limitLine.lineDashLengths != nil
