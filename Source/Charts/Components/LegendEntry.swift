@@ -88,4 +88,6 @@ open class LegendEntry: NSObject
     
     /// The color for drawing the form
     open var formColor: NSUIColor?
+    
+    open var innerColor: NSUIColor?
 }
