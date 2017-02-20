@@ -45,7 +45,8 @@ open class BarChartDataEntry: ChartDataEntry
         super.init(x: x, y: y)
     }
     
-    /// Constructor for stacked bar entries.
+    /// This constructor is misleading, please use the `data` argument instead of `label`.
+    @available(*, deprecated: 1.0, message: "Use `data` argument instead of `label`.")
     public init(x: Double, yValues: [Double], label: String)
     {
         super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues), data: label as AnyObject?)
@@ -60,6 +61,7 @@ open class BarChartDataEntry: ChartDataEntry
         super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues), data: data)
         self._yVals = yValues
         calcPosNegSum()
+        calcRanges()
     }
     
     /// Constructor for normal bars (not stacked).
