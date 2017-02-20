@@ -108,6 +108,8 @@
     set1.axisDependency = AxisDependencyLeft;
     [set1 setColor:[UIColor colorWithWhite:80/255.f alpha:1.f]];
     
+    set1.drawIconsEnabled = NO;
+    
     set1.shadowColor = UIColor.darkGrayColor;
     set1.shadowWidth = 0.7;
     set1.decreasingColor = UIColor.redColor;

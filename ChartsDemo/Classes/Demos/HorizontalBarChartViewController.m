@@ -135,6 +135,8 @@
     {
         set1 = [[BarChartDataSet alloc] initWithValues:yVals label:@"DataSet"];
         
+        set1.drawIconsEnabled = NO;
+        
         NSMutableArray *dataSets = [[NSMutableArray alloc] init];
         [dataSets addObject:set1];
         

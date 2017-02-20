@@ -98,6 +98,9 @@
     }
     
     PieChartDataSet *dataSet = [[PieChartDataSet alloc] initWithValues:values label:@"Election Results"];
+    
+    dataSet.drawIconsEnabled = NO;
+    
     dataSet.sliceSpace = 2.0;
     dataSet.iconsOffset = CGPointMake(0, 40);
     

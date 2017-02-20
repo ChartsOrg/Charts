@@ -138,6 +138,9 @@
         customFormatter.minimumFractionDigits = 1;
         
         set = [[BarChartDataSet alloc] initWithValues:yValues label:@"Age Distribution"];
+        
+        set.drawIconsEnabled = NO;
+        
         set.valueFormatter = [[ChartDefaultValueFormatter alloc] initWithFormatter:customFormatter];
         set.valueFont = [UIFont systemFontOfSize:7.f];
         set.axisDependency = AxisDependencyRight;
