@@ -526,7 +526,7 @@ open class LineChartRenderer: LineRadarRenderer
             {
                 guard let dataSet = dataSets[i] as? ILineChartDataSet else { continue }
                 
-                if !shouldDrawValues(forDataSet: dataSet) || !(dataSet.isDrawIconsEnabled && dataSet.isVisible)
+                if !shouldDrawValues(forDataSet: dataSet)
                 {
                     continue
                 }
