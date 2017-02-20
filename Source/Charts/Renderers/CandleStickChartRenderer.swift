@@ -270,6 +270,8 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix
                 
+                let iconsOffset = dataSet.iconsOffset
+                
                 _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
                 
                 let lineHeight = valueFont.lineHeight
@@ -313,11 +315,9 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                     {
                         ChartUtils.drawImage(context: context,
                                              image: icon,
-                                             point: CGPoint(
-                                                x: pt.x,
-                                                y: pt.y),
-                                             expectedSize: icon.size,
-                                             offset: dataSet.iconsOffset)
+                                             x: pt.x + iconsOffset.x,
+                                             y: pt.y + iconsOffset.y,
+                                             size: icon.size)
                     }
                 }
             }

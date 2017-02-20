@@ -168,6 +168,8 @@ open class RadarChartRenderer: LineRadarRenderer
             
             let entryCount = dataSet.entryCount
             
+            let iconsOffset = dataSet.iconsOffset
+            
             for j in 0 ..< entryCount
             {
                 guard let e = dataSet.entryForIndex(j) else { continue }
@@ -199,18 +201,18 @@ open class RadarChartRenderer: LineRadarRenderer
                 
                 if let icon = e.icon, dataSet.isDrawIconsEnabled
                 {
-                    let pIcon = ChartUtils.getPosition(
+                    var pIcon = ChartUtils.getPosition(
                         center: center,
-                        dist: CGFloat(e.y) * factor * CGFloat(phaseY) + dataSet.iconsOffset.y,
+                        dist: CGFloat(e.y) * factor * CGFloat(phaseY) + iconsOffset.y,
                         angle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
+                    pIcon.y += iconsOffset.x
                     
                     ChartUtils.drawImage(context: context,
                                          image: icon,
-                                         point: pIcon,
-                                         expectedSize: icon.size,
-                                         offset: CGPoint(x: 0, y: dataSet.iconsOffset.x))
+                                         x: pIcon.x,
+                                         y: pIcon.y,
+                                         size: icon.size)
                 }
-
             }
         }
     }

@@ -312,6 +312,8 @@ open class PieChartRenderer: DataRenderer
                 continue
             }
             
+            let iconsOffset = dataSet.iconsOffset
+            
             let xValuePosition = dataSet.xValuePosition
             let yValuePosition = dataSet.yValuePosition
             
@@ -532,14 +534,15 @@ open class PieChartRenderer: DataRenderer
                 {
                     // calculate the icon's position
                     
-                    let x = (labelRadius + dataSet.iconsOffset.y) * sliceXBase + center.x
-                    let y = (labelRadius + dataSet.iconsOffset.y) * sliceYBase + center.y
+                    let x = (labelRadius + iconsOffset.y) * sliceXBase + center.x
+                    var y = (labelRadius + iconsOffset.y) * sliceYBase + center.y
+                    y += iconsOffset.x
                     
                     ChartUtils.drawImage(context: context,
                                          image: icon,
-                                         point: CGPoint(x: x, y: y),
-                                         expectedSize: icon.size,
-                                         offset: CGPoint(x: 0, y: dataSet.iconsOffset.x))
+                                         x: x,
+                                         y: y,
+                                         size: icon.size)
                 }
 
                 xIndex += 1

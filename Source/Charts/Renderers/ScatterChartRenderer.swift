@@ -136,6 +136,8 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix
                 
+                let iconsOffset = dataSet.iconsOffset
+                
                 let shapeSize = dataSet.scatterShapeSize
                 let lineHeight = valueFont.lineHeight
                 
@@ -184,9 +186,9 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                     {
                         ChartUtils.drawImage(context: context,
                                              image: icon,
-                                             point: pt,
-                                             expectedSize: icon.size,
-                                             offset: dataSet.iconsOffset)
+                                             x: pt.x + iconsOffset.x,
+                                             y: pt.y + iconsOffset.y,
+                                             size: icon.size)
                     }
                 }
             }

@@ -538,6 +538,8 @@ open class LineChartRenderer: LineRadarRenderer
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix
                 
+                let iconsOffset = dataSet.iconsOffset
+                
                 // make sure the values do not interfear with the circles
                 var valOffset = Int(dataSet.circleRadius * 1.75)
                 
@@ -585,11 +587,9 @@ open class LineChartRenderer: LineRadarRenderer
                     {
                         ChartUtils.drawImage(context: context,
                                              image: icon,
-                                             point: CGPoint(
-                                                x: pt.x,
-                                                y: pt.y),
-                                             expectedSize: icon.size,
-                                             offset: dataSet.iconsOffset)
+                                             x: pt.x + iconsOffset.x,
+                                             y: pt.y + iconsOffset.y,
+                                             size: icon.size)
                     }
                 }
             }

@@ -80,28 +80,31 @@ open class ChartUtils
         )
     }
     
-    open class func drawImage(context: CGContext, image: NSUIImage, point: CGPoint, expectedSize: CGSize, offset: CGPoint)
+    open class func drawImage(
+        context: CGContext,
+        image: NSUIImage,
+        x: CGFloat,
+        y: CGFloat,
+        size: CGSize)
     {
         var drawOffset = CGPoint()
-        drawOffset.x += point.x + offset.x
-        drawOffset.x -= expectedSize.width / 2
-        drawOffset.y += point.y + offset.y
-        drawOffset.y -= expectedSize.height / 2
+        drawOffset.x = x - (size.width / 2)
+        drawOffset.y = y - (size.height / 2)
         
         NSUIGraphicsPushContext(context)
         
-        if image.size.width != expectedSize.width && image.size.height != expectedSize.height
+        if image.size.width != size.width && image.size.height != size.height
         {
-            let key = "resized_\(expectedSize.width)_\(expectedSize.height)"
-         
+            let key = "resized_\(size.width)_\(size.height)"
+            
             // Try to take scaled image from cache of this image
             var scaledImage = objc_getAssociatedObject(image, key) as? NSUIImage
             if scaledImage == nil
             {
                 // Scale the image
-                NSUIGraphicsBeginImageContextWithOptions(expectedSize, false, 0.0)
+                NSUIGraphicsBeginImageContextWithOptions(size, false, 0.0)
                 
-                image.draw(in: CGRect(origin: CGPoint(x: 0, y: 0), size: expectedSize))
+                image.draw(in: CGRect(origin: CGPoint(x: 0, y: 0), size: size))
                 
                 scaledImage = NSUIGraphicsGetImageFromCurrentImageContext()
                 NSUIGraphicsEndImageContext()
@@ -110,11 +113,11 @@ open class ChartUtils
                 objc_setAssociatedObject(image, key, scaledImage, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
             
-            scaledImage?.draw(in: CGRect(origin: drawOffset, size: expectedSize))
+            scaledImage?.draw(in: CGRect(origin: drawOffset, size: size))
         }
         else
         {
-            image.draw(in: CGRect(origin: drawOffset, size: expectedSize))
+            image.draw(in: CGRect(origin: drawOffset, size: size))
         }
         
         NSUIGraphicsPopContext()

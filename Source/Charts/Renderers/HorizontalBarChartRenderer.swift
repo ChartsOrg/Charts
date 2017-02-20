@@ -343,6 +343,8 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 
                 let phaseY = animator.phaseY
                 
+                let iconsOffset = dataSet.iconsOffset
+                
                 let buffer = _buffers[dataSetIndex]
                 
                 // if only single values are drawn (sum)
@@ -402,14 +404,21 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                 color: dataSet.valueTextColorAt(j))
                         }
                         
-                        if dataSet.isDrawIconsEnabled && e.icon != nil
+                        if let icon = e.icon, dataSet.isDrawIconsEnabled
                         {
-                            drawIcon(context: context,
-                                     icon: e.icon,
-                                     xPos: (rect.origin.x + rect.size.width)
-                                        + (val >= 0.0 ? posOffset : negOffset),
-                                     yPos: y,
-                                     offset: dataSet.iconsOffset)
+                            var px = (rect.origin.x + rect.size.width)
+                                + (val >= 0.0 ? posOffset : negOffset)
+                            var py = y
+                            
+                            px += iconsOffset.x
+                            py += iconsOffset.y
+                            
+                            ChartUtils.drawImage(
+                                context: context,
+                                image: icon,
+                                x: px,
+                                y: py,
+                                size: icon.size)
                         }
                     }
                 }
@@ -476,14 +485,21 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                     color: dataSet.valueTextColorAt(index))
                             }
                             
-                            if dataSet.isDrawIconsEnabled && e.icon != nil
+                            if let icon = e.icon, dataSet.isDrawIconsEnabled
                             {
-                                drawIcon(context: context,
-                                         icon: e.icon,
-                                         xPos: (rect.origin.x + rect.size.width)
-                                            + (val >= 0.0 ? posOffset : negOffset),
-                                         yPos: rect.origin.y,
-                                         offset: dataSet.iconsOffset)
+                                var px = (rect.origin.x + rect.size.width)
+                                    + (val >= 0.0 ? posOffset : negOffset)
+                                var py = rect.origin.y
+                                
+                                px += iconsOffset.x
+                                py += iconsOffset.y
+                                
+                                ChartUtils.drawImage(
+                                    context: context,
+                                    image: icon,
+                                    x: px,
+                                    y: py,
+                                    size: icon.size)
                             }
                         }
                         else
@@ -571,13 +587,14 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                         color: dataSet.valueTextColorAt(index))
                                 }
                                 
-                                if dataSet.isDrawIconsEnabled && e.icon != nil
+                                if let icon = e.icon, dataSet.isDrawIconsEnabled
                                 {
-                                    drawIcon(context: context,
-                                             icon: e.icon,
-                                             xPos: x,
-                                             yPos: y,
-                                             offset: dataSet.iconsOffset)
+                                    ChartUtils.drawImage(
+                                        context: context,
+                                        image: icon,
+                                        x: x + iconsOffset.x,
+                                        y: y + iconsOffset.y,
+                                        size: icon.size)
                                 }
                             }
                         }

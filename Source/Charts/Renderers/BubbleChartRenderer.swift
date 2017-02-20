@@ -172,6 +172,8 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix
                 
+                let iconsOffset = dataSet.iconsOffset
+                
                 for j in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
                 {
                     guard let e = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { break }
@@ -218,11 +220,9 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
                     {
                          ChartUtils.drawImage(context: context,
                                               image: icon,
-                                              point: CGPoint(
-                                                x: pt.x,
-                                                y: pt.y),
-                                              expectedSize: icon.size,
-                                              offset: dataSet.iconsOffset)
+                                              x: pt.x + iconsOffset.x,
+                                              y: pt.y + iconsOffset.y,
+                                              size: icon.size)
                     }
                     
                 }
