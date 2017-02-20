@@ -24,7 +24,7 @@ class BarChartTests: FBSnapshotTestCase
         
         for (i, value) in values.enumerated()
         {
-            entries.append(BarChartDataEntry(x: Double(i), y: value, data: UIImage(named: "icon", in: Bundle(for: self.classForCoder), compatibleWith: nil)))
+            entries.append(BarChartDataEntry(x: Double(i), y: value, icon: UIImage(named: "icon", in: Bundle(for: self.classForCoder), compatibleWith: nil)))
         }
         
         dataSet = BarChartDataSet(values: entries, label: "Bar chart unit test data")
