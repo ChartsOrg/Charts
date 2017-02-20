@@ -120,7 +120,7 @@
     {
         double mult = (range + 1);
         double val = (double) (arc4random_uniform(mult));
-        [yVals addObject:[[BarChartDataEntry alloc] initWithX:i * spaceForBar y:val data: [UIImage imageNamed:@"icon"]]];
+        [yVals addObject:[[BarChartDataEntry alloc] initWithX:i * spaceForBar y:val icon: [UIImage imageNamed:@"icon"]]];
     }
     
     BarChartDataSet *set1 = nil;

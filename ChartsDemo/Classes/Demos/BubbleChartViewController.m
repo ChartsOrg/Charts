@@ -104,11 +104,11 @@
     {
         double val = (double) (arc4random_uniform(range));
         double size = (double) (arc4random_uniform(range));
-        [yVals1 addObject:[[BubbleChartDataEntry alloc] initWithX:i y:val size:size data: [UIImage imageNamed:@"icon"]]];
+        [yVals1 addObject:[[BubbleChartDataEntry alloc] initWithX:i y:val size:size icon: [UIImage imageNamed:@"icon"]]];
         
         val = (double) (arc4random_uniform(range));
         size = (double) (arc4random_uniform(range));
-        [yVals2 addObject:[[BubbleChartDataEntry alloc] initWithX:i y:val size:size data: [UIImage imageNamed:@"icon"]]];
+        [yVals2 addObject:[[BubbleChartDataEntry alloc] initWithX:i y:val size:size icon: [UIImage imageNamed:@"icon"]]];
         
         val = (double) (arc4random_uniform(range));
         size = (double) (arc4random_uniform(range));

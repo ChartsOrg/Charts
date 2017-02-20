@@ -101,7 +101,7 @@
         double open = (double) (arc4random_uniform(6)) + 1.0;
         double close = (double) (arc4random_uniform(6)) + 1.0;
         BOOL even = i % 2 == 0;
-        [yVals1 addObject:[[CandleChartDataEntry alloc] initWithX:i shadowH:val + high shadowL:val - low open:even ? val + open : val - open close:even ? val - close : val + close data: [UIImage imageNamed:@"icon"]]];
+        [yVals1 addObject:[[CandleChartDataEntry alloc] initWithX:i shadowH:val + high shadowL:val - low open:even ? val + open : val - open close:even ? val - close : val + close icon: [UIImage imageNamed:@"icon"]]];
     }
         
     CandleChartDataSet *set1 = [[CandleChartDataSet alloc] initWithValues:yVals1 label:@"Data Set"];

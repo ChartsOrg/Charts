@@ -112,7 +112,7 @@
     [yValues addObject:[[BarChartDataEntry alloc] initWithX:15 yValues:@[ @-12, @13 ]]];
     [yValues addObject:[[BarChartDataEntry alloc] initWithX:25 yValues:@[ @-15, @15 ]]];
     [yValues addObject:[[BarChartDataEntry alloc] initWithX:35 yValues:@[ @-17, @17 ]]];
-    [yValues addObject:[[BarChartDataEntry alloc] initWithX:45 yValues:@[ @-19, @20 ] data: [UIImage imageNamed:@"icon"]]];
+    [yValues addObject:[[BarChartDataEntry alloc] initWithX:45 yValues:@[ @-19, @20 ] icon: [UIImage imageNamed:@"icon"]]];
     [yValues addObject:[[BarChartDataEntry alloc] initWithX:55 yValues:@[ @-19, @19 ]]];
     [yValues addObject:[[BarChartDataEntry alloc] initWithX:65 yValues:@[ @-16, @16 ]]];
     [yValues addObject:[[BarChartDataEntry alloc] initWithX:75 yValues:@[ @-13, @14 ]]];

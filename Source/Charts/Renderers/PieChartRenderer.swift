@@ -528,7 +528,7 @@ open class PieChartRenderer: DataRenderer
                     }
                 }
                 
-                if let icon = e.data as? NSUIImage, dataSet.isDrawIconsEnabled
+                if let icon = e.icon, dataSet.isDrawIconsEnabled
                 {
                     // calculate the icon's position
                     

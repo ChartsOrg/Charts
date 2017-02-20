@@ -581,7 +581,7 @@ open class LineChartRenderer: LineRadarRenderer
                             attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)])
                     }
                     
-                    if let icon = e.data as? NSUIImage, dataSet.isDrawIconsEnabled
+                    if let icon = e.icon, dataSet.isDrawIconsEnabled
                     {
                         ChartUtils.drawImage(context: context,
                                              image: icon,

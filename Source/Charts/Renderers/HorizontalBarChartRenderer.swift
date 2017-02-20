@@ -402,10 +402,10 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                 color: dataSet.valueTextColorAt(j))
                         }
                         
-                        if dataSet.isDrawIconsEnabled
+                        if dataSet.isDrawIconsEnabled && e.icon != nil
                         {
                             drawIcon(context: context,
-                                     icon: e.data as? NSUIImage,
+                                     icon: e.icon,
                                      xPos: (rect.origin.x + rect.size.width)
                                         + (val >= 0.0 ? posOffset : negOffset),
                                      yPos: y,
@@ -476,10 +476,10 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                     color: dataSet.valueTextColorAt(index))
                             }
                             
-                            if dataSet.isDrawIconsEnabled
+                            if dataSet.isDrawIconsEnabled && e.icon != nil
                             {
                                 drawIcon(context: context,
-                                         icon: e.data as? NSUIImage,
+                                         icon: e.icon,
                                          xPos: (rect.origin.x + rect.size.width)
                                             + (val >= 0.0 ? posOffset : negOffset),
                                          yPos: rect.origin.y,
@@ -571,10 +571,10 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                         color: dataSet.valueTextColorAt(index))
                                 }
                                 
-                                if dataSet.isDrawIconsEnabled
+                                if dataSet.isDrawIconsEnabled && e.icon != nil
                                 {
                                     drawIcon(context: context,
-                                             icon: e.data as? NSUIImage,
+                                             icon: e.icon,
                                              xPos: x,
                                              yPos: y,
                                              offset: dataSet.iconsOffset)

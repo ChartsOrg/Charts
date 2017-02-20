@@ -197,7 +197,7 @@ open class RadarChartRenderer: LineRadarRenderer
                     )
                 }
                 
-                if let icon = e.data as? NSUIImage, dataSet.isDrawIconsEnabled
+                if let icon = e.icon, dataSet.isDrawIconsEnabled
                 {
                     let pIcon = ChartUtils.getPosition(
                         center: center,

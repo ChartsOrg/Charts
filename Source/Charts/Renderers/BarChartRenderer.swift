@@ -442,10 +442,10 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                 color: dataSet.valueTextColorAt(j))
                         }
                         
-                        if dataSet.isDrawIconsEnabled
+                        if dataSet.isDrawIconsEnabled && e.icon != nil
                         {
                             drawIcon(context: context,
-                                 icon: e.data as? NSUIImage,
+                                 icon: e.icon,
                                  xPos: x,
                                  yPos: val >= 0.0
                                     ? (rect.origin.y + posOffset)
@@ -501,10 +501,10 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                     color: dataSet.valueTextColorAt(index))
                             }
                             
-                            if dataSet.isDrawIconsEnabled
+                            if dataSet.isDrawIconsEnabled && e.icon != nil
                             {
                                 drawIcon(context: context,
-                                         icon: e.data as? NSUIImage,
+                                         icon: e.icon,
                                          xPos: x,
                                          yPos: rect.origin.y +
                                             (e.y >= 0 ? posOffset : negOffset),
@@ -579,10 +579,10 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                         color: dataSet.valueTextColorAt(index))
                                 }
                                 
-                                if dataSet.isDrawIconsEnabled
+                                if dataSet.isDrawIconsEnabled && e.icon != nil
                                 {
                                     drawIcon(context: context,
-                                             icon: e.data as? NSUIImage,
+                                             icon: e.icon,
                                              xPos: x,
                                              yPos: y,
                                              offset: dataSet.iconsOffset)
