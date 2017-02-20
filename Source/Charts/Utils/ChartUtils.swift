@@ -80,12 +80,12 @@ open class ChartUtils
         )
     }
     
-    open class func drawImage(context: CGContext, image: NSUIImage, point: CGPoint, expectedSize: CGSize, offset: CGSize)
+    open class func drawImage(context: CGContext, image: NSUIImage, point: CGPoint, expectedSize: CGSize, offset: CGPoint)
     {
         var drawOffset = CGPoint()
-        drawOffset.x += point.x + offset.width
+        drawOffset.x += point.x + offset.x
         drawOffset.x -= expectedSize.width / 2
-        drawOffset.y += point.y + offset.height
+        drawOffset.y += point.y + offset.y
         drawOffset.y -= expectedSize.height / 2
         
         NSUIGraphicsPushContext(context)

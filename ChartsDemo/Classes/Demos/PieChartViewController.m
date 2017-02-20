@@ -99,7 +99,7 @@
     
     PieChartDataSet *dataSet = [[PieChartDataSet alloc] initWithValues:values label:@"Election Results"];
     dataSet.sliceSpace = 2.0;
-    dataSet.iconsOffset = CGSizeMake(0, 40);
+    dataSet.iconsOffset = CGPointMake(0, 40);
     
     // add a lot of colors
     

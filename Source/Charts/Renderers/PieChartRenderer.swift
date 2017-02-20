@@ -532,14 +532,14 @@ open class PieChartRenderer: DataRenderer
                 {
                     // calculate the icon's position
                     
-                    let x = (labelRadius + dataSet.iconsOffset.height) * sliceXBase + center.x
-                    let y = (labelRadius + dataSet.iconsOffset.height) * sliceYBase + center.y
+                    let x = (labelRadius + dataSet.iconsOffset.y) * sliceXBase + center.x
+                    let y = (labelRadius + dataSet.iconsOffset.y) * sliceYBase + center.y
                     
                     ChartUtils.drawImage(context: context,
                                          image: icon,
-                                         point: CGPoint(x:x, y:y),
+                                         point: CGPoint(x: x, y: y),
                                          expectedSize: icon.size,
-                                         offset: CGSize(width: 0, height: dataSet.iconsOffset.width))
+                                         offset: CGPoint(x: 0, y: dataSet.iconsOffset.x))
                 }
 
                 xIndex += 1

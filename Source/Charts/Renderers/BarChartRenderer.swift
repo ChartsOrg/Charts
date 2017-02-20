@@ -604,7 +604,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     }
     
     /// Draws an icon at the specified x and y position.
-    open func drawIcon(context: CGContext, icon: NSUIImage?, xPos: CGFloat, yPos: CGFloat, offset: CGSize)
+    open func drawIcon(context: CGContext, icon: NSUIImage?, xPos: CGFloat, yPos: CGFloat, offset: CGPoint)
     {
         let point = CGPoint(x: xPos, y: yPos)
         if let iconImage = icon

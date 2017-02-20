@@ -29,7 +29,7 @@ class LineChartTests: FBSnapshotTestCase
         
         dataSet = LineChartDataSet(values: entries, label: "First unit test data")
         dataSet.drawIconsEnabled = false
-        dataSet.iconsOffset = CGSize(width: 0, height: 20.0)
+        dataSet.iconsOffset = CGPoint(x: 0, y: 20.0)
 
         chart = LineChartView(frame: CGRect(x: 0, y: 0, width: 480, height: 350))
         chart.backgroundColor = NSUIColor.clear
