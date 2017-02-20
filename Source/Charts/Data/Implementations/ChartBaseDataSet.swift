@@ -352,7 +352,9 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
     open var formLineDashLengths: [CGFloat]? = nil
     
-    /// Set this to true to draw y-values on the chart
+    /// Set this to true to draw y-values on the chart.
+    ///
+    /// - note: For bar and line charts: if `maxVisibleCount` is reached, no values will be drawn even if this is enabled.
     open var drawValuesEnabled = true
     
     /// - returns: `true` if y-value drawing is enabled, `false` ifnot
@@ -361,7 +363,9 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
         return drawValuesEnabled
     }
 
-    /// Set this to true to draw y-icon on the chart
+    /// Set this to true to draw y-icons on the chart.
+    ///
+    /// - note: For bar and line charts: if `maxVisibleCount` is reached, no icons will be drawn even if this is enabled.
     open var drawIconsEnabled = true
     
     /// Returns true if y-icon drawing is enabled, false if not

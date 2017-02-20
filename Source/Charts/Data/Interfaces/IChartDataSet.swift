@@ -229,13 +229,17 @@ public protocol IChartDataSet
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
     var formLineDashLengths: [CGFloat]? { get }
     
-    /// Set this to true to draw y-values on the chart
+    /// Set this to true to draw y-values on the chart.
+    ///
+    /// - note: For bar and line charts: if `maxVisibleCount` is reached, no values will be drawn even if this is enabled.
     var drawValuesEnabled: Bool { get set }
     
     /// - returns: `true` if y-value drawing is enabled, `false` ifnot
     var isDrawValuesEnabled: Bool { get }
     
-    /// Set this to true to draw y-icon on the chart
+    /// Set this to true to draw y-icons on the chart
+    ///
+    /// - note: For bar and line charts: if `maxVisibleCount` is reached, no icons will be drawn even if this is enabled.
     var drawIconsEnabled: Bool { get set }
     
     /// Returns true if y-icon drawing is enabled, false if not
