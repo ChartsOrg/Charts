@@ -16,7 +16,7 @@ before_install:
 - brew update
 - brew upgrade carthage || true
 - carthage version
-- carthage bootstrap --platform $PLATFORM
+- travis_wait carthage bootstrap --platform $PLATFORM
 script:
 - bundle exec rake ci[$PLATFORM]
 after_success:
