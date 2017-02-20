@@ -424,7 +424,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                         
                         let val = e.y
                         
-                        if dataSet.isDrawValuesEnabled {
+                        if dataSet.isDrawValuesEnabled
+                        {
                             drawValue(
                                 context: context,
                                 value: formatter.stringForValue(
@@ -441,7 +442,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                 color: dataSet.valueTextColorAt(j))
                         }
                         
-                        if dataSet.isDrawIconsEnabled {
+                        if dataSet.isDrawIconsEnabled
+                        {
                             drawIcon(context: context,
                                  icon: e.data as? NSUIImage,
                                  xPos: x,
@@ -482,7 +484,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                 continue
                             }
                             
-                            if dataSet.isDrawValuesEnabled {
+                            if dataSet.isDrawValuesEnabled
+                            {
                                 drawValue(
                                     context: context,
                                     value: formatter.stringForValue(
@@ -498,7 +501,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                     color: dataSet.valueTextColorAt(index))
                             }
                             
-                            if dataSet.isDrawIconsEnabled {
+                            if dataSet.isDrawIconsEnabled
+                            {
                                 drawIcon(context: context,
                                          icon: e.data as? NSUIImage,
                                          xPos: x,
@@ -559,7 +563,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                     continue
                                 }
                                 
-                                if dataSet.isDrawValuesEnabled {
+                                if dataSet.isDrawValuesEnabled
+                                {
                                     drawValue(
                                         context: context,
                                         value: formatter.stringForValue(
@@ -574,7 +579,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                         color: dataSet.valueTextColorAt(index))
                                 }
                                 
-                                if dataSet.isDrawIconsEnabled {
+                                if dataSet.isDrawIconsEnabled
+                                {
                                     drawIcon(context: context,
                                              icon: e.data as? NSUIImage,
                                              xPos: x,
@@ -597,11 +603,12 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         ChartUtils.drawText(context: context, text: value, point: CGPoint(x: xPos, y: yPos), align: align, attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: color])
     }
     
-    /// Draws a value at the specified x and y position.
+    /// Draws an icon at the specified x and y position.
     open func drawIcon(context: CGContext, icon: NSUIImage?, xPos: CGFloat, yPos: CGFloat, offset: CGSize)
     {
         let point = CGPoint(x: xPos, y: yPos)
-        if let iconImage = icon {
+        if let iconImage = icon
+        {
             ChartUtils.drawImage(context: context, image: iconImage, point: point, expectedSize: iconImage.size, offset: offset)
         }
     }

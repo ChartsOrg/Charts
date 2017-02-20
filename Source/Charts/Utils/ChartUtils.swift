@@ -90,14 +90,19 @@ open class ChartUtils
         
         NSUIGraphicsPushContext(context)
         
-        if image.size.width != expectedSize.width && image.size.height != expectedSize.height {
+        if image.size.width != expectedSize.width && image.size.height != expectedSize.height
+        {
             NSUIGraphicsBeginImageContextWithOptions(expectedSize, false, 0.0)
+            
             image.draw(in: CGRect(origin: CGPoint(x: 0, y: 0), size: expectedSize))
+            
             let scaledImage = NSUIGraphicsGetImageFromCurrentImageContext()
             NSUIGraphicsEndImageContext()
+            
             scaledImage?.draw(in: CGRect(origin: drawOffset, size: expectedSize))
         }
-        else {
+        else
+        {
             image.draw(in: CGRect(origin: drawOffset, size: expectedSize))
         }
         

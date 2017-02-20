@@ -389,7 +389,8 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                             negOffset = -negOffset - valueTextWidth
                         }
                         
-                        if dataSet.isDrawValuesEnabled {
+                        if dataSet.isDrawValuesEnabled
+                        {
                             drawValue(
                                 context: context,
                                 value: valueText,
@@ -401,7 +402,8 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                 color: dataSet.valueTextColorAt(j))
                         }
                         
-                        if dataSet.isDrawIconsEnabled {
+                        if dataSet.isDrawIconsEnabled
+                        {
                             drawIcon(context: context,
                                      icon: e.data as? NSUIImage,
                                      xPos: (rect.origin.x + rect.size.width)
@@ -461,7 +463,8 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                 negOffset = -negOffset - valueTextWidth
                             }
                             
-                            if dataSet.isDrawValuesEnabled {
+                            if dataSet.isDrawValuesEnabled
+                            {
                                 drawValue(
                                     context: context,
                                     value: valueText,
@@ -473,7 +476,8 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                     color: dataSet.valueTextColorAt(index))
                             }
                             
-                            if dataSet.isDrawIconsEnabled {
+                            if dataSet.isDrawIconsEnabled
+                            {
                                 drawIcon(context: context,
                                          icon: e.data as? NSUIImage,
                                          xPos: (rect.origin.x + rect.size.width)
@@ -556,7 +560,8 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                     continue
                                 }
                                 
-                                if dataSet.isDrawValuesEnabled {
+                                if dataSet.isDrawValuesEnabled
+                                {
                                     drawValue(context: context,
                                         value: valueText,
                                         xPos: x,
@@ -566,7 +571,8 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                         color: dataSet.valueTextColorAt(index))
                                 }
                                 
-                                if dataSet.isDrawIconsEnabled {
+                                if dataSet.isDrawIconsEnabled
+                                {
                                     drawIcon(context: context,
                                              icon: e.data as? NSUIImage,
                                              xPos: x,

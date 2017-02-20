@@ -528,8 +528,10 @@ open class PieChartRenderer: DataRenderer
                     }
                 }
                 
-                if let icon = e.data as? NSUIImage, dataSet.isDrawIconsEnabled {
-                    // calculate the text position
+                if let icon = e.data as? NSUIImage, dataSet.isDrawIconsEnabled
+                {
+                    // calculate the icon's position
+                    
                     let x = (labelRadius + dataSet.iconsOffset.height) * sliceXBase + center.x
                     let y = (labelRadius + dataSet.iconsOffset.height) * sliceYBase + center.y
                     

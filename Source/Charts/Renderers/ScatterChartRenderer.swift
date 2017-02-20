@@ -167,7 +167,8 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                         dataSetIndex: i,
                         viewPortHandler: viewPortHandler)
                     
-                    if dataSet.isDrawValuesEnabled {
+                    if dataSet.isDrawValuesEnabled
+                    {
                         ChartUtils.drawText(
                             context: context,
                             text: text,
@@ -179,7 +180,8 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                         )
                     }
                     
-                    if let icon = e.data as? NSUIImage, dataSet.isDrawIconsEnabled {
+                    if let icon = e.data as? NSUIImage, dataSet.isDrawIconsEnabled
+                    {
                         ChartUtils.drawImage(context: context,
                                              image: icon,
                                              point: pt,

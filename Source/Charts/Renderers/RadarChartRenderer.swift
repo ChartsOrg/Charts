@@ -181,7 +181,8 @@ open class RadarChartRenderer: LineRadarRenderer
                 
                 guard let formatter = dataSet.valueFormatter else { continue }
                 
-                if dataSet.isDrawValuesEnabled {
+                if dataSet.isDrawValuesEnabled
+                {
                     ChartUtils.drawText(
                         context: context,
                         text: formatter.stringForValue(
@@ -196,7 +197,8 @@ open class RadarChartRenderer: LineRadarRenderer
                     )
                 }
                 
-                if let icon = e.data as? NSUIImage, dataSet.isDrawIconsEnabled {
+                if let icon = e.data as? NSUIImage, dataSet.isDrawIconsEnabled
+                {
                     let pIcon = ChartUtils.getPosition(
                         center: center,
                         dist: CGFloat(e.y) * factor * CGFloat(phaseY) + dataSet.iconsOffset.height,
