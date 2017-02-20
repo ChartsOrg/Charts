@@ -54,6 +54,14 @@ open class BarChartDataEntry: ChartDataEntry
         calcRanges()
     }
     
+    /// Constructor for stacked bar entries. One data object for whole stack
+    public init(x: Double, yValues: [Double], data: AnyObject?)
+    {
+        super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues), data: data)
+        self._yVals = yValues
+        calcPosNegSum()
+    }
+    
     /// Constructor for normal bars (not stacked).
     public override init(x: Double, y: Double, data: AnyObject?)
     {

@@ -202,14 +202,27 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
                     let valueFont = dataSet.valueFont
                     let lineHeight = valueFont.lineHeight
 
-                    ChartUtils.drawText(
-                        context: context,
-                        text: text,
-                        point: CGPoint(
-                            x: pt.x,
-                            y: pt.y - (0.5 * lineHeight)),
-                        align: .center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
+                    if dataSet.isDrawValuesEnabled {
+                        ChartUtils.drawText(
+                            context: context,
+                            text: text,
+                            point: CGPoint(
+                                x: pt.x,
+                                y: pt.y - (0.5 * lineHeight)),
+                            align: .center,
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
+                    }
+                    
+                    if let icon = e.data as? NSUIImage, dataSet.isDrawIconsEnabled {
+                         ChartUtils.drawImage(context: context,
+                                              image: icon,
+                                              point: CGPoint(
+                                                x: pt.x,
+                                                y: pt.y),
+                                              expectedSize: icon.size,
+                                              offset: dataSet.iconsOffset)
+                    }
+                    
                 }
             }
         }

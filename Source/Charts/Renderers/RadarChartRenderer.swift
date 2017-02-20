@@ -181,18 +181,34 @@ open class RadarChartRenderer: LineRadarRenderer
                 
                 guard let formatter = dataSet.valueFormatter else { continue }
                 
-                ChartUtils.drawText(
-                    context: context,
-                    text: formatter.stringForValue(
-                        e.y,
-                        entry: e,
-                        dataSetIndex: i,
-                        viewPortHandler: viewPortHandler),
-                    point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
-                    align: .center,
-                    attributes: [NSFontAttributeName: valueFont,
-                        NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
-                )
+                if dataSet.isDrawValuesEnabled {
+                    ChartUtils.drawText(
+                        context: context,
+                        text: formatter.stringForValue(
+                            e.y,
+                            entry: e,
+                            dataSetIndex: i,
+                            viewPortHandler: viewPortHandler),
+                        point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
+                        align: .center,
+                        attributes: [NSFontAttributeName: valueFont,
+                            NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                    )
+                }
+                
+                if let icon = e.data as? NSUIImage, dataSet.isDrawIconsEnabled {
+                    let pIcon = ChartUtils.getPosition(
+                        center: center,
+                        dist: CGFloat(e.y) * factor * CGFloat(phaseY) + dataSet.iconsOffset.height,
+                        angle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
+                    
+                    ChartUtils.drawImage(context: context,
+                                         image: icon,
+                                         point: pIcon,
+                                         expectedSize: icon.size,
+                                         offset: CGSize(width: 0, height: dataSet.iconsOffset.width))
+                }
+
             }
         }
     }

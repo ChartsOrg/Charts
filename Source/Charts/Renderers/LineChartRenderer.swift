@@ -526,7 +526,7 @@ open class LineChartRenderer: LineRadarRenderer
             {
                 guard let dataSet = dataSets[i] as? ILineChartDataSet else { continue }
                 
-                if !shouldDrawValues(forDataSet: dataSet)
+                if !shouldDrawValues(forDataSet: dataSet) || !(dataSet.isDrawIconsEnabled && dataSet.isVisible)
                 {
                     continue
                 }
@@ -566,18 +566,30 @@ open class LineChartRenderer: LineRadarRenderer
                         continue
                     }
                     
-                    ChartUtils.drawText(
-                        context: context,
-                        text: formatter.stringForValue(
-                            e.y,
-                            entry: e,
-                            dataSetIndex: i,
-                            viewPortHandler: viewPortHandler),
-                        point: CGPoint(
-                            x: pt.x,
-                            y: pt.y - CGFloat(valOffset) - valueFont.lineHeight),
-                        align: .center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)])
+                    if dataSet.isDrawValuesEnabled {
+                        ChartUtils.drawText(
+                            context: context,
+                            text: formatter.stringForValue(
+                                e.y,
+                                entry: e,
+                                dataSetIndex: i,
+                                viewPortHandler: viewPortHandler),
+                            point: CGPoint(
+                                x: pt.x,
+                                y: pt.y - CGFloat(valOffset) - valueFont.lineHeight),
+                            align: .center,
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)])
+                    }
+                    
+                    if let icon = e.data as? NSUIImage, dataSet.isDrawIconsEnabled {
+                        ChartUtils.drawImage(context: context,
+                                             image: icon,
+                                             point: CGPoint(
+                                                x: pt.x,
+                                                y: pt.y),
+                                             expectedSize: icon.size,
+                                             offset: dataSet.iconsOffset)
+                    }
                 }
             }
         }

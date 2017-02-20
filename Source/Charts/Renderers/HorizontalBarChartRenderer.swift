@@ -327,7 +327,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             {
                 guard let dataSet = dataSets[dataSetIndex] as? IBarChartDataSet else { continue }
                 
-                if !shouldDrawValues(forDataSet: dataSet)
+                if !shouldDrawValues(forDataSet: dataSet) || !(dataSet.isDrawIconsEnabled && dataSet.isVisible)
                 {
                     continue
                 }
@@ -389,15 +389,26 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                             negOffset = -negOffset - valueTextWidth
                         }
                         
-                        drawValue(
-                            context: context,
-                            value: valueText,
-                            xPos: (rect.origin.x + rect.size.width)
-                                + (val >= 0.0 ? posOffset : negOffset),
-                            yPos: y + yOffset,
-                            font: valueFont,
-                            align: textAlign,
-                            color: dataSet.valueTextColorAt(j))
+                        if dataSet.isDrawValuesEnabled {
+                            drawValue(
+                                context: context,
+                                value: valueText,
+                                xPos: (rect.origin.x + rect.size.width)
+                                    + (val >= 0.0 ? posOffset : negOffset),
+                                yPos: y + yOffset,
+                                font: valueFont,
+                                align: textAlign,
+                                color: dataSet.valueTextColorAt(j))
+                        }
+                        
+                        if dataSet.isDrawIconsEnabled {
+                            drawIcon(context: context,
+                                     icon: e.data as? NSUIImage,
+                                     xPos: (rect.origin.x + rect.size.width)
+                                        + (val >= 0.0 ? posOffset : negOffset),
+                                     yPos: y,
+                                     offset: dataSet.iconsOffset)
+                        }
                     }
                 }
                 else
@@ -450,15 +461,26 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                 negOffset = -negOffset - valueTextWidth
                             }
                             
-                            drawValue(
-                                context: context,
-                                value: valueText,
-                                xPos: (rect.origin.x + rect.size.width)
-                                    + (val >= 0.0 ? posOffset : negOffset),
-                                yPos: rect.origin.y + yOffset,
-                                font: valueFont,
-                                align: textAlign,
-                                color: dataSet.valueTextColorAt(index))
+                            if dataSet.isDrawValuesEnabled {
+                                drawValue(
+                                    context: context,
+                                    value: valueText,
+                                    xPos: (rect.origin.x + rect.size.width)
+                                        + (val >= 0.0 ? posOffset : negOffset),
+                                    yPos: rect.origin.y + yOffset,
+                                    font: valueFont,
+                                    align: textAlign,
+                                    color: dataSet.valueTextColorAt(index))
+                            }
+                            
+                            if dataSet.isDrawIconsEnabled {
+                                drawIcon(context: context,
+                                         icon: e.data as? NSUIImage,
+                                         xPos: (rect.origin.x + rect.size.width)
+                                            + (val >= 0.0 ? posOffset : negOffset),
+                                         yPos: rect.origin.y,
+                                         offset: dataSet.iconsOffset)
+                            }
                         }
                         else
                         {
@@ -534,13 +556,23 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                     continue
                                 }
                                 
-                                drawValue(context: context,
-                                    value: valueText,
-                                    xPos: x,
-                                    yPos: y + yOffset,
-                                    font: valueFont,
-                                    align: textAlign,
-                                    color: dataSet.valueTextColorAt(index))
+                                if dataSet.isDrawValuesEnabled {
+                                    drawValue(context: context,
+                                        value: valueText,
+                                        xPos: x,
+                                        yPos: y + yOffset,
+                                        font: valueFont,
+                                        align: textAlign,
+                                        color: dataSet.valueTextColorAt(index))
+                                }
+                                
+                                if dataSet.isDrawIconsEnabled {
+                                    drawIcon(context: context,
+                                             icon: e.data as? NSUIImage,
+                                             xPos: x,
+                                             yPos: y,
+                                             offset: dataSet.iconsOffset)
+                                }
                             }
                         }
                         

@@ -167,15 +167,25 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                         dataSetIndex: i,
                         viewPortHandler: viewPortHandler)
                     
-                    ChartUtils.drawText(
-                        context: context,
-                        text: text,
-                        point: CGPoint(
-                            x: pt.x,
-                            y: pt.y - shapeSize - lineHeight),
-                        align: .center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
-                    )
+                    if dataSet.isDrawValuesEnabled {
+                        ChartUtils.drawText(
+                            context: context,
+                            text: text,
+                            point: CGPoint(
+                                x: pt.x,
+                                y: pt.y - shapeSize - lineHeight),
+                            align: .center,
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                        )
+                    }
+                    
+                    if let icon = e.data as? NSUIImage, dataSet.isDrawIconsEnabled {
+                        ChartUtils.drawImage(context: context,
+                                             image: icon,
+                                             point: pt,
+                                             expectedSize: icon.size,
+                                             offset: dataSet.iconsOffset)
+                    }
                 }
             }
         }

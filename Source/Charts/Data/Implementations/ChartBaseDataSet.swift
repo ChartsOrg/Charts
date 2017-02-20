@@ -360,6 +360,18 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     {
         return drawValuesEnabled
     }
+
+    /// Set this to true to draw y-icon on the chart
+    open var drawIconsEnabled = true
+    
+    /// Returns true if y-icon drawing is enabled, false if not
+    open var isDrawIconsEnabled: Bool
+    {
+        return drawIconsEnabled
+    }
+    
+    /// Offset of icons drawn on the chart. For all charts except Pie and Radar it will be ordinary (x offset,y offset). For Pie and Radar chart it will be (y offset, distance from center offset); so if you want icon to be rendered under value, you should increase width component of CGSize, and if you want icon to be rendered closet to center, you should decrease height component of CGSize.
+    open var iconsOffset = CGSize(width: 0,height: 0)
     
     /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
     open var visible = true

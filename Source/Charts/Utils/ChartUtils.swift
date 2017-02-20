@@ -80,6 +80,30 @@ open class ChartUtils
         )
     }
     
+    open class func drawImage(context: CGContext, image: NSUIImage, point: CGPoint, expectedSize: CGSize, offset: CGSize)
+    {
+        var drawOffset = CGPoint()
+        drawOffset.x += point.x + offset.width
+        drawOffset.x -= expectedSize.width / 2
+        drawOffset.y += point.y + offset.height
+        drawOffset.y -= expectedSize.height / 2
+        
+        NSUIGraphicsPushContext(context)
+        
+        if image.size.width != expectedSize.width && image.size.height != expectedSize.height {
+            NSUIGraphicsBeginImageContextWithOptions(expectedSize, false, 0.0)
+            image.draw(in: CGRect(origin: CGPoint(x: 0, y: 0), size: expectedSize))
+            let scaledImage = NSUIGraphicsGetImageFromCurrentImageContext()
+            NSUIGraphicsEndImageContext()
+            scaledImage?.draw(in: CGRect(origin: drawOffset, size: expectedSize))
+        }
+        else {
+            image.draw(in: CGRect(origin: drawOffset, size: expectedSize))
+        }
+        
+        NSUIGraphicsPopContext()
+    }
+    
     open class func drawText(context: CGContext, text: String, point: CGPoint, align: NSTextAlignment, attributes: [String : AnyObject]?)
     {
         var point = point

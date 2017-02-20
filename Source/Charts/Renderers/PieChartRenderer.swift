@@ -307,7 +307,7 @@ open class PieChartRenderer: DataRenderer
             
             let drawValues = dataSet.isDrawValuesEnabled
             
-            if !drawValues && !drawEntryLabels
+            if !drawValues && !drawEntryLabels && !dataSet.isDrawIconsEnabled
             {
                 continue
             }
@@ -528,6 +528,18 @@ open class PieChartRenderer: DataRenderer
                     }
                 }
                 
+                if let icon = e.data as? NSUIImage, dataSet.isDrawIconsEnabled {
+                    // calculate the text position
+                    let x = (labelRadius + dataSet.iconsOffset.height) * sliceXBase + center.x
+                    let y = (labelRadius + dataSet.iconsOffset.height) * sliceYBase + center.y
+                    
+                    ChartUtils.drawImage(context: context,
+                                         image: icon,
+                                         point: CGPoint(x:x, y:y),
+                                         expectedSize: icon.size,
+                                         offset: CGSize(width: 0, height: dataSet.iconsOffset.width))
+                }
+
                 xIndex += 1
             }
         }

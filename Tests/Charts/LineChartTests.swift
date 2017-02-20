@@ -24,11 +24,13 @@ class LineChartTests: FBSnapshotTestCase
         
         for (i, value) in values.enumerated()
         {
-            entries.append(ChartDataEntry(x: Double(i), y: value))
+            entries.append(ChartDataEntry(x: Double(i), y: value, data: UIImage(named: "icon", in: Bundle(for: self.classForCoder), compatibleWith: nil)))
         }
         
         dataSet = LineChartDataSet(values: entries, label: "First unit test data")
-        
+        dataSet.drawIconsEnabled = false
+        dataSet.iconsOffset = CGSize(width: 0, height: 20.0)
+
         chart = LineChartView(frame: CGRect(x: 0, y: 0, width: 480, height: 350))
         chart.backgroundColor = NSUIColor.clear
         chart.leftAxis.axisMinimum = 0.0
@@ -68,6 +70,12 @@ class LineChartTests: FBSnapshotTestCase
     func testDoesntDrawCircleHole()
     {
         dataSet.drawCircleHoleEnabled = false
+        FBSnapshotVerifyView(chart)
+    }
+    
+    func testDrawIcons()
+    {
+        dataSet.drawIconsEnabled = true
         FBSnapshotVerifyView(chart)
     }
 }
