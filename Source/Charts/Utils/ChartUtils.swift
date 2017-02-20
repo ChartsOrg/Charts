@@ -92,12 +92,23 @@ open class ChartUtils
         
         if image.size.width != expectedSize.width && image.size.height != expectedSize.height
         {
-            NSUIGraphicsBeginImageContextWithOptions(expectedSize, false, 0.0)
-            
-            image.draw(in: CGRect(origin: CGPoint(x: 0, y: 0), size: expectedSize))
-            
-            let scaledImage = NSUIGraphicsGetImageFromCurrentImageContext()
-            NSUIGraphicsEndImageContext()
+            let key = "resized_\(expectedSize.width)_\(expectedSize.height)"
+         
+            // Try to take scaled image from cache of this image
+            var scaledImage = objc_getAssociatedObject(image, key) as? NSUIImage
+            if scaledImage == nil
+            {
+                // Scale the image
+                NSUIGraphicsBeginImageContextWithOptions(expectedSize, false, 0.0)
+                
+                image.draw(in: CGRect(origin: CGPoint(x: 0, y: 0), size: expectedSize))
+                
+                scaledImage = NSUIGraphicsGetImageFromCurrentImageContext()
+                NSUIGraphicsEndImageContext()
+                
+                // Put the scaled image in a cache owned by the original image
+                objc_setAssociatedObject(image, key, scaledImage, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            }
             
             scaledImage?.draw(in: CGRect(origin: drawOffset, size: expectedSize))
         }
