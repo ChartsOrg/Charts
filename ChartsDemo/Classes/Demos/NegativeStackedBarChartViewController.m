@@ -28,6 +28,7 @@
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
+                     @{@"key": @"toggleIcons", @"label": @"Toggle Icons"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
@@ -111,7 +112,7 @@
     [yValues addObject:[[BarChartDataEntry alloc] initWithX:15 yValues:@[ @-12, @13 ]]];
     [yValues addObject:[[BarChartDataEntry alloc] initWithX:25 yValues:@[ @-15, @15 ]]];
     [yValues addObject:[[BarChartDataEntry alloc] initWithX:35 yValues:@[ @-17, @17 ]]];
-    [yValues addObject:[[BarChartDataEntry alloc] initWithX:45 yValues:@[ @-19, @20 ]]];
+    [yValues addObject:[[BarChartDataEntry alloc] initWithX:45 yValues:@[ @-19, @20 ] icon: [UIImage imageNamed:@"icon"]]];
     [yValues addObject:[[BarChartDataEntry alloc] initWithX:55 yValues:@[ @-19, @19 ]]];
     [yValues addObject:[[BarChartDataEntry alloc] initWithX:65 yValues:@[ @-16, @16 ]]];
     [yValues addObject:[[BarChartDataEntry alloc] initWithX:75 yValues:@[ @-13, @14 ]]];
@@ -137,6 +138,9 @@
         customFormatter.minimumFractionDigits = 1;
         
         set = [[BarChartDataSet alloc] initWithValues:yValues label:@"Age Distribution"];
+        
+        set.drawIconsEnabled = NO;
+        
         set.valueFormatter = [[ChartDefaultValueFormatter alloc] initWithFormatter:customFormatter];
         set.valueFont = [UIFont systemFontOfSize:7.f];
         set.axisDependency = AxisDependencyRight;

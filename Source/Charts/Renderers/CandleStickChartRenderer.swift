@@ -270,6 +270,8 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix
                 
+                let iconsOffset = dataSet.iconsOffset
+                
                 _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
                 
                 let lineHeight = valueFont.lineHeight
@@ -293,18 +295,30 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                         continue
                     }
                     
-                    ChartUtils.drawText(
-                        context: context,
-                        text: formatter.stringForValue(
-                            e.high,
-                            entry: e,
-                            dataSetIndex: i,
-                            viewPortHandler: viewPortHandler),
-                        point: CGPoint(
-                            x: pt.x,
-                            y: pt.y - yOffset),
-                        align: .center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)])
+                    if dataSet.isDrawValuesEnabled
+                    {
+                        ChartUtils.drawText(
+                            context: context,
+                            text: formatter.stringForValue(
+                                e.high,
+                                entry: e,
+                                dataSetIndex: i,
+                                viewPortHandler: viewPortHandler),
+                            point: CGPoint(
+                                x: pt.x,
+                                y: pt.y - yOffset),
+                            align: .center,
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)])
+                    }
+                    
+                    if let icon = e.icon, dataSet.isDrawIconsEnabled
+                    {
+                        ChartUtils.drawImage(context: context,
+                                             image: icon,
+                                             x: pt.x + iconsOffset.x,
+                                             y: pt.y + iconsOffset.y,
+                                             size: icon.size)
+                    }
                 }
             }
         }

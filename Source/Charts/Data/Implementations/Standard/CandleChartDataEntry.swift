@@ -50,6 +50,26 @@ open class CandleChartDataEntry: ChartDataEntry
         self.close = close
     }
     
+    public init(x: Double, shadowH: Double, shadowL: Double, open: Double, close: Double, icon: NSUIImage?)
+    {
+        super.init(x: x, y: (shadowH + shadowL) / 2.0, icon: icon)
+        
+        self.high = shadowH
+        self.low = shadowL
+        self.open = open
+        self.close = close
+    }
+    
+    public init(x: Double, shadowH: Double, shadowL: Double, open: Double, close: Double, icon: NSUIImage?, data: AnyObject?)
+    {
+        super.init(x: x, y: (shadowH + shadowL) / 2.0, icon: icon, data: data)
+        
+        self.high = shadowH
+        self.low = shadowL
+        self.open = open
+        self.close = close
+    }
+    
     /// - returns: The overall range (difference) between shadow-high and shadow-low.
     open var shadowRange: Double
     {
