@@ -536,18 +536,40 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                     continue
                                 }
                                 
-                                drawValue(
-                                    context: context,
-                                    value: formatter.stringForValue(
-                                        vals[k],
-                                        entry: e,
-                                        dataSetIndex: dataSetIndex,
-                                        viewPortHandler: viewPortHandler),
-                                    xPos: x,
-                                    yPos: y,
-                                    font: valueFont,
-                                    align: .center,
-                                    color: dataSet.valueTextColorAt(index))
+                                // Check that value won't write on top of another value above the bar
+                                if drawValueAboveBar && k > 0 && vals[k - 1] != 0 &&
+                                    ((transformed[k - 1].y - transformed[k].y + posOffset) < 0)
+                                {
+                                    continue
+                                }
+                                
+                                // Ensure that the value is contained within the bar
+                                if !drawValueAboveBar {
+                                    if k > 0 {
+                                        if ((transformed[k - 1].y - transformed[k].y) + negOffset) < 0 {
+                                            continue
+                                        }
+                                    } else {
+                                        if (transformed[k].y + negOffset) < 0 {
+                                            continue
+                                        }
+                                    }
+                                }
+                                
+                                if vals[k] != 0 {
+                                    drawValue(
+                                        context: context,
+                                        value: formatter.stringForValue(
+                                            vals[k],
+                                            entry: e,
+                                            dataSetIndex: dataSetIndex,
+                                            viewPortHandler: viewPortHandler),
+                                        xPos: x,
+                                        yPos: y,
+                                        font: valueFont,
+                                        align: .center,
+                                        color: dataSet.valueTextColorAt(index))
+                                }
                             }
                         }
                         
