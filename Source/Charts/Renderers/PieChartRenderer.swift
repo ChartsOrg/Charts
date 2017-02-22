@@ -434,32 +434,30 @@ open class PieChartRenderer: DataRenderer
                             attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
                         )
                         
-                        if j < data.entryCount && pe?.label != nil
+                        if j < data.entryCount && (pe?.label != nil || pe?.attributedLabel != nil)
                         {
-                            ChartUtils.drawText(
-                                context: context,
-                                text: pe!.label!,
-                                point: CGPoint(x: labelPoint.x, y: labelPoint.y + lineHeight),
-                                align: align,
-                                attributes: [
-                                    NSFontAttributeName: entryLabelFont ?? valueFont,
-                                    NSForegroundColorAttributeName: entryLabelColor ?? valueTextColor]
-                            )
+							ChartUtils.drawText(
+								context: context,
+								text: pe?.attributedLabel ?? NSAttributedString(string: pe!.label!, attributes: [
+									NSFontAttributeName: entryLabelFont ?? valueFont,
+									NSForegroundColorAttributeName: entryLabelColor ?? valueTextColor]),
+								point: CGPoint(x: labelPoint.x, y: labelPoint.y + lineHeight),
+								align: align
+							)
                         }
                     }
                     else if drawXOutside
                     {
-                        if j < data.entryCount && pe?.label != nil
+                        if j < data.entryCount && (pe?.label != nil || pe?.attributedLabel != nil)
                         {
-                            ChartUtils.drawText(
-                                context: context,
-                                text: pe!.label!,
-                                point: CGPoint(x: labelPoint.x, y: labelPoint.y + lineHeight / 2.0),
-                                align: align,
-                                attributes: [
-                                    NSFontAttributeName: entryLabelFont ?? valueFont,
-                                    NSForegroundColorAttributeName: entryLabelColor ?? valueTextColor]
-                            )
+							ChartUtils.drawText(
+								context: context,
+								text: pe?.attributedLabel ?? NSAttributedString(string: pe!.label!, attributes: [
+									NSFontAttributeName: entryLabelFont ?? valueFont,
+									NSForegroundColorAttributeName: entryLabelColor ?? valueTextColor]),
+								point: CGPoint(x: labelPoint.x, y: labelPoint.y + lineHeight / 2.0),
+								align: align
+							)
                         }
                     }
                     else if drawYOutside
@@ -490,32 +488,30 @@ open class PieChartRenderer: DataRenderer
                             attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
                         )
                         
-                        if j < data.entryCount && pe?.label != nil
+                        if j < data.entryCount && (pe?.label != nil || pe?.attributedLabel != nil)
                         {
-                            ChartUtils.drawText(
-                                context: context,
-                                text: pe!.label!,
-                                point: CGPoint(x: x, y: y + lineHeight),
-                                align: .center,
-                                attributes: [
-                                    NSFontAttributeName: entryLabelFont ?? valueFont,
-                                    NSForegroundColorAttributeName: entryLabelColor ?? valueTextColor]
-                            )
+							ChartUtils.drawText(
+								context: context,
+								text: pe?.attributedLabel ?? NSAttributedString(string: pe!.label!, attributes: [
+									NSFontAttributeName: entryLabelFont ?? valueFont,
+									NSForegroundColorAttributeName: entryLabelColor ?? valueTextColor]),
+								point: CGPoint(x: x, y: y + lineHeight),
+								align: .center
+							)
                         }
                     }
                     else if drawXInside
                     {
-                        if j < data.entryCount && pe?.label != nil
+                        if j < data.entryCount && (pe?.label != nil || pe?.attributedLabel != nil)
                         {
-                            ChartUtils.drawText(
-                                context: context,
-                                text: pe!.label!,
-                                point: CGPoint(x: x, y: y + lineHeight / 2.0),
-                                align: .center,
-                                attributes: [
-                                    NSFontAttributeName: entryLabelFont ?? valueFont,
-                                    NSForegroundColorAttributeName: entryLabelColor ?? valueTextColor]
-                            )
+							ChartUtils.drawText(
+								context: context,
+								text: pe?.attributedLabel ?? NSAttributedString(string: pe!.label!, attributes: [
+									NSFontAttributeName: entryLabelFont ?? valueFont,
+									NSForegroundColorAttributeName: entryLabelColor ?? valueTextColor]),
+								point: CGPoint(x: x, y: y + lineHeight / 2.0),
+								align: .center
+							)
                         }
                     }
                     else if drawYInside

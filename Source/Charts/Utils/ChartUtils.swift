@@ -125,25 +125,34 @@ open class ChartUtils
     
     open class func drawText(context: CGContext, text: String, point: CGPoint, align: NSTextAlignment, attributes: [String : AnyObject]?)
     {
-        var point = point
-        
-        if align == .center
-        {
-            point.x -= text.size(attributes: attributes).width / 2.0
-        }
-        else if align == .right
-        {
-            point.x -= text.size(attributes: attributes).width
-        }
-        
-        NSUIGraphicsPushContext(context)
-        
-        (text as NSString).draw(at: point, withAttributes: attributes)
-        
-        NSUIGraphicsPopContext()
+		self.drawText(context: context, text: NSAttributedString(string: text, attributes: attributes ?? [:]), point: point, align: align)
     }
-    
-    open class func drawText(context: CGContext, text: String, point: CGPoint, attributes: [String : AnyObject]?, anchor: CGPoint, angleRadians: CGFloat)
+	
+	open class func drawText(context: CGContext, text: NSAttributedString, point: CGPoint, align: NSTextAlignment)
+	{
+		var point = point
+		
+		if align == .center
+		{
+			point.x -= text.size().width / 2.0
+		}
+		else if align == .right
+		{
+			point.x -= text.size().width
+		}
+		
+		NSUIGraphicsPushContext(context)
+		
+		text.draw(at: point)
+		
+		NSUIGraphicsPopContext()
+	}
+	
+	open class func drawText(context: CGContext, text: String, point: CGPoint, attributes: [String : AnyObject]?, anchor: CGPoint, angleRadians: CGFloat){
+		self.drawText(context: context, text: NSAttributedString(string: text, attributes: attributes ?? [:]), point: point, anchor: anchor, angleRadians: angleRadians)
+	}
+	
+    open class func drawText(context: CGContext, text: NSAttributedString, point: CGPoint, anchor: CGPoint, angleRadians: CGFloat)
     {
         var drawOffset = CGPoint()
         
@@ -151,7 +160,7 @@ open class ChartUtils
         
         if angleRadians != 0.0
         {
-            let size = text.size(attributes: attributes)
+            let size = text.size()
             
             // Move the text drawing rect in a way that it always rotates around its center
             drawOffset.x = -size.width * 0.5
@@ -171,8 +180,8 @@ open class ChartUtils
             context.saveGState()
             context.translateBy(x: translate.x, y: translate.y)
             context.rotate(by: angleRadians)
-            
-            (text as NSString).draw(at: drawOffset, withAttributes: attributes)
+			
+			text.draw(at: drawOffset)
             
             context.restoreGState()
         }
@@ -180,7 +189,7 @@ open class ChartUtils
         {
             if anchor.x != 0.0 || anchor.y != 0.0
             {
-                let size = text.size(attributes: attributes)
+                let size = text.size()
                 
                 drawOffset.x = -size.width * anchor.x
                 drawOffset.y = -size.height * anchor.y
@@ -189,7 +198,7 @@ open class ChartUtils
             drawOffset.x += point.x
             drawOffset.y += point.y
             
-            (text as NSString).draw(at: drawOffset, withAttributes: attributes)
+            text.draw(at: drawOffset)
         }
         
         NSUIGraphicsPopContext()

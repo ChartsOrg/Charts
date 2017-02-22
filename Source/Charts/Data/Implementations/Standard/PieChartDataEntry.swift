@@ -41,18 +41,52 @@ open class PieChartDataEntry: ChartDataEntry
     {
         self.init(value: value, label: label, icon: icon, data: nil)
     }
-    
+
+	/// - parameter value: The value on the y-axis
+	/// - parameter attributedLabel: The label for the x-axis
+	public convenience init(value: Double, attributedLabel label: NSAttributedString?)
+	{
+		self.init(value: value, attributedLabel: label, icon: nil, data: nil)
+	}
+	
+	/// - parameter value: The value on the y-axis
+	/// - parameter attributedLabel: The label for the x-axis
+	/// - parameter data: Spot for additional data this Entry represents
+	public convenience init(value: Double, attributedLabel label: NSAttributedString?, data: AnyObject?)
+	{
+		self.init(value: value, attributedLabel: label, icon: nil, data: data)
+	}
+	
+	/// - parameter value: The value on the y-axis
+	/// - parameter attributedLabel: The label for the x-axis
+	/// - parameter icon: icon image
+	public convenience init(value: Double, attributedLabel label: NSAttributedString?, icon: NSUIImage?)
+	{
+		self.init(value: value, attributedLabel: label, icon: icon, data: nil)
+	}
+	
     /// - parameter value: The value on the y-axis
     /// - parameter label: The label for the x-axis
     /// - parameter icon: icon image
     /// - parameter data: Spot for additional data this Entry represents
     public init(value: Double, label: String?, icon: NSUIImage?, data: AnyObject?)
     {
-        super.init(x: 0.0, y: value, icon: icon, data: data)
-        
-        self.label = label
+		super.init(x: 0.0, y: value, icon: icon, data: data)
+		
+		self.label = label
     }
-    
+	
+	/// - parameter value: The value on the y-axis
+	/// - parameter attributedLabel: The label for the x-axis
+	/// - parameter icon: icon image
+	/// - parameter data: Spot for additional data this Entry represents
+	public convenience init(value: Double, attributedLabel label: NSAttributedString?, icon: NSUIImage?, data: AnyObject?)
+	{
+		self.init(value: value, label: nil, icon: icon, data: data)
+		
+		self.attributedLabel = label
+	}
+	
     /// - parameter value: The value on the y-axis
     public convenience init(value: Double)
     {
@@ -84,6 +118,7 @@ open class PieChartDataEntry: ChartDataEntry
     // MARK: Data property accessors
     
     open var label: String?
+	open var attributedLabel: NSAttributedString?
     
     open var value: Double
     {

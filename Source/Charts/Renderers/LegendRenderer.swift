@@ -96,7 +96,7 @@ open class LegendRenderer: Renderer
                     {
                         entries.append(
                             LegendEntry(
-                                label: (pds.entryForIndex(j) as? PieChartDataEntry)?.label,
+                                label: (pds.entryForIndex(j) as? PieChartDataEntry)?.attributedLabel?.string ?? (pds.entryForIndex(j) as? PieChartDataEntry)?.label,
                                 form: dataSet.form,
                                 formSize: dataSet.formSize,
                                 formLineWidth: dataSet.formLineWidth,
