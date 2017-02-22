@@ -121,7 +121,10 @@ open class RadarChartView: PieRadarChartViewBase
             renderer!.drawExtras(context: context)
         }
         
-        _yAxisRenderer.renderLimitLines(context: context)
+        if _yAxis.isEnabled && _yAxis.isDrawLimitLinesBehindDataEnabled
+        {
+            _yAxisRenderer.renderLimitLines(context: context)
+        }
 
         renderer!.drawData(context: context)
 
