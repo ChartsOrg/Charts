@@ -41,6 +41,24 @@ open class AxisBase: ComponentBase
     open var drawGridLinesEnabled = true
     open var drawAxisLineEnabled = true
     
+    open var logarithmicEnabled   = false
+    open var isLogarithmicEnabled: Bool { return logarithmicEnabled }
+    
+    open var stepsAxis            = [1.0, 2.0, 4.0, 6.0, 8.0]
+    open var stepsLabels          = [true, true, true, true, true]
+    
+    open var logAxis              = [Double]()
+    open var logLabels            = [Bool]()
+    
+    open var labelsAxisChanged    = true
+    open var isLabelsAxisChanged: Bool { return labelsAxisChanged }
+    
+    open var stickEnabled         = false
+    open var isStickEnabled: Bool { return stickEnabled }
+    
+    open var stickMajorEnabled    = true
+    open var isStickMajorEnabled: Bool { return stickMajorEnabled }
+    
     /// flag that indicates of the labels of this axis should be drawn or not
     open var drawLabelsEnabled = true
     
