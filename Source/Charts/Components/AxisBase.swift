@@ -168,6 +168,10 @@ open class AxisBase: ComponentBase
         {
             return ""
         }
+        if isLogarithmicEnabled == true
+        {
+            return valueFormatter?.stringForValue(pow(10, entries[index]), axis: self) ?? ""
+        }
         
         return valueFormatter?.stringForValue(entries[index], axis: self) ?? ""
     }
