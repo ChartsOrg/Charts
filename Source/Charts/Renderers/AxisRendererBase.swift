@@ -258,8 +258,8 @@ open class AxisRendererBase: Renderer
         let maxi = order(input: max + 1)
         for i in mini ... maxi
         {
-            logScaleAxis = logScaleAxis + axis.stepsAxis.map{$0 * pow(10 ,Double(i))}
-            logScaleLabels = logScaleLabels + axis.stepsLabels
+            logScaleAxis = logScaleAxis + axis.maskAxis.map{$0 * pow(10 ,Double(i))}
+            logScaleLabels = logScaleLabels + axis.maskLabels
         }
         axis.logAxis = logScaleAxis
         axis.logLabels = logScaleLabels

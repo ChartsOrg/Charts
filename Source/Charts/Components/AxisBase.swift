@@ -44,8 +44,8 @@ open class AxisBase: ComponentBase
     open var logarithmicEnabled   = false
     open var isLogarithmicEnabled: Bool { return logarithmicEnabled }
     
-    open var stepsAxis            = [1.0, 2.0, 4.0, 6.0, 8.0]
-    open var stepsLabels          = [true, true, true, true, true]
+    open var maskAxis            = [1.0, 2.0, 4.0, 6.0, 8.0]
+    open var maskLabels          = [true, true, true, true, true]
     
     open var logAxis              = [Double]()
     open var logLabels            = [Bool]()
