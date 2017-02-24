@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		0439A3541C9FF95F00496F83 /* PiePolylineChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0439A3521C9FF95F00496F83 /* PiePolylineChartViewController.m */; };
 		0471CBFC1CA1090A00E52DBC /* PiePolylineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0471CBFB1CA1090A00E52DBC /* PiePolylineChartViewController.xib */; };
-		0630AE371D8126B1008859B0 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0630AE361D8126B1008859B0 /* Realm.framework */; };
-		0630AE381D8126B1008859B0 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0630AE361D8126B1008859B0 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0630AE511D81271B008859B0 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0630AE411D8126C0008859B0 /* Charts.framework */; };
 		0630AE521D81271B008859B0 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0630AE411D8126C0008859B0 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0630AE551D81271B008859B0 /* ChartsRealm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0630AE451D8126C0008859B0 /* ChartsRealm.framework */; };
@@ -134,13 +132,6 @@
 			remoteGlobalIDString = 06B120D51D811E6200D14B02;
 			remoteInfo = ChartsRealm;
 		};
-		0630AE461D8126C0008859B0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0630AE391D8126C0008859B0 /* Charts.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 06B120FF1D811F1600D14B02;
-			remoteInfo = ChartsRealmTests;
-		};
 		0630AE531D81271B008859B0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0630AE391D8126C0008859B0 /* Charts.xcodeproj */;
@@ -165,7 +156,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				0630AE561D81271B008859B0 /* ChartsRealm.framework in Embed Frameworks */,
-				0630AE381D8126B1008859B0 /* Realm.framework in Embed Frameworks */,
 				0630AE521D81271B008859B0 /* Charts.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -179,6 +169,7 @@
 		0471CBFB1CA1090A00E52DBC /* PiePolylineChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PiePolylineChartViewController.xib; sourceTree = "<group>"; };
 		0630AE361D8126B1008859B0 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = ../Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
 		0630AE391D8126C0008859B0 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = ../Charts.xcodeproj; sourceTree = "<group>"; };
+		066750AC1E2DB68D00E22DC6 /* Carthage.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Carthage.xcconfig; path = ../Carthage.xcconfig; sourceTree = "<group>"; };
 		55E3564D1ADC638F00A57971 /* BubbleChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BubbleChartViewController.xib; sourceTree = "<group>"; };
 		55E3564E1ADC638F00A57971 /* BubbleChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BubbleChartViewController.h; sourceTree = "<group>"; };
 		55E3564F1ADC638F00A57971 /* BubbleChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BubbleChartViewController.m; sourceTree = "<group>"; };
@@ -327,7 +318,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0630AE551D81271B008859B0 /* ChartsRealm.framework in Frameworks */,
-				0630AE371D8126B1008859B0 /* Realm.framework in Frameworks */,
 				0630AE511D81271B008859B0 /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -339,9 +329,8 @@
 			isa = PBXGroup;
 			children = (
 				0630AE411D8126C0008859B0 /* Charts.framework */,
-				0630AE431D8126C0008859B0 /* ChartsTests.xctest */,
 				0630AE451D8126C0008859B0 /* ChartsRealm.framework */,
-				0630AE471D8126C0008859B0 /* ChartsRealmTests.xctest */,
+				0630AE431D8126C0008859B0 /* ChartsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -375,6 +364,7 @@
 		5B57BBA61A9B26AA0036A6CC = {
 			isa = PBXGroup;
 			children = (
+				066750AC1E2DB68D00E22DC6 /* Carthage.xcconfig */,
 				5B57BBB11A9B26AA0036A6CC /* Classes */,
 				5B8EAF2E1AB32E15009697AA /* Resources */,
 				5B57BBB21A9B26AA0036A6CC /* Supporting Files */,
@@ -612,6 +602,7 @@
 				5B57BBAC1A9B26AA0036A6CC /* Frameworks */,
 				5B57BBAD1A9B26AA0036A6CC /* Resources */,
 				5BB4B0751ACA710D00E2EF4D /* Embed Frameworks */,
+				066750AE1E2DB70B00E22DC6 /* Copy Carthage Frameworks */,
 			);
 			buildRules = (
 			);
@@ -632,7 +623,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = dcg;
 				TargetAttributes = {
 					5B57BBAE1A9B26AA0036A6CC = {
@@ -685,13 +676,6 @@
 			fileType = wrapper.framework;
 			path = ChartsRealm.framework;
 			remoteRef = 0630AE441D8126C0008859B0 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		0630AE471D8126C0008859B0 /* ChartsRealmTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = ChartsRealmTests.xctest;
-			remoteRef = 0630AE461D8126C0008859B0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -754,6 +738,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		066750AE1E2DB70B00E22DC6 /* Copy Carthage Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				Realm,
+				RealmSwift,
+			);
+			name = "Copy Carthage Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n\ncase \"$PLATFORM_NAME\" in\nmacosx) plat=Mac;;\niphone*) plat=iOS;;\nwatch*) plat=watchOS;;\nappletv*) plat=tvOS;;\n*) echo \"error: Unknown PLATFORM_NAME: $PLATFORM_NAME\"; exit 1;;\nesac\n\nfor (( n = 0; n < SCRIPT_INPUT_FILE_COUNT; n++ )); do\nVAR=SCRIPT_INPUT_FILE_$n\nframework=$(basename \"${!VAR}\")\nexport SCRIPT_INPUT_FILE_$n=\"$SRCROOT\"/../Carthage/Build/$plat/\"$framework\".framework\ndone\n\n/usr/local/bin/carthage copy-frameworks || exit\n\nfor (( n = 0; n < SCRIPT_INPUT_FILE_COUNT; n++ )); do\nVAR=SCRIPT_INPUT_FILE_$n\nsource=${!VAR}.dSYM\ndest=${BUILT_PRODUCTS_DIR}/$(basename \"$source\")\nditto \"$source\" \"$dest\" || exit\ndone";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5B57BBAB1A9B26AA0036A6CC /* Sources */ = {
@@ -829,6 +832,7 @@
 /* Begin XCBuildConfiguration section */
 		5B57BBD01A9B26AA0036A6CC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 066750AC1E2DB68D00E22DC6 /* Carthage.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -840,8 +844,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -850,6 +856,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -871,6 +878,7 @@
 		};
 		5B57BBD11A9B26AA0036A6CC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 066750AC1E2DB68D00E22DC6 /* Carthage.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -882,8 +890,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -891,6 +901,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -900,22 +911,25 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		5B57BBD31A9B26AA0036A6CC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 066750AC1E2DB68D00E22DC6 /* Carthage.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(SOURCE_ROOT)/../Carthage/Build/iOS";
 				INFOPLIST_FILE = "Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ChartsDemo;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/ChartsDemo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -924,16 +938,18 @@
 		};
 		5B57BBD41A9B26AA0036A6CC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 066750AC1E2DB68D00E22DC6 /* Carthage.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(SOURCE_ROOT)/../Carthage/Build/iOS";
 				INFOPLIST_FILE = "Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ChartsDemo;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/ChartsDemo-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};

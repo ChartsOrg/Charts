@@ -141,14 +141,12 @@ open class YAxisRenderer: AxisRendererBase
         let labelFont = yAxis.labelFont
         let labelTextColor = yAxis.labelTextColor
         
-        for i in 0 ..< yAxis.entryCount
+        let from = yAxis.isDrawBottomYLabelEntryEnabled ? 0 : 1
+        let to = yAxis.isDrawTopYLabelEntryEnabled ? yAxis.entryCount : (yAxis.entryCount - 1)
+        
+        for i in stride(from: from, to: to, by: 1)
         {
             let text = yAxis.getFormattedLabel(i)
-            
-            if !yAxis.isDrawTopYLabelEntryEnabled && i >= yAxis.entryCount - 1
-            {
-                break
-            }
             
             ChartUtils.drawText(
                 context: context,
@@ -269,7 +267,7 @@ open class YAxisRenderer: AxisRendererBase
         clippingRect.origin.y -= yAxis.zeroLineWidth / 2.0
         clippingRect.size.height += yAxis.zeroLineWidth
         context.clip(to: clippingRect)
-        
+
         context.setStrokeColor(zeroLineColor.cgColor)
         context.setLineWidth(yAxis.zeroLineWidth)
         
@@ -284,8 +282,8 @@ open class YAxisRenderer: AxisRendererBase
             context.setLineDash(phase: 0.0, lengths: [])
         }
         
-        context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: pos.y - 1.0))
-        context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: pos.y - 1.0))
+        context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: pos.y))
+        context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: pos.y))
         context.drawPath(using: CGPathDrawingMode.stroke)
     }
     

@@ -79,7 +79,7 @@ open class AxisBase: ComponentBase
     /// the number of entries the legend contains
     open var entryCount: Int { return entries.count }
     
-    /// the number of y-label entries the y-labels should have
+    /// the number of label entries the axis should have
     ///
     /// **default**: 6
     fileprivate var _labelCount = Int(6)
@@ -213,7 +213,7 @@ open class AxisBase: ComponentBase
     /// the total range of values this axis covers
     open var axisRange = Double(0)
     
-    /// the number of label entries the y-axis should have
+    /// the number of label entries the axis should have
     /// max = 25,
     /// min = 2,
     /// default = 6,

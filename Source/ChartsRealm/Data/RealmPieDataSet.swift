@@ -15,6 +15,7 @@ import CoreGraphics
 import Charts
 #endif
 import Realm
+import RealmSwift
 import Realm.Dynamic
 
 open class RealmPieDataSet: RealmBaseDataSet, IPieChartDataSet
@@ -35,6 +36,18 @@ open class RealmPieDataSet: RealmBaseDataSet, IPieChartDataSet
         _labelField = labelField
         
         super.init(results: results, xValueField: nil, yValueField: yValueField, label: nil)
+    }
+    
+    public convenience init(results: Results<Object>?, yValueField: String, labelField: String?)
+    {
+        var converted: RLMResults<RLMObject>?
+        
+        if results != nil
+        {
+            converted = ObjectiveCSupport.convert(object: results!)
+        }
+        
+        self.init(results: converted, yValueField: yValueField, labelField: labelField)
     }
     
     // MARK: - Data functions and accessors
@@ -80,6 +93,9 @@ open class RealmPieDataSet: RealmBaseDataSet, IPieChartDataSet
             _sliceSpace = space
         }
     }
+    
+    /// When enabled, slice spacing will be 0.0 when the smallest value is going to be smaller than the slice spacing itself.
+    open var automaticallyDisableSliceSpacing: Bool = false
     
     /// indicates the selection distance of a pie slice
     open var selectionShift = CGFloat(18.0)

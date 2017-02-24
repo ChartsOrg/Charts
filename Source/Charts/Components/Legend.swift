@@ -289,7 +289,7 @@ open class Legend: ComponentBase
     /// this is currently supported only for `orientation == Horizontal`.
     /// you may want to set maxSizePercent when word wrapping, to set the point where the text wraps.
     /// 
-    /// **default**: false
+    /// **default**: true
     open var wordWrapEnabled = true
     
     /// if this is set, then word wrapping the legend is enabled.

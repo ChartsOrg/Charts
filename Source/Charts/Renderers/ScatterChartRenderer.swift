@@ -136,6 +136,8 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix
                 
+                let iconsOffset = dataSet.iconsOffset
+                
                 let shapeSize = dataSet.scatterShapeSize
                 let lineHeight = valueFont.lineHeight
                 
@@ -167,15 +169,27 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                         dataSetIndex: i,
                         viewPortHandler: viewPortHandler)
                     
-                    ChartUtils.drawText(
-                        context: context,
-                        text: text,
-                        point: CGPoint(
-                            x: pt.x,
-                            y: pt.y - shapeSize - lineHeight),
-                        align: .center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
-                    )
+                    if dataSet.isDrawValuesEnabled
+                    {
+                        ChartUtils.drawText(
+                            context: context,
+                            text: text,
+                            point: CGPoint(
+                                x: pt.x,
+                                y: pt.y - shapeSize - lineHeight),
+                            align: .center,
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                        )
+                    }
+                    
+                    if let icon = e.icon, dataSet.isDrawIconsEnabled
+                    {
+                        ChartUtils.drawImage(context: context,
+                                             image: icon,
+                                             x: pt.x + iconsOffset.x,
+                                             y: pt.y + iconsOffset.y,
+                                             size: icon.size)
+                    }
                 }
             }
         }

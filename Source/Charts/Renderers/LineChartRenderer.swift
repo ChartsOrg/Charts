@@ -538,6 +538,8 @@ open class LineChartRenderer: LineRadarRenderer
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix
                 
+                let iconsOffset = dataSet.iconsOffset
+                
                 // make sure the values do not interfear with the circles
                 var valOffset = Int(dataSet.circleRadius * 1.75)
                 
@@ -566,18 +568,29 @@ open class LineChartRenderer: LineRadarRenderer
                         continue
                     }
                     
-                    ChartUtils.drawText(
-                        context: context,
-                        text: formatter.stringForValue(
-                            e.y,
-                            entry: e,
-                            dataSetIndex: i,
-                            viewPortHandler: viewPortHandler),
-                        point: CGPoint(
-                            x: pt.x,
-                            y: pt.y - CGFloat(valOffset) - valueFont.lineHeight),
-                        align: .center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)])
+                    if dataSet.isDrawValuesEnabled {
+                        ChartUtils.drawText(
+                            context: context,
+                            text: formatter.stringForValue(
+                                e.y,
+                                entry: e,
+                                dataSetIndex: i,
+                                viewPortHandler: viewPortHandler),
+                            point: CGPoint(
+                                x: pt.x,
+                                y: pt.y - CGFloat(valOffset) - valueFont.lineHeight),
+                            align: .center,
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)])
+                    }
+                    
+                    if let icon = e.icon, dataSet.isDrawIconsEnabled
+                    {
+                        ChartUtils.drawImage(context: context,
+                                             image: icon,
+                                             x: pt.x + iconsOffset.x,
+                                             y: pt.y + iconsOffset.y,
+                                             size: icon.size)
+                    }
                 }
             }
         }
@@ -665,10 +678,14 @@ open class LineChartRenderer: LineRadarRenderer
                     context.addEllipse(in: rect)
                     
                     // Cut hole in path
-                    context.addArc(center: pt, radius: circleHoleRadius, startAngle: 0.0, endAngle: CGFloat(M_PI_2), clockwise: true)
+                    rect.origin.x = pt.x - circleHoleRadius
+                    rect.origin.y = pt.y - circleHoleRadius
+                    rect.size.width = circleHoleDiameter
+                    rect.size.height = circleHoleDiameter
+                    context.addEllipse(in: rect)
                     
                     // Fill in-between
-                    context.fillPath()
+                    context.fillPath(using: .evenOdd)
                 }
                 else
                 {

@@ -184,6 +184,9 @@ open class ChartDataSet: ChartBaseDataSet
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
     open override func entryForIndex(_ i: Int) -> ChartDataEntry?
     {
+        guard i >= 0 && i < _values.count else {
+            return nil
+        }
         return _values[i]
     }
     

@@ -168,6 +168,8 @@ open class RadarChartRenderer: LineRadarRenderer
             
             let entryCount = dataSet.entryCount
             
+            let iconsOffset = dataSet.iconsOffset
+            
             for j in 0 ..< entryCount
             {
                 guard let e = dataSet.entryForIndex(j) else { continue }
@@ -181,18 +183,36 @@ open class RadarChartRenderer: LineRadarRenderer
                 
                 guard let formatter = dataSet.valueFormatter else { continue }
                 
-                ChartUtils.drawText(
-                    context: context,
-                    text: formatter.stringForValue(
-                        e.y,
-                        entry: e,
-                        dataSetIndex: i,
-                        viewPortHandler: viewPortHandler),
-                    point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
-                    align: .center,
-                    attributes: [NSFontAttributeName: valueFont,
-                        NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
-                )
+                if dataSet.isDrawValuesEnabled
+                {
+                    ChartUtils.drawText(
+                        context: context,
+                        text: formatter.stringForValue(
+                            e.y,
+                            entry: e,
+                            dataSetIndex: i,
+                            viewPortHandler: viewPortHandler),
+                        point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
+                        align: .center,
+                        attributes: [NSFontAttributeName: valueFont,
+                            NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
+                    )
+                }
+                
+                if let icon = e.icon, dataSet.isDrawIconsEnabled
+                {
+                    var pIcon = ChartUtils.getPosition(
+                        center: center,
+                        dist: CGFloat(e.y) * factor * CGFloat(phaseY) + iconsOffset.y,
+                        angle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
+                    pIcon.y += iconsOffset.x
+                    
+                    ChartUtils.drawImage(context: context,
+                                         image: icon,
+                                         x: pIcon.x,
+                                         y: pIcon.y,
+                                         size: icon.size)
+                }
             }
         }
     }
