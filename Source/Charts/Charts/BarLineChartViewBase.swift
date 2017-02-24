@@ -74,7 +74,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     internal var _panGestureRecognizer: NSUIPanGestureRecognizer!
     
     /// flag that indicates if a custom viewport offset has been set
-    fileprivate var _customViewPortEnabled = false
+    internal var _customViewPortEnabled = false
     
     public override init(frame: CGRect)
     {
