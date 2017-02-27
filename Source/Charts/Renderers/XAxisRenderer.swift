@@ -363,7 +363,7 @@ open class XAxisRenderer: AxisRendererBase
         return contentRect
     }
     
-    open func drawGridLine(context: CGContext, x: CGFloat, y: CGFloat, major : Bool)
+    open func drawGridLine(context: CGContext, x: CGFloat, y: CGFloat, major : Bool = false)
     {
         guard
             let xAxis = self.axis as? XAxis,

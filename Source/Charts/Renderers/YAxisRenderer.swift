@@ -241,7 +241,7 @@ open class YAxisRenderer: AxisRendererBase
     open func drawGridLine(
         context: CGContext,
         position: CGPoint,
-        major : Bool)
+        major : Bool = false)
     {
         guard
             let yAxis = self.axis as? YAxis,
