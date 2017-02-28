@@ -248,6 +248,7 @@ open class YAxisRenderer: AxisRendererBase
             let viewPortHandler = self.viewPortHandler
             else { return }
         
+        
         if yAxis.isLogarithmicEnabled == true && yAxis.isStickEnabled == true
         {
             if yAxis.isStickMajorEnabled == false && major == true

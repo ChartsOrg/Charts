@@ -217,6 +217,7 @@ open class XAxisRenderer: AxisRendererBase
             entries = xAxis.entries
         }
         
+        
         for i in stride(from: 0, to: entries.count, by: 1)
         {
             if xAxis.isLogarithmicEnabled == true && xAxis.logLabels[i] == false

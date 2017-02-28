@@ -100,6 +100,7 @@ open class AxisRendererBase: Renderer
         let yMin = min
         let yMax = max
         
+        
         if axis.isLogarithmicEnabled == true
         {
             logAxisRange(min: pow(10,min), max : pow(10, max))
