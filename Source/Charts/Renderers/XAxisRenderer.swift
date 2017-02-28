@@ -19,6 +19,7 @@ import CoreGraphics
 @objc(ChartXAxisRenderer)
 open class XAxisRenderer: AxisRendererBase
 {
+    
     public init(viewPortHandler: ViewPortHandler?, xAxis: XAxis?, transformer: Transformer?)
     {
         super.init(viewPortHandler: viewPortHandler, transformer: transformer, axis: xAxis)
@@ -31,6 +32,7 @@ open class XAxisRenderer: AxisRendererBase
             else { return }
         
         var min = min, max = max
+        
         
         if let transformer = self.transformer
         {
@@ -53,7 +55,6 @@ open class XAxisRenderer: AxisRendererBase
                 }
             }
         }
-        
         computeAxisValues(min: min, max: max)
     }
     
@@ -191,12 +192,12 @@ open class XAxisRenderer: AxisRendererBase
         paraStyle.alignment = .center
         
         let labelAttrs = [NSFontAttributeName: xAxis.labelFont,
-            NSForegroundColorAttributeName: xAxis.labelTextColor,
-            NSParagraphStyleAttributeName: paraStyle] as [String : NSObject]
+                          NSForegroundColorAttributeName: xAxis.labelTextColor,
+                          NSParagraphStyleAttributeName: paraStyle] as [String : NSObject]
         let labelRotationAngleRadians = xAxis.labelRotationAngle * ChartUtils.Math.FDEG2RAD
         
         let centeringEnabled = xAxis.isCenterAxisLabelsEnabled
-
+        
         let valueToPixelMatrix = transformer.valueToPixelMatrix
         
         var position = CGPoint(x: 0.0, y: 0.0)
@@ -208,10 +209,21 @@ open class XAxisRenderer: AxisRendererBase
             labelMaxSize.width = xAxis.wordWrapWidthPercent * valueToPixelMatrix.a
         }
         
-        let entries = xAxis.entries
+        let entries: [Double]
+        if xAxis.isLogarithmicEnabled == true
+        {
+            xAxis.entries = xAxis.logAxis
+            entries = xAxis.logAxis.map{log10($0)}
+        } else {
+            entries = xAxis.entries
+        }
         
         for i in stride(from: 0, to: entries.count, by: 1)
         {
+            if xAxis.isLogarithmicEnabled == true && xAxis.logLabels[i] == false
+            {
+                continue
+            }
             if centeringEnabled
             {
                 position.x = CGFloat(xAxis.centeredEntries[i])
@@ -227,7 +239,7 @@ open class XAxisRenderer: AxisRendererBase
             if viewPortHandler.isInBoundsX(position.x)
             {
                 let label = xAxis.valueFormatter?.stringForValue(xAxis.entries[i], axis: xAxis) ?? ""
-
+                
                 let labelns = label as NSString
                 
                 if xAxis.isAvoidFirstLastClippingEnabled
@@ -300,7 +312,6 @@ open class XAxisRenderer: AxisRendererBase
         
         context.setShouldAntialias(xAxis.gridAntialiasEnabled)
         context.setStrokeColor(xAxis.gridColor.cgColor)
-        context.setLineWidth(xAxis.gridLineWidth)
         context.setLineCap(xAxis.gridLineCap)
         
         if xAxis.gridLineDashLengths != nil
@@ -316,7 +327,12 @@ open class XAxisRenderer: AxisRendererBase
         
         var position = CGPoint(x: 0.0, y: 0.0)
         
-        let entries = xAxis.entries
+        let entries: [Double]
+        if xAxis.isLogarithmicEnabled == true {
+            entries = xAxis.logAxis.map{log10($0)}
+        } else {
+            entries = xAxis.entries
+        }
         
         for i in stride(from: 0, to: entries.count, by: 1)
         {
@@ -324,7 +340,17 @@ open class XAxisRenderer: AxisRendererBase
             position.y = position.x
             position = position.applying(valueToPixelMatrix)
             
-            drawGridLine(context: context, x: position.x, y: position.y)
+            context.setLineWidth(xAxis.gridLineWidth )
+            var major = false
+            if xAxis.logAxis.count > 0 && xAxis.isLogarithmicEnabled == true
+            {
+                if (log10 (abs(xAxis.logAxis[i])) - floor (log10(abs(xAxis.logAxis[i])))) == 0
+                {
+                    context.setLineWidth(xAxis.gridLineWidth * 3)
+                    major = true
+                }
+            }
+            drawGridLine(context: context, x: position.x, y: position.y, major: major)
         }
     }
     
@@ -337,19 +363,43 @@ open class XAxisRenderer: AxisRendererBase
         return contentRect
     }
     
-    open func drawGridLine(context: CGContext, x: CGFloat, y: CGFloat)
+    open func drawGridLine(context: CGContext, x: CGFloat, y: CGFloat, major : Bool)
     {
         guard
+            let xAxis = self.axis as? XAxis,
             let viewPortHandler = self.viewPortHandler
             else { return }
         
-        if x >= viewPortHandler.offsetLeft
-            && x <= viewPortHandler.chartWidth
+        if x >= viewPortHandler.offsetLeft && x <= viewPortHandler.chartWidth
         {
-            context.beginPath()
-            context.move(to: CGPoint(x: x, y: viewPortHandler.contentTop))
-            context.addLine(to: CGPoint(x: x, y: viewPortHandler.contentBottom))
-            context.strokePath()
+            if xAxis.isLogarithmicEnabled == true && xAxis.isStickEnabled == true
+            {
+                if xAxis.isStickMajorEnabled == false && major == true
+                {
+                    context.beginPath()
+                    context.move(to: CGPoint(x: x, y: viewPortHandler.contentTop))
+                    context.addLine(to: CGPoint(x: x, y: viewPortHandler.contentBottom))
+                    context.strokePath()
+                }
+                else
+                {
+                    let heightStick : CGFloat = 5.0
+                    context.beginPath()
+                    context.move(to: CGPoint(x: x, y: viewPortHandler.contentTop))
+                    context.addLine(to: CGPoint(x: x, y: viewPortHandler.contentTop + heightStick))
+                    
+                    context.move(to: CGPoint(x: x, y: viewPortHandler.contentBottom))
+                    context.addLine(to: CGPoint(x: x, y: viewPortHandler.contentBottom - heightStick))
+                    context.strokePath()
+                }
+            }
+            else
+            {
+                context.beginPath()
+                context.move(to: CGPoint(x: x, y: viewPortHandler.contentTop))
+                context.addLine(to: CGPoint(x: x, y: viewPortHandler.contentBottom))
+                context.strokePath()
+            }
         }
     }
     
@@ -440,44 +490,45 @@ open class XAxisRenderer: AxisRendererBase
             if limitLine.labelPosition == .rightTop
             {
                 ChartUtils.drawText(context: context,
-                    text: label,
-                    point: CGPoint(
-                        x: position.x + xOffset,
-                        y: viewPortHandler.contentTop + yOffset),
-                    align: .left,
-                    attributes: [NSFontAttributeName: limitLine.valueFont, NSForegroundColorAttributeName: limitLine.valueTextColor])
+                                    text: label,
+                                    point: CGPoint(
+                                        x: position.x + xOffset,
+                                        y: viewPortHandler.contentTop + yOffset),
+                                    align: .left,
+                                    attributes: [NSFontAttributeName: limitLine.valueFont, NSForegroundColorAttributeName: limitLine.valueTextColor])
             }
             else if limitLine.labelPosition == .rightBottom
             {
                 ChartUtils.drawText(context: context,
-                    text: label,
-                    point: CGPoint(
-                        x: position.x + xOffset,
-                        y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
-                    align: .left,
-                    attributes: [NSFontAttributeName: limitLine.valueFont, NSForegroundColorAttributeName: limitLine.valueTextColor])
+                                    text: label,
+                                    point: CGPoint(
+                                        x: position.x + xOffset,
+                                        y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
+                                    align: .left,
+                                    attributes: [NSFontAttributeName: limitLine.valueFont, NSForegroundColorAttributeName: limitLine.valueTextColor])
             }
             else if limitLine.labelPosition == .leftTop
             {
                 ChartUtils.drawText(context: context,
-                    text: label,
-                    point: CGPoint(
-                        x: position.x - xOffset,
-                        y: viewPortHandler.contentTop + yOffset),
-                    align: .right,
-                    attributes: [NSFontAttributeName: limitLine.valueFont, NSForegroundColorAttributeName: limitLine.valueTextColor])
+                                    text: label,
+                                    point: CGPoint(
+                                        x: position.x - xOffset,
+                                        y: viewPortHandler.contentTop + yOffset),
+                                    align: .right,
+                                    attributes: [NSFontAttributeName: limitLine.valueFont, NSForegroundColorAttributeName: limitLine.valueTextColor])
             }
             else
             {
                 ChartUtils.drawText(context: context,
-                    text: label,
-                    point: CGPoint(
-                        x: position.x - xOffset,
-                        y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
-                    align: .right,
-                    attributes: [NSFontAttributeName: limitLine.valueFont, NSForegroundColorAttributeName: limitLine.valueTextColor])
+                                    text: label,
+                                    point: CGPoint(
+                                        x: position.x - xOffset,
+                                        y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
+                                    align: .right,
+                                    attributes: [NSFontAttributeName: limitLine.valueFont, NSForegroundColorAttributeName: limitLine.valueTextColor])
             }
         }
     }
-
 }
+
+
