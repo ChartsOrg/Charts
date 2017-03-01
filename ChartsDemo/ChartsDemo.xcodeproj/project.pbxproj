@@ -108,6 +108,8 @@
 		65BF12B11BFC9B00005C28D9 /* RealmLineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BF12AF1BFC9B00005C28D9 /* RealmLineChartViewController.xib */; };
 		65BF12B61BFC9B50005C28D9 /* RealmBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65BF12B41BFC9B50005C28D9 /* RealmBarChartViewController.m */; };
 		65BF12B71BFC9B50005C28D9 /* RealmBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BF12B51BFC9B50005C28D9 /* RealmBarChartViewController.xib */; };
+		C58FA0341E66E0010065AA46 /* RoundedBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C58FA0321E66E0010065AA46 /* RoundedBarChartViewController.m */; };
+		C58FA0351E66E0010065AA46 /* RoundedBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C58FA0331E66E0010065AA46 /* RoundedBarChartViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -310,6 +312,9 @@
 		65BF12B31BFC9B50005C28D9 /* RealmBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealmBarChartViewController.h; sourceTree = "<group>"; };
 		65BF12B41BFC9B50005C28D9 /* RealmBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealmBarChartViewController.m; sourceTree = "<group>"; };
 		65BF12B51BFC9B50005C28D9 /* RealmBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RealmBarChartViewController.xib; sourceTree = "<group>"; };
+		C58FA0311E66E0010065AA46 /* RoundedBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundedBarChartViewController.h; sourceTree = "<group>"; };
+		C58FA0321E66E0010065AA46 /* RoundedBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundedBarChartViewController.m; sourceTree = "<group>"; };
+		C58FA0331E66E0010065AA46 /* RoundedBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RoundedBarChartViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -453,6 +458,9 @@
 				5BD47E621ABB424E008FCEC6 /* BarChartViewController.h */,
 				5BD47E631ABB424E008FCEC6 /* BarChartViewController.m */,
 				5BD47E641ABB424E008FCEC6 /* BarChartViewController.xib */,
+				C58FA0311E66E0010065AA46 /* RoundedBarChartViewController.h */,
+				C58FA0321E66E0010065AA46 /* RoundedBarChartViewController.m */,
+				C58FA0331E66E0010065AA46 /* RoundedBarChartViewController.xib */,
 				55E3564E1ADC638F00A57971 /* BubbleChartViewController.h */,
 				55E3564F1ADC638F00A57971 /* BubbleChartViewController.m */,
 				55E3564D1ADC638F00A57971 /* BubbleChartViewController.xib */,
@@ -716,6 +724,7 @@
 				5BEAED1C1ABBFB340013F194 /* ScatterChartViewController.xib in Resources */,
 				0471CBFC1CA1090A00E52DBC /* PiePolylineChartViewController.xib in Resources */,
 				5BD8F0751AB89CE500566E05 /* LineChart1ViewController.xib in Resources */,
+				C58FA0351E66E0010065AA46 /* RoundedBarChartViewController.xib in Resources */,
 				5BE673811D5B496500A87BA2 /* HalfPieChartViewController.xib in Resources */,
 				5B43162D1AB8D8AE0009FCAA /* iTunesArtwork in Resources */,
 				65BF12B11BFC9B00005C28D9 /* RealmLineChartViewController.xib in Resources */,
@@ -801,6 +810,7 @@
 				5B4AC1511C47E8720028D1A6 /* RealmHorizontalBarChartViewController.m in Sources */,
 				5B613DF01D5A50B6000F1E98 /* XYMarkerView.swift in Sources */,
 				5BEAED3B1ABC199F0013F194 /* ColoredLineChartViewController.m in Sources */,
+				C58FA0341E66E0010065AA46 /* RoundedBarChartViewController.m in Sources */,
 				5BDEDC411ABB7F73007D3A60 /* HorizontalBarChartViewController.m in Sources */,
 				5BEAED121ABBFB2B0013F194 /* AnotherBarChartViewController.m in Sources */,
 				5BEAED311ABC18F00013F194 /* CubicLineChartViewController.m in Sources */,

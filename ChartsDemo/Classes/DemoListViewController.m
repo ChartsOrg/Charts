@@ -34,6 +34,7 @@
 #import "LineChartFilledViewController.h"
 #import "HalfPieChartViewController.h"
 #import "RealmDemoListViewController.h"
+#import "RoundedBarChartViewController.h"
 
 @interface DemoListViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -64,6 +65,12 @@
                           @"title": @"Bar Chart",
                           @"subtitle": @"A simple demonstration of the bar chart.",
                           @"class": BarChartViewController.class
+                          },
+                      
+                      @{
+                          @"title": @"Rounded Bar Chart",
+                          @"subtitle": @"A simple demonstration of the bar chart with rounded edges.",
+                          @"class": RoundedBarChartViewController.class
                           },
                       @{
                           @"title": @"Horizontal Bar Chart",
