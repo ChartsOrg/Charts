@@ -268,13 +268,26 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
             
-            context.fill(barRect)
-            
-            if drawBorder
+            if (dataSet.hasRoundedCorners)
             {
-                context.setStrokeColor(borderColor.cgColor)
-                context.setLineWidth(borderWidth)
-                context.stroke(barRect)
+                let path = UIBezierPath.init(roundedRect: barRect, byRoundingCorners: UIRectCorner.bottomRight.union(UIRectCorner.topRight), cornerRadii: CGSize(width: dataSet.barCornerRadius, height: dataSet.barCornerRadius))
+                path.fill()
+                
+                if drawBorder
+                {
+                    path.stroke()
+                }
+                
+                
+            }
+            else
+            {
+                context.fill(barRect)
+                
+                if drawBorder
+                {
+                    context.stroke(barRect)
+                }
             }
         }
         

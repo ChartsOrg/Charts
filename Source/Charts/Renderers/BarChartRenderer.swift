@@ -713,7 +713,14 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 
                 if (set.hasRoundedCorners)
                 {
-                    let path = UIBezierPath.init(roundedRect: barRect, byRoundingCorners: UIRectCorner.topLeft.union(UIRectCorner.topRight), cornerRadii: CGSize(width: set.barCornerRadius, height: set.barCornerRadius))
+                    var corners = UIRectCorner.topLeft.union(UIRectCorner.topRight)
+                    
+                    if (self is HorizontalBarChartRenderer)
+                    {
+                        corners = UIRectCorner.bottomRight.union(UIRectCorner.topRight)
+                    }
+                    
+                    let path = UIBezierPath.init(roundedRect: barRect, byRoundingCorners: corners, cornerRadii: CGSize(width: set.barCornerRadius, height: set.barCornerRadius))
                     path.fill()
                 }
                 else
