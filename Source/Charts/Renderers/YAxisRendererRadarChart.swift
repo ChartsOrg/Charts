@@ -156,6 +156,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
         
         axis._axisMinimum = axis.entries[0]
         axis._axisMaximum = axis.entries[n-1]
+        print ("axis._axisMaximum = ", axis._axisMaximum)
         axis.axisRange = abs(axis._axisMaximum - axis._axisMinimum)
     }
     
