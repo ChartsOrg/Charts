@@ -53,11 +53,6 @@
 
     self.itemDefs = @[
                       @{
-                          @"title": @"Gear Chart",
-                          @"subtitle": @"A simple demonstration of the gear chart.",
-                          @"class": GearChartViewController.class
-                          },
-                      @{
                           @"title": @"Line Chart",
                           @"subtitle": @"A simple demonstration of the linechart.",
                           @"class": LineChart1ViewController.class
@@ -182,7 +177,11 @@
                           @"subtitle": @"This demonstrates how to create a 180 degree PieChart.",
                           @"class": HalfPieChartViewController.class
                           },
-                    
+                      @{
+                          @"title": @"Gear Chart",
+                          @"subtitle": @"A simple demonstration of the gear chart.",
+                          @"class": GearChartViewController.class
+                          },
                       @{
                           @"title": @"Realm.io database",
                           @"subtitle": @"This demonstrates how to use this library with Realm.io mobile database.",
