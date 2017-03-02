@@ -108,6 +108,8 @@
 		65BF12B11BFC9B00005C28D9 /* RealmLineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BF12AF1BFC9B00005C28D9 /* RealmLineChartViewController.xib */; };
 		65BF12B61BFC9B50005C28D9 /* RealmBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65BF12B41BFC9B50005C28D9 /* RealmBarChartViewController.m */; };
 		65BF12B71BFC9B50005C28D9 /* RealmBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65BF12B51BFC9B50005C28D9 /* RealmBarChartViewController.xib */; };
+		C58228111E68323E00AD5051 /* GearChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C582280F1E68323E00AD5051 /* GearChartViewController.m */; };
+		C58228121E68323E00AD5051 /* GearChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C58228101E68323E00AD5051 /* GearChartViewController.xib */; };
 		C58FA0341E66E0010065AA46 /* RoundedBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C58FA0321E66E0010065AA46 /* RoundedBarChartViewController.m */; };
 		C58FA0351E66E0010065AA46 /* RoundedBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C58FA0331E66E0010065AA46 /* RoundedBarChartViewController.xib */; };
 /* End PBXBuildFile section */
@@ -312,6 +314,9 @@
 		65BF12B31BFC9B50005C28D9 /* RealmBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealmBarChartViewController.h; sourceTree = "<group>"; };
 		65BF12B41BFC9B50005C28D9 /* RealmBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealmBarChartViewController.m; sourceTree = "<group>"; };
 		65BF12B51BFC9B50005C28D9 /* RealmBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RealmBarChartViewController.xib; sourceTree = "<group>"; };
+		C582280E1E68323E00AD5051 /* GearChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GearChartViewController.h; sourceTree = "<group>"; };
+		C582280F1E68323E00AD5051 /* GearChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GearChartViewController.m; sourceTree = "<group>"; };
+		C58228101E68323E00AD5051 /* GearChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GearChartViewController.xib; sourceTree = "<group>"; };
 		C58FA0311E66E0010065AA46 /* RoundedBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundedBarChartViewController.h; sourceTree = "<group>"; };
 		C58FA0321E66E0010065AA46 /* RoundedBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundedBarChartViewController.m; sourceTree = "<group>"; };
 		C58FA0331E66E0010065AA46 /* RoundedBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RoundedBarChartViewController.xib; sourceTree = "<group>"; };
@@ -476,6 +481,9 @@
 				5BEAED2E1ABC18F00013F194 /* CubicLineChartViewController.h */,
 				5BEAED2F1ABC18F00013F194 /* CubicLineChartViewController.m */,
 				5BEAED301ABC18F00013F194 /* CubicLineChartViewController.xib */,
+				C582280E1E68323E00AD5051 /* GearChartViewController.h */,
+				C582280F1E68323E00AD5051 /* GearChartViewController.m */,
+				C58228101E68323E00AD5051 /* GearChartViewController.xib */,
 				5BE6737D1D5B496500A87BA2 /* HalfPieChartViewController.h */,
 				5BE6737E1D5B496500A87BA2 /* HalfPieChartViewController.m */,
 				5BE6737F1D5B496500A87BA2 /* HalfPieChartViewController.xib */,
@@ -722,6 +730,7 @@
 				5B0CC7861ABB875400665592 /* PieChartViewController.xib in Resources */,
 				5B7B3AE01C437F61001C109B /* RealmCandleChartViewController.xib in Resources */,
 				5BEAED1C1ABBFB340013F194 /* ScatterChartViewController.xib in Resources */,
+				C58228121E68323E00AD5051 /* GearChartViewController.xib in Resources */,
 				0471CBFC1CA1090A00E52DBC /* PiePolylineChartViewController.xib in Resources */,
 				5BD8F0751AB89CE500566E05 /* LineChart1ViewController.xib in Resources */,
 				C58FA0351E66E0010065AA46 /* RoundedBarChartViewController.xib in Resources */,
@@ -796,6 +805,7 @@
 				5B57BBB81A9B26AA0036A6CC /* AppDelegate.m in Sources */,
 				5B7B3AD81C437CBC001C109B /* RealmDemoListViewController.m in Sources */,
 				55E356511ADC638F00A57971 /* BubbleChartViewController.m in Sources */,
+				C58228111E68323E00AD5051 /* GearChartViewController.m in Sources */,
 				5BD47E5B1ABB0263008FCEC6 /* BalloonMarker.swift in Sources */,
 				5B4AC1981C4C183E0028D1A6 /* Score.m in Sources */,
 				5BEAED2C1ABC160F0013F194 /* CandleStickChartViewController.m in Sources */,

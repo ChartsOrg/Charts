@@ -35,6 +35,7 @@
 #import "HalfPieChartViewController.h"
 #import "RealmDemoListViewController.h"
 #import "RoundedBarChartViewController.h"
+#import "GearChartViewController.h"
 
 @interface DemoListViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -51,6 +52,11 @@
     self.title = @"Charts Demonstration";
 
     self.itemDefs = @[
+                      @{
+                          @"title": @"Gear Chart",
+                          @"subtitle": @"A simple demonstration of the gear chart.",
+                          @"class": GearChartViewController.class
+                          },
                       @{
                           @"title": @"Line Chart",
                           @"subtitle": @"A simple demonstration of the linechart.",

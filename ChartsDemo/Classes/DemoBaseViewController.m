@@ -311,6 +311,40 @@
     l.yOffset = 0.0;
 }
 
+
+- (void)setupGearChartView:(GearChartView *)chartView
+{
+    chartView.usePercentValuesEnabled = YES;
+    chartView.chartDescription.enabled = YES;
+    [chartView setExtraOffsetsWithLeft:5.f top:10.f right:5.f bottom:5.f];
+    
+    chartView.drawCenterTextEnabled = YES;
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    
+    NSMutableAttributedString *centerText = [[NSMutableAttributedString alloc] initWithString:@"Gear Chart"];
+    [centerText setAttributes:@{
+                                NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:32.f],
+                                NSParagraphStyleAttributeName: paragraphStyle
+                                } range:NSMakeRange(0, centerText.length)];
+    chartView.centerAttributedText = centerText;
+    
+    chartView.rotationAngle = 270.0; //NORTH
+    chartView.rotationEnabled = YES;
+    chartView.highlightPerTapEnabled = YES;
+    
+    ChartLegend *l = chartView.legend;
+    l.horizontalAlignment = ChartLegendHorizontalAlignmentRight;
+    l.verticalAlignment = ChartLegendVerticalAlignmentTop;
+    l.orientation = ChartLegendOrientationVertical;
+    l.drawInside = NO;
+    l.xEntrySpace = 7.0;
+    l.yEntrySpace = 0.0;
+    l.yOffset = 0.0;
+}
+
 - (void)setupRadarChartView:(RadarChartView *)chartView
 {
     chartView.chartDescription.enabled = NO;
