@@ -61,7 +61,7 @@
 
     [self slidersValueChanged:nil];
     
-    [_chartView animateWithXAxisDuration:1.4 easingOption:ChartEasingOptionEaseOutBack];
+    [_chartView animateWithYAxisDuration:1.0 easingOption:ChartEasingOptionEaseOutQuad];
 }
 
 - (void)didReceiveMemoryWarning

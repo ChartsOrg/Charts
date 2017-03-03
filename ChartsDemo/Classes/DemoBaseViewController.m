@@ -315,7 +315,7 @@
 - (void)setupGearChartView:(GearChartView *)chartView
 {
     chartView.usePercentValuesEnabled = YES;
-    chartView.chartDescription.enabled = YES;
+    chartView.chartDescription.enabled = NO;
     [chartView setExtraOffsetsWithLeft:5.f top:10.f right:5.f bottom:5.f];
     
     chartView.drawCenterTextEnabled = YES;
@@ -333,7 +333,7 @@
     
     chartView.rotationAngle = 270.0; //NORTH
     chartView.rotationEnabled = YES;
-    chartView.highlightPerTapEnabled = YES;
+    chartView.highlightPerTapEnabled = NO;
     
     ChartLegend *l = chartView.legend;
     l.horizontalAlignment = ChartLegendHorizontalAlignmentRight;
