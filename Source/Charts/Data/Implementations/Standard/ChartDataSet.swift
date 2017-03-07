@@ -124,7 +124,7 @@ open class ChartDataSet: ChartBaseDataSet
         
         if indexTo <= indexFrom { return }
         
-        for i in indexFrom..<indexTo
+        for i in indexFrom...indexTo
         {
             // only recalculate y
             calcMinMaxY(entry: _values[i])
