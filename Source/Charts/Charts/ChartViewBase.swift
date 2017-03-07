@@ -197,10 +197,6 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     public override init(frame: CGRect)
     {
         super.init(frame: frame)
-
-		#if os(iOS)
-			self.backgroundColor = NSUIColor.clear
-		#endif
         initialize()
     }
     
@@ -218,6 +214,10 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     internal func initialize()
     {
+        #if os(iOS)
+            self.backgroundColor = NSUIColor.clear
+        #endif
+
         _animator = Animator()
         _animator.delegate = self
 
