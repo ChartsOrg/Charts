@@ -66,9 +66,9 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
             xAxis = self.axis as? XAxis
             else { return }
        
-        let longest = xAxis.getLongestLabel() as NSString
+        let longest = xAxis.getLongestLabel(attributes: [NSFontAttributeName: xAxis.labelFont])
         
-        let labelSize = longest.size(attributes: [NSFontAttributeName: xAxis.labelFont])
+        let labelSize = longest.size()
         
         let labelWidth = floor(labelSize.width + xAxis.xOffset * 3.5)
         let labelHeight = labelSize.height
@@ -155,14 +155,14 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
             
             if viewPortHandler.isInBoundsY(position.y)
             {
-                if let label = xAxis.valueFormatter?.stringForValue(xAxis.entries[i], axis: xAxis)
+				let label = xAxis.valueFormatter?.attributedStringForValue?(xAxis.entries[i], axis: xAxis, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor]) ?? NSAttributedString(string: xAxis.valueFormatter?.stringForValue?(xAxis.entries[i], axis: xAxis) ?? "", attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
+				if label.string.characters.count > 0
                 {
                     drawLabel(
                         context: context,
-                        formattedLabel: label,
+                        attributedLabel: label,
                         x: pos,
                         y: position.y,
-                        attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor],
                         anchor: anchor,
                         angleRadians: labelRotationAngleRadians)
                 }
@@ -179,15 +179,31 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
         anchor: CGPoint,
         angleRadians: CGFloat)
     {
-        ChartUtils.drawText(
+        drawLabel(
             context: context,
-            text: formattedLabel,
-            point: CGPoint(x: x, y: y),
-            attributes: attributes,
+            attributedLabel: NSAttributedString(string:formattedLabel,attributes:attributes),
+            x: x,
+            y: y,
             anchor: anchor,
             angleRadians: angleRadians)
     }
-    
+	
+	open func drawLabel(
+		context: CGContext,
+		attributedLabel: NSAttributedString,
+		x: CGFloat,
+		y: CGFloat,
+		anchor: CGPoint,
+		angleRadians: CGFloat)
+	{
+		ChartUtils.drawText(
+			context: context,
+			text: attributedLabel,
+			point: CGPoint(x: x, y: y),
+			anchor: anchor,
+			angleRadians: angleRadians)
+	}
+	
     open override var gridClippingRect: CGRect
     {
         var contentRect = viewPortHandler?.contentRect ?? CGRect.zero

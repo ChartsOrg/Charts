@@ -70,9 +70,9 @@ open class XAxisRenderer: AxisRendererBase
             xAxis = self.axis as? XAxis
             else { return }
         
-        let longest = xAxis.getLongestLabel()
+        let longest = xAxis.getLongestLabel(attributes: [NSFontAttributeName: xAxis.labelFont])
         
-        let labelSize = longest.size(attributes: [NSFontAttributeName: xAxis.labelFont])
+        let labelSize = longest.size()
         
         let labelWidth = labelSize.width
         let labelHeight = labelSize.height
@@ -226,16 +226,15 @@ open class XAxisRenderer: AxisRendererBase
             
             if viewPortHandler.isInBoundsX(position.x)
             {
-                let label = xAxis.valueFormatter?.stringForValue(xAxis.entries[i], axis: xAxis) ?? ""
-
-                let labelns = label as NSString
+				let label = xAxis.valueFormatter?.attributedStringForValue?(xAxis.entries[i], axis: xAxis, attributes: labelAttrs) ?? NSAttributedString(string:xAxis.valueFormatter?.stringForValue?(xAxis.entries[i], axis: xAxis) ?? "", attributes: labelAttrs)
                 
                 if xAxis.isAvoidFirstLastClippingEnabled
                 {
                     // avoid clipping of the last
                     if i == xAxis.entryCount - 1 && xAxis.entryCount > 1
                     {
-                        let width = labelns.boundingRect(with: labelMaxSize, options: .usesLineFragmentOrigin, attributes: labelAttrs, context: nil).size.width
+						
+						let width = label.boundingRect(with: labelMaxSize, options: .usesLineFragmentOrigin, context: nil).size.width
                         
                         if width > viewPortHandler.offsetRight * 2.0
                             && position.x + width > viewPortHandler.chartWidth
@@ -245,16 +244,15 @@ open class XAxisRenderer: AxisRendererBase
                     }
                     else if i == 0
                     { // avoid clipping of the first
-                        let width = labelns.boundingRect(with: labelMaxSize, options: .usesLineFragmentOrigin, attributes: labelAttrs, context: nil).size.width
+                        let width = label.boundingRect(with: labelMaxSize, options: .usesLineFragmentOrigin, context: nil).size.width
                         position.x += width / 2.0
                     }
                 }
                 
                 drawLabel(context: context,
-                          formattedLabel: label,
+                          attributedLabel: label,
                           x: position.x,
                           y: pos,
-                          attributes: labelAttrs,
                           constrainedToSize: labelMaxSize,
                           anchor: anchor,
                           angleRadians: labelRotationAngleRadians)
@@ -272,16 +270,34 @@ open class XAxisRenderer: AxisRendererBase
         anchor: CGPoint,
         angleRadians: CGFloat)
     {
-        ChartUtils.drawMultilineText(
+        drawLabel(
             context: context,
-            text: formattedLabel,
-            point: CGPoint(x: x, y: y),
-            attributes: attributes,
+            attributedLabel: NSAttributedString(string: formattedLabel, attributes: attributes),
+            x: x,
+            y: y,
             constrainedToSize: constrainedToSize,
             anchor: anchor,
             angleRadians: angleRadians)
     }
-    
+	
+	open func drawLabel(
+		context: CGContext,
+		attributedLabel: NSAttributedString,
+		x: CGFloat,
+		y: CGFloat,
+		constrainedToSize: CGSize,
+		anchor: CGPoint,
+		angleRadians: CGFloat)
+	{
+		ChartUtils.drawMultilineText(
+			context: context,
+			text: attributedLabel,
+			point: CGPoint(x: x, y: y),
+			constrainedToSize: constrainedToSize,
+			anchor: anchor,
+			angleRadians: angleRadians)
+	}
+	
     open override func renderGridLines(context: CGContext)
     {
         guard

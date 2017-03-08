@@ -146,14 +146,14 @@ open class YAxisRenderer: AxisRendererBase
         
         for i in stride(from: from, to: to, by: 1)
         {
-            let text = yAxis.getFormattedLabel(i)
-            
-            ChartUtils.drawText(
-                context: context,
-                text: text,
-                point: CGPoint(x: fixedPosition, y: positions[i].y + offset),
-                align: textAlign,
-                attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
+            let text = yAxis.getFormattedLabel(i, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
+			
+			ChartUtils.drawText(
+				context: context,
+				text: text,
+				point: CGPoint(x: fixedPosition, y: positions[i].y + offset),
+				align: textAlign
+			)
         }
     }
     

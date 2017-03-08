@@ -203,8 +203,12 @@ open class ChartUtils
         
         NSUIGraphicsPopContext()
     }
+	
+	internal class func drawMultilineText(context: CGContext, text: String, knownTextSize: CGSize, point: CGPoint, attributes: [String : AnyObject]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat){
+		drawMultilineText(context: context, text: NSAttributedString(string: text, attributes: attributes ?? [:]), knownTextSize: knownTextSize, point: point, constrainedToSize: constrainedToSize, anchor: anchor, angleRadians: angleRadians)
+	}
     
-    internal class func drawMultilineText(context: CGContext, text: String, knownTextSize: CGSize, point: CGPoint, attributes: [String : AnyObject]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
+    internal class func drawMultilineText(context: CGContext, text: NSAttributedString, knownTextSize: CGSize, point: CGPoint, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
     {
         var rect = CGRect(origin: CGPoint(), size: knownTextSize)
         
@@ -230,8 +234,8 @@ open class ChartUtils
             context.saveGState()
             context.translateBy(x: translate.x, y: translate.y)
             context.rotate(by: angleRadians)
-            
-            (text as NSString).draw(with: rect, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+			
+			text.draw(with: rect, options: .usesLineFragmentOrigin, context: nil)
             
             context.restoreGState()
         }
@@ -245,8 +249,8 @@ open class ChartUtils
             
             rect.origin.x += point.x
             rect.origin.y += point.y
-            
-            (text as NSString).draw(with: rect, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+			
+			text.draw(with: rect, options: .usesLineFragmentOrigin, context: nil)
         }
         
         NSUIGraphicsPopContext()
@@ -257,7 +261,13 @@ open class ChartUtils
         let rect = text.boundingRect(with: constrainedToSize, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
         drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, attributes: attributes, constrainedToSize: constrainedToSize, anchor: anchor, angleRadians: angleRadians)
     }
-    
+	
+	internal class func drawMultilineText(context: CGContext, text: NSAttributedString, point: CGPoint, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
+	{
+		let rect = text.boundingRect(with: constrainedToSize, options: .usesLineFragmentOrigin, context: nil)
+		drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, constrainedToSize: constrainedToSize, anchor: anchor, angleRadians: angleRadians)
+	}
+	
     /// - returns: An angle between 0.0 < 360.0 (not less than zero, less than 360)
     internal class func normalizedAngleFromAngle(_ angle: CGFloat) -> CGFloat
     {

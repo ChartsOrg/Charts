@@ -126,15 +126,15 @@ open class AxisBase: ComponentBase
     /// if true, the set number of y-labels will be forced
     open var forceLabelsEnabled = false
     
-    open func getLongestLabel() -> String
+    open func getLongestLabel(attributes: [String: NSObject]?) -> NSAttributedString
     {
-        var longest = ""
+        var longest = NSAttributedString(string:"", attributes: attributes)
         
         for i in 0 ..< entries.count
         {
-            let text = getFormattedLabel(i)
-            
-            if longest.characters.count < text.characters.count
+			let text = getFormattedLabel(i,attributes:attributes)
+			
+            if longest.size().width < text.size().width
             {
                 longest = text
             }
@@ -144,14 +144,14 @@ open class AxisBase: ComponentBase
     }
     
     /// - returns: The formatted label at the specified index. This will either use the auto-formatter or the custom formatter (if one is set).
-    open func getFormattedLabel(_ index: Int) -> String
+    open func getFormattedLabel(_ index: Int, attributes: [String:Any]?) -> NSAttributedString
     {
         if index < 0 || index >= entries.count
         {
-            return ""
+            return NSAttributedString(string:"", attributes: attributes)
         }
-        
-        return valueFormatter?.stringForValue(entries[index], axis: self) ?? ""
+		
+		return valueFormatter?.attributedStringForValue?(entries[index], axis: self, attributes: attributes) ?? NSAttributedString(string:valueFormatter?.stringForValue?(entries[index], axis: self) ?? "", attributes: attributes)
     }
     
     /// Sets the formatter to be used for formatting the axis labels.

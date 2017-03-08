@@ -24,7 +24,18 @@ public protocol IAxisValueFormatter : NSObjectProtocol
     /// - parameter value:           the value that is currently being drawn
     /// - parameter axis:            the axis that the value belongs to
     ///
-    func stringForValue(_ value: Double,
+    @objc optional func stringForValue(_ value: Double,
                         axis: AxisBase?) -> String
-    
+	
+	
+	/// Called when a value from an axis is formatted before being drawn.
+	///
+	/// For performance reasons, avoid excessive calculations and memory allocations inside this method.
+	///
+	/// - returns: The customized label as attributed string that is drawn on the x-axis.
+	/// - parameter value:           the value that is currently being drawn
+	/// - parameter axis:            the axis that the value belongs to
+	///
+	@objc optional func attributedStringForValue(_ value: Double,
+	                              axis: AxisBase?, attributes: [String:Any]?) -> NSAttributedString
 }

@@ -188,17 +188,14 @@ open class YAxisRendererRadarChart: YAxisRenderer
             
             let p = ChartUtils.getPosition(center: center, dist: r, angle: chart.rotationAngle)
             
-            let label = yAxis.getFormattedLabel(j)
-            
+			let label = yAxis.getFormattedLabel(j, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
+			
             ChartUtils.drawText(
                 context: context,
                 text: label,
                 point: CGPoint(x: p.x + 10.0, y: p.y - labelLineHeight),
-                align: .left,
-                attributes: [
-                    NSFontAttributeName: labelFont,
-                    NSForegroundColorAttributeName: labelTextColor
-                ])
+                align: .left
+			)
         }
     }
     

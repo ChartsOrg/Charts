@@ -170,14 +170,14 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         
         for i in stride(from: from, to: to, by: 1)
         {
-            let text = yAxis.getFormattedLabel(i)
+            let text = yAxis.getFormattedLabel(i, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
             
             ChartUtils.drawText(
                 context: context,
                 text: text,
                 point: CGPoint(x: positions[i].x, y: fixedPosition - offset),
-                align: .center,
-                attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
+                align: .center
+			)
         }
     }
     

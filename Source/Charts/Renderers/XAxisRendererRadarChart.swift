@@ -54,17 +54,16 @@ open class XAxisRendererRadarChart: XAxisRenderer
         for i in stride(from: 0, to: chart.data?.maxEntryCountSet?.entryCount ?? 0, by: 1)
         {
             
-            let label = xAxis.valueFormatter?.stringForValue(Double(i), axis: xAxis) ?? ""
+            let label = xAxis.valueFormatter?.attributedStringForValue?(Double(i), axis: xAxis, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor]) ?? NSAttributedString(string:xAxis.valueFormatter?.stringForValue?(Double(i), axis: xAxis) ?? "", attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
             
             let angle = (sliceangle * CGFloat(i) + chart.rotationAngle).truncatingRemainder(dividingBy: 360.0)
             
             let p = ChartUtils.getPosition(center: center, dist: CGFloat(chart.yRange) * factor + xAxis.labelRotatedWidth / 2.0, angle: angle)
-            
+			
             drawLabel(context: context,
-                      formattedLabel: label,
+                      attributedLabel: label,
                       x: p.x,
                       y: p.y - xAxis.labelRotatedHeight / 2.0,
-                      attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor],
                       anchor: drawLabelAnchor,
                       angleRadians: labelRotationAngleRadians)
         }
@@ -79,15 +78,31 @@ open class XAxisRendererRadarChart: XAxisRenderer
         anchor: CGPoint,
         angleRadians: CGFloat)
     {
-        ChartUtils.drawText(
-            context: context,
-            text: formattedLabel,
-            point: CGPoint(x: x, y: y),
-            attributes: attributes,
-            anchor: anchor,
-            angleRadians: angleRadians)
+		drawLabel(
+			context: context,
+			attributedLabel: NSAttributedString(string:formattedLabel,attributes:attributes),
+			x: x,
+			y: y,
+			anchor: anchor,
+			angleRadians: angleRadians)
     }
-    
+	
+	open func drawLabel(
+		context: CGContext,
+		attributedLabel: NSAttributedString,
+		x: CGFloat,
+		y: CGFloat,
+		anchor: CGPoint,
+		angleRadians: CGFloat)
+	{
+		ChartUtils.drawText(
+			context: context,
+			text: attributedLabel,
+			point: CGPoint(x: x, y: y),
+			anchor: anchor,
+			angleRadians: angleRadians)
+	}
+	
     open override func renderLimitLines(context: CGContext)
     {
         /// XAxis LimitLines on RadarChart not yet supported.
