@@ -109,7 +109,7 @@ open class ChartDataSet: ChartBaseDataSet
         }
     }
     
-    open override calcMinMaxY(fromX: Double, toX: Double)
+    open override func calcMinMaxY(fromX: Double, toX: Double)
     {
         if _values.count == 0
         {
