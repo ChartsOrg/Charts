@@ -43,6 +43,9 @@ public protocol IBarChartDataSet: IBarLineScatterCandleBubbleChartDataSet
     /// - returns: 'true' if the bars have rounded corners
     var hasRoundedCorners : Bool { get set }
     
+    /// - returns: 'true' if the bars have rounded corners and the chart is stacked
+    var isStackedWithRoundedCorners : Bool { get set }
+    
     /// - returns: The corner radius is used for drawing the bars with rounded corners (only used if 'hasRoundedCorners' is true)
     var barCornerRadius : CGFloat { get set }
 }

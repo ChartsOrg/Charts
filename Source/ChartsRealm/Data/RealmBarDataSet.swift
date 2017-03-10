@@ -320,6 +320,9 @@ open class RealmBarDataSet: RealmBarLineScatterCandleBubbleDataSet, IBarChartDat
     /// - returns: The corner radius is used for drawing the bars with rounded corners (only used if 'hasRoundedCorners' is true)
     open var barCornerRadius : CGFloat = 20.0
     
+    /// - returns: 'true' if the bars have rounded corners
+    open var isStackedWithRoundedCorners: Bool = false
+    
     // MARK: - NSCopying
     
     open override func copyWithZone(_ zone: NSZone?) -> AnyObject

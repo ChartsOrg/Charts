@@ -36,6 +36,8 @@
 #import "RealmDemoListViewController.h"
 #import "RoundedBarChartViewController.h"
 #import "GearChartViewController.h"
+#import "DistributionBarChartViewController.h"
+
 
 @interface DemoListViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -176,6 +178,11 @@
                           @"title": @"Half Pie Chart",
                           @"subtitle": @"This demonstrates how to create a 180 degree PieChart.",
                           @"class": HalfPieChartViewController.class
+                          },
+                      @{
+                          @"title": @"Distribution Bar Bhart",
+                          @"subtitle": @"This demonstrates how to create a Distribution Bar Chart",
+                          @"class": DistributionBarChartViewController.class
                           },
                       @{
                           @"title": @"Gear Chart",

@@ -152,6 +152,10 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
     /// - returns: 'true' if the bars have rounded corners
     open var hasRoundedCorners : Bool = false
     
+    
+    /// - returns: 'true' if the bars of the stacked chart have rounded corners
+    open var isStackedWithRoundedCorners : Bool = false
+    
     /// - returns: The corner radius is used for drawing the bars with rounded corners (only used if 'hasRoundedCorners' is true)
     open var barCornerRadius : CGFloat = 20.0
     

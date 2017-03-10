@@ -161,6 +161,7 @@
 		06B3C0F91D99F85400B1DF43 /* ChartsRealmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3C0F61D99F85400B1DF43 /* ChartsRealmTest.swift */; };
 		5B56A9CD1D905EB300F58178 /* Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B56A9CC1D905EB300F58178 /* Description.swift */; };
 		5BF8813B1DDC4DF70033370C /* IndexAxisValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF8813A1DDC4DF70033370C /* IndexAxisValueFormatter.swift */; };
+		A9BF8AB91E72A20B00B1FB03 /* DistributionBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BF8AB81E72A20B00B1FB03 /* DistributionBarChartView.swift */; };
 		C58228071E6831A700AD5051 /* GearChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58228061E6831A700AD5051 /* GearChartData.swift */; };
 		C58228091E6831B300AD5051 /* IGearChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58228081E6831B300AD5051 /* IGearChartDataSet.swift */; };
 		C582280B1E6831C200AD5051 /* GearChartRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C582280A1E6831C200AD5051 /* GearChartRenderer.swift */; };
@@ -346,6 +347,7 @@
 		06B3C0F61D99F85400B1DF43 /* ChartsRealmTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartsRealmTest.swift; sourceTree = "<group>"; };
 		5B56A9CC1D905EB300F58178 /* Description.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Description.swift; sourceTree = "<group>"; };
 		5BF8813A1DDC4DF70033370C /* IndexAxisValueFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexAxisValueFormatter.swift; sourceTree = "<group>"; };
+		A9BF8AB81E72A20B00B1FB03 /* DistributionBarChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistributionBarChartView.swift; sourceTree = "<group>"; };
 		C58228061E6831A700AD5051 /* GearChartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GearChartData.swift; sourceTree = "<group>"; };
 		C58228081E6831B300AD5051 /* IGearChartDataSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IGearChartDataSet.swift; sourceTree = "<group>"; };
 		C582280A1E6831C200AD5051 /* GearChartRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GearChartRenderer.swift; sourceTree = "<group>"; };
@@ -464,6 +466,7 @@
 		06B11FB31D811B8900D14B02 /* Charts */ = {
 			isa = PBXGroup;
 			children = (
+				A9BF8AB81E72A20B00B1FB03 /* DistributionBarChartView.swift */,
 				06B11FB41D811B8900D14B02 /* BarChartView.swift */,
 				06B11FB51D811B8900D14B02 /* BarLineChartViewBase.swift */,
 				06B11FB61D811B8900D14B02 /* BubbleChartView.swift */,
@@ -1035,6 +1038,7 @@
 				06B120681D811B8900D14B02 /* ChartDataEntry.swift in Sources */,
 				06B120A71D811B8900D14B02 /* ChartDataRendererBase.swift in Sources */,
 				06B1209B1D811B8900D14B02 /* ScatterChartDataProvider.swift in Sources */,
+				A9BF8AB91E72A20B00B1FB03 /* DistributionBarChartView.swift in Sources */,
 				06B1204D1D811B8900D14B02 /* PieChartView.swift in Sources */,
 				06B120521D811B8900D14B02 /* ChartLimitLine.swift in Sources */,
 				06B120B31D811B8900D14B02 /* CircleShapeRenderer.swift in Sources */,
