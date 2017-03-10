@@ -109,7 +109,8 @@ open class ChartDataSet: ChartBaseDataSet
         }
     }
     
-    open override func calcMinMaxY(fromX: Double, toX: Double)
+    open override 
+    (fromX: Double, toX: Double)
     {
         if _values.count == 0
         {
@@ -122,7 +123,7 @@ open class ChartDataSet: ChartBaseDataSet
         let indexFrom = entryIndex(x: fromX, closestToY: Double.nan, rounding: .down)
         let indexTo = entryIndex(x: toX, closestToY: Double.nan, rounding: .up)
         
-        if indexTo <= indexFrom { return }
+        if indexTo < indexFrom { return }
         
         for i in indexFrom...indexTo
         {
