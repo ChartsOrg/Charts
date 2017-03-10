@@ -109,8 +109,7 @@ open class ChartDataSet: ChartBaseDataSet
         }
     }
     
-    open override 
-    (fromX: Double, toX: Double)
+    open override calcMinMaxY(fromX: Double, toX: Double)
     {
         if _values.count == 0
         {
