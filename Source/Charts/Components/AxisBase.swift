@@ -252,7 +252,7 @@ open class AxisBase: ComponentBase
             
             if _labelCount > 25
             {
-                _labelCount = 25
+                _labelCount = 50
             }
             if _labelCount < 2
             {
