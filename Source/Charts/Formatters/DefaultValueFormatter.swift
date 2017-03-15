@@ -9,7 +9,7 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
+import UIKit
 
 @objc(ChartDefaultValueFormatter)
 open class DefaultValueFormatter: NSObject, IValueFormatter

@@ -9,7 +9,7 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
+import UIKit
 import CoreGraphics
 
 /// This chart class allows the combination of lines, bars, scatter and candle data all displayed in one chart area.

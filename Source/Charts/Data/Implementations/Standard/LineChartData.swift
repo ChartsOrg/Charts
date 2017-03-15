@@ -9,7 +9,7 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
+import UIKit
 
 /// Data object that encapsulates all data associated with a LineChart.
 open class LineChartData: ChartData

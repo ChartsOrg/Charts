@@ -9,7 +9,7 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
+import UIKit
 
 /// This formatter is used for passing an array of x-axis labels, on whole x steps.
 @objc(ChartIndexAxisValueFormatter)
