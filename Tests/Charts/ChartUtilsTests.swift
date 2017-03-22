@@ -23,7 +23,7 @@ class ChartUtilsTests: XCTestCase {
     
     func testDecimalWithNaN() {
         
-        let number = Double.nan
+        let number = nan
         
         let actual = ChartUtils.decimals(number)
         let expected = 0
@@ -33,7 +33,7 @@ class ChartUtilsTests: XCTestCase {
     
     func testDecimalWithInfinite() {
         
-        let number = Double.infinity
+        let number = infinity
         
         let actual = ChartUtils.decimals(number)
         let expected = 0
@@ -53,7 +53,7 @@ class ChartUtilsTests: XCTestCase {
     
     func testDecimalWithMaxValue() {
         
-        let number = DBL_MAX
+        let number = greatestFiniteMagnitude
         
         let actual = ChartUtils.decimals(number)
         let expected = 0

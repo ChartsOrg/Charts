@@ -13,14 +13,14 @@ import Foundation
 
 open class ChartData: NSObject
 {
-    internal var _yMax: Double = -DBL_MAX
-    internal var _yMin: Double = DBL_MAX
-    internal var _xMax: Double = -DBL_MAX
-    internal var _xMin: Double = DBL_MAX
-    internal var _leftAxisMax: Double = -DBL_MAX
-    internal var _leftAxisMin: Double = DBL_MAX
-    internal var _rightAxisMax: Double = -DBL_MAX
-    internal var _rightAxisMin: Double = DBL_MAX
+    internal var _yMax: Double = -.greatestFiniteMagnitude
+    internal var _yMin: Double = .greatestFiniteMagnitude
+    internal var _xMax: Double = -.greatestFiniteMagnitude
+    internal var _xMin: Double = .greatestFiniteMagnitude
+    internal var _leftAxisMax: Double = -.greatestFiniteMagnitude
+    internal var _leftAxisMin: Double = .greatestFiniteMagnitude
+    internal var _rightAxisMax: Double = -.greatestFiniteMagnitude
+    internal var _rightAxisMin: Double = .greatestFiniteMagnitude
     
     internal var _dataSets = [IChartDataSet]()
     
@@ -71,20 +71,20 @@ open class ChartData: NSObject
     /// calc minimum and maximum y value over all datasets
     open func calcMinMax()
     {
-        _yMax = -DBL_MAX
-        _yMin = DBL_MAX
-        _xMax = -DBL_MAX
-        _xMin = DBL_MAX
+        _yMax = -.greatestFiniteMagnitude
+        _yMin = .greatestFiniteMagnitude
+        _xMax = -.greatestFiniteMagnitude
+        _xMin = .greatestFiniteMagnitude
         
         for set in _dataSets
         {
             calcMinMax(dataSet: set)
         }
         
-        _leftAxisMax = -DBL_MAX
-        _leftAxisMin = DBL_MAX
-        _rightAxisMax = -DBL_MAX
-        _rightAxisMin = DBL_MAX
+        _leftAxisMax = -.greatestFiniteMagnitude
+        _leftAxisMin = .greatestFiniteMagnitude
+        _rightAxisMax = -.greatestFiniteMagnitude
+        _rightAxisMin = .greatestFiniteMagnitude
         
         // left axis
         let firstLeft = getFirstLeft(dataSets: dataSets)
@@ -257,7 +257,7 @@ open class ChartData: NSObject
     {
         if axis == .left
         {
-            if _leftAxisMin == DBL_MAX
+            if _leftAxisMin == .greatestFiniteMagnitude
             {
                 return _rightAxisMin
             }
@@ -268,7 +268,7 @@ open class ChartData: NSObject
         }
         else
         {
-            if _rightAxisMin == DBL_MAX
+            if _rightAxisMin == .greatestFiniteMagnitude
             {
                 return _leftAxisMin
             }
@@ -295,7 +295,7 @@ open class ChartData: NSObject
     {
         if axis == .left
         {
-            if _leftAxisMax == -DBL_MAX
+            if _leftAxisMax == -.greatestFiniteMagnitude
             {
                 return _rightAxisMax
             }
@@ -306,7 +306,7 @@ open class ChartData: NSObject
         }
         else
         {
-            if _rightAxisMax == -DBL_MAX
+            if _rightAxisMax == -.greatestFiniteMagnitude
             {
                 return _leftAxisMax
             }

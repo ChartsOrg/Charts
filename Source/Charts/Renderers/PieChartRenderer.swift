@@ -130,7 +130,7 @@ open class PieChartRenderer: DataRenderer
         for j in 0 ..< entryCount
         {
             guard let e = dataSet.entryForIndex(j) else { continue }
-            if ((abs(e.y) > DBL_EPSILON))
+            if ((abs(e.y) > .ulpOfOne))
             {
                 visibleAngleCount += 1
             }
@@ -147,8 +147,10 @@ open class PieChartRenderer: DataRenderer
             
             guard let e = dataSet.entryForIndex(j) else { continue }
             
+            // 'ulpOfOne' is deprecated: Please use 'ulpOfOne' or '.ulpOfOne'.
+            
             // draw only if the value is greater than zero
-            if (abs(e.y) > DBL_EPSILON)
+            if (abs(e.y) > .ulpOfOne)
             {
                 if !chart.needsHighlight(index: j)
                 {
@@ -708,7 +710,7 @@ open class PieChartRenderer: DataRenderer
             for j in 0 ..< entryCount
             {
                 guard let e = set.entryForIndex(j) else { continue }
-                if ((abs(e.y) > DBL_EPSILON))
+                if ((abs(e.y) > Double.ulpOfOne))
                 {
                     visibleAngleCount += 1
                 }
