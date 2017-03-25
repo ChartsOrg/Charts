@@ -224,11 +224,11 @@ open class RealmBaseDataSet: ChartBaseDataSet
     internal var _xValueField: String?
     internal var _cache = [ChartDataEntry]()
     
-    internal var _yMax: Double = -DBL_MAX
-    internal var _yMin: Double = DBL_MAX
+    internal var _yMax: Double = -Double.greatestFiniteMagnitude
+    internal var _yMin: Double = Double.greatestFiniteMagnitude
     
-    internal var _xMax: Double = -DBL_MAX
-    internal var _xMin: Double = DBL_MAX
+    internal var _xMax: Double = -Double.greatestFiniteMagnitude
+    internal var _xMin: Double = Double.greatestFiniteMagnitude
     
     /// Makes sure that the cache is populated for the specified range
     internal func buildCache()
@@ -275,10 +275,10 @@ open class RealmBaseDataSet: ChartBaseDataSet
             return
         }
         
-        _yMax = -DBL_MAX
-        _yMin = DBL_MAX
-        _xMax = -DBL_MAX
-        _xMin = DBL_MAX
+        _yMax = -Double.greatestFiniteMagnitude
+        _yMin = Double.greatestFiniteMagnitude
+        _xMax = -Double.greatestFiniteMagnitude
+        _xMin = Double.greatestFiniteMagnitude
         
         for e in _cache
         {
