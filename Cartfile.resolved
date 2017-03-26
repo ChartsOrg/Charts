@@ -1,2 +1,2 @@
 github "facebook/ios-snapshot-test-case" "da629211c17a4c507e2e866e8a19ed3122af770b"
-github "realm/realm-cocoa" "v2.1.1"
+github "realm/realm-cocoa" "v2.4.3"
