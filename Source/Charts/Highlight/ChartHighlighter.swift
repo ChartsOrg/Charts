@@ -117,7 +117,7 @@ open class ChartHighlighter : NSObject, IHighlighter
         if entries.count == 0
         {
             // Try to find closest x-value and take all entries for that x-value
-            if let closest = set.entryForXValue(xValue, closestToY: Double.nan, rounding: rounding)
+            if let closest = set.entryForXValue(xValue, closestToY: .nan, rounding: rounding)
             {
                 entries = set.entriesForXValue(closest.x)
             }

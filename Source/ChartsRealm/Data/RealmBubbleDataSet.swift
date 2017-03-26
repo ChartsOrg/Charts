@@ -108,10 +108,10 @@ open class RealmBubbleDataSet: RealmBarLineScatterCandleBubbleDataSet, IBubbleCh
             return
         }
         
-        _yMax = -DBL_MAX
-        _yMin = DBL_MAX
-        _xMax = -DBL_MAX
-        _xMin = DBL_MAX
+        _yMax = -greatestFiniteMagnitude
+        _yMin = greatestFiniteMagnitude
+        _xMax = -greatestFiniteMagnitude
+        _xMin = greatestFiniteMagnitude
         
         for e in _cache as! [BubbleChartDataEntry]
         {
