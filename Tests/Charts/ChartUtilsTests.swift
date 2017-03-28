@@ -53,7 +53,7 @@ class ChartUtilsTests: XCTestCase {
     
     func testDecimalWithMaxValue() {
         
-        let number = DBL_MAX
+        let number = Double.greatestFiniteMagnitude
         
         let actual = ChartUtils.decimals(number)
         let expected = 0
