@@ -98,15 +98,15 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     {
         _dataSets.removeAll()
         
-        _yMax = -DBL_MAX
-        _yMin = DBL_MAX
-        _xMax = -DBL_MAX
-        _xMin = DBL_MAX
+        _yMax = -.greatestFiniteMagnitude
+        _yMin = .greatestFiniteMagnitude
+        _xMax = -.greatestFiniteMagnitude
+        _xMin = .greatestFiniteMagnitude
         
-        _leftAxisMax = -DBL_MAX
-        _leftAxisMin = DBL_MAX
-        _rightAxisMax = -DBL_MAX
-        _rightAxisMin = DBL_MAX
+        _leftAxisMax = -.greatestFiniteMagnitude
+        _leftAxisMin = .greatestFiniteMagnitude
+        _rightAxisMax = -.greatestFiniteMagnitude
+        _rightAxisMin = .greatestFiniteMagnitude
         
         let allData = self.allData
         
