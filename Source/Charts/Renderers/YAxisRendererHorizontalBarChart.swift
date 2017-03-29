@@ -192,7 +192,8 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
     
     open override func drawGridLine(
         context: CGContext,
-        position: CGPoint)
+        position: CGPoint,
+        major :Bool)
     {
         guard
             let viewPortHandler = self.viewPortHandler

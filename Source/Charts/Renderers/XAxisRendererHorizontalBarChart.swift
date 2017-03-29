@@ -199,7 +199,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
     
     fileprivate var _gridLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    open override func drawGridLine(context: CGContext, x: CGFloat, y: CGFloat)
+    open override func drawGridLine(context: CGContext, x: CGFloat, y: CGFloat, major : Bool)
     {
         guard
             let viewPortHandler = self.viewPortHandler

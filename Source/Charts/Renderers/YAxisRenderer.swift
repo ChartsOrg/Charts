@@ -146,6 +146,8 @@ open class YAxisRenderer: AxisRendererBase
             yAxis.entries = yAxis.logAxis
         }
         
+        let rectGraph = viewPortHandler?.contentRect
+        
         let from = yAxis.isDrawBottomYLabelEntryEnabled ? 0 : 1
         let to = yAxis.isDrawTopYLabelEntryEnabled ? yAxis.entryCount : (yAxis.entryCount - 1)
         
@@ -239,7 +241,8 @@ open class YAxisRenderer: AxisRendererBase
     
     open func drawGridLine(
         context: CGContext,
-        position: CGPoint)
+        position: CGPoint,
+        major : Bool)
     {
         guard
             let yAxis = self.axis as? YAxis,
