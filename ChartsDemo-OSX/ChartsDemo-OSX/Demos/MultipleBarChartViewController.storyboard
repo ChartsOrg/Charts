@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E192b" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="cLI-GA-Ryu">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
+    </dependencies>
+    <scenes>
+        <!--Multiple Bar Chart View Controller-->
+        <scene sceneID="FrB-w0-EmJ">
+            <objects>
+                <viewController storyboardIdentifier="vc30" id="cLI-GA-Ryu" customClass="MultipleBarChartViewController" customModule="graphDemoChartOSX" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="ssu-hX-GKJ">
+                        <rect key="frame" x="0.0" y="0.0" width="1200" height="800"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="b6y-BM-IBd" customClass="BarChartView" customModule="Charts">
+                                <rect key="frame" x="14" y="80" width="900" height="700"/>
+                            </customView>
+                            <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4IT-5E-Qmq">
+                                <rect key="frame" x="817" y="39" width="97" height="19"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j1q-bG-Pi3">
+                                        <rect key="frame" x="0.0" y="-1" width="27" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="19" id="Gcx-BQ-waV"/>
+                                            <constraint firstAttribute="width" constant="27" id="Xo2-re-5JX"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="EnS-Xt-ox4">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0hZ-Hr-xB2">
+                                        <rect key="frame" x="35" y="-1" width="27" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="27" id="PEW-4y-KL5"/>
+                                            <constraint firstAttribute="height" constant="19" id="pEu-FX-s1y"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSHomeTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PPQ-Ga-GW0">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BMY-yu-rOr">
+                                        <rect key="frame" x="70" y="-1" width="27" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="27" id="iKe-9d-Q80"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Csc-ew-gM2">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="97" id="18P-IU-daR"/>
+                                    <constraint firstAttribute="height" constant="19" id="XZW-1a-Vs5"/>
+                                </constraints>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
+                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XFR-W8-Z1y">
+                                <rect key="frame" x="18" y="48" width="358" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="354" id="JOR-Bf-S9Q"/>
+                                </constraints>
+                                <sliderCell key="cell" state="on" alignment="left" maxValue="25" doubleValue="20" tickMarkPosition="above" sliderType="linear" id="Rmg-JY-AlT"/>
+                                <connections>
+                                    <action selector="slidersValueChanged:" target="cLI-GA-Ryu" id="hBO-tB-f6B"/>
+                                </connections>
+                            </slider>
+                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LRy-Fd-EKt">
+                                <rect key="frame" x="18" y="19" width="358" height="19"/>
+                                <sliderCell key="cell" state="on" alignment="left" maxValue="200" doubleValue="30" tickMarkPosition="above" sliderType="linear" id="g5A-Xf-ZfT"/>
+                                <connections>
+                                    <action selector="slidersValueChanged:" target="cLI-GA-Ryu" id="DbV-dY-qa9"/>
+                                </connections>
+                            </slider>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sQF-xx-1xG">
+                                <rect key="frame" x="407" y="47" width="95" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="j2V-aA-NDF">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ucc-uu-Uu6">
+                                <rect key="frame" x="409" y="20" width="93" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="89" id="4cO-l4-rY7"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="aF0-Sj-rNa">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="4IT-5E-Qmq" firstAttribute="top" secondItem="b6y-BM-IBd" secondAttribute="bottom" constant="22" id="0LO-Ef-6Qs"/>
+                            <constraint firstItem="XFR-W8-Z1y" firstAttribute="trailing" secondItem="LRy-Fd-EKt" secondAttribute="trailing" id="1MK-x7-FMQ"/>
+                            <constraint firstItem="sQF-xx-1xG" firstAttribute="leading" secondItem="XFR-W8-Z1y" secondAttribute="trailing" constant="35" id="2rO-YV-UsP"/>
+                            <constraint firstItem="Ucc-uu-Uu6" firstAttribute="top" secondItem="sQF-xx-1xG" secondAttribute="bottom" constant="10" id="B4p-GG-M4e"/>
+                            <constraint firstItem="LRy-Fd-EKt" firstAttribute="top" secondItem="XFR-W8-Z1y" secondAttribute="bottom" constant="14" id="D2P-vh-CXx"/>
+                            <constraint firstItem="Ucc-uu-Uu6" firstAttribute="leading" secondItem="LRy-Fd-EKt" secondAttribute="trailing" constant="37" id="IUN-RM-hpO"/>
+                            <constraint firstItem="XFR-W8-Z1y" firstAttribute="leading" secondItem="LRy-Fd-EKt" secondAttribute="leading" id="P72-JD-x1q"/>
+                            <constraint firstItem="b6y-BM-IBd" firstAttribute="top" secondItem="ssu-hX-GKJ" secondAttribute="top" constant="20" id="Pcf-Jj-VP0"/>
+                            <constraint firstAttribute="bottom" secondItem="b6y-BM-IBd" secondAttribute="bottom" constant="80" id="SFi-Qe-frK"/>
+                            <constraint firstAttribute="trailing" secondItem="b6y-BM-IBd" secondAttribute="trailing" constant="286" id="aLs-Rh-bK6"/>
+                            <constraint firstItem="sQF-xx-1xG" firstAttribute="trailing" secondItem="Ucc-uu-Uu6" secondAttribute="trailing" id="ajs-Sd-znJ"/>
+                            <constraint firstItem="LRy-Fd-EKt" firstAttribute="centerY" secondItem="Ucc-uu-Uu6" secondAttribute="centerY" id="bjP-nn-fEe"/>
+                            <constraint firstItem="b6y-BM-IBd" firstAttribute="leading" secondItem="ssu-hX-GKJ" secondAttribute="leading" constant="14" id="gAp-Kn-fo5"/>
+                            <constraint firstItem="4IT-5E-Qmq" firstAttribute="trailing" secondItem="b6y-BM-IBd" secondAttribute="trailing" id="j6n-tv-D21"/>
+                            <constraint firstAttribute="bottom" secondItem="Ucc-uu-Uu6" secondAttribute="bottom" constant="20" symbolic="YES" id="mJx-TO-SEk"/>
+                            <constraint firstItem="XFR-W8-Z1y" firstAttribute="leading" secondItem="ssu-hX-GKJ" secondAttribute="leading" constant="20" symbolic="YES" id="xEx-hR-875"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="chartView" destination="b6y-BM-IBd" id="9yD-Ax-iP7"/>
+                        <outlet property="sliderTextX" destination="sQF-xx-1xG" id="2I1-7I-PLL"/>
+                        <outlet property="sliderTextY" destination="Ucc-uu-Uu6" id="Aj2-O0-JRL"/>
+                        <outlet property="sliderX" destination="XFR-W8-Z1y" id="iur-AF-omq"/>
+                        <outlet property="sliderY" destination="LRy-Fd-EKt" id="SGf-QP-Doo"/>
+                    </connections>
+                </viewController>
+                <customObject id="eBm-fn-2wL" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="57" y="-248"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSHomeTemplate" width="14" height="14"/>
+        <image name="NSRemoveTemplate" width="11" height="11"/>
+    </resources>
+</document>
