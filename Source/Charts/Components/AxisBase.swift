@@ -41,6 +41,25 @@ open class AxisBase: ComponentBase
     open var drawGridLinesEnabled = true
     open var drawAxisLineEnabled = true
     
+    open var logarithmicEnabled   = false
+    open var isLogarithmicEnabled: Bool { return logarithmicEnabled }
+    
+    open var maskAxis            = [1.0, 2.0, 4.0, 6.0, 8.0]
+    open var maskLabels          = [true, true, true, true, true]
+    
+    open var logAxis              = [Double]()
+    open var logLabels            = [Bool]()
+    
+    open var labelsAxisChanged    = true
+    open var isLabelsAxisChanged: Bool { return labelsAxisChanged }
+    
+    open var stickEnabled         = false
+    open var isStickEnabled: Bool { return stickEnabled }
+    
+    open var stickMajorEnabled    = true
+    open var isStickMajorEnabled: Bool { return stickMajorEnabled }
+
+    
     /// flag that indicates of the labels of this axis should be drawn or not
     open var drawLabelsEnabled = true
     
@@ -149,6 +168,10 @@ open class AxisBase: ComponentBase
         if index < 0 || index >= entries.count
         {
             return ""
+        }
+        if isLogarithmicEnabled == true
+        {
+            return valueFormatter?.stringForValue(pow(10, entries[index]), axis: self) ?? ""
         }
         
         return valueFormatter?.stringForValue(entries[index], axis: self) ?? ""
