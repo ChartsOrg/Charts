@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="cLI-GA-Ryu">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Radar Chart View Controller-->
+        <scene sceneID="FrB-w0-EmJ">
+            <objects>
+                <viewController storyboardIdentifier="vc2" id="cLI-GA-Ryu" customClass="RadarChartViewController" customModule="ChartsDemo_OSX" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="ssu-hX-GKJ">
+                        <rect key="frame" x="0.0" y="0.0" width="1200" height="800"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="b6y-BM-IBd" customClass="RadarChartView" customModule="Charts">
+                                <rect key="frame" x="39" y="50" width="900" height="700"/>
+                            </customView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A3w-eJ-6um">
+                                <rect key="frame" x="354" y="755" width="236" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="232" id="JXN-sL-Pqo"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="YOUR PREFERENCES" id="voU-VP-4zg">
+                                    <font key="font" size="21" name="HelveticaNeue"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="b6y-BM-IBd" firstAttribute="top" secondItem="A3w-eJ-6um" secondAttribute="bottom" constant="5" id="C99-rh-860"/>
+                            <constraint firstAttribute="trailing" secondItem="b6y-BM-IBd" secondAttribute="trailing" constant="261" id="SQI-ZJ-pYa"/>
+                            <constraint firstItem="b6y-BM-IBd" firstAttribute="top" secondItem="ssu-hX-GKJ" secondAttribute="top" constant="50" id="ggc-bK-RXo"/>
+                            <constraint firstItem="A3w-eJ-6um" firstAttribute="leading" secondItem="ssu-hX-GKJ" secondAttribute="leading" constant="356" id="kVi-qX-bUI"/>
+                            <constraint firstItem="b6y-BM-IBd" firstAttribute="leading" secondItem="ssu-hX-GKJ" secondAttribute="leading" constant="39" id="nyt-a8-yoh"/>
+                            <constraint firstItem="b6y-BM-IBd" firstAttribute="centerY" secondItem="ssu-hX-GKJ" secondAttribute="centerY" id="sUt-xf-OG8"/>
+                        </constraints>
+                        <connections>
+                            <outlet property="menu" destination="Lpz-k2-ahX" id="JEu-6W-0bI"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="chartView" destination="b6y-BM-IBd" id="p0q-X0-Qia"/>
+                        <outlet property="mainMenu" destination="Lpz-k2-ahX" id="Gda-9D-1MW"/>
+                    </connections>
+                </viewController>
+                <customObject id="eBm-fn-2wL" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <menu id="Lpz-k2-ahX">
+                    <items>
+                        <menuItem title="Item 1" id="AgR-gq-aUd">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="Item 2" id="Aqm-8k-7Db">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="Item 3" id="onp-5Z-MAG">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                    </items>
+                </menu>
+            </objects>
+            <point key="canvasLocation" x="-155" y="-246"/>
+        </scene>
+    </scenes>
+</document>
