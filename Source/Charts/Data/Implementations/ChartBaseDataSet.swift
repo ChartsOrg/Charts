@@ -126,12 +126,12 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
         fatalError("addEntryOrdered is not implemented in ChartBaseDataSet")
     }
     
-    open func removeEntry(_ entry: ChartDataEntry) -> Bool
+    @discardableResult open func removeEntry(_ entry: ChartDataEntry) -> Bool
     {
         fatalError("removeEntry is not implemented in ChartBaseDataSet")
     }
     
-    open func removeEntry(index: Int) -> Bool
+    @discardableResult open func removeEntry(index: Int) -> Bool
     {
         if let entry = entryForIndex(index)
         {
@@ -140,7 +140,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
         return false
     }
     
-    open func removeEntry(x: Double) -> Bool
+    @discardableResult open func removeEntry(x: Double) -> Bool
     {
         if let entry = entryForXValue(x, closestToY: Double.nan)
         {
@@ -149,7 +149,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
         return false
     }
     
-    open func removeFirst() -> Bool
+    @discardableResult open func removeFirst() -> Bool
     {
         if entryCount > 0
         {
@@ -161,7 +161,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
         return false
     }
     
-    open func removeLast() -> Bool
+    @discardableResult open func removeLast() -> Bool
     {
         if entryCount > 0
         {
