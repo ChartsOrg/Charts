@@ -43,7 +43,7 @@ open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadar
     
     fileprivate var _lineWidth = CGFloat(1.0)
     
-    /// line width of the chart (min = 0.2, max = 10)
+    /// line width of the chart (min = 0.0, max = 10)
     ///
     /// **default**: 1
     open var lineWidth: CGFloat
@@ -54,9 +54,9 @@ open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadar
         }
         set
         {
-            if newValue < 0.2
+            if newValue < 0.0
             {
-                _lineWidth = 0.2
+                _lineWidth = 0.0
             }
             else if newValue > 10.0
             {
