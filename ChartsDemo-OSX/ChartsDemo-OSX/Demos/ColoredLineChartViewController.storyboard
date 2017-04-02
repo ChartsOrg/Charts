@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E192b" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="cLI-GA-Ryu">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
+    </dependencies>
+    <scenes>
+        <!--Colored Line Chart View Controller-->
+        <scene sceneID="FrB-w0-EmJ">
+            <objects>
+                <viewController storyboardIdentifier="vc20" id="cLI-GA-Ryu" customClass="ColoredLineChartViewController" customModule="ChartsDemo_OSX" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="ssu-hX-GKJ">
+                        <rect key="frame" x="0.0" y="0.0" width="1200" height="800"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fq7-5F-qk5">
+                                <rect key="frame" x="17" y="13" width="1166" height="764"/>
+                                <subviews>
+                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="vhv-Jq-WfA" customClass="LineChartView" customModule="Charts">
+                                        <rect key="frame" x="0.0" y="579" width="1166" height="185"/>
+                                    </customView>
+                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="ZLV-uC-xJi" customClass="LineChartView" customModule="Charts">
+                                        <rect key="frame" x="0.0" y="386" width="1166" height="185"/>
+                                    </customView>
+                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="MhO-rt-Fs7" customClass="LineChartView" customModule="Charts">
+                                        <rect key="frame" x="0.0" y="193" width="1166" height="185"/>
+                                    </customView>
+                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="qt7-R4-I59" customClass="LineChartView" customModule="Charts">
+                                        <rect key="frame" x="0.0" y="0.0" width="1166" height="185"/>
+                                    </customView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="qt7-R4-I59" firstAttribute="top" secondItem="fq7-5F-qk5" secondAttribute="top" constant="579" id="iCb-k1-t3m"/>
+                                    <constraint firstItem="MhO-rt-Fs7" firstAttribute="top" secondItem="fq7-5F-qk5" secondAttribute="top" constant="386" id="mRY-xq-Vme"/>
+                                    <constraint firstItem="ZLV-uC-xJi" firstAttribute="top" secondItem="fq7-5F-qk5" secondAttribute="top" constant="193" id="rOy-Nl-tSC"/>
+                                </constraints>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="fq7-5F-qk5" firstAttribute="leading" secondItem="ssu-hX-GKJ" secondAttribute="leading" constant="17" id="IfU-fR-Zaj"/>
+                            <constraint firstItem="fq7-5F-qk5" firstAttribute="top" secondItem="ssu-hX-GKJ" secondAttribute="top" constant="23" id="bbc-jc-1lW"/>
+                            <constraint firstAttribute="bottom" secondItem="fq7-5F-qk5" secondAttribute="bottom" constant="13" id="fsO-6h-TTx"/>
+                            <constraint firstItem="fq7-5F-qk5" firstAttribute="centerX" secondItem="ssu-hX-GKJ" secondAttribute="centerX" id="mmW-SN-LDX"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="chartView0" destination="vhv-Jq-WfA" id="DtD-tN-yPr"/>
+                        <outlet property="chartView1" destination="ZLV-uC-xJi" id="Dn1-8E-I7c"/>
+                        <outlet property="chartView2" destination="MhO-rt-Fs7" id="ZA1-lI-hD7"/>
+                        <outlet property="chartView3" destination="qt7-R4-I59" id="2JG-4d-YYs"/>
+                    </connections>
+                </viewController>
+                <customObject id="eBm-fn-2wL" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-106" y="-241"/>
+        </scene>
+    </scenes>
+</document>

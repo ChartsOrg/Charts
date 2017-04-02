@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="cLI-GA-Ryu">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Half Pie Chart View Controller-->
+        <scene sceneID="FrB-w0-EmJ">
+            <objects>
+                <viewController storyboardIdentifier="vc13" id="cLI-GA-Ryu" customClass="HalfPieChartViewController" customModule="ChartsDemo_OSX" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="ssu-hX-GKJ">
+                        <rect key="frame" x="0.0" y="0.0" width="1200" height="800"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="b6y-BM-IBd" customClass="PieChartView" customModule="Charts">
+                                <rect key="frame" x="14" y="20" width="900" height="765"/>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="b6y-BM-IBd" secondAttribute="trailing" constant="286" id="IVa-bh-19N"/>
+                            <constraint firstAttribute="bottom" secondItem="b6y-BM-IBd" secondAttribute="bottom" constant="20" id="aLx-iw-1Yp"/>
+                            <constraint firstItem="b6y-BM-IBd" firstAttribute="top" secondItem="ssu-hX-GKJ" secondAttribute="top" constant="15" id="ggc-bK-RXo"/>
+                            <constraint firstItem="b6y-BM-IBd" firstAttribute="leading" secondItem="ssu-hX-GKJ" secondAttribute="leading" constant="14" id="nyt-a8-yoh"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="chartView" destination="b6y-BM-IBd" id="bE4-xI-VL2"/>
+                        <outlet property="mainMenu" destination="V7F-16-gEO" id="HFd-Cv-22g"/>
+                    </connections>
+                </viewController>
+                <customObject id="eBm-fn-2wL" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <menu title="PopUp" id="V7F-16-gEO">
+                    <items>
+                        <menuItem title="toggleFilled" id="yTJ-13-TIt">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="toggleCircles" id="JTL-Qm-qey">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="toggleCubic" id="e7J-CM-pdt">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="toggleStepped" id="HU2-gJ-fuB">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="toggleHorizontalCubic" id="FBn-2m-zWk">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                    </items>
+                </menu>
+            </objects>
+            <point key="canvasLocation" x="-106" y="-241"/>
+        </scene>
+    </scenes>
+</document>

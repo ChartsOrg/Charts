@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="cLI-GA-Ryu">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
+    </dependencies>
+    <scenes>
+        <!--Cubic Line Chart View Controller-->
+        <scene sceneID="FrB-w0-EmJ">
+            <objects>
+                <viewController storyboardIdentifier="vc8" id="cLI-GA-Ryu" customClass="CubicLineChartViewController" customModule="ChartsDemo_OSX" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="ssu-hX-GKJ">
+                        <rect key="frame" x="0.0" y="0.0" width="1200" height="800"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="b6y-BM-IBd" customClass="LineChartView" customModule="Charts">
+                                <rect key="frame" x="14" y="80" width="900" height="700"/>
+                            </customView>
+                            <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4IT-5E-Qmq">
+                                <rect key="frame" x="817" y="39" width="97" height="19"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j1q-bG-Pi3">
+                                        <rect key="frame" x="0.0" y="-1" width="27" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="19" id="Gcx-BQ-waV"/>
+                                            <constraint firstAttribute="width" constant="27" id="Xo2-re-5JX"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="EnS-Xt-ox4">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="zoomIn:" target="cLI-GA-Ryu" id="2YD-49-Z1y"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0hZ-Hr-xB2">
+                                        <rect key="frame" x="35" y="-1" width="27" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="27" id="PEW-4y-KL5"/>
+                                            <constraint firstAttribute="height" constant="19" id="pEu-FX-s1y"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSHomeTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PPQ-Ga-GW0">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="zoomAll:" target="cLI-GA-Ryu" id="UJ0-Ak-5Su"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BMY-yu-rOr">
+                                        <rect key="frame" x="70" y="-1" width="27" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="27" id="iKe-9d-Q80"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Csc-ew-gM2">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="zoomOut:" target="cLI-GA-Ryu" id="IF2-85-5d5"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="97" id="18P-IU-daR"/>
+                                    <constraint firstAttribute="height" constant="19" id="XZW-1a-Vs5"/>
+                                </constraints>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
+                            <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h3i-r8-t7d">
+                                <rect key="frame" x="12" y="53" width="299" height="19"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <sliderCell key="cell" state="on" alignment="left" maxValue="500" doubleValue="200" tickMarkPosition="above" sliderType="linear" id="EUd-ca-TZc"/>
+                                <connections>
+                                    <action selector="slidersValueChanged:" target="cLI-GA-Ryu" id="5cd-0X-VOi"/>
+                                </connections>
+                            </slider>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c5m-R8-etp">
+                                <rect key="frame" x="330" y="53" width="37" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="100" id="QSq-yJ-F3K">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bat-qD-PQE">
+                                <rect key="frame" x="12" y="28" width="299" height="19"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <sliderCell key="cell" state="on" alignment="left" maxValue="200" doubleValue="60" tickMarkPosition="above" sliderType="linear" id="cqc-UO-smN"/>
+                                <connections>
+                                    <action selector="slidersValueChanged:" target="cLI-GA-Ryu" id="CfS-6w-sLw"/>
+                                </connections>
+                            </slider>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yki-Iy-z2a">
+                                <rect key="frame" x="330" y="28" width="37" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="60" id="ZdW-4e-PuR">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="4IT-5E-Qmq" firstAttribute="leading" secondItem="ssu-hX-GKJ" secondAttribute="leading" constant="817" id="DZu-sN-pPQ"/>
+                            <constraint firstAttribute="bottom" secondItem="4IT-5E-Qmq" secondAttribute="bottom" constant="39" id="bc1-Af-oJt"/>
+                            <constraint firstItem="b6y-BM-IBd" firstAttribute="top" secondItem="ssu-hX-GKJ" secondAttribute="top" constant="20" symbolic="YES" id="ggc-bK-RXo"/>
+                            <constraint firstItem="4IT-5E-Qmq" firstAttribute="top" secondItem="b6y-BM-IBd" secondAttribute="bottom" constant="22" id="nty-jG-KvP"/>
+                            <constraint firstItem="b6y-BM-IBd" firstAttribute="leading" secondItem="ssu-hX-GKJ" secondAttribute="leading" constant="14" id="nyt-a8-yoh"/>
+                            <constraint firstItem="4IT-5E-Qmq" firstAttribute="trailing" secondItem="b6y-BM-IBd" secondAttribute="trailing" id="wfz-YF-Wg4"/>
+                        </constraints>
+                        <connections>
+                            <outlet property="menu" destination="fxr-Il-KrA" id="mU5-Kb-6t3"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="chartView" destination="b6y-BM-IBd" id="CT6-sv-Zgu"/>
+                        <outlet property="mainMenu" destination="fxr-Il-KrA" id="aX9-7E-wAa"/>
+                        <outlet property="sliderTextX" destination="c5m-R8-etp" id="21N-R4-to8"/>
+                        <outlet property="sliderTextY" destination="Yki-Iy-z2a" id="JXS-sT-ch4"/>
+                        <outlet property="sliderX" destination="h3i-r8-t7d" id="dyZ-eO-juI"/>
+                        <outlet property="sliderY" destination="bat-qD-PQE" id="hHi-Gd-FaB"/>
+                    </connections>
+                </viewController>
+                <customObject id="eBm-fn-2wL" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <menu id="fxr-Il-KrA">
+                    <items>
+                        <menuItem title="Item 1" id="UgX-2s-ruz">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="Item 2" id="QTS-ew-fLc">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="Item 3" id="zVx-ka-1Cf">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                    </items>
+                </menu>
+            </objects>
+            <point key="canvasLocation" x="-1" y="-240"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSHomeTemplate" width="14" height="14"/>
+        <image name="NSRemoveTemplate" width="11" height="11"/>
+    </resources>
+</document>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="cLI-GA-Ryu">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Pie Polyline Chart View Controller-->
+        <scene sceneID="FrB-w0-EmJ">
+            <objects>
+                <viewController storyboardIdentifier="vc16" id="cLI-GA-Ryu" customClass="PiePolylineChartViewController" customModule="ChartsDemo_OSX" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="ssu-hX-GKJ">
+                        <rect key="frame" x="0.0" y="0.0" width="1200" height="800"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="b6y-BM-IBd" customClass="PieChartView" customModule="Charts">
+                                <rect key="frame" x="14" y="80" width="900" height="700"/>
+                            </customView>
+                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jVx-Gb-jtf">
+                                <rect key="frame" x="12" y="41" width="358" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="354" id="j8q-V8-RmA"/>
+                                </constraints>
+                                <sliderCell key="cell" state="on" alignment="left" maxValue="25" doubleValue="20" tickMarkPosition="above" sliderType="linear" id="D1G-V9-Ur6"/>
+                                <connections>
+                                    <action selector="slidersValueChanged:" target="cLI-GA-Ryu" id="nN4-Wo-AeM"/>
+                                </connections>
+                            </slider>
+                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vvn-w7-su2">
+                                <rect key="frame" x="12" y="12" width="358" height="19"/>
+                                <sliderCell key="cell" state="on" alignment="left" maxValue="200" doubleValue="30" tickMarkPosition="above" sliderType="linear" id="0af-Kd-Uhg"/>
+                                <connections>
+                                    <action selector="slidersValueChanged:" target="cLI-GA-Ryu" id="dhl-i5-DEd"/>
+                                </connections>
+                            </slider>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uGH-qG-LQX">
+                                <rect key="frame" x="401" y="40" width="37" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="Bdl-Lh-c8g">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RC8-xv-Xoc">
+                                <rect key="frame" x="403" y="13" width="37" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="oyd-Hs-UFQ">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="jVx-Gb-jtf" firstAttribute="top" secondItem="b6y-BM-IBd" secondAttribute="bottom" constant="22" id="3nk-Hy-CCK"/>
+                            <constraint firstItem="RC8-xv-Xoc" firstAttribute="leading" secondItem="Vvn-w7-su2" secondAttribute="trailing" constant="37" id="LHF-Ly-vIp"/>
+                            <constraint firstItem="Vvn-w7-su2" firstAttribute="top" secondItem="jVx-Gb-jtf" secondAttribute="bottom" constant="14" id="PIp-bg-qbf"/>
+                            <constraint firstItem="uGH-qG-LQX" firstAttribute="leading" secondItem="jVx-Gb-jtf" secondAttribute="trailing" constant="35" id="QAx-tG-bvK"/>
+                            <constraint firstItem="uGH-qG-LQX" firstAttribute="top" secondItem="b6y-BM-IBd" secondAttribute="bottom" constant="23" id="STj-hM-af2"/>
+                            <constraint firstItem="b6y-BM-IBd" firstAttribute="top" secondItem="ssu-hX-GKJ" secondAttribute="top" constant="20" symbolic="YES" id="ggc-bK-RXo"/>
+                            <constraint firstItem="RC8-xv-Xoc" firstAttribute="top" secondItem="uGH-qG-LQX" secondAttribute="bottom" constant="10" id="gxv-on-hwj"/>
+                            <constraint firstItem="b6y-BM-IBd" firstAttribute="leading" secondItem="Vvn-w7-su2" secondAttribute="leading" id="kTD-1z-Vw6"/>
+                            <constraint firstItem="jVx-Gb-jtf" firstAttribute="trailing" secondItem="Vvn-w7-su2" secondAttribute="trailing" id="mxI-Kd-F91"/>
+                            <constraint firstItem="b6y-BM-IBd" firstAttribute="leading" secondItem="ssu-hX-GKJ" secondAttribute="leading" constant="14" id="nyt-a8-yoh"/>
+                            <constraint firstAttribute="bottom" secondItem="b6y-BM-IBd" secondAttribute="bottom" constant="80" id="r6d-vW-5xt"/>
+                            <constraint firstItem="b6y-BM-IBd" firstAttribute="leading" secondItem="jVx-Gb-jtf" secondAttribute="leading" id="t8Q-vL-L9V"/>
+                            <constraint firstAttribute="trailing" secondItem="b6y-BM-IBd" secondAttribute="trailing" constant="286" id="xop-FE-7IA"/>
+                        </constraints>
+                        <connections>
+                            <outlet property="menu" destination="V7F-16-gEO" id="ACM-kL-kcp"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="chartView" destination="b6y-BM-IBd" id="FZI-2N-eMa"/>
+                        <outlet property="mainMenu" destination="V7F-16-gEO" id="8rp-iP-ZkV"/>
+                        <outlet property="sliderTextX" destination="uGH-qG-LQX" id="k8E-tH-zKx"/>
+                        <outlet property="sliderTextY" destination="RC8-xv-Xoc" id="5Y7-Yg-PPP"/>
+                        <outlet property="sliderX" destination="jVx-Gb-jtf" id="sit-i1-xUv"/>
+                        <outlet property="sliderY" destination="Vvn-w7-su2" id="wX3-el-sU4"/>
+                    </connections>
+                </viewController>
+                <customObject id="eBm-fn-2wL" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <menu title="PopUp" id="V7F-16-gEO">
+                    <items>
+                        <menuItem title="toggleFilled" id="yTJ-13-TIt">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="toggleCircles" id="JTL-Qm-qey">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="toggleCubic" id="e7J-CM-pdt">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="toggleStepped" id="HU2-gJ-fuB">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="toggleHorizontalCubic" id="FBn-2m-zWk">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                    </items>
+                    <connections>
+                        <outlet property="delegate" destination="ssu-hX-GKJ" id="ahp-Lf-J8e"/>
+                    </connections>
+                </menu>
+            </objects>
+            <point key="canvasLocation" x="-106" y="-241"/>
+        </scene>
+    </scenes>
+</document>
