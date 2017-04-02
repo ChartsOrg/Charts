@@ -1,5 +1,5 @@
 //
-//  RealmDemoListViewController.h
+//  RealmDemosViewController.h
 //  ChartsDemo
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -10,9 +10,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DemoBaseViewController.h"
+#import <Charts/Charts.h>
 
-@interface RealmDemoListViewController : UIViewController
-
+@interface RealmDemosViewController : DemoBaseViewController
 
 @end
-

@@ -5,8 +5,9 @@
 [![Join the chat at https://gitter.im/danielgindi/Charts](https://badges.gitter.im/danielgindi/Charts.svg)](https://gitter.im/danielgindi/Charts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ### Just a heads up: Charts 3.0 has some breaking changes. Please read [the release/migration notes](https://github.com/danielgindi/Charts/releases/tag/v3.0.0). 
+### Another heads up: ChartsRealm is now in a [separate repo](https://github.com/danielgindi/ChartsRealm). Pods is also now `Charts` and `ChartsRealm`, instead of ~`Charts/Core`~ and ~`Charts/Realm`~
 
-* Xcode 8.0 / Swift 3.0 (For Swift 2.3 support please use [Charts 2.3.0](https://github.com/danielgindi/Charts/tree/v2.3.0))
+* Xcode 8.0 / Swift 3.1
 * iOS >= 8.0 (Use as an **Embedded** Framework)
 * tvOS >= 9.0
 * macOS >= 10.11
@@ -25,8 +26,7 @@ I've chosen to write it in `Swift` as it can be highly optimized by the compiler
   * Usually it is specified here a few lines above.
   * In most cases it will be the latest Xcode version.
 * Make sure that your project supports Swift 3.0
-* Run `carthage checkout` in the project folder, to fetch dependencies (i.e Realm).
-  * Realm is not required for using Charts - it is just a feature. But as the demo demonstrates Realm - you have to have it when running the demo.
+* Optional: Run `carthage checkout` in the project folder, to fetch dependencies (i.e testing dependencies).
   * If you don't have Carthage - you can get it [here](https://github.com/Carthage/Carthage/releases).
 
 
@@ -43,6 +43,7 @@ In order to correctly compile:
    - (Xcode 8.2+) Under "Build Options", mark "Always Embed Swift Standard Libraries"
 5. When using [Realm.io](https://realm.io/):
    - Note that the Realm framework is not linked with Charts - it is only there for *optional* bindings. Which means that you need to have the framework in your project, and in a compatible version to whatever is compiled with Charts. We will do our best to always compile against the latest version.
+   - You'll need to add `ChartsRealm` as a dependency too.
 
 ## 3rd party tutorials
 
@@ -54,8 +55,6 @@ In order to correctly compile:
 #### Can't compile?
 
 * Please note the difference between installing a compiled framework from CocoaPods or Carthage, and copying the source code.
-* If you are using [Realm](https://realm.io/), please also `#import <ChartsRealm/ChartsRealm.h>`
-* If you are compiling the source code and want to use Realm, please make sure to include the code from `ChartsRealm` project.
 * Please read the **Usage** section again.
 * Search in the issues
 * Try to politely ask in the issues section
@@ -68,11 +67,7 @@ In order to correctly compile:
 ## CocoaPods Install
 
 Add `pod 'Charts'` to your Podfile. "Charts" is the name of the library.  
-
-For [Realm](https://realm.io/) support you can specify the subspec in your Podfile as follows:
-```
-pod 'Charts/Realm'
-```
+For [Realm](https://realm.io/) support, please add `pod 'ChartsRealm'` too.
 
 **Note:** ~~`pod 'ios-charts'`~~ is not the correct library, and refers to a different project by someone else.
 
@@ -85,7 +80,7 @@ github "danielgindi/Charts" == 3.0.1
 github "danielgindi/Charts" ~> 3.0.1
 ```
 
-In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts && carthage archive ChartsRealm`.
+In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts`.
 
 ## 3rd party bindings
 
@@ -130,7 +125,7 @@ Features
  - Animations (build up animations, on both x- and y-axis)
  - Limit lines (providing additional information, maximums, ...)
  - Fully customizable (paints, typefaces, legends, colors, background, gestures, dashed lines, ...)
- - Plotting data directly from [**Realm.io**](https://realm.io) mobile database
+ - Plotting data directly from [**Realm.io**](https://realm.io) mobile database ([here](https://github.com/danielgindi/ChartsRealm))
 
 **Chart types:**
 

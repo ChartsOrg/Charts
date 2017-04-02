@@ -26,7 +26,6 @@ end
 def build_schemes
   %w(
     Charts
-    ChartsRealm
   )
 end
 
