@@ -63,7 +63,7 @@ class ChartUtilsTests: XCTestCase {
     
     func testDecimalWithMinValue() {
         
-        let number = DBL_MIN
+        let number = Double.leastNormalMagnitude
         
         let actual = ChartUtils.decimals(number)
         let expected = 310 // Don't think this is supposed to be this value maybe 0?
