@@ -734,11 +734,12 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="FeedCell" id="sif-y3-4fi">
-                                                            <rect key="frame" x="1" y="1" width="239" height="17"/>
+                                                            <rect key="frame" x="1" y="1" width="239" height="28"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hob-zz-5Ne">
-                                                                    <rect key="frame" x="0.0" y="1" width="239" height="14"/>
+                                                                <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hob-zz-5Ne">
+                                                                    <rect key="frame" x="0.0" y="12" width="239" height="14"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="HEADER CELL" id="7Kr-Hp-zvb">
                                                                         <font key="font" metaFont="smallSystemBold"/>
                                                                         <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -746,21 +747,17 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                             </subviews>
-                                                            <constraints>
-                                                                <constraint firstAttribute="trailing" secondItem="Hob-zz-5Ne" secondAttribute="trailing" constant="2" id="5ht-gJ-7w3"/>
-                                                                <constraint firstItem="Hob-zz-5Ne" firstAttribute="leading" secondItem="sif-y3-4fi" secondAttribute="leading" constant="2" id="DsC-hZ-9j2"/>
-                                                                <constraint firstItem="Hob-zz-5Ne" firstAttribute="centerY" secondItem="sif-y3-4fi" secondAttribute="centerY" id="V3m-ky-rpl"/>
-                                                            </constraints>
                                                             <connections>
                                                                 <outlet property="textField" destination="Hob-zz-5Ne" id="9W9-uK-FD3"/>
                                                             </connections>
                                                         </tableCellView>
                                                         <tableCellView identifier="FeedItemCell" id="daa-Gj-Vdx">
-                                                            <rect key="frame" x="1" y="20" width="239" height="22"/>
+                                                            <rect key="frame" x="1" y="31" width="239" height="22"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fnx-XT-cQs">
+                                                                <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fnx-XT-cQs">
                                                                     <rect key="frame" x="16" y="3" width="213" height="17"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="Table View Cell" id="1yI-1W-QsT">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -768,11 +765,6 @@
                                                                     </textFieldCell>
                                                                 </textField>
                                                             </subviews>
-                                                            <constraints>
-                                                                <constraint firstAttribute="bottom" secondItem="fnx-XT-cQs" secondAttribute="bottom" constant="3" id="14J-sR-bTJ"/>
-                                                                <constraint firstAttribute="trailing" secondItem="fnx-XT-cQs" secondAttribute="trailing" constant="12" id="Hl6-mi-5fE"/>
-                                                                <constraint firstItem="fnx-XT-cQs" firstAttribute="leading" secondItem="daa-Gj-Vdx" secondAttribute="leading" constant="18" id="ThD-kq-Fg9"/>
-                                                            </constraints>
                                                             <connections>
                                                                 <outlet property="textField" destination="fnx-XT-cQs" id="yEz-77-1X0"/>
                                                             </connections>

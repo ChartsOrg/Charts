@@ -209,7 +209,6 @@ extension BPLeftViewController: NSOutlineViewDelegate
             }
         }
     }
-    
 }
 
 extension NSMutableAttributedString {

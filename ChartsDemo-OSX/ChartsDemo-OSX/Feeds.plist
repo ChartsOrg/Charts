@@ -256,5 +256,104 @@
 			</dict>
 		</array>
 	</dict>
+	<dict>
+		<key>name</key>
+		<string>Realm</string>
+		<key>isSourceGroup</key>
+		<true/>
+		<key>items</key>
+		<array>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>r0</string>
+				<key>name</key>
+				<string>RealmBarChartViewController</string>
+				<key>type</key>
+				<string>Realm Bar Chart</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>r1</string>
+				<key>name</key>
+				<string>RealmBubbleChartViewController</string>
+				<key>type</key>
+				<string>Realm Bubble Chart</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>r2</string>
+				<key>name</key>
+				<string>RealmCandleChartViewController</string>
+				<key>type</key>
+				<string>Realm Candle Chart</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>r3</string>
+				<key>name</key>
+				<string>RealmHorizontalBarChartViewController</string>
+				<key>type</key>
+				<string>Realm Horizontal Bar Chart</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>r4</string>
+				<key>name</key>
+				<string>RealmLineChartViewController</string>
+				<key>type</key>
+				<string>Realm Line Chart</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>r5</string>
+				<key>name</key>
+				<string>RealmPieChartViewController</string>
+				<key>type</key>
+				<string>Realm Pie Chart</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>r6</string>
+				<key>name</key>
+				<string>RealmRadarChartViewController</string>
+				<key>type</key>
+				<string>Realm Radar Chart</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>r7</string>
+				<key>name</key>
+				<string>RealmScatterChartViewController</string>
+				<key>type</key>
+				<string>Realm Scatter Chart</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>r8</string>
+				<key>name</key>
+				<string>RealmWikiExampleChartViewController</string>
+				<key>type</key>
+				<string>Realm Wiki Example Chart</string>
+			</dict>
+		</array>
+	</dict>
 </array>
 </plist>
