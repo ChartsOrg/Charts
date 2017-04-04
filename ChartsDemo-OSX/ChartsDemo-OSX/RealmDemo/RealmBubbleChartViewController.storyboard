@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="cLI-GA-Ryu">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
+    </dependencies>
+    <scenes>
+        <!--Realm Bubble Chart View Controller-->
+        <scene sceneID="FrB-w0-EmJ">
+            <objects>
+                <viewController storyboardIdentifier="r1" id="cLI-GA-Ryu" customClass="RealmBubbleChartViewController" customModule="ChartsDemo_OSX" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="ssu-hX-GKJ">
+                        <rect key="frame" x="0.0" y="0.0" width="1200" height="800"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="b6y-BM-IBd" customClass="BubbleChartView" customModule="Charts">
+                                <rect key="frame" x="14" y="80" width="900" height="700"/>
+                            </customView>
+                            <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4IT-5E-Qmq">
+                                <rect key="frame" x="817" y="39" width="97" height="19"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j1q-bG-Pi3">
+                                        <rect key="frame" x="0.0" y="-1" width="27" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="19" id="Gcx-BQ-waV"/>
+                                            <constraint firstAttribute="width" constant="27" id="Xo2-re-5JX"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="EnS-Xt-ox4">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0hZ-Hr-xB2">
+                                        <rect key="frame" x="35" y="-1" width="27" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="27" id="PEW-4y-KL5"/>
+                                            <constraint firstAttribute="height" constant="19" id="pEu-FX-s1y"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSHomeTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="PPQ-Ga-GW0">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BMY-yu-rOr">
+                                        <rect key="frame" x="70" y="-1" width="27" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="27" id="iKe-9d-Q80"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Csc-ew-gM2">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="97" id="18P-IU-daR"/>
+                                    <constraint firstAttribute="height" constant="19" id="XZW-1a-Vs5"/>
+                                </constraints>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="4IT-5E-Qmq" firstAttribute="leading" secondItem="ssu-hX-GKJ" secondAttribute="leading" constant="817" id="DZu-sN-pPQ"/>
+                            <constraint firstAttribute="bottom" secondItem="4IT-5E-Qmq" secondAttribute="bottom" constant="39" id="bc1-Af-oJt"/>
+                            <constraint firstItem="b6y-BM-IBd" firstAttribute="top" secondItem="ssu-hX-GKJ" secondAttribute="top" constant="20" symbolic="YES" id="ggc-bK-RXo"/>
+                            <constraint firstItem="4IT-5E-Qmq" firstAttribute="top" secondItem="b6y-BM-IBd" secondAttribute="bottom" constant="22" id="nty-jG-KvP"/>
+                            <constraint firstItem="b6y-BM-IBd" firstAttribute="leading" secondItem="ssu-hX-GKJ" secondAttribute="leading" constant="14" id="nyt-a8-yoh"/>
+                            <constraint firstItem="4IT-5E-Qmq" firstAttribute="trailing" secondItem="b6y-BM-IBd" secondAttribute="trailing" id="wfz-YF-Wg4"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="chartView" destination="b6y-BM-IBd" id="wA0-Xi-2T7"/>
+                    </connections>
+                </viewController>
+                <customObject id="eBm-fn-2wL" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-155" y="-246"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSHomeTemplate" width="14" height="14"/>
+        <image name="NSRemoveTemplate" width="11" height="11"/>
+    </resources>
+</document>
