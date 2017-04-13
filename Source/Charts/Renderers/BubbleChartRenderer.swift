@@ -195,7 +195,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
                     }
                     
                     let text = formatter.stringForValue(
-                        Double(e.size),
+                        Double(e.y),
                         entry: e,
                         dataSetIndex: i,
                         viewPortHandler: viewPortHandler)
