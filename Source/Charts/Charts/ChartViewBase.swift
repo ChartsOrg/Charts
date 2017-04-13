@@ -276,6 +276,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         _data = nil
         _offsetsCalculated = false
         _indicesToHighlight.removeAll()
+	lastHighlighted = nil
         setNeedsDisplay()
     }
     
