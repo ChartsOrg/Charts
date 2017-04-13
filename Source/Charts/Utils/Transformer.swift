@@ -35,19 +35,30 @@ open class Transformer: NSObject
         var scaleX = (_viewPortHandler.contentWidth / deltaX)
         var scaleY = (_viewPortHandler.contentHeight / deltaY)
         
-        if CGFloat.infinity == scaleX
+        var tx = CGFloat(-chartXMin)
+        var ty = CGFloat(-chartYMin)
+        
+        if CGFloat.infinity == abs(scaleX)
         {
             scaleX = 0.0
         }
-        if CGFloat.infinity == scaleY
+        if CGFloat.infinity == abs(scaleY)
         {
             scaleY = 0.0
+        }
+        if CGFloat.infinity == abs(tx)
+        {
+            tx = 0.0
+        }
+        if CGFloat.infinity == abs(ty)
+        {
+            ty = 0.0
         }
 
         // setup all matrices
         _matrixValueToPx = CGAffineTransform.identity
         _matrixValueToPx = _matrixValueToPx.scaledBy(x: scaleX, y: -scaleY)
-        _matrixValueToPx = _matrixValueToPx.translatedBy(x: CGFloat(-chartXMin), y: CGFloat(-chartYMin))
+        _matrixValueToPx = _matrixValueToPx.translatedBy(x: tx, y: ty)
     }
 
     /// Prepares the matrix that contains all offsets.
