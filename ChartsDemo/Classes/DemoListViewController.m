@@ -2,13 +2,11 @@
 //  DemoListViewController.m
 //  ChartsDemo
 //
-//  Created by Daniel Cohen Gindi on 23/2/15.
-//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 #import "DemoListViewController.h"
@@ -18,6 +16,7 @@
 #import "HorizontalBarChartViewController.h"
 #import "CombinedChartViewController.h"
 #import "PieChartViewController.h"
+#import "PiePolylineChartViewController.h"
 #import "ScatterChartViewController.h"
 #import "StackedBarChartViewController.h"
 #import "NegativeStackedBarChartViewController.h"
@@ -31,7 +30,10 @@
 #import "SinusBarChartViewController.h"
 #import "PositiveNegativeBarChartViewController.h"
 #import "BubbleChartViewController.h"
-#import "RealmDemoListViewController.h"
+#import "LineChartTimeViewController.h"
+#import "LineChartFilledViewController.h"
+#import "HalfPieChartViewController.h"
+#import "RealmDemosViewController.h"
 
 @interface DemoListViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -77,6 +79,11 @@
                           @"title": @"Pie Chart",
                           @"subtitle": @"A simple demonstration of the pie chart.",
                           @"class": PieChartViewController.class
+                          },
+                      @{
+                          @"title": @"Pie Chart with value lines",
+                          @"subtitle": @"A simple demonstration of the pie chart with polyline notes.",
+                          @"class": PiePolylineChartViewController.class
                           },
                       @{
                           @"title": @"Scatter Chart",
@@ -145,11 +152,31 @@
                           @"class": PositiveNegativeBarChartViewController.class
                           },
                       @{
+                          
+                          @"title": @"Time Line Chart",
+                          @"subtitle": @"Simple demonstration of a time-chart. This chart draws one line entry per hour originating from the current time in milliseconds.",
+                          @"class": LineChartTimeViewController.class
+                          },
+                      @{
+                          
+                          @"title": @"Filled Line Chart",
+                          @"subtitle": @"This demonstrates how to fill an area between two LineDataSets.",
+                          @"class": LineChartFilledViewController.class
+                          },
+                      @{
+                          
+                          @"title": @"Half Pie Chart",
+                          @"subtitle": @"This demonstrates how to create a 180 degree PieChart.",
+                          @"class": HalfPieChartViewController.class
+                          },
+                    
+                      @{
                           @"title": @"Realm.io database",
                           @"subtitle": @"This demonstrates how to use this library with Realm.io mobile database.",
-                          @"class": RealmDemoListViewController.class
+                          @"class": RealmDemosViewController.class
                           }
                       ];
+    //FIXME: Add TimeLineChart
 }
 
 - (void)didReceiveMemoryWarning

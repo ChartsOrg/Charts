@@ -2,13 +2,11 @@
 //  ScatterChartViewController.m
 //  ChartsDemo
 //
-//  Created by Daniel Cohen Gindi on 17/3/15.
-//
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
 //  A port of MPAndroidChart for iOS
 //  Licensed under Apache License 2.0
 //
-//  https://github.com/danielgindi/ios-charts
+//  https://github.com/danielgindi/Charts
 //
 
 #import "ScatterChartViewController.h"
@@ -46,22 +44,25 @@
     
     _chartView.delegate = self;
     
-    _chartView.descriptionText = @"";
-    _chartView.noDataTextDescription = @"You need to provide data for the chart.";
+    _chartView.chartDescription.enabled = NO;
     
     _chartView.drawGridBackgroundEnabled = NO;
     _chartView.dragEnabled = YES;
     [_chartView setScaleEnabled:YES];
-    _chartView.maxVisibleValueCount = 200;
+    _chartView.maxVisibleCount = 200;
     _chartView.pinchZoomEnabled = YES;
     
     ChartLegend *l = _chartView.legend;
-    l.position = ChartLegendPositionRightOfChart;
+    l.horizontalAlignment = ChartLegendHorizontalAlignmentRight;
+    l.verticalAlignment = ChartLegendVerticalAlignmentTop;
+    l.orientation = ChartLegendOrientationVertical;
+    l.drawInside = NO;
     l.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
+    l.xOffset = 5.0;
     
     ChartYAxis *yl = _chartView.leftAxis;
     yl.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
-    yl.customAxisMin = 0.0; // this replaces startAtZero = YES
+    yl.axisMinimum = 0.0; // this replaces startAtZero = YES
     
     _chartView.rightAxis.enabled = NO;
     
@@ -88,18 +89,11 @@
         return;
     }
     
-    [self setDataCount:(_sliderX.value + 1) range:_sliderY.value];
+    [self setDataCount:_sliderX.value + 1 range:_sliderY.value];
 }
 
 - (void)setDataCount:(int)count range:(double)range
 {
-    NSMutableArray *xVals = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < count; i++)
-    {
-        [xVals addObject:[@(i) stringValue]];
-    }
-    
     NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
     NSMutableArray *yVals2 = [[NSMutableArray alloc] init];
     NSMutableArray *yVals3 = [[NSMutableArray alloc] init];
@@ -107,25 +101,25 @@
     for (int i = 0; i < count; i++)
     {
         double val = (double) (arc4random_uniform(range)) + 3;
-        [yVals1 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+        [yVals1 addObject:[[ChartDataEntry alloc] initWithX:(double)i y:val]];
         
         val = (double) (arc4random_uniform(range)) + 3;
-        [yVals2 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+        [yVals2 addObject:[[ChartDataEntry alloc] initWithX:(double)i + 0.33 y:val]];
         
         val = (double) (arc4random_uniform(range)) + 3;
-        [yVals3 addObject:[[ChartDataEntry alloc] initWithValue:val xIndex:i]];
+        [yVals3 addObject:[[ChartDataEntry alloc] initWithX:(double)i + 0.66 y:val]];
     }
     
-    ScatterChartDataSet *set1 = [[ScatterChartDataSet alloc] initWithYVals:yVals1 label:@"DS 1"];
-    set1.scatterShape = ScatterShapeSquare;
+    ScatterChartDataSet *set1 = [[ScatterChartDataSet alloc] initWithValues:yVals1 label:@"DS 1"];
+    [set1 setScatterShape:ScatterShapeSquare];
     [set1 setColor:ChartColorTemplates.colorful[0]];
-    ScatterChartDataSet *set2 = [[ScatterChartDataSet alloc] initWithYVals:yVals2 label:@"DS 2"];
-    set2.scatterShape = ScatterShapeCircle;
-    set2.scatterShapeHoleColor = UIColor.whiteColor;
-    set2.scatterShapeHoleRadius = 2.5f;
+    ScatterChartDataSet *set2 = [[ScatterChartDataSet alloc] initWithValues:yVals2 label:@"DS 2"];
+    [set2 setScatterShape:ScatterShapeCircle];
+    set2.scatterShapeHoleColor = ChartColorTemplates.colorful[3];
+    set2.scatterShapeHoleRadius = 3.5f;
     [set2 setColor:ChartColorTemplates.colorful[1]];
-    ScatterChartDataSet *set3 = [[ScatterChartDataSet alloc] initWithYVals:yVals3 label:@"DS 3"];
-    set3.scatterShape = ScatterShapeCross;
+    ScatterChartDataSet *set3 = [[ScatterChartDataSet alloc] initWithValues:yVals3 label:@"DS 3"];
+    [set3 setScatterShape:ScatterShapeCross];
     [set3 setColor:ChartColorTemplates.colorful[2]];
     
     set1.scatterShapeSize = 8.0;
@@ -137,7 +131,7 @@
     [dataSets addObject:set2];
     [dataSets addObject:set3];
     
-    ScatterChartData *data = [[ScatterChartData alloc] initWithXVals:xVals dataSets:dataSets];
+    ScatterChartData *data = [[ScatterChartData alloc] initWithDataSets:dataSets];
     [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:7.f]];
     
     _chartView.data = data;
@@ -152,7 +146,7 @@
 
 - (IBAction)slidersValueChanged:(id)sender
 {
-    _sliderTextX.text = [@((int)_sliderX.value + 1) stringValue];
+    _sliderTextX.text = [@((int)_sliderX.value) stringValue];
     _sliderTextY.text = [@((int)_sliderY.value) stringValue];
     
     [self updateChartData];
