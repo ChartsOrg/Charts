@@ -1,4 +1,4 @@
-osx_image: xcode8.2
+osx_image: xcode8.3
 language: objective-c
 rvm:
 - 2.2
