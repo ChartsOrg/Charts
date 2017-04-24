@@ -1,4 +1,4 @@
-osx_image: xcode8.2
+osx_image: xcode8.3
 language: objective-c
 rvm:
 - 2.2
@@ -16,7 +16,7 @@ before_install:
 - brew update
 - brew upgrade carthage || true
 - carthage version
-- travis_wait carthage bootstrap --platform $PLATFORM
+- carthage bootstrap --platform $PLATFORM
 script:
 - bundle exec rake ci[$PLATFORM]
 after_success:
