@@ -44,6 +44,7 @@ open class YAxisRenderer: AxisRendererBase
         let labelPosition = yAxis.labelPosition
         
         var xPos = CGFloat(0.0)
+        var xPosName = CGFloat(0.0)
         
         var textAlign: NSTextAlignment
         
@@ -53,13 +54,16 @@ open class YAxisRenderer: AxisRendererBase
             {
                 textAlign = .right
                 xPos = viewPortHandler.offsetLeft - xoffset
+                
+                let label = yAxis.getLongestLabel()
+                let size = label.size(attributes: [NSFontAttributeName: yAxis.nameAxisFont])
+                xPosName = size.height
             }
             else
             {
                 textAlign = .left
                 xPos = viewPortHandler.offsetLeft + xoffset
             }
-            
         }
         else
         {
@@ -67,6 +71,8 @@ open class YAxisRenderer: AxisRendererBase
             {
                 textAlign = .left
                 xPos = viewPortHandler.contentRight + xoffset
+                
+                xPosName = viewPortHandler.chartWidth - 5
             }
             else
             {
@@ -81,8 +87,22 @@ open class YAxisRenderer: AxisRendererBase
             positions: transformedPositions(),
             offset: yoffset - yAxis.labelFont.lineHeight,
             textAlign: textAlign)
+        
+        
+        if yAxis.nameAxisEnabled
+        {
+            let high = (viewPortHandler.chartHeight / 2)
+            var positions = [CGPoint]()
+            positions.append(CGPoint(x: 0.0, y: high))
+            
+            drawNameYAxis(
+                context: context,
+                fixedPosition: xPosName,
+                positions: positions[0],
+                offset: 0.0)
+        }
     }
-    
+   
     open override func renderAxisLine(context: CGContext)
     {
         guard
@@ -124,6 +144,41 @@ open class YAxisRenderer: AxisRendererBase
         }
         
         context.restoreGState()
+    }
+    
+    /// draws the name Yaxis
+    internal func drawNameYAxis(
+        context: CGContext,
+        fixedPosition: CGFloat,
+        positions: CGPoint,
+        offset: CGFloat)
+    {
+        guard
+            let yAxis = self.axis as? YAxis
+            else { return }
+        
+        #if os(OSX)
+            let paraStyle = NSParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+        #else
+            let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        #endif
+        
+        paraStyle.alignment = .center
+        
+        let labelAttrs = [NSFontAttributeName: yAxis.nameAxisFont,
+                          NSForegroundColorAttributeName: yAxis.nameAxisTextColor,
+                          NSParagraphStyleAttributeName: paraStyle] as [String : NSObject]
+        
+        let labelRotationAngleRadians = -90.0 * ChartUtils.Math.FDEG2RAD
+        let text = yAxis.nameAxis
+        
+        ChartUtils.drawText(
+            context: context,
+            text: text,
+            point: CGPoint(x: fixedPosition, y: positions.y + offset),
+            attributes: labelAttrs,
+            anchor: CGPoint(x: 1.0, y: 0.5),
+            angleRadians: labelRotationAngleRadians)
     }
     
     /// draws the y-labels on the specified x-position

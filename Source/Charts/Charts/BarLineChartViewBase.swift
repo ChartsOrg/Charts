@@ -426,30 +426,60 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             if leftAxis.needsOffset
             {
                 offsetLeft += leftAxis.requiredSize().width
+                if leftAxis.nameAxisEnabled
+                {
+                    let size = leftAxis.nameAxis.size(attributes: [NSFontAttributeName: leftAxis.nameAxisFont])
+                    offsetLeft += size.height
+                }
             }
             
             if rightAxis.needsOffset
             {
                 offsetRight += rightAxis.requiredSize().width
+                if rightAxis.nameAxisEnabled
+                {
+                    let size = rightAxis.nameAxis.size(attributes: [NSFontAttributeName: rightAxis.nameAxisFont])
+                    offsetRight += size.height + 5
+                    
+                }
             }
-
+            
             if xAxis.isEnabled && xAxis.isDrawLabelsEnabled
             {
                 let xlabelheight = xAxis.labelRotatedHeight + xAxis.yOffset
+                
+                var size = NSSize()
+                if xAxis.nameAxisEnabled
+                {
+                    size = xAxis.nameAxis.size(attributes: [NSFontAttributeName: xAxis.nameAxisFont])
+                }
                 
                 // offsets for x-labels
                 if xAxis.labelPosition == .bottom
                 {
                     offsetBottom += xlabelheight
+                    if xAxis.nameAxisEnabled
+                    {
+                        offsetBottom += size.height
+                    }
                 }
                 else if xAxis.labelPosition == .top
                 {
                     offsetTop += xlabelheight
+                    if xAxis.nameAxisEnabled
+                    {
+                        offsetTop += size.height
+                    }
                 }
                 else if xAxis.labelPosition == .bothSided
                 {
                     offsetBottom += xlabelheight
                     offsetTop += xlabelheight
+                    if xAxis.nameAxisEnabled
+                    {
+                        offsetTop += size.height
+                        offsetBottom += size.height
+                    }
                 }
             }
             
@@ -457,7 +487,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             offsetRight += self.extraRightOffset
             offsetBottom += self.extraBottomOffset
             offsetLeft += self.extraLeftOffset
-
+            
             _viewPortHandler.restrainViewPort(
                 offsetLeft: max(self.minOffset, offsetLeft),
                 offsetTop: max(self.minOffset, offsetTop),
@@ -468,6 +498,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         prepareOffsetMatrix()
         prepareValuePxMatrix()
     }
+    
     
     /// draws the grid background
     internal func drawGridBackground(context: CGContext)

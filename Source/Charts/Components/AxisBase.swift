@@ -41,6 +41,11 @@ open class AxisBase: ComponentBase
     open var drawGridLinesEnabled = true
     open var drawAxisLineEnabled = true
     
+    open var nameAxis : String = ""
+    open var nameAxisFont = NSUIFont.systemFont(ofSize: 14.0)
+    open var nameAxisTextColor = NSUIColor.blue
+    open var nameAxisEnabled = false
+    
     /// flag that indicates of the labels of this axis should be drawn or not
     open var drawLabelsEnabled = true
     

@@ -98,10 +98,18 @@ open class XAxisRenderer: AxisRendererBase
         }
         
         let yOffset = xAxis.yOffset
+        let width = (viewPortHandler.chartWidth / 2)
+        let positions = CGPoint(x: width, y:0.0)
+        
+        let nameAxisSize = xAxis.nameAxis.size(attributes: [NSFontAttributeName: xAxis.nameAxisFont])
         
         if xAxis.labelPosition == .top
         {
+            var pos  = viewPortHandler.contentTop - yOffset
             drawLabels(context: context, pos: viewPortHandler.contentTop - yOffset, anchor: CGPoint(x: 0.5, y: 1.0))
+            
+            pos = pos + (xAxis.labelRotationAngle != 0 ? -xAxis.labelRotatedHeight : -xAxis.labelHeight)
+            drawNameXAxis ( context: context,  fixedPosition: pos, positions: positions, offset: 0.0)
         }
         else if xAxis.labelPosition == .topInside
         {
@@ -109,7 +117,11 @@ open class XAxisRenderer: AxisRendererBase
         }
         else if xAxis.labelPosition == .bottom
         {
+            var pos  = viewPortHandler.contentBottom + yOffset
             drawLabels(context: context, pos: viewPortHandler.contentBottom + yOffset, anchor: CGPoint(x: 0.5, y: 0.0))
+            
+            pos = pos + nameAxisSize.height + (xAxis.labelRotationAngle != 0 ? xAxis.labelRotatedHeight : xAxis.labelHeight)
+            drawNameXAxis ( context: context,  fixedPosition: pos, positions: positions, offset: 0.0)
         }
         else if xAxis.labelPosition == .bottomInside
         {
@@ -117,8 +129,19 @@ open class XAxisRenderer: AxisRendererBase
         }
         else
         { // BOTH SIDED
+            // top
+            var pos  = viewPortHandler.contentTop - yOffset
             drawLabels(context: context, pos: viewPortHandler.contentTop - yOffset, anchor: CGPoint(x: 0.5, y: 1.0))
+            
+            pos = pos + (xAxis.labelRotationAngle != 0 ? -xAxis.labelRotatedHeight : -xAxis.labelHeight)
+            drawNameXAxis ( context: context,  fixedPosition: pos, positions: positions, offset: 0.0)
+            
+            // bottom
+            pos  = viewPortHandler.contentBottom + yOffset
             drawLabels(context: context, pos: viewPortHandler.contentBottom + yOffset, anchor: CGPoint(x: 0.5, y: 0.0))
+            
+            pos = pos + nameAxisSize.height + (xAxis.labelRotationAngle != 0 ? xAxis.labelRotatedHeight : xAxis.labelHeight)
+            drawNameXAxis ( context: context,  fixedPosition: pos, positions: positions, offset: 0.0)
         }
     }
     
@@ -262,6 +285,47 @@ open class XAxisRenderer: AxisRendererBase
         }
     }
     
+    /// draws the x-name
+    open func drawNameXAxis (
+        context: CGContext,
+        fixedPosition: CGFloat,
+        positions: CGPoint,
+        offset: CGFloat)
+    {
+        guard
+            let xAxis = self.axis as? XAxis
+            else { return }
+        
+        if xAxis.nameAxisEnabled == false
+        {
+            return
+        }
+        
+        #if os(OSX)
+            let paraStyle = NSParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+        #else
+            let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        #endif
+        
+        paraStyle.alignment = .center
+        let labelAttrs = [NSFontAttributeName: xAxis.nameAxisFont,
+                          NSForegroundColorAttributeName: xAxis.nameAxisTextColor,
+                          NSParagraphStyleAttributeName: paraStyle] as [String : NSObject]
+        let labelRotationAngleRadians = 0 * ChartUtils.Math.FDEG2RAD
+        
+        let text = xAxis.nameAxis
+        let labelMaxSize = CGSize()
+        
+        ChartUtils.drawMultilineText(
+            context: context,
+            text: text,
+            point: CGPoint(x: positions.x, y: fixedPosition),
+            attributes: labelAttrs,
+            constrainedToSize: labelMaxSize,
+            anchor: CGPoint(x: 0.5, y: 1.0),
+            angleRadians: labelRotationAngleRadians)
+    }
+
     open func drawLabel(
         context: CGContext,
         formattedLabel: String,
