@@ -703,7 +703,7 @@
 				06165F2A1D8110E600722320 /* Sources */,
 				06165F2B1D8110E600722320 /* Frameworks */,
 				06165F2C1D8110E600722320 /* Resources */,
-				B6355D621EA9B71800B74B2E /* ShellScript */,
+				B6355D621EA9B71800B74B2E /* Copy Carthage Frameworks */,
 			);
 			buildRules = (
 			);
@@ -783,19 +783,20 @@
 			shellPath = /bin/sh;
 			shellScript = "exec \"${SRCROOT}/scripts/build-dependencies.sh\"\n";
 		};
-		B6355D621EA9B71800B74B2E /* ShellScript */ = {
+		B6355D621EA9B71800B74B2E /* Copy Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/$(PLATFORM)/FBSnapshotTestCase.framework",
+				FBSnapshotTestCase,
 			);
+			name = "Copy Carthage Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "carthage copy-frameworks";
+			shellScript = " exec \"${SRCROOT}/scripts/copy-carthage-frameworks.sh\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
