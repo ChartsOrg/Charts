@@ -126,12 +126,12 @@ task :ci, [:platform] do |_task, args|
   platform = arg_to_key(args[:platform]) if args.has_key?(:platform)
 
   if test_platforms.include?(platform)
-    execute 'clean build test', platform
+    execute 'clean test', platform
   elsif build_platforms.include?(platform)
     execute 'clean build', platform
   else
     test_platforms.each do |platform|
-      execute 'clean build test', platform
+      execute 'clean test', platform
     end
     build_platforms.each do |platform|
       execute 'clean build', platform
