@@ -72,7 +72,7 @@ open class YAxisRenderer: AxisRendererBase
                 textAlign = .left
                 xPos = viewPortHandler.contentRight + xoffset
                 
-                xNamePos = viewPortHandler.chartWidth - 5
+                xNamePos = viewPortHandler.chartWidth
             }
             else
             {
