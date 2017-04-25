@@ -448,7 +448,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             {
                 let xlabelheight = xAxis.labelRotatedHeight + xAxis.yOffset
                 
-                var size = NSSize()
+                var size = CGSize()
                 if xAxis.nameAxisEnabled
                 {
                     size = xAxis.nameAxis.size(attributes: [NSFontAttributeName: xAxis.nameAxisFont])
