@@ -44,7 +44,7 @@ open class YAxisRenderer: AxisRendererBase
         let labelPosition = yAxis.labelPosition
         
         var xPos = CGFloat(0.0)
-        var xPosName = CGFloat(0.0)
+        var xNamePos = CGFloat(0.0)
         
         var textAlign: NSTextAlignment
         
@@ -57,7 +57,7 @@ open class YAxisRenderer: AxisRendererBase
                 
                 let label = yAxis.getLongestLabel()
                 let size = label.size(attributes: [NSFontAttributeName: yAxis.nameAxisFont])
-                xPosName = size.height
+                xNamePos = size.height
             }
             else
             {
@@ -72,7 +72,7 @@ open class YAxisRenderer: AxisRendererBase
                 textAlign = .left
                 xPos = viewPortHandler.contentRight + xoffset
                 
-                xPosName = viewPortHandler.chartWidth - 5
+                xNamePos = viewPortHandler.chartWidth - 5
             }
             else
             {
@@ -97,7 +97,7 @@ open class YAxisRenderer: AxisRendererBase
             
             drawNameYAxis(
                 context: context,
-                fixedPosition: xPosName,
+                fixedPosition: xNamePos,
                 positions: positions[0],
                 offset: 0.0)
         }
