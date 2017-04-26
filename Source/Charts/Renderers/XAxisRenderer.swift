@@ -98,8 +98,8 @@ open class XAxisRenderer: AxisRendererBase
         }
         
         let yOffset = xAxis.yOffset
-        let width = (viewPortHandler.chartWidth / 2)
-        let positions = CGPoint(x: width, y:0.0)
+        let chartWidth_2 = (viewPortHandler.chartWidth / 2)
+        let positions = CGPoint(x: chartWidth_2, y:0.0)
         
         let nameAxisSize = xAxis.nameAxis.size(attributes: [NSFontAttributeName: xAxis.nameAxisFont])
         

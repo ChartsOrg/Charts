@@ -428,8 +428,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 offsetLeft += leftAxis.requiredSize().width
                 if leftAxis.nameAxisEnabled
                 {
-                    let size = leftAxis.nameAxis.size(attributes: [NSFontAttributeName: leftAxis.nameAxisFont])
-                    offsetLeft += size.height
+                    let nameLeftAxisSize = leftAxis.nameAxis.size(attributes: [NSFontAttributeName: leftAxis.nameAxisFont])
+                    offsetLeft += nameLeftAxisSize.height
                 }
             }
             
@@ -438,9 +438,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 offsetRight += rightAxis.requiredSize().width
                 if rightAxis.nameAxisEnabled
                 {
-                    let size = rightAxis.nameAxis.size(attributes: [NSFontAttributeName: rightAxis.nameAxisFont])
-                    offsetRight += size.height + 5
-                    
+                    let nameRightAxisSize = rightAxis.nameAxis.size(attributes: [NSFontAttributeName: rightAxis.nameAxisFont])
+                    offsetRight += nameRightAxisSize.height
                 }
             }
             
@@ -448,38 +447,25 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             {
                 let xlabelheight = xAxis.labelRotatedHeight + xAxis.yOffset
                 
-                var size = NSSize()
+                var namexAxisSize = CGSize()
                 if xAxis.nameAxisEnabled
                 {
-                    size = xAxis.nameAxis.size(attributes: [NSFontAttributeName: xAxis.nameAxisFont])
+                    namexAxisSize = xAxis.nameAxis.size(attributes: [NSFontAttributeName: xAxis.nameAxisFont])
                 }
                 
                 // offsets for x-labels
                 if xAxis.labelPosition == .bottom
                 {
-                    offsetBottom += xlabelheight
-                    if xAxis.nameAxisEnabled
-                    {
-                        offsetBottom += size.height
-                    }
+                    offsetBottom += xlabelheight + namexAxisSize.height
                 }
                 else if xAxis.labelPosition == .top
                 {
-                    offsetTop += xlabelheight
-                    if xAxis.nameAxisEnabled
-                    {
-                        offsetTop += size.height
-                    }
+                    offsetTop += xlabelheight + namexAxisSize.height
                 }
                 else if xAxis.labelPosition == .bothSided
                 {
-                    offsetBottom += xlabelheight
-                    offsetTop += xlabelheight
-                    if xAxis.nameAxisEnabled
-                    {
-                        offsetTop += size.height
-                        offsetBottom += size.height
-                    }
+                    offsetBottom += xlabelheight + namexAxisSize.height
+                    offsetTop += xlabelheight + namexAxisSize.height
                 }
             }
             

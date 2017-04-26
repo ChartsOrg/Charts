@@ -74,13 +74,18 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         let labelPosition = yAxis.labelPosition
         
         var yPos: CGFloat = 0.0
+        var yNamePos = CGFloat(0.0)
+        
         
         if dependency == .left
         {
             if labelPosition == .outsideChart
             {
                 yPos = viewPortHandler.contentTop - baseYOffset
-            }
+                
+                let nameAxisSize = yAxis.nameAxis.size(attributes: [NSFontAttributeName: yAxis.nameAxisFont])
+                yNamePos = nameAxisSize.height
+           }
             else
             {
                 yPos = viewPortHandler.contentTop - baseYOffset
@@ -91,6 +96,9 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             if labelPosition == .outsideChart
             {
                 yPos = viewPortHandler.contentBottom + lineHeight + baseYOffset
+                
+                let nameAxisSize = yAxis.nameAxis.size(attributes: [NSFontAttributeName: yAxis.nameAxisFont])
+                yNamePos = yPos + nameAxisSize.height
             }
             else
             {
@@ -107,6 +115,60 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             fixedPosition: yPos,
             positions: transformedPositions(),
             offset: yAxis.yOffset)
+        
+        if yAxis.nameAxisEnabled
+        {
+            let width = (viewPortHandler.chartWidth / 2)
+            var positions = [CGPoint]()
+            positions.append(CGPoint(x: width, y: 0.0))
+            
+            drawNameYAxis(
+                context: context,
+                fixedPosition: yNamePos,
+                positions: positions[0],
+                offset: 0.0)
+        }
+    }
+    
+    /// draws the name Yaxis
+    internal override func drawNameYAxis(
+        context: CGContext,
+        fixedPosition: CGFloat,
+        positions: CGPoint,
+        offset: CGFloat)
+    {
+        guard
+            let yAxis = self.axis as? YAxis
+            else { return }
+        
+        if yAxis.nameAxisEnabled == false
+        {
+            return
+        }
+        
+        
+        #if os(OSX)
+            let paraStyle = NSParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+        #else
+            let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        #endif
+        
+        paraStyle.alignment = .center
+        
+        let labelAttrs = [NSFontAttributeName: yAxis.nameAxisFont,
+                          NSForegroundColorAttributeName: yAxis.nameAxisTextColor,
+                          NSParagraphStyleAttributeName: paraStyle] as [String : NSObject]
+        
+        let labelRotationAngleRadians = 0.0 * ChartUtils.Math.FDEG2RAD
+        let text = yAxis.nameAxis
+        
+        ChartUtils.drawText(
+            context: context,
+            text: text,
+            point: CGPoint(x: positions.x, y: fixedPosition),
+            attributes: labelAttrs,
+            anchor: CGPoint(x: 1.0, y: 1.0),
+            angleRadians: labelRotationAngleRadians)
     }
     
     open override func renderAxisLine(context: CGContext)
