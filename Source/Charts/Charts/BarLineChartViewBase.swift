@@ -447,25 +447,25 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             {
                 let xlabelheight = xAxis.labelRotatedHeight + xAxis.yOffset
                 
-                var namexAxisSize = CGSize()
+                var size = CGSize()
                 if xAxis.nameAxisEnabled
                 {
-                    namexAxisSize = xAxis.nameAxis.size(attributes: [NSFontAttributeName: xAxis.nameAxisFont])
+                    size = xAxis.nameAxis.size(attributes: [NSFontAttributeName: xAxis.nameAxisFont])
                 }
                 
                 // offsets for x-labels
                 if xAxis.labelPosition == .bottom
                 {
-                    offsetBottom += xlabelheight + namexAxisSize.height
+                    offsetBottom += xlabelheight + size.height
                 }
                 else if xAxis.labelPosition == .top
                 {
-                    offsetTop += xlabelheight + namexAxisSize.height
+                    offsetTop += xlabelheight + size.height
                 }
                 else if xAxis.labelPosition == .bothSided
                 {
-                    offsetBottom += xlabelheight + namexAxisSize.height
-                    offsetTop += xlabelheight + namexAxisSize.height
+                    offsetBottom += xlabelheight + size.height
+                    offsetTop += xlabelheight + size.height
                 }
             }
             
