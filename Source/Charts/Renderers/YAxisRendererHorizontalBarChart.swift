@@ -76,7 +76,6 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         var yPos: CGFloat = 0.0
         var yNamePos = CGFloat(0.0)
         
-        
         if dependency == .left
         {
             if labelPosition == .outsideChart
