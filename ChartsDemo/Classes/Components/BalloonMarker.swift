@@ -22,7 +22,7 @@ open class BalloonMarker: MarkerImage
     open var insets = UIEdgeInsets()
     open var minimumSize = CGSize()
     
-    fileprivate var labelns: NSString?
+    fileprivate var label: String?
     fileprivate var _labelSize: CGSize = CGSize()
     fileprivate var _paragraphStyle: NSMutableParagraphStyle?
     fileprivate var _drawAttributes = [String : AnyObject]()
@@ -51,10 +51,7 @@ open class BalloonMarker: MarkerImage
     
     open override func draw(context: CGContext, point: CGPoint)
     {
-        if labelns == nil
-        {
-            return
-        }
+		guard let label = label else { return }
         
         let offset = self.offsetForDrawing(atPoint: point)
         let size = self.size
@@ -105,7 +102,7 @@ open class BalloonMarker: MarkerImage
         
         UIGraphicsPushContext(context)
         
-        labelns?.draw(in: rect, withAttributes: _drawAttributes)
+        label.draw(in: rect, withAttributes: _drawAttributes)
         
         UIGraphicsPopContext()
         
@@ -117,16 +114,16 @@ open class BalloonMarker: MarkerImage
         setLabel(String(entry.y))
     }
     
-    open func setLabel(_ label: String)
+    open func setLabel(_ newLabel: String)
     {
-        labelns = label as NSString
+        label = newLabel
         
         _drawAttributes.removeAll()
         _drawAttributes[NSFontAttributeName] = self.font
         _drawAttributes[NSParagraphStyleAttributeName] = _paragraphStyle
         _drawAttributes[NSForegroundColorAttributeName] = self.textColor
         
-        _labelSize = labelns?.size(attributes: _drawAttributes) ?? CGSize.zero
+        _labelSize = label?.size(attributes: _drawAttributes) ?? CGSize.zero
         
         var size = CGSize()
         size.width = _labelSize.width + self.insets.left + self.insets.right
