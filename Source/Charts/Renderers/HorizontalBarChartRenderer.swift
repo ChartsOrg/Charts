@@ -614,7 +614,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * (viewPortHandler?.scaleY ?? 1.0))
     }
     
-    /// Sets the drawing position of the highlight object based on the riven bar-rect.
+    // Sets the drawing position of the highlight object based on the riven bar-rect.
     internal override func setHighlightDrawPos(highlight high: Highlight, barRect: CGRect)
     {
         high.setDraw(x: barRect.midY, y: barRect.origin.x + barRect.size.width)

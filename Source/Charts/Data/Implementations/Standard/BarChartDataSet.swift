@@ -37,15 +37,15 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
 
     // MARK: - Data functions and accessors
     
-    /// the maximum number of bars that are stacked upon each other, this value
-    /// is calculated from the Entries that are added to the DataSet
+    // the maximum number of bars that are stacked upon each other, this value
+    // is calculated from the Entries that are added to the DataSet
     fileprivate var _stackSize = 1
     
-    /// the overall entry count, including counting each stack-value individually
+    // the overall entry count, including counting each stack-value individually
     fileprivate var _entryCountStacks = 0
     
-    /// Calculates the total number of entries this DataSet represents, including
-    /// stacks. All values belonging to a stack are calculated separately.
+    // Calculates the total number of entries this DataSet represents, including
+    // stacks. All values belonging to a stack are calculated separately.
     fileprivate func calcEntryCountIncludingStacks(entries: [BarChartDataEntry])
     {
         _entryCountStacks = 0
@@ -63,7 +63,7 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
         }
     }
     
-    /// calculates the maximum stacksize that occurs in the Entries array of this DataSet
+    // calculates the maximum stacksize that occurs in the Entries array of this DataSet
     fileprivate func calcStackSize(entries: [BarChartDataEntry])
     {
         for i in 0 ..< entries.count
@@ -114,39 +114,39 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
         }
     }
     
-    /// - returns: The maximum number of bars that can be stacked upon another in this DataSet.
+    // - returns: The maximum number of bars that can be stacked upon another in this DataSet.
     open var stackSize: Int
     {
         return _stackSize
     }
     
-    /// - returns: `true` if this DataSet is stacked (stacksize > 1) or not.
+    // - returns: `true` if this DataSet is stacked (stacksize > 1) or not.
     open var isStacked: Bool
     {
         return _stackSize > 1 ? true : false
     }
     
-    /// - returns: The overall entry count, including counting each stack-value individually
+    // - returns: The overall entry count, including counting each stack-value individually
     open var entryCountStacks: Int
     {
         return _entryCountStacks
     }
     
-    /// array of labels used to describe the different values of the stacked bars
+    // array of labels used to describe the different values of the stacked bars
     open var stackLabels: [String] = ["Stack"]
     
     // MARK: - Styling functions and accessors
     
-    /// the color used for drawing the bar-shadows. The bar shadows is a surface behind the bar that indicates the maximum value
+    // the color used for drawing the bar-shadows. The bar shadows is a surface behind the bar that indicates the maximum value
     open var barShadowColor = NSUIColor(red: 215.0/255.0, green: 215.0/255.0, blue: 215.0/255.0, alpha: 1.0)
 
-    /// the width used for drawing borders around the bars. If borderWidth == 0, no border will be drawn.
+    // the width used for drawing borders around the bars. If borderWidth == 0, no border will be drawn.
     open var barBorderWidth : CGFloat = 0.0
 
-    /// the color drawing borders around the bars.
+    // the color drawing borders around the bars.
     open var barBorderColor = NSUIColor.black
 
-    /// the alpha value (transparency) that is used for drawing the highlight indicator bar. min = 0.0 (fully transparent), max = 1.0 (fully opaque)
+    // the alpha value (transparency) that is used for drawing the highlight indicator bar. min = 0.0 (fully transparent), max = 1.0 (fully opaque)
     open var highlightAlpha = CGFloat(120.0 / 255.0)
     
     // MARK: - NSCopying

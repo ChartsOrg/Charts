@@ -24,7 +24,7 @@ open class YAxisRenderer: AxisRendererBase
         super.init(viewPortHandler: viewPortHandler, transformer: transformer, axis: yAxis)
     }
     
-    /// draws the y-axis labels to the screen
+    // draws the y-axis labels to the screen
     open override func renderAxisLabels(context: CGContext)
     {
         guard
@@ -126,7 +126,7 @@ open class YAxisRenderer: AxisRendererBase
         context.restoreGState()
     }
     
-    /// draws the y-labels on the specified x-position
+    // draws the y-labels on the specified x-position
     internal func drawYLabels(
         context: CGContext,
         fixedPosition: CGFloat,
@@ -250,7 +250,7 @@ open class YAxisRenderer: AxisRendererBase
         return positions
     }
 
-    /// Draws the zero line at the specified position.
+    // Draws the zero line at the specified position.
     open func drawZeroLine(context: CGContext)
     {
         guard

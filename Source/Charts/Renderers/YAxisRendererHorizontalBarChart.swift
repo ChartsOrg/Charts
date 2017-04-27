@@ -23,7 +23,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         super.init(viewPortHandler: viewPortHandler, yAxis: yAxis, transformer: transformer)
     }
 
-    /// Computes the axis values.
+    // Computes the axis values.
     open override func computeAxis(min: Double, max: Double, inverted: Bool)
     {
         guard
@@ -54,7 +54,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         computeAxisValues(min: min, max: max)
     }
 
-    /// draws the y-axis labels to the screen
+    // draws the y-axis labels to the screen
     open override func renderAxisLabels(context: CGContext)
     {
         guard
@@ -151,7 +151,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         context.restoreGState()
     }
 
-    /// draws the y-labels on the specified x-position
+    // draws the y-labels on the specified x-position
     open func drawYLabels(
         context: CGContext,
         fixedPosition: CGFloat,
@@ -226,7 +226,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         return positions
     }
     
-    /// Draws the zero line at the specified position.
+    // Draws the zero line at the specified position.
     open override func drawZeroLine(context: CGContext)
     {
         guard

@@ -15,10 +15,10 @@ import CoreGraphics
 @objc(ChartAxisRendererBase)
 open class AxisRendererBase: Renderer
 {
-    /// base axis this axis renderer works with
+    // base axis this axis renderer works with
     open var axis: AxisBase?
     
-    /// transformer to transform values to screen pixels and return
+    // transformer to transform values to screen pixels and return
     open var transformer: Transformer?
     
     public override init()
@@ -34,33 +34,33 @@ open class AxisRendererBase: Renderer
         self.axis = axis
     }
     
-    /// Draws the axis labels on the specified context
+    // Draws the axis labels on the specified context
     open func renderAxisLabels(context: CGContext)
     {
         fatalError("renderAxisLabels() cannot be called on AxisRendererBase")
     }
     
-    /// Draws the grid lines belonging to the axis.
+    // Draws the grid lines belonging to the axis.
     open func renderGridLines(context: CGContext)
     {
         fatalError("renderGridLines() cannot be called on AxisRendererBase")
     }
     
-    /// Draws the line that goes alongside the axis.
+    // Draws the line that goes alongside the axis.
     open func renderAxisLine(context: CGContext)
     {
         fatalError("renderAxisLine() cannot be called on AxisRendererBase")
     }
     
-    /// Draws the LimitLines associated with this axis to the screen.
+    // Draws the LimitLines associated with this axis to the screen.
     open func renderLimitLines(context: CGContext)
     {
         fatalError("renderLimitLines() cannot be called on AxisRendererBase")
     }
     
-    /// Computes the axis values.
-    /// - parameter min: the minimum value in the data object for this axis
-    /// - parameter max: the maximum value in the data object for this axis
+    // Computes the axis values.
+    // - parameter min: the minimum value in the data object for this axis
+    // - parameter max: the maximum value in the data object for this axis
     open func computeAxis(min: Double, max: Double, inverted: Bool)
     {
         var min = min, max = max
@@ -92,7 +92,7 @@ open class AxisRendererBase: Renderer
         computeAxisValues(min: min, max: max)
     }
     
-    /// Sets up the axis values. Computes the desired number of labels between the two given extremes.
+    // Sets up the axis values. Computes the desired number of labels between the two given extremes.
     open func computeAxisValues(min: Double, max: Double)
     {
         guard let axis = self.axis else { return }

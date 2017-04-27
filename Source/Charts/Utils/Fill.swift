@@ -236,7 +236,7 @@ open class Fill: NSObject
     
     // MARK: Drawing code
     
-    /// Draws the provided path in filled mode with the provided area
+    // Draws the provided path in filled mode with the provided area
     open func fillPath(
         context: CGContext,
         rect: CGRect)

@@ -13,13 +13,13 @@ import Foundation
 
 open class ChartDataEntryBase: NSObject
 {
-    /// the y value
+    // the y value
     open var y = Double(0.0)
     
-    /// optional spot for additional data this Entry represents
+    // optional spot for additional data this Entry represents
     open var data: AnyObject?
     
-    /// optional icon image
+    // optional icon image
     open var icon: NSUIImage?
     
     public override required init()
@@ -27,8 +27,8 @@ open class ChartDataEntryBase: NSObject
         super.init()
     }
     
-    /// An Entry represents one single entry in the chart.
-    /// - parameter y: the y value (the actual value of the entry)
+    // An Entry represents one single entry in the chart.
+    // - parameter y: the y value (the actual value of the entry)
     public init(y: Double)
     {
         super.init()
@@ -36,8 +36,8 @@ open class ChartDataEntryBase: NSObject
         self.y = y
     }
     
-    /// - parameter y: the y value (the actual value of the entry)
-    /// - parameter data: Space for additional data this Entry represents.
+    // - parameter y: the y value (the actual value of the entry)
+    // - parameter data: Space for additional data this Entry represents.
     
     public init(y: Double, data: AnyObject?)
     {
@@ -47,8 +47,8 @@ open class ChartDataEntryBase: NSObject
         self.data = data
     }
     
-    /// - parameter y: the y value (the actual value of the entry)
-    /// - parameter icon: icon image
+    // - parameter y: the y value (the actual value of the entry)
+    // - parameter icon: icon image
     
     public init(y: Double, icon: NSUIImage?)
     {
@@ -58,9 +58,9 @@ open class ChartDataEntryBase: NSObject
         self.icon = icon
     }
     
-    /// - parameter y: the y value (the actual value of the entry)
-    /// - parameter icon: icon image
-    /// - parameter data: Space for additional data this Entry represents.
+    // - parameter y: the y value (the actual value of the entry)
+    // - parameter icon: icon image
+    // - parameter data: Space for additional data this Entry represents.
     
     public init(y: Double, icon: NSUIImage?, data: AnyObject?)
     {

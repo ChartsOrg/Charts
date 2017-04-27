@@ -20,10 +20,10 @@ open class RadarChartData: ChartData
     open var highlightLineDashPhase = CGFloat(0.0)
     open var highlightLineDashLengths: [CGFloat]?
     
-    /// Sets labels that should be drawn around the RadarChart at the end of each web line.
+    // Sets labels that should be drawn around the RadarChart at the end of each web line.
     open var labels = [String]()
     
-    /// Sets the labels that should be drawn around the RadarChart at the end of each web line.
+    // Sets the labels that should be drawn around the RadarChart at the end of each web line.
     open func setLabels(_ labels: String...)
     {
         self.labels = labels

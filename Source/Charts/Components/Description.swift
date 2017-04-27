@@ -25,22 +25,22 @@ open class Description: ComponentBase
         #else
             font = NSUIFont.systemFont(ofSize: 8.0)
         #endif
-        
+
         super.init()
     }
-    
-    /// The text to be shown as the description.
+
+    // The text to be shown as the description.
     open var text: String? = "Description Label"
-    
-    /// Custom position for the description text in pixels on the screen.
+
+    // Custom position for the description text in pixels on the screen.
     open var position: CGPoint? = nil
-    
-    /// The text alignment of the description text. Default RIGHT.
+
+    // The text alignment of the description text. Default RIGHT.
     open var textAlign: NSTextAlignment = NSTextAlignment.right
-    
-    /// Font object used for drawing the description text.
+
+    // Font object used for drawing the description text.
     open var font: NSUIFont
-    
-    /// Text color used for drawing the description text
+
+    // Text color used for drawing the description text
     open var textColor = NSUIColor.black
 }

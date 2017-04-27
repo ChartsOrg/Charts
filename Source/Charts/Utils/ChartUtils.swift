@@ -71,7 +71,7 @@ open class ChartUtils
         }
     }
     
-    /// Calculates the position around a center point, depending on the distance from the center, and the angle of the position around the center.
+    // Calculates the position around a center point, depending on the distance from the center, and the angle of the position around the center.
     internal class func getPosition(center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
     {
         return CGPoint(
@@ -249,7 +249,7 @@ open class ChartUtils
         drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, attributes: attributes, constrainedToSize: constrainedToSize, anchor: anchor, angleRadians: angleRadians)
     }
     
-    /// - returns: An angle between 0.0 < 360.0 (not less than zero, less than 360)
+    // - returns: An angle between 0.0 < 360.0 (not less than zero, less than 360)
     internal class func normalizedAngleFromAngle(_ angle: CGFloat) -> CGFloat
     {
         var angle = angle
@@ -268,7 +268,7 @@ open class ChartUtils
         return formatter
     }
     
-    /// - returns: The default value formatter used for all chart components that needs a default
+    // - returns: The default value formatter used for all chart components that needs a default
     open class func defaultValueFormatter() -> IValueFormatter
     {
         return _defaultValueFormatter
@@ -299,7 +299,7 @@ open class ChartUtils
         )
     }
     
-    /// MARK: - Bridging functions
+    // MARK: - Bridging functions
     
     internal class func bridgedObjCGetNSUIColorArray (swift array: [NSUIColor?]) -> [NSObject]
     {

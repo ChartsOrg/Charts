@@ -14,7 +14,7 @@ import Foundation
 @objc(ChartDataApproximator)
 open class DataApproximator: NSObject
 {
-    /// uses the douglas peuker algorithm to reduce the given arraylist of entries
+    // uses the douglas peuker algorithm to reduce the given arraylist of entries
     open class func reduceWithDouglasPeuker(_ points: [CGPoint], tolerance: CGFloat) -> [CGPoint]
     {
         // if a shape has 2 or less points it cannot be reduced
@@ -49,12 +49,12 @@ open class DataApproximator: NSObject
         return reducedEntries
     }
 
-    /// apply the Douglas-Peucker-Reduction to an array of `CGPoint`s with a given tolerance
-    ///
-    /// - parameter points:
-    /// - parameter tolerance:
-    /// - parameter start:
-    /// - parameter end:
+    // apply the Douglas-Peucker-Reduction to an array of `CGPoint`s with a given tolerance
+    //
+    // - parameter points:
+    // - parameter tolerance:
+    // - parameter start:
+    // - parameter end:
     open class func reduceWithDouglasPeuker(
         points: [CGPoint],
         tolerance: CGFloat,
