@@ -19,7 +19,7 @@ import CoreGraphics
 @objc(ChartLegendRenderer)
 open class LegendRenderer: Renderer
 {
-    /// the legend object this renderer renders
+    // the legend object this renderer renders
     open var legend: Legend?
 
     public init(viewPortHandler: ViewPortHandler?, legend: Legend?)
@@ -29,7 +29,7 @@ open class LegendRenderer: Renderer
         self.legend = legend
     }
 
-    /// Prepares the legend and calculates all needed forms, labels and colors.
+    // Prepares the legend and calculates all needed forms, labels and colors.
     open func computeLegend(data: ChartData)
     {
         guard
@@ -496,7 +496,7 @@ open class LegendRenderer: Renderer
 
     fileprivate var _formLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    /// Draws the Legend-form at the given position with the color at the given index.
+    // Draws the Legend-form at the given position with the color at the given index.
     open func drawForm(
         context: CGContext,
         x: CGFloat,
@@ -568,7 +568,7 @@ open class LegendRenderer: Renderer
         }
     }
 
-    /// Draws the provided label at the given position.
+    // Draws the provided label at the given position.
     open func drawLabel(context: CGContext, x: CGFloat, y: CGFloat, label: String, font: NSUIFont, textColor: NSUIColor)
     {
         ChartUtils.drawText(context: context, text: label, point: CGPoint(x: x, y: y), align: .left, attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: textColor])

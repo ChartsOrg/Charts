@@ -174,7 +174,7 @@ open class XAxisRenderer: AxisRendererBase
         context.restoreGState()
     }
     
-    /// draws the x-labels on the specified y-position
+    // draws the x-labels on the specified y-position
     open func drawLabels(context: CGContext, pos: CGFloat, anchor: CGPoint)
     {
         guard

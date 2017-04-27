@@ -20,14 +20,14 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     
     // MARK: - Styling functions and accessors
     
-    /// The drawing mode for this line dataset
-    ///
-    /// **default**: Linear
+    // The drawing mode for this line dataset
+    //
+    // **default**: Linear
     var mode: LineChartDataSet.Mode { get set }
     
-    /// Intensity for cubic lines (min = 0.05, max = 1)
-    ///
-    /// **default**: 0.2
+    // Intensity for cubic lines (min = 0.05, max = 1)
+    //
+    // **default**: 0.2
     var cubicIntensity: CGFloat { get set }
     
     @available(*, deprecated: 1.0, message: "Use `mode` instead.")
@@ -42,51 +42,51 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     @available(*, deprecated: 1.0, message: "Use `mode` instead.")
     var isDrawSteppedEnabled: Bool { get }
 
-    /// The radius of the drawn circles.
+    // The radius of the drawn circles.
     var circleRadius: CGFloat { get set }
     
-    /// The hole radius of the drawn circles.
+    // The hole radius of the drawn circles.
     var circleHoleRadius: CGFloat { get set }
     
     var circleColors: [NSUIColor] { get set }
     
-    /// - returns: The color at the given index of the DataSet's circle-color array.
-    /// Performs a IndexOutOfBounds check by modulus.
+    // - returns: The color at the given index of the DataSet's circle-color array.
+    // Performs a IndexOutOfBounds check by modulus.
     func getCircleColor(atIndex: Int) -> NSUIColor?
     
-    /// Sets the one and ONLY color that should be used for this DataSet.
-    /// Internally, this recreates the colors array and adds the specified color.
+    // Sets the one and ONLY color that should be used for this DataSet.
+    // Internally, this recreates the colors array and adds the specified color.
     func setCircleColor(_ color: NSUIColor)
     
-    /// Resets the circle-colors array and creates a new one
+    // Resets the circle-colors array and creates a new one
     func resetCircleColors(_ index: Int)
     
-    /// If true, drawing circles is enabled
+    // If true, drawing circles is enabled
     var drawCirclesEnabled: Bool { get set }
     
-    /// - returns: `true` if drawing circles for this DataSet is enabled, `false` ifnot
+    // - returns: `true` if drawing circles for this DataSet is enabled, `false` ifnot
     var isDrawCirclesEnabled: Bool { get }
     
-    /// The color of the inner circle (the circle-hole).
+    // The color of the inner circle (the circle-hole).
     var circleHoleColor: NSUIColor? { get set }
     
-    /// `true` if drawing circles for this DataSet is enabled, `false` ifnot
+    // `true` if drawing circles for this DataSet is enabled, `false` ifnot
     var drawCircleHoleEnabled: Bool { get set }
     
-    /// - returns: `true` if drawing the circle-holes is enabled, `false` ifnot.
+    // - returns: `true` if drawing the circle-holes is enabled, `false` ifnot.
     var isDrawCircleHoleEnabled: Bool { get }
     
-    /// This is how much (in pixels) into the dash pattern are we starting from.
+    // This is how much (in pixels) into the dash pattern are we starting from.
     var lineDashPhase: CGFloat { get }
     
-    /// This is the actual dash pattern.
-    /// I.e. [2, 3] will paint [--   --   ]
-    /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
+    // This is the actual dash pattern.
+    // I.e. [2, 3] will paint [--   --   ]
+    // [1, 3, 4, 2] will paint [-   ----  -   ----  ]
     var lineDashLengths: [CGFloat]? { get set }
     
-    /// Line cap type, default is CGLineCap.Butt
+    // Line cap type, default is CGLineCap.Butt
     var lineCapType: CGLineCap { get set }
     
-    /// Sets a custom IFillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
+    // Sets a custom IFillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
     var fillFormatter: IFillFormatter? { get set }
 }

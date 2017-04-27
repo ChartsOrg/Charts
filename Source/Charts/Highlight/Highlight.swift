@@ -14,36 +14,36 @@ import Foundation
 @objc(ChartHighlight)
 open class Highlight: NSObject
 {
-    /// the x-value of the highlighted value
+    // the x-value of the highlighted value
     fileprivate var _x = Double.nan
     
-    /// the y-value of the highlighted value
+    // the y-value of the highlighted value
     fileprivate var _y = Double.nan
     
-    /// the x-pixel of the highlight
+    // the x-pixel of the highlight
     fileprivate var _xPx = CGFloat.nan
     
-    /// the y-pixel of the highlight
+    // the y-pixel of the highlight
     fileprivate var _yPx = CGFloat.nan
     
-    /// the index of the data object - in case it refers to more than one
+    // the index of the data object - in case it refers to more than one
     open var dataIndex = Int(-1)
     
-    /// the index of the dataset the highlighted value is in
+    // the index of the dataset the highlighted value is in
     fileprivate var _dataSetIndex = Int(0)
     
-    /// index which value of a stacked bar entry is highlighted
-    /// 
-    /// **default**: -1
+    // index which value of a stacked bar entry is highlighted
+    // 
+    // **default**: -1
     fileprivate var _stackIndex = Int(-1)
     
-    /// the axis the highlighted value belongs to
+    // the axis the highlighted value belongs to
     fileprivate var _axis: YAxis.AxisDependency = YAxis.AxisDependency.left
     
-    /// the x-position (pixels) on which this highlight object was last drawn
+    // the x-position (pixels) on which this highlight object was last drawn
     open var drawX: CGFloat = 0.0
     
-    /// the y-position (pixels) on which this highlight object was last drawn
+    // the y-position (pixels) on which this highlight object was last drawn
     open var drawY: CGFloat = 0.0
     
     public override init()
@@ -51,14 +51,14 @@ open class Highlight: NSObject
         super.init()
     }
     
-    /// - parameter x: the x-value of the highlighted value
-    /// - parameter y: the y-value of the highlighted value
-    /// - parameter xPx: the x-pixel of the highlighted value
-    /// - parameter yPx: the y-pixel of the highlighted value
-    /// - parameter dataIndex: the index of the Data the highlighted value belongs to
-    /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
-    /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
-    /// - parameter axis: the axis the highlighted value belongs to
+    // - parameter x: the x-value of the highlighted value
+    // - parameter y: the y-value of the highlighted value
+    // - parameter xPx: the x-pixel of the highlighted value
+    // - parameter yPx: the y-pixel of the highlighted value
+    // - parameter dataIndex: the index of the Data the highlighted value belongs to
+    // - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
+    // - parameter stackIndex: references which value of a stacked-bar entry has been selected
+    // - parameter axis: the axis the highlighted value belongs to
     public init(
         x: Double, y: Double,
         xPx: CGFloat, yPx: CGFloat,
@@ -79,13 +79,13 @@ open class Highlight: NSObject
         _axis = axis
     }
     
-    /// - parameter x: the x-value of the highlighted value
-    /// - parameter y: the y-value of the highlighted value
-    /// - parameter xPx: the x-pixel of the highlighted value
-    /// - parameter yPx: the y-pixel of the highlighted value
-    /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
-    /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
-    /// - parameter axis: the axis the highlighted value belongs to
+    // - parameter x: the x-value of the highlighted value
+    // - parameter y: the y-value of the highlighted value
+    // - parameter xPx: the x-pixel of the highlighted value
+    // - parameter yPx: the y-pixel of the highlighted value
+    // - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
+    // - parameter stackIndex: references which value of a stacked-bar entry has been selected
+    // - parameter axis: the axis the highlighted value belongs to
     public convenience init(
         x: Double, y: Double,
         xPx: CGFloat, yPx: CGFloat,
@@ -100,14 +100,14 @@ open class Highlight: NSObject
                   axis: axis)
     }
     
-    /// - parameter x: the x-value of the highlighted value
-    /// - parameter y: the y-value of the highlighted value
-    /// - parameter xPx: the x-pixel of the highlighted value
-    /// - parameter yPx: the y-pixel of the highlighted value
-    /// - parameter dataIndex: the index of the Data the highlighted value belongs to
-    /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
-    /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
-    /// - parameter axis: the axis the highlighted value belongs to
+    // - parameter x: the x-value of the highlighted value
+    // - parameter y: the y-value of the highlighted value
+    // - parameter xPx: the x-pixel of the highlighted value
+    // - parameter yPx: the y-pixel of the highlighted value
+    // - parameter dataIndex: the index of the Data the highlighted value belongs to
+    // - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
+    // - parameter stackIndex: references which value of a stacked-bar entry has been selected
+    // - parameter axis: the axis the highlighted value belongs to
     public init(
         x: Double, y: Double,
         xPx: CGFloat, yPx: CGFloat,
@@ -124,9 +124,9 @@ open class Highlight: NSObject
         _axis = axis
     }
     
-    /// - parameter x: the x-value of the highlighted value
-    /// - parameter y: the y-value of the highlighted value
-    /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
+    // - parameter x: the x-value of the highlighted value
+    // - parameter y: the y-value of the highlighted value
+    // - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
     public init(x: Double, y: Double, dataSetIndex: Int)
     {
         _x = x
@@ -134,9 +134,9 @@ open class Highlight: NSObject
         _dataSetIndex = dataSetIndex
     }
     
-    /// - parameter x: the x-value of the highlighted value
-    /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
-    /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
+    // - parameter x: the x-value of the highlighted value
+    // - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
+    // - parameter stackIndex: references which value of a stacked-bar entry has been selected
     public convenience init(x: Double, dataSetIndex: Int, stackIndex: Int)
     {
         self.init(x: x, y: Double.nan, dataSetIndex: dataSetIndex)
@@ -153,14 +153,14 @@ open class Highlight: NSObject
     
     open var isStacked: Bool { return _stackIndex >= 0 }
     
-    /// Sets the x- and y-position (pixels) where this highlight was last drawn.
+    // Sets the x- and y-position (pixels) where this highlight was last drawn.
     open func setDraw(x: CGFloat, y: CGFloat)
     {
         self.drawX = x
         self.drawY = y
     }
     
-    /// Sets the x- and y-position (pixels) where this highlight was last drawn.
+    // Sets the x- and y-position (pixels) where this highlight was last drawn.
     open func setDraw(pt: CGPoint)
     {
         self.drawX = pt.x

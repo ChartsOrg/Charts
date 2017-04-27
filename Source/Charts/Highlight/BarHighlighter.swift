@@ -53,12 +53,12 @@ open class BarHighlighter: ChartHighlighter
         return (chart as? BarChartDataProvider)?.barData
     }
     
-    /// This method creates the Highlight object that also indicates which value of a stacked BarEntry has been selected.
-    /// - parameter high: the Highlight to work with looking for stacked values
-    /// - parameter set:
-    /// - parameter xIndex:
-    /// - parameter yValue:
-    /// - returns:
+    // This method creates the Highlight object that also indicates which value of a stacked BarEntry has been selected.
+    // - parameter high: the Highlight to work with looking for stacked values
+    // - parameter set:
+    // - parameter xIndex:
+    // - parameter yValue:
+    // - returns:
     open func getStackedHighlight(high: Highlight,
                                   set: IBarChartDataSet,
                                   xValue: Double,
@@ -96,10 +96,10 @@ open class BarHighlighter: ChartHighlighter
         return nil
     }
     
-    /// - returns: The index of the closest value inside the values array / ranges (stacked barchart) to the value given as a parameter.
-    /// - parameter entry:
-    /// - parameter value:
-    /// - returns:
+    // - returns: The index of the closest value inside the values array / ranges (stacked barchart) to the value given as a parameter.
+    // - parameter entry:
+    // - parameter value:
+    // - returns:
     open func getClosestStackIndex(ranges: [Range]?, value: Double) -> Int
     {
         if ranges == nil

@@ -16,10 +16,10 @@ open class CombinedChartRenderer: DataRenderer
 {
     open weak var chart: CombinedChartView?
     
-    /// if set to true, all values are drawn above their bars, instead of below their top
+    // if set to true, all values are drawn above their bars, instead of below their top
     open var drawValueAboveBarEnabled = true
     
-    /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
+    // if set to true, a grey area is drawn behind each bar that indicates the maximum value
     open var drawBarShadowEnabled = false
     
     internal var _renderers = [DataRenderer]()
@@ -35,7 +35,7 @@ open class CombinedChartRenderer: DataRenderer
         createRenderers()
     }
     
-    /// Creates the renderers needed for this combined-renderer in the required order. Also takes the DrawOrder into consideration.
+    // Creates the renderers needed for this combined-renderer in the required order. Also takes the DrawOrder into consideration.
     internal func createRenderers()
     {
         _renderers = [DataRenderer]()
@@ -156,7 +156,7 @@ open class CombinedChartRenderer: DataRenderer
         }
     }
 
-    /// - returns: The sub-renderer object at the specified index.
+    // - returns: The sub-renderer object at the specified index.
     open func getSubRenderer(index: Int) -> DataRenderer?
     {
         if index >= _renderers.count || index < 0
@@ -169,7 +169,7 @@ open class CombinedChartRenderer: DataRenderer
         }
     }
 
-    /// - returns: All sub-renderers.
+    // - returns: All sub-renderers.
     open var subRenderers: [DataRenderer]
     {
         get { return _renderers }
@@ -178,15 +178,15 @@ open class CombinedChartRenderer: DataRenderer
     
     // MARK: Accessors
     
-    /// - returns: `true` if drawing values above bars is enabled, `false` ifnot
+    // - returns: `true` if drawing values above bars is enabled, `false` ifnot
     open var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled }
     
-    /// - returns: `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
+    // - returns: `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
     open var isDrawBarShadowEnabled: Bool { return drawBarShadowEnabled }
     
-    /// the order in which the provided data objects should be drawn.
-    /// The earlier you place them in the provided array, the further they will be in the background.
-    /// e.g. if you provide [DrawOrder.Bar, DrawOrder.Line], the bars will be drawn behind the lines.
+    // the order in which the provided data objects should be drawn.
+    // The earlier you place them in the provided array, the further they will be in the background.
+    // e.g. if you provide [DrawOrder.Bar, DrawOrder.Line], the bars will be drawn behind the lines.
     open var drawOrder: [CombinedChartView.DrawOrder]
     {
         get

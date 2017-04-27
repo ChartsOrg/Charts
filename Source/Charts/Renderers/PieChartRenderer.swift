@@ -87,7 +87,7 @@ open class PieChartRenderer: DataRenderer
         return spacedRadius
     }
     
-    /// Calculates the sliceSpace to use based on visible values and their size compared to the set sliceSpace.
+    // Calculates the sliceSpace to use based on visible values and their size compared to the set sliceSpace.
     open func getSliceSpace(dataSet: IPieChartDataSet) -> CGFloat
     {
         guard
@@ -556,7 +556,7 @@ open class PieChartRenderer: DataRenderer
         drawCenterText(context: context)
     }
     
-    /// draws the hole in the center of the chart and the transparent circle / hole
+    // draws the hole in the center of the chart and the transparent circle / hole
     fileprivate func drawHole(context: CGContext)
     {
         guard
@@ -615,7 +615,7 @@ open class PieChartRenderer: DataRenderer
         }
     }
     
-    /// draws the description text in the center of the pie chart makes most sense when center-hole is enabled
+    // draws the description text in the center of the pie chart makes most sense when center-hole is enabled
     fileprivate func drawCenterText(context: CGContext)
     {
         guard

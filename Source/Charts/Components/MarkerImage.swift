@@ -19,29 +19,29 @@ import CoreGraphics
 @objc(ChartMarkerImage)
 open class MarkerImage: NSObject, IMarker
 {
-    /// The marker image to render
+    // The marker image to render
     open var image: NSUIImage?
-    
+
     open var offset: CGPoint = CGPoint()
-    
+
     open weak var chartView: ChartViewBase?
-    
-    /// As long as size is 0.0/0.0 - it will default to the image's size
+
+    // As long as size is 0.0/0.0 - it will default to the image's size
     open var size: CGSize = CGSize()
-    
+
     public override init()
     {
         super.init()
     }
-    
+
     open func offsetForDrawing(atPoint point: CGPoint) -> CGPoint
     {
         var offset = self.offset
-        
+
         let chart = self.chartView
-        
+
         var size = self.size
-        
+
         if size.width == 0.0 && image != nil
         {
             size.width = image?.size.width ?? 0.0
@@ -50,10 +50,10 @@ open class MarkerImage: NSObject, IMarker
         {
             size.height = image?.size.height ?? 0.0
         }
-        
+
         let width = size.width
         let height = size.height
-        
+
         if point.x + offset.x < 0.0
         {
             offset.x = -point.x
@@ -62,7 +62,7 @@ open class MarkerImage: NSObject, IMarker
         {
             offset.x = chart!.bounds.size.width - point.x - width
         }
-        
+
         if point.y + offset.y < 0
         {
             offset.y = -point.y
@@ -71,21 +71,21 @@ open class MarkerImage: NSObject, IMarker
         {
             offset.y = chart!.bounds.size.height - point.y - height
         }
-        
+
         return offset
     }
-    
+
     open func refreshContent(entry: ChartDataEntry, highlight: Highlight)
     {
         // Do nothing here...
     }
-    
+
     open func draw(context: CGContext, point: CGPoint)
     {
         let offset = self.offsetForDrawing(atPoint: point)
-        
+
         var size = self.size
-        
+
         if size.width == 0.0 && image != nil
         {
             size.width = image?.size.width ?? 0.0
@@ -94,13 +94,13 @@ open class MarkerImage: NSObject, IMarker
         {
             size.height = image?.size.height ?? 0.0
         }
-        
+
         let rect = CGRect(
             x: point.x + offset.x,
             y: point.y + offset.y,
             width: size.width,
             height: size.height)
-        
+
         NSUIGraphicsPushContext(context)
         image!.draw(in: rect)
         NSUIGraphicsPopContext()

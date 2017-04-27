@@ -16,7 +16,7 @@ import CoreGraphics
     import UIKit
 #endif
 
-/// Default formatter that calculates the position of the filled line.
+// Default formatter that calculates the position of the filled line.
 @objc(ChartDefaultFillFormatter)
 open class DefaultFillFormatter: NSObject, IFillFormatter
 {

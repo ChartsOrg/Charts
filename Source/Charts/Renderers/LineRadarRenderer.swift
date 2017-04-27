@@ -20,7 +20,7 @@ open class LineRadarRenderer: LineScatterCandleRadarRenderer
         super.init(animator: animator, viewPortHandler: viewPortHandler)
     }
     
-    /// Draws the provided path in filled mode with the provided drawable.
+    // Draws the provided path in filled mode with the provided drawable.
     open func drawFilledPath(context: CGContext, path: CGPath, fill: Fill, fillAlpha: CGFloat)
     {
         guard let viewPortHandler = self.viewPortHandler
@@ -38,7 +38,7 @@ open class LineRadarRenderer: LineScatterCandleRadarRenderer
         context.restoreGState()
     }
     
-    /// Draws the provided path in filled mode with the provided color and alpha.
+    // Draws the provided path in filled mode with the provided color and alpha.
     open func drawFilledPath(context: CGContext, path: CGPath, fillColor: NSUIColor, fillAlpha: CGFloat)
     {
         context.saveGState()

@@ -15,7 +15,7 @@ import CoreGraphics
 @objc(ChartTransformerHorizontalBarChart)
 open class TransformerHorizontalBarChart: Transformer
 {
-    /// Prepares the matrix that contains all offsets.
+    // Prepares the matrix that contains all offsets.
     open override func prepareMatrixOffset(inverted: Bool)
     {
         if !inverted

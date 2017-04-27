@@ -13,7 +13,7 @@ import Foundation
 
 open class ChartDataEntry: ChartDataEntryBase
 {
-    /// the x value
+    // the x value
     open var x = Double(0.0)
     
     public required init()
@@ -21,9 +21,9 @@ open class ChartDataEntry: ChartDataEntryBase
         super.init()
     }
     
-    /// An Entry represents one single entry in the chart.
-    /// - parameter x: the x value
-    /// - parameter y: the y value (the actual value of the entry)
+    // An Entry represents one single entry in the chart.
+    // - parameter x: the x value
+    // - parameter y: the y value (the actual value of the entry)
     public init(x: Double, y: Double)
     {
         super.init(y: y)
@@ -31,10 +31,10 @@ open class ChartDataEntry: ChartDataEntryBase
         self.x = x
     }
     
-    /// An Entry represents one single entry in the chart.
-    /// - parameter x: the x value
-    /// - parameter y: the y value (the actual value of the entry)
-    /// - parameter data: Space for additional data this Entry represents.
+    // An Entry represents one single entry in the chart.
+    // - parameter x: the x value
+    // - parameter y: the y value (the actual value of the entry)
+    // - parameter data: Space for additional data this Entry represents.
     
     public init(x: Double, y: Double, data: AnyObject?)
     {
@@ -45,10 +45,10 @@ open class ChartDataEntry: ChartDataEntryBase
         self.data = data
     }
     
-    /// An Entry represents one single entry in the chart.
-    /// - parameter x: the x value
-    /// - parameter y: the y value (the actual value of the entry)
-    /// - parameter icon: icon image
+    // An Entry represents one single entry in the chart.
+    // - parameter x: the x value
+    // - parameter y: the y value (the actual value of the entry)
+    // - parameter icon: icon image
     
     public init(x: Double, y: Double, icon: NSUIImage?)
     {
@@ -57,11 +57,11 @@ open class ChartDataEntry: ChartDataEntryBase
         self.x = x
     }
     
-    /// An Entry represents one single entry in the chart.
-    /// - parameter x: the x value
-    /// - parameter y: the y value (the actual value of the entry)
-    /// - parameter icon: icon image
-    /// - parameter data: Space for additional data this Entry represents.
+    // An Entry represents one single entry in the chart.
+    // - parameter x: the x value
+    // - parameter y: the y value (the actual value of the entry)
+    // - parameter icon: icon image
+    // - parameter data: Space for additional data this Entry represents.
     
     public init(x: Double, y: Double, icon: NSUIImage?, data: AnyObject?)
     {

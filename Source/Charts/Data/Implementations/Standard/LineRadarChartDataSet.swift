@@ -19,10 +19,10 @@ open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadar
     
     // MARK: - Styling functions and accessors
     
-    /// The color that is used for filling the line surface area.
+    // The color that is used for filling the line surface area.
     fileprivate var _fillColor = NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0)
     
-    /// The color that is used for filling the line surface area.
+    // The color that is used for filling the line surface area.
     open var fillColor: NSUIColor
     {
         get { return _fillColor }
@@ -33,19 +33,19 @@ open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadar
         }
     }
     
-    /// The object that is used for filling the area below the line.
-    /// **default**: nil
+    // The object that is used for filling the area below the line.
+    // **default**: nil
     open var fill: Fill?
     
-    /// The alpha value that is used for filling the line surface,
-    /// **default**: 0.33
+    // The alpha value that is used for filling the line surface,
+    // **default**: 0.33
     open var fillAlpha = CGFloat(0.33)
     
     fileprivate var _lineWidth = CGFloat(1.0)
     
-    /// line width of the chart (min = 0.0, max = 10)
-    ///
-    /// **default**: 1
+    // line width of the chart (min = 0.0, max = 10)
+    //
+    // **default**: 1
     open var lineWidth: CGFloat
     {
         get
@@ -69,12 +69,12 @@ open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadar
         }
     }
     
-    /// Set to `true` if the DataSet should be drawn filled (surface), and not just as a line.
-    /// Disabling this will give great performance boost.
-    /// Please note that this method uses the path clipping for drawing the filled area (with images, gradients and layers).
+    // Set to `true` if the DataSet should be drawn filled (surface), and not just as a line.
+    // Disabling this will give great performance boost.
+    // Please note that this method uses the path clipping for drawing the filled area (with images, gradients and layers).
     open var drawFilledEnabled = false
     
-    /// - returns: `true` if filled drawing is enabled, `false` ifnot
+    // - returns: `true` if filled drawing is enabled, `false` ifnot
     open var isDrawFilledEnabled: Bool
     {
         return drawFilledEnabled

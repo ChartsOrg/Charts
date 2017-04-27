@@ -118,7 +118,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
         }
     }
 
-    /// draws the x-labels on the specified y-position
+    // draws the x-labels on the specified y-position
     open override func drawLabels(context: CGContext, pos: CGFloat, anchor: CGPoint)
     {
         guard
