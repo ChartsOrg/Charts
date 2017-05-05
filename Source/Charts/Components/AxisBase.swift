@@ -50,28 +50,28 @@ open class AxisBase: ComponentBase
     open var drawLabelsEnabled = true
     
     fileprivate var _centerAxisLabelsEnabled = false
-
+    
     /// Centers the axis labels instead of drawing them at their original position.
     /// This is useful especially for grouped BarChart.
     open var centerAxisLabelsEnabled: Bool
-    {
+        {
         get { return _centerAxisLabelsEnabled && entryCount > 0 }
         set { _centerAxisLabelsEnabled = newValue }
     }
     
     open var isCenterAxisLabelsEnabled: Bool
-    {
+        {
         get { return centerAxisLabelsEnabled }
     }
-
+    
     /// array of limitlines that can be set for the axis
     fileprivate var _limitLines = [ChartLimitLine]()
     
     /// Are the LimitLines drawn behind the data or in front of the data?
-    /// 
+    ///
     /// **default**: false
     open var drawLimitLinesBehindDataEnabled = false
-
+    
     /// the flag can be used to turn off the antialias for grid lines
     open var gridAntialiasEnabled = true
     
@@ -105,7 +105,7 @@ open class AxisBase: ComponentBase
     ///
     /// **default**: 1.0
     open var granularity: Double
-    {
+        {
         get
         {
             return _granularity
@@ -121,7 +121,7 @@ open class AxisBase: ComponentBase
     
     /// The minimum interval between axis values.
     open var isGranularityEnabled: Bool
-    {
+        {
         get
         {
             return granularityEnabled
@@ -163,7 +163,7 @@ open class AxisBase: ComponentBase
     /// If no formatter is set, the chart will automatically determine a reasonable formatting (concerning decimals) for all the values that are drawn inside the chart.
     /// Use `nil` to use the formatter calculated by the chart.
     open var valueFormatter: IAxisValueFormatter?
-    {
+        {
         get
         {
             if _axisValueFormatter == nil ||
@@ -189,7 +189,7 @@ open class AxisBase: ComponentBase
     open var isDrawLabelsEnabled: Bool { return drawLabelsEnabled }
     
     /// Are the LimitLines drawn behind the data or in front of the data?
-    /// 
+    ///
     /// **default**: false
     open var isDrawLimitLinesBehindDataEnabled: Bool { return drawLimitLinesBehindDataEnabled }
     
@@ -218,13 +218,19 @@ open class AxisBase: ComponentBase
     /// the total range of values this axis covers
     open var axisRange = Double(0)
     
+    /// space for name axis
+    open var nameRectBottom = CGRect()
+    open var nameRectTop = CGRect()
+    open var nameRectLeft = CGRect()
+    open var nameRectRight = CGRect()
+    
     /// the number of label entries the axis should have
     /// max = 25,
     /// min = 2,
     /// default = 6,
     /// be aware that this number is not fixed and can only be approximated
     open var labelCount: Int
-    {
+        {
         get
         {
             return _labelCount
@@ -307,7 +313,7 @@ open class AxisBase: ComponentBase
     /// This property is deprecated - Use `axisMinimum` instead.
     @available(*, deprecated: 1.0, message: "Use axisMinimum instead.")
     open var axisMinValue: Double
-    {
+        {
         get { return axisMinimum }
         set { axisMinimum = newValue }
     }
@@ -315,7 +321,7 @@ open class AxisBase: ComponentBase
     /// This property is deprecated - Use `axisMaximum` instead.
     @available(*, deprecated: 1.0, message: "Use axisMaximum instead.")
     open var axisMaxValue: Double
-    {
+        {
         get { return axisMaximum }
         set { axisMaximum = newValue }
     }
@@ -324,7 +330,7 @@ open class AxisBase: ComponentBase
     /// If set, this value will not be calculated automatically depending on the provided data.
     /// Use `resetCustomAxisMin()` to undo this.
     open var axisMinimum: Double
-    {
+        {
         get
         {
             return _axisMinimum
@@ -341,7 +347,7 @@ open class AxisBase: ComponentBase
     /// If set, this value will not be calculated automatically depending on the provided data.
     /// Use `resetCustomAxisMax()` to undo this.
     open var axisMaximum: Double
-    {
+        {
         get
         {
             return _axisMaximum
