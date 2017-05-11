@@ -146,6 +146,10 @@
 		06B3C0F81D99F85400B1DF43 /* LineChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3C0F41D99F85400B1DF43 /* LineChartTests.swift */; };
 		5B56A9CD1D905EB300F58178 /* Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B56A9CC1D905EB300F58178 /* Description.swift */; };
 		5BF8813B1DDC4DF70033370C /* IndexAxisValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF8813A1DDC4DF70033370C /* IndexAxisValueFormatter.swift */; };
+		BC0925491EBC3B7C002348AC /* AggregatedBarChartRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0925481EBC3B7C002348AC /* AggregatedBarChartRenderer.swift */; };
+		BC09254B1EBC5F02002348AC /* AggregatedBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC09254A1EBC5F02002348AC /* AggregatedBarChartView.swift */; };
+		BC09254D1EBC603F002348AC /* AggregatedBarChartDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC09254C1EBC603F002348AC /* AggregatedBarChartDataProvider.swift */; };
+		BC1D3BD31EC1359F00DA9A86 /* AggregatedBarHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D3BD21EC1359F00DA9A86 /* AggregatedBarHighlighter.swift */; };
 		D8A58A411DCE2EF8007BB012 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8A58A401DCE2EF8007BB012 /* Media.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -303,6 +307,10 @@
 		06B3C0F41D99F85400B1DF43 /* LineChartTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartTests.swift; sourceTree = "<group>"; };
 		5B56A9CC1D905EB300F58178 /* Description.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Description.swift; sourceTree = "<group>"; };
 		5BF8813A1DDC4DF70033370C /* IndexAxisValueFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexAxisValueFormatter.swift; sourceTree = "<group>"; };
+		BC0925481EBC3B7C002348AC /* AggregatedBarChartRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregatedBarChartRenderer.swift; sourceTree = "<group>"; };
+		BC09254A1EBC5F02002348AC /* AggregatedBarChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregatedBarChartView.swift; sourceTree = "<group>"; };
+		BC09254C1EBC603F002348AC /* AggregatedBarChartDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregatedBarChartDataProvider.swift; sourceTree = "<group>"; };
+		BC1D3BD21EC1359F00DA9A86 /* AggregatedBarHighlighter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregatedBarHighlighter.swift; sourceTree = "<group>"; };
 		D8A58A401DCE2EF8007BB012 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Media.xcassets; path = Charts/ChartsTests/Media.xcassets; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -403,6 +411,7 @@
 		06B11FB31D811B8900D14B02 /* Charts */ = {
 			isa = PBXGroup;
 			children = (
+				BC09254A1EBC5F02002348AC /* AggregatedBarChartView.swift */,
 				06B11FB41D811B8900D14B02 /* BarChartView.swift */,
 				06B11FB51D811B8900D14B02 /* BarLineChartViewBase.swift */,
 				06B11FB61D811B8900D14B02 /* BubbleChartView.swift */,
@@ -538,6 +547,7 @@
 		06B120001D811B8900D14B02 /* Highlight */ = {
 			isa = PBXGroup;
 			children = (
+				BC1D3BD21EC1359F00DA9A86 /* AggregatedBarHighlighter.swift */,
 				06B120011D811B8900D14B02 /* BarHighlighter.swift */,
 				06B120021D811B8900D14B02 /* ChartHighlighter.swift */,
 				06B120031D811B8900D14B02 /* CombinedHighlighter.swift */,
@@ -556,6 +566,7 @@
 		06B1200B1D811B8900D14B02 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
+				BC09254C1EBC603F002348AC /* AggregatedBarChartDataProvider.swift */,
 				06B1200C1D811B8900D14B02 /* BarChartDataProvider.swift */,
 				06B1200D1D811B8900D14B02 /* BarLineScatterCandleBubbleChartDataProvider.swift */,
 				06B1200E1D811B8900D14B02 /* BubbleChartDataProvider.swift */,
@@ -586,6 +597,7 @@
 		06B1201B1D811B8900D14B02 /* Renderers */ = {
 			isa = PBXGroup;
 			children = (
+				BC0925481EBC3B7C002348AC /* AggregatedBarChartRenderer.swift */,
 				06B1201C1D811B8900D14B02 /* AxisRendererBase.swift */,
 				06B1201D1D811B8900D14B02 /* BarChartRenderer.swift */,
 				06B1201E1D811B8900D14B02 /* BarLineScatterCandleBubbleRenderer.swift */,
@@ -813,6 +825,7 @@
 				06B1207B1D811B8900D14B02 /* ICandleChartDataSet.swift in Sources */,
 				06B120511D811B8900D14B02 /* AxisBase.swift in Sources */,
 				06B1209F1D811B8900D14B02 /* MoveViewJob.swift in Sources */,
+				BC1D3BD31EC1359F00DA9A86 /* AggregatedBarHighlighter.swift in Sources */,
 				06B1209C1D811B8900D14B02 /* AnimatedMoveViewJob.swift in Sources */,
 				06B1208B1D811B8900D14B02 /* ChartHighlighter.swift in Sources */,
 				06B1209A1D811B8900D14B02 /* LineChartDataProvider.swift in Sources */,
@@ -885,6 +898,7 @@
 				06B1205E1D811B8900D14B02 /* BarChartDataSet.swift in Sources */,
 				06B120A31D811B8900D14B02 /* BarChartRenderer.swift in Sources */,
 				06B120781D811B8900D14B02 /* IBarChartDataSet.swift in Sources */,
+				BC09254D1EBC603F002348AC /* AggregatedBarChartDataProvider.swift in Sources */,
 				06B120601D811B8900D14B02 /* BarLineScatterCandleBubbleChartDataSet.swift in Sources */,
 				06B1208D1D811B8900D14B02 /* Highlight.swift in Sources */,
 				06B120821D811B8900D14B02 /* IScatterChartDataSet.swift in Sources */,
@@ -892,6 +906,7 @@
 				06B120A81D811B8900D14B02 /* CombinedChartRenderer.swift in Sources */,
 				06B120981D811B8900D14B02 /* ChartDataProvider.swift in Sources */,
 				06B1204B1D811B8900D14B02 /* HorizontalBarChartView.swift in Sources */,
+				BC0925491EBC3B7C002348AC /* AggregatedBarChartRenderer.swift in Sources */,
 				06B120871D811B8900D14B02 /* IAxisValueFormatter.swift in Sources */,
 				06B1208A1D811B8900D14B02 /* BarHighlighter.swift in Sources */,
 				06B120A11D811B8900D14B02 /* ZoomViewJob.swift in Sources */,
@@ -912,6 +927,7 @@
 				06B1206B1D811B8900D14B02 /* CombinedChartData.swift in Sources */,
 				5BF8813B1DDC4DF70033370C /* IndexAxisValueFormatter.swift in Sources */,
 				06B120AB1D811B8900D14B02 /* LineChartRenderer.swift in Sources */,
+				BC09254B1EBC5F02002348AC /* AggregatedBarChartView.swift in Sources */,
 				06B120C31D811B8900D14B02 /* Platform.swift in Sources */,
 				06B1207E1D811B8900D14B02 /* ILineRadarChartDataSet.swift in Sources */,
 				06B120831D811B8900D14B02 /* DataApproximator.swift in Sources */,

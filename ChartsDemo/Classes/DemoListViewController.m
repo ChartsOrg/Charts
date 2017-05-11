@@ -21,6 +21,7 @@
 #import "StackedBarChartViewController.h"
 #import "NegativeStackedBarChartViewController.h"
 #import "AnotherBarChartViewController.h"
+#import "AggregateBarChartViewController.h"
 #import "MultipleLinesChartViewController.h"
 #import "MultipleBarChartViewController.h"
 #import "CandleStickChartViewController.h"
@@ -109,6 +110,11 @@
                           @"title": @"Another Bar Chart",
                           @"subtitle": @"Implementation of a BarChart that only shows values at the bottom.",
                           @"class": AnotherBarChartViewController.class
+                          },
+                      @{
+                          @"title": @"Aggregated Bar Chart",
+                          @"subtitle": @"Implementation of a BarChart that aggregate bars at one with fixed width of bar.",
+                          @"class": AggregateBarChartViewController.class
                           },
                       @{
                           @"title": @"Multiple Lines Chart",

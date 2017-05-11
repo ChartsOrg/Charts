@@ -84,6 +84,8 @@
 		5BEAED3C1ABC199F0013F194 /* ColoredLineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED3A1ABC199F0013F194 /* ColoredLineChartViewController.xib */; };
 		5BEAED401ABC1AC60013F194 /* SinusBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAED3E1ABC1AC60013F194 /* SinusBarChartViewController.m */; };
 		5BEAED411ABC1AC60013F194 /* SinusBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED3F1ABC1AC60013F194 /* SinusBarChartViewController.xib */; };
+		BC821BE61EB3DC0900917882 /* AggregateBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC821BE51EB3DC0900917882 /* AggregateBarChartViewController.m */; };
+		BC821BE81EB3DD2C00917882 /* AggregateBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC821BE71EB3DD2C00917882 /* AggregateBarChartViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -235,6 +237,9 @@
 		5BEAED3D1ABC1AC60013F194 /* SinusBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinusBarChartViewController.h; sourceTree = "<group>"; };
 		5BEAED3E1ABC1AC60013F194 /* SinusBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SinusBarChartViewController.m; sourceTree = "<group>"; };
 		5BEAED3F1ABC1AC60013F194 /* SinusBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SinusBarChartViewController.xib; sourceTree = "<group>"; };
+		BC821BE41EB3DC0900917882 /* AggregateBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AggregateBarChartViewController.h; sourceTree = "<group>"; };
+		BC821BE51EB3DC0900917882 /* AggregateBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AggregateBarChartViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		BC821BE71EB3DD2C00917882 /* AggregateBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AggregateBarChartViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -436,6 +441,9 @@
 				5BEAED181ABBFB340013F194 /* StackedBarChartViewController.h */,
 				5BEAED191ABBFB340013F194 /* StackedBarChartViewController.m */,
 				5BEAED1A1ABBFB340013F194 /* StackedBarChartViewController.xib */,
+				BC821BE41EB3DC0900917882 /* AggregateBarChartViewController.h */,
+				BC821BE51EB3DC0900917882 /* AggregateBarChartViewController.m */,
+				BC821BE71EB3DD2C00917882 /* AggregateBarChartViewController.xib */,
 			);
 			path = Demos;
 			sourceTree = "<group>";
@@ -573,6 +581,7 @@
 				5BDEDC481ABB871E007D3A60 /* CombinedChartViewController.xib in Resources */,
 				5B4316371AB8D8B70009FCAA /* Default-736h@3x.png in Resources */,
 				5BE673951D5B4E0900A87BA2 /* LineChartTimeViewController.xib in Resources */,
+				BC821BE81EB3DD2C00917882 /* AggregateBarChartViewController.xib in Resources */,
 				5B4316291AB8D8AE0009FCAA /* Icon-40@2x.png in Resources */,
 				5BEAED1E1ABBFB340013F194 /* StackedBarChartViewController.xib in Resources */,
 				5B4316271AB8D8AE0009FCAA /* Icon-29@2x.png in Resources */,
@@ -598,6 +607,7 @@
 				5BD47E651ABB424E008FCEC6 /* BarChartViewController.m in Sources */,
 				5BDEDC471ABB871E007D3A60 /* CombinedChartViewController.m in Sources */,
 				5BE377F21D47FDF1006EB34F /* IntAxisValueFormatter.m in Sources */,
+				BC821BE61EB3DC0900917882 /* AggregateBarChartViewController.m in Sources */,
 				5BD8F0741AB89CE500566E05 /* LineChart1ViewController.m in Sources */,
 				5BE377DE1D425151006EB34F /* DayAxisValueFormatter.m in Sources */,
 				5BEAED401ABC1AC60013F194 /* SinusBarChartViewController.m in Sources */,
