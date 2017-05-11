@@ -912,14 +912,16 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             {
                 _viewPortHandler.setChartDimens(width: bounds.size.width, height: bounds.size.height)
                 
+                // This may cause the chart view to mutate properties affecting the view port -- lets do this
+                // before we try to run any pending jobs on the view port itself
+                notifyDataSetChanged()
+
                 // Finish any pending viewport changes
                 while (!_viewportJobs.isEmpty)
                 {
                     let job = _viewportJobs.remove(at: 0)
                     job.doJob()
                 }
-                
-                notifyDataSetChanged()
             }
         }
     }
