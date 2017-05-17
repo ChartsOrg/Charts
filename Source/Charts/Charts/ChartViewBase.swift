@@ -860,10 +860,9 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         case png
     }
     
-    /// Saves the current chart state with the given name to the given path on
-    /// the sdcard leaving the path empty "" will put the saved file directly on
-    /// the SD card chart is saved as a PNG image, example:
-    /// saveToPath("myfilename", "foldername1/foldername2")
+    /// Saves the current chart state with the given name to the given path, examples:
+    /// save(to: "./out/filename.jpg", format: .jpeg(quality: 90.0))
+    /// save(to: "./out/filename.png", format: .png)
     ///
     /// - parameter to: path to the image to save
     /// - parameter format: the format to save
@@ -871,7 +870,14 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - returns: `true` if the image was saved successfully
     open func save(to path: String, format: ImageFormat) -> Bool
     {
-        var imageData: Data!
+        let saveUrl = URL(fileURLWithPath: path)
+        if saveUrl.hasDirectoryPath
+        {
+            // the path represents a directory. not include filename.
+            return false
+        }
+        
+        var imageData: Data?
         switch (format)
         {
         case .png:
@@ -883,16 +889,22 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             imageData = NSUIImageJPEGRepresentation(image, CGFloat(compressionQuality))
         }
         
-        do
+        if let imageData = imageData
         {
-            try imageData.write(to: URL(fileURLWithPath: path), options: .atomic)
+            do
+            {
+                try imageData.write(to: saveUrl, options: .atomic)
+            }
+            catch
+            {
+                return false
+            }
+            return true
         }
-        catch
+        else
         {
             return false
         }
-        
-        return true
     }
     
     internal var _viewportJobs = [ViewPortJob]()
