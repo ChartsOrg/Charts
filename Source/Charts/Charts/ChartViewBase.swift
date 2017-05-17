@@ -871,10 +871,13 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     open func save(to path: String, format: ImageFormat) -> Bool
     {
         let saveUrl = URL(fileURLWithPath: path)
-        if saveUrl.hasDirectoryPath
+        if #available(iOS 9.0, *)
         {
-            // the path represents a directory. not include filename.
-            return false
+            if saveUrl.hasDirectoryPath
+            {
+                // the path represents a directory. not include filename.
+                return false
+            }
         }
         
         var imageData: Data?
