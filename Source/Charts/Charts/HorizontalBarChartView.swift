@@ -46,6 +46,14 @@ open class HorizontalBarChartView: BarChartView
                                offsetRight: &offsetRight,
                                offsetBottom: &offsetBottom)
         
+        var nameAxisRectWidth = CGFloat(0.0)
+        var nameAxisRectLeft = CGFloat(0.0)
+        if _leftAxis.nameAxisEnabled || _rightAxis.nameAxisEnabled
+        {
+            nameAxisRectWidth = viewPortHandler.contentWidth
+            nameAxisRectLeft = viewPortHandler.contentLeft
+        }
+        
         // offsets for y-labels
         if _leftAxis.needsOffset
         {
@@ -54,6 +62,10 @@ open class HorizontalBarChartView: BarChartView
             {
                 let nameLeftAxisSize = leftAxis.nameAxis.size(attributes: [NSFontAttributeName: leftAxis.nameAxisFont])
                 offsetTop += nameLeftAxisSize.height
+                leftAxis.nameRectTop = CGRect(x: nameAxisRectLeft,
+                                              y: offsetTop - nameLeftAxisSize.height - _leftAxis.getRequiredHeightSpace(),
+                                              width: nameAxisRectWidth,
+                                              height: nameLeftAxisSize.height)
             }
         }
         
@@ -64,6 +76,10 @@ open class HorizontalBarChartView: BarChartView
             {
                 let nameRightAxisSize = rightAxis.nameAxis.size(attributes: [NSFontAttributeName: rightAxis.nameAxisFont])
                 offsetBottom += nameRightAxisSize.height
+                rightAxis.nameRectBottom = CGRect(x: nameAxisRectLeft,
+                                                  y: viewPortHandler.contentBottom + _rightAxis.getRequiredHeightSpace() ,
+                                                  width: nameAxisRectWidth,
+                                                  height: nameRightAxisSize.height)
             }
         }
         
@@ -71,25 +87,42 @@ open class HorizontalBarChartView: BarChartView
         
         if _xAxis.isEnabled
         {
-            var namexAxisSize = CGSize()
+            var namexAxisHeight = CGFloat(0.0)
             if xAxis.nameAxisEnabled
             {
-                namexAxisSize = xAxis.nameAxis.size(attributes: [NSFontAttributeName: xAxis.nameAxisFont])
+                namexAxisHeight = xAxis.nameAxis.size(attributes: [NSFontAttributeName: xAxis.nameAxisFont]).height
             }
             
             // offsets for x-labels
             if _xAxis.labelPosition == .bottom
             {
-                offsetLeft += xlabelwidth + namexAxisSize.height
+                offsetLeft += xlabelwidth + namexAxisHeight
+                xAxis.nameRectLeft = CGRect(x: offsetLeft - xlabelwidth - namexAxisHeight,
+                                            y:viewPortHandler.contentTop,
+                                            width: namexAxisHeight,
+                                            height:viewPortHandler.contentHeight)
             }
             else if _xAxis.labelPosition == .top
             {
-                offsetRight += xlabelwidth + namexAxisSize.height
+                offsetRight += xlabelwidth + namexAxisHeight
+                xAxis.nameRectRight = CGRect(x: viewPortHandler.contentRight + xlabelwidth,
+                                             y: viewPortHandler.contentTop,
+                                             width: namexAxisHeight,
+                                             height: viewPortHandler.contentHeight)
             }
             else if _xAxis.labelPosition == .bothSided
             {
-                offsetLeft += xlabelwidth + namexAxisSize.height
-                offsetRight += xlabelwidth + namexAxisSize.height
+                offsetLeft += xlabelwidth + namexAxisHeight
+                xAxis.nameRectLeft = CGRect(x: offsetLeft - xlabelwidth - namexAxisHeight,
+                                            y:viewPortHandler.contentTop,
+                                            width: namexAxisHeight,
+                                            height:viewPortHandler.contentHeight)
+                
+                offsetRight += xlabelwidth + namexAxisHeight
+                xAxis.nameRectRight = CGRect(x: viewPortHandler.contentRight + xlabelwidth,
+                                             y: viewPortHandler.contentTop,
+                                             width: namexAxisHeight,
+                                             height: viewPortHandler.contentHeight)
             }
         }
         

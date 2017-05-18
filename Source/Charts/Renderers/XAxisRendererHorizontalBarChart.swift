@@ -95,35 +95,21 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
         
         let xoffset = xAxis.xOffset
         
-        var xNamePos = CGFloat(0.0)
-        let height = (viewPortHandler.chartHeight / 2)
-        var positions = [CGPoint]()
-        positions.append(CGPoint(x: 0.0, y: height))
-        
-        let nameAxisSize = xAxis.nameAxis.size(attributes: [NSFontAttributeName: xAxis.nameAxisFont])
-        xNamePos = nameAxisSize.width
-        
         if xAxis.labelPosition == .top
         {
             let pos  = viewPortHandler.contentRight + xoffset
             drawLabels(context: context, pos: pos, anchor: CGPoint(x: 0.0, y: 0.5))
-            
-            xNamePos = viewPortHandler.chartWidth
-            drawNameXAxis ( context: context,  fixedPosition: pos, positions: positions[0], offset: 0.0)
+            drawNameXAxis ( context: context,  nameRect: xAxis.nameRectLeft)
         }
         else if xAxis.labelPosition == .topInside
         {
             drawLabels(context: context, pos: viewPortHandler.contentRight - xoffset, anchor: CGPoint(x: 1.0, y: 0.5))
         }
         else if xAxis.labelPosition == .bottom
-            
         {
-            var pos  = viewPortHandler.contentLeft - xoffset
+            let pos  = viewPortHandler.contentLeft - xoffset
             drawLabels(context: context, pos: pos, anchor: CGPoint(x: 1.0, y: 0.5))
-            
-            pos = nameAxisSize.height
-            drawNameXAxis ( context: context,  fixedPosition: pos, positions: positions[0], offset: 0.0)
-            
+            drawNameXAxis ( context: context,  nameRect: xAxis.nameRectRight)
         }
         else if xAxis.labelPosition == .bottomInside
         {
@@ -134,17 +120,52 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
             // right
             var pos  = viewPortHandler.contentRight + xoffset
             drawLabels(context: context, pos: pos, anchor: CGPoint(x: 0.0, y: 0.5))
-            
-            xNamePos = viewPortHandler.chartWidth
-            drawNameXAxis ( context: context,  fixedPosition: xNamePos, positions: positions[0], offset: 0.0)
+            drawNameXAxis ( context: context,  nameRect: xAxis.nameRectRight )
             
             // left
             pos  = viewPortHandler.contentLeft - xoffset
             drawLabels(context: context, pos: pos, anchor: CGPoint(x: 1.0, y: 0.5))
-            
-            pos = nameAxisSize.height
-            drawNameXAxis ( context: context,  fixedPosition: pos, positions: positions[0], offset: 0.0)
+            drawNameXAxis ( context: context,  nameRect: xAxis.nameRectLeft )
         }
+    }
+    
+    /// draws the x-name
+    open override func drawNameXAxis ( context: CGContext, nameRect: CGRect)
+    {
+        guard
+            let xAxis = self.axis as? XAxis
+            else { return }
+        
+        if xAxis.nameAxisEnabled == false
+        {
+            return
+        }
+        
+        let midY = nameRect.midY
+        let xNamePos = nameRect.maxX
+        let text = xAxis.nameAxis
+        
+        #if os(OSX)
+            let paraStyle = NSParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+        #else
+            let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        #endif
+        
+        paraStyle.alignment = .center
+        
+        let labelAttrs = [NSFontAttributeName: xAxis.nameAxisFont,
+                          NSForegroundColorAttributeName: xAxis.nameAxisTextColor,
+                          NSParagraphStyleAttributeName: paraStyle] as [String : NSObject]
+        
+        let labelRotationAngleRadians = -90.0 * ChartUtils.Math.FDEG2RAD
+        
+        ChartUtils.drawText(
+            context: context,
+            text: text,
+            point: CGPoint(x: xNamePos, y: midY),
+            attributes: labelAttrs,
+            anchor: CGPoint(x: 1.0, y: 0.5),
+            angleRadians: labelRotationAngleRadians)
     }
 
     /// draws the x-labels on the specified y-position

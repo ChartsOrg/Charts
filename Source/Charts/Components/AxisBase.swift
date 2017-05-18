@@ -218,6 +218,12 @@ open class AxisBase: ComponentBase
     /// the total range of values this axis covers
     open var axisRange = Double(0)
     
+    open var nameRectBottom = CGRect()
+    open var nameRectTop = CGRect()
+    open var nameRectLeft = CGRect()
+    open var nameRectRight = CGRect()
+
+    
     /// the number of label entries the axis should have
     /// max = 25,
     /// min = 2,

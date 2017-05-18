@@ -98,18 +98,12 @@ open class XAxisRenderer: AxisRendererBase
         }
         
         let yOffset = xAxis.yOffset
-        let chartWidth_2 = (viewPortHandler.chartWidth / 2)
-        let positions = CGPoint(x: chartWidth_2, y:0.0)
-        
-        let nameAxisSize = xAxis.nameAxis.size(attributes: [NSFontAttributeName: xAxis.nameAxisFont])
         
         if xAxis.labelPosition == .top
         {
-            var pos  = viewPortHandler.contentTop - yOffset
-            drawLabels(context: context, pos: viewPortHandler.contentTop - yOffset, anchor: CGPoint(x: 0.5, y: 1.0))
-            
-            pos = pos + (xAxis.labelRotationAngle != 0 ? -xAxis.labelRotatedHeight : -xAxis.labelHeight)
-            drawNameXAxis ( context: context,  fixedPosition: pos, positions: positions, offset: 0.0)
+            let pos  = viewPortHandler.contentTop - yOffset
+            drawLabels(context: context, pos: pos, anchor: CGPoint(x: 0.5, y: 1.0))
+            drawNameXAxis(context: context, nameRect: xAxis.nameRectTop)
         }
         else if xAxis.labelPosition == .topInside
         {
@@ -117,11 +111,9 @@ open class XAxisRenderer: AxisRendererBase
         }
         else if xAxis.labelPosition == .bottom
         {
-            var pos  = viewPortHandler.contentBottom + yOffset
-            drawLabels(context: context, pos: viewPortHandler.contentBottom + yOffset, anchor: CGPoint(x: 0.5, y: 0.0))
-            
-            pos = pos + nameAxisSize.height + (xAxis.labelRotationAngle != 0 ? xAxis.labelRotatedHeight : xAxis.labelHeight)
-            drawNameXAxis ( context: context,  fixedPosition: pos, positions: positions, offset: 0.0)
+            let pos  = viewPortHandler.contentBottom + yOffset
+            drawLabels(context: context, pos: pos, anchor: CGPoint(x: 0.5, y: 0.0))
+            drawNameXAxis(context: context, nameRect: xAxis.nameRectBottom)
         }
         else if xAxis.labelPosition == .bottomInside
         {
@@ -131,18 +123,41 @@ open class XAxisRenderer: AxisRendererBase
         { // BOTH SIDED
             // top
             var pos  = viewPortHandler.contentTop - yOffset
-            drawLabels(context: context, pos: viewPortHandler.contentTop - yOffset, anchor: CGPoint(x: 0.5, y: 1.0))
-            
-            pos = pos + (xAxis.labelRotationAngle != 0 ? -xAxis.labelRotatedHeight : -xAxis.labelHeight)
-            drawNameXAxis ( context: context,  fixedPosition: pos, positions: positions, offset: 0.0)
+            drawLabels(context: context, pos: pos, anchor: CGPoint(x: 0.5, y: 1.0))
+            drawNameXAxis ( context: context, nameRect: xAxis.nameRectTop)
             
             // bottom
             pos  = viewPortHandler.contentBottom + yOffset
-            drawLabels(context: context, pos: viewPortHandler.contentBottom + yOffset, anchor: CGPoint(x: 0.5, y: 0.0))
-            
-            pos = pos + nameAxisSize.height + (xAxis.labelRotationAngle != 0 ? xAxis.labelRotatedHeight : xAxis.labelHeight)
-            drawNameXAxis ( context: context,  fixedPosition: pos, positions: positions, offset: 0.0)
+            drawLabels(context: context, pos: pos, anchor: CGPoint(x: 0.5, y: 0.0))
+            drawNameXAxis ( context: context, nameRect: xAxis.nameRectBottom)
         }
+    }
+    
+    /// draws the x-name
+    open func drawNameXAxis ( context: CGContext, nameRect: CGRect)
+    {
+        guard
+            let xAxis = self.axis as? XAxis
+            else { return }
+        
+        if xAxis.nameAxisEnabled == false
+        {
+            return
+        }
+        
+        #if os(OSX)
+            let paraStyle = NSParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+        #else
+            let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        #endif
+        
+        paraStyle.alignment = .center
+        let labelAttrs = [NSFontAttributeName: xAxis.nameAxisFont,
+                          NSForegroundColorAttributeName: xAxis.nameAxisTextColor,
+                          NSParagraphStyleAttributeName: paraStyle] as [String : NSObject]
+        let text = xAxis.nameAxis
+        
+        text.draw(in: nameRect, withAttributes: labelAttrs)
     }
     
     fileprivate var _axisLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
