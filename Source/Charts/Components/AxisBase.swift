@@ -42,8 +42,8 @@ open class AxisBase: ComponentBase
     open var drawAxisLineEnabled = true
     
     open var nameAxis : String = ""
-    open var nameAxisFont = NSUIFont.systemFont(ofSize: 14.0)
-    open var nameAxisTextColor = NSUIColor.blue
+    open var nameAxisFont = NSUIFont.boldSystemFont(ofSize: 12.0)
+    open var nameAxisTextColor = NSUIColor.black
     open var nameAxisEnabled = false
     
     /// flag that indicates of the labels of this axis should be drawn or not
