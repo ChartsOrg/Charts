@@ -869,17 +869,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     ///
     /// - returns: `true` if the image was saved successfully
     open func save(to path: String, format: ImageFormat) -> Bool
-    {
-        let saveUrl = URL(fileURLWithPath: path)
-        if #available(iOS 9.0, *)
-        {
-            if saveUrl.hasDirectoryPath
-            {
-                // the path represents a directory. not include filename.
-                return false
-            }
-        }
-        
+    {   
         var imageData: Data?
         switch (format)
         {
@@ -896,7 +886,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         {
             do
             {
-                try imageData.write(to: saveUrl, options: .atomic)
+                try imageData.write(to: URL(fileURLWithPath: path), options: .atomic)
             }
             catch
             {
