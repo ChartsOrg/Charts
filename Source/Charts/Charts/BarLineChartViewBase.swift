@@ -472,7 +472,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 {
                     offsetBottom += xlabelheight + namexAxisHeight
                     xAxis.nameRectBottom = CGRect(x: nameAxisRectLeft,
-                                                  y: viewPortHandler.contentBottom + xlabelheight,
+                                                  y: viewPortHandler.chartHeight - offsetBottom + xlabelheight,
                                                   width: nameAxisRectWidth,
                                                   height: namexAxisHeight)
                 }
@@ -488,7 +488,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 {
                     offsetBottom += xlabelheight + namexAxisHeight
                     xAxis.nameRectBottom = CGRect(x: nameAxisRectLeft,
-                                                  y: viewPortHandler.contentBottom + xlabelheight,
+                                                  y: viewPortHandler.chartHeight - offsetBottom + xlabelheight,
                                                   width: nameAxisRectWidth,
                                                   height: namexAxisHeight)
                     offsetTop += xlabelheight + namexAxisHeight
