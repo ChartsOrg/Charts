@@ -77,7 +77,7 @@ open class HorizontalBarChartView: BarChartView
                 let nameRightAxisSize = rightAxis.nameAxis.size(attributes: [NSFontAttributeName: rightAxis.nameAxisFont])
                 offsetBottom += nameRightAxisSize.height
                 rightAxis.nameRectBottom = CGRect(x: nameAxisRectLeft,
-                                                  y: viewPortHandler.contentBottom + _rightAxis.getRequiredHeightSpace() ,
+                                                  y: viewPortHandler.chartHeight - offsetBottom + _rightAxis.getRequiredHeightSpace() ,
                                                   width: nameAxisRectWidth,
                                                   height: nameRightAxisSize.height)
             }
