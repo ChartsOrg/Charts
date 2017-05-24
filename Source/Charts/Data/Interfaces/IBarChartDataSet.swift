@@ -48,4 +48,24 @@ public protocol IBarChartDataSet: IBarLineScatterCandleBubbleChartDataSet
     
     /// - returns: The corner radius is used for drawing the bars with rounded corners (only used if 'hasRoundedCorners' is true)
     var barCornerRadius : CGFloat { get set }
+    
+    
+    
+    // MARK: - Gradient
+
+    /// - returns: 'true' if the chart is gradient filled
+    var isGradientFill: Bool { get }
+
+    /// - returns: The start point for the gradient fill
+    var gradientStartPoint : CGFloat { get set }
+    
+    /// - returns: The end point for the gradient fill
+    var gradientEndPoint : CGFloat { get set }
+    
+    /// - returns: array of colors used for gradient filling
+    var gradientColors: [NSUIColor] { get set }
+    
+    /// - returns: The gradient color at the given index of the DataSet's gradientColors array
+    func gradientColor(atIndex: Int) -> NSUIColor
+
 }
