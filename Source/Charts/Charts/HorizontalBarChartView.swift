@@ -24,11 +24,19 @@ open class HorizontalBarChartView: BarChartView
         super.initialize()
         
         _leftAxisTransformer = TransformerHorizontalBarChart(viewPortHandler: _viewPortHandler)
+        _leftAxisTransformer1 = TransformerHorizontalBarChart(viewPortHandler: _viewPortHandler)
+        
         _rightAxisTransformer = TransformerHorizontalBarChart(viewPortHandler: _viewPortHandler)
+        _rightAxisTransformer1 = TransformerHorizontalBarChart(viewPortHandler: _viewPortHandler)
         
         renderer = HorizontalBarChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
-        _leftYAxisRenderer = YAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, yAxis: _leftAxis, transformer: _leftAxisTransformer)
+        
+        _leftYAxisRenderer  = YAxisRendererHorizontalBarChart( viewPortHandler: _viewPortHandler, yAxis: _leftAxis,  transformer: _leftAxisTransformer)
+        _leftYAxisRenderer1 = YAxisRendererHorizontalBarChart( viewPortHandler: _viewPortHandler, yAxis: _leftAxis1, transformer: _leftAxisTransformer1)
+        
         _rightYAxisRenderer = YAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, yAxis: _rightAxis, transformer: _rightAxisTransformer)
+        _rightYAxisRenderer1 = YAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, yAxis: _rightAxis1, transformer: _rightAxisTransformer1)
+        
         _xAxisRenderer = XAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer, chart: self)
         
         self.highlighter = HorizontalBarHighlighter(chart: self)
@@ -41,39 +49,142 @@ open class HorizontalBarChartView: BarChartView
         offsetTop: CGFloat = 0.0,
         offsetBottom: CGFloat = 0.0
         
-        calculateLegendOffsets(offsetLeft: &offsetLeft,
-                               offsetTop: &offsetTop,
-                               offsetRight: &offsetRight,
-                               offsetBottom: &offsetBottom)
+        var offsetLeftLegend = CGFloat(0.0)
+        var offsetRightLegend = CGFloat(0.0)
+        var offsetTopLegend = CGFloat(0.0)
+        var offsetBottomLegend = CGFloat(0.0)
+        
+        calculateLegendOffsets(offsetLeft: &offsetLeftLegend,
+                               offsetTop: &offsetTopLegend,
+                               offsetRight: &offsetRightLegend,
+                               offsetBottom: &offsetBottomLegend)
+        
+        let axisRectWidth = viewPortHandler.contentWidth
+        let axisRectLeft = viewPortHandler.contentLeft
+        
+        let lineWidth : CGFloat = 1.0
+        let stick : CGFloat = 5.0
         
         // offsets for y-labels
-        if _leftAxis.needsOffset
+        // Space from top to bottom
+        // offsetTop = offsetTopLegend + leftAxis1.axisRectTop.height + leftAxis.axisRectTop.height + leftAxis.yOffset
+        
+        // rect axis
+        // 1 pixel  : line width
+        // 5 pixels : stick
+        // n pixels : label width
+        // n pixels : name height
+        offsetTop = offsetTopLegend + leftAxis.yOffset
+        if leftAxis1.needsOffset
         {
-            offsetTop += _leftAxis.getRequiredHeightSpace()
+            offsetTop += leftAxis1.getRequiredHeightSpace()
+            if leftAxis1.nameAxisEnabled
+            {
+                let nameAxisHeight = leftAxis.nameAxis.size(attributes: [NSFontAttributeName: leftAxis.nameAxisFont]).height
+                let height = lineWidth + stick + nameAxisHeight + leftAxis1.getRequiredHeightSpace()
+                
+                offsetTop += height
+                leftAxis.axisRectTop = CGRect(x: axisRectLeft,
+                                              y: offsetTop - offsetTopLegend,
+                                              width: axisRectWidth,
+                                              height: height)
+            }
         }
         
-        if _rightAxis.needsOffset
+        if leftAxis.needsOffset
         {
-            offsetBottom += _rightAxis.getRequiredHeightSpace()
+            offsetTop += leftAxis.getRequiredHeightSpace()
+            if leftAxis.nameAxisEnabled
+            {
+                let nameAxisHeight = leftAxis.nameAxis.size(attributes: [NSFontAttributeName: leftAxis.nameAxisFont]).height
+                let height = lineWidth + stick + nameAxisHeight + leftAxis.getRequiredHeightSpace()
+                
+                offsetTop += height
+                leftAxis.axisRectTop = CGRect(x: axisRectLeft,
+                                              y: offsetTop - height,
+                                              width: axisRectWidth,
+                                              height: height)
+            }
         }
+        offsetTop += leftAxis.yOffset
+        
+        // Space from bottom to top
+        offsetBottom = offsetBottomLegend + rightAxis.yOffset
+        if rightAxis1.needsOffset
+        {
+            offsetBottom += rightAxis1.getRequiredHeightSpace()
+            if rightAxis1.nameAxisEnabled
+            {
+                let nameAxisHeight = rightAxis1.nameAxis.size(attributes: [NSFontAttributeName: rightAxis1.nameAxisFont]).height
+                let height = lineWidth + stick + nameAxisHeight + rightAxis1.getRequiredHeightSpace()
+                
+                offsetBottom += height
+                rightAxis1.axisRectBottom = CGRect(x: axisRectLeft,
+                                                   y: viewPortHandler.chartHeight - offsetBottom + height,
+                                                   width: axisRectWidth,
+                                                   height: height)
+            }
+        }
+        
+        if rightAxis.needsOffset
+        {
+            offsetBottom += rightAxis.getRequiredHeightSpace()
+            if rightAxis.nameAxisEnabled
+            {
+                let nameAxisHeight = rightAxis.nameAxis.size(attributes: [NSFontAttributeName: rightAxis.nameAxisFont]).height
+                let height = lineWidth + stick + nameAxisHeight + rightAxis.getRequiredHeightSpace()
+                
+                offsetBottom += height
+                rightAxis.axisRectBottom = CGRect(x: axisRectLeft,
+                                                  y: viewPortHandler.chartHeight - offsetBottom,
+                                                  width: axisRectWidth,
+                                                  height: height)
+            }
+        }
+        offsetBottom += leftAxis.yOffset
         
         let xlabelwidth = _xAxis.labelRotatedWidth
         
         if _xAxis.isEnabled
         {
+            var namexAxisHeight = CGFloat(0.0)
+            if xAxis.nameAxisEnabled
+            {
+                namexAxisHeight = xAxis.nameAxis.size(attributes: [NSFontAttributeName: xAxis.nameAxisFont]).height
+            }
+            
             // offsets for x-labels
+            offsetLeft = offsetLeftLegend
+            offsetRight = offsetRightLegend
             if _xAxis.labelPosition == .bottom
             {
-                offsetLeft += xlabelwidth
+                offsetLeft += xlabelwidth + namexAxisHeight
+                xAxis.axisRectLeft = CGRect(x: offsetLeft - xlabelwidth - namexAxisHeight,
+                                            y:viewPortHandler.contentTop,
+                                            width: namexAxisHeight,
+                                            height:viewPortHandler.contentHeight)
             }
             else if _xAxis.labelPosition == .top
             {
-                offsetRight += xlabelwidth
+                offsetRight += xlabelwidth + namexAxisHeight
+                xAxis.axisRectRight = CGRect(x: viewPortHandler.contentRight + xlabelwidth,
+                                             y: viewPortHandler.contentTop,
+                                             width: namexAxisHeight,
+                                             height: viewPortHandler.contentHeight)
             }
             else if _xAxis.labelPosition == .bothSided
             {
-                offsetLeft += xlabelwidth
-                offsetRight += xlabelwidth
+                offsetLeft += xlabelwidth + namexAxisHeight
+                xAxis.axisRectLeft = CGRect(x: offsetLeft - xlabelwidth - namexAxisHeight,
+                                            y:viewPortHandler.contentTop,
+                                            width: namexAxisHeight,
+                                            height:viewPortHandler.contentHeight)
+                
+                offsetRight += xlabelwidth + namexAxisHeight
+                xAxis.axisRectRight = CGRect(x: viewPortHandler.contentRight + xlabelwidth,
+                                             y: viewPortHandler.contentTop,
+                                             width: namexAxisHeight,
+                                             height: viewPortHandler.contentHeight)
             }
         }
         
@@ -95,7 +206,10 @@ open class HorizontalBarChartView: BarChartView
     internal override func prepareValuePxMatrix()
     {
         _rightAxisTransformer.prepareMatrixValuePx(chartXMin: _rightAxis._axisMinimum, deltaX: CGFloat(_rightAxis.axisRange), deltaY: CGFloat(_xAxis.axisRange), chartYMin: _xAxis._axisMinimum)
+        _rightAxisTransformer1.prepareMatrixValuePx(chartXMin: _rightAxis1._axisMinimum, deltaX: CGFloat(_rightAxis1.axisRange), deltaY: CGFloat(_xAxis.axisRange), chartYMin: _xAxis._axisMinimum)
+        
         _leftAxisTransformer.prepareMatrixValuePx(chartXMin: _leftAxis._axisMinimum, deltaX: CGFloat(_leftAxis.axisRange), deltaY: CGFloat(_xAxis.axisRange), chartYMin: _xAxis._axisMinimum)
+        _leftAxisTransformer1.prepareMatrixValuePx(chartXMin: _leftAxis1._axisMinimum, deltaX: CGFloat(_leftAxis1.axisRange), deltaY: CGFloat(_xAxis.axisRange), chartYMin: _xAxis._axisMinimum)
     }
     
     open override func getMarkerPosition(highlight: Highlight) -> CGPoint
@@ -135,7 +249,7 @@ open class HorizontalBarChartView: BarChartView
         
         return vals
     }
-
+    
     open override func getHighlightByTouchPoint(_ pt: CGPoint) -> Highlight?
     {
         if _data === nil

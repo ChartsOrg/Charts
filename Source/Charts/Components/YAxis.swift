@@ -35,7 +35,9 @@ open class YAxis: AxisBase
     public enum AxisDependency: Int
     {
         case left
+        case left1
         case right
+        case right1
     }
     
     /// indicates if the bottom y-label entry is drawn or not
@@ -63,10 +65,10 @@ open class YAxis: AxisBase
     /// I.e. [2, 3] will paint [--   --   ]
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
     open var zeroLineDashLengths: [CGFloat]?
-
+    
     /// axis space from the largest value to the top in percent of the total axis range
     open var spaceTop = CGFloat(0.1)
-
+    
     /// axis space from the smallest value to the bottom in percent of the total axis range
     open var spaceBottom = CGFloat(0.1)
     
@@ -77,13 +79,13 @@ open class YAxis: AxisBase
     fileprivate var _axisDependency = AxisDependency.left
     
     /// the minimum width that the axis should take
-    /// 
+    ///
     /// **default**: 0.0
     open var minWidth = CGFloat(0)
     
     /// the maximum width that the axis can take.
     /// use Infinity for disabling the maximum.
-    /// 
+    ///
     /// **default**: CGFloat.infinity
     open var maxWidth = CGFloat(CGFloat.infinity)
     
@@ -91,7 +93,7 @@ open class YAxis: AxisBase
     {
         super.init()
         
-        self.yOffset = 0.0
+        //       self.yOffset = 0.0       why ???
     }
     
     public init(position: AxisDependency)
@@ -100,7 +102,7 @@ open class YAxis: AxisBase
         
         _axisDependency = position
         
-        self.yOffset = 0.0
+        //        self.yOffset = 0.0       why ??
     }
     
     open var axisDependency: AxisDependency
@@ -120,7 +122,11 @@ open class YAxis: AxisBase
     
     open func getRequiredHeightSpace() -> CGFloat
     {
-        return requiredSize().height
+        if isEnabled
+        {
+            return requiredSize().height
+        }
+        return 0
     }
     
     /// - returns: `true` if this axis needs horizontal offset, `false` ifno offset is needed.
@@ -175,5 +181,5 @@ open class YAxis: AxisBase
     open var isDrawBottomYLabelEntryEnabled: Bool { return drawBottomYLabelEntryEnabled }
     
     open var isDrawTopYLabelEntryEnabled: Bool { return drawTopYLabelEntryEnabled }
-
+    
 }
