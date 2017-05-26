@@ -483,10 +483,16 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                                    offsetRight: &offsetRightLegend,
                                    offsetBottom: &offsetBottomLegend)
             
+            offsetTop += self.extraTopOffset
+            offsetRight += self.extraRightOffset
+            offsetBottom += self.extraBottomOffset
+            offsetLeft += self.extraLeftOffset
+            
             let axisRectHeight = viewPortHandler.contentHeight
             let axisRectTop = viewPortHandler.contentTop
             let lineWidth : CGFloat = 1.0
             let stick : CGFloat = 5.0
+            var nameAxisHeight : CGFloat = 0.0
             
             // offsets for y-labels
             // Space from left to right
@@ -497,72 +503,75 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             // 5 pixels : stick
             // n pixels : label width
             // n pixels : name height
-            offsetLeft = offsetLeftLegend + leftAxis.xOffset
+            offsetLeft += offsetLeftLegend
+            var offsetLeftTmp = offsetLeft
             if leftAxis1.needsOffset
             {
                 offsetLeft += lineWidth + stick + leftAxis1.requiredSize().width
                 if leftAxis1.nameAxisEnabled
                 {
                     let nameAxisHeight = leftAxis1.nameAxis.size(attributes: [NSFontAttributeName: leftAxis1.nameAxisFont]).height
-                    let width = lineWidth + stick + leftAxis1.requiredSize().width + nameAxisHeight
-                    
                     offsetLeft += nameAxisHeight
-                    leftAxis1.axisRectLeft = CGRect(x: offsetLeftLegend,
-                                                    y: axisRectTop,
-                                                    width: width,
-                                                    height: axisRectHeight)
                 }
+                let width = offsetLeft - offsetLeftTmp
+                leftAxis1.axisRectLeft = CGRect(x: offsetLeftTmp,
+                                                y: axisRectTop,
+                                                width: width,
+                                                height: axisRectHeight)
             }
             
+            offsetLeftTmp = offsetLeft
             if leftAxis.needsOffset
             {
                 offsetLeft += lineWidth + stick + leftAxis.requiredSize().width
                 if leftAxis.nameAxisEnabled
                 {
-                    let nameAxisHeight = leftAxis.nameAxis.size(attributes: [NSFontAttributeName: leftAxis.nameAxisFont]).height
-                    let width = lineWidth + stick + nameAxisHeight + leftAxis.requiredSize().width
-                    
+                    nameAxisHeight = leftAxis.nameAxis.size(attributes: [NSFontAttributeName: leftAxis.nameAxisFont]).height
                     offsetLeft += nameAxisHeight
-                    leftAxis.axisRectLeft = CGRect(x: offsetLeftLegend + leftAxis1.axisRectLeft.width,
-                                                   y: axisRectTop,
-                                                   width: width,
-                                                   height:axisRectHeight)
                 }
+                let width = offsetLeft - offsetLeftTmp
+                leftAxis.axisRectLeft = CGRect(x: offsetLeftTmp,
+                                               y: axisRectTop,
+                                               width: width,
+                                               height:axisRectHeight)
             }
+            offsetLeft += leftAxis.xOffset
             
             // Space from right to left
-            offsetRight = offsetRightLegend + rightAxis.xOffset
+            offsetRight += offsetRightLegend
+            var offsetRightTmp = offsetRight
             if rightAxis1.needsOffset
             {
                 offsetRight += lineWidth + stick + rightAxis1.requiredSize().width
                 if rightAxis1.nameAxisEnabled
                 {
-                    let nameAxisHeight = rightAxis1.nameAxis.size(attributes: [NSFontAttributeName: rightAxis1.nameAxisFont]).height
-                    let width = lineWidth + stick + nameAxisHeight + rightAxis1.requiredSize().width
-                    
+                    nameAxisHeight = rightAxis1.nameAxis.size(attributes: [NSFontAttributeName: rightAxis1.nameAxisFont]).height
                     offsetRight += nameAxisHeight
-                    rightAxis1.axisRectRight = CGRect(x: viewPortHandler.chartWidth - offsetRightLegend - width,
-                                                      y: axisRectTop,
-                                                      width: width,
-                                                      height: axisRectHeight)
                 }
+                let width = offsetRight - offsetRightTmp
+                rightAxis1.axisRectRight = CGRect(x: viewPortHandler.chartWidth - offsetRight,
+                                                  y: axisRectTop,
+                                                  width: width,
+                                                  height: axisRectHeight)
+                
             }
             
+            offsetRightTmp = offsetRight
             if rightAxis.needsOffset
             {
                 offsetRight += lineWidth + stick + rightAxis.requiredSize().width
                 if rightAxis.nameAxisEnabled
                 {
-                    let nameAxisHeight = rightAxis.nameAxis.size(attributes: [NSFontAttributeName: rightAxis.nameAxisFont]).height
-                    let width = lineWidth + stick + nameAxisHeight + rightAxis.requiredSize().width
-                    
+                    nameAxisHeight = rightAxis.nameAxis.size(attributes: [NSFontAttributeName: rightAxis.nameAxisFont]).height
                     offsetRight += nameAxisHeight
-                    rightAxis.axisRectRight = CGRect(x: viewPortHandler.chartWidth - offsetRightLegend - rightAxis1.axisRectRight.width - width,
-                                                     y: viewPortHandler.contentTop,
-                                                     width: width,
-                                                     height: axisRectHeight)
                 }
+                let width = offsetRight - offsetRightTmp
+                rightAxis.axisRectRight = CGRect(x: viewPortHandler.chartWidth - offsetRight,
+                                                 y: viewPortHandler.contentTop,
+                                                 width: width,
+                                                 height: axisRectHeight)
             }
+            offsetRight += rightAxis.xOffset
             
             if xAxis.isEnabled && xAxis.isDrawLabelsEnabled
             {
@@ -582,7 +591,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 // offsets for x-labels
                 if xAxis.labelPosition == .bottom
                 {
-                    offsetBottom = offsetBottomLegend + xlabelheight + namexAxisHeight
+                    offsetBottom += offsetBottomLegend + xlabelheight + namexAxisHeight
                     xAxis.axisRectBottom = CGRect(x: nameAxisRectLeft,
                                                   y: viewPortHandler.chartHeight - offsetBottomLegend - namexAxisHeight,
                                                   width: nameAxisRectWidth,
@@ -590,7 +599,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 }
                 else if xAxis.labelPosition == .top
                 {
-                    offsetTop = offsetTopLegend + xlabelheight + namexAxisHeight
+                    offsetTop += offsetTopLegend + xlabelheight + namexAxisHeight
                     xAxis.axisRectTop = CGRect(x: nameAxisRectLeft,
                                                y: offsetTop - namexAxisHeight - xlabelheight,
                                                width: nameAxisRectWidth,
@@ -598,24 +607,19 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 }
                 else if xAxis.labelPosition == .bothSided
                 {
-                    offsetBottom = offsetBottomLegend + xlabelheight + namexAxisHeight
+                    offsetBottom += offsetBottomLegend + xlabelheight + namexAxisHeight
                     xAxis.axisRectBottom = CGRect(x: nameAxisRectLeft,
                                                   y: viewPortHandler.chartHeight - offsetBottomLegend - namexAxisHeight,
                                                   width: nameAxisRectWidth,
                                                   height: namexAxisHeight)
                     
-                    offsetTop = offsetTopLegend + xlabelheight + namexAxisHeight
+                    offsetTop += offsetTopLegend + xlabelheight + namexAxisHeight
                     xAxis.axisRectTop = CGRect(x: nameAxisRectLeft,
                                                y: offsetTopLegend,
                                                width: nameAxisRectWidth,
                                                height: namexAxisHeight)
                 }
             }
-            
-            offsetTop += self.extraTopOffset
-            offsetRight += self.extraRightOffset
-            offsetBottom += self.extraBottomOffset
-            offsetLeft += self.extraLeftOffset
             
             _viewPortHandler.restrainViewPort(
                 offsetLeft: max(self.minOffset, offsetLeft),

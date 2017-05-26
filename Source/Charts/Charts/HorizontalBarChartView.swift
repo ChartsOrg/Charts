@@ -49,6 +49,11 @@ open class HorizontalBarChartView: BarChartView
         offsetTop: CGFloat = 0.0,
         offsetBottom: CGFloat = 0.0
         
+        offsetTop += self.extraTopOffset
+        offsetRight += self.extraRightOffset
+        offsetBottom += self.extraBottomOffset
+        offsetLeft += self.extraLeftOffset
+        
         var offsetLeftLegend = CGFloat(0.0)
         var offsetRightLegend = CGFloat(0.0)
         var offsetTopLegend = CGFloat(0.0)
@@ -74,77 +79,76 @@ open class HorizontalBarChartView: BarChartView
         // 5 pixels : stick
         // n pixels : label width
         // n pixels : name height
-        offsetTop = offsetTopLegend + leftAxis.yOffset
+        offsetTop = offsetTopLegend
+        var offsetTopTmp = offsetTop
         if leftAxis1.needsOffset
         {
-            offsetTop += leftAxis1.getRequiredHeightSpace()
+            offsetTop += lineWidth + stick + leftAxis1.getRequiredHeightSpace()
             if leftAxis1.nameAxisEnabled
             {
                 let nameAxisHeight = leftAxis.nameAxis.size(attributes: [NSFontAttributeName: leftAxis.nameAxisFont]).height
-                let height = lineWidth + stick + nameAxisHeight + leftAxis1.getRequiredHeightSpace()
-                
-                offsetTop += height
-                leftAxis.axisRectTop = CGRect(x: axisRectLeft,
-                                              y: offsetTop - offsetTopLegend,
-                                              width: axisRectWidth,
-                                              height: height)
+                offsetTop += nameAxisHeight
             }
+            let height = offsetTop - offsetTopTmp
+            leftAxis1.axisRectTop = CGRect(x: axisRectLeft,
+                                           y: offsetTopTmp,
+                                           width: axisRectWidth,
+                                           height: height)
         }
         
+        offsetTopTmp = offsetTop
         if leftAxis.needsOffset
         {
-            offsetTop += leftAxis.getRequiredHeightSpace()
+            offsetTop += lineWidth + stick + leftAxis.getRequiredHeightSpace()
             if leftAxis.nameAxisEnabled
             {
                 let nameAxisHeight = leftAxis.nameAxis.size(attributes: [NSFontAttributeName: leftAxis.nameAxisFont]).height
-                let height = lineWidth + stick + nameAxisHeight + leftAxis.getRequiredHeightSpace()
-                
-                offsetTop += height
-                leftAxis.axisRectTop = CGRect(x: axisRectLeft,
-                                              y: offsetTop - height,
-                                              width: axisRectWidth,
-                                              height: height)
+                offsetTop += nameAxisHeight
             }
+            let height = offsetTop - offsetTopTmp
+            leftAxis.axisRectTop = CGRect(x: axisRectLeft,
+                                          y: offsetTopTmp,
+                                          width: axisRectWidth,
+                                          height: height)
         }
         offsetTop += leftAxis.yOffset
         
         // Space from bottom to top
-        offsetBottom = offsetBottomLegend + rightAxis.yOffset
+        offsetBottom = offsetBottomLegend
+        var offsetBottomTmp = offsetBottom
         if rightAxis1.needsOffset
         {
             offsetBottom += rightAxis1.getRequiredHeightSpace()
             if rightAxis1.nameAxisEnabled
             {
                 let nameAxisHeight = rightAxis1.nameAxis.size(attributes: [NSFontAttributeName: rightAxis1.nameAxisFont]).height
-                let height = lineWidth + stick + nameAxisHeight + rightAxis1.getRequiredHeightSpace()
-                
-                offsetBottom += height
-                rightAxis1.axisRectBottom = CGRect(x: axisRectLeft,
-                                                   y: viewPortHandler.chartHeight - offsetBottom + height,
-                                                   width: axisRectWidth,
-                                                   height: height)
+                offsetBottom += nameAxisHeight
             }
+            let height = offsetBottom - offsetBottomTmp
+            rightAxis1.axisRectBottom = CGRect(x: axisRectLeft,
+                                               y: viewPortHandler.chartHeight - offsetBottom,
+                                               width: axisRectWidth,
+                                               height: height)
         }
         
+        offsetBottomTmp = offsetBottom
         if rightAxis.needsOffset
         {
             offsetBottom += rightAxis.getRequiredHeightSpace()
             if rightAxis.nameAxisEnabled
             {
                 let nameAxisHeight = rightAxis.nameAxis.size(attributes: [NSFontAttributeName: rightAxis.nameAxisFont]).height
-                let height = lineWidth + stick + nameAxisHeight + rightAxis.getRequiredHeightSpace()
-                
-                offsetBottom += height
-                rightAxis.axisRectBottom = CGRect(x: axisRectLeft,
-                                                  y: viewPortHandler.chartHeight - offsetBottom,
-                                                  width: axisRectWidth,
-                                                  height: height)
+                offsetBottom += nameAxisHeight
             }
+            let height = offsetBottom - offsetBottomTmp
+            rightAxis.axisRectBottom = CGRect(x: axisRectLeft,
+                                              y: viewPortHandler.chartHeight - offsetBottom,
+                                              width: axisRectWidth,
+                                              height: height)
         }
         offsetBottom += leftAxis.yOffset
         
         let xlabelwidth = _xAxis.labelRotatedWidth
-        
         if _xAxis.isEnabled
         {
             var namexAxisHeight = CGFloat(0.0)
@@ -187,11 +191,6 @@ open class HorizontalBarChartView: BarChartView
                                              height: viewPortHandler.contentHeight)
             }
         }
-        
-        offsetTop += self.extraTopOffset
-        offsetRight += self.extraRightOffset
-        offsetBottom += self.extraBottomOffset
-        offsetLeft += self.extraLeftOffset
         
         _viewPortHandler.restrainViewPort(
             offsetLeft: max(self.minOffset, offsetLeft),
