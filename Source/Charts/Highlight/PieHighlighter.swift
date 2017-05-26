@@ -23,6 +23,18 @@ open class PieHighlighter: PieRadarHighlighter
         guard let entry = set.entryForIndex(index)
             else { return nil }
         
+        guard let chart = self.chart as? PieChartView
+            else { return nil }
+        
+        if chart.isTapHoleEnabled
+        {
+            let touchDistanceToCenter = chart.distanceToCenter(x: x, y: y)
+            if touchDistanceToCenter < chart.holeRadiusPercent * chart.radius {return nil}
+        }
+        
+        
         return Highlight(x: Double(index), y: entry.y, xPx: x, yPx: y, dataSetIndex: 0, axis: set.axisDependency)
     }
+    
+    
 }
