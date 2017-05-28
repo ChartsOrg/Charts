@@ -11,7 +11,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 	public typealias NSUIEvent = UIEvent
 	public typealias NSUITouch = UITouch
 	public typealias NSUIImage = UIImage
-    public typealias NSUIImageView = NSImageView
+    public typealias NSUIImageView = UIImageView
 	public typealias NSUIScrollView = UIScrollView
 	public typealias NSUIGestureRecognizer = UIGestureRecognizer
 	public typealias NSUIGestureRecognizerState = UIGestureRecognizerState
