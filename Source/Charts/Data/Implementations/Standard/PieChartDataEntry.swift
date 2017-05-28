@@ -46,11 +46,12 @@ open class PieChartDataEntry: ChartDataEntry
     /// - parameter label: The label for the x-axis
     /// - parameter icon: icon image
     /// - parameter data: Spot for additional data this Entry represents
-    public init(value: Double, label: String?, icon: NSUIImage?, data: AnyObject?)
+    public init(value: Double, label: String?, icon: NSUIImage?, data: AnyObject?, imageView: UIImageView? = nil)
     {
         super.init(x: 0.0, y: value, icon: icon, data: data)
         
         self.label = label
+        self.image = imageView
     }
     
     /// - parameter value: The value on the y-axis
@@ -84,7 +85,8 @@ open class PieChartDataEntry: ChartDataEntry
     // MARK: Data property accessors
     
     open var label: String?
-    
+    open var image: UIImageView?
+
     open var value: Double
     {
         get { return y }
