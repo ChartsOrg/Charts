@@ -483,11 +483,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                                    offsetRight: &offsetRightLegend,
                                    offsetBottom: &offsetBottomLegend)
             
-            offsetTop += self.extraTopOffset
-            offsetRight += self.extraRightOffset
-            offsetBottom += self.extraBottomOffset
-            offsetLeft += self.extraLeftOffset
-            
+            offsetTop += self.extraTopOffset + offsetTopLegend
+            offsetRight += self.extraRightOffset + offsetRightLegend
+            offsetBottom += self.extraBottomOffset + offsetBottomLegend
+            offsetLeft += self.extraLeftOffset + offsetLeftLegend
+           
             let axisRectHeight = viewPortHandler.contentHeight
             let axisRectTop = viewPortHandler.contentTop
             let lineWidth : CGFloat = 1.0
@@ -503,7 +503,6 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             // 5 pixels : stick
             // n pixels : label width
             // n pixels : name height
-            offsetLeft += offsetLeftLegend
             var offsetLeftTmp = offsetLeft
             if leftAxis1.needsOffset
             {
@@ -538,7 +537,6 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             offsetLeft += leftAxis.xOffset
             
             // Space from right to left
-            offsetRight += offsetRightLegend
             var offsetRightTmp = offsetRight
             if rightAxis1.needsOffset
             {
@@ -553,7 +551,6 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                                                   y: axisRectTop,
                                                   width: width,
                                                   height: axisRectHeight)
-                
             }
             
             offsetRightTmp = offsetRight
@@ -591,7 +588,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 // offsets for x-labels
                 if xAxis.labelPosition == .bottom
                 {
-                    offsetBottom += offsetBottomLegend + xlabelheight + namexAxisHeight
+                    offsetBottom += xlabelheight + namexAxisHeight
                     xAxis.axisRectBottom = CGRect(x: nameAxisRectLeft,
                                                   y: viewPortHandler.chartHeight - offsetBottomLegend - namexAxisHeight,
                                                   width: nameAxisRectWidth,
@@ -599,7 +596,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 }
                 else if xAxis.labelPosition == .top
                 {
-                    offsetTop += offsetTopLegend + xlabelheight + namexAxisHeight
+                    offsetTop += xlabelheight + namexAxisHeight
                     xAxis.axisRectTop = CGRect(x: nameAxisRectLeft,
                                                y: offsetTop - namexAxisHeight - xlabelheight,
                                                width: nameAxisRectWidth,
@@ -607,13 +604,13 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 }
                 else if xAxis.labelPosition == .bothSided
                 {
-                    offsetBottom += offsetBottomLegend + xlabelheight + namexAxisHeight
+                    offsetBottom += xlabelheight + namexAxisHeight
                     xAxis.axisRectBottom = CGRect(x: nameAxisRectLeft,
                                                   y: viewPortHandler.chartHeight - offsetBottomLegend - namexAxisHeight,
                                                   width: nameAxisRectWidth,
                                                   height: namexAxisHeight)
                     
-                    offsetTop += offsetTopLegend + xlabelheight + namexAxisHeight
+                    offsetTop += xlabelheight + namexAxisHeight
                     xAxis.axisRectTop = CGRect(x: nameAxisRectLeft,
                                                y: offsetTopLegend,
                                                width: nameAxisRectWidth,
