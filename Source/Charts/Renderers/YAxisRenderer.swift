@@ -32,15 +32,22 @@ open class YAxisRenderer: AxisRendererBase
             let viewPortHandler = self.viewPortHandler
             else { return }
         
-        if !yAxis.isEnabled || !yAxis.isDrawLabelsEnabled
+        let dependency = yAxis.axisDependency
+        if (dependency == .right || dependency == .left) && !yAxis.isEnabled || !yAxis.isDrawLabelsEnabled
         {
             return
         }
         
+        if (dependency == .right1 || dependency == .left1) && !yAxis.isAxisSecondaryEnabled || !yAxis.isDrawLabelsEnabled
+        {
+            return
+        }
+        
+        
         let xoffset = yAxis.xOffset
         let yoffset = yAxis.labelFont.lineHeight / 2.5 + yAxis.yOffset
         
-        let dependency = yAxis.axisDependency
+        
         let labelPosition = yAxis.labelPosition
         
         var xPos = CGFloat(0.0)
@@ -85,12 +92,30 @@ open class YAxisRenderer: AxisRendererBase
             textAlign: textAlign)
     }
     
-   
+    internal func drawRect(context: CGContext, rect: CGRect)
+    {
+        context.saveGState()
+        context.beginPath()
+        NSUIColor.black.setStroke()
+        let bpath = NSBezierPath(rect: rect)
+        bpath.stroke()
+        context.strokePath()
+        context.restoreGState()
+    }
+    
     internal func drawYAxis(context: CGContext,  axisRect: CGRect, positions: [CGPoint])
     {
         guard
             let yAxis = self.axis as? YAxis
             else { return }
+        
+        if yAxis.entryCount == 0
+        {
+            return
+        }
+        
+        let from = yAxis.isDrawBottomYLabelEntryEnabled ? 0 : 1
+        let to = yAxis.isDrawTopYLabelEntryEnabled ? yAxis.entryCount : (yAxis.entryCount - 1)
         
         let labelTextColor = yAxis.labelTextColor
         
@@ -105,9 +130,6 @@ open class YAxisRenderer: AxisRendererBase
             context.move(to: CGPoint(x: axisRect.minX, y: axisRect.minY))
             context.addLine(to: CGPoint(x: axisRect.minX, y: axisRect.maxY))
             
-            let from = yAxis.isDrawBottomYLabelEntryEnabled ? 0 : 1
-            let to = yAxis.isDrawTopYLabelEntryEnabled ? yAxis.entryCount : (yAxis.entryCount - 1)
-            
             for i in stride(from: from, to: to, by: 1)
             {
                 context.move(to: CGPoint(x: axisRect.minX, y: positions[i].y))
@@ -118,9 +140,6 @@ open class YAxisRenderer: AxisRendererBase
         {
             context.move(to: CGPoint(x: axisRect.maxX, y: axisRect.minY))
             context.addLine(to: CGPoint(x: axisRect.maxX, y: axisRect.maxY))
-            
-            let from = yAxis.isDrawBottomYLabelEntryEnabled ? 0 : 1
-            let to = yAxis.isDrawTopYLabelEntryEnabled ? yAxis.entryCount : (yAxis.entryCount - 1)
             
             for i in stride(from: from, to: to, by: 1)
             {
@@ -220,7 +239,13 @@ open class YAxisRenderer: AxisRendererBase
             let viewPortHandler = self.viewPortHandler
             else { return }
         
-        if !yAxis.isEnabled || !yAxis.drawAxisLineEnabled
+        let dependency = yAxis.axisDependency
+        if (dependency == .right || dependency == .left) && !yAxis.isEnabled || !yAxis.drawAxisLineEnabled
+        {
+            return
+        }
+        
+        if (dependency == .right1 || dependency == .left1) && !yAxis.isAxisSecondaryEnabled || !yAxis.drawAxisLineEnabled
         {
             return
         }
@@ -262,7 +287,13 @@ open class YAxisRenderer: AxisRendererBase
             yAxis = self.axis as? YAxis
             else { return }
         
-        if !yAxis.isEnabled
+        let dependency = yAxis.axisDependency
+        if (dependency == .right || dependency == .left) && !yAxis.isEnabled
+        {
+            return
+        }
+        
+        if (dependency == .right1 || dependency == .left1) && !yAxis.isAxisSecondaryEnabled
         {
             return
         }
@@ -283,7 +314,6 @@ open class YAxisRenderer: AxisRendererBase
             if yAxis.gridLineDashLengths != nil
             {
                 context.setLineDash(phase: yAxis.gridLineDashPhase, lengths: yAxis.gridLineDashLengths)
-                
             }
             else
             {
@@ -345,7 +375,6 @@ open class YAxisRenderer: AxisRendererBase
         }
         
         transformer.pointValuesToPixel(&positions)
-        
         return positions
     }
     

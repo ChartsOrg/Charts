@@ -62,7 +62,13 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             let viewPortHandler = self.viewPortHandler
             else { return }
         
-        if !yAxis.isEnabled || !yAxis.isDrawLabelsEnabled
+        let dependency = yAxis.axisDependency
+        if (dependency == .right || dependency == .left) && !yAxis.isEnabled || !yAxis.isDrawLabelsEnabled
+        {
+            return
+        }
+        
+        if (dependency == .right1 || dependency == .left1) && !yAxis.isAxisSecondaryEnabled || !yAxis.isDrawLabelsEnabled
         {
             return
         }
@@ -70,7 +76,6 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         let lineHeight = yAxis.labelFont.lineHeight
         let baseYOffset: CGFloat = 6
         
-        let dependency = yAxis.axisDependency
         let labelPosition = yAxis.labelPosition
         
         var yPos: CGFloat = 0.0
@@ -102,6 +107,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             {
                 yPos = viewPortHandler.contentBottom + lineHeight
             }
+            drawRect(context: context, rect: yAxis.axisRectBottom)
         }
         
         // For compatibility with Android code, we keep above calculation the same,
@@ -218,7 +224,13 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             let viewPortHandler = self.viewPortHandler
             else { return }
         
-        if !yAxis.isEnabled || !yAxis.drawAxisLineEnabled
+        let dependency = yAxis.axisDependency
+        if (dependency == .right || dependency == .left) && !yAxis.isEnabled || !yAxis.drawAxisLineEnabled
+        {
+            return
+        }
+        
+        if (dependency == .right1 || dependency == .left1) && !yAxis.isAxisSecondaryEnabled || !yAxis.drawAxisLineEnabled
         {
             return
         }
