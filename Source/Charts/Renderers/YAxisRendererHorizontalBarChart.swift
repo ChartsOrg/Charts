@@ -102,7 +102,6 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             {
                 yPos = viewPortHandler.contentBottom + lineHeight
             }
-            drawRect(context: context, rect: yAxis.axisRectBottom)
         }
         
         // For compatibility with Android code, we keep above calculation the same,
