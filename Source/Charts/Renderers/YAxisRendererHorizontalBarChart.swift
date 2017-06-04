@@ -68,7 +68,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         }
         
         let lineHeight = yAxis.labelFont.lineHeight
-        let baseYOffset: CGFloat = 5
+        let baseYOffset: CGFloat = 6
         
         let dependency = yAxis.axisDependency
         let labelPosition = yAxis.labelPosition
@@ -93,7 +93,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         case .right, .right1:
             if labelPosition == .outsideChart
             {
-                yPos = yAxis.axisRectBottom.maxY - lineHeight
+                yPos = yAxis.axisRectBottom.minY + baseYOffset + lineHeight
                 
                 drawNameYAxis( context: context, nameRect: yAxis.axisRectBottom)
                 drawYAxis(context: context, axisRect: yAxis.axisRectBottom, positions: transformedPositions())
@@ -102,6 +102,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             {
                 yPos = viewPortHandler.contentBottom + lineHeight
             }
+            drawRect(context: context, rect: yAxis.axisRectBottom)
         }
         
         // For compatibility with Android code, we keep above calculation the same,
@@ -121,6 +122,14 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             let yAxis = self.axis as? YAxis
             else { return }
         
+        if yAxis.entryCount == 0
+        {
+            return
+        }
+        
+        let from = yAxis.isDrawBottomYLabelEntryEnabled ? 0 : 1
+        let to = yAxis.isDrawTopYLabelEntryEnabled ? yAxis.entryCount : (yAxis.entryCount - 1)
+        
         let labelTextColor = yAxis.labelTextColor
         
         context.saveGState()
@@ -134,9 +143,6 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             context.move(to: CGPoint(x: axisRect.minX, y: axisRect.minY))
             context.addLine(to: CGPoint(x: axisRect.maxX, y: axisRect.minY))
             
-            let from = yAxis.isDrawBottomYLabelEntryEnabled ? 0 : 1
-            let to = yAxis.isDrawTopYLabelEntryEnabled ? yAxis.entryCount : (yAxis.entryCount - 1)
-            
             for i in stride(from: from, to: to, by: 1)
             {
                 context.move(to: CGPoint(x: positions[i].x, y: axisRect.minY))
@@ -147,9 +153,6 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         {
             context.move(to: CGPoint(x: axisRect.minX, y: axisRect.maxY))
             context.addLine(to: CGPoint(x: axisRect.maxX, y: axisRect.maxY))
-            
-            let from = yAxis.isDrawBottomYLabelEntryEnabled ? 0 : 1
-            let to = yAxis.isDrawTopYLabelEntryEnabled ? yAxis.entryCount : (yAxis.entryCount - 1)
             
             for i in stride(from: from, to: to, by: 1)
             {

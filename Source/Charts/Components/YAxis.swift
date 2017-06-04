@@ -89,11 +89,14 @@ open class YAxis: AxisBase
     /// **default**: CGFloat.infinity
     open var maxWidth = CGFloat(CGFloat.infinity)
     
+    open var axisSecondaryEnabled = false
+    open var isAxisSecondaryEnabled: Bool { return axisSecondaryEnabled }
+    
     public override init()
     {
         super.init()
         
-        //       self.yOffset = 0.0       why ???
+        //       self.yOffset = 0.0
     }
     
     public init(position: AxisDependency)
@@ -102,7 +105,7 @@ open class YAxis: AxisBase
         
         _axisDependency = position
         
-        //        self.yOffset = 0.0       why ??
+        //        self.yOffset = 0.0
     }
     
     open var axisDependency: AxisDependency
@@ -129,10 +132,32 @@ open class YAxis: AxisBase
         return 0
     }
     
+    open func getRequiredHeightSpaceSecondary() -> CGFloat
+    {
+        if isAxisSecondaryEnabled
+        {
+            return requiredSize().height
+        }
+        return 0
+    }
+    
     /// - returns: `true` if this axis needs horizontal offset, `false` ifno offset is needed.
     open var needsOffset: Bool
     {
-        if isEnabled && isDrawLabelsEnabled && labelPosition == .outsideChart
+        if isEnabled  && isDrawLabelsEnabled && labelPosition == .outsideChart
+        {
+            return true
+        }
+        else
+        {
+            return false
+        }
+    }
+    
+    /// - returns: `true` if this axis needs horizontal offset, `false` ifno offset is needed.
+    open var needsOffsetSecondary: Bool
+    {
+        if isAxisSecondaryEnabled && isDrawLabelsEnabled && labelPosition == .outsideChart
         {
             return true
         }

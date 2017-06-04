@@ -75,15 +75,15 @@ open class HorizontalBarChartView: BarChartView
         // offsetTop = offsetTopLegend + leftAxis1.axisRectTop.height + leftAxis.axisRectTop.height + leftAxis.yOffset
         
         // rect axis
-        // 1 pixel  : line width
+        // 1 pixel  : line height
         // 5 pixels : stick
-        // n pixels : label width
+        // n pixels : label height
         // n pixels : name height
         offsetTop = offsetTopLegend
         var offsetTopTmp = offsetTop
-        if leftAxis1.needsOffset
+        if leftAxis1.needsOffsetSecondary
         {
-            offsetTop += lineWidth + stick + leftAxis1.getRequiredHeightSpace()
+            offsetTop += lineWidth + stick + leftAxis1.getRequiredHeightSpaceSecondary()
             if leftAxis1.nameAxisEnabled
             {
                 let nameAxisHeight = leftAxis.nameAxis.size(attributes: [NSFontAttributeName: leftAxis.nameAxisFont]).height
@@ -116,9 +116,9 @@ open class HorizontalBarChartView: BarChartView
         // Space from bottom to top
         offsetBottom = offsetBottomLegend
         var offsetBottomTmp = offsetBottom
-        if rightAxis1.needsOffset
+        if rightAxis1.needsOffsetSecondary
         {
-            offsetBottom += rightAxis1.getRequiredHeightSpace()
+            offsetBottom += rightAxis1.getRequiredHeightSpaceSecondary()
             if rightAxis1.nameAxisEnabled
             {
                 let nameAxisHeight = rightAxis1.nameAxis.size(attributes: [NSFontAttributeName: rightAxis1.nameAxisFont]).height

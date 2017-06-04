@@ -199,7 +199,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         {
             _leftYAxisRenderer?.computeAxis(min: _leftAxis._axisMinimum, max: _leftAxis._axisMaximum, inverted: _leftAxis.isInverted)
         }
-        if _leftAxis1.isEnabled
+        if _leftAxis1.isAxisSecondaryEnabled
         {
             _leftYAxisRenderer1?.computeAxis(min: _leftAxis1._axisMinimum, max: _leftAxis1._axisMaximum, inverted: _leftAxis1.isInverted)
         }
@@ -208,7 +208,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         {
             _rightYAxisRenderer?.computeAxis(min: _rightAxis._axisMinimum, max: _rightAxis._axisMaximum, inverted: _rightAxis.isInverted)
         }
-        if _rightAxis1.isEnabled
+        if _rightAxis1.isAxisSecondaryEnabled
         {
             _rightYAxisRenderer1?.computeAxis(min: _rightAxis1._axisMinimum, max: _rightAxis1._axisMaximum, inverted: _rightAxis1.isInverted)
         }
@@ -240,7 +240,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         {
             _leftYAxisRenderer?.renderLimitLines(context: context)
         }
-        if _leftAxis1.isEnabled && _leftAxis1.isDrawLimitLinesBehindDataEnabled
+        if _leftAxis1.isAxisSecondaryEnabled && _leftAxis1.isDrawLimitLinesBehindDataEnabled
         {
             _leftYAxisRenderer1?.renderLimitLines(context: context)
         }
@@ -250,7 +250,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         {
             _rightYAxisRenderer?.renderLimitLines(context: context)
         }
-        if _rightAxis1.isEnabled && _rightAxis1.isDrawLimitLinesBehindDataEnabled
+        if _rightAxis1.isAxisSecondaryEnabled && _rightAxis1.isDrawLimitLinesBehindDataEnabled
         {
             _rightYAxisRenderer1?.renderLimitLines(context: context)
         }
@@ -280,7 +280,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         {
             _leftYAxisRenderer?.renderLimitLines(context: context)
         }
-        if _leftAxis1.isEnabled && !_leftAxis1.isDrawLimitLinesBehindDataEnabled
+        if _leftAxis1.isAxisSecondaryEnabled && !_leftAxis1.isDrawLimitLinesBehindDataEnabled
         {
             _leftYAxisRenderer1?.renderLimitLines(context: context)
         }
@@ -289,18 +289,29 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         {
             _rightYAxisRenderer?.renderLimitLines(context: context)
         }
-        if _rightAxis1.isEnabled && !_rightAxis1.isDrawLimitLinesBehindDataEnabled
+        if _rightAxis1.isAxisSecondaryEnabled && !_rightAxis1.isDrawLimitLinesBehindDataEnabled
         {
             _rightYAxisRenderer1?.renderLimitLines(context: context)
         }
         
         
         _xAxisRenderer.renderAxisLabels(context: context)
-        _leftYAxisRenderer.renderAxisLabels(context: context)
-        _leftYAxisRenderer1.renderAxisLabels(context: context)
-        
-        _rightYAxisRenderer.renderAxisLabels(context: context)
-        _rightYAxisRenderer1.renderAxisLabels(context: context)
+        if _leftAxis.isEnabled
+        {
+            _leftYAxisRenderer.renderAxisLabels(context: context)
+        }
+        if _leftAxis1.isAxisSecondaryEnabled
+        {
+            _leftYAxisRenderer1.renderAxisLabels(context: context)
+        }
+        if _rightAxis.isEnabled
+        {
+            _rightYAxisRenderer.renderAxisLabels(context: context)
+        }
+        if _rightAxis1.isAxisSecondaryEnabled
+        {
+            _rightYAxisRenderer1.renderAxisLabels(context: context)
+        }
         
         if clipValuesToContentEnabled
         {
@@ -342,7 +353,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         {
             _leftAxis.calculate(min: data.getYMin(axis: .left), max: data.getYMax(axis: .left))
         }
-        if _leftAxis1.isEnabled
+        if _leftAxis1.isAxisSecondaryEnabled
         {
             _leftAxis1.calculate(min: data.getYMin(axis: .left1), max: data.getYMax(axis: .left1))
         }
@@ -351,7 +362,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         {
             _rightAxis.calculate(min: data.getYMin(axis: .right), max: data.getYMax(axis: .right))
         }
-        if _rightAxis1.isEnabled
+        if _rightAxis1.isAxisSecondaryEnabled
         {
             _rightAxis1.calculate(min: data.getYMin(axis: .right1), max: data.getYMax(axis: .right1))
         }
@@ -450,7 +461,6 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 }
                 
             case .horizontal:
-                
                 switch _legend.verticalAlignment
                 {
                 case .top:
@@ -487,7 +497,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             offsetRight += self.extraRightOffset + offsetRightLegend
             offsetBottom += self.extraBottomOffset + offsetBottomLegend
             offsetLeft += self.extraLeftOffset + offsetLeftLegend
-           
+            
             let axisRectHeight = viewPortHandler.contentHeight
             let axisRectTop = viewPortHandler.contentTop
             let lineWidth : CGFloat = 1.0
@@ -504,7 +514,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             // n pixels : label width
             // n pixels : name height
             var offsetLeftTmp = offsetLeft
-            if leftAxis1.needsOffset
+            if leftAxis1.needsOffsetSecondary
             {
                 offsetLeft += lineWidth + stick + leftAxis1.requiredSize().width
                 if leftAxis1.nameAxisEnabled
@@ -538,7 +548,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             
             // Space from right to left
             var offsetRightTmp = offsetRight
-            if rightAxis1.needsOffset
+            if rightAxis1.needsOffsetSecondary
             {
                 offsetRight += lineWidth + stick + rightAxis1.requiredSize().width
                 if rightAxis1.nameAxisEnabled
@@ -551,6 +561,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                                                   y: axisRectTop,
                                                   width: width,
                                                   height: axisRectHeight)
+                
             }
             
             offsetRightTmp = offsetRight
@@ -588,7 +599,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 // offsets for x-labels
                 if xAxis.labelPosition == .bottom
                 {
-                    offsetBottom += xlabelheight + namexAxisHeight
+                    offsetBottom +=  xlabelheight + namexAxisHeight
                     xAxis.axisRectBottom = CGRect(x: nameAxisRectLeft,
                                                   y: viewPortHandler.chartHeight - offsetBottomLegend - namexAxisHeight,
                                                   width: nameAxisRectWidth,
@@ -1900,7 +1911,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     /// - returns: The y-axis object to the corresponding AxisDependency. In the
     /// horizontal bar-chart, LEFT == top, RIGHT == BOTTOM
-    open func getAxis(_ axis: YAxis.AxisDependency) -> YAxis
+    @objc open func getAxis(_ axis: YAxis.AxisDependency) -> YAxis
     {
         switch axis
         {
