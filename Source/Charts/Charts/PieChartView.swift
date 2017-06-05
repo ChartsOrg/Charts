@@ -112,8 +112,10 @@ open class PieChartView: PieRadarChartViewBase
         }
         
         renderer!.drawExtras(context: context)
-        
-        renderer!.drawValues(context: context)
+
+        if _drawEntryLabelsEnabled {
+            renderer!.drawValues(context: context)
+        }
         
         _legendRenderer.renderLegend(context: context)
         
