@@ -1,5 +1,5 @@
 //
-//  Range.swift
+//  ChartRange.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -11,8 +11,7 @@
 
 import Foundation
 
-@objc(ChartRange)
-open class Range: NSObject
+@objc open class ChartRange: NSObject
 {
     open var from: Double
     open var to: Double

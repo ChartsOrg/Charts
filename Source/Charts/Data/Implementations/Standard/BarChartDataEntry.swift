@@ -17,7 +17,7 @@ open class BarChartDataEntry: ChartDataEntry
     fileprivate var _yVals: [Double]?
     
     /// the ranges for the individual stack values - automatically calculated
-    fileprivate var _ranges: [Range]?
+    fileprivate var _ranges: [ChartRange]?
     
     /// the sum of all negative values this entry (if stacked) contains
     fileprivate var _negativeSum: Double = 0.0
@@ -159,7 +159,7 @@ open class BarChartDataEntry: ChartDataEntry
         _positiveSum = sumPos
     }
     
-    /// Splits up the stack-values of the given bar-entry into Range objects.
+    /// Splits up the stack-values of the given bar-entry into ChartRange objects.
     /// - parameter entry:
     /// - returns:
     open func calcRanges()
@@ -172,7 +172,7 @@ open class BarChartDataEntry: ChartDataEntry
         
         if _ranges == nil
         {
-            _ranges = [Range]()
+            _ranges = [ChartRange]()
         }
         else
         {
@@ -190,12 +190,12 @@ open class BarChartDataEntry: ChartDataEntry
             
             if value < 0
             {
-                _ranges?.append(Range(from: negRemain, to: negRemain - value))
+                _ranges?.append(ChartRange(from: negRemain, to: negRemain - value))
                 negRemain -= value
             }
             else
             {
-                _ranges?.append(Range(from: posRemain, to: posRemain + value))
+                _ranges?.append(ChartRange(from: posRemain, to: posRemain + value))
                 posRemain += value
             }
         }
@@ -220,7 +220,7 @@ open class BarChartDataEntry: ChartDataEntry
     }
     
     /// - returns: The ranges of the individual stack-entries. Will return null if this entry is not stacked.
-    open var ranges: [Range]?
+    open var ranges: [ChartRange]?
     {
         return _ranges
     }
