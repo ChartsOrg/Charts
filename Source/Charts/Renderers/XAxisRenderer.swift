@@ -208,10 +208,22 @@ open class XAxisRenderer: AxisRendererBase
             labelMaxSize.width = xAxis.wordWrapWidthPercent * valueToPixelMatrix.a
         }
         
-        let entries = xAxis.entries
+        let entries: [Double]
+        if xAxis.isLogarithmicEnabled == true
+        {
+            xAxis.entries = xAxis.logAxis
+            entries = xAxis.logAxis.map{log10($0)}
+        } else {
+            entries = xAxis.entries
+        }
         
         for i in stride(from: 0, to: entries.count, by: 1)
         {
+            if xAxis.isLogarithmicEnabled == true && xAxis.logLabels[i] == false
+            {
+                continue
+            }
+            
             if centeringEnabled
             {
                 position.x = CGFloat(xAxis.centeredEntries[i])
@@ -316,7 +328,12 @@ open class XAxisRenderer: AxisRendererBase
         
         var position = CGPoint(x: 0.0, y: 0.0)
         
-        let entries = xAxis.entries
+        let entries: [Double]
+        if xAxis.isLogarithmicEnabled == true {
+            entries = xAxis.logAxis.map{log10($0)}
+        } else {
+            entries = xAxis.entries
+        }
         
         for i in stride(from: 0, to: entries.count, by: 1)
         {
@@ -324,9 +341,19 @@ open class XAxisRenderer: AxisRendererBase
             position.y = position.x
             position = position.applying(valueToPixelMatrix)
             
-            drawGridLine(context: context, x: position.x, y: position.y)
+            context.setLineWidth(xAxis.gridLineWidth )
+            var major = false
+            if xAxis.logAxis.count > 0 && xAxis.isLogarithmicEnabled == true
+            {
+                if (log10 (abs(xAxis.logAxis[i])) - floor (log10(abs(xAxis.logAxis[i])))) == 0
+                {
+                    context.setLineWidth(xAxis.gridLineWidth * 3)
+                    major = true
+                }
+            }
+            drawGridLine(context: context, x: position.x, y: position.y, major: major)
         }
-    }
+   }
     
     open var gridClippingRect: CGRect
     {
@@ -337,19 +364,43 @@ open class XAxisRenderer: AxisRendererBase
         return contentRect
     }
     
-    open func drawGridLine(context: CGContext, x: CGFloat, y: CGFloat)
+    open func drawGridLine(context: CGContext, x: CGFloat, y: CGFloat, major : Bool)
     {
         guard
+            let xAxis = self.axis as? XAxis,
             let viewPortHandler = self.viewPortHandler
             else { return }
         
-        if x >= viewPortHandler.offsetLeft
-            && x <= viewPortHandler.chartWidth
+        if x >= viewPortHandler.offsetLeft && x <= viewPortHandler.chartWidth
         {
-            context.beginPath()
-            context.move(to: CGPoint(x: x, y: viewPortHandler.contentTop))
-            context.addLine(to: CGPoint(x: x, y: viewPortHandler.contentBottom))
-            context.strokePath()
+            if xAxis.isLogarithmicEnabled == true && xAxis.isStickEnabled == true
+            {
+                if xAxis.isStickMajorEnabled == false && major == true
+                {
+                    context.beginPath()
+                    context.move(to: CGPoint(x: x, y: viewPortHandler.contentTop))
+                    context.addLine(to: CGPoint(x: x, y: viewPortHandler.contentBottom))
+                    context.strokePath()
+                }
+                else
+                {
+                    let heightStick : CGFloat = 5.0
+                    context.beginPath()
+                    context.move(to: CGPoint(x: x, y: viewPortHandler.contentTop))
+                    context.addLine(to: CGPoint(x: x, y: viewPortHandler.contentTop + heightStick))
+                    
+                    context.move(to: CGPoint(x: x, y: viewPortHandler.contentBottom))
+                    context.addLine(to: CGPoint(x: x, y: viewPortHandler.contentBottom - heightStick))
+                    context.strokePath()
+                }
+            }
+            else
+            {
+                context.beginPath()
+                context.move(to: CGPoint(x: x, y: viewPortHandler.contentTop))
+                context.addLine(to: CGPoint(x: x, y: viewPortHandler.contentBottom))
+                context.strokePath()
+            }
         }
     }
     

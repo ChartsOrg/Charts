@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>name</key>
+		<string>Line</string>
+		<key>isSourceGroup</key>
+		<true/>
+		<key>items</key>
+		<array>
+			<dict>
+				<key>description</key>
+				<string>A simple demonstration of the linechart</string>
+				<key>id</key>
+				<string>vc1</string>
+				<key>name</key>
+				<string>main</string>
+				<key>type</key>
+				<string>Line Chart</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>vc12</string>
+				<key>name</key>
+				<string>LineChart2ViewController</string>
+				<key>type</key>
+				<string>Line Chart 2 (Dual YAxis)</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>vc8</string>
+				<key>name</key>
+				<string>CubicLineChartViewController</string>
+				<key>type</key>
+				<string>Cubic Line Chart</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>vc10</string>
+				<key>name</key>
+				<string>LineChartFilledViewController</string>
+				<key>type</key>
+				<string>Filled Line Chart</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>vc18</string>
+				<key>name</key>
+				<string>LineChartTimeViewController</string>
+				<key>type</key>
+				<string>Time Line Chart</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>vc20</string>
+				<key>name</key>
+				<string>ColoredLineChartViewController</string>
+				<key>type</key>
+				<string>Colored Line Chart View</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Radar</string>
+		<key>isSourceGroup</key>
+		<true/>
+		<key>items</key>
+		<array>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>vc2</string>
+				<key>name</key>
+				<string>RadarChartViewController</string>
+				<key>type</key>
+				<string>Radar Chart</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Pie</string>
+		<key>isSourceGroup</key>
+		<true/>
+		<key>items</key>
+		<array>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>vc3</string>
+				<key>name</key>
+				<string>PieChartViewController</string>
+				<key>type</key>
+				<string>Pie Chart</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>vc13</string>
+				<key>name</key>
+				<string>HalfPieChartViewController</string>
+				<key>type</key>
+				<string>Half Pie Chart</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>vc16</string>
+				<key>name</key>
+				<string>PiePolylineChartViewController</string>
+				<key>type</key>
+				<string>Pie Chart with polyline</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Scatter</string>
+		<key>isSourceGroup</key>
+		<true/>
+		<key>items</key>
+		<array>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>vc5</string>
+				<key>name</key>
+				<string>ScatterChartViewController</string>
+				<key>type</key>
+				<string>Scatter Chart</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Combined Chart</string>
+		<key>isSourceGroup</key>
+		<true/>
+		<key>items</key>
+		<array>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>vc7</string>
+				<key>name</key>
+				<string>CombinedChartViewController</string>
+				<key>type</key>
+				<string>Combined Chart</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Bar</string>
+		<key>isSourceGroup</key>
+		<true/>
+		<key>items</key>
+		<array>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>vc4</string>
+				<key>name</key>
+				<string>BarChartViewController</string>
+				<key>type</key>
+				<string>Bar Chart</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>vc11</string>
+				<key>name</key>
+				<string>SinusBarChartViewController</string>
+				<key>type</key>
+				<string>Sinus Bar Chart</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>vc9</string>
+				<key>name</key>
+				<string>StackedBarChartViewController</string>
+				<key>type</key>
+				<string>Stacked Bar Chart</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>vc14</string>
+				<key>name</key>
+				<string>HorizontalBarChartViewController</string>
+				<key>type</key>
+				<string>Horizontal Bar Chart</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>vc15</string>
+				<key>name</key>
+				<string>PositiveNegativeBarChartViewController</string>
+				<key>type</key>
+				<string>Positive Negative Bar Chart</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>vc17</string>
+				<key>name</key>
+				<string>NegativeStackedBarChartViewController</string>
+				<key>type</key>
+				<string>Negative Stacked Bar Chart</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>vc22</string>
+				<key>name</key>
+				<string>BarChartViewControllerColumnWithDrilldown</string>
+				<key>type</key>
+				<string>Bar Chart with Drilldown</string>
+			</dict>
+			<dict>
+				<key>description</key>
+				<string></string>
+				<key>id</key>
+				<string>vc30</string>
+				<key>name</key>
+				<string>MultipleBarChartViewController</string>
+				<key>type</key>
+				<string>Multiple Bar Chart</string>
+			</dict>
+		</array>
+	</dict>
+</array>
+</plist>

@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E192b" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -11,11 +12,11 @@
                 <application id="hnw-xV-0zn" sceneMemberID="viewController">
                     <menu key="mainMenu" title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
                         <items>
-                            <menuItem title="ChartsDemo-OSX" id="1Xt-HY-uBw">
+                            <menuItem title="graphCompta" id="1Xt-HY-uBw">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="ChartsDemo-OSX" systemMenu="apple" id="uQy-DD-JDr">
+                                <menu key="submenu" title="graphCompta" systemMenu="apple" id="uQy-DD-JDr">
                                     <items>
-                                        <menuItem title="About ChartsDemo-OSX" id="5kV-Vb-QxS">
+                                        <menuItem title="About graphCompta" id="5kV-Vb-QxS">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="Exp-CZ-Vem"/>
@@ -29,7 +30,7 @@
                                             <menu key="submenu" title="Services" systemMenu="services" id="hz9-B4-Xy5"/>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="4je-JR-u6R"/>
-                                        <menuItem title="Hide ChartsDemo-OSX" keyEquivalent="h" id="Olw-nP-bQN">
+                                        <menuItem title="Hide graphCompta" keyEquivalent="h" id="Olw-nP-bQN">
                                             <connections>
                                                 <action selector="hide:" target="Ady-hI-5gd" id="PnN-Uc-m68"/>
                                             </connections>
@@ -47,7 +48,7 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
-                                        <menuItem title="Quit ChartsDemo-OSX" keyEquivalent="q" id="4sb-4s-VLi">
+                                        <menuItem title="Quit graphCompta" keyEquivalent="q" id="4sb-4s-VLi">
                                             <connections>
                                                 <action selector="terminate:" target="Ady-hI-5gd" id="Te7-pn-YzF"/>
                                             </connections>
@@ -98,8 +99,7 @@
                                                 <action selector="saveDocumentAs:" target="Ady-hI-5gd" id="mDf-zr-I0C"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Revert to Saved" id="KaW-ft-85H">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        <menuItem title="Revert to Saved" keyEquivalent="r" id="KaW-ft-85H">
                                             <connections>
                                                 <action selector="revertDocumentToSaved:" target="Ady-hI-5gd" id="iJ3-Pv-kwq"/>
                                             </connections>
@@ -596,6 +596,19 @@
                                                 <action selector="runToolbarCustomizationPalette:" target="Ady-hI-5gd" id="pQI-g3-MTW"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="hB3-LF-h0Y"/>
+                                        <menuItem title="Show Sidebar" keyEquivalent="s" id="kIP-vf-haE">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="toggleSourceList:" target="Ady-hI-5gd" id="iwa-gc-5KM"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Enter Full Screen" keyEquivalent="f" id="4J7-dP-txa">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="toggleFullScreen:" target="Ady-hI-5gd" id="dU3-MA-1Rq"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -628,7 +641,7 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
                                     <items>
-                                        <menuItem title="ChartsDemo-OSX Help" keyEquivalent="?" id="FKE-Sm-Kum">
+                                        <menuItem title="graphCompta Help" keyEquivalent="?" id="FKE-Sm-Kum">
                                             <connections>
                                                 <action selector="showHelp:" target="Ady-hI-5gd" id="y7X-2Q-9no"/>
                                             </connections>
@@ -645,172 +658,247 @@
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="ChartsDemo_OSX" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="0.0"/>
+            <point key="canvasLocation" x="42" y="-152"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" title="Line Chart" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                     </window>
                     <connections>
-                        <segue destination="MdU-M1-yR2" kind="relationship" relationship="window.shadowedContentViewController" id="HCe-s7-mZF"/>
+                        <segue destination="C4g-TN-M0C" kind="relationship" relationship="window.shadowedContentViewController" id="vbC-Za-Ych"/>
                     </connections>
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="250"/>
         </scene>
-        <!--Tab View Controller-->
-        <scene sceneID="D8r-LN-ETo">
+        <!--Split View Controller-->
+        <scene sceneID="vs2-Zc-xM9">
             <objects>
-                <tabViewController selectedTabViewItemIndex="3" id="MdU-M1-yR2" sceneMemberID="viewController">
-                    <tabViewItems>
-                        <tabViewItem label="Bar" identifier="" id="75m-u6-Lg4"/>
-                        <tabViewItem identifier="" id="Yby-Hr-Gbs"/>
-                        <tabViewItem id="1nR-kL-Mxb"/>
-                        <tabViewItem id="WOB-FI-izp"/>
-                    </tabViewItems>
-                    <tabView key="tabView" type="noTabsNoBorder" id="4aI-t7-jgI">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                <splitViewController id="C4g-TN-M0C" sceneMemberID="viewController">
+                    <splitViewItems>
+                        <splitViewItem id="87X-e0-aaN"/>
+                        <splitViewItem id="GJ3-a0-5Mu"/>
+                    </splitViewItems>
+                    <splitView key="splitView" dividerStyle="thin" vertical="YES" id="MLa-hu-DOM">
+                        <rect key="frame" x="0.0" y="0.0" width="530" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <font key="font" metaFont="message"/>
-                        <tabViewItems/>
-                    </tabView>
+                    </splitView>
                     <connections>
-                        <segue destination="4fu-uG-om0" kind="relationship" relationship="tabItems" id="LFV-tq-WGj"/>
-                        <segue destination="vkP-1b-D8k" kind="relationship" relationship="tabItems" id="gGD-RY-5OB"/>
-                        <segue destination="CQR-9h-gXY" kind="relationship" relationship="tabItems" id="rqo-tR-9a7"/>
-                        <segue destination="KI5-K5-PrY" kind="relationship" relationship="tabItems" id="pWA-3O-1hN"/>
+                        <segue destination="GEb-Ph-SLZ" kind="relationship" relationship="splitItems" id="aXn-Ot-taF"/>
+                        <segue destination="ZPZ-u4-oQ7" kind="relationship" relationship="splitItems" id="HXY-58-rmp"/>
                     </connections>
-                </tabViewController>
-                <customObject id="VRA-wT-PQh" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                </splitViewController>
+                <customObject id="nwb-av-1RJ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="726" y="432"/>
+            <point key="canvasLocation" x="75" y="652"/>
         </scene>
-        <!--Bar Demo View Controller-->
-        <scene sceneID="A6I-3s-knM">
+        <!--Left View Controller-->
+        <scene sceneID="WjI-Nl-59l">
             <objects>
-                <viewController title="Bar Demo View Controller" id="4fu-uG-om0" customClass="BarDemoViewController" customModule="ChartsDemo_OSX" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="U2J-4p-9ti">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                <viewController id="GEb-Ph-SLZ" customClass="BPLeftViewController" customModule="ChartsDemo_OSX" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="WRI-P1-uGv">
+                        <rect key="frame" x="0.0" y="0.0" width="244" height="800"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="ElM-1T-Mza" customClass="BarChartView" customModule="Charts">
-                                <rect key="frame" x="5" y="31" width="440" height="264"/>
+                            <scrollView autohidesScrollers="YES" horizontalLineScroll="26" horizontalPageScroll="10" verticalLineScroll="26" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tx6-lj-2jU">
+                                <rect key="frame" x="0.0" y="0.0" width="244" height="800"/>
+                                <clipView key="contentView" drawsBackground="NO" id="aAI-rt-Syq">
+                                    <rect key="frame" x="1" y="1" width="242" height="798"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="medium" viewBased="YES" indentationPerLevel="16" outlineTableColumn="UAj-1E-GbK" id="Dl5-ng-mb1">
+                                            <rect key="frame" x="0.0" y="0.0" width="242" height="798"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <size key="intercellSpacing" width="3" height="2"/>
+                                            <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                            <tableColumns>
+                                                <tableColumn width="239" minWidth="16" maxWidth="1000" id="UAj-1E-GbK">
+                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
+                                                        <font key="font" metaFont="smallSystem"/>
+                                                        <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                    </tableHeaderCell>
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="x9J-bM-wU6">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                    <prototypeCellViews>
+                                                        <tableCellView identifier="FeedCell" id="sif-y3-4fi">
+                                                            <rect key="frame" x="1" y="1" width="239" height="17"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hob-zz-5Ne">
+                                                                    <rect key="frame" x="0.0" y="1" width="239" height="14"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="HEADER CELL" id="7Kr-Hp-zvb">
+                                                                        <font key="font" metaFont="smallSystemBold"/>
+                                                                        <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstAttribute="trailing" secondItem="Hob-zz-5Ne" secondAttribute="trailing" constant="2" id="5ht-gJ-7w3"/>
+                                                                <constraint firstItem="Hob-zz-5Ne" firstAttribute="leading" secondItem="sif-y3-4fi" secondAttribute="leading" constant="2" id="DsC-hZ-9j2"/>
+                                                                <constraint firstItem="Hob-zz-5Ne" firstAttribute="centerY" secondItem="sif-y3-4fi" secondAttribute="centerY" id="V3m-ky-rpl"/>
+                                                            </constraints>
+                                                            <connections>
+                                                                <outlet property="textField" destination="Hob-zz-5Ne" id="9W9-uK-FD3"/>
+                                                            </connections>
+                                                        </tableCellView>
+                                                        <tableCellView identifier="FeedItemCell" id="daa-Gj-Vdx">
+                                                            <rect key="frame" x="1" y="20" width="239" height="22"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fnx-XT-cQs">
+                                                                    <rect key="frame" x="16" y="3" width="213" height="17"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="left" title="Table View Cell" id="1yI-1W-QsT">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstAttribute="bottom" secondItem="fnx-XT-cQs" secondAttribute="bottom" constant="3" id="14J-sR-bTJ"/>
+                                                                <constraint firstAttribute="trailing" secondItem="fnx-XT-cQs" secondAttribute="trailing" constant="12" id="Hl6-mi-5fE"/>
+                                                                <constraint firstItem="fnx-XT-cQs" firstAttribute="leading" secondItem="daa-Gj-Vdx" secondAttribute="leading" constant="18" id="ThD-kq-Fg9"/>
+                                                            </constraints>
+                                                            <connections>
+                                                                <outlet property="textField" destination="fnx-XT-cQs" id="yEz-77-1X0"/>
+                                                            </connections>
+                                                        </tableCellView>
+                                                    </prototypeCellViews>
+                                                </tableColumn>
+                                            </tableColumns>
+                                            <connections>
+                                                <outlet property="dataSource" destination="GEb-Ph-SLZ" id="cEa-Hr-my1"/>
+                                                <outlet property="delegate" destination="GEb-Ph-SLZ" id="T3X-rD-VqC"/>
+                                            </connections>
+                                        </outlineView>
+                                    </subviews>
+                                    <nil key="backgroundColor"/>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="U3Y-r3-moj">
+                                    <rect key="frame" x="1" y="119" width="238" height="15"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="dHt-ef-TZL">
+                                    <rect key="frame" x="224" y="17" width="15" height="102"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Tx6-lj-2jU" secondAttribute="trailing" id="1uy-zF-g86"/>
+                            <constraint firstItem="Tx6-lj-2jU" firstAttribute="leading" secondItem="WRI-P1-uGv" secondAttribute="leading" id="4I4-GQ-xyU"/>
+                            <constraint firstItem="Tx6-lj-2jU" firstAttribute="top" secondItem="WRI-P1-uGv" secondAttribute="top" id="Fe1-Be-YYL"/>
+                            <constraint firstAttribute="bottom" secondItem="Tx6-lj-2jU" secondAttribute="bottom" id="Saw-HJ-Wx0"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="outlineView" destination="Dl5-ng-mb1" id="exe-ae-V6o"/>
+                    </connections>
+                </viewController>
+                <customObject id="NgB-Sn-PSh" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-356" y="1376"/>
+        </scene>
+        <!--Line Chart1 View Controller-->
+        <scene sceneID="aqK-WP-Ajl">
+            <objects>
+                <viewController storyboardIdentifier="vc1" id="ZPZ-u4-oQ7" customClass="LineChart1ViewController" customModule="ChartsDemo_OSX" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="NBt-cB-wOx">
+                        <rect key="frame" x="0.0" y="0.0" width="1200" height="800"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="sgu-Ok-kcX" customClass="LineChartView" customModule="Charts">
+                                <rect key="frame" x="20" y="67" width="1160" height="713"/>
                             </customView>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zeP-Mj-hKG">
-                                <rect key="frame" x="-1" y="-2" width="118" height="32"/>
-                                <buttonCell key="cell" type="push" title="Save as PNG" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4id-uC-82a">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
+                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DOm-3B-Hxo">
+                                <rect key="frame" x="18" y="35" width="358" height="19"/>
+                                <sliderCell key="cell" state="on" alignment="left" maxValue="500" doubleValue="20" tickMarkPosition="above" sliderType="linear" id="y1T-w9-gJe"/>
                                 <connections>
-                                    <action selector="save:" target="4fu-uG-om0" id="JFi-f7-B43"/>
+                                    <action selector="slidersValueChanged:" target="ZPZ-u4-oQ7" id="B0s-0y-RbC"/>
                                 </connections>
-                            </button>
+                            </slider>
+                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4mw-TZ-45Y">
+                                <rect key="frame" x="18" y="6" width="358" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="354" id="ylg-9V-FfM"/>
+                                </constraints>
+                                <sliderCell key="cell" state="on" alignment="left" maxValue="200" doubleValue="30" tickMarkPosition="above" sliderType="linear" id="Jjz-Bc-Iyi"/>
+                                <connections>
+                                    <action selector="slidersValueChanged:" target="ZPZ-u4-oQ7" id="NtL-CK-OuG"/>
+                                </connections>
+                            </slider>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g0Q-YL-bB6">
+                                <rect key="frame" x="407" y="34" width="37" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="Tu9-Ia-Qle">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ztL-og-xaP">
+                                <rect key="frame" x="409" y="7" width="37" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="yRM-gP-bCi">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="ElM-1T-Mza" firstAttribute="leading" secondItem="U2J-4p-9ti" secondAttribute="leading" constant="5" id="KwD-j8-5I4"/>
-                            <constraint firstItem="zeP-Mj-hKG" firstAttribute="top" secondItem="ElM-1T-Mza" secondAttribute="bottom" constant="5" id="LX8-qy-0Z5"/>
-                            <constraint firstAttribute="trailing" secondItem="ElM-1T-Mza" secondAttribute="trailing" constant="5" id="Z91-lG-orc"/>
-                            <constraint firstItem="zeP-Mj-hKG" firstAttribute="leading" secondItem="U2J-4p-9ti" secondAttribute="leading" constant="5" id="hww-5P-BKM"/>
-                            <constraint firstItem="ElM-1T-Mza" firstAttribute="top" secondItem="U2J-4p-9ti" secondAttribute="top" constant="5" id="sRD-ZS-Eoa"/>
-                            <constraint firstAttribute="bottom" secondItem="zeP-Mj-hKG" secondAttribute="bottom" constant="5" id="x9Q-cI-FVn"/>
+                            <constraint firstItem="g0Q-YL-bB6" firstAttribute="leading" secondItem="DOm-3B-Hxo" secondAttribute="trailing" constant="35" id="ElU-Yr-Bmj"/>
+                            <constraint firstItem="sgu-Ok-kcX" firstAttribute="leading" secondItem="NBt-cB-wOx" secondAttribute="leading" constant="20" symbolic="YES" id="HYK-xB-Yd2"/>
+                            <constraint firstItem="4mw-TZ-45Y" firstAttribute="trailing" secondItem="DOm-3B-Hxo" secondAttribute="trailing" id="JFw-g3-tg1"/>
+                            <constraint firstItem="sgu-Ok-kcX" firstAttribute="leading" secondItem="4mw-TZ-45Y" secondAttribute="leading" id="Jvu-WC-r1f"/>
+                            <constraint firstAttribute="bottom" secondItem="ztL-og-xaP" secondAttribute="bottom" constant="7" id="U0R-Z0-ZVx"/>
+                            <constraint firstAttribute="bottom" secondItem="sgu-Ok-kcX" secondAttribute="bottom" constant="67" id="jXt-0L-WE9"/>
+                            <constraint firstItem="4mw-TZ-45Y" firstAttribute="centerY" secondItem="ztL-og-xaP" secondAttribute="centerY" id="lvC-vg-OM7"/>
+                            <constraint firstItem="ztL-og-xaP" firstAttribute="leading" secondItem="4mw-TZ-45Y" secondAttribute="trailing" constant="37" id="nek-5F-ehZ"/>
+                            <constraint firstItem="DOm-3B-Hxo" firstAttribute="top" secondItem="sgu-Ok-kcX" secondAttribute="bottom" constant="15" id="otN-b7-32b"/>
+                            <constraint firstItem="sgu-Ok-kcX" firstAttribute="top" secondItem="NBt-cB-wOx" secondAttribute="top" constant="20" symbolic="YES" id="pne-Fw-uhr"/>
+                            <constraint firstItem="sgu-Ok-kcX" firstAttribute="leading" secondItem="DOm-3B-Hxo" secondAttribute="leading" id="vD7-in-nFr"/>
+                            <constraint firstItem="ztL-og-xaP" firstAttribute="top" secondItem="g0Q-YL-bB6" secondAttribute="bottom" constant="10" id="woj-Ej-AFL"/>
+                            <constraint firstAttribute="trailing" secondItem="sgu-Ok-kcX" secondAttribute="trailing" constant="20" symbolic="YES" id="zBi-TE-BFx"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="barChartView" destination="ElM-1T-Mza" id="cPE-0H-sHY"/>
+                        <outlet property="chartView" destination="sgu-Ok-kcX" id="vwy-sw-Gb1"/>
+                        <outlet property="mainMenu" destination="rVf-9c-Dbz" id="9FW-x8-cvB"/>
+                        <outlet property="sliderTextX" destination="g0Q-YL-bB6" id="0TH-jN-mwb"/>
+                        <outlet property="sliderTextY" destination="ztL-og-xaP" id="BhX-pJ-fDn"/>
+                        <outlet property="sliderX" destination="DOm-3B-Hxo" id="RAP-se-Upc"/>
+                        <outlet property="sliderY" destination="4mw-TZ-45Y" id="wfU-RY-uE8"/>
                     </connections>
                 </viewController>
-                <customObject id="DVo-MQ-urk" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <customObject id="Puf-QQ-9sJ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <menu id="rVf-9c-Dbz">
+                    <items>
+                        <menuItem title="Item 1" id="ZdI-4C-b5K">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="Item 2" id="SQ0-Ag-g78">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="Item 3" id="svy-1V-JyK">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                    </items>
+                </menu>
             </objects>
-            <point key="canvasLocation" x="1321" y="328"/>
-        </scene>
-        <!--Line-->
-        <scene sceneID="IGh-XR-taX">
-            <objects>
-                <viewController title="Line" id="vkP-1b-D8k" customClass="LineDemoViewController" customModule="ChartsDemo_OSX" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="bwI-de-txf">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="UZ4-Tp-UjR" customClass="LineChartView" customModule="Charts">
-                                <rect key="frame" x="5" y="5" width="440" height="290"/>
-                            </customView>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="UZ4-Tp-UjR" firstAttribute="leading" secondItem="bwI-de-txf" secondAttribute="leading" constant="5" id="1VX-dH-Bv5"/>
-                            <constraint firstItem="UZ4-Tp-UjR" firstAttribute="top" secondItem="bwI-de-txf" secondAttribute="top" constant="5" id="7K4-G5-Yzx"/>
-                            <constraint firstAttribute="bottom" secondItem="UZ4-Tp-UjR" secondAttribute="bottom" constant="5" id="DIe-5j-9Zl"/>
-                            <constraint firstAttribute="trailing" secondItem="UZ4-Tp-UjR" secondAttribute="trailing" constant="5" id="ERZ-9q-ctd"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="lineChartView" destination="UZ4-Tp-UjR" id="Q0o-Eh-qLo"/>
-                    </connections>
-                </viewController>
-                <customObject id="wYh-tX-8oy" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1321" y="689"/>
-        </scene>
-        <!--Radar-->
-        <scene sceneID="jjT-Es-ofe">
-            <objects>
-                <viewController title="Radar" id="CQR-9h-gXY" customClass="RadarDemoViewController" customModule="ChartsDemo_OSX" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="fep-JV-rhs">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="2xv-mz-JjT" customClass="RadarChartView" customModule="Charts">
-                                <rect key="frame" x="5" y="5" width="440" height="290"/>
-                            </customView>
-                        </subviews>
-                        <constraints>
-                            <constraint firstAttribute="bottom" secondItem="2xv-mz-JjT" secondAttribute="bottom" constant="5" id="Fg2-2H-qXW"/>
-                            <constraint firstAttribute="trailing" secondItem="2xv-mz-JjT" secondAttribute="trailing" constant="5" id="QMy-3f-Jf7"/>
-                            <constraint firstItem="2xv-mz-JjT" firstAttribute="leading" secondItem="fep-JV-rhs" secondAttribute="leading" constant="5" id="ZBq-zW-lNc"/>
-                            <constraint firstItem="2xv-mz-JjT" firstAttribute="top" secondItem="fep-JV-rhs" secondAttribute="top" constant="5" id="xHE-MZ-dCA"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="radarChartView" destination="2xv-mz-JjT" id="3Ca-Mv-lyt"/>
-                    </connections>
-                </viewController>
-                <customObject id="cEj-Lv-uAd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="571" y="1068"/>
-        </scene>
-        <!--Pie-->
-        <scene sceneID="zCq-mS-JMX">
-            <objects>
-                <viewController title="Pie" id="KI5-K5-PrY" customClass="PieDemoViewController" customModule="ChartsDemo_OSX" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="6Bd-GB-Gqp">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="HL0-pV-46O" customClass="PieChartView" customModule="Charts">
-                                <rect key="frame" x="5" y="5" width="440" height="290"/>
-                            </customView>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="HL0-pV-46O" firstAttribute="leading" secondItem="6Bd-GB-Gqp" secondAttribute="leading" constant="5" id="J55-R7-HNI"/>
-                            <constraint firstAttribute="trailing" secondItem="HL0-pV-46O" secondAttribute="trailing" constant="5" id="Rx6-YK-Xab"/>
-                            <constraint firstAttribute="bottom" secondItem="HL0-pV-46O" secondAttribute="bottom" constant="5" id="UWL-eH-ChQ"/>
-                            <constraint firstItem="HL0-pV-46O" firstAttribute="top" secondItem="6Bd-GB-Gqp" secondAttribute="top" constant="5" id="hnS-ZF-nqQ"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="pieChartView" destination="HL0-pV-46O" id="LGF-Kx-F4z"/>
-                    </connections>
-                </viewController>
-                <customObject id="nwz-zo-FQ4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1060" y="1088"/>
+            <point key="canvasLocation" x="410" y="1376"/>
         </scene>
     </scenes>
 </document>
