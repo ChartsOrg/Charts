@@ -855,7 +855,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     public enum ImageFormat
     {
-        case jpeg
+        /// - parameter quality: compression quality for lossless formats (JPEG)
+        case jpeg(quality: Double)
         case png
     }
     
@@ -866,24 +867,20 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     ///
     /// - parameter to: path to the image to save
     /// - parameter format: the format to save
-    /// - parameter compressionQuality: compression quality for lossless formats (JPEG)
     ///
     /// - returns: `true` if the image was saved successfully
-    open func save(to path: String, format: ImageFormat, compressionQuality: Double) -> Bool
+    open func save(to path: String, format: ImageFormat) -> Bool
     {
-		guard let image = getChartImage(transparent: format != .jpeg)
-            else { return false }
-        
         var imageData: Data!
         switch (format)
         {
         case .png:
+            guard let image = getChartImage(transparent: true) else { return false }
             imageData = NSUIImagePNGRepresentation(image)
-            break
             
-        case .jpeg:
+        case .jpeg(let compressionQuality):
+            guard let image = getChartImage(transparent: false) else { return false }
             imageData = NSUIImageJPEGRepresentation(image, CGFloat(compressionQuality))
-            break
         }
         
         do
@@ -895,7 +892,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             return false
         }
         
-		return true
+        return true
     }
     
     internal var _viewportJobs = [ViewPortJob]()
