@@ -41,6 +41,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     /// flag indicating if the grid background should be drawn or not
     open var drawGridBackgroundEnabled = false
+
+    /// flag indicating if the grid shoud be drawn or not
+    open var drawGridEnabled = true
     
     /// When enabled, the borders rectangle will be rendered.
     /// If this is enabled, there is no point drawing the axis-lines of x- and y-axis.
@@ -200,9 +203,12 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         _rightYAxisRenderer?.renderAxisLine(context: context)
 
         // The renderers are responsible for clipping, to account for line-width center etc.
-        _xAxisRenderer?.renderGridLines(context: context)
-        _leftYAxisRenderer?.renderGridLines(context: context)
-        _rightYAxisRenderer?.renderGridLines(context: context)
+        if drawGridEnabled
+        {
+            _xAxisRenderer?.renderGridLines(context: context)
+            _leftYAxisRenderer?.renderGridLines(context: context)
+            _rightYAxisRenderer?.renderGridLines(context: context)
+        }
         
         if _xAxis.isEnabled && _xAxis.isDrawLimitLinesBehindDataEnabled
         {
