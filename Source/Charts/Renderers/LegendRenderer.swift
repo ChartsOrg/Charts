@@ -44,7 +44,7 @@ open class LegendRenderer: Renderer
             // loop for building up the colors and labels used in the legend
             for i in 0..<data.dataSetCount
             {
-                let dataSet = data.getDataSetByIndex(i)!
+                guard let dataSet = data.getDataSetByIndex(i) else { continue }
                 
                 var clrs: [NSUIColor] = dataSet.colors
                 let entryCount = dataSet.entryCount
