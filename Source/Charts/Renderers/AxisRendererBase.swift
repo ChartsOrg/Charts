@@ -100,6 +100,12 @@ open class AxisRendererBase: Renderer
         let yMin = min
         let yMax = max
         
+        
+        if axis.isLogarithmicEnabled == true
+        {
+            logAxisRange(min: pow(10,min), max : pow(10, max))
+        }
+        
         let labelCount = axis.labelCount
         let range = abs(yMax - yMin)
         
@@ -216,4 +222,48 @@ open class AxisRendererBase: Renderer
             }
         }
     }
+    
+    open func order(input: Double) -> (Int)
+    {
+        guard input != 0 else { return 0}
+        var order = 0
+        var temp = abs(input)
+        if temp < 10 {
+            while temp < 10
+            {
+                temp = temp * 10
+                order = order - 1
+            }
+        } else if temp > 1 {
+            while temp > 1 {
+                temp = temp / 10
+                order = order + 1
+            }
+        }
+        return order
+    }
+    
+    open func logAxisRange(min: Double, max : Double)
+    {
+        guard let axis = self.axis else { return }
+        
+        // create arrays to hold the positive of the input data
+        var logScaleAxis: [Double] = []
+        var logScaleLabels: [Bool] = []
+        
+        let min = min
+        let max = max
+        
+        // multiplying the step array with a multiple of 10 to get the drawn steps (gridlines and values) from the minimum to the maximum
+        let mini = order(input: min) - 1
+        let maxi = order(input: max + 1)
+        for i in mini ... maxi
+        {
+            logScaleAxis = logScaleAxis + axis.maskAxis.map{$0 * pow(10 ,Double(i))}
+            logScaleLabels = logScaleLabels + axis.maskLabels
+        }
+        axis.logAxis = logScaleAxis
+        axis.logLabels = logScaleLabels
+    }
+
 }
