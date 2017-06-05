@@ -50,30 +50,46 @@ open class HorizontalBarChartView: BarChartView
         if _leftAxis.needsOffset
         {
             offsetTop += _leftAxis.getRequiredHeightSpace()
+            if leftAxis.nameAxisEnabled
+            {
+                let nameLeftAxisSize = leftAxis.nameAxis.size(attributes: [NSFontAttributeName: leftAxis.nameAxisFont])
+                offsetTop += nameLeftAxisSize.height
+            }
         }
         
         if _rightAxis.needsOffset
         {
             offsetBottom += _rightAxis.getRequiredHeightSpace()
+            if rightAxis.nameAxisEnabled
+            {
+                let nameRightAxisSize = rightAxis.nameAxis.size(attributes: [NSFontAttributeName: rightAxis.nameAxisFont])
+                offsetBottom += nameRightAxisSize.height
+            }
         }
         
         let xlabelwidth = _xAxis.labelRotatedWidth
         
         if _xAxis.isEnabled
         {
+            var namexAxisSize = CGSize()
+            if xAxis.nameAxisEnabled
+            {
+                namexAxisSize = xAxis.nameAxis.size(attributes: [NSFontAttributeName: xAxis.nameAxisFont])
+            }
+            
             // offsets for x-labels
             if _xAxis.labelPosition == .bottom
             {
-                offsetLeft += xlabelwidth
+                offsetLeft += xlabelwidth + namexAxisSize.height
             }
             else if _xAxis.labelPosition == .top
             {
-                offsetRight += xlabelwidth
+                offsetRight += xlabelwidth + namexAxisSize.height
             }
             else if _xAxis.labelPosition == .bothSided
             {
-                offsetLeft += xlabelwidth
-                offsetRight += xlabelwidth
+                offsetLeft += xlabelwidth + namexAxisSize.height
+                offsetRight += xlabelwidth + namexAxisSize.height
             }
         }
         

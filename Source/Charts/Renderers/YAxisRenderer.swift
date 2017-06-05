@@ -53,13 +53,14 @@ open class YAxisRenderer: AxisRendererBase
             {
                 textAlign = .right
                 xPos = viewPortHandler.offsetLeft - xoffset
+                
+                drawNameYAxis( context: context, nameRect: yAxis.nameRectLeft)
             }
             else
             {
                 textAlign = .left
                 xPos = viewPortHandler.offsetLeft + xoffset
             }
-            
         }
         else
         {
@@ -67,6 +68,8 @@ open class YAxisRenderer: AxisRendererBase
             {
                 textAlign = .left
                 xPos = viewPortHandler.contentRight + xoffset
+                
+                drawNameYAxis( context: context, nameRect: yAxis.nameRectRight)
             }
             else
             {
@@ -82,6 +85,46 @@ open class YAxisRenderer: AxisRendererBase
             offset: yoffset - yAxis.labelFont.lineHeight,
             textAlign: textAlign)
     }
+    
+    /// draws the name Yaxis
+    internal func drawNameYAxis( context: CGContext, nameRect: CGRect)
+    {
+        guard
+            let yAxis = self.axis as? YAxis
+            else { return }
+        
+        if yAxis.nameAxisEnabled == false
+        {
+            return
+        }
+        
+        let midY = nameRect.midY
+        let xNamePos = nameRect.maxX
+        let text = yAxis.nameAxis
+        
+        #if os(OSX)
+            let paraStyle = NSParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+        #else
+            let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        #endif
+        
+        paraStyle.alignment = .center
+        
+        let labelAttrs = [NSFontAttributeName: yAxis.nameAxisFont,
+                          NSForegroundColorAttributeName: yAxis.nameAxisTextColor,
+                          NSParagraphStyleAttributeName: paraStyle] as [String : NSObject]
+        
+        let labelRotationAngleRadians = -90.0 * ChartUtils.Math.FDEG2RAD
+        
+        ChartUtils.drawText(
+            context: context,
+            text: text,
+            point: CGPoint(x: xNamePos, y: midY),
+            attributes: labelAttrs,
+            anchor: CGPoint(x: 1.0, y: 0.5),
+            angleRadians: labelRotationAngleRadians)
+    }
+    
     
     open override func renderAxisLine(context: CGContext)
     {
@@ -125,6 +168,7 @@ open class YAxisRenderer: AxisRendererBase
         
         context.restoreGState()
     }
+    
     
     /// draws the y-labels on the specified x-position
     internal func drawYLabels(
@@ -197,7 +241,7 @@ open class YAxisRenderer: AxisRendererBase
                 drawGridLine(context: context, position: positions[i])
             }
         }
-
+        
         if yAxis.drawZeroLineEnabled
         {
             // draw zero line
@@ -244,12 +288,12 @@ open class YAxisRenderer: AxisRendererBase
         {
             positions.append(CGPoint(x: 0.0, y: entries[i]))
         }
-
+        
         transformer.pointValuesToPixel(&positions)
         
         return positions
     }
-
+    
     /// Draws the zero line at the specified position.
     open func drawZeroLine(context: CGContext)
     {
@@ -267,12 +311,12 @@ open class YAxisRenderer: AxisRendererBase
         clippingRect.origin.y -= yAxis.zeroLineWidth / 2.0
         clippingRect.size.height += yAxis.zeroLineWidth
         context.clip(to: clippingRect)
-
+        
         context.setStrokeColor(zeroLineColor.cgColor)
         context.setLineWidth(yAxis.zeroLineWidth)
         
         let pos = transformer.pixelForValues(x: 0.0, y: 0.0)
-    
+        
         if yAxis.zeroLineDashLengths != nil
         {
             context.setLineDash(phase: yAxis.zeroLineDashPhase, lengths: yAxis.zeroLineDashLengths!)
@@ -359,42 +403,42 @@ open class YAxisRenderer: AxisRendererBase
                 if l.labelPosition == .rightTop
                 {
                     ChartUtils.drawText(context: context,
-                        text: label,
-                        point: CGPoint(
-                            x: viewPortHandler.contentRight - xOffset,
-                            y: position.y - yOffset),
-                        align: .right,
-                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
+                                        text: label,
+                                        point: CGPoint(
+                                            x: viewPortHandler.contentRight - xOffset,
+                                            y: position.y - yOffset),
+                                        align: .right,
+                                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
                 }
                 else if l.labelPosition == .rightBottom
                 {
                     ChartUtils.drawText(context: context,
-                        text: label,
-                        point: CGPoint(
-                            x: viewPortHandler.contentRight - xOffset,
-                            y: position.y + yOffset - labelLineHeight),
-                        align: .right,
-                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
+                                        text: label,
+                                        point: CGPoint(
+                                            x: viewPortHandler.contentRight - xOffset,
+                                            y: position.y + yOffset - labelLineHeight),
+                                        align: .right,
+                                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
                 }
                 else if l.labelPosition == .leftTop
                 {
                     ChartUtils.drawText(context: context,
-                        text: label,
-                        point: CGPoint(
-                            x: viewPortHandler.contentLeft + xOffset,
-                            y: position.y - yOffset),
-                        align: .left,
-                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
+                                        text: label,
+                                        point: CGPoint(
+                                            x: viewPortHandler.contentLeft + xOffset,
+                                            y: position.y - yOffset),
+                                        align: .left,
+                                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
                 }
                 else
                 {
                     ChartUtils.drawText(context: context,
-                        text: label,
-                        point: CGPoint(
-                            x: viewPortHandler.contentLeft + xOffset,
-                            y: position.y + yOffset - labelLineHeight),
-                        align: .left,
-                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
+                                        text: label,
+                                        point: CGPoint(
+                                            x: viewPortHandler.contentLeft + xOffset,
+                                            y: position.y + yOffset - labelLineHeight),
+                                        align: .left,
+                                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
                 }
             }
         }

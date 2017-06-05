@@ -101,7 +101,9 @@ open class XAxisRenderer: AxisRendererBase
         
         if xAxis.labelPosition == .top
         {
-            drawLabels(context: context, pos: viewPortHandler.contentTop - yOffset, anchor: CGPoint(x: 0.5, y: 1.0))
+            let pos  = viewPortHandler.contentTop - yOffset
+            drawLabels(context: context, pos: pos, anchor: CGPoint(x: 0.5, y: 1.0))
+            drawNameXAxis(context: context, nameRect: xAxis.nameRectTop)
         }
         else if xAxis.labelPosition == .topInside
         {
@@ -109,7 +111,9 @@ open class XAxisRenderer: AxisRendererBase
         }
         else if xAxis.labelPosition == .bottom
         {
-            drawLabels(context: context, pos: viewPortHandler.contentBottom + yOffset, anchor: CGPoint(x: 0.5, y: 0.0))
+            let pos  = viewPortHandler.contentBottom + yOffset
+            drawLabels(context: context, pos: pos, anchor: CGPoint(x: 0.5, y: 0.0))
+            drawNameXAxis(context: context, nameRect: xAxis.nameRectBottom)
         }
         else if xAxis.labelPosition == .bottomInside
         {
@@ -117,9 +121,42 @@ open class XAxisRenderer: AxisRendererBase
         }
         else
         { // BOTH SIDED
-            drawLabels(context: context, pos: viewPortHandler.contentTop - yOffset, anchor: CGPoint(x: 0.5, y: 1.0))
-            drawLabels(context: context, pos: viewPortHandler.contentBottom + yOffset, anchor: CGPoint(x: 0.5, y: 0.0))
+            // top
+            var pos  = viewPortHandler.contentTop - yOffset
+            drawLabels(context: context, pos: pos, anchor: CGPoint(x: 0.5, y: 1.0))
+            drawNameXAxis ( context: context, nameRect: xAxis.nameRectTop)
+            
+            // bottom
+            pos  = viewPortHandler.contentBottom + yOffset
+            drawLabels(context: context, pos: pos, anchor: CGPoint(x: 0.5, y: 0.0))
+            drawNameXAxis ( context: context, nameRect: xAxis.nameRectBottom)
         }
+    }
+    
+    /// draws the x-name
+    open func drawNameXAxis ( context: CGContext, nameRect: CGRect)
+    {
+        guard
+            let xAxis = self.axis as? XAxis
+            else { return }
+        
+        if xAxis.nameAxisEnabled == false
+        {
+            return
+        }
+
+        #if os(OSX)
+            let paraStyle = NSParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+        #else
+            let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        #endif
+        
+        paraStyle.alignment = .center
+        let labelAttrs = [NSFontAttributeName: xAxis.nameAxisFont,
+                          NSForegroundColorAttributeName: xAxis.nameAxisTextColor,
+                          NSParagraphStyleAttributeName: paraStyle] as [String : NSObject]
+        let text = xAxis.nameAxis
+        text.draw(in: nameRect, withAttributes: labelAttrs)
     }
     
     fileprivate var _axisLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
@@ -191,12 +228,12 @@ open class XAxisRenderer: AxisRendererBase
         paraStyle.alignment = .center
         
         let labelAttrs = [NSFontAttributeName: xAxis.labelFont,
-            NSForegroundColorAttributeName: xAxis.labelTextColor,
-            NSParagraphStyleAttributeName: paraStyle] as [String : NSObject]
+                          NSForegroundColorAttributeName: xAxis.labelTextColor,
+                          NSParagraphStyleAttributeName: paraStyle] as [String : NSObject]
         let labelRotationAngleRadians = xAxis.labelRotationAngle * ChartUtils.Math.FDEG2RAD
         
         let centeringEnabled = xAxis.isCenterAxisLabelsEnabled
-
+        
         let valueToPixelMatrix = transformer.valueToPixelMatrix
         
         var position = CGPoint(x: 0.0, y: 0.0)
@@ -227,7 +264,7 @@ open class XAxisRenderer: AxisRendererBase
             if viewPortHandler.isInBoundsX(position.x)
             {
                 let label = xAxis.valueFormatter?.stringForValue(xAxis.entries[i], axis: xAxis) ?? ""
-
+                
                 let labelns = label as NSString
                 
                 if xAxis.isAvoidFirstLastClippingEnabled
@@ -261,6 +298,8 @@ open class XAxisRenderer: AxisRendererBase
             }
         }
     }
+    
+    
     
     open func drawLabel(
         context: CGContext,
@@ -440,44 +479,44 @@ open class XAxisRenderer: AxisRendererBase
             if limitLine.labelPosition == .rightTop
             {
                 ChartUtils.drawText(context: context,
-                    text: label,
-                    point: CGPoint(
-                        x: position.x + xOffset,
-                        y: viewPortHandler.contentTop + yOffset),
-                    align: .left,
-                    attributes: [NSFontAttributeName: limitLine.valueFont, NSForegroundColorAttributeName: limitLine.valueTextColor])
+                                    text: label,
+                                    point: CGPoint(
+                                        x: position.x + xOffset,
+                                        y: viewPortHandler.contentTop + yOffset),
+                                    align: .left,
+                                    attributes: [NSFontAttributeName: limitLine.valueFont, NSForegroundColorAttributeName: limitLine.valueTextColor])
             }
             else if limitLine.labelPosition == .rightBottom
             {
                 ChartUtils.drawText(context: context,
-                    text: label,
-                    point: CGPoint(
-                        x: position.x + xOffset,
-                        y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
-                    align: .left,
-                    attributes: [NSFontAttributeName: limitLine.valueFont, NSForegroundColorAttributeName: limitLine.valueTextColor])
+                                    text: label,
+                                    point: CGPoint(
+                                        x: position.x + xOffset,
+                                        y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
+                                    align: .left,
+                                    attributes: [NSFontAttributeName: limitLine.valueFont, NSForegroundColorAttributeName: limitLine.valueTextColor])
             }
             else if limitLine.labelPosition == .leftTop
             {
                 ChartUtils.drawText(context: context,
-                    text: label,
-                    point: CGPoint(
-                        x: position.x - xOffset,
-                        y: viewPortHandler.contentTop + yOffset),
-                    align: .right,
-                    attributes: [NSFontAttributeName: limitLine.valueFont, NSForegroundColorAttributeName: limitLine.valueTextColor])
+                                    text: label,
+                                    point: CGPoint(
+                                        x: position.x - xOffset,
+                                        y: viewPortHandler.contentTop + yOffset),
+                                    align: .right,
+                                    attributes: [NSFontAttributeName: limitLine.valueFont, NSForegroundColorAttributeName: limitLine.valueTextColor])
             }
             else
             {
                 ChartUtils.drawText(context: context,
-                    text: label,
-                    point: CGPoint(
-                        x: position.x - xOffset,
-                        y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
-                    align: .right,
-                    attributes: [NSFontAttributeName: limitLine.valueFont, NSForegroundColorAttributeName: limitLine.valueTextColor])
+                                    text: label,
+                                    point: CGPoint(
+                                        x: position.x - xOffset,
+                                        y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
+                                    align: .right,
+                                    attributes: [NSFontAttributeName: limitLine.valueFont, NSForegroundColorAttributeName: limitLine.valueTextColor])
             }
         }
     }
-
+    
 }

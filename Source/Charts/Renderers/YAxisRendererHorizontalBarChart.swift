@@ -22,7 +22,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
     {
         super.init(viewPortHandler: viewPortHandler, yAxis: yAxis, transformer: transformer)
     }
-
+    
     /// Computes the axis values.
     open override func computeAxis(min: Double, max: Double, inverted: Bool)
     {
@@ -53,7 +53,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         
         computeAxisValues(min: min, max: max)
     }
-
+    
     /// draws the y-axis labels to the screen
     open override func renderAxisLabels(context: CGContext)
     {
@@ -80,6 +80,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             if labelPosition == .outsideChart
             {
                 yPos = viewPortHandler.contentTop - baseYOffset
+                drawNameYAxis( context: context, nameRect: yAxis.nameRectTop)
             }
             else
             {
@@ -91,6 +92,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             if labelPosition == .outsideChart
             {
                 yPos = viewPortHandler.contentBottom + lineHeight + baseYOffset
+                drawNameYAxis( context: context, nameRect: yAxis.nameRectBottom)
             }
             else
             {
@@ -107,6 +109,35 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             fixedPosition: yPos,
             positions: transformedPositions(),
             offset: yAxis.yOffset)
+    }
+    
+    /// draws the x-name
+    open override func drawNameYAxis (  context: CGContext, nameRect: CGRect)
+    {
+        guard
+            let yAxis = self.axis as? YAxis
+            else { return }
+        
+        if yAxis.nameAxisEnabled == false
+        {
+            return
+        }
+        
+        let text = yAxis.nameAxis
+        
+        #if os(OSX)
+            let paraStyle = NSParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+        #else
+            let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        #endif
+        
+        paraStyle.alignment = .center
+        
+        let labelAttrs = [NSFontAttributeName: yAxis.nameAxisFont,
+                          NSForegroundColorAttributeName: yAxis.nameAxisTextColor,
+                          NSParagraphStyleAttributeName: paraStyle] as [String : NSObject]
+        
+        text.draw(in: nameRect, withAttributes: labelAttrs)
     }
     
     open override func renderAxisLine(context: CGContext)
@@ -133,7 +164,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         {
             context.setLineDash(phase: 0.0, lengths: [])
         }
-
+        
         if yAxis.axisDependency == .left
         {
             context.beginPath()
@@ -150,7 +181,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         
         context.restoreGState()
     }
-
+    
     /// draws the y-labels on the specified x-position
     open func drawYLabels(
         context: CGContext,
@@ -274,7 +305,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             else { return }
         
         var limitLines = yAxis.limitLines
-
+        
         if limitLines.count <= 0
         {
             return
@@ -297,7 +328,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             
             context.saveGState()
             defer { context.restoreGState() }
-
+            
             var clippingRect = viewPortHandler.contentRect
             clippingRect.origin.x -= l.lineWidth / 2.0
             clippingRect.size.width += l.lineWidth
@@ -325,7 +356,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             context.strokePath()
             
             let label = l.label
-
+            
             // if drawing the limit-value label is enabled
             if l.drawLabelEnabled && label.characters.count > 0
             {
@@ -333,46 +364,46 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
                 
                 let xOffset: CGFloat = l.lineWidth + l.xOffset
                 let yOffset: CGFloat = 2.0 + l.yOffset
-
+                
                 if l.labelPosition == .rightTop
                 {
                     ChartUtils.drawText(context: context,
-                        text: label,
-                        point: CGPoint(
-                            x: position.x + xOffset,
-                            y: viewPortHandler.contentTop + yOffset),
-                        align: .left,
-                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
+                                        text: label,
+                                        point: CGPoint(
+                                            x: position.x + xOffset,
+                                            y: viewPortHandler.contentTop + yOffset),
+                                        align: .left,
+                                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
                 }
                 else if l.labelPosition == .rightBottom
                 {
                     ChartUtils.drawText(context: context,
-                        text: label,
-                        point: CGPoint(
-                            x: position.x + xOffset,
-                            y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
-                        align: .left,
-                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
+                                        text: label,
+                                        point: CGPoint(
+                                            x: position.x + xOffset,
+                                            y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
+                                        align: .left,
+                                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
                 }
                 else if l.labelPosition == .leftTop
                 {
                     ChartUtils.drawText(context: context,
-                        text: label,
-                        point: CGPoint(
-                            x: position.x - xOffset,
-                            y: viewPortHandler.contentTop + yOffset),
-                        align: .right,
-                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
+                                        text: label,
+                                        point: CGPoint(
+                                            x: position.x - xOffset,
+                                            y: viewPortHandler.contentTop + yOffset),
+                                        align: .right,
+                                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
                 }
                 else
                 {
                     ChartUtils.drawText(context: context,
-                        text: label,
-                        point: CGPoint(
-                            x: position.x - xOffset,
-                            y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
-                        align: .right,
-                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
+                                        text: label,
+                                        point: CGPoint(
+                                            x: position.x - xOffset,
+                                            y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
+                                        align: .right,
+                                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
                 }
             }
         }
