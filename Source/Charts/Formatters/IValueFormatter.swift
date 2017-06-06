@@ -9,7 +9,7 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
+import UIKit
 
 /// Interface that allows custom formatting of all values inside the chart before they are being drawn to the screen.
 ///

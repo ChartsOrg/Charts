@@ -9,7 +9,7 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
+import UIKit
 import CoreGraphics
 
 // This defines a viewport modification job, used for delaying or animating viewport changes

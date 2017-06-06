@@ -9,7 +9,7 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
+import UIKit
 
 @objc(ChartDataApproximator)
 open class DataApproximator: NSObject

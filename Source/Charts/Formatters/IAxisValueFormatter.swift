@@ -9,7 +9,7 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
+import UIKit
 
 /// An interface for providing custom axis Strings.
 @objc(IChartAxisValueFormatter)
