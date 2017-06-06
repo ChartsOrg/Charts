@@ -354,21 +354,18 @@ open class ChartData: NSObject
     
     open func getYMin(axis: YAxis.AxisDependency) -> Double
     {
-        let arrayYMin = [_leftAxisMin, _leftAxisMin1, _rightAxisMin, _rightAxisMin1]
-        let filteredArray = arrayYMin.filter() { $0 != Double.greatestFiniteMagnitude}
-        let axisMin = filteredArray.min()!
         var axisYMin = 0.0
         
         switch axis
         {
         case .left:
-            axisYMin = _leftAxisMin == Double.greatestFiniteMagnitude ? axisMin : _leftAxisMin
+            axisYMin = _leftAxisMin == Double.greatestFiniteMagnitude ? min(_rightAxisMin, _rightAxisMin1) : _leftAxisMin
         case .left1:
-            axisYMin = _leftAxisMin1 == Double.greatestFiniteMagnitude ? axisMin : _leftAxisMin1
+            axisYMin = _leftAxisMin1 == Double.greatestFiniteMagnitude ? min(_rightAxisMin, _rightAxisMin1) : _leftAxisMin1
         case .right:
-            axisYMin = _rightAxisMin == Double.greatestFiniteMagnitude ? axisMin : _rightAxisMin
+            axisYMin = _rightAxisMin == Double.greatestFiniteMagnitude ? min(_leftAxisMin, _leftAxisMin1) : _rightAxisMin
         case .right1:
-            axisYMin = _rightAxisMin1 == Double.greatestFiniteMagnitude ? axisMin : _rightAxisMin1
+            axisYMin = _rightAxisMin1 == Double.greatestFiniteMagnitude ? min(_leftAxisMin, _leftAxisMin1) : _rightAxisMin1
         }
         return axisYMin
     }
@@ -387,21 +384,18 @@ open class ChartData: NSObject
     
     open func getYMax(axis: YAxis.AxisDependency) -> Double
     {
-        let arrayYMax = [_leftAxisMax, _leftAxisMax1, _rightAxisMax, _rightAxisMax1]
-        let filteredArray = arrayYMax.filter() { $0 != -Double.greatestFiniteMagnitude}
-        let axisMax =  filteredArray.max()!
         var axisYMax = 0.0
         
         switch axis
         {
         case .left:
-            axisYMax = _leftAxisMax == -Double.greatestFiniteMagnitude ? axisMax : _leftAxisMax
+            axisYMax = _leftAxisMax == -Double.greatestFiniteMagnitude ? max(_rightAxisMax, _rightAxisMax1) : _leftAxisMax
         case .left1:
-            axisYMax = _leftAxisMax1 == -Double.greatestFiniteMagnitude ? axisMax : _leftAxisMax1
+            axisYMax = _leftAxisMax1 == -Double.greatestFiniteMagnitude ? max(_rightAxisMax, _rightAxisMax1) : _leftAxisMax1
         case .right:
-            axisYMax = _rightAxisMax == -Double.greatestFiniteMagnitude ? axisMax : _rightAxisMin
+            axisYMax = _rightAxisMax == -Double.greatestFiniteMagnitude ? max(_leftAxisMax, _leftAxisMax1) : _rightAxisMax
         case .right1:
-            axisYMax = _rightAxisMax1 == -Double.greatestFiniteMagnitude ? axisMax : _rightAxisMax1
+            axisYMax = _rightAxisMax1 == -Double.greatestFiniteMagnitude ? max(_leftAxisMax, _leftAxisMax1) : _rightAxisMax1
         }
         return axisYMax
     }
