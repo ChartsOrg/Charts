@@ -25,7 +25,7 @@ open class BalloonMarker: MarkerImage
     fileprivate var label: String?
     fileprivate var _labelSize: CGSize = CGSize()
     fileprivate var _paragraphStyle: NSMutableParagraphStyle?
-    fileprivate var _drawAttributes = [String : AnyObject]()
+    fileprivate var _drawAttributes = [NSAttributedStringKey : AnyObject]()
     
     public init(color: UIColor, font: UIFont, textColor: UIColor, insets: UIEdgeInsets)
     {
@@ -119,11 +119,11 @@ open class BalloonMarker: MarkerImage
         label = newLabel
         
         _drawAttributes.removeAll()
-        _drawAttributes[NSFontAttributeName] = self.font
-        _drawAttributes[NSParagraphStyleAttributeName] = _paragraphStyle
-        _drawAttributes[NSForegroundColorAttributeName] = self.textColor
+        _drawAttributes[NSAttributedStringKey.font] = self.font
+        _drawAttributes[NSAttributedStringKey.paragraphStyle] = _paragraphStyle
+        _drawAttributes[NSAttributedStringKey.foregroundColor] = self.textColor
         
-        _labelSize = label?.size(attributes: _drawAttributes) ?? CGSize.zero
+        _labelSize = label?.size(withAttributes: _drawAttributes) ?? CGSize.zero
         
         var size = CGSize()
         size.width = _labelSize.width + self.insets.left + self.insets.right

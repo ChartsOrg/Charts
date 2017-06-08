@@ -155,7 +155,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// flag that indicates if offsets calculation has already been done or not
     fileprivate var _offsetsCalculated = false
-	
+    
     /// array of Highlight objects that reference the highlighted slices in the chart
     internal var _indicesToHighlight = [Highlight]()
     
@@ -276,8 +276,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         _data = nil
         _offsetsCalculated = false
         _indicesToHighlight.removeAll()
-	    lastHighlighted = nil
-	
+        lastHighlighted = nil
+    
         setNeedsDisplay()
     }
     
@@ -367,8 +367,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
                 text: noDataText,
                 point: CGPoint(x: frame.width / 2.0, y: frame.height / 2.0),
                 attributes:
-                [NSFontAttributeName: noDataFont,
-                 NSForegroundColorAttributeName: noDataTextColor],
+                [NSAttributedStringKey.font: noDataFont,
+                 NSAttributedStringKey.foregroundColor: noDataTextColor],
                 constrainedToSize: self.bounds.size,
                 anchor: CGPoint(x: 0.5, y: 0.5),
                 angleRadians: 0.0)
@@ -405,10 +405,10 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
                 y: frame.height - _viewPortHandler.offsetBottom - description.yOffset - description.font.lineHeight)
         }
         
-        var attrs = [String : AnyObject]()
+        var attrs = [NSAttributedStringKey : AnyObject]()
         
-        attrs[NSFontAttributeName] = description.font
-        attrs[NSForegroundColorAttributeName] = description.textColor
+        attrs[NSAttributedStringKey.font] = description.font
+        attrs[NSAttributedStringKey.foregroundColor] = description.textColor
 
         ChartUtils.drawText(
             context: context,
@@ -871,7 +871,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - returns: `true` if the image was saved successfully
     open func save(to path: String, format: ImageFormat, compressionQuality: Double) -> Bool
     {
-		guard let image = getChartImage(transparent: format != .jpeg)
+        guard let image = getChartImage(transparent: format != .jpeg)
             else { return false }
         
         var imageData: Data!
@@ -895,7 +895,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             return false
         }
         
-		return true
+        return true
     }
     
     internal var _viewportJobs = [ViewPortJob]()
