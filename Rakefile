@@ -26,7 +26,6 @@ end
 def build_schemes
   %w(
     Charts
-    ChartsRealm
   )
 end
 
@@ -41,7 +40,7 @@ def devices
     iOS: {
       sdk: 'iphonesimulator',
       device: "name='iPhone 7'",
-      uuid: '5F911B30-5F23-403B-9697-1DFDC24773C8'
+      name: 'iPhone 7'
     },
     macOS: {
       sdk: 'macosx',
@@ -51,7 +50,7 @@ def devices
     tvOS: {
       sdk: 'appletvsimulator',
       device: "name='Apple TV 1080p'",
-      uuid: '273D776F-196E-4F2A-AEF2-E1E3EAE99B47'
+      name: 'Apple TV 1080p'
     }
   }
 end
@@ -127,12 +126,12 @@ task :ci, [:platform] do |_task, args|
   platform = arg_to_key(args[:platform]) if args.has_key?(:platform)
 
   if test_platforms.include?(platform)
-    execute 'clean build test', platform
+    execute 'clean test', platform
   elsif build_platforms.include?(platform)
     execute 'clean build', platform
   else
     test_platforms.each do |platform|
-      execute 'clean build test', platform
+      execute 'clean test', platform
     end
     build_platforms.each do |platform|
       execute 'clean build', platform

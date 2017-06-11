@@ -20,6 +20,9 @@ open class ScatterChartView: BarLineChartViewBase, ScatterChartDataProvider
         super.initialize()
         
         renderer = ScatterChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
+
+        xAxis.spaceMin = 0.5
+        xAxis.spaceMax = 0.5
     }
     
     // MARK: - ScatterChartDataProbider

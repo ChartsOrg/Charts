@@ -14,7 +14,7 @@ function build_dependencies {
 }
 
 function alert_to_install_carthage {
-    echo "error: Carthage was not found! In order to build Charts you need to use Carthage to build it's dependencies. Carthage can be downloaded from https://github.com/Carthage/Carthage."
+    echo "error: Carthage was not found! In order to build Charts you need to use Carthage to build its dependencies. Carthage can be downloaded from https://github.com/Carthage/Carthage."
     exit 1
 }
 

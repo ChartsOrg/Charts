@@ -32,6 +32,7 @@
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
+                     @{@"key": @"toggleIcons", @"label": @"Toggle Icons"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
@@ -100,12 +101,14 @@
         double open = (double) (arc4random_uniform(6)) + 1.0;
         double close = (double) (arc4random_uniform(6)) + 1.0;
         BOOL even = i % 2 == 0;
-        [yVals1 addObject:[[CandleChartDataEntry alloc] initWithX:i shadowH:val + high shadowL:val - low open:even ? val + open : val - open close:even ? val - close : val + close]];
+        [yVals1 addObject:[[CandleChartDataEntry alloc] initWithX:i shadowH:val + high shadowL:val - low open:even ? val + open : val - open close:even ? val - close : val + close icon: [UIImage imageNamed:@"icon"]]];
     }
         
     CandleChartDataSet *set1 = [[CandleChartDataSet alloc] initWithValues:yVals1 label:@"Data Set"];
     set1.axisDependency = AxisDependencyLeft;
     [set1 setColor:[UIColor colorWithWhite:80/255.f alpha:1.f]];
+    
+    set1.drawIconsEnabled = NO;
     
     set1.shadowColor = UIColor.darkGrayColor;
     set1.shadowWidth = 0.7;

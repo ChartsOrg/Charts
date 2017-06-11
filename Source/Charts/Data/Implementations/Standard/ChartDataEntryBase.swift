@@ -19,6 +19,9 @@ open class ChartDataEntryBase: NSObject
     /// optional spot for additional data this Entry represents
     open var data: AnyObject?
     
+    /// optional icon image
+    open var icon: NSUIImage?
+    
     public override required init()
     {
         super.init()
@@ -35,12 +38,36 @@ open class ChartDataEntryBase: NSObject
     
     /// - parameter y: the y value (the actual value of the entry)
     /// - parameter data: Space for additional data this Entry represents.
-
+    
     public init(y: Double, data: AnyObject?)
     {
         super.init()
         
         self.y = y
+        self.data = data
+    }
+    
+    /// - parameter y: the y value (the actual value of the entry)
+    /// - parameter icon: icon image
+    
+    public init(y: Double, icon: NSUIImage?)
+    {
+        super.init()
+        
+        self.y = y
+        self.icon = icon
+    }
+    
+    /// - parameter y: the y value (the actual value of the entry)
+    /// - parameter icon: icon image
+    /// - parameter data: Space for additional data this Entry represents.
+    
+    public init(y: Double, icon: NSUIImage?, data: AnyObject?)
+    {
+        super.init()
+        
+        self.y = y
+        self.icon = icon
         self.data = data
     }
     
@@ -63,7 +90,7 @@ open class ChartDataEntryBase: NSObject
             return false
         }
         
-        if fabs((object! as AnyObject).y - y) > DBL_EPSILON
+        if fabs((object! as AnyObject).y - y) > Double.ulpOfOne
         {
             return false
         }
@@ -96,7 +123,7 @@ public func ==(lhs: ChartDataEntryBase, rhs: ChartDataEntryBase) -> Bool
         return false
     }
     
-    if fabs(lhs.y - rhs.y) > DBL_EPSILON
+    if fabs(lhs.y - rhs.y) > Double.ulpOfOne
     {
         return false
     }
