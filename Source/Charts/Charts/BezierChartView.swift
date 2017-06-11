@@ -75,9 +75,13 @@ open class BezierChartView: BarLineChartViewBase, LineChartDataProvider {
             {
                 
                 // figure out if user touched entry
-                _selectedData = getSelectedChartDataAtTouchPoint(point: recognizer.nsuiLocationOfTouch(0, inView: self))
+                let selectedData = getSelectedChartDataAtTouchPoint(point: recognizer.nsuiLocationOfTouch(0, inView: self))
                 
-                if _selectedData != nil {
+                // are we touching a point
+                let touchedPoint = selectedData != nil
+                
+                if touchedPoint {
+                    _selectedData = selectedData
                     self._isDragging = true
                 } else if (!self.hasNoDragOffset || !self.isFullyZoomedOut) {
                     //  * If we're zoomed in, then obviously we have something to drag.
@@ -150,6 +154,8 @@ open class BezierChartView: BarLineChartViewBase, LineChartDataProvider {
                         selectedData.entry.y = newY
                     }
                     
+                    updateHighlight(for: pixelForValues(x: selectedData.entry.x, y: selectedData.entry.y, axis: selectedData.dataSet.axisDependency))
+                    
                     // redraw the chart
                     setNeedsDisplay()
                 } else {
@@ -176,6 +182,10 @@ open class BezierChartView: BarLineChartViewBase, LineChartDataProvider {
                     _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(BezierChartView.decelLoop))
                     _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
                 }
+            
+                if let selectedData = _selectedData {
+                    updateHighlight(for: pixelForValues(x: selectedData.entry.x, y: selectedData.entry.y, axis: selectedData.dataSet.axisDependency))
+                }
                 
                 _isDragging = false
             }
@@ -186,6 +196,28 @@ open class BezierChartView: BarLineChartViewBase, LineChartDataProvider {
                 _outerScrollView = nil
             }
         }
+    }
+    
+    fileprivate func updateHighlight(for point:CGPoint) {
+        if !self.isHighLightPerTapEnabled { return }
+        
+        if let h = getHighlightByTouchPoint(point) {
+            self.highlightValue(h, callDelegate: true)
+            self.lastHighlighted = h
+        }
+        
+        /*
+        if h === nil || h!.isEqual(self.lastHighlighted)
+        {
+            self.highlightValue(nil, callDelegate: true)
+            self.lastHighlighted = nil
+        }
+        else
+        {
+            self.highlightValue(h, callDelegate: true)
+            self.lastHighlighted = h
+        }
+        */
     }
     
     /// - returns: Selected chart data if within specified distance

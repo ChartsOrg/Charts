@@ -8,7 +8,13 @@
 
 import UIKit
 
-class BezierChartRenderer: LineChartRenderer {
+open class BezierChartRenderer: LineChartRenderer {
+    
+    open var innerCircleRadius : CGFloat = 0
+    open var innerCircleColor : UIColor?
+    
+    open var outerCircleRadius : CGFloat = 0
+    open var outerCircleColor : UIColor?
 
     open override func drawData(context: CGContext) {
         guard let lineData = dataProvider?.lineData else { return }
@@ -27,7 +33,6 @@ class BezierChartRenderer: LineChartRenderer {
                 drawCubicBezier(context: context, dataSet: set as! ILineChartDataSet)
             }
         }
-        
     }
     
     open override func drawCubicBezier(context: CGContext, dataSet: ILineChartDataSet)
@@ -66,6 +71,7 @@ class BezierChartRenderer: LineChartRenderer {
                 
                 cubicPath.move(to: CGPoint(x: CGFloat(startPoint.x), y: CGFloat(startPoint.y * phaseY)), transform: valueToPixelMatrix)
                 
+                
                 cubicPath.addCurve(
                     to: CGPoint(
                         x: CGFloat(endPoint.x),
@@ -93,7 +99,68 @@ class BezierChartRenderer: LineChartRenderer {
         context.beginPath()
         context.addPath(cubicPath)
         context.setStrokeColor(drawingColor.cgColor)
+        context.setLineWidth(dataSet.lineWidth)
         context.strokePath()
+        
+        context.restoreGState()
+    }
+    
+    open override func drawHighlighted(context: CGContext, indices: [Highlight])
+    {
+        guard
+            let dataProvider = dataProvider,
+            let lineData = dataProvider.lineData,
+            let animator = animator
+            else { return }
+        
+        let chartXMax = dataProvider.chartXMax
+        
+        context.saveGState()
+        
+        for high in indices
+        {
+            guard let set = lineData.getDataSetByIndex(high.dataSetIndex) as? ILineChartDataSet
+                , set.isHighlightEnabled
+                else { continue }
+            
+            guard let e = set.entryForXValue(high.x, closestToY: high.y) else { continue }
+            
+            if !isInBoundsX(entry: e, dataSet: set)
+            {
+                continue
+            }
+            
+            let x = high.x // get the x-position
+            let y = high.y * Double(animator.phaseY)
+            
+            let trans = dataProvider.getTransformer(forAxis: set.axisDependency)
+            let pt = trans.pixelForValues(x: x, y: y)
+            
+            if let color = innerCircleColor {
+                context.setStrokeColor(color.cgColor)
+                context.addArc(center: pt, radius: innerCircleRadius, startAngle: 0, endAngle: CGFloat(2) * CGFloat(M_PI), clockwise: true)
+                context.strokePath()
+            }
+            
+            if let color = outerCircleColor {
+                context.setStrokeColor(color.cgColor)
+                context.addArc(center: pt, radius: outerCircleRadius, startAngle: 0, endAngle: CGFloat(2) * CGFloat(M_PI), clockwise: true)
+                context.strokePath()
+            }
+            
+            context.setStrokeColor(set.highlightColor.cgColor)
+            context.setLineWidth(set.highlightLineWidth)
+            
+            if x > chartXMax * animator.phaseX
+            {
+                continue
+            }
+            
+            high.setDraw(pt: pt)
+            
+            // draw the lines
+            drawHighlightLines(context: context, point: pt, set: set)
+        }
         
         context.restoreGState()
     }
