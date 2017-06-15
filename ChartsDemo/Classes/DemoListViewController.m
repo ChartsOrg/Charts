@@ -34,6 +34,7 @@
 #import "LineChartFilledViewController.h"
 #import "HalfPieChartViewController.h"
 #import "RealmDemosViewController.h"
+#import "InteractiveChartViewController.h"
 
 @interface DemoListViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -174,7 +175,12 @@
                           @"title": @"Realm.io database",
                           @"subtitle": @"This demonstrates how to use this library with Realm.io mobile database.",
                           @"class": RealmDemosViewController.class
-                          }
+                          },
+                      @{
+                          @"title": @"Interactive line chart",
+                          @"subtitle": @"This demonstrates how to create interactive line chart.",
+                          @"class": InteractiveChartViewController.class
+                          },
                       ];
     //FIXME: Add TimeLineChart
 }
