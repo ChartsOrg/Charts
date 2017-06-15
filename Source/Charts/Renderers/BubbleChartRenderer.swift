@@ -172,6 +172,8 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix
                 
+                let iconsOffset = dataSet.iconsOffset
+                
                 for j in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
                 {
                     guard let e = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { break }
@@ -202,14 +204,27 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
                     let valueFont = dataSet.valueFont
                     let lineHeight = valueFont.lineHeight
 
-                    ChartUtils.drawText(
-                        context: context,
-                        text: text,
-                        point: CGPoint(
-                            x: pt.x,
-                            y: pt.y - (0.5 * lineHeight)),
-                        align: .center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
+                    if dataSet.isDrawValuesEnabled
+                    {
+                        ChartUtils.drawText(
+                            context: context,
+                            text: text,
+                            point: CGPoint(
+                                x: pt.x,
+                                y: pt.y - (0.5 * lineHeight)),
+                            align: .center,
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor])
+                    }
+                    
+                    if let icon = e.icon, dataSet.isDrawIconsEnabled
+                    {
+                         ChartUtils.drawImage(context: context,
+                                              image: icon,
+                                              x: pt.x + iconsOffset.x,
+                                              y: pt.y + iconsOffset.y,
+                                              size: icon.size)
+                    }
+                    
                 }
             }
         }
@@ -240,80 +255,70 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
                 dataSet.isHighlightEnabled
                 else { continue }
                         
-            // In bubble charts - it makes sense to have multiple bubbles on the same X value in the same dataset.
+            guard let entry = dataSet.entryForXValue(high.x, closestToY: high.y) as? BubbleChartDataEntry else { continue }
             
-            let entries = dataSet.entriesForXValue(high.x)
+            if !isInBoundsX(entry: entry, dataSet: dataSet) { continue }
             
-            for entry in entries
+            let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
+            
+            _sizeBuffer[0].x = 0.0
+            _sizeBuffer[0].y = 0.0
+            _sizeBuffer[1].x = 1.0
+            _sizeBuffer[1].y = 0.0
+            
+            trans.pointValuesToPixel(&_sizeBuffer)
+            
+            let normalizeSize = dataSet.isNormalizeSizeEnabled
+            
+            // calcualte the full width of 1 step on the x-axis
+            let maxBubbleWidth: CGFloat = abs(_sizeBuffer[1].x - _sizeBuffer[0].x)
+            let maxBubbleHeight: CGFloat = abs(viewPortHandler.contentBottom - viewPortHandler.contentTop)
+            let referenceSize: CGFloat = min(maxBubbleHeight, maxBubbleWidth)
+            
+            _pointBuffer.x = CGFloat(entry.x)
+            _pointBuffer.y = CGFloat(entry.y * phaseY)
+            trans.pointValueToPixel(&_pointBuffer)
+            
+            let shapeSize = getShapeSize(entrySize: entry.size, maxSize: dataSet.maxSize, reference: referenceSize, normalizeSize: normalizeSize)
+            let shapeHalf = shapeSize / 2.0
+            
+            if !viewPortHandler.isInBoundsTop(_pointBuffer.y + shapeHalf) ||
+                !viewPortHandler.isInBoundsBottom(_pointBuffer.y - shapeHalf)
             {
-                guard let entry = entry as? BubbleChartDataEntry
-                    else { continue }
-                
-                if entry.y != high.y { continue }
-                
-                if !isInBoundsX(entry: entry, dataSet: dataSet) { continue }
-                
-                let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
-                
-                _sizeBuffer[0].x = 0.0
-                _sizeBuffer[0].y = 0.0
-                _sizeBuffer[1].x = 1.0
-                _sizeBuffer[1].y = 0.0
-                
-                trans.pointValuesToPixel(&_sizeBuffer)
-                
-                let normalizeSize = dataSet.isNormalizeSizeEnabled
-                
-                // calcualte the full width of 1 step on the x-axis
-                let maxBubbleWidth: CGFloat = abs(_sizeBuffer[1].x - _sizeBuffer[0].x)
-                let maxBubbleHeight: CGFloat = abs(viewPortHandler.contentBottom - viewPortHandler.contentTop)
-                let referenceSize: CGFloat = min(maxBubbleHeight, maxBubbleWidth)
-                
-                _pointBuffer.x = CGFloat(entry.x)
-                _pointBuffer.y = CGFloat(entry.y * phaseY)
-                trans.pointValueToPixel(&_pointBuffer)
-                
-                let shapeSize = getShapeSize(entrySize: entry.size, maxSize: dataSet.maxSize, reference: referenceSize, normalizeSize: normalizeSize)
-                let shapeHalf = shapeSize / 2.0
-                
-                if !viewPortHandler.isInBoundsTop(_pointBuffer.y + shapeHalf) ||
-                    !viewPortHandler.isInBoundsBottom(_pointBuffer.y - shapeHalf)
-                {
-                    continue
-                }
-                
-                if !viewPortHandler.isInBoundsLeft(_pointBuffer.x + shapeHalf)
-                {
-                    continue
-                }
-                
-                if !viewPortHandler.isInBoundsRight(_pointBuffer.x - shapeHalf)
-                {
-                    break
-                }
-                
-                let originalColor = dataSet.color(atIndex: Int(entry.x))
-                
-                var h: CGFloat = 0.0
-                var s: CGFloat = 0.0
-                var b: CGFloat = 0.0
-                var a: CGFloat = 0.0
-                
-                originalColor.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
-                
-                let color = NSUIColor(hue: h, saturation: s, brightness: b * 0.5, alpha: a)
-                let rect = CGRect(
-                    x: _pointBuffer.x - shapeHalf,
-                    y: _pointBuffer.y - shapeHalf,
-                    width: shapeSize,
-                    height: shapeSize)
-                
-                context.setLineWidth(dataSet.highlightCircleWidth)
-                context.setStrokeColor(color.cgColor)
-                context.strokeEllipse(in: rect)
-                
-                high.setDraw(x: _pointBuffer.x, y: _pointBuffer.y)
+                continue
             }
+            
+            if !viewPortHandler.isInBoundsLeft(_pointBuffer.x + shapeHalf)
+            {
+                continue
+            }
+            
+            if !viewPortHandler.isInBoundsRight(_pointBuffer.x - shapeHalf)
+            {
+                break
+            }
+            
+            let originalColor = dataSet.color(atIndex: Int(entry.x))
+            
+            var h: CGFloat = 0.0
+            var s: CGFloat = 0.0
+            var b: CGFloat = 0.0
+            var a: CGFloat = 0.0
+            
+            originalColor.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
+            
+            let color = NSUIColor(hue: h, saturation: s, brightness: b * 0.5, alpha: a)
+            let rect = CGRect(
+                x: _pointBuffer.x - shapeHalf,
+                y: _pointBuffer.y - shapeHalf,
+                width: shapeSize,
+                height: shapeSize)
+            
+            context.setLineWidth(dataSet.highlightCircleWidth)
+            context.setStrokeColor(color.cgColor)
+            context.strokeEllipse(in: rect)
+            
+            high.setDraw(x: _pointBuffer.x, y: _pointBuffer.y)
         }
         
         context.restoreGState()

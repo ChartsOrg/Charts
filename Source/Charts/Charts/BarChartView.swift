@@ -28,6 +28,9 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
         renderer = BarChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
         
         self.highlighter = BarHighlighter(chart: self)
+        
+        self.xAxis.spaceMin = 0.5
+        self.xAxis.spaceMax = 0.5
     }
     
     internal override func calcMinMax()
@@ -63,8 +66,20 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
             Swift.print("Can't select by touch. No data set.")
             return nil
         }
-
-        return self.highlighter?.getHighlight(x: pt.x, y: pt.y)
+        
+        guard let h = self.highlighter?.getHighlight(x: pt.x, y: pt.y)
+            else { return nil }
+        
+        if !isHighlightFullBarEnabled { return h }
+        
+        // For isHighlightFullBarEnabled, remove stackIndex
+        return Highlight(
+            x: h.x, y: h.y,
+            xPx: h.xPx, yPx: h.yPx,
+            dataIndex: h.dataIndex,
+            dataSetIndex: h.dataSetIndex,
+            stackIndex: -1,
+            axis: h.axis)
     }
         
     /// - returns: The bounding box of the specified Entry in the specified DataSet. Returns null if the Entry could not be found in the charts data.

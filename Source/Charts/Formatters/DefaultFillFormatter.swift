@@ -20,7 +20,8 @@ import CoreGraphics
 @objc(ChartDefaultFillFormatter)
 open class DefaultFillFormatter: NSObject, IFillFormatter
 {
-    public typealias Block = (_ dataSet: ILineChartDataSet,
+    public typealias Block = (
+        _ dataSet: ILineChartDataSet,
         _ dataProvider: LineChartDataProvider) -> CGFloat
     
     open var block: Block?

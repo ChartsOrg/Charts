@@ -33,7 +33,7 @@
 #import "LineChartTimeViewController.h"
 #import "LineChartFilledViewController.h"
 #import "HalfPieChartViewController.h"
-#import "RealmDemoListViewController.h"
+#import "RealmDemosViewController.h"
 
 @interface DemoListViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -173,7 +173,7 @@
                       @{
                           @"title": @"Realm.io database",
                           @"subtitle": @"This demonstrates how to use this library with Realm.io mobile database.",
-                          @"class": RealmDemoListViewController.class
+                          @"class": RealmDemosViewController.class
                           }
                       ];
     //FIXME: Add TimeLineChart

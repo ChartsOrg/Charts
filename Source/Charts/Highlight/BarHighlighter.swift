@@ -60,13 +60,13 @@ open class BarHighlighter: ChartHighlighter
     /// - parameter yValue:
     /// - returns:
     open func getStackedHighlight(high: Highlight,
-                                         set: IBarChartDataSet,
-                                         xValue: Double,
-                                         yValue: Double) -> Highlight?
+                                  set: IBarChartDataSet,
+                                  xValue: Double,
+                                  yValue: Double) -> Highlight?
     {
         guard
             let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider,
-            let entry = set.entryForXValue(xValue) as? BarChartDataEntry
+            let entry = set.entryForXValue(xValue, closestToY: yValue) as? BarChartDataEntry
             else { return nil }
         
         // Not stacked

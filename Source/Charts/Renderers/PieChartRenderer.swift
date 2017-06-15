@@ -91,6 +91,7 @@ open class PieChartRenderer: DataRenderer
     open func getSliceSpace(dataSet: IPieChartDataSet) -> CGFloat
     {
         guard
+            dataSet.automaticallyDisableSliceSpacing,
             let viewPortHandler = self.viewPortHandler,
             let data = chart?.data as? PieChartData
             else { return dataSet.sliceSpace }
@@ -129,7 +130,7 @@ open class PieChartRenderer: DataRenderer
         for j in 0 ..< entryCount
         {
             guard let e = dataSet.entryForIndex(j) else { continue }
-            if ((abs(e.y) > DBL_EPSILON))
+            if ((abs(e.y) > Double.ulpOfOne))
             {
                 visibleAngleCount += 1
             }
@@ -147,7 +148,7 @@ open class PieChartRenderer: DataRenderer
             guard let e = dataSet.entryForIndex(j) else { continue }
             
             // draw only if the value is greater than zero
-            if (abs(e.y) > DBL_EPSILON)
+            if (abs(e.y) > Double.ulpOfOne)
             {
                 if !chart.needsHighlight(index: j)
                 {
@@ -306,10 +307,12 @@ open class PieChartRenderer: DataRenderer
             
             let drawValues = dataSet.isDrawValuesEnabled
             
-            if !drawValues && !drawEntryLabels
+            if !drawValues && !drawEntryLabels && !dataSet.isDrawIconsEnabled
             {
                 continue
             }
+            
+            let iconsOffset = dataSet.iconsOffset
             
             let xValuePosition = dataSet.xValuePosition
             let yValuePosition = dataSet.yValuePosition
@@ -527,6 +530,21 @@ open class PieChartRenderer: DataRenderer
                     }
                 }
                 
+                if let icon = e.icon, dataSet.isDrawIconsEnabled
+                {
+                    // calculate the icon's position
+                    
+                    let x = (labelRadius + iconsOffset.y) * sliceXBase + center.x
+                    var y = (labelRadius + iconsOffset.y) * sliceYBase + center.y
+                    y += iconsOffset.x
+                    
+                    ChartUtils.drawImage(context: context,
+                                         image: icon,
+                                         x: x,
+                                         y: y,
+                                         size: icon.size)
+                }
+
                 xIndex += 1
             }
         }
@@ -690,7 +708,7 @@ open class PieChartRenderer: DataRenderer
             for j in 0 ..< entryCount
             {
                 guard let e = set.entryForIndex(j) else { continue }
-                if ((abs(e.y) > DBL_EPSILON))
+                if ((abs(e.y) > Double.ulpOfOne))
                 {
                     visibleAngleCount += 1
                 }

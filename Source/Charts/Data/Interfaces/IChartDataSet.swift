@@ -47,26 +47,39 @@ public protocol IChartDataSet
     func entryForIndex(_ i: Int) -> ChartDataEntry?
     
     /// - returns: The first Entry object found at the given x-value with binary search.
-    /// If the no Entry at the specifed x-value is found, this method returns the Entry at the closest x-pox.
+    /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value according to the rounding.
     /// nil if no Entry object at that x-value.
-    /// - parameter x: the x-value
+    /// - parameter xValue: the x-value
+    /// - parameter closestToY: If there are multiple y-values for the specified x-value,
     /// - parameter rounding: determine whether to round up/down/closest if there is no Entry matching the provided x-value
-    func entryForXValue(_ x: Double, rounding: ChartDataSetRounding) -> ChartDataEntry?
+    func entryForXValue(
+        _ xValue: Double,
+        closestToY yValue: Double,
+        rounding: ChartDataSetRounding) -> ChartDataEntry?
     
     /// - returns: The first Entry object found at the given x-value with binary search.
-    /// If the no Entry at the specifed x-value is found, this method returns the Entry at the closest x-value.
+    /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value.
     /// nil if no Entry object at that x-value.
-    func entryForXValue(_ x: Double) -> ChartDataEntry?
+    /// - parameter xValue: the x-value
+    /// - parameter closestToY: If there are multiple y-values for the specified x-value,
+    func entryForXValue(
+        _ xValue: Double,
+        closestToY yValue: Double) -> ChartDataEntry?
     
     /// - returns: All Entry objects found at the given x-value with binary search.
     /// An empty array if no Entry object at that x-value.
-    func entriesForXValue(_ x: Double) -> [ChartDataEntry]
+    func entriesForXValue(_ xValue: Double) -> [ChartDataEntry]
     
-    /// - returns: The array-index of the specified entry
+    /// - returns: The array-index of the specified entry.
+    /// If the no Entry at the specified x-value is found, this method returns the index of the Entry at the closest x-value according to the rounding.
     ///
-    /// - parameter x: x-value of the entry to search for
-    /// - parameter rounding: x-value of the entry to search for
-    func entryIndex(x: Double, rounding: ChartDataSetRounding) -> Int
+    /// - parameter xValue: x-value of the entry to search for
+    /// - parameter closestToY: If there are multiple y-values for the specified x-value,
+    /// - parameter rounding: Rounding method if exact value was not found
+    func entryIndex(
+        x xValue: Double,
+        closestToY yValue: Double,
+        rounding: ChartDataSetRounding) -> Int
     
     /// - returns: The array-index of the specified entry
     ///
@@ -216,11 +229,28 @@ public protocol IChartDataSet
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
     var formLineDashLengths: [CGFloat]? { get }
     
-    /// Set this to true to draw y-values on the chart
+    /// Set this to true to draw y-values on the chart.
+    ///
+    /// - note: For bar and line charts: if `maxVisibleCount` is reached, no values will be drawn even if this is enabled.
     var drawValuesEnabled: Bool { get set }
     
     /// - returns: `true` if y-value drawing is enabled, `false` ifnot
     var isDrawValuesEnabled: Bool { get }
+    
+    /// Set this to true to draw y-icons on the chart
+    ///
+    /// - note: For bar and line charts: if `maxVisibleCount` is reached, no icons will be drawn even if this is enabled.
+    var drawIconsEnabled: Bool { get set }
+    
+    /// Returns true if y-icon drawing is enabled, false if not
+    var isDrawIconsEnabled: Bool { get }
+    
+    /// Offset of icons drawn on the chart.
+    ///
+    /// For all charts except Pie and Radar it will be ordinary (x offset, y offset).
+    ///
+    /// For Pie and Radar chart it will be (y offset, distance from center offset); so if you want icon to be rendered under value, you should increase X component of CGPoint, and if you want icon to be rendered closet to center, you should decrease height component of CGPoint.
+    var iconsOffset: CGPoint { get set }
     
     /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
     var visible: Bool { get set }

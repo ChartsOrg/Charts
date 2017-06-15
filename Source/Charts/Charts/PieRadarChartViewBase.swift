@@ -829,7 +829,7 @@ open class PieRadarChartViewBase: ChartViewBase
             let location = recognizer.location(in: self)
             
             let high = self.getHighlightByTouchPoint(location)
-            self.highlightValue(highlight: high, callDelegate: true)
+            self.highlightValue(high, callDelegate: true)
         }
     }
     

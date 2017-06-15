@@ -45,7 +45,7 @@
     }
     else
     {
-        int dayOfMonth = [self determineDayOfMonthForDayOfYear:days month:month + 12 * (year - 2016)];
+        int dayOfMonth = [self determineDayOfMonthForDays:days month:month + 12 * (year - 2016)];
         
         NSString *appendix = @"th";
         
@@ -84,14 +84,18 @@
     
     if (month == 1)
     {
-        int x400 = month % 400;
-        if (x400 < 0)
-        {
-            x400 = -x400;
-        }
-        BOOL is29 = (month % 4) == 0 && x400 != 100 && x400 != 200 && x400 != 300;
+        BOOL is29Feb = NO;
         
-        return is29 ? 29 : 28;
+        if (year < 1582)
+        {
+            is29Feb = (year < 1 ? year + 1 : year) % 4 == 0;
+        }
+        else if (year > 1582)
+        {
+            is29Feb = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+        }
+        
+        return is29Feb ? 29 : 28;
     }
     
     if (month == 3 || month == 5 || month == 8 || month == 10)
@@ -122,19 +126,19 @@
 }
 
 
-- (int)determineDayOfMonthForDayOfYear:(int)dayOfYear month:(int)month
+- (int)determineDayOfMonthForDays:(int)days month:(int)month
 {
     int count = 0;
-    int days = 0;
+    int daysForMonths = 0;
     
     while (count < month)
     {
         int year = [self determineYearForDays:days];
-        days += [self daysForMonth:count % 12 year:year];
+        daysForMonths += [self daysForMonth:count % 12 year:year];
         count++;
     }
     
-    return dayOfYear - days;
+    return days - daysForMonths;
 }
 
 - (int)determineYearForDays:(int)days

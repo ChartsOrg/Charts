@@ -86,7 +86,7 @@ open class ChartHighlighter : NSObject, IHighlighter
             guard let dataSet = data.getDataSetByIndex(i)
                 else { continue }
             
-            // dont include datasets that cannot be highlighted
+            // don't include datasets that cannot be highlighted
             if !dataSet.isHighlightEnabled
             {
                 continue
@@ -95,33 +95,42 @@ open class ChartHighlighter : NSObject, IHighlighter
             // extract all y-values from all DataSets at the given x-value.
             // some datasets (i.e bubble charts) make sense to have multiple values for an x-value. We'll have to find a way to handle that later on. It's more complicated now when x-indices are floating point.
             
-            if let high = buildHighlight(dataSet: dataSet, dataSetIndex: i, xValue: xValue, rounding: .closest)
-            {
-                vals.append(high)
-            }
+            vals.append(contentsOf: buildHighlights(dataSet: dataSet, dataSetIndex: i, xValue: xValue, rounding: .closest))
         }
         
         return vals
     }
     
-    /// - returns: The SelectionDetail object corresponding to the selected xValue and dataSetIndex.
-    internal func buildHighlight(
+    /// - returns: An array of `Highlight` objects corresponding to the selected xValue and dataSetIndex.
+    internal func buildHighlights(
         dataSet set: IChartDataSet,
         dataSetIndex: Int,
         xValue: Double,
-        rounding: ChartDataSetRounding) -> Highlight?
+        rounding: ChartDataSetRounding) -> [Highlight]
     {
-        guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider
-            else { return nil }
+        var highlights = [Highlight]()
         
-        if let e = set.entryForXValue(xValue, rounding: rounding)
+        guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider
+            else { return highlights }
+        
+        var entries = set.entriesForXValue(xValue)
+        if entries.count == 0
+        {
+            // Try to find closest x-value and take all entries for that x-value
+            if let closest = set.entryForXValue(xValue, closestToY: Double.nan, rounding: rounding)
+            {
+                entries = set.entriesForXValue(closest.x)
+            }
+        }
+        
+        for e in entries
         {
             let px = chart.getTransformer(forAxis: set.axisDependency).pixelForValues(x: e.x, y: e.y)
             
-            return Highlight(x: e.x, y: e.y, xPx: px.x, yPx: px.y, dataSetIndex: dataSetIndex, axis: set.axisDependency)
+            highlights.append(Highlight(x: e.x, y: e.y, xPx: px.x, yPx: px.y, dataSetIndex: dataSetIndex, axis: set.axisDependency))
         }
         
-        return nil
+        return highlights
     }
 
     // - MARK: - Utilities

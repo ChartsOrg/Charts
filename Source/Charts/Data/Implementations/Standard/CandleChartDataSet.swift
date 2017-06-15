@@ -46,6 +46,30 @@ open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChartD
         calcMinMaxX(entry: e)
     }
     
+    open override func calcMinMaxY(entry e: ChartDataEntry)
+    {
+        guard let e = e as? CandleChartDataEntry
+            else { return }
+        
+        if e.high < _yMin
+        {
+            _yMin = e.high
+        }
+        if e.high > _yMax
+        {
+            _yMax = e.high
+        }
+        
+        if e.low < _yMin
+        {
+            _yMin = e.low
+        }
+        if e.low > _yMax
+        {
+            _yMax = e.low
+        }
+    }
+    
     // MARK: - Styling functions and accessors
     
     /// the space between the candle entries

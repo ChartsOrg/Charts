@@ -518,7 +518,6 @@ open class LineChartRenderer: LineRadarRenderer
         {
             var dataSets = lineData.dataSets
             
-            let phaseX = max(0.0, min(1.0, animator.phaseX))
             let phaseY = animator.phaseY
             
             var pt = CGPoint()
@@ -539,6 +538,8 @@ open class LineChartRenderer: LineRadarRenderer
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix
                 
+                let iconsOffset = dataSet.iconsOffset
+                
                 // make sure the values do not interfear with the circles
                 var valOffset = Int(dataSet.circleRadius * 1.75)
                 
@@ -549,7 +550,7 @@ open class LineChartRenderer: LineRadarRenderer
                 
                 _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
                 
-                for j in stride(from: _xBounds.min, to: Int(ceil(Double(_xBounds.max - _xBounds.min) * phaseX + Double(_xBounds.min))), by: 1)
+                for j in stride(from: _xBounds.min, through: min(_xBounds.min + _xBounds.range, _xBounds.max), by: 1)
                 {
                     guard let e = dataSet.entryForIndex(j) else { break }
                     
@@ -567,18 +568,29 @@ open class LineChartRenderer: LineRadarRenderer
                         continue
                     }
                     
-                    ChartUtils.drawText(
-                        context: context,
-                        text: formatter.stringForValue(
-                            e.y,
-                            entry: e,
-                            dataSetIndex: i,
-                            viewPortHandler: viewPortHandler),
-                        point: CGPoint(
-                            x: pt.x,
-                            y: pt.y - CGFloat(valOffset) - valueFont.lineHeight),
-                        align: .center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)])
+                    if dataSet.isDrawValuesEnabled {
+                        ChartUtils.drawText(
+                            context: context,
+                            text: formatter.stringForValue(
+                                e.y,
+                                entry: e,
+                                dataSetIndex: i,
+                                viewPortHandler: viewPortHandler),
+                            point: CGPoint(
+                                x: pt.x,
+                                y: pt.y - CGFloat(valOffset) - valueFont.lineHeight),
+                            align: .center,
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)])
+                    }
+                    
+                    if let icon = e.icon, dataSet.isDrawIconsEnabled
+                    {
+                        ChartUtils.drawImage(context: context,
+                                             image: icon,
+                                             x: pt.x + iconsOffset.x,
+                                             y: pt.y + iconsOffset.y,
+                                             size: icon.size)
+                    }
                 }
             }
         }
@@ -666,10 +678,14 @@ open class LineChartRenderer: LineRadarRenderer
                     context.addEllipse(in: rect)
                     
                     // Cut hole in path
-                    context.addArc(center: pt, radius: circleHoleRadius, startAngle: 0.0, endAngle: CGFloat(M_PI_2), clockwise: true)
+                    rect.origin.x = pt.x - circleHoleRadius
+                    rect.origin.y = pt.y - circleHoleRadius
+                    rect.size.width = circleHoleDiameter
+                    rect.size.height = circleHoleDiameter
+                    context.addEllipse(in: rect)
                     
                     // Fill in-between
-                    context.fillPath()
+                    context.fillPath(using: .evenOdd)
                 }
                 else
                 {
@@ -712,7 +728,7 @@ open class LineChartRenderer: LineRadarRenderer
                 , set.isHighlightEnabled
                 else { continue }
             
-            guard let e = set.entryForXValue(high.x) else { continue }
+            guard let e = set.entryForXValue(high.x, closestToY: high.y) else { continue }
             
             if !isInBoundsX(entry: e, dataSet: set)
             {

@@ -24,11 +24,13 @@ class BarChartTests: FBSnapshotTestCase
         
         for (i, value) in values.enumerated()
         {
-            entries.append(BarChartDataEntry(x: Double(i), y: value))
+            entries.append(BarChartDataEntry(x: Double(i), y: value, icon: UIImage(named: "icon", in: Bundle(for: self.classForCoder), compatibleWith: nil)))
         }
         
         dataSet = BarChartDataSet(values: entries, label: "Bar chart unit test data")
-        
+        dataSet.drawIconsEnabled = false
+        dataSet.iconsOffset = CGPoint(x: 0, y: -10.0)
+
         let data = BarChartData(dataSet: dataSet)
         data.barWidth = 0.85
         
@@ -78,6 +80,12 @@ class BarChartTests: FBSnapshotTestCase
     func testHideVerticalGridlines()
     {
         chart.xAxis.drawGridLinesEnabled = false
+        FBSnapshotVerifyView(chart)
+    }
+    
+    func testDrawIcons()
+    {
+        dataSet.drawIconsEnabled = true
         FBSnapshotVerifyView(chart)
     }
 }

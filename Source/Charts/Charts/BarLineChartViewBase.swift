@@ -14,26 +14,6 @@ import CoreGraphics
 
 #if !os(OSX)
     import UIKit
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 #endif
 
 /// Base-class of LineChart, BarChart, ScatterChart and CandleStickChart.
@@ -62,8 +42,12 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// flag indicating if the grid background should be drawn or not
     open var drawGridBackgroundEnabled = false
     
-    /// Sets drawing the borders rectangle to true. If this is enabled, there is no point drawing the axis-lines of x- and y-axis.
+    /// When enabled, the borders rectangle will be rendered.
+    /// If this is enabled, there is no point drawing the axis-lines of x- and y-axis.
     open var drawBordersEnabled = false
+    
+    /// When enabled, the values will be clipped to contentRect, otherwise they can bleed outside the content rect.
+    open var clipValuesToContentEnabled: Bool = false
 
     /// Sets the minimum offset (padding) around the chart, defaults to 10
     open var minOffset = CGFloat(10.0)
@@ -190,14 +174,22 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         // execute all drawing commands
         drawGridBackground(context: context)
         
+
+        if _autoScaleMinMaxEnabled
+        {
+            autoScale()
+        }
+
         if _leftAxis.isEnabled
         {
             _leftYAxisRenderer?.computeAxis(min: _leftAxis._axisMinimum, max: _leftAxis._axisMaximum, inverted: _leftAxis.isInverted)
         }
+        
         if _rightAxis.isEnabled
         {
             _rightYAxisRenderer?.computeAxis(min: _rightAxis._axisMinimum, max: _rightAxis._axisMaximum, inverted: _rightAxis.isInverted)
         }
+        
         if _xAxis.isEnabled
         {
             _xAxisRenderer?.computeAxis(min: _xAxis._axisMinimum, max: _xAxis._axisMaximum, inverted: false)
@@ -207,25 +199,22 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         _leftYAxisRenderer?.renderAxisLine(context: context)
         _rightYAxisRenderer?.renderAxisLine(context: context)
 
-        if _autoScaleMinMaxEnabled
-        {
-            autoScale()
-        }
-        
         // The renderers are responsible for clipping, to account for line-width center etc.
         _xAxisRenderer?.renderGridLines(context: context)
         _leftYAxisRenderer?.renderGridLines(context: context)
         _rightYAxisRenderer?.renderGridLines(context: context)
         
-        if _xAxis.isDrawLimitLinesBehindDataEnabled
+        if _xAxis.isEnabled && _xAxis.isDrawLimitLinesBehindDataEnabled
         {
             _xAxisRenderer?.renderLimitLines(context: context)
         }
-        if _leftAxis.isDrawLimitLinesBehindDataEnabled
+        
+        if _leftAxis.isEnabled && _leftAxis.isDrawLimitLinesBehindDataEnabled
         {
             _leftYAxisRenderer?.renderLimitLines(context: context)
         }
-        if _rightAxis.isDrawLimitLinesBehindDataEnabled
+        
+        if _rightAxis.isEnabled && _rightAxis.isDrawLimitLinesBehindDataEnabled
         {
             _rightYAxisRenderer?.renderLimitLines(context: context)
         }
@@ -245,15 +234,17 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         renderer!.drawExtras(context: context)
         
-        if !_xAxis.isDrawLimitLinesBehindDataEnabled
+        if _xAxis.isEnabled && !_xAxis.isDrawLimitLinesBehindDataEnabled
         {
             _xAxisRenderer?.renderLimitLines(context: context)
         }
-        if !_leftAxis.isDrawLimitLinesBehindDataEnabled
+        
+        if _leftAxis.isEnabled && !_leftAxis.isDrawLimitLinesBehindDataEnabled
         {
             _leftYAxisRenderer?.renderLimitLines(context: context)
         }
-        if !_rightAxis.isDrawLimitLinesBehindDataEnabled
+        
+        if _rightAxis.isEnabled && !_rightAxis.isDrawLimitLinesBehindDataEnabled
         {
             _rightYAxisRenderer?.renderLimitLines(context: context)
         }
@@ -262,13 +253,25 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         _leftYAxisRenderer.renderAxisLabels(context: context)
         _rightYAxisRenderer.renderAxisLabels(context: context)
 
-        renderer!.drawValues(context: context)
+        if clipValuesToContentEnabled
+        {
+            context.saveGState()
+            context.clip(to: _viewPortHandler.contentRect)
+            
+            renderer!.drawValues(context: context)
+            
+            context.restoreGState()
+        }
+        else
+        {
+            renderer!.drawValues(context: context)
+        }
 
         _legendRenderer.renderLegend(context: context)
 
-        drawMarkers(context: context)
-
         drawDescription(context: context)
+        
+        drawMarkers(context: context)
     }
     
     fileprivate var _autoScaleLastLowestVisibleX: Double?
@@ -285,8 +288,16 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         _xAxis.calculate(min: data.xMin, max: data.xMax)
         
         // calculate axis range (min / max) according to provided data
-        _leftAxis.calculate(min: data.getYMin(axis: .left), max: data.getYMax(axis: .left))
-        _rightAxis.calculate(min: data.getYMin(axis: .right), max: data.getYMax(axis: .right))
+        
+        if _leftAxis.isEnabled
+        {
+            _leftAxis.calculate(min: data.getYMin(axis: .left), max: data.getYMax(axis: .left))
+        }
+        
+        if _rightAxis.isEnabled
+        {
+            _rightAxis.calculate(min: data.getYMin(axis: .right), max: data.getYMax(axis: .right))
+        }
         
         calculateOffsets()
     }
@@ -363,17 +374,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                     {
                     case .top:
                         offsetTop += min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent) + _legend.yOffset
-                        if xAxis.isEnabled && xAxis.isDrawLabelsEnabled
-                        {
-                            offsetTop += xAxis.labelRotatedHeight
-                        }
                         
                     case .bottom:
                         offsetBottom += min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent) + _legend.yOffset
-                        if xAxis.isEnabled && xAxis.isDrawLabelsEnabled
-                        {
-                            offsetBottom += xAxis.labelRotatedHeight
-                        }
                         
                     default:
                         break
@@ -531,12 +534,12 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             
             if h === nil || h!.isEqual(self.lastHighlighted)
             {
-                self.highlightValue(highlight: nil, callDelegate: true)
+                self.highlightValue(nil, callDelegate: true)
                 self.lastHighlighted = nil
             }
             else
             {
-                self.highlightValue(highlight: h, callDelegate: true)
+                self.highlightValue(h, callDelegate: true)
                 self.lastHighlighted = h
             }
         }
@@ -735,7 +738,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                     (h !== nil && lastHighlighted !== nil && !h!.isEqual(lastHighlighted)))
                 {
                     self.lastHighlighted = h
-                    self.highlightValue(highlight: h, callDelegate: true)
+                    self.highlightValue(h, callDelegate: true)
                 }
             }
         }
@@ -956,7 +959,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     /// MARK: Viewport modifiers
     
-    /// Zooms in by 1.4, into the charts center. center.
+    /// Zooms in by 1.4, into the charts center.
     open func zoomIn()
     {
         let center = _viewPortHandler.contentCenter
@@ -969,7 +972,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         setNeedsDisplay()
     }
 
-    /// Zooms out by 0.7, from the charts center. center.
+    /// Zooms out by 0.7, from the charts center.
     open func zoomOut()
     {
         let center = _viewPortHandler.contentCenter
@@ -977,6 +980,17 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         let matrix = _viewPortHandler.zoomOut(x: center.x, y: -center.y)
         let _ = _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
 
+        // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
+        calculateOffsets()
+        setNeedsDisplay()
+    }
+    
+    /// Zooms out to original size.
+    open func resetZoom()
+    {
+        let matrix = _viewPortHandler.resetZoom()
+        let _ = _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
+        
         // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
         calculateOffsets()
         setNeedsDisplay()
