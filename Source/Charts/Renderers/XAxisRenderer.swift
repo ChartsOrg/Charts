@@ -207,7 +207,12 @@ open class XAxisRenderer: AxisRendererBase
         {
             labelMaxSize.width = xAxis.wordWrapWidthPercent * valueToPixelMatrix.a
         }
-        
+        if(xAxis.entries.count > 0) {
+            xAxis.entries.append(xAxis.entries.last! + 1.0)
+            if xAxis.entries.first != 0.0 {
+                xAxis.entries.insert(0.0, at: 0)
+            }
+        }
         let entries = xAxis.entries
         
         for i in stride(from: 0, to: entries.count, by: 1)
