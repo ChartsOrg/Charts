@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13122.19" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.16"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="HelveticaNeueLights.ttc">
+            <string>HelveticaNeue-Light</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AnotherBarChartViewController" customModule="ChartsDemo_iOS" customModuleProvider="target">
+            <connections>
+                <outlet property="chartView" destination="ygD-OK-fVY" id="T34-oK-FRa"/>
+                <outlet property="optionsButton" destination="CZS-Kr-id5" id="Do9-5s-cXg"/>
+                <outlet property="sliderTextX" destination="DCn-BM-chM" id="t3q-4W-tP8"/>
+                <outlet property="sliderTextY" destination="jr7-E3-wkT" id="bG2-fs-JyX"/>
+                <outlet property="sliderX" destination="n6r-P4-myf" id="Dsb-Gw-ie7"/>
+                <outlet property="sliderY" destination="RjR-tl-tBQ" id="Rzh-tM-fz3"/>
+                <outlet property="view" destination="Wef-0g-Mub" id="rlf-NK-pdM"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Wef-0g-Mub">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CZS-Kr-id5">
+                    <rect key="frame" x="289" y="4" width="78" height="35"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                    <inset key="contentEdgeInsets" minX="10" minY="7" maxX="10" maxY="7"/>
+                    <state key="normal" title="Options">
+                        <color key="titleColor" red="0.24040704969999999" green="0.48385584349999999" blue="0.68625134229999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="optionsButtonTapped:" destination="-1" eventType="touchUpInside" id="cXS-kB-0wj"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ygD-OK-fVY" customClass="BarChartView" customModule="Charts">
+                    <rect key="frame" x="0.0" y="47" width="375" height="501"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                </view>
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="500" translatesAutoresizingMaskIntoConstraints="NO" id="n6r-P4-myf">
+                    <rect key="frame" x="6" y="573" width="285" height="31"/>
+                    <connections>
+                        <action selector="slidersValueChanged:" destination="-1" eventType="valueChanged" id="RAg-n6-bE0"/>
+                    </connections>
+                </slider>
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="200" translatesAutoresizingMaskIntoConstraints="NO" id="RjR-tl-tBQ">
+                    <rect key="frame" x="6" y="611" width="285" height="31"/>
+                    <connections>
+                        <action selector="slidersValueChanged:" destination="-1" eventType="valueChanged" id="7dc-zO-QE0"/>
+                    </connections>
+                </slider>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="500" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jr7-E3-wkT">
+                    <rect key="frame" x="297" y="611.5" width="70" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="Pct-lg-2Yd"/>
+                        <constraint firstAttribute="width" constant="70" id="X8s-t5-cEU"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="500" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DCn-BM-chM">
+                    <rect key="frame" x="297" y="573.5" width="70" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="70" id="V0H-1u-qp1"/>
+                        <constraint firstAttribute="height" constant="30" id="mfF-FU-ziy"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+            </subviews>
+            <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="jr7-E3-wkT" firstAttribute="centerY" secondItem="RjR-tl-tBQ" secondAttribute="centerY" id="0w0-eP-lJl"/>
+                <constraint firstItem="ygD-OK-fVY" firstAttribute="leading" secondItem="Wef-0g-Mub" secondAttribute="leading" id="41i-ZA-q6O"/>
+                <constraint firstItem="n6r-P4-myf" firstAttribute="centerY" secondItem="DCn-BM-chM" secondAttribute="centerY" id="BGX-nD-524"/>
+                <constraint firstItem="n6r-P4-myf" firstAttribute="top" secondItem="ygD-OK-fVY" secondAttribute="bottom" constant="25" id="CCS-JJ-xRF"/>
+                <constraint firstAttribute="trailing" secondItem="CZS-Kr-id5" secondAttribute="trailing" constant="8" id="F52-zg-F09"/>
+                <constraint firstAttribute="trailing" secondItem="DCn-BM-chM" secondAttribute="trailing" constant="8" id="I9V-G1-mtE"/>
+                <constraint firstItem="RjR-tl-tBQ" firstAttribute="leading" secondItem="Wef-0g-Mub" secondAttribute="leading" constant="8" id="K6Z-YC-lyM"/>
+                <constraint firstItem="DCn-BM-chM" firstAttribute="leading" secondItem="n6r-P4-myf" secondAttribute="trailing" constant="8" id="Xon-qC-yK8"/>
+                <constraint firstItem="RjR-tl-tBQ" firstAttribute="top" secondItem="n6r-P4-myf" secondAttribute="bottom" constant="8" id="bcw-zr-3qs"/>
+                <constraint firstItem="CZS-Kr-id5" firstAttribute="top" secondItem="Wef-0g-Mub" secondAttribute="top" constant="4" id="jK7-xt-N3n"/>
+                <constraint firstAttribute="trailing" secondItem="ygD-OK-fVY" secondAttribute="trailing" id="jiy-uF-Yz2"/>
+                <constraint firstAttribute="trailing" secondItem="jr7-E3-wkT" secondAttribute="trailing" constant="8" id="leS-51-FLr"/>
+                <constraint firstItem="ygD-OK-fVY" firstAttribute="top" secondItem="Wef-0g-Mub" secondAttribute="top" constant="47" id="mrW-us-aIp"/>
+                <constraint firstItem="n6r-P4-myf" firstAttribute="leading" secondItem="Wef-0g-Mub" secondAttribute="leading" constant="8" id="qMK-Wa-06H"/>
+                <constraint firstItem="jr7-E3-wkT" firstAttribute="leading" secondItem="RjR-tl-tBQ" secondAttribute="trailing" constant="8" id="u32-aL-sk6"/>
+                <constraint firstAttribute="bottom" secondItem="RjR-tl-tBQ" secondAttribute="bottom" constant="26" id="zP0-q2-sv5"/>
+            </constraints>
+            <point key="canvasLocation" x="157.5" y="222.5"/>
+        </view>
+    </objects>
+</document>

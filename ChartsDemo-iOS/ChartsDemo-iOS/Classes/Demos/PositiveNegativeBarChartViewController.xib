@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13156.6" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13137.5"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="HelveticaNeueLights.ttc">
+            <string>HelveticaNeue-Light</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PositiveNegativeBarChartViewController" customModule="ChartsDemo_iOS" customModuleProvider="target">
+            <connections>
+                <outlet property="chartView" destination="OFp-sU-B1Q" id="9GJ-5L-WQ0"/>
+                <outlet property="optionsButton" destination="gYW-Nl-uhu" id="tzO-Qg-a0r"/>
+                <outlet property="view" destination="0SK-9m-4S1" id="aeR-ZO-4u5"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="0SK-9m-4S1">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gYW-Nl-uhu">
+                    <rect key="frame" x="289" y="4" width="78" height="35"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                    <inset key="contentEdgeInsets" minX="10" minY="7" maxX="10" maxY="7"/>
+                    <state key="normal" title="Options">
+                        <color key="titleColor" red="0.24040704969999999" green="0.48385584349999999" blue="0.68625134229999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="optionsButtonTapped:" destination="-1" eventType="touchUpInside" id="V6k-aT-Xma"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OFp-sU-B1Q" customClass="BarChartView" customModule="Charts">
+                    <rect key="frame" x="0.0" y="47" width="375" height="620"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="OFp-sU-B1Q" firstAttribute="leading" secondItem="0SK-9m-4S1" secondAttribute="leading" id="FHX-Ey-hVx"/>
+                <constraint firstAttribute="trailing" secondItem="OFp-sU-B1Q" secondAttribute="trailing" id="Fot-Vn-mLf"/>
+                <constraint firstItem="gYW-Nl-uhu" firstAttribute="top" secondItem="0SK-9m-4S1" secondAttribute="top" constant="4" id="bgP-gm-pxn"/>
+                <constraint firstAttribute="bottom" secondItem="OFp-sU-B1Q" secondAttribute="bottom" id="f02-62-Lf4"/>
+                <constraint firstItem="OFp-sU-B1Q" firstAttribute="top" secondItem="0SK-9m-4S1" secondAttribute="top" constant="47" id="w6U-e1-jgA"/>
+                <constraint firstAttribute="trailing" secondItem="gYW-Nl-uhu" secondAttribute="trailing" constant="8" id="yd7-3l-7hB"/>
+            </constraints>
+            <point key="canvasLocation" x="157.5" y="222.5"/>
+        </view>
+    </objects>
+</document>
