@@ -353,6 +353,60 @@ open class XAxisRenderer: AxisRendererBase
         }
     }
     
+    // MARK: - Ticks
+    open override func renderTickLines(context: CGContext)
+    {
+        guard
+            let xAxis = self.axis as? XAxis,
+            let transformer = self.transformer
+            else { return }
+        
+        if !xAxis.isDrawTickLinesEnabled
+        {
+            return
+        }
+        
+        context.saveGState()
+        defer { context.restoreGState() }
+        
+        context.setShouldAntialias(xAxis.gridAntialiasEnabled)
+        context.setStrokeColor(xAxis.tickLineColor.cgColor)
+        context.setLineWidth(xAxis.tickLineWidth)
+        context.setLineCap(xAxis.gridLineCap)
+        context.setLineDash(phase: 0.0, lengths: [])
+        
+        let valueToPixelMatrix = transformer.valueToPixelMatrix
+        
+        var position = CGPoint(x: 0.0, y: 0.0)
+        
+        let entries = xAxis.entries
+        
+        for i in stride(from: 0, to: entries.count, by: 1)
+        {
+            position.x = CGFloat(entries[i])
+            position.y = position.x
+            position = position.applying(valueToPixelMatrix)
+            
+            drawTickLine(context: context, x: position.x, y: position.y, height: xAxis.tickLineLength)
+        }
+    }
+    
+    open func drawTickLine(context: CGContext, x: CGFloat, y: CGFloat, height: CGFloat)
+    {
+        guard
+            let viewPortHandler = self.viewPortHandler
+            else { return }
+        
+        if x >= viewPortHandler.offsetLeft
+            && x <= viewPortHandler.chartWidth
+        {
+            context.beginPath()
+            context.move(to: CGPoint(x: x, y: viewPortHandler.contentBottom-height/2))
+            context.addLine(to: CGPoint(x: x, y: viewPortHandler.contentBottom+height/2))
+            context.strokePath()
+        }
+    }
+    
     open override func renderLimitLines(context: CGContext)
     {
         guard

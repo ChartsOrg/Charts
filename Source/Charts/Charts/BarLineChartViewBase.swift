@@ -252,6 +252,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         _xAxisRenderer.renderAxisLabels(context: context)
         _leftYAxisRenderer.renderAxisLabels(context: context)
         _rightYAxisRenderer.renderAxisLabels(context: context)
+        _xAxisRenderer.renderTickLines(context: context)
+        _rightYAxisRenderer.renderTickLines(context: context)
 
         if clipValuesToContentEnabled
         {

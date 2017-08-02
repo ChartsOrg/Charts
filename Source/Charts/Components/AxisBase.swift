@@ -31,15 +31,20 @@ open class AxisBase: ComponentBase
     open var axisLineWidth = CGFloat(0.5)
     open var axisLineDashPhase = CGFloat(0.0)
     open var axisLineDashLengths: [CGFloat]!
+    open var tickLineColor = NSUIColor.white
     
     open var gridColor = NSUIColor.gray.withAlphaComponent(0.9)
     open var gridLineWidth = CGFloat(0.5)
     open var gridLineDashPhase = CGFloat(0.0)
     open var gridLineDashLengths: [CGFloat]!
     open var gridLineCap = CGLineCap.butt
+    open var tickLineLength = CGFloat(10)
+    open var tickLineWidth = CGFloat(1)
+    open var tickLineOffset = CGFloat(-5)
     
     open var drawGridLinesEnabled = true
     open var drawAxisLineEnabled = true
+    open var drawTickLinesEnabled = true
     
     /// flag that indicates of the labels of this axis should be drawn or not
     open var drawLabelsEnabled = true
@@ -182,6 +187,8 @@ open class AxisBase: ComponentBase
     open var isDrawAxisLineEnabled: Bool { return drawAxisLineEnabled }
     
     open var isDrawLabelsEnabled: Bool { return drawLabelsEnabled }
+    
+    open var isDrawTickLinesEnabled: Bool { return drawTickLinesEnabled }
     
     /// Are the LimitLines drawn behind the data or in front of the data?
     /// 
