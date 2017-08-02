@@ -287,6 +287,47 @@ open class YAxisRenderer: AxisRendererBase
         context.drawPath(using: CGPathDrawingMode.stroke)
     }
     
+    // MARK: - Ticks
+    open override func renderTickLines(context: CGContext)
+    {
+        guard let
+            yAxis = self.axis as? YAxis
+            else { return }
+        
+        if !yAxis.isDrawTickLinesEnabled
+        {
+            return
+        }
+        
+        let positions = transformedPositions()
+        
+        context.saveGState()
+        defer { context.restoreGState() }
+        
+        context.setShouldAntialias(yAxis.gridAntialiasEnabled)
+        context.setStrokeColor(yAxis.tickLineColor.cgColor)
+        context.setLineWidth(yAxis.tickLineWidth)
+        context.setLineCap(yAxis.gridLineCap)
+        
+        // draw the grid
+        for i in 0 ..< positions.count
+        {
+            drawTickLine(context: context, position: positions[i], length: yAxis.tickLineLength, offset: yAxis.tickLineOffset)
+        }
+    }
+    
+    open func drawTickLine(context: CGContext, position: CGPoint, length: CGFloat, offset: CGFloat)
+    {
+        guard
+            let viewPortHandler = self.viewPortHandler
+            else { return }
+        
+        context.beginPath()
+        context.move(to: CGPoint(x: viewPortHandler.contentRight + offset , y: position.y))
+        context.addLine(to: CGPoint(x: viewPortHandler.contentRight + length + offset, y: position.y))
+        context.strokePath()
+    }
+    
     open override func renderLimitLines(context: CGContext)
     {
         guard
