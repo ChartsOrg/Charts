@@ -217,12 +217,12 @@ open class PieRadarChartViewBase: ChartViewBase
             legendRight += self.requiredBaseOffset
             legendTop += self.requiredBaseOffset
             legendBottom += self.requiredBaseOffset
+            
+            legendTop += self.extraTopOffset
+            legendRight += self.extraRightOffset
+            legendBottom += self.extraBottomOffset
+            legendLeft += self.extraLeftOffset
         }
-        
-        legendTop += self.extraTopOffset
-        legendRight += self.extraRightOffset
-        legendBottom += self.extraBottomOffset
-        legendLeft += self.extraLeftOffset
         
         var minOffset = self.minOffset
         
