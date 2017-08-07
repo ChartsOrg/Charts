@@ -76,7 +76,7 @@
     l.horizontalAlignment = ChartLegendHorizontalAlignmentLeft;
     l.verticalAlignment = ChartLegendVerticalAlignmentBottom;
     l.orientation = ChartLegendOrientationHorizontal;
-    l.drawInside = NO;
+    l.drawInsideEnabled = NO;
     l.form = ChartLegendFormSquare;
     l.formSize = 9.0;
     l.font = [UIFont systemFontOfSize:11.f];

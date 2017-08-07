@@ -40,9 +40,6 @@ open class XAxis: AxisBase
     /// This is the angle for drawing the X axis labels (in degrees)
     open var labelRotationAngle = CGFloat(0.0)
 
-    /// if set to true, the chart will avoid that the first and last label entry in the chart "clip" off the edge of the chart
-    open var avoidFirstLastClippingEnabled = false
-    
     /// the position of the x-labels relative to the chart
     open var labelPosition = LabelPosition.top
     
@@ -50,10 +47,12 @@ open class XAxis: AxisBase
     /// word wrapping is done using `(value width * labelRotatedWidth)`
     ///
     /// - note: currently supports all charts except pie/radar/horizontal-bar*
-    open var wordWrapEnabled = false
-    
     /// - returns: `true` if word wrapping the labels is enabled
-    open var isWordWrapEnabled: Bool { return wordWrapEnabled }
+    public var isWordWrapEnabled: Bool {
+        get { return _isWordWrapEnabled }
+        @objc(setWordWrapEnabled:) set { _isWordWrapEnabled = newValue }
+    }
+    private var _isWordWrapEnabled = false
     
     /// the width for wrapping the labels, as percentage out of one value width.
     /// used only when isWordWrapEnabled = true.
@@ -67,9 +66,12 @@ open class XAxis: AxisBase
         
         self.yOffset = 4.0
     }
-    
-    open var isAvoidFirstLastClippingEnabled: Bool
-    {
-        return avoidFirstLastClippingEnabled
+
+    /// if set to true, the chart will avoid that the first and last label entry in the chart "clip" off the edge of the chart
+
+    public var isAvoidFirstLastClippingEnabled: Bool {
+        get { return _isAvoidFirstLastClippingEnabled }
+        @objc(setAvoidFirstLastClippingEnabled:) set { _isAvoidFirstLastClippingEnabled = newValue }
     }
+    private var _isAvoidFirstLastClippingEnabled = false
 }

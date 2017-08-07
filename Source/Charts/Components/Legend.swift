@@ -97,12 +97,7 @@ open class Legend: ComponentBase
     /// Entries that will be appended to the end of the auto calculated entries after calculating the legend.
     /// (if the legend has already been calculated, you will need to call notifyDataSetChanged() to let the changes take effect)
     open var extraEntries = [LegendEntry]()
-    
-    /// Are the legend labels/colors a custom value or auto calculated? If false, then it's auto, if true, then custom.
-    /// 
-    /// **default**: false (automatic legend)
-    fileprivate var _isLegendCustom = false
-    
+
     /// This property is deprecated - Use `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.
     @available(*, deprecated: 1.0, message: "Use `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.")
     open var position: Position
@@ -128,11 +123,11 @@ open class Legend: ComponentBase
             {
                 if horizontalAlignment == .left
                 {
-                    return verticalAlignment == .top && drawInside ? .leftOfChartInside : (verticalAlignment == .center ? .leftOfChartCenter : .leftOfChart)
+                    return verticalAlignment == .top && isDrawInsideEnabled ? .leftOfChartInside : (verticalAlignment == .center ? .leftOfChartCenter : .leftOfChart)
                 }
                 else
                 {
-                    return verticalAlignment == .top && drawInside ? .rightOfChartInside : (verticalAlignment == .center ? .rightOfChartCenter : .rightOfChart)
+                    return verticalAlignment == .top && isDrawInsideEnabled ? .rightOfChartInside : (verticalAlignment == .center ? .rightOfChartCenter : .rightOfChart)
                 }
             }
         }
@@ -174,7 +169,7 @@ open class Legend: ComponentBase
                 orientation = .vertical
             }
             
-            drawInside = newValue == .leftOfChartInside || newValue == .rightOfChartInside
+            isDrawInsideEnabled = newValue == .leftOfChartInside || newValue == .rightOfChartInside
         }
     }
     
@@ -188,11 +183,12 @@ open class Legend: ComponentBase
     open var orientation: Orientation = Orientation.horizontal
     
     /// Flag indicating whether the legend will draw inside the chart or outside
-    open var drawInside: Bool = false
-    
-    /// Flag indicating whether the legend will draw inside the chart or outside
-    open var isDrawInsideEnabled: Bool { return drawInside }
-    
+    public var isDrawInsideEnabled: Bool {
+        get { return _isDrawInsideEnabled }
+        @objc(setDrawInsideEnabled:) set { _isDrawInsideEnabled = newValue }
+    }
+    private var _isDrawInsideEnabled = false
+
     /// The text direction of the legend
     open var direction: Direction = Direction.leftToRight
 
@@ -290,10 +286,12 @@ open class Legend: ComponentBase
     /// you may want to set maxSizePercent when word wrapping, to set the point where the text wraps.
     /// 
     /// **default**: true
-    open var wordWrapEnabled = true
-    
     /// if this is set, then word wrapping the legend is enabled.
-    open var isWordWrapEnabled: Bool { return wordWrapEnabled }
+    public var isWordWrapEnabled: Bool {
+        get { return _isWordWrapEnabled }
+        @objc(setWordWrapEnabled:) set { _isWordWrapEnabled = newValue }
+    }
+    private var _isWordWrapEnabled = true
 
     /// The maximum relative size out of the whole chart view in percent.
     /// If the legend is to the right/left of the chart, then this affects the width of the legend.
@@ -310,7 +308,7 @@ open class Legend: ComponentBase
         let formToTextSpace = self.formToTextSpace
         let xEntrySpace = self.xEntrySpace
         let yEntrySpace = self.yEntrySpace
-        let wordWrapEnabled = self.wordWrapEnabled
+        let wordWrapEnabled = self.isWordWrapEnabled
         let entries = self.entries
         let entryCount = entries.count
         
@@ -505,22 +503,22 @@ open class Legend: ComponentBase
     open func setCustom(entries: [LegendEntry])
     {
         self.entries = entries
-        _isLegendCustom = true
+        isLegendCustom = true
     }
     
     /// Calling this will disable the custom legend entries (set by `setLegend(...)`). Instead, the entries will again be calculated automatically (after `notifyDataSetChanged()` is called).
     open func resetCustom()
     {
-        _isLegendCustom = false
+        isLegendCustom = false
     }
     
+    /// Are the legend labels/colors a custom value or auto calculated? If false, then it's auto, if true, then custom.
+    ///
     /// **default**: false (automatic legend)
     /// - returns: `true` if a custom legend entries has been set
-    open var isLegendCustom: Bool
-    {
-        return _isLegendCustom
-    }
-    
+    public private(set) var isLegendCustom = false
+
+
     // MARK: - Deprecated stuff
     
     /// This property is deprecated - Use `entries`.

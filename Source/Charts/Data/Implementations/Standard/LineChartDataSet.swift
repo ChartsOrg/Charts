@@ -150,20 +150,24 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     }
     
     /// If true, drawing circles is enabled
-    open var drawCirclesEnabled = true
-    
     /// - returns: `true` if drawing circles for this DataSet is enabled, `false` ifnot
-    open var isDrawCirclesEnabled: Bool { return drawCirclesEnabled }
+    public var isDrawCirclesEnabled: Bool {
+        get { return _isDrawCirclesEnabled }
+        @objc(setDrawCirclesEnabled:) set { _isDrawCirclesEnabled = newValue }
+    }
+    private var _isDrawCirclesEnabled = true
     
     /// The color of the inner circle (the circle-hole).
     open var circleHoleColor: NSUIColor? = NSUIColor.white
     
     /// `true` if drawing circles for this DataSet is enabled, `false` ifnot
-    open var drawCircleHoleEnabled = true
-    
     /// - returns: `true` if drawing the circle-holes is enabled, `false` ifnot.
-    open var isDrawCircleHoleEnabled: Bool { return drawCircleHoleEnabled }
-    
+    public var isDrawCircleHoleEnabled: Bool {
+        get { return _isDrawCircleHoleEnabled }
+        @objc(setDrawCircleHoleEnabled:) set { _isDrawCircleHoleEnabled = newValue }
+    }
+    private var _isDrawCircleHoleEnabled = true
+
     /// This is how much (in pixels) into the dash pattern are we starting from.
     open var lineDashPhase = CGFloat(0.0)
     
@@ -209,8 +213,8 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         copy.lineDashPhase = lineDashPhase
         copy.lineDashLengths = lineDashLengths
         copy.lineCapType = lineCapType
-        copy.drawCirclesEnabled = drawCirclesEnabled
-        copy.drawCircleHoleEnabled = drawCircleHoleEnabled
+        copy.isDrawCirclesEnabled = isDrawCirclesEnabled
+        copy.isDrawCircleHoleEnabled = isDrawCircleHoleEnabled
         copy.mode = mode
         return copy
     }

@@ -264,11 +264,13 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     }
     
     /// if true, value highlighting is enabled
-    open var highlightEnabled = true
-    
     /// - returns: `true` if value highlighting is enabled for this dataset
-    open var isHighlightEnabled: Bool { return highlightEnabled }
-    
+    public var isHighlightEnabled: Bool {
+        get { return _isHighlightEnabled }
+        set { _isHighlightEnabled = newValue }
+    }
+    private var _isHighlightEnabled = true
+
     /// Custom formatter that is used instead of the auto-formatter if set
     internal var _valueFormatter: IValueFormatter?
     
@@ -292,7 +294,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
         }
     }
     
-    open var needsFormatter: Bool
+    public var needsFormatter: Bool
     {
         return _valueFormatter == nil
     }
@@ -355,25 +357,24 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     /// Set this to true to draw y-values on the chart.
     ///
     /// - note: For bar and line charts: if `maxVisibleCount` is reached, no values will be drawn even if this is enabled.
-    open var drawValuesEnabled = true
-    
     /// - returns: `true` if y-value drawing is enabled, `false` ifnot
-    open var isDrawValuesEnabled: Bool
-    {
-        return drawValuesEnabled
+    public var isDrawValuesEnabled: Bool {
+        get { return _isDrawValuesEnabled }
+        set { _isDrawValuesEnabled = newValue }
     }
+    private var _isDrawValuesEnabled = true
 
     /// Set this to true to draw y-icons on the chart.
     ///
     /// - note: For bar and line charts: if `maxVisibleCount` is reached, no icons will be drawn even if this is enabled.
-    open var drawIconsEnabled = true
     
     /// Returns true if y-icon drawing is enabled, false if not
-    open var isDrawIconsEnabled: Bool
-    {
-        return drawIconsEnabled
+    public var isDrawIconsEnabled: Bool {
+        get { return _isDrawIconsEnabled }
+        set { _isDrawIconsEnabled = newValue }
     }
-    
+    private var _isDrawIconsEnabled = true
+
     /// Offset of icons drawn on the chart.  
     ///
     /// For all charts except Pie and Radar it will be ordinary (x offset, y offset).
@@ -382,13 +383,12 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     open var iconsOffset = CGPoint(x: 0, y: 0)
     
     /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
-    open var visible = true
-    
     /// - returns: `true` if this DataSet is visible inside the chart, or `false` ifit is currently hidden.
-    open var isVisible: Bool
-    {
-        return visible
+    public var isVisible: Bool {
+        get { return _isVisible }
+        set { _isVisible = newValue }
     }
+    private var _isVisible = true
     
     // MARK: - NSObject
     

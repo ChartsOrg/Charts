@@ -27,7 +27,7 @@ public protocol ICandleChartDataSet: ILineScatterCandleRadarChartDataSet
     /// when false, only "ticks" will show
     ///
     /// **default**: true
-    var showCandleBar: Bool { get set }
+    var showCandleBar: Bool { get @objc(setShowCandleBar:)set }
     
     /// the width of the candle-shadow-line in pixels.
     ///
@@ -37,12 +37,10 @@ public protocol ICandleChartDataSet: ILineScatterCandleRadarChartDataSet
     /// the color of the shadow line
     var shadowColor: NSUIColor? { get set }
     
-    /// use candle color for the shadow
-    var shadowColorSameAsCandle: Bool { get set }
-    
     /// Is the shadow color same as the candle color?
-    var isShadowColorSameAsCandle: Bool { get }
-    
+    /// use candle color for the shadow
+    var isShadowColorSameAsCandle: Bool { get @objc(setShadowColorSameAsCandle:)set }
+
     /// color for open == close
     var neutralColor: NSUIColor? { get set }
     
@@ -53,14 +51,8 @@ public protocol ICandleChartDataSet: ILineScatterCandleRadarChartDataSet
     var decreasingColor: NSUIColor? { get set }
     
     /// Are increasing values drawn as filled?
-    var increasingFilled: Bool { get set }
-    
-    /// Are increasing values drawn as filled?
-    var isIncreasingFilled: Bool { get }
-    
+    var isIncreasingFilled: Bool { get @objc(setIncreasingFilled:)set }
+        
     /// Are decreasing values drawn as filled?
-    var decreasingFilled: Bool { get set }
-    
-    /// Are decreasing values drawn as filled?
-    var isDecreasingFilled: Bool { get }
+    var isDecreasingFilled: Bool { get @objc(setDecreasingFilled:)set }
 }

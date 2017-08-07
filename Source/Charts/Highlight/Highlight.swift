@@ -151,7 +151,7 @@ open class Highlight: NSObject
     open var stackIndex: Int { return _stackIndex }
     open var axis: YAxis.AxisDependency { return _axis }
     
-    open var isStacked: Bool { return _stackIndex >= 0 }
+    public var isStacked: Bool { return _stackIndex >= 0 }
     
     /// Sets the x- and y-position (pixels) where this highlight was last drawn.
     open func setDraw(x: CGFloat, y: CGFloat)

@@ -17,7 +17,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
 {
     /// the fill-formatter used for determining the position of the fill-line
     internal var _fillFormatter: IFillFormatter!
-    
+
     /// enum that allows to specify the order in which the different data objects for the combined-chart are drawn
     @objc(CombinedChartDrawOrder)
     public enum DrawOrder: Int
@@ -28,23 +28,23 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         case candle
         case scatter
     }
-    
+
     open override func initialize()
     {
         super.initialize()
-        
+
         self.highlighter = CombinedHighlighter(chart: self, barDataProvider: self)
-        
+
         // Old default behaviour
-        self.highlightFullBarEnabled = true
-        
+        self.isHighlightFullBarEnabled = true
+
         _fillFormatter = DefaultFillFormatter()
-        
+
         renderer = CombinedChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
     }
-    
+
     open override var data: ChartData?
-    {
+        {
         get
         {
             return super.data
@@ -52,16 +52,16 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         set
         {
             super.data = newValue
-            
+
             self.highlighter = CombinedHighlighter(chart: self, barDataProvider: self)
-            
+
             (renderer as! CombinedChartRenderer?)!.createRenderers()
             renderer?.initBuffers()
         }
     }
-    
+
     open var fillFormatter: IFillFormatter
-    {
+        {
         get
         {
             return _fillFormatter
@@ -75,7 +75,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             }
         }
     }
-    
+
     /// - returns: The Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the CombinedChart.
     open override func getHighlightByTouchPoint(_ pt: CGPoint) -> Highlight?
     {
@@ -84,12 +84,12 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             Swift.print("Can't select by touch. No data set.")
             return nil
         }
-        
+
         guard let h = self.highlighter?.getHighlight(x: pt.x, y: pt.y)
             else { return nil }
-        
+
         if !isHighlightFullBarEnabled { return h }
-        
+
         // For isHighlightFullBarEnabled, remove stackIndex
         return Highlight(
             x: h.x, y: h.y,
@@ -99,21 +99,21 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             stackIndex: -1,
             axis: h.axis)
     }
-    
+
     // MARK: - CombinedChartDataProvider
-    
+
     open var combinedData: CombinedChartData?
-    {
+        {
         get
         {
             return _data as? CombinedChartData
         }
     }
-    
+
     // MARK: - LineChartDataProvider
-    
+
     open var lineData: LineChartData?
-    {
+        {
         get
         {
             if _data === nil
@@ -123,11 +123,11 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             return (_data as! CombinedChartData!).lineData
         }
     }
-    
+
     // MARK: - BarChartDataProvider
-    
+
     open var barData: BarChartData?
-    {
+        {
         get
         {
             if _data === nil
@@ -137,11 +137,11 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             return (_data as! CombinedChartData!).barData
         }
     }
-    
+
     // MARK: - ScatterChartDataProvider
-    
+
     open var scatterData: ScatterChartData?
-    {
+        {
         get
         {
             if _data === nil
@@ -151,11 +151,11 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             return (_data as! CombinedChartData!).scatterData
         }
     }
-    
+
     // MARK: - CandleChartDataProvider
-    
+
     open var candleData: CandleChartData?
-    {
+        {
         get
         {
             if _data === nil
@@ -165,11 +165,11 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             return (_data as! CombinedChartData!).candleData
         }
     }
-    
+
     // MARK: - BubbleChartDataProvider
-    
+
     open var bubbleData: BubbleChartData?
-    {
+        {
         get
         {
             if _data === nil
@@ -179,34 +179,28 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             return (_data as! CombinedChartData!).bubbleData
         }
     }
-    
+
     // MARK: - Accessors
-    
+
     /// if set to true, all values are drawn above their bars, instead of below their top
-    open var drawValueAboveBarEnabled: Bool
-        {
-        get { return (renderer as! CombinedChartRenderer!).drawValueAboveBarEnabled }
-        set { (renderer as! CombinedChartRenderer!).drawValueAboveBarEnabled = newValue }
-    }
-    
-    /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
-    open var drawBarShadowEnabled: Bool
+    public var isDrawValueAboveBarEnabled: Bool
     {
-        get { return (renderer as! CombinedChartRenderer!).drawBarShadowEnabled }
-        set { (renderer as! CombinedChartRenderer!).drawBarShadowEnabled = newValue }
+        get { return (renderer as! CombinedChartRenderer!).isDrawValueAboveBarEnabled }
+        @objc(setDrawValueAboveBarEnabled:) set { (renderer as! CombinedChartRenderer!).isDrawValueAboveBarEnabled = newValue }
     }
-    
-    /// - returns: `true` if drawing values above bars is enabled, `false` ifnot
-    open var isDrawValueAboveBarEnabled: Bool { return (renderer as! CombinedChartRenderer!).drawValueAboveBarEnabled }
-    
-    /// - returns: `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
-    open var isDrawBarShadowEnabled: Bool { return (renderer as! CombinedChartRenderer!).drawBarShadowEnabled }
-    
+
+    /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
+    public var isDrawBarShadowEnabled: Bool
+    {
+        get { return (renderer as! CombinedChartRenderer!).isDrawBarShadowEnabled }
+        @objc(setDrawBarShadowEnabled:) set { (renderer as! CombinedChartRenderer!).isDrawBarShadowEnabled = newValue }
+    }
+
     /// the order in which the provided data objects should be drawn.
-    /// The earlier you place them in the provided array, the further they will be in the background. 
+    /// The earlier you place them in the provided array, the further they will be in the background.
     /// e.g. if you provide [DrawOrder.Bar, DrawOrder.Line], the bars will be drawn behind the lines.
     open var drawOrder: [Int]
-    {
+        {
         get
         {
             return (renderer as! CombinedChartRenderer!).drawOrder.map { $0.rawValue }
@@ -216,10 +210,11 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             (renderer as! CombinedChartRenderer!).drawOrder = newValue.map { DrawOrder(rawValue: $0)! }
         }
     }
-    
+
     /// Set this to `true` to make the highlight operation full-bar oriented, `false` to make it highlight single values
-    open var highlightFullBarEnabled: Bool = false
-    
-    /// - returns: `true` the highlight is be full-bar oriented, `false` ifsingle-value
-    open var isHighlightFullBarEnabled: Bool { return highlightFullBarEnabled }
+    public var isHighlightFullBarEnabled: Bool {
+        get { return _isHighlightFullBarEnabled }
+        set { _isHighlightFullBarEnabled = newValue }
+    }
+    private var _isHighlightFullBarEnabled: Bool = false
 }

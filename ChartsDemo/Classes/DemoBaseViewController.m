@@ -77,7 +77,7 @@
     {
         for (id<IChartDataSet> set in chartView.data.dataSets)
         {
-            set.drawValuesEnabled = !set.isDrawValuesEnabled;
+            [set setDrawValuesEnabled:!set.isDrawValuesEnabled];
         }
         
         [chartView setNeedsDisplay];
@@ -87,7 +87,7 @@
     {
         for (id<IChartDataSet> set in chartView.data.dataSets)
         {
-            set.drawIconsEnabled = !set.isDrawIconsEnabled;
+            [set setDrawIconsEnabled:!set.isDrawIconsEnabled];
         }
         
         [chartView setNeedsDisplay];
@@ -305,7 +305,7 @@
     l.horizontalAlignment = ChartLegendHorizontalAlignmentRight;
     l.verticalAlignment = ChartLegendVerticalAlignmentTop;
     l.orientation = ChartLegendOrientationVertical;
-    l.drawInside = NO;
+    l.drawInsideEnabled = NO;
     l.xEntrySpace = 7.0;
     l.yEntrySpace = 0.0;
     l.yOffset = 0.0;

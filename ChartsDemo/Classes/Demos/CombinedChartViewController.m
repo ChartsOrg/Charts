@@ -68,7 +68,7 @@
     l.horizontalAlignment = ChartLegendHorizontalAlignmentCenter;
     l.verticalAlignment = ChartLegendVerticalAlignmentBottom;
     l.orientation = ChartLegendOrientationHorizontal;
-    l.drawInside = NO;
+    l.drawInsideEnabled = NO;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.drawGridLinesEnabled = NO;

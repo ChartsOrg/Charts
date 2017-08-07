@@ -52,13 +52,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// object that holds all data that was originally set for the chart, before it was modified or any filtering algorithms had been applied
     internal var _data: ChartData?
-    
-    /// Flag that indicates if highlighting per tap (touch) is enabled
-    fileprivate var _highlightPerTapEnabled = true
-    
-    /// If set to true, chart continues to scroll after touch up
-    open var dragDecelerationEnabled = true
-    
+
     /// Deceleration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately.
     /// 1 is an invalid value, and will be converted to 0.999 automatically.
     fileprivate var _dragDecelerationFrictionCoef: CGFloat = 0.9
@@ -161,12 +155,14 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// `true` if drawing the marker is enabled when tapping on values
     /// (use the `marker` property to specify a marker)
-    open var drawMarkers = true
-    
     /// - returns: `true` if drawing the marker is enabled when tapping on values
     /// (use the `marker` property to specify a marker)
-    open var isDrawMarkersEnabled: Bool { return drawMarkers }
-    
+    public var isDrawMarkersEnabled: Bool {
+        get { return _isDrawMarkersEnabled }
+        @objc(setDrawMarkersEnabled:) set { _isDrawMarkersEnabled = newValue }
+    }
+    private var _isDrawMarkersEnabled = true
+
     /// The marker that is displayed when a value is clicked on the chart
     open var marker: IMarker?
     
@@ -425,22 +421,19 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     {
         return _indicesToHighlight
     }
-    
+
+    /// Flag that indicates if highlighting per tap (touch) is enabled
     /// Set this to false to prevent values from being highlighted by tap gesture.
     /// Values can still be highlighted via drag or programmatically.
     /// **default**: true
-    open var highlightPerTapEnabled: Bool
-    {
-        get { return _highlightPerTapEnabled }
-        set { _highlightPerTapEnabled = newValue }
-    }
-    
     /// - returns: `true` if values can be highlighted via tap gesture, `false` ifnot.
-    open var isHighLightPerTapEnabled: Bool
+    public var isHighlightPerTapEnabled: Bool
     {
-        return highlightPerTapEnabled
+        get { return _isHighlightPerTapEnabled }
+        @objc(setHighlightPerTapEnabled:) set { _isHighlightPerTapEnabled = newValue }
     }
-    
+    private var _isHighlightPerTapEnabled = true
+
     /// Checks if the highlight array is null, has a length of zero or if the first object is null.
     /// - returns: `true` if there are values to highlight, `false` ifthere are no values to highlight.
     open func valuesToHighlight() -> Bool
@@ -951,13 +944,16 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         }
     }
     
+    /// If set to true, chart continues to scroll after touch up
     /// **default**: true
     /// - returns: `true` if chart continues to scroll after touch up, `false` ifnot.
-    open var isDragDecelerationEnabled: Bool
+    public var isDragDecelerationEnabled: Bool
         {
-            return dragDecelerationEnabled
+        get { return _isDragDecelerationEnabled }
+        @objc(setDragDecelerationEnabled:) set { _isDragDecelerationEnabled = newValue }
     }
-    
+    private var _isDragDecelerationEnabled = true
+
     /// Deceleration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately.
     /// 1 is an invalid value, and will be converted to 0.999 automatically.
     /// 

@@ -115,7 +115,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 // draw the shadows
                 
                 var shadowColor: NSUIColor! = nil
-                if dataSet.shadowColorSameAsCandle
+                if dataSet.isShadowColorSameAsCandle
                 {
                     if open > close
                     {

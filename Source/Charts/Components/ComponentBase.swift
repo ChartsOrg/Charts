@@ -16,10 +16,7 @@ import CoreGraphics
 /// This class encapsulates everything both Axis, Legend and LimitLines have in common
 @objc(ChartComponentBase)
 open class ComponentBase: NSObject
-{
-    /// flag that indicates if this component is enabled or not
-    open var enabled = true
-    
+{    
     /// The offset this component has on the x-axis
     /// **default**: 5.0
     open var xOffset = CGFloat(5.0)
@@ -33,5 +30,10 @@ open class ComponentBase: NSObject
         super.init()
     }
 
-    open var isEnabled: Bool { return enabled }
+    /// flag that indicates if this component is enabled or not
+    public var isEnabled: Bool {
+        get { return _isEnabled }
+        @objc(setEnabled:) set { _isEnabled = newValue }
+    }
+    private var _isEnabled = true
 }

@@ -129,7 +129,7 @@
     {
         for (id<ICandleChartDataSet> set in _chartView.data.dataSets)
         {
-            set.shadowColorSameAsCandle = !set.shadowColorSameAsCandle;
+            set.isShadowColorSameAsCandle = !set.isShadowColorSameAsCandle;
         }
         
         [_chartView notifyDataSetChanged];

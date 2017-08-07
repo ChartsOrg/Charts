@@ -81,7 +81,7 @@
     l.horizontalAlignment = ChartLegendHorizontalAlignmentCenter;
     l.verticalAlignment = ChartLegendVerticalAlignmentTop;
     l.orientation = ChartLegendOrientationHorizontal;
-    l.drawInside = NO;
+    l.drawInsideEnabled = NO;
     l.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     l.xEntrySpace = 7.0;
     l.yEntrySpace = 5.0;
@@ -219,7 +219,7 @@
     {
         for (RadarChartDataSet *set in _chartView.data.dataSets)
         {
-            set.drawHighlightCircleEnabled = !set.drawHighlightCircleEnabled;
+            set.drawHighlightCircleEnabled = !set.isDrawHighlightCircleEnabled;
         }
         
         [_chartView setNeedsDisplay];
