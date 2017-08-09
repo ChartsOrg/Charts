@@ -102,7 +102,7 @@ open class MarkerImage: NSObject, IMarker
             height: size.height)
         
         NSUIGraphicsPushContext(context)
-        image!.draw(in: rect)
+        image?.draw(in: rect)
         NSUIGraphicsPopContext()
     }
 }

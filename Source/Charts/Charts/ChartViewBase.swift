@@ -249,15 +249,15 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             _data = newValue
             _offsetsCalculated = false
             
-            if _data == nil
+            guard let _data = _data else
             {
                 return
             }
             
             // calculate how many digits are needed
-            setupDefaultFormatter(min: _data!.getYMin(), max: _data!.getYMax())
+            setupDefaultFormatter(min: _data.getYMin(), max: _data.getYMax())
             
-            for set in _data!.dataSets
+            for set in _data.dataSets
             {
                 if set.needsFormatter || set.valueFormatter === _defaultValueFormatter
                 {
@@ -394,11 +394,10 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             descriptionText.count > 0
             else { return }
         
-        var position = description.position
-
-        // if no position specified, draw on default position
-        if position == nil
-        {
+        let position: CGPoint
+        if let descriptionPosition = description.position {
+            position = descriptionPosition
+        } else {
             let frame = self.bounds
             position = CGPoint(
                 x: frame.width - _viewPortHandler.offsetRight - description.xOffset,
@@ -413,7 +412,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         ChartUtils.drawText(
             context: context,
             text: descriptionText,
-            point: position!,
+            point: position,
             align: description.textAlign,
             attributes: attrs)
     }
@@ -562,12 +561,12 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         {
             if h == nil
             {
-                delegate!.chartValueNothingSelected?(self)
+                delegate?.chartValueNothingSelected?(self)
             }
             else
             {
                 // notify the listener
-                delegate!.chartValueSelected?(self, entry: entry!, highlight: h!)
+                delegate?.chartValueSelected?(self, entry: entry!, highlight: h!)
             }
         }
         
@@ -874,7 +873,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
 		guard let image = getChartImage(transparent: format != .jpeg)
             else { return false }
         
-        var imageData: Data!
+        let imageData: Data?
         switch (format)
         {
         case .png:
@@ -888,7 +887,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         
         do
         {
-            try imageData.write(to: URL(fileURLWithPath: path), options: .atomic)
+            try imageData?.write(to: URL(fileURLWithPath: path), options: .atomic)
         }
         catch
         {

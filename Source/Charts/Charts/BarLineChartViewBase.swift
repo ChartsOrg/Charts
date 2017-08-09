@@ -233,7 +233,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         context.restoreGState()
         
-        renderer!.drawExtras(context: context)
+        renderer?.drawExtras(context: context)
         
         if _xAxis.isEnabled && !_xAxis.isDrawLimitLinesBehindDataEnabled
         {
@@ -259,13 +259,13 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             context.saveGState()
             context.clip(to: _viewPortHandler.contentRect)
             
-            renderer!.drawValues(context: context)
+            renderer?.drawValues(context: context)
             
             context.restoreGState()
         }
         else
         {
-            renderer!.drawValues(context: context)
+            renderer?.drawValues(context: context)
         }
 
         _legendRenderer.renderLegend(context: context)
@@ -533,7 +533,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             
             let h = getHighlightByTouchPoint(recognizer.location(in: self))
             
-            if h === nil || h!.isEqual(self.lastHighlighted)
+            if h === nil || h?.isEqual(self.lastHighlighted) ?? false
             {
                 self.highlightValue(nil, callDelegate: true)
                 self.lastHighlighted = nil
@@ -753,7 +753,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 
                 if ((h === nil && lastHighlighted !== nil) ||
                     (h !== nil && lastHighlighted === nil) ||
-                    (h !== nil && lastHighlighted !== nil && !h!.isEqual(lastHighlighted)))
+                    (h !== nil && lastHighlighted !== nil && !(h?.isEqual(lastHighlighted) ?? false)))
                 {
                     self.lastHighlighted = h
                     self.highlightValue(h, callDelegate: true)
@@ -931,7 +931,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             ))
         {
             var scrollView = self.superview
-            while (scrollView !== nil && !scrollView!.isKind(of: NSUIScrollView.self))
+            while (scrollView !== nil && !(scrollView?.isKind(of: NSUIScrollView.self) ?? false))
             {
                 scrollView = scrollView?.superview
             }
@@ -946,22 +946,17 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
             var foundScrollView = scrollView as? NSUIScrollView
             
-            if foundScrollView !== nil && !foundScrollView!.nsuiIsScrollEnabled
+            if !(foundScrollView?.nsuiIsScrollEnabled ?? true)
             {
                 foundScrollView = nil
             }
             
             var scrollViewPanGestureRecognizer: NSUIGestureRecognizer!
             
-            if foundScrollView !== nil
-            {
-                for scrollRecognizer in foundScrollView!.nsuiGestureRecognizers!
+            foundScrollView?.nsuiGestureRecognizers?.forEach { scrollRecognizer in
+                if let panGestureRecognizer = scrollRecognizer as? NSUIPanGestureRecognizer
                 {
-                    if scrollRecognizer.isKind(of: NSUIPanGestureRecognizer.self)
-                    {
-                        scrollViewPanGestureRecognizer = scrollRecognizer as! NSUIPanGestureRecognizer
-                        break
-                    }
+                    scrollViewPanGestureRecognizer = panGestureRecognizer
                 }
             }
             
