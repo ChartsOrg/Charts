@@ -296,4 +296,31 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
             return nil
         }
     }
+    
+    
+    /// get data set for highlight
+    ///
+    /// - Parameter highlight: current highlight
+    /// - Returns: dataset related to highlight
+    open func getDataSetByHighlight(_ highlight: Highlight) -> IChartDataSet!
+    {
+        let dataObjects = allData
+        
+        if highlight.dataIndex >= dataObjects.count
+        {
+            return nil
+        }
+        
+        let data = dataObjects[highlight.dataIndex]
+        
+        if highlight.dataSetIndex >= data.dataSetCount
+        {
+            return nil
+        }
+        else
+        {
+            return data.dataSets[highlight.dataSetIndex]
+        }
+        
+    }
 }
