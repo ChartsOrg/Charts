@@ -298,25 +298,29 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
                 break
             }
             
-            let originalColor = dataSet.color(atIndex: Int(entry.x))
-            
-            var h: CGFloat = 0.0
-            var s: CGFloat = 0.0
-            var b: CGFloat = 0.0
-            var a: CGFloat = 0.0
-            
-            originalColor.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
-            
-            let color = NSUIColor(hue: h, saturation: s, brightness: b * 0.5, alpha: a)
-            let rect = CGRect(
+            var rect = CGRect(
                 x: _pointBuffer.x - shapeHalf,
                 y: _pointBuffer.y - shapeHalf,
                 width: shapeSize,
                 height: shapeSize)
             
-            context.setLineWidth(dataSet.highlightCircleWidth)
-            context.setStrokeColor(color.cgColor)
-            context.strokeEllipse(in: rect)
+            if dataSet.isHighlightCircleFillEnabled
+            {
+                let offset = -( dataSet.highlightCircleWidth / 2 )
+                    
+                rect = rect.offsetBy(dx: offset, dy: offset)
+                
+                rect.size.width += dataSet.highlightCircleWidth
+                rect.size.height += dataSet.highlightCircleWidth
+                
+                context.setFillColor(dataSet.highlightColor.cgColor)
+                context.fillEllipse(in: rect)
+            } else
+            {
+                context.setLineWidth(dataSet.highlightCircleWidth)
+                context.setStrokeColor(dataSet.highlightColor.cgColor)
+                context.strokeEllipse(in: rect)
+            }
             
             high.setDraw(x: _pointBuffer.x, y: _pointBuffer.y)
         }

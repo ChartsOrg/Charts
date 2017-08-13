@@ -40,6 +40,16 @@ open class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubbleCh
     
     // MARK: - Styling functions and accessors
     
+    /// Sets wether highlighted circle will be fully filled or surrounded with another circle
+    open var highlightCircleFillEnabled = false
+    
+    open var isHighlightCircleFillEnabled: Bool {
+        get{
+            return highlightCircleFillEnabled
+        }
+    }
+
+    
     /// Sets/gets the width of the circle that surrounds the bubble when highlighted
     open var highlightCircleWidth: CGFloat = 2.5
     
