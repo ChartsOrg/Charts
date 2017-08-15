@@ -137,6 +137,26 @@ open class ChartData: NSObject
         }
     }
     
+    open var leftAxisMin: Double
+    {
+        return _leftAxisMin
+    }
+    
+    open var leftAxisMax: Double
+    {
+        return _leftAxisMax
+    }
+    
+    open var rightAxisMin: Double
+    {
+        return _rightAxisMin
+    }
+    
+    open var rightAxisMax: Double
+    {
+        return _rightAxisMax
+    }
+    
     /// Adjusts the current minimum and maximum values based on the provided Entry object.
     open func calcMinMax(entry e: ChartDataEntry, axis: YAxis.AxisDependency)
     {
@@ -330,7 +350,7 @@ open class ChartData: NSObject
     
     /// - returns: All DataSet objects this ChartData object holds.
     open var dataSets: [IChartDataSet]
-    {
+        {
         get
         {
             return _dataSets
@@ -343,7 +363,7 @@ open class ChartData: NSObject
     }
     
     /// Retrieve the index of a ChartDataSet with a specific label from the ChartData. Search can be case sensitive or not.
-    /// 
+    ///
     /// **IMPORTANT: This method does calculations at runtime, do not over-use in performance critical situations.**
     ///
     /// - parameter dataSets: the DataSet array to search
@@ -472,8 +492,8 @@ open class ChartData: NSObject
         return false
     }
     
-    /// Removes the DataSet at the given index in the DataSet array from the data object. 
-    /// Also recalculates all minimum and maximum values. 
+    /// Removes the DataSet at the given index in the DataSet array from the data object.
+    /// Also recalculates all minimum and maximum values.
     ///
     /// - returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
     @discardableResult open func removeDataSetByIndex(_ index: Int) -> Bool
@@ -528,7 +548,7 @@ open class ChartData: NSObject
     }
     
     /// Removes the Entry object closest to the given xIndex from the ChartDataSet at the
-    /// specified index. 
+    /// specified index.
     /// - returns: `true` if an entry was removed, `false` ifno Entry was found that meets the specified requirements.
     @discardableResult open func removeEntry(xValue: Double, dataSetIndex: Int) -> Bool
     {
@@ -565,7 +585,7 @@ open class ChartData: NSObject
         
         return nil
     }
-
+    
     /// - returns: The index of the provided DataSet in the DataSet array of this data object, or -1 if it does not exist.
     open func indexOfDataSet(_ dataSet: IChartDataSet) -> Int
     {
@@ -675,7 +695,7 @@ open class ChartData: NSObject
     /// Enables / disables highlighting values for all DataSets this data object contains.
     /// If set to true, this means that values can be highlighted programmatically or by touch gesture.
     open var highlightEnabled: Bool
-    {
+        {
         get
         {
             for set in dataSets
@@ -708,7 +728,7 @@ open class ChartData: NSObject
         notifyDataChanged()
     }
     
-    /// Checks if this data object contains the specified DataSet. 
+    /// Checks if this data object contains the specified DataSet.
     /// - returns: `true` if so, `false` ifnot.
     open func contains(dataSet: IChartDataSet) -> Bool
     {
@@ -735,7 +755,7 @@ open class ChartData: NSObject
         
         return count
     }
-
+    
     /// - returns: The DataSet object with the maximum number of entries or null if there are no DataSets.
     open var maxEntryCountSet: IChartDataSet?
     {
