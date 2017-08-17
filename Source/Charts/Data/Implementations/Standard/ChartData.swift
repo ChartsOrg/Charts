@@ -89,15 +89,23 @@ open class ChartData: NSObject
         // left axis
         let firstLeft = getFirstLeft(dataSets: dataSets)
         
+        
+        
         if firstLeft !== nil
         {
             _leftAxisMax = firstLeft!.yMax
             _leftAxisMin = firstLeft!.yMin
             
+            if(_leftAxisMax == 9999999999){
+                _leftAxisMax = 0;
+            }
+            
+            
             for dataSet in _dataSets
             {
                 if dataSet.axisDependency == .left
                 {
+                    
                     if dataSet.yMin < _leftAxisMin
                     {
                         _leftAxisMin = dataSet.yMin
@@ -105,7 +113,10 @@ open class ChartData: NSObject
                     
                     if dataSet.yMax > _leftAxisMax
                     {
-                        _leftAxisMax = dataSet.yMax
+                        if(dataSet.yMax != 9999999999){
+                            _leftAxisMax = dataSet.yMax
+                        }
+                        
                     }
                 }
             }
