@@ -151,7 +151,10 @@ open class ChartDataSet: ChartBaseDataSet
         }
         if e.y > _yMax
         {
-            _yMax = e.y
+            if(e.y != 9999999999){
+                _yMax = e.y
+            }
+            
         }
     }
     
