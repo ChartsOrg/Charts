@@ -176,81 +176,25 @@ open class Highlight: NSObject
     
     open override func isEqual(_ object: Any?) -> Bool
     {
-        if object == nil
-        {
-            return false
-        }
-        
-        if !(object! as AnyObject).isKind(of: type(of: self))
-        {
-            return false
-        }
-        
-        if (object! as AnyObject).x != _x
-        {
-            return false
-        }
-        
-        if (object! as AnyObject).y != _y
-        {
-            return false
-        }
-        
-        if (object! as AnyObject).dataIndex != dataIndex
-        {
-            return false
-        }
-        
-        if (object! as AnyObject).dataSetIndex != _dataSetIndex
-        {
-            return false
-        }
-        
-        if (object! as AnyObject).stackIndex != _stackIndex
-        {
-            return false
-        }
-        
-        return true
+        guard let object = object as? Highlight else { return false }
+        return self == object
     }
 }
 
-func ==(lhs: Highlight, rhs: Highlight) -> Bool
-{
-    if lhs === rhs
+// MARK: Equatable
+extension Highlight /*: Equatable*/ {
+    static func ==(lhs: Highlight, rhs: Highlight) -> Bool
     {
-        return true
+        if lhs === rhs
+        {
+            return true
+        }
+
+        return lhs.isKind(of: type(of: rhs))
+            && lhs._x == rhs._x
+            && lhs._y == rhs._y
+            && lhs.dataIndex == rhs.dataIndex
+            && lhs._dataSetIndex == rhs._dataSetIndex
+            && lhs._stackIndex == rhs._stackIndex
     }
-    
-    if !lhs.isKind(of: type(of: rhs))
-    {
-        return false
-    }
-    
-    if lhs._x != rhs._x
-    {
-        return false
-    }
-    
-    if lhs._y != rhs._y
-    {
-        return false
-    }
-    
-    if lhs.dataIndex != rhs.dataIndex
-    {
-        return false
-    }
-    
-    if lhs._dataSetIndex != rhs._dataSetIndex
-    {
-        return false
-    }
-    
-    if lhs._stackIndex != rhs._stackIndex
-    {
-        return false
-    }
-    
-    return true
 }

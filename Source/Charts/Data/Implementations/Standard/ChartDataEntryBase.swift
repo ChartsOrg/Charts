@@ -75,27 +75,8 @@ open class ChartDataEntryBase: NSObject
     
     open override func isEqual(_ object: Any?) -> Bool
     {
-        if object == nil
-        {
-            return false
-        }
-        
-        if !(object! as AnyObject).isKind(of: type(of: self))
-        {
-            return false
-        }
-        
-        if (object! as AnyObject).data !== data && !((object! as AnyObject).data??.isEqual(self.data))!
-        {
-            return false
-        }
-        
-        if fabs((object! as AnyObject).y - y) > Double.ulpOfOne
-        {
-            return false
-        }
-        
-        return true
+        guard let object = object as? ChartDataEntryBase else { return false }
+        return self == object
     }
     
     // MARK: NSObject
@@ -106,27 +87,16 @@ open class ChartDataEntryBase: NSObject
     }
 }
 
-public func ==(lhs: ChartDataEntryBase, rhs: ChartDataEntryBase) -> Bool
-{
-    if lhs === rhs
+// MARK: Equatable
+extension ChartDataEntryBase/*: Equatable*/ {
+    public static func ==(lhs: ChartDataEntryBase, rhs: ChartDataEntryBase) -> Bool
     {
-        return true
+        if lhs === rhs
+        {
+            return true
+        }
+        return lhs.isKind(of: type(of: rhs))
+            && (lhs.data?.isEqual(rhs.data) ?? true)
+            && lhs.y == rhs.y
     }
-    
-    if !lhs.isKind(of: type(of: rhs))
-    {
-        return false
-    }
-    
-    if lhs.data !== rhs.data && !lhs.data!.isEqual(rhs.data)
-    {
-        return false
-    }
-    
-    if fabs(lhs.y - rhs.y) > Double.ulpOfOne
-    {
-        return false
-    }
-    
-    return true
 }
