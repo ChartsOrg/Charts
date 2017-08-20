@@ -37,18 +37,13 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     {
         guard let data = self.data as? BarChartData
             else { return }
-        
-        if fitBars
-        {
+
+        fitBars ?
             _xAxis.calculate(
-                min: data.xMin - data.barWidth / 2.0,
-                max: data.xMax + data.barWidth / 2.0)
-        }
-        else
-        {
+                min: data.xMin - Double(data.barWidth) / 2.0,
+                max: data.xMax + Double(data.barWidth) / 2.0) :
             _xAxis.calculate(min: data.xMin, max: data.xMax)
-        }
-        
+
         // calculate axis range (min / max) according to provided data
         _leftAxis.calculate(
             min: data.getYMin(axis: .left),
@@ -61,7 +56,7 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     /// - returns: The Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the BarChart.
     open override func getHighlightByTouchPoint(_ pt: CGPoint) -> Highlight?
     {
-        if _data === nil
+        guard _data != nil else
         {
             Swift.print("Can't select by touch. No data set.")
             return nil
@@ -90,8 +85,8 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
             let set = data.getDataSetForEntry(e) as? IBarChartDataSet
             else { return CGRect.null }
         
-        let y = e.y
-        let x = e.x
+        let y = CGFloat(e.y)
+        let x = CGFloat(e.x)
         
         let barWidth = data.barWidth
         

@@ -30,21 +30,15 @@ open class RadarChartRenderer: LineRadarRenderer
     
     open override func drawData(context: CGContext)
     {
-        guard let chart = chart else { return }
-        
-        let radarData = chart.data
-        
-        if radarData != nil
-        {
-            let mostEntries = radarData?.maxEntryCountSet?.entryCount ?? 0
+        guard let chart = chart,
+            let radarData = chart.data
+            else { return }
+
+        let mostEntries = radarData.maxEntryCountSet?.entryCount ?? 0
             
-            for set in radarData!.dataSets as! [IRadarChartDataSet]
-            {
-                if set.isVisible
-                {
-                    drawDataSet(context: context, dataSet: set, mostEntries: mostEntries)
-                }
-            }
+        for set in radarData.dataSets as! [IRadarChartDataSet] where set.isVisible
+        {
+            drawDataSet(context: context, dataSet: set, mostEntries: mostEntries)
         }
     }
     
@@ -61,6 +55,7 @@ open class RadarChartRenderer: LineRadarRenderer
             else { return }
         
         context.saveGState()
+        defer { context.restoreGState() }
         
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
@@ -81,13 +76,10 @@ open class RadarChartRenderer: LineRadarRenderer
             
             let p = ChartUtils.getPosition(
                 center: center,
-                dist: CGFloat((e.y - chart.chartYMin) * Double(factor) * phaseY),
+                dist: CGFloat(e.y - chart.chartYMin) * factor * phaseY,
                 angle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
             
-            if p.x.isNaN
-            {
-                continue
-            }
+            guard !p.x.isNaN else { continue }
             
             if !hasMovedToPoint
             {
@@ -133,8 +125,6 @@ open class RadarChartRenderer: LineRadarRenderer
             context.addPath(path)
             context.strokePath()
         }
-        
-        context.restoreGState()
     }
     
     open override func drawValues(context: CGContext)
@@ -161,10 +151,7 @@ open class RadarChartRenderer: LineRadarRenderer
         {
             let dataSet = data.getDataSetByIndex(i) as! IRadarChartDataSet
             
-            if !shouldDrawValues(forDataSet: dataSet)
-            {
-                continue
-            }
+            guard shouldDrawValues(forDataSet: dataSet) else { continue }
             
             let entryCount = dataSet.entryCount
             
@@ -234,7 +221,8 @@ open class RadarChartRenderer: LineRadarRenderer
         let sliceangle = chart.sliceAngle
         
         context.saveGState()
-        
+        defer { context.restoreGState() }
+
         // calculate the factor that is needed for transforming the value to
         // pixels
         let factor = chart.factor
@@ -289,8 +277,6 @@ open class RadarChartRenderer: LineRadarRenderer
                 context.strokeLineSegments(between: _webLineSegmentsBuffer)
             }
         }
-        
-        context.restoreGState()
     }
     
     fileprivate var _highlightPointBuffer = CGPoint()
@@ -304,6 +290,7 @@ open class RadarChartRenderer: LineRadarRenderer
             else { return }
         
         context.saveGState()
+        defer { context.restoreGState() }
         
         let sliceangle = chart.sliceAngle
         
@@ -314,18 +301,11 @@ open class RadarChartRenderer: LineRadarRenderer
         
         for high in indices
         {
-            guard
-                let set = chart.data?.getDataSetByIndex(high.dataSetIndex) as? IRadarChartDataSet,
-                set.isHighlightEnabled
+            guard let set = chart.data?.getDataSetByIndex(high.dataSetIndex) as? IRadarChartDataSet,
+                set.isHighlightEnabled,
+                let e = set.entryForIndex(Int(high.x)) as? RadarChartDataEntry,
+                isInBoundsX(entry: e, dataSet: set)
                 else { continue }
-            
-            guard let e = set.entryForIndex(Int(high.x)) as? RadarChartDataEntry
-                else { continue }
-            
-            if !isInBoundsX(entry: e, dataSet: set)
-            {
-                continue
-            }
             
             context.setLineWidth(radarData.highlightLineWidth)
             if radarData.highlightLineDashLengths != nil
@@ -351,35 +331,32 @@ open class RadarChartRenderer: LineRadarRenderer
             // draw the lines
             drawHighlightLines(context: context, point: _highlightPointBuffer, set: set)
             
-            if set.isDrawHighlightCircleEnabled
+            guard set.isDrawHighlightCircleEnabled,
+                !_highlightPointBuffer.x.isNaN,
+                !_highlightPointBuffer.y.isNaN
+                else { continue }
+
+            var strokeColor = set.highlightCircleStrokeColor
+            if strokeColor == nil
             {
-                if !_highlightPointBuffer.x.isNaN && !_highlightPointBuffer.y.isNaN
-                {
-                    var strokeColor = set.highlightCircleStrokeColor
-                    if strokeColor == nil
-                    {
-                        strokeColor = set.color(atIndex: 0)
-                    }
-                    if set.highlightCircleStrokeAlpha < 1.0
-                    {
-                        strokeColor = strokeColor?.withAlphaComponent(set.highlightCircleStrokeAlpha)
-                    }
-                    
-                    drawHighlightCircle(
-                        context: context,
-                        atPoint: _highlightPointBuffer,
-                        innerRadius: set.highlightCircleInnerRadius,
-                        outerRadius: set.highlightCircleOuterRadius,
-                        fillColor: set.highlightCircleFillColor,
-                        strokeColor: strokeColor,
-                        strokeWidth: set.highlightCircleStrokeWidth)
-                }
+                strokeColor = set.color(atIndex: 0)
             }
+            if set.highlightCircleStrokeAlpha < 1.0
+            {
+                strokeColor = strokeColor?.withAlphaComponent(set.highlightCircleStrokeAlpha)
+            }
+
+            drawHighlightCircle(
+                context: context,
+                atPoint: _highlightPointBuffer,
+                innerRadius: set.highlightCircleInnerRadius,
+                outerRadius: set.highlightCircleOuterRadius,
+                fillColor: set.highlightCircleFillColor,
+                strokeColor: strokeColor,
+                strokeWidth: set.highlightCircleStrokeWidth)
         }
-        
-        context.restoreGState()
     }
-    
+
     internal func drawHighlightCircle(
         context: CGContext,
         atPoint point: CGPoint,

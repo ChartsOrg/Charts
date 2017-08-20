@@ -143,15 +143,8 @@ open class YAxisRendererRadarChart: YAxisRenderer
         
         if centeringEnabled
         {
-            axis.centeredEntries.reserveCapacity(n)
-            axis.centeredEntries.removeAll()
-            
             let offset = (axis.entries[1] - axis.entries[0]) / 2.0
-            
-            for i in 0 ..< n
-            {
-                axis.centeredEntries.append(axis.entries[i] + offset)
-            }
+            axis.centeredEntries = axis.entries.map { $0 + offset }
         }
         
         axis._axisMinimum = axis.entries[0]
@@ -161,16 +154,12 @@ open class YAxisRendererRadarChart: YAxisRenderer
     
     open override func renderAxisLabels(context: CGContext)
     {
-        guard let
-            yAxis = axis as? YAxis,
-            let chart = chart
+        guard let yAxis = axis as? YAxis,
+            let chart = chart,
+            yAxis.isEnabled,
+            yAxis.isDrawLabelsEnabled
             else { return }
-        
-        if !yAxis.isEnabled || !yAxis.isDrawLabelsEnabled
-        {
-            return
-        }
-        
+
         let labelFont = yAxis.labelFont
         let labelTextColor = yAxis.labelTextColor
         
@@ -182,7 +171,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
         let from = yAxis.isDrawBottomYLabelEntryEnabled ? 0 : 1
         let to = yAxis.isDrawTopYLabelEntryEnabled ? yAxis.entryCount : (yAxis.entryCount - 1)
         
-        for j in stride(from: from, to: to, by: 1)
+        for j in from..<to
         {
             let r = CGFloat(yAxis.entries[j] - yAxis._axisMinimum) * factor
             
@@ -204,21 +193,18 @@ open class YAxisRendererRadarChart: YAxisRenderer
     
     open override func renderLimitLines(context: CGContext)
     {
-        guard
-            let yAxis = axis as? YAxis,
+        guard let yAxis = axis as? YAxis,
             let chart = chart,
             let data = chart.data
             else { return }
         
         var limitLines = yAxis.limitLines
         
-        if limitLines.count == 0
-        {
-            return
-        }
+        guard !limitLines.isEmpty else { return }
         
         context.saveGState()
-        
+        defer { context.restoreGState() }
+
         let sliceangle = chart.sliceAngle
         
         // calculate the factor that is needed for transforming the value to pixels
@@ -226,15 +212,8 @@ open class YAxisRendererRadarChart: YAxisRenderer
         
         let center = chart.centerOffsets
         
-        for i in 0 ..< limitLines.count
+        for l in limitLines where l.isEnabled
         {
-            let l = limitLines[i]
-            
-            if !l.isEnabled
-            {
-                continue
-            }
-            
             context.setStrokeColor(l.lineColor.cgColor)
             context.setLineWidth(l.lineWidth)
             if l.lineDashLengths != nil
@@ -265,10 +244,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
             }
             
             context.closePath()
-            
             context.strokePath()
         }
-        
-        context.restoreGState()
     }
 }

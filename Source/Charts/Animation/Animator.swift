@@ -34,10 +34,10 @@ open class Animator: NSObject
     open var stopBlock: (() -> Void)?
     
     /// the phase that is animated and influences the drawn values on the x-axis
-    open var phaseX: Double = 1.0
+    open var phaseX: CGFloat = 1.0
     
     /// the phase that is animated and influences the drawn values on the y-axis
-    open var phaseY: Double = 1.0
+    open var phaseY: CGFloat = 1.0
     
     fileprivate var _startTimeX: TimeInterval = 0.0
     fileprivate var _startTimeY: TimeInterval = 0.0
@@ -110,18 +110,15 @@ open class Animator: NSObject
             let elapsedTime: TimeInterval = currentTime - _startTimeX
             let duration: TimeInterval = _durationX
             var elapsed: TimeInterval = elapsedTime
-            if elapsed > duration
-            {
-                elapsed = duration
-            }
-           
+            elapsed = min(duration, elapsed)
+
             if _easingX != nil
             {
-                phaseX = _easingX!(elapsed, duration)
+                phaseX = CGFloat(_easingX!(elapsed, duration))
             }
             else
             {
-                phaseX = Double(elapsed / duration)
+                phaseX = CGFloat(elapsed / duration)
             }
         }
         
@@ -130,18 +127,15 @@ open class Animator: NSObject
             let elapsedTime: TimeInterval = currentTime - _startTimeY
             let duration: TimeInterval = _durationY
             var elapsed: TimeInterval = elapsedTime
-            if elapsed > duration
-            {
-                elapsed = duration
-            }
-            
+            elapsed = min(duration, elapsed)
+
             if _easingY != nil
             {
-                phaseY = _easingY!(elapsed, duration)
+                phaseY = CGFloat(_easingY!(elapsed, duration))
             }
             else
             {
-                phaseY = Double(elapsed / duration)
+                phaseY = CGFloat(elapsed / duration)
             }
         }
     }
@@ -256,17 +250,15 @@ open class Animator: NSObject
         
         // Take care of the first frame if rendering is already scheduled...
         updateAnimationPhases(_startTimeX)
-        
-        if _enabledX || _enabledY
+
+        if _enabledX || _enabledY,
+            _displayLink == nil
         {
-            if _displayLink == nil
-            {
-                _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
-                _displayLink?.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
-            }
+            _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
+            _displayLink?.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
         }
     }
-    
+
     /// Animates the drawing / rendering of the chart the x-axis with the specified animation time.
     /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
     /// - parameter xAxisDuration: duration for animating the x axis
@@ -301,16 +293,14 @@ open class Animator: NSObject
         // Take care of the first frame if rendering is already scheduled...
         updateAnimationPhases(_startTimeY)
         
-        if _enabledX || _enabledY
+        if _enabledX || _enabledY,
+            _displayLink == nil
         {
-            if _displayLink == nil
-            {
-                _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
-                _displayLink?.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
-            }
+            _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
+            _displayLink?.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
         }
     }
-    
+
     /// Animates the drawing / rendering of the chart the y-axis with the specified animation time.
     /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
     /// - parameter yAxisDuration: duration for animating the y axis

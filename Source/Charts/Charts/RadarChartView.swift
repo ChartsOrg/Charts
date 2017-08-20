@@ -82,8 +82,8 @@ open class RadarChartView: PieRadarChartViewBase
     {
         calcMinMax()
         
-        _yAxisRenderer?.computeAxis(min: _yAxis._axisMinimum, max: _yAxis._axisMaximum, inverted: _yAxis.isInverted)
-        _xAxisRenderer?.computeAxis(min: _xAxis._axisMinimum, max: _xAxis._axisMaximum, inverted: false)
+        _yAxisRenderer?.computeAxis(min: _yAxis._axisMinimum, max: _yAxis._axisMaximum, isInverted: _yAxis.isInverted)
+        _xAxisRenderer?.computeAxis(min: _xAxis._axisMinimum, max: _xAxis._axisMaximum, isInverted: false)
         
         if let data = _data,
             let legend = _legend,
@@ -101,17 +101,14 @@ open class RadarChartView: PieRadarChartViewBase
     {
         super.draw(rect)
 
-        if _data === nil
-        {
-            return
-        }
+        guard _data != nil else { return }
         
         let optionalContext = NSUIGraphicsGetCurrentContext()
         guard let context = optionalContext else { return }
         
         if _xAxis.isEnabled
         {
-            _xAxisRenderer.computeAxis(min: _xAxis._axisMinimum, max: _xAxis._axisMaximum, inverted: false)
+            _xAxisRenderer.computeAxis(min: _xAxis._axisMinimum, max: _xAxis._axisMaximum, isInverted: false)
         }
         
         _xAxisRenderer?.renderAxisLabels(context: context)

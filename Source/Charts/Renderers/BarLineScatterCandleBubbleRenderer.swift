@@ -26,15 +26,7 @@ open class BarLineScatterCandleBubbleRenderer: DataRenderer
     internal func isInBoundsX(entry e: ChartDataEntry, dataSet: IBarLineScatterCandleBubbleChartDataSet) -> Bool
     {
         let entryIndex = dataSet.entryIndex(entry: e)
-        
-        if Double(entryIndex) >= Double(dataSet.entryCount) * (animator?.phaseX ?? 1.0)
-        {
-            return false
-        }
-        else
-        {
-            return true
-        }
+        return CGFloat(entryIndex) < CGFloat(dataSet.entryCount) * (animator?.phaseX ?? 1.0)
     }
 
     /// Calculates and returns the x-bounds for the given DataSet in terms of index in their values array.
@@ -86,12 +78,12 @@ open class BarLineScatterCandleBubbleRenderer: DataRenderer
             let low = chart.lowestVisibleX
             let high = chart.highestVisibleX
             
-            let entryFrom = dataSet.entryForXValue(low, closestToY: Double.nan, rounding: ChartDataSetRounding.down)
-            let entryTo = dataSet.entryForXValue(high, closestToY: Double.nan, rounding: ChartDataSetRounding.up)
+            let entryFrom = dataSet.entryForXValue(low, closestToY: .nan, rounding: ChartDataSetRounding.down)
+            let entryTo = dataSet.entryForXValue(high, closestToY: .nan, rounding: ChartDataSetRounding.up)
             
             self.min = entryFrom == nil ? 0 : dataSet.entryIndex(entry: entryFrom!)
             self.max = entryTo == nil ? 0 : dataSet.entryIndex(entry: entryTo!)
-            range = Int(Double(self.max - self.min) * phaseX)
+            range = Int(CGFloat(self.max - self.min) * phaseX)
         }
     }
 

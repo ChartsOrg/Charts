@@ -24,10 +24,9 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
     }
 
     /// Computes the axis values.
-    open override func computeAxis(min: Double, max: Double, inverted: Bool)
+    open override func computeAxis(min: Double, max: Double, isInverted: Bool)
     {
-        guard
-            let viewPortHandler = self.viewPortHandler,
+        guard let viewPortHandler = self.viewPortHandler,
             let transformer = self.transformer
             else { return }
         
@@ -38,17 +37,9 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         {
             let p1 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
             let p2 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentTop))
-            
-            if !inverted
-            {
-                min = Double(p1.x)
-                max = Double(p2.x)
-            }
-            else
-            {
-                min = Double(p2.x)
-                max = Double(p1.x)
-            }
+
+            min = isInverted ? Double(p2.x) : Double(p1.x)
+            max = isInverted ? Double(p1.x) : Double(p2.x)
         }
         
         computeAxisValues(min: min, max: max)
@@ -57,16 +48,12 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
     /// draws the y-axis labels to the screen
     open override func renderAxisLabels(context: CGContext)
     {
-        guard
-            let yAxis = axis as? YAxis,
-            let viewPortHandler = self.viewPortHandler
+        guard let yAxis = axis as? YAxis,
+            let viewPortHandler = self.viewPortHandler,
+            yAxis.isEnabled,
+            yAxis.isDrawLabelsEnabled
             else { return }
-        
-        if !yAxis.isEnabled || !yAxis.isDrawLabelsEnabled
-        {
-            return
-        }
-        
+
         let lineHeight = yAxis.labelFont.lineHeight
         let baseYOffset: CGFloat = 2.5
         
@@ -75,27 +62,16 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         
         var yPos: CGFloat = 0.0
         
-        if dependency == .left
-        {
-            if labelPosition == .outsideChart
-            {
-                yPos = viewPortHandler.contentTop - baseYOffset
-            }
-            else
-            {
-                yPos = viewPortHandler.contentTop - baseYOffset
-            }
-        }
-        else
-        {
-            if labelPosition == .outsideChart
-            {
-                yPos = viewPortHandler.contentBottom + lineHeight + baseYOffset
-            }
-            else
-            {
-                yPos = viewPortHandler.contentBottom + lineHeight + baseYOffset
-            }
+        switch dependency {
+        case .left:
+            yPos = labelPosition == .outsideChart
+                ? viewPortHandler.contentTop - baseYOffset
+                : viewPortHandler.contentTop - baseYOffset
+
+        case .right:
+            yPos = labelPosition == .outsideChart
+                ? viewPortHandler.contentBottom + lineHeight + baseYOffset
+                : viewPortHandler.contentBottom + lineHeight + baseYOffset
         }
         
         // For compatibility with Android code, we keep above calculation the same,
@@ -111,17 +87,14 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
     
     open override func renderAxisLine(context: CGContext)
     {
-        guard
-            let yAxis = axis as? YAxis,
-            let viewPortHandler = self.viewPortHandler
+        guard let yAxis = axis as? YAxis,
+            let viewPortHandler = self.viewPortHandler,
+            yAxis.isEnabled,
+            yAxis.drawAxisLineEnabled
             else { return }
-        
-        if !yAxis.isEnabled || !yAxis.drawAxisLineEnabled
-        {
-            return
-        }
-        
+
         context.saveGState()
+        defer { context.restoreGState() }
         
         context.setStrokeColor(yAxis.axisLineColor.cgColor)
         context.setLineWidth(yAxis.axisLineWidth)
@@ -147,8 +120,6 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom))
             context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentBottom))
             context.strokePath()        }
-        
-        context.restoreGState()
     }
 
     /// draws the y-labels on the specified x-position
@@ -158,9 +129,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         positions: [CGPoint],
         offset: CGFloat)
     {
-        guard let
-            yAxis = axis as? YAxis
-            else { return }
+        guard let yAxis = axis as? YAxis else { return }
         
         let labelFont = yAxis.labelFont
         let labelTextColor = yAxis.labelTextColor
@@ -168,7 +137,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         let from = yAxis.isDrawBottomYLabelEntryEnabled ? 0 : 1
         let to = yAxis.isDrawTopYLabelEntryEnabled ? yAxis.entryCount : (yAxis.entryCount - 1)
         
-        for i in stride(from: from, to: to, by: 1)
+        for i in from..<to
         {
             let text = yAxis.getFormattedLabel(i)
             
@@ -194,9 +163,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         context: CGContext,
         position: CGPoint)
     {
-        guard
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let viewPortHandler = self.viewPortHandler else { return }
         
         context.beginPath()
         context.move(to: CGPoint(x: position.x, y: viewPortHandler.contentTop))
@@ -206,21 +173,11 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
     
     open override func transformedPositions() -> [CGPoint]
     {
-        guard
-            let yAxis = self.axis as? YAxis,
+        guard let yAxis = self.axis as? YAxis,
             let transformer = self.transformer
-            else { return [CGPoint]() }
+            else { return [] }
         
-        var positions = [CGPoint]()
-        positions.reserveCapacity(yAxis.entryCount)
-        
-        let entries = yAxis.entries
-        
-        for i in stride(from: 0, to: yAxis.entryCount, by: 1)
-        {
-            positions.append(CGPoint(x: entries[i], y: 0.0))
-        }
-        
+        var positions = yAxis.entries.map { CGPoint(x: $0, y: 0.0) }
         transformer.pointValuesToPixel(&positions)
         
         return positions
@@ -229,8 +186,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
     /// Draws the zero line at the specified position.
     open override func drawZeroLine(context: CGContext)
     {
-        guard
-            let yAxis = self.axis as? YAxis,
+        guard let yAxis = self.axis as? YAxis,
             let viewPortHandler = self.viewPortHandler,
             let transformer = self.transformer,
             let zeroLineColor = yAxis.zeroLineColor
@@ -263,38 +219,28 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         context.drawPath(using: CGPathDrawingMode.stroke)
     }
     
-    fileprivate var _limitLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _limitLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
     open override func renderLimitLines(context: CGContext)
     {
-        guard
-            let yAxis = axis as? YAxis,
+        guard let yAxis = axis as? YAxis,
             let viewPortHandler = self.viewPortHandler,
             let transformer = self.transformer
             else { return }
         
         var limitLines = yAxis.limitLines
 
-        if limitLines.count <= 0
-        {
-            return
-        }
+        guard !limitLines.isEmpty else { return }
         
         context.saveGState()
-        
+        defer { context.restoreGState() }
+
         let trans = transformer.valueToPixelMatrix
         
-        var position = CGPoint(x: 0.0, y: 0.0)
+        var position = CGPoint()
         
-        for i in 0 ..< limitLines.count
+        for l in limitLines where l.isEnabled
         {
-            let l = limitLines[i]
-            
-            if !l.isEnabled
-            {
-                continue
-            }
-            
             context.saveGState()
             defer { context.restoreGState() }
 
@@ -327,56 +273,49 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             let label = l.label
 
             // if drawing the limit-value label is enabled
-            if l.drawLabelEnabled && label.characters.count > 0
-            {
-                let labelLineHeight = l.valueFont.lineHeight
-                
-                let xOffset: CGFloat = l.lineWidth + l.xOffset
-                let yOffset: CGFloat = 2.0 + l.yOffset
+            guard l.drawLabelEnabled && label.characters.count > 0 else { continue }
+            let labelLineHeight = l.valueFont.lineHeight
 
-                if l.labelPosition == .rightTop
-                {
-                    ChartUtils.drawText(context: context,
-                        text: label,
-                        point: CGPoint(
-                            x: position.x + xOffset,
-                            y: viewPortHandler.contentTop + yOffset),
-                        align: .left,
-                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
-                }
-                else if l.labelPosition == .rightBottom
-                {
-                    ChartUtils.drawText(context: context,
-                        text: label,
-                        point: CGPoint(
-                            x: position.x + xOffset,
-                            y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
-                        align: .left,
-                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
-                }
-                else if l.labelPosition == .leftTop
-                {
-                    ChartUtils.drawText(context: context,
-                        text: label,
-                        point: CGPoint(
-                            x: position.x - xOffset,
-                            y: viewPortHandler.contentTop + yOffset),
-                        align: .right,
-                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
-                }
-                else
-                {
-                    ChartUtils.drawText(context: context,
-                        text: label,
-                        point: CGPoint(
-                            x: position.x - xOffset,
-                            y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
-                        align: .right,
-                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
-                }
+            let xOffset: CGFloat = l.lineWidth + l.xOffset
+            let yOffset: CGFloat = 2.0 + l.yOffset
+
+            switch l.labelPosition {
+            case .rightTop:
+                ChartUtils.drawText(context: context,
+                                    text: label,
+                                    point: CGPoint(
+                                        x: position.x + xOffset,
+                                        y: viewPortHandler.contentTop + yOffset),
+                                    align: .left,
+                                    attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
+
+            case .rightBottom:
+                ChartUtils.drawText(context: context,
+                                    text: label,
+                                    point: CGPoint(
+                                        x: position.x + xOffset,
+                                        y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
+                                    align: .left,
+                                    attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
+
+            case .leftTop:
+                ChartUtils.drawText(context: context,
+                                    text: label,
+                                    point: CGPoint(
+                                        x: position.x - xOffset,
+                                        y: viewPortHandler.contentTop + yOffset),
+                                    align: .right,
+                                    attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
+
+            case .leftBottom:
+                ChartUtils.drawText(context: context,
+                                    text: label,
+                                    point: CGPoint(
+                                        x: position.x - xOffset,
+                                        y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
+                                    align: .right,
+                                    attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
             }
         }
-        
-        context.restoreGState()
     }
 }

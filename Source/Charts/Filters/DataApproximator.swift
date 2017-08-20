@@ -37,16 +37,9 @@ open class DataApproximator: NSObject
                                 keep: &keep)
         
         // create a new array with series, only take the kept ones
-        var reducedEntries = [CGPoint]()
-        for i in 0 ..< points.count
-        {
-            if keep[i]
-            {
-                reducedEntries.append(points[i])
-            }
-        }
-        
-        return reducedEntries
+        return zip(keep, points)
+            .filter { $0.0 }
+            .map { $1 }
     }
 
     /// apply the Douglas-Peucker-Reduction to an array of `CGPoint`s with a given tolerance
@@ -62,12 +55,8 @@ open class DataApproximator: NSObject
         end: Int,
         keep: inout [Bool])
     {
-        if end <= start + 1
-        {
-            // recursion finished
-            return
-        }
-        
+        guard end > start + 1 else { return }
+
         var greatestIndex = Int(0)
         var greatestDistance = CGFloat(0.0)
         

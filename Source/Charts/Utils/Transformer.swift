@@ -69,10 +69,7 @@ open class Transformer: NSObject
     open func pointValuesToPixel(_ points: inout [CGPoint])
     {
         let trans = valueToPixelMatrix
-        for i in 0 ..< points.count
-        {
-            points[i] = points[i].applying(trans)
-        }
+        points = points.map { $0.applying(trans) }
     }
     
     open func pointValueToPixel(_ point: inout CGPoint)
@@ -92,12 +89,12 @@ open class Transformer: NSObject
     }
     
     /// Transform a rectangle with all matrices with potential animation phases.
-    open func rectValueToPixel(_ r: inout CGRect, phaseY: Double)
+    open func rectValueToPixel(_ r: inout CGRect, phaseY: CGFloat)
     {
         // multiply the height of the rect with the phase
         var bottom = r.origin.y + r.size.height
-        bottom *= CGFloat(phaseY)
-        let top = r.origin.y * CGFloat(phaseY)
+        bottom *= phaseY
+        let top = r.origin.y * phaseY
         r.size.height = bottom - top
         r.origin.y = top
 
@@ -111,11 +108,11 @@ open class Transformer: NSObject
     }
     
     /// Transform a rectangle with all matrices with potential animation phases.
-    open func rectValueToPixelHorizontal(_ r: inout CGRect, phaseY: Double)
+    open func rectValueToPixelHorizontal(_ r: inout CGRect, phaseY: CGFloat)
     {
         // multiply the height of the rect with the phase
-        let left = r.origin.x * CGFloat(phaseY)
-        let right = (r.origin.x + r.size.width) * CGFloat(phaseY)
+        let left = r.origin.x * phaseY
+        let right = (r.origin.x + r.size.width) * phaseY
         r.size.width = right - left
         r.origin.x = left
         
@@ -126,22 +123,14 @@ open class Transformer: NSObject
     open func rectValuesToPixel(_ rects: inout [CGRect])
     {
         let trans = valueToPixelMatrix
-        
-        for i in 0 ..< rects.count
-        {
-            rects[i] = rects[i].applying(trans)
-        }
+        rects = rects.map { $0.applying(trans) }
     }
     
     /// Transforms the given array of touch points (pixels) into values on the chart.
     open func pixelsToValues(_ pixels: inout [CGPoint])
     {
         let trans = pixelToValueMatrix
-        
-        for i in 0 ..< pixels.count
-        {
-            pixels[i] = pixels[i].applying(trans)
-        }
+        pixels = pixels.map { $0.applying(trans) }
     }
     
     /// Transforms the given touch point (pixels) into a value on the chart.

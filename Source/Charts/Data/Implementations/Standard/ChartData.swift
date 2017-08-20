@@ -13,15 +13,15 @@ import Foundation
 
 open class ChartData: NSObject
 {
-    internal var _yMax: Double = -Double.greatestFiniteMagnitude
-    internal var _yMin: Double = Double.greatestFiniteMagnitude
-    internal var _xMax: Double = -Double.greatestFiniteMagnitude
-    internal var _xMin: Double = Double.greatestFiniteMagnitude
-    internal var _leftAxisMax: Double = -Double.greatestFiniteMagnitude
-    internal var _leftAxisMin: Double = Double.greatestFiniteMagnitude
-    internal var _rightAxisMax: Double = -Double.greatestFiniteMagnitude
-    internal var _rightAxisMin: Double = Double.greatestFiniteMagnitude
-    
+    internal var _xMax = -Double.greatestFiniteMagnitude
+    internal var _xMin = Double.greatestFiniteMagnitude
+    internal var _leftAxisMax = -Double.greatestFiniteMagnitude
+    internal var _leftAxisMin = Double.greatestFiniteMagnitude
+    internal var _rightAxisMax = -Double.greatestFiniteMagnitude
+    internal var _rightAxisMin = Double.greatestFiniteMagnitude
+    internal var _yMax: Double { return max(_leftAxisMax, _rightAxisMax) }
+    internal var _yMin: Double { return min(_leftAxisMin, _rightAxisMin) }
+
     internal var _dataSets = [IChartDataSet]()
     
     public override init()
@@ -71,8 +71,6 @@ open class ChartData: NSObject
     /// calc minimum and maximum y value over all datasets
     open func calcMinMax()
     {
-        _yMax = -Double.greatestFiniteMagnitude
-        _yMin = Double.greatestFiniteMagnitude
         _xMax = -Double.greatestFiniteMagnitude
         _xMin = Double.greatestFiniteMagnitude
         
@@ -94,45 +92,23 @@ open class ChartData: NSObject
             _leftAxisMax = firstLeft!.yMax
             _leftAxisMin = firstLeft!.yMin
             
-            for dataSet in _dataSets
+            for dataSet in _dataSets where dataSet.axisDependency == .left
             {
-                if dataSet.axisDependency == .left
-                {
-                    if dataSet.yMin < _leftAxisMin
-                    {
-                        _leftAxisMin = dataSet.yMin
-                    }
-                    
-                    if dataSet.yMax > _leftAxisMax
-                    {
-                        _leftAxisMax = dataSet.yMax
-                    }
-                }
+                _leftAxisMin = min(dataSet.yMin, _leftAxisMin)
+                _leftAxisMax = max(dataSet.yMax, _leftAxisMax)
             }
         }
-        
+
         // right axis
-        let firstRight = getFirstRight(dataSets: dataSets)
-        
-        if firstRight !== nil
+        if let firstRight = getFirstRight(dataSets: dataSets)
         {
-            _rightAxisMax = firstRight!.yMax
-            _rightAxisMin = firstRight!.yMin
+            _rightAxisMax = firstRight.yMax
+            _rightAxisMin = firstRight.yMin
             
-            for dataSet in _dataSets
+            for dataSet in _dataSets where dataSet.axisDependency == .right
             {
-                if dataSet.axisDependency == .right
-                {
-                    if dataSet.yMin < _rightAxisMin
-                    {
-                        _rightAxisMin = dataSet.yMin
-                    }
-                    
-                    if dataSet.yMax > _rightAxisMax
-                    {
-                        _rightAxisMax = dataSet.yMax
-                    }
-                }
+                _rightAxisMin = min(dataSet.yMin, _rightAxisMin)
+                _rightAxisMax = max(dataSet.yMax, _rightAxisMax)
             }
         }
     }
@@ -140,101 +116,39 @@ open class ChartData: NSObject
     /// Adjusts the current minimum and maximum values based on the provided Entry object.
     open func calcMinMax(entry e: ChartDataEntry, axis: YAxis.AxisDependency)
     {
-        if _yMax < e.y
-        {
-            _yMax = e.y
-        }
-        
-        if _yMin > e.y
-        {
-            _yMin = e.y
-        }
-        
-        if _xMax < e.x
-        {
-            _xMax = e.x
-        }
-        
-        if _xMin > e.x
-        {
-            _xMin = e.x
-        }
-        
+        _xMax = max(e.x, _xMax)
+        _xMin = min(e.x, _xMin)
+
         if axis == .left
         {
-            if _leftAxisMax < e.y
-            {
-                _leftAxisMax = e.y
-            }
-            
-            if _leftAxisMin > e.y
-            {
-                _leftAxisMin = e.y
-            }
+            _leftAxisMax = max(e.y, _leftAxisMax)
+            _leftAxisMin = min(e.y, _leftAxisMin)
         }
         else
         {
-            if _rightAxisMax < e.y
-            {
-                _rightAxisMax = e.y
-            }
-            
-            if _rightAxisMin > e.y
-            {
-                _rightAxisMin = e.y
-            }
+            _rightAxisMax = max(e.y, _rightAxisMax)
+            _rightAxisMin = min(e.y, _rightAxisMin)
         }
     }
     
     /// Adjusts the minimum and maximum values based on the given DataSet.
     open func calcMinMax(dataSet d: IChartDataSet)
     {
-        if _yMax < d.yMax
-        {
-            _yMax = d.yMax
-        }
-        
-        if _yMin > d.yMin
-        {
-            _yMin = d.yMin
-        }
-        
-        if _xMax < d.xMax
-        {
-            _xMax = d.xMax
-        }
-        
-        if _xMin > d.xMin
-        {
-            _xMin = d.xMin
-        }
-        
+        _xMax = max(d.xMax, _xMax)
+        _xMin = min(d.xMin, _xMin)
+
         if d.axisDependency == .left
         {
-            if _leftAxisMax < d.yMax
-            {
-                _leftAxisMax = d.yMax
-            }
-            
-            if _leftAxisMin > d.yMin
-            {
-                _leftAxisMin = d.yMin
-            }
+            _leftAxisMax = max(d.yMax, _leftAxisMax)
+            _leftAxisMin = min(d.yMin, _leftAxisMin)
         }
         else
         {
-            if _rightAxisMax < d.yMax
-            {
-                _rightAxisMax = d.yMax
-            }
-            
-            if _rightAxisMin > d.yMin
-            {
-                _rightAxisMin = d.yMin
-            }
+            _rightAxisMax = max(d.yMax, _rightAxisMax)
+            _rightAxisMin = min(d.yMin, _rightAxisMin)
         }
     }
-    
+
     /// - returns: The number of LineDataSets this object contains
     open var dataSetCount: Int
     {
@@ -352,50 +266,15 @@ open class ChartData: NSObject
     /// - returns: The index of the DataSet Object with the given label. Sensitive or not.
     internal func getDataSetIndexByLabel(_ label: String, ignorecase: Bool) -> Int
     {
-        if ignorecase
-        {
-            for i in 0 ..< dataSets.count
-            {
-                if dataSets[i].label == nil
-                {
-                    continue
-                }
-                if (label.caseInsensitiveCompare(dataSets[i].label!) == ComparisonResult.orderedSame)
-                {
-                    return i
-                }
-            }
-        }
-        else
-        {
-            for i in 0 ..< dataSets.count
-            {
-                if label == dataSets[i].label
-                {
-                    return i
-                }
-            }
-        }
-        
-        return -1
+        return ignorecase
+            ? dataSets.index { ($0.label ?? "")?.caseInsensitiveCompare(label) == .orderedSame } ?? -1
+            : dataSets.index { $0.label == label } ?? -1
     }
     
     /// - returns: The labels of all DataSets as a string array.
-    internal func dataSetLabels() -> [String]
+    internal var dataSetLabels: [String]
     {
-        var types = [String]()
-        
-        for i in 0 ..< _dataSets.count
-        {
-            if dataSets[i].label == nil
-            {
-                continue
-            }
-            
-            types[i] = _dataSets[i].label!
-        }
-        
-        return types
+        return _dataSets.map { $0.label ?? "" }
     }
     
     /// Get the Entry for a corresponding highlight object
@@ -456,7 +335,7 @@ open class ChartData: NSObject
     /// - returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
     @discardableResult open func removeDataSet(_ dataSet: IChartDataSet!) -> Bool
     {
-        if dataSet === nil
+        if dataSet == nil
         {
             return false
         }
@@ -546,99 +425,38 @@ open class ChartData: NSObject
     }
     
     /// - returns: The DataSet that contains the provided Entry, or null, if no DataSet contains this entry.
-    open func getDataSetForEntry(_ e: ChartDataEntry!) -> IChartDataSet?
+    open func getDataSetForEntry(_ e: ChartDataEntry) -> IChartDataSet?
     {
-        if e == nil
-        {
-            return nil
-        }
-        
-        for i in 0 ..< _dataSets.count
-        {
-            let set = _dataSets[i]
-            
-            if e === set.entryForXValue(e.x, closestToY: e.y)
-            {
-                return set
-            }
-        }
-        
-        return nil
+        return dataSets.first { e === $0.entryForXValue(e.x, closestToY: e.y) }
     }
 
     /// - returns: The index of the provided DataSet in the DataSet array of this data object, or -1 if it does not exist.
     open func indexOfDataSet(_ dataSet: IChartDataSet) -> Int
     {
-        for i in 0 ..< _dataSets.count
-        {
-            if _dataSets[i] === dataSet
-            {
-                return i
-            }
-        }
-        
-        return -1
+        return dataSets.index { $0 === dataSet } ?? -1
     }
     
     /// - returns: The first DataSet from the datasets-array that has it's dependency on the left axis. Returns null if no DataSet with left dependency could be found.
     open func getFirstLeft(dataSets: [IChartDataSet]) -> IChartDataSet?
     {
-        for dataSet in dataSets
-        {
-            if dataSet.axisDependency == .left
-            {
-                return dataSet
-            }
-        }
-        
-        return nil
+        return dataSets.first { $0.axisDependency == .left }
     }
     
     /// - returns: The first DataSet from the datasets-array that has it's dependency on the right axis. Returns null if no DataSet with right dependency could be found.
     open func getFirstRight(dataSets: [IChartDataSet]) -> IChartDataSet?
     {
-        for dataSet in _dataSets
-        {
-            if dataSet.axisDependency == .right
-            {
-                return dataSet
-            }
-        }
-        
-        return nil
+        return dataSets.first { $0.axisDependency == .right }
     }
     
     /// - returns: All colors used across all DataSet objects this object represents.
-    open func getColors() -> [NSUIColor]?
+    open func getColors() -> [NSUIColor]
     {
-        var clrcnt = 0
-        
-        for i in 0 ..< _dataSets.count
-        {
-            clrcnt += _dataSets[i].colors.count
-        }
-        
-        var colors = [NSUIColor]()
-        
-        for i in 0 ..< _dataSets.count
-        {
-            let clrs = _dataSets[i].colors
-            
-            for clr in clrs
-            {
-                colors.append(clr)
-            }
-        }
-        
-        return colors
+        return dataSets.flatMap { $0.colors }
     }
     
     /// Sets a custom IValueFormatter for all DataSets this data object contains.
-    open func setValueFormatter(_ formatter: IValueFormatter?)
+    open func setValueFormatter(_ formatter: IValueFormatter)
     {
-        guard let formatter = formatter
-            else { return }
-        
         for set in dataSets
         {
             set.valueFormatter = formatter
@@ -678,15 +496,7 @@ open class ChartData: NSObject
     {
         get
         {
-            for set in dataSets
-            {
-                if !set.highlightEnabled
-                {
-                    return false
-                }
-            }
-            
-            return true
+            return dataSets.contains { !$0.isHighlightEnabled }
         }
         set
         {
@@ -712,48 +522,18 @@ open class ChartData: NSObject
     /// - returns: `true` if so, `false` ifnot.
     open func contains(dataSet: IChartDataSet) -> Bool
     {
-        for set in dataSets
-        {
-            if set === dataSet
-            {
-                return true
-            }
-        }
-        
-        return false
+        return dataSets.contains { $0 === dataSet }
     }
     
     /// - returns: The total entry count across all DataSet objects this data object contains.
     open var entryCount: Int
     {
-        var count = 0
-        
-        for set in _dataSets
-        {
-            count += set.entryCount
-        }
-        
-        return count
+        return dataSets.reduce(0) { $0 + $1.entryCount }
     }
 
     /// - returns: The DataSet object with the maximum number of entries or null if there are no DataSets.
     open var maxEntryCountSet: IChartDataSet?
     {
-        if _dataSets.count == 0
-        {
-            return nil
-        }
-        
-        var max = _dataSets[0]
-        
-        for set in _dataSets
-        {
-            if set.entryCount > max.entryCount
-            {
-                max = set
-            }
-        }
-        
-        return max
+        return !dataSets.isEmpty ? nil : dataSets.sorted { $0.entryCount > $1.entryCount } .first
     }
 }

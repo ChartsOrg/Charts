@@ -249,20 +249,15 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             _data = newValue
             _offsetsCalculated = false
             
-            if _data == nil
-            {
-                return
-            }
-            
+            guard _data == nil else { return }
+
             // calculate how many digits are needed
             setupDefaultFormatter(min: _data!.getYMin(), max: _data!.getYMax())
             
-            for set in _data!.dataSets
+            for set in _data!.dataSets where
+                set.needsFormatter || set.valueFormatter === _defaultValueFormatter
             {
-                if set.needsFormatter || set.valueFormatter === _defaultValueFormatter
-                {
-                    set.valueFormatter = _defaultValueFormatter
-                }
+                set.valueFormatter = _defaultValueFormatter
             }
             
             // let the chart know there is new data
@@ -604,28 +599,19 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
                 valuesToHighlight()
             else { return }
         
-        for i in 0 ..< _indicesToHighlight.count
+        for highlight in _indicesToHighlight
         {
-            let highlight = _indicesToHighlight[i]
-            
-            guard let
-                set = data?.getDataSetByIndex(highlight.dataSetIndex),
+            guard let set = data?.getDataSetByIndex(highlight.dataSetIndex),
                 let e = _data?.entryForHighlight(highlight)
                 else { continue }
-            
+
             let entryIndex = set.entryIndex(entry: e)
-            if entryIndex > Int(Double(set.entryCount) * _animator.phaseX)
-            {
-                continue
-            }
+            guard entryIndex <= Int(CGFloat(set.entryCount) * _animator.phaseX) else { continue }
 
             let pos = getMarkerPosition(highlight: highlight)
 
             // check bounds
-            if !_viewPortHandler.isInBounds(x: pos.x, y: pos.y)
-            {
-                continue
-            }
+            guard _viewPortHandler.isInBounds(x: pos.x, y: pos.y) else { continue }
 
             // callbacks to update the content
             marker.refreshContent(entry: e, highlight: highlight)

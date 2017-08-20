@@ -27,7 +27,7 @@ open class BarChartData: BarLineScatterCandleBubbleChartData
     /// The width of the bars on the x-axis, in values (not pixels)
     ///
     /// **default**: 0.85
-    open var barWidth = Double(0.85)
+    open var barWidth: CGFloat = 0.85
     
     /// Groups all BarDataSet objects this data object holds together by modifying the x-value of their entries.
     /// Previously set x-values of entries will be overwritten. Leaves space between bars and groups as specified by the parameters.
@@ -49,31 +49,28 @@ open class BarChartData: BarLineScatterCandleBubbleChartData
         let maxEntryCount = max?.entryCount ?? 0
         
         let groupSpaceWidthHalf = groupSpace / 2.0
-        let barSpaceHalf = barSpace / 2.0
-        let barWidthHalf = self.barWidth / 2.0
+        let barSpaceHalf = Double(barSpace) / 2.0
+        let barWidthHalf = Double(self.barWidth) / 2.0
         
         var fromX = fromX
         
         let interval = groupWidth(groupSpace: groupSpace, barSpace: barSpace)
 
-        for i in stride(from: 0, to: maxEntryCount, by: 1)
+        for i in 0..<maxEntryCount
         {
             let start = fromX
             fromX += groupSpaceWidthHalf
             
-            for set in _dataSets as! [IBarChartDataSet]
+            for case let set as IBarChartDataSet in _dataSets
             {
                 fromX += barSpaceHalf
                 fromX += barWidthHalf
                 
-                if i < set.entryCount
+                if i < set.entryCount, let entry = set.entryForIndex(i)
                 {
-                    if let entry = set.entryForIndex(i)
-                    {
-                        entry.x = fromX
-                    }
+                    entry.x = fromX
                 }
-                
+
                 fromX += barWidthHalf
                 fromX += barSpaceHalf
             }
@@ -84,11 +81,10 @@ open class BarChartData: BarLineScatterCandleBubbleChartData
             let diff = interval - innerInterval
             
             // correct rounding errors
-            if diff > 0 || diff < 0
+            if !diff.isZero
             {
                 fromX += diff
             }
-
         }
         
         notifyDataChanged()
@@ -100,7 +96,6 @@ open class BarChartData: BarLineScatterCandleBubbleChartData
     /// - parameter barSpace:
     open func groupWidth(groupSpace: Double, barSpace: Double) -> Double
     {
-        return Double(_dataSets.count) * (self.barWidth + barSpace) + groupSpace
+        return Double(_dataSets.count) * Double((self.barWidth) + CGFloat(barSpace)) + groupSpace
     }
-    
 }

@@ -703,25 +703,15 @@ open class PieRadarChartViewBase: ChartViewBase
     
     fileprivate func calculateVelocity() -> CGFloat
     {
-        if _velocitySamples.isEmpty
-        {
-            return 0.0
-        }
-        
+        guard !_velocitySamples.isEmpty else { return 0 }
+
         var firstSample = _velocitySamples[0]
         var lastSample = _velocitySamples[_velocitySamples.count - 1]
         
         // Look for a sample that's closest to the latest sample, but not the same, so we can deduce the direction
-        var beforeLastSample = firstSample
-        for i in stride(from: (_velocitySamples.count - 1), through: 0, by: -1)
-        {
-            beforeLastSample = _velocitySamples[i]
-            if beforeLastSample.angle != lastSample.angle
-            {
-                break
-            }
-        }
-        
+        let beforeLastSample = _velocitySamples.reversed()
+            .first { $0.angle != lastSample.angle } ?? firstSample
+
         // Calculate the sampling time
         var timeDelta = lastSample.time - firstSample.time
         if timeDelta == 0.0
@@ -762,10 +752,8 @@ open class PieRadarChartViewBase: ChartViewBase
     /// sets the starting angle of the rotation, this is only used by the touch listener, x and y is the touch position
     fileprivate func setGestureStartAngle(x: CGFloat, y: CGFloat)
     {
-        _startAngle = angleForPoint(x: x, y: y)
-        
         // take the current angle into consideration when starting a new drag
-        _startAngle -= _rotationAngle
+        _startAngle = angleForPoint(x: x, y: y) - _rotationAngle
     }
     
     /// updates the view rotation depending on the given touch position, also takes the starting angle into consideration
@@ -776,9 +764,9 @@ open class PieRadarChartViewBase: ChartViewBase
     
     open func stopDeceleration()
     {
-        if _decelerationDisplayLink !== nil
+        if _decelerationDisplayLink != nil
         {
-            _decelerationDisplayLink.remove(from: RunLoop.main, forMode: RunLoopMode.commonModes)
+            _decelerationDisplayLink.remove(from: .main, forMode: .commonModes)
             _decelerationDisplayLink = nil
         }
     }
@@ -822,7 +810,7 @@ open class PieRadarChartViewBase: ChartViewBase
     
     @objc fileprivate func tapGestureRecognized(_ recognizer: NSUITapGestureRecognizer)
     {
-        if recognizer.state == NSUIGestureRecognizerState.ended
+        if recognizer.state == .ended
         {
             if !self.isHighLightPerTapEnabled { return }
             
@@ -836,21 +824,21 @@ open class PieRadarChartViewBase: ChartViewBase
     #if !os(tvOS)
     @objc fileprivate func rotationGestureRecognized(_ recognizer: NSUIRotationGestureRecognizer)
     {
-        if recognizer.state == NSUIGestureRecognizerState.began
+        if recognizer.state == .began
         {
             stopDeceleration()
             
             _startAngle = self.rawRotationAngle
         }
         
-        if recognizer.state == NSUIGestureRecognizerState.began || recognizer.state == NSUIGestureRecognizerState.changed
+        if recognizer.state == .began || recognizer.state == .changed
         {
             let angle = ChartUtils.Math.FRAD2DEG * recognizer.nsuiRotation
             
             self.rotationAngle = _startAngle + angle
             setNeedsDisplay()
         }
-        else if recognizer.state == NSUIGestureRecognizerState.ended
+        else if recognizer.state == .ended
         {
             let angle = ChartUtils.Math.FRAD2DEG * recognizer.nsuiRotation
             

@@ -17,32 +17,25 @@ open class BarHighlighter: ChartHighlighter
 {
     open override func getHighlight(x: CGFloat, y: CGFloat) -> Highlight?
     {
-        let high = super.getHighlight(x: x, y: y)
-        
-        if high == nil
+        guard let high = super.getHighlight(x: x, y: y),
+            let barData = (self.chart as? BarChartDataProvider)?.barData
+            else { return nil }
+
+        let pos = getValsForTouch(x: x, y: y)
+        if let set = barData.getDataSetByIndex(high.dataSetIndex) as? IBarChartDataSet,
+            set.isStacked
         {
-            return nil
+            return getStackedHighlight(high: high,
+                                       set: set,
+                                       xValue: Double(pos.x),
+                                       yValue: Double(pos.y))
         }
-        
-        if let barData = (self.chart as? BarChartDataProvider)?.barData
+        else
         {
-            let pos = getValsForTouch(x: x, y: y)
-            
-            if
-                let set = barData.getDataSetByIndex(high!.dataSetIndex) as? IBarChartDataSet,
-                set.isStacked
-            {
-                return getStackedHighlight(high: high!,
-                                           set: set,
-                                           xValue: Double(pos.x),
-                                           yValue: Double(pos.y))
-            }
-            
             return high
         }
-        return nil
     }
-    
+
     internal override func getDistance(x1: CGFloat, y1: CGFloat, x2: CGFloat, y2: CGFloat) -> CGFloat
     {
         return abs(x1 - x2)
@@ -75,54 +68,38 @@ open class BarHighlighter: ChartHighlighter
             return high
         }
         
-        if let ranges = entry.ranges,
+        guard let ranges = entry.ranges,
             ranges.count > 0
-        {
-            let stackIndex = getClosestStackIndex(ranges: ranges, value: yValue)
-            
-            let pixel = chart
-                .getTransformer(forAxis: set.axisDependency)
-                .pixelForValues(x: high.x, y: ranges[stackIndex].to)
-            
-            return Highlight(x: entry.x,
-                             y: entry.y,
-                             xPx: pixel.x,
-                             yPx: pixel.y,
-                             dataSetIndex: high.dataSetIndex,
-                             stackIndex: stackIndex,
-                             axis: high.axis)
-        }
-        
-        return nil
+            else { return nil }
+        let stackIndex = getClosestStackIndex(ranges: ranges, value: yValue)
+
+        let pixel = chart
+            .getTransformer(forAxis: set.axisDependency)
+            .pixelForValues(x: high.x, y: ranges[stackIndex].to)
+
+        return Highlight(x: entry.x,
+                         y: entry.y,
+                         xPx: pixel.x,
+                         yPx: pixel.y,
+                         dataSetIndex: high.dataSetIndex,
+                         stackIndex: stackIndex,
+                         axis: high.axis)
     }
-    
+
     /// - returns: The index of the closest value inside the values array / ranges (stacked barchart) to the value given as a parameter.
     /// - parameter entry:
     /// - parameter value:
     /// - returns:
-    open func getClosestStackIndex(ranges: [Range]?, value: Double) -> Int
+    open func getClosestStackIndex(ranges: [Range], value: Double) -> Int
     {
-        if ranges == nil
+        if let i = ranges.index(where: { $0.contains(value) })
         {
-            return 0
+            return i
         }
-        
-        var stackIndex = 0
-        
-        for range in ranges!
+        else
         {
-            if range.contains(value)
-            {
-                return stackIndex
-            }
-            else
-            {
-                stackIndex += 1
-            }
+            let length = max(ranges.count - 1, 0)
+            return (value > ranges[length].to) ? length : 0
         }
-        
-        let length = max(ranges!.count - 1, 0)
-        
-        return (value > ranges![length].to) ? length : 0
     }
 }

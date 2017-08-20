@@ -301,57 +301,24 @@ open class ChartUtils
     
     /// MARK: - Bridging functions
     
-    internal class func bridgedObjCGetNSUIColorArray (swift array: [NSUIColor?]) -> [NSObject]
+    internal class func bridgedObjCGetNSUIColorArray(swift array: [NSUIColor?]) -> [NSObject]
     {
-        var newArray = [NSObject]()
-        for val in array
-        {
-            if val == nil
-            {
-                newArray.append(NSNull())
-            }
-            else
-            {
-                newArray.append(val!)
-            }
-        }
+        let newArray: [NSObject] = array.map { $0 ?? NSNull() }
         return newArray
     }
     
     internal class func bridgedObjCGetNSUIColorArray (objc array: [NSObject]) -> [NSUIColor?]
     {
-        var newArray = [NSUIColor?]()
-        for object in array
-        {
-            newArray.append(object as? NSUIColor)
-        }
-        return newArray
+        return array.map { $0 as? NSUIColor }
     }
-    
+
     internal class func bridgedObjCGetStringArray (swift array: [String?]) -> [NSObject]
     {
-        var newArray = [NSObject]()
-        for val in array
-        {
-            if val == nil
-            {
-                newArray.append(NSNull())
-            }
-            else
-            {
-                newArray.append(val! as NSObject)
-            }
-        }
-        return newArray
+        return array.map { $0 as NSObject? ?? NSNull() }
     }
     
     internal class func bridgedObjCGetStringArray (objc array: [NSObject]) -> [String?]
     {
-        var newArray = [String?]()
-        for object in array
-        {
-            newArray.append(object as? String)
-        }
-        return newArray
+        return array.map { $0 as? String }
     }
 }

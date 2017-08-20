@@ -245,14 +245,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     /// - parameter alpha: alpha to apply to the set `colors`
     open func setColors(_ colors: [NSUIColor], alpha: CGFloat)
     {
-        var colorsWithAlpha = colors
-        
-        for i in 0 ..< colorsWithAlpha.count
-        {
-            colorsWithAlpha[i] = colorsWithAlpha[i] .withAlphaComponent(alpha)
-        }
-        
-        self.colors = colorsWithAlpha
+        self.colors = colors.map { $0.withAlphaComponent(alpha) }
     }
     
     /// Sets colors with a specific alpha value.
@@ -379,7 +372,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     /// For all charts except Pie and Radar it will be ordinary (x offset, y offset).
     ///
     /// For Pie and Radar chart it will be (y offset, distance from center offset); so if you want icon to be rendered under value, you should increase X component of CGPoint, and if you want icon to be rendered closet to center, you should decrease height component of CGPoint.
-    open var iconsOffset = CGPoint(x: 0, y: 0)
+    open var iconsOffset = CGPoint()
     
     /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
     open var visible = true

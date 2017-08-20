@@ -36,7 +36,7 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         initialize()
     }
     
-    public override init(values: [ChartDataEntry]?, label: String?)
+    public override init(values: [ChartDataEntry], label: String?)
     {
         super.init(values: values, label: label)
         initialize()
@@ -51,7 +51,7 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     /// **default**: Linear
     open var mode: Mode = Mode.linear
     
-    fileprivate var _cubicIntensity = CGFloat(0.2)
+    fileprivate var _cubicIntensity: CGFloat = 0.2
     
     /// Intensity for cubic lines (min = 0.05, max = 1)
     ///
