@@ -49,7 +49,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 }
             }
 
-            for (set, buffer) in zip(barData.dataSets as! [IBarChartDataSet], _buffers)
+            for case let (set as IBarChartDataSet, buffer) in zip(barData.dataSets, _buffers)
             {
                 let size = set.entryCount * (set.isStacked ? set.stackSize : 1)
                 if buffer.rects.count != size
