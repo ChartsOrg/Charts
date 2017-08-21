@@ -109,7 +109,8 @@ extension ChartDataEntry/*: Equatable*/ {
         }
 
         return lhs.isKind(of: type(of: rhs))
-            && (lhs.data?.isEqual(rhs.data) ?? true)
+            && ((lhs.data == nil && rhs.data == nil)
+                || (lhs.data?.isEqual(rhs.data) ?? false))
             && lhs.y == rhs.y
             && lhs.x == rhs.x
     }
