@@ -29,6 +29,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     fileprivate var _pinchZoomEnabled = false
     fileprivate var _doubleTapToZoomEnabled = true
     fileprivate var _dragEnabled = true
+    fileprivate var _dragYEnabled = true
+    fileprivate var _dragXEnabled = true
     
     fileprivate var _scaleXEnabled = true
     fileprivate var _scaleYEnabled = true
@@ -55,6 +57,12 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// Sets whether the chart should keep its position (zoom / scroll) after a rotation (orientation change)
     /// **default**: false
     open var keepPositionOnRotation: Bool = false
+    
+    /// Flag that indicates if parent scroll view should be disabled when dragging to avoid scrolling conflicts.
+    /// If scroll view only pans vertically and dragging pans horizontally or vice versa (if using horizontal bar chart view),
+    /// you can set flag to false to allow scroll view to capture touches.
+    /// **default**: true
+    open var disableParentScrollViewOnDrag = true
     
     /// the object representing the left y-axis
     internal var _leftAxis: YAxis!
@@ -853,8 +861,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     {
         if gestureRecognizer == _panGestureRecognizer
         {
+            let velocity = _panGestureRecognizer.velocity(in: self)
             if _data === nil || !_dragEnabled ||
-                (self.hasNoDragOffset && self.isFullyZoomedOut && !self.isHighlightPerDragEnabled)
+                (self.hasNoDragOffset && self.isFullyZoomedOut && !self.isHighlightPerDragEnabled) ||
+                (!_dragYEnabled && fabs(velocity.y) > fabs(velocity.x)) ||
+                (!_dragXEnabled && fabs(velocity.y) < fabs(velocity.x))
             {
                 return false
             }
@@ -948,8 +959,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             
             if otherGestureRecognizer === scrollViewPanGestureRecognizer
             {
-                _outerScrollView = foundScrollView
-                
+                // If this flag is false, still return true, so that both gesture recognizers
+                // are considered.
+                if disableParentScrollViewOnDrag {
+                    _outerScrollView = foundScrollView
+                }
                 return true
             }
         }
@@ -1517,7 +1531,31 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             if _dragEnabled != newValue
             {
                 _dragEnabled = newValue
+                _dragYEnabled = newValue
+                _dragXEnabled = newValue
             }
+        }
+    }
+    
+    open var dragYEnabled: Bool {
+        get
+        {
+            return _dragYEnabled
+        }
+        set
+        {
+            _dragYEnabled = newValue
+        }
+    }
+    
+    open var dragXEnabled: Bool {
+        get
+        {
+            return _dragXEnabled
+        }
+        set
+        {
+            _dragXEnabled = newValue
         }
     }
     
