@@ -56,6 +56,12 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// **default**: false
     open var keepPositionOnRotation: Bool = false
     
+    /// Flag that indicates if parent scroll view should be disabled when dragging to avoid scrolling conflicts.
+    /// If scroll view only pans vertically and dragging pans horizontally or vice versa (if using horizontal bar chart view),
+    /// you can set flag to false to allow scroll view to capture touches.
+    /// **default**: true
+    open var disableParentScrollViewOnDrag = true
+    
     /// the object representing the left y-axis
     internal var _leftAxis: YAxis!
     
@@ -906,7 +912,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             }
         #endif
         
-        if (gestureRecognizer.isKind(of: NSUIPanGestureRecognizer.self) &&
+        if (disableParentScrollViewOnDrag && gestureRecognizer.isKind(of: NSUIPanGestureRecognizer.self) &&
             otherGestureRecognizer.isKind(of: NSUIPanGestureRecognizer.self) && (
                 gestureRecognizer == _panGestureRecognizer
             ))
