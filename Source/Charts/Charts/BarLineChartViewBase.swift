@@ -912,7 +912,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             }
         #endif
         
-        if (disableParentScrollViewOnDrag && gestureRecognizer.isKind(of: NSUIPanGestureRecognizer.self) &&
+        if (gestureRecognizer.isKind(of: NSUIPanGestureRecognizer.self) &&
             otherGestureRecognizer.isKind(of: NSUIPanGestureRecognizer.self) && (
                 gestureRecognizer == _panGestureRecognizer
             ))
@@ -954,8 +954,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             
             if otherGestureRecognizer === scrollViewPanGestureRecognizer
             {
-                _outerScrollView = foundScrollView
-                
+                // If this flag is false, still return true, so that both gesture recognizers
+                // are considered.
+                if disableParentScrollViewOnDrag {
+                    _outerScrollView = foundScrollView
+                }
                 return true
             }
         }
