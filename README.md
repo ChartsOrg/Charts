@@ -48,6 +48,7 @@ In order to correctly compile:
 ## 3rd party tutorials
 
 * [Using Realm and Charts with Swift 3 in iOS 10 (Sami Korpela)](https://medium.com/@skoli/using-realm-and-charts-with-swift-3-in-ios-10-40c42e3838c0#.2gyymwfh8)
+* [Creating a Line Chart in Swift 3 and iOS 10 (Osian Smith)](https://medium.com/@OsianSmith/creating-a-line-chart-in-swift-3-and-ios-10-2f647c95392e)
 * [Beginning Set-up and Example Using Charts with Swift 3](https://github.com/annalizhaz/ChartsForSwiftBasic)
 * Want your tutorial to show here? Create a PR!
 
