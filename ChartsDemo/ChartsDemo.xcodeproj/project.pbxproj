@@ -84,6 +84,8 @@
 		5BEAED3C1ABC199F0013F194 /* ColoredLineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED3A1ABC199F0013F194 /* ColoredLineChartViewController.xib */; };
 		5BEAED401ABC1AC60013F194 /* SinusBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAED3E1ABC1AC60013F194 /* SinusBarChartViewController.m */; };
 		5BEAED411ABC1AC60013F194 /* SinusBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED3F1ABC1AC60013F194 /* SinusBarChartViewController.xib */; };
+		C3FD4C861EF0C8CF007E3877 /* InteractiveChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C3FD4C841EF0C8CF007E3877 /* InteractiveChartViewController.m */; };
+		C3FD4C871EF0C8CF007E3877 /* InteractiveChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3FD4C851EF0C8CF007E3877 /* InteractiveChartViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -235,6 +237,9 @@
 		5BEAED3D1ABC1AC60013F194 /* SinusBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinusBarChartViewController.h; sourceTree = "<group>"; };
 		5BEAED3E1ABC1AC60013F194 /* SinusBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SinusBarChartViewController.m; sourceTree = "<group>"; };
 		5BEAED3F1ABC1AC60013F194 /* SinusBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SinusBarChartViewController.xib; sourceTree = "<group>"; };
+		C3FD4C831EF0C8CF007E3877 /* InteractiveChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InteractiveChartViewController.h; sourceTree = "<group>"; };
+		C3FD4C841EF0C8CF007E3877 /* InteractiveChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InteractiveChartViewController.m; sourceTree = "<group>"; };
+		C3FD4C851EF0C8CF007E3877 /* InteractiveChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InteractiveChartViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -391,6 +396,9 @@
 				5BDEDC3E1ABB7F73007D3A60 /* HorizontalBarChartViewController.h */,
 				5BDEDC3F1ABB7F73007D3A60 /* HorizontalBarChartViewController.m */,
 				5BDEDC401ABB7F73007D3A60 /* HorizontalBarChartViewController.xib */,
+				C3FD4C831EF0C8CF007E3877 /* InteractiveChartViewController.h */,
+				C3FD4C841EF0C8CF007E3877 /* InteractiveChartViewController.m */,
+				C3FD4C851EF0C8CF007E3877 /* InteractiveChartViewController.xib */,
 				5BD8F0711AB89CE500566E05 /* LineChart1ViewController.h */,
 				5BD8F0721AB89CE500566E05 /* LineChart1ViewController.m */,
 				5BD8F0731AB89CE500566E05 /* LineChart1ViewController.xib */,
@@ -566,6 +574,7 @@
 				5BEAED1C1ABBFB340013F194 /* ScatterChartViewController.xib in Resources */,
 				0471CBFC1CA1090A00E52DBC /* PiePolylineChartViewController.xib in Resources */,
 				5BD8F0751AB89CE500566E05 /* LineChart1ViewController.xib in Resources */,
+				C3FD4C871EF0C8CF007E3877 /* InteractiveChartViewController.xib in Resources */,
 				5BE673811D5B496500A87BA2 /* HalfPieChartViewController.xib in Resources */,
 				5B43162D1AB8D8AE0009FCAA /* iTunesArtwork in Resources */,
 				5BD47E661ABB424E008FCEC6 /* BarChartViewController.xib in Resources */,
@@ -617,6 +626,7 @@
 				5B613DF01D5A50B6000F1E98 /* XYMarkerView.swift in Sources */,
 				5BEAED3B1ABC199F0013F194 /* ColoredLineChartViewController.m in Sources */,
 				5BDEDC411ABB7F73007D3A60 /* HorizontalBarChartViewController.m in Sources */,
+				C3FD4C861EF0C8CF007E3877 /* InteractiveChartViewController.m in Sources */,
 				5BEAED121ABBFB2B0013F194 /* AnotherBarChartViewController.m in Sources */,
 				5BEAED311ABC18F00013F194 /* CubicLineChartViewController.m in Sources */,
 				5BEAED1D1ABBFB340013F194 /* StackedBarChartViewController.m in Sources */,

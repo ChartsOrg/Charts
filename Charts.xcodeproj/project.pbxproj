@@ -146,6 +146,7 @@
 		06B3C0F81D99F85400B1DF43 /* LineChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3C0F41D99F85400B1DF43 /* LineChartTests.swift */; };
 		5B56A9CD1D905EB300F58178 /* Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B56A9CC1D905EB300F58178 /* Description.swift */; };
 		5BF8813B1DDC4DF70033370C /* IndexAxisValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF8813A1DDC4DF70033370C /* IndexAxisValueFormatter.swift */; };
+		C3FD4C7F1EF0AC5A007E3877 /* InteractiveChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FD4C7E1EF0AC5A007E3877 /* InteractiveChartView.swift */; };
 		D8A58A411DCE2EF8007BB012 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8A58A401DCE2EF8007BB012 /* Media.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -303,6 +304,7 @@
 		06B3C0F41D99F85400B1DF43 /* LineChartTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartTests.swift; sourceTree = "<group>"; };
 		5B56A9CC1D905EB300F58178 /* Description.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Description.swift; sourceTree = "<group>"; };
 		5BF8813A1DDC4DF70033370C /* IndexAxisValueFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexAxisValueFormatter.swift; sourceTree = "<group>"; };
+		C3FD4C7E1EF0AC5A007E3877 /* InteractiveChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InteractiveChartView.swift; sourceTree = "<group>"; };
 		D8A58A401DCE2EF8007BB012 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Media.xcassets; path = Charts/ChartsTests/Media.xcassets; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -415,6 +417,7 @@
 				06B11FBD1D811B8900D14B02 /* PieRadarChartViewBase.swift */,
 				06B11FBE1D811B8900D14B02 /* RadarChartView.swift */,
 				06B11FBF1D811B8900D14B02 /* ScatterChartView.swift */,
+				C3FD4C7E1EF0AC5A007E3877 /* InteractiveChartView.swift */,
 			);
 			name = Charts;
 			path = Source/Charts/Charts;
@@ -840,6 +843,7 @@
 				06B120761D811B8900D14B02 /* ScatterChartData.swift in Sources */,
 				06B120691D811B8900D14B02 /* ChartDataEntryBase.swift in Sources */,
 				06B120891D811B8900D14B02 /* IValueFormatter.swift in Sources */,
+				C3FD4C7F1EF0AC5A007E3877 /* InteractiveChartView.swift in Sources */,
 				06B120811D811B8900D14B02 /* IRadarChartDataSet.swift in Sources */,
 				06B120581D811B8900D14B02 /* MarkerView.swift in Sources */,
 				06B120751D811B8900D14B02 /* RadarChartDataSet.swift in Sources */,
