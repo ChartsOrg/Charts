@@ -84,8 +84,6 @@ def run_xcodebuild(schemes_to_execute, tasks, destination, is_test, xcprety_args
   schemes_to_execute.each do |scheme|
     xcodebuild type, project_name, scheme, configuration, sdk, device, tasks, xcprety_args
   end
-
-  sh 'killall Simulator' if is_test
 end
 
 def execute(tasks, platform, xcprety_args: '')
