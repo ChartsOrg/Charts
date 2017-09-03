@@ -1,0 +1,62 @@
+language = swift("3.0")
+platforms = [
+  macos("10.11"),
+  ios("8.0"),
+  tvos("9.0")
+]
+
+test_platforms = [
+  ios("8.0"),
+  tvos("9.0")
+]
+
+environment_variables = {
+  "FB_REFERENCE_IMAGE_DIR": "$(SOURCE_ROOT)/Tests/ReferenceImages"
+}
+
+build_dependencies = new_script do |script|
+  script.name = "Build Dependencies"
+  script.script = "exec \"${SRCROOT}/scripts/build-dependencies.sh\""
+end
+
+charts_tests = new_target do |target|
+  target.name = "ChartsTests"
+  target.platforms = test_platforms
+  target.language = language
+  target.info_plist = "Tests/Supporting Files/Info.plist"
+  target.bundle_id = "com.dcg.ChartsTests"
+  target.include_files = ["Tests/**/*.swift"]
+  target.exclude_files = []
+  target.resource_files = ["Tests/**/*.xcassets"]
+  target.dependencies = [
+    "Charts",
+    "FBSnapshotTestCase"
+  ]
+  target.type = :unit_test_bundle
+  target.enable_code_coverage = true
+  target.pre_build_scripts = [
+    build_dependencies
+  ]
+  target.environment_variables = environment_variables
+end
+
+charts = new_target do |target|
+  target.name = "Charts"
+  target.platforms = platforms
+  target.language = language
+  target.info_plist = "Source/Supporting Files/Info.plist"
+  target.bundle_id = "com.dcg.Charts"
+  target.header = "Source/Supporting Files/Charts.h"
+  target.include_files = ["Source/Charts/**/*.swift"]
+  target.exclude_files = []
+  target.is_safe_for_extensions = true
+  target.test_target = charts_tests
+  target.environment_variables = environment_variables
+end
+
+project.name = "Charts"
+project.scripts_directory = "scripts"
+project.targets = [
+  charts,
+  charts_tests
+]
