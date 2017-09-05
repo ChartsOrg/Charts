@@ -57,10 +57,22 @@ open class ChartHighlighter : NSObject, IHighlighter
             return nil
         }
         
-        let leftAxisMinDist = getMinimumDistance(closestValues: closestValues, y: y, axis: YAxis.AxisDependency.left)
-        let rightAxisMinDist = getMinimumDistance(closestValues: closestValues, y: y, axis: YAxis.AxisDependency.right)
+        var axisMinDist : [CGFloat] = []
+        let axisDepency  = [YAxis.AxisDependency.left , YAxis.AxisDependency.right, YAxis.AxisDependency.left1, YAxis.AxisDependency.right1]
         
-        let axis = leftAxisMinDist < rightAxisMinDist ? YAxis.AxisDependency.left : YAxis.AxisDependency.right
+        let leftAxisMinDist   = getMinimumDistance(closestValues: closestValues, y: y, axis: YAxis.AxisDependency.left)
+        let rightAxisMinDist  = getMinimumDistance(closestValues: closestValues, y: y, axis: YAxis.AxisDependency.right)
+        let leftAxisMinDist1  = getMinimumDistance(closestValues: closestValues, y: y, axis: YAxis.AxisDependency.left1)
+        let rightAxisMinDist1 = getMinimumDistance(closestValues: closestValues, y: y, axis: YAxis.AxisDependency.right1)
+        
+        axisMinDist.append(leftAxisMinDist)
+        axisMinDist.append(rightAxisMinDist)
+        axisMinDist.append(leftAxisMinDist1)
+        axisMinDist.append(rightAxisMinDist1)
+        
+        let mini = axisMinDist.min()
+        let index = axisMinDist.index(of: mini!)
+        let axis = axisDepency [index!]
         
         let detail = closestSelectionDetailByPixel(closestValues: closestValues, x: x, y: y, axis: axis, minSelectionDistance: chart.maxHighlightDistance)
         
@@ -132,7 +144,7 @@ open class ChartHighlighter : NSObject, IHighlighter
         
         return highlights
     }
-
+    
     // - MARK: - Utilities
     
     /// - returns: The `ChartHighlight` of the closest value on the x-y cartesian axes
