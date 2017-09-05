@@ -229,17 +229,16 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     override func drawMarkers(context: CGContext)
     {
         guard
-            let marker = marker
-            , isDrawMarkersEnabled &&
-                valuesToHighlight()
+            let marker = marker, 
+            isDrawMarkersEnabled && valuesToHighlight()
             else { return }
         
         for i in 0 ..< _indicesToHighlight.count
         {
             let highlight = _indicesToHighlight[i]
             
-            guard let
-                set = combinedData?.getDataSetByHighlight(highlight),
+            guard 
+                let set = combinedData?.getDataSetByHighlight(highlight),
                 let e = _data?.entryForHighlight(highlight)
                 else { continue }
             
