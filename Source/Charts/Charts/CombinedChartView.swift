@@ -222,4 +222,45 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     
     /// - returns: `true` the highlight is be full-bar oriented, `false` ifsingle-value
     open var isHighlightFullBarEnabled: Bool { return highlightFullBarEnabled }
+    
+    // MARK:- override drawMarkers
+    
+    /// draws all MarkerViews on the highlighted positions. override here for combined chart view's special data structure
+    override func drawMarkers(context: CGContext)
+    {
+        guard
+            let marker = marker, 
+            isDrawMarkersEnabled && valuesToHighlight()
+            else { return }
+        
+        for i in 0 ..< _indicesToHighlight.count
+        {
+            let highlight = _indicesToHighlight[i]
+            
+            guard 
+                let set = combinedData?.getDataSetByHighlight(highlight),
+                let e = _data?.entryForHighlight(highlight)
+                else { continue }
+            
+            let entryIndex = set.entryIndex(entry: e)
+            if entryIndex > Int(Double(set.entryCount) * _animator.phaseX)
+            {
+                continue
+            }
+            
+            let pos = getMarkerPosition(highlight: highlight)
+            
+            // check bounds
+            if !_viewPortHandler.isInBounds(x: pos.x, y: pos.y)
+            {
+                continue
+            }
+            
+            // callbacks to update the content
+            marker.refreshContent(entry: e, highlight: highlight)
+            
+            // draw the marker
+            marker.draw(context: context, point: pos)
+        }
+    }
 }

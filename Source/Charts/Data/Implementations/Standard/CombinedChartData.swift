@@ -261,21 +261,18 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         super.notifyDataChanged() // recalculate everything
     }
     
-    
     /// Get the Entry for a corresponding highlight object
     ///
     /// - parameter highlight:
     /// - returns: The entry that is highlighted
     open override func entryForHighlight(_ highlight: Highlight) -> ChartDataEntry?
     {
-        let dataObjects = allData
-        
-        if highlight.dataIndex >= dataObjects.count
+        if highlight.dataIndex >= allData.count
         {
             return nil
         }
         
-        let data = dataObjects[highlight.dataIndex]
+        let data = dataByIndex(highlight.dataIndex)
         
         if highlight.dataSetIndex >= data.dataSetCount
         {
@@ -292,8 +289,30 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
                     return e
                 }
             }
-            
             return nil
+        }
+    }
+    
+    /// get data set for highlight
+    ///
+    /// - Parameter highlight: current highlight
+    /// - Returns: dataset related to highlight
+    open func getDataSetByHighlight(_ highlight: Highlight) -> IChartDataSet!
+    {  
+        if highlight.dataIndex >= allData.count
+        {
+            return nil
+        }
+        
+        let data = dataByIndex(highlight.dataIndex)
+        
+        if highlight.dataSetIndex >= data.dataSetCount
+        {
+            return nil
+        }
+        else
+        {
+            return data.dataSets[highlight.dataSetIndex]
         }
     }
 }
