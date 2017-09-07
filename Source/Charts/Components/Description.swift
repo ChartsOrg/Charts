@@ -21,7 +21,7 @@ open class Description: ComponentBase
             // 23 is the smallest recommended font size on the TV
             font = NSUIFont.systemFont(ofSize: 23)
         #elseif os(OSX)
-            font = NSUIFont.systemFont(ofSize: NSUIFont.systemFontSize())
+            font = NSUIFont.systemFont(ofSize: NSUIFont.systemFontSize)
         #else
             font = NSUIFont.systemFont(ofSize: 8.0)
         #endif

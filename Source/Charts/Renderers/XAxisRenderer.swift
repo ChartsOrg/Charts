@@ -184,15 +184,15 @@ open class XAxisRenderer: AxisRendererBase
             else { return }
         
         #if os(OSX)
-            let paraStyle = NSParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+            let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         #else
             let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         #endif
         paraStyle.alignment = .center
         
-        let labelAttrs = [NSAttributedStringKey.font.rawValue: xAxis.labelFont,
+        let labelAttrs: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: xAxis.labelFont,
             NSAttributedStringKey.foregroundColor: xAxis.labelTextColor,
-            NSAttributedStringKey.paragraphStyle: paraStyle] as! [String : NSObject]
+            NSAttributedStringKey.paragraphStyle: paraStyle]
         let labelRotationAngleRadians = xAxis.labelRotationAngle * ChartUtils.Math.FDEG2RAD
         
         let centeringEnabled = xAxis.isCenterAxisLabelsEnabled
@@ -267,7 +267,7 @@ open class XAxisRenderer: AxisRendererBase
         formattedLabel: String,
         x: CGFloat,
         y: CGFloat,
-        attributes: [String: NSObject],
+        attributes: [NSAttributedStringKey : Any],
         constrainedToSize: CGSize,
         anchor: CGPoint,
         angleRadians: CGFloat)
@@ -445,7 +445,7 @@ open class XAxisRenderer: AxisRendererBase
                         x: position.x + xOffset,
                         y: viewPortHandler.contentTop + yOffset),
                     align: .left,
-                    attributes: [NSAttributedStringKey.font.rawValue: limitLine.valueFont, NSAttributedStringKey.foregroundColor.rawValue: limitLine.valueTextColor])
+                    attributes: [NSAttributedStringKey.font: limitLine.valueFont, NSAttributedStringKey.foregroundColor: limitLine.valueTextColor])
             }
             else if limitLine.labelPosition == .rightBottom
             {
@@ -455,7 +455,7 @@ open class XAxisRenderer: AxisRendererBase
                         x: position.x + xOffset,
                         y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
                     align: .left,
-                    attributes: [NSAttributedStringKey.font.rawValue: limitLine.valueFont, NSAttributedStringKey.foregroundColor.rawValue: limitLine.valueTextColor])
+                    attributes: [NSAttributedStringKey.font: limitLine.valueFont, NSAttributedStringKey.foregroundColor: limitLine.valueTextColor])
             }
             else if limitLine.labelPosition == .leftTop
             {
@@ -465,7 +465,7 @@ open class XAxisRenderer: AxisRendererBase
                         x: position.x - xOffset,
                         y: viewPortHandler.contentTop + yOffset),
                     align: .right,
-                    attributes: [NSAttributedStringKey.font.rawValue: limitLine.valueFont, NSAttributedStringKey.foregroundColor.rawValue: limitLine.valueTextColor])
+                    attributes: [NSAttributedStringKey.font: limitLine.valueFont, NSAttributedStringKey.foregroundColor: limitLine.valueTextColor])
             }
             else
             {
@@ -475,7 +475,7 @@ open class XAxisRenderer: AxisRendererBase
                         x: position.x - xOffset,
                         y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
                     align: .right,
-                    attributes: [NSAttributedStringKey.font.rawValue: limitLine.valueFont, NSAttributedStringKey.foregroundColor.rawValue: limitLine.valueTextColor])
+                    attributes: [NSAttributedStringKey.font: limitLine.valueFont, NSAttributedStringKey.foregroundColor: limitLine.valueTextColor])
             }
         }
     }

@@ -222,7 +222,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 	public typealias NSUIImage = NSImage
 	public typealias NSUIScrollView = NSScrollView
 	public typealias NSUIGestureRecognizer = NSGestureRecognizer
-	public typealias NSUIGestureRecognizerState = NSGestureRecognizerState
+	public typealias NSUIGestureRecognizerState = NSGestureRecognizer.State
 	public typealias NSUIGestureRecognizerDelegate = NSGestureRecognizerDelegate
 	public typealias NSUITapGestureRecognizer = NSClickGestureRecognizer
 	public typealias NSUIPanGestureRecognizer = NSPanGestureRecognizer
@@ -522,7 +522,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
         // iOS: size(attributes: ...), OSX: size(withAttributes: ...)
         // Both are translated into sizeWithAttributes: on ObjC. So conflict...
         @nonobjc
-        func size(attributes attrs: [String : Any]? = nil) -> NSSize
+        func size(attributes attrs: [NSAttributedStringKey : Any]? = nil) -> NSSize
         {
             return size(withAttributes: attrs)
         }
@@ -530,14 +530,14 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	func NSUIGraphicsGetCurrentContext() -> CGContext?
     {
-		return NSGraphicsContext.current()?.cgContext
+		return NSGraphicsContext.current?.cgContext
 	}
 
 	func NSUIGraphicsPushContext(_ context: CGContext)
     {
         let cx = NSGraphicsContext(cgContext: context, flipped: true)
 		NSGraphicsContext.saveGraphicsState()
-		NSGraphicsContext.setCurrent(cx)
+		NSGraphicsContext.current = cx
 	}
 
 	func NSUIGraphicsPopContext()
@@ -550,7 +550,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		image.lockFocus()
 		let rep = NSBitmapImageRep(focusedViewRect: NSMakeRect(0, 0, image.size.width, image.size.height))
 		image.unlockFocus()
-		return rep?.representation(using: .PNG, properties: [:])
+        return rep?.representation(using: .png, properties: [:])
 	}
 
 	func NSUIImageJPEGRepresentation(_ image: NSUIImage, _ quality: CGFloat = 0.9) -> Data?
@@ -558,7 +558,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		image.lockFocus()
 		let rep = NSBitmapImageRep(focusedViewRect: NSMakeRect(0, 0, image.size.width, image.size.height))
 		image.unlockFocus()
-        return rep?.representation(using: .JPEG, properties: [NSImageCompressionFactor: quality])
+        return rep?.representation(using: .jpeg, properties: [NSBitmapImageRep.PropertyKey.compressionFactor: quality])
 	}
 
 	private var imageContextStack: [CGFloat] = []
@@ -568,7 +568,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		var scale = scale
 		if scale == 0.0
         {
-			scale = NSScreen.main()?.backingScaleFactor ?? 1.0
+            scale = NSScreen.main?.backingScaleFactor ?? 1.0
 		}
 
 		let width = Int(size.width * scale)
@@ -618,7 +618,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	func NSUIMainScreen() -> NSUIScreen?
     {
-		return NSUIScreen.main()
+		return NSUIScreen.main
 	}
     
 #endif
