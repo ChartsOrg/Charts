@@ -1528,7 +1528,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         }
     }
     
-    open var dragYEnabled: Bool {
+    open var dragYEnabled: Bool 
+    {
         get
         {
             return _dragYEnabled
@@ -1539,7 +1540,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         }
     }
     
-    open var dragXEnabled: Bool {
+    open var dragXEnabled: Bool 
+    {
         get
         {
             return _dragXEnabled
