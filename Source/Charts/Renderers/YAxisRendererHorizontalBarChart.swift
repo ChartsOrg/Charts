@@ -152,7 +152,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
     }
 
     /// draws the y-labels on the specified x-position
-    open func drawYLabels(
+    @objc open func drawYLabels(
         context: CGContext,
         fixedPosition: CGFloat,
         positions: [CGPoint],
@@ -177,7 +177,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
                 text: text,
                 point: CGPoint(x: positions[i].x, y: fixedPosition - offset),
                 align: .center,
-                attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
+                attributes: [NSAttributedStringKey.font.rawValue: labelFont, NSAttributedStringKey.foregroundColor.rawValue: labelTextColor])
         }
     }
     
@@ -342,7 +342,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
                             x: position.x + xOffset,
                             y: viewPortHandler.contentTop + yOffset),
                         align: .left,
-                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
+                        attributes: [NSAttributedStringKey.font.rawValue: l.valueFont, NSAttributedStringKey.foregroundColor.rawValue: l.valueTextColor])
                 }
                 else if l.labelPosition == .rightBottom
                 {
@@ -352,7 +352,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
                             x: position.x + xOffset,
                             y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
                         align: .left,
-                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
+                        attributes: [NSAttributedStringKey.font.rawValue: l.valueFont, NSAttributedStringKey.foregroundColor.rawValue: l.valueTextColor])
                 }
                 else if l.labelPosition == .leftTop
                 {
@@ -362,7 +362,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
                             x: position.x - xOffset,
                             y: viewPortHandler.contentTop + yOffset),
                         align: .right,
-                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
+                        attributes: [NSAttributedStringKey.font.rawValue: l.valueFont, NSAttributedStringKey.foregroundColor.rawValue: l.valueTextColor])
                 }
                 else
                 {
@@ -372,7 +372,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
                             x: position.x - xOffset,
                             y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
                         align: .right,
-                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor])
+                        attributes: [NSAttributedStringKey.font.rawValue: l.valueFont, NSAttributedStringKey.foregroundColor.rawValue: l.valueTextColor])
                 }
             }
         }
