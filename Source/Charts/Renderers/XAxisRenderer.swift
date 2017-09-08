@@ -101,7 +101,9 @@ open class XAxisRenderer: AxisRendererBase
         
         if xAxis.labelPosition == .top
         {
-            drawLabels(context: context, pos: viewPortHandler.contentTop - yOffset, anchor: CGPoint(x: 0.5, y: 1.0))
+            let pos  = viewPortHandler.contentTop - yOffset
+            drawLabels(context: context, pos: pos, anchor: CGPoint(x: 0.5, y: 1.0))
+            drawNameXAxis(context: context, nameRect: xAxis.nameRectTop)
         }
         else if xAxis.labelPosition == .topInside
         {
@@ -109,7 +111,9 @@ open class XAxisRenderer: AxisRendererBase
         }
         else if xAxis.labelPosition == .bottom
         {
-            drawLabels(context: context, pos: viewPortHandler.contentBottom + yOffset, anchor: CGPoint(x: 0.5, y: 0.0))
+            let pos  = viewPortHandler.contentBottom + yOffset
+            drawLabels(context: context, pos: pos, anchor: CGPoint(x: 0.5, y: 0.0))
+            drawNameXAxis(context: context, nameRect: xAxis.nameRectBottom)
         }
         else if xAxis.labelPosition == .bottomInside
         {
@@ -117,9 +121,43 @@ open class XAxisRenderer: AxisRendererBase
         }
         else
         { // BOTH SIDED
-            drawLabels(context: context, pos: viewPortHandler.contentTop - yOffset, anchor: CGPoint(x: 0.5, y: 1.0))
-            drawLabels(context: context, pos: viewPortHandler.contentBottom + yOffset, anchor: CGPoint(x: 0.5, y: 0.0))
+            // top
+            var pos  = viewPortHandler.contentTop - yOffset
+            drawLabels(context: context, pos: pos, anchor: CGPoint(x: 0.5, y: 1.0))
+            drawNameXAxis ( context: context, nameRect: xAxis.nameRectTop)
+            
+            // bottom
+            pos  = viewPortHandler.contentBottom + yOffset
+            drawLabels(context: context, pos: pos, anchor: CGPoint(x: 0.5, y: 0.0))
+            drawNameXAxis ( context: context, nameRect: xAxis.nameRectBottom)
         }
+    }
+    
+    /// draws the x-name
+    open func drawNameXAxis ( context: CGContext, nameRect: CGRect)
+    {
+        guard
+            let xAxis = self.axis as? XAxis
+            else { return }
+        
+        if xAxis.nameAxisEnabled == false
+        {
+            return
+        }
+        
+        #if os(OSX)
+            let paraStyle = NSParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+        #else
+            let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        #endif
+        
+        paraStyle.alignment = .center
+        let labelAttrs = [NSFontAttributeName: xAxis.nameAxisFont,
+                          NSForegroundColorAttributeName: xAxis.nameAxisTextColor,
+                          NSParagraphStyleAttributeName: paraStyle] as [String : NSObject]
+        let text = xAxis.nameAxis
+        
+        text.draw(in: nameRect, withAttributes: labelAttrs)
     }
     
     fileprivate var _axisLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
@@ -262,6 +300,47 @@ open class XAxisRenderer: AxisRendererBase
         }
     }
     
+    /// draws the x-name
+    open func drawNameXAxis (
+        context: CGContext,
+        fixedPosition: CGFloat,
+        positions: CGPoint,
+        offset: CGFloat)
+    {
+        guard
+            let xAxis = self.axis as? XAxis
+            else { return }
+        
+        if xAxis.nameAxisEnabled == false
+        {
+            return
+        }
+        
+        #if os(OSX)
+            let paraStyle = NSParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+        #else
+            let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        #endif
+        
+        paraStyle.alignment = .center
+        let labelAttrs = [NSFontAttributeName: xAxis.nameAxisFont,
+                          NSForegroundColorAttributeName: xAxis.nameAxisTextColor,
+                          NSParagraphStyleAttributeName: paraStyle] as [String : NSObject]
+        let labelRotationAngleRadians = 0 * ChartUtils.Math.FDEG2RAD
+        
+        let text = xAxis.nameAxis
+        let labelMaxSize = CGSize()
+        
+        ChartUtils.drawMultilineText(
+            context: context,
+            text: text,
+            point: CGPoint(x: positions.x, y: fixedPosition),
+            attributes: labelAttrs,
+            constrainedToSize: labelMaxSize,
+            anchor: CGPoint(x: 0.5, y: 1.0),
+            angleRadians: labelRotationAngleRadians)
+    }
+
     open func drawLabel(
         context: CGContext,
         formattedLabel: String,
