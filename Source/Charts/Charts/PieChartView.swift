@@ -659,4 +659,18 @@ open class PieChartView: PieRadarChartViewBase
             }
         }
     }
+    
+    
+    //Limit the X label size in slice
+    private var _limitXLableSizeInSlice: Bool = false
+    public var limitXLableSizeInSlice: Bool {
+        get {
+            return _limitXLableSizeInSlice
+        }
+        set {
+            _limitXLableSizeInSlice = newValue
+            setNeedsDisplay()
+        }
+    }
+
 }
