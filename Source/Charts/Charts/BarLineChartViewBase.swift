@@ -28,9 +28,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     fileprivate var _pinchZoomEnabled = false
     fileprivate var _doubleTapToZoomEnabled = true
-    fileprivate var _dragEnabled = true
-    fileprivate var _dragYEnabled = true
     fileprivate var _dragXEnabled = true
+    fileprivate var _dragYEnabled = true
     
     fileprivate var _scaleXEnabled = true
     fileprivate var _scaleYEnabled = true
@@ -126,7 +125,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         self.addGestureRecognizer(_panGestureRecognizer)
         
         _doubleTapGestureRecognizer.isEnabled = _doubleTapToZoomEnabled
-        _panGestureRecognizer.isEnabled = _dragEnabled
+        _panGestureRecognizer.isEnabled = _dragXEnabled || _dragYEnabled
 
         #if !os(tvOS)
             _pinchGestureRecognizer = NSUIPinchGestureRecognizer(target: self, action: #selector(BarLineChartViewBase.pinchGestureRecognized(_:)))
@@ -672,7 +671,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         {
             stopDeceleration()
             
-            if _data === nil
+            if _data === nil || !self.isDragEnabled
             { // If we have no data, we have nothing to pan and no data to highlight
                 return
             }
@@ -680,15 +679,23 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             // If drag is enabled and we are in a position where there's something to drag:
             //  * If we're zoomed in, then obviously we have something to drag.
             //  * If we have a drag offset - we always have something to drag
-            if self.isDragEnabled &&
-                (!self.hasNoDragOffset || !self.isFullyZoomedOut)
+            if !self.hasNoDragOffset || !self.isFullyZoomedOut
             {
                 _isDragging = true
                 
                 _closestDataSetToTouch = getDataSetByTouchPoint(point: recognizer.nsuiLocationOfTouch(0, inView: self))
                 
-                let translation = recognizer.translation(in: self)
-                let didUserDrag = (self is HorizontalBarChartView) ? translation.y != 0.0 : translation.x != 0.0
+                var translation = recognizer.translation(in: self)
+                if !self.dragXEnabled
+                {
+                    translation.x = 0.0
+                }
+                else if !self.dragYEnabled
+                {
+                    translation.y = 0.0
+                }
+                
+                let didUserDrag = translation.x != 0.0 || translation.y != 0.0
                 
                 // Check to see if user dragged at all and if so, can the chart be dragged by the given amount
                 if didUserDrag && !performPanChange(translation: translation)
@@ -723,7 +730,16 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             if _isDragging
             {
                 let originalTranslation = recognizer.translation(in: self)
-                let translation = CGPoint(x: originalTranslation.x - _lastPanPoint.x, y: originalTranslation.y - _lastPanPoint.y)
+                var translation = CGPoint(x: originalTranslation.x - _lastPanPoint.x, y: originalTranslation.y - _lastPanPoint.y)
+                
+                if !self.dragXEnabled
+                {
+                    translation.x = 0.0
+                }
+                else if !self.dragYEnabled
+                {
+                    translation.y = 0.0
+                }
                 
                 let _ = performPanChange(translation: translation)
                 
@@ -855,11 +871,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     {
         if gestureRecognizer == _panGestureRecognizer
         {
-            let velocity = _panGestureRecognizer.velocity(in: self)
-            if _data === nil || !_dragEnabled ||
-                (self.hasNoDragOffset && self.isFullyZoomedOut && !self.isHighlightPerDragEnabled) ||
-                (!_dragYEnabled && fabs(velocity.y) > fabs(velocity.x)) ||
-                (!_dragXEnabled && fabs(velocity.y) < fabs(velocity.x))
+            if _data === nil ||
+                !isDragEnabled ||
+                (self.hasNoDragOffset && self.isFullyZoomedOut && !self.isHighlightPerDragEnabled)
             {
                 return false
             }
@@ -1515,31 +1529,22 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     {
         get
         {
-            return _dragEnabled
-        }
-        set
-        {
-            if _dragEnabled != newValue
-            {
-                _dragEnabled = newValue
-                _dragYEnabled = newValue
-                _dragXEnabled = newValue
-            }
-        }
-    }
-    
-    open var dragYEnabled: Bool 
-    {
-        get
-        {
-            return _dragYEnabled
+            return _dragXEnabled || _dragYEnabled
         }
         set
         {
             _dragYEnabled = newValue
+            _dragXEnabled = newValue
         }
     }
     
+    /// is dragging enabled? (moving the chart with the finger) for the chart (this does not affect scaling).
+    open var isDragEnabled: Bool
+    {
+        return dragEnabled
+    }
+    
+    /// is dragging on the X axis enabled?
     open var dragXEnabled: Bool 
     {
         get
@@ -1552,10 +1557,17 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         }
     }
     
-    /// is dragging enabled? (moving the chart with the finger) for the chart (this does not affect scaling).
-    open var isDragEnabled: Bool
+    /// is dragging on the Y axis enabled?
+    open var dragYEnabled: Bool
     {
-        return dragEnabled
+        get
+        {
+            return _dragYEnabled
+        }
+        set
+        {
+            _dragYEnabled = newValue
+        }
     }
     
     /// is scaling enabled? (zooming in and out by gesture) for the chart (this does not affect dragging).
