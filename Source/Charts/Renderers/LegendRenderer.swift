@@ -205,7 +205,7 @@ open class LegendRenderer: Renderer
         }
         
         let labelFont = legend.font
-        let labelTextColor = legend.textColor
+        var labelTextColor = legend.textColor
         let labelLineHeight = labelFont.lineHeight
         let formYOffset = labelLineHeight / 2.0
 
@@ -430,6 +430,10 @@ open class LegendRenderer: Renderer
                 let formSize = e.formSize.isNaN ? defaultFormSize : e.formSize
                 
                 var posX = originPosX
+                
+                if let labelColor = e.labelColor {
+                    labelTextColor = labelColor
+                }
                 
                 if drawingForm
                 {
