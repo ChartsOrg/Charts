@@ -1,13 +1,7 @@
 language: objective-c
-osx_image: xcode8.3
+osx_image: xcode9
 matrix:
   include:
-    - osx_image: xcode8.3
-      env: PLATFORM="iOS"
-    - osx_image: xcode8.3
-      env: PLATFORM="tvOS"
-    - osx_image: xcode8.3
-      env: PLATFORM="macOS"
     - osx_image: xcode9
       env: PLATFORM="iOS"
     - osx_image: xcode9
