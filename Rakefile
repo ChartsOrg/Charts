@@ -11,9 +11,9 @@ def configuration
 end
 
 def test_platforms
-  [
-    :iOS,
-    :tvOS
+  %i[
+    iOS
+    tvOS
   ]
 end
 
@@ -24,9 +24,9 @@ def build_platforms
 end
 
 def build_schemes
-  %w(
+  %w[
     Charts
-  )
+  ]
 end
 
 def test_schemes
@@ -121,7 +121,7 @@ end
 
 desc 'Run CI tasks. Build and test or build depending on the platform.'
 task :ci, [:platform] do |_task, args|
-  platform = arg_to_key(args[:platform]) if args.has_key?(:platform)
+  platform = arg_to_key(args[:platform]) if args.key?(:platform)
 
   if test_platforms.include?(platform)
     execute 'clean test', platform
@@ -138,6 +138,11 @@ task :ci, [:platform] do |_task, args|
 end
 
 desc 'updated the podspec on cocoapods'
-task :update_pod do 
-  sh "bundle exec pod trunk push Charts.podspec --allow-warnings"
+task :update_pod do
+  sh 'bundle exec pod trunk push Charts.podspec --allow-warnings'
+end
+
+desc 'generate changelog'
+task :generate_changelog do
+  sh 'github_changelog_generator'
 end

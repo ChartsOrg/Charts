@@ -8,6 +8,8 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    addressable (2.5.2)
+      public_suffix (>= 2.0.2, < 4.0)
     claide (1.0.1)
     cocoapods (1.1.1)
       activesupport (>= 4.0.2, < 5)
@@ -43,18 +45,41 @@ GEM
     cocoapods-try (1.1.0)
     colored (1.2)
     escape (0.0.4)
+    faraday (0.13.1)
+      multipart-post (>= 1.2, < 3)
+    faraday-http-cache (2.0.0)
+      faraday (~> 0.8)
     fourflusher (2.0.1)
     fuzzy_match (2.0.4)
     gh_inspector (1.0.3)
+    github_changelog_generator (1.14.3)
+      activesupport
+      faraday-http-cache
+      multi_json
+      octokit (~> 4.6)
+      rainbow (>= 2.1)
+      rake (>= 10.0)
+      retriable (~> 2.1)
     i18n (0.7.0)
     json (1.8.5)
     minitest (5.10.1)
     molinillo (0.5.5)
+    multi_json (1.12.2)
+    multipart-post (2.0.0)
     nanaimo (0.2.3)
     nap (1.1.0)
     netrc (0.7.8)
+    octokit (4.7.0)
+      sawyer (~> 0.8.0, >= 0.5.3)
+    public_suffix (3.0.0)
+    rainbow (2.2.2)
+      rake
     rake (12.0.0)
+    retriable (2.1.0)
     rouge (1.11.1)
+    sawyer (0.8.1)
+      addressable (>= 2.3.5, < 2.6)
+      faraday (~> 0.8, < 1.0)
     thread_safe (0.3.5)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
@@ -72,8 +97,9 @@ PLATFORMS
 
 DEPENDENCIES
   cocoapods
+  github_changelog_generator
   rake
   xcpretty
 
 BUNDLED WITH
-   1.13.7
+   1.15.4
