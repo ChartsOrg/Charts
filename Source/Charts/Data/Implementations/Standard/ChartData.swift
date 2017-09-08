@@ -137,6 +137,26 @@ open class ChartData: NSObject
         }
     }
     
+    open var leftAxisMin: Double
+    {
+        return _leftAxisMin
+    }
+    
+    open var leftAxisMax: Double
+    {
+        return _leftAxisMax
+    }
+    
+    open var rightAxisMin: Double
+    {
+        return _rightAxisMin
+    }
+    
+    open var rightAxisMax: Double
+    {
+        return _rightAxisMax
+    }
+    
     /// Adjusts the current minimum and maximum values based on the provided Entry object.
     open func calcMinMax(entry e: ChartDataEntry, axis: YAxis.AxisDependency)
     {
