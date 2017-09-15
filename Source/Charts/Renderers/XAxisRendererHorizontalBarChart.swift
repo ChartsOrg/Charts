@@ -18,9 +18,9 @@ import CoreGraphics
 
 open class XAxisRendererHorizontalBarChart: XAxisRenderer
 {
-    internal var chart: BarChartView?
+    @objc internal var chart: BarChartView?
     
-    public init(viewPortHandler: ViewPortHandler?, xAxis: XAxis?, transformer: Transformer?, chart: BarChartView?)
+    @objc public init(viewPortHandler: ViewPortHandler?, xAxis: XAxis?, transformer: Transformer?, chart: BarChartView?)
     {
         super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: transformer)
         
@@ -170,12 +170,12 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
         }
     }
     
-    open func drawLabel(
+    @objc open func drawLabel(
         context: CGContext,
         formattedLabel: String,
         x: CGFloat,
         y: CGFloat,
-        attributes: [NSAttributedStringKey: NSObject],
+        attributes: [NSAttributedStringKey : Any],
         anchor: CGPoint,
         angleRadians: CGFloat)
     {

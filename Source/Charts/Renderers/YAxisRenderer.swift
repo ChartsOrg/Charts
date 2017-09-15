@@ -19,7 +19,7 @@ import CoreGraphics
 @objc(ChartYAxisRenderer)
 open class YAxisRenderer: AxisRendererBase
 {
-    public init(viewPortHandler: ViewPortHandler?, yAxis: YAxis?, transformer: Transformer?)
+    @objc public init(viewPortHandler: ViewPortHandler?, yAxis: YAxis?, transformer: Transformer?)
     {
         super.init(viewPortHandler: viewPortHandler, transformer: transformer, axis: yAxis)
     }
@@ -127,7 +127,7 @@ open class YAxisRenderer: AxisRendererBase
     }
     
     /// draws the y-labels on the specified x-position
-    internal func drawYLabels(
+    @objc internal func drawYLabels(
         context: CGContext,
         fixedPosition: CGFloat,
         positions: [CGPoint],
@@ -205,7 +205,7 @@ open class YAxisRenderer: AxisRendererBase
         }
     }
     
-    open var gridClippingRect: CGRect
+    @objc open var gridClippingRect: CGRect
     {
         var contentRect = viewPortHandler?.contentRect ?? CGRect.zero
         let dy = self.axis?.gridLineWidth ?? 0.0
@@ -214,7 +214,7 @@ open class YAxisRenderer: AxisRendererBase
         return contentRect
     }
     
-    open func drawGridLine(
+    @objc open func drawGridLine(
         context: CGContext,
         position: CGPoint)
     {
@@ -228,7 +228,7 @@ open class YAxisRenderer: AxisRendererBase
         context.strokePath()
     }
     
-    open func transformedPositions() -> [CGPoint]
+    @objc open func transformedPositions() -> [CGPoint]
     {
         guard
             let yAxis = self.axis as? YAxis,
@@ -251,7 +251,7 @@ open class YAxisRenderer: AxisRendererBase
     }
 
     /// Draws the zero line at the specified position.
-    open func drawZeroLine(context: CGContext)
+    @objc open func drawZeroLine(context: CGContext)
     {
         guard
             let yAxis = self.axis as? YAxis,

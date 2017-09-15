@@ -19,9 +19,9 @@ import CoreGraphics
 
 open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
 {
-    open weak var dataProvider: BubbleChartDataProvider?
+    @objc open weak var dataProvider: BubbleChartDataProvider?
     
-    public init(dataProvider: BubbleChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    @objc public init(dataProvider: BubbleChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -60,7 +60,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
     fileprivate var _pointBuffer = CGPoint()
     fileprivate var _sizeBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    open func drawDataSet(context: CGContext, dataSet: IBubbleChartDataSet)
+    @objc open func drawDataSet(context: CGContext, dataSet: IBubbleChartDataSet)
     {
         guard
             let dataProvider = dataProvider,
