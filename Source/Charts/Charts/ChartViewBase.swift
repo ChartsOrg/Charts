@@ -155,7 +155,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// flag that indicates if offsets calculation has already been done or not
     fileprivate var _offsetsCalculated = false
-	
+    
     /// array of Highlight objects that reference the highlighted slices in the chart
     @objc internal var _indicesToHighlight = [Highlight]()
     
@@ -276,8 +276,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         _data = nil
         _offsetsCalculated = false
         _indicesToHighlight.removeAll()
-	    lastHighlighted = nil
-	
+        lastHighlighted = nil
+    
         setNeedsDisplay()
     }
     
@@ -871,7 +871,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - returns: `true` if the image was saved successfully
     open func save(to path: String, format: ImageFormat, compressionQuality: Double) -> Bool
     {
-		guard let image = getChartImage(transparent: format != .jpeg)
+        guard let image = getChartImage(transparent: format != .jpeg)
             else { return false }
         
         var imageData: Data!
@@ -895,7 +895,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             return false
         }
         
-		return true
+        return true
     }
     
     @objc internal var _viewportJobs = [ViewPortJob]()
