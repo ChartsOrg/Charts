@@ -559,14 +559,14 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         
         if callDelegate, let delegate = delegate
         {
-            if h == nil
+            if let h = h
             {
-                delegate.chartValueNothingSelected?(self)
+                // notify the listener
+                delegate.chartValueSelected?(self, entry: entry!, highlight: h)
             }
             else
             {
-                // notify the listener
-                delegate.chartValueSelected?(self, entry: entry!, highlight: h!)
+                delegate.chartValueNothingSelected?(self)
             }
         }
         
