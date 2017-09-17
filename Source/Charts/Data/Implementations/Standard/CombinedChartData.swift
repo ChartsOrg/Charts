@@ -214,7 +214,6 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         super.notifyDataChanged() // recalculate everything
     }
     
-    
     /// Get the Entry for a corresponding highlight object
     ///
     /// - parameter highlight:
@@ -223,13 +222,34 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     {
         let dataObjects = allData
         
-        guard highlight.dataIndex >= dataObjects.count else { return nil }
+        guard highlight.dataIndex < allData.endIndex else { return nil }
 
         let data = dataObjects[highlight.dataIndex]
         
-        guard highlight.dataSetIndex >= data.dataSetCount else { return nil }
+        guard highlight.dataSetIndex < data.dataSetCount else { return nil }
         // The value of the highlighted entry could be NaN - if we are not interested in highlighting a specific value.
         let entries = data.getDataSetByIndex(highlight.dataSetIndex).entriesForXValue(highlight.x)
         return entries.first { $0.y == highlight.y || highlight.y.isNaN }
+    }
+    
+    /// Get dataset for highlight
+    ///
+    /// - Parameter highlight: current highlight
+    /// - Returns: dataset related to highlight
+    open func getDataSetByHighlight(_ highlight: Highlight) -> IChartDataSet!
+    {  
+        if highlight.dataIndex >= allData.count
+        {
+            return nil
+        }
+        
+        let data = dataByIndex(highlight.dataIndex)
+        
+        if highlight.dataSetIndex >= data.dataSetCount
+        {
+            return nil
+        }
+        
+        return data.dataSets[highlight.dataSetIndex]
     }
 }

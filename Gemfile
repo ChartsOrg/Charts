@@ -1,5 +1,6 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-gem "rake"
-gem "xcpretty"
-gem "cocoapods"
+gem 'cocoapods'
+gem 'github_changelog_generator'
+gem 'rake'
+gem 'xcpretty'
