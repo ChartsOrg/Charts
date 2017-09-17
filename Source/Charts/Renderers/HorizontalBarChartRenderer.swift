@@ -273,17 +273,17 @@ open class HorizontalBarChartRenderer: BarChartRenderer
     }
     
     open override func prepareBarHighlight(
-        x: Double,
-        y1: Double,
-        y2: Double,
+        x: CGFloat,
+        y1: CGFloat,
+        y2: CGFloat,
         barWidthHalf: CGFloat,
         trans: Transformer,
         rect: inout CGRect)
     {
-        let top = CGFloat(x) - barWidthHalf
-        let bottom = CGFloat(x) + barWidthHalf
-        let left = CGFloat(y1)
-        let right = CGFloat(y2)
+        let top = x - barWidthHalf
+        let bottom = x + barWidthHalf
+        let left = y1
+        let right = y2
         
         rect.origin.x = left
         rect.origin.y = top
