@@ -1,11 +1,3 @@
-//
-//  ChartUtilsTests.swift
-//  Charts
-//
-//  Created by Pierre-Marc Airoldi on 2016-09-25.
-//
-//
-
 import XCTest
 @testable import Charts
 

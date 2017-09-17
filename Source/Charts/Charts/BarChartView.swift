@@ -171,7 +171,7 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     /// - returns: `true` the highlight is be full-bar oriented, `false` ifsingle-value
     open var isHighlightFullBarEnabled: Bool { return highlightFullBarEnabled }
     
-    // MARK: - BarChartDataProbider
+    // MARK: - BarChartDataProvider
     
     open var barData: BarChartData? { return _data as? BarChartData }
     
