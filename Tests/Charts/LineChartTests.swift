@@ -22,7 +22,7 @@ class LineChartTests: FBSnapshotTestCase
         
         var entries: [ChartDataEntry] = Array()
         
-        for (i, value) in values.enumerated()
+        for (i, value) in zip(values.indices,values)
         {
             entries.append(ChartDataEntry(x: Double(i), y: value, icon: UIImage(named: "icon", in: Bundle(for: self.classForCoder), compatibleWith: nil)))
         }

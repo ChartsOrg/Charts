@@ -193,13 +193,10 @@ open class PieChartView: PieRadarChartViewBase
         
         let yValueSum = (_data as! PieChartData).yValueSum
         
-        var dataSets = data.dataSets
-
         var cnt = 0
 
-        for i in 0 ..< data.dataSetCount
+        for set in data.dataSets
         {
-            let set = dataSets[i]
             let entryCount = set.entryCount
 
             for j in 0 ..< entryCount
@@ -226,21 +223,10 @@ open class PieChartView: PieRadarChartViewBase
     open func needsHighlight(index: Int) -> Bool
     {
         // no highlight
-        if !valuesToHighlight()
-        {
-            return false
-        }
-        
-        for i in 0 ..< _indicesToHighlight.count
-        {
-            // check if the xvalue for the given dataset needs highlight
-            if Int(_indicesToHighlight[i].x) == index
-            {
-                return true
-            }
-        }
-        
-        return false
+        guard valuesToHighlight() else { return false }
+
+        // check if the xvalue for the given dataset needs highlight
+        return _indicesToHighlight.contains { Int($0.x) == index }
     }
     
     /// calculates the needed angle for a given value
@@ -265,31 +251,13 @@ open class PieChartView: PieRadarChartViewBase
     {
         // take the current angle of the chart into consideration
         let a = ChartUtils.normalizedAngleFromAngle(angle - self.rotationAngle)
-        for i in 0 ..< _absoluteAngles.count
-        {
-            if _absoluteAngles[i] > a
-            {
-                return i
-            }
-        }
-        
-        return -1 // return -1 if no index found
+        return _absoluteAngles.index { $0 > a } ?? -1
     }
     
     /// - returns: The index of the DataSet this x-index belongs to.
     open func dataSetIndexForIndex(_ xValue: Double) -> Int
     {
-        var dataSets = _data?.dataSets ?? []
-        
-        for i in 0 ..< dataSets.count
-        {
-            if (dataSets[i].entryForXValue(xValue, closestToY: Double.nan) !== nil)
-            {
-                return i
-            }
-        }
-        
-        return -1
+        return _data?.dataSets.index { $0.entryForXValue(xValue, closestToY: .nan) != nil } ?? -1
     }
     
     /// - returns: An integer array of all the different angles the chart slices

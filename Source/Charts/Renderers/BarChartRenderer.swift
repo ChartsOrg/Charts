@@ -88,7 +88,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         var x: Double
         var y: Double
         
-        for i in stride(from: 0, to: min(Int(ceil(Double(dataSet.entryCount) * animator.phaseX)), dataSet.entryCount), by: 1)
+        for i in stride(from: 0, to: min(Int(ceil(CGFloat(dataSet.entryCount) * animator.phaseX)), dataSet.entryCount), by: 1)
         {
             guard let e = dataSet.entryForIndex(i) as? BarChartDataEntry else { continue }
             
@@ -99,8 +99,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             
             if !containsStacks || vals == nil
             {
-                let left = CGFloat(x - barWidthHalf)
-                let right = CGFloat(x + barWidthHalf)
+                let left = CGFloat(x) - barWidthHalf
+                let right = CGFloat(x) + barWidthHalf
                 var top = isInverted
                     ? (y <= 0.0 ? CGFloat(y) : 0)
                     : (y >= 0.0 ? CGFloat(y) : 0)
@@ -156,8 +156,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                         negY += abs(value)
                     }
                     
-                    let left = CGFloat(x - barWidthHalf)
-                    let right = CGFloat(x + barWidthHalf)
+                    let left = CGFloat(x) - barWidthHalf
+                    let right = CGFloat(x) + barWidthHalf
                     var top = isInverted
                         ? (y <= yStart ? CGFloat(y) : CGFloat(yStart))
                         : (y >= yStart ? CGFloat(y) : CGFloat(yStart))
@@ -236,14 +236,14 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             let barWidthHalf = barWidth / 2.0
             var x: Double = 0.0
             
-            for i in stride(from: 0, to: min(Int(ceil(Double(dataSet.entryCount) * animator.phaseX)), dataSet.entryCount), by: 1)
+            for i in stride(from: 0, to: min(Int(ceil(CGFloat(dataSet.entryCount) * animator.phaseX)), dataSet.entryCount), by: 1)
             {
                 guard let e = dataSet.entryForIndex(i) as? BarChartDataEntry else { continue }
                 
                 x = e.x
                 
-                _barShadowRectBuffer.origin.x = CGFloat(x - barWidthHalf)
-                _barShadowRectBuffer.size.width = CGFloat(barWidth)
+                _barShadowRectBuffer.origin.x = CGFloat(x) - barWidthHalf
+                _barShadowRectBuffer.size.width = barWidth
                 
                 trans.rectValueToPixel(&_barShadowRectBuffer)
                 
@@ -330,10 +330,10 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     }
     
     open func prepareBarHighlight(
-        x: Double,
-          y1: Double,
-          y2: Double,
-          barWidthHalf: Double,
+        x: CGFloat,
+          y1: CGFloat,
+          y2: CGFloat,
+          barWidthHalf: CGFloat,
           trans: Transformer,
           rect: inout CGRect)
     {
@@ -342,10 +342,10 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         let top = y1
         let bottom = y2
         
-        rect.origin.x = CGFloat(left)
-        rect.origin.y = CGFloat(top)
-        rect.size.width = CGFloat(right - left)
-        rect.size.height = CGFloat(bottom - top)
+        rect.origin.x = left
+        rect.origin.y = top
+        rect.size.width = right - left
+        rect.size.height = bottom - top
         
         trans.rectValueToPixel(&rect, phaseY: animator?.phaseY ?? 1.0)
     }
@@ -405,7 +405,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 // if only single values are drawn (sum)
                 if !dataSet.isStacked
                 {
-                    for j in 0 ..< Int(ceil(Double(dataSet.entryCount) * animator.phaseX))
+                    for j in 0 ..< Int(ceil(CGFloat(dataSet.entryCount) * animator.phaseX))
                     {
                         guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
                         
@@ -469,7 +469,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                     
                     var bufferIndex = 0
                     
-                    for index in 0 ..< Int(ceil(Double(dataSet.entryCount) * animator.phaseX))
+                    for index in 0 ..< Int(ceil(CGFloat(dataSet.entryCount) * animator.phaseX))
                     {
                         guard let e = dataSet.entryForIndex(index) as? BarChartDataEntry else { continue }
                         
@@ -558,7 +558,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                     negY -= value
                                 }
                                 
-                                transformed.append(CGPoint(x: 0.0, y: CGFloat(y * phaseY)))
+                                transformed.append(CGPoint(x: 0.0, y: CGFloat(y) * phaseY))
                             }
                             
                             trans.pointValuesToPixel(&transformed)
@@ -681,7 +681,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                     y2 = 0.0
                 }
                 
-                prepareBarHighlight(x: e.x, y1: y1, y2: y2, barWidthHalf: barData.barWidth / 2.0, trans: trans, rect: &barRect)
+                prepareBarHighlight(x: CGFloat(e.x), y1: CGFloat(y1), y2: CGFloat(y2), barWidthHalf: barData.barWidth / 2.0, trans: trans, rect: &barRect)
                 
                 setHighlightDrawPos(highlight: high, barRect: barRect)
                 

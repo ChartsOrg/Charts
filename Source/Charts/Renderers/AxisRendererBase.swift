@@ -61,37 +61,25 @@ open class AxisRendererBase: Renderer
     /// Computes the axis values.
     /// - parameter min: the minimum value in the data object for this axis
     /// - parameter max: the maximum value in the data object for this axis
-    open func computeAxis(min: Double, max: Double, inverted: Bool)
+    open func computeAxis(min: Double, max: Double, isInverted: Bool)
     {
         var min = min, max = max
         
-        if let transformer = self.transformer
+        // calculate the starting and entry point of the y-labels (depending on zoom / contentrect bounds)
+        if let transformer = self.transformer,
+            let viewPortHandler = viewPortHandler,
+            viewPortHandler.contentWidth > 10.0 && !viewPortHandler.isFullyZoomedOutY
         {
-            // calculate the starting and entry point of the y-labels (depending on zoom / contentrect bounds)
-            if let viewPortHandler = viewPortHandler
-            {
-                if viewPortHandler.contentWidth > 10.0 && !viewPortHandler.isFullyZoomedOutY
-                {
-                    let p1 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
-                    let p2 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom))
-                    
-                    if !inverted
-                    {
-                        min = Double(p2.y)
-                        max = Double(p1.y)
-                    }
-                    else
-                    {
-                        min = Double(p1.y)
-                        max = Double(p2.y)
-                    }
-                }
-            }
+            let p1 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
+            let p2 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom))
+
+            min = isInverted ? Double(p1.y) : Double(p2.y)
+            max = isInverted ? Double(p2.y) : Double(p1.y)
         }
-        
+
         computeAxisValues(min: min, max: max)
     }
-    
+
     /// Sets up the axis values. Computes the desired number of labels between the two given extremes.
     open func computeAxisValues(min: Double, max: Double)
     {
@@ -103,8 +91,10 @@ open class AxisRendererBase: Renderer
         let labelCount = axis.labelCount
         let range = abs(yMax - yMin)
         
-        if labelCount == 0 || range <= 0 || range.isInfinite
-        {
+        guard labelCount > 0,
+            range > 0,
+            !range.isInfinite
+            else {
             axis.entries = [Double]()
             axis.centeredEntries = [Double]()
             return
@@ -143,8 +133,7 @@ open class AxisRendererBase: Renderer
             
             var v = yMin
             
-            for _ in 0 ..< labelCount
-            {
+            (0..<labelCount).forEach { _ in
                 axis.entries.append(v)
                 v += interval
             }
@@ -210,7 +199,7 @@ open class AxisRendererBase: Renderer
             
             let offset: Double = interval / 2.0
             
-            for i in 0 ..< n
+            for i in 0..<n
             {
                 axis.centeredEntries.append(axis.entries[i] + offset)
             }

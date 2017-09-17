@@ -30,22 +30,19 @@ open class PieChartRenderer: DataRenderer
     
     open override func drawData(context: CGContext)
     {
-        guard let chart = chart else { return }
+        guard let chart = chart,
+            let pieData = chart.data
+            else { return }
         
-        let pieData = chart.data
+
         
-        if pieData != nil
+        for set in pieData.dataSets as! [IPieChartDataSet]
+            where set.isVisible && set.entryCount > 0
         {
-            for set in pieData!.dataSets as! [IPieChartDataSet]
-            {
-                if set.isVisible && set.entryCount > 0
-                {
-                    drawDataSet(context: context, dataSet: set)
-                }
-            }
+            drawDataSet(context: context, dataSet: set)
         }
     }
-    
+
     open func calculateMinimumRadiusForSpacedSlice(
         center: CGPoint,
         radius: CGFloat,
@@ -139,7 +136,8 @@ open class PieChartRenderer: DataRenderer
         let sliceSpace = visibleAngleCount <= 1 ? 0.0 : getSliceSpace(dataSet: dataSet)
 
         context.saveGState()
-        
+        defer { context.restoreGState() }
+
         for j in 0 ..< entryCount
         {
             let sliceAngle = drawAngles[j]
@@ -148,7 +146,7 @@ open class PieChartRenderer: DataRenderer
             guard let e = dataSet.entryForIndex(j) else { continue }
             
             // draw only if the value is greater than zero
-            if (abs(e.y) > Double.ulpOfOne)
+            if (abs(e.y) > .ulpOfOne)
             {
                 if !chart.needsHighlight(index: j)
                 {
@@ -254,8 +252,6 @@ open class PieChartRenderer: DataRenderer
             
             angle += sliceAngle * CGFloat(phaseX)
         }
-        
-        context.restoreGState()
     }
     
     open override func drawValues(context: CGContext)
@@ -307,10 +303,10 @@ open class PieChartRenderer: DataRenderer
             
             let drawValues = dataSet.isDrawValuesEnabled
             
-            if !drawValues && !drawEntryLabels && !dataSet.isDrawIconsEnabled
-            {
-                continue
-            }
+            guard drawValues,
+                drawEntryLabels,
+                dataSet.isDrawIconsEnabled
+                else { continue }
             
             let iconsOffset = dataSet.iconsOffset
             
@@ -487,7 +483,8 @@ open class PieChartRenderer: DataRenderer
                             text: valueText,
                             point: CGPoint(x: x, y: y),
                             align: .center,
-                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
+                            attributes: [NSFontAttributeName: valueFont,
+                                         NSForegroundColorAttributeName: valueTextColor]
                         )
                         
                         if j < data.entryCount && pe?.label != nil
@@ -525,7 +522,8 @@ open class PieChartRenderer: DataRenderer
                             text: valueText,
                             point: CGPoint(x: x, y: y + lineHeight / 2.0),
                             align: .center,
-                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
+                            attributes: [NSFontAttributeName: valueFont,
+                                         NSForegroundColorAttributeName: valueTextColor]
                         )
                     }
                 }
@@ -559,121 +557,109 @@ open class PieChartRenderer: DataRenderer
     /// draws the hole in the center of the chart and the transparent circle / hole
     fileprivate func drawHole(context: CGContext)
     {
-        guard
-            let chart = chart,
-            let animator = animator
+        guard let chart = chart,
+            let animator = animator,
+            chart.drawHoleEnabled
             else { return }
-        
-        if chart.drawHoleEnabled
+
+        context.saveGState()
+        defer { context.restoreGState() }
+
+        let radius = chart.radius
+        let holeRadius = radius * chart.holeRadiusPercent
+        let center = chart.centerCircleBox
+
+        if let holeColor = chart.holeColor, holeColor != .clear
         {
-            context.saveGState()
-            
-            let radius = chart.radius
-            let holeRadius = radius * chart.holeRadiusPercent
-            let center = chart.centerCircleBox
-            
-            if let holeColor = chart.holeColor
-            {
-                if holeColor != NSUIColor.clear
-                {
-                    // draw the hole-circle
-                    context.setFillColor(chart.holeColor!.cgColor)
-                    context.fillEllipse(in: CGRect(x: center.x - holeRadius, y: center.y - holeRadius, width: holeRadius * 2.0, height: holeRadius * 2.0))
-                }
-            }
-            
-            // only draw the circle if it can be seen (not covered by the hole)
-            if let transparentCircleColor = chart.transparentCircleColor
-            {
-                if transparentCircleColor != NSUIColor.clear &&
-                    chart.transparentCircleRadiusPercent > chart.holeRadiusPercent
-                {
-                    let alpha = animator.phaseX * animator.phaseY
-                    let secondHoleRadius = radius * chart.transparentCircleRadiusPercent
-                    
-                    // make transparent
-                    context.setAlpha(CGFloat(alpha))
-                    context.setFillColor(transparentCircleColor.cgColor)
-                    
-                    // draw the transparent-circle
-                    context.beginPath()
-                    context.addEllipse(in: CGRect(
-                        x: center.x - secondHoleRadius,
-                        y: center.y - secondHoleRadius,
-                        width: secondHoleRadius * 2.0,
-                        height: secondHoleRadius * 2.0))
-                    context.addEllipse(in: CGRect(
-                        x: center.x - holeRadius,
-                        y: center.y - holeRadius,
-                        width: holeRadius * 2.0,
-                        height: holeRadius * 2.0))
-                    context.fillPath(using: .evenOdd)
-                }
-            }
-            
-            context.restoreGState()
+            // draw the hole-circle
+            context.setFillColor(chart.holeColor!.cgColor)
+            context.fillEllipse(in: CGRect(x: center.x - holeRadius, y: center.y - holeRadius, width: holeRadius * 2.0, height: holeRadius * 2.0))
+        }
+
+        // only draw the circle if it can be seen (not covered by the hole)
+        if let transparentCircleColor = chart.transparentCircleColor,
+            transparentCircleColor != NSUIColor.clear,
+            chart.transparentCircleRadiusPercent > chart.holeRadiusPercent
+        {
+            let alpha = animator.phaseX * animator.phaseY
+            let secondHoleRadius = radius * chart.transparentCircleRadiusPercent
+
+            // make transparent
+            context.setAlpha(CGFloat(alpha))
+            context.setFillColor(transparentCircleColor.cgColor)
+
+            // draw the transparent-circle
+            context.beginPath()
+            context.addEllipse(in: CGRect(
+                x: center.x - secondHoleRadius,
+                y: center.y - secondHoleRadius,
+                width: secondHoleRadius * 2.0,
+                height: secondHoleRadius * 2.0))
+            context.addEllipse(in: CGRect(
+                x: center.x - holeRadius,
+                y: center.y - holeRadius,
+                width: holeRadius * 2.0,
+                height: holeRadius * 2.0))
+            context.fillPath(using: .evenOdd)
         }
     }
-    
+
     /// draws the description text in the center of the pie chart makes most sense when center-hole is enabled
     fileprivate func drawCenterText(context: CGContext)
     {
-        guard
-            let chart = chart,
-            let centerAttributedText = chart.centerAttributedText
+        guard let chart = chart,
+            let centerAttributedText = chart.centerAttributedText,
+            chart.drawCenterTextEnabled,
+            centerAttributedText.length > 0
             else { return }
-        
-        if chart.drawCenterTextEnabled && centerAttributedText.length > 0
-        {
-            let center = chart.centerCircleBox
-            let offset = chart.centerTextOffset
-            let innerRadius = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled ? chart.radius * chart.holeRadiusPercent : chart.radius
-            
-            let x = center.x + offset.x
-            let y = center.y + offset.y
-            
-            let holeRect = CGRect(
-                x: x - innerRadius,
-                y: y - innerRadius,
-                width: innerRadius * 2.0,
-                height: innerRadius * 2.0)
-            var boundingRect = holeRect
-            
-            if chart.centerTextRadiusPercent > 0.0
-            {
-                boundingRect = boundingRect.insetBy(dx: (boundingRect.width - boundingRect.width * chart.centerTextRadiusPercent) / 2.0, dy: (boundingRect.height - boundingRect.height * chart.centerTextRadiusPercent) / 2.0)
-            }
-            
-            let textBounds = centerAttributedText.boundingRect(with: boundingRect.size, options: [.usesLineFragmentOrigin, .usesFontLeading, .truncatesLastVisibleLine], context: nil)
-            
-            var drawingRect = boundingRect
-            drawingRect.origin.x += (boundingRect.size.width - textBounds.size.width) / 2.0
-            drawingRect.origin.y += (boundingRect.size.height - textBounds.size.height) / 2.0
-            drawingRect.size = textBounds.size
-            
-            context.saveGState()
 
-            let clippingPath = CGPath(ellipseIn: holeRect, transform: nil)
-            context.beginPath()
-            context.addPath(clippingPath)
-            context.clip()
-            
-            centerAttributedText.draw(with: drawingRect, options: [.usesLineFragmentOrigin, .usesFontLeading, .truncatesLastVisibleLine], context: nil)
-            
-            context.restoreGState()
+        let center = chart.centerCircleBox
+        let offset = chart.centerTextOffset
+        let innerRadius = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled ? chart.radius * chart.holeRadiusPercent : chart.radius
+
+        let x = center.x + offset.x
+        let y = center.y + offset.y
+
+        let holeRect = CGRect(
+            x: x - innerRadius,
+            y: y - innerRadius,
+            width: innerRadius * 2.0,
+            height: innerRadius * 2.0)
+        var boundingRect = holeRect
+
+        if chart.centerTextRadiusPercent > 0.0
+        {
+            boundingRect = boundingRect.insetBy(dx: (boundingRect.width - boundingRect.width * chart.centerTextRadiusPercent) / 2.0, dy: (boundingRect.height - boundingRect.height * chart.centerTextRadiusPercent) / 2.0)
         }
+
+        let textBounds = centerAttributedText.boundingRect(with: boundingRect.size, options: [.usesLineFragmentOrigin, .usesFontLeading, .truncatesLastVisibleLine], context: nil)
+
+        var drawingRect = boundingRect
+        drawingRect.origin.x += (boundingRect.size.width - textBounds.size.width) / 2.0
+        drawingRect.origin.y += (boundingRect.size.height - textBounds.size.height) / 2.0
+        drawingRect.size = textBounds.size
+
+        context.saveGState()
+        defer { context.restoreGState() }
+
+        let clippingPath = CGPath(ellipseIn: holeRect, transform: nil)
+        context.beginPath()
+        context.addPath(clippingPath)
+        context.clip()
+
+        centerAttributedText.draw(with: drawingRect, options: [.usesLineFragmentOrigin, .usesFontLeading, .truncatesLastVisibleLine], context: nil)
     }
-    
+
     open override func drawHighlighted(context: CGContext, indices: [Highlight])
     {
-        guard
-            let chart = chart,
+        guard let chart = chart,
             let data = chart.data,
             let animator = animator
             else { return }
         
         context.saveGState()
-        
+        defer { context.restoreGState() }
+
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
         
@@ -687,31 +673,25 @@ open class PieChartRenderer: DataRenderer
         let drawInnerArc = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled
         let userInnerRadius = drawInnerArc ? radius * chart.holeRadiusPercent : 0.0
         
-        for i in 0 ..< indices.count
+        for indice in indices
         {
             // get the index to highlight
-            let index = Int(indices[i].x)
-            if index >= drawAngles.count
-            {
-                continue
-            }
-            
-            guard let set = data.getDataSetByIndex(indices[i].dataSetIndex) as? IPieChartDataSet else { continue }
-            
-            if !set.isHighlightEnabled
-            {
-                continue
-            }
+            let index = Int(indice.x)
+
+            guard index >= drawAngles.count,
+                let set = data.getDataSetByIndex(indice.dataSetIndex) as? IPieChartDataSet,
+                set.isHighlightEnabled
+                else { continue }
+
 
             let entryCount = set.entryCount
             var visibleAngleCount = 0
             for j in 0 ..< entryCount
             {
-                guard let e = set.entryForIndex(j) else { continue }
-                if ((abs(e.y) > Double.ulpOfOne))
-                {
-                    visibleAngleCount += 1
-                }
+                guard let e = set.entryForIndex(j),
+                    abs(e.y) > .ulpOfOne
+                    else { continue }
+                visibleAngleCount += 1
             }
             
             if index == 0
@@ -837,7 +817,5 @@ open class PieChartRenderer: DataRenderer
             context.addPath(path)
             context.fillPath(using: .evenOdd)
         }
-        
-        context.restoreGState()
     }
 }

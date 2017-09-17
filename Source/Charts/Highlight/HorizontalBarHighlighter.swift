@@ -44,10 +44,8 @@ open class HorizontalBarHighlighter: BarHighlighter
         xValue: Double,
         rounding: ChartDataSetRounding) -> [Highlight]
     {
-        var highlights = [Highlight]()
-        
         guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider
-            else { return highlights }
+            else { return [] }
         
         var entries = set.entriesForXValue(xValue)
         if entries.count == 0
@@ -59,14 +57,10 @@ open class HorizontalBarHighlighter: BarHighlighter
             }
         }
         
-        for e in entries
-        {
+        return entries.map { e in
             let px = chart.getTransformer(forAxis: set.axisDependency).pixelForValues(x: e.y, y: e.x)
-            
-            highlights.append(Highlight(x: e.x, y: e.y, xPx: px.x, yPx: px.y, dataSetIndex: dataSetIndex, axis: set.axisDependency))
+            return Highlight(x: e.x, y: e.y, xPx: px.x, yPx: px.y, dataSetIndex: dataSetIndex, axis: set.axisDependency)
         }
-        
-        return highlights
     }
     
     internal override func getDistance(x1: CGFloat, y1: CGFloat, x2: CGFloat, y2: CGFloat) -> CGFloat

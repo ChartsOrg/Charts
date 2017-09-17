@@ -75,30 +75,13 @@ open class ChartHighlighter : NSObject, IHighlighter
     /// - returns:
     open func getHighlights(xValue: Double, x: CGFloat, y: CGFloat) -> [Highlight]
     {
-        var vals = [Highlight]()
-        
-        guard let
-            data = self.data
-            else { return vals }
-        
-        for i in 0 ..< data.dataSetCount
-        {
-            guard let dataSet = data.getDataSetByIndex(i)
-                else { continue }
-            
+        // extract all y-values from all DataSets at the given x-value.
+        // some datasets (i.e bubble charts) make sense to have multiple values for an x-value. We'll have to find a way to handle that later on. It's more complicated now when x-indices are floating point.
+        return data?.dataSets.enumerated()
             // don't include datasets that cannot be highlighted
-            if !dataSet.isHighlightEnabled
-            {
-                continue
-            }
-            
-            // extract all y-values from all DataSets at the given x-value.
-            // some datasets (i.e bubble charts) make sense to have multiple values for an x-value. We'll have to find a way to handle that later on. It's more complicated now when x-indices are floating point.
-            
-            vals.append(contentsOf: buildHighlights(dataSet: dataSet, dataSetIndex: i, xValue: xValue, rounding: .closest))
-        }
-        
-        return vals
+            .filter { $1.isHighlightEnabled }
+            .flatMap { buildHighlights(dataSet: $1, dataSetIndex: $0, xValue: xValue, rounding: .closest) }
+            ?? []
     }
     
     /// - returns: An array of `Highlight` objects corresponding to the selected xValue and dataSetIndex.
@@ -108,29 +91,23 @@ open class ChartHighlighter : NSObject, IHighlighter
         xValue: Double,
         rounding: ChartDataSetRounding) -> [Highlight]
     {
-        var highlights = [Highlight]()
-        
         guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider
-            else { return highlights }
+            else { return [] }
         
         var entries = set.entriesForXValue(xValue)
         if entries.count == 0
         {
             // Try to find closest x-value and take all entries for that x-value
-            if let closest = set.entryForXValue(xValue, closestToY: Double.nan, rounding: rounding)
+            if let closest = set.entryForXValue(xValue, closestToY: .nan, rounding: rounding)
             {
                 entries = set.entriesForXValue(closest.x)
             }
         }
-        
-        for e in entries
-        {
+
+        return entries.map { e in
             let px = chart.getTransformer(forAxis: set.axisDependency).pixelForValues(x: e.x, y: e.y)
-            
-            highlights.append(Highlight(x: e.x, y: e.y, xPx: px.x, yPx: px.y, dataSetIndex: dataSetIndex, axis: set.axisDependency))
+            return Highlight(x: e.x, y: e.y, xPx: px.x, yPx: px.y, dataSetIndex: dataSetIndex, axis: set.axisDependency)
         }
-        
-        return highlights
     }
 
     // - MARK: - Utilities
@@ -145,11 +122,9 @@ open class ChartHighlighter : NSObject, IHighlighter
     {
         var distance = minSelectionDistance
         var closest: Highlight?
-        
-        for i in 0 ..< closestValues.count
+
+        for high in closestValues
         {
-            let high = closestValues[i]
-            
             if axis == nil || high.axis == axis
             {
                 let cDistance = getDistance(x1: x, y1: y, x2: high.xPx, y2: high.yPx)
@@ -173,20 +148,12 @@ open class ChartHighlighter : NSObject, IHighlighter
     {
         var distance = CGFloat.greatestFiniteMagnitude
         
-        for i in 0 ..< closestValues.count
+        for high in closestValues where high.axis == axis
         {
-            let high = closestValues[i]
-            
-            if high.axis == axis
-            {
-                let tempDistance = abs(getHighlightPos(high: high) - y)
-                if tempDistance < distance
-                {
-                    distance = tempDistance
-                }
-            }
+            let tempDistance = abs(getHighlightPos(high: high) - y)
+            distance = min(tempDistance, distance)
         }
-        
+
         return distance
     }
     

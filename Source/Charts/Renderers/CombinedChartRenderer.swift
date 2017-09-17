@@ -48,45 +48,38 @@ open class CombinedChartRenderer: DataRenderer
 
         for order in drawOrder
         {
-            switch (order)
-            {
+            switch order {
             case .bar:
-                if chart.barData !== nil
+                if chart.barData != nil
                 {
                     _renderers.append(BarChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
-                break
-                
+
             case .line:
-                if chart.lineData !== nil
+                if chart.lineData != nil
                 {
                     _renderers.append(LineChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
-                break
-                
+
             case .candle:
-                if chart.candleData !== nil
+                if chart.candleData != nil
                 {
                     _renderers.append(CandleStickChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
-                break
-                
+
             case .scatter:
-                if chart.scatterData !== nil
+                if chart.scatterData != nil
                 {
                     _renderers.append(ScatterChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
-                break
-                
+
             case .bubble:
-                if chart.bubbleData !== nil
+                if chart.bubbleData != nil
                 {
                     _renderers.append(BubbleChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
-                break
             }
         }
-
     }
     
     open override func initBuffers()
@@ -127,25 +120,25 @@ open class CombinedChartRenderer: DataRenderer
         {
             var data: ChartData?
             
-            if renderer is BarChartRenderer
+            if let renderer = renderer as? BarChartRenderer
             {
-                data = (renderer as! BarChartRenderer).dataProvider?.barData
+                data = renderer.dataProvider?.barData
             }
-            else if renderer is LineChartRenderer
+            else if let renderer = renderer as? LineChartRenderer
             {
-                data = (renderer as! LineChartRenderer).dataProvider?.lineData
+                data = renderer.dataProvider?.lineData
             }
-            else if renderer is CandleStickChartRenderer
+            else if let renderer = renderer as? CandleStickChartRenderer
             {
-                data = (renderer as! CandleStickChartRenderer).dataProvider?.candleData
+                data = renderer.dataProvider?.candleData
             }
-            else if renderer is ScatterChartRenderer
+            else if let renderer = renderer as? ScatterChartRenderer
             {
-                data = (renderer as! ScatterChartRenderer).dataProvider?.scatterData
+                data = renderer.dataProvider?.scatterData
             }
-            else if renderer is BubbleChartRenderer
+            else if let renderer = renderer as? BubbleChartRenderer
             {
-                data = (renderer as! BubbleChartRenderer).dataProvider?.bubbleData
+                data = renderer.dataProvider?.bubbleData
             }
             
             let dataIndex = data == nil ? nil : (chart?.data as? CombinedChartData)?.allData.index(of: data!)

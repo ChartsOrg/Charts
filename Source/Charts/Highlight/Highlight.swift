@@ -30,15 +30,15 @@ open class Highlight: NSObject
     open var dataIndex = Int(-1)
     
     /// the index of the dataset the highlighted value is in
-    fileprivate var _dataSetIndex = Int(0)
+    fileprivate var _dataSetIndex = 0
     
     /// index which value of a stacked bar entry is highlighted
     /// 
     /// **default**: -1
-    fileprivate var _stackIndex = Int(-1)
+    fileprivate var _stackIndex = -1
     
     /// the axis the highlighted value belongs to
-    fileprivate var _axis: YAxis.AxisDependency = YAxis.AxisDependency.left
+    private var _axis: YAxis.AxisDependency = .left
     
     /// the x-position (pixels) on which this highlight object was last drawn
     open var drawX: CGFloat = 0.0

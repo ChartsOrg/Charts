@@ -45,7 +45,7 @@ open class YAxis: AxisBase
     open var drawTopYLabelEntryEnabled = true
     
     /// flag that indicates if the axis is inverted or not
-    open var inverted = false
+    open var isInverted = false
     
     /// flag that indicates if the zero-line should be drawn regardless of other grid lines
     open var drawZeroLineEnabled = false
@@ -135,9 +135,7 @@ open class YAxis: AxisBase
             return false
         }
     }
-    
-    open var isInverted: Bool { return inverted }
-    
+        
     open override func calculate(min dataMin: Double, max dataMax: Double)
     {
         // if custom, use value as is, else use data value

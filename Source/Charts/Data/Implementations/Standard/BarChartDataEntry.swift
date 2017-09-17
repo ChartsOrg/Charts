@@ -100,19 +100,16 @@ open class BarChartDataEntry: ChartDataEntry
         calcRanges()
     }
     
-    open func sumBelow(stackIndex :Int) -> Double
+    open func sumBelow(stackIndex: Int) -> Double
     {
-        if _yVals == nil
-        {
-            return 0
-        }
-        
+        guard let yVals = _yVals else { return 0 }
+
         var remainder: Double = 0.0
-        var index = _yVals!.count - 1
+        var index = yVals.count - 1
         
         while (index > stackIndex && index >= 0)
         {
-            remainder += _yVals![index]
+            remainder += yVals[index]
             index -= 1
         }
         
@@ -133,7 +130,7 @@ open class BarChartDataEntry: ChartDataEntry
 
     open func calcPosNegSum()
     {
-        if _yVals == nil
+        guard let yVals = _yVals else
         {
             _positiveSum = 0.0
             _negativeSum = 0.0
@@ -143,9 +140,8 @@ open class BarChartDataEntry: ChartDataEntry
         var sumNeg: Double = 0.0
         var sumPos: Double = 0.0
         
-        for f in _yVals!
-        {
-            if f < 0.0
+        yVals.forEach { f in
+            if f.sign == .minus
             {
                 sumNeg += -f
             }
@@ -164,12 +160,8 @@ open class BarChartDataEntry: ChartDataEntry
     /// - returns:
     open func calcRanges()
     {
-        let values = yValues
-        if values?.isEmpty != false
-        {
-            return
-        }
-        
+        guard let values = yValues, !values.isEmpty else { return }
+
         if _ranges == nil
         {
             _ranges = [Range]()
@@ -179,16 +171,13 @@ open class BarChartDataEntry: ChartDataEntry
             _ranges?.removeAll()
         }
         
-        _ranges?.reserveCapacity(values!.count)
+        _ranges?.reserveCapacity(values.count)
         
         var negRemain = -negativeSum
         var posRemain: Double = 0.0
         
-        for i in 0 ..< values!.count
-        {
-            let value = values![i]
-            
-            if value < 0
+        values.forEach { value in
+            if value.sign == .minus
             {
                 _ranges?.append(Range(from: negRemain, to: negRemain - value))
                 negRemain -= value
@@ -200,7 +189,7 @@ open class BarChartDataEntry: ChartDataEntry
             }
         }
     }
-    
+
     // MARK: Accessors
     
     /// the values the stacked barchart holds
@@ -242,16 +231,6 @@ open class BarChartDataEntry: ChartDataEntry
     /// - returns:
     fileprivate static func calcSum(values: [Double]?) -> Double
     {
-        guard let values = values
-            else { return 0.0 }
-        
-        var sum = 0.0
-        
-        for f in values
-        {
-            sum += f
-        }
-        
-        return sum
+        return values?.reduce(0, +) ?? 0
     }
 }

@@ -51,9 +51,8 @@ open class XAxisRendererRadarChart: XAxisRenderer
         
         let center = chart.centerOffsets
         
-        for i in stride(from: 0, to: chart.data?.maxEntryCountSet?.entryCount ?? 0, by: 1)
+        for i in 0..<(chart.data?.maxEntryCountSet?.entryCount ?? 0)
         {
-            
             let label = xAxis.valueFormatter?.stringForValue(Double(i), axis: xAxis) ?? ""
             
             let angle = (sliceangle * CGFloat(i) + chart.rotationAngle).truncatingRemainder(dividingBy: 360.0)

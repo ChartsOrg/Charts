@@ -110,8 +110,8 @@ open class HorizontalBarChartView: BarChartView
             let set = data.getDataSetForEntry(e) as? IBarChartDataSet
             else { return CGRect.null }
         
-        let y = e.y
-        let x = e.x
+        let y = CGFloat(e.y)
+        let x = CGFloat(e.x)
         
         let barWidth = data.barWidth
         

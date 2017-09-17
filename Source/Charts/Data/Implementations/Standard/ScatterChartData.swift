@@ -29,25 +29,16 @@ open class ScatterChartData: BarLineScatterCandleBubbleChartData
     {
         var max = CGFloat(0.0)
         
-        for set in _dataSets
+        for case let set as IScatterChartDataSet in _dataSets
         {
-            let scatterDataSet = set as? IScatterChartDataSet
-            
-            if scatterDataSet == nil
+            let size = set.scatterShapeSize
+
+            if size > max
             {
-                print("ScatterChartData: Found a DataSet which is not a ScatterChartDataSet", terminator: "\n")
-            }
-            else
-            {
-                let size = scatterDataSet!.scatterShapeSize
-                
-                if size > max
-                {
-                    max = size
-                }
+                max = size
             }
         }
-        
+
         return max
     }
 }
