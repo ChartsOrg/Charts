@@ -122,7 +122,7 @@ open class YAxis: AxisBase
     }
 
     /// flag that indicates if the axis is inverted or not
-    public var isInverted: Bool {
+    @objc public var isInverted: Bool {
         get { return _isInverted }
         @objc(setInverted:) set { _isInverted = newValue }
     }
@@ -164,14 +164,14 @@ open class YAxis: AxisBase
     }
 
     /// indicates if the bottom y-label entry is drawn or not
-    public var isDrawBottomYLabelEntryEnabled: Bool {
+    @objc public var isDrawBottomYLabelEntryEnabled: Bool {
         get { return _isDrawBottomYLabelEntryEnabled }
         @objc(setDrawBottomYLabelEntryEnabled:) set { _isDrawBottomYLabelEntryEnabled = newValue }
     }
     private var _isDrawBottomYLabelEntryEnabled = true
 
     /// indicates if the top y-label entry is drawn or not
-    public var isDrawTopYLabelEntryEnabled: Bool {
+    @objc public var isDrawTopYLabelEntryEnabled: Bool {
         get { return _isDrawTopYLabelEntryEnabled }
         @objc(setDrawTopYLabelEntryEnabled:) set { _isDrawTopYLabelEntryEnabled = newValue }
     }

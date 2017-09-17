@@ -31,7 +31,7 @@ open class ComponentBase: NSObject
     }
 
     /// flag that indicates if this component is enabled or not
-    public var isEnabled: Bool {
+    @objc public var isEnabled: Bool {
         get { return _isEnabled }
         @objc(setEnabled:) set { _isEnabled = newValue }
     }

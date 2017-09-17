@@ -48,7 +48,7 @@ open class XAxis: AxisBase
     ///
     /// - note: currently supports all charts except pie/radar/horizontal-bar*
     /// - returns: `true` if word wrapping the labels is enabled
-    public var isWordWrapEnabled: Bool {
+    @objc public var isWordWrapEnabled: Bool {
         get { return _isWordWrapEnabled }
         @objc(setWordWrapEnabled:) set { _isWordWrapEnabled = newValue }
     }
@@ -69,7 +69,7 @@ open class XAxis: AxisBase
 
     /// if set to true, the chart will avoid that the first and last label entry in the chart "clip" off the edge of the chart
 
-    public var isAvoidFirstLastClippingEnabled: Bool {
+    @objc public var isAvoidFirstLastClippingEnabled: Bool {
         get { return _isAvoidFirstLastClippingEnabled }
         @objc(setAvoidFirstLastClippingEnabled:) set { _isAvoidFirstLastClippingEnabled = newValue }
     }

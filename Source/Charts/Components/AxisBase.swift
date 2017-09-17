@@ -38,20 +38,20 @@ open class AxisBase: ComponentBase
     open var gridLineDashLengths: [CGFloat]!
     open var gridLineCap = CGLineCap.butt
 
-    public var isDrawGridLinesEnabled: Bool {
+    @objc public var isDrawGridLinesEnabled: Bool {
         get { return _isDrawGridLinesEnabled }
         @objc(setDrawGridLinesEnabled:) set { _isDrawGridLinesEnabled = newValue }
     }
     private var _isDrawGridLinesEnabled = true
 
-    public var isDrawAxisLineEnabled: Bool {
+    @objc public var isDrawAxisLineEnabled: Bool {
         get { return _isDrawAxisLineEnabled }
         @objc(setDrawAxisLineEnabled:) set { _isDrawAxisLineEnabled = newValue}
     }
     private var _isDrawAxisLineEnabled = true
 
     /// flag that indicates of the labels of this axis should be drawn or not
-    public var isDrawLabelsEnabled: Bool {
+    @objc public var isDrawLabelsEnabled: Bool {
         get {return _isDrawLabelsEnabled }
         @objc(setDrawLabelsEnabled:) set { _isDrawLabelsEnabled = newValue }
     }
@@ -60,7 +60,7 @@ open class AxisBase: ComponentBase
 
     /// Centers the axis labels instead of drawing them at their original position.
     /// This is useful especially for grouped BarChart.
-    public var isCenterAxisLabelsEnabled: Bool
+    @objc public var isCenterAxisLabelsEnabled: Bool
     {
         get { return _isCenterAxisLabelsEnabled && entryCount > 0 }
         @objc(setCenterAxisLabelsEnabled:)set { _isCenterAxisLabelsEnabled = newValue }
@@ -73,7 +73,7 @@ open class AxisBase: ComponentBase
     /// Are the LimitLines drawn behind the data or in front of the data?
     ///
     /// **default**: false
-    public var isDrawLimitLinesBehindDataEnabled: Bool {
+    @objc public var isDrawLimitLinesBehindDataEnabled: Bool {
         get { return _isDrawLimitLinesBehindDataEnabled }
         @objc(setDrawLimitLinesBehindDataEnabled:) set { _isDrawLimitLinesBehindDataEnabled = newValue }
     }
@@ -104,7 +104,7 @@ open class AxisBase: ComponentBase
     /// This could happen if two adjacent axis values are rounded to same value.
     /// If using granularity this could be avoided by having fewer axis values visible.
     /// The minimum interval between axis values.
-    public var isGranularityEnabled: Bool {
+    @objc public var isGranularityEnabled: Bool {
         get { return _isGranularityEnabled }
         @objc(setGranularityEnabled:) set { _isGranularityEnabled = newValue }
     }
@@ -133,7 +133,7 @@ open class AxisBase: ComponentBase
 
 
     /// if true, the set number of y-labels will be forced
-    public var isForceLabelsEnabled: Bool {
+    @objc public var isForceLabelsEnabled: Bool {
         get { return _isForceLabelsEnabled }
         @objc(setForceLabelsEnabled:) set { _isForceLabelsEnabled = newValue }
     }

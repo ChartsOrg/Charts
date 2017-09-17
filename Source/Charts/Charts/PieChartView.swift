@@ -312,7 +312,7 @@ open class PieChartView: PieRadarChartViewBase
     ///
     /// **default**: `false`
     /// - returns: `true` if the inner tips of the slices are visible behind the hole, `false` if not.
-    public var isDrawSlicesUnderHoleEnabled: Bool {
+    @objc public var isDrawSlicesUnderHoleEnabled: Bool {
         get { return _isDrawSlicesUnderHoleEnabled }
         @objc(setDrawSlicesUnderHoleEnabled:) set {
             _isDrawSlicesUnderHoleEnabled = newValue
@@ -324,7 +324,7 @@ open class PieChartView: PieRadarChartViewBase
     /// `true` if the hole in the center of the pie-chart is set to be visible, `false` ifnot
     /// if true, the hole inside the chart will be drawn
     /// - returns: `true` if the hole in the center of the pie-chart is set to be visible, `false` ifnot
-    public var isDrawHoleEnabled: Bool {
+    @objc public var isDrawHoleEnabled: Bool {
         get { return _isDrawHoleEnabled }
         @objc(setDrawHoleEnabled:) set {
             _isDrawHoleEnabled = newValue
@@ -399,7 +399,7 @@ open class PieChartView: PieRadarChartViewBase
     /// if enabled, centertext is drawn
     /// `true` if drawing the center text is enabled
     /// - returns: `true` if drawing the center text is enabled
-    public var isDrawCenterTextEnabled: Bool {
+    @objc public var isDrawCenterTextEnabled: Bool {
         get { return _isDrawCenterTextEnabled }
         @objc(setDrawCenterTextEnabled:) set {
             _isDrawCenterTextEnabled = newValue
@@ -532,7 +532,7 @@ open class PieChartView: PieRadarChartViewBase
     /// Set this to true to draw the enrty labels into the pie slices
     /// - returns: `true` if drawing entry labels is enabled, `false` ifnot
     /// flag indicating if entry labels should be drawn or not
-    public var isDrawEntryLabelsEnabled: Bool {
+    @objc public var isDrawEntryLabelsEnabled: Bool {
         get { return _isDrawEntryLabelsEnabled }
         @objc(setDrawEntryLabelsEnabled:) set {
             _isDrawEntryLabelsEnabled = newValue
@@ -544,7 +544,7 @@ open class PieChartView: PieRadarChartViewBase
     /// if true, the values inside the piechart are drawn as percent values
     /// If this is enabled, values inside the PieChart are drawn in percent and not with their original value. Values provided for the ValueFormatter to format are then provided in percent.
     /// - returns: `true` if drawing x-values is enabled, `false` ifnot
-    public var isUsePercentValuesEnabled: Bool {
+    @objc public var isUsePercentValuesEnabled: Bool {
         get { return _isUsePercentValuesEnabled }
         @objc(setUsePercentValuesEnabled:) set {
             _isUsePercentValuesEnabled = newValue

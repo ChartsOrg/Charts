@@ -183,7 +183,7 @@ open class Legend: ComponentBase
     open var orientation: Orientation = Orientation.horizontal
     
     /// Flag indicating whether the legend will draw inside the chart or outside
-    public var isDrawInsideEnabled: Bool {
+    @objc public var isDrawInsideEnabled: Bool {
         get { return _isDrawInsideEnabled }
         @objc(setDrawInsideEnabled:) set { _isDrawInsideEnabled = newValue }
     }
@@ -287,7 +287,7 @@ open class Legend: ComponentBase
     /// 
     /// **default**: true
     /// if this is set, then word wrapping the legend is enabled.
-    public var isWordWrapEnabled: Bool {
+    @objc public var isWordWrapEnabled: Bool {
         get { return _isWordWrapEnabled }
         @objc(setWordWrapEnabled:) set { _isWordWrapEnabled = newValue }
     }

@@ -23,6 +23,12 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// (entry numbers greater than this value will cause value-labels to disappear)
     internal var _maxVisibleCount = 100
 
+    /// flag that indicates if auto scaling on the y axis is enabled
+    fileprivate var _autoScaleMinMaxEnabled = false
+
+    fileprivate var _isDragXEnabled = true
+    fileprivate var _isDragYEnabled = true
+
     /// the color for the background of the chart-drawing area (everything behind the grid lines).
     open var gridBackgroundColor = NSUIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0)
 
@@ -649,8 +655,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         {
             stopDeceleration()
 
-            if _data === nil
-            { // If we have no data, we have nothing to pan and no data to highlight
+            guard _data != nil || self.isDragEnabled
+            else { // If we have no data, we have nothing to pan and no data to highlight
                 return
             }
 
@@ -663,7 +669,16 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
                 _closestDataSetToTouch = getDataSetByTouchPoint(point: recognizer.nsuiLocationOfTouch(0, inView: self))
 
-                let translation = recognizer.translation(in: self)
+                var translation = recognizer.translation(in: self)
+                if !self.isDragXEnabled
+                {
+                    translation.x = 0.0
+                }
+                else if !self.isDragYEnabled
+                {
+                    translation.y = 0.0
+                }
+
                 let didUserDrag = (self is HorizontalBarChartView) ? translation.y != 0.0 : translation.x != 0.0
 
                 // Check to see if user dragged at all and if so, can the chart be dragged by the given amount
@@ -699,7 +714,16 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             if _isDragging
             {
                 let originalTranslation = recognizer.translation(in: self)
-                let translation = CGPoint(x: originalTranslation.x - _lastPanPoint.x, y: originalTranslation.y - _lastPanPoint.y)
+                var translation = CGPoint(x: originalTranslation.x - _lastPanPoint.x, y: originalTranslation.y - _lastPanPoint.y)
+
+                if !self.isDragXEnabled
+                {
+                    translation.x = 0.0
+                }
+                else if !self.isDragYEnabled
+                {
+                    translation.y = 0.0
+                }
 
                 let _ = performPanChange(translation: translation)
 
@@ -831,9 +855,10 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     {
         if gestureRecognizer == _panGestureRecognizer
         {
-            if _data === nil || !isDragEnabled ||
-                (self.hasNoDragOffset && self.isFullyZoomedOut && !self.isHighlightPerDragEnabled)
-            {
+            guard _data != nil,
+                isDragEnabled,
+                (!self.hasNoDragOffset && !self.isFullyZoomedOut && self.isHighlightPerDragEnabled)
+            else {
                 return false
             }
         }
@@ -842,8 +867,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             #if !os(tvOS)
                 if gestureRecognizer == _pinchGestureRecognizer
                 {
-                    if _data === nil || (!isPinchZoomEnabled && !isScaleXEnabled && !isScaleYEnabled)
-                    {
+                    guard _data != nil || (isPinchZoomEnabled && isScaleXEnabled && isScaleYEnabled)
+                    else {
                         return false
                     }
                 }
@@ -1484,11 +1509,26 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     }
 
     /// is dragging enabled? (moving the chart with the finger) for the chart (this does not affect scaling).
-    public var isDragEnabled: Bool {
+    @objc public var isDragEnabled: Bool {
         get { return _isDragEnabled }
-        @objc(setDragEnabled:) set { _isDragEnabled = newValue }
+        @objc(setDragEnabled:) set {
+            _isDragEnabled = newValue
+            _isDragYEnabled = newValue
+            _isDragXEnabled = newValue
+        }
     }
     private var _isDragEnabled = true
+    /// is dragging on the X axis enabled?
+    @objc public var isDragXEnabled: Bool {
+        get { return _isDragXEnabled }
+        @objc(dragXEnabled:) set { _isDragXEnabled = newValue }
+    }
+    /// is dragging on the Y axis enabled?
+    @objc public var isDragYEnabled: Bool {
+        get { return _isDragYEnabled }
+        @objc(dragYEnabled:) set { _isDragYEnabled = newValue }
+    }
+
 
 
     /// is scaling enabled? (zooming in and out by gesture) for the chart (this does not affect dragging).
@@ -1504,7 +1544,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         }
     }
 
-    public var isScaleXEnabled: Bool {
+    @objc public var isScaleXEnabled: Bool {
         get { return _isScaleXEnabled }
         @objc(setScaleXEnabled:) set {
             _isScaleXEnabled = newValue
@@ -1515,7 +1555,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     }
     private var _isScaleXEnabled = true
 
-    public var isScaleYEnabled: Bool {
+    @objc public var isScaleYEnabled: Bool {
         get { return _isScaleYEnabled }
         @objc(setScaleYEnabled:) set {
             _isScaleYEnabled = newValue
@@ -1529,7 +1569,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// flag that indicates if double tap zoom is enabled or not
     /// **default**: true
     /// - returns: `true` if zooming via double-tap is enabled `false` ifnot.
-    public var isDoubleTapToZoomEnabled: Bool
+    @objc public var isDoubleTapToZoomEnabled: Bool
     {
         get
         {
@@ -1551,7 +1591,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     ///
     /// flag that indicates if highlighting per dragging over a fully zoomed out chart is enabled
     /// **default**: true
-    public var isHighlightPerDragEnabled: Bool {
+    @objc public var isHighlightPerDragEnabled: Bool {
         get { return _isHighlightPerDragEnabled }
         @objc(setHighlightPerDragEnabled:) set { _isHighlightPerDragEnabled = newValue }
     }
@@ -1560,7 +1600,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// **default**: true
     /// - returns: `true` if drawing the grid background is enabled, `false` ifnot.
     /// flag indicating if the grid background should be drawn or not
-    public var isDrawGridBackgroundEnabled: Bool {
+    @objc public var isDrawGridBackgroundEnabled: Bool {
         get { return _isDrawGridBackgroundEnabled }
         @objc(setDrawGridBackgroundEnabled:) set { _isDrawGridBackgroundEnabled = newValue }
     }
@@ -1570,7 +1610,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// If this is enabled, there is no point drawing the axis-lines of x- and y-axis.
     /// **default**: false
     /// - returns: `true` if drawing the borders rectangle is enabled, `false` ifnot.
-    public var isDrawBordersEnabled: Bool {
+    @objc public var isDrawBordersEnabled: Bool {
         get { return _isDrawBordersEnabled }
         @objc(setDrawBordersEnabled:) set { _isDrawBordersEnabled = newValue }
     }
@@ -1662,7 +1702,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     }
 
     /// flag that indicates if pinch-zoom is enabled. if true, both x and y axis can be scaled simultaneously with 2 fingers, if false, x and y axis can be scaled separately
-    public var isPinchZoomEnabled: Bool {
+    @objc public var isPinchZoomEnabled: Bool {
         get { return _isPinchZoomEnabled }
         @objc(setPinchZoomEnabled:) set
         {
@@ -1738,7 +1778,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// if yes, the y axis automatically adjusts to the min and max y values of the current x axis range whenever the viewport changes
     /// **default**: false
     /// - returns: `true` if auto scaling on the y axis is enabled.
-    public var isAutoScaleMinMaxEnabled: Bool {
+    @objc public var isAutoScaleMinMaxEnabled: Bool {
         get { return _isAutoScaleMinMaxEnabled }
         @objc(setAutoScaleMinMaxEnabled:) set { _isAutoScaleMinMaxEnabled = newValue }
     }

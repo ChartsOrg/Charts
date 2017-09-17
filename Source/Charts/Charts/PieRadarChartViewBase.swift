@@ -383,7 +383,7 @@ open class PieRadarChartViewBase: ChartViewBase
     }
 
     /// flag that indicates if rotation is enabled or not
-    public var isRotationEnabled: Bool {
+    @objc public var isRotationEnabled: Bool {
         get { return _isRotationEnabled }
         @objc(setRotationEnabled:) set { _isRotationEnabled = newValue }
     }
@@ -395,8 +395,8 @@ open class PieRadarChartViewBase: ChartViewBase
     /// On iOS this will disable one-finger rotation.
     /// On OSX this will keep two-finger multitouch rotation, and one-pointer mouse rotation.
     ///
-    /// **default**: false
-    public var isRotationWithTwoFingers: Bool
+    /// **default**: fals@objc e
+    @objc public var isRotationWithTwoFingers: Bool
         {
         get
         {

@@ -174,7 +174,7 @@ open class CombinedChartRenderer: DataRenderer
 
     /// if set to true, all values are drawn above their bars, instead of below their top
     /// - returns: `true` if drawing values above bars is enabled, `false` ifnot
-    public var isDrawValueAboveBarEnabled: Bool {
+    @objc public var isDrawValueAboveBarEnabled: Bool {
         get { return _isDrawValueAboveBarEnabled }
         @objc(setDrawValueAboveBarEnabled:) set { _isDrawValueAboveBarEnabled = newValue }
     }
@@ -182,7 +182,7 @@ open class CombinedChartRenderer: DataRenderer
 
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     /// - returns: `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
-    public var isDrawBarShadowEnabled: Bool {
+    @objc public var isDrawBarShadowEnabled: Bool {
         get { return _isDrawBarShadowEnabled }
         @objc(setDrawBarShadowEnabled:) set { _isDrawBarShadowEnabled = newValue }
     }

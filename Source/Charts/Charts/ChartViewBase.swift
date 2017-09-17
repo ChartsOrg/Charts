@@ -157,7 +157,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// (use the `marker` property to specify a marker)
     /// - returns: `true` if drawing the marker is enabled when tapping on values
     /// (use the `marker` property to specify a marker)
-    public var isDrawMarkersEnabled: Bool {
+    @objc public var isDrawMarkersEnabled: Bool {
         get { return _isDrawMarkersEnabled }
         @objc(setDrawMarkersEnabled:) set { _isDrawMarkersEnabled = newValue }
     }
@@ -427,7 +427,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// Values can still be highlighted via drag or programmatically.
     /// **default**: true
     /// - returns: `true` if values can be highlighted via tap gesture, `false` ifnot.
-    public var isHighlightPerTapEnabled: Bool
+    @objc public var isHighlightPerTapEnabled: Bool
     {
         get { return _isHighlightPerTapEnabled }
         @objc(setHighlightPerTapEnabled:) set { _isHighlightPerTapEnabled = newValue }
@@ -947,7 +947,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// If set to true, chart continues to scroll after touch up
     /// **default**: true
     /// - returns: `true` if chart continues to scroll after touch up, `false` ifnot.
-    public var isDragDecelerationEnabled: Bool
+    @objc public var isDragDecelerationEnabled: Bool
         {
         get { return _isDragDecelerationEnabled }
         @objc(setDragDecelerationEnabled:) set { _isDragDecelerationEnabled = newValue }

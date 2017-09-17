@@ -675,7 +675,7 @@ open class ChartData: NSObject
     /// Enables / disables highlighting values for all DataSets this data object contains.
     /// If set to true, this means that values can be highlighted programmatically or by touch gesture.
     /// if true, value highlightning is enabled
-    public var isHighlightEnabled: Bool
+    @objc public var isHighlightEnabled: Bool
     {
         get
         {
