@@ -88,7 +88,7 @@ open class PieChartDataEntry: ChartDataEntry
     open var value: Double
     {
         get { return y }
-        set { y = value }
+        set { y = newValue }
     }
     
     @available(*, deprecated: 1.0, message: "Pie entries do not have x values")

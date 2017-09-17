@@ -261,39 +261,54 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         super.notifyDataChanged() // recalculate everything
     }
     
-    
     /// Get the Entry for a corresponding highlight object
     ///
     /// - parameter highlight:
     /// - returns: The entry that is highlighted
     open override func entryForHighlight(_ highlight: Highlight) -> ChartDataEntry?
     {
-        let dataObjects = allData
-        
-        if highlight.dataIndex >= dataObjects.count
+        if highlight.dataIndex >= allData.count
         {
             return nil
         }
         
-        let data = dataObjects[highlight.dataIndex]
+        let data = dataByIndex(highlight.dataIndex)
         
         if highlight.dataSetIndex >= data.dataSetCount
         {
             return nil
         }
-        else
+        
+        // The value of the highlighted entry could be NaN - if we are not interested in highlighting a specific value.
+        let entries = data.getDataSetByIndex(highlight.dataSetIndex).entriesForXValue(highlight.x)
+        for e in entries
         {
-            // The value of the highlighted entry could be NaN - if we are not interested in highlighting a specific value.
-            let entries = data.getDataSetByIndex(highlight.dataSetIndex).entriesForXValue(highlight.x)
-            for e in entries
+            if e.y == highlight.y || highlight.y.isNaN
             {
-                if e.y == highlight.y || highlight.y.isNaN
-                {
-                    return e
-                }
+                return e
             }
-            
+        }
+        return nil
+    }
+    
+    /// Get dataset for highlight
+    ///
+    /// - Parameter highlight: current highlight
+    /// - Returns: dataset related to highlight
+    open func getDataSetByHighlight(_ highlight: Highlight) -> IChartDataSet!
+    {  
+        if highlight.dataIndex >= allData.count
+        {
             return nil
         }
+        
+        let data = dataByIndex(highlight.dataIndex)
+        
+        if highlight.dataSetIndex >= data.dataSetCount
+        {
+            return nil
+        }
+        
+        return data.dataSets[highlight.dataSetIndex]
     }
 }
