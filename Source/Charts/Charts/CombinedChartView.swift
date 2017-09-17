@@ -233,7 +233,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             isDrawMarkersEnabled && valuesToHighlight()
             else { return }
         
-        for i in 0 ..< _indicesToHighlight.count
+        for i in _indicesToHighlight.indices
         {
             let highlight = _indicesToHighlight[i]
             
@@ -243,7 +243,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
                 else { continue }
             
             let entryIndex = set.entryIndex(entry: e)
-            if entryIndex > Int(Double(set.entryCount) * _animator.phaseX)
+            if entryIndex > Int(CGFloat(set.entryCount) * _animator.phaseX)
             {
                 continue
             }
