@@ -38,7 +38,7 @@ open class RadarChartRenderer: LineRadarRenderer
         {
             let mostEntries = radarData?.maxEntryCountSet?.entryCount ?? 0
             
-            for set in radarData!.dataSets as! [IRadarChartDataSet]
+            for set in radarData!.dataSets as! [RadarChartDataSet]
             {
                 if set.isVisible
                 {
@@ -53,7 +53,7 @@ open class RadarChartRenderer: LineRadarRenderer
     /// - parameter context:
     /// - parameter dataSet:
     /// - parameter mostEntries: the entry count of the dataset with the most entries
-    internal func drawDataSet(context: CGContext, dataSet: IRadarChartDataSet, mostEntries: Int)
+    internal func drawDataSet(context: CGContext, dataSet: RadarChartDataSet, mostEntries: Int)
     {
         guard let
             chart = chart,
@@ -159,7 +159,7 @@ open class RadarChartRenderer: LineRadarRenderer
         
         for i in 0 ..< data.dataSetCount
         {
-            let dataSet = data.getDataSetByIndex(i) as! IRadarChartDataSet
+            let dataSet = data.getDataSetByIndex(i) as! RadarChartDataSet
             
             if !shouldDrawValues(forDataSet: dataSet)
             {
@@ -315,7 +315,7 @@ open class RadarChartRenderer: LineRadarRenderer
         for high in indices
         {
             guard
-                let set = chart.data?.getDataSetByIndex(high.dataSetIndex) as? IRadarChartDataSet,
+                let set = chart.data?.getDataSetByIndex(high.dataSetIndex) as? RadarChartDataSet,
                 set.isHighlightEnabled
                 else { continue }
             

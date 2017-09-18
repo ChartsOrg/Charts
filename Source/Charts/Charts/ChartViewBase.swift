@@ -145,7 +145,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// object responsible for rendering the data
     open var renderer: DataRenderer?
     
-    open var highlighter: IHighlighter?
+    open var highlighter: Highlighter?
     
     /// object that manages the bounds and drawing constraints of the chart
     internal var _viewPortHandler: ViewPortHandler!
@@ -168,7 +168,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     open var isDrawMarkersEnabled: Bool { return drawMarkers }
     
     /// The marker that is displayed when a value is clicked on the chart
-    open var marker: IMarker?
+    open var marker: Marker?
     
     fileprivate var _interceptTouchEvents = false
     

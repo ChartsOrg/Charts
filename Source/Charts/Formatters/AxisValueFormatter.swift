@@ -1,5 +1,5 @@
 //
-//  IAxisValueFormatter.swift
+//  AxisValueFormatter.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -13,7 +13,7 @@ import Foundation
 
 /// An interface for providing custom axis Strings.
 @objc(IChartAxisValueFormatter)
-public protocol IAxisValueFormatter : NSObjectProtocol
+public protocol AxisValueFormatter : NSObjectProtocol
 {
     
     /// Called when a value from an axis is formatted before being drawn.

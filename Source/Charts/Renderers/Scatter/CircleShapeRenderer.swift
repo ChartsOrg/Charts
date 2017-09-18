@@ -10,11 +10,11 @@
 //
 import Foundation
 
-open class CircleShapeRenderer : NSObject, IShapeRenderer
+open class CircleShapeRenderer : NSObject, ShapeRenderer
 {
     open func renderShape(
         context: CGContext,
-        dataSet: IScatterChartDataSet,
+        dataSet: ScatterChartDataSet,
         viewPortHandler: ViewPortHandler,
         point: CGPoint,
         color: NSUIColor)

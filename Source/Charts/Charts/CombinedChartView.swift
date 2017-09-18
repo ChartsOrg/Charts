@@ -16,7 +16,7 @@ import CoreGraphics
 open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
 {
     /// the fill-formatter used for determining the position of the fill-line
-    internal var _fillFormatter: IFillFormatter!
+    internal var _fillFormatter: FillFormatter!
     
     /// enum that allows to specify the order in which the different data objects for the combined-chart are drawn
     @objc(CombinedChartDrawOrder)
@@ -60,7 +60,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         }
     }
     
-    open var fillFormatter: IFillFormatter
+    open var fillFormatter: FillFormatter
     {
         get
         {

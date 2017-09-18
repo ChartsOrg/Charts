@@ -17,7 +17,7 @@ import CoreGraphics
 #endif
 
 @objc(ChartMarkerImage)
-open class MarkerImage: NSObject, IMarker
+open class MarkerImage: NSObject, Marker
 {
     /// The marker image to render
     open var image: NSUIImage?
