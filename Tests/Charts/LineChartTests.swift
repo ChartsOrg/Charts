@@ -28,7 +28,7 @@ class LineChartTests: FBSnapshotTestCase
         }
         
         dataSet = LineChartDataSet(values: entries, label: "First unit test data")
-        dataSet.drawIconsEnabled = false
+        dataSet.isDrawIconsEnabled = false
         dataSet.iconsOffset = CGPoint(x: 0, y: 20.0)
 
         chart = LineChartView(frame: CGRect(x: 0, y: 0, width: 480, height: 350))
@@ -51,13 +51,13 @@ class LineChartTests: FBSnapshotTestCase
     
     func testHidesValues()
     {
-        dataSet.drawValuesEnabled = false
+        dataSet.isDrawValuesEnabled = false
         FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
     
     func testDoesntDrawCircles()
     {
-        dataSet.drawCirclesEnabled = false
+        dataSet.isDrawCirclesEnabled = false
         FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
     
@@ -69,13 +69,13 @@ class LineChartTests: FBSnapshotTestCase
     
     func testDoesntDrawCircleHole()
     {
-        dataSet.drawCircleHoleEnabled = false
+        dataSet.isDrawCircleHoleEnabled = false
         FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
     
     func testDrawIcons()
     {
-        dataSet.drawIconsEnabled = true
+        dataSet.isDrawIconsEnabled = true
         FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
 }
