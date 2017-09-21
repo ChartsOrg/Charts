@@ -27,7 +27,7 @@ open class Highlight: NSObject
     fileprivate var _yPx = CGFloat.nan
     
     /// the index of the data object - in case it refers to more than one
-    open var dataIndex = Int(-1)
+    @objc open var dataIndex = Int(-1)
     
     /// the index of the dataset the highlighted value is in
     fileprivate var _dataSetIndex = Int(0)
@@ -41,10 +41,10 @@ open class Highlight: NSObject
     fileprivate var _axis: YAxis.AxisDependency = YAxis.AxisDependency.left
     
     /// the x-position (pixels) on which this highlight object was last drawn
-    open var drawX: CGFloat = 0.0
+    @objc open var drawX: CGFloat = 0.0
     
     /// the y-position (pixels) on which this highlight object was last drawn
-    open var drawY: CGFloat = 0.0
+    @objc open var drawY: CGFloat = 0.0
     
     public override init()
     {
@@ -59,7 +59,7 @@ open class Highlight: NSObject
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
     /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
     /// - parameter axis: the axis the highlighted value belongs to
-    public init(
+    @objc public init(
         x: Double, y: Double,
         xPx: CGFloat, yPx: CGFloat,
         dataIndex: Int,
@@ -86,7 +86,7 @@ open class Highlight: NSObject
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
     /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
     /// - parameter axis: the axis the highlighted value belongs to
-    public convenience init(
+    @objc public convenience init(
         x: Double, y: Double,
         xPx: CGFloat, yPx: CGFloat,
         dataSetIndex: Int,
@@ -108,7 +108,7 @@ open class Highlight: NSObject
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
     /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
     /// - parameter axis: the axis the highlighted value belongs to
-    public init(
+    @objc public init(
         x: Double, y: Double,
         xPx: CGFloat, yPx: CGFloat,
         dataSetIndex: Int,
@@ -127,7 +127,7 @@ open class Highlight: NSObject
     /// - parameter x: the x-value of the highlighted value
     /// - parameter y: the y-value of the highlighted value
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
-    public init(x: Double, y: Double, dataSetIndex: Int)
+    @objc public init(x: Double, y: Double, dataSetIndex: Int)
     {
         _x = x
         _y = y
@@ -137,31 +137,31 @@ open class Highlight: NSObject
     /// - parameter x: the x-value of the highlighted value
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
     /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
-    public convenience init(x: Double, dataSetIndex: Int, stackIndex: Int)
+    @objc public convenience init(x: Double, dataSetIndex: Int, stackIndex: Int)
     {
         self.init(x: x, y: Double.nan, dataSetIndex: dataSetIndex)
         _stackIndex = stackIndex
     }
     
-    open var x: Double { return _x }
-    open var y: Double { return _y }
-    open var xPx: CGFloat { return _xPx }
-    open var yPx: CGFloat { return _yPx }
-    open var dataSetIndex: Int { return _dataSetIndex }
-    open var stackIndex: Int { return _stackIndex }
-    open var axis: YAxis.AxisDependency { return _axis }
+    @objc open var x: Double { return _x }
+    @objc open var y: Double { return _y }
+    @objc open var xPx: CGFloat { return _xPx }
+    @objc open var yPx: CGFloat { return _yPx }
+    @objc open var dataSetIndex: Int { return _dataSetIndex }
+    @objc open var stackIndex: Int { return _stackIndex }
+    @objc open var axis: YAxis.AxisDependency { return _axis }
     
-    open var isStacked: Bool { return _stackIndex >= 0 }
+    @objc open var isStacked: Bool { return _stackIndex >= 0 }
     
     /// Sets the x- and y-position (pixels) where this highlight was last drawn.
-    open func setDraw(x: CGFloat, y: CGFloat)
+    @objc open func setDraw(x: CGFloat, y: CGFloat)
     {
         self.drawX = x
         self.drawY = y
     }
     
     /// Sets the x- and y-position (pixels) where this highlight was last drawn.
-    open func setDraw(pt: CGPoint)
+    @objc open func setDraw(pt: CGPoint)
     {
         self.drawX = pt.x
         self.drawY = pt.y

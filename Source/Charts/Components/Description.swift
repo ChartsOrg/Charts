@@ -21,7 +21,7 @@ open class Description: ComponentBase
             // 23 is the smallest recommended font size on the TV
             font = NSUIFont.systemFont(ofSize: 23)
         #elseif os(OSX)
-            font = NSUIFont.systemFont(ofSize: NSUIFont.systemFontSize())
+            font = NSUIFont.systemFont(ofSize: NSUIFont.systemFontSize)
         #else
             font = NSUIFont.systemFont(ofSize: 8.0)
         #endif
@@ -30,17 +30,17 @@ open class Description: ComponentBase
     }
     
     /// The text to be shown as the description.
-    open var text: String? = "Description Label"
+    @objc open var text: String? = "Description Label"
     
     /// Custom position for the description text in pixels on the screen.
     open var position: CGPoint? = nil
     
     /// The text alignment of the description text. Default RIGHT.
-    open var textAlign: NSTextAlignment = NSTextAlignment.right
+    @objc open var textAlign: NSTextAlignment = NSTextAlignment.right
     
     /// Font object used for drawing the description text.
-    open var font: NSUIFont
+    @objc open var font: NSUIFont
     
     /// Text color used for drawing the description text
-    open var textColor = NSUIColor.black
+    @objc open var textColor = NSUIColor.black
 }
