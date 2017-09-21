@@ -1,4 +1,4 @@
-**Version 3.0.3**, synced to [MPAndroidChart #f6a398b](https://github.com/PhilJay/MPAndroidChart/commit/f6a398b)
+**Version 3.0.4**, synced to [MPAndroidChart #f6a398b](https://github.com/PhilJay/MPAndroidChart/commit/f6a398b)
 
 ![alt tag](https://raw.github.com/danielgindi/Charts/master/Assets/feature_graphic.png)
   ![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/danielgindi/Charts.svg)](https://github.com/danielgindi/Charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Build Status](https://travis-ci.org/danielgindi/Charts.svg?branch=master)](https://travis-ci.org/danielgindi/Charts) [![codecov](https://codecov.io/gh/danielgindi/Charts/branch/master/graph/badge.svg)](https://codecov.io/gh/danielgindi/Charts)
@@ -7,7 +7,7 @@
 ### Just a heads up: Charts 3.0 has some breaking changes. Please read [the release/migration notes](https://github.com/danielgindi/Charts/releases/tag/v3.0.0). 
 ### Another heads up: ChartsRealm is now in a [separate repo](https://github.com/danielgindi/ChartsRealm). Pods is also now `Charts` and `ChartsRealm`, instead of ~`Charts/Core`~ and ~`Charts/Realm`~
 
-* Xcode 8.0 / Swift 3.1
+* Xcode 9.0 / Swift 4.0
 * iOS >= 8.0 (Use as an **Embedded** Framework)
 * tvOS >= 9.0
 * macOS >= 10.11
@@ -78,8 +78,8 @@ For [Realm](https://realm.io/) support, please add `pod 'ChartsRealm'` too.
 Charts now include Carthage prebuilt binaries.
 
 ```carthage
-github "danielgindi/Charts" == 3.0.3
-github "danielgindi/Charts" ~> 3.0.3
+github "danielgindi/Charts" == 3.0.4
+github "danielgindi/Charts" ~> 3.0.4
 ```
 
 In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts`.
