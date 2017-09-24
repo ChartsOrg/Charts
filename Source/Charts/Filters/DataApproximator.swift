@@ -15,7 +15,7 @@ import Foundation
 open class DataApproximator: NSObject
 {
     /// uses the douglas peuker algorithm to reduce the given arraylist of entries
-    open class func reduceWithDouglasPeuker(_ points: [CGPoint], tolerance: CGFloat) -> [CGPoint]
+    @objc open class func reduceWithDouglasPeuker(_ points: [CGPoint], tolerance: CGFloat) -> [CGPoint]
     {
         // if a shape has 2 or less points it cannot be reduced
         if tolerance <= 0 || points.count < 3

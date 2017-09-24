@@ -47,7 +47,7 @@ open class BarDemoViewController: NSViewController
         let panel = NSSavePanel()
         panel.allowedFileTypes = ["png"]
         panel.beginSheetModal(for: self.view.window!) { (result) -> Void in
-            if result == NSFileHandlingPanelOKButton
+            if result.rawValue == NSFileHandlingPanelOKButton
             {
                 if let path = panel.url?.path
                 {
