@@ -10,6 +10,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 @objc
 public protocol IShapeRenderer : NSObjectProtocol
