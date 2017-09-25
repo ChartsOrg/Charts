@@ -18,9 +18,9 @@ import CoreGraphics
 
 open class XAxisRendererRadarChart: XAxisRenderer
 {
-    open weak var chart: RadarChartView?
+    @objc open weak var chart: RadarChartView?
     
-    public init(viewPortHandler: ViewPortHandler?, xAxis: XAxis?, chart: RadarChartView?)
+    @objc public init(viewPortHandler: ViewPortHandler?, xAxis: XAxis?, chart: RadarChartView?)
     {
         super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: nil)
         
@@ -54,7 +54,7 @@ open class XAxisRendererRadarChart: XAxisRenderer
         for i in stride(from: 0, to: chart.data?.maxEntryCountSet?.entryCount ?? 0, by: 1)
         {
             
-            let label = xAxis.valueFormatter?.attributedStringForValue?(Double(i), axis: xAxis, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor]) ?? NSAttributedString(string:xAxis.valueFormatter?.stringForValue?(Double(i), axis: xAxis) ?? "", attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
+			let label = xAxis.valueFormatter?.attributedStringForValue?(Double(i), axis: xAxis, attributes: [NSAttributedStringKey.font: labelFont, NSAttributedStringKey.foregroundColor: labelTextColor]) ?? NSAttributedString(string:xAxis.valueFormatter?.stringForValue?(Double(i), axis: xAxis) ?? "", attributes: [NSAttributedStringKey.font: labelFont, NSAttributedStringKey.foregroundColor: labelTextColor])
             
             let angle = (sliceangle * CGFloat(i) + chart.rotationAngle).truncatingRemainder(dividingBy: 360.0)
             
@@ -69,12 +69,12 @@ open class XAxisRendererRadarChart: XAxisRenderer
         }
     }
     
-    open func drawLabel(
+    @objc open func drawLabel(
         context: CGContext,
         formattedLabel: String,
         x: CGFloat,
         y: CGFloat,
-        attributes: [String: NSObject],
+        attributes: [NSAttributedStringKey : Any],
         anchor: CGPoint,
         angleRadians: CGFloat)
     {

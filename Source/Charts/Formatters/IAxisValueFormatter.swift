@@ -37,5 +37,5 @@ public protocol IAxisValueFormatter : NSObjectProtocol
 	/// - parameter axis:            the axis that the value belongs to
 	///
 	@objc optional func attributedStringForValue(_ value: Double,
-	                              axis: AxisBase?, attributes: [String:Any]?) -> NSAttributedString
+	                              axis: AxisBase?, attributes: [NSAttributedStringKey:Any]?) -> NSAttributedString
 }

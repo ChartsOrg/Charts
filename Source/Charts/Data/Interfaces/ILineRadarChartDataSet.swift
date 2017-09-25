@@ -30,7 +30,7 @@ public protocol ILineRadarChartDataSet: ILineScatterCandleRadarChartDataSet
     /// **default**: 0.33
     var fillAlpha: CGFloat { get set }
     
-    /// line width of the chart (min = 0.2, max = 10)
+    /// line width of the chart (min = 0.0, max = 10)
     ///
     /// **default**: 1
     var lineWidth: CGFloat { get set }

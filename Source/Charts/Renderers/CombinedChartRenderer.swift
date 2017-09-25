@@ -14,19 +14,19 @@ import CoreGraphics
 
 open class CombinedChartRenderer: DataRenderer
 {
-    open weak var chart: CombinedChartView?
+    @objc open weak var chart: CombinedChartView?
     
     /// if set to true, all values are drawn above their bars, instead of below their top
-    open var drawValueAboveBarEnabled = true
+    @objc open var drawValueAboveBarEnabled = true
     
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
-    open var drawBarShadowEnabled = false
+    @objc open var drawBarShadowEnabled = false
     
-    internal var _renderers = [DataRenderer]()
+    @objc internal var _renderers = [DataRenderer]()
     
     internal var _drawOrder: [CombinedChartView.DrawOrder] = [.bar, .bubble, .line, .candle, .scatter]
     
-    public init(chart: CombinedChartView?, animator: Animator, viewPortHandler: ViewPortHandler?)
+    @objc public init(chart: CombinedChartView?, animator: Animator, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -36,7 +36,7 @@ open class CombinedChartRenderer: DataRenderer
     }
     
     /// Creates the renderers needed for this combined-renderer in the required order. Also takes the DrawOrder into consideration.
-    internal func createRenderers()
+    @objc internal func createRenderers()
     {
         _renderers = [DataRenderer]()
         
@@ -157,7 +157,7 @@ open class CombinedChartRenderer: DataRenderer
     }
 
     /// - returns: The sub-renderer object at the specified index.
-    open func getSubRenderer(index: Int) -> DataRenderer?
+    @objc open func getSubRenderer(index: Int) -> DataRenderer?
     {
         if index >= _renderers.count || index < 0
         {
@@ -170,7 +170,7 @@ open class CombinedChartRenderer: DataRenderer
     }
 
     /// - returns: All sub-renderers.
-    open var subRenderers: [DataRenderer]
+    @objc open var subRenderers: [DataRenderer]
     {
         get { return _renderers }
         set { _renderers = newValue }
@@ -179,10 +179,10 @@ open class CombinedChartRenderer: DataRenderer
     // MARK: Accessors
     
     /// - returns: `true` if drawing values above bars is enabled, `false` ifnot
-    open var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled }
+    @objc open var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled }
     
     /// - returns: `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
-    open var isDrawBarShadowEnabled: Bool { return drawBarShadowEnabled }
+    @objc open var isDrawBarShadowEnabled: Bool { return drawBarShadowEnabled }
     
     /// the order in which the provided data objects should be drawn.
     /// The earlier you place them in the provided array, the further they will be in the background.

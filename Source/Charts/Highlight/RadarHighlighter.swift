@@ -25,7 +25,7 @@ open class RadarHighlighter: PieRadarHighlighter
         let distanceToCenter = Double(chart.distanceToCenter(x: x, y: y) / chart.factor)
         
         var closest: Highlight? = nil
-        var distance = DBL_MAX
+        var distance = Double.greatestFiniteMagnitude
         
         for high in highlights
         {
@@ -44,7 +44,7 @@ open class RadarHighlighter: PieRadarHighlighter
     /// The Highlight objects give information about the value at the selected index and DataSet it belongs to.
     ///
     /// - parameter index:
-    internal func getHighlights(forIndex index: Int) -> [Highlight]
+    @objc internal func getHighlights(forIndex index: Int) -> [Highlight]
     {
         var vals = [Highlight]()
         

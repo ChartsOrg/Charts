@@ -14,7 +14,7 @@ import Foundation
 open class ChartDataEntry: ChartDataEntryBase
 {
     /// the x value
-    open var x = Double(0.0)
+    @objc open var x = Double(0.0)
     
     public required init()
     {
@@ -24,7 +24,7 @@ open class ChartDataEntry: ChartDataEntryBase
     /// An Entry represents one single entry in the chart.
     /// - parameter x: the x value
     /// - parameter y: the y value (the actual value of the entry)
-    public init(x: Double, y: Double)
+    @objc public init(x: Double, y: Double)
     {
         super.init(y: y)
         
@@ -36,7 +36,7 @@ open class ChartDataEntry: ChartDataEntryBase
     /// - parameter y: the y value (the actual value of the entry)
     /// - parameter data: Space for additional data this Entry represents.
     
-    public init(x: Double, y: Double, data: AnyObject?)
+    @objc public init(x: Double, y: Double, data: AnyObject?)
     {
         super.init(y: y)
         
@@ -50,7 +50,7 @@ open class ChartDataEntry: ChartDataEntryBase
     /// - parameter y: the y value (the actual value of the entry)
     /// - parameter icon: icon image
     
-    public init(x: Double, y: Double, icon: NSUIImage?)
+    @objc public init(x: Double, y: Double, icon: NSUIImage?)
     {
         super.init(y: y, icon: icon)
         
@@ -63,7 +63,7 @@ open class ChartDataEntry: ChartDataEntryBase
     /// - parameter icon: icon image
     /// - parameter data: Space for additional data this Entry represents.
     
-    public init(x: Double, y: Double, icon: NSUIImage?, data: AnyObject?)
+    @objc public init(x: Double, y: Double, icon: NSUIImage?, data: AnyObject?)
     {
         super.init(y: y, icon: icon, data: data)
         
@@ -79,7 +79,7 @@ open class ChartDataEntry: ChartDataEntryBase
             return false
         }
         
-        if fabs((object! as AnyObject).x - x) > DBL_EPSILON
+        if fabs((object! as AnyObject).x - x) > Double.ulpOfOne
         {
             return false
         }
@@ -96,7 +96,7 @@ open class ChartDataEntry: ChartDataEntryBase
     
     // MARK: NSCopying
     
-    open func copyWithZone(_ zone: NSZone?) -> AnyObject
+    @objc open func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = type(of: self).init()
         
@@ -125,12 +125,12 @@ public func ==(lhs: ChartDataEntry, rhs: ChartDataEntry) -> Bool
         return false
     }
     
-    if fabs(lhs.x - rhs.x) > DBL_EPSILON
+    if fabs(lhs.x - rhs.x) > Double.ulpOfOne
     {
         return false
     }
     
-    if fabs(lhs.y - rhs.y) > DBL_EPSILON
+    if fabs(lhs.y - rhs.y) > Double.ulpOfOne
     {
         return false
     }

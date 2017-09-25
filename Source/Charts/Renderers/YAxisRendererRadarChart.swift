@@ -20,7 +20,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
 {
     fileprivate weak var chart: RadarChartView?
     
-    public init(viewPortHandler: ViewPortHandler?, yAxis: YAxis?, chart: RadarChartView?)
+    @objc public init(viewPortHandler: ViewPortHandler?, yAxis: YAxis?, chart: RadarChartView?)
     {
         super.init(viewPortHandler: viewPortHandler, yAxis: yAxis, transformer: nil)
         
@@ -188,7 +188,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
             
             let p = ChartUtils.getPosition(center: center, dist: r, angle: chart.rotationAngle)
             
-			let label = yAxis.getFormattedLabel(j, attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor])
+			let label = yAxis.getFormattedLabel(j, attributes: [NSAttributedStringKey.font: labelFont, NSAttributedStringKey.foregroundColor: labelTextColor])
 			
             ChartUtils.drawText(
                 context: context,
