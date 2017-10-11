@@ -67,6 +67,17 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             _buffers.removeAll()
         }
     }
+
+    fileprivate func phaseY(animator: Animator, index: Int = 0) -> Double {
+        if animator.inTransition
+        {
+            return animator.transitionPhasesY![index]
+        }
+        else
+        {
+            return animator.phaseY
+        }
+    }
     
     fileprivate func prepareBuffer(dataSet: IBarChartDataSet, index: Int)
     {
@@ -83,7 +94,6 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         let containsStacks = dataSet.isStacked
         
         let isInverted = dataProvider.isInverted(axis: dataSet.axisDependency)
-        let phaseY = animator.phaseY
         var barRect = CGRect()
         var x: Double
         var y: Double
@@ -96,7 +106,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             
             x = e.x
             y = e.y
-            
+
+            let phaseY = phaseY(animator: animator, index: i)
+
             if !containsStacks || vals == nil
             {
                 let left = CGFloat(x - barWidthHalf)
@@ -398,8 +410,6 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 
-                let phaseY = animator.phaseY
-                
                 let iconsOffset = dataSet.iconsOffset
         
                 // if only single values are drawn (sum)
@@ -558,7 +568,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                     negY -= value
                                 }
                                 
-                                transformed.append(CGPoint(x: 0.0, y: CGFloat(y * phaseY)))
+                                transformed.append(CGPoint(x: 0.0, y: CGFloat(y * phaseY(animator: animator, index: k))))
                             }
                             
                             trans.pointValuesToPixel(&transformed)

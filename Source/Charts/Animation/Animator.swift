@@ -39,6 +39,9 @@ open class Animator: NSObject
     /// the phase that is animated and influences the drawn values on the y-axis
     @objc open var phaseY: Double = 1.0
     
+    @objc open var inTransition: Bool = false
+    @objc open var transitionPhasesY: [Double]?
+
     fileprivate var _startTimeX: TimeInterval = 0.0
     fileprivate var _startTimeY: TimeInterval = 0.0
     fileprivate var _displayLink: NSUIDisplayLink?
@@ -55,6 +58,8 @@ open class Animator: NSObject
     
     fileprivate var _easingX: ChartEasingFunctionBlock?
     fileprivate var _easingY: ChartEasingFunctionBlock?
+
+    fileprivate var _transitionValues: [Double] = []
     
     public override init()
     {
@@ -145,12 +150,46 @@ open class Animator: NSObject
             }
         }
     }
+
+    fileprivate func updateTransitionPhases(_ currentTime: TimeInterval)
+    {
+        if _enabledY
+        {
+            let elapsedTime: TimeInterval = currentTime - _startTimeY
+            let duration: TimeInterval = _durationY
+            var elapsed: TimeInterval = elapsedTime
+            if elapsed > duration
+            {
+                elapsed = duration
+            }
+
+            if _easingY != nil
+            {
+                _transitionValues.enumerated().forEach { (index, value) in
+                    transitionPhasesY?.append(value * _easingY!(elapsed, duration) + 1)
+                }
+            }
+            else
+            {
+                _transitionValues.enumerated().forEach { (index, value) in
+                    transitionPhasesY?.append(value * Double(elapsed / duration) + 1)
+                }
+            }
+        }
+    }
     
     @objc fileprivate func animationLoop()
     {
         let currentTime: TimeInterval = CACurrentMediaTime()
-        
-        updateAnimationPhases(currentTime)
+
+        if inTransition
+        {
+            updateTransitionPhases(currentTime)
+        }
+        else
+        {
+            updateAnimationPhases(currentTime)
+        }
         
         if delegate != nil
         {
@@ -326,5 +365,31 @@ open class Animator: NSObject
     @objc open func animate(yAxisDuration: TimeInterval)
     {
         animate(yAxisDuration: yAxisDuration, easingOption: .easeInOutSine)
+    }
+
+    @objc open func transition(yAxisDuration: TimeInterval, transitionValues: [Double])
+    {
+        _startTimeY = CACurrentMediaTime()
+        _durationY = yAxisDuration
+        _endTimeY = _startTimeY + yAxisDuration
+        _endTime = _endTimeX > _endTimeY ? _endTimeX : _endTimeY
+        _enabledY = yAxisDuration > 0.0
+
+        _easingY = easingFunctionFromOption(.easeInOutSine)
+
+        _transitionValues = transitionValues
+
+        inTransition = true
+
+        updateTransitionPhases(_startTimeY)
+
+        if _enabledX || _enabledY
+        {
+            if _displayLink == nil
+            {
+                _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
+                _displayLink?.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
+            }
+        }
     }
 }
