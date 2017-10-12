@@ -40,7 +40,8 @@ open class Animator: NSObject
     @objc open var phaseY: Double = 1.0
     
     @objc open var inTransition: Bool = false
-    @objc open var transitionPhasesY: [Double] = []
+
+    @objc open var transitionValues: [Double] = []
 
     fileprivate var _startTimeX: TimeInterval = 0.0
     fileprivate var _startTimeY: TimeInterval = 0.0
@@ -58,8 +59,6 @@ open class Animator: NSObject
     
     fileprivate var _easingX: ChartEasingFunctionBlock?
     fileprivate var _easingY: ChartEasingFunctionBlock?
-
-    fileprivate var _transitionValues: [Double] = []
     
     public override init()
     {
@@ -150,46 +149,12 @@ open class Animator: NSObject
             }
         }
     }
-
-    fileprivate func updateTransitionPhases(_ currentTime: TimeInterval)
-    {
-        if _enabledY
-        {
-            let elapsedTime: TimeInterval = currentTime - _startTimeY
-            let duration: TimeInterval = _durationY
-            var elapsed: TimeInterval = elapsedTime
-            if elapsed > duration
-            {
-                elapsed = duration
-            }
-
-            if _easingY != nil
-            {
-                _transitionValues.forEach { value in
-                    transitionPhasesY.append(value * _easingY!(elapsed, duration) + 1)
-                }
-            }
-            else
-            {
-                _transitionValues.forEach { value in
-                    transitionPhasesY.append(value * Double(elapsed / duration) + 1)
-                }
-            }
-        }
-    }
     
     @objc fileprivate func animationLoop()
     {
         let currentTime: TimeInterval = CACurrentMediaTime()
 
-        if inTransition
-        {
-            updateTransitionPhases(currentTime)
-        }
-        else
-        {
-            updateAnimationPhases(currentTime)
-        }
+        updateAnimationPhases(currentTime)
         
         if delegate != nil
         {
@@ -228,6 +193,8 @@ open class Animator: NSObject
         
         _easingX = easingX
         _easingY = easingY
+
+        inTransition = false
         
         // Take care of the first frame if rendering is already scheduled...
         updateAnimationPhases(_startTimeX)
@@ -292,6 +259,8 @@ open class Animator: NSObject
         _enabledX = xAxisDuration > 0.0
         
         _easingX = easing
+
+        inTransition = false
         
         // Take care of the first frame if rendering is already scheduled...
         updateAnimationPhases(_startTimeX)
@@ -336,6 +305,8 @@ open class Animator: NSObject
         _enabledY = yAxisDuration > 0.0
         
         _easingY = easing
+
+        inTransition = false
         
         // Take care of the first frame if rendering is already scheduled...
         updateAnimationPhases(_startTimeY)
@@ -377,11 +348,11 @@ open class Animator: NSObject
 
         _easingY = easingFunctionFromOption(.easeInOutSine)
 
-        _transitionValues = transitionValues
+        self.transitionValues = transitionValues
 
         inTransition = true
 
-        updateTransitionPhases(_startTimeY)
+        updateAnimationPhases(_startTimeY)
 
         if _enabledX || _enabledY
         {
