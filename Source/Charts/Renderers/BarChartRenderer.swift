@@ -107,7 +107,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             x = e.x
             y = e.y
 
-            let phaseY = phaseY(animator: animator, index: i)
+            let phaseY = self.phaseY(animator: animator, index: i)
 
             if !containsStacks || vals == nil
             {
