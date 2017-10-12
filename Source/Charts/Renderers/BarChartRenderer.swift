@@ -71,7 +71,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     fileprivate func phaseY(animator: Animator, index: Int = 0) -> Double {
         if animator.inTransition
         {
-            return animator.transitionPhasesY?[index] ?? 1.0
+            return animator.transitionPhasesY[index]
         }
         else
         {

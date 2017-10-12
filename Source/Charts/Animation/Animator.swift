@@ -40,7 +40,7 @@ open class Animator: NSObject
     @objc open var phaseY: Double = 1.0
     
     @objc open var inTransition: Bool = false
-    @objc open var transitionPhasesY: [Double]?
+    @objc open var transitionPhasesY: [Double] = []
 
     fileprivate var _startTimeX: TimeInterval = 0.0
     fileprivate var _startTimeY: TimeInterval = 0.0
@@ -165,14 +165,14 @@ open class Animator: NSObject
 
             if _easingY != nil
             {
-                _transitionValues.enumerated().forEach { (index, value) in
-                    transitionPhasesY?.append(value * _easingY!(elapsed, duration) + 1)
+                _transitionValues.forEach { value in
+                    transitionPhasesY.append(value * _easingY!(elapsed, duration) + 1)
                 }
             }
             else
             {
-                _transitionValues.enumerated().forEach { (index, value) in
-                    transitionPhasesY?.append(value * Double(elapsed / duration) + 1)
+                _transitionValues.forEach { value in
+                    transitionPhasesY.append(value * Double(elapsed / duration) + 1)
                 }
             }
         }
