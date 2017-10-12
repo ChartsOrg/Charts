@@ -751,6 +751,11 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     {
         _animator.animate(yAxisDuration: yAxisDuration)
     }
+
+    @objc open func transition(yAxisDuration: TimeInterval, transitionValues: [Double])
+    {
+        _animator.transition(yAxisDuration: yAxisDuration, transitionValues: transitionValues)
+    }
     
     // MARK: - Accessors
 
