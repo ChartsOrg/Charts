@@ -553,12 +553,9 @@ open class PieRadarChartViewBase: ChartViewBase
         {
             stopDeceleration()
             
-            if !rotationWithTwoFingers
+            if !rotationWithTwoFingers, let touchLocation = touches.first?.location(in: self)
             {
-                if let touch = touches.first {
-                    let touchLocation = touch.location(in: self)
-                    processRotationGestureBegan(location: touchLocation)
-                }
+                processRotationGestureBegan(location: touchLocation)
             }
         }
         

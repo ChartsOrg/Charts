@@ -870,24 +870,20 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - returns: `true` if the image was saved successfully
     open func save(to path: String, format: ImageFormat, compressionQuality: Double) -> Bool
     {
-		guard let image = getChartImage(transparent: format != .jpeg)
-            else { return false }
+		guard let image = getChartImage(transparent: format != .jpeg) else { return false }
         
         let imageData: Data?
         switch (format)
         {
-        case .png:
-            imageData = NSUIImagePNGRepresentation(image)
-            break
-            
-        case .jpeg:
-            imageData = NSUIImageJPEGRepresentation(image, CGFloat(compressionQuality))
-            break
+        case .png: imageData = NSUIImagePNGRepresentation(image)
+        case .jpeg: imageData = NSUIImageJPEGRepresentation(image, CGFloat(compressionQuality))
         }
+        
+        guard let data = imageData else { return false }
         
         do
         {
-            try imageData?.write(to: URL(fileURLWithPath: path), options: .atomic)
+            try data.write(to: URL(fileURLWithPath: path), options: .atomic)
         }
         catch
         {
