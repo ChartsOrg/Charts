@@ -41,7 +41,8 @@ open class Animator: NSObject
     
     @objc open var inTransition: Bool = false
 
-    @objc open var transitionValues: [Double] = []
+    @objc open var diffValues: [Double] = []
+    @objc open var oldValues: [Double] = []
 
     fileprivate var _startTimeX: TimeInterval = 0.0
     fileprivate var _startTimeY: TimeInterval = 0.0
@@ -338,7 +339,7 @@ open class Animator: NSObject
         animate(yAxisDuration: yAxisDuration, easingOption: .easeInOutSine)
     }
 
-    @objc open func transition(yAxisDuration: TimeInterval, transitionValues: [Double])
+    @objc open func transition(yAxisDuration: TimeInterval, diffValues: [Double], oldValues: [Double])
     {
         _startTimeY = CACurrentMediaTime()
         _durationY = yAxisDuration
@@ -348,7 +349,8 @@ open class Animator: NSObject
 
         _easingY = easingFunctionFromOption(.easeInOutSine)
 
-        self.transitionValues = transitionValues
+        self.diffValues = diffValues
+        self.oldValues = oldValues
 
         inTransition = true
 
