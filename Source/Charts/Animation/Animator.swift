@@ -339,6 +339,11 @@ open class Animator: NSObject
         animate(yAxisDuration: yAxisDuration, easingOption: .easeInOutSine)
     }
 
+    /// Animates the drawing / rendering of an updating chart from the previous set of data to new data
+    /// If `transition(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
+    /// - parameter yAxisDuration: duration for animating the y axis
+    /// - parameter diffValues: difference between datasets divided by new values (newArray - oldArray) / newArray
+    /// - parameter oldValues: division of old values by new values (oldArray / newArray)
     @objc open func transition(yAxisDuration: TimeInterval, diffValues: [Double], oldValues: [Double])
     {
         _startTimeY = CACurrentMediaTime()
