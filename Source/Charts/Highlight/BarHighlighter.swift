@@ -59,7 +59,7 @@ open class BarHighlighter: ChartHighlighter
     /// - parameter xIndex:
     /// - parameter yValue:
     /// - returns:
-    open func getStackedHighlight(high: Highlight,
+    @objc open func getStackedHighlight(high: Highlight,
                                   set: IBarChartDataSet,
                                   xValue: Double,
                                   yValue: Double) -> Highlight?
@@ -100,7 +100,7 @@ open class BarHighlighter: ChartHighlighter
     /// - parameter entry:
     /// - parameter value:
     /// - returns:
-    open func getClosestStackIndex(ranges: [Range]?, value: Double) -> Int
+    @objc open func getClosestStackIndex(ranges: [Range]?, value: Double) -> Int
     {
         if ranges == nil
         {
