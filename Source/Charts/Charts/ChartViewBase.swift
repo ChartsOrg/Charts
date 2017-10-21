@@ -751,6 +751,16 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     {
         _animator.animate(yAxisDuration: yAxisDuration)
     }
+
+    /// Animates the drawing / rendering of an updating chart from the previous set of data to new data
+    /// If `transition(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
+    /// - parameter yAxisDuration: duration for animating the y axis
+    /// - parameter diffValues: difference between datasets divided by new values (newArray - oldArray) / newArray
+    /// - parameter oldValues: division of old values by new values (oldArray / newArray)
+    @objc open func transition(yAxisDuration: TimeInterval, diffValues: [Double], oldValues: [Double])
+    {
+        _animator.transition(yAxisDuration: yAxisDuration, diffValues: diffValues, oldValues: oldValues)
+    }
     
     // MARK: - Accessors
 

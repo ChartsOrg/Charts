@@ -67,6 +67,18 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             _buffers.removeAll()
         }
     }
+
+    fileprivate func phaseY(animator: Animator, index: Int = 0) -> Double {
+        if animator.inTransition
+        {
+            // This return value multiplied by the y values gives an intermediate value for update animation
+            return animator.diffValues[index] * animator.phaseY + animator.oldValues[index]
+        }
+        else
+        {
+            return animator.phaseY
+        }
+    }
     
     fileprivate func prepareBuffer(dataSet: IBarChartDataSet, index: Int)
     {
@@ -83,7 +95,6 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         let containsStacks = dataSet.isStacked
         
         let isInverted = dataProvider.isInverted(axis: dataSet.axisDependency)
-        let phaseY = animator.phaseY
         var barRect = CGRect()
         var x: Double
         var y: Double
@@ -96,7 +107,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             
             x = e.x
             y = e.y
-            
+
+            let phaseY = self.phaseY(animator: animator, index: i)
+
             if !containsStacks || vals == nil
             {
                 let left = CGFloat(x - barWidthHalf)
@@ -347,7 +360,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         rect.size.width = CGFloat(right - left)
         rect.size.height = CGFloat(bottom - top)
         
-        trans.rectValueToPixel(&rect, phaseY: animator?.phaseY ?? 1.0)
+        trans.rectValueToPixel(&rect, phaseY: self.phaseY(animator: animator!, index: Int(x)))
     }
 
     open override func drawValues(context: CGContext)
@@ -397,8 +410,6 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 guard let formatter = dataSet.valueFormatter else { continue }
                 
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
-                
-                let phaseY = animator.phaseY
                 
                 let iconsOffset = dataSet.iconsOffset
         
@@ -558,7 +569,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                     negY -= value
                                 }
                                 
-                                transformed.append(CGPoint(x: 0.0, y: CGFloat(y * phaseY)))
+                                transformed.append(CGPoint(x: 0.0, y: CGFloat(y * phaseY(animator: animator, index: k))))
                             }
                             
                             trans.pointValuesToPixel(&transformed)

@@ -39,6 +39,11 @@ open class Animator: NSObject
     /// the phase that is animated and influences the drawn values on the y-axis
     @objc open var phaseY: Double = 1.0
     
+    @objc open var inTransition: Bool = false
+
+    @objc open var diffValues: [Double] = []
+    @objc open var oldValues: [Double] = []
+
     fileprivate var _startTimeX: TimeInterval = 0.0
     fileprivate var _startTimeY: TimeInterval = 0.0
     fileprivate var _displayLink: NSUIDisplayLink?
@@ -149,7 +154,7 @@ open class Animator: NSObject
     @objc fileprivate func animationLoop()
     {
         let currentTime: TimeInterval = CACurrentMediaTime()
-        
+
         updateAnimationPhases(currentTime)
         
         if delegate != nil
@@ -189,6 +194,8 @@ open class Animator: NSObject
         
         _easingX = easingX
         _easingY = easingY
+
+        inTransition = false
         
         // Take care of the first frame if rendering is already scheduled...
         updateAnimationPhases(_startTimeX)
@@ -253,6 +260,8 @@ open class Animator: NSObject
         _enabledX = xAxisDuration > 0.0
         
         _easingX = easing
+
+        inTransition = false
         
         // Take care of the first frame if rendering is already scheduled...
         updateAnimationPhases(_startTimeX)
@@ -297,6 +306,8 @@ open class Animator: NSObject
         _enabledY = yAxisDuration > 0.0
         
         _easingY = easing
+
+        inTransition = false
         
         // Take care of the first frame if rendering is already scheduled...
         updateAnimationPhases(_startTimeY)
@@ -326,5 +337,37 @@ open class Animator: NSObject
     @objc open func animate(yAxisDuration: TimeInterval)
     {
         animate(yAxisDuration: yAxisDuration, easingOption: .easeInOutSine)
+    }
+
+    /// Animates the drawing / rendering of an updating chart from the previous set of data to new data
+    /// If `transition(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
+    /// - parameter yAxisDuration: duration for animating the y axis
+    /// - parameter diffValues: difference between datasets divided by new values (newArray - oldArray) / newArray
+    /// - parameter oldValues: division of old values by new values (oldArray / newArray)
+    @objc open func transition(yAxisDuration: TimeInterval, diffValues: [Double], oldValues: [Double])
+    {
+        _startTimeY = CACurrentMediaTime()
+        _durationY = yAxisDuration
+        _endTimeY = _startTimeY + yAxisDuration
+        _endTime = _endTimeX > _endTimeY ? _endTimeX : _endTimeY
+        _enabledY = yAxisDuration > 0.0
+
+        _easingY = easingFunctionFromOption(.easeInOutSine)
+
+        self.diffValues = diffValues
+        self.oldValues = oldValues
+
+        inTransition = true
+
+        updateAnimationPhases(_startTimeY)
+
+        if _enabledX || _enabledY
+        {
+            if _displayLink == nil
+            {
+                _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
+                _displayLink?.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
+            }
+        }
     }
 }
