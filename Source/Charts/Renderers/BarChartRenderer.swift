@@ -68,6 +68,24 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         }
     }
     
+    open func calcWidth(span: CGFloat) -> CGFloat
+    {
+        var width = CGFloat(60.0)
+        if (span < 240) { //z0
+            width = 60;
+        } else if (span < 1200) { //z1
+            width = 240;
+        } else if (span < 10000) { //z2
+            width = 960;
+        } else if (span < 80000) { //z3
+            width = 4800*3;
+        } else { //z4
+            width = 15360*2;
+        }
+        return width;
+    }
+    
+    
     fileprivate func prepareBuffer(dataSet: IBarChartDataSet, index: Int)
     {
         guard
@@ -101,6 +119,10 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             {
                 let left = CGFloat(x - barWidthHalf)
                 let right = CGFloat(x + barWidthHalf)
+                
+                let span = right - left;
+                let width = calcWidth(span: span)
+                
                 var top = isInverted
                     ? (y <= 0.0 ? CGFloat(y) : 0)
                     : (y >= 0.0 ? CGFloat(y) : 0)
@@ -119,7 +141,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 }
                 
                 barRect.origin.x = left
-                barRect.size.width = right - left
+                barRect.size.width = width;//right - left
                 barRect.origin.y = top
                 barRect.size.height = bottom - top
                 
@@ -164,8 +186,11 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                     top *= CGFloat(phaseY)
                     bottom *= CGFloat(phaseY)
                     
+                    let span = right - left;
+                    let width = calcWidth(span: span)
+                    
                     barRect.origin.x = left
-                    barRect.size.width = right - left
+                    barRect.size.width = width//right - left
                     barRect.origin.y = top
                     barRect.size.height = bottom - top
                     
@@ -339,7 +364,11 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         
         rect.origin.x = CGFloat(left)
         rect.origin.y = CGFloat(top)
-        rect.size.width = CGFloat(right - left)
+        
+        let span = right - left;
+        let width = calcWidth(span: CGFloat(span))
+        
+        rect.size.width = CGFloat(width) //right - left
         rect.size.height = CGFloat(bottom - top)
         
         trans.rectValueToPixel(&rect, phaseY: animator?.phaseY ?? 1.0)
