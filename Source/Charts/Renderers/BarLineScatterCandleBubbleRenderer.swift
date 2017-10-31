@@ -23,7 +23,7 @@ open class BarLineScatterCandleBubbleRenderer: DataRenderer
     }
     
     /// Checks if the provided entry object is in bounds for drawing considering the current animation phase.
-    internal func isInBoundsX(entry e: ChartDataEntry, dataSet: IBarLineScatterCandleBubbleChartDataSet) -> Bool
+    @objc internal func isInBoundsX(entry e: ChartDataEntry, dataSet: IBarLineScatterCandleBubbleChartDataSet) -> Bool
     {
         let entryIndex = dataSet.entryIndex(entry: e)
         
@@ -47,9 +47,9 @@ open class BarLineScatterCandleBubbleRenderer: DataRenderer
     }
     
     /// - returns: `true` if the DataSet values should be drawn, `false` if not.
-    internal func shouldDrawValues(forDataSet set: IChartDataSet) -> Bool
+    @objc internal func shouldDrawValues(forDataSet set: IChartDataSet) -> Bool
     {
-        return set.isVisible && set.isDrawValuesEnabled
+        return set.isVisible && (set.isDrawValuesEnabled || set.isDrawIconsEnabled)
     }
 
     /// Class representing the bounds of the current viewport in terms of indices in the values array of a DataSet.

@@ -19,9 +19,9 @@ import CoreGraphics
 
 open class ScatterChartRenderer: LineScatterCandleRadarRenderer
 {
-    open weak var dataProvider: ScatterChartDataProvider?
+    @objc open weak var dataProvider: ScatterChartDataProvider?
     
-    public init(dataProvider: ScatterChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    @objc public init(dataProvider: ScatterChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -50,7 +50,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
     
     fileprivate var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
     
-    open func drawDataSet(context: CGContext, dataSet: IScatterChartDataSet)
+    @objc open func drawDataSet(context: CGContext, dataSet: IScatterChartDataSet)
     {
         guard
             let dataProvider = dataProvider,
@@ -136,6 +136,8 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix
                 
+                let iconsOffset = dataSet.iconsOffset
+                
                 let shapeSize = dataSet.scatterShapeSize
                 let lineHeight = valueFont.lineHeight
                 
@@ -167,15 +169,27 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                         dataSetIndex: i,
                         viewPortHandler: viewPortHandler)
                     
-                    ChartUtils.drawText(
-                        context: context,
-                        text: text,
-                        point: CGPoint(
-                            x: pt.x,
-                            y: pt.y - shapeSize - lineHeight),
-                        align: .center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
-                    )
+                    if dataSet.isDrawValuesEnabled
+                    {
+                        ChartUtils.drawText(
+                            context: context,
+                            text: text,
+                            point: CGPoint(
+                                x: pt.x,
+                                y: pt.y - shapeSize - lineHeight),
+                            align: .center,
+                            attributes: [NSAttributedStringKey.font: valueFont, NSAttributedStringKey.foregroundColor: dataSet.valueTextColorAt(j)]
+                        )
+                    }
+                    
+                    if let icon = e.icon, dataSet.isDrawIconsEnabled
+                    {
+                        ChartUtils.drawImage(context: context,
+                                             image: icon,
+                                             x: pt.x + iconsOffset.x,
+                                             y: pt.y + iconsOffset.y,
+                                             size: icon.size)
+                    }
                 }
             }
         }

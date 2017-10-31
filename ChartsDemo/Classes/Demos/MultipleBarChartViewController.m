@@ -67,7 +67,8 @@
     legend.orientation = ChartLegendOrientationVertical;
     legend.drawInside = YES;
     legend.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:8.f];
-    legend.yOffset = 0.0;
+    legend.yOffset = 10.0;
+    legend.xOffset = 10.0;
     legend.yEntrySpace = 0.0;
     
     ChartXAxis *xAxis = _chartView.xAxis;
@@ -83,7 +84,7 @@
     leftAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     leftAxis.valueFormatter = [[LargeValueFormatter alloc] init];
     leftAxis.drawGridLinesEnabled = NO;
-    leftAxis.spaceTop = 0.25;
+    leftAxis.spaceTop = 0.35;
     leftAxis.axisMinimum = 0;
     
     _chartView.rightAxis.enabled = NO;
@@ -112,41 +113,52 @@
 
 - (void)setDataCount:(int)count range:(double)range
 {
-    float groupSpace = 0.04f;
-    float barSpace = 0.02f;
-    float barWidth = 0.3f;
-    // (0.3 + 0.02) * 3 + 0.04 = 1.00
+    float groupSpace = 0.08f;
+    float barSpace = 0.03f;
+    float barWidth = 0.2f;
+    // (0.2 + 0.03) * 4 + 0.08 = 1.00 -> interval per "group"
 
     NSMutableArray *yVals1 = [[NSMutableArray alloc] init];
     NSMutableArray *yVals2 = [[NSMutableArray alloc] init];
     NSMutableArray *yVals3 = [[NSMutableArray alloc] init];
+    NSMutableArray *yVals4 = [[NSMutableArray alloc] init];
     
-    double mult = range * 100000.f;
+    double randomMultiplier = range * 100000.f;
     
+    int groupCount = count + 1;
     int startYear = 1980;
-    int endYear = startYear + _sliderX.value;
+    int endYear = startYear + groupCount;
 
     for (int i = startYear; i < endYear; i++)
     {
-        double val = (double) (arc4random_uniform(mult) + 3.0);
-        [yVals1 addObject:[[BarChartDataEntry alloc] initWithX:i y:val]];
+        [yVals1 addObject:[[BarChartDataEntry alloc]
+                           initWithX:i
+                           y:(double) (arc4random_uniform(randomMultiplier))]];
         
-        val = (double) (arc4random_uniform(mult) + 3.0);
-        [yVals2 addObject:[[BarChartDataEntry alloc] initWithX:i y:val]];
+        [yVals2 addObject:[[BarChartDataEntry alloc]
+                           initWithX:i
+                           y:(double) (arc4random_uniform(randomMultiplier))]];
         
-        val = (double) (arc4random_uniform(mult) + 3.0);
-        [yVals3 addObject:[[BarChartDataEntry alloc] initWithX:i y:val]];
+        [yVals3 addObject:[[BarChartDataEntry alloc]
+                           initWithX:i
+                           y:(double) (arc4random_uniform(randomMultiplier))]];
+        
+        [yVals4 addObject:[[BarChartDataEntry alloc]
+                           initWithX:i
+                           y:(double) (arc4random_uniform(randomMultiplier))]];
     }
     
-    BarChartDataSet *set1 = nil, *set2 = nil, *set3 = nil;
+    BarChartDataSet *set1 = nil, *set2 = nil, *set3 = nil, *set4 = nil;
     if (_chartView.data.dataSetCount > 0)
     {
         set1 = (BarChartDataSet *)_chartView.data.dataSets[0];
         set2 = (BarChartDataSet *)_chartView.data.dataSets[1];
         set3 = (BarChartDataSet *)_chartView.data.dataSets[2];
+        set4 = (BarChartDataSet *)_chartView.data.dataSets[3];
         set1.values = yVals1;
         set2.values = yVals2;
         set3.values = yVals3;
+        set4.values = yVals4;
         
         BarChartData *data = _chartView.barData;
         
@@ -168,19 +180,28 @@
         set3 = [[BarChartDataSet alloc] initWithValues:yVals3 label:@"Company C"];
         [set3 setColor:[UIColor colorWithRed:242/255.f green:247/255.f blue:158/255.f alpha:1.f]];
         
+        set4 = [[BarChartDataSet alloc] initWithValues:yVals4 label:@"Company D"];
+        [set4 setColor:[UIColor colorWithRed:255/255.f green:102/255.f blue:0/255.f alpha:1.f]];
+        
         NSMutableArray *dataSets = [[NSMutableArray alloc] init];
         [dataSets addObject:set1];
         [dataSets addObject:set2];
         [dataSets addObject:set3];
+        [dataSets addObject:set4];
         
         BarChartData *data = [[BarChartData alloc] initWithDataSets:dataSets];
         [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
         [data setValueFormatter:[[LargeValueFormatter alloc] init]];
         
+        // specify the width each bar should have
         data.barWidth = barWidth;
         
+        // restrict the x-axis range
         _chartView.xAxis.axisMinimum = startYear;
-        _chartView.xAxis.axisMaximum = [data groupWidthWithGroupSpace:groupSpace barSpace: barSpace] * _sliderX.value + startYear;
+        
+        // groupWidthWithGroupSpace(...) is a helper that calculates the width each group needs based on the provided parameters
+        _chartView.xAxis.axisMaximum = startYear + [data groupWidthWithGroupSpace:groupSpace barSpace: barSpace] * groupCount;
+        
         [data groupBarsFromX: startYear groupSpace: groupSpace barSpace: barSpace];
         
         _chartView.data = data;

@@ -20,7 +20,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
 {
     fileprivate weak var chart: RadarChartView?
     
-    public init(viewPortHandler: ViewPortHandler?, yAxis: YAxis?, chart: RadarChartView?)
+    @objc public init(viewPortHandler: ViewPortHandler?, yAxis: YAxis?, chart: RadarChartView?)
     {
         super.init(viewPortHandler: viewPortHandler, yAxis: yAxis, transformer: nil)
         
@@ -177,17 +177,13 @@ open class YAxisRendererRadarChart: YAxisRenderer
         let center = chart.centerOffsets
         let factor = chart.factor
         
-        let labelCount = yAxis.entryCount
-        
         let labelLineHeight = yAxis.labelFont.lineHeight
         
-        for j in 0 ..< labelCount
+        let from = yAxis.isDrawBottomYLabelEntryEnabled ? 0 : 1
+        let to = yAxis.isDrawTopYLabelEntryEnabled ? yAxis.entryCount : (yAxis.entryCount - 1)
+        
+        for j in stride(from: from, to: to, by: 1)
         {
-            if j == labelCount - 1 && yAxis.isDrawTopYLabelEntryEnabled == false
-            {
-                break
-            }
-            
             let r = CGFloat(yAxis.entries[j] - yAxis._axisMinimum) * factor
             
             let p = ChartUtils.getPosition(center: center, dist: r, angle: chart.rotationAngle)
@@ -200,8 +196,8 @@ open class YAxisRendererRadarChart: YAxisRenderer
                 point: CGPoint(x: p.x + 10.0, y: p.y - labelLineHeight),
                 align: .left,
                 attributes: [
-                    NSFontAttributeName: labelFont,
-                    NSForegroundColorAttributeName: labelTextColor
+                    NSAttributedStringKey.font: labelFont,
+                    NSAttributedStringKey.foregroundColor: labelTextColor
                 ])
         }
     }

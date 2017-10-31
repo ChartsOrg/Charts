@@ -17,20 +17,20 @@ import CoreGraphics
 open class Transformer: NSObject
 {
     /// matrix to map the values to the screen pixels
-    internal var _matrixValueToPx = CGAffineTransform.identity
+    @objc internal var _matrixValueToPx = CGAffineTransform.identity
 
     /// matrix for handling the different offsets of the chart
-    internal var _matrixOffset = CGAffineTransform.identity
+    @objc internal var _matrixOffset = CGAffineTransform.identity
 
-    internal var _viewPortHandler: ViewPortHandler
+    @objc internal var _viewPortHandler: ViewPortHandler
 
-    public init(viewPortHandler: ViewPortHandler)
+    @objc public init(viewPortHandler: ViewPortHandler)
     {
         _viewPortHandler = viewPortHandler
     }
 
     /// Prepares the matrix that transforms values to pixels. Calculates the scale factors from the charts size and offsets.
-    open func prepareMatrixValuePx(chartXMin: Double, deltaX: CGFloat, deltaY: CGFloat, chartYMin: Double)
+    @objc open func prepareMatrixValuePx(chartXMin: Double, deltaX: CGFloat, deltaY: CGFloat, chartYMin: Double)
     {
         var scaleX = (_viewPortHandler.contentWidth / deltaX)
         var scaleY = (_viewPortHandler.contentHeight / deltaY)
@@ -51,7 +51,7 @@ open class Transformer: NSObject
     }
 
     /// Prepares the matrix that contains all offsets.
-    open func prepareMatrixOffset(inverted: Bool)
+    @objc open func prepareMatrixOffset(inverted: Bool)
     {
         if !inverted
         {
@@ -80,7 +80,7 @@ open class Transformer: NSObject
         point = point.applying(valueToPixelMatrix)
     }
     
-    open func pixelForValues(x: Double, y: Double) -> CGPoint
+    @objc open func pixelForValues(x: Double, y: Double) -> CGPoint
     {
         return CGPoint(x: x, y: y).applying(valueToPixelMatrix)
     }
@@ -153,7 +153,7 @@ open class Transformer: NSObject
     /// - returns: The x and y values in the chart at the given touch point
     /// (encapsulated in a CGPoint). This method transforms pixel coordinates to
     /// coordinates / values in the chart.
-    open func valueForTouchPoint(_ point: CGPoint) -> CGPoint
+    @objc open func valueForTouchPoint(_ point: CGPoint) -> CGPoint
     {
         return point.applying(pixelToValueMatrix)
     }
@@ -161,12 +161,12 @@ open class Transformer: NSObject
     /// - returns: The x and y values in the chart at the given touch point
     /// (x/y). This method transforms pixel coordinates to
     /// coordinates / values in the chart.
-    open func valueForTouchPoint(x: CGFloat, y: CGFloat) -> CGPoint
+    @objc open func valueForTouchPoint(x: CGFloat, y: CGFloat) -> CGPoint
     {
         return CGPoint(x: x, y: y).applying(pixelToValueMatrix)
     }
     
-    open var valueToPixelMatrix: CGAffineTransform
+    @objc open var valueToPixelMatrix: CGAffineTransform
     {
         return
             _matrixValueToPx.concatenating(_viewPortHandler.touchMatrix
@@ -174,7 +174,7 @@ open class Transformer: NSObject
         )
     }
     
-    open var pixelToValueMatrix: CGAffineTransform
+    @objc open var pixelToValueMatrix: CGAffineTransform
     {
         return valueToPixelMatrix.inverted()
     }

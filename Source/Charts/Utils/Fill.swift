@@ -40,52 +40,52 @@ open class Fill: NSObject
     
     // MARK: Properties
     
-    open var type: FillType
+    @objc open var type: FillType
     {
         return _type
     }
     
-    open var color: CGColor?
+    @objc open var color: CGColor?
     {
         return _color
     }
     
-    open var gradient: CGGradient?
+    @objc open var gradient: CGGradient?
     {
         return _gradient
     }
     
-    open var gradientAngle: CGFloat
+    @objc open var gradientAngle: CGFloat
     {
         return _gradientAngle
     }
     
-    open var gradientStartOffsetPercent: CGPoint
+    @objc open var gradientStartOffsetPercent: CGPoint
     {
         return _gradientStartOffsetPercent
     }
     
-    open var gradientStartRadiusPercent: CGFloat
+    @objc open var gradientStartRadiusPercent: CGFloat
     {
         return _gradientStartRadiusPercent
     }
     
-    open var gradientEndOffsetPercent: CGPoint
+    @objc open var gradientEndOffsetPercent: CGPoint
     {
         return _gradientEndOffsetPercent
     }
     
-    open var gradientEndRadiusPercent: CGFloat
+    @objc open var gradientEndRadiusPercent: CGFloat
     {
         return _gradientEndRadiusPercent
     }
     
-    open var image: CGImage?
+    @objc open var image: CGImage?
     {
         return _image
     }
     
-    open var layer: CGLayer?
+    @objc open var layer: CGLayer?
     {
         return _layer
     }
@@ -96,25 +96,25 @@ open class Fill: NSObject
     {
     }
     
-    public init(CGColor: CGColor)
+    @objc public init(CGColor: CGColor)
     {
         _type = .color
         _color = CGColor
     }
     
-    public convenience init(color: NSUIColor)
+    @objc public convenience init(color: NSUIColor)
     {
         self.init(CGColor: color.cgColor)
     }
     
-    public init(linearGradient: CGGradient, angle: CGFloat)
+    @objc public init(linearGradient: CGGradient, angle: CGFloat)
     {
         _type = .linearGradient
         _gradient = linearGradient
         _gradientAngle = angle
     }
     
-    public init(
+    @objc public init(
         radialGradient: CGGradient,
         startOffsetPercent: CGPoint,
         startRadiusPercent: CGFloat,
@@ -130,7 +130,7 @@ open class Fill: NSObject
         _gradientEndRadiusPercent = endRadiusPercent
     }
     
-    public convenience init(radialGradient: CGGradient)
+    @objc public convenience init(radialGradient: CGGradient)
     {
         self.init(
             radialGradient: radialGradient,
@@ -141,28 +141,28 @@ open class Fill: NSObject
         )
     }
     
-    public init(CGImage: CGImage, tiled: Bool)
+    @objc public init(CGImage: CGImage, tiled: Bool)
     {
         _type = tiled ? .tiledImage : .image
         _image = CGImage
     }
     
-    public convenience init(image: NSUIImage, tiled: Bool)
+    @objc public convenience init(image: NSUIImage, tiled: Bool)
     {
         self.init(CGImage: image.cgImage!, tiled: tiled)
     }
     
-    public convenience init(CGImage: CGImage)
+    @objc public convenience init(CGImage: CGImage)
     {
         self.init(CGImage: CGImage, tiled: false)
     }
     
-    public convenience init(image: NSUIImage)
+    @objc public convenience init(image: NSUIImage)
     {
         self.init(image: image, tiled: false)
     }
     
-    public init(CGLayer: CGLayer)
+    @objc public init(CGLayer: CGLayer)
     {
         _type = .layer
         _layer = CGLayer
@@ -170,24 +170,24 @@ open class Fill: NSObject
     
     // MARK: Constructors
     
-    open class func fillWithCGColor(_ CGColor: CGColor) -> Fill
+    @objc open class func fillWithCGColor(_ CGColor: CGColor) -> Fill
     {
         return Fill(CGColor: CGColor)
     }
     
-    open class func fillWithColor(_ color: NSUIColor) -> Fill
+    @objc open class func fillWithColor(_ color: NSUIColor) -> Fill
     {
         return Fill(color: color)
     }
     
-    open class func fillWithLinearGradient(
+    @objc open class func fillWithLinearGradient(
         _ linearGradient: CGGradient,
         angle: CGFloat) -> Fill
     {
         return Fill(linearGradient: linearGradient, angle: angle)
     }
     
-    open class func fillWithRadialGradient(
+    @objc open class func fillWithRadialGradient(
         _ radialGradient: CGGradient,
         startOffsetPercent: CGPoint,
         startRadiusPercent: CGFloat,
@@ -204,32 +204,32 @@ open class Fill: NSObject
         )
     }
     
-    open class func fillWithRadialGradient(_ radialGradient: CGGradient) -> Fill
+    @objc open class func fillWithRadialGradient(_ radialGradient: CGGradient) -> Fill
     {
         return Fill(radialGradient: radialGradient)
     }
     
-    open class func fillWithCGImage(_ CGImage: CGImage, tiled: Bool) -> Fill
+    @objc open class func fillWithCGImage(_ CGImage: CGImage, tiled: Bool) -> Fill
     {
         return Fill(CGImage: CGImage, tiled: tiled)
     }
     
-    open class func fillWithImage(_ image: NSUIImage, tiled: Bool) -> Fill
+    @objc open class func fillWithImage(_ image: NSUIImage, tiled: Bool) -> Fill
     {
         return Fill(image: image, tiled: tiled)
     }
     
-    open class func fillWithCGImage(_ CGImage: CGImage) -> Fill
+    @objc open class func fillWithCGImage(_ CGImage: CGImage) -> Fill
     {
         return Fill(CGImage: CGImage)
     }
     
-    open class func fillWithImage(_ image: NSUIImage) -> Fill
+    @objc open class func fillWithImage(_ image: NSUIImage) -> Fill
     {
         return Fill(image: image)
     }
     
-    open class func fillWithCGLayer(_ CGLayer: CGLayer) -> Fill
+    @objc open class func fillWithCGLayer(_ CGLayer: CGLayer) -> Fill
     {
         return Fill(CGLayer: CGLayer)
     }
@@ -237,7 +237,7 @@ open class Fill: NSObject
     // MARK: Drawing code
     
     /// Draws the provided path in filled mode with the provided area
-    open func fillPath(
+    @objc open func fillPath(
         context: CGContext,
         rect: CGRect)
     {

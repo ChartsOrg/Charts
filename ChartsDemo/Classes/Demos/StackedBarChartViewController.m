@@ -32,6 +32,7 @@
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
+                     @{@"key": @"toggleIcons", @"label": @"Toggle Icons"},
                      @{@"key": @"toggleHighlight", @"label": @"Toggle Highlight"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
@@ -111,7 +112,7 @@
         double val2 = (double) (arc4random_uniform(mult) + mult / 3);
         double val3 = (double) (arc4random_uniform(mult) + mult / 3);
         
-        [yVals addObject:[[BarChartDataEntry alloc] initWithX:i yValues:@[@(val1), @(val2), @(val3)]]];
+        [yVals addObject:[[BarChartDataEntry alloc] initWithX:i yValues:@[@(val1), @(val2), @(val3)] icon: [UIImage imageNamed:@"icon"]]];
     }
     
     BarChartDataSet *set1 = nil;
@@ -125,6 +126,9 @@
     else
     {
         set1 = [[BarChartDataSet alloc] initWithValues:yVals label:@"Statistics Vienna 2014"];
+        
+        set1.drawIconsEnabled = NO;
+        
         set1.colors = @[ChartColorTemplates.material[0], ChartColorTemplates.material[1], ChartColorTemplates.material[2]];
         set1.stackLabels = @[@"Births", @"Divorces", @"Marriages"];
         

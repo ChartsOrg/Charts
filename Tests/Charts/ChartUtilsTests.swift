@@ -1,11 +1,3 @@
-//
-//  ChartUtilsTests.swift
-//  Charts
-//
-//  Created by Pierre-Marc Airoldi on 2016-09-25.
-//
-//
-
 import XCTest
 @testable import Charts
 
@@ -53,7 +45,7 @@ class ChartUtilsTests: XCTestCase {
     
     func testDecimalWithMaxValue() {
         
-        let number = DBL_MAX
+        let number = Double.greatestFiniteMagnitude
         
         let actual = ChartUtils.decimals(number)
         let expected = 0
@@ -63,7 +55,7 @@ class ChartUtilsTests: XCTestCase {
     
     func testDecimalWithMinValue() {
         
-        let number = DBL_MIN
+        let number = Double.leastNormalMagnitude
         
         let actual = ChartUtils.decimals(number)
         let expected = 310 // Don't think this is supposed to be this value maybe 0?

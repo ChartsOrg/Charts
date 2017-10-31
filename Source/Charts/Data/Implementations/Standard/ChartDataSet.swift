@@ -38,7 +38,7 @@ open class ChartDataSet: ChartBaseDataSet
         _values = [ChartDataEntry]()
     }
     
-    public init(values: [ChartDataEntry]?, label: String?)
+    @objc public init(values: [ChartDataEntry]?, label: String?)
     {
         super.init(label: label)
         
@@ -47,7 +47,7 @@ open class ChartDataSet: ChartBaseDataSet
         self.calcMinMax()
     }
     
-    public convenience init(values: [ChartDataEntry]?)
+    @objc public convenience init(values: [ChartDataEntry]?)
     {
         self.init(values: values, label: "DataSet")
     }
@@ -55,24 +55,24 @@ open class ChartDataSet: ChartBaseDataSet
     // MARK: - Data functions and accessors
     
     /// the entries that this dataset represents / holds together
-    internal var _values: [ChartDataEntry]!
+    @objc internal var _values: [ChartDataEntry]!
     
     /// maximum y-value in the value array
-    internal var _yMax: Double = -DBL_MAX
+    @objc internal var _yMax: Double = -Double.greatestFiniteMagnitude
     
     /// minimum y-value in the value array
-    internal var _yMin: Double = DBL_MAX
+    @objc internal var _yMin: Double = Double.greatestFiniteMagnitude
     
     /// maximum x-value in the value array
-    internal var _xMax: Double = -DBL_MAX
+    @objc internal var _xMax: Double = -Double.greatestFiniteMagnitude
     
     /// minimum x-value in the value array
-    internal var _xMin: Double = DBL_MAX
+    @objc internal var _xMin: Double = Double.greatestFiniteMagnitude
     
     /// *
     /// - note: Calls `notifyDataSetChanged()` after setting a new value.
     /// - returns: The array of y-values that this DataSet represents.
-    open var values: [ChartDataEntry]
+    @objc open var values: [ChartDataEntry]
     {
         get
         {
@@ -98,10 +98,10 @@ open class ChartDataSet: ChartBaseDataSet
             return
         }
         
-        _yMax = -DBL_MAX
-        _yMin = DBL_MAX
-        _xMax = -DBL_MAX
-        _xMin = DBL_MAX
+        _yMax = -Double.greatestFiniteMagnitude
+        _yMin = Double.greatestFiniteMagnitude
+        _xMax = -Double.greatestFiniteMagnitude
+        _xMin = Double.greatestFiniteMagnitude
         
         for e in _values
         {
@@ -116,22 +116,22 @@ open class ChartDataSet: ChartBaseDataSet
             return
         }
         
-        _yMax = -DBL_MAX
-        _yMin = DBL_MAX
+        _yMax = -Double.greatestFiniteMagnitude
+        _yMin = Double.greatestFiniteMagnitude
         
         let indexFrom = entryIndex(x: fromX, closestToY: Double.nan, rounding: .down)
         let indexTo = entryIndex(x: toX, closestToY: Double.nan, rounding: .up)
         
-        if indexTo <= indexFrom { return }
+        if indexTo < indexFrom { return }
         
-        for i in indexFrom..<indexTo
+        for i in indexFrom...indexTo
         {
             // only recalculate y
             calcMinMaxY(entry: _values[i])
         }
     }
     
-    open func calcMinMaxX(entry e: ChartDataEntry)
+    @objc open func calcMinMaxX(entry e: ChartDataEntry)
     {
         if e.x < _xMin
         {
@@ -143,7 +143,7 @@ open class ChartDataSet: ChartBaseDataSet
         }
     }
     
-    open func calcMinMaxY(entry e: ChartDataEntry)
+    @objc open func calcMinMaxY(entry e: ChartDataEntry)
     {
         if e.y < _yMin
         {
@@ -158,7 +158,7 @@ open class ChartDataSet: ChartBaseDataSet
     /// Updates the min and max x and y value of this DataSet based on the given Entry.
     ///
     /// - parameter e:
-    internal func calcMinMax(entry e: ChartDataEntry)
+    @objc internal func calcMinMax(entry e: ChartDataEntry)
     {
         calcMinMaxX(entry: e)
         calcMinMaxY(entry: e)
@@ -184,6 +184,9 @@ open class ChartDataSet: ChartBaseDataSet
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
     open override func entryForIndex(_ i: Int) -> ChartDataEntry?
     {
+        guard i >= 0 && i < _values.count else {
+            return nil
+        }
         return _values[i]
     }
     

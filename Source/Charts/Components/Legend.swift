@@ -92,11 +92,11 @@ open class Legend: ComponentBase
     }
     
     /// The legend entries array
-    open var entries = [LegendEntry]()
+    @objc open var entries = [LegendEntry]()
     
     /// Entries that will be appended to the end of the auto calculated entries after calculating the legend.
     /// (if the legend has already been calculated, you will need to call notifyDataSetChanged() to let the changes take effect)
-    open var extraEntries = [LegendEntry]()
+    @objc open var extraEntries = [LegendEntry]()
     
     /// Are the legend labels/colors a custom value or auto calculated? If false, then it's auto, if true, then custom.
     /// 
@@ -104,7 +104,7 @@ open class Legend: ComponentBase
     fileprivate var _isLegendCustom = false
     
     /// This property is deprecated - Use `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.
-    @available(*, deprecated: 1.0, message: "Use `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.")
+    @objc @available(*, deprecated: 1.0, message: "Use `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.")
     open var position: Position
     {
         get
@@ -179,55 +179,55 @@ open class Legend: ComponentBase
     }
     
     /// The horizontal alignment of the legend
-    open var horizontalAlignment: HorizontalAlignment = HorizontalAlignment.left
+    @objc open var horizontalAlignment: HorizontalAlignment = HorizontalAlignment.left
     
     /// The vertical alignment of the legend
-    open var verticalAlignment: VerticalAlignment = VerticalAlignment.bottom
+    @objc open var verticalAlignment: VerticalAlignment = VerticalAlignment.bottom
     
     /// The orientation of the legend
-    open var orientation: Orientation = Orientation.horizontal
+    @objc open var orientation: Orientation = Orientation.horizontal
     
     /// Flag indicating whether the legend will draw inside the chart or outside
-    open var drawInside: Bool = false
+    @objc open var drawInside: Bool = false
     
     /// Flag indicating whether the legend will draw inside the chart or outside
-    open var isDrawInsideEnabled: Bool { return drawInside }
+    @objc open var isDrawInsideEnabled: Bool { return drawInside }
     
     /// The text direction of the legend
-    open var direction: Direction = Direction.leftToRight
+    @objc open var direction: Direction = Direction.leftToRight
 
-    open var font: NSUIFont = NSUIFont.systemFont(ofSize: 10.0)
-    open var textColor = NSUIColor.black
+    @objc open var font: NSUIFont = NSUIFont.systemFont(ofSize: 10.0)
+    @objc open var textColor = NSUIColor.black
 
     /// The form/shape of the legend forms
-    open var form = Form.square
+    @objc open var form = Form.square
     
     /// The size of the legend forms
-    open var formSize = CGFloat(8.0)
+    @objc open var formSize = CGFloat(8.0)
     
     /// The line width for forms that consist of lines
-    open var formLineWidth = CGFloat(3.0)
+    @objc open var formLineWidth = CGFloat(3.0)
     
     /// Line dash configuration for shapes that consist of lines.
     ///
     /// This is how much (in pixels) into the dash pattern are we starting from.
-    open var formLineDashPhase: CGFloat = 0.0
+    @objc open var formLineDashPhase: CGFloat = 0.0
     
     /// Line dash configuration for shapes that consist of lines.
     ///
     /// This is the actual dash pattern.
     /// I.e. [2, 3] will paint [--   --   ]
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
-    open var formLineDashLengths: [CGFloat]?
+    @objc open var formLineDashLengths: [CGFloat]?
     
-    open var xEntrySpace = CGFloat(6.0)
-    open var yEntrySpace = CGFloat(0.0)
-    open var formToTextSpace = CGFloat(5.0)
-    open var stackSpace = CGFloat(3.0)
+    @objc open var xEntrySpace = CGFloat(6.0)
+    @objc open var yEntrySpace = CGFloat(0.0)
+    @objc open var formToTextSpace = CGFloat(5.0)
+    @objc open var stackSpace = CGFloat(3.0)
     
-    open var calculatedLabelSizes = [CGSize]()
-    open var calculatedLabelBreakPoints = [Bool]()
-    open var calculatedLineSizes = [CGSize]()
+    @objc open var calculatedLabelSizes = [CGSize]()
+    @objc open var calculatedLabelBreakPoints = [Bool]()
+    @objc open var calculatedLineSizes = [CGSize]()
     
     public override init()
     {
@@ -237,14 +237,14 @@ open class Legend: ComponentBase
         self.yOffset = 3.0
     }
     
-    public init(entries: [LegendEntry])
+    @objc public init(entries: [LegendEntry])
     {
         super.init()
         
         self.entries = entries
     }
     
-    open func getMaximumEntrySize(withFont font: NSUIFont) -> CGSize
+    @objc open func getMaximumEntrySize(withFont font: NSUIFont) -> CGSize
     {
         var maxW = CGFloat(0.0)
         var maxH = CGFloat(0.0)
@@ -262,7 +262,7 @@ open class Legend: ComponentBase
             guard let label = entry.label
                 else { continue }
             
-            let size = (label as NSString!).size(attributes: [NSFontAttributeName: font])
+            let size = (label as NSString!).size(withAttributes: [NSAttributedStringKey.font: font])
             
             if size.width > maxW
             {
@@ -280,29 +280,29 @@ open class Legend: ComponentBase
         )
     }
 
-    open var neededWidth = CGFloat(0.0)
-    open var neededHeight = CGFloat(0.0)
-    open var textWidthMax = CGFloat(0.0)
-    open var textHeightMax = CGFloat(0.0)
+    @objc open var neededWidth = CGFloat(0.0)
+    @objc open var neededHeight = CGFloat(0.0)
+    @objc open var textWidthMax = CGFloat(0.0)
+    @objc open var textHeightMax = CGFloat(0.0)
     
     /// flag that indicates if word wrapping is enabled
     /// this is currently supported only for `orientation == Horizontal`.
     /// you may want to set maxSizePercent when word wrapping, to set the point where the text wraps.
     /// 
-    /// **default**: false
-    open var wordWrapEnabled = true
+    /// **default**: true
+    @objc open var wordWrapEnabled = true
     
     /// if this is set, then word wrapping the legend is enabled.
-    open var isWordWrapEnabled: Bool { return wordWrapEnabled }
+    @objc open var isWordWrapEnabled: Bool { return wordWrapEnabled }
 
     /// The maximum relative size out of the whole chart view in percent.
     /// If the legend is to the right/left of the chart, then this affects the width of the legend.
     /// If the legend is to the top/bottom of the chart, then this affects the height of the legend.
     /// 
     /// **default**: 0.95 (95%)
-    open var maxSizePercent: CGFloat = 0.95
+    @objc open var maxSizePercent: CGFloat = 0.95
     
-    open func calculateDimensions(labelFont: NSUIFont, viewPortHandler: ViewPortHandler)
+    @objc open func calculateDimensions(labelFont: NSUIFont, viewPortHandler: ViewPortHandler)
     {
         let maxEntrySize = getMaximumEntrySize(withFont: labelFont)
         let defaultFormSize = self.formSize
@@ -351,7 +351,7 @@ open class Legend: ComponentBase
                 
                 if label != nil
                 {
-                    let size = (label as NSString!).size(attributes: [NSFontAttributeName: labelFont])
+                    let size = (label as NSString!).size(withAttributes: [NSAttributedStringKey.font: labelFont])
                     
                     if drawingForm && !wasStacked
                     {
@@ -410,7 +410,7 @@ open class Legend: ComponentBase
             
             // Start calculating layout
             
-            let labelAttrs = [NSFontAttributeName: labelFont]
+            let labelAttrs = [NSAttributedStringKey.font: labelFont]
             var maxLineWidth: CGFloat = 0.0
             var currentLineWidth: CGFloat = 0.0
             var requiredWidth: CGFloat = 0.0
@@ -438,7 +438,7 @@ open class Legend: ComponentBase
                 // grouped forms have null labels
                 if label != nil
                 {
-                    calculatedLabelSizes[i] = (label as NSString!).size(attributes: labelAttrs)
+                    calculatedLabelSizes[i] = (label as NSString!).size(withAttributes: labelAttrs)
                     requiredWidth += drawingForm ? formToTextSpace + formSize : 0.0
                     requiredWidth += calculatedLabelSizes[i].width
                 }
@@ -502,21 +502,21 @@ open class Legend: ComponentBase
     /// * A nil label will start a group.
     /// This will disable the feature that automatically calculates the legend entries from the datasets.
     /// Call `resetCustom(...)` to re-enable automatic calculation (and then `notifyDataSetChanged()` is needed).
-    open func setCustom(entries: [LegendEntry])
+    @objc open func setCustom(entries: [LegendEntry])
     {
         self.entries = entries
         _isLegendCustom = true
     }
     
     /// Calling this will disable the custom legend entries (set by `setLegend(...)`). Instead, the entries will again be calculated automatically (after `notifyDataSetChanged()` is called).
-    open func resetCustom()
+    @objc open func resetCustom()
     {
         _isLegendCustom = false
     }
     
     /// **default**: false (automatic legend)
     /// - returns: `true` if a custom legend entries has been set
-    open var isLegendCustom: Bool
+    @objc open var isLegendCustom: Bool
     {
         return _isLegendCustom
     }
@@ -684,7 +684,7 @@ open class Legend: ComponentBase
     }
     
     /// This constructor is deprecated - Use `init(entries:)`
-    @available(*, deprecated: 1.0, message: "Use `init(entries:)`")
+    @objc @available(*, deprecated: 1.0, message: "Use `init(entries:)`")
     public init(colors: [NSObject], labels: [NSObject])
     {
         super.init()
@@ -713,21 +713,21 @@ open class Legend: ComponentBase
     }
     
     /// This property is deprecated - Use `extraEntries`
-    @available(*, deprecated: 1.0, message: "Use `extraEntries`")
+    @objc @available(*, deprecated: 1.0, message: "Use `extraEntries`")
     open var extraColorsObjc: [NSObject]
     {
         return ChartUtils.bridgedObjCGetNSUIColorArray(swift: extraColors)
     }
     
     /// This property is deprecated - Use `extraLabels`
-    @available(*, deprecated: 1.0, message: "Use `extraLabels`")
+    @objc @available(*, deprecated: 1.0, message: "Use `extraLabels`")
     open var extraLabelsObjc: [NSObject]
     {
         return ChartUtils.bridgedObjCGetStringArray(swift: extraLabels)
     }
     
     /// This property is deprecated - Use `colors`
-    @available(*, deprecated: 1.0, message: "Use `colors`")
+    @objc @available(*, deprecated: 1.0, message: "Use `colors`")
     open var colorsObjc: [NSObject]
     {
         get { return ChartUtils.bridgedObjCGetNSUIColorArray(swift: colors) }
@@ -735,7 +735,7 @@ open class Legend: ComponentBase
     }
     
     /// This property is deprecated - Use `labels`
-    @available(*, deprecated: 1.0, message: "Use `labels`")
+    @objc @available(*, deprecated: 1.0, message: "Use `labels`")
     open var labelsObjc: [NSObject]
     {
         get { return ChartUtils.bridgedObjCGetStringArray(swift: labels) }
@@ -743,7 +743,7 @@ open class Legend: ComponentBase
     }
     
     /// This function is deprecated - Use `entries`
-    @available(*, deprecated: 1.0, message: "Use `entries`")
+    @objc @available(*, deprecated: 1.0, message: "Use `entries`")
     open func getLabel(_ index: Int) -> String?
     {
         return entries[index].label
@@ -777,7 +777,7 @@ open class Legend: ComponentBase
     }
     
     /// This function is deprecated - Use `Use `extra(entries:)`
-    @available(*, deprecated: 1.0, message: "Use `extra(entries:)`")
+    @objc @available(*, deprecated: 1.0, message: "Use `extra(entries:)`")
     open func setExtra(colors: [NSObject], labels: [NSObject])
     {
         var entries = [LegendEntry]()
@@ -831,7 +831,7 @@ open class Legend: ComponentBase
     }
     
     /// This function is deprecated - Use `Use `setCustom(entries:)`
-    @available(*, deprecated: 1.0, message: "Use `setCustom(entries:)`")
+    @objc @available(*, deprecated: 1.0, message: "Use `setCustom(entries:)`")
     open func setCustom(colors: [NSObject], labels: [NSObject])
     {
         var entries = [LegendEntry]()

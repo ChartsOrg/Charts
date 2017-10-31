@@ -19,9 +19,9 @@ import CoreGraphics
 
 open class RadarChartRenderer: LineRadarRenderer
 {
-    open weak var chart: RadarChartView?
+    @objc open weak var chart: RadarChartView?
 
-    public init(chart: RadarChartView?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    @objc public init(chart: RadarChartView?, animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -53,7 +53,7 @@ open class RadarChartRenderer: LineRadarRenderer
     /// - parameter context:
     /// - parameter dataSet:
     /// - parameter mostEntries: the entry count of the dataset with the most entries
-    internal func drawDataSet(context: CGContext, dataSet: IRadarChartDataSet, mostEntries: Int)
+    @objc internal func drawDataSet(context: CGContext, dataSet: IRadarChartDataSet, mostEntries: Int)
     {
         guard let
             chart = chart,
@@ -168,6 +168,8 @@ open class RadarChartRenderer: LineRadarRenderer
             
             let entryCount = dataSet.entryCount
             
+            let iconsOffset = dataSet.iconsOffset
+            
             for j in 0 ..< entryCount
             {
                 guard let e = dataSet.entryForIndex(j) else { continue }
@@ -181,18 +183,36 @@ open class RadarChartRenderer: LineRadarRenderer
                 
                 guard let formatter = dataSet.valueFormatter else { continue }
                 
-                ChartUtils.drawText(
-                    context: context,
-                    text: formatter.stringForValue(
-                        e.y,
-                        entry: e,
-                        dataSetIndex: i,
-                        viewPortHandler: viewPortHandler),
-                    point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
-                    align: .center,
-                    attributes: [NSFontAttributeName: valueFont,
-                        NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
-                )
+                if dataSet.isDrawValuesEnabled
+                {
+                    ChartUtils.drawText(
+                        context: context,
+                        text: formatter.stringForValue(
+                            e.y,
+                            entry: e,
+                            dataSetIndex: i,
+                            viewPortHandler: viewPortHandler),
+                        point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
+                        align: .center,
+                        attributes: [NSAttributedStringKey.font: valueFont,
+                            NSAttributedStringKey.foregroundColor: dataSet.valueTextColorAt(j)]
+                    )
+                }
+                
+                if let icon = e.icon, dataSet.isDrawIconsEnabled
+                {
+                    var pIcon = ChartUtils.getPosition(
+                        center: center,
+                        dist: CGFloat(e.y) * factor * CGFloat(phaseY) + iconsOffset.y,
+                        angle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
+                    pIcon.y += iconsOffset.x
+                    
+                    ChartUtils.drawImage(context: context,
+                                         image: icon,
+                                         x: pIcon.x,
+                                         y: pIcon.y,
+                                         size: icon.size)
+                }
             }
         }
     }
@@ -204,7 +224,7 @@ open class RadarChartRenderer: LineRadarRenderer
     
     fileprivate var _webLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    open func drawWeb(context: CGContext)
+    @objc open func drawWeb(context: CGContext)
     {
         guard
             let chart = chart,
@@ -360,7 +380,7 @@ open class RadarChartRenderer: LineRadarRenderer
         context.restoreGState()
     }
     
-    internal func drawHighlightCircle(
+    @objc internal func drawHighlightCircle(
         context: CGContext,
         atPoint point: CGPoint,
         innerRadius: CGFloat,

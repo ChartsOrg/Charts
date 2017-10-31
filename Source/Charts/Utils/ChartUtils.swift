@@ -22,10 +22,10 @@ open class ChartUtils
     
     internal struct Math
     {
-        internal static let FDEG2RAD = CGFloat(M_PI / 180.0)
-        internal static let FRAD2DEG = CGFloat(180.0 / M_PI)
-        internal static let DEG2RAD = M_PI / 180.0
-        internal static let RAD2DEG = 180.0 / M_PI
+        internal static let FDEG2RAD = CGFloat(Double.pi / 180.0)
+        internal static let FRAD2DEG = CGFloat(180.0 / Double.pi)
+        internal static let DEG2RAD = Double.pi / 180.0
+        internal static let RAD2DEG = 180.0 / Double.pi
     }
     
     internal class func roundToNextSignificant(number: Double) -> Double
@@ -51,7 +51,7 @@ open class ChartUtils
         
         let i = roundToNextSignificant(number: Double(number))
         
-        if i.isInfinite
+        if i.isInfinite || i.isNaN
         {
             return 0
         }
@@ -67,7 +67,7 @@ open class ChartUtils
         }
         else
         {
-            return number + DBL_EPSILON
+            return number + Double.ulpOfOne
         }
     }
     
@@ -80,17 +80,60 @@ open class ChartUtils
         )
     }
     
-    open class func drawText(context: CGContext, text: String, point: CGPoint, align: NSTextAlignment, attributes: [String : AnyObject]?)
+    open class func drawImage(
+        context: CGContext,
+        image: NSUIImage,
+        x: CGFloat,
+        y: CGFloat,
+        size: CGSize)
+    {
+        var drawOffset = CGPoint()
+        drawOffset.x = x - (size.width / 2)
+        drawOffset.y = y - (size.height / 2)
+        
+        NSUIGraphicsPushContext(context)
+        
+        if image.size.width != size.width && image.size.height != size.height
+        {
+            let key = "resized_\(size.width)_\(size.height)"
+            
+            // Try to take scaled image from cache of this image
+            var scaledImage = objc_getAssociatedObject(image, key) as? NSUIImage
+            if scaledImage == nil
+            {
+                // Scale the image
+                NSUIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+                
+                image.draw(in: CGRect(origin: CGPoint(x: 0, y: 0), size: size))
+                
+                scaledImage = NSUIGraphicsGetImageFromCurrentImageContext()
+                NSUIGraphicsEndImageContext()
+                
+                // Put the scaled image in a cache owned by the original image
+                objc_setAssociatedObject(image, key, scaledImage, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            }
+            
+            scaledImage?.draw(in: CGRect(origin: drawOffset, size: size))
+        }
+        else
+        {
+            image.draw(in: CGRect(origin: drawOffset, size: size))
+        }
+        
+        NSUIGraphicsPopContext()
+    }
+    
+    open class func drawText(context: CGContext, text: String, point: CGPoint, align: NSTextAlignment, attributes: [NSAttributedStringKey : Any]?)
     {
         var point = point
         
         if align == .center
         {
-            point.x -= text.size(attributes: attributes).width / 2.0
+            point.x -= text.size(withAttributes: attributes).width / 2.0
         }
         else if align == .right
         {
-            point.x -= text.size(attributes: attributes).width
+            point.x -= text.size(withAttributes: attributes).width
         }
         
         NSUIGraphicsPushContext(context)
@@ -100,7 +143,7 @@ open class ChartUtils
         NSUIGraphicsPopContext()
     }
     
-    open class func drawText(context: CGContext, text: String, point: CGPoint, attributes: [String : AnyObject]?, anchor: CGPoint, angleRadians: CGFloat)
+    open class func drawText(context: CGContext, text: String, point: CGPoint, attributes: [NSAttributedStringKey : Any]?, anchor: CGPoint, angleRadians: CGFloat)
     {
         var drawOffset = CGPoint()
         
@@ -108,7 +151,7 @@ open class ChartUtils
         
         if angleRadians != 0.0
         {
-            let size = text.size(attributes: attributes)
+            let size = text.size(withAttributes: attributes)
             
             // Move the text drawing rect in a way that it always rotates around its center
             drawOffset.x = -size.width * 0.5
@@ -137,7 +180,7 @@ open class ChartUtils
         {
             if anchor.x != 0.0 || anchor.y != 0.0
             {
-                let size = text.size(attributes: attributes)
+                let size = text.size(withAttributes: attributes)
                 
                 drawOffset.x = -size.width * anchor.x
                 drawOffset.y = -size.height * anchor.y
@@ -152,7 +195,7 @@ open class ChartUtils
         NSUIGraphicsPopContext()
     }
     
-    internal class func drawMultilineText(context: CGContext, text: String, knownTextSize: CGSize, point: CGPoint, attributes: [String : AnyObject]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
+    internal class func drawMultilineText(context: CGContext, text: String, knownTextSize: CGSize, point: CGPoint, attributes: [NSAttributedStringKey : Any]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
     {
         var rect = CGRect(origin: CGPoint(), size: knownTextSize)
         
@@ -200,7 +243,7 @@ open class ChartUtils
         NSUIGraphicsPopContext()
     }
     
-    internal class func drawMultilineText(context: CGContext, text: String, point: CGPoint, attributes: [String : AnyObject]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
+    internal class func drawMultilineText(context: CGContext, text: String, point: CGPoint, attributes: [NSAttributedStringKey : Any]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
     {
         let rect = text.boundingRect(with: constrainedToSize, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
         drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, attributes: attributes, constrainedToSize: constrainedToSize, anchor: anchor, angleRadians: angleRadians)
