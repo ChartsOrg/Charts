@@ -77,7 +77,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             else { return }
         
         let barWidthHalf = barData.barWidth / 2.0
-    
+        
         let buffer = _buffers[index]
         var bufferIndex = 0
         let containsStacks = dataSet.isStacked
@@ -122,7 +122,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 barRect.size.width = right - left
                 barRect.origin.y = top
                 barRect.size.height = bottom - top
-            
+                
                 buffer.rects[bufferIndex] = barRect
                 
                 bufferIndex += 1
@@ -289,7 +289,12 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 
                 if (dataSet.hasRoundedCorners)
                 {
-                    let path = UIBezierPath.init(roundedRect: barRect, byRoundingCorners: UIRectCorner.topLeft.union(UIRectCorner.topRight), cornerRadii: CGSize(width: dataSet.barCornerRadius, height: dataSet.barCornerRadius))
+                    let yValue = dataSet.entriesForXValue(Double(j))[0].y
+                    var corners = UIRectCorner.topLeft.union(UIRectCorner.topRight)
+                    if yValue < 0.0{
+                        corners = UIRectCorner.bottomLeft.union(UIRectCorner.bottomRight)
+                    }
+                    let path = UIBezierPath.init(roundedRect: barRect, byRoundingCorners: corners, cornerRadii: CGSize(width: dataSet.barCornerRadius, height: dataSet.barCornerRadius))
                     path.fill()
                 }
                 else
@@ -331,8 +336,13 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             
             if (dataSet.hasRoundedCorners)
             {
+                let yValue = dataSet.entriesForXValue(Double(j))[0].y
+                var corners = UIRectCorner.topLeft.union(UIRectCorner.topRight)
+                if yValue < 0.0{
+                    corners = UIRectCorner.bottomLeft.union(UIRectCorner.bottomRight)
+                }
                 
-                let path = UIBezierPath.init(roundedRect: barRect, byRoundingCorners: UIRectCorner.topLeft.union(UIRectCorner.topRight), cornerRadii: CGSize(width: dataSet.barCornerRadius, height: dataSet.barCornerRadius))
+                let path = UIBezierPath.init(roundedRect: barRect, byRoundingCorners: corners, cornerRadii: CGSize(width: dataSet.barCornerRadius, height: dataSet.barCornerRadius))
                 path.fill()
                 
                 context.saveGState()
@@ -379,16 +389,16 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         context.clip()
         context.drawLinearGradient(gradient!, start: startPoint, end: endPoint, options: CGGradientDrawingOptions(rawValue: 0))
     }
-
+    
     
     
     open func prepareBarHighlight(
         x: Double,
-          y1: Double,
-          y2: Double,
-          barWidthHalf: Double,
-          trans: Transformer,
-          rect: inout CGRect)
+        y1: Double,
+        y2: Double,
+        barWidthHalf: Double,
+        trans: Transformer,
+        rect: inout CGRect)
     {
         let left = x - barWidthHalf
         let right = x + barWidthHalf
@@ -402,7 +412,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         
         trans.rectValueToPixel(&rect, phaseY: animator?.phaseY ?? 1.0)
     }
-
+    
     open override func drawValues(context: CGContext)
     {
         // if values are drawn
@@ -416,7 +426,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 else { return }
             
             var dataSets = barData.dataSets
-
+            
             let valueOffsetPlus: CGFloat = 4.5
             var posOffset: CGFloat
             var negOffset: CGFloat
@@ -454,7 +464,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 let phaseY = animator.phaseY
                 
                 let iconsOffset = dataSet.iconsOffset
-        
+                
                 // if only single values are drawn (sum)
                 if !dataSet.isStacked
                 {
@@ -766,3 +776,4 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         high.setDraw(x: barRect.midX, y: barRect.origin.y)
     }
 }
+
