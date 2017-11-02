@@ -134,7 +134,7 @@ open class AxisBase: ComponentBase
         {
             let text = getFormattedLabel(i)
             
-            if longest.characters.count < text.characters.count
+            if longest.count < text.count
             {
                 longest = text
             }
