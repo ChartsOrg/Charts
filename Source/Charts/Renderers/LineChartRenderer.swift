@@ -388,6 +388,7 @@ open class LineChartRenderer: LineRadarRenderer
             var e1: ChartDataEntry!
             var e2: ChartDataEntry!
             
+            
             e1 = dataSet.entryForIndex(_xBounds.min)
             
             if e1 != nil
@@ -401,6 +402,10 @@ open class LineChartRenderer: LineRadarRenderer
                     e2 = dataSet.entryForIndex(x)
                     
                     if e1 == nil || e2 == nil { continue }
+                    
+                    if(e1.y == 9999999999.0 || e2.y == 9999999999.0){
+                        continue
+                    }
                     
                     let pt = CGPoint(
                         x: CGFloat(e1.x),

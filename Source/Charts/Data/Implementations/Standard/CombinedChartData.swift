@@ -137,24 +137,25 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
                 _xMin = data.xMin
             }
             
-            if data.yMax > _leftAxisMax
+            
+            if data.leftAxisMax > _leftAxisMax
             {
-                _leftAxisMax = data.yMax
+                _leftAxisMax = data._leftAxisMax
             }
             
-            if data.yMin < _leftAxisMin
+            if data.leftAxisMin < _leftAxisMin
             {
-                _leftAxisMin = data.yMin
+                _leftAxisMin = data._leftAxisMin
             }
             
-            if data.yMax > _rightAxisMax
+            if data.rightAxisMax > _rightAxisMax
             {
-                _rightAxisMax = data.yMax
+                _rightAxisMax = data._rightAxisMax
             }
             
-            if data.yMin < _rightAxisMin
+            if data.rightAxisMin < _rightAxisMin
             {
-                _rightAxisMin = data.yMin
+                _rightAxisMin = data._rightAxisMin
             }
         }
     }
