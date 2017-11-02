@@ -24,7 +24,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
         valueColors.append(NSUIColor.black)
     }
     
-    public init(label: String?)
+    @objc public init(label: String?)
     {
         super.init()
         
@@ -235,7 +235,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     /// Sets colors to a single color a specific alpha value.
     /// - parameter color: the color to set
     /// - parameter alpha: alpha to apply to the set `color`
-    open func setColor(_ color: NSUIColor, alpha: CGFloat)
+    @objc open func setColor(_ color: NSUIColor, alpha: CGFloat)
     {
         setColor(color.withAlphaComponent(alpha))
     }
@@ -243,7 +243,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     /// Sets colors with a specific alpha value.
     /// - parameter colors: the colors to set
     /// - parameter alpha: alpha to apply to the set `colors`
-    open func setColors(_ colors: [NSUIColor], alpha: CGFloat)
+    @objc open func setColors(_ colors: [NSUIColor], alpha: CGFloat)
     {
         var colorsWithAlpha = colors
         
@@ -270,7 +270,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     open var isHighlightEnabled: Bool { return highlightEnabled }
     
     /// Custom formatter that is used instead of the auto-formatter if set
-    internal var _valueFormatter: IValueFormatter?
+    @objc internal var _valueFormatter: IValueFormatter?
     
     /// Custom formatter that is used instead of the auto-formatter if set
     open var valueFormatter: IValueFormatter?
@@ -411,7 +411,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     
     // MARK: - NSCopying
     
-    open func copyWithZone(_ zone: NSZone?) -> AnyObject
+    @objc open func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = type(of: self).init()
         
