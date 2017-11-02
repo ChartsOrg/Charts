@@ -14,17 +14,17 @@ open class LargeValueFormatter: NSObject, IValueFormatter, IAxisValueFormatter
     /// Suffix to be appended after the values.
     ///
     /// **default**: suffix: ["", "k", "m", "b", "t"]
-    open var suffix = ["", "k", "m", "b", "t"]
+    @objc open var suffix = ["", "k", "m", "b", "t"]
     
     /// An appendix text to be added at the end of the formatted value.
-    open var appendix: String?
+    @objc open var appendix: String?
     
     public override init()
     {
         
     }
     
-    public init(appendix: String?)
+    @objc public init(appendix: String?)
     {
         self.appendix = appendix
     }
