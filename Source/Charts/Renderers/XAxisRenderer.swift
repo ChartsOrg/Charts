@@ -431,7 +431,7 @@ open class XAxisRenderer: AxisRendererBase
         let label = limitLine.label
         
         // if drawing the limit-value label is enabled
-        if limitLine.drawLabelEnabled && label.characters.count > 0
+        if limitLine.drawLabelEnabled && label.count > 0
         {
             let labelLineHeight = limitLine.valueFont.lineHeight
             

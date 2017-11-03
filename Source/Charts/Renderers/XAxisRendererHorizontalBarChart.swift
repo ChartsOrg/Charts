@@ -322,7 +322,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
             let label = l.label
             
             // if drawing the limit-value label is enabled
-            if l.drawLabelEnabled && label.characters.count > 0
+            if l.drawLabelEnabled && label.count > 0
             {
                 let labelLineHeight = l.valueFont.lineHeight
                 
