@@ -205,15 +205,15 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     /// the order in which the provided data objects should be drawn.
     /// The earlier you place them in the provided array, the further they will be in the background. 
     /// e.g. if you provide [DrawOrder.Bar, DrawOrder.Line], the bars will be drawn behind the lines.
-    @objc open var drawOrder: [Int]
+    @objc open var drawOrder: [DrawOrder]
     {
         get
         {
-            return (renderer as! CombinedChartRenderer!).drawOrder.map { $0.rawValue }
+            return (renderer as! CombinedChartRenderer!).drawOrder
         }
         set
         {
-            (renderer as! CombinedChartRenderer!).drawOrder = newValue.map { DrawOrder(rawValue: $0)! }
+            (renderer as! CombinedChartRenderer!).drawOrder = newValue
         }
     }
     
