@@ -15,7 +15,7 @@ import CoreGraphics
 
 /// This class encapsulates everything both Axis, Legend and LimitLines have in common
 @objc(ChartComponentBase)
-open class ComponentBase: NSObject
+open class ComponentBase: NSObject {
     /// The offset this component has on the x-axis
     /// **default**: 5.0
     @objc open var xOffset = CGFloat(5.0)
