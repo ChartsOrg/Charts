@@ -11,11 +11,11 @@
 import Foundation
 import CoreGraphics
 
-open class XShapeRenderer : NSObject, IShapeRenderer
+open class XShapeRenderer : NSObject, ShapeRenderer
 {
     open func renderShape(
         context: CGContext,
-        dataSet: IScatterChartDataSet,
+        dataSet: ScatterChartDataSet,
         viewPortHandler: ViewPortHandler,
         point: CGPoint,
         color: NSUIColor)

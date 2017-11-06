@@ -50,10 +50,10 @@ open class LegendRenderer: Renderer
                 let entryCount = dataSet.entryCount
                 
                 // if we have a barchart with stacked bars
-                if dataSet is IBarChartDataSet &&
-                    (dataSet as! IBarChartDataSet).isStacked
+                if dataSet is BarChartDataSet &&
+                    (dataSet as! BarChartDataSet).isStacked
                 {
-                    let bds = dataSet as! IBarChartDataSet
+                    let bds = dataSet as! BarChartDataSet
                     var sLabels = bds.stackLabels
                     
                     for j in 0..<min(clrs.count, bds.stackSize)
@@ -88,9 +88,9 @@ open class LegendRenderer: Renderer
                         )
                     }
                 }
-                else if dataSet is IPieChartDataSet
+                else if dataSet is PieChartDataSet
                 {
-                    let pds = dataSet as! IPieChartDataSet
+                    let pds = dataSet as! PieChartDataSet
                     
                     for j in 0..<min(clrs.count, entryCount)
                     {
@@ -124,10 +124,10 @@ open class LegendRenderer: Renderer
                         )
                     }
                 }
-                else if dataSet is ICandleChartDataSet &&
-                    (dataSet as! ICandleChartDataSet).decreasingColor != nil
+                else if dataSet is CandleChartDataSet &&
+                    (dataSet as! CandleChartDataSet).decreasingColor != nil
                 {
-                    let candleDataSet = dataSet as! ICandleChartDataSet
+                    let candleDataSet = dataSet as! CandleChartDataSet
                     
                     entries.append(
                         LegendEntry(

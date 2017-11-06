@@ -12,8 +12,8 @@
 import Foundation
 import CoreGraphics
 
-@objc(IChartMarker)
-public protocol IMarker: class
+@objc(ChartMarker)
+public protocol Marker: NSObjectProtocol
 {
     /// - returns: The desired (general) offset you wish the IMarker to have on the x-axis.
     ///
@@ -29,12 +29,12 @@ public protocol IMarker: class
     /// - parameter point: This is the point at which the marker wants to be drawn. You can adjust the offset conditionally based on this argument.
     func offsetForDrawing(atPoint: CGPoint) -> CGPoint
     
-    /// This method enables a custom IMarker to update it's content every time the IMarker is redrawn according to the data entry it points to.
+    /// This method enables a custom Marker to update it's content every time the Marker is redrawn according to the data entry it points to.
     ///
-    /// - parameter entry: The Entry the IMarker belongs to. This can also be any subclass of Entry, like BarEntry or CandleEntry, simply cast it at runtime.
+    /// - parameter entry: The Entry the Marker belongs to. This can also be any subclass of Entry, like BarEntry or CandleEntry, simply cast it at runtime.
     /// - parameter highlight: The highlight object contains information about the highlighted value such as it's dataset-index, the selected range or stack-index (only stacked bar entries).
     func refreshContent(entry: ChartDataEntry, highlight: Highlight)
     
-    /// Draws the IMarker on the given position on the given context
+    /// Draws the Marker on the given position on the given context
     func draw(context: CGContext, point: CGPoint)
 }

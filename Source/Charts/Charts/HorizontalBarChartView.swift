@@ -107,7 +107,7 @@ open class HorizontalBarChartView: BarChartView
     {
         guard
             let data = _data as? BarChartData,
-            let set = data.getDataSetForEntry(e) as? IBarChartDataSet
+            let set = data.getDataSetForEntry(e) as? BarChartDataSet
             else { return CGRect.null }
         
         let y = e.y
