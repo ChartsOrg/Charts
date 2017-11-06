@@ -23,7 +23,7 @@ open class PieChartData: ChartData
         super.init(dataSets: dataSets)
     }
 
-    var dataSet: PieChartDataSet?
+    @objc var dataSet: PieChartDataSet?
     {
         get
         {
@@ -100,7 +100,7 @@ open class PieChartData: ChartData
     }
     
     /// - returns: The total y-value sum across all DataSet objects the this object represents.
-    open var yValueSum: Double
+    @objc open var yValueSum: Double
     {
         guard let dataSet = dataSet else { return 0.0 }
         

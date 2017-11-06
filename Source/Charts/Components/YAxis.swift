@@ -39,39 +39,39 @@ open class YAxis: AxisBase
     }
     
     /// indicates if the bottom y-label entry is drawn or not
-    open var drawBottomYLabelEntryEnabled = true
+    @objc open var drawBottomYLabelEntryEnabled = true
     
     /// indicates if the top y-label entry is drawn or not
-    open var drawTopYLabelEntryEnabled = true
+    @objc open var drawTopYLabelEntryEnabled = true
     
     /// flag that indicates if the axis is inverted or not
-    open var inverted = false
+    @objc open var inverted = false
     
     /// flag that indicates if the zero-line should be drawn regardless of other grid lines
-    open var drawZeroLineEnabled = false
+    @objc open var drawZeroLineEnabled = false
     
     /// Color of the zero line
-    open var zeroLineColor: NSUIColor? = NSUIColor.gray
+    @objc open var zeroLineColor: NSUIColor? = NSUIColor.gray
     
     /// Width of the zero line
-    open var zeroLineWidth: CGFloat = 1.0
+    @objc open var zeroLineWidth: CGFloat = 1.0
     
     /// This is how much (in pixels) into the dash pattern are we starting from.
-    open var zeroLineDashPhase = CGFloat(0.0)
+    @objc open var zeroLineDashPhase = CGFloat(0.0)
     
     /// This is the actual dash pattern.
     /// I.e. [2, 3] will paint [--   --   ]
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
-    open var zeroLineDashLengths: [CGFloat]?
+    @objc open var zeroLineDashLengths: [CGFloat]?
 
     /// axis space from the largest value to the top in percent of the total axis range
-    open var spaceTop = CGFloat(0.1)
+    @objc open var spaceTop = CGFloat(0.1)
 
     /// axis space from the smallest value to the bottom in percent of the total axis range
-    open var spaceBottom = CGFloat(0.1)
+    @objc open var spaceBottom = CGFloat(0.1)
     
     /// the position of the y-labels relative to the chart
-    open var labelPosition = LabelPosition.outsideChart
+    @objc open var labelPosition = LabelPosition.outsideChart
     
     /// the side this axis object represents
     fileprivate var _axisDependency = AxisDependency.left
@@ -79,13 +79,13 @@ open class YAxis: AxisBase
     /// the minimum width that the axis should take
     /// 
     /// **default**: 0.0
-    open var minWidth = CGFloat(0)
+    @objc open var minWidth = CGFloat(0)
     
     /// the maximum width that the axis can take.
     /// use Infinity for disabling the maximum.
     /// 
     /// **default**: CGFloat.infinity
-    open var maxWidth = CGFloat(CGFloat.infinity)
+    @objc open var maxWidth = CGFloat(CGFloat.infinity)
     
     public override init()
     {
@@ -94,7 +94,7 @@ open class YAxis: AxisBase
         self.yOffset = 0.0
     }
     
-    public init(position: AxisDependency)
+    @objc public init(position: AxisDependency)
     {
         super.init()
         
@@ -103,28 +103,28 @@ open class YAxis: AxisBase
         self.yOffset = 0.0
     }
     
-    open var axisDependency: AxisDependency
+    @objc open var axisDependency: AxisDependency
     {
         return _axisDependency
     }
     
-    open func requiredSize() -> CGSize
+    @objc open func requiredSize() -> CGSize
     {
         let label = getLongestLabel() as NSString
-        var size = label.size(attributes: [NSFontAttributeName: labelFont])
+        var size = label.size(withAttributes: [NSAttributedStringKey.font: labelFont])
         size.width += xOffset * 2.0
         size.height += yOffset * 2.0
         size.width = max(minWidth, min(size.width, maxWidth > 0.0 ? maxWidth : size.width))
         return size
     }
     
-    open func getRequiredHeightSpace() -> CGFloat
+    @objc open func getRequiredHeightSpace() -> CGFloat
     {
         return requiredSize().height
     }
     
     /// - returns: `true` if this axis needs horizontal offset, `false` ifno offset is needed.
-    open var needsOffset: Bool
+    @objc open var needsOffset: Bool
     {
         if isEnabled && isDrawLabelsEnabled && labelPosition == .outsideChart
         {
@@ -136,7 +136,7 @@ open class YAxis: AxisBase
         }
     }
     
-    open var isInverted: Bool { return inverted }
+    @objc open var isInverted: Bool { return inverted }
     
     open override func calculate(min dataMin: Double, max dataMax: Double)
     {
@@ -172,8 +172,8 @@ open class YAxis: AxisBase
         axisRange = abs(_axisMaximum - _axisMinimum)
     }
     
-    open var isDrawBottomYLabelEntryEnabled: Bool { return drawBottomYLabelEntryEnabled }
+    @objc open var isDrawBottomYLabelEntryEnabled: Bool { return drawBottomYLabelEntryEnabled }
     
-    open var isDrawTopYLabelEntryEnabled: Bool { return drawTopYLabelEntryEnabled }
+    @objc open var isDrawTopYLabelEntryEnabled: Bool { return drawTopYLabelEntryEnabled }
 
 }
