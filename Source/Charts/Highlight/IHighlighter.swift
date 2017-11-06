@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 @objc(IChartHighlighter)
-public protocol IHighlighter : NSObjectProtocol
+public protocol IHighlighter: class
 {
     /// - returns: A Highlight object corresponding to the given x- and y- touch positions in pixels.
     /// - parameter x:

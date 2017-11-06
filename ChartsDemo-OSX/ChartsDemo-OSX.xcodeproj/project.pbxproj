@@ -57,6 +57,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		03780C7E1EA29C87005C11C8 /* PlaygroundChart.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = PlaygroundChart.playground; sourceTree = "<group>"; };
 		0630AE691D812840008859B0 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = ../Charts.xcodeproj; sourceTree = "<group>"; };
 		5B9A0C391C83AB1800ED8ED8 /* BarDemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarDemoViewController.swift; sourceTree = "<group>"; };
 		5B9A0C3B1C83AB2100ED8ED8 /* LineDemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineDemoViewController.swift; sourceTree = "<group>"; };
@@ -106,6 +107,7 @@
 			children = (
 				65B3F6401C73B4F5000983D0 /* ChartsDemo-OSX */,
 				65B3F63F1C73B4F5000983D0 /* Products */,
+				03780C7E1EA29C87005C11C8 /* PlaygroundChart.playground */,
 				0630AE691D812840008859B0 /* Charts.xcodeproj */,
 			);
 			sourceTree = "<group>";
