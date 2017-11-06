@@ -103,14 +103,7 @@ open class Animator: NSObject
                 elapsed = duration
             }
            
-            if let _easingX = _easingX
-            {
-                phaseX = _easingX(elapsed, duration)
-            }
-            else
-            {
-                phaseX = Double(elapsed / duration)
-            }
+            phaseX = _easingX?(elapsed, duration) ?? Double(elapsed / duration)
         }
         
         if _enabledY

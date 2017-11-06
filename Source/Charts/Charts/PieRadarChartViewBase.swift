@@ -567,12 +567,10 @@ open class PieRadarChartViewBase: ChartViewBase
     
     open override func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
     {
-        if rotationEnabled && !rotationWithTwoFingers
+        if rotationEnabled && !rotationWithTwoFingers, let touch = touches.first
         {
-            if let touch = touches.first {
-                let touchLocation = touch.location(in: self)
-                processRotationGestureMoved(location: touchLocation)
-            }
+            let touchLocation = touch.location(in: self)
+            processRotationGestureMoved(location: touchLocation)
         }
         
         if !_isRotating
@@ -588,12 +586,10 @@ open class PieRadarChartViewBase: ChartViewBase
             super.nsuiTouchesEnded(touches, withEvent: event)
         }
         
-        if rotationEnabled && !rotationWithTwoFingers
+        if rotationEnabled && !rotationWithTwoFingers, let touch = touches.first
         {
-            if let touch = touches.first {
-                let touchLocation = touch.location(in: self)
-                processRotationGestureEnded(location: touchLocation)
-            }
+            let touchLocation = touch.location(in: self)
+            processRotationGestureEnded(location: touchLocation)
         }
         
         if _isRotating
