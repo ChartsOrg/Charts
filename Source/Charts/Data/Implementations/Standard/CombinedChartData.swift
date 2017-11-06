@@ -29,7 +29,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         super.init(dataSets: dataSets)
     }
     
-    open var lineData: LineChartData!
+    @objc open var lineData: LineChartData!
     {
         get
         {
@@ -42,7 +42,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    open var barData: BarChartData!
+    @objc open var barData: BarChartData!
     {
         get
         {
@@ -55,7 +55,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    open var scatterData: ScatterChartData!
+    @objc open var scatterData: ScatterChartData!
     {
         get
         {
@@ -68,7 +68,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    open var candleData: CandleChartData!
+    @objc open var candleData: CandleChartData!
     {
         get
         {
@@ -81,7 +81,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    open var bubbleData: BubbleChartData!
+    @objc open var bubbleData: BubbleChartData!
     {
         get
         {
@@ -160,7 +160,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     }
     
     /// - returns: All data objects in row: line-bar-scatter-candle-bubble if not null.
-    open var allData: [ChartData]
+    @objc open var allData: [ChartData]
     {
         var data = [ChartData]()
         
@@ -188,7 +188,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         return data
     }
     
-    open func dataByIndex(_ index: Int) -> ChartData
+    @objc open func dataByIndex(_ index: Int) -> ChartData
     {
         return allData[index]
     }
@@ -295,7 +295,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     ///
     /// - Parameter highlight: current highlight
     /// - Returns: dataset related to highlight
-    open func getDataSetByHighlight(_ highlight: Highlight) -> IChartDataSet!
+    @objc open func getDataSetByHighlight(_ highlight: Highlight) -> IChartDataSet!
     {  
         if highlight.dataIndex >= allData.count
         {

@@ -24,19 +24,19 @@ open class AxisBase: ComponentBase
     /// Custom formatter that is used instead of the auto-formatter if set
     fileprivate var _axisValueFormatter: IAxisValueFormatter?
 
-    open var labelFont = NSUIFont.systemFont(ofSize: 10.0)
-    open var labelTextColor = NSUIColor.black
+    @objc open var labelFont = NSUIFont.systemFont(ofSize: 10.0)
+    @objc open var labelTextColor = NSUIColor.black
 
-    open var axisLineColor = NSUIColor.gray
-    open var axisLineWidth = CGFloat(0.5)
-    open var axisLineDashPhase = CGFloat(0.0)
-    open var axisLineDashLengths: [CGFloat]!
+    @objc open var axisLineColor = NSUIColor.gray
+    @objc open var axisLineWidth = CGFloat(0.5)
+    @objc open var axisLineDashPhase = CGFloat(0.0)
+    @objc open var axisLineDashLengths: [CGFloat]!
 
-    open var gridColor = NSUIColor.gray.withAlphaComponent(0.9)
-    open var gridLineWidth = CGFloat(0.5)
-    open var gridLineDashPhase = CGFloat(0.0)
-    open var gridLineDashLengths: [CGFloat]!
-    open var gridLineCap = CGLineCap.butt
+    @objc open var gridColor = NSUIColor.gray.withAlphaComponent(0.9)
+    @objc open var gridLineWidth = CGFloat(0.5)
+    @objc open var gridLineDashPhase = CGFloat(0.0)
+    @objc open var gridLineDashLengths: [CGFloat]!
+    @objc open var gridLineCap = CGLineCap.butt
 
     @objc public var isDrawGridLinesEnabled: Bool {
         get { return _isDrawGridLinesEnabled }
@@ -80,16 +80,16 @@ open class AxisBase: ComponentBase
     private var _isDrawLimitLinesBehindDataEnabled = false
 
     /// the flag can be used to turn off the antialias for grid lines
-    open var gridAntialiasEnabled = true
+    @objc open var gridAntialiasEnabled = true
 
     /// the actual array of entries
-    open var entries = [Double]()
+    @objc open var entries = [Double]()
 
     /// axis label entries only used for centered labels
-    open var centeredEntries = [Double]()
+    @objc open var centeredEntries = [Double]()
 
     /// the number of entries the legend contains
-    open var entryCount: Int { return entries.count }
+    @objc open var entryCount: Int { return entries.count }
 
     /// the number of label entries the axis should have
     ///
@@ -97,8 +97,8 @@ open class AxisBase: ComponentBase
     private var _labelCount = Int(6)
 
     /// the number of decimal digits to use (for the default formatter
-    open var decimals: Int = 0
-
+    @objc open var decimals: Int = 0
+    
     /// When true, axis labels are controlled by the `granularity` property.
     /// When false, axis values could possibly be repeated.
     /// This could happen if two adjacent axis values are rounded to same value.
@@ -116,7 +116,7 @@ open class AxisBase: ComponentBase
     /// This can be used to avoid label duplicating when zooming in.
     ///
     /// **default**: 1.0
-    open var granularity: Double
+    @objc open var granularity: Double
         {
         get
         {
@@ -139,15 +139,15 @@ open class AxisBase: ComponentBase
     }
     private var _isForceLabelsEnabled = false
 
-    open func getLongestLabel() -> String
+    @objc open func getLongestLabel() -> String
     {
         var longest = ""
 
         for i in 0 ..< entries.count
         {
             let text = getFormattedLabel(i)
-
-            if longest.characters.count < text.characters.count
+            
+            if longest.count < text.count
             {
                 longest = text
             }
@@ -157,7 +157,7 @@ open class AxisBase: ComponentBase
     }
 
     /// - returns: The formatted label at the specified index. This will either use the auto-formatter or the custom formatter (if one is set).
-    open func getFormattedLabel(_ index: Int) -> String
+    @objc open func getFormattedLabel(_ index: Int) -> String
     {
         if index < 0 || index >= entries.count
         {
@@ -170,8 +170,8 @@ open class AxisBase: ComponentBase
     /// Sets the formatter to be used for formatting the axis labels.
     /// If no formatter is set, the chart will automatically determine a reasonable formatting (concerning decimals) for all the values that are drawn inside the chart.
     /// Use `nil` to use the formatter calculated by the chart.
-    open var valueFormatter: IAxisValueFormatter?
-        {
+    @objc open var valueFormatter: IAxisValueFormatter?
+    {
         get
         {
             if _axisValueFormatter == nil ||
@@ -191,37 +191,38 @@ open class AxisBase: ComponentBase
     }
 
     /// Extra spacing for `axisMinimum` to be added to automatically calculated `axisMinimum`
-    open var spaceMin: Double = 0.0
+    @objc open var spaceMin: Double = 0.0
 
     /// Extra spacing for `axisMaximum` to be added to automatically calculated `axisMaximum`
-    open var spaceMax: Double = 0.0
+    @objc open var spaceMax: Double = 0.0
 
     /// Flag indicating that the axis-min value has been customized
-    public private(set) var isUsingCustomAxisMin = false
+    @objc public private(set) var isUsingCustomAxisMin = false
 
     /// Flag indicating that the axis-max value has been customized
-    public private(set) var isUsingCustomAxisMax = false
+    @objc public private(set) var isUsingCustomAxisMax = false
 
     /// Do not touch this directly, instead, use axisMinimum.
     /// This is automatically calculated to represent the real min value,
     /// and is used when calculating the effective minimum.
-    internal var _axisMinimum = Double(0)
+    @objc internal var _axisMinimum = Double(0)
 
     /// Do not touch this directly, instead, use axisMaximum.
     /// This is automatically calculated to represent the real max value,
     /// and is used when calculating the effective maximum.
-    internal var _axisMaximum = Double(0)
+    @objc internal var _axisMaximum = Double(0)
 
     /// the total range of values this axis covers
-    open var axisRange = Double(0)
+    @objc open var axisRange = Double(0)
 
     /// the number of label entries the axis should have
     /// max = 25,
     /// min = 2,
     /// default = 6,
     /// be aware that this number is not fixed and can only be approximated
-    open var labelCount: Int
-        {
+
+    @objc open var labelCount: Int
+    {
         get
         {
             return _labelCount
@@ -242,21 +243,21 @@ open class AxisBase: ComponentBase
             isForceLabelsEnabled = false
         }
     }
-
-    open func setLabelCount(_ count: Int, force: Bool)
+  
+    @objc open func setLabelCount(_ count: Int, force: Bool)
     {
         self.labelCount = count
         isForceLabelsEnabled = force
     }
 
     /// Adds a new ChartLimitLine to this axis.
-    open func addLimitLine(_ line: ChartLimitLine)
+    @objc open func addLimitLine(_ line: ChartLimitLine)
     {
         _limitLines.append(line)
     }
 
     /// Removes the specified ChartLimitLine from the axis.
-    open func removeLimitLine(_ line: ChartLimitLine)
+    @objc open func removeLimitLine(_ line: ChartLimitLine)
     {
         for i in 0 ..< _limitLines.count
         {
@@ -269,13 +270,13 @@ open class AxisBase: ComponentBase
     }
 
     /// Removes all LimitLines from the axis.
-    open func removeAllLimitLines()
+    @objc open func removeAllLimitLines()
     {
         _limitLines.removeAll(keepingCapacity: false)
     }
 
     /// - returns: The LimitLines of this axis.
-    open var limitLines : [ChartLimitLine]
+    @objc open var limitLines : [ChartLimitLine]
     {
         return _limitLines
     }
@@ -283,19 +284,19 @@ open class AxisBase: ComponentBase
     // MARK: Custom axis ranges
 
     /// By calling this method, any custom minimum value that has been previously set is reseted, and the calculation is done automatically.
-    open func resetCustomAxisMin()
+    @objc open func resetCustomAxisMin()
     {
         isUsingCustomAxisMin = false
     }
 
     /// By calling this method, any custom maximum value that has been previously set is reseted, and the calculation is done automatically.
-    open func resetCustomAxisMax()
+    @objc open func resetCustomAxisMax()
     {
         isUsingCustomAxisMax = false
     }
 
     /// This property is deprecated - Use `axisMinimum` instead.
-    @available(*, deprecated: 1.0, message: "Use axisMinimum instead.")
+    @objc @available(*, deprecated: 1.0, message: "Use axisMinimum instead.")
     open var axisMinValue: Double
         {
         get { return axisMinimum }
@@ -303,7 +304,7 @@ open class AxisBase: ComponentBase
     }
 
     /// This property is deprecated - Use `axisMaximum` instead.
-    @available(*, deprecated: 1.0, message: "Use axisMaximum instead.")
+    @objc @available(*, deprecated: 1.0, message: "Use axisMaximum instead.")
     open var axisMaxValue: Double
         {
         get { return axisMaximum }
@@ -313,8 +314,8 @@ open class AxisBase: ComponentBase
     /// The minimum value for this axis.
     /// If set, this value will not be calculated automatically depending on the provided data.
     /// Use `resetCustomAxisMin()` to undo this.
-    open var axisMinimum: Double
-        {
+    @objc open var axisMinimum: Double
+    {
         get
         {
             return _axisMinimum
@@ -330,8 +331,8 @@ open class AxisBase: ComponentBase
     /// The maximum value for this axis.
     /// If set, this value will not be calculated automatically depending on the provided data.
     /// Use `resetCustomAxisMax()` to undo this.
-    open var axisMaximum: Double
-        {
+    @objc open var axisMaximum: Double
+    {
         get
         {
             return _axisMaximum
@@ -347,7 +348,7 @@ open class AxisBase: ComponentBase
     /// Calculates the minimum, maximum and range values of the YAxis with the given minimum and maximum values from the chart data.
     /// - parameter dataMin: the y-min value according to chart data
     /// - parameter dataMax: the y-max value according to chart
-    open func calculate(min dataMin: Double, max dataMax: Double)
+    @objc open func calculate(min dataMin: Double, max dataMax: Double)
     {
         // if custom, use value as is, else use data value
         var min = isUsingCustomAxisMin ? _axisMinimum : (dataMin - spaceMin)

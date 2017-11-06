@@ -16,8 +16,8 @@ import CoreGraphics
 open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
 {
     /// the fill-formatter used for determining the position of the fill-line
-    internal var _fillFormatter: IFillFormatter!
-
+    @objc internal var _fillFormatter: IFillFormatter!
+  
     /// enum that allows to specify the order in which the different data objects for the combined-chart are drawn
     @objc(CombinedChartDrawOrder)
     public enum DrawOrder: Int
@@ -59,9 +59,9 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             renderer?.initBuffers()
         }
     }
-
-    open var fillFormatter: IFillFormatter
-        {
+    
+    @objc open var fillFormatter: IFillFormatter
+    {
         get
         {
             return _fillFormatter
@@ -183,14 +183,14 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     // MARK: - Accessors
 
     /// if set to true, all values are drawn above their bars, instead of below their top
-    public var isDrawValueAboveBarEnabled: Bool
+    @objc open var isDrawValueAboveBarEnabled: Bool
     {
         get { return (renderer as! CombinedChartRenderer!).isDrawValueAboveBarEnabled }
         @objc(setDrawValueAboveBarEnabled:) set { (renderer as! CombinedChartRenderer!).isDrawValueAboveBarEnabled = newValue }
     }
 
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
-    public var isDrawBarShadowEnabled: Bool
+    @objc open var isDrawBarShadowEnabled: Bool
     {
         get { return (renderer as! CombinedChartRenderer!).isDrawBarShadowEnabled }
         @objc(setDrawBarShadowEnabled:) set { (renderer as! CombinedChartRenderer!).isDrawBarShadowEnabled = newValue }
@@ -199,8 +199,8 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     /// the order in which the provided data objects should be drawn.
     /// The earlier you place them in the provided array, the further they will be in the background.
     /// e.g. if you provide [DrawOrder.Bar, DrawOrder.Line], the bars will be drawn behind the lines.
-    open var drawOrder: [Int]
-        {
+    @objc open var drawOrder: [Int]
+    {
         get
         {
             return (renderer as! CombinedChartRenderer!).drawOrder.map { $0.rawValue }
@@ -212,9 +212,9 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     }
 
     /// Set this to `true` to make the highlight operation full-bar oriented, `false` to make it highlight single values
-    public var isHighlightFullBarEnabled: Bool {
+    @objc public var isHighlightFullBarEnabled: Bool {
         get { return _isHighlightFullBarEnabled }
-        set { _isHighlightFullBarEnabled = newValue }
+        @objc(setHighlightFullBarEnabled:) set { _isHighlightFullBarEnabled = newValue }
     }
     private var _isHighlightFullBarEnabled: Bool = false
 

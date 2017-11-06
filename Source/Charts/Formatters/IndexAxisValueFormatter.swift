@@ -17,8 +17,7 @@ open class IndexAxisValueFormatter: NSObject, IAxisValueFormatter
 {
     private var _values: [String] = [String]()
     private var _valueCount: Int = 0
-
-    public var values: [String]
+    @objc public var values: [String]
     {
         get
         {
@@ -36,15 +35,14 @@ open class IndexAxisValueFormatter: NSObject, IAxisValueFormatter
         super.init()
 
     }
-
-    public init(values: [String])
+    @objc public init(values: [String])
     {
         super.init()
 
         self.values = values
     }
 
-    public static func with(values: [String]) -> IndexAxisValueFormatter?
+    @objc public static func with(values: [String]) -> IndexAxisValueFormatter?
     {
         return IndexAxisValueFormatter(values: values)
     }

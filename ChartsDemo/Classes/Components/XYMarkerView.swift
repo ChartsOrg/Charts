@@ -9,10 +9,10 @@ import Charts
 
 open class XYMarkerView: BalloonMarker
 {
-    open var xAxisValueFormatter: IAxisValueFormatter?
+    @objc open var xAxisValueFormatter: IAxisValueFormatter?
     fileprivate var yFormatter = NumberFormatter()
     
-    public init(color: UIColor, font: UIFont, textColor: UIColor, insets: UIEdgeInsets,
+    @objc public init(color: UIColor, font: UIFont, textColor: UIColor, insets: UIEdgeInsets,
                 xAxisValueFormatter: IAxisValueFormatter)
     {
         super.init(color: color, font: font, textColor: textColor, insets: insets)

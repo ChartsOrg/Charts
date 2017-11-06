@@ -18,12 +18,12 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
         _ value: Double,
         _ axis: AxisBase?) -> String
 
-    open var block: Block?
+    @objc open var block: Block?
 
-    public var hasAutoDecimals: Bool = false
+    @objc public var hasAutoDecimals: Bool = false
 
     fileprivate var _formatter: NumberFormatter?
-    open var formatter: NumberFormatter?
+    @objc open var formatter: NumberFormatter?
         {
         get { return _formatter }
         set
@@ -57,15 +57,15 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
         self.formatter = NumberFormatter()
         hasAutoDecimals = true
     }
-
-    public init(formatter: NumberFormatter)
+    
+    @objc public init(formatter: NumberFormatter)
     {
         super.init()
 
         self.formatter = formatter
     }
-
-    public init(decimals: Int)
+    
+    @objc public init(decimals: Int)
     {
         super.init()
 
@@ -74,15 +74,15 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
         self.decimals = decimals
         hasAutoDecimals = true
     }
-
-    public init(block: @escaping Block)
+    
+    @objc public init(block: @escaping Block)
     {
         super.init()
 
         self.block = block
     }
-
-    public static func with(block: @escaping Block) -> DefaultAxisValueFormatter?
+    
+    @objc public static func with(block: @escaping Block) -> DefaultAxisValueFormatter?
     {
         return DefaultAxisValueFormatter(block: block)
     }

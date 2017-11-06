@@ -17,12 +17,12 @@ open class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubbleCh
 {
     // MARK: - Data functions and accessors
     
-    internal var _maxSize = CGFloat(0.0)
+    @objc internal var _maxSize = CGFloat(0.0)
     
     open var maxSize: CGFloat { return _maxSize }
-    public var isNormalizeSizeEnabled: Bool {
+    @objc public var isNormalizeSizeEnabled: Bool {
         get { return _isNormalizeSizeEnabled }
-        set { _isNormalizeSizeEnabled = newValue }
+        @objc(setNormalizeSizeEnabled:) set { _isNormalizeSizeEnabled = newValue }
     }
     private var _isNormalizeSizeEnabled = true
 

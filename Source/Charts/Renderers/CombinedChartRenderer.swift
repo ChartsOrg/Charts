@@ -14,13 +14,13 @@ import CoreGraphics
 
 open class CombinedChartRenderer: DataRenderer
 {
-    open weak var chart: CombinedChartView?
+    @objc open weak var chart: CombinedChartView?
 
-    internal var _renderers = [DataRenderer]()
+    @objc internal var _renderers = [DataRenderer]()
     
     internal var _drawOrder: [CombinedChartView.DrawOrder] = [.bar, .bubble, .line, .candle, .scatter]
     
-    public init(chart: CombinedChartView?, animator: Animator, viewPortHandler: ViewPortHandler?)
+    @objc public init(chart: CombinedChartView?, animator: Animator, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -30,7 +30,7 @@ open class CombinedChartRenderer: DataRenderer
     }
     
     /// Creates the renderers needed for this combined-renderer in the required order. Also takes the DrawOrder into consideration.
-    internal func createRenderers()
+    @objc internal func createRenderers()
     {
         _renderers = [DataRenderer]()
         
@@ -151,7 +151,7 @@ open class CombinedChartRenderer: DataRenderer
     }
 
     /// - returns: The sub-renderer object at the specified index.
-    open func getSubRenderer(index: Int) -> DataRenderer?
+    @objc open func getSubRenderer(index: Int) -> DataRenderer?
     {
         if index >= _renderers.count || index < 0
         {
@@ -164,7 +164,7 @@ open class CombinedChartRenderer: DataRenderer
     }
 
     /// - returns: All sub-renderers.
-    open var subRenderers: [DataRenderer]
+    @objc open var subRenderers: [DataRenderer]
     {
         get { return _renderers }
         set { _renderers = newValue }

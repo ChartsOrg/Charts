@@ -19,9 +19,9 @@ import CoreGraphics
 
 open class LineChartRenderer: LineRadarRenderer
 {
-    open weak var dataProvider: LineChartDataProvider?
+    @objc open weak var dataProvider: LineChartDataProvider?
     
-    public init(dataProvider: LineChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    @objc public init(dataProvider: LineChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -48,7 +48,7 @@ open class LineChartRenderer: LineRadarRenderer
         }
     }
     
-    open func drawDataSet(context: CGContext, dataSet: ILineChartDataSet)
+    @objc open func drawDataSet(context: CGContext, dataSet: ILineChartDataSet)
     {
         if dataSet.entryCount < 1
         {
@@ -84,7 +84,7 @@ open class LineChartRenderer: LineRadarRenderer
         context.restoreGState()
     }
     
-    open func drawCubicBezier(context: CGContext, dataSet: ILineChartDataSet)
+    @objc open func drawCubicBezier(context: CGContext, dataSet: ILineChartDataSet)
     {
         guard
             let dataProvider = dataProvider,
@@ -181,7 +181,7 @@ open class LineChartRenderer: LineRadarRenderer
         context.restoreGState()
     }
     
-    open func drawHorizontalBezier(context: CGContext, dataSet: ILineChartDataSet)
+    @objc open func drawHorizontalBezier(context: CGContext, dataSet: ILineChartDataSet)
     {
         guard
             let dataProvider = dataProvider,
@@ -290,7 +290,7 @@ open class LineChartRenderer: LineRadarRenderer
     
     fileprivate var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
     
-    open func drawLinear(context: CGContext, dataSet: ILineChartDataSet)
+    @objc open func drawLinear(context: CGContext, dataSet: ILineChartDataSet)
     {
         guard
             let dataProvider = dataProvider,
@@ -580,7 +580,7 @@ open class LineChartRenderer: LineRadarRenderer
                                 x: pt.x,
                                 y: pt.y - CGFloat(valOffset) - valueFont.lineHeight),
                             align: .center,
-                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)])
+                            attributes: [NSAttributedStringKey.font: valueFont, NSAttributedStringKey.foregroundColor: dataSet.valueTextColorAt(j)])
                     }
                     
                     if let icon = e.icon, dataSet.isDrawIconsEnabled
