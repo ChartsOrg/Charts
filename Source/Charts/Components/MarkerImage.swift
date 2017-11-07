@@ -20,14 +20,14 @@ import CoreGraphics
 open class MarkerImage: NSObject, IMarker
 {
     /// The marker image to render
-    open var image: NSUIImage?
+    @objc open var image: NSUIImage?
     
     open var offset: CGPoint = CGPoint()
     
-    open weak var chartView: ChartViewBase?
+    @objc open weak var chartView: ChartViewBase?
     
     /// As long as size is 0.0/0.0 - it will default to the image's size
-    open var size: CGSize = CGSize()
+    @objc open var size: CGSize = CGSize()
     
     public override init()
     {
