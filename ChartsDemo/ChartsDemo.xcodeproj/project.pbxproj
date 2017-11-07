@@ -25,10 +25,6 @@
 		5B43162C1AB8D8AE0009FCAA /* Icon-60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4316241AB8D8AE0009FCAA /* Icon-60@3x.png */; };
 		5B43162D1AB8D8AE0009FCAA /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 5B4316251AB8D8AE0009FCAA /* iTunesArtwork */; };
 		5B43162E1AB8D8AE0009FCAA /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = 5B4316261AB8D8AE0009FCAA /* iTunesArtwork@2x */; };
-		5B4316351AB8D8B70009FCAA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4316311AB8D8B70009FCAA /* Default-568h@2x.png */; };
-		5B4316361AB8D8B70009FCAA /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4316321AB8D8B70009FCAA /* Default-667h@2x.png */; };
-		5B4316371AB8D8B70009FCAA /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4316331AB8D8B70009FCAA /* Default-736h@3x.png */; };
-		5B4316381AB8D8B70009FCAA /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4316341AB8D8B70009FCAA /* Default@2x.png */; };
 		5B57BBB51A9B26AA0036A6CC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B57BBB41A9B26AA0036A6CC /* main.m */; };
 		5B57BBB81A9B26AA0036A6CC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B57BBB71A9B26AA0036A6CC /* AppDelegate.m */; };
 		5B57BBBB1A9B26AA0036A6CC /* DemoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B57BBBA1A9B26AA0036A6CC /* DemoListViewController.m */; };
@@ -84,6 +80,7 @@
 		5BEAED3C1ABC199F0013F194 /* ColoredLineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED3A1ABC199F0013F194 /* ColoredLineChartViewController.xib */; };
 		5BEAED401ABC1AC60013F194 /* SinusBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAED3E1ABC1AC60013F194 /* SinusBarChartViewController.m */; };
 		5BEAED411ABC1AC60013F194 /* SinusBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED3F1ABC1AC60013F194 /* SinusBarChartViewController.xib */; };
+		B64D06EB1FB199130067418D /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B64D06EA1FB199130067418D /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -234,6 +231,7 @@
 		5BEAED3D1ABC1AC60013F194 /* SinusBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinusBarChartViewController.h; sourceTree = "<group>"; };
 		5BEAED3E1ABC1AC60013F194 /* SinusBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SinusBarChartViewController.m; sourceTree = "<group>"; };
 		5BEAED3F1ABC1AC60013F194 /* SinusBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SinusBarChartViewController.xib; sourceTree = "<group>"; };
+		B64D06EA1FB199130067418D /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -340,6 +338,7 @@
 		5B8EAF2E1AB32E15009697AA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B64D06EA1FB199130067418D /* Launch Screen.storyboard */,
 				5B8EAF2F1AB32E15009697AA /* Images.xcassets */,
 				5B43161E1AB8D8AE0009FCAA /* app-icon */,
 				5B4316301AB8D8B70009FCAA /* launch-image */,
@@ -543,21 +542,18 @@
 				5B43162B1AB8D8AE0009FCAA /* Icon-60@2x.png in Resources */,
 				5B43162E1AB8D8AE0009FCAA /* iTunesArtwork@2x in Resources */,
 				5B4316281AB8D8AE0009FCAA /* Icon-29@3x.png in Resources */,
-				5B4316361AB8D8B70009FCAA /* Default-667h@2x.png in Resources */,
 				5BEAED2D1ABC160F0013F194 /* CandleStickChartViewController.xib in Resources */,
 				5B613DB51D526EA8000F1E98 /* RadarMarkerView.xib in Resources */,
 				5BD47E611ABB3C91008FCEC6 /* LineChart2ViewController.xib in Resources */,
 				5BEAED131ABBFB2B0013F194 /* AnotherBarChartViewController.xib in Resources */,
 				5BEAED411ABC1AC60013F194 /* SinusBarChartViewController.xib in Resources */,
 				5BEAED371ABC192F0013F194 /* RadarChartViewController.xib in Resources */,
-				5B4316351AB8D8B70009FCAA /* Default-568h@2x.png in Resources */,
 				5B8EAF241AB3271B009697AA /* DemoListViewController.xib in Resources */,
 				5BEAED261ABC0BE20013F194 /* MultipleBarChartViewController.xib in Resources */,
 				5B43162A1AB8D8AE0009FCAA /* Icon-40@3x.png in Resources */,
 				5BEAED3C1ABC199F0013F194 /* ColoredLineChartViewController.xib in Resources */,
 				5BEAED321ABC18F00013F194 /* CubicLineChartViewController.xib in Resources */,
 				5BEAED281ABC0BE20013F194 /* MultipleLinesChartViewController.xib in Resources */,
-				5B4316381AB8D8B70009FCAA /* Default@2x.png in Resources */,
 				5B9624421B38608C007763E2 /* NegativeStackedBarChartViewController.xib in Resources */,
 				5B613DA41D526AD5000F1E98 /* radar_marker@3x.png in Resources */,
 				5BE7E7631C693098000A0377 /* PositiveNegativeBarChartViewController.xib in Resources */,
@@ -566,11 +562,11 @@
 				0471CBFC1CA1090A00E52DBC /* PiePolylineChartViewController.xib in Resources */,
 				5BD8F0751AB89CE500566E05 /* LineChart1ViewController.xib in Resources */,
 				5BE673811D5B496500A87BA2 /* HalfPieChartViewController.xib in Resources */,
+				B64D06EB1FB199130067418D /* Launch Screen.storyboard in Resources */,
 				5B43162D1AB8D8AE0009FCAA /* iTunesArtwork in Resources */,
 				5BD47E661ABB424E008FCEC6 /* BarChartViewController.xib in Resources */,
 				5BDEDC421ABB7F73007D3A60 /* HorizontalBarChartViewController.xib in Resources */,
 				5BDEDC481ABB871E007D3A60 /* CombinedChartViewController.xib in Resources */,
-				5B4316371AB8D8B70009FCAA /* Default-736h@3x.png in Resources */,
 				5BE673951D5B4E0900A87BA2 /* LineChartTimeViewController.xib in Resources */,
 				5B4316291AB8D8AE0009FCAA /* Icon-40@2x.png in Resources */,
 				5BEAED1E1ABBFB340013F194 /* StackedBarChartViewController.xib in Resources */,
@@ -736,7 +732,6 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
@@ -759,7 +754,6 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
