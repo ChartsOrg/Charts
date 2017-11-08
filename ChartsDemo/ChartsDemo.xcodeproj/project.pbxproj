@@ -143,10 +143,6 @@
 		5B4316241AB8D8AE0009FCAA /* Icon-60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@3x.png"; sourceTree = "<group>"; };
 		5B4316251AB8D8AE0009FCAA /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		5B4316261AB8D8AE0009FCAA /* iTunesArtwork@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
-		5B4316311AB8D8B70009FCAA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		5B4316321AB8D8B70009FCAA /* Default-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-667h@2x.png"; sourceTree = "<group>"; };
-		5B4316331AB8D8B70009FCAA /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x.png"; sourceTree = "<group>"; };
-		5B4316341AB8D8B70009FCAA /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		5B57BBAF1A9B26AA0036A6CC /* ChartsDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChartsDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B57BBB31A9B26AA0036A6CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B57BBB41A9B26AA0036A6CC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -270,17 +266,6 @@
 			path = "app-icon";
 			sourceTree = "<group>";
 		};
-		5B4316301AB8D8B70009FCAA /* launch-image */ = {
-			isa = PBXGroup;
-			children = (
-				5B4316311AB8D8B70009FCAA /* Default-568h@2x.png */,
-				5B4316321AB8D8B70009FCAA /* Default-667h@2x.png */,
-				5B4316331AB8D8B70009FCAA /* Default-736h@3x.png */,
-				5B4316341AB8D8B70009FCAA /* Default@2x.png */,
-			);
-			path = "launch-image";
-			sourceTree = "<group>";
-		};
 		5B57BBA61A9B26AA0036A6CC = {
 			isa = PBXGroup;
 			children = (
@@ -341,7 +326,6 @@
 				B64D06EA1FB199130067418D /* Launch Screen.storyboard */,
 				5B8EAF2F1AB32E15009697AA /* Images.xcassets */,
 				5B43161E1AB8D8AE0009FCAA /* app-icon */,
-				5B4316301AB8D8B70009FCAA /* launch-image */,
 				5B613DA21D526AD5000F1E98 /* markers */,
 			);
 			path = Resources;
@@ -737,6 +721,7 @@
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(SOURCE_ROOT)/../Carthage/Build/iOS";
 				INFOPLIST_FILE = "Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ChartsDemo;
@@ -759,6 +744,7 @@
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(SOURCE_ROOT)/../Carthage/Build/iOS";
 				INFOPLIST_FILE = "Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ChartsDemo;
