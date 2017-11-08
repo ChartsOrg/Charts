@@ -855,47 +855,49 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     public enum ImageFormat
     {
-        case jpeg
+        /// - parameter quality: compression quality for lossless formats (JPEG)
+        case jpeg(quality: Double)
         case png
     }
     
-    /// Saves the current chart state with the given name to the given path on
-    /// the sdcard leaving the path empty "" will put the saved file directly on
-    /// the SD card chart is saved as a PNG image, example:
-    /// saveToPath("myfilename", "foldername1/foldername2")
+    /// Saves the current chart state with the given name to the given path, examples:
+    /// save(to: "./out/filename.jpg", format: .jpeg(quality: 90.0))
+    /// save(to: "./out/filename.png", format: .png)
     ///
     /// - parameter to: path to the image to save
     /// - parameter format: the format to save
-    /// - parameter compressionQuality: compression quality for lossless formats (JPEG)
     ///
     /// - returns: `true` if the image was saved successfully
-    open func save(to path: String, format: ImageFormat, compressionQuality: Double) -> Bool
-    {
-		guard let image = getChartImage(transparent: format != .jpeg)
-            else { return false }
-        
-        var imageData: Data!
+    open func save(to path: String, format: ImageFormat) -> Bool
+    {   
+        var imageData: Data?
         switch (format)
         {
         case .png:
+            guard let image = getChartImage(transparent: true) else { return false }
             imageData = NSUIImagePNGRepresentation(image)
-            break
             
-        case .jpeg:
+        case .jpeg(let compressionQuality):
+            guard let image = getChartImage(transparent: false) else { return false }
             imageData = NSUIImageJPEGRepresentation(image, CGFloat(compressionQuality))
-            break
         }
         
-        do
+        if let imageData = imageData
         {
-            try imageData.write(to: URL(fileURLWithPath: path), options: .atomic)
+            do
+            {
+                try imageData.write(to: URL(fileURLWithPath: path), options: .atomic)
+            }
+            catch
+            {
+                return false
+            }
+            return true
         }
-        catch
+        else
         {
             return false
         }
-        
-		return true
     }
     
     @objc internal var _viewportJobs = [ViewPortJob]()
