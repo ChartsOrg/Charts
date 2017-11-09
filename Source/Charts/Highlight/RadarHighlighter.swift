@@ -44,7 +44,7 @@ open class RadarHighlighter: PieRadarHighlighter
     /// The Highlight objects give information about the value at the selected index and DataSet it belongs to.
     ///
     /// - parameter index:
-    internal func getHighlights(forIndex index: Int) -> [Highlight]
+    @objc internal func getHighlights(forIndex index: Int) -> [Highlight]
     {
         var vals = [Highlight]()
         

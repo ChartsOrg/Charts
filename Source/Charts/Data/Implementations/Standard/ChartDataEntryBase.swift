@@ -14,13 +14,13 @@ import Foundation
 open class ChartDataEntryBase: NSObject
 {
     /// the y value
-    open var y = Double(0.0)
+    @objc open var y = Double(0.0)
     
     /// optional spot for additional data this Entry represents
-    open var data: AnyObject?
+    @objc open var data: AnyObject?
     
     /// optional icon image
-    open var icon: NSUIImage?
+    @objc open var icon: NSUIImage?
     
     public override required init()
     {
@@ -29,7 +29,7 @@ open class ChartDataEntryBase: NSObject
     
     /// An Entry represents one single entry in the chart.
     /// - parameter y: the y value (the actual value of the entry)
-    public init(y: Double)
+    @objc public init(y: Double)
     {
         super.init()
         
@@ -39,7 +39,7 @@ open class ChartDataEntryBase: NSObject
     /// - parameter y: the y value (the actual value of the entry)
     /// - parameter data: Space for additional data this Entry represents.
     
-    public init(y: Double, data: AnyObject?)
+    @objc public init(y: Double, data: AnyObject?)
     {
         super.init()
         
@@ -50,7 +50,7 @@ open class ChartDataEntryBase: NSObject
     /// - parameter y: the y value (the actual value of the entry)
     /// - parameter icon: icon image
     
-    public init(y: Double, icon: NSUIImage?)
+    @objc public init(y: Double, icon: NSUIImage?)
     {
         super.init()
         
@@ -62,7 +62,7 @@ open class ChartDataEntryBase: NSObject
     /// - parameter icon: icon image
     /// - parameter data: Space for additional data this Entry represents.
     
-    public init(y: Double, icon: NSUIImage?, data: AnyObject?)
+    @objc public init(y: Double, icon: NSUIImage?, data: AnyObject?)
     {
         super.init()
         
