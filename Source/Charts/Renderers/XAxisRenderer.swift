@@ -566,5 +566,4 @@ open class XAxisRenderer: NSObject, AxisRenderer
             }
         }
     }
-
 }
