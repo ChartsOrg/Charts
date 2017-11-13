@@ -633,8 +633,8 @@ open class ChartData: NSObject
         return colors
     }
     
-    /// Sets a custom IValueFormatter for all DataSets this data object contains.
-    @objc open func setValueFormatter(_ formatter: IValueFormatter?)
+    /// Sets a custom ValueFormatter for all DataSets this data object contains.
+    @objc open func setValueFormatter(_ formatter: ValueFormatter?)
     {
         guard let formatter = formatter
             else { return }

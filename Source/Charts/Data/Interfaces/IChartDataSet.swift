@@ -187,7 +187,7 @@ public protocol IChartDataSet
     var isHighlightEnabled: Bool { get }
     
     /// Custom formatter that is used instead of the auto-formatter if set
-    var valueFormatter: IValueFormatter? { get set }
+    var valueFormatter: ValueFormatter? { get set }
     
     /// - returns: `true` if the valueFormatter object of this DataSet is null.
     var needsFormatter: Bool { get }

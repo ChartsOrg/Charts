@@ -12,7 +12,7 @@
 import Foundation
 
 @objc(ChartDefaultValueFormatter)
-open class DefaultValueFormatter: NSObject, IValueFormatter
+open class DefaultValueFormatter: NSObject, ValueFormatter
 {
     public typealias Block = (
         _ value: Double,

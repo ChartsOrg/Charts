@@ -100,7 +100,7 @@
 		98E2EEF45E8933E4AD182D58 /* ChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EFAD7920F76360ADB3B5F5 /* ChartViewBase.swift */; };
 		9C91C151608E2D6E19B1EAD1 /* Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F099502DA50C56204E7B744 /* Range.swift */; };
 		9F760570BCECB0BF5727AF90 /* BarLineChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C6D3723C4E001B119CA0C8 /* BarLineChartViewBase.swift */; };
-		A40ACF0CCE96EEE104B0463D /* IValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAA8AA30C377D54D22A577A /* IValueFormatter.swift */; };
+		A40ACF0CCE96EEE104B0463D /* ValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAA8AA30C377D54D22A577A /* ValueFormatter.swift */; };
 		A692D8BDE42717F69DB790BE /* HorizontalBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6021C9E424C36116AEA78CC9 /* HorizontalBarChartView.swift */; };
 		AEE9C4E4AC02B8FB3CD21975 /* ZoomViewJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3A4F5987E58F3E5BE855F9 /* ZoomViewJob.swift */; };
 		AF4AAF3709ED9DDF6362EAE8 /* IBarLineScatterCandleBubbleChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5649B272BF3EBFC8A1EF0C1 /* IBarLineScatterCandleBubbleChartDataSet.swift */; };
@@ -211,7 +211,7 @@
 		4BBB57D6FA41029B08F26D7B /* RadarChartData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RadarChartData.swift; path = Source/Charts/Data/Implementations/Standard/RadarChartData.swift; sourceTree = "<group>"; };
 		4C2EA58CB336967198D30D20 /* AnimatedZoomViewJob.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AnimatedZoomViewJob.swift; path = Source/Charts/Jobs/AnimatedZoomViewJob.swift; sourceTree = "<group>"; };
 		4C978F31F23C7D21197DC2A1 /* LineChartData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LineChartData.swift; path = Source/Charts/Data/Implementations/Standard/LineChartData.swift; sourceTree = "<group>"; };
-		4EAA8AA30C377D54D22A577A /* IValueFormatter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IValueFormatter.swift; path = Source/Charts/Formatters/IValueFormatter.swift; sourceTree = "<group>"; };
+		4EAA8AA30C377D54D22A577A /* ValueFormatter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ValueFormatter.swift; path = Source/Charts/Formatters/ValueFormatter.swift; sourceTree = "<group>"; };
 		4EED352A98860E031F13AFB7 /* BubbleChartView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BubbleChartView.swift; path = Source/Charts/Charts/BubbleChartView.swift; sourceTree = "<group>"; };
 		4F7E6A99D82E6AE3804D5A39 /* ILineRadarChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ILineRadarChartDataSet.swift; path = Source/Charts/Data/Interfaces/ILineRadarChartDataSet.swift; sourceTree = "<group>"; };
 		4F9922F0641F7955DC6CD324 /* Charts.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Charts.h; path = "Source/Supporting Files/Charts.h"; sourceTree = "<group>"; };
@@ -472,7 +472,7 @@
 				0BD9DF16AF59680A3BB49452 /* AxisValueFormatter.swift */,
 				818AC6B12505B7C0A53D62F9 /* FillFormatter.swift */,
 				10DD0A02E3CF611BD11EBA9B /* IndexAxisValueFormatter.swift */,
-				4EAA8AA30C377D54D22A577A /* IValueFormatter.swift */,
+				4EAA8AA30C377D54D22A577A /* ValueFormatter.swift */,
 			);
 			name = Formatters;
 			sourceTree = "<group>";
@@ -872,7 +872,7 @@
 				B13C74B4FF705D7B595D01EF /* AxisValueFormatter.swift in Sources */,
 				B6C9F450D937B87224D29D5C /* FillFormatter.swift in Sources */,
 				967EE2EDDE3337C5C4337C59 /* IndexAxisValueFormatter.swift in Sources */,
-				A40ACF0CCE96EEE104B0463D /* IValueFormatter.swift in Sources */,
+				A40ACF0CCE96EEE104B0463D /* ValueFormatter.swift in Sources */,
 				3CBE95F1E9394FA08CDCF31E /* BarHighlighter.swift in Sources */,
 				D326491E8BCDE54A0921E137 /* ChartHighlighter.swift in Sources */,
 				64FA1EDB4DC1F65727D52D10 /* CombinedHighlighter.swift in Sources */,
