@@ -174,13 +174,14 @@ open class LineChartRenderer: LineRadarRenderer
             
             drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, bounds: _xBounds)
         }
-        // save the draw path
-        drawPath = context.path
         
         context.beginPath()
         context.addPath(cubicPath)
         context.setStrokeColor(drawingColor.cgColor)
         context.strokePath()
+        
+        // save the draw path
+        drawPath = context.path
         
         context.restoreGState()
     }
@@ -247,13 +248,15 @@ open class LineChartRenderer: LineRadarRenderer
             drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, bounds: _xBounds)
         }
         
-        // save the draw path
-        drawPath = context.path
+        
         
         context.beginPath()
         context.addPath(cubicPath)
         context.setStrokeColor(drawingColor.cgColor)
         context.strokePath()
+        
+        // save the draw path
+        drawPath = context.path
         
         context.restoreGState()
     }
