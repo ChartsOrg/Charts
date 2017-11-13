@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-open class ChartHighlighter : NSObject, IHighlighter
+open class ChartHighlighter : NSObject, Highlighter
 {
     /// instance of the data-provider
     @objc open weak var chart: ChartDataProvider?
