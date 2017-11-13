@@ -20,6 +20,8 @@ import CoreGraphics
 open class LineChartRenderer: LineRadarRenderer
 {
     @objc open weak var dataProvider: LineChartDataProvider?
+    /// Render draw path, use for personal processing.
+    @objc open weak var drawPath: CGPath?
     
     @objc public init(dataProvider: LineChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
@@ -172,6 +174,8 @@ open class LineChartRenderer: LineRadarRenderer
             
             drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, bounds: _xBounds)
         }
+        // save the draw path
+        drawPath = context.path
         
         context.beginPath()
         context.addPath(cubicPath)
@@ -242,6 +246,9 @@ open class LineChartRenderer: LineRadarRenderer
             
             drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, bounds: _xBounds)
         }
+        
+        // save the draw path
+        drawPath = context.path
         
         context.beginPath()
         context.addPath(cubicPath)
@@ -438,6 +445,9 @@ open class LineChartRenderer: LineRadarRenderer
                 }
             }
         }
+        
+        // save the draw path
+        drawPath = context.path
         
         context.restoreGState()
     }
