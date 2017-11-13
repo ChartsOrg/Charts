@@ -24,7 +24,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         var rects = [CGRect]()
     }
     
-    public override init(dataProvider: BarChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    public override init(dataProvider: BarChartDataProvider?, animator: Animator, viewPortHandler: ViewPortHandler?)
     {
         super.init(dataProvider: dataProvider, animator: animator, viewPortHandler: viewPortHandler)
     }
@@ -69,8 +69,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
     {
         guard let
             dataProvider = dataProvider,
-            let barData = dataProvider.barData,
-            let animator = animator
+            let barData = dataProvider.barData
             else { return }
         
         let barWidthHalf = barData.barWidth / 2.0
@@ -201,10 +200,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         // draw the bar shadow before the values
         if dataProvider.isDrawBarShadowEnabled
         {
-            guard
-                let animator = animator,
-                let barData = dataProvider.barData
-                else { return }
+            guard let barData = dataProvider.barData else { return }
             
             let barWidth = barData.barWidth
             let barWidthHalf = barWidth / 2.0
@@ -299,7 +295,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         rect.size.width = CGFloat(right - left)
         rect.size.height = CGFloat(bottom - top)
         
-        trans.rectValueToPixelHorizontal(&rect, phaseY: animator?.phaseY ?? 1.0)
+        trans.rectValueToPixelHorizontal(&rect, phaseY: animator.phaseY)
     }
     
     open override func drawValues(context: CGContext)
@@ -310,7 +306,6 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             guard
                 let dataProvider = dataProvider,
                 let barData = dataProvider.barData,
-                let animator = animator,
                 let viewPortHandler = self.viewPortHandler
                 else { return }
             

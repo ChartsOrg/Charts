@@ -17,7 +17,7 @@ open class BarLineScatterCandleBubbleRenderer: DataRenderer
 {
     internal var _xBounds = XBounds() // Reusable XBounds object
     
-    public override init(animator: Animator?, viewPortHandler: ViewPortHandler?)
+    public override init(animator: Animator, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
     }
@@ -27,7 +27,7 @@ open class BarLineScatterCandleBubbleRenderer: DataRenderer
     {
         let entryIndex = dataSet.entryIndex(entry: e)
         
-        if Double(entryIndex) >= Double(dataSet.entryCount) * (animator?.phaseX ?? 1.0)
+        if Double(entryIndex) >= Double(dataSet.entryCount) * animator.phaseX
         {
             return false
         }

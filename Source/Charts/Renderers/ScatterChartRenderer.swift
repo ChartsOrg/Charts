@@ -21,7 +21,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
 {
     @objc open weak var dataProvider: ScatterChartDataProvider?
     
-    @objc public init(dataProvider: ScatterChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    @objc public init(dataProvider: ScatterChartDataProvider?, animator: Animator, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -54,7 +54,6 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let animator = animator,
             let viewPortHandler = self.viewPortHandler
             else { return }
         
@@ -107,7 +106,6 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         guard
             let dataProvider = dataProvider,
             let scatterData = dataProvider.scatterData,
-            let animator = animator,
             let viewPortHandler = self.viewPortHandler
             else { return }
         
@@ -204,8 +202,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let scatterData = dataProvider.scatterData,
-            let animator = animator
+            let scatterData = dataProvider.scatterData
             else { return }
         
         context.saveGState()

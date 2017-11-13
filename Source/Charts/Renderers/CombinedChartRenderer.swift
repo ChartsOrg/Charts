@@ -42,7 +42,6 @@ open class CombinedChartRenderer: DataRenderer
         
         guard let
             chart = chart,
-            let animator = animator,
             let viewPortHandler = self.viewPortHandler
             else { return }
 
