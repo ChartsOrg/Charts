@@ -17,11 +17,11 @@ import CoreGraphics
 open class ViewPortJob: NSObject
 {
     @objc internal var point: CGPoint = CGPoint()
-    @objc internal weak var viewPortHandler: ViewPortHandler?
+    @objc internal weak var viewPortHandler: ViewPortHandler? // TODO: Can this be unowned?
     @objc internal var xValue: Double = 0.0
     @objc internal var yValue: Double = 0.0
-    @objc internal weak var transformer: Transformer?
-    @objc internal weak var view: ChartViewBase?
+    @objc internal weak var transformer: Transformer? // TODO: Can this be unowned?
+    @objc internal weak var view: ChartViewBase? // TODO: Can this be unowned?
     
     @objc public init(
         viewPortHandler: ViewPortHandler,
@@ -41,6 +41,6 @@ open class ViewPortJob: NSObject
     
     @objc open func doJob()
     {
-        // Override this
+        fatalError("`doJob()` must be overridden by subclasses")
     }
 }
