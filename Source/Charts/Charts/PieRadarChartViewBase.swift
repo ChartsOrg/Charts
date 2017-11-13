@@ -255,7 +255,7 @@ open class PieRadarChartViewBase: ChartViewBase
         let length = sqrt(tx * tx + ty * ty)
         let r = acos(ty / length)
 
-        var angle = r * ChartUtils.Math.RAD2DEG
+        var angle = r.rad2deg
 
         if x > c.x
         {
@@ -278,8 +278,8 @@ open class PieRadarChartViewBase: ChartViewBase
     /// from the center, and the angle of the position around the center.
     @objc open func getPosition(center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
     {
-        return CGPoint(x: center.x + dist * cos(angle * ChartUtils.Math.FDEG2RAD),
-                y: center.y + dist * sin(angle * ChartUtils.Math.FDEG2RAD))
+        return CGPoint(x: center.x + dist * cos(angle.deg2rad),
+                y: center.y + dist * sin(angle.deg2rad))
     }
 
     /// - returns: The distance of a certain point on the chart to the center of the chart.
@@ -845,14 +845,14 @@ open class PieRadarChartViewBase: ChartViewBase
         
         if recognizer.state == NSUIGestureRecognizerState.began || recognizer.state == NSUIGestureRecognizerState.changed
         {
-            let angle = ChartUtils.Math.FRAD2DEG * recognizer.nsuiRotation
+            let angle = recognizer.nsuiRotation.rad2deg
             
             self.rotationAngle = _startAngle + angle
             setNeedsDisplay()
         }
         else if recognizer.state == NSUIGestureRecognizerState.ended
         {
-            let angle = ChartUtils.Math.FRAD2DEG * recognizer.nsuiRotation
+            let angle = recognizer.nsuiRotation.rad2deg
             
             self.rotationAngle = _startAngle + angle
             setNeedsDisplay()
@@ -861,7 +861,7 @@ open class PieRadarChartViewBase: ChartViewBase
             {
                 stopDeceleration()
                 
-                _decelerationAngularVelocity = ChartUtils.Math.FRAD2DEG * recognizer.velocity
+                _decelerationAngularVelocity = recognizer.velocity.rad2deg
                 
                 if _decelerationAngularVelocity != 0.0
                 {

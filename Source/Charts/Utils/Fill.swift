@@ -273,7 +273,7 @@ open class Fill: NSObject
             
         case .linearGradient:
             
-            let radians = ChartUtils.Math.FDEG2RAD * (360.0 - _gradientAngle)
+            let radians = (360.0 - _gradientAngle).deg2rad
             let centerPoint = CGPoint(x: rect.midX, y: rect.midY)
             let xAngleDelta = cos(radians) * rect.width / 2.0
             let yAngleDelta = sin(radians) * rect.height / 2.0

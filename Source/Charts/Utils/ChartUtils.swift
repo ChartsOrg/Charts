@@ -16,18 +16,20 @@ import CoreGraphics
     import UIKit
 #endif
 
+extension FloatingPoint {
+    var deg2rad: Self {
+        return self * .pi / 180
+    }
+
+    var rad2deg: Self {
+        return self * 180 / .pi
+    }
+}
+
 open class ChartUtils
 {
     fileprivate static var _defaultValueFormatter: IValueFormatter = ChartUtils.generateDefaultValueFormatter()
-    
-    internal struct Math
-    {
-        internal static let FDEG2RAD = CGFloat(Double.pi / 180.0)
-        internal static let FRAD2DEG = CGFloat(180.0 / Double.pi)
-        internal static let DEG2RAD = Double.pi / 180.0
-        internal static let RAD2DEG = 180.0 / Double.pi
-    }
-    
+
     internal class func roundToNextSignificant(number: Double) -> Double
     {
         if number.isInfinite || number.isNaN || number == 0
@@ -75,8 +77,8 @@ open class ChartUtils
     internal class func getPosition(center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
     {
         return CGPoint(
-            x: center.x + dist * cos(angle * Math.FDEG2RAD),
-            y: center.y + dist * sin(angle * Math.FDEG2RAD)
+            x: center.x + dist * cos(angle.deg2rad),
+            y: center.y + dist * sin(angle.deg2rad)
         )
     }
     
@@ -276,7 +278,7 @@ open class ChartUtils
     
     internal class func sizeOfRotatedRectangle(_ rectangleSize: CGSize, degrees: CGFloat) -> CGSize
     {
-        let radians = degrees * Math.FDEG2RAD
+        let radians = degrees.deg2rad
         return sizeOfRotatedRectangle(rectangleWidth: rectangleSize.width, rectangleHeight: rectangleSize.height, radians: radians)
     }
     
@@ -287,7 +289,7 @@ open class ChartUtils
     
     internal class func sizeOfRotatedRectangle(rectangleWidth: CGFloat, rectangleHeight: CGFloat, degrees: CGFloat) -> CGSize
     {
-        let radians = degrees * Math.FDEG2RAD
+        let radians = degrees.deg2rad
         return sizeOfRotatedRectangle(rectangleWidth: rectangleWidth, rectangleHeight: rectangleHeight, radians: radians)
     }
     
