@@ -336,7 +336,7 @@ open class PieRadarChartViewBase: ChartViewBase
         set
         {
             _rawRotationAngle = newValue
-            _rotationAngle = ChartUtils.normalizedAngleFromAngle(newValue)
+            _rotationAngle = newValue.normalizedAngle
             setNeedsDisplay()
         }
     }
