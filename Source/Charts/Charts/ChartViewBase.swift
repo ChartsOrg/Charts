@@ -168,7 +168,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     @objc open var isDrawMarkersEnabled: Bool { return drawMarkers }
     
     /// The marker that is displayed when a value is clicked on the chart
-    @objc open var marker: IMarker?
+    @objc open var marker: Marker?
     
     fileprivate var _interceptTouchEvents = false
     
