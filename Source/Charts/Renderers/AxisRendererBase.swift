@@ -13,8 +13,10 @@ import Foundation
 import CoreGraphics
 
 @objc(ChartAxisRendererBase)
-open class AxisRendererBase: Renderer
+open class AxisRendererBase: NSObject, Renderer
 {
+    @objc public let viewPortHandler: ViewPortHandler
+
     /// base axis this axis renderer works with
     @objc open var axis: AxisBase?
     
@@ -23,8 +25,7 @@ open class AxisRendererBase: Renderer
 
     @objc public init(viewPortHandler: ViewPortHandler, transformer: Transformer?, axis: AxisBase?)
     {
-        super.init(viewPortHandler: viewPortHandler)
-        
+        self.viewPortHandler = viewPortHandler
         self.transformer = transformer
         self.axis = axis
     }
