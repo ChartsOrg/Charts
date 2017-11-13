@@ -25,7 +25,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     
     @objc open weak var dataProvider: BarChartDataProvider?
     
-    @objc public init(dataProvider: BarChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    @objc public init(dataProvider: BarChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -208,10 +208,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     
     @objc open func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int)
     {
-        guard
-            let dataProvider = dataProvider,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let dataProvider = dataProvider else { return }
         
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
         
@@ -357,7 +354,6 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         {
             guard
                 let dataProvider = dataProvider,
-                let viewPortHandler = self.viewPortHandler,
                 let barData = dataProvider.barData,
                 let animator = animator
                 else { return }

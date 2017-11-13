@@ -24,7 +24,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         var rects = [CGRect]()
     }
     
-    public override init(dataProvider: BarChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    public override init(dataProvider: BarChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler)
     {
         super.init(dataProvider: dataProvider, animator: animator, viewPortHandler: viewPortHandler)
     }
@@ -182,10 +182,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
     
     open override func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int)
     {
-        guard let
-            dataProvider = dataProvider,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let dataProvider = dataProvider else { return }
         
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
         
@@ -310,8 +307,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             guard
                 let dataProvider = dataProvider,
                 let barData = dataProvider.barData,
-                let animator = animator,
-                let viewPortHandler = self.viewPortHandler
+                let animator = animator
                 else { return }
             
             var dataSets = barData.dataSets
@@ -610,7 +606,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
     {
         guard let data = dataProvider?.data
             else { return false }
-        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * (self.viewPortHandler?.scaleY ?? 1.0))
+        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * self.viewPortHandler.scaleY)
     }
     
     /// Sets the drawing position of the highlight object based on the riven bar-rect.

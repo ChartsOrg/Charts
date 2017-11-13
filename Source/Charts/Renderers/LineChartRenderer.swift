@@ -21,7 +21,7 @@ open class LineChartRenderer: LineRadarRenderer
 {
     @objc open weak var dataProvider: LineChartDataProvider?
     
-    @objc public init(dataProvider: LineChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    @objc public init(dataProvider: LineChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -294,8 +294,7 @@ open class LineChartRenderer: LineRadarRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let animator = animator,
-            let viewPortHandler = self.viewPortHandler
+            let animator = animator
             else { return }
         
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
@@ -510,8 +509,7 @@ open class LineChartRenderer: LineRadarRenderer
         guard
             let dataProvider = dataProvider,
             let lineData = dataProvider.lineData,
-            let animator = animator,
-            let viewPortHandler = self.viewPortHandler
+            let animator = animator
             else { return }
         
         if isDrawingValuesAllowed(dataProvider: dataProvider)
@@ -606,8 +604,7 @@ open class LineChartRenderer: LineRadarRenderer
         guard
             let dataProvider = dataProvider,
             let lineData = dataProvider.lineData,
-            let animator = animator,
-            let viewPortHandler = self.viewPortHandler
+            let animator = animator
             else { return }
         
         let phaseY = animator.phaseY
