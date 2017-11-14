@@ -326,7 +326,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		031D7C33F3BF172E30664862 /* Interfaces */ = {
+		031D7C33F3BF172E30664862 /* DataProviders */ = {
 			isa = PBXGroup;
 			children = (
 				9D7184C8A5A60A3522AB9B05 /* BarChartDataProvider.swift */,
@@ -338,7 +338,7 @@
 				BFABD027DAF6851088F002AC /* LineChartDataProvider.swift */,
 				2FD37A55B4D85D883E29C744 /* ScatterChartDataProvider.swift */,
 			);
-			name = Interfaces;
+			name = DataProviders;
 			sourceTree = "<group>";
 		};
 		033FD152BB2F906750106A85 /* Frameworks */ = {
@@ -376,7 +376,7 @@
 				AA79AB82B0ADCA926510B73E /* Filters */,
 				74A391010038924F637D6752 /* Formatters */,
 				42824E1F334B0C484AF4C594 /* Highlight */,
-				031D7C33F3BF172E30664862 /* Interfaces */,
+				031D7C33F3BF172E30664862 /* DataProviders */,
 				AD1224C45A29A5C88D6B7450 /* Jobs */,
 				E7589D3E7C2BD2449960AD59 /* Renderers */,
 				D047819AB7170595896D6FE8 /* Utils */,
