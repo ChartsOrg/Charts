@@ -608,7 +608,7 @@ open class PieRadarChartViewBase: ChartViewBase
     open override func mouseDown(with theEvent: NSEvent)
     {
     // if rotation by touch is enabled
-    if rotationEnabled
+    if isRotationEnabled
     {
     stopDeceleration()
 
@@ -625,7 +625,7 @@ open class PieRadarChartViewBase: ChartViewBase
 
     open override func mouseDragged(with theEvent: NSEvent)
     {
-    if rotationEnabled
+    if isRotationEnabled
     {
     let location = self.convert(theEvent.locationInWindow, from: nil)
 
@@ -645,7 +645,7 @@ open class PieRadarChartViewBase: ChartViewBase
     super.mouseUp(with: theEvent)
     }
 
-    if rotationEnabled
+    if isRotationEnabled
     {
     let location = self.convert(theEvent.locationInWindow, from: nil)
 
