@@ -94,14 +94,7 @@ open class DefaultValueFormatter: NSObject, IValueFormatter
                              dataSetIndex: Int,
                              viewPortHandler: ViewPortHandler?) -> String
     {
-        if block != nil
-        {
-            return block!(value, entry, dataSetIndex, viewPortHandler)
-        }
-        else
-        {
-            return formatter?.string(from: NSNumber(floatLiteral: value)) ?? ""
-        }
+        return block?(value, entry, dataSetIndex, viewPortHandler) ??
+            (formatter?.string(from: NSNumber(floatLiteral: value)) ?? "")
     }
-    
 }
