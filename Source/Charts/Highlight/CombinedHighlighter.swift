@@ -18,7 +18,7 @@ open class CombinedHighlighter: ChartHighlighter
     /// bar highlighter for supporting stacked highlighting
     fileprivate var barHighlighter: BarHighlighter?
     
-    @objc public init(chart: CombinedChartDataProvider, barDataProvider: BarChartDataProvider)
+    public init(chart: CombinedChartDataProvider, barDataProvider: BarChartDataProvider)
     {
         super.init(chart: chart)
         

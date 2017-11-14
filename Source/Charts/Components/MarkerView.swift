@@ -21,7 +21,7 @@ open class MarkerView: NSUIView, IMarker
 {
     open var offset: CGPoint = CGPoint()
     
-    @objc open weak var chartView: ChartViewBase?
+    open weak var chartView: ChartViewBase?
     
     open func offsetForDrawing(atPoint point: CGPoint) -> CGPoint
     {
@@ -82,10 +82,10 @@ open class MarkerView: NSUIView, IMarker
         #else
             
             var loadedObjects = NSArray()
-            let loadedObjectsPointer = AutoreleasingUnsafeMutablePointer<NSArray?>(&loadedObjects)
+            let loadedObjectsPointer = AutoreleasingUnsafeMutablePointer<NSArray>(&loadedObjects)
             
             if Bundle.main.loadNibNamed(
-                NSNib.Name(String(describing: self)),
+                String(describing: self),
                 owner: nil,
                 topLevelObjects: loadedObjectsPointer)
             {

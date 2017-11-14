@@ -19,9 +19,9 @@ import CoreGraphics
 
 open class RadarChartRenderer: LineRadarRenderer
 {
-    @objc open weak var chart: RadarChartView?
+    open weak var chart: RadarChartView?
 
-    @objc public init(chart: RadarChartView?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    public init(chart: RadarChartView?, animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -53,7 +53,7 @@ open class RadarChartRenderer: LineRadarRenderer
     /// - parameter context:
     /// - parameter dataSet:
     /// - parameter mostEntries: the entry count of the dataset with the most entries
-    @objc internal func drawDataSet(context: CGContext, dataSet: IRadarChartDataSet, mostEntries: Int)
+    internal func drawDataSet(context: CGContext, dataSet: IRadarChartDataSet, mostEntries: Int)
     {
         guard let
             chart = chart,
@@ -194,8 +194,8 @@ open class RadarChartRenderer: LineRadarRenderer
                             viewPortHandler: viewPortHandler),
                         point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
                         align: .center,
-                        attributes: [NSAttributedStringKey.font: valueFont,
-                            NSAttributedStringKey.foregroundColor: dataSet.valueTextColorAt(j)]
+                        attributes: [NSFontAttributeName: valueFont,
+                            NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
                     )
                 }
                 
@@ -224,7 +224,7 @@ open class RadarChartRenderer: LineRadarRenderer
     
     fileprivate var _webLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    @objc open func drawWeb(context: CGContext)
+    open func drawWeb(context: CGContext)
     {
         guard
             let chart = chart,
@@ -380,7 +380,7 @@ open class RadarChartRenderer: LineRadarRenderer
         context.restoreGState()
     }
     
-    @objc internal func drawHighlightCircle(
+    internal func drawHighlightCircle(
         context: CGContext,
         atPoint point: CGPoint,
         innerRadius: CGFloat,

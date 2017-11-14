@@ -18,9 +18,9 @@ import CoreGraphics
 
 open class AnimatedViewPortJob: ViewPortJob
 {
-    @objc internal var phase: CGFloat = 1.0
-    @objc internal var xOrigin: CGFloat = 0.0
-    @objc internal var yOrigin: CGFloat = 0.0
+    internal var phase: CGFloat = 1.0
+    internal var xOrigin: CGFloat = 0.0
+    internal var yOrigin: CGFloat = 0.0
     
     fileprivate var _startTime: TimeInterval = 0.0
     fileprivate var _displayLink: NSUIDisplayLink!
@@ -29,7 +29,7 @@ open class AnimatedViewPortJob: ViewPortJob
     
     fileprivate var _easing: ChartEasingFunctionBlock?
     
-    @objc public init(
+    public init(
         viewPortHandler: ViewPortHandler,
         xValue: Double,
         yValue: Double,
@@ -62,7 +62,7 @@ open class AnimatedViewPortJob: ViewPortJob
         start()
     }
     
-    @objc open func start()
+    open func start()
     {
         _startTime = CACurrentMediaTime()
         _endTime = _startTime + _duration
@@ -74,7 +74,7 @@ open class AnimatedViewPortJob: ViewPortJob
         _displayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
     }
     
-    @objc open func stop(finish: Bool)
+    open func stop(finish: Bool)
     {
         if _displayLink != nil
         {
@@ -130,12 +130,12 @@ open class AnimatedViewPortJob: ViewPortJob
         }
     }
     
-    @objc internal func animationUpdate()
+    internal func animationUpdate()
     {
         // Override this
     }
     
-    @objc internal func animationEnd()
+    internal func animationEnd()
     {
         // Override this
     }

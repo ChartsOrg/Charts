@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="HelveticaNeueLights.ttc">
-            <string>HelveticaNeue-Light</string>
-        </array>
-    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RealmDemosViewController">
             <connections>
@@ -40,10 +34,9 @@ Please go to https://github.com/danielgindi/ChartsRealm and follow the instructi
             <constraints>
                 <constraint firstItem="X92-k4-Oz9" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="PmD-ST-eOi"/>
                 <constraint firstItem="X92-k4-Oz9" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="WeM-ZA-u7S"/>
-                <constraint firstItem="X92-k4-Oz9" firstAttribute="leading" secondItem="x4u-hY-XZP" secondAttribute="leading" constant="16" id="nX1-IK-pQh"/>
-                <constraint firstItem="x4u-hY-XZP" firstAttribute="trailing" secondItem="X92-k4-Oz9" secondAttribute="trailing" constant="16" id="vfJ-xE-LAn"/>
+                <constraint firstItem="X92-k4-Oz9" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="nX1-IK-pQh"/>
+                <constraint firstAttribute="trailing" secondItem="X92-k4-Oz9" secondAttribute="trailing" constant="16" id="vfJ-xE-LAn"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="x4u-hY-XZP"/>
             <point key="canvasLocation" x="157.5" y="222.5"/>
         </view>
     </objects>

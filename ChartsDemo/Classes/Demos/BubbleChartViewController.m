@@ -121,6 +121,7 @@
     [set1 setDrawValuesEnabled:YES];
     
     BubbleChartDataSet *set2 = [[BubbleChartDataSet alloc] initWithValues:yVals2 label:@"DS 2"];
+    set1.drawIconsEnabled = NO;
     set2.iconsOffset = CGPointMake(0, 15);
     [set2 setColor:ChartColorTemplates.colorful[1] alpha:0.50f];
     [set2 setDrawValuesEnabled:YES];

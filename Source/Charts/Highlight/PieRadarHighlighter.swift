@@ -55,7 +55,7 @@ open class PieRadarHighlighter: ChartHighlighter
     /// - parameter index:
     /// - parameter x:
     /// - parameter y:
-    @objc open func closestHighlight(index: Int, x: CGFloat, y: CGFloat) -> Highlight?
+    open func closestHighlight(index: Int, x: CGFloat, y: CGFloat) -> Highlight?
     {
         fatalError("closestHighlight(index, x, y) cannot be called on PieRadarChartHighlighter")
     }

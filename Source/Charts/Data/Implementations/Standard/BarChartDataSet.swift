@@ -127,7 +127,7 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
     }
     
     /// - returns: The overall entry count, including counting each stack-value individually
-    @objc open var entryCountStacks: Int
+    open var entryCountStacks: Int
     {
         return _entryCountStacks
     }

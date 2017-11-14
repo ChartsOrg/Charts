@@ -11,9 +11,9 @@ def configuration
 end
 
 def test_platforms
-  %i[
-    iOS
-    tvOS
+  [
+    :iOS,
+    :tvOS
   ]
 end
 
@@ -24,9 +24,9 @@ def build_platforms
 end
 
 def build_schemes
-  %w[
+  %w(
     Charts
-  ]
+  )
 end
 
 def test_schemes
@@ -84,6 +84,8 @@ def run_xcodebuild(schemes_to_execute, tasks, destination, is_test, xcprety_args
   schemes_to_execute.each do |scheme|
     xcodebuild type, project_name, scheme, configuration, sdk, device, tasks, xcprety_args
   end
+
+  sh 'killall Simulator' if is_test
 end
 
 def execute(tasks, platform, xcprety_args: '')
@@ -121,7 +123,7 @@ end
 
 desc 'Run CI tasks. Build and test or build depending on the platform.'
 task :ci, [:platform] do |_task, args|
-  platform = arg_to_key(args[:platform]) if args.key?(:platform)
+  platform = arg_to_key(args[:platform]) if args.has_key?(:platform)
 
   if test_platforms.include?(platform)
     execute 'clean test', platform
@@ -138,11 +140,6 @@ task :ci, [:platform] do |_task, args|
 end
 
 desc 'updated the podspec on cocoapods'
-task :update_pod do
-  sh 'bundle exec pod trunk push Charts.podspec --allow-warnings'
-end
-
-desc 'generate changelog'
-task :generate_changelog do
-  sh 'github_changelog_generator'
+task :update_pod do 
+  sh "bundle exec pod trunk push Charts.podspec --allow-warnings"
 end

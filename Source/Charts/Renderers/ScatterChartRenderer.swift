@@ -19,9 +19,9 @@ import CoreGraphics
 
 open class ScatterChartRenderer: LineScatterCandleRadarRenderer
 {
-    @objc open weak var dataProvider: ScatterChartDataProvider?
+    open weak var dataProvider: ScatterChartDataProvider?
     
-    @objc public init(dataProvider: ScatterChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    public init(dataProvider: ScatterChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -50,7 +50,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
     
     fileprivate var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
     
-    @objc open func drawDataSet(context: CGContext, dataSet: IScatterChartDataSet)
+    open func drawDataSet(context: CGContext, dataSet: IScatterChartDataSet)
     {
         guard
             let dataProvider = dataProvider,
@@ -178,7 +178,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                                 x: pt.x,
                                 y: pt.y - shapeSize - lineHeight),
                             align: .center,
-                            attributes: [NSAttributedStringKey.font: valueFont, NSAttributedStringKey.foregroundColor: dataSet.valueTextColorAt(j)]
+                            attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
                         )
                     }
                     

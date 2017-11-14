@@ -25,7 +25,7 @@ open class ScatterChartData: BarLineScatterCandleBubbleChartData
     }
     
     /// - returns: The maximum shape-size across all DataSets.
-    @objc open func getGreatestShapeSize() -> CGFloat
+    open func getGreatestShapeSize() -> CGFloat
     {
         var max = CGFloat(0.0)
         

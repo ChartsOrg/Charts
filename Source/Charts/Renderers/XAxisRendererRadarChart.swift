@@ -18,9 +18,9 @@ import CoreGraphics
 
 open class XAxisRendererRadarChart: XAxisRenderer
 {
-    @objc open weak var chart: RadarChartView?
+    open weak var chart: RadarChartView?
     
-    @objc public init(viewPortHandler: ViewPortHandler?, xAxis: XAxis?, chart: RadarChartView?)
+    public init(viewPortHandler: ViewPortHandler?, xAxis: XAxis?, chart: RadarChartView?)
     {
         super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: nil)
         
@@ -64,18 +64,18 @@ open class XAxisRendererRadarChart: XAxisRenderer
                       formattedLabel: label,
                       x: p.x,
                       y: p.y - xAxis.labelRotatedHeight / 2.0,
-                      attributes: [NSAttributedStringKey.font: labelFont, NSAttributedStringKey.foregroundColor: labelTextColor],
+                      attributes: [NSFontAttributeName: labelFont, NSForegroundColorAttributeName: labelTextColor],
                       anchor: drawLabelAnchor,
                       angleRadians: labelRotationAngleRadians)
         }
     }
     
-    @objc open func drawLabel(
+    open func drawLabel(
         context: CGContext,
         formattedLabel: String,
         x: CGFloat,
         y: CGFloat,
-        attributes: [NSAttributedStringKey : Any],
+        attributes: [String: NSObject],
         anchor: CGPoint,
         angleRadians: CGFloat)
     {
