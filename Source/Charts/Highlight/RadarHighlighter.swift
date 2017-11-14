@@ -48,20 +48,19 @@ open class RadarHighlighter: PieRadarHighlighter
     {
         var vals = [Highlight]()
         
-        guard let chart = self.chart as? RadarChartView
+        guard let chart = self.chart as? RadarChartView,
+            let chartData = chart.data
             else { return vals }
         
         let phaseX = chart.chartAnimator.phaseX
         let phaseY = chart.chartAnimator.phaseY
         let sliceangle = chart.sliceAngle
         let factor = chart.factor
-        
-        for i in 0..<(chart.data?.dataSetCount ?? 0)
+
+        for i in chartData.dataSets.indices
         {
-            guard let dataSet = chart.data?.getDataSetByIndex(i)
-                else { continue }
-            
-            guard let entry = dataSet.entryForIndex(index)
+            guard let dataSet = chartData.getDataSetByIndex(i),
+                let entry = dataSet.entryForIndex(index)
                 else { continue }
             
             let y = (entry.y - chart.chartYMin)

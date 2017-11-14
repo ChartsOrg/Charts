@@ -48,19 +48,15 @@ open class ChartHighlighter : NSObject, IHighlighter
     /// - returns:
     @objc open func getHighlight(xValue xVal: Double, x: CGFloat, y: CGFloat) -> Highlight?
     {
-        guard let chart = chart
-            else { return nil }
+        guard let chart = chart else { return nil }
         
         let closestValues = getHighlights(xValue: xVal, x: x, y: y)
-        if closestValues.isEmpty
-        {
-            return nil
-        }
+        guard !closestValues.isEmpty else { return nil }
         
-        let leftAxisMinDist = getMinimumDistance(closestValues: closestValues, y: y, axis: YAxis.AxisDependency.left)
-        let rightAxisMinDist = getMinimumDistance(closestValues: closestValues, y: y, axis: YAxis.AxisDependency.right)
+        let leftAxisMinDist = getMinimumDistance(closestValues: closestValues, y: y, axis: .left)
+        let rightAxisMinDist = getMinimumDistance(closestValues: closestValues, y: y, axis: .right)
         
-        let axis = leftAxisMinDist < rightAxisMinDist ? YAxis.AxisDependency.left : YAxis.AxisDependency.right
+        let axis = leftAxisMinDist < rightAxisMinDist ? YAxis.AxisDependency.left : .right
         
         let detail = closestSelectionDetailByPixel(closestValues: closestValues, x: x, y: y, axis: axis, minSelectionDistance: chart.maxHighlightDistance)
         
@@ -77,21 +73,15 @@ open class ChartHighlighter : NSObject, IHighlighter
     {
         var vals = [Highlight]()
         
-        guard let
-            data = self.data
-            else { return vals }
+        guard let data = self.data else { return vals }
         
         for i in 0 ..< data.dataSetCount
         {
-            guard let dataSet = data.getDataSetByIndex(i)
+            guard let dataSet = data.getDataSetByIndex(i),
+                dataSet.isHighlightEnabled      // don't include datasets that cannot be highlighted
                 else { continue }
             
-            // don't include datasets that cannot be highlighted
-            if !dataSet.isHighlightEnabled
-            {
-                continue
-            }
-            
+
             // extract all y-values from all DataSets at the given x-value.
             // some datasets (i.e bubble charts) make sense to have multiple values for an x-value. We'll have to find a way to handle that later on. It's more complicated now when x-indices are floating point.
             
@@ -114,13 +104,10 @@ open class ChartHighlighter : NSObject, IHighlighter
             else { return highlights }
         
         var entries = set.entriesForXValue(xValue)
-        if entries.count == 0
+        if entries.count == 0, let closest = set.entryForXValue(xValue, closestToY: .nan, rounding: rounding)
         {
             // Try to find closest x-value and take all entries for that x-value
-            if let closest = set.entryForXValue(xValue, closestToY: Double.nan, rounding: rounding)
-            {
-                entries = set.entriesForXValue(closest.x)
-            }
+            entries = set.entriesForXValue(closest.x)
         }
         
         for e in entries
@@ -146,14 +133,12 @@ open class ChartHighlighter : NSObject, IHighlighter
         var distance = minSelectionDistance
         var closest: Highlight?
         
-        for i in 0 ..< closestValues.count
+        for high in closestValues
         {
-            let high = closestValues[i]
-            
             if axis == nil || high.axis == axis
             {
                 let cDistance = getDistance(x1: x, y1: y, x2: high.xPx, y2: high.yPx)
-                
+
                 if cDistance < distance
                 {
                     closest = high
@@ -173,10 +158,8 @@ open class ChartHighlighter : NSObject, IHighlighter
     {
         var distance = CGFloat.greatestFiniteMagnitude
         
-        for i in 0 ..< closestValues.count
+        for high in closestValues
         {
-            let high = closestValues[i]
-            
             if high.axis == axis
             {
                 let tempDistance = abs(getHighlightPos(high: high) - y)
