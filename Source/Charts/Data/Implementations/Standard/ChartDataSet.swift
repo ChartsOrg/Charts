@@ -41,9 +41,9 @@ open class ChartDataSet: ChartBaseDataSet
     @objc public init(values: [ChartDataEntry], label: String)
     {
         self.values = values
-        
+
         super.init(label: label)
-        
+
         self.calcMinMax()
     }
     
@@ -99,6 +99,8 @@ open class ChartDataSet: ChartBaseDataSet
     
     open override func calcMinMaxY(fromX: Double, toX: Double)
     {
+        guard !_values.isEmpty else { return }
+
         _yMax = -Double.greatestFiniteMagnitude
         _yMin = Double.greatestFiniteMagnitude
 
@@ -152,7 +154,7 @@ open class ChartDataSet: ChartBaseDataSet
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
     open override func entryForIndex(_ i: Int) -> ChartDataEntry?
     {
-        guard i >= values.startIndex, i < values.endIndex else {
+        guard _values.indices.contains(i) else {
             return nil
         }
         return values[i]
@@ -425,8 +427,12 @@ open class ChartDataSet: ChartBaseDataSet
     // TODO: This should return the removed entry to follow Swift convention.
     open override func removeFirst() -> Bool
     {
-        let entry: ChartDataEntry? = values.isEmpty ? nil : values.removeFirst()
-        return entry != nil
+        guard !_values.isEmpty else { return false }
+
+        _values.removeFirst()
+        calcMinMax()
+        
+        return true
     }
     
     /// Removes the last Entry (at index size-1) of this DataSet from the entries array.
