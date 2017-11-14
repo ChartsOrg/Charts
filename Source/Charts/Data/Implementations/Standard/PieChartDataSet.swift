@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-open class PieChartDataSet: ChartDataSet, IPieChartDataSet
+open class PieChartDataSet: ChartDataSet, PieChartDataSetProtocol
 {
     @objc(PieChartValuePosition)
     public enum ValuePosition: Int

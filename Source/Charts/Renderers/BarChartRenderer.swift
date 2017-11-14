@@ -54,7 +54,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             
             for i in stride(from: 0, to: barData.dataSetCount, by: 1)
             {
-                let set = barData.dataSets[i] as! IBarChartDataSet
+                let set = barData.dataSets[i] as! BarChartDataSetProtocol
                 let size = set.entryCount * (set.isStacked ? set.stackSize : 1)
                 if _buffers[i].rects.count != size
                 {
@@ -68,7 +68,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         }
     }
     
-    fileprivate func prepareBuffer(dataSet: IBarChartDataSet, index: Int)
+    fileprivate func prepareBuffer(dataSet: BarChartDataSetProtocol, index: Int)
     {
         guard
             let dataProvider = dataProvider,
@@ -194,19 +194,19 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             
             if set.isVisible
             {
-                if !(set is IBarChartDataSet)
+                if !(set is BarChartDataSetProtocol)
                 {
                     fatalError("Datasets for BarChartRenderer must conform to IBarChartDataset")
                 }
                 
-                drawDataSet(context: context, dataSet: set as! IBarChartDataSet, index: i)
+                drawDataSet(context: context, dataSet: set as! BarChartDataSetProtocol, index: i)
             }
         }
     }
     
     fileprivate var _barShadowRectBuffer: CGRect = CGRect()
     
-    @objc open func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int)
+    @objc open func drawDataSet(context: CGContext, dataSet: BarChartDataSetProtocol, index: Int)
     {
         guard
             let dataProvider = dataProvider,
@@ -371,7 +371,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             
             for dataSetIndex in 0 ..< barData.dataSetCount
             {
-                guard let dataSet = dataSets[dataSetIndex] as? IBarChartDataSet else { continue }
+                guard let dataSet = dataSets[dataSetIndex] as? BarChartDataSetProtocol else { continue }
                 
                 if !shouldDrawValues(forDataSet: dataSet)
                 {
@@ -639,7 +639,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         for high in indices
         {
             guard
-                let set = barData.getDataSetByIndex(high.dataSetIndex) as? IBarChartDataSet,
+                let set = barData.getDataSetByIndex(high.dataSetIndex) as? BarChartDataSetProtocol,
                 set.isHighlightEnabled
                 else { continue }
             

@@ -1,5 +1,5 @@
 //
-//  ILineRadarChartDataSet.swift
+//  LineRadarChartDataSet.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 @objc
-public protocol ILineRadarChartDataSet: ILineScatterCandleRadarChartDataSet
+public protocol LineRadarChartDataSet: LineScatterCandleRadarChartDataSetProtocol
 {
     // MARK: - Data functions and accessors
     

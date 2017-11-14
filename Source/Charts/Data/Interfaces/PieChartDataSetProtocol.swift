@@ -1,5 +1,5 @@
 //
-//  IPieChartDataSet.swift
+//  PieChartDataSetProtocol.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -17,7 +17,7 @@ import CoreGraphics
 #endif
 
 @objc
-public protocol IPieChartDataSet: IChartDataSet
+public protocol PieChartDataSetProtocol: ChartDataSetProtocol
 {
     // MARK: - Styling functions and accessors
     

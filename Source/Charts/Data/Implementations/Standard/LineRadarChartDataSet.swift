@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 
-open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadarChartDataSet
+open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, LineRadarChartDataSet
 {
     // MARK: - Data functions and accessors
     

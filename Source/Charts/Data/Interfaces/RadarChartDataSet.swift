@@ -1,5 +1,5 @@
 //
-//  IRadarChartDataSet.swift
+//  RadarChartDataSet.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 @objc
-public protocol IRadarChartDataSet: ILineRadarChartDataSet
+public protocol RadarChartDataSet: LineRadarChartDataSet
 {
     // MARK: - Data functions and accessors
     
