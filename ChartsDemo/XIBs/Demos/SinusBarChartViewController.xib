@@ -61,17 +61,18 @@
             <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Oqd-Ej-1xl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="47" id="3NA-if-rAO"/>
-                <constraint firstItem="IuK-nU-ZPT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="66R-JE-JSc"/>
-                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="6Mc-iO-BuY"/>
+                <constraint firstItem="IuK-nU-ZPT" firstAttribute="leading" secondItem="7KQ-kC-t5g" secondAttribute="leading" constant="8" id="66R-JE-JSc"/>
+                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="leading" secondItem="7KQ-kC-t5g" secondAttribute="leading" id="6Mc-iO-BuY"/>
                 <constraint firstItem="IuK-nU-ZPT" firstAttribute="top" secondItem="Oqd-Ej-1xl" secondAttribute="bottom" constant="25" id="A3Q-md-O7n"/>
                 <constraint firstAttribute="bottom" secondItem="IuK-nU-ZPT" secondAttribute="bottom" constant="26" id="B7P-HB-AG2"/>
                 <constraint firstItem="vDG-Fm-61Z" firstAttribute="centerY" secondItem="IuK-nU-ZPT" secondAttribute="centerY" id="FQM-m5-jqx"/>
-                <constraint firstAttribute="trailing" secondItem="vDG-Fm-61Z" secondAttribute="trailing" constant="8" id="JaG-vb-Ax6"/>
+                <constraint firstItem="7KQ-kC-t5g" firstAttribute="trailing" secondItem="vDG-Fm-61Z" secondAttribute="trailing" constant="8" id="JaG-vb-Ax6"/>
                 <constraint firstItem="Zdz-nd-u7k" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="4" id="QYu-uI-rC8"/>
-                <constraint firstAttribute="trailing" secondItem="Zdz-nd-u7k" secondAttribute="trailing" constant="8" id="hkP-f4-aXC"/>
-                <constraint firstAttribute="trailing" secondItem="Oqd-Ej-1xl" secondAttribute="trailing" id="mC3-xy-2CS"/>
+                <constraint firstItem="7KQ-kC-t5g" firstAttribute="trailing" secondItem="Zdz-nd-u7k" secondAttribute="trailing" constant="8" id="hkP-f4-aXC"/>
+                <constraint firstItem="7KQ-kC-t5g" firstAttribute="trailing" secondItem="Oqd-Ej-1xl" secondAttribute="trailing" id="mC3-xy-2CS"/>
                 <constraint firstItem="vDG-Fm-61Z" firstAttribute="leading" secondItem="IuK-nU-ZPT" secondAttribute="trailing" constant="8" id="zz3-mA-tmf"/>
             </constraints>
+            <viewLayoutGuide key="safeArea" id="7KQ-kC-t5g"/>
             <point key="canvasLocation" x="157.5" y="222.5"/>
         </view>
     </objects>

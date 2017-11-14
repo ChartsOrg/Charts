@@ -44,12 +44,13 @@
             <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Oqd-Ej-1xl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="47" id="3NA-if-rAO"/>
-                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="6Mc-iO-BuY"/>
+                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="leading" secondItem="h5W-Kc-0fi" secondAttribute="leading" id="6Mc-iO-BuY"/>
                 <constraint firstItem="Zdz-nd-u7k" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="4" id="QYu-uI-rC8"/>
-                <constraint firstAttribute="bottom" secondItem="Oqd-Ej-1xl" secondAttribute="bottom" id="caj-8a-75N"/>
-                <constraint firstAttribute="trailing" secondItem="Zdz-nd-u7k" secondAttribute="trailing" constant="8" id="hkP-f4-aXC"/>
-                <constraint firstAttribute="trailing" secondItem="Oqd-Ej-1xl" secondAttribute="trailing" id="mC3-xy-2CS"/>
+                <constraint firstItem="h5W-Kc-0fi" firstAttribute="bottom" secondItem="Oqd-Ej-1xl" secondAttribute="bottom" id="caj-8a-75N"/>
+                <constraint firstItem="h5W-Kc-0fi" firstAttribute="trailing" secondItem="Zdz-nd-u7k" secondAttribute="trailing" constant="8" id="hkP-f4-aXC"/>
+                <constraint firstItem="h5W-Kc-0fi" firstAttribute="trailing" secondItem="Oqd-Ej-1xl" secondAttribute="trailing" id="mC3-xy-2CS"/>
             </constraints>
+            <viewLayoutGuide key="safeArea" id="h5W-Kc-0fi"/>
             <point key="canvasLocation" x="157.5" y="222.5"/>
         </view>
     </objects>

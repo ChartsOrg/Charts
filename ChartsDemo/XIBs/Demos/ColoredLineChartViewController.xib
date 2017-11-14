@@ -42,23 +42,24 @@
             </subviews>
             <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="nGo-AX-wvC" secondAttribute="trailing" id="0yE-ju-Lag"/>
+                <constraint firstItem="YgW-AE-vxr" firstAttribute="trailing" secondItem="nGo-AX-wvC" secondAttribute="trailing" id="0yE-ju-Lag"/>
                 <constraint firstItem="njk-0O-Wam" firstAttribute="top" secondItem="Oqd-Ej-1xl" secondAttribute="bottom" id="145-vk-wcD"/>
                 <constraint firstItem="Oqd-Ej-1xl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="3NA-if-rAO"/>
-                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="6Mc-iO-BuY"/>
-                <constraint firstItem="nGo-AX-wvC" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="7QR-kC-1Ia"/>
-                <constraint firstAttribute="trailing" secondItem="njk-0O-Wam" secondAttribute="trailing" id="BeR-he-87z"/>
+                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="leading" secondItem="YgW-AE-vxr" secondAttribute="leading" id="6Mc-iO-BuY"/>
+                <constraint firstItem="nGo-AX-wvC" firstAttribute="leading" secondItem="YgW-AE-vxr" secondAttribute="leading" id="7QR-kC-1Ia"/>
+                <constraint firstItem="YgW-AE-vxr" firstAttribute="trailing" secondItem="njk-0O-Wam" secondAttribute="trailing" id="BeR-he-87z"/>
                 <constraint firstItem="nGo-AX-wvC" firstAttribute="height" secondItem="9Lp-os-3Vt" secondAttribute="height" id="MSX-1T-Hcp"/>
                 <constraint firstItem="njk-0O-Wam" firstAttribute="height" secondItem="9Lp-os-3Vt" secondAttribute="height" id="Sfa-tz-95q"/>
                 <constraint firstItem="9Lp-os-3Vt" firstAttribute="top" secondItem="njk-0O-Wam" secondAttribute="bottom" id="V1f-0d-jnp"/>
-                <constraint firstItem="9Lp-os-3Vt" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Yea-IJ-jo4"/>
-                <constraint firstAttribute="trailing" secondItem="9Lp-os-3Vt" secondAttribute="trailing" id="hwF-Vk-0Oa"/>
-                <constraint firstItem="njk-0O-Wam" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="iEb-Yv-zMg"/>
-                <constraint firstAttribute="trailing" secondItem="Oqd-Ej-1xl" secondAttribute="trailing" id="mC3-xy-2CS"/>
-                <constraint firstAttribute="bottom" secondItem="nGo-AX-wvC" secondAttribute="bottom" id="tGu-Tb-gOn"/>
+                <constraint firstItem="9Lp-os-3Vt" firstAttribute="leading" secondItem="YgW-AE-vxr" secondAttribute="leading" id="Yea-IJ-jo4"/>
+                <constraint firstItem="YgW-AE-vxr" firstAttribute="trailing" secondItem="9Lp-os-3Vt" secondAttribute="trailing" id="hwF-Vk-0Oa"/>
+                <constraint firstItem="njk-0O-Wam" firstAttribute="leading" secondItem="YgW-AE-vxr" secondAttribute="leading" id="iEb-Yv-zMg"/>
+                <constraint firstItem="YgW-AE-vxr" firstAttribute="trailing" secondItem="Oqd-Ej-1xl" secondAttribute="trailing" id="mC3-xy-2CS"/>
+                <constraint firstItem="YgW-AE-vxr" firstAttribute="bottom" secondItem="nGo-AX-wvC" secondAttribute="bottom" id="tGu-Tb-gOn"/>
                 <constraint firstItem="njk-0O-Wam" firstAttribute="height" secondItem="Oqd-Ej-1xl" secondAttribute="height" id="wRR-If-cA5"/>
                 <constraint firstItem="nGo-AX-wvC" firstAttribute="top" secondItem="9Lp-os-3Vt" secondAttribute="bottom" id="zNN-fl-qjC"/>
             </constraints>
+            <viewLayoutGuide key="safeArea" id="YgW-AE-vxr"/>
             <point key="canvasLocation" x="157.5" y="222.5"/>
         </view>
     </objects>

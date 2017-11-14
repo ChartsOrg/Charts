@@ -78,22 +78,23 @@
             <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Oqd-Ej-1xl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="47" id="3NA-if-rAO"/>
-                <constraint firstItem="IuK-nU-ZPT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="66R-JE-JSc"/>
-                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="6Mc-iO-BuY"/>
+                <constraint firstItem="IuK-nU-ZPT" firstAttribute="leading" secondItem="lva-Zq-pxQ" secondAttribute="leading" constant="8" id="66R-JE-JSc"/>
+                <constraint firstItem="Oqd-Ej-1xl" firstAttribute="leading" secondItem="lva-Zq-pxQ" secondAttribute="leading" id="6Mc-iO-BuY"/>
                 <constraint firstItem="IuK-nU-ZPT" firstAttribute="top" secondItem="Xhn-cI-Tqm" secondAttribute="bottom" constant="8" id="Aa8-g3-hZn"/>
                 <constraint firstAttribute="bottom" secondItem="IuK-nU-ZPT" secondAttribute="bottom" constant="26" id="B7P-HB-AG2"/>
                 <constraint firstItem="vDG-Fm-61Z" firstAttribute="centerY" secondItem="IuK-nU-ZPT" secondAttribute="centerY" id="FQM-m5-jqx"/>
-                <constraint firstAttribute="trailing" secondItem="vDG-Fm-61Z" secondAttribute="trailing" constant="8" id="JaG-vb-Ax6"/>
-                <constraint firstItem="Xhn-cI-Tqm" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="LkY-Dx-7d6"/>
+                <constraint firstItem="lva-Zq-pxQ" firstAttribute="trailing" secondItem="vDG-Fm-61Z" secondAttribute="trailing" constant="8" id="JaG-vb-Ax6"/>
+                <constraint firstItem="Xhn-cI-Tqm" firstAttribute="leading" secondItem="lva-Zq-pxQ" secondAttribute="leading" constant="8" id="LkY-Dx-7d6"/>
                 <constraint firstItem="Zdz-nd-u7k" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="4" id="QYu-uI-rC8"/>
                 <constraint firstItem="It4-Tc-0qK" firstAttribute="leading" secondItem="Xhn-cI-Tqm" secondAttribute="trailing" constant="8" id="TmF-V6-O8f"/>
-                <constraint firstAttribute="trailing" secondItem="It4-Tc-0qK" secondAttribute="trailing" constant="8" id="eKh-bB-c2R"/>
-                <constraint firstAttribute="trailing" secondItem="Zdz-nd-u7k" secondAttribute="trailing" constant="8" id="hkP-f4-aXC"/>
+                <constraint firstItem="lva-Zq-pxQ" firstAttribute="trailing" secondItem="It4-Tc-0qK" secondAttribute="trailing" constant="8" id="eKh-bB-c2R"/>
+                <constraint firstItem="lva-Zq-pxQ" firstAttribute="trailing" secondItem="Zdz-nd-u7k" secondAttribute="trailing" constant="8" id="hkP-f4-aXC"/>
                 <constraint firstItem="Xhn-cI-Tqm" firstAttribute="centerY" secondItem="It4-Tc-0qK" secondAttribute="centerY" id="jxE-OZ-bpN"/>
-                <constraint firstAttribute="trailing" secondItem="Oqd-Ej-1xl" secondAttribute="trailing" id="mC3-xy-2CS"/>
+                <constraint firstItem="lva-Zq-pxQ" firstAttribute="trailing" secondItem="Oqd-Ej-1xl" secondAttribute="trailing" id="mC3-xy-2CS"/>
                 <constraint firstItem="Xhn-cI-Tqm" firstAttribute="top" secondItem="Oqd-Ej-1xl" secondAttribute="bottom" constant="25" id="r0S-JG-wnp"/>
                 <constraint firstItem="vDG-Fm-61Z" firstAttribute="leading" secondItem="IuK-nU-ZPT" secondAttribute="trailing" constant="8" id="zz3-mA-tmf"/>
             </constraints>
+            <viewLayoutGuide key="safeArea" id="lva-Zq-pxQ"/>
             <point key="canvasLocation" x="157.5" y="222.5"/>
         </view>
     </objects>

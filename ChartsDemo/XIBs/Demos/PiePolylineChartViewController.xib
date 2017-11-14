@@ -86,23 +86,24 @@
             <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="2id-KM-MqZ" secondAttribute="bottom" constant="26" id="0AC-oM-f39"/>
-                <constraint firstItem="ekR-nK-ppT" firstAttribute="leading" secondItem="30c-YJ-tW9" secondAttribute="leading" constant="8" id="0Fb-4W-iQd"/>
+                <constraint firstItem="ekR-nK-ppT" firstAttribute="leading" secondItem="Fd3-fA-e03" secondAttribute="leading" constant="8" id="0Fb-4W-iQd"/>
                 <constraint firstItem="n9H-fM-jsG" firstAttribute="leading" secondItem="2id-KM-MqZ" secondAttribute="trailing" constant="8" id="0Yy-6X-Pdi"/>
                 <constraint firstItem="ekR-nK-ppT" firstAttribute="centerY" secondItem="lre-9A-Aye" secondAttribute="centerY" id="3D7-U1-VQM"/>
-                <constraint firstAttribute="trailing" secondItem="Acu-Hm-ONQ" secondAttribute="trailing" constant="8" id="IIg-R0-B3N"/>
-                <constraint firstAttribute="trailing" secondItem="lre-9A-Aye" secondAttribute="trailing" constant="8" id="Kd4-V3-hub"/>
+                <constraint firstItem="Fd3-fA-e03" firstAttribute="trailing" secondItem="Acu-Hm-ONQ" secondAttribute="trailing" constant="8" id="IIg-R0-B3N"/>
+                <constraint firstItem="Fd3-fA-e03" firstAttribute="trailing" secondItem="lre-9A-Aye" secondAttribute="trailing" constant="8" id="Kd4-V3-hub"/>
                 <constraint firstItem="n9H-fM-jsG" firstAttribute="centerY" secondItem="2id-KM-MqZ" secondAttribute="centerY" id="O0I-Eo-Qq5"/>
-                <constraint firstItem="anE-ka-ll7" firstAttribute="leading" secondItem="30c-YJ-tW9" secondAttribute="leading" id="RiV-Bw-HVx"/>
+                <constraint firstItem="anE-ka-ll7" firstAttribute="leading" secondItem="Fd3-fA-e03" secondAttribute="leading" id="RiV-Bw-HVx"/>
                 <constraint firstItem="2id-KM-MqZ" firstAttribute="top" secondItem="ekR-nK-ppT" secondAttribute="bottom" constant="8" id="TCF-2x-BF2"/>
                 <constraint firstItem="ekR-nK-ppT" firstAttribute="top" secondItem="anE-ka-ll7" secondAttribute="bottom" constant="25" id="VRh-6e-hvp"/>
                 <constraint firstItem="anE-ka-ll7" firstAttribute="top" secondItem="30c-YJ-tW9" secondAttribute="top" constant="47" id="cq6-Wq-JBT"/>
                 <constraint firstItem="ekR-nK-ppT" firstAttribute="top" secondItem="anE-ka-ll7" secondAttribute="bottom" constant="100" id="lym-Gz-c9p"/>
-                <constraint firstAttribute="trailing" secondItem="anE-ka-ll7" secondAttribute="trailing" id="n8e-xI-OiN"/>
+                <constraint firstItem="Fd3-fA-e03" firstAttribute="trailing" secondItem="anE-ka-ll7" secondAttribute="trailing" id="n8e-xI-OiN"/>
                 <constraint firstItem="lre-9A-Aye" firstAttribute="leading" secondItem="ekR-nK-ppT" secondAttribute="trailing" constant="8" id="pCP-XY-Sh8"/>
-                <constraint firstAttribute="trailing" secondItem="n9H-fM-jsG" secondAttribute="trailing" constant="8" id="rzb-88-LAf"/>
-                <constraint firstItem="2id-KM-MqZ" firstAttribute="leading" secondItem="30c-YJ-tW9" secondAttribute="leading" constant="8" id="sl2-pO-S2f"/>
+                <constraint firstItem="Fd3-fA-e03" firstAttribute="trailing" secondItem="n9H-fM-jsG" secondAttribute="trailing" constant="8" id="rzb-88-LAf"/>
+                <constraint firstItem="2id-KM-MqZ" firstAttribute="leading" secondItem="Fd3-fA-e03" secondAttribute="leading" constant="8" id="sl2-pO-S2f"/>
                 <constraint firstItem="Acu-Hm-ONQ" firstAttribute="top" secondItem="30c-YJ-tW9" secondAttribute="top" constant="4" id="wBl-J9-CLZ"/>
             </constraints>
+            <viewLayoutGuide key="safeArea" id="Fd3-fA-e03"/>
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="lym-Gz-c9p"/>
