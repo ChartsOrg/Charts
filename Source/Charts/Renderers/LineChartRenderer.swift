@@ -22,6 +22,7 @@ open class LineChartRenderer: LineRadarRenderer
     @objc open weak var dataProvider: LineChartDataProvider?
     /// Render draw path, use for personal processing.
     @objc public var drawPath: CGPath?
+    /// Only for cubicBezier and horizontalBezier, now
     @objc public var drawBackgroundPath: CGPath?
     
     @objc public init(dataProvider: LineChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
