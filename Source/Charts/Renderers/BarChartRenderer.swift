@@ -16,9 +16,18 @@ import CoreGraphics
     import UIKit
 #endif
 
-open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
+@objc
+open class BarChartRenderer: NSObject, BarLineScatterCandleBubbleRenderer
 {
-    fileprivate class Buffer
+    typealias XBounds = CountableClosedRange<Int>
+
+    var xBounds: XBounds!
+
+    @objc public var animator: Animator?
+
+    @objc public var viewPortHandler: ViewPortHandler
+
+    private class Buffer
     {
         var rects = [CGRect]()
     }
@@ -27,15 +36,15 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     
     @objc public init(dataProvider: BarChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler)
     {
-        super.init(animator: animator, viewPortHandler: viewPortHandler)
-        
+        self.animator = animator
+        self.viewPortHandler = viewPortHandler
         self.dataProvider = dataProvider
     }
     
     // [CGRect] per dataset
-    fileprivate var _buffers = [Buffer]()
+    private var _buffers = [Buffer]()
     
-    open override func initBuffers()
+    open func initBuffers()
     {
         if let barData = dataProvider?.barData
         {
@@ -181,7 +190,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         }
     }
     
-    open override func drawData(context: CGContext)
+    open func drawData(context: CGContext)
     {
         guard
             let dataProvider = dataProvider,
@@ -347,7 +356,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         trans.rectValueToPixel(&rect, phaseY: animator?.phaseY ?? 1.0)
     }
 
-    open override func drawValues(context: CGContext)
+    open func drawValues(context: CGContext)
     {
         // if values are drawn
         if isDrawingValuesAllowed(dataProvider: dataProvider)
@@ -616,12 +625,12 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         ChartUtils.drawText(context: context, text: value, point: CGPoint(x: xPos, y: yPos), align: align, attributes: [NSAttributedStringKey.font: font, NSAttributedStringKey.foregroundColor: color])
     }
     
-    open override func drawExtras(context: CGContext)
+    open func drawExtras(context: CGContext)
     {
         
     }
     
-    open override func drawHighlighted(context: CGContext, indices: [Highlight])
+    open func drawHighlighted(context: CGContext, indices: [Highlight])
     {
         guard
             let dataProvider = dataProvider,
@@ -692,5 +701,15 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     @objc internal func setHighlightDrawPos(highlight high: Highlight, barRect: CGRect)
     {
         high.setDraw(x: barRect.midX, y: barRect.origin.y)
+    }
+}
+
+// MARK: DataRender
+// TODO: Can be removed when dropping Objective-C compatibility
+extension BarChartRenderer {
+    public func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
+    {
+        guard let data = dataProvider?.data else { return false }
+        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
     }
 }

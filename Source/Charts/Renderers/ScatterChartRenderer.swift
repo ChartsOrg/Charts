@@ -17,18 +17,27 @@ import CoreGraphics
 #endif
 
 
-open class ScatterChartRenderer: LineScatterCandleRadarRenderer
+@objc
+open class ScatterChartRenderer: NSObject, LineScatterCandleRadarRenderer
 {
+    typealias XBounds = CountableClosedRange<Int>
+
+    var xBounds: XBounds!
+
+    @objc public var animator: Animator?
+
+    @objc public var viewPortHandler: ViewPortHandler
+
     @objc open weak var dataProvider: ScatterChartDataProvider?
     
     @objc public init(dataProvider: ScatterChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler)
     {
-        super.init(animator: animator, viewPortHandler: viewPortHandler)
-        
+        self.animator = animator
+        self.viewPortHandler = viewPortHandler
         self.dataProvider = dataProvider
     }
     
-    open override func drawData(context: CGContext)
+    open func drawData(context: CGContext)
     {
         guard let scatterData = dataProvider?.scatterData else { return }
         
@@ -101,7 +110,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         }
     }
     
-    open override func drawValues(context: CGContext)
+    open func drawValues(context: CGContext)
     {
         guard
             let dataProvider = dataProvider,
@@ -139,9 +148,9 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                 let shapeSize = dataSet.scatterShapeSize
                 let lineHeight = valueFont.lineHeight
                 
-                _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
+                xBounds = XBounds(chart: dataProvider, dataSet: dataSet, animator: animator)
                 
-                for j in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
+                for j in xBounds
                 {
                     guard let e = dataSet.entryForIndex(j) else { break }
                     
@@ -193,12 +202,12 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         }
     }
     
-    open override func drawExtras(context: CGContext)
+    open func drawExtras(context: CGContext)
     {
         
     }
     
-    open override func drawHighlighted(context: CGContext, indices: [Highlight])
+    open func drawHighlighted(context: CGContext, indices: [Highlight])
     {
         guard
             let dataProvider = dataProvider,
@@ -244,5 +253,18 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         }
         
         context.restoreGState()
+    }
+}
+
+// MARK: DataRender
+// TODO: Can be removed when dropping Objective-C compatibility
+extension ScatterChartRenderer {
+    public func initBuffers() {
+
+    }
+
+    public func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool {
+        guard let data = dataProvider?.data else { return false }
+        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * self.viewPortHandler.scaleX)
     }
 }

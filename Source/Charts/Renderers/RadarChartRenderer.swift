@@ -17,18 +17,26 @@ import CoreGraphics
 #endif
 
 
-open class RadarChartRenderer: LineRadarRenderer
+open class RadarChartRenderer: NSObject, LineRadarRenderer
 {
+    typealias XBounds = CountableClosedRange<Int>
+
+    var xBounds: XBounds!
+
+    @objc public var animator: Animator?
+
+    @objc public var viewPortHandler: ViewPortHandler
+
     @objc open weak var chart: RadarChartView?
 
     @objc public init(chart: RadarChartView?, animator: Animator?, viewPortHandler: ViewPortHandler)
     {
-        super.init(animator: animator, viewPortHandler: viewPortHandler)
-        
+        self.animator = animator
+        self.viewPortHandler = viewPortHandler
         self.chart = chart
     }
     
-    open override func drawData(context: CGContext)
+    open func drawData(context: CGContext)
     {
         guard let chart = chart else { return }
         
@@ -137,7 +145,7 @@ open class RadarChartRenderer: LineRadarRenderer
         context.restoreGState()
     }
     
-    open override func drawValues(context: CGContext)
+    open func drawValues(context: CGContext)
     {
         guard
             let chart = chart,
@@ -217,7 +225,7 @@ open class RadarChartRenderer: LineRadarRenderer
         }
     }
     
-    open override func drawExtras(context: CGContext)
+    open func drawExtras(context: CGContext)
     {
         drawWeb(context: context)
     }
@@ -295,7 +303,7 @@ open class RadarChartRenderer: LineRadarRenderer
     
     fileprivate var _highlightPointBuffer = CGPoint()
 
-    open override func drawHighlighted(context: CGContext, indices: [Highlight])
+    open func drawHighlighted(context: CGContext, indices: [Highlight])
     {
         guard
             let chart = chart,
@@ -414,5 +422,18 @@ open class RadarChartRenderer: LineRadarRenderer
         }
         
         context.restoreGState()
+    }
+}
+
+// MARK: DataRender
+// TODO: Can be removed when dropping Objective-C compatibility
+extension RadarChartRenderer {
+    public func initBuffers() {
+
+    }
+
+    public func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool {
+        guard let data = dataProvider?.data else { return false }
+        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * self.viewPortHandler.scaleX)
     }
 }

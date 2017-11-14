@@ -16,19 +16,27 @@ import CoreGraphics
     import UIKit
 #endif
 
-
-open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
+@objc
+open class CandleStickChartRenderer: NSObject, LineScatterCandleRadarRenderer
 {
+    typealias XBounds = CountableClosedRange<Int>
+
+    var xBounds: XBounds!
+
+    @objc public var animator: Animator?
+
+    @objc public var viewPortHandler: ViewPortHandler
+
     @objc open weak var dataProvider: CandleChartDataProvider?
     
     @objc public init(dataProvider: CandleChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler)
     {
-        super.init(animator: animator, viewPortHandler: viewPortHandler)
-        
+        self.animator = animator
+        self.viewPortHandler = viewPortHandler
         self.dataProvider = dataProvider
     }
     
-    open override func drawData(context: CGContext)
+    open  func drawData(context: CGContext)
     {
         guard let dataProvider = dataProvider, let candleData = dataProvider.candleData else { return }
 
@@ -61,13 +69,13 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
         let barSpace = dataSet.barSpace
         let showCandleBar = dataSet.showCandleBar
         
-        _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
+        xBounds = XBounds(chart: dataProvider, dataSet: dataSet, animator: animator)
         
         context.saveGState()
         
         context.setLineWidth(dataSet.shadowWidth)
         
-        for j in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
+        for j in xBounds
         {
             // get the entry
             guard let e = dataSet.entryForIndex(j) as? CandleChartDataEntry else { continue }
@@ -235,7 +243,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
         context.restoreGState()
     }
     
-    open override func drawValues(context: CGContext)
+    open func drawValues(context: CGContext)
     {
         guard
             let dataProvider = dataProvider,
@@ -271,12 +279,12 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 
                 let iconsOffset = dataSet.iconsOffset
                 
-                _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
-                
+                xBounds = XBounds(chart: dataProvider, dataSet: dataSet, animator: animator)
+
                 let lineHeight = valueFont.lineHeight
                 let yOffset: CGFloat = lineHeight + 5.0
                 
-                for j in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
+                for j in xBounds
                 {
                     guard let e = dataSet.entryForIndex(j) as? CandleChartDataEntry else { break }
                     
@@ -323,11 +331,11 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
         }
     }
     
-    open override func drawExtras(context: CGContext)
+    open func drawExtras(context: CGContext)
     {
     }
     
-    open override func drawHighlighted(context: CGContext, indices: [Highlight])
+    open func drawHighlighted(context: CGContext, indices: [Highlight])
     {
         guard
             let dataProvider = dataProvider,
@@ -378,5 +386,18 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
         }
         
         context.restoreGState()
+    }
+}
+
+// MARK: DataRender
+// TODO: Can be removed when dropping Objective-C compatibility
+extension CandleStickChartRenderer {
+    public func initBuffers() {
+
+    }
+
+    public func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool {
+        guard let data = dataProvider?.data else { return false }
+        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * self.viewPortHandler.scaleX)
     }
 }

@@ -15,7 +15,7 @@ import CoreGraphics
 @objc(ChartDataRendererBase)
 public protocol DataRenderer: Renderer
 {
-    @objc var animator: Animator? { get set }
+    var animator: Animator? { get set }
 
     func drawData(context: CGContext)
 
