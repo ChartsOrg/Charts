@@ -54,17 +54,10 @@ open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadar
         }
         set
         {
-            if newValue < 0.0
-            {
-                _lineWidth = 0.0
-            }
-            else if newValue > 10.0
-            {
-                _lineWidth = 10.0
-            }
-            else
-            {
-                _lineWidth = newValue
+            switch newValue {
+            case ..<0.0: _lineWidth = 0.0
+            case 10.0...: _lineWidth = 10.0
+            default: _lineWidth = newValue
             }
         }
     }

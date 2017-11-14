@@ -64,14 +64,10 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         }
         set
         {
-            _cubicIntensity = newValue
-            if _cubicIntensity > 1.0
-            {
-                _cubicIntensity = 1.0
-            }
-            if _cubicIntensity < 0.05
-            {
-                _cubicIntensity = 0.05
+            switch newValue {
+            case ..<0.05: _cubicIntensity = 0.05
+            case 1.0...: _cubicIntensity = 1.0
+            default: _cubicIntensity = newValue
             }
         }
     }
