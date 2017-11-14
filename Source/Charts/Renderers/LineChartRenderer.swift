@@ -21,7 +21,7 @@ open class LineChartRenderer: LineRadarRenderer
 {
     @objc open weak var dataProvider: LineChartDataProvider?
     /// Render draw path, use for personal processing.
-    @objc open var drawPath: CGPath?
+    @objc public var drawPath: CGPath?
     
     @objc public init(dataProvider: LineChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
