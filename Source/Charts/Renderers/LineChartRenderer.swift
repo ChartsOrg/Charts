@@ -178,10 +178,11 @@ open class LineChartRenderer: LineRadarRenderer
         context.beginPath()
         context.addPath(cubicPath)
         context.setStrokeColor(drawingColor.cgColor)
+        if let path = context.path {
+            // save the draw path
+            drawPath = path
+        }
         context.strokePath()
-        
-        // save the draw path
-        drawPath = context.path
         
         context.restoreGState()
     }
@@ -251,10 +252,11 @@ open class LineChartRenderer: LineRadarRenderer
         context.beginPath()
         context.addPath(cubicPath)
         context.setStrokeColor(drawingColor.cgColor)
+        if let path = context.path {
+            // save the draw path
+            drawPath = path
+        }
         context.strokePath()
-        
-        // save the draw path
-        drawPath = context.path
         
         context.restoreGState()
     }
@@ -442,13 +444,14 @@ open class LineChartRenderer: LineRadarRenderer
                 if !firstPoint
                 {
                     context.setStrokeColor(dataSet.color(atIndex: 0).cgColor)
+                    if let path = context.path {
+                        // save the draw path
+                        drawPath = path
+                    }
                     context.strokePath()
                 }
             }
         }
-        
-        // save the draw path
-        drawPath = context.path
         
         context.restoreGState()
     }
