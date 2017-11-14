@@ -14,7 +14,7 @@
 
 #define ITEM_COUNT 12
 
-@interface CombinedChartViewController () <ChartViewDelegate, IChartAxisValueFormatter>
+@interface CombinedChartViewController () <ChartViewDelegate, ChartAxisValueFormatter>
 {
     NSArray<NSString *> *months;
 }
@@ -122,7 +122,7 @@
 {
     if ([key isEqualToString:@"toggleLineValues"])
     {
-        for (NSObject<IChartDataSet> *set in _chartView.data.dataSets)
+        for (NSObject<ChartDataSetProtocol> *set in _chartView.data.dataSets)
         {
             if ([set isKindOfClass:LineChartDataSet.class])
             {
@@ -136,7 +136,7 @@
     
     if ([key isEqualToString:@"toggleBarValues"])
     {
-        for (NSObject<IChartDataSet> *set in _chartView.data.dataSets)
+        for (NSObject<ChartDataSetProtocol> *set in _chartView.data.dataSets)
         {
             if ([set isKindOfClass:BarChartDataSet.class])
             {

@@ -196,7 +196,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             {
                 if !(set is BarChartDataSetProtocol)
                 {
-                    fatalError("Datasets for BarChartRenderer must conform to IBarChartDataset")
+                    fatalError("Datasets for BarChartRenderer must conform to BarChartDataSetProtocol")
                 }
                 
                 drawDataSet(context: context, dataSet: set as! BarChartDataSetProtocol, index: i)

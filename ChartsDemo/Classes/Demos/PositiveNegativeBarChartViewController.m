@@ -12,7 +12,7 @@
 #import "PositiveNegativeBarChartViewController.h"
 #import "ChartsDemo-Swift.h"
 
-@interface PositiveNegativeBarChartViewController () <ChartViewDelegate, IChartAxisValueFormatter>
+@interface PositiveNegativeBarChartViewController () <ChartViewDelegate, ChartAxisValueFormatter>
 {
     NSArray<NSDictionary *> *dataList;
 }
