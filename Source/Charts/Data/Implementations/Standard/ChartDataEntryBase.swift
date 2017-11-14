@@ -73,14 +73,6 @@ open class ChartDataEntryBase: NSObject
     
     // MARK: NSObject
     
-    open override func isEqual(_ object: Any?) -> Bool
-    {
-        guard let object = object as? ChartDataEntryBase else { return false }
-        return self == object
-    }
-    
-    // MARK: NSObject
-    
     open override var description: String
     {
         return "ChartDataEntryBase, y \(y)"
@@ -89,15 +81,13 @@ open class ChartDataEntryBase: NSObject
 
 // MARK: Equatable
 extension ChartDataEntryBase/*: Equatable*/ {
-    public static func ==(lhs: ChartDataEntryBase, rhs: ChartDataEntryBase) -> Bool
-    {
-        if lhs === rhs
+    open override func isEqual(_ object: Any?) -> Bool {
+        guard let object = object as? ChartDataEntryBase else { return false }
+        if self === object
         {
             return true
         }
-        return lhs.isKind(of: type(of: rhs))
-            && ((lhs.data == nil && rhs.data == nil)
-                || (lhs.data?.isEqual(rhs.data) ?? false))
-            && lhs.y == rhs.y
+        return ((data == nil && object.data == nil) || (data?.isEqual(object.data) ?? false))
+            && y == object.y
     }
 }
