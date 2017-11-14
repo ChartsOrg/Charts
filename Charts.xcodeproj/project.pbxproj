@@ -144,6 +144,7 @@
 		06B120C61D811B8900D14B02 /* ViewPortHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B120421D811B8900D14B02 /* ViewPortHandler.swift */; };
 		06B3C0F71D99F85400B1DF43 /* BarChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3C0F31D99F85400B1DF43 /* BarChartTests.swift */; };
 		06B3C0F81D99F85400B1DF43 /* LineChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3C0F41D99F85400B1DF43 /* LineChartTests.swift */; };
+		22A486841FBA884A00EC9A0F /* EquatableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A486811FBA882600EC9A0F /* EquatableTests.swift */; };
 		5B56A9CD1D905EB300F58178 /* Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B56A9CC1D905EB300F58178 /* Description.swift */; };
 		5BF8813B1DDC4DF70033370C /* IndexAxisValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF8813A1DDC4DF70033370C /* IndexAxisValueFormatter.swift */; };
 		D8A58A411DCE2EF8007BB012 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8A58A401DCE2EF8007BB012 /* Media.xcassets */; };
@@ -301,6 +302,7 @@
 		06B121111D81201C00D14B02 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Tests/Supporting Files/Info.plist"; sourceTree = SOURCE_ROOT; };
 		06B3C0F31D99F85400B1DF43 /* BarChartTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartTests.swift; sourceTree = "<group>"; };
 		06B3C0F41D99F85400B1DF43 /* LineChartTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartTests.swift; sourceTree = "<group>"; };
+		22A486811FBA882600EC9A0F /* EquatableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EquatableTests.swift; path = Tests/Charts/EquatableTests.swift; sourceTree = SOURCE_ROOT; };
 		5B56A9CC1D905EB300F58178 /* Description.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Description.swift; sourceTree = "<group>"; };
 		5BF8813A1DDC4DF70033370C /* IndexAxisValueFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexAxisValueFormatter.swift; sourceTree = "<group>"; };
 		D8A58A401DCE2EF8007BB012 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Media.xcassets; path = Charts/ChartsTests/Media.xcassets; sourceTree = SOURCE_ROOT; };
@@ -349,6 +351,7 @@
 			children = (
 				06B3C0F21D99F85400B1DF43 /* Charts */,
 				06761B5D1D98176000D5CE09 /* ChartUtilsTests.swift */,
+				22A486811FBA882600EC9A0F /* EquatableTests.swift */,
 				06B1210D1D811FF200D14B02 /* Supporting Files */,
 			);
 			path = ChartsTests;
@@ -948,6 +951,7 @@
 			files = (
 				06B3C0F81D99F85400B1DF43 /* LineChartTests.swift in Sources */,
 				06B3C0F71D99F85400B1DF43 /* BarChartTests.swift in Sources */,
+				22A486841FBA884A00EC9A0F /* EquatableTests.swift in Sources */,
 				06761B5E1D98176000D5CE09 /* ChartUtilsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
