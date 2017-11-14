@@ -24,7 +24,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
         valueColors.append(NSUIColor.black)
     }
     
-    @objc public init(label: String?)
+    @objc public init(label: String)
     {
         super.init()
         

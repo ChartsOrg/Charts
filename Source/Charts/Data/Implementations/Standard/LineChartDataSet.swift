@@ -36,7 +36,7 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         initialize()
     }
     
-    public override init(values: [ChartDataEntry]?, label: String?)
+    public override init(values: [ChartDataEntry], label: String)
     {
         super.init(values: values, label: label)
         initialize()
