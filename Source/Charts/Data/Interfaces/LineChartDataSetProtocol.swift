@@ -14,7 +14,7 @@ import CoreGraphics
 
 
 @objc
-public protocol LineChartDataSetProtocol: LineRadarChartDataSet
+public protocol LineChartDataSetProtocol: LineRadarChartDataSetProtocol
 {
     // MARK: - Data functions and accessors
     
