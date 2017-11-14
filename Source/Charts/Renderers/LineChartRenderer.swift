@@ -22,7 +22,7 @@ open class LineChartRenderer: LineRadarRenderer
     @objc open weak var dataProvider: LineChartDataProvider?
     /// Render draw path, use for personal processing.
     @objc public var drawPath: CGPath?
-    @objc public var drawcBackgroundPath: CGPath?
+    @objc public var drawBackgroundPath: CGPath?
     
     @objc public init(dataProvider: LineChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
     {
@@ -182,7 +182,7 @@ open class LineChartRenderer: LineRadarRenderer
         if let path = context.path {
             // save the draw path
             drawPath = path
-            drawcBackgroundPath = getClosePath(dataSet: dataSet, matrix: valueToPixelMatrix)
+            drawBackgroundPath = getClosePath(dataSet: dataSet, matrix: valueToPixelMatrix)
         }
         
         context.strokePath()
