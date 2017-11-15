@@ -249,15 +249,15 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             _data = newValue
             _offsetsCalculated = false
             
-            if _data == nil
+            guard let _data = _data else
             {
                 return
             }
             
             // calculate how many digits are needed
-            setupDefaultFormatter(min: _data!.getYMin(), max: _data!.getYMax())
+            setupDefaultFormatter(min: _data.getYMin(), max: _data.getYMax())
             
-            for set in _data!.dataSets
+            for set in _data.dataSets
             {
                 if set.needsFormatter || set.valueFormatter === _defaultValueFormatter
                 {
@@ -394,16 +394,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             descriptionText.count > 0
             else { return }
         
-        var position = description.position
-
-        // if no position specified, draw on default position
-        if position == nil
-        {
-            let frame = self.bounds
-            position = CGPoint(
-                x: frame.width - _viewPortHandler.offsetRight - description.xOffset,
-                y: frame.height - _viewPortHandler.offsetBottom - description.yOffset - description.font.lineHeight)
-        }
+        let position = description.position ?? CGPoint(x: bounds.width - _viewPortHandler.offsetRight - description.xOffset,
+                                                       y: bounds.height - _viewPortHandler.offsetBottom - description.yOffset - description.font.lineHeight)
         
         var attrs = [NSAttributedStringKey : Any]()
         
@@ -413,7 +405,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         ChartUtils.drawText(
             context: context,
             text: descriptionText,
-            point: position!,
+            point: position,
             align: description.textAlign,
             attributes: attrs)
     }
@@ -558,16 +550,16 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             }
         }
         
-        if callDelegate && delegate != nil
+        if callDelegate, let delegate = delegate
         {
-            if h == nil
+            if let h = h
             {
-                delegate!.chartValueNothingSelected?(self)
+                // notify the listener
+                delegate.chartValueSelected?(self, entry: entry!, highlight: h)
             }
             else
             {
-                // notify the listener
-                delegate!.chartValueSelected?(self, entry: entry!, highlight: h!)
+                delegate.chartValueNothingSelected?(self)
             }
         }
         
@@ -871,24 +863,20 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - returns: `true` if the image was saved successfully
     open func save(to path: String, format: ImageFormat, compressionQuality: Double) -> Bool
     {
-		guard let image = getChartImage(transparent: format != .jpeg)
-            else { return false }
+		guard let image = getChartImage(transparent: format != .jpeg) else { return false }
         
-        var imageData: Data!
+        let imageData: Data?
         switch (format)
         {
-        case .png:
-            imageData = NSUIImagePNGRepresentation(image)
-            break
-            
-        case .jpeg:
-            imageData = NSUIImageJPEGRepresentation(image, CGFloat(compressionQuality))
-            break
+        case .png: imageData = NSUIImagePNGRepresentation(image)
+        case .jpeg: imageData = NSUIImageJPEGRepresentation(image, CGFloat(compressionQuality))
         }
+        
+        guard let data = imageData else { return false }
         
         do
         {
-            try imageData.write(to: URL(fileURLWithPath: path), options: .atomic)
+            try data.write(to: URL(fileURLWithPath: path), options: .atomic)
         }
         catch
         {
