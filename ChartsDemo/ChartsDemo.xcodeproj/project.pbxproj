@@ -11,6 +11,9 @@
 		0471CBFC1CA1090A00E52DBC /* PiePolylineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0471CBFB1CA1090A00E52DBC /* PiePolylineChartViewController.xib */; };
 		0630AE511D81271B008859B0 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0630AE411D8126C0008859B0 /* Charts.framework */; };
 		0630AE521D81271B008859B0 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0630AE411D8126C0008859B0 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		068A9B191FBBF351003CF1AD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B8EAF2F1AB32E15009697AA /* Images.xcassets */; };
+		068A9B1A1FBBF355003CF1AD /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B64D06EA1FB199130067418D /* Launch Screen.storyboard */; };
+		068A9B1B1FBBF366003CF1AD /* radar_marker@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B613DA31D526AD5000F1E98 /* radar_marker@3x.png */; };
 		225B36201F6EB9A50005B3D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B361F1F6EB9A50005B3D5 /* AppDelegate.swift */; };
 		225B36311F6EB9EE0005B3D5 /* DemoBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B362F1F6EB9EE0005B3D5 /* DemoBaseViewController.swift */; };
 		225B36321F6EB9EE0005B3D5 /* DemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36301F6EB9EE0005B3D5 /* DemoListViewController.swift */; };
@@ -77,14 +80,6 @@
 		5B0CC7851ABB875400665592 /* PieChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CC7831ABB875400665592 /* PieChartViewController.m */; };
 		5B0CC7861ABB875400665592 /* PieChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B0CC7841ABB875400665592 /* PieChartViewController.xib */; };
 		5B1B5DAB1E911A15006D1375 /* RealmDemosViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B1B5DA91E911A15006D1375 /* RealmDemosViewController.xib */; };
-		5B4316271AB8D8AE0009FCAA /* Icon-29@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B43161F1AB8D8AE0009FCAA /* Icon-29@2x.png */; };
-		5B4316281AB8D8AE0009FCAA /* Icon-29@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4316201AB8D8AE0009FCAA /* Icon-29@3x.png */; };
-		5B4316291AB8D8AE0009FCAA /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4316211AB8D8AE0009FCAA /* Icon-40@2x.png */; };
-		5B43162A1AB8D8AE0009FCAA /* Icon-40@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4316221AB8D8AE0009FCAA /* Icon-40@3x.png */; };
-		5B43162B1AB8D8AE0009FCAA /* Icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4316231AB8D8AE0009FCAA /* Icon-60@2x.png */; };
-		5B43162C1AB8D8AE0009FCAA /* Icon-60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B4316241AB8D8AE0009FCAA /* Icon-60@3x.png */; };
-		5B43162D1AB8D8AE0009FCAA /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 5B4316251AB8D8AE0009FCAA /* iTunesArtwork */; };
-		5B43162E1AB8D8AE0009FCAA /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = 5B4316261AB8D8AE0009FCAA /* iTunesArtwork@2x */; };
 		5B57BBB51A9B26AA0036A6CC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B57BBB41A9B26AA0036A6CC /* main.m */; };
 		5B57BBB81A9B26AA0036A6CC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B57BBB71A9B26AA0036A6CC /* AppDelegate.m */; };
 		5B57BBBB1A9B26AA0036A6CC /* DemoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B57BBBA1A9B26AA0036A6CC /* DemoListViewController.m */; };
@@ -169,7 +164,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 0630AE391D8126C0008859B0 /* Charts.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 06165F231D8110E600722320;
+			remoteGlobalIDString = A58A4ED274A941CA248EA921;
 			remoteInfo = Charts;
 		};
 /* End PBXContainerItemProxy section */
@@ -204,7 +199,6 @@
 		0439A3521C9FF95F00496F83 /* PiePolylineChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PiePolylineChartViewController.m; sourceTree = "<group>"; };
 		0471CBFB1CA1090A00E52DBC /* PiePolylineChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PiePolylineChartViewController.xib; sourceTree = "<group>"; };
 		0630AE391D8126C0008859B0 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = ../Charts.xcodeproj; sourceTree = "<group>"; };
-		066750AC1E2DB68D00E22DC6 /* Carthage.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Carthage.xcconfig; path = ../Carthage.xcconfig; sourceTree = "<group>"; };
 		225B361D1F6EB9A50005B3D5 /* ChartsDemo-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ChartsDemo-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		225B361F1F6EB9A50005B3D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		225B362F1F6EB9EE0005B3D5 /* DemoBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoBaseViewController.swift; sourceTree = "<group>"; };
@@ -246,14 +240,6 @@
 		5B0CC7831ABB875400665592 /* PieChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieChartViewController.m; sourceTree = "<group>"; };
 		5B0CC7841ABB875400665592 /* PieChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PieChartViewController.xib; sourceTree = "<group>"; };
 		5B1B5DA91E911A15006D1375 /* RealmDemosViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RealmDemosViewController.xib; path = XIBs/Demos/RealmDemosViewController.xib; sourceTree = SOURCE_ROOT; };
-		5B43161F1AB8D8AE0009FCAA /* Icon-29@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-29@2x.png"; sourceTree = "<group>"; };
-		5B4316201AB8D8AE0009FCAA /* Icon-29@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-29@3x.png"; sourceTree = "<group>"; };
-		5B4316211AB8D8AE0009FCAA /* Icon-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40@2x.png"; sourceTree = "<group>"; };
-		5B4316221AB8D8AE0009FCAA /* Icon-40@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40@3x.png"; sourceTree = "<group>"; };
-		5B4316231AB8D8AE0009FCAA /* Icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@2x.png"; sourceTree = "<group>"; };
-		5B4316241AB8D8AE0009FCAA /* Icon-60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@3x.png"; sourceTree = "<group>"; };
-		5B4316251AB8D8AE0009FCAA /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
-		5B4316261AB8D8AE0009FCAA /* iTunesArtwork@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
 		5B57BBAF1A9B26AA0036A6CC /* ChartsDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChartsDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B57BBB31A9B26AA0036A6CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B57BBB41A9B26AA0036A6CC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -475,25 +461,9 @@
 			path = Demos;
 			sourceTree = "<group>";
 		};
-		5B43161E1AB8D8AE0009FCAA /* app-icon */ = {
-			isa = PBXGroup;
-			children = (
-				5B43161F1AB8D8AE0009FCAA /* Icon-29@2x.png */,
-				5B4316201AB8D8AE0009FCAA /* Icon-29@3x.png */,
-				5B4316211AB8D8AE0009FCAA /* Icon-40@2x.png */,
-				5B4316221AB8D8AE0009FCAA /* Icon-40@3x.png */,
-				5B4316231AB8D8AE0009FCAA /* Icon-60@2x.png */,
-				5B4316241AB8D8AE0009FCAA /* Icon-60@3x.png */,
-				5B4316251AB8D8AE0009FCAA /* iTunesArtwork */,
-				5B4316261AB8D8AE0009FCAA /* iTunesArtwork@2x */,
-			);
-			path = "app-icon";
-			sourceTree = "<group>";
-		};
 		5B57BBA61A9B26AA0036A6CC = {
 			isa = PBXGroup;
 			children = (
-				066750AC1E2DB68D00E22DC6 /* Carthage.xcconfig */,
 				5B57BBB11A9B26AA0036A6CC /* Objective-C */,
 				225B361E1F6EB9A50005B3D5 /* Swift */,
 				227136F41F6EB665006D2A11 /* XIBs */,
@@ -552,7 +522,6 @@
 			children = (
 				B64D06EA1FB199130067418D /* Launch Screen.storyboard */,
 				5B8EAF2F1AB32E15009697AA /* Images.xcassets */,
-				5B43161E1AB8D8AE0009FCAA /* app-icon */,
 				5B613DA21D526AD5000F1E98 /* markers */,
 			);
 			path = Resources;
@@ -689,7 +658,6 @@
 				TargetAttributes = {
 					225B361C1F6EB9A50005B3D5 = {
 						CreatedOnToolsVersion = 9.0;
-						ProvisioningStyle = Automatic;
 					};
 					5B57BBAE1A9B26AA0036A6CC = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -751,14 +719,17 @@
 				225B36781F6EBA640005B3D5 /* ColoredLineChartViewController.xib in Resources */,
 				225B36791F6EBA640005B3D5 /* CombinedChartViewController.xib in Resources */,
 				225B367B1F6EBA640005B3D5 /* HalfPieChartViewController.xib in Resources */,
+				068A9B1A1FBBF355003CF1AD /* Launch Screen.storyboard in Resources */,
 				225B367A1F6EBA640005B3D5 /* CubicLineChartViewController.xib in Resources */,
 				225B368B1F6EBA640005B3D5 /* StackedBarChartViewController.xib in Resources */,
 				225B36821F6EBA640005B3D5 /* MultipleLinesChartViewController.xib in Resources */,
+				068A9B191FBBF351003CF1AD /* Images.xcassets in Resources */,
 				225B36751F6EBA640005B3D5 /* BarChartViewController.xib in Resources */,
 				225B367F1F6EBA640005B3D5 /* LineChartFilledViewController.xib in Resources */,
 				225B36801F6EBA640005B3D5 /* LineChartTimeViewController.xib in Resources */,
 				225B36811F6EBA640005B3D5 /* MultipleBarChartViewController.xib in Resources */,
 				225B367D1F6EBA640005B3D5 /* LineChart1ViewController.xib in Resources */,
+				068A9B1B1FBBF366003CF1AD /* radar_marker@3x.png in Resources */,
 				225B36721F6EBA5E0005B3D5 /* DemoListViewController.xib in Resources */,
 				225B36891F6EBA640005B3D5 /* ScatterChartViewController.xib in Resources */,
 				225B36851F6EBA640005B3D5 /* PiePolylineChartViewController.xib in Resources */,
@@ -780,9 +751,6 @@
 			files = (
 				5B8EAF301AB32E15009697AA /* Images.xcassets in Resources */,
 				5BE673931D5B4E0900A87BA2 /* LineChartFilledViewController.xib in Resources */,
-				5B43162B1AB8D8AE0009FCAA /* Icon-60@2x.png in Resources */,
-				5B43162E1AB8D8AE0009FCAA /* iTunesArtwork@2x in Resources */,
-				5B4316281AB8D8AE0009FCAA /* Icon-29@3x.png in Resources */,
 				5BEAED2D1ABC160F0013F194 /* CandleStickChartViewController.xib in Resources */,
 				5B613DB51D526EA8000F1E98 /* RadarMarkerView.xib in Resources */,
 				5BD47E611ABB3C91008FCEC6 /* LineChart2ViewController.xib in Resources */,
@@ -791,7 +759,6 @@
 				5BEAED371ABC192F0013F194 /* RadarChartViewController.xib in Resources */,
 				5B8EAF241AB3271B009697AA /* DemoListViewController.xib in Resources */,
 				5BEAED261ABC0BE20013F194 /* MultipleBarChartViewController.xib in Resources */,
-				5B43162A1AB8D8AE0009FCAA /* Icon-40@3x.png in Resources */,
 				5BEAED3C1ABC199F0013F194 /* ColoredLineChartViewController.xib in Resources */,
 				5BEAED321ABC18F00013F194 /* CubicLineChartViewController.xib in Resources */,
 				5BEAED281ABC0BE20013F194 /* MultipleLinesChartViewController.xib in Resources */,
@@ -804,17 +771,13 @@
 				5BD8F0751AB89CE500566E05 /* LineChart1ViewController.xib in Resources */,
 				5BE673811D5B496500A87BA2 /* HalfPieChartViewController.xib in Resources */,
 				B64D06EB1FB199130067418D /* Launch Screen.storyboard in Resources */,
-				5B43162D1AB8D8AE0009FCAA /* iTunesArtwork in Resources */,
 				5BD47E661ABB424E008FCEC6 /* BarChartViewController.xib in Resources */,
 				5BDEDC421ABB7F73007D3A60 /* HorizontalBarChartViewController.xib in Resources */,
 				5BDEDC481ABB871E007D3A60 /* CombinedChartViewController.xib in Resources */,
 				5BE673951D5B4E0900A87BA2 /* LineChartTimeViewController.xib in Resources */,
-				5B4316291AB8D8AE0009FCAA /* Icon-40@2x.png in Resources */,
 				5BEAED1E1ABBFB340013F194 /* StackedBarChartViewController.xib in Resources */,
-				5B4316271AB8D8AE0009FCAA /* Icon-29@2x.png in Resources */,
 				5B1B5DAB1E911A15006D1375 /* RealmDemosViewController.xib in Resources */,
 				55E356501ADC638F00A57971 /* BubbleChartViewController.xib in Resources */,
-				5B43162C1AB8D8AE0009FCAA /* Icon-60@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -934,13 +897,10 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.ChartsDemo-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -967,14 +927,11 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.ChartsDemo-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1083,15 +1040,12 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(SOURCE_ROOT)/../Carthage/Build/iOS";
 				INFOPLIST_FILE = "Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ChartsDemo;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvsimulator appletvos";
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/ChartsDemo-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
@@ -1106,15 +1060,12 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(SOURCE_ROOT)/../Carthage/Build/iOS";
 				INFOPLIST_FILE = "Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ChartsDemo;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvsimulator appletvos";
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/ChartsDemo-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";

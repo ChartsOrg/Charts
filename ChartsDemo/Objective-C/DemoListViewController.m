@@ -33,7 +33,6 @@
 #import "LineChartTimeViewController.h"
 #import "LineChartFilledViewController.h"
 #import "HalfPieChartViewController.h"
-#import "RealmDemosViewController.h"
 
 @interface DemoListViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -168,12 +167,6 @@
                           @"title": @"Half Pie Chart",
                           @"subtitle": @"This demonstrates how to create a 180 degree PieChart.",
                           @"class": HalfPieChartViewController.class
-                          },
-                    
-                      @{
-                          @"title": @"Realm.io database",
-                          @"subtitle": @"This demonstrates how to use this library with Realm.io mobile database.",
-                          @"class": RealmDemosViewController.class
                           }
                       ];
     //FIXME: Add TimeLineChart
