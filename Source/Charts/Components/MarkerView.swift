@@ -25,9 +25,9 @@ open class MarkerView: NSUIView, IMarker
     
     open func offsetForDrawing(atPoint point: CGPoint) -> CGPoint
     {
-        var offset = self.offset
+        guard let chart = chartView else { return self.offset }
         
-        let chart = self.chartView
+        var offset = self.offset
         
         let width = self.bounds.size.width
         let height = self.bounds.size.height
@@ -36,18 +36,18 @@ open class MarkerView: NSUIView, IMarker
         {
             offset.x = -point.x
         }
-        else if chart != nil && point.x + width + offset.x > chart!.bounds.size.width
+        else if point.x + width + offset.x > chart.bounds.size.width
         {
-            offset.x = chart!.bounds.size.width - point.x - width
+            offset.x = chart.bounds.size.width - point.x - width
         }
         
         if point.y + offset.y < 0
         {
             offset.y = -point.y
         }
-        else if chart != nil && point.y + height + offset.y > chart!.bounds.size.height
+        else if point.y + height + offset.y > chart.bounds.size.height
         {
-            offset.y = chart!.bounds.size.height - point.y - height
+            offset.y = chart.bounds.size.height - point.y - height
         }
         
         return offset
