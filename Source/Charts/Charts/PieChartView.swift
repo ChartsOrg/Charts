@@ -102,18 +102,21 @@ open class PieChartView: PieRadarChartViewBase
         }
         
         let optionalContext = NSUIGraphicsGetCurrentContext()
-        guard let context = optionalContext else { return }
+        guard let context = optionalContext, let renderer = renderer else
+        {
+            return
+        }
         
-        renderer!.drawData(context: context)
+        renderer.drawData(context: context)
         
         if (valuesToHighlight())
         {
-            renderer!.drawHighlighted(context: context, indices: _indicesToHighlight)
+            renderer.drawHighlighted(context: context, indices: _indicesToHighlight)
         }
         
-        renderer!.drawExtras(context: context)
+        renderer.drawExtras(context: context)
         
-        renderer!.drawValues(context: context)
+        renderer.drawValues(context: context)
         
         _legendRenderer.renderLegend(context: context)
         
