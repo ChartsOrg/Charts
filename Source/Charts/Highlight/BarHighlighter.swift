@@ -17,7 +17,8 @@ open class BarHighlighter: ChartHighlighter
 {
     open override func getHighlight(x: CGFloat, y: CGFloat) -> Highlight?
     {
-        guard let barData = (self.chart as? BarChartDataProvider)?.barData,
+        guard
+            let barData = (self.chart as? BarChartDataProvider)?.barData,
             let high = super.getHighlight(x: x, y: y)
             else { return nil }
         
@@ -67,7 +68,8 @@ open class BarHighlighter: ChartHighlighter
             return high
         }
         
-        guard let ranges = entry.ranges,
+        guard
+            let ranges = entry.ranges,
             ranges.count > 0
             else { return nil }
 
