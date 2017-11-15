@@ -43,7 +43,7 @@ open class DefaultFillFormatter: NSObject, IFillFormatter
         dataProvider: LineChartDataProvider) -> CGFloat
     {
         guard block == nil else { return block!(dataSet, dataProvider) }
-        var fillMin = CGFloat(0.0)
+        var fillMin: CGFloat = 0.0
 
         if dataSet.yMax > 0.0 && dataSet.yMin < 0.0
         {

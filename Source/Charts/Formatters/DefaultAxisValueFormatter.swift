@@ -91,7 +91,10 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
     open func stringForValue(_ value: Double,
                                axis: AxisBase?) -> String
     {
-        return block?(value, axis) ??
-            (formatter?.string(from: NSNumber(floatLiteral: value)) ?? "")
+        if let block = block {
+            return block(value, axis)
+        } else {
+            return formatter?.string(from: NSNumber(floatLiteral: value)) ?? ""
+        }
     }
 }
