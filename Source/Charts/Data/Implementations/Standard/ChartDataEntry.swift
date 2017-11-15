@@ -17,7 +17,7 @@ open class ChartDataEntry: ChartDataEntryBase
     @objc open var x = Double(0.0)
     
     @objc public var valueColor: UIColor = .black
-    @objc public var circleColors: UIColor = .clear
+    @objc public var circleColor: UIColor = .clear
     
     
     public required init()
