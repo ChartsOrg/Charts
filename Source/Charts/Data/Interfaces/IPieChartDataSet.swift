@@ -58,4 +58,7 @@ public protocol IPieChartDataSet: IChartDataSet
     
     /// the color for the slice-text labels
     var entryLabelColor: NSUIColor? { get set }
+    
+    /// get/sets the color for the highlighted sector
+    var highlightColor: NSUIColor? { get set }
 }

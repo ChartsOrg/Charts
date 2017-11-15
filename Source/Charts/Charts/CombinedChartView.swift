@@ -55,7 +55,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             
             self.highlighter = CombinedHighlighter(chart: self, barDataProvider: self)
             
-            (renderer as! CombinedChartRenderer?)!.createRenderers()
+            (renderer as? CombinedChartRenderer)?.createRenderers()
             renderer?.initBuffers()
         }
     }
@@ -116,11 +116,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     {
         get
         {
-            if _data === nil
-            {
-                return nil
-            }
-            return (_data as! CombinedChartData!).lineData
+            return combinedData?.lineData
         }
     }
     
@@ -130,11 +126,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     {
         get
         {
-            if _data === nil
-            {
-                return nil
-            }
-            return (_data as! CombinedChartData!).barData
+            return combinedData?.barData
         }
     }
     
@@ -144,11 +136,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     {
         get
         {
-            if _data === nil
-            {
-                return nil
-            }
-            return (_data as! CombinedChartData!).scatterData
+            return combinedData?.scatterData
         }
     }
     
@@ -158,11 +146,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     {
         get
         {
-            if _data === nil
-            {
-                return nil
-            }
-            return (_data as! CombinedChartData!).candleData
+            return combinedData?.candleData
         }
     }
     
@@ -172,11 +156,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     {
         get
         {
-            if _data === nil
-            {
-                return nil
-            }
-            return (_data as! CombinedChartData!).bubbleData
+            return combinedData?.bubbleData
         }
     }
     
