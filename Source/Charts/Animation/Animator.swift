@@ -68,39 +68,27 @@ open class Animator: NSObject
     
     @objc open func stop()
     {
-        if _displayLink != nil
-        {
-            _displayLink?.remove(from: RunLoop.main, forMode: RunLoopMode.commonModes)
-            _displayLink = nil
-            
-            _enabledX = false
-            _enabledY = false
-            
-            // If we stopped an animation in the middle, we do not want to leave it like this
-            if phaseX != 1.0 || phaseY != 1.0
-            {
-                phaseX = 1.0
-                phaseY = 1.0
-                
-                if delegate != nil
-                {
-                    delegate!.animatorUpdated(self)
-                }
-                if updateBlock != nil
-                {
-                    updateBlock!()
-                }
-            }
-            
-            if delegate != nil
-            {
-                delegate!.animatorStopped(self)
-            }
-            if stopBlock != nil
-            {
-                stopBlock?()
-            }
+        guard let _displayLink = _displayLink else {
+            return
         }
+        _displayLink.remove(from: RunLoop.main, forMode: RunLoopMode.commonModes)
+        self._displayLink = nil
+
+        _enabledX = false
+        _enabledY = false
+
+        // If we stopped an animation in the middle, we do not want to leave it like this
+        if phaseX != 1.0 || phaseY != 1.0
+        {
+            phaseX = 1.0
+            phaseY = 1.0
+
+            delegate?.animatorUpdated(self)
+            updateBlock?()
+        }
+
+        delegate?.animatorStopped(self)
+        stopBlock?()
     }
     
     fileprivate func updateAnimationPhases(_ currentTime: TimeInterval)
@@ -115,14 +103,7 @@ open class Animator: NSObject
                 elapsed = duration
             }
            
-            if _easingX != nil
-            {
-                phaseX = _easingX!(elapsed, duration)
-            }
-            else
-            {
-                phaseX = Double(elapsed / duration)
-            }
+            phaseX = _easingX?(elapsed, duration) ?? Double(elapsed / duration)
         }
         
         if _enabledY
@@ -135,9 +116,9 @@ open class Animator: NSObject
                 elapsed = duration
             }
             
-            if _easingY != nil
+            if let _easingY = _easingY
             {
-                phaseY = _easingY!(elapsed, duration)
+                phaseY = _easingY(elapsed, duration)
             }
             else
             {
@@ -151,15 +132,10 @@ open class Animator: NSObject
         let currentTime: TimeInterval = CACurrentMediaTime()
         
         updateAnimationPhases(currentTime)
-        
-        if delegate != nil
-        {
-            delegate!.animatorUpdated(self)
-        }
-        if updateBlock != nil
-        {
-            updateBlock!()
-        }
+
+        delegate?.animatorUpdated(self)
+
+        updateBlock?()
         
         if currentTime >= _endTime
         {

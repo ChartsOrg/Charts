@@ -105,6 +105,9 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
     /// the color for the slice-text labels
     open var entryLabelColor: NSUIColor? = nil
     
+    /// the color for the highlighted sector
+    open var highlightColor: NSUIColor? = nil
+    
     // MARK: - NSCopying
     
     open override func copyWithZone(_ zone: NSZone?) -> AnyObject
@@ -112,6 +115,7 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
         let copy = super.copyWithZone(zone) as! PieChartDataSet
         copy._sliceSpace = _sliceSpace
         copy.selectionShift = selectionShift
+        copy.highlightColor = highlightColor
         return copy
     }
 }

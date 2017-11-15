@@ -102,17 +102,17 @@ open class BarChartDataEntry: ChartDataEntry
     
     @objc open func sumBelow(stackIndex :Int) -> Double
     {
-        if _yVals == nil
+        guard let yVals = _yVals else
         {
             return 0
         }
         
         var remainder: Double = 0.0
-        var index = _yVals!.count - 1
+        var index = yVals.count - 1
         
         while (index > stackIndex && index >= 0)
         {
-            remainder += _yVals![index]
+            remainder += yVals[index]
             index -= 1
         }
         
@@ -133,7 +133,7 @@ open class BarChartDataEntry: ChartDataEntry
 
     @objc open func calcPosNegSum()
     {
-        if _yVals == nil
+        guard let _yVals = _yVals else
         {
             _positiveSum = 0.0
             _negativeSum = 0.0
@@ -143,7 +143,7 @@ open class BarChartDataEntry: ChartDataEntry
         var sumNeg: Double = 0.0
         var sumPos: Double = 0.0
         
-        for f in _yVals!
+        for f in _yVals
         {
             if f < 0.0
             {
