@@ -31,9 +31,9 @@ open class PieChartData: ChartData
         }
         set
         {
-            if newValue != nil
+            if let newValue = newValue
             {
-                dataSets = [newValue!]
+                dataSets = [newValue]
             }
             else
             {
@@ -60,7 +60,7 @@ open class PieChartData: ChartData
         
         if ignorecase
         {
-            if (label.caseInsensitiveCompare(dataSets[0].label!) == ComparisonResult.orderedSame)
+            if let label = dataSets[0].label, label.caseInsensitiveCompare(label) == .orderedSame
             {
                 return dataSets[0]
             }
