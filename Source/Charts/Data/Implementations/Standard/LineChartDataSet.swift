@@ -178,7 +178,7 @@ open class LineChartDataSet: LineRadarChartDataSet, LineChartDataSetProtocol
     /// formatter for customizing the position of the fill-line
     fileprivate var _fillFormatter: FillFormatter = DefaultFillFormatter()
     
-    /// Sets a custom IFillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
+    /// Sets a custom FillFormatterProtocol to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
     open var fillFormatter: FillFormatter?
     {
         get

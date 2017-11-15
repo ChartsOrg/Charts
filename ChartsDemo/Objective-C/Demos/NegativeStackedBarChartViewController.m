@@ -184,7 +184,7 @@
     NSLog(@"chartValueNothingSelected");
 }
 
-#pragma mark - IAxisValueFormatter
+#pragma mark - AxisValueFormatter
 
 - (NSString *)stringForValue:(double)value
                         axis:(ChartAxisBase *)axis

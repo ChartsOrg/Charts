@@ -9,8 +9,70 @@
 /* Begin PBXBuildFile section */
 		0439A3541C9FF95F00496F83 /* PiePolylineChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0439A3521C9FF95F00496F83 /* PiePolylineChartViewController.m */; };
 		0471CBFC1CA1090A00E52DBC /* PiePolylineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0471CBFB1CA1090A00E52DBC /* PiePolylineChartViewController.xib */; };
-		22A486791FBA6D7000EC9A0F /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0630AE411D8126C0008859B0 /* Charts.framework */; };
-		22A4867A1FBA6D7000EC9A0F /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0630AE411D8126C0008859B0 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		068A9B191FBBF351003CF1AD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B8EAF2F1AB32E15009697AA /* Images.xcassets */; };
+		068A9B1A1FBBF355003CF1AD /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B64D06EA1FB199130067418D /* Launch Screen.storyboard */; };
+		068A9B1B1FBBF366003CF1AD /* radar_marker@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B613DA31D526AD5000F1E98 /* radar_marker@3x.png */; };
+		225B36201F6EB9A50005B3D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B361F1F6EB9A50005B3D5 /* AppDelegate.swift */; };
+		225B36311F6EB9EE0005B3D5 /* DemoBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B362F1F6EB9EE0005B3D5 /* DemoBaseViewController.swift */; };
+		225B36321F6EB9EE0005B3D5 /* DemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36301F6EB9EE0005B3D5 /* DemoListViewController.swift */; };
+		225B36381F6EBA040005B3D5 /* IntAxisValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36341F6EB9FE0005B3D5 /* IntAxisValueFormatter.swift */; };
+		225B36391F6EBA040005B3D5 /* DayAxisValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36351F6EB9FE0005B3D5 /* DayAxisValueFormatter.swift */; };
+		225B363A1F6EBA040005B3D5 /* DateValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36361F6EB9FE0005B3D5 /* DateValueFormatter.swift */; };
+		225B363B1F6EBA040005B3D5 /* LargeValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36371F6EB9FE0005B3D5 /* LargeValueFormatter.swift */; };
+		225B36401F6EBA1D0005B3D5 /* XYMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B363D1F6EBA180005B3D5 /* XYMarkerView.swift */; };
+		225B36411F6EBA1D0005B3D5 /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B363E1F6EBA180005B3D5 /* BalloonMarker.swift */; };
+		225B36421F6EBA1D0005B3D5 /* RadarMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B363F1F6EBA180005B3D5 /* RadarMarkerView.swift */; };
+		225B365B1F6EBA470005B3D5 /* MultipleLinesChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36441F6EBA410005B3D5 /* MultipleLinesChartViewController.swift */; };
+		225B365C1F6EBA470005B3D5 /* MultipleBarChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36451F6EBA410005B3D5 /* MultipleBarChartViewController.swift */; };
+		225B365D1F6EBA470005B3D5 /* HalfPieChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36461F6EBA410005B3D5 /* HalfPieChartViewController.swift */; };
+		225B365E1F6EBA470005B3D5 /* LineChartTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36471F6EBA410005B3D5 /* LineChartTimeViewController.swift */; };
+		225B365F1F6EBA470005B3D5 /* ColoredLineChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36481F6EBA410005B3D5 /* ColoredLineChartViewController.swift */; };
+		225B36601F6EBA470005B3D5 /* LineChart2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36491F6EBA410005B3D5 /* LineChart2ViewController.swift */; };
+		225B36611F6EBA470005B3D5 /* LineChart1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B364A1F6EBA410005B3D5 /* LineChart1ViewController.swift */; };
+		225B36621F6EBA470005B3D5 /* NegativeStackedBarChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B364B1F6EBA410005B3D5 /* NegativeStackedBarChartViewController.swift */; };
+		225B36631F6EBA470005B3D5 /* ScatterChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B364C1F6EBA410005B3D5 /* ScatterChartViewController.swift */; };
+		225B36641F6EBA470005B3D5 /* StackedBarChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B364D1F6EBA410005B3D5 /* StackedBarChartViewController.swift */; };
+		225B36651F6EBA470005B3D5 /* BubbleChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B364E1F6EBA410005B3D5 /* BubbleChartViewController.swift */; };
+		225B36661F6EBA470005B3D5 /* LineChartFilledViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B364F1F6EBA410005B3D5 /* LineChartFilledViewController.swift */; };
+		225B36671F6EBA470005B3D5 /* PositiveNegativeBarChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36501F6EBA410005B3D5 /* PositiveNegativeBarChartViewController.swift */; };
+		225B36681F6EBA470005B3D5 /* AnotherBarChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36511F6EBA410005B3D5 /* AnotherBarChartViewController.swift */; };
+		225B36691F6EBA470005B3D5 /* PieChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36521F6EBA410005B3D5 /* PieChartViewController.swift */; };
+		225B366A1F6EBA470005B3D5 /* CubicLineChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36531F6EBA410005B3D5 /* CubicLineChartViewController.swift */; };
+		225B366B1F6EBA470005B3D5 /* RadarChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36541F6EBA410005B3D5 /* RadarChartViewController.swift */; };
+		225B366C1F6EBA470005B3D5 /* HorizontalBarChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36551F6EBA410005B3D5 /* HorizontalBarChartViewController.swift */; };
+		225B366D1F6EBA470005B3D5 /* PiePolylineChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36561F6EBA410005B3D5 /* PiePolylineChartViewController.swift */; };
+		225B366E1F6EBA470005B3D5 /* CombinedChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36571F6EBA410005B3D5 /* CombinedChartViewController.swift */; };
+		225B366F1F6EBA470005B3D5 /* BarChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36581F6EBA410005B3D5 /* BarChartViewController.swift */; };
+		225B36701F6EBA470005B3D5 /* SinusBarChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B36591F6EBA410005B3D5 /* SinusBarChartViewController.swift */; };
+		225B36711F6EBA470005B3D5 /* CandleStickChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225B365A1F6EBA410005B3D5 /* CandleStickChartViewController.swift */; };
+		225B36721F6EBA5E0005B3D5 /* DemoListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B8EAF231AB3271B009697AA /* DemoListViewController.xib */; };
+		225B36731F6EBA5E0005B3D5 /* RadarMarkerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B613DB41D526EA8000F1E98 /* RadarMarkerView.xib */; };
+		225B36741F6EBA640005B3D5 /* AnotherBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED111ABBFB2B0013F194 /* AnotherBarChartViewController.xib */; };
+		225B36751F6EBA640005B3D5 /* BarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BD47E641ABB424E008FCEC6 /* BarChartViewController.xib */; };
+		225B36761F6EBA640005B3D5 /* BubbleChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55E3564D1ADC638F00A57971 /* BubbleChartViewController.xib */; };
+		225B36771F6EBA640005B3D5 /* CandleStickChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED2B1ABC160F0013F194 /* CandleStickChartViewController.xib */; };
+		225B36781F6EBA640005B3D5 /* ColoredLineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED3A1ABC199F0013F194 /* ColoredLineChartViewController.xib */; };
+		225B36791F6EBA640005B3D5 /* CombinedChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BDEDC461ABB871E007D3A60 /* CombinedChartViewController.xib */; };
+		225B367A1F6EBA640005B3D5 /* CubicLineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED301ABC18F00013F194 /* CubicLineChartViewController.xib */; };
+		225B367B1F6EBA640005B3D5 /* HalfPieChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BE6737F1D5B496500A87BA2 /* HalfPieChartViewController.xib */; };
+		225B367C1F6EBA640005B3D5 /* HorizontalBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BDEDC401ABB7F73007D3A60 /* HorizontalBarChartViewController.xib */; };
+		225B367D1F6EBA640005B3D5 /* LineChart1ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BD8F0731AB89CE500566E05 /* LineChart1ViewController.xib */; };
+		225B367E1F6EBA640005B3D5 /* LineChart2ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BD47E5F1ABB3C91008FCEC6 /* LineChart2ViewController.xib */; };
+		225B367F1F6EBA640005B3D5 /* LineChartFilledViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BE6738E1D5B4E0900A87BA2 /* LineChartFilledViewController.xib */; };
+		225B36801F6EBA640005B3D5 /* LineChartTimeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BE673911D5B4E0900A87BA2 /* LineChartTimeViewController.xib */; };
+		225B36811F6EBA640005B3D5 /* MultipleBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED211ABC0BE20013F194 /* MultipleBarChartViewController.xib */; };
+		225B36821F6EBA640005B3D5 /* MultipleLinesChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED241ABC0BE20013F194 /* MultipleLinesChartViewController.xib */; };
+		225B36831F6EBA640005B3D5 /* NegativeStackedBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B9624401B38608C007763E2 /* NegativeStackedBarChartViewController.xib */; };
+		225B36841F6EBA640005B3D5 /* PieChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B0CC7841ABB875400665592 /* PieChartViewController.xib */; };
+		225B36851F6EBA640005B3D5 /* PiePolylineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0471CBFB1CA1090A00E52DBC /* PiePolylineChartViewController.xib */; };
+		225B36861F6EBA640005B3D5 /* PositiveNegativeBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BE7E7611C693098000A0377 /* PositiveNegativeBarChartViewController.xib */; };
+		225B36871F6EBA640005B3D5 /* RadarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED351ABC192F0013F194 /* RadarChartViewController.xib */; };
+		225B36881F6EBA640005B3D5 /* RealmDemosViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B1B5DA91E911A15006D1375 /* RealmDemosViewController.xib */; };
+		225B36891F6EBA640005B3D5 /* ScatterChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED171ABBFB340013F194 /* ScatterChartViewController.xib */; };
+		225B368A1F6EBA640005B3D5 /* SinusBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED3F1ABC1AC60013F194 /* SinusBarChartViewController.xib */; };
+		225B368B1F6EBA640005B3D5 /* StackedBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED1A1ABBFB340013F194 /* StackedBarChartViewController.xib */; };
+		225B368C1F6EBBB00005B3D5 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0630AE411D8126C0008859B0 /* Charts.framework */; };
+		225B368D1F6EBBB00005B3D5 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0630AE411D8126C0008859B0 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		55E356501ADC638F00A57971 /* BubbleChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55E3564D1ADC638F00A57971 /* BubbleChartViewController.xib */; };
 		55E356511ADC638F00A57971 /* BubbleChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E3564F1ADC638F00A57971 /* BubbleChartViewController.m */; };
 		5B0CC7851ABB875400665592 /* PieChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CC7831ABB875400665592 /* PieChartViewController.m */; };
@@ -89,14 +151,14 @@
 			remoteGlobalIDString = 06165F2E1D8110E600722320;
 			remoteInfo = ChartsTests;
 		};
-		22A4867B1FBA6D7000EC9A0F /* PBXContainerItemProxy */ = {
+		225B368E1F6EBBB00005B3D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0630AE391D8126C0008859B0 /* Charts.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = A58A4ED274A941CA248EA921;
 			remoteInfo = Charts;
 		};
-		225B368E1F6EBBB00005B3D5 /* PBXContainerItemProxy */ = {
+		22A4867B1FBA6D7000EC9A0F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0630AE391D8126C0008859B0 /* Charts.xcodeproj */;
 			proxyType = 1;
@@ -106,13 +168,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		22A4867D1FBA6D7100EC9A0F /* Embed Frameworks */ = {
+		225B36901F6EBBB10005B3D5 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				22A4867A1FBA6D7000EC9A0F /* Charts.framework in Embed Frameworks */,
+				225B368D1F6EBBB00005B3D5 /* Charts.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -265,7 +327,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22A486791FBA6D7000EC9A0F /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -558,7 +619,6 @@
 				5B57BBAB1A9B26AA0036A6CC /* Sources */,
 				5B57BBAC1A9B26AA0036A6CC /* Frameworks */,
 				5B57BBAD1A9B26AA0036A6CC /* Resources */,
-				22A4867D1FBA6D7100EC9A0F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -587,7 +647,7 @@
 					5B57BBAE1A9B26AA0036A6CC = {
 						CreatedOnToolsVersion = 6.1.1;
 						LastSwiftMigration = 0900;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -793,15 +853,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		22A4867C1FBA6D7000EC9A0F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Charts;
-			targetProxy = 22A4867B1FBA6D7000EC9A0F /* PBXContainerItemProxy */;
-		};
 		225B368F1F6EBBB00005B3D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Charts;
 			targetProxy = 225B368E1F6EBBB00005B3D5 /* PBXContainerItemProxy */;
+		};
+		22A4867C1FBA6D7000EC9A0F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Charts;
+			targetProxy = 22A4867B1FBA6D7000EC9A0F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -966,7 +1026,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(SOURCE_ROOT)/../Carthage/Build/iOS";
 				INFOPLIST_FILE = "Supporting Files/Info.plist";
@@ -974,6 +1034,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ChartsDemo;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvsimulator appletvos";
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/ChartsDemo-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
@@ -989,7 +1050,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(SOURCE_ROOT)/../Carthage/Build/iOS";
 				INFOPLIST_FILE = "Supporting Files/Info.plist";
@@ -997,6 +1058,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ChartsDemo;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvsimulator appletvos";
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/ChartsDemo-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
