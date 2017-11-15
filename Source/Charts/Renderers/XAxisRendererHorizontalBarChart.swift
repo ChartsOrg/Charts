@@ -72,9 +72,8 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
         
         let labelWidth = floor(labelSize.width + xAxis.xOffset * 3.5)
         let labelHeight = labelSize.height
-        
-        let labelRotatedSize = ChartUtils.sizeOfRotatedRectangle(rectangleWidth: labelSize.width, rectangleHeight:  labelHeight, degrees: xAxis.labelRotationAngle)
-        
+        let labelRotatedSize = CGSize(width: labelSize.width, height: labelHeight).rotatedBy(degrees: xAxis.labelRotationAngle)
+
         xAxis.labelWidth = labelWidth
         xAxis.labelHeight = labelHeight
         xAxis.labelRotatedWidth = round(labelRotatedSize.width + xAxis.xOffset * 3.5)

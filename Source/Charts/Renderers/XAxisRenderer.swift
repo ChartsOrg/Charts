@@ -77,7 +77,7 @@ open class XAxisRenderer: AxisRendererBase
         let labelWidth = labelSize.width
         let labelHeight = labelSize.height
         
-        let labelRotatedSize = ChartUtils.sizeOfRotatedRectangle(labelSize, degrees: xAxis.labelRotationAngle)
+        let labelRotatedSize = labelSize.rotatedBy(degrees: xAxis.labelRotationAngle)
         
         xAxis.labelWidth = labelWidth
         xAxis.labelHeight = labelHeight
