@@ -16,6 +16,20 @@ import CoreGraphics
     import UIKit
 #endif
 
+extension CGSize {
+    func rotatedBy(degrees: CGFloat) -> CGSize {
+        let radians = ChartUtils.Math.FDEG2RAD * degrees
+        return rotatedBy(radians: radians)
+    }
+
+    func rotatedBy(radians: CGFloat) -> CGSize {
+        return CGSize(
+            width: abs(width * cos(radians)) + abs(height * sin(radians)),
+            height: abs(width * sin(radians)) + abs(height * cos(radians))
+        )
+    }
+}
+
 extension Double {
     /// Rounds the number to the nearest multiple of it's order of magnitude, rounding away from zero if halfway.
     func roundedToNextSignficant() -> Double {
