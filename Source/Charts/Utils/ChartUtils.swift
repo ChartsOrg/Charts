@@ -27,14 +27,15 @@ extension FloatingPoint {
 
     /// - returns: An angle between 0.0 < 360.0 (not less than zero, less than 360)
     /// NOTE: Value must be in degrees
-    var normalizedAngle: Self
-    {
+    var normalizedAngle: Self {
         let angle = truncatingRemainder(dividingBy: 360)
         return (sign == .minus) ? angle + 360 : angle
+    }
+}
 
 extension CGSize {
     func rotatedBy(degrees: CGFloat) -> CGSize {
-        let radians = ChartUtils.Math.FDEG2RAD * degrees
+        let radians = degrees.deg2rad
         return rotatedBy(radians: radians)
     }
 
