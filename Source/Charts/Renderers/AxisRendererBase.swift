@@ -13,23 +13,19 @@ import Foundation
 import CoreGraphics
 
 @objc(ChartAxisRendererBase)
-open class AxisRendererBase: Renderer
+open class AxisRendererBase: NSObject, Renderer
 {
+    @objc public let viewPortHandler: ViewPortHandler
+
     /// base axis this axis renderer works with
     @objc open var axis: AxisBase?
     
     /// transformer to transform values to screen pixels and return
     @objc open var transformer: Transformer?
-    
-    public override init()
+
+    @objc public init(viewPortHandler: ViewPortHandler, transformer: Transformer?, axis: AxisBase?)
     {
-        super.init()
-    }
-    
-    @objc public init(viewPortHandler: ViewPortHandler?, transformer: Transformer?, axis: AxisBase?)
-    {
-        super.init(viewPortHandler: viewPortHandler)
-        
+        self.viewPortHandler = viewPortHandler
         self.transformer = transformer
         self.axis = axis
     }
@@ -68,23 +64,20 @@ open class AxisRendererBase: Renderer
         if let transformer = self.transformer
         {
             // calculate the starting and entry point of the y-labels (depending on zoom / contentrect bounds)
-            if let viewPortHandler = viewPortHandler
+            if viewPortHandler.contentWidth > 10.0 && !viewPortHandler.isFullyZoomedOutY
             {
-                if viewPortHandler.contentWidth > 10.0 && !viewPortHandler.isFullyZoomedOutY
+                let p1 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
+                let p2 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom))
+                
+                if !inverted
                 {
-                    let p1 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
-                    let p2 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom))
-                    
-                    if !inverted
-                    {
-                        min = Double(p2.y)
-                        max = Double(p1.y)
-                    }
-                    else
-                    {
-                        min = Double(p1.y)
-                        max = Double(p2.y)
-                    }
+                    min = Double(p2.y)
+                    max = Double(p1.y)
+                }
+                else
+                {
+                    min = Double(p1.y)
+                    max = Double(p2.y)
                 }
             }
         }

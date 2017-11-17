@@ -17,18 +17,27 @@ import CoreGraphics
 #endif
 
 
-open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
+open class BubbleChartRenderer: NSObject, BarLineScatterCandleBubbleRenderer
 {
+    typealias XBounds = CountableClosedRange<Int>
+    var xBounds: XBounds!
+
+    @objc public var animator: Animator?
+
+    @objc public var viewPortHandler: ViewPortHandler
+
     @objc open weak var dataProvider: BubbleChartDataProvider?
     
-    @objc public init(dataProvider: BubbleChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    @objc public init(dataProvider: BubbleChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler)
     {
-        super.init(animator: animator, viewPortHandler: viewPortHandler)
-        
+        self.animator = animator
+        self.viewPortHandler = viewPortHandler
         self.dataProvider = dataProvider
     }
+
+    public func initBuffers() { }
     
-    open override func drawData(context: CGContext)
+    open func drawData(context: CGContext)
     {
         guard
             let dataProvider = dataProvider,
@@ -64,7 +73,6 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let viewPortHandler = self.viewPortHandler,
             let animator = animator
             else { return }
         
@@ -72,7 +80,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         
         let phaseY = animator.phaseY
         
-        _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
+        xBounds = XBounds(chart: dataProvider, dataSet: dataSet, animator: animator)
         
         let valueToPixelMatrix = trans.valueToPixelMatrix
     
@@ -92,7 +100,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         let maxBubbleHeight: CGFloat = abs(viewPortHandler.contentBottom - viewPortHandler.contentTop)
         let referenceSize: CGFloat = min(maxBubbleHeight, maxBubbleWidth)
         
-        for j in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
+        for j in xBounds
         {
             guard let entry = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { continue }
             
@@ -135,11 +143,10 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         context.restoreGState()
     }
     
-    open override func drawValues(context: CGContext)
+    open func drawValues(context: CGContext)
     {
         guard let
             dataProvider = dataProvider,
-            let viewPortHandler = self.viewPortHandler,
             let bubbleData = dataProvider.bubbleData,
             let animator = animator
             else { return }
@@ -167,14 +174,14 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
                 
                 guard let formatter = dataSet.valueFormatter else { continue }
                 
-                _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
+                xBounds = XBounds(chart: dataProvider, dataSet: dataSet, animator: animator)
                 
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix
                 
                 let iconsOffset = dataSet.iconsOffset
                 
-                for j in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
+                for j in xBounds
                 {
                     guard let e = dataSet.entryForIndex(j) as? BubbleChartDataEntry else { break }
                     
@@ -230,16 +237,15 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         }
     }
     
-    open override func drawExtras(context: CGContext)
+    open func drawExtras(context: CGContext)
     {
         
     }
     
-    open override func drawHighlighted(context: CGContext, indices: [Highlight])
+    open func drawHighlighted(context: CGContext, indices: [Highlight])
     {
         guard let
             dataProvider = dataProvider,
-            let viewPortHandler = self.viewPortHandler,
             let bubbleData = dataProvider.bubbleData,
             let animator = animator
             else { return }
@@ -322,5 +328,15 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         }
         
         context.restoreGState()
+    }
+}
+
+// MARK: DataRender
+// TODO: Can be removed when dropping Objective-C compatibility
+extension BubbleChartRenderer {
+    public func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
+    {
+        guard let data = dataProvider?.data else { return false }
+        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
     }
 }
