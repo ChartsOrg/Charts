@@ -546,3 +546,118 @@ extension ChartData
         return self[index]
     }
 }
+
+// MARK: MutableCollection
+extension ChartData: MutableCollection {
+    public typealias Index = Int
+    public typealias Element = IChartDataSet
+
+    public var startIndex: Index {
+        return _dataSets.startIndex
+    }
+
+    public var endIndex: Index {
+        return _dataSets.endIndex
+    }
+
+    public func index(after: Index) -> Index {
+        return _dataSets.index(after: after)
+    }
+
+    public subscript(position: Index) -> Element {
+        get{ return _dataSets[position] }
+        set{ self._dataSets[position] = newValue }
+    }
+}
+
+// MARK: RandomAccessCollection
+extension ChartData: RandomAccessCollection {
+    public func index(before: Index) -> Index {
+        return _dataSets.index(before: before)
+    }
+}
+
+// MARK: RangeReplaceableCollection
+extension ChartData: RangeReplaceableCollection {
+    public func append(_ newElement: Element) {
+        self._dataSets.append(newElement)
+        calcMinMax(dataSet: newElement)
+    }
+
+    public func remove(at position: Index) -> Element {
+        let element = self._dataSets.remove(at: position)
+        calcMinMax()
+        return element
+    }
+
+    public func removeFirst() -> Element {
+        let element = self._dataSets.removeFirst()
+        notifyDataChanged()
+        return element
+    }
+
+    public func removeFirst(_ n: Int) {
+        self._dataSets.removeFirst(n)
+        notifyDataChanged()
+    }
+
+    public func removeLast() -> Element {
+        let element = self._dataSets.removeLast()
+        notifyDataChanged()
+        return element
+    }
+
+    public func removeLast(_ n: Int) {
+        self._dataSets.removeLast(n)
+        notifyDataChanged()
+    }
+
+//    public func removeSubrange(_ bounds: Range<Index>) {
+//        self.dataSets.removeSubrange(bounds)
+//        notifyDataChanged()
+//    }
+}
+
+// MARK: Swift Accessors
+extension ChartData {
+    //TODO: Reevaluate if warning is still true
+    /// Retrieve the index of a ChartDataSet with a specific label from the ChartData. Search can be case sensitive or not.
+    /// **IMPORTANT: This method does calculations at runtime, do not over-use in performance critical situations.**
+    ///
+    /// - Parameters:
+    ///   - label: The label to search for
+    ///   - ignoreCase: if true, the search is not case-sensitive
+    /// - Returns: The index of the DataSet Object with the given label. `nil` if not found
+    public func index(forLabel label: String, ignoreCase: Bool) -> Index? {
+        return ignoreCase
+            ? index { $0.label?.caseInsensitiveCompare(label) == .orderedSame }
+            : index { $0.label == label }
+    }
+
+    public subscript(label: String, ignoreCase: Bool) -> Element? {
+        get {
+            guard let index = index(forLabel: label, ignoreCase: ignoreCase) else { return nil }
+            return self[index]
+        }
+    }
+
+    public subscript(entry: ChartDataEntry) -> Element? {
+        get {
+            guard let index = index(where: { $0.entryForXValue(entry.x, closestToY: entry.y) === entry }) else {
+                return nil
+            }
+            return self[index]
+        }
+    }
+
+    public func appendEntry(_ e: ChartDataEntry, toDataSet dataSetIndex: Index) {
+        guard indices.contains(dataSetIndex) else {
+            print("ChartData.addEntry() - Cannot add Entry because dataSetIndex too high or too low.", terminator: "\n")
+        }
+
+        let set = self[dataSetIndex]
+        if !set.addEntry(e) { return }
+        calcMinMax(entry: e, axis: set.axisDependency)
+    }
+
+}
