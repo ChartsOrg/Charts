@@ -99,7 +99,7 @@ open class ChartDataSet: ChartBaseDataSet
     
     open override func calcMinMaxY(fromX: Double, toX: Double)
     {
-        guard !_values.isEmpty else { return }
+        guard !values.isEmpty else { return }
 
         _yMax = -Double.greatestFiniteMagnitude
         _yMin = Double.greatestFiniteMagnitude
@@ -154,7 +154,7 @@ open class ChartDataSet: ChartBaseDataSet
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
     open override func entryForIndex(_ i: Int) -> ChartDataEntry?
     {
-        guard _values.indices.contains(i) else {
+        guard values.indices.contains(i) else {
             return nil
         }
         return values[i]
@@ -427,9 +427,9 @@ open class ChartDataSet: ChartBaseDataSet
     // TODO: This should return the removed entry to follow Swift convention.
     open override func removeFirst() -> Bool
     {
-        guard !_values.isEmpty else { return false }
+        guard !values.isEmpty else { return false }
 
-        _values.removeFirst()
+        values.removeFirst()
         calcMinMax()
         
         return true
