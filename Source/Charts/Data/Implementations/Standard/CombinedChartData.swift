@@ -13,13 +13,13 @@ import Foundation
 
 open class CombinedChartData: BarLineScatterCandleBubbleChartData
 {
-    fileprivate var _lineData: LineChartData!
-    fileprivate var _barData: BarChartData!
-    fileprivate var _scatterData: ScatterChartData!
-    fileprivate var _candleData: CandleChartData!
-    fileprivate var _bubbleData: BubbleChartData!
+    private var _lineData: LineChartData!
+    private var _barData: BarChartData!
+    private var _scatterData: ScatterChartData!
+    private var _candleData: CandleChartData!
+    private var _bubbleData: BubbleChartData!
     
-    public override init()
+    public required init()
     {
         super.init()
     }
@@ -237,27 +237,12 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     
     open override func notifyDataChanged()
     {
-        if _lineData !== nil
-        {
-            _lineData.notifyDataChanged()
-        }
-        if _barData !== nil
-        {
-            _barData.notifyDataChanged()
-        }
-        if _scatterData !== nil
-        {
-            _scatterData.notifyDataChanged()
-        }
-        if _candleData !== nil
-        {
-            _candleData.notifyDataChanged()
-        }
-        if _bubbleData !== nil
-        {
-            _bubbleData.notifyDataChanged()
-        }
-        
+        _lineData?.notifyDataChanged()
+        _barData?.notifyDataChanged()
+        _scatterData?.notifyDataChanged()
+        _candleData?.notifyDataChanged()
+        _bubbleData?.notifyDataChanged()
+
         super.notifyDataChanged() // recalculate everything
     }
     

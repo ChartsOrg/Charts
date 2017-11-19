@@ -138,7 +138,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     @objc open var noDataFont: NSUIFont! = NSUIFont(name: "HelveticaNeue", size: 12.0)
     
     /// color of the no data text
-    @objc open var noDataTextColor: NSUIColor = NSUIColor.black
+    @objc open var noDataTextColor: NSUIColor = .black
     
     @objc internal var _legendRenderer: LegendRenderer!
     
@@ -257,12 +257,10 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             // calculate how many digits are needed
             setupDefaultFormatter(min: _data.getYMin(), max: _data.getYMax())
             
-            for set in _data.dataSets
+            for set in _data where
+                set.needsFormatter || set.valueFormatter === _defaultValueFormatter
             {
-                if set.needsFormatter || set.valueFormatter === _defaultValueFormatter
-                {
-                    set.valueFormatter = _defaultValueFormatter
-                }
+                set.valueFormatter = _defaultValueFormatter
             }
             
             // let the chart know there is new data
@@ -291,16 +289,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - returns: `true` if the chart is empty (meaning it's data object is either null or contains no entries).
     @objc open func isEmpty() -> Bool
     {
-        guard let data = _data else { return true }
-
-        if data.entryCount <= 0
-        {
-            return true
-        }
-        else
-        {
-            return false
-        }
+        return _data?.isEmpty ?? true
     }
     
     /// Lets the chart know its underlying data has changed and should perform all necessary recalculations.
@@ -340,13 +329,11 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         }
         
     
-        if _defaultValueFormatter is DefaultValueFormatter
+        if let formatter = _defaultValueFormatter as? DefaultValueFormatter
         {
             // setup the formatter with a new number of digits
             let digits = ChartUtils.decimals(reference)
-            
-            (_defaultValueFormatter as? DefaultValueFormatter)?.decimals
-             = digits
+            formatter.decimals = digits
         }
     }
     
@@ -591,9 +578,9 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     {
         // if there is no marker view or drawing marker is disabled
         guard
-            let marker = marker
-            , isDrawMarkersEnabled &&
-                valuesToHighlight()
+            let marker = marker,
+            isDrawMarkersEnabled,
+            valuesToHighlight()
             else { return }
         
         for i in 0 ..< _indicesToHighlight.count
@@ -601,23 +588,20 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             let highlight = _indicesToHighlight[i]
             
             guard let
-                set = data?.getDataSetByIndex(highlight.dataSetIndex),
+                set = data?[highlight.dataSetIndex],
                 let e = _data?.entryForHighlight(highlight)
                 else { continue }
             
             let entryIndex = set.entryIndex(entry: e)
-            if entryIndex > Int(Double(set.entryCount) * _animator.phaseX)
-            {
-                continue
-            }
+
+            guard
+                entryIndex <= Int(Double(set.entryCount) * _animator.phaseX)
+                else { continue }
 
             let pos = getMarkerPosition(highlight: highlight)
 
             // check bounds
-            if !_viewPortHandler.isInBounds(x: pos.x, y: pos.y)
-            {
-                continue
-            }
+            guard _viewPortHandler.isInBounds(x: pos.x, y: pos.y) else { continue }
 
             // callbacks to update the content
             marker.refreshContent(entry: e, highlight: highlight)

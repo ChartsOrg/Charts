@@ -14,7 +14,7 @@ import CoreGraphics
 
 open class BubbleChartData: BarLineScatterCandleBubbleChartData
 {
-    public override init()
+    public required init()
     {
         super.init()
     }
