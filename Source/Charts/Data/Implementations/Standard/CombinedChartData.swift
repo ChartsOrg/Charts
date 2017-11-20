@@ -19,7 +19,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     fileprivate var _candleData: CandleChartData!
     fileprivate var _bubbleData: BubbleChartData!
     
-    public override init()
+    public required init()
     {
         super.init()
     }

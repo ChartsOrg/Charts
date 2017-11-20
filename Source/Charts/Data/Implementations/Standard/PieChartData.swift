@@ -13,7 +13,7 @@ import Foundation
 
 open class PieChartData: ChartData
 {
-    public override init()
+    public required init()
     {
         super.init()
     }

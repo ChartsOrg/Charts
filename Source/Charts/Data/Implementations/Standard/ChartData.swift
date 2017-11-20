@@ -24,7 +24,7 @@ open class ChartData: NSObject
     
     @objc internal var _dataSets = [IChartDataSet]()
     
-    public override init()
+    public override required init()
     {
         super.init()
         
@@ -864,6 +864,7 @@ extension ChartData {
     public func appendEntry(_ e: ChartDataEntry, toDataSet dataSetIndex: Index) {
         guard indices.contains(dataSetIndex) else {
             print("ChartData.addEntry() - Cannot add Entry because dataSetIndex too high or too low.", terminator: "\n")
+            return
         }
 
         let set = self[dataSetIndex]
