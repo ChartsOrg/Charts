@@ -101,10 +101,7 @@ open class RadarChartView: PieRadarChartViewBase
     {
         super.draw(rect)
 
-        if _data === nil
-        {
-            return
-        }
+        guard data != nil, let renderer = renderer else { return }
         
         let optionalContext = NSUIGraphicsGetCurrentContext()
         guard let context = optionalContext else { return }
@@ -118,7 +115,7 @@ open class RadarChartView: PieRadarChartViewBase
         
         if drawWeb
         {
-            renderer!.drawExtras(context: context)
+            renderer.drawExtras(context: context)
         }
         
         if _yAxis.isEnabled && _yAxis.isDrawLimitLinesBehindDataEnabled
@@ -126,11 +123,11 @@ open class RadarChartView: PieRadarChartViewBase
             _yAxisRenderer.renderLimitLines(context: context)
         }
 
-        renderer!.drawData(context: context)
+        renderer.drawData(context: context)
 
         if valuesToHighlight()
         {
-            renderer!.drawHighlighted(context: context, indices: _indicesToHighlight)
+            renderer.drawHighlighted(context: context, indices: _indicesToHighlight)
         }
         
         if _yAxis.isEnabled && !_yAxis.isDrawLimitLinesBehindDataEnabled
@@ -140,7 +137,7 @@ open class RadarChartView: PieRadarChartViewBase
         
         _yAxisRenderer.renderAxisLabels(context: context)
 
-        renderer!.drawValues(context: context)
+        renderer.drawValues(context: context)
 
         _legendRenderer.renderLegend(context: context)
 

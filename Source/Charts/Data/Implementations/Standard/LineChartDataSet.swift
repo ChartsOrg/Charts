@@ -187,14 +187,7 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         }
         set
         {
-            if newValue == nil
-            {
-                _fillFormatter = DefaultFillFormatter()
-            }
-            else
-            {
-                _fillFormatter = newValue!
-            }
+            _fillFormatter = newValue ?? DefaultFillFormatter()
         }
     }
     

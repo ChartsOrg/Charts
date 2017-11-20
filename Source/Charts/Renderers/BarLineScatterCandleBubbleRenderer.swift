@@ -31,15 +31,7 @@ open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
     @objc internal func isInBoundsX(entry e: ChartDataEntry, dataSet: IBarLineScatterCandleBubbleChartDataSet) -> Bool
     {
         let entryIndex = dataSet.entryIndex(entry: e)
-        
-        if Double(entryIndex) >= Double(dataSet.entryCount) * (animator?.phaseX ?? 1.0)
-        {
-            return false
-        }
-        else
-        {
-            return true
-        }
+        return Double(entryIndex) < Double(dataSet.entryCount) * (animator?.phaseX ?? 1.0)
     }
 
     /// Calculates and returns the x-bounds for the given DataSet in terms of index in their values array.
