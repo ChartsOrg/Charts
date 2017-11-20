@@ -22,7 +22,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     {
         var rects = [CGRect]()
     }
-    
+
     @objc open weak var dataProvider: BarChartDataProvider?
     
     @objc public init(dataProvider: BarChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
@@ -177,9 +177,11 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         
         for i in 0 ..< barData.dataSetCount
         {
-            guard let set = barData.getDataSetByIndex(i) as? IBarChartDataSet,
-                set.isVisible
-                else { continue }
+            guard let set = barData.getDataSetByIndex(i) as? IBarChartDataSet else {
+                fatalError("Datasets for BarChartRenderer must conform to IBarChartDataset")
+            }
+
+            guard set.isVisible else { continue }
 
             drawDataSet(context: context, dataSet: set, index: i)
         }
