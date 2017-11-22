@@ -16,6 +16,20 @@ import CoreGraphics
     import UIKit
 #endif
 
+extension CGSize {
+    func rotatedBy(degrees: CGFloat) -> CGSize {
+        let radians = ChartUtils.Math.FDEG2RAD * degrees
+        return rotatedBy(radians: radians)
+    }
+
+    func rotatedBy(radians: CGFloat) -> CGSize {
+        return CGSize(
+            width: abs(width * cos(radians)) + abs(height * sin(radians)),
+            height: abs(width * sin(radians)) + abs(height * cos(radians))
+        )
+    }
+}
+
 open class ChartUtils
 {
     fileprivate static var _defaultValueFormatter: IValueFormatter = ChartUtils.generateDefaultValueFormatter()
@@ -162,7 +176,7 @@ open class ChartUtils
             // Move the "outer" rect relative to the anchor, assuming its centered
             if anchor.x != 0.5 || anchor.y != 0.5
             {
-                let rotatedSize = sizeOfRotatedRectangle(size, radians: angleRadians)
+                let rotatedSize = size.rotatedBy(radians: angleRadians)
                 
                 translate.x -= rotatedSize.width * (anchor.x - 0.5)
                 translate.y -= rotatedSize.height * (anchor.y - 0.5)
@@ -212,7 +226,7 @@ open class ChartUtils
             // Move the "outer" rect relative to the anchor, assuming its centered
             if anchor.x != 0.5 || anchor.y != 0.5
             {
-                let rotatedSize = sizeOfRotatedRectangle(knownTextSize, radians: angleRadians)
+                let rotatedSize = knownTextSize.rotatedBy(radians: angleRadians)
                 
                 translate.x -= rotatedSize.width * (anchor.x - 0.5)
                 translate.y -= rotatedSize.height * (anchor.y - 0.5)
@@ -273,32 +287,7 @@ open class ChartUtils
     {
         return _defaultValueFormatter
     }
-    
-    internal class func sizeOfRotatedRectangle(_ rectangleSize: CGSize, degrees: CGFloat) -> CGSize
-    {
-        let radians = degrees * Math.FDEG2RAD
-        return sizeOfRotatedRectangle(rectangleWidth: rectangleSize.width, rectangleHeight: rectangleSize.height, radians: radians)
-    }
-    
-    internal class func sizeOfRotatedRectangle(_ rectangleSize: CGSize, radians: CGFloat) -> CGSize
-    {
-        return sizeOfRotatedRectangle(rectangleWidth: rectangleSize.width, rectangleHeight: rectangleSize.height, radians: radians)
-    }
-    
-    internal class func sizeOfRotatedRectangle(rectangleWidth: CGFloat, rectangleHeight: CGFloat, degrees: CGFloat) -> CGSize
-    {
-        let radians = degrees * Math.FDEG2RAD
-        return sizeOfRotatedRectangle(rectangleWidth: rectangleWidth, rectangleHeight: rectangleHeight, radians: radians)
-    }
-    
-    internal class func sizeOfRotatedRectangle(rectangleWidth: CGFloat, rectangleHeight: CGFloat, radians: CGFloat) -> CGSize
-    {
-        return CGSize(
-            width: abs(rectangleWidth * cos(radians)) + abs(rectangleHeight * sin(radians)),
-            height: abs(rectangleWidth * sin(radians)) + abs(rectangleHeight * cos(radians))
-        )
-    }
-    
+
     /// MARK: - Bridging functions
     
     internal class func bridgedObjCGetNSUIColorArray (swift array: [NSUIColor?]) -> [NSObject]

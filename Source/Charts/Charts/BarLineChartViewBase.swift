@@ -217,7 +217,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         // if highlighting is enabled
         if (valuesToHighlight())
         {
-            renderer?.drawHighlighted(context: context, indices: _indicesToHighlight)
+            renderer.drawHighlighted(context: context, indices: _indicesToHighlight)
         }
 
         context.restoreGState()
@@ -254,7 +254,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         }
         else
         {
-            renderer!.drawValues(context: context)
+            renderer.drawValues(context: context)
         }
 
         _legendRenderer.renderLegend(context: context)
@@ -518,13 +518,13 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
             if h === nil || h!.isEqual(self.lastHighlighted)
             {
-                self.highlightValue(nil, callDelegate: true)
-                self.lastHighlighted = nil
+                highlightValue(nil, callDelegate: true)
+                lastHighlighted = nil
             }
             else
             {
-                self.highlightValue(h, callDelegate: true)
-                self.lastHighlighted = h
+                highlightValue(h, callDelegate: true)
+                lastHighlighted = h
             }
         }
     }
@@ -736,7 +736,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
                 if ((h === nil && lastHighlighted !== nil) ||
                     (h !== nil && lastHighlighted === nil) ||
-                    (h !== nil && lastHighlighted !== nil && !h!.isEqual(lastHighlighted)))
+                    (lastHighlighted !== nil && !(h?.isEqual(lastHighlighted) ?? true))
                 {
                     self.lastHighlighted = h
                     self.highlightValue(h, callDelegate: true)
@@ -913,7 +913,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             ))
         {
             var scrollView = self.superview
-            while (scrollView !== nil && !scrollView!.isKind(of: NSUIScrollView.self))
+            while !(scrollView?.isKind(of: NSUIScrollView.self) ?? true)
             {
                 scrollView = scrollView?.superview
             }
