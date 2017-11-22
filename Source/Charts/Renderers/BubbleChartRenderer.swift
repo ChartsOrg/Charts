@@ -124,8 +124,8 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
     
     open override func drawValues(context: CGContext)
     {
-        guard let
-            dataProvider = dataProvider,
+        guard
+            let dataProvider = dataProvider,
             let bubbleData = dataProvider.bubbleData,
             let animator = animator,
             isDrawingValuesAllowed(dataProvider: dataProvider),
@@ -213,8 +213,8 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
     
     open override func drawHighlighted(context: CGContext, indices: [Highlight])
     {
-        guard let
-            dataProvider = dataProvider,
+        guard
+            let dataProvider = dataProvider,
             let bubbleData = dataProvider.bubbleData,
             let animator = animator
             else { return }
