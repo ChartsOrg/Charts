@@ -108,8 +108,8 @@ open class BarChartDataEntry: ChartDataEntry
         }
 
         var remainder: Double = 0.0
-        var index = _yVals!.count - 1
-
+        var index = yVals.count - 1
+        
         while (index > stackIndex && index >= 0)
         {
             remainder += yVals[index]
@@ -142,8 +142,8 @@ open class BarChartDataEntry: ChartDataEntry
 
         var sumNeg: Double = 0.0
         var sumPos: Double = 0.0
-
-        for f in _yVals!
+        
+        for f in _yVals
         {
             if f < 0.0
             {

@@ -54,8 +54,8 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             super.data = newValue
 
             self.highlighter = CombinedHighlighter(chart: self, barDataProvider: self)
-
-            (renderer as! CombinedChartRenderer?)!.createRenderers()
+            
+            (renderer as? CombinedChartRenderer)?.createRenderers()
             renderer?.initBuffers()
         }
     }

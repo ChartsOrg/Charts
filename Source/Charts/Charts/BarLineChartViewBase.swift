@@ -153,10 +153,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     {
         super.draw(rect)
 
-        if _data === nil
-        {
-            return
-        }
+        guard data != nil, let renderer = renderer else { return }
 
         let optionalContext = NSUIGraphicsGetCurrentContext()
         guard let context = optionalContext else { return }
@@ -212,7 +209,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         // make sure the data cannot be drawn outside the content-rect
         context.saveGState()
         context.clip(to: _viewPortHandler.contentRect)
-        renderer?.drawData(context: context)
+        renderer.drawData(context: context)
 
         // if highlighting is enabled
         if (valuesToHighlight())
@@ -222,7 +219,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
         context.restoreGState()
 
-        renderer!.drawExtras(context: context)
+        renderer.drawExtras(context: context)
 
         if _xAxis.isEnabled && !_xAxis.isDrawLimitLinesBehindDataEnabled
         {
@@ -248,7 +245,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             context.saveGState()
             context.clip(to: _viewPortHandler.contentRect)
 
-            renderer!.drawValues(context: context)
+            renderer.drawValues(context: context)
 
             context.restoreGState()
         }
@@ -512,11 +509,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
         if recognizer.state == NSUIGestureRecognizerState.ended
         {
-            if !self.isHighlightPerTapEnabled { return }
-
+            if !isHighlightPerTapEnabled { return }
+            
             let h = getHighlightByTouchPoint(recognizer.location(in: self))
-
-            if h === nil || h!.isEqual(self.lastHighlighted)
+            
+            if h?.isEqual(lastHighlighted) ?? true
             {
                 highlightValue(nil, callDelegate: true)
                 lastHighlighted = nil
@@ -733,8 +730,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 let h = getHighlightByTouchPoint(recognizer.location(in: self))
 
                 let lastHighlighted = self.lastHighlighted
-
-                if ((h === nil && lastHighlighted !== nil) ||
+                
+                if (h === nil && lastHighlighted !== nil) ||
                     (h !== nil && lastHighlighted === nil) ||
                     (lastHighlighted !== nil && !(h?.isEqual(lastHighlighted) ?? true))
                 {
@@ -927,24 +924,14 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             }
 
             var foundScrollView = scrollView as? NSUIScrollView
-
-            if foundScrollView !== nil && !foundScrollView!.nsuiIsScrollEnabled
+            
+            if !(foundScrollView?.nsuiIsScrollEnabled ?? true)
             {
                 foundScrollView = nil
             }
-
-            var scrollViewPanGestureRecognizer: NSUIGestureRecognizer!
-
-            if foundScrollView !== nil
-            {
-                for scrollRecognizer in foundScrollView!.nsuiGestureRecognizers!
-                {
-                    if scrollRecognizer.isKind(of: NSUIPanGestureRecognizer.self)
-                    {
-                        scrollViewPanGestureRecognizer = scrollRecognizer as! NSUIPanGestureRecognizer
-                        break
-                    }
-                }
+            
+            let scrollViewPanGestureRecognizer = foundScrollView?.nsuiGestureRecognizers?.first {
+                $0 is NSUIPanGestureRecognizer
             }
 
             if otherGestureRecognizer === scrollViewPanGestureRecognizer
