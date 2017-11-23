@@ -120,11 +120,11 @@ open class AnimatedViewPortJob: ViewPortJob
     
     @objc internal func animationUpdate()
     {
-        // Override this
+        fatalError("`animationUpdate()` must be overriden by subclasses")
     }
     
     @objc internal func animationEnd()
     {
-        // Override this
+        fatalError("`animationEnd()` must be overriden by subclasses")
     }
 }
