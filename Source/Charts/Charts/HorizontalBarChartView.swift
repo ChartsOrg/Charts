@@ -29,7 +29,7 @@ open class HorizontalBarChartView: BarChartView
         renderer = HorizontalBarChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
         leftYAxisRenderer = YAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, yAxis: leftAxis, transformer: _leftAxisTransformer)
         rightYAxisRenderer = YAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, yAxis: rightAxis, transformer: _rightAxisTransformer)
-        xAxisRenderer = XAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer, chart: self)
+        xAxisRenderer = XAxisRendererHorizontalBarChart(viewPortHandler: _viewPortHandler, xAxis: xAxis, transformer: _leftAxisTransformer, chart: self)
         
         self.highlighter = HorizontalBarHighlighter(chart: self)
     }
@@ -57,20 +57,20 @@ open class HorizontalBarChartView: BarChartView
             offsetBottom += rightAxis.getRequiredHeightSpace()
         }
         
-        let xlabelwidth = _xAxis.labelRotatedWidth
+        let xlabelwidth = xAxis.labelRotatedWidth
         
-        if _xAxis.isEnabled
+        if xAxis.isEnabled
         {
             // offsets for x-labels
-            if _xAxis.labelPosition == .bottom
+            if xAxis.labelPosition == .bottom
             {
                 offsetLeft += xlabelwidth
             }
-            else if _xAxis.labelPosition == .top
+            else if xAxis.labelPosition == .top
             {
                 offsetRight += xlabelwidth
             }
-            else if _xAxis.labelPosition == .bothSided
+            else if xAxis.labelPosition == .bothSided
             {
                 offsetLeft += xlabelwidth
                 offsetRight += xlabelwidth
@@ -94,8 +94,8 @@ open class HorizontalBarChartView: BarChartView
     
     internal override func prepareValuePxMatrix()
     {
-        _rightAxisTransformer.prepareMatrixValuePx(chartXMin: rightAxis._axisMinimum, deltaX: CGFloat(rightAxis.axisRange), deltaY: CGFloat(_xAxis.axisRange), chartYMin: _xAxis._axisMinimum)
-        _leftAxisTransformer.prepareMatrixValuePx(chartXMin: leftAxis._axisMinimum, deltaX: CGFloat(leftAxis.axisRange), deltaY: CGFloat(_xAxis.axisRange), chartYMin: _xAxis._axisMinimum)
+        _rightAxisTransformer.prepareMatrixValuePx(chartXMin: rightAxis._axisMinimum, deltaX: CGFloat(rightAxis.axisRange), deltaY: CGFloat(xAxis.axisRange), chartYMin: xAxis._axisMinimum)
+        _leftAxisTransformer.prepareMatrixValuePx(chartXMin: leftAxis._axisMinimum, deltaX: CGFloat(leftAxis.axisRange), deltaY: CGFloat(xAxis.axisRange), chartYMin: xAxis._axisMinimum)
     }
     
     open override func getMarkerPosition(highlight: Highlight) -> CGPoint

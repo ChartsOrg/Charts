@@ -78,7 +78,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     /// The X axis renderer. This is a read-write property so you can set your own custom renderer here.
     /// **default**: An instance of XAxisRenderer
-    @objc open lazy var xAxisRenderer = XAxisRenderer(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer)
+    @objc open lazy var xAxisRenderer = XAxisRenderer(viewPortHandler: _viewPortHandler, xAxis: xAxis, transformer: _leftAxisTransformer)
     
     internal var _tapGestureRecognizer: NSUITapGestureRecognizer!
     internal var _doubleTapGestureRecognizer: NSUITapGestureRecognizer!
@@ -189,9 +189,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             rightYAxisRenderer.computeAxis(min: rightAxis._axisMinimum, max: rightAxis._axisMaximum, inverted: rightAxis.isInverted)
         }
         
-        if _xAxis.isEnabled
+        if xAxis.isEnabled
         {
-            xAxisRenderer.computeAxis(min: _xAxis._axisMinimum, max: _xAxis._axisMaximum, inverted: false)
+            xAxisRenderer.computeAxis(min: xAxis._axisMinimum, max: xAxis._axisMaximum, inverted: false)
         }
         
         xAxisRenderer.renderAxisLine(context: context)
@@ -203,7 +203,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         leftYAxisRenderer.renderGridLines(context: context)
         rightYAxisRenderer.renderGridLines(context: context)
         
-        if _xAxis.isEnabled && _xAxis.isDrawLimitLinesBehindDataEnabled
+        if xAxis.isEnabled && xAxis.isDrawLimitLinesBehindDataEnabled
         {
             xAxisRenderer.renderLimitLines(context: context)
         }
@@ -233,7 +233,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         renderer.drawExtras(context: context)
         
-        if _xAxis.isEnabled && !_xAxis.isDrawLimitLinesBehindDataEnabled
+        if xAxis.isEnabled && !xAxis.isDrawLimitLinesBehindDataEnabled
         {
             xAxisRenderer.renderLimitLines(context: context)
         }
@@ -284,7 +284,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         data.calcMinMaxY(fromX: self.lowestVisibleX, toX: self.highestVisibleX)
         
-        _xAxis.calculate(min: data.xMin, max: data.xMax)
+        xAxis.calculate(min: data.xMin, max: data.xMax)
         
         // calculate axis range (min / max) according to provided data
         
@@ -303,7 +303,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     internal func prepareValuePxMatrix()
     {
-        _rightAxisTransformer.prepareMatrixValuePx(chartXMin: _xAxis._axisMinimum, deltaX: CGFloat(xAxis.axisRange), deltaY: CGFloat(rightAxis.axisRange), chartYMin: rightAxis._axisMinimum)
+        _rightAxisTransformer.prepareMatrixValuePx(chartXMin: xAxis._axisMinimum, deltaX: CGFloat(xAxis.axisRange), deltaY: CGFloat(rightAxis.axisRange), chartYMin: rightAxis._axisMinimum)
         _leftAxisTransformer.prepareMatrixValuePx(chartXMin: xAxis._axisMinimum, deltaX: CGFloat(xAxis.axisRange), deltaY: CGFloat(leftAxis.axisRange), chartYMin: leftAxis._axisMinimum)
     }
     
@@ -325,14 +325,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         if let data = _data
         {
             xAxisRenderer.computeAxis(
-                min: _xAxis._axisMinimum,
-                max: _xAxis._axisMaximum,
+                min: xAxis._axisMinimum,
+                max: xAxis._axisMaximum,
                 inverted: false)
 
-            if _legend !== nil
-            {
-                _legendRenderer?.computeLegend(data: data)
-            }
+            _legendRenderer.computeLegend(data: data)
         }
         
         calculateOffsets()
@@ -343,7 +340,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     internal override func calcMinMax()
     {
         // calculate / set x-axis range
-        _xAxis.calculate(min: _data?.xMin ?? 0.0, max: _data?.xMax ?? 0.0)
+        xAxis.calculate(min: _data?.xMin ?? 0.0, max: _data?.xMax ?? 0.0)
         
         // calculate axis range (min / max) according to provided data
         leftAxis.calculate(min: _data?.getYMin(axis: .left) ?? 0.0, max: _data?.getYMax(axis: .left) ?? 0.0)
@@ -353,7 +350,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     internal func calculateLegendOffsets(offsetLeft: inout CGFloat, offsetTop: inout CGFloat, offsetRight: inout CGFloat, offsetBottom: inout CGFloat)
     {
         // setup offsets for legend
-        if _legend !== nil && _legend.isEnabled && !_legend.drawInside
+        if _legend.isEnabled, !_legend.drawInside
         {
             switch _legend.orientation
             {
@@ -1095,7 +1092,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             transformer: getTransformer(forAxis: axis),
             view: self,
             yAxis: getAxis(axis),
-            xAxisRange: _xAxis.axisRange,
+            xAxisRange: xAxis.axisRange,
             scaleX: scaleX,
             scaleY: scaleY,
             xOrigin: viewPortHandler.scaleX,
@@ -1180,7 +1177,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// If you call this method, chart must have data or it has no effect.
     @objc open func setVisibleXRangeMaximum(_ maxXRange: Double)
     {
-        let xScale = _xAxis.axisRange / maxXRange
+        let xScale = xAxis.axisRange / maxXRange
         _viewPortHandler.setMinimumScaleX(CGFloat(xScale))
     }
     
@@ -1191,7 +1188,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// If you call this method, chart must have data or it has no effect.
     @objc open func setVisibleXRangeMinimum(_ minXRange: Double)
     {
-        let xScale = _xAxis.axisRange / minXRange
+        let xScale = xAxis.axisRange / minXRange
         _viewPortHandler.setMaximumScaleX(CGFloat(xScale))
     }
 
@@ -1203,8 +1200,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// If you call this method, chart must have data or it has no effect.
     @objc open func setVisibleXRange(minXRange: Double, maxXRange: Double)
     {
-        let minScale = _xAxis.axisRange / maxXRange
-        let maxScale = _xAxis.axisRange / minXRange
+        let minScale = xAxis.axisRange / maxXRange
+        let maxScale = xAxis.axisRange / minXRange
         _viewPortHandler.setMinMaxScaleX(
             minScaleX: CGFloat(minScale),
             maxScaleX: CGFloat(maxScale))
@@ -1697,20 +1694,12 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// - returns: The current x-scale factor
     @objc open var scaleX: CGFloat
     {
-        if _viewPortHandler === nil
-        {
-            return 1.0
-        }
         return _viewPortHandler.scaleX
     }
 
     /// - returns: The current y-scale factor
     @objc open var scaleY: CGFloat
     {
-        if _viewPortHandler === nil
-        {
-            return 1.0
-        }
         return _viewPortHandler.scaleY
     }
 

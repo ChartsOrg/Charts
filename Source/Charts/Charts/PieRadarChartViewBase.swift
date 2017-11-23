@@ -86,7 +86,7 @@ open class PieRadarChartViewBase: ChartViewBase
     {
         calcMinMax()
         
-        if let data = _data , _legend !== nil
+        if let data = _data
         {
             _legendRenderer.computeLegend(data: data)
         }
@@ -103,7 +103,7 @@ open class PieRadarChartViewBase: ChartViewBase
         var legendBottom = CGFloat(0.0)
         var legendTop = CGFloat(0.0)
 
-        if _legend != nil && _legend.enabled && !_legend.drawInside
+        if _legend.enabled && !_legend.drawInside
         {
             let fullLegendWidth = min(_legend.neededWidth, _viewPortHandler.chartWidth * _legend.maxSizePercent)
             

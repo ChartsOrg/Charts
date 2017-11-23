@@ -63,7 +63,7 @@ open class RadarChartView: PieRadarChartViewBase
         renderer = RadarChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
         
         _yAxisRenderer = YAxisRendererRadarChart(viewPortHandler: _viewPortHandler, yAxis: _yAxis, chart: self)
-        _xAxisRenderer = XAxisRendererRadarChart(viewPortHandler: _viewPortHandler, xAxis: _xAxis, chart: self)
+        _xAxisRenderer = XAxisRendererRadarChart(viewPortHandler: _viewPortHandler, xAxis: xAxis, chart: self)
         
         self.highlighter = RadarHighlighter(chart: self)
     }
@@ -75,7 +75,7 @@ open class RadarChartView: PieRadarChartViewBase
         guard let data = _data else { return }
         
         _yAxis.calculate(min: data.getYMin(axis: .left), max: data.getYMax(axis: .left))
-        _xAxis.calculate(min: 0.0, max: Double(data.maxEntryCountSet?.entryCount ?? 0))
+        xAxis.calculate(min: 0.0, max: Double(data.maxEntryCountSet?.entryCount ?? 0))
     }
     
     open override func notifyDataSetChanged()
@@ -83,13 +83,12 @@ open class RadarChartView: PieRadarChartViewBase
         calcMinMax()
 
         _yAxisRenderer?.computeAxis(min: _yAxis._axisMinimum, max: _yAxis._axisMaximum, inverted: _yAxis.isInverted)
-        _xAxisRenderer?.computeAxis(min: _xAxis._axisMinimum, max: _xAxis._axisMaximum, inverted: false)
+        _xAxisRenderer?.computeAxis(min: xAxis._axisMinimum, max: xAxis._axisMaximum, inverted: false)
         
         if let data = _data,
-            let legend = _legend,
-            !legend.isLegendCustom
+            !_legend.isLegendCustom
         {
-            _legendRenderer?.computeLegend(data: data)
+            _legendRenderer.computeLegend(data: data)
         }
         
         calculateOffsets()
@@ -106,9 +105,9 @@ open class RadarChartView: PieRadarChartViewBase
         let optionalContext = NSUIGraphicsGetCurrentContext()
         guard let context = optionalContext else { return }
         
-        if _xAxis.isEnabled
+        if xAxis.isEnabled
         {
-            _xAxisRenderer.computeAxis(min: _xAxis._axisMinimum, max: _xAxis._axisMaximum, inverted: false)
+            _xAxisRenderer.computeAxis(min: xAxis._axisMinimum, max: xAxis._axisMaximum, inverted: false)
         }
         
         _xAxisRenderer?.renderAxisLabels(context: context)
@@ -212,7 +211,7 @@ open class RadarChartView: PieRadarChartViewBase
 
     internal override var requiredBaseOffset: CGFloat
     {
-        return _xAxis.isEnabled && _xAxis.isDrawLabelsEnabled ? _xAxis.labelRotatedWidth : 10.0
+        return xAxis.isEnabled && xAxis.isDrawLabelsEnabled ? xAxis.labelRotatedWidth : 10.0
     }
 
     open override var radius: CGFloat
