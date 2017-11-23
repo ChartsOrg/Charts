@@ -40,7 +40,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         
         _fillFormatter = DefaultFillFormatter()
         
-        renderer = CombinedChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
+        renderer = CombinedChartRenderer(chart: self, animator: animator, viewPortHandler: viewPortHandler)
     }
     
     open override var data: ChartData?
@@ -79,7 +79,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     /// - returns: The Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the CombinedChart.
     open override func getHighlightByTouchPoint(_ pt: CGPoint) -> Highlight?
     {
-        if _data === nil
+        if data === nil
         {
             Swift.print("Can't select by touch. No data set.")
             return nil
@@ -106,7 +106,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     {
         get
         {
-            return _data as? CombinedChartData
+            return data as? CombinedChartData
         }
     }
     
@@ -213,17 +213,17 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             isDrawMarkersEnabled && valuesToHighlight()
             else { return }
         
-        for i in 0 ..< _indicesToHighlight.count
+        for i in 0 ..< highlighted.count
         {
-            let highlight = _indicesToHighlight[i]
+            let highlight = highlighted[i]
             
             guard 
                 let set = combinedData?.getDataSetByHighlight(highlight),
-                let e = _data?.entryForHighlight(highlight)
+                let e = data?.entryForHighlight(highlight)
                 else { continue }
             
             let entryIndex = set.entryIndex(entry: e)
-            if entryIndex > Int(Double(set.entryCount) * _animator.phaseX)
+            if entryIndex > Int(Double(set.entryCount) * animator.phaseX)
             {
                 continue
             }
@@ -231,7 +231,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             let pos = getMarkerPosition(highlight: highlight)
             
             // check bounds
-            if !_viewPortHandler.isInBounds(x: pos.x, y: pos.y)
+            if !viewPortHandler.isInBounds(x: pos.x, y: pos.y)
             {
                 continue
             }

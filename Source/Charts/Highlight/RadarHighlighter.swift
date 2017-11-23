@@ -51,8 +51,8 @@ open class RadarHighlighter: PieRadarHighlighter
         guard let chart = self.chart as? RadarChartView
             else { return vals }
         
-        let phaseX = chart.chartAnimator.phaseX
-        let phaseY = chart.chartAnimator.phaseY
+        let phaseX = chart.animator.phaseX
+        let phaseY = chart.animator.phaseY
         let sliceangle = chart.sliceAngle
         let factor = chart.factor
         
