@@ -557,7 +557,7 @@ open class PieChartRenderer: DataRenderer
     }
     
     /// draws the hole in the center of the chart and the transparent circle / hole
-    fileprivate func drawHole(context: CGContext)
+    private func drawHole(context: CGContext)
     {
         guard
             let chart = chart,
@@ -616,7 +616,7 @@ open class PieChartRenderer: DataRenderer
     }
     
     /// draws the description text in the center of the pie chart makes most sense when center-hole is enabled
-    fileprivate func drawCenterText(context: CGContext)
+    private func drawCenterText(context: CGContext)
     {
         guard
             let chart = chart,

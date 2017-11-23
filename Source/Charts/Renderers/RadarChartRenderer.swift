@@ -222,7 +222,7 @@ open class RadarChartRenderer: LineRadarRenderer
         drawWeb(context: context)
     }
     
-    fileprivate var _webLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _webLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
     @objc open func drawWeb(context: CGContext)
     {
@@ -293,7 +293,7 @@ open class RadarChartRenderer: LineRadarRenderer
         context.restoreGState()
     }
     
-    fileprivate var _highlightPointBuffer = CGPoint()
+    private var _highlightPointBuffer = CGPoint()
 
     open override func drawHighlighted(context: CGContext, indices: [Highlight])
     {

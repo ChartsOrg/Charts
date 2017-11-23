@@ -36,10 +36,10 @@ open class RadarChartView: PieRadarChartViewBase
     @objc open var drawWeb = true
     
     /// modulus that determines how many labels and web-lines are skipped before the next is drawn
-    fileprivate var _skipWebLineCount = 0
+    private var _skipWebLineCount = 0
     
     /// the object reprsenting the y-axis labels
-    fileprivate var _yAxis: YAxis!
+    private var _yAxis: YAxis!
     
     @objc internal var _yAxisRenderer: YAxisRendererRadarChart!
     @objc internal var _xAxisRenderer: XAxisRendererRadarChart!

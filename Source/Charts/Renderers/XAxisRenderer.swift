@@ -122,7 +122,7 @@ open class XAxisRenderer: AxisRendererBase
         }
     }
     
-    fileprivate var _axisLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _axisLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
     open override func renderAxisLine(context: CGContext)
     {

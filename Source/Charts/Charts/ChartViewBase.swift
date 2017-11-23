@@ -54,14 +54,14 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     @objc internal var _data: ChartData?
     
     /// Flag that indicates if highlighting per tap (touch) is enabled
-    fileprivate var _highlightPerTapEnabled = true
+    private var _highlightPerTapEnabled = true
     
     /// If set to true, chart continues to scroll after touch up
     @objc open var dragDecelerationEnabled = true
     
     /// Deceleration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately.
     /// 1 is an invalid value, and will be converted to 0.999 automatically.
-    fileprivate var _dragDecelerationFrictionCoef: CGFloat = 0.9
+    private var _dragDecelerationFrictionCoef: CGFloat = 0.9
     
     /// if true, units are drawn next to the values in the chart
     @objc internal var _drawUnitInChart = false
@@ -154,7 +154,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     @objc internal var _animator: Animator!
     
     /// flag that indicates if offsets calculation has already been done or not
-    fileprivate var _offsetsCalculated = false
+    private var _offsetsCalculated = false
 	
     /// array of Highlight objects that reference the highlighted slices in the chart
     @objc internal var _indicesToHighlight = [Highlight]()
@@ -170,7 +170,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// The marker that is displayed when a value is clicked on the chart
     @objc open var marker: IMarker?
     
-    fileprivate var _interceptTouchEvents = false
+    private var _interceptTouchEvents = false
     
     /// An extra offset to be appended to the viewport's top
     @objc open var extraTopOffset: CGFloat = 0.0

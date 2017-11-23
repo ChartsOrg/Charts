@@ -75,7 +75,7 @@ open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChartD
     /// the space between the candle entries
     ///
     /// **default**: 0.1 (10%)
-    fileprivate var _barSpace = CGFloat(0.1)
+    private var _barSpace = CGFloat(0.1)
     
     /// the space that is left out on the left and right side of each candle,
     /// **default**: 0.1 (10%), max 0.45, min 0.0
