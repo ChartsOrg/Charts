@@ -189,11 +189,11 @@ open class XAxisRenderer: NSObject, AxisRenderer
     {
         let longest = axis.getLongestLabel()
         
-        let labelSize = longest.size(withAttributes: [NSAttributedStringKey.font: axis.labelFont])
+        let labelSize = longest.size(withAttributes: [.font: axis.labelFont])
         
         let labelWidth = labelSize.width
         let labelHeight = labelSize.height
-        let labelRotatedSize = labelSize.rotatedBy(degrees: xAxis.labelRotationAngle)
+        let labelRotatedSize = labelSize.rotatedBy(degrees: axis.labelRotationAngle)
         
         axis.labelWidth = labelWidth
         axis.labelHeight = labelHeight
