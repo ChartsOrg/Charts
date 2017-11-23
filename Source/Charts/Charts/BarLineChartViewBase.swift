@@ -134,22 +134,21 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             _pinchGestureRecognizer.isEnabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
         #endif
     }
-    
-    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?)
-    {
+
+    open override func boundsOrFrameDidChange() {
         // Saving current position of chart.
         var oldPoint: CGPoint?
-        if (keepPositionOnRotation && (keyPath == "frame" || keyPath == "bounds"))
+        if keepPositionOnRotation
         {
             oldPoint = viewPortHandler.contentRect.origin
             getTransformer(forAxis: .left).pixelToValues(&oldPoint!)
         }
-        
+
         // Superclass transforms chart.
-        super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        
+        super.boundsOrFrameDidChange()
+
         // Restoring old position of chart
-        if var newPoint = oldPoint , keepPositionOnRotation
+        if var newPoint = oldPoint, keepPositionOnRotation
         {
             getTransformer(forAxis: .left).pointValueToPixel(&newPoint)
             viewPortHandler.centerViewPort(pt: newPoint, chart: self)

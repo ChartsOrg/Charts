@@ -38,7 +38,19 @@ public protocol ChartViewDelegate
 open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
 {
     // MARK: - Properties
-    
+
+    open override var frame: CGRect {
+        didSet {
+            boundsOrFrameDidChange()
+        }
+    }
+
+    open override var bounds: CGRect {
+        didSet {
+            boundsOrFrameDidChange()
+        }
+    }
+
     /// - returns: The object representing all x-labels, this method can be used to
     /// acquire the XAxis object and modify it (e.g. change the position of the
     /// labels)
@@ -205,13 +217,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         super.init(coder: aDecoder)
         initialize()
     }
-    
-    deinit
-    {
-        self.removeObserver(self, forKeyPath: "bounds")
-        self.removeObserver(self, forKeyPath: "frame")
-    }
-    
+
     @objc internal func initialize()
     {
         #if os(iOS)
@@ -229,10 +235,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         _legend = Legend()
         _legendRenderer = LegendRenderer(viewPortHandler: _viewPortHandler, legend: _legend)
         
-        _xAxis = XAxis()
-        
-        self.addObserver(self, forKeyPath: "bounds", options: .new, context: nil)
-        self.addObserver(self, forKeyPath: "frame", options: .new, context: nil)
+        _xAxis = XAxis()        
     }
     
     // MARK: - ChartViewBase
@@ -887,33 +890,29 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     }
     
     @objc internal var _viewportJobs = [ViewPortJob]()
-    
-    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?)
-    {
-        if keyPath == "bounds" || keyPath == "frame"
-        {
-            let bounds = self.bounds
-            
-            if (_viewPortHandler !== nil &&
-                (bounds.size.width != _viewPortHandler.chartWidth ||
-                bounds.size.height != _viewPortHandler.chartHeight))
-            {
-                _viewPortHandler.setChartDimens(width: bounds.size.width, height: bounds.size.height)
-                
-                // This may cause the chart view to mutate properties affecting the view port -- lets do this
-                // before we try to run any pending jobs on the view port itself
-                notifyDataSetChanged()
 
-                // Finish any pending viewport changes
-                while (!_viewportJobs.isEmpty)
-                {
-                    let job = _viewportJobs.remove(at: 0)
-                    job.doJob()
-                }
+    @objc open func boundsOrFrameDidChange() {
+        let bounds = self.bounds
+
+        if (_viewPortHandler !== nil &&
+            (bounds.size.width != _viewPortHandler.chartWidth ||
+                bounds.size.height != _viewPortHandler.chartHeight))
+        {
+            _viewPortHandler.setChartDimens(width: bounds.size.width, height: bounds.size.height)
+
+            // This may cause the chart view to mutate properties affecting the view port -- lets do this
+            // before we try to run any pending jobs on the view port itself
+            notifyDataSetChanged()
+
+            // Finish any pending viewport changes
+            while (!_viewportJobs.isEmpty)
+            {
+                let job = _viewportJobs.remove(at: 0)
+                job.doJob()
             }
         }
     }
-    
+
     @objc open func removeViewportJob(_ job: ViewPortJob)
     {
         if let index = _viewportJobs.index(where: { $0 === job })
