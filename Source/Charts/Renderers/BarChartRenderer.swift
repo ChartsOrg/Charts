@@ -693,7 +693,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     }
     
     /// Sets the drawing position of the highlight object based on the riven bar-rect.
-    @objc internal func setHighlightDrawPos(highlight high: Highlight, barRect: CGRect)
+    internal func setHighlightDrawPos(highlight high: Highlight, barRect: CGRect)
     {
         high.setDraw(x: barRect.midX, y: barRect.origin.y)
     }

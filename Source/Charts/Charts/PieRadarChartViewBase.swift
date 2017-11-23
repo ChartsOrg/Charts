@@ -366,14 +366,14 @@ open class PieRadarChartViewBase: ChartViewBase
     }
 
     /// - returns: The required offset for the chart legend.
-    @objc internal var requiredLegendOffset: CGFloat
+    internal var requiredLegendOffset: CGFloat
     {
         fatalError("requiredLegendOffset cannot be called on PieRadarChartViewBase")
     }
 
     /// - returns: The base offset needed for the chart without calculating the
     /// legend size.
-    @objc internal var requiredBaseOffset: CGFloat
+    internal var requiredBaseOffset: CGFloat
     {
         fatalError("requiredBaseOffset cannot be called on PieRadarChartViewBase")
     }
@@ -481,7 +481,7 @@ open class PieRadarChartViewBase: ChartViewBase
     fileprivate var _decelerationDisplayLink: NSUIDisplayLink!
     fileprivate var _decelerationAngularVelocity: CGFloat = 0.0
     
-    @objc internal final func processRotationGestureBegan(location: CGPoint)
+    internal final func processRotationGestureBegan(location: CGPoint)
     {
         self.resetVelocity()
         
@@ -495,7 +495,7 @@ open class PieRadarChartViewBase: ChartViewBase
         _rotationGestureStartPoint = location
     }
     
-    @objc internal final func processRotationGestureMoved(location: CGPoint)
+    internal final func processRotationGestureMoved(location: CGPoint)
     {
         if isDragDecelerationEnabled
         {
@@ -518,7 +518,7 @@ open class PieRadarChartViewBase: ChartViewBase
         }
     }
     
-    @objc internal final func processRotationGestureEnded(location: CGPoint)
+    internal final func processRotationGestureEnded(location: CGPoint)
     {
         if isDragDecelerationEnabled
         {
@@ -537,7 +537,7 @@ open class PieRadarChartViewBase: ChartViewBase
         }
     }
     
-    @objc internal final func processRotationGestureCancelled()
+    internal final func processRotationGestureCancelled()
     {
         if _isRotating
         {
