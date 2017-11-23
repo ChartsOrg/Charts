@@ -328,10 +328,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 max: _xAxis._axisMaximum,
                 inverted: false)
 
-            if _legend !== nil
-            {
-                _legendRenderer?.computeLegend(data: data)
-            }
+            _legendRenderer.computeLegend(data: data)
         }
         
         calculateOffsets()
@@ -352,7 +349,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     internal func calculateLegendOffsets(offsetLeft: inout CGFloat, offsetTop: inout CGFloat, offsetRight: inout CGFloat, offsetBottom: inout CGFloat)
     {
         // setup offsets for legend
-        if _legend !== nil && _legend.isEnabled && !_legend.drawInside
+        if _legend.isEnabled, !_legend.drawInside
         {
             switch _legend.orientation
             {
@@ -1699,20 +1696,12 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// - returns: The current x-scale factor
     @objc open var scaleX: CGFloat
     {
-        if _viewPortHandler === nil
-        {
-            return 1.0
-        }
         return _viewPortHandler.scaleX
     }
 
     /// - returns: The current y-scale factor
     @objc open var scaleY: CGFloat
     {
-        if _viewPortHandler === nil
-        {
-            return 1.0
-        }
         return _viewPortHandler.scaleY
     }
 
