@@ -57,19 +57,28 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// **default**: false
     @objc open var keepPositionOnRotation: Bool = false
     
-    /// the object representing the left y-axis
-    @objc internal var _leftAxis: YAxis!
+    /// The left y-axis object. In the horizontal bar-chart, this is the
+    /// top axis.
+    @objc open internal(set) var leftAxis: YAxis!
     
-    /// the object representing the right y-axis
-    @objc internal var _rightAxis: YAxis!
+    /// The right y-axis object. In the horizontal bar-chart, this is the
+    /// bottom axis.
+    @objc open internal(set) var rightAxis: YAxis!
 
-    @objc internal var _leftYAxisRenderer: YAxisRenderer!
-    @objc internal var _rightYAxisRenderer: YAxisRenderer!
+    /// The left Y axis renderer. This is a read-write property so you can set your own custom renderer here.
+    /// **default**: An instance of YAxisRenderer
+    @objc open var leftYAxisRenderer: YAxisRenderer!
+
+    /// The right Y axis renderer. This is a read-write property so you can set your own custom renderer here.
+    /// **default**: An instance of YAxisRenderer
+    @objc open var rightYAxisRenderer: YAxisRenderer!
     
     @objc internal var _leftAxisTransformer: Transformer!
     @objc internal var _rightAxisTransformer: Transformer!
     
-    @objc internal var _xAxisRenderer: XAxisRenderer!
+    /// The X axis renderer. This is a read-write property so you can set your own custom renderer here.
+    /// **default**: An instance of XAxisRenderer
+    @objc open var xAxisRenderer: XAxisRenderer!
     
     @objc internal var _tapGestureRecognizer: NSUITapGestureRecognizer!
     @objc internal var _doubleTapGestureRecognizer: NSUITapGestureRecognizer!
@@ -100,16 +109,16 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     {
         super.initialize()
         
-        _leftAxis = YAxis(position: .left)
-        _rightAxis = YAxis(position: .right)
+        leftAxis = YAxis(position: .left)
+        rightAxis = YAxis(position: .right)
         
         _leftAxisTransformer = Transformer(viewPortHandler: _viewPortHandler)
         _rightAxisTransformer = Transformer(viewPortHandler: _viewPortHandler)
         
-        _leftYAxisRenderer = YAxisRenderer(viewPortHandler: _viewPortHandler, yAxis: _leftAxis, transformer: _leftAxisTransformer)
-        _rightYAxisRenderer = YAxisRenderer(viewPortHandler: _viewPortHandler, yAxis: _rightAxis, transformer: _rightAxisTransformer)
+        leftYAxisRenderer = YAxisRenderer(viewPortHandler: _viewPortHandler, yAxis: leftAxis, transformer: _leftAxisTransformer)
+        rightYAxisRenderer = YAxisRenderer(viewPortHandler: _viewPortHandler, yAxis: rightAxis, transformer: _rightAxisTransformer)
         
-        _xAxisRenderer = XAxisRenderer(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer)
+        xAxisRenderer = XAxisRenderer(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer)
         
         self.highlighter = ChartHighlighter(chart: self)
         
@@ -178,43 +187,43 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             autoScale()
         }
 
-        if _leftAxis.isEnabled
+        if leftAxis.isEnabled
         {
-            _leftYAxisRenderer?.computeAxis(min: _leftAxis._axisMinimum, max: _leftAxis._axisMaximum, inverted: _leftAxis.isInverted)
+            leftYAxisRenderer?.computeAxis(min: leftAxis._axisMinimum, max: leftAxis._axisMaximum, inverted: leftAxis.isInverted)
         }
         
-        if _rightAxis.isEnabled
+        if rightAxis.isEnabled
         {
-            _rightYAxisRenderer?.computeAxis(min: _rightAxis._axisMinimum, max: _rightAxis._axisMaximum, inverted: _rightAxis.isInverted)
+            rightYAxisRenderer?.computeAxis(min: rightAxis._axisMinimum, max: rightAxis._axisMaximum, inverted: rightAxis.isInverted)
         }
         
         if _xAxis.isEnabled
         {
-            _xAxisRenderer?.computeAxis(min: _xAxis._axisMinimum, max: _xAxis._axisMaximum, inverted: false)
+            xAxisRenderer?.computeAxis(min: _xAxis._axisMinimum, max: _xAxis._axisMaximum, inverted: false)
         }
         
-        _xAxisRenderer?.renderAxisLine(context: context)
-        _leftYAxisRenderer?.renderAxisLine(context: context)
-        _rightYAxisRenderer?.renderAxisLine(context: context)
+        xAxisRenderer?.renderAxisLine(context: context)
+        leftYAxisRenderer?.renderAxisLine(context: context)
+        rightYAxisRenderer?.renderAxisLine(context: context)
 
         // The renderers are responsible for clipping, to account for line-width center etc.
-        _xAxisRenderer?.renderGridLines(context: context)
-        _leftYAxisRenderer?.renderGridLines(context: context)
-        _rightYAxisRenderer?.renderGridLines(context: context)
+        xAxisRenderer?.renderGridLines(context: context)
+        leftYAxisRenderer?.renderGridLines(context: context)
+        rightYAxisRenderer?.renderGridLines(context: context)
         
         if _xAxis.isEnabled && _xAxis.isDrawLimitLinesBehindDataEnabled
         {
-            _xAxisRenderer?.renderLimitLines(context: context)
+            xAxisRenderer?.renderLimitLines(context: context)
         }
         
-        if _leftAxis.isEnabled && _leftAxis.isDrawLimitLinesBehindDataEnabled
+        if leftAxis.isEnabled && leftAxis.isDrawLimitLinesBehindDataEnabled
         {
-            _leftYAxisRenderer?.renderLimitLines(context: context)
+            leftYAxisRenderer?.renderLimitLines(context: context)
         }
         
-        if _rightAxis.isEnabled && _rightAxis.isDrawLimitLinesBehindDataEnabled
+        if rightAxis.isEnabled && rightAxis.isDrawLimitLinesBehindDataEnabled
         {
-            _rightYAxisRenderer?.renderLimitLines(context: context)
+            rightYAxisRenderer?.renderLimitLines(context: context)
         }
         
         // make sure the data cannot be drawn outside the content-rect
@@ -234,22 +243,22 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         if _xAxis.isEnabled && !_xAxis.isDrawLimitLinesBehindDataEnabled
         {
-            _xAxisRenderer?.renderLimitLines(context: context)
+            xAxisRenderer?.renderLimitLines(context: context)
         }
         
-        if _leftAxis.isEnabled && !_leftAxis.isDrawLimitLinesBehindDataEnabled
+        if leftAxis.isEnabled && !leftAxis.isDrawLimitLinesBehindDataEnabled
         {
-            _leftYAxisRenderer?.renderLimitLines(context: context)
+            leftYAxisRenderer?.renderLimitLines(context: context)
         }
         
-        if _rightAxis.isEnabled && !_rightAxis.isDrawLimitLinesBehindDataEnabled
+        if rightAxis.isEnabled && !rightAxis.isDrawLimitLinesBehindDataEnabled
         {
-            _rightYAxisRenderer?.renderLimitLines(context: context)
+            rightYAxisRenderer?.renderLimitLines(context: context)
         }
         
-        _xAxisRenderer.renderAxisLabels(context: context)
-        _leftYAxisRenderer.renderAxisLabels(context: context)
-        _rightYAxisRenderer.renderAxisLabels(context: context)
+        xAxisRenderer.renderAxisLabels(context: context)
+        leftYAxisRenderer.renderAxisLabels(context: context)
+        rightYAxisRenderer.renderAxisLabels(context: context)
 
         if clipValuesToContentEnabled
         {
@@ -287,14 +296,14 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         // calculate axis range (min / max) according to provided data
         
-        if _leftAxis.isEnabled
+        if leftAxis.isEnabled
         {
-            _leftAxis.calculate(min: data.getYMin(axis: .left), max: data.getYMax(axis: .left))
+            leftAxis.calculate(min: data.getYMin(axis: .left), max: data.getYMax(axis: .left))
         }
         
-        if _rightAxis.isEnabled
+        if rightAxis.isEnabled
         {
-            _rightAxis.calculate(min: data.getYMin(axis: .right), max: data.getYMax(axis: .right))
+            rightAxis.calculate(min: data.getYMin(axis: .right), max: data.getYMax(axis: .right))
         }
         
         calculateOffsets()
@@ -302,14 +311,14 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     @objc internal func prepareValuePxMatrix()
     {
-        _rightAxisTransformer.prepareMatrixValuePx(chartXMin: _xAxis._axisMinimum, deltaX: CGFloat(xAxis.axisRange), deltaY: CGFloat(_rightAxis.axisRange), chartYMin: _rightAxis._axisMinimum)
-        _leftAxisTransformer.prepareMatrixValuePx(chartXMin: xAxis._axisMinimum, deltaX: CGFloat(xAxis.axisRange), deltaY: CGFloat(_leftAxis.axisRange), chartYMin: _leftAxis._axisMinimum)
+        _rightAxisTransformer.prepareMatrixValuePx(chartXMin: _xAxis._axisMinimum, deltaX: CGFloat(xAxis.axisRange), deltaY: CGFloat(rightAxis.axisRange), chartYMin: rightAxis._axisMinimum)
+        _leftAxisTransformer.prepareMatrixValuePx(chartXMin: xAxis._axisMinimum, deltaX: CGFloat(xAxis.axisRange), deltaY: CGFloat(leftAxis.axisRange), chartYMin: leftAxis._axisMinimum)
     }
     
     @objc internal func prepareOffsetMatrix()
     {
-        _rightAxisTransformer.prepareMatrixOffset(inverted: _rightAxis.isInverted)
-        _leftAxisTransformer.prepareMatrixOffset(inverted: _leftAxis.isInverted)
+        _rightAxisTransformer.prepareMatrixOffset(inverted: rightAxis.isInverted)
+        _leftAxisTransformer.prepareMatrixOffset(inverted: leftAxis.isInverted)
     }
     
     open override func notifyDataSetChanged()
@@ -318,12 +327,12 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         calcMinMax()
         
-        _leftYAxisRenderer?.computeAxis(min: _leftAxis._axisMinimum, max: _leftAxis._axisMaximum, inverted: _leftAxis.isInverted)
-        _rightYAxisRenderer?.computeAxis(min: _rightAxis._axisMinimum, max: _rightAxis._axisMaximum, inverted: _rightAxis.isInverted)
+        leftYAxisRenderer?.computeAxis(min: leftAxis._axisMinimum, max: leftAxis._axisMaximum, inverted: leftAxis.isInverted)
+        rightYAxisRenderer?.computeAxis(min: rightAxis._axisMinimum, max: rightAxis._axisMaximum, inverted: rightAxis.isInverted)
         
         if let data = _data
         {
-            _xAxisRenderer?.computeAxis(
+            xAxisRenderer?.computeAxis(
                 min: _xAxis._axisMinimum,
                 max: _xAxis._axisMaximum,
                 inverted: false)
@@ -345,8 +354,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         _xAxis.calculate(min: _data?.xMin ?? 0.0, max: _data?.xMax ?? 0.0)
         
         // calculate axis range (min / max) according to provided data
-        _leftAxis.calculate(min: _data?.getYMin(axis: .left) ?? 0.0, max: _data?.getYMax(axis: .left) ?? 0.0)
-        _rightAxis.calculate(min: _data?.getYMin(axis: .right) ?? 0.0, max: _data?.getYMax(axis: .right) ?? 0.0)
+        leftAxis.calculate(min: _data?.getYMin(axis: .left) ?? 0.0, max: _data?.getYMax(axis: .left) ?? 0.0)
+        rightAxis.calculate(min: _data?.getYMin(axis: .right) ?? 0.0, max: _data?.getYMax(axis: .right) ?? 0.0)
     }
     
     internal func calculateLegendOffsets(offsetLeft: inout CGFloat, offsetTop: inout CGFloat, offsetRight: inout CGFloat, offsetBottom: inout CGFloat)
@@ -1719,28 +1728,17 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// if the chart is fully zoomed out, return true
     @objc open var isFullyZoomedOut: Bool { return _viewPortHandler.isFullyZoomedOut }
 
-    /// - returns: The left y-axis object. In the horizontal bar-chart, this is the
-    /// top axis.
-    @objc open var leftAxis: YAxis
-    {
-        return _leftAxis
-    }
-
-    /// - returns: The right y-axis object. In the horizontal bar-chart, this is the
-    /// bottom axis.
-    @objc open var rightAxis: YAxis { return _rightAxis }
-
     /// - returns: The y-axis object to the corresponding AxisDependency. In the
     /// horizontal bar-chart, LEFT == top, RIGHT == BOTTOM
     @objc open func getAxis(_ axis: YAxis.AxisDependency) -> YAxis
     {
         if axis == .left
         {
-            return _leftAxis
+            return leftAxis
         }
         else
         {
-            return _rightAxis
+            return rightAxis
         }
     }
     
@@ -1784,33 +1782,6 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// - returns: `true` if both drag offsets (x and y) are zero or smaller.
     @objc open var hasNoDragOffset: Bool { return _viewPortHandler.hasNoDragOffset }
 
-    /// The X axis renderer. This is a read-write property so you can set your own custom renderer here.
-    /// **default**: An instance of XAxisRenderer
-    /// - returns: The current set X axis renderer
-    @objc open var xAxisRenderer: XAxisRenderer
-    {
-        get { return _xAxisRenderer }
-        set { _xAxisRenderer = newValue }
-    }
-    
-    /// The left Y axis renderer. This is a read-write property so you can set your own custom renderer here.
-    /// **default**: An instance of YAxisRenderer
-    /// - returns: The current set left Y axis renderer
-    @objc open var leftYAxisRenderer: YAxisRenderer
-    {
-        get { return _leftYAxisRenderer }
-        set { _leftYAxisRenderer = newValue }
-    }
-    
-    /// The right Y axis renderer. This is a read-write property so you can set your own custom renderer here.
-    /// **default**: An instance of YAxisRenderer
-    /// - returns: The current set right Y axis renderer
-    @objc open var rightYAxisRenderer: YAxisRenderer
-    {
-        get { return _rightYAxisRenderer }
-        set { _rightYAxisRenderer = newValue }
-    }
-    
     open override var chartYMax: Double
     {
         return max(leftAxis._axisMaximum, rightAxis._axisMaximum)
@@ -1824,7 +1795,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// - returns: `true` if either the left or the right or both axes are inverted.
     @objc open var isAnyAxisInverted: Bool
     {
-        return _leftAxis.isInverted || _rightAxis.isInverted
+        return leftAxis.isInverted || rightAxis.isInverted
     }
     
     /// flag that indicates if auto scaling on the y axis is enabled.
@@ -1844,11 +1815,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     {
         if axis == .left
         {
-            _leftAxis.minWidth = width
+            leftAxis.minWidth = width
         }
         else
         {
-            _rightAxis.minWidth = width
+            rightAxis.minWidth = width
         }
     }
     
@@ -1858,11 +1829,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     {
         if axis == .left
         {
-            return _leftAxis.minWidth
+            return leftAxis.minWidth
         }
         else
         {
-            return _rightAxis.minWidth
+            return rightAxis.minWidth
         }
     }
     /// Sets a maximum width to the specified y axis.
@@ -1871,11 +1842,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     {
         if axis == .left
         {
-            _leftAxis.maxWidth = width
+            leftAxis.maxWidth = width
         }
         else
         {
-            _rightAxis.maxWidth = width
+            rightAxis.maxWidth = width
         }
     }
     
@@ -1887,11 +1858,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     {
         if axis == .left
         {
-            return _leftAxis.maxWidth
+            return leftAxis.maxWidth
         }
         else
         {
-            return _rightAxis.maxWidth
+            return rightAxis.maxWidth
         }
     }
 
@@ -1900,11 +1871,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     {
         if axis == .left
         {
-            return _leftAxis.requiredSize().width
+            return leftAxis.requiredSize().width
         }
         else
         {
-            return _rightAxis.requiredSize().width
+            return rightAxis.requiredSize().width
         }
     }
     
