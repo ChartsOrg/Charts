@@ -85,7 +85,9 @@ public class BalloonMarker: MarkerImage {
             y: rect.origin.y))
         context.fillPath()
         
+        rect.origin.x += self.insets.left
         rect.origin.y += self.insets.top
+        rect.size.width -= self.insets.left + self.insets.right
         rect.size.height -= self.insets.top + self.insets.bottom
         
         UIGraphicsPushContext(context)
