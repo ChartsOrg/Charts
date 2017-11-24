@@ -61,4 +61,8 @@ open class IndexAxisValueFormatter: NSObject, IAxisValueFormatter
         
         return _values[index]
     }
+    public func stringForIndex(_ index: Int, axis: AxisBase?) -> String {
+        return self.stringForValue((axis?.entries[index])!, axis: axis)
+    }
+
 }

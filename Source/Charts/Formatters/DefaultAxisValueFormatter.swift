@@ -99,5 +99,9 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
             return formatter?.string(from: NSNumber(floatLiteral: value)) ?? ""
         }
     }
-    
+
+    public func stringForIndex(_ index: Int, axis: AxisBase?) -> String {
+        return self.stringForValue((axis?.entries[index])!, axis: axis)
+    }
+
 }

@@ -15,6 +15,7 @@ import CoreGraphics
 @objc(ChartAxisRendererBase)
 open class AxisRendererBase: Renderer
 {
+    public var useIndexForLabel: Bool = false
     /// base axis this axis renderer works with
     @objc open var axis: AxisBase?
     

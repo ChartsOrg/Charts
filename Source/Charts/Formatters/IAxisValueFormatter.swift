@@ -26,5 +26,8 @@ public protocol IAxisValueFormatter: class
     ///
     func stringForValue(_ value: Double,
                         axis: AxisBase?) -> String
-    
+
+    func stringForIndex(_ index: Int,
+                           axis: AxisBase?) -> String
+
 }

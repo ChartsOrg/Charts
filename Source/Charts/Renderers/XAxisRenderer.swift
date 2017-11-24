@@ -226,7 +226,12 @@ open class XAxisRenderer: AxisRendererBase
             
             if viewPortHandler.isInBoundsX(position.x)
             {
-                let label = xAxis.valueFormatter?.stringForValue(xAxis.entries[i], axis: xAxis) ?? ""
+                var label = ""
+                if useIndexForLabel {
+                    label = xAxis.valueFormatter?.stringForIndex(i, axis: xAxis) ?? ""
+                } else {
+                    label = xAxis.valueFormatter?.stringForValue(xAxis.entries[i], axis: xAxis) ?? ""
+                }
 
                 let labelns = label as NSString
                 
