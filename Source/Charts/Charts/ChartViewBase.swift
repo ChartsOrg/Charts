@@ -109,7 +109,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     @objc open internal(set) lazy var viewPortHandler = ViewPortHandler(width: bounds.size.width, height: bounds.size.height)
 
     /// The animator responsible for animating chart values.
-    @objc open internal(set) lazy var animator: Animator = {
+    @objc open internal(set) lazy var chartAnimator: Animator = {
         let animator = Animator()
         animator.delegate = self
         return animator
@@ -488,7 +488,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
                 else { continue }
             
             let entryIndex = set.entryIndex(entry: e)
-            guard entryIndex <= Int(Double(set.entryCount) * animator.phaseX) else { continue }
+            guard entryIndex <= Int(Double(set.entryCount) * chartAnimator.phaseX) else { continue }
 
             let pos = getMarkerPosition(highlight: highlight)
 
@@ -519,7 +519,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - parameter easingY: an easing function for the animation on the y axis
     @objc open func animate(xAxisDuration: TimeInterval, yAxisDuration: TimeInterval, easingX: ChartEasingFunctionBlock?, easingY: ChartEasingFunctionBlock?)
     {
-        animator.animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easingX: easingX, easingY: easingY)
+        chartAnimator.animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easingX: easingX, easingY: easingY)
     }
     
     /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
@@ -530,7 +530,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - parameter easingOptionY: the easing function for the animation on the y axis
     @objc open func animate(xAxisDuration: TimeInterval, yAxisDuration: TimeInterval, easingOptionX: ChartEasingOption, easingOptionY: ChartEasingOption)
     {
-        animator.animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easingOptionX: easingOptionX, easingOptionY: easingOptionY)
+        chartAnimator.animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easingOptionX: easingOptionX, easingOptionY: easingOptionY)
     }
     
     /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
@@ -540,7 +540,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - parameter easing: an easing function for the animation
     @objc open func animate(xAxisDuration: TimeInterval, yAxisDuration: TimeInterval, easing: ChartEasingFunctionBlock?)
     {
-        animator.animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easing: easing)
+        chartAnimator.animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easing: easing)
     }
     
     /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
@@ -550,7 +550,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - parameter easingOption: the easing function for the animation
     @objc open func animate(xAxisDuration: TimeInterval, yAxisDuration: TimeInterval, easingOption: ChartEasingOption)
     {
-        animator.animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easingOption: easingOption)
+        chartAnimator.animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration, easingOption: easingOption)
     }
     
     /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
@@ -559,7 +559,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - parameter yAxisDuration: duration for animating the y axis
     @objc open func animate(xAxisDuration: TimeInterval, yAxisDuration: TimeInterval)
     {
-        animator.animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration)
+        chartAnimator.animate(xAxisDuration: xAxisDuration, yAxisDuration: yAxisDuration)
     }
     
     /// Animates the drawing / rendering of the chart the x-axis with the specified animation time.
@@ -568,7 +568,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - parameter easing: an easing function for the animation
     @objc open func animate(xAxisDuration: TimeInterval, easing: ChartEasingFunctionBlock?)
     {
-        animator.animate(xAxisDuration: xAxisDuration, easing: easing)
+        chartAnimator.animate(xAxisDuration: xAxisDuration, easing: easing)
     }
     
     /// Animates the drawing / rendering of the chart the x-axis with the specified animation time.
@@ -577,7 +577,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - parameter easingOption: the easing function for the animation
     @objc open func animate(xAxisDuration: TimeInterval, easingOption: ChartEasingOption)
     {
-        animator.animate(xAxisDuration: xAxisDuration, easingOption: easingOption)
+        chartAnimator.animate(xAxisDuration: xAxisDuration, easingOption: easingOption)
     }
     
     /// Animates the drawing / rendering of the chart the x-axis with the specified animation time.
@@ -585,7 +585,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - parameter xAxisDuration: duration for animating the x axis
     @objc open func animate(xAxisDuration: TimeInterval)
     {
-        animator.animate(xAxisDuration: xAxisDuration)
+        chartAnimator.animate(xAxisDuration: xAxisDuration)
     }
     
     /// Animates the drawing / rendering of the chart the y-axis with the specified animation time.
@@ -594,7 +594,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - parameter easing: an easing function for the animation
     @objc open func animate(yAxisDuration: TimeInterval, easing: ChartEasingFunctionBlock?)
     {
-        animator.animate(yAxisDuration: yAxisDuration, easing: easing)
+        chartAnimator.animate(yAxisDuration: yAxisDuration, easing: easing)
     }
     
     /// Animates the drawing / rendering of the chart the y-axis with the specified animation time.
@@ -603,7 +603,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - parameter easingOption: the easing function for the animation
     @objc open func animate(yAxisDuration: TimeInterval, easingOption: ChartEasingOption)
     {
-        animator.animate(yAxisDuration: yAxisDuration, easingOption: easingOption)
+        chartAnimator.animate(yAxisDuration: yAxisDuration, easingOption: easingOption)
     }
     
     /// Animates the drawing / rendering of the chart the y-axis with the specified animation time.
@@ -611,7 +611,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - parameter yAxisDuration: duration for animating the y axis
     @objc open func animate(yAxisDuration: TimeInterval)
     {
-        animator.animate(yAxisDuration: yAxisDuration)
+        chartAnimator.animate(yAxisDuration: yAxisDuration)
     }
     
     // MARK: - Accessors

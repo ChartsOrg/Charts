@@ -86,7 +86,7 @@ open class PieChartView: PieRadarChartViewBase
     {
         super.initialize()
         
-        renderer = PieChartRenderer(chart: self, animator: animator, viewPortHandler: viewPortHandler)
+        renderer = PieChartRenderer(chart: self, animator: chartAnimator, viewPortHandler: viewPortHandler)
 
         self.highlighter = PieHighlighter(chart: self)
     }
@@ -174,8 +174,8 @@ open class PieChartView: PieRadarChartViewBase
         let offset = drawAngles[entryIndex] / 2.0
         
         // calculate the text position
-        let x = (r * cos(((rotationAngle + absoluteAngles[entryIndex] - offset) * CGFloat(animator.phaseY)).DEG2RAD) + center.x)
-        let y = (r * sin(((rotationAngle + absoluteAngles[entryIndex] - offset) * CGFloat(animator.phaseY)).DEG2RAD) + center.y)
+        let x = (r * cos(((rotationAngle + absoluteAngles[entryIndex] - offset) * CGFloat(chartAnimator.phaseY)).DEG2RAD) + center.x)
+        let y = (r * sin(((rotationAngle + absoluteAngles[entryIndex] - offset) * CGFloat(chartAnimator.phaseY)).DEG2RAD) + center.y)
 
         return CGPoint(x: x, y: y)
     }

@@ -25,7 +25,7 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     {
         super.initialize()
         
-        renderer = BarChartRenderer(dataProvider: self, animator: animator, viewPortHandler: viewPortHandler)
+        renderer = BarChartRenderer(dataProvider: self, animator: chartAnimator, viewPortHandler: viewPortHandler)
         
         self.highlighter = BarHighlighter(chart: self)
         

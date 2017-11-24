@@ -40,7 +40,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         
         _fillFormatter = DefaultFillFormatter()
         
-        renderer = CombinedChartRenderer(chart: self, animator: animator, viewPortHandler: viewPortHandler)
+        renderer = CombinedChartRenderer(chart: self, animator: chartAnimator, viewPortHandler: viewPortHandler)
     }
     
     open override var data: ChartData?
@@ -223,7 +223,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
                 else { continue }
             
             let entryIndex = set.entryIndex(entry: e)
-            if entryIndex > Int(Double(set.entryCount) * animator.phaseX)
+            if entryIndex > Int(Double(set.entryCount) * chartAnimator.phaseX)
             {
                 continue
             }

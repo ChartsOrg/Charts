@@ -26,11 +26,11 @@ open class HorizontalBarChartView: BarChartView
         _leftAxisTransformer = TransformerHorizontalBarChart(viewPortHandler: viewPortHandler)
         _rightAxisTransformer = TransformerHorizontalBarChart(viewPortHandler: viewPortHandler)
         
-        renderer = HorizontalBarChartRenderer(dataProvider: self, animator: animator, viewPortHandler: viewPortHandler)
+        renderer = HorizontalBarChartRenderer(dataProvider: self, animator: chartAnimator, viewPortHandler: viewPortHandler)
         _leftYAxisRenderer = YAxisRendererHorizontalBarChart(viewPortHandler: viewPortHandler, axis: _leftAxis, transformer: _leftAxisTransformer)
         _rightYAxisRenderer = YAxisRendererHorizontalBarChart(viewPortHandler: viewPortHandler, axis: _rightAxis, transformer: _rightAxisTransformer)
         _xAxisRenderer = XAxisRendererHorizontalBarChart(viewPortHandler: viewPortHandler, axis: xAxis, transformer: _leftAxisTransformer, chart: self)
-
+        
         self.highlighter = HorizontalBarHighlighter(chart: self)
     }
     

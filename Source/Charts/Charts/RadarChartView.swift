@@ -60,7 +60,7 @@ open class RadarChartView: PieRadarChartViewBase
         
         _yAxis = YAxis(position: .left)
         
-        renderer = RadarChartRenderer(chart: self, animator: animator, viewPortHandler: viewPortHandler)
+        renderer = RadarChartRenderer(chart: self, animator: chartAnimator, viewPortHandler: viewPortHandler)
         
         _yAxisRenderer = YAxisRendererRadarChart(viewPortHandler: viewPortHandler, axis: _yAxis, chart: self)
         _xAxisRenderer = XAxisRendererRadarChart(viewPortHandler: viewPortHandler, axis: xAxis, chart: self)
