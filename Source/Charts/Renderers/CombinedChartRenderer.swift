@@ -14,7 +14,7 @@ import CoreGraphics
 
 open class CombinedChartRenderer: DataRenderer
 {
-    public var animator: Animator?
+    public let animator: Animator
 
     public let viewPortHandler: ViewPortHandler
 
@@ -30,7 +30,7 @@ open class CombinedChartRenderer: DataRenderer
     
     internal var _drawOrder: [CombinedChartView.DrawOrder] = [.bar, .bubble, .line, .candle, .scatter]
     
-    @objc public init(chart: CombinedChartView?, animator: Animator, viewPortHandler: ViewPortHandler)
+    @objc public init(chart: CombinedChartView, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         self.animator = animator
         self.viewPortHandler = viewPortHandler
@@ -44,10 +44,7 @@ open class CombinedChartRenderer: DataRenderer
     {
         _renderers = [DataRenderer]()
         
-        guard
-            let chart = chart,
-            let animator = animator
-            else { return }
+        guard let chart = chart else { return }
 
         for order in drawOrder
         {

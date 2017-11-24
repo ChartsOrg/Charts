@@ -15,13 +15,13 @@ import CoreGraphics
 @objc(BarLineScatterCandleBubbleChartRenderer)
 open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
 {
-    public var animator: Animator?
+    public let animator: Animator
 
     public let viewPortHandler: ViewPortHandler
 
     internal var _xBounds = XBounds() // Reusable XBounds object
     
-    public init(animator: Animator?, viewPortHandler: ViewPortHandler)
+    public init(animator: Animator, viewPortHandler: ViewPortHandler)
     {
         self.animator = animator
         self.viewPortHandler = viewPortHandler
@@ -31,7 +31,7 @@ open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
     @objc internal func isInBoundsX(entry e: ChartDataEntry, dataSet: IBarLineScatterCandleBubbleChartDataSet) -> Bool
     {
         let entryIndex = dataSet.entryIndex(entry: e)
-        return Double(entryIndex) < Double(dataSet.entryCount) * (animator?.phaseX ?? 1.0)
+        return Double(entryIndex) < Double(dataSet.entryCount) * animator.phaseX
     }
 
     /// Calculates and returns the x-bounds for the given DataSet in terms of index in their values array.

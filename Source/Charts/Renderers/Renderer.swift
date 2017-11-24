@@ -12,6 +12,14 @@
 import Foundation
 import CoreGraphics
 
+//@objc(ChartRenderer)
+//public protocol IRenderer {
+//    /// the component that handles the drawing area of the chart and it's offsets
+//    @objc var viewPortHandler: ViewPortHandler { get }
+//
+//    @objc init(viewPortHandler: ViewPortHandler)
+//}
+
 @objc(ChartRenderer)
 public protocol Renderer: class {
     /// the component that handles the drawing area of the chart and it's offsets
