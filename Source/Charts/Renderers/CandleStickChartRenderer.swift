@@ -50,10 +50,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
     
     @objc open func drawDataSet(context: CGContext, dataSet: ICandleChartDataSet)
     {
-        guard let
-            dataProvider = dataProvider,
-            let animator = animator
-            else { return }
+        guard let dataProvider = dataProvider else { return }
 
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
         
@@ -239,9 +236,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let viewPortHandler = self.viewPortHandler,
-            let candleData = dataProvider.candleData,
-            let animator = animator
+            let candleData = dataProvider.candleData
             else { return }
         
         // if values are drawn
@@ -332,8 +327,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let candleData = dataProvider.candleData,
-            let animator = animator
+            let candleData = dataProvider.candleData
             else { return }
         
         context.saveGState()

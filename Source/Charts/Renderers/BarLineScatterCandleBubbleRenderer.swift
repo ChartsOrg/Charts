@@ -17,7 +17,7 @@ open class BarLineScatterCandleBubbleRenderer: DataRenderer
 {
     internal var _xBounds = XBounds() // Reusable XBounds object
     
-    public override init(animator: Animator?, viewPortHandler: ViewPortHandler?)
+    public override init(animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
     }
@@ -26,15 +26,7 @@ open class BarLineScatterCandleBubbleRenderer: DataRenderer
     @objc internal func isInBoundsX(entry e: ChartDataEntry, dataSet: IBarLineScatterCandleBubbleChartDataSet) -> Bool
     {
         let entryIndex = dataSet.entryIndex(entry: e)
-        
-        if Double(entryIndex) >= Double(dataSet.entryCount) * (animator?.phaseX ?? 1.0)
-        {
-            return false
-        }
-        else
-        {
-            return true
-        }
+        return Double(entryIndex) < Double(dataSet.entryCount) * animator.phaseX
     }
 
     /// Calculates and returns the x-bounds for the given DataSet in terms of index in their values array.
@@ -94,5 +86,4 @@ open class BarLineScatterCandleBubbleRenderer: DataRenderer
             range = Int(Double(self.max - self.min) * phaseX)
         }
     }
-
 }

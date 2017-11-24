@@ -52,11 +52,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
     
     @objc open func drawDataSet(context: CGContext, dataSet: IScatterChartDataSet)
     {
-        guard
-            let dataProvider = dataProvider,
-            let animator = animator,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let dataProvider = dataProvider else { return }
         
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
         
@@ -106,9 +102,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let scatterData = dataProvider.scatterData,
-            let animator = animator,
-            let viewPortHandler = self.viewPortHandler
+            let scatterData = dataProvider.scatterData
             else { return }
         
         // if values are drawn
@@ -204,8 +198,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let scatterData = dataProvider.scatterData,
-            let animator = animator
+            let scatterData = dataProvider.scatterData
             else { return }
         
         context.saveGState()
