@@ -127,7 +127,6 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         guard let
             dataProvider = dataProvider,
             let bubbleData = dataProvider.bubbleData,
-            let animator = animator,
             isDrawingValuesAllowed(dataProvider: dataProvider),
             let dataSets = bubbleData.dataSets as? [IBubbleChartDataSet]
             else { return }

@@ -72,8 +72,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let barData = dataProvider.barData,
-            let animator = animator
+            let barData = dataProvider.barData
             else { return }
         
         let barWidthHalf = barData.barWidth / 2.0
@@ -225,7 +224,6 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         if dataProvider.isDrawBarShadowEnabled
         {
             guard
-                let animator = animator,
                 let barData = dataProvider.barData
                 else { return }
             
@@ -344,7 +342,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         rect.size.width = CGFloat(right - left)
         rect.size.height = CGFloat(bottom - top)
         
-        trans.rectValueToPixel(&rect, phaseY: animator?.phaseY ?? 1.0)
+        trans.rectValueToPixel(&rect, phaseY: animator.phaseY )
     }
 
     open override func drawValues(context: CGContext)

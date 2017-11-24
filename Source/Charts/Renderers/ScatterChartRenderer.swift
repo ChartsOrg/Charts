@@ -202,8 +202,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let scatterData = dataProvider.scatterData,
-            let animator = animator
+            let scatterData = dataProvider.scatterData
             else { return }
         
         context.saveGState()

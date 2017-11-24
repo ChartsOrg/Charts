@@ -41,6 +41,6 @@ open class ViewPortJob: NSObject
     
     @objc open func doJob()
     {
-        // Override this
+        fatalError("`doJob()` must be overridden by subclasses")
     }
 }
