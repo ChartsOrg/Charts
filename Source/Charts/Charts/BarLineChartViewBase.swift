@@ -645,8 +645,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                     
                     matrix = viewPortHandler.touchMatrix.concatenating(matrix)
                     
-                    _ = viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
-                    
+                    viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
+
                     if delegate !== nil
                     {
                         delegate?.chartScaled?(self, scaleX: scaleX, scaleY: scaleY)
@@ -965,8 +965,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         let center = viewPortHandler.contentCenter
         
         let matrix = viewPortHandler.zoomIn(x: center.x, y: -center.y)
-        let _ = viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
-
+        viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
+        
         // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
         calculateOffsets()
         setNeedsDisplay()
@@ -978,7 +978,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         let center = viewPortHandler.contentCenter
         
         let matrix = viewPortHandler.zoomOut(x: center.x, y: -center.y)
-        _ = viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
+        viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
 
         // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
         calculateOffsets()
@@ -989,7 +989,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     @objc open func resetZoom()
     {
         let matrix = viewPortHandler.resetZoom()
-        _ = viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
+        viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
 
         // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
         calculateOffsets()
@@ -1010,7 +1010,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                y: CGFloat)
     {
         let matrix = viewPortHandler.zoom(scaleX: scaleX, scaleY: scaleY, x: x, y: -y)
-        let _ = viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
+        viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
 
         // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
         calculateOffsets()
@@ -1151,8 +1151,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     @objc open func fitScreen()
     {
         let matrix = viewPortHandler.fitScreen()
-        let _ = viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
-
+        viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
+        
         calculateOffsets()
         setNeedsDisplay()
     }
