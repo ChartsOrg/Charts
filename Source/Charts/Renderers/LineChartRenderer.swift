@@ -21,7 +21,7 @@ open class LineChartRenderer: LineRadarRenderer
 {
     @objc open weak var dataProvider: LineChartDataProvider?
     
-    @objc public init(dataProvider: LineChartDataProvider, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    @objc public init(dataProvider: LineChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         

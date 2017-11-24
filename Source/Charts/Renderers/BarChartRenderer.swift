@@ -25,7 +25,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     
     @objc open weak var dataProvider: BarChartDataProvider?
     
-    @objc public init(dataProvider: BarChartDataProvider, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    @objc public init(dataProvider: BarChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
