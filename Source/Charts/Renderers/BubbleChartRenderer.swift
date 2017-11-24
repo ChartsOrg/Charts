@@ -211,8 +211,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let bubbleData = dataProvider.bubbleData,
-            let animator = animator
+            let bubbleData = dataProvider.bubbleData
             else { return }
 
         context.saveGState()

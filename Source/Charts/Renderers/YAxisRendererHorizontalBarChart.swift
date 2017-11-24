@@ -242,9 +242,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
     
     open override func renderLimitLines(context: CGContext)
     {
-        guard
-            let transformer = self.transformer
-            else { return }
+        guard  let transformer = self.transformer else { return }
         
         var limitLines = axis.limitLines
 
