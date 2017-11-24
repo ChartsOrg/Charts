@@ -21,7 +21,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
 {
     @objc open weak var dataProvider: BubbleChartDataProvider?
     
-    @objc public init(dataProvider: BubbleChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler)
+    @objc public init(dataProvider: BubbleChartDataProvider?, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -59,10 +59,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
     
     @objc open func drawDataSet(context: CGContext, dataSet: IBubbleChartDataSet)
     {
-        guard
-            let dataProvider = dataProvider,
-            let animator = animator
-            else { return }
+        guard let dataProvider = dataProvider else { return }
         
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
         
@@ -212,12 +209,11 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
     
     open override func drawHighlighted(context: CGContext, indices: [Highlight])
     {
-        guard let
-            dataProvider = dataProvider,
-            let bubbleData = dataProvider.bubbleData,
-            let animator = animator
+        guard
+            let dataProvider = dataProvider,
+            let bubbleData = dataProvider.bubbleData
             else { return }
-        
+
         context.saveGState()
         defer { context.restoreGState() }
 

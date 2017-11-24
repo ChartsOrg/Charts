@@ -24,7 +24,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         var rects = [CGRect]()
     }
     
-    public override init(dataProvider: BarChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler)
+    public override init(dataProvider: BarChartDataProvider?, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(dataProvider: dataProvider, animator: animator, viewPortHandler: viewPortHandler)
     }
@@ -302,8 +302,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         {
             guard
                 let dataProvider = dataProvider,
-                let barData = dataProvider.barData,
-                let animator = animator
+                let barData = dataProvider.barData
                 else { return }
             
             var dataSets = barData.dataSets

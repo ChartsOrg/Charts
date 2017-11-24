@@ -40,10 +40,7 @@ open class CombinedChartRenderer: DataRenderer
     {
         _renderers = [DataRenderer]()
         
-        guard
-            let chart = chart,
-            let animator = animator
-            else { return }
+        guard let chart = chart else { return }
 
         for order in drawOrder
         {

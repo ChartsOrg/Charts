@@ -17,7 +17,7 @@ open class DataRenderer: Renderer
 {
     @objc open let animator: Animator
     
-    @objc public init(animator: Animator?, viewPortHandler: ViewPortHandler)
+    @objc public init(animator: Animator, viewPortHandler: ViewPortHandler)
     {
         self.animator = animator
 
