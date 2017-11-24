@@ -21,7 +21,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
 {
     @objc open weak var dataProvider: BubbleChartDataProvider?
     
-    @objc public init(dataProvider: BubbleChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    @objc public init(dataProvider: BubbleChartDataProvider?, animator: Animator, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -61,8 +61,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let viewPortHandler = self.viewPortHandler,
-            let animator = animator
+            let viewPortHandler = self.viewPortHandler
             else { return }
         
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
@@ -129,7 +128,6 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
             let dataProvider = dataProvider,
             let viewPortHandler = self.viewPortHandler,
             let bubbleData = dataProvider.bubbleData,
-            let animator = animator,
             isDrawingValuesAllowed(dataProvider: dataProvider),
             let dataSets = bubbleData.dataSets as? [IBubbleChartDataSet]
             else { return }
@@ -218,8 +216,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         guard
             let dataProvider = dataProvider,
             let viewPortHandler = self.viewPortHandler,
-            let bubbleData = dataProvider.bubbleData,
-            let animator = animator
+            let bubbleData = dataProvider.bubbleData
             else { return }
         
         context.saveGState()

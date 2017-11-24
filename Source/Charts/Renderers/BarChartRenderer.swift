@@ -25,7 +25,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     
     @objc open weak var dataProvider: BarChartDataProvider?
     
-    @objc public init(dataProvider: BarChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    @objc public init(dataProvider: BarChartDataProvider?, animator: Animator, viewPortHandler: ViewPortHandler?)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -72,8 +72,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let barData = dataProvider.barData,
-            let animator = animator
+            let barData = dataProvider.barData
             else { return }
         
         let barWidthHalf = barData.barWidth / 2.0
@@ -228,7 +227,6 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         if dataProvider.isDrawBarShadowEnabled
         {
             guard
-                let animator = animator,
                 let barData = dataProvider.barData
                 else { return }
             
@@ -347,7 +345,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         rect.size.width = CGFloat(right - left)
         rect.size.height = CGFloat(bottom - top)
         
-        trans.rectValueToPixel(&rect, phaseY: animator?.phaseY ?? 1.0)
+        trans.rectValueToPixel(&rect, phaseY: animator.phaseY )
     }
 
     open override func drawValues(context: CGContext)
@@ -358,8 +356,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             guard
                 let dataProvider = dataProvider,
                 let viewPortHandler = self.viewPortHandler,
-                let barData = dataProvider.barData,
-                let animator = animator
+                let barData = dataProvider.barData
                 else { return }
             
             var dataSets = barData.dataSets
