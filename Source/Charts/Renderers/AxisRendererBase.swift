@@ -60,7 +60,6 @@ open class AxisRendererBase: Renderer
     {
         guard
             let transformer = self.transformer,
-            let viewPortHandler = viewPortHandler,
             viewPortHandler.contentWidth > 10.0,
             !viewPortHandler.isFullyZoomedOutY
             else { return computeAxisValues(min: min, max: max) }

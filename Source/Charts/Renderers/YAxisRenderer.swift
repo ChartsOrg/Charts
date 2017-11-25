@@ -29,7 +29,6 @@ open class YAxisRenderer: AxisRendererBase
     {
         guard
             let yAxis = self.axis as? YAxis,
-            let viewPortHandler = self.viewPortHandler,
             yAxis.isEnabled,
             yAxis.isDrawLabelsEnabled
             else { return }
@@ -55,7 +54,6 @@ open class YAxisRenderer: AxisRendererBase
                 textAlign = .left
                 xPos = viewPortHandler.offsetLeft + xoffset
             }
-            
         }
         else
         {
@@ -83,13 +81,13 @@ open class YAxisRenderer: AxisRendererBase
     {
         guard
             let yAxis = self.axis as? YAxis,
-            let viewPortHandler = self.viewPortHandler,
             yAxis.isEnabled,
             yAxis.drawAxisLineEnabled
             else { return }
 
         context.saveGState()
-        
+        defer { context.restoreGState() }
+
         context.setStrokeColor(yAxis.axisLineColor.cgColor)
         context.setLineWidth(yAxis.axisLineWidth)
         if yAxis.axisLineDashLengths != nil
@@ -115,8 +113,6 @@ open class YAxisRenderer: AxisRendererBase
             context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentBottom))
             context.strokePath()
         }
-        
-        context.restoreGState()
     }
     
     /// draws the y-labels on the specified x-position
@@ -127,9 +123,7 @@ open class YAxisRenderer: AxisRendererBase
         offset: CGFloat,
         textAlign: NSTextAlignment)
     {
-        guard
-            let yAxis = self.axis as? YAxis
-            else { return }
+        guard let yAxis = self.axis as? YAxis else { return }
         
         let labelFont = yAxis.labelFont
         let labelTextColor = yAxis.labelTextColor
@@ -146,14 +140,14 @@ open class YAxisRenderer: AxisRendererBase
                 text: text,
                 point: CGPoint(x: fixedPosition, y: positions[i].y + offset),
                 align: textAlign,
-                attributes: [NSAttributedStringKey.font: labelFont, NSAttributedStringKey.foregroundColor: labelTextColor])
+                attributes: [.font: labelFont, .foregroundColor: labelTextColor])
         }
     }
     
     open override func renderGridLines(context: CGContext)
     {
-        guard let
-            yAxis = self.axis as? YAxis,
+        guard
+            let yAxis = self.axis as? YAxis,
             yAxis.isEnabled
             else { return }
 
@@ -259,7 +253,7 @@ open class YAxisRenderer: AxisRendererBase
         
         context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: pos.y))
         context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: pos.y))
-        context.drawPath(using: CGPathDrawingMode.stroke)
+        context.drawPath(using: .stroke)
     }
     
     open override func renderLimitLines(context: CGContext)
@@ -273,10 +267,11 @@ open class YAxisRenderer: AxisRendererBase
         guard !limitLines.isEmpty else { return }
 
         context.saveGState()
-        
+        defer { context.restoreGState() }
+
         let trans = transformer.valueToPixelMatrix
         
-        var position = CGPoint(x: 0.0, y: 0.0)
+        var position = CGPoint.zero
         
         for l in limitLines where l.isEnabled
         {
@@ -316,49 +311,47 @@ open class YAxisRenderer: AxisRendererBase
             {
                 let labelLineHeight = l.valueFont.lineHeight
                 
-                let xOffset: CGFloat = 4.0 + l.xOffset
-                let yOffset: CGFloat = l.lineWidth + labelLineHeight + l.yOffset
+                let xOffset = 4.0 + l.xOffset
+                let yOffset = l.lineWidth + labelLineHeight + l.yOffset
 
                 switch l.labelPosition {
                 case .rightTop:
                     ChartUtils.drawText(context: context,
                                         text: label,
-                                        point: CGPoint(
-                                            x: viewPortHandler.contentRight - xOffset,
-                                            y: position.y - yOffset),
+                                        point: CGPoint(x: viewPortHandler.contentRight - xOffset,
+                                                       y: position.y - yOffset),
                                         align: .right,
-                                        attributes: [NSAttributedStringKey.font: l.valueFont, NSAttributedStringKey.foregroundColor: l.valueTextColor])
+                                        attributes: [.font: l.valueFont,
+                                                     .foregroundColor: l.valueTextColor])
 
                 case .rightBottom:
                     ChartUtils.drawText(context: context,
                                         text: label,
-                                        point: CGPoint(
-                                            x: viewPortHandler.contentRight - xOffset,
-                                            y: position.y + yOffset - labelLineHeight),
+                                        point: CGPoint(x: viewPortHandler.contentRight - xOffset,
+                                                       y: position.y + yOffset - labelLineHeight),
                                         align: .right,
-                                        attributes: [NSAttributedStringKey.font: l.valueFont, NSAttributedStringKey.foregroundColor: l.valueTextColor])
+                                        attributes: [.font: l.valueFont,
+                                                     .foregroundColor: l.valueTextColor])
 
                 case .leftTop:
                     ChartUtils.drawText(context: context,
                                         text: label,
-                                        point: CGPoint(
-                                            x: viewPortHandler.contentLeft + xOffset,
-                                            y: position.y - yOffset),
+                                        point: CGPoint(x: viewPortHandler.contentLeft + xOffset,
+                                                       y: position.y - yOffset),
                                         align: .left,
-                                        attributes: [NSAttributedStringKey.font: l.valueFont, NSAttributedStringKey.foregroundColor: l.valueTextColor])
+                                        attributes: [.font: l.valueFont,
+                                                     .foregroundColor: l.valueTextColor])
 
                 case .leftBottom:
                     ChartUtils.drawText(context: context,
                                         text: label,
-                                        point: CGPoint(
-                                            x: viewPortHandler.contentLeft + xOffset,
-                                            y: position.y + yOffset - labelLineHeight),
+                                        point: CGPoint(x: viewPortHandler.contentLeft + xOffset,
+                                                       y: position.y + yOffset - labelLineHeight),
                                         align: .left,
-                                        attributes: [NSAttributedStringKey.font: l.valueFont, NSAttributedStringKey.foregroundColor: l.valueTextColor])
+                                        attributes: [.font: l.valueFont,
+                                                     .foregroundColor: l.valueTextColor])
                 }
             }
         }
-        
-        context.restoreGState()
     }
 }
