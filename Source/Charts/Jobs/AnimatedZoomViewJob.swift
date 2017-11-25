@@ -72,7 +72,7 @@ open class AnimatedZoomViewJob: AnimatedViewPortJob
         let scaleY = yOrigin + (self.scaleY - yOrigin) * phase
         
         var matrix = viewPortHandler.setZoom(scaleX: scaleX, scaleY: scaleY)
-        let _ = viewPortHandler.refresh(newMatrix: matrix, chart: view, invalidate: false)
+        viewPortHandler.refresh(newMatrix: matrix, chart: view, invalidate: false)
         
         let valsInView = CGFloat(yAxis?.axisRange ?? 0.0) / viewPortHandler.scaleY
         let xsInView = CGFloat(xAxisRange) / viewPortHandler.scaleX
@@ -85,7 +85,7 @@ open class AnimatedZoomViewJob: AnimatedViewPortJob
         transformer.pointValueToPixel(&pt)
         
         matrix = viewPortHandler.translate(pt: pt)
-        let _ = viewPortHandler.refresh(newMatrix: matrix, chart: view, invalidate: true)
+        viewPortHandler.refresh(newMatrix: matrix, chart: view, invalidate: true)
     }
     
     internal override func animationEnd()

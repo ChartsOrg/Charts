@@ -19,7 +19,7 @@ import CoreGraphics
 @objc(ChartYAxisRenderer)
 open class YAxisRenderer: AxisRendererBase
 {
-    @objc public init(viewPortHandler: ViewPortHandler?, yAxis: YAxis?, transformer: Transformer?)
+    @objc public init(viewPortHandler: ViewPortHandler, yAxis: YAxis?, transformer: Transformer?)
     {
         super.init(viewPortHandler: viewPortHandler, transformer: transformer, axis: yAxis)
     }
@@ -195,7 +195,7 @@ open class YAxisRenderer: AxisRendererBase
     
     @objc open var gridClippingRect: CGRect
     {
-        var contentRect = viewPortHandler?.contentRect ?? CGRect.zero
+        var contentRect = viewPortHandler.contentRect
         let dy = self.axis?.gridLineWidth ?? 0.0
         contentRect.origin.y -= dy / 2.0
         contentRect.size.height += dy
@@ -206,10 +206,7 @@ open class YAxisRenderer: AxisRendererBase
         context: CGContext,
         position: CGPoint)
     {
-        guard
-            let viewPortHandler = self.viewPortHandler
-            else { return }
-        
+
         context.beginPath()
         context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: position.y))
         context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: position.y))
@@ -234,7 +231,6 @@ open class YAxisRenderer: AxisRendererBase
     {
         guard
             let yAxis = self.axis as? YAxis,
-            let viewPortHandler = self.viewPortHandler,
             let transformer = self.transformer,
             let zeroLineColor = yAxis.zeroLineColor
             else { return }
@@ -270,7 +266,6 @@ open class YAxisRenderer: AxisRendererBase
     {
         guard
             let yAxis = self.axis as? YAxis,
-            let viewPortHandler = self.viewPortHandler,
             let transformer = self.transformer
             else { return }
         

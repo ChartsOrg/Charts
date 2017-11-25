@@ -20,13 +20,8 @@ open class AxisRendererBase: Renderer
     
     /// transformer to transform values to screen pixels and return
     @objc open var transformer: Transformer?
-    
-    public override init()
-    {
-        super.init()
-    }
-    
-    @objc public init(viewPortHandler: ViewPortHandler?, transformer: Transformer?, axis: AxisBase?)
+
+    @objc public init(viewPortHandler: ViewPortHandler, transformer: Transformer?, axis: AxisBase?)
     {
         super.init(viewPortHandler: viewPortHandler)
         

@@ -19,7 +19,7 @@ import CoreGraphics
 @objc(ChartXAxisRenderer)
 open class XAxisRenderer: AxisRendererBase
 {
-    @objc public init(viewPortHandler: ViewPortHandler?, xAxis: XAxis?, transformer: Transformer?)
+    @objc public init(viewPortHandler: ViewPortHandler, xAxis: XAxis?, transformer: Transformer?)
     {
         super.init(viewPortHandler: viewPortHandler, transformer: transformer, axis: xAxis)
     }
@@ -62,7 +62,7 @@ open class XAxisRenderer: AxisRendererBase
         let labelWidth = labelSize.width
         let labelHeight = labelSize.height
         
-        let labelRotatedSize = ChartUtils.sizeOfRotatedRectangle(labelSize, degrees: xAxis.labelRotationAngle)
+        let labelRotatedSize = labelSize.rotatedBy(degrees: xAxis.labelRotationAngle)
         
         xAxis.labelWidth = labelWidth
         xAxis.labelHeight = labelHeight
@@ -154,7 +154,6 @@ open class XAxisRenderer: AxisRendererBase
     {
         guard
             let xAxis = self.axis as? XAxis,
-            let viewPortHandler = self.viewPortHandler,
             let transformer = self.transformer
             else { return }
         
@@ -300,7 +299,7 @@ open class XAxisRenderer: AxisRendererBase
     
     @objc open var gridClippingRect: CGRect
     {
-        var contentRect = viewPortHandler?.contentRect ?? CGRect.zero
+        var contentRect = viewPortHandler.contentRect
         let dx = self.axis?.gridLineWidth ?? 0.0
         contentRect.origin.x -= dx / 2.0
         contentRect.size.width += dx
@@ -325,7 +324,6 @@ open class XAxisRenderer: AxisRendererBase
     {
         guard
             let xAxis = self.axis as? XAxis,
-            let viewPortHandler = self.viewPortHandler,
             let transformer = self.transformer
             else { return }
         
@@ -358,9 +356,6 @@ open class XAxisRenderer: AxisRendererBase
     
     @objc open func renderLimitLineLine(context: CGContext, limitLine: ChartLimitLine, position: CGPoint)
     {
-        guard
-            let viewPortHandler = self.viewPortHandler
-            else { return }
         
         context.beginPath()
         context.move(to: CGPoint(x: position.x, y: viewPortHandler.contentTop))
@@ -382,9 +377,6 @@ open class XAxisRenderer: AxisRendererBase
     
     @objc open func renderLimitLineLabel(context: CGContext, limitLine: ChartLimitLine, position: CGPoint, yOffset: CGFloat)
     {
-        guard
-            let viewPortHandler = self.viewPortHandler
-            else { return }
         
         let label = limitLine.label
         // if drawing the limit-value label is enabled

@@ -156,18 +156,15 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         }
         else
         {
-            let _ = viewPortHandler.refresh(newMatrix: viewPortHandler.touchMatrix, chart: self, invalidate: true)
+            viewPortHandler.refresh(newMatrix: viewPortHandler.touchMatrix, chart: self, invalidate: true)
         }
     }
     
     open override func draw(_ rect: CGRect)
     {
         super.draw(rect)
-        
-        if _data === nil
-        {
-            return
-        }
+
+        guard data != nil, let renderer = renderer else { return }
         
         let optionalContext = NSUIGraphicsGetCurrentContext()
         guard let context = optionalContext else { return }
@@ -223,17 +220,17 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         // make sure the data cannot be drawn outside the content-rect
         context.saveGState()
         context.clip(to: _viewPortHandler.contentRect)
-        renderer?.drawData(context: context)
+        renderer.drawData(context: context)
         
         // if highlighting is enabled
         if (valuesToHighlight())
         {
-            renderer?.drawHighlighted(context: context, indices: _indicesToHighlight)
+            renderer.drawHighlighted(context: context, indices: _indicesToHighlight)
         }
         
         context.restoreGState()
         
-        renderer!.drawExtras(context: context)
+        renderer.drawExtras(context: context)
         
         if _xAxis.isEnabled && !_xAxis.isDrawLimitLinesBehindDataEnabled
         {
@@ -259,13 +256,13 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             context.saveGState()
             context.clip(to: _viewPortHandler.contentRect)
             
-            renderer!.drawValues(context: context)
+            renderer.drawValues(context: context)
             
             context.restoreGState()
         }
         else
         {
-            renderer!.drawValues(context: context)
+            renderer.drawValues(context: context)
         }
 
         _legendRenderer.renderLegend(context: context)
@@ -529,19 +526,19 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         if recognizer.state == NSUIGestureRecognizerState.ended
         {
-            if !self.isHighLightPerTapEnabled { return }
+            if !isHighLightPerTapEnabled { return }
             
             let h = getHighlightByTouchPoint(recognizer.location(in: self))
             
-            if h === nil || h!.isEqual(self.lastHighlighted)
+            if h?.isEqual(lastHighlighted) ?? true
             {
-                self.highlightValue(nil, callDelegate: true)
-                self.lastHighlighted = nil
+                highlightValue(nil, callDelegate: true)
+                lastHighlighted = nil
             }
             else
             {
-                self.highlightValue(h, callDelegate: true)
-                self.lastHighlighted = h
+                highlightValue(h, callDelegate: true)
+                lastHighlighted = h
             }
         }
     }
@@ -651,7 +648,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                     
                     matrix = _viewPortHandler.touchMatrix.concatenating(matrix)
                     
-                    let _ = _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
+                    _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
                     
                     if delegate !== nil
                     {
@@ -751,9 +748,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 
                 let lastHighlighted = self.lastHighlighted
                 
-                if ((h === nil && lastHighlighted !== nil) ||
+                if (h === nil && lastHighlighted !== nil) ||
                     (h !== nil && lastHighlighted === nil) ||
-                    (h !== nil && lastHighlighted !== nil && !h!.isEqual(lastHighlighted)))
+                    (lastHighlighted !== nil && !(h?.isEqual(lastHighlighted) ?? true))
                 {
                     self.lastHighlighted = h
                     self.highlightValue(h, callDelegate: true)
@@ -931,7 +928,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             ))
         {
             var scrollView = self.superview
-            while (scrollView !== nil && !scrollView!.isKind(of: NSUIScrollView.self))
+            while !(scrollView?.isKind(of: NSUIScrollView.self) ?? true)
             {
                 scrollView = scrollView?.superview
             }
@@ -946,23 +943,13 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
             var foundScrollView = scrollView as? NSUIScrollView
             
-            if foundScrollView !== nil && !foundScrollView!.nsuiIsScrollEnabled
+            if !(foundScrollView?.nsuiIsScrollEnabled ?? true)
             {
                 foundScrollView = nil
             }
             
-            var scrollViewPanGestureRecognizer: NSUIGestureRecognizer!
-            
-            if foundScrollView !== nil
-            {
-                for scrollRecognizer in foundScrollView!.nsuiGestureRecognizers!
-                {
-                    if scrollRecognizer.isKind(of: NSUIPanGestureRecognizer.self)
-                    {
-                        scrollViewPanGestureRecognizer = scrollRecognizer as! NSUIPanGestureRecognizer
-                        break
-                    }
-                }
+            let scrollViewPanGestureRecognizer = foundScrollView?.nsuiGestureRecognizers?.first {
+                $0 is NSUIPanGestureRecognizer
             }
             
             if otherGestureRecognizer === scrollViewPanGestureRecognizer
@@ -984,7 +971,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         let center = _viewPortHandler.contentCenter
         
         let matrix = _viewPortHandler.zoomIn(x: center.x, y: -center.y)
-        let _ = _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
+        _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
         
         // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
         calculateOffsets()
@@ -997,7 +984,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         let center = _viewPortHandler.contentCenter
         
         let matrix = _viewPortHandler.zoomOut(x: center.x, y: -center.y)
-        let _ = _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
+        _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
 
         // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
         calculateOffsets()
@@ -1008,7 +995,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     @objc open func resetZoom()
     {
         let matrix = _viewPortHandler.resetZoom()
-        let _ = _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
+        _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
         
         // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
         calculateOffsets()
@@ -1029,7 +1016,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                y: CGFloat)
     {
         let matrix = _viewPortHandler.zoom(scaleX: scaleX, scaleY: scaleY, x: x, y: -y)
-        let _ = _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
+        _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
         
         // Range might have changed, which means that Y-axis labels could have changed in size, affecting Y-axis size. So we need to recalculate offsets.
         calculateOffsets()
@@ -1080,7 +1067,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             scaleY: scaleY,
             x: center.x,
             y: -center.y)
-        let _ = viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
+        viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
     }
     
     /// Zooms by the specified scale factor to the specified values on the specified axis.
@@ -1170,7 +1157,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     @objc open func fitScreen()
     {
         let matrix = _viewPortHandler.fitScreen()
-        let _ = _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
+        _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: false)
         
         calculateOffsets()
         setNeedsDisplay()

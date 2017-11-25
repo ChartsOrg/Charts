@@ -21,7 +21,7 @@ open class PieChartRenderer: DataRenderer
 {
     @objc open weak var chart: PieChartView?
     
-    @objc public init(chart: PieChartView?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    @objc public init(chart: PieChartView, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -92,7 +92,6 @@ open class PieChartRenderer: DataRenderer
     {
         guard
             dataSet.automaticallyDisableSliceSpacing,
-            let viewPortHandler = self.viewPortHandler,
             let data = chart?.data as? PieChartData
             else { return dataSet.sliceSpace }
         
@@ -108,10 +107,7 @@ open class PieChartRenderer: DataRenderer
 
     @objc open func drawDataSet(context: CGContext, dataSet: IPieChartDataSet)
     {
-        guard
-            let chart = chart,
-            let animator = animator
-            else {return }
+        guard let chart = chart else {return }
         
         var angle: CGFloat = 0.0
         let rotationAngle = chart.rotationAngle
@@ -262,8 +258,7 @@ open class PieChartRenderer: DataRenderer
     {
         guard
             let chart = chart,
-            let data = chart.data,
-            let animator = animator
+            let data = chart.data
             else { return }
         
         let center = chart.centerCircleBox
@@ -559,10 +554,7 @@ open class PieChartRenderer: DataRenderer
     /// draws the hole in the center of the chart and the transparent circle / hole
     fileprivate func drawHole(context: CGContext)
     {
-        guard
-            let chart = chart,
-            let animator = animator
-            else { return }
+        guard let chart = chart else { return }
         
         if chart.drawHoleEnabled
         {
@@ -668,8 +660,7 @@ open class PieChartRenderer: DataRenderer
     {
         guard
             let chart = chart,
-            let data = chart.data,
-            let animator = animator
+            let data = chart.data
             else { return }
         
         context.saveGState()
@@ -733,8 +724,8 @@ open class PieChartRenderer: DataRenderer
             
             let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
             
-            context.setFillColor(set.color(atIndex: index).cgColor)
-            
+            context.setFillColor(set.highlightColor?.cgColor ?? set.color(atIndex: index).cgColor)
+
             let sliceSpaceAngleOuter = visibleAngleCount == 1 ?
                 0.0 :
                 sliceSpace / (ChartUtils.Math.FDEG2RAD * radius)
