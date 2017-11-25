@@ -27,79 +27,25 @@ public enum FillType: Int
 @objc(ChartFill)
 open class Fill: NSObject
 {
-    fileprivate var _type: FillType = FillType.empty
-    fileprivate var _color: CGColor?
-    fileprivate var _gradient: CGGradient?
-    fileprivate var _gradientAngle: CGFloat = 0.0
-    fileprivate var _gradientStartOffsetPercent: CGPoint = CGPoint()
-    fileprivate var _gradientStartRadiusPercent: CGFloat = 0.0
-    fileprivate var _gradientEndOffsetPercent: CGPoint = CGPoint()
-    fileprivate var _gradientEndRadiusPercent: CGFloat = 0.0
-    fileprivate var _image: CGImage?
-    fileprivate var _layer: CGLayer?
-    
     // MARK: Properties
-    
-    @objc open var type: FillType
-    {
-        return _type
-    }
-    
-    @objc open var color: CGColor?
-    {
-        return _color
-    }
-    
-    @objc open var gradient: CGGradient?
-    {
-        return _gradient
-    }
-    
-    @objc open var gradientAngle: CGFloat
-    {
-        return _gradientAngle
-    }
-    
-    @objc open var gradientStartOffsetPercent: CGPoint
-    {
-        return _gradientStartOffsetPercent
-    }
-    
-    @objc open var gradientStartRadiusPercent: CGFloat
-    {
-        return _gradientStartRadiusPercent
-    }
-    
-    @objc open var gradientEndOffsetPercent: CGPoint
-    {
-        return _gradientEndOffsetPercent
-    }
-    
-    @objc open var gradientEndRadiusPercent: CGFloat
-    {
-        return _gradientEndRadiusPercent
-    }
-    
-    @objc open var image: CGImage?
-    {
-        return _image
-    }
-    
-    @objc open var layer: CGLayer?
-    {
-        return _layer
-    }
-    
+
+    @objc open private(set) var type: FillType = .empty
+    @objc open private(set) var color: CGColor?
+    @objc open private(set) var gradient: CGGradient?
+    @objc open private(set) var gradientAngle: CGFloat = 0.0
+    @objc open private(set) var gradientStartOffsetPercent = CGPoint()
+    @objc open private(set) var gradientStartRadiusPercent: CGFloat = 0.0
+    @objc open private(set) var gradientEndOffsetPercent = CGPoint()
+    @objc open private(set) var gradientEndRadiusPercent: CGFloat = 0.0
+    @objc open private(set) var image: CGImage?
+    @objc open private(set) var layer: CGLayer?
+
     // MARK: Constructors
-    
-    public override init()
-    {
-    }
-    
+
     @objc public init(CGColor: CGColor)
     {
-        _type = .color
-        _color = CGColor
+        type = .color
+        color = CGColor
     }
     
     @objc public convenience init(color: NSUIColor)
@@ -109,9 +55,9 @@ open class Fill: NSObject
     
     @objc public init(linearGradient: CGGradient, angle: CGFloat)
     {
-        _type = .linearGradient
-        _gradient = linearGradient
-        _gradientAngle = angle
+        type = .linearGradient
+        gradient = linearGradient
+        gradientAngle = angle
     }
     
     @objc public init(
@@ -122,12 +68,12 @@ open class Fill: NSObject
         endRadiusPercent: CGFloat
         )
     {
-        _type = .radialGradient
-        _gradient = radialGradient
-        _gradientStartOffsetPercent = startOffsetPercent
-        _gradientStartRadiusPercent = startRadiusPercent
-        _gradientEndOffsetPercent = endOffsetPercent
-        _gradientEndRadiusPercent = endRadiusPercent
+        type = .radialGradient
+        gradient = radialGradient
+        gradientStartOffsetPercent = startOffsetPercent
+        gradientStartRadiusPercent = startRadiusPercent
+        gradientEndOffsetPercent = endOffsetPercent
+        gradientEndRadiusPercent = endRadiusPercent
     }
     
     @objc public convenience init(radialGradient: CGGradient)
@@ -141,31 +87,21 @@ open class Fill: NSObject
         )
     }
     
-    @objc public init(CGImage: CGImage, tiled: Bool)
+    @objc public init(CGImage: CGImage, tiled: Bool = false)
     {
-        _type = tiled ? .tiledImage : .image
-        _image = CGImage
+        type = tiled ? .tiledImage : .image
+        image = CGImage
     }
     
-    @objc public convenience init(image: NSUIImage, tiled: Bool)
+    @objc public convenience init(image: NSUIImage, tiled: Bool = false)
     {
         self.init(CGImage: image.cgImage!, tiled: tiled)
     }
-    
-    @objc public convenience init(CGImage: CGImage)
-    {
-        self.init(CGImage: CGImage, tiled: false)
-    }
-    
-    @objc public convenience init(image: NSUIImage)
-    {
-        self.init(image: image, tiled: false)
-    }
-    
+
     @objc public init(CGLayer: CGLayer)
     {
-        _type = .layer
-        _layer = CGLayer
+        type = .layer
+        layer = CGLayer
     }
     
     // MARK: Constructors
@@ -209,26 +145,16 @@ open class Fill: NSObject
         return Fill(radialGradient: radialGradient)
     }
     
-    @objc open class func fillWithCGImage(_ CGImage: CGImage, tiled: Bool) -> Fill
+    @objc open class func fillWithCGImage(_ CGImage: CGImage, tiled: Bool = false) -> Fill
     {
         return Fill(CGImage: CGImage, tiled: tiled)
     }
     
-    @objc open class func fillWithImage(_ image: NSUIImage, tiled: Bool) -> Fill
+    @objc open class func fillWithImage(_ image: NSUIImage, tiled: Bool = false) -> Fill
     {
         return Fill(image: image, tiled: tiled)
     }
-    
-    @objc open class func fillWithCGImage(_ CGImage: CGImage) -> Fill
-    {
-        return Fill(CGImage: CGImage)
-    }
-    
-    @objc open class func fillWithImage(_ image: NSUIImage) -> Fill
-    {
-        return Fill(image: image)
-    }
-    
+
     @objc open class func fillWithCGLayer(_ CGLayer: CGLayer) -> Fill
     {
         return Fill(CGLayer: CGLayer)
@@ -241,39 +167,40 @@ open class Fill: NSObject
         context: CGContext,
         rect: CGRect)
     {
-        let fillType = _type
+        let fillType = type
         if fillType == .empty
         {
             return
         }
         
         context.saveGState()
+        defer { context.restoreGState() }
         
         switch fillType
         {
         case .color:
             
-            context.setFillColor(_color!)
+            context.setFillColor(color!)
             context.fillPath()
             
         case .image:
             
             context.clip()
-            context.draw(_image!, in: rect)
+            context.draw(image!, in: rect)
             
         case .tiledImage:
             
             context.clip()
-            context.draw(_image!, in: rect, byTiling: true)
+            context.draw(image!, in: rect, byTiling: true)
             
         case .layer:
             
             context.clip()
-            context.draw(_layer!, in: rect)
+            context.draw(layer!, in: rect)
             
         case .linearGradient:
             
-            let radians = ChartUtils.Math.FDEG2RAD * (360.0 - _gradientAngle)
+            let radians = ChartUtils.Math.FDEG2RAD * (360.0 - gradientAngle)
             let centerPoint = CGPoint(x: rect.midX, y: rect.midY)
             let xAngleDelta = cos(radians) * rect.width / 2.0
             let yAngleDelta = sin(radians) * rect.height / 2.0
@@ -287,7 +214,7 @@ open class Fill: NSObject
             )
             
             context.clip()
-            context.drawLinearGradient(_gradient!,
+            context.drawLinearGradient(gradient!,
                 start: startPoint,
                 end: endPoint,
                 options: [.drawsAfterEndLocation, .drawsBeforeStartLocation]
@@ -299,25 +226,22 @@ open class Fill: NSObject
             let radius = max(rect.width, rect.height) / 2.0
             
             context.clip()
-            context.drawRadialGradient(_gradient!,
+            context.drawRadialGradient(gradient!,
                 startCenter: CGPoint(
-                    x: centerPoint.x + rect.width * _gradientStartOffsetPercent.x,
-                    y: centerPoint.y + rect.height * _gradientStartOffsetPercent.y
+                    x: centerPoint.x + rect.width * gradientStartOffsetPercent.x,
+                    y: centerPoint.y + rect.height * gradientStartOffsetPercent.y
                 ),
-                startRadius: radius * _gradientStartRadiusPercent,
+                startRadius: radius * gradientStartRadiusPercent,
                 endCenter: CGPoint(
-                    x: centerPoint.x + rect.width * _gradientEndOffsetPercent.x,
-                    y: centerPoint.y + rect.height * _gradientEndOffsetPercent.y
+                    x: centerPoint.x + rect.width * gradientEndOffsetPercent.x,
+                    y: centerPoint.y + rect.height * gradientEndOffsetPercent.y
                 ),
-                endRadius: radius * _gradientEndRadiusPercent,
+                endRadius: radius * gradientEndRadiusPercent,
                 options: [.drawsAfterEndLocation, .drawsBeforeStartLocation]
             )
             
         case .empty:
             break
         }
-        
-        context.restoreGState()
     }
-    
 }
