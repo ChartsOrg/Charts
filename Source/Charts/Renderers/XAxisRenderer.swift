@@ -26,7 +26,6 @@ open class XAxisRenderer: AxisRendererBase
     
     open override func computeAxis(min: Double, max: Double, inverted: Bool)
     {
-
         var min = min, max = max
         
         if let transformer = self.transformer

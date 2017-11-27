@@ -29,7 +29,6 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
     
     open override func computeAxis(min: Double, max: Double, inverted: Bool)
     {
-
         var min = min, max = max
         
         if let transformer = self.transformer
@@ -195,7 +194,6 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
     
     open override func drawGridLine(context: CGContext, x: CGFloat, y: CGFloat)
     {
-
         if viewPortHandler.isInBoundsY(y)
         {
             context.beginPath()
