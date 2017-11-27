@@ -12,10 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 @objc(ChartYAxisRenderer)
 open class YAxisRenderer: AxisRendererBase
 {
@@ -167,7 +163,6 @@ open class YAxisRenderer: AxisRendererBase
             if yAxis.gridLineDashLengths != nil
             {
                 context.setLineDash(phase: yAxis.gridLineDashPhase, lengths: yAxis.gridLineDashLengths)
-                
             }
             else
             {

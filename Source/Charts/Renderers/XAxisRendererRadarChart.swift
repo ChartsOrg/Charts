@@ -12,10 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 open class XAxisRendererRadarChart: XAxisRenderer
 {
     @objc open weak var chart: RadarChartView?
@@ -31,14 +27,11 @@ open class XAxisRendererRadarChart: XAxisRenderer
     {
         guard let
             xAxis = axis as? XAxis,
-            let chart = chart
+            let chart = chart,
+            xAxis.isEnabled,
+            xAxis.isDrawLabelsEnabled
             else { return }
-        
-        if !xAxis.isEnabled || !xAxis.isDrawLabelsEnabled
-        {
-            return
-        }
-        
+
         let labelFont = xAxis.labelFont
         let labelTextColor = xAxis.labelTextColor
         let labelRotationAngleRadians = xAxis.labelRotationAngle * ChartUtils.Math.FDEG2RAD
@@ -51,7 +44,7 @@ open class XAxisRendererRadarChart: XAxisRenderer
         
         let center = chart.centerOffsets
         
-        for i in stride(from: 0, to: chart.data?.maxEntryCountSet?.entryCount ?? 0, by: 1)
+        for i in 0...(chart.data?.maxEntryCountSet?.entryCount ?? 0)
         {
             
             let label = xAxis.valueFormatter?.stringForValue(Double(i), axis: xAxis) ?? ""
@@ -64,7 +57,8 @@ open class XAxisRendererRadarChart: XAxisRenderer
                       formattedLabel: label,
                       x: p.x,
                       y: p.y - xAxis.labelRotatedHeight / 2.0,
-                      attributes: [NSAttributedStringKey.font: labelFont, NSAttributedStringKey.foregroundColor: labelTextColor],
+                      attributes: [.font: labelFont,
+                                   .foregroundColor: labelTextColor],
                       anchor: drawLabelAnchor,
                       angleRadians: labelRotationAngleRadians)
         }

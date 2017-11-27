@@ -12,10 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 @objc(ChartXAxisRenderer)
 open class XAxisRenderer: AxisRendererBase
 {
@@ -257,8 +253,8 @@ open class XAxisRenderer: AxisRendererBase
 
         context.saveGState()
         defer { context.restoreGState() }
+
         context.clip(to: self.gridClippingRect)
-        
         context.setShouldAntialias(xAxis.gridAntialiasEnabled)
         context.setStrokeColor(xAxis.gridColor.cgColor)
         context.setLineWidth(xAxis.gridLineWidth)
