@@ -364,8 +364,8 @@ open class XAxisRenderer: AxisRendererBase
     
     @objc open func renderLimitLineLabel(context: CGContext, limitLine: ChartLimitLine, position: CGPoint, yOffset: CGFloat)
     {
-        
         let label = limitLine.label
+
         // if drawing the limit-value label is enabled
         guard limitLine.drawLabelEnabled, !label.isEmpty else { return }
 

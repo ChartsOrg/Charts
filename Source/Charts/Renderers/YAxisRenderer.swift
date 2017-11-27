@@ -170,9 +170,7 @@ open class YAxisRenderer: AxisRendererBase
             }
             
             // draw the grid
-            positions.forEach {
-                drawGridLine(context: context, position: $0)
-            }
+            positions.forEach { drawGridLine(context: context, position: $0) }
         }
 
         if yAxis.drawZeroLineEnabled
@@ -195,7 +193,6 @@ open class YAxisRenderer: AxisRendererBase
         context: CGContext,
         position: CGPoint)
     {
-
         context.beginPath()
         context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: position.y))
         context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: position.y))

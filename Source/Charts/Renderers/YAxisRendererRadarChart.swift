@@ -133,15 +133,8 @@ open class YAxisRendererRadarChart: YAxisRenderer
         
         if centeringEnabled
         {
-            axis.centeredEntries.reserveCapacity(n)
-            axis.centeredEntries.removeAll()
-            
             let offset = (axis.entries[1] - axis.entries[0]) / 2.0
-            
-            for i in 0 ..< n
-            {
-                axis.centeredEntries.append(axis.entries[i] + offset)
-            }
+            axis.centeredEntries = (0 ..< n).map { axis.entries[$0] + offset }
         }
         
         axis._axisMinimum = axis.entries[0]
