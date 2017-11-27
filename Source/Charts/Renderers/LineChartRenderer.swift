@@ -20,6 +20,10 @@ import CoreGraphics
 open class LineChartRenderer: LineRadarRenderer
 {
     @objc open weak var dataProvider: LineChartDataProvider?
+    /// Render draw path, use for personal processing.
+    @objc public var drawPath: CGPath?
+    /// Only for cubicBezier and horizontalBezier, now
+    @objc public var drawBackgroundPath: CGPath?
     
     @objc public init(dataProvider: LineChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
     {
@@ -173,9 +177,32 @@ open class LineChartRenderer: LineRadarRenderer
         context.beginPath()
         context.addPath(cubicPath)
         context.setStrokeColor(drawingColor.cgColor)
+        if let path = context.path {
+            // save the draw path
+            drawPath = path
+            drawBackgroundPath = getClosePath(dataSet: dataSet, matrix: valueToPixelMatrix)
+        }
+        
         context.strokePath()
         
         context.restoreGState()
+    }
+    
+    @objc open func getClosePath(dataSet: ILineChartDataSet, matrix: CGAffineTransform) -> CGPath? {
+        guard let dataProvider = dataProvider
+            else { return nil }
+        
+        let  cloasPath = CGMutablePath.init()
+        let fillMin = dataSet.fillFormatter?.getFillLinePosition(dataSet: dataSet, dataProvider: dataProvider) ?? 0.0
+        var pt1 = CGPoint(x: CGFloat(dataSet.entryForIndex(_xBounds.min + _xBounds.range)?.x ?? 0.0), y: fillMin)
+        var pt2 = CGPoint(x: CGFloat(dataSet.entryForIndex(_xBounds.min)?.x ?? 0.0), y: fillMin)
+        pt1 = pt1.applying(matrix)
+        pt2 = pt2.applying(matrix)
+        cloasPath.addPath(drawPath!)
+        cloasPath.addLine(to: pt1)
+        cloasPath.addLine(to: pt2)
+        cloasPath.closeSubpath()
+        return cloasPath
     }
     
     @objc open func drawHorizontalBezier(context: CGContext, dataSet: ILineChartDataSet)
@@ -240,6 +267,10 @@ open class LineChartRenderer: LineRadarRenderer
         context.beginPath()
         context.addPath(cubicPath)
         context.setStrokeColor(drawingColor.cgColor)
+        if let path = context.path {
+            // save the draw path
+            drawPath = path
+        }
         context.strokePath()
         
         context.restoreGState()
@@ -424,6 +455,10 @@ open class LineChartRenderer: LineRadarRenderer
                 if !firstPoint
                 {
                     context.setStrokeColor(dataSet.color(atIndex: 0).cgColor)
+                    if let path = context.path {
+                        // save the draw path
+                        drawPath = path
+                    }
                     context.strokePath()
                 }
             }
