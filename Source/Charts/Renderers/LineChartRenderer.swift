@@ -21,7 +21,7 @@ open class LineChartRenderer: LineRadarRenderer
 {
     @objc open weak var dataProvider: LineChartDataProvider?
     
-    @objc public init(dataProvider: LineChartDataProvider?, animator: Animator, viewPortHandler: ViewPortHandler?)
+    @objc public init(dataProvider: LineChartDataProvider?, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -286,10 +286,7 @@ open class LineChartRenderer: LineRadarRenderer
     
     @objc open func drawLinear(context: CGContext, dataSet: ILineChartDataSet)
     {
-        guard
-            let dataProvider = dataProvider,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let dataProvider = dataProvider else { return }
         
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
         
@@ -502,10 +499,9 @@ open class LineChartRenderer: LineRadarRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let lineData = dataProvider.lineData,
-            let viewPortHandler = self.viewPortHandler
+            let lineData = dataProvider.lineData
             else { return }
-        
+
         if isDrawingValuesAllowed(dataProvider: dataProvider)
         {
             var dataSets = lineData.dataSets
@@ -597,12 +593,11 @@ open class LineChartRenderer: LineRadarRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let lineData = dataProvider.lineData,
-            let viewPortHandler = self.viewPortHandler
+            let lineData = dataProvider.lineData
             else { return }
         
         let phaseY = animator.phaseY
-        
+
         let dataSets = lineData.dataSets
         
         var pt = CGPoint()

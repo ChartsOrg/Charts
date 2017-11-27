@@ -22,7 +22,7 @@ open class LegendRenderer: Renderer
     /// the legend object this renderer renders
     @objc open var legend: Legend?
 
-    @objc public init(viewPortHandler: ViewPortHandler?, legend: Legend?)
+    @objc public init(viewPortHandler: ViewPortHandler, legend: Legend?)
     {
         super.init(viewPortHandler: viewPortHandler)
         
@@ -32,10 +32,7 @@ open class LegendRenderer: Renderer
     /// Prepares the legend and calculates all needed forms, labels and colors.
     @objc open func computeLegend(data: ChartData)
     {
-        guard
-            let legend = legend,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let legend = legend else { return }
         
         if !legend.isLegendCustom
         {
@@ -194,10 +191,7 @@ open class LegendRenderer: Renderer
     
     @objc open func renderLegend(context: CGContext)
     {
-        guard
-            let legend = legend,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let legend = legend else { return }
         
         if !legend.enabled
         {
