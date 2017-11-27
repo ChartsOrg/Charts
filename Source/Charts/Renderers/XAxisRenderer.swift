@@ -438,7 +438,6 @@ open class XAxisRenderer: NSObject, AxisRenderer
     
     @objc open func drawGridLine(context: CGContext, x: CGFloat, y: CGFloat)
     {
-
         if x >= viewPortHandler.offsetLeft
             && x <= viewPortHandler.chartWidth
         {

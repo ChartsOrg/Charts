@@ -361,7 +361,6 @@ open class YAxisRenderer: NSObject, AxisRenderer
         context: CGContext,
         position: CGPoint)
     {
-
         context.beginPath()
         context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: position.y))
         context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: position.y))
