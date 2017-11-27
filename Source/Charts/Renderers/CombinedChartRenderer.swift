@@ -26,7 +26,7 @@ open class CombinedChartRenderer: DataRenderer
     
     internal var _drawOrder: [CombinedChartView.DrawOrder] = [.bar, .bubble, .line, .candle, .scatter]
     
-    @objc public init(chart: CombinedChartView?, animator: Animator, viewPortHandler: ViewPortHandler)
+    @objc public init(chart: CombinedChartView, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         

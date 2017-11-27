@@ -21,7 +21,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
 {
     @objc open weak var dataProvider: CandleChartDataProvider?
     
-    @objc public init(dataProvider: CandleChartDataProvider?, animator: Animator, viewPortHandler: ViewPortHandler)
+    @objc public init(dataProvider: CandleChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
