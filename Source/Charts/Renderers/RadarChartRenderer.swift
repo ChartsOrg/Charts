@@ -21,7 +21,7 @@ open class RadarChartRenderer: LineRadarRenderer
 {
     @objc open weak var chart: RadarChartView?
 
-    @objc public init(chart: RadarChartView?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    @objc public init(chart: RadarChartView, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -55,10 +55,7 @@ open class RadarChartRenderer: LineRadarRenderer
     /// - parameter mostEntries: the entry count of the dataset with the most entries
     @objc internal func drawDataSet(context: CGContext, dataSet: IRadarChartDataSet, mostEntries: Int)
     {
-        guard let
-            chart = chart,
-            let animator = animator
-            else { return }
+        guard let chart = chart else { return }
         
         context.saveGState()
         
@@ -141,8 +138,7 @@ open class RadarChartRenderer: LineRadarRenderer
     {
         guard
             let chart = chart,
-            let data = chart.data,
-            let animator = animator
+            let data = chart.data
             else { return }
         
         let phaseX = animator.phaseX
@@ -299,8 +295,7 @@ open class RadarChartRenderer: LineRadarRenderer
     {
         guard
             let chart = chart,
-            let radarData = chart.data as? RadarChartData,
-            let animator = animator
+            let radarData = chart.data as? RadarChartData
             else { return }
         
         context.saveGState()

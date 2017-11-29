@@ -19,17 +19,13 @@ import CoreGraphics
 @objc(ChartXAxisRenderer)
 open class XAxisRenderer: AxisRendererBase
 {
-    @objc public init(viewPortHandler: ViewPortHandler?, xAxis: XAxis?, transformer: Transformer?)
+    @objc public init(viewPortHandler: ViewPortHandler, xAxis: XAxis?, transformer: Transformer?)
     {
         super.init(viewPortHandler: viewPortHandler, transformer: transformer, axis: xAxis)
     }
     
     open override func computeAxis(min: Double, max: Double, inverted: Bool)
     {
-        guard let
-            viewPortHandler = self.viewPortHandler
-            else { return }
-        
         var min = min, max = max
         
         if let transformer = self.transformer
@@ -87,10 +83,7 @@ open class XAxisRenderer: AxisRendererBase
     
     open override func renderAxisLabels(context: CGContext)
     {
-        guard let
-            xAxis = self.axis as? XAxis,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let xAxis = self.axis as? XAxis else { return }
         
         if !xAxis.isEnabled || !xAxis.isDrawLabelsEnabled
         {
@@ -126,10 +119,7 @@ open class XAxisRenderer: AxisRendererBase
     
     open override func renderAxisLine(context: CGContext)
     {
-        guard
-            let xAxis = self.axis as? XAxis,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let xAxis = self.axis as? XAxis else { return }
         
         if !xAxis.isEnabled || !xAxis.isDrawAxisLineEnabled
         {
@@ -179,7 +169,6 @@ open class XAxisRenderer: AxisRendererBase
     {
         guard
             let xAxis = self.axis as? XAxis,
-            let viewPortHandler = self.viewPortHandler,
             let transformer = self.transformer
             else { return }
         
@@ -330,7 +319,7 @@ open class XAxisRenderer: AxisRendererBase
     
     @objc open var gridClippingRect: CGRect
     {
-        var contentRect = viewPortHandler?.contentRect ?? CGRect.zero
+        var contentRect = viewPortHandler.contentRect
         let dx = self.axis?.gridLineWidth ?? 0.0
         contentRect.origin.x -= dx / 2.0
         contentRect.size.width += dx
@@ -339,10 +328,6 @@ open class XAxisRenderer: AxisRendererBase
     
     @objc open func drawGridLine(context: CGContext, x: CGFloat, y: CGFloat)
     {
-        guard
-            let viewPortHandler = self.viewPortHandler
-            else { return }
-        
         if x >= viewPortHandler.offsetLeft
             && x <= viewPortHandler.chartWidth
         {
@@ -357,7 +342,6 @@ open class XAxisRenderer: AxisRendererBase
     {
         guard
             let xAxis = self.axis as? XAxis,
-            let viewPortHandler = self.viewPortHandler,
             let transformer = self.transformer
             else { return }
         
@@ -400,9 +384,6 @@ open class XAxisRenderer: AxisRendererBase
     
     @objc open func renderLimitLineLine(context: CGContext, limitLine: ChartLimitLine, position: CGPoint)
     {
-        guard
-            let viewPortHandler = self.viewPortHandler
-            else { return }
         
         context.beginPath()
         context.move(to: CGPoint(x: position.x, y: viewPortHandler.contentTop))
@@ -424,9 +405,6 @@ open class XAxisRenderer: AxisRendererBase
     
     @objc open func renderLimitLineLabel(context: CGContext, limitLine: ChartLimitLine, position: CGPoint, yOffset: CGFloat)
     {
-        guard
-            let viewPortHandler = self.viewPortHandler
-            else { return }
         
         let label = limitLine.label
         

@@ -221,8 +221,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         _animator = Animator()
         _animator.delegate = self
 
-        _viewPortHandler = ViewPortHandler()
-        _viewPortHandler.setChartDimens(width: bounds.size.width, height: bounds.size.height)
+        _viewPortHandler = ViewPortHandler(width: bounds.size.width, height: bounds.size.height)
         
         chartDescription = Description()
         
