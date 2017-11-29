@@ -56,7 +56,6 @@
     [_chartView setScaleEnabled:YES];
     _chartView.pinchZoomEnabled = YES;
     _chartView.drawGridBackgroundEnabled = NO;
-
     // x-axis limit line
     ChartLimitLine *llXAxis = [[ChartLimitLine alloc] initWithLimit:10.0 label:@"Index 10"];
     llXAxis.lineWidth = 4.0;
@@ -65,9 +64,16 @@
     llXAxis.valueFont = [UIFont systemFontOfSize:10.f];
     
     //[_chartView.xAxis addLimitLine:llXAxis];
-    
+    _chartView.xAxis.drawLabelsEnabled = YES;
+    _chartView.xAxis.drawAxisLineEnabled = YES;
     _chartView.xAxis.gridLineDashLengths = @[@10.0, @10.0];
     _chartView.xAxis.gridLineDashPhase = 0.f;
+    ChartXAxis *xAxis = _chartView.xAxis;
+    xAxis.labelPosition = XAxisLabelPositionBottom;
+    xAxis.labelFont = [UIFont systemFontOfSize: 10];
+    xAxis.labelTextColor = [UIColor whiteColor];
+    //    xAxis.labelWidth = 0
+    xAxis.drawLabelsEnabled = true;
     
     ChartLimitLine *ll1 = [[ChartLimitLine alloc] initWithLimit:150.0 label:@"Upper Limit"];
     ll1.lineWidth = 4.0;
@@ -86,7 +92,7 @@
     [leftAxis addLimitLine:ll1];
     [leftAxis addLimitLine:ll2];
     leftAxis.axisMaximum = 200.0;
-    leftAxis.axisMinimum = -50.0;
+    leftAxis.axisMinimum = 0.0;
     leftAxis.gridLineDashLengths = @[@5.f, @5.f];
     leftAxis.drawZeroLineEnabled = NO;
     leftAxis.drawLimitLinesBehindDataEnabled = YES;
@@ -110,6 +116,8 @@
     _sliderX.value = 45.0;
     _sliderY.value = 100.0;
     [self slidersValueChanged:nil];
+    
+
     
     [_chartView animateWithXAxisDuration:2.5];
 }
