@@ -25,7 +25,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     
     @objc open weak var dataProvider: BarChartDataProvider?
     
-    @objc public init(dataProvider: BarChartDataProvider?, animator: Animator, viewPortHandler: ViewPortHandler?)
+    @objc public init(dataProvider: BarChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -207,10 +207,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     
     @objc open func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int)
     {
-        guard
-            let dataProvider = dataProvider,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let dataProvider = dataProvider else { return }
         
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
         
@@ -226,9 +223,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         // draw the bar shadow before the values
         if dataProvider.isDrawBarShadowEnabled
         {
-            guard
-                let barData = dataProvider.barData
-                else { return }
+            guard let barData = dataProvider.barData else { return }
             
             let barWidth = barData.barWidth
             let barWidthHalf = barWidth / 2.0
@@ -355,17 +350,16 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         {
             guard
                 let dataProvider = dataProvider,
-                let viewPortHandler = self.viewPortHandler,
                 let barData = dataProvider.barData
                 else { return }
-            
+
             var dataSets = barData.dataSets
 
             let valueOffsetPlus: CGFloat = 4.5
             var posOffset: CGFloat
             var negOffset: CGFloat
             let drawValueAboveBar = dataProvider.isDrawValueAboveBarEnabled
-            
+
             for dataSetIndex in 0 ..< barData.dataSetCount
             {
                 guard let dataSet = dataSets[dataSetIndex] as? IBarChartDataSet else { continue }
