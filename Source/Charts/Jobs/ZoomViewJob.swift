@@ -54,7 +54,7 @@ open class ZoomViewJob: ViewPortJob
             else { return }
         
         var matrix = viewPortHandler.setZoom(scaleX: scaleX, scaleY: scaleY)
-        let _ = viewPortHandler.refresh(newMatrix: matrix, chart: view, invalidate: false)
+        viewPortHandler.refresh(newMatrix: matrix, chart: view, invalidate: false)
         
         let yValsInView = (view as! BarLineChartViewBase).getAxis(axisDependency).axisRange / Double(viewPortHandler.scaleY)
         let xValsInView = (view as! BarLineChartViewBase).xAxis.axisRange / Double(viewPortHandler.scaleX)
@@ -67,7 +67,7 @@ open class ZoomViewJob: ViewPortJob
         transformer.pointValueToPixel(&pt)
         
         matrix = viewPortHandler.translate(pt: pt)
-        let _ = viewPortHandler.refresh(newMatrix: matrix, chart: view, invalidate: false)
+        viewPortHandler.refresh(newMatrix: matrix, chart: view, invalidate: false)
         
         (view as! BarLineChartViewBase).calculateOffsets()
         view.setNeedsDisplay()
