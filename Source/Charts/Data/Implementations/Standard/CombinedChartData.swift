@@ -28,6 +28,10 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     {
         super.init(dataSets: dataSets)
     }
+
+    public required init(arrayLiteral elements: IChartDataSet...) {
+        super.init(dataSets: elements)
+    }
     
     @objc open var lineData: LineChartData!
     {

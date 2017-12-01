@@ -38,7 +38,11 @@ open class RadarChartData: ChartData
     {
         super.init(dataSets: dataSets)
     }
-    
+
+    public required init(arrayLiteral elements: IChartDataSet...) {
+        super.init(dataSets: elements)
+    }
+
     open override func entryForHighlight(_ highlight: Highlight) -> ChartDataEntry?
     {
         return getDataSetByIndex(highlight.dataSetIndex)?.entryForIndex(Int(highlight.x))

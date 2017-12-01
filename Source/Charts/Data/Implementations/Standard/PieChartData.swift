@@ -23,6 +23,10 @@ open class PieChartData: ChartData
         super.init(dataSets: dataSets)
     }
 
+    public required init(arrayLiteral elements: IChartDataSet...) {
+        super.init(dataSets: elements)
+    }
+
     @objc var dataSet: IPieChartDataSet?
     {
         get
