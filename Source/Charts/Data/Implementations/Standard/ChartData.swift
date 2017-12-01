@@ -578,20 +578,12 @@ extension ChartData
         guard let index = index(forLabel: label, ignoreCase: ignoreCase) else { return nil }
         return self[index]
     }
-<<<<<<< refs/remotes/origin/4.0.0
-    
+
     public subscript(entry entry: ChartDataEntry) -> Element?
     {
         guard !(self is CombinedChartData) else
         {
             fatalError("subscript(entry:) not supported for CombinedData")
-=======
-
-    public func appendEntry(_ e: ChartDataEntry, toDataSet dataSetIndex: Index) {
-        guard indices.contains(dataSetIndex) else {
-            print("ChartData.addEntry() - Cannot add Entry because dataSetIndex too high or too low.", terminator: "\n")
-            return
->>>>>>> HEAD~31
         }
 
         guard let index = index(where: { $0.entryForXValue(entry.x, closestToY: entry.y) === entry }) else { return nil }
