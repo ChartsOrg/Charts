@@ -105,7 +105,7 @@ class ScatterChartViewController: DemoBaseViewController {
         set3.setColor(ChartColorTemplates.colorful()[2])
         set3.scatterShapeSize = 8
         
-        let data = ScatterChartData(dataSets: [set1, set2, set3])
+        let data: ScatterChartData = [set1, set2, set3]
         data.setValueFont(.systemFont(ofSize: 7, weight: .light))
 
         chartView.data = data

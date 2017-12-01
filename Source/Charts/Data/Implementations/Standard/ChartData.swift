@@ -677,7 +677,8 @@ extension ChartData {
 
     public func appendEntry(_ e: ChartDataEntry, toDataSet dataSetIndex: Index) {
         guard indices.contains(dataSetIndex) else {
-            return print("ChartData.addEntry() - Cannot add Entry because dataSetIndex too high or too low.", terminator: "\n")
+            print("ChartData.addEntry() - Cannot add Entry because dataSetIndex too high or too low.", terminator: "\n")
+            return
         }
 
         let set = self[dataSetIndex]

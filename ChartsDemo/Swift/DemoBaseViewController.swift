@@ -117,13 +117,13 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
     func handleOption(_ option: Option, forChartView chartView: ChartViewBase) {
         switch option {
         case .toggleValues:
-            for set in chartView.data!.dataSets {
+            for set in chartView.data! {
                 set.drawValuesEnabled = !set.drawValuesEnabled
             }
             chartView.setNeedsDisplay()
             
         case .toggleIcons:
-            for set in chartView.data!.dataSets {
+            for set in chartView.data! {
                 set.drawIconsEnabled = !set.drawIconsEnabled
             }
             chartView.setNeedsDisplay()
@@ -159,7 +159,7 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
             updateChartData()
             
         case .toggleBarBorders:
-            for set in chartView.data!.dataSets {
+            for set in chartView.data! {
                 if let set = set as? BarChartDataSet {
                     set.barBorderWidth = set.barBorderWidth == 1.0 ? 0.0 : 1.0
                 }

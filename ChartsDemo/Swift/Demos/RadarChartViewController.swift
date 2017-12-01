@@ -142,7 +142,7 @@ class RadarChartViewController: DemoBaseViewController {
         set2.drawHighlightCircleEnabled = true
         set2.setDrawHighlightIndicators(false)
         
-        let data = RadarChartData(dataSets: [set1, set2])
+        let data: RadarChartData = [set1, set2]
         data.setValueFont(.systemFont(ofSize: 8, weight: .light))
         data.setDrawValues(false)
         data.setValueTextColor(.white)
@@ -166,14 +166,14 @@ class RadarChartViewController: DemoBaseViewController {
             chartView.rotationEnabled = !chartView.rotationEnabled
             
         case .toggleFilled:
-            for set in chartView.data!.dataSets as! [RadarChartDataSet] {
+            for set in chartView.data as! RadarChartData {
                 set.drawFilledEnabled = !set.drawFilledEnabled
             }
             
             chartView.setNeedsDisplay()
             
         case .toggleHighlightCircle:
-            for set in chartView.data!.dataSets as! [RadarChartDataSet] {
+            for set in chartView.data as! RadarChartData {
                 set.drawHighlightCircleEnabled = !set.drawHighlightCircleEnabled
             }
             chartView.setNeedsDisplay()

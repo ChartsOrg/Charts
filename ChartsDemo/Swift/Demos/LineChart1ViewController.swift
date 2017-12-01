@@ -144,31 +144,31 @@ class LineChart1ViewController: DemoBaseViewController {
     override func optionTapped(_ option: Option) {
         switch option {
         case .toggleFilled:
-            for set in chartView.data!.dataSets as! [LineChartDataSet] {
+            for set in chartView.data as! LineChartData {
                 set.drawFilledEnabled = !set.drawFilledEnabled
             }
             chartView.setNeedsDisplay()
             
         case .toggleCircles:
-            for set in chartView.data!.dataSets as! [LineChartDataSet] {
+            for set in chartView.data as! LineChartData {
                 set.drawCirclesEnabled = !set.drawCirclesEnabled
             }
             chartView.setNeedsDisplay()
             
         case .toggleCubic:
-            for set in chartView.data!.dataSets as! [LineChartDataSet] {
+            for set in chartView.data as! LineChartData {
                 set.mode = (set.mode == .cubicBezier) ? .linear : .cubicBezier
             }
             chartView.setNeedsDisplay()
             
         case .toggleStepped:
-            for set in chartView.data!.dataSets as! [LineChartDataSet] {
+            for set in chartView.data as! LineChartData {
                 set.mode = (set.mode == .stepped) ? .linear : .stepped
             }
             chartView.setNeedsDisplay()
             
         case .toggleHorizontalCubic:
-            for set in chartView.data!.dataSets as! [LineChartDataSet] {
+            for set in chartView.data as! LineChartData {
                 set.mode = (set.mode == .cubicBezier) ? .horizontalBezier : .cubicBezier
             }
             chartView.setNeedsDisplay()
