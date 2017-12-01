@@ -23,7 +23,11 @@ open class BarChartData: BarLineScatterCandleBubbleChartData
     {
         super.init(dataSets: dataSets)
     }
-    
+
+    public required init(arrayLiteral elements: IChartDataSet...) {
+        super.init(dataSets: elements)
+    }
+
     /// The width of the bars on the x-axis, in values (not pixels)
     ///
     /// **default**: 0.85

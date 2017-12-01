@@ -11,7 +11,7 @@
 
 import Foundation
 
-open class ChartData: NSObject
+open class ChartData: NSObject, ExpressibleByArrayLiteral
 {
     @objc internal var _yMax: Double = -Double.greatestFiniteMagnitude
     @objc internal var _yMin: Double = Double.greatestFiniteMagnitude
@@ -30,7 +30,15 @@ open class ChartData: NSObject
         
         _dataSets = [IChartDataSet]()
     }
-    
+
+    public required init(arrayLiteral elements: IChartDataSet...) {
+        super.init()
+
+        _dataSets = dataSets
+
+        self.initialize(dataSets: _dataSets)
+    }
+
     @objc public init(dataSets: [IChartDataSet]?)
     {
         super.init()

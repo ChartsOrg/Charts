@@ -23,4 +23,8 @@ open class LineChartData: ChartData
     {
         super.init(dataSets: dataSets)
     }
+
+    public required init(arrayLiteral elements: IChartDataSet...) {
+        super.init(dataSets: elements)
+    }
 }
