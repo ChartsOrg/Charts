@@ -122,31 +122,31 @@ class LineChartTimeViewController: DemoBaseViewController {
 
         switch option {
         case .toggleFilled:
-            for case let set as LineChartDataSet in data {
+            for set in chartView.data as! LineChartData {
                 set.drawFilledEnabled = !set.drawFilledEnabled
             }
             chartView.setNeedsDisplay()
             
         case .toggleCircles:
-            for case let set as LineChartDataSet in data {
+            for set in chartView.data as! LineChartData {
                 set.drawCirclesEnabled = !set.drawCirclesEnabled
             }
             chartView.setNeedsDisplay()
             
         case .toggleCubic:
-            for case let set as LineChartDataSet in data {
+            for set in chartView.data as! LineChartData {
                 set.mode = (set.mode == .cubicBezier) ? .linear : .cubicBezier
             }
             chartView.setNeedsDisplay()
             
         case .toggleStepped:
-            for case let set as LineChartDataSet in data {
+            for set in chartView.data as! LineChartData {
                 set.mode = (set.mode == .stepped) ? .linear : .stepped
             }
             chartView.setNeedsDisplay()
             
         case .toggleHorizontalCubic:
-            for case let set as LineChartDataSet in data {
+            for set in chartView.data as! LineChartData {
                 set.mode = (set.mode == .cubicBezier) ? .horizontalBezier : .cubicBezier
             }
             chartView.setNeedsDisplay()
