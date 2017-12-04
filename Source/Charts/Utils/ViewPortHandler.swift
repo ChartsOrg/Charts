@@ -54,11 +54,7 @@ open class ViewPortHandler: NSObject
     
     /// offset that allows the chart to be dragged over its bounds on the x-axis
     fileprivate var _transOffsetY = CGFloat(0.0)
-    
-    public override init()
-    {
-    }
-    
+
     /// Constructor - don't forget calling setChartDimens(...)
     @objc public init(width: CGFloat, height: CGFloat)
     {
@@ -255,12 +251,11 @@ open class ViewPortHandler: NSObject
         let translateY = pt.y - offsetTop
         
         let matrix = _touchMatrix.concatenating(CGAffineTransform(translationX: -translateX, y: -translateY))
-        
-        let _ = refresh(newMatrix: matrix, chart: chart, invalidate: true)
+        refresh(newMatrix: matrix, chart: chart, invalidate: true)
     }
     
     /// call this method to refresh the graph with a given matrix
-    @objc open func refresh(newMatrix: CGAffineTransform, chart: ChartViewBase, invalidate: Bool) -> CGAffineTransform
+    @objc @discardableResult open func refresh(newMatrix: CGAffineTransform, chart: ChartViewBase, invalidate: Bool) -> CGAffineTransform
     {
         _touchMatrix = newMatrix
         
