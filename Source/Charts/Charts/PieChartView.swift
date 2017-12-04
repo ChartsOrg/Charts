@@ -86,7 +86,7 @@ open class PieChartView: PieRadarChartViewBase
     {
         super.initialize()
         
-        renderer = PieChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
+        renderer = PieChartRenderer(chart: self, animator: _animator, viewPortHandler: viewPortHandler)
 
         self.highlighter = PieHighlighter(chart: self)
     }

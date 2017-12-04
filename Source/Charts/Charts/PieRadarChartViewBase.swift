@@ -105,7 +105,7 @@ open class PieRadarChartViewBase: ChartViewBase
 
         if _legend.enabled && !_legend.drawInside
         {
-            let fullLegendWidth = min(_legend.neededWidth, _viewPortHandler.chartWidth * _legend.maxSizePercent)
+            let fullLegendWidth = min(_legend.neededWidth, viewPortHandler.chartWidth * _legend.maxSizePercent)
             
             switch _legend.orientation
             {
@@ -171,10 +171,10 @@ open class PieRadarChartViewBase: ChartViewBase
                     switch _legend.verticalAlignment
                     {
                     case .top:
-                        legendTop = min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent)
+                        legendTop = min(_legend.neededHeight, viewPortHandler.chartHeight * _legend.maxSizePercent)
                         
                     case .bottom:
-                        legendBottom = min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent)
+                        legendBottom = min(_legend.neededHeight, viewPortHandler.chartHeight * _legend.maxSizePercent)
                         
                     default:
                         break
@@ -195,7 +195,7 @@ open class PieRadarChartViewBase: ChartViewBase
                     
                     yLegendOffset = min(
                         _legend.neededHeight + yOffset,
-                        _viewPortHandler.chartHeight * _legend.maxSizePercent)
+                        viewPortHandler.chartHeight * _legend.maxSizePercent)
                 }
                 
                 switch _legend.verticalAlignment
@@ -241,7 +241,7 @@ open class PieRadarChartViewBase: ChartViewBase
         let offsetRight = max(minOffset, legendRight)
         let offsetBottom = max(minOffset, max(self.requiredBaseOffset, legendBottom))
 
-        _viewPortHandler.restrainViewPort(offsetLeft: offsetLeft, offsetTop: offsetTop, offsetRight: offsetRight, offsetBottom: offsetBottom)
+        viewPortHandler.restrainViewPort(offsetLeft: offsetLeft, offsetTop: offsetTop, offsetRight: offsetRight, offsetBottom: offsetBottom)
     }
 
     /// - returns: The angle relative to the chart center for the given point on the chart in degrees.
@@ -351,7 +351,7 @@ open class PieRadarChartViewBase: ChartViewBase
     /// - returns: The diameter of the pie- or radar-chart
     @objc open var diameter: CGFloat
     {
-        var content = _viewPortHandler.contentRect
+        var content = viewPortHandler.contentRect
         content.origin.x += extraLeftOffset
         content.origin.y += extraTopOffset
         content.size.width -= extraLeftOffset + extraRightOffset

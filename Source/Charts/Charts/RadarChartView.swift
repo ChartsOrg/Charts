@@ -60,10 +60,10 @@ open class RadarChartView: PieRadarChartViewBase
         
         _yAxis = YAxis(position: .left)
         
-        renderer = RadarChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
+        renderer = RadarChartRenderer(chart: self, animator: _animator, viewPortHandler: viewPortHandler)
         
-        _yAxisRenderer = YAxisRendererRadarChart(viewPortHandler: _viewPortHandler, yAxis: _yAxis, chart: self)
-        _xAxisRenderer = XAxisRendererRadarChart(viewPortHandler: _viewPortHandler, xAxis: xAxis, chart: self)
+        _yAxisRenderer = YAxisRendererRadarChart(viewPortHandler: viewPortHandler, yAxis: _yAxis, chart: self)
+        _xAxisRenderer = XAxisRendererRadarChart(viewPortHandler: viewPortHandler, xAxis: xAxis, chart: self)
         
         self.highlighter = RadarHighlighter(chart: self)
     }
@@ -148,7 +148,7 @@ open class RadarChartView: PieRadarChartViewBase
     /// - returns: The factor that is needed to transform values into pixels.
     @objc open var factor: CGFloat
     {
-        let content = _viewPortHandler.contentRect
+        let content = viewPortHandler.contentRect
         return min(content.width / 2.0, content.height / 2.0)
                 / CGFloat(_yAxis.axisRange)
     }
@@ -216,7 +216,7 @@ open class RadarChartView: PieRadarChartViewBase
 
     open override var radius: CGFloat
     {
-        let content = _viewPortHandler.contentRect
+        let content = viewPortHandler.contentRect
         return min(content.width / 2.0, content.height / 2.0)
     }
 

@@ -40,7 +40,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         
         _fillFormatter = DefaultFillFormatter()
         
-        renderer = CombinedChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
+        renderer = CombinedChartRenderer(chart: self, animator: _animator, viewPortHandler: viewPortHandler)
     }
     
     open override var data: ChartData?
@@ -231,7 +231,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             let pos = getMarkerPosition(highlight: highlight)
             
             // check bounds
-            if !_viewPortHandler.isInBounds(x: pos.x, y: pos.y)
+            if !viewPortHandler.isInBounds(x: pos.x, y: pos.y)
             {
                 continue
             }

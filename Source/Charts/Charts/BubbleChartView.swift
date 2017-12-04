@@ -18,7 +18,7 @@ open class BubbleChartView: BarLineChartViewBase, BubbleChartDataProvider
     {
         super.initialize()
         
-        renderer = BubbleChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
+        renderer = BubbleChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: viewPortHandler)
     }
     
     // MARK: - BubbleChartDataProvider
