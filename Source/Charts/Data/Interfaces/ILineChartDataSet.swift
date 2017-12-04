@@ -62,19 +62,16 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     func resetCircleColors(_ index: Int)
     
     /// If true, drawing circles is enabled
-    var drawCirclesEnabled: Bool { get set }
-    
     /// - returns: `true` if drawing circles for this DataSet is enabled, `false` ifnot
-    var isDrawCirclesEnabled: Bool { get }
+    var isDrawCirclesEnabled: Bool { get @objc(setDrawCirclesEnabled:)set }
+    
     
     /// The color of the inner circle (the circle-hole).
     var circleHoleColor: NSUIColor? { get set }
     
     /// `true` if drawing circles for this DataSet is enabled, `false` ifnot
-    var drawCircleHoleEnabled: Bool { get set }
-    
     /// - returns: `true` if drawing the circle-holes is enabled, `false` ifnot.
-    var isDrawCircleHoleEnabled: Bool { get }
+    var isDrawCircleHoleEnabled: Bool { get @objc(setDrawCircleHoleEnabled:)set }
     
     /// This is how much (in pixels) into the dash pattern are we starting from.
     var lineDashPhase: CGFloat { get }

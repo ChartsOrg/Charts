@@ -668,19 +668,20 @@ open class ChartData: NSObject
     {
         for set in dataSets
         {
-            set.drawValuesEnabled = enabled
+            set.isDrawValuesEnabled = enabled
         }
     }
     
     /// Enables / disables highlighting values for all DataSets this data object contains.
     /// If set to true, this means that values can be highlighted programmatically or by touch gesture.
-    @objc open var highlightEnabled: Bool
+    /// if true, value highlightning is enabled
+    @objc public var isHighlightEnabled: Bool
     {
         get
         {
             for set in dataSets
             {
-                if !set.highlightEnabled
+                if !set.isHighlightEnabled
                 {
                     return false
                 }
@@ -688,17 +689,14 @@ open class ChartData: NSObject
             
             return true
         }
-        set
+        @objc(setHighlightEnabled:) set
         {
             for set in dataSets
             {
-                set.highlightEnabled = newValue
+                set.isHighlightEnabled = newValue
             }
         }
     }
-    
-    /// if true, value highlightning is enabled
-    @objc open var isHighlightEnabled: Bool { return highlightEnabled }
     
     /// Clears this data object from all DataSets and removes all Entries.
     /// Don't forget to invalidate the chart after this.

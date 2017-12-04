@@ -73,7 +73,7 @@
     l.horizontalAlignment = ChartLegendHorizontalAlignmentRight;
     l.verticalAlignment = ChartLegendVerticalAlignmentBottom;
     l.orientation = ChartLegendOrientationHorizontal;
-    l.drawInside = NO;
+    l.drawInsideEnabled = NO;
     l.form = ChartLegendFormSquare;
     l.formSize = 8.0;
     l.formToTextSpace = 4.0;

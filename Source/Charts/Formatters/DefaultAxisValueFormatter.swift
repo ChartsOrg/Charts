@@ -17,14 +17,14 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
     public typealias Block = (
         _ value: Double,
         _ axis: AxisBase?) -> String
-    
+
     @objc open var block: Block?
-    
-    @objc open var hasAutoDecimals: Bool = false
-    
+
+    @objc public var hasAutoDecimals: Bool = false
+
     fileprivate var _formatter: NumberFormatter?
     @objc open var formatter: NumberFormatter?
-    {
+        {
         get { return _formatter }
         set
         {
@@ -32,15 +32,15 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
             _formatter = newValue
         }
     }
-    
+
     fileprivate var _decimals: Int?
     open var decimals: Int?
-    {
+        {
         get { return _decimals }
         set
         {
             _decimals = newValue
-            
+
             if let digits = newValue
             {
                 self.formatter?.minimumFractionDigits = digits
@@ -49,11 +49,11 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
             }
         }
     }
-    
+
     public override init()
     {
         super.init()
-        
+
         self.formatter = NumberFormatter()
         hasAutoDecimals = true
     }
@@ -61,14 +61,14 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
     @objc public init(formatter: NumberFormatter)
     {
         super.init()
-        
+
         self.formatter = formatter
     }
     
     @objc public init(decimals: Int)
     {
         super.init()
-        
+
         self.formatter = NumberFormatter()
         self.formatter?.usesGroupingSeparator = true
         self.decimals = decimals
@@ -78,7 +78,7 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
     @objc public init(block: @escaping Block)
     {
         super.init()
-        
+
         self.block = block
     }
     
@@ -86,9 +86,9 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
     {
         return DefaultAxisValueFormatter(block: block)
     }
-    
+
     open func stringForValue(_ value: Double,
-                               axis: AxisBase?) -> String
+                             axis: AxisBase?) -> String
     {
         if block != nil
         {
@@ -99,5 +99,5 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
             return formatter?.string(from: NSNumber(floatLiteral: value)) ?? ""
         }
     }
-    
+
 }

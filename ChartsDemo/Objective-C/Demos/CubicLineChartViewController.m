@@ -143,7 +143,7 @@
         [set1 setColor:UIColor.whiteColor];
         set1.fillColor = UIColor.whiteColor;
         set1.fillAlpha = 1.f;
-        set1.drawHorizontalHighlightIndicatorEnabled = NO;
+        set1.horizontalHighlightIndicatorEnabled = NO;
         set1.fillFormatter = [[CubicLineSampleFillFormatter alloc] init];
         
         LineChartData *data = [[LineChartData alloc] initWithDataSet:set1];
@@ -160,7 +160,7 @@
     {
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
-            set.drawFilledEnabled = !set.isDrawFilledEnabled;
+            [set setDrawFilledEnabled:!set.isDrawFilledEnabled];
         }
         
         [_chartView setNeedsDisplay];
@@ -171,7 +171,7 @@
     {
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
-            set.drawCirclesEnabled = !set.isDrawCirclesEnabled;
+            [set setDrawCirclesEnabled:!set.isDrawCirclesEnabled ];
         }
         
         [_chartView setNeedsDisplay];

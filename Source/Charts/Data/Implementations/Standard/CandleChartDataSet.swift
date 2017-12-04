@@ -116,12 +116,14 @@ open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChartD
     /// the color of the shadow line
     open var shadowColor: NSUIColor?
     
+    
     /// use candle color for the shadow
-    open var shadowColorSameAsCandle = false
-    
-    /// Is the shadow color same as the candle color?
-    open var isShadowColorSameAsCandle: Bool { return shadowColorSameAsCandle }
-    
+    public var isShadowColorSameAsCandle: Bool {
+        get { return _isShadowColorSameAsCandle }
+        set { _isShadowColorSameAsCandle = newValue }
+    }
+    private var _isShadowColorSameAsCandle = false
+
     /// color for open == close
     open var neutralColor: NSUIColor?
     
@@ -133,15 +135,18 @@ open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChartD
     
     /// Are increasing values drawn as filled?
     /// increasing candlesticks are traditionally hollow
-    open var increasingFilled = false
-    
-    /// Are increasing values drawn as filled?
-    open var isIncreasingFilled: Bool { return increasingFilled }
-    
+    public var isIncreasingFilled: Bool {
+        get { return _isIncreasingFilled }
+        set { _isIncreasingFilled = newValue }
+    }
+    private var _isIncreasingFilled = false
+
+
     /// Are decreasing values drawn as filled?
     /// descreasing candlesticks are traditionally filled
-    open var decreasingFilled = true
-    
-    /// Are decreasing values drawn as filled?
-    open var isDecreasingFilled: Bool { return decreasingFilled }
+    public var isDecreasingFilled: Bool {
+        get { return _isDecreasingFilled }
+        set { _isDecreasingFilled = newValue }
+    }
+    private var _isDecreasingFilled = true
 }

@@ -16,8 +16,8 @@ import CoreGraphics
 public protocol BarChartDataProvider: BarLineScatterCandleBubbleChartDataProvider
 {
     var barData: BarChartData? { get }
-    
-    var isDrawBarShadowEnabled: Bool { get }
-    var isDrawValueAboveBarEnabled: Bool { get }
-    var isHighlightFullBarEnabled: Bool { get }
+
+    var isDrawBarShadowEnabled: Bool { get @objc(setDrawBarShadowEnabled:)set }
+    var isDrawValueAboveBarEnabled: Bool { get @objc(setDrawValueAboveBarEnabled:)set }
+    var isHighlightFullBarEnabled: Bool { get @objc(setHighlightFullBarEnabled:)set }
 }

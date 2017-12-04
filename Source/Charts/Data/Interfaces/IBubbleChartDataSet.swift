@@ -18,7 +18,7 @@ public protocol IBubbleChartDataSet: IBarLineScatterCandleBubbleChartDataSet
     // MARK: - Data functions and accessors
     
     var maxSize: CGFloat { get }
-    var isNormalizeSizeEnabled: Bool { get }
+    var isNormalizeSizeEnabled: Bool { get @objc(setNormalizeSizeEnabled:)set}
     
     // MARK: - Styling functions and accessors
     

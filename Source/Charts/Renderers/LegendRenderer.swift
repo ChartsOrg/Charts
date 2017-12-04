@@ -199,7 +199,7 @@ open class LegendRenderer: Renderer
             let viewPortHandler = self.viewPortHandler
             else { return }
         
-        if !legend.enabled
+        if !legend.isEnabled
         {
             return
         }

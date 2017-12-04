@@ -22,7 +22,7 @@ open class DefaultValueFormatter: NSObject, IValueFormatter
     
     @objc open var block: Block?
     
-    @objc open var hasAutoDecimals: Bool = false
+    @objc public var hasAutoDecimals: Bool = false
     
     fileprivate var _formatter: NumberFormatter?
     @objc open var formatter: NumberFormatter?

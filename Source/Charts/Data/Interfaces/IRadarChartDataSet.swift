@@ -20,9 +20,7 @@ public protocol IRadarChartDataSet: ILineRadarChartDataSet
     // MARK: - Styling functions and accessors
     
     /// flag indicating whether highlight circle should be drawn or not
-    var drawHighlightCircleEnabled: Bool { get set }
-    
-    var isDrawHighlightCircleEnabled: Bool { get }
+    var isDrawHighlightCircleEnabled: Bool { get @objc(setDrawHighlightCircleEnabled:)set }
     
     var highlightCircleFillColor: NSUIColor? { get set }
     

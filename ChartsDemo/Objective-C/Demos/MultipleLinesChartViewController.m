@@ -66,7 +66,7 @@
     l.horizontalAlignment = ChartLegendHorizontalAlignmentRight;
     l.verticalAlignment = ChartLegendVerticalAlignmentTop;
     l.orientation = ChartLegendOrientationVertical;
-    l.drawInside = NO;
+    l.drawInsideEnabled = NO;
     
     _sliderX.value = 20.0;
     _sliderY.value = 100.0;
@@ -132,7 +132,7 @@
     {
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
-            set.drawFilledEnabled = !set.isDrawFilledEnabled;
+            [set setDrawFilledEnabled:!set.isDrawFilledEnabled];
         }
         
         [_chartView setNeedsDisplay];
@@ -143,7 +143,7 @@
     {
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
-            set.drawCirclesEnabled = !set.isDrawCirclesEnabled;
+            [set setDrawCirclesEnabled:!set.isDrawCirclesEnabled];
         }
         
         [_chartView setNeedsDisplay];

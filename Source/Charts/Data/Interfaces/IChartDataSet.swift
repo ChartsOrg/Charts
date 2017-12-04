@@ -180,11 +180,8 @@ public protocol IChartDataSet
     
     func setColor(_ color: NSUIColor)
     
-    /// if true, value highlighting is enabled
-    var highlightEnabled: Bool { get set }
-    
     /// - returns: `true` if value highlighting is enabled for this dataset
-    var isHighlightEnabled: Bool { get }
+    var isHighlightEnabled: Bool { get @objc(setHighlightEnabled:)set }
     
     /// Custom formatter that is used instead of the auto-formatter if set
     var valueFormatter: IValueFormatter? { get set }
@@ -233,18 +230,14 @@ public protocol IChartDataSet
     /// Set this to true to draw y-values on the chart.
     ///
     /// - note: For bar and line charts: if `maxVisibleCount` is reached, no values will be drawn even if this is enabled.
-    var drawValuesEnabled: Bool { get set }
-    
     /// - returns: `true` if y-value drawing is enabled, `false` ifnot
-    var isDrawValuesEnabled: Bool { get }
-    
+    var isDrawValuesEnabled: Bool { get @objc(setDrawValuesEnabled:)set}
+
     /// Set this to true to draw y-icons on the chart
     ///
     /// - note: For bar and line charts: if `maxVisibleCount` is reached, no icons will be drawn even if this is enabled.
-    var drawIconsEnabled: Bool { get set }
-    
     /// Returns true if y-icon drawing is enabled, false if not
-    var isDrawIconsEnabled: Bool { get }
+    var isDrawIconsEnabled: Bool { get @objc(setDrawIconsEnabled:)set }
     
     /// Offset of icons drawn on the chart.
     ///
@@ -254,8 +247,6 @@ public protocol IChartDataSet
     var iconsOffset: CGPoint { get set }
     
     /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
-    var visible: Bool { get set }
-    
     /// - returns: `true` if this DataSet is visible inside the chart, or `false` ifit is currently hidden.
-    var isVisible: Bool { get }
+    var isVisible: Bool { get @objc(setVisible:)set }
 }

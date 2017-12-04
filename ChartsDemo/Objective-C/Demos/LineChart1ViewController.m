@@ -194,7 +194,7 @@
     {
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
-            set.drawFilledEnabled = !set.isDrawFilledEnabled;
+            set.isDrawCirclesEnabled = !set.isDrawFilledEnabled;
         }
         
         [_chartView setNeedsDisplay];
@@ -205,7 +205,7 @@
     {
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
-            set.drawCirclesEnabled = !set.isDrawCirclesEnabled;
+            set.isDrawCirclesEnabled = !set.isDrawCirclesEnabled;
         }
         
         [_chartView setNeedsDisplay];

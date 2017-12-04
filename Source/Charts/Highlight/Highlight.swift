@@ -152,7 +152,7 @@ open class Highlight: NSObject
     @objc open var stackIndex: Int { return _stackIndex }
     @objc open var axis: YAxis.AxisDependency { return _axis }
     
-    @objc open var isStacked: Bool { return _stackIndex >= 0 }
+    @objc public var isStacked: Bool { return _stackIndex >= 0 }
     
     /// Sets the x- and y-position (pixels) where this highlight was last drawn.
     @objc open func setDraw(x: CGFloat, y: CGFloat)

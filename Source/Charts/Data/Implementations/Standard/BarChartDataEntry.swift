@@ -15,45 +15,45 @@ open class BarChartDataEntry: ChartDataEntry
 {
     /// the values the stacked barchart holds
     fileprivate var _yVals: [Double]?
-    
+
     /// the ranges for the individual stack values - automatically calculated
     fileprivate var _ranges: [Range]?
-    
+
     /// the sum of all negative values this entry (if stacked) contains
     fileprivate var _negativeSum: Double = 0.0
-    
+
     /// the sum of all positive values this entry (if stacked) contains
     fileprivate var _positiveSum: Double = 0.0
-    
+
     public required init()
     {
         super.init()
     }
-    
+
     /// Constructor for normal bars (not stacked).
     public override init(x: Double, y: Double)
     {
         super.init(x: x, y: y)
     }
-    
+
     /// Constructor for normal bars (not stacked).
     public override init(x: Double, y: Double, data: AnyObject?)
     {
         super.init(x: x, y: y, data: data)
     }
-    
+
     /// Constructor for normal bars (not stacked).
     public override init(x: Double, y: Double, icon: NSUIImage?)
     {
         super.init(x: x, y: y, icon: icon)
     }
-    
+
     /// Constructor for normal bars (not stacked).
     public override init(x: Double, y: Double, icon: NSUIImage?, data: AnyObject?)
     {
         super.init(x: x, y: y, icon: icon, data: data)
     }
-    
+
     /// Constructor for stacked bar entries.
     @objc public init(x: Double, yValues: [Double])
     {
@@ -62,7 +62,7 @@ open class BarChartDataEntry: ChartDataEntry
         calcPosNegSum()
         calcRanges()
     }
-    
+
     /// This constructor is misleading, please use the `data` argument instead of `label`.
     @objc @available(*, deprecated: 1.0, message: "Use `data` argument instead of `label`.")
     public init(x: Double, yValues: [Double], label: String)
@@ -72,7 +72,7 @@ open class BarChartDataEntry: ChartDataEntry
         calcPosNegSum()
         calcRanges()
     }
-    
+
     /// Constructor for stacked bar entries. One data object for whole stack
     @objc public init(x: Double, yValues: [Double], data: AnyObject?)
     {
@@ -81,7 +81,7 @@ open class BarChartDataEntry: ChartDataEntry
         calcPosNegSum()
         calcRanges()
     }
-    
+
     /// Constructor for stacked bar entries. One data object for whole stack
     @objc public init(x: Double, yValues: [Double], icon: NSUIImage?, data: AnyObject?)
     {
@@ -90,7 +90,7 @@ open class BarChartDataEntry: ChartDataEntry
         calcPosNegSum()
         calcRanges()
     }
-    
+
     /// Constructor for stacked bar entries. One data object for whole stack
     @objc public init(x: Double, yValues: [Double], icon: NSUIImage?)
     {
@@ -99,14 +99,14 @@ open class BarChartDataEntry: ChartDataEntry
         calcPosNegSum()
         calcRanges()
     }
-    
+  
     @objc open func sumBelow(stackIndex :Int) -> Double
     {
         guard let yVals = _yVals else
         {
             return 0
         }
-        
+
         var remainder: Double = 0.0
         var index = yVals.count - 1
         
@@ -115,16 +115,16 @@ open class BarChartDataEntry: ChartDataEntry
             remainder += yVals[index]
             index -= 1
         }
-        
+
         return remainder
     }
-    
+
     /// - returns: The sum of all negative values this entry (if stacked) contains. (this is a positive number)
     @objc open var negativeSum: Double
     {
         return _negativeSum
     }
-    
+
     /// - returns: The sum of all positive values this entry (if stacked) contains.
     @objc open var positiveSum: Double
     {
@@ -139,7 +139,7 @@ open class BarChartDataEntry: ChartDataEntry
             _negativeSum = 0.0
             return
         }
-        
+
         var sumNeg: Double = 0.0
         var sumPos: Double = 0.0
         
@@ -154,11 +154,11 @@ open class BarChartDataEntry: ChartDataEntry
                 sumPos += f
             }
         }
-        
+
         _negativeSum = sumNeg
         _positiveSum = sumPos
     }
-    
+
     /// Splits up the stack-values of the given bar-entry into Range objects.
     /// - parameter entry:
     /// - returns:
@@ -169,7 +169,7 @@ open class BarChartDataEntry: ChartDataEntry
         {
             return
         }
-        
+
         if _ranges == nil
         {
             _ranges = [Range]()
@@ -178,16 +178,16 @@ open class BarChartDataEntry: ChartDataEntry
         {
             _ranges?.removeAll()
         }
-        
+
         _ranges?.reserveCapacity(values!.count)
-        
+
         var negRemain = -negativeSum
         var posRemain: Double = 0.0
-        
+
         for i in 0 ..< values!.count
         {
             let value = values![i]
-            
+
             if value < 0
             {
                 _ranges?.append(Range(from: negRemain, to: negRemain - value))
@@ -200,15 +200,15 @@ open class BarChartDataEntry: ChartDataEntry
             }
         }
     }
-    
+
     // MARK: Accessors
-    
+
     /// the values the stacked barchart holds
-    @objc open var isStacked: Bool { return _yVals != nil }
-    
+    @objc public var isStacked: Bool { return _yVals != nil }
+
     /// the values the stacked barchart holds
     @objc open var yValues: [Double]?
-    {
+        {
         get { return self._yVals }
         set
         {
@@ -218,15 +218,15 @@ open class BarChartDataEntry: ChartDataEntry
             calcRanges()
         }
     }
-    
+
     /// - returns: The ranges of the individual stack-entries. Will return null if this entry is not stacked.
     @objc open var ranges: [Range]?
     {
         return _ranges
     }
-    
+
     // MARK: NSCopying
-    
+
     open override func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! BarChartDataEntry
@@ -235,7 +235,7 @@ open class BarChartDataEntry: ChartDataEntry
         copy._negativeSum = _negativeSum
         return copy
     }
-    
+
     /// Calculates the sum across all values of the given stack.
     ///
     /// - parameter vals:
@@ -244,14 +244,14 @@ open class BarChartDataEntry: ChartDataEntry
     {
         guard let values = values
             else { return 0.0 }
-        
+
         var sum = 0.0
-        
+
         for f in values
         {
             sum += f
         }
-        
+
         return sum
     }
 }

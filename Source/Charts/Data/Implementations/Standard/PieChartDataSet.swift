@@ -73,7 +73,7 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
     }
 
     /// When enabled, slice spacing will be 0.0 when the smallest value is going to be smaller than the slice spacing itself.
-    open var automaticallyDisableSliceSpacing: Bool = false
+    open var automaticallyDisableSliceSpacing = false
     
     /// indicates the selection distance of a pie slice
     open var selectionShift = CGFloat(18.0)
@@ -97,7 +97,7 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
     open var valueLinePart2Length: CGFloat = 0.4
     
     /// When valuePosition is OutsideSlice, this allows variable line length
-    open var valueLineVariableLength: Bool = true
+    open var valueLineVariableLength = true
     
     /// the font for the slice-text labels
     open var entryLabelFont: NSUIFont? = nil

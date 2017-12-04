@@ -38,11 +38,13 @@ open class RadarChartDataSet: LineRadarChartDataSet, IRadarChartDataSet
     
     /// flag indicating whether highlight circle should be drawn or not
     /// **default**: false
-    open var drawHighlightCircleEnabled: Bool = false
-    
     /// - returns: `true` if highlight circle should be drawn, `false` ifnot
-    open var isDrawHighlightCircleEnabled: Bool { return drawHighlightCircleEnabled }
-    
+    public var isDrawHighlightCircleEnabled: Bool {
+        get { return _isDrawHighlightCircleEnabled }
+        @objc(setDrawHighlightCircleEnabled:) set { _isDrawHighlightCircleEnabled = newValue }
+    }
+    private var _isDrawHighlightCircleEnabled = false
+
     open var highlightCircleFillColor: NSUIColor? = NSUIColor.white
     
     /// The stroke color for highlight circle.

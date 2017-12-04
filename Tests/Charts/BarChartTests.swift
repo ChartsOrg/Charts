@@ -28,7 +28,7 @@ class BarChartTests: FBSnapshotTestCase
         }
         
         dataSet = BarChartDataSet(values: entries, label: "Bar chart unit test data")
-        dataSet.drawIconsEnabled = false
+        dataSet.isDrawIconsEnabled = false
         dataSet.iconsOffset = CGPoint(x: 0, y: -10.0)
 
         let data = BarChartData(dataSet: dataSet)
@@ -54,38 +54,38 @@ class BarChartTests: FBSnapshotTestCase
     
     func testHidesValues()
     {
-        dataSet.drawValuesEnabled = false
+        dataSet.isDrawValuesEnabled = false
         FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
     
     func testHideLeftAxis()
     {
-        chart.leftAxis.enabled = false
+        chart.leftAxis.isEnabled = false
         FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
     
     func testHideRightAxis()
     {
-        chart.rightAxis.enabled = false
+        chart.rightAxis.isEnabled = false
         FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
     
     func testHideHorizontalGridlines()
     {
-        chart.leftAxis.drawGridLinesEnabled = false
-        chart.rightAxis.drawGridLinesEnabled = false
+        chart.leftAxis.isDrawGridLinesEnabled = false
+        chart.rightAxis.isDrawGridLinesEnabled = false
         FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
     
     func testHideVerticalGridlines()
     {
-        chart.xAxis.drawGridLinesEnabled = false
+        chart.xAxis.isDrawGridLinesEnabled = false
         FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
     
     func testDrawIcons()
     {
-        dataSet.drawIconsEnabled = true
+        dataSet.isDrawIconsEnabled = true
         FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
 }

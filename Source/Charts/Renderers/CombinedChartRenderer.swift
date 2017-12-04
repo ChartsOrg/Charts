@@ -15,13 +15,7 @@ import CoreGraphics
 open class CombinedChartRenderer: DataRenderer
 {
     @objc open weak var chart: CombinedChartView?
-    
-    /// if set to true, all values are drawn above their bars, instead of below their top
-    @objc open var drawValueAboveBarEnabled = true
-    
-    /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
-    @objc open var drawBarShadowEnabled = false
-    
+
     @objc internal var _renderers = [DataRenderer]()
     
     internal var _drawOrder: [CombinedChartView.DrawOrder] = [.bar, .bubble, .line, .candle, .scatter]
@@ -177,13 +171,23 @@ open class CombinedChartRenderer: DataRenderer
     }
     
     // MARK: Accessors
-    
+
+    /// if set to true, all values are drawn above their bars, instead of below their top
     /// - returns: `true` if drawing values above bars is enabled, `false` ifnot
-    @objc open var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled }
-    
+    @objc public var isDrawValueAboveBarEnabled: Bool {
+        get { return _isDrawValueAboveBarEnabled }
+        @objc(setDrawValueAboveBarEnabled:) set { _isDrawValueAboveBarEnabled = newValue }
+    }
+    private var _isDrawValueAboveBarEnabled = true
+
+    /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     /// - returns: `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
-    @objc open var isDrawBarShadowEnabled: Bool { return drawBarShadowEnabled }
-    
+    @objc public var isDrawBarShadowEnabled: Bool {
+        get { return _isDrawBarShadowEnabled }
+        @objc(setDrawBarShadowEnabled:) set { _isDrawBarShadowEnabled = newValue }
+    }
+    private var _isDrawBarShadowEnabled = false
+
     /// the order in which the provided data objects should be drawn.
     /// The earlier you place them in the provided array, the further they will be in the background.
     /// e.g. if you provide [DrawOrder.Bar, DrawOrder.Line], the bars will be drawn behind the lines.
