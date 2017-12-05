@@ -36,57 +36,61 @@ open class HorizontalBarChartView: BarChartView
     
     internal override func calculateOffsets()
     {
-        var offsetLeft: CGFloat = 0.0,
-        offsetRight: CGFloat = 0.0,
-        offsetTop: CGFloat = 0.0,
-        offsetBottom: CGFloat = 0.0
-        
-        calculateLegendOffsets(offsetLeft: &offsetLeft,
-                               offsetTop: &offsetTop,
-                               offsetRight: &offsetRight,
-                               offsetBottom: &offsetBottom)
-        
-        // offsets for y-labels
-        if _leftAxis.needsOffset
-        {
-            offsetTop += _leftAxis.getRequiredHeightSpace()
+        if !_customViewPortEnabled {
+            
+            var offsetLeft: CGFloat = 0.0,
+            offsetRight: CGFloat = 0.0,
+            offsetTop: CGFloat = 0.0,
+            offsetBottom: CGFloat = 0.0
+            
+            calculateLegendOffsets(offsetLeft: &offsetLeft,
+                                   offsetTop: &offsetTop,
+                                   offsetRight: &offsetRight,
+                                   offsetBottom: &offsetBottom)
+            
+            // offsets for y-labels
+            if _leftAxis.needsOffset
+            {
+                offsetTop += _leftAxis.getRequiredHeightSpace()
+            }
+            
+            if _rightAxis.needsOffset
+            {
+                offsetBottom += _rightAxis.getRequiredHeightSpace()
+            }
+            
+            let xlabelwidth = _xAxis.labelRotatedWidth
+            
+            if _xAxis.isEnabled
+            {
+                // offsets for x-labels
+                if _xAxis.labelPosition == .bottom
+                {
+                    offsetLeft += xlabelwidth
+                }
+                else if _xAxis.labelPosition == .top
+                {
+                    offsetRight += xlabelwidth
+                }
+                else if _xAxis.labelPosition == .bothSided
+                {
+                    offsetLeft += xlabelwidth
+                    offsetRight += xlabelwidth
+                }
+            }
+            
+            offsetTop += self.extraTopOffset
+            offsetRight += self.extraRightOffset
+            offsetBottom += self.extraBottomOffset
+            offsetLeft += self.extraLeftOffset
+            
+            _viewPortHandler.restrainViewPort(
+                offsetLeft: max(self.minOffset, offsetLeft),
+                offsetTop: max(self.minOffset, offsetTop),
+                offsetRight: max(self.minOffset, offsetRight),
+                offsetBottom: max(self.minOffset, offsetBottom))
         }
         
-        if _rightAxis.needsOffset
-        {
-            offsetBottom += _rightAxis.getRequiredHeightSpace()
-        }
-        
-        let xlabelwidth = _xAxis.labelRotatedWidth
-        
-        if _xAxis.isEnabled
-        {
-            // offsets for x-labels
-            if _xAxis.labelPosition == .bottom
-            {
-                offsetLeft += xlabelwidth
-            }
-            else if _xAxis.labelPosition == .top
-            {
-                offsetRight += xlabelwidth
-            }
-            else if _xAxis.labelPosition == .bothSided
-            {
-                offsetLeft += xlabelwidth
-                offsetRight += xlabelwidth
-            }
-        }
-        
-        offsetTop += self.extraTopOffset
-        offsetRight += self.extraRightOffset
-        offsetBottom += self.extraBottomOffset
-        offsetLeft += self.extraLeftOffset
-        
-        _viewPortHandler.restrainViewPort(
-            offsetLeft: max(self.minOffset, offsetLeft),
-            offsetTop: max(self.minOffset, offsetTop),
-            offsetRight: max(self.minOffset, offsetRight),
-            offsetBottom: max(self.minOffset, offsetBottom))
         
         prepareOffsetMatrix()
         prepareValuePxMatrix()
