@@ -21,7 +21,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 {
     /// the maximum number of entries to which values will be drawn
     /// (entry numbers greater than this value will cause value-labels to disappear)
-    @objc internal var _maxVisibleCount = 100
+    internal var _maxVisibleCount = 100
     
     /// flag that indicates if auto scaling on the y axis is enabled
     private var _autoScaleMinMaxEnabled = false
@@ -260,7 +260,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     private var _autoScaleLastHighestVisibleX: Double?
     
     /// Performs auto scaling of the axis by recalculating the minimum and maximum y-values based on the entries currently in view.
-    @objc internal func autoScale()
+    internal func autoScale()
     {
         guard let data = _data else { return }
         
@@ -283,13 +283,13 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         calculateOffsets()
     }
     
-    @objc internal func prepareValuePxMatrix()
+    internal func prepareValuePxMatrix()
     {
         _rightAxisTransformer.prepareMatrixValuePx(chartXMin: _xAxis._axisMinimum, deltaX: CGFloat(xAxis.axisRange), deltaY: CGFloat(_rightAxis.axisRange), chartYMin: _rightAxis._axisMinimum)
         _leftAxisTransformer.prepareMatrixValuePx(chartXMin: xAxis._axisMinimum, deltaX: CGFloat(xAxis.axisRange), deltaY: CGFloat(_leftAxis.axisRange), chartYMin: _leftAxis._axisMinimum)
     }
     
-    @objc internal func prepareOffsetMatrix()
+    internal func prepareOffsetMatrix()
     {
         _rightAxisTransformer.prepareMatrixOffset(inverted: _rightAxis.isInverted)
         _leftAxisTransformer.prepareMatrixOffset(inverted: _leftAxis.isInverted)
@@ -444,7 +444,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     }
     
     /// draws the grid background
-    @objc internal func drawGridBackground(context: CGContext)
+    internal func drawGridBackground(context: CGContext)
     {
         guard drawGridBackgroundEnabled || drawBordersEnabled else { return }
 
