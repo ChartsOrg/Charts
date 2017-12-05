@@ -195,20 +195,20 @@ open class AxisBase: ComponentBase
     @objc open var spaceMax: Double = 0.0
     
     /// Flag indicating that the axis-min value has been customized
-    @objc internal var _customAxisMin: Bool = false
+    internal var _customAxisMin: Bool = false
     
     /// Flag indicating that the axis-max value has been customized
-    @objc internal var _customAxisMax: Bool = false
+    internal var _customAxisMax: Bool = false
     
     /// Do not touch this directly, instead, use axisMinimum.
     /// This is automatically calculated to represent the real min value,
     /// and is used when calculating the effective minimum.
-    @objc internal var _axisMinimum = Double(0)
+    internal var _axisMinimum = Double(0)
     
     /// Do not touch this directly, instead, use axisMaximum.
     /// This is automatically calculated to represent the real max value,
     /// and is used when calculating the effective maximum.
-    @objc internal var _axisMaximum = Double(0)
+    internal var _axisMaximum = Double(0)
     
     /// the total range of values this axis covers
     @objc open var axisRange = Double(0)
