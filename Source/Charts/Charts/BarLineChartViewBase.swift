@@ -913,30 +913,27 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     open func gestureRecognizer(_ gestureRecognizer: NSUIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: NSUIGestureRecognizer) -> Bool
     {
         #if !os(tvOS)
-            if ((gestureRecognizer.isKind(of: NSUIPinchGestureRecognizer.self) &&
-                otherGestureRecognizer.isKind(of: NSUIPanGestureRecognizer.self)) ||
-                (gestureRecognizer.isKind(of: NSUIPanGestureRecognizer.self) &&
-                    otherGestureRecognizer.isKind(of: NSUIPinchGestureRecognizer.self)))
+            if ((gestureRecognizer is NSUIPinchGestureRecognizer && otherGestureRecognizer is NSUIPanGestureRecognizer) ||
+                (gestureRecognizer is NSUIPanGestureRecognizer && otherGestureRecognizer is NSUIPinchGestureRecognizer))
             {
                 return true
             }
         #endif
         
-        if (gestureRecognizer.isKind(of: NSUIPanGestureRecognizer.self) &&
-            otherGestureRecognizer.isKind(of: NSUIPanGestureRecognizer.self) && (
-                gestureRecognizer == _panGestureRecognizer
-            ))
+        if gestureRecognizer is NSUIPanGestureRecognizer,
+            otherGestureRecognizer is NSUIPanGestureRecognizer,
+            gestureRecognizer == _panGestureRecognizer
         {
             var scrollView = self.superview
-            while !(scrollView?.isKind(of: NSUIScrollView.self) ?? true)
+            while !(scrollView is NSUIScrollView)
             {
                 scrollView = scrollView?.superview
             }
             
             // If there is two scrollview together, we pick the superview of the inner scrollview.
             // In the case of UITableViewWrepperView, the superview will be UITableView
-            if let superViewOfScrollView = scrollView?.superview
-                , superViewOfScrollView.isKind(of: NSUIScrollView.self)
+            if let superViewOfScrollView = scrollView?.superview,
+                superViewOfScrollView is NSUIScrollView
             {
                 scrollView = superViewOfScrollView
             }

@@ -226,7 +226,7 @@ open class PieRadarChartViewBase: ChartViewBase
         
         var minOffset = self.minOffset
         
-        if (self.isKind(of: RadarChartView.self))
+        if self is RadarChartView
         {
             let x = self.xAxis
             
