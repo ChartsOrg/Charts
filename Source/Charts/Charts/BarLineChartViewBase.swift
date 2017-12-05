@@ -810,16 +810,19 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     private func nsuiGestureRecognizerShouldBegin(_ gestureRecognizer: NSUIGestureRecognizer) -> Bool
     {
-        if gestureRecognizer == _panGestureRecognizer
+        if gestureRecognizer === _panGestureRecognizer
         {
+            let velocity = _panGestureRecognizer.velocity(in: self)
             return _data != nil
                 || isDragEnabled
                 || (!hasNoDragOffset && !isFullyZoomedOut && isHighlightPerDragEnabled)
+                || (_dragYEnabled && fabs(velocity.x) > fabs(velocity.y))
+                || (_dragXEnabled && fabs(velocity.x) < fabs(velocity.y))
         }
         else
         {
             #if !os(tvOS)
-                if gestureRecognizer == _pinchGestureRecognizer
+                if gestureRecognizer === _pinchGestureRecognizer
                 {
                     return _data != nil
                         || (isPinchZoomEnabled && isScaleXEnabled && isScaleYEnabled)
