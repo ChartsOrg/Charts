@@ -189,7 +189,6 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         trans.rectValuesToPixel(&_buffers[index].rects)
         
         let borderWidth = dataSet.barBorderWidth
-        let borderColor = dataSet.barBorderColor
         let drawBorder = borderWidth > 0.0
         
         context.saveGState()
@@ -234,9 +233,10 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         
         let buffer = _buffers[index]
         
-        let isSingleColor = dataSet.colors.count == 1
+        let isSingleColorFill = dataSet.colors.count == 1
+        let isSingleColorStroke = dataSet.colors.count == 1
         
-        if isSingleColor
+        if isSingleColorFill
         {
             context.setFillColor(dataSet.color(atIndex: 0).cgColor)
         }
@@ -255,7 +255,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 continue
             }
             
-            if !isSingleColor
+            if !isSingleColorFill
             {
                 // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
@@ -265,7 +265,12 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             
             if drawBorder
             {
-                context.setStrokeColor(borderColor.cgColor)
+                if isSingleColorStroke {
+                    context.setStrokeColor(dataSet.barBorderColor(atIndex: 0).cgColor)
+                } else {
+                    context.setStrokeColor(dataSet.barBorderColor(atIndex: j).cgColor)
+                }
+              
                 context.setLineWidth(borderWidth)
                 context.stroke(barRect)
             }

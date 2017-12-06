@@ -215,7 +215,6 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         trans.rectValuesToPixel(&_buffers[index].rects)
         
         let borderWidth = dataSet.barBorderWidth
-        let borderColor = dataSet.barBorderColor
         let drawBorder = borderWidth > 0.0
         
         context.saveGState()
@@ -282,9 +281,10 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             }
         }
         
-        let isSingleColor = dataSet.colors.count == 1
-        
-        if isSingleColor
+        let isSingleColorFill = dataSet.colors.count == 1
+        let isSingleColorStroke = dataSet.colors.count == 1
+      
+        if isSingleColorFill
         {
             context.setFillColor(dataSet.color(atIndex: 0).cgColor)
         }
@@ -303,17 +303,23 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 break
             }
             
-            if !isSingleColor
+            if !isSingleColorFill
             {
                 // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
+              
             }
             
             context.fill(barRect)
             
             if drawBorder
             {
-                context.setStrokeColor(borderColor.cgColor)
+                if isSingleColorStroke {
+                    context.setStrokeColor(dataSet.barBorderColor(atIndex: 0).cgColor)
+                } else {
+                    context.setStrokeColor(dataSet.barBorderColor(atIndex: j).cgColor)
+                }
+                
                 context.setLineWidth(borderWidth)
                 context.stroke(barRect)
             }
