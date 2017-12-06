@@ -61,8 +61,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
         _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
         
         context.saveGState()
-        
-        context.setLineWidth(dataSet.shadowWidth)
+      
         
         for j in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
         {
@@ -134,6 +133,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 }
                 
                 context.setStrokeColor(shadowColor.cgColor)
+                context.setLineWidth(dataSet.shadowWidth)
                 context.strokeLineSegments(between: _shadowPoints)
                 
                 // calculate the body
@@ -158,6 +158,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                     }
                     else
                     {
+                        context.setLineWidth(1)
                         context.setStrokeColor(color.cgColor)
                         context.stroke(_bodyRect)
                     }
