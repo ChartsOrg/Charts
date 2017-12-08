@@ -20,7 +20,7 @@ open class XAxisRendererRadarChart: XAxisRenderer
 {
     @objc open weak var chart: RadarChartView?
     
-    @objc public init(viewPortHandler: ViewPortHandler?, xAxis: XAxis?, chart: RadarChartView?)
+    @objc public init(viewPortHandler: ViewPortHandler, xAxis: XAxis?, chart: RadarChartView)
     {
         super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: nil)
         
