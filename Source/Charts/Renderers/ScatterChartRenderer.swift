@@ -48,7 +48,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         }
     }
     
-    fileprivate var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
     
     @objc open func drawDataSet(context: CGContext, dataSet: IScatterChartDataSet)
     {
