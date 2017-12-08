@@ -20,7 +20,7 @@ open class ViewPortHandler: NSObject
     @objc open private(set) var touchMatrix = CGAffineTransform.identity
     
     /// this rectangle defines the area in which graph values can be drawn
-    fileprivate var _contentRect = CGRect()
+    private var _contentRect = CGRect()
     
     fileprivate var _chartWidth: CGFloat = 0
     fileprivate var _chartHeight: CGFloat = 0
@@ -262,7 +262,7 @@ open class ViewPortHandler: NSObject
     }
     
     /// limits the maximum scale and X translation of the given matrix
-    fileprivate func limitTransAndScale(matrix: inout CGAffineTransform, content: CGRect?)
+    private func limitTransAndScale(matrix: inout CGAffineTransform, content: CGRect?)
     {
         // min scale-x is 1
         scaleX = min(max(minScaleX, matrix.a), maxScaleX)

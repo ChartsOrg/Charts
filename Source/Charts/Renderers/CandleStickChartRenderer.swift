@@ -21,7 +21,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
 {
     @objc open weak var dataProvider: CandleChartDataProvider?
     
-    @objc public init(dataProvider: CandleChartDataProvider?, animator: Animator, viewPortHandler: ViewPortHandler?)
+    @objc public init(dataProvider: CandleChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -41,12 +41,12 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
         }
     }
     
-    fileprivate var _shadowPoints = [CGPoint](repeating: CGPoint(), count: 4)
-    fileprivate var _rangePoints = [CGPoint](repeating: CGPoint(), count: 2)
-    fileprivate var _openPoints = [CGPoint](repeating: CGPoint(), count: 2)
-    fileprivate var _closePoints = [CGPoint](repeating: CGPoint(), count: 2)
-    fileprivate var _bodyRect = CGRect()
-    fileprivate var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _shadowPoints = [CGPoint](repeating: CGPoint(), count: 4)
+    private var _rangePoints = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _openPoints = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _closePoints = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _bodyRect = CGRect()
+    private var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
     
     @objc open func drawDataSet(context: CGContext, dataSet: ICandleChartDataSet)
     {
@@ -236,7 +236,6 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let viewPortHandler = self.viewPortHandler,
             let candleData = dataProvider.candleData
             else { return }
         

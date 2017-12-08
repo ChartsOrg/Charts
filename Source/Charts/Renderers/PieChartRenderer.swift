@@ -21,7 +21,7 @@ open class PieChartRenderer: DataRenderer
 {
     @objc open weak var chart: PieChartView?
     
-    @objc public init(chart: PieChartView?, animator: Animator, viewPortHandler: ViewPortHandler?)
+    @objc public init(chart: PieChartView, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -92,7 +92,6 @@ open class PieChartRenderer: DataRenderer
     {
         guard
             dataSet.automaticallyDisableSliceSpacing,
-            let viewPortHandler = self.viewPortHandler,
             let data = chart?.data as? PieChartData
             else { return dataSet.sliceSpace }
         
@@ -553,7 +552,7 @@ open class PieChartRenderer: DataRenderer
     }
     
     /// draws the hole in the center of the chart and the transparent circle / hole
-    fileprivate func drawHole(context: CGContext)
+    private func drawHole(context: CGContext)
     {
         guard let chart = chart else { return }
         
@@ -609,7 +608,7 @@ open class PieChartRenderer: DataRenderer
     }
     
     /// draws the description text in the center of the pie chart makes most sense when center-hole is enabled
-    fileprivate func drawCenterText(context: CGContext)
+    private func drawCenterText(context: CGContext)
     {
         guard
             let chart = chart,

@@ -21,7 +21,7 @@ open class RadarChartRenderer: LineRadarRenderer
 {
     @objc open weak var chart: RadarChartView?
 
-    @objc public init(chart: RadarChartView?, animator: Animator, viewPortHandler: ViewPortHandler?)
+    @objc public init(chart: RadarChartView, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -53,7 +53,7 @@ open class RadarChartRenderer: LineRadarRenderer
     /// - parameter context:
     /// - parameter dataSet:
     /// - parameter mostEntries: the entry count of the dataset with the most entries
-    @objc internal func drawDataSet(context: CGContext, dataSet: IRadarChartDataSet, mostEntries: Int)
+    internal func drawDataSet(context: CGContext, dataSet: IRadarChartDataSet, mostEntries: Int)
     {
         guard let chart = chart else { return }
         
@@ -218,7 +218,7 @@ open class RadarChartRenderer: LineRadarRenderer
         drawWeb(context: context)
     }
     
-    fileprivate var _webLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _webLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
     @objc open func drawWeb(context: CGContext)
     {
@@ -289,7 +289,7 @@ open class RadarChartRenderer: LineRadarRenderer
         context.restoreGState()
     }
     
-    fileprivate var _highlightPointBuffer = CGPoint()
+    private var _highlightPointBuffer = CGPoint()
 
     open override func drawHighlighted(context: CGContext, indices: [Highlight])
     {
@@ -375,7 +375,7 @@ open class RadarChartRenderer: LineRadarRenderer
         context.restoreGState()
     }
     
-    @objc internal func drawHighlightCircle(
+    internal func drawHighlightCircle(
         context: CGContext,
         atPoint point: CGPoint,
         innerRadius: CGFloat,
