@@ -18,45 +18,44 @@ open class ViewPortHandler: NSObject
 {
     /// matrix used for touch events
     @objc open private(set) var touchMatrix = CGAffineTransform.identity
-    
+
     /// this rectangle defines the area in which graph values can be drawn
     private var _contentRect = CGRect()
     
-    fileprivate var _chartWidth: CGFloat = 0
-    fileprivate var _chartHeight: CGFloat = 0
-    
+    private var _chartWidth: CGFloat = 0
+    private var _chartHeight: CGFloat = 0
+
     /// minimum scale value on the y-axis
     @objc open private(set) var minScaleY: CGFloat = 1.0
-    
+
     /// maximum scale value on the y-axis
     @objc open private(set) var maxScaleY = CGFloat.greatestFiniteMagnitude
-    
+
     /// minimum scale value on the x-axis
     @objc open private(set) var minScaleX: CGFloat = 1.0
-    
+
     /// maximum scale value on the x-axis
     @objc open private(set) var maxScaleX = CGFloat.greatestFiniteMagnitude
-    
+
     /// contains the current scale factor of the x-axis
     @objc open private(set) var scaleX: CGFloat = 1.0
-    
+
     /// contains the current scale factor of the y-axis
     @objc open private(set) var scaleY: CGFloat = 1.0
-    
+
     /// current translation (drag distance) on the x-axis
     @objc open private(set) var transX: CGFloat = 0
-    
+
     /// current translation (drag distance) on the y-axis
     @objc open private(set) var transY: CGFloat = 0
-    
-    /// offset that allows the chart to be dragged over its bounds on the x-axis
-    fileprivate var _transOffsetX: CGFloat = 0
-    
-    /// offset that allows the chart to be dragged over its bounds on the x-axis
-    fileprivate var _transOffsetY: CGFloat = 0
 
-    public override init() {}
+    /// offset that allows the chart to be dragged over its bounds on the x-axis
+    private var _transOffsetX: CGFloat = 0
 
+    /// offset that allows the chart to be dragged over its bounds on the x-axis
+    private var _transOffsetY: CGFloat = 0
+
+    /// Constructor - don't forget calling setChartDimens(...)
     @objc public init(width: CGFloat, height: CGFloat)
     {
         super.init()
