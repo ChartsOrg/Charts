@@ -233,7 +233,7 @@ open class XAxisRenderer: NSObject, AxisRenderer
         }
     }
     
-    fileprivate var _axisLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _axisLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
     open func renderAxisLine(context: CGContext)
     {

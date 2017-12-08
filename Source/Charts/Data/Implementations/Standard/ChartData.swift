@@ -13,16 +13,16 @@ import Foundation
 
 open class ChartData: NSObject
 {
-    @objc internal var _yMax: Double = -Double.greatestFiniteMagnitude
-    @objc internal var _yMin: Double = Double.greatestFiniteMagnitude
-    @objc internal var _xMax: Double = -Double.greatestFiniteMagnitude
-    @objc internal var _xMin: Double = Double.greatestFiniteMagnitude
-    @objc internal var _leftAxisMax: Double = -Double.greatestFiniteMagnitude
-    @objc internal var _leftAxisMin: Double = Double.greatestFiniteMagnitude
-    @objc internal var _rightAxisMax: Double = -Double.greatestFiniteMagnitude
-    @objc internal var _rightAxisMin: Double = Double.greatestFiniteMagnitude
+    internal var _yMax: Double = -Double.greatestFiniteMagnitude
+    internal var _yMin: Double = Double.greatestFiniteMagnitude
+    internal var _xMax: Double = -Double.greatestFiniteMagnitude
+    internal var _xMin: Double = Double.greatestFiniteMagnitude
+    internal var _leftAxisMax: Double = -Double.greatestFiniteMagnitude
+    internal var _leftAxisMin: Double = Double.greatestFiniteMagnitude
+    internal var _rightAxisMax: Double = -Double.greatestFiniteMagnitude
+    internal var _rightAxisMin: Double = Double.greatestFiniteMagnitude
     
-    @objc internal var _dataSets = [IChartDataSet]()
+    internal var _dataSets = [IChartDataSet]()
     
     public override init()
     {
@@ -45,7 +45,7 @@ open class ChartData: NSObject
         self.init(dataSets: dataSet === nil ? nil : [dataSet!])
     }
     
-    @objc internal func initialize(dataSets: [IChartDataSet])
+    internal func initialize(dataSets: [IChartDataSet])
     {
         notifyDataChanged()
     }
@@ -350,7 +350,7 @@ open class ChartData: NSObject
     /// - parameter type:
     /// - parameter ignorecase: if true, the search is not case-sensitive
     /// - returns: The index of the DataSet Object with the given label. Sensitive or not.
-    @objc internal func getDataSetIndexByLabel(_ label: String, ignorecase: Bool) -> Int
+    internal func getDataSetIndexByLabel(_ label: String, ignorecase: Bool) -> Int
     {
         if ignorecase
         {
@@ -381,7 +381,7 @@ open class ChartData: NSObject
     }
     
     /// - returns: The labels of all DataSets as a string array.
-    @objc internal func dataSetLabels() -> [String]
+    internal func dataSetLabels() -> [String]
     {
         var types = [String]()
         

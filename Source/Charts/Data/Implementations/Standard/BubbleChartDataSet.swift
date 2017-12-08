@@ -17,7 +17,7 @@ open class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubbleCh
 {
     // MARK: - Data functions and accessors
     
-    @objc internal var _maxSize = CGFloat(0.0)
+    internal var _maxSize = CGFloat(0.0)
     
     open var maxSize: CGFloat { return _maxSize }
     @objc open var normalizeSizeEnabled: Bool = true
