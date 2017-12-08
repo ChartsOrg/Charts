@@ -99,6 +99,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// The renderer object responsible for rendering / drawing the Legend.
     @objc open internal(set) lazy var legendRenderer: LegendRenderer = LegendRenderer(viewPortHandler: viewPortHandler, legend: legend)
     
+    internal var _legendRenderer: LegendRenderer!
+    
     /// object responsible for rendering the data
     @objc open var renderer: DataRenderer?
     
@@ -114,6 +116,12 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         animator.delegate = self
         return animator
     }()
+    
+    /// object that manages the bounds and drawing constraints of the chart
+    internal var _viewPortHandler: ViewPortHandler!
+    
+    /// object responsible for animations
+    internal var _animator: Animator!
     
     /// flag that indicates if offsets calculation has already been done or not
     private var _offsetsCalculated = false
@@ -193,8 +201,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         data = nil
         _offsetsCalculated = false
         highlighted.removeAll()
-	    lastHighlighted = nil
-	
+        lastHighlighted = nil
+    
         setNeedsDisplay()
     }
     
