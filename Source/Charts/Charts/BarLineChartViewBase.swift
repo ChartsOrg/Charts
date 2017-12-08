@@ -77,6 +77,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     internal lazy var _doubleTapGestureRecognizer: NSUITapGestureRecognizer = {
         let gr = NSUITapGestureRecognizer(target: self, action: #selector(doubleTapGestureRecognized(_:)))
         gr.nsuiNumberOfTapsRequired = 2
+        gr.isEnabled = _doubleTapToZoomEnabled
         return gr
     }()
 
@@ -84,6 +85,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     internal lazy var _pinchGestureRecognizer: NSUIPinchGestureRecognizer = {
         let gr = NSUIPinchGestureRecognizer(target: self, action: #selector(BarLineChartViewBase.pinchGestureRecognized(_:)))
         gr.delegate = self
+        gr.isEnabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
         return gr
     }()
     #endif
@@ -91,6 +93,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     internal lazy var _panGestureRecognizer: NSUIPanGestureRecognizer = {
         let gr = NSUIPanGestureRecognizer(target: self, action: #selector(panGestureRecognized(_:)))
         gr.delegate = self
+        gr.isEnabled = _dragXEnabled || _dragYEnabled
         return gr
     }()
     
@@ -109,13 +112,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         addGestureRecognizer(_tapGestureRecognizer)
         addGestureRecognizer(_doubleTapGestureRecognizer)
         addGestureRecognizer(_panGestureRecognizer)
-        
-        _doubleTapGestureRecognizer.isEnabled = _doubleTapToZoomEnabled
-        _panGestureRecognizer.isEnabled = _dragXEnabled || _dragYEnabled
 
         #if !os(tvOS)
             addGestureRecognizer(_pinchGestureRecognizer)
-            _pinchGestureRecognizer.isEnabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
         #endif
     }
     
