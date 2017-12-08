@@ -109,7 +109,7 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     
     /// Groups all BarDataSet objects this data object holds together by modifying the x-value of their entries.
     /// Previously set x-values of entries will be overwritten. Leaves space between bars and groups as specified by the parameters.
-    /// Calls `notifyDataSetChanged()` afterwards.
+    /// Calls `reloadData()` afterwards.
     ///
     /// - parameter fromX: the starting point on the x-axis where the grouping should begin
     /// - parameter groupSpace: the space between groups of bars in values (not pixels) e.g. 0.8f for bar width 1f
@@ -124,7 +124,7 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
         }
         
         barData.groupBars(fromX: fromX, groupSpace: groupSpace, barSpace: barSpace)
-        notifyDataSetChanged()
+        reloadData()
     }
     
     /// Highlights the value at the given x-value in the given DataSet. Provide -1 as the dataSetIndex to undo all highlighting.

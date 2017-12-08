@@ -78,7 +78,7 @@ open class RadarChartView: PieRadarChartViewBase
         _xAxis.calculate(min: 0.0, max: Double(data.maxEntryCountSet?.entryCount ?? 0))
     }
     
-    open override func notifyDataSetChanged()
+    open override func reloadData()
     {
         calcMinMax()
         

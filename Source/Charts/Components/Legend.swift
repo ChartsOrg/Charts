@@ -95,7 +95,7 @@ open class Legend: ComponentBase
     @objc open var entries = [LegendEntry]()
     
     /// Entries that will be appended to the end of the auto calculated entries after calculating the legend.
-    /// (if the legend has already been calculated, you will need to call notifyDataSetChanged() to let the changes take effect)
+    /// (if the legend has already been calculated, you will need to call reloadData() to let the changes take effect)
     @objc open var extraEntries = [LegendEntry]()
     
     /// Are the legend labels/colors a custom value or auto calculated? If false, then it's auto, if true, then custom.
@@ -501,14 +501,14 @@ open class Legend: ComponentBase
     /// Sets a custom legend's entries array.
     /// * A nil label will start a group.
     /// This will disable the feature that automatically calculates the legend entries from the datasets.
-    /// Call `resetCustom(...)` to re-enable automatic calculation (and then `notifyDataSetChanged()` is needed).
+    /// Call `resetCustom(...)` to re-enable automatic calculation (and then `reloadData()` is needed).
     @objc open func setCustom(entries: [LegendEntry])
     {
         self.entries = entries
         _isLegendCustom = true
     }
     
-    /// Calling this will disable the custom legend entries (set by `setLegend(...)`). Instead, the entries will again be calculated automatically (after `notifyDataSetChanged()` is called).
+    /// Calling this will disable the custom legend entries (set by `setLegend(...)`). Instead, the entries will again be calculated automatically (after `reloadData()` is called).
     @objc open func resetCustom()
     {
         _isLegendCustom = false

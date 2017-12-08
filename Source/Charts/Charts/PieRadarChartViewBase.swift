@@ -82,7 +82,7 @@ open class PieRadarChartViewBase: ChartViewBase
         }
     }
     
-    open override func notifyDataSetChanged()
+    open override func reloadData()
     {
         calcMinMax()
         

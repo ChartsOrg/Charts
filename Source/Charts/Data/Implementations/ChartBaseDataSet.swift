@@ -38,7 +38,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     // MARK: - Data functions and accessors
     
     /// Use this method to tell the data set that the underlying data has changed
-    open func notifyDataSetChanged()
+    open func reloadData()
     {
         calcMinMax()
     }

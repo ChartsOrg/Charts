@@ -18,7 +18,7 @@ public protocol IChartDataSet
     // MARK: - Data functions and accessors
     
     /// Use this method to tell the data set that the underlying data has changed
-    func notifyDataSetChanged()
+    func reloadData()
     
     /// Calculates the minimum and maximum x and y values (_xMin, _xMax, _yMin, _yMax).
     func calcMinMax()
