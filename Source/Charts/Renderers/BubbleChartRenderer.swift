@@ -41,7 +41,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         }
     }
     
-    fileprivate func getShapeSize(
+    private func getShapeSize(
         entrySize: CGFloat,
         maxSize: CGFloat,
         reference: CGFloat,
@@ -54,8 +54,8 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         return shapeSize
     }
     
-    fileprivate var _pointBuffer = CGPoint()
-    fileprivate var _sizeBuffer = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _pointBuffer = CGPoint()
+    private var _sizeBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
     @objc open func drawDataSet(context: CGContext, dataSet: IBubbleChartDataSet)
     {
