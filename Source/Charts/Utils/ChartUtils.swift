@@ -49,7 +49,7 @@ extension CGSize {
 
 open class ChartUtils
 {
-    fileprivate static var _defaultValueFormatter: IValueFormatter = ChartUtils.generateDefaultValueFormatter()
+    private static var _defaultValueFormatter: IValueFormatter = ChartUtils.generateDefaultValueFormatter()
 
     internal class func roundToNextSignificant(number: Double) -> Double
     {
@@ -272,7 +272,7 @@ open class ChartUtils
         drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, attributes: attributes, constrainedToSize: constrainedToSize, anchor: anchor, angleRadians: angleRadians)
     }
 
-    fileprivate class func generateDefaultValueFormatter() -> IValueFormatter
+    private class func generateDefaultValueFormatter() -> IValueFormatter
     {
         let formatter = DefaultValueFormatter(decimals: 1)
         return formatter
