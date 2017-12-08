@@ -18,7 +18,7 @@ import CoreGraphics
 
 open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 {
-    fileprivate class Buffer
+    private class Buffer
     {
         var rects = [CGRect]()
     }
@@ -33,7 +33,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     }
     
     // [CGRect] per dataset
-    fileprivate var _buffers = [Buffer]()
+    private var _buffers = [Buffer]()
     
     open override func initBuffers()
     {
@@ -68,7 +68,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         }
     }
     
-    fileprivate func prepareBuffer(dataSet: IBarChartDataSet, index: Int)
+    private func prepareBuffer(dataSet: IBarChartDataSet, index: Int)
     {
         guard
             let dataProvider = dataProvider,
@@ -203,7 +203,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         }
     }
     
-    fileprivate var _barShadowRectBuffer: CGRect = CGRect()
+    private var _barShadowRectBuffer: CGRect = CGRect()
     
     @objc open func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int)
     {
@@ -684,7 +684,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     }
     
     /// Sets the drawing position of the highlight object based on the riven bar-rect.
-    @objc internal func setHighlightDrawPos(highlight high: Highlight, barRect: CGRect)
+    internal func setHighlightDrawPos(highlight high: Highlight, barRect: CGRect)
     {
         high.setDraw(x: barRect.midX, y: barRect.origin.y)
     }

@@ -21,7 +21,7 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
         case outsideSlice
     }
     
-    fileprivate func initialize()
+    private func initialize()
     {
         self.valueTextColor = NSUIColor.white
         self.valueFont = NSUIFont.systemFont(ofSize: 13.0)
@@ -46,7 +46,7 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
     
     // MARK: - Styling functions and accessors
     
-    fileprivate var _sliceSpace = CGFloat(0.0)
+    private var _sliceSpace = CGFloat(0.0)
     
     /// the space in pixels between the pie-slices
     /// **default**: 0
