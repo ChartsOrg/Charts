@@ -55,7 +55,6 @@ open class ViewPortHandler: NSObject
     /// offset that allows the chart to be dragged over its bounds on the x-axis
     private var _transOffsetY: CGFloat = 0
 
-    /// Constructor - don't forget calling setChartDimens(...)
     @objc public init(width: CGFloat, height: CGFloat)
     {
         super.init()
