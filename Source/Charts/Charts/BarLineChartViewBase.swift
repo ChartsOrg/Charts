@@ -927,7 +927,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             gestureRecognizer == _panGestureRecognizer
         {
             var scrollView = self.superview
-            while !(scrollView is NSUIScrollView) && scrollView != nil
+            while scrollView != nil && !(scrollView is NSUIScrollView)
             {
                 scrollView = scrollView?.superview
             }
