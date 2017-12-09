@@ -71,13 +71,14 @@ open class AnimatedViewPortJob: ViewPortJob
         updateAnimationPhase(_startTime)
         
         _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
-        _displayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
+        _displayLink.add(to: .main, forMode: .commonModes)
     }
     
     @objc open func stop(finish: Bool)
     {
         guard _displayLink != nil else { return }
-        _displayLink.remove(from: RunLoop.main, forMode: RunLoopMode.commonModes)
+
+        _displayLink.remove(from: .main, forMode: .commonModes)
         _displayLink = nil
 
         if finish
@@ -85,7 +86,6 @@ open class AnimatedViewPortJob: ViewPortJob
             if phase != 1.0
             {
                 phase = 1.0
-
                 animationUpdate()
             }
 
@@ -95,22 +95,13 @@ open class AnimatedViewPortJob: ViewPortJob
     
     private func updateAnimationPhase(_ currentTime: TimeInterval)
     {
-        let elapsedTime: TimeInterval = currentTime - _startTime
-        let duration: TimeInterval = _duration
-        var elapsed: TimeInterval = elapsedTime
-        if elapsed > duration
-        {
-            elapsed = duration
-        }
-        
-        if _easing != nil
-        {
-            phase = CGFloat(_easing!(elapsed, duration))
-        }
-        else
-        {
-            phase = CGFloat(elapsed / duration)
-        }
+        let elapsedTime = currentTime - _startTime
+        let duration = _duration
+        var elapsed = elapsedTime
+
+        elapsed = min(elapsed, duration)
+
+        phase = CGFloat(_easing?(elapsed, duration) ?? elapsed / duration)
     }
     
     @objc private func animationLoop()
