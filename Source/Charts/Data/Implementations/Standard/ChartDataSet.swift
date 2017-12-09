@@ -26,14 +26,14 @@ open class ChartDataSet: ChartBaseDataSet
 {
     public required init()
     {
-        values = [ChartDataEntry]()
+        values = []
 
         super.init()
     }
     
     public override init(label: String?)
     {
-        values = [ChartDataEntry]()
+        values = []
 
         super.init(label: label)
     }
@@ -165,7 +165,7 @@ open class ChartDataSet: ChartBaseDataSet
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
     open override func entryForIndex(_ i: Int) -> ChartDataEntry?
     {
-        guard values.indices.contains(i) else {
+        guard i >= values.startIndex, i < values.endIndex else {
             return nil
         }
         return values[i]
@@ -208,7 +208,7 @@ open class ChartDataSet: ChartBaseDataSet
     {
         var entries = [ChartDataEntry]()
         
-        var low = 0
+        var low = values.startIndex
         var high = values.endIndex - 1
         
         while low <= high
@@ -224,7 +224,7 @@ open class ChartDataSet: ChartBaseDataSet
                     m -= 1
                 }
                 
-                high = values.count
+                high = values.endIndex
                 
                 // loop over all "equal" entries
                 while m < high
