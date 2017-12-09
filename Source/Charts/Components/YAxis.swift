@@ -74,7 +74,7 @@ open class YAxis: AxisBase
     @objc open var labelPosition = LabelPosition.outsideChart
     
     /// the side this axis object represents
-    fileprivate var _axisDependency = AxisDependency.left
+    private var _axisDependency = AxisDependency.left
     
     /// the minimum width that the axis should take
     /// 

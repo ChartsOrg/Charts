@@ -65,13 +65,13 @@ open class ChartDataSet: ChartBaseDataSet
     }
     
     /// maximum y-value in the value array
-    @objc internal var _yMax: Double = -Double.greatestFiniteMagnitude
+    internal var _yMax: Double = -Double.greatestFiniteMagnitude
     
     /// minimum y-value in the value array
-    @objc internal var _yMin: Double = Double.greatestFiniteMagnitude
+    internal var _yMin: Double = Double.greatestFiniteMagnitude
     
     /// maximum x-value in the value array
-    @objc internal var _xMax: Double = -Double.greatestFiniteMagnitude
+    internal var _xMax: Double = -Double.greatestFiniteMagnitude
     
     /// minimum x-value in the value array
     @objc internal var _xMin: Double = Double.greatestFiniteMagnitude
@@ -139,7 +139,7 @@ open class ChartDataSet: ChartBaseDataSet
     /// Updates the min and max x and y value of this DataSet based on the given Entry.
     ///
     /// - parameter e:
-    @objc internal func calcMinMax(entry e: ChartDataEntry)
+    internal func calcMinMax(entry e: ChartDataEntry)
     {
         calcMinMaxX(entry: e)
         calcMinMaxY(entry: e)

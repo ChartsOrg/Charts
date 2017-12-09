@@ -15,13 +15,13 @@ import CoreGraphics
 @objc(ChartDataRendererBase)
 open class DataRenderer: Renderer
 {
-    @objc open var animator: Animator?
+    @objc open let animator: Animator
     
-    @objc public init(animator: Animator?, viewPortHandler: ViewPortHandler?)
+    @objc public init(animator: Animator, viewPortHandler: ViewPortHandler)
     {
-        super.init(viewPortHandler: viewPortHandler)
-        
         self.animator = animator
+
+        super.init(viewPortHandler: viewPortHandler)
     }
 
     @objc open func drawData(context: CGContext)
@@ -53,8 +53,7 @@ open class DataRenderer: Renderer
     
     @objc open func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
     {
-        guard let data = dataProvider?.data
-            else { return false }
-        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * (self.viewPortHandler?.scaleX ?? 1.0))
+        guard let data = dataProvider?.data else { return false }
+        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
     }
 }

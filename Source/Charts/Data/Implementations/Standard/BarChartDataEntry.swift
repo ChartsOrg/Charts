@@ -14,16 +14,16 @@ import Foundation
 open class BarChartDataEntry: ChartDataEntry
 {
     /// the values the stacked barchart holds
-    fileprivate var _yVals: [Double]?
+    private var _yVals: [Double]?
     
     /// the ranges for the individual stack values - automatically calculated
-    fileprivate var _ranges: [Range]?
+    private var _ranges: [Range]?
     
     /// the sum of all negative values this entry (if stacked) contains
-    fileprivate var _negativeSum: Double = 0.0
+    private var _negativeSum: Double = 0.0
     
     /// the sum of all positive values this entry (if stacked) contains
-    fileprivate var _positiveSum: Double = 0.0
+    private var _positiveSum: Double = 0.0
     
     public required init()
     {
@@ -102,17 +102,17 @@ open class BarChartDataEntry: ChartDataEntry
     
     @objc open func sumBelow(stackIndex :Int) -> Double
     {
-        if _yVals == nil
+        guard let yVals = _yVals else
         {
             return 0
         }
         
         var remainder: Double = 0.0
-        var index = _yVals!.count - 1
+        var index = yVals.count - 1
         
         while (index > stackIndex && index >= 0)
         {
-            remainder += _yVals![index]
+            remainder += yVals[index]
             index -= 1
         }
         
@@ -133,7 +133,7 @@ open class BarChartDataEntry: ChartDataEntry
 
     @objc open func calcPosNegSum()
     {
-        if _yVals == nil
+        guard let _yVals = _yVals else
         {
             _positiveSum = 0.0
             _negativeSum = 0.0
@@ -143,7 +143,7 @@ open class BarChartDataEntry: ChartDataEntry
         var sumNeg: Double = 0.0
         var sumPos: Double = 0.0
         
-        for f in _yVals!
+        for f in _yVals
         {
             if f < 0.0
             {
@@ -240,7 +240,7 @@ open class BarChartDataEntry: ChartDataEntry
     ///
     /// - parameter vals:
     /// - returns:
-    fileprivate static func calcSum(values: [Double]?) -> Double
+    private static func calcSum(values: [Double]?) -> Double
     {
         guard let values = values
             else { return 0.0 }
