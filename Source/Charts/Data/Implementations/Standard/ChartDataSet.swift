@@ -63,7 +63,7 @@ open class ChartDataSet: ChartBaseDataSet
             notifyDataSetChanged()
         }
     }
-    
+
     /// maximum y-value in the value array
     internal var _yMax: Double = -Double.greatestFiniteMagnitude
     
@@ -74,7 +74,7 @@ open class ChartDataSet: ChartBaseDataSet
     internal var _xMax: Double = -Double.greatestFiniteMagnitude
     
     /// minimum x-value in the value array
-    @objc internal var _xMin: Double = Double.greatestFiniteMagnitude
+    internal var _xMin: Double = Double.greatestFiniteMagnitude
 
     /// Use this method to tell the data set that the underlying data has changed
     open override func notifyDataSetChanged()
