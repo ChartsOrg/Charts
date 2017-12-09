@@ -17,11 +17,11 @@ import CoreGraphics
 #endif
 
 extension FloatingPoint {
-    var deg2rad: Self {
+    var DEG2RAD: Self {
         return self * .pi / 180
     }
 
-    var rad2deg: Self {
+    var RAD2DEG: Self {
         return self * 180 / .pi
     }
 
@@ -35,7 +35,7 @@ extension FloatingPoint {
 
 extension CGSize {
     func rotatedBy(degrees: CGFloat) -> CGSize {
-        let radians = degrees.deg2rad
+        let radians = degrees.DEG2RAD
         return rotatedBy(radians: radians)
     }
 
@@ -98,8 +98,8 @@ open class ChartUtils
     internal class func getPosition(center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
     {
         return CGPoint(
-            x: center.x + dist * cos(angle.deg2rad),
-            y: center.y + dist * sin(angle.deg2rad)
+            x: center.x + dist * cos(angle.DEG2RAD),
+            y: center.y + dist * sin(angle.DEG2RAD)
         )
     }
     

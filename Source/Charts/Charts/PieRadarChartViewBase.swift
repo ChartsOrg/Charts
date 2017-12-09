@@ -255,7 +255,7 @@ open class PieRadarChartViewBase: ChartViewBase
         let length = sqrt(tx * tx + ty * ty)
         let r = acos(ty / length)
 
-        var angle = r.rad2deg
+        var angle = r.RAD2DEG
 
         if x > c.x
         {
@@ -278,8 +278,8 @@ open class PieRadarChartViewBase: ChartViewBase
     /// from the center, and the angle of the position around the center.
     @objc open func getPosition(center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
     {
-        return CGPoint(x: center.x + dist * cos(angle.deg2rad),
-                y: center.y + dist * sin(angle.deg2rad))
+        return CGPoint(x: center.x + dist * cos(angle.DEG2RAD),
+                y: center.y + dist * sin(angle.DEG2RAD))
     }
 
     /// - returns: The distance of a certain point on the chart to the center of the chart.
@@ -835,14 +835,14 @@ open class PieRadarChartViewBase: ChartViewBase
         
         if recognizer.state == NSUIGestureRecognizerState.began || recognizer.state == NSUIGestureRecognizerState.changed
         {
-            let angle = recognizer.nsuiRotation.rad2deg
+            let angle = recognizer.nsuiRotation.RAD2DEG
             
             self.rotationAngle = _startAngle + angle
             setNeedsDisplay()
         }
         else if recognizer.state == NSUIGestureRecognizerState.ended
         {
-            let angle = recognizer.nsuiRotation.rad2deg
+            let angle = recognizer.nsuiRotation.RAD2DEG
             
             self.rotationAngle = _startAngle + angle
             setNeedsDisplay()
@@ -851,7 +851,7 @@ open class PieRadarChartViewBase: ChartViewBase
             {
                 stopDeceleration()
                 
-                _decelerationAngularVelocity = recognizer.velocity.rad2deg
+                _decelerationAngularVelocity = recognizer.velocity.RAD2DEG
                 
                 if _decelerationAngularVelocity != 0.0
                 {

@@ -41,7 +41,7 @@ open class XAxisRendererRadarChart: XAxisRenderer
         
         let labelFont = xAxis.labelFont
         let labelTextColor = xAxis.labelTextColor
-        let labelRotationAngleRadians = xAxis.labelRotationAngle.rad2deg
+        let labelRotationAngleRadians = xAxis.labelRotationAngle.RAD2DEG
         let drawLabelAnchor = CGPoint(x: 0.5, y: 0.25)
         
         let sliceangle = chart.sliceAngle

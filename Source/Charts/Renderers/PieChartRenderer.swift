@@ -58,12 +58,12 @@ open class PieChartRenderer: DataRenderer
         let angleMiddle = startAngle + sweepAngle / 2.0
         
         // Other point of the arc
-        let arcEndPointX = center.x + radius * cos((startAngle + sweepAngle).deg2rad)
-        let arcEndPointY = center.y + radius * sin((startAngle + sweepAngle).deg2rad)
+        let arcEndPointX = center.x + radius * cos((startAngle + sweepAngle).DEG2RAD)
+        let arcEndPointY = center.y + radius * sin((startAngle + sweepAngle).DEG2RAD)
         
         // Middle point on the arc
-        let arcMidPointX = center.x + radius * cos(angleMiddle.deg2rad)
-        let arcMidPointY = center.y + radius * sin(angleMiddle.deg2rad)
+        let arcMidPointX = center.x + radius * cos(angleMiddle.DEG2RAD)
+        let arcMidPointY = center.y + radius * sin(angleMiddle.DEG2RAD)
         
         // This is the base of the contained triangle
         let basePointsDistance = sqrt(
@@ -74,7 +74,7 @@ open class PieChartRenderer: DataRenderer
         //   the angle of the contained triangle should stay the same.
         // So let's find out the height of that triangle.
         let containedTriangleHeight = (basePointsDistance / 2.0 *
-            tan((180.0 - angle).deg2rad / 2.0))
+            tan((180.0 - angle).DEG2RAD / 2.0))
         
         // Now we subtract that from the radius
         var spacedRadius = radius - containedTriangleHeight
@@ -154,7 +154,7 @@ open class PieChartRenderer: DataRenderer
                     
                     let sliceSpaceAngleOuter = visibleAngleCount == 1 ?
                         0.0 :
-                        sliceSpace / radius.deg2rad
+                        sliceSpace / radius.DEG2RAD
                     let startAngleOuter = rotationAngle + (angle + sliceSpaceAngleOuter / 2.0) * CGFloat(phaseY)
                     var sweepAngleOuter = (sliceAngle - sliceSpaceAngleOuter) * CGFloat(phaseY)
                     if sweepAngleOuter < 0.0
@@ -162,15 +162,15 @@ open class PieChartRenderer: DataRenderer
                         sweepAngleOuter = 0.0
                     }
                     
-                    let arcStartPointX = center.x + radius * cos(startAngleOuter.deg2rad)
-                    let arcStartPointY = center.y + radius * sin(startAngleOuter.deg2rad)
+                    let arcStartPointX = center.x + radius * cos(startAngleOuter.DEG2RAD)
+                    let arcStartPointY = center.y + radius * sin(startAngleOuter.DEG2RAD)
 
                     let path = CGMutablePath()
                     
                     path.move(to: CGPoint(x: arcStartPointX,
                                           y: arcStartPointY))
                     
-                    path.addRelativeArc(center: center, radius: radius, startAngle: startAngleOuter.deg2rad, delta: sweepAngleOuter.deg2rad)
+                    path.addRelativeArc(center: center, radius: radius, startAngle: startAngleOuter.DEG2RAD, delta: sweepAngleOuter.DEG2RAD)
 
                     if drawInnerArc &&
                         (innerRadius > 0.0 || accountForSliceSpacing)
@@ -194,7 +194,7 @@ open class PieChartRenderer: DataRenderer
                         
                         let sliceSpaceAngleInner = visibleAngleCount == 1 || innerRadius == 0.0 ?
                             0.0 :
-                            sliceSpace / innerRadius.deg2rad
+                            sliceSpace / innerRadius.DEG2RAD
                         let startAngleInner = rotationAngle + (angle + sliceSpaceAngleInner / 2.0) * CGFloat(phaseY)
                         var sweepAngleInner = (sliceAngle - sliceSpaceAngleInner) * CGFloat(phaseY)
                         if sweepAngleInner < 0.0
@@ -205,10 +205,10 @@ open class PieChartRenderer: DataRenderer
                         
                         path.addLine(
                             to: CGPoint(
-                                x: center.x + innerRadius * cos(endAngleInner.deg2rad),
-                                y: center.y + innerRadius * sin(endAngleInner.deg2rad)))
+                                x: center.x + innerRadius * cos(endAngleInner.DEG2RAD),
+                                y: center.y + innerRadius * sin(endAngleInner.DEG2RAD)))
                         
-                        path.addRelativeArc(center: center, radius: innerRadius, startAngle: endAngleInner.deg2rad, delta: -sweepAngleInner.deg2rad)
+                        path.addRelativeArc(center: center, radius: innerRadius, startAngle: endAngleInner.DEG2RAD, delta: -sweepAngleInner.DEG2RAD)
                     }
                     else
                     {
@@ -226,8 +226,8 @@ open class PieChartRenderer: DataRenderer
                                     startAngle: startAngleOuter,
                                     sweepAngle: sweepAngleOuter)
 
-                            let arcEndPointX = center.x + sliceSpaceOffset * cos(angleMiddle.deg2rad)
-                            let arcEndPointY = center.y + sliceSpaceOffset * sin(angleMiddle.deg2rad)
+                            let arcEndPointX = center.x + sliceSpaceOffset * cos(angleMiddle.DEG2RAD)
+                            let arcEndPointY = center.y + sliceSpaceOffset * sin(angleMiddle.DEG2RAD)
                             
                             path.addLine(
                                 to: CGPoint(
@@ -334,7 +334,7 @@ open class PieChartRenderer: DataRenderer
                 
                 let sliceAngle = drawAngles[xIndex]
                 let sliceSpace = getSliceSpace(dataSet: dataSet)
-                let sliceSpaceMiddleAngle = sliceSpace / labelRadius.deg2rad
+                let sliceSpaceMiddleAngle = sliceSpace / labelRadius.DEG2RAD
                 
                 // offset needed to center the drawn text in the slice
                 let angleOffset = (sliceAngle - sliceSpaceMiddleAngle / 2.0) / 2.0
@@ -350,8 +350,8 @@ open class PieChartRenderer: DataRenderer
                     dataSetIndex: i,
                     viewPortHandler: viewPortHandler)
                 
-                let sliceXBase = cos(transformedAngle.deg2rad)
-                let sliceYBase = sin(transformedAngle.deg2rad)
+                let sliceXBase = cos(transformedAngle.DEG2RAD)
+                let sliceYBase = sin(transformedAngle.DEG2RAD)
                 
                 let drawXOutside = drawEntryLabels && xValuePosition == .outsideSlice
                 let drawYOutside = drawValues && yValuePosition == .outsideSlice
@@ -383,7 +383,7 @@ open class PieChartRenderer: DataRenderer
                     }
                     
                     let polyline2Length = dataSet.valueLineVariableLength
-                        ? labelRadius * valueLineLength2 * abs(sin(transformedAngle.deg2rad))
+                        ? labelRadius * valueLineLength2 * abs(sin(transformedAngle.DEG2RAD))
                         : labelRadius * valueLineLength2
                     
                     let pt0 = CGPoint(
@@ -728,11 +728,11 @@ open class PieChartRenderer: DataRenderer
 
             let sliceSpaceAngleOuter = visibleAngleCount == 1 ?
                 0.0 :
-                sliceSpace / radius.deg2rad
+                sliceSpace / radius.DEG2RAD
             
             let sliceSpaceAngleShifted = visibleAngleCount == 1 ?
                 0.0 :
-                sliceSpace / highlightedRadius.deg2rad
+                sliceSpace / highlightedRadius.DEG2RAD
             
             let startAngleOuter = rotationAngle + (angle + sliceSpaceAngleOuter / 2.0) * CGFloat(phaseY)
             var sweepAngleOuter = (sliceAngle - sliceSpaceAngleOuter) * CGFloat(phaseY)
@@ -750,11 +750,11 @@ open class PieChartRenderer: DataRenderer
             
             let path = CGMutablePath()
             
-            path.move(to: CGPoint(x: center.x + highlightedRadius * cos(startAngleShifted.deg2rad),
-                                  y: center.y + highlightedRadius * sin(startAngleShifted.deg2rad)))
+            path.move(to: CGPoint(x: center.x + highlightedRadius * cos(startAngleShifted.DEG2RAD),
+                                  y: center.y + highlightedRadius * sin(startAngleShifted.DEG2RAD)))
             
-            path.addRelativeArc(center: center, radius: highlightedRadius, startAngle: startAngleShifted.deg2rad,
-                                delta: sweepAngleShifted.deg2rad)
+            path.addRelativeArc(center: center, radius: highlightedRadius, startAngle: startAngleShifted.DEG2RAD,
+                                delta: sweepAngleShifted.DEG2RAD)
             
             var sliceSpaceRadius: CGFloat = 0.0
             if accountForSliceSpacing
@@ -763,8 +763,8 @@ open class PieChartRenderer: DataRenderer
                     center: center,
                     radius: radius,
                     angle: sliceAngle * CGFloat(phaseY),
-                    arcStartPointX: center.x + radius * cos(startAngleOuter.deg2rad),
-                    arcStartPointY: center.y + radius * sin(startAngleOuter.deg2rad),
+                    arcStartPointX: center.x + radius * cos(startAngleOuter.DEG2RAD),
+                    arcStartPointY: center.y + radius * sin(startAngleOuter.DEG2RAD),
                     startAngle: startAngleOuter,
                     sweepAngle: sweepAngleOuter)
             }
@@ -784,7 +784,7 @@ open class PieChartRenderer: DataRenderer
                 
                 let sliceSpaceAngleInner = visibleAngleCount == 1 || innerRadius == 0.0 ?
                     0.0 :
-                    sliceSpace / innerRadius.deg2rad
+                    sliceSpace / innerRadius.DEG2RAD
                 let startAngleInner = rotationAngle + (angle + sliceSpaceAngleInner / 2.0) * CGFloat(phaseY)
                 var sweepAngleInner = (sliceAngle - sliceSpaceAngleInner) * CGFloat(phaseY)
                 if sweepAngleInner < 0.0
@@ -795,12 +795,12 @@ open class PieChartRenderer: DataRenderer
                 
                 path.addLine(
                     to: CGPoint(
-                        x: center.x + innerRadius * cos(endAngleInner.deg2rad),
-                        y: center.y + innerRadius * sin(endAngleInner.deg2rad)))
+                        x: center.x + innerRadius * cos(endAngleInner.DEG2RAD),
+                        y: center.y + innerRadius * sin(endAngleInner.DEG2RAD)))
                 
                 path.addRelativeArc(center: center, radius: innerRadius,
-                                    startAngle: endAngleInner.deg2rad,
-                                    delta: -sweepAngleInner.deg2rad)
+                                    startAngle: endAngleInner.DEG2RAD,
+                                    delta: -sweepAngleInner.DEG2RAD)
             }
             else
             {
@@ -808,8 +808,8 @@ open class PieChartRenderer: DataRenderer
                 {
                     let angleMiddle = startAngleOuter + sweepAngleOuter / 2.0
                     
-                    let arcEndPointX = center.x + sliceSpaceRadius * cos(angleMiddle.deg2rad)
-                    let arcEndPointY = center.y + sliceSpaceRadius * sin(angleMiddle.deg2rad)
+                    let arcEndPointX = center.x + sliceSpaceRadius * cos(angleMiddle.DEG2RAD)
+                    let arcEndPointY = center.y + sliceSpaceRadius * sin(angleMiddle.DEG2RAD)
                     
                     path.addLine(
                         to: CGPoint(
