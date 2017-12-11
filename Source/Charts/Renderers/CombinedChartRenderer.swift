@@ -22,11 +22,11 @@ open class CombinedChartRenderer: DataRenderer
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     @objc open var drawBarShadowEnabled = false
     
-    @objc internal var _renderers = [DataRenderer]()
+    internal var _renderers = [DataRenderer]()
     
     internal var _drawOrder: [CombinedChartView.DrawOrder] = [.bar, .bubble, .line, .candle, .scatter]
     
-    @objc public init(chart: CombinedChartView?, animator: Animator, viewPortHandler: ViewPortHandler?)
+    @objc public init(chart: CombinedChartView, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -36,15 +36,11 @@ open class CombinedChartRenderer: DataRenderer
     }
     
     /// Creates the renderers needed for this combined-renderer in the required order. Also takes the DrawOrder into consideration.
-    @objc internal func createRenderers()
+    internal func createRenderers()
     {
         _renderers = [DataRenderer]()
         
-        guard let
-            chart = chart,
-            let animator = animator,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let chart = chart else { return }
 
         for order in drawOrder
         {
