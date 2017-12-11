@@ -32,6 +32,7 @@ open class ColorFill: NSObject, Fill {
 
     @objc public init(cgColor: CGColor) {
         self.color = cgColor
+        super.init()
     }
 
     @objc public convenience init(color: NSUIColor) {
@@ -56,7 +57,8 @@ open class ImageFill: NSObject, Fill {
     @objc public init(cgImage: CGImage, isTiled: Bool = false) {
         image = cgImage
         self.isTiled = isTiled
-    }
+        super.init()
+   }
 
     @objc public convenience init(image: NSUIImage, isTiled: Bool = false) {
         self.init(cgImage: image.cgImage!, isTiled: isTiled)
@@ -78,6 +80,7 @@ open class LayerFill: NSObject, Fill {
 
     @objc public init(layer: CGLayer) {
         self.layer = layer
+        super.init()
     }
 
     open func fillPath(context: CGContext, rect: CGRect) {
@@ -98,6 +101,7 @@ open class LinearGradient: NSObject, Fill {
     @objc public init(gradient: CGGradient, angle: CGFloat = 0) {
         self.gradient = gradient
         self.angle = angle
+        super.init()
     }
 
     open func fillPath(context: CGContext, rect: CGRect) {
@@ -141,6 +145,7 @@ open class RadialGradient: NSObject, Fill {
         self.endOffsetPercent = endOffsetPercent
         self.startRadiusPercent = startRadiusPercent
         self.endRadiusPercent = endRadiusPercent
+        super.init()
     }
     
     @objc public convenience init(gradient: CGGradient) {
