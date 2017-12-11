@@ -14,6 +14,9 @@ import Foundation
 @objc(ChartDefaultValueFormatter)
 open class DefaultValueFormatter: NSObject, IValueFormatter
 {
+    /// The default value formatter used for all chart components that needs a default
+    public static var `default` = DefaultValueFormatter(decimals: 1)
+
     public typealias Block = (
         _ value: Double,
         _ entry: ChartDataEntry,

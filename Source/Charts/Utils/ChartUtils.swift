@@ -33,6 +33,14 @@ extension FloatingPoint {
     }
 }
 
+extension CGPoint {
+    /// Calculates the position around a center point, depending on the distance from the center, and the angle of the position around the center.
+    func moving(distance: CGFloat, atAngle angle: CGFloat) -> CGPoint {
+        return CGPoint(x: x + distance * cos(angle.DEG2RAD),
+                       y: y + distance * sin(angle.DEG2RAD))
+    }
+}
+
 extension CGSize {
     func rotatedBy(degrees: CGFloat) -> CGSize {
         let radians = degrees.DEG2RAD
@@ -93,16 +101,7 @@ open class ChartUtils
             return number + Double.ulpOfOne
         }
     }
-    
-    /// Calculates the position around a center point, depending on the distance from the center, and the angle of the position around the center.
-    internal class func getPosition(center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
-    {
-        return CGPoint(
-            x: center.x + dist * cos(angle.DEG2RAD),
-            y: center.y + dist * sin(angle.DEG2RAD)
-        )
-    }
-    
+        
     open class func drawImage(
         context: CGContext,
         image: NSUIImage,
