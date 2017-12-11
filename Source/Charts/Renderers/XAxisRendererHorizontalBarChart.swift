@@ -14,7 +14,7 @@ import CoreGraphics
 
 open class XAxisRendererHorizontalBarChart: XAxisRenderer
 {
-    @objc internal var chart: BarChartView?
+    internal weak var chart: BarChartView?
     
     @objc public init(viewPortHandler: ViewPortHandler, xAxis: XAxis?, transformer: Transformer?, chart: BarChartView)
     {
@@ -99,7 +99,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
         
         let labelFont = xAxis.labelFont
         let labelTextColor = xAxis.labelTextColor
-        let labelRotationAngleRadians = xAxis.labelRotationAngle * ChartUtils.Math.FDEG2RAD
+        let labelRotationAngleRadians = xAxis.labelRotationAngle.DEG2RAD
         
         let centeringEnabled = xAxis.isCenterAxisLabelsEnabled
         
@@ -161,7 +161,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
         return contentRect
     }
     
-    fileprivate var _gridLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _gridLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
     open override func drawGridLine(context: CGContext, x: CGFloat, y: CGFloat)
     {

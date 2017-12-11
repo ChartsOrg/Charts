@@ -22,7 +22,7 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
     
     @objc open var hasAutoDecimals: Bool = false
     
-    fileprivate var _formatter: NumberFormatter?
+    private var _formatter: NumberFormatter?
     @objc open var formatter: NumberFormatter?
     {
         get { return _formatter }
@@ -33,7 +33,7 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
         }
     }
     
-    fileprivate var _decimals: Int?
+    private var _decimals: Int?
     open var decimals: Int?
     {
         get { return _decimals }
