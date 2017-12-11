@@ -200,7 +200,7 @@ open class Fill: NSObject
             
         case .linearGradient:
             
-            let radians = (360.0 - _gradientAngle).DEG2RAD
+            let radians = (360.0 - gradientAngle).DEG2RAD
             let centerPoint = CGPoint(x: rect.midX, y: rect.midY)
             let xAngleDelta = cos(radians) * rect.width / 2.0
             let yAngleDelta = sin(radians) * rect.height / 2.0
