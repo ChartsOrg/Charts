@@ -279,7 +279,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
         {
             if needsFormatter
             {
-                return DefaultValueFormatter.default
+                return ChartUtils.defaultValueFormatter()
             }
             
             return _valueFormatter
