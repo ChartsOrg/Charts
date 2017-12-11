@@ -83,15 +83,7 @@ extension Double {
 
 open class ChartUtils
 {
-    fileprivate static var _defaultValueFormatter: IValueFormatter = ChartUtils.generateDefaultValueFormatter()
-    
-    internal struct Math
-    {
-        internal static let FDEG2RAD = CGFloat(Double.pi / 180.0)
-        internal static let FRAD2DEG = CGFloat(180.0 / Double.pi)
-        internal static let DEG2RAD = Double.pi / 180.0
-        internal static let RAD2DEG = 180.0 / Double.pi
-    }
+    private static var _defaultValueFormatter: IValueFormatter = ChartUtils.generateDefaultValueFormatter()
 
     /// Calculates the position around a center point, depending on the distance from the center, and the angle of the position around the center.
     internal class func getPosition(center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
