@@ -15,7 +15,7 @@ import CoreGraphics
 
 open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDataSet
 {
-    fileprivate func initialize()
+    private func initialize()
     {
         self.highlightColor = NSUIColor.black
         
@@ -39,14 +39,14 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
     
     /// the maximum number of bars that are stacked upon each other, this value
     /// is calculated from the Entries that are added to the DataSet
-    fileprivate var _stackSize = 1
+    private var _stackSize = 1
     
     /// the overall entry count, including counting each stack-value individually
-    fileprivate var _entryCountStacks = 0
+    private var _entryCountStacks = 0
     
     /// Calculates the total number of entries this DataSet represents, including
     /// stacks. All values belonging to a stack are calculated separately.
-    fileprivate func calcEntryCountIncludingStacks(entries: [BarChartDataEntry])
+    private func calcEntryCountIncludingStacks(entries: [BarChartDataEntry])
     {
         _entryCountStacks = 0
         
@@ -64,7 +64,7 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
     }
     
     /// calculates the maximum stacksize that occurs in the Entries array of this DataSet
-    fileprivate func calcStackSize(entries: [BarChartDataEntry])
+    private func calcStackSize(entries: [BarChartDataEntry])
     {
         for i in 0 ..< entries.count
         {
