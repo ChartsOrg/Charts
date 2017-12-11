@@ -163,7 +163,7 @@ open class RadarChartView: PieRadarChartViewBase
     open override func indexForAngle(_ angle: CGFloat) -> Int
     {
         // take the current angle of the chart into consideration
-        let a = ChartUtils.normalizedAngleFromAngle(angle - self.rotationAngle)
+        let a = (angle - self.rotationAngle).normalizedAngle
         
         let sliceAngle = self.sliceAngle
         
