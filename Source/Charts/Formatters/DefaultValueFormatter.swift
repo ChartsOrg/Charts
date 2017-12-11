@@ -24,7 +24,7 @@ open class DefaultValueFormatter: NSObject, IValueFormatter
     
     @objc open var hasAutoDecimals: Bool = false
     
-    fileprivate var _formatter: NumberFormatter?
+    private var _formatter: NumberFormatter?
     @objc open var formatter: NumberFormatter?
     {
         get { return _formatter }
@@ -35,7 +35,7 @@ open class DefaultValueFormatter: NSObject, IValueFormatter
         }
     }
     
-    fileprivate var _decimals: Int?
+    private var _decimals: Int?
     open var decimals: Int?
     {
         get { return _decimals }

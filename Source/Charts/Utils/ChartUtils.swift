@@ -16,9 +16,26 @@ import CoreGraphics
     import UIKit
 #endif
 
+extension FloatingPoint {
+    var DEG2RAD: Self {
+        return self * .pi / 180
+    }
+
+    var RAD2DEG: Self {
+        return self * 180 / .pi
+    }
+
+    /// - returns: An angle between 0.0 < 360.0 (not less than zero, less than 360)
+    /// NOTE: Value must be in degrees
+    var normalizedAngle: Self {
+        let angle = truncatingRemainder(dividingBy: 360)
+        return (sign == .minus) ? angle + 360 : angle
+    }
+}
+
 extension CGSize {
     func rotatedBy(degrees: CGFloat) -> CGSize {
-        let radians = ChartUtils.Math.FDEG2RAD * degrees
+        let radians = degrees.DEG2RAD
         return rotatedBy(radians: radians)
     }
 
@@ -32,16 +49,8 @@ extension CGSize {
 
 open class ChartUtils
 {
-    fileprivate static var _defaultValueFormatter: IValueFormatter = ChartUtils.generateDefaultValueFormatter()
-    
-    internal struct Math
-    {
-        internal static let FDEG2RAD = CGFloat(Double.pi / 180.0)
-        internal static let FRAD2DEG = CGFloat(180.0 / Double.pi)
-        internal static let DEG2RAD = Double.pi / 180.0
-        internal static let RAD2DEG = 180.0 / Double.pi
-    }
-    
+    private static var _defaultValueFormatter: IValueFormatter = ChartUtils.generateDefaultValueFormatter()
+
     internal class func roundToNextSignificant(number: Double) -> Double
     {
         if number.isInfinite || number.isNaN || number == 0
@@ -89,8 +98,8 @@ open class ChartUtils
     internal class func getPosition(center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
     {
         return CGPoint(
-            x: center.x + dist * cos(angle * Math.FDEG2RAD),
-            y: center.y + dist * sin(angle * Math.FDEG2RAD)
+            x: center.x + dist * cos(angle.DEG2RAD),
+            y: center.y + dist * sin(angle.DEG2RAD)
         )
     }
     
@@ -262,21 +271,8 @@ open class ChartUtils
         let rect = text.boundingRect(with: constrainedToSize, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
         drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, attributes: attributes, constrainedToSize: constrainedToSize, anchor: anchor, angleRadians: angleRadians)
     }
-    
-    /// - returns: An angle between 0.0 < 360.0 (not less than zero, less than 360)
-    internal class func normalizedAngleFromAngle(_ angle: CGFloat) -> CGFloat
-    {
-        var angle = angle
-        
-        while (angle < 0.0)
-        {
-            angle += 360.0
-        }
-        
-        return angle.truncatingRemainder(dividingBy: 360.0)
-    }
-    
-    fileprivate class func generateDefaultValueFormatter() -> IValueFormatter
+
+    private class func generateDefaultValueFormatter() -> IValueFormatter
     {
         let formatter = DefaultValueFormatter(decimals: 1)
         return formatter
