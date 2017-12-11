@@ -180,23 +180,20 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
 
                 if dataSet.isDrawValuesEnabled
                 {
-                    ChartUtils.drawText(
-                        context: context,
-                        text: text,
-                        point: CGPoint(
-                            x: pt.x,
-                            y: pt.y - (0.5 * lineHeight)),
-                        align: .center,
-                        attributes: [NSAttributedStringKey.font: valueFont, NSAttributedStringKey.foregroundColor: valueTextColor])
+                    context.drawText(text,
+                                     at: CGPoint(x: pt.x,
+                                                    y: pt.y - (0.5 * lineHeight)),
+                                     align: .center,
+                                     attributes: [.font: valueFont,
+                                                  .foregroundColor: valueTextColor])
                 }
 
                 if let icon = e.icon, dataSet.isDrawIconsEnabled
                 {
-                    ChartUtils.drawImage(context: context,
-                                         image: icon,
-                                         x: pt.x + iconsOffset.x,
-                                         y: pt.y + iconsOffset.y,
-                                         size: icon.size)
+                    context.drawImage(icon,
+                                      atCenter: CGPoint(x: pt.x + iconsOffset.x,
+                                                      y: pt.y + iconsOffset.y),
+                                      size: icon.size)
                 }
             }
         }

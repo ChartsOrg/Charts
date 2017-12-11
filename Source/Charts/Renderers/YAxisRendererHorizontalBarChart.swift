@@ -163,12 +163,10 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         {
             let text = yAxis.getFormattedLabel(i)
             
-            ChartUtils.drawText(
-                context: context,
-                text: text,
-                point: CGPoint(x: positions[i].x, y: fixedPosition - offset),
-                align: .center,
-                attributes: [NSAttributedStringKey.font: labelFont, NSAttributedStringKey.foregroundColor: labelTextColor])
+            context.drawText(text,
+                             at: CGPoint(x: positions[i].x, y: fixedPosition - offset),
+                             align: .center,
+                             attributes: [.font: labelFont, .foregroundColor: labelTextColor])
         }
     }
     
@@ -319,46 +317,35 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
                 let xOffset: CGFloat = l.lineWidth + l.xOffset
                 let yOffset: CGFloat = 2.0 + l.yOffset
 
-                if l.labelPosition == .rightTop
-                {
-                    ChartUtils.drawText(context: context,
-                        text: label,
-                        point: CGPoint(
-                            x: position.x + xOffset,
-                            y: viewPortHandler.contentTop + yOffset),
-                        align: .left,
-                        attributes: [NSAttributedStringKey.font: l.valueFont, NSAttributedStringKey.foregroundColor: l.valueTextColor])
+                let align: NSTextAlignment
+                let point: CGPoint
+
+                switch l.labelPosition {
+                case .rightTop:
+                    align = .left
+                    point = CGPoint(x: position.x + xOffset,
+                                    y: viewPortHandler.contentTop + yOffset)
+
+                case .rightBottom:
+                    align = .left
+                    point = CGPoint(x: position.x + xOffset,
+                                    y: viewPortHandler.contentBottom - labelLineHeight - yOffset)
+
+                case .leftTop:
+                    align = .right
+                    point = CGPoint(x: position.x - xOffset,
+                                    y: viewPortHandler.contentTop + yOffset)
+
+                case .leftBottom:
+                    align = .right
+                    point = CGPoint(x: position.x - xOffset,
+                                    y: viewPortHandler.contentBottom - labelLineHeight - yOffset)
                 }
-                else if l.labelPosition == .rightBottom
-                {
-                    ChartUtils.drawText(context: context,
-                        text: label,
-                        point: CGPoint(
-                            x: position.x + xOffset,
-                            y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
-                        align: .left,
-                        attributes: [NSAttributedStringKey.font: l.valueFont, NSAttributedStringKey.foregroundColor: l.valueTextColor])
-                }
-                else if l.labelPosition == .leftTop
-                {
-                    ChartUtils.drawText(context: context,
-                        text: label,
-                        point: CGPoint(
-                            x: position.x - xOffset,
-                            y: viewPortHandler.contentTop + yOffset),
-                        align: .right,
-                        attributes: [NSAttributedStringKey.font: l.valueFont, NSAttributedStringKey.foregroundColor: l.valueTextColor])
-                }
-                else
-                {
-                    ChartUtils.drawText(context: context,
-                        text: label,
-                        point: CGPoint(
-                            x: position.x - xOffset,
-                            y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
-                        align: .right,
-                        attributes: [NSAttributedStringKey.font: l.valueFont, NSAttributedStringKey.foregroundColor: l.valueTextColor])
-                }
+
+                context.drawText(label,
+                                 at: point,
+                                 align: align,
+                                 attributes: [.font: l.valueFont, .foregroundColor: l.valueTextColor])
             }
         }
         

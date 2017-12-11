@@ -68,7 +68,7 @@ open class XAxisRenderer: AxisRendererBase
         
         let longest = xAxis.getLongestLabel()
         
-        let labelSize = longest.size(withAttributes: [NSAttributedStringKey.font: xAxis.labelFont])
+        let labelSize = longest.size(withAttributes: [.font: xAxis.labelFont])
         
         let labelWidth = labelSize.width
         let labelHeight = labelSize.height
@@ -179,9 +179,9 @@ open class XAxisRenderer: AxisRendererBase
         #endif
         paraStyle.alignment = .center
         
-        let labelAttrs: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: xAxis.labelFont,
-            NSAttributedStringKey.foregroundColor: xAxis.labelTextColor,
-            NSAttributedStringKey.paragraphStyle: paraStyle]
+        let labelAttrs: [NSAttributedStringKey : Any] = [.font: xAxis.labelFont,
+                                                         .foregroundColor: xAxis.labelTextColor,
+                                                         .paragraphStyle: paraStyle]
         let labelRotationAngleRadians = xAxis.labelRotationAngle.DEG2RAD
         
         let centeringEnabled = xAxis.isCenterAxisLabelsEnabled
@@ -244,7 +244,7 @@ open class XAxisRenderer: AxisRendererBase
                           x: position.x,
                           y: pos,
                           attributes: labelAttrs,
-                          constrainedToSize: labelMaxSize,
+                          constrainedTo: labelMaxSize,
                           anchor: anchor,
                           angleRadians: labelRotationAngleRadians)
             }
@@ -257,18 +257,16 @@ open class XAxisRenderer: AxisRendererBase
         x: CGFloat,
         y: CGFloat,
         attributes: [NSAttributedStringKey : Any],
-        constrainedToSize: CGSize,
+        constrainedTo size: CGSize,
         anchor: CGPoint,
         angleRadians: CGFloat)
     {
-        ChartUtils.drawMultilineText(
-            context: context,
-            text: formattedLabel,
-            point: CGPoint(x: x, y: y),
-            attributes: attributes,
-            constrainedToSize: constrainedToSize,
-            anchor: anchor,
-            angleRadians: angleRadians)
+        context.drawMultilineText(formattedLabel,
+                                  at: CGPoint(x: x, y: y),
+                                  constrainedTo: size,
+                                  anchor: anchor,
+                                  angleRadians: angleRadians,
+                                  attributes: attributes)
     }
     
     open override func renderGridLines(context: CGContext)
@@ -414,47 +412,37 @@ open class XAxisRenderer: AxisRendererBase
             let labelLineHeight = limitLine.valueFont.lineHeight
             
             let xOffset: CGFloat = limitLine.lineWidth + limitLine.xOffset
-            
-            if limitLine.labelPosition == .rightTop
-            {
-                ChartUtils.drawText(context: context,
-                    text: label,
-                    point: CGPoint(
-                        x: position.x + xOffset,
-                        y: viewPortHandler.contentTop + yOffset),
-                    align: .left,
-                    attributes: [NSAttributedStringKey.font: limitLine.valueFont, NSAttributedStringKey.foregroundColor: limitLine.valueTextColor])
+
+            let align: NSTextAlignment
+            let point: CGPoint
+
+            switch limitLine.labelPosition {
+            case .rightTop:
+                align = .left
+                point = CGPoint(x: position.x + xOffset,
+                                y: viewPortHandler.contentTop + yOffset)
+
+            case .rightBottom:
+                align = .left
+                point = CGPoint(x: position.x + xOffset,
+                                y: viewPortHandler.contentBottom - labelLineHeight - yOffset)
+
+            case .leftTop:
+                align = .right
+                point = CGPoint(x: position.x - xOffset,
+                                y: viewPortHandler.contentTop + yOffset)
+
+            case .leftBottom:
+                align = .right
+                point = CGPoint(x: position.x - xOffset,
+                                y: viewPortHandler.contentBottom - labelLineHeight - yOffset)
             }
-            else if limitLine.labelPosition == .rightBottom
-            {
-                ChartUtils.drawText(context: context,
-                    text: label,
-                    point: CGPoint(
-                        x: position.x + xOffset,
-                        y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
-                    align: .left,
-                    attributes: [NSAttributedStringKey.font: limitLine.valueFont, NSAttributedStringKey.foregroundColor: limitLine.valueTextColor])
-            }
-            else if limitLine.labelPosition == .leftTop
-            {
-                ChartUtils.drawText(context: context,
-                    text: label,
-                    point: CGPoint(
-                        x: position.x - xOffset,
-                        y: viewPortHandler.contentTop + yOffset),
-                    align: .right,
-                    attributes: [NSAttributedStringKey.font: limitLine.valueFont, NSAttributedStringKey.foregroundColor: limitLine.valueTextColor])
-            }
-            else
-            {
-                ChartUtils.drawText(context: context,
-                    text: label,
-                    point: CGPoint(
-                        x: position.x - xOffset,
-                        y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
-                    align: .right,
-                    attributes: [NSAttributedStringKey.font: limitLine.valueFont, NSAttributedStringKey.foregroundColor: limitLine.valueTextColor])
-            }
+
+            context.drawText(label,
+                             at: point,
+                             align: align,
+                             attributes: [.font: limitLine.valueFont,
+                                          .foregroundColor: limitLine.valueTextColor])
         }
     }
 

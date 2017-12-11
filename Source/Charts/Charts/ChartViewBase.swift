@@ -301,24 +301,19 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     {
         let optionalContext = NSUIGraphicsGetCurrentContext()
         guard let context = optionalContext else { return }
-        
-        let frame = self.bounds
 
         if _data === nil && noDataText.count > 0
         {
             context.saveGState()
             defer { context.restoreGState() }
             
-            ChartUtils.drawMultilineText(
-                context: context,
-                text: noDataText,
-                point: CGPoint(x: frame.width / 2.0, y: frame.height / 2.0),
-                attributes:
-                [NSAttributedStringKey.font: noDataFont,
-                 NSAttributedStringKey.foregroundColor: noDataTextColor],
-                constrainedToSize: self.bounds.size,
-                anchor: CGPoint(x: 0.5, y: 0.5),
-                angleRadians: 0.0)
+            context.drawMultilineText(noDataText,
+                                      at: CGPoint(x: bounds.width / 2.0, y: bounds.height / 2.0),
+                                      constrainedTo: bounds.size,
+                                      anchor: CGPoint(x: 0.5, y: 0.5),
+                                      angleRadians: 0.0,
+                                      attributes: [.font: noDataFont,
+                                                   .foregroundColor: noDataTextColor])
             
             return
         }
@@ -331,7 +326,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     }
     
     /// Draws the description text in the bottom right corner of the chart (per default)
-    internal func drawDescription(context: CGContext)
+    internal func drawDescription(in context: CGContext)
     {
         // check if description should be drawn
         guard
@@ -344,17 +339,15 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         let position = description.position ?? CGPoint(x: bounds.width - _viewPortHandler.offsetRight - description.xOffset,
                                                        y: bounds.height - _viewPortHandler.offsetBottom - description.yOffset - description.font.lineHeight)
         
-        var attrs = [NSAttributedStringKey : Any]()
-        
-        attrs[NSAttributedStringKey.font] = description.font
-        attrs[NSAttributedStringKey.foregroundColor] = description.textColor
+        let attrs: [NSAttributedStringKey : Any] = [
+            .font: description.font,
+            .foregroundColor: description.textColor
+        ]
 
-        ChartUtils.drawText(
-            context: context,
-            text: descriptionText,
-            point: position,
-            align: description.textAlign,
-            attributes: attrs)
+        context.drawText(descriptionText,
+                         at: position,
+                         align: description.textAlign,
+                         attributes: attrs)
     }
     
     // MARK: - Highlighting

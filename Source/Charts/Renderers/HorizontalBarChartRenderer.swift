@@ -372,7 +372,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                             viewPortHandler: viewPortHandler)
                         
                         // calculate the correct offset depending on the draw position of the value
-                        let valueTextWidth = valueText.size(withAttributes: [NSAttributedStringKey.font: valueFont]).width
+                        let valueTextWidth = valueText.size(withAttributes: [.font: valueFont]).width
                         posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
                         negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
                         
@@ -404,12 +404,9 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                             px += iconsOffset.x
                             py += iconsOffset.y
                             
-                            ChartUtils.drawImage(
-                                context: context,
-                                image: icon,
-                                x: px,
-                                y: py,
-                                size: icon.size)
+                            context.drawImage(icon,
+                                              atCenter: CGPoint(x: px, y: py),
+                                              size: icon.size)
                         }
                     }
                 }
@@ -485,12 +482,9 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                 px += iconsOffset.x
                                 py += iconsOffset.y
                                 
-                                ChartUtils.drawImage(
-                                    context: context,
-                                    image: icon,
-                                    x: px,
-                                    y: py,
-                                    size: icon.size)
+                                context.drawImage(icon,
+                                                  atCenter: CGPoint(x: px, y: py),
+                                                  size: icon.size)
                             }
                         }
                         else
@@ -537,7 +531,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                     viewPortHandler: viewPortHandler)
                                 
                                 // calculate the correct offset depending on the draw position of the value
-                                let valueTextWidth = valueText.size(withAttributes: [NSAttributedStringKey.font: valueFont]).width
+                                let valueTextWidth = valueText.size(withAttributes: [.font: valueFont]).width
                                 posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
                                 negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
                                 
@@ -570,22 +564,20 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                 if dataSet.isDrawValuesEnabled
                                 {
                                     drawValue(context: context,
-                                        value: valueText,
-                                        xPos: x,
-                                        yPos: y + yOffset,
-                                        font: valueFont,
-                                        align: textAlign,
-                                        color: dataSet.valueTextColorAt(index))
+                                              value: valueText,
+                                              xPos: x,
+                                              yPos: y + yOffset,
+                                              font: valueFont,
+                                              align: textAlign,
+                                              color: dataSet.valueTextColorAt(index))
                                 }
                                 
                                 if let icon = e.icon, dataSet.isDrawIconsEnabled
                                 {
-                                    ChartUtils.drawImage(
-                                        context: context,
-                                        image: icon,
-                                        x: x + iconsOffset.x,
-                                        y: y + iconsOffset.y,
-                                        size: icon.size)
+                                    context.drawImage(icon,
+                                                      atCenter: CGPoint(x: x + iconsOffset.x,
+                                                                      y: y + iconsOffset.y),
+                                                      size: icon.size)
                                 }
                             }
                         }

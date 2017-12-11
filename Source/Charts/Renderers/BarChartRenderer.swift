@@ -445,12 +445,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                             px += iconsOffset.x
                             py += iconsOffset.y
                             
-                            ChartUtils.drawImage(
-                                context: context,
-                                image: icon,
-                                x: px,
-                                y: py,
-                                size: icon.size)
+                            context.drawImage(icon,
+                                              atCenter: CGPoint(x: px, y: py),
+                                              size: icon.size)
                         }
                     }
                 }
@@ -510,12 +507,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                 px += iconsOffset.x
                                 py += iconsOffset.y
                                 
-                                ChartUtils.drawImage(
-                                    context: context,
-                                    image: icon,
-                                    x: px,
-                                    y: py,
-                                    size: icon.size)
+                                context.drawImage(icon,
+                                                  atCenter: CGPoint(x: px, y: py),
+                                                  size: icon.size)
                             }
                         }
                         else
@@ -588,12 +582,10 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                 
                                 if let icon = e.icon, dataSet.isDrawIconsEnabled
                                 {
-                                    ChartUtils.drawImage(
-                                        context: context,
-                                        image: icon,
-                                        x: x + iconsOffset.x,
-                                        y: y + iconsOffset.y,
-                                        size: icon.size)
+                                    context.drawImage(icon,
+                                                      atCenter: CGPoint(x: x + iconsOffset.x,
+                                                                      y: y + iconsOffset.y),
+                                                      size: icon.size)
                                 }
                             }
                         }
@@ -608,7 +600,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     /// Draws a value at the specified x and y position.
     @objc open func drawValue(context: CGContext, value: String, xPos: CGFloat, yPos: CGFloat, font: NSUIFont, align: NSTextAlignment, color: NSUIColor)
     {
-        ChartUtils.drawText(context: context, text: value, point: CGPoint(x: xPos, y: yPos), align: align, attributes: [NSAttributedStringKey.font: font, NSAttributedStringKey.foregroundColor: color])
+        context.drawText(value, at: CGPoint(x: xPos, y: yPos), align: align, attributes: [.font: font, .foregroundColor: color])
     }
     
     open override func drawExtras(context: CGContext)

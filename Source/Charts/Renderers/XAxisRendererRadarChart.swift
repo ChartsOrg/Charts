@@ -64,7 +64,7 @@ open class XAxisRendererRadarChart: XAxisRenderer
                       formattedLabel: label,
                       x: p.x,
                       y: p.y - xAxis.labelRotatedHeight / 2.0,
-                      attributes: [NSAttributedStringKey.font: labelFont, NSAttributedStringKey.foregroundColor: labelTextColor],
+                      attributes: [.font: labelFont, .foregroundColor: labelTextColor],
                       anchor: drawLabelAnchor,
                       angleRadians: labelRotationAngleRadians)
         }
@@ -79,13 +79,11 @@ open class XAxisRendererRadarChart: XAxisRenderer
         anchor: CGPoint,
         angleRadians: CGFloat)
     {
-        ChartUtils.drawText(
-            context: context,
-            text: formattedLabel,
-            point: CGPoint(x: x, y: y),
-            attributes: attributes,
-            anchor: anchor,
-            angleRadians: angleRadians)
+        context.drawText(formattedLabel,
+                         at: CGPoint(x: x, y: y),
+                         anchor: anchor,
+                         angleRadians: angleRadians,
+                         attributes: attributes)
     }
     
     open override func renderLimitLines(context: CGContext)
