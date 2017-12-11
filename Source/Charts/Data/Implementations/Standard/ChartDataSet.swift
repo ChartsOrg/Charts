@@ -271,8 +271,8 @@ open class ChartDataSet: ChartBaseDataSet
         closestToY yValue: Double,
         rounding: ChartDataSetRounding) -> Int
     {
-        var low = 0
-        var high = values.count - 1
+        var low = values.startIndex
+        var high = values.endIndex - 1
         var closest = high
         
         while low < high
@@ -321,7 +321,7 @@ open class ChartDataSet: ChartBaseDataSet
             if rounding == .up
             {
                 // If rounding up, and found x-value is lower than specified x, and we can go upper...
-                if closestXValue < xValue && closest < values.count - 1
+                if closestXValue < xValue && closest < values.endIndex - 1
                 {
                     closest += 1
                 }
@@ -349,7 +349,7 @@ open class ChartDataSet: ChartBaseDataSet
                 while true
                 {
                     closest += 1
-                    if closest >= values.count { break }
+                    if closest >= values.endIndex { break }
                     
                     let value = values[closest]
                     
