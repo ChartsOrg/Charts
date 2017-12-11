@@ -49,8 +49,6 @@ extension CGSize {
 
 open class ChartUtils
 {
-    private static var _defaultValueFormatter: IValueFormatter = ChartUtils.generateDefaultValueFormatter()
-
     internal class func roundToNextSignificant(number: Double) -> Double
     {
         if number.isInfinite || number.isNaN || number == 0
@@ -270,18 +268,6 @@ open class ChartUtils
     {
         let rect = text.boundingRect(with: constrainedToSize, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
         drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, attributes: attributes, constrainedToSize: constrainedToSize, anchor: anchor, angleRadians: angleRadians)
-    }
-
-    private class func generateDefaultValueFormatter() -> IValueFormatter
-    {
-        let formatter = DefaultValueFormatter(decimals: 1)
-        return formatter
-    }
-    
-    /// - returns: The default value formatter used for all chart components that needs a default
-    open class func defaultValueFormatter() -> IValueFormatter
-    {
-        return _defaultValueFormatter
     }
 
     /// MARK: - Bridging functions
