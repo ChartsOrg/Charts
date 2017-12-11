@@ -81,7 +81,7 @@ open class Legend: ComponentBase
     /// Are the legend labels/colors a custom value or auto calculated? If false, then it's auto, if true, then custom.
     /// 
     /// **default**: false (automatic legend)
-    fileprivate var _isLegendCustom = false
+    private var _isLegendCustom = false
 
     /// The horizontal alignment of the legend
     @objc open var horizontalAlignment: HorizontalAlignment = HorizontalAlignment.left
