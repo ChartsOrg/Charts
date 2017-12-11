@@ -36,13 +36,13 @@ open class RadarChartView: PieRadarChartViewBase
     @objc open var drawWeb = true
     
     /// modulus that determines how many labels and web-lines are skipped before the next is drawn
-    fileprivate var _skipWebLineCount = 0
+    private var _skipWebLineCount = 0
     
     /// the object reprsenting the y-axis labels
-    fileprivate var _yAxis: YAxis!
+    private var _yAxis: YAxis!
     
-    @objc internal var _yAxisRenderer: YAxisRendererRadarChart!
-    @objc internal var _xAxisRenderer: XAxisRendererRadarChart!
+    internal var _yAxisRenderer: YAxisRendererRadarChart!
+    internal var _xAxisRenderer: XAxisRendererRadarChart!
     
     public override init(frame: CGRect)
     {
@@ -101,10 +101,7 @@ open class RadarChartView: PieRadarChartViewBase
     {
         super.draw(rect)
 
-        if _data === nil
-        {
-            return
-        }
+        guard data != nil, let renderer = renderer else { return }
         
         let optionalContext = NSUIGraphicsGetCurrentContext()
         guard let context = optionalContext else { return }
@@ -118,7 +115,7 @@ open class RadarChartView: PieRadarChartViewBase
         
         if drawWeb
         {
-            renderer!.drawExtras(context: context)
+            renderer.drawExtras(context: context)
         }
         
         if _yAxis.isEnabled && _yAxis.isDrawLimitLinesBehindDataEnabled
@@ -126,11 +123,11 @@ open class RadarChartView: PieRadarChartViewBase
             _yAxisRenderer.renderLimitLines(context: context)
         }
 
-        renderer!.drawData(context: context)
+        renderer.drawData(context: context)
 
         if valuesToHighlight()
         {
-            renderer!.drawHighlighted(context: context, indices: _indicesToHighlight)
+            renderer.drawHighlighted(context: context, indices: _indicesToHighlight)
         }
         
         if _yAxis.isEnabled && !_yAxis.isDrawLimitLinesBehindDataEnabled
@@ -140,7 +137,7 @@ open class RadarChartView: PieRadarChartViewBase
         
         _yAxisRenderer.renderAxisLabels(context: context)
 
-        renderer!.drawValues(context: context)
+        renderer.drawValues(context: context)
 
         _legendRenderer.renderLegend(context: context)
 
@@ -166,7 +163,7 @@ open class RadarChartView: PieRadarChartViewBase
     open override func indexForAngle(_ angle: CGFloat) -> Int
     {
         // take the current angle of the chart into consideration
-        let a = ChartUtils.normalizedAngleFromAngle(angle - self.rotationAngle)
+        let a = (angle - self.rotationAngle).normalizedAngle
         
         let sliceAngle = self.sliceAngle
         

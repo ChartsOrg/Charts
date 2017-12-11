@@ -21,7 +21,7 @@ open class LineChartRenderer: LineRadarRenderer
 {
     @objc open weak var dataProvider: LineChartDataProvider?
     
-    @objc public init(dataProvider: LineChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    @objc public init(dataProvider: LineChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -86,10 +86,7 @@ open class LineChartRenderer: LineRadarRenderer
     
     @objc open func drawCubicBezier(context: CGContext, dataSet: ILineChartDataSet)
     {
-        guard
-            let dataProvider = dataProvider,
-            let animator = animator
-            else { return }
+        guard let dataProvider = dataProvider else { return }
         
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
         
@@ -183,10 +180,7 @@ open class LineChartRenderer: LineRadarRenderer
     
     @objc open func drawHorizontalBezier(context: CGContext, dataSet: ILineChartDataSet)
     {
-        guard
-            let dataProvider = dataProvider,
-            let animator = animator
-            else { return }
+        guard let dataProvider = dataProvider else { return }
         
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
         
@@ -288,15 +282,11 @@ open class LineChartRenderer: LineRadarRenderer
         }
     }
     
-    fileprivate var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
     
     @objc open func drawLinear(context: CGContext, dataSet: ILineChartDataSet)
     {
-        guard
-            let dataProvider = dataProvider,
-            let animator = animator,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let dataProvider = dataProvider else { return }
         
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
         
@@ -463,9 +453,9 @@ open class LineChartRenderer: LineRadarRenderer
     }
     
     /// Generates the path that is used for filled drawing.
-    fileprivate func generateFilledPath(dataSet: ILineChartDataSet, fillMin: CGFloat, bounds: XBounds, matrix: CGAffineTransform) -> CGPath
+    private func generateFilledPath(dataSet: ILineChartDataSet, fillMin: CGFloat, bounds: XBounds, matrix: CGAffineTransform) -> CGPath
     {
-        let phaseY = animator?.phaseY ?? 1.0
+        let phaseY = animator.phaseY
         let isDrawSteppedEnabled = dataSet.mode == .stepped
         let matrix = matrix
         
@@ -509,11 +499,9 @@ open class LineChartRenderer: LineRadarRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let lineData = dataProvider.lineData,
-            let animator = animator,
-            let viewPortHandler = self.viewPortHandler
+            let lineData = dataProvider.lineData
             else { return }
-        
+
         if isDrawingValuesAllowed(dataProvider: dataProvider)
         {
             var dataSets = lineData.dataSets
@@ -601,17 +589,15 @@ open class LineChartRenderer: LineRadarRenderer
         drawCircles(context: context)
     }
     
-    fileprivate func drawCircles(context: CGContext)
+    private func drawCircles(context: CGContext)
     {
         guard
             let dataProvider = dataProvider,
-            let lineData = dataProvider.lineData,
-            let animator = animator,
-            let viewPortHandler = self.viewPortHandler
+            let lineData = dataProvider.lineData
             else { return }
         
         let phaseY = animator.phaseY
-        
+
         let dataSets = lineData.dataSets
         
         var pt = CGPoint()
@@ -714,8 +700,7 @@ open class LineChartRenderer: LineRadarRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let lineData = dataProvider.lineData,
-            let animator = animator
+            let lineData = dataProvider.lineData
             else { return }
         
         let chartXMax = dataProvider.chartXMax

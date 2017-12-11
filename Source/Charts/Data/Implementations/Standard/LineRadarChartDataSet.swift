@@ -20,7 +20,7 @@ open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadar
     // MARK: - Styling functions and accessors
     
     /// The color that is used for filling the line surface area.
-    fileprivate var _fillColor = NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0)
+    private var _fillColor = NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0)
     
     /// The color that is used for filling the line surface area.
     open var fillColor: NSUIColor
@@ -41,7 +41,7 @@ open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadar
     /// **default**: 0.33
     open var fillAlpha = CGFloat(0.33)
     
-    fileprivate var _lineWidth = CGFloat(1.0)
+    private var _lineWidth = CGFloat(1.0)
     
     /// line width of the chart (min = 0.0, max = 10)
     ///
