@@ -27,7 +27,6 @@ open class ChartDataSet: ChartBaseDataSet
     public required init()
     {
         super.init()
-        
         _values = [ChartDataEntry]()
     }
     
@@ -513,21 +512,6 @@ open class ChartDataSet: ChartBaseDataSet
         return removed
     }
     
-    /// Checks if this DataSet contains the specified Entry.
-    /// - returns: `true` if contains the entry, `false` ifnot.
-    open override func contains(_ e: ChartDataEntry) -> Bool
-    {
-        for entry in _values
-        {
-            if (entry.isEqual(e))
-            {
-                return true
-            }
-        }
-        
-        return false
-    }
-    
     /// Removes all values from this DataSet and recalculates min and max value.
     open override func clear()
     {
@@ -551,4 +535,96 @@ open class ChartDataSet: ChartBaseDataSet
     }
 }
 
+// MARK: MutableCollection
+extension ChartDataSet: MutableCollection {
+    public typealias Index = Int
+    public typealias Element = ChartDataEntry
 
+    public var startIndex: Index {
+        return _values.startIndex
+    }
+
+    public var endIndex: Index {
+        return _values.endIndex
+    }
+
+    public func index(after: Index) -> Index {
+        return _values.index(after: after)
+    }
+
+    public subscript(position: Index) -> Element {
+        get {
+            // This is intentionally not a safe subscript to mirror
+            // the behaviour of the built in Swift Collection Types
+            return _values[position]
+        }
+        set {
+            if _values == nil
+            {
+                _values = [ChartDataEntry]()
+            }
+
+            calcMinMax(entry: newValue)
+            
+            self._values[position] = newValue
+        }
+    }
+}
+
+// MARK: RandomAccessCollection
+extension ChartDataSet: RandomAccessCollection {
+    public func index(before: Index) -> Index {
+        return values.index(before: before)
+    }
+}
+
+// MARK: RangeReplaceableCollection
+extension ChartDataSet: RangeReplaceableCollection {
+    public func append(_ newElement: Element) {
+        if _values == nil
+        {
+            _values = [ChartDataEntry]()
+        }
+
+        calcMinMax(entry: newElement)
+        self.values.append(newElement)
+    }
+
+    public func remove(at position: Index) -> Element {
+        let element = self.values.remove(at: position)
+        notifyDataSetChanged()
+        return element
+    }
+
+    public func removeFirst() -> Element {
+        let element = self.values.removeFirst()
+        notifyDataSetChanged()
+        return element
+    }
+
+    public func removeFirst(_ n: Int) {
+        self.values.removeFirst(n)
+        notifyDataSetChanged()
+    }
+
+    public func removeLast() -> Element {
+        let element = self.values.removeLast()
+        notifyDataSetChanged()
+        return element
+    }
+
+    public func removeLast(_ n: Int) {
+        self.values.removeLast(n)
+        notifyDataSetChanged()
+    }
+
+    public func removeSubrange<R>(_ bounds: R) where R : RangeExpression, Index == R.Bound {
+        self._values.removeSubrange(bounds)
+        notifyDataSetChanged()
+    }
+
+    public func removeAll(keepingCapacity keepCapacity: Bool) {
+        self.values.removeAll(keepingCapacity: keepCapacity)
+        notifyDataSetChanged()
+    }
+}
