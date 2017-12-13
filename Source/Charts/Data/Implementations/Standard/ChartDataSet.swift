@@ -447,7 +447,7 @@ open class ChartDataSet: ChartBaseDataSet
     
     /// Removes the first Entry (at index 0) of this DataSet from the entries array.
     ///
-    /// - returns: `true` if successful, `false` ifnot.
+    /// - returns: `true` if successful, `false` if not.
     open override func removeFirst() -> Bool
     {
         let entry: ChartDataEntry? = values.isEmpty ? nil : values.removeFirst()
@@ -456,7 +456,7 @@ open class ChartDataSet: ChartBaseDataSet
     
     /// Removes the last Entry (at index size-1) of this DataSet from the entries array.
     ///
-    /// - returns: `true` if successful, `false` ifnot.
+    /// - returns: `true` if successful, `false` if not.
     open override func removeLast() -> Bool
     {
         let entry: ChartDataEntry? = values.isEmpty ? nil : values.removeLast()
@@ -464,7 +464,7 @@ open class ChartDataSet: ChartBaseDataSet
     }
     
     /// Checks if this DataSet contains the specified Entry.
-    /// - returns: `true` if contains the entry, `false` ifnot.
+    /// - returns: `true` if contains the entry, `false` if not.
     open override func contains(_ e: ChartDataEntry) -> Bool
     {
         for entry in values
