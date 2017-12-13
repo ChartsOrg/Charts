@@ -75,12 +75,6 @@ open class ChartDataSet: ChartBaseDataSet
     
     /// minimum x-value in the value array
     internal var _xMin: Double = Double.greatestFiniteMagnitude
-
-    /// Use this method to tell the data set that the underlying data has changed
-    open override func notifyDataSetChanged()
-    {
-        calcMinMax()
-    }
     
     open override func calcMinMax()
     {
