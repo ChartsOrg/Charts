@@ -34,8 +34,4 @@ open class AnimatedMoveViewJob: AnimatedViewPortJob
         transformer.pointValueToPixel(&pt)
         viewPortHandler.centerViewPort(pt: pt, chart: view)
     }
-
-    override func animationEnd() {
-        // Do nothing
-    }
 }
