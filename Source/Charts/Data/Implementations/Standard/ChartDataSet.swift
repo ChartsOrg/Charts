@@ -41,9 +41,8 @@ open class ChartDataSet: ChartBaseDataSet
     @objc public init(values: [ChartDataEntry], label: String)
     {
         self.values = values
-
         super.init(label: label)
-
+        
         self.calcMinMax()
     }
     
