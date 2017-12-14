@@ -125,7 +125,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                 
                 let valueFont = dataSet.valueFont
                 
-                guard let formatter = dataSet.valueFormatter else { continue }
+                let formatter = dataSet.valueFormatter
                 
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix

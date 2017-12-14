@@ -268,35 +268,10 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     
     /// - returns: `true` if value highlighting is enabled for this dataset
     open var isHighlightEnabled: Bool { return highlightEnabled }
-    
+        
     /// Custom formatter that is used instead of the auto-formatter if set
-    internal var _valueFormatter: IValueFormatter?
-    
-    /// Custom formatter that is used instead of the auto-formatter if set
-    open var valueFormatter: IValueFormatter?
-    {
-        get
-        {
-            if needsFormatter
-            {
-                return ChartUtils.defaultValueFormatter()
-            }
-            
-            return _valueFormatter
-        }
-        set
-        {
-            if newValue == nil { return }
-            
-            _valueFormatter = newValue
-        }
-    }
-    
-    open var needsFormatter: Bool
-    {
-        return _valueFormatter == nil
-    }
-    
+    open lazy var valueFormatter: IValueFormatter = ChartUtils.defaultValueFormatter()
+
     /// Sets/get a single color for value text.
     /// Setting the color clears the colors array and adds a single color.
     /// Getting will return the first color in the array.
