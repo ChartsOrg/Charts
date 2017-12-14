@@ -29,7 +29,7 @@ open class ScatterChartData: BarLineScatterCandleBubbleChartData
     {
         var max = CGFloat(0.0)
         
-        for set in _dataSets
+        for set in dataSets
         {
             let scatterDataSet = set as? IScatterChartDataSet
             

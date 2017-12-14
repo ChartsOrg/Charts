@@ -22,8 +22,9 @@ open class PieRadarChartViewBase: ChartViewBase
     /// holds the normalized version of the current rotation angle of the chart
     private var _rotationAngle = CGFloat(270.0)
     
-    /// holds the raw version of the current rotation angle of the chart
-    private var _rawRotationAngle = CGFloat(270.0)
+    /// gets the raw version of the current rotation angle of the pie chart the returned value could be any value, negative or positive, outside of the 360 degrees.
+    /// this is used when working with rotation direction, mainly by gestures and animations.
+    @objc open private(set) var rawRotationAngle: CGFloat = 270
     
     /// flag that indicates if rotation is enabled or not
     @objc open var rotationEnabled = true
@@ -335,17 +336,10 @@ open class PieRadarChartViewBase: ChartViewBase
         }
         set
         {
-            _rawRotationAngle = newValue
+            rawRotationAngle = newValue
             _rotationAngle = newValue.normalizedAngle
             setNeedsDisplay()
         }
-    }
-    
-    /// gets the raw version of the current rotation angle of the pie chart the returned value could be any value, negative or positive, outside of the 360 degrees. 
-    /// this is used when working with rotation direction, mainly by gestures and animations.
-    @objc open var rawRotationAngle: CGFloat
-    {
-        return _rawRotationAngle
     }
 
     /// - returns: The diameter of the pie- or radar-chart

@@ -22,7 +22,8 @@ open class CombinedChartRenderer: DataRenderer
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     @objc open var drawBarShadowEnabled = false
     
-    internal var _renderers = [DataRenderer]()
+    /// - returns: All sub-renderers.
+    @objc open private(set) var subRenderers = [DataRenderer]()
     
     internal var _drawOrder: [CombinedChartView.DrawOrder] = [.bar, .bubble, .line, .candle, .scatter]
     
@@ -38,7 +39,7 @@ open class CombinedChartRenderer: DataRenderer
     /// Creates the renderers needed for this combined-renderer in the required order. Also takes the DrawOrder into consideration.
     internal func createRenderers()
     {
-        _renderers = [DataRenderer]()
+        subRenderers = [DataRenderer]()
         
         guard let chart = chart else { return }
 
@@ -49,35 +50,35 @@ open class CombinedChartRenderer: DataRenderer
             case .bar:
                 if chart.barData !== nil
                 {
-                    _renderers.append(BarChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
+                    subRenderers.append(BarChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
                 break
                 
             case .line:
                 if chart.lineData !== nil
                 {
-                    _renderers.append(LineChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
+                    subRenderers.append(LineChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
                 break
                 
             case .candle:
                 if chart.candleData !== nil
                 {
-                    _renderers.append(CandleStickChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
+                    subRenderers.append(CandleStickChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
                 break
                 
             case .scatter:
                 if chart.scatterData !== nil
                 {
-                    _renderers.append(ScatterChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
+                    subRenderers.append(ScatterChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
                 break
                 
             case .bubble:
                 if chart.bubbleData !== nil
                 {
-                    _renderers.append(BubbleChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
+                    subRenderers.append(BubbleChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
                 break
             }
@@ -87,7 +88,7 @@ open class CombinedChartRenderer: DataRenderer
     
     open override func initBuffers()
     {
-        for renderer in _renderers
+        for renderer in subRenderers
         {
             renderer.initBuffers()
         }
@@ -95,7 +96,7 @@ open class CombinedChartRenderer: DataRenderer
     
     open override func drawData(context: CGContext)
     {
-        for renderer in _renderers
+        for renderer in subRenderers
         {
             renderer.drawData(context: context)
         }
@@ -103,7 +104,7 @@ open class CombinedChartRenderer: DataRenderer
     
     open override func drawValues(context: CGContext)
     {
-        for renderer in _renderers
+        for renderer in subRenderers
         {
             renderer.drawValues(context: context)
         }
@@ -111,7 +112,7 @@ open class CombinedChartRenderer: DataRenderer
     
     open override func drawExtras(context: CGContext)
     {
-        for renderer in _renderers
+        for renderer in subRenderers
         {
             renderer.drawExtras(context: context)
         }
@@ -119,7 +120,7 @@ open class CombinedChartRenderer: DataRenderer
     
     open override func drawHighlighted(context: CGContext, indices: [Highlight])
     {
-        for renderer in _renderers
+        for renderer in subRenderers
         {
             var data: ChartData?
             
@@ -155,23 +156,16 @@ open class CombinedChartRenderer: DataRenderer
     /// - returns: The sub-renderer object at the specified index.
     @objc open func getSubRenderer(index: Int) -> DataRenderer?
     {
-        if index >= _renderers.count || index < 0
+        if index >= subRenderers.count || index < 0
         {
             return nil
         }
         else
         {
-            return _renderers[index]
+            return subRenderers[index]
         }
     }
 
-    /// - returns: All sub-renderers.
-    @objc open var subRenderers: [DataRenderer]
-    {
-        get { return _renderers }
-        set { _renderers = newValue }
-    }
-    
     // MARK: Accessors
     
     /// - returns: `true` if drawing values above bars is enabled, `false` ifnot

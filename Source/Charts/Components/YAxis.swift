@@ -74,8 +74,8 @@ open class YAxis: AxisBase
     @objc open var labelPosition = LabelPosition.outsideChart
     
     /// the side this axis object represents
-    private var _axisDependency = AxisDependency.left
-    
+    @objc open private(set) var axisDependency = AxisDependency.left
+
     /// the minimum width that the axis should take
     /// 
     /// **default**: 0.0
@@ -98,16 +98,11 @@ open class YAxis: AxisBase
     {
         super.init()
         
-        _axisDependency = position
+        axisDependency = position
         
         self.yOffset = 0.0
     }
-    
-    @objc open var axisDependency: AxisDependency
-    {
-        return _axisDependency
-    }
-    
+
     @objc open func requiredSize() -> CGSize
     {
         let label = getLongestLabel() as NSString
@@ -141,8 +136,8 @@ open class YAxis: AxisBase
     open override func calculate(min dataMin: Double, max dataMax: Double)
     {
         // if custom, use value as is, else use data value
-        var min = _customAxisMin ? _axisMinimum : dataMin
-        var max = _customAxisMax ? _axisMaximum : dataMax
+        var min = _customAxisMin ? axisMinimum : dataMin
+        var max = _customAxisMax ? axisMaximum : dataMax
         
         // temporary range (before calculations)
         let range = abs(max - min)
@@ -158,18 +153,18 @@ open class YAxis: AxisBase
         if !_customAxisMin
         {
             let bottomSpace = range * Double(spaceBottom)
-            _axisMinimum = (min - bottomSpace)
+            axisMinimum = (min - bottomSpace)
         }
         
         // top-space only effects non-custom max
         if !_customAxisMax
         {
             let topSpace = range * Double(spaceTop)
-            _axisMaximum = (max + topSpace)
+            axisMaximum = (max + topSpace)
         }
         
         // calc actual range
-        axisRange = abs(_axisMaximum - _axisMinimum)
+        axisRange = abs(axisMaximum - axisMinimum)
     }
     
     @objc open var isDrawBottomYLabelEntryEnabled: Bool { return drawBottomYLabelEntryEnabled }

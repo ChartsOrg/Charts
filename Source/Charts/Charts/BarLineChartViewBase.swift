@@ -180,17 +180,17 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
         if _leftAxis.isEnabled
         {
-            _leftYAxisRenderer?.computeAxis(min: _leftAxis._axisMinimum, max: _leftAxis._axisMaximum, inverted: _leftAxis.isInverted)
+            _leftYAxisRenderer?.computeAxis(min: _leftAxis.axisMinimum, max: _leftAxis.axisMaximum, inverted: _leftAxis.isInverted)
         }
         
         if _rightAxis.isEnabled
         {
-            _rightYAxisRenderer?.computeAxis(min: _rightAxis._axisMinimum, max: _rightAxis._axisMaximum, inverted: _rightAxis.isInverted)
+            _rightYAxisRenderer?.computeAxis(min: _rightAxis.axisMinimum, max: _rightAxis.axisMaximum, inverted: _rightAxis.isInverted)
         }
         
         if _xAxis.isEnabled
         {
-            _xAxisRenderer?.computeAxis(min: _xAxis._axisMinimum, max: _xAxis._axisMaximum, inverted: false)
+            _xAxisRenderer?.computeAxis(min: _xAxis.axisMinimum, max: _xAxis.axisMaximum, inverted: false)
         }
         
         _xAxisRenderer?.renderAxisLine(context: context)
@@ -302,8 +302,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     internal func prepareValuePxMatrix()
     {
-        _rightAxisTransformer.prepareMatrixValuePx(chartXMin: _xAxis._axisMinimum, deltaX: CGFloat(xAxis.axisRange), deltaY: CGFloat(_rightAxis.axisRange), chartYMin: _rightAxis._axisMinimum)
-        _leftAxisTransformer.prepareMatrixValuePx(chartXMin: xAxis._axisMinimum, deltaX: CGFloat(xAxis.axisRange), deltaY: CGFloat(_leftAxis.axisRange), chartYMin: _leftAxis._axisMinimum)
+        _rightAxisTransformer.prepareMatrixValuePx(chartXMin: _xAxis.axisMinimum, deltaX: CGFloat(xAxis.axisRange), deltaY: CGFloat(_rightAxis.axisRange), chartYMin: _rightAxis.axisMinimum)
+        _leftAxisTransformer.prepareMatrixValuePx(chartXMin: xAxis.axisMinimum, deltaX: CGFloat(xAxis.axisRange), deltaY: CGFloat(_leftAxis.axisRange), chartYMin: _leftAxis.axisMinimum)
     }
     
     internal func prepareOffsetMatrix()
@@ -318,14 +318,14 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         calcMinMax()
         
-        _leftYAxisRenderer?.computeAxis(min: _leftAxis._axisMinimum, max: _leftAxis._axisMaximum, inverted: _leftAxis.isInverted)
-        _rightYAxisRenderer?.computeAxis(min: _rightAxis._axisMinimum, max: _rightAxis._axisMaximum, inverted: _rightAxis.isInverted)
+        _leftYAxisRenderer?.computeAxis(min: _leftAxis.axisMinimum, max: _leftAxis.axisMaximum, inverted: _leftAxis.isInverted)
+        _rightYAxisRenderer?.computeAxis(min: _rightAxis.axisMinimum, max: _rightAxis.axisMaximum, inverted: _rightAxis.isInverted)
         
         if let data = _data
         {
             _xAxisRenderer?.computeAxis(
-                min: _xAxis._axisMinimum,
-                max: _xAxis._axisMaximum,
+                min: _xAxis.axisMinimum,
+                max: _xAxis.axisMaximum,
                 inverted: false)
 
             if _legend !== nil
@@ -1812,12 +1812,12 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     open override var chartYMax: Double
     {
-        return max(leftAxis._axisMaximum, rightAxis._axisMaximum)
+        return max(leftAxis.axisMaximum, rightAxis.axisMaximum)
     }
 
     open override var chartYMin: Double
     {
-        return min(leftAxis._axisMinimum, rightAxis._axisMinimum)
+        return min(leftAxis.axisMinimum, rightAxis.axisMinimum)
     }
     
     /// - returns: `true` if either the left or the right or both axes are inverted.
@@ -1951,7 +1951,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         getTransformer(forAxis: .left).pixelToValues(&pt)
         
-        return max(xAxis._axisMinimum, Double(pt.x))
+        return max(xAxis.axisMinimum, Double(pt.x))
     }
     
     /// - returns: The highest x-index (value on the x-axis) that is still visible on the chart.
@@ -1963,6 +1963,6 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         getTransformer(forAxis: .left).pixelToValues(&pt)
 
-        return min(xAxis._axisMaximum, Double(pt.x))
+        return min(xAxis.axisMaximum, Double(pt.x))
     }
 }

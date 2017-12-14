@@ -101,7 +101,8 @@ open class Legend: ComponentBase
     /// Are the legend labels/colors a custom value or auto calculated? If false, then it's auto, if true, then custom.
     /// 
     /// **default**: false (automatic legend)
-    private var _isLegendCustom = false
+    /// - returns: `true` if a custom legend entries has been set
+    @objc open private(set) var isLegendCustom = false
     
     /// This property is deprecated - Use `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.
     @objc @available(*, deprecated: 1.0, message: "Use `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.")
@@ -505,22 +506,15 @@ open class Legend: ComponentBase
     @objc open func setCustom(entries: [LegendEntry])
     {
         self.entries = entries
-        _isLegendCustom = true
+        isLegendCustom = true
     }
     
     /// Calling this will disable the custom legend entries (set by `setLegend(...)`). Instead, the entries will again be calculated automatically (after `notifyDataSetChanged()` is called).
     @objc open func resetCustom()
     {
-        _isLegendCustom = false
+        isLegendCustom = false
     }
-    
-    /// **default**: false (automatic legend)
-    /// - returns: `true` if a custom legend entries has been set
-    @objc open var isLegendCustom: Bool
-    {
-        return _isLegendCustom
-    }
-    
+
     // MARK: - Deprecated stuff
     
     /// This property is deprecated - Use `entries`.

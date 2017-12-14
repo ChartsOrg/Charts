@@ -25,23 +25,16 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
     private var _formatter: NumberFormatter?
     @objc open var formatter: NumberFormatter?
     {
-        get { return _formatter }
-        set
-        {
+        willSet {
             hasAutoDecimals = false
-            _formatter = newValue
         }
     }
     
     private var _decimals: Int?
     open var decimals: Int?
     {
-        get { return _decimals }
-        set
-        {
-            _decimals = newValue
-            
-            if let digits = newValue
+        didSet {
+            if let digits = decimals
             {
                 self.formatter?.minimumFractionDigits = digits
                 self.formatter?.maximumFractionDigits = digits

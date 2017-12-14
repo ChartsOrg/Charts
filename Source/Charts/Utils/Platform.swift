@@ -235,15 +235,10 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     {
         private var timer: Timer?
         private var displayLink: CVDisplayLink?
-        private var _timestamp: CFTimeInterval = 0.0
+        public private(set) var timestamp: CFTimeInterval = 0.0
         
         private weak var _target: AnyObject?
         private var _selector: Selector
-        
-        public var timestamp: CFTimeInterval
-        {
-            return _timestamp
-        }
 
 		init(target: AnyObject, selector: Selector)
         {
