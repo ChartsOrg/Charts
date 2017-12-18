@@ -468,30 +468,6 @@ open class PieChartView: PieRadarChartViewBase
     {
         return CGPoint(x: circleBox.midX, y: circleBox.midY)
     }
-
-    /// set this to true to draw the enrty labels into the pie slices
-    @objc @available(*, deprecated: 1.0, message: "Use `drawEntryLabelsEnabled` instead.")
-    open var drawSliceTextEnabled: Bool
-    {
-        get
-        {
-            return drawEntryLabelsEnabled
-        }
-        set
-        {
-            drawEntryLabelsEnabled = newValue
-        }
-    }
-    
-    /// - returns: `true` if drawing entry labels is enabled, `false` ifnot
-    @objc @available(*, deprecated: 1.0, message: "Use `isDrawEntryLabelsEnabled` instead.")
-    open var isDrawSliceTextEnabled: Bool
-    {
-        get
-        {
-            return isDrawEntryLabelsEnabled
-        }
-    }
     
     /// Set this to true to draw the enrty labels into the pie slices
     @objc open var drawEntryLabelsEnabled: Bool

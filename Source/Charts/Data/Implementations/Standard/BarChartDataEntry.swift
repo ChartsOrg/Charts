@@ -74,17 +74,7 @@ open class BarChartDataEntry: ChartDataEntry
         calcPosNegSum()
         calcRanges()
     }
-    
-    /// This constructor is misleading, please use the `data` argument instead of `label`.
-    @objc @available(*, deprecated: 1.0, message: "Use `data` argument instead of `label`.")
-    public init(x: Double, yValues: [Double], label: String)
-    {
-        super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues), data: label as AnyObject?)
-        self.yValues = yValues
-        calcPosNegSum()
-        calcRanges()
-    }
-    
+        
     /// Constructor for stacked bar entries. One data object for whole stack
     @objc public init(x: Double, yValues: [Double], data: AnyObject?)
     {

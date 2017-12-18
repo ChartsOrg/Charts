@@ -300,23 +300,7 @@ open class AxisBase: ComponentBase
     }
     
     @objc open var isAxisMaxCustom: Bool { return _customAxisMax }
-    
-    /// This property is deprecated - Use `axisMinimum` instead.
-    @objc @available(*, deprecated: 1.0, message: "Use axisMinimum instead.")
-    open var axisMinValue: Double
-    {
-        get { return axisMinimum }
-        set { axisMinimum = newValue }
-    }
-    
-    /// This property is deprecated - Use `axisMaximum` instead.
-    @objc @available(*, deprecated: 1.0, message: "Use axisMaximum instead.")
-    open var axisMaxValue: Double
-    {
-        get { return axisMaximum }
-        set { axisMaximum = newValue }
-    }
-
+            
     /// Calculates the minimum, maximum and range values of the YAxis with the given minimum and maximum values from the chart data.
     /// - parameter dataMin: the y-min value according to chart data
     /// - parameter dataMax: the y-max value according to chart
