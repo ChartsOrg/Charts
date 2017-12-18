@@ -410,10 +410,10 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// null or an empty array to undo all highlighting. 
     /// This should be used to programmatically highlight values.
     /// This method *will not* call the delegate.
-    @objc open func highlightValues(_ highs: [Highlight])
+    @objc open func highlightValues(_ highs: [Highlight]?)
     {
         // set the indices to highlight
-        _indicesToHighlight = highs
+        _indicesToHighlight = highs ?? []
 
         lastHighlighted = _indicesToHighlight.isEmpty
             ? nil
@@ -463,7 +463,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - parameter callDelegate: Should the delegate be called for this change
     @objc open func highlightValue(x: Double, y: Double, dataSetIndex: Int, callDelegate: Bool)
     {
-        guard let data = _data else {
+        guard let data = _data else
+        {
             Swift.print("Value not highlighted because data is nil")
             return
         }
@@ -519,7 +520,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// CandleStick-Chart.
     @objc open func getHighlightByTouchPoint(_ pt: CGPoint) -> Highlight?
     {
-        guard _data != nil else {
+        guard _data != nil else
+        {
             Swift.print("Can't select by touch. No data set.")
             return nil
         }
