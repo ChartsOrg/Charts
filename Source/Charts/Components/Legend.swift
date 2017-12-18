@@ -19,26 +19,6 @@ import CoreGraphics
 @objc(ChartLegend)
 open class Legend: ComponentBase
 {
-    /// This property is deprecated - Use `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.
-    @available(*, deprecated: 1.0, message: "Use `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.")
-    @objc(ChartLegendPosition)
-    public enum Position: Int
-    {
-        case rightOfChart
-        case rightOfChartCenter
-        case rightOfChartInside
-        case leftOfChart
-        case leftOfChartCenter
-        case leftOfChartInside
-        case belowChartLeft
-        case belowChartRight
-        case belowChartCenter
-        case aboveChartLeft
-        case aboveChartRight
-        case aboveChartCenter
-        case piechartCenter
-    }
-    
     @objc(ChartLegendForm)
     public enum Form: Int
     {
