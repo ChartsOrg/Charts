@@ -532,31 +532,7 @@ open class PieChartView: PieRadarChartViewBase
             setNeedsDisplay()
         }
     }
-    
-    /// set this to true to draw the enrty labels into the pie slices
-    @objc @available(*, deprecated: 1.0, message: "Use `drawEntryLabelsEnabled` instead.")
-    open var drawSliceTextEnabled: Bool
-    {
-        get
-        {
-            return drawEntryLabelsEnabled
-        }
-        set
-        {
-            drawEntryLabelsEnabled = newValue
-        }
-    }
-    
-    /// - returns: `true` if drawing entry labels is enabled, `false` ifnot
-    @objc @available(*, deprecated: 1.0, message: "Use `isDrawEntryLabelsEnabled` instead.")
-    open var isDrawSliceTextEnabled: Bool
-    {
-        get
-        {
-            return isDrawEntryLabelsEnabled
-        }
-    }
-    
+        
     /// The color the entry labels are drawn with.
     @objc open var entryLabelColor: NSUIColor?
     {
