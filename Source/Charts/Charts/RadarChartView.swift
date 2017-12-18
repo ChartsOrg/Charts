@@ -81,7 +81,7 @@ open class RadarChartView: PieRadarChartViewBase
     open override func notifyDataSetChanged()
     {
         calcMinMax()
-        
+
         _yAxisRenderer?.computeAxis(min: _yAxis._axisMinimum, max: _yAxis._axisMaximum, inverted: _yAxis.isInverted)
         _xAxisRenderer?.computeAxis(min: _xAxis._axisMinimum, max: _xAxis._axisMaximum, inverted: false)
         
@@ -162,7 +162,7 @@ open class RadarChartView: PieRadarChartViewBase
     open override func indexForAngle(_ angle: CGFloat) -> Int
     {
         // take the current angle of the chart into consideration
-        let a = ChartUtils.normalizedAngleFromAngle(angle - self.rotationAngle)
+        let a = (angle - self.rotationAngle).normalizedAngle
         
         let sliceAngle = self.sliceAngle
         
