@@ -3,7 +3,7 @@ def type
 end
 
 def project_name
-  'Charts.xcodeproj'
+  'ChartsDemo/ChartsDemo.xcodeproj'
 end
 
 def configuration
@@ -26,6 +26,13 @@ end
 def build_schemes
   %w[
     Charts
+  ]
+end
+
+def build_demo_schemes
+  %i[
+    ChartsDemo
+    ChartsDemo-Swift
   ]
 end
 
@@ -86,13 +93,13 @@ def run_xcodebuild(schemes_to_execute, tasks, destination, is_test, xcprety_args
   end
 end
 
-def execute(tasks, platform, xcprety_args: '')
+def execute(tasks, platform, is_build_demo = false, xcprety_args: '')
   is_test = tasks.include?('test')
 
   # platform specific settings
   destination = devices[platform]
 
-  schemes = is_test ? test_schemes : build_schemes
+  schemes = is_test ? test_schemes : is_build_demo ? build_demo_schemes : build_schemes
 
   # check if xcodebuild needs to be run on multiple devices
   if destination.is_a?(Array)
@@ -124,7 +131,13 @@ task :ci, [:platform] do |_task, args|
   platform = arg_to_key(args[:platform]) if args.key?(:platform)
 
   if test_platforms.include?(platform)
-    execute 'clean test', platform
+    if platform == :iOS
+      execute 'clean', platform, true
+      execute 'build', platform, true
+      execute 'test', platform
+    else
+      execute 'clean test', platform
+    end
   elsif build_platforms.include?(platform)
     execute 'clean build', platform
   else
