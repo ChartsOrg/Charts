@@ -137,9 +137,8 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
                 _xMin = data.xMin
             }
 
-            for i in 0 ..< sets.count
+            for dataset in sets
             {
-                let dataset = sets[i]
                 if dataset.axisDependency == .left
                 {
                     if dataset.yMax > _leftAxisMax
