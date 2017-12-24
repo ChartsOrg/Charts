@@ -121,8 +121,8 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
     
     open override func drawValues(context: CGContext)
     {
-        guard let
-            dataProvider = dataProvider,
+        guard
+            let dataProvider = dataProvider,
             let bubbleData = dataProvider.bubbleData,
             isDrawingValuesAllowed(dataProvider: dataProvider),
             let dataSets = bubbleData.dataSets as? [IBubbleChartDataSet]
