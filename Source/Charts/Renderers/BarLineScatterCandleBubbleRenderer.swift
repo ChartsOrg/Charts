@@ -13,15 +13,20 @@ import Foundation
 import CoreGraphics
 
 @objc(BarLineScatterCandleBubbleChartRenderer)
-open class BarLineScatterCandleBubbleRenderer: DataRenderer
+open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
 {
+    public let animator: Animator
+
+    public let viewPortHandler: ViewPortHandler
+
     internal var _xBounds = XBounds() // Reusable XBounds object
     
-    public override init(animator: Animator, viewPortHandler: ViewPortHandler)
+    public init(animator: Animator, viewPortHandler: ViewPortHandler)
     {
-        super.init(animator: animator, viewPortHandler: viewPortHandler)
+        self.animator = animator
+        self.viewPortHandler = viewPortHandler
     }
-    
+
     /// Checks if the provided entry object is in bounds for drawing considering the current animation phase.
     internal func isInBoundsX(entry e: ChartDataEntry, dataSet: IBarLineScatterCandleBubbleChartDataSet) -> Bool
     {
@@ -85,5 +90,31 @@ open class BarLineScatterCandleBubbleRenderer: DataRenderer
             self.max = entryTo == nil ? 0 : dataSet.entryIndex(entry: entryTo!)
             range = Int(Double(self.max - self.min) * phaseX)
         }
+    }
+}
+
+extension BarLineScatterCandleBubbleRenderer {
+    @objc public func initBuffers() { }
+
+    public func drawData(context: CGContext) {
+        fatalError("drawData() cannot be called on BarLineScatterCandleBubbleRenderer")
+    }
+
+    public func drawValues(context: CGContext) {
+        fatalError("drawValues() cannot be called on BarLineScatterCandleBubbleRenderer")
+    }
+
+    public func drawExtras(context: CGContext) {
+        fatalError("drawExtras() cannot be called on BarLineScatterCandleBubbleRenderer")
+    }
+
+    public func drawHighlighted(context: CGContext, indices: [Highlight]) {
+        fatalError("drawHighlighted() cannot be called on BarLineScatterCandleBubbleRenderer")
+    }
+
+    public func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
+    {
+        guard let data = dataProvider?.data else { return false }
+        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
     }
 }

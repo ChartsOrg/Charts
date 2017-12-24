@@ -185,6 +185,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         context: CGContext,
         position: CGPoint)
     {
+
         context.beginPath()
         context.move(to: CGPoint(x: position.x, y: viewPortHandler.contentTop))
         context.addLine(to: CGPoint(x: position.x, y: viewPortHandler.contentBottom))

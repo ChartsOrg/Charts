@@ -17,15 +17,16 @@ import CoreGraphics
 #endif
 
 @objc(ChartLegendRenderer)
-open class LegendRenderer: Renderer
+open class LegendRenderer: NSObject, Renderer
 {
     /// the legend object this renderer renders
     @objc open var legend: Legend?
 
+    @objc public let viewPortHandler: ViewPortHandler
+
     @objc public init(viewPortHandler: ViewPortHandler, legend: Legend?)
     {
-        super.init(viewPortHandler: viewPortHandler)
-        
+        self.viewPortHandler = viewPortHandler
         self.legend = legend
     }
 

@@ -14,6 +14,10 @@ import CoreGraphics
 
 open class CombinedChartRenderer: DataRenderer
 {
+    public let animator: Animator
+
+    public let viewPortHandler: ViewPortHandler
+
     @objc open weak var chart: CombinedChartView?
     
     /// if set to true, all values are drawn above their bars, instead of below their top
@@ -28,8 +32,8 @@ open class CombinedChartRenderer: DataRenderer
     
     @objc public init(chart: CombinedChartView, animator: Animator, viewPortHandler: ViewPortHandler)
     {
-        super.init(animator: animator, viewPortHandler: viewPortHandler)
-        
+        self.animator = animator
+        self.viewPortHandler = viewPortHandler
         self.chart = chart
         
         createRenderers()
@@ -85,7 +89,7 @@ open class CombinedChartRenderer: DataRenderer
 
     }
     
-    open override func initBuffers()
+    open func initBuffers()
     {
         for renderer in _renderers
         {
@@ -93,7 +97,7 @@ open class CombinedChartRenderer: DataRenderer
         }
     }
     
-    open override func drawData(context: CGContext)
+    open func drawData(context: CGContext)
     {
         for renderer in _renderers
         {
@@ -101,7 +105,7 @@ open class CombinedChartRenderer: DataRenderer
         }
     }
     
-    open override func drawValues(context: CGContext)
+    open func drawValues(context: CGContext)
     {
         for renderer in _renderers
         {
@@ -109,7 +113,7 @@ open class CombinedChartRenderer: DataRenderer
         }
     }
     
-    open override func drawExtras(context: CGContext)
+    open func drawExtras(context: CGContext)
     {
         for renderer in _renderers
         {
@@ -117,7 +121,7 @@ open class CombinedChartRenderer: DataRenderer
         }
     }
     
-    open override func drawHighlighted(context: CGContext, indices: [Highlight])
+    open func drawHighlighted(context: CGContext, indices: [Highlight])
     {
         for renderer in _renderers
         {
@@ -196,5 +200,15 @@ open class CombinedChartRenderer: DataRenderer
                 _drawOrder = newValue
             }
         }
+    }
+}
+
+// MARK: DataRender
+// TODO: Can be removed when dropping Objective-C compatibility
+extension CombinedChartRenderer {
+    public func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
+    {
+        guard let data = dataProvider?.data else { return false }
+        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
     }
 }
