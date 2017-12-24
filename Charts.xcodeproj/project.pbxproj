@@ -510,6 +510,7 @@
 			isa = PBXGroup;
 			children = (
 				5C3F5E1A69EC06E86505F7B1 /* BarChartTests.swift */,
+				224EFF981FBAAC4700CF9B3B /* EquatableTests.swift */,
 				7AB9062A28AAB9469752A954 /* ChartUtilsTests.swift */,
 				D2E1819D72CD7B6C4A4E8048 /* LineChartTests.swift */,
 				064989451F5C99C7006E8BB3 /* Snapshot.swift */,
@@ -945,6 +946,7 @@
 				8E1192F7A7152E9DA92C56A9 /* ChartUtilsTests.swift in Sources */,
 				2BF85BEA981B359A65E9BF67 /* LineChartTests.swift in Sources */,
 				064989461F5C99C7006E8BB3 /* Snapshot.swift in Sources */,
+				224EFF991FBAAC4700CF9B3B /* EquatableTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
