@@ -16,10 +16,10 @@ import CoreGraphics
 open class BarChartView: BarLineChartViewBase, BarChartDataProvider
 {
     /// if set to true, all values are drawn above their bars, instead of below their top
-    fileprivate var _drawValueAboveBarEnabled = true
+    private var _drawValueAboveBarEnabled = true
 
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
-    fileprivate var _drawBarShadowEnabled = false
+    private var _drawBarShadowEnabled = false
     
     internal override func initialize()
     {

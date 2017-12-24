@@ -21,7 +21,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
 {
     @objc open weak var dataProvider: BubbleChartDataProvider?
     
-    @objc public init(dataProvider: BubbleChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    @objc public init(dataProvider: BubbleChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -41,7 +41,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         }
     }
     
-    fileprivate func getShapeSize(
+    private func getShapeSize(
         entrySize: CGFloat,
         maxSize: CGFloat,
         reference: CGFloat,
@@ -54,16 +54,12 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         return shapeSize
     }
     
-    fileprivate var _pointBuffer = CGPoint()
-    fileprivate var _sizeBuffer = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _pointBuffer = CGPoint()
+    private var _sizeBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
     @objc open func drawDataSet(context: CGContext, dataSet: IBubbleChartDataSet)
     {
-        guard
-            let dataProvider = dataProvider,
-            let viewPortHandler = self.viewPortHandler,
-            let animator = animator
-            else { return }
+        guard let dataProvider = dataProvider else { return }
         
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
         
@@ -125,11 +121,9 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
     
     open override func drawValues(context: CGContext)
     {
-        guard
-            let dataProvider = dataProvider,
-            let viewPortHandler = self.viewPortHandler,
+        guard let
+            dataProvider = dataProvider,
             let bubbleData = dataProvider.bubbleData,
-            let animator = animator,
             isDrawingValuesAllowed(dataProvider: dataProvider),
             let dataSets = bubbleData.dataSets as? [IBubbleChartDataSet]
             else { return }
@@ -217,11 +211,9 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let viewPortHandler = self.viewPortHandler,
-            let bubbleData = dataProvider.bubbleData,
-            let animator = animator
+            let bubbleData = dataProvider.bubbleData
             else { return }
-        
+
         context.saveGState()
         defer { context.restoreGState() }
 
