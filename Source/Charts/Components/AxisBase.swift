@@ -97,7 +97,7 @@ open class AxisBase: ComponentBase
     /// This can be used to avoid label duplicating when zooming in.
     ///
     /// **default**: 1.0
-    @objc open private(set) var granularity = 1.0
+    @objc open var granularity = 1.0
     {
         didSet
         {
@@ -195,7 +195,7 @@ open class AxisBase: ComponentBase
     /// The minimum value for this axis.
     /// If set, this value will not be calculated automatically depending on the provided data.
     /// Use `resetCustomAxisMin()` to undo this.
-    @objc open internal(set) var axisMinimum = 0.0 {
+    @objc open var axisMinimum = 0.0 {
         willSet {
             _customAxisMax = true
         }
@@ -208,7 +208,7 @@ open class AxisBase: ComponentBase
     /// The maximum value for this axis.
     /// If set, this value will not be calculated automatically depending on the provided data.
     /// Use `resetCustomAxisMax()` to undo this.
-    @objc open internal(set) var axisMaximum = 0.0 {
+    @objc open var axisMaximum = 0.0 {
         willSet {
             _customAxisMax = true
         }
