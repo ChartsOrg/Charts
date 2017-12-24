@@ -16,30 +16,30 @@ import CoreGraphics
 open class Highlight: NSObject
 {
     /// the x-value of the highlighted value
-    fileprivate var _x = Double.nan
+    @objc open private(set) var x = Double.nan
     
     /// the y-value of the highlighted value
-    fileprivate var _y = Double.nan
+    @objc open private(set) var y = Double.nan
     
     /// the x-pixel of the highlight
-    private var _xPx = CGFloat.nan
+    @objc open private(set) var xPx = CGFloat.nan
     
     /// the y-pixel of the highlight
-    private var _yPx = CGFloat.nan
+    @objc open private(set) var yPx = CGFloat.nan
     
     /// the index of the data object - in case it refers to more than one
-    @objc open var dataIndex = Int(-1)
+    @objc open var dataIndex = -1
     
     /// the index of the dataset the highlighted value is in
-    fileprivate var _dataSetIndex = Int(0)
+    @objc open private(set) var dataSetIndex = 0
     
     /// index which value of a stacked bar entry is highlighted
     /// 
     /// **default**: -1
-    fileprivate var _stackIndex = Int(-1)
+    @objc open private(set) var stackIndex = -1
     
     /// the axis the highlighted value belongs to
-    private var _axis: YAxis.AxisDependency = YAxis.AxisDependency.left
+    @objc open private(set) var axis: YAxis.AxisDependency = .left
     
     /// the x-position (pixels) on which this highlight object was last drawn
     @objc open var drawX: CGFloat = 0.0
@@ -70,14 +70,14 @@ open class Highlight: NSObject
     {
         super.init()
         
-        _x = x
-        _y = y
-        _xPx = xPx
-        _yPx = yPx
+        self.x = x
+        self.y = y
+        self.xPx = xPx
+        self.yPx = yPx
         self.dataIndex = dataIndex
-        _dataSetIndex = dataSetIndex
-        _stackIndex = stackIndex
-        _axis = axis
+        self.dataSetIndex = dataSetIndex
+        self.stackIndex = stackIndex
+        self.axis = axis
     }
     
     /// - parameter x: the x-value of the highlighted value
@@ -117,12 +117,12 @@ open class Highlight: NSObject
     {
         super.init()
         
-        _x = x
-        _y = y
-        _xPx = xPx
-        _yPx = yPx
-        _dataSetIndex = dataSetIndex
-        _axis = axis
+        self.x = x
+        self.y = y
+        self.xPx = xPx
+        self.yPx = yPx
+        self.dataSetIndex = dataSetIndex
+        self.axis = axis
     }
     
     /// - parameter x: the x-value of the highlighted value
@@ -130,9 +130,9 @@ open class Highlight: NSObject
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
     @objc public init(x: Double, y: Double, dataSetIndex: Int)
     {
-        _x = x
-        _y = y
-        _dataSetIndex = dataSetIndex
+        self.x = x
+        self.y = y
+        self.dataSetIndex = dataSetIndex
     }
     
     /// - parameter x: the x-value of the highlighted value
@@ -140,19 +140,11 @@ open class Highlight: NSObject
     /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
     @objc public convenience init(x: Double, dataSetIndex: Int, stackIndex: Int)
     {
-        self.init(x: x, y: Double.nan, dataSetIndex: dataSetIndex)
-        _stackIndex = stackIndex
+        self.init(x: x, y: .nan, dataSetIndex: dataSetIndex)
+        self.stackIndex = stackIndex
     }
-    
-    @objc open var x: Double { return _x }
-    @objc open var y: Double { return _y }
-    @objc open var xPx: CGFloat { return _xPx }
-    @objc open var yPx: CGFloat { return _yPx }
-    @objc open var dataSetIndex: Int { return _dataSetIndex }
-    @objc open var stackIndex: Int { return _stackIndex }
-    @objc open var axis: YAxis.AxisDependency { return _axis }
-    
-    @objc open var isStacked: Bool { return _stackIndex >= 0 }
+
+    @objc open var isStacked: Bool { return stackIndex >= 0 }
     
     /// Sets the x- and y-position (pixels) where this highlight was last drawn.
     @objc open func setDraw(x: CGFloat, y: CGFloat)
@@ -172,7 +164,7 @@ open class Highlight: NSObject
     
     open override var description: String
     {
-        return "Highlight, x: \(_x), y: \(_y), dataIndex (combined charts): \(dataIndex), dataSetIndex: \(_dataSetIndex), stackIndex (only stacked barentry): \(_stackIndex)"
+        return "Highlight, x: \(x), y: \(y), dataIndex (combined charts): \(dataIndex), dataSetIndex: \(dataSetIndex), stackIndex (only stacked barentry): \(stackIndex)"
     }
     
     open override func isEqual(_ object: Any?) -> Bool
@@ -187,12 +179,12 @@ open class Highlight: NSObject
             return false
         }
         
-        if (object! as AnyObject).x != _x
+        if (object! as AnyObject).x != x
         {
             return false
         }
         
-        if (object! as AnyObject).y != _y
+        if (object! as AnyObject).y != y
         {
             return false
         }
@@ -202,12 +194,12 @@ open class Highlight: NSObject
             return false
         }
         
-        if (object! as AnyObject).dataSetIndex != _dataSetIndex
+        if (object! as AnyObject).dataSetIndex != dataSetIndex
         {
             return false
         }
         
-        if (object! as AnyObject).stackIndex != _stackIndex
+        if (object! as AnyObject).stackIndex != stackIndex
         {
             return false
         }
@@ -228,12 +220,12 @@ func ==(lhs: Highlight, rhs: Highlight) -> Bool
         return false
     }
     
-    if lhs._x != rhs._x
+    if lhs.x != rhs.x
     {
         return false
     }
     
-    if lhs._y != rhs._y
+    if lhs.y != rhs.y
     {
         return false
     }
@@ -243,12 +235,12 @@ func ==(lhs: Highlight, rhs: Highlight) -> Bool
         return false
     }
     
-    if lhs._dataSetIndex != rhs._dataSetIndex
+    if lhs.dataSetIndex != rhs.dataSetIndex
     {
         return false
     }
     
-    if lhs._stackIndex != rhs._stackIndex
+    if lhs.stackIndex != rhs.stackIndex
     {
         return false
     }

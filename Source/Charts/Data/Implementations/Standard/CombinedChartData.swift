@@ -13,12 +13,36 @@ import Foundation
 
 open class CombinedChartData: BarLineScatterCandleBubbleChartData
 {
-    private var _lineData: LineChartData!
-    private var _barData: BarChartData!
-    private var _scatterData: ScatterChartData!
-    private var _candleData: CandleChartData!
-    private var _bubbleData: BubbleChartData!
-    
+    @objc open var lineData: LineChartData! {
+        didSet {
+            notifyDataChanged()
+        }
+    }
+
+    @objc open var barData: BarChartData! {
+        didSet {
+            notifyDataChanged()
+        }
+    }
+
+    @objc open var scatterData: ScatterChartData! {
+        didSet {
+            notifyDataChanged()
+        }
+    }
+
+    @objc open var candleData: CandleChartData! {
+        didSet {
+            notifyDataChanged()
+        }
+    }
+
+    @objc open var bubbleData: BubbleChartData! {
+        didSet {
+            notifyDataChanged()
+        }
+    }
+
     public override init()
     {
         super.init()
@@ -28,80 +52,15 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     {
         super.init(dataSets: dataSets)
     }
-    
-    @objc open var lineData: LineChartData!
-    {
-        get
-        {
-            return _lineData
-        }
-        set
-        {
-            _lineData = newValue
-            notifyDataChanged()
-        }
-    }
-    
-    @objc open var barData: BarChartData!
-    {
-        get
-        {
-            return _barData
-        }
-        set
-        {
-            _barData = newValue
-            notifyDataChanged()
-        }
-    }
-    
-    @objc open var scatterData: ScatterChartData!
-    {
-        get
-        {
-            return _scatterData
-        }
-        set
-        {
-            _scatterData = newValue
-            notifyDataChanged()
-        }
-    }
-    
-    @objc open var candleData: CandleChartData!
-    {
-        get
-        {
-            return _candleData
-        }
-        set
-        {
-            _candleData = newValue
-            notifyDataChanged()
-        }
-    }
-    
-    @objc open var bubbleData: BubbleChartData!
-    {
-        get
-        {
-            return _bubbleData
-        }
-        set
-        {
-            _bubbleData = newValue
-            notifyDataChanged()
-        }
-    }
-    
+
     open override func calcMinMax()
     {
-        _dataSets.removeAll()
+        dataSets.removeAll()
         
-        _yMax = -Double.greatestFiniteMagnitude
-        _yMin = Double.greatestFiniteMagnitude
-        _xMax = -Double.greatestFiniteMagnitude
-        _xMin = Double.greatestFiniteMagnitude
+        yMax = -Double.greatestFiniteMagnitude
+        yMin = Double.greatestFiniteMagnitude
+        xMax = -Double.greatestFiniteMagnitude
+        xMin = Double.greatestFiniteMagnitude
         
         _leftAxisMax = -Double.greatestFiniteMagnitude
         _leftAxisMin = Double.greatestFiniteMagnitude
@@ -115,26 +74,26 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
             data.calcMinMax()
             
             let sets = data.dataSets
-            _dataSets.append(contentsOf: sets)
+            dataSets.append(contentsOf: sets)
             
-            if data.yMax > _yMax
+            if data.yMax > yMax
             {
-                _yMax = data.yMax
+                yMax = data.yMax
             }
             
-            if data.yMin < _yMin
+            if data.yMin < yMin
             {
-                _yMin = data.yMin
+                yMin = data.yMin
             }
             
-            if data.xMax > _xMax
+            if data.xMax > xMax
             {
-                _xMax = data.xMax
+                xMax = data.xMax
             }
             
-            if data.xMin < _xMin
+            if data.xMin < xMin
             {
-                _xMin = data.xMin
+                xMin = data.xMin
             }
             
             if data.yMax > _leftAxisMax
@@ -237,25 +196,25 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     
     open override func notifyDataChanged()
     {
-        if _lineData !== nil
+        if lineData !== nil
         {
-            _lineData.notifyDataChanged()
+            lineData.notifyDataChanged()
         }
-        if _barData !== nil
+        if barData !== nil
         {
-            _barData.notifyDataChanged()
+            barData.notifyDataChanged()
         }
-        if _scatterData !== nil
+        if scatterData !== nil
         {
-            _scatterData.notifyDataChanged()
+            scatterData.notifyDataChanged()
         }
-        if _candleData !== nil
+        if candleData !== nil
         {
-            _candleData.notifyDataChanged()
+            candleData.notifyDataChanged()
         }
-        if _bubbleData !== nil
+        if bubbleData !== nil
         {
-            _bubbleData.notifyDataChanged()
+            bubbleData.notifyDataChanged()
         }
         
         super.notifyDataChanged() // recalculate everything

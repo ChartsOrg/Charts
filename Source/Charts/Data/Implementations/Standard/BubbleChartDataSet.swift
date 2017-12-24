@@ -17,9 +17,8 @@ open class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubbleCh
 {
     // MARK: - Data functions and accessors
     
-    internal var _maxSize = CGFloat(0.0)
+    open internal(set) var maxSize: CGFloat = 0
     
-    open var maxSize: CGFloat { return _maxSize }
     @objc open var normalizeSizeEnabled: Bool = true
     open var isNormalizeSizeEnabled: Bool { return normalizeSizeEnabled }
     
@@ -32,9 +31,9 @@ open class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubbleCh
         
         let size = e.size
         
-        if size > _maxSize
+        if size > maxSize
         {
-            _maxSize = size
+            maxSize = size
         }
     }
     
@@ -50,7 +49,7 @@ open class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubbleCh
         let copy = super.copyWithZone(zone) as! BubbleChartDataSet
         copy._xMin = _xMin
         copy._xMax = _xMax
-        copy._maxSize = _maxSize
+        copy.maxSize = maxSize
         copy.highlightCircleWidth = highlightCircleWidth
         return copy
     }

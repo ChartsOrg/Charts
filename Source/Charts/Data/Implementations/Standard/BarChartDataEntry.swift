@@ -13,18 +13,30 @@ import Foundation
 
 open class BarChartDataEntry: ChartDataEntry
 {
+    /// The values the stacked barchart holds.
+    @objc open private(set) var yValues: [Double]? {
+        willSet {
+            self.y = BarChartDataEntry.calcSum(values: newValue)
+        }
+
+        didSet {
+            calcPosNegSum()
+            calcRanges()
+        }
+    }
+    
+    /// The ranges of the individual stack-entries. Will return null if this entry is not stacked.
+    @objc open private(set) var ranges: [Range]?
+
+    /// The sum of all negative values this entry (if stacked) contains. (this is a positive number)
+    @objc open private(set) var negativeSum: Double = 0.0
+    
+    /// The sum of all positive values this entry (if stacked) contains.
+    @objc open private(set) var positiveSum: Double = 0.0
+
     /// the values the stacked barchart holds
-    private var _yVals: [Double]?
-    
-    /// the ranges for the individual stack values - automatically calculated
-    private var _ranges: [Range]?
-    
-    /// the sum of all negative values this entry (if stacked) contains
-    private var _negativeSum: Double = 0.0
-    
-    /// the sum of all positive values this entry (if stacked) contains
-    private var _positiveSum: Double = 0.0
-    
+    @objc open var isStacked: Bool { return yValues != nil }
+
     public required init()
     {
         super.init()
@@ -58,7 +70,7 @@ open class BarChartDataEntry: ChartDataEntry
     @objc public init(x: Double, yValues: [Double])
     {
         super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues))
-        self._yVals = yValues
+        self.yValues = yValues
         calcPosNegSum()
         calcRanges()
     }
@@ -67,7 +79,7 @@ open class BarChartDataEntry: ChartDataEntry
     @objc public init(x: Double, yValues: [Double], data: AnyObject?)
     {
         super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues), data: data)
-        self._yVals = yValues
+        self.yValues = yValues
         calcPosNegSum()
         calcRanges()
     }
@@ -76,7 +88,7 @@ open class BarChartDataEntry: ChartDataEntry
     @objc public init(x: Double, yValues: [Double], icon: NSUIImage?, data: AnyObject?)
     {
         super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues), icon: icon, data: data)
-        self._yVals = yValues
+        self.yValues = yValues
         calcPosNegSum()
         calcRanges()
     }
@@ -85,14 +97,14 @@ open class BarChartDataEntry: ChartDataEntry
     @objc public init(x: Double, yValues: [Double], icon: NSUIImage?)
     {
         super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues), icon: icon)
-        self._yVals = yValues
+        self.yValues = yValues
         calcPosNegSum()
         calcRanges()
     }
     
     @objc open func sumBelow(stackIndex :Int) -> Double
     {
-        guard let yVals = _yVals else
+        guard let yVals = yValues else
         {
             return 0
         }
@@ -108,25 +120,13 @@ open class BarChartDataEntry: ChartDataEntry
         
         return remainder
     }
-    
-    /// - returns: The sum of all negative values this entry (if stacked) contains. (this is a positive number)
-    @objc open var negativeSum: Double
-    {
-        return _negativeSum
-    }
-    
-    /// - returns: The sum of all positive values this entry (if stacked) contains.
-    @objc open var positiveSum: Double
-    {
-        return _positiveSum
-    }
 
     @objc open func calcPosNegSum()
     {
-        guard let _yVals = _yVals else
+        guard let _yVals = yValues else
         {
-            _positiveSum = 0.0
-            _negativeSum = 0.0
+            positiveSum = 0.0
+            negativeSum = 0.0
             return
         }
         
@@ -145,8 +145,8 @@ open class BarChartDataEntry: ChartDataEntry
             }
         }
         
-        _negativeSum = sumNeg
-        _positiveSum = sumPos
+        negativeSum = sumNeg
+        positiveSum = sumPos
     }
     
     /// Splits up the stack-values of the given bar-entry into Range objects.
@@ -160,16 +160,16 @@ open class BarChartDataEntry: ChartDataEntry
             return
         }
         
-        if _ranges == nil
+        if ranges == nil
         {
-            _ranges = [Range]()
+            ranges = [Range]()
         }
         else
         {
-            _ranges?.removeAll()
+            ranges?.removeAll()
         }
         
-        _ranges?.reserveCapacity(values!.count)
+        ranges?.reserveCapacity(values!.count)
         
         var negRemain = -negativeSum
         var posRemain: Double = 0.0
@@ -180,49 +180,25 @@ open class BarChartDataEntry: ChartDataEntry
             
             if value < 0
             {
-                _ranges?.append(Range(from: negRemain, to: negRemain - value))
+                ranges?.append(Range(from: negRemain, to: negRemain - value))
                 negRemain -= value
             }
             else
             {
-                _ranges?.append(Range(from: posRemain, to: posRemain + value))
+                ranges?.append(Range(from: posRemain, to: posRemain + value))
                 posRemain += value
             }
         }
     }
-    
-    // MARK: Accessors
-    
-    /// the values the stacked barchart holds
-    @objc open var isStacked: Bool { return _yVals != nil }
-    
-    /// the values the stacked barchart holds
-    @objc open var yValues: [Double]?
-    {
-        get { return self._yVals }
-        set
-        {
-            self.y = BarChartDataEntry.calcSum(values: newValue)
-            self._yVals = newValue
-            calcPosNegSum()
-            calcRanges()
-        }
-    }
-    
-    /// - returns: The ranges of the individual stack-entries. Will return null if this entry is not stacked.
-    @objc open var ranges: [Range]?
-    {
-        return _ranges
-    }
-    
+
     // MARK: NSCopying
     
     open override func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = super.copyWithZone(zone) as! BarChartDataEntry
-        copy._yVals = _yVals
+        copy.yValues = yValues
         copy.y = y
-        copy._negativeSum = _negativeSum
+        copy.negativeSum = negativeSum
         return copy
     }
     

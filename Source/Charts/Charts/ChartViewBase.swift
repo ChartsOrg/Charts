@@ -707,12 +707,12 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     open var chartXMax: Double
     {
-        return _xAxis._axisMaximum
+        return _xAxis.axisMaximum
     }
     
     open var chartXMin: Double
     {
-        return _xAxis._axisMinimum
+        return _xAxis.axisMinimum
     }
     
     open var xRange: Double

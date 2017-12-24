@@ -20,19 +20,12 @@ open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadar
     // MARK: - Styling functions and accessors
     
     /// The color that is used for filling the line surface area.
-    private var _fillColor = NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0)
-    
-    /// The color that is used for filling the line surface area.
-    open var fillColor: NSUIColor
-    {
-        get { return _fillColor }
-        set
-        {
-            _fillColor = newValue
+    open var fillColor = NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0) {
+        didSet {
             fill = nil
         }
     }
-    
+        
     /// The object that is used for filling the area below the line.
     /// **default**: nil
     open var fill: Fill?

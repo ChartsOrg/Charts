@@ -59,9 +59,9 @@ open class AxisBase: ComponentBase
         get { return centerAxisLabelsEnabled }
     }
 
-    /// array of limitlines that can be set for the axis
-    private var _limitLines = [ChartLimitLine]()
-    
+    /// The limit lines of this axis
+    @objc open private(set) var limitLines = [ChartLimitLine]()
+
     /// Are the LimitLines drawn behind the data or in front of the data?
     /// 
     /// **default**: false
@@ -92,23 +92,15 @@ open class AxisBase: ComponentBase
     /// This could happen if two adjacent axis values are rounded to same value.
     /// If using granularity this could be avoided by having fewer axis values visible.
     @objc open var granularityEnabled = false
-    
-    private var _granularity = Double(1.0)
-    
+
     /// The minimum interval between axis values.
     /// This can be used to avoid label duplicating when zooming in.
     ///
     /// **default**: 1.0
-    @objc open var granularity: Double
+    @objc open var granularity = 1.0
     {
-        get
+        didSet
         {
-            return _granularity
-        }
-        set
-        {
-            _granularity = newValue
-            
             // set this to `true` if it was disabled, as it makes no sense to set this property with granularity disabled
             granularityEnabled = true
         }
@@ -200,15 +192,31 @@ open class AxisBase: ComponentBase
     /// Flag indicating that the axis-max value has been customized
     internal var _customAxisMax: Bool = false
     
-    /// Do not touch this directly, instead, use axisMinimum.
-    /// This is automatically calculated to represent the real min value,
-    /// and is used when calculating the effective minimum.
-    internal var _axisMinimum = Double(0)
+    /// The minimum value for this axis.
+    /// If set, this value will not be calculated automatically depending on the provided data.
+    /// Use `resetCustomAxisMin()` to undo this.
+    @objc open var axisMinimum = 0.0 {
+        willSet {
+            _customAxisMax = true
+        }
+
+        didSet {
+            axisRange = abs(axisMaximum - axisMinimum)
+        }
+    }
     
-    /// Do not touch this directly, instead, use axisMaximum.
-    /// This is automatically calculated to represent the real max value,
-    /// and is used when calculating the effective maximum.
-    internal var _axisMaximum = Double(0)
+    /// The maximum value for this axis.
+    /// If set, this value will not be calculated automatically depending on the provided data.
+    /// Use `resetCustomAxisMax()` to undo this.
+    @objc open var axisMaximum = 0.0 {
+        willSet {
+            _customAxisMax = true
+        }
+
+        didSet {
+            axisRange = abs(axisMaximum - axisMinimum)
+        }
+    }
     
     /// the total range of values this axis covers
     @objc open var axisRange = Double(0)
@@ -253,17 +261,17 @@ open class AxisBase: ComponentBase
     /// Adds a new ChartLimitLine to this axis.
     @objc open func addLimitLine(_ line: ChartLimitLine)
     {
-        _limitLines.append(line)
+        limitLines.append(line)
     }
     
     /// Removes the specified ChartLimitLine from the axis.
     @objc open func removeLimitLine(_ line: ChartLimitLine)
     {
-        for i in 0 ..< _limitLines.count
+        for i in 0 ..< limitLines.count
         {
-            if _limitLines[i] === line
+            if limitLines[i] === line
             {
-                _limitLines.remove(at: i)
+                limitLines.remove(at: i)
                 return
             }
         }
@@ -272,15 +280,9 @@ open class AxisBase: ComponentBase
     /// Removes all LimitLines from the axis.
     @objc open func removeAllLimitLines()
     {
-        _limitLines.removeAll(keepingCapacity: false)
+        limitLines.removeAll(keepingCapacity: false)
     }
-    
-    /// - returns: The LimitLines of this axis.
-    @objc open var limitLines : [ChartLimitLine]
-    {
-        return _limitLines
-    }
-    
+
     // MARK: Custom axis ranges
     
     /// By calling this method, any custom minimum value that has been previously set is reseted, and the calculation is done automatically.
@@ -298,49 +300,15 @@ open class AxisBase: ComponentBase
     }
     
     @objc open var isAxisMaxCustom: Bool { return _customAxisMax }
-        
-    /// The minimum value for this axis.
-    /// If set, this value will not be calculated automatically depending on the provided data.
-    /// Use `resetCustomAxisMin()` to undo this.
-    @objc open var axisMinimum: Double
-    {
-        get
-        {
-            return _axisMinimum
-        }
-        set
-        {
-            _customAxisMin = true
-            _axisMinimum = newValue
-            axisRange = abs(_axisMaximum - newValue)
-        }
-    }
-    
-    /// The maximum value for this axis.
-    /// If set, this value will not be calculated automatically depending on the provided data.
-    /// Use `resetCustomAxisMax()` to undo this.
-    @objc open var axisMaximum: Double
-    {
-        get
-        {
-            return _axisMaximum
-        }
-        set
-        {
-            _customAxisMax = true
-            _axisMaximum = newValue
-            axisRange = abs(newValue - _axisMinimum)
-        }
-    }
-    
+            
     /// Calculates the minimum, maximum and range values of the YAxis with the given minimum and maximum values from the chart data.
     /// - parameter dataMin: the y-min value according to chart data
     /// - parameter dataMax: the y-max value according to chart
     @objc open func calculate(min dataMin: Double, max dataMax: Double)
     {
         // if custom, use value as is, else use data value
-        var min = _customAxisMin ? _axisMinimum : (dataMin - spaceMin)
-        var max = _customAxisMax ? _axisMaximum : (dataMax + spaceMax)
+        var min = _customAxisMin ? axisMinimum : (dataMin - spaceMin)
+        var max = _customAxisMax ? axisMaximum : (dataMax + spaceMax)
         
         // temporary range (before calculations)
         let range = abs(max - min)
@@ -352,10 +320,7 @@ open class AxisBase: ComponentBase
             min = min - 1.0
         }
         
-        _axisMinimum = min
-        _axisMaximum = max
-        
-        // actual range
-        axisRange = abs(max - min)
+        axisMinimum = min
+        axisMaximum = max
     }
 }

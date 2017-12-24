@@ -81,6 +81,10 @@ open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChartD
     /// **default**: 0.1 (10%), max 0.45, min 0.0
     open var barSpace: CGFloat
     {
+        get
+        {
+            return _barSpace
+        }
         set
         {
             if newValue < 0.0
@@ -95,10 +99,6 @@ open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChartD
             {
                 _barSpace = newValue
             }
-        }
-        get
-        {
-            return _barSpace
         }
     }
     

@@ -15,26 +15,11 @@ import Foundation
 @objc(ChartIndexAxisValueFormatter)
 open class IndexAxisValueFormatter: NSObject, IAxisValueFormatter
 {
-    private var _values: [String] = [String]()
-    private var _valueCount: Int = 0
-    
-    @objc public var values: [String]
-    {
-        get
-        {
-            return _values
-        }
-        set
-        {
-            _values = newValue
-            _valueCount = _values.count
-        }
-    }
-    
+    @objc public var values = [String]()
+
     public override init()
     {
         super.init()
-        
     }
     
     @objc public init(values: [String])
@@ -54,11 +39,11 @@ open class IndexAxisValueFormatter: NSObject, IAxisValueFormatter
     {
         let index = Int(value.rounded())
         
-        if index < 0 || index >= _valueCount || index != Int(value)
+        if index < 0 || index >= values.count || index != Int(value)
         {
             return ""
         }
         
-        return _values[index]
+        return values[index]
     }
 }
