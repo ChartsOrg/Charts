@@ -39,22 +39,22 @@ open class Animator: NSObject
     /// the phase that is animated and influences the drawn values on the y-axis
     @objc open var phaseY: Double = 1.0
     
-    fileprivate var _startTimeX: TimeInterval = 0.0
-    fileprivate var _startTimeY: TimeInterval = 0.0
-    fileprivate var _displayLink: NSUIDisplayLink?
+    private var _startTimeX: TimeInterval = 0.0
+    private var _startTimeY: TimeInterval = 0.0
+    private var _displayLink: NSUIDisplayLink?
     
-    fileprivate var _durationX: TimeInterval = 0.0
-    fileprivate var _durationY: TimeInterval = 0.0
+    private var _durationX: TimeInterval = 0.0
+    private var _durationY: TimeInterval = 0.0
     
-    fileprivate var _endTimeX: TimeInterval = 0.0
-    fileprivate var _endTimeY: TimeInterval = 0.0
-    fileprivate var _endTime: TimeInterval = 0.0
+    private var _endTimeX: TimeInterval = 0.0
+    private var _endTimeY: TimeInterval = 0.0
+    private var _endTime: TimeInterval = 0.0
     
-    fileprivate var _enabledX: Bool = false
-    fileprivate var _enabledY: Bool = false
+    private var _enabledX: Bool = false
+    private var _enabledY: Bool = false
     
-    fileprivate var _easingX: ChartEasingFunctionBlock?
-    fileprivate var _easingY: ChartEasingFunctionBlock?
+    private var _easingX: ChartEasingFunctionBlock?
+    private var _easingY: ChartEasingFunctionBlock?
 
     public override init()
     {
@@ -119,7 +119,7 @@ open class Animator: NSObject
         }
     }
     
-    @objc fileprivate func animationLoop()
+    @objc private func animationLoop()
     {
         let currentTime: TimeInterval = CACurrentMediaTime()
         
