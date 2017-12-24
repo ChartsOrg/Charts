@@ -112,7 +112,6 @@ open class ChartUtils
     {
         return _defaultValueFormatter
     }
-
 }
 
 extension CGContext {
