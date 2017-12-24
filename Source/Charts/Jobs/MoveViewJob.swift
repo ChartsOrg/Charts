@@ -28,8 +28,8 @@ open class MoveViewJob: ViewPortJob
             else { return }
         
         var pt = CGPoint(
-            x: CGFloat(xValue),
-            y: CGFloat(yValue)
+            x: xValue,
+            y: yValue
         )
         
         transformer.pointValueToPixel(&pt)

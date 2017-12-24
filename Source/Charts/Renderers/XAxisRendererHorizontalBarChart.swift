@@ -111,7 +111,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
         
         let labelFont = axis.labelFont
         let labelTextColor = axis.labelTextColor
-        let labelRotationAngleRadians = axis.labelRotationAngle * ChartUtils.Math.FDEG2RAD
+        let labelRotationAngleRadians = axis.labelRotationAngle.DEG2RAD
         
         let centeringEnabled = axis.isCenterAxisLabelsEnabled
         

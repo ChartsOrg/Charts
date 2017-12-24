@@ -295,7 +295,7 @@ open class XAxisRenderer: NSObject, AxisRenderer
         let labelAttrs: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: axis.labelFont,
             NSAttributedStringKey.foregroundColor: axis.labelTextColor,
             NSAttributedStringKey.paragraphStyle: paraStyle]
-        let labelRotationAngleRadians = axis.labelRotationAngle * ChartUtils.Math.FDEG2RAD
+        let labelRotationAngleRadians = axis.labelRotationAngle.DEG2RAD
         
         let centeringEnabled = axis.isCenterAxisLabelsEnabled
 

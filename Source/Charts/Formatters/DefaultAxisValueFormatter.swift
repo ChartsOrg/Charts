@@ -32,7 +32,8 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
             _formatter = newValue
         }
     }
-    
+
+    // TODO: Documentation. Especially the nil case
     private var _decimals: Int?
     open var decimals: Int?
     {
@@ -90,14 +91,10 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
     open func stringForValue(_ value: Double,
                                axis: AxisBase?) -> String
     {
-        if block != nil
-        {
-            return block!(value, axis)
-        }
-        else
-        {
+        if let block = block {
+            return block(value, axis)
+        } else {
             return formatter?.string(from: NSNumber(floatLiteral: value)) ?? ""
         }
     }
-    
 }
