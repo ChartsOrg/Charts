@@ -375,10 +375,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         // set the indices to highlight
         _indicesToHighlight = highs ?? []
 
-        lastHighlighted = _indicesToHighlight.isEmpty
-            ? nil
-            : _indicesToHighlight[0]
-
+        lastHighlighted = _indicesToHighlight.first
 
         // redraw the chart
         setNeedsDisplay()
@@ -455,6 +452,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             let h = high,
             let entry = _data?.entryForHighlight(h)
             else {
+            // If no highlight or entry, remove all highleted entries and notifgy delegate.
                 high = nil
                 _indicesToHighlight.removeAll(keepingCapacity: false)
                 if callDelegate {
