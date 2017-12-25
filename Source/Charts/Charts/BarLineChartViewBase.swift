@@ -24,15 +24,15 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     internal var _maxVisibleCount = 100
     
     /// flag that indicates if auto scaling on the y axis is enabled
-    fileprivate var _autoScaleMinMaxEnabled = false
+    private var _autoScaleMinMaxEnabled = false
     
-    fileprivate var _pinchZoomEnabled = false
-    fileprivate var _doubleTapToZoomEnabled = true
-    fileprivate var _dragXEnabled = true
-    fileprivate var _dragYEnabled = true
+    private var _pinchZoomEnabled = false
+    private var _doubleTapToZoomEnabled = true
+    private var _dragXEnabled = true
+    private var _dragYEnabled = true
     
-    fileprivate var _scaleXEnabled = true
-    fileprivate var _scaleYEnabled = true
+    private var _scaleXEnabled = true
+    private var _scaleYEnabled = true
     
     /// the color for the background of the chart-drawing area (everything behind the grid lines).
     @objc open var gridBackgroundColor = NSUIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0)
@@ -88,7 +88,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     internal var _panGestureRecognizer: NSUIPanGestureRecognizer!
     
     /// flag that indicates if a custom viewport offset has been set
-    fileprivate var _customViewPortEnabled = false
+    private var _customViewPortEnabled = false
     
     public override init(frame: CGRect)
     {
@@ -281,8 +281,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         drawMarkers(context: context)
     }
     
-    fileprivate var _autoScaleLastLowestVisibleX: Double?
-    fileprivate var _autoScaleLastHighestVisibleX: Double?
+    private var _autoScaleLastLowestVisibleX: Double?
+    private var _autoScaleLastHighestVisibleX: Double?
     
     /// Performs auto scaling of the axis by recalculating the minimum and maximum y-values based on the entries currently in view.
     internal func autoScale()
@@ -506,27 +506,27 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     // MARK: - Gestures
     
-    fileprivate enum GestureScaleAxis
+    private enum GestureScaleAxis
     {
         case both
         case x
         case y
     }
     
-    fileprivate var _isDragging = false
-    fileprivate var _isScaling = false
-    fileprivate var _gestureScaleAxis = GestureScaleAxis.both
-    fileprivate var _closestDataSetToTouch: IChartDataSet!
-    fileprivate var _panGestureReachedEdge: Bool = false
-    fileprivate weak var _outerScrollView: NSUIScrollView?
+    private var _isDragging = false
+    private var _isScaling = false
+    private var _gestureScaleAxis = GestureScaleAxis.both
+    private var _closestDataSetToTouch: IChartDataSet!
+    private var _panGestureReachedEdge: Bool = false
+    private weak var _outerScrollView: NSUIScrollView?
     
-    fileprivate var _lastPanPoint = CGPoint() /// This is to prevent using setTranslation which resets velocity
+    private var _lastPanPoint = CGPoint() /// This is to prevent using setTranslation which resets velocity
     
-    fileprivate var _decelerationLastTime: TimeInterval = 0.0
-    fileprivate var _decelerationDisplayLink: NSUIDisplayLink!
-    fileprivate var _decelerationVelocity = CGPoint()
+    private var _decelerationLastTime: TimeInterval = 0.0
+    private var _decelerationDisplayLink: NSUIDisplayLink!
+    private var _decelerationVelocity = CGPoint()
     
-    @objc fileprivate func tapGestureRecognized(_ recognizer: NSUITapGestureRecognizer)
+    @objc private func tapGestureRecognized(_ recognizer: NSUITapGestureRecognizer)
     {
         if _data === nil
         {
@@ -539,7 +539,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             
             let h = getHighlightByTouchPoint(recognizer.location(in: self))
             
-            if h?.isEqual(lastHighlighted) ?? true
+            if h === nil || h == self.lastHighlighted
             {
                 highlightValue(nil, callDelegate: true)
                 lastHighlighted = nil
@@ -552,7 +552,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         }
     }
     
-    @objc fileprivate func doubleTapGestureRecognized(_ recognizer: NSUITapGestureRecognizer)
+    @objc private func doubleTapGestureRecognized(_ recognizer: NSUITapGestureRecognizer)
     {
         if _data === nil
         {
@@ -581,7 +581,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     }
     
     #if !os(tvOS)
-    @objc fileprivate func pinchGestureRecognized(_ recognizer: NSUIPinchGestureRecognizer)
+    @objc private func pinchGestureRecognized(_ recognizer: NSUIPinchGestureRecognizer)
     {
         if recognizer.state == NSUIGestureRecognizerState.began
         {
@@ -671,7 +671,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     }
     #endif
     
-    @objc fileprivate func panGestureRecognized(_ recognizer: NSUIPanGestureRecognizer)
+    @objc private func panGestureRecognized(_ recognizer: NSUIPanGestureRecognizer)
     {
         if recognizer.state == NSUIGestureRecognizerState.began && recognizer.nsuiNumberOfTouches() > 0
         {
@@ -757,9 +757,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 
                 let lastHighlighted = self.lastHighlighted
                 
-                if (h === nil && lastHighlighted !== nil) ||
-                    (h !== nil && lastHighlighted === nil) ||
-                    (lastHighlighted !== nil && !(h?.isEqual(lastHighlighted) ?? true))
+                if h != lastHighlighted
                 {
                     self.lastHighlighted = h
                     self.highlightValue(h, callDelegate: true)
@@ -792,7 +790,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         }
     }
     
-    fileprivate func performPanChange(translation: CGPoint) -> Bool
+    private func performPanChange(translation: CGPoint) -> Bool
     {
         var translation = translation
         
@@ -824,7 +822,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         return matrix.tx != originalMatrix.tx || matrix.ty != originalMatrix.ty
     }
     
-    fileprivate func isTouchInverted() -> Bool
+    private func isTouchInverted() -> Bool
     {
         return isAnyAxisInverted &&
             _closestDataSetToTouch !== nil &&
@@ -840,7 +838,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         }
     }
     
-    @objc fileprivate func decelerationLoop()
+    @objc private func decelerationLoop()
     {
         let currentTime = CACurrentMediaTime()
         
@@ -873,13 +871,15 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         }
     }
     
-    fileprivate func nsuiGestureRecognizerShouldBegin(_ gestureRecognizer: NSUIGestureRecognizer) -> Bool
+    private func nsuiGestureRecognizerShouldBegin(_ gestureRecognizer: NSUIGestureRecognizer) -> Bool
     {
         if gestureRecognizer == _panGestureRecognizer
         {
-            if _data === nil ||
-                !isDragEnabled ||
-                (self.hasNoDragOffset && self.isFullyZoomedOut && !self.isHighlightPerDragEnabled)
+            let velocity = _panGestureRecognizer.velocity(in: self)
+            if _data === nil || !isDragEnabled ||
+                (self.hasNoDragOffset && self.isFullyZoomedOut && !self.isHighlightPerDragEnabled) ||
+                (!_dragYEnabled && fabs(velocity.y) > fabs(velocity.x)) ||
+                (!_dragXEnabled && fabs(velocity.y) < fabs(velocity.x))
             {
                 return false
             }
@@ -934,7 +934,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             gestureRecognizer == _panGestureRecognizer
         {
             var scrollView = self.superview
-            while !(scrollView is NSUIScrollView)
+            while scrollView != nil && !(scrollView is NSUIScrollView)
             {
                 scrollView = scrollView?.superview
             }

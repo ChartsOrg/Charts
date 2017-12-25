@@ -54,14 +54,14 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     internal var _data: ChartData?
     
     /// Flag that indicates if highlighting per tap (touch) is enabled
-    fileprivate var _highlightPerTapEnabled = true
+    private var _highlightPerTapEnabled = true
     
     /// If set to true, chart continues to scroll after touch up
     @objc open var dragDecelerationEnabled = true
     
     /// Deceleration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately.
     /// 1 is an invalid value, and will be converted to 0.999 automatically.
-    fileprivate var _dragDecelerationFrictionCoef: CGFloat = 0.9
+    private var _dragDecelerationFrictionCoef: CGFloat = 0.9
     
     /// if true, units are drawn next to the values in the chart
     internal var _drawUnitInChart = false
@@ -72,59 +72,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// The `Description` object of the chart.
     /// This should have been called just "description", but
     @objc open var chartDescription: Description?
-    
-    /// This property is deprecated - Use `chartDescription.text` instead.
-    @objc @available(*, deprecated: 1.0, message: "Use `chartDescription.text` instead.")
-    open var descriptionText: String
-    {
-        get { return chartDescription?.text ?? "" }
-        set { chartDescription?.text = newValue }
-    }
-    
-    /// This property is deprecated - Use `chartDescription.font` instead.
-    @objc @available(*, deprecated: 1.0, message: "Use `chartDescription.font` instead.")
-    open var descriptionFont: NSUIFont?
-    {
-        get { return chartDescription?.font }
-        set
-        {
-            if let value = newValue
-            {
-                chartDescription?.font = value
-            }
-        }
-    }
-    
-    /// This property is deprecated - Use `chartDescription.textColor` instead.
-    @objc @available(*, deprecated: 1.0, message: "Use `chartDescription.textColor` instead.")
-    open var descriptionTextColor: NSUIColor?
-    {
-        get { return chartDescription?.textColor }
-        set
-        {
-            if let value = newValue
-            {
-                chartDescription?.textColor = value
-            }
-        }
-    }
-    
-    /// This property is deprecated - Use `chartDescription.textAlign` instead.
-    @objc @available(*, deprecated: 1.0, message: "Use `chartDescription.textAlign` instead.")
-    open var descriptionTextAlign: NSTextAlignment
-    {
-        get { return chartDescription?.textAlign ?? NSTextAlignment.right }
-        set { chartDescription?.textAlign = newValue }
-    }
-    
-    /// This property is deprecated - Use `chartDescription.position` instead.
-    @available(*, deprecated: 1.0, message: "Use `chartDescription.position` instead.")
-    open var descriptionTextPosition: CGPoint?
-    {
-        get { return chartDescription?.position }
-        set { chartDescription?.position = newValue }
-    }
-    
+        
     /// The legend object containing all data associated with the legend
     internal var _legend: Legend!
     
@@ -154,8 +102,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     internal var _animator: Animator!
     
     /// flag that indicates if offsets calculation has already been done or not
-    fileprivate var _offsetsCalculated = false
-	
+    private var _offsetsCalculated = false
+    
     /// array of Highlight objects that reference the highlighted slices in the chart
     internal var _indicesToHighlight = [Highlight]()
     
@@ -170,7 +118,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// The marker that is displayed when a value is clicked on the chart
     @objc open var marker: IMarker?
     
-    fileprivate var _interceptTouchEvents = false
+    private var _interceptTouchEvents = false
     
     /// An extra offset to be appended to the viewport's top
     @objc open var extraTopOffset: CGFloat = 0.0
@@ -275,8 +223,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         _data = nil
         _offsetsCalculated = false
         _indicesToHighlight.removeAll()
-	    lastHighlighted = nil
-	
+        lastHighlighted = nil
+    
         setNeedsDisplay()
     }
     
@@ -862,7 +810,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - returns: `true` if the image was saved successfully
     open func save(to path: String, format: ImageFormat, compressionQuality: Double) -> Bool
     {
-		guard let image = getChartImage(transparent: format != .jpeg) else { return false }
+        guard let image = getChartImage(transparent: format != .jpeg) else { return false }
         
         let imageData: Data?
         switch (format)
@@ -882,7 +830,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             return false
         }
         
-		return true
+        return true
     }
     
     internal var _viewportJobs = [ViewPortJob]()

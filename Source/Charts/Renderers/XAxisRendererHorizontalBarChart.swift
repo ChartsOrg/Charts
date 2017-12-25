@@ -18,7 +18,7 @@ import CoreGraphics
 
 open class XAxisRendererHorizontalBarChart: XAxisRenderer
 {
-    internal var chart: BarChartView?
+    internal weak var chart: BarChartView?
     
     @objc public init(viewPortHandler: ViewPortHandler, xAxis: XAxis?, transformer: Transformer?, chart: BarChartView)
     {
@@ -35,7 +35,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
         {
             // calculate the starting and entry point of the y-labels (depending on
             // zoom / contentrect bounds)
-            if viewPortHandler.contentWidth > 10 && !viewPortHandler.isFullyZoomedOutX
+            if viewPortHandler.contentWidth > 10 && !viewPortHandler.isFullyZoomedOutY
             {
                 let p1 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom))
                 let p2 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
@@ -122,7 +122,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
         
         let labelFont = xAxis.labelFont
         let labelTextColor = xAxis.labelTextColor
-        let labelRotationAngleRadians = xAxis.labelRotationAngle * ChartUtils.Math.FDEG2RAD
+        let labelRotationAngleRadians = xAxis.labelRotationAngle.DEG2RAD
         
         let centeringEnabled = xAxis.isCenterAxisLabelsEnabled
         
@@ -190,7 +190,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
         return contentRect
     }
     
-    fileprivate var _gridLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _gridLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
     open override func drawGridLine(context: CGContext, x: CGFloat, y: CGFloat)
     {

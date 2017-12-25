@@ -115,7 +115,7 @@ open class XAxisRenderer: AxisRendererBase
         }
     }
     
-    fileprivate var _axisLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _axisLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
     open override func renderAxisLine(context: CGContext)
     {
@@ -182,7 +182,7 @@ open class XAxisRenderer: AxisRendererBase
         let labelAttrs: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: xAxis.labelFont,
             NSAttributedStringKey.foregroundColor: xAxis.labelTextColor,
             NSAttributedStringKey.paragraphStyle: paraStyle]
-        let labelRotationAngleRadians = xAxis.labelRotationAngle * ChartUtils.Math.FDEG2RAD
+        let labelRotationAngleRadians = xAxis.labelRotationAngle.DEG2RAD
         
         let centeringEnabled = xAxis.isCenterAxisLabelsEnabled
 
