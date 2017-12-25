@@ -206,7 +206,7 @@
     [set1 setColor:[UIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f]];
     set1.valueTextColor = [UIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f];
     set1.valueFont = [UIFont systemFontOfSize:10.f];
-    set1.axisDependency = AxisDependencyLeft;
+    set1.axisDependency = AxisDependencyRight;
     
     BarChartDataSet *set2 = [[BarChartDataSet alloc] initWithValues:entries2 label:@""];
     set2.stackLabels = @[@"Stack 1", @"Stack 2"];
@@ -216,7 +216,7 @@
                     ];
     set2.valueTextColor = [UIColor colorWithRed:61/255.f green:165/255.f blue:255/255.f alpha:1.f];
     set2.valueFont = [UIFont systemFontOfSize:10.f];
-    set2.axisDependency = AxisDependencyLeft;
+    set2.axisDependency = AxisDependencyRight;
 
     float groupSpace = 0.06f;
     float barSpace = 0.02f; // x2 dataset
