@@ -24,7 +24,7 @@ open class LineChartDataSet: LineRadarChartDataSet, LineChartDataSetProtocol
         case horizontalBezier
     }
     
-    fileprivate func initialize()
+    private func initialize()
     {
         // default color
         circleColors.append(NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
@@ -51,7 +51,7 @@ open class LineChartDataSet: LineRadarChartDataSet, LineChartDataSetProtocol
     /// **default**: Linear
     open var mode: Mode = Mode.linear
     
-    fileprivate var _cubicIntensity = CGFloat(0.2)
+    private var _cubicIntensity = CGFloat(0.2)
     
     /// Intensity for cubic lines (min = 0.05, max = 1)
     ///
@@ -75,39 +75,7 @@ open class LineChartDataSet: LineRadarChartDataSet, LineChartDataSetProtocol
             }
         }
     }
-    
-    @available(*, deprecated: 1.0, message: "Use `mode` instead.")
-    open var drawCubicEnabled: Bool
-    {
-        get
-        {
-            return mode == .cubicBezier
-        }
-        set
-        {
-            mode = newValue ? LineChartDataSet.Mode.cubicBezier : LineChartDataSet.Mode.linear
-        }
-    }
-    
-    @available(*, deprecated: 1.0, message: "Use `mode` instead.")
-    open var isDrawCubicEnabled: Bool { return drawCubicEnabled }
-    
-    @available(*, deprecated: 1.0, message: "Use `mode` instead.")
-    open var drawSteppedEnabled: Bool
-    {
-        get
-        {
-            return mode == .stepped
-        }
-        set
-        {
-            mode = newValue ? LineChartDataSet.Mode.stepped : LineChartDataSet.Mode.linear
-        }
-    }
-    
-    @available(*, deprecated: 1.0, message: "Use `mode` instead.")
-    open var isDrawSteppedEnabled: Bool { return drawSteppedEnabled }
-    
+        
     /// The radius of the drawn circles.
     open var circleRadius = CGFloat(8.0)
     

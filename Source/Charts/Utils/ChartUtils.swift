@@ -16,9 +16,26 @@ import CoreGraphics
     import UIKit
 #endif
 
+extension FloatingPoint {
+    var DEG2RAD: Self {
+        return self * .pi / 180
+    }
+
+    var RAD2DEG: Self {
+        return self * 180 / .pi
+    }
+
+    /// - returns: An angle between 0.0 < 360.0 (not less than zero, less than 360)
+    /// NOTE: Value must be in degrees
+    var normalizedAngle: Self {
+        let angle = truncatingRemainder(dividingBy: 360)
+        return (sign == .minus) ? angle + 360 : angle
+    }
+}
+
 extension CGSize {
     func rotatedBy(degrees: CGFloat) -> CGSize {
-        let radians = ChartUtils.Math.FDEG2RAD * degrees
+        let radians = degrees.DEG2RAD
         return rotatedBy(radians: radians)
     }
 
@@ -89,8 +106,8 @@ open class ChartUtils
     internal class func getPosition(center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
     {
         return CGPoint(
-            x: center.x + dist * cos(angle * Math.FDEG2RAD),
-            y: center.y + dist * sin(angle * Math.FDEG2RAD)
+            x: center.x + dist * cos(angle.DEG2RAD),
+            y: center.y + dist * sin(angle.DEG2RAD)
         )
     }
     
@@ -286,61 +303,5 @@ open class ChartUtils
     open class func defaultValueFormatter() -> ValueFormatter
     {
         return _defaultValueFormatter
-    }
-
-    /// MARK: - Bridging functions
-    
-    internal class func bridgedObjCGetNSUIColorArray (swift array: [NSUIColor?]) -> [NSObject]
-    {
-        var newArray = [NSObject]()
-        for val in array
-        {
-            if val == nil
-            {
-                newArray.append(NSNull())
-            }
-            else
-            {
-                newArray.append(val!)
-            }
-        }
-        return newArray
-    }
-    
-    internal class func bridgedObjCGetNSUIColorArray (objc array: [NSObject]) -> [NSUIColor?]
-    {
-        var newArray = [NSUIColor?]()
-        for object in array
-        {
-            newArray.append(object as? NSUIColor)
-        }
-        return newArray
-    }
-    
-    internal class func bridgedObjCGetStringArray (swift array: [String?]) -> [NSObject]
-    {
-        var newArray = [NSObject]()
-        for val in array
-        {
-            if val == nil
-            {
-                newArray.append(NSNull())
-            }
-            else
-            {
-                newArray.append(val! as NSObject)
-            }
-        }
-        return newArray
-    }
-    
-    internal class func bridgedObjCGetStringArray (objc array: [NSObject]) -> [String?]
-    {
-        var newArray = [String?]()
-        for object in array
-        {
-            newArray.append(object as? String)
-        }
-        return newArray
     }
 }

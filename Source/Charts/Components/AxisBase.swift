@@ -44,7 +44,7 @@ open class AxisBase: ComponentBase
     /// flag that indicates of the labels of this axis should be drawn or not
     @objc open var drawLabelsEnabled = true
     
-    fileprivate var _centerAxisLabelsEnabled = false
+    private var _centerAxisLabelsEnabled = false
 
     /// Centers the axis labels instead of drawing them at their original position.
     /// This is useful especially for grouped BarChart.
@@ -60,7 +60,7 @@ open class AxisBase: ComponentBase
     }
 
     /// array of limitlines that can be set for the axis
-    fileprivate var _limitLines = [ChartLimitLine]()
+    private var _limitLines = [ChartLimitLine]()
     
     /// Are the LimitLines drawn behind the data or in front of the data?
     /// 
@@ -82,7 +82,7 @@ open class AxisBase: ComponentBase
     /// the number of label entries the axis should have
     ///
     /// **default**: 6
-    fileprivate var _labelCount = Int(6)
+    private var _labelCount = Int(6)
     
     /// the number of decimal digits to use (for the default formatter
     @objc open var decimals: Int = 0
@@ -93,7 +93,7 @@ open class AxisBase: ComponentBase
     /// If using granularity this could be avoided by having fewer axis values visible.
     @objc open var granularityEnabled = false
     
-    fileprivate var _granularity = Double(1.0)
+    private var _granularity = Double(1.0)
     
     /// The minimum interval between axis values.
     /// This can be used to avoid label duplicating when zooming in.
@@ -195,20 +195,20 @@ open class AxisBase: ComponentBase
     @objc open var spaceMax: Double = 0.0
     
     /// Flag indicating that the axis-min value has been customized
-    @objc internal var _customAxisMin: Bool = false
+    internal var _customAxisMin: Bool = false
     
     /// Flag indicating that the axis-max value has been customized
-    @objc internal var _customAxisMax: Bool = false
+    internal var _customAxisMax: Bool = false
     
     /// Do not touch this directly, instead, use axisMinimum.
     /// This is automatically calculated to represent the real min value,
     /// and is used when calculating the effective minimum.
-    @objc internal var _axisMinimum = Double(0)
+    internal var _axisMinimum = Double(0)
     
     /// Do not touch this directly, instead, use axisMaximum.
     /// This is automatically calculated to represent the real max value,
     /// and is used when calculating the effective maximum.
-    @objc internal var _axisMaximum = Double(0)
+    internal var _axisMaximum = Double(0)
     
     /// the total range of values this axis covers
     @objc open var axisRange = Double(0)
@@ -298,23 +298,7 @@ open class AxisBase: ComponentBase
     }
     
     @objc open var isAxisMaxCustom: Bool { return _customAxisMax }
-    
-    /// This property is deprecated - Use `axisMinimum` instead.
-    @objc @available(*, deprecated: 1.0, message: "Use axisMinimum instead.")
-    open var axisMinValue: Double
-    {
-        get { return axisMinimum }
-        set { axisMinimum = newValue }
-    }
-    
-    /// This property is deprecated - Use `axisMaximum` instead.
-    @objc @available(*, deprecated: 1.0, message: "Use axisMaximum instead.")
-    open var axisMaxValue: Double
-    {
-        get { return axisMaximum }
-        set { axisMaximum = newValue }
-    }
-    
+        
     /// The minimum value for this axis.
     /// If set, this value will not be calculated automatically depending on the provided data.
     /// Use `resetCustomAxisMin()` to undo this.

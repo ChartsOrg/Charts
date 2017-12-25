@@ -19,9 +19,9 @@ import CoreGraphics
 @objc(ZoomChartViewJob)
 open class ZoomViewJob: ViewPortJob
 {
-    @objc internal var scaleX: CGFloat = 0.0
-    @objc internal var scaleY: CGFloat = 0.0
-    @objc internal var axisDependency: YAxis.AxisDependency = YAxis.AxisDependency.left
+    internal var scaleX: CGFloat = 0.0
+    internal var scaleY: CGFloat = 0.0
+    internal var axisDependency: YAxis.AxisDependency = .left
     
     @objc public init(
         viewPortHandler: ViewPortHandler,
@@ -60,8 +60,8 @@ open class ZoomViewJob: ViewPortJob
         let xValsInView = (view as! BarLineChartViewBase).xAxis.axisRange / Double(viewPortHandler.scaleX)
         
         var pt = CGPoint(
-            x: CGFloat(xValue - xValsInView / 2.0),
-            y: CGFloat(yValue + yValsInView / 2.0)
+            x: CGFloat(xValue - xValsInView) / 2.0,
+            y: CGFloat(yValue + yValsInView) / 2.0
         )
         
         transformer.pointValueToPixel(&pt)
