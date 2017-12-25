@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'F2749BD5443C1CB5FE2080C2'
-               BlueprintName = 'ChartsTests'
-               ReferencedContainer = 'container:Charts.xcodeproj'
-               BuildableName = 'ChartsTests.xctest'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F2749BD5443C1CB5FE2080C2"
+               BlueprintName = "ChartsTests"
+               ReferencedContainer = "container:Charts.xcodeproj"
+               BuildableName = "ChartsTests.xctest">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,11 +34,11 @@
          <TestableReference
             skipped = "NO">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'F2749BD5443C1CB5FE2080C2'
-               BlueprintName = 'ChartsTests'
-               ReferencedContainer = 'container:Charts.xcodeproj'
-               BuildableName = 'ChartsTests.xctest'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F2749BD5443C1CB5FE2080C2"
+               BlueprintName = "ChartsTests"
+               ReferencedContainer = "container:Charts.xcodeproj"
+               BuildableName = "ChartsTests.xctest">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
       </AdditionalOptions>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = 'FB_REFERENCE_IMAGE_DIR'
-            value = '$(SOURCE_ROOT)/Tests/ReferenceImages'
-            isEnabled = 'YES'>
+            key = "FB_REFERENCE_IMAGE_DIR"
+            value = "$(SOURCE_ROOT)/Tests/ReferenceImages"
+            isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
    </LaunchAction>
