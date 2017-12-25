@@ -23,7 +23,7 @@ open class BarLineScatterCandleBubbleRenderer: DataRenderer
     }
     
     /// Checks if the provided entry object is in bounds for drawing considering the current animation phase.
-    @objc internal func isInBoundsX(entry e: ChartDataEntry, dataSet: BarLineScatterCandleBubbleChartDataSetProtocol) -> Bool
+    internal func isInBoundsX(entry e: ChartDataEntry, dataSet: BarLineScatterCandleBubbleChartDataSetProtocol) -> Bool
     {
         let entryIndex = dataSet.entryIndex(entry: e)
         return Double(entryIndex) < Double(dataSet.entryCount) * animator.phaseX
@@ -39,7 +39,7 @@ open class BarLineScatterCandleBubbleRenderer: DataRenderer
     }
     
     /// - returns: `true` if the DataSet values should be drawn, `false` if not.
-    @objc internal func shouldDrawValues(forDataSet set: ChartDataSetProtocol) -> Bool
+    internal func shouldDrawValues(forDataSet set: ChartDataSetProtocol) -> Bool
     {
         return set.isVisible && (set.isDrawValuesEnabled || set.isDrawIconsEnabled)
     }

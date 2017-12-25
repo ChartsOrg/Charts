@@ -22,7 +22,7 @@ open class ChartData: NSObject
     internal var _rightAxisMax: Double = -Double.greatestFiniteMagnitude
     internal var _rightAxisMin: Double = Double.greatestFiniteMagnitude
     
-    @objc internal var _dataSets = [ChartDataSetProtocol]()
+    internal var _dataSets = [ChartDataSetProtocol]()
     
     public override init()
     {
@@ -45,7 +45,7 @@ open class ChartData: NSObject
         self.init(dataSets: dataSet === nil ? nil : [dataSet!])
     }
     
-    @objc internal func initialize(dataSets: [ChartDataSetProtocol])
+    internal func initialize(dataSets: [ChartDataSetProtocol])
     {
         notifyDataChanged()
     }

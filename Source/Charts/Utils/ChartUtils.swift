@@ -49,16 +49,8 @@ extension CGSize {
 
 open class ChartUtils
 {
-    fileprivate static var _defaultValueFormatter: ValueFormatter = ChartUtils.generateDefaultValueFormatter()
-    
-    internal struct Math
-    {
-        internal static let FDEG2RAD = CGFloat(Double.pi / 180.0)
-        internal static let FRAD2DEG = CGFloat(180.0 / Double.pi)
-        internal static let DEG2RAD = Double.pi / 180.0
-        internal static let RAD2DEG = 180.0 / Double.pi
-    }
-    
+    private static var _defaultValueFormatter: ValueFormatter = ChartUtils.generateDefaultValueFormatter()
+
     internal class func roundToNextSignificant(number: Double) -> Double
     {
         if number.isInfinite || number.isNaN || number == 0
@@ -279,21 +271,8 @@ open class ChartUtils
         let rect = text.boundingRect(with: constrainedToSize, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
         drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, attributes: attributes, constrainedToSize: constrainedToSize, anchor: anchor, angleRadians: angleRadians)
     }
-    
-    /// - returns: An angle between 0.0 < 360.0 (not less than zero, less than 360)
-    internal class func normalizedAngleFromAngle(_ angle: CGFloat) -> CGFloat
-    {
-        var angle = angle
-        
-        while (angle < 0.0)
-        {
-            angle += 360.0
-        }
-        
-        return angle.truncatingRemainder(dividingBy: 360.0)
-    }
-    
-    fileprivate class func generateDefaultValueFormatter() -> ValueFormatter
+
+    private class func generateDefaultValueFormatter() -> ValueFormatter
     {
         let formatter = DefaultValueFormatter(decimals: 1)
         return formatter

@@ -48,8 +48,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     }
     
     /// The default IValueFormatter that has been determined by the chart considering the provided minimum and maximum values.
-    @objc internal var _defaultValueFormatter: ValueFormatter? = DefaultValueFormatter(decimals: 0)
-    
+    internal var _defaultValueFormatter: ValueFormatter? = DefaultValueFormatter(decimals: 0)
+
     /// object that holds all data that was originally set for the chart, before it was modified or any filtering algorithms had been applied
     internal var _data: ChartData?
     

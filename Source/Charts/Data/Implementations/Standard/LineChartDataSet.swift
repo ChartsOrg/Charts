@@ -144,7 +144,7 @@ open class LineChartDataSet: LineRadarChartDataSet, LineChartDataSetProtocol
     open var lineCapType = CGLineCap.butt
     
     /// formatter for customizing the position of the fill-line
-    fileprivate var _fillFormatter: FillFormatter = DefaultFillFormatter()
+    private var _fillFormatter: FillFormatter = DefaultFillFormatter()
     
     /// Sets a custom FillFormatterProtocol to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
     open var fillFormatter: FillFormatter?
