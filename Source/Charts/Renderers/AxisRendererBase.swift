@@ -58,29 +58,19 @@ open class AxisRendererBase: Renderer
     /// - parameter max: the maximum value in the data object for this axis
     @objc open func computeAxis(min: Double, max: Double, inverted: Bool)
     {
-        var min = min, max = max
-        
-        if let transformer = self.transformer
-        {
-            // calculate the starting and entry point of the y-labels (depending on zoom / contentrect bounds)
-            if viewPortHandler.contentWidth > 10.0 && !viewPortHandler.isFullyZoomedOutY
-            {
-                let p1 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
-                let p2 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom))
-                
-                if !inverted
-                {
-                    min = Double(p2.y)
-                    max = Double(p1.y)
-                }
-                else
-                {
-                    min = Double(p1.y)
-                    max = Double(p2.y)
-                }
-            }
-        }
-        
+        guard
+            let transformer = self.transformer,
+            viewPortHandler.contentWidth > 10.0,
+            !viewPortHandler.isFullyZoomedOutY
+            else { return computeAxisValues(min: min, max: max) }
+
+        // calculate the starting and entry point of the y-labels (depending on zoom / contentrect bounds)
+        let p1 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
+        let p2 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom))
+
+        let min = inverted ? Double(p1.y) : Double(p2.y)
+        let max = inverted ? Double(p2.y) : Double(p1.y)
+
         computeAxisValues(min: min, max: max)
     }
     
@@ -94,14 +84,17 @@ open class AxisRendererBase: Renderer
         
         let labelCount = axis.labelCount
         let range = abs(yMax - yMin)
-        
-        if labelCount == 0 || range <= 0 || range.isInfinite
-        {
-            axis.entries = [Double]()
-            axis.centeredEntries = [Double]()
-            return
+
+        guard
+            labelCount > 0,
+            range > 0,
+            !range.isInfinite
+            else {
+                axis.entries = []
+                axis.centeredEntries = []
+                return
         }
-        
+
         // Find out how much spacing (in y value space) between axis values
         let rawInterval = range / Double(labelCount)
         var interval = ChartUtils.roundToNextSignificant(number: Double(rawInterval))
@@ -110,7 +103,7 @@ open class AxisRendererBase: Renderer
         // This is used to avoid repeated values when rounding values for display.
         if axis.granularityEnabled
         {
-            interval = interval < axis.granularity ? axis.granularity : interval
+            interval = Swift.max(interval, axis.granularity)
         }
         
         // Normalize interval
@@ -127,20 +120,12 @@ open class AxisRendererBase: Renderer
         // force label count
         if axis.isForceLabelsEnabled
         {
-            interval = Double(range) / Double(labelCount - 1)
+            interval = range / Double(labelCount - 1)
             
             // Ensure stops contains at least n elements.
-            axis.entries.removeAll(keepingCapacity: true)
-            axis.entries.reserveCapacity(labelCount)
-            
-            var v = yMin
-            
-            for _ in 0 ..< labelCount
-            {
-                axis.entries.append(v)
-                v += interval
-            }
-            
+            let yMax = yMin + interval * Double(labelCount)
+            axis.entries = stride(from: yMin, to: yMax, by: interval).map { $0 }
+
             n = labelCount
         }
         else
@@ -158,8 +143,7 @@ open class AxisRendererBase: Renderer
             
             if interval != 0.0 && last != first
             {
-                for _ in stride(from: first, through: last, by: interval)
-                {
+                stride(from: first, through: last, by: interval).forEach { _ in
                     n += 1
                 }
             }
@@ -169,9 +153,7 @@ open class AxisRendererBase: Renderer
             axis.entries.reserveCapacity(labelCount)
             
             var f = first
-            var i = 0
-            while i < n
-            {
+            (0..<n).forEach { _ in
                 if f == 0.0
                 {
                     // Fix for IEEE negative zero case (Where value == -0.0, and 0.0 == -0.0)
@@ -181,31 +163,16 @@ open class AxisRendererBase: Renderer
                 axis.entries.append(Double(f))
                 
                 f += interval
-                i += 1
             }
         }
         
         // set decimals
-        if interval < 1
-        {
-            axis.decimals = Int(ceil(-log10(interval)))
-        }
-        else
-        {
-            axis.decimals = 0
-        }
-        
+        axis.decimals = interval < 1 ? Int(ceil(-log10(interval))) : 0
+
         if axis.centerAxisLabelsEnabled
         {
-            axis.centeredEntries.reserveCapacity(n)
-            axis.centeredEntries.removeAll()
-            
-            let offset: Double = interval / 2.0
-            
-            for i in 0 ..< n
-            {
-                axis.centeredEntries.append(axis.entries[i] + offset)
-            }
+            let offset = interval / 2.0
+            axis.centeredEntries = (0 ..< n).map { axis.entries[$0] + offset }
         }
     }
 }
