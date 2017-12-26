@@ -648,8 +648,8 @@
 			children = (
 				F715DB2C56C9E0615542625B /* LegendRenderer.swift */,
 				6F66B32AD8A878CBD6DB6ED2 /* Renderer.swift */,
-				2227EA581FF1F224007D98D9 /* ChartRenderers */,
 				2227EA571FF1F219007D98D9 /* AxisRenderers */,
+				2227EA581FF1F224007D98D9 /* ChartRenderers */,
 				F7059584CB30EF419CFB3335 /* ShapeRenderer */,
 			);
 			name = Renderers;
