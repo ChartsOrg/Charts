@@ -83,7 +83,7 @@ extension Double {
 
 open class ChartUtils
 {
-    private static var _defaultValueFormatter: IValueFormatter = ChartUtils.generateDefaultValueFormatter()
+    private static var _defaultValueFormatter: ValueFormatter = ChartUtils.generateDefaultValueFormatter()
 
     /// Calculates the position around a center point, depending on the distance from the center, and the angle of the position around the center.
     internal class func getPosition(center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
@@ -263,14 +263,14 @@ open class ChartUtils
         drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, attributes: attributes, constrainedToSize: constrainedToSize, anchor: anchor, angleRadians: angleRadians)
     }
 
-    private class func generateDefaultValueFormatter() -> IValueFormatter
+    private class func generateDefaultValueFormatter() -> ValueFormatter
     {
         let formatter = DefaultValueFormatter(decimals: 1)
         return formatter
     }
     
     /// - returns: The default value formatter used for all chart components that needs a default
-    open class func defaultValueFormatter() -> IValueFormatter
+    open class func defaultValueFormatter() -> ValueFormatter
     {
         return _defaultValueFormatter
     }

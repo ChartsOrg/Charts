@@ -1,5 +1,5 @@
 //
-//  ILineChartDataSet.swift
+//  LineChartDataSetProtocol.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -14,7 +14,7 @@ import CoreGraphics
 
 
 @objc
-public protocol ILineChartDataSet: ILineRadarChartDataSet
+public protocol LineChartDataSetProtocol: LineRadarChartDataSetProtocol
 {
     // MARK: - Data functions and accessors
     
@@ -75,6 +75,6 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     /// Line cap type, default is CGLineCap.Butt
     var lineCapType: CGLineCap { get set }
     
-    /// Sets a custom IFillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
-    var fillFormatter: IFillFormatter? { get set }
+    /// Sets a custom FillFormatterProtocol to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
+    var fillFormatter: FillFormatter? { get set }
 }
