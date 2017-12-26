@@ -42,5 +42,4 @@ public protocol AxisRenderer: Renderer {
 
     /// Sets up the axis values. Computes the desired number of labels between the two given extremes.
     func computeAxisValues(min: Double, max: Double)
-
 }
