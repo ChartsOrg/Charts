@@ -67,18 +67,18 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
     /// The left Y axis renderer. This is a read-write property so you can set your own custom renderer here.
     /// **default**: An instance of YAxisRenderer
-    @objc open lazy var leftYAxisRenderer = YAxisRenderer(viewPortHandler: viewPortHandler, yAxis: leftAxis, transformer: _leftAxisTransformer)
+    @objc open lazy var leftYAxisRenderer = YAxisRenderer(viewPortHandler: viewPortHandler, axis: leftAxis, transformer: _leftAxisTransformer)
 
     /// The right Y axis renderer. This is a read-write property so you can set your own custom renderer here.
     /// **default**: An instance of YAxisRenderer
-    @objc open lazy var rightYAxisRenderer = YAxisRenderer(viewPortHandler: viewPortHandler, yAxis: rightAxis, transformer: _rightAxisTransformer)
+    @objc open lazy var rightYAxisRenderer = YAxisRenderer(viewPortHandler: viewPortHandler, axis: rightAxis, transformer: _rightAxisTransformer)
     
     internal var _leftAxisTransformer: Transformer!
     internal var _rightAxisTransformer: Transformer!
     
     /// The X axis renderer. This is a read-write property so you can set your own custom renderer here.
     /// **default**: An instance of XAxisRenderer
-    @objc open lazy var xAxisRenderer = XAxisRenderer(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: _leftAxisTransformer)
+    @objc open lazy var xAxisRenderer = XAxisRenderer(viewPortHandler: viewPortHandler, axis: xAxis, transformer: _leftAxisTransformer)
     
     internal var _tapGestureRecognizer: NSUITapGestureRecognizer!
     internal var _doubleTapGestureRecognizer: NSUITapGestureRecognizer!
@@ -111,7 +111,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
         _leftAxisTransformer = Transformer(viewPortHandler: viewPortHandler)
         _rightAxisTransformer = Transformer(viewPortHandler: viewPortHandler)
-        
+
         self.highlighter = ChartHighlighter(chart: self)
         
         _tapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: #selector(tapGestureRecognized(_:)))

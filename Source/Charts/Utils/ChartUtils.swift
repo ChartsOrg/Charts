@@ -49,7 +49,7 @@ extension CGSize {
 
 extension Double {
     /// Rounds the number to the nearest multiple of it's order of magnitude, rounding away from zero if halfway.
-    func roundedToNextSignficant() -> Double {
+    func roundedToNextSignificant() -> Double {
         guard
             !isInfinite,
             !isNaN,
@@ -70,7 +70,7 @@ extension Double {
             self != 0.0
             else { return 0 }
 
-        let i = self.roundedToNextSignficant()
+        let i = self.roundedToNextSignificant()
 
         guard
             !i.isInfinite,

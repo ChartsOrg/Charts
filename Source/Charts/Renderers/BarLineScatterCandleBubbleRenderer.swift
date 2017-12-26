@@ -13,15 +13,30 @@ import Foundation
 import CoreGraphics
 
 @objc(BarLineScatterCandleBubbleChartRenderer)
-open class BarLineScatterCandleBubbleRenderer: DataRenderer
+open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
 {
+    public let viewPortHandler: ViewPortHandler
+
+    public let animator: Animator
+
     internal var _xBounds = XBounds() // Reusable XBounds object
     
-    public override init(animator: Animator, viewPortHandler: ViewPortHandler)
+    public init(animator: Animator, viewPortHandler: ViewPortHandler)
     {
-        super.init(animator: animator, viewPortHandler: viewPortHandler)
+        self.viewPortHandler = viewPortHandler
+        self.animator = animator
+
+        super.init()
     }
-    
+
+    open func drawData(context: CGContext) { }
+
+    open func drawValues(context: CGContext) { }
+
+    open func drawExtras(context: CGContext) { }
+
+    open func drawHighlighted(context: CGContext, indices: [Highlight]) { }
+
     /// Checks if the provided entry object is in bounds for drawing considering the current animation phase.
     internal func isInBoundsX(entry e: ChartDataEntry, dataSet: BarLineScatterCandleBubbleChartDataSetProtocol) -> Bool
     {
@@ -42,6 +57,14 @@ open class BarLineScatterCandleBubbleRenderer: DataRenderer
     internal func shouldDrawValues(forDataSet set: ChartDataSetProtocol) -> Bool
     {
         return set.isVisible && (set.isDrawValuesEnabled || set.isDrawIconsEnabled)
+    }
+
+    open func initBuffers() { }
+
+    open func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
+    {
+        guard let data = dataProvider?.data else { return false }
+        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
     }
 
     /// Class representing the bounds of the current viewport in terms of indices in the values array of a DataSet.
