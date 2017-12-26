@@ -38,19 +38,19 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
             
             if set.isVisible
             {
-                if !(set is IScatterChartDataSet)
+                if !(set is ScatterChartDataSetProtocol)
                 {
-                    fatalError("Datasets for ScatterChartRenderer must conform to IScatterChartDataSet")
+                    fatalError("Datasets for ScatterChartRenderer must conform to ScatterChartDataSetProtocol")
                 }
                 
-                drawDataSet(context: context, dataSet: set as! IScatterChartDataSet)
+                drawDataSet(context: context, dataSet: set as! ScatterChartDataSetProtocol)
             }
         }
     }
     
     private var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
     
-    @objc open func drawDataSet(context: CGContext, dataSet: IScatterChartDataSet)
+    @objc open func drawDataSet(context: CGContext, dataSet: ScatterChartDataSetProtocol)
     {
         guard let dataProvider = dataProvider else { return }
         
@@ -108,7 +108,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         // if values are drawn
         if isDrawingValuesAllowed(dataProvider: dataProvider)
         {
-            guard let dataSets = scatterData.dataSets as? [IScatterChartDataSet] else { return }
+            guard let dataSets = scatterData.dataSets as? [ScatterChartDataSetProtocol] else { return }
             
             let phaseY = animator.phaseY
             
@@ -206,7 +206,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         for high in indices
         {
             guard
-                let set = scatterData.getDataSetByIndex(high.dataSetIndex) as? IScatterChartDataSet,
+                let set = scatterData.getDataSetByIndex(high.dataSetIndex) as? ScatterChartDataSetProtocol,
                 set.isHighlightEnabled
                 else { continue }
             

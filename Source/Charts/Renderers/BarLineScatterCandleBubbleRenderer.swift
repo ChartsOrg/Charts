@@ -38,7 +38,7 @@ open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
     open func drawHighlighted(context: CGContext, indices: [Highlight]) { }
 
     /// Checks if the provided entry object is in bounds for drawing considering the current animation phase.
-    internal func isInBoundsX(entry e: ChartDataEntry, dataSet: IBarLineScatterCandleBubbleChartDataSet) -> Bool
+    internal func isInBoundsX(entry e: ChartDataEntry, dataSet: BarLineScatterCandleBubbleChartDataSetProtocol) -> Bool
     {
         let entryIndex = dataSet.entryIndex(entry: e)
         return Double(entryIndex) < Double(dataSet.entryCount) * animator.phaseX
@@ -47,14 +47,14 @@ open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
     /// Calculates and returns the x-bounds for the given DataSet in terms of index in their values array.
     /// This includes minimum and maximum visible x, as well as range.
     internal func xBounds(chart: BarLineScatterCandleBubbleChartDataProvider,
-                          dataSet: IBarLineScatterCandleBubbleChartDataSet,
+                          dataSet: BarLineScatterCandleBubbleChartDataSetProtocol,
                           animator: Animator?) -> XBounds
     {
         return XBounds(chart: chart, dataSet: dataSet, animator: animator)
     }
     
     /// - returns: `true` if the DataSet values should be drawn, `false` if not.
-    internal func shouldDrawValues(forDataSet set: IChartDataSet) -> Bool
+    internal func shouldDrawValues(forDataSet set: ChartDataSetProtocol) -> Bool
     {
         return set.isVisible && (set.isDrawValuesEnabled || set.isDrawIconsEnabled)
     }
@@ -85,7 +85,7 @@ open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
         }
         
         public init(chart: BarLineScatterCandleBubbleChartDataProvider,
-                    dataSet: IBarLineScatterCandleBubbleChartDataSet,
+                    dataSet: BarLineScatterCandleBubbleChartDataSetProtocol,
                     animator: Animator?)
         {
             self.set(chart: chart, dataSet: dataSet, animator: animator)
@@ -93,7 +93,7 @@ open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
         
         /// Calculates the minimum and maximum x values as well as the range between them.
         open func set(chart: BarLineScatterCandleBubbleChartDataProvider,
-                      dataSet: IBarLineScatterCandleBubbleChartDataSet,
+                      dataSet: BarLineScatterCandleBubbleChartDataSetProtocol,
                       animator: Animator?)
         {
             let phaseX = Swift.max(0.0, Swift.min(1.0, animator?.phaseX ?? 1.0))

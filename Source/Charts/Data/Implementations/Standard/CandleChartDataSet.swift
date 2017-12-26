@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 
-open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChartDataSet
+open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, CandleChartDataSetProtocol
 {
     
     public required init()

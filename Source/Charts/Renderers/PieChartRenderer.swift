@@ -41,7 +41,7 @@ open class PieChartRenderer: NSObject, DataRenderer
         
         if pieData != nil
         {
-            for set in pieData!.dataSets as! [IPieChartDataSet]
+            for set in pieData!.dataSets as! [PieChartDataSetProtocol]
             {
                 if set.isVisible && set.entryCount > 0
                 {
@@ -93,7 +93,7 @@ open class PieChartRenderer: NSObject, DataRenderer
     }
     
     /// Calculates the sliceSpace to use based on visible values and their size compared to the set sliceSpace.
-    @objc open func getSliceSpace(dataSet: IPieChartDataSet) -> CGFloat
+    @objc open func getSliceSpace(dataSet: PieChartDataSetProtocol) -> CGFloat
     {
         guard
             dataSet.automaticallyDisableSliceSpacing,
@@ -110,7 +110,7 @@ open class PieChartRenderer: NSObject, DataRenderer
         return sliceSpace
     }
 
-    @objc open func drawDataSet(context: CGContext, dataSet: IPieChartDataSet)
+    @objc open func drawDataSet(context: CGContext, dataSet: PieChartDataSetProtocol)
     {
         guard let chart = chart else {return }
         
@@ -303,7 +303,7 @@ open class PieChartRenderer: NSObject, DataRenderer
         
         for i in 0 ..< dataSets.count
         {
-            guard let dataSet = dataSets[i] as? IPieChartDataSet else { continue }
+            guard let dataSet = dataSets[i] as? PieChartDataSetProtocol else { continue }
             
             let drawValues = dataSet.isDrawValuesEnabled
             
@@ -700,7 +700,7 @@ open class PieChartRenderer: NSObject, DataRenderer
                 continue
             }
             
-            guard let set = data.getDataSetByIndex(indices[i].dataSetIndex) as? IPieChartDataSet else { continue }
+            guard let set = data.getDataSetByIndex(indices[i].dataSetIndex) as? PieChartDataSetProtocol else { continue }
             
             if !set.isHighlightEnabled
             {

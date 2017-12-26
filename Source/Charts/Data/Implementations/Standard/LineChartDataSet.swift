@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 
-open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
+open class LineChartDataSet: LineRadarChartDataSet, LineChartDataSetProtocol
 {
     @objc(LineChartMode)
     public enum Mode: Int
@@ -144,10 +144,10 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     open var lineCapType = CGLineCap.butt
     
     /// formatter for customizing the position of the fill-line
-    private var _fillFormatter: IFillFormatter = DefaultFillFormatter()
+    private var _fillFormatter: FillFormatter = DefaultFillFormatter()
     
-    /// Sets a custom IFillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
-    open var fillFormatter: IFillFormatter?
+    /// Sets a custom FillFormatterProtocol to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
+    open var fillFormatter: FillFormatter?
     {
         get
         {
