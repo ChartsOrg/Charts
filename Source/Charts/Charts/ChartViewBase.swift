@@ -48,8 +48,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     }
     
     /// The default IValueFormatter that has been determined by the chart considering the provided minimum and maximum values.
-    internal var _defaultValueFormatter: IValueFormatter? = DefaultValueFormatter(decimals: 0)
-    
+    internal var _defaultValueFormatter: ValueFormatter? = DefaultValueFormatter(decimals: 0)
+
     /// object that holds all data that was originally set for the chart, before it was modified or any filtering algorithms had been applied
     internal var _data: ChartData?
     
@@ -93,7 +93,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// object responsible for rendering the data
     @objc open var renderer: DataRenderer?
     
-    @objc open var highlighter: IHighlighter?
+    @objc open var highlighter: Highlighter?
     
     /// object that manages the bounds and drawing constraints of the chart
     internal var _viewPortHandler: ViewPortHandler!
@@ -116,7 +116,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     @objc open var isDrawMarkersEnabled: Bool { return drawMarkers }
     
     /// The marker that is displayed when a value is clicked on the chart
-    @objc open var marker: IMarker?
+    @objc open var marker: Marker?
     
     private var _interceptTouchEvents = false
     
