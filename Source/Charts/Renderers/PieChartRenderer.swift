@@ -17,18 +17,23 @@ import CoreGraphics
 #endif
 
 
-open class PieChartRenderer: DataRenderer
+open class PieChartRenderer: NSObject, DataRenderer
 {
+    public let viewPortHandler: ViewPortHandler
+    public let animator: Animator
+
     @objc open weak var chart: PieChartView?
     
     @objc public init(chart: PieChartView, animator: Animator, viewPortHandler: ViewPortHandler)
     {
-        super.init(animator: animator, viewPortHandler: viewPortHandler)
-        
+        self.viewPortHandler = viewPortHandler
+        self.animator = animator
         self.chart = chart
+
+        super.init()
     }
     
-    open override func drawData(context: CGContext)
+    open func drawData(context: CGContext)
     {
         guard let chart = chart else { return }
         
@@ -254,7 +259,7 @@ open class PieChartRenderer: DataRenderer
         context.restoreGState()
     }
     
-    open override func drawValues(context: CGContext)
+    open func drawValues(context: CGContext)
     {
         guard
             let chart = chart,
@@ -545,12 +550,20 @@ open class PieChartRenderer: DataRenderer
         }
     }
     
-    open override func drawExtras(context: CGContext)
+    open func drawExtras(context: CGContext)
     {
         drawHole(context: context)
         drawCenterText(context: context)
     }
-    
+
+    open func initBuffers() { }
+
+    open func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
+    {
+        guard let data = dataProvider?.data else { return false }
+        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
+    }
+
     /// draws the hole in the center of the chart and the transparent circle / hole
     private func drawHole(context: CGContext)
     {
@@ -656,7 +669,7 @@ open class PieChartRenderer: DataRenderer
         }
     }
     
-    open override func drawHighlighted(context: CGContext, indices: [Highlight])
+    open func drawHighlighted(context: CGContext, indices: [Highlight])
     {
         guard
             let chart = chart,

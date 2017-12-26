@@ -94,7 +94,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         }
         else
         {
-            print("There's no IShapeRenderer specified for ScatterDataSet", terminator: "\n")
+            print("There's no ShapeRenderer specified for ScatterDataSet", terminator: "\n")
         }
     }
     
