@@ -106,10 +106,10 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         _leftAxisTransformer = Transformer(viewPortHandler: _viewPortHandler)
         _rightAxisTransformer = Transformer(viewPortHandler: _viewPortHandler)
         
-        _leftYAxisRenderer = YAxisRenderer(viewPortHandler: _viewPortHandler, yAxis: _leftAxis, transformer: _leftAxisTransformer)
-        _rightYAxisRenderer = YAxisRenderer(viewPortHandler: _viewPortHandler, yAxis: _rightAxis, transformer: _rightAxisTransformer)
+        _leftYAxisRenderer = YAxisRenderer(viewPortHandler: _viewPortHandler, axis: _leftAxis, transformer: _leftAxisTransformer)
+        _rightYAxisRenderer = YAxisRenderer(viewPortHandler: _viewPortHandler, axis: _rightAxis, transformer: _rightAxisTransformer)
         
-        _xAxisRenderer = XAxisRenderer(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer)
+        _xAxisRenderer = XAxisRenderer(viewPortHandler: _viewPortHandler, axis: _xAxis, transformer: _leftAxisTransformer)
         
         self.highlighter = ChartHighlighter(chart: self)
         
