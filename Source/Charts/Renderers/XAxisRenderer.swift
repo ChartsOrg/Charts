@@ -17,7 +17,7 @@ import CoreGraphics
 #endif
 
 @objc(ChartXAxisRenderer)
-open class XAxisRenderer: AxisRendererBase
+open class XAxisRenderer: AxisRenderer
 {
     @objc public init(viewPortHandler: ViewPortHandler, xAxis: XAxis?, transformer: Transformer?)
     {

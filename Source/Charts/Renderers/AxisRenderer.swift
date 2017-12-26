@@ -1,5 +1,5 @@
 //
-//  AxisRendererBase.swift
+//  AxisRenderer.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -13,8 +13,10 @@ import Foundation
 import CoreGraphics
 
 @objc(ChartAxisRendererBase)
-open class AxisRendererBase: Renderer
+open class AxisRenderer: NSObject, Renderer
 {
+    @objc public let viewPortHandler: ViewPortHandler
+
     /// base axis this axis renderer works with
     @objc open var axis: AxisBase?
     
@@ -23,10 +25,11 @@ open class AxisRendererBase: Renderer
 
     @objc public init(viewPortHandler: ViewPortHandler, transformer: Transformer?, axis: AxisBase?)
     {
-        super.init(viewPortHandler: viewPortHandler)
-        
+        self.viewPortHandler = viewPortHandler
         self.transformer = transformer
         self.axis = axis
+
+        super.init()
     }
     
     /// Draws the axis labels on the specified context

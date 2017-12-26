@@ -13,15 +13,18 @@ import Foundation
 import CoreGraphics
 
 @objc(ChartDataRendererBase)
-open class DataRenderer: Renderer
+open class DataRenderer: NSObject, Renderer
 {
+    @objc public let viewPortHandler: ViewPortHandler
+
     @objc open let animator: Animator
     
     @objc public init(animator: Animator, viewPortHandler: ViewPortHandler)
     {
+        self.viewPortHandler = viewPortHandler
         self.animator = animator
 
-        super.init(viewPortHandler: viewPortHandler)
+        super.init()
     }
 
     @objc open func drawData(context: CGContext)
