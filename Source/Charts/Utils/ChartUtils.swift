@@ -49,7 +49,7 @@ extension CGSize {
 
 open class ChartUtils
 {
-    private static var _defaultValueFormatter: IValueFormatter = ChartUtils.generateDefaultValueFormatter()
+    private static var _defaultValueFormatter: ValueFormatter = ChartUtils.generateDefaultValueFormatter()
 
     internal class func roundToNextSignificant(number: Double) -> Double
     {
@@ -272,71 +272,15 @@ open class ChartUtils
         drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, attributes: attributes, constrainedToSize: constrainedToSize, anchor: anchor, angleRadians: angleRadians)
     }
 
-    private class func generateDefaultValueFormatter() -> IValueFormatter
+    private class func generateDefaultValueFormatter() -> ValueFormatter
     {
         let formatter = DefaultValueFormatter(decimals: 1)
         return formatter
     }
     
     /// - returns: The default value formatter used for all chart components that needs a default
-    open class func defaultValueFormatter() -> IValueFormatter
+    open class func defaultValueFormatter() -> ValueFormatter
     {
         return _defaultValueFormatter
-    }
-
-    /// MARK: - Bridging functions
-    
-    internal class func bridgedObjCGetNSUIColorArray (swift array: [NSUIColor?]) -> [NSObject]
-    {
-        var newArray = [NSObject]()
-        for val in array
-        {
-            if val == nil
-            {
-                newArray.append(NSNull())
-            }
-            else
-            {
-                newArray.append(val!)
-            }
-        }
-        return newArray
-    }
-    
-    internal class func bridgedObjCGetNSUIColorArray (objc array: [NSObject]) -> [NSUIColor?]
-    {
-        var newArray = [NSUIColor?]()
-        for object in array
-        {
-            newArray.append(object as? NSUIColor)
-        }
-        return newArray
-    }
-    
-    internal class func bridgedObjCGetStringArray (swift array: [String?]) -> [NSObject]
-    {
-        var newArray = [NSObject]()
-        for val in array
-        {
-            if val == nil
-            {
-                newArray.append(NSNull())
-            }
-            else
-            {
-                newArray.append(val! as NSObject)
-            }
-        }
-        return newArray
-    }
-    
-    internal class func bridgedObjCGetStringArray (objc array: [NSObject]) -> [String?]
-    {
-        var newArray = [String?]()
-        for object in array
-        {
-            newArray.append(object as? String)
-        }
-        return newArray
     }
 }

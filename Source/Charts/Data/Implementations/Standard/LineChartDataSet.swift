@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 
-open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
+open class LineChartDataSet: LineRadarChartDataSet, LineChartDataSetProtocol
 {
     @objc(LineChartMode)
     public enum Mode: Int
@@ -75,39 +75,7 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
             }
         }
     }
-    
-    @available(*, deprecated: 1.0, message: "Use `mode` instead.")
-    open var drawCubicEnabled: Bool
-    {
-        get
-        {
-            return mode == .cubicBezier
-        }
-        set
-        {
-            mode = newValue ? LineChartDataSet.Mode.cubicBezier : LineChartDataSet.Mode.linear
-        }
-    }
-    
-    @available(*, deprecated: 1.0, message: "Use `mode` instead.")
-    open var isDrawCubicEnabled: Bool { return drawCubicEnabled }
-    
-    @available(*, deprecated: 1.0, message: "Use `mode` instead.")
-    open var drawSteppedEnabled: Bool
-    {
-        get
-        {
-            return mode == .stepped
-        }
-        set
-        {
-            mode = newValue ? LineChartDataSet.Mode.stepped : LineChartDataSet.Mode.linear
-        }
-    }
-    
-    @available(*, deprecated: 1.0, message: "Use `mode` instead.")
-    open var isDrawSteppedEnabled: Bool { return drawSteppedEnabled }
-    
+        
     /// The radius of the drawn circles.
     open var circleRadius = CGFloat(8.0)
     
@@ -176,10 +144,10 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     open var lineCapType = CGLineCap.butt
     
     /// formatter for customizing the position of the fill-line
-    private var _fillFormatter: IFillFormatter = DefaultFillFormatter()
+    private var _fillFormatter: FillFormatter = DefaultFillFormatter()
     
-    /// Sets a custom IFillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
-    open var fillFormatter: IFillFormatter?
+    /// Sets a custom FillFormatterProtocol to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
+    open var fillFormatter: FillFormatter?
     {
         get
         {

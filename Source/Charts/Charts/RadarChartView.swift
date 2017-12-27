@@ -62,8 +62,8 @@ open class RadarChartView: PieRadarChartViewBase
         
         renderer = RadarChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
         
-        _yAxisRenderer = YAxisRendererRadarChart(viewPortHandler: _viewPortHandler, yAxis: _yAxis, chart: self)
-        _xAxisRenderer = XAxisRendererRadarChart(viewPortHandler: _viewPortHandler, xAxis: _xAxis, chart: self)
+        _yAxisRenderer = YAxisRendererRadarChart(viewPortHandler: _viewPortHandler, axis: _yAxis, chart: self)
+        _xAxisRenderer = XAxisRendererRadarChart(viewPortHandler: _viewPortHandler, axis: _xAxis, chart: self)
         
         self.highlighter = RadarHighlighter(chart: self)
     }
@@ -81,7 +81,7 @@ open class RadarChartView: PieRadarChartViewBase
     open override func notifyDataSetChanged()
     {
         calcMinMax()
-        
+
         _yAxisRenderer?.computeAxis(min: _yAxis._axisMinimum, max: _yAxis._axisMaximum, inverted: _yAxis.isInverted)
         _xAxisRenderer?.computeAxis(min: _xAxis._axisMinimum, max: _xAxis._axisMaximum, inverted: false)
         
