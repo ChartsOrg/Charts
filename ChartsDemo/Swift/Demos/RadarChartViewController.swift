@@ -196,7 +196,7 @@ class RadarChartViewController: DemoBaseViewController {
     }
 }
 
-extension RadarChartViewController: IAxisValueFormatter {
+extension RadarChartViewController: AxisValueFormatter {
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
         return activities[Int(value) % activities.count]
     }

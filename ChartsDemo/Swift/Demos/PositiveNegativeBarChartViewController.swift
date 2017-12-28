@@ -113,7 +113,7 @@ class PositiveNegativeBarChartViewController: DemoBaseViewController {
     }
 }
 
-extension PositiveNegativeBarChartViewController: IAxisValueFormatter {
+extension PositiveNegativeBarChartViewController: AxisValueFormatter {
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
         return dataLabels[min(max(Int(value), 0), dataLabels.count - 1)]
     }
