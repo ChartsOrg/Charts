@@ -313,7 +313,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         _leftAxisTransformer.prepareMatrixOffset(inverted: leftAxis.isInverted)
     }
     
-    open override func notifyDataSetChanged()
+    open override func reloadData()
     {
         renderer?.initBuffers()
         

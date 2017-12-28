@@ -213,7 +213,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             }
             
             // let the chart know there is new data
-            notifyDataSetChanged()
+            reloadData()
         }
     }
     
@@ -252,9 +252,9 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// Lets the chart know its underlying data has changed and should perform all necessary recalculations.
     /// It is crucial that this method is called everytime data is changed dynamically. Not calling this method can lead to crashes or unexpected behaviour.
-    @objc open func notifyDataSetChanged()
+    @objc open func reloadData()
     {
-        fatalError("notifyDataSetChanged() cannot be called on ChartViewBase")
+        fatalError("reloadData() cannot be called on ChartViewBase")
     }
     
     /// Calculates the offsets of the chart to the border depending on the position of an eventual legend or depending on the length of the y-axis and x-axis labels and their position
@@ -849,7 +849,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
                 
                 // This may cause the chart view to mutate properties affecting the view port -- lets do this
                 // before we try to run any pending jobs on the view port itself
-                notifyDataSetChanged()
+                reloadData()
 
                 // Finish any pending viewport changes
                 while (!_viewportJobs.isEmpty)

@@ -75,6 +75,28 @@ open class ChartDataSet: ChartBaseDataSet
     
     /// minimum x-value in the value array
     internal var _xMin: Double = Double.greatestFiniteMagnitude
+
+    /// *
+    /// - note: Calls `reloadData()` after setting a new value.
+    /// - returns: The array of y-values that this DataSet represents.
+    @objc open var values: [ChartDataEntry]
+    {
+        get
+        {
+            return _values
+        }
+        set
+        {
+            _values = newValue
+            reloadData()
+        }
+    }
+    
+    /// Use this method to tell the data set that the underlying data has changed
+    open override func reloadData()
+    {
+        calcMinMax()
+    }
     
     open override func calcMinMax()
     {
@@ -475,7 +497,8 @@ open class ChartDataSet: ChartBaseDataSet
     /// Removes all values from this DataSet and recalculates min and max value.
     open override func clear()
     {
-        values.removeAll(keepingCapacity: true)
+        _values.removeAll(keepingCapacity: true)
+        reloadData()
     }
     
     // MARK: - Data functions and accessors
