@@ -18,11 +18,11 @@ extension CGPoint {
         let dividend = fabs(dy * self.x - dx * self.y - linePoint1.x * linePoint2.y + linePoint2.x * linePoint1.y)
         let divisor = sqrt(dx * dx + dy * dy)
         
-        return dividend/divisor
+        return dividend / divisor
     }
 }
 
-fileprivate class LineAlt {
+private struct LineAlt {
     let start: Int
     let end: Int
     
@@ -40,7 +40,7 @@ fileprivate class LineAlt {
             return
         }
         
-        for i in start+1..<end {
+        for i in start + 1 ..< end {
             let currentPoint = points[i]
             
             let distance = currentPoint.distanceToLine(from: startPoint, to: endPoint)
@@ -120,12 +120,12 @@ extension DataApproximator {
     }
     
     // Keeps array sorted
-    private class func insertLine(_ line: LineAlt, into array: inout [LineAlt]) {
+    private static func insertLine(_ line: LineAlt, into array: inout [LineAlt]) {
         let insertionIndex = self.insertionIndex(for: line, into: &array)
         array.insert(line, at: insertionIndex)
     }
     
-    private class func insertionIndex(for line: LineAlt, into array: inout [LineAlt]) -> Int {
+    private static func insertionIndex(for line: LineAlt, into array: inout [LineAlt]) -> Int {
         var indices = array.indices
         
         while !indices.isEmpty {
