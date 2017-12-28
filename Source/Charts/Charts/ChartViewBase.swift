@@ -456,7 +456,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             // If no highlight or entry, remove all highleted entries and notifgy delegate.
                 high = nil
                 _indicesToHighlight.removeAll(keepingCapacity: false)
-                if callDelegate {
+                if callDelegate
+                {
                     delegate?.chartValueNothingSelected?(self)
                 }
                 return
@@ -841,7 +842,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// **default**: true
     /// - returns: `true` if chart continues to scroll after touch up, `false` ifnot.
     @objc open var isDragDecelerationEnabled: Bool
-        {
+    {
             return dragDecelerationEnabled
     }
     
