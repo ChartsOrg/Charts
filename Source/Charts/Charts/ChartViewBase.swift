@@ -99,7 +99,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     internal lazy var _viewPortHandler: ViewPortHandler = ViewPortHandler(width: bounds.size.width, height: bounds.size.height)
     
     /// object responsible for animations
-    internal lazy var _animator: Animator = {
+    internal lazy var _animator: Animator =
+    {
         let animator = Animator()
         animator.delegate = self
         return animator
@@ -464,7 +465,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         // set the indices to highlight
        _indicesToHighlight = [h]
 
-        if callDelegate {
+        if callDelegate
+        {
             // notify the listener
             delegate?.chartValueSelected?(self, entry: entry, highlight: h)
         }
@@ -855,7 +857,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         }
         set
         {
-            switch newValue {
+            switch newValue
+            {
             case ..<0.0: _dragDecelerationFrictionCoef = 0
             case 1.0...: _dragDecelerationFrictionCoef = 0.999
             default: _dragDecelerationFrictionCoef = newValue
