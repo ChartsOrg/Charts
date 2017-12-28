@@ -86,10 +86,9 @@ open class RadarChartView: PieRadarChartViewBase
         _xAxisRenderer?.computeAxis(min: _xAxis._axisMinimum, max: _xAxis._axisMaximum, inverted: false)
         
         if let data = _data,
-            let legend = _legend,
-            !legend.isLegendCustom
+            !_legend.isLegendCustom
         {
-            _legendRenderer?.computeLegend(data: data)
+            _legendRenderer.computeLegend(data: data)
         }
         
         calculateOffsets()
