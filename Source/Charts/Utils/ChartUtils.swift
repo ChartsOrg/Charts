@@ -12,30 +12,37 @@
 import Foundation
 import CoreGraphics
 
-extension FloatingPoint {
-    var DEG2RAD: Self {
+extension FloatingPoint
+{
+    var DEG2RAD: Self
+    {
         return self * .pi / 180
     }
 
-    var RAD2DEG: Self {
+    var RAD2DEG: Self
+    {
         return self * 180 / .pi
     }
 
     /// - returns: An angle between 0.0 < 360.0 (not less than zero, less than 360)
     /// NOTE: Value must be in degrees
-    var normalizedAngle: Self {
+    var normalizedAngle: Self
+    {
         let angle = truncatingRemainder(dividingBy: 360)
         return (sign == .minus) ? angle + 360 : angle
     }
 }
 
-extension CGSize {
-    func rotatedBy(degrees: CGFloat) -> CGSize {
+extension CGSize
+{
+    func rotatedBy(degrees: CGFloat) -> CGSize
+    {
         let radians = degrees.DEG2RAD
         return rotatedBy(radians: radians)
     }
 
-    func rotatedBy(radians: CGFloat) -> CGSize {
+    func rotatedBy(radians: CGFloat) -> CGSize
+    {
         return CGSize(
             width: abs(width * cos(radians)) + abs(height * sin(radians)),
             height: abs(width * sin(radians)) + abs(height * cos(radians))
@@ -43,9 +50,11 @@ extension CGSize {
     }
 }
 
-extension Double {
+extension Double
+{
     /// Rounds the number to the nearest multiple of it's order of magnitude, rounding away from zero if halfway.
-    func roundedToNextSignficant() -> Double {
+    func roundedToNextSignficant() -> Double
+    {
         guard
             !isInfinite,
             !isNaN,
@@ -59,7 +68,8 @@ extension Double {
         return shifted / magnitude
     }
 
-    var decimalPlaces: Int {
+    var decimalPlaces: Int
+    {
         guard
             !isNaN,
             !isInfinite,
@@ -77,9 +87,11 @@ extension Double {
     }
 }
 
-extension CGPoint {
+extension CGPoint
+{
     /// Calculates the position around a center point, depending on the distance from the center, and the angle of the position around the center.
-    func moving(distance: CGFloat, atAngle angle: CGFloat) -> CGPoint {
+    func moving(distance: CGFloat, atAngle angle: CGFloat) -> CGPoint
+    {
         return CGPoint(x: x + distance * cos(angle.DEG2RAD),
                        y: y + distance * sin(angle.DEG2RAD))
     }
