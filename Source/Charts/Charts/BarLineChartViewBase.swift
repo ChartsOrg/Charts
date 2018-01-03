@@ -331,7 +331,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
             if _legend !== nil
             {
-                _legendRenderer?.computeLegend(data: data)
+                legendRenderer?.computeLegend(data: data)
             }
         }
         

@@ -88,7 +88,7 @@ open class PieRadarChartViewBase: ChartViewBase
         
         if let data = _data , _legend !== nil
         {
-            _legendRenderer.computeLegend(data: data)
+            legendRenderer.computeLegend(data: data)
         }
         
         calculateOffsets()
