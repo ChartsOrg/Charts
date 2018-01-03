@@ -186,7 +186,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
         {
             let r = CGFloat(yAxis.entries[j] - yAxis._axisMinimum) * factor
             
-            let p = ChartUtils.getPosition(center: center, dist: r, angle: chart.rotationAngle)
+            let p = center.moving(distance: r, atAngle: chart.rotationAngle)
             
             let label = yAxis.getFormattedLabel(j)
             
@@ -252,7 +252,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
             
             for j in 0 ..< (data.maxEntryCountSet?.entryCount ?? 0)
             {
-                let p = ChartUtils.getPosition(center: center, dist: r, angle: sliceangle * CGFloat(j) + chart.rotationAngle)
+                let p = center.moving(distance: r, atAngle: sliceangle * CGFloat(j) + chart.rotationAngle)
                 
                 if j == 0
                 {
