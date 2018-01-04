@@ -12,34 +12,37 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
-extension FloatingPoint {
-    var DEG2RAD: Self {
+extension FloatingPoint
+{
+    var DEG2RAD: Self
+    {
         return self * .pi / 180
     }
 
-    var RAD2DEG: Self {
+    var RAD2DEG: Self
+    {
         return self * 180 / .pi
     }
 
     /// - returns: An angle between 0.0 < 360.0 (not less than zero, less than 360)
     /// NOTE: Value must be in degrees
-    var normalizedAngle: Self {
+    var normalizedAngle: Self
+    {
         let angle = truncatingRemainder(dividingBy: 360)
         return (sign == .minus) ? angle + 360 : angle
     }
 }
 
-extension CGSize {
-    func rotatedBy(degrees: CGFloat) -> CGSize {
+extension CGSize
+{
+    func rotatedBy(degrees: CGFloat) -> CGSize
+    {
         let radians = degrees.DEG2RAD
         return rotatedBy(radians: radians)
     }
 
-    func rotatedBy(radians: CGFloat) -> CGSize {
+    func rotatedBy(radians: CGFloat) -> CGSize
+    {
         return CGSize(
             width: abs(width * cos(radians)) + abs(height * sin(radians)),
             height: abs(width * sin(radians)) + abs(height * cos(radians))
@@ -47,61 +50,56 @@ extension CGSize {
     }
 }
 
+extension Double
+{
+    /// Rounds the number to the nearest multiple of it's order of magnitude, rounding away from zero if halfway.
+    func roundedToNextSignificant() -> Double
+    {
+        guard
+            !isInfinite,
+            !isNaN,
+            self != 0
+            else { return self }
+
+        let d = ceil(log10(self < 0 ? -self : self))
+        let pw = 1 - Int(d)
+        let magnitude = pow(10.0, Double(pw))
+        let shifted = (self * magnitude).rounded()
+        return shifted / magnitude
+    }
+
+    var decimalPlaces: Int
+    {
+        guard
+            !isNaN,
+            !isInfinite,
+            self != 0.0
+            else { return 0 }
+
+        let i = self.roundedToNextSignificant()
+
+        guard
+            !i.isInfinite,
+            !i.isNaN
+            else { return 0 }
+
+        return Int(ceil(-log10(i))) + 2
+    }
+}
+
+extension CGPoint
+{
+    /// Calculates the position around a center point, depending on the distance from the center, and the angle of the position around the center.
+    func moving(distance: CGFloat, atAngle angle: CGFloat) -> CGPoint
+    {
+        return CGPoint(x: x + distance * cos(angle.DEG2RAD),
+                       y: y + distance * sin(angle.DEG2RAD))
+    }
+}
+
 open class ChartUtils
 {
     private static var _defaultValueFormatter: ValueFormatter = ChartUtils.generateDefaultValueFormatter()
-
-    internal class func roundToNextSignificant(number: Double) -> Double
-    {
-        if number.isInfinite || number.isNaN || number == 0
-        {
-            return number
-        }
-        
-        let d = ceil(log10(number < 0.0 ? -number : number))
-        let pw = 1 - Int(d)
-        let magnitude = pow(Double(10.0), Double(pw))
-        let shifted = round(number * magnitude)
-        return shifted / magnitude
-    }
-    
-    internal class func decimals(_ number: Double) -> Int
-    {
-        if number.isNaN || number.isInfinite || number == 0.0
-        {
-            return 0
-        }
-        
-        let i = roundToNextSignificant(number: Double(number))
-        
-        if i.isInfinite || i.isNaN
-        {
-            return 0
-        }
-        
-        return Int(ceil(-log10(i))) + 2
-    }
-    
-    internal class func nextUp(_ number: Double) -> Double
-    {
-        if number.isInfinite || number.isNaN
-        {
-            return number
-        }
-        else
-        {
-            return number + Double.ulpOfOne
-        }
-    }
-    
-    /// Calculates the position around a center point, depending on the distance from the center, and the angle of the position around the center.
-    internal class func getPosition(center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
-    {
-        return CGPoint(
-            x: center.x + dist * cos(angle.DEG2RAD),
-            y: center.y + dist * sin(angle.DEG2RAD)
-        )
-    }
     
     open class func drawImage(
         context: CGContext,

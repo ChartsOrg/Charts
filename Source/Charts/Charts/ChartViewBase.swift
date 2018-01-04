@@ -47,7 +47,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         {
         didSet
         {
-            _offsetsCalculated = false
+            offsetsCalculated = false
 
             guard let data = data else { return }
 
@@ -78,7 +78,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     internal var _drawUnitInChart = false
 
     /// The object representing the labels on the x-axis
-    @objc open internal(set) lazy var xAxis: XAxis = XAxis()
+    @objc open internal(set) lazy var xAxis = XAxis()
     
     /// The `Description` object of the chart.
     @objc open lazy var chartDescription = Description()
@@ -99,10 +99,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     @objc open var noDataTextColor: NSUIColor = .black
 
     /// The renderer object responsible for rendering / drawing the Legend.
-    @objc open internal(set) lazy var legendRenderer: LegendRenderer = LegendRenderer(viewPortHandler: viewPortHandler, legend: legend)
-    
-    internal var _legendRenderer: LegendRenderer!
-    
+    @objc open internal(set) lazy var legendRenderer = LegendRenderer(viewPortHandler: viewPortHandler, legend: legend)
+
     /// object responsible for rendering the data
     @objc open var renderer: DataRenderer?
     
@@ -118,15 +116,9 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         animator.delegate = self
         return animator
     }()
-    
-    /// object that manages the bounds and drawing constraints of the chart
-    internal var _viewPortHandler: ViewPortHandler!
-    
-    /// object responsible for animations
-    internal var _animator: Animator!
-    
+
     /// flag that indicates if offsets calculation has already been done or not
-    private var _offsetsCalculated = false
+    private var offsetsCalculated = false
 
     /// The array of currently highlighted values. This might an empty if nothing is highlighted.
     @objc open internal(set) var highlighted = [Highlight]()
@@ -143,7 +135,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     @objc open var marker: Marker?
 
     // TODO: There is no way to modify this value. Should it exist?
-    private let _interceptTouchEvents = false
+    private let interceptTouchEvents = false
 
     /// An extra offset to be appended to the viewport's top
     @objc open var extraTopOffset: CGFloat = 0.0
@@ -201,7 +193,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     @objc open func clear()
     {
         data = nil
-        _offsetsCalculated = false
+        offsetsCalculated = false
         highlighted.removeAll()
         lastHighlighted = nil
     
@@ -262,7 +254,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         if _defaultValueFormatter is DefaultValueFormatter
         {
             // setup the formatter with a new number of digits
-            let digits = ChartUtils.decimals(reference)
+            let digits = reference.decimalPlaces
             
             (_defaultValueFormatter as? DefaultValueFormatter)?.decimals
              = digits
@@ -295,10 +287,10 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             return
         }
         
-        if !_offsetsCalculated
+        if !offsetsCalculated
         {
             calculateOffsets()
-            _offsetsCalculated = true
+            offsetsCalculated = true
         }
     }
     
@@ -857,7 +849,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     open override func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
     {
-        if !_interceptTouchEvents
+        if !interceptTouchEvents
         {
             super.nsuiTouchesBegan(touches, withEvent: event)
         }
@@ -865,7 +857,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     open override func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
     {
-        if !_interceptTouchEvents
+        if !interceptTouchEvents
         {
             super.nsuiTouchesMoved(touches, withEvent: event)
         }
@@ -873,7 +865,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     open override func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
     {
-        if !_interceptTouchEvents
+        if !interceptTouchEvents
         {
             super.nsuiTouchesEnded(touches, withEvent: event)
         }
@@ -881,7 +873,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     open override func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
     {
-        if !_interceptTouchEvents
+        if !interceptTouchEvents
         {
             super.nsuiTouchesCancelled(touches, withEvent: event)
         }
