@@ -33,9 +33,9 @@ open class Fill: NSObject
     @objc open private(set) var color: CGColor?
     @objc open private(set) var gradient: CGGradient?
     @objc open private(set) var gradientAngle: CGFloat = 0.0
-    @objc open private(set) var gradientStartOffsetPercent = CGPoint()
+    @objc open private(set) var gradientStartOffsetPercent = CGPoint.zero
     @objc open private(set) var gradientStartRadiusPercent: CGFloat = 0.0
-    @objc open private(set) var gradientEndOffsetPercent = CGPoint()
+    @objc open private(set) var gradientEndOffsetPercent = CGPoint.zero
     @objc open private(set) var gradientEndRadiusPercent: CGFloat = 0.0
     @objc open private(set) var image: CGImage?
     @objc open private(set) var layer: CGLayer?

@@ -20,10 +20,10 @@ open class ViewPortHandler: NSObject
     @objc open private(set) var touchMatrix = CGAffineTransform.identity
 
     /// this rectangle defines the area in which graph values can be drawn
-    private var _contentRect = CGRect()
+    @objc open private(set) var contentRect = CGRect()
     
-    private var _chartWidth: CGFloat = 0
-    private var _chartHeight: CGFloat = 0
+    @objc open private(set) var chartWidth: CGFloat = 0
+    @objc open private(set) var chartHeight: CGFloat = 0
 
     /// minimum scale value on the y-axis
     @objc open private(set) var minScaleY: CGFloat = 1.0
@@ -69,94 +69,79 @@ open class ViewPortHandler: NSObject
         let offsetRight = self.offsetRight
         let offsetBottom = self.offsetBottom
         
-        _chartHeight = height
-        _chartWidth = width
+        chartHeight = height
+        chartWidth = width
         
         restrainViewPort(offsetLeft: offsetLeft, offsetTop: offsetTop, offsetRight: offsetRight, offsetBottom: offsetBottom)
     }
     
     @objc open var hasChartDimens: Bool
     {
-        return _chartHeight > 0.0
-            && _chartWidth > 0.0
+        return chartHeight > 0.0
+            && chartWidth > 0.0
     }
 
     @objc open func restrainViewPort(offsetLeft: CGFloat, offsetTop: CGFloat, offsetRight: CGFloat, offsetBottom: CGFloat)
     {
-        _contentRect.origin.x = offsetLeft
-        _contentRect.origin.y = offsetTop
-        _contentRect.size.width = _chartWidth - offsetLeft - offsetRight
-        _contentRect.size.height = _chartHeight - offsetBottom - offsetTop
+        contentRect.origin.x = offsetLeft
+        contentRect.origin.y = offsetTop
+        contentRect.size.width = chartWidth - offsetLeft - offsetRight
+        contentRect.size.height = chartHeight - offsetBottom - offsetTop
     }
     
     @objc open var offsetLeft: CGFloat
     {
-        return _contentRect.origin.x
+        return contentRect.origin.x
     }
     
     @objc open var offsetRight: CGFloat
     {
-        return _chartWidth - _contentRect.size.width - _contentRect.origin.x
+        return chartWidth - contentRect.size.width - contentRect.origin.x
     }
     
     @objc open var offsetTop: CGFloat
     {
-        return _contentRect.origin.y
+        return contentRect.origin.y
     }
     
     @objc open var offsetBottom: CGFloat
     {
-        return _chartHeight - _contentRect.size.height - _contentRect.origin.y
+        return chartHeight - contentRect.size.height - contentRect.origin.y
     }
     
     @objc open var contentTop: CGFloat
     {
-        return _contentRect.origin.y
+        return contentRect.origin.y
     }
     
     @objc open var contentLeft: CGFloat
     {
-        return _contentRect.origin.x
+        return contentRect.origin.x
     }
     
     @objc open var contentRight: CGFloat
     {
-        return _contentRect.origin.x + _contentRect.size.width
+        return contentRect.origin.x + contentRect.size.width
     }
     
     @objc open var contentBottom: CGFloat
     {
-        return _contentRect.origin.y + _contentRect.size.height
+        return contentRect.origin.y + contentRect.size.height
     }
     
     @objc open var contentWidth: CGFloat
     {
-        return _contentRect.size.width
+        return contentRect.size.width
     }
     
     @objc open var contentHeight: CGFloat
     {
-        return _contentRect.size.height
+        return contentRect.size.height
     }
-    
-    @objc open var contentRect: CGRect
-    {
-        return _contentRect
-    }
-    
+
     @objc open var contentCenter: CGPoint
     {
-        return CGPoint(x: _contentRect.origin.x + _contentRect.size.width / 2.0, y: _contentRect.origin.y + _contentRect.size.height / 2.0)
-    }
-    
-    @objc open var chartHeight: CGFloat
-    { 
-        return _chartHeight
-    }
-    
-    @objc open var chartWidth: CGFloat
-    { 
-        return _chartWidth
+        return CGPoint(x: contentRect.origin.x + contentRect.size.width / 2.0, y: contentRect.origin.y + contentRect.size.height / 2.0)
     }
 
     // MARK: - Scaling/Panning etc.
@@ -252,7 +237,7 @@ open class ViewPortHandler: NSObject
         touchMatrix = newMatrix
         
         // make sure scale and translation are within their bounds
-        limitTransAndScale(matrix: &touchMatrix, content: _contentRect)
+        limitTransAndScale(matrix: &touchMatrix, content: contentRect)
         
         chart.setNeedsDisplay()
         
@@ -260,7 +245,7 @@ open class ViewPortHandler: NSObject
     }
     
     /// limits the maximum scale and X translation of the given matrix
-    private func limitTransAndScale(matrix: inout CGAffineTransform, content: CGRect?)
+    private func limitTransAndScale(matrix: inout CGAffineTransform, content: CGRect)
     {
         // min scale-x is 1
         scaleX = min(max(minScaleX, matrix.a), maxScaleX)
@@ -268,8 +253,8 @@ open class ViewPortHandler: NSObject
         // min scale-y is 1
         scaleY = min(max(minScaleY,  matrix.d), maxScaleY)
         
-        let width = content?.width ?? 0
-        let height = content?.height ?? 0
+        let width = content.width
+        let height = content.height
 
         let maxTransX = -width * (scaleX - 1.0)
         transX = min(max(matrix.tx, maxTransX - _transOffsetX), _transOffsetX)
@@ -287,14 +272,14 @@ open class ViewPortHandler: NSObject
     @objc open func setMinimumScaleX(_ xScale: CGFloat)
     {
         minScaleX = max(xScale, 1)
-        limitTransAndScale(matrix: &touchMatrix, content: _contentRect)
+        limitTransAndScale(matrix: &touchMatrix, content: contentRect)
     }
     
     /// Sets the maximum scale factor for the x-axis
     @objc open func setMaximumScaleX(_ xScale: CGFloat)
     {
         maxScaleX = xScale == 0 ? .greatestFiniteMagnitude : xScale
-        limitTransAndScale(matrix: &touchMatrix, content: _contentRect)
+        limitTransAndScale(matrix: &touchMatrix, content: contentRect)
     }
     
     /// Sets the minimum and maximum scale factors for the x-axis
@@ -302,21 +287,21 @@ open class ViewPortHandler: NSObject
     {
         self.minScaleX = max(minScaleX, 1)
         self.maxScaleX = maxScaleX == 0 ? .greatestFiniteMagnitude : maxScaleX
-        limitTransAndScale(matrix: &touchMatrix, content: _contentRect)
+        limitTransAndScale(matrix: &touchMatrix, content: contentRect)
     }
     
     /// Sets the minimum scale factor for the y-axis
     @objc open func setMinimumScaleY(_ yScale: CGFloat)
     {
         minScaleY = max(yScale, 1)
-        limitTransAndScale(matrix: &touchMatrix, content: _contentRect)
+        limitTransAndScale(matrix: &touchMatrix, content: contentRect)
     }
     
     /// Sets the maximum scale factor for the y-axis
     @objc open func setMaximumScaleY(_ yScale: CGFloat)
     {
         maxScaleY = yScale == 0 ? .greatestFiniteMagnitude : yScale
-        limitTransAndScale(matrix: &touchMatrix, content: _contentRect)
+        limitTransAndScale(matrix: &touchMatrix, content: contentRect)
     }
     
     @objc open func setMinMaxScaleY(minScaleY: CGFloat, maxScaleY: CGFloat)
@@ -324,7 +309,7 @@ open class ViewPortHandler: NSObject
 
         self.minScaleY = max(minScaleY, 1)
         self.maxScaleY = maxScaleY == 0 ? .greatestFiniteMagnitude : maxScaleY
-        limitTransAndScale(matrix: &touchMatrix, content: _contentRect)
+        limitTransAndScale(matrix: &touchMatrix, content: contentRect)
     }
 
     // MARK: - Boundaries Check
@@ -346,24 +331,24 @@ open class ViewPortHandler: NSObject
     
     @objc open func isInBoundsLeft(_ x: CGFloat) -> Bool
     {
-        return _contentRect.origin.x <= x + 1.0
+        return contentRect.origin.x <= x + 1.0
     }
     
     @objc open func isInBoundsRight(_ x: CGFloat) -> Bool
     {
         let x = floor(x * 100.0) / 100.0
-        return (_contentRect.origin.x + _contentRect.size.width) >= x - 1.0
+        return (contentRect.origin.x + contentRect.size.width) >= x - 1.0
     }
     
     @objc open func isInBoundsTop(_ y: CGFloat) -> Bool
     {
-        return _contentRect.origin.y <= y
+        return contentRect.origin.y <= y
     }
     
     @objc open func isInBoundsBottom(_ y: CGFloat) -> Bool
     {
         let normalizedY = floor(y * 100.0) / 100.0
-        return (_contentRect.origin.y + _contentRect.size.height) >= normalizedY
+        return (contentRect.origin.y + contentRect.size.height) >= normalizedY
     }
 
     /// if the chart is fully zoomed out, return true
