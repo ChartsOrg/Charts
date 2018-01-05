@@ -99,7 +99,7 @@ extension CGPoint
 
 open class ChartUtils
 {
-    private static var _defaultValueFormatter: IValueFormatter = ChartUtils.generateDefaultValueFormatter()
+    private static var _defaultValueFormatter: IValueFormatter = generateDefaultValueFormatter()
 
     private class func generateDefaultValueFormatter() -> IValueFormatter
     {
