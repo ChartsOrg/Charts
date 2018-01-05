@@ -44,7 +44,7 @@ class PositiveNegativeBarChartViewController: DemoBaseViewController {
         chartView.drawBarShadowEnabled = false
         chartView.drawValueAboveBarEnabled = true
         
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
         
         chartView.rightAxis.enabled = false
 

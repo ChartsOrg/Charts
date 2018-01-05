@@ -33,8 +33,8 @@ class ScatterChartViewController: DemoBaseViewController {
                         .toggleData]
         
         chartView.delegate = self
-        
-        chartView.chartDescription?.enabled = false
+
+        chartView.chartDescription.enabled = false
         
         chartView.dragEnabled = true
         chartView.setScaleEnabled(true)
