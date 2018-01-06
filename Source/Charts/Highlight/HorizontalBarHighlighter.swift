@@ -18,10 +18,9 @@ open class HorizontalBarHighlighter: BarHighlighter
     open override func getHighlight(x: CGFloat, y: CGFloat) -> Highlight?
     {
         guard let barData = self.chart?.data as? BarChartData else { return nil }
-        let pos = getValsForTouch(x: y, y: x)
 
-        guard let high = getHighlight(xValue: Double(pos.y), x: y, y: x)
-            else { return nil }
+        let pos = getValsForTouch(x: y, y: x)
+        guard let high = getHighlight(xValue: Double(pos.y), x: y, y: x) else { return nil }
 
         if let set = barData.getDataSetByIndex(high.dataSetIndex) as? IBarChartDataSet,
             set.isStacked
@@ -43,8 +42,7 @@ open class HorizontalBarHighlighter: BarHighlighter
     {
         var highlights = [Highlight]()
         
-        guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider
-            else { return highlights }
+        guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider else { return highlights }
         
         var entries = set.entriesForXValue(xValue)
         if entries.count == 0, let closest = set.entryForXValue(xValue, closestToY: .nan, rounding: rounding)

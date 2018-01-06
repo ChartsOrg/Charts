@@ -30,7 +30,8 @@ open class CombinedHighlighter: ChartHighlighter
     {
         var vals = [Highlight]()
         
-        guard let chart = self.chart as? CombinedChartDataProvider,
+        guard
+            let chart = self.chart as? CombinedChartDataProvider,
             let dataObjects = chart.combinedData?.allData
             else { return vals }
         

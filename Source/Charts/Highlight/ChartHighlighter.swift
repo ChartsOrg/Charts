@@ -25,7 +25,6 @@ open class ChartHighlighter : NSObject, IHighlighter
     open func getHighlight(x: CGFloat, y: CGFloat) -> Highlight?
     {
         let xVal = Double(getValsForTouch(x: x, y: y).x)
-        
         return getHighlight(xValue: xVal, x: x, y: y)
     }
     
@@ -34,11 +33,10 @@ open class ChartHighlighter : NSObject, IHighlighter
     /// - returns:
     @objc open func getValsForTouch(x: CGFloat, y: CGFloat) -> CGPoint
     {
-        guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider
-            else { return CGPoint.zero }
+        guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider else { return .zero }
         
         // take any transformer to determine the values
-        return chart.getTransformer(forAxis: YAxis.AxisDependency.left).valueForTouchPoint(x: x, y: y)
+        return chart.getTransformer(forAxis: .left).valueForTouchPoint(x: x, y: y)
     }
     
     /// - returns: The corresponding ChartHighlight for a given x-value and xy-touch position in pixels.
@@ -56,7 +54,7 @@ open class ChartHighlighter : NSObject, IHighlighter
         let leftAxisMinDist = getMinimumDistance(closestValues: closestValues, y: y, axis: .left)
         let rightAxisMinDist = getMinimumDistance(closestValues: closestValues, y: y, axis: .right)
         
-        let axis = leftAxisMinDist < rightAxisMinDist ? YAxis.AxisDependency.left : .right
+        let axis: YAxis.AxisDependency = leftAxisMinDist < rightAxisMinDist ? .left : .right
         
         let detail = closestSelectionDetailByPixel(closestValues: closestValues, x: x, y: y, axis: axis, minSelectionDistance: chart.maxHighlightDistance)
         
@@ -77,14 +75,14 @@ open class ChartHighlighter : NSObject, IHighlighter
         
         for i in 0 ..< data.dataSetCount
         {
-            guard let dataSet = data.getDataSetByIndex(i),
+            guard
+                let dataSet = data.getDataSetByIndex(i),
                 dataSet.isHighlightEnabled      // don't include datasets that cannot be highlighted
                 else { continue }
             
 
             // extract all y-values from all DataSets at the given x-value.
             // some datasets (i.e bubble charts) make sense to have multiple values for an x-value. We'll have to find a way to handle that later on. It's more complicated now when x-indices are floating point.
-            
             vals.append(contentsOf: buildHighlights(dataSet: dataSet, dataSetIndex: i, xValue: xValue, rounding: .closest))
         }
         
@@ -100,8 +98,7 @@ open class ChartHighlighter : NSObject, IHighlighter
     {
         var highlights = [Highlight]()
         
-        guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider
-            else { return highlights }
+        guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider else { return highlights }
         
         var entries = set.entriesForXValue(xValue)
         if entries.count == 0, let closest = set.entryForXValue(xValue, closestToY: .nan, rounding: rounding)
@@ -113,8 +110,9 @@ open class ChartHighlighter : NSObject, IHighlighter
         for e in entries
         {
             let px = chart.getTransformer(forAxis: set.axisDependency).pixelForValues(x: e.x, y: e.y)
-            
-            highlights.append(Highlight(x: e.x, y: e.y, xPx: px.x, yPx: px.y, dataSetIndex: dataSetIndex, axis: set.axisDependency))
+
+            let highlight = Highlight(x: e.x, y: e.y, xPx: px.x, yPx: px.y, dataSetIndex: dataSetIndex, axis: set.axisDependency)
+            highlights.append(highlight)
         }
         
         return highlights

@@ -31,7 +31,9 @@ open class BarHighlighter: ChartHighlighter
                                        set: set,
                                        xValue: Double(pos.x),
                                        yValue: Double(pos.y))
-        } else {
+        }
+        else
+        {
             return high
         }
     }
