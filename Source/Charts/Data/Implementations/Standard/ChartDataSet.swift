@@ -463,7 +463,7 @@ open class ChartDataSet: ChartBaseDataSet
     {
         for entry in values
         {
-            if (entry.isEqual(e))
+            if entry == e
             {
                 return true
             }

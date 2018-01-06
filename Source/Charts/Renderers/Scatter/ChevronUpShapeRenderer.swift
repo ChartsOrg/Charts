@@ -11,11 +11,11 @@
 import Foundation
 import CoreGraphics
 
-open class ChevronUpShapeRenderer : NSObject, IShapeRenderer
+open class ChevronUpShapeRenderer : NSObject, ShapeRenderer
 {
     open func renderShape(
         context: CGContext,
-                dataSet: IScatterChartDataSet,
+                dataSet: ScatterChartDataSetProtocol,
                 viewPortHandler: ViewPortHandler,
                 point: CGPoint,
                 color: NSUIColor)

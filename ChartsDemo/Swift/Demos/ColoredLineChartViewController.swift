@@ -36,7 +36,7 @@ class ColoredLineChartViewController: DemoBaseViewController {
         chart.delegate = self
         chart.backgroundColor = color
         
-        chart.chartDescription?.enabled = false
+        chart.chartDescription.enabled = false
         
         chart.dragEnabled = true
         chart.setScaleEnabled(true)

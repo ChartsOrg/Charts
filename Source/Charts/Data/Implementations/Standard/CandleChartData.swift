@@ -18,7 +18,7 @@ open class CandleChartData: BarLineScatterCandleBubbleChartData
         super.init()
     }
     
-    public override init(dataSets: [IChartDataSet]?)
+    public override init(dataSets: [ChartDataSetProtocol]?)
     {
         super.init(dataSets: dataSets)
     }

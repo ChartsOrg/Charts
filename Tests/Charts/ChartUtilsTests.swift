@@ -17,7 +17,7 @@ class ChartUtilsTests: XCTestCase {
         
         let number = Double.nan
         
-        let actual = ChartUtils.decimals(number)
+        let actual = number.decimalPlaces
         let expected = 0
         
         XCTAssertEqual(expected, actual)
@@ -27,7 +27,7 @@ class ChartUtilsTests: XCTestCase {
         
         let number = Double.infinity
         
-        let actual = ChartUtils.decimals(number)
+        let actual = number.decimalPlaces
         let expected = 0
         
         XCTAssertEqual(expected, actual)
@@ -37,7 +37,7 @@ class ChartUtilsTests: XCTestCase {
         
         let number = 0.0
         
-        let actual = ChartUtils.decimals(number)
+        let actual = number.decimalPlaces
         let expected = 0
         
         XCTAssertEqual(expected, actual)
@@ -47,7 +47,7 @@ class ChartUtilsTests: XCTestCase {
         
         let number = Double.greatestFiniteMagnitude
         
-        let actual = ChartUtils.decimals(number)
+        let actual = number.decimalPlaces
         let expected = 0
         
         XCTAssertEqual(expected, actual)
@@ -57,7 +57,7 @@ class ChartUtilsTests: XCTestCase {
         
         let number = Double.leastNormalMagnitude
         
-        let actual = ChartUtils.decimals(number)
+        let actual = number.decimalPlaces
         let expected = 310 // Don't think this is supposed to be this value maybe 0?
         
         XCTAssertEqual(expected, actual)
@@ -67,7 +67,7 @@ class ChartUtilsTests: XCTestCase {
         
         let number = 13.123123
         
-        let actual = ChartUtils.decimals(number)
+        let actual = number.decimalPlaces
         let expected = 1 // Don't think this is supposed to be this value maybe 6?
         
         XCTAssertEqual(expected, actual)

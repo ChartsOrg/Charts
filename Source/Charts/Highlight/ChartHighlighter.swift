@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-open class ChartHighlighter : NSObject, IHighlighter
+open class ChartHighlighter : NSObject, Highlighter
 {
     /// instance of the data-provider
     @objc open weak var chart: ChartDataProvider?
@@ -103,7 +103,7 @@ open class ChartHighlighter : NSObject, IHighlighter
     
     /// - returns: An array of `Highlight` objects corresponding to the selected xValue and dataSetIndex.
     internal func buildHighlights(
-        dataSet set: IChartDataSet,
+        dataSet set: ChartDataSetProtocol,
         dataSetIndex: Int,
         xValue: Double,
         rounding: ChartDataSetRounding) -> [Highlight]
