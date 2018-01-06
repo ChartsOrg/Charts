@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-open class ChartHighlighter : NSObject, IHighlighter
+open class ChartHighlighter : NSObject, Highlighter
 {
     /// instance of the data-provider
     @objc open weak var chart: ChartDataProvider?
@@ -102,8 +102,8 @@ open class ChartHighlighter : NSObject, IHighlighter
     }
     
     /// - returns: An array of `Highlight` objects corresponding to the selected xValue and dataSetIndex.
-    @objc internal func buildHighlights(
-        dataSet set: IChartDataSet,
+    internal func buildHighlights(
+        dataSet set: ChartDataSetProtocol,
         dataSetIndex: Int,
         xValue: Double,
         rounding: ChartDataSetRounding) -> [Highlight]
@@ -166,7 +166,7 @@ open class ChartHighlighter : NSObject, IHighlighter
     }
     
     /// - returns: The minimum distance from a touch-y-value (in pixels) to the closest y-value (in pixels) that is displayed in the chart.
-    @objc internal func getMinimumDistance(
+    internal func getMinimumDistance(
         closestValues: [Highlight],
         y: CGFloat,
         axis: YAxis.AxisDependency) -> CGFloat
@@ -190,17 +190,17 @@ open class ChartHighlighter : NSObject, IHighlighter
         return distance
     }
     
-    @objc internal func getHighlightPos(high: Highlight) -> CGFloat
+    internal func getHighlightPos(high: Highlight) -> CGFloat
     {
         return high.yPx
     }
     
-    @objc internal func getDistance(x1: CGFloat, y1: CGFloat, x2: CGFloat, y2: CGFloat) -> CGFloat
+    internal func getDistance(x1: CGFloat, y1: CGFloat, x2: CGFloat, y2: CGFloat) -> CGFloat
     {
         return hypot(x1 - x2, y1 - y2)
     }
     
-    @objc internal var data: ChartData?
+    internal var data: ChartData?
     {
         return chart?.data
     }

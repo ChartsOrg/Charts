@@ -19,12 +19,13 @@ open class ScatterChartData: BarLineScatterCandleBubbleChartData
         super.init()
     }
     
-    public override init(dataSets: [IChartDataSet]?)
+    public override init(dataSets: [ChartDataSetProtocol]?)
     {
         super.init(dataSets: dataSets)
     }
 
-    public required init(arrayLiteral elements: IChartDataSet...) {
+    public required init(arrayLiteral elements: ChartDataSetProtocol...)
+    {
         super.init(dataSets: elements)
     }
     
@@ -35,7 +36,7 @@ open class ScatterChartData: BarLineScatterCandleBubbleChartData
         
         for set in _dataSets
         {
-            let scatterDataSet = set as? IScatterChartDataSet
+            let scatterDataSet = set as? ScatterChartDataSetProtocol
             
             if scatterDataSet == nil
             {

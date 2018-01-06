@@ -9,8 +9,8 @@
 import UIKit
 import Charts
 
-private class CubicLineSampleFillFormatter: IFillFormatter {
-    func getFillLinePosition(dataSet: ILineChartDataSet, dataProvider: LineChartDataProvider) -> CGFloat {
+private class CubicLineSampleFillFormatter: FillFormatter {
+    func getFillLinePosition(dataSet: LineChartDataSetProtocol, dataProvider: LineChartDataProvider) -> CGFloat {
         return -10
     }
 }
