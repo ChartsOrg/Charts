@@ -58,7 +58,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         }
     }
     
-    private func prepareBuffer(dataSet: IBarChartDataSet, index: Int)
+    private func prepareBuffer(dataSet: BarChartDataSetProtocol, index: Int)
     {
         guard
             let dataProvider = dataProvider,
@@ -178,7 +178,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     
     private var _barShadowRectBuffer: CGRect = CGRect()
     
-    @objc open func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int)
+    @objc open func drawDataSet(context: CGContext, dataSet: BarChartDataSetProtocol, index: Int)
     {
         guard let dataProvider = dataProvider else { return }
         
@@ -558,7 +558,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         for high in indices
         {
             guard
-                let set = barData.getDataSetByIndex(high.dataSetIndex) as? IBarChartDataSet,
+                let set = barData.getDataSetByIndex(high.dataSetIndex) as? BarChartDataSetProtocol,
                 set.isHighlightEnabled
                 else { continue }
             

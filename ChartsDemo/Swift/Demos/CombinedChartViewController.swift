@@ -34,7 +34,7 @@ class CombinedChartViewController: DemoBaseViewController {
         
         chartView.delegate = self
         
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
         
         chartView.drawBarShadowEnabled = false
         chartView.highlightFullBarEnabled = false
@@ -226,7 +226,7 @@ class CombinedChartViewController: DemoBaseViewController {
     }
 }
 
-extension CombinedChartViewController: IAxisValueFormatter {
+extension CombinedChartViewController: AxisValueFormatter {
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
         return months[Int(value) % months.count]
     }

@@ -36,7 +36,7 @@ open class RadarDemoViewController: NSViewController
         ds2.colors = [NSUIColor.blue]
         data.addDataSet(ds2)
         self.radarChartView.data = data
-        self.radarChartView.chartDescription?.text = "Radarchart Demo"
+        self.radarChartView.chartDescription.text = "Radarchart Demo"
 
     }
     

@@ -71,7 +71,7 @@ open class PieRadarChartViewBase: ChartViewBase
     
     internal override func calcMinMax()
     {
-        /*_xAxis.axisRange = Double((_data?.xVals.count ?? 0) - 1)*/
+        /*_xAxis.axisRange = Double((data?.xVals.count ?? 0) - 1)*/
     }
     
     open override var maxVisibleCount: Int
@@ -86,9 +86,9 @@ open class PieRadarChartViewBase: ChartViewBase
     {
         calcMinMax()
         
-        if let data = _data , _legend !== nil
+        if let data = data
         {
-            _legendRenderer.computeLegend(data: data)
+            legendRenderer.computeLegend(data: data)
         }
         
         calculateOffsets()
@@ -103,20 +103,20 @@ open class PieRadarChartViewBase: ChartViewBase
         var legendBottom = CGFloat(0.0)
         var legendTop = CGFloat(0.0)
 
-        if _legend != nil && _legend.enabled && !_legend.drawInside
+        if legend.enabled && !legend.drawInside
         {
-            let fullLegendWidth = min(_legend.neededWidth, _viewPortHandler.chartWidth * _legend.maxSizePercent)
+            let fullLegendWidth = min(legend.neededWidth, viewPortHandler.chartWidth * legend.maxSizePercent)
             
-            switch _legend.orientation
+            switch legend.orientation
             {
             case .vertical:
                 
                 var xLegendOffset: CGFloat = 0.0
                 
-                if _legend.horizontalAlignment == .left
-                    || _legend.horizontalAlignment == .right
+                if legend.horizontalAlignment == .left
+                    || legend.horizontalAlignment == .right
                 {
-                    if _legend.verticalAlignment == .center
+                    if legend.verticalAlignment == .center
                     {
                         // this is the space between the legend and the chart
                         let spacing = CGFloat(13.0)
@@ -129,11 +129,11 @@ open class PieRadarChartViewBase: ChartViewBase
                         let spacing = CGFloat(8.0)
                         
                         let legendWidth = fullLegendWidth + spacing
-                        let legendHeight = _legend.neededHeight + _legend.textHeightMax
+                        let legendHeight = legend.neededHeight + legend.textHeightMax
                         
                         let c = self.midPoint
                         
-                        let bottomX = _legend.horizontalAlignment == .right
+                        let bottomX = legend.horizontalAlignment == .right
                             ? self.bounds.width - legendWidth + 15.0
                             : legendWidth - 15.0
                         let bottomY = legendHeight + 15
@@ -158,7 +158,7 @@ open class PieRadarChartViewBase: ChartViewBase
                     }
                 }
                 
-                switch _legend.horizontalAlignment
+                switch legend.horizontalAlignment
                 {
                 case .left:
                     legendLeft = xLegendOffset
@@ -168,13 +168,13 @@ open class PieRadarChartViewBase: ChartViewBase
                     
                 case .center:
                     
-                    switch _legend.verticalAlignment
+                    switch legend.verticalAlignment
                     {
                     case .top:
-                        legendTop = min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent)
+                        legendTop = min(legend.neededHeight, viewPortHandler.chartHeight * legend.maxSizePercent)
                         
                     case .bottom:
-                        legendBottom = min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent)
+                        legendBottom = min(legend.neededHeight, viewPortHandler.chartHeight * legend.maxSizePercent)
                         
                     default:
                         break
@@ -185,8 +185,8 @@ open class PieRadarChartViewBase: ChartViewBase
                 
                 var yLegendOffset: CGFloat = 0.0
                 
-                if _legend.verticalAlignment == .top
-                    || _legend.verticalAlignment == .bottom
+                if legend.verticalAlignment == .top
+                    || legend.verticalAlignment == .bottom
                 {
                     // It's possible that we do not need this offset anymore as it
                     //   is available through the extraOffsets, but changing it can mean
@@ -194,11 +194,11 @@ open class PieRadarChartViewBase: ChartViewBase
                     let yOffset = self.requiredLegendOffset
                     
                     yLegendOffset = min(
-                        _legend.neededHeight + yOffset,
-                        _viewPortHandler.chartHeight * _legend.maxSizePercent)
+                        legend.neededHeight + yOffset,
+                        viewPortHandler.chartHeight * legend.maxSizePercent)
                 }
                 
-                switch _legend.verticalAlignment
+                switch legend.verticalAlignment
                 {
                 case .top:
                     
@@ -241,7 +241,7 @@ open class PieRadarChartViewBase: ChartViewBase
         let offsetRight = max(minOffset, legendRight)
         let offsetBottom = max(minOffset, max(self.requiredBaseOffset, legendBottom))
 
-        _viewPortHandler.restrainViewPort(offsetLeft: offsetLeft, offsetTop: offsetTop, offsetRight: offsetRight, offsetBottom: offsetBottom)
+        viewPortHandler.restrainViewPort(offsetLeft: offsetLeft, offsetTop: offsetTop, offsetRight: offsetRight, offsetBottom: offsetBottom)
     }
 
     /// - returns: The angle relative to the chart center for the given point on the chart in degrees.
@@ -255,7 +255,7 @@ open class PieRadarChartViewBase: ChartViewBase
         let length = sqrt(tx * tx + ty * ty)
         let r = acos(ty / length)
 
-        var angle = r * ChartUtils.Math.RAD2DEG
+        var angle = r.RAD2DEG
 
         if x > c.x
         {
@@ -278,8 +278,8 @@ open class PieRadarChartViewBase: ChartViewBase
     /// from the center, and the angle of the position around the center.
     @objc open func getPosition(center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
     {
-        return CGPoint(x: center.x + dist * cos(angle * ChartUtils.Math.FDEG2RAD),
-                y: center.y + dist * sin(angle * ChartUtils.Math.FDEG2RAD))
+        return CGPoint(x: center.x + dist * cos(angle.DEG2RAD),
+                y: center.y + dist * sin(angle.DEG2RAD))
     }
 
     /// - returns: The distance of a certain point on the chart to the center of the chart.
@@ -336,7 +336,7 @@ open class PieRadarChartViewBase: ChartViewBase
         set
         {
             _rawRotationAngle = newValue
-            _rotationAngle = ChartUtils.normalizedAngleFromAngle(newValue)
+            _rotationAngle = newValue.normalizedAngle
             setNeedsDisplay()
         }
     }
@@ -351,7 +351,7 @@ open class PieRadarChartViewBase: ChartViewBase
     /// - returns: The diameter of the pie- or radar-chart
     @objc open var diameter: CGFloat
     {
-        var content = _viewPortHandler.contentRect
+        var content = viewPortHandler.contentRect
         content.origin.x += extraLeftOffset
         content.origin.y += extraTopOffset
         content.size.width -= extraLeftOffset + extraRightOffset
@@ -835,14 +835,14 @@ open class PieRadarChartViewBase: ChartViewBase
         
         if recognizer.state == NSUIGestureRecognizerState.began || recognizer.state == NSUIGestureRecognizerState.changed
         {
-            let angle = ChartUtils.Math.FRAD2DEG * recognizer.nsuiRotation
+            let angle = recognizer.nsuiRotation.RAD2DEG
             
             self.rotationAngle = _startAngle + angle
             setNeedsDisplay()
         }
         else if recognizer.state == NSUIGestureRecognizerState.ended
         {
-            let angle = ChartUtils.Math.FRAD2DEG * recognizer.nsuiRotation
+            let angle = recognizer.nsuiRotation.RAD2DEG
             
             self.rotationAngle = _startAngle + angle
             setNeedsDisplay()
@@ -851,7 +851,7 @@ open class PieRadarChartViewBase: ChartViewBase
             {
                 stopDeceleration()
                 
-                _decelerationAngularVelocity = ChartUtils.Math.FRAD2DEG * recognizer.velocity
+                _decelerationAngularVelocity = recognizer.velocity.RAD2DEG
                 
                 if _decelerationAngularVelocity != 0.0
                 {

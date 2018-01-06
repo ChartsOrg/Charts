@@ -39,7 +39,7 @@ open class LineDemoViewController: NSViewController
         
         self.lineChartView.gridBackgroundColor = NSUIColor.white
 
-        self.lineChartView.chartDescription?.text = "Linechart Demo"
+        self.lineChartView.chartDescription.text = "Linechart Demo"
     }
     
     override open func viewWillAppear()

@@ -11,11 +11,11 @@
 import Foundation
 import CoreGraphics
 
-open class TriangleShapeRenderer : NSObject, IShapeRenderer
+open class TriangleShapeRenderer : NSObject, ShapeRenderer
 {
     open func renderShape(
         context: CGContext,
-        dataSet: IScatterChartDataSet,
+        dataSet: ScatterChartDataSetProtocol,
         viewPortHandler: ViewPortHandler,
         point: CGPoint,
         color: NSUIColor)

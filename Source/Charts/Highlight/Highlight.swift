@@ -174,84 +174,24 @@ open class Highlight: NSObject
     {
         return "Highlight, x: \(_x), y: \(_y), dataIndex (combined charts): \(dataIndex), dataSetIndex: \(_dataSetIndex), stackIndex (only stacked barentry): \(_stackIndex)"
     }
-    
-    open override func isEqual(_ object: Any?) -> Bool
-    {
-        if object == nil
-        {
-            return false
-        }
-        
-        if !(object! as AnyObject).isKind(of: type(of: self))
-        {
-            return false
-        }
-        
-        if (object! as AnyObject).x != _x
-        {
-            return false
-        }
-        
-        if (object! as AnyObject).y != _y
-        {
-            return false
-        }
-        
-        if (object! as AnyObject).dataIndex != dataIndex
-        {
-            return false
-        }
-        
-        if (object! as AnyObject).dataSetIndex != _dataSetIndex
-        {
-            return false
-        }
-        
-        if (object! as AnyObject).stackIndex != _stackIndex
-        {
-            return false
-        }
-        
-        return true
-    }
 }
 
-func ==(lhs: Highlight, rhs: Highlight) -> Bool
-{
-    if lhs === rhs
-    {
-        return true
+
+// MARK: Equatable
+extension Highlight /*: Equatable*/ {
+    open override func isEqual(_ object: Any?) -> Bool {
+        guard let object = object as? Highlight else { return false }
+
+        if self === object
+        {
+            return true
+        }
+
+        return _x == object._x
+            && _y == object._y
+            && dataIndex == object.dataIndex
+            && _dataSetIndex == object._dataSetIndex
+            && _stackIndex == object._stackIndex
+
     }
-    
-    if !lhs.isKind(of: type(of: rhs))
-    {
-        return false
-    }
-    
-    if lhs._x != rhs._x
-    {
-        return false
-    }
-    
-    if lhs._y != rhs._y
-    {
-        return false
-    }
-    
-    if lhs.dataIndex != rhs.dataIndex
-    {
-        return false
-    }
-    
-    if lhs._dataSetIndex != rhs._dataSetIndex
-    {
-        return false
-    }
-    
-    if lhs._stackIndex != rhs._stackIndex
-    {
-        return false
-    }
-    
-    return true
 }
