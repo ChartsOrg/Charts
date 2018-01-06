@@ -50,7 +50,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         }
 
         _buffers = zip(_buffers, barData.dataSets).map { buffer, set -> Buffer in
-            let set = set as! IBarChartDataSet
+            let set = set as! BarChartDataSetProtocol
             let size = set.entryCount * (set.isStacked ? set.stackSize : 1)
             return buffer.count == size
                 ? buffer
@@ -166,7 +166,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         
         for i in 0 ..< barData.dataSetCount
         {
-            guard let set = barData.getDataSetByIndex(i) as? IBarChartDataSet else {
+            guard let set = barData.getDataSetByIndex(i) as? BarChartDataSetProtocol else {
                 fatalError("Datasets for BarChartRenderer must conform to IBarChartDataset")
             }
 
@@ -312,7 +312,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             
             for dataSetIndex in barData.dataSets.indices
             {
-                guard let dataSet = dataSets[dataSetIndex] as? IBarChartDataSet,
+                guard
+                    let dataSet = dataSets[dataSetIndex] as? BarChartDataSetProtocol,
                     shouldDrawValues(forDataSet: dataSet)
                     else { continue }
                 
