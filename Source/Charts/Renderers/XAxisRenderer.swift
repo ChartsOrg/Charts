@@ -416,7 +416,8 @@ open class XAxisRenderer: AxisRendererBase
             let align: NSTextAlignment
             let point: CGPoint
 
-            switch limitLine.labelPosition {
+            switch limitLine.labelPosition
+            {
             case .rightTop:
                 align = .left
                 point = CGPoint(x: position.x + xOffset,
@@ -445,5 +446,4 @@ open class XAxisRenderer: AxisRendererBase
                                           .foregroundColor: limitLine.valueTextColor])
         }
     }
-
 }

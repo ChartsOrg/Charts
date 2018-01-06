@@ -556,7 +556,8 @@ open class LineChartRenderer: LineRadarRenderer
                         continue
                     }
                     
-                    if dataSet.isDrawValuesEnabled {
+                    if dataSet.isDrawValuesEnabled
+                    {
                         context.drawText(formatter.stringForValue(e.y,
                                                                   entry: e,
                                                                   dataSetIndex: i,

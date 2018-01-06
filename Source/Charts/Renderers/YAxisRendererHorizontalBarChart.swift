@@ -320,7 +320,8 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
                 let align: NSTextAlignment
                 let point: CGPoint
 
-                switch l.labelPosition {
+                switch l.labelPosition
+                {
                 case .rightTop:
                     align = .left
                     point = CGPoint(x: position.x + xOffset,

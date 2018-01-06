@@ -315,7 +315,8 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
                 let align: NSTextAlignment
                 let point: CGPoint
 
-                switch l.labelPosition {
+                switch l.labelPosition
+                {
                 case .rightTop:
                     align = .right
                     point = CGPoint(x: viewPortHandler.contentRight - xOffset,
