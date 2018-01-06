@@ -332,7 +332,7 @@ open class ViewPortHandler: NSObject
     @objc open func setMinMaxScaleX(minScaleX: CGFloat, maxScaleX: CGFloat)
     {
         var newMin = minScaleX
-        var newMax = minScaleY
+        var newMax = maxScaleX
         
         if newMin < 1.0
         {

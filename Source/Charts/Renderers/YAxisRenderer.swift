@@ -424,7 +424,7 @@ open class YAxisRenderer: NSObject, AxisRenderer
 
         // Find out how much spacing (in y value space) between axis values
         let rawInterval = range / Double(labelCount)
-        var interval = ChartUtils.roundToNextSignificant(number: Double(rawInterval))
+        var interval = rawInterval.roundedToNextSignificant()
 
         // If granularity is enabled, then do not allow the interval to go below specified granularity.
         // This is used to avoid repeated values when rounding values for display.
@@ -434,7 +434,7 @@ open class YAxisRenderer: NSObject, AxisRenderer
         }
 
         // Normalize interval
-        let intervalMagnitude = ChartUtils.roundToNextSignificant(number: pow(10.0, Double(Int(log10(interval)))))
+        let intervalMagnitude = pow(10.0, Double(Int(log10(interval)))).roundedToNextSignificant()
         let intervalSigDigit = Int(interval / intervalMagnitude)
         if intervalSigDigit > 5
         {
@@ -474,7 +474,7 @@ open class YAxisRenderer: NSObject, AxisRenderer
                 first -= interval
             }
 
-            let last = interval == 0.0 ? 0.0 : ChartUtils.nextUp(floor(yMax / interval) * interval)
+            let last = interval == 0.0 ? 0.0 : (floor(yMax / interval) * interval).nextUp
 
             if interval != 0.0 && last != first
             {

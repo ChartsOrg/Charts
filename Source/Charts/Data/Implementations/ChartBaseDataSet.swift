@@ -422,5 +422,3 @@ open class ChartBaseDataSet: NSObject, ChartDataSetProtocol
         return copy
     }
 }
-
-

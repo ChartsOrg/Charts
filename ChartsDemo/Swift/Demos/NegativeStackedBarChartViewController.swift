@@ -43,7 +43,7 @@ class NegativeStackedBarChartViewController: DemoBaseViewController {
 
         chartView.delegate = self
         
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
         
         chartView.drawBarShadowEnabled = false
         chartView.drawValueAboveBarEnabled = true
