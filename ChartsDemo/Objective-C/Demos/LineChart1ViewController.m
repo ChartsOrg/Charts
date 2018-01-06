@@ -227,7 +227,14 @@
     {
         for (id<ILineChartDataSet> set in _chartView.data.dataSets)
         {
-            set.drawSteppedEnabled = !set.isDrawSteppedEnabled;
+            switch (set.mode) {
+                case LineChartModeLinear:
+                case LineChartModeCubicBezier:
+                case LineChartModeHorizontalBezier:
+                    set.mode = LineChartModeStepped;
+                    break;
+                case LineChartModeStepped: set.mode = LineChartModeLinear;
+            }
         }
 
         [_chartView setNeedsDisplay];

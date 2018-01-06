@@ -44,7 +44,7 @@ open class RadarHighlighter: PieRadarHighlighter
     /// The Highlight objects give information about the value at the selected index and DataSet it belongs to.
     ///
     /// - parameter index:
-    @objc internal func getHighlights(forIndex index: Int) -> [Highlight]
+    internal func getHighlights(forIndex index: Int) -> [Highlight]
     {
         var vals = [Highlight]()
         
@@ -65,10 +65,8 @@ open class RadarHighlighter: PieRadarHighlighter
             
             let y = (entry.y - chart.chartYMin)
             
-            let p = ChartUtils.getPosition(
-                center: chart.centerOffsets,
-                dist: CGFloat(y) * factor * CGFloat(phaseY),
-                angle: sliceangle * CGFloat(index) * CGFloat(phaseX) + chart.rotationAngle)
+            let p = chart.centerOffsets.moving(distance: CGFloat(y) * factor * CGFloat(phaseY),
+                                               atAngle: sliceangle * CGFloat(index) * CGFloat(phaseX) + chart.rotationAngle)
             
             vals.append(Highlight(x: Double(index), y: entry.y, xPx: p.x, yPx: p.y, dataSetIndex: i, axis: dataSet.axisDependency))
         }

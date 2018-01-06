@@ -20,13 +20,8 @@ open class AxisRendererBase: Renderer
     
     /// transformer to transform values to screen pixels and return
     @objc open var transformer: Transformer?
-    
-    public override init()
-    {
-        super.init()
-    }
-    
-    @objc public init(viewPortHandler: ViewPortHandler?, transformer: Transformer?, axis: AxisBase?)
+
+    @objc public init(viewPortHandler: ViewPortHandler, transformer: Transformer?, axis: AxisBase?)
     {
         super.init(viewPortHandler: viewPortHandler)
         
@@ -68,23 +63,20 @@ open class AxisRendererBase: Renderer
         if let transformer = self.transformer
         {
             // calculate the starting and entry point of the y-labels (depending on zoom / contentrect bounds)
-            if let viewPortHandler = viewPortHandler
+            if viewPortHandler.contentWidth > 10.0 && !viewPortHandler.isFullyZoomedOutY
             {
-                if viewPortHandler.contentWidth > 10.0 && !viewPortHandler.isFullyZoomedOutY
+                let p1 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
+                let p2 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom))
+                
+                if !inverted
                 {
-                    let p1 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
-                    let p2 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom))
-                    
-                    if !inverted
-                    {
-                        min = Double(p2.y)
-                        max = Double(p1.y)
-                    }
-                    else
-                    {
-                        min = Double(p1.y)
-                        max = Double(p2.y)
-                    }
+                    min = Double(p2.y)
+                    max = Double(p1.y)
+                }
+                else
+                {
+                    min = Double(p1.y)
+                    max = Double(p2.y)
                 }
             }
         }
@@ -112,7 +104,7 @@ open class AxisRendererBase: Renderer
         
         // Find out how much spacing (in y value space) between axis values
         let rawInterval = range / Double(labelCount)
-        var interval = ChartUtils.roundToNextSignificant(number: Double(rawInterval))
+        var interval = rawInterval.roundedToNextSignficant()
         
         // If granularity is enabled, then do not allow the interval to go below specified granularity.
         // This is used to avoid repeated values when rounding values for display.
@@ -122,7 +114,7 @@ open class AxisRendererBase: Renderer
         }
         
         // Normalize interval
-        let intervalMagnitude = ChartUtils.roundToNextSignificant(number: pow(10.0, Double(Int(log10(interval)))))
+        let intervalMagnitude = pow(10.0, Double(Int(log10(interval)))).roundedToNextSignficant()
         let intervalSigDigit = Int(interval / intervalMagnitude)
         if intervalSigDigit > 5
         {
@@ -162,7 +154,7 @@ open class AxisRendererBase: Renderer
                 first -= interval
             }
             
-            let last = interval == 0.0 ? 0.0 : ChartUtils.nextUp(floor(yMax / interval) * interval)
+            let last = interval == 0.0 ? 0.0 : (floor(yMax / interval) * interval).nextUp
             
             if interval != 0.0 && last != first
             {

@@ -27,16 +27,16 @@ public enum FillType: Int
 @objc(ChartFill)
 open class Fill: NSObject
 {
-    fileprivate var _type: FillType = FillType.empty
-    fileprivate var _color: CGColor?
-    fileprivate var _gradient: CGGradient?
-    fileprivate var _gradientAngle: CGFloat = 0.0
-    fileprivate var _gradientStartOffsetPercent: CGPoint = CGPoint()
-    fileprivate var _gradientStartRadiusPercent: CGFloat = 0.0
-    fileprivate var _gradientEndOffsetPercent: CGPoint = CGPoint()
-    fileprivate var _gradientEndRadiusPercent: CGFloat = 0.0
-    fileprivate var _image: CGImage?
-    fileprivate var _layer: CGLayer?
+    private var _type: FillType = FillType.empty
+    private var _color: CGColor?
+    private var _gradient: CGGradient?
+    private var _gradientAngle: CGFloat = 0.0
+    private var _gradientStartOffsetPercent: CGPoint = CGPoint()
+    private var _gradientStartRadiusPercent: CGFloat = 0.0
+    private var _gradientEndOffsetPercent: CGPoint = CGPoint()
+    private var _gradientEndRadiusPercent: CGFloat = 0.0
+    private var _image: CGImage?
+    private var _layer: CGLayer?
     
     // MARK: Properties
     
@@ -273,7 +273,7 @@ open class Fill: NSObject
             
         case .linearGradient:
             
-            let radians = ChartUtils.Math.FDEG2RAD * (360.0 - _gradientAngle)
+            let radians = (360.0 - _gradientAngle).DEG2RAD
             let centerPoint = CGPoint(x: rect.midX, y: rect.midY)
             let xAngleDelta = cos(radians) * rect.width / 2.0
             let yAngleDelta = sin(radians) * rect.height / 2.0
