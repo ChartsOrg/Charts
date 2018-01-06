@@ -40,11 +40,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     // MARK: - Properties
     
     /// The default IValueFormatter that has been determined by the chart considering the provided minimum and maximum values.
-    internal lazy var _defaultValueFormatter: IValueFormatter = DefaultValueFormatter(decimals: 0)
-    
-    /// object that holds all data that was originally set for the chart, before it was modified or any filtering algorithms had been applied
-    internal var _data: ChartData?
-    
+    internal lazy var defaultValueFormatter: ValueFormatter = DefaultValueFormatter(decimals: 0)
+
     /// The data for the chart
     @objc open var data: ChartData?
         {
@@ -59,9 +56,9 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
 
             for set in data.dataSets
             {
-                if set.needsFormatter || set.valueFormatter === _defaultValueFormatter
+                if set.valueFormatter === defaultValueFormatter
                 {
-                    set.valueFormatter = _defaultValueFormatter
+                    set.valueFormatter = defaultValueFormatter
                 }
             }
 
@@ -192,39 +189,6 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     // MARK: - ChartViewBase
     
-    /// The data for the chart
-    open var data: ChartData?
-    {
-        get
-        {
-            return _data
-        }
-        set
-        {
-            _data = newValue
-            _offsetsCalculated = false
-            
-            guard let _data = _data else
-            {
-                return
-            }
-            
-            // calculate how many digits are needed
-            setupDefaultFormatter(min: _data.getYMin(), max: _data.getYMax())
-            
-            for set in _data.dataSets
-            {
-                if set.valueFormatter === _defaultValueFormatter
-                {
-                    set.valueFormatter = _defaultValueFormatter
-                }
-            }
-            
-            // let the chart know there is new data
-            notifyDataSetChanged()
-        }
-    }
-    
     /// Clears the chart from all data (sets it to null) and refreshes it (by calling setNeedsDisplay()).
     @objc open func clear()
     {
@@ -287,12 +251,12 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         }
         
     
-        if _defaultValueFormatter is DefaultValueFormatter
+        if defaultValueFormatter is DefaultValueFormatter
         {
             // setup the formatter with a new number of digits
             let digits = reference.decimalPlaces
             
-            (_defaultValueFormatter as? DefaultValueFormatter)?.decimals
+            (defaultValueFormatter as? DefaultValueFormatter)?.decimals
              = digits
         }
     }

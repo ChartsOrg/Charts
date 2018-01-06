@@ -22,7 +22,7 @@ open class AxisBase: ComponentBase
     }
     
     /// Custom formatter that is used instead of the auto-formatter if set
-    private lazy var _axisValueFormatter: IAxisValueFormatter = DefaultAxisValueFormatter(decimals: decimals)
+    private lazy var _axisValueFormatter: AxisValueFormatter = DefaultAxisValueFormatter(decimals: decimals)
     
     @objc open var labelFont = NSUIFont.systemFont(ofSize: 10.0)
     @objc open var labelTextColor = NSUIColor.black
