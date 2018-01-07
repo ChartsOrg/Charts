@@ -100,7 +100,7 @@ extension CGPoint
 open class ChartUtils
 {
     private static var _defaultValueFormatter: ValueFormatter = ChartUtils.generateDefaultValueFormatter()
-    
+
     open class func drawImage(
         context: CGContext,
         image: NSUIImage,

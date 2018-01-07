@@ -192,6 +192,5 @@ extension Highlight /*: Equatable*/ {
             && dataIndex == object.dataIndex
             && _dataSetIndex == object._dataSetIndex
             && _stackIndex == object._stackIndex
-
     }
 }
