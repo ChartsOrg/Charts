@@ -53,7 +53,7 @@ extension CGSize
 extension Double
 {
     /// Rounds the number to the nearest multiple of it's order of magnitude, rounding away from zero if halfway.
-    func roundedToNextSignficant() -> Double
+    func roundedToNextSignificant() -> Double
     {
         guard
             !isInfinite,
@@ -76,7 +76,7 @@ extension Double
             self != 0.0
             else { return 0 }
 
-        let i = self.roundedToNextSignficant()
+        let i = self.roundedToNextSignificant()
 
         guard
             !i.isInfinite,
@@ -99,16 +99,16 @@ extension CGPoint
 
 open class ChartUtils
 {
-    private static var _defaultValueFormatter: IValueFormatter = generateDefaultValueFormatter()
+    private static var _defaultValueFormatter: ValueFormatter = generateDefaultValueFormatter()
 
-    private class func generateDefaultValueFormatter() -> IValueFormatter
+    private class func generateDefaultValueFormatter() -> ValueFormatter
     {
         let formatter = DefaultValueFormatter(decimals: 1)
         return formatter
     }
 
     /// - returns: The default value formatter used for all chart components that needs a default
-    open class func defaultValueFormatter() -> IValueFormatter
+    open class func defaultValueFormatter() -> ValueFormatter
     {
         return _defaultValueFormatter
     }

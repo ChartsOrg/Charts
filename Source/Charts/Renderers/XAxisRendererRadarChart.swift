@@ -20,28 +20,25 @@ open class XAxisRendererRadarChart: XAxisRenderer
 {
     @objc open weak var chart: RadarChartView?
     
-    @objc public init(viewPortHandler: ViewPortHandler, xAxis: XAxis?, chart: RadarChartView)
+    @objc public init(viewPortHandler: ViewPortHandler, axis: XAxis, chart: RadarChartView)
     {
-        super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: nil)
+        super.init(viewPortHandler: viewPortHandler, axis: axis, transformer: nil)
         
         self.chart = chart
     }
     
     open override func renderAxisLabels(context: CGContext)
     {
-        guard let
-            xAxis = axis as? XAxis,
-            let chart = chart
-            else { return }
+        guard let chart = chart else { return }
         
-        if !xAxis.isEnabled || !xAxis.isDrawLabelsEnabled
+        if !axis.isEnabled || !axis.isDrawLabelsEnabled
         {
             return
         }
         
-        let labelFont = xAxis.labelFont
-        let labelTextColor = xAxis.labelTextColor
-        let labelRotationAngleRadians = xAxis.labelRotationAngle.RAD2DEG
+        let labelFont = axis.labelFont
+        let labelTextColor = axis.labelTextColor
+        let labelRotationAngleRadians = axis.labelRotationAngle.RAD2DEG
         let drawLabelAnchor = CGPoint(x: 0.5, y: 0.25)
         
         let sliceangle = chart.sliceAngle
@@ -54,16 +51,16 @@ open class XAxisRendererRadarChart: XAxisRenderer
         for i in stride(from: 0, to: chart.data?.maxEntryCountSet?.entryCount ?? 0, by: 1)
         {
             
-            let label = xAxis.valueFormatter?.stringForValue(Double(i), axis: xAxis) ?? ""
+            let label = axis.valueFormatter?.stringForValue(Double(i), axis: axis) ?? ""
             
             let angle = (sliceangle * CGFloat(i) + chart.rotationAngle).truncatingRemainder(dividingBy: 360.0)
             
-            let p = center.moving(distance: CGFloat(chart.yRange) * factor + xAxis.labelRotatedWidth / 2.0, atAngle: angle)
+            let p = center.moving(distance: CGFloat(chart.yRange) * factor + axis.labelRotatedWidth / 2.0, atAngle: angle)
             
             drawLabel(context: context,
                       formattedLabel: label,
                       x: p.x,
-                      y: p.y - xAxis.labelRotatedHeight / 2.0,
+                      y: p.y - axis.labelRotatedHeight / 2.0,
                       attributes: [.font: labelFont, .foregroundColor: labelTextColor],
                       anchor: drawLabelAnchor,
                       angleRadians: labelRotationAngleRadians)

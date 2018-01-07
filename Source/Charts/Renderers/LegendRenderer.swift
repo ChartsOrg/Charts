@@ -17,16 +17,19 @@ import CoreGraphics
 #endif
 
 @objc(ChartLegendRenderer)
-open class LegendRenderer: Renderer
+open class LegendRenderer: NSObject, Renderer
 {
+    @objc public let viewPortHandler: ViewPortHandler
+
     /// the legend object this renderer renders
     @objc open var legend: Legend?
 
     @objc public init(viewPortHandler: ViewPortHandler, legend: Legend?)
     {
-        super.init(viewPortHandler: viewPortHandler)
-        
+        self.viewPortHandler = viewPortHandler
         self.legend = legend
+
+        super.init()
     }
 
     /// Prepares the legend and calculates all needed forms, labels and colors.
@@ -47,10 +50,10 @@ open class LegendRenderer: Renderer
                 let entryCount = dataSet.entryCount
                 
                 // if we have a barchart with stacked bars
-                if dataSet is IBarChartDataSet &&
-                    (dataSet as! IBarChartDataSet).isStacked
+                if dataSet is BarChartDataSetProtocol &&
+                    (dataSet as! BarChartDataSetProtocol).isStacked
                 {
-                    let bds = dataSet as! IBarChartDataSet
+                    let bds = dataSet as! BarChartDataSetProtocol
                     var sLabels = bds.stackLabels
                     
                     for j in 0..<min(clrs.count, bds.stackSize)
@@ -85,9 +88,9 @@ open class LegendRenderer: Renderer
                         )
                     }
                 }
-                else if dataSet is IPieChartDataSet
+                else if dataSet is PieChartDataSetProtocol
                 {
-                    let pds = dataSet as! IPieChartDataSet
+                    let pds = dataSet as! PieChartDataSetProtocol
                     
                     for j in 0..<min(clrs.count, entryCount)
                     {
@@ -121,10 +124,10 @@ open class LegendRenderer: Renderer
                         )
                     }
                 }
-                else if dataSet is ICandleChartDataSet &&
-                    (dataSet as! ICandleChartDataSet).decreasingColor != nil
+                else if dataSet is CandleChartDataSetProtocol &&
+                    (dataSet as! CandleChartDataSetProtocol).decreasingColor != nil
                 {
-                    let candleDataSet = dataSet as! ICandleChartDataSet
+                    let candleDataSet = dataSet as! CandleChartDataSetProtocol
                     
                     entries.append(
                         LegendEntry(
