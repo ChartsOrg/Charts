@@ -38,19 +38,19 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
             
             if set.isVisible
             {
-                if !(set is IScatterChartDataSet)
+                if !(set is ScatterChartDataSetProtocol)
                 {
-                    fatalError("Datasets for ScatterChartRenderer must conform to IScatterChartDataSet")
+                    fatalError("Datasets for ScatterChartRenderer must conform to ScatterChartDataSetProtocol")
                 }
                 
-                drawDataSet(context: context, dataSet: set as! IScatterChartDataSet)
+                drawDataSet(context: context, dataSet: set as! ScatterChartDataSetProtocol)
             }
         }
     }
     
     private var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
     
-    @objc open func drawDataSet(context: CGContext, dataSet: IScatterChartDataSet)
+    @objc open func drawDataSet(context: CGContext, dataSet: ScatterChartDataSetProtocol)
     {
         guard let dataProvider = dataProvider else { return }
         
@@ -94,7 +94,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         }
         else
         {
-            print("There's no IShapeRenderer specified for ScatterDataSet", terminator: "\n")
+            print("There's no ShapeRenderer specified for ScatterDataSet", terminator: "\n")
         }
     }
     
@@ -108,7 +108,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         // if values are drawn
         if isDrawingValuesAllowed(dataProvider: dataProvider)
         {
-            guard let dataSets = scatterData.dataSets as? [IScatterChartDataSet] else { return }
+            guard let dataSets = scatterData.dataSets as? [ScatterChartDataSetProtocol] else { return }
             
             let phaseY = animator.phaseY
             
@@ -165,24 +165,21 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                     
                     if dataSet.isDrawValuesEnabled
                     {
-                        ChartUtils.drawText(
-                            context: context,
-                            text: text,
-                            point: CGPoint(
-                                x: pt.x,
-                                y: pt.y - shapeSize - lineHeight),
-                            align: .center,
-                            attributes: [NSAttributedStringKey.font: valueFont, NSAttributedStringKey.foregroundColor: dataSet.valueTextColorAt(j)]
+                        context.drawText(text,
+                                         at: CGPoint(x: pt.x,
+                                                     y: pt.y - shapeSize - lineHeight),
+                                         align: .center,
+                                         attributes: [.font: valueFont,
+                                                      .foregroundColor: dataSet.valueTextColorAt(j)]
                         )
                     }
                     
                     if let icon = e.icon, dataSet.isDrawIconsEnabled
                     {
-                        ChartUtils.drawImage(context: context,
-                                             image: icon,
-                                             x: pt.x + iconsOffset.x,
-                                             y: pt.y + iconsOffset.y,
-                                             size: icon.size)
+                        context.drawImage(icon,
+                                          atCenter: CGPoint(x: pt.x + iconsOffset.x,
+                                                          y: pt.y + iconsOffset.y),
+                                          size: icon.size)
                     }
                 }
             }
@@ -206,7 +203,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         for high in indices
         {
             guard
-                let set = scatterData.getDataSetByIndex(high.dataSetIndex) as? IScatterChartDataSet,
+                let set = scatterData.getDataSetByIndex(high.dataSetIndex) as? ScatterChartDataSetProtocol,
                 set.isHighlightEnabled
                 else { continue }
             

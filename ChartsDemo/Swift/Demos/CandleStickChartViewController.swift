@@ -36,7 +36,7 @@ class CandleStickChartViewController: DemoBaseViewController {
         
         chartView.delegate = self
         
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
         
         chartView.dragEnabled = false
         chartView.setScaleEnabled(true)

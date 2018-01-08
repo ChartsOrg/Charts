@@ -12,6 +12,6 @@
 #import <UIKit/UIKit.h>
 #import "ChartsDemo-Swift.h"
 
-@interface DateValueFormatter : NSObject <IChartAxisValueFormatter>
+@interface DateValueFormatter : NSObject <ChartAxisValueFormatter>
 
 @end

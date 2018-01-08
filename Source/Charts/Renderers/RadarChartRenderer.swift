@@ -38,7 +38,7 @@ open class RadarChartRenderer: LineRadarRenderer
         {
             let mostEntries = radarData?.maxEntryCountSet?.entryCount ?? 0
             
-            for set in radarData!.dataSets as! [IRadarChartDataSet]
+            for set in radarData!.dataSets as! [RadarChartDataSetProtocol]
             {
                 if set.isVisible
                 {
@@ -53,7 +53,7 @@ open class RadarChartRenderer: LineRadarRenderer
     /// - parameter context:
     /// - parameter dataSet:
     /// - parameter mostEntries: the entry count of the dataset with the most entries
-    internal func drawDataSet(context: CGContext, dataSet: IRadarChartDataSet, mostEntries: Int)
+    internal func drawDataSet(context: CGContext, dataSet: RadarChartDataSetProtocol, mostEntries: Int)
     {
         guard let chart = chart else { return }
         
@@ -153,7 +153,7 @@ open class RadarChartRenderer: LineRadarRenderer
         
         for i in 0 ..< data.dataSetCount
         {
-            let dataSet = data.getDataSetByIndex(i) as! IRadarChartDataSet
+            let dataSet = data.getDataSetByIndex(i) as! RadarChartDataSetProtocol
             
             if !shouldDrawValues(forDataSet: dataSet)
             {
@@ -177,18 +177,14 @@ open class RadarChartRenderer: LineRadarRenderer
                 
                 if dataSet.isDrawValuesEnabled
                 {
-                    ChartUtils.drawText(
-                        context: context,
-                        text: formatter.stringForValue(
-                            e.y,
-                            entry: e,
-                            dataSetIndex: i,
-                            viewPortHandler: viewPortHandler),
-                        point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
-                        align: .center,
-                        attributes: [NSAttributedStringKey.font: valueFont,
-                            NSAttributedStringKey.foregroundColor: dataSet.valueTextColorAt(j)]
-                    )
+                    context.drawText(formatter.stringForValue(e.y,
+                                                              entry: e,
+                                                              dataSetIndex: i,
+                                                              viewPortHandler: viewPortHandler),
+                                     at: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
+                                     align: .center,
+                                     attributes: [.font: valueFont,
+                                                  .foregroundColor: dataSet.valueTextColorAt(j)])
                 }
                 
                 if let icon = e.icon, dataSet.isDrawIconsEnabled
@@ -197,11 +193,9 @@ open class RadarChartRenderer: LineRadarRenderer
                                               atAngle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
                     pIcon.y += iconsOffset.x
                     
-                    ChartUtils.drawImage(context: context,
-                                         image: icon,
-                                         x: pIcon.x,
-                                         y: pIcon.y,
-                                         size: icon.size)
+                    context.drawImage(icon,
+                                      atCenter: CGPoint(x: pIcon.x, y: pIcon.y),
+                                      size: icon.size)
                 }
             }
         }
@@ -302,7 +296,7 @@ open class RadarChartRenderer: LineRadarRenderer
         for high in indices
         {
             guard
-                let set = chart.data?.getDataSetByIndex(high.dataSetIndex) as? IRadarChartDataSet,
+                let set = chart.data?.getDataSetByIndex(high.dataSetIndex) as? RadarChartDataSetProtocol,
                 set.isHighlightEnabled
                 else { continue }
             

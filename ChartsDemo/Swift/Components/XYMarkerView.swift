@@ -10,11 +10,11 @@ import Foundation
 import Charts
 
 public class XYMarkerView: BalloonMarker {
-    public var xAxisValueFormatter: IAxisValueFormatter
+    public var xAxisValueFormatter: AxisValueFormatter
     fileprivate var yFormatter = NumberFormatter()
     
     public init(color: UIColor, font: UIFont, textColor: UIColor, insets: UIEdgeInsets,
-                xAxisValueFormatter: IAxisValueFormatter) {
+                xAxisValueFormatter: AxisValueFormatter) {
         self.xAxisValueFormatter = xAxisValueFormatter
         yFormatter.minimumFractionDigits = 1
         yFormatter.maximumFractionDigits = 1
