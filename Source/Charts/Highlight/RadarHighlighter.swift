@@ -56,7 +56,7 @@ open class RadarHighlighter: PieRadarHighlighter
         let phaseY = chart.chartAnimator.phaseY
         let sliceangle = chart.sliceAngle
         let factor = chart.factor
-        
+
         for i in chartData.dataSets.indices
         {
             guard
@@ -68,7 +68,7 @@ open class RadarHighlighter: PieRadarHighlighter
             
             let p = chart.centerOffsets.moving(distance: CGFloat(y) * factor * CGFloat(phaseY),
                                                atAngle: sliceangle * CGFloat(index) * CGFloat(phaseX) + chart.rotationAngle)
-            
+
             let highlight = Highlight(x: Double(index), y: entry.y, xPx: p.x, yPx: p.y, dataSetIndex: i, axis: dataSet.axisDependency)
             vals.append(highlight)
         }

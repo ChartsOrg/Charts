@@ -183,15 +183,11 @@ open class YAxisRendererRadarChart: YAxisRenderer
             
             let label = axis.getFormattedLabel(j)
             
-            ChartUtils.drawText(
-                context: context,
-                text: label,
-                point: CGPoint(x: p.x + 10.0, y: p.y - labelLineHeight),
-                align: .left,
-                attributes: [
-                    NSAttributedStringKey.font: labelFont,
-                    NSAttributedStringKey.foregroundColor: labelTextColor
-                ])
+            context.drawText(label,
+                             at: CGPoint(x: p.x + 10.0, y: p.y - labelLineHeight),
+                             align: .left,
+                             attributes: [.font: labelFont,
+                                          .foregroundColor: labelTextColor])
         }
     }
     
