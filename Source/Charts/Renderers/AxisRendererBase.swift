@@ -164,7 +164,11 @@ open class AxisRendererBase: Renderer
                     n += 1
                 }
             }
-            
+            else if last == first && n == 0
+            {
+                n = 1
+            }
+
             // Ensure stops contains at least n elements.
             axis.entries.removeAll(keepingCapacity: true)
             axis.entries.reserveCapacity(labelCount)
