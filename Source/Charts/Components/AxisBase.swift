@@ -214,12 +214,12 @@ open class AxisBase: ComponentBase
     @objc open var axisRange = Double(0)
     
     /// The minumum number of labels on the axis
-    @objc open var axisMinLabels: Int = Int(2) {
+    @objc open var axisMinLabels = Int(2) {
         didSet { axisMinLabels = axisMinLabels > 0 ? axisMinLabels : oldValue }
     }
     
     /// The maximum number of labels on the axis
-    @objc open var axisMaxLabels: Int = Int(25) {
+    @objc open var axisMaxLabels = Int(25) {
         didSet { axisMinLabels = axisMaxLabels > 0 ? axisMaxLabels : oldValue }
     }
     
