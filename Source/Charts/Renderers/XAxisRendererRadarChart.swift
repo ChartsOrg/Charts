@@ -12,9 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
 
 open class XAxisRendererRadarChart: XAxisRenderer
 {
@@ -29,13 +26,12 @@ open class XAxisRendererRadarChart: XAxisRenderer
     
     open override func renderAxisLabels(context: CGContext)
     {
-        guard let chart = chart else { return }
-        
-        if !axis.isEnabled || !axis.isDrawLabelsEnabled
-        {
-            return
-        }
-        
+        guard
+            let chart = chart,
+            axis.isEnabled,
+            axis.isDrawLabelsEnabled
+            else { return }
+
         let labelFont = axis.labelFont
         let labelTextColor = axis.labelTextColor
         let labelRotationAngleRadians = axis.labelRotationAngle.RAD2DEG
@@ -48,13 +44,10 @@ open class XAxisRendererRadarChart: XAxisRenderer
         
         let center = chart.centerOffsets
         
-        for i in stride(from: 0, to: chart.data?.maxEntryCountSet?.entryCount ?? 0, by: 1)
+        for i in 0..<(chart.data?.maxEntryCountSet?.entryCount ?? 0)
         {
-            
             let label = axis.valueFormatter?.stringForValue(Double(i), axis: axis) ?? ""
-            
             let angle = (sliceangle * CGFloat(i) + chart.rotationAngle).truncatingRemainder(dividingBy: 360.0)
-            
             let p = center.moving(distance: CGFloat(chart.yRange) * factor + axis.labelRotatedWidth / 2.0, atAngle: angle)
 
             drawLabel(context: context,
