@@ -19,7 +19,7 @@ open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
 
     public let animator: Animator
 
-    internal var _xBounds = XBounds() // Reusable XBounds object
+    var xBounds = XBounds() // Reusable XBounds object
     
     public init(animator: Animator, viewPortHandler: ViewPortHandler)
     {
@@ -38,7 +38,7 @@ open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
     open func drawHighlighted(context: CGContext, indices: [Highlight]) { }
 
     /// Checks if the provided entry object is in bounds for drawing considering the current animation phase.
-    internal func isInBoundsX(entry e: ChartDataEntry, dataSet: BarLineScatterCandleBubbleChartDataSetProtocol) -> Bool
+    func isInBoundsX(entry e: ChartDataEntry, dataSet: BarLineScatterCandleBubbleChartDataSetProtocol) -> Bool
     {
         let entryIndex = dataSet.entryIndex(entry: e)
         return Double(entryIndex) < Double(dataSet.entryCount) * animator.phaseX
@@ -46,7 +46,7 @@ open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
 
     /// Calculates and returns the x-bounds for the given DataSet in terms of index in their values array.
     /// This includes minimum and maximum visible x, as well as range.
-    internal func xBounds(chart: BarLineScatterCandleBubbleChartDataProvider,
+    func xBounds(chart: BarLineScatterCandleBubbleChartDataProvider,
                           dataSet: BarLineScatterCandleBubbleChartDataSetProtocol,
                           animator: Animator?) -> XBounds
     {
@@ -54,9 +54,10 @@ open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
     }
     
     /// - returns: `true` if the DataSet values should be drawn, `false` if not.
-    internal func shouldDrawValues(forDataSet set: ChartDataSetProtocol) -> Bool
+    func shouldDrawValues(forDataSet set: ChartDataSetProtocol) -> Bool
     {
-        return set.isVisible && (set.isDrawValuesEnabled || set.isDrawIconsEnabled)
+        return set.isVisible
+            && (set.isDrawValuesEnabled || set.isDrawIconsEnabled)
     }
 
     open func initBuffers() { }
@@ -79,10 +80,7 @@ open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
         /// range of visible entry indices
         open var range: Int = 0
 
-        public init()
-        {
-            
-        }
+        public init() { }
         
         public init(chart: BarLineScatterCandleBubbleChartDataProvider,
                     dataSet: BarLineScatterCandleBubbleChartDataSetProtocol,

@@ -23,8 +23,9 @@ open class LineRadarRenderer: LineScatterCandleRadarRenderer
     /// Draws the provided path in filled mode with the provided drawable.
     @objc open func drawFilledPath(context: CGContext, path: CGPath, fill: Fill, fillAlpha: CGFloat)
     {
-        
         context.saveGState()
+        defer { context.restoreGState() }
+
         context.beginPath()
         context.addPath(path)
         
@@ -32,14 +33,14 @@ open class LineRadarRenderer: LineScatterCandleRadarRenderer
         context.setAlpha(fillAlpha)
         
         fill.fillPath(context: context, rect: viewPortHandler.contentRect)
-        
-        context.restoreGState()
     }
     
     /// Draws the provided path in filled mode with the provided color and alpha.
     @objc open func drawFilledPath(context: CGContext, path: CGPath, fillColor: NSUIColor, fillAlpha: CGFloat)
     {
         context.saveGState()
+        defer { context.restoreGState() }
+
         context.beginPath()
         context.addPath(path)
         
@@ -48,7 +49,5 @@ open class LineRadarRenderer: LineScatterCandleRadarRenderer
         
         context.setFillColor(fillColor.cgColor)
         context.fillPath()
-        
-        context.restoreGState()
     }
 }

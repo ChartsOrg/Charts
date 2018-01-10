@@ -27,7 +27,6 @@ open class LineScatterCandleRadarRenderer: BarLineScatterCandleBubbleRenderer
     /// :param: vertical
     @objc open func drawHighlightLines(context: CGContext, point: CGPoint, set: LineScatterCandleRadarChartDataSetProtocol)
     {
-        
         // draw vertical highlight lines
         if set.isVerticalHighlightIndicatorEnabled
         {
