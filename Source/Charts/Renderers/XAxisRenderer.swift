@@ -95,6 +95,7 @@ open class XAxisRenderer: AxisRendererBase
         if xAxis.labelPosition == .top
         {
             drawLabels(context: context, pos: viewPortHandler.contentTop - yOffset, anchor: CGPoint(x: 0.5, y: 1.0))
+            drawNameXAxis(context: context, nameRect: xAxis.axisRectTop)
         }
         else if xAxis.labelPosition == .topInside
         {
@@ -103,6 +104,7 @@ open class XAxisRenderer: AxisRendererBase
         else if xAxis.labelPosition == .bottom
         {
             drawLabels(context: context, pos: viewPortHandler.contentBottom + yOffset, anchor: CGPoint(x: 0.5, y: 0.0))
+            drawNameXAxis(context: context, nameRect: xAxis.axisRectBottom)
         }
         else if xAxis.labelPosition == .bottomInside
         {
@@ -111,9 +113,39 @@ open class XAxisRenderer: AxisRendererBase
         else
         { // BOTH SIDED
             drawLabels(context: context, pos: viewPortHandler.contentTop - yOffset, anchor: CGPoint(x: 0.5, y: 1.0))
+            drawNameXAxis ( context: context, nameRect: xAxis.axisRectTop)
+            
             drawLabels(context: context, pos: viewPortHandler.contentBottom + yOffset, anchor: CGPoint(x: 0.5, y: 0.0))
+            drawNameXAxis ( context: context, nameRect: xAxis.axisRectBottom)
         }
     }
+    
+    /// draws the x-name
+    open func drawNameXAxis ( context: CGContext, nameRect: CGRect)
+    {
+        guard
+            let xAxis = self.axis as? XAxis
+            else { return }
+        
+        if xAxis.nameAxisEnabled == false
+        {
+            return
+        }
+        
+        #if os(OSX)
+            let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        #else
+            let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        #endif
+        paraStyle.alignment = .center
+        let labelAttrs = [.font: xAxis.nameAxisFont,
+                          .foregroundColor: xAxis.labelTextColor,
+                          .paragraphStyle: paraStyle] as [NSAttributedStringKey : Any]
+        let text = xAxis.nameAxis
+        
+        text.draw(in: nameRect, withAttributes: labelAttrs)
+    }
+    
     
     private var _axisLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
@@ -180,12 +212,12 @@ open class XAxisRenderer: AxisRendererBase
         paraStyle.alignment = .center
         
         let labelAttrs: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: xAxis.labelFont,
-            NSAttributedStringKey.foregroundColor: xAxis.labelTextColor,
-            NSAttributedStringKey.paragraphStyle: paraStyle]
+                                                         NSAttributedStringKey.foregroundColor: xAxis.labelTextColor,
+                                                         NSAttributedStringKey.paragraphStyle: paraStyle]
         let labelRotationAngleRadians = xAxis.labelRotationAngle.DEG2RAD
         
         let centeringEnabled = xAxis.isCenterAxisLabelsEnabled
-
+        
         let valueToPixelMatrix = transformer.valueToPixelMatrix
         
         var position = CGPoint(x: 0.0, y: 0.0)
@@ -216,7 +248,7 @@ open class XAxisRenderer: AxisRendererBase
             if viewPortHandler.isInBoundsX(position.x)
             {
                 let label = xAxis.valueFormatter?.stringForValue(xAxis.entries[i], axis: xAxis) ?? ""
-
+                
                 let labelns = label as NSString
                 
                 if xAxis.isAvoidFirstLastClippingEnabled
@@ -418,44 +450,45 @@ open class XAxisRenderer: AxisRendererBase
             if limitLine.labelPosition == .rightTop
             {
                 ChartUtils.drawText(context: context,
-                    text: label,
-                    point: CGPoint(
-                        x: position.x + xOffset,
-                        y: viewPortHandler.contentTop + yOffset),
-                    align: .left,
-                    attributes: [NSAttributedStringKey.font: limitLine.valueFont, NSAttributedStringKey.foregroundColor: limitLine.valueTextColor])
+                                    text: label,
+                                    point: CGPoint(
+                                        x: position.x + xOffset,
+                                        y: viewPortHandler.contentTop + yOffset),
+                                    align: .left,
+                                    attributes: [NSAttributedStringKey.font: limitLine.valueFont, NSAttributedStringKey.foregroundColor: limitLine.valueTextColor])
             }
             else if limitLine.labelPosition == .rightBottom
             {
                 ChartUtils.drawText(context: context,
-                    text: label,
-                    point: CGPoint(
-                        x: position.x + xOffset,
-                        y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
-                    align: .left,
-                    attributes: [NSAttributedStringKey.font: limitLine.valueFont, NSAttributedStringKey.foregroundColor: limitLine.valueTextColor])
+                                    text: label,
+                                    point: CGPoint(
+                                        x: position.x + xOffset,
+                                        y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
+                                    align: .left,
+                                    attributes: [NSAttributedStringKey.font: limitLine.valueFont, NSAttributedStringKey.foregroundColor: limitLine.valueTextColor])
             }
             else if limitLine.labelPosition == .leftTop
             {
                 ChartUtils.drawText(context: context,
-                    text: label,
-                    point: CGPoint(
-                        x: position.x - xOffset,
-                        y: viewPortHandler.contentTop + yOffset),
-                    align: .right,
-                    attributes: [NSAttributedStringKey.font: limitLine.valueFont, NSAttributedStringKey.foregroundColor: limitLine.valueTextColor])
+                                    text: label,
+                                    point: CGPoint(
+                                        x: position.x - xOffset,
+                                        y: viewPortHandler.contentTop + yOffset),
+                                    align: .right,
+                                    attributes: [NSAttributedStringKey.font: limitLine.valueFont, NSAttributedStringKey.foregroundColor: limitLine.valueTextColor])
             }
             else
             {
                 ChartUtils.drawText(context: context,
-                    text: label,
-                    point: CGPoint(
-                        x: position.x - xOffset,
-                        y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
-                    align: .right,
-                    attributes: [NSAttributedStringKey.font: limitLine.valueFont, NSAttributedStringKey.foregroundColor: limitLine.valueTextColor])
+                                    text: label,
+                                    point: CGPoint(
+                                        x: position.x - xOffset,
+                                        y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
+                                    align: .right,
+                                    attributes: [NSAttributedStringKey.font: limitLine.valueFont, NSAttributedStringKey.foregroundColor: limitLine.valueTextColor])
             }
         }
     }
-
+    
 }
+
