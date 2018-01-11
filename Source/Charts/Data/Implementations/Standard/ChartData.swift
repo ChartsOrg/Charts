@@ -478,10 +478,7 @@ extension ChartData//: RangeReplaceableCollection
 
     public func removeFirst() -> Element
     {
-        guard !(self is CombinedChartData) else
-        {
-            fatalError("removeFirst() not supported for CombinedData")
-        }
+        assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         let element = _dataSets.removeFirst()
         notifyDataChanged()
@@ -490,10 +487,7 @@ extension ChartData//: RangeReplaceableCollection
 
     public func removeFirst(_ n: Int)
     {
-        guard !(self is CombinedChartData) else
-        {
-            fatalError("removeFirst(_:) not supported for CombinedData")
-        }
+        assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         _dataSets.removeFirst(n)
         notifyDataChanged()
@@ -501,10 +495,7 @@ extension ChartData//: RangeReplaceableCollection
 
     public func removeLast() -> Element
     {
-        guard !(self is CombinedChartData) else
-        {
-            fatalError("removeLast() not supported for CombinedData")
-        }
+        assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         let element = _dataSets.removeLast()
         notifyDataChanged()
@@ -513,10 +504,7 @@ extension ChartData//: RangeReplaceableCollection
 
     public func removeLast(_ n: Int)
     {
-        guard !(self is CombinedChartData) else
-        {
-            fatalError("removeLast(_:) not supported for CombinedData")
-        }
+        assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         _dataSets.removeLast(n)
         notifyDataChanged()
@@ -524,10 +512,7 @@ extension ChartData//: RangeReplaceableCollection
 
     public func removeSubrange<R>(_ bounds: R) where R : RangeExpression, Index == R.Bound
     {
-        guard !(self is CombinedChartData) else
-        {
-            fatalError("removeSubrange<R>(_:) not supported for CombinedData")
-        }
+        assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         _dataSets.removeSubrange(bounds)
         notifyDataChanged()
@@ -535,10 +520,7 @@ extension ChartData//: RangeReplaceableCollection
 
     public func removeAll(keepingCapacity keepCapacity: Bool)
     {
-        guard !(self is CombinedChartData) else
-        {
-            fatalError("removeAll(keepingCapacity:) not supported for CombinedData")
-        }
+        assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         _dataSets.removeAll(keepingCapacity: keepCapacity)
         notifyDataChanged()
@@ -546,10 +528,7 @@ extension ChartData//: RangeReplaceableCollection
 
     public func replaceSubrange<C>(_ subrange: Swift.Range<Index>, with newElements: C) where C : Collection, Element == C.Element
     {
-        guard !(self is CombinedChartData) else
-        {
-            fatalError("replaceSubrange<C>(_:) not supported for CombinedData")
-        }
+        assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         _dataSets.replaceSubrange(subrange, with: newElements)
         newElements.forEach { self.calcMinMax(dataSet: $0) }
