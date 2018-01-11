@@ -24,12 +24,13 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         super.init()
     }
     
-    public override init(dataSets: [IChartDataSet]?)
+    public override init(dataSets: [ChartDataSetProtocol]?)
     {
         super.init(dataSets: dataSets)
     }
 
-    public required init(arrayLiteral elements: IChartDataSet...) {
+    public required init(arrayLiteral elements: ChartDataSetProtocol...)
+    {
         super.init(dataSets: elements)
     }
     
@@ -140,25 +141,31 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
             {
                 _xMin = data.xMin
             }
-            
-            if data.yMax > _leftAxisMax
+
+            for dataset in sets
             {
-                _leftAxisMax = data.yMax
-            }
-            
-            if data.yMin < _leftAxisMin
-            {
-                _leftAxisMin = data.yMin
-            }
-            
-            if data.yMax > _rightAxisMax
-            {
-                _rightAxisMax = data.yMax
-            }
-            
-            if data.yMin < _rightAxisMin
-            {
-                _rightAxisMin = data.yMin
+                if dataset.axisDependency == .left
+                {
+                    if dataset.yMax > _leftAxisMax
+                    {
+                        _leftAxisMax = dataset.yMax
+                    }
+                    if dataset.yMin < _leftAxisMin
+                    {
+                        _leftAxisMin = dataset.yMin
+                    }
+                }
+                else
+                {
+                    if dataset.yMax > _rightAxisMax
+                    {
+                        _rightAxisMax = dataset.yMax
+                    }
+                    if dataset.yMin < _rightAxisMin
+                    {
+                        _rightAxisMin = dataset.yMin
+                    }
+                }
             }
         }
     }
@@ -202,7 +209,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         return allData.index(of: data)
     }
     
-    open override func removeDataSet(_ dataSet: IChartDataSet!) -> Bool
+    open override func removeDataSet(_ dataSet: ChartDataSetProtocol!) -> Bool
     {
         let datas = allData
         
@@ -284,7 +291,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     ///
     /// - Parameter highlight: current highlight
     /// - Returns: dataset related to highlight
-    @objc open func getDataSetByHighlight(_ highlight: Highlight) -> IChartDataSet!
+    @objc open func getDataSetByHighlight(_ highlight: Highlight) -> ChartDataSetProtocol!
     {  
         if highlight.dataIndex >= allData.count
         {

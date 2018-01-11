@@ -19,12 +19,13 @@ open class ScatterChartData: BarLineScatterCandleBubbleChartData
         super.init()
     }
     
-    public override init(dataSets: [IChartDataSet]?)
+    public override init(dataSets: [ChartDataSetProtocol]?)
     {
         super.init(dataSets: dataSets)
     }
 
-    public required init(arrayLiteral elements: IChartDataSet...) {
+    public required init(arrayLiteral elements: ChartDataSetProtocol...)
+    {
         super.init(dataSets: elements)
     }
     
@@ -32,7 +33,7 @@ open class ScatterChartData: BarLineScatterCandleBubbleChartData
     @objc open func getGreatestShapeSize() -> CGFloat
     {
         return reduce(0) { (max, set) -> CGFloat in
-            guard let set = set as? IScatterChartDataSet else {
+            guard let set = set as? ScatterChartDataSetProtocol else {
                 print("ScatterChartData: Found a DataSet which is not a ScatterChartDataSet", terminator: "\n")
 
                 return max

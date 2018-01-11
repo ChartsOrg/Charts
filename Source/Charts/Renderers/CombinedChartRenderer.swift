@@ -12,8 +12,11 @@
 import Foundation
 import CoreGraphics
 
-open class CombinedChartRenderer: DataRenderer
+open class CombinedChartRenderer: NSObject, DataRenderer
 {
+    public let viewPortHandler: ViewPortHandler
+    public let animator: Animator
+
     @objc open weak var chart: CombinedChartView?
     
     /// if set to true, all values are drawn above their bars, instead of below their top
@@ -22,29 +25,27 @@ open class CombinedChartRenderer: DataRenderer
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     @objc open var drawBarShadowEnabled = false
     
-    @objc internal var _renderers = [DataRenderer]()
+    internal var _renderers = [DataRenderer]()
     
     internal var _drawOrder: [CombinedChartView.DrawOrder] = [.bar, .bubble, .line, .candle, .scatter]
     
-    @objc public init(chart: CombinedChartView?, animator: Animator, viewPortHandler: ViewPortHandler?)
+    @objc public init(chart: CombinedChartView, animator: Animator, viewPortHandler: ViewPortHandler)
     {
-        super.init(animator: animator, viewPortHandler: viewPortHandler)
-        
         self.chart = chart
+        self.viewPortHandler = viewPortHandler
+        self.animator = animator
+
+        super.init()
         
         createRenderers()
     }
     
     /// Creates the renderers needed for this combined-renderer in the required order. Also takes the DrawOrder into consideration.
-    @objc internal func createRenderers()
+    internal func createRenderers()
     {
         _renderers = [DataRenderer]()
         
-        guard let
-            chart = chart,
-            let animator = animator,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let chart = chart else { return }
 
         for order in drawOrder
         {
@@ -89,7 +90,7 @@ open class CombinedChartRenderer: DataRenderer
 
     }
     
-    open override func initBuffers()
+    open func initBuffers()
     {
         for renderer in _renderers
         {
@@ -97,7 +98,7 @@ open class CombinedChartRenderer: DataRenderer
         }
     }
     
-    open override func drawData(context: CGContext)
+    open func drawData(context: CGContext)
     {
         for renderer in _renderers
         {
@@ -105,7 +106,7 @@ open class CombinedChartRenderer: DataRenderer
         }
     }
     
-    open override func drawValues(context: CGContext)
+    open func drawValues(context: CGContext)
     {
         for renderer in _renderers
         {
@@ -113,7 +114,7 @@ open class CombinedChartRenderer: DataRenderer
         }
     }
     
-    open override func drawExtras(context: CGContext)
+    open func drawExtras(context: CGContext)
     {
         for renderer in _renderers
         {
@@ -121,7 +122,7 @@ open class CombinedChartRenderer: DataRenderer
         }
     }
     
-    open override func drawHighlighted(context: CGContext, indices: [Highlight])
+    open func drawHighlighted(context: CGContext, indices: [Highlight])
     {
         for renderer in _renderers
         {
@@ -154,6 +155,12 @@ open class CombinedChartRenderer: DataRenderer
             
             renderer.drawHighlighted(context: context, indices: dataIndices)
         }
+    }
+
+    open func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
+    {
+        guard let data = dataProvider?.data else { return false }
+        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
     }
 
     /// - returns: The sub-renderer object at the specified index.

@@ -31,7 +31,7 @@ class LineChartFilledViewController: DemoBaseViewController {
         
         chartView.drawBordersEnabled = true
         
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
         
         chartView.pinchZoomEnabled = false
         chartView.dragEnabled = true

@@ -36,7 +36,7 @@ class MultipleBarChartViewController: DemoBaseViewController {
         
         chartView.delegate = self
         
-        chartView.chartDescription?.enabled =  false
+        chartView.chartDescription.enabled =  false
         
         chartView.pinchZoomEnabled = false
         chartView.drawBarShadowEnabled = false

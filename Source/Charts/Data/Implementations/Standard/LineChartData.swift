@@ -19,12 +19,13 @@ open class LineChartData: ChartData
         super.init()
     }
     
-    public override init(dataSets: [IChartDataSet]?)
+    public override init(dataSets: [ChartDataSetProtocol]?)
     {
         super.init(dataSets: dataSets)
     }
 
-    public required init(arrayLiteral elements: IChartDataSet...) {
+    public required init(arrayLiteral elements: ChartDataSetProtocol...)
+    {
         super.init(dataSets: elements)
     }
 }

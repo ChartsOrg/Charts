@@ -38,7 +38,7 @@ class MultipleLinesChartViewController: DemoBaseViewController {
 
         chartView.delegate = self
         
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
 
         chartView.leftAxis.enabled = false
         chartView.rightAxis.drawAxisLineEnabled = false
