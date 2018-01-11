@@ -20,7 +20,7 @@ public protocol ChartDataSetProtocol
     /// Use this method to tell the data set that the underlying data has changed
     func notifyDataSetChanged()
     
-    /// Calculates the minimum and maximum x and y values (_xMin, _xMax, _yMin, _yMax).
+    /// Calculates the minimum and maximum x and y values (_xMin, _xMax, _yMin, yMax).
     func calcMinMax()
     
     /// Calculates the min and max y-values from the Entry closest to the given fromX to the Entry closest to the given toX value.

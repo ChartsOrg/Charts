@@ -52,7 +52,7 @@ open class CombinedHighlighter: ChartHighlighter
                 {
                     for j in 0..<dataObject.dataSetCount
                     {
-                        guard let dataSet = dataObjects[i].getDataSetByIndex(j)
+                        guard let dataSet = dataObjects[i].dataSet(forIndex: j)
                             else { continue }
                         
                         // don't include datasets that cannot be highlighted

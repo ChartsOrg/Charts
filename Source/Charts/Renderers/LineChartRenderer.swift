@@ -34,7 +34,7 @@ open class LineChartRenderer: LineRadarRenderer
         
         for i in 0 ..< lineData.dataSetCount
         {
-            guard let set = lineData.getDataSetByIndex(i) else { continue }
+            guard let set = lineData.dataSet(forIndex: i) else { continue }
             
             if set.isVisible
             {
@@ -607,7 +607,7 @@ open class LineChartRenderer: LineRadarRenderer
         
         for i in 0 ..< dataSets.count
         {
-            guard let dataSet = lineData.getDataSetByIndex(i) as? LineChartDataSetProtocol else { continue }
+            guard let dataSet = lineData.dataSet(forIndex: i) as? LineChartDataSetProtocol else { continue }
             
             if !dataSet.isVisible || !dataSet.isDrawCirclesEnabled || dataSet.entryCount == 0
             {
@@ -709,7 +709,7 @@ open class LineChartRenderer: LineRadarRenderer
         
         for high in indices
         {
-            guard let set = lineData.getDataSetByIndex(high.dataSetIndex) as? LineChartDataSetProtocol
+            guard let set = lineData.dataSet(forIndex: high.dataSetIndex) as? LineChartDataSetProtocol
                 , set.isHighlightEnabled
                 else { continue }
             

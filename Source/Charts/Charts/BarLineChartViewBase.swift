@@ -1675,7 +1675,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     {
         if let h = getHighlightByTouchPoint(pt)
         {
-            return data!.entryForHighlight(h)
+            return data!.entry(for: h)
         }
         return nil
     }
@@ -1686,7 +1686,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         let h = getHighlightByTouchPoint(pt)
         if h !== nil
         {
-            return data?.getDataSetByIndex(h!.dataSetIndex) as! BarLineScatterCandleBubbleChartDataSetProtocol
+            return data?.dataSet(forIndex: h!.dataSetIndex) as! BarLineScatterCandleBubbleChartDataSetProtocol
         }
         return nil
     }

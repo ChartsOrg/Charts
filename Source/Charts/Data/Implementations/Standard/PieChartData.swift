@@ -18,7 +18,7 @@ open class PieChartData: ChartData
         super.init()
     }
     
-    public override init(dataSets: [ChartDataSetProtocol]?)
+    public override init(dataSets: [ChartDataSetProtocol])
     {
         super.init(dataSets: dataSets)
     }
@@ -47,16 +47,13 @@ open class PieChartData: ChartData
         }
     }
     
-    open override func getDataSetByIndex(_ index: Int) -> ChartDataSetProtocol?
+    open override func dataSet(forIndex index: ChartData.Index) -> ChartData.Element?
     {
-        if index != 0
-        {
-            return nil
-        }
-        return super.getDataSetByIndex(index)
+        guard index == 0 else { return nil }
+        return super.dataSet(forIndex: index)
     }
     
-    open override func getDataSetByLabel(_ label: String, ignorecase: Bool) -> ChartDataSetProtocol?
+    open override func dataSet(forLabel label: String, ignorecase: Bool) -> ChartDataSetProtocol?
     {
         if dataSets.count == 0 || dataSets[0].label == nil
         {
@@ -80,12 +77,12 @@ open class PieChartData: ChartData
         return nil
     }
     
-    open override func entryForHighlight(_ highlight: Highlight) -> ChartDataEntry?
+    @objc override open func entry(for highlight: Highlight) -> ChartDataEntry?
     {
         return dataSet?.entryForIndex(Int(highlight.x))
     }
     
-    open override func addDataSet(_ d: ChartDataSetProtocol!)
+    open override func addDataSet(_ d: ChartDataSetProtocol)
     {   
         super.addDataSet(d)
     }
@@ -94,14 +91,9 @@ open class PieChartData: ChartData
     /// Also recalculates all minimum and maximum values.
     ///
     /// - returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
-    open override func removeDataSetByIndex(_ index: Int) -> Bool
+    open override func removeDataSet(at index: Int) -> Element?
     {
-        if index >= _dataSets.count || index < 0
-        {
-            return false
-        }
-        
-        return false
+        return nil
     }
     
     /// - returns: The total y-value sum across all DataSet objects the this object represents.

@@ -52,7 +52,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             guard let data = data else { return }
 
             // calculate how many digits are needed
-            setupDefaultFormatter(min: data.getYMin(), max: data.getYMax())
+            setupDefaultFormatter(min: data.yMin, max: data.yMax)
 
             for set in data.dataSets
             {
@@ -430,7 +430,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         var high = highlight
         guard
             let h = high,
-            let entry = data?.entryForHighlight(h)
+            let entry = data?.entry(for: h)
             else
         {
                 high = nil
@@ -487,8 +487,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         for highlight in highlighted
         {
             guard
-                let set = data?.getDataSetByIndex(highlight.dataSetIndex),
-                let e = data?.entryForHighlight(highlight)
+                let set = data?.dataSet(forIndex: highlight.dataSetIndex),
+                let e = data?.entry(for: highlight)
                 else { continue }
             
             let entryIndex = set.entryIndex(entry: e)

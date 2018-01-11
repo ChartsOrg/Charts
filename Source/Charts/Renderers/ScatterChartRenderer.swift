@@ -34,7 +34,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         
         for i in 0 ..< scatterData.dataSetCount
         {
-            guard let set = scatterData.getDataSetByIndex(i) else { continue }
+            guard let set = scatterData.dataSet(forIndex: i) else { continue }
             
             if set.isVisible
             {
@@ -206,7 +206,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         for high in indices
         {
             guard
-                let set = scatterData.getDataSetByIndex(high.dataSetIndex) as? ScatterChartDataSetProtocol,
+                let set = scatterData.dataSet(forIndex: high.dataSetIndex) as? ScatterChartDataSetProtocol,
                 set.isHighlightEnabled
                 else { continue }
             

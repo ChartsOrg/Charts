@@ -189,7 +189,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         
         for i in 0 ..< barData.dataSetCount
         {
-            guard let set = barData.getDataSetByIndex(i) else { continue }
+            guard let set = barData.dataSet(forIndex: i) else { continue }
             
             if set.isVisible
             {
@@ -630,7 +630,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         for high in indices
         {
             guard
-                let set = barData.getDataSetByIndex(high.dataSetIndex) as? BarChartDataSetProtocol,
+                let set = barData.dataSet(forIndex: high.dataSetIndex) as? BarChartDataSetProtocol,
                 set.isHighlightEnabled
                 else { continue }
             
