@@ -33,7 +33,7 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
     {
         super.init()
 
-        _dataSets = dataSets
+        _dataSets = elements
 
         self.initialize(dataSets: _dataSets)
     }
@@ -807,47 +807,47 @@ extension ChartData: RangeReplaceableCollection
 {
     public func append(_ newElement: Element)
     {
-        self._dataSets.append(newElement)
+        _dataSets.append(newElement)
         calcMinMax(dataSet: newElement)
     }
 
     public func remove(at position: Index) -> Element
     {
-        let element = self._dataSets.remove(at: position)
+        let element = _dataSets.remove(at: position)
         calcMinMax()
         return element
     }
 
     public func removeFirst() -> Element
     {
-        let element = self._dataSets.removeFirst()
+        let element = _dataSets.removeFirst()
         notifyDataChanged()
         return element
     }
 
     public func removeFirst(_ n: Int)
     {
-        self._dataSets.removeFirst(n)
+        _dataSets.removeFirst(n)
         notifyDataChanged()
     }
 
     public func removeLast() -> Element
     {
-        let element = self._dataSets.removeLast()
+        let element = _dataSets.removeLast()
         notifyDataChanged()
         return element
     }
 
     public func removeLast(_ n: Int)
     {
-        self._dataSets.removeLast(n)
+        _dataSets.removeLast(n)
         notifyDataChanged()
     }
 
-//    public func removeSubrange(_ bounds: Range<Index>) {
-//        self.dataSets.removeSubrange(bounds)
-//        notifyDataChanged()
-//    }
+    public func removeSubrange<R>(_ bounds: R) where R : RangeExpression, ChartData.Index == R.Bound {
+        _dataSets.removeSubrange(bounds)
+        notifyDataChanged()
+    }
 }
 
 // MARK: Swift Accessors
