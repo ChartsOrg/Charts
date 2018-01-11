@@ -22,7 +22,7 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
     var leftAxisMin = Double.greatestFiniteMagnitude
     var rightAxisMax = -Double.greatestFiniteMagnitude
     var rightAxisMin = Double.greatestFiniteMagnitude
-    
+
     // MARK: - Accessibility
     
     /// When the data entry labels are generated identifiers, set this property to prepend a string before each identifier

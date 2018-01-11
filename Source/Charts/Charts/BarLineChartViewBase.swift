@@ -1692,12 +1692,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// - returns: The DataSet object displayed at the touched position of the chart
     @objc open func getDataSetByTouchPoint(point pt: CGPoint) -> BarLineScatterCandleBubbleChartDataSetProtocol?
     {
-        let h = getHighlightByTouchPoint(pt)
-        if let h = h
-        {
-            return data?[h.dataSetIndex] as? BarLineScatterCandleBubbleChartDataSetProtocol
+        guard let h = getHighlightByTouchPoint(pt) else {
+            return nil
         }
-        return nil
+
+        return data?[h.dataSetIndex] as? BarLineScatterCandleBubbleChartDataSetProtocol
     }
 
     /// - returns: The current x-scale factor
