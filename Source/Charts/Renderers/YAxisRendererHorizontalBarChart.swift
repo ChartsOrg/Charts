@@ -74,6 +74,8 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             if labelPosition == .outsideChart
             {
                 yPos = viewPortHandler.contentTop - baseYOffset
+                
+                drawNameYAxis( context: context, nameRect: yAxis.axisRectTop)
             }
             else
             {
@@ -85,6 +87,8 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             if labelPosition == .outsideChart
             {
                 yPos = viewPortHandler.contentBottom + lineHeight + baseYOffset
+                
+                drawNameYAxis( context: context, nameRect: yAxis.axisRectBottom)
             }
             else
             {
@@ -101,6 +105,53 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             fixedPosition: yPos,
             positions: transformedPositions(),
             offset: yAxis.yOffset)
+    }
+    
+    /// draws the x-name
+    open override func drawNameYAxis ( context: CGContext, nameRect: CGRect)
+    {
+        guard
+            let yAxis = self.axis as? YAxis
+            else { return }
+        
+        if yAxis.nameAxisEnabled == false
+        {
+            return
+        }
+        
+        let text = yAxis.nameAxis
+        
+        #if os(OSX)
+            let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        #else
+            let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        #endif
+        
+        paraStyle.alignment = .center
+        let labelAttrs = [.font: yAxis.nameAxisFont,
+                          .foregroundColor: yAxis.labelTextColor,
+                          .paragraphStyle: paraStyle] as [NSAttributedStringKey : Any]
+        
+        let size = text.size(withAttributes: labelAttrs)
+        
+        var yNamePos : CGFloat = 0.0
+        if yAxis.axisDependency == .right
+        {
+            yNamePos = nameRect.maxY  - size.height
+        }
+        else
+        {
+            yNamePos = nameRect.minY
+        }
+        
+        let midX = nameRect.midX
+        
+        ChartUtils.drawText(
+            context: context,
+            text: text,
+            point: CGPoint(x: midX, y: yNamePos),
+            align: .center,
+            attributes: labelAttrs)
     }
     
     open override func renderAxisLine(context: CGContext)
