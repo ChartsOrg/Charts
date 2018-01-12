@@ -560,10 +560,7 @@ extension ChartData
 
     public subscript(entry entry: ChartDataEntry) -> Element?
     {
-        guard !(self is CombinedChartData) else
-        {
-            fatalError("subscript(entry:) not supported for CombinedData")
-        }
+        assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         guard let index = index(where: { $0.entryForXValue(entry.x, closestToY: entry.y) === entry }) else { return nil }
         return self[index]
