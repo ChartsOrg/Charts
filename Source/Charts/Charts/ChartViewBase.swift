@@ -480,7 +480,6 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         
         if h == nil
         {
-            self.lastHighlighted = nil
             _indicesToHighlight.removeAll(keepingCapacity: false)
         }
         else
