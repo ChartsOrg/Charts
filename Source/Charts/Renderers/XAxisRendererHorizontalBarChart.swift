@@ -65,7 +65,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
         guard
             axis.isEnabled,
             axis.isDrawLabelsEnabled,
-            chart?.data === nil
+            chart?.data != nil
             else { return }
         
         let xoffset = axis.xOffset
