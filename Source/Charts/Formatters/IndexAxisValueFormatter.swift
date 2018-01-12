@@ -53,7 +53,7 @@ open class IndexAxisValueFormatter: NSObject, IAxisValueFormatter
                              axis: AxisBase?) -> String
     {
         let index = Int(value.rounded())
-        guard values.indices.contains(index), index != Int(value) else { return "" }
+        guard values.indices.contains(index), index == Int(value) else { return "" }
         return _values[index]
     }
 }
