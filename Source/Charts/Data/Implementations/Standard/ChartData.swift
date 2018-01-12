@@ -844,7 +844,8 @@ extension ChartData: RangeReplaceableCollection
         notifyDataChanged()
     }
 
-    public func removeSubrange<R>(_ bounds: R) where R : RangeExpression, ChartData.Index == R.Bound {
+    public func removeSubrange<R>(_ bounds: R) where R : RangeExpression, ChartData.Index == R.Bound
+    {
         _dataSets.removeSubrange(bounds)
         notifyDataChanged()
     }
@@ -853,7 +854,6 @@ extension ChartData: RangeReplaceableCollection
 // MARK: Swift Accessors
 extension ChartData
 {
-    //TODO: Reevaluate if warning is still true
     /// Retrieve the index of a ChartDataSet with a specific label from the ChartData. Search can be case sensitive or not.
     /// **IMPORTANT: This method does calculations at runtime, do not over-use in performance critical situations.**
     ///
