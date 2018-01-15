@@ -61,6 +61,9 @@ open class XAxis: AxisBase
     /// **default**: 1.0
     @objc open var wordWrapWidthPercent: CGFloat = 1.0
     
+    /// flag that indicates if first line should be drawn regardless of other grid lines
+    open var drawFirstLineEnabled = false
+    
     public override init()
     {
         super.init()

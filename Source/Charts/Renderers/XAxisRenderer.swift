@@ -307,9 +307,19 @@ open class XAxisRenderer: AxisRendererBase
         
         let entries = xAxis.entries
         
-        for i in stride(from: 0, to: entries.count, by: 1)
+        for i in stride(from: 1, to: entries.count, by: 1)
         {
             position.x = CGFloat(entries[i])
+            position.y = position.x
+            position = position.applying(valueToPixelMatrix)
+            
+            drawGridLine(context: context, x: position.x, y: position.y)
+        }
+        
+        if xAxis.drawFirstLineEnabled
+        {
+            // draw zero line
+            position.x = CGFloat(entries[0])
             position.y = position.x
             position = position.applying(valueToPixelMatrix)
             
