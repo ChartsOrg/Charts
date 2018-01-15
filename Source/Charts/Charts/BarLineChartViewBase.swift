@@ -331,7 +331,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
             if _legend !== nil
             {
-                _legendRenderer?.computeLegend(data: data)
+                legendRenderer?.computeLegend(data: data)
             }
         }
         
@@ -533,13 +533,13 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             
             if h === nil || h == self.lastHighlighted
             {
-                highlightValue(nil, callDelegate: true)
                 lastHighlighted = nil
+                highlightValue(nil, callDelegate: true)
             }
             else
             {
-                highlightValue(h, callDelegate: true)
                 lastHighlighted = h
+                highlightValue(h, callDelegate: true)
             }
         }
     }
