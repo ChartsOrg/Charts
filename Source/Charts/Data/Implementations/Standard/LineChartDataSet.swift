@@ -120,6 +120,9 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     /// If true, drawing circles is enabled
     open var drawCirclesEnabled = true
     
+    /// Prevent circle drawing by index.
+    open var circleIndexesNotToDraw = [Int]()
+    
     /// - returns: `true` if drawing circles for this DataSet is enabled, `false` ifnot
     open var isDrawCirclesEnabled: Bool { return drawCirclesEnabled }
     
