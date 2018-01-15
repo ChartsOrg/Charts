@@ -388,14 +388,7 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
         
         return self[index]
     }
-    
-    @objc open func addDataSet(_ dataSet: Element!)
-    {
-        calcMinMax(dataSet: dataSet)
-        
-        _dataSets.append(dataSet)
-    }
-    
+
     /// Removes the given DataSet from this data object.
     /// Also recalculates all minimum and maximum values.
     ///
@@ -410,21 +403,7 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
         _ = remove(at: index)
         return true
     }
-    
-    /// Removes the DataSet at the given index in the DataSet array from the data object. 
-    /// Also recalculates all minimum and maximum values. 
-    ///
-    /// - returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
-    @objc @discardableResult open func removeDataSetByIndex(_ index: Int) -> Bool
-    {
-        guard indices.contains(index) else { return false }
 
-        _ = remove(at: index)
-        calcMinMax()
-        
-        return true
-    }
-    
     /// Adds an Entry to the DataSet at the specified index. Entries are added to the end of the list.
     @objc open func addEntry(_ e: ChartDataEntry, dataSetIndex: Int)
     {
@@ -611,12 +590,14 @@ extension ChartData: RandomAccessCollection
 // MARK: RangeReplaceableCollection
 extension ChartData: RangeReplaceableCollection
 {
+    @objc(addDataSet:)
     public func append(_ newElement: Element)
     {
         _dataSets.append(newElement)
         calcMinMax(dataSet: newElement)
     }
 
+    @objc(removeDataSetByIndex:)
     public func remove(at position: Index) -> Element
     {
         guard !(self is CombinedChartData) else
