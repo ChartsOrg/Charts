@@ -296,7 +296,7 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
         guard indices.contains(dataSetIndex) else {
             return print("ChartData.addEntry() - Cannot add Entry because dataSetIndex too high or too low.", terminator: "\n")
         }
-        
+
         let set = self[dataSetIndex]
         if !set.addEntry(e) { return }
         calcMinMax(entry: e, axis: set.axisDependency)
