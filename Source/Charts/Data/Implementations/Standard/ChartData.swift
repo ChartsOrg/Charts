@@ -813,6 +813,10 @@ extension ChartData: RangeReplaceableCollection
 
     public func remove(at position: Index) -> Element
     {
+        guard !(self is CombinedChartData) else
+        {
+            fatalError("remove(at:) not supported for CombinedData")
+        }
         let element = _dataSets.remove(at: position)
         calcMinMax()
         return element
