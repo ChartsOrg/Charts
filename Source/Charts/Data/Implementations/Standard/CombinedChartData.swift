@@ -221,13 +221,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         
         return nil
     }
-    
-    open override func removeDataSet(at index: Int) -> Element?
-    {
-        print("removeDataSet(index) not supported for CombinedData", terminator: "\n")
-        return nil
-    }
-    
+
     open override func removeEntry(_ entry: ChartDataEntry, dataSetIndex: Int) -> Bool
     {
         print("removeEntry(entry, dataSetIndex) not supported for CombinedData", terminator: "\n")
