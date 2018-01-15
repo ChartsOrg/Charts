@@ -214,12 +214,7 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
         guard dataSets.indices.contains(index) else { return nil }
         return self[index]
     }
-    
-    @objc open func addDataSet(_ dataSet: Element)
-    {
-        append(dataSet)
-    }
-    
+
     /// Removes the given DataSet from this data object.
     /// Also recalculates all minimum and maximum values.
     ///
@@ -229,19 +224,10 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
         guard let index = index(where: { $0 === dataSet }) else { return nil }
         return remove(at: index)
     }
-    
-    /// Removes the DataSet at the given index in the DataSet array from the data object. 
-    /// Also recalculates all minimum and maximum values. 
-    ///
-    /// - returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
-    @objc @discardableResult open func removeDataSet(at index: Index) -> Element?
-    {
-        guard indices.contains(index) else { return nil }
-        return remove(at: index)
-    }
-    
+
     /// Adds an Entry to the DataSet at the specified index. Entries are added to the end of the list.
-    @objc open func addEntry(_ e: ChartDataEntry, dataSetIndex: Index)
+    @objc(addEntry:dataSetIndex:)
+    open func appendEntry(_ e: ChartDataEntry, toDataSet dataSetIndex: Index)
     {
         guard indices.contains(dataSetIndex) else {
             return print("ChartData.addEntry() - Cannot add Entry because dataSetIndex too high or too low.", terminator: "\n")
