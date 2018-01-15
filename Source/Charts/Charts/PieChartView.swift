@@ -119,7 +119,7 @@ open class PieChartView: PieRadarChartViewBase
         
         legendRenderer.renderLegend(context: context)
         
-        drawDescription(context: context)
+        drawDescription(in: context)
         
         drawMarkers(context: context)
     }
@@ -397,11 +397,10 @@ open class PieChartView: PieRadarChartViewBase
                 paragraphStyle.alignment = .center
                 
                 attrString = NSMutableAttributedString(string: newValue!)
-                attrString?.setAttributes([
-                    NSAttributedStringKey.foregroundColor: NSUIColor.black,
-                    NSAttributedStringKey.font: NSUIFont.systemFont(ofSize: 12.0),
-                    NSAttributedStringKey.paragraphStyle: paragraphStyle
-                    ], range: NSMakeRange(0, attrString!.length))
+                attrString?.setAttributes([.foregroundColor: NSUIColor.black,
+                                           .font: NSUIFont.systemFont(ofSize: 12.0),
+                                           .paragraphStyle: paragraphStyle],
+                                          range: NSMakeRange(0, attrString!.length))
             }
             self.centerAttributedText = attrString
         }

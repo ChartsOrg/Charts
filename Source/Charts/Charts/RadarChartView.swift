@@ -140,7 +140,7 @@ open class RadarChartView: PieRadarChartViewBase
 
         legendRenderer.renderLegend(context: context)
 
-        drawDescription(context: context)
+        drawDescription(in: context)
 
         drawMarkers(context: context)
     }

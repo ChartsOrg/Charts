@@ -189,8 +189,8 @@ open class XAxisRenderer: NSObject, AxisRenderer
     {
         let longest = axis.getLongestLabel()
         
-        let labelSize = longest.size(withAttributes: [NSAttributedStringKey.font: axis.labelFont])
-        
+        let labelSize = longest.size(withAttributes: [.font: axis.labelFont])
+
         let labelWidth = labelSize.width
         let labelHeight = labelSize.height
         
@@ -293,11 +293,11 @@ open class XAxisRenderer: NSObject, AxisRenderer
         #endif
         paraStyle.alignment = .center
         
-        let labelAttrs: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: axis.labelFont,
-            NSAttributedStringKey.foregroundColor: axis.labelTextColor,
-            NSAttributedStringKey.paragraphStyle: paraStyle]
+        let labelAttrs: [NSAttributedStringKey : Any] = [.font: axis.labelFont,
+                                                         .foregroundColor: axis.labelTextColor,
+                                                         .paragraphStyle: paraStyle]
         let labelRotationAngleRadians = axis.labelRotationAngle.DEG2RAD
-        
+
         let centeringEnabled = axis.isCenterAxisLabelsEnabled
 
         let valueToPixelMatrix = transformer.valueToPixelMatrix
@@ -358,7 +358,7 @@ open class XAxisRenderer: NSObject, AxisRenderer
                           x: position.x,
                           y: pos,
                           attributes: labelAttrs,
-                          constrainedToSize: labelMaxSize,
+                          constrainedTo: labelMaxSize,
                           anchor: anchor,
                           angleRadians: labelRotationAngleRadians)
             }
@@ -371,18 +371,16 @@ open class XAxisRenderer: NSObject, AxisRenderer
         x: CGFloat,
         y: CGFloat,
         attributes: [NSAttributedStringKey : Any],
-        constrainedToSize: CGSize,
+        constrainedTo size: CGSize,
         anchor: CGPoint,
         angleRadians: CGFloat)
     {
-        ChartUtils.drawMultilineText(
-            context: context,
-            text: formattedLabel,
-            point: CGPoint(x: x, y: y),
-            attributes: attributes,
-            constrainedToSize: constrainedToSize,
-            anchor: anchor,
-            angleRadians: angleRadians)
+        context.drawMultilineText(formattedLabel,
+                                  at: CGPoint(x: x, y: y),
+                                  constrainedTo: size,
+                                  anchor: anchor,
+                                  angleRadians: angleRadians,
+                                  attributes: attributes)
     }
     
     open func renderGridLines(context: CGContext)
@@ -522,48 +520,38 @@ open class XAxisRenderer: NSObject, AxisRenderer
             let labelLineHeight = limitLine.valueFont.lineHeight
             
             let xOffset: CGFloat = limitLine.lineWidth + limitLine.xOffset
-            
-            if limitLine.labelPosition == .rightTop
+
+            let align: NSTextAlignment
+            let point: CGPoint
+
+            switch limitLine.labelPosition
             {
-                ChartUtils.drawText(context: context,
-                    text: label,
-                    point: CGPoint(
-                        x: position.x + xOffset,
-                        y: viewPortHandler.contentTop + yOffset),
-                    align: .left,
-                    attributes: [NSAttributedStringKey.font: limitLine.valueFont, NSAttributedStringKey.foregroundColor: limitLine.valueTextColor])
+            case .rightTop:
+                align = .left
+                point = CGPoint(x: position.x + xOffset,
+                                y: viewPortHandler.contentTop + yOffset)
+
+            case .rightBottom:
+                align = .left
+                point = CGPoint(x: position.x + xOffset,
+                                y: viewPortHandler.contentBottom - labelLineHeight - yOffset)
+
+            case .leftTop:
+                align = .right
+                point = CGPoint(x: position.x - xOffset,
+                                y: viewPortHandler.contentTop + yOffset)
+
+            case .leftBottom:
+                align = .right
+                point = CGPoint(x: position.x - xOffset,
+                                y: viewPortHandler.contentBottom - labelLineHeight - yOffset)
             }
-            else if limitLine.labelPosition == .rightBottom
-            {
-                ChartUtils.drawText(context: context,
-                    text: label,
-                    point: CGPoint(
-                        x: position.x + xOffset,
-                        y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
-                    align: .left,
-                    attributes: [NSAttributedStringKey.font: limitLine.valueFont, NSAttributedStringKey.foregroundColor: limitLine.valueTextColor])
-            }
-            else if limitLine.labelPosition == .leftTop
-            {
-                ChartUtils.drawText(context: context,
-                    text: label,
-                    point: CGPoint(
-                        x: position.x - xOffset,
-                        y: viewPortHandler.contentTop + yOffset),
-                    align: .right,
-                    attributes: [NSAttributedStringKey.font: limitLine.valueFont, NSAttributedStringKey.foregroundColor: limitLine.valueTextColor])
-            }
-            else
-            {
-                ChartUtils.drawText(context: context,
-                    text: label,
-                    point: CGPoint(
-                        x: position.x - xOffset,
-                        y: viewPortHandler.contentBottom - labelLineHeight - yOffset),
-                    align: .right,
-                    attributes: [NSAttributedStringKey.font: limitLine.valueFont, NSAttributedStringKey.foregroundColor: limitLine.valueTextColor])
-            }
+
+            context.drawText(label,
+                             at: point,
+                             align: align,
+                             attributes: [.font: limitLine.valueFont,
+                                          .foregroundColor: limitLine.valueTextColor])
         }
     }
-
 }
