@@ -650,7 +650,8 @@ extension ChartData: RangeReplaceableCollection
         notifyDataChanged()
     }
 
-    public func removeSubrange<R>(_ bounds: R) where R : RangeExpression, ChartData.Index == R.Bound {
+    public func removeSubrange<R>(_ bounds: R) where R : RangeExpression, ChartData.Index == R.Bound
+    {
         _dataSets.removeSubrange(bounds)
         notifyDataChanged()
     }
@@ -659,7 +660,6 @@ extension ChartData: RangeReplaceableCollection
 // MARK: Swift Accessors
 extension ChartData
 {
-    //TODO: Reevaluate if warning is still true
     /// Retrieve the index of a ChartDataSet with a specific label from the ChartData. Search can be case sensitive or not.
     /// **IMPORTANT: This method does calculations at runtime, do not over-use in performance critical situations.**
     ///
@@ -676,20 +676,14 @@ extension ChartData
 
     public subscript(label: String, ignoreCase: Bool) -> Element?
     {
-        get
-        {
-            guard let index = index(forLabel: label, ignoreCase: ignoreCase) else { return nil }
-            return self[index]
-        }
+        guard let index = index(forLabel: label, ignoreCase: ignoreCase) else { return nil }
+        return self[index]
     }
-
+    
     public subscript(entry: ChartDataEntry) -> Element?
     {
-        get
-        {
-            guard let index = index(where: { $0.entryForXValue(entry.x, closestToY: entry.y) === entry }) else { return nil }
-            return self[index]
-        }
+        guard let index = index(where: { $0.entryForXValue(entry.x, closestToY: entry.y) === entry }) else { return nil }
+        return self[index]
     }
 
     public func appendEntry(_ e: ChartDataEntry, toDataSet dataSetIndex: Index)
