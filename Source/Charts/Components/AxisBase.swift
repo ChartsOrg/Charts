@@ -183,7 +183,7 @@ open class AxisBase: ComponentBase
             {
             case ...2: _labelCount = 2
             case 25...: _labelCount = 25
-            default: newValue
+            default: _labelCount = newValue
             }
 
             isForceLabelsEnabled = false
