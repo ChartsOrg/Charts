@@ -7,7 +7,7 @@
 ### Just a heads up: Charts 3.0 has some breaking changes. Please read [the release/migration notes](https://github.com/danielgindi/Charts/releases/tag/v3.0.0). 
 ### Another heads up: ChartsRealm is now in a [separate repo](https://github.com/danielgindi/ChartsRealm). Pods is also now `Charts` and `ChartsRealm`, instead of ~`Charts/Core`~ and ~`Charts/Realm`~
 
-* Xcode 9.0 / Swift 4.0
+* Xcode 9.2 / Swift 4.0.2
 * iOS >= 8.0 (Use as an **Embedded** Framework)
 * tvOS >= 9.0
 * macOS >= 10.11
