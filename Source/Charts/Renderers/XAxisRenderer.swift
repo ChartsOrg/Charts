@@ -73,7 +73,7 @@ open class XAxisRenderer: NSObject, AxisRenderer
 
         // If granularity is enabled, then do not allow the interval to go below specified granularity.
         // This is used to avoid repeated values when rounding values for display.
-        if axis.granularityEnabled
+        if axis.isGranularityEnabled
         {
             interval = Swift.max(interval, axis.granularity)
         }

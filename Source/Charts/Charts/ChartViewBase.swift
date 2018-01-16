@@ -635,7 +635,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     open var chartXMin: Double
     {
-        return xAxis._axisMinimum
+        return xAxis.axisMinimum
     }
     
     open var xRange: Double

@@ -94,8 +94,8 @@ open class HorizontalBarChartView: BarChartView
     
     internal override func prepareValuePxMatrix()
     {
-        _rightAxisTransformer.prepareMatrixValuePx(chartXMin: rightAxis._axisMinimum, deltaX: CGFloat(rightAxis.axisRange), deltaY: CGFloat(xAxis.axisRange), chartYMin: xAxis._axisMinimum)
-        _leftAxisTransformer.prepareMatrixValuePx(chartXMin: leftAxis._axisMinimum, deltaX: CGFloat(leftAxis.axisRange), deltaY: CGFloat(xAxis.axisRange), chartYMin: xAxis._axisMinimum)
+        _rightAxisTransformer.prepareMatrixValuePx(chartXMin: rightAxis.axisMinimum, deltaX: CGFloat(rightAxis.axisRange), deltaY: CGFloat(xAxis.axisRange), chartYMin: xAxis.axisMinimum)
+        _leftAxisTransformer.prepareMatrixValuePx(chartXMin: leftAxis.axisMinimum, deltaX: CGFloat(leftAxis.axisRange), deltaY: CGFloat(xAxis.axisRange), chartYMin: xAxis.axisMinimum)
     }
     
     open override func getMarkerPosition(highlight: Highlight) -> CGPoint
@@ -156,7 +156,7 @@ open class HorizontalBarChartView: BarChartView
         
         getTransformer(forAxis: .left).pixelToValues(&pt)
         
-        return max(xAxis._axisMinimum, Double(pt.y))
+        return max(xAxis.axisMinimum, Double(pt.y))
     }
     
     /// - returns: The highest x-index (value on the x-axis) that is still visible on the chart.

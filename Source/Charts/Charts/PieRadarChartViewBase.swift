@@ -230,7 +230,7 @@ open class PieRadarChartViewBase: ChartViewBase
         {
             let x = self.xAxis
             
-            if x.isEnabled && x.drawLabelsEnabled
+            if x.isEnabled && x.isDrawLabelsEnabled
             {
                 minOffset = max(minOffset, x.labelRotatedWidth)
             }

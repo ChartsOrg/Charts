@@ -72,14 +72,14 @@ class BarChartTests: FBSnapshotTestCase
     
     func testHideHorizontalGridlines()
     {
-        chart.leftAxis.drawGridLinesEnabled = false
-        chart.rightAxis.drawGridLinesEnabled = false
+        chart.leftAxis.isDrawGridLinesEnabled = false
+        chart.rightAxis.isDrawGridLinesEnabled = false
         FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
     
     func testHideVerticalGridlines()
     {
-        chart.xAxis.drawGridLinesEnabled = false
+        chart.xAxis.isDrawGridLinesEnabled = false
         FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
     

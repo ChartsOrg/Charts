@@ -82,8 +82,8 @@ open class RadarChartView: PieRadarChartViewBase
     {
         calcMinMax()
 
-        _yAxisRenderer?.computeAxis(min: _yAxis._axisMinimum, max: _yAxis._axisMaximum, inverted: _yAxis.isInverted)
-        _xAxisRenderer?.computeAxis(min: xAxis._axisMinimum, max: xAxis._axisMaximum, inverted: false)
+        _yAxisRenderer?.computeAxis(min: _yAxis.axisMinimum, max: _yAxis._axisMaximum, inverted: _yAxis.isInverted)
+        _xAxisRenderer?.computeAxis(min: xAxis.axisMinimum, max: xAxis._axisMaximum, inverted: false)
         
         if let data = data,
             !legend.isLegendCustom
@@ -107,7 +107,7 @@ open class RadarChartView: PieRadarChartViewBase
         
         if xAxis.isEnabled
         {
-            _xAxisRenderer.computeAxis(min: xAxis._axisMinimum, max: xAxis._axisMaximum, inverted: false)
+            _xAxisRenderer.computeAxis(min: xAxis.axisMinimum, max: xAxis._axisMaximum, inverted: false)
         }
         
         _xAxisRenderer?.renderAxisLabels(context: context)
@@ -224,7 +224,7 @@ open class RadarChartView: PieRadarChartViewBase
     open override var chartYMax: Double { return _yAxis._axisMaximum }
     
     /// - returns: The minimum value this chart can display on it's y-axis.
-    open override var chartYMin: Double { return _yAxis._axisMinimum }
+    open override var chartYMin: Double { return _yAxis.axisMinimum }
     
     /// - returns: The range of y-values this chart can display.
     @objc open var yRange: Double { return _yAxis.axisRange }

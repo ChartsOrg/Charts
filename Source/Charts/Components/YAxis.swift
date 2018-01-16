@@ -141,8 +141,8 @@ open class YAxis: AxisBase
     open override func calculate(min dataMin: Double, max dataMax: Double)
     {
         // if custom, use value as is, else use data value
-        var min = _customAxisMin ? _axisMinimum : dataMin
-        var max = _customAxisMax ? _axisMaximum : dataMax
+        var min = useCustomAxisMin ? axisMinimum : dataMin
+        var max = useCustomAxisMax ? _axisMaximum : dataMax
         
         // temporary range (before calculations)
         let range = abs(max - min)
@@ -155,21 +155,21 @@ open class YAxis: AxisBase
         }
         
         // bottom-space only effects non-custom min
-        if !_customAxisMin
+        if !useCustomAxisMin
         {
             let bottomSpace = range * Double(spaceBottom)
-            _axisMinimum = (min - bottomSpace)
+            axisMinimum = (min - bottomSpace)
         }
         
         // top-space only effects non-custom max
-        if !_customAxisMax
+        if !useCustomAxisMax
         {
             let topSpace = range * Double(spaceTop)
             _axisMaximum = (max + topSpace)
         }
         
         // calc actual range
-        axisRange = abs(_axisMaximum - _axisMinimum)
+        axisRange = abs(_axisMaximum - axisMinimum)
     }
     
     @objc open var isDrawBottomYLabelEntryEnabled: Bool { return drawBottomYLabelEntryEnabled }

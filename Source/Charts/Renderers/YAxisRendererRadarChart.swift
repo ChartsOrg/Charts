@@ -122,9 +122,9 @@ open class YAxisRendererRadarChart: YAxisRenderer
             axis.centeredEntries = axis.entries.map { $0 + offset }
         }
         
-        axis._axisMinimum = axis.entries[0]
+        axis.axisMinimum = axis.entries[0]
         axis._axisMaximum = axis.entries[n-1]
-        axis.axisRange = abs(axis._axisMaximum - axis._axisMinimum)
+        axis.axisRange = abs(axis._axisMaximum - axis.axisMinimum)
     }
     
     open override func renderAxisLabels(context: CGContext)
@@ -148,7 +148,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
         
         for i in from..<to
         {
-            let r = CGFloat(axis.entries[i] - axis._axisMinimum) * factor
+            let r = CGFloat(axis.entries[i] - axis.axisMinimum) * factor
             
             let p = center.moving(distance: r, atAngle: chart.rotationAngle)
             

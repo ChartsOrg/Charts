@@ -28,44 +28,38 @@ open class AxisBase: ComponentBase
     @objc open var labelTextColor = NSUIColor.black
     
     @objc open var axisLineColor = NSUIColor.gray
-    @objc open var axisLineWidth = CGFloat(0.5)
-    @objc open var axisLineDashPhase = CGFloat(0.0)
+    @objc open var axisLineWidth: CGFloat = 0.5
+    @objc open var axisLineDashPhase: CGFloat = 0.0
     @objc open var axisLineDashLengths: [CGFloat]!
     
     @objc open var gridColor = NSUIColor.gray.withAlphaComponent(0.9)
-    @objc open var gridLineWidth = CGFloat(0.5)
-    @objc open var gridLineDashPhase = CGFloat(0.0)
+    @objc open var gridLineWidth: CGFloat = 0.5
+    @objc open var gridLineDashPhase: CGFloat = 0.0
     @objc open var gridLineDashLengths: [CGFloat]!
     @objc open var gridLineCap = CGLineCap.butt
     
-    @objc open var drawGridLinesEnabled = true
-    @objc open var drawAxisLineEnabled = true
+    @objc open var isDrawGridLinesEnabled = true
+    @objc open var isDrawAxisLineEnabled = true
     
     /// flag that indicates of the labels of this axis should be drawn or not
-    @objc open var drawLabelsEnabled = true
-    
-    private var _centerAxisLabelsEnabled = false
+    @objc open var isDrawLabelsEnabled = true
 
     /// Centers the axis labels instead of drawing them at their original position.
     /// This is useful especially for grouped BarChart.
-    @objc open var centerAxisLabelsEnabled: Bool
-    {
-        get { return _centerAxisLabelsEnabled && entryCount > 0 }
-        set { _centerAxisLabelsEnabled = newValue }
-    }
-    
     @objc open var isCenterAxisLabelsEnabled: Bool
     {
-        get { return centerAxisLabelsEnabled }
+        get { return _isCenterAxisLabelsEnabled && entryCount > 0 }
+        set { _isCenterAxisLabelsEnabled = newValue }
     }
+    private var _isCenterAxisLabelsEnabled = false
 
     /// array of limitlines that can be set for the axis
-    private var _limitLines = [ChartLimitLine]()
+    @objc open private(set) var limitLines = [ChartLimitLine]()
     
     /// Are the LimitLines drawn behind the data or in front of the data?
     /// 
     /// **default**: false
-    @objc open var drawLimitLinesBehindDataEnabled = false
+    @objc open var isDrawLimitLinesBehindDataEnabled = false
 
     /// the flag can be used to turn off the antialias for grid lines
     @objc open var gridAntialiasEnabled = true
@@ -82,7 +76,7 @@ open class AxisBase: ComponentBase
     /// the number of label entries the axis should have
     ///
     /// **default**: 6
-    private var _labelCount = Int(6)
+    private var _labelCount = 6
     
     /// the number of decimal digits to use (for the default formatter
     @objc open var decimals: Int = 0
@@ -91,66 +85,36 @@ open class AxisBase: ComponentBase
     /// When false, axis values could possibly be repeated.
     /// This could happen if two adjacent axis values are rounded to same value.
     /// If using granularity this could be avoided by having fewer axis values visible.
-    @objc open var granularityEnabled = false
-    
-    private var _granularity = Double(1.0)
+    @objc open var isGranularityEnabled = false
     
     /// The minimum interval between axis values.
     /// This can be used to avoid label duplicating when zooming in.
     ///
     /// **default**: 1.0
-    @objc open var granularity: Double
+    @objc open private(set) var granularity = 1.0
     {
-        get
+        didSet
         {
-            return _granularity
-        }
-        set
-        {
-            _granularity = newValue
-            
             // set this to `true` if it was disabled, as it makes no sense to set this property with granularity disabled
-            granularityEnabled = true
+            isGranularityEnabled = true
         }
     }
-    
-    /// The minimum interval between axis values.
-    @objc open var isGranularityEnabled: Bool
-    {
-        get
-        {
-            return granularityEnabled
-        }
-    }
-    
+
     /// if true, the set number of y-labels will be forced
-    @objc open var forceLabelsEnabled = false
+    @objc open var isForceLabelsEnabled = false
     
     @objc open func getLongestLabel() -> String
     {
-        var longest = ""
-        
-        for i in 0 ..< entries.count
-        {
-            let text = getFormattedLabel(i)
-            
-            if longest.count < text.count
-            {
-                longest = text
-            }
+        return entries.indices.reduce(into: "") { longest, i in
+            let test = getFormattedLabel(i)
+            longest = test.count > longest.count ? test : longest
         }
-        
-        return longest
     }
     
     /// - returns: The formatted label at the specified index. This will either use the auto-formatter or the custom formatter (if one is set).
     @objc open func getFormattedLabel(_ index: Int) -> String
     {
-        if index < 0 || index >= entries.count
-        {
-            return ""
-        }
-        
+        guard entries.indices.contains(index) else { return "" }
         return valueFormatter?.stringForValue(entries[index], axis: self) ?? ""
     }
     
@@ -176,42 +140,31 @@ open class AxisBase: ComponentBase
             _axisValueFormatter = newValue ?? DefaultAxisValueFormatter(decimals: decimals)
         }
     }
-    
-    @objc open var isDrawGridLinesEnabled: Bool { return drawGridLinesEnabled }
-    
-    @objc open var isDrawAxisLineEnabled: Bool { return drawAxisLineEnabled }
-    
-    @objc open var isDrawLabelsEnabled: Bool { return drawLabelsEnabled }
-    
-    /// Are the LimitLines drawn behind the data or in front of the data?
-    /// 
-    /// **default**: false
-    @objc open var isDrawLimitLinesBehindDataEnabled: Bool { return drawLimitLinesBehindDataEnabled }
-    
+
     /// Extra spacing for `axisMinimum` to be added to automatically calculated `axisMinimum`
-    @objc open var spaceMin: Double = 0.0
+    @objc open var spaceMin = 0.0
     
     /// Extra spacing for `axisMaximum` to be added to automatically calculated `axisMaximum`
-    @objc open var spaceMax: Double = 0.0
+    @objc open var spaceMax = 0.0
     
     /// Flag indicating that the axis-min value has been customized
-    internal var _customAxisMin: Bool = false
+    var useCustomAxisMin = false
     
     /// Flag indicating that the axis-max value has been customized
-    internal var _customAxisMax: Bool = false
+    var useCustomAxisMax = false
     
     /// Do not touch this directly, instead, use axisMinimum.
     /// This is automatically calculated to represent the real min value,
     /// and is used when calculating the effective minimum.
-    internal var _axisMinimum = Double(0)
+    var _axisMinimum = 0.0
     
     /// Do not touch this directly, instead, use axisMaximum.
     /// This is automatically calculated to represent the real max value,
     /// and is used when calculating the effective maximum.
-    internal var _axisMaximum = Double(0)
+    var _axisMaximum = 0.0
     
     /// the total range of values this axis covers
-    @objc open var axisRange = Double(0)
+    @objc open var axisRange = 0.0
     
     /// the number of label entries the axis should have
     /// max = 25,
@@ -226,59 +179,40 @@ open class AxisBase: ComponentBase
         }
         set
         {
-            _labelCount = newValue
-            
-            if _labelCount > 25
+            switch newValue
             {
-                _labelCount = 25
+            case ...2: _labelCount = 2
+            case 25...: _labelCount = 25
+            default: newValue
             }
-            if _labelCount < 2
-            {
-                _labelCount = 2
-            }
-            
-            forceLabelsEnabled = false
+
+            isForceLabelsEnabled = false
         }
     }
     
     @objc open func setLabelCount(_ count: Int, force: Bool)
     {
-        self.labelCount = count
-        forceLabelsEnabled = force
+        labelCount = count
+        isForceLabelsEnabled = force
     }
-    
-    /// - returns: `true` if focing the y-label count is enabled. Default: false
-    @objc open var isForceLabelsEnabled: Bool { return forceLabelsEnabled }
-    
+
     /// Adds a new ChartLimitLine to this axis.
     @objc open func addLimitLine(_ line: ChartLimitLine)
     {
-        _limitLines.append(line)
+        limitLines.append(line)
     }
     
     /// Removes the specified ChartLimitLine from the axis.
     @objc open func removeLimitLine(_ line: ChartLimitLine)
     {
-        for i in 0 ..< _limitLines.count
-        {
-            if _limitLines[i] === line
-            {
-                _limitLines.remove(at: i)
-                return
-            }
-        }
+        guard let i = limitLines.index(of: line) else { return }
+        limitLines.remove(at: i)
     }
     
     /// Removes all LimitLines from the axis.
     @objc open func removeAllLimitLines()
     {
-        _limitLines.removeAll(keepingCapacity: false)
-    }
-    
-    /// - returns: The LimitLines of this axis.
-    @objc open var limitLines : [ChartLimitLine]
-    {
-        return _limitLines
+        limitLines.removeAll(keepingCapacity: false)
     }
     
     // MARK: Custom axis ranges
@@ -286,19 +220,15 @@ open class AxisBase: ComponentBase
     /// By calling this method, any custom minimum value that has been previously set is reseted, and the calculation is done automatically.
     @objc open func resetCustomAxisMin()
     {
-        _customAxisMin = false
+        useCustomAxisMin = false
     }
-    
-    @objc open var isAxisMinCustom: Bool { return _customAxisMin }
-    
+
     /// By calling this method, any custom maximum value that has been previously set is reseted, and the calculation is done automatically.
     @objc open func resetCustomAxisMax()
     {
-        _customAxisMax = false
+        useCustomAxisMax = false
     }
-    
-    @objc open var isAxisMaxCustom: Bool { return _customAxisMax }
-        
+
     /// The minimum value for this axis.
     /// If set, this value will not be calculated automatically depending on the provided data.
     /// Use `resetCustomAxisMin()` to undo this.
@@ -310,7 +240,7 @@ open class AxisBase: ComponentBase
         }
         set
         {
-            _customAxisMin = true
+            useCustomAxisMin = true
             _axisMinimum = newValue
             axisRange = abs(_axisMaximum - newValue)
         }
@@ -327,7 +257,7 @@ open class AxisBase: ComponentBase
         }
         set
         {
-            _customAxisMax = true
+            useCustomAxisMax = true
             _axisMaximum = newValue
             axisRange = abs(newValue - _axisMinimum)
         }
@@ -339,8 +269,8 @@ open class AxisBase: ComponentBase
     @objc open func calculate(min dataMin: Double, max dataMax: Double)
     {
         // if custom, use value as is, else use data value
-        var min = _customAxisMin ? _axisMinimum : (dataMin - spaceMin)
-        var max = _customAxisMax ? _axisMaximum : (dataMax + spaceMax)
+        var min = useCustomAxisMin ? _axisMinimum : (dataMin - spaceMin)
+        var max = useCustomAxisMax ? _axisMaximum : (dataMax + spaceMax)
         
         // temporary range (before calculations)
         let range = abs(max - min)

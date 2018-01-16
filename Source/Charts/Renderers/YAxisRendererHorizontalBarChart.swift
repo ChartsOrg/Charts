@@ -92,7 +92,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
     {
         guard
             axis.isEnabled,
-            axis.drawAxisLineEnabled
+            axis.isDrawAxisLineEnabled
             else { return }
 
         context.saveGState()

@@ -84,7 +84,7 @@ open class YAxisRenderer: NSObject, AxisRenderer
     {
         guard
             axis.isEnabled,
-            axis.drawAxisLineEnabled
+            axis.isDrawAxisLineEnabled
             else { return }
 
         context.saveGState()
@@ -145,7 +145,7 @@ open class YAxisRenderer: NSObject, AxisRenderer
     {
         guard axis.isEnabled else { return }
 
-        if axis.drawGridLinesEnabled
+        if axis.isDrawGridLinesEnabled
         {
             let positions = transformedPositions()
             
@@ -375,7 +375,7 @@ open class YAxisRenderer: NSObject, AxisRenderer
 
         // If granularity is enabled, then do not allow the interval to go below specified granularity.
         // This is used to avoid repeated values when rounding values for display.
-        if axis.granularityEnabled
+        if axis.isGranularityEnabled
         {
             interval = Swift.max(interval, axis.granularity)
         }
