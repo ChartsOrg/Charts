@@ -177,18 +177,14 @@ open class RadarChartRenderer: LineRadarRenderer
                 
                 if dataSet.isDrawValuesEnabled
                 {
-                    ChartUtils.drawText(
-                        context: context,
-                        text: formatter.stringForValue(
-                            e.y,
-                            entry: e,
-                            dataSetIndex: i,
-                            viewPortHandler: viewPortHandler),
-                        point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
-                        align: .center,
-                        attributes: [NSAttributedStringKey.font: valueFont,
-                            NSAttributedStringKey.foregroundColor: dataSet.valueTextColorAt(j)]
-                    )
+                    context.drawText(formatter.stringForValue(e.y,
+                                                              entry: e,
+                                                              dataSetIndex: i,
+                                                              viewPortHandler: viewPortHandler),
+                                     at: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
+                                     align: .center,
+                                     attributes: [.font: valueFont,
+                                                  .foregroundColor: dataSet.valueTextColorAt(j)])
                 }
                 
                 if let icon = e.icon, dataSet.isDrawIconsEnabled
@@ -197,11 +193,9 @@ open class RadarChartRenderer: LineRadarRenderer
                                               atAngle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
                     pIcon.y += iconsOffset.x
                     
-                    ChartUtils.drawImage(context: context,
-                                         image: icon,
-                                         x: pIcon.x,
-                                         y: pIcon.y,
-                                         size: icon.size)
+                    context.drawImage(icon,
+                                      atCenter: CGPoint(x: pIcon.x, y: pIcon.y),
+                                      size: icon.size)
                 }
             }
         }

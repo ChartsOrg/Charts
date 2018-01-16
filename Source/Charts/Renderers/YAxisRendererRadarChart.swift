@@ -42,7 +42,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
         // Find out how much spacing (in yValue space) between axis values
         let rawInterval = range / Double(labelCount)
         var interval = rawInterval.roundedToNextSignificant()
-        
+
         // If granularity is enabled, then do not allow the interval to go below specified granularity.
         // This is used to avoid repeated values when rounding values for display.
         if axis.isGranularityEnabled
@@ -183,15 +183,11 @@ open class YAxisRendererRadarChart: YAxisRenderer
             
             let label = axis.getFormattedLabel(j)
             
-            ChartUtils.drawText(
-                context: context,
-                text: label,
-                point: CGPoint(x: p.x + 10.0, y: p.y - labelLineHeight),
-                align: .left,
-                attributes: [
-                    NSAttributedStringKey.font: labelFont,
-                    NSAttributedStringKey.foregroundColor: labelTextColor
-                ])
+            context.drawText(label,
+                             at: CGPoint(x: p.x + 10.0, y: p.y - labelLineHeight),
+                             align: .left,
+                             attributes: [.font: labelFont,
+                                          .foregroundColor: labelTextColor])
         }
     }
     
