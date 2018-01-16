@@ -164,9 +164,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             let barData = dataProvider.barData
             else { return }
         
-        for i in 0 ..< barData.dataSetCount
+        for i in barData.indices
         {
-            guard let set = barData.getDataSetByIndex(i) as? BarChartDataSetProtocol else {
+            guard let set = barData[i] as? BarChartDataSetProtocol else {
                 fatalError("Datasets for BarChartRenderer must conform to IBarChartDataset")
             }
 

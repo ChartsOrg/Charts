@@ -48,40 +48,14 @@ open class CombinedHighlighter: ChartHighlighter
             }
             else
             {
-                for j in 0..<dataObject.dataSetCount
+                for (j, set) in zip(dataObject.indices, dataObject) where set.isHighlightEnabled
                 {
-                    guard let dataSet = dataObject.getDataSetByIndex(j),
-                        dataSet.isHighlightEnabled      // don't include datasets that cannot be highlighted
-                        else { continue }
-
-                    let highs = buildHighlights(dataSet: dataSet, dataSetIndex: j, xValue: xValue, rounding: .closest)
+                    let highs = buildHighlights(dataSet: set, dataSetIndex: j, xValue: xValue, rounding: .closest)
 
                     for high in highs
                     {
                         high.dataIndex = i
                         vals.append(high)
-                    }
-                }
-                else
-                {
-                    for j in 0..<dataObject.dataSetCount
-                    {
-                        guard let dataSet = dataObjects[i].dataSet(forIndex: j)
-                            else { continue }
-                        
-                        // don't include datasets that cannot be highlighted
-                        if !dataSet.isHighlightEnabled
-                        {
-                            continue
-                        }
-                        
-                        let highs = buildHighlights(dataSet: dataSet, dataSetIndex: j, xValue: xValue, rounding: .closest)
-                        
-                        for high in highs
-                        {
-                            high.dataIndex = i
-                            vals.append(high)
-                        }
                     }
                 }
             }
