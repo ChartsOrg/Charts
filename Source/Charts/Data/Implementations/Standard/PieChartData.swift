@@ -13,21 +13,26 @@ import Foundation
 
 open class PieChartData: ChartData
 {
-    public override init()
+    public required init()
     {
         super.init()
     }
     
-    public override init(dataSets: [IChartDataSet]?)
+    public override init(dataSets: [ChartDataSetProtocol]?)
     {
         super.init(dataSets: dataSets)
     }
 
-    @objc var dataSet: IPieChartDataSet?
+    public required init(arrayLiteral elements: ChartDataSetProtocol...)
+    {
+        super.init(dataSets: elements)
+    }
+
+    @objc var dataSet: PieChartDataSetProtocol?
     {
         get
         {
-            return dataSets.count > 0 ? dataSets[0] as? IPieChartDataSet : nil
+            return dataSets.count > 0 ? dataSets[0] as? PieChartDataSetProtocol : nil
         }
         set
         {
@@ -42,7 +47,7 @@ open class PieChartData: ChartData
         }
     }
     
-    open override func getDataSetByIndex(_ index: Int) -> IChartDataSet?
+    open override func getDataSetByIndex(_ index: Int) -> ChartDataSetProtocol?
     {
         if index != 0
         {
@@ -51,7 +56,7 @@ open class PieChartData: ChartData
         return super.getDataSetByIndex(index)
     }
     
-    open override func getDataSetByLabel(_ label: String, ignorecase: Bool) -> IChartDataSet?
+    open override func getDataSetByLabel(_ label: String, ignorecase: Bool) -> ChartDataSetProtocol?
     {
         if dataSets.count == 0 || dataSets[0].label == nil
         {
@@ -80,7 +85,7 @@ open class PieChartData: ChartData
         return dataSet?.entryForIndex(Int(highlight.x))
     }
     
-    open override func addDataSet(_ d: IChartDataSet!)
+    open override func addDataSet(_ d: ChartDataSetProtocol!)
     {   
         super.addDataSet(d)
     }

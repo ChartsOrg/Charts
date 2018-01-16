@@ -14,16 +14,21 @@ import CoreGraphics
 
 open class BarChartData: BarLineScatterCandleBubbleChartData
 {
-    public override init()
+    public required init()
     {
         super.init()
     }
     
-    public override init(dataSets: [IChartDataSet]?)
+    public override init(dataSets: [ChartDataSetProtocol]?)
     {
         super.init(dataSets: dataSets)
     }
-    
+
+    public required init(arrayLiteral elements: ChartDataSetProtocol...)
+    {
+        super.init(dataSets: elements)
+    }
+
     /// The width of the bars on the x-axis, in values (not pixels)
     ///
     /// **default**: 0.85
@@ -61,7 +66,7 @@ open class BarChartData: BarLineScatterCandleBubbleChartData
             let start = fromX
             fromX += groupSpaceWidthHalf
             
-            (_dataSets as? [IBarChartDataSet])?.forEach { set in
+            (_dataSets as! [BarChartDataSetProtocol]).forEach { set in
                 fromX += barSpaceHalf
                 fromX += barWidthHalf
                 

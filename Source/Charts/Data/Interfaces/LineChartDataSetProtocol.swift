@@ -1,5 +1,5 @@
 //
-//  ILineChartDataSet.swift
+//  LineChartDataSetProtocol.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -14,7 +14,7 @@ import CoreGraphics
 
 
 @objc
-public protocol ILineChartDataSet: ILineRadarChartDataSet
+public protocol LineChartDataSetProtocol: LineRadarChartDataSetProtocol
 {
     // MARK: - Data functions and accessors
     
@@ -30,18 +30,6 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     /// **default**: 0.2
     var cubicIntensity: CGFloat { get set }
     
-    @available(*, deprecated: 1.0, message: "Use `mode` instead.")
-    var drawCubicEnabled: Bool { get set }
-    
-    @available(*, deprecated: 1.0, message: "Use `mode` instead.")
-    var isDrawCubicEnabled: Bool { get }
-    
-    @available(*, deprecated: 1.0, message: "Use `mode` instead.")
-    var drawSteppedEnabled: Bool { get set }
-    
-    @available(*, deprecated: 1.0, message: "Use `mode` instead.")
-    var isDrawSteppedEnabled: Bool { get }
-
     /// The radius of the drawn circles.
     var circleRadius: CGFloat { get set }
     
@@ -87,6 +75,6 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     /// Line cap type, default is CGLineCap.Butt
     var lineCapType: CGLineCap { get set }
     
-    /// Sets a custom IFillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
-    var fillFormatter: IFillFormatter? { get set }
+    /// Sets a custom FillFormatterProtocol to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
+    var fillFormatter: FillFormatter? { get set }
 }
