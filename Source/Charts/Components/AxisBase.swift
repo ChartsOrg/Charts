@@ -269,8 +269,8 @@ open class AxisBase: ComponentBase
     @objc open func calculate(min dataMin: Double, max dataMax: Double)
     {
         // if custom, use value as is, else use data value
-        var min = useCustomAxisMin ? _axisMinimum : (dataMin - spaceMin)
-        var max = useCustomAxisMax ? _axisMaximum : (dataMax + spaceMax)
+        var min = useCustomAxisMin ? axisMinimum : (dataMin - spaceMin)
+        var max = useCustomAxisMax ? axisMaximum : (dataMax + spaceMax)
         
         // temporary range (before calculations)
         let range = abs(max - min)

@@ -181,17 +181,17 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
         if leftAxis.isEnabled
         {
-            leftYAxisRenderer.computeAxis(min: leftAxis.axisMinimum, max: leftAxis._axisMaximum, inverted: leftAxis.isInverted)
+            leftYAxisRenderer.computeAxis(min: leftAxis.axisMinimum, max: leftAxis.axisMaximum, inverted: leftAxis.isInverted)
         }
         
         if rightAxis.isEnabled
         {
-            rightYAxisRenderer.computeAxis(min: rightAxis.axisMinimum, max: rightAxis._axisMaximum, inverted: rightAxis.isInverted)
+            rightYAxisRenderer.computeAxis(min: rightAxis.axisMinimum, max: rightAxis.axisMaximum, inverted: rightAxis.isInverted)
         }
         
         if xAxis.isEnabled
         {
-            xAxisRenderer.computeAxis(min: xAxis.axisMinimum, max: xAxis._axisMaximum, inverted: false)
+            xAxisRenderer.computeAxis(min: xAxis.axisMinimum, max: xAxis.axisMaximum, inverted: false)
         }
         
         xAxisRenderer.renderAxisLine(context: context)
@@ -319,14 +319,14 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         calcMinMax()
         
-        leftYAxisRenderer.computeAxis(min: leftAxis.axisMinimum, max: leftAxis._axisMaximum, inverted: leftAxis.isInverted)
-        rightYAxisRenderer.computeAxis(min: rightAxis.axisMinimum, max: rightAxis._axisMaximum, inverted: rightAxis.isInverted)
+        leftYAxisRenderer.computeAxis(min: leftAxis.axisMinimum, max: leftAxis.axisMaximum, inverted: leftAxis.isInverted)
+        rightYAxisRenderer.computeAxis(min: rightAxis.axisMinimum, max: rightAxis.axisMaximum, inverted: rightAxis.isInverted)
         
         if let data = data
         {
             xAxisRenderer.computeAxis(
                 min: xAxis.axisMinimum,
-                max: xAxis._axisMaximum,
+                max: xAxis.axisMaximum,
                 inverted: false)
 
             legendRenderer.computeLegend(data: data)
@@ -1762,7 +1762,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
     open override var chartYMax: Double
     {
-        return max(leftAxis._axisMaximum, rightAxis._axisMaximum)
+        return max(leftAxis.axisMaximum, rightAxis.axisMaximum)
     }
 
     open override var chartYMin: Double
@@ -1913,6 +1913,6 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         getTransformer(forAxis: .left).pixelToValues(&pt)
 
-        return min(xAxis._axisMaximum, Double(pt.x))
+        return min(xAxis.axisMaximum, Double(pt.x))
     }
 }

@@ -12,10 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 
 /// Class representing the y-axis labels settings and its entries.
 /// Be aware that not all features the YLabels class provides are suitable for the RadarChart.
@@ -39,25 +35,25 @@ open class YAxis: AxisBase
     }
     
     /// indicates if the bottom y-label entry is drawn or not
-    @objc open var drawBottomYLabelEntryEnabled = true
+    @objc open var isDrawBottomYLabelEntryEnabled = true
     
     /// indicates if the top y-label entry is drawn or not
-    @objc open var drawTopYLabelEntryEnabled = true
+    @objc open var isDrawTopYLabelEntryEnabled = true
     
     /// flag that indicates if the axis is inverted or not
-    @objc open var inverted = false
+    @objc open var isInverted = false
     
     /// flag that indicates if the zero-line should be drawn regardless of other grid lines
     @objc open var drawZeroLineEnabled = false
     
     /// Color of the zero line
-    @objc open var zeroLineColor: NSUIColor? = NSUIColor.gray
+    @objc open var zeroLineColor: NSUIColor? = .gray
     
     /// Width of the zero line
     @objc open var zeroLineWidth: CGFloat = 1.0
     
     /// This is how much (in pixels) into the dash pattern are we starting from.
-    @objc open var zeroLineDashPhase = CGFloat(0.0)
+    @objc open var zeroLineDashPhase: CGFloat = 0.0
     
     /// This is the actual dash pattern.
     /// I.e. [2, 3] will paint [--   --   ]
@@ -65,49 +61,37 @@ open class YAxis: AxisBase
     @objc open var zeroLineDashLengths: [CGFloat]?
 
     /// axis space from the largest value to the top in percent of the total axis range
-    @objc open var spaceTop = CGFloat(0.1)
+    @objc open var spaceTop: CGFloat = 0.1
 
     /// axis space from the smallest value to the bottom in percent of the total axis range
-    @objc open var spaceBottom = CGFloat(0.1)
+    @objc open var spaceBottom: CGFloat = 0.1
     
     /// the position of the y-labels relative to the chart
     @objc open var labelPosition = LabelPosition.outsideChart
     
     /// the side this axis object represents
-    private var _axisDependency = AxisDependency.left
+    @objc open private(set) var axisDependency: AxisDependency
     
     /// the minimum width that the axis should take
     /// 
     /// **default**: 0.0
-    @objc open var minWidth = CGFloat(0)
+    @objc open var minWidth: CGFloat = 0
     
     /// the maximum width that the axis can take.
     /// use Infinity for disabling the maximum.
     /// 
     /// **default**: CGFloat.infinity
-    @objc open var maxWidth = CGFloat(CGFloat.infinity)
-    
-    public override init()
-    {
-        super.init()
-        
-        self.yOffset = 0.0
-    }
-    
+    @objc open var maxWidth = CGFloat.infinity
+
     @objc public init(position: AxisDependency)
     {
+        axisDependency = position
+
         super.init()
-        
-        _axisDependency = position
         
         self.yOffset = 0.0
     }
-    
-    @objc open var axisDependency: AxisDependency
-    {
-        return _axisDependency
-    }
-    
+
     @objc open func requiredSize() -> CGSize
     {
         let label = getLongestLabel() as NSString
@@ -126,23 +110,16 @@ open class YAxis: AxisBase
     /// - returns: `true` if this axis needs horizontal offset, `false` ifno offset is needed.
     @objc open var needsOffset: Bool
     {
-        if isEnabled && isDrawLabelsEnabled && labelPosition == .outsideChart
-        {
-            return true
-        }
-        else
-        {
-            return false
-        }
+        return isEnabled
+            && isDrawLabelsEnabled
+            && labelPosition == .outsideChart
     }
-    
-    @objc open var isInverted: Bool { return inverted }
-    
+
     open override func calculate(min dataMin: Double, max dataMax: Double)
     {
         // if custom, use value as is, else use data value
         var min = useCustomAxisMin ? axisMinimum : dataMin
-        var max = useCustomAxisMax ? _axisMaximum : dataMax
+        var max = useCustomAxisMax ? axisMaximum : dataMax
         
         // temporary range (before calculations)
         let range = abs(max - min)
@@ -154,26 +131,17 @@ open class YAxis: AxisBase
             min = min - 1.0
         }
         
-        // bottom-space only effects non-custom min
+        // bottom-space and top-space only effects non-custom min
         if !useCustomAxisMin
         {
             let bottomSpace = range * Double(spaceBottom)
             axisMinimum = (min - bottomSpace)
-        }
-        
-        // top-space only effects non-custom max
-        if !useCustomAxisMax
-        {
+
             let topSpace = range * Double(spaceTop)
-            _axisMaximum = (max + topSpace)
+            axisMaximum = (max + topSpace)
         }
         
         // calc actual range
-        axisRange = abs(_axisMaximum - axisMinimum)
+        axisRange = abs(axisMaximum - axisMinimum)
     }
-    
-    @objc open var isDrawBottomYLabelEntryEnabled: Bool { return drawBottomYLabelEntryEnabled }
-    
-    @objc open var isDrawTopYLabelEntryEnabled: Bool { return drawTopYLabelEntryEnabled }
-
 }

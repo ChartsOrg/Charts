@@ -168,7 +168,7 @@ open class HorizontalBarChartView: BarChartView
         
         getTransformer(forAxis: .left).pixelToValues(&pt)
         
-        return min(xAxis._axisMaximum, Double(pt.y))
+        return min(xAxis.axisMaximum, Double(pt.y))
     }
     
     // MARK: - Viewport

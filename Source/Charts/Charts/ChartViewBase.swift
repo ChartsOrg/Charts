@@ -630,7 +630,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     open var chartXMax: Double
     {
-        return xAxis._axisMaximum
+        return xAxis.axisMaximum
     }
     
     open var chartXMin: Double
