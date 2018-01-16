@@ -18,14 +18,14 @@ import CoreGraphics
 
 open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 {
-    fileprivate class Buffer
+    private class Buffer
     {
         var rects = [CGRect]()
     }
     
-    open weak var dataProvider: BarChartDataProvider?
+    @objc open weak var dataProvider: BarChartDataProvider?
     
-    public init(dataProvider: BarChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    @objc public init(dataProvider: BarChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -33,7 +33,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     }
     
     // [CGRect] per dataset
-    fileprivate var _buffers = [Buffer]()
+    private var _buffers = [Buffer]()
     
     open override func initBuffers()
     {
@@ -68,12 +68,11 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         }
     }
     
-    fileprivate func prepareBuffer(dataSet: IBarChartDataSet, index: Int)
+    private func prepareBuffer(dataSet: IBarChartDataSet, index: Int)
     {
         guard
             let dataProvider = dataProvider,
-            let barData = dataProvider.barData,
-            let animator = animator
+            let barData = dataProvider.barData
             else { return }
         
         let barWidthHalf = barData.barWidth / 2.0
@@ -204,14 +203,11 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         }
     }
     
-    fileprivate var _barShadowRectBuffer: CGRect = CGRect()
+    private var _barShadowRectBuffer: CGRect = CGRect()
     
-    open func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int)
+    @objc open func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int)
     {
-        guard
-            let dataProvider = dataProvider,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let dataProvider = dataProvider else { return }
         
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
         
@@ -227,10 +223,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         // draw the bar shadow before the values
         if dataProvider.isDrawBarShadowEnabled
         {
-            guard
-                let animator = animator,
-                let barData = dataProvider.barData
-                else { return }
+            guard let barData = dataProvider.barData else { return }
             
             let barWidth = barData.barWidth
             let barWidthHalf = barWidth / 2.0
@@ -347,7 +340,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         rect.size.width = CGFloat(right - left)
         rect.size.height = CGFloat(bottom - top)
         
-        trans.rectValueToPixel(&rect, phaseY: animator?.phaseY ?? 1.0)
+        trans.rectValueToPixel(&rect, phaseY: animator.phaseY )
     }
 
     open override func drawValues(context: CGContext)
@@ -357,18 +350,16 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         {
             guard
                 let dataProvider = dataProvider,
-                let viewPortHandler = self.viewPortHandler,
-                let barData = dataProvider.barData,
-                let animator = animator
+                let barData = dataProvider.barData
                 else { return }
-            
+
             var dataSets = barData.dataSets
 
             let valueOffsetPlus: CGFloat = 4.5
             var posOffset: CGFloat
             var negOffset: CGFloat
             let drawValueAboveBar = dataProvider.isDrawValueAboveBarEnabled
-            
+
             for dataSetIndex in 0 ..< barData.dataSetCount
             {
                 guard let dataSet = dataSets[dataSetIndex] as? IBarChartDataSet else { continue }
@@ -615,9 +606,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     }
     
     /// Draws a value at the specified x and y position.
-    open func drawValue(context: CGContext, value: String, xPos: CGFloat, yPos: CGFloat, font: NSUIFont, align: NSTextAlignment, color: NSUIColor)
+    @objc open func drawValue(context: CGContext, value: String, xPos: CGFloat, yPos: CGFloat, font: NSUIFont, align: NSTextAlignment, color: NSUIColor)
     {
-        ChartUtils.drawText(context: context, text: value, point: CGPoint(x: xPos, y: yPos), align: align, attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: color])
+        ChartUtils.drawText(context: context, text: value, point: CGPoint(x: xPos, y: yPos), align: align, attributes: [NSAttributedStringKey.font: font, NSAttributedStringKey.foregroundColor: color])
     }
     
     open override func drawExtras(context: CGContext)
