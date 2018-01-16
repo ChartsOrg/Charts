@@ -59,10 +59,9 @@ open class RadarHighlighter: PieRadarHighlighter
 
         for i in chartData.dataSets.indices
         {
-            guard let dataSet = chart.data?.dataSet(forIndex: i)
-                else { continue }
-            
-            guard let entry = dataSet.entryForIndex(index)
+            guard
+                let dataSet = chartData.getDataSetByIndex(i),
+                let entry = dataSet.entryForIndex(index)
                 else { continue }
             
             let y = (entry.y - chart.chartYMin)

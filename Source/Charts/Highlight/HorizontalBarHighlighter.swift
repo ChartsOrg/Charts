@@ -25,21 +25,10 @@ open class HorizontalBarHighlighter: BarHighlighter
         if let set = barData.getDataSetByIndex(high.dataSetIndex) as? BarChartDataSetProtocol,
             set.isStacked
         {
-            let pos = getValsForTouch(x: y, y: x)
-            
-            guard let high = getHighlight(xValue: Double(pos.y), x: y, y: x)
-                else { return nil }
-            
-            if let set = barData.dataSet(forIndex: high.dataSetIndex) as? BarChartDataSetProtocol,
-                set.isStacked
-            {
-                return getStackedHighlight(high: high,
-                                           set: set,
-                                           xValue: Double(pos.y),
-                                           yValue: Double(pos.x))
-            }
-            
-            return high
+            return getStackedHighlight(high: high,
+                                       set: set,
+                                       xValue: Double(pos.y),
+                                       yValue: Double(pos.x))
         }
 
         return high
