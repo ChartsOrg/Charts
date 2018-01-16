@@ -14,14 +14,19 @@ import CoreGraphics
 
 open class ScatterChartData: BarLineScatterCandleBubbleChartData
 {
-    public override init()
+    public required init()
     {
         super.init()
     }
     
-    public override init(dataSets: [IChartDataSet]?)
+    public override init(dataSets: [ChartDataSetProtocol]?)
     {
         super.init(dataSets: dataSets)
+    }
+
+    public required init(arrayLiteral elements: ChartDataSetProtocol...)
+    {
+        super.init(dataSets: elements)
     }
     
     /// - returns: The maximum shape-size across all DataSets.
@@ -31,7 +36,7 @@ open class ScatterChartData: BarLineScatterCandleBubbleChartData
         
         for set in _dataSets
         {
-            let scatterDataSet = set as? IScatterChartDataSet
+            let scatterDataSet = set as? ScatterChartDataSetProtocol
             
             if scatterDataSet == nil
             {

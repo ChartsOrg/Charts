@@ -14,7 +14,7 @@
 
 #define ITEM_COUNT 12
 
-@interface CombinedChartViewController () <ChartViewDelegate, IChartAxisValueFormatter>
+@interface CombinedChartViewController () <ChartViewDelegate, ChartAxisValueFormatter>
 {
     NSArray<NSString *> *months;
 }
@@ -122,7 +122,7 @@
 {
     if ([key isEqualToString:@"toggleLineValues"])
     {
-        for (NSObject<IChartDataSet> *set in _chartView.data.dataSets)
+        for (NSObject<ChartDataSetProtocol> *set in _chartView.data.dataSets)
         {
             if ([set isKindOfClass:LineChartDataSet.class])
             {
@@ -136,7 +136,7 @@
     
     if ([key isEqualToString:@"toggleBarValues"])
     {
-        for (NSObject<IChartDataSet> *set in _chartView.data.dataSets)
+        for (NSObject<ChartDataSetProtocol> *set in _chartView.data.dataSets)
         {
             if ([set isKindOfClass:BarChartDataSet.class])
             {
@@ -206,7 +206,7 @@
     [set1 setColor:[UIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f]];
     set1.valueTextColor = [UIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f];
     set1.valueFont = [UIFont systemFontOfSize:10.f];
-    set1.axisDependency = AxisDependencyLeft;
+    set1.axisDependency = AxisDependencyRight;
     
     BarChartDataSet *set2 = [[BarChartDataSet alloc] initWithValues:entries2 label:@""];
     set2.stackLabels = @[@"Stack 1", @"Stack 2"];
@@ -216,7 +216,7 @@
                     ];
     set2.valueTextColor = [UIColor colorWithRed:61/255.f green:165/255.f blue:255/255.f alpha:1.f];
     set2.valueFont = [UIFont systemFontOfSize:10.f];
-    set2.axisDependency = AxisDependencyLeft;
+    set2.axisDependency = AxisDependencyRight;
 
     float groupSpace = 0.06f;
     float barSpace = 0.02f; // x2 dataset
@@ -313,7 +313,7 @@
     NSLog(@"chartValueNothingSelected");
 }
 
-#pragma mark - IAxisValueFormatter
+#pragma mark - AxisValueFormatter
 
 - (NSString *)stringForValue:(double)value
                         axis:(ChartAxisBase *)axis

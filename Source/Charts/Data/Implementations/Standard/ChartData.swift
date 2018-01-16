@@ -11,7 +11,7 @@
 
 import Foundation
 
-open class ChartData: NSObject
+open class ChartData: NSObject, ExpressibleByArrayLiteral
 {
     internal var _yMax: Double = -Double.greatestFiniteMagnitude
     internal var _yMin: Double = Double.greatestFiniteMagnitude
@@ -22,30 +22,37 @@ open class ChartData: NSObject
     internal var _rightAxisMax: Double = -Double.greatestFiniteMagnitude
     internal var _rightAxisMin: Double = Double.greatestFiniteMagnitude
     
-    internal var _dataSets = [IChartDataSet]()
+    internal var _dataSets = [ChartDataSetProtocol]()
     
-    public override init()
+    public override required init()
     {
         super.init()
-        
-        _dataSets = [IChartDataSet]()
     }
-    
-    @objc public init(dataSets: [IChartDataSet]?)
+
+    public required init(arrayLiteral elements: ChartDataSetProtocol...)
+    {
+        super.init()
+
+        _dataSets = elements
+
+        self.initialize(dataSets: _dataSets)
+    }
+
+    @objc public init(dataSets: [ChartDataSetProtocol]?)
     {
         super.init()
         
-        _dataSets = dataSets ?? [IChartDataSet]()
+        _dataSets = dataSets ?? [ChartDataSetProtocol]()
         
         self.initialize(dataSets: _dataSets)
     }
     
-    @objc public convenience init(dataSet: IChartDataSet?)
+    @objc public convenience init(dataSet: ChartDataSetProtocol?)
     {
         self.init(dataSets: dataSet === nil ? nil : [dataSet!])
     }
     
-    internal func initialize(dataSets: [IChartDataSet])
+    internal func initialize(dataSets: [ChartDataSetProtocol])
     {
         notifyDataChanged()
     }
@@ -187,7 +194,7 @@ open class ChartData: NSObject
     }
     
     /// Adjusts the minimum and maximum values based on the given DataSet.
-    @objc open func calcMinMax(dataSet d: IChartDataSet)
+    @objc open func calcMinMax(dataSet d: ChartDataSetProtocol)
     {
         if _yMax < d.yMax
         {
@@ -329,7 +336,7 @@ open class ChartData: NSObject
     }
     
     /// - returns: All DataSet objects this ChartData object holds.
-    @objc open var dataSets: [IChartDataSet]
+    @objc open var dataSets: [ChartDataSetProtocol]
     {
         get
         {
@@ -419,7 +426,7 @@ open class ChartData: NSObject
     /// - parameter label:
     /// - parameter ignorecase:
     /// - returns: The DataSet Object with the given label. Sensitive or not.
-    @objc open func getDataSetByLabel(_ label: String, ignorecase: Bool) -> IChartDataSet?
+    @objc open func getDataSetByLabel(_ label: String, ignorecase: Bool) -> ChartDataSetProtocol?
     {
         let index = getDataSetIndexByLabel(label, ignorecase: ignorecase)
         
@@ -433,7 +440,7 @@ open class ChartData: NSObject
         }
     }
     
-    @objc open func getDataSetByIndex(_ index: Int) -> IChartDataSet!
+    @objc open func getDataSetByIndex(_ index: Int) -> ChartDataSetProtocol!
     {
         if index < 0 || index >= _dataSets.count
         {
@@ -443,7 +450,7 @@ open class ChartData: NSObject
         return _dataSets[index]
     }
     
-    @objc open func addDataSet(_ dataSet: IChartDataSet!)
+    @objc open func addDataSet(_ dataSet: ChartDataSetProtocol!)
     {
         calcMinMax(dataSet: dataSet)
         
@@ -454,7 +461,7 @@ open class ChartData: NSObject
     /// Also recalculates all minimum and maximum values.
     ///
     /// - returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
-    @objc @discardableResult open func removeDataSet(_ dataSet: IChartDataSet!) -> Bool
+    @objc @discardableResult open func removeDataSet(_ dataSet: ChartDataSetProtocol!) -> Bool
     {
         if dataSet === nil
         {
@@ -491,22 +498,20 @@ open class ChartData: NSObject
     }
     
     /// Adds an Entry to the DataSet at the specified index. Entries are added to the end of the list.
-    @objc open func addEntry(_ e: ChartDataEntry, dataSetIndex: Int)
+    @objc(addEntry:dataSetIndex:)
+    open func appendEntry(_ e: ChartDataEntry, toDataSet dataSetIndex: Index)
     {
-        if _dataSets.count > dataSetIndex && dataSetIndex >= 0
-        {
-            let set = _dataSets[dataSetIndex]
-            
-            if !set.addEntry(e) { return }
-            
-            calcMinMax(entry: e, axis: set.axisDependency)
-        }
-        else
+        guard indices.contains(dataSetIndex) else
         {
             print("ChartData.addEntry() - Cannot add Entry because dataSetIndex too high or too low.", terminator: "\n")
+            return
         }
+
+        let set = self[dataSetIndex]
+        if !set.addEntry(e) { return }
+        calcMinMax(entry: e, axis: set.axisDependency)
     }
-    
+
     /// Removes the given Entry object from the DataSet at the specified index.
     @objc @discardableResult open func removeEntry(_ entry: ChartDataEntry, dataSetIndex: Int) -> Bool
     {
@@ -546,7 +551,7 @@ open class ChartData: NSObject
     }
     
     /// - returns: The DataSet that contains the provided Entry, or null, if no DataSet contains this entry.
-    @objc open func getDataSetForEntry(_ e: ChartDataEntry!) -> IChartDataSet?
+    @objc open func getDataSetForEntry(_ e: ChartDataEntry!) -> ChartDataSetProtocol?
     {
         if e == nil
         {
@@ -567,7 +572,7 @@ open class ChartData: NSObject
     }
 
     /// - returns: The index of the provided DataSet in the DataSet array of this data object, or -1 if it does not exist.
-    @objc open func indexOfDataSet(_ dataSet: IChartDataSet) -> Int
+    @objc open func indexOfDataSet(_ dataSet: ChartDataSetProtocol) -> Int
     {
         for i in 0 ..< _dataSets.count
         {
@@ -581,7 +586,7 @@ open class ChartData: NSObject
     }
     
     /// - returns: The first DataSet from the datasets-array that has it's dependency on the left axis. Returns null if no DataSet with left dependency could be found.
-    @objc open func getFirstLeft(dataSets: [IChartDataSet]) -> IChartDataSet?
+    @objc open func getFirstLeft(dataSets: [ChartDataSetProtocol]) -> ChartDataSetProtocol?
     {
         for dataSet in dataSets
         {
@@ -595,7 +600,7 @@ open class ChartData: NSObject
     }
     
     /// - returns: The first DataSet from the datasets-array that has it's dependency on the right axis. Returns null if no DataSet with right dependency could be found.
-    @objc open func getFirstRight(dataSets: [IChartDataSet]) -> IChartDataSet?
+    @objc open func getFirstRight(dataSets: [ChartDataSetProtocol]) -> ChartDataSetProtocol?
     {
         for dataSet in _dataSets
         {
@@ -633,8 +638,8 @@ open class ChartData: NSObject
         return colors
     }
     
-    /// Sets a custom IValueFormatter for all DataSets this data object contains.
-    @objc open func setValueFormatter(_ formatter: IValueFormatter?)
+    /// Sets a custom ValueFormatter for all DataSets this data object contains.
+    @objc open func setValueFormatter(_ formatter: ValueFormatter?)
     {
         guard let formatter = formatter
             else { return }
@@ -710,7 +715,7 @@ open class ChartData: NSObject
     
     /// Checks if this data object contains the specified DataSet. 
     /// - returns: `true` if so, `false` ifnot.
-    @objc open func contains(dataSet: IChartDataSet) -> Bool
+    @objc open func contains(dataSet: ChartDataSetProtocol) -> Bool
     {
         for set in dataSets
         {
@@ -737,7 +742,7 @@ open class ChartData: NSObject
     }
 
     /// - returns: The DataSet object with the maximum number of entries or null if there are no DataSets.
-    @objc open var maxEntryCountSet: IChartDataSet?
+    @objc open var maxEntryCountSet: ChartDataSetProtocol?
     {
         if _dataSets.count == 0
         {
@@ -755,5 +760,167 @@ open class ChartData: NSObject
         }
         
         return max
+    }
+}
+
+// MARK: MutableCollection
+extension ChartData: MutableCollection
+{
+    public typealias Index = Int
+    public typealias Element = ChartDataSetProtocol
+
+    public var startIndex: Index
+    {
+        return _dataSets.startIndex
+    }
+
+    public var endIndex: Index
+    {
+        return _dataSets.endIndex
+    }
+
+    public func index(after: Index) -> Index
+    {
+        return _dataSets.index(after: after)
+    }
+
+    public subscript(position: Index) -> Element
+    {
+        get{ return _dataSets[position] }
+        set{ self._dataSets[position] = newValue }
+    }
+}
+
+// MARK: RandomAccessCollection
+extension ChartData: RandomAccessCollection
+{
+    public func index(before: Index) -> Index
+    {
+        return _dataSets.index(before: before)
+    }
+}
+
+// MARK: RangeReplaceableCollection
+extension ChartData: RangeReplaceableCollection
+{
+    public func append(_ newElement: Element)
+    {
+        guard !(self is CombinedChartData) else
+        {
+            fatalError("append(_:) not supported for CombinedData")
+        }
+
+        _dataSets.append(newElement)
+        calcMinMax(dataSet: newElement)
+    }
+
+    public func remove(at position: Index) -> Element
+    {
+        guard !(self is CombinedChartData) else
+        {
+            fatalError("remove(at:) not supported for CombinedData")
+        }
+
+        let element = _dataSets.remove(at: position)
+        calcMinMax()
+        return element
+    }
+
+    public func removeFirst() -> Element
+    {
+        guard !(self is CombinedChartData) else
+        {
+            fatalError("removeFirst() not supported for CombinedData")
+        }
+
+        let element = _dataSets.removeFirst()
+        notifyDataChanged()
+        return element
+    }
+
+    public func removeFirst(_ n: Int)
+    {
+        guard !(self is CombinedChartData) else
+        {
+            fatalError("removeFirst(_:) not supported for CombinedData")
+        }
+
+        _dataSets.removeFirst(n)
+        notifyDataChanged()
+    }
+
+    public func removeLast() -> Element
+    {
+        guard !(self is CombinedChartData) else
+        {
+            fatalError("removeLast() not supported for CombinedData")
+        }
+
+        let element = _dataSets.removeLast()
+        notifyDataChanged()
+        return element
+    }
+
+    public func removeLast(_ n: Int)
+    {
+        guard !(self is CombinedChartData) else
+        {
+            fatalError("removeLast(_:) not supported for CombinedData")
+        }
+
+        _dataSets.removeLast(n)
+        notifyDataChanged()
+    }
+
+    public func removeSubrange<R>(_ bounds: R) where R : RangeExpression, ChartData.Index == R.Bound
+    {
+        guard !(self is CombinedChartData) else
+        {
+            fatalError("removeSubrange<R>(_:) not supported for CombinedData")
+        }
+
+        _dataSets.removeSubrange(bounds)
+        notifyDataChanged()
+    }
+
+    public func removeAll(keepingCapacity keepCapacity: Bool)
+    {
+        guard !(self is CombinedChartData) else
+        {
+            fatalError("removeAll(keepingCapacity:) not supported for CombinedData")
+        }
+
+        _dataSets.removeAll(keepingCapacity: keepCapacity)
+        notifyDataChanged()
+    }
+}
+
+// MARK: Swift Accessors
+extension ChartData
+{
+    /// Retrieve the index of a ChartDataSet with a specific label from the ChartData. Search can be case sensitive or not.
+    /// **IMPORTANT: This method does calculations at runtime, do not over-use in performance critical situations.**
+    ///
+    /// - Parameters:
+    ///   - label: The label to search for
+    ///   - ignoreCase: if true, the search is not case-sensitive
+    /// - Returns: The index of the DataSet Object with the given label. `nil` if not found
+    public func index(forLabel label: String, ignoreCase: Bool) -> Index?
+    {
+        return ignoreCase
+            ? index { $0.label?.caseInsensitiveCompare(label) == .orderedSame }
+            : index { $0.label == label }
+    }
+
+    public subscript(label: String, ignoreCase: Bool) -> Element?
+    {
+        guard let index = index(forLabel: label, ignoreCase: ignoreCase) else { return nil }
+        return self[index]
+    }
+    
+    public subscript(entry: ChartDataEntry) -> Element?
+    {
+        guard let index = index(where: { $0.entryForXValue(entry.x, closestToY: entry.y) === entry }) else { return nil }
+        return self[index]
     }
 }

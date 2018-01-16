@@ -13,7 +13,7 @@ import Foundation
 
 /// The default value formatter used for all chart components that needs a default
 @objc(ChartDefaultValueFormatter)
-open class DefaultValueFormatter: NSObject, IValueFormatter
+open class DefaultValueFormatter: NSObject, ValueFormatter
 {
     public typealias Block = (
         _ value: Double,
@@ -91,12 +91,9 @@ open class DefaultValueFormatter: NSObject, IValueFormatter
                              dataSetIndex: Int,
                              viewPortHandler: ViewPortHandler?) -> String
     {
-        if block != nil
-        {
-            return block!(value, entry, dataSetIndex, viewPortHandler)
-        }
-        else
-        {
+        if let block = block {
+            return block(value, entry, dataSetIndex, viewPortHandler)
+        } else {
             return formatter?.string(from: NSNumber(floatLiteral: value)) ?? ""
         }
     }

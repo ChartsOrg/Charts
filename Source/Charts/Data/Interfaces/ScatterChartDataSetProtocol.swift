@@ -1,5 +1,5 @@
 //
-//  IScatterChartDataSet.swift
+//  ScatterChartDataSetProtocol.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 @objc
-public protocol IScatterChartDataSet: ILineScatterCandleRadarChartDataSet
+public protocol ScatterChartDataSetProtocol: LineScatterCandleRadarChartDataSetProtocol
 {
     // MARK: - Data functions and accessors
     
@@ -32,5 +32,5 @@ public protocol IScatterChartDataSet: ILineScatterCandleRadarChartDataSet
     var scatterShapeHoleColor: NSUIColor? { get }
     
     /// - returns: The IShapeRenderer responsible for rendering this DataSet.
-    var shapeRenderer: IShapeRenderer? { get }
+    var shapeRenderer: ShapeRenderer? { get }
 }
