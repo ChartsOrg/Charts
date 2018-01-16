@@ -714,3 +714,165 @@ extension ChartData
         return self[index]
     }
 }
+
+// MARK: MutableCollection
+extension ChartData: MutableCollection
+{
+    public typealias Index = Int
+    public typealias Element = ChartDataSetProtocol
+
+    public var startIndex: Index
+    {
+        return _dataSets.startIndex
+    }
+
+    public var endIndex: Index
+    {
+        return _dataSets.endIndex
+    }
+
+    public func index(after: Index) -> Index
+    {
+        return _dataSets.index(after: after)
+    }
+
+    public subscript(position: Index) -> Element
+    {
+        get{ return _dataSets[position] }
+        set{ self._dataSets[position] = newValue }
+    }
+}
+
+// MARK: RandomAccessCollection
+extension ChartData: RandomAccessCollection
+{
+    public func index(before: Index) -> Index
+    {
+        return _dataSets.index(before: before)
+    }
+}
+
+// MARK: RangeReplaceableCollection
+extension ChartData: RangeReplaceableCollection
+{
+    public func append(_ newElement: Element)
+    {
+        guard !(self is CombinedChartData) else
+        {
+            fatalError("append(_:) not supported for CombinedData")
+        }
+
+        _dataSets.append(newElement)
+        calcMinMax(dataSet: newElement)
+    }
+
+    public func remove(at position: Index) -> Element
+    {
+        guard !(self is CombinedChartData) else
+        {
+            fatalError("remove(at:) not supported for CombinedData")
+        }
+
+        let element = _dataSets.remove(at: position)
+        calcMinMax()
+        return element
+    }
+
+    public func removeFirst() -> Element
+    {
+        guard !(self is CombinedChartData) else
+        {
+            fatalError("removeFirst() not supported for CombinedData")
+        }
+
+        let element = _dataSets.removeFirst()
+        notifyDataChanged()
+        return element
+    }
+
+    public func removeFirst(_ n: Int)
+    {
+        guard !(self is CombinedChartData) else
+        {
+            fatalError("removeFirst(_:) not supported for CombinedData")
+        }
+
+        _dataSets.removeFirst(n)
+        notifyDataChanged()
+    }
+
+    public func removeLast() -> Element
+    {
+        guard !(self is CombinedChartData) else
+        {
+            fatalError("removeLast() not supported for CombinedData")
+        }
+
+        let element = _dataSets.removeLast()
+        notifyDataChanged()
+        return element
+    }
+
+    public func removeLast(_ n: Int)
+    {
+        guard !(self is CombinedChartData) else
+        {
+            fatalError("removeLast(_:) not supported for CombinedData")
+        }
+
+        _dataSets.removeLast(n)
+        notifyDataChanged()
+    }
+
+    public func removeSubrange<R>(_ bounds: R) where R : RangeExpression, ChartData.Index == R.Bound
+    {
+        guard !(self is CombinedChartData) else
+        {
+            fatalError("removeSubrange<R>(_:) not supported for CombinedData")
+        }
+
+        _dataSets.removeSubrange(bounds)
+        notifyDataChanged()
+    }
+
+    public func removeAll(keepingCapacity keepCapacity: Bool)
+    {
+        guard !(self is CombinedChartData) else
+        {
+            fatalError("removeAll(keepingCapacity:) not supported for CombinedData")
+        }
+
+        _dataSets.removeAll(keepingCapacity: keepCapacity)
+        notifyDataChanged()
+    }
+}
+
+// MARK: Swift Accessors
+extension ChartData
+{
+    /// Retrieve the index of a ChartDataSet with a specific label from the ChartData. Search can be case sensitive or not.
+    /// **IMPORTANT: This method does calculations at runtime, do not over-use in performance critical situations.**
+    ///
+    /// - Parameters:
+    ///   - label: The label to search for
+    ///   - ignoreCase: if true, the search is not case-sensitive
+    /// - Returns: The index of the DataSet Object with the given label. `nil` if not found
+    public func index(forLabel label: String, ignoreCase: Bool) -> Index?
+    {
+        return ignoreCase
+            ? index { $0.label?.caseInsensitiveCompare(label) == .orderedSame }
+            : index { $0.label == label }
+    }
+
+    public subscript(label: String, ignoreCase: Bool) -> Element?
+    {
+        guard let index = index(forLabel: label, ignoreCase: ignoreCase) else { return nil }
+        return self[index]
+    }
+    
+    public subscript(entry: ChartDataEntry) -> Element?
+    {
+        guard let index = index(where: { $0.entryForXValue(entry.x, closestToY: entry.y) === entry }) else { return nil }
+        return self[index]
+    }
+}
