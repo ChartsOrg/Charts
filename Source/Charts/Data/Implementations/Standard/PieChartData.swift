@@ -50,7 +50,7 @@ open class PieChartData: ChartData
     open override func dataSet(forIndex index: ChartData.Index) -> ChartData.Element?
     {
         guard index == 0 else { return nil }
-        return super.dataSet(forIndex: index)
+        return self[index]
     }
     
     open override func dataSet(forLabel label: String, ignorecase: Bool) -> ChartDataSetProtocol?

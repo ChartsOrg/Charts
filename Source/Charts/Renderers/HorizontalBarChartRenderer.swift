@@ -37,19 +37,19 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         if let barData = dataProvider?.barData
         {
             // Matche buffers count to dataset count
-            if _buffers.count != barData.dataSetCount
+            if _buffers.count != barData.count
             {
-                while _buffers.count < barData.dataSetCount
+                while _buffers.count < barData.count
                 {
                     _buffers.append(Buffer())
                 }
-                while _buffers.count > barData.dataSetCount
+                while _buffers.count > barData.count
                 {
                     _buffers.removeLast()
                 }
             }
             
-            for i in stride(from: 0, to: barData.dataSetCount, by: 1)
+            for i in barData.indices
             {
                 let set = barData.dataSets[i] as! BarChartDataSetProtocol
                 let size = set.entryCount * (set.isStacked ? set.stackSize : 1)
@@ -314,7 +314,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             var negOffset: CGFloat
             let drawValueAboveBar = dataProvider.isDrawValueAboveBarEnabled
             
-            for dataSetIndex in 0 ..< barData.dataSetCount
+            for dataSetIndex in barData.indices
             {
                 guard let dataSet = dataSets[dataSetIndex] as? BarChartDataSetProtocol else { continue }
                 

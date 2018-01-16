@@ -398,14 +398,14 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             Swift.print("Value not highlighted because data is nil")
             return
         }
-        
-        if dataSetIndex < 0 || dataSetIndex >= data.dataSetCount
+
+        if data.indices.contains(dataSetIndex)
         {
-            highlightValue(nil, callDelegate: callDelegate)
+            highlightValue(Highlight(x: x, y: y, dataSetIndex: dataSetIndex), callDelegate: callDelegate)
         }
         else
         {
-            highlightValue(Highlight(x: x, y: y, dataSetIndex: dataSetIndex), callDelegate: callDelegate)
+            highlightValue(nil, callDelegate: callDelegate)
         }
     }
     
@@ -480,7 +480,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         for highlight in highlighted
         {
             guard
-                let set = data?.dataSet(forIndex: highlight.dataSetIndex),
+                let set = data?[highlight.dataSetIndex],
                 let e = data?.entry(for: highlight)
                 else { continue }
             

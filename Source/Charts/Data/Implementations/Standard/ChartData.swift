@@ -116,6 +116,7 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
     }
     
     /// - returns: The number of LineDataSets this object contains
+    // exists only for objc compatibility
     @objc open var dataSetCount: Int
     {
         return dataSets.count

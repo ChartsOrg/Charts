@@ -37,13 +37,13 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         guard let barData = dataProvider?.barData else { return _buffers.removeAll() }
 
         // Matche buffers count to dataset count
-        if _buffers.count != barData.dataSetCount
+        if _buffers.count != barData.count
         {
-            while _buffers.count < barData.dataSetCount
+            while _buffers.count < barData.count
             {
                 _buffers.append(Buffer())
             }
-            while _buffers.count > barData.dataSetCount
+            while _buffers.count > barData.count
             {
                 _buffers.removeLast()
             }
@@ -551,7 +551,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         for high in indices
         {
             guard
-                let set = barData.dataSet(forIndex: high.dataSetIndex) as? BarChartDataSetProtocol,
+                let set = barData[high.dataSetIndex] as? BarChartDataSetProtocol,
                 set.isHighlightEnabled
                 else { continue }
             

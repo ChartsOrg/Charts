@@ -258,13 +258,13 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         
         let data = dataByIndex(highlight.dataIndex)
         
-        if highlight.dataSetIndex >= data.dataSetCount
+        if highlight.dataSetIndex >= data.endIndex
         {
             return nil
         }
         
         // The value of the highlighted entry could be NaN - if we are not interested in highlighting a specific value.
-        return data.dataSet(forIndex: highlight.dataSetIndex)?
+        return data[highlight.dataSetIndex]
             .entriesForXValue(highlight.x)
             .first { $0.y == highlight.y || highlight.y.isNaN }
     }
@@ -282,7 +282,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         
         let data = dataByIndex(highlight.dataIndex)
         
-        if highlight.dataSetIndex >= data.dataSetCount
+        if highlight.dataSetIndex >= data.endIndex
         {
             return nil
         }
