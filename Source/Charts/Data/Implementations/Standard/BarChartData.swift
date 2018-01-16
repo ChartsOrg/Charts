@@ -14,7 +14,7 @@ import CoreGraphics
 
 open class BarChartData: BarLineScatterCandleBubbleChartData
 {
-    public override init()
+    public required init()
     {
         super.init()
     }
@@ -23,7 +23,12 @@ open class BarChartData: BarLineScatterCandleBubbleChartData
     {
         super.init(dataSets: dataSets)
     }
-    
+
+    public required init(arrayLiteral elements: ChartDataSetProtocol...)
+    {
+        super.init(dataSets: elements)
+    }
+
     /// The width of the bars on the x-axis, in values (not pixels)
     ///
     /// **default**: 0.85
