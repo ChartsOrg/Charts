@@ -13,7 +13,7 @@ import Foundation
 
 open class PieChartData: ChartData
 {
-    public override init()
+    public required init()
     {
         super.init()
     }
@@ -21,6 +21,11 @@ open class PieChartData: ChartData
     public override init(dataSets: [ChartDataSetProtocol]?)
     {
         super.init(dataSets: dataSets)
+    }
+
+    public required init(arrayLiteral elements: ChartDataSetProtocol...)
+    {
+        super.init(dataSets: elements)
     }
 
     @objc var dataSet: PieChartDataSetProtocol?
