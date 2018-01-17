@@ -36,58 +36,61 @@ open class HorizontalBarChartView: BarChartView
     
     internal override func calculateLegendOffsets(offsetLeft: inout CGFloat, offsetTop: inout CGFloat, offsetRight: inout CGFloat, offsetBottom: inout CGFloat)
     {
+        guard
+            let legend = _legend,
+            legend.isEnabled,
+            legend.drawInside
+        else { return }
+        
         // setup offsets for legend
-        if _legend !== nil && _legend.isEnabled && !_legend.drawInside
+        switch legend.orientation
         {
-            switch _legend.orientation
+        case .vertical:
+            switch legend.horizontalAlignment
             {
-            case .vertical:
-                switch _legend.horizontalAlignment
-                {
-                case .left:
-                    offsetLeft += min(_legend.neededWidth, _viewPortHandler.chartWidth * _legend.maxSizePercent) + _legend.xOffset
-                    
-                case .right:
-                    offsetRight += min(_legend.neededWidth, _viewPortHandler.chartWidth * _legend.maxSizePercent) + _legend.xOffset
-                    
-                case .center:
-                    
-                    switch _legend.verticalAlignment
-                    {
-                    case .top:
-                        offsetTop += min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent) + _legend.yOffset
-                        
-                    case .bottom:
-                        offsetBottom += min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent) + _legend.yOffset
-                        
-                    default:
-                        break
-                    }
-                }
+            case .left:
+                offsetLeft += min(legend.neededWidth, _viewPortHandler.chartWidth * legend.maxSizePercent) + legend.xOffset
                 
-            case .horizontal:
-                switch _legend.verticalAlignment
+            case .right:
+                offsetRight += min(legend.neededWidth, _viewPortHandler.chartWidth * legend.maxSizePercent) + legend.xOffset
+                
+            case .center:
+                
+                switch legend.verticalAlignment
                 {
                 case .top:
-                    offsetTop += min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent) + _legend.yOffset
-                    
-                    // left axis equals the top x-axis in a horizontal chart
-                    if leftAxis.isEnabled && leftAxis.isDrawLabelsEnabled
-                    {
-                        offsetTop += leftAxis.getRequiredHeightSpace()
-                    }
+                    offsetTop += min(legend.neededHeight, _viewPortHandler.chartHeight * legend.maxSizePercent) + legend.yOffset
                     
                 case .bottom:
-                    offsetBottom += min(_legend.neededHeight, _viewPortHandler.chartHeight * _legend.maxSizePercent) + _legend.yOffset
-
-                    // right axis equals the bottom x-axis in a horizontal chart
-                    if rightAxis.isEnabled && rightAxis.isDrawLabelsEnabled
-                    {
-                        offsetBottom += rightAxis.getRequiredHeightSpace()
-                    }
+                    offsetBottom += min(legend.neededHeight, _viewPortHandler.chartHeight * legend.maxSizePercent) + legend.yOffset
+                    
                 default:
                     break
                 }
+            }
+            
+        case .horizontal:
+            switch legend.verticalAlignment
+            {
+            case .top:
+                offsetTop += min(legend.neededHeight, _viewPortHandler.chartHeight * legend.maxSizePercent) + legend.yOffset
+                
+                // left axis equals the top x-axis in a horizontal chart
+                if leftAxis.isEnabled && leftAxis.isDrawLabelsEnabled
+                {
+                    offsetTop += leftAxis.getRequiredHeightSpace()
+                }
+                
+            case .bottom:
+                offsetBottom += min(legend.neededHeight, _viewPortHandler.chartHeight * legend.maxSizePercent) + legend.yOffset
+
+                // right axis equals the bottom x-axis in a horizontal chart
+                if rightAxis.isEnabled && rightAxis.isDrawLabelsEnabled
+                {
+                    offsetBottom += rightAxis.getRequiredHeightSpace()
+                }
+            default:
+                break
             }
         }
     }
