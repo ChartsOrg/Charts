@@ -72,6 +72,8 @@ open class PieChartView: PieRadarChartViewBase
     /// maximum angle for this pie
     fileprivate var _maxAngle: CGFloat = 360.0
 
+    fileprivate var _drawValueTextEnabled = false
+
     public override init(frame: CGRect)
     {
         super.init(frame: frame)
@@ -115,7 +117,7 @@ open class PieChartView: PieRadarChartViewBase
         
         renderer!.drawValues(context: context)
         
-        _legendRenderer.renderLegend(context: context)
+//        _legendRenderer.renderLegend(context: context)
         
         drawDescription(context: context)
         
@@ -134,15 +136,15 @@ open class PieChartView: PieRadarChartViewBase
         
         let radius = diameter / 2.0
         
-        let c = self.centerOffsets
-        
-        let shift = (data as? PieChartData)?.dataSet?.selectionShift ?? 0.0
+        var c = self.centerOffsets
+        c.x = radius + extraLeftOffset
         
         // create the circle box that will contain the pie-chart (the bounds of the pie-chart)
-        _circleBox.origin.x = (c.x - radius) + shift
-        _circleBox.origin.y = (c.y - radius) + shift
-        _circleBox.size.width = diameter - shift * 2.0
-        _circleBox.size.height = diameter - shift * 2.0
+        _circleBox.origin.x = (c.x - radius)
+        _circleBox.origin.y = (c.y - radius)
+        _circleBox.size.width = diameter
+        _circleBox.size.height = diameter
+        _legend.xOffset = extraLeftOffset * 3 + radius * 2
     }
     
     internal override func calcMinMax()
@@ -595,6 +597,26 @@ open class PieChartView: PieRadarChartViewBase
         get
         {
             return drawEntryLabelsEnabled
+        }
+    }
+
+    // Set this to true to draw the value text in entry labels into the pie slices
+    open var drawValueTextEnabled: Bool
+    {
+        get
+        {
+          return _drawValueTextEnabled
+        }
+        set
+        {
+          _drawValueTextEnabled = newValue
+        }
+    }
+
+    open var isDrawValueTextEnabled: Bool
+    {
+        get {
+          return drawValueTextEnabled
         }
     }
     
