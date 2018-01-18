@@ -291,6 +291,7 @@ open class PieChartRenderer: DataRenderer
         let yValueSum = (data as! PieChartData).yValueSum
         
         let drawEntryLabels = chart.isDrawEntryLabelsEnabled
+        let drawValueText = chart.isDrawValueTextEnabled
         let usePercentValuesEnabled = chart.usePercentValuesEnabled
         let entryLabelColor = chart.entryLabelColor
         let entryLabelFont = chart.entryLabelFont
@@ -349,12 +350,15 @@ open class PieChartRenderer: DataRenderer
                 let transformedAngle = rotationAngle + angle * CGFloat(phaseY)
                 
                 let value = usePercentValuesEnabled ? e.y / yValueSum * 100.0 : e.y
-                let valueText = formatter.stringForValue(
-                    value,
-                    entry: e,
-                    dataSetIndex: i,
-                    viewPortHandler: viewPortHandler)
-                
+                var valueText = ""
+                if drawValueText {
+                  valueText = formatter.stringForValue(
+                      value,
+                      entry: e,
+                      dataSetIndex: i,
+                      viewPortHandler: viewPortHandler)
+                }
+
                 let sliceXBase = cos(transformedAngle * ChartUtils.Math.FDEG2RAD)
                 let sliceYBase = sin(transformedAngle * ChartUtils.Math.FDEG2RAD)
                 
