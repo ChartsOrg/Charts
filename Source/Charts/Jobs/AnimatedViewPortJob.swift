@@ -40,16 +40,16 @@ open class AnimatedViewPortJob: ViewPortJob
         duration: TimeInterval,
         easing: ChartEasingFunctionBlock?)
     {
+        self.xOrigin = xOrigin
+        self.yOrigin = yOrigin
+        self._duration = duration
+        self._easing = easing
+
         super.init(viewPortHandler: viewPortHandler,
             xValue: xValue,
             yValue: yValue,
             transformer: transformer,
             view: view)
-        
-        self.xOrigin = xOrigin
-        self.yOrigin = yOrigin
-        self._duration = duration
-        self._easing = easing
     }
     
     deinit
