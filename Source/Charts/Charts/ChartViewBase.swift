@@ -198,6 +198,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             
             guard let _data = _data else
             {
+                setNeedsDisplay()
                 return
             }
             
