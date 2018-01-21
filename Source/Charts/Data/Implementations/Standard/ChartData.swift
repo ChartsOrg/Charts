@@ -464,11 +464,6 @@ extension ChartData//: RangeReplaceableCollection
     @objc(addDataSet:)
     public func append(_ newElement: Element)
     {
-        guard !(self is CombinedChartData) else
-        {
-            fatalError("append(_:) not supported for CombinedData")
-        }
-
         _dataSets.append(newElement)
         calcMinMax(dataSet: newElement)
     }
@@ -476,11 +471,6 @@ extension ChartData//: RangeReplaceableCollection
     @objc(removeDataSetByIndex:)
     public func remove(at position: Index) -> Element
     {
-        guard !(self is CombinedChartData) else
-        {
-            fatalError("remove(at:) not supported for CombinedData")
-        }
-
         let element = _dataSets.remove(at: position)
         calcMinMax()
         return element
