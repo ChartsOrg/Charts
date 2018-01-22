@@ -104,7 +104,8 @@ open class BalloonMarker: MarkerImage
         
         if let color = color
         {
-            if offset.y > 0 {
+            if offset.y > 0
+            {
                 context.beginPath()
                 context.move(to: CGPoint(
                     x: rect.origin.x,
@@ -132,7 +133,9 @@ open class BalloonMarker: MarkerImage
                     x: rect.origin.x,
                     y: rect.origin.y + arrowSize.height))
                 context.fillPath()
-            } else {
+            }
+            else
+            {
                 context.beginPath()
                 context.move(to: CGPoint(
                     x: rect.origin.x,
