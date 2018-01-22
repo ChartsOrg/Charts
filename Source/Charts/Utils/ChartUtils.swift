@@ -97,23 +97,6 @@ extension CGPoint
     }
 }
 
-open class ChartUtils
-{
-    private static var _defaultValueFormatter: ValueFormatter = generateDefaultValueFormatter()
-
-    private class func generateDefaultValueFormatter() -> ValueFormatter
-    {
-        let formatter = DefaultValueFormatter(decimals: 1)
-        return formatter
-    }
-
-    /// - returns: The default value formatter used for all chart components that needs a default
-    open class func defaultValueFormatter() -> ValueFormatter
-    {
-        return _defaultValueFormatter
-    }
-}
-
 extension CGContext {
 
     open func drawImage(_ image: NSUIImage, atCenter center: CGPoint, size: CGSize)
