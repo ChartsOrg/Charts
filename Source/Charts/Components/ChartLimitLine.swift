@@ -24,6 +24,7 @@ open class ChartLimitLine: ComponentBase
         case leftBottom
         case rightTop
         case rightBottom
+        case custom
     }
     
     /// limit / maximum (the y-value or xIndex)
@@ -61,7 +62,7 @@ open class ChartLimitLine: ComponentBase
     
     /// set the line width of the chart (min = 0.2, max = 12); default 2
     open var lineWidth: CGFloat
-    {
+        {
         get
         {
             return _lineWidth
