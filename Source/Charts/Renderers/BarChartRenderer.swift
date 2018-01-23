@@ -333,7 +333,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 
                 let buffer = _buffers[dataSetIndex]
                 
-                guard let formatter = dataSet.valueFormatter else { continue }
+                let formatter = dataSet.valueFormatter
                 
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 
