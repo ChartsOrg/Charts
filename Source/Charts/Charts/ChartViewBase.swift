@@ -501,7 +501,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - parameter callDelegate: Should the delegate be called for this change
     @objc open func highlightValue(x: Double, dataSetIndex: Int, dataIndex: Int = -1, callDelegate: Bool)
     {
-        highlightValue(x: x, y: Double.nan, dataSetIndex: dataSetIndex, dataIndex: dataIndex, callDelegate: callDelegate)
+        highlightValue(x: x, y: .nan, dataSetIndex: dataSetIndex, dataIndex: dataIndex, callDelegate: callDelegate)
     }
     
     /// Highlights the value at the given x-value and y-value in the given DataSet.
