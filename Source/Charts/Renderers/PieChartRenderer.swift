@@ -459,13 +459,26 @@ open class PieChartRenderer: DataRenderer
                     }
                     else if drawYOutside
                     {
-                        ChartUtils.drawText(
-                            context: context,
-                            text: valueText,
-                            point: CGPoint(x: labelPoint.x, y: labelPoint.y + lineHeight / 2.0),
-                            align: align,
-                            attributes: [NSAttributedStringKey.font: valueFont, NSAttributedStringKey.foregroundColor: valueTextColor]
-                        )
+                        if let image = pe?.image {
+                            ChartUtils.drawText(
+                                context: context,
+                                text: valueText,
+                                point: CGPoint(x: labelPoint.x, y: labelPoint.y + lineHeight / 2.0),
+                                align: align,
+                                attributes: [NSAttributedStringKey.font: valueFont, NSAttributedStringKey.foregroundColor: valueTextColor]
+                            )
+                            
+                            image.frame = CGRect(x: pt1.x  - 10, y: pt1.y - 10 , width: 20, height: 20)
+                            self.chart?.addSubview(image)
+                        } else {
+                            ChartUtils.drawText(
+                                context: context,
+                                text: valueText,
+                                point: CGPoint(x: labelPoint.x, y: labelPoint.y + lineHeight / 2.0),
+                                align: align,
+                                attributes: [NSAttributedStringKey.font: valueFont, NSAttributedStringKey.foregroundColor: valueTextColor]
+                            )
+                        }
                     }
                 }
                 

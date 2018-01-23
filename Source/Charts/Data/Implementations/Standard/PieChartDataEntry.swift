@@ -23,7 +23,7 @@ open class PieChartDataEntry: ChartDataEntry
     /// - parameter label: The label for the x-axis
     @objc public convenience init(value: Double, label: String?)
     {
-        self.init(value: value, label: label, icon: nil, data: nil)
+        self.init(value: value, label: label, icon: nil, data: nil, imageView: nil)
     }
     
     /// - parameter value: The value on the y-axis
@@ -31,7 +31,7 @@ open class PieChartDataEntry: ChartDataEntry
     /// - parameter data: Spot for additional data this Entry represents
     @objc public convenience init(value: Double, label: String?, data: AnyObject?)
     {
-        self.init(value: value, label: label, icon: nil, data: data)
+        self.init(value: value, label: label, icon: nil, data: data, imageView: nil)
     }
     
     /// - parameter value: The value on the y-axis
@@ -39,38 +39,41 @@ open class PieChartDataEntry: ChartDataEntry
     /// - parameter icon: icon image
     @objc public convenience init(value: Double, label: String?, icon: NSUIImage?)
     {
-        self.init(value: value, label: label, icon: icon, data: nil)
+        self.init(value: value, label: label, icon: icon, data: nil, imageView: nil)
     }
     
     /// - parameter value: The value on the y-axis
     /// - parameter label: The label for the x-axis
     /// - parameter icon: icon image
     /// - parameter data: Spot for additional data this Entry represents
-    @objc public init(value: Double, label: String?, icon: NSUIImage?, data: AnyObject?)
+    /// - parameter imageView: to be shown beside each slice of pie
+
+    @objc public init(value: Double, label: String?, icon: NSUIImage?, data: AnyObject?, imageView: UIImageView?)
     {
         super.init(x: 0.0, y: value, icon: icon, data: data)
         
         self.label = label
+        self.image = imageView
     }
     
     /// - parameter value: The value on the y-axis
     @objc public convenience init(value: Double)
     {
-        self.init(value: value, label: nil, icon: nil, data: nil)
+        self.init(value: value, label: nil, icon: nil, data: nil, imageView: nil)
     }
     
     /// - parameter value: The value on the y-axis
     /// - parameter data: Spot for additional data this Entry represents
     @objc public convenience init(value: Double, data: AnyObject?)
     {
-        self.init(value: value, label: nil, icon: nil, data: data)
+        self.init(value: value, label: nil, icon: nil, data: data, imageView: nil)
     }
     
     /// - parameter value: The value on the y-axis
     /// - parameter icon: icon image
     @objc public convenience init(value: Double, icon: NSUIImage?)
     {
-        self.init(value: value, label: nil, icon: icon, data: nil)
+        self.init(value: value, label: nil, icon: icon, data: nil, imageView: nil)
     }
     
     /// - parameter value: The value on the y-axis
@@ -78,19 +81,35 @@ open class PieChartDataEntry: ChartDataEntry
     /// - parameter data: Spot for additional data this Entry represents
     @objc public convenience init(value: Double, icon: NSUIImage?, data: AnyObject?)
     {
-        self.init(value: value, label: nil, icon: icon, data: data)
+        self.init(value: value, label: nil, icon: icon, data: data, imageView: nil)
     }
     
     // MARK: Data property accessors
     
     @objc open var label: String?
+    @objc open var image: UIImageView?
     
     @objc open var value: Double
     {
         get { return y }
         set { y = newValue }
     }
-        
+
+    @available(*, deprecated: 1.0, message: "Pie entries do not have x values")
+    open override var x: Double
+        {
+        get
+        {
+            print("Pie entries do not have x values")
+            return super.x
+        }
+        set
+        {
+            super.x = newValue
+            print("Pie entries do not have x values")
+        }
+    }
+
     // MARK: NSCopying
     
     open override func copyWithZone(_ zone: NSZone?) -> AnyObject
