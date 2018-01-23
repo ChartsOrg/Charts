@@ -27,7 +27,7 @@ open class BarChartData: BarLineScatterCandleBubbleChartData
     /// The width of the bars on the x-axis, in values (not pixels)
     ///
     /// **default**: 0.85
-    open var barWidth = Double(0.85)
+    @objc open var barWidth = Double(0.85)
     
     /// Groups all BarDataSet objects this data object holds together by modifying the x-value of their entries.
     /// Previously set x-values of entries will be overwritten. Leaves space between bars and groups as specified by the parameters.
@@ -36,7 +36,7 @@ open class BarChartData: BarLineScatterCandleBubbleChartData
     /// - parameter the starting point on the x-axis where the grouping should begin
     /// - parameter groupSpace: The space between groups of bars in values (not pixels) e.g. 0.8f for bar width 1f
     /// - parameter barSpace: The space between individual bars in values (not pixels) e.g. 0.1f for bar width 1f
-    open func groupBars(fromX: Double, groupSpace: Double, barSpace: Double)
+    @objc open func groupBars(fromX: Double, groupSpace: Double, barSpace: Double)
     {
         let setCount = _dataSets.count
         if setCount <= 1
@@ -61,8 +61,7 @@ open class BarChartData: BarLineScatterCandleBubbleChartData
             let start = fromX
             fromX += groupSpaceWidthHalf
             
-            for set in _dataSets as! [IBarChartDataSet]
-            {
+            (_dataSets as? [IBarChartDataSet])?.forEach { set in
                 fromX += barSpaceHalf
                 fromX += barWidthHalf
                 
@@ -98,7 +97,7 @@ open class BarChartData: BarLineScatterCandleBubbleChartData
     ///
     /// - parameter groupSpace:
     /// - parameter barSpace:
-    open func groupWidth(groupSpace: Double, barSpace: Double) -> Double
+    @objc open func groupWidth(groupSpace: Double, barSpace: Double) -> Double
     {
         return Double(_dataSets.count) * (self.barWidth + barSpace) + groupSpace
     }
