@@ -40,8 +40,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     // MARK: - Properties
     
     /// The default IValueFormatter that has been determined by the chart considering the provided minimum and maximum values.
-    internal var _defaultValueFormatter: ValueFormatter? = DefaultValueFormatter(decimals: 0)
-    
+    internal lazy var defaultValueFormatter: ValueFormatter = DefaultValueFormatter(decimals: 0)
+
     /// The data for the chart
     @objc open var data: ChartData?
         {
@@ -56,9 +56,9 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
 
             for set in data.dataSets
             {
-                if set.needsFormatter || set.valueFormatter === _defaultValueFormatter
+                if set.valueFormatter === defaultValueFormatter
                 {
-                    set.valueFormatter = _defaultValueFormatter
+                    set.valueFormatter = defaultValueFormatter
                 }
             }
 
@@ -250,7 +250,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         }
         
     
-        if let formatter = _defaultValueFormatter as? DefaultValueFormatter
+        if let formatter = defaultValueFormatter as? DefaultValueFormatter
         {
             // setup the formatter with a new number of digits
             let digits = reference.decimalPlaces

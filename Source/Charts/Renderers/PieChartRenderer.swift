@@ -321,7 +321,7 @@ open class PieChartRenderer: NSObject, DataRenderer
             let entryLabelFont = dataSet.entryLabelFont
             let lineHeight = valueFont.lineHeight
             
-            guard let formatter = dataSet.valueFormatter else { continue }
+            let formatter = dataSet.valueFormatter
             
             for j in 0 ..< dataSet.entryCount
             {

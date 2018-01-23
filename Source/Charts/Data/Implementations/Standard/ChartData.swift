@@ -400,11 +400,6 @@ extension ChartData: RangeReplaceableCollection
     @objc(addDataSet:)
     public func append(_ newElement: Element)
     {
-        guard !(self is CombinedChartData) else
-        {
-            fatalError("append(_:) not supported for CombinedData")
-        }
-
         _dataSets.append(newElement)
         calcMinMax(dataSet: newElement)
     }
@@ -412,11 +407,6 @@ extension ChartData: RangeReplaceableCollection
     @objc(removeDataSetByIndex:)
     public func remove(at position: Index) -> Element
     {
-        guard !(self is CombinedChartData) else
-        {
-            fatalError("remove(at:) not supported for CombinedData")
-        }
-
         let element = _dataSets.remove(at: position)
         calcMinMax()
         return element
@@ -468,7 +458,7 @@ extension ChartData: RangeReplaceableCollection
         notifyDataChanged()
     }
 
-    public func removeSubrange<R>(_ bounds: R) where R : RangeExpression, ChartData.Index == R.Bound
+    public func removeSubrange<R>(_ bounds: R) where R : RangeExpression, Index == R.Bound
     {
         guard !(self is CombinedChartData) else
         {
@@ -488,6 +478,17 @@ extension ChartData: RangeReplaceableCollection
 
         _dataSets.removeAll(keepingCapacity: keepCapacity)
         notifyDataChanged()
+    }
+
+    public func replaceSubrange<C>(_ subrange: Swift.Range<Index>, with newElements: C) where C : Collection, Element == C.Element
+    {
+        guard !(self is CombinedChartData) else
+        {
+            fatalError("replaceSubrange<C>(_:) not supported for CombinedData")
+        }
+
+        _dataSets.replaceSubrange(subrange, with: newElements)
+        newElements.forEach { self.calcMinMax(dataSet: $0) }
     }
 }
 
