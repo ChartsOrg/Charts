@@ -21,7 +21,7 @@ open class PieChartRenderer: NSObject, DataRenderer
 {
     public let viewPortHandler: ViewPortHandler
     public let animator: Animator
-
+    
     @objc open weak var chart: PieChartView?
     
     @objc public init(chart: PieChartView, animator: Animator, viewPortHandler: ViewPortHandler)
@@ -29,7 +29,7 @@ open class PieChartRenderer: NSObject, DataRenderer
         self.viewPortHandler = viewPortHandler
         self.animator = animator
         self.chart = chart
-
+        
         super.init()
     }
     
@@ -109,7 +109,7 @@ open class PieChartRenderer: NSObject, DataRenderer
         
         return sliceSpace
     }
-
+    
     @objc open func drawDataSet(context: CGContext, dataSet: PieChartDataSetProtocol)
     {
         guard let chart = chart else {return }
@@ -138,7 +138,7 @@ open class PieChartRenderer: NSObject, DataRenderer
         }
         
         let sliceSpace = visibleAngleCount <= 1 ? 0.0 : getSliceSpace(dataSet: dataSet)
-
+        
         context.saveGState()
         
         for j in 0 ..< entryCount
@@ -169,14 +169,14 @@ open class PieChartRenderer: NSObject, DataRenderer
                     
                     let arcStartPointX = center.x + radius * cos(startAngleOuter.DEG2RAD)
                     let arcStartPointY = center.y + radius * sin(startAngleOuter.DEG2RAD)
-
+                    
                     let path = CGMutablePath()
                     
                     path.move(to: CGPoint(x: arcStartPointX,
                                           y: arcStartPointY))
                     
                     path.addRelativeArc(center: center, radius: radius, startAngle: startAngleOuter.DEG2RAD, delta: sweepAngleOuter.DEG2RAD)
-
+                    
                     if drawInnerArc &&
                         (innerRadius > 0.0 || accountForSliceSpacing)
                     {
@@ -230,7 +230,7 @@ open class PieChartRenderer: NSObject, DataRenderer
                                     arcStartPointY: arcStartPointY,
                                     startAngle: startAngleOuter,
                                     sweepAngle: sweepAngleOuter)
-
+                            
                             let arcEndPointX = center.x + sliceSpaceOffset * cos(angleMiddle.DEG2RAD)
                             let arcEndPointY = center.y + sliceSpaceOffset * sin(angleMiddle.DEG2RAD)
                             
@@ -343,7 +343,7 @@ open class PieChartRenderer: NSObject, DataRenderer
                 
                 // offset needed to center the drawn text in the slice
                 let angleOffset = (sliceAngle - sliceSpaceMiddleAngle / 2.0) / 2.0
-
+                
                 angle = angle + angleOffset
                 
                 let transformedAngle = rotationAngle + angle * CGFloat(phaseY)
@@ -455,13 +455,25 @@ open class PieChartRenderer: NSObject, DataRenderer
                         }
                     }
                     else if drawYOutside
+                        
                     {
-                        context.drawText(valueText,
-                                         at: CGPoint(x: labelPoint.x,
-                                                     y: labelPoint.y + lineHeight / 2.0),
-                                         align: align,
-                                         attributes: [.font: valueFont,
-                                                      .foregroundColor: valueTextColor])
+                        if let image = pe?.image {
+                            context.drawText(valueText,
+                                             at: CGPoint(x: labelPoint.x + (sliceXBase * 10), y: (labelPoint.y + lineHeight / 2.0) + (sliceYBase * 10)),
+                                             align: align,
+                                             attributes: [.font: valueFont,
+                                                          .foregroundColor: valueTextColor])
+                            
+                            image.frame = CGRect(x: pt1.x  - 10, y: pt1.y - 10 , width: 20, height: 20)
+                            self.chart?.addSubview(image)
+                        } else {
+                            context.drawText(valueText,
+                                             at: CGPoint(x: labelPoint.x,
+                                                         y: labelPoint.y + lineHeight / 2.0),
+                                             align: align,
+                                             attributes: [.font: valueFont,
+                                                          .foregroundColor: valueTextColor])
+                        }
                     }
                 }
                 
@@ -470,7 +482,7 @@ open class PieChartRenderer: NSObject, DataRenderer
                     // calculate the text position
                     let x = labelRadius * sliceXBase + center.x
                     let y = labelRadius * sliceYBase + center.y - lineHeight
-
+                    
                     if drawXInside && drawYInside
                     {
                         context.drawText(valueText,
@@ -519,7 +531,7 @@ open class PieChartRenderer: NSObject, DataRenderer
                                       atCenter: CGPoint(x: x, y: y),
                                       size: icon.size)
                 }
-
+                
                 xIndex += 1
             }
         }
@@ -530,15 +542,15 @@ open class PieChartRenderer: NSObject, DataRenderer
         drawHole(context: context)
         drawCenterText(context: context)
     }
-
+    
     open func initBuffers() { }
-
+    
     open func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
     {
         guard let data = dataProvider?.data else { return false }
         return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
     }
-
+    
     /// draws the hole in the center of the chart and the transparent circle / hole
     private func drawHole(context: CGContext)
     {
@@ -632,7 +644,7 @@ open class PieChartRenderer: NSObject, DataRenderer
             drawingRect.size = textBounds.size
             
             context.saveGState()
-
+            
             let clippingPath = CGPath(ellipseIn: holeRect, transform: nil)
             context.beginPath()
             context.addPath(clippingPath)
@@ -681,7 +693,7 @@ open class PieChartRenderer: NSObject, DataRenderer
             {
                 continue
             }
-
+            
             let entryCount = set.entryCount
             var visibleAngleCount = 0
             for j in 0 ..< entryCount
@@ -713,7 +725,7 @@ open class PieChartRenderer: NSObject, DataRenderer
             let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
             
             context.setFillColor(set.highlightColor?.cgColor ?? set.color(atIndex: index).cgColor)
-
+            
             let sliceSpaceAngleOuter = visibleAngleCount == 1 ?
                 0.0 :
                 sliceSpace / radius.DEG2RAD
