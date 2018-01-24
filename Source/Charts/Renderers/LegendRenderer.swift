@@ -20,9 +20,9 @@ import CoreGraphics
 open class LegendRenderer: Renderer
 {
     /// the legend object this renderer renders
-    @objc open var legend: Legend?
+    open var legend: Legend?
 
-    @objc public init(viewPortHandler: ViewPortHandler, legend: Legend?)
+    public init(viewPortHandler: ViewPortHandler?, legend: Legend?)
     {
         super.init(viewPortHandler: viewPortHandler)
         
@@ -30,9 +30,12 @@ open class LegendRenderer: Renderer
     }
 
     /// Prepares the legend and calculates all needed forms, labels and colors.
-    @objc open func computeLegend(data: ChartData)
+    open func computeLegend(data: ChartData)
     {
-        guard let legend = legend else { return }
+        guard
+            let legend = legend,
+            let viewPortHandler = self.viewPortHandler
+            else { return }
         
         if !legend.isLegendCustom
         {
@@ -41,7 +44,7 @@ open class LegendRenderer: Renderer
             // loop for building up the colors and labels used in the legend
             for i in 0..<data.dataSetCount
             {
-                guard let dataSet = data.getDataSetByIndex(i) else { continue }
+                let dataSet = data.getDataSetByIndex(i)!
                 
                 var clrs: [NSUIColor] = dataSet.colors
                 let entryCount = dataSet.entryCount
@@ -189,9 +192,12 @@ open class LegendRenderer: Renderer
         legend.calculateDimensions(labelFont: legend.font, viewPortHandler: viewPortHandler)
     }
     
-    @objc open func renderLegend(context: CGContext)
+    open func renderLegend(context: CGContext)
     {
-        guard let legend = legend else { return }
+        guard
+            let legend = legend,
+            let viewPortHandler = self.viewPortHandler
+            else { return }
         
         if !legend.enabled
         {
@@ -462,7 +468,7 @@ open class LegendRenderer: Renderer
                     
                     if direction == .rightToLeft
                     {
-                        posX -= (e.label as NSString!).size(withAttributes: [NSAttributedStringKey.font: labelFont]).width
+                        posX -= (e.label as NSString!).size(attributes: [NSFontAttributeName: labelFont]).width
                     }
                     
                     if !wasStacked
@@ -488,10 +494,10 @@ open class LegendRenderer: Renderer
         }
     }
 
-    private var _formLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
+    fileprivate var _formLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
     /// Draws the Legend-form at the given position with the color at the given index.
-    @objc open func drawForm(
+    open func drawForm(
         context: CGContext,
         x: CGFloat,
         y: CGFloat,
@@ -563,8 +569,8 @@ open class LegendRenderer: Renderer
     }
 
     /// Draws the provided label at the given position.
-    @objc open func drawLabel(context: CGContext, x: CGFloat, y: CGFloat, label: String, font: NSUIFont, textColor: NSUIColor)
+    open func drawLabel(context: CGContext, x: CGFloat, y: CGFloat, label: String, font: NSUIFont, textColor: NSUIColor)
     {
-        ChartUtils.drawText(context: context, text: label, point: CGPoint(x: x, y: y), align: .left, attributes: [NSAttributedStringKey.font: font, NSAttributedStringKey.foregroundColor: textColor])
+        ChartUtils.drawText(context: context, text: label, point: CGPoint(x: x, y: y), align: .left, attributes: [NSFontAttributeName: font, NSForegroundColorAttributeName: textColor])
     }
 }

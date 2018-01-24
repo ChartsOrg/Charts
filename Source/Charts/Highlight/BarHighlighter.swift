@@ -17,25 +17,30 @@ open class BarHighlighter: ChartHighlighter
 {
     open override func getHighlight(x: CGFloat, y: CGFloat) -> Highlight?
     {
-        guard
-            let barData = (self.chart as? BarChartDataProvider)?.barData,
-            let high = super.getHighlight(x: x, y: y)
-            else { return nil }
+        let high = super.getHighlight(x: x, y: y)
         
-        let pos = getValsForTouch(x: x, y: y)
-
-        if let set = barData.getDataSetByIndex(high.dataSetIndex) as? IBarChartDataSet,
-            set.isStacked
+        if high == nil
         {
-            return getStackedHighlight(high: high,
-                                       set: set,
-                                       xValue: Double(pos.x),
-                                       yValue: Double(pos.y))
+            return nil
         }
-        else
+        
+        if let barData = (self.chart as? BarChartDataProvider)?.barData
         {
+            let pos = getValsForTouch(x: x, y: y)
+            
+            if
+                let set = barData.getDataSetByIndex(high!.dataSetIndex) as? IBarChartDataSet,
+                set.isStacked
+            {
+                return getStackedHighlight(high: high!,
+                                           set: set,
+                                           xValue: Double(pos.x),
+                                           yValue: Double(pos.y))
+            }
+            
             return high
         }
+        return nil
     }
     
     internal override func getDistance(x1: CGFloat, y1: CGFloat, x2: CGFloat, y2: CGFloat) -> CGFloat
@@ -54,7 +59,7 @@ open class BarHighlighter: ChartHighlighter
     /// - parameter xIndex:
     /// - parameter yValue:
     /// - returns:
-    @objc open func getStackedHighlight(high: Highlight,
+    open func getStackedHighlight(high: Highlight,
                                   set: IBarChartDataSet,
                                   xValue: Double,
                                   yValue: Double) -> Highlight?
@@ -70,36 +75,41 @@ open class BarHighlighter: ChartHighlighter
             return high
         }
         
-        guard
-            let ranges = entry.ranges,
+        if let ranges = entry.ranges,
             ranges.count > 0
-            else { return nil }
-
-        let stackIndex = getClosestStackIndex(ranges: ranges, value: yValue)
-        let pixel = chart
-            .getTransformer(forAxis: set.axisDependency)
-            .pixelForValues(x: high.x, y: ranges[stackIndex].to)
-
-        return Highlight(x: entry.x,
-                         y: entry.y,
-                         xPx: pixel.x,
-                         yPx: pixel.y,
-                         dataSetIndex: high.dataSetIndex,
-                         stackIndex: stackIndex,
-                         axis: high.axis)
+        {
+            let stackIndex = getClosestStackIndex(ranges: ranges, value: yValue)
+            
+            let pixel = chart
+                .getTransformer(forAxis: set.axisDependency)
+                .pixelForValues(x: high.x, y: ranges[stackIndex].to)
+            
+            return Highlight(x: entry.x,
+                             y: entry.y,
+                             xPx: pixel.x,
+                             yPx: pixel.y,
+                             dataSetIndex: high.dataSetIndex,
+                             stackIndex: stackIndex,
+                             axis: high.axis)
+        }
+        
+        return nil
     }
     
     /// - returns: The index of the closest value inside the values array / ranges (stacked barchart) to the value given as a parameter.
     /// - parameter entry:
     /// - parameter value:
     /// - returns:
-    @objc open func getClosestStackIndex(ranges: [Range]?, value: Double) -> Int
+    open func getClosestStackIndex(ranges: [Range]?, value: Double) -> Int
     {
-        guard let ranges = ranges else { return 0 }
-
+        if ranges == nil
+        {
+            return 0
+        }
+        
         var stackIndex = 0
         
-        for range in ranges
+        for range in ranges!
         {
             if range.contains(value)
             {
@@ -111,8 +121,8 @@ open class BarHighlighter: ChartHighlighter
             }
         }
         
-        let length = max(ranges.count - 1, 0)
+        let length = max(ranges!.count - 1, 0)
         
-        return (value > ranges[length].to) ? length : 0
+        return (value > ranges![length].to) ? length : 0
     }
 }

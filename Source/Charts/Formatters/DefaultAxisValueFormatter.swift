@@ -18,12 +18,12 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
         _ value: Double,
         _ axis: AxisBase?) -> String
     
-    @objc open var block: Block?
+    open var block: Block?
     
-    @objc open var hasAutoDecimals: Bool = false
+    open var hasAutoDecimals: Bool = false
     
-    private var _formatter: NumberFormatter?
-    @objc open var formatter: NumberFormatter?
+    fileprivate var _formatter: NumberFormatter?
+    open var formatter: NumberFormatter?
     {
         get { return _formatter }
         set
@@ -32,9 +32,8 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
             _formatter = newValue
         }
     }
-
-    // TODO: Documentation. Especially the nil case
-    private var _decimals: Int?
+    
+    fileprivate var _decimals: Int?
     open var decimals: Int?
     {
         get { return _decimals }
@@ -59,14 +58,14 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
         hasAutoDecimals = true
     }
     
-    @objc public init(formatter: NumberFormatter)
+    public init(formatter: NumberFormatter)
     {
         super.init()
         
         self.formatter = formatter
     }
     
-    @objc public init(decimals: Int)
+    public init(decimals: Int)
     {
         super.init()
         
@@ -76,14 +75,14 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
         hasAutoDecimals = true
     }
     
-    @objc public init(block: @escaping Block)
+    public init(block: @escaping Block)
     {
         super.init()
         
         self.block = block
     }
     
-    @objc public static func with(block: @escaping Block) -> DefaultAxisValueFormatter?
+    public static func with(block: @escaping Block) -> DefaultAxisValueFormatter?
     {
         return DefaultAxisValueFormatter(block: block)
     }
@@ -91,10 +90,14 @@ open class DefaultAxisValueFormatter: NSObject, IAxisValueFormatter
     open func stringForValue(_ value: Double,
                                axis: AxisBase?) -> String
     {
-        if let block = block {
-            return block(value, axis)
-        } else {
+        if block != nil
+        {
+            return block!(value, axis)
+        }
+        else
+        {
             return formatter?.string(from: NSNumber(floatLiteral: value)) ?? ""
         }
     }
+    
 }

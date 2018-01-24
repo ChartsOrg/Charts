@@ -19,6 +19,26 @@ import CoreGraphics
 @objc(ChartLegend)
 open class Legend: ComponentBase
 {
+    /// This property is deprecated - Use `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.
+    @available(*, deprecated: 1.0, message: "Use `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.")
+    @objc(ChartLegendPosition)
+    public enum Position: Int
+    {
+        case rightOfChart
+        case rightOfChartCenter
+        case rightOfChartInside
+        case leftOfChart
+        case leftOfChartCenter
+        case leftOfChartInside
+        case belowChartLeft
+        case belowChartRight
+        case belowChartCenter
+        case aboveChartLeft
+        case aboveChartRight
+        case aboveChartCenter
+        case piechartCenter
+    }
+    
     @objc(ChartLegendForm)
     public enum Form: Int
     {
@@ -72,67 +92,142 @@ open class Legend: ComponentBase
     }
     
     /// The legend entries array
-    @objc open var entries = [LegendEntry]()
+    open var entries = [LegendEntry]()
     
     /// Entries that will be appended to the end of the auto calculated entries after calculating the legend.
     /// (if the legend has already been calculated, you will need to call notifyDataSetChanged() to let the changes take effect)
-    @objc open var extraEntries = [LegendEntry]()
+    open var extraEntries = [LegendEntry]()
     
     /// Are the legend labels/colors a custom value or auto calculated? If false, then it's auto, if true, then custom.
     /// 
     /// **default**: false (automatic legend)
-    private var _isLegendCustom = false
-
+    fileprivate var _isLegendCustom = false
+    
+    /// This property is deprecated - Use `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.
+    @available(*, deprecated: 1.0, message: "Use `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.")
+    open var position: Position
+    {
+        get
+        {
+            if orientation == .vertical && horizontalAlignment == .center && verticalAlignment == .center
+            {
+                return .piechartCenter
+            }
+            else if orientation == .horizontal
+            {
+                if verticalAlignment == .top
+                {
+                    return horizontalAlignment == .left ? .aboveChartLeft : (horizontalAlignment == .right ? .aboveChartRight : .aboveChartCenter)
+                }
+                else
+                {
+                    return horizontalAlignment == .left ? .belowChartLeft : (horizontalAlignment == .right ? .belowChartRight : .belowChartCenter)
+                }
+            }
+            else
+            {
+                if horizontalAlignment == .left
+                {
+                    return verticalAlignment == .top && drawInside ? .leftOfChartInside : (verticalAlignment == .center ? .leftOfChartCenter : .leftOfChart)
+                }
+                else
+                {
+                    return verticalAlignment == .top && drawInside ? .rightOfChartInside : (verticalAlignment == .center ? .rightOfChartCenter : .rightOfChart)
+                }
+            }
+        }
+        set
+        {
+            switch newValue
+            {
+            case .leftOfChart: fallthrough
+            case .leftOfChartInside: fallthrough
+            case .leftOfChartCenter:
+                horizontalAlignment = .left
+                verticalAlignment = newValue == .leftOfChartCenter ? .center : .top
+                orientation = .vertical
+                
+            case .rightOfChart: fallthrough
+            case .rightOfChartInside: fallthrough
+            case .rightOfChartCenter:
+                horizontalAlignment = .right
+                verticalAlignment = newValue == .rightOfChartCenter ? .center : .top
+                orientation = .vertical
+                
+            case .aboveChartLeft: fallthrough
+            case .aboveChartCenter: fallthrough
+            case .aboveChartRight:
+                horizontalAlignment = newValue == .aboveChartLeft ? .left : (newValue == .aboveChartRight ? .right : .center)
+                verticalAlignment = .top
+                orientation = .horizontal
+                
+            case .belowChartLeft: fallthrough
+            case .belowChartCenter: fallthrough
+            case .belowChartRight:
+                horizontalAlignment = newValue == .belowChartLeft ? .left : (newValue == .belowChartRight ? .right : .center)
+                verticalAlignment = .bottom
+                orientation = .horizontal
+                
+            case .piechartCenter:
+                horizontalAlignment = .center
+                verticalAlignment = .center
+                orientation = .vertical
+            }
+            
+            drawInside = newValue == .leftOfChartInside || newValue == .rightOfChartInside
+        }
+    }
+    
     /// The horizontal alignment of the legend
-    @objc open var horizontalAlignment: HorizontalAlignment = HorizontalAlignment.left
+    open var horizontalAlignment: HorizontalAlignment = HorizontalAlignment.left
     
     /// The vertical alignment of the legend
-    @objc open var verticalAlignment: VerticalAlignment = VerticalAlignment.bottom
+    open var verticalAlignment: VerticalAlignment = VerticalAlignment.bottom
     
     /// The orientation of the legend
-    @objc open var orientation: Orientation = Orientation.horizontal
+    open var orientation: Orientation = Orientation.horizontal
     
     /// Flag indicating whether the legend will draw inside the chart or outside
-    @objc open var drawInside: Bool = false
+    open var drawInside: Bool = false
     
     /// Flag indicating whether the legend will draw inside the chart or outside
-    @objc open var isDrawInsideEnabled: Bool { return drawInside }
+    open var isDrawInsideEnabled: Bool { return drawInside }
     
     /// The text direction of the legend
-    @objc open var direction: Direction = Direction.leftToRight
+    open var direction: Direction = Direction.leftToRight
 
-    @objc open var font: NSUIFont = NSUIFont.systemFont(ofSize: 10.0)
-    @objc open var textColor = NSUIColor.black
+    open var font: NSUIFont = NSUIFont.systemFont(ofSize: 10.0)
+    open var textColor = NSUIColor.black
 
     /// The form/shape of the legend forms
-    @objc open var form = Form.square
+    open var form = Form.square
     
     /// The size of the legend forms
-    @objc open var formSize = CGFloat(8.0)
+    open var formSize = CGFloat(8.0)
     
     /// The line width for forms that consist of lines
-    @objc open var formLineWidth = CGFloat(3.0)
+    open var formLineWidth = CGFloat(3.0)
     
     /// Line dash configuration for shapes that consist of lines.
     ///
     /// This is how much (in pixels) into the dash pattern are we starting from.
-    @objc open var formLineDashPhase: CGFloat = 0.0
+    open var formLineDashPhase: CGFloat = 0.0
     
     /// Line dash configuration for shapes that consist of lines.
     ///
     /// This is the actual dash pattern.
     /// I.e. [2, 3] will paint [--   --   ]
     /// [1, 3, 4, 2] will paint [-   ----  -   ----  ]
-    @objc open var formLineDashLengths: [CGFloat]?
+    open var formLineDashLengths: [CGFloat]?
     
-    @objc open var xEntrySpace = CGFloat(6.0)
-    @objc open var yEntrySpace = CGFloat(0.0)
-    @objc open var formToTextSpace = CGFloat(5.0)
-    @objc open var stackSpace = CGFloat(3.0)
+    open var xEntrySpace = CGFloat(6.0)
+    open var yEntrySpace = CGFloat(0.0)
+    open var formToTextSpace = CGFloat(5.0)
+    open var stackSpace = CGFloat(3.0)
     
-    @objc open var calculatedLabelSizes = [CGSize]()
-    @objc open var calculatedLabelBreakPoints = [Bool]()
-    @objc open var calculatedLineSizes = [CGSize]()
+    open var calculatedLabelSizes = [CGSize]()
+    open var calculatedLabelBreakPoints = [Bool]()
+    open var calculatedLineSizes = [CGSize]()
     
     public override init()
     {
@@ -142,14 +237,14 @@ open class Legend: ComponentBase
         self.yOffset = 3.0
     }
     
-    @objc public init(entries: [LegendEntry])
+    public init(entries: [LegendEntry])
     {
         super.init()
         
         self.entries = entries
     }
     
-    @objc open func getMaximumEntrySize(withFont font: NSUIFont) -> CGSize
+    open func getMaximumEntrySize(withFont font: NSUIFont) -> CGSize
     {
         var maxW = CGFloat(0.0)
         var maxH = CGFloat(0.0)
@@ -167,7 +262,7 @@ open class Legend: ComponentBase
             guard let label = entry.label
                 else { continue }
             
-            let size = (label as NSString!).size(withAttributes: [NSAttributedStringKey.font: font])
+            let size = (label as NSString!).size(attributes: [NSFontAttributeName: font])
             
             if size.width > maxW
             {
@@ -185,29 +280,29 @@ open class Legend: ComponentBase
         )
     }
 
-    @objc open var neededWidth = CGFloat(0.0)
-    @objc open var neededHeight = CGFloat(0.0)
-    @objc open var textWidthMax = CGFloat(0.0)
-    @objc open var textHeightMax = CGFloat(0.0)
+    open var neededWidth = CGFloat(0.0)
+    open var neededHeight = CGFloat(0.0)
+    open var textWidthMax = CGFloat(0.0)
+    open var textHeightMax = CGFloat(0.0)
     
     /// flag that indicates if word wrapping is enabled
     /// this is currently supported only for `orientation == Horizontal`.
     /// you may want to set maxSizePercent when word wrapping, to set the point where the text wraps.
     /// 
     /// **default**: true
-    @objc open var wordWrapEnabled = true
+    open var wordWrapEnabled = true
     
     /// if this is set, then word wrapping the legend is enabled.
-    @objc open var isWordWrapEnabled: Bool { return wordWrapEnabled }
+    open var isWordWrapEnabled: Bool { return wordWrapEnabled }
 
     /// The maximum relative size out of the whole chart view in percent.
     /// If the legend is to the right/left of the chart, then this affects the width of the legend.
     /// If the legend is to the top/bottom of the chart, then this affects the height of the legend.
     /// 
     /// **default**: 0.95 (95%)
-    @objc open var maxSizePercent: CGFloat = 0.95
+    open var maxSizePercent: CGFloat = 0.95
     
-    @objc open func calculateDimensions(labelFont: NSUIFont, viewPortHandler: ViewPortHandler)
+    open func calculateDimensions(labelFont: NSUIFont, viewPortHandler: ViewPortHandler)
     {
         let maxEntrySize = getMaximumEntrySize(withFont: labelFont)
         let defaultFormSize = self.formSize
@@ -256,7 +351,7 @@ open class Legend: ComponentBase
                 
                 if label != nil
                 {
-                    let size = (label as NSString!).size(withAttributes: [NSAttributedStringKey.font: labelFont])
+                    let size = (label as NSString!).size(attributes: [NSFontAttributeName: labelFont])
                     
                     if drawingForm && !wasStacked
                     {
@@ -315,7 +410,7 @@ open class Legend: ComponentBase
             
             // Start calculating layout
             
-            let labelAttrs = [NSAttributedStringKey.font: labelFont]
+            let labelAttrs = [NSFontAttributeName: labelFont]
             var maxLineWidth: CGFloat = 0.0
             var currentLineWidth: CGFloat = 0.0
             var requiredWidth: CGFloat = 0.0
@@ -343,7 +438,7 @@ open class Legend: ComponentBase
                 // grouped forms have null labels
                 if label != nil
                 {
-                    calculatedLabelSizes[i] = (label as NSString!).size(withAttributes: labelAttrs)
+                    calculatedLabelSizes[i] = (label as NSString!).size(attributes: labelAttrs)
                     requiredWidth += drawingForm ? formToTextSpace + formSize : 0.0
                     requiredWidth += calculatedLabelSizes[i].width
                 }
@@ -407,22 +502,358 @@ open class Legend: ComponentBase
     /// * A nil label will start a group.
     /// This will disable the feature that automatically calculates the legend entries from the datasets.
     /// Call `resetCustom(...)` to re-enable automatic calculation (and then `notifyDataSetChanged()` is needed).
-    @objc open func setCustom(entries: [LegendEntry])
+    open func setCustom(entries: [LegendEntry])
     {
         self.entries = entries
         _isLegendCustom = true
     }
     
     /// Calling this will disable the custom legend entries (set by `setLegend(...)`). Instead, the entries will again be calculated automatically (after `notifyDataSetChanged()` is called).
-    @objc open func resetCustom()
+    open func resetCustom()
     {
         _isLegendCustom = false
     }
     
     /// **default**: false (automatic legend)
     /// - returns: `true` if a custom legend entries has been set
-    @objc open var isLegendCustom: Bool
+    open var isLegendCustom: Bool
     {
         return _isLegendCustom
+    }
+    
+    // MARK: - Deprecated stuff
+    
+    /// This property is deprecated - Use `entries`.
+    @available(*, deprecated: 1.0, message: "Use `entries`.")
+    open var colors: [NSUIColor?]
+    {
+        get
+        {
+            var old = [NSUIColor?]()
+            for e in entries
+            {
+                old.append(
+                    e.form == .none ? nil :
+                        (e.form == .empty ? NSUIColor.clear :
+                        e.formColor))
+            }
+            return old
+        }
+        set
+        {
+            for i in 0 ..< newValue.count
+            {
+                if entries.count <= i
+                {
+                    entries.append(LegendEntry())
+                }
+                entries[i].formColor = newValue[i]
+                
+                if newValue[i] == nil
+                {
+                    entries[i].form = .none
+                }
+                else if newValue[i] == NSUIColor.clear
+                {
+                    entries[i].form = .empty
+                }
+            }
+        }
+    }
+    
+    /// This property is deprecated - Use `entries`.
+    @available(*, deprecated: 1.0, message: "Use `entries`.")
+    open var labels: [String?]
+    {
+        get
+        {
+            var old = [String?]()
+            for e in entries
+            {
+                old.append(e.label)
+            }
+            return old
+        }
+        set
+        {
+            for i in 0 ..< newValue.count
+            {
+                if entries.count <= i
+                {
+                    entries.append(LegendEntry())
+                }
+                entries[i].label = newValue[i]
+            }
+        }
+    }
+    
+    
+    /// This property is deprecated - Use `extraEntries`.
+    @available(*, deprecated: 1.0, message: "Use `extraEntries`.")
+    open var extraColors: [NSUIColor?]
+    {
+        get
+        {
+            var old = [NSUIColor?]()
+            for e in extraEntries
+            {
+                old.append(
+                    e.form == .none ? nil :
+                        (e.form == .empty ? NSUIColor.clear :
+                            e.formColor))
+            }
+            return old
+        }
+        set
+        {
+            if extraEntries.count > newValue.count
+            {
+                extraEntries.removeSubrange(newValue.count ..< extraEntries.count)
+            }
+            
+            for i in 0 ..< newValue.count
+            {
+                extraEntries[i].formColor = newValue[i]
+                
+                if newValue[i] == nil
+                {
+                    extraEntries[i].form = .none
+                }
+                else if newValue[i] == NSUIColor.clear
+                {
+                    extraEntries[i].form = .empty
+                }
+            }
+        }
+    }
+    
+    /// This property is deprecated - Use `extraEntries`.
+    @available(*, deprecated: 1.0, message: "Use `extraEntries`.")
+    open var extraLabels: [String?]
+    {
+        get
+        {
+            var old = [String?]()
+            for e in extraEntries
+            {
+                old.append(e.label)
+            }
+            return old
+        }
+        set
+        {
+            if extraEntries.count > newValue.count
+            {
+                extraEntries.removeSubrange(newValue.count ..< extraEntries.count)
+            }
+            
+            for i in 0 ..< newValue.count
+            {
+                extraEntries[i].label = newValue[i]
+            }
+        }
+    }
+    
+    /// This constructor is deprecated - Use `init(entries:)`
+    @available(*, deprecated: 1.0, message: "Use `init(entries:)`")
+    public init(colors: [NSUIColor?], labels: [String?])
+    {
+        super.init()
+        
+        var entries = [LegendEntry]()
+        
+        for i in 0 ..< min(colors.count, labels.count)
+        {
+            let entry = LegendEntry()
+            entry.formColor = colors[i]
+            entry.label = labels[i]
+            
+            if entry.formColor == nil
+            {
+                entry.form = .none
+            }
+            else if entry.formColor == NSUIColor.clear
+            {
+                entry.form = .empty
+            }
+            
+            entries.append(entry)
+        }
+        
+        self.entries = entries
+    }
+    
+    /// This constructor is deprecated - Use `init(entries:)`
+    @available(*, deprecated: 1.0, message: "Use `init(entries:)`")
+    public init(colors: [NSObject], labels: [NSObject])
+    {
+        super.init()
+        
+        var entries = [LegendEntry]()
+        
+        for i in 0 ..< min(colors.count, labels.count)
+        {
+            let entry = LegendEntry()
+            entry.formColor = colors[i] as? NSUIColor
+            entry.label = labels[i] as? String
+            
+            if entry.formColor == nil
+            {
+                entry.form = .none
+            }
+            else if entry.formColor == NSUIColor.clear
+            {
+                entry.form = .empty
+            }
+            
+            entries.append(entry)
+        }
+        
+        self.entries = entries
+    }
+    
+    /// This property is deprecated - Use `extraEntries`
+    @available(*, deprecated: 1.0, message: "Use `extraEntries`")
+    open var extraColorsObjc: [NSObject]
+    {
+        return ChartUtils.bridgedObjCGetNSUIColorArray(swift: extraColors)
+    }
+    
+    /// This property is deprecated - Use `extraLabels`
+    @available(*, deprecated: 1.0, message: "Use `extraLabels`")
+    open var extraLabelsObjc: [NSObject]
+    {
+        return ChartUtils.bridgedObjCGetStringArray(swift: extraLabels)
+    }
+    
+    /// This property is deprecated - Use `colors`
+    @available(*, deprecated: 1.0, message: "Use `colors`")
+    open var colorsObjc: [NSObject]
+    {
+        get { return ChartUtils.bridgedObjCGetNSUIColorArray(swift: colors) }
+        set { self.colors = ChartUtils.bridgedObjCGetNSUIColorArray(objc: newValue) }
+    }
+    
+    /// This property is deprecated - Use `labels`
+    @available(*, deprecated: 1.0, message: "Use `labels`")
+    open var labelsObjc: [NSObject]
+    {
+        get { return ChartUtils.bridgedObjCGetStringArray(swift: labels) }
+        set { self.labels = ChartUtils.bridgedObjCGetStringArray(objc: newValue) }
+    }
+    
+    /// This function is deprecated - Use `entries`
+    @available(*, deprecated: 1.0, message: "Use `entries`")
+    open func getLabel(_ index: Int) -> String?
+    {
+        return entries[index].label
+    }
+    
+    /// This function is deprecated - Use `Use `extra(entries:)`
+    @available(*, deprecated: 1.0, message: "Use `extra(entries:)`")
+    open func setExtra(colors: [NSUIColor?], labels: [String?])
+    {
+        var entries = [LegendEntry]()
+        
+        for i in 0 ..< min(colors.count, labels.count)
+        {
+            let entry = LegendEntry()
+            entry.formColor = colors[i]
+            entry.label = labels[i]
+            
+            if entry.formColor == nil
+            {
+                entry.form = .none
+            }
+            else if entry.formColor == NSUIColor.clear
+            {
+                entry.form = .empty
+            }
+            
+            entries.append(entry)
+        }
+        
+        self.extraEntries = entries
+    }
+    
+    /// This function is deprecated - Use `Use `extra(entries:)`
+    @available(*, deprecated: 1.0, message: "Use `extra(entries:)`")
+    open func setExtra(colors: [NSObject], labels: [NSObject])
+    {
+        var entries = [LegendEntry]()
+        
+        for i in 0 ..< min(colors.count, labels.count)
+        {
+            let entry = LegendEntry()
+            entry.formColor = colors[i] as? NSUIColor
+            entry.label = labels[i] as? String
+            
+            if entry.formColor == nil
+            {
+                entry.form = .none
+            }
+            else if entry.formColor == NSUIColor.clear
+            {
+                entry.form = .empty
+            }
+            
+            entries.append(entry)
+        }
+        
+        self.extraEntries = entries
+    }
+    
+    /// This function is deprecated - Use `Use `setCustom(entries:)`
+    @available(*, deprecated: 1.0, message: "Use `setCustom(entries:)`")
+    open func setCustom(colors: [NSUIColor?], labels: [String?])
+    {
+        var entries = [LegendEntry]()
+        
+        for i in 0 ..< min(colors.count, labels.count)
+        {
+            let entry = LegendEntry()
+            entry.formColor = colors[i]
+            entry.label = labels[i]
+            
+            if entry.formColor == nil
+            {
+                entry.form = .none
+            }
+            else if entry.formColor == NSUIColor.clear
+            {
+                entry.form = .empty
+            }
+            
+            entries.append(entry)
+        }
+        
+        setCustom(entries: entries)
+    }
+    
+    /// This function is deprecated - Use `Use `setCustom(entries:)`
+    @available(*, deprecated: 1.0, message: "Use `setCustom(entries:)`")
+    open func setCustom(colors: [NSObject], labels: [NSObject])
+    {
+        var entries = [LegendEntry]()
+        
+        for i in 0 ..< min(colors.count, labels.count)
+        {
+            let entry = LegendEntry()
+            entry.formColor = colors[i] as? NSUIColor
+            entry.label = labels[i] as? String
+            
+            if entry.formColor == nil
+            {
+                entry.form = .none
+            }
+            else if entry.formColor == NSUIColor.clear
+            {
+                entry.form = .empty
+            }
+            
+            entries.append(entry)
+        }
+        
+        setCustom(entries: entries)
     }
 }

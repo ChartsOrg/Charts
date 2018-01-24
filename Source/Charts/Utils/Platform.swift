@@ -27,12 +27,12 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     
     extension NSUITapGestureRecognizer
     {
-        @objc final func nsuiNumberOfTouches() -> Int
+        final func nsuiNumberOfTouches() -> Int
         {
             return numberOfTouches
         }
         
-        @objc final var nsuiNumberOfTapsRequired: Int
+        final var nsuiNumberOfTapsRequired: Int
         {
             get
             {
@@ -47,12 +47,12 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     
     extension NSUIPanGestureRecognizer
     {
-        @objc final func nsuiNumberOfTouches() -> Int
+        final func nsuiNumberOfTouches() -> Int
         {
             return numberOfTouches
         }
         
-        @objc final func nsuiLocationOfTouch(_ touch: Int, inView: UIView?) -> CGPoint
+        final func nsuiLocationOfTouch(_ touch: Int, inView: UIView?) -> CGPoint
         {
             return super.location(ofTouch: touch, in: inView)
         }
@@ -61,7 +61,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 #if !os(tvOS)
     extension NSUIRotationGestureRecognizer
     {
-        @objc final var nsuiRotation: CGFloat
+        final var nsuiRotation: CGFloat
         {
             get { return rotation }
             set { rotation = newValue }
@@ -72,7 +72,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 #if !os(tvOS)
     extension NSUIPinchGestureRecognizer
     {
-        @objc final var nsuiScale: CGFloat
+        final var nsuiScale: CGFloat
         {
             get
             {
@@ -84,7 +84,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             }
         }
         
-        @objc final func nsuiLocationOfTouch(_ touch: Int, inView: UIView?) -> CGPoint
+        final func nsuiLocationOfTouch(_ touch: Int, inView: UIView?) -> CGPoint
         {
             return super.location(ofTouch: touch, in: inView)
         }
@@ -113,27 +113,27 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 			self.nsuiTouchesCancelled(touches, withEvent: event)
 		}
 
-		@objc open func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+		open func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
         {
 			super.touchesBegan(touches, with: event!)
 		}
 
-		@objc open func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+		open func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
         {
 			super.touchesMoved(touches, with: event!)
 		}
 
-		@objc open func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+		open func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
         {
 			super.touchesEnded(touches, with: event!)
 		}
 
-		@objc open func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
+		open func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
         {
 			super.touchesCancelled(touches!, with: event!)
 		}
 
-		@objc var nsuiLayer: CALayer?
+		var nsuiLayer: CALayer?
         {
 			return self.layer
 		}
@@ -141,7 +141,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	extension UIView
     {
-		@objc final var nsuiGestureRecognizers: [NSUIGestureRecognizer]?
+		final var nsuiGestureRecognizers: [NSUIGestureRecognizer]?
         {
 			return self.gestureRecognizers
 		}
@@ -149,7 +149,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     
     extension UIScrollView
     {
-        @objc var nsuiIsScrollEnabled: Bool
+        var nsuiIsScrollEnabled: Bool
         {
             get { return isScrollEnabled }
             set { isScrollEnabled = newValue }
@@ -158,7 +158,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     
     extension UIScreen
     {
-        @objc final var nsuiScale: CGFloat
+        final var nsuiScale: CGFloat
         {
             return self.scale
         }
@@ -222,7 +222,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 	public typealias NSUIImage = NSImage
 	public typealias NSUIScrollView = NSScrollView
 	public typealias NSUIGestureRecognizer = NSGestureRecognizer
-	public typealias NSUIGestureRecognizerState = NSGestureRecognizer.State
+	public typealias NSUIGestureRecognizerState = NSGestureRecognizerState
 	public typealias NSUIGestureRecognizerDelegate = NSGestureRecognizerDelegate
 	public typealias NSUITapGestureRecognizer = NSClickGestureRecognizer
 	public typealias NSUIPanGestureRecognizer = NSPanGestureRecognizer
@@ -516,17 +516,28 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             }
 		}
     }
+    
+    extension NSString
+    {
+        // iOS: size(attributes: ...), OSX: size(withAttributes: ...)
+        // Both are translated into sizeWithAttributes: on ObjC. So conflict...
+        @nonobjc
+        func size(attributes attrs: [String : Any]? = nil) -> NSSize
+        {
+            return size(withAttributes: attrs)
+        }
+    }
 
 	func NSUIGraphicsGetCurrentContext() -> CGContext?
     {
-		return NSGraphicsContext.current?.cgContext
+		return NSGraphicsContext.current()?.cgContext
 	}
 
 	func NSUIGraphicsPushContext(_ context: CGContext)
     {
         let cx = NSGraphicsContext(cgContext: context, flipped: true)
 		NSGraphicsContext.saveGraphicsState()
-		NSGraphicsContext.current = cx
+		NSGraphicsContext.setCurrent(cx)
 	}
 
 	func NSUIGraphicsPopContext()
@@ -539,7 +550,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		image.lockFocus()
 		let rep = NSBitmapImageRep(focusedViewRect: NSMakeRect(0, 0, image.size.width, image.size.height))
 		image.unlockFocus()
-        return rep?.representation(using: .png, properties: [:])
+		return rep?.representation(using: NSPNGFileType, properties: [:])
 	}
 
 	func NSUIImageJPEGRepresentation(_ image: NSUIImage, _ quality: CGFloat = 0.9) -> Data?
@@ -547,7 +558,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		image.lockFocus()
 		let rep = NSBitmapImageRep(focusedViewRect: NSMakeRect(0, 0, image.size.width, image.size.height))
 		image.unlockFocus()
-        return rep?.representation(using: .jpeg, properties: [NSBitmapImageRep.PropertyKey.compressionFactor: quality])
+        return rep?.representation(using: NSJPEGFileType, properties: [NSImageCompressionFactor: quality])
 	}
 
 	private var imageContextStack: [CGFloat] = []
@@ -557,7 +568,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 		var scale = scale
 		if scale == 0.0
         {
-            scale = NSScreen.main?.backingScaleFactor ?? 1.0
+			scale = NSScreen.main()?.backingScaleFactor ?? 1.0
 		}
 
 		let width = Int(size.width * scale)
@@ -607,7 +618,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	func NSUIMainScreen() -> NSUIScreen?
     {
-		return NSUIScreen.main
+		return NSUIScreen.main()
 	}
     
 #endif

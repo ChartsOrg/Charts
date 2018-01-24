@@ -22,14 +22,14 @@ open class AnimatedViewPortJob: ViewPortJob
     internal var xOrigin: CGFloat = 0.0
     internal var yOrigin: CGFloat = 0.0
     
-    private var _startTime: TimeInterval = 0.0
-    private var _displayLink: NSUIDisplayLink!
-    private var _duration: TimeInterval = 0.0
-    private var _endTime: TimeInterval = 0.0
+    fileprivate var _startTime: TimeInterval = 0.0
+    fileprivate var _displayLink: NSUIDisplayLink!
+    fileprivate var _duration: TimeInterval = 0.0
+    fileprivate var _endTime: TimeInterval = 0.0
     
-    private var _easing: ChartEasingFunctionBlock?
+    fileprivate var _easing: ChartEasingFunctionBlock?
     
-    @objc public init(
+    public init(
         viewPortHandler: ViewPortHandler,
         xValue: Double,
         yValue: Double,
@@ -62,7 +62,7 @@ open class AnimatedViewPortJob: ViewPortJob
         start()
     }
     
-    @objc open func start()
+    open func start()
     {
         _startTime = CACurrentMediaTime()
         _endTime = _startTime + _duration
@@ -71,40 +71,52 @@ open class AnimatedViewPortJob: ViewPortJob
         updateAnimationPhase(_startTime)
         
         _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
-        _displayLink.add(to: .main, forMode: .commonModes)
+        _displayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
     }
     
-    @objc open func stop(finish: Bool)
+    open func stop(finish: Bool)
     {
-        guard _displayLink != nil else { return }
-
-        _displayLink.remove(from: .main, forMode: .commonModes)
-        _displayLink = nil
-
-        if finish
+        if _displayLink != nil
         {
-            if phase != 1.0
+            _displayLink.remove(from: RunLoop.main, forMode: RunLoopMode.commonModes)
+            _displayLink = nil
+            
+            if finish
             {
-                phase = 1.0
-                animationUpdate()
+                if phase != 1.0
+                {
+                    phase = 1.0
+                    phase = 1.0
+                    
+                    animationUpdate()
+                }
+                
+                animationEnd()
             }
-
-            animationEnd()
         }
     }
     
-    private func updateAnimationPhase(_ currentTime: TimeInterval)
+    fileprivate func updateAnimationPhase(_ currentTime: TimeInterval)
     {
-        let elapsedTime = currentTime - _startTime
-        let duration = _duration
-        var elapsed = elapsedTime
-
-        elapsed = min(elapsed, duration)
-
-        phase = CGFloat(_easing?(elapsed, duration) ?? elapsed / duration)
+        let elapsedTime: TimeInterval = currentTime - _startTime
+        let duration: TimeInterval = _duration
+        var elapsed: TimeInterval = elapsedTime
+        if elapsed > duration
+        {
+            elapsed = duration
+        }
+        
+        if _easing != nil
+        {
+            phase = CGFloat(_easing!(elapsed, duration))
+        }
+        else
+        {
+            phase = CGFloat(elapsed / duration)
+        }
     }
     
-    @objc private func animationLoop()
+    @objc fileprivate func animationLoop()
     {
         let currentTime: TimeInterval = CACurrentMediaTime()
         
@@ -120,7 +132,7 @@ open class AnimatedViewPortJob: ViewPortJob
     
     internal func animationUpdate()
     {
-       // Override this
+        // Override this
     }
     
     internal func animationEnd()

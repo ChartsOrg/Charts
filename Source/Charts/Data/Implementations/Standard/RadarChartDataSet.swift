@@ -15,7 +15,7 @@ import CoreGraphics
 
 open class RadarChartDataSet: LineRadarChartDataSet, IRadarChartDataSet
 {
-    private func initialize()
+    fileprivate func initialize()
     {
         self.valueFont = NSUIFont.systemFont(ofSize: 13.0)
     }

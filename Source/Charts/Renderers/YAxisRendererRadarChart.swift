@@ -18,9 +18,9 @@ import CoreGraphics
 
 open class YAxisRendererRadarChart: YAxisRenderer
 {
-    private weak var chart: RadarChartView?
+    fileprivate weak var chart: RadarChartView?
     
-    @objc public init(viewPortHandler: ViewPortHandler, yAxis: YAxis?, chart: RadarChartView)
+    public init(viewPortHandler: ViewPortHandler?, yAxis: YAxis?, chart: RadarChartView?)
     {
         super.init(viewPortHandler: viewPortHandler, yAxis: yAxis, transformer: nil)
         
@@ -45,7 +45,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
         
         // Find out how much spacing (in yValue space) between axis values
         let rawInterval = range / Double(labelCount)
-        var interval = rawInterval.roundedToNextSignficant()
+        var interval = ChartUtils.roundToNextSignificant(number: Double(rawInterval))
         
         // If granularity is enabled, then do not allow the interval to go below specified granularity.
         // This is used to avoid repeated values when rounding values for display.
@@ -55,14 +55,14 @@ open class YAxisRendererRadarChart: YAxisRenderer
         }
         
         // Normalize interval
-        let intervalMagnitude = pow(10.0, floor(log10(interval))).roundedToNextSignficant()
+        let intervalMagnitude = ChartUtils.roundToNextSignificant(number: pow(10.0, floor(log10(interval))))
         let intervalSigDigit = Int(interval / intervalMagnitude)
         
         if intervalSigDigit > 5
         {
-            // Use one order of magnitude higher, to avoid intervals like 0.9 or 90
-            // if it's 0.0 after floor(), we use the old value
-            interval = floor(10.0 * intervalMagnitude) == 0.0 ? interval : floor(10.0 * intervalMagnitude)
+            // Use one order of magnitude higher, to avoid intervals like 0.9 or
+            // 90
+            interval = floor(10 * intervalMagnitude)
         }
         
         let centeringEnabled = axis.isCenterAxisLabelsEnabled
@@ -98,7 +98,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
                 first -= interval
             }
 
-            let last = interval == 0.0 ? 0.0 : (floor(yMax / interval) * interval).nextUp
+            let last = interval == 0.0 ? 0.0 : ChartUtils.nextUp(floor(yMax / interval) * interval)
             
             if interval != 0.0
             {
@@ -186,7 +186,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
         {
             let r = CGFloat(yAxis.entries[j] - yAxis._axisMinimum) * factor
             
-            let p = center.moving(distance: r, atAngle: chart.rotationAngle)
+            let p = ChartUtils.getPosition(center: center, dist: r, angle: chart.rotationAngle)
             
             let label = yAxis.getFormattedLabel(j)
             
@@ -196,8 +196,8 @@ open class YAxisRendererRadarChart: YAxisRenderer
                 point: CGPoint(x: p.x + 10.0, y: p.y - labelLineHeight),
                 align: .left,
                 attributes: [
-                    NSAttributedStringKey.font: labelFont,
-                    NSAttributedStringKey.foregroundColor: labelTextColor
+                    NSFontAttributeName: labelFont,
+                    NSForegroundColorAttributeName: labelTextColor
                 ])
         }
     }
@@ -252,7 +252,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
             
             for j in 0 ..< (data.maxEntryCountSet?.entryCount ?? 0)
             {
-                let p = center.moving(distance: r, atAngle: sliceangle * CGFloat(j) + chart.rotationAngle)
+                let p = ChartUtils.getPosition(center: center, dist: r, angle: sliceangle * CGFloat(j) + chart.rotationAngle)
                 
                 if j == 0
                 {

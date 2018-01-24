@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 @objc(IChartMarker)
-public protocol IMarker: class
+public protocol IMarker: NSObjectProtocol
 {
     /// - returns: The desired (general) offset you wish the IMarker to have on the x-axis.
     ///

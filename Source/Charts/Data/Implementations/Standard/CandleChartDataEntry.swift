@@ -14,23 +14,23 @@ import Foundation
 open class CandleChartDataEntry: ChartDataEntry
 {
     /// shadow-high value
-    @objc open var high = Double(0.0)
+    open var high = Double(0.0)
     
     /// shadow-low value
-    @objc open var low = Double(0.0)
+    open var low = Double(0.0)
     
     /// close value
-    @objc open var close = Double(0.0)
+    open var close = Double(0.0)
     
     /// open value
-    @objc open var open = Double(0.0)
+    open var open = Double(0.0)
     
     public required init()
     {
         super.init()
     }
     
-    @objc public init(x: Double, shadowH: Double, shadowL: Double, open: Double, close: Double)
+    public init(x: Double, shadowH: Double, shadowL: Double, open: Double, close: Double)
     {
         super.init(x: x, y: (shadowH + shadowL) / 2.0)
         
@@ -40,7 +40,7 @@ open class CandleChartDataEntry: ChartDataEntry
         self.close = close
     }
     
-    @objc public init(x: Double, shadowH: Double, shadowL: Double, open: Double, close: Double, data: AnyObject?)
+    public init(x: Double, shadowH: Double, shadowL: Double, open: Double, close: Double, data: AnyObject?)
     {
         super.init(x: x, y: (shadowH + shadowL) / 2.0, data: data)
         
@@ -50,7 +50,7 @@ open class CandleChartDataEntry: ChartDataEntry
         self.close = close
     }
     
-    @objc public init(x: Double, shadowH: Double, shadowL: Double, open: Double, close: Double, icon: NSUIImage?)
+    public init(x: Double, shadowH: Double, shadowL: Double, open: Double, close: Double, icon: NSUIImage?)
     {
         super.init(x: x, y: (shadowH + shadowL) / 2.0, icon: icon)
         
@@ -60,7 +60,7 @@ open class CandleChartDataEntry: ChartDataEntry
         self.close = close
     }
     
-    @objc public init(x: Double, shadowH: Double, shadowL: Double, open: Double, close: Double, icon: NSUIImage?, data: AnyObject?)
+    public init(x: Double, shadowH: Double, shadowL: Double, open: Double, close: Double, icon: NSUIImage?, data: AnyObject?)
     {
         super.init(x: x, y: (shadowH + shadowL) / 2.0, icon: icon, data: data)
         
@@ -71,13 +71,13 @@ open class CandleChartDataEntry: ChartDataEntry
     }
     
     /// - returns: The overall range (difference) between shadow-high and shadow-low.
-    @objc open var shadowRange: Double
+    open var shadowRange: Double
     {
         return abs(high - low)
     }
     
     /// - returns: The body size (difference between open and close).
-    @objc open var bodyRange: Double
+    open var bodyRange: Double
     {
         return abs(open - close)
     }

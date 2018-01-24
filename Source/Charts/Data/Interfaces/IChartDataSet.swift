@@ -10,7 +10,6 @@
 //
 
 import Foundation
-import CoreGraphics
 
 @objc
 public protocol IChartDataSet
