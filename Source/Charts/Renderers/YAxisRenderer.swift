@@ -361,16 +361,25 @@ open class YAxisRenderer: AxisRendererBase
                 {
                     let xoffset = yAxis.xOffset
                     let yoffset = yAxis.labelFont.lineHeight / 2.5 + yAxis.yOffset
-                    
-                    
+                    //attributes for increasing label height and making text vertical center
+                    let paragraphStyle = NSMutableParagraphStyle()
+                    paragraphStyle.lineSpacing = 13;
+                    paragraphStyle.minimumLineHeight = 13;
+                    paragraphStyle.maximumLineHeight = 15;
+                    paragraphStyle.alignment = .center
+                    let offsetspace = 2.5
+
                     ChartUtils.drawText(context: context,
                                         text: label,
                                         point: CGPoint(
-                                            x: viewPortHandler.contentRight + CGFloat(Float(label.count) * 3.5),
-                                            y: position.y - (yOffset / 2)),
+                                            x: viewPortHandler.contentRight + CGFloat(Float(label.count) * 3),
+                                            y: position.y - (yOffset / 3)),
                                         align: .right,
-                                        attributes: [NSFontAttributeName: l.valueFont, NSForegroundColorAttributeName: l.valueTextColor,
-                                                     NSBackgroundColorAttributeName: NSUIColor.red])
+                                        attributes: [NSFontAttributeName: l.valueFont,
+                                                     NSBaselineOffsetAttributeName: offsetspace as AnyObject,
+                                                     NSParagraphStyleAttributeName: paragraphStyle,
+                                                     NSForegroundColorAttributeName: l.valueTextColor,
+                                                     NSBackgroundColorAttributeName: l.labelBackgroundColor])//vivek
                 }
                 else if l.labelPosition == .rightTop
                 {
