@@ -29,7 +29,8 @@ open class ChartLimitLine: ComponentBase
     
     /// limit / maximum (the y-value or xIndex)
     open var limit = Double(0.0)
-    
+    //labelbackground color (positive negative)
+    open var labelBackgroundColor = NSUIColor.red//vivek
     fileprivate var _lineWidth = CGFloat(2.0)
     open var lineColor = NSUIColor(red: 237.0/255.0, green: 91.0/255.0, blue: 91.0/255.0, alpha: 1.0)
     open var lineDashPhase = CGFloat(0.0)
