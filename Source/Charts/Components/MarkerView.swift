@@ -77,8 +77,7 @@ open class MarkerView: NSUIView, IMarker
     }
     
     @objc
-    open class func viewFromXib(in bundle: Bundle) -> MarkerView?
-    {
+    open class func viewFromXib(in bundle: Bundle) -> MarkerView? {
         #if !os(OSX)
             return bundle.loadNibNamed(
                 String(describing: self),
