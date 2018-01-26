@@ -35,7 +35,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
             let bubbleData = dataProvider.bubbleData
             else { return }
         
-        for set in bubbleData.dataSets as! [IBubbleChartDataSet] where set.isVisible
+        for set in bubbleData.dataSets as! [BubbleChartDataSetProtocol] where set.isVisible
         {
             drawDataSet(context: context, dataSet: set)
         }
@@ -57,7 +57,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
     private var _pointBuffer = CGPoint()
     private var _sizeBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    @objc open func drawDataSet(context: CGContext, dataSet: IBubbleChartDataSet)
+    @objc open func drawDataSet(context: CGContext, dataSet: BubbleChartDataSetProtocol)
     {
         guard let dataProvider = dataProvider else { return }
         
@@ -125,7 +125,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
             dataProvider = dataProvider,
             let bubbleData = dataProvider.bubbleData,
             isDrawingValuesAllowed(dataProvider: dataProvider),
-            let dataSets = bubbleData.dataSets as? [IBubbleChartDataSet]
+            let dataSets = bubbleData.dataSets as? [BubbleChartDataSetProtocol]
             else { return }
 
         let phaseX = max(0.0, min(1.0, animator.phaseX))
@@ -137,11 +137,9 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         {
             let dataSet = dataSets[i]
 
-            guard
-                shouldDrawValues(forDataSet: dataSet),
-                let formatter = dataSet.valueFormatter
-                else { continue }
+            guard shouldDrawValues(forDataSet: dataSet) else { continue }
 
+            let formatter = dataSet.valueFormatter
             let alpha = phaseX == 1 ? phaseY : phaseX
 
             _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
@@ -180,23 +178,20 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
 
                 if dataSet.isDrawValuesEnabled
                 {
-                    ChartUtils.drawText(
-                        context: context,
-                        text: text,
-                        point: CGPoint(
-                            x: pt.x,
-                            y: pt.y - (0.5 * lineHeight)),
-                        align: .center,
-                        attributes: [NSAttributedStringKey.font: valueFont, NSAttributedStringKey.foregroundColor: valueTextColor])
+                    context.drawText(text,
+                                     at: CGPoint(x: pt.x,
+                                                    y: pt.y - (0.5 * lineHeight)),
+                                     align: .center,
+                                     attributes: [.font: valueFont,
+                                                  .foregroundColor: valueTextColor])
                 }
 
                 if let icon = e.icon, dataSet.isDrawIconsEnabled
                 {
-                    ChartUtils.drawImage(context: context,
-                                         image: icon,
-                                         x: pt.x + iconsOffset.x,
-                                         y: pt.y + iconsOffset.y,
-                                         size: icon.size)
+                    context.drawImage(icon,
+                                      atCenter: CGPoint(x: pt.x + iconsOffset.x,
+                                                      y: pt.y + iconsOffset.y),
+                                      size: icon.size)
                 }
             }
         }
@@ -222,7 +217,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         for high in indices
         {
             guard
-                let dataSet = bubbleData.getDataSetByIndex(high.dataSetIndex) as? IBubbleChartDataSet,
+                let dataSet = bubbleData.getDataSetByIndex(high.dataSetIndex) as? BubbleChartDataSetProtocol,
                 dataSet.isHighlightEnabled,
                 let entry = dataSet.entryForXValue(high.x, closestToY: high.y) as? BubbleChartDataEntry,
                 isInBoundsX(entry: entry, dataSet: dataSet)

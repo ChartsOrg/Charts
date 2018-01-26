@@ -1,5 +1,5 @@
 //
-//  IChartDataSet.swift
+//  ChartDataSetProtocol.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 @objc
-public protocol IChartDataSet
+public protocol ChartDataSetProtocol
 {
     // MARK: - Data functions and accessors
     
@@ -187,10 +187,7 @@ public protocol IChartDataSet
     var isHighlightEnabled: Bool { get }
     
     /// Custom formatter that is used instead of the auto-formatter if set
-    var valueFormatter: IValueFormatter? { get set }
-    
-    /// - returns: `true` if the valueFormatter object of this DataSet is null.
-    var needsFormatter: Bool { get }
+    var valueFormatter: ValueFormatter { get set }
     
     /// Sets/get a single color for value text.
     /// Setting the color clears the colors array and adds a single color.

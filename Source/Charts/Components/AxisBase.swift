@@ -22,7 +22,7 @@ open class AxisBase: ComponentBase
     }
     
     /// Custom formatter that is used instead of the auto-formatter if set
-    private var _axisValueFormatter: IAxisValueFormatter?
+    private lazy var _axisValueFormatter: AxisValueFormatter = DefaultAxisValueFormatter(decimals: decimals)
     
     @objc open var labelFont = NSUIFont.systemFont(ofSize: 10.0)
     @objc open var labelTextColor = NSUIColor.black
@@ -157,14 +157,13 @@ open class AxisBase: ComponentBase
     /// Sets the formatter to be used for formatting the axis labels.
     /// If no formatter is set, the chart will automatically determine a reasonable formatting (concerning decimals) for all the values that are drawn inside the chart.
     /// Use `nil` to use the formatter calculated by the chart.
-    @objc open var valueFormatter: IAxisValueFormatter?
+    @objc open var valueFormatter: AxisValueFormatter?
     {
         get
         {
-            if _axisValueFormatter == nil ||
-                (_axisValueFormatter is DefaultAxisValueFormatter &&
-                    (_axisValueFormatter as! DefaultAxisValueFormatter).hasAutoDecimals &&
-                    (_axisValueFormatter as! DefaultAxisValueFormatter).decimals != decimals)
+            if _axisValueFormatter is DefaultAxisValueFormatter,
+                (_axisValueFormatter as! DefaultAxisValueFormatter).hasAutoDecimals,
+                (_axisValueFormatter as! DefaultAxisValueFormatter).decimals != decimals
             {
                 _axisValueFormatter = DefaultAxisValueFormatter(decimals: decimals)
             }
@@ -298,23 +297,7 @@ open class AxisBase: ComponentBase
     }
     
     @objc open var isAxisMaxCustom: Bool { return _customAxisMax }
-    
-    /// This property is deprecated - Use `axisMinimum` instead.
-    @objc @available(*, deprecated: 1.0, message: "Use axisMinimum instead.")
-    open var axisMinValue: Double
-    {
-        get { return axisMinimum }
-        set { axisMinimum = newValue }
-    }
-    
-    /// This property is deprecated - Use `axisMaximum` instead.
-    @objc @available(*, deprecated: 1.0, message: "Use axisMaximum instead.")
-    open var axisMaxValue: Double
-    {
-        get { return axisMaximum }
-        set { axisMaximum = newValue }
-    }
-    
+        
     /// The minimum value for this axis.
     /// If set, this value will not be calculated automatically depending on the provided data.
     /// Use `resetCustomAxisMin()` to undo this.

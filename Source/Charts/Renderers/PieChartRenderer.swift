@@ -17,18 +17,23 @@ import CoreGraphics
 #endif
 
 
-open class PieChartRenderer: DataRenderer
+open class PieChartRenderer: NSObject, DataRenderer
 {
+    public let viewPortHandler: ViewPortHandler
+    public let animator: Animator
+
     @objc open weak var chart: PieChartView?
     
     @objc public init(chart: PieChartView, animator: Animator, viewPortHandler: ViewPortHandler)
     {
-        super.init(animator: animator, viewPortHandler: viewPortHandler)
-        
+        self.viewPortHandler = viewPortHandler
+        self.animator = animator
         self.chart = chart
+
+        super.init()
     }
     
-    open override func drawData(context: CGContext)
+    open func drawData(context: CGContext)
     {
         guard let chart = chart else { return }
         
@@ -36,7 +41,7 @@ open class PieChartRenderer: DataRenderer
         
         if pieData != nil
         {
-            for set in pieData!.dataSets as! [IPieChartDataSet]
+            for set in pieData!.dataSets as! [PieChartDataSetProtocol]
             {
                 if set.isVisible && set.entryCount > 0
                 {
@@ -88,7 +93,7 @@ open class PieChartRenderer: DataRenderer
     }
     
     /// Calculates the sliceSpace to use based on visible values and their size compared to the set sliceSpace.
-    @objc open func getSliceSpace(dataSet: IPieChartDataSet) -> CGFloat
+    @objc open func getSliceSpace(dataSet: PieChartDataSetProtocol) -> CGFloat
     {
         guard
             dataSet.automaticallyDisableSliceSpacing,
@@ -105,7 +110,7 @@ open class PieChartRenderer: DataRenderer
         return sliceSpace
     }
 
-    @objc open func drawDataSet(context: CGContext, dataSet: IPieChartDataSet)
+    @objc open func drawDataSet(context: CGContext, dataSet: PieChartDataSetProtocol)
     {
         guard let chart = chart else {return }
         
@@ -254,7 +259,7 @@ open class PieChartRenderer: DataRenderer
         context.restoreGState()
     }
     
-    open override func drawValues(context: CGContext)
+    open func drawValues(context: CGContext)
     {
         guard
             let chart = chart,
@@ -298,7 +303,7 @@ open class PieChartRenderer: DataRenderer
         
         for i in 0 ..< dataSets.count
         {
-            guard let dataSet = dataSets[i] as? IPieChartDataSet else { continue }
+            guard let dataSet = dataSets[i] as? PieChartDataSetProtocol else { continue }
             
             let drawValues = dataSet.isDrawValuesEnabled
             
@@ -316,7 +321,7 @@ open class PieChartRenderer: DataRenderer
             let entryLabelFont = dataSet.entryLabelFont
             let lineHeight = valueFont.lineHeight
             
-            guard let formatter = dataSet.valueFormatter else { continue }
+            let formatter = dataSet.valueFormatter
             
             for j in 0 ..< dataSet.entryCount
             {
@@ -421,51 +426,42 @@ open class PieChartRenderer: DataRenderer
                     
                     if drawXOutside && drawYOutside
                     {
-                        ChartUtils.drawText(
-                            context: context,
-                            text: valueText,
-                            point: labelPoint,
-                            align: align,
-                            attributes: [NSAttributedStringKey.font: valueFont, NSAttributedStringKey.foregroundColor: valueTextColor]
-                        )
+                        context.drawText(valueText,
+                                         at: labelPoint,
+                                         align: align,
+                                         attributes: [.font: valueFont,
+                                                      .foregroundColor: valueTextColor])
                         
                         if j < data.entryCount && pe?.label != nil
                         {
-                            ChartUtils.drawText(
-                                context: context,
-                                text: pe!.label!,
-                                point: CGPoint(x: labelPoint.x, y: labelPoint.y + lineHeight),
-                                align: align,
-                                attributes: [
-                                    NSAttributedStringKey.font: entryLabelFont ?? valueFont,
-                                    NSAttributedStringKey.foregroundColor: entryLabelColor ?? valueTextColor]
-                            )
+                            context.drawText(pe!.label!,
+                                             at: CGPoint(x: labelPoint.x,
+                                                         y: labelPoint.y + lineHeight),
+                                             align: align,
+                                             attributes: [.font: entryLabelFont ?? valueFont,
+                                                          .foregroundColor: entryLabelColor ?? valueTextColor])
                         }
                     }
                     else if drawXOutside
                     {
                         if j < data.entryCount && pe?.label != nil
                         {
-                            ChartUtils.drawText(
-                                context: context,
-                                text: pe!.label!,
-                                point: CGPoint(x: labelPoint.x, y: labelPoint.y + lineHeight / 2.0),
-                                align: align,
-                                attributes: [
-                                    NSAttributedStringKey.font: entryLabelFont ?? valueFont,
-                                    NSAttributedStringKey.foregroundColor: entryLabelColor ?? valueTextColor]
-                            )
+                            context.drawText(pe!.label!,
+                                             at: CGPoint(x: labelPoint.x,
+                                                         y: labelPoint.y + lineHeight / 2.0),
+                                             align: align,
+                                             attributes: [.font: entryLabelFont ?? valueFont,
+                                                          .foregroundColor: entryLabelColor ?? valueTextColor])
                         }
                     }
                     else if drawYOutside
                     {
-                        ChartUtils.drawText(
-                            context: context,
-                            text: valueText,
-                            point: CGPoint(x: labelPoint.x, y: labelPoint.y + lineHeight / 2.0),
-                            align: align,
-                            attributes: [NSAttributedStringKey.font: valueFont, NSAttributedStringKey.foregroundColor: valueTextColor]
-                        )
+                        context.drawText(valueText,
+                                         at: CGPoint(x: labelPoint.x,
+                                                     y: labelPoint.y + lineHeight / 2.0),
+                                         align: align,
+                                         attributes: [.font: valueFont,
+                                                      .foregroundColor: valueTextColor])
                     }
                 }
                 
@@ -474,54 +470,40 @@ open class PieChartRenderer: DataRenderer
                     // calculate the text position
                     let x = labelRadius * sliceXBase + center.x
                     let y = labelRadius * sliceYBase + center.y - lineHeight
-                 
+
                     if drawXInside && drawYInside
                     {
-                        ChartUtils.drawText(
-                            context: context,
-                            text: valueText,
-                            point: CGPoint(x: x, y: y),
-                            align: .center,
-                            attributes: [NSAttributedStringKey.font: valueFont, NSAttributedStringKey.foregroundColor: valueTextColor]
-                        )
+                        context.drawText(valueText,
+                                         at: CGPoint(x: x, y: y),
+                                         align: .center,
+                                         attributes: [.font: valueFont, .foregroundColor: valueTextColor])
                         
                         if j < data.entryCount && pe?.label != nil
                         {
-                            ChartUtils.drawText(
-                                context: context,
-                                text: pe!.label!,
-                                point: CGPoint(x: x, y: y + lineHeight),
-                                align: .center,
-                                attributes: [
-                                    NSAttributedStringKey.font: entryLabelFont ?? valueFont,
-                                    NSAttributedStringKey.foregroundColor: entryLabelColor ?? valueTextColor]
-                            )
+                            context.drawText(pe!.label!,
+                                             at: CGPoint(x: x, y: y + lineHeight),
+                                             align: .center,
+                                             attributes: [.font: entryLabelFont ?? valueFont,
+                                                          .foregroundColor: entryLabelColor ?? valueTextColor])
                         }
                     }
                     else if drawXInside
                     {
                         if j < data.entryCount && pe?.label != nil
                         {
-                            ChartUtils.drawText(
-                                context: context,
-                                text: pe!.label!,
-                                point: CGPoint(x: x, y: y + lineHeight / 2.0),
-                                align: .center,
-                                attributes: [
-                                    NSAttributedStringKey.font: entryLabelFont ?? valueFont,
-                                    NSAttributedStringKey.foregroundColor: entryLabelColor ?? valueTextColor]
-                            )
+                            context.drawText(pe!.label!,
+                                             at: CGPoint(x: x, y: y + lineHeight / 2.0),
+                                             align: .center,
+                                             attributes: [.font: entryLabelFont ?? valueFont,
+                                                          .foregroundColor: entryLabelColor ?? valueTextColor])
                         }
                     }
                     else if drawYInside
                     {
-                        ChartUtils.drawText(
-                            context: context,
-                            text: valueText,
-                            point: CGPoint(x: x, y: y + lineHeight / 2.0),
-                            align: .center,
-                            attributes: [NSAttributedStringKey.font: valueFont, NSAttributedStringKey.foregroundColor: valueTextColor]
-                        )
+                        context.drawText(valueText,
+                                         at: CGPoint(x: x, y: y + lineHeight / 2.0),
+                                         align: .center,
+                                         attributes: [.font: valueFont, .foregroundColor: valueTextColor])
                     }
                 }
                 
@@ -533,11 +515,9 @@ open class PieChartRenderer: DataRenderer
                     var y = (labelRadius + iconsOffset.y) * sliceYBase + center.y
                     y += iconsOffset.x
                     
-                    ChartUtils.drawImage(context: context,
-                                         image: icon,
-                                         x: x,
-                                         y: y,
-                                         size: icon.size)
+                    context.drawImage(icon,
+                                      atCenter: CGPoint(x: x, y: y),
+                                      size: icon.size)
                 }
 
                 xIndex += 1
@@ -545,12 +525,20 @@ open class PieChartRenderer: DataRenderer
         }
     }
     
-    open override func drawExtras(context: CGContext)
+    open func drawExtras(context: CGContext)
     {
         drawHole(context: context)
         drawCenterText(context: context)
     }
-    
+
+    open func initBuffers() { }
+
+    open func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
+    {
+        guard let data = dataProvider?.data else { return false }
+        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
+    }
+
     /// draws the hole in the center of the chart and the transparent circle / hole
     private func drawHole(context: CGContext)
     {
@@ -656,7 +644,7 @@ open class PieChartRenderer: DataRenderer
         }
     }
     
-    open override func drawHighlighted(context: CGContext, indices: [Highlight])
+    open func drawHighlighted(context: CGContext, indices: [Highlight])
     {
         guard
             let chart = chart,
@@ -687,7 +675,7 @@ open class PieChartRenderer: DataRenderer
                 continue
             }
             
-            guard let set = data.getDataSetByIndex(indices[i].dataSetIndex) as? IPieChartDataSet else { continue }
+            guard let set = data.getDataSetByIndex(indices[i].dataSetIndex) as? PieChartDataSetProtocol else { continue }
             
             if !set.isHighlightEnabled
             {

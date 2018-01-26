@@ -36,7 +36,7 @@ class CandleStickChartViewController: DemoBaseViewController {
         
         chartView.delegate = self
         
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
         
         chartView.dragEnabled = false
         chartView.setScaleEnabled(true)
@@ -104,7 +104,7 @@ class CandleStickChartViewController: DemoBaseViewController {
     
     override func optionTapped(_ option: Option) {
         if .toggleShadowColorSameAsCandle ~= option {
-            for set in chartView.data!.dataSets as! [CandleChartDataSet] {
+            for case let set as CandleChartDataSet in chartView.data! {
                 set.shadowColorSameAsCandle = !set.shadowColorSameAsCandle
             }
             chartView.notifyDataSetChanged()

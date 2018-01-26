@@ -117,13 +117,13 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
     func handleOption(_ option: Option, forChartView chartView: ChartViewBase) {
         switch option {
         case .toggleValues:
-            for set in chartView.data!.dataSets {
+            for set in chartView.data! {
                 set.drawValuesEnabled = !set.drawValuesEnabled
             }
             chartView.setNeedsDisplay()
             
         case .toggleIcons:
-            for set in chartView.data!.dataSets {
+            for set in chartView.data! {
                 set.drawIconsEnabled = !set.drawIconsEnabled
             }
             chartView.setNeedsDisplay()
@@ -159,7 +159,7 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
             updateChartData()
             
         case .toggleBarBorders:
-            for set in chartView.data!.dataSets {
+            for set in chartView.data! {
                 if let set = set as? BarChartDataSet {
                     set.barBorderWidth = set.barBorderWidth == 1.0 ? 0.0 : 1.0
                 }
@@ -234,7 +234,7 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
         chartView.drawSlicesUnderHoleEnabled = false
         chartView.holeRadiusPercent = 0.58
         chartView.transparentCircleRadiusPercent = 0.61
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
         chartView.setExtraOffsets(left: 5, top: 10, right: 5, bottom: 5)
         
         chartView.drawCenterTextEnabled = true
@@ -269,11 +269,11 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
     }
     
     func setup(radarChartView chartView: RadarChartView) {
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
     }
     
     func setup(barLineChartView chartView: BarLineChartViewBase) {
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
                 
         chartView.dragEnabled = true
         chartView.setScaleEnabled(true)

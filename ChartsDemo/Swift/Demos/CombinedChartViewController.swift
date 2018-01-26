@@ -34,7 +34,7 @@ class CombinedChartViewController: DemoBaseViewController {
         
         chartView.delegate = self
         
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
         
         chartView.drawBarShadowEnabled = false
         chartView.highlightFullBarEnabled = false
@@ -94,7 +94,7 @@ class CombinedChartViewController: DemoBaseViewController {
     override func optionTapped(_ option: Option) {
         switch option {
         case .toggleLineValues:
-            for set in chartView.data!.dataSets {
+            for set in chartView.data! {
                 if let set = set as? LineChartDataSet {
                     set.drawValuesEnabled = !set .drawValuesEnabled
                     
@@ -103,7 +103,7 @@ class CombinedChartViewController: DemoBaseViewController {
             chartView.setNeedsDisplay()
             
         case .toggleBarValues:
-            for set in chartView.data!.dataSets {
+            for set in chartView.data! {
                 if let set = set as? BarChartDataSet {
                     set.drawValuesEnabled = !set .drawValuesEnabled
                 }
@@ -171,7 +171,7 @@ class CombinedChartViewController: DemoBaseViewController {
         let barWidth = 0.45 // x2 dataset
         // (0.45 + 0.02) * 2 + 0.06 = 1.00 -> interval per "group"
         
-        let data = BarChartData(dataSets: [set1, set2])
+        let data: BarChartData = [set1, set2]
         data.barWidth = barWidth
         
         // make this BarData object grouped
@@ -226,7 +226,7 @@ class CombinedChartViewController: DemoBaseViewController {
     }
 }
 
-extension CombinedChartViewController: IAxisValueFormatter {
+extension CombinedChartViewController: AxisValueFormatter {
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
         return months[Int(value) % months.count]
     }

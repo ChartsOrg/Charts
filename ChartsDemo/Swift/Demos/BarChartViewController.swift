@@ -119,7 +119,7 @@ class BarChartViewController: DemoBaseViewController {
         }
         
         var set1: BarChartDataSet! = nil
-        if let set = chartView.data?.dataSets.first as? BarChartDataSet {
+        if let set = chartView.data?.first as? BarChartDataSet {
             set1 = set
             set1.values = yVals
             chartView.data?.notifyDataChanged()

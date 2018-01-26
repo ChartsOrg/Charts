@@ -39,7 +39,7 @@ class RadarChartViewController: DemoBaseViewController {
         
         chartView.delegate = self
         
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
         chartView.webLineWidth = 1
         chartView.innerWebLineWidth = 1
         chartView.webColor = .lightGray
@@ -142,7 +142,7 @@ class RadarChartViewController: DemoBaseViewController {
         set2.drawHighlightCircleEnabled = true
         set2.setDrawHighlightIndicators(false)
         
-        let data = RadarChartData(dataSets: [set1, set2])
+        let data: RadarChartData = [set1, set2]
         data.setValueFont(.systemFont(ofSize: 8, weight: .light))
         data.setDrawValues(false)
         data.setValueTextColor(.white)
@@ -151,6 +151,8 @@ class RadarChartViewController: DemoBaseViewController {
     }
     
     override func optionTapped(_ option: Option) {
+        guard let data = chartView.data else { return }
+
         switch option {
         case .toggleXLabels:
             chartView.xAxis.drawLabelsEnabled = !chartView.xAxis.drawLabelsEnabled
@@ -166,14 +168,14 @@ class RadarChartViewController: DemoBaseViewController {
             chartView.rotationEnabled = !chartView.rotationEnabled
             
         case .toggleFilled:
-            for set in chartView.data!.dataSets as! [RadarChartDataSet] {
+            for case let set as RadarChartDataSet in data {
                 set.drawFilledEnabled = !set.drawFilledEnabled
             }
             
             chartView.setNeedsDisplay()
             
         case .toggleHighlightCircle:
-            for set in chartView.data!.dataSets as! [RadarChartDataSet] {
+            for case let set as RadarChartDataSet in data {
                 set.drawHighlightCircleEnabled = !set.drawHighlightCircleEnabled
             }
             chartView.setNeedsDisplay()
@@ -196,7 +198,7 @@ class RadarChartViewController: DemoBaseViewController {
     }
 }
 
-extension RadarChartViewController: IAxisValueFormatter {
+extension RadarChartViewController: AxisValueFormatter {
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
         return activities[Int(value) % activities.count]
     }
