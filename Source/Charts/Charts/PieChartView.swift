@@ -71,7 +71,10 @@ open class PieChartView: PieRadarChartViewBase
     
     /// maximum angle for this pie
     private var _maxAngle: CGFloat = 360.0
-
+    
+    /// Extra offset value to be added in the radius to move data label outside the chart
+    fileprivate var _dataLabelOffset: CGFloat = 0.0
+    
     public override init(frame: CGRect)
     {
         super.init(frame: frame)
@@ -188,7 +191,7 @@ open class PieChartView: PieRadarChartViewBase
         _absoluteAngles = [CGFloat]()
         
         guard let data = _data else { return }
-
+        
         let entryCount = data.entryCount
         
         _drawAngles.reserveCapacity(entryCount)
@@ -197,20 +200,20 @@ open class PieChartView: PieRadarChartViewBase
         let yValueSum = (_data as! PieChartData).yValueSum
         
         var dataSets = data.dataSets
-
+        
         var cnt = 0
-
+        
         for i in 0 ..< data.dataSetCount
         {
             let set = dataSets[i]
             let entryCount = set.entryCount
-
+            
             for j in 0 ..< entryCount
             {
                 guard let e = set.entryForIndex(j) else { continue }
                 
                 _drawAngles.append(calcAngle(value: abs(e.y), yValueSum: yValueSum))
-
+                
                 if cnt == 0
                 {
                     _absoluteAngles.append(_drawAngles[cnt])
@@ -219,7 +222,7 @@ open class PieChartView: PieRadarChartViewBase
                 {
                     _absoluteAngles.append(_absoluteAngles[cnt - 1] + _drawAngles[cnt])
                 }
-
+                
                 cnt += 1
             }
         }
@@ -302,7 +305,7 @@ open class PieChartView: PieRadarChartViewBase
     {
         return _drawAngles
     }
-
+    
     /// - returns: The absolute angles of the different chart slices (where the
     /// slices end)
     @objc open var absoluteAngles: [CGFloat]
@@ -314,7 +317,7 @@ open class PieChartView: PieRadarChartViewBase
     /// 
     /// - note: Use holeTransparent with holeColor = nil to make the hole transparent.*
     @objc open var holeColor: NSUIColor?
-    {
+        {
         get
         {
             return _holeColor
@@ -330,7 +333,7 @@ open class PieChartView: PieRadarChartViewBase
     ///
     /// **default**: `false`
     @objc open var drawSlicesUnderHoleEnabled: Bool
-    {
+        {
         get
         {
             return _drawSlicesUnderHoleEnabled
@@ -350,7 +353,7 @@ open class PieChartView: PieRadarChartViewBase
     
     /// `true` if the hole in the center of the pie-chart is set to be visible, `false` ifnot
     @objc open var drawHoleEnabled: Bool
-    {
+        {
         get
         {
             return _drawHoleEnabled
@@ -364,7 +367,7 @@ open class PieChartView: PieRadarChartViewBase
     
     /// - returns: `true` if the hole in the center of the pie-chart is set to be visible, `false` ifnot
     @objc open var isDrawHoleEnabled: Bool
-    {
+        {
         get
         {
             return drawHoleEnabled
@@ -373,7 +376,7 @@ open class PieChartView: PieRadarChartViewBase
     
     /// the text that is displayed in the center of the pie-chart
     @objc open var centerText: String?
-    {
+        {
         get
         {
             return self.centerAttributedText?.string
@@ -409,7 +412,7 @@ open class PieChartView: PieRadarChartViewBase
     
     /// the text that is displayed in the center of the pie-chart
     @objc open var centerAttributedText: NSAttributedString?
-    {
+        {
         get
         {
             return _centerAttributedText
@@ -423,7 +426,7 @@ open class PieChartView: PieRadarChartViewBase
     
     /// Sets the offset the center text should have from it's original position in dp. Default x = 0, y = 0
     @objc open var centerTextOffset: CGPoint
-    {
+        {
         get
         {
             return _centerTextOffset
@@ -437,7 +440,7 @@ open class PieChartView: PieRadarChartViewBase
     
     /// `true` if drawing the center text is enabled
     @objc open var drawCenterTextEnabled: Bool
-    {
+        {
         get
         {
             return _drawCenterTextEnabled
@@ -451,7 +454,7 @@ open class PieChartView: PieRadarChartViewBase
     
     /// - returns: `true` if drawing the center text is enabled
     @objc open var isDrawCenterTextEnabled: Bool
-    {
+        {
         get
         {
             return drawCenterTextEnabled
@@ -489,7 +492,7 @@ open class PieChartView: PieRadarChartViewBase
     /// 
     /// **default**: 0.5 (50%) (half the pie)
     @objc open var holeRadiusPercent: CGFloat
-    {
+        {
         get
         {
             return _holeRadiusPercent
@@ -505,7 +508,7 @@ open class PieChartView: PieRadarChartViewBase
     ///
     /// **default**: `nil`
     @objc open var transparentCircleColor: NSUIColor?
-    {
+        {
         get
         {
             return _transparentCircleColor
@@ -521,7 +524,7 @@ open class PieChartView: PieRadarChartViewBase
     /// 
     /// **default**: 0.55 (55%) -> means 5% larger than the center-hole by default
     @objc open var transparentCircleRadiusPercent: CGFloat
-    {
+        {
         get
         {
             return _transparentCircleRadiusPercent
@@ -532,10 +535,10 @@ open class PieChartView: PieRadarChartViewBase
             setNeedsDisplay()
         }
     }
-        
+    
     /// The color the entry labels are drawn with.
     @objc open var entryLabelColor: NSUIColor?
-    {
+        {
         get { return _entryLabelColor }
         set
         {
@@ -546,7 +549,7 @@ open class PieChartView: PieRadarChartViewBase
     
     /// The font the entry labels are drawn with.
     @objc open var entryLabelFont: NSUIFont?
-    {
+        {
         get { return _entryLabelFont }
         set
         {
@@ -557,7 +560,7 @@ open class PieChartView: PieRadarChartViewBase
     
     /// Set this to true to draw the enrty labels into the pie slices
     @objc open var drawEntryLabelsEnabled: Bool
-    {
+        {
         get
         {
             return _drawEntryLabelsEnabled
@@ -571,7 +574,7 @@ open class PieChartView: PieRadarChartViewBase
     
     /// - returns: `true` if drawing entry labels is enabled, `false` ifnot
     @objc open var isDrawEntryLabelsEnabled: Bool
-    {
+        {
         get
         {
             return drawEntryLabelsEnabled
@@ -580,7 +583,7 @@ open class PieChartView: PieRadarChartViewBase
     
     /// If this is enabled, values inside the PieChart are drawn in percent and not with their original value. Values provided for the ValueFormatter to format are then provided in percent.
     @objc open var usePercentValuesEnabled: Bool
-    {
+        {
         get
         {
             return _usePercentValuesEnabled
@@ -594,7 +597,7 @@ open class PieChartView: PieRadarChartViewBase
     
     /// - returns: `true` if drawing x-values is enabled, `false` ifnot
     @objc open var isUsePercentValuesEnabled: Bool
-    {
+        {
         get
         {
             return usePercentValuesEnabled
@@ -603,7 +606,7 @@ open class PieChartView: PieRadarChartViewBase
     
     /// the rectangular radius of the bounding box for the center text, as a percentage of the pie hole
     @objc open var centerTextRadiusPercent: CGFloat
-    {
+        {
         get
         {
             return _centerTextRadiusPercent
@@ -619,7 +622,7 @@ open class PieChartView: PieRadarChartViewBase
     /// 360 means it's a full pie-chart, 180 results in a half-pie-chart.
     /// **default**: 360.0
     @objc open var maxAngle: CGFloat
-    {
+        {
         get
         {
             return _maxAngle
@@ -636,6 +639,30 @@ open class PieChartView: PieRadarChartViewBase
             if _maxAngle < 90.0
             {
                 _maxAngle = 90.0
+            }
+        }
+    }
+    
+    /// The offset value that is used for shifting the data label outside of the center of chart.
+    /// **default**: 0.0
+    open var dataLabelOffset: CGFloat
+        {
+        get
+        {
+            return _dataLabelOffset
+        }
+        set
+        {
+            _dataLabelOffset = newValue
+            
+            if _dataLabelOffset > 1.0
+            {
+                _dataLabelOffset = 1.0
+            }
+            
+            if _dataLabelOffset < 0.0
+            {
+                _maxAngle = 0.0
             }
         }
     }
