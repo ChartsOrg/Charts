@@ -173,7 +173,7 @@ open class RadarChartRenderer: LineRadarRenderer
                 
                 let valueFont = dataSet.valueFont
                 
-                guard let formatter = dataSet.valueFormatter else { continue }
+                let formatter = dataSet.valueFormatter
                 
                 if dataSet.isDrawValuesEnabled
                 {
