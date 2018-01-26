@@ -112,7 +112,7 @@ class CombinedChartViewController: DemoBaseViewController {
             
         case .removeDataSet:
             let rnd = Int(arc4random_uniform(UInt32(chartView.data!.dataSetCount)))
-            chartView.data?.removeDataSet(chartView.data!.getDataSetByIndex(rnd))
+            chartView.data?.removeDataSet(chartView.data![rnd])
             chartView.data?.notifyDataChanged()
             chartView.notifyDataSetChanged()
             
