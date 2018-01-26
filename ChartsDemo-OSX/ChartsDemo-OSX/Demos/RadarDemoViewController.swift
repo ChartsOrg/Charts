@@ -30,11 +30,11 @@ open class RadarDemoViewController: NSViewController
         let data = RadarChartData()
         let ds1 = RadarChartDataSet(values: yse1, label: "Hello")
         ds1.colors = [NSUIColor.red]
-        data.addDataSet(ds1)
+        data.append(ds1)
         
         let ds2 = RadarChartDataSet(values: yse2, label: "World")
         ds2.colors = [NSUIColor.blue]
-        data.addDataSet(ds2)
+        data.append(ds2)
         self.radarChartView.data = data
         self.radarChartView.chartDescription.text = "Radarchart Demo"
 

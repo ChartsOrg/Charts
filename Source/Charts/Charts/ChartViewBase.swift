@@ -210,8 +210,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - returns: `true` if the chart is empty (meaning it's data object is either null or contains no entries).
     @objc open func isEmpty() -> Bool
     {
-        guard let data = data else { return true }
-        return data.entryCount <= 0
+        return data?.isEmpty ?? true
     }
     
     /// Lets the chart know its underlying data has changed and should perform all necessary recalculations.
@@ -251,13 +250,11 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         }
         
     
-        if defaultValueFormatter is DefaultValueFormatter
+        if let formatter = defaultValueFormatter as? DefaultValueFormatter
         {
             // setup the formatter with a new number of digits
             let digits = reference.decimalPlaces
-            
-            (defaultValueFormatter as? DefaultValueFormatter)?.decimals
-             = digits
+            formatter.decimals = digits
         }
     }
     
