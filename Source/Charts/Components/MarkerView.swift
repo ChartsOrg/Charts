@@ -72,10 +72,15 @@ open class MarkerView: NSUIView, IMarker
     }
     
     @objc
-    open class func viewFromXib() -> MarkerView?
+    open class func viewFromXib() -> MarkerView? {
+        return viewFromXib(in: Bundle.main)
+    }
+    
+    @objc
+    open class func viewFromXib(in bundle: Bundle) -> MarkerView?
     {
         #if !os(OSX)
-            return Bundle.main.loadNibNamed(
+            return bundle.loadNibNamed(
                 String(describing: self),
                 owner: nil,
                 options: nil)?[0] as? MarkerView
@@ -84,7 +89,7 @@ open class MarkerView: NSUIView, IMarker
             var loadedObjects = NSArray()
             let loadedObjectsPointer = AutoreleasingUnsafeMutablePointer<NSArray?>(&loadedObjects)
             
-            if Bundle.main.loadNibNamed(
+            if bundle.loadNibNamed(
                 NSNib.Name(String(describing: self)),
                 owner: nil,
                 topLevelObjects: loadedObjectsPointer)
