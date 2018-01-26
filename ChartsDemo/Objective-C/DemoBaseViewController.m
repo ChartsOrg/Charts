@@ -95,7 +95,7 @@
     
     if ([key isEqualToString:@"toggleHighlight"])
     {
-        chartView.data.highlightEnabled = !chartView.data.isHighlightEnabled;
+        chartView.data.isHighlightEnabled = !chartView.data.isHighlightEnabled;
         [chartView setNeedsDisplay];
     }
     
