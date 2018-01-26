@@ -71,10 +71,10 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
         rightAxisMin = .greatestFiniteMagnitude
         xMax = -.greatestFiniteMagnitude
         xMin = .greatestFiniteMagnitude
-        
+
         forEach { calcMinMax(dataSet: $0) }
     }
-    
+
     /// Adjusts the current minimum and maximum values based on the provided Entry object.
     @objc open func calcMinMax(entry e: ChartDataEntry, axis: YAxis.AxisDependency)
     {
