@@ -76,7 +76,7 @@ extension Double
             self != 0.0
             else { return 0 }
 
-        let i = self.roundedToNextSignificant()
+        let i = roundedToNextSignificant()
 
         guard
             !i.isInfinite,
@@ -94,23 +94,6 @@ extension CGPoint
     {
         return CGPoint(x: x + distance * cos(angle.DEG2RAD),
                        y: y + distance * sin(angle.DEG2RAD))
-    }
-}
-
-open class ChartUtils
-{
-    private static var _defaultValueFormatter: ValueFormatter = generateDefaultValueFormatter()
-
-    private class func generateDefaultValueFormatter() -> ValueFormatter
-    {
-        let formatter = DefaultValueFormatter(decimals: 1)
-        return formatter
-    }
-
-    /// - returns: The default value formatter used for all chart components that needs a default
-    open class func defaultValueFormatter() -> ValueFormatter
-    {
-        return _defaultValueFormatter
     }
 }
 
@@ -226,7 +209,7 @@ extension CGContext {
         NSUIGraphicsPopContext()
     }
 
-    internal func drawMultilineText(_ text: String, at point: CGPoint, constrainedTo size: CGSize, anchor: CGPoint, knownTextSize: CGSize, angleRadians: CGFloat, attributes: [NSAttributedStringKey : Any]?)
+    func drawMultilineText(_ text: String, at point: CGPoint, constrainedTo size: CGSize, anchor: CGPoint, knownTextSize: CGSize, angleRadians: CGFloat, attributes: [NSAttributedStringKey : Any]?)
     {
         var rect = CGRect(origin: .zero, size: knownTextSize)
 
@@ -274,7 +257,7 @@ extension CGContext {
         NSUIGraphicsPopContext()
     }
 
-    internal func drawMultilineText(_ text: String, at point: CGPoint, constrainedTo size: CGSize, anchor: CGPoint, angleRadians: CGFloat, attributes: [NSAttributedStringKey : Any]?)
+    func drawMultilineText(_ text: String, at point: CGPoint, constrainedTo size: CGSize, anchor: CGPoint, angleRadians: CGFloat, attributes: [NSAttributedStringKey : Any]?)
     {
         let rect = text.boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
         drawMultilineText(text, at: point, constrainedTo: size, anchor: anchor, knownTextSize: rect.size, angleRadians: angleRadians, attributes: attributes)

@@ -30,7 +30,7 @@ open class PieDemoViewController: NSViewController
         
         ds1.colors = ChartColorTemplates.vordiplom()
         
-        data.addDataSet(ds1)
+        data.append(ds1)
         
         let paragraphStyle: NSMutableParagraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         paragraphStyle.lineBreakMode = .byTruncatingTail

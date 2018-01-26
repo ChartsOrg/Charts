@@ -30,11 +30,11 @@ open class LineDemoViewController: NSViewController
         let data = LineChartData()
         let ds1 = LineChartDataSet(values: yse1, label: "Hello")
         ds1.colors = [NSUIColor.red]
-        data.addDataSet(ds1)
+        data.append(ds1)
         
         let ds2 = LineChartDataSet(values: yse2, label: "World")
         ds2.colors = [NSUIColor.blue]
-        data.addDataSet(ds2)
+        data.append(ds2)
         self.lineChartView.data = data
         
         self.lineChartView.gridBackgroundColor = NSUIColor.white
