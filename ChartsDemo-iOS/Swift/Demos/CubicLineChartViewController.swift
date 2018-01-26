@@ -131,7 +131,7 @@ class CubicLineChartViewController: DemoBaseViewController {
             chartView.setNeedsDisplay()
             
         case .toggleStepped:
-            for set in chartView.data as! LineChartData {
+            for case let set as LineChartDataSet in data {
                 set.mode = (set.mode == .stepped) ? .linear : .stepped
             }
             chartView.setNeedsDisplay()

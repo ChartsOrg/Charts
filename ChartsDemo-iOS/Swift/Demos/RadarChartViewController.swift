@@ -168,14 +168,14 @@ class RadarChartViewController: DemoBaseViewController {
             chartView.rotationEnabled = !chartView.rotationEnabled
             
         case .toggleFilled:
-            for set in chartView.data as! RadarChartData {
+            for case let set as RadarChartDataSet in data {
                 set.drawFilledEnabled = !set.drawFilledEnabled
             }
             
             chartView.setNeedsDisplay()
             
         case .toggleHighlightCircle:
-            for set in chartView.data as! RadarChartData {
+            for case let set as RadarChartDataSet in data {
                 set.drawHighlightCircleEnabled = !set.drawHighlightCircleEnabled
             }
             chartView.setNeedsDisplay()
