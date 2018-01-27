@@ -39,6 +39,7 @@ enum Option {
     case toggleHole
     case spin
     case drawCenter
+    case toggleLabelsMinimumAngle
     // RadarChart
     case toggleXLabels
     case toggleYLabels
@@ -76,6 +77,7 @@ enum Option {
         case .toggleHole: return "Toggle Hole"
         case .spin: return "Spin"
         case .drawCenter: return "Draw CenterText"
+        case .toggleLabelsMinimumAngle: return "Toggle Labels Minimum Angle"
         // RadarChart
         case .toggleXLabels: return "Toggle X-Labels"
         case .toggleYLabels: return "Toggle Y-Labels"
