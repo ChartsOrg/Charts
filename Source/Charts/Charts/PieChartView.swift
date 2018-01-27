@@ -72,6 +72,8 @@ open class PieChartView: PieRadarChartViewBase
     /// maximum angle for this pie
     private var _maxAngle: CGFloat = 360.0
 
+    private var _drawSliceTextMinimumAngle: CGFloat = 0.0
+
     public override init(frame: CGRect)
     {
         super.init(frame: frame)
@@ -633,6 +635,20 @@ open class PieChartView: PieRadarChartViewBase
             {
                 _maxAngle = 90.0
             }
+        }
+    }
+    
+    /// smallest pie slice angle that will have a label drawn
+    @objc open var drawSliceTextMinimumAngle: CGFloat
+    {
+        get
+        {
+            return _drawSliceTextMinimumAngle
+        }
+        set
+        {
+            _drawSliceTextMinimumAngle = newValue
+            setNeedsDisplay()
         }
     }
 }
