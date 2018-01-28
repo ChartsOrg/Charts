@@ -241,13 +241,6 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             }
         }
         
-        let isSingleColor = dataSet.colors.count == 1
-        
-        if isSingleColor
-        {
-            context.setFillColor(dataSet.color(atIndex: 0).cgColor)
-        }
-        
         for j in buffer.indices
         {
             let barRect = buffer[j]
@@ -255,12 +248,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             guard viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width) else { continue }
             guard viewPortHandler.isInBoundsRight(barRect.origin.x) else { break }
 
-            if !isSingleColor
-            {
-                // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
-                context.setFillColor(dataSet.color(atIndex: j).cgColor)
-            }
-            
+            // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
+            context.setFillColor(dataSet.color(atIndex: j).cgColor)
+
             context.fill(barRect)
             
             if drawBorder
