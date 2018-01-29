@@ -41,7 +41,8 @@ class StackedBarChartViewController: DemoBaseViewController {
                         .togglePinchZoom,
                         .toggleAutoScaleMinMax,
                         .toggleData,
-                        .toggleBarBorders]
+                        .toggleBarBorders,
+                        .toggleBarGradient]
         
         
         chartView.delegate = self
@@ -113,7 +114,19 @@ class StackedBarChartViewController: DemoBaseViewController {
     }
     
     override func optionTapped(_ option: Option) {
-        super.handleOption(option, forChartView: chartView)
+        switch option {
+        case .toggleBarGradient:
+            for set in chartView.data!.dataSets as! [BarChartDataSet] {
+                if set.barGradientColors == nil {
+                    set.barGradientColors = ChartColorTemplates.gradients()
+                } else {
+                    set.barGradientColors = nil
+                }
+            }
+            chartView.notifyDataSetChanged()
+        default:
+            super.handleOption(option, forChartView: chartView)
+        }
     }
     
     @IBAction func slidersValueChanged(_ sender: Any?) {

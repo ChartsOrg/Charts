@@ -84,6 +84,18 @@ open class ChartColorTemplates: NSObject
         ]
     }
     
+    @objc open class func gradients () -> [[NSUIColor]]
+    {
+        return [
+            [NSUIColor(red: 146/255.0, green: 132/255.0, blue: 240/255.0, alpha: 1.0),
+            NSUIColor(red: 225/255.0, green: 129/255.0, blue: 222/255.0, alpha: 1.0)],
+            [NSUIColor(red: 253/255.0, green: 155/255.0, blue: 168/255.0, alpha: 1.0),
+            NSUIColor(red: 236/255.0, green: 215/255.0, blue: 144/255.0, alpha: 1.0)],
+            [NSUIColor(red: 98/255.0, green: 199/255.0, blue: 203/255.0, alpha: 1.0),
+             NSUIColor(red: 147/255.0, green: 210/255.0, blue: 173/255.0, alpha: 1.0)]
+        ]
+    }
+    
     @objc open class func colorFromString(_ colorString: String) -> NSUIColor
     {
         let leftParenCharset: CharacterSet = CharacterSet(charactersIn: "( ")
