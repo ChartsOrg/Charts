@@ -40,6 +40,7 @@ open class BalloonMarker: MarkerImage {
     open override func offsetForDrawing(atPoint point: CGPoint) -> CGPoint {
         var offset = self.offset
         var size = self.size
+        let radiusWidth = self.borderRadius
         
         if size.width == 0.0 && image != nil {
             size.width = image!.size.width
@@ -56,11 +57,11 @@ open class BalloonMarker: MarkerImage {
         origin.x -= width / 2
         origin.y -= height
         
-        if origin.x + offset.x < 0.0 {
+        if origin.x + offset.x < borderRadius {
             offset.x = -origin.x + padding
         }
         else if let chart = chartView,
-            origin.x + width + offset.x > chart.bounds.size.width {
+            origin.x + width + offset.x + borderRadius > chart.bounds.size.width {
             offset.x = chart.bounds.size.width - origin.x - width - padding
         }
         
