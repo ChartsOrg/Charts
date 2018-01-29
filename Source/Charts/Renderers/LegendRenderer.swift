@@ -530,6 +530,11 @@ open class LegendRenderer: Renderer
             context.setFillColor(formColor.cgColor)
             context.fillEllipse(in: CGRect(x: x, y: y - formSize / 2.0, width: formSize, height: formSize))
             
+            if let fillColor = entry.innerColor {
+                context.setFillColor(fillColor.cgColor)
+                context.fillEllipse(in: CGRect(x: x + formSize / 4.0, y: y - formSize / 4.0, width: formSize / 2, height: formSize / 2))
+            }
+            
         case .square:
             
             context.setFillColor(formColor.cgColor)

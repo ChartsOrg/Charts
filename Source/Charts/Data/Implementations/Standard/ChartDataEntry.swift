@@ -10,11 +10,14 @@
 //
 
 import Foundation
+import CoreGraphics
 
 open class ChartDataEntry: ChartDataEntryBase
 {
     /// the x value
     @objc open var x = Double(0.0)
+    
+    open var fillColor:CGColor?
     
     public required init()
     {
