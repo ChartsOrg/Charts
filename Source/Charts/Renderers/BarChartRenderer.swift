@@ -248,18 +248,46 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             guard viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width) else { continue }
             guard viewPortHandler.isInBoundsRight(barRect.origin.x) else { break }
 
-            // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
-            context.setFillColor(dataSet.color(atIndex: j).cgColor)
-
-            context.fill(barRect)
+            context.saveGState()
+            if let gradientColors = dataSet.barGradientColors, gradientColors.count > 0
+            {
+                if let gradientColor = dataSet.barGradientColor(atIndex: j)
+                {
+                    drawGradient(context: context, barRect: barRect, gradientColors: gradientColor)
+                }
+            }
+            else
+            {
+                // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
+                let fillColor = dataSet.color(atIndex: j).cgColor
+                context.setFillColor(fillColor)
+                context.fill(barRect)
+            }
+            context.restoreGState()
             
             if drawBorder
             {
+                context.saveGState()
                 context.setStrokeColor(borderColor.cgColor)
                 context.setLineWidth(borderWidth)
                 context.stroke(barRect)
+                context.restoreGState()
             }
         }
+    }
+    
+    open func drawGradient(context: CGContext, barRect: CGRect, gradientColors: Array<NSUIColor>) {
+        let cgColors = gradientColors.map{ $0.cgColor } as CFArray
+        let gradient = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: cgColors, locations: nil)
+        
+        let startPoint = CGPoint(x: barRect.midX, y: barRect.maxY)
+        let endPoint = CGPoint(x: barRect.midX, y: barRect.minY)
+        
+        let path = UIBezierPath.init(rect: barRect)
+        
+        context.addPath(path.cgPath)
+        context.clip()
+        context.drawLinearGradient(gradient!, start: startPoint, end: endPoint, options: [])
     }
     
     open func prepareBarHighlight(
