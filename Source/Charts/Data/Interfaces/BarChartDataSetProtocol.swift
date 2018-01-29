@@ -40,7 +40,7 @@ public protocol BarChartDataSetProtocol: BarLineScatterCandleBubbleChartDataSetP
     /// array of labels used to describe the different values of the stacked bars
     var stackLabels: [String] { get set }
     
-    /// array of gradient color pairs [[color1, color2], [color3, color4]]
+    /// array of gradient colors [[color1, color2], [color3, color4]]
     var barGradientColors: [[NSUIColor]]? { get set }
     
     var barGradientOrientation: BarChartDataSet.BarGradientOrientation { get set }
