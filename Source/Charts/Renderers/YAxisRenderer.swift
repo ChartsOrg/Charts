@@ -361,7 +361,7 @@ open class YAxisRenderer: AxisRendererBase
                 {
                     let xoffset = yAxis.xOffset
                     let yoffset = yAxis.labelFont.lineHeight / 2.5 + yAxis.yOffset
-                    //attributes for increasing label height and making text vertical center
+                    
                     let paragraphStyle = NSMutableParagraphStyle()
                     paragraphStyle.lineSpacing = 13;
                     paragraphStyle.minimumLineHeight = 13;
