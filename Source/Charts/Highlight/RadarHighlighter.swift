@@ -17,15 +17,14 @@ open class RadarHighlighter: PieRadarHighlighter
 {
     open override func closestHighlight(index: Int, x: CGFloat, y: CGFloat) -> Highlight?
     {
-        guard let chart = self.chart as? RadarChartView
-            else { return nil }
+        guard let chart = self.chart as? RadarChartView else { return nil }
         
         let highlights = getHighlights(forIndex: index)
         
         let distanceToCenter = Double(chart.distanceToCenter(x: x, y: y) / chart.factor)
         
-        var closest: Highlight? = nil
-        var distance = DBL_MAX
+        var closest: Highlight?
+        var distance = Double.greatestFiniteMagnitude
         
         for high in highlights
         {
@@ -48,30 +47,30 @@ open class RadarHighlighter: PieRadarHighlighter
     {
         var vals = [Highlight]()
         
-        guard let chart = self.chart as? RadarChartView
+        guard
+            let chart = self.chart as? RadarChartView,
+            let chartData = chart.data
             else { return vals }
         
         let phaseX = chart.chartAnimator.phaseX
         let phaseY = chart.chartAnimator.phaseY
         let sliceangle = chart.sliceAngle
         let factor = chart.factor
-        
-        for i in 0..<(chart.data?.dataSetCount ?? 0)
+
+        for i in chartData.dataSets.indices
         {
-            guard let dataSet = chart.data?.getDataSetByIndex(i)
-                else { continue }
-            
-            guard let entry = dataSet.entryForIndex(index)
+            guard
+                let dataSet = chartData.getDataSetByIndex(i),
+                let entry = dataSet.entryForIndex(index)
                 else { continue }
             
             let y = (entry.y - chart.chartYMin)
             
-            let p = ChartUtils.getPosition(
-                center: chart.centerOffsets,
-                dist: CGFloat(y) * factor * CGFloat(phaseY),
-                angle: sliceangle * CGFloat(index) * CGFloat(phaseX) + chart.rotationAngle)
-            
-            vals.append(Highlight(x: Double(index), y: entry.y, xPx: p.x, yPx: p.y, dataSetIndex: i, axis: dataSet.axisDependency))
+            let p = chart.centerOffsets.moving(distance: CGFloat(y) * factor * CGFloat(phaseY),
+                                               atAngle: sliceangle * CGFloat(index) * CGFloat(phaseX) + chart.rotationAngle)
+
+            let highlight = Highlight(x: Double(index), y: entry.y, xPx: p.x, yPx: p.y, dataSetIndex: i, axis: dataSet.axisDependency)
+            vals.append(highlight)
         }
         
         return vals

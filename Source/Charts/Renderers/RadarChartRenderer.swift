@@ -19,9 +19,9 @@ import CoreGraphics
 
 open class RadarChartRenderer: LineRadarRenderer
 {
-    open weak var chart: RadarChartView?
+    @objc open weak var chart: RadarChartView?
 
-    public init(chart: RadarChartView?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    @objc public init(chart: RadarChartView, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
@@ -55,10 +55,7 @@ open class RadarChartRenderer: LineRadarRenderer
     /// - parameter mostEntries: the entry count of the dataset with the most entries
     internal func drawDataSet(context: CGContext, dataSet: IRadarChartDataSet, mostEntries: Int)
     {
-        guard let
-            chart = chart,
-            let animator = animator
-            else { return }
+        guard let chart = chart else { return }
         
         context.saveGState()
         
@@ -79,10 +76,8 @@ open class RadarChartRenderer: LineRadarRenderer
         {
             guard let e = dataSet.entryForIndex(j) else { continue }
             
-            let p = ChartUtils.getPosition(
-                center: center,
-                dist: CGFloat((e.y - chart.chartYMin) * Double(factor) * phaseY),
-                angle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
+            let p = center.moving(distance: CGFloat((e.y - chart.chartYMin) * Double(factor) * phaseY),
+                                  atAngle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
             
             if p.x.isNaN
             {
@@ -141,8 +136,7 @@ open class RadarChartRenderer: LineRadarRenderer
     {
         guard
             let chart = chart,
-            let data = chart.data,
-            let animator = animator
+            let data = chart.data
             else { return }
         
         let phaseX = animator.phaseX
@@ -168,31 +162,47 @@ open class RadarChartRenderer: LineRadarRenderer
             
             let entryCount = dataSet.entryCount
             
+            let iconsOffset = dataSet.iconsOffset
+            
             for j in 0 ..< entryCount
             {
                 guard let e = dataSet.entryForIndex(j) else { continue }
                 
-                let p = ChartUtils.getPosition(
-                    center: center,
-                    dist: CGFloat(e.y - chart.chartYMin) * factor * CGFloat(phaseY),
-                    angle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
+                let p = center.moving(distance: CGFloat(e.y - chart.chartYMin) * factor * CGFloat(phaseY),
+                                      atAngle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
                 
                 let valueFont = dataSet.valueFont
                 
                 guard let formatter = dataSet.valueFormatter else { continue }
                 
-                ChartUtils.drawText(
-                    context: context,
-                    text: formatter.stringForValue(
-                        e.y,
-                        entry: e,
-                        dataSetIndex: i,
-                        viewPortHandler: viewPortHandler),
-                    point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
-                    align: .center,
-                    attributes: [NSFontAttributeName: valueFont,
-                        NSForegroundColorAttributeName: dataSet.valueTextColorAt(j)]
-                )
+                if dataSet.isDrawValuesEnabled
+                {
+                    ChartUtils.drawText(
+                        context: context,
+                        text: formatter.stringForValue(
+                            e.y,
+                            entry: e,
+                            dataSetIndex: i,
+                            viewPortHandler: viewPortHandler),
+                        point: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
+                        align: .center,
+                        attributes: [NSAttributedStringKey.font: valueFont,
+                            NSAttributedStringKey.foregroundColor: dataSet.valueTextColorAt(j)]
+                    )
+                }
+                
+                if let icon = e.icon, dataSet.isDrawIconsEnabled
+                {
+                    var pIcon = center.moving(distance: CGFloat(e.y) * factor * CGFloat(phaseY) + iconsOffset.y,
+                                              atAngle: sliceangle * CGFloat(j) * CGFloat(phaseX) + chart.rotationAngle)
+                    pIcon.y += iconsOffset.x
+                    
+                    ChartUtils.drawImage(context: context,
+                                         image: icon,
+                                         x: pIcon.x,
+                                         y: pIcon.y,
+                                         size: icon.size)
+                }
             }
         }
     }
@@ -202,9 +212,9 @@ open class RadarChartRenderer: LineRadarRenderer
         drawWeb(context: context)
     }
     
-    fileprivate var _webLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _webLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    open func drawWeb(context: CGContext)
+    @objc open func drawWeb(context: CGContext)
     {
         guard
             let chart = chart,
@@ -232,10 +242,8 @@ open class RadarChartRenderer: LineRadarRenderer
 
         for i in stride(from: 0, to: maxEntryCount, by: xIncrements)
         {
-            let p = ChartUtils.getPosition(
-                center: center,
-                dist: CGFloat(chart.yRange) * factor,
-                angle: sliceangle * CGFloat(i) + rotationangle)
+            let p = center.moving(distance: CGFloat(chart.yRange) * factor,
+                                  atAngle: sliceangle * CGFloat(i) + rotationangle)
             
             _webLineSegmentsBuffer[0].x = center.x
             _webLineSegmentsBuffer[0].y = center.y
@@ -258,8 +266,8 @@ open class RadarChartRenderer: LineRadarRenderer
             {
                 let r = CGFloat(chart.yAxis.entries[j] - chart.chartYMin) * factor
 
-                let p1 = ChartUtils.getPosition(center: center, dist: r, angle: sliceangle * CGFloat(i) + rotationangle)
-                let p2 = ChartUtils.getPosition(center: center, dist: r, angle: sliceangle * CGFloat(i + 1) + rotationangle)
+                let p1 = center.moving(distance: r, atAngle: sliceangle * CGFloat(i) + rotationangle)
+                let p2 = center.moving(distance: r, atAngle: sliceangle * CGFloat(i + 1) + rotationangle)
                 
                 _webLineSegmentsBuffer[0].x = p1.x
                 _webLineSegmentsBuffer[0].y = p1.y
@@ -273,14 +281,13 @@ open class RadarChartRenderer: LineRadarRenderer
         context.restoreGState()
     }
     
-    fileprivate var _highlightPointBuffer = CGPoint()
+    private var _highlightPointBuffer = CGPoint()
 
     open override func drawHighlighted(context: CGContext, indices: [Highlight])
     {
         guard
             let chart = chart,
-            let radarData = chart.data as? RadarChartData,
-            let animator = animator
+            let radarData = chart.data as? RadarChartData
             else { return }
         
         context.saveGState()
@@ -321,10 +328,8 @@ open class RadarChartRenderer: LineRadarRenderer
             
             let y = e.y - chart.chartYMin
             
-            _highlightPointBuffer = ChartUtils.getPosition(
-                center: center,
-                dist: CGFloat(y) * factor * CGFloat(animator.phaseY),
-                angle: sliceangle * CGFloat(high.x) * CGFloat(animator.phaseX) + chart.rotationAngle)
+            _highlightPointBuffer = center.moving(distance: CGFloat(y) * factor * CGFloat(animator.phaseY),
+                                                  atAngle: sliceangle * CGFloat(high.x) * CGFloat(animator.phaseX) + chart.rotationAngle)
             
             high.setDraw(pt: _highlightPointBuffer)
             

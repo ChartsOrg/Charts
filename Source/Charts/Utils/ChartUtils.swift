@@ -12,85 +12,149 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
+extension FloatingPoint
+{
+    var DEG2RAD: Self
+    {
+        return self * .pi / 180
+    }
+
+    var RAD2DEG: Self
+    {
+        return self * 180 / .pi
+    }
+
+    /// - returns: An angle between 0.0 < 360.0 (not less than zero, less than 360)
+    /// NOTE: Value must be in degrees
+    var normalizedAngle: Self
+    {
+        let angle = truncatingRemainder(dividingBy: 360)
+        return (sign == .minus) ? angle + 360 : angle
+    }
+}
+
+extension CGSize
+{
+    func rotatedBy(degrees: CGFloat) -> CGSize
+    {
+        let radians = degrees.DEG2RAD
+        return rotatedBy(radians: radians)
+    }
+
+    func rotatedBy(radians: CGFloat) -> CGSize
+    {
+        return CGSize(
+            width: abs(width * cos(radians)) + abs(height * sin(radians)),
+            height: abs(width * sin(radians)) + abs(height * cos(radians))
+        )
+    }
+}
+
+extension Double
+{
+    /// Rounds the number to the nearest multiple of it's order of magnitude, rounding away from zero if halfway.
+    func roundedToNextSignficant() -> Double
+    {
+        guard
+            !isInfinite,
+            !isNaN,
+            self != 0
+            else { return self }
+
+        let d = ceil(log10(self < 0 ? -self : self))
+        let pw = 1 - Int(d)
+        let magnitude = pow(10.0, Double(pw))
+        let shifted = (self * magnitude).rounded()
+        return shifted / magnitude
+    }
+
+    var decimalPlaces: Int
+    {
+        guard
+            !isNaN,
+            !isInfinite,
+            self != 0.0
+            else { return 0 }
+
+        let i = self.roundedToNextSignficant()
+
+        guard
+            !i.isInfinite,
+            !i.isNaN
+            else { return 0 }
+
+        return Int(ceil(-log10(i))) + 2
+    }
+}
+
+extension CGPoint
+{
+    /// Calculates the position around a center point, depending on the distance from the center, and the angle of the position around the center.
+    func moving(distance: CGFloat, atAngle angle: CGFloat) -> CGPoint
+    {
+        return CGPoint(x: x + distance * cos(angle.DEG2RAD),
+                       y: y + distance * sin(angle.DEG2RAD))
+    }
+}
 
 open class ChartUtils
 {
-    fileprivate static var _defaultValueFormatter: IValueFormatter = ChartUtils.generateDefaultValueFormatter()
+    private static var _defaultValueFormatter: IValueFormatter = ChartUtils.generateDefaultValueFormatter()
     
-    internal struct Math
+    open class func drawImage(
+        context: CGContext,
+        image: NSUIImage,
+        x: CGFloat,
+        y: CGFloat,
+        size: CGSize)
     {
-        internal static let FDEG2RAD = CGFloat(M_PI / 180.0)
-        internal static let FRAD2DEG = CGFloat(180.0 / M_PI)
-        internal static let DEG2RAD = M_PI / 180.0
-        internal static let RAD2DEG = 180.0 / M_PI
-    }
-    
-    internal class func roundToNextSignificant(number: Double) -> Double
-    {
-        if number.isInfinite || number.isNaN || number == 0
-        {
-            return number
-        }
+        var drawOffset = CGPoint()
+        drawOffset.x = x - (size.width / 2)
+        drawOffset.y = y - (size.height / 2)
         
-        let d = ceil(log10(number < 0.0 ? -number : number))
-        let pw = 1 - Int(d)
-        let magnitude = pow(Double(10.0), Double(pw))
-        let shifted = round(number * magnitude)
-        return shifted / magnitude
-    }
-    
-    internal class func decimals(_ number: Double) -> Int
-    {
-        if number.isNaN || number.isInfinite || number == 0.0
-        {
-            return 0
-        }
+        NSUIGraphicsPushContext(context)
         
-        let i = roundToNextSignificant(number: Double(number))
-        
-        if i.isInfinite || i.isNaN
+        if image.size.width != size.width && image.size.height != size.height
         {
-            return 0
-        }
-        
-        return Int(ceil(-log10(i))) + 2
-    }
-    
-    internal class func nextUp(_ number: Double) -> Double
-    {
-        if number.isInfinite || number.isNaN
-        {
-            return number
+            let key = "resized_\(size.width)_\(size.height)"
+            
+            // Try to take scaled image from cache of this image
+            var scaledImage = objc_getAssociatedObject(image, key) as? NSUIImage
+            if scaledImage == nil
+            {
+                // Scale the image
+                NSUIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+                
+                image.draw(in: CGRect(origin: CGPoint(x: 0, y: 0), size: size))
+                
+                scaledImage = NSUIGraphicsGetImageFromCurrentImageContext()
+                NSUIGraphicsEndImageContext()
+                
+                // Put the scaled image in a cache owned by the original image
+                objc_setAssociatedObject(image, key, scaledImage, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            }
+            
+            scaledImage?.draw(in: CGRect(origin: drawOffset, size: size))
         }
         else
         {
-            return number + DBL_EPSILON
+            image.draw(in: CGRect(origin: drawOffset, size: size))
         }
+        
+        NSUIGraphicsPopContext()
     }
     
-    /// Calculates the position around a center point, depending on the distance from the center, and the angle of the position around the center.
-    internal class func getPosition(center: CGPoint, dist: CGFloat, angle: CGFloat) -> CGPoint
-    {
-        return CGPoint(
-            x: center.x + dist * cos(angle * Math.FDEG2RAD),
-            y: center.y + dist * sin(angle * Math.FDEG2RAD)
-        )
-    }
-    
-    open class func drawText(context: CGContext, text: String, point: CGPoint, align: NSTextAlignment, attributes: [String : AnyObject]?)
+    open class func drawText(context: CGContext, text: String, point: CGPoint, align: NSTextAlignment, attributes: [NSAttributedStringKey : Any]?)
     {
         var point = point
         
         if align == .center
         {
-            point.x -= text.size(attributes: attributes).width / 2.0
+            point.x -= text.size(withAttributes: attributes).width / 2.0
         }
         else if align == .right
         {
-            point.x -= text.size(attributes: attributes).width
+            point.x -= text.size(withAttributes: attributes).width
         }
         
         NSUIGraphicsPushContext(context)
@@ -100,7 +164,7 @@ open class ChartUtils
         NSUIGraphicsPopContext()
     }
     
-    open class func drawText(context: CGContext, text: String, point: CGPoint, attributes: [String : AnyObject]?, anchor: CGPoint, angleRadians: CGFloat)
+    open class func drawText(context: CGContext, text: String, point: CGPoint, attributes: [NSAttributedStringKey : Any]?, anchor: CGPoint, angleRadians: CGFloat)
     {
         var drawOffset = CGPoint()
         
@@ -108,7 +172,7 @@ open class ChartUtils
         
         if angleRadians != 0.0
         {
-            let size = text.size(attributes: attributes)
+            let size = text.size(withAttributes: attributes)
             
             // Move the text drawing rect in a way that it always rotates around its center
             drawOffset.x = -size.width * 0.5
@@ -119,7 +183,7 @@ open class ChartUtils
             // Move the "outer" rect relative to the anchor, assuming its centered
             if anchor.x != 0.5 || anchor.y != 0.5
             {
-                let rotatedSize = sizeOfRotatedRectangle(size, radians: angleRadians)
+                let rotatedSize = size.rotatedBy(radians: angleRadians)
                 
                 translate.x -= rotatedSize.width * (anchor.x - 0.5)
                 translate.y -= rotatedSize.height * (anchor.y - 0.5)
@@ -137,7 +201,7 @@ open class ChartUtils
         {
             if anchor.x != 0.0 || anchor.y != 0.0
             {
-                let size = text.size(attributes: attributes)
+                let size = text.size(withAttributes: attributes)
                 
                 drawOffset.x = -size.width * anchor.x
                 drawOffset.y = -size.height * anchor.y
@@ -152,7 +216,7 @@ open class ChartUtils
         NSUIGraphicsPopContext()
     }
     
-    internal class func drawMultilineText(context: CGContext, text: String, knownTextSize: CGSize, point: CGPoint, attributes: [String : AnyObject]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
+    internal class func drawMultilineText(context: CGContext, text: String, knownTextSize: CGSize, point: CGPoint, attributes: [NSAttributedStringKey : Any]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
     {
         var rect = CGRect(origin: CGPoint(), size: knownTextSize)
         
@@ -169,7 +233,7 @@ open class ChartUtils
             // Move the "outer" rect relative to the anchor, assuming its centered
             if anchor.x != 0.5 || anchor.y != 0.5
             {
-                let rotatedSize = sizeOfRotatedRectangle(knownTextSize, radians: angleRadians)
+                let rotatedSize = knownTextSize.rotatedBy(radians: angleRadians)
                 
                 translate.x -= rotatedSize.width * (anchor.x - 0.5)
                 translate.y -= rotatedSize.height * (anchor.y - 0.5)
@@ -200,26 +264,13 @@ open class ChartUtils
         NSUIGraphicsPopContext()
     }
     
-    internal class func drawMultilineText(context: CGContext, text: String, point: CGPoint, attributes: [String : AnyObject]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
+    internal class func drawMultilineText(context: CGContext, text: String, point: CGPoint, attributes: [NSAttributedStringKey : Any]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
     {
         let rect = text.boundingRect(with: constrainedToSize, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
         drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, attributes: attributes, constrainedToSize: constrainedToSize, anchor: anchor, angleRadians: angleRadians)
     }
-    
-    /// - returns: An angle between 0.0 < 360.0 (not less than zero, less than 360)
-    internal class func normalizedAngleFromAngle(_ angle: CGFloat) -> CGFloat
-    {
-        var angle = angle
-        
-        while (angle < 0.0)
-        {
-            angle += 360.0
-        }
-        
-        return angle.truncatingRemainder(dividingBy: 360.0)
-    }
-    
-    fileprivate class func generateDefaultValueFormatter() -> IValueFormatter
+
+    private class func generateDefaultValueFormatter() -> IValueFormatter
     {
         let formatter = DefaultValueFormatter(decimals: 1)
         return formatter
@@ -229,86 +280,5 @@ open class ChartUtils
     open class func defaultValueFormatter() -> IValueFormatter
     {
         return _defaultValueFormatter
-    }
-    
-    internal class func sizeOfRotatedRectangle(_ rectangleSize: CGSize, degrees: CGFloat) -> CGSize
-    {
-        let radians = degrees * Math.FDEG2RAD
-        return sizeOfRotatedRectangle(rectangleWidth: rectangleSize.width, rectangleHeight: rectangleSize.height, radians: radians)
-    }
-    
-    internal class func sizeOfRotatedRectangle(_ rectangleSize: CGSize, radians: CGFloat) -> CGSize
-    {
-        return sizeOfRotatedRectangle(rectangleWidth: rectangleSize.width, rectangleHeight: rectangleSize.height, radians: radians)
-    }
-    
-    internal class func sizeOfRotatedRectangle(rectangleWidth: CGFloat, rectangleHeight: CGFloat, degrees: CGFloat) -> CGSize
-    {
-        let radians = degrees * Math.FDEG2RAD
-        return sizeOfRotatedRectangle(rectangleWidth: rectangleWidth, rectangleHeight: rectangleHeight, radians: radians)
-    }
-    
-    internal class func sizeOfRotatedRectangle(rectangleWidth: CGFloat, rectangleHeight: CGFloat, radians: CGFloat) -> CGSize
-    {
-        return CGSize(
-            width: abs(rectangleWidth * cos(radians)) + abs(rectangleHeight * sin(radians)),
-            height: abs(rectangleWidth * sin(radians)) + abs(rectangleHeight * cos(radians))
-        )
-    }
-    
-    /// MARK: - Bridging functions
-    
-    internal class func bridgedObjCGetNSUIColorArray (swift array: [NSUIColor?]) -> [NSObject]
-    {
-        var newArray = [NSObject]()
-        for val in array
-        {
-            if val == nil
-            {
-                newArray.append(NSNull())
-            }
-            else
-            {
-                newArray.append(val!)
-            }
-        }
-        return newArray
-    }
-    
-    internal class func bridgedObjCGetNSUIColorArray (objc array: [NSObject]) -> [NSUIColor?]
-    {
-        var newArray = [NSUIColor?]()
-        for object in array
-        {
-            newArray.append(object as? NSUIColor)
-        }
-        return newArray
-    }
-    
-    internal class func bridgedObjCGetStringArray (swift array: [String?]) -> [NSObject]
-    {
-        var newArray = [NSObject]()
-        for val in array
-        {
-            if val == nil
-            {
-                newArray.append(NSNull())
-            }
-            else
-            {
-                newArray.append(val! as NSObject)
-            }
-        }
-        return newArray
-    }
-    
-    internal class func bridgedObjCGetStringArray (objc array: [NSObject]) -> [String?]
-    {
-        var newArray = [String?]()
-        for object in array
-        {
-            newArray.append(object as? String)
-        }
-        return newArray
     }
 }

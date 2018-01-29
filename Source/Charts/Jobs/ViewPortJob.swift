@@ -23,7 +23,7 @@ open class ViewPortJob: NSObject
     internal weak var transformer: Transformer?
     internal weak var view: ChartViewBase?
     
-    public init(
+    @objc public init(
         viewPortHandler: ViewPortHandler,
         xValue: Double,
         yValue: Double,
@@ -39,8 +39,8 @@ open class ViewPortJob: NSObject
         self.view = view
     }
     
-    open func doJob()
+    @objc open func doJob()
     {
-        // Override this
+        fatalError("`doJob()` must be overridden by subclasses")
     }
 }
