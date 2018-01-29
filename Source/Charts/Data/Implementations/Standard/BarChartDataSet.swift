@@ -15,6 +15,13 @@ import CoreGraphics
 
 open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartDataSetProtocol
 {
+    @objc
+    public enum BarGradientOrientation: Int
+    {
+        case vertical
+        case horizontal
+    }
+    
     private func initialize()
     {
         self.highlightColor = NSUIColor.black
@@ -151,6 +158,8 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
     
     /// array of gradient color pairs [[color1, color2], [color3, color4]]
     open var barGradientColors: [[NSUIColor]]?
+    
+    open var barGradientOrientation: BarChartDataSet.BarGradientOrientation = .vertical
     
     /// - returns: The gradient colors at the given index of the DataSet's gradient color array.
     /// This prevents out-of-bounds by performing a modulus on the gradient color index, so colours will repeat themselves.

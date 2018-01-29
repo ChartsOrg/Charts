@@ -253,7 +253,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             {
                 if let gradientColor = dataSet.barGradientColor(atIndex: j)
                 {
-                    drawGradient(context: context, barRect: barRect, gradientColors: gradientColor)
+                    drawGradient(context: context, barRect: barRect, gradientColors: gradientColor, orientation: dataSet.barGradientOrientation)
                 }
             }
             else
@@ -276,12 +276,24 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         }
     }
     
-    open func drawGradient(context: CGContext, barRect: CGRect, gradientColors: Array<NSUIColor>) {
+    open func drawGradient(context: CGContext, barRect: CGRect, gradientColors: Array<NSUIColor>, orientation: BarChartDataSet.BarGradientOrientation)
+    {
         let cgColors = gradientColors.map{ $0.cgColor } as CFArray
         let gradient = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: cgColors, locations: nil)
+
+        let startPoint: CGPoint
+        let endPoint: CGPoint
         
-        let startPoint = CGPoint(x: barRect.midX, y: barRect.maxY)
-        let endPoint = CGPoint(x: barRect.midX, y: barRect.minY)
+        switch orientation
+        {
+        case .vertical:
+            startPoint = CGPoint(x: barRect.midX, y: barRect.maxY)
+            endPoint = CGPoint(x: barRect.midX, y: barRect.minY)
+            
+        case .horizontal:
+            startPoint = CGPoint(x: barRect.minX, y: barRect.midY)
+            endPoint = CGPoint(x: barRect.maxX, y: barRect.midY)
+        }
         
         let path = UIBezierPath.init(rect: barRect)
         
