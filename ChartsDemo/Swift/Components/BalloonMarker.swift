@@ -57,11 +57,11 @@ open class BalloonMarker: MarkerImage {
         origin.x -= width / 2
         origin.y -= height
         
-        if origin.x + offset.x < borderRadius {
+        if origin.x + offset.x < radiusWidth {
             offset.x = -origin.x + padding
         }
         else if let chart = chartView,
-            origin.x + width + offset.x + borderRadius > chart.bounds.size.width {
+            origin.x + width + offset.x + radiusWidth > chart.bounds.size.width {
             offset.x = chart.bounds.size.width - origin.x - width - padding
         }
         
