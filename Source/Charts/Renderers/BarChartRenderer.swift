@@ -295,7 +295,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             endPoint = CGPoint(x: barRect.maxX, y: barRect.midY)
         }
         
-        let path = UIBezierPath.init(rect: barRect)
+        let path = NSUIBezierPath.init(rect: barRect)
         
         context.addPath(path.cgPath)
         context.clip()
