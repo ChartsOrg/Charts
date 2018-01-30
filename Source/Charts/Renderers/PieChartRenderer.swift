@@ -12,10 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 
 open class PieChartRenderer: DataRenderer
 {
@@ -468,34 +464,35 @@ open class PieChartRenderer: DataRenderer
                         )
                     }
                 }
-                
-                if drawXInside || drawYInside
+
+                let attributes = [NSAttributedStringKey.font: entryLabelFont ?? valueFont,
+                                  .foregroundColor: entryLabelColor ?? valueTextColor]
+                let size = pe!.label!.size(withAttributes: attributes)
+
+                if drawXInside || drawYInside,
+                    // Don't draw if label is too big for slice and `limitXLableSizeInSlice` is enabled
+                    !(chart.limitXLableSizeInSlice && size.width > (labelRadius * sliceAngle.DEG2RAD + 10))
                 {
                     // calculate the text position
                     let x = labelRadius * sliceXBase + center.x
                     let y = labelRadius * sliceYBase + center.y - lineHeight
-                 
+
                     if drawXInside && drawYInside
                     {
-                        ChartUtils.drawText(
-                            context: context,
-                            text: valueText,
-                            point: CGPoint(x: x, y: y),
-                            align: .center,
-                            attributes: [NSAttributedStringKey.font: valueFont, NSAttributedStringKey.foregroundColor: valueTextColor]
-                        )
-                        
+                        ChartUtils.drawText(context: context,
+                                            text: valueText,
+                                            point: CGPoint(x: x, y: y),
+                                            align: .center,
+                                            attributes: attributes)
+
+
                         if j < data.entryCount && pe?.label != nil
                         {
-                            ChartUtils.drawText(
-                                context: context,
-                                text: pe!.label!,
-                                point: CGPoint(x: x, y: y + lineHeight),
-                                align: .center,
-                                attributes: [
-                                    NSAttributedStringKey.font: entryLabelFont ?? valueFont,
-                                    NSAttributedStringKey.foregroundColor: entryLabelColor ?? valueTextColor]
-                            )
+                            ChartUtils.drawText(context: context,
+                                                text: pe!.label!,
+                                                point: CGPoint(x: x, y: y + lineHeight),
+                                                align: .center,
+                                                attributes: attributes)
                         }
                     }
                     else if drawXInside
@@ -507,10 +504,7 @@ open class PieChartRenderer: DataRenderer
                                 text: pe!.label!,
                                 point: CGPoint(x: x, y: y + lineHeight / 2.0),
                                 align: .center,
-                                attributes: [
-                                    NSAttributedStringKey.font: entryLabelFont ?? valueFont,
-                                    NSAttributedStringKey.foregroundColor: entryLabelColor ?? valueTextColor]
-                            )
+                                attributes: attributes)
                         }
                     }
                     else if drawYInside
@@ -520,8 +514,7 @@ open class PieChartRenderer: DataRenderer
                             text: valueText,
                             point: CGPoint(x: x, y: y + lineHeight / 2.0),
                             align: .center,
-                            attributes: [NSAttributedStringKey.font: valueFont, NSAttributedStringKey.foregroundColor: valueTextColor]
-                        )
+                            attributes: attributes)
                     }
                 }
                 
