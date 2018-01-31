@@ -146,7 +146,8 @@ open class YAxisRenderer: AxisRendererBase
         
         for i in stride(from: from, to: to, by: 1)
         {
-            let text = yAxis.getFormattedLabel(i)
+             var value: Double = Double(yAxis.getFormattedLabel(i))! //vivek
+            let text = (String(format: "%.2f  ",locale: NSLocale(localeIdentifier : "en_IN") as Locale,value)) //vivek
             
             ChartUtils.drawText(
                 context: context,
