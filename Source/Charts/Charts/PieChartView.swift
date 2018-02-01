@@ -305,7 +305,7 @@ open class PieChartView: PieRadarChartViewBase
     {
         return _drawAngles
     }
-    
+
     /// - returns: The absolute angles of the different chart slices (where the
     /// slices end)
     @objc open var absoluteAngles: [CGFloat]
