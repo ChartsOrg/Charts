@@ -191,7 +191,7 @@ open class PieChartView: PieRadarChartViewBase
         _absoluteAngles = [CGFloat]()
         
         guard let data = _data else { return }
-        
+
         let entryCount = data.entryCount
         
         _drawAngles.reserveCapacity(entryCount)
@@ -200,20 +200,20 @@ open class PieChartView: PieRadarChartViewBase
         let yValueSum = (_data as! PieChartData).yValueSum
         
         var dataSets = data.dataSets
-        
+
         var cnt = 0
-        
+
         for i in 0 ..< data.dataSetCount
         {
             let set = dataSets[i]
             let entryCount = set.entryCount
-            
+
             for j in 0 ..< entryCount
             {
                 guard let e = set.entryForIndex(j) else { continue }
                 
                 _drawAngles.append(calcAngle(value: abs(e.y), yValueSum: yValueSum))
-                
+
                 if cnt == 0
                 {
                     _absoluteAngles.append(_drawAngles[cnt])
@@ -222,7 +222,7 @@ open class PieChartView: PieRadarChartViewBase
                 {
                     _absoluteAngles.append(_absoluteAngles[cnt - 1] + _drawAngles[cnt])
                 }
-                
+ 
                 cnt += 1
             }
         }
@@ -297,7 +297,7 @@ open class PieChartView: PieRadarChartViewBase
         
         return -1
     }
-    
+
     /// - returns: An integer array of all the different angles the chart slices
     /// have the angles in the returned array determine how much space (of 360°)
     /// each slice takes
