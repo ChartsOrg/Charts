@@ -218,24 +218,32 @@ open class XAxisRenderer: AxisRendererBase
                 let label = xAxis.valueFormatter?.stringForValue(xAxis.entries[i], axis: xAxis) ?? ""
 
                 let labelns = label as NSString
-                
+
                 if xAxis.isAvoidFirstLastClippingEnabled
                 {
+                    let width = labelns.boundingRect(with: labelMaxSize, options: .usesLineFragmentOrigin, attributes: labelAttrs, context: nil).size.width
+
                     // avoid clipping of the last
                     if i == xAxis.entryCount - 1 && xAxis.entryCount > 1
                     {
-                        let width = labelns.boundingRect(with: labelMaxSize, options: .usesLineFragmentOrigin, attributes: labelAttrs, context: nil).size.width
-                        
+                        // CHANGED
                         if width > viewPortHandler.offsetRight * 2.0
                             && position.x + width > viewPortHandler.chartWidth
                         {
-                            position.x -= width / 2.0
+                            if xAxis.clipGridLine {
+                                position.x -= width / 2.0
+                            } else {
+                                position.x -= width / 2.0 - viewPortHandler.offsetRight
+                            }
                         }
                     }
                     else if i == 0
                     { // avoid clipping of the first
-                        let width = labelns.boundingRect(with: labelMaxSize, options: .usesLineFragmentOrigin, attributes: labelAttrs, context: nil).size.width
-                        position.x += width / 2.0
+                        if xAxis.clipGridLine {
+                            position.x += width / 2.0
+                        } else {
+                            position.x += width / 2.0 - viewPortHandler.offsetLeft
+                        }
                     }
                 }
                 

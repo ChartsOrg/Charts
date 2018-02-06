@@ -40,6 +40,9 @@ open class XAxis: AxisBase
     /// This is the angle for drawing the X axis labels (in degrees)
     @objc open var labelRotationAngle = CGFloat(0.0)
 
+    /// Whether the grid lines will be clipped to content rect during rendering, default is true
+    @objc open var clipGridLine = true
+
     /// if set to true, the chart will avoid that the first and last label entry in the chart "clip" off the edge of the chart
     @objc open var avoidFirstLastClippingEnabled = false
     
