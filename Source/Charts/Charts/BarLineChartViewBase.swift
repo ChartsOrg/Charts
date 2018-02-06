@@ -773,6 +773,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 
                 _isDragging = false
             }
+
+            if unHighlightOnDragEnd
+            {
+                highlightValue(nil, callDelegate: true)
+            }
             
             if _outerScrollView !== nil
             {
@@ -1633,6 +1638,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     /// flag that indicates if highlighting per dragging over a fully zoomed out chart is enabled
     @objc open var highlightPerDragEnabled = true
+
+    /// flag that indicates whether the highlight will end upon drag end
+    @objc open var unHighlightOnDragEnd = false
     
     /// If set to true, highlighting per dragging over a fully zoomed out chart is enabled
     /// You might want to disable this when using inside a `NSUIScrollView`
