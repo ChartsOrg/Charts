@@ -33,6 +33,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     private var _scaleXEnabled = true
     private var _scaleYEnabled = true
+
+    private var _minimumLongPressRecognizeTime = 0.05
     
     /// the color for the background of the chart-drawing area (everything behind the grid lines).
     @objc open var gridBackgroundColor = NSUIColor(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1.0)
@@ -81,6 +83,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     @objc open lazy var xAxisRenderer = XAxisRenderer(viewPortHandler: _viewPortHandler, xAxis: _xAxis, transformer: _leftAxisTransformer)
     
     internal var _tapGestureRecognizer: NSUITapGestureRecognizer!
+    internal var _longPressGestureRecognizer: NSUILongPressGestureRecognizer!
     internal var _doubleTapGestureRecognizer: NSUITapGestureRecognizer!
     #if !os(tvOS)
     internal var _pinchGestureRecognizer: NSUIPinchGestureRecognizer!
@@ -117,11 +120,14 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         _tapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: #selector(tapGestureRecognized(_:)))
         _doubleTapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: #selector(doubleTapGestureRecognized(_:)))
         _doubleTapGestureRecognizer.nsuiNumberOfTapsRequired = 2
+        _longPressGestureRecognizer = NSUILongPressGestureRecognizer(target: self, action: #selector(longPressGestureRecognized(_:)))
+        _longPressGestureRecognizer.minimumPressDuration = _minimumLongPressRecognizeTime
         _panGestureRecognizer = NSUIPanGestureRecognizer(target: self, action: #selector(panGestureRecognized(_:)))
         
         _panGestureRecognizer.delegate = self
         
         self.addGestureRecognizer(_tapGestureRecognizer)
+        self.addGestureRecognizer(_longPressGestureRecognizer)
         self.addGestureRecognizer(_doubleTapGestureRecognizer)
         self.addGestureRecognizer(_panGestureRecognizer)
         
@@ -569,6 +575,27 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 
                 self.zoom(scaleX: isScaleXEnabled ? 1.4 : 1.0, scaleY: isScaleYEnabled ? 1.4 : 1.0, x: location.x, y: location.y)
             }
+        }
+    }
+
+    @objc private func longPressGestureRecognized(_ recognizer: NSUILongPressGestureRecognizer)
+    {
+        if _data === nil || !self.highlightPerLongPressEnable
+        {
+            return
+        }
+
+        let h = getHighlightByTouchPoint(recognizer.location(in: self))
+
+        if recognizer.state == NSUIGestureRecognizerState.began || recognizer.state == NSUIGestureRecognizerState.changed
+        {
+            lastHighlighted = h
+            highlightValue(h, callDelegate: true)
+        }
+        else if recognizer.state == NSUIGestureRecognizerState.ended
+        {
+            lastHighlighted = nil
+            highlightValue(nil, callDelegate: true)
         }
     }
     
@@ -1634,6 +1661,24 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     @objc open var isDoubleTapToZoomEnabled: Bool
     {
         return doubleTapToZoomEnabled
+    }
+
+    /// flag that indicates if highlighting upon long press is enabled
+    @objc open var highlightPerLongPressEnable = false
+
+    /// minimum time for long pressing to be recognized and highlight a value
+    @objc open var minimumLongPressTimeToHighlight: TimeInterval {
+        get {
+            return _minimumLongPressRecognizeTime
+        }
+
+        set {
+            _minimumLongPressRecognizeTime = newValue
+
+            if _longPressGestureRecognizer != nil {
+                _longPressGestureRecognizer.minimumPressDuration = newValue
+            }
+        }
     }
     
     /// flag that indicates if highlighting per dragging over a fully zoomed out chart is enabled
