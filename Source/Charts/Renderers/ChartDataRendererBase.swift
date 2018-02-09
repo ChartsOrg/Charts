@@ -50,10 +50,19 @@ open class DataRenderer: Renderer
     /// An opportunity for initializing internal buffers used for rendering with a new size.
     /// Since this might do memory allocations, it should only be called if necessary.
     @objc open func initBuffers() { }
-    
+
     @objc open func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
     {
-        guard let data = dataProvider?.data else { return false }
-        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
+        guard let data = dataProvider?.data
+            else { return false }
+
+        var showEntryCount = 0
+        for dataset in data.dataSets {
+            if dataset.drawValuesEnabled == true {
+                showEntryCount += dataset.entryCount
+            }
+        }
+
+        return showEntryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * (viewPortHandler.scaleX))
     }
 }
