@@ -86,22 +86,22 @@ open class ChartDataSet: ChartBaseDataSet
     
     open override func calcMinMax()
     {
-        guard !values.isEmpty else { return }
-
         _yMax = -Double.greatestFiniteMagnitude
         _yMin = Double.greatestFiniteMagnitude
         _xMax = -Double.greatestFiniteMagnitude
         _xMin = Double.greatestFiniteMagnitude
+
+        guard !values.isEmpty else { return }
 
         values.forEach { calcMinMax(entry: $0) }
     }
     
     open override func calcMinMaxY(fromX: Double, toX: Double)
     {
-        guard !values.isEmpty else { return }
-
         _yMax = -Double.greatestFiniteMagnitude
         _yMin = Double.greatestFiniteMagnitude
+
+        guard !values.isEmpty else { return }
         
         let indexFrom = entryIndex(x: fromX, closestToY: Double.nan, rounding: .down)
         let indexTo = entryIndex(x: toX, closestToY: Double.nan, rounding: .up)
