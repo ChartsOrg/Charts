@@ -24,6 +24,8 @@ open class AxisBase: ComponentBase
     /// Custom formatter that is used instead of the auto-formatter if set
     fileprivate var _axisValueFormatter: IAxisValueFormatter?
     
+    open var isForCurrency = false//vivek
+
     open var labelFont = NSUIFont.systemFont(ofSize: 10.0)
     open var labelTextColor = NSUIColor.black
     
