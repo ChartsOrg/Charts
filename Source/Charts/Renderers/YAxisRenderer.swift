@@ -144,7 +144,7 @@ open class YAxisRenderer: AxisRendererBase
         let from = yAxis.isDrawBottomYLabelEntryEnabled ? 0 : 1
         let to = yAxis.isDrawTopYLabelEntryEnabled ? yAxis.entryCount : (yAxis.entryCount - 1)
         var floatingPoint = 0//vivek
-        yAxis.isForCurrency ? (floatingPoint = 2 ): (floatingPoint = 0)
+        yAxis.showDecimals ? (floatingPoint = 2 ): (floatingPoint = 0)
         for i in stride(from: from, to: to, by: 1)
         {
              var value: Double = Double(yAxis.getFormattedLabel(i))! //vivek
