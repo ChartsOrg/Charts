@@ -248,22 +248,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             guard viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width) else { continue }
             guard viewPortHandler.isInBoundsRight(barRect.origin.x) else { break }
 
-            context.saveGState()
-            if let gradientColors = dataSet.barGradientColors, gradientColors.count > 0
-            {
-                if let gradientColor = dataSet.barGradientColor(atIndex: j)
-                {
-                    drawGradient(context: context, barRect: barRect, gradientColors: gradientColor, orientation: dataSet.barGradientOrientation)
-                }
-            }
-            else
-            {
-                // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
-                let fillColor = dataSet.color(atIndex: j).cgColor
-                context.setFillColor(fillColor)
-                context.fill(barRect)
-            }
-            context.restoreGState()
+            drawBar(context: context, dataSet: dataSet, index: j, barRect: barRect)
             
             if drawBorder
             {
@@ -274,6 +259,28 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.restoreGState()
             }
         }
+    }
+    
+    open func drawBar(context: CGContext, dataSet: BarChartDataSetProtocol, index: Int, barRect: CGRect)
+    {
+        context.saveGState()
+        
+        if let gradientColors = dataSet.barGradientColors, gradientColors.count > 0
+        {
+            if let gradientColor = dataSet.barGradientColor(atIndex: index)
+            {
+                drawGradient(context: context, barRect: barRect, gradientColors: gradientColor, orientation: dataSet.barGradientOrientation)
+            }
+        }
+        else
+        {
+            // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
+            let fillColor = dataSet.color(atIndex: index).cgColor
+            context.setFillColor(fillColor)
+            context.fill(barRect)
+        }
+        
+        context.restoreGState()
     }
     
     open func drawGradient(context: CGContext, barRect: CGRect, gradientColors: Array<NSUIColor>, orientation: BarChartDataSet.BarGradientOrientation)

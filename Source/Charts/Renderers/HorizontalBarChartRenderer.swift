@@ -248,10 +248,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 continue
             }
             
-            // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
-            context.setFillColor(dataSet.color(atIndex: j).cgColor)
-            
-            context.fill(barRect)
+            drawBar(context: context, dataSet: dataSet, index: j, barRect: barRect)
             
             if drawBorder
             {
