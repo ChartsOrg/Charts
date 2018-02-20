@@ -1,12 +1,12 @@
 > ℹ Please fill out this template when filing an issue.
 > All lines beginning with an ℹ symbol instruct you with what info we expect. You can delete those lines once you've filled in the info.
 >
-> Per our [*CONTRIBUTING guidelines](https://github.com/Alamofire/Alamofire/blob/master/CONTRIBUTING.md), we use GitHub for
-> bugs and feature requests, not general support. Other issues should be opened on Stack Overflow with the tag `alamofire`.
+> Per our [*CONTRIBUTING guidelines](https://github.com/jjatie/Charts/blob/master/CONTRIBUTING.md), we use GitHub for
+> bugs and feature requests, not general support. Other issues should be opened on Stack Overflow with the tag [`ios-charts`.](https://stackoverflow.com/questions/tagged/ios-charts)
 >
 > Please remove this line and everything above it before submitting.
 
-* [ ] I've read, understood, and done my best to follow the [*CONTRIBUTING guidelines](https://github.com/Alamofire/Alamofire/blob/master/CONTRIBUTING.md).
+* [ ] I've read, understood, and done my best to follow the [*CONTRIBUTING guidelines](https://github.com/jjatie/Charts/blob/master/CONTRIBUTING.md).
 
 ## What did you do?
 
@@ -20,12 +20,12 @@
 
 ℹ Please replace this with of what happened instead.  
 
-## Alamofire Environment
+## Charts Environment
 
-**Alamofire version:**
+**Charts version:**
 **Xcode version:**
 **Swift version:**
-**Platform(s) running Alamofire:**
+**Platform(s) running Charts:**
 **macOS version running Xcode:**
 
 ## Demo Project
