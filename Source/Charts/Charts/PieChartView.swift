@@ -644,7 +644,7 @@ open class PieChartView: PieRadarChartViewBase
     }
     
     /// The offset value that is used for shifting the data label outside of the center of chart.
-    /// Max value allowded is 1.0, Min value allowded is 0.0.
+    /// Min value allowded is 0.0.
     /// **default**: 0.0
     open var dataLabelOffset: CGFloat
     {
@@ -655,11 +655,6 @@ open class PieChartView: PieRadarChartViewBase
         set
         {
             _dataLabelOffset = newValue
-            
-            if _dataLabelOffset > 1.0
-            {
-                _dataLabelOffset = 1.0
-            }
             
             if _dataLabelOffset < 0.0
             {
