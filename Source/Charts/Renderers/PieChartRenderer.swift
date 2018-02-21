@@ -314,6 +314,8 @@ open class PieChartRenderer: NSObject, DataRenderer
             
             let iconsOffset = dataSet.iconsOffset
             
+            let angleRadians = dataSet.valueRotationAngle.DEG2RAD
+            
             let xValuePosition = dataSet.xValuePosition
             let yValuePosition = dataSet.yValuePosition
             
@@ -429,6 +431,7 @@ open class PieChartRenderer: NSObject, DataRenderer
                         context.drawText(valueText,
                                          at: labelPoint,
                                          align: align,
+                                         angleRadians: angleRadians,
                                          attributes: [.font: valueFont,
                                                       .foregroundColor: valueTextColor])
                         
@@ -438,6 +441,7 @@ open class PieChartRenderer: NSObject, DataRenderer
                                              at: CGPoint(x: labelPoint.x,
                                                          y: labelPoint.y + lineHeight),
                                              align: align,
+                                             angleRadians: angleRadians,
                                              attributes: [.font: entryLabelFont ?? valueFont,
                                                           .foregroundColor: entryLabelColor ?? valueTextColor])
                         }
@@ -450,6 +454,7 @@ open class PieChartRenderer: NSObject, DataRenderer
                                              at: CGPoint(x: labelPoint.x,
                                                          y: labelPoint.y + lineHeight / 2.0),
                                              align: align,
+                                             angleRadians: angleRadians,
                                              attributes: [.font: entryLabelFont ?? valueFont,
                                                           .foregroundColor: entryLabelColor ?? valueTextColor])
                         }
@@ -460,6 +465,7 @@ open class PieChartRenderer: NSObject, DataRenderer
                                          at: CGPoint(x: labelPoint.x,
                                                      y: labelPoint.y + lineHeight / 2.0),
                                          align: align,
+                                         angleRadians: angleRadians,
                                          attributes: [.font: valueFont,
                                                       .foregroundColor: valueTextColor])
                     }
@@ -476,6 +482,7 @@ open class PieChartRenderer: NSObject, DataRenderer
                         context.drawText(valueText,
                                          at: CGPoint(x: x, y: y),
                                          align: .center,
+                                         angleRadians: angleRadians,
                                          attributes: [.font: valueFont, .foregroundColor: valueTextColor])
                         
                         if j < data.entryCount && pe?.label != nil
@@ -483,6 +490,7 @@ open class PieChartRenderer: NSObject, DataRenderer
                             context.drawText(pe!.label!,
                                              at: CGPoint(x: x, y: y + lineHeight),
                                              align: .center,
+                                             angleRadians: angleRadians,
                                              attributes: [.font: entryLabelFont ?? valueFont,
                                                           .foregroundColor: entryLabelColor ?? valueTextColor])
                         }
@@ -494,6 +502,7 @@ open class PieChartRenderer: NSObject, DataRenderer
                             context.drawText(pe!.label!,
                                              at: CGPoint(x: x, y: y + lineHeight / 2.0),
                                              align: .center,
+                                             angleRadians: angleRadians,
                                              attributes: [.font: entryLabelFont ?? valueFont,
                                                           .foregroundColor: entryLabelColor ?? valueTextColor])
                         }
@@ -503,6 +512,7 @@ open class PieChartRenderer: NSObject, DataRenderer
                         context.drawText(valueText,
                                          at: CGPoint(x: x, y: y + lineHeight / 2.0),
                                          align: .center,
+                                         angleRadians: angleRadians,
                                          attributes: [.font: valueFont, .foregroundColor: valueTextColor])
                     }
                 }

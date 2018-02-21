@@ -267,6 +267,8 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 
                 let iconsOffset = dataSet.iconsOffset
                 
+                let angleRadians = dataSet.valueRotationAngle.DEG2RAD
+                
                 _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
                 
                 let lineHeight = valueFont.lineHeight
@@ -299,6 +301,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                                          at: CGPoint(x: pt.x,
                                                      y: pt.y - yOffset),
                                          align: .center,
+                                         angleRadians: angleRadians,
                                          attributes: [.font: valueFont,
                                                       .foregroundColor: dataSet.valueTextColorAt(j)])
                     }

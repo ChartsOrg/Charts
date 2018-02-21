@@ -148,6 +148,8 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
             let valueToPixelMatrix = trans.valueToPixelMatrix
 
             let iconsOffset = dataSet.iconsOffset
+            
+            let angleRadians = dataSet.valueRotationAngle.DEG2RAD
 
             for j in _xBounds.min..._xBounds.range + _xBounds.min
             {
@@ -182,6 +184,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
                                      at: CGPoint(x: pt.x,
                                                     y: pt.y - (0.5 * lineHeight)),
                                      align: .center,
+                                     angleRadians: angleRadians,
                                      attributes: [.font: valueFont,
                                                   .foregroundColor: valueTextColor])
                 }

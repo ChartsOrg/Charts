@@ -137,22 +137,22 @@ extension CGContext {
         NSUIGraphicsPopContext()
     }
 
-    open func drawText(_ text: String, at point: CGPoint, align: NSTextAlignment, attributes: [NSAttributedStringKey : Any]?)
-    {
-
-        let drawPoint = getDrawPoint(text: text, point: point, align: align, attributes: attributes)
-        
-        NSUIGraphicsPushContext(self)
-        
-        (text as NSString).draw(at: drawPoint, withAttributes: attributes)
-        
-        NSUIGraphicsPopContext()
-    }
-    
-    open func drawText(_ text: String, at point: CGPoint, align: NSTextAlignment, anchor: CGPoint = CGPoint(x: 0.5, y: 0.5), angleRadians: CGFloat, attributes: [NSAttributedStringKey : Any]?)
+    open func drawText(_ text: String, at point: CGPoint, align: NSTextAlignment, anchor: CGPoint = CGPoint(x: 0.5, y: 0.5), angleRadians: CGFloat = 0.0, attributes: [NSAttributedStringKey : Any]?)
     {
         let drawPoint = getDrawPoint(text: text, point: point, align: align, attributes: attributes)
-        drawText(text, at: drawPoint, anchor: anchor, angleRadians: angleRadians, attributes: attributes)
+        
+        if (angleRadians == 0.0)
+        {
+            NSUIGraphicsPushContext(self)
+            
+            (text as NSString).draw(at: drawPoint, withAttributes: attributes)
+            
+            NSUIGraphicsPopContext()
+        }
+        else
+        {
+            drawText(text, at: drawPoint, anchor: anchor, angleRadians: angleRadians, attributes: attributes)
+        }
     }
     
     open func drawText(_ text: String, at point: CGPoint, anchor: CGPoint = CGPoint(x: 0.5, y: 0.5), angleRadians: CGFloat, attributes: [NSAttributedStringKey : Any]?)
