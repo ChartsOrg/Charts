@@ -22,7 +22,7 @@
 
 ## Charts Environment
 
-**Charts version:**
+**Charts version/Branch/Commit Number:**
 **Xcode version:**
 **Swift version:**
 **Platform(s) running Charts:**
