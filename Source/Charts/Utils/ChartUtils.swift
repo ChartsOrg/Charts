@@ -139,24 +139,22 @@ extension CGContext {
 
     open func drawText(_ text: String, at point: CGPoint, align: NSTextAlignment, attributes: [NSAttributedStringKey : Any]?)
     {
-        var point = point
 
-        if align == .center
-        {
-            point.x -= text.size(withAttributes: attributes).width / 2.0
-        }
-        else if align == .right
-        {
-            point.x -= text.size(withAttributes: attributes).width
-        }
-
+        let drawPoint = getDrawPoint(text: text, point: point, align: align, attributes: attributes)
+        
         NSUIGraphicsPushContext(self)
-
-        (text as NSString).draw(at: point, withAttributes: attributes)
-
+        
+        (text as NSString).draw(at: drawPoint, withAttributes: attributes)
+        
         NSUIGraphicsPopContext()
     }
-
+    
+    open func drawText(_ text: String, at point: CGPoint, align: NSTextAlignment, anchor: CGPoint = CGPoint(x: 0.5, y: 0.5), angleRadians: CGFloat, attributes: [NSAttributedStringKey : Any]?)
+    {
+        let drawPoint = getDrawPoint(text: text, point: point, align: align, attributes: attributes)
+        drawText(text, at: drawPoint, anchor: anchor, angleRadians: angleRadians, attributes: attributes)
+    }
+    
     open func drawText(_ text: String, at point: CGPoint, anchor: CGPoint = CGPoint(x: 0.5, y: 0.5), angleRadians: CGFloat, attributes: [NSAttributedStringKey : Any]?)
     {
         var drawOffset = CGPoint()
@@ -209,6 +207,21 @@ extension CGContext {
         NSUIGraphicsPopContext()
     }
 
+    func getDrawPoint(text: String, point: CGPoint, align: NSTextAlignment, attributes: [NSAttributedStringKey : Any]?) -> CGPoint
+    {
+        var point = point
+        
+        if align == .center
+        {
+            point.x -= text.size(withAttributes: attributes).width / 2.0
+        }
+        else if align == .right
+        {
+            point.x -= text.size(withAttributes: attributes).width
+        }
+        return point
+    }
+    
     func drawMultilineText(_ text: String, at point: CGPoint, constrainedTo size: CGSize, anchor: CGPoint, knownTextSize: CGSize, angleRadians: CGFloat, attributes: [NSAttributedStringKey : Any]?)
     {
         var rect = CGRect(origin: .zero, size: knownTextSize)
