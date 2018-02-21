@@ -658,7 +658,7 @@ open class PieChartView: PieRadarChartViewBase
             
             if _dataLabelOffset < 0.0
             {
-                _maxAngle = 0.0
+                _dataLabelOffset = 0.0
             }
         }
     }
