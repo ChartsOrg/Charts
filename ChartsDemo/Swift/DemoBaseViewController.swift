@@ -16,6 +16,7 @@ enum Option {
     case animateX
     case animateY
     case animateXY
+    case animateH
     case saveToGallery
     case togglePinchZoom
     case toggleAutoScaleMinMax
@@ -53,6 +54,7 @@ enum Option {
         case .animateX: return "Animate X"
         case .animateY: return "Animate Y"
         case .animateXY: return "Animate XY"
+        case .animateH: return "Animate Highlight"
         case .saveToGallery: return "Save to Camera Roll"
         case .togglePinchZoom: return "Toggle PinchZoom"
         case .toggleAutoScaleMinMax: return "Toggle auto scale min/max"
@@ -140,7 +142,7 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
             
         case .animateXY:
             chartView.animate(xAxisDuration: 3, yAxisDuration: 3)
-            
+        
         case .saveToGallery:
             UIImageWriteToSavedPhotosAlbum(chartView.getChartImage(transparent: false)!, nil, nil, nil)
             
