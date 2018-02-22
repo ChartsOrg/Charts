@@ -667,7 +667,7 @@ open class PieChartRenderer: DataRenderer
         
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
-        
+        let phaseH = animator.phaseH
         var angle: CGFloat = 0.0
         let rotationAngle = chart.rotationAngle
         
@@ -714,13 +714,14 @@ open class PieChartRenderer: DataRenderer
                 angle = absoluteAngles[index - 1] * CGFloat(phaseX)
             }
             
-            let sliceSpace = visibleAngleCount <= 1 ? 0.0 : set.sliceSpace
-            
+            let sliceSpace = visibleAngleCount <= 1 ? 0.0
+                : CGFloat(abs(set.sliceSpace - set.selectionSliceSpace)) * CGFloat(phaseH)
+            let innerShift = set.innerSelectionShift
             let sliceAngle = drawAngles[index]
-            var innerRadius = userInnerRadius
+            var innerRadius = userInnerRadius + innerShift * CGFloat(phaseH)
             
             let shift = set.selectionShift
-            let highlightedRadius = radius + shift
+            let highlightedRadius = radius + shift * CGFloat(phaseH)
             
             let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
             
