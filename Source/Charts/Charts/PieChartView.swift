@@ -156,15 +156,12 @@ open class PieChartView: PieRadarChartViewBase
     /// Animates highlighting action
     /// - Parameter duration: Animation duration
     open func animateHighlight(duration: TimeInterval) {
-        guard let lighter = self.highlighter as? PieHighlighter,
-            let entrCount = self.data?.dataSets[0].entryCount
-            else { return }
-        let highs = (0..<entrCount).flatMap {
-            lighter.closestHighlight(index: $0, x: 0, y: 0)
-        }
-        
-        self.highlightValues(highs)
         _animator.animate(dimension: .H, duration: duration)
+    }
+    
+    @objc override open func highlightValue(_ highlight: Highlight?, callDelegate: Bool) {
+        super.highlightValue(highlight, callDelegate: callDelegate);
+        self.animateHighlight(duration: 1);
     }
     
     open override func getMarkerPosition(highlight: Highlight) -> CGPoint
