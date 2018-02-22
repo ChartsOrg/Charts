@@ -88,6 +88,8 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
     
     /// indicates the selection distance of a pie slice
     open var selectionShift = CGFloat(18.0)
+    open var selectionShiftDuration: TimeInterval = 0.5;
+    open var isSelectionAnimated = false;
     open var innerSelectionShift = CGFloat(0)
     open var xValuePosition: ValuePosition = .insideSlice
     open var yValuePosition: ValuePosition = .insideSlice

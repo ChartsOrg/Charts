@@ -31,6 +31,8 @@ public protocol IPieChartDataSet: IChartDataSet
     
     /// indicates the selection distance of a pie slice
     var selectionShift: CGFloat { get set }
+    var selectionShiftDuration: TimeInterval { get set }
+    var isSelectionAnimated: Bool { get set }
     var innerSelectionShift: CGFloat { get set }
     var xValuePosition: PieChartDataSet.ValuePosition { get set }
     var yValuePosition: PieChartDataSet.ValuePosition { get set }
