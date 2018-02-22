@@ -71,13 +71,24 @@ open class PieChartDataSet: ChartDataSet, PieChartDataSetProtocol
             _sliceSpace = space
         }
     }
+    
+    private var _selectionSliceSpace = CGFloat(0.0)
+    /// Indicates selection slice space
+    open var selectionSliceSpace: CGFloat
+    {
+        get { return _selectionSliceSpace }
+        set {
+            let adjusted = Double(newValue).adjustTo(minVal: 0, maxVal: 20.0)
+            _selectionSliceSpace = CGFloat(adjusted);
+        }
+    }
 
     /// When enabled, slice spacing will be 0.0 when the smallest value is going to be smaller than the slice spacing itself.
     open var automaticallyDisableSliceSpacing: Bool = false
     
     /// indicates the selection distance of a pie slice
     open var selectionShift = CGFloat(18.0)
-    
+    open var innerSelectionShift = CGFloat(0)
     open var xValuePosition: ValuePosition = .insideSlice
     open var yValuePosition: ValuePosition = .insideSlice
     
