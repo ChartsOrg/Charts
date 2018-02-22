@@ -152,17 +152,6 @@ open class PieChartView: PieRadarChartViewBase
         calcAngles()
     }
     
-    /// Animates highlighting action
-    /// - Parameter duration: Animation duration
-    open func animateHighlight(duration: TimeInterval) {
-        _animator.animate(dimension: .H, duration: duration)
-    }
-    
-    @objc override open func highlightValue(_ highlight: Highlight?, callDelegate: Bool) {
-        super.highlightValue(highlight, callDelegate: callDelegate);
-        self.animateHighlight(duration: 1);
-    }
-    
     open override func getMarkerPosition(highlight: Highlight) -> CGPoint
     {
         let center = self.centerCircleBox
@@ -273,6 +262,21 @@ open class PieChartView: PieRadarChartViewBase
     {
         get { fatalError("PieChart has no XAxis") }
         set { fatalError("PieChart has no XAxis") }
+    }
+    
+    /// Animates highlighting action
+    /// - Parameter duration: Animation duration
+    @objc open func animateHighlight(duration: TimeInterval) {
+        _animator.animate(dimension: .H, duration: duration)
+    }
+    
+    @objc override open func highlightValue(_ highlight: Highlight?, callDelegate: Bool) {
+        super.highlightValue(highlight, callDelegate: callDelegate);
+        guard let pieData = self.data as? PieChartData,
+            let duration = pieData.dataSet?.selectionShiftDuration,
+            let isEnabled = pieData.dataSet?.isSelectionAnimated,
+            isEnabled else { return }
+        self.animateHighlight(duration: duration);
     }
     
     open override func indexForAngle(_ angle: CGFloat) -> Int

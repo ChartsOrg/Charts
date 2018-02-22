@@ -72,7 +72,7 @@ class PieChartViewController: DemoBaseViewController {
     
     override func handleOption(_ option: Option, forChartView chartView: ChartViewBase) {
         if option == .animateH {
-            self.chartView.animateHighlight(duration: 2);
+            self.chartView.animateHighlight(duration: 1);
             return;
         }
         super.handleOption(option, forChartView: chartView);
@@ -89,7 +89,7 @@ class PieChartViewController: DemoBaseViewController {
         let set = PieChartDataSet(values: entries, label: "Election Results")
         set.drawIconsEnabled = false
         set.sliceSpace = 2
-        
+        set.isSelectionAnimated = true;
         
         set.colors = ChartColorTemplates.vordiplom()
             + ChartColorTemplates.joyful()
