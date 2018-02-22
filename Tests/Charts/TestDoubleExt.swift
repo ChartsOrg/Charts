@@ -1,5 +1,5 @@
 //
-//  TestDoubleExtension.swift
+//  TestDoubleExt.swift
 //  ChartsTests
 //
 //  Created by Azamat Kalmurzayev on 2/22/18.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import Charts
 
-class TestDoubleExtension: XCTestCase {
+class TestDoubleExt: XCTestCase {
     func testAdjustingToBounds() {
         XCTAssertEqual((-100000.0).adjustTo(minVal: 120, maxVal: 500), 120)
         XCTAssertEqual(0.adjustTo(minVal: 120, maxVal: 500), 120)
@@ -19,3 +19,4 @@ class TestDoubleExtension: XCTestCase {
         XCTAssertEqual(5000.adjustTo(minVal: 120, maxVal: 500), 500)
     }
 }
+
