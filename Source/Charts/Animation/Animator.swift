@@ -67,6 +67,11 @@ open class Animator: NSObject
         return animatedDimensions[.Y]?.phase ?? 1.0
     }
     
+    /// the phase that is animated and influences the drawn values on H dimension
+    @objc open var phaseH: Double {
+        return animatedDimensions[.H]?.phase ?? 1.0
+    }
+    
     fileprivate var _endTime: TimeInterval {
         return animatedDimensions.reduce(0) { (m, animation) -> TimeInterval in
             return max(m, animation.1.endTime)
@@ -129,6 +134,13 @@ open class Animator: NSObject
         
         delegate?.animatorStopped(self)
         stopBlock?()
+    }
+    
+    /// Returns a phase value for specified Dimension
+    /// - Parameter dimension: Dimension enum value
+    /// - Returns: Phase value
+    open func phase(for dimension: Dimension) -> Double {
+        return animatedDimensions[dimension]?.phase ?? 1.0
     }
     
     fileprivate func disableAllAnimations() {
