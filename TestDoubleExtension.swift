@@ -8,7 +8,7 @@
 import XCTest
 @testable import Charts
 
-class TestDoubleExtension: KVBaseTestCase {
+class TestDoubleExtension: XCTestCase {
     func testAdjustingToBounds() {
         XCTAssertEqual((-100000.0).adjustTo(minVal: 120, maxVal: 500), 120)
         XCTAssertEqual(0.adjustTo(minVal: 120, maxVal: 500), 120)
