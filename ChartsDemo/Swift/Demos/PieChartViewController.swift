@@ -89,7 +89,6 @@ class PieChartViewController: DemoBaseViewController {
         let set = PieChartDataSet(values: entries, label: "Election Results")
         set.drawIconsEnabled = false
         set.sliceSpace = 2
-        set.isSelectionAnimated = true;
         
         set.colors = ChartColorTemplates.vordiplom()
             + ChartColorTemplates.joyful()
