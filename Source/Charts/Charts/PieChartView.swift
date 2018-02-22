@@ -153,6 +153,20 @@ open class PieChartView: PieRadarChartViewBase
         calcAngles()
     }
     
+    /// Animates highlighting action
+    /// - Parameter duration: Animation duration
+    open func animateHighlight(duration: TimeInterval) {
+        guard let lighter = self.highlighter as? PieHighlighter,
+            let entrCount = self.data?.dataSets[0].entryCount
+            else { return }
+        let highs = (0..<entrCount).flatMap {
+            lighter.closestHighlight(index: $0, x: 0, y: 0)
+        }
+        
+        self.highlightValues(highs)
+        _animator.animate(dimension: .H, duration: duration)
+    }
+    
     open override func getMarkerPosition(highlight: Highlight) -> CGPoint
     {
         let center = self.centerCircleBox
