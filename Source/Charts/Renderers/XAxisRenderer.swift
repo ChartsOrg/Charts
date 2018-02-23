@@ -226,7 +226,7 @@ open class XAxisRenderer: AxisRendererBase
             
             if viewPortHandler.isInBoundsX(position.x)
             {
-                let label = xAxis.valueFormatter?.stringForValue(round(xAxis.entries[i]), axis: xAxis) ?? "" //vivek
+                let label = ("" != xAxis.valueFormatter?.stringForValue(Double(Int(xAxis.entries[i])), axis: xAxis)) ? (xAxis.valueFormatter?.stringForValue(Double(Int(xAxis.entries[i])), axis: xAxis) ?? "") : (xAxis.valueFormatter?.stringForValue(Double(Int(xAxis.entries[i]) - 1), axis: xAxis) ?? "") //vivek
 
                 let labelns = label as NSString
                 
