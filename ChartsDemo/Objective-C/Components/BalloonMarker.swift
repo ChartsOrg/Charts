@@ -15,22 +15,20 @@ import Charts
 
 open class BalloonMarker: MarkerImage
 {
-    @objc open var color: UIColor?
+    @objc open var color: UIColor
     @objc open var arrowSize = CGSize(width: 15, height: 11)
-    @objc open var font: UIFont?
-    @objc open var textColor: UIColor?
-    @objc open var insets = UIEdgeInsets()
+    @objc open var font: UIFont
+    @objc open var textColor: UIColor
+    @objc open var insets: UIEdgeInsets
     @objc open var minimumSize = CGSize()
     
     fileprivate var label: String?
     fileprivate var _labelSize: CGSize = CGSize()
     fileprivate var _paragraphStyle: NSMutableParagraphStyle?
-    fileprivate var _drawAttributes = [NSAttributedStringKey : Any]()
+    fileprivate var _drawAttributes = [NSAttributedStringKey : AnyObject]()
     
     @objc public init(color: UIColor, font: UIFont, textColor: UIColor, insets: UIEdgeInsets)
     {
-        super.init()
-        
         self.color = color
         self.font = font
         self.textColor = textColor
@@ -38,6 +36,7 @@ open class BalloonMarker: MarkerImage
         
         _paragraphStyle = NSParagraphStyle.default.mutableCopy() as? NSMutableParagraphStyle
         _paragraphStyle?.alignment = .center
+        super.init()
     }
     
     open override func offsetForDrawing(atPoint point: CGPoint) -> CGPoint
@@ -101,69 +100,68 @@ open class BalloonMarker: MarkerImage
         rect.origin.y -= size.height
         
         context.saveGState()
-        
-        if let color = color
+
+        context.setFillColor(color.cgColor)
+
+        if offset.y > 0
         {
-            if offset.y > 0
-            {
-                context.beginPath()
-                context.move(to: CGPoint(
-                    x: rect.origin.x,
-                    y: rect.origin.y + arrowSize.height))
-                context.addLine(to: CGPoint(
-                    x: rect.origin.x + (rect.size.width - arrowSize.width) / 2.0,
-                    y: rect.origin.y + arrowSize.height))
-                //arrow vertex
-                context.addLine(to: CGPoint(
-                    x: point.x,
-                    y: point.y))
-                context.addLine(to: CGPoint(
-                    x: rect.origin.x + (rect.size.width + arrowSize.width) / 2.0,
-                    y: rect.origin.y + arrowSize.height))
-                context.addLine(to: CGPoint(
-                    x: rect.origin.x + rect.size.width,
-                    y: rect.origin.y + arrowSize.height))
-                context.addLine(to: CGPoint(
-                    x: rect.origin.x + rect.size.width,
-                    y: rect.origin.y + rect.size.height))
-                context.addLine(to: CGPoint(
-                    x: rect.origin.x,
-                    y: rect.origin.y + rect.size.height))
-                context.addLine(to: CGPoint(
-                    x: rect.origin.x,
-                    y: rect.origin.y + arrowSize.height))
-                context.fillPath()
-            }
-            else
-            {
-                context.beginPath()
-                context.move(to: CGPoint(
-                    x: rect.origin.x,
-                    y: rect.origin.y))
-                context.addLine(to: CGPoint(
-                    x: rect.origin.x + rect.size.width,
-                    y: rect.origin.y))
-                context.addLine(to: CGPoint(
-                    x: rect.origin.x + rect.size.width,
-                    y: rect.origin.y + rect.size.height - arrowSize.height))
-                context.addLine(to: CGPoint(
-                    x: rect.origin.x + (rect.size.width + arrowSize.width) / 2.0,
-                    y: rect.origin.y + rect.size.height - arrowSize.height))
-                //arrow vertex
-                context.addLine(to: CGPoint(
-                    x: point.x,
-                    y: point.y))
-                context.addLine(to: CGPoint(
-                    x: rect.origin.x + (rect.size.width - arrowSize.width) / 2.0,
-                    y: rect.origin.y + rect.size.height - arrowSize.height))
-                context.addLine(to: CGPoint(
-                    x: rect.origin.x,
-                    y: rect.origin.y + rect.size.height - arrowSize.height))
-                context.addLine(to: CGPoint(
-                    x: rect.origin.x,
-                    y: rect.origin.y))
-                context.fillPath()
-            }
+            context.beginPath()
+            context.move(to: CGPoint(
+                x: rect.origin.x,
+                y: rect.origin.y + arrowSize.height))
+            context.addLine(to: CGPoint(
+                x: rect.origin.x + (rect.size.width - arrowSize.width) / 2.0,
+                y: rect.origin.y + arrowSize.height))
+            //arrow vertex
+            context.addLine(to: CGPoint(
+                x: point.x,
+                y: point.y))
+            context.addLine(to: CGPoint(
+                x: rect.origin.x + (rect.size.width + arrowSize.width) / 2.0,
+                y: rect.origin.y + arrowSize.height))
+            context.addLine(to: CGPoint(
+                x: rect.origin.x + rect.size.width,
+                y: rect.origin.y + arrowSize.height))
+            context.addLine(to: CGPoint(
+                x: rect.origin.x + rect.size.width,
+                y: rect.origin.y + rect.size.height))
+            context.addLine(to: CGPoint(
+                x: rect.origin.x,
+                y: rect.origin.y + rect.size.height))
+            context.addLine(to: CGPoint(
+                x: rect.origin.x,
+                y: rect.origin.y + arrowSize.height))
+            context.fillPath()
+        }
+        else
+        {
+            context.beginPath()
+            context.move(to: CGPoint(
+                x: rect.origin.x,
+                y: rect.origin.y))
+            context.addLine(to: CGPoint(
+                x: rect.origin.x + rect.size.width,
+                y: rect.origin.y))
+            context.addLine(to: CGPoint(
+                x: rect.origin.x + rect.size.width,
+                y: rect.origin.y + rect.size.height - arrowSize.height))
+            context.addLine(to: CGPoint(
+                x: rect.origin.x + (rect.size.width + arrowSize.width) / 2.0,
+                y: rect.origin.y + rect.size.height - arrowSize.height))
+            //arrow vertex
+            context.addLine(to: CGPoint(
+                x: point.x,
+                y: point.y))
+            context.addLine(to: CGPoint(
+                x: rect.origin.x + (rect.size.width - arrowSize.width) / 2.0,
+                y: rect.origin.y + rect.size.height - arrowSize.height))
+            context.addLine(to: CGPoint(
+                x: rect.origin.x,
+                y: rect.origin.y + rect.size.height - arrowSize.height))
+            context.addLine(to: CGPoint(
+                x: rect.origin.x,
+                y: rect.origin.y))
+            context.fillPath()
         }
         
         if offset.y > 0 {
@@ -193,9 +191,9 @@ open class BalloonMarker: MarkerImage
         label = newLabel
         
         _drawAttributes.removeAll()
-        _drawAttributes[NSAttributedStringKey.font] = self.font
-        _drawAttributes[NSAttributedStringKey.paragraphStyle] = _paragraphStyle
-        _drawAttributes[NSAttributedStringKey.foregroundColor] = self.textColor
+        _drawAttributes[.font] = self.font
+        _drawAttributes[.paragraphStyle] = _paragraphStyle
+        _drawAttributes[.foregroundColor] = self.textColor
         
         _labelSize = label?.size(withAttributes: _drawAttributes) ?? CGSize.zero
         
