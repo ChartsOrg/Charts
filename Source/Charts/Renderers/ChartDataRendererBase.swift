@@ -56,10 +56,9 @@ open class DataRenderer: Renderer
         guard let data = dataProvider?.data
             else { return false }
 
-        var showEntryCount = 0
-        for dataset in data.dataSets {
-            if dataset.drawValuesEnabled == true {
-                showEntryCount += dataset.entryCount
+        let showEntryCount = data.dataSets.reduce(into: 0) { (result, dataset) in
+            if dataset.drawValuesEnabled {
+                result += dataset.entryCount
             }
         }
 
