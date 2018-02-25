@@ -263,8 +263,7 @@ open class PieChartRenderer: DataRenderer
         
         let center = chart.centerCircleBox
         
-        // get whole the radius and update the radius value on basis of offset value.
-        let radius = chart.radius + chart.dataLabelOffset
+        let radius = chart.radius
         let rotationAngle = chart.rotationAngle
         var drawAngles = chart.drawAngles
         var absoluteAngles = chart.absoluteAngles
@@ -272,7 +271,8 @@ open class PieChartRenderer: DataRenderer
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
         
-        var labelRadiusOffset = radius / 10.0 * 3.0
+        // get whole the radius and update the radius value on basis of offset value.
+        var labelRadiusOffset = radius * chart.valueLabelOffset
         
         if chart.drawHoleEnabled
         {
