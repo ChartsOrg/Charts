@@ -329,14 +329,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 max: xAxis._axisMaximum,
                 inverted: false)
 
-<<<<<<< 277bb5917868128dbe34a5a86c14ef91f9c8da39
             legendRenderer.computeLegend(data: data)
-=======
-            if _legend !== nil
-            {
-                legendRenderer?.computeLegend(data: data)
-            }
->>>>>>> chart views now use open legend renderer property instead of internal one (#3149)
         }
         
         calculateOffsets()

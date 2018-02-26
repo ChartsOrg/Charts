@@ -267,7 +267,7 @@ open class PieChartView: PieRadarChartViewBase
     /// Animates highlighting action
     /// - Parameter duration: Animation duration
     @objc open func animateHighlight(duration: TimeInterval) {
-        _animator.animate(dimension: .H, duration: duration)
+        chartAnimator.animate(dimension: .H, duration: duration)
     }
     
     @objc override open func highlightValue(_ highlight: Highlight?, callDelegate: Bool) {

@@ -139,7 +139,8 @@ class PieChartViewController: DemoBaseViewController {
             
         case .animateXY:
             chartView.animate(xAxisDuration: 1.4, yAxisDuration: 1.4)
-            
+        case .animateH:
+            chartView.animateHighlight(duration: 0.5);
         case .spin:
             chartView.spin(duration: 2,
                            fromAngle: chartView.rotationAngle,
