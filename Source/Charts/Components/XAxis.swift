@@ -51,6 +51,9 @@ open class XAxis: AxisBase
 
     /// the position of the x-labels relative to the chart
     @objc open var labelPosition = LabelPosition.top
+
+    /// the alignment of the labels
+    @objc open var labelContentAlignment: NSTextAlignment = .center
     
     /// if set to true, word wrapping the labels will be enabled.
     /// word wrapping is done using `(value width * labelRotatedWidth)`

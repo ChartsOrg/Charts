@@ -177,7 +177,7 @@ open class XAxisRenderer: AxisRendererBase
         #else
             let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         #endif
-        paraStyle.alignment = .center
+        paraStyle.alignment = xAxis.labelContentAlignment
         
         let labelAttrs: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: xAxis.labelFont,
             NSAttributedStringKey.foregroundColor: xAxis.labelTextColor,
