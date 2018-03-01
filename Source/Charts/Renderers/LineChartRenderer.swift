@@ -314,11 +314,14 @@ open class LineChartRenderer: LineRadarRenderer
         
         context.saveGState()
         defer { context.restoreGState() }
-
+        
         context.setLineCap(dataSet.lineCapType)
-
+        
+        let isGradient = dataSet.isDrawLineWithGradientEnabled
+        
+        
         // more than 1 color
-        if dataSet.colors.count > 1
+        if dataSet.colors.count > 1 && !isGradient
         {
             if _lineSegments.count != pointsPerEntryPair
             {
@@ -379,7 +382,7 @@ open class LineChartRenderer: LineRadarRenderer
                 context.strokeLineSegments(between: _lineSegments)
             }
         }
-        else
+        else if !isGradient
         { // only one color per dataset
             
             var e1: ChartDataEntry!
@@ -435,15 +438,15 @@ open class LineChartRenderer: LineRadarRenderer
                 }
             }
         }
-
-        if (dataSet.isDrawLineWithGradientEnabled)
+        
+        if (isGradient)
         {
             let path = generateGradientLinePath(dataSet: dataSet,
                                                 fillMin: dataSet.fillFormatter?.getFillLinePosition(dataSet: dataSet, dataProvider: dataProvider) ?? 0.0,
                                                 from: _xBounds.min,
                                                 to: _xBounds.max,
                                                 matrix: trans.valueToPixelMatrix)
-
+            
             drawGradientLine(context: context, dataSet: dataSet, spline: path, matrix: valueToPixelMatrix)
         }
     }
@@ -767,41 +770,41 @@ open class LineChartRenderer: LineRadarRenderer
         
         context.restoreGState()
     }
-
+    
     /// Generates the path that is used for gradient drawing.
     private func generateGradientLinePath(dataSet: LineChartDataSetProtocol, fillMin: CGFloat, from: Int, to: Int, matrix: CGAffineTransform) -> CGPath
     {
         let phaseX = CGFloat(animator.phaseX)
         let phaseY = CGFloat(animator.phaseY)
-
+        
         var e: ChartDataEntry!
-
+        
         let generatedPath = CGMutablePath()
         e = dataSet.entryForIndex(from)
         if e != nil
         {
             generatedPath.move(to: CGPoint(x: CGFloat(e.x), y: CGFloat(e.y) * phaseY), transform: matrix)
         }
-
+        
         // create a new path
         let to = Int(ceil(CGFloat(to - from) * phaseX + CGFloat(from)))
-        for i in (from + 1)..<to
+        for i in (from + 1)..<to+1
         {
             guard let e = dataSet.entryForIndex(i) else { continue }
             generatedPath.addLine(to: CGPoint(x: CGFloat(e.x), y: CGFloat(e.y) * phaseY), transform: matrix)
         }
         return generatedPath
     }
-
+    
     func drawGradientLine(context: CGContext, dataSet: LineChartDataSetProtocol, spline: CGPath, matrix: CGAffineTransform)
     {
         context.saveGState()
         defer { context.restoreGState() }
-
+        
         let gradientPath = spline.copy(strokingWithWidth: dataSet.lineWidth, lineCap: .butt, lineJoin: .miter, miterLimit: 10)
         context.addPath(gradientPath)
         context.drawPath(using: .fill)
-
+        
         let boundingBox = gradientPath.boundingBox
         let gradientStart = CGPoint(x: 0, y: boundingBox.maxY)
         let gradientEnd = CGPoint(x: 0, y: boundingBox.minY)
@@ -839,16 +842,21 @@ open class LineChartRenderer: LineRadarRenderer
                 gradientLocations.append(normPositionLocation)
             }
         }
-
-        for _ in dataSet.colors
+        
+        
+        if dataSet.colors.count > 2
         {
-            cColor = dataSet.color(atIndex: 0)
-            if cColor.getRed(&cRed, green: &cGreen, blue: &cBlue, alpha: &cAlpha)
+            for i in 0..<dataSet.colors.count
             {
-                gradientColors += [cRed, cGreen, cBlue, cAlpha]
+                cColor = dataSet.color(atIndex: i)
+                if cColor.getRed(&cRed, green: &cGreen, blue: &cBlue, alpha: &cAlpha)
+                {
+                    gradientColors += [cRed, cGreen, cBlue, cAlpha]
+                }
             }
         }
-
+        
+        
         //Set upper bound color
         gradientLocations.append(1)
         cColor = dataSet.color(atIndex: dataSet.colors.count - 1)
