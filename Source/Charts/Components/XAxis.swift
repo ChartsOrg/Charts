@@ -45,7 +45,10 @@ open class XAxis: AxisBase
 
     /// if set to true, the chart will avoid that the first and last label entry in the chart "clip" off the edge of the chart
     @objc open var avoidFirstLastClippingEnabled = false
-    
+
+    /// whether to draw the label for last entry
+    @objc open var drawLastLabelEnabled = true
+
     /// the position of the x-labels relative to the chart
     @objc open var labelPosition = LabelPosition.top
     

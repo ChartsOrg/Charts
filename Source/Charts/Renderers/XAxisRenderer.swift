@@ -201,6 +201,10 @@ open class XAxisRenderer: AxisRendererBase
         
         for i in stride(from: 0, to: entries.count, by: 1)
         {
+            guard !(i == xAxis.entryCount - 1 && !xAxis.drawLastLabelEnabled) else {
+                continue
+            }
+
             if centeringEnabled
             {
                 position.x = CGFloat(xAxis.centeredEntries[i])
