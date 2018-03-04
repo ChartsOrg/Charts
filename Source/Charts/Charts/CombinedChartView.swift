@@ -55,12 +55,12 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             
             self.highlighter = CombinedHighlighter(chart: self, barDataProvider: self)
             
-            (renderer as! CombinedChartRenderer?)!.createRenderers()
+            (renderer as? CombinedChartRenderer)?.createRenderers()
             renderer?.initBuffers()
         }
     }
     
-    open var fillFormatter: IFillFormatter
+    @objc open var fillFormatter: IFillFormatter
     {
         get
         {
@@ -74,6 +74,30 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
                 _fillFormatter = DefaultFillFormatter()
             }
         }
+    }
+    
+    /// - returns: The Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the CombinedChart.
+    open override func getHighlightByTouchPoint(_ pt: CGPoint) -> Highlight?
+    {
+        if _data === nil
+        {
+            Swift.print("Can't select by touch. No data set.")
+            return nil
+        }
+        
+        guard let h = self.highlighter?.getHighlight(x: pt.x, y: pt.y)
+            else { return nil }
+        
+        if !isHighlightFullBarEnabled { return h }
+        
+        // For isHighlightFullBarEnabled, remove stackIndex
+        return Highlight(
+            x: h.x, y: h.y,
+            xPx: h.xPx, yPx: h.yPx,
+            dataIndex: h.dataIndex,
+            dataSetIndex: h.dataSetIndex,
+            stackIndex: -1,
+            axis: h.axis)
     }
     
     // MARK: - CombinedChartDataProvider
@@ -92,11 +116,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     {
         get
         {
-            if _data === nil
-            {
-                return nil
-            }
-            return (_data as! CombinedChartData!).lineData
+            return combinedData?.lineData
         }
     }
     
@@ -106,11 +126,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     {
         get
         {
-            if _data === nil
-            {
-                return nil
-            }
-            return (_data as! CombinedChartData!).barData
+            return combinedData?.barData
         }
     }
     
@@ -120,11 +136,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     {
         get
         {
-            if _data === nil
-            {
-                return nil
-            }
-            return (_data as! CombinedChartData!).scatterData
+            return combinedData?.scatterData
         }
     }
     
@@ -134,11 +146,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     {
         get
         {
-            if _data === nil
-            {
-                return nil
-            }
-            return (_data as! CombinedChartData!).candleData
+            return combinedData?.candleData
         }
     }
     
@@ -148,25 +156,21 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     {
         get
         {
-            if _data === nil
-            {
-                return nil
-            }
-            return (_data as! CombinedChartData!).bubbleData
+            return combinedData?.bubbleData
         }
     }
     
     // MARK: - Accessors
     
     /// if set to true, all values are drawn above their bars, instead of below their top
-    open var drawValueAboveBarEnabled: Bool
+    @objc open var drawValueAboveBarEnabled: Bool
         {
         get { return (renderer as! CombinedChartRenderer!).drawValueAboveBarEnabled }
         set { (renderer as! CombinedChartRenderer!).drawValueAboveBarEnabled = newValue }
     }
     
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
-    open var drawBarShadowEnabled: Bool
+    @objc open var drawBarShadowEnabled: Bool
     {
         get { return (renderer as! CombinedChartRenderer!).drawBarShadowEnabled }
         set { (renderer as! CombinedChartRenderer!).drawBarShadowEnabled = newValue }
@@ -181,7 +185,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     /// the order in which the provided data objects should be drawn.
     /// The earlier you place them in the provided array, the further they will be in the background. 
     /// e.g. if you provide [DrawOrder.Bar, DrawOrder.Line], the bars will be drawn behind the lines.
-    open var drawOrder: [Int]
+    @objc open var drawOrder: [Int]
     {
         get
         {
@@ -194,8 +198,49 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     }
     
     /// Set this to `true` to make the highlight operation full-bar oriented, `false` to make it highlight single values
-    open var highlightFullBarEnabled: Bool = false
+    @objc open var highlightFullBarEnabled: Bool = false
     
     /// - returns: `true` the highlight is be full-bar oriented, `false` ifsingle-value
     open var isHighlightFullBarEnabled: Bool { return highlightFullBarEnabled }
+    
+    // MARK: - ChartViewBase
+    
+    /// draws all MarkerViews on the highlighted positions
+    override func drawMarkers(context: CGContext)
+    {
+        guard
+            let marker = marker, 
+            isDrawMarkersEnabled && valuesToHighlight()
+            else { return }
+        
+        for i in 0 ..< _indicesToHighlight.count
+        {
+            let highlight = _indicesToHighlight[i]
+            
+            guard 
+                let set = combinedData?.getDataSetByHighlight(highlight),
+                let e = _data?.entryForHighlight(highlight)
+                else { continue }
+            
+            let entryIndex = set.entryIndex(entry: e)
+            if entryIndex > Int(Double(set.entryCount) * _animator.phaseX)
+            {
+                continue
+            }
+            
+            let pos = getMarkerPosition(highlight: highlight)
+            
+            // check bounds
+            if !_viewPortHandler.isInBounds(x: pos.x, y: pos.y)
+            {
+                continue
+            }
+            
+            // callbacks to update the content
+            marker.refreshContent(entry: e, highlight: highlight)
+            
+            // draw the marker
+            marker.draw(context: context, point: pos)
+        }
+    }
 }

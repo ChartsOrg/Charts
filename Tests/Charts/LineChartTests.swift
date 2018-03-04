@@ -24,11 +24,13 @@ class LineChartTests: FBSnapshotTestCase
         
         for (i, value) in values.enumerated()
         {
-            entries.append(ChartDataEntry(x: Double(i), y: value))
+            entries.append(ChartDataEntry(x: Double(i), y: value, icon: UIImage(named: "icon", in: Bundle(for: self.classForCoder), compatibleWith: nil)))
         }
         
         dataSet = LineChartDataSet(values: entries, label: "First unit test data")
-        
+        dataSet.drawIconsEnabled = false
+        dataSet.iconsOffset = CGPoint(x: 0, y: 20.0)
+
         chart = LineChartView(frame: CGRect(x: 0, y: 0, width: 480, height: 350))
         chart.backgroundColor = NSUIColor.clear
         chart.leftAxis.axisMinimum = 0.0
@@ -44,30 +46,36 @@ class LineChartTests: FBSnapshotTestCase
     
     func testDefaultValues()
     {
-        FBSnapshotVerifyView(chart)
+        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
     
     func testHidesValues()
     {
         dataSet.drawValuesEnabled = false
-        FBSnapshotVerifyView(chart)
+        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
     
     func testDoesntDrawCircles()
     {
         dataSet.drawCirclesEnabled = false
-        FBSnapshotVerifyView(chart)
+        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
     
     func testIsCubic()
     {
         dataSet.mode = LineChartDataSet.Mode.cubicBezier
-        FBSnapshotVerifyView(chart)
+        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
     
     func testDoesntDrawCircleHole()
     {
         dataSet.drawCircleHoleEnabled = false
-        FBSnapshotVerifyView(chart)
+        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+    }
+    
+    func testDrawIcons()
+    {
+        dataSet.drawIconsEnabled = true
+        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
 }

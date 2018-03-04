@@ -13,11 +13,11 @@ import Foundation
 
 open class CombinedChartData: BarLineScatterCandleBubbleChartData
 {
-    fileprivate var _lineData: LineChartData!
-    fileprivate var _barData: BarChartData!
-    fileprivate var _scatterData: ScatterChartData!
-    fileprivate var _candleData: CandleChartData!
-    fileprivate var _bubbleData: BubbleChartData!
+    private var _lineData: LineChartData!
+    private var _barData: BarChartData!
+    private var _scatterData: ScatterChartData!
+    private var _candleData: CandleChartData!
+    private var _bubbleData: BubbleChartData!
     
     public override init()
     {
@@ -29,7 +29,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         super.init(dataSets: dataSets)
     }
     
-    open var lineData: LineChartData!
+    @objc open var lineData: LineChartData!
     {
         get
         {
@@ -42,7 +42,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    open var barData: BarChartData!
+    @objc open var barData: BarChartData!
     {
         get
         {
@@ -55,7 +55,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    open var scatterData: ScatterChartData!
+    @objc open var scatterData: ScatterChartData!
     {
         get
         {
@@ -68,7 +68,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    open var candleData: CandleChartData!
+    @objc open var candleData: CandleChartData!
     {
         get
         {
@@ -81,7 +81,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    open var bubbleData: BubbleChartData!
+    @objc open var bubbleData: BubbleChartData!
     {
         get
         {
@@ -98,15 +98,15 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     {
         _dataSets.removeAll()
         
-        _yMax = -DBL_MAX
-        _yMin = DBL_MAX
-        _xMax = -DBL_MAX
-        _xMin = DBL_MAX
+        _yMax = -Double.greatestFiniteMagnitude
+        _yMin = Double.greatestFiniteMagnitude
+        _xMax = -Double.greatestFiniteMagnitude
+        _xMin = Double.greatestFiniteMagnitude
         
-        _leftAxisMax = -DBL_MAX
-        _leftAxisMin = DBL_MAX
-        _rightAxisMax = -DBL_MAX
-        _rightAxisMin = DBL_MAX
+        _leftAxisMax = -Double.greatestFiniteMagnitude
+        _leftAxisMin = Double.greatestFiniteMagnitude
+        _rightAxisMax = -Double.greatestFiniteMagnitude
+        _rightAxisMin = Double.greatestFiniteMagnitude
         
         let allData = self.allData
         
@@ -136,31 +136,37 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
             {
                 _xMin = data.xMin
             }
-            
-            if data.yMax > _leftAxisMax
+
+            for dataset in sets
             {
-                _leftAxisMax = data.yMax
-            }
-            
-            if data.yMin < _leftAxisMin
-            {
-                _leftAxisMin = data.yMin
-            }
-            
-            if data.yMax > _rightAxisMax
-            {
-                _rightAxisMax = data.yMax
-            }
-            
-            if data.yMin < _rightAxisMin
-            {
-                _rightAxisMin = data.yMin
+                if dataset.axisDependency == .left
+                {
+                    if dataset.yMax > _leftAxisMax
+                    {
+                        _leftAxisMax = dataset.yMax
+                    }
+                    if dataset.yMin < _leftAxisMin
+                    {
+                        _leftAxisMin = dataset.yMin
+                    }
+                }
+                else
+                {
+                    if dataset.yMax > _rightAxisMax
+                    {
+                        _rightAxisMax = dataset.yMax
+                    }
+                    if dataset.yMin < _rightAxisMin
+                    {
+                        _rightAxisMin = dataset.yMin
+                    }
+                }
             }
         }
     }
     
     /// - returns: All data objects in row: line-bar-scatter-candle-bubble if not null.
-    open var allData: [ChartData]
+    @objc open var allData: [ChartData]
     {
         var data = [ChartData]()
         
@@ -188,7 +194,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         return data
     }
     
-    open func dataByIndex(_ index: Int) -> ChartData
+    @objc open func dataByIndex(_ index: Int) -> ChartData
     {
         return allData[index]
     }
@@ -261,39 +267,54 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         super.notifyDataChanged() // recalculate everything
     }
     
-    
     /// Get the Entry for a corresponding highlight object
     ///
     /// - parameter highlight:
     /// - returns: The entry that is highlighted
     open override func entryForHighlight(_ highlight: Highlight) -> ChartDataEntry?
     {
-        let dataObjects = allData
-        
-        if highlight.dataIndex >= dataObjects.count
+        if highlight.dataIndex >= allData.count
         {
             return nil
         }
         
-        let data = dataObjects[highlight.dataIndex]
+        let data = dataByIndex(highlight.dataIndex)
         
         if highlight.dataSetIndex >= data.dataSetCount
         {
             return nil
         }
-        else
+        
+        // The value of the highlighted entry could be NaN - if we are not interested in highlighting a specific value.
+        let entries = data.getDataSetByIndex(highlight.dataSetIndex).entriesForXValue(highlight.x)
+        for e in entries
         {
-            // The value of the highlighted entry could be NaN - if we are not interested in highlighting a specific value.
-            let entries = data.getDataSetByIndex(highlight.dataSetIndex).entriesForXValue(highlight.x)
-            for e in entries
+            if e.y == highlight.y || highlight.y.isNaN
             {
-                if e.y == highlight.y || highlight.y.isNaN
-                {
-                    return e
-                }
+                return e
             }
-            
+        }
+        return nil
+    }
+    
+    /// Get dataset for highlight
+    ///
+    /// - Parameter highlight: current highlight
+    /// - Returns: dataset related to highlight
+    @objc open func getDataSetByHighlight(_ highlight: Highlight) -> IChartDataSet!
+    {  
+        if highlight.dataIndex >= allData.count
+        {
             return nil
         }
+        
+        let data = dataByIndex(highlight.dataIndex)
+        
+        if highlight.dataSetIndex >= data.dataSetCount
+        {
+            return nil
+        }
+        
+        return data.dataSets[highlight.dataSetIndex]
     }
 }

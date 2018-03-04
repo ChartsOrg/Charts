@@ -19,18 +19,18 @@ import CoreGraphics
 
 open class HorizontalBarChartRenderer: BarChartRenderer
 {
-    fileprivate class Buffer
+    private class Buffer
     {
         var rects = [CGRect]()
     }
     
-    public override init(dataProvider: BarChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    public override init(dataProvider: BarChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(dataProvider: dataProvider, animator: animator, viewPortHandler: viewPortHandler)
     }
     
     // [CGRect] per dataset
-    fileprivate var _buffers = [Buffer]()
+    private var _buffers = [Buffer]()
     
     open override func initBuffers()
     {
@@ -65,12 +65,11 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         }
     }
     
-    fileprivate func prepareBuffer(dataSet: IBarChartDataSet, index: Int)
+    private func prepareBuffer(dataSet: IBarChartDataSet, index: Int)
     {
         guard let
             dataProvider = dataProvider,
-            let barData = dataProvider.barData,
-            let animator = animator
+            let barData = dataProvider.barData
             else { return }
         
         let barWidthHalf = barData.barWidth / 2.0
@@ -134,7 +133,13 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 {
                     let value = vals![k]
                     
-                    if value >= 0.0
+                    if value == 0.0 && (posY == 0.0 || negY == 0.0)
+                    {
+                        // Take care of the situation of a 0.0 value, which overlaps a non-zero bar
+                        y = value
+                        yStart = y
+                    }
+                    else if value >= 0.0
                     {
                         y = posY
                         yStart = posY + value
@@ -172,14 +177,11 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         }
     }
     
-    fileprivate var _barShadowRectBuffer: CGRect = CGRect()
+    private var _barShadowRectBuffer: CGRect = CGRect()
     
     open override func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int)
     {
-        guard let
-            dataProvider = dataProvider,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let dataProvider = dataProvider else { return }
         
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
         
@@ -195,10 +197,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         // draw the bar shadow before the values
         if dataProvider.isDrawBarShadowEnabled
         {
-            guard
-                let animator = animator,
-                let barData = dataProvider.barData
-                else { return }
+            guard let barData = dataProvider.barData else { return }
             
             let barWidth = barData.barWidth
             let barWidthHalf = barWidth / 2.0
@@ -293,7 +292,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         rect.size.width = CGFloat(right - left)
         rect.size.height = CGFloat(bottom - top)
         
-        trans.rectValueToPixelHorizontal(&rect, phaseY: animator?.phaseY ?? 1.0)
+        trans.rectValueToPixelHorizontal(&rect, phaseY: animator.phaseY)
     }
     
     open override func drawValues(context: CGContext)
@@ -303,9 +302,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         {
             guard
                 let dataProvider = dataProvider,
-                let barData = dataProvider.barData,
-                let animator = animator,
-                let viewPortHandler = self.viewPortHandler
+                let barData = dataProvider.barData
                 else { return }
             
             var dataSets = barData.dataSets
@@ -321,7 +318,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             {
                 guard let dataSet = dataSets[dataSetIndex] as? IBarChartDataSet else { continue }
                 
-                if !shouldDrawValues(forDataSet: dataSet)
+                if !shouldDrawValues(forDataSet: dataSet) || !(dataSet.isDrawIconsEnabled && dataSet.isVisible)
                 {
                     continue
                 }
@@ -336,6 +333,8 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 
                 let phaseY = animator.phaseY
+                
+                let iconsOffset = dataSet.iconsOffset
                 
                 let buffer = _buffers[dataSetIndex]
                 
@@ -373,7 +372,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                             viewPortHandler: viewPortHandler)
                         
                         // calculate the correct offset depending on the draw position of the value
-                        let valueTextWidth = valueText.size(attributes: [NSFontAttributeName: valueFont]).width
+                        let valueTextWidth = valueText.size(withAttributes: [NSAttributedStringKey.font: valueFont]).width
                         posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
                         negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
                         
@@ -383,15 +382,35 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                             negOffset = -negOffset - valueTextWidth
                         }
                         
-                        drawValue(
-                            context: context,
-                            value: valueText,
-                            xPos: (rect.origin.x + rect.size.width)
-                                + (val >= 0.0 ? posOffset : negOffset),
-                            yPos: y + yOffset,
-                            font: valueFont,
-                            align: textAlign,
-                            color: dataSet.valueTextColorAt(j))
+                        if dataSet.isDrawValuesEnabled
+                        {
+                            drawValue(
+                                context: context,
+                                value: valueText,
+                                xPos: (rect.origin.x + rect.size.width)
+                                    + (val >= 0.0 ? posOffset : negOffset),
+                                yPos: y + yOffset,
+                                font: valueFont,
+                                align: textAlign,
+                                color: dataSet.valueTextColorAt(j))
+                        }
+                        
+                        if let icon = e.icon, dataSet.isDrawIconsEnabled
+                        {
+                            var px = (rect.origin.x + rect.size.width)
+                                + (val >= 0.0 ? posOffset : negOffset)
+                            var py = y
+                            
+                            px += iconsOffset.x
+                            py += iconsOffset.y
+                            
+                            ChartUtils.drawImage(
+                                context: context,
+                                image: icon,
+                                x: px,
+                                y: py,
+                                size: icon.size)
+                        }
                     }
                 }
                 else
@@ -434,7 +453,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                 viewPortHandler: viewPortHandler)
                             
                             // calculate the correct offset depending on the draw position of the value
-                            let valueTextWidth = valueText.size(attributes: [NSFontAttributeName: valueFont]).width
+                            let valueTextWidth = valueText.size(withAttributes: [NSAttributedStringKey.font: valueFont]).width
                             posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
                             negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
                             
@@ -444,15 +463,35 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                 negOffset = -negOffset - valueTextWidth
                             }
                             
-                            drawValue(
-                                context: context,
-                                value: valueText,
-                                xPos: (rect.origin.x + rect.size.width)
-                                    + (val >= 0.0 ? posOffset : negOffset),
-                                yPos: rect.origin.y + yOffset,
-                                font: valueFont,
-                                align: textAlign,
-                                color: dataSet.valueTextColorAt(index))
+                            if dataSet.isDrawValuesEnabled
+                            {
+                                drawValue(
+                                    context: context,
+                                    value: valueText,
+                                    xPos: (rect.origin.x + rect.size.width)
+                                        + (val >= 0.0 ? posOffset : negOffset),
+                                    yPos: rect.origin.y + yOffset,
+                                    font: valueFont,
+                                    align: textAlign,
+                                    color: dataSet.valueTextColorAt(index))
+                            }
+                            
+                            if let icon = e.icon, dataSet.isDrawIconsEnabled
+                            {
+                                var px = (rect.origin.x + rect.size.width)
+                                    + (val >= 0.0 ? posOffset : negOffset)
+                                var py = rect.origin.y
+                                
+                                px += iconsOffset.x
+                                py += iconsOffset.y
+                                
+                                ChartUtils.drawImage(
+                                    context: context,
+                                    image: icon,
+                                    x: px,
+                                    y: py,
+                                    size: icon.size)
+                            }
                         }
                         else
                         {
@@ -467,7 +506,12 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                 let value = vals[k]
                                 var y: Double
                                 
-                                if value >= 0.0
+                                if value == 0.0 && (posY == 0.0 || negY == 0.0)
+                                {
+                                    // Take care of the situation of a 0.0 value, which overlaps a non-zero bar
+                                    y = value
+                                }
+                                else if value >= 0.0
                                 {
                                     posY += value
                                     y = posY
@@ -493,7 +537,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                     viewPortHandler: viewPortHandler)
                                 
                                 // calculate the correct offset depending on the draw position of the value
-                                let valueTextWidth = valueText.size(attributes: [NSFontAttributeName: valueFont]).width
+                                let valueTextWidth = valueText.size(withAttributes: [NSAttributedStringKey.font: valueFont]).width
                                 posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
                                 negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
                                 
@@ -503,7 +547,9 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                     negOffset = -negOffset - valueTextWidth
                                 }
                                 
-                                let x = transformed[k].x + (val >= 0 ? posOffset : negOffset)
+                                let drawBelow = (val == 0.0 && negY == 0.0 && posY > 0.0) || val < 0.0
+
+                                let x = transformed[k].x + (drawBelow ? negOffset : posOffset)
                                 let y = rect.origin.y + rect.size.height / 2.0
                                 
                                 if (!viewPortHandler.isInBoundsTop(y))
@@ -521,13 +567,26 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                     continue
                                 }
                                 
-                                drawValue(context: context,
-                                    value: valueText,
-                                    xPos: x,
-                                    yPos: y + yOffset,
-                                    font: valueFont,
-                                    align: textAlign,
-                                    color: dataSet.valueTextColorAt(index))
+                                if dataSet.isDrawValuesEnabled
+                                {
+                                    drawValue(context: context,
+                                        value: valueText,
+                                        xPos: x,
+                                        yPos: y + yOffset,
+                                        font: valueFont,
+                                        align: textAlign,
+                                        color: dataSet.valueTextColorAt(index))
+                                }
+                                
+                                if let icon = e.icon, dataSet.isDrawIconsEnabled
+                                {
+                                    ChartUtils.drawImage(
+                                        context: context,
+                                        image: icon,
+                                        x: x + iconsOffset.x,
+                                        y: y + iconsOffset.y,
+                                        size: icon.size)
+                                }
                             }
                         }
                         
@@ -542,8 +601,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
     {
         guard let data = dataProvider?.data
             else { return false }
-        
-        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * (viewPortHandler?.scaleY ?? 1.0))
+        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * self.viewPortHandler.scaleY)
     }
     
     /// Sets the drawing position of the highlight object based on the riven bar-rect.

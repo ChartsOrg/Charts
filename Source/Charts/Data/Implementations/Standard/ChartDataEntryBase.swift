@@ -14,10 +14,13 @@ import Foundation
 open class ChartDataEntryBase: NSObject
 {
     /// the y value
-    open var y = Double(0.0)
+    @objc open var y = Double(0.0)
     
     /// optional spot for additional data this Entry represents
-    open var data: AnyObject?
+    @objc open var data: AnyObject?
+    
+    /// optional icon image
+    @objc open var icon: NSUIImage?
     
     public override required init()
     {
@@ -26,7 +29,7 @@ open class ChartDataEntryBase: NSObject
     
     /// An Entry represents one single entry in the chart.
     /// - parameter y: the y value (the actual value of the entry)
-    public init(y: Double)
+    @objc public init(y: Double)
     {
         super.init()
         
@@ -35,8 +38,8 @@ open class ChartDataEntryBase: NSObject
     
     /// - parameter y: the y value (the actual value of the entry)
     /// - parameter data: Space for additional data this Entry represents.
-
-    public init(y: Double, data: AnyObject?)
+    
+    @objc public init(y: Double, data: AnyObject?)
     {
         super.init()
         
@@ -44,33 +47,30 @@ open class ChartDataEntryBase: NSObject
         self.data = data
     }
     
-    // MARK: NSObject
+    /// - parameter y: the y value (the actual value of the entry)
+    /// - parameter icon: icon image
     
-    open override func isEqual(_ object: Any?) -> Bool
+    @objc public init(y: Double, icon: NSUIImage?)
     {
-        if object == nil
-        {
-            return false
-        }
+        super.init()
         
-        if !(object! as AnyObject).isKind(of: type(of: self))
-        {
-            return false
-        }
-        
-        if (object! as AnyObject).data !== data && !((object! as AnyObject).data??.isEqual(self.data))!
-        {
-            return false
-        }
-        
-        if fabs((object! as AnyObject).y - y) > DBL_EPSILON
-        {
-            return false
-        }
-        
-        return true
+        self.y = y
+        self.icon = icon
     }
     
+    /// - parameter y: the y value (the actual value of the entry)
+    /// - parameter icon: icon image
+    /// - parameter data: Space for additional data this Entry represents.
+    
+    @objc public init(y: Double, icon: NSUIImage?, data: AnyObject?)
+    {
+        super.init()
+        
+        self.y = y
+        self.icon = icon
+        self.data = data
+    }
+
     // MARK: NSObject
     
     open override var description: String
@@ -79,27 +79,17 @@ open class ChartDataEntryBase: NSObject
     }
 }
 
-public func ==(lhs: ChartDataEntryBase, rhs: ChartDataEntryBase) -> Bool
-{
-    if lhs === rhs
-    {
-        return true
+// MARK: Equatable
+extension ChartDataEntryBase/*: Equatable*/ {
+    open override func isEqual(_ object: Any?) -> Bool {
+        guard let object = object as? ChartDataEntryBase else { return false }
+
+        if self === object
+        {
+            return true
+        }
+
+        return ((data == nil && object.data == nil) || (data?.isEqual(object.data) ?? false))
+            && y == object.y
     }
-    
-    if !lhs.isKind(of: type(of: rhs))
-    {
-        return false
-    }
-    
-    if lhs.data !== rhs.data && !lhs.data!.isEqual(rhs.data)
-    {
-        return false
-    }
-    
-    if fabs(lhs.y - rhs.y) > DBL_EPSILON
-    {
-        return false
-    }
-    
-    return true
 }

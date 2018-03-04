@@ -24,11 +24,13 @@ class BarChartTests: FBSnapshotTestCase
         
         for (i, value) in values.enumerated()
         {
-            entries.append(BarChartDataEntry(x: Double(i), y: value))
+            entries.append(BarChartDataEntry(x: Double(i), y: value, icon: UIImage(named: "icon", in: Bundle(for: self.classForCoder), compatibleWith: nil)))
         }
         
         dataSet = BarChartDataSet(values: entries, label: "Bar chart unit test data")
-        
+        dataSet.drawIconsEnabled = false
+        dataSet.iconsOffset = CGPoint(x: 0, y: -10.0)
+
         let data = BarChartData(dataSet: dataSet)
         data.barWidth = 0.85
         
@@ -47,37 +49,43 @@ class BarChartTests: FBSnapshotTestCase
     
     func testDefaultValues()
     {
-        FBSnapshotVerifyView(chart)
+        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
     
     func testHidesValues()
     {
         dataSet.drawValuesEnabled = false
-        FBSnapshotVerifyView(chart)
+        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
     
     func testHideLeftAxis()
     {
         chart.leftAxis.enabled = false
-        FBSnapshotVerifyView(chart)
+        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
     
     func testHideRightAxis()
     {
         chart.rightAxis.enabled = false
-        FBSnapshotVerifyView(chart)
+        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
     
     func testHideHorizontalGridlines()
     {
         chart.leftAxis.drawGridLinesEnabled = false
         chart.rightAxis.drawGridLinesEnabled = false
-        FBSnapshotVerifyView(chart)
+        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
     
     func testHideVerticalGridlines()
     {
         chart.xAxis.drawGridLinesEnabled = false
-        FBSnapshotVerifyView(chart)
+        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+    }
+    
+    func testDrawIcons()
+    {
+        dataSet.drawIconsEnabled = true
+        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
 }
