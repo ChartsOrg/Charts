@@ -12,12 +12,13 @@ import Charts
 
 open class BalloonMarker: MarkerImage {
     @objc open var color: UIColor?
-    @objc open var arrowSize = CGSize(width: 15, height: 11)
+    @objc open var arrowSize = CGSize(width: 15, height: 20)
     @objc open var font: UIFont?
     @objc open var textColor: UIColor?
     @objc open var insets = UIEdgeInsets()
     @objc open var minimumSize = CGSize()
     @objc open var borderRadius = CGFloat()
+    
     
     fileprivate var label: String?
     fileprivate var _labelSize: CGSize = CGSize()
@@ -102,10 +103,10 @@ open class BalloonMarker: MarkerImage {
                 context.beginPath()
                 context.move(to: CGPoint(
                     x: rect.origin.x,
-                    y: rect.origin.y + arrowSize.height))
+                    y: rect.origin.y + arrowSize.height - radius2))
                 context.addLine(to: CGPoint(
                     x: rect.origin.x + (rect.size.width - arrowSize.width) / 2.0,
-                    y: rect.origin.y + arrowSize.height))
+                    y: rect.origin.y + arrowSize.height - radius2))
                 
                 
                 //arrow vertex
@@ -114,9 +115,9 @@ open class BalloonMarker: MarkerImage {
                     y: point.y))
                 context.addLine(to: CGPoint(
                     x: rect.origin.x + (rect.size.width + arrowSize.width) / 2.0,
-                    y: rect.origin.y + arrowSize.height))
+                    y: rect.origin.y + arrowSize.height - radius2))
                 context.addArc(center: CGPoint(x: rect.origin.x + rect.size.width,
-                                               y: rect.origin.y + arrowSize.height + radius2),
+                                               y: rect.origin.y + arrowSize.height),
                                radius: radius2,
                                startAngle: CGFloat(-(Double.pi/2)), endAngle: 0, clockwise: false)
                 context.addArc(center: CGPoint(x: rect.origin.x + rect.size.width,
@@ -128,7 +129,7 @@ open class BalloonMarker: MarkerImage {
                                radius: radius2,
                                startAngle: CGFloat(Double.pi/2),endAngle: CGFloat(Double.pi), clockwise: false)
                 context.addArc(center: CGPoint(x: rect.origin.x,
-                                               y: rect.origin.y + arrowSize.height + radius2),
+                                               y: rect.origin.y + arrowSize.height),
                                radius: radius2,
                                startAngle: CGFloat(Double.pi), endAngle: CGFloat(-(Double.pi/2)), clockwise: false)
                 
@@ -180,13 +181,10 @@ open class BalloonMarker: MarkerImage {
         }
         
         rect.size.height -= self.insets.top + self.insets.bottom
-        
         UIGraphicsPushContext(context)
         
         label.draw(in: rect, withAttributes: _drawAttributes)
-        
         UIGraphicsPopContext()
-        
         context.restoreGState()
     }
     
@@ -212,4 +210,3 @@ open class BalloonMarker: MarkerImage {
         self.size = size
     }
 }
-
