@@ -58,11 +58,19 @@ open class ChartDataSet: ChartBaseDataSet
     /// - note: Calls `notifyDataSetChanged()` after setting a new value.
     /// - returns: The array of y-values that this DataSet represents.
     /// the entries that this dataset represents / holds together
-    @objc open var values: [ChartDataEntry] {
-        didSet {
+    @objc open var values: [ChartDataEntry]
+        {
+        didSet
+        {
+            if isIndirectValuesCall {
+                isIndirectValuesCall = false
+                return
+            }
             notifyDataSetChanged()
         }
     }
+    // TODO: Temporary fix for performance. Will be removed in 4.0
+    private var isIndirectValuesCall = false
 
     /// maximum y-value in the value array
     internal var _yMax: Double = -Double.greatestFiniteMagnitude
@@ -78,22 +86,22 @@ open class ChartDataSet: ChartBaseDataSet
     
     open override func calcMinMax()
     {
-        guard !values.isEmpty else { return }
-
         _yMax = -Double.greatestFiniteMagnitude
         _yMin = Double.greatestFiniteMagnitude
         _xMax = -Double.greatestFiniteMagnitude
         _xMin = Double.greatestFiniteMagnitude
+
+        guard !values.isEmpty else { return }
 
         values.forEach { calcMinMax(entry: $0) }
     }
     
     open override func calcMinMaxY(fromX: Double, toX: Double)
     {
-        guard !values.isEmpty else { return }
-
         _yMax = -Double.greatestFiniteMagnitude
         _yMin = Double.greatestFiniteMagnitude
+
+        guard !values.isEmpty else { return }
         
         let indexFrom = entryIndex(x: fromX, closestToY: Double.nan, rounding: .down)
         let indexTo = entryIndex(x: toX, closestToY: Double.nan, rounding: .up)
@@ -386,7 +394,8 @@ open class ChartDataSet: ChartBaseDataSet
     open override func addEntry(_ e: ChartDataEntry) -> Bool
     {
         calcMinMax(entry: e)
-        
+
+        isIndirectValuesCall = true
         values.append(e)
         
         return true
@@ -401,6 +410,7 @@ open class ChartDataSet: ChartBaseDataSet
     {
         calcMinMax(entry: e)
         
+        isIndirectValuesCall = true
         if values.count > 0 && values.last!.x > e.x
         {
             var closestIndex = entryIndex(x: e.x, closestToY: e.y, rounding: .up)
@@ -425,7 +435,8 @@ open class ChartDataSet: ChartBaseDataSet
     open override func removeEntry(_ entry: ChartDataEntry) -> Bool
     {
         var removed = false
-        
+        isIndirectValuesCall = true
+
         for i in 0 ..< values.count
         {
             if values[i] === entry
@@ -435,6 +446,8 @@ open class ChartDataSet: ChartBaseDataSet
                 break
             }
         }
+
+        notifyDataSetChanged()
 
         return removed
     }

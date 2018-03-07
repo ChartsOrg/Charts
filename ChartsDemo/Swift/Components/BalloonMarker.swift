@@ -1,14 +1,16 @@
 //
 //  BalloonMarker.swift
-//  ChartsDemo-iOS
+//  ChartsDemo-Swift
 //
-//  Created by Jacob Christie on 2017-07-09.
-//  Copyright © 2017 jc. All rights reserved.
+//  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
+//  A port of MPAndroidChart for iOS
+//  Licensed under Apache License 2.0
+//
+//  https://github.com/danielgindi/Charts
 //
 
 import Foundation
 import Charts
-
 
 open class BalloonMarker: MarkerImage {
     @objc open var color: UIColor?
@@ -18,7 +20,6 @@ open class BalloonMarker: MarkerImage {
     @objc open var insets = UIEdgeInsets()
     @objc open var minimumSize = CGSize()
     @objc open var borderRadius = CGFloat()
-    
     
     fileprivate var label: String?
     fileprivate var _labelSize: CGSize = CGSize()
@@ -39,6 +40,7 @@ open class BalloonMarker: MarkerImage {
     }
     
     open override func offsetForDrawing(atPoint point: CGPoint) -> CGPoint {
+
         var offset = self.offset
         var size = self.size
         let radiusWidth = self.borderRadius
