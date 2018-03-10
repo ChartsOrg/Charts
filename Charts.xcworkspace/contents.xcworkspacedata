@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "container:Charts.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/tank/Developer/Community Projects/Charts/ChartsDemo/ChartsDemo-iOS.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/tank/Developer/Community Projects/Charts/ChartsDemo-OSX/ChartsDemo-macOS.xcodeproj">
+   </FileRef>
+</Workspace>
