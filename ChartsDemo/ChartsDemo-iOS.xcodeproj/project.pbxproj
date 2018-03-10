@@ -199,7 +199,7 @@
 		0439A3521C9FF95F00496F83 /* PiePolylineChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PiePolylineChartViewController.m; sourceTree = "<group>"; };
 		0471CBFB1CA1090A00E52DBC /* PiePolylineChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PiePolylineChartViewController.xib; sourceTree = "<group>"; };
 		0630AE391D8126C0008859B0 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = ../Charts.xcodeproj; sourceTree = "<group>"; };
-		225B361D1F6EB9A50005B3D5 /* ChartsDemo-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ChartsDemo-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		225B361D1F6EB9A50005B3D5 /* ChartsDemo-iOS-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ChartsDemo-iOS-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		225B361F1F6EB9A50005B3D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		225B362F1F6EB9EE0005B3D5 /* DemoBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoBaseViewController.swift; sourceTree = "<group>"; };
 		225B36301F6EB9EE0005B3D5 /* DemoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoListViewController.swift; sourceTree = "<group>"; };
@@ -240,7 +240,7 @@
 		5B0CC7831ABB875400665592 /* PieChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieChartViewController.m; sourceTree = "<group>"; };
 		5B0CC7841ABB875400665592 /* PieChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PieChartViewController.xib; sourceTree = "<group>"; };
 		5B1B5DA91E911A15006D1375 /* RealmDemosViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RealmDemosViewController.xib; path = XIBs/Demos/RealmDemosViewController.xib; sourceTree = SOURCE_ROOT; };
-		5B57BBAF1A9B26AA0036A6CC /* ChartsDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChartsDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B57BBAF1A9B26AA0036A6CC /* ChartsDemo-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ChartsDemo-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B57BBB31A9B26AA0036A6CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B57BBB41A9B26AA0036A6CC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5B57BBB61A9B26AA0036A6CC /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -477,8 +477,8 @@
 		5B57BBB01A9B26AA0036A6CC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5B57BBAF1A9B26AA0036A6CC /* ChartsDemo.app */,
-				225B361D1F6EB9A50005B3D5 /* ChartsDemo-Swift.app */,
+				5B57BBAF1A9B26AA0036A6CC /* ChartsDemo-iOS.app */,
+				225B361D1F6EB9A50005B3D5 /* ChartsDemo-iOS-Swift.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -607,9 +607,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		225B361C1F6EB9A50005B3D5 /* ChartsDemo-Swift */ = {
+		225B361C1F6EB9A50005B3D5 /* ChartsDemo-iOS-Swift */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 225B362C1F6EB9A50005B3D5 /* Build configuration list for PBXNativeTarget "ChartsDemo-Swift" */;
+			buildConfigurationList = 225B362C1F6EB9A50005B3D5 /* Build configuration list for PBXNativeTarget "ChartsDemo-iOS-Swift" */;
 			buildPhases = (
 				225B36191F6EB9A50005B3D5 /* Sources */,
 				225B361A1F6EB9A50005B3D5 /* Frameworks */,
@@ -621,14 +621,14 @@
 			dependencies = (
 				225B368F1F6EBBB00005B3D5 /* PBXTargetDependency */,
 			);
-			name = "ChartsDemo-Swift";
+			name = "ChartsDemo-iOS-Swift";
 			productName = "ChartsDemo-Swift";
-			productReference = 225B361D1F6EB9A50005B3D5 /* ChartsDemo-Swift.app */;
+			productReference = 225B361D1F6EB9A50005B3D5 /* ChartsDemo-iOS-Swift.app */;
 			productType = "com.apple.product-type.application";
 		};
-		5B57BBAE1A9B26AA0036A6CC /* ChartsDemo */ = {
+		5B57BBAE1A9B26AA0036A6CC /* ChartsDemo-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5B57BBD21A9B26AA0036A6CC /* Build configuration list for PBXNativeTarget "ChartsDemo" */;
+			buildConfigurationList = 5B57BBD21A9B26AA0036A6CC /* Build configuration list for PBXNativeTarget "ChartsDemo-iOS" */;
 			buildPhases = (
 				5B57BBAB1A9B26AA0036A6CC /* Sources */,
 				5B57BBAC1A9B26AA0036A6CC /* Frameworks */,
@@ -640,9 +640,9 @@
 			dependencies = (
 				0630AE541D81271B008859B0 /* PBXTargetDependency */,
 			);
-			name = ChartsDemo;
+			name = "ChartsDemo-iOS";
 			productName = chartstest;
-			productReference = 5B57BBAF1A9B26AA0036A6CC /* ChartsDemo.app */;
+			productReference = 5B57BBAF1A9B26AA0036A6CC /* ChartsDemo-iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -653,7 +653,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = dcg;
 				TargetAttributes = {
 					225B361C1F6EB9A50005B3D5 = {
@@ -666,7 +666,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5B57BBAA1A9B26AA0036A6CC /* Build configuration list for PBXProject "ChartsDemo" */;
+			buildConfigurationList = 5B57BBAA1A9B26AA0036A6CC /* Build configuration list for PBXProject "ChartsDemo-iOS" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -685,8 +685,8 @@
 			);
 			projectRoot = "";
 			targets = (
-				5B57BBAE1A9B26AA0036A6CC /* ChartsDemo */,
-				225B361C1F6EB9A50005B3D5 /* ChartsDemo-Swift */,
+				5B57BBAE1A9B26AA0036A6CC /* ChartsDemo-iOS */,
+				225B361C1F6EB9A50005B3D5 /* ChartsDemo-iOS-Swift */,
 			);
 		};
 /* End PBXProject section */
@@ -952,12 +952,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -987,6 +989,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -1002,12 +1005,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1030,6 +1035,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1045,7 +1051,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = ChartsDemo;
+				PRODUCT_NAME = "ChartsDemo-iOS";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvsimulator appletvos";
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/ChartsDemo-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
@@ -1065,7 +1071,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.dcg.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = ChartsDemo;
+				PRODUCT_NAME = "ChartsDemo-iOS";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvsimulator appletvos";
 				SWIFT_OBJC_BRIDGING_HEADER = "Supporting Files/ChartsDemo-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
@@ -1076,7 +1082,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		225B362C1F6EB9A50005B3D5 /* Build configuration list for PBXNativeTarget "ChartsDemo-Swift" */ = {
+		225B362C1F6EB9A50005B3D5 /* Build configuration list for PBXNativeTarget "ChartsDemo-iOS-Swift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				225B362D1F6EB9A50005B3D5 /* Debug */,
@@ -1085,7 +1091,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5B57BBAA1A9B26AA0036A6CC /* Build configuration list for PBXProject "ChartsDemo" */ = {
+		5B57BBAA1A9B26AA0036A6CC /* Build configuration list for PBXProject "ChartsDemo-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5B57BBD01A9B26AA0036A6CC /* Debug */,
@@ -1094,7 +1100,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5B57BBD21A9B26AA0036A6CC /* Build configuration list for PBXNativeTarget "ChartsDemo" */ = {
+		5B57BBD21A9B26AA0036A6CC /* Build configuration list for PBXNativeTarget "ChartsDemo-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5B57BBD31A9B26AA0036A6CC /* Debug */,

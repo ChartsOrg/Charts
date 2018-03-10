@@ -63,7 +63,7 @@
 		5B9A0C3B1C83AB2100ED8ED8 /* LineDemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineDemoViewController.swift; sourceTree = "<group>"; };
 		5B9A0C3D1C83AB2B00ED8ED8 /* RadarDemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadarDemoViewController.swift; sourceTree = "<group>"; };
 		5B9A0C3F1C83AB3400ED8ED8 /* PieDemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieDemoViewController.swift; sourceTree = "<group>"; };
-		65B3F63E1C73B4F5000983D0 /* ChartsDemo-OSX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ChartsDemo-OSX.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		65B3F63E1C73B4F5000983D0 /* ChartsDemo-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ChartsDemo-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65B3F6411C73B4F5000983D0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		65B3F6451C73B4F5000983D0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		65B3F6481C73B4F5000983D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -115,7 +115,7 @@
 		65B3F63F1C73B4F5000983D0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				65B3F63E1C73B4F5000983D0 /* ChartsDemo-OSX.app */,
+				65B3F63E1C73B4F5000983D0 /* ChartsDemo-macOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -135,9 +135,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		65B3F63D1C73B4F5000983D0 /* ChartsDemo-OSX */ = {
+		65B3F63D1C73B4F5000983D0 /* ChartsDemo-macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 65B3F64D1C73B4F5000983D0 /* Build configuration list for PBXNativeTarget "ChartsDemo-OSX" */;
+			buildConfigurationList = 65B3F64D1C73B4F5000983D0 /* Build configuration list for PBXNativeTarget "ChartsDemo-macOS" */;
 			buildPhases = (
 				65B3F63A1C73B4F5000983D0 /* Sources */,
 				65B3F63B1C73B4F5000983D0 /* Frameworks */,
@@ -149,9 +149,9 @@
 			dependencies = (
 				0630AE8F1D8128A5008859B0 /* PBXTargetDependency */,
 			);
-			name = "ChartsDemo-OSX";
+			name = "ChartsDemo-macOS";
 			productName = "ChartsDemo-OSX";
-			productReference = 65B3F63E1C73B4F5000983D0 /* ChartsDemo-OSX.app */;
+			productReference = 65B3F63E1C73B4F5000983D0 /* ChartsDemo-macOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -161,7 +161,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = dcg;
 				TargetAttributes = {
 					65B3F63D1C73B4F5000983D0 = {
@@ -171,7 +171,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 65B3F6391C73B4F5000983D0 /* Build configuration list for PBXProject "ChartsDemo-OSX" */;
+			buildConfigurationList = 65B3F6391C73B4F5000983D0 /* Build configuration list for PBXProject "ChartsDemo-macOS" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -190,7 +190,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				65B3F63D1C73B4F5000983D0 /* ChartsDemo-OSX */,
+				65B3F63D1C73B4F5000983D0 /* ChartsDemo-macOS */,
 			);
 		};
 /* End PBXProject section */
@@ -271,12 +271,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -308,6 +310,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -323,12 +326,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -353,6 +358,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -395,7 +401,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		65B3F6391C73B4F5000983D0 /* Build configuration list for PBXProject "ChartsDemo-OSX" */ = {
+		65B3F6391C73B4F5000983D0 /* Build configuration list for PBXProject "ChartsDemo-macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				65B3F64B1C73B4F5000983D0 /* Debug */,
@@ -404,7 +410,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		65B3F64D1C73B4F5000983D0 /* Build configuration list for PBXNativeTarget "ChartsDemo-OSX" */ = {
+		65B3F64D1C73B4F5000983D0 /* Build configuration list for PBXNativeTarget "ChartsDemo-macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				65B3F64E1C73B4F5000983D0 /* Debug */,

@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14105" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11201"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14105"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -11,11 +11,11 @@
                 <application id="hnw-xV-0zn" sceneMemberID="viewController">
                     <menu key="mainMenu" title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
                         <items>
-                            <menuItem title="ChartsDemo-OSX" id="1Xt-HY-uBw">
+                            <menuItem title="ChartsDemo-macOS" id="1Xt-HY-uBw">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="ChartsDemo-OSX" systemMenu="apple" id="uQy-DD-JDr">
+                                <menu key="submenu" title="ChartsDemo-macOS" systemMenu="apple" id="uQy-DD-JDr">
                                     <items>
-                                        <menuItem title="About ChartsDemo-OSX" id="5kV-Vb-QxS">
+                                        <menuItem title="About ChartsDemo-macOS" id="5kV-Vb-QxS">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="Exp-CZ-Vem"/>
@@ -29,7 +29,7 @@
                                             <menu key="submenu" title="Services" systemMenu="services" id="hz9-B4-Xy5"/>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="4je-JR-u6R"/>
-                                        <menuItem title="Hide ChartsDemo-OSX" keyEquivalent="h" id="Olw-nP-bQN">
+                                        <menuItem title="Hide ChartsDemo-macOS" keyEquivalent="h" id="Olw-nP-bQN">
                                             <connections>
                                                 <action selector="hide:" target="Ady-hI-5gd" id="PnN-Uc-m68"/>
                                             </connections>
@@ -47,7 +47,7 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
-                                        <menuItem title="Quit ChartsDemo-OSX" keyEquivalent="q" id="4sb-4s-VLi">
+                                        <menuItem title="Quit ChartsDemo-macOS" keyEquivalent="q" id="4sb-4s-VLi">
                                             <connections>
                                                 <action selector="terminate:" target="Ady-hI-5gd" id="Te7-pn-YzF"/>
                                             </connections>
@@ -628,7 +628,7 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
                                     <items>
-                                        <menuItem title="ChartsDemo-OSX Help" keyEquivalent="?" id="FKE-Sm-Kum">
+                                        <menuItem title="ChartsDemo-macOS Help" keyEquivalent="?" id="FKE-Sm-Kum">
                                             <connections>
                                                 <action selector="showHelp:" target="Ady-hI-5gd" id="y7X-2Q-9no"/>
                                             </connections>
@@ -656,6 +656,9 @@
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <connections>
+                            <outlet property="delegate" destination="B8D-0N-5wS" id="y92-Vh-2JJ"/>
+                        </connections>
                     </window>
                     <connections>
                         <segue destination="MdU-M1-yR2" kind="relationship" relationship="window.shadowedContentViewController" id="HCe-s7-mZF"/>
@@ -679,9 +682,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <font key="font" metaFont="message"/>
-                        <tabViewItems/>
+                        <connections>
+                            <outlet property="delegate" destination="MdU-M1-yR2" id="s53-W6-MQq"/>
+                        </connections>
                     </tabView>
                     <connections>
+                        <outlet property="tabView" destination="4aI-t7-jgI" id="H36-1r-bl2"/>
                         <segue destination="4fu-uG-om0" kind="relationship" relationship="tabItems" id="LFV-tq-WGj"/>
                         <segue destination="vkP-1b-D8k" kind="relationship" relationship="tabItems" id="gGD-RY-5OB"/>
                         <segue destination="CQR-9h-gXY" kind="relationship" relationship="tabItems" id="rqo-tR-9a7"/>
