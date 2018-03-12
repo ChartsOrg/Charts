@@ -149,23 +149,23 @@ class LineChart1ViewController: DemoBaseViewController {
 
         switch option {
         case .toggleFilled:
-            sets.forEach{ $0.drawFilledEnabled = !$0.drawFilledEnabled }
+            sets.forEach { $0.drawFilledEnabled = !$0.drawFilledEnabled }
             chartView.setNeedsDisplay()
             
         case .toggleCircles:
-            sets.forEach{ $0.drawCirclesEnabled = !$0.drawCirclesEnabled }
+            sets.forEach { $0.drawCirclesEnabled = !$0.drawCirclesEnabled }
             chartView.setNeedsDisplay()
             
         case .toggleCubic:
-            sets.forEach{ $0.mode = ($0.mode == .cubicBezier) ? .linear : .cubicBezier }
+            sets.forEach { $0.mode = ($0.mode == .cubicBezier) ? .linear : .cubicBezier }
             chartView.setNeedsDisplay()
             
         case .toggleStepped:
-            sets.forEach{ $0.mode = ($0.mode == .stepped) ? .linear : .stepped }
+            sets.forEach { $0.mode = ($0.mode == .stepped) ? .linear : .stepped }
             chartView.setNeedsDisplay()
             
         case .toggleHorizontalCubic:
-            sets.forEach{ $0.mode = ($0.mode == .cubicBezier) ? .horizontalBezier : .cubicBezier }
+            sets.forEach { $0.mode = ($0.mode == .cubicBezier) ? .horizontalBezier : .cubicBezier }
             chartView.setNeedsDisplay()
             
         default:
