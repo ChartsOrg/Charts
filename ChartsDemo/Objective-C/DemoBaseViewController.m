@@ -170,7 +170,8 @@
     _optionsTableView.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.9f];
     _optionsTableView.delegate = self;
     _optionsTableView.dataSource = self;
-    
+    [_optionsTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
+
     _optionsTableView.translatesAutoresizingMaskIntoConstraints = NO;
     
     NSMutableArray *constraints = [[NSMutableArray alloc] init];
@@ -224,23 +225,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == _optionsTableView)
-    {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-        if (!cell)
-        {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
-            cell.backgroundView = nil;
-            cell.backgroundColor = UIColor.clearColor;
-            cell.textLabel.textColor = UIColor.whiteColor;
-        }
-        
-        cell.textLabel.text = self.options[indexPath.row][@"label"];
-        
-        return cell;
-    }
-    
-    return nil;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    cell.backgroundView = nil;
+    cell.backgroundColor = UIColor.clearColor;
+    cell.textLabel.textColor = UIColor.whiteColor;
+
+    cell.textLabel.text = self.options[indexPath.row][@"label"];
+
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
