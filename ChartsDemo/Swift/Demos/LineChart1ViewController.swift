@@ -142,35 +142,30 @@ class LineChart1ViewController: DemoBaseViewController {
     }
     
     override func optionTapped(_ option: Option) {
+        guard let sets = chartView.data?.dataSets as? [LineChartDataSet] else {
+            super.handleOption(option, forChartView: chartView)
+            return
+        }
+
         switch option {
         case .toggleFilled:
-            for set in chartView.data!.dataSets as! [LineChartDataSet] {
-                set.drawFilledEnabled = !set.drawFilledEnabled
-            }
+            sets.forEach{ $0.drawFilledEnabled = !$0.drawFilledEnabled }
             chartView.setNeedsDisplay()
             
         case .toggleCircles:
-            for set in chartView.data!.dataSets as! [LineChartDataSet] {
-                set.drawCirclesEnabled = !set.drawCirclesEnabled
-            }
+            sets.forEach{ $0.drawCirclesEnabled = !$0.drawCirclesEnabled }
             chartView.setNeedsDisplay()
             
         case .toggleCubic:
-            for set in chartView.data!.dataSets as! [LineChartDataSet] {
-                set.mode = (set.mode == .cubicBezier) ? .linear : .cubicBezier
-            }
+            sets.forEach{ $0.mode = ($0.mode == .cubicBezier) ? .linear : .cubicBezier }
             chartView.setNeedsDisplay()
             
         case .toggleStepped:
-            for set in chartView.data!.dataSets as! [LineChartDataSet] {
-                set.mode = (set.mode == .stepped) ? .linear : .stepped
-            }
+            sets.forEach{ $0.mode = ($0.mode == .stepped) ? .linear : .stepped }
             chartView.setNeedsDisplay()
             
         case .toggleHorizontalCubic:
-            for set in chartView.data!.dataSets as! [LineChartDataSet] {
-                set.mode = (set.mode == .cubicBezier) ? .horizontalBezier : .cubicBezier
-            }
+            sets.forEach{ $0.mode = ($0.mode == .cubicBezier) ? .horizontalBezier : .cubicBezier }
             chartView.setNeedsDisplay()
             
         default:
