@@ -99,7 +99,7 @@ class LineChart1ViewController: DemoBaseViewController {
     }
 
     override func updateChartData() {
-        if self.shouldHideData {
+        guard !self.shouldHideData else {
             chartView.data = nil
             return
         }
