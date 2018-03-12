@@ -92,28 +92,27 @@ class CombinedChartViewController: DemoBaseViewController {
     }
     
     override func optionTapped(_ option: Option) {
+        guard let data = chartView.data else
+        {
+            super.handleOption(option, forChartView: chartView)
+            return
+        }
+
         switch option {
         case .toggleLineValues:
-            for set in chartView.data!.dataSets {
-                if let set = set as? LineChartDataSet {
-                    set.drawValuesEnabled = !set .drawValuesEnabled
-                    
-                }
-            }
+            data.dataSets.filter { $0 is LineChartDataSet }
+                         .forEach { $0.drawValuesEnabled = !$0.drawValuesEnabled }
             chartView.setNeedsDisplay()
             
         case .toggleBarValues:
-            for set in chartView.data!.dataSets {
-                if let set = set as? BarChartDataSet {
-                    set.drawValuesEnabled = !set .drawValuesEnabled
-                }
-            }
+            data.dataSets.filter { $0 is BarChartDataSet }
+                         .forEach { $0.drawValuesEnabled = !$0.drawValuesEnabled }
             chartView.setNeedsDisplay()
             
         case .removeDataSet:
-            let rnd = Int(arc4random_uniform(UInt32(chartView.data!.dataSetCount)))
-            chartView.data?.removeDataSet(chartView.data!.getDataSetByIndex(rnd))
-            chartView.data?.notifyDataChanged()
+            let rnd = Int(arc4random_uniform(UInt32(data.dataSetCount)))
+            data.removeDataSet(data.getDataSetByIndex(rnd))
+            data.notifyDataChanged()
             chartView.notifyDataSetChanged()
             
         default:
