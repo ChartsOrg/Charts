@@ -109,7 +109,7 @@ class CubicLineChartViewController: DemoBaseViewController {
     }
     
     override func optionTapped(_ option: Option) {
-        guard let sets = chartView.data!.dataSets as? [LineChartDataSet] else
+        guard let sets = chartView.data?.dataSets as? [LineChartDataSet] else
         {
             super.handleOption(option, forChartView: chartView)
             return
