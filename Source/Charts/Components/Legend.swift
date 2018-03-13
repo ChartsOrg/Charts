@@ -167,7 +167,7 @@ open class Legend: ComponentBase
             guard let label = entry.label
                 else { continue }
             
-            let size = (label as NSString!).size(withAttributes: [.font: font])
+            let size = (label as NSString).size(withAttributes: [.font: font])
             
             if size.width > maxW
             {
@@ -238,8 +238,7 @@ open class Legend: ComponentBase
                 let e = entries[i]
                 let drawingForm = e.form != .none
                 let formSize = e.formSize.isNaN ? defaultFormSize : e.formSize
-                let label = e.label
-                
+
                 if !wasStacked
                 {
                     width = 0.0
@@ -254,9 +253,9 @@ open class Legend: ComponentBase
                     width += formSize
                 }
                 
-                if label != nil
+                if let label = e.label
                 {
-                    let size = (label as NSString!).size(withAttributes: [.font: labelFont])
+                    let size = (label as NSString).size(withAttributes: [.font: labelFont])
                     
                     if drawingForm && !wasStacked
                     {
