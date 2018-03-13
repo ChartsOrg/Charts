@@ -394,8 +394,9 @@ extension ChartData: RandomAccessCollection
     }
 }
 
+// TODO: Conform when dropping Objective-C support
 // MARK: RangeReplaceableCollection
-extension ChartData: RangeReplaceableCollection
+extension ChartData//: RangeReplaceableCollection
 {
     @objc(addDataSet:)
     public func append(_ newElement: Element)
