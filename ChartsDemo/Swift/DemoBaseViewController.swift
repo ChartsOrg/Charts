@@ -117,20 +117,18 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
     func handleOption(_ option: Option, forChartView chartView: ChartViewBase) {
         switch option {
         case .toggleValues:
-            for set in chartView.data!.dataSets {
-                set.drawValuesEnabled = !set.drawValuesEnabled
-            }
+            chartView.data?.dataSets.forEach { $0.drawValuesEnabled = !$0.drawValuesEnabled }
             chartView.setNeedsDisplay()
             
         case .toggleIcons:
-            for set in chartView.data!.dataSets {
-                set.drawIconsEnabled = !set.drawIconsEnabled
-            }
+            chartView.data?.dataSets.forEach { $0.drawIconsEnabled = !$0.drawIconsEnabled }
             chartView.setNeedsDisplay()
             
         case .toggleHighlight:
-            chartView.data!.highlightEnabled = !chartView.data!.isHighlightEnabled
-            chartView.setNeedsDisplay()
+            if let data = chartView.data {
+                data.highlightEnabled = !data.isHighlightEnabled
+                chartView.setNeedsDisplay()
+            }
             
         case .animateX:
             chartView.animate(xAxisDuration: 3)
@@ -159,11 +157,9 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
             updateChartData()
             
         case .toggleBarBorders:
-            for set in chartView.data!.dataSets {
-                if let set = set as? BarChartDataSet {
-                    set.barBorderWidth = set.barBorderWidth == 1.0 ? 0.0 : 1.0
-                }
-            }
+            chartView.data?.dataSets.lazy
+                .flatMap { $0 as? BarChartDataSet }
+                .forEach { $0.barBorderWidth = $0.barBorderWidth == 1.0 ? 0.0 : 1.0 }
             chartView.setNeedsDisplay()
         default:
             break
