@@ -100,13 +100,13 @@ class CombinedChartViewController: DemoBaseViewController {
 
         switch option {
         case .toggleLineValues:
-            data.dataSets.filter { $0 is LineChartDataSet }
-                         .forEach { $0.drawValuesEnabled = !$0.drawValuesEnabled }
+            data.dataSets.lazy.filter { $0 is LineChartDataSet }
+                              .forEach { $0.drawValuesEnabled = !$0.drawValuesEnabled }
             chartView.setNeedsDisplay()
             
         case .toggleBarValues:
-            data.dataSets.filter { $0 is BarChartDataSet }
-                         .forEach { $0.drawValuesEnabled = !$0.drawValuesEnabled }
+            data.dataSets.lazy.filter { $0 is BarChartDataSet }
+                              .forEach { $0.drawValuesEnabled = !$0.drawValuesEnabled }
             chartView.setNeedsDisplay()
             
         case .removeDataSet:
