@@ -10,7 +10,7 @@
 //
 
 #import "AnotherBarChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 
 @interface AnotherBarChartViewController () <ChartViewDelegate>
 

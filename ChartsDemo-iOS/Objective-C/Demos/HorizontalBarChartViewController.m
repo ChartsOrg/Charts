@@ -10,7 +10,7 @@
 //
 
 #import "HorizontalBarChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 
 @interface HorizontalBarChartViewController () <ChartViewDelegate>
 

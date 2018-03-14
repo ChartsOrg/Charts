@@ -10,7 +10,7 @@
 //
 
 #import "LineChart1ViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 
 @interface LineChart1ViewController () <ChartViewDelegate>
 

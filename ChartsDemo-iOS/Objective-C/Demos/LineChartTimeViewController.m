@@ -10,7 +10,7 @@
 //
 
 #import "LineChartTimeViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 #import "DateValueFormatter.h"
 
 @interface LineChartTimeViewController () <ChartViewDelegate>

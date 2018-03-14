@@ -10,7 +10,7 @@
 //
 
 #import "SinusBarChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 
 @interface SinusBarChartViewController () <ChartViewDelegate>
 
