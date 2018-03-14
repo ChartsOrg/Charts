@@ -105,7 +105,7 @@
 		65B3F6351C73B4F5000983D0 = {
 			isa = PBXGroup;
 			children = (
-				65B3F6401C73B4F5000983D0 /* ChartsDemo-OSX */,
+				65B3F6401C73B4F5000983D0 /* ChartsDemo-macOS */,
 				65B3F63F1C73B4F5000983D0 /* Products */,
 				03780C7E1EA29C87005C11C8 /* PlaygroundChart.playground */,
 				0630AE691D812840008859B0 /* Charts.xcodeproj */,
@@ -120,7 +120,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		65B3F6401C73B4F5000983D0 /* ChartsDemo-OSX */ = {
+		65B3F6401C73B4F5000983D0 /* ChartsDemo-macOS */ = {
 			isa = PBXGroup;
 			children = (
 				5B9A0C381C83AB0600ED8ED8 /* Demos */,
@@ -129,7 +129,7 @@
 				65B3F6471C73B4F5000983D0 /* Main.storyboard */,
 				65B3F64A1C73B4F5000983D0 /* Info.plist */,
 			);
-			path = "ChartsDemo-OSX";
+			path = "ChartsDemo-macOS";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
