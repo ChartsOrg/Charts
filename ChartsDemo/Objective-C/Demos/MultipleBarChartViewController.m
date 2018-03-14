@@ -10,7 +10,7 @@
 //
 
 #import "MultipleBarChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 #import "IntAxisValueFormatter.h"
 
 @interface MultipleBarChartViewController () <ChartViewDelegate>
@@ -74,7 +74,7 @@
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     xAxis.granularity = 1.f;
-    xAxis.centerAxisLabelsEnabled = YES;
+    xAxis.isCenterAxisLabelsEnabled = YES;
     xAxis.valueFormatter = [[IntAxisValueFormatter alloc] init];
     
     NSNumberFormatter *leftAxisFormatter = [[NSNumberFormatter alloc] init];
@@ -83,7 +83,7 @@
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     leftAxis.valueFormatter = [[LargeValueFormatter alloc] init];
-    leftAxis.drawGridLinesEnabled = NO;
+    leftAxis.isDrawGridLinesEnabled = NO;
     leftAxis.spaceTop = 0.35;
     leftAxis.axisMinimum = 0;
     

@@ -10,7 +10,7 @@
 //
 
 #import "AnotherBarChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 
 @interface AnotherBarChartViewController () <ChartViewDelegate>
 
@@ -53,10 +53,10 @@
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBottom;
-    xAxis.drawGridLinesEnabled = NO;
+    xAxis.isDrawGridLinesEnabled = NO;
     
-    _chartView.leftAxis.drawGridLinesEnabled = NO;
-    _chartView.rightAxis.drawGridLinesEnabled = NO;
+    _chartView.leftAxis.isDrawGridLinesEnabled = NO;
+    _chartView.rightAxis.isDrawGridLinesEnabled = NO;
     
     _chartView.legend.enabled = NO;
     

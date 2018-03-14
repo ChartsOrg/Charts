@@ -10,7 +10,7 @@
 //
 
 #import "LineChart1ViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 
 @interface LineChart1ViewController () <ChartViewDelegate>
 
@@ -89,7 +89,7 @@
     leftAxis.axisMinimum = -50.0;
     leftAxis.gridLineDashLengths = @[@5.f, @5.f];
     leftAxis.drawZeroLineEnabled = NO;
-    leftAxis.drawLimitLinesBehindDataEnabled = YES;
+    leftAxis.isDrawLimitLinesBehindDataEnabled = YES;
     
     _chartView.rightAxis.enabled = NO;
     

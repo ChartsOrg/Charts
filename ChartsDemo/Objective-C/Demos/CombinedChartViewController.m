@@ -10,7 +10,7 @@
 //
 
 #import "CombinedChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 
 #define ITEM_COUNT 12
 
@@ -71,11 +71,11 @@
     l.drawInside = NO;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
-    rightAxis.drawGridLinesEnabled = NO;
+    rightAxis.isDrawGridLinesEnabled = NO;
     rightAxis.axisMinimum = 0.0; // this replaces startAtZero = YES
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
-    leftAxis.drawGridLinesEnabled = NO;
+    leftAxis.isDrawGridLinesEnabled = NO;
     leftAxis.axisMinimum = 0.0; // this replaces startAtZero = YES
     
     ChartXAxis *xAxis = _chartView.xAxis;

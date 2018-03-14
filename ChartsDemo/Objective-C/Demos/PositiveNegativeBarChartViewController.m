@@ -10,7 +10,7 @@
 //
 
 #import "PositiveNegativeBarChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 
 @interface PositiveNegativeBarChartViewController () <ChartViewDelegate, ChartAxisValueFormatter>
 {
@@ -64,20 +64,20 @@
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBottom;
     xAxis.labelFont = [UIFont systemFontOfSize:13.f];
-    xAxis.drawGridLinesEnabled = NO;
-    xAxis.drawAxisLineEnabled = NO;
+    xAxis.isDrawGridLinesEnabled = NO;
+    xAxis.isDrawAxisLineEnabled = NO;
     xAxis.labelTextColor = [UIColor lightGrayColor];
     xAxis.labelCount = 5;
-    xAxis.centerAxisLabelsEnabled = YES;
+    xAxis.isCenterAxisLabelsEnabled = YES;
     xAxis.granularity = 1.0;
     xAxis.valueFormatter = self;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
-    leftAxis.drawLabelsEnabled = NO;
+    leftAxis.isDrawLabelsEnabled = NO;
     leftAxis.spaceTop = 0.25;
     leftAxis.spaceBottom = 0.25;
-    leftAxis.drawAxisLineEnabled = NO;
-    leftAxis.drawGridLinesEnabled = NO;
+    leftAxis.isDrawAxisLineEnabled = NO;
+    leftAxis.isDrawGridLinesEnabled = NO;
     leftAxis.drawZeroLineEnabled = YES;
     leftAxis.zeroLineColor = UIColor.grayColor;
     leftAxis.zeroLineWidth = 0.7f;

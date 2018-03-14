@@ -10,7 +10,7 @@
 //
 
 #import "BarChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 #import "DayAxisValueFormatter.h"
 
 @interface BarChartViewController () <ChartViewDelegate>
@@ -57,7 +57,7 @@
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBottom;
     xAxis.labelFont = [UIFont systemFontOfSize:10.f];
-    xAxis.drawGridLinesEnabled = NO;
+    xAxis.isDrawGridLinesEnabled = NO;
     xAxis.granularity = 1.0; // only intervals of 1 day
     xAxis.labelCount = 7;
     xAxis.valueFormatter = [[DayAxisValueFormatter alloc] initForChart:_chartView];
@@ -78,7 +78,7 @@
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.enabled = YES;
-    rightAxis.drawGridLinesEnabled = NO;
+    rightAxis.isDrawGridLinesEnabled = NO;
     rightAxis.labelFont = [UIFont systemFontOfSize:10.f];
     rightAxis.labelCount = 8;
     rightAxis.valueFormatter = leftAxis.valueFormatter;

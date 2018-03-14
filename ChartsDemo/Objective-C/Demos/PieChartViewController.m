@@ -10,7 +10,7 @@
 //
 
 #import "PieChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 
 @interface PieChartViewController () <ChartViewDelegate>
 

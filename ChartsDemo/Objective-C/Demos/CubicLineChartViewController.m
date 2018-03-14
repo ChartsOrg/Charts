@@ -10,7 +10,7 @@
 //
 
 #import "CubicLineChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 
 @interface CubicLineSampleFillFormatter : NSObject <ChartFillFormatter>
 {
@@ -81,7 +81,7 @@
     [yAxis setLabelCount:6 force:NO];
     yAxis.labelTextColor = UIColor.whiteColor;
     yAxis.labelPosition = YAxisLabelPositionInsideChart;
-    yAxis.drawGridLinesEnabled = NO;
+    yAxis.isDrawGridLinesEnabled = NO;
     yAxis.axisLineColor = UIColor.whiteColor;
     
     _chartView.rightAxis.enabled = NO;

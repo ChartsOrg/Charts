@@ -13,7 +13,7 @@ import Foundation
 
 open class PieChartData: ChartData
 {
-    public override init()
+    public required init()
     {
         super.init()
     }
@@ -21,6 +21,11 @@ open class PieChartData: ChartData
     public override init(dataSets: [ChartDataSetProtocol]?)
     {
         super.init(dataSets: dataSets)
+    }
+
+    public required init(arrayLiteral elements: ChartDataSetProtocol...)
+    {
+        super.init(dataSets: elements)
     }
 
     @objc var dataSet: PieChartDataSetProtocol?
@@ -78,25 +83,6 @@ open class PieChartData: ChartData
     open override func entryForHighlight(_ highlight: Highlight) -> ChartDataEntry?
     {
         return dataSet?.entryForIndex(Int(highlight.x))
-    }
-    
-    open override func addDataSet(_ d: ChartDataSetProtocol!)
-    {   
-        super.addDataSet(d)
-    }
-    
-    /// Removes the DataSet at the given index in the DataSet array from the data object.
-    /// Also recalculates all minimum and maximum values.
-    ///
-    /// - returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
-    open override func removeDataSetByIndex(_ index: Int) -> Bool
-    {
-        if index >= _dataSets.count || index < 0
-        {
-            return false
-        }
-        
-        return false
     }
     
     /// - returns: The total y-value sum across all DataSet objects the this object represents.

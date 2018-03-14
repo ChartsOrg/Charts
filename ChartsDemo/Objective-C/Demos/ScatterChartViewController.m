@@ -10,7 +10,7 @@
 //
 
 #import "ScatterChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 
 @interface ScatterChartViewController () <ChartViewDelegate>
 
@@ -68,7 +68,7 @@
     
     ChartXAxis *xl = _chartView.xAxis;
     xl.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
-    xl.drawGridLinesEnabled = NO;
+    xl.isDrawGridLinesEnabled = NO;
     
     _sliderX.value = 45.0;
     _sliderY.value = 100.0;

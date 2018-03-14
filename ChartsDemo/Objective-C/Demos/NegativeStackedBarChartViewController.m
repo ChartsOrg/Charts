@@ -10,7 +10,7 @@
 //
 
 #import "NegativeStackedBarChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 
 @interface NegativeStackedBarChartViewController () <ChartViewDelegate, ChartAxisValueFormatter>
 
@@ -63,7 +63,7 @@
     _chartView.leftAxis.enabled = NO;
     _chartView.rightAxis.axisMaximum = 25.0;
     _chartView.rightAxis.axisMinimum = -25.0;
-    _chartView.rightAxis.drawGridLinesEnabled = NO;
+    _chartView.rightAxis.isDrawGridLinesEnabled = NO;
     _chartView.rightAxis.drawZeroLineEnabled = YES;
     _chartView.rightAxis.labelCount = 7;
     _chartView.rightAxis.valueFormatter = [[ChartDefaultAxisValueFormatter alloc] initWithFormatter:customFormatter];
@@ -71,11 +71,11 @@
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBothSided;
-    xAxis.drawGridLinesEnabled = NO;
-    xAxis.drawAxisLineEnabled = NO;
+    xAxis.isDrawGridLinesEnabled = NO;
+    xAxis.isDrawAxisLineEnabled = NO;
     xAxis.axisMinimum = 0.0;
     xAxis.axisMaximum = 110.0;
-    xAxis.centerAxisLabelsEnabled = YES;
+    xAxis.isCenterAxisLabelsEnabled = YES;
     xAxis.labelCount = 12;
     xAxis.granularity = 10.0;
     xAxis.valueFormatter = self;

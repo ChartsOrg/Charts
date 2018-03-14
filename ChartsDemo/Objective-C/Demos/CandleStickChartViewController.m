@@ -10,7 +10,7 @@
 //
 
 #import "CandleStickChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 
 @interface CandleStickChartViewController () <ChartViewDelegate>
 
@@ -54,12 +54,12 @@
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBottom;
-    xAxis.drawGridLinesEnabled = NO;
+    xAxis.isDrawGridLinesEnabled = NO;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.labelCount = 7;
-    leftAxis.drawGridLinesEnabled = NO;
-    leftAxis.drawAxisLineEnabled = NO;
+    leftAxis.isDrawGridLinesEnabled = NO;
+    leftAxis.isDrawAxisLineEnabled = NO;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.enabled = NO;

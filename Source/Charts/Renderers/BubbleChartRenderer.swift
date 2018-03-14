@@ -105,7 +105,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
 
             guard viewPortHandler.isInBoundsRight(_pointBuffer.x - shapeHalf) else { break }
             
-            let color = dataSet.color(atIndex: Int(entry.x))
+            let color = dataSet.color(atIndex: j)
             
             let rect = CGRect(
                 x: _pointBuffer.x - shapeHalf,
@@ -137,11 +137,9 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         {
             let dataSet = dataSets[i]
 
-            guard
-                shouldDrawValues(forDataSet: dataSet),
-                let formatter = dataSet.valueFormatter
-                else { continue }
+            guard shouldDrawValues(forDataSet: dataSet) else { continue }
 
+            let formatter = dataSet.valueFormatter
             let alpha = phaseX == 1 ? phaseY : phaseX
 
             _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)

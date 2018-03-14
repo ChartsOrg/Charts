@@ -10,7 +10,7 @@
 //
 
 #import "MultipleLinesChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 
 @interface MultipleLinesChartViewController () <ChartViewDelegate>
 
@@ -51,10 +51,10 @@
     _chartView.chartDescription.enabled = NO;
     
     _chartView.leftAxis.enabled = NO;
-    _chartView.rightAxis.drawAxisLineEnabled = NO;
-    _chartView.rightAxis.drawGridLinesEnabled = NO;
-    _chartView.xAxis.drawAxisLineEnabled = NO;
-    _chartView.xAxis.drawGridLinesEnabled = NO;
+    _chartView.rightAxis.isDrawAxisLineEnabled = NO;
+    _chartView.rightAxis.isDrawGridLinesEnabled = NO;
+    _chartView.xAxis.isDrawAxisLineEnabled = NO;
+    _chartView.xAxis.isDrawGridLinesEnabled = NO;
 
     _chartView.drawGridBackgroundEnabled = NO;
     _chartView.drawBordersEnabled = NO;

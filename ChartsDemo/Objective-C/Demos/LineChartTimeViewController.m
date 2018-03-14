@@ -10,7 +10,7 @@
 //
 
 #import "LineChartTimeViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 #import "DateValueFormatter.h"
 
 @interface LineChartTimeViewController () <ChartViewDelegate>
@@ -64,9 +64,9 @@
     xAxis.labelPosition = XAxisLabelPositionTopInside;
     xAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     xAxis.labelTextColor = [UIColor colorWithRed:255/255.0 green:192/255.0 blue:56/255.0 alpha:1.0];
-    xAxis.drawAxisLineEnabled = NO;
-    xAxis.drawGridLinesEnabled = YES;
-    xAxis.centerAxisLabelsEnabled = YES;
+    xAxis.isDrawAxisLineEnabled = NO;
+    xAxis.isDrawGridLinesEnabled = YES;
+    xAxis.isCenterAxisLabelsEnabled = YES;
     xAxis.granularity = 3600.0;
     xAxis.valueFormatter = [[DateValueFormatter alloc] init];
     
@@ -74,8 +74,8 @@
     leftAxis.labelPosition = YAxisLabelPositionInsideChart;
     leftAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:12.f];
     leftAxis.labelTextColor = [UIColor colorWithRed:51/255.0 green:181/255.0 blue:229/255.0 alpha:1.0];
-    leftAxis.drawGridLinesEnabled = YES;
-    leftAxis.granularityEnabled = YES;
+    leftAxis.isDrawGridLinesEnabled = YES;
+    leftAxis.isGranularityEnabled = YES;
     leftAxis.axisMinimum = 0.0;
     leftAxis.axisMaximum = 170.0;
     leftAxis.yOffset = -9.0;

@@ -10,7 +10,7 @@
 //
 
 #import "LineChart2ViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 
 @interface LineChart2ViewController () <ChartViewDelegate>
 
@@ -70,23 +70,23 @@
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelFont = [UIFont systemFontOfSize:11.f];
     xAxis.labelTextColor = UIColor.whiteColor;
-    xAxis.drawGridLinesEnabled = NO;
-    xAxis.drawAxisLineEnabled = NO;
+    xAxis.isDrawGridLinesEnabled = NO;
+    xAxis.isDrawAxisLineEnabled = NO;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.labelTextColor = [UIColor colorWithRed:51/255.f green:181/255.f blue:229/255.f alpha:1.f];
     leftAxis.axisMaximum = 200.0;
     leftAxis.axisMinimum = 0.0;
-    leftAxis.drawGridLinesEnabled = YES;
+    leftAxis.isDrawGridLinesEnabled = YES;
     leftAxis.drawZeroLineEnabled = NO;
-    leftAxis.granularityEnabled = YES;
+    leftAxis.isGranularityEnabled = YES;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.labelTextColor = UIColor.redColor;
     rightAxis.axisMaximum = 900.0;
     rightAxis.axisMinimum = -200.0;
-    rightAxis.drawGridLinesEnabled = NO;
-    rightAxis.granularityEnabled = NO;
+    rightAxis.isDrawGridLinesEnabled = NO;
+    rightAxis.isGranularityEnabled = NO;
     
     _sliderX.value = 20.0;
     _sliderY.value = 30.0;

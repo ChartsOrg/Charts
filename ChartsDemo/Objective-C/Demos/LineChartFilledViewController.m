@@ -10,7 +10,7 @@
 //
 
 #import "LineChartFilledViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 
 @interface LineChartFilledViewController () <ChartViewDelegate>
 
@@ -53,9 +53,9 @@
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.axisMaximum = 900.0;
     leftAxis.axisMinimum = -250.0;
-    leftAxis.drawAxisLineEnabled = NO;
+    leftAxis.isDrawAxisLineEnabled = NO;
     leftAxis.drawZeroLineEnabled = NO;
-    leftAxis.drawGridLinesEnabled = NO;
+    leftAxis.isDrawGridLinesEnabled = NO;
     
     _chartView.rightAxis.enabled = NO;
     
@@ -124,7 +124,7 @@
         set1.highlightColor = [UIColor colorWithRed:244/255.0 green:117/255.0 blue:117/255.0 alpha:1.0];
         set1.drawCircleHoleEnabled = NO;
         set1.fillFormatter = [ChartDefaultFillFormatter withBlock:^CGFloat(id<LineChartDataSetProtocol>  _Nonnull dataSet, id<LineChartDataProvider>  _Nonnull dataProvider) {
-            return _chartView.leftAxis.axisMinimum;
+            return self.chartView.leftAxis.axisMinimum;
         }];
         
         set2 = [[LineChartDataSet alloc] initWithValues:yVals2 label:@"DataSet 2"];
@@ -139,7 +139,7 @@
         set2.highlightColor = [UIColor colorWithRed:244/255.0 green:117/255.0 blue:117/255.0 alpha:1.0];
         set2.drawCircleHoleEnabled = NO;
         set2.fillFormatter = [ChartDefaultFillFormatter withBlock:^CGFloat(id<LineChartDataSetProtocol>  _Nonnull dataSet, id<LineChartDataProvider>  _Nonnull dataProvider) {
-            return _chartView.leftAxis.axisMaximum;
+            return self.chartView.leftAxis.axisMaximum;
         }];
         
         NSMutableArray *dataSets = [[NSMutableArray alloc] init];

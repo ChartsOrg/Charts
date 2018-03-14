@@ -10,7 +10,7 @@
 //
 
 #import "HorizontalBarChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 
 @interface HorizontalBarChartViewController () <ChartViewDelegate>
 
@@ -56,21 +56,21 @@
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBottom;
     xAxis.labelFont = [UIFont systemFontOfSize:10.f];
-    xAxis.drawAxisLineEnabled = YES;
-    xAxis.drawGridLinesEnabled = NO;
+    xAxis.isDrawAxisLineEnabled = YES;
+    xAxis.isDrawGridLinesEnabled = NO;
     xAxis.granularity = 10.0;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
     leftAxis.labelFont = [UIFont systemFontOfSize:10.f];
-    leftAxis.drawAxisLineEnabled = YES;
-    leftAxis.drawGridLinesEnabled = YES;
+    leftAxis.isDrawAxisLineEnabled = YES;
+    leftAxis.isDrawGridLinesEnabled = YES;
     leftAxis.axisMinimum = 0.0; // this replaces startAtZero = YES
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
     rightAxis.enabled = YES;
     rightAxis.labelFont = [UIFont systemFontOfSize:10.f];
-    rightAxis.drawAxisLineEnabled = YES;
-    rightAxis.drawGridLinesEnabled = NO;
+    rightAxis.isDrawAxisLineEnabled = YES;
+    rightAxis.isDrawGridLinesEnabled = NO;
     rightAxis.axisMinimum = 0.0; // this replaces startAtZero = YES
     
     ChartLegend *l = _chartView.legend;

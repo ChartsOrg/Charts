@@ -10,7 +10,7 @@
 //
 
 #import "SinusBarChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 
 @interface SinusBarChartViewController () <ChartViewDelegate>
 
@@ -53,7 +53,7 @@
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelPosition = XAxisLabelPositionBottom;
     xAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
-    xAxis.drawGridLinesEnabled = NO;
+    xAxis.isDrawGridLinesEnabled = NO;
     xAxis.enabled = NO;
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
@@ -61,11 +61,11 @@
     leftAxis.labelCount = 6;
     leftAxis.axisMinimum = -2.5;
     leftAxis.axisMaximum = 2.5;
-    leftAxis.granularityEnabled = true;
+    leftAxis.isGranularityEnabled = true;
     leftAxis.granularity = 0.1;
     
     ChartYAxis *rightAxis = _chartView.rightAxis;
-    rightAxis.drawGridLinesEnabled = NO;
+    rightAxis.isDrawGridLinesEnabled = NO;
     rightAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:10.f];
     rightAxis.labelCount = 6;
     rightAxis.axisMinimum = -2.5;
