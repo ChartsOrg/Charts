@@ -5,9 +5,9 @@
       location = "container:Charts.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:/Users/tank/Developer/Community Projects/Charts/ChartsDemo/ChartsDemo-iOS.xcodeproj">
+      location = "group:ChartsDemo-iOS/ChartsDemo-iOS.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:/Users/tank/Developer/Community Projects/Charts/ChartsDemo-OSX/ChartsDemo-macOS.xcodeproj">
+      location = "group:ChartsDemo-macOS/ChartsDemo-macOS.xcodeproj">
    </FileRef>
 </Workspace>
