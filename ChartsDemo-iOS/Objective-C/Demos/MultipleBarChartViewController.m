@@ -10,7 +10,7 @@
 //
 
 #import "MultipleBarChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 #import "IntAxisValueFormatter.h"
 
 @interface MultipleBarChartViewController () <ChartViewDelegate>

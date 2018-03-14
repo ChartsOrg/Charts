@@ -10,7 +10,7 @@
 //
 
 #import "HalfPieChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 
 @interface HalfPieChartViewController () <ChartViewDelegate>
 

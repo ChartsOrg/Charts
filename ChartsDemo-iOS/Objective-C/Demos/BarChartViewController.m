@@ -10,7 +10,7 @@
 //
 
 #import "BarChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 #import "DayAxisValueFormatter.h"
 
 @interface BarChartViewController () <ChartViewDelegate>

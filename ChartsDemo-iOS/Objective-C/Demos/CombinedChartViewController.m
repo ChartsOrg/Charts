@@ -10,7 +10,7 @@
 //
 
 #import "CombinedChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 
 #define ITEM_COUNT 12
 

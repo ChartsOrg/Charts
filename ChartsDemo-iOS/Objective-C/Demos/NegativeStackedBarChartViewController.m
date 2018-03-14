@@ -10,7 +10,7 @@
 //
 
 #import "NegativeStackedBarChartViewController.h"
-#import "ChartsDemo-Swift.h"
+#import "ChartsDemo_iOS-Swift.h"
 
 @interface NegativeStackedBarChartViewController () <ChartViewDelegate, ChartAxisValueFormatter>
 
