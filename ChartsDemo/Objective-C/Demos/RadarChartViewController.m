@@ -12,15 +12,13 @@
 #import "RadarChartViewController.h"
 #import "ChartsDemo-Swift.h"
 
-@interface RadarChartViewController () <ChartViewDelegate, ChartAxisValueFormatter>
-{
-    NSArray<NSString *> *activities;
-    UIColor *originalBarBgColor;
-    UIColor *originalBarTintColor;
-    UIBarStyle originalBarStyle;
-}
+@interface RadarChartViewController () <ChartViewDelegate, IChartAxisValueFormatter>
 
 @property (nonatomic, strong) IBOutlet RadarChartView *chartView;
+@property (nonatomic, strong) NSArray<NSString *> *activities;
+@property (nonatomic, strong) UIColor *originalBarBgColor;
+@property (nonatomic, strong) UIColor *originalBarTintColor;
+@property (nonatomic) UIBarStyle originalBarStyle;
 
 @end
 
@@ -30,7 +28,7 @@
 {
     [super viewDidLoad];
     
-    activities = @[ @"Burger", @"Steak", @"Salad", @"Pasta", @"Pizza" ];
+    self.activities = @[ @"Burger", @"Steak", @"Salad", @"Pasta", @"Pizza" ];
     
     self.title = @"Radar Bar Chart";
     
@@ -59,7 +57,7 @@
     _chartView.innerWebColor = UIColor.lightGrayColor;
     _chartView.webAlpha = 1.0;
     
-    RadarMarkerView *marker = (RadarMarkerView *)[RadarMarkerView viewFromXib];
+    RadarMarkerView *marker = (RadarMarkerView *)[RadarMarkerView viewFromXibIn:[NSBundle mainBundle]];
     marker.chartView = _chartView;
     _chartView.marker = marker;
     
@@ -98,9 +96,9 @@
     
     [UIView animateWithDuration:0.15 animations:^{
         UINavigationBar *navigationBar = self.navigationController.navigationBar;
-        originalBarBgColor = self.navigationController.navigationBar.barTintColor;
-        originalBarTintColor = self.navigationController.navigationBar.tintColor;
-        originalBarStyle = self.navigationController.navigationBar.barStyle;
+        self.originalBarBgColor = navigationBar.barTintColor;
+        self.originalBarTintColor = navigationBar.tintColor;
+        self.originalBarStyle = navigationBar.barStyle;
         
         navigationBar.barTintColor = self.view.backgroundColor;
         navigationBar.tintColor = UIColor.whiteColor;
@@ -114,9 +112,9 @@
     
     [UIView animateWithDuration:0.15 animations:^{
         UINavigationBar *navigationBar = self.navigationController.navigationBar;
-        navigationBar.barTintColor = originalBarBgColor;
-        navigationBar.tintColor = originalBarTintColor;
-        navigationBar.barStyle = originalBarStyle;
+        navigationBar.barTintColor = self.originalBarBgColor;
+        navigationBar.tintColor = self.originalBarTintColor;
+        navigationBar.barStyle = self.originalBarStyle;
     }];
 }
 
@@ -265,12 +263,12 @@
     NSLog(@"chartValueNothingSelected");
 }
 
-#pragma mark - AxisValueFormatter
+#pragma mark - IAxisValueFormatter
 
 - (NSString *)stringForValue:(double)value
                         axis:(ChartAxisBase *)axis
 {
-    return activities[(int) value % activities.count];
+    return self.activities[(int) value % self.activities.count];
 }
 
 @end

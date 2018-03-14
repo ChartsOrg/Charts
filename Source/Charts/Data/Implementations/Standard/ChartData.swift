@@ -355,7 +355,7 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
     /// - returns: The labels of all DataSets as a string array.
     internal func dataSetLabels() -> [String]
     {
-        return flatMap { $0.label }
+        return compactMap { $0.label }
     }
     
     /// Get the Entry for a corresponding highlight object
@@ -588,8 +588,9 @@ extension ChartData: RandomAccessCollection
     }
 }
 
+// TODO: Conform when dropping Objective-C support
 // MARK: RangeReplaceableCollection
-extension ChartData: RangeReplaceableCollection
+extension ChartData//: RangeReplaceableCollection
 {
     @objc(addDataSet:)
     public func append(_ newElement: Element)
