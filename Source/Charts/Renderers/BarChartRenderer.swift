@@ -317,7 +317,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                     shouldDrawValues(forDataSet: dataSet)
                     else { continue }
                 
-                let angleRadians = dataSet.valueRotationAngle.DEG2RAD
+                let angleRadians = dataSet.valueLabelAngle.DEG2RAD
                 
                 let isInverted = dataProvider.isInverted(axis: dataSet.axisDependency)
                 

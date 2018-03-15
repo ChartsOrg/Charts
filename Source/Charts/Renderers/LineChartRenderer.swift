@@ -523,7 +523,7 @@ open class LineChartRenderer: LineRadarRenderer
                 
                 let formatter = dataSet.valueFormatter
                 
-                let angleRadians = dataSet.valueRotationAngle.DEG2RAD
+                let angleRadians = dataSet.valueLabelAngle.DEG2RAD
                 
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix

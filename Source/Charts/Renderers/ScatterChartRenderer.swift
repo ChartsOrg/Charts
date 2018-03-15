@@ -132,7 +132,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                 
                 let iconsOffset = dataSet.iconsOffset
                 
-                let angleRadians = dataSet.valueRotationAngle.DEG2RAD
+                let angleRadians = dataSet.valueLabelAngle.DEG2RAD
                 
                 let shapeSize = dataSet.scatterShapeSize
                 let lineHeight = valueFont.lineHeight

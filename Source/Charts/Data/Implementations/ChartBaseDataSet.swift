@@ -302,8 +302,8 @@ open class ChartBaseDataSet: NSObject, ChartDataSetProtocol
     /// the font for the value-text labels
     open var valueFont: NSUIFont = NSUIFont.systemFont(ofSize: 7.0)
     
-    /// the rotation angle for value-text labels
-    open var valueRotationAngle: CGFloat = CGFloat(0.0)
+    /// The rotation angle (in degrees) for value-text labels
+    open var valueLabelAngle: CGFloat = CGFloat(0.0)
     
     /// The form to draw for this dataset in the legend.
     open var form = Legend.Form.default

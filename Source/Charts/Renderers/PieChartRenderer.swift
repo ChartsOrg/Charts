@@ -314,7 +314,7 @@ open class PieChartRenderer: NSObject, DataRenderer
             
             let iconsOffset = dataSet.iconsOffset
             
-            let angleRadians = dataSet.valueRotationAngle.DEG2RAD
+            let angleRadians = dataSet.valueLabelAngle.DEG2RAD
             
             let xValuePosition = dataSet.xValuePosition
             let yValuePosition = dataSet.yValuePosition

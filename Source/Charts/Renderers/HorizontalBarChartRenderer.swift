@@ -318,7 +318,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             {
                 guard let dataSet = dataSets[dataSetIndex] as? BarChartDataSetProtocol else { continue }
                 
-                let angleRadians = dataSet.valueRotationAngle.DEG2RAD
+                let angleRadians = dataSet.valueLabelAngle.DEG2RAD
                 
                 if !shouldDrawValues(forDataSet: dataSet) || !(dataSet.isDrawIconsEnabled && dataSet.isVisible)
                 {

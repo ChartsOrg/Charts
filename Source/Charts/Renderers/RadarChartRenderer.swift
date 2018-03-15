@@ -160,7 +160,7 @@ open class RadarChartRenderer: LineRadarRenderer
                 continue
             }
             
-            let angleRadians = dataSet.valueRotationAngle.DEG2RAD
+            let angleRadians = dataSet.valueLabelAngle.DEG2RAD
             
             let entryCount = dataSet.entryCount
             

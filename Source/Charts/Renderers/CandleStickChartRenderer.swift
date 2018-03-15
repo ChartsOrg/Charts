@@ -267,7 +267,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 
                 let iconsOffset = dataSet.iconsOffset
                 
-                let angleRadians = dataSet.valueRotationAngle.DEG2RAD
+                let angleRadians = dataSet.valueLabelAngle.DEG2RAD
                 
                 _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
                 

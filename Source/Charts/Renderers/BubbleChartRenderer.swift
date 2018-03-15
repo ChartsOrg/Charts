@@ -149,7 +149,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
 
             let iconsOffset = dataSet.iconsOffset
             
-            let angleRadians = dataSet.valueRotationAngle.DEG2RAD
+            let angleRadians = dataSet.valueLabelAngle.DEG2RAD
 
             for j in _xBounds.min..._xBounds.range + _xBounds.min
             {
