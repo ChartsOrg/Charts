@@ -545,8 +545,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         else
         {
             // align left to center text with rotation
-            context.drawText(value, at: CGPoint(x: xPos, y: yPos), align: align, anchor: anchor,
-                             angleRadians: angleRadians, attributes: [.font: font, .foregroundColor: color])
+            context.drawText(value, at: CGPoint(x: xPos, y: yPos), align: align, anchor: anchor, angleRadians: angleRadians, attributes: [.font: font, .foregroundColor: color])
         }
     }
 

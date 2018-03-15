@@ -207,7 +207,7 @@ extension CGContext {
         NSUIGraphicsPopContext()
     }
 
-    func getDrawPoint(text: String, point: CGPoint, align: NSTextAlignment, attributes: [NSAttributedStringKey : Any]?) -> CGPoint
+    private func getDrawPoint(text: String, point: CGPoint, align: NSTextAlignment, attributes: [NSAttributedStringKey : Any]?) -> CGPoint
     {
         var point = point
         
