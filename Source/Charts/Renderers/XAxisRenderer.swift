@@ -210,10 +210,18 @@ open class XAxisRenderer: NSObject, AxisRenderer
         }
         
         let yOffset = axis.yOffset
+        let width = (viewPortHandler.chartWidth / 2)
+        let positions = CGPoint(x: width, y:0.0)
+        
+        let nameAxisSize = axis.nameAxis.size(withAttributes: [NSAttributedStringKey.font: axis.nameAxisFont])
         
         if axis.labelPosition == .top
         {
+            var pos  = viewPortHandler.contentTop - yOffset
             drawLabels(context: context, pos: viewPortHandler.contentTop - yOffset, anchor: CGPoint(x: 0.5, y: 1.0))
+            
+            pos = pos + (axis.labelRotationAngle != 0 ? -axis.labelRotatedHeight : -axis.labelHeight)
+            drawNameXAxis ( context: context,  fixedPosition: pos, positions: positions, offset: 0.0)
         }
         else if axis.labelPosition == .topInside
         {
@@ -221,7 +229,11 @@ open class XAxisRenderer: NSObject, AxisRenderer
         }
         else if axis.labelPosition == .bottom
         {
+            var pos  = viewPortHandler.contentBottom + yOffset
             drawLabels(context: context, pos: viewPortHandler.contentBottom + yOffset, anchor: CGPoint(x: 0.5, y: 0.0))
+            
+            pos = pos + nameAxisSize.height + (axis.labelRotationAngle != 0 ? axis.labelRotatedHeight : axis.labelHeight)
+            drawNameXAxis ( context: context,  fixedPosition: pos, positions: positions, offset: 0.0)
         }
         else if axis.labelPosition == .bottomInside
         {
@@ -229,10 +241,54 @@ open class XAxisRenderer: NSObject, AxisRenderer
         }
         else
         { // BOTH SIDED
+            // top
+            var pos  = viewPortHandler.contentTop - yOffset
             drawLabels(context: context, pos: viewPortHandler.contentTop - yOffset, anchor: CGPoint(x: 0.5, y: 1.0))
+            
+            pos = pos + (axis.labelRotationAngle != 0 ? -axis.labelRotatedHeight : -axis.labelHeight)
+            drawNameXAxis ( context: context,  fixedPosition: pos, positions: positions, offset: 0.0)
+            
+            // bottom
+            pos  = viewPortHandler.contentBottom + yOffset
             drawLabels(context: context, pos: viewPortHandler.contentBottom + yOffset, anchor: CGPoint(x: 0.5, y: 0.0))
+            
+            pos = pos + nameAxisSize.height + (axis.labelRotationAngle != 0 ? axis.labelRotatedHeight : axis.labelHeight)
+            drawNameXAxis ( context: context,  fixedPosition: pos, positions: positions, offset: 0.0)
         }
+        
     }
+    
+    open func drawNameXAxis (
+        context: CGContext,
+        fixedPosition: CGFloat,
+        positions: CGPoint,
+        offset: CGFloat)
+    {
+        #if os(OSX)
+        let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        #else
+        let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        #endif
+        
+        paraStyle.alignment = .center
+        let labelAttrs = [.font             : axis.nameAxisFont,
+                          .foregroundColor  : axis.nameAxisTextColor,
+                          .paragraphStyle   : paraStyle] as [NSAttributedStringKey : Any]
+
+        let labelRotationAngleRadians = CGFloat(0)
+        
+        let text = axis.nameAxis
+        let labelMaxSize = CGSize()
+        
+        context.drawMultilineText(
+            text,
+            at: CGPoint(x: positions.x, y: fixedPosition),
+            constrainedTo: labelMaxSize,
+            anchor: CGPoint(x: 0.5, y: 1.0),
+            angleRadians: labelRotationAngleRadians,
+            attributes: labelAttrs)
+    }
+
     
     private var _axisLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     

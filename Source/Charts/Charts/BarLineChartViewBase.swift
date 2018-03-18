@@ -422,30 +422,46 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             if leftAxis.needsOffset
             {
                 offsetLeft += leftAxis.requiredSize().width
+                if leftAxis.nameAxisEnabled
+                {
+                    let nameLeftAxisSize = leftAxis.nameAxis.size(withAttributes: [NSAttributedStringKey.font: leftAxis.nameAxisFont])
+                    offsetLeft += nameLeftAxisSize.height
+                }
             }
             
             if rightAxis.needsOffset
             {
                 offsetRight += rightAxis.requiredSize().width
+                if rightAxis.nameAxisEnabled
+                {
+                    let nameRightAxisSize = rightAxis.nameAxis.size(withAttributes: [NSAttributedStringKey.font: rightAxis.nameAxisFont])
+                    offsetRight += nameRightAxisSize.height
+                }
             }
-
+            
             if xAxis.isEnabled && xAxis.isDrawLabelsEnabled
             {
                 let xlabelheight = xAxis.labelRotatedHeight + xAxis.yOffset
                 
+                var namexAxisSize = CGSize()
+                if xAxis.nameAxisEnabled
+                {
+                    namexAxisSize = xAxis.nameAxis.size(withAttributes: [NSAttributedStringKey.font: xAxis.nameAxisFont])
+                }
+                
                 // offsets for x-labels
                 if xAxis.labelPosition == .bottom
                 {
-                    offsetBottom += xlabelheight
+                    offsetBottom += xlabelheight + namexAxisSize.height
                 }
                 else if xAxis.labelPosition == .top
                 {
-                    offsetTop += xlabelheight
+                    offsetTop += xlabelheight + namexAxisSize.height
                 }
                 else if xAxis.labelPosition == .bothSided
                 {
-                    offsetBottom += xlabelheight
-                    offsetTop += xlabelheight
+                    offsetBottom += xlabelheight + namexAxisSize.height
+                    offsetTop += xlabelheight + namexAxisSize.height
                 }
             }
             
@@ -453,7 +469,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             offsetRight += self.extraRightOffset
             offsetBottom += self.extraBottomOffset
             offsetLeft += self.extraLeftOffset
-
+            
             viewPortHandler.restrainViewPort(
                 offsetLeft: max(self.minOffset, offsetLeft),
                 offsetTop: max(self.minOffset, offsetTop),

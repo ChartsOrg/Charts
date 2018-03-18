@@ -47,6 +47,7 @@ open class YAxisRenderer: NSObject, AxisRenderer
         let labelPosition = axis.labelPosition
         
         var xPos = CGFloat(0.0)
+        var xPosName = CGFloat(0.0)
         
         var textAlign: NSTextAlignment
         
@@ -56,6 +57,10 @@ open class YAxisRenderer: NSObject, AxisRenderer
             {
                 textAlign = .right
                 xPos = viewPortHandler.offsetLeft - xoffset
+                
+                let label = axis.getLongestLabel()
+                let size = label.size(withAttributes: [NSAttributedStringKey.font: axis.nameAxisFont])
+                xPosName = size.height
             }
             else
             {
@@ -70,6 +75,8 @@ open class YAxisRenderer: NSObject, AxisRenderer
             {
                 textAlign = .left
                 xPos = viewPortHandler.contentRight + xoffset
+                
+                xPosName = viewPortHandler.chartWidth - 5
             }
             else
             {
@@ -84,7 +91,53 @@ open class YAxisRenderer: NSObject, AxisRenderer
             positions: transformedPositions(),
             offset: yoffset - axis.labelFont.lineHeight,
             textAlign: textAlign)
+        
+        if axis.nameAxisEnabled
+        {
+            let high = (viewPortHandler.chartHeight / 2)
+            var positions = [CGPoint]()
+            positions.append(CGPoint(x: 0.0, y: high))
+            
+            drawNameYAxis(
+                context: context,
+                fixedPosition: xPosName,
+                positions: positions[0],
+                offset: 0.0)
+        }
+
     }
+    
+    /// draws the name Yaxis
+    internal func drawNameYAxis(
+        context: CGContext,
+        fixedPosition: CGFloat,
+        positions: CGPoint,
+        offset: CGFloat)
+    {
+        
+        #if os(OSX)
+        let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        #else
+        let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        #endif
+        
+        paraStyle.alignment = .center
+        
+        let labelAttrs = [.font             : axis.nameAxisFont,
+                          .foregroundColor  : axis.nameAxisTextColor,
+                          .paragraphStyle   : paraStyle] as [NSAttributedStringKey : Any]
+        
+        let labelRotationAngleRadians = CGFloat(-90.0.DEG2RAD)
+        let text = axis.nameAxis
+        
+        context.drawText(
+            text,
+            at: CGPoint(x: fixedPosition, y: positions.y + offset),
+            anchor: CGPoint(x: 1.0, y: 0.5),
+            angleRadians: labelRotationAngleRadians,
+            attributes: labelAttrs)
+    }
+
     
     open func renderAxisLine(context: CGContext)
     {

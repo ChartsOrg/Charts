@@ -110,30 +110,46 @@ open class HorizontalBarChartView: BarChartView
         if leftAxis.needsOffset
         {
             offsetTop += leftAxis.getRequiredHeightSpace()
+            if leftAxis.nameAxisEnabled
+            {
+                let nameLeftAxisSize = leftAxis.nameAxis.size(withAttributes: [NSAttributedStringKey.font: leftAxis.nameAxisFont])
+                offsetTop += nameLeftAxisSize.height
+            }
         }
         
         if rightAxis.needsOffset
         {
             offsetBottom += rightAxis.getRequiredHeightSpace()
+            if rightAxis.nameAxisEnabled
+            {
+                let nameRightAxisSize = rightAxis.nameAxis.size(withAttributes: [NSAttributedStringKey.font: rightAxis.nameAxisFont])
+                offsetBottom += nameRightAxisSize.height
+            }
         }
         
         let xlabelwidth = xAxis.labelRotatedWidth
         
         if xAxis.isEnabled
         {
+            var namexAxisSize = CGSize()
+            if xAxis.nameAxisEnabled
+            {
+                namexAxisSize = xAxis.nameAxis.size(withAttributes: [NSAttributedStringKey.font: xAxis.nameAxisFont])
+            }
+            
             // offsets for x-labels
             if xAxis.labelPosition == .bottom
             {
-                offsetLeft += xlabelwidth
+                offsetLeft += xlabelwidth + namexAxisSize.height
             }
             else if xAxis.labelPosition == .top
             {
-                offsetRight += xlabelwidth
+                offsetRight += xlabelwidth + namexAxisSize.height
             }
             else if xAxis.labelPosition == .bothSided
             {
-                offsetLeft += xlabelwidth
-                offsetRight += xlabelwidth
+                offsetLeft += xlabelwidth + namexAxisSize.height
+                offsetRight += xlabelwidth + namexAxisSize.height
             }
         }
         
@@ -141,7 +157,7 @@ open class HorizontalBarChartView: BarChartView
         offsetRight += self.extraRightOffset
         offsetBottom += self.extraBottomOffset
         offsetLeft += self.extraLeftOffset
-
+        
         viewPortHandler.restrainViewPort(
             offsetLeft: max(self.minOffset, offsetLeft),
             offsetTop: max(self.minOffset, offsetTop),
