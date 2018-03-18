@@ -141,17 +141,8 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
         positions: CGPoint,
         offset: CGFloat)
     {
-        if axis.nameAxisEnabled == false
-        {
-            return
-        }
         
-        #if os(OSX)
         let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
-        #else
-        let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
-        #endif
-        
         paraStyle.alignment = .center
         
         let labelAttrs = [.font             : axis.nameAxisFont,

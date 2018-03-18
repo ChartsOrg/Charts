@@ -264,13 +264,10 @@ open class XAxisRenderer: NSObject, AxisRenderer
         positions: CGPoint,
         offset: CGFloat)
     {
-        #if os(OSX)
-        let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
-        #else
-        let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
-        #endif
         
+        let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         paraStyle.alignment = .center
+        
         let labelAttrs = [.font             : axis.nameAxisFont,
                           .foregroundColor  : axis.nameAxisTextColor,
                           .paragraphStyle   : paraStyle] as [NSAttributedStringKey : Any]

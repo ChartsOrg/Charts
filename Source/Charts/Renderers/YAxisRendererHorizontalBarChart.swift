@@ -130,12 +130,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         offset: CGFloat)
     {
 
-        #if os(OSX)
         let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
-        #else
-        let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
-        #endif
-        
         paraStyle.alignment = .center
         
         let labelAttrs = [.font             : axis.nameAxisFont,
