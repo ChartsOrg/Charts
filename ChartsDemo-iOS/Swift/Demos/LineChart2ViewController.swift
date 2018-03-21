@@ -68,7 +68,6 @@ class LineChart2ViewController: DemoBaseViewController {
         leftAxis.granularityEnabled = true
         leftAxis.nameAxis = "Amount"
         leftAxis.nameAxisEnabled = true
-        leftAxis.nameAxisTextColor = leftAxis.labelTextColor
 
         let rightAxis = chartView.rightAxis
         rightAxis.labelTextColor = .red
@@ -77,7 +76,6 @@ class LineChart2ViewController: DemoBaseViewController {
         rightAxis.granularityEnabled = false
         rightAxis.nameAxis = "Another Amount"
         rightAxis.nameAxisEnabled = true
-        rightAxis.nameAxisTextColor = rightAxis.labelTextColor
 
         sliderX.value = 20
         sliderY.value = 30

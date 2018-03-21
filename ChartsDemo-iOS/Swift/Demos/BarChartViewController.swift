@@ -77,8 +77,6 @@ class BarChartViewController: DemoBaseViewController {
         rightAxis.axisMinimum = 0
         rightAxis.nameAxis = "Another Amount"
         rightAxis.nameAxisEnabled = true
-        rightAxis.nameAxisTextColor = rightAxis.labelTextColor
-
         
         let l = chartView.legend
         l.horizontalAlignment = .left

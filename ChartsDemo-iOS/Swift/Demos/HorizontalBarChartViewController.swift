@@ -59,7 +59,6 @@ class HorizontalBarChartViewController: DemoBaseViewController {
         leftAxis.axisMinimum = 0
         leftAxis.nameAxis = "Amount"
         leftAxis.nameAxisEnabled = true
-        leftAxis.nameAxisTextColor = leftAxis.labelTextColor
 
         let rightAxis = chartView.rightAxis
         rightAxis.enabled = true
@@ -68,7 +67,6 @@ class HorizontalBarChartViewController: DemoBaseViewController {
         rightAxis.axisMinimum = 0
         rightAxis.nameAxis = "Another Amount"
         rightAxis.nameAxisEnabled = true
-        rightAxis.nameAxisTextColor = rightAxis.labelTextColor
 
         let l = chartView.legend
         l.horizontalAlignment = .left
