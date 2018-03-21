@@ -119,7 +119,7 @@ open class YAxisRenderer: NSObject, AxisRenderer
         paraStyle.alignment = .center
         
         let labelAttrs = [.font             : axis.nameAxisFont,
-                          .foregroundColor  : axis.nameAxisTextColor,
+                          .foregroundColor  : axis.labelTextColor,
                           .paragraphStyle   : paraStyle] as [NSAttributedStringKey : Any]
         
         let labelRotationAngleRadians = CGFloat(-90.0.DEG2RAD)

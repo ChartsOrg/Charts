@@ -57,20 +57,28 @@ class LineChart2ViewController: DemoBaseViewController {
         xAxis.labelFont = .systemFont(ofSize: 11)
         xAxis.labelTextColor = .white
         xAxis.drawAxisLineEnabled = false
-        
+        xAxis.nameAxis = "Date"
+        xAxis.nameAxisEnabled = true
+
         let leftAxis = chartView.leftAxis
         leftAxis.labelTextColor = UIColor(red: 51/255, green: 181/255, blue: 229/255, alpha: 1)
         leftAxis.axisMaximum = 200
         leftAxis.axisMinimum = 0
         leftAxis.drawGridLinesEnabled = true
         leftAxis.granularityEnabled = true
-        
+        leftAxis.nameAxis = "Amount"
+        leftAxis.nameAxisEnabled = true
+        leftAxis.nameAxisTextColor = leftAxis.labelTextColor
+
         let rightAxis = chartView.rightAxis
         rightAxis.labelTextColor = .red
         rightAxis.axisMaximum = 900
         rightAxis.axisMinimum = -200
         rightAxis.granularityEnabled = false
-        
+        rightAxis.nameAxis = "Another Amount"
+        rightAxis.nameAxisEnabled = true
+        rightAxis.nameAxisTextColor = rightAxis.labelTextColor
+
         sliderX.value = 20
         sliderY.value = 30
         slidersValueChanged(nil)

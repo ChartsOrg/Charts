@@ -48,18 +48,27 @@ class HorizontalBarChartViewController: DemoBaseViewController {
         xAxis.labelFont = .systemFont(ofSize: 10)
         xAxis.drawAxisLineEnabled = true
         xAxis.granularity = 10
+        xAxis.nameAxis = "Date"
+        xAxis.nameAxisEnabled = true
+
         
         let leftAxis = chartView.leftAxis
         leftAxis.labelFont = .systemFont(ofSize: 10)
         leftAxis.drawAxisLineEnabled = true
         leftAxis.drawGridLinesEnabled = true
         leftAxis.axisMinimum = 0
+        leftAxis.nameAxis = "Amount"
+        leftAxis.nameAxisEnabled = true
+        leftAxis.nameAxisTextColor = leftAxis.labelTextColor
 
         let rightAxis = chartView.rightAxis
         rightAxis.enabled = true
         rightAxis.labelFont = .systemFont(ofSize: 10)
         rightAxis.drawAxisLineEnabled = true
         rightAxis.axisMinimum = 0
+        rightAxis.nameAxis = "Another Amount"
+        rightAxis.nameAxisEnabled = true
+        rightAxis.nameAxisTextColor = rightAxis.labelTextColor
 
         let l = chartView.legend
         l.horizontalAlignment = .left

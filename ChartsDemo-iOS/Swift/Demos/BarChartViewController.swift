@@ -48,12 +48,15 @@ class BarChartViewController: DemoBaseViewController {
         xAxis.granularity = 1
         xAxis.labelCount = 7
         xAxis.valueFormatter = DayAxisValueFormatter(chart: chartView)
+        xAxis.nameAxis = "Date"
+        xAxis.nameAxisEnabled = true
         
         let leftAxisFormatter = NumberFormatter()
         leftAxisFormatter.minimumFractionDigits = 0
         leftAxisFormatter.maximumFractionDigits = 1
         leftAxisFormatter.negativeSuffix = " $"
         leftAxisFormatter.positiveSuffix = " $"
+
         
         let leftAxis = chartView.leftAxis
         leftAxis.labelFont = .systemFont(ofSize: 10)
@@ -62,7 +65,9 @@ class BarChartViewController: DemoBaseViewController {
         leftAxis.labelPosition = .outsideChart
         leftAxis.spaceTop = 0.15
         leftAxis.axisMinimum = 0 // FIXME: HUH?? this replaces startAtZero = YES
-        
+        leftAxis.nameAxis = "Amount"
+        leftAxis.nameAxisEnabled = true
+
         let rightAxis = chartView.rightAxis
         rightAxis.enabled = true
         rightAxis.labelFont = .systemFont(ofSize: 10)
@@ -70,6 +75,10 @@ class BarChartViewController: DemoBaseViewController {
         rightAxis.valueFormatter = leftAxis.valueFormatter
         rightAxis.spaceTop = 0.15
         rightAxis.axisMinimum = 0
+        rightAxis.nameAxis = "Another Amount"
+        rightAxis.nameAxisEnabled = true
+        rightAxis.nameAxisTextColor = rightAxis.labelTextColor
+
         
         let l = chartView.legend
         l.horizontalAlignment = .left

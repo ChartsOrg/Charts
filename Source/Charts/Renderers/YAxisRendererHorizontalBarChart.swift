@@ -134,7 +134,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         paraStyle.alignment = .center
         
         let labelAttrs = [.font             : axis.nameAxisFont,
-                          .foregroundColor  : axis.nameAxisTextColor,
+                          .foregroundColor  : axis.labelTextColor,
                           .paragraphStyle   : paraStyle] as [NSAttributedStringKey : Any]
         
         let labelRotationAngleRadians = CGFloat(0.0)

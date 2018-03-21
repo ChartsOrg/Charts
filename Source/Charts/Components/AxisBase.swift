@@ -46,7 +46,6 @@ open class AxisBase: ComponentBase
     
     @objc open var nameAxis : String = ""
     @objc open var nameAxisFont = NSUIFont.systemFont(ofSize: 14.0)
-    @objc open var nameAxisTextColor = NSUIColor.blue
     @objc open var nameAxisEnabled = false
 
     private var _centerAxisLabelsEnabled = false
