@@ -445,6 +445,11 @@ open class ChartData: NSObject
     
     @objc open func addDataSet(_ dataSet: IChartDataSet!)
     {
+        if dataSet === nil
+        {
+            return
+        }
+        
         calcMinMax(dataSet: dataSet)
         
         _dataSets.append(dataSet)
