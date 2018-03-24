@@ -128,11 +128,13 @@ open class Highlight: NSObject
     /// - parameter x: the x-value of the highlighted value
     /// - parameter y: the y-value of the highlighted value
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
-    @objc public init(x: Double, y: Double, dataSetIndex: Int)
+    /// - parameter dataIndex: The data index to search in (only used in CombinedChartView currently)
+    @objc public init(x: Double, y: Double, dataSetIndex: Int, dataIndex: Int = -1)
     {
         _x = x
         _y = y
         _dataSetIndex = dataSetIndex
+        self.dataIndex = dataIndex
     }
     
     /// - parameter x: the x-value of the highlighted value
