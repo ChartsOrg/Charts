@@ -113,7 +113,7 @@ class PiePolylineChartViewController: DemoBaseViewController {
             chartView.setNeedsDisplay()
             
         case .toggleLabelsMinimumAngle:
-            chartView.drawSliceTextMinimumAngle = chartView.drawSliceTextMinimumAngle == 0.0 ? 20.0 : 0.0
+            chartView.sliceTextDrawingThreshold = chartView.sliceTextDrawingThreshold == 0.0 ? 20.0 : 0.0
             chartView.setNeedsDisplay()
 
         case .drawCenter:
