@@ -10,17 +10,16 @@
 //
 
 import Foundation
-import Charts
-
 
 open class BalloonMarker: MarkerImage
 {
     @objc open var color: UIColor
-    @objc open var arrowSize = CGSize(width: 15, height: 11)
+    @objc open var arrowSize = CGSize(width: 12, height: 8)
     @objc open var font: UIFont
     @objc open var textColor: UIColor
     @objc open var insets: UIEdgeInsets
     @objc open var minimumSize = CGSize()
+    @objc open var r: CGFloat = 6.0
     
     fileprivate var label: String?
     fileprivate var _labelSize: CGSize = CGSize()
@@ -102,12 +101,12 @@ open class BalloonMarker: MarkerImage
         context.saveGState()
 
         context.setFillColor(color.cgColor)
-
+        
         if offset.y > 0
         {
             context.beginPath()
             context.move(to: CGPoint(
-                x: rect.origin.x,
+                x: rect.origin.x + r,
                 y: rect.origin.y + arrowSize.height))
             context.addLine(to: CGPoint(
                 x: rect.origin.x + (rect.size.width - arrowSize.width) / 2.0,
@@ -119,32 +118,51 @@ open class BalloonMarker: MarkerImage
             context.addLine(to: CGPoint(
                 x: rect.origin.x + (rect.size.width + arrowSize.width) / 2.0,
                 y: rect.origin.y + arrowSize.height))
+            
+            context.addLine(to: CGPoint(
+                x: rect.origin.x + rect.size.width - r,
+                y: rect.origin.y + arrowSize.height))
+            
+            context.addArc(center: CGPoint(x:rect.origin.x + rect.size.width - r,y:rect.origin.y+arrowSize.height+r), radius: r, startAngle: CGFloat.pi*1.5, endAngle: 0.0, clockwise: false)
+            
             context.addLine(to: CGPoint(
                 x: rect.origin.x + rect.size.width,
-                y: rect.origin.y + arrowSize.height))
+                y: rect.origin.y + rect.size.height - r))
+            
+            context.addArc(center: CGPoint(x:rect.origin.x + rect.size.width - r,y:rect.origin.y + rect.size.height - r), radius: r, startAngle: 0.0, endAngle: CGFloat.pi*0.5, clockwise: false)
+            
             context.addLine(to: CGPoint(
-                x: rect.origin.x + rect.size.width,
+                x: rect.origin.x + r,
                 y: rect.origin.y + rect.size.height))
+            
+            context.addArc(center: CGPoint(x:rect.origin.x + r,y:rect.origin.y + rect.size.height - r), radius: r, startAngle: CGFloat.pi*0.5, endAngle: CGFloat.pi*1.0, clockwise: false)
+            
             context.addLine(to: CGPoint(
                 x: rect.origin.x,
-                y: rect.origin.y + rect.size.height))
-            context.addLine(to: CGPoint(
-                x: rect.origin.x,
-                y: rect.origin.y + arrowSize.height))
+                y: rect.origin.y + arrowSize.height - r))
+            
+            context.addArc(center: CGPoint(x:rect.origin.x + r,y:rect.origin.y + arrowSize.height + r), radius: r, startAngle: CGFloat.pi*1.0, endAngle: CGFloat.pi*1.5, clockwise: false)
+            
             context.fillPath()
         }
         else
         {
             context.beginPath()
             context.move(to: CGPoint(
-                x: rect.origin.x,
+                x: rect.origin.x + r,
                 y: rect.origin.y))
             context.addLine(to: CGPoint(
-                x: rect.origin.x + rect.size.width,
+                x: rect.origin.x + rect.size.width - r,
                 y: rect.origin.y))
+            
+            context.addArc(center: CGPoint(x:rect.origin.x + rect.size.width - r,y:rect.origin.y+r), radius: r, startAngle: CGFloat.pi*1.5, endAngle: 0.0, clockwise: false)
+            
             context.addLine(to: CGPoint(
                 x: rect.origin.x + rect.size.width,
-                y: rect.origin.y + rect.size.height - arrowSize.height))
+                y: rect.origin.y + rect.size.height - arrowSize.height - r))
+            
+            context.addArc(center: CGPoint(x:rect.origin.x + rect.size.width - r,y:rect.origin.y + rect.size.height - arrowSize.height - r), radius: r, startAngle: 0.0, endAngle: CGFloat.pi*0.5, clockwise: false)
+            
             context.addLine(to: CGPoint(
                 x: rect.origin.x + (rect.size.width + arrowSize.width) / 2.0,
                 y: rect.origin.y + rect.size.height - arrowSize.height))
@@ -155,12 +173,19 @@ open class BalloonMarker: MarkerImage
             context.addLine(to: CGPoint(
                 x: rect.origin.x + (rect.size.width - arrowSize.width) / 2.0,
                 y: rect.origin.y + rect.size.height - arrowSize.height))
+            
             context.addLine(to: CGPoint(
-                x: rect.origin.x,
+                x: rect.origin.x + r,
                 y: rect.origin.y + rect.size.height - arrowSize.height))
+            
+            context.addArc(center: CGPoint(x:rect.origin.x + r,y:rect.origin.y + rect.size.height - arrowSize.height - r), radius: r, startAngle: CGFloat.pi*0.5, endAngle: CGFloat.pi*1.0, clockwise: false)
+            
             context.addLine(to: CGPoint(
                 x: rect.origin.x,
                 y: rect.origin.y))
+            
+            context.addArc(center: CGPoint(x:rect.origin.x + r,y:rect.origin.y + r), radius: r, startAngle: CGFloat.pi*1.0, endAngle: CGFloat.pi*1.5, clockwise: false)
+            
             context.fillPath()
         }
         

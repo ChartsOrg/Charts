@@ -5,7 +5,6 @@
 //
 
 import Foundation
-import Charts
 
 open class XYMarkerView: BalloonMarker
 {

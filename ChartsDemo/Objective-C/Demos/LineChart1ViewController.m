@@ -54,6 +54,7 @@
     
     _chartView.dragEnabled = YES;
     [_chartView setScaleEnabled:YES];
+    _chartView.scaleYEnabled = NO;
     _chartView.pinchZoomEnabled = YES;
     _chartView.drawGridBackgroundEnabled = NO;
 
@@ -85,8 +86,8 @@
     [leftAxis removeAllLimitLines];
     [leftAxis addLimitLine:ll1];
     [leftAxis addLimitLine:ll2];
-    leftAxis.axisMaximum = 200.0;
-    leftAxis.axisMinimum = -50.0;
+    leftAxis.axisMaximum = 100;
+    leftAxis.axisMinimum = 0;
     leftAxis.gridLineDashLengths = @[@5.f, @5.f];
     leftAxis.drawZeroLineEnabled = NO;
     leftAxis.drawLimitLinesBehindDataEnabled = YES;
@@ -106,6 +107,15 @@
     _chartView.marker = marker;
     
     _chartView.legend.form = ChartLegendFormLine;
+    
+    LineChartPseudoConnectionRenderer *render1 = [[LineChartPseudoConnectionRenderer alloc] initWithDataProvider:_chartView animator:_chartView.chartAnimator viewPortHandler:_chartView.viewPortHandler];
+    render1.pseudoColor = [UIColor redColor];
+    _chartView.renderer = render1;
+    
+    
+    LineChartBreakRenderer *render = [[LineChartBreakRenderer alloc] initWithDataProvider:_chartView animator:_chartView.chartAnimator viewPortHandler:_chartView.viewPortHandler];
+//    render.pseudoColor = [UIColor redColor];
+//    _chartView.renderer = render;
     
     _sliderX.value = 45.0;
     _sliderY.value = 100.0;
@@ -138,6 +148,11 @@
     for (int i = 0; i < count; i++)
     {
         double val = arc4random_uniform(range) + 3;
+        
+        if (i%4 == 0 || i%5==0) {
+            val = 0;
+            continue;
+        }
         [values addObject:[[ChartDataEntry alloc] initWithX:i y:val icon: [UIImage imageNamed:@"icon"]]];
     }
     
@@ -166,6 +181,8 @@
         set1.formLineDashLengths = @[@5.f, @2.5f];
         set1.formLineWidth = 1.0;
         set1.formSize = 15.0;
+        
+        set1.drawHorizontalHighlightIndicatorEnabled = NO;
         
         NSArray *gradientColors = @[
                                     (id)[ChartColorTemplates colorFromString:@"#00ff0000"].CGColor,

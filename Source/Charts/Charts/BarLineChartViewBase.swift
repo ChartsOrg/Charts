@@ -677,7 +677,15 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             // If drag is enabled and we are in a position where there's something to drag:
             //  * If we're zoomed in, then obviously we have something to drag.
             //  * If we have a drag offset - we always have something to drag
-            if !self.hasNoDragOffset || !self.isFullyZoomedOut
+            
+            let touchP: CGPoint = recognizer.location(in: self)
+            let touchY: CGFloat = touchP.y
+            let yRadio: CGFloat = touchY / self.frame.size.height
+            
+            if self.isHighlightPerDragEnabled && yRadio < 0.4 {
+                _isDragging = false
+            }
+            else  if !self.hasNoDragOffset || !self.isFullyZoomedOut
             {
                 _isDragging = true
                 
@@ -715,6 +723,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 }
                 
                 _lastPanPoint = recognizer.translation(in: self)
+                
+                
             }
             else if self.isHighlightPerDragEnabled
             {

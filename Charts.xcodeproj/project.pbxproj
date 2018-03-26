@@ -73,6 +73,10 @@
 		66A18A8EEBAAAC2EDA31ABEC /* ChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CEC0C69C89CE9B99F3B4409 /* ChartDataSet.swift */; };
 		69EA073EDF75D49ABE1715D6 /* RadarChartRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC9C3D69ACB5BDE22421E15 /* RadarChartRenderer.swift */; };
 		73EDF662AD989E930D365B72 /* PieHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036F11832C017E26AC750A4 /* PieHighlighter.swift */; };
+		74DA887A20689E2A00D9DAA3 /* LineChartPseudoConnectionRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DA887820689E2900D9DAA3 /* LineChartPseudoConnectionRenderer.swift */; };
+		74DA887B20689E2A00D9DAA3 /* LineChartBreakRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DA887920689E2A00D9DAA3 /* LineChartBreakRenderer.swift */; };
+		74DA88812068A63B00D9DAA3 /* BalloonMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DA887E2068A63A00D9DAA3 /* BalloonMarker.swift */; };
+		74DA88832068A63B00D9DAA3 /* XYMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DA88802068A63B00D9DAA3 /* XYMarkerView.swift */; };
 		758EB1C75063ED3373542F3B /* Highlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D64616883374310C505EC39 /* Highlight.swift */; };
 		779B46E9F13A087BFA47D539 /* DefaultAxisValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4770E0F75EFFC30707A7C8 /* DefaultAxisValueFormatter.swift */; };
 		78084A4F1D850D5775BC139E /* XAxis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225ABC3C0C2F65FC094EEBB /* XAxis.swift */; };
@@ -243,6 +247,10 @@
 		7036F11832C017E26AC750A4 /* PieHighlighter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PieHighlighter.swift; path = Source/Charts/Highlight/PieHighlighter.swift; sourceTree = "<group>"; };
 		710D7C9B2F1DB4A331EE405A /* AnimatedViewPortJob.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AnimatedViewPortJob.swift; path = Source/Charts/Jobs/AnimatedViewPortJob.swift; sourceTree = "<group>"; };
 		72EAEBB7CF73E33565FC2896 /* ViewPortHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ViewPortHandler.swift; path = Source/Charts/Utils/ViewPortHandler.swift; sourceTree = "<group>"; };
+		74DA887820689E2900D9DAA3 /* LineChartPseudoConnectionRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LineChartPseudoConnectionRenderer.swift; path = Source/Charts/Renderers/LineChartPseudoConnectionRenderer.swift; sourceTree = "<group>"; };
+		74DA887920689E2A00D9DAA3 /* LineChartBreakRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LineChartBreakRenderer.swift; path = Source/Charts/Renderers/LineChartBreakRenderer.swift; sourceTree = "<group>"; };
+		74DA887E2068A63A00D9DAA3 /* BalloonMarker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BalloonMarker.swift; path = Source/Charts/Components/BalloonMarker.swift; sourceTree = "<group>"; };
+		74DA88802068A63B00D9DAA3 /* XYMarkerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XYMarkerView.swift; path = Source/Charts/Components/XYMarkerView.swift; sourceTree = "<group>"; };
 		75F279974FE650E57A061B09 /* BarChartRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BarChartRenderer.swift; path = Source/Charts/Renderers/BarChartRenderer.swift; sourceTree = "<group>"; };
 		7A53A9E42FC07FFDACA937C1 /* IBarChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IBarChartDataSet.swift; path = Source/Charts/Data/Interfaces/IBarChartDataSet.swift; sourceTree = "<group>"; };
 		7AB9062A28AAB9469752A954 /* ChartUtilsTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ChartUtilsTests.swift; path = Tests/Charts/ChartUtilsTests.swift; sourceTree = "<group>"; };
@@ -430,6 +438,8 @@
 				9E7C673B9ED4340F550A9283 /* LegendEntry.swift */,
 				392AAEB02DD7B351D92907C2 /* MarkerImage.swift */,
 				48164CCD83C51B496533CB77 /* MarkerView.swift */,
+				74DA887E2068A63A00D9DAA3 /* BalloonMarker.swift */,
+				74DA88802068A63B00D9DAA3 /* XYMarkerView.swift */,
 				5225ABC3C0C2F65FC094EEBB /* XAxis.swift */,
 				FB92A80F861C1362EED8D946 /* YAxis.swift */,
 			);
@@ -631,6 +641,8 @@
 				539382766378B702660FDFB2 /* HorizontalBarChartRenderer.swift */,
 				F715DB2C56C9E0615542625B /* LegendRenderer.swift */,
 				0DABDBBCCE6B3620C967F04A /* LineChartRenderer.swift */,
+				74DA887920689E2A00D9DAA3 /* LineChartBreakRenderer.swift */,
+				74DA887820689E2900D9DAA3 /* LineChartPseudoConnectionRenderer.swift */,
 				105FFC9D3773A9C7A60A897F /* LineRadarRenderer.swift */,
 				923206233CA89FD03565FF87 /* LineScatterCandleRadarRenderer.swift */,
 				46D8013D44629521B1746364 /* PieChartRenderer.swift */,
@@ -893,6 +905,7 @@
 				4E98788ABEF6496C23F3E6C6 /* HorizontalBarHighlighter.swift in Sources */,
 				203A39685CC96FC625F616E4 /* IHighlighter.swift in Sources */,
 				73EDF662AD989E930D365B72 /* PieHighlighter.swift in Sources */,
+				74DA88812068A63B00D9DAA3 /* BalloonMarker.swift in Sources */,
 				3097296AC7FFA994FE4AD312 /* PieRadarHighlighter.swift in Sources */,
 				C33E1AF5471A60BA42DAF52E /* RadarHighlighter.swift in Sources */,
 				9C91C151608E2D6E19B1EAD1 /* Range.swift in Sources */,
@@ -927,14 +940,17 @@
 				CEF68F42A5390A73113F3663 /* Renderer.swift in Sources */,
 				796D3E63A37A95FD9D1AB9A1 /* ChevronDownShapeRenderer.swift in Sources */,
 				F103D90FC5DEEA0D7BB4407E /* ChevronUpShapeRenderer.swift in Sources */,
+				74DA887A20689E2A00D9DAA3 /* LineChartPseudoConnectionRenderer.swift in Sources */,
 				B85DEB06B4C1AFFC8A0E3295 /* CircleShapeRenderer.swift in Sources */,
 				0529DD51622C8769C1121F90 /* CrossShapeRenderer.swift in Sources */,
+				74DA887B20689E2A00D9DAA3 /* LineChartBreakRenderer.swift in Sources */,
 				8A9FF54E2075A9047CC8E953 /* IShapeRenderer.swift in Sources */,
 				8EF7B3FBE37F72CC030CD865 /* SquareShapeRenderer.swift in Sources */,
 				8F4B1A9060472764073DFA0B /* TriangleShapeRenderer.swift in Sources */,
 				93A94E1FF55041A6032891FE /* XShapeRenderer.swift in Sources */,
 				5DC9BC1B6C128B2C9995AB84 /* ScatterChartRenderer.swift in Sources */,
 				41BEBF8BDB9DC403B5697D67 /* XAxisRenderer.swift in Sources */,
+				74DA88832068A63B00D9DAA3 /* XYMarkerView.swift in Sources */,
 				2A94F1724FEA9E16A81A8E1F /* XAxisRendererHorizontalBarChart.swift in Sources */,
 				4FACC6FD308AFB231EB4A93D /* XAxisRendererRadarChart.swift in Sources */,
 				41B13F3179ACB5A3837C6E55 /* YAxisRenderer.swift in Sources */,

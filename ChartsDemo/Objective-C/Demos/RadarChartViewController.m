@@ -59,9 +59,9 @@
     _chartView.innerWebColor = UIColor.lightGrayColor;
     _chartView.webAlpha = 1.0;
     
-    RadarMarkerView *marker = (RadarMarkerView *)[RadarMarkerView viewFromXibIn:[NSBundle mainBundle]];
-    marker.chartView = _chartView;
-    _chartView.marker = marker;
+//    RadarMarkerView *marker = (RadarMarkerView *)[RadarMarkerView viewFromXibIn:[NSBundle mainBundle]];
+//    marker.chartView = _chartView;
+//    _chartView.marker = marker;
     
     ChartXAxis *xAxis = _chartView.xAxis;
     xAxis.labelFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:9.f];
