@@ -292,7 +292,7 @@ open class PieChartRenderer: NSObject, DataRenderer
         
         let drawEntryLabels = chart.isDrawEntryLabelsEnabled
         let usePercentValuesEnabled = chart.usePercentValuesEnabled
-        let drawSliceTextMinimumAngle = chart.drawSliceTextMinimumAngle
+        let sliceTextDrawingThreshold = chart.sliceTextDrawingThreshold
         let entryLabelColor = chart.entryLabelColor
         let entryLabelFont = chart.entryLabelFont
         
@@ -359,10 +359,10 @@ open class PieChartRenderer: NSObject, DataRenderer
                 let sliceXBase = cos(transformedAngle.DEG2RAD)
                 let sliceYBase = sin(transformedAngle.DEG2RAD)
                 
-                let drawXOutside = sliceAngle > drawSliceTextMinimumAngle && drawEntryLabels && xValuePosition == .outsideSlice
-                let drawYOutside = sliceAngle > drawSliceTextMinimumAngle && drawValues && yValuePosition == .outsideSlice
-                let drawXInside = sliceAngle > drawSliceTextMinimumAngle && drawEntryLabels && xValuePosition == .insideSlice
-                let drawYInside = sliceAngle > drawSliceTextMinimumAngle && drawValues && yValuePosition == .insideSlice
+                let drawXOutside = sliceAngle > sliceTextDrawingThreshold && drawEntryLabels && xValuePosition == .outsideSlice
+                let drawYOutside = sliceAngle > sliceTextDrawingThreshold && drawValues && yValuePosition == .outsideSlice
+                let drawXInside = sliceAngle > sliceTextDrawingThreshold && drawEntryLabels && xValuePosition == .insideSlice
+                let drawYInside = sliceAngle > sliceTextDrawingThreshold && drawValues && yValuePosition == .insideSlice
                 
                 let valueTextColor = dataSet.valueTextColorAt(j)
                 let entryLabelColor = dataSet.entryLabelColor
