@@ -12,15 +12,15 @@
 import Foundation
 import CoreGraphics
 
+@objc
+public enum BarGradientOrientation: Int
+{
+    case vertical
+    case horizontal
+}
 
 open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartDataSetProtocol
 {
-    @objc
-    public enum BarGradientOrientation: Int
-    {
-        case vertical
-        case horizontal
-    }
     
     private func initialize()
     {
@@ -159,20 +159,13 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
     /// array of gradient colors [[color1, color2], [color3, color4]]
     open var barGradientColors: [[NSUIColor]]?
     
-    open var barGradientOrientation: BarChartDataSet.BarGradientOrientation = .vertical
+    open var barGradientOrientation: BarGradientOrientation = .vertical
     
     /// - returns: The gradient colors at the given index of the DataSet's gradient color array.
     /// This prevents out-of-bounds by performing a modulus on the gradient color index, so colours will repeat themselves.
-    open func barGradientColor(atIndex index: Int) -> [NSUIColor]?
+    open func barGradientColor(at index: Int) -> [NSUIColor]?
     {
-        guard let gradientColors = barGradientColors
-            else { return nil }
-            
-        var index = index
-        if index < 0
-        {
-            index = 0
-        }
+        guard let gradientColors = barGradientColors else { return nil }
         return gradientColors[index % gradientColors.count]
     }
     

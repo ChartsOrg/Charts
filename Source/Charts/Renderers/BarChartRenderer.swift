@@ -256,7 +256,6 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setStrokeColor(borderColor.cgColor)
                 context.setLineWidth(borderWidth)
                 context.stroke(barRect)
-                context.restoreGState()
             }
         }
     }
@@ -264,13 +263,11 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     open func drawBar(context: CGContext, dataSet: BarChartDataSetProtocol, index: Int, barRect: CGRect)
     {
         context.saveGState()
+        defer { context.restoreGState() }
         
-        if let gradientColors = dataSet.barGradientColors, gradientColors.count > 0
+        if let gradientColor = dataSet.barGradientColor(at: index)
         {
-            if let gradientColor = dataSet.barGradientColor(atIndex: index)
-            {
-                drawGradient(context: context, barRect: barRect, gradientColors: gradientColor, orientation: dataSet.barGradientOrientation)
-            }
+            drawGradient(context: context, barRect: barRect, gradientColors: gradientColor, orientation: dataSet.barGradientOrientation)
         }
         else
         {
@@ -279,11 +276,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             context.setFillColor(fillColor)
             context.fill(barRect)
         }
-        
-        context.restoreGState()
     }
     
-    open func drawGradient(context: CGContext, barRect: CGRect, gradientColors: Array<NSUIColor>, orientation: BarChartDataSet.BarGradientOrientation)
+    open func drawGradient(context: CGContext, barRect: CGRect, gradientColors: Array<NSUIColor>, orientation: BarGradientOrientation)
     {
         let cgColors = gradientColors.map{ $0.cgColor } as CFArray
         let gradient = CGGradient(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: cgColors, locations: nil)
