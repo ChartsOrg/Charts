@@ -210,7 +210,7 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
         return self[index]
     }
     
-    @objc open func dataSet(forIndex index: Index) -> Element?
+    @objc open func dataSet(at index: Index) -> Element?
     {
         guard dataSets.indices.contains(index) else { return nil }
         return self[index]
@@ -510,13 +510,13 @@ extension ChartData
             : index { $0.label == label }
     }
 
-    public subscript(label: String, ignoreCase: Bool) -> Element?
+    public subscript(label label: String, ignoreCase ignoreCase: Bool) -> Element?
     {
         guard let index = index(forLabel: label, ignoreCase: ignoreCase) else { return nil }
         return self[index]
     }
     
-    public subscript(entry: ChartDataEntry) -> Element?
+    public subscript(entry entry: ChartDataEntry) -> Element?
     {
         guard !(self is CombinedChartData) else
         {

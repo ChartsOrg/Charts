@@ -151,7 +151,7 @@
     if ([key isEqualToString:@"removeDataSet"])
     {
         int rnd = (int)arc4random_uniform((float)_chartView.data.dataSetCount);
-        [_chartView.data removeDataSet:[_chartView.data dataSetForIndex:rnd]];
+        [_chartView.data removeDataSet:[_chartView.data dataSetAt:rnd]];
         [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
     }

@@ -414,7 +414,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
 
         if data.indices.contains(dataSetIndex)
         {
-            highlightValue(Highlight(x: x, y: y, dataSetIndex: dataSetIndex), callDelegate: callDelegate)
+            highlightValue(Highlight(x: x, y: y, dataSetIndex: dataSetIndex, dataIndex: dataIndex), callDelegate: callDelegate)
         }
         else
         {
