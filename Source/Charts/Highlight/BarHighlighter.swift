@@ -93,7 +93,7 @@ open class BarHighlighter: ChartHighlighter
     /// - parameter entry:
     /// - parameter value:
     /// - returns:
-    @objc open func getClosestStackIndex(ranges: [Range]?, value: Double) -> Int
+    @objc open func getClosestStackIndex(ranges: [ChartRange]?, value: Double) -> Int
     {
         guard let ranges = ranges else { return 0 }
 

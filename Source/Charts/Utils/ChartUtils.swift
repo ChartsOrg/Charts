@@ -12,6 +12,13 @@
 import Foundation
 import CoreGraphics
 
+extension Collection where Element: Numeric {
+
+    func sum() -> Element {
+        return reduce(into: 0) { $0 += $1 }
+    }
+}
+
 extension FloatingPoint
 {
     var DEG2RAD: Self

@@ -11,8 +11,8 @@
 
 import Foundation
 
-@objc(ChartRange)
-open class Range: NSObject
+@objc
+open class ChartRange: NSObject
 {
     @objc open var from: Double
     @objc open var to: Double
