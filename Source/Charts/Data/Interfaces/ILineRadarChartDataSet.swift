@@ -40,6 +40,6 @@ public protocol ILineRadarChartDataSet: ILineScatterCandleRadarChartDataSet
     /// Please note that this method uses the path clipping for drawing the filled area (with images, gradients and layers).
     var drawFilledEnabled: Bool { get set }
     
-    /// - returns: `true` if filled drawing is enabled, `false` ifnot
+    /// - returns: `true` if filled drawing is enabled, `false` if not
     var isDrawFilledEnabled: Bool { get }
 }
