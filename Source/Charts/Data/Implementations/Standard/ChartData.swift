@@ -210,7 +210,8 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
         return self[index]
     }
     
-    @objc open func dataSet(at index: Index) -> Element?
+    @objc(dataSetAtIndex:)
+    open func dataSet(at index: Index) -> Element?
     {
         guard dataSets.indices.contains(index) else { return nil }
         return self[index]
