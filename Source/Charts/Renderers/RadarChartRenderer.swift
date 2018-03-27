@@ -151,9 +151,9 @@ open class RadarChartRenderer: LineRadarRenderer
         
         let yoffset = CGFloat(5.0)
         
-        for i in 0 ..< data.dataSetCount
+        for i in data.indices
         {
-            let dataSet = data.getDataSetByIndex(i) as! RadarChartDataSetProtocol
+            let dataSet = data[i] as! RadarChartDataSetProtocol
             
             if !shouldDrawValues(forDataSet: dataSet)
             {
@@ -296,7 +296,7 @@ open class RadarChartRenderer: LineRadarRenderer
         for high in indices
         {
             guard
-                let set = chart.data?.getDataSetByIndex(high.dataSetIndex) as? RadarChartDataSetProtocol,
+                let set = chart.data?[high.dataSetIndex] as? RadarChartDataSetProtocol,
                 set.isHighlightEnabled
                 else { continue }
             

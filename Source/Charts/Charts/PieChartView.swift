@@ -194,14 +194,11 @@ open class PieChartView: PieRadarChartViewBase
         _absoluteAngles.reserveCapacity(entryCount)
         
         let yValueSum = (data as! PieChartData).yValueSum
-        
-        var dataSets = data.dataSets
 
         var cnt = 0
 
-        for i in 0 ..< data.dataSetCount
+        for set in data
         {
-            let set = dataSets[i]
             let entryCount = set.entryCount
 
             for j in 0 ..< entryCount

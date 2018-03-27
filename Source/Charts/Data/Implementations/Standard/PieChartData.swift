@@ -18,7 +18,7 @@ open class PieChartData: ChartData
         super.init()
     }
     
-    public override init(dataSets: [ChartDataSetProtocol]?)
+    public override init(dataSets: [ChartDataSetProtocol])
     {
         super.init(dataSets: dataSets)
     }
@@ -47,16 +47,13 @@ open class PieChartData: ChartData
         }
     }
     
-    open override func getDataSetByIndex(_ index: Int) -> ChartDataSetProtocol?
+    open override func dataSet(at index: ChartData.Index) -> ChartData.Element?
     {
-        if index != 0
-        {
-            return nil
-        }
-        return super.getDataSetByIndex(index)
+        guard index == 0 else { return nil }
+        return self[index]
     }
     
-    open override func getDataSetByLabel(_ label: String, ignorecase: Bool) -> ChartDataSetProtocol?
+    open override func dataSet(forLabel label: String, ignorecase: Bool) -> ChartDataSetProtocol?
     {
         if dataSets.count == 0 || dataSets[0].label == nil
         {
@@ -80,7 +77,7 @@ open class PieChartData: ChartData
         return nil
     }
     
-    open override func entryForHighlight(_ highlight: Highlight) -> ChartDataEntry?
+    @objc override open func entry(for highlight: Highlight) -> ChartDataEntry?
     {
         return dataSet?.entryForIndex(Int(highlight.x))
     }
