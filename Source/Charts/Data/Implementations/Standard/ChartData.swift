@@ -69,6 +69,8 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
         leftAxisMin = .greatestFiniteMagnitude
         rightAxisMax = -.greatestFiniteMagnitude
         rightAxisMin = .greatestFiniteMagnitude
+        yMax = -.greatestFiniteMagnitude
+        yMin = .greatestFiniteMagnitude
         xMax = -.greatestFiniteMagnitude
         xMin = .greatestFiniteMagnitude
 
@@ -294,9 +296,9 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
     }
     
     /// - returns: All colors used across all DataSet objects this object represents.
-    @objc open func getColors() -> [NSUIColor]
+    @objc open var colors: [NSUIColor]
     {
-        return flatMap { $0.colors.map { $0 } }
+        return reduce(into: []) { $0 += $1.colors }
     }
     
     /// Sets a custom ValueFormatter for all DataSets this data object contains.
