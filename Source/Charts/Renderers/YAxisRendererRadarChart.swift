@@ -60,9 +60,9 @@ open class YAxisRendererRadarChart: YAxisRenderer
         
         if intervalSigDigit > 5
         {
-            // Use one order of magnitude higher, to avoid intervals like 0.9 or
-            // 90
-            interval = floor(10 * intervalMagnitude)
+            // Use one order of magnitude higher, to avoid intervals like 0.9 or 90
+            // if it's 0.0 after floor(), we use the old value
+            interval = floor(10.0 * intervalMagnitude) == 0.0 ? interval : floor(10.0 * intervalMagnitude)
         }
         
         let centeringEnabled = axis.isCenterAxisLabelsEnabled
@@ -186,7 +186,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
         {
             let r = CGFloat(yAxis.entries[j] - yAxis._axisMinimum) * factor
             
-            let p = ChartUtils.getPosition(center: center, dist: r, angle: chart.rotationAngle)
+            let p = center.moving(distance: r, atAngle: chart.rotationAngle)
             
             let label = yAxis.getFormattedLabel(j)
             
@@ -252,7 +252,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
             
             for j in 0 ..< (data.maxEntryCountSet?.entryCount ?? 0)
             {
-                let p = ChartUtils.getPosition(center: center, dist: r, angle: sliceangle * CGFloat(j) + chart.rotationAngle)
+                let p = center.moving(distance: r, atAngle: sliceangle * CGFloat(j) + chart.rotationAngle)
                 
                 if j == 0
                 {

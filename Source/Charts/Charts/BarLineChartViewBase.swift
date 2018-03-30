@@ -50,6 +50,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// When enabled, the values will be clipped to contentRect, otherwise they can bleed outside the content rect.
     @objc open var clipValuesToContentEnabled: Bool = false
 
+    /// When disabled, the data and/or highlights will not be clipped to contentRect. Disabling this option can
+    /// be useful, when the data lies fully within the content rect, but is drawn in such a way (such as thick lines)
+    /// that there is unwanted clipping.
+    @objc open var clipDataToContentEnabled: Bool = true
+
     /// Sets the minimum offset (padding) around the chart, defaults to 10
     @objc open var minOffset = CGFloat(10.0)
     
@@ -218,9 +223,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             rightYAxisRenderer.renderLimitLines(context: context)
         }
         
-        // make sure the data cannot be drawn outside the content-rect
         context.saveGState()
-        context.clip(to: _viewPortHandler.contentRect)
+        // make sure the data cannot be drawn outside the content-rect
+        if clipDataToContentEnabled {
+            context.clip(to: _viewPortHandler.contentRect)
+        }
         renderer.drawData(context: context)
         
         // if highlighting is enabled
@@ -331,7 +338,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
             if _legend !== nil
             {
-                _legendRenderer?.computeLegend(data: data)
+                legendRenderer?.computeLegend(data: data)
             }
         }
         
@@ -533,13 +540,13 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             
             if h === nil || h == self.lastHighlighted
             {
-                highlightValue(nil, callDelegate: true)
                 lastHighlighted = nil
+                highlightValue(nil, callDelegate: true)
             }
             else
             {
-                highlightValue(h, callDelegate: true)
                 lastHighlighted = h
+                highlightValue(h, callDelegate: true)
             }
         }
     }

@@ -89,7 +89,7 @@ open class RadarChartView: PieRadarChartViewBase
             let legend = _legend,
             !legend.isLegendCustom
         {
-            _legendRenderer?.computeLegend(data: data)
+            legendRenderer?.computeLegend(data: data)
         }
         
         calculateOffsets()
@@ -139,7 +139,7 @@ open class RadarChartView: PieRadarChartViewBase
 
         renderer.drawValues(context: context)
 
-        _legendRenderer.renderLegend(context: context)
+        legendRenderer.renderLegend(context: context)
 
         drawDescription(context: context)
 

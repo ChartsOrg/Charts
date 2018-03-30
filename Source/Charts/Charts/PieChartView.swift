@@ -118,7 +118,7 @@ open class PieChartView: PieRadarChartViewBase
         
         renderer.drawValues(context: context)
         
-        _legendRenderer.renderLegend(context: context)
+        legendRenderer.renderLegend(context: context)
         
         drawDescription(context: context)
         
