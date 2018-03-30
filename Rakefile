@@ -66,8 +66,8 @@ def devices
     },
     tvOS: {
       sdk: 'appletvsimulator',
-      device: "name='Apple TV 1080p'",
-      name: 'Apple TV 1080p'
+      device: "name='Apple TV'",
+      name: 'Apple TV'
     }
   }
 end

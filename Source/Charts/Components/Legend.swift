@@ -256,7 +256,7 @@ open class Legend: ComponentBase
                 if let label = e.label
                 {
                     let size = (label as NSString).size(withAttributes: [.font: labelFont])
-                    
+
                     if drawingForm && !wasStacked
                     {
                         width += formToTextSpace
