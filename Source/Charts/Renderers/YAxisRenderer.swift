@@ -147,7 +147,7 @@ open class YAxisRenderer: AxisRendererBase
         yAxis.showDecimals ? (floatingPoint = 2 ): (floatingPoint = 0)
         for i in stride(from: from, to: to, by: 1)
         {
-             var value: Double = Double(yAxis.getFormattedLabel(i))! //vivek
+            var value: Double = Double((yAxis.getFormattedLabel(i) as String).replacingOccurrences(of: ",", with: ""))! //vivek
             let text = (String(format: "%.\(floatingPoint)f  ",locale: NSLocale(localeIdentifier : "en_IN") as Locale,value)) //vivek
             
             ChartUtils.drawText(
