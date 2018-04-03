@@ -16,7 +16,7 @@ import CoreGraphics
     import UIKit
 #endif
 
-class LineChartPseudoConnectionRenderer: LineChartRenderer
+open class LineChartPseudoConnectionRenderer: LineChartRenderer
 {
     
     @objc open var pseudoColor = UIColor.gray
