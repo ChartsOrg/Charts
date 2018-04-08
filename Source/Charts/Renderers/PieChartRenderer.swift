@@ -675,7 +675,7 @@ open class PieChartRenderer: NSObject, DataRenderer
                 continue
             }
             
-            guard let set = data.getDataSetByIndex(indices[i].dataSetIndex) as? PieChartDataSetProtocol else { continue }
+            guard let set = data[indices[i].dataSetIndex] as? PieChartDataSetProtocol else { continue }
             
             if !set.isHighlightEnabled
             {

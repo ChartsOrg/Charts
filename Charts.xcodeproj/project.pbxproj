@@ -360,7 +360,9 @@
 		098621EDFBF928494B94BEA1 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				3B9DD76FCE8D873300A822C7 /* Implementations */,
+				22C014222006FFE800D5B025 /* ChartData */,
+				3B9DD76FCE8D873300A822C7 /* ChartDataSet */,
+				22C014232006FFFA00D5B025 /* ChartEntry */,
 				DB2D9648877455028EBEAA8F /* DataSet Protocols */,
 			);
 			name = Data;
@@ -409,6 +411,37 @@
 			name = ChartRenderers;
 			sourceTree = "<group>";
 		};
+		22C014222006FFE800D5B025 /* ChartData */ = {
+			isa = PBXGroup;
+			children = (
+				0108D5925E21A47DA36A66AA /* BarChartData.swift */,
+				559DB735FEA17AB90676D6CA /* BarLineScatterCandleBubbleChartData.swift */,
+				7EDA3AD550AEFC93C8D15B9C /* BubbleChartData.swift */,
+				F4785FEACAE4367F36FB8868 /* CandleChartData.swift */,
+				E120E76C6F1B5877D56126DD /* ChartData.swift */,
+				0DDE409E9ECF54D2C146A6F0 /* CombinedChartData.swift */,
+				4C978F31F23C7D21197DC2A1 /* LineChartData.swift */,
+				6E03A4987F72414A02A0631B /* PieChartData.swift */,
+				4BBB57D6FA41029B08F26D7B /* RadarChartData.swift */,
+				E7AD2FC320A16CA1EE0A52F4 /* ScatterChartData.swift */,
+			);
+			name = ChartData;
+			sourceTree = "<group>";
+		};
+		22C014232006FFFA00D5B025 /* ChartEntry */ = {
+			isa = PBXGroup;
+			children = (
+				E3F8BFF1CBC58D5B9DBFFB9B /* BarChartDataEntry.swift */,
+				DD8ED233775EEC31243A6919 /* BubbleChartDataEntry.swift */,
+				D2E698FF540029B70AC97AD7 /* CandleChartDataEntry.swift */,
+				F22750328058DEC2F019646F /* ChartDataEntry.swift */,
+				12409C3EA15787C11AF0D2BC /* ChartDataEntryBase.swift */,
+				BD02157CF8CEE1189BF681DA /* PieChartDataEntry.swift */,
+				91EEEDE2AB8F2DA3AFCF0733 /* RadarChartDataEntry.swift */,
+			);
+			name = ChartEntry;
+			sourceTree = "<group>";
+		};
 		2647844720BC6574A544A337 /* Charts */ = {
 			isa = PBXGroup;
 			children = (
@@ -427,13 +460,23 @@
 			name = Charts;
 			sourceTree = "<group>";
 		};
-		3B9DD76FCE8D873300A822C7 /* Implementations */ = {
+		3B9DD76FCE8D873300A822C7 /* ChartDataSet */ = {
 			isa = PBXGroup;
 			children = (
 				C9FE42E868A225C116537368 /* ChartBaseDataSet.swift */,
-				740017197A160047EBB8A9A0 /* Standard */,
+				C31AA65EA27776F8C653C7E8 /* BarChartDataSet.swift */,
+				6D717F0808DE7EC8A4AE9C2A /* BarLineScatterCandleBubbleChartDataSet.swift */,
+				B44829AF0ADA583F1F0279B7 /* BubbleChartDataSet.swift */,
+				274116834B1B0345D622E027 /* CandleChartDataSet.swift */,
+				6CEC0C69C89CE9B99F3B4409 /* ChartDataSet.swift */,
+				A5A75AA73C5AA381DA517959 /* LineChartDataSet.swift */,
+				45E31A4356CC6F283C29954B /* LineRadarChartDataSet.swift */,
+				C58BD7B14BEA440783ED8D2B /* LineScatterCandleRadarChartDataSet.swift */,
+				A4FB5E3761EF8B4D1E1E1014 /* PieChartDataSet.swift */,
+				B1BA6B21CBDF77A15848994F /* RadarChartDataSet.swift */,
+				CB1DD1A0F64266A10EE94194 /* ScatterChartDataSet.swift */,
 			);
-			name = Implementations;
+			name = ChartDataSet;
 			sourceTree = "<group>";
 		};
 		42824E1F334B0C484AF4C594 /* Highlight */ = {
@@ -469,41 +512,6 @@
 				FB92A80F861C1362EED8D946 /* YAxis.swift */,
 			);
 			name = Components;
-			sourceTree = "<group>";
-		};
-		740017197A160047EBB8A9A0 /* Standard */ = {
-			isa = PBXGroup;
-			children = (
-				0108D5925E21A47DA36A66AA /* BarChartData.swift */,
-				E3F8BFF1CBC58D5B9DBFFB9B /* BarChartDataEntry.swift */,
-				C31AA65EA27776F8C653C7E8 /* BarChartDataSet.swift */,
-				559DB735FEA17AB90676D6CA /* BarLineScatterCandleBubbleChartData.swift */,
-				6D717F0808DE7EC8A4AE9C2A /* BarLineScatterCandleBubbleChartDataSet.swift */,
-				7EDA3AD550AEFC93C8D15B9C /* BubbleChartData.swift */,
-				DD8ED233775EEC31243A6919 /* BubbleChartDataEntry.swift */,
-				B44829AF0ADA583F1F0279B7 /* BubbleChartDataSet.swift */,
-				F4785FEACAE4367F36FB8868 /* CandleChartData.swift */,
-				D2E698FF540029B70AC97AD7 /* CandleChartDataEntry.swift */,
-				274116834B1B0345D622E027 /* CandleChartDataSet.swift */,
-				E120E76C6F1B5877D56126DD /* ChartData.swift */,
-				F22750328058DEC2F019646F /* ChartDataEntry.swift */,
-				12409C3EA15787C11AF0D2BC /* ChartDataEntryBase.swift */,
-				6CEC0C69C89CE9B99F3B4409 /* ChartDataSet.swift */,
-				0DDE409E9ECF54D2C146A6F0 /* CombinedChartData.swift */,
-				4C978F31F23C7D21197DC2A1 /* LineChartData.swift */,
-				A5A75AA73C5AA381DA517959 /* LineChartDataSet.swift */,
-				45E31A4356CC6F283C29954B /* LineRadarChartDataSet.swift */,
-				C58BD7B14BEA440783ED8D2B /* LineScatterCandleRadarChartDataSet.swift */,
-				6E03A4987F72414A02A0631B /* PieChartData.swift */,
-				BD02157CF8CEE1189BF681DA /* PieChartDataEntry.swift */,
-				A4FB5E3761EF8B4D1E1E1014 /* PieChartDataSet.swift */,
-				4BBB57D6FA41029B08F26D7B /* RadarChartData.swift */,
-				91EEEDE2AB8F2DA3AFCF0733 /* RadarChartDataEntry.swift */,
-				B1BA6B21CBDF77A15848994F /* RadarChartDataSet.swift */,
-				E7AD2FC320A16CA1EE0A52F4 /* ScatterChartData.swift */,
-				CB1DD1A0F64266A10EE94194 /* ScatterChartDataSet.swift */,
-			);
-			name = Standard;
 			sourceTree = "<group>";
 		};
 		74A391010038924F637D6752 /* Formatters */ = {
