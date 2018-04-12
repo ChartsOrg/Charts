@@ -43,6 +43,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// flag indicating if the grid background should be drawn or not
     @objc open var drawGridBackgroundEnabled = false
     
+    /// the highlightDrag activity section height radio
+    @objc open var highlightDragRadio: CGFloat = 0.4
+    
     /// When enabled, the borders rectangle will be rendered.
     /// If this is enabled, there is no point drawing the axis-lines of x- and y-axis.
     @objc open var drawBordersEnabled = false
@@ -682,7 +685,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             let touchY: CGFloat = touchP.y
             let yRadio: CGFloat = touchY / self.frame.size.height
             
-            if self.isHighlightPerDragEnabled && yRadio < 0.4 {
+            if self.isHighlightPerDragEnabled && yRadio < self.highlightDragRadio {
                 _isDragging = false
             }
             else  if !self.hasNoDragOffset || !self.isFullyZoomedOut
