@@ -432,7 +432,7 @@ open class YAxisRenderer: AxisRendererBase
         }
         
         context.setLineWidth(0.0)
-        context.addRect(CGRect(x: 0, y: position1.y, width: viewPortHandler.chartWidth, height: (position2.y - position1.y)))
+        context.addRect(CGRect(x: viewPortHandler.contentLeft, y: position1.y, width: viewPortHandler.chartWidth - viewPortHandler.contentLeft - viewPortHandler.offsetRight, height: (position2.y - position1.y)))
         context.drawPath(using: .fillStroke)
     }
 }
