@@ -87,6 +87,12 @@ open class YAxis: AxisBase
     /// **default**: CGFloat.infinity
     @objc open var maxWidth = CGFloat(CGFloat.infinity)
     
+    /// indicates if there should be a fill drawn between 2 limit lines
+    @objc open var limitLineFill = false
+    
+    /// Color of the limit line fill
+    @objc open var limitLineFillColor: NSUIColor? = NSUIColor.green.withAlphaComponent(0.6)
+    
     public override init()
     {
         super.init()
@@ -175,5 +181,7 @@ open class YAxis: AxisBase
     @objc open var isDrawBottomYLabelEntryEnabled: Bool { return drawBottomYLabelEntryEnabled }
     
     @objc open var isDrawTopYLabelEntryEnabled: Bool { return drawTopYLabelEntryEnabled }
+    
+    @objc open var isLimitLineFillEnabled: Bool { return limitLineFill }
 
 }

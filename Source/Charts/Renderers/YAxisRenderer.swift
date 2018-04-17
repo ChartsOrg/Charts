@@ -387,6 +387,52 @@ open class YAxisRenderer: AxisRendererBase
             }
         }
         
+        renderLimitLineFill(context: context)
+        
         context.restoreGState()
+    }
+    
+    open func renderLimitLineFill(context : CGContext) {
+        
+        guard
+            let yAxis = self.axis as? YAxis,
+            let transformer = self.transformer
+            else { return }
+        
+        if !yAxis.isEnabled || !yAxis.isLimitLineFillEnabled
+        {
+            return
+        }
+        
+        var limitLines = yAxis.limitLines
+        
+        if limitLines.count != 2
+        {
+            return
+        }
+        
+        context.saveGState()
+        
+        let trans = transformer.valueToPixelMatrix
+        
+        var position1 = CGPoint(x: 0.0, y: 0.0)
+        var position2 = CGPoint(x: 0.0, y: 0.0)
+        
+        position1.x = 0.0
+        position1.y = CGFloat(limitLines[0].limit)
+        position1 = position1.applying(trans)
+        
+        position2.x = 0.0
+        position2.y = CGFloat(limitLines[1].limit)
+        position2 = position2.applying(trans)
+        
+        if let fillColor = yAxis.limitLineFillColor?.cgColor {
+            context.setFillColor(fillColor)
+            context.setStrokeColor(fillColor)
+        }
+        
+        context.setLineWidth(0.0)
+        context.addRect(CGRect(x: 0, y: position1.y, width: viewPortHandler.chartWidth, height: (position2.y - position1.y)))
+        context.drawPath(using: .fillStroke)
     }
 }
