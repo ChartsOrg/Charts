@@ -387,12 +387,12 @@ open class YAxisRenderer: AxisRendererBase
             }
         }
         
-        renderLimitLineFill(context: context)
+        renderLimitLineFill(in: context)
         
         context.restoreGState()
     }
     
-    open func renderLimitLineFill(context : CGContext) {
+    open func renderLimitLineFill(in context : CGContext) {
         
         guard
             let yAxis = self.axis as? YAxis,
@@ -412,19 +412,15 @@ open class YAxisRenderer: AxisRendererBase
         }
         
         context.saveGState()
-        
         let trans = transformer.valueToPixelMatrix
         
-        var position1 = CGPoint(x: 0.0, y: 0.0)
-        var position2 = CGPoint(x: 0.0, y: 0.0)
+        let y1 = CGFloat(limitLines[0].limit)
+        let p1 = CGPoint(x: 0, y: y1)
+            . applying(trans)
         
-        position1.x = 0.0
-        position1.y = CGFloat(limitLines[0].limit)
-        position1 = position1.applying(trans)
-        
-        position2.x = 0.0
-        position2.y = CGFloat(limitLines[1].limit)
-        position2 = position2.applying(trans)
+        let y2 = CGFloat(limitLines[1].limit)
+        let p2 = CGPoint(x: 0, y: y2)
+            . applying(trans)
         
         if let fillColor = yAxis.limitLineFillColor?.cgColor {
             context.setFillColor(fillColor)
@@ -432,7 +428,13 @@ open class YAxisRenderer: AxisRendererBase
         }
         
         context.setLineWidth(0.0)
-        context.addRect(CGRect(x: viewPortHandler.contentLeft, y: position1.y, width: viewPortHandler.chartWidth - viewPortHandler.contentLeft - viewPortHandler.offsetRight, height: (position2.y - position1.y)))
+        if y1 > y2 {
+            context.addRect(CGRect(x: viewPortHandler.contentLeft, y: p1.y, width: viewPortHandler.chartWidth - viewPortHandler.contentLeft - viewPortHandler.offsetRight, height: (p2.y - p1.y)))
+        }
+        else {
+            context.addRect(CGRect(x: viewPortHandler.contentLeft, y: p2.y, width: viewPortHandler.chartWidth - viewPortHandler.contentLeft - viewPortHandler.offsetRight, height: (p1.y - p2.y)))
+        }
+        
         context.drawPath(using: .fillStroke)
     }
 }
