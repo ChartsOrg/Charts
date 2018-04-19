@@ -21,6 +21,7 @@ enum Option {
     case toggleAutoScaleMinMax
     case toggleData
     case toggleBarBorders
+    case toggleLimitLineFill
     // CandleChart
     case toggleShadowColorSameAsCandle
     // CombinedChart
@@ -58,6 +59,7 @@ enum Option {
         case .toggleAutoScaleMinMax: return "Toggle auto scale min/max"
         case .toggleData: return "Toggle Data"
         case .toggleBarBorders: return "Toggle Bar Borders"
+        case .toggleLimitLineFill: return "Toggle Limit Line Fill"
         // CandleChart
         case .toggleShadowColorSameAsCandle: return "Toggle shadow same color"
         // CombinedChart
@@ -165,6 +167,12 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
                 }
             }
             chartView.setNeedsDisplay()
+            
+        case .toggleLimitLineFill:
+            let barLineChart = chartView as! BarLineChartViewBase
+            barLineChart.leftAxis.isLimitLineFillEnabled = !barLineChart.leftAxis.isLimitLineFillEnabled
+            chartView.setNeedsDisplay()
+            
         default:
             break
         }

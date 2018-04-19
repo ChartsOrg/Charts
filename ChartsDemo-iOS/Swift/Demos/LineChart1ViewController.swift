@@ -30,6 +30,7 @@ class LineChart1ViewController: DemoBaseViewController {
                         .toggleIcons,
                         .toggleStepped,
                         .toggleHighlight,
+                        .toggleLimitLineFill,
                         .animateX,
                         .animateY,
                         .animateXY,

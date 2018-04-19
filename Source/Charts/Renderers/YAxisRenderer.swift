@@ -404,7 +404,7 @@ open class YAxisRenderer: AxisRendererBase
             return
         }
         
-        var limitLines = yAxis.limitLines
+        let limitLines = yAxis.limitLines
         
         if limitLines.count != 2
         {
