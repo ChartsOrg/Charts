@@ -399,14 +399,14 @@ open class YAxisRenderer: AxisRendererBase
             let transformer = self.transformer
             else { return }
         
-        if !yAxis.isEnabled || !yAxis.isLimitLineFillEnabled
+        guard yAxis.isEnabled && yAxis.isLimitLineFillEnabled else
         {
             return
         }
         
         let limitLines = yAxis.limitLines
         
-        if limitLines.count != 2
+        guard limitLines.count == 2 else
         {
             return
         }
