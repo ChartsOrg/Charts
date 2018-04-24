@@ -23,6 +23,7 @@ enum Option {
     case toggleBarBorders
     // CandleChart
     case toggleShadowColorSameAsCandle
+    case toggleShowCandleBar
     // CombinedChart
     case toggleLineValues
     case toggleBarValues
@@ -60,6 +61,7 @@ enum Option {
         case .toggleBarBorders: return "Toggle Bar Borders"
         // CandleChart
         case .toggleShadowColorSameAsCandle: return "Toggle shadow same color"
+        case .toggleShowCandleBar: return "Toggle show candle bar"
         // CombinedChart
         case .toggleLineValues: return "Toggle Line Values"
         case .toggleBarValues: return "Toggle Bar Values"

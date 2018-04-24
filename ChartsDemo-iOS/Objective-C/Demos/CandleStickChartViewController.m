@@ -41,6 +41,7 @@
                      @{@"key": @"togglePinchZoom", @"label": @"Toggle PinchZoom"},
                      @{@"key": @"toggleAutoScaleMinMax", @"label": @"Toggle auto scale min/max"},
                      @{@"key": @"toggleShadowColorSameAsCandle", @"label": @"Toggle shadow same color"},
+                     @{@"key": @"toggleShowCandleBar", @"label": @"Toggle show candle bar"},
                      @{@"key": @"toggleData", @"label": @"Toggle Data"},
                      ];
     
@@ -130,6 +131,15 @@
         for (id<ICandleChartDataSet> set in _chartView.data.dataSets)
         {
             set.shadowColorSameAsCandle = !set.shadowColorSameAsCandle;
+        }
+        
+        [_chartView notifyDataSetChanged];
+        return;
+    } else if ([key isEqualToString:@"toggleShowCandleBar"])
+    {
+        for (id<ICandleChartDataSet> set in _chartView.data.dataSets)
+        {
+            set.showCandleBar = !set.showCandleBar;
         }
         
         [_chartView notifyDataSetChanged];
