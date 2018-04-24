@@ -80,6 +80,26 @@ open class LineChartRenderer: LineRadarRenderer
         
         context.restoreGState()
     }
+
+    private func drawLine(
+        context: CGContext,
+        dataSet: LineChartDataSetProtocol,
+        spline: CGMutablePath,
+        matrix: CGAffineTransform,
+        drawingColor: NSUIColor) {
+
+        if dataSet.isDrawLineWithGradientEnabled
+        {
+            drawGradientLine(context: context, dataSet: dataSet, spline: spline, matrix: matrix)
+        }
+        else
+        {
+            context.beginPath()
+            context.addPath(spline)
+            context.setStrokeColor(drawingColor.cgColor)
+            context.strokePath()
+        }
+    }
     
     @objc open func drawCubicBezier(context: CGContext, dataSet: LineChartDataSetProtocol)
     {
@@ -168,17 +188,7 @@ open class LineChartRenderer: LineRadarRenderer
             drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, bounds: _xBounds)
         }
 
-        if dataSet.isDrawLineWithGradientEnabled
-        {
-            drawGradientLine(context: context, dataSet: dataSet, spline: cubicPath, matrix: valueToPixelMatrix)
-        }
-        else
-        {
-            context.beginPath()
-            context.addPath(cubicPath)
-            context.setStrokeColor(drawingColor.cgColor)
-            context.strokePath()
-        }
+        drawLine(context: context, dataSet: dataSet, spline: cubicPath, matrix: valueToPixelMatrix, drawingColor: drawingColor)
     }
     
     @objc open func drawHorizontalBezier(context: CGContext, dataSet: LineChartDataSetProtocol)
@@ -231,6 +241,7 @@ open class LineChartRenderer: LineRadarRenderer
         }
         
         context.saveGState()
+        defer { context.restoreGState() }
         
         if dataSet.isDrawFilledEnabled
         {
@@ -239,13 +250,8 @@ open class LineChartRenderer: LineRadarRenderer
             
             drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, bounds: _xBounds)
         }
-        
-        context.beginPath()
-        context.addPath(cubicPath)
-        context.setStrokeColor(drawingColor.cgColor)
-        context.strokePath()
-        
-        context.restoreGState()
+
+        drawLine(context: context, dataSet: dataSet, spline: cubicPath, matrix: valueToPixelMatrix, drawingColor: drawingColor)
     }
     
     open func drawCubicFill(
