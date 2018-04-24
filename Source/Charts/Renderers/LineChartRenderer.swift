@@ -779,6 +779,11 @@ open class LineChartRenderer: LineRadarRenderer
 
         // create a new path
         let to = Int(ceil(CGFloat(to - from) * phaseX + CGFloat(from)))
+
+        guard (from + 1) < to else {
+            return generatedPath
+        }
+
         for i in (from + 1)..<to
         {
             guard let e = dataSet.entryForIndex(i) else { continue }
@@ -789,6 +794,12 @@ open class LineChartRenderer: LineRadarRenderer
 
     func drawGradientLine(context: CGContext, dataSet: LineChartDataSetProtocol, spline: CGPath, matrix: CGAffineTransform)
     {
+        guard let gradientPositions = dataSet.gradientPositions else
+        {
+            assertionFailure("Must set `gradientPositions if `dataSet.isDrawLineWithGradientEnabled` is true")
+            return
+        }
+
         context.saveGState()
         defer { context.restoreGState() }
 
@@ -806,7 +817,21 @@ open class LineChartRenderer: LineRadarRenderer
         var cBlue: CGFloat = 0
         var cAlpha: CGFloat = 0
 
-        //Set lower bound color
+        for position in gradientPositions
+        {
+            let positionLocation = CGPoint(x: 0, y: position)
+                .applying(matrix)
+            let normPositionLocation = (positionLocation.y - gradientStart.y) / (gradientEnd.y - gradientStart.y)
+            if normPositionLocation < 0 {
+                gradientLocations.append(0)
+            } else if normPositionLocation > 1 {
+                gradientLocations.append(1)
+            } else {
+                gradientLocations.append(normPositionLocation)
+            }
+        }
+
+        // Lower bound color
         gradientLocations.append(0)
         var cColor = dataSet.color(atIndex: 0)
         if cColor.getRed(&cRed, green: &cGreen, blue: &cBlue, alpha: &cAlpha)
@@ -814,36 +839,17 @@ open class LineChartRenderer: LineRadarRenderer
             gradientColors += [cRed, cGreen, cBlue, cAlpha]
         }
 
-        //Set middle colors
-        guard let gradientPositions = dataSet.gradientPositions else
+        // Middle colors
+        for color in dataSet.colors
         {
-            fatalError("Must set `gradientPositions if `dataSet.isDrawLineWithGradientEnabled` is true")
-        }
-
-        for position in gradientPositions
-        {
-            let positionLocation = CGPoint(x: 0, y: position)
-                .applying(matrix)
-            let normPositionLocation = (positionLocation.y - gradientStart.y) / (gradientEnd.y - gradientStart.y)
-            if (normPositionLocation < 0) {
-                gradientLocations.append(0)
-            } else if (normPositionLocation > 1) {
-                gradientLocations.append(1)
-            } else {
-                gradientLocations.append(normPositionLocation)
+            guard color.getRed(&cRed, green: &cGreen, blue: &cBlue, alpha: &cAlpha) else {
+                continue
             }
+
+            gradientColors += [cRed, cGreen, cBlue, cAlpha]
         }
 
-        for _ in dataSet.colors
-        {
-            cColor = dataSet.color(atIndex: 0)
-            if cColor.getRed(&cRed, green: &cGreen, blue: &cBlue, alpha: &cAlpha)
-            {
-                gradientColors += [cRed, cGreen, cBlue, cAlpha]
-            }
-        }
-
-        //Set upper bound color
+        // Upper bound color
         gradientLocations.append(1)
         cColor = dataSet.color(atIndex: dataSet.colors.count - 1)
         if cColor.getRed(&cRed, green: &cGreen, blue: &cBlue, alpha: &cAlpha)
@@ -851,20 +857,19 @@ open class LineChartRenderer: LineRadarRenderer
             gradientColors += [cRed, cGreen, cBlue, cAlpha]
         }
 
-        //Define gradient
+        // Gradient
         let baseSpace = CGColorSpaceCreateDeviceRGB()
         let gradient: CGGradient?
         if gradientPositions.count > 1
         {
             gradient = CGGradient(colorSpace: baseSpace, colorComponents: &gradientColors, locations: &gradientLocations, count: gradientColors.count / 4)
-        } else
-        {
+        } else {
             gradient = CGGradient(colorSpace: baseSpace, colorComponents: gradientColors, locations: nil, count: gradientColors.count / 4)
         }
 
         guard gradient != nil else { return }
 
-        //Draw gradient path
+        // Draw gradient path
         context.beginPath()
         context.addPath(gradientPath)
         context.clip()
