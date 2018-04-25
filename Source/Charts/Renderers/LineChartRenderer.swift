@@ -86,19 +86,12 @@ open class LineChartRenderer: LineRadarRenderer
         dataSet: LineChartDataSetProtocol,
         spline: CGMutablePath,
         matrix: CGAffineTransform,
-        drawingColor: NSUIColor) {
-
-        if dataSet.isDrawLineWithGradientEnabled
-        {
-            drawGradientLine(context: context, dataSet: dataSet, spline: spline, matrix: matrix)
-        }
-        else
-        {
-            context.beginPath()
-            context.addPath(spline)
-            context.setStrokeColor(drawingColor.cgColor)
-            context.strokePath()
-        }
+        drawingColor: NSUIColor)
+    {
+        context.beginPath()
+        context.addPath(spline)
+        context.setStrokeColor(drawingColor.cgColor)
+        context.strokePath()
     }
     
     @objc open func drawCubicBezier(context: CGContext, dataSet: LineChartDataSetProtocol)
@@ -188,7 +181,14 @@ open class LineChartRenderer: LineRadarRenderer
             drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, bounds: _xBounds)
         }
 
-        drawLine(context: context, dataSet: dataSet, spline: cubicPath, matrix: valueToPixelMatrix, drawingColor: drawingColor)
+        if dataSet.isDrawLineWithGradientEnabled
+        {
+            drawGradientLine(context: context, dataSet: dataSet, spline: cubicPath, matrix: valueToPixelMatrix)
+        }
+        else
+        {
+            drawLine(context: context, dataSet: dataSet, spline: cubicPath, matrix: valueToPixelMatrix, drawingColor: drawingColor)
+        }
     }
     
     @objc open func drawHorizontalBezier(context: CGContext, dataSet: LineChartDataSetProtocol)
@@ -251,7 +251,14 @@ open class LineChartRenderer: LineRadarRenderer
             drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, bounds: _xBounds)
         }
 
-        drawLine(context: context, dataSet: dataSet, spline: cubicPath, matrix: valueToPixelMatrix, drawingColor: drawingColor)
+        if dataSet.isDrawLineWithGradientEnabled
+        {
+            drawGradientLine(context: context, dataSet: dataSet, spline: cubicPath, matrix: valueToPixelMatrix)
+        }
+        else
+        {
+            drawLine(context: context, dataSet: dataSet, spline: cubicPath, matrix: valueToPixelMatrix, drawingColor: drawingColor)
+        }
     }
     
     open func drawCubicFill(
