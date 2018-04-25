@@ -83,9 +83,7 @@ open class LineChartRenderer: LineRadarRenderer
 
     private func drawLine(
         context: CGContext,
-        dataSet: LineChartDataSetProtocol,
         spline: CGMutablePath,
-        matrix: CGAffineTransform,
         drawingColor: NSUIColor)
     {
         context.beginPath()
@@ -187,7 +185,7 @@ open class LineChartRenderer: LineRadarRenderer
         }
         else
         {
-            drawLine(context: context, dataSet: dataSet, spline: cubicPath, matrix: valueToPixelMatrix, drawingColor: drawingColor)
+            drawLine(context: context, spline: cubicPath, drawingColor: drawingColor)
         }
     }
     
@@ -257,7 +255,7 @@ open class LineChartRenderer: LineRadarRenderer
         }
         else
         {
-            drawLine(context: context, dataSet: dataSet, spline: cubicPath, matrix: valueToPixelMatrix, drawingColor: drawingColor)
+            drawLine(context: context, spline: cubicPath, drawingColor: drawingColor)
         }
     }
     
