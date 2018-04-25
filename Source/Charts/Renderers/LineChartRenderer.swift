@@ -816,13 +816,10 @@ open class LineChartRenderer: LineRadarRenderer
         let boundingBox = gradientPath.boundingBox
         let gradientStart = CGPoint(x: 0, y: boundingBox.maxY)
         let gradientEnd = CGPoint(x: 0, y: boundingBox.minY)
+        var gradientColorComponents = [CGFloat]()
         var gradientLocations = [CGFloat]()
-        var gradientColors = [CGFloat]()
-        var cRed: CGFloat = 0
-        var cGreen: CGFloat = 0
-        var cBlue: CGFloat = 0
-        var cAlpha: CGFloat = 0
 
+        gradientLocations.append(0)
         for position in gradientPositions
         {
             let positionLocation = CGPoint(x: 0, y: position)
@@ -836,41 +833,31 @@ open class LineChartRenderer: LineRadarRenderer
                 gradientLocations.append(normPositionLocation)
             }
         }
+        gradientLocations.append(1)
 
         // Lower bound color
-        gradientLocations.append(0)
-        var cColor = dataSet.color(atIndex: 0)
-        if cColor.getRed(&cRed, green: &cGreen, blue: &cBlue, alpha: &cAlpha)
-        {
-            gradientColors += [cRed, cGreen, cBlue, cAlpha]
-        }
+        // + Middle colors
+        // + Upper bound color
+        let colors =
+            [dataSet.color(atIndex: 0)] + dataSet.colors + [dataSet.color(atIndex: dataSet.colors.count - 1)]
 
-        // Middle colors
-        for color in dataSet.colors
+        for color in colors
         {
-            guard color.getRed(&cRed, green: &cGreen, blue: &cBlue, alpha: &cAlpha) else {
+            guard let (r, g, b, a) = color.nsuiRGBA else {
                 continue
             }
-
-            gradientColors += [cRed, cGreen, cBlue, cAlpha]
+            gradientColorComponents += [r, g, b, a]
         }
 
-        // Upper bound color
-        gradientLocations.append(1)
-        cColor = dataSet.color(atIndex: dataSet.colors.count - 1)
-        if cColor.getRed(&cRed, green: &cGreen, blue: &cBlue, alpha: &cAlpha)
-        {
-            gradientColors += [cRed, cGreen, cBlue, cAlpha]
-        }
+        let baseColorSpace = CGColorSpaceCreateDeviceRGB()
+        let baseColorSpaceComponentsCount = baseColorSpace.numberOfComponents + 1 // // Add 1 for the alpha channel
 
-        // Gradient
-        let baseSpace = CGColorSpaceCreateDeviceRGB()
         let gradient: CGGradient?
         if gradientPositions.count > 1
         {
-            gradient = CGGradient(colorSpace: baseSpace, colorComponents: &gradientColors, locations: &gradientLocations, count: gradientColors.count / 4)
+            gradient = CGGradient(colorSpace: baseColorSpace, colorComponents: &gradientColorComponents, locations: &gradientLocations, count: gradientColorComponents.count / baseColorSpaceComponentsCount)
         } else {
-            gradient = CGGradient(colorSpace: baseSpace, colorComponents: gradientColors, locations: nil, count: gradientColors.count / 4)
+            gradient = CGGradient(colorSpace: baseColorSpace, colorComponents: gradientColorComponents, locations: nil, count: gradientColorComponents.count / baseColorSpaceComponentsCount)
         }
 
         guard gradient != nil else { return }
