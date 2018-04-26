@@ -811,42 +811,35 @@ open class LineChartRenderer: LineRadarRenderer
             return
         }
 
-        context.saveGState()
-        defer { context.restoreGState() }
+        let boundingBox = spline.boundingBox
+        guard !boundingBox.isNull && !boundingBox.isInfinite && !boundingBox.isEmpty else {
+            return
+        }
 
-        let gradientPath = spline.copy(strokingWithWidth: dataSet.lineWidth, lineCap: .butt, lineJoin: .miter, miterLimit: 10)
-        context.addPath(gradientPath)
-        context.drawPath(using: .fill)
+        let gradientStart = CGPoint(x: 0, y: boundingBox.minY)
+        let gradientEnd = CGPoint(x: 0, y: boundingBox.maxY)
+        var gradientColorComponents: [CGFloat] = []
+        var gradientLocations: [CGFloat] = []
 
-        let boundingBox = gradientPath.boundingBox
-        let gradientStart = CGPoint(x: 0, y: boundingBox.maxY)
-        let gradientEnd = CGPoint(x: 0, y: boundingBox.minY)
-        var gradientColorComponents = [CGFloat]()
-        var gradientLocations = [CGFloat]()
-
-        gradientLocations.append(0)
-        for position in gradientPositions
+        for position in gradientPositions.reversed()
         {
-            let positionLocation = CGPoint(x: 0, y: position)
+            let location = CGPoint(x: boundingBox.minX, y: position)
                 .applying(matrix)
-            let normPositionLocation = (positionLocation.y - gradientStart.y) / (gradientEnd.y - gradientStart.y)
-            if normPositionLocation < 0 {
+            let normalizedLocation =
+                (location.y - boundingBox.minY) / (boundingBox.maxY - boundingBox.minY)
+            switch normalizedLocation {
+            case ..<0:
                 gradientLocations.append(0)
-            } else if normPositionLocation > 1 {
+            case 0..<1:
+                gradientLocations.append(normalizedLocation)
+            case 1...:
                 gradientLocations.append(1)
-            } else {
-                gradientLocations.append(normPositionLocation)
+            default:
+                assertionFailure()
             }
         }
-        gradientLocations.append(1)
 
-        // Lower bound color
-        // + Middle colors
-        // + Upper bound color
-        let colors =
-            [dataSet.color(atIndex: 0)] + dataSet.colors + [dataSet.color(atIndex: dataSet.colors.count - 1)]
-
-        for color in colors
+        for color in dataSet.colors.reversed()
         {
             guard let (r, g, b, a) = color.nsuiRGBA else {
                 continue
@@ -855,22 +848,20 @@ open class LineChartRenderer: LineRadarRenderer
         }
 
         let baseColorSpace = CGColorSpaceCreateDeviceRGB()
-        let baseColorSpaceComponentsCount = baseColorSpace.numberOfComponents + 1 // // Add 1 for the alpha channel
-
-        let gradient: CGGradient?
-        if gradientPositions.count > 1
-        {
-            gradient = CGGradient(colorSpace: baseColorSpace, colorComponents: &gradientColorComponents, locations: &gradientLocations, count: gradientColorComponents.count / baseColorSpaceComponentsCount)
-        } else {
-            gradient = CGGradient(colorSpace: baseColorSpace, colorComponents: gradientColorComponents, locations: nil, count: gradientColorComponents.count / baseColorSpaceComponentsCount)
+        guard let gradient = CGGradient(
+            colorSpace: baseColorSpace,
+            colorComponents: &gradientColorComponents,
+            locations: &gradientLocations,
+            count: gradientLocations.count) else {
+            return
         }
 
-        guard gradient != nil else { return }
+        context.saveGState()
+        defer { context.restoreGState() }
 
-        // Draw gradient path
-        context.beginPath()
-        context.addPath(gradientPath)
+        context.addPath(spline)
+        context.replacePathWithStrokedPath()
         context.clip()
-        context.drawLinearGradient(gradient!, start: gradientStart, end: gradientEnd, options: [])
+        context.drawLinearGradient(gradient, start: gradientStart, end: gradientEnd, options: [])
     }
 }
