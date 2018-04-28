@@ -326,7 +326,7 @@ open class LineChartRenderer: LineRadarRenderer
         context.setLineCap(dataSet.lineCapType)
 
         // more than 1 color
-        if dataSet.colors.count > 1
+        if dataSet.colors.count > 1, !dataSet.isDrawLineWithGradientEnabled
         {
             if _lineSegments.count != pointsPerEntryPair
             {
@@ -389,70 +389,63 @@ open class LineChartRenderer: LineRadarRenderer
         }
         else
         { // only one color per dataset
-            
-            var e1: ChartDataEntry!
-            var e2: ChartDataEntry!
-            
-            e1 = dataSet.entryForIndex(_xBounds.min)
-            
-            if e1 != nil
+            guard dataSet.entryForIndex(_xBounds.min) != nil else {
+                return
+            }
+
+            var firstPoint = true
+
+            let path = CGMutablePath()
+            for x in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
             {
-                context.beginPath()
-                var firstPoint = true
+                guard let e1 = dataSet.entryForIndex(x == 0 ? 0 : (x - 1)) else { continue }
+                guard let e2 = dataSet.entryForIndex(x) else { continue }
                 
-                for x in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
-                {
-                    e1 = dataSet.entryForIndex(x == 0 ? 0 : (x - 1))
-                    e2 = dataSet.entryForIndex(x)
-                    
-                    if e1 == nil || e2 == nil { continue }
-                    
-                    let pt = CGPoint(
+                let startPoint =
+                    CGPoint(
                         x: CGFloat(e1.x),
-                        y: CGFloat(e1.y * phaseY)
-                        ).applying(valueToPixelMatrix)
-                    
-                    if firstPoint
-                    {
-                        context.move(to: pt)
-                        firstPoint = false
-                    }
-                    else
-                    {
-                        context.addLine(to: pt)
-                    }
-                    
-                    if isDrawSteppedEnabled
-                    {
-                        context.addLine(to: CGPoint(
-                            x: CGFloat(e2.x),
-                            y: CGFloat(e1.y * phaseY)
-                            ).applying(valueToPixelMatrix))
-                    }
-                    
-                    context.addLine(to: CGPoint(
-                        x: CGFloat(e2.x),
-                        y: CGFloat(e2.y * phaseY)
-                        ).applying(valueToPixelMatrix))
+                        y: CGFloat(e1.y * phaseY))
+                    .applying(valueToPixelMatrix)
+                
+                if firstPoint
+                {
+                    path.move(to: startPoint)
+                    firstPoint = false
+                }
+                else
+                {
+                    path.addLine(to: startPoint)
                 }
                 
-                if !firstPoint
+                if isDrawSteppedEnabled
                 {
+                    let steppedPoint =
+                        CGPoint(
+                            x: CGFloat(e2.x),
+                            y: CGFloat(e1.y * phaseY))
+                        .applying(valueToPixelMatrix)
+                    path.addLine(to: steppedPoint)
+                }
+
+                let endPoint =
+                    CGPoint(
+                        x: CGFloat(e2.x),
+                        y: CGFloat(e2.y * phaseY))
+                    .applying(valueToPixelMatrix)
+                path.addLine(to: endPoint)
+            }
+            
+            if !firstPoint
+            {
+                if dataSet.isDrawLineWithGradientEnabled {
+                    drawGradientLine(context: context, dataSet: dataSet, spline: path, matrix: valueToPixelMatrix)
+                } else {
+                    context.beginPath()
+                    context.addPath(path)
                     context.setStrokeColor(dataSet.color(atIndex: 0).cgColor)
                     context.strokePath()
                 }
             }
-        }
-
-        if (dataSet.isDrawLineWithGradientEnabled)
-        {
-            let path = generateGradientLinePath(dataSet: dataSet,
-                                                fillMin: dataSet.fillFormatter?.getFillLinePosition(dataSet: dataSet, dataProvider: dataProvider) ?? 0.0,
-                                                from: _xBounds.min,
-                                                to: _xBounds.max,
-                                                matrix: trans.valueToPixelMatrix)
-
-            drawGradientLine(context: context, dataSet: dataSet, spline: path, matrix: valueToPixelMatrix)
         }
     }
     
@@ -773,35 +766,6 @@ open class LineChartRenderer: LineRadarRenderer
         context.restoreGState()
     }
 
-    /// Generates the path that is used for gradient drawing.
-    private func generateGradientLinePath(dataSet: LineChartDataSetProtocol, fillMin: CGFloat, from: Int, to: Int, matrix: CGAffineTransform) -> CGPath
-    {
-        let phaseX = CGFloat(animator.phaseX)
-        let phaseY = CGFloat(animator.phaseY)
-
-        let generatedPath = CGMutablePath()
-
-        if let e = dataSet.entryForIndex(from)
-        {
-            generatedPath.move(to: CGPoint(x: CGFloat(e.x), y: CGFloat(e.y) * phaseY), transform: matrix)
-        }
-
-        // create a new path
-        let to = Int(ceil(CGFloat(to - from) * phaseX + CGFloat(from)))
-
-        guard (from + 1) < to else {
-            return generatedPath
-        }
-
-        // enumerate from `from + 1` since the first entry was already used
-        for i in stride(from: (from + 1), to: to, by: 1)
-        {
-            guard let e = dataSet.entryForIndex(i) else { continue }
-            generatedPath.addLine(to: CGPoint(x: CGFloat(e.x), y: CGFloat(e.y) * phaseY), transform: matrix)
-        }
-        return generatedPath
-    }
-
     func drawGradientLine(context: CGContext, dataSet: LineChartDataSetProtocol, spline: CGPath, matrix: CGAffineTransform)
     {
         guard let gradientPositions = dataSet.gradientPositions else
@@ -858,6 +822,7 @@ open class LineChartRenderer: LineRadarRenderer
         context.saveGState()
         defer { context.restoreGState() }
 
+        context.beginPath()
         context.addPath(spline)
         context.replacePathWithStrokedPath()
         context.clip()
