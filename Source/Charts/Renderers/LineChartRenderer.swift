@@ -779,11 +779,9 @@ open class LineChartRenderer: LineRadarRenderer
         let phaseX = CGFloat(animator.phaseX)
         let phaseY = CGFloat(animator.phaseY)
 
-        var e: ChartDataEntry!
-
         let generatedPath = CGMutablePath()
-        e = dataSet.entryForIndex(from)
-        if e != nil
+
+        if let e = dataSet.entryForIndex(from)
         {
             generatedPath.move(to: CGPoint(x: CGFloat(e.x), y: CGFloat(e.y) * phaseY), transform: matrix)
         }
@@ -795,7 +793,8 @@ open class LineChartRenderer: LineRadarRenderer
             return generatedPath
         }
 
-        for i in (from + 1)..<to
+        // enumerate from `from + 1` since the first entry was already used
+        for i in stride(from: (from + 1), to: to, by: 1)
         {
             guard let e = dataSet.entryForIndex(i) else { continue }
             generatedPath.addLine(to: CGPoint(x: CGFloat(e.x), y: CGFloat(e.y) * phaseY), transform: matrix)
