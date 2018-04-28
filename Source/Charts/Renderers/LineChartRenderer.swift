@@ -812,7 +812,7 @@ open class LineChartRenderer: LineRadarRenderer
         }
 
         let boundingBox = spline.boundingBox
-        guard !boundingBox.isNull && !boundingBox.isInfinite && !boundingBox.isEmpty else {
+        guard !boundingBox.isNull, !boundingBox.isInfinite, !boundingBox.isEmpty else {
             return
         }
 
@@ -841,7 +841,7 @@ open class LineChartRenderer: LineRadarRenderer
 
         for color in dataSet.colors.reversed()
         {
-            guard let (r, g, b, a) = color.nsuiRGBA else {
+            guard let (r, g, b, a) = color.nsuirgba else {
                 continue
             }
             gradientColorComponents += [r, g, b, a]

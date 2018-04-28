@@ -27,7 +27,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
     extension NSUIColor
     {
-        var nsuiRGBA: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat)? {
+        var nsuirgba: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat)? {
             var red: CGFloat = 0
             var green: CGFloat = 0
             var blue: CGFloat = 0
@@ -322,7 +322,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
     extension NSUIColor
     {
-        var nsuiRGBA: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat)? {
+        var nsuirgba: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat)? {
             var red: CGFloat = 0
             var green: CGFloat = 0
             var blue: CGFloat = 0
