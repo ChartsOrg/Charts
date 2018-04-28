@@ -774,7 +774,13 @@ open class LineChartRenderer: LineRadarRenderer
             return
         }
 
+        // `insetBy` is applied since bounding box
+        // doesn't take into account line width
+        // so that peaks are trimmed since
+        // gradient start and gradient end calculated wrong
         let boundingBox = spline.boundingBox
+            .insetBy(dx: -dataSet.lineWidth / 2, dy: -dataSet.lineWidth / 2)
+
         guard !boundingBox.isNull, !boundingBox.isInfinite, !boundingBox.isEmpty else {
             return
         }
