@@ -421,7 +421,7 @@ open class ChartDataSet: ChartBaseDataSet
     
     /// Removes the first Entry (at index 0) of this DataSet from the entries array.
     ///
-    /// - returns: `true` if successful, `false` ifnot.
+    /// - returns: `true` if successful, `false` if not.
     // TODO: This should return the removed entry to follow Swift convention.
     open override func removeFirst() -> Bool
     {
@@ -431,7 +431,7 @@ open class ChartDataSet: ChartBaseDataSet
     
     /// Removes the last Entry (at index size-1) of this DataSet from the entries array.
     ///
-    /// - returns: `true` if successful, `false` ifnot.
+    /// - returns: `true` if successful, `false` if not.
     // TODO: This should return the removed entry to follow Swift convention.
     open override func removeLast() -> Bool
     {

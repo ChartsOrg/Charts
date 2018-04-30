@@ -56,12 +56,9 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
     /// calculates the maximum stacksize that occurs in the Entries array of this DataSet
     private func calcStackSize(entries: [BarChartDataEntry])
     {
-        for e in entries
+        for e in entries where (e.yValues?.count ?? 0) > _stackSize
         {
-            guard let vals = e.yValues, vals.count > _stackSize else {
-                continue
-            }
-            _stackSize = vals.count
+            _stackSize = e.yValues!.count
         }
     }
     
