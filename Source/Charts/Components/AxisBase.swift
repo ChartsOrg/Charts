@@ -236,17 +236,9 @@ open class AxisBase: ComponentBase
         }
         set
         {
-            _labelCount = newValue
-            
-            if _labelCount > axisMaxLabels
-            {
-                _labelCount = axisMaxLabels
-            }
-            if _labelCount < axisMinLabels
-            {
-                _labelCount = axisMinLabels
-            }
-            
+            let range = axisMinLabels...axisMaxLabels as ClosedRange
+            _labelCount = newValue.clamped(to: range)
+                        
             forceLabelsEnabled = false
         }
     }
