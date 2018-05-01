@@ -32,6 +32,7 @@ class CandleStickChartViewController: DemoBaseViewController {
                         .togglePinchZoom,
                         .toggleAutoScaleMinMax,
                         .toggleShadowColorSameAsCandle,
+                        .toggleShowCandleBar,
                         .toggleData]
         
         chartView.delegate = self
@@ -103,12 +104,18 @@ class CandleStickChartViewController: DemoBaseViewController {
     }
     
     override func optionTapped(_ option: Option) {
-        if .toggleShadowColorSameAsCandle ~= option {
+        switch option {
+        case .toggleShadowColorSameAsCandle:
             for set in chartView.data!.dataSets as! [CandleChartDataSet] {
                 set.shadowColorSameAsCandle = !set.shadowColorSameAsCandle
             }
             chartView.notifyDataSetChanged()
-        } else {
+        case .toggleShowCandleBar:
+            for set in chartView.data!.dataSets as! [CandleChartDataSet] {
+                set.showCandleBar = !set.showCandleBar
+            }
+            chartView.notifyDataSetChanged()
+        default:
             super.handleOption(option, forChartView: chartView)
         }
     }
