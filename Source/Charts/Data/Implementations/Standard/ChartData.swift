@@ -296,7 +296,7 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
     }
     
     /// - returns: All colors used across all DataSet objects this object represents.
-    @objc open func getColors() -> [NSUIColor]
+    @objc open var colors: [NSUIColor]
     {
         return reduce(into: []) { $0 += $1.colors }
     }

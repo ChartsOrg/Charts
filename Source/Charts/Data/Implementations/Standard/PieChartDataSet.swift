@@ -33,7 +33,7 @@ open class PieChartDataSet: ChartDataSet, PieChartDataSetProtocol
         initialize()
     }
     
-    public override init(values: [ChartDataEntry]?, label: String?)
+    public override init(values: [ChartDataEntry], label: String)
     {
         super.init(values: values, label: label)
         initialize()
@@ -59,16 +59,11 @@ open class PieChartDataSet: ChartDataSet, PieChartDataSetProtocol
         }
         set
         {
-            var space = newValue
-            if space > 20.0
-            {
-                space = 20.0
+            switch newValue {
+            case ..<0.0: _sliceSpace = 0.0
+            case 20.0...: _sliceSpace = 20.0
+            default: _sliceSpace = newValue
             }
-            if space < 0.0
-            {
-                space = 0.0
-            }
-            _sliceSpace = space
         }
     }
 
