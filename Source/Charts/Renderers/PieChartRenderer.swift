@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 #if !os(OSX)
-import UIKit
+    import UIKit
 #endif
 
 open class PieChartRenderer: DataRenderer
@@ -37,6 +37,9 @@ open class PieChartRenderer: DataRenderer
 
         if pieData != nil
         {
+            // If we redraw the data, remove and repopulate accessible elements to update label values and frames
+            accessiblePieChartElements.removeAll()
+
             for set in pieData!.dataSets as! [IPieChartDataSet]
             {
                 if set.isVisible && set.entryCount > 0
@@ -110,9 +113,6 @@ open class PieChartRenderer: DataRenderer
     {
         guard let chart = chart else {return }
 
-        // If we redraw the data, remove and repopulate accessible elements to update label values and frames
-        self.accessiblePieChartElements.removeAll()
-
         var angle: CGFloat = 0.0
         let rotationAngle = chart.rotationAngle
 
@@ -141,21 +141,20 @@ open class PieChartRenderer: DataRenderer
         context.saveGState()
 
         // Make the chart header the first element in the accessible elements array
-        if let container = self.chart {
-            // NOTE: - Since we want to summarize the total count of slices/portions/elements, use a default string here
-            // This is unlike when we are naming individual slices, wherein it's alright to not use a prefix as descriptor.
-            // i.e. We want to VO to say "3 Elements" even if the developer didn't specify an accessibility prefix
-            // If prefix is unspecified it is safe to assume they did not want to use "Element 1", so that uses a default empty string
-            let prefix: String = dataSet.accessibilityEntryLabelPrefix ?? "Element"
-            let description = container.chartDescription?.text ?? dataSet.label ?? container.centerText ??  ""
+        // We can do this in drawDataSet, since we know PieChartView can have only 1 dataSet
+        // NOTE: - Since we want to summarize the total count of slices/portions/elements, use a default string here
+        // This is unlike when we are naming individual slices, wherein it's alright to not use a prefix as descriptor.
+        // i.e. We want to VO to say "3 Elements" even if the developer didn't specify an accessibility prefix
+        // If prefix is unspecified it is safe to assume they did not want to use "Element 1", so that uses a default empty string
+        let prefix: String = dataSet.accessibilityEntryLabelPrefix ?? "Element"
+        let description = chart.chartDescription?.text ?? dataSet.label ?? chart.centerText ??  ""
 
-            let
-            element: UIAccessibilityElement = UIAccessibilityElement(accessibilityContainer: container)
-            element.accessibilityLabel = description + ". \(entryCount) \(prefix + (entryCount == 1 ? "" : "s"))"
-            element.accessibilityFrame = container.convert(container.bounds, to: UIScreen.main.fixedCoordinateSpace)
-            element.accessibilityTraits = UIAccessibilityTraitHeader
-            self.accessiblePieChartElements.append(element)
-        }
+        let
+        element: UIAccessibilityElement = UIAccessibilityElement(accessibilityContainer: chart)
+        element.accessibilityLabel = description + ". \(entryCount) \(prefix + (entryCount == 1 ? "" : "s"))"
+        element.accessibilityFrame = chart.convert(chart.bounds, to: UIScreen.main.fixedCoordinateSpace)
+        element.accessibilityTraits = UIAccessibilityTraitHeader
+        accessiblePieChartElements.append(element)
 
         for j in 0 ..< entryCount
         {
@@ -267,18 +266,15 @@ open class PieChartRenderer: DataRenderer
                     context.addPath(path)
                     context.fillPath(using: .evenOdd)
 
-                    if let container = self.chart {
-
-                        let axElement = self.createAccessibleElement(withIndex: j,
-                                                                     container: container,
-                                                                     dataSet: dataSet)
-                        { (element) in
-                            element.accessibilityFrame = container.convert(path.boundingBoxOfPath,
-                                                                           to: UIScreen.main.coordinateSpace)
-                        }
-
-                        self.accessiblePieChartElements.append(axElement)
+                    let axElement = createAccessibleElement(withIndex: j,
+                                                            container: chart,
+                                                            dataSet: dataSet)
+                    { (element) in
+                        element.accessibilityFrame = chart.convert(path.boundingBoxOfPath,
+                                                                       to: UIScreen.main.coordinateSpace)
                     }
+
+                    accessiblePieChartElements.append(axElement)
                 }
             }
 
@@ -868,24 +864,21 @@ open class PieChartRenderer: DataRenderer
             context.addPath(path)
             context.fillPath(using: .evenOdd)
 
-            if let container = self.chart {
-
-                let axElement = self.createAccessibleElement(withIndex: index,
-                                                             container: container,
-                                                             dataSet: set)
-                { (element) in
-                    element.accessibilityFrame = container.convert(path.boundingBoxOfPath,
-                                                                   to: UIScreen.main.coordinateSpace)
-                    element.accessibilityTraits = UIAccessibilityTraitSelected
-                }
-
-                highlightedAccessibleElements.append(axElement)
+            let axElement = createAccessibleElement(withIndex: index,
+                                                    container: chart,
+                                                    dataSet: set)
+            { (element) in
+                element.accessibilityFrame = chart.convert(path.boundingBoxOfPath,
+                                                               to: UIScreen.main.coordinateSpace)
+                element.accessibilityTraits = UIAccessibilityTraitSelected
             }
+
+            highlightedAccessibleElements.append(axElement)
         }
 
         // Prepend selected slices before the already rendered unselected ones.
         // NOTE: - This relies on drawDataSet() being called before drawHighlighted in PieChartView.
-        self.accessiblePieChartElements.insert(contentsOf: highlightedAccessibleElements, at: 1)
+        accessiblePieChartElements.insert(contentsOf: highlightedAccessibleElements, at: 1)
 
         context.restoreGState()
     }
