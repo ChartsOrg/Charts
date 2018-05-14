@@ -62,19 +62,4 @@ public protocol IPieChartDataSet: IChartDataSet
     /// get/sets the color for the highlighted sector
     var highlightColor: NSUIColor? { get set }
 
-    // MARK: - Accessibility
-
-    /// When the data entry labels for slices are generated identifiers, set this property to prepend a string before each identifier
-    ///
-    /// For example, if a label is "#3", settings this property to "Item" allows it to be spoken as "Item #3"
-    var accessibilityEntryLabelPrefix: String? { get set }
-
-    /// When the data entry value requires a unit, use this property to append the string representation of the unit to the value
-    ///
-    /// For example, if a value is "44.1", setting this property to "m" allows it to be spoken as "44.1 m"
-    var accessibilityEntryLabelSuffix: String? { get set }
-
-    /// If the data entry value is a count, set this to true to allow plurals and other grammatical changes
-    /// **default**: false
-    var accessibilityEntryLabelSuffixIsCount: Bool { get set }
 }

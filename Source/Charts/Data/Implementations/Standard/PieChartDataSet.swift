@@ -118,12 +118,4 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
         copy.highlightColor = highlightColor
         return copy
     }
-
-    // MARK: - Accessibility
-
-    open var accessibilityEntryLabelSuffixIsCount: Bool = false
-
-    open var accessibilityEntryLabelPrefix: String?
-
-    open var accessibilityEntryLabelSuffix: String?
 }

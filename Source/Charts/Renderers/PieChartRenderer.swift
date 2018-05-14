@@ -18,8 +18,6 @@ import CoreGraphics
 
 open class PieChartRenderer: DataRenderer
 {
-    open var accessiblePieChartElements: [UIAccessibilityElement] = []
-
     @objc open weak var chart: PieChartView?
 
     @objc public init(chart: PieChartView, animator: Animator, viewPortHandler: ViewPortHandler)
@@ -38,7 +36,7 @@ open class PieChartRenderer: DataRenderer
         if pieData != nil
         {
             // If we redraw the data, remove and repopulate accessible elements to update label values and frames
-            accessiblePieChartElements.removeAll()
+            accessibleChartElements.removeAll()
 
             for set in pieData!.dataSets as! [IPieChartDataSet]
             {
@@ -146,7 +144,7 @@ open class PieChartRenderer: DataRenderer
         // This is unlike when we are naming individual slices, wherein it's alright to not use a prefix as descriptor.
         // i.e. We want to VO to say "3 Elements" even if the developer didn't specify an accessibility prefix
         // If prefix is unspecified it is safe to assume they did not want to use "Element 1", so that uses a default empty string
-        let prefix: String = dataSet.accessibilityEntryLabelPrefix ?? "Element"
+        let prefix: String = chart.data?.accessibilityEntryLabelPrefix ?? "Element"
         let description = chart.chartDescription?.text ?? dataSet.label ?? chart.centerText ??  ""
 
         let
@@ -154,7 +152,7 @@ open class PieChartRenderer: DataRenderer
         element.accessibilityLabel = description + ". \(entryCount) \(prefix + (entryCount == 1 ? "" : "s"))"
         element.accessibilityFrame = chart.convert(chart.bounds, to: UIScreen.main.fixedCoordinateSpace)
         element.accessibilityTraits = UIAccessibilityTraitHeader
-        accessiblePieChartElements.append(element)
+        accessibleChartElements.append(element)
 
         for j in 0 ..< entryCount
         {
@@ -274,7 +272,7 @@ open class PieChartRenderer: DataRenderer
                                                                        to: UIScreen.main.coordinateSpace)
                     }
 
-                    accessiblePieChartElements.append(axElement)
+                    accessibleChartElements.append(axElement)
                 }
             }
 
@@ -878,7 +876,7 @@ open class PieChartRenderer: DataRenderer
 
         // Prepend selected slices before the already rendered unselected ones.
         // NOTE: - This relies on drawDataSet() being called before drawHighlighted in PieChartView.
-        accessiblePieChartElements.insert(contentsOf: highlightedAccessibleElements, at: 1)
+        accessibleChartElements.insert(contentsOf: highlightedAccessibleElements, at: 1)
 
         context.restoreGState()
     }
@@ -894,30 +892,29 @@ open class PieChartRenderer: DataRenderer
 
         guard let e = dataSet.entryForIndex(idx) else { return element }
         guard let formatter = dataSet.valueFormatter else { return element }
+        guard let data = container.data as? PieChartData else { return element }
 
-        var elementValueText: String = formatter.stringForValue(
+        var elementValueText = formatter.stringForValue(
             e.y,
             entry: e,
             dataSetIndex: idx,
             viewPortHandler: viewPortHandler)
 
         if container.usePercentValuesEnabled {
-            if let data = container.data as? PieChartData {
-                let value = e.y / data.yValueSum * 100.0
-                let valueText = formatter.stringForValue(
-                    value,
-                    entry: e,
-                    dataSetIndex: idx,
-                    viewPortHandler: viewPortHandler)
+            let value = e.y / data.yValueSum * 100.0
+            let valueText = formatter.stringForValue(
+                value,
+                entry: e,
+                dataSetIndex: idx,
+                viewPortHandler: viewPortHandler)
 
-                elementValueText = valueText
-            }
+            elementValueText = valueText
         }
 
         let pieChartDataEntry = (dataSet.entryForIndex(idx) as? PieChartDataEntry)
-        let isCount = dataSet.accessibilityEntryLabelSuffixIsCount
-        let prefix = dataSet.accessibilityEntryLabelPrefix?.appending("\(idx + 1)") ?? pieChartDataEntry?.label ?? ""
-        let suffix = dataSet.accessibilityEntryLabelSuffix ?? ""
+        let isCount = data.accessibilityEntryLabelSuffixIsCount
+        let prefix = data.accessibilityEntryLabelPrefix?.appending("\(idx + 1)") ?? pieChartDataEntry?.label ?? ""
+        let suffix = data.accessibilityEntryLabelSuffix ?? ""
         element.accessibilityLabel = "\(prefix) : \(elementValueText) \(suffix  + (isCount ? (e.y == 1.0 ? "" : "s") : "") )"
 
         // The modifier allows changing of traits and frame depending on highlight, rotation, etc
