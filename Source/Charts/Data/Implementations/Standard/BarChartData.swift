@@ -65,12 +65,8 @@ open class BarChartData: BarLineScatterCandleBubbleChartData
                 fromX += barSpaceHalf
                 fromX += barWidthHalf
                 
-                if i < set.entryCount
-                {
-                    if let entry = set.entryForIndex(i)
-                    {
-                        entry.x = fromX
-                    }
+                for entry in set.entriesForXValue(Double(i)) {
+                    entry.x = fromX
                 }
                 
                 fromX += barWidthHalf
