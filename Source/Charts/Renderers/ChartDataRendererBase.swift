@@ -15,8 +15,9 @@ import CoreGraphics
 @objc(ChartDataRendererBase)
 open class DataRenderer: Renderer
 {
-    /// An array of elements that, when populated are presented to ChartViewBase accessibility methods
-    @objc open var accessibleChartElements: [UIAccessibilityElement] = []
+    /// An array of elements that are presented to the ChartViewBase accessibility methods.
+    /// Subclasses should populate this array in drawData() or drawDataSet() to make the chart accessible.
+    @objc open var accessibleChartElements: [NSUIAccessibilityElement] = []
 
     @objc open let animator: Animator
     

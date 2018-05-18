@@ -369,22 +369,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     // MARK: - Accessibility
 
-    open override var isAccessibilityElement: Bool {
-        get { return false }
-        set { }
-    }
-
-    open override func accessibilityElementCount() -> Int {
-        return renderer?.accessibleChartElements.count ?? 0
-    }
-
-    open override func accessibilityElement(at index: Int) -> Any? {
-        return renderer?.accessibleChartElements[index]
-    }
-
-    open override func index(ofAccessibilityElement element: Any) -> Int {
-        guard let axElement: UIAccessibilityElement = element as? UIAccessibilityElement else { return -1 }
-        return renderer?.accessibleChartElements.index(of: axElement) ?? -1
+    open override func accessibilityChildren() -> [Any]? {
+        return renderer?.accessibleChartElements
     }
 
     // MARK: - Highlighting

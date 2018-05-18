@@ -148,10 +148,10 @@ open class PieChartRenderer: DataRenderer
         let description = chart.chartDescription?.text ?? dataSet.label ?? chart.centerText ??  ""
 
         let
-        element: UIAccessibilityElement = UIAccessibilityElement(accessibilityContainer: chart)
+        element = NSUIAccessibilityElement(accessibilityContainer: chart)
         element.accessibilityLabel = description + ". \(entryCount) \(prefix + (entryCount == 1 ? "" : "s"))"
-        element.accessibilityFrame = chart.convert(chart.bounds, to: UIScreen.main.fixedCoordinateSpace)
-        element.accessibilityTraits = UIAccessibilityTraitHeader
+        element.accessibilityFrame = chart.bounds
+        element.isHeader = true
         accessibleChartElements.append(element)
 
         for j in 0 ..< entryCount
@@ -268,8 +268,7 @@ open class PieChartRenderer: DataRenderer
                                                             container: chart,
                                                             dataSet: dataSet)
                     { (element) in
-                        element.accessibilityFrame = chart.convert(path.boundingBoxOfPath,
-                                                                       to: UIScreen.main.coordinateSpace)
+                        element.accessibilityFrame = path.boundingBoxOfPath
                     }
 
                     accessibleChartElements.append(axElement)
@@ -280,7 +279,7 @@ open class PieChartRenderer: DataRenderer
         }
 
         // Post this notification to let VoiceOver account for the redrawn frames
-        UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil)
+        accessibilityPostLayoutChangedNotification()
 
         context.restoreGState()
     }
@@ -710,7 +709,7 @@ open class PieChartRenderer: DataRenderer
         let userInnerRadius = drawInnerArc ? radius * chart.holeRadiusPercent : 0.0
 
         // Append highlighted accessibility slices into this array, so we can prioritize them over unselected slices
-        var highlightedAccessibleElements: [UIAccessibilityElement] = []
+        var highlightedAccessibleElements: [NSUIAccessibilityElement] = []
 
         for i in 0 ..< indices.count
         {
@@ -866,9 +865,8 @@ open class PieChartRenderer: DataRenderer
                                                     container: chart,
                                                     dataSet: set)
             { (element) in
-                element.accessibilityFrame = chart.convert(path.boundingBoxOfPath,
-                                                               to: UIScreen.main.coordinateSpace)
-                element.accessibilityTraits = UIAccessibilityTraitSelected
+                element.accessibilityFrame = path.boundingBoxOfPath
+                element.isSelected = true
             }
 
             highlightedAccessibleElements.append(axElement)
@@ -886,9 +884,9 @@ open class PieChartRenderer: DataRenderer
     private func createAccessibleElement(withIndex idx: Int,
                                          container: PieChartView,
                                          dataSet: IPieChartDataSet,
-                                         modifier: (UIAccessibilityElement) -> ()) -> UIAccessibilityElement {
+                                         modifier: (NSUIAccessibilityElement) -> ()) -> NSUIAccessibilityElement {
 
-        let element: UIAccessibilityElement = UIAccessibilityElement(accessibilityContainer: container)
+        let element = NSUIAccessibilityElement(accessibilityContainer: container)
 
         guard let e = dataSet.entryForIndex(idx) else { return element }
         guard let formatter = dataSet.valueFormatter else { return element }
