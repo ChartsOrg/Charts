@@ -112,8 +112,6 @@ open class NSUIAccessibilityElement: NSAccessibilityElement
         }
     }
 
-    // TODO: Make isSelected toggle a selected state in conjunction with a .valueChanged notification
-    /// A placeholder for parity with iOS. Has no effect.
     final var isSelected: Bool = false
     {
         didSet
@@ -161,7 +159,7 @@ open class NSUIAccessibilityElement: NSAccessibilityElement
     }
 }
 
-/// NOTE: setAccessibilityRole(.list) is called at init.
+/// NOTE: setAccessibilityRole(.list) is called at init. See Platform.swift.
 extension NSUIView: NSAccessibilityGroup
 {
     open override func accessibilityLabel() -> String?

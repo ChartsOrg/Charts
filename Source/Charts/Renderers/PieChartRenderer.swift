@@ -879,7 +879,7 @@ open class PieChartRenderer: DataRenderer
         context.restoreGState()
     }
 
-    /// Creates a UIAccessibleElement representing a slice of the PieChart.
+    /// Creates an NSUIAccessibilityElement representing a slice of the PieChart.
     /// The element only has it's container and label set based on the chart and dataSet. Use the modifier to alter traits and frame.
     private func createAccessibleElement(withIndex idx: Int,
                                          container: PieChartView,

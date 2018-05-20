@@ -15,7 +15,12 @@ import CoreGraphics
 @objc(ChartDataRendererBase)
 open class DataRenderer: Renderer
 {
-    /// An array of elements that are presented to the ChartViewBase accessibility methods.
+    /// An array of accessibility elements that are presented to the ChartViewBase accessibility methods.
+    ///
+    /// Note that the order of elements in this array determines the order in which they are presented and navigated by
+    /// Accessibility clients such as VoiceOver.
+    ///
+    /// Renderers should ensure that the order of elements makes sense to a client presenting an audio-only interface to a user.
     /// Subclasses should populate this array in drawData() or drawDataSet() to make the chart accessible.
     @objc final var accessibleChartElements: [NSUIAccessibilityElement] = []
 
