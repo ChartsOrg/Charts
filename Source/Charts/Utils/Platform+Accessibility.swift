@@ -12,6 +12,7 @@ internal func accessibilityPostScreenChangedNotification(withElement element: An
     UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, element)
 }
 
+/// A simple abstraction over UIAccessibilityElement and NSAccessibilityElement.
 open class NSUIAccessibilityElement: UIAccessibilityElement
 {
     private let containerView: UIView
@@ -100,6 +101,7 @@ internal func accessibilityPostScreenChangedNotification(withElement element: An
     // Placeholder
 }
 
+/// A simple abstraction over UIAccessibilityElement and NSAccessibilityElement.
 open class NSUIAccessibilityElement: NSAccessibilityElement
 {
     private let containerView: NSView
