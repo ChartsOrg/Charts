@@ -674,7 +674,7 @@ open class LineChartRenderer: LineRadarRenderer
                     continue
                 }
                 
-                // ---------------
+                // Accessibility element geometry
                 let scaleFactor: CGFloat = 3
                 let accessibilityRect = CGRect(x: pt.x - (scaleFactor * circleRadius),
                                                y: pt.y - (scaleFactor * circleRadius),
@@ -693,7 +693,6 @@ open class LineChartRenderer: LineRadarRenderer
 
                     accessibilityOrderedElements[i].append(element)
                 }
-                // ---------------
 
                 if !dataSet.isDrawCirclesEnabled
                 {
