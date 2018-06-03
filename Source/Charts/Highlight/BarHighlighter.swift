@@ -24,7 +24,7 @@ open class BarHighlighter: ChartHighlighter
         
         let pos = getValsForTouch(x: x, y: y)
 
-        if let set = barData.getDataSetByIndex(high.dataSetIndex) as? BarChartDataSetProtocol,
+        if let set = barData[high.dataSetIndex] as? BarChartDataSetProtocol,
             set.isStacked
         {
             return getStackedHighlight(high: high,

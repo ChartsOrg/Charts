@@ -133,7 +133,7 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
             chartView.setNeedsDisplay()
             
         case .toggleHighlight:
-            chartView.data!.highlightEnabled = !chartView.data!.isHighlightEnabled
+            chartView.data!.isHighlightEnabled = !chartView.data!.isHighlightEnabled
             chartView.setNeedsDisplay()
             
         case .animateX:

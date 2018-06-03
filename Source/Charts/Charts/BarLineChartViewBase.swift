@@ -50,6 +50,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// When enabled, the values will be clipped to contentRect, otherwise they can bleed outside the content rect.
     @objc open var clipValuesToContentEnabled: Bool = false
 
+    /// When disabled, the data and/or highlights will not be clipped to contentRect. Disabling this option can
+    /// be useful, when the data lies fully within the content rect, but is drawn in such a way (such as thick lines)
+    /// that there is unwanted clipping.
+    @objc open var clipDataToContentEnabled: Bool = true
+
     /// Sets the minimum offset (padding) around the chart, defaults to 10
     @objc open var minOffset = CGFloat(10.0)
     
@@ -218,9 +223,13 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             rightYAxisRenderer.renderLimitLines(context: context)
         }
         
-        // make sure the data cannot be drawn outside the content-rect
         context.saveGState()
-        context.clip(to: viewPortHandler.contentRect)
+
+        // make sure the data cannot be drawn outside the content-rect
+        if clipDataToContentEnabled {
+            context.clip(to: viewPortHandler.contentRect)
+        }
+
         renderer.drawData(context: context)
         
         // if highlighting is enabled
@@ -1675,18 +1684,18 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     {
         if let h = getHighlightByTouchPoint(pt)
         {
-            return data!.entryForHighlight(h)
+            return data!.entry(for: h)
         }
         return nil
     }
     
     /// - returns: The DataSet object displayed at the touched position of the chart
-    @objc open func getDataSetByTouchPoint(point pt: CGPoint) -> BarLineScatterCandleBubbleChartDataSetProtocol!
+    @objc open func getDataSetByTouchPoint(point pt: CGPoint) -> BarLineScatterCandleBubbleChartDataSetProtocol?
     {
         let h = getHighlightByTouchPoint(pt)
-        if h !== nil
+        if let h = h
         {
-            return data?.getDataSetByIndex(h!.dataSetIndex) as! BarLineScatterCandleBubbleChartDataSetProtocol
+            return data?[h.dataSetIndex] as? BarLineScatterCandleBubbleChartDataSetProtocol
         }
         return nil
     }

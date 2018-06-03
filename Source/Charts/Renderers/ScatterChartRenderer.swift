@@ -32,19 +32,16 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
     {
         guard let scatterData = dataProvider?.scatterData else { return }
         
-        for i in 0 ..< scatterData.dataSetCount
+        for i in scatterData.indices
         {
-            guard let set = scatterData.getDataSetByIndex(i) else { continue }
-            
-            if set.isVisible
+            guard let set = scatterData[i] as? ScatterChartDataSetProtocol else
             {
-                if !(set is ScatterChartDataSetProtocol)
-                {
-                    fatalError("Datasets for ScatterChartRenderer must conform to ScatterChartDataSetProtocol")
-                }
-                
-                drawDataSet(context: context, dataSet: set as! ScatterChartDataSetProtocol)
+                fatalError("Datasets for ScatterChartRenderer must conform to ScatterChartDataSetProtocol")
             }
+
+            guard set.isVisible else { continue }
+
+            drawDataSet(context: context, dataSet: set)
         }
     }
     
@@ -114,7 +111,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
             
             var pt = CGPoint()
             
-            for i in 0 ..< scatterData.dataSetCount
+            for i in scatterData.indices
             {
                 let dataSet = dataSets[i]
                 
@@ -203,7 +200,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         for high in indices
         {
             guard
-                let set = scatterData.getDataSetByIndex(high.dataSetIndex) as? ScatterChartDataSetProtocol,
+                let set = scatterData[high.dataSetIndex] as? ScatterChartDataSetProtocol,
                 set.isHighlightEnabled
                 else { continue }
             

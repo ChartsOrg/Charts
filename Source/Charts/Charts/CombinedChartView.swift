@@ -219,7 +219,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             
             guard 
                 let set = combinedData?.getDataSetByHighlight(highlight),
-                let e = data?.entryForHighlight(highlight)
+                let e = data?.entry(for: highlight)
                 else { continue }
             
             let entryIndex = set.entryIndex(entry: e)

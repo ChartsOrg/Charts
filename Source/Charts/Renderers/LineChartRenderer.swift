@@ -32,19 +32,16 @@ open class LineChartRenderer: LineRadarRenderer
     {
         guard let lineData = dataProvider?.lineData else { return }
         
-        for i in 0 ..< lineData.dataSetCount
+        for i in lineData.indices
         {
-            guard let set = lineData.getDataSetByIndex(i) else { continue }
-            
-            if set.isVisible
+            guard let set = lineData[i] as? LineChartDataSetProtocol else
             {
-                if !(set is LineChartDataSetProtocol)
-                {
-                    fatalError("Datasets for LineChartRenderer must conform to LineChartDataSetProtocol")
-                }
-                
-                drawDataSet(context: context, dataSet: set as! LineChartDataSetProtocol)
+                fatalError("Datasets for LineChartRenderer must conform to LineChartDataSetProtocol")
             }
+
+            guard set.isVisible else { continue }
+
+            drawDataSet(context: context, dataSet: set)
         }
     }
     
@@ -604,7 +601,7 @@ open class LineChartRenderer: LineRadarRenderer
         
         for i in 0 ..< dataSets.count
         {
-            guard let dataSet = lineData.getDataSetByIndex(i) as? LineChartDataSetProtocol else { continue }
+            guard let dataSet = lineData[i] as? LineChartDataSetProtocol else { continue }
             
             if !dataSet.isVisible || !dataSet.isDrawCirclesEnabled || dataSet.entryCount == 0
             {
@@ -706,7 +703,7 @@ open class LineChartRenderer: LineRadarRenderer
         
         for high in indices
         {
-            guard let set = lineData.getDataSetByIndex(high.dataSetIndex) as? LineChartDataSetProtocol
+            guard let set = lineData[high.dataSetIndex] as? LineChartDataSetProtocol
                 , set.isHighlightEnabled
                 else { continue }
             

@@ -36,7 +36,7 @@ open class LineChartDataSet: LineRadarChartDataSet, LineChartDataSetProtocol
         initialize()
     }
     
-    public override init(values: [ChartDataEntry]?, label: String?)
+    public override init(values: [ChartDataEntry], label: String)
     {
         super.init(values: values, label: label)
         initialize()
@@ -64,14 +64,10 @@ open class LineChartDataSet: LineRadarChartDataSet, LineChartDataSetProtocol
         }
         set
         {
-            _cubicIntensity = newValue
-            if _cubicIntensity > 1.0
-            {
-                _cubicIntensity = 1.0
-            }
-            if _cubicIntensity < 0.05
-            {
-                _cubicIntensity = 0.05
+            switch newValue {
+            case ..<0.05: _cubicIntensity = 0.05
+            case 1.0...: _cubicIntensity = 1.0
+            default: _cubicIntensity = newValue
             }
         }
     }

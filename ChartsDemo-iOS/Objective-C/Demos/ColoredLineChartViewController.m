@@ -44,7 +44,7 @@
 
 - (void)setupChart:(LineChartView *)chart data:(LineChartData *)data color:(UIColor *)color
 {
-    [(LineChartDataSet *)[data getDataSetByIndex:0] setCircleHoleColor:color];
+    [(LineChartDataSet *)[data dataSetAtIndex:0] setCircleHoleColor:color];
 
     chart.delegate = self;
     chart.backgroundColor = color;
