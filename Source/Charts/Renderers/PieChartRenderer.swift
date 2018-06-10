@@ -272,7 +272,8 @@ open class PieChartRenderer: DataRenderer
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
         
-        var labelRadiusOffset = radius / 10.0 * 3.0
+        // get labelRadiusOffset based on valueLabelOffset
+        var labelRadiusOffset = radius * chart.valueLabelOffset
         
         if chart.drawHoleEnabled
         {

@@ -71,7 +71,12 @@ open class PieChartView: PieRadarChartViewBase
     
     /// maximum angle for this pie
     private var _maxAngle: CGFloat = 360.0
-
+    
+    /// Extra offset multiplier of value label in the radius to move data label outside the chart
+    /// The offset value that is used for shifting the data label outside of the center of chart.
+    /// **default**: 0.3
+    public var valueLabelOffset: CGFloat = 0.3
+    
     public override init(frame: CGRect)
     {
         super.init(frame: frame)
@@ -294,7 +299,7 @@ open class PieChartView: PieRadarChartViewBase
         
         return -1
     }
-    
+
     /// - returns: An integer array of all the different angles the chart slices
     /// have the angles in the returned array determine how much space (of 360°)
     /// each slice takes
@@ -532,7 +537,7 @@ open class PieChartView: PieRadarChartViewBase
             setNeedsDisplay()
         }
     }
-        
+    
     /// The color the entry labels are drawn with.
     @objc open var entryLabelColor: NSUIColor?
     {
