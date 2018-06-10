@@ -160,8 +160,8 @@
     
     if ([key isEqualToString:@"toggleLabelsMinimumAngle"])
     {
-        CGFloat newMinimum = _chartView.drawSliceTextMinimumAngle == 20.0 ? 0.0 : 20.0;
-        _chartView.drawSliceTextMinimumAngle = newMinimum;
+        CGFloat newMinimum = _chartView.sliceTextDrawingThreshold == 20.0 ? 0.0 : 20.0;
+        _chartView.sliceTextDrawingThreshold = newMinimum;
     }
 
     if ([key isEqualToString:@"drawCenter"])
