@@ -80,6 +80,17 @@ open class LineChartRenderer: LineRadarRenderer
         
         context.restoreGState()
     }
+
+    private func drawLine(
+        context: CGContext,
+        spline: CGMutablePath,
+        drawingColor: NSUIColor)
+    {
+        context.beginPath()
+        context.addPath(spline)
+        context.setStrokeColor(drawingColor.cgColor)
+        context.strokePath()
+    }
     
     @objc open func drawCubicBezier(context: CGContext, dataSet: LineChartDataSetProtocol)
     {
@@ -158,7 +169,8 @@ open class LineChartRenderer: LineRadarRenderer
         }
         
         context.saveGState()
-        
+        defer { context.restoreGState() }
+
         if dataSet.isDrawFilledEnabled
         {
             // Copy this path because we make changes to it
@@ -166,13 +178,15 @@ open class LineChartRenderer: LineRadarRenderer
             
             drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, bounds: _xBounds)
         }
-        
-        context.beginPath()
-        context.addPath(cubicPath)
-        context.setStrokeColor(drawingColor.cgColor)
-        context.strokePath()
-        
-        context.restoreGState()
+
+        if dataSet.isDrawLineWithGradientEnabled
+        {
+            drawGradientLine(context: context, dataSet: dataSet, spline: cubicPath, matrix: valueToPixelMatrix)
+        }
+        else
+        {
+            drawLine(context: context, spline: cubicPath, drawingColor: drawingColor)
+        }
     }
     
     @objc open func drawHorizontalBezier(context: CGContext, dataSet: LineChartDataSetProtocol)
@@ -225,6 +239,7 @@ open class LineChartRenderer: LineRadarRenderer
         }
         
         context.saveGState()
+        defer { context.restoreGState() }
         
         if dataSet.isDrawFilledEnabled
         {
@@ -233,21 +248,23 @@ open class LineChartRenderer: LineRadarRenderer
             
             drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, bounds: _xBounds)
         }
-        
-        context.beginPath()
-        context.addPath(cubicPath)
-        context.setStrokeColor(drawingColor.cgColor)
-        context.strokePath()
-        
-        context.restoreGState()
+
+        if dataSet.isDrawLineWithGradientEnabled
+        {
+            drawGradientLine(context: context, dataSet: dataSet, spline: cubicPath, matrix: valueToPixelMatrix)
+        }
+        else
+        {
+            drawLine(context: context, spline: cubicPath, drawingColor: drawingColor)
+        }
     }
     
     open func drawCubicFill(
         context: CGContext,
-                dataSet: LineChartDataSetProtocol,
-                spline: CGMutablePath,
-                matrix: CGAffineTransform,
-                bounds: XBounds)
+        dataSet: LineChartDataSetProtocol,
+        spline: CGMutablePath,
+        matrix: CGAffineTransform,
+        bounds: XBounds)
     {
         guard
             let dataProvider = dataProvider
@@ -304,11 +321,12 @@ open class LineChartRenderer: LineRadarRenderer
         }
         
         context.saveGState()
-        
+        defer { context.restoreGState() }
+
         context.setLineCap(dataSet.lineCapType)
 
         // more than 1 color
-        if dataSet.colors.count > 1
+        if dataSet.colors.count > 1, !dataSet.isDrawLineWithGradientEnabled
         {
             if _lineSegments.count != pointsPerEntryPair
             {
@@ -371,62 +389,64 @@ open class LineChartRenderer: LineRadarRenderer
         }
         else
         { // only one color per dataset
-            
-            var e1: ChartDataEntry!
-            var e2: ChartDataEntry!
-            
-            e1 = dataSet.entryForIndex(_xBounds.min)
-            
-            if e1 != nil
+            guard dataSet.entryForIndex(_xBounds.min) != nil else {
+                return
+            }
+
+            var firstPoint = true
+
+            let path = CGMutablePath()
+            for x in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
             {
-                context.beginPath()
-                var firstPoint = true
+                guard let e1 = dataSet.entryForIndex(x == 0 ? 0 : (x - 1)) else { continue }
+                guard let e2 = dataSet.entryForIndex(x) else { continue }
                 
-                for x in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
-                {
-                    e1 = dataSet.entryForIndex(x == 0 ? 0 : (x - 1))
-                    e2 = dataSet.entryForIndex(x)
-                    
-                    if e1 == nil || e2 == nil { continue }
-                    
-                    let pt = CGPoint(
+                let startPoint =
+                    CGPoint(
                         x: CGFloat(e1.x),
-                        y: CGFloat(e1.y * phaseY)
-                        ).applying(valueToPixelMatrix)
-                    
-                    if firstPoint
-                    {
-                        context.move(to: pt)
-                        firstPoint = false
-                    }
-                    else
-                    {
-                        context.addLine(to: pt)
-                    }
-                    
-                    if isDrawSteppedEnabled
-                    {
-                        context.addLine(to: CGPoint(
-                            x: CGFloat(e2.x),
-                            y: CGFloat(e1.y * phaseY)
-                            ).applying(valueToPixelMatrix))
-                    }
-                    
-                    context.addLine(to: CGPoint(
-                            x: CGFloat(e2.x),
-                            y: CGFloat(e2.y * phaseY)
-                        ).applying(valueToPixelMatrix))
+                        y: CGFloat(e1.y * phaseY))
+                    .applying(valueToPixelMatrix)
+                
+                if firstPoint
+                {
+                    path.move(to: startPoint)
+                    firstPoint = false
+                }
+                else
+                {
+                    path.addLine(to: startPoint)
                 }
                 
-                if !firstPoint
+                if isDrawSteppedEnabled
                 {
+                    let steppedPoint =
+                        CGPoint(
+                            x: CGFloat(e2.x),
+                            y: CGFloat(e1.y * phaseY))
+                        .applying(valueToPixelMatrix)
+                    path.addLine(to: steppedPoint)
+                }
+
+                let endPoint =
+                    CGPoint(
+                        x: CGFloat(e2.x),
+                        y: CGFloat(e2.y * phaseY))
+                    .applying(valueToPixelMatrix)
+                path.addLine(to: endPoint)
+            }
+            
+            if !firstPoint
+            {
+                if dataSet.isDrawLineWithGradientEnabled {
+                    drawGradientLine(context: context, dataSet: dataSet, spline: path, matrix: valueToPixelMatrix)
+                } else {
+                    context.beginPath()
+                    context.addPath(path)
                     context.setStrokeColor(dataSet.color(atIndex: 0).cgColor)
                     context.strokePath()
                 }
             }
         }
-        
-        context.restoreGState()
     }
     
     open func drawLinearFill(context: CGContext, dataSet: LineChartDataSetProtocol, trans: Transformer, bounds: XBounds)
@@ -674,7 +694,7 @@ open class LineChartRenderer: LineRadarRenderer
                     if drawCircleHole
                     {
                         context.setFillColor(dataSet.circleHoleColor!.cgColor)
-                     
+
                         // The hole rect
                         rect.origin.x = pt.x - circleHoleRadius
                         rect.origin.y = pt.y - circleHoleRadius
@@ -713,7 +733,7 @@ open class LineChartRenderer: LineRadarRenderer
             {
                 continue
             }
-        
+
             context.setStrokeColor(set.highlightColor.cgColor)
             context.setLineWidth(set.highlightLineWidth)
             if set.highlightLineDashLengths != nil
@@ -744,5 +764,74 @@ open class LineChartRenderer: LineRadarRenderer
         }
         
         context.restoreGState()
+    }
+
+    func drawGradientLine(context: CGContext, dataSet: LineChartDataSetProtocol, spline: CGPath, matrix: CGAffineTransform)
+    {
+        guard let gradientPositions = dataSet.gradientPositions else
+        {
+            assertionFailure("Must set `gradientPositions if `dataSet.isDrawLineWithGradientEnabled` is true")
+            return
+        }
+
+        // `insetBy` is applied since bounding box
+        // doesn't take into account line width
+        // so that peaks are trimmed since
+        // gradient start and gradient end calculated wrong
+        let boundingBox = spline.boundingBox
+            .insetBy(dx: -dataSet.lineWidth / 2, dy: -dataSet.lineWidth / 2)
+
+        guard !boundingBox.isNull, !boundingBox.isInfinite, !boundingBox.isEmpty else {
+            return
+        }
+
+        let gradientStart = CGPoint(x: 0, y: boundingBox.minY)
+        let gradientEnd = CGPoint(x: 0, y: boundingBox.maxY)
+        var gradientColorComponents: [CGFloat] = []
+        var gradientLocations: [CGFloat] = []
+
+        for position in gradientPositions.reversed()
+        {
+            let location = CGPoint(x: boundingBox.minX, y: position)
+                .applying(matrix)
+            let normalizedLocation =
+                (location.y - boundingBox.minY) / (boundingBox.maxY - boundingBox.minY)
+            switch normalizedLocation {
+            case ..<0:
+                gradientLocations.append(0)
+            case 0..<1:
+                gradientLocations.append(normalizedLocation)
+            case 1...:
+                gradientLocations.append(1)
+            default:
+                assertionFailure()
+            }
+        }
+
+        for color in dataSet.colors.reversed()
+        {
+            guard let (r, g, b, a) = color.nsuirgba else {
+                continue
+            }
+            gradientColorComponents += [r, g, b, a]
+        }
+
+        let baseColorSpace = CGColorSpaceCreateDeviceRGB()
+        guard let gradient = CGGradient(
+            colorSpace: baseColorSpace,
+            colorComponents: &gradientColorComponents,
+            locations: &gradientLocations,
+            count: gradientLocations.count) else {
+            return
+        }
+
+        context.saveGState()
+        defer { context.restoreGState() }
+
+        context.beginPath()
+        context.addPath(spline)
+        context.replacePathWithStrokedPath()
+        context.clip()
+        context.drawLinearGradient(gradient, start: gradientStart, end: gradientEnd, options: [])
     }
 }
