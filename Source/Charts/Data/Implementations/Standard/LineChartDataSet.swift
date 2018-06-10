@@ -64,11 +64,7 @@ open class LineChartDataSet: LineRadarChartDataSet, LineChartDataSetProtocol
         }
         set
         {
-            switch newValue {
-            case ..<0.05: _cubicIntensity = 0.05
-            case 1.0...: _cubicIntensity = 1.0
-            default: _cubicIntensity = newValue
-            }
+            _cubicIntensity = newValue.clamped(to: 0.05...1)
         }
     }
 

@@ -1,5 +1,67 @@
 # Change Log
 
+## [v3.1.1](https://github.com/danielgindi/Charts/tree/v3.1.1) (2018-04-02)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/v3.1.0...v3.1.1)
+
+**Fixed bugs:**
+
+- ChartsDemo-Swift crashes [\#3327](https://github.com/danielgindi/Charts/issues/3327)
+
+**Closed issues:**
+
+- Why does yVals start with a negative number when the data is empty? [\#3374](https://github.com/danielgindi/Charts/issues/3374)
+- Compile Error [\#3372](https://github.com/danielgindi/Charts/issues/3372)
+- Y Axis need to add Time slots for current day [\#3368](https://github.com/danielgindi/Charts/issues/3368)
+- inconsistent include of UIKit vs AppKit [\#3362](https://github.com/danielgindi/Charts/issues/3362)
+- Crash Issue in BarChartData [\#3361](https://github.com/danielgindi/Charts/issues/3361)
+- How can we format the LABEL used for values? [\#3354](https://github.com/danielgindi/Charts/issues/3354)
+- Remove value labels padding [\#3350](https://github.com/danielgindi/Charts/issues/3350)
+- Does Charts support real-time drawing [\#3344](https://github.com/danielgindi/Charts/issues/3344)
+- Constant for Bar width and space [\#3343](https://github.com/danielgindi/Charts/issues/3343)
+- Bar Graph groupBars function issue [\#1966](https://github.com/danielgindi/Charts/issues/1966)
+- bar chart from dates [\#1963](https://github.com/danielgindi/Charts/issues/1963)
+- A crash of CombinedChartView,when touch on the chart view\(chas\) [\#1957](https://github.com/danielgindi/Charts/issues/1957)
+- Graph doesn't display on older iPads [\#1954](https://github.com/danielgindi/Charts/issues/1954)
+- Regarding deprecated xValues [\#1947](https://github.com/danielgindi/Charts/issues/1947)
+- Charts being overlaid inside UICollectionView using dequeueReusableCell [\#1943](https://github.com/danielgindi/Charts/issues/1943)
+- We are unable to split the label in two lines. [\#1941](https://github.com/danielgindi/Charts/issues/1941)
+- Make releases so they follow the Semantic Versioning \(SemVer\) [\#1930](https://github.com/danielgindi/Charts/issues/1930)
+- Marker Position [\#1876](https://github.com/danielgindi/Charts/issues/1876)
+- Charts 3.0 unable to draw discontinuous line chart [\#1866](https://github.com/danielgindi/Charts/issues/1866)
+- Radar charts custom labels [\#1840](https://github.com/danielgindi/Charts/issues/1840)
+- Unable to subclass [\#1838](https://github.com/danielgindi/Charts/issues/1838)
+- offset goes wrong when using mutiple bar chart in combined chart [\#1813](https://github.com/danielgindi/Charts/issues/1813)
+- Histogram Example? [\#1792](https://github.com/danielgindi/Charts/issues/1792)
+- Sunburst Chart [\#1715](https://github.com/danielgindi/Charts/issues/1715)
+- Line chart with preview [\#1520](https://github.com/danielgindi/Charts/issues/1520)
+- Get scroll position of dragable line chart [\#1272](https://github.com/danielgindi/Charts/issues/1272)
+- Trend line in scatter chart? [\#1263](https://github.com/danielgindi/Charts/issues/1263)
+- Can we use custom image instead of Circle in line chart? [\#1206](https://github.com/danielgindi/Charts/issues/1206)
+- Legend with NSAttributedString and multiple lines on Vertical [\#1193](https://github.com/danielgindi/Charts/issues/1193)
+- Trim the legend view  [\#1192](https://github.com/danielgindi/Charts/issues/1192)
+- Chart auto min/max does not take into account second line [\#1136](https://github.com/danielgindi/Charts/issues/1136)
+- Add different colorHoleColor for different datapoints in a LineChart iOS Charts [\#1104](https://github.com/danielgindi/Charts/issues/1104)
+- How to remove marker programatically [\#1097](https://github.com/danielgindi/Charts/issues/1097)
+- Overlapping issues in x and y axis values [\#1048](https://github.com/danielgindi/Charts/issues/1048)
+- Enhancement: Horizontal Combined Chart [\#1041](https://github.com/danielgindi/Charts/issues/1041)
+- Enhancement: Linked x-axis or stacked y-axis. [\#1022](https://github.com/danielgindi/Charts/issues/1022)
+- Scale or zoom to particular axis or point in Combined chart view [\#993](https://github.com/danielgindi/Charts/issues/993)
+- Max Value Y - Axis = 1  , How to set Y-Axis increment Y- Value ? [\#989](https://github.com/danielgindi/Charts/issues/989)
+- Stacked bar chart valueColors [\#945](https://github.com/danielgindi/Charts/issues/945)
+- Drawing value for the WholeStack only [\#926](https://github.com/danielgindi/Charts/issues/926)
+- Pie chart Y values overlap [\#779](https://github.com/danielgindi/Charts/issues/779)
+- Swift Package Manager [\#753](https://github.com/danielgindi/Charts/issues/753)
+- Stacked bar chart with different number of rects [\#744](https://github.com/danielgindi/Charts/issues/744)
+- The label value position with the same yAxis and different value. [\#724](https://github.com/danielgindi/Charts/issues/724)
+- Minimum / maximum scale causes the chart to slide sideways when trying to pinch zoom further [\#437](https://github.com/danielgindi/Charts/issues/437)
+- Top and bottom grid line diverging widths [\#411](https://github.com/danielgindi/Charts/issues/411)
+
+**Merged pull requests:**
+
+- Swift 4.1 [\#3370](https://github.com/danielgindi/Charts/pull/3370) ([jjatie](https://github.com/jjatie))
+- Update ILineRadarChartDataSet.swift [\#3366](https://github.com/danielgindi/Charts/pull/3366) ([Ewg777](https://github.com/Ewg777))
+- Add option to disable clipping data to contentRect [\#3360](https://github.com/danielgindi/Charts/pull/3360) ([wtmoose](https://github.com/wtmoose))
+
 ## [v3.1.0](https://github.com/danielgindi/Charts/tree/v3.1.0) (2018-03-22)
 [Full Changelog](https://github.com/danielgindi/Charts/compare/v3.0.5...v3.1.0)
 

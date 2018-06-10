@@ -62,17 +62,13 @@ open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, CandleChartDa
     /// **default**: 0.1 (10%), max 0.45, min 0.0
     open var barSpace: CGFloat
     {
-        set
-        {
-            switch newValue {
-            case ..<0: _barSpace = 0.0
-            case 0.45...: _barSpace = 0.45
-            default: _barSpace = newValue
-            }
-        }
         get
         {
             return _barSpace
+        }
+        set
+        {
+            _barSpace = newValue.clamped(to: 0...0.45)
         }
     }
     

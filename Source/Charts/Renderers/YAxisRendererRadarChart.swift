@@ -174,6 +174,9 @@ open class YAxisRendererRadarChart: YAxisRenderer
         
         let from = axis.isDrawBottomYLabelEntryEnabled ? 0 : 1
         let to = axis.isDrawTopYLabelEntryEnabled ? axis.entryCount : (axis.entryCount - 1)
+
+        let alignment = axis.labelAlignment
+        let xOffset = axis.labelXOffset
         
         for j in stride(from: from, to: to, by: 1)
         {
@@ -184,8 +187,8 @@ open class YAxisRendererRadarChart: YAxisRenderer
             let label = axis.getFormattedLabel(j)
             
             context.drawText(label,
-                             at: CGPoint(x: p.x + 10.0, y: p.y - labelLineHeight),
-                             align: .left,
+                             at: CGPoint(x: p.x + xOffset, y: p.y - labelLineHeight),
+                             align: alignment,
                              attributes: [.font: labelFont,
                                           .foregroundColor: labelTextColor])
         }
