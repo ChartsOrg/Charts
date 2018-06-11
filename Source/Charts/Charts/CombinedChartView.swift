@@ -160,11 +160,11 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         }
     }
     
-    // MARK: - Accessors
+    // MARK: - BarChartDataProvider
     
     /// if set to true, all values are drawn above their bars, instead of below their top
     @objc open var drawValueAboveBarEnabled: Bool
-        {
+    {
         get { return (renderer as! CombinedChartRenderer).drawValueAboveBarEnabled }
         set { (renderer as! CombinedChartRenderer).drawValueAboveBarEnabled = newValue }
     }
@@ -175,13 +175,31 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         get { return (renderer as! CombinedChartRenderer).drawBarShadowEnabled }
         set { (renderer as! CombinedChartRenderer).drawBarShadowEnabled = newValue }
     }
+
+    @objc open var drawRoundedBarsEnabled: Bool
+    {
+        get { return (renderer as! CombinedChartRenderer).drawRoundedBarsEnabled }
+        set { (renderer as! CombinedChartRenderer).drawRoundedBarsEnabled = newValue }
+    }
     
     /// - returns: `true` if drawing values above bars is enabled, `false` ifnot
-    open var isDrawValueAboveBarEnabled: Bool { return (renderer as! CombinedChartRenderer).drawValueAboveBarEnabled }
+    open var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled }
     
     /// - returns: `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
-    open var isDrawBarShadowEnabled: Bool { return (renderer as! CombinedChartRenderer).drawBarShadowEnabled }
-    
+    open var isDrawBarShadowEnabled: Bool { return drawBarShadowEnabled }
+
+    /// Set this to `true` to make the highlight operation full-bar oriented, `false` to make it highlight single values
+    @objc open var highlightFullBarEnabled: Bool = false
+
+    /// - returns: `true` the highlight is be full-bar oriented, `false` ifsingle-value
+    open var isHighlightFullBarEnabled: Bool { return highlightFullBarEnabled }
+
+    /// - returns: `true` if drawing each bar as rounded is enabled, `false` if not
+    open var isDrawRoundedBarsEnabled: Bool { return drawRoundedBarsEnabled }
+
+
+    // MARK: CombinedChartViewRenderer
+
     /// the order in which the provided data objects should be drawn.
     /// The earlier you place them in the provided array, the further they will be in the background. 
     /// e.g. if you provide [DrawOrder.Bar, DrawOrder.Line], the bars will be drawn behind the lines.
@@ -196,12 +214,6 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             (renderer as! CombinedChartRenderer).drawOrder = newValue.map { DrawOrder(rawValue: $0)! }
         }
     }
-    
-    /// Set this to `true` to make the highlight operation full-bar oriented, `false` to make it highlight single values
-    @objc open var highlightFullBarEnabled: Bool = false
-    
-    /// - returns: `true` the highlight is be full-bar oriented, `false` ifsingle-value
-    open var isHighlightFullBarEnabled: Bool { return highlightFullBarEnabled }
     
     // MARK: - ChartViewBase
     
