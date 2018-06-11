@@ -197,7 +197,6 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     /// - returns: `true` if drawing each bar as rounded is enabled, `false` if not
     open var isDrawRoundedBarsEnabled: Bool { return drawRoundedBarsEnabled }
 
-
     // MARK: CombinedChartViewRenderer
 
     /// the order in which the provided data objects should be drawn.
