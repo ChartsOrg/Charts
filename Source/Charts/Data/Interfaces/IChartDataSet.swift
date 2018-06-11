@@ -173,7 +173,7 @@ public protocol IChartDataSet
     /// - returns: The color at the given index of the DataSet's color array.
     /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
     func color(atIndex: Int) -> NSUIColor
-    
+  
     func resetColors()
     
     func addColor(_ color: NSUIColor)

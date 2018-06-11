@@ -61,8 +61,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
         _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
         
         context.saveGState()
-        
-        context.setLineWidth(dataSet.shadowWidth)
+      
         
         for j in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
         {
@@ -134,8 +133,9 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 }
                 
                 context.setStrokeColor(shadowColor.cgColor)
+                context.setLineWidth(dataSet.shadowWidth)
                 context.strokeLineSegments(between: _shadowPoints)
-                
+                context.setLineWidth(1)
                 // calculate the body
                 
                 _bodyRect.origin.x = CGFloat(xPos) - 0.5 + barSpace
@@ -180,7 +180,8 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 else
                 {
                     let color = dataSet.neutralColor ?? dataSet.color(atIndex: j)
-                    
+                  
+                  
                     context.setStrokeColor(color.cgColor)
                     context.stroke(_bodyRect)
                 }

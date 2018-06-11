@@ -31,12 +31,17 @@ public protocol IBarChartDataSet: IBarLineScatterCandleBubbleChartDataSet
     /// the width used for drawing borders around the bars. If borderWidth == 0, no border will be drawn.
     var barBorderWidth : CGFloat { get set }
 
-    /// the color drawing borders around the bars.
-    var barBorderColor: NSUIColor { get set }
+    /// All the bar border colors that are used for this DataSet.
+    /// Colors are reused as soon as the number of Entries the DataSet represents is higher than the size of the colors array.
+    var barBorderColors: [NSUIColor] { get set }
 
     /// the alpha value (transparency) that is used for drawing the highlight indicator bar. min = 0.0 (fully transparent), max = 1.0 (fully opaque)
     var highlightAlpha: CGFloat { get set }
     
     /// array of labels used to describe the different values of the stacked bars
     var stackLabels: [String] { get set }
+  
+    /// - returns: The color at the given index of the DataSet's color array.
+    /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
+    func barBorderColor(atIndex: Int) -> NSUIColor
 }
