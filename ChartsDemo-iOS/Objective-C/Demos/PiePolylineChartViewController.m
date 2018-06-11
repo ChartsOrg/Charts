@@ -31,6 +31,7 @@
                      @{@"key": @"toggleXValues", @"label": @"Toggle X-Values"},
                      @{@"key": @"togglePercent", @"label": @"Toggle Percent"},
                      @{@"key": @"toggleHole", @"label": @"Toggle Hole"},
+                     @{@"key": @"toggleLabelsMinimumAngle", @"label": @"Toggle Labels Minimum Angle"},
                      @{@"key": @"animateX", @"label": @"Animate X"},
                      @{@"key": @"animateY", @"label": @"Animate Y"},
                      @{@"key": @"animateXY", @"label": @"Animate XY"},
@@ -144,6 +145,12 @@
         return;
     }
     
+    if ([key isEqualToString:@"toggleLabelsMinimumAngle"])
+    {
+        CGFloat newMinimum = _chartView.sliceTextDrawingThreshold == 20.0 ? 0.0 : 20.0;
+        _chartView.sliceTextDrawingThreshold = newMinimum;
+    }
+
     if ([key isEqualToString:@"drawCenter"])
     {
         _chartView.drawCenterTextEnabled = !_chartView.isDrawCenterTextEnabled;

@@ -635,4 +635,12 @@ open class PieChartView: PieRadarChartViewBase
             }
         }
     }
+    
+    /// smallest pie slice angle that will have a label drawn in degrees, 0 by default
+    @objc open var sliceTextDrawingThreshold: CGFloat = 0.0
+    {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
 }
