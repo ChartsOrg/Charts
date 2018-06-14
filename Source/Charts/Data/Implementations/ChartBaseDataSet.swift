@@ -270,7 +270,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     open var isHighlightEnabled: Bool { return highlightEnabled }
     
     /// Custom formatter that is used instead of the auto-formatter if set
-    @objc internal var _valueFormatter: IValueFormatter?
+    internal var _valueFormatter: IValueFormatter?
     
     /// Custom formatter that is used instead of the auto-formatter if set
     open var valueFormatter: IValueFormatter?
@@ -422,5 +422,3 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
         return copy
     }
 }
-
-

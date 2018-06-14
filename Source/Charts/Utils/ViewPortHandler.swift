@@ -17,47 +17,43 @@ import CoreGraphics
 open class ViewPortHandler: NSObject
 {
     /// matrix used for touch events
-    fileprivate var _touchMatrix = CGAffineTransform.identity
+    private var _touchMatrix = CGAffineTransform.identity
     
     /// this rectangle defines the area in which graph values can be drawn
-    fileprivate var _contentRect = CGRect()
+    private var _contentRect = CGRect()
     
-    fileprivate var _chartWidth = CGFloat(0.0)
-    fileprivate var _chartHeight = CGFloat(0.0)
+    private var _chartWidth = CGFloat(0.0)
+    private var _chartHeight = CGFloat(0.0)
     
     /// minimum scale value on the y-axis
-    fileprivate var _minScaleY = CGFloat(1.0)
+    private var _minScaleY = CGFloat(1.0)
     
     /// maximum scale value on the y-axis
-    fileprivate var _maxScaleY = CGFloat.greatestFiniteMagnitude
+    private var _maxScaleY = CGFloat.greatestFiniteMagnitude
     
     /// minimum scale value on the x-axis
-    fileprivate var _minScaleX = CGFloat(1.0)
+    private var _minScaleX = CGFloat(1.0)
     
     /// maximum scale value on the x-axis
-    fileprivate var _maxScaleX = CGFloat.greatestFiniteMagnitude
+    private var _maxScaleX = CGFloat.greatestFiniteMagnitude
     
     /// contains the current scale factor of the x-axis
-    fileprivate var _scaleX = CGFloat(1.0)
+    private var _scaleX = CGFloat(1.0)
     
     /// contains the current scale factor of the y-axis
-    fileprivate var _scaleY = CGFloat(1.0)
+    private var _scaleY = CGFloat(1.0)
     
     /// current translation (drag distance) on the x-axis
-    fileprivate var _transX = CGFloat(0.0)
+    private var _transX = CGFloat(0.0)
     
     /// current translation (drag distance) on the y-axis
-    fileprivate var _transY = CGFloat(0.0)
+    private var _transY = CGFloat(0.0)
     
     /// offset that allows the chart to be dragged over its bounds on the x-axis
-    fileprivate var _transOffsetX = CGFloat(0.0)
+    private var _transOffsetX = CGFloat(0.0)
     
     /// offset that allows the chart to be dragged over its bounds on the x-axis
-    fileprivate var _transOffsetY = CGFloat(0.0)
-    
-    public override init()
-    {
-    }
+    private var _transOffsetY = CGFloat(0.0)
     
     /// Constructor - don't forget calling setChartDimens(...)
     @objc public init(width: CGFloat, height: CGFloat)
@@ -255,12 +251,11 @@ open class ViewPortHandler: NSObject
         let translateY = pt.y - offsetTop
         
         let matrix = _touchMatrix.concatenating(CGAffineTransform(translationX: -translateX, y: -translateY))
-        
-        let _ = refresh(newMatrix: matrix, chart: chart, invalidate: true)
+        refresh(newMatrix: matrix, chart: chart, invalidate: true)
     }
     
     /// call this method to refresh the graph with a given matrix
-    @objc open func refresh(newMatrix: CGAffineTransform, chart: ChartViewBase, invalidate: Bool) -> CGAffineTransform
+    @objc @discardableResult open func refresh(newMatrix: CGAffineTransform, chart: ChartViewBase, invalidate: Bool) -> CGAffineTransform
     {
         _touchMatrix = newMatrix
         
@@ -273,7 +268,7 @@ open class ViewPortHandler: NSObject
     }
     
     /// limits the maximum scale and X translation of the given matrix
-    fileprivate func limitTransAndScale(matrix: inout CGAffineTransform, content: CGRect?)
+    private func limitTransAndScale(matrix: inout CGAffineTransform, content: CGRect?)
     {
         // min scale-x is 1
         _scaleX = min(max(_minScaleX, matrix.a), _maxScaleX)
@@ -337,7 +332,7 @@ open class ViewPortHandler: NSObject
     @objc open func setMinMaxScaleX(minScaleX: CGFloat, maxScaleX: CGFloat)
     {
         var newMin = minScaleX
-        var newMax = minScaleY
+        var newMax = maxScaleX
         
         if newMin < 1.0
         {

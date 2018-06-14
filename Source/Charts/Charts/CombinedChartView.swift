@@ -16,7 +16,7 @@ import CoreGraphics
 open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
 {
     /// the fill-formatter used for determining the position of the fill-line
-    @objc internal var _fillFormatter: IFillFormatter!
+    internal var _fillFormatter: IFillFormatter!
     
     /// enum that allows to specify the order in which the different data objects for the combined-chart are drawn
     @objc(CombinedChartDrawOrder)
@@ -55,7 +55,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             
             self.highlighter = CombinedHighlighter(chart: self, barDataProvider: self)
             
-            (renderer as! CombinedChartRenderer?)!.createRenderers()
+            (renderer as? CombinedChartRenderer)?.createRenderers()
             renderer?.initBuffers()
         }
     }
@@ -116,11 +116,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     {
         get
         {
-            if _data === nil
-            {
-                return nil
-            }
-            return (_data as! CombinedChartData!).lineData
+            return combinedData?.lineData
         }
     }
     
@@ -130,11 +126,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     {
         get
         {
-            if _data === nil
-            {
-                return nil
-            }
-            return (_data as! CombinedChartData!).barData
+            return combinedData?.barData
         }
     }
     
@@ -144,11 +136,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     {
         get
         {
-            if _data === nil
-            {
-                return nil
-            }
-            return (_data as! CombinedChartData!).scatterData
+            return combinedData?.scatterData
         }
     }
     
@@ -158,11 +146,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     {
         get
         {
-            if _data === nil
-            {
-                return nil
-            }
-            return (_data as! CombinedChartData!).candleData
+            return combinedData?.candleData
         }
     }
     
@@ -172,11 +156,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     {
         get
         {
-            if _data === nil
-            {
-                return nil
-            }
-            return (_data as! CombinedChartData!).bubbleData
+            return combinedData?.bubbleData
         }
     }
     
@@ -185,22 +165,22 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     /// if set to true, all values are drawn above their bars, instead of below their top
     @objc open var drawValueAboveBarEnabled: Bool
         {
-        get { return (renderer as! CombinedChartRenderer!).drawValueAboveBarEnabled }
-        set { (renderer as! CombinedChartRenderer!).drawValueAboveBarEnabled = newValue }
+        get { return (renderer as! CombinedChartRenderer).drawValueAboveBarEnabled }
+        set { (renderer as! CombinedChartRenderer).drawValueAboveBarEnabled = newValue }
     }
     
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     @objc open var drawBarShadowEnabled: Bool
     {
-        get { return (renderer as! CombinedChartRenderer!).drawBarShadowEnabled }
-        set { (renderer as! CombinedChartRenderer!).drawBarShadowEnabled = newValue }
+        get { return (renderer as! CombinedChartRenderer).drawBarShadowEnabled }
+        set { (renderer as! CombinedChartRenderer).drawBarShadowEnabled = newValue }
     }
     
     /// - returns: `true` if drawing values above bars is enabled, `false` ifnot
-    open var isDrawValueAboveBarEnabled: Bool { return (renderer as! CombinedChartRenderer!).drawValueAboveBarEnabled }
+    open var isDrawValueAboveBarEnabled: Bool { return (renderer as! CombinedChartRenderer).drawValueAboveBarEnabled }
     
     /// - returns: `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
-    open var isDrawBarShadowEnabled: Bool { return (renderer as! CombinedChartRenderer!).drawBarShadowEnabled }
+    open var isDrawBarShadowEnabled: Bool { return (renderer as! CombinedChartRenderer).drawBarShadowEnabled }
     
     /// the order in which the provided data objects should be drawn.
     /// The earlier you place them in the provided array, the further they will be in the background. 
@@ -209,11 +189,11 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     {
         get
         {
-            return (renderer as! CombinedChartRenderer!).drawOrder.map { $0.rawValue }
+            return (renderer as! CombinedChartRenderer).drawOrder.map { $0.rawValue }
         }
         set
         {
-            (renderer as! CombinedChartRenderer!).drawOrder = newValue.map { DrawOrder(rawValue: $0)! }
+            (renderer as! CombinedChartRenderer).drawOrder = newValue.map { DrawOrder(rawValue: $0)! }
         }
     }
     
