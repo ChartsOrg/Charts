@@ -311,7 +311,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             
             if dataProvider.isDrawRoundedBarsEnabled {
                 var roundedRect = barRect
-                roundedRect.size.height = roundedRect.size.height - 10
+                let rectHeight = roundedRect.size.height
+                roundedRect.size.height = rectHeight >= 10 ? rectHeight - 10 : rectHeight
                 UIBezierPath(roundedRect: roundedRect, cornerRadius: floor(barRect.size.width / 2)).fill()
             } else {
                 context.fill(barRect)
@@ -324,7 +325,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
                 if dataProvider.isDrawRoundedBarsEnabled {
                     var roundedRect = barRect
-                    roundedRect.size.height = roundedRect.size.height - 10
+                    let rectHeight = roundedRect.size.height
+                    roundedRect.size.height = rectHeight >= 10 ? rectHeight - 10 : rectHeight
                     UIBezierPath(roundedRect: roundedRect, cornerRadius: floor(barRect.size.width / 2)).fill()
                 } else {
                     context.stroke(barRect)
