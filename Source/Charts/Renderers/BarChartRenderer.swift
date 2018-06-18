@@ -759,6 +759,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     {
         guard let chart = dataProvider as? BarChartView else { return [] }
 
+        // Unlike Bubble & Line charts, here we use the maximum entry count to account for stacked bars
         let maxEntryCount = chart.data?.maxEntryCountSet?.entryCount ?? 0
 
         return Array(repeating: [NSUIAccessibilityElement](),

@@ -148,7 +148,8 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
                 let element = createAccessibleElement(withIndex: j,
                                                       container: chart,
                                                       dataSet: dataSet,
-                                                      dataSetIndex: dataSetIndex)
+                                                      dataSetIndex: dataSetIndex,
+                                                      shapeSize: shapeSize)
                 { (element) in
                     element.accessibilityFrame = rect
                 }
@@ -328,10 +329,10 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
     {
         guard let chart = dataProvider as? BubbleChartView else { return [] }
 
-        let maxEntryCount = chart.data?.maxEntryCountSet?.entryCount ?? 0
+        let dataSetCount = chart.bubbleData?.dataSetCount ?? 0
 
         return Array(repeating: [NSUIAccessibilityElement](),
-                     count: maxEntryCount)
+                     count: dataSetCount)
     }
 
     /// Creates an NSUIAccessibleElement representing the smallest meaningful bar of the chart
@@ -341,6 +342,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
                                          container: BubbleChartView,
                                          dataSet: IBubbleChartDataSet,
                                          dataSetIndex: Int,
+                                         shapeSize: CGFloat,
                                          modifier: (NSUIAccessibilityElement) -> ()) -> NSUIAccessibilityElement
     {
         let element = NSUIAccessibilityElement(accessibilityContainer: container)
@@ -362,7 +364,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         let dataSetCount = dataProvider.bubbleData?.dataSetCount ?? -1
         let doesContainMultipleDataSets = dataSetCount > 1
 
-        element.accessibilityLabel = "\(doesContainMultipleDataSets ? (dataSet.label ?? "")  + ", " : "") \(label): \(elementValueText)"
+        element.accessibilityLabel = "\(doesContainMultipleDataSets ? (dataSet.label ?? "")  + ", " : "") \(label): \(elementValueText), bubble size: \(String(format: "%.2f", (shapeSize/dataSet.maxSize) * 100)) %"
 
         modifier(element)
 

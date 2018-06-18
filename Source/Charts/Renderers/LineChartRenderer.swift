@@ -811,10 +811,10 @@ open class LineChartRenderer: LineRadarRenderer
     {
         guard let chart = dataProvider as? LineChartView else { return [] }
 
-        let maxEntryCount = chart.data?.maxEntryCountSet?.entryCount ?? 0
+        let dataSetCount = chart.lineData?.dataSetCount ?? 0
 
         return Array(repeating: [NSUIAccessibilityElement](),
-                     count: maxEntryCount)
+                     count: dataSetCount)
     }
 
     /// Creates an NSUIAccessibleElement representing the smallest meaningful bar of the chart
