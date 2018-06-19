@@ -394,7 +394,8 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     
 	open class NSUIView: NSView
     {
-        /// A private constant to set the accessibility role during initialization
+        /// A private constant to set the accessibility role during initialization.
+        /// It ensures parity with the iOS element ordering as well as numbered counts of chart components.
         /// (See Platform+Accessibility for details)
         private let role: NSAccessibilityRole = .list
 

@@ -145,7 +145,22 @@ open class NSUIAccessibilityElement: NSAccessibilityElement
         set
         {
             let bounds = NSAccessibilityFrameInView(containerView, newValue)
-            setAccessibilityFrame(bounds)
+
+            // This works, but won't auto update if the window is resized or moved.
+            // setAccessibilityFrame(bounds)
+
+            // using FrameInParentSpace allows for automatic updating of frame when windows are moved and resized.
+            // However, there seems to be a bug right now where using it causes an offset in the frame.
+            // This is a slightly hacky workaround that calculates the offset and removes it from frame calculation.
+            setAccessibilityFrameInParentSpace(bounds)
+            let axFrame = accessibilityFrame()
+            let widthOffset = fabs(axFrame.origin.x - bounds.origin.x)
+            let heightOffset = fabs(axFrame.origin.y - bounds.origin.y)
+            let rect = NSRect(x: bounds.origin.x - widthOffset,
+                              y: bounds.origin.y - heightOffset,
+                              width: bounds.width,
+                              height: bounds.height)
+            setAccessibilityFrameInParentSpace(rect)
         }
     }
 
