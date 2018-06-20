@@ -201,7 +201,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             }
         }
     }
-    
+
     open override func drawData(context: CGContext)
     {
         guard
@@ -215,15 +215,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
         // Make the chart header the first element in the accessible elements array
         if let chart = dataProvider as? BarChartView {
-            let chartDescriptionText = chart.chartDescription?.text ?? ""
-            let dataSetDescriptions = barData.dataSets.map { $0.label ?? "" }
-            let dataSetDescriptionText = dataSetDescriptions.joined(separator: ", ")
-            let dataSetCount = barData.dataSets.count
-            let
-            element = NSUIAccessibilityElement(accessibilityContainer: chart)
-            element.accessibilityLabel = chartDescriptionText + ". \(dataSetCount) dataset\(dataSetCount == 1 ? "" : "s"). \(dataSetDescriptionText)"
-            element.accessibilityFrame = chart.bounds
-            element.isHeader = true
+            let element = createAccessibleHeader(usingChart: chart,
+                                                 andData: barData,
+                                                 withDefaultDescription: "Bar Chart")
             accessibleChartElements.append(element)
         }
 

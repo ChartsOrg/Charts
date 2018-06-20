@@ -19,7 +19,7 @@ import CoreGraphics
 
 open class LineChartRenderer: LineRadarRenderer
 {
-    // TODO: Currently, this nesting isn't necessary. However, it will make it much easier to add a custom rotor
+    // TODO: Currently, this nesting isn't necessary for LineCharts. However, it will make it much easier to add a custom rotor
     // that navigates between datasets.
     // NOTE: Unlike the other renderers, LineChartRenderer populates accessibleChartElements in drawCircles due to the nature of its drawing options.
     /// A nested array of elements ordered logically (i.e not in visual/drawing order) for use with VoiceOver.
@@ -615,15 +615,9 @@ open class LineChartRenderer: LineRadarRenderer
 
         // Make the chart header the first element in the accessible elements array
         if let chart = dataProvider as? LineChartView {
-            let chartDescriptionText = chart.chartDescription?.text ?? ""
-            let dataSetDescriptions = lineData.dataSets.map { $0.label ?? "" }
-            let dataSetDescriptionText = dataSetDescriptions.joined(separator: ", ")
-            let dataSetCount = lineData.dataSets.count
-            let
-            element = NSUIAccessibilityElement(accessibilityContainer: chart)
-            element.accessibilityLabel = chartDescriptionText + ". \(dataSetCount) dataset\(dataSetCount == 1 ? "" : "s"). \(dataSetDescriptionText)"
-            element.accessibilityFrame = chart.bounds
-            element.isHeader = true
+            let element = createAccessibleHeader(usingChart: chart,
+                                                 andData: lineData,
+                                                 withDefaultDescription: "Line Chart")
             accessibleChartElements.append(element)
         }
 

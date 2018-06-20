@@ -57,13 +57,10 @@ open class RadarChartRenderer: LineRadarRenderer
             self.accessibleChartElements.removeAll()
 
             // Make the chart header the first element in the accessible elements array
-            if let chartDescriptionText: String = chart.chartDescription?.text {
-                let dataSetCount = radarData!.dataSets.count
-                let
-                element = NSUIAccessibilityElement(accessibilityContainer: chart)
-                element.accessibilityLabel = chartDescriptionText + ". \(dataSetCount) dataset\(dataSetCount == 1 ? "" : "s")"
-                element.accessibilityFrame = chart.bounds
-                element.isHeader = true
+            if let accessibilityHeaderData = radarData as? RadarChartData {
+                let element = createAccessibleHeader(usingChart: chart,
+                                                     andData: accessibilityHeaderData,
+                                                     withDefaultDescription: "Radar Chart")
                 self.accessibleChartElements.append(element)
             }
 
@@ -110,7 +107,7 @@ open class RadarChartRenderer: LineRadarRenderer
         let accessibilityEntryValues =  Array(0 ..< entryCount).map { (dataSet.entryForIndex($0)?.y ?? 0, $0) }
         let accessibilityAxisLabelValueTuples = zip(accessibilityXLabels, accessibilityEntryValues).map { ($0, $1.0, $1.1) }.sorted { $0.1 > $1.1 }
         let accessibilityDataSetDescription: String = description + ". \(entryCount) \(prefix + (entryCount == 1 ? "" : "s")). "
-        let accessibilityFrameWidth: CGFloat = 9.0
+        let accessibilityFrameWidth: CGFloat = 22.0 // To allow a tap target of 44x44
 
         var accessibilityEntryElements: [NSUIAccessibilityElement] = []
 
@@ -139,13 +136,11 @@ open class RadarChartRenderer: LineRadarRenderer
             let accessibilityLabel = accessibilityAxisLabelValueTuples[j].0
             let accessibilityValue = accessibilityAxisLabelValueTuples[j].1
             let accessibilityValueIndex = accessibilityAxisLabelValueTuples[j].2
-            // accessibilityDescription.append(accessibilityLabel + ": \(accessibilityValue) \(dataSet.accessibilityEntryLabelSuffix ?? "")")
-            // accessibilityDescription.append(j == (entryCount - 1) ? "." : ", ")
 
             let axp = center.moving(distance: CGFloat((accessibilityValue - chart.chartYMin) * Double(factor) * phaseY),
                                     atAngle: sliceangle * CGFloat(accessibilityValueIndex) * CGFloat(phaseX) + chart.rotationAngle)
 
-            let axDescription = accessibilityLabel + ": \(accessibilityValue) \(chart.data?.accessibilityEntryLabelSuffix ?? "")"
+            let axDescription = description + " - " + accessibilityLabel + ": \(accessibilityValue) \(chart.data?.accessibilityEntryLabelSuffix ?? "")"
             let axElement = createAccessibleElement(withDescription: axDescription,
                                                     container: chart,
                                                     dataSet: dataSet)

@@ -35,6 +35,14 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
         // If we redraw the data, remove and repopulate accessible elements to update label values and frames
         accessibleChartElements.removeAll()
 
+        // Make the chart header the first element in the accessible elements array
+        if let chart = dataProvider as? CandleStickChartView {
+            let element = createAccessibleHeader(usingChart: chart,
+                                                 andData: candleData,
+                                                 withDefaultDescription: "CandleStick Chart")
+            accessibleChartElements.append(element)
+        }
+
         for set in candleData.dataSets as! [ICandleChartDataSet]
         {
             if set.isVisible
@@ -70,17 +78,6 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
         context.saveGState()
         
         context.setLineWidth(dataSet.shadowWidth)
-        
-        // Make the chart header the first element in the accessible elements array
-        let prefix: String = chart.data?.accessibilityEntryLabelPrefix ?? "Element"
-        let description = chart.chartDescription?.text ?? dataSet.label ??  ""
-
-        let
-        element = NSUIAccessibilityElement(accessibilityContainer: chart)
-        element.accessibilityLabel = "Candle Stick chart: " + description + ". \(entryCount) \(prefix + (entryCount == 1 ? "" : "s"))"
-        element.accessibilityFrame = chart.bounds
-        element.isHeader = true
-        accessibleChartElements.append(element)
 
         for j in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
         {

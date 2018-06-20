@@ -44,15 +44,9 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
 
         // Make the chart header the first element in the accessible elements array
         if let chart = dataProvider as? BubbleChartView {
-            let chartDescriptionText = chart.chartDescription?.text ?? ""
-            let dataSetDescriptions = bubbleData.dataSets.map { $0.label ?? "" }
-            let dataSetDescriptionText = dataSetDescriptions.joined(separator: ", ")
-            let dataSetCount = bubbleData.dataSets.count
-            let
-            element = NSUIAccessibilityElement(accessibilityContainer: chart)
-            element.accessibilityLabel = chartDescriptionText + ". \(dataSetCount) dataset\(dataSetCount == 1 ? "" : "s"). \(dataSetDescriptionText)"
-            element.accessibilityFrame = chart.bounds
-            element.isHeader = true
+            let element = createAccessibleHeader(usingChart: chart,
+                                                 andData: bubbleData,
+                                                 withDefaultDescription: "Bubble Chart")
             accessibleChartElements.append(element)
         }
 
@@ -324,7 +318,6 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
     }
 
     /// Creates a nested array of empty subarrays each of which will be populated with NSUIAccessibilityElements.
-    /// This is marked internal to support HorizontalBarChartRenderer as well.
     private func accessibilityCreateEmptyOrderedElements() -> [[NSUIAccessibilityElement]]
     {
         guard let chart = dataProvider as? BubbleChartView else { return [] }
@@ -335,9 +328,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
                      count: dataSetCount)
     }
 
-    /// Creates an NSUIAccessibleElement representing the smallest meaningful bar of the chart
-    /// i.e. in case of a stacked chart, this returns each stack, not the combined bar.
-    /// Note that it is marked internal to support subclass modification in the HorizontalBarChart.
+    /// Creates an NSUIAccessibleElement representing individual bubbles location and relative size.
     private func createAccessibleElement(withIndex idx: Int,
                                          container: BubbleChartView,
                                          dataSet: IBubbleChartDataSet,
