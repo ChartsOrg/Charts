@@ -114,10 +114,10 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             guard let e = dataSet.entryForIndex(i) as? BarChartDataEntry else { continue }
             
             let vals = e.yValues
-            
+
             x = e.x
             y = e.y
-            
+
             if !containsStacks || vals == nil
             {
                 let left = CGFloat(x - barWidthHalf)
@@ -128,7 +128,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 var bottom = isInverted
                     ? (y >= 0.0 ? CGFloat(y) : 0)
                     : (y <= 0.0 ? CGFloat(y) : 0)
-                
+
                 // multiply the height of the rect with the phase
                 if top > 0
                 {
@@ -138,12 +138,29 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 {
                     bottom *= CGFloat(phaseY)
                 }
-                
+
+                // When drawing with an auto calculated y-axis minimum, the renderer actually draws each bar from 0
+                // to the required value. This drawn bar is then clipped to the visible chart rect in BarLineChartViewBase's draw(rect:) using clipDataToContent.
+                // While this works fine when calculating the bar rects for drawing, it causes the accessibilityFrames to be oversized in some cases.
+                // This offset attempts to undo that unnecessary drawing when calculating barRects, particularly when not using custom axis minima.
+                // This allows the minimum to still be visually non zero, but the rects are only drawn where necessary.
+                // This offset calculation also avoids cases where there are positive/negative values mixed, since those won't need this offset.
+                var offset: CGFloat = 0.0
+                if let offsetView = dataProvider as? BarChartView {
+
+                    let offsetAxis = offsetView.leftAxis.isEnabled ? offsetView.leftAxis : offsetView.rightAxis
+
+                    if barData.yMin.sign != barData.yMax.sign { offset = 0.0 }
+                    else if !offsetAxis._customAxisMin {
+                        offset = CGFloat(offsetAxis.axisMinimum)
+                    }
+                }
+
                 barRect.origin.x = left
                 barRect.size.width = right - left
                 barRect.origin.y = top
-                barRect.size.height = bottom - top
-                
+                barRect.size.height = bottom - top + offset
+
                 buffer.rects[bufferIndex] = barRect
                 bufferIndex += 1
             }
