@@ -786,6 +786,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 _outerScrollView?.nsuiIsScrollEnabled = true
                 _outerScrollView = nil
             }
+            if recognizer.state == .ended {
+                delegate?.chart?(self, didCompletePanGesture: recognizer)
+            }
         }
     }
     
