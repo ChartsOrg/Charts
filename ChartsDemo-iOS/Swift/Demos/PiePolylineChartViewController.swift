@@ -21,7 +21,7 @@ class PiePolylineChartViewController: DemoBaseViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        self.title = "Pie Bar Chart"
+        self.title = "Pie Poly Line Chart"
         
         self.options = [.toggleValues,
                         .toggleXValues,

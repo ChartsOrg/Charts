@@ -28,7 +28,7 @@
 {
     [super viewDidLoad];
     
-    self.title = @"Scatter Bar Chart";
+    self.title = @"Scatter Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Values"},
