@@ -104,6 +104,10 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
     open var stackLabels: [String] = []
     
     // MARK: - Styling functions and accessors
+
+    open var drawBarGradientEnabled = false
+
+    open var gradientPositions: [CGFloat]?
     
     /// the color used for drawing the bar-shadows. The bar shadows is a surface behind the bar that indicates the maximum value
     open var barShadowColor = NSUIColor(red: 215.0/255.0, green: 215.0/255.0, blue: 215.0/255.0, alpha: 1.0)

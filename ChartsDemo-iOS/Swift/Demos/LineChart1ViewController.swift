@@ -30,7 +30,7 @@ class LineChart1ViewController: DemoBaseViewController {
                         .toggleIcons,
                         .toggleStepped,
                         .toggleHighlight,
-                        .toggleGradientLine,
+                        .toggleGradient,
                         .animateX,
                         .animateY,
                         .animateXY,
@@ -194,7 +194,7 @@ class LineChart1ViewController: DemoBaseViewController {
                 set.mode = (set.mode == .cubicBezier) ? .horizontalBezier : .cubicBezier
             }
             chartView.setNeedsDisplay()
-        case .toggleGradientLine:
+        case .toggleGradient:
             for set in chartView.data!.dataSets as! [LineChartDataSet] {
                 set.isDrawLineWithGradientEnabled = !set.isDrawLineWithGradientEnabled
                 setup(set)
