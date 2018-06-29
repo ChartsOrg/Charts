@@ -81,8 +81,8 @@ extension NSUIView
 
     open override func index(ofAccessibilityElement element: Any) -> Int
     {
-        guard let axElement = element as? NSUIAccessibilityElement else { return -1 }
-        return (accessibilityChildren() as? [NSUIAccessibilityElement])?.index(of: axElement) ?? -1
+        guard let axElement = element as? NSUIAccessibilityElement else { return NSNotFound }
+        return (accessibilityChildren() as? [NSUIAccessibilityElement])?.index(of: axElement) ?? NSNotFound
     }
 }
 
