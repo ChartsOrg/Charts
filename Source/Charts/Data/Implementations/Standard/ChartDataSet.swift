@@ -356,7 +356,7 @@ open class ChartDataSet: ChartBaseDataSet
                     let value = values[closest]
                     
                     if value.x != closestXValue { break }
-                    if abs(value.y - yValue) < abs(closestYValue - yValue)
+                    if abs(value.y - yValue) <= abs(closestYValue - yValue)
                     {
                         closestYValue = yValue
                         closestYIndex = closest
