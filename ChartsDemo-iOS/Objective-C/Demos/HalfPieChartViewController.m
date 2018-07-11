@@ -24,7 +24,7 @@
 {
     [super viewDidLoad];
     
-    self.title = @"Half Pie Bar Chart";
+    self.title = @"Half Pie Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Y-Values"},
