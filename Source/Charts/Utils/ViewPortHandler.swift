@@ -26,13 +26,13 @@ open class ViewPortHandler: NSObject
     fileprivate var _chartHeight = CGFloat(0.0)
     
     /// minimum scale value on the y-axis
-    fileprivate var _minScaleY = CGFloat(1.0)
+    fileprivate var _minScaleY = CGFloat.leastNonzeroMagnitude
     
     /// maximum scale value on the y-axis
     fileprivate var _maxScaleY = CGFloat.greatestFiniteMagnitude
     
     /// minimum scale value on the x-axis
-    fileprivate var _minScaleX = CGFloat(1.0)
+    fileprivate var _minScaleX = CGFloat.leastNonzeroMagnitude
     
     /// maximum scale value on the x-axis
     fileprivate var _maxScaleX = CGFloat.greatestFiniteMagnitude
@@ -308,9 +308,9 @@ open class ViewPortHandler: NSObject
     {
         var newValue = xScale
         
-        if newValue < 1.0
+        if newValue < 0
         {
-            newValue = 1.0
+            newValue = CGFloat.leastNonzeroMagnitude
         }
         
         _minScaleX = newValue
@@ -339,9 +339,9 @@ open class ViewPortHandler: NSObject
         var newMin = minScaleX
         var newMax = minScaleY
         
-        if newMin < 1.0
+        if newMin < 0
         {
-            newMin = 1.0
+            newMin = CGFloat.leastNonzeroMagnitude
         }
         if newMax == 0.0
         {
@@ -359,9 +359,9 @@ open class ViewPortHandler: NSObject
     {
         var newValue = yScale
         
-        if newValue < 1.0
+        if newValue < 0
         {
-            newValue = 1.0
+            newValue = CGFloat.leastNonzeroMagnitude
         }
         
         _minScaleY = newValue
@@ -388,9 +388,9 @@ open class ViewPortHandler: NSObject
     {
         var minScaleY = minScaleY, maxScaleY = maxScaleY
         
-        if minScaleY < 1.0
+        if minScaleY < 0
         {
-            minScaleY = 1.0
+            minScaleY = CGFloat.leastNonzeroMagnitude
         }
         
         if maxScaleY == 0.0
