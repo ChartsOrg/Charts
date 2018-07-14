@@ -22,7 +22,7 @@ class RadarChartViewController: DemoBaseViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.title = "Radar Bar Chart"
+        self.title = "Radar Chart"
         self.options = [.toggleValues,
                         .toggleHighlight,
                         .toggleHighlightCircle,

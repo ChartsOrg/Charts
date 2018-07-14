@@ -321,6 +321,12 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
                          attributes: attrs)
     }
     
+    // MARK: - Accessibility
+
+    open override func accessibilityChildren() -> [Any]? {
+        return renderer?.accessibleChartElements
+    }
+
     // MARK: - Highlighting
 
     /// Set this to false to prevent values from being highlighted by tap gesture.

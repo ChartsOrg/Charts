@@ -17,7 +17,7 @@ class HalfPieChartViewController: DemoBaseViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.title = "Half Pie Bar Chart"
+        self.title = "Half Pie Chart"
         
         self.options = [.toggleValues,
                         .toggleXValues,

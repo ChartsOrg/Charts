@@ -24,7 +24,7 @@
 {
     [super viewDidLoad];
     
-    self.title = @"Pie Bar Chart";
+    self.title = @"Pie Poly Line Chart";
     
     self.options = @[
                      @{@"key": @"toggleValues", @"label": @"Toggle Y-Values"},
