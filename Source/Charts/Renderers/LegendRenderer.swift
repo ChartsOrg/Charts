@@ -59,6 +59,7 @@ open class LegendRenderer: NSObject, Renderer
                         entries.append(
                             LegendEntry(
                                 label: sLabels[j % sLabels.count],
+                                labelColor: nil,
                                 form: dataSet.form,
                                 formSize: dataSet.formSize,
                                 formLineWidth: dataSet.formLineWidth,
@@ -76,6 +77,7 @@ open class LegendRenderer: NSObject, Renderer
                         entries.append(
                             LegendEntry(
                                 label: dataSet.label,
+                                labelColor: nil,
                                 form: .none,
                                 formSize: CGFloat.nan,
                                 formLineWidth: CGFloat.nan,
@@ -95,6 +97,7 @@ open class LegendRenderer: NSObject, Renderer
                         entries.append(
                             LegendEntry(
                                 label: (pds.entryForIndex(j) as? PieChartDataEntry)?.label,
+                                labelColor: nil,
                                 form: dataSet.form,
                                 formSize: dataSet.formSize,
                                 formLineWidth: dataSet.formLineWidth,
@@ -112,6 +115,7 @@ open class LegendRenderer: NSObject, Renderer
                         entries.append(
                             LegendEntry(
                                 label: dataSet.label,
+                                labelColor: nil,
                                 form: .none,
                                 formSize: CGFloat.nan,
                                 formLineWidth: CGFloat.nan,
@@ -130,6 +134,7 @@ open class LegendRenderer: NSObject, Renderer
                     entries.append(
                         LegendEntry(
                             label: nil,
+                            labelColor: nil,
                             form: dataSet.form,
                             formSize: dataSet.formSize,
                             formLineWidth: dataSet.formLineWidth,
@@ -142,6 +147,7 @@ open class LegendRenderer: NSObject, Renderer
                     entries.append(
                         LegendEntry(
                             label: dataSet.label,
+                            labelColor: nil,
                             form: dataSet.form,
                             formSize: dataSet.formSize,
                             formLineWidth: dataSet.formLineWidth,
@@ -171,6 +177,7 @@ open class LegendRenderer: NSObject, Renderer
                         entries.append(
                             LegendEntry(
                                 label: label,
+                                labelColor: nil,
                                 form: dataSet.form,
                                 formSize: dataSet.formSize,
                                 formLineWidth: dataSet.formLineWidth,
@@ -376,7 +383,7 @@ open class LegendRenderer: NSObject, Renderer
                         y: posY,
                         label: e.label!,
                         font: labelFont,
-                        textColor: labelTextColor)
+                        textColor: e.labelColor ?? labelTextColor)
                     
                     if direction == .leftToRight
                     {
@@ -468,12 +475,12 @@ open class LegendRenderer: NSObject, Renderer
                     
                     if !wasStacked
                     {
-                        drawLabel(context: context, x: posX, y: posY, label: e.label!, font: labelFont, textColor: labelTextColor)
+                        drawLabel(context: context, x: posX, y: posY, label: e.label!, font: labelFont, textColor: e.labelColor ?? labelTextColor)
                     }
                     else
                     {
                         posY += labelLineHeight + yEntrySpace
-                        drawLabel(context: context, x: posX, y: posY, label: e.label!, font: labelFont, textColor: labelTextColor)
+                        drawLabel(context: context, x: posX, y: posY, label: e.label!, font: labelFont, textColor: e.labelColor ?? labelTextColor)
                     }
                     
                     // make a step down
