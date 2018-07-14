@@ -200,6 +200,9 @@ public protocol ChartDataSetProtocol
     /// the font for the value-text labels
     var valueFont: NSUIFont { get set }
     
+    /// The rotation angle (in degrees) for value-text labels
+    var valueLabelAngle: CGFloat { get set }
+    
     /// The form to draw for this dataset in the legend.
     ///
     /// Return `.Default` to use the default legend form.

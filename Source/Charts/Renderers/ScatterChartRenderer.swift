@@ -143,6 +143,8 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                 
                 let iconsOffset = dataSet.iconsOffset
                 
+                let angleRadians = dataSet.valueLabelAngle.DEG2RAD
+                
                 let shapeSize = dataSet.scatterShapeSize
                 let lineHeight = valueFont.lineHeight
                 
@@ -180,6 +182,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                                          at: CGPoint(x: pt.x,
                                                      y: pt.y - shapeSize - lineHeight),
                                          align: .center,
+                                         angleRadians: angleRadians,
                                          attributes: [.font: valueFont,
                                                       .foregroundColor: dataSet.valueTextColorAt(j)]
                         )

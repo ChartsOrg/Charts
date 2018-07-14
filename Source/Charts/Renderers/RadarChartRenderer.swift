@@ -232,6 +232,8 @@ open class RadarChartRenderer: LineRadarRenderer
                 continue
             }
             
+            let angleRadians = dataSet.valueLabelAngle.DEG2RAD
+            
             let entryCount = dataSet.entryCount
             
             let iconsOffset = dataSet.iconsOffset
@@ -255,6 +257,7 @@ open class RadarChartRenderer: LineRadarRenderer
                                                               viewPortHandler: viewPortHandler),
                                      at: CGPoint(x: p.x, y: p.y - yoffset - valueFont.lineHeight),
                                      align: .center,
+                                     angleRadians: angleRadians,
                                      attributes: [.font: valueFont,
                                                   .foregroundColor: dataSet.valueTextColorAt(j)])
                 }

@@ -546,6 +546,8 @@ open class LineChartRenderer: LineRadarRenderer
                 
                 let formatter = dataSet.valueFormatter
                 
+                let angleRadians = dataSet.valueLabelAngle.DEG2RAD
+                
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix
                 
@@ -587,7 +589,7 @@ open class LineChartRenderer: LineRadarRenderer
                                                                   viewPortHandler: viewPortHandler),
                                          at: CGPoint(x: pt.x,
                                                      y: pt.y - CGFloat(valOffset) - valueFont.lineHeight),
-                                         align: .center,
+                                         angleRadians: angleRadians,
                                          attributes: [.font: valueFont,
                                                       .foregroundColor: dataSet.valueTextColorAt(j)])
                     }

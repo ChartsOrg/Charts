@@ -337,6 +337,8 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             {
                 guard let dataSet = dataSets[dataSetIndex] as? BarChartDataSetProtocol else { continue }
                 
+                let angleRadians = dataSet.valueLabelAngle.DEG2RAD
+                
                 if !shouldDrawValues(forDataSet: dataSet) || !(dataSet.isDrawIconsEnabled && dataSet.isVisible)
                 {
                     continue
@@ -411,7 +413,9 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                 yPos: y + yOffset,
                                 font: valueFont,
                                 align: textAlign,
-                                color: dataSet.valueTextColorAt(j))
+                                color: dataSet.valueTextColorAt(j),
+                                anchor: CGPoint.zero,
+                                angleRadians: angleRadians)
                         }
                         
                         if let icon = e.icon, dataSet.isDrawIconsEnabled
@@ -489,7 +493,9 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                     yPos: rect.origin.y + yOffset,
                                     font: valueFont,
                                     align: textAlign,
-                                    color: dataSet.valueTextColorAt(index))
+                                    color: dataSet.valueTextColorAt(index),
+                                    anchor: CGPoint.zero,
+                                    angleRadians: angleRadians)
                             }
                             
                             if let icon = e.icon, dataSet.isDrawIconsEnabled
@@ -588,7 +594,9 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                               yPos: y + yOffset,
                                               font: valueFont,
                                               align: textAlign,
-                                              color: dataSet.valueTextColorAt(index))
+                                              color: dataSet.valueTextColorAt(index),
+                                              anchor: CGPoint.zero,
+                                              angleRadians: angleRadians)
                                 }
                                 
                                 if let icon = e.icon, dataSet.isDrawIconsEnabled
