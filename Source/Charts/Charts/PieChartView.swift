@@ -194,14 +194,11 @@ open class PieChartView: PieRadarChartViewBase
         _absoluteAngles.reserveCapacity(entryCount)
         
         let yValueSum = (data as! PieChartData).yValueSum
-        
-        var dataSets = data.dataSets
 
         var cnt = 0
 
-        for i in 0 ..< data.dataSetCount
+        for set in data
         {
-            let set = dataSets[i]
             let entryCount = set.entryCount
 
             for j in 0 ..< entryCount
@@ -636,6 +633,14 @@ open class PieChartView: PieRadarChartViewBase
             {
                 _maxAngle = 90.0
             }
+        }
+    }
+    
+    /// smallest pie slice angle that will have a label drawn in degrees, 0 by default
+    @objc open var sliceTextDrawingThreshold: CGFloat = 0.0
+    {
+        didSet {
+            setNeedsDisplay()
         }
     }
 }

@@ -18,7 +18,7 @@ open class PieChartData: ChartData
         super.init()
     }
     
-    public override init(dataSets: [ChartDataSetProtocol]?)
+    public override init(dataSets: [ChartDataSetProtocol])
     {
         super.init(dataSets: dataSets)
     }
@@ -28,17 +28,17 @@ open class PieChartData: ChartData
         super.init(dataSets: elements)
     }
 
-    @objc var dataSet: PieChartDataSetProtocol?
+    @objc public var dataSet: PieChartDataSetProtocol?
     {
         get
         {
-            return dataSets.count > 0 ? dataSets[0] as? PieChartDataSetProtocol : nil
+            return dataSets.first as? PieChartDataSetProtocol
         }
         set
         {
-            if let newValue = newValue
+            if let set = newValue
             {
-                dataSets = [newValue]
+                dataSets = [set]
             }
             else
             {
@@ -46,17 +46,28 @@ open class PieChartData: ChartData
             }
         }
     }
-    
-    open override func getDataSetByIndex(_ index: Int) -> ChartDataSetProtocol?
+
+    /// - returns: All up to one dataSet object this ChartData object holds.
+    @objc open override var dataSets: [ChartDataSetProtocol]
     {
-        if index != 0
+        get
         {
-            return nil
+            assert(super.dataSets.count <= 1, "Found multiple data sets while pie chart only allows one")
+            return super.dataSets
         }
-        return super.getDataSetByIndex(index)
+        set
+        {
+            super.dataSets = newValue
+        }
     }
     
-    open override func getDataSetByLabel(_ label: String, ignorecase: Bool) -> ChartDataSetProtocol?
+    open override func dataSet(at index: ChartData.Index) -> ChartData.Element?
+    {
+        guard index == 0 else { return nil }
+        return self[index]
+    }
+    
+    open override func dataSet(forLabel label: String, ignorecase: Bool) -> ChartDataSetProtocol?
     {
         if dataSets.count == 0 || dataSets[0].label == nil
         {
@@ -80,7 +91,7 @@ open class PieChartData: ChartData
         return nil
     }
     
-    open override func entryForHighlight(_ highlight: Highlight) -> ChartDataEntry?
+    @objc override open func entry(for highlight: Highlight) -> ChartDataEntry?
     {
         return dataSet?.entryForIndex(Int(highlight.x))
     }

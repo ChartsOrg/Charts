@@ -37,19 +37,19 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         if let barData = dataProvider?.barData
         {
             // Matche buffers count to dataset count
-            if _buffers.count != barData.dataSetCount
+            if _buffers.count != barData.count
             {
-                while _buffers.count < barData.dataSetCount
+                while _buffers.count < barData.count
                 {
                     _buffers.append(Buffer())
                 }
-                while _buffers.count > barData.dataSetCount
+                while _buffers.count > barData.count
                 {
                     _buffers.removeLast()
                 }
             }
             
-            for i in stride(from: 0, to: barData.dataSetCount, by: 1)
+            for i in barData.indices
             {
                 let set = barData.dataSets[i] as! BarChartDataSetProtocol
                 let size = set.entryCount * (set.isStacked ? set.stackSize : 1)
@@ -240,7 +240,11 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         {
             context.setFillColor(dataSet.color(atIndex: 0).cgColor)
         }
-        
+
+        // In case the chart is stacked, we need to accomodate individual bars within accessibilityOrdereredElements
+        let isStacked = dataSet.isStacked
+        let stackSize = isStacked ? dataSet.stackSize : 1
+
         for j in stride(from: 0, to: buffer.rects.count, by: 1)
         {
             let barRect = buffer.rects[j]
@@ -260,14 +264,29 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
-            
+
             context.fill(barRect)
-            
+
             if drawBorder
             {
                 context.setStrokeColor(borderColor.cgColor)
                 context.setLineWidth(borderWidth)
                 context.stroke(barRect)
+            }
+
+            // Create and append the corresponding accessibility element to accessibilityOrderedElements (see BarChartRenderer)
+            if let chart = dataProvider as? BarChartView
+            {
+                let element = createAccessibleElement(withIndex: j,
+                                                      container: chart,
+                                                      dataSet: dataSet,
+                                                      dataSetIndex: index,
+                                                      stackSize: stackSize)
+                { (element) in
+                    element.accessibilityFrame = barRect
+                }
+
+                accessibilityOrderedElements[j/stackSize].append(element)
             }
         }
         
@@ -314,7 +333,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             var negOffset: CGFloat
             let drawValueAboveBar = dataProvider.isDrawValueAboveBarEnabled
             
-            for dataSetIndex in 0 ..< barData.dataSetCount
+            for dataSetIndex in barData.indices
             {
                 guard let dataSet = dataSets[dataSetIndex] as? BarChartDataSetProtocol else { continue }
                 

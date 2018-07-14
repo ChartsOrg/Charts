@@ -42,10 +42,8 @@ open class LegendRenderer: NSObject, Renderer
             var entries: [LegendEntry] = []
             
             // loop for building up the colors and labels used in the legend
-            for i in 0..<data.dataSetCount
-            {
-                guard let dataSet = data.getDataSetByIndex(i) else { continue }
-                
+            for dataSet in data
+            {                
                 var clrs: [NSUIColor] = dataSet.colors
                 let entryCount = dataSet.entryCount
                 
@@ -465,7 +463,7 @@ open class LegendRenderer: NSObject, Renderer
                     
                     if direction == .rightToLeft
                     {
-                        posX -= (e.label as NSString!).size(withAttributes: [.font: labelFont]).width
+                        posX -= (e.label! as NSString).size(withAttributes: [.font: labelFont]).width
                     }
                     
                     if !wasStacked
