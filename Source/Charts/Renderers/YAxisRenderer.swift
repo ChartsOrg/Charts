@@ -19,7 +19,7 @@ import CoreGraphics
 @objc(ChartYAxisRenderer)
 open class YAxisRenderer: AxisRendererBase
 {
-    @objc public init(viewPortHandler: ViewPortHandler?, yAxis: YAxis?, transformer: Transformer?)
+    @objc public init(viewPortHandler: ViewPortHandler, yAxis: YAxis?, transformer: Transformer?)
     {
         super.init(viewPortHandler: viewPortHandler, transformer: transformer, axis: yAxis)
     }
@@ -27,10 +27,7 @@ open class YAxisRenderer: AxisRendererBase
     /// draws the y-axis labels to the screen
     open override func renderAxisLabels(context: CGContext)
     {
-        guard
-            let yAxis = self.axis as? YAxis,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let yAxis = self.axis as? YAxis else { return }
         
         if !yAxis.isEnabled || !yAxis.isDrawLabelsEnabled
         {
@@ -85,10 +82,7 @@ open class YAxisRenderer: AxisRendererBase
     
     open override func renderAxisLine(context: CGContext)
     {
-        guard
-            let yAxis = self.axis as? YAxis,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let yAxis = self.axis as? YAxis else { return }
         
         if !yAxis.isEnabled || !yAxis.drawAxisLineEnabled
         {
@@ -127,7 +121,7 @@ open class YAxisRenderer: AxisRendererBase
     }
     
     /// draws the y-labels on the specified x-position
-    @objc internal func drawYLabels(
+    internal func drawYLabels(
         context: CGContext,
         fixedPosition: CGFloat,
         positions: [CGPoint],
@@ -207,7 +201,7 @@ open class YAxisRenderer: AxisRendererBase
     
     @objc open var gridClippingRect: CGRect
     {
-        var contentRect = viewPortHandler?.contentRect ?? CGRect.zero
+        var contentRect = viewPortHandler.contentRect
         let dy = self.axis?.gridLineWidth ?? 0.0
         contentRect.origin.y -= dy / 2.0
         contentRect.size.height += dy
@@ -218,10 +212,6 @@ open class YAxisRenderer: AxisRendererBase
         context: CGContext,
         position: CGPoint)
     {
-        guard
-            let viewPortHandler = self.viewPortHandler
-            else { return }
-        
         context.beginPath()
         context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: position.y))
         context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: position.y))
@@ -255,7 +245,6 @@ open class YAxisRenderer: AxisRendererBase
     {
         guard
             let yAxis = self.axis as? YAxis,
-            let viewPortHandler = self.viewPortHandler,
             let transformer = self.transformer,
             let zeroLineColor = yAxis.zeroLineColor
             else { return }
@@ -291,7 +280,6 @@ open class YAxisRenderer: AxisRendererBase
     {
         guard
             let yAxis = self.axis as? YAxis,
-            let viewPortHandler = self.viewPortHandler,
             let transformer = self.transformer
             else { return }
         
@@ -349,7 +337,7 @@ open class YAxisRenderer: AxisRendererBase
             let label = l.label
             
             // if drawing the limit-value label is enabled
-            if l.drawLabelEnabled && label.characters.count > 0
+            if l.drawLabelEnabled && label.count > 0
             {
                 let labelLineHeight = l.valueFont.lineHeight
                 

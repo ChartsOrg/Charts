@@ -22,10 +22,10 @@ open class Highlight: NSObject
     fileprivate var _y = Double.nan
     
     /// the x-pixel of the highlight
-    fileprivate var _xPx = CGFloat.nan
+    private var _xPx = CGFloat.nan
     
     /// the y-pixel of the highlight
-    fileprivate var _yPx = CGFloat.nan
+    private var _yPx = CGFloat.nan
     
     /// the index of the data object - in case it refers to more than one
     @objc open var dataIndex = Int(-1)
@@ -39,7 +39,7 @@ open class Highlight: NSObject
     fileprivate var _stackIndex = Int(-1)
     
     /// the axis the highlighted value belongs to
-    fileprivate var _axis: YAxis.AxisDependency = YAxis.AxisDependency.left
+    private var _axis: YAxis.AxisDependency = YAxis.AxisDependency.left
     
     /// the x-position (pixels) on which this highlight object was last drawn
     @objc open var drawX: CGFloat = 0.0
@@ -128,11 +128,13 @@ open class Highlight: NSObject
     /// - parameter x: the x-value of the highlighted value
     /// - parameter y: the y-value of the highlighted value
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
-    @objc public init(x: Double, y: Double, dataSetIndex: Int)
+    /// - parameter dataIndex: The data index to search in (only used in CombinedChartView currently)
+    @objc public init(x: Double, y: Double, dataSetIndex: Int, dataIndex: Int = -1)
     {
         _x = x
         _y = y
         _dataSetIndex = dataSetIndex
+        self.dataIndex = dataIndex
     }
     
     /// - parameter x: the x-value of the highlighted value
@@ -174,84 +176,23 @@ open class Highlight: NSObject
     {
         return "Highlight, x: \(_x), y: \(_y), dataIndex (combined charts): \(dataIndex), dataSetIndex: \(_dataSetIndex), stackIndex (only stacked barentry): \(_stackIndex)"
     }
-    
-    open override func isEqual(_ object: Any?) -> Bool
-    {
-        if object == nil
-        {
-            return false
-        }
-        
-        if !(object! as AnyObject).isKind(of: type(of: self))
-        {
-            return false
-        }
-        
-        if (object! as AnyObject).x != _x
-        {
-            return false
-        }
-        
-        if (object! as AnyObject).y != _y
-        {
-            return false
-        }
-        
-        if (object! as AnyObject).dataIndex != dataIndex
-        {
-            return false
-        }
-        
-        if (object! as AnyObject).dataSetIndex != _dataSetIndex
-        {
-            return false
-        }
-        
-        if (object! as AnyObject).stackIndex != _stackIndex
-        {
-            return false
-        }
-        
-        return true
-    }
 }
 
-func ==(lhs: Highlight, rhs: Highlight) -> Bool
-{
-    if lhs === rhs
-    {
-        return true
+
+// MARK: Equatable
+extension Highlight /*: Equatable*/ {
+    open override func isEqual(_ object: Any?) -> Bool {
+        guard let object = object as? Highlight else { return false }
+
+        if self === object
+        {
+            return true
+        }
+
+        return _x == object._x
+            && _y == object._y
+            && dataIndex == object.dataIndex
+            && _dataSetIndex == object._dataSetIndex
+            && _stackIndex == object._stackIndex
     }
-    
-    if !lhs.isKind(of: type(of: rhs))
-    {
-        return false
-    }
-    
-    if lhs._x != rhs._x
-    {
-        return false
-    }
-    
-    if lhs._y != rhs._y
-    {
-        return false
-    }
-    
-    if lhs.dataIndex != rhs.dataIndex
-    {
-        return false
-    }
-    
-    if lhs._dataSetIndex != rhs._dataSetIndex
-    {
-        return false
-    }
-    
-    if lhs._stackIndex != rhs._stackIndex
-    {
-        return false
-    }
-    
-    return true
 }

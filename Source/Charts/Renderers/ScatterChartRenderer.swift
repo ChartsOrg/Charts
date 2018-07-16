@@ -21,17 +21,31 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
 {
     @objc open weak var dataProvider: ScatterChartDataProvider?
     
-    @objc public init(dataProvider: ScatterChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    @objc public init(dataProvider: ScatterChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
         self.dataProvider = dataProvider
     }
-    
+
     open override func drawData(context: CGContext)
     {
         guard let scatterData = dataProvider?.scatterData else { return }
+
+        // If we redraw the data, remove and repopulate accessible elements to update label values and frames
+        accessibleChartElements.removeAll()
         
+        if let chart = dataProvider as? ScatterChartView {
+            // Make the chart header the first element in the accessible elements array
+            let element = createAccessibleHeader(usingChart: chart,
+                                                 andData: scatterData,
+                                                 withDefaultDescription: "Scatter Chart")
+            accessibleChartElements.append(element)
+        }
+
+        // TODO: Due to the potential complexity of data presented in Scatter charts, a more usable way
+        // for VO accessibility would be to use axis based traversal rather than by dataset.
+        // Hence, accessibleChartElements is not populated below. (Individual renderers guard against dataSource being their respective views)
         for i in 0 ..< scatterData.dataSetCount
         {
             guard let set = scatterData.getDataSetByIndex(i) else { continue }
@@ -48,15 +62,11 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         }
     }
     
-    fileprivate var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
     
     @objc open func drawDataSet(context: CGContext, dataSet: IScatterChartDataSet)
     {
-        guard
-            let dataProvider = dataProvider,
-            let animator = animator,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let dataProvider = dataProvider else { return }
         
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
         
@@ -106,9 +116,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let scatterData = dataProvider.scatterData,
-            let animator = animator,
-            let viewPortHandler = self.viewPortHandler
+            let scatterData = dataProvider.scatterData
             else { return }
         
         // if values are drawn
@@ -204,8 +212,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let scatterData = dataProvider.scatterData,
-            let animator = animator
+            let scatterData = dataProvider.scatterData
             else { return }
         
         context.saveGState()

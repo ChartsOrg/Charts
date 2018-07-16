@@ -72,9 +72,15 @@ open class YAxis: AxisBase
     
     /// the position of the y-labels relative to the chart
     @objc open var labelPosition = LabelPosition.outsideChart
+
+    /// the alignment of the text in the y-label
+    @objc open var labelAlignment: NSTextAlignment = .left
+
+    /// the horizontal offset of the y-label
+    @objc open var labelXOffset: CGFloat = 10.0
     
     /// the side this axis object represents
-    fileprivate var _axisDependency = AxisDependency.left
+    private var _axisDependency = AxisDependency.left
     
     /// the minimum width that the axis should take
     /// 

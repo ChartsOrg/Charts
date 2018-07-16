@@ -18,7 +18,7 @@ import CoreGraphics
 
 open class YAxisRendererHorizontalBarChart: YAxisRenderer
 {
-    public override init(viewPortHandler: ViewPortHandler?, yAxis: YAxis?, transformer: Transformer?)
+    public override init(viewPortHandler: ViewPortHandler, yAxis: YAxis?, transformer: Transformer?)
     {
         super.init(viewPortHandler: viewPortHandler, yAxis: yAxis, transformer: transformer)
     }
@@ -26,10 +26,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
     /// Computes the axis values.
     open override func computeAxis(min: Double, max: Double, inverted: Bool)
     {
-        guard
-            let viewPortHandler = self.viewPortHandler,
-            let transformer = self.transformer
-            else { return }
+        guard let transformer = self.transformer else { return }
         
         var min = min, max = max
         
@@ -57,10 +54,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
     /// draws the y-axis labels to the screen
     open override func renderAxisLabels(context: CGContext)
     {
-        guard
-            let yAxis = axis as? YAxis,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let yAxis = axis as? YAxis else { return }
         
         if !yAxis.isEnabled || !yAxis.isDrawLabelsEnabled
         {
@@ -111,10 +105,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
     
     open override func renderAxisLine(context: CGContext)
     {
-        guard
-            let yAxis = axis as? YAxis,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let yAxis = axis as? YAxis else { return }
         
         if !yAxis.isEnabled || !yAxis.drawAxisLineEnabled
         {
@@ -183,7 +174,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
     
     open override var gridClippingRect: CGRect
     {
-        var contentRect = viewPortHandler?.contentRect ?? CGRect.zero
+        var contentRect = viewPortHandler.contentRect
         let dx = self.axis?.gridLineWidth ?? 0.0
         contentRect.origin.x -= dx / 2.0
         contentRect.size.width += dx
@@ -194,10 +185,6 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         context: CGContext,
         position: CGPoint)
     {
-        guard
-            let viewPortHandler = self.viewPortHandler
-            else { return }
-        
         context.beginPath()
         context.move(to: CGPoint(x: position.x, y: viewPortHandler.contentTop))
         context.addLine(to: CGPoint(x: position.x, y: viewPortHandler.contentBottom))
@@ -231,7 +218,6 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
     {
         guard
             let yAxis = self.axis as? YAxis,
-            let viewPortHandler = self.viewPortHandler,
             let transformer = self.transformer,
             let zeroLineColor = yAxis.zeroLineColor
             else { return }
@@ -263,13 +249,12 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         context.drawPath(using: CGPathDrawingMode.stroke)
     }
     
-    fileprivate var _limitLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _limitLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
     open override func renderLimitLines(context: CGContext)
     {
         guard
             let yAxis = axis as? YAxis,
-            let viewPortHandler = self.viewPortHandler,
             let transformer = self.transformer
             else { return }
         
@@ -327,7 +312,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             let label = l.label
 
             // if drawing the limit-value label is enabled
-            if l.drawLabelEnabled && label.characters.count > 0
+            if l.drawLabelEnabled && label.count > 0
             {
                 let labelLineHeight = l.valueFont.lineHeight
                 
