@@ -761,7 +761,7 @@ open class PieChartRenderer: DataRenderer
             context.setFillColor(set.color(atIndex: index).cgColor)
             if let highlightColor = set.highlightColor?.cgColor {
                 context.setStrokeColor(highlightColor)
-                context.setLineWidth(3.0)
+                context.setLineWidth(set.highlightBorderWidth)
             }
             let sliceSpaceAngleOuter = visibleAngleCount == 1 ?
                 0.0 :

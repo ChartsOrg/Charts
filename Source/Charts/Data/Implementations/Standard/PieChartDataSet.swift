@@ -111,6 +111,9 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
     /// the color for the highlighted sector
     open var highlightColor: NSUIColor? = nil
 
+    /// the border width for the highlighted sector
+    public var highlightBorderWidth: CGFloat = 0.0
+
     // MARK: - NSCopying
 
     open override func copy(with zone: NSZone? = nil) -> Any
