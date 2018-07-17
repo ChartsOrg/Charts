@@ -221,6 +221,41 @@ open class ViewPortHandler: NSObject
         matrix = matrix.translatedBy(x: -x, y: -y)
         return matrix
     }
+
+    /// Calculates an incremental transform to the viewport based on a scale amount and anchor location
+    /// Min/max scale are taken into account to clip the resulting scale and translation values accordingly
+    /// `limitTransAndScale` will eventually clip these values independent of one another,
+    /// but we need to make sure they are aligned to avoid unwanted translation at min/max zoom levels
+    @objc open func clippedZoom(scaleX: CGFloat, scaleY: CGFloat, x: CGFloat, y: CGFloat) -> CGAffineTransform
+    {
+        var clippedScaleX = scaleX
+
+        let newScaleX = scaleX * self.scaleX
+        if newScaleX < minScaleX
+        {
+            clippedScaleX = clippedScaleX * minScaleX / newScaleX
+        }
+        else if newScaleX > maxScaleX
+        {
+            clippedScaleX = clippedScaleX * maxScaleX / newScaleX
+        }
+
+        var clippedScaleY = scaleY
+        let newScaleY = scaleY * self.scaleY
+        if newScaleY < minScaleY
+        {
+            clippedScaleY = clippedScaleY * minScaleY / newScaleY
+        }
+        else if newScaleY > maxScaleY
+        {
+            clippedScaleY = clippedScaleY * maxScaleY / newScaleY
+        }
+
+        var matrix = CGAffineTransform(translationX: x, y: y)
+        matrix = matrix.scaledBy(x: clippedScaleX, y: clippedScaleY)
+        matrix = matrix.translatedBy(x: -x, y: -y)
+        return matrix
+    }
     
     /// Resets all zooming and dragging and makes the chart fit exactly it's bounds.
     @objc open func fitScreen() -> CGAffineTransform

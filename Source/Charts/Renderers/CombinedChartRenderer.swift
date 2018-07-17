@@ -21,6 +21,9 @@ open class CombinedChartRenderer: DataRenderer
     
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     @objc open var drawBarShadowEnabled = false
+
+    /// if set to true, bars will be drawn with rounded ends
+    @objc open var drawRoundedBarsEnabled = false
     
     internal var _renderers = [DataRenderer]()
     
@@ -188,13 +191,16 @@ open class CombinedChartRenderer: DataRenderer
         set { _renderers = newValue }
     }
     
-    // MARK: Accessors
+    // MARK: BarChartDataProvider
     
-    /// - returns: `true` if drawing values above bars is enabled, `false` ifnot
+    /// - returns: `true` if drawing values above bars is enabled, `false` if not
     @objc open var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled }
     
-    /// - returns: `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
+    /// - returns: `true` if drawing shadows (maxvalue) for each bar is enabled, `false` if not
     @objc open var isDrawBarShadowEnabled: Bool { return drawBarShadowEnabled }
+
+    /// - returns: `true` if drawing each bar as rounded is enabled, `false` if not
+    @objc open var isDrawRoundedBarsEnabled: Bool { return drawRoundedBarsEnabled }
     
     /// the order in which the provided data objects should be drawn.
     /// The earlier you place them in the provided array, the further they will be in the background.
