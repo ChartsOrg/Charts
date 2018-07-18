@@ -323,11 +323,11 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
         let drawBorder = dataSet.barBorderWidth > 0
 
-        let gradientStart = dataSet.gradientEnd.isIntinite ?
+        let gradientStart = dataSet.gradientEnd.isInfinite ?
             CGPoint(x: boundingBox.minX, y: boundingBox.minY) :
             dataSet.gradientEnd.applying(matrix)
 
-        let gradientEnd = dataSet.gradientStart.isIntinite ?
+        let gradientEnd = dataSet.gradientStart.isInfinite ?
             CGPoint(x: boundingBox.minX, y: boundingBox.maxY) :
             dataSet.gradientStart.applying(matrix)
 

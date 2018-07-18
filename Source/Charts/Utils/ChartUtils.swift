@@ -112,7 +112,7 @@ extension CGPoint
         return CGPoint(x: CGFloat.infinity, y: CGFloat.infinity)
     }
 
-    var isIntinite: Bool {
+    var isInfinite: Bool {
         return x.isInfinite || y.isInfinite
     }
 
