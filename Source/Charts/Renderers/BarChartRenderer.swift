@@ -159,7 +159,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 barRect.origin.x = left
                 barRect.size.width = right - left
                 barRect.origin.y = top
-                barRect.size.height = bottom - top + offset
+                barRect.size.height = bottom == top ? 0 : bottom - top + offset
 
                 buffer.rects[bufferIndex] = barRect
                 bufferIndex += 1
