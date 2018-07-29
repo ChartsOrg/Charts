@@ -192,7 +192,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
                 let barRect = CGRect(x: left, y: top,
                                      width: right - left,
-                                     height: bottom - top + offset)
+                                     height: bottom == top ? 0 : bottom - top + offset)
                 _buffers[index][bufferIndex] = barRect
                 bufferIndex += 1
             }
