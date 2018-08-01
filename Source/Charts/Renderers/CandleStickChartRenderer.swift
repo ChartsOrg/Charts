@@ -169,7 +169,10 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 trans.rectValueToPixel(&_bodyRect)
                 
                 // draw body differently for increasing and decreasing entry
-
+                let strokeRect = CGRect(x:_bodyRect.origin.x+0.5,
+                                        y:_bodyRect.origin.y+0.5,
+                                        width:_bodyRect.size.width-1,
+                                        height:_bodyRect.size.height-1)
                 if open > close
                 {
                     accessibilityMovementDescription = "decreasing"
@@ -183,6 +186,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                     }
                     else
                     {
+                        _bodyRect = strokeRect
                         context.setStrokeColor(color.cgColor)
                         context.stroke(_bodyRect)
                     }
@@ -200,6 +204,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                     }
                     else
                     {
+                        _bodyRect = strokeRect
                         context.setStrokeColor(color.cgColor)
                         context.stroke(_bodyRect)
                     }
