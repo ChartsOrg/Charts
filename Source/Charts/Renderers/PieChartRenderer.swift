@@ -172,7 +172,7 @@ open class PieChartRenderer: DataRenderer
                 {
                     let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
                     if let color = (e.data as? PieHighlighting)?.color {
-                        context.setFillColor(color.cgColor)
+                        context.setFillColor(color.withAlphaComponent(0.6).cgColor)
                     } else {
                         context.setFillColor(dataSet.color(atIndex: j).cgColor)
                     }
@@ -791,7 +791,7 @@ open class PieChartRenderer: DataRenderer
             let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
 
             if let color = (set.entryForIndex(index)?.data as? PieHighlighting)?.color {
-                context.setFillColor(color.withAlphaComponent(0.8).cgColor)
+                context.setFillColor(color.cgColor)
             } else {
                 context.setFillColor(set.highlightColor?.cgColor ?? set.color(atIndex: index).cgColor)
             }
