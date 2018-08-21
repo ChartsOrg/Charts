@@ -42,6 +42,9 @@ open class PieChartRenderer: DataRenderer
             {
                 if set.isVisible && set.entryCount > 0
                 {
+                    for index in 0..<set.entryCount {
+                        (set.entryForIndex(index)?.data as? PieHighlighting)?.isSelected = false
+                    }
                     drawDataSet(context: context, dataSet: set)
                 }
             }
@@ -168,8 +171,11 @@ open class PieChartRenderer: DataRenderer
                 if !chart.needsHighlight(index: j)
                 {
                     let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
-
-                    context.setFillColor(dataSet.color(atIndex: j).cgColor)
+                    if let color = (e.data as? PieHighlighting)?.color {
+                        context.setFillColor(color.cgColor)
+                    } else {
+                        context.setFillColor(dataSet.color(atIndex: j).cgColor)
+                    }
 
                     let sliceSpaceAngleOuter = visibleAngleCount == 1 ?
                         0.0 :
@@ -438,7 +444,7 @@ open class PieChartRenderer: DataRenderer
                         labelPoint = CGPoint(x: pt2.x + 5, y: pt2.y - lineHeight)
                     }
 
-                    if dataSet.valueLineColor != nil
+                    if dataSet.valueLineColor != nil && (pe?.data as? PieHighlighting) == nil
                     {
                         context.setStrokeColor(dataSet.valueLineColor!.cgColor)
                         context.setLineWidth(dataSet.valueLineWidth)
@@ -477,15 +483,39 @@ open class PieChartRenderer: DataRenderer
                     {
                         if j < data.entryCount && pe?.label != nil
                         {
-                            ChartUtils.drawText(
-                                context: context,
-                                text: pe!.label!,
-                                point: CGPoint(x: labelPoint.x, y: labelPoint.y + lineHeight / 2.0),
-                                align: align,
-                                attributes: [
-                                    NSAttributedStringKey.font: entryLabelFont ?? valueFont,
-                                    NSAttributedStringKey.foregroundColor: entryLabelColor ?? valueTextColor]
-                            )
+                            func drawText() {
+                                ChartUtils.drawText(
+                                    context: context,
+                                    text: pe!.label!,
+                                    point: CGPoint(x: labelPoint.x, y: labelPoint.y + lineHeight / 2.0),
+                                    align: align,
+                                    attributes: [
+                                        NSAttributedStringKey.font: entryLabelFont ?? valueFont,
+                                        NSAttributedStringKey.foregroundColor: entryLabelColor ?? valueTextColor]
+                                )
+                            }
+                            if let isSelected = (pe?.data as? PieHighlighting)?.isSelected {
+                                if isSelected {
+                                    if let lineColor = dataSet.valueLineColor?.cgColor {
+                                        context.setStrokeColor(lineColor)
+                                        context.setFillColor(lineColor)
+                                        context.setLineWidth(dataSet.valueLineWidth)
+                                        let radius: CGFloat = 5
+                                        context.addArc(
+                                            center: CGPoint(x: pt1.x + (cos(transformedAngle / 180 * .pi) * radius * 1.75),
+                                                            y: pt1.y + (sin(transformedAngle / 180 * .pi) * radius * 1.75)),
+                                            radius: radius,
+                                            startAngle: 0,
+                                            endAngle: 2 * .pi,
+                                            clockwise: false
+                                        )
+                                        context.drawPath(using: CGPathDrawingMode.fillStroke)
+                                    }
+                                    drawText()
+                                }
+                            } else {
+                                drawText()
+                            }
                         }
                     }
                     else if drawYOutside
@@ -733,6 +763,7 @@ open class PieChartRenderer: DataRenderer
             for j in 0 ..< entryCount
             {
                 guard let e = set.entryForIndex(j) else { continue }
+                (e.data as? PieHighlighting)?.isSelected = false
                 if ((abs(e.y) > Double.ulpOfOne))
                 {
                     visibleAngleCount += 1
@@ -747,6 +778,7 @@ open class PieChartRenderer: DataRenderer
             {
                 angle = absoluteAngles[index - 1] * CGFloat(phaseX)
             }
+            (set.entryForIndex(index)?.data as? PieHighlighting)?.isSelected = true
 
             let sliceSpace = visibleAngleCount <= 1 ? 0.0 : set.sliceSpace
 
@@ -758,7 +790,11 @@ open class PieChartRenderer: DataRenderer
 
             let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
 
-            context.setFillColor(set.highlightColor?.cgColor ?? set.color(atIndex: index).cgColor)
+            if let color = (set.entryForIndex(index)?.data as? PieHighlighting)?.color {
+                context.setFillColor(color.withAlphaComponent(0.8).cgColor)
+            } else {
+                context.setFillColor(set.highlightColor?.cgColor ?? set.color(atIndex: index).cgColor)
+            }
 
             let sliceSpaceAngleOuter = visibleAngleCount == 1 ?
                 0.0 :
@@ -920,5 +956,15 @@ open class PieChartRenderer: DataRenderer
         modifier(element)
 
         return element
+    }
+}
+
+public final class PieHighlighting {
+    public let color: NSUIColor
+    public var isSelected: Bool
+
+    public init(color: NSUIColor, isSelected: Bool = false) {
+        self.color = color
+        self.isSelected = isSelected
     }
 }
