@@ -25,6 +25,9 @@ public protocol ChartViewDelegate
     /// - parameter highlight: The corresponding highlight object that contains information about the highlighted position such as dataSetIndex etc.
     @objc optional func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight)
     
+    /// Called when a user stop highlighting values while panning
+    @objc optional func chartViewDidEndPanning(_ chartView: ChartViewBase)
+    
     // Called when nothing has been selected or an "un-select" has been made.
     @objc optional func chartValueNothingSelected(_ chartView: ChartViewBase)
     

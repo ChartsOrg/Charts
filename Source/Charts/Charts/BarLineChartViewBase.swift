@@ -779,6 +779,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 }
                 
                 _isDragging = false
+            
+                delegate?.chartViewDidEndPanning?(self)
             }
             
             if _outerScrollView !== nil
