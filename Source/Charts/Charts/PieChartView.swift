@@ -393,11 +393,11 @@ open class PieChartView: PieRadarChartViewBase
                 paragraphStyle.alignment = .center
                 
                 attrString = NSMutableAttributedString(string: newValue!)
-                attrString?.setAttributes([
-                    NSForegroundColorAttributeName: NSUIColor.black,
-                    NSFontAttributeName: NSUIFont.systemFont(ofSize: 12.0),
-                    NSParagraphStyleAttributeName: paragraphStyle
-                    ], range: NSMakeRange(0, attrString!.length))
+                attrString?.setAttributes(convertToOptionalNSAttributedStringKeyDictionary([
+                    convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): NSUIColor.black,
+                    convertFromNSAttributedStringKey(NSAttributedString.Key.font): NSUIFont.systemFont(ofSize: 12.0),
+                    convertFromNSAttributedStringKey(NSAttributedString.Key.paragraphStyle): paragraphStyle
+                    ]), range: NSMakeRange(0, attrString!.length))
             }
             self.centerAttributedText = attrString
         }
@@ -659,4 +659,15 @@ open class PieChartView: PieRadarChartViewBase
             }
         }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
+	return input.rawValue
 }

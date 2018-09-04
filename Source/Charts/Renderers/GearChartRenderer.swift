@@ -107,7 +107,7 @@ open class GearChartRenderer: DataRenderer
         for j in 0 ..< entryCount
         {
             guard let e = dataSet.entryForIndex(j) else { continue }
-            if ((abs(e.y) > DBL_EPSILON))
+            if ((abs(e.y) > Double.ulpOfOne))
             {
                 visibleAngleCount += 1
             }
@@ -138,7 +138,7 @@ open class GearChartRenderer: DataRenderer
         let e = dataSet.entryForIndex(0)!
         
         // draw only if the value is greater than zero
-        if (abs(e.y) > DBL_EPSILON)
+        if (abs(e.y) > Double.ulpOfOne)
         {
             
             var sweepAngleOuter = (sliceAngle) * CGFloat(phaseY)
@@ -314,7 +314,7 @@ open class GearChartRenderer: DataRenderer
                         text: valueText,
                         point: labelPoint,
                         align: align,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
+                        attributes: [convertFromNSAttributedStringKey(NSAttributedString.Key.font): valueFont, convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): valueTextColor]
                     )
                 }
                 else if drawYOutside
@@ -324,7 +324,7 @@ open class GearChartRenderer: DataRenderer
                         text: valueText,
                         point: CGPoint(x: labelPoint.x, y: labelPoint.y + lineHeight / 2.0),
                         align: align,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
+                        attributes: [convertFromNSAttributedStringKey(NSAttributedString.Key.font): valueFont, convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): valueTextColor]
                     )
                 }
             }
@@ -342,7 +342,7 @@ open class GearChartRenderer: DataRenderer
                         text: valueText,
                         point: CGPoint(x: x, y: y),
                         align: .center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
+                        attributes: [convertFromNSAttributedStringKey(NSAttributedString.Key.font): valueFont, convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): valueTextColor]
                     )
                 }
                 else if drawYInside
@@ -352,7 +352,7 @@ open class GearChartRenderer: DataRenderer
                         text: valueText,
                         point: CGPoint(x: x, y: y + lineHeight / 2.0),
                         align: .center,
-                        attributes: [NSFontAttributeName: valueFont, NSForegroundColorAttributeName: valueTextColor]
+                        attributes: [convertFromNSAttributedStringKey(NSAttributedString.Key.font): valueFont, convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): valueTextColor]
                     )
                 }
             }
@@ -475,7 +475,7 @@ open class GearChartRenderer: DataRenderer
             for j in 0 ..< entryCount
             {
                 guard let e = set.entryForIndex(j) else { continue }
-                if ((abs(e.y) > DBL_EPSILON))
+                if ((abs(e.y) > Double.ulpOfOne))
                 {
                     visibleAngleCount += 1
                 }
@@ -531,4 +531,9 @@ open class GearChartRenderer: DataRenderer
         
         context.restoreGState()
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
+	return input.rawValue
 }

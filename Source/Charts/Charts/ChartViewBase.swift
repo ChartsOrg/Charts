@@ -355,7 +355,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         
         let frame = self.bounds
 
-        if _data === nil && noDataText.characters.count > 0
+        if _data === nil && noDataText.count > 0
         {
             context.saveGState()
             defer { context.restoreGState() }
@@ -365,8 +365,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
                 text: noDataText,
                 point: CGPoint(x: frame.width / 2.0, y: frame.height / 2.0),
                 attributes:
-                [NSFontAttributeName: noDataFont,
-                 NSForegroundColorAttributeName: noDataTextColor],
+                [convertFromNSAttributedStringKey(NSAttributedString.Key.font): noDataFont,
+                 convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): noDataTextColor],
                 constrainedToSize: self.bounds.size,
                 anchor: CGPoint(x: 0.5, y: 0.5),
                 angleRadians: 0.0)
@@ -389,7 +389,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             let description = chartDescription,
             description.isEnabled,
             let descriptionText = description.text,
-            descriptionText.characters.count > 0
+            descriptionText.count > 0
             else { return }
         
         var position = description.position
@@ -405,8 +405,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         
         var attrs = [String : AnyObject]()
         
-        attrs[NSFontAttributeName] = description.font
-        attrs[NSForegroundColorAttributeName] = description.textColor
+        attrs[convertFromNSAttributedStringKey(NSAttributedString.Key.font)] = description.font
+        attrs[convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)] = description.textColor
 
         ChartUtils.drawText(
             context: context,
@@ -1035,4 +1035,9 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             super.nsuiTouchesCancelled(touches, withEvent: event)
         }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
+	return input.rawValue
 }

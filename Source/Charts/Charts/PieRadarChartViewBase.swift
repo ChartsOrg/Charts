@@ -532,7 +532,7 @@ open class PieRadarChartViewBase: ChartViewBase
             {
                 _decelerationLastTime = CACurrentMediaTime()
                 _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(PieRadarChartViewBase.decelerationLoop))
-                _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
+                _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
             }
         }
     }
@@ -555,11 +555,11 @@ open class PieRadarChartViewBase: ChartViewBase
             
             if !rotationWithTwoFingers
             {
-                let touch = touches.first as NSUITouch!
+                let touch = touches.first
                 
-                let touchLocation = touch?.location(in: self)
+                let touchLocation = touch!.location(in: self)
                 
-                processRotationGestureBegan(location: touchLocation!)
+                processRotationGestureBegan(location: touchLocation)
             }
         }
         
@@ -573,11 +573,11 @@ open class PieRadarChartViewBase: ChartViewBase
     {
         if rotationEnabled && !rotationWithTwoFingers
         {
-            let touch = touches.first as NSUITouch!
+            let touch = touches.first
             
-            let touchLocation = touch?.location(in: self)
+            let touchLocation = touch!.location(in: self)
             
-            processRotationGestureMoved(location: touchLocation!)
+            processRotationGestureMoved(location: touchLocation)
         }
         
         if !_isRotating
@@ -595,11 +595,11 @@ open class PieRadarChartViewBase: ChartViewBase
         
         if rotationEnabled && !rotationWithTwoFingers
         {
-            let touch = touches.first as NSUITouch!
+            let touch = touches.first
             
-            let touchLocation = touch?.location(in: self)
+            let touchLocation = touch!.location(in: self)
             
-            processRotationGestureEnded(location: touchLocation!)
+            processRotationGestureEnded(location: touchLocation)
         }
         
         if _isRotating
@@ -778,7 +778,7 @@ open class PieRadarChartViewBase: ChartViewBase
     {
         if _decelerationDisplayLink !== nil
         {
-            _decelerationDisplayLink.remove(from: RunLoop.main, forMode: RunLoopMode.commonModes)
+            _decelerationDisplayLink.remove(from: RunLoop.main, forMode: RunLoop.Mode.common)
             _decelerationDisplayLink = nil
         }
     }
@@ -867,7 +867,7 @@ open class PieRadarChartViewBase: ChartViewBase
                 {
                     _decelerationLastTime = CACurrentMediaTime()
                     _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(PieRadarChartViewBase.decelerationLoop))
-                    _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
+                    _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
                 }
             }
         }

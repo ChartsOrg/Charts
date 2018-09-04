@@ -27,7 +27,7 @@ open class Highlight: NSObject
     fileprivate var _yPx = CGFloat.nan
     
     /// the index of the data object - in case it refers to more than one
-    open var dataIndex = Int(-1)
+    @objc open var dataIndex = Int(-1)
     
     /// the index of the dataset the highlighted value is in
     fileprivate var _dataSetIndex = Int(0)
@@ -143,12 +143,12 @@ open class Highlight: NSObject
         _stackIndex = stackIndex
     }
     
-    open var x: Double { return _x }
-    open var y: Double { return _y }
+    @objc open var x: Double { return _x }
+    @objc open var y: Double { return _y }
     open var xPx: CGFloat { return _xPx }
     open var yPx: CGFloat { return _yPx }
-    open var dataSetIndex: Int { return _dataSetIndex }
-    open var stackIndex: Int { return _stackIndex }
+    @objc open var dataSetIndex: Int { return _dataSetIndex }
+    @objc open var stackIndex: Int { return _stackIndex }
     open var axis: YAxis.AxisDependency { return _axis }
     
     open var isStacked: Bool { return _stackIndex >= 0 }
