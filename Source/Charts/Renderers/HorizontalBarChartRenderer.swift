@@ -284,29 +284,35 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             }
             else if(dataSet.isStackedWithRoundedCorners){
                 
-                if(barRect == buffer.rects[0]){
-                    let path = UIBezierPath.init(roundedRect: barRect, byRoundingCorners: UIRectCorner.bottomLeft.union(UIRectCorner.topLeft), cornerRadii: CGSize(width: dataSet.barCornerRadius, height: dataSet.barCornerRadius))
-                    
-                    path.fill()
-                    
-                    if drawBorder
-                    {
-                        path.stroke()
-                    }
-                }
-                if(barRect == buffer.rects[buffer.rects.count.advanced(by: -1)]){
-                    let path = UIBezierPath.init(roundedRect: barRect, byRoundingCorners: UIRectCorner.bottomRight.union(UIRectCorner.topRight), cornerRadii: CGSize(width: dataSet.barCornerRadius, height: dataSet.barCornerRadius))
-                    
-                    path.fill()
-                    
-                    if drawBorder
-                    {
-                        path.stroke()
-                    }
-                }
-
-             
+                var roundedCorners : UIRectCorner = UIRectCorner()
+                let rectIndex = buffer.rects.index(of: barRect) ?? 0
                 
+                //Se il valore non è 0 >> se è il primo valore oppure se il valore precente è 0, arrotonda gli angoli di sinistra
+                if(barRect.width > 0  && (rectIndex == 0 || (rectIndex > 0 && buffer.rects[rectIndex-1].width == 0))){
+                    roundedCorners = UIRectCorner.topLeft.union(UIRectCorner.bottomLeft)
+                }
+                
+                //Se è l'ultimo valore, oppure se è l'ultimo maggiore di 0, arrotonda gli angoli di destra
+                var moreValues = false
+                for n in stride(from: rectIndex+1, to: buffer.rects.count, by: 1){
+                    let remainingVal:CGRect = buffer.rects[n]
+                    if(remainingVal.width > 0){
+                        moreValues = true
+                        break
+                    }
+                }
+                if(!moreValues || (rectIndex == buffer.rects.count-1 && barRect.width > 0)){
+                    roundedCorners = roundedCorners.union(UIRectCorner.topRight).union(UIRectCorner.bottomRight)
+                }
+                
+                
+                let path : UIBezierPath = UIBezierPath.init(roundedRect: barRect, byRoundingCorners: roundedCorners, cornerRadii: CGSize(width: dataSet.barCornerRadius, height: dataSet.barCornerRadius))
+                path.fill()
+                
+                if drawBorder
+                {
+                    path.stroke()
+                }
             }
             else
             {
@@ -389,7 +395,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 let buffer = _buffers[dataSetIndex]
                 
                 // if only single values are drawn (sum)
-                if !dataSet.isStacked
+                if (!dataSet.isStacked || dataSet.entryCount == 1)
                 {
                     for j in 0 ..< Int(ceil(Double(dataSet.entryCount) * animator.phaseX))
                     {
