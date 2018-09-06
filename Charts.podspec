@@ -5,6 +5,7 @@ Pod::Spec.new do |s|
   s.homepage = "https://github.com/danielgindi/Charts"
   s.license = { :type => "Apache License, Version 2.0", :file => "LICENSE" }
   s.authors = "Daniel Cohen Gindi", "Philipp Jahoda"
+  s.swift_version = '4.1'
   s.ios.deployment_target = "8.0"
   s.tvos.deployment_target = "9.0"
   s.osx.deployment_target = "10.11"
