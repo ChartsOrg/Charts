@@ -15,7 +15,7 @@ import CoreGraphics
 @objc(ChartDataRendererBase)
 open class DataRenderer: Renderer
 {
-    @objc open let animator: Animator
+    @objc public let animator: Animator
     
     @objc public init(animator: Animator, viewPortHandler: ViewPortHandler)
     {
