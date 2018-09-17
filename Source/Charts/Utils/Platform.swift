@@ -274,7 +274,7 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
             stop()
         }
 
-		open func add(to runloop: RunLoop, forMode mode: RunLoopMode)
+        open func add(to runloop: RunLoop, forMode mode: RunLoop.Mode)
         {
             if displayLink != nil
             {
@@ -286,7 +286,7 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
             }
 		}
 
-		open func remove(from: RunLoop, forMode: RunLoopMode)
+        open func remove(from: RunLoop, forMode: RunLoop.Mode)
         {
             stop()
 		}
@@ -397,7 +397,7 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
         /// A private constant to set the accessibility role during initialization.
         /// It ensures parity with the iOS element ordering as well as numbered counts of chart components.
         /// (See Platform+Accessibility for details)
-        private let role: NSAccessibilityRole = .list
+        private let role: NSAccessibility.Role = .list
 
         public override init(frame frameRect: NSRect)
         {

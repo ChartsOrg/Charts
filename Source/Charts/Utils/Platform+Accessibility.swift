@@ -4,12 +4,12 @@ import Foundation
 
 internal func accessibilityPostLayoutChangedNotification(withElement element: Any? = nil)
 {
-    UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, element)
+    UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: element)
 }
 
 internal func accessibilityPostScreenChangedNotification(withElement element: Any? = nil)
 {
-    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, element)
+    UIAccessibility.post(notification: UIAccessibility.Notification.screenChanged, argument: element)
 }
 
 /// A simple abstraction over UIAccessibilityElement and NSAccessibilityElement.
@@ -21,7 +21,7 @@ open class NSUIAccessibilityElement: UIAccessibilityElement
     {
         didSet
         {
-            accessibilityTraits = isHeader ? UIAccessibilityTraitHeader : UIAccessibilityTraitNone
+            accessibilityTraits = isHeader ? UIAccessibilityTraits.header : UIAccessibilityTraits.none
         }
     }
 
@@ -29,7 +29,7 @@ open class NSUIAccessibilityElement: UIAccessibilityElement
         {
         didSet
         {
-            accessibilityTraits = isSelected ? UIAccessibilityTraitSelected : UIAccessibilityTraitNone
+            accessibilityTraits = isSelected ? UIAccessibilityTraits.selected : UIAccessibilityTraits.none
         }
     }
 
@@ -93,7 +93,7 @@ extension NSUIView
 internal func accessibilityPostLayoutChangedNotification(withElement element: Any? = nil)
 {
     guard let validElement = element else { return }
-    NSAccessibilityPostNotification(validElement, .layoutChanged)
+    NSAccessibility.post(element: validElement, notification: .layoutChanged)
 }
 
 internal func accessibilityPostScreenChangedNotification(withElement element: Any? = nil)
@@ -144,7 +144,7 @@ open class NSUIAccessibilityElement: NSAccessibilityElement
 
         set
         {
-            let bounds = NSAccessibilityFrameInView(containerView, newValue)
+            let bounds = NSAccessibility.screenRect(fromView: containerView, rect: newValue)
 
             // This works, but won't auto update if the window is resized or moved.
             // setAccessibilityFrame(bounds)
@@ -154,8 +154,8 @@ open class NSUIAccessibilityElement: NSAccessibilityElement
             // This is a slightly hacky workaround that calculates the offset and removes it from frame calculation.
             setAccessibilityFrameInParentSpace(bounds)
             let axFrame = accessibilityFrame()
-            let widthOffset = fabs(axFrame.origin.x - bounds.origin.x)
-            let heightOffset = fabs(axFrame.origin.y - bounds.origin.y)
+            let widthOffset = abs(axFrame.origin.x - bounds.origin.x)
+            let heightOffset = abs(axFrame.origin.y - bounds.origin.y)
             let rect = NSRect(x: bounds.origin.x - widthOffset,
                               y: bounds.origin.y - heightOffset,
                               width: bounds.width,
