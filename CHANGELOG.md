@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/danielgindi/Charts/tree/HEAD)
-
-[Full Changelog](https://github.com/danielgindi/Charts/compare/v3.1.1...HEAD)
+## [v3.2.0](https://github.com/danielgindi/Charts/tree/v3.2.0) (2018-09-17)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/3.1.1...v3.2.0)
 
 **Fixed bugs:**
 
@@ -223,11 +222,11 @@
 - Dataset logic cleanup [\#3001](https://github.com/danielgindi/Charts/pull/3001) ([jjatie](https://github.com/jjatie))
 - Added value text rotation [\#2200](https://github.com/danielgindi/Charts/pull/2200) ([chinh-tran](https://github.com/chinh-tran))
 
-## [v3.1.1](https://github.com/danielgindi/Charts/tree/v3.1.1) (2018-04-02)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/3.1.1...v3.1.1)
-
 ## [3.1.1](https://github.com/danielgindi/Charts/tree/3.1.1) (2018-04-02)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/3.1.0...3.1.1)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/v3.1.1...3.1.1)
+
+## [v3.1.1](https://github.com/danielgindi/Charts/tree/v3.1.1) (2018-04-02)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/3.1.0...v3.1.1)
 
 **Fixed bugs:**
 
@@ -291,7 +290,7 @@
 [Full Changelog](https://github.com/danielgindi/Charts/compare/v3.1.0...3.1.0)
 
 ## [v3.1.0](https://github.com/danielgindi/Charts/tree/v3.1.0) (2018-03-22)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/3.0.5...v3.1.0)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/v3.0.5...v3.1.0)
 
 **Fixed bugs:**
 
@@ -457,11 +456,11 @@
 - fix \#2356 crash if floor\(10.0 \* intervalMagnitude\) is 0.0 [\#2377](https://github.com/danielgindi/Charts/pull/2377) ([liuxuan30](https://github.com/liuxuan30))
 - Fixes the distance issue between the legend and the horizontal bar chart \(Fixes \#2138\) [\#2214](https://github.com/danielgindi/Charts/pull/2214) ([SvenMuc](https://github.com/SvenMuc))
 
-## [3.0.5](https://github.com/danielgindi/Charts/tree/3.0.5) (2018-01-08)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/v3.0.5...3.0.5)
-
 ## [v3.0.5](https://github.com/danielgindi/Charts/tree/v3.0.5) (2018-01-08)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/v3.0.4...v3.0.5)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/3.0.5...v3.0.5)
+
+## [3.0.5](https://github.com/danielgindi/Charts/tree/3.0.5) (2018-01-08)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/3.0.4...3.0.5)
 
 **Implemented enhancements:**
 
@@ -734,11 +733,11 @@
 - add example playground [\#2364](https://github.com/danielgindi/Charts/pull/2364) ([thierryH91200](https://github.com/thierryH91200))
 - Compatibility with swift playgrounds [\#2335](https://github.com/danielgindi/Charts/pull/2335) ([macteo](https://github.com/macteo))
 
-## [v3.0.4](https://github.com/danielgindi/Charts/tree/v3.0.4) (2017-09-21)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/3.0.4...v3.0.4)
-
 ## [3.0.4](https://github.com/danielgindi/Charts/tree/3.0.4) (2017-09-21)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/3.0.3...3.0.4)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/v3.0.4...3.0.4)
+
+## [v3.0.4](https://github.com/danielgindi/Charts/tree/v3.0.4) (2017-09-21)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/3.0.3...v3.0.4)
 
 **Closed issues:**
 
@@ -1490,7 +1489,7 @@
 [Full Changelog](https://github.com/danielgindi/Charts/compare/3.0.1...v3.0.1)
 
 ## [3.0.1](https://github.com/danielgindi/Charts/tree/3.0.1) (2016-11-20)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/v2.3.1...3.0.1)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/2.3.1...3.0.1)
 
 **Closed issues:**
 
@@ -1560,11 +1559,11 @@
 
 - Added a check against NaN [\#1733](https://github.com/danielgindi/Charts/pull/1733) ([Selficide](https://github.com/Selficide))
 
-## [v2.3.1](https://github.com/danielgindi/Charts/tree/v2.3.1) (2016-11-04)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/2.3.1...v2.3.1)
-
 ## [2.3.1](https://github.com/danielgindi/Charts/tree/2.3.1) (2016-11-04)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/v3.0.0...2.3.1)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/v2.3.1...2.3.1)
+
+## [v2.3.1](https://github.com/danielgindi/Charts/tree/v2.3.1) (2016-11-04)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/v3.0.0...v2.3.1)
 
 **Fixed bugs:**
 
