@@ -112,9 +112,9 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     /// Calls `notifyDataSetChanged()` afterwards.
     ///
     /// - Parameters:
-    /// - parameter fromX: the starting point on the x-axis where the grouping should begin
-    /// - parameter groupSpace: the space between groups of bars in values (not pixels) e.g. 0.8f for bar width 1f
-    /// - parameter barSpace: the space between individual bars in values (not pixels) e.g. 0.1f for bar width 1f
+    ///   - fromX: the starting point on the x-axis where the grouping should begin
+    ///   - groupSpace: the space between groups of bars in values (not pixels) e.g. 0.8f for bar width 1f
+    ///   - barSpace: the space between individual bars in values (not pixels) e.g. 0.1f for bar width 1f
     @objc open func groupBars(fromX: Double, groupSpace: Double, barSpace: Double)
     {
         guard let barData = self.barData
@@ -130,9 +130,9 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     
     /// Highlights the value at the given x-value in the given DataSet. Provide -1 as the dataSetIndex to undo all highlighting.
     /// - Parameters:
-    /// - parameter x:
-    /// - parameter dataSetIndex:
-    /// - parameter stackIndex: the index inside the stack - only relevant for stacked entries
+    ///   - x:
+    ///   - dataSetIndex:
+    ///   - stackIndex: the index inside the stack - only relevant for stacked entries
     @objc open func highlightValue(x: Double, dataSetIndex: Int, stackIndex: Int)
     {
         highlightValue(Highlight(x: x, dataSetIndex: dataSetIndex, stackIndex: stackIndex))

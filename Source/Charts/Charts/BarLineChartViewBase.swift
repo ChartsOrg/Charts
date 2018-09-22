@@ -1011,10 +1011,10 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// (in pixels) of the zoom center.
     ///
     /// - Parameters:
-    /// - parameter scaleX: if < 1 --> zoom out, if > 1 --> zoom in
-    /// - parameter scaleY: if < 1 --> zoom out, if > 1 --> zoom in
-    /// - parameter x:
-    /// - parameter y:
+    ///   - scaleX: if < 1 --> zoom out, if > 1 --> zoom in
+    ///   - scaleY: if < 1 --> zoom out, if > 1 --> zoom in
+    ///   - x:
+    ///   - y:
     @objc open func zoom(
         scaleX: CGFloat,
                scaleY: CGFloat,
@@ -1033,11 +1033,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// x and y are the values (**not pixels**) of the zoom center.
     ///
     /// - Parameters:
-    /// - parameter scaleX: if < 1 --> zoom out, if > 1 --> zoom in
-    /// - parameter scaleY: if < 1 --> zoom out, if > 1 --> zoom in
-    /// - parameter xValue:
-    /// - parameter yValue:
-    /// - parameter axis:
+    ///   - scaleX: if < 1 --> zoom out, if > 1 --> zoom in
+    ///   - scaleY: if < 1 --> zoom out, if > 1 --> zoom in
+    ///   - xValue:
+    ///   - yValue:
+    ///   - axis:
     @objc open func zoom(
         scaleX: CGFloat,
                scaleY: CGFloat,
@@ -1060,11 +1060,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// Zooms to the center of the chart with the given scale factor.
     ///
     /// - Parameters:
-    /// - parameter scaleX: if < 1 --> zoom out, if > 1 --> zoom in
-    /// - parameter scaleY: if < 1 --> zoom out, if > 1 --> zoom in
-    /// - parameter xValue:
-    /// - parameter yValue:
-    /// - parameter axis:
+    ///   - scaleX: if < 1 --> zoom out, if > 1 --> zoom in
+    ///   - scaleY: if < 1 --> zoom out, if > 1 --> zoom in
+    ///   - xValue:
+    ///   - yValue:
+    ///   - axis:
     @objc open func zoomToCenter(
         scaleX: CGFloat,
                scaleY: CGFloat)
@@ -1081,13 +1081,13 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// Zooms by the specified scale factor to the specified values on the specified axis.
     ///
     /// - Parameters:
-    /// - parameter scaleX:
-    /// - parameter scaleY:
-    /// - parameter xValue:
-    /// - parameter yValue:
-    /// - parameter axis: which axis should be used as a reference for the y-axis
-    /// - parameter duration: the duration of the animation in seconds
-    /// - parameter easing:
+    ///   - scaleX:
+    ///   - scaleY:
+    ///   - xValue:
+    ///   - yValue:
+    ///   - axis: which axis should be used as a reference for the y-axis
+    ///   - duration: the duration of the animation in seconds
+    ///   - easing:
     @objc open func zoomAndCenterViewAnimated(
         scaleX: CGFloat,
         scaleY: CGFloat,
@@ -1124,13 +1124,13 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// Zooms by the specified scale factor to the specified values on the specified axis.
     ///
     /// - Parameters:
-    /// - parameter scaleX:
-    /// - parameter scaleY:
-    /// - parameter xValue:
-    /// - parameter yValue:
-    /// - parameter axis: which axis should be used as a reference for the y-axis
-    /// - parameter duration: the duration of the animation in seconds
-    /// - parameter easing:
+    ///   - scaleX:
+    ///   - scaleY:
+    ///   - xValue:
+    ///   - yValue:
+    ///   - axis: which axis should be used as a reference for the y-axis
+    ///   - duration: the duration of the animation in seconds
+    ///   - easing:
     @objc open func zoomAndCenterViewAnimated(
         scaleX: CGFloat,
         scaleY: CGFloat,
@@ -1146,13 +1146,13 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// Zooms by the specified scale factor to the specified values on the specified axis.
     ///
     /// - Parameters:
-    /// - parameter scaleX:
-    /// - parameter scaleY:
-    /// - parameter xValue:
-    /// - parameter yValue:
-    /// - parameter axis: which axis should be used as a reference for the y-axis
-    /// - parameter duration: the duration of the animation in seconds
-    /// - parameter easing:
+    ///   - scaleX:
+    ///   - scaleY:
+    ///   - xValue:
+    ///   - yValue:
+    ///   - axis: which axis should be used as a reference for the y-axis
+    ///   - duration: the duration of the animation in seconds
+    ///   - easing:
     @objc open func zoomAndCenterViewAnimated(
         scaleX: CGFloat,
         scaleY: CGFloat,
@@ -1226,8 +1226,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// Sets the size of the area (range on the y-axis) that should be maximum visible at once.
     ///
     /// - Parameters:
-    /// - parameter yRange:
-    /// - parameter axis: - the axis for which this limit should apply
+    ///   - yRange:
+    ///   - axis: - the axis for which this limit should apply
     @objc open func setVisibleYRangeMaximum(_ maxYRange: Double, axis: YAxis.AxisDependency)
     {
         let yScale = getAxisRange(axis: axis) / maxYRange
@@ -1237,8 +1237,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// Sets the size of the area (range on the y-axis) that should be minimum visible at once, no further zooming in possible.
     ///
     /// - Parameters:
-    /// - parameter yRange:
-    /// - parameter axis: - the axis for which this limit should apply
+    ///   - yRange:
+    ///   - axis: - the axis for which this limit should apply
     @objc open func setVisibleYRangeMinimum(_ minYRange: Double, axis: YAxis.AxisDependency)
     {
         let yScale = getAxisRange(axis: axis) / minYRange
@@ -1248,9 +1248,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// Limits the maximum and minimum y range that can be visible by pinching and zooming.
     ///
     /// - Parameters:
-    /// - parameter minYRange:
-    /// - parameter maxYRange:
-    /// - parameter axis:
+    ///   - minYRange:
+    ///   - maxYRange:
+    ///   - axis:
     @objc open func setVisibleYRange(minYRange: Double, maxYRange: Double, axis: YAxis.AxisDependency)
     {
         let minScale = getAxisRange(axis: axis) / minYRange
@@ -1276,8 +1276,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// This also refreshes the chart by calling setNeedsDisplay().
     /// 
     /// - Parameters:
-    /// - parameter yValue:
-    /// - parameter axis: - which axis should be used as a reference for the y-axis
+    ///   - yValue:
+    ///   - axis: - which axis should be used as a reference for the y-axis
     @objc open func moveViewToY(_ yValue: Double, axis: YAxis.AxisDependency)
     {
         let yInView = getAxisRange(axis: axis) / Double(_viewPortHandler.scaleY)
@@ -1296,9 +1296,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// This also refreshes the chart by calling setNeedsDisplay().
     /// 
     /// - Parameters:
-    /// - parameter xValue:
-    /// - parameter yValue:
-    /// - parameter axis: - which axis should be used as a reference for the y-axis
+    ///   - xValue:
+    ///   - yValue:
+    ///   - axis: - which axis should be used as a reference for the y-axis
     @objc open func moveViewTo(xValue: Double, yValue: Double, axis: YAxis.AxisDependency)
     {
         let yInView = getAxisRange(axis: axis) / Double(_viewPortHandler.scaleY)
@@ -1317,11 +1317,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// This also refreshes the chart by calling setNeedsDisplay().
     ///
     /// - Parameters:
-    /// - parameter xValue:
-    /// - parameter yValue:
-    /// - parameter axis: which axis should be used as a reference for the y-axis
-    /// - parameter duration: the duration of the animation in seconds
-    /// - parameter easing:
+    ///   - xValue:
+    ///   - yValue:
+    ///   - axis: which axis should be used as a reference for the y-axis
+    ///   - duration: the duration of the animation in seconds
+    ///   - easing:
     @objc open func moveViewToAnimated(
         xValue: Double,
         yValue: Double,
@@ -1353,11 +1353,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// This also refreshes the chart by calling setNeedsDisplay().
     ///
     /// - Parameters:
-    /// - parameter xValue:
-    /// - parameter yValue:
-    /// - parameter axis: which axis should be used as a reference for the y-axis
-    /// - parameter duration: the duration of the animation in seconds
-    /// - parameter easing:
+    ///   - xValue:
+    ///   - yValue:
+    ///   - axis: which axis should be used as a reference for the y-axis
+    ///   - duration: the duration of the animation in seconds
+    ///   - easing:
     @objc open func moveViewToAnimated(
         xValue: Double,
         yValue: Double,
@@ -1372,11 +1372,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// This also refreshes the chart by calling setNeedsDisplay().
     ///
     /// - Parameters:
-    /// - parameter xValue:
-    /// - parameter yValue:
-    /// - parameter axis: which axis should be used as a reference for the y-axis
-    /// - parameter duration: the duration of the animation in seconds
-    /// - parameter easing:
+    ///   - xValue:
+    ///   - yValue:
+    ///   - axis: which axis should be used as a reference for the y-axis
+    ///   - duration: the duration of the animation in seconds
+    ///   - easing:
     @objc open func moveViewToAnimated(
         xValue: Double,
         yValue: Double,
@@ -1390,9 +1390,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// This also refreshes the chart by calling setNeedsDisplay().
     ///
     /// - Parameters:
-    /// - parameter xValue:
-    /// - parameter yValue:
-    /// - parameter axis: - which axis should be used as a reference for the y-axis
+    ///   - xValue:
+    ///   - yValue:
+    ///   - axis: - which axis should be used as a reference for the y-axis
     @objc open func centerViewTo(
         xValue: Double,
         yValue: Double,
@@ -1414,11 +1414,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// This will move the center of the current viewport to the specified x-value and y-value animated.
     ///
     /// - Parameters:
-    /// - parameter xValue:
-    /// - parameter yValue:
-    /// - parameter axis: which axis should be used as a reference for the y-axis
-    /// - parameter duration: the duration of the animation in seconds
-    /// - parameter easing:
+    ///   - xValue:
+    ///   - yValue:
+    ///   - axis: which axis should be used as a reference for the y-axis
+    ///   - duration: the duration of the animation in seconds
+    ///   - easing:
     @objc open func centerViewToAnimated(
         xValue: Double,
         yValue: Double,
@@ -1450,11 +1450,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// This will move the center of the current viewport to the specified x-value and y-value animated.
     ///
     /// - Parameters:
-    /// - parameter xValue:
-    /// - parameter yValue:
-    /// - parameter axis: which axis should be used as a reference for the y-axis
-    /// - parameter duration: the duration of the animation in seconds
-    /// - parameter easing:
+    ///   - xValue:
+    ///   - yValue:
+    ///   - axis: which axis should be used as a reference for the y-axis
+    ///   - duration: the duration of the animation in seconds
+    ///   - easing:
     @objc open func centerViewToAnimated(
         xValue: Double,
         yValue: Double,
@@ -1468,11 +1468,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// This will move the center of the current viewport to the specified x-value and y-value animated.
     ///
     /// - Parameters:
-    /// - parameter xValue:
-    /// - parameter yValue:
-    /// - parameter axis: which axis should be used as a reference for the y-axis
-    /// - parameter duration: the duration of the animation in seconds
-    /// - parameter easing:
+    ///   - xValue:
+    ///   - yValue:
+    ///   - axis: which axis should be used as a reference for the y-axis
+    ///   - duration: the duration of the animation in seconds
+    ///   - easing:
     @objc open func centerViewToAnimated(
         xValue: Double,
         yValue: Double,

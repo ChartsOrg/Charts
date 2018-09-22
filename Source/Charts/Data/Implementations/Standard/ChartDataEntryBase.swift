@@ -29,7 +29,7 @@ open class ChartDataEntryBase: NSObject
     
     /// An Entry represents one single entry in the chart.
     /// - Parameters:
-    /// - parameter y: the y value (the actual value of the entry)
+    ///   - y: the y value (the actual value of the entry)
     @objc public init(y: Double)
     {
         super.init()
@@ -38,8 +38,8 @@ open class ChartDataEntryBase: NSObject
     }
     
     /// - Parameters:
-    /// - parameter y: the y value (the actual value of the entry)
-    /// - parameter data: Space for additional data this Entry represents.
+    ///   - y: the y value (the actual value of the entry)
+    ///   - data: Space for additional data this Entry represents.
     
     @objc public init(y: Double, data: AnyObject?)
     {
@@ -50,8 +50,8 @@ open class ChartDataEntryBase: NSObject
     }
     
     /// - Parameters:
-    /// - parameter y: the y value (the actual value of the entry)
-    /// - parameter icon: icon image
+    ///   - y: the y value (the actual value of the entry)
+    ///   - icon: icon image
     
     @objc public init(y: Double, icon: NSUIImage?)
     {
@@ -62,9 +62,9 @@ open class ChartDataEntryBase: NSObject
     }
     
     /// - Parameters:
-    /// - parameter y: the y value (the actual value of the entry)
-    /// - parameter icon: icon image
-    /// - parameter data: Space for additional data this Entry represents.
+    ///   - y: the y value (the actual value of the entry)
+    ///   - icon: icon image
+    ///   - data: Space for additional data this Entry represents.
     
     @objc public init(y: Double, icon: NSUIImage?, data: AnyObject?)
     {

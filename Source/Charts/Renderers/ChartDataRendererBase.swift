@@ -51,7 +51,7 @@ open class DataRenderer: Renderer
     /// Draws all highlight indicators for the values that are currently highlighted.
     ///
     /// - Parameters:
-    /// - parameter indices: the highlighted values
+    ///   - indices: the highlighted values
     @objc open func drawHighlighted(context: CGContext, indices: [Highlight])
     {
         fatalError("drawHighlighted() cannot be called on DataRenderer")

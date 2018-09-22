@@ -53,10 +53,10 @@ open class DataApproximator: NSObject
     /// apply the Douglas-Peucker-Reduction to an array of `CGPoint`s with a given tolerance
     ///
     /// - Parameters:
-    /// - parameter points:
-    /// - parameter tolerance:
-    /// - parameter start:
-    /// - parameter end:
+    ///   - points:
+    ///   - tolerance:
+    ///   - start:
+    ///   - end:
     open class func reduceWithDouglasPeuker(
         points: [CGPoint],
         tolerance: CGFloat,

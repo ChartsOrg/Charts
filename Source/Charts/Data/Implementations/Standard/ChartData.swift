@@ -347,9 +347,9 @@ open class ChartData: NSObject
     /// **IMPORTANT: This method does calculations at runtime, do not over-use in performance critical situations.**
     ///
     /// - Parameters:
-    /// - parameter dataSets: the DataSet array to search
-    /// - parameter type:
-    /// - parameter ignorecase: if true, the search is not case-sensitive
+    ///   - dataSets: the DataSet array to search
+    ///   - type:
+    ///   - ignorecase: if true, the search is not case-sensitive
     /// - returns: The index of the DataSet Object with the given label. Sensitive or not.
     internal func getDataSetIndexByLabel(_ label: String, ignorecase: Bool) -> Int
     {
@@ -402,7 +402,7 @@ open class ChartData: NSObject
     /// Get the Entry for a corresponding highlight object
     ///
     /// - Parameters:
-    /// - parameter highlight:
+    ///   - highlight:
     /// - returns: The entry that is highlighted
     @objc open func entryForHighlight(_ highlight: Highlight) -> ChartDataEntry?
     {
@@ -419,8 +419,8 @@ open class ChartData: NSObject
     /// **IMPORTANT: This method does calculations at runtime. Use with care in performance critical situations.**
     ///
     /// - Parameters:
-    /// - parameter label:
-    /// - parameter ignorecase:
+    ///   - label:
+    ///   - ignorecase:
     /// - returns: The DataSet Object with the given label. Sensitive or not.
     @objc open func getDataSetByLabel(_ label: String, ignorecase: Bool) -> IChartDataSet?
     {

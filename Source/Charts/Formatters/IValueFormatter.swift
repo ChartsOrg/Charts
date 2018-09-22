@@ -27,12 +27,9 @@ public protocol IValueFormatter: class
     /// - returns:                   The formatted label ready to be drawn
     ///
     /// - Parameters:
-    /// - parameter value:           The value to be formatted
-    ///
-    /// - parameter dataSetIndex:    The index of the DataSet the entry in focus belongs to
-    ///
-    /// - parameter viewPortHandler: provides information about the current chart state (scale, translation, ...)
-    ///
+    ///   - value:           The value to be formatted
+    ///   - dataSetIndex:    The index of the DataSet the entry in focus belongs to
+    ///   - viewPortHandler: provides information about the current chart state (scale, translation, ...)
     func stringForValue(_ value: Double,
                         entry: ChartDataEntry,
                         dataSetIndex: Int,

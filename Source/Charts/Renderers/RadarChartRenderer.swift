@@ -77,9 +77,9 @@ open class RadarChartRenderer: LineRadarRenderer
     /// Draws the RadarDataSet
     ///
     /// - Parameters:
-    /// - parameter context:
-    /// - parameter dataSet:
-    /// - parameter mostEntries: the entry count of the dataset with the most entries
+    ///   - context:
+    ///   - dataSet:
+    ///   - mostEntries: the entry count of the dataset with the most entries
     internal func drawDataSet(context: CGContext, dataSet: IRadarChartDataSet, mostEntries: Int)
     {
         guard let chart = chart else { return }

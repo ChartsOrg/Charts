@@ -218,7 +218,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     
     /// Adds a new color to the colors array of the DataSet.
     /// - Parameters:
-    /// - parameter color: the color to add
+    ///   - color: the color to add
     open func addColor(_ color: NSUIColor)
     {
         colors.append(color)
@@ -227,7 +227,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     /// Sets the one and **only** color that should be used for this DataSet.
     /// Internally, this recreates the colors array and adds the specified color.
     /// - Parameters:
-    /// - parameter color: the color to set
+    ///   - color: the color to set
     open func setColor(_ color: NSUIColor)
     {
         colors.removeAll(keepingCapacity: false)
@@ -236,8 +236,8 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     
     /// Sets colors to a single color a specific alpha value.
     /// - Parameters:
-    /// - parameter color: the color to set
-    /// - parameter alpha: alpha to apply to the set `color`
+    ///   - color: the color to set
+    ///   - alpha: alpha to apply to the set `color`
     @objc open func setColor(_ color: NSUIColor, alpha: CGFloat)
     {
         setColor(color.withAlphaComponent(alpha))
@@ -245,8 +245,8 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     
     /// Sets colors with a specific alpha value.
     /// - Parameters:
-    /// - parameter colors: the colors to set
-    /// - parameter alpha: alpha to apply to the set `colors`
+    ///   - colors: the colors to set
+    ///   - alpha: alpha to apply to the set `colors`
     @objc open func setColors(_ colors: [NSUIColor], alpha: CGFloat)
     {
         var colorsWithAlpha = colors
@@ -261,8 +261,8 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     
     /// Sets colors with a specific alpha value.
     /// - Parameters:
-    /// - parameter colors: the colors to set
-    /// - parameter alpha: alpha to apply to the set `colors`
+    ///   - colors: the colors to set
+    ///   - alpha: alpha to apply to the set `colors`
     open func setColors(_ colors: NSUIColor...)
     {
         self.colors = colors
