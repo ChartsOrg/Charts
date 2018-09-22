@@ -326,7 +326,7 @@ open class PieRadarChartViewBase: ChartViewBase
     /// current rotation angle of the pie chart
     ///
     /// **default**: 270 --> top (NORTH)
-    /// - returns: Will always return a normalized value, which will be between 0.0 < 360.0
+    /// Will always return a normalized value, which will be between 0.0 < 360.0
     @objc open var rotationAngle: CGFloat
     {
         get
@@ -348,7 +348,7 @@ open class PieRadarChartViewBase: ChartViewBase
         return _rawRotationAngle
     }
 
-    /// - returns: The diameter of the pie- or radar-chart
+    /// The diameter of the pie- or radar-chart
     @objc open var diameter: CGFloat
     {
         var content = _viewPortHandler.contentRect
@@ -359,13 +359,13 @@ open class PieRadarChartViewBase: ChartViewBase
         return min(content.width, content.height)
     }
 
-    /// - returns: The radius of the chart in pixels.
+    /// The radius of the chart in pixels.
     @objc open var radius: CGFloat
     {
         fatalError("radius cannot be called on PieRadarChartViewBase")
     }
 
-    /// - returns: The required offset for the chart legend.
+    /// The required offset for the chart legend.
     internal var requiredLegendOffset: CGFloat
     {
         fatalError("requiredLegendOffset cannot be called on PieRadarChartViewBase")

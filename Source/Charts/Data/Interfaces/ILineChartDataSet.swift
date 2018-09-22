@@ -52,7 +52,7 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     /// If true, drawing circles is enabled
     var drawCirclesEnabled: Bool { get set }
     
-    /// - returns: `true` if drawing circles for this DataSet is enabled, `false` ifnot
+    /// `true` if drawing circles for this DataSet is enabled, `false` ifnot
     var isDrawCirclesEnabled: Bool { get }
     
     /// The color of the inner circle (the circle-hole).
@@ -61,7 +61,7 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     /// `true` if drawing circles for this DataSet is enabled, `false` ifnot
     var drawCircleHoleEnabled: Bool { get set }
     
-    /// - returns: `true` if drawing the circle-holes is enabled, `false` ifnot.
+    /// `true` if drawing the circle-holes is enabled, `false` ifnot.
     var isDrawCircleHoleEnabled: Bool { get }
     
     /// This is how much (in pixels) into the dash pattern are we starting from.

@@ -235,13 +235,13 @@ open class ChartData: NSObject
         }
     }
     
-    /// - returns: The number of LineDataSets this object contains
+    /// The number of LineDataSets this object contains
     @objc open var dataSetCount: Int
     {
         return _dataSets.count
     }
     
-    /// - returns: The smallest y-value the data object contains.
+    /// The smallest y-value the data object contains.
     @objc open var yMin: Double
     {
         return _yMin
@@ -279,7 +279,7 @@ open class ChartData: NSObject
         }
     }
     
-    /// - returns: The greatest y-value the data object contains.
+    /// The greatest y-value the data object contains.
     @objc open var yMax: Double
     {
         return _yMax
@@ -317,18 +317,18 @@ open class ChartData: NSObject
         }
     }
     
-    /// - returns: The minimum x-value the data object contains.
+    /// The minimum x-value the data object contains.
     @objc open var xMin: Double
     {
         return _xMin
     }
-    /// - returns: The maximum x-value the data object contains.
+    /// The maximum x-value the data object contains.
     @objc open var xMax: Double
     {
         return _xMax
     }
     
-    /// - returns: All DataSet objects this ChartData object holds.
+    /// All DataSet objects this ChartData object holds.
     @objc open var dataSets: [IChartDataSet]
     {
         get
@@ -726,7 +726,7 @@ open class ChartData: NSObject
         return false
     }
     
-    /// - returns: The total entry count across all DataSet objects this data object contains.
+    /// The total entry count across all DataSet objects this data object contains.
     @objc open var entryCount: Int
     {
         var count = 0
@@ -739,7 +739,7 @@ open class ChartData: NSObject
         return count
     }
 
-    /// - returns: The DataSet object with the maximum number of entries or null if there are no DataSets.
+    /// The DataSet object with the maximum number of entries or null if there are no DataSets.
     @objc open var maxEntryCountSet: IChartDataSet?
     {
         if _dataSets.count == 0

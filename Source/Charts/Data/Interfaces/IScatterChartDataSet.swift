@@ -19,7 +19,7 @@ public protocol IScatterChartDataSet: ILineScatterCandleRadarChartDataSet
     
     // MARK: - Styling functions and accessors
     
-    /// - returns: The size the scatter shape will have
+    /// The size the scatter shape will have
     var scatterShapeSize: CGFloat { get }
     
     /// - returns: The radius of the hole in the shape (applies to Square, Circle and Triangle)
@@ -31,6 +31,6 @@ public protocol IScatterChartDataSet: ILineScatterCandleRadarChartDataSet
     /// **default**: nil
     var scatterShapeHoleColor: NSUIColor? { get }
     
-    /// - returns: The IShapeRenderer responsible for rendering this DataSet.
+    /// The IShapeRenderer responsible for rendering this DataSet.
     var shapeRenderer: IShapeRenderer? { get }
 }

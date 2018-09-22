@@ -376,7 +376,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
 
     // MARK: - Highlighting
     
-    /// - returns: The array of currently highlighted values. This might an empty if nothing is highlighted.
+    /// The array of currently highlighted values. This might an empty if nothing is highlighted.
     @objc open var highlighted: [Highlight]
     {
         return _indicesToHighlight
@@ -391,7 +391,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         set { _highlightPerTapEnabled = newValue }
     }
     
-    /// - returns: `true` if values can be highlighted via tap gesture, `false` ifnot.
+    /// `true` if values can be highlighted via tap gesture, `false` ifnot.
     @objc open var isHighLightPerTapEnabled: Bool
     {
         return highlightPerTapEnabled
@@ -609,7 +609,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     // MARK: - Animation
     
-    /// - returns: The animator responsible for animating chart values.
+    /// The animator responsible for animating chart values.
     @objc open var chartAnimator: Animator!
     {
         return _animator
@@ -731,13 +731,13 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     // MARK: - Accessors
 
-    /// - returns: The current y-max value across all DataSets
+    /// The current y-max value across all DataSets
     open var chartYMax: Double
     {
         return _data?.yMax ?? 0.0
     }
 
-    /// - returns: The current y-min value across all DataSets
+    /// The current y-min value across all DataSets
     open var chartYMin: Double
     {
         return _data?.yMin ?? 0.0
@@ -760,32 +760,32 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// *
     /// - note: (Equivalent of getCenter() in MPAndroidChart, as center is already a standard in iOS that returns the center point relative to superview, and MPAndroidChart returns relative to self)*
-    /// - returns: The center point of the chart (the whole View) in pixels.
+    /// The center point of the chart (the whole View) in pixels.
     @objc open var midPoint: CGPoint
     {
         let bounds = self.bounds
         return CGPoint(x: bounds.origin.x + bounds.size.width / 2.0, y: bounds.origin.y + bounds.size.height / 2.0)
     }
     
-    /// - returns: The center of the chart taking offsets under consideration. (returns the center of the content rectangle)
+    /// The center of the chart taking offsets under consideration. (returns the center of the content rectangle)
     open var centerOffsets: CGPoint
     {
         return _viewPortHandler.contentCenter
     }
     
-    /// - returns: The Legend object of the chart. This method can be used to get an instance of the legend in order to customize the automatically generated Legend.
+    /// The Legend object of the chart. This method can be used to get an instance of the legend in order to customize the automatically generated Legend.
     @objc open var legend: Legend
     {
         return _legend
     }
     
-    /// - returns: The renderer object responsible for rendering / drawing the Legend.
+    /// The renderer object responsible for rendering / drawing the Legend.
     @objc open var legendRenderer: LegendRenderer!
     {
         return _legendRenderer
     }
     
-    /// - returns: The rectangle that defines the borders of the chart-value surface (into which the actual values are drawn).
+    /// The rectangle that defines the borders of the chart-value surface (into which the actual values are drawn).
     @objc open var contentRect: CGRect
     {
         return _viewPortHandler.contentRect
@@ -925,7 +925,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     }
     
     /// **default**: true
-    /// - returns: `true` if chart continues to scroll after touch up, `false` ifnot.
+    /// `true` if chart continues to scroll after touch up, `false` ifnot.
     @objc open var isDragDecelerationEnabled: Bool
         {
             return dragDecelerationEnabled

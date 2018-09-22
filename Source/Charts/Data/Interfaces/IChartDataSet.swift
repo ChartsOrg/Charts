@@ -27,19 +27,19 @@ public protocol IChartDataSet
     /// This is only needed for the autoScaleMinMax feature.
     func calcMinMaxY(fromX: Double, toX: Double)
     
-    /// - returns: The minimum y-value this DataSet holds
+    /// The minimum y-value this DataSet holds
     var yMin: Double { get }
     
-    /// - returns: The maximum y-value this DataSet holds
+    /// The maximum y-value this DataSet holds
     var yMax: Double { get }
     
-    /// - returns: The minimum x-value this DataSet holds
+    /// The minimum x-value this DataSet holds
     var xMin: Double { get }
     
-    /// - returns: The maximum x-value this DataSet holds
+    /// The maximum x-value this DataSet holds
     var xMax: Double { get }
     
-    /// - returns: The number of y-values this DataSet represents
+    /// The number of y-values this DataSet represents
     var entryCount: Int { get }
     
     /// - returns: The entry object found at the given index (not x-value!)
@@ -192,13 +192,13 @@ public protocol IChartDataSet
     /// if true, value highlighting is enabled
     var highlightEnabled: Bool { get set }
     
-    /// - returns: `true` if value highlighting is enabled for this dataset
+    /// `true` if value highlighting is enabled for this dataset
     var isHighlightEnabled: Bool { get }
     
     /// Custom formatter that is used instead of the auto-formatter if set
     var valueFormatter: IValueFormatter? { get set }
     
-    /// - returns: `true` if the valueFormatter object of this DataSet is null.
+    /// `true` if the valueFormatter object of this DataSet is null.
     var needsFormatter: Bool { get }
     
     /// Sets/get a single color for value text.
@@ -244,7 +244,7 @@ public protocol IChartDataSet
     /// - note: For bar and line charts: if `maxVisibleCount` is reached, no values will be drawn even if this is enabled.
     var drawValuesEnabled: Bool { get set }
     
-    /// - returns: `true` if y-value drawing is enabled, `false` ifnot
+    /// `true` if y-value drawing is enabled, `false` ifnot
     var isDrawValuesEnabled: Bool { get }
     
     /// Set this to true to draw y-icons on the chart
@@ -265,6 +265,6 @@ public protocol IChartDataSet
     /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
     var visible: Bool { get set }
     
-    /// - returns: `true` if this DataSet is visible inside the chart, or `false` ifit is currently hidden.
+    /// `true` if this DataSet is visible inside the chart, or `false` ifit is currently hidden.
     var isVisible: Bool { get }
 }

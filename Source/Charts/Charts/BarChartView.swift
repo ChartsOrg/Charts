@@ -170,16 +170,16 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     /// If enabled, highlighting operations will highlight the whole bar, even if only a single stack entry was tapped.
     @objc open var highlightFullBarEnabled: Bool = false
     
-    /// - returns: `true` the highlight is be full-bar oriented, `false` ifsingle-value
+    /// `true` the highlight is be full-bar oriented, `false` ifsingle-value
     open var isHighlightFullBarEnabled: Bool { return highlightFullBarEnabled }
     
     // MARK: - BarChartDataProvider
     
     open var barData: BarChartData? { return _data as? BarChartData }
     
-    /// - returns: `true` if drawing values above bars is enabled, `false` ifnot
+    /// `true` if drawing values above bars is enabled, `false` ifnot
     open var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled }
     
-    /// - returns: `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
+    /// `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
     open var isDrawBarShadowEnabled: Bool { return drawBarShadowEnabled }
 }

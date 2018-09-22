@@ -271,7 +271,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     /// if true, value highlighting is enabled
     open var highlightEnabled = true
     
-    /// - returns: `true` if value highlighting is enabled for this dataset
+    /// `true` if value highlighting is enabled for this dataset
     open var isHighlightEnabled: Bool { return highlightEnabled }
     
     /// Custom formatter that is used instead of the auto-formatter if set
@@ -362,7 +362,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     /// - note: For bar and line charts: if `maxVisibleCount` is reached, no values will be drawn even if this is enabled.
     open var drawValuesEnabled = true
     
-    /// - returns: `true` if y-value drawing is enabled, `false` ifnot
+    /// `true` if y-value drawing is enabled, `false` ifnot
     open var isDrawValuesEnabled: Bool
     {
         return drawValuesEnabled
@@ -389,7 +389,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
     open var visible = true
     
-    /// - returns: `true` if this DataSet is visible inside the chart, or `false` ifit is currently hidden.
+    /// `true` if this DataSet is visible inside the chart, or `false` ifit is currently hidden.
     open var isVisible: Bool
     {
         return visible

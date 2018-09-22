@@ -1650,7 +1650,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     }
     
     /// **default**: true
-    /// - returns: `true` if zooming via double-tap is enabled `false` ifnot.
+    /// `true` if zooming via double-tap is enabled `false` ifnot.
     @objc open var isDoubleTapToZoomEnabled: Bool
     {
         return doubleTapToZoomEnabled
@@ -1669,14 +1669,14 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     }
     
     /// **default**: true
-    /// - returns: `true` if drawing the grid background is enabled, `false` ifnot.
+    /// `true` if drawing the grid background is enabled, `false` ifnot.
     @objc open var isDrawGridBackgroundEnabled: Bool
     {
         return drawGridBackgroundEnabled
     }
     
     /// **default**: false
-    /// - returns: `true` if drawing the borders rectangle is enabled, `false` ifnot.
+    /// `true` if drawing the borders rectangle is enabled, `false` ifnot.
     @objc open var isDrawBordersEnabled: Bool
     {
         return drawBordersEnabled
@@ -1719,7 +1719,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         return nil
     }
 
-    /// - returns: The current x-scale factor
+    /// The current x-scale factor
     @objc open var scaleX: CGFloat
     {
         if _viewPortHandler === nil
@@ -1729,7 +1729,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         return _viewPortHandler.scaleX
     }
 
-    /// - returns: The current y-scale factor
+    /// The current y-scale factor
     @objc open var scaleY: CGFloat
     {
         if _viewPortHandler === nil
@@ -1776,7 +1776,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     }
 
     /// **default**: false
-    /// - returns: `true` if pinch-zoom is enabled, `false` ifnot
+    /// `true` if pinch-zoom is enabled, `false` ifnot
     @objc open var isPinchZoomEnabled: Bool { return pinchZoomEnabled }
 
     /// Set an offset in dp that allows the user to drag the chart over it's
@@ -1793,7 +1793,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         _viewPortHandler.setDragOffsetY(offset)
     }
 
-    /// - returns: `true` if both drag offsets (x and y) are zero or smaller.
+    /// `true` if both drag offsets (x and y) are zero or smaller.
     @objc open var hasNoDragOffset: Bool { return _viewPortHandler.hasNoDragOffset }
 
     open override var chartYMax: Double
@@ -1806,7 +1806,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         return min(leftAxis._axisMinimum, rightAxis._axisMinimum)
     }
     
-    /// - returns: `true` if either the left or the right or both axes are inverted.
+    /// `true` if either the left or the right or both axes are inverted.
     @objc open var isAnyAxisInverted: Bool
     {
         return leftAxis.isInverted || rightAxis.isInverted
@@ -1821,7 +1821,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     }
     
     /// **default**: false
-    /// - returns: `true` if auto scaling on the y axis is enabled.
+    /// `true` if auto scaling on the y axis is enabled.
     @objc open var isAutoScaleMinMaxEnabled : Bool { return autoScaleMinMaxEnabled }
     
     /// Sets a minimum width to the specified y axis.
@@ -1928,7 +1928,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         return getAxis(axis).isInverted
     }
     
-    /// - returns: The lowest x-index (value on the x-axis) that is still visible on he chart.
+    /// The lowest x-index (value on the x-axis) that is still visible on he chart.
     open var lowestVisibleX: Double
     {
         var pt = CGPoint(
@@ -1940,7 +1940,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         return max(xAxis._axisMinimum, Double(pt.x))
     }
     
-    /// - returns: The highest x-index (value on the x-axis) that is still visible on the chart.
+    /// The highest x-index (value on the x-axis) that is still visible on the chart.
     open var highestVisibleX: Double
     {
         var pt = CGPoint(

@@ -112,7 +112,7 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     /// If true, drawing circles is enabled
     open var drawCirclesEnabled = true
     
-    /// - returns: `true` if drawing circles for this DataSet is enabled, `false` ifnot
+    /// `true` if drawing circles for this DataSet is enabled, `false` ifnot
     open var isDrawCirclesEnabled: Bool { return drawCirclesEnabled }
     
     /// The color of the inner circle (the circle-hole).
@@ -121,7 +121,7 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     /// `true` if drawing circles for this DataSet is enabled, `false` ifnot
     open var drawCircleHoleEnabled = true
     
-    /// - returns: `true` if drawing the circle-holes is enabled, `false` ifnot.
+    /// `true` if drawing the circle-holes is enabled, `false` ifnot.
     open var isDrawCircleHoleEnabled: Bool { return drawCircleHoleEnabled }
     
     /// This is how much (in pixels) into the dash pattern are we starting from.

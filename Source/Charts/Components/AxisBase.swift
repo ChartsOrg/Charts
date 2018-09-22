@@ -249,7 +249,7 @@ open class AxisBase: ComponentBase
         forceLabelsEnabled = force
     }
     
-    /// - returns: `true` if focing the y-label count is enabled. Default: false
+    /// `true` if focing the y-label count is enabled. Default: false
     @objc open var isForceLabelsEnabled: Bool { return forceLabelsEnabled }
     
     /// Adds a new ChartLimitLine to this axis.
@@ -277,7 +277,7 @@ open class AxisBase: ComponentBase
         _limitLines.removeAll(keepingCapacity: false)
     }
     
-    /// - returns: The LimitLines of this axis.
+    /// The LimitLines of this axis.
     @objc open var limitLines : [ChartLimitLine]
     {
         return _limitLines

@@ -148,19 +148,19 @@ open class ChartDataSet: ChartBaseDataSet
         calcMinMaxY(entry: e)
     }
     
-    /// - returns: The minimum y-value this DataSet holds
+    /// The minimum y-value this DataSet holds
     open override var yMin: Double { return _yMin }
     
-    /// - returns: The maximum y-value this DataSet holds
+    /// The maximum y-value this DataSet holds
     open override var yMax: Double { return _yMax }
     
-    /// - returns: The minimum x-value this DataSet holds
+    /// The minimum x-value this DataSet holds
     open override var xMin: Double { return _xMin }
     
-    /// - returns: The maximum x-value this DataSet holds
+    /// The maximum x-value this DataSet holds
     open override var xMax: Double { return _xMax }
     
-    /// - returns: The number of y-values this DataSet represents
+    /// The number of y-values this DataSet represents
     open override var entryCount: Int { return values.count }
     
     /// - returns: The entry object found at the given index (not x-value!)

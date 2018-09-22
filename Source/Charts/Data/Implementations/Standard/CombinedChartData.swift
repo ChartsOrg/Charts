@@ -165,7 +165,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    /// - returns: All data objects in row: line-bar-scatter-candle-bubble if not null.
+    /// All data objects in row: line-bar-scatter-candle-bubble if not null.
     @objc open var allData: [ChartData]
     {
         var data = [ChartData]()

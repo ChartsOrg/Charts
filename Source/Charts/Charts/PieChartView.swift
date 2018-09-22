@@ -342,7 +342,7 @@ open class PieChartView: PieRadarChartViewBase
         }
     }
     
-    /// - returns: `true` if the inner tips of the slices are visible behind the hole, `false` if not.
+    /// `true` if the inner tips of the slices are visible behind the hole, `false` if not.
     @objc open var isDrawSlicesUnderHoleEnabled: Bool
     {
         return drawSlicesUnderHoleEnabled
@@ -362,7 +362,7 @@ open class PieChartView: PieRadarChartViewBase
         }
     }
     
-    /// - returns: `true` if the hole in the center of the pie-chart is set to be visible, `false` ifnot
+    /// `true` if the hole in the center of the pie-chart is set to be visible, `false` ifnot
     @objc open var isDrawHoleEnabled: Bool
     {
         get
@@ -449,7 +449,7 @@ open class PieChartView: PieRadarChartViewBase
         }
     }
     
-    /// - returns: `true` if drawing the center text is enabled
+    /// `true` if drawing the center text is enabled
     @objc open var isDrawCenterTextEnabled: Bool
     {
         get
@@ -473,13 +473,13 @@ open class PieChartView: PieRadarChartViewBase
         return _circleBox.width / 2.0
     }
     
-    /// - returns: The circlebox, the boundingbox of the pie-chart slices
+    /// The circlebox, the boundingbox of the pie-chart slices
     @objc open var circleBox: CGRect
     {
         return _circleBox
     }
     
-    /// - returns: The center of the circlebox
+    /// The center of the circlebox
     @objc open var centerCircleBox: CGPoint
     {
         return CGPoint(x: _circleBox.midX, y: _circleBox.midY)
@@ -569,7 +569,7 @@ open class PieChartView: PieRadarChartViewBase
         }
     }
     
-    /// - returns: `true` if drawing entry labels is enabled, `false` ifnot
+    /// `true` if drawing entry labels is enabled, `false` ifnot
     @objc open var isDrawEntryLabelsEnabled: Bool
     {
         get
@@ -592,7 +592,7 @@ open class PieChartView: PieRadarChartViewBase
         }
     }
     
-    /// - returns: `true` if drawing x-values is enabled, `false` ifnot
+    /// `true` if drawing x-values is enabled, `false` ifnot
     @objc open var isUsePercentValuesEnabled: Bool
     {
         get
