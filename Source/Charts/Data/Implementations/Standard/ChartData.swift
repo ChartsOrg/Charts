@@ -532,6 +532,7 @@ open class ChartData: NSObject
     
     /// Removes the Entry object closest to the given xIndex from the ChartDataSet at the
     /// specified index. 
+    ///
     /// - returns: `true` if an entry was removed, `false` ifno Entry was found that meets the specified requirements.
     @objc @discardableResult open func removeEntry(xValue: Double, dataSetIndex: Int) -> Bool
     {
@@ -712,6 +713,7 @@ open class ChartData: NSObject
     }
     
     /// Checks if this data object contains the specified DataSet. 
+    ///
     /// - returns: `true` if so, `false` ifnot.
     @objc open func contains(dataSet: IChartDataSet) -> Bool
     {

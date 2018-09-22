@@ -21,6 +21,7 @@ import CoreGraphics
 public protocol ChartViewDelegate
 {
     /// Called when a value has been selected inside the chart.
+    ///
     /// - Parameters:
     ///   - entry: The selected Entry.
     ///   - highlight: The corresponding highlight object that contains information about the highlighted position such as dataSetIndex etc.
@@ -398,6 +399,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     }
     
     /// Checks if the highlight array is null, has a length of zero or if the first object is null.
+    ///
     /// - returns: `true` if there are values to highlight, `false` ifthere are no values to highlight.
     @objc open func valuesToHighlight() -> Bool
     {
@@ -429,6 +431,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// Highlights any y-value at the given x-value in the given DataSet.
     /// Provide -1 as the dataSetIndex to undo all highlighting.
     /// This method will call the delegate.
+    ///
     /// - Parameters:
     ///   - x: The x-value to highlight
     ///   - dataSetIndex: The dataset index to search in
@@ -441,6 +444,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// Highlights the value at the given x-value and y-value in the given DataSet.
     /// Provide -1 as the dataSetIndex to undo all highlighting.
     /// This method will call the delegate.
+    ///
     /// - Parameters:
     ///   - x: The x-value to highlight
     ///   - y: The y-value to highlight. Supply `NaN` for "any"
@@ -491,6 +495,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// Highlights the values represented by the provided Highlight object
     /// This method *will not* call the delegate.
+    ///
     /// - Parameters:
     ///   - highlight: contains information about which entry should be highlighted
     @objc open func highlightValue(_ highlight: Highlight?)
@@ -617,6 +622,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
     /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
+    ///
     /// - Parameters:
     ///   - xAxisDuration: duration for animating the x axis
     ///   - yAxisDuration: duration for animating the y axis
@@ -629,6 +635,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
     /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
+    ///
     /// - Parameters:
     ///   - xAxisDuration: duration for animating the x axis
     ///   - yAxisDuration: duration for animating the y axis
@@ -641,6 +648,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
     /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
+    ///
     /// - Parameters:
     ///   - xAxisDuration: duration for animating the x axis
     ///   - yAxisDuration: duration for animating the y axis
@@ -652,6 +660,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
     /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
+    ///
     /// - Parameters:
     ///   - xAxisDuration: duration for animating the x axis
     ///   - yAxisDuration: duration for animating the y axis
@@ -663,6 +672,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// Animates the drawing / rendering of the chart on both x- and y-axis with the specified animation time.
     /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
+    ///
     /// - Parameters:
     ///   - xAxisDuration: duration for animating the x axis
     ///   - yAxisDuration: duration for animating the y axis
@@ -673,6 +683,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// Animates the drawing / rendering of the chart the x-axis with the specified animation time.
     /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
+    ///
     /// - Parameters:
     ///   - xAxisDuration: duration for animating the x axis
     ///   - easing: an easing function for the animation
@@ -683,6 +694,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// Animates the drawing / rendering of the chart the x-axis with the specified animation time.
     /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
+    ///
     /// - Parameters:
     ///   - xAxisDuration: duration for animating the x axis
     ///   - easingOption: the easing function for the animation
@@ -693,6 +705,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// Animates the drawing / rendering of the chart the x-axis with the specified animation time.
     /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
+    ///
     /// - Parameters:
     ///   - xAxisDuration: duration for animating the x axis
     @objc open func animate(xAxisDuration: TimeInterval)
@@ -702,6 +715,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// Animates the drawing / rendering of the chart the y-axis with the specified animation time.
     /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
+    ///
     /// - Parameters:
     ///   - yAxisDuration: duration for animating the y axis
     ///   - easing: an easing function for the animation
@@ -712,6 +726,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// Animates the drawing / rendering of the chart the y-axis with the specified animation time.
     /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
+    ///
     /// - Parameters:
     ///   - yAxisDuration: duration for animating the y axis
     ///   - easingOption: the easing function for the animation
@@ -722,6 +737,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// Animates the drawing / rendering of the chart the y-axis with the specified animation time.
     /// If `animate(...)` is called, no further calling of `invalidate()` is necessary to refresh the chart.
+    ///
     /// - Parameters:
     ///   - yAxisDuration: duration for animating the y axis
     @objc open func animate(yAxisDuration: TimeInterval)
@@ -759,6 +775,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     }
     
     /// *
+    ///
     /// - note: (Equivalent of getCenter() in MPAndroidChart, as center is already a standard in iOS that returns the center point relative to superview, and MPAndroidChart returns relative to self)*
     /// The center point of the chart (the whole View) in pixels.
     @objc open var midPoint: CGPoint

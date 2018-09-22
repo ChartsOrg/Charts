@@ -28,6 +28,7 @@ open class ChartDataEntryBase: NSObject
     }
     
     /// An Entry represents one single entry in the chart.
+    ///
     /// - Parameters:
     ///   - y: the y value (the actual value of the entry)
     @objc public init(y: Double)

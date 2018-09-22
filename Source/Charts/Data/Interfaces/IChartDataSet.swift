@@ -42,29 +42,29 @@ public protocol IChartDataSet
     /// The number of y-values this DataSet represents
     var entryCount: Int { get }
     
-    /// - returns: The entry object found at the given index (not x-value!)
     /// - throws: out of bounds
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
+    /// - returns: The entry object found at the given index (not x-value!)
     func entryForIndex(_ i: Int) -> ChartDataEntry?
     
-    /// - returns: The first Entry object found at the given x-value with binary search.
-    /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value according to the rounding.
-    /// nil if no Entry object at that x-value.
     /// - Parameters:
     ///   - xValue: the x-value
     ///   - closestToY: If there are multiple y-values for the specified x-value,
     ///   - rounding: determine whether to round up/down/closest if there is no Entry matching the provided x-value
+    /// - returns: The first Entry object found at the given x-value with binary search.
+    /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value according to the rounding.
+    /// nil if no Entry object at that x-value.
     func entryForXValue(
         _ xValue: Double,
         closestToY yValue: Double,
         rounding: ChartDataSetRounding) -> ChartDataEntry?
     
-    /// - returns: The first Entry object found at the given x-value with binary search.
-    /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value.
-    /// nil if no Entry object at that x-value.
     /// - Parameters:
     ///   - xValue: the x-value
     ///   - closestToY: If there are multiple y-values for the specified x-value,
+    /// - returns: The first Entry object found at the given x-value with binary search.
+    /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value.
+    /// nil if no Entry object at that x-value.
     func entryForXValue(
         _ xValue: Double,
         closestToY yValue: Double) -> ChartDataEntry?
@@ -73,22 +73,20 @@ public protocol IChartDataSet
     /// An empty array if no Entry object at that x-value.
     func entriesForXValue(_ xValue: Double) -> [ChartDataEntry]
     
-    /// - returns: The array-index of the specified entry.
-    /// If the no Entry at the specified x-value is found, this method returns the index of the Entry at the closest x-value according to the rounding.
-    ///
     /// - Parameters:
     ///   - xValue: x-value of the entry to search for
     ///   - closestToY: If there are multiple y-values for the specified x-value,
     ///   - rounding: Rounding method if exact value was not found
+    /// - returns: The array-index of the specified entry.
+    /// If the no Entry at the specified x-value is found, this method returns the index of the Entry at the closest x-value according to the rounding.
     func entryIndex(
         x xValue: Double,
         closestToY yValue: Double,
         rounding: ChartDataSetRounding) -> Int
     
-    /// - returns: The array-index of the specified entry
-    ///
     /// - Parameters:
     ///   - e: the entry to search for
+    /// - returns: The array-index of the specified entry
     func entryIndex(entry e: ChartDataEntry) -> Int
     
     /// Adds an Entry to the DataSet dynamically.
@@ -96,6 +94,7 @@ public protocol IChartDataSet
     /// *optional feature, can return `false` ifnot implemented*
     ///
     /// Entries are added to the end of the list.
+    ///
     /// - Parameters:
     ///   - e: the entry to add
     /// - returns: `true` if the entry was added successfully, `false` ifthis feature is not supported
@@ -108,6 +107,7 @@ public protocol IChartDataSet
     /// *optional feature, can return `false` ifnot implemented*
     ///
     /// Entries are added to the end of the list.
+    ///
     /// - Parameters:
     ///   - e: the entry to add
     /// - returns: `true` if the entry was added successfully, `false` ifthis feature is not supported

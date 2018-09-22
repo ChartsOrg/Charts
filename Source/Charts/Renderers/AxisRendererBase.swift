@@ -54,6 +54,7 @@ open class AxisRendererBase: Renderer
     }
     
     /// Computes the axis values.
+    ///
     /// - Parameters:
     ///   - min: the minimum value in the data object for this axis
     ///   - max: the maximum value in the data object for this axis

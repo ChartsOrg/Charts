@@ -217,6 +217,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     }
     
     /// Adds a new color to the colors array of the DataSet.
+    ///
     /// - Parameters:
     ///   - color: the color to add
     open func addColor(_ color: NSUIColor)
@@ -226,6 +227,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     
     /// Sets the one and **only** color that should be used for this DataSet.
     /// Internally, this recreates the colors array and adds the specified color.
+    ///
     /// - Parameters:
     ///   - color: the color to set
     open func setColor(_ color: NSUIColor)
@@ -235,6 +237,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     }
     
     /// Sets colors to a single color a specific alpha value.
+    ///
     /// - Parameters:
     ///   - color: the color to set
     ///   - alpha: alpha to apply to the set `color`
@@ -244,6 +247,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     }
     
     /// Sets colors with a specific alpha value.
+    ///
     /// - Parameters:
     ///   - colors: the colors to set
     ///   - alpha: alpha to apply to the set `colors`
@@ -260,6 +264,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     }
     
     /// Sets colors with a specific alpha value.
+    ///
     /// - Parameters:
     ///   - colors: the colors to set
     ///   - alpha: alpha to apply to the set `colors`

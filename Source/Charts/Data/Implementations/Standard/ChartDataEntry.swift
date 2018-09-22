@@ -22,6 +22,7 @@ open class ChartDataEntry: ChartDataEntryBase
     }
     
     /// An Entry represents one single entry in the chart.
+    ///
     /// - Parameters:
     ///   - x: the x value
     ///   - y: the y value (the actual value of the entry)
@@ -33,6 +34,7 @@ open class ChartDataEntry: ChartDataEntryBase
     }
     
     /// An Entry represents one single entry in the chart.
+    ///
     /// - Parameters:
     ///   - x: the x value
     ///   - y: the y value (the actual value of the entry)
@@ -48,6 +50,7 @@ open class ChartDataEntry: ChartDataEntryBase
     }
     
     /// An Entry represents one single entry in the chart.
+    ///
     /// - Parameters:
     ///   - x: the x value
     ///   - y: the y value (the actual value of the entry)
@@ -61,6 +64,7 @@ open class ChartDataEntry: ChartDataEntryBase
     }
     
     /// An Entry represents one single entry in the chart.
+    ///
     /// - Parameters:
     ///   - x: the x value
     ///   - y: the y value (the actual value of the entry)

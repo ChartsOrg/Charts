@@ -39,11 +39,10 @@ open class RadarHighlighter: PieRadarHighlighter
         return closest
     }
     
-    /// - returns: An array of Highlight objects for the given index.
-    /// The Highlight objects give information about the value at the selected index and DataSet it belongs to.
-    ///
     /// - Parameters:
     ///   - index:
+    /// - returns: An array of Highlight objects for the given index.
+    /// The Highlight objects give information about the value at the selected index and DataSet it belongs to.
     internal func getHighlights(forIndex index: Int) -> [Highlight]
     {
         var vals = [Highlight]()

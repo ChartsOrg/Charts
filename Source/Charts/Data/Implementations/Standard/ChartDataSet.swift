@@ -55,6 +55,7 @@ open class ChartDataSet: ChartBaseDataSet
     // MARK: - Data functions and accessors
 
     /// *
+    ///
     /// - note: Calls `notifyDataSetChanged()` after setting a new value.
     /// - returns: The array of y-values that this DataSet represents.
     /// the entries that this dataset represents / holds together
@@ -163,9 +164,9 @@ open class ChartDataSet: ChartBaseDataSet
     /// The number of y-values this DataSet represents
     open override var entryCount: Int { return values.count }
     
-    /// - returns: The entry object found at the given index (not x-value!)
     /// - throws: out of bounds
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
+    /// - returns: The entry object found at the given index (not x-value!)
     open override func entryForIndex(_ i: Int) -> ChartDataEntry?
     {
         guard i >= values.startIndex, i < values.endIndex else {
@@ -174,13 +175,13 @@ open class ChartDataSet: ChartBaseDataSet
         return values[i]
     }
     
-    /// - returns: The first Entry object found at the given x-value with binary search.
-    /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value according to the rounding.
-    /// nil if no Entry object at that x-value.
     /// - Parameters:
     ///   - xValue: the x-value
     ///   - closestToY: If there are multiple y-values for the specified x-value,
     ///   - rounding: determine whether to round up/down/closest if there is no Entry matching the provided x-value
+    /// - returns: The first Entry object found at the given x-value with binary search.
+    /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value according to the rounding.
+    /// nil if no Entry object at that x-value.
     open override func entryForXValue(
         _ xValue: Double,
         closestToY yValue: Double,
@@ -194,12 +195,12 @@ open class ChartDataSet: ChartBaseDataSet
         return nil
     }
     
-    /// - returns: The first Entry object found at the given x-value with binary search.
-    /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value.
-    /// nil if no Entry object at that x-value.
     /// - Parameters:
     ///   - xValue: the x-value
     ///   - closestToY: If there are multiple y-values for the specified x-value,
+    /// - returns: The first Entry object found at the given x-value with binary search.
+    /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value.
+    /// nil if no Entry object at that x-value.
     open override func entryForXValue(
         _ xValue: Double,
         closestToY yValue: Double) -> ChartDataEntry?
@@ -265,13 +266,12 @@ open class ChartDataSet: ChartBaseDataSet
         return entries
     }
     
-    /// - returns: The array-index of the specified entry.
-    /// If the no Entry at the specified x-value is found, this method returns the index of the Entry at the closest x-value according to the rounding.
-    ///
     /// - Parameters:
     ///   - xValue: x-value of the entry to search for
     ///   - closestToY: If there are multiple y-values for the specified x-value,
     ///   - rounding: Rounding method if exact value was not found
+    /// - returns: The array-index of the specified entry.
+    /// If the no Entry at the specified x-value is found, this method returns the index of the Entry at the closest x-value according to the rounding.
     open override func entryIndex(
         x xValue: Double,
         closestToY yValue: Double,
@@ -374,10 +374,9 @@ open class ChartDataSet: ChartBaseDataSet
         return closest
     }
     
-    /// - returns: The array-index of the specified entry
-    ///
     /// - Parameters:
     ///   - e: the entry to search for
+    /// - returns: The array-index of the specified entry
     open override func entryIndex(entry e: ChartDataEntry) -> Int
     {
         for i in 0 ..< values.count
@@ -479,6 +478,7 @@ open class ChartDataSet: ChartBaseDataSet
     }
     
     /// Checks if this DataSet contains the specified Entry.
+    ///
     /// - returns: `true` if contains the entry, `false` if not.
     open override func contains(_ e: ChartDataEntry) -> Bool
     {
