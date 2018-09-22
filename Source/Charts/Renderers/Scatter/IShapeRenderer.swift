@@ -17,6 +17,7 @@ public protocol IShapeRenderer: class
 {
     /// Renders the provided ScatterDataSet with a shape.
     ///
+    /// - Parameters:
     /// - parameter context:         CGContext for drawing on
     /// - parameter dataSet:         The DataSet to be drawn
     /// - parameter viewPortHandler: Contains information about the current state of the view

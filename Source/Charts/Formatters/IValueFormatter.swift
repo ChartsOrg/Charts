@@ -26,6 +26,7 @@ public protocol IValueFormatter: class
     ///
     /// - returns:                   The formatted label ready to be drawn
     ///
+    /// - Parameters:
     /// - parameter value:           The value to be formatted
     ///
     /// - parameter dataSetIndex:    The index of the DataSet the entry in focus belongs to

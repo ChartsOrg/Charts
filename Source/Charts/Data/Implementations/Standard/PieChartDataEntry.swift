@@ -19,6 +19,7 @@ open class PieChartDataEntry: ChartDataEntry
         super.init()
     }
     
+    /// - Parameters:
     /// - parameter value: The value on the y-axis
     /// - parameter label: The label for the x-axis
     @objc public convenience init(value: Double, label: String?)
@@ -26,6 +27,7 @@ open class PieChartDataEntry: ChartDataEntry
         self.init(value: value, label: label, icon: nil, data: nil)
     }
     
+    /// - Parameters:
     /// - parameter value: The value on the y-axis
     /// - parameter label: The label for the x-axis
     /// - parameter data: Spot for additional data this Entry represents
@@ -34,6 +36,7 @@ open class PieChartDataEntry: ChartDataEntry
         self.init(value: value, label: label, icon: nil, data: data)
     }
     
+    /// - Parameters:
     /// - parameter value: The value on the y-axis
     /// - parameter label: The label for the x-axis
     /// - parameter icon: icon image
@@ -42,6 +45,7 @@ open class PieChartDataEntry: ChartDataEntry
         self.init(value: value, label: label, icon: icon, data: nil)
     }
     
+    /// - Parameters:
     /// - parameter value: The value on the y-axis
     /// - parameter label: The label for the x-axis
     /// - parameter icon: icon image
@@ -53,12 +57,14 @@ open class PieChartDataEntry: ChartDataEntry
         self.label = label
     }
     
+    /// - Parameters:
     /// - parameter value: The value on the y-axis
     @objc public convenience init(value: Double)
     {
         self.init(value: value, label: nil, icon: nil, data: nil)
     }
     
+    /// - Parameters:
     /// - parameter value: The value on the y-axis
     /// - parameter data: Spot for additional data this Entry represents
     @objc public convenience init(value: Double, data: AnyObject?)
@@ -66,6 +72,7 @@ open class PieChartDataEntry: ChartDataEntry
         self.init(value: value, label: nil, icon: nil, data: data)
     }
     
+    /// - Parameters:
     /// - parameter value: The value on the y-axis
     /// - parameter icon: icon image
     @objc public convenience init(value: Double, icon: NSUIImage?)
@@ -73,6 +80,7 @@ open class PieChartDataEntry: ChartDataEntry
         self.init(value: value, label: nil, icon: icon, data: nil)
     }
     
+    /// - Parameters:
     /// - parameter value: The value on the y-axis
     /// - parameter icon: icon image
     /// - parameter data: Spot for additional data this Entry represents

@@ -26,6 +26,7 @@ open class Range: NSObject
     }
 
     /// - returns: `true` if this range contains (if the value is in between) the given value, `false` ifnot.
+    /// - Parameters:
     /// - parameter value:
     @objc open func contains(_ value: Double) -> Bool
     {

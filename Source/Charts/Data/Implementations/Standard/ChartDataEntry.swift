@@ -22,6 +22,7 @@ open class ChartDataEntry: ChartDataEntryBase
     }
     
     /// An Entry represents one single entry in the chart.
+    /// - Parameters:
     /// - parameter x: the x value
     /// - parameter y: the y value (the actual value of the entry)
     @objc public init(x: Double, y: Double)
@@ -32,6 +33,7 @@ open class ChartDataEntry: ChartDataEntryBase
     }
     
     /// An Entry represents one single entry in the chart.
+    /// - Parameters:
     /// - parameter x: the x value
     /// - parameter y: the y value (the actual value of the entry)
     /// - parameter data: Space for additional data this Entry represents.
@@ -46,6 +48,7 @@ open class ChartDataEntry: ChartDataEntryBase
     }
     
     /// An Entry represents one single entry in the chart.
+    /// - Parameters:
     /// - parameter x: the x value
     /// - parameter y: the y value (the actual value of the entry)
     /// - parameter icon: icon image
@@ -58,6 +61,7 @@ open class ChartDataEntry: ChartDataEntryBase
     }
     
     /// An Entry represents one single entry in the chart.
+    /// - Parameters:
     /// - parameter x: the x value
     /// - parameter y: the y value (the actual value of the entry)
     /// - parameter icon: icon image

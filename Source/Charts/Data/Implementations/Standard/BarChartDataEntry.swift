@@ -150,6 +150,7 @@ open class BarChartDataEntry: ChartDataEntry
     }
     
     /// Splits up the stack-values of the given bar-entry into Range objects.
+    /// - Parameters:
     /// - parameter entry:
     /// - returns:
     @objc open func calcRanges()
@@ -228,6 +229,7 @@ open class BarChartDataEntry: ChartDataEntry
     
     /// Calculates the sum across all values of the given stack.
     ///
+    /// - Parameters:
     /// - parameter vals:
     /// - returns:
     private static func calcSum(values: [Double]?) -> Double

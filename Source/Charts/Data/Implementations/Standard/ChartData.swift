@@ -346,6 +346,7 @@ open class ChartData: NSObject
     /// 
     /// **IMPORTANT: This method does calculations at runtime, do not over-use in performance critical situations.**
     ///
+    /// - Parameters:
     /// - parameter dataSets: the DataSet array to search
     /// - parameter type:
     /// - parameter ignorecase: if true, the search is not case-sensitive
@@ -400,6 +401,7 @@ open class ChartData: NSObject
     
     /// Get the Entry for a corresponding highlight object
     ///
+    /// - Parameters:
     /// - parameter highlight:
     /// - returns: The entry that is highlighted
     @objc open func entryForHighlight(_ highlight: Highlight) -> ChartDataEntry?
@@ -416,6 +418,7 @@ open class ChartData: NSObject
     
     /// **IMPORTANT: This method does calculations at runtime. Use with care in performance critical situations.**
     ///
+    /// - Parameters:
     /// - parameter label:
     /// - parameter ignorecase:
     /// - returns: The DataSet Object with the given label. Sensitive or not.

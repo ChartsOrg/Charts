@@ -269,6 +269,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     
     /// Get the Entry for a corresponding highlight object
     ///
+    /// - Parameters:
     /// - parameter highlight:
     /// - returns: The entry that is highlighted
     open override func entryForHighlight(_ highlight: Highlight) -> ChartDataEntry?
@@ -299,6 +300,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     
     /// Get dataset for highlight
     ///
+    /// - Parameters:
     /// - Parameter highlight: current highlight
     /// - Returns: dataset related to highlight
     @objc open func getDataSetByHighlight(_ highlight: Highlight) -> IChartDataSet!

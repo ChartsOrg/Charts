@@ -22,6 +22,7 @@ open class BubbleChartDataEntry: ChartDataEntry
         super.init()
     }
     
+    /// - Parameters:
     /// - parameter x: The index on the x-axis.
     /// - parameter y: The value on the y-axis.
     /// - parameter size: The size of the bubble.
@@ -32,6 +33,7 @@ open class BubbleChartDataEntry: ChartDataEntry
         self.size = size
     }
     
+    /// - Parameters:
     /// - parameter x: The index on the x-axis.
     /// - parameter y: The value on the y-axis.
     /// - parameter size: The size of the bubble.
@@ -43,6 +45,7 @@ open class BubbleChartDataEntry: ChartDataEntry
         self.size = size
     }
     
+    /// - Parameters:
     /// - parameter x: The index on the x-axis.
     /// - parameter y: The value on the y-axis.
     /// - parameter size: The size of the bubble.
@@ -54,6 +57,7 @@ open class BubbleChartDataEntry: ChartDataEntry
         self.size = size
     }
     
+    /// - Parameters:
     /// - parameter x: The index on the x-axis.
     /// - parameter y: The value on the y-axis.
     /// - parameter size: The size of the bubble.

@@ -54,6 +54,7 @@ open class AxisRendererBase: Renderer
     }
     
     /// Computes the axis values.
+    /// - Parameters:
     /// - parameter min: the minimum value in the data object for this axis
     /// - parameter max: the maximum value in the data object for this axis
     @objc open func computeAxis(min: Double, max: Double, inverted: Bool)

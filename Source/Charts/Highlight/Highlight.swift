@@ -52,6 +52,7 @@ open class Highlight: NSObject
         super.init()
     }
     
+    /// - Parameters:
     /// - parameter x: the x-value of the highlighted value
     /// - parameter y: the y-value of the highlighted value
     /// - parameter xPx: the x-pixel of the highlighted value
@@ -80,6 +81,7 @@ open class Highlight: NSObject
         _axis = axis
     }
     
+    /// - Parameters:
     /// - parameter x: the x-value of the highlighted value
     /// - parameter y: the y-value of the highlighted value
     /// - parameter xPx: the x-pixel of the highlighted value
@@ -101,6 +103,7 @@ open class Highlight: NSObject
                   axis: axis)
     }
     
+    /// - Parameters:
     /// - parameter x: the x-value of the highlighted value
     /// - parameter y: the y-value of the highlighted value
     /// - parameter xPx: the x-pixel of the highlighted value
@@ -125,6 +128,7 @@ open class Highlight: NSObject
         _axis = axis
     }
     
+    /// - Parameters:
     /// - parameter x: the x-value of the highlighted value
     /// - parameter y: the y-value of the highlighted value
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
@@ -137,6 +141,7 @@ open class Highlight: NSObject
         self.dataIndex = dataIndex
     }
     
+    /// - Parameters:
     /// - parameter x: the x-value of the highlighted value
     /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
     /// - parameter stackIndex: references which value of a stacked-bar entry has been selected

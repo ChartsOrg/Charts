@@ -1010,6 +1010,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// Zooms in or out by the given scale factor. x and y are the coordinates
     /// (in pixels) of the zoom center.
     ///
+    /// - Parameters:
     /// - parameter scaleX: if < 1 --> zoom out, if > 1 --> zoom in
     /// - parameter scaleY: if < 1 --> zoom out, if > 1 --> zoom in
     /// - parameter x:
@@ -1031,6 +1032,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// Zooms in or out by the given scale factor.
     /// x and y are the values (**not pixels**) of the zoom center.
     ///
+    /// - Parameters:
     /// - parameter scaleX: if < 1 --> zoom out, if > 1 --> zoom in
     /// - parameter scaleY: if < 1 --> zoom out, if > 1 --> zoom in
     /// - parameter xValue:
@@ -1057,6 +1059,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     /// Zooms to the center of the chart with the given scale factor.
     ///
+    /// - Parameters:
     /// - parameter scaleX: if < 1 --> zoom out, if > 1 --> zoom in
     /// - parameter scaleY: if < 1 --> zoom out, if > 1 --> zoom in
     /// - parameter xValue:
@@ -1077,6 +1080,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     /// Zooms by the specified scale factor to the specified values on the specified axis.
     ///
+    /// - Parameters:
     /// - parameter scaleX:
     /// - parameter scaleY:
     /// - parameter xValue:
@@ -1119,6 +1123,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     /// Zooms by the specified scale factor to the specified values on the specified axis.
     ///
+    /// - Parameters:
     /// - parameter scaleX:
     /// - parameter scaleY:
     /// - parameter xValue:
@@ -1140,6 +1145,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     /// Zooms by the specified scale factor to the specified values on the specified axis.
     ///
+    /// - Parameters:
     /// - parameter scaleX:
     /// - parameter scaleY:
     /// - parameter xValue:
@@ -1219,6 +1225,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     /// Sets the size of the area (range on the y-axis) that should be maximum visible at once.
     ///
+    /// - Parameters:
     /// - parameter yRange:
     /// - parameter axis: - the axis for which this limit should apply
     @objc open func setVisibleYRangeMaximum(_ maxYRange: Double, axis: YAxis.AxisDependency)
@@ -1229,6 +1236,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     /// Sets the size of the area (range on the y-axis) that should be minimum visible at once, no further zooming in possible.
     ///
+    /// - Parameters:
     /// - parameter yRange:
     /// - parameter axis: - the axis for which this limit should apply
     @objc open func setVisibleYRangeMinimum(_ minYRange: Double, axis: YAxis.AxisDependency)
@@ -1239,6 +1247,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
     /// Limits the maximum and minimum y range that can be visible by pinching and zooming.
     ///
+    /// - Parameters:
     /// - parameter minYRange:
     /// - parameter maxYRange:
     /// - parameter axis:
@@ -1266,6 +1275,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// Centers the viewport to the specified y-value on the y-axis.
     /// This also refreshes the chart by calling setNeedsDisplay().
     /// 
+    /// - Parameters:
     /// - parameter yValue:
     /// - parameter axis: - which axis should be used as a reference for the y-axis
     @objc open func moveViewToY(_ yValue: Double, axis: YAxis.AxisDependency)
@@ -1285,6 +1295,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// This will move the left side of the current viewport to the specified x-value on the x-axis, and center the viewport to the specified y-value on the y-axis.
     /// This also refreshes the chart by calling setNeedsDisplay().
     /// 
+    /// - Parameters:
     /// - parameter xValue:
     /// - parameter yValue:
     /// - parameter axis: - which axis should be used as a reference for the y-axis
@@ -1305,6 +1316,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// This will move the left side of the current viewport to the specified x-position and center the viewport to the specified y-position animated.
     /// This also refreshes the chart by calling setNeedsDisplay().
     ///
+    /// - Parameters:
     /// - parameter xValue:
     /// - parameter yValue:
     /// - parameter axis: which axis should be used as a reference for the y-axis
@@ -1340,6 +1352,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// This will move the left side of the current viewport to the specified x-position and center the viewport to the specified y-position animated.
     /// This also refreshes the chart by calling setNeedsDisplay().
     ///
+    /// - Parameters:
     /// - parameter xValue:
     /// - parameter yValue:
     /// - parameter axis: which axis should be used as a reference for the y-axis
@@ -1358,6 +1371,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// This will move the left side of the current viewport to the specified x-position and center the viewport to the specified y-position animated.
     /// This also refreshes the chart by calling setNeedsDisplay().
     ///
+    /// - Parameters:
     /// - parameter xValue:
     /// - parameter yValue:
     /// - parameter axis: which axis should be used as a reference for the y-axis
@@ -1375,6 +1389,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// This will move the center of the current viewport to the specified x-value and y-value.
     /// This also refreshes the chart by calling setNeedsDisplay().
     ///
+    /// - Parameters:
     /// - parameter xValue:
     /// - parameter yValue:
     /// - parameter axis: - which axis should be used as a reference for the y-axis
@@ -1398,6 +1413,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     /// This will move the center of the current viewport to the specified x-value and y-value animated.
     ///
+    /// - Parameters:
     /// - parameter xValue:
     /// - parameter yValue:
     /// - parameter axis: which axis should be used as a reference for the y-axis
@@ -1433,6 +1449,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     /// This will move the center of the current viewport to the specified x-value and y-value animated.
     ///
+    /// - Parameters:
     /// - parameter xValue:
     /// - parameter yValue:
     /// - parameter axis: which axis should be used as a reference for the y-axis
@@ -1450,6 +1467,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     /// This will move the center of the current viewport to the specified x-value and y-value animated.
     ///
+    /// - Parameters:
     /// - parameter xValue:
     /// - parameter yValue:
     /// - parameter axis: which axis should be used as a reference for the y-axis

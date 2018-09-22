@@ -24,6 +24,7 @@ open class LegendEntry: NSObject
         super.init()
     }
     
+    /// - Parameters:
     /// - parameter label:                  The legend entry text.
     ///                                     A `nil` label will start a group.
     /// - parameter form:                   The form to draw for this entry.

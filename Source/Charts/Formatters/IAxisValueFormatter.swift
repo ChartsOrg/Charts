@@ -21,6 +21,7 @@ public protocol IAxisValueFormatter: class
     /// For performance reasons, avoid excessive calculations and memory allocations inside this method.
     ///
     /// - returns: The customized label that is drawn on the x-axis.
+    /// - Parameters:
     /// - parameter value:           the value that is currently being drawn
     /// - parameter axis:            the axis that the value belongs to
     ///
