@@ -102,7 +102,7 @@ open class PieChartData: ChartData
     /// Removes the DataSet at the given index in the DataSet array from the data object.
     /// Also recalculates all minimum and maximum values.
     ///
-    /// - returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
+    /// - Returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
     open override func removeDataSetByIndex(_ index: Int) -> Bool
     {
         if index >= _dataSets.count || index < 0

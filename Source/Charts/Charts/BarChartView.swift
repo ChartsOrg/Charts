@@ -58,7 +58,7 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
             max: data.getYMax(axis: .right))
     }
     
-    /// - returns: The Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the BarChart.
+    /// - Returns: The Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the BarChart.
     open override func getHighlightByTouchPoint(_ pt: CGPoint) -> Highlight?
     {
         if _data === nil
@@ -82,7 +82,7 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
             axis: h.axis)
     }
         
-    /// - returns: The bounding box of the specified Entry in the specified DataSet. Returns null if the Entry could not be found in the charts data.
+    /// - Returns: The bounding box of the specified Entry in the specified DataSet. Returns null if the Entry could not be found in the charts data.
     @objc open func getBarBounds(entry e: BarChartDataEntry) -> CGRect
     {
         guard let

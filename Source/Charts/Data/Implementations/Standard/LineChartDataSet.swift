@@ -76,7 +76,7 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     
     open var circleColors = [NSUIColor]()
     
-    /// - returns: The color at the given index of the DataSet's circle-color array.
+    /// - Returns: The color at the given index of the DataSet's circle-color array.
     /// Performs a IndexOutOfBounds check by modulus.
     open func getCircleColor(atIndex index: Int) -> NSUIColor?
     {

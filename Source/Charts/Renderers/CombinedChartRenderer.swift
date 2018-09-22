@@ -168,7 +168,7 @@ open class CombinedChartRenderer: DataRenderer
         }
     }
 
-    /// - returns: The sub-renderer object at the specified index.
+    /// - Returns: The sub-renderer object at the specified index.
     @objc open func getSubRenderer(index: Int) -> DataRenderer?
     {
         if index >= _renderers.count || index < 0

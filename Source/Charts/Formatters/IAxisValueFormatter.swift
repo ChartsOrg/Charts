@@ -23,7 +23,7 @@ public protocol IAxisValueFormatter: class
     /// - Parameters:
     ///   - value:           the value that is currently being drawn
     ///   - axis:            the axis that the value belongs to
-    /// - returns: The customized label that is drawn on the x-axis.
+    /// - Returns: The customized label that is drawn on the x-axis.
     func stringForValue(_ value: Double,
                         axis: AxisBase?) -> String
     

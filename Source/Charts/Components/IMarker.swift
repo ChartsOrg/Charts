@@ -15,14 +15,14 @@ import CoreGraphics
 @objc(IChartMarker)
 public protocol IMarker: class
 {
-    /// - returns: The desired (general) offset you wish the IMarker to have on the x-axis.
+    /// - Returns: The desired (general) offset you wish the IMarker to have on the x-axis.
     /// By returning x: -(width / 2) you will center the IMarker horizontally.
     /// By returning y: -(height / 2) you will center the IMarker vertically.
     var offset: CGPoint { get }
     
     /// - Parameters:
     ///   - point: This is the point at which the marker wants to be drawn. You can adjust the offset conditionally based on this argument.
-    /// - returns: The offset for drawing at the specific `point`.
+    /// - Returns: The offset for drawing at the specific `point`.
     ///            This allows conditional adjusting of the Marker position.
     ///            If you have no adjustments to make, return self.offset().
     func offsetForDrawing(atPoint: CGPoint) -> CGPoint

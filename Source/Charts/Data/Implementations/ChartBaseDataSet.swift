@@ -198,7 +198,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     /// The axis this DataSet should be plotted against.
     open var axisDependency = YAxis.AxisDependency.left
     
-    /// - returns: The color at the given index of the DataSet's color array.
+    /// - Returns: The color at the given index of the DataSet's color array.
     /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
     open func color(atIndex index: Int) -> NSUIColor
     {
@@ -323,7 +323,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
         }
     }
     
-    /// - returns: The color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
+    /// - Returns: The color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
     open func valueTextColorAt(_ index: Int) -> NSUIColor
     {
         var index = index
@@ -364,7 +364,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     
     /// Set this to true to draw y-values on the chart.
     ///
-    /// - note: For bar and line charts: if `maxVisibleCount` is reached, no values will be drawn even if this is enabled.
+    /// - Note: For bar and line charts: if `maxVisibleCount` is reached, no values will be drawn even if this is enabled.
     open var drawValuesEnabled = true
     
     /// `true` if y-value drawing is enabled, `false` ifnot
@@ -375,7 +375,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
 
     /// Set this to true to draw y-icons on the chart.
     ///
-    /// - note: For bar and line charts: if `maxVisibleCount` is reached, no icons will be drawn even if this is enabled.
+    /// - Note: For bar and line charts: if `maxVisibleCount` is reached, no icons will be drawn even if this is enabled.
     open var drawIconsEnabled = true
     
     /// Returns true if y-icon drawing is enabled, false if not

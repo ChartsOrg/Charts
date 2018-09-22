@@ -42,16 +42,16 @@ public protocol IChartDataSet
     /// The number of y-values this DataSet represents
     var entryCount: Int { get }
     
-    /// - throws: out of bounds
+    /// - Throws: out of bounds
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
-    /// - returns: The entry object found at the given index (not x-value!)
+    /// - Returns: The entry object found at the given index (not x-value!)
     func entryForIndex(_ i: Int) -> ChartDataEntry?
     
     /// - Parameters:
     ///   - xValue: the x-value
     ///   - closestToY: If there are multiple y-values for the specified x-value,
     ///   - rounding: determine whether to round up/down/closest if there is no Entry matching the provided x-value
-    /// - returns: The first Entry object found at the given x-value with binary search.
+    /// - Returns: The first Entry object found at the given x-value with binary search.
     /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value according to the rounding.
     /// nil if no Entry object at that x-value.
     func entryForXValue(
@@ -62,14 +62,14 @@ public protocol IChartDataSet
     /// - Parameters:
     ///   - xValue: the x-value
     ///   - closestToY: If there are multiple y-values for the specified x-value,
-    /// - returns: The first Entry object found at the given x-value with binary search.
+    /// - Returns: The first Entry object found at the given x-value with binary search.
     /// If the no Entry at the specified x-value is found, this method returns the Entry at the closest x-value.
     /// nil if no Entry object at that x-value.
     func entryForXValue(
         _ xValue: Double,
         closestToY yValue: Double) -> ChartDataEntry?
     
-    /// - returns: All Entry objects found at the given x-value with binary search.
+    /// - Returns: All Entry objects found at the given x-value with binary search.
     /// An empty array if no Entry object at that x-value.
     func entriesForXValue(_ xValue: Double) -> [ChartDataEntry]
     
@@ -77,7 +77,7 @@ public protocol IChartDataSet
     ///   - xValue: x-value of the entry to search for
     ///   - closestToY: If there are multiple y-values for the specified x-value,
     ///   - rounding: Rounding method if exact value was not found
-    /// - returns: The array-index of the specified entry.
+    /// - Returns: The array-index of the specified entry.
     /// If the no Entry at the specified x-value is found, this method returns the index of the Entry at the closest x-value according to the rounding.
     func entryIndex(
         x xValue: Double,
@@ -86,7 +86,7 @@ public protocol IChartDataSet
     
     /// - Parameters:
     ///   - e: the entry to search for
-    /// - returns: The array-index of the specified entry
+    /// - Returns: The array-index of the specified entry
     func entryIndex(entry e: ChartDataEntry) -> Int
     
     /// Adds an Entry to the DataSet dynamically.
@@ -97,7 +97,7 @@ public protocol IChartDataSet
     ///
     /// - Parameters:
     ///   - e: the entry to add
-    /// - returns: `true` if the entry was added successfully, `false` ifthis feature is not supported
+    /// - Returns: `true` if the entry was added successfully, `false` ifthis feature is not supported
     func addEntry(_ e: ChartDataEntry) -> Bool
     
     /// Adds an Entry to the DataSet dynamically.
@@ -110,7 +110,7 @@ public protocol IChartDataSet
     ///
     /// - Parameters:
     ///   - e: the entry to add
-    /// - returns: `true` if the entry was added successfully, `false` ifthis feature is not supported
+    /// - Returns: `true` if the entry was added successfully, `false` ifthis feature is not supported
     func addEntryOrdered(_ e: ChartDataEntry) -> Bool
     
     /// Removes an Entry from the DataSet dynamically.
@@ -119,7 +119,7 @@ public protocol IChartDataSet
     ///
     /// - Parameters:
     ///   - entry: the entry to remove
-    /// - returns: `true` if the entry was removed successfully, `false` ifthe entry does not exist or if this feature is not supported
+    /// - Returns: `true` if the entry was removed successfully, `false` ifthe entry does not exist or if this feature is not supported
     func removeEntry(_ entry: ChartDataEntry) -> Bool
     
     /// Removes the Entry object at the given index in the values array from the DataSet.
@@ -128,7 +128,7 @@ public protocol IChartDataSet
     ///
     /// - Parameters:
     ///   - index: the index of the entry to remove
-    /// - returns: `true` if the entry was removed successfully, `false` ifthe entry does not exist or if this feature is not supported
+    /// - Returns: `true` if the entry was removed successfully, `false` ifthe entry does not exist or if this feature is not supported
     func removeEntry(index: Int) -> Bool
     
     /// Removes the Entry object closest to the given x-value from the DataSet.
@@ -137,26 +137,26 @@ public protocol IChartDataSet
     ///
     /// - Parameters:
     ///   - x: the x-value to remove
-    /// - returns: `true` if the entry was removed successfully, `false` ifthe entry does not exist or if this feature is not supported
+    /// - Returns: `true` if the entry was removed successfully, `false` ifthe entry does not exist or if this feature is not supported
     func removeEntry(x: Double) -> Bool
     
     /// Removes the first Entry (at index 0) of this DataSet from the entries array.
     ///
     /// *optional feature, can return `false` ifnot implemented*
     ///
-    /// - returns: `true` if the entry was removed successfully, `false` ifthe entry does not exist or if this feature is not supported
+    /// - Returns: `true` if the entry was removed successfully, `false` ifthe entry does not exist or if this feature is not supported
     func removeFirst() -> Bool
     
     /// Removes the last Entry (at index 0) of this DataSet from the entries array.
     ///
     /// *optional feature, can return `false` ifnot implemented*
     ///
-    /// - returns: `true` if the entry was removed successfully, `false` ifthe entry does not exist or if this feature is not supported
+    /// - Returns: `true` if the entry was removed successfully, `false` ifthe entry does not exist or if this feature is not supported
     func removeLast() -> Bool
     
     /// Checks if this DataSet contains the specified Entry.
     ///
-    /// - returns: `true` if contains the entry, `false` ifnot.
+    /// - Returns: `true` if contains the entry, `false` ifnot.
     func contains(_ e: ChartDataEntry) -> Bool
     
     /// Removes all values from this DataSet and does all necessary recalculations.
@@ -179,7 +179,7 @@ public protocol IChartDataSet
     /// Colors are reused as soon as the number of Entries the DataSet represents is higher than the size of the colors array.
     var colors: [NSUIColor] { get }
     
-    /// - returns: The color at the given index of the DataSet's color array.
+    /// - Returns: The color at the given index of the DataSet's color array.
     /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
     func color(atIndex: Int) -> NSUIColor
     
@@ -206,7 +206,7 @@ public protocol IChartDataSet
     /// Getting will return the first color in the array.
     var valueTextColor: NSUIColor { get set }
     
-    /// - returns: The color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
+    /// - Returns: The color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
     func valueTextColorAt(_ index: Int) -> NSUIColor
     
     /// the font for the value-text labels
@@ -241,7 +241,7 @@ public protocol IChartDataSet
     
     /// Set this to true to draw y-values on the chart.
     ///
-    /// - note: For bar and line charts: if `maxVisibleCount` is reached, no values will be drawn even if this is enabled.
+    /// - Note: For bar and line charts: if `maxVisibleCount` is reached, no values will be drawn even if this is enabled.
     var drawValuesEnabled: Bool { get set }
     
     /// `true` if y-value drawing is enabled, `false` ifnot
@@ -249,7 +249,7 @@ public protocol IChartDataSet
     
     /// Set this to true to draw y-icons on the chart
     ///
-    /// - note: For bar and line charts: if `maxVisibleCount` is reached, no icons will be drawn even if this is enabled.
+    /// - Note: For bar and line charts: if `maxVisibleCount` is reached, no icons will be drawn even if this is enabled.
     var drawIconsEnabled: Bool { get set }
     
     /// Returns true if y-icon drawing is enabled, false if not

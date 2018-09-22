@@ -18,7 +18,7 @@ public protocol IHighlighter: class
     /// - Parameters:
     ///   - x:
     ///   - y:
-    /// - returns:
-    /// - returns: A Highlight object corresponding to the given x- and y- touch positions in pixels.
+    /// - Returns:
+    /// - Returns: A Highlight object corresponding to the given x- and y- touch positions in pixels.
     func getHighlight(x: CGFloat, y: CGFloat) -> Highlight?
 }

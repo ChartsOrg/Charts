@@ -55,7 +55,7 @@ open class BarHighlighter: ChartHighlighter
     ///   - set:
     ///   - xIndex:
     ///   - yValue:
-    /// - returns:
+    /// - Returns:
     @objc open func getStackedHighlight(high: Highlight,
                                   set: IBarChartDataSet,
                                   xValue: Double,
@@ -94,8 +94,8 @@ open class BarHighlighter: ChartHighlighter
     /// - Parameters:
     ///   - entry:
     ///   - value:
-    /// - returns:
-    /// - returns: The index of the closest value inside the values array / ranges (stacked barchart) to the value given as a parameter.
+    /// - Returns:
+    /// - Returns: The index of the closest value inside the values array / ranges (stacked barchart) to the value given as a parameter.
     @objc open func getClosestStackIndex(ranges: [Range]?, value: Double) -> Int
     {
         guard let ranges = ranges else { return 0 }

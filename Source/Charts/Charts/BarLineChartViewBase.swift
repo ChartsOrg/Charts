@@ -1511,7 +1511,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
     // MARK: - Accessors
     
-    /// - returns: The range of the specified axis.
+    /// - Returns: The range of the specified axis.
     @objc open func getAxisRange(axis: YAxis.AxisDependency) -> Double
     {
         if axis == .left
@@ -1524,7 +1524,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         }
     }
 
-    /// - returns: The position (in pixels) the provided Entry has inside the chart view
+    /// - Returns: The position (in pixels) the provided Entry has inside the chart view
     @objc open func getPosition(entry e: ChartDataEntry, axis: YAxis.AxisDependency) -> CGPoint
     {
         var vals = CGPoint(x: CGFloat(e.x), y: CGFloat(e.y))
@@ -1682,7 +1682,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         return drawBordersEnabled
     }
 
-    /// - returns: The x and y values in the chart at the given touch point
+    /// - Returns: The x and y values in the chart at the given touch point
     /// (encapsulated in a `CGPoint`). This method transforms pixel coordinates to
     /// coordinates / values in the chart. This is the opposite method to
     /// `getPixelsForValues(...)`.
@@ -1698,7 +1698,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         return getTransformer(forAxis: axis).pixelForValues(x: x, y: y)
     }
     
-    /// - returns: The Entry object displayed at the touched position of the chart
+    /// - Returns: The Entry object displayed at the touched position of the chart
     @objc open func getEntryByTouchPoint(point pt: CGPoint) -> ChartDataEntry!
     {
         if let h = getHighlightByTouchPoint(pt)
@@ -1708,7 +1708,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         return nil
     }
     
-    /// - returns: The DataSet object displayed at the touched position of the chart
+    /// - Returns: The DataSet object displayed at the touched position of the chart
     @objc open func getDataSetByTouchPoint(point pt: CGPoint) -> IBarLineScatterCandleBubbleChartDataSet?
     {
         let h = getHighlightByTouchPoint(pt)
@@ -1742,7 +1742,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// if the chart is fully zoomed out, return true
     @objc open var isFullyZoomedOut: Bool { return _viewPortHandler.isFullyZoomedOut }
 
-    /// - returns: The y-axis object to the corresponding AxisDependency. In the
+    /// - Returns: The y-axis object to the corresponding AxisDependency. In the
     /// horizontal bar-chart, LEFT == top, RIGHT == BOTTOM
     @objc open func getAxis(_ axis: YAxis.AxisDependency) -> YAxis
     {
@@ -1839,7 +1839,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     /// **default**: 0.0
     ///
-    /// - returns: The (custom) minimum width of the specified Y axis.
+    /// - Returns: The (custom) minimum width of the specified Y axis.
     @objc open func getYAxisMinWidth(_ axis: YAxis.AxisDependency) -> CGFloat
     {
         if axis == .left
@@ -1869,7 +1869,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     ///
     /// **default**: 0.0 (no maximum specified)
     ///
-    /// - returns: The (custom) maximum width of the specified Y axis.
+    /// - Returns: The (custom) maximum width of the specified Y axis.
     @objc open func getYAxisMaxWidth(_ axis: YAxis.AxisDependency) -> CGFloat
     {
         if axis == .left
@@ -1882,7 +1882,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         }
     }
 
-    /// - returns the width of the specified y axis.
+    /// - Returns the width of the specified y axis.
     @objc open func getYAxisWidth(_ axis: YAxis.AxisDependency) -> CGFloat
     {
         if axis == .left
@@ -1897,7 +1897,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     // MARK: - BarLineScatterCandleBubbleChartDataProvider
     
-    /// - returns: The Transformer class that contains all matrices and is
+    /// - Returns: The Transformer class that contains all matrices and is
     /// responsible for transforming values into pixels on the screen and
     /// backwards.
     open func getTransformer(forAxis axis: YAxis.AxisDependency) -> Transformer

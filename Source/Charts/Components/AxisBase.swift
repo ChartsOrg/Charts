@@ -143,7 +143,7 @@ open class AxisBase: ComponentBase
         return longest
     }
     
-    /// - returns: The formatted label at the specified index. This will either use the auto-formatter or the custom formatter (if one is set).
+    /// - Returns: The formatted label at the specified index. This will either use the auto-formatter or the custom formatter (if one is set).
     @objc open func getFormattedLabel(_ index: Int) -> String
     {
         if index < 0 || index >= entries.count

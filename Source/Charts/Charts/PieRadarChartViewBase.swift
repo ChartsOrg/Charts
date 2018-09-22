@@ -244,7 +244,7 @@ open class PieRadarChartViewBase: ChartViewBase
         _viewPortHandler.restrainViewPort(offsetLeft: offsetLeft, offsetTop: offsetTop, offsetRight: offsetRight, offsetBottom: offsetBottom)
     }
 
-    /// - returns: The angle relative to the chart center for the given point on the chart in degrees.
+    /// - Returns: The angle relative to the chart center for the given point on the chart in degrees.
     /// The angle is always between 0 and 360°, 0° is NORTH, 90° is EAST, ...
     @objc open func angleForPoint(x: CGFloat, y: CGFloat) -> CGFloat
     {
@@ -282,7 +282,7 @@ open class PieRadarChartViewBase: ChartViewBase
                 y: center.y + dist * sin(angle.DEG2RAD))
     }
 
-    /// - returns: The distance of a certain point on the chart to the center of the chart.
+    /// - Returns: The distance of a certain point on the chart to the center of the chart.
     @objc open func distanceToCenter(x: CGFloat, y: CGFloat) -> CGFloat
     {
         let c = self.centerOffsets
@@ -316,7 +316,7 @@ open class PieRadarChartViewBase: ChartViewBase
         return dist
     }
 
-    /// - returns: The xIndex for the given angle around the center of the chart.
+    /// - Returns: The xIndex for the given angle around the center of the chart.
     /// -1 if not found / outofbounds.
     @objc open func indexForAngle(_ angle: CGFloat) -> Int
     {
@@ -371,7 +371,7 @@ open class PieRadarChartViewBase: ChartViewBase
         fatalError("requiredLegendOffset cannot be called on PieRadarChartViewBase")
     }
 
-    /// - returns: The base offset needed for the chart without calculating the
+    /// - Returns: The base offset needed for the chart without calculating the
     /// legend size.
     internal var requiredBaseOffset: CGFloat
     {
@@ -791,7 +791,7 @@ open class PieRadarChartViewBase: ChartViewBase
         }
     }
     
-    /// - returns: The distance between two points
+    /// - Returns: The distance between two points
     private func distance(eventX: CGFloat, startX: CGFloat, eventY: CGFloat, startY: CGFloat) -> CGFloat
     {
         let dx = eventX - startX
@@ -799,7 +799,7 @@ open class PieRadarChartViewBase: ChartViewBase
         return sqrt(dx * dx + dy * dy)
     }
     
-    /// - returns: The distance between two points
+    /// - Returns: The distance between two points
     private func distance(from: CGPoint, to: CGPoint) -> CGFloat
     {
         let dx = from.x - to.x

@@ -271,7 +271,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     ///
     /// - Parameters:
     ///   - highlight:
-    /// - returns: The entry that is highlighted
+    /// - Returns: The entry that is highlighted
     open override func entryForHighlight(_ highlight: Highlight) -> ChartDataEntry?
     {
         if highlight.dataIndex >= allData.count

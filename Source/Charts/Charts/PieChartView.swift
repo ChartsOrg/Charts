@@ -279,7 +279,7 @@ open class PieChartView: PieRadarChartViewBase
         return -1 // return -1 if no index found
     }
     
-    /// - returns: The index of the DataSet this x-index belongs to.
+    /// - Returns: The index of the DataSet this x-index belongs to.
     @objc open func dataSetIndexForIndex(_ xValue: Double) -> Int
     {
         var dataSets = _data?.dataSets ?? []
@@ -295,7 +295,7 @@ open class PieChartView: PieRadarChartViewBase
         return -1
     }
     
-    /// - returns: An integer array of all the different angles the chart slices
+    /// - Returns: An integer array of all the different angles the chart slices
     /// have the angles in the returned array determine how much space (of 360°)
     /// each slice takes
     @objc open var drawAngles: [CGFloat]
@@ -303,7 +303,7 @@ open class PieChartView: PieRadarChartViewBase
         return _drawAngles
     }
 
-    /// - returns: The absolute angles of the different chart slices (where the
+    /// - Returns: The absolute angles of the different chart slices (where the
     /// slices end)
     @objc open var absoluteAngles: [CGFloat]
     {
@@ -312,7 +312,7 @@ open class PieChartView: PieRadarChartViewBase
     
     /// The color for the hole that is drawn in the center of the PieChart (if enabled).
     /// 
-    /// - note: Use holeTransparent with holeColor = nil to make the hole transparent.*
+    /// - Note: Use holeTransparent with holeColor = nil to make the hole transparent.*
     @objc open var holeColor: NSUIColor?
     {
         get

@@ -150,7 +150,7 @@ open class Transformer: NSObject
         pixel = pixel.applying(pixelToValueMatrix)
     }
     
-    /// - returns: The x and y values in the chart at the given touch point
+    /// - Returns: The x and y values in the chart at the given touch point
     /// (encapsulated in a CGPoint). This method transforms pixel coordinates to
     /// coordinates / values in the chart.
     @objc open func valueForTouchPoint(_ point: CGPoint) -> CGPoint
@@ -158,7 +158,7 @@ open class Transformer: NSObject
         return point.applying(pixelToValueMatrix)
     }
     
-    /// - returns: The x and y values in the chart at the given touch point
+    /// - Returns: The x and y values in the chart at the given touch point
     /// (x/y). This method transforms pixel coordinates to
     /// coordinates / values in the chart.
     @objc open func valueForTouchPoint(x: CGFloat, y: CGFloat) -> CGPoint

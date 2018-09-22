@@ -41,7 +41,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
 {
     // MARK: - Properties
     
-    /// - returns: The object representing all x-labels, this method can be used to
+    /// - Returns: The object representing all x-labels, this method can be used to
     /// acquire the XAxis object and modify it (e.g. change the position of the
     /// labels)
     @objc open var xAxis: XAxis
@@ -116,7 +116,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// (use the `marker` property to specify a marker)
     @objc open var drawMarkers = true
     
-    /// - returns: `true` if drawing the marker is enabled when tapping on values
+    /// - Returns: `true` if drawing the marker is enabled when tapping on values
     /// (use the `marker` property to specify a marker)
     @objc open var isDrawMarkersEnabled: Bool { return drawMarkers }
     
@@ -241,7 +241,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         setNeedsDisplay()
     }
 
-    /// - returns: `true` if the chart is empty (meaning it's data object is either null or contains no entries).
+    /// - Returns: `true` if the chart is empty (meaning it's data object is either null or contains no entries).
     @objc open func isEmpty() -> Bool
     {
         guard let data = _data else { return true }
@@ -400,7 +400,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// Checks if the highlight array is null, has a length of zero or if the first object is null.
     ///
-    /// - returns: `true` if there are values to highlight, `false` ifthere are no values to highlight.
+    /// - Returns: `true` if there are values to highlight, `false` ifthere are no values to highlight.
     @objc open func valuesToHighlight() -> Bool
     {
         return _indicesToHighlight.count > 0
@@ -546,7 +546,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         setNeedsDisplay()
     }
     
-    /// - returns: The Highlight object (contains x-index and DataSet index) of the
+    /// - Returns: The Highlight object (contains x-index and DataSet index) of the
     /// selected value at the given touch point inside the Line-, Scatter-, or
     /// CandleStick-Chart.
     @objc open func getHighlightByTouchPoint(_ pt: CGPoint) -> Highlight?
@@ -606,7 +606,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         }
     }
     
-    /// - returns: The actual position in pixels of the MarkerView for the given Entry in the given DataSet.
+    /// - Returns: The actual position in pixels of the MarkerView for the given Entry in the given DataSet.
     @objc open func getMarkerPosition(highlight: Highlight) -> CGPoint
     {
         return CGPoint(x: highlight.drawX, y: highlight.drawY)
@@ -776,7 +776,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// *
     ///
-    /// - note: (Equivalent of getCenter() in MPAndroidChart, as center is already a standard in iOS that returns the center point relative to superview, and MPAndroidChart returns relative to self)*
+    /// - Note: (Equivalent of getCenter() in MPAndroidChart, as center is already a standard in iOS that returns the center point relative to superview, and MPAndroidChart returns relative to self)*
     /// The center point of the chart (the whole View) in pixels.
     @objc open var midPoint: CGPoint
     {
@@ -808,14 +808,14 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         return _viewPortHandler.contentRect
     }
     
-    /// - returns: The ViewPortHandler of the chart that is responsible for the
+    /// - Returns: The ViewPortHandler of the chart that is responsible for the
     /// content area of the chart and its offsets and dimensions.
     @objc open var viewPortHandler: ViewPortHandler!
     {
         return _viewPortHandler
     }
     
-    /// - returns: The bitmap that represents the chart.
+    /// - Returns: The bitmap that represents the chart.
     @objc open func getChartImage(transparent: Bool) -> NSUIImage?
     {
         NSUIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque || !transparent, NSUIMainScreen()?.nsuiScale ?? 1.0)
@@ -862,7 +862,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     ///   - to: path to the image to save
     ///   - format: the format to save
     ///   - compressionQuality: compression quality for lossless formats (JPEG)
-    /// - returns: `true` if the image was saved successfully
+    /// - Returns: `true` if the image was saved successfully
     open func save(to path: String, format: ImageFormat, compressionQuality: Double) -> Bool
     {
         guard let image = getChartImage(transparent: format != .jpeg) else { return false }

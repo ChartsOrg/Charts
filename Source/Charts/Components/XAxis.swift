@@ -49,7 +49,7 @@ open class XAxis: AxisBase
     /// if set to true, word wrapping the labels will be enabled.
     /// word wrapping is done using `(value width * labelRotatedWidth)`
     ///
-    /// - note: currently supports all charts except pie/radar/horizontal-bar*
+    /// - Note: currently supports all charts except pie/radar/horizontal-bar*
     @objc open var wordWrapEnabled = false
     
     /// `true` if word wrapping the labels is enabled
