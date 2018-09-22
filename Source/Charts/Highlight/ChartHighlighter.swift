@@ -30,7 +30,6 @@ open class ChartHighlighter : NSObject, IHighlighter
     
     /// - Parameters:
     ///   - x:
-    /// - Returns:
     /// - Returns: The corresponding x-pos for a given touch-position in pixels.
     @objc open func getValsForTouch(x: CGFloat, y: CGFloat) -> CGPoint
     {
@@ -44,7 +43,6 @@ open class ChartHighlighter : NSObject, IHighlighter
     ///   - xValue:
     ///   - x:
     ///   - y:
-    /// - Returns:
     /// - Returns: The corresponding ChartHighlight for a given x-value and xy-touch position in pixels.
     @objc open func getHighlight(xValue xVal: Double, x: CGFloat, y: CGFloat) -> Highlight?
     {
@@ -67,7 +65,6 @@ open class ChartHighlighter : NSObject, IHighlighter
     ///   - xValue: the transformed x-value of the x-touch position
     ///   - x: touch position
     ///   - y: touch position
-    /// - Returns:
     /// - Returns: A list of Highlight objects representing the entries closest to the given xVal.
     /// The returned list contains two objects per DataSet (closest rounding up, closest rounding down).
     @objc open func getHighlights(xValue: Double, x: CGFloat, y: CGFloat) -> [Highlight]
