@@ -125,9 +125,11 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 if barData.yMin > 0 {
                     heightOffset = CGFloat(offsetAxis.axisMinimum)
                 }
+            }
+            if !offsetAxis._customAxisMax {
                 if barData.yMax < 0 {
                     originYOffset = CGFloat(offsetAxis.axisMaximum)
-                }         
+                }
             }
         }
         
