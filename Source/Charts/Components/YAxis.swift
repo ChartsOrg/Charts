@@ -150,8 +150,16 @@ open class YAxis: AxisBase
         var min = _customAxisMin ? _axisMinimum : dataMin
         var max = _customAxisMax ? _axisMaximum : dataMax
         
-        min = max < min ? max : min
-        max = min > max ? min : max
+        // Make sure max is greater than min
+        if min > max {
+            if _customAxisMax && _customAxisMin {
+                (min, max) = (max, min)
+            } else if _customAxisMax && !_customAxisMin {
+                min = max - 1
+            } else if !_customAxisMax && _customAxisMin {
+                max = min + 1
+            }
+        }
         
         // temporary range (before calculations)
         let range = abs(max - min)
