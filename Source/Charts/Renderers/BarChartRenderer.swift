@@ -111,25 +111,27 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
 
 
-        // When drawing with an auto calculated y-axis minimum, the renderer actually draws each bar from 0
-        // to the required value. This drawn bar is then clipped to the visible chart rect in BarLineChartViewBase's draw(rect:) using clipDataToContent.
+        // When drawing each bar, the renderer actually draws each bar from 0 to the required value.
+        // This drawn bar is then clipped to the visible chart rect in BarLineChartViewBase's draw(rect:) using clipDataToContent.
         // While this works fine when calculating the bar rects for drawing, it causes the accessibilityFrames to be oversized in some cases.
-        // This offset attempts to undo that unnecessary drawing when calculating barRects, particularly when not using custom axis minima.
-        // This allows the minimum to still be visually non zero, but the rects are only drawn where necessary.
+        // This offset attempts to undo that unnecessary drawing when calculating barRects
         // This offset calculation is not necessary when bars won't be clipped (when y-axis minimum <= 0  and y-axis maximum  >= 0)
         var heightOffset: CGFloat = 0.0
         var originYOffset: CGFloat = 0.0
-        if let offsetView = dataProvider as? BarChartView {
-            let offsetAxis = offsetView.leftAxis.isEnabled ? offsetView.leftAxis : offsetView.rightAxis
-            if !offsetAxis._customAxisMin {
-                if barData.yMin > 0 {
-                    heightOffset = CGFloat(offsetAxis.axisMinimum)
-                }
+        if let offsetView = dataProvider as? BarChartView
+        {
+            let offsetAxis = dataSet.axisDependency == .left ? offsetView.leftAxis : offsetView.rightAxis
+            if barData.yMin > 0
+            {
+                heightOffset = CGFloat(offsetAxis.axisMinimum)
             }
-            if !offsetAxis._customAxisMax {
-                if barData.yMax < 0 {
-                    originYOffset = CGFloat(offsetAxis.axisMaximum)
-                }
+            if barData.yMax < 0
+            {
+                originYOffset = CGFloat(offsetAxis.axisMaximum)
+            }
+            if isInverted
+            {
+                (heightOffset, originYOffset) = (originYOffset, heightOffset)
             }
         }
         
