@@ -19,6 +19,12 @@ import CoreGraphics
 
 open class LineChartRenderer: LineRadarRenderer
 {
+    // TODO: Currently, this nesting isn't necessary for LineCharts. However, it will make it much easier to add a custom rotor
+    // that navigates between datasets.
+    // NOTE: Unlike the other renderers, LineChartRenderer populates accessibleChartElements in drawCircles due to the nature of its drawing options.
+    /// A nested array of elements ordered logically (i.e not in visual/drawing order) for use with VoiceOver.
+    private lazy var accessibilityOrderedElements: [[NSUIAccessibilityElement]] = accessibilityCreateEmptyOrderedElements()
+
     @objc open weak var dataProvider: LineChartDataProvider?
     
     @objc public init(dataProvider: LineChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
@@ -568,7 +574,7 @@ open class LineChartRenderer: LineRadarRenderer
                                 x: pt.x,
                                 y: pt.y - CGFloat(valOffset) - valueFont.lineHeight),
                             align: .center,
-                            attributes: [NSAttributedStringKey.font: valueFont, NSAttributedStringKey.foregroundColor: dataSet.valueTextColorAt(j)])
+                            attributes: [NSAttributedString.Key.font: valueFont, NSAttributedString.Key.foregroundColor: dataSet.valueTextColorAt(j)])
                     }
                     
                     if let icon = e.icon, dataSet.isDrawIconsEnabled
@@ -603,13 +609,25 @@ open class LineChartRenderer: LineRadarRenderer
         var pt = CGPoint()
         var rect = CGRect()
         
+        // If we redraw the data, remove and repopulate accessible elements to update label values and frames
+        accessibleChartElements.removeAll()
+        accessibilityOrderedElements = accessibilityCreateEmptyOrderedElements()
+
+        // Make the chart header the first element in the accessible elements array
+        if let chart = dataProvider as? LineChartView {
+            let element = createAccessibleHeader(usingChart: chart,
+                                                 andData: lineData,
+                                                 withDefaultDescription: "Line Chart")
+            accessibleChartElements.append(element)
+        }
+
         context.saveGState()
-        
+
         for i in 0 ..< dataSets.count
         {
             guard let dataSet = lineData.getDataSetByIndex(i) as? ILineChartDataSet else { continue }
             
-            if !dataSet.isVisible || !dataSet.isDrawCirclesEnabled || dataSet.entryCount == 0
+            if !dataSet.isVisible || dataSet.entryCount == 0
             {
                 continue
             }
@@ -650,13 +668,38 @@ open class LineChartRenderer: LineRadarRenderer
                     continue
                 }
                 
+                // Accessibility element geometry
+                let scaleFactor: CGFloat = 3
+                let accessibilityRect = CGRect(x: pt.x - (scaleFactor * circleRadius),
+                                               y: pt.y - (scaleFactor * circleRadius),
+                                               width: scaleFactor * circleDiameter,
+                                               height: scaleFactor * circleDiameter)
+                // Create and append the corresponding accessibility element to accessibilityOrderedElements
+                if let chart = dataProvider as? LineChartView
+                {
+                    let element = createAccessibleElement(withIndex: j,
+                                                          container: chart,
+                                                          dataSet: dataSet,
+                                                          dataSetIndex: i)
+                    { (element) in
+                        element.accessibilityFrame = accessibilityRect
+                    }
+
+                    accessibilityOrderedElements[i].append(element)
+                }
+
+                if !dataSet.isDrawCirclesEnabled
+                {
+                    continue
+                }
+
                 context.setFillColor(dataSet.getCircleColor(atIndex: j)!.cgColor)
-                
+
                 rect.origin.x = pt.x - circleRadius
                 rect.origin.y = pt.y - circleRadius
                 rect.size.width = circleDiameter
                 rect.size.height = circleDiameter
-                
+
                 if drawTransparentCircleHole
                 {
                     // Begin path for circle with hole
@@ -694,6 +737,10 @@ open class LineChartRenderer: LineRadarRenderer
         }
         
         context.restoreGState()
+
+        // Merge nested ordered arrays into the single accessibleChartElements.
+        accessibleChartElements.append(contentsOf: accessibilityOrderedElements.flatMap { $0 } )
+        accessibilityPostLayoutChangedNotification()
     }
     
     open override func drawHighlighted(context: CGContext, indices: [Highlight])
@@ -750,5 +797,52 @@ open class LineChartRenderer: LineRadarRenderer
         }
         
         context.restoreGState()
+    }
+
+    /// Creates a nested array of empty subarrays each of which will be populated with NSUIAccessibilityElements.
+    /// This is marked internal to support HorizontalBarChartRenderer as well.
+    private func accessibilityCreateEmptyOrderedElements() -> [[NSUIAccessibilityElement]]
+    {
+        guard let chart = dataProvider as? LineChartView else { return [] }
+
+        let dataSetCount = chart.lineData?.dataSetCount ?? 0
+
+        return Array(repeating: [NSUIAccessibilityElement](),
+                     count: dataSetCount)
+    }
+
+    /// Creates an NSUIAccessibleElement representing the smallest meaningful bar of the chart
+    /// i.e. in case of a stacked chart, this returns each stack, not the combined bar.
+    /// Note that it is marked internal to support subclass modification in the HorizontalBarChart.
+    private func createAccessibleElement(withIndex idx: Int,
+                                          container: LineChartView,
+                                          dataSet: ILineChartDataSet,
+                                          dataSetIndex: Int,
+                                          modifier: (NSUIAccessibilityElement) -> ()) -> NSUIAccessibilityElement
+    {
+        let element = NSUIAccessibilityElement(accessibilityContainer: container)
+        let xAxis = container.xAxis
+
+        guard let e = dataSet.entryForIndex(idx) else { return element }
+        guard let dataProvider = dataProvider else { return element }
+
+        // NOTE: The formatter can cause issues when the x-axis labels are consecutive ints.
+        // i.e. due to the Double conversion, if there are more than one data set that are grouped,
+        // there is the possibility of some labels being rounded up. A floor() might fix this, but seems to be a brute force solution.
+        let label = xAxis.valueFormatter?.stringForValue(e.x, axis: xAxis) ?? "\(e.x)"
+
+        let elementValueText = dataSet.valueFormatter?.stringForValue(e.y,
+                                                                      entry: e,
+                                                                      dataSetIndex: dataSetIndex,
+                                                                      viewPortHandler: viewPortHandler) ?? "\(e.y)"
+
+        let dataSetCount = dataProvider.lineData?.dataSetCount ?? -1
+        let doesContainMultipleDataSets = dataSetCount > 1
+
+        element.accessibilityLabel = "\(doesContainMultipleDataSets ? (dataSet.label ?? "")  + ", " : "") \(label): \(elementValueText)"
+
+        modifier(element)
+
+        return element
     }
 }

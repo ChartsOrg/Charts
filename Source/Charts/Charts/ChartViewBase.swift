@@ -354,10 +354,10 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         let position = description.position ?? CGPoint(x: bounds.width - _viewPortHandler.offsetRight - description.xOffset,
                                                        y: bounds.height - _viewPortHandler.offsetBottom - description.yOffset - description.font.lineHeight)
         
-        var attrs = [NSAttributedStringKey : Any]()
+        var attrs = [NSAttributedString.Key : Any]()
         
-        attrs[NSAttributedStringKey.font] = description.font
-        attrs[NSAttributedStringKey.foregroundColor] = description.textColor
+        attrs[NSAttributedString.Key.font] = description.font
+        attrs[NSAttributedString.Key.foregroundColor] = description.textColor
 
         ChartUtils.drawText(
             context: context,
@@ -367,6 +367,12 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             attributes: attrs)
     }
     
+    // MARK: - Accessibility
+
+    open override func accessibilityChildren() -> [Any]? {
+        return renderer?.accessibleChartElements
+    }
+
     // MARK: - Highlighting
     
     /// - returns: The array of currently highlighted values. This might an empty if nothing is highlighted.

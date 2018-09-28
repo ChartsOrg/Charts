@@ -15,7 +15,16 @@ import CoreGraphics
 @objc(ChartDataRendererBase)
 open class DataRenderer: Renderer
 {
-    @objc open let animator: Animator
+    /// An array of accessibility elements that are presented to the ChartViewBase accessibility methods.
+    ///
+    /// Note that the order of elements in this array determines the order in which they are presented and navigated by
+    /// Accessibility clients such as VoiceOver.
+    ///
+    /// Renderers should ensure that the order of elements makes sense to a client presenting an audio-only interface to a user.
+    /// Subclasses should populate this array in drawData() or drawDataSet() to make the chart accessible.
+    @objc final var accessibleChartElements: [NSUIAccessibilityElement] = []
+
+    @objc public let animator: Animator
     
     @objc public init(animator: Animator, viewPortHandler: ViewPortHandler)
     {
@@ -55,5 +64,30 @@ open class DataRenderer: Renderer
     {
         guard let data = dataProvider?.data else { return false }
         return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
+    }
+
+    /// Creates an ```NSUIAccessibilityElement``` that acts as the first and primary header describing a chart view.
+    ///
+    /// - Parameters:
+    ///   - chart: The chartView object being described
+    ///   - data: A non optional data source about the chart
+    ///   - defaultDescription: A simple string describing the type/design of Chart.
+    /// - Returns: A header ```NSUIAccessibilityElement``` that can be added to accessibleChartElements.
+    @objc internal func createAccessibleHeader(usingChart chart: ChartViewBase,
+                                        andData data: ChartData,
+                                        withDefaultDescription defaultDescription: String = "Chart") -> NSUIAccessibilityElement
+    {
+        let chartDescriptionText = chart.chartDescription?.text ?? defaultDescription
+        let dataSetDescriptions = data.dataSets.map { $0.label ?? "" }
+        let dataSetDescriptionText = dataSetDescriptions.joined(separator: ", ")
+        let dataSetCount = data.dataSets.count
+
+        let
+        element = NSUIAccessibilityElement(accessibilityContainer: chart)
+        element.accessibilityLabel = chartDescriptionText + ". \(dataSetCount) dataset\(dataSetCount == 1 ? "" : "s"). \(dataSetDescriptionText)"
+        element.accessibilityFrame = chart.bounds
+        element.isHeader = true
+
+        return element
     }
 }

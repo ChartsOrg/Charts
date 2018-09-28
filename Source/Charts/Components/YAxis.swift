@@ -72,6 +72,12 @@ open class YAxis: AxisBase
     
     /// the position of the y-labels relative to the chart
     @objc open var labelPosition = LabelPosition.outsideChart
+
+    /// the alignment of the text in the y-label
+    @objc open var labelAlignment: NSTextAlignment = .left
+
+    /// the horizontal offset of the y-label
+    @objc open var labelXOffset: CGFloat = 10.0
     
     /// the side this axis object represents
     private var _axisDependency = AxisDependency.left
@@ -111,7 +117,7 @@ open class YAxis: AxisBase
     @objc open func requiredSize() -> CGSize
     {
         let label = getLongestLabel() as NSString
-        var size = label.size(withAttributes: [NSAttributedStringKey.font: labelFont])
+        var size = label.size(withAttributes: [NSAttributedString.Key.font: labelFont])
         size.width += xOffset * 2.0
         size.height += yOffset * 2.0
         size.width = max(minWidth, min(size.width, maxWidth > 0.0 ? maxWidth : size.width))

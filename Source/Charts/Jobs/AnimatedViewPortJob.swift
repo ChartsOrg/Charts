@@ -71,14 +71,14 @@ open class AnimatedViewPortJob: ViewPortJob
         updateAnimationPhase(_startTime)
         
         _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
-        _displayLink.add(to: .main, forMode: .commonModes)
+        _displayLink.add(to: .main, forMode: RunLoop.Mode.common)
     }
     
     @objc open func stop(finish: Bool)
     {
         guard _displayLink != nil else { return }
 
-        _displayLink.remove(from: .main, forMode: .commonModes)
+        _displayLink.remove(from: .main, forMode: RunLoop.Mode.common)
         _displayLink = nil
 
         if finish
