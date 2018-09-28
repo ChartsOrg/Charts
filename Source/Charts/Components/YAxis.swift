@@ -151,12 +151,16 @@ open class YAxis: AxisBase
         var max = _customAxisMax ? _axisMaximum : dataMax
         
         // Make sure max is greater than min
-        if min > max {
-            if _customAxisMax && _customAxisMin {
+        if min > max
+        {
+            if _customAxisMax && _customAxisMin
+            {
                 (min, max) = (max, min)
-            } else if _customAxisMax && !_customAxisMin {
+            } else if _customAxisMax && !_customAxisMin
+            {
                 min = max - 1
-            } else if !_customAxisMax && _customAxisMin {
+            } else if !_customAxisMax && _customAxisMin
+            {
                 max = min + 1
             }
         }
