@@ -156,10 +156,12 @@ open class YAxis: AxisBase
             if _customAxisMax && _customAxisMin
             {
                 (min, max) = (max, min)
-            } else if _customAxisMax && !_customAxisMin
+            }
+            else if _customAxisMax && !_customAxisMin
             {
                 min = max - 1
-            } else if !_customAxisMax && _customAxisMin
+            }
+            else if !_customAxisMax && _customAxisMin
             {
                 max = min + 1
             }
