@@ -151,12 +151,16 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 var top = isInverted
                     ? (y <= 0.0 ? CGFloat(y) : 0)
                     : (y >= 0.0 ? CGFloat(y) : 0)
+                top += originYOffset
+                
                 var bottom = isInverted
                     ? (y >= 0.0 ? CGFloat(y) : 0)
                     : (y <= 0.0 ? CGFloat(y) : 0)
+                bottom += heightOffset
 
                 // multiply the height of the rect with the phase
-                if top > 0
+                // explicitly add 0 + originYOffset to indicate this is changed after adding accessibility support (#3650, #3520)
+                if top > 0 + originYOffset
                 {
                     top *= CGFloat(phaseY)
                 }
@@ -166,9 +170,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 }
 
                 barRect.origin.x = left
-                barRect.origin.y = top + originYOffset
+                barRect.origin.y = top
                 barRect.size.width = right - left
-                barRect.size.height = bottom - top + heightOffset - originYOffset
+                barRect.size.height = bottom - top
                 buffer.rects[bufferIndex] = barRect
                 bufferIndex += 1
             }
