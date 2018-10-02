@@ -10,6 +10,8 @@ Pod::Spec.new do |s|
   s.osx.deployment_target = "10.11"
   s.source = { :git => "https://github.com/danielgindi/Charts.git", :tag => "v#{s.version}" }
   s.default_subspec = "Core"
+  s.swift_version = '4.2'
+  s.cocoapods_version = '>= 1.6.0.beta.1'
 
   s.subspec "Core" do |ss|
     ss.source_files  = "Source/Charts/**/*.swift"
