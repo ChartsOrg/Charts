@@ -106,7 +106,7 @@ let data = BarChartData()
 data.addDataSet(dataSets[0] )
 chartView.fitBars = true
 chartView.data = data
-/*:---*/
+
 //: ### Setup for the live view
 PlaygroundPage.current.liveView = chartView
 

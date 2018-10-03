@@ -69,7 +69,7 @@ data.addDataSet(set)
 chartView.data = data
 
 chartView.animate(xAxisDuration: 1.0, yAxisDuration: 1.0)
-/*:---*/
+
 //: ### Setup for the live view
 PlaygroundPage.current.liveView = chartView
 /*:

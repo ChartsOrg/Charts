@@ -138,7 +138,6 @@ chartView.chartDescription?.enabled = false
 setChartData()
 chartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInBounce)
 
-/*:---*/
 //: ###  Setup for the live view
 PlaygroundPage.current.liveView = chartView
 
