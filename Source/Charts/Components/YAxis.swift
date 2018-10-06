@@ -151,6 +151,7 @@ open class YAxis: AxisBase
         var max = _customAxisMax ? _axisMaximum : dataMax
         
         // Make sure max is greater than min
+        // Discussion: https://github.com/danielgindi/Charts/pull/3650#discussion_r221409991
         if min > max
         {
             if _customAxisMax && _customAxisMin
@@ -159,11 +160,11 @@ open class YAxis: AxisBase
             }
             else if _customAxisMax && !_customAxisMin
             {
-                min = max - 1
+                min = max * 0.5
             }
             else if !_customAxisMax && _customAxisMin
             {
-                max = min + 1
+                max = min * 1.5
             }
         }
         
@@ -176,6 +177,9 @@ open class YAxis: AxisBase
             max = max + 1.0
             min = min - 1.0
         }
+        
+        _axisMinimum = min
+        _axisMaximum = max
         
         // bottom-space only effects non-custom min
         if !_customAxisMin
