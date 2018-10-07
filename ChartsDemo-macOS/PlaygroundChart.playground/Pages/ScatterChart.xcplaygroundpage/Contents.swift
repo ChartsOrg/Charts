@@ -87,7 +87,7 @@ dataSets.append(set2)
 dataSets.append(set3)
 //: ### ScatterChartData
 let data = ScatterChartData(dataSets: dataSets)
-data.setValueFont( NSUIFont(name: "HelveticaNeue-Light", size: CGFloat(7.0)))
+data.setValueFont(NSFont(name: "HelveticaNeue-Light", size: 7.0))
 chartView.data = data
 
 chartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInBounce)

@@ -76,8 +76,8 @@ let set = CandleChartDataSet(values: entries, label: "Candle DataSet")
 set.colors = [#colorLiteral(red: 0.313725490196078, green: 0.313725490196078, blue: 0.313725490196078, alpha: 1.0)]
 
 set.decreasingColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
-set.shadowColor = NSColor.red
-set.valueFont = NSUIFont.systemFont(ofSize: CGFloat(10.0))
+set.shadowColor = .red
+set.valueFont = .systemFont(ofSize: 10.0)
 set.drawValuesEnabled = true
 set.shadowWidth = 0.7
 //: ### CandleChartData

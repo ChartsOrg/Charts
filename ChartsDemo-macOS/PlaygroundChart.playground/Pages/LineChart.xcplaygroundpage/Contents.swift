@@ -35,7 +35,7 @@ chartView.borderLineWidth = 1.0
 chartView.drawBordersEnabled = true
 //: ### xAxis
 let xAxis = chartView.xAxis
-xAxis.labelFont = NSFont.systemFont(ofSize: CGFloat(12.0))
+xAxis.labelFont = .systemFont(ofSize: 12.0)
 xAxis.labelTextColor = #colorLiteral(red: 0.1764705926, green: 0.01176470611, blue: 0.5607843399, alpha: 1)
 xAxis.drawGridLinesEnabled = true
 xAxis.drawAxisLineEnabled = true
@@ -59,7 +59,7 @@ rightAxis.drawGridLinesEnabled = false
 rightAxis.granularityEnabled = false
 //: ### Legend
 let legend = chartView.legend
-legend.font = NSFont(name: "HelveticaNeue-Light", size: CGFloat(12.0))!
+legend.font = NSFont(name: "HelveticaNeue-Light", size: 12.0)!
 legend.textColor = .black
 legend.form = .square
 legend.drawInside = false
@@ -141,7 +141,7 @@ dataSets.append(set3)
 //: ### LineChartData
 let data = LineChartData(dataSets: dataSets)
 data.setValueTextColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
-data.setValueFont(NSFont(name: "HelveticaNeue-Light", size: CGFloat(9.0)))
+data.setValueFont(NSFont(name: "HelveticaNeue-Light", size: 9.0))
 chartView.data = data
 
 chartView.data?.notifyDataChanged()

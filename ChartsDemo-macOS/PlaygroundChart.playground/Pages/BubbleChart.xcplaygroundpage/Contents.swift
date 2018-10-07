@@ -53,14 +53,14 @@ var entries = [BubbleChartDataEntry]()
 for index in 0..<ITEM_COUNT
 {
     let y = Double(arc4random_uniform(100)) + 50.0
-    let size = (y - 50) / 25.0
-    entries.append(BubbleChartDataEntry(x: Double(index) + 0.5, y: y, size: CGFloat(size)))
+    let size = CGFloat((y - 50) / 25.0)
+    entries.append(BubbleChartDataEntry(x: Double(index) + 0.5, y: y, size: size))
 }
 //: ### BubbleChartDataSet
 let set = BubbleChartDataSet(values: entries, label: "Bubble DataSet")
 set.colors = ChartColorTemplates.vordiplom()
-set.valueTextColor = NSUIColor.black
-set.valueFont = NSUIFont.systemFont(ofSize: CGFloat(10.0))
+set.valueTextColor = .black
+set.valueFont = .systemFont(ofSize: 10.0)
 set.drawValuesEnabled = true
 set.normalizeSizeEnabled = false
 //: ### BubbleChartData
