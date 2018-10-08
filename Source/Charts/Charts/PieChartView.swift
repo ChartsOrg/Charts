@@ -386,7 +386,7 @@ open class PieChartView: PieRadarChartViewBase
             {
                 #if os(OSX)
                     let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
-                    paragraphStyle.lineBreakMode = NSParagraphStyle.LineBreakMode.byTruncatingTail
+                    paragraphStyle.lineBreakMode = NSLineBreakMode.byTruncatingTail
                 #else
                     let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
                     paragraphStyle.lineBreakMode = NSLineBreakMode.byTruncatingTail

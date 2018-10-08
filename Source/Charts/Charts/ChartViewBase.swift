@@ -310,7 +310,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         let position = description.position ?? CGPoint(x: bounds.width - viewPortHandler.offsetRight - description.xOffset,
                                                        y: bounds.height - viewPortHandler.offsetBottom - description.yOffset - description.font.lineHeight)
 
-        let attrs: [NSAttributedStringKey : Any] = [
+        let attrs: [NSAttributedString.Key : Any] = [
             .font: description.font,
             .foregroundColor: description.textColor
         ]

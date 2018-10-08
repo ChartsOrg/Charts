@@ -774,7 +774,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                     _decelerationVelocity = recognizer.velocity(in: self)
                     
                     _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(BarLineChartViewBase.decelerationLoop))
-                    _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
+                    _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
                 }
                 
                 _isDragging = false
@@ -831,7 +831,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     {
         if _decelerationDisplayLink !== nil
         {
-            _decelerationDisplayLink.remove(from: RunLoop.main, forMode: RunLoopMode.commonModes)
+            _decelerationDisplayLink.remove(from: RunLoop.main, forMode: RunLoop.Mode.common)
             _decelerationDisplayLink = nil
         }
     }
@@ -876,8 +876,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             let velocity = _panGestureRecognizer.velocity(in: self)
             if data === nil || !isDragEnabled ||
                 (self.hasNoDragOffset && self.isFullyZoomedOut && !self.isHighlightPerDragEnabled) ||
-                (!_dragYEnabled && fabs(velocity.y) > fabs(velocity.x)) ||
-                (!_dragXEnabled && fabs(velocity.y) < fabs(velocity.x))
+                (!_dragYEnabled && abs(velocity.y) > abs(velocity.x)) ||
+                (!_dragXEnabled && abs(velocity.y) < abs(velocity.x))
             {
                 return false
             }

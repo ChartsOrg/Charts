@@ -72,7 +72,7 @@ open class XAxisRendererRadarChart: XAxisRenderer
         formattedLabel: String,
         x: CGFloat,
         y: CGFloat,
-        attributes: [NSAttributedStringKey : Any],
+        attributes: [NSAttributedString.Key : Any],
         anchor: CGPoint,
         angleRadians: CGFloat)
     {

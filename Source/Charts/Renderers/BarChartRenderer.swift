@@ -743,7 +743,15 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
         if dataSet.isStacked, let vals = e.yValues
         {
-            let stackLabel = dataSet.stackLabels[idx % stackSize]
+            let labelCount = min(dataSet.colors.count, stackSize)
+
+            let stackLabel: String?
+            if (dataSet.stackLabels.count > 0 && labelCount > 0) {
+                let labelIndex = idx % labelCount
+                stackLabel = dataSet.stackLabels.indices.contains(labelIndex) ? dataSet.stackLabels[labelIndex] : nil
+            } else {
+                stackLabel = nil
+            }
 
             elementValueText = dataSet.valueFormatter.stringForValue(
                 vals[idx % stackSize],
@@ -751,7 +759,11 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 dataSetIndex: dataSetIndex,
                 viewPortHandler: viewPortHandler)
 
-            elementValueText = stackLabel + " \(elementValueText)"
+            if let stackLabel = stackLabel {
+                elementValueText = stackLabel + " \(elementValueText)"
+            } else {
+                elementValueText = "\(elementValueText)"
+            }
         }
 
         let dataSetCount = dataProvider.barData?.dataSetCount ?? -1
