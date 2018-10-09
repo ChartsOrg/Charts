@@ -9,7 +9,7 @@ class BarChartTests: FBSnapshotTestCase
         super.setUp()
         
         // Set to `true` to re-capture all snapshots
-        self.recordMode = true
+        self.recordMode = false
     }
     
     override func tearDown()

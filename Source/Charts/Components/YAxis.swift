@@ -154,17 +154,16 @@ open class YAxis: AxisBase
         // Discussion: https://github.com/danielgindi/Charts/pull/3650#discussion_r221409991
         if min > max
         {
-            if _customAxisMax && _customAxisMin
+            switch(_customAxisMax, _customAxisMin)
             {
+            case(true, true):
                 (min, max) = (max, min)
-            }
-            else if _customAxisMax && !_customAxisMin
-            {
-                min = max * 0.5
-            }
-            else if !_customAxisMax && _customAxisMin
-            {
-                max = min * 1.5
+            case(true, false):
+                min = max < 0 ? max * 1.5 : max * 0.5
+            case(false, true):
+                max = min < 0 ? min * 0.5 : min * 1.5
+            case(false, false):
+                break
             }
         }
         
@@ -177,9 +176,6 @@ open class YAxis: AxisBase
             max = max + 1.0
             min = min - 1.0
         }
-        
-        _axisMinimum = min
-        _axisMaximum = max
         
         // bottom-space only effects non-custom min
         if !_customAxisMin
