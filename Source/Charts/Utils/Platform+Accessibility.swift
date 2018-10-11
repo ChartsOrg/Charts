@@ -105,7 +105,7 @@ internal func accessibilityPostScreenChangedNotification(withElement element: An
 /// A simple abstraction over UIAccessibilityElement and NSAccessibilityElement.
 open class NSUIAccessibilityElement: NSAccessibilityElement
 {
-    private let containerView: NSView
+    private weak var containerView: NSView?
 
     final var isHeader: Bool = false
     {
@@ -145,6 +145,10 @@ open class NSUIAccessibilityElement: NSAccessibilityElement
 
         set
         {
+            guard let containerView = containerView else {
+                return
+            }
+
             let bounds = NSAccessibility.screenRect(fromView: containerView, rect: newValue)
 
             // This works, but won't auto update if the window is resized or moved.
