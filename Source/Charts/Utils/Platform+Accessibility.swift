@@ -145,9 +145,7 @@ open class NSUIAccessibilityElement: NSAccessibilityElement
 
         set
         {
-            guard let containerView = containerView else {
-                return
-            }
+            guard let containerView = containerView else { return }
 
             let bounds = NSAccessibility.screenRect(fromView: containerView, rect: newValue)
 
