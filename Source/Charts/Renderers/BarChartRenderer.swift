@@ -18,8 +18,30 @@ import CoreGraphics
 
 open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 {
-    private typealias Buffer = [CGRect]
+    /// A nested array of elements ordered logically (i.e not in visual/drawing order) for use with VoiceOver
+    ///
+    /// Its use is apparent when there are multiple data sets, since we want to read bars in left to right order,
+    /// irrespective of dataset. However, drawing is done per dataset, so using this array and then flattening it prevents us from needing to
+    /// re-render for the sake of accessibility.
+    ///
+    /// In practise, its structure is:
+    ///
+    /// ````
+    ///     [
+    ///      [dataset1 element1, dataset2 element1],
+    ///      [dataset1 element2, dataset2 element2],
+    ///      [dataset1 element3, dataset2 element3]
+    ///     ...
+    ///     ]
+    /// ````
+    /// This is done to provide numerical inference across datasets to a screenreader user, in the same way that a sighted individual
+    /// uses a multi-dataset bar chart.
+    ///
+    /// The ````internal```` specifier is to allow subclasses (HorizontalBar) to populate the same array
+    internal lazy var accessibilityOrderedElements: [[NSUIAccessibilityElement]] = accessibilityCreateEmptyOrderedElements()
 
+    private typealias Buffer = [CGRect]
+    
     @objc open weak var dataProvider: BarChartDataProvider?
     
     @objc public init(dataProvider: BarChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
@@ -37,13 +59,13 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         guard let barData = dataProvider?.barData else { return _buffers.removeAll() }
 
         // Matche buffers count to dataset count
-        if _buffers.count != barData.dataSetCount
+        if _buffers.count != barData.count
         {
-            while _buffers.count < barData.dataSetCount
+            while _buffers.count < barData.count
             {
                 _buffers.append(Buffer())
             }
-            while _buffers.count > barData.dataSetCount
+            while _buffers.count > barData.count
             {
                 _buffers.removeLast()
             }
@@ -148,15 +170,35 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                     bottom *= phaseY
                 }
 
+            // When drawing with an auto calculated y-axis minimum, the renderer actually draws each bar from 0
+                // to the required value. This drawn bar is then clipped to the visible chart rect in BarLineChartViewBase's draw(rect:) using clipDataToContent.
+                // While this works fine when calculating the bar rects for drawing, it causes the accessibilityFrames to be oversized in some cases.
+                // This offset attempts to undo that unnecessary drawing when calculating barRects, particularly when not using custom axis minima.
+                // This allows the minimum to still be visually non zero, but the rects are only drawn where necessary.
+                // This offset calculation also avoids cases where there are positive/negative values mixed, since those won't need this offset.
+                var offset: CGFloat = 0.0
+                if let offsetView = dataProvider as? BarChartView {
+
+                    let offsetAxis = offsetView.leftAxis.isEnabled ? offsetView.leftAxis : offsetView.rightAxis
+
+                    if barData.yMin.sign != barData.yMax.sign 
+                    { 
+                        offset = 0.0 
+                    }
+                    else if !offsetAxis._customAxisMin {
+                        offset = CGFloat(offsetAxis.axisMinimum)
+                    }
+                }
+
                 let barRect = CGRect(x: left, y: top,
                                      width: right - left,
-                                     height: bottom - top)
+                                     height: bottom == top ? 0 : bottom - top + offset)
                 _buffers[index][bufferIndex] = barRect
                 bufferIndex += 1
             }
         }
     }
-    
+
     open override func drawData(context: CGContext)
     {
         guard
@@ -164,9 +206,22 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             let barData = dataProvider.barData
             else { return }
         
-        for i in 0 ..< barData.dataSetCount
+        // If we redraw the data, remove and repopulate accessible elements to update label values and frames
+        accessibleChartElements.removeAll()
+        accessibilityOrderedElements = accessibilityCreateEmptyOrderedElements()
+
+        // Make the chart header the first element in the accessible elements array
+        if let chart = dataProvider as? BarChartView {
+            let element = createAccessibleHeader(usingChart: chart,
+                                                 andData: barData,
+                                                 withDefaultDescription: "Bar Chart")
+            accessibleChartElements.append(element)
+        }
+
+        // Populate logically ordered nested elements into accessibilityOrderedElements in drawDataSet()
+        for i in barData.indices
         {
-            guard let set = barData.getDataSetByIndex(i) as? BarChartDataSetProtocol else {
+            guard let set = barData[i] as? BarChartDataSetProtocol else {
                 fatalError("Datasets for BarChartRenderer must conform to IBarChartDataset")
             }
 
@@ -174,16 +229,20 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
             drawDataSet(context: context, dataSet: set, index: i)
         }
+
+        // Merge nested ordered arrays into the single accessibleChartElements.
+        accessibleChartElements.append(contentsOf: accessibilityOrderedElements.flatMap { $0 } )
+        accessibilityPostLayoutChangedNotification()
     }
-    
+
     private var _barShadowRectBuffer: CGRect = CGRect()
     
     @objc open func drawDataSet(context: CGContext, dataSet: BarChartDataSetProtocol, index: Int)
     {
         guard let dataProvider = dataProvider else { return }
-        
+
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
-        
+
         prepareBuffer(dataSet: dataSet, index: index)
         trans.rectValuesToPixel(&_buffers[index])
         
@@ -226,7 +285,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.fill(_barShadowRectBuffer)
             }
         }
-        
+
         let buffer = _buffers[index]
         
         // draw the bar shadow before the values
@@ -248,6 +307,10 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             context.setFillColor(dataSet.color(atIndex: 0).cgColor)
         }
         
+        // In case the chart is stacked, we need to accomodate individual bars within accessibilityOrdereredElements
+        let isStacked = dataSet.isStacked
+        let stackSize = isStacked ? dataSet.stackSize : 1
+
         for j in buffer.indices
         {
             let barRect = buffer[j]
@@ -268,6 +331,21 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setStrokeColor(borderColor.cgColor)
                 context.setLineWidth(borderWidth)
                 context.stroke(barRect)
+            }
+
+            // Create and append the corresponding accessibility element to accessibilityOrderedElements
+            if let chart = dataProvider as? BarChartView
+            {
+                let element = createAccessibleElement(withIndex: j,
+                                                      container: chart,
+                                                      dataSet: dataSet,
+                                                      dataSetIndex: index,
+                                                      stackSize: stackSize)
+                { (element) in
+                    element.accessibilityFrame = barRect
+                }
+
+                accessibilityOrderedElements[j/stackSize].append(element)
             }
         }
     }
@@ -316,6 +394,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                     let dataSet = dataSets[dataSetIndex] as? BarChartDataSetProtocol,
                     shouldDrawValues(forDataSet: dataSet)
                     else { continue }
+                
+                let angleRadians = dataSet.valueLabelAngle.DEG2RAD
                 
                 let isInverted = dataProvider.isInverted(axis: dataSet.axisDependency)
                 
@@ -376,7 +456,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                     : (rect.origin.y + rect.size.height + negOffset),
                                 font: valueFont,
                                 align: .center,
-                                color: dataSet.valueTextColorAt(j))
+                                color: dataSet.valueTextColorAt(j),
+                                anchor: CGPoint(x: 0.5, y: 0.5),
+                                angleRadians: angleRadians)
                         }
                         
                         if let icon = e.icon, dataSet.isDrawIconsEnabled
@@ -393,6 +475,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                               atCenter: CGPoint(x: px, y: py),
                                               size: icon.size)
                         }
+                        
                     }
                 }
                 else
@@ -469,7 +552,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                         yPos: y,
                                         font: valueFont,
                                         align: .center,
-                                        color: dataSet.valueTextColorAt(index))
+                                        color: dataSet.valueTextColorAt(index),
+                                        anchor: CGPoint(x: 0.5, y: 0.5),
+                                        angleRadians: angleRadians)
                                 }
 
                                 if let icon = e.icon, dataSet.isDrawIconsEnabled
@@ -501,7 +586,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                         (e.y >= 0 ? posOffset : negOffset),
                                     font: valueFont,
                                     align: .center,
-                                    color: dataSet.valueTextColorAt(index))
+                                    color: dataSet.valueTextColorAt(index),
+                                    anchor: CGPoint(x: 0.5, y: 0.5),
+                                    angleRadians: angleRadians)
                             }
                             
                             if let icon = e.icon, dataSet.isDrawIconsEnabled
@@ -527,10 +614,19 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     }
     
     /// Draws a value at the specified x and y position.
-    @objc open func drawValue(context: CGContext, value: String, xPos: CGFloat, yPos: CGFloat, font: NSUIFont, align: NSTextAlignment, color: NSUIColor)
+    @objc open func drawValue(context: CGContext, value: String, xPos: CGFloat, yPos: CGFloat, font: NSUIFont, align: NSTextAlignment, color: NSUIColor, anchor: CGPoint, angleRadians: CGFloat)
     {
-        context.drawText(value, at: CGPoint(x: xPos, y: yPos), align: align, attributes: [.font: font, .foregroundColor: color])
+        if (angleRadians == 0.0)
+        {
+            context.drawText(value, at: CGPoint(x: xPos, y: yPos), align: align, attributes: [.font: font, .foregroundColor: color])
+        }
+        else
+        {
+            // align left to center text with rotation
+            context.drawText(value, at: CGPoint(x: xPos, y: yPos), align: align, anchor: anchor, angleRadians: angleRadians, attributes: [.font: font, .foregroundColor: color])
+        }
     }
+
     
     open override func drawExtras(context: CGContext)
     {
@@ -551,7 +647,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         for high in indices
         {
             guard
-                let set = barData.getDataSetByIndex(high.dataSetIndex) as? BarChartDataSetProtocol,
+                let set = barData[high.dataSetIndex] as? BarChartDataSetProtocol,
                 set.isHighlightEnabled
                 else { continue }
             
@@ -598,10 +694,85 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             }
         }
     }
-    
-    /// Sets the drawing position of the highlight object based on the riven bar-rect.
+
+    /// Sets the drawing position of the highlight object based on the given bar-rect.
     internal func setHighlightDrawPos(highlight high: Highlight, barRect: CGRect)
     {
         high.setDraw(x: barRect.midX, y: barRect.origin.y)
+    }
+
+    /// Creates a nested array of empty subarrays each of which will be populated with NSUIAccessibilityElements.
+    /// This is marked internal to support HorizontalBarChartRenderer as well.
+    internal func accessibilityCreateEmptyOrderedElements() -> [[NSUIAccessibilityElement]]
+    {
+        guard let chart = dataProvider as? BarChartView else { return [] }
+
+        // Unlike Bubble & Line charts, here we use the maximum entry count to account for stacked bars
+        let maxEntryCount = chart.data?.maxEntryCountSet?.entryCount ?? 0
+
+        return Array(repeating: [NSUIAccessibilityElement](),
+                     count: maxEntryCount)
+    }
+
+    /// Creates an NSUIAccessibleElement representing the smallest meaningful bar of the chart
+    /// i.e. in case of a stacked chart, this returns each stack, not the combined bar.
+    /// Note that it is marked internal to support subclass modification in the HorizontalBarChart.
+    internal func createAccessibleElement(withIndex idx: Int,
+                                          container: BarChartView,
+                                          dataSet: BarChartDataSetProtocol,
+                                          dataSetIndex: Int,
+                                          stackSize: Int,
+                                          modifier: (NSUIAccessibilityElement) -> ()) -> NSUIAccessibilityElement
+    {
+        let element = NSUIAccessibilityElement(accessibilityContainer: container)
+        let xAxis = container.xAxis
+
+        guard let e = dataSet.entryForIndex(idx/stackSize) as? BarChartDataEntry else { return element }
+        guard let dataProvider = dataProvider else { return element }
+
+        // NOTE: The formatter can cause issues when the x-axis labels are consecutive ints.
+        // i.e. due to the Double conversion, if there are more than one data set that are grouped,
+        // there is the possibility of some labels being rounded up. A floor() might fix this, but seems to be a brute force solution.
+        let label = xAxis.valueFormatter?.stringForValue(e.x, axis: xAxis) ?? "\(e.x)"
+
+        var elementValueText = dataSet.valueFormatter.stringForValue(
+            e.y,
+            entry: e,
+            dataSetIndex: dataSetIndex,
+            viewPortHandler: viewPortHandler)
+
+        if dataSet.isStacked, let vals = e.yValues
+        {
+            let labelCount = min(dataSet.colors.count, stackSize)
+
+            let stackLabel: String?
+            if (dataSet.stackLabels.count > 0 && labelCount > 0) {
+                let labelIndex = idx % labelCount
+                stackLabel = dataSet.stackLabels.indices.contains(labelIndex) ? dataSet.stackLabels[labelIndex] : nil
+            } else {
+                stackLabel = nil
+            }
+
+            elementValueText = dataSet.valueFormatter.stringForValue(
+                vals[idx % stackSize],
+                entry: e,
+                dataSetIndex: dataSetIndex,
+                viewPortHandler: viewPortHandler)
+
+            if let stackLabel = stackLabel {
+                elementValueText = stackLabel + " \(elementValueText)"
+            } else {
+                elementValueText = "\(elementValueText)"
+            }
+        }
+
+        let dataSetCount = dataProvider.barData?.dataSetCount ?? -1
+        let doesContainMultipleDataSets = dataSetCount > 1
+
+        element.accessibilityLabel = "\(doesContainMultipleDataSets ? (dataSet.label ?? "")  + ", " : "") \(label): \(elementValueText)"
+
+        modifier(element)
+
+        return element
     }
 }

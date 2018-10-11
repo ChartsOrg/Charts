@@ -24,7 +24,7 @@ open class ChartBaseDataSet: NSObject, ChartDataSetProtocol
         valueColors.append(NSUIColor.black)
     }
     
-    @objc public init(label: String?)
+    @objc public init(label: String)
     {
         super.init()
         
@@ -270,7 +270,7 @@ open class ChartBaseDataSet: NSObject, ChartDataSetProtocol
     open var isHighlightEnabled: Bool { return highlightEnabled }
         
     /// Custom formatter that is used instead of the auto-formatter if set
-    open lazy var valueFormatter: ValueFormatter = ChartUtils.defaultValueFormatter()
+    open lazy var valueFormatter: ValueFormatter = DefaultValueFormatter()
 
     /// Sets/get a single color for value text.
     /// Setting the color clears the colors array and adds a single color.
@@ -301,6 +301,9 @@ open class ChartBaseDataSet: NSObject, ChartDataSetProtocol
     
     /// the font for the value-text labels
     open var valueFont: NSUIFont = NSUIFont.systemFont(ofSize: 7.0)
+    
+    /// The rotation angle (in degrees) for value-text labels
+    open var valueLabelAngle: CGFloat = CGFloat(0.0)
     
     /// The form to draw for this dataset in the legend.
     open var form = Legend.Form.default

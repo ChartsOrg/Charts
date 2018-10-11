@@ -29,7 +29,13 @@ public protocol LineChartDataSetProtocol: LineRadarChartDataSetProtocol
     ///
     /// **default**: 0.2
     var cubicIntensity: CGFloat { get set }
-    
+
+    /// If true, gradient lines are drawn instead of solid
+    var isDrawLineWithGradientEnabled: Bool { get set }
+
+    /// The points where gradient should change color
+    var gradientPositions: [CGFloat]? { get set }
+
     /// The radius of the drawn circles.
     var circleRadius: CGFloat { get set }
     

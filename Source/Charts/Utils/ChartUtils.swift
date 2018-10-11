@@ -12,6 +12,18 @@
 import Foundation
 import CoreGraphics
 
+extension Comparable {
+    func clamped(to range: ClosedRange<Self>) -> Self {
+        if self > range.upperBound {
+            return range.upperBound
+        } else if self < range.lowerBound {
+            return range.lowerBound
+        } else {
+            return self
+        }
+    }
+}
+
 extension FloatingPoint
 {
     var DEG2RAD: Self
@@ -76,7 +88,7 @@ extension Double
             self != 0.0
             else { return 0 }
 
-        let i = self.roundedToNextSignificant()
+        let i = roundedToNextSignificant()
 
         guard
             !i.isInfinite,
@@ -94,23 +106,6 @@ extension CGPoint
     {
         return CGPoint(x: x + distance * cos(angle.DEG2RAD),
                        y: y + distance * sin(angle.DEG2RAD))
-    }
-}
-
-open class ChartUtils
-{
-    private static var _defaultValueFormatter: ValueFormatter = generateDefaultValueFormatter()
-
-    private class func generateDefaultValueFormatter() -> ValueFormatter
-    {
-        let formatter = DefaultValueFormatter(decimals: 1)
-        return formatter
-    }
-
-    /// - returns: The default value formatter used for all chart components that needs a default
-    open class func defaultValueFormatter() -> ValueFormatter
-    {
-        return _defaultValueFormatter
     }
 }
 
@@ -154,27 +149,25 @@ extension CGContext {
         NSUIGraphicsPopContext()
     }
 
-    open func drawText(_ text: String, at point: CGPoint, align: NSTextAlignment, attributes: [NSAttributedStringKey : Any]?)
+    open func drawText(_ text: String, at point: CGPoint, align: NSTextAlignment, anchor: CGPoint = CGPoint(x: 0.5, y: 0.5), angleRadians: CGFloat = 0.0, attributes: [NSAttributedString.Key : Any]?)
     {
-        var point = point
-
-        if align == .center
+        let drawPoint = getDrawPoint(text: text, point: point, align: align, attributes: attributes)
+        
+        if (angleRadians == 0.0)
         {
-            point.x -= text.size(withAttributes: attributes).width / 2.0
+            NSUIGraphicsPushContext(self)
+            
+            (text as NSString).draw(at: drawPoint, withAttributes: attributes)
+            
+            NSUIGraphicsPopContext()
         }
-        else if align == .right
+        else
         {
-            point.x -= text.size(withAttributes: attributes).width
+            drawText(text, at: drawPoint, anchor: anchor, angleRadians: angleRadians, attributes: attributes)
         }
-
-        NSUIGraphicsPushContext(self)
-
-        (text as NSString).draw(at: point, withAttributes: attributes)
-
-        NSUIGraphicsPopContext()
     }
-
-    open func drawText(_ text: String, at point: CGPoint, anchor: CGPoint, angleRadians: CGFloat, attributes: [NSAttributedStringKey : Any]?)
+    
+    open func drawText(_ text: String, at point: CGPoint, anchor: CGPoint = CGPoint(x: 0.5, y: 0.5), angleRadians: CGFloat, attributes: [NSAttributedString.Key : Any]?)
     {
         var drawOffset = CGPoint()
 
@@ -226,7 +219,22 @@ extension CGContext {
         NSUIGraphicsPopContext()
     }
 
-    internal func drawMultilineText(_ text: String, at point: CGPoint, constrainedTo size: CGSize, anchor: CGPoint, knownTextSize: CGSize, angleRadians: CGFloat, attributes: [NSAttributedStringKey : Any]?)
+    private func getDrawPoint(text: String, point: CGPoint, align: NSTextAlignment, attributes: [NSAttributedString.Key : Any]?) -> CGPoint
+    {
+        var point = point
+        
+        if align == .center
+        {
+            point.x -= text.size(withAttributes: attributes).width / 2.0
+        }
+        else if align == .right
+        {
+            point.x -= text.size(withAttributes: attributes).width
+        }
+        return point
+    }
+    
+    func drawMultilineText(_ text: String, at point: CGPoint, constrainedTo size: CGSize, anchor: CGPoint, knownTextSize: CGSize, angleRadians: CGFloat, attributes: [NSAttributedString.Key : Any]?)
     {
         var rect = CGRect(origin: .zero, size: knownTextSize)
 
@@ -274,7 +282,7 @@ extension CGContext {
         NSUIGraphicsPopContext()
     }
 
-    internal func drawMultilineText(_ text: String, at point: CGPoint, constrainedTo size: CGSize, anchor: CGPoint, angleRadians: CGFloat, attributes: [NSAttributedStringKey : Any]?)
+    func drawMultilineText(_ text: String, at point: CGPoint, constrainedTo size: CGSize, anchor: CGPoint, angleRadians: CGFloat, attributes: [NSAttributedString.Key : Any]?)
     {
         let rect = text.boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
         drawMultilineText(text, at: point, constrainedTo: size, anchor: anchor, knownTextSize: rect.size, angleRadians: angleRadians, attributes: attributes)

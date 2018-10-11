@@ -36,7 +36,7 @@ open class LineChartDataSet: LineRadarChartDataSet, LineChartDataSetProtocol
         initialize()
     }
     
-    public override init(values: [ChartDataEntry]?, label: String?)
+    public override init(values: [ChartDataEntry], label: String)
     {
         super.init(values: values, label: label)
         initialize()
@@ -64,18 +64,14 @@ open class LineChartDataSet: LineRadarChartDataSet, LineChartDataSetProtocol
         }
         set
         {
-            _cubicIntensity = newValue
-            if _cubicIntensity > 1.0
-            {
-                _cubicIntensity = 1.0
-            }
-            if _cubicIntensity < 0.05
-            {
-                _cubicIntensity = 0.05
-            }
+            _cubicIntensity = newValue.clamped(to: 0.05...1)
         }
     }
-        
+
+    open var isDrawLineWithGradientEnabled = false
+
+    open var gradientPositions: [CGFloat]?
+    
     /// The radius of the drawn circles.
     open var circleRadius = CGFloat(8.0)
     

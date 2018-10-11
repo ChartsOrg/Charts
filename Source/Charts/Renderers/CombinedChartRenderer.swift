@@ -15,6 +15,9 @@ import CoreGraphics
 open class CombinedChartRenderer: NSObject, DataRenderer
 {
     public let viewPortHandler: ViewPortHandler
+
+    public final var accessibleChartElements: [NSUIAccessibilityElement] = []
+
     public let animator: Animator
 
     @objc open weak var chart: CombinedChartView?
@@ -100,6 +103,22 @@ open class CombinedChartRenderer: NSObject, DataRenderer
     
     open func drawData(context: CGContext)
     {
+        // If we redraw the data, remove and repopulate accessible elements to update label values and frames
+        accessibleChartElements.removeAll()
+
+        if
+            let combinedChart = chart,
+            let data = combinedChart.data {
+            // Make the chart header the first element in the accessible elements array
+            let element = createAccessibleHeader(usingChart: combinedChart,
+                                                 andData: data,
+                                                 withDefaultDescription: "Combined Chart")
+            accessibleChartElements.append(element)
+        }
+
+        // TODO: Due to the potential complexity of data presented in Combined charts, a more usable way
+        // for VO accessibility would be to use axis based traversal rather than by dataset.
+        // Hence, accessibleChartElements is not populated below. (Individual renderers guard against dataSource being their respective views)
         for renderer in _renderers
         {
             renderer.drawData(context: context)
@@ -207,5 +226,9 @@ open class CombinedChartRenderer: NSObject, DataRenderer
                 _drawOrder = newValue
             }
         }
+    }
+    
+    public func createAccessibleHeader(usingChart chart: ChartViewBase, andData data: ChartData, withDefaultDescription defaultDescription: String) -> NSUIAccessibilityElement {
+        return AccessibleHeader.create(usingChart: chart, andData: data, withDefaultDescription: defaultDescription)
     }
 }

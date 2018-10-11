@@ -24,7 +24,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         super.init()
     }
     
-    public override init(dataSets: [ChartDataSetProtocol]?)
+    public override init(dataSets: [ChartDataSetProtocol])
     {
         super.init(dataSets: dataSets)
     }
@@ -103,15 +103,15 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     {
         _dataSets.removeAll()
         
-        _yMax = -Double.greatestFiniteMagnitude
-        _yMin = Double.greatestFiniteMagnitude
-        _xMax = -Double.greatestFiniteMagnitude
-        _xMin = Double.greatestFiniteMagnitude
+        yMax = -Double.greatestFiniteMagnitude
+        yMin = Double.greatestFiniteMagnitude
+        xMax = -Double.greatestFiniteMagnitude
+        xMin = Double.greatestFiniteMagnitude
         
-        _leftAxisMax = -Double.greatestFiniteMagnitude
-        _leftAxisMin = Double.greatestFiniteMagnitude
-        _rightAxisMax = -Double.greatestFiniteMagnitude
-        _rightAxisMin = Double.greatestFiniteMagnitude
+        leftAxisMax = -Double.greatestFiniteMagnitude
+        leftAxisMin = Double.greatestFiniteMagnitude
+        rightAxisMax = -Double.greatestFiniteMagnitude
+        rightAxisMin = Double.greatestFiniteMagnitude
         
         let allData = self.allData
         
@@ -122,48 +122,48 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
             let sets = data.dataSets
             _dataSets.append(contentsOf: sets)
             
-            if data.yMax > _yMax
+            if data.yMax > yMax
             {
-                _yMax = data.yMax
+                yMax = data.yMax
             }
             
-            if data.yMin < _yMin
+            if data.yMin < yMin
             {
-                _yMin = data.yMin
+                yMin = data.yMin
             }
             
-            if data.xMax > _xMax
+            if data.xMax > xMax
             {
-                _xMax = data.xMax
+                xMax = data.xMax
             }
             
-            if data.xMin < _xMin
+            if data.xMin < xMin
             {
-                _xMin = data.xMin
+                xMin = data.xMin
             }
 
             for dataset in sets
             {
                 if dataset.axisDependency == .left
                 {
-                    if dataset.yMax > _leftAxisMax
+                    if dataset.yMax > leftAxisMax
                     {
-                        _leftAxisMax = dataset.yMax
+                        leftAxisMax = dataset.yMax
                     }
-                    if dataset.yMin < _leftAxisMin
+                    if dataset.yMin < leftAxisMin
                     {
-                        _leftAxisMin = dataset.yMin
+                        leftAxisMin = dataset.yMin
                     }
                 }
                 else
                 {
-                    if dataset.yMax > _rightAxisMax
+                    if dataset.yMax > rightAxisMax
                     {
-                        _rightAxisMax = dataset.yMax
+                        rightAxisMax = dataset.yMax
                     }
-                    if dataset.yMin < _rightAxisMin
+                    if dataset.yMin < rightAxisMin
                     {
-                        _rightAxisMin = dataset.yMin
+                        rightAxisMin = dataset.yMin
                     }
                 }
             }
@@ -209,31 +209,19 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         return allData.index(of: data)
     }
     
-    open override func removeDataSet(_ dataSet: ChartDataSetProtocol!) -> Bool
+    open override func removeDataSet(_ dataSet: ChartDataSetProtocol) -> Element?
     {
-        let datas = allData
-        
-        var success = false
-        
-        for data in datas
+        for data in allData
         {
-            success = data.removeDataSet(dataSet)
-            
-            if success
+            if let e = data.removeDataSet(dataSet)
             {
-                break
+                return e
             }
         }
         
-        return success
+        return nil
     }
-    
-    open override func removeDataSetByIndex(_ index: Int) -> Bool
-    {
-        print("removeDataSet(index) not supported for CombinedData", terminator: "\n")
-        return false
-    }
-    
+
     open override func removeEntry(_ entry: ChartDataEntry, dataSetIndex: Int) -> Bool
     {
         print("removeEntry(entry, dataSetIndex) not supported for CombinedData", terminator: "\n")
@@ -248,27 +236,12 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     
     open override func notifyDataChanged()
     {
-        if _lineData !== nil
-        {
-            _lineData.notifyDataChanged()
-        }
-        if _barData !== nil
-        {
-            _barData.notifyDataChanged()
-        }
-        if _scatterData !== nil
-        {
-            _scatterData.notifyDataChanged()
-        }
-        if _candleData !== nil
-        {
-            _candleData.notifyDataChanged()
-        }
-        if _bubbleData !== nil
-        {
-            _bubbleData.notifyDataChanged()
-        }
-        
+        _lineData?.notifyDataChanged()
+        _barData?.notifyDataChanged()
+        _scatterData?.notifyDataChanged()
+        _candleData?.notifyDataChanged()
+        _bubbleData?.notifyDataChanged()
+
         super.notifyDataChanged() // recalculate everything
     }
     
@@ -276,7 +249,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     ///
     /// - parameter highlight:
     /// - returns: The entry that is highlighted
-    open override func entryForHighlight(_ highlight: Highlight) -> ChartDataEntry?
+    @objc override open func entry(for highlight: Highlight) -> ChartDataEntry?
     {
         if highlight.dataIndex >= allData.count
         {
@@ -285,21 +258,15 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         
         let data = dataByIndex(highlight.dataIndex)
         
-        if highlight.dataSetIndex >= data.dataSetCount
+        if highlight.dataSetIndex >= data.endIndex
         {
             return nil
         }
         
         // The value of the highlighted entry could be NaN - if we are not interested in highlighting a specific value.
-        let entries = data.getDataSetByIndex(highlight.dataSetIndex).entriesForXValue(highlight.x)
-        for e in entries
-        {
-            if e.y == highlight.y || highlight.y.isNaN
-            {
-                return e
-            }
-        }
-        return nil
+        return data[highlight.dataSetIndex]
+            .entriesForXValue(highlight.x)
+            .first { $0.y == highlight.y || highlight.y.isNaN }
     }
     
     /// Get dataset for highlight
@@ -315,11 +282,21 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         
         let data = dataByIndex(highlight.dataIndex)
         
-        if highlight.dataSetIndex >= data.dataSetCount
+        if highlight.dataSetIndex >= data.endIndex
         {
             return nil
         }
         
         return data.dataSets[highlight.dataSetIndex]
+    }
+
+    // MARK: Unsupported Collection Methods
+
+    public override func append(_ newElement: ChartData.Element) {
+        fatalError("append(_:) not supported for CombinedData")
+    }
+
+    public override func remove(at i: Int) -> ChartDataSetProtocol {
+        fatalError("remove(at:) not supported for CombinedData")
     }
 }
