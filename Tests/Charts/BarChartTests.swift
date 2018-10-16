@@ -55,9 +55,7 @@ class BarChartTests: FBSnapshotTestCase
 
     func setupZeroValuesDataEntries() -> [ChartDataEntry]
     {
-        let values: [Double] = [0,0,0,0,0,0,0,0,0,0,
-                                0,0,0,0,0,0,0,0,0,0,
-                                0,0,0,0,0,0,0,0,0,0]
+        let values = [Double](repeating: 0.0, count: 30)
         return setupCustomValuesDataEntries(values: values)
     }
 
