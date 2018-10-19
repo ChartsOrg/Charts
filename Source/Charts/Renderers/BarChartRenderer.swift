@@ -109,31 +109,6 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         var x: Double
         var y: Double
 
-
-
-        // When drawing each bar, the renderer actually draws each bar from 0 to the required value.
-        // This drawn bar is then clipped to the visible chart rect in BarLineChartViewBase's draw(rect:) using clipDataToContent.
-        // While this works fine when calculating the bar rects for drawing, it causes the accessibilityFrames to be oversized in some cases.
-        // This offset attempts to undo that unnecessary drawing when calculating barRects
-        // This offset calculation is not necessary when bars won't be clipped (when y-axis minimum <= 0  and y-axis maximum  >= 0)
-        var heightOffset: CGFloat = 0.0
-        var originYOffset: CGFloat = 0.0
-        if let offsetView = dataProvider as? BarChartView
-        {
-            let offsetAxis = dataSet.axisDependency == .left ? offsetView.leftAxis : offsetView.rightAxis
-            if offsetAxis.axisMinimum > 0
-            {
-                heightOffset = CGFloat(offsetAxis.axisMinimum)
-            }
-            if offsetAxis.axisMaximum < 0
-            {
-                originYOffset = CGFloat(offsetAxis.axisMaximum)
-            }
-            if isInverted
-            {
-                (heightOffset, originYOffset) = (originYOffset, heightOffset)
-            }
-        }
         
         for i in stride(from: 0, to: min(Int(ceil(Double(dataSet.entryCount) * animator.phaseX)), dataSet.entryCount), by: 1)
         {
@@ -151,16 +126,87 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 var top = isInverted
                     ? (y <= 0.0 ? CGFloat(y) : 0)
                     : (y >= 0.0 ? CGFloat(y) : 0)
-                top += originYOffset
-                
                 var bottom = isInverted
                     ? (y >= 0.0 ? CGFloat(y) : 0)
                     : (y <= 0.0 ? CGFloat(y) : 0)
-                bottom += heightOffset
+                
+                /* When drawing each bar, the renderer actually draws each bar from 0 to the required value.
+                 * This drawn bar is then clipped to the visible chart rect in BarLineChartViewBase's draw(rect:) using clipDataToContent.
+                 * While this works fine when calculating the bar rects for drawing, it causes the accessibilityFrames to be oversized in some cases.
+                 * This offset attempts to undo that unnecessary drawing when calculating barRects
+                 *
+                 * +---------------------------------------------------------------+---------------------------------------------------------------+
+                 * |      Situation 1:  (!inverted && y >= 0)                      |      Situation 3:  (inverted && y >= 0)                       |
+                 * |                                                               |                                                               |
+                 * |        y ->           +--+       <- top                       |        0 -> ---+--+---+--+------   <- top                     |
+                 * |                       |//|        } topOffset = y - max       |                |  |   |//|          } topOffset = min         |
+                 * |      max -> +---------+--+----+  <- top - topOffset           |      min -> +--+--+---+--+----+    <- top + topOffset         |
+                 * |             |  +--+   |//|    |                               |             |  |  |   |//|    |                               |
+                 * |             |  |  |   |//|    |                               |             |  +--+   |//|    |                               |
+                 * |             |  |  |   |//|    |                               |             |         |//|    |                               |
+                 * |      min -> +--+--+---+--+----+  <- bottom + bottomOffset     |      max -> +---------+--+----+    <- bottom - bottomOffset   |
+                 * |                |  |   |//|        } bottomOffset = min        |                       |//|          } bottomOffset = y - max  |
+                 * |        0 -> ---+--+---+--+-----  <- bottom                    |        y ->           +--+         <- bottom                  |
+                 * |                                                               |                                                               |
+                 * +---------------------------------------------------------------+---------------------------------------------------------------+
+                 * |      Situation 2:  (!inverted && y < 0)                       |      Situation 4:  (inverted && y < 0)                        |
+                 * |                                                               |                                                               |
+                 * |        0 -> ---+--+---+--+-----   <- top                      |        y ->           +--+         <- top                     |
+                 * |                |  |   |//|         } topOffset = -max         |                       |//|          } topOffset = min - y     |
+                 * |      max -> +--+--+---+--+----+   <- top - topOffset          |      min -> +---------+--+----+    <- top + topOffset         |
+                 * |             |  |  |   |//|    |                               |             |  +--+   |//|    |                               |
+                 * |             |  +--+   |//|    |                               |             |  |  |   |//|    |                               |
+                 * |             |         |//|    |                               |             |  |  |   |//|    |                               |
+                 * |      min -> +---------+--+----+   <- bottom + bottomOffset    |      max -> +--+--+---+--+----+    <- bottom - bottomOffset   |
+                 * |                       |//|         } bottomOffset = min - y   |                |  |   |//|          } bottomOffset = -max     |
+                 * |        y ->           +--+        <- bottom                   |        0 -> ---+--+---+--+-------  <- bottom                  |
+                 * |                                                               |                                                               |
+                 * +---------------------------------------------------------------+---------------------------------------------------------------+
+                 */
+                var topOffset: CGFloat = 0.0
+                var bottomOffset: CGFloat = 0.0
+                if let offsetView = dataProvider as? BarChartView
+                {
+                    let offsetAxis = dataSet.axisDependency == .left ? offsetView.leftAxis : offsetView.rightAxis
+                    if y >= 0
+                    {
+                        // situation 1
+                        if offsetAxis.axisMaximum < y
+                        {
+                            topOffset = CGFloat(y - offsetAxis.axisMaximum)
+                        }
+                        if offsetAxis.axisMinimum > 0
+                        {
+                            bottomOffset = CGFloat(offsetAxis.axisMinimum)
+                        }
+                    }
+                    else // y < 0
+                    {
+                        //situation 2
+                        if offsetAxis.axisMaximum < 0
+                        {
+                            topOffset = CGFloat(offsetAxis.axisMaximum * -1)
+                        }
+                        if offsetAxis.axisMinimum > y
+                        {
+                            bottomOffset = CGFloat(offsetAxis.axisMinimum - y)
+                        }
+                    }
+                    if isInverted
+                    {
+                        // situation 3 and 4
+                        // exchange topOffset/bottomOffset based on 1 and 2
+                        // see diagram above
+                        (topOffset, bottomOffset) = (bottomOffset, topOffset)
+                    }
+                }
+                //apply offset
+                top = isInverted ? top + topOffset : top - topOffset
+                bottom = isInverted ? bottom - bottomOffset : bottom + bottomOffset
 
                 // multiply the height of the rect with the phase
-                // explicitly add 0 + originYOffset to indicate this is changed after adding accessibility support (#3650, #3520)
-                if top > 0 + originYOffset
+                // explicitly add 0 + topOffset to indicate this is changed after adding accessibility support (#3650, #3520)
+                if top > 0 + topOffset
                 {
                     top *= CGFloat(phaseY)
                 }
