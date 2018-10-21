@@ -33,7 +33,7 @@ open class NSUIAccessibilityElement: UIAccessibilityElement
         }
     }
 
-    override init(accessibilityContainer container: Any)
+    override public init(accessibilityContainer container: Any)
     {
         // We can force unwrap since all chart views are subclasses of UIView
         containerView = (container as! UIView)
@@ -167,7 +167,7 @@ open class NSUIAccessibilityElement: NSAccessibilityElement
         }
     }
 
-    init(accessibilityContainer container: Any)
+    public init(accessibilityContainer container: Any)
     {
         // We can force unwrap since all chart views are subclasses of NSView
         containerView = (container as! NSView)
