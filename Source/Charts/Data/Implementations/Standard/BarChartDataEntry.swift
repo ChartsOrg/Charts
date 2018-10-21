@@ -150,6 +150,7 @@ open class BarChartDataEntry: ChartDataEntry
     }
     
     /// Splits up the stack-values of the given bar-entry into Range objects.
+    ///
     /// - Parameters:
     ///   - entry:
     /// - Returns:

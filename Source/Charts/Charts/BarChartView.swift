@@ -129,6 +129,7 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     }
     
     /// Highlights the value at the given x-value in the given DataSet. Provide -1 as the dataSetIndex to undo all highlighting.
+    ///
     /// - Parameters:
     ///   - x:
     ///   - dataSetIndex:

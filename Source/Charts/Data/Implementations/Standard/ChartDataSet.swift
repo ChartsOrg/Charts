@@ -393,6 +393,7 @@ open class ChartDataSet: ChartBaseDataSet
     /// Adds an Entry to the DataSet dynamically.
     /// Entries are added to the end of the list.
     /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
+    ///
     /// - Parameters:
     ///   - e: the entry to add
     /// - Returns: True
@@ -409,6 +410,7 @@ open class ChartDataSet: ChartBaseDataSet
     /// Adds an Entry to the DataSet dynamically.
     /// Entries are added to their appropriate index respective to it's x-index.
     /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
+    ///
     /// - Parameters:
     ///   - e: the entry to add
     /// - Returns: True
@@ -436,6 +438,7 @@ open class ChartDataSet: ChartBaseDataSet
     
     /// Removes an Entry from the DataSet dynamically.
     /// This will also recalculate the current minimum and maximum values of the DataSet and the value-sum.
+    ///
     /// - Parameters:
     ///   - entry: the entry to remove
     /// - Returns: `true` if the entry was removed successfully, else if the entry does not exist

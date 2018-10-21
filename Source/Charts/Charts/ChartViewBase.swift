@@ -457,6 +457,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// Highlights any y-value at the given x-value in the given DataSet.
     /// Provide -1 as the dataSetIndex to undo all highlighting.
+    ///
     /// - Parameters:
     ///   - x: The x-value to highlight
     ///   - dataSetIndex: The dataset index to search in
@@ -469,6 +470,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// Highlights the value at the given x-value and y-value in the given DataSet.
     /// Provide -1 as the dataSetIndex to undo all highlighting.
+    ///
     /// - Parameters:
     ///   - x: The x-value to highlight
     ///   - y: The y-value to highlight. Supply `NaN` for "any"
