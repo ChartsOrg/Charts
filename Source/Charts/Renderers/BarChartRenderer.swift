@@ -167,7 +167,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 var bottomOffset: CGFloat = 0.0
                 if let offsetView = dataProvider as? BarChartView
                 {
-                    let offsetAxis = dataSet.axisDependency == .left ? offsetView.leftAxis : offsetView.rightAxis
+                    let offsetAxis = offsetView.getAxis(dataSet.axisDependency)
                     if y >= 0
                     {
                         // situation 1
