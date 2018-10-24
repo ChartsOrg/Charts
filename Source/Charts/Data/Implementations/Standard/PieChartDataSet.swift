@@ -84,6 +84,9 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
     /// When valuePosition is OutsideSlice, indicates line color
     open var valueLineColor: NSUIColor? = NSUIColor.black
 
+    /// When valuePosition is OutsideSlice and enabled, line will have the same color as the slice
+    open var matchValueLineColorToPieSlice: Bool = false
+
     /// When valuePosition is OutsideSlice, indicates line width
     open var valueLineWidth: CGFloat = 1.0
 
