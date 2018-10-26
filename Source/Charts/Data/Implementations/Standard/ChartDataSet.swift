@@ -502,6 +502,8 @@ open class ChartDataSet: ChartBaseDataSet
         copy.values = values
         copy._yMax = _yMax
         copy._yMin = _yMin
+        copy._xMax = _xMax
+        copy._xMin = _xMin
 
         return copy
     }

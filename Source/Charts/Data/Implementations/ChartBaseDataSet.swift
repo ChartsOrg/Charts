@@ -418,6 +418,19 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
         copy.colors = colors
         copy.valueColors = valueColors
         copy.label = label
+        copy.axisDependency = axisDependency
+        copy.highlightEnabled = highlightEnabled
+        copy._valueFormatter = _valueFormatter
+        copy.valueFont = valueFont
+        copy.form = form
+        copy.formSize = formSize
+        copy.formLineWidth = formLineWidth
+        copy.formLineDashPhase = formLineDashPhase
+        copy.formLineDashLengths = formLineDashLengths
+        copy.drawValuesEnabled = drawValuesEnabled
+        copy.drawValuesEnabled = drawValuesEnabled
+        copy.iconsOffset = iconsOffset
+        copy.visible = visible
         
         return copy
     }

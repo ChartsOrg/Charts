@@ -51,6 +51,7 @@ open class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubbleCh
         copy._xMin = _xMin
         copy._xMax = _xMax
         copy._maxSize = _maxSize
+        copy.normalizeSizeEnabled = normalizeSizeEnabled
         copy.highlightCircleWidth = highlightCircleWidth
         return copy
     }

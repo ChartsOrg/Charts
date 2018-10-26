@@ -223,6 +223,7 @@ open class BarChartDataEntry: ChartDataEntry
         copy._yVals = _yVals
         copy.y = y
         copy._negativeSum = _negativeSum
+        copy._positiveSum = _positiveSum
         return copy
     }
     

@@ -159,6 +159,8 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
         copy.stackLabels = stackLabels
 
         copy.barShadowColor = barShadowColor
+        copy.barBorderWidth = barBorderWidth
+        copy.barBorderColor = barBorderColor
         copy.highlightAlpha = highlightAlpha
         return copy
     }

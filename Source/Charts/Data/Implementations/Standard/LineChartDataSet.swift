@@ -157,7 +157,9 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     {
         let copy = super.copyWithZone(zone) as! LineChartDataSet
         copy.circleColors = circleColors
+        copy.circleHoleColor = circleHoleColor
         copy.circleRadius = circleRadius
+        copy.circleHoleRadius = circleHoleRadius
         copy.cubicIntensity = cubicIntensity
         copy.lineDashPhase = lineDashPhase
         copy.lineDashLengths = lineDashLengths
@@ -165,6 +167,7 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         copy.drawCirclesEnabled = drawCirclesEnabled
         copy.drawCircleHoleEnabled = drawCircleHoleEnabled
         copy.mode = mode
+        copy._fillFormatter = _fillFormatter
         return copy
     }
 }
