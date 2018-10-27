@@ -39,7 +39,7 @@ public protocol IPieChartDataSet: IChartDataSet
     var valueLineColor: NSUIColor? { get set }
 
     /// When valuePosition is OutsideSlice and enabled, line will have the same color as the slice
-    var matchValueLineColorToPieSlice: Bool { get set }
+    var valueLineAutoColor: Bool { get set }
 
     /// When valuePosition is OutsideSlice, indicates line width
     var valueLineWidth: CGFloat { get set }
