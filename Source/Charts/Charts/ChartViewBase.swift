@@ -776,8 +776,6 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         return _xAxis.axisRange
     }
     
-    /// *
-    ///
     /// - Note: (Equivalent of getCenter() in MPAndroidChart, as center is already a standard in iOS that returns the center point relative to superview, and MPAndroidChart returns relative to self)*
     /// The center point of the chart (the whole View) in pixels.
     @objc open var midPoint: CGPoint

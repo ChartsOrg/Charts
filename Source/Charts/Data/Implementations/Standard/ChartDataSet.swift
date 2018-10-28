@@ -54,8 +54,6 @@ open class ChartDataSet: ChartBaseDataSet
     
     // MARK: - Data functions and accessors
 
-    /// *
-    ///
     /// - Note: Calls `notifyDataSetChanged()` after setting a new value.
     /// - Returns: The array of y-values that this DataSet represents.
     /// the entries that this dataset represents / holds together
