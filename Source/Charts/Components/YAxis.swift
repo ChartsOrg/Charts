@@ -150,6 +150,23 @@ open class YAxis: AxisBase
         var min = _customAxisMin ? _axisMinimum : dataMin
         var max = _customAxisMax ? _axisMaximum : dataMax
         
+        // Make sure max is greater than min
+        // Discussion: https://github.com/danielgindi/Charts/pull/3650#discussion_r221409991
+        if min > max
+        {
+            switch(_customAxisMax, _customAxisMin)
+            {
+            case(true, true):
+                (min, max) = (max, min)
+            case(true, false):
+                min = max < 0 ? max * 1.5 : max * 0.5
+            case(false, true):
+                max = min < 0 ? min * 0.5 : min * 1.5
+            case(false, false):
+                break
+            }
+        }
+        
         // temporary range (before calculations)
         let range = abs(max - min)
         
