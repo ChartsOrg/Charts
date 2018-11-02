@@ -495,9 +495,9 @@ open class ChartDataSet: ChartBaseDataSet
 
     // MARK: - NSCopying
     
-    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    open override func copy(with zone: NSZone? = nil) -> Any
     {
-        let copy = super.copyWithZone(zone) as! ChartDataSet
+        let copy = super.copy(with: zone) as! ChartDataSet
         
         copy.values = values
         copy._yMax = _yMax

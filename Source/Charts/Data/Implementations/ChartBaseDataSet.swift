@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 
-open class ChartBaseDataSet: NSObject, IChartDataSet
+open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
 {
     public required override init()
     {
@@ -411,7 +411,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     
     // MARK: - NSCopying
     
-    @objc open func copyWithZone(_ zone: NSZone?) -> AnyObject
+    open func copy(with zone: NSZone? = nil) -> Any 
     {
         let copy = type(of: self).init()
         

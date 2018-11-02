@@ -153,9 +153,9 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     
     // MARK: NSCopying
     
-    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    open override func copy(with zone: NSZone? = nil) -> Any
     {
-        let copy = super.copyWithZone(zone) as! LineChartDataSet
+        let copy = super.copy(with: zone) as! LineChartDataSet
         copy.circleColors = circleColors
         copy.circleHoleColor = circleHoleColor
         copy.circleRadius = circleRadius

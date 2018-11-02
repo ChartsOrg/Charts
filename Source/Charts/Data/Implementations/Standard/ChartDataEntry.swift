@@ -11,7 +11,7 @@
 
 import Foundation
 
-open class ChartDataEntry: ChartDataEntryBase
+open class ChartDataEntry: ChartDataEntryBase, NSCopying
 {
     /// the x value
     @objc open var x = Double(0.0)
@@ -79,7 +79,7 @@ open class ChartDataEntry: ChartDataEntryBase
     
     // MARK: NSCopying
     
-    @objc open func copyWithZone(_ zone: NSZone?) -> AnyObject
+    open func copy(with zone: NSZone? = nil) -> Any
     {
         let copy = type(of: self).init()
         

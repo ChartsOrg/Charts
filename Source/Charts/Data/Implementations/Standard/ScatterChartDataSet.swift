@@ -66,9 +66,9 @@ open class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterChar
     
     // MARK: NSCopying
     
-    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    open override func copy(with zone: NSZone? = nil) -> Any
     {
-        let copy = super.copyWithZone(zone) as! ScatterChartDataSet
+        let copy = super.copy(with: zone) as! ScatterChartDataSet
         copy.scatterShapeSize = scatterShapeSize
         copy.scatterShapeHoleRadius = scatterShapeHoleRadius
         copy.scatterShapeHoleColor = scatterShapeHoleColor
