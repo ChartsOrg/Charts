@@ -71,10 +71,12 @@ open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadar
     
     // MARK: NSCopying
     
-    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    open override func copy(with zone: NSZone? = nil) -> Any
     {
-        let copy = super.copyWithZone(zone) as! LineRadarChartDataSet
-        copy.fillColor = fillColor
+        let copy = super.copy(with: zone) as! LineRadarChartDataSet
+        copy.fill = fill
+        copy.fillAlpha = fillAlpha
+        copy._fillColor = _fillColor
         copy._lineWidth = _lineWidth
         copy.drawFilledEnabled = drawFilledEnabled
         return copy

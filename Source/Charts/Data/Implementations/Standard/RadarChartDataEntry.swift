@@ -42,9 +42,9 @@ open class RadarChartDataEntry: ChartDataEntry
     
     // MARK: NSCopying
     
-    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    open override func copy(with zone: NSZone? = nil) -> Any
     {
-        let copy = super.copyWithZone(zone) as! RadarChartDataEntry
+        let copy = super.copy(with: zone) as! RadarChartDataEntry
         
         return copy
     }
