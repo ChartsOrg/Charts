@@ -165,7 +165,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         }
     }
     
-    /// - returns: All data objects in row: line-bar-scatter-candle-bubble if not null.
+    /// All data objects in row: line-bar-scatter-candle-bubble if not null.
     @objc open var allData: [ChartData]
     {
         var data = [ChartData]()
@@ -269,8 +269,9 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     
     /// Get the Entry for a corresponding highlight object
     ///
-    /// - parameter highlight:
-    /// - returns: The entry that is highlighted
+    /// - Parameters:
+    ///   - highlight:
+    /// - Returns: The entry that is highlighted
     open override func entryForHighlight(_ highlight: Highlight) -> ChartDataEntry?
     {
         if highlight.dataIndex >= allData.count
@@ -299,7 +300,8 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     
     /// Get dataset for highlight
     ///
-    /// - Parameter highlight: current highlight
+    /// - Parameters:
+    ///   - highlight: current highlight
     /// - Returns: dataset related to highlight
     @objc open func getDataSetByHighlight(_ highlight: Highlight) -> IChartDataSet!
     {  

@@ -23,7 +23,7 @@ open class PieChartData: ChartData
         super.init(dataSets: dataSets)
     }
 
-    /// - returns: All DataSet objects this ChartData object holds.
+    /// All DataSet objects this ChartData object holds.
     @objc open override var dataSets: [IChartDataSet]
     {
         get
@@ -102,7 +102,7 @@ open class PieChartData: ChartData
     /// Removes the DataSet at the given index in the DataSet array from the data object.
     /// Also recalculates all minimum and maximum values.
     ///
-    /// - returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
+    /// - Returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
     open override func removeDataSetByIndex(_ index: Int) -> Bool
     {
         if index >= _dataSets.count || index < 0
@@ -113,7 +113,7 @@ open class PieChartData: ChartData
         return false
     }
     
-    /// - returns: The total y-value sum across all DataSet objects the this object represents.
+    /// The total y-value sum across all DataSet objects the this object represents.
     @objc open var yValueSum: Double
     {
         guard let dataSet = dataSet else { return 0.0 }

@@ -63,7 +63,7 @@ open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadar
     /// Please note that this method uses the path clipping for drawing the filled area (with images, gradients and layers).
     open var drawFilledEnabled = false
     
-    /// - returns: `true` if filled drawing is enabled, `false` ifnot
+    /// `true` if filled drawing is enabled, `false` ifnot
     open var isDrawFilledEnabled: Bool
     {
         return drawFilledEnabled

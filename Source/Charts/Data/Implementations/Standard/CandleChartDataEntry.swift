@@ -70,13 +70,13 @@ open class CandleChartDataEntry: ChartDataEntry
         self.close = close
     }
     
-    /// - returns: The overall range (difference) between shadow-high and shadow-low.
+    /// The overall range (difference) between shadow-high and shadow-low.
     @objc open var shadowRange: Double
     {
         return abs(high - low)
     }
     
-    /// - returns: The body size (difference between open and close).
+    /// The body size (difference between open and close).
     @objc open var bodyRange: Double
     {
         return abs(open - close)

@@ -129,7 +129,7 @@ open class YAxis: AxisBase
         return requiredSize().height
     }
     
-    /// - returns: `true` if this axis needs horizontal offset, `false` ifno offset is needed.
+    /// `true` if this axis needs horizontal offset, `false` ifno offset is needed.
     @objc open var needsOffset: Bool
     {
         if isEnabled && isDrawLabelsEnabled && labelPosition == .outsideChart

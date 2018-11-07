@@ -19,14 +19,16 @@ open class RadarChartDataEntry: ChartDataEntry
         super.init()
     }
     
-    /// - parameter value: The value on the y-axis.
-    /// - parameter data: Spot for additional data this Entry represents.
+    /// - Parameters:
+    ///   - value: The value on the y-axis.
+    ///   - data: Spot for additional data this Entry represents.
     @objc public init(value: Double, data: AnyObject?)
     {
         super.init(x: 0.0, y: value, data: data)
     }
     
-    /// - parameter value: The value on the y-axis.
+    /// - Parameters:
+    ///   - value: The value on the y-axis.
     @objc public convenience init(value: Double)
     {
         self.init(value: value, data: nil)

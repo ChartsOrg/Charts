@@ -420,7 +420,7 @@ open class Legend: ComponentBase
     }
     
     /// **default**: false (automatic legend)
-    /// - returns: `true` if a custom legend entries has been set
+    /// `true` if a custom legend entries has been set
     @objc open var isLegendCustom: Bool
     {
         return _isLegendCustom

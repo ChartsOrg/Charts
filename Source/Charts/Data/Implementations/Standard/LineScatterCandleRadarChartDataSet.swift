@@ -24,10 +24,10 @@ open class LineScatterCandleRadarChartDataSet: BarLineScatterCandleBubbleChartDa
     /// Enables / disables the vertical highlight-indicator. If disabled, the indicator is not drawn.
     open var drawVerticalHighlightIndicatorEnabled = true
     
-    /// - returns: `true` if horizontal highlight indicator lines are enabled (drawn)
+    /// `true` if horizontal highlight indicator lines are enabled (drawn)
     open var isHorizontalHighlightIndicatorEnabled: Bool { return drawHorizontalHighlightIndicatorEnabled }
     
-    /// - returns: `true` if vertical highlight indicator lines are enabled (drawn)
+    /// `true` if vertical highlight indicator lines are enabled (drawn)
     open var isVerticalHighlightIndicatorEnabled: Bool { return drawVerticalHighlightIndicatorEnabled }
     
     /// Enables / disables both vertical and horizontal highlight-indicators.

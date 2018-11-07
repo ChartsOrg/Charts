@@ -38,7 +38,7 @@ open class BarLineScatterCandleBubbleRenderer: DataRenderer
         return XBounds(chart: chart, dataSet: dataSet, animator: animator)
     }
     
-    /// - returns: `true` if the DataSet values should be drawn, `false` if not.
+    /// - Returns: `true` if the DataSet values should be drawn, `false` if not.
     internal func shouldDrawValues(forDataSet set: IChartDataSet) -> Bool
     {
         return set.isVisible && (set.isDrawValuesEnabled || set.isDrawIconsEnabled)

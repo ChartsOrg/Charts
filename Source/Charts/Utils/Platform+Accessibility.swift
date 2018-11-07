@@ -179,7 +179,7 @@ open class NSUIAccessibilityElement: NSAccessibilityElement
     }
 }
 
-/// NOTE: setAccessibilityRole(.list) is called at init. See Platform.swift.
+/// - Note: setAccessibilityRole(.list) is called at init. See Platform.swift.
 extension NSUIView: NSAccessibilityGroup
 {
     open override func accessibilityLabel() -> String?

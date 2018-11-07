@@ -114,19 +114,19 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
         }
     }
     
-    /// - returns: The maximum number of bars that can be stacked upon another in this DataSet.
+    /// The maximum number of bars that can be stacked upon another in this DataSet.
     open var stackSize: Int
     {
         return _stackSize
     }
     
-    /// - returns: `true` if this DataSet is stacked (stacksize > 1) or not.
+    /// `true` if this DataSet is stacked (stacksize > 1) or not.
     open var isStacked: Bool
     {
         return _stackSize > 1 ? true : false
     }
     
-    /// - returns: The overall entry count, including counting each stack-value individually
+    /// The overall entry count, including counting each stack-value individually
     @objc open var entryCountStacks: Int
     {
         return _entryCountStacks
