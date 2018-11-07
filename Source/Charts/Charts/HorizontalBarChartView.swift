@@ -39,7 +39,7 @@ open class HorizontalBarChartView: BarChartView
         guard
             let legend = _legend,
             legend.isEnabled,
-            legend.drawInside
+            !legend.drawInside
         else { return }
         
         // setup offsets for legend
