@@ -73,6 +73,8 @@ open class LineChartRenderer: LineRadarRenderer
             context.setLineDash(phase: 0.0, lengths: [])
         }
         
+        context.setLineCap(dataSet.lineCapType)
+        
         // if drawing cubic lines is enabled
         switch dataSet.mode
         {
@@ -313,8 +315,6 @@ open class LineChartRenderer: LineRadarRenderer
         }
         
         context.saveGState()
-        
-        context.setLineCap(dataSet.lineCapType)
 
         // more than 1 color
         if dataSet.colors.count > 1
