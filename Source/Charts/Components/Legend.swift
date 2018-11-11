@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 #if !os(OSX)
-    import UIKit
+import UIKit
 #endif
 
 @objc(ChartLegend)
@@ -79,10 +79,10 @@ open class Legend: ComponentBase
     @objc open var extraEntries = [LegendEntry]()
     
     /// Are the legend labels/colors a custom value or auto calculated? If false, then it's auto, if true, then custom.
-    /// 
+    ///
     /// **default**: false (automatic legend)
     private var _isLegendCustom = false
-
+    
     /// The horizontal alignment of the legend
     @objc open var horizontalAlignment: HorizontalAlignment = HorizontalAlignment.left
     
@@ -100,10 +100,10 @@ open class Legend: ComponentBase
     
     /// The text direction of the legend
     @objc open var direction: Direction = Direction.leftToRight
-
+    
     @objc open var font: NSUIFont = NSUIFont.systemFont(ofSize: 10.0)
     @objc open var textColor = NSUIColor.black
-
+    
     /// The form/shape of the legend forms
     @objc open var form = Form.square
     
@@ -155,7 +155,7 @@ open class Legend: ComponentBase
         var maxH = CGFloat(0.0)
         
         var maxFormSize: CGFloat = 0.0
-
+        
         for entry in entries
         {
             let formSize = entry.formSize.isNaN ? self.formSize : entry.formSize
@@ -184,7 +184,7 @@ open class Legend: ComponentBase
             height: maxH
         )
     }
-
+    
     @objc open var neededWidth = CGFloat(0.0)
     @objc open var neededHeight = CGFloat(0.0)
     @objc open var textWidthMax = CGFloat(0.0)
@@ -193,17 +193,17 @@ open class Legend: ComponentBase
     /// flag that indicates if word wrapping is enabled
     /// this is currently supported only for `orientation == Horizontal`.
     /// you may want to set maxSizePercent when word wrapping, to set the point where the text wraps.
-    /// 
+    ///
     /// **default**: true
     @objc open var wordWrapEnabled = true
     
     /// if this is set, then word wrapping the legend is enabled.
     @objc open var isWordWrapEnabled: Bool { return wordWrapEnabled }
-
+    
     /// The maximum relative size out of the whole chart view in percent.
     /// If the legend is to the right/left of the chart, then this affects the width of the legend.
     /// If the legend is to the top/bottom of the chart, then this affects the height of the legend.
-    /// 
+    ///
     /// **default**: 0.95 (95%)
     @objc open var maxSizePercent: CGFloat = 0.95
     
@@ -275,6 +275,9 @@ open class Legend: ComponentBase
                     if i < entryCount - 1
                     {
                         maxHeight += labelLineHeight + yEntrySpace
+                    } else
+                    {
+                        maxHeight += labelLineHeight
                     }
                 }
                 else
@@ -398,7 +401,7 @@ open class Legend: ComponentBase
         }
         
         neededWidth += xOffset
-        neededHeight += yOffset
+        neededHeight += -yOffset
     }
     
     /// MARK: - Custom legend
@@ -420,7 +423,7 @@ open class Legend: ComponentBase
     }
     
     /// **default**: false (automatic legend)
-    /// `true` if a custom legend entries has been set
+    /// - returns: `true` if a custom legend entries has been set
     @objc open var isLegendCustom: Bool
     {
         return _isLegendCustom
