@@ -71,6 +71,7 @@ open class LineChartDataSet: LineRadarChartDataSet, LineChartDataSetProtocol
     open var isDrawLineWithGradientEnabled = false
 
     open var gradientPositions: [CGFloat]?
+    open var gradientType: GradientType = .default
     
     /// The radius of the drawn circles.
     open var circleRadius = CGFloat(8.0)

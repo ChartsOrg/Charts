@@ -12,6 +12,10 @@
 import Foundation
 import CoreGraphics
 
+@objc
+public enum GradientType: Int {
+    case `default` = 0, horizontal
+}
 
 @objc
 public protocol LineChartDataSetProtocol: LineRadarChartDataSetProtocol
@@ -35,6 +39,10 @@ public protocol LineChartDataSetProtocol: LineRadarChartDataSetProtocol
 
     /// The points where gradient should change color
     var gradientPositions: [CGFloat]? { get set }
+    
+    /// The type of gradient
+    
+    var gradientType: GradientType { get set }
 
     /// The radius of the drawn circles.
     var circleRadius: CGFloat { get set }

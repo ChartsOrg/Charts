@@ -881,7 +881,15 @@ open class LineChartRenderer: LineRadarRenderer
         context.addPath(spline)
         context.replacePathWithStrokedPath()
         context.clip()
-        context.drawLinearGradient(gradient, start: gradientStart, end: gradientEnd, options: [])
+        
+        switch dataSet.gradientType {
+        case .horizontal:
+            let newStart = CGPoint(x: boundingBox.origin.x, y: (boundingBox.height - boundingBox.origin.y) / 2)
+            let newEnd = CGPoint(x: boundingBox.width + boundingBox.origin.x, y: (boundingBox.height - boundingBox.origin.y) / 2)
+            context.drawLinearGradient(gradient, start: newStart, end: newEnd, options: [])
+        case .default:
+            context.drawLinearGradient(gradient, start: gradientStart, end: gradientEnd, options: [])
+        }
     }
     
     /// Creates a nested array of empty subarrays each of which will be populated with NSUIAccessibilityElements.
