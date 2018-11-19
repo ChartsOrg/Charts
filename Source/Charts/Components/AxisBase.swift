@@ -25,7 +25,7 @@ open class AxisBase: ComponentBase
     private var _axisValueFormatter: IAxisValueFormatter?
     /// 选中X轴的label
     @objc open var selectedLabel = ""
-    
+    @objc open var selectedIndex = 0
     /// 选中X轴的颜色
     @objc open var selectedColor = NSUIColor.red
 

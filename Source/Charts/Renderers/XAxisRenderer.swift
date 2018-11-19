@@ -218,7 +218,7 @@ open class XAxisRenderer: AxisRendererBase
                 let label = xAxis.valueFormatter?.stringForValue(xAxis.entries[i], axis: xAxis) ?? ""
 
                 let labelns = label as NSString
-                if xAxis.selectedLabel == label {
+                if xAxis.selectedIndex == Int(entries[i]) {
                     labelAttrs[NSAttributedStringKey.foregroundColor] = xAxis.selectedColor
                 } else {
                     labelAttrs[NSAttributedStringKey.foregroundColor] = xAxis.labelTextColor
