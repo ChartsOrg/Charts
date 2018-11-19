@@ -23,7 +23,12 @@ open class AxisBase: ComponentBase
     
     /// Custom formatter that is used instead of the auto-formatter if set
     private var _axisValueFormatter: IAxisValueFormatter?
+    /// 选中X轴的label
+    @objc open var selectedLabel = ""
     
+    /// 选中X轴的颜色
+    @objc open var selectedColor = NSUIColor.red
+
     @objc open var labelFont = NSUIFont.systemFont(ofSize: 10.0)
     @objc open var labelTextColor = NSUIColor.black
     

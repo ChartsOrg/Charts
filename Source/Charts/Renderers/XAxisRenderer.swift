@@ -179,7 +179,7 @@ open class XAxisRenderer: AxisRendererBase
         #endif
         paraStyle.alignment = .center
         
-        let labelAttrs: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: xAxis.labelFont,
+        var labelAttrs: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: xAxis.labelFont,
             NSAttributedStringKey.foregroundColor: xAxis.labelTextColor,
             NSAttributedStringKey.paragraphStyle: paraStyle]
         let labelRotationAngleRadians = xAxis.labelRotationAngle.DEG2RAD
@@ -218,7 +218,12 @@ open class XAxisRenderer: AxisRendererBase
                 let label = xAxis.valueFormatter?.stringForValue(xAxis.entries[i], axis: xAxis) ?? ""
 
                 let labelns = label as NSString
-                
+                if xAxis.selectedLabel == label {
+                    labelAttrs[NSAttributedStringKey.foregroundColor] = xAxis.selectedColor
+                } else {
+                    labelAttrs[NSAttributedStringKey.foregroundColor] = xAxis.labelTextColor
+                }
+
                 if xAxis.isAvoidFirstLastClippingEnabled
                 {
                     // avoid clipping of the last
