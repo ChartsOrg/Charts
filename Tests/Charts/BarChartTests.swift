@@ -339,4 +339,12 @@ class BarChartTests: FBSnapshotTestCase
         chart.notifyDataSetChanged()
         FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
+    
+    func testRoundedCorners() {
+        let dataEntries = setupDefaultValuesDataEntries()
+        let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
+        let chart = setupDefaultChart(dataSets: [dataSet])
+        dataSet.roundedCorners = [.allCorners]
+        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+    }
 }
