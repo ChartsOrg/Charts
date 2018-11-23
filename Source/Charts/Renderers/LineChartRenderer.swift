@@ -66,7 +66,7 @@ open class LineChartRenderer: LineRadarRenderer
         {
             context.setLineDash(phase: 0.0, lengths: [])
         }
-        
+        context.setLineCap(dataSet.lineCapType)
         // if drawing cubic lines is enabled
         switch dataSet.mode
         {
