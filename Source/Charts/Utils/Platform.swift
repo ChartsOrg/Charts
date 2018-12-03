@@ -139,6 +139,14 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
 		}
 	}
 
+	extension UIColor
+	{
+		static var labelColor : UIColor
+		{
+			return UIColor.black
+		}
+	}
+
 	extension UIView
     {
 		@objc final var nsuiGestureRecognizers: [NSUIGestureRecognizer]?

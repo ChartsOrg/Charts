@@ -102,7 +102,7 @@ open class Legend: ComponentBase
     @objc open var direction: Direction = Direction.leftToRight
 
     @objc open var font: NSUIFont = NSUIFont.systemFont(ofSize: 10.0)
-    @objc open var textColor = NSUIColor.black
+    @objc open var textColor = NSUIColor.labelColor
 
     /// The form/shape of the legend forms
     @objc open var form = Form.square
