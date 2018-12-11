@@ -91,7 +91,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     @objc open var noDataTextColor: NSUIColor = NSUIColor.black
 
     /// alignment of the no data text
-    open var noDataTextAlignment: NSTextAlignment = .left
+    @objc open var noDataTextAlignment: NSTextAlignment = .left
 
     internal var _legendRenderer: LegendRenderer!
     
