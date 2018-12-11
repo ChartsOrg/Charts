@@ -206,7 +206,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     // MARK: - ChartViewBase
     
     /// draws all MarkerViews on the highlighted positions
-    override func drawMarkers(context: CGContext)
+    open override func drawMarkers(context: CGContext)
     {
         guard
             let marker = marker, 

@@ -64,11 +64,11 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     /// The left y-axis object. In the horizontal bar-chart, this is the
     /// top axis.
-    @objc open internal(set) var leftAxis = YAxis(position: .left)
+    @objc open /*internal(set)*/ var leftAxis = YAxis(position: .left)
     
     /// The right y-axis object. In the horizontal bar-chart, this is the
     /// bottom axis.
-    @objc open internal(set) var rightAxis = YAxis(position: .right)
+    @objc open /*internal(set)*/ var rightAxis = YAxis(position: .right)
 
     /// The left Y axis renderer. This is a read-write property so you can set your own custom renderer here.
     /// **default**: An instance of YAxisRenderer
