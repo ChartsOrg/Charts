@@ -476,7 +476,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     }
     
     /// draws the grid background
-    internal func drawGridBackground(context: CGContext)
+    open func drawGridBackground(context: CGContext)
     {
         if drawGridBackgroundEnabled || drawBordersEnabled
         {

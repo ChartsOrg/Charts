@@ -69,7 +69,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     internal var _drawUnitInChart = false
     
     /// The object representing the labels on the x-axis
-    internal var _xAxis: XAxis!
+    open var _xAxis: XAxis!
     
     /// The `Description` object of the chart.
     /// This should have been called just "description", but
@@ -101,16 +101,16 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     @objc open var highlighter: IHighlighter?
     
     /// object that manages the bounds and drawing constraints of the chart
-    internal var _viewPortHandler: ViewPortHandler!
+    @objc open var _viewPortHandler: ViewPortHandler!
     
     /// object responsible for animations
-    internal var _animator: Animator!
+    @objc open var _animator: Animator!
     
     /// flag that indicates if offsets calculation has already been done or not
     private var _offsetsCalculated = false
     
     /// array of Highlight objects that reference the highlighted slices in the chart
-    internal var _indicesToHighlight = [Highlight]()
+    @objc open var _indicesToHighlight = [Highlight]()
     
     /// `true` if drawing the marker is enabled when tapping on values
     /// (use the `marker` property to specify a marker)
