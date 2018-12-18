@@ -90,6 +90,7 @@ open class AxisRendererBase: Renderer
     @objc open func computeAxisValues(min: Double, max: Double)
     {
         guard let axis = self.axis else { return }
+        if min.isNaN || max.isNaN { return }
         
         let yMin = min
         let yMax = max
