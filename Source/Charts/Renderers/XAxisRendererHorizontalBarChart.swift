@@ -105,6 +105,10 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
         {
             drawLabels(context: context, pos: viewPortHandler.contentLeft + xoffset, anchor: CGPoint(x: 0.0, y: 0.5))
         }
+        else if xAxis.labelPosition == .center
+        {
+            drawLabels(context: context, pos: viewPortHandler.contentCenter.x - xoffset, anchor: CGPoint(x: 1.0, y: 0.5))
+        }
         else
         { // BOTH SIDED
             drawLabels(context: context, pos: viewPortHandler.contentRight + xoffset, anchor: CGPoint(x: 0.0, y: 0.5))
@@ -242,6 +246,14 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
             context.beginPath()
             context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
             context.addLine(to: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom))
+            context.strokePath()
+        }
+
+        if xAxis.labelPosition == .center
+        {
+            context.beginPath()
+            context.move(to: CGPoint(x: viewPortHandler.contentCenter.x, y: viewPortHandler.contentTop))
+            context.addLine(to: CGPoint(x: viewPortHandler.contentCenter.x, y: viewPortHandler.contentBottom))
             context.strokePath()
         }
         

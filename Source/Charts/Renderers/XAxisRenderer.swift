@@ -108,6 +108,10 @@ open class XAxisRenderer: AxisRendererBase
         {
             drawLabels(context: context, pos: viewPortHandler.contentBottom - yOffset - xAxis.labelRotatedHeight, anchor: CGPoint(x: 0.5, y: 0.0))
         }
+        else if xAxis.labelPosition == .center
+        {
+            drawLabels(context: context, pos: viewPortHandler.contentCenter.y, anchor: CGPoint(x: 0.5, y: 0.0))
+        }
         else
         { // BOTH SIDED
             drawLabels(context: context, pos: viewPortHandler.contentTop - yOffset, anchor: CGPoint(x: 0.5, y: 1.0))
@@ -158,6 +162,15 @@ open class XAxisRenderer: AxisRendererBase
             _axisLineSegmentsBuffer[0].y = viewPortHandler.contentBottom
             _axisLineSegmentsBuffer[1].x = viewPortHandler.contentRight
             _axisLineSegmentsBuffer[1].y = viewPortHandler.contentBottom
+            context.strokeLineSegments(between: _axisLineSegmentsBuffer)
+        }
+
+        if xAxis.labelPosition == .center
+        {
+            _axisLineSegmentsBuffer[0].x = viewPortHandler.contentLeft
+            _axisLineSegmentsBuffer[0].y = viewPortHandler.contentCenter.y
+            _axisLineSegmentsBuffer[1].x = viewPortHandler.contentRight
+            _axisLineSegmentsBuffer[1].y = viewPortHandler.contentCenter.y
             context.strokeLineSegments(between: _axisLineSegmentsBuffer)
         }
         
