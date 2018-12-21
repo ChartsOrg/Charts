@@ -135,6 +135,12 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     /// Line cap type, default is CGLineCap.Butt
     open var lineCapType = CGLineCap.butt
     
+    /// Line cap type, default is CGLineJoin.miter
+    open var lineJoinType: CGLineJoin = .miter
+    
+    /// Miter limit value used when `lineJoinType` is set to `CGLineJoin.miter`, default is `CGFloat = .greatestFiniteMagnitude`
+    open var lineMiterLimit: CGFloat = .greatestFiniteMagnitude
+    
     /// formatter for customizing the position of the fill-line
     private var _fillFormatter: IFillFormatter = DefaultFillFormatter()
     

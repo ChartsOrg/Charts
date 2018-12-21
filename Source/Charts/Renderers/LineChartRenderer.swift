@@ -74,6 +74,10 @@ open class LineChartRenderer: LineRadarRenderer
         }
         
         context.setLineCap(dataSet.lineCapType)
+        context.setLineJoin(dataSet.lineJoinType)
+        if dataSet.lineJoinType == .miter {
+            context.setMiterLimit(dataSet.lineMiterLimit)
+        }
         
         // if drawing cubic lines is enabled
         switch dataSet.mode
