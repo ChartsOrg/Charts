@@ -836,40 +836,28 @@ open class LineChartRenderer: LineRadarRenderer
 
         let gradientStart = CGPoint(x: 0, y: boundingBox.minY)
         let gradientEnd = CGPoint(x: 0, y: boundingBox.maxY)
-        var gradientColorComponents: [CGFloat] = []
-        var gradientLocations: [CGFloat] = []
-
-        for position in gradientPositions.reversed()
-        {
-            let location = CGPoint(x: boundingBox.minX, y: position)
-                .applying(matrix)
-            let normalizedLocation =
-                (location.y - boundingBox.minY) / (boundingBox.maxY - boundingBox.minY)
-            switch normalizedLocation {
-            case ..<0:
-                gradientLocations.append(0)
-            case 0..<1:
-                gradientLocations.append(normalizedLocation)
-            case 1...:
-                gradientLocations.append(1)
-            default:
-                assertionFailure()
-            }
+        let gradientColorComponents: [CGFloat] = dataSet.colors
+            .reversed()
+            .reduce(into: []) { (components, color) in
+                guard let (r, g, b, a) = color.nsuirgba else {
+                    return
+                }
+                components += [r, g, b, a]
         }
-
-        for color in dataSet.colors.reversed()
-        {
-            guard let (r, g, b, a) = color.nsuirgba else {
-                continue
-            }
-            gradientColorComponents += [r, g, b, a]
+        let gradientLocations: [CGFloat] = gradientPositions.reversed()
+            .map { (position) in
+                let location = CGPoint(x: boundingBox.minX, y: position)
+                    .applying(matrix)
+                let normalizedLocation = (location.y - boundingBox.minY)
+                    / (boundingBox.maxY - boundingBox.minY)
+                return normalizedLocation.clamped(to: 0...1)
         }
 
         let baseColorSpace = CGColorSpaceCreateDeviceRGB()
         guard let gradient = CGGradient(
             colorSpace: baseColorSpace,
-            colorComponents: &gradientColorComponents,
-            locations: &gradientLocations,
+            colorComponents: gradientColorComponents,
+            locations: gradientLocations,
             count: gradientLocations.count) else {
             return
         }
