@@ -57,35 +57,28 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
 
         // For compatibility with Android code, we keep the calculation below the same,
         // And here we pull the line back up
-        var yPos = -lineHeight
-        
-        if dependency == .left
+        let yPos: CGFloat
+        switch (dependency, labelPosition)
         {
-            if labelPosition == .outsideChart
-            {
-                yPos = viewPortHandler.contentTop - baseYOffset
-            }
-            else
-            {
-                yPos = viewPortHandler.contentTop - baseYOffset
-            }
-        }
-        else
-        {
-            if labelPosition == .outsideChart
-            {
-                yPos = viewPortHandler.contentBottom + lineHeight + baseYOffset
-            }
-            else
-            {
-                yPos = viewPortHandler.contentBottom + lineHeight + baseYOffset
-            }
+        case (.left, .outsideChart):
+            yPos = viewPortHandler.contentTop - baseYOffset
+
+        case (.left, .insideChart):
+            yPos = viewPortHandler.contentTop - baseYOffset
+
+        case (.right, .outsideChart):
+            yPos = viewPortHandler.contentBottom + lineHeight + baseYOffset
+
+        case (.right, .insideChart):
+            yPos = viewPortHandler.contentBottom + lineHeight + baseYOffset
         }
 
-        drawYLabels(context: context,
-                    fixedPosition: yPos,
-                    positions: transformedPositions(),
-                    offset: axis.yOffset)
+        drawYLabels(
+            context: context,
+            fixedPosition: yPos,
+            positions: transformedPositions(),
+            offset: axis.yOffset
+        )
     }
     
     open override func renderAxisLine(context: CGContext)

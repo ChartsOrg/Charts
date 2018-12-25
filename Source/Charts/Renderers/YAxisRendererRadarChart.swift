@@ -122,8 +122,8 @@ open class YAxisRendererRadarChart: YAxisRenderer
             axis.centeredEntries = axis.entries.map { $0 + offset }
         }
         
-        axis._axisMinimum = axis.entries[0]
-        axis._axisMaximum = axis.entries[n-1]
+        axis._axisMinimum = axis.entries.first!
+        axis._axisMaximum = axis.entries.last!
         axis.axisRange = abs(axis._axisMaximum - axis._axisMinimum)
     }
     
@@ -148,20 +148,19 @@ open class YAxisRendererRadarChart: YAxisRenderer
 
         let alignment = axis.labelAlignment
         let xOffset = axis.labelXOffset
-        
-        for i in from..<to
-        {
-            let r = CGFloat(axis.entries[i] - axis._axisMinimum) * factor
-            
+
+        let entries = axis.entries[from..<to]
+        zip(entries.indices, entries).forEach { index, entry in
+            let r = CGFloat(entry - axis._axisMinimum) * factor
             let p = center.moving(distance: r, atAngle: chart.rotationAngle)
-            
-            let label = axis.getFormattedLabel(i)
-            
-            context.drawText(label,
-                             at: CGPoint(x: p.x + xOffset, y: p.y - labelLineHeight),
-                             align: alignment,
-                             attributes: [.font: labelFont,
-                                          .foregroundColor: labelTextColor])
+            let label = axis.getFormattedLabel(index)
+            context.drawText(
+                label,
+                at: CGPoint(x: p.x + xOffset, y: p.y - labelLineHeight),
+                align: alignment,
+                attributes: [.font: labelFont,
+                             .foregroundColor: labelTextColor]
+            )
         }
     }
     
@@ -205,16 +204,12 @@ open class YAxisRendererRadarChart: YAxisRenderer
             
             for i in 0 ..< (data.maxEntryCountSet?.entryCount ?? 0)
             {
-                let p = center.moving(distance: r, atAngle: sliceangle * CGFloat(i) + chart.rotationAngle)
-                
-                if i == 0
-                {
-                    context.move(to: CGPoint(x: p.x, y: p.y))
-                }
-                else
-                {
-                    context.addLine(to: CGPoint(x: p.x, y: p.y))
-                }
+                let p = center.moving(
+                    distance: r,
+                    atAngle: sliceangle * CGFloat(i) + chart.rotationAngle
+                )
+
+                i == 0 ? context.move(to: p) : context.addLine(to: p)
             }
             
             context.closePath()

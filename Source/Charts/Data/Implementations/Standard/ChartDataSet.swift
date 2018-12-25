@@ -98,8 +98,6 @@ open class ChartDataSet: ChartBaseDataSet
     
     open override func calcMinMaxY(fromX: Double, toX: Double)
     {
-        guard !values.isEmpty else { return }
-
         _yMax = -Double.greatestFiniteMagnitude
         _yMin = Double.greatestFiniteMagnitude
 
@@ -411,9 +409,9 @@ open class ChartDataSet: ChartBaseDataSet
     // TODO: This should return the removed entry to follow Swift convention.
     open override func removeEntry(_ entry: ChartDataEntry) -> Bool
     {
-        isIndirectValuesCall = true
-
         guard let i = values.index(where: { $0 === entry }) else { return false }
+
+        isIndirectValuesCall = true
         values.remove(at: i)
 
         notifyDataSetChanged()
@@ -428,9 +426,10 @@ open class ChartDataSet: ChartBaseDataSet
     {
         guard !values.isEmpty else { return false }
 
+        isIndirectValuesCall = true
         values.removeFirst()
-        calcMinMax()
-        
+
+        notifyDataSetChanged()
         return true
     }
     
@@ -440,8 +439,13 @@ open class ChartDataSet: ChartBaseDataSet
     // TODO: This should return the removed entry to follow Swift convention.
     open override func removeLast() -> Bool
     {
-        let entry: ChartDataEntry? = values.isEmpty ? nil : values.removeLast()
-        return entry != nil
+        guard !values.isEmpty else { return false }
+
+        isIndirectValuesCall = true
+        values.removeLast()
+
+        notifyDataSetChanged()
+        return true
     }
     
     /// Checks if this DataSet contains the specified Entry.

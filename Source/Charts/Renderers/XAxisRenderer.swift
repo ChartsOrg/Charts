@@ -34,7 +34,8 @@ open class XAxisRenderer: NSObject, AxisRenderer
         var min = min, max = max
         
         if let transformer = self.transformer,
-            viewPortHandler.contentWidth > 10 && !viewPortHandler.isFullyZoomedOutX
+            viewPortHandler.contentWidth > 10,
+            !viewPortHandler.isFullyZoomedOutX
         {
             // calculate the starting and entry point of the y-labels (depending on
             // zoom / contentrect bounds)
@@ -125,7 +126,8 @@ open class XAxisRenderer: NSObject, AxisRenderer
             axis.entries.removeAll(keepingCapacity: true)
             axis.entries.reserveCapacity(labelCount)
 
-            let values = stride(from: first, to: Double(n) * interval + first, by: interval)
+            let start = first, end = first + Double(n) * interval
+            let values = stride(from: start, to: end, by: interval)
             axis.entries.append(contentsOf: values)
         }
 
@@ -141,11 +143,9 @@ open class XAxisRenderer: NSObject, AxisRenderer
 
         if axis.centerAxisLabelsEnabled
         {
-            axis.centeredEntries.removeAll(keepingCapacity: true)
-            axis.centeredEntries.reserveCapacity(n)
-
             let offset: Double = interval / 2.0
-            axis.centeredEntries.append(contentsOf: axis.entries.map { $0 + offset })
+            axis.centeredEntries = axis.entries[..<n]
+                .map { $0 + offset }
         }
         
         computeSize()
