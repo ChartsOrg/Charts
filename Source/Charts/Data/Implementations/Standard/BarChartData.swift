@@ -19,7 +19,7 @@ open class BarChartData: BarLineScatterCandleBubbleChartData
         super.init()
     }
     
-    public override init(dataSets: [IChartDataSet]?)
+    public override init(dataSets: [ChartDataSetProtocol]?)
     {
         super.init(dataSets: dataSets)
     }
@@ -62,7 +62,7 @@ open class BarChartData: BarLineScatterCandleBubbleChartData
             let start = fromX
             fromX += groupSpaceWidthHalf
             
-            (_dataSets as? [IBarChartDataSet])?.forEach { set in
+            (_dataSets as? [BarChartDataSetProtocol])?.forEach { set in
                 fromX += barSpaceHalf
                 fromX += barWidthHalf
                 

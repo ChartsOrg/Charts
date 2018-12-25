@@ -24,7 +24,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         super.init()
     }
     
-    public override init(dataSets: [IChartDataSet]?)
+    public override init(dataSets: [ChartDataSetProtocol]?)
     {
         super.init(dataSets: dataSets)
     }
@@ -204,7 +204,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         return allData.index(of: data)
     }
     
-    open override func removeDataSet(_ dataSet: IChartDataSet!) -> Bool
+    open override func removeDataSet(_ dataSet: ChartDataSetProtocol!) -> Bool
     {
         let datas = allData
         
@@ -303,7 +303,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     /// - Parameters:
     ///   - highlight: current highlight
     /// - Returns: dataset related to highlight
-    @objc open func getDataSetByHighlight(_ highlight: Highlight) -> IChartDataSet!
+    @objc open func getDataSetByHighlight(_ highlight: Highlight) -> ChartDataSetProtocol!
     {  
         if highlight.dataIndex >= allData.count
         {

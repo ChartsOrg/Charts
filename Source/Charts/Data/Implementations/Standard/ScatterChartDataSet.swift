@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-open class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterChartDataSet
+open class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, ScatterChartDataSetProtocol
 {
     
     @objc(ScatterShape)

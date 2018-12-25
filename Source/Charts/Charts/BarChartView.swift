@@ -87,7 +87,7 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     {
         guard let
             data = _data as? BarChartData,
-            let set = data.getDataSetForEntry(e) as? IBarChartDataSet
+            let set = data.getDataSetForEntry(e) as? BarChartDataSetProtocol
             else { return CGRect.null }
         
         let y = e.y
