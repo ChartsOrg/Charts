@@ -40,11 +40,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     /// The ````internal```` specifier is to allow subclasses (HorizontalBar) to populate the same array
     internal lazy var accessibilityOrderedElements: [[NSUIAccessibilityElement]] = accessibilityCreateEmptyOrderedElements()
 
-    private class Buffer
-    {
-        var rects = [CGRect]()
-    }
-    
+    private typealias Buffer = [CGRect]
+
     @objc open weak var dataProvider: BarChartDataProvider?
     
     @objc public init(dataProvider: BarChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
@@ -78,9 +75,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             {
                 let set = barData.dataSets[i] as! IBarChartDataSet
                 let size = set.entryCount * (set.isStacked ? set.stackSize : 1)
-                if _buffers[i].rects.count != size
+                if _buffers[i].count != size
                 {
-                    _buffers[i].rects = [CGRect](repeating: CGRect(), count: size)
+                    _buffers[i] = [CGRect](repeating: CGRect(), count: size)
                 }
             }
         }
@@ -99,7 +96,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         
         let barWidthHalf = barData.barWidth / 2.0
     
-        let buffer = _buffers[index]
+        var buffer = _buffers[index]
         var bufferIndex = 0
         let containsStacks = dataSet.isStacked
         
@@ -219,7 +216,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 barRect.origin.y = top
                 barRect.size.width = right - left
                 barRect.size.height = bottom - top
-                buffer.rects[bufferIndex] = barRect
+                buffer[bufferIndex] = barRect
                 bufferIndex += 1
             }
             else
@@ -270,7 +267,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                     barRect.origin.y = top
                     barRect.size.height = bottom - top
                     
-                    buffer.rects[bufferIndex] = barRect
+                    buffer[bufferIndex] = barRect
                     bufferIndex += 1
                 }
             }
@@ -326,7 +323,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
 
         prepareBuffer(dataSet: dataSet, index: index)
-        trans.rectValuesToPixel(&_buffers[index].rects)
+        trans.rectValuesToPixel(&_buffers[index])
 
         let borderWidth = dataSet.barBorderWidth
         let borderColor = dataSet.barBorderColor
@@ -377,9 +374,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         // draw the bar shadow before the values
         if dataProvider.isDrawBarShadowEnabled
         {
-            for j in stride(from: 0, to: buffer.rects.count, by: 1)
+            for j in stride(from: 0, to: buffer.count, by: 1)
             {
-                let barRect = buffer.rects[j]
+                let barRect = buffer[j]
                 
                 if (!viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width))
                 {
@@ -407,9 +404,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         let isStacked = dataSet.isStacked
         let stackSize = isStacked ? dataSet.stackSize : 1
 
-        for j in stride(from: 0, to: buffer.rects.count, by: 1)
+        for j in stride(from: 0, to: buffer.count, by: 1)
         {
-            let barRect = buffer.rects[j]
+            let barRect = buffer[j]
 
             if (!viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width))
             {
@@ -533,7 +530,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                     {
                         guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
                         
-                        let rect = buffer.rects[j]
+                        let rect = buffer[j]
                         
                         let x = rect.origin.x + rect.size.width / 2.0
                         
@@ -599,7 +596,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                         
                         let vals = e.yValues
                         
-                        let rect = buffer.rects[bufferIndex]
+                        let rect = buffer[bufferIndex]
                         
                         let x = rect.origin.x + rect.size.width / 2.0
                         
