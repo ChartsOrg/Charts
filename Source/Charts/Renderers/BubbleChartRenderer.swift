@@ -50,7 +50,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
             accessibleChartElements.append(element)
         }
 
-        for (i, set) in (bubbleData.dataSets as! [IBubbleChartDataSet]).enumerated() where set.isVisible
+        for (i, set) in (bubbleData.dataSets as! [BubbleChartDataSetProtocol]).enumerated() where set.isVisible
         {
             drawDataSet(context: context, dataSet: set, dataSetIndex: i)
         }
@@ -76,7 +76,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
     private var _pointBuffer = CGPoint()
     private var _sizeBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
-    @objc open func drawDataSet(context: CGContext, dataSet: IBubbleChartDataSet, dataSetIndex: Int)
+    @objc open func drawDataSet(context: CGContext, dataSet: BubbleChartDataSetProtocol, dataSetIndex: Int)
     {
         guard let dataProvider = dataProvider else { return }
         
@@ -159,7 +159,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
             dataProvider = dataProvider,
             let bubbleData = dataProvider.bubbleData,
             isDrawingValuesAllowed(dataProvider: dataProvider),
-            let dataSets = bubbleData.dataSets as? [IBubbleChartDataSet]
+            let dataSets = bubbleData.dataSets as? [BubbleChartDataSetProtocol]
             else { return }
 
         let phaseX = max(0.0, min(1.0, animator.phaseX))
@@ -256,7 +256,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         for high in indices
         {
             guard
-                let dataSet = bubbleData.getDataSetByIndex(high.dataSetIndex) as? IBubbleChartDataSet,
+                let dataSet = bubbleData.getDataSetByIndex(high.dataSetIndex) as? BubbleChartDataSetProtocol,
                 dataSet.isHighlightEnabled,
                 let entry = dataSet.entryForXValue(high.x, closestToY: high.y) as? BubbleChartDataEntry,
                 isInBoundsX(entry: entry, dataSet: dataSet)
@@ -331,7 +331,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
     /// Creates an NSUIAccessibleElement representing individual bubbles location and relative size.
     private func createAccessibleElement(withIndex idx: Int,
                                          container: BubbleChartView,
-                                         dataSet: IBubbleChartDataSet,
+                                         dataSet: BubbleChartDataSetProtocol,
                                          dataSetIndex: Int,
                                          shapeSize: CGFloat,
                                          modifier: (NSUIAccessibilityElement) -> ()) -> NSUIAccessibilityElement
