@@ -54,24 +54,23 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         let dependency = axis.axisDependency
         let labelPosition = axis.labelPosition
 
-
-        // For compatibility with Android code, we keep the calculation below the same,
-        // And here we pull the line back up
-        let yPos: CGFloat
-        switch (dependency, labelPosition)
+        let yPos: CGFloat =
         {
-        case (.left, .outsideChart):
-            yPos = viewPortHandler.contentTop - baseYOffset
+            switch (dependency, labelPosition)
+            {
+            case (.left, .outsideChart):
+                return viewPortHandler.contentTop - baseYOffset - lineHeight
 
-        case (.left, .insideChart):
-            yPos = viewPortHandler.contentTop - baseYOffset
+            case (.left, .insideChart):
+                return viewPortHandler.contentTop - baseYOffset - lineHeight
 
-        case (.right, .outsideChart):
-            yPos = viewPortHandler.contentBottom + lineHeight + baseYOffset
+            case (.right, .outsideChart):
+                return viewPortHandler.contentBottom + baseYOffset
 
-        case (.right, .insideChart):
-            yPos = viewPortHandler.contentBottom + lineHeight + baseYOffset
-        }
+            case (.right, .insideChart):
+                return viewPortHandler.contentBottom + baseYOffset
+            }
+        }()
 
         drawYLabels(
             context: context,
