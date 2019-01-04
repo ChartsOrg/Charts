@@ -22,7 +22,7 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
     var leftAxisMin = Double.greatestFiniteMagnitude
     var rightAxisMax = -Double.greatestFiniteMagnitude
     var rightAxisMin = Double.greatestFiniteMagnitude
-    
+
     // MARK: - Accessibility
     
     /// When the data entry labels are generated identifiers, set this property to prepend a string before each identifier
@@ -91,6 +91,50 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
         xMin = .greatestFiniteMagnitude
 
         forEach { calcMinMax(dataSet: $0) }
+
+        // left axis
+        let firstLeft = getFirstLeft(dataSets: dataSets)
+        
+        if firstLeft !== nil
+        {
+            leftAxisMax = firstLeft!.yMax
+            leftAxisMin = firstLeft!.yMin
+
+            for dataSet in _dataSets where dataSet.axisDependency == .left
+            {
+                if dataSet.yMin < leftAxisMin
+                {
+                    leftAxisMin = dataSet.yMin
+                }
+
+                if dataSet.yMax > leftAxisMax
+                {
+                    leftAxisMax = dataSet.yMax
+                }
+            }
+        }
+        
+        // right axis
+        let firstRight = getFirstRight(dataSets: dataSets)
+        
+        if firstRight !== nil
+        {
+            rightAxisMax = firstRight!.yMax
+            rightAxisMin = firstRight!.yMin
+            
+            for dataSet in _dataSets where dataSet.axisDependency == .right
+            {
+                if dataSet.yMin < rightAxisMin
+                {
+                    rightAxisMin = dataSet.yMin
+                }
+
+                if dataSet.yMax > rightAxisMax
+                {
+                    rightAxisMax = dataSet.yMax
+                }
+            }
+        }
     }
 
     /// Adjusts the current minimum and maximum values based on the provided Entry object.
@@ -252,7 +296,7 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
         guard indices.contains(dataSetIndex) else {
             return print("ChartData.addEntry() - Cannot add Entry because dataSetIndex too high or too low.", terminator: "\n")
         }
-        
+
         let set = self[dataSetIndex]
         if !set.addEntry(e) { return }
         calcMinMax(entry: e, axis: set.axisDependency)
@@ -345,7 +389,7 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
     /// If set to true, this means that values can be highlighted programmatically or by touch gesture.
     @objc open var isHighlightEnabled: Bool
     {
-        get { return first { $0.highlightEnabled == false } == nil }
+        get { return allSatisfy { $0.isHighlightEnabled } }
         set { forEach { $0.highlightEnabled = newValue } }
     }
 
@@ -434,10 +478,7 @@ extension ChartData//: RangeReplaceableCollection
 
     public func removeFirst() -> Element
     {
-        guard !(self is CombinedChartData) else
-        {
-            fatalError("removeFirst() not supported for CombinedData")
-        }
+        assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         let element = _dataSets.removeFirst()
         notifyDataChanged()
@@ -446,10 +487,7 @@ extension ChartData//: RangeReplaceableCollection
 
     public func removeFirst(_ n: Int)
     {
-        guard !(self is CombinedChartData) else
-        {
-            fatalError("removeFirst(_:) not supported for CombinedData")
-        }
+        assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         _dataSets.removeFirst(n)
         notifyDataChanged()
@@ -457,10 +495,7 @@ extension ChartData//: RangeReplaceableCollection
 
     public func removeLast() -> Element
     {
-        guard !(self is CombinedChartData) else
-        {
-            fatalError("removeLast() not supported for CombinedData")
-        }
+        assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         let element = _dataSets.removeLast()
         notifyDataChanged()
@@ -469,10 +504,7 @@ extension ChartData//: RangeReplaceableCollection
 
     public func removeLast(_ n: Int)
     {
-        guard !(self is CombinedChartData) else
-        {
-            fatalError("removeLast(_:) not supported for CombinedData")
-        }
+        assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         _dataSets.removeLast(n)
         notifyDataChanged()
@@ -480,10 +512,7 @@ extension ChartData//: RangeReplaceableCollection
 
     public func removeSubrange<R>(_ bounds: R) where R : RangeExpression, Index == R.Bound
     {
-        guard !(self is CombinedChartData) else
-        {
-            fatalError("removeSubrange<R>(_:) not supported for CombinedData")
-        }
+        assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         _dataSets.removeSubrange(bounds)
         notifyDataChanged()
@@ -491,10 +520,7 @@ extension ChartData//: RangeReplaceableCollection
 
     public func removeAll(keepingCapacity keepCapacity: Bool)
     {
-        guard !(self is CombinedChartData) else
-        {
-            fatalError("removeAll(keepingCapacity:) not supported for CombinedData")
-        }
+        assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         _dataSets.removeAll(keepingCapacity: keepCapacity)
         notifyDataChanged()
@@ -502,10 +528,7 @@ extension ChartData//: RangeReplaceableCollection
 
     public func replaceSubrange<C>(_ subrange: Swift.Range<Index>, with newElements: C) where C : Collection, Element == C.Element
     {
-        guard !(self is CombinedChartData) else
-        {
-            fatalError("replaceSubrange<C>(_:) not supported for CombinedData")
-        }
+        assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         _dataSets.replaceSubrange(subrange, with: newElements)
         newElements.forEach { self.calcMinMax(dataSet: $0) }
@@ -534,13 +557,10 @@ extension ChartData
         guard let index = index(forLabel: label, ignoreCase: ignoreCase) else { return nil }
         return self[index]
     }
-    
+
     public subscript(entry entry: ChartDataEntry) -> Element?
     {
-        guard !(self is CombinedChartData) else
-        {
-            fatalError("subscript(entry:) not supported for CombinedData")
-        }
+        assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
         guard let index = index(where: { $0.entryForXValue(entry.x, closestToY: entry.y) === entry }) else { return nil }
         return self[index]

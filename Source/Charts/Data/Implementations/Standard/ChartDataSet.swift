@@ -41,7 +41,6 @@ open class ChartDataSet: ChartBaseDataSet
     @objc public init(values: [ChartDataEntry], label: String)
     {
         self.values = values
-        
         super.init(label: label)
         
         self.calcMinMax()
@@ -152,7 +151,7 @@ open class ChartDataSet: ChartBaseDataSet
     /// if `i` is out of bounds, it may throw an out-of-bounds exception
     open override func entryForIndex(_ i: Int) -> ChartDataEntry?
     {
-        guard i >= values.startIndex, i < values.endIndex else {
+        guard values.indices.contains(i) else {
             return nil
         }
         return values[i]
@@ -410,9 +409,9 @@ open class ChartDataSet: ChartBaseDataSet
     // TODO: This should return the removed entry to follow Swift convention.
     open override func removeEntry(_ entry: ChartDataEntry) -> Bool
     {
-        isIndirectValuesCall = true
-
         guard let i = values.index(where: { $0 === entry }) else { return false }
+
+        isIndirectValuesCall = true
         values.remove(at: i)
 
         notifyDataSetChanged()
@@ -425,8 +424,13 @@ open class ChartDataSet: ChartBaseDataSet
     // TODO: This should return the removed entry to follow Swift convention.
     open override func removeFirst() -> Bool
     {
-        let entry: ChartDataEntry? = values.isEmpty ? nil : values.removeFirst()
-        return entry != nil
+        guard !values.isEmpty else { return false }
+
+        isIndirectValuesCall = true
+        values.removeFirst()
+
+        notifyDataSetChanged()
+        return true
     }
     
     /// Removes the last Entry (at index size-1) of this DataSet from the entries array.
@@ -435,8 +439,13 @@ open class ChartDataSet: ChartBaseDataSet
     // TODO: This should return the removed entry to follow Swift convention.
     open override func removeLast() -> Bool
     {
-        let entry: ChartDataEntry? = values.isEmpty ? nil : values.removeLast()
-        return entry != nil
+        guard !values.isEmpty else { return false }
+
+        isIndirectValuesCall = true
+        values.removeLast()
+
+        notifyDataSetChanged()
+        return true
     }
     
     /// Checks if this DataSet contains the specified Entry.
