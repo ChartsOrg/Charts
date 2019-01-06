@@ -205,65 +205,28 @@ open class ChartDataSet: ChartBaseDataSet
     {
         return entryForXValue(xValue, closestToY: yValue, rounding: .closest)
     }
-    
-    /// - Returns: All Entry objects found at the given xIndex with binary search.
+
+    /// - returns: All Entry objects found at the given xIndex with binary search.
     /// An empty array if no Entry object at that index.
     open override func entriesForXValue(_ xValue: Double) -> [ChartDataEntry]
     {
-        var entries = [ChartDataEntry]()
-        
-        var low = values.startIndex
-        var high = values.endIndex - 1
-        
-        while low <= high
+        let i = values.sortedInsertionPoint(of: xValue) { $0 < $1.x }
+
+        // Find the range of all equal entries. Start with `i` and spread out.
+        var start = i, end = i
+        while start > values.startIndex,
+            xValue == values[values.index(before: start)].x
         {
-            var m = (high + low) / 2
-            var entry = values[m]
-            
-            // if we have a match
-            if xValue == entry.x
-            {
-                while m > 0 && values[m - 1].x == xValue
-                {
-                    m -= 1
-                }
-                
-                high = values.endIndex
-                
-                // loop over all "equal" entries
-                while m < high
-                {
-                    entry = values[m]
-                    if entry.x == xValue
-                    {
-                        entries.append(entry)
-                    }
-                    else
-                    {
-                        break
-                    }
-                    
-                    m += 1
-                }
-                
-                break
-            }
-            else
-            {
-                if xValue > entry.x
-                {
-                    low = m + 1
-                }
-                else
-                {
-                    high = m - 1
-                }
-            }
+            start = values.index(before: start)
         }
-        
-        return entries
+        while end < values.index(before: values.endIndex),
+            xValue == values[values.index(after: end)].x
+        {
+            end = values.index(after: end)
+        }
+        return Array(values[start..<end])
     }
-    
+
     /// - Parameters:
     ///   - xValue: x-value of the entry to search for
     ///   - closestToY: If there are multiple y-values for the specified x-value,
@@ -515,5 +478,39 @@ open class ChartDataSet: ChartBaseDataSet
         copy._xMin = _xMin
 
         return copy
+    }
+}
+
+extension RandomAccessCollection {
+    func sortedInsertionPoint<T>(of value: T, sortedAscending: (T, Element) -> Bool) -> Index {
+        var slice = self[...]
+
+        while !slice.isEmpty {
+            let middle = index(startIndex, offsetBy: count / 2)
+            if sortedAscending(value, slice[middle]) {
+                slice = slice[..<middle]
+            } else {
+                slice = slice[index(after: middle)...]
+            }
+        }
+
+        return slice.startIndex
+    }
+}
+
+extension RandomAccessCollection where Element: Comparable {
+    func sortedInsertionPoint(of value: Element) -> Index {
+        var slice = self[...]
+
+        while !slice.isEmpty {
+            let middle = index(startIndex, offsetBy: count / 2)
+            if value < slice[middle] {
+                slice = slice[..<middle]
+            } else {
+                slice = slice[index(after: middle)...]
+            }
+        }
+
+        return slice.startIndex
     }
 }
