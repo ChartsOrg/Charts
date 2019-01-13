@@ -22,7 +22,7 @@ open class AxisBase: ComponentBase
     }
     
     /// Custom formatter that is used instead of the auto-formatter if set
-    private var _axisValueFormatter: AxisValueFormatter?
+    private lazy var _axisValueFormatter: AxisValueFormatter = DefaultAxisValueFormatter(decimals: decimals)
     
     @objc open var labelFont = NSUIFont.systemFont(ofSize: 10.0)
     @objc open var labelTextColor = NSUIColor.black
@@ -161,10 +161,9 @@ open class AxisBase: ComponentBase
     {
         get
         {
-            if _axisValueFormatter == nil ||
-                (_axisValueFormatter is DefaultAxisValueFormatter &&
-                    (_axisValueFormatter as! DefaultAxisValueFormatter).hasAutoDecimals &&
-                    (_axisValueFormatter as! DefaultAxisValueFormatter).decimals != decimals)
+            if _axisValueFormatter is DefaultAxisValueFormatter,
+                (_axisValueFormatter as! DefaultAxisValueFormatter).hasAutoDecimals,
+                (_axisValueFormatter as! DefaultAxisValueFormatter).decimals != decimals
             {
                 _axisValueFormatter = DefaultAxisValueFormatter(decimals: decimals)
             }
@@ -213,6 +212,16 @@ open class AxisBase: ComponentBase
     /// the total range of values this axis covers
     @objc open var axisRange = Double(0)
     
+    /// The minumum number of labels on the axis
+    @objc open var axisMinLabels = Int(2) {
+        didSet { axisMinLabels = axisMinLabels > 0 ? axisMinLabels : oldValue }
+    }
+    
+    /// The maximum number of labels on the axis
+    @objc open var axisMaxLabels = Int(25) {
+        didSet { axisMinLabels = axisMaxLabels > 0 ? axisMaxLabels : oldValue }
+    }
+    
     /// the number of label entries the axis should have
     /// max = 25,
     /// min = 2,
@@ -226,17 +235,9 @@ open class AxisBase: ComponentBase
         }
         set
         {
-            _labelCount = newValue
-            
-            if _labelCount > 25
-            {
-                _labelCount = 25
-            }
-            if _labelCount < 2
-            {
-                _labelCount = 2
-            }
-            
+            let range = axisMinLabels...axisMaxLabels as ClosedRange
+            _labelCount = newValue.clamped(to: range)
+                        
             forceLabelsEnabled = false
         }
     }

@@ -40,16 +40,16 @@ open class AnimatedViewPortJob: ViewPortJob
         duration: TimeInterval,
         easing: ChartEasingFunctionBlock?)
     {
+        self.xOrigin = xOrigin
+        self.yOrigin = yOrigin
+        self._duration = duration
+        self._easing = easing
+
         super.init(viewPortHandler: viewPortHandler,
             xValue: xValue,
             yValue: yValue,
             transformer: transformer,
             view: view)
-        
-        self.xOrigin = xOrigin
-        self.yOrigin = yOrigin
-        self._duration = duration
-        self._easing = easing
     }
     
     deinit
@@ -71,14 +71,14 @@ open class AnimatedViewPortJob: ViewPortJob
         updateAnimationPhase(_startTime)
         
         _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
-        _displayLink.add(to: .main, forMode: .commonModes)
+        _displayLink.add(to: .main, forMode: RunLoop.Mode.common)
     }
     
     @objc open func stop(finish: Bool)
     {
         guard _displayLink != nil else { return }
 
-        _displayLink.remove(from: .main, forMode: .commonModes)
+        _displayLink.remove(from: .main, forMode: RunLoop.Mode.common)
         _displayLink = nil
 
         if finish

@@ -146,7 +146,7 @@ public class RadialGradient: NSObject, Fill {
         endOffsetPercent: CGPoint,
         startRadiusPercent: CGFloat,
         endRadiusPercent: CGFloat
-        ) {
+    ) {
         self.gradient = gradient
         self.startOffsetPercent = startOffsetPercent
         self.endOffsetPercent = endOffsetPercent

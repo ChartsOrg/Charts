@@ -54,18 +54,7 @@ open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, LineRadarC
         }
         set
         {
-            if newValue < 0.0
-            {
-                _lineWidth = 0.0
-            }
-            else if newValue > 10.0
-            {
-                _lineWidth = 10.0
-            }
-            else
-            {
-                _lineWidth = newValue
-            }
+            _lineWidth = newValue.clamped(to: 0...10)
         }
     }
     

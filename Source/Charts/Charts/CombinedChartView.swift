@@ -40,7 +40,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         
         _fillFormatter = DefaultFillFormatter()
         
-        renderer = CombinedChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
+        renderer = CombinedChartRenderer(chart: self, animator: chartAnimator, viewPortHandler: viewPortHandler)
     }
     
     open override var data: ChartData?
@@ -79,7 +79,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     /// - returns: The Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the CombinedChart.
     open override func getHighlightByTouchPoint(_ pt: CGPoint) -> Highlight?
     {
-        if _data === nil
+        if data === nil
         {
             Swift.print("Can't select by touch. No data set.")
             return nil
@@ -106,7 +106,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     {
         get
         {
-            return _data as? CombinedChartData
+            return data as? CombinedChartData
         }
     }
     
@@ -165,22 +165,22 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     /// if set to true, all values are drawn above their bars, instead of below their top
     @objc open var drawValueAboveBarEnabled: Bool
         {
-        get { return (renderer as! CombinedChartRenderer!).drawValueAboveBarEnabled }
-        set { (renderer as! CombinedChartRenderer!).drawValueAboveBarEnabled = newValue }
+        get { return (renderer as! CombinedChartRenderer).drawValueAboveBarEnabled }
+        set { (renderer as! CombinedChartRenderer).drawValueAboveBarEnabled = newValue }
     }
     
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     @objc open var drawBarShadowEnabled: Bool
     {
-        get { return (renderer as! CombinedChartRenderer!).drawBarShadowEnabled }
-        set { (renderer as! CombinedChartRenderer!).drawBarShadowEnabled = newValue }
+        get { return (renderer as! CombinedChartRenderer).drawBarShadowEnabled }
+        set { (renderer as! CombinedChartRenderer).drawBarShadowEnabled = newValue }
     }
     
     /// - returns: `true` if drawing values above bars is enabled, `false` ifnot
-    open var isDrawValueAboveBarEnabled: Bool { return (renderer as! CombinedChartRenderer!).drawValueAboveBarEnabled }
+    open var isDrawValueAboveBarEnabled: Bool { return (renderer as! CombinedChartRenderer).drawValueAboveBarEnabled }
     
     /// - returns: `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
-    open var isDrawBarShadowEnabled: Bool { return (renderer as! CombinedChartRenderer!).drawBarShadowEnabled }
+    open var isDrawBarShadowEnabled: Bool { return (renderer as! CombinedChartRenderer).drawBarShadowEnabled }
     
     /// the order in which the provided data objects should be drawn.
     /// The earlier you place them in the provided array, the further they will be in the background. 
@@ -189,11 +189,11 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     {
         get
         {
-            return (renderer as! CombinedChartRenderer!).drawOrder.map { $0.rawValue }
+            return (renderer as! CombinedChartRenderer).drawOrder.map { $0.rawValue }
         }
         set
         {
-            (renderer as! CombinedChartRenderer!).drawOrder = newValue.map { DrawOrder(rawValue: $0)! }
+            (renderer as! CombinedChartRenderer).drawOrder = newValue.map { DrawOrder(rawValue: $0)! }
         }
     }
     
@@ -213,17 +213,17 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             isDrawMarkersEnabled && valuesToHighlight()
             else { return }
         
-        for i in 0 ..< _indicesToHighlight.count
+        for i in 0 ..< highlighted.count
         {
-            let highlight = _indicesToHighlight[i]
+            let highlight = highlighted[i]
             
             guard 
                 let set = combinedData?.getDataSetByHighlight(highlight),
-                let e = _data?.entryForHighlight(highlight)
+                let e = data?.entry(for: highlight)
                 else { continue }
             
             let entryIndex = set.entryIndex(entry: e)
-            if entryIndex > Int(Double(set.entryCount) * _animator.phaseX)
+            if entryIndex > Int(Double(set.entryCount) * chartAnimator.phaseX)
             {
                 continue
             }
@@ -231,7 +231,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
             let pos = getMarkerPosition(highlight: highlight)
             
             // check bounds
-            if !_viewPortHandler.isInBounds(x: pos.x, y: pos.y)
+            if !viewPortHandler.isInBounds(x: pos.x, y: pos.y)
             {
                 continue
             }

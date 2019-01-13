@@ -17,6 +17,8 @@ open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
 {
     public let viewPortHandler: ViewPortHandler
 
+    public final var accessibleChartElements: [NSUIAccessibilityElement] = []
+
     public let animator: Animator
 
     internal var _xBounds = XBounds() // Reusable XBounds object
@@ -108,5 +110,9 @@ open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
             self.max = entryTo == nil ? 0 : dataSet.entryIndex(entry: entryTo!)
             range = Int(Double(self.max - self.min) * phaseX)
         }
+    }
+    
+    public func createAccessibleHeader(usingChart chart: ChartViewBase, andData data: ChartData, withDefaultDescription defaultDescription: String) -> NSUIAccessibilityElement {
+        return AccessibleHeader.create(usingChart: chart, andData: data, withDefaultDescription: defaultDescription)
     }
 }
