@@ -114,12 +114,3 @@ extension ChartDataEntry/*: Equatable*/ {
             && x == object.x
     }
 }
-
-extension ChartDataEntry: Comparable {
-    public static func < (lhs: ChartDataEntry, rhs: ChartDataEntry) -> Bool
-    {
-        if lhs.x < rhs.x { return true}
-        else if lhs.x == rhs.x, lhs.y < rhs.x { return true }
-        else { return false }
-    }
-}

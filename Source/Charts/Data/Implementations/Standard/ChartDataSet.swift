@@ -210,21 +210,12 @@ open class ChartDataSet: ChartBaseDataSet
     /// An empty array if no Entry object at that index.
     open override func entriesForXValue(_ xValue: Double) -> [ChartDataEntry]
     {
-        let i = values.sortedInsertionPoint(of: xValue) { $0 < $1.x }
-
-        // Find the range of all equal entries. Start with `i` and spread out.
-        var start = i, end = i
-        while start > values.startIndex,
-            xValue == values[values.index(before: start)].x
-        {
-            start = values.index(before: start)
-        }
-        while end < values.index(before: values.endIndex),
-            xValue == values[values.index(after: end)].x
-        {
-            end = values.index(after: end)
-        }
-        return Array(values[start..<end])
+        let i = values.sortedIndices(
+            of: xValue,
+            sortedAscending: { $0 < $1.x },
+            isEqual: { $0 == $1.x }
+        )
+        return Array(values[i])
     }
 
     /// - Parameters:
@@ -239,18 +230,21 @@ open class ChartDataSet: ChartBaseDataSet
         rounding: ChartDataSetRounding) -> Int
     {
         var closest = values.sortedInsertionPoint(of: xValue) { $0 < $1.x }
+        if closest == values.endIndex {
+            closest = values.index(before: closest)
+        }
 
         let closestXValue = values[closest].x
 
         switch rounding
         {
-        case .up where closestXValue < xValue && closest < values.endIndex - 1:
-            // If rounding up, and found x-value is lower than specified x, and we can go upper...
-            closest += 1
+        case .up where closestXValue < xValue && closest < values.index(before: values.endIndex):
+            // If rounding up, and found x-value is less than specified x, and we can go upper...
+            closest = values.index(after: closest)
 
         case .down where closestXValue > xValue && closest > values.startIndex:
-            // If rounding down, and found x-value is upper than specified x, and we can go lower...
-            closest -= 1
+            // If rounding down, and found x-value is greater than specified x, and we can go lower...
+            closest = values.index(before: closest)
 
         default:
             break
@@ -259,22 +253,21 @@ open class ChartDataSet: ChartBaseDataSet
         // Search by closest to y-value
         if !yValue.isNaN
         {
-            while closest > values.startIndex, values[closest - 1].x == closestXValue
+            while closest > values.startIndex,
+                values[values.index(before: closest)].x == closestXValue
             {
-                closest -= 1
+                closest = values.index(before: closest)
             }
 
             var closestYValue = values[closest].y
             var closestYIndex = closest
 
-            while true
+            while closest < values.index(before: values.endIndex)
             {
-                closest += 1
-                if closest >= values.endIndex { break }
-
+                closest = values.index(after: closest)
                 let value = values[closest]
-
                 if value.x != closestXValue { break }
+
                 if abs(value.y - yValue) <= abs(closestYValue - yValue)
                 {
                     closestYValue = yValue
@@ -431,39 +424,5 @@ open class ChartDataSet: ChartBaseDataSet
         copy._xMin = _xMin
 
         return copy
-    }
-}
-
-extension RandomAccessCollection {
-    func sortedInsertionPoint<T>(of value: T, sortedAscending: (T, Element) -> Bool) -> Index {
-        var slice = self[...]
-
-        while !slice.isEmpty {
-            let middle = slice.index(slice.startIndex, offsetBy: slice.count / 2)
-            if sortedAscending(value, slice[middle]) {
-                slice = slice[..<middle]
-            } else {
-                slice = slice[slice.index(after: middle)...]
-            }
-        }
-
-        return slice.startIndex
-    }
-}
-
-extension RandomAccessCollection where Element: Comparable {
-    func sortedInsertionPoint(of value: Element) -> Index {
-        var slice = self[...]
-
-        while !slice.isEmpty {
-            let middle = slice.index(slice.startIndex, offsetBy: slice.count / 2)
-            if value < slice[middle] {
-                slice = slice[..<middle]
-            } else {
-                slice = slice[slice.index(after: middle)...]
-            }
-        }
-
-        return slice.startIndex
     }
 }
