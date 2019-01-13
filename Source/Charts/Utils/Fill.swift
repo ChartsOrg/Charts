@@ -20,15 +20,15 @@ public protocol Fill {
 }
 
 @objc(ChartEmptyFill)
-open class EmptyFill: NSObject, Fill {
+public class EmptyFill: NSObject, Fill {
 
-    open func fillPath(context: CGContext, rect: CGRect) { }
+    public func fillPath(context: CGContext, rect: CGRect) { }
 }
 
 @objc(ChartColorFill)
-open class ColorFill: NSObject, Fill {
+public class ColorFill: NSObject, Fill {
 
-    @objc open let color: CGColor
+    @objc public let color: CGColor
 
     @objc public init(cgColor: CGColor) {
         self.color = cgColor
@@ -39,7 +39,7 @@ open class ColorFill: NSObject, Fill {
         self.init(cgColor: color.cgColor)
     }
 
-    open func fillPath(context: CGContext, rect: CGRect) {
+    public func fillPath(context: CGContext, rect: CGRect) {
         context.saveGState()
         defer { context.restoreGState() }
 
@@ -49,22 +49,22 @@ open class ColorFill: NSObject, Fill {
 }
 
 @objc(ChartImageFill)
-open class ImageFill: NSObject, Fill {
+public class ImageFill: NSObject, Fill {
 
-    @objc open let image: CGImage
-    @objc open let isTiled: Bool
+    @objc public let image: CGImage
+    @objc public let isTiled: Bool
 
     @objc public init(cgImage: CGImage, isTiled: Bool = false) {
         image = cgImage
         self.isTiled = isTiled
         super.init()
-   }
+    }
 
     @objc public convenience init(image: NSUIImage, isTiled: Bool = false) {
         self.init(cgImage: image.cgImage!, isTiled: isTiled)
     }
 
-    open func fillPath(context: CGContext, rect: CGRect) {
+    public func fillPath(context: CGContext, rect: CGRect) {
         context.saveGState()
         defer { context.restoreGState() }
 
@@ -74,16 +74,16 @@ open class ImageFill: NSObject, Fill {
 }
 
 @objc(ChartLayerFill)
-open class LayerFill: NSObject, Fill {
+public class LayerFill: NSObject, Fill {
 
-    @objc open let layer: CGLayer
+    @objc public let layer: CGLayer
 
     @objc public init(layer: CGLayer) {
         self.layer = layer
         super.init()
     }
 
-    open func fillPath(context: CGContext, rect: CGRect) {
+    public func fillPath(context: CGContext, rect: CGRect) {
         context.saveGState()
         defer { context.restoreGState() }
 
@@ -93,10 +93,10 @@ open class LayerFill: NSObject, Fill {
 }
 
 @objc(ChartLinearGradient)
-open class LinearGradient: NSObject, Fill {
+public class LinearGradient: NSObject, Fill {
 
-    @objc open let gradient: CGGradient
-    @objc open let angle: CGFloat
+    @objc public let gradient: CGGradient
+    @objc public let angle: CGFloat
 
     @objc public init(gradient: CGGradient, angle: CGFloat = 0) {
         self.gradient = gradient
@@ -104,7 +104,7 @@ open class LinearGradient: NSObject, Fill {
         super.init()
     }
 
-    open func fillPath(context: CGContext, rect: CGRect) {
+    public func fillPath(context: CGContext, rect: CGRect) {
         context.saveGState()
         defer { context.restoreGState() }
 
@@ -112,34 +112,41 @@ open class LinearGradient: NSObject, Fill {
         let centerPoint = CGPoint(x: rect.midX, y: rect.midY)
         let xAngleDelta = cos(radians) * rect.width / 2.0
         let yAngleDelta = sin(radians) * rect.height / 2.0
-        let startPoint = CGPoint(x: centerPoint.x - xAngleDelta,
-                                 y: centerPoint.y - yAngleDelta)
-        let endPoint = CGPoint(x: centerPoint.x + xAngleDelta,
-                               y: centerPoint.y + yAngleDelta)
+        let startPoint = CGPoint(
+            x: centerPoint.x - xAngleDelta,
+            y: centerPoint.y - yAngleDelta
+        )
+        let endPoint = CGPoint(
+            x: centerPoint.x + xAngleDelta,
+            y: centerPoint.y + yAngleDelta
+        )
 
         context.clip()
-        context.drawLinearGradient(gradient,
-                                   start: startPoint,
-                                   end: endPoint,
-                                   options: [.drawsAfterEndLocation, .drawsBeforeStartLocation])
+        context.drawLinearGradient(
+            gradient,
+            start: startPoint,
+            end: endPoint,
+            options: [.drawsAfterEndLocation, .drawsBeforeStartLocation]
+        )
     }
 }
 
 @objc(ChartRadialGradient)
-open class RadialGradient: NSObject, Fill {
+public class RadialGradient: NSObject, Fill {
 
-    @objc open let gradient: CGGradient
-    @objc open let startOffsetPercent: CGPoint
-    @objc open let endOffsetPercent: CGPoint
-    @objc open let startRadiusPercent: CGFloat
-    @objc open let endRadiusPercent: CGFloat
+    @objc public let gradient: CGGradient
+    @objc public let startOffsetPercent: CGPoint
+    @objc public let endOffsetPercent: CGPoint
+    @objc public let startRadiusPercent: CGFloat
+    @objc public let endRadiusPercent: CGFloat
 
-    @objc public init(gradient: CGGradient,
-                      startOffsetPercent: CGPoint,
-                      endOffsetPercent: CGPoint,
-                      startRadiusPercent: CGFloat,
-                      endRadiusPercent: CGFloat)
-    {
+    @objc public init(
+        gradient: CGGradient,
+        startOffsetPercent: CGPoint,
+        endOffsetPercent: CGPoint,
+        startRadiusPercent: CGFloat,
+        endRadiusPercent: CGFloat
+        ) {
         self.gradient = gradient
         self.startOffsetPercent = startOffsetPercent
         self.endOffsetPercent = endOffsetPercent
@@ -147,16 +154,18 @@ open class RadialGradient: NSObject, Fill {
         self.endRadiusPercent = endRadiusPercent
         super.init()
     }
-    
+
     @objc public convenience init(gradient: CGGradient) {
-        self.init(gradient: gradient,
-                  startOffsetPercent: .zero,
-                  endOffsetPercent: .zero,
-                  startRadiusPercent: 0,
-                  endRadiusPercent: 1)
+        self.init(
+            gradient: gradient,
+            startOffsetPercent: .zero,
+            endOffsetPercent: .zero,
+            startRadiusPercent: 0,
+            endRadiusPercent: 1
+        )
     }
 
-    @objc open func fillPath(context: CGContext, rect: CGRect) {
+    @objc public func fillPath(context: CGContext, rect: CGRect) {
         context.saveGState()
         defer { context.restoreGState() }
 
@@ -164,14 +173,19 @@ open class RadialGradient: NSObject, Fill {
         let radius = max(rect.width, rect.height) / 2.0
 
         context.clip()
-        context.drawRadialGradient(gradient,
-                                   startCenter: CGPoint(x: centerPoint.x + rect.width * startOffsetPercent.x,
-                                                        y: centerPoint.y + rect.height * startOffsetPercent.y),
-                                   startRadius: radius * startRadiusPercent,
-                                   endCenter: CGPoint(x: centerPoint.x + rect.width * endOffsetPercent.x,
-                                                      y: centerPoint.y + rect.height * endOffsetPercent.y),
-                                   endRadius: radius * endRadiusPercent,
-                                   options: [.drawsAfterEndLocation, .drawsBeforeStartLocation]
+        context.drawRadialGradient(
+            gradient,
+            startCenter: CGPoint(
+                x: centerPoint.x + rect.width * startOffsetPercent.x,
+                y: centerPoint.y + rect.height * startOffsetPercent.y
+            ),
+            startRadius: radius * startRadiusPercent,
+            endCenter: CGPoint(
+                x: centerPoint.x + rect.width * endOffsetPercent.x,
+                y: centerPoint.y + rect.height * endOffsetPercent.y
+            ),
+            endRadius: radius * endRadiusPercent,
+            options: [.drawsAfterEndLocation, .drawsBeforeStartLocation]
         )
     }
 }
