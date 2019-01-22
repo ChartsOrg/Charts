@@ -390,11 +390,7 @@ open class ChartDataSet: ChartBaseDataSet
     @available(*, deprecated, message: "Use `append(_:)` instead")
     open override func addEntry(_ e: ChartDataEntry) -> Bool
     {
-        calcMinMax(entry: e)
-
-        isIndirectValuesCall = true
         append(e)
-        
         return true
     }
     
