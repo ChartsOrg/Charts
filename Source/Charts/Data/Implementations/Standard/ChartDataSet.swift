@@ -57,6 +57,7 @@ open class ChartDataSet: ChartBaseDataSet
     /// - Note: Calls `notifyDataSetChanged()` after setting a new value.
     /// - Returns: The array of y-values that this DataSet represents.
     /// the entries that this dataset represents / holds together
+    @available(*, deprecated, message: "Use `subscript(position:)` instead.")
     @objc open var values: [ChartDataEntry]
         {
         didSet
@@ -504,6 +505,7 @@ extension ChartDataSet: MutableCollection {
         return values.index(after: after)
     }
 
+    @objc
     public subscript(position: Index) -> Element {
         get {
             // This is intentionally not a safe subscript to mirror
