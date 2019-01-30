@@ -151,7 +151,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                 
                 _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
                 
-                for j in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
+                for j in _xBounds
                 {
                     guard let e = dataSet.entryForIndex(j) else { break }
                     

@@ -214,7 +214,7 @@ open class LineChartRenderer: LineRadarRenderer
             // let the spline start
             cubicPath.move(to: CGPoint(x: CGFloat(cur.x), y: CGFloat(cur.y * phaseY)), transform: valueToPixelMatrix)
             
-            for j in stride(from: (_xBounds.min + 1), through: _xBounds.range + _xBounds.min, by: 1)
+            for j in _xBounds.dropFirst()
             {
                 prev = cur
                 cur = dataSet.entryForIndex(j)
@@ -484,7 +484,7 @@ open class LineChartRenderer: LineRadarRenderer
                 
                 _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
                 
-                for j in stride(from: _xBounds.min, through: min(_xBounds.min + _xBounds.range, _xBounds.max), by: 1)
+                for j in _xBounds
                 {
                     guard let e = dataSet.entryForIndex(j) else { break }
                     
@@ -589,7 +589,7 @@ open class LineChartRenderer: LineRadarRenderer
                 (dataSet.circleHoleColor == nil ||
                     dataSet.circleHoleColor == NSUIColor.clear)
             
-            for j in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
+            for j in _xBounds
             {
                 guard let e = dataSet.entryForIndex(j) else { break }
 

@@ -573,8 +573,12 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 {
                     location.y = -(self.bounds.size.height - location.y - _viewPortHandler.offsetBottom)
                 }
-                
-                self.zoom(scaleX: isScaleXEnabled ? 1.4 : 1.0, scaleY: isScaleYEnabled ? 1.4 : 1.0, x: location.x, y: location.y)
+
+                let scaleX: CGFloat = isScaleXEnabled ? 1.4 : 1.0
+                let scaleY: CGFloat = isScaleYEnabled ? 1.4 : 1.0
+
+                self.zoom(scaleX: scaleX, scaleY: scaleY, x: location.x, y: location.y)
+                delegate?.chartScaled?(self, scaleX: scaleX, scaleY: scaleY)
             }
         }
     }
@@ -786,6 +790,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 _outerScrollView?.nsuiIsScrollEnabled = true
                 _outerScrollView = nil
             }
+            
+            delegate?.chartViewDidEndPanning?(self)
         }
     }
     
@@ -812,7 +818,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         matrix = _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
         
-        if delegate !== nil
+        if matrix != originalMatrix
         {
             delegate?.chartTranslated?(self, dX: translation.x, dY: translation.y)
         }
