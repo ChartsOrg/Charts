@@ -440,9 +440,12 @@ open class PieChartRenderer: DataRenderer
 
                     if dataSet.valueLineColor != nil
                     {
-                        if dataSet.useValueColorForLine {
+                        if dataSet.useValueColorForLine
+                        {
                             context.setStrokeColor(dataSet.color(atIndex: j).cgColor)
-                        } else {
+                        }
+                        else
+                        {
                             context.setStrokeColor(dataSet.valueLineColor!.cgColor)
                         }
                         context.setLineWidth(dataSet.valueLineWidth)
