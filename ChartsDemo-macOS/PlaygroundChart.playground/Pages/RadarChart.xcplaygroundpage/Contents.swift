@@ -48,7 +48,7 @@ legend.horizontalAlignment = .center
 legend.verticalAlignment = .top
 legend.orientation = .horizontal
 legend.drawInside = false
-legend.font = NSUIFont(name: "HelveticaNeue-Light", size: 10.0)!
+legend.font = NSFont(name: "HelveticaNeue-Light", size: 10.0)!
 legend.xEntrySpace = 7.0
 legend.yEntrySpace = 5.0
 legend.textColor = .white
@@ -73,8 +73,8 @@ for _ in 0..<cnt
 }
 //: ### RadarChartDataSet
 let set1 = RadarChartDataSet(values: entries1, label: "Last Week")
-set1.colors = [NSColor(red: (103 / 255.0), green: (110 / 255.0), blue: (129 / 255.0), alpha: 1.0)]
-set1.fillColor = NSColor(red: (103 / 255.0), green: (110 / 255.0), blue: (129 / 255.0), alpha: 1.0)
+set1.colors = [#colorLiteral(red: 0.4039215686, green: 0.431372549, blue: 0.5058823529, alpha: 1)]
+set1.fillColor = #colorLiteral(red: 0.4039215686, green: 0.431372549, blue: 0.5058823529, alpha: 1)
 set1.drawFilledEnabled = true
 set1.fillAlpha = 0.7
 set1.lineWidth = 2.0
@@ -82,8 +82,8 @@ set1.drawHighlightCircleEnabled = true
 set1.setDrawHighlightIndicators(false)
 
 let set2 = RadarChartDataSet(values: entries2, label: "This Week")
-set2.colors = [NSColor(red: (121 / 255.0), green: (162 / 255.0), blue: (175 / 255.0), alpha: 1.0)]
-set2.fillColor = NSColor(red: (121 / 255.0), green: (162 / 255.0), blue: (175 / 255.0), alpha: 1.0)
+set2.colors = [#colorLiteral(red: 0.4745098039, green: 0.6352941176, blue: 0.6862745098, alpha: 1)]
+set2.fillColor = #colorLiteral(red: 0.4745098039, green: 0.6352941176, blue: 0.6862745098, alpha: 1)
 set2.drawFilledEnabled = true
 set2.fillAlpha = 0.7
 set2.lineWidth = 2.0

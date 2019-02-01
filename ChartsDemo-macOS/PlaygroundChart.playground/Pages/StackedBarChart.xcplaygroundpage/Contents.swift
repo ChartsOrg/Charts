@@ -67,7 +67,7 @@ legend.orientation = .horizontal
 legend.drawInside = false
 legend.form = .square
 legend.formSize = 8.0
-legend.font = NSUIFont(name: "HelveticaNeue-Light", size: 11.0)!
+legend.font = NSFont(name: "HelveticaNeue-Light", size: 11.0)!
 legend.xEntrySpace = 4.0
 //: ### Description
 chartView.chartDescription?.text = "Horizontal Bar Chart"
@@ -96,7 +96,7 @@ set1 = BarChartDataSet(values: yVals, label: "Stack")
 set1.colors = [ChartColorTemplates.material()[0],
                ChartColorTemplates.material()[1],
                ChartColorTemplates.material()[2]]
-set1.valueFont = NSUIFont(name: "HelveticaNeue-Light", size: 10.0)!
+set1.valueFont = NSFont(name: "HelveticaNeue-Light", size: 10.0)!
 set1.valueFormatter = DefaultValueFormatter(formatter: formatter )
 set1.valueTextColor = .white
 set1.stackLabels = ["stack1", "stack2", "stack3"]

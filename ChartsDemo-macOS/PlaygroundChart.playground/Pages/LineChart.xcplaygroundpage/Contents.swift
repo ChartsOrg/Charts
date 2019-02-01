@@ -26,11 +26,11 @@ let r = CGRect(x: 0, y: 0, width: 600, height: 600)
 var chartView = LineChartView(frame: r)
 //: ### General
 chartView.dragEnabled = true
-chartView.setScaleEnabled ( true)
+chartView.setScaleEnabled(true)
 chartView.drawGridBackgroundEnabled = false
 chartView.pinchZoomEnabled = true
 chartView.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-chartView.borderColor = NSUIColor.black
+chartView.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
 chartView.borderLineWidth = 1.0
 chartView.drawBordersEnabled = true
 //: ### xAxis
@@ -60,7 +60,7 @@ rightAxis.granularityEnabled = false
 //: ### Legend
 let legend = chartView.legend
 legend.font = NSFont(name: "HelveticaNeue-Light", size: 12.0)!
-legend.textColor = .black
+legend.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
 legend.form = .square
 legend.drawInside = false
 legend.orientation = .horizontal
@@ -100,37 +100,37 @@ var set3 = LineChartDataSet()
 set1 = LineChartDataSet(values: yVals1, label: "DataSet 1")
 set1.axisDependency = .left
 set1.colors = [#colorLiteral(red: 0.215686274509804, green: 0.709803921568627, blue: 0.898039215686275, alpha: 1.0)]
-set1.circleColors = [.white]
+set1.circleColors = [#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)]
 set1.lineWidth = 2.0
 set1.circleRadius = 3.0
 set1.fillAlpha = 65 / 255.0
 set1.fillColor = #colorLiteral(red: 0.215686274509804, green: 0.709803921568627, blue: 0.898039215686275, alpha: 1.0)
-set1.highlightColor = .blue
+set1.highlightColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
 set1.highlightEnabled = true
 set1.drawCircleHoleEnabled = false
 
 
 set2 = LineChartDataSet(values: yVals2, label: "DataSet 2")
 set2.axisDependency = .right
-set2.colors = [.red]
-set2.circleColors = [.white]
+set2.colors = [#colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)]
+set2.circleColors = [#colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)]
 set2.lineWidth = 2.0
 set2.circleRadius = 3.0
 set2.fillAlpha = 65 / 255.0
-set2.fillColor = .red
-set2.highlightColor = .red
+set2.fillColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
+set2.highlightColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
 set2.highlightEnabled = true
 set2.drawCircleHoleEnabled = false
 
 set3 = LineChartDataSet(values: yVals3, label: "DataSet 3")
 set3.axisDependency = .right
-set3.colors = [.green]
-set3.circleColors = [.white]
+set3.colors = [#colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)]
+set3.circleColors = [#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)]
 set3.lineWidth = 2.0
 set3.circleRadius = 3.0
 set3.fillAlpha = 65 / 255.0
 set3.fillColor = NSColor.yellow.withAlphaComponent(200 / 255.0)
-set3.highlightColor = .green
+set3.highlightColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
 set3.highlightEnabled = true
 set3.drawCircleHoleEnabled = false
 

@@ -34,13 +34,13 @@ chartView.drawGridBackgroundEnabled = true
 let xAxis = chartView.xAxis
 xAxis.labelPosition = .bothSided
 xAxis.labelTextColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
-xAxis.labelFont = NSUIFont.systemFont(ofSize: 12.0)
+xAxis.labelFont = .systemFont(ofSize: 12.0)
 xAxis.drawAxisLineEnabled = true
 xAxis.drawGridLinesEnabled = true
 xAxis.granularity = 10.0
 //: ### LeftAxis
 let leftAxis = chartView.leftAxis
-leftAxis.labelFont = NSUIFont.systemFont(ofSize: 12.0)
+leftAxis.labelFont = .systemFont(ofSize: 12.0)
 leftAxis.labelTextColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
 leftAxis.drawAxisLineEnabled = true
 leftAxis.drawGridLinesEnabled = true
@@ -49,7 +49,7 @@ leftAxis.enabled = true
 //: ### RightAxis
 let rightAxis                  = chartView.rightAxis
 rightAxis.labelFont            = .systemFont(ofSize: 12.0)
-rightAxis.labelTextColor        = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
+rightAxis.labelTextColor       = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
 rightAxis.drawAxisLineEnabled  = true
 rightAxis.drawGridLinesEnabled = false
 rightAxis.axisMinimum          = 0.0

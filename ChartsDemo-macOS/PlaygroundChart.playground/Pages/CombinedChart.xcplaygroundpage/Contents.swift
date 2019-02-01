@@ -47,9 +47,7 @@ func generateLineData() -> LineChartData
     set.fillColor = #colorLiteral(red: 0.941176470588235, green: 0.933333333333333, blue: 0.274509803921569, alpha: 1.0)
     set.mode = .cubicBezier
     set.drawValuesEnabled = true
-    set.valueFont = NSUIFont.systemFont(ofSize: 10.0)
-    set.valueTextColor = #colorLiteral(red: 0.941176470588235, green: 0.933333333333333, blue: 0.274509803921569, alpha: 1.0)
-    set.axisDependency = .left
+    set.valueFont = .systemFont(ofSize: 10.0)
 //: ### LineChartData
     let data = LineChartData()
     data.addDataSet(set)
@@ -74,7 +72,7 @@ func generateBarData() -> BarChartData
     let set1            = BarChartDataSet(values: entries1, label: "Bar 1")
     set1.colors         = [#colorLiteral(red: 0.235294117647059, green: 0.862745098039216, blue: 0.305882352941176, alpha: 1.0)]
     set1.valueTextColor = #colorLiteral(red: 0.235294117647059, green: 0.862745098039216, blue: 0.305882352941176, alpha: 1.0)
-    set1.valueFont      = NSUIFont.systemFont(ofSize: CGFloat(10.0))
+    set1.valueFont      = .systemFont(ofSize: 10.0)
     set1.axisDependency = .left
     
     let set2            = BarChartDataSet(values: entries2, label: "Bar 2")
