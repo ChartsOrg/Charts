@@ -316,123 +316,63 @@ open class LineChartRenderer: LineRadarRenderer
         
         context.saveGState()
 
-        // more than 1 color
-        if dataSet.colors.count > 1
-        {
             if _lineSegments.count != pointsPerEntryPair
             {
                 // Allocate once in correct size
                 _lineSegments = [CGPoint](repeating: CGPoint(), count: pointsPerEntryPair)
             }
             
-            for j in _xBounds
+        for j in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
+        {
+            var e: ChartDataEntry! = dataSet.entryForIndex(j)
+            
+            if e == nil { continue }
+            
+            _lineSegments[0].x = CGFloat(e.x)
+            _lineSegments[0].y = CGFloat(e.y * phaseY)
+            
+            if j < _xBounds.max
             {
-                var e: ChartDataEntry! = dataSet.entryForIndex(j)
+                e = dataSet.entryForIndex(j + 1)
                 
-                if e == nil { continue }
+                if e == nil { break }
                 
-                _lineSegments[0].x = CGFloat(e.x)
-                _lineSegments[0].y = CGFloat(e.y * phaseY)
-                
-                if j < _xBounds.max
+                if isDrawSteppedEnabled
                 {
-                    e = dataSet.entryForIndex(j + 1)
-                    
-                    if e == nil { break }
-                    
-                    if isDrawSteppedEnabled
-                    {
-                        _lineSegments[1] = CGPoint(x: CGFloat(e.x), y: _lineSegments[0].y)
-                        _lineSegments[2] = _lineSegments[1]
-                        _lineSegments[3] = CGPoint(x: CGFloat(e.x), y: CGFloat(e.y * phaseY))
-                    }
-                    else
-                    {
-                        _lineSegments[1] = CGPoint(x: CGFloat(e.x), y: CGFloat(e.y * phaseY))
-                    }
+                    _lineSegments[1] = CGPoint(x: CGFloat(e.x), y: _lineSegments[0].y)
+                    _lineSegments[2] = _lineSegments[1]
+                    _lineSegments[3] = CGPoint(x: CGFloat(e.x), y: CGFloat(e.y * phaseY))
                 }
                 else
                 {
-                    _lineSegments[1] = _lineSegments[0]
+                    _lineSegments[1] = CGPoint(x: CGFloat(e.x), y: CGFloat(e.y * phaseY))
                 }
-
-                for i in 0..<_lineSegments.count
-                {
-                    _lineSegments[i] = _lineSegments[i].applying(valueToPixelMatrix)
-                }
-                
-                if (!viewPortHandler.isInBoundsRight(_lineSegments[0].x))
-                {
-                    break
-                }
-                
-                // make sure the lines don't do shitty things outside bounds
-                if !viewPortHandler.isInBoundsLeft(_lineSegments[1].x)
-                    || (!viewPortHandler.isInBoundsTop(_lineSegments[0].y) && !viewPortHandler.isInBoundsBottom(_lineSegments[1].y))
-                {
-                    continue
-                }
-                
-                // get the color that is set for this line-segment
-                context.setStrokeColor(dataSet.color(atIndex: j).cgColor)
-                context.strokeLineSegments(between: _lineSegments)
             }
-        }
-        else
-        { // only one color per dataset
-            
-            var e1: ChartDataEntry!
-            var e2: ChartDataEntry!
-            
-            e1 = dataSet.entryForIndex(_xBounds.min)
-            
-            if e1 != nil
+            else
             {
-                context.beginPath()
-                var firstPoint = true
-                
-                for x in _xBounds
-                {
-                    e1 = dataSet.entryForIndex(x == 0 ? 0 : (x - 1))
-                    e2 = dataSet.entryForIndex(x)
-                    
-                    if e1 == nil || e2 == nil { continue }
-                    
-                    let pt = CGPoint(
-                        x: CGFloat(e1.x),
-                        y: CGFloat(e1.y * phaseY)
-                        ).applying(valueToPixelMatrix)
-                    
-                    if firstPoint
-                    {
-                        context.move(to: pt)
-                        firstPoint = false
-                    }
-                    else
-                    {
-                        context.addLine(to: pt)
-                    }
-                    
-                    if isDrawSteppedEnabled
-                    {
-                        context.addLine(to: CGPoint(
-                            x: CGFloat(e2.x),
-                            y: CGFloat(e1.y * phaseY)
-                            ).applying(valueToPixelMatrix))
-                    }
-                    
-                    context.addLine(to: CGPoint(
-                            x: CGFloat(e2.x),
-                            y: CGFloat(e2.y * phaseY)
-                        ).applying(valueToPixelMatrix))
-                }
-                
-                if !firstPoint
-                {
-                    context.setStrokeColor(dataSet.color(atIndex: 0).cgColor)
-                    context.strokePath()
-                }
+                _lineSegments[1] = _lineSegments[0]
             }
+
+            for i in 0..<_lineSegments.count
+            {
+                _lineSegments[i] = _lineSegments[i].applying(valueToPixelMatrix)
+            }
+            
+            if (!viewPortHandler.isInBoundsRight(_lineSegments[0].x))
+            {
+                break
+            }
+            
+            // make sure the lines don't do shitty things outside bounds
+            if !viewPortHandler.isInBoundsLeft(_lineSegments[1].x)
+                || (!viewPortHandler.isInBoundsTop(_lineSegments[0].y) && !viewPortHandler.isInBoundsBottom(_lineSegments[1].y))
+            {
+                continue
+            }
+            
+            // get the color that is set for this line-segment
+            context.setStrokeColor(dataSet.color(atIndex: j).cgColor)
+            context.strokeLineSegments(between: _lineSegments)
         }
         
         context.restoreGState()
