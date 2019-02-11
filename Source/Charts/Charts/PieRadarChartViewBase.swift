@@ -672,12 +672,10 @@ open class PieRadarChartViewBase: ChartViewBase
         
         _velocitySamples.append(AngularVelocitySample(time: currentTime, angle: angleForPoint(x: touchLocation.x, y: touchLocation.y)))
         
-        // Remove samples older than our sample time - 1 seconds        
-        _velocitySamples = Array(
-            _velocitySamples
-                .dropLast(2)
-                .drop { currentTime - $0.time > 1.0 }
-        )
+        // Remove samples older than our sample time - 1 seconds
+        if let indexOfNewerSample = _velocitySamples.dropLast(2).firstIndex(where: { currentTime - $0.time <= 1.0 }) {
+            _velocitySamples.removeSubrange(_velocitySamples.startIndex ..< indexOfNewerSample)
+        }
     }
     
     private func calculateVelocity() -> CGFloat
