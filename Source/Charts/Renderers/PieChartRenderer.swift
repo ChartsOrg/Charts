@@ -438,7 +438,7 @@ open class PieChartRenderer: DataRenderer
                         labelPoint = CGPoint(x: pt2.x + 5, y: pt2.y - lineHeight)
                     }
 
-                    do
+                    DrawLine: do
                     {
                         if dataSet.useValueColorForLine
                         {
