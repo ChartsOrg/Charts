@@ -205,65 +205,19 @@ open class ChartDataSet: ChartBaseDataSet
     {
         return entryForXValue(xValue, closestToY: yValue, rounding: .closest)
     }
-    
-    /// - Returns: All Entry objects found at the given xIndex with binary search.
+
+    /// - returns: All Entry objects found at the given xIndex with binary search.
     /// An empty array if no Entry object at that index.
     open override func entriesForXValue(_ xValue: Double) -> [ChartDataEntry]
     {
-        var entries = [ChartDataEntry]()
-        
-        var low = values.startIndex
-        var high = values.endIndex - 1
-        
-        while low <= high
-        {
-            var m = (high + low) / 2
-            var entry = values[m]
-            
-            // if we have a match
-            if xValue == entry.x
-            {
-                while m > 0 && values[m - 1].x == xValue
-                {
-                    m -= 1
-                }
-                
-                high = values.endIndex
-                
-                // loop over all "equal" entries
-                while m < high
-                {
-                    entry = values[m]
-                    if entry.x == xValue
-                    {
-                        entries.append(entry)
-                    }
-                    else
-                    {
-                        break
-                    }
-                    
-                    m += 1
-                }
-                
-                break
-            }
-            else
-            {
-                if xValue > entry.x
-                {
-                    low = m + 1
-                }
-                else
-                {
-                    high = m - 1
-                }
-            }
-        }
-        
-        return entries
+        let i = values.sortedIndices(
+            of: xValue,
+            sortedAscending: { $0 < $1.x },
+            isEqual: { $0 == $1.x }
+        )
+        return Array(values[i])
     }
-    
+
     /// - Parameters:
     ///   - xValue: x-value of the entry to search for
     ///   - closestToY: If there are multiple y-values for the specified x-value,
@@ -275,100 +229,55 @@ open class ChartDataSet: ChartBaseDataSet
         closestToY yValue: Double,
         rounding: ChartDataSetRounding) -> Int
     {
-        var low = values.startIndex
-        var high = values.endIndex - 1
-        var closest = high
-        
-        while low < high
-        {
-            let m = (low + high) / 2
-            
-            let d1 = values[m].x - xValue
-            let d2 = values[m + 1].x - xValue
-            let ad1 = abs(d1), ad2 = abs(d2)
-            
-            if ad2 < ad1
-            {
-                // [m + 1] is closer to xValue
-                // Search in an higher place
-                low = m + 1
-            }
-            else if ad1 < ad2
-            {
-                // [m] is closer to xValue
-                // Search in a lower place
-                high = m
-            }
-            else
-            {
-                // We have multiple sequential x-value with same distance
-                
-                if d1 >= 0.0
-                {
-                    // Search in a lower place
-                    high = m
-                }
-                else if d1 < 0.0
-                {
-                    // Search in an higher place
-                    low = m + 1
-                }
-            }
-            
-            closest = high
+        var closest = values.sortedInsertionPoint(of: xValue) { $0 < $1.x }
+        if closest == values.endIndex {
+            closest = values.index(before: closest)
         }
-        
-        if closest != -1
+
+        let closestXValue = values[closest].x
+
+        switch rounding
         {
-            let closestXValue = values[closest].x
-            
-            if rounding == .up
-            {
-                // If rounding up, and found x-value is lower than specified x, and we can go upper...
-                if closestXValue < xValue && closest < values.endIndex - 1
-                {
-                    closest += 1
-                }
-            }
-            else if rounding == .down
-            {
-                // If rounding down, and found x-value is upper than specified x, and we can go lower...
-                if closestXValue > xValue && closest > 0
-                {
-                    closest -= 1
-                }
-            }
-            
-            // Search by closest to y-value
-            if !yValue.isNaN
-            {
-                while closest > 0 && values[closest - 1].x == closestXValue
-                {
-                    closest -= 1
-                }
-                
-                var closestYValue = values[closest].y
-                var closestYIndex = closest
-                
-                while true
-                {
-                    closest += 1
-                    if closest >= values.endIndex { break }
-                    
-                    let value = values[closest]
-                    
-                    if value.x != closestXValue { break }
-                    if abs(value.y - yValue) <= abs(closestYValue - yValue)
-                    {
-                        closestYValue = yValue
-                        closestYIndex = closest
-                    }
-                }
-                
-                closest = closestYIndex
-            }
+        case .up where closestXValue < xValue && closest < values.index(before: values.endIndex):
+            // If rounding up, and found x-value is less than specified x, and we can go upper...
+            closest = values.index(after: closest)
+
+        case .down where closestXValue > xValue && closest > values.startIndex:
+            // If rounding down, and found x-value is greater than specified x, and we can go lower...
+            closest = values.index(before: closest)
+
+        default:
+            break
         }
-        
+
+        // Search by closest to y-value
+        if !yValue.isNaN
+        {
+            while closest > values.startIndex,
+                values[values.index(before: closest)].x == closestXValue
+            {
+                closest = values.index(before: closest)
+            }
+
+            var closestYValue = values[closest].y
+            var closestYIndex = closest
+
+            while closest < values.index(before: values.endIndex)
+            {
+                closest = values.index(after: closest)
+                let value = values[closest]
+                if value.x != closestXValue { break }
+
+                if abs(value.y - yValue) <= abs(closestYValue - yValue)
+                {
+                    closestYValue = yValue
+                    closestYIndex = closest
+                }
+            }
+
+            closest = closestYIndex
+        }
+
         return closest
     }
     
