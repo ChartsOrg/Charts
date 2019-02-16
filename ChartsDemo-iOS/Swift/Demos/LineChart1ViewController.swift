@@ -113,7 +113,7 @@ class LineChart1ViewController: DemoBaseViewController {
             return ChartDataEntry(x: Double(i), y: val, icon: #imageLiteral(resourceName: "icon"))
         }
         
-        let set1 = LineChartDataSet(values: values, label: "DataSet 1")
+        let set1 = LineChartDataSet(entries: values, label: "DataSet 1")
         set1.drawIconsEnabled = false
         
         set1.lineDashLengths = [5, 2.5]

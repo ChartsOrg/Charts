@@ -170,7 +170,7 @@
         [entries addObject:[[ChartDataEntry alloc] initWithX:index + 0.5 y:(arc4random_uniform(15) + 5)]];
     }
     
-    LineChartDataSet *set = [[LineChartDataSet alloc] initWithValues:entries label:@"Line DataSet"];
+    LineChartDataSet *set = [[LineChartDataSet alloc] initWithEntries:entries label:@"Line DataSet"];
     [set setColor:[UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f]];
     set.lineWidth = 2.5;
     [set setCircleColor:[UIColor colorWithRed:240/255.f green:238/255.f blue:70/255.f alpha:1.f]];
@@ -202,13 +202,13 @@
         [entries2 addObject:[[BarChartDataEntry alloc] initWithX:0.0 yValues:@[@(arc4random_uniform(13) + 12), @(arc4random_uniform(13) + 12)]]];
     }
 
-    BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithValues:entries1 label:@"Bar 1"];
+    BarChartDataSet *set1 = [[BarChartDataSet alloc] initWithEntries:entries1 label:@"Bar 1"];
     [set1 setColor:[UIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f]];
     set1.valueTextColor = [UIColor colorWithRed:60/255.f green:220/255.f blue:78/255.f alpha:1.f];
     set1.valueFont = [UIFont systemFontOfSize:10.f];
     set1.axisDependency = AxisDependencyRight;
     
-    BarChartDataSet *set2 = [[BarChartDataSet alloc] initWithValues:entries2 label:@""];
+    BarChartDataSet *set2 = [[BarChartDataSet alloc] initWithEntries:entries2 label:@""];
     set2.stackLabels = @[@"Stack 1", @"Stack 2"];
     set2.colors = @[
                     [UIColor colorWithRed:61/255.f green:165/255.f blue:255/255.f alpha:1.f],
@@ -243,7 +243,7 @@
         [entries addObject:[[ChartDataEntry alloc] initWithX:index + 0.25 y:(arc4random_uniform(10) + 55)]];
     }
     
-    ScatterChartDataSet *set = [[ScatterChartDataSet alloc] initWithValues:entries label:@"Scatter DataSet"];
+    ScatterChartDataSet *set = [[ScatterChartDataSet alloc] initWithEntries:entries label:@"Scatter DataSet"];
     set.colors = ChartColorTemplates.material;
     set.scatterShapeSize = 4.5;
     [set setDrawValuesEnabled:NO];
@@ -265,7 +265,7 @@
         [entries addObject:[[CandleChartDataEntry alloc] initWithX:index + 1 shadowH:90.0 shadowL:70.0 open:85.0 close:75.0]];
     }
     
-    CandleChartDataSet *set = [[CandleChartDataSet alloc] initWithValues:entries label:@"Candle DataSet"];
+    CandleChartDataSet *set = [[CandleChartDataSet alloc] initWithEntries:entries label:@"Candle DataSet"];
     [set setColor:[UIColor colorWithRed:80/255.f green:80/255.f blue:80/255.f alpha:1.f]];
     set.decreasingColor = [UIColor colorWithRed:142/255.0 green:150/255.0 blue:175/255.0 alpha:1.0];
     set.shadowColor = UIColor.darkGrayColor;
@@ -290,7 +290,7 @@
         [entries addObject:[[BubbleChartDataEntry alloc] initWithX:index + 0.5 y:y size:size]];
     }
     
-    BubbleChartDataSet *set = [[BubbleChartDataSet alloc] initWithValues:entries label:@"Bubble DataSet"];
+    BubbleChartDataSet *set = [[BubbleChartDataSet alloc] initWithEntries:entries label:@"Bubble DataSet"];
     [set setColors:ChartColorTemplates.vordiplom];
     set.valueTextColor = UIColor.whiteColor;
     set.valueFont = [UIFont systemFontOfSize:10.f];

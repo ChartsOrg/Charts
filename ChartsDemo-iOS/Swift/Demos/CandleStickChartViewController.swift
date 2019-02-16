@@ -87,7 +87,7 @@ class CandleStickChartViewController: DemoBaseViewController {
             return CandleChartDataEntry(x: Double(i), shadowH: val + high, shadowL: val - low, open: even ? val + open : val - open, close: even ? val - close : val + close, icon: UIImage(named: "icon")!)
         }
         
-        let set1 = CandleChartDataSet(values: yVals1, label: "Data Set")
+        let set1 = CandleChartDataSet(entries: yVals1, label: "Data Set")
         set1.axisDependency = .left
         set1.setColor(UIColor(white: 80/255, alpha: 1))
         set1.drawIconsEnabled = false
