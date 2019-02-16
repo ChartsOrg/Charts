@@ -680,7 +680,7 @@ open class PieRadarChartViewBase: ChartViewBase
         }
         velocitySamples.append(currentSample)
     }
-    
+
     private func calculateVelocity() -> CGFloat
     {
         guard var firstSample = velocitySamples.first,

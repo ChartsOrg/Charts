@@ -478,7 +478,7 @@ open class LineChartRenderer: LineRadarRenderer
                 }
                 
                 _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
-                
+
                 for j in _xBounds
                 {
                     guard let e = dataSet.entryForIndex(j) else { break }
