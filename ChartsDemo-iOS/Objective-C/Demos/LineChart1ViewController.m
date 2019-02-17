@@ -61,7 +61,7 @@
     ChartLimitLine *llXAxis = [[ChartLimitLine alloc] initWithLimit:10.0 label:@"Index 10"];
     llXAxis.lineWidth = 4.0;
     llXAxis.lineDashLengths = @[@(10.f), @(10.f), @(0.f)];
-    llXAxis.labelPosition = ChartLimitLabelPositionRightBottom;
+    llXAxis.labelPosition = ChartLimitLabelPositionBottomRight;
     llXAxis.valueFont = [UIFont systemFontOfSize:10.f];
     
     //[_chartView.xAxis addLimitLine:llXAxis];
@@ -72,13 +72,13 @@
     ChartLimitLine *ll1 = [[ChartLimitLine alloc] initWithLimit:150.0 label:@"Upper Limit"];
     ll1.lineWidth = 4.0;
     ll1.lineDashLengths = @[@5.f, @5.f];
-    ll1.labelPosition = ChartLimitLabelPositionRightTop;
+    ll1.labelPosition = ChartLimitLabelPositionTopRight;
     ll1.valueFont = [UIFont systemFontOfSize:10.0];
     
     ChartLimitLine *ll2 = [[ChartLimitLine alloc] initWithLimit:-30.0 label:@"Lower Limit"];
     ll2.lineWidth = 4.0;
     ll2.lineDashLengths = @[@5.f, @5.f];
-    ll2.labelPosition = ChartLimitLabelPositionRightBottom;
+    ll2.labelPosition = ChartLimitLabelPositionBottomRight;
     ll2.valueFont = [UIFont systemFontOfSize:10.0];
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
