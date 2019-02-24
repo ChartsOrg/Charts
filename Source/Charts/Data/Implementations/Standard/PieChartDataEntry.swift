@@ -40,7 +40,7 @@ open class PieChartDataEntry: ChartDataEntry
     ///   - value: The value on the y-axis
     ///   - label: The label for the x-axis
     ///   - data: Spot for additional data this Entry represents
-    @objc public convenience init(value: Double, label: String?, data: AnyObject?)
+    @objc public convenience init(value: Double, label: String?, data: Any?)
     {
         self.init(value: value, label: label, icon: nil, data: data)
     }
@@ -61,7 +61,7 @@ open class PieChartDataEntry: ChartDataEntry
     ///   - label: The label for the x-axis
     ///   - icon: icon image
     ///   - data: Spot for additional data this Entry represents
-    @objc public convenience init(value: Double, label: String?, icon: NSUIImage?, data: AnyObject?)
+    @objc public convenience init(value: Double, label: String?, icon: NSUIImage?, data: Any?)
     {
         self.init(value: value)
         self.label = label
@@ -72,7 +72,7 @@ open class PieChartDataEntry: ChartDataEntry
     /// - Parameters:
     ///   - value: The value on the y-axis
     ///   - data: Spot for additional data this Entry represents
-    @objc public convenience init(value: Double, data: AnyObject?)
+    @objc public convenience init(value: Double, data: Any?)
     {
         self.init(value: value)
         self.data = data
@@ -91,7 +91,7 @@ open class PieChartDataEntry: ChartDataEntry
     ///   - value: The value on the y-axis
     ///   - icon: icon image
     ///   - data: Spot for additional data this Entry represents
-    @objc public convenience init(value: Double, icon: NSUIImage?, data: AnyObject?)
+    @objc public convenience init(value: Double, icon: NSUIImage?, data: Any?)
     {
         self.init(value: value)
         self.icon = icon

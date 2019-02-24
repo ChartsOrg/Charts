@@ -29,7 +29,7 @@ open class RadarChartDataEntry: ChartDataEntry
     /// - Parameters:
     ///   - value: The value on the y-axis.
     ///   - data: Spot for additional data this Entry represents.
-    @objc public convenience init(value: Double, data: AnyObject?)
+    @objc public convenience init(value: Double, data: Any?)
     {
         self.init(value: value)
         self.data = data
