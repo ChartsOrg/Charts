@@ -37,21 +37,25 @@ open class BarChartDataEntry: ChartDataEntry
     }
     
     /// Constructor for normal bars (not stacked).
-    public override init(x: Double, y: Double, data: AnyObject?)
+    public convenience init(x: Double, y: Double, data: AnyObject?)
     {
-        super.init(x: x, y: y, data: data)
+        self.init(x: x, y: y)
+        self.data = data
     }
     
     /// Constructor for normal bars (not stacked).
-    public override init(x: Double, y: Double, icon: NSUIImage?)
+    public convenience init(x: Double, y: Double, icon: NSUIImage?)
     {
-        super.init(x: x, y: y, icon: icon)
+        self.init(x: x, y: y)
+        self.icon = icon
     }
     
     /// Constructor for normal bars (not stacked).
-    public override init(x: Double, y: Double, icon: NSUIImage?, data: AnyObject?)
+    public convenience init(x: Double, y: Double, icon: NSUIImage?, data: AnyObject?)
     {
-        super.init(x: x, y: y, icon: icon, data: data)
+        self.init(x: x, y: y)
+        self.icon = icon
+        self.data = data
     }
     
     /// Constructor for stacked bar entries.
@@ -62,32 +66,27 @@ open class BarChartDataEntry: ChartDataEntry
         calcPosNegSum()
         calcRanges()
     }
-        
+
     /// Constructor for stacked bar entries. One data object for whole stack
-    @objc public init(x: Double, yValues: [Double], data: AnyObject?)
+    @objc public convenience init(x: Double, yValues: [Double], icon: NSUIImage?)
     {
-        super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues), data: data)
-        self._yVals = yValues
-        calcPosNegSum()
-        calcRanges()
+        self.init(x: x, yValues: yValues)
+        self.icon = icon
     }
-    
+
     /// Constructor for stacked bar entries. One data object for whole stack
-    @objc public init(x: Double, yValues: [Double], icon: NSUIImage?, data: AnyObject?)
+    @objc public convenience init(x: Double, yValues: [Double], data: AnyObject?)
     {
-        super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues), icon: icon, data: data)
-        self._yVals = yValues
-        calcPosNegSum()
-        calcRanges()
+        self.init(x: x, yValues: yValues)
+        self.data = data
     }
-    
+
     /// Constructor for stacked bar entries. One data object for whole stack
-    @objc public init(x: Double, yValues: [Double], icon: NSUIImage?)
+    @objc public convenience init(x: Double, yValues: [Double], icon: NSUIImage?, data: AnyObject?)
     {
-        super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues), icon: icon)
-        self._yVals = yValues
-        calcPosNegSum()
-        calcRanges()
+        self.init(x: x, yValues: yValues)
+        self.icon = icon
+        self.data = data
     }
     
     @objc open func sumBelow(stackIndex :Int) -> Double
