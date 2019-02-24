@@ -237,7 +237,7 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
         private var displayLink: CVDisplayLink?
         private var _timestamp: CFTimeInterval = 0.0
         
-        private weak var _target: AnyObject?
+        private weak var _target: Any?
         private var _selector: Selector
         
         public var timestamp: CFTimeInterval
@@ -245,7 +245,7 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
             return _timestamp
         }
 
-		init(target: AnyObject, selector: Selector)
+		init(target: Any, selector: Selector)
         {
             _target = target
             _selector = selector

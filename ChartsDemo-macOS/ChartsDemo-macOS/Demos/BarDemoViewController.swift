@@ -54,7 +54,7 @@ open class BarDemoViewController: NSViewController
         self.barChartView.chartDescription?.text = "Barchart Demo"
     }
     
-    @IBAction func save(_ sender: AnyObject)
+    @IBAction func save(_ sender: Any)
     {
         let panel = NSSavePanel()
         panel.allowedFileTypes = ["png"]
