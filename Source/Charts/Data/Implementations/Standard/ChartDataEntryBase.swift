@@ -17,7 +17,7 @@ open class ChartDataEntryBase: NSObject
     @objc open var y = 0.0
     
     /// optional spot for additional data this Entry represents
-    @objc open var data: AnyObject?
+    @objc open var data: Any?
     
     /// optional icon image
     @objc open var icon: NSUIImage?
@@ -91,7 +91,6 @@ extension ChartDataEntryBase/*: Equatable*/ {
             return true
         }
 
-        return ((data == nil && object.data == nil) || (data?.isEqual(object.data) ?? false))
-            && y == object.y
+        return y == object.y
     }
 }

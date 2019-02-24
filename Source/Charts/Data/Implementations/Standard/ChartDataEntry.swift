@@ -104,8 +104,7 @@ extension ChartDataEntry/*: Equatable*/ {
             return true
         }
 
-        return ((data == nil && object.data == nil) || (data?.isEqual(object.data) ?? false))
-            && y == object.y
+        return y == object.y
             && x == object.x
     }
 }
