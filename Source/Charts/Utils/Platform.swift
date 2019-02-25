@@ -237,7 +237,7 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
         private var displayLink: CVDisplayLink?
         private var _timestamp: CFTimeInterval = 0.0
         
-        private weak var _target: Any?
+        private weak var _target: AnyObject?
         private var _selector: Selector
         
         public var timestamp: CFTimeInterval
@@ -247,7 +247,7 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
 
 		init(target: Any, selector: Selector)
         {
-            _target = target
+            _target = target as AnyObject
             _selector = selector
             
             if CVDisplayLinkCreateWithActiveCGDisplays(&displayLink) == kCVReturnSuccess
