@@ -111,7 +111,7 @@ extension BarLineScatterCandleBubbleRenderer.XBounds: Sequence {
         }
 
         public mutating func next() -> Int? {
-            guard value < bounds.max + 1 else { return  nil }
+            guard value <= bounds.max else { return  nil }
             defer { value += 1 }
             return value
         }
