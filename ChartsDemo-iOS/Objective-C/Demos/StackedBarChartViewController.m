@@ -119,13 +119,13 @@
     if (_chartView.data.dataSetCount > 0)
     {
         set1 = (BarChartDataSet *)_chartView.data.dataSets[0];
-        set1.values = yVals;
+        [set1 replaceEntries: yVals];
         [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
     }
     else
     {
-        set1 = [[BarChartDataSet alloc] initWithValues:yVals label:@"Statistics Vienna 2014"];
+        set1 = [[BarChartDataSet alloc] initWithEntries:yVals label:@"Statistics Vienna 2014"];
         
         set1.drawIconsEnabled = NO;
         

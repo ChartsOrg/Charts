@@ -70,11 +70,11 @@ class AnotherBarChartViewController: DemoBaseViewController {
         var set1: BarChartDataSet! = nil
         if let set = chartView.data?.dataSets.first as? BarChartDataSet {
             set1 = set
-            set1?.values = yVals
+            set1?.replaceEntries(yVals)
             chartView.data?.notifyDataChanged()
             chartView.notifyDataSetChanged()
         } else {
-            set1 = BarChartDataSet(values: yVals, label: "Data Set")
+            set1 = BarChartDataSet(entries: yVals, label: "Data Set")
             set1.colors = ChartColorTemplates.vordiplom()
             set1.drawValuesEnabled = false
             

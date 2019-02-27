@@ -33,9 +33,9 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
         initialize()
     }
 
-    public override init(values: [ChartDataEntry]?, label: String?)
+    public override init(entries: [ChartDataEntry]?, label: String?)
     {
-        super.init(values: values, label: label)
+        super.init(entries: entries, label: label)
         initialize()
     }
 

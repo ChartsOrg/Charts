@@ -107,16 +107,16 @@ class MultipleBarChartViewController: DemoBaseViewController {
         let yVals3 = (startYear ..< endYear).map(block)
         let yVals4 = (startYear ..< endYear).map(block)
         
-        let set1 = BarChartDataSet(values: yVals1, label: "Company A")
+        let set1 = BarChartDataSet(entries: yVals1, label: "Company A")
         set1.setColor(UIColor(red: 104/255, green: 241/255, blue: 175/255, alpha: 1))
         
-        let set2 = BarChartDataSet(values: yVals2, label: "Company B")
+        let set2 = BarChartDataSet(entries: yVals2, label: "Company B")
         set2.setColor(UIColor(red: 164/255, green: 228/255, blue: 251/255, alpha: 1))
         
-        let set3 = BarChartDataSet(values: yVals3, label: "Company C")
+        let set3 = BarChartDataSet(entries: yVals3, label: "Company C")
         set3.setColor(UIColor(red: 242/255, green: 247/255, blue: 158/255, alpha: 1))
         
-        let set4 = BarChartDataSet(values: yVals4, label: "Company D")
+        let set4 = BarChartDataSet(entries: yVals4, label: "Company D")
         set4.setColor(UIColor(red: 255/255, green: 102/255, blue: 0/255, alpha: 1))
         
         let data = BarChartData(dataSets: [set1, set2, set3, set4])

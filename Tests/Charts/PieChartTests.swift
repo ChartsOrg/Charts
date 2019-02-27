@@ -25,7 +25,7 @@ class PieChartTests: FBSnapshotTestCase
             entries.append(PieChartDataEntry(value: value, icon: UIImage(named: "icon", in: Bundle(for: self.classForCoder), compatibleWith: nil)))
         }
         
-        dataSet = PieChartDataSet(values: entries, label: "First unit test data")
+        dataSet = PieChartDataSet(entries: entries, label: "First unit test data")
         dataSet.drawIconsEnabled = false
         dataSet.iconsOffset = CGPoint(x: 0, y: 20.0)
         

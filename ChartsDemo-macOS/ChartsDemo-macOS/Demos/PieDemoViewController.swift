@@ -26,7 +26,7 @@ open class PieDemoViewController: NSViewController
         let yse1 = ys1.enumerated().map { x, y in return PieChartDataEntry(value: y, label: String(x)) }
         
         let data = PieChartData()
-        let ds1 = PieChartDataSet(values: yse1, label: "Hello")
+        let ds1 = PieChartDataSet(entries: yse1, label: "Hello")
         
         ds1.colors = ChartColorTemplates.vordiplom()
         

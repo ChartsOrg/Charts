@@ -124,7 +124,7 @@ class RadarChartViewController: DemoBaseViewController {
         let entries1 = (0..<cnt).map(block)
         let entries2 = (0..<cnt).map(block)
         
-        let set1 = RadarChartDataSet(values: entries1, label: "Last Week")
+        let set1 = RadarChartDataSet(entries: entries1, label: "Last Week")
         set1.setColor(UIColor(red: 103/255, green: 110/255, blue: 129/255, alpha: 1))
         set1.fillColor = UIColor(red: 103/255, green: 110/255, blue: 129/255, alpha: 1)
         set1.drawFilledEnabled = true
@@ -133,7 +133,7 @@ class RadarChartViewController: DemoBaseViewController {
         set1.drawHighlightCircleEnabled = true
         set1.setDrawHighlightIndicators(false)
         
-        let set2 = RadarChartDataSet(values: entries2, label: "This Week")
+        let set2 = RadarChartDataSet(entries: entries2, label: "This Week")
         set2.setColor(UIColor(red: 121/255, green: 162/255, blue: 175/255, alpha: 1))
         set2.fillColor = UIColor(red: 121/255, green: 162/255, blue: 175/255, alpha: 1)
         set2.drawFilledEnabled = true

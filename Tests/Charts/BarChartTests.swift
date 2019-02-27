@@ -61,7 +61,7 @@ class BarChartTests: FBSnapshotTestCase
 
     func setupDefaultDataSet(chartDataEntries: [ChartDataEntry]) -> BarChartDataSet
     {
-        let dataSet = BarChartDataSet(values: chartDataEntries, label: "Bar chart unit test data")
+        let dataSet = BarChartDataSet(entries: chartDataEntries, label: "Bar chart unit test data")
         dataSet.drawIconsEnabled = false
         dataSet.iconsOffset = CGPoint(x: 0, y: -10.0)
         return dataSet

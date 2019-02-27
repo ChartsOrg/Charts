@@ -72,7 +72,7 @@ class LineChartFilledViewController: DemoBaseViewController {
             return ChartDataEntry(x: Double(i), y: val)
         }
         
-        let set1 = LineChartDataSet(values: yVals1, label: "DataSet 1")
+        let set1 = LineChartDataSet(entries: yVals1, label: "DataSet 1")
         set1.axisDependency = .left
         set1.setColor(UIColor(red: 255/255, green: 241/255, blue: 46/255, alpha: 1))
         set1.drawCirclesEnabled = false
@@ -87,7 +87,7 @@ class LineChartFilledViewController: DemoBaseViewController {
             return CGFloat(self.chartView.leftAxis.axisMinimum)
         }
         
-        let set2 = LineChartDataSet(values: yVals2, label: "DataSet 2")
+        let set2 = LineChartDataSet(entries: yVals2, label: "DataSet 2")
         set2.axisDependency = .left
         set2.setColor(UIColor(red: 255/255, green: 241/255, blue: 46/255, alpha: 1))
         set2.drawCirclesEnabled = false
