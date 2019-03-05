@@ -668,27 +668,21 @@ open class PieRadarChartViewBase: ChartViewBase
     
     private func sampleVelocity(touchLocation: CGPoint)
     {
-        let currentTime = CACurrentMediaTime()
-        
-        _velocitySamples.append(AngularVelocitySample(time: currentTime, angle: angleForPoint(x: touchLocation.x, y: touchLocation.y)))
-        
+        let currentSample: AngularVelocitySample = {
+            let time = CACurrentMediaTime()
+            let angle = angleForPoint(x: touchLocation.x, y: touchLocation.y)
+            return AngularVelocitySample(time: time, angle: angle)
+        }()
+
         // Remove samples older than our sample time - 1 seconds
-        var i = 0, count = _velocitySamples.count
-        while (i < count - 2)
-        {
-            if currentTime - _velocitySamples[i].time > 1.0
-            {
-                _velocitySamples.remove(at: 0)
-                i -= 1
-                count -= 1
-            }
-            else
-            {
-                break
-            }
-            
-            i += 1
+        // while keeping at least one samples
+        let index = _velocitySamples
+            .dropLast()
+            .lastIndex { $0.time < currentSample.time - 1 }
+        if let index = index {
+            _velocitySamples.remove(at: index)
         }
+        _velocitySamples.append(currentSample)
     }
     
     private func calculateVelocity() -> CGFloat
