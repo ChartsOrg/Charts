@@ -475,7 +475,7 @@ open class PieRadarChartViewBase: ChartViewBase
         var angle: CGFloat
     }
     
-    private var _velocitySamples = [AngularVelocitySample]()
+    private var velocitySamples = [AngularVelocitySample]()
     
     private var _decelerationLastTime: TimeInterval = 0.0
     private var _decelerationDisplayLink: NSUIDisplayLink!
@@ -663,7 +663,7 @@ open class PieRadarChartViewBase: ChartViewBase
     
     private func resetVelocity()
     {
-        _velocitySamples.removeAll(keepingCapacity: false)
+        velocitySamples.removeAll(keepingCapacity: false)
     }
     
     private func sampleVelocity(touchLocation: CGPoint)
@@ -676,23 +676,23 @@ open class PieRadarChartViewBase: ChartViewBase
 
         // Remove samples older than our sample time - 1 seconds
         // while keeping at least one samples
-        let index = _velocitySamples
+        let index = velocitySamples
             .dropLast()
             .lastIndex { $0.time < currentSample.time - 1 }
         if let index = index {
-            _velocitySamples.remove(at: index)
+            velocitySamples.remove(at: index)
         }
-        _velocitySamples.append(currentSample)
+        velocitySamples.append(currentSample)
     }
     
     private func calculateVelocity() -> CGFloat
     {
-        guard var firstSample = _velocitySamples.first,
-            var lastSample = _velocitySamples.last
+        guard var firstSample = velocitySamples.first,
+            var lastSample = velocitySamples.last
             else { return 0 }
 
         // Look for a sample that's closest to the latest sample, but not the same, so we can deduce the direction
-        let beforeLastSample = _velocitySamples.last { $0.angle != lastSample.angle }
+        let beforeLastSample = velocitySamples.last { $0.angle != lastSample.angle }
             ?? firstSample
 
         // Calculate the sampling time
