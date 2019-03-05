@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 #if !os(OSX)
-import UIKit
+    import UIKit
 #endif
 
 @objc(ChartXAxisRenderer)
