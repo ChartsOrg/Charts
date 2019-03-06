@@ -245,9 +245,9 @@ public class NSUIDisplayLink
         return _timestamp
     }
 
-    init(target: AnyObject, selector: Selector)
+		init(target: Any, selector: Selector)
     {
-        _target = target
+        _target = target as AnyObject
         _selector = selector
 
         if CVDisplayLinkCreateWithActiveCGDisplays(&displayLink) == kCVReturnSuccess
@@ -256,18 +256,18 @@ public class NSUIDisplayLink
             CVDisplayLinkSetOutputCallback(displayLink!, { (displayLink, inNow, inOutputTime, flagsIn, flagsOut, userData) -> CVReturn in
 
                 let _self = unsafeBitCast(userData, to: NSUIDisplayLink.self)
-
+                    
                 _self._timestamp = CFAbsoluteTimeGetCurrent()
                 _self._target?.performSelector(onMainThread: _self._selector, with: _self, waitUntilDone: false)
-
+                    
                 return kCVReturnSuccess
-            }, Unmanaged.passUnretained(self).toOpaque())
+                }, Unmanaged.passUnretained(self).toOpaque())
         }
         else
         {
             timer = Timer(timeInterval: 1.0 / 60.0, target: target, selector: selector, userInfo: nil, repeats: true)
         }
-    }
+		}
 
     deinit
     {
