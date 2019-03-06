@@ -21,8 +21,11 @@ enum Option {
     case toggleAutoScaleMinMax
     case toggleData
     case toggleBarBorders
+    // LineChart
+    case toggleGradientLine
     // CandleChart
     case toggleShadowColorSameAsCandle
+    case toggleShowCandleBar
     // CombinedChart
     case toggleLineValues
     case toggleBarValues
@@ -39,6 +42,7 @@ enum Option {
     case toggleHole
     case spin
     case drawCenter
+    case toggleLabelsMinimumAngle
     // RadarChart
     case toggleXLabels
     case toggleYLabels
@@ -60,8 +64,11 @@ enum Option {
         case .toggleAutoScaleMinMax: return "Toggle auto scale min/max"
         case .toggleData: return "Toggle Data"
         case .toggleBarBorders: return "Toggle Bar Borders"
+        // LineChart
+        case .toggleGradientLine: return "Toggle Gradient Line"
         // CandleChart
         case .toggleShadowColorSameAsCandle: return "Toggle shadow same color"
+        case .toggleShowCandleBar: return "Toggle show candle bar"
         // CombinedChart
         case .toggleLineValues: return "Toggle Line Values"
         case .toggleBarValues: return "Toggle Bar Values"
@@ -78,6 +85,7 @@ enum Option {
         case .toggleHole: return "Toggle Hole"
         case .spin: return "Spin"
         case .drawCenter: return "Draw CenterText"
+        case .toggleLabelsMinimumAngle: return "Toggle Labels Minimum Angle"
         // RadarChart
         case .toggleXLabels: return "Toggle X-Labels"
         case .toggleYLabels: return "Toggle Y-Labels"

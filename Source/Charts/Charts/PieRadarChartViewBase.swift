@@ -532,7 +532,7 @@ open class PieRadarChartViewBase: ChartViewBase
             {
                 _decelerationLastTime = CACurrentMediaTime()
                 _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(PieRadarChartViewBase.decelerationLoop))
-                _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
+                _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
             }
         }
     }
@@ -768,7 +768,7 @@ open class PieRadarChartViewBase: ChartViewBase
     {
         if _decelerationDisplayLink !== nil
         {
-            _decelerationDisplayLink.remove(from: RunLoop.main, forMode: RunLoopMode.commonModes)
+            _decelerationDisplayLink.remove(from: RunLoop.main, forMode: RunLoop.Mode.common)
             _decelerationDisplayLink = nil
         }
     }
@@ -857,7 +857,7 @@ open class PieRadarChartViewBase: ChartViewBase
                 {
                     _decelerationLastTime = CACurrentMediaTime()
                     _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(PieRadarChartViewBase.decelerationLoop))
-                    _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoopMode.commonModes)
+                    _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
                 }
             }
         }

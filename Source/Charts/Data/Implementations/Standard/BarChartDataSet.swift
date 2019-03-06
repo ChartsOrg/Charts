@@ -108,7 +108,7 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
     }
     
     /// array of labels used to describe the different values of the stacked bars
-    open var stackLabels: [String] = ["Stack"]
+    open var stackLabels: [String] = []
     
     // MARK: - Styling functions and accessors
     

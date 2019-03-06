@@ -21,7 +21,7 @@ class CandleStickChartViewController: DemoBaseViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        self.title = "Bubble Chart"
+        self.title = "Candle Stick Chart"
         self.options = [.toggleValues,
                         .toggleIcons,
                         .toggleHighlight,
@@ -32,6 +32,7 @@ class CandleStickChartViewController: DemoBaseViewController {
                         .togglePinchZoom,
                         .toggleAutoScaleMinMax,
                         .toggleShadowColorSameAsCandle,
+                        .toggleShowCandleBar,
                         .toggleData]
         
         chartView.delegate = self
@@ -103,12 +104,18 @@ class CandleStickChartViewController: DemoBaseViewController {
     }
     
     override func optionTapped(_ option: Option) {
-        if .toggleShadowColorSameAsCandle ~= option {
+        switch option {
+        case .toggleShadowColorSameAsCandle:
             for case let set as CandleChartDataSet in chartView.data! {
                 set.shadowColorSameAsCandle = !set.shadowColorSameAsCandle
             }
             chartView.notifyDataSetChanged()
-        } else {
+        case .toggleShowCandleBar:
+            for set in chartView.data!.dataSets as! [CandleChartDataSet] {
+                set.showCandleBar = !set.showCandleBar
+            }
+            chartView.notifyDataSetChanged()
+        default:
             super.handleOption(option, forChartView: chartView)
         }
     }

@@ -386,7 +386,7 @@ open class PieChartView: PieRadarChartViewBase
             {
                 #if os(OSX)
                     let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
-                    paragraphStyle.lineBreakMode = NSParagraphStyle.LineBreakMode.byTruncatingTail
+                    paragraphStyle.lineBreakMode = NSLineBreakMode.byTruncatingTail
                 #else
                     let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
                     paragraphStyle.lineBreakMode = NSLineBreakMode.byTruncatingTail
@@ -633,6 +633,14 @@ open class PieChartView: PieRadarChartViewBase
             {
                 _maxAngle = 90.0
             }
+        }
+    }
+    
+    /// smallest pie slice angle that will have a label drawn in degrees, 0 by default
+    @objc open var sliceTextDrawingThreshold: CGFloat = 0.0
+    {
+        didSet {
+            setNeedsDisplay()
         }
     }
 }

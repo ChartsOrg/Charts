@@ -102,7 +102,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     open var noDataTextAlignment: NSTextAlignment = .left
 
     /// The renderer object responsible for rendering / drawing the Legend.
-    @objc open internal(set) lazy var legendRenderer = LegendRenderer(viewPortHandler: viewPortHandler, legend: legend)
+    @objc open lazy var legendRenderer = LegendRenderer(viewPortHandler: viewPortHandler, legend: legend)
 
     /// object responsible for rendering the data
     @objc open var renderer: DataRenderer?
@@ -310,7 +310,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         let position = description.position ?? CGPoint(x: bounds.width - viewPortHandler.offsetRight - description.xOffset,
                                                        y: bounds.height - viewPortHandler.offsetBottom - description.yOffset - description.font.lineHeight)
 
-        let attrs: [NSAttributedStringKey : Any] = [
+        let attrs: [NSAttributedString.Key : Any] = [
             .font: description.font,
             .foregroundColor: description.textColor
         ]
@@ -321,6 +321,12 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
                          attributes: attrs)
     }
     
+    // MARK: - Accessibility
+
+    open override func accessibilityChildren() -> [Any]? {
+        return renderer?.accessibleChartElements
+    }
+
     // MARK: - Highlighting
 
     /// Set this to false to prevent values from being highlighted by tap gesture.

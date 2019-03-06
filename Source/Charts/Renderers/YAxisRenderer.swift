@@ -12,9 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
 
 @objc(ChartYAxisRenderer)
 open class YAxisRenderer: NSObject, AxisRenderer
@@ -35,20 +32,19 @@ open class YAxisRenderer: NSObject, AxisRenderer
     /// draws the y-axis labels to the screen
     open func renderAxisLabels(context: CGContext)
     {
-        if !axis.isEnabled || !axis.isDrawLabelsEnabled
-        {
-            return
-        }
-        
+        guard
+            axis.isEnabled,
+            axis.isDrawLabelsEnabled
+            else { return }
+
         let xoffset = axis.xOffset
         let yoffset = axis.labelFont.lineHeight / 2.5 + axis.yOffset
         
         let dependency = axis.axisDependency
         let labelPosition = axis.labelPosition
         
-        var xPos = CGFloat(0.0)
-        
-        var textAlign: NSTextAlignment
+        let xPos: CGFloat
+        let textAlign: NSTextAlignment
         
         if dependency == .left
         {
@@ -62,7 +58,6 @@ open class YAxisRenderer: NSObject, AxisRenderer
                 textAlign = .left
                 xPos = viewPortHandler.offsetLeft + xoffset
             }
-            
         }
         else
         {
@@ -78,23 +73,23 @@ open class YAxisRenderer: NSObject, AxisRenderer
             }
         }
         
-        drawYLabels(
-            context: context,
-            fixedPosition: xPos,
-            positions: transformedPositions(),
-            offset: yoffset - axis.labelFont.lineHeight,
-            textAlign: textAlign)
+        drawYLabels(context: context,
+                    fixedPosition: xPos,
+                    positions: transformedPositions(),
+                    offset: yoffset - axis.labelFont.lineHeight,
+                    textAlign: textAlign)
     }
     
     open func renderAxisLine(context: CGContext)
     {
-        if !axis.isEnabled || !axis.drawAxisLineEnabled
-        {
-            return
-        }
-        
+        guard
+            axis.isEnabled,
+            axis.drawAxisLineEnabled
+            else { return }
+
         context.saveGState()
-        
+        defer { context.restoreGState() }
+
         context.setStrokeColor(axis.axisLineColor.cgColor)
         context.setLineWidth(axis.axisLineWidth)
         if axis.axisLineDashLengths != nil
@@ -120,8 +115,6 @@ open class YAxisRenderer: NSObject, AxisRenderer
             context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentBottom))
             context.strokePath()
         }
-        
-        context.restoreGState()
     }
     
     /// draws the y-labels on the specified x-position
@@ -138,10 +131,9 @@ open class YAxisRenderer: NSObject, AxisRenderer
         let from = axis.isDrawBottomYLabelEntryEnabled ? 0 : 1
         let to = axis.isDrawTopYLabelEntryEnabled ? axis.entryCount : (axis.entryCount - 1)
         
-        for i in stride(from: from, to: to, by: 1)
+        for i in from..<to
         {
             let text = axis.getFormattedLabel(i)
-            
             context.drawText(text,
                              at: CGPoint(x: fixedPosition, y: positions[i].y + offset),
                              align: textAlign,
@@ -151,11 +143,8 @@ open class YAxisRenderer: NSObject, AxisRenderer
     
     open func renderGridLines(context: CGContext)
     {
-        if !axis.isEnabled
-        {
-            return
-        }
-        
+        guard axis.isEnabled else { return }
+
         if axis.drawGridLinesEnabled
         {
             let positions = transformedPositions()
@@ -172,7 +161,6 @@ open class YAxisRenderer: NSObject, AxisRenderer
             if axis.gridLineDashLengths != nil
             {
                 context.setLineDash(phase: axis.gridLineDashPhase, lengths: axis.gridLineDashLengths)
-                
             }
             else
             {
@@ -180,10 +168,7 @@ open class YAxisRenderer: NSObject, AxisRenderer
             }
             
             // draw the grid
-            for i in 0 ..< positions.count
-            {
-                drawGridLine(context: context, position: positions[i])
-            }
+            positions.forEach { drawGridLine(context: context, position: $0) }
         }
 
         if axis.drawZeroLineEnabled
@@ -216,16 +201,7 @@ open class YAxisRenderer: NSObject, AxisRenderer
     {
         guard let transformer = self.transformer else { return [] }
         
-        var positions = [CGPoint]()
-        positions.reserveCapacity(axis.entryCount)
-        
-        let entries = axis.entries
-        
-        for i in stride(from: 0, to: axis.entryCount, by: 1)
-        {
-            positions.append(CGPoint(x: 0.0, y: entries[i]))
-        }
-
+        var positions = axis.entries.map { CGPoint(x: 0.0, y: $0) }
         transformer.pointValuesToPixel(&positions)
         
         return positions
@@ -272,26 +248,17 @@ open class YAxisRenderer: NSObject, AxisRenderer
         
         var limitLines = axis.limitLines
         
-        if limitLines.count == 0
-        {
-            return
-        }
-        
+        guard !limitLines.isEmpty else { return }
+
         context.saveGState()
-        
+        defer { context.restoreGState() }
+
         let trans = transformer.valueToPixelMatrix
         
         var position = CGPoint(x: 0.0, y: 0.0)
         
-        for i in 0 ..< limitLines.count
+        for l in limitLines where l.isEnabled
         {
-            let l = limitLines[i]
-            
-            if !l.isEnabled
-            {
-                continue
-            }
-            
             context.saveGState()
             defer { context.restoreGState() }
             
@@ -324,72 +291,60 @@ open class YAxisRenderer: NSObject, AxisRenderer
             let label = l.label
             
             // if drawing the limit-value label is enabled
-            if l.drawLabelEnabled && label.count > 0
+            guard l.drawLabelEnabled, !label.isEmpty else { return }
+
+            let labelLineHeight = l.valueFont.lineHeight
+
+            let xOffset = 4.0 + l.xOffset
+            let yOffset = l.lineWidth + labelLineHeight + l.yOffset
+
+            let align: NSTextAlignment
+            let point: CGPoint
+
+            switch l.labelPosition
             {
-                let labelLineHeight = l.valueFont.lineHeight
-                
-                let xOffset = 4.0 + l.xOffset
-                let yOffset = l.lineWidth + labelLineHeight + l.yOffset
+            case .rightTop:
+                align = .right
+                point = CGPoint(x: viewPortHandler.contentRight - xOffset,
+                                y: position.y - yOffset)
 
-                let align: NSTextAlignment
-                let point: CGPoint
+            case .rightBottom:
+                align = .right
+                point = CGPoint(x: viewPortHandler.contentRight - xOffset,
+                                y: position.y + yOffset - labelLineHeight)
 
-                switch l.labelPosition
-                {
-                case .rightTop:
-                    align = .right
-                    point = CGPoint(x: viewPortHandler.contentRight - xOffset,
-                                    y: position.y - yOffset)
+            case .leftTop:
+                align = .left
+                point = CGPoint(x: viewPortHandler.contentLeft + xOffset,
+                                y: position.y - yOffset)
 
-                case .rightBottom:
-                    align = .right
-                    point = CGPoint(x: viewPortHandler.contentRight - xOffset,
-                                    y: position.y + yOffset - labelLineHeight)
-
-                case .leftTop:
-                    align = .left
-                    point = CGPoint(x: viewPortHandler.contentLeft + xOffset,
-                                    y: position.y - yOffset)
-
-                case .leftBottom:
-                    align = .left
-                    point = CGPoint(x: viewPortHandler.contentLeft + xOffset,
-                                    y: position.y + yOffset - labelLineHeight)
-                }
-
-                context.drawText(label,
-                                 at: point,
-                                 align: align,
-                                 attributes: [.font: l.valueFont, .foregroundColor: l.valueTextColor])
+            case .leftBottom:
+                align = .left
+                point = CGPoint(x: viewPortHandler.contentLeft + xOffset,
+                                y: position.y + yOffset - labelLineHeight)
             }
+
+            context.drawText(label,
+                             at: point,
+                             align: align,
+                             attributes: [.font: l.valueFont, .foregroundColor: l.valueTextColor])
         }
-        
-        context.restoreGState()
     }
 
     @objc open func computeAxis(min: Double, max: Double, inverted: Bool)
     {
         var min = min, max = max
 
-        if let transformer = self.transformer
+        if let transformer = self.transformer,
+            viewPortHandler.contentWidth > 10.0,
+            !viewPortHandler.isFullyZoomedOutY
         {
             // calculate the starting and entry point of the y-labels (depending on zoom / contentrect bounds)
-            if viewPortHandler.contentWidth > 10.0 && !viewPortHandler.isFullyZoomedOutY
-            {
-                let p1 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
-                let p2 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom))
+            let p1 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
+            let p2 = transformer.valueForTouchPoint(CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom))
 
-                if !inverted
-                {
-                    min = Double(p2.y)
-                    max = Double(p1.y)
-                }
-                else
-                {
-                    min = Double(p1.y)
-                    max = Double(p2.y)
-                }
-            }
+            min = inverted ? Double(p1.y) : Double(p2.y)
+            max = inverted ? Double(p2.y) : Double(p1.y)
         }
 
         computeAxisValues(min: min, max: max)
@@ -403,10 +358,14 @@ open class YAxisRenderer: NSObject, AxisRenderer
         let labelCount = axis.labelCount
         let range = abs(yMax - yMin)
 
-        if labelCount == 0 || range <= 0 || range.isInfinite
+        guard
+            labelCount != 0,
+            range > 0,
+            range.isFinite
+            else
         {
-            axis.entries = [Double]()
-            axis.centeredEntries = [Double]()
+            axis.entries = []
+            axis.centeredEntries = []
             return
         }
 
@@ -418,7 +377,7 @@ open class YAxisRenderer: NSObject, AxisRenderer
         // This is used to avoid repeated values when rounding values for display.
         if axis.granularityEnabled
         {
-            interval = interval < axis.granularity ? axis.granularity : interval
+            interval = Swift.max(interval, axis.granularity)
         }
 
         // Normalize interval
@@ -441,13 +400,8 @@ open class YAxisRenderer: NSObject, AxisRenderer
             axis.entries.removeAll(keepingCapacity: true)
             axis.entries.reserveCapacity(labelCount)
 
-            var v = yMin
-
-            for _ in 0 ..< labelCount
-            {
-                axis.entries.append(v)
-                v += interval
-            }
+            let values = stride(from: yMin, to: Double(labelCount) * interval + yMin, by: interval)
+            axis.entries.append(contentsOf: values)
 
             n = labelCount
         }
@@ -464,33 +418,17 @@ open class YAxisRenderer: NSObject, AxisRenderer
 
             let last = interval == 0.0 ? 0.0 : (floor(yMax / interval) * interval).nextUp
 
-            if interval != 0.0 && last != first
+            if interval != 0.0, last != first
             {
-                for _ in stride(from: first, through: last, by: interval)
-                {
-                    n += 1
-                }
+                stride(from: first, through: last, by: interval).forEach { _ in n += 1 }
             }
 
             // Ensure stops contains at least n elements.
             axis.entries.removeAll(keepingCapacity: true)
             axis.entries.reserveCapacity(labelCount)
 
-            var f = first
-            var i = 0
-            while i < n
-            {
-                if f == 0.0
-                {
-                    // Fix for IEEE negative zero case (Where value == -0.0, and 0.0 == -0.0)
-                    f = 0.0
-                }
-
-                axis.entries.append(Double(f))
-
-                f += interval
-                i += 1
-            }
+            let values = stride(from: first, to: Double(n) * interval + first, by: interval)
+            axis.entries.append(contentsOf: values)
         }
 
         // set decimals
@@ -509,11 +447,7 @@ open class YAxisRenderer: NSObject, AxisRenderer
             axis.centeredEntries.removeAll()
 
             let offset: Double = interval / 2.0
-
-            for i in 0 ..< n
-            {
-                axis.centeredEntries.append(axis.entries[i] + offset)
-            }
+            axis.centeredEntries.append(contentsOf: axis.entries.map { $0 + offset })
         }
     }
 }

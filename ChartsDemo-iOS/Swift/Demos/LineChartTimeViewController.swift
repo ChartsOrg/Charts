@@ -18,7 +18,7 @@ class LineChartTimeViewController: DemoBaseViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        self.title = "Line Chart 2"
+        self.title = "Time Line Chart"
         self.options = [.toggleValues,
                         .toggleFilled,
                         .toggleCircles,

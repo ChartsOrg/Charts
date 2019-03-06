@@ -27,11 +27,25 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         
         self.dataProvider = dataProvider
     }
-    
+
     open override func drawData(context: CGContext)
     {
         guard let scatterData = dataProvider?.scatterData else { return }
+
+        // If we redraw the data, remove and repopulate accessible elements to update label values and frames
+        accessibleChartElements.removeAll()
         
+        if let chart = dataProvider as? ScatterChartView {
+            // Make the chart header the first element in the accessible elements array
+            let element = createAccessibleHeader(usingChart: chart,
+                                                 andData: scatterData,
+                                                 withDefaultDescription: "Scatter Chart")
+            accessibleChartElements.append(element)
+        }
+
+        // TODO: Due to the potential complexity of data presented in Scatter charts, a more usable way
+        // for VO accessibility would be to use axis based traversal rather than by dataset.
+        // Hence, accessibleChartElements is not populated below. (Individual renderers guard against dataSource being their respective views)
         for i in scatterData.indices
         {
             guard let set = scatterData[i] as? ScatterChartDataSetProtocol else
@@ -129,6 +143,8 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                 
                 let iconsOffset = dataSet.iconsOffset
                 
+                let angleRadians = dataSet.valueLabelAngle.DEG2RAD
+                
                 let shapeSize = dataSet.scatterShapeSize
                 let lineHeight = valueFont.lineHeight
                 
@@ -166,6 +182,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                                          at: CGPoint(x: pt.x,
                                                      y: pt.y - shapeSize - lineHeight),
                                          align: .center,
+                                         angleRadians: angleRadians,
                                          attributes: [.font: valueFont,
                                                       .foregroundColor: dataSet.valueTextColorAt(j)]
                         )

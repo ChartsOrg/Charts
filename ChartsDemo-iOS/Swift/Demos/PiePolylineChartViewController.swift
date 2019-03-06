@@ -21,12 +21,13 @@ class PiePolylineChartViewController: DemoBaseViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        self.title = "Pie Bar Chart"
+        self.title = "Pie Poly Line Chart"
         
         self.options = [.toggleValues,
                         .toggleXValues,
                         .togglePercent,
                         .toggleHole,
+                        .toggleLabelsMinimumAngle,
                         .animateX,
                         .animateY,
                         .animateXY,
@@ -111,6 +112,10 @@ class PiePolylineChartViewController: DemoBaseViewController {
             chartView.drawHoleEnabled = !chartView.drawHoleEnabled
             chartView.setNeedsDisplay()
             
+        case .toggleLabelsMinimumAngle:
+            chartView.sliceTextDrawingThreshold = chartView.sliceTextDrawingThreshold == 0.0 ? 20.0 : 0.0
+            chartView.setNeedsDisplay()
+
         case .drawCenter:
             chartView.drawCenterTextEnabled = !chartView.drawCenterTextEnabled
             chartView.setNeedsDisplay()

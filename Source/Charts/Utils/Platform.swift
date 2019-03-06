@@ -13,7 +13,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 	public typealias NSUIImage = UIImage
 	public typealias NSUIScrollView = UIScrollView
 	public typealias NSUIGestureRecognizer = UIGestureRecognizer
-	public typealias NSUIGestureRecognizerState = UIGestureRecognizerState
+public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
 	public typealias NSUIGestureRecognizerDelegate = UIGestureRecognizerDelegate
 	public typealias NSUITapGestureRecognizer = UITapGestureRecognizer
 	public typealias NSUIPanGestureRecognizer = UIPanGestureRecognizer
@@ -24,6 +24,22 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     public typealias NSUIScreen = UIScreen
 
 	public typealias NSUIDisplayLink = CADisplayLink
+
+    extension NSUIColor
+    {
+        var nsuirgba: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat)? {
+            var red: CGFloat = 0
+            var green: CGFloat = 0
+            var blue: CGFloat = 0
+            var alpha: CGFloat = 0
+
+            guard getRed(&red, green: &green, blue: &blue, alpha: &alpha) else {
+                return nil
+            }
+
+            return (red: red, green: green, blue: blue, alpha: alpha)
+        }
+    }
     
     extension NSUITapGestureRecognizer
     {
@@ -191,12 +207,12 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 
 	func NSUIImagePNGRepresentation(_ image: NSUIImage) -> Data?
     {
-		return UIImagePNGRepresentation(image)
+        return image.pngData()
 	}
 
 	func NSUIImageJPEGRepresentation(_ image: NSUIImage, _ quality: CGFloat = 0.8) -> Data?
     {
-		return UIImageJPEGRepresentation(image, quality)
+		return image.jpegData(compressionQuality: quality)
 	}
 
 	func NSUIMainScreen() -> NSUIScreen?
@@ -274,7 +290,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             stop()
         }
 
-		open func add(to runloop: RunLoop, forMode mode: RunLoopMode)
+        open func add(to runloop: RunLoop, forMode mode: RunLoop.Mode)
         {
             if displayLink != nil
             {
@@ -286,7 +302,7 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             }
 		}
 
-		open func remove(from: RunLoop, forMode: RunLoopMode)
+        open func remove(from: RunLoop, forMode: RunLoop.Mode)
         {
             stop()
 		}
@@ -303,6 +319,26 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
             }
         }
 	}
+
+    extension NSUIColor
+    {
+        var nsuirgba: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat)? {
+            var red: CGFloat = 0
+            var green: CGFloat = 0
+            var blue: CGFloat = 0
+            var alpha: CGFloat = 0
+
+            guard let colorSpaceModel = cgColor.colorSpace?.model else {
+                return nil
+            }
+            guard colorSpaceModel == .rgb else {
+                return nil
+            }
+
+            getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+            return (red: red, green: green, blue: blue, alpha: alpha)
+        }
+    }
 
 	/** The 'tap' gesture is mapped to clicks. */
 	extension NSUITapGestureRecognizer
@@ -394,6 +430,23 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
     
 	open class NSUIView: NSView
     {
+        /// A private constant to set the accessibility role during initialization.
+        /// It ensures parity with the iOS element ordering as well as numbered counts of chart components.
+        /// (See Platform+Accessibility for details)
+        private let role: NSAccessibility.Role = .list
+
+        public override init(frame frameRect: NSRect)
+        {
+            super.init(frame: frameRect)
+            setAccessibilityRole(role)
+        }
+
+        required public init?(coder decoder: NSCoder)
+        {
+            super.init(coder: decoder)
+            setAccessibilityRole(role)
+        }
+
 		public final override var isFlipped: Bool
         {
 			return true
@@ -403,7 +456,6 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
         {
 			self.setNeedsDisplay(self.bounds)
 		}
-
         
 		public final override func touchesBegan(with event: NSEvent)
         {
