@@ -245,9 +245,9 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
             return _timestamp
         }
 
-		init(target: AnyObject, selector: Selector)
+		init(target: Any, selector: Selector)
         {
-            _target = target
+            _target = target as AnyObject
             _selector = selector
             
             if CVDisplayLinkCreateWithActiveCGDisplays(&displayLink) == kCVReturnSuccess
