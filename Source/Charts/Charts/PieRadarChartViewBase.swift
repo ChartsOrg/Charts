@@ -475,7 +475,7 @@ open class PieRadarChartViewBase: ChartViewBase
         var angle: CGFloat
     }
     
-    private var _velocitySamples = [AngularVelocitySample]()
+    private var velocitySamples = [AngularVelocitySample]()
     
     private var _decelerationLastTime: TimeInterval = 0.0
     private var _decelerationDisplayLink: NSUIDisplayLink!
@@ -663,70 +663,52 @@ open class PieRadarChartViewBase: ChartViewBase
     
     private func resetVelocity()
     {
-        _velocitySamples.removeAll(keepingCapacity: false)
+        velocitySamples.removeAll(keepingCapacity: false)
     }
     
     private func sampleVelocity(touchLocation: CGPoint)
     {
-        let currentTime = CACurrentMediaTime()
-        
-        _velocitySamples.append(AngularVelocitySample(time: currentTime, angle: angleForPoint(x: touchLocation.x, y: touchLocation.y)))
-        
+        let currentSample: AngularVelocitySample = {
+            let time = CACurrentMediaTime()
+            let angle = angleForPoint(x: touchLocation.x, y: touchLocation.y)
+            return AngularVelocitySample(time: time, angle: angle)
+        }()
+
         // Remove samples older than our sample time - 1 seconds
-        var i = 0, count = _velocitySamples.count
-        while (i < count - 2)
-        {
-            if currentTime - _velocitySamples[i].time > 1.0
-            {
-                _velocitySamples.remove(at: 0)
-                i -= 1
-                count -= 1
-            }
-            else
-            {
-                break
-            }
-            
-            i += 1
+        // while keeping at least one samples
+        let index = velocitySamples
+            .dropLast()
+            .lastIndex { $0.time < currentSample.time - 1 }
+        if let index = index {
+            velocitySamples.remove(at: index)
         }
+        velocitySamples.append(currentSample)
     }
     
     private func calculateVelocity() -> CGFloat
     {
-        if _velocitySamples.isEmpty
-        {
-            return 0.0
-        }
-        
-        var firstSample = _velocitySamples[0]
-        var lastSample = _velocitySamples[_velocitySamples.count - 1]
-        
+        guard var firstSample = velocitySamples.first,
+            var lastSample = velocitySamples.last
+            else { return 0 }
+
         // Look for a sample that's closest to the latest sample, but not the same, so we can deduce the direction
-        var beforeLastSample = firstSample
-        for i in stride(from: (_velocitySamples.count - 1), through: 0, by: -1)
-        {
-            beforeLastSample = _velocitySamples[i]
-            if beforeLastSample.angle != lastSample.angle
-            {
-                break
-            }
-        }
-        
+        let beforeLastSample = velocitySamples.last { $0.angle != lastSample.angle }
+            ?? firstSample
+
         // Calculate the sampling time
-        var timeDelta = lastSample.time - firstSample.time
-        if timeDelta == 0.0
-        {
-            timeDelta = 0.1
-        }
-        
+        let timeDelta: CGFloat = {
+            let delta = CGFloat(lastSample.time - firstSample.time)
+            return delta == 0 ? 0.1 : delta
+        }()
+
         // Calculate clockwise/ccw by choosing two values that should be closest to each other,
         // so if the angles are two far from each other we know they are inverted "for sure"
-        var clockwise = lastSample.angle >= beforeLastSample.angle
-        if (abs(lastSample.angle - beforeLastSample.angle) > 270.0)
-        {
-            clockwise = !clockwise
-        }
-        
+        let isClockwise: Bool = {
+            let isClockwise = lastSample.angle >= beforeLastSample.angle
+            let isInverted = abs(lastSample.angle - beforeLastSample.angle) > 270.0
+            return isInverted ? !isClockwise : isClockwise
+        }()
+
         // Now if the "gesture" is over a too big of an angle - then we know the angles are inverted, and we need to move them closer to each other from both sides of the 360.0 wrapping point
         if lastSample.angle - firstSample.angle > 180.0
         {
@@ -738,15 +720,8 @@ open class PieRadarChartViewBase: ChartViewBase
         }
         
         // The velocity
-        var velocity = abs((lastSample.angle - firstSample.angle) / CGFloat(timeDelta))
-        
-        // Direction?
-        if !clockwise
-        {
-            velocity = -velocity
-        }
-        
-        return velocity
+        let velocity = abs((lastSample.angle - firstSample.angle) / timeDelta)
+        return isClockwise ? velocity : -velocity
     }
     
     /// sets the starting angle of the rotation, this is only used by the touch listener, x and y is the touch position
