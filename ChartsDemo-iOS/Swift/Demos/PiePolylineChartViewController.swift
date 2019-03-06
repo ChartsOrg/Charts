@@ -61,8 +61,9 @@ class PiePolylineChartViewController: DemoBaseViewController {
     func setDataCount(_ count: Int, range: UInt32) {
         let entries = (0..<count).map { (i) -> PieChartDataEntry in
             // IMPORTANT: In a PieChart, no values (Entry) should have the same xIndex (even if from different DataSets), since no values can be drawn above each other.
-            return PieChartDataEntry(value: Double(arc4random_uniform(range) + range / 5),
-                                     label: parties[i % parties.count])
+            let entry = PieChartDataEntry(value: Double(arc4random_uniform(range) + range / 5),
+                                          label: parties[i % parties.count])
+            return entry
         }
         
         let set = PieChartDataSet(values: entries, label: "Election Results")
@@ -75,13 +76,16 @@ class PiePolylineChartViewController: DemoBaseViewController {
             + ChartColorTemplates.liberty()
             + ChartColorTemplates.pastel()
             + [UIColor(red: 51/255, green: 181/255, blue: 229/255, alpha: 1)]
-        
-        set.valueLinePart1OffsetPercentage = 0.8
+        set.valueLineColor = UIColor.red
+        set.valueFont = UIFont.systemFont(ofSize: 18, weight: .medium)
+        set.entryLabelFont = UIFont.systemFont(ofSize: 12)
+        set.entryLabelColor = UIColor.gray
+        set.valueLinePart1OffsetPercentage = 1.2
         set.valueLinePart1Length = 0.2
-        set.valueLinePart2Length = 0.4
-        //set.xValuePosition = .outsideSlice
+        set.valueLinePart2Length = 0.8
+        set.xValuePosition = .outsideSlice
         set.yValuePosition = .outsideSlice
-        
+//        set.valueLineVariableLength = false
         let data = PieChartData(dataSet: set)
         
         let pFormatter = NumberFormatter()
@@ -90,7 +94,7 @@ class PiePolylineChartViewController: DemoBaseViewController {
         pFormatter.multiplier = 1
         pFormatter.percentSymbol = " %"
         data.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
-        data.setValueFont(.systemFont(ofSize: 11, weight: .light))
+        
         data.setValueTextColor(.black)
         
         chartView.data = data

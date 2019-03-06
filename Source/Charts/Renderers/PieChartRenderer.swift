@@ -331,6 +331,10 @@ open class PieChartRenderer: DataRenderer
                 {
                     angle = absoluteAngles[xIndex - 1] * CGFloat(phaseX)
                 }
+                var lineColor:UIColor?
+                if dataSet.colors.count > j {
+                    lineColor = dataSet.colors[j]
+                }
                 
                 let sliceAngle = drawAngles[xIndex]
                 let sliceSpace = getSliceSpace(dataSet: dataSet)
@@ -391,26 +395,30 @@ open class PieChartRenderer: DataRenderer
                         y: line1Radius * sliceYBase + center.y)
                     
                     let pt1 = CGPoint(
-                        x: labelRadius * (1 + valueLineLength1) * sliceXBase + center.x,
-                        y: labelRadius * (1 + valueLineLength1) * sliceYBase + center.y)
-                    
-                    if transformedAngle.truncatingRemainder(dividingBy: 360.0) >= 90.0 && transformedAngle.truncatingRemainder(dividingBy: 360.0) <= 270.0
-                    {
-                        pt2 = CGPoint(x: pt1.x - polyline2Length, y: pt1.y)
+                        x: line1Radius * (1 + valueLineLength1) * sliceXBase + center.x,
+                        y: line1Radius * (1 + valueLineLength1) * sliceYBase + center.y)
+                    let isLeftPart = transformedAngle.truncatingRemainder(dividingBy: 360.0) >= 90.0 && transformedAngle.truncatingRemainder(dividingBy: 360.0) <= 270.0
+                    if isLeftPart
+                    { // 左边
+                        pt2 = CGPoint(x: 5, y: pt1.y)
                         align = .right
-                        labelPoint = CGPoint(x: pt2.x - 5, y: pt2.y - lineHeight)
+                        labelPoint = CGPoint(x: 5, y: pt2.y - lineHeight)
                     }
                     else
-                    {
-                        pt2 = CGPoint(x: pt1.x + polyline2Length, y: pt1.y)
+                    { // 右边
+                        pt2 = CGPoint(x:chart.frame.size.width - 5 /*pt1.x + polyline2Length*/, y: pt1.y)
                         align = .left
-                        labelPoint = CGPoint(x: pt2.x + 5, y: pt2.y - lineHeight)
+                        labelPoint = CGPoint(x: chart.frame.size.width - 5, y: pt2.y - lineHeight)
                     }
                     
                     if dataSet.valueLineColor != nil
                     {
-                        context.setStrokeColor(dataSet.valueLineColor!.cgColor)
+                        context.setStrokeColor((lineColor ?? dataSet.valueLineColor!).cgColor)
                         context.setLineWidth(dataSet.valueLineWidth)
+                        context.setFillColor((lineColor ?? dataSet.valueLineColor!).cgColor)
+                        
+                        context.addArc(center: pt0, radius: 3.0, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
+                        context.drawPath(using: CGPathDrawingMode.fill) // 渲染
                         
                         context.move(to: CGPoint(x: pt0.x, y: pt0.y))
                         context.addLine(to: CGPoint(x: pt1.x, y: pt1.y))
@@ -419,26 +427,36 @@ open class PieChartRenderer: DataRenderer
                         context.drawPath(using: CGPathDrawingMode.stroke)
                     }
                     
-                    if drawXOutside && drawYOutside
+                    if drawXOutside && drawYOutside // x和y 都在外部需要两端对齐
                     {
+                        
+                        let valueAttr = [NSAttributedStringKey.font: valueFont, NSAttributedStringKey.foregroundColor: valueTextColor]
+                        var valuePoint = CGPoint(x: labelPoint.x + NSString(string:valueText).size(withAttributes: valueAttr).width, y: labelPoint.y)
+                        if !isLeftPart {
+                           valuePoint = CGPoint(x: labelPoint.x - NSString(string:valueText).size(withAttributes: valueAttr).width, y: labelPoint.y)
+                        }
                         ChartUtils.drawText(
                             context: context,
-                            text: valueText,
-                            point: labelPoint,
+                            text: valueText, // 值文字
+                            point: valuePoint,
                             align: align,
-                            attributes: [NSAttributedStringKey.font: valueFont, NSAttributedStringKey.foregroundColor: valueTextColor]
+                            attributes: valueAttr
                         )
                         
                         if j < data.entryCount && pe?.label != nil
                         {
+                            let labelAtrr = [ NSAttributedStringKey.font: entryLabelFont ?? valueFont,
+                                              NSAttributedStringKey.foregroundColor: entryLabelColor ?? valueTextColor]
+                            var lbPoint = CGPoint(x: labelPoint.x + NSString(string:pe!.label!).size(withAttributes: labelAtrr).width, y: labelPoint.y + lineHeight)
+                            if !isLeftPart {
+                                lbPoint = CGPoint(x: labelPoint.x - NSString(string:pe!.label!).size(withAttributes: labelAtrr).width, y: labelPoint.y + lineHeight)
+                            }
                             ChartUtils.drawText(
                                 context: context,
-                                text: pe!.label!,
-                                point: CGPoint(x: labelPoint.x, y: labelPoint.y + lineHeight),
+                                text: pe!.label!, // 标题label
+                                point: lbPoint,
                                 align: align,
-                                attributes: [
-                                    NSAttributedStringKey.font: entryLabelFont ?? valueFont,
-                                    NSAttributedStringKey.foregroundColor: entryLabelColor ?? valueTextColor]
+                                attributes: labelAtrr
                             )
                         }
                     }
