@@ -83,4 +83,10 @@ public protocol LineChartDataSetProtocol: LineRadarChartDataSetProtocol
     
     /// Sets a custom FillFormatterProtocol to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
     var fillFormatter: FillFormatter? { get set }
+
+    /// Adjusts the curve at the beginning of cubic lines
+    var cubicLeadingEntry: ChartDataEntry? { get set }
+
+    /// Adjusts the curve at the end of cubic lines
+    var cubicTrailingEntry: ChartDataEntry? { get set }
 }

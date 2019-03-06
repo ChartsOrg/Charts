@@ -78,4 +78,12 @@ class LineChartTests: FBSnapshotTestCase
         dataSet.drawIconsEnabled = true
         FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
+
+    func testIsCubicWithLeadingTrailing()
+    {
+        dataSet.mode = LineChartDataSet.Mode.cubicBezier
+        dataSet.cubicLeadingEntry = ChartDataEntry(x: -1, y: 100)
+        dataSet.cubicTrailingEntry = ChartDataEntry(x: Double(dataSet.entryCount), y: 0)
+        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+    }
 }

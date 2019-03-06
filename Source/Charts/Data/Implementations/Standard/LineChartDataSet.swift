@@ -154,6 +154,12 @@ open class LineChartDataSet: LineRadarChartDataSet, LineChartDataSetProtocol
             _fillFormatter = newValue ?? DefaultFillFormatter()
         }
     }
+
+    /// Adjusts the curve at the beginning of cubic lines
+    open var cubicLeadingEntry: ChartDataEntry?
+
+    /// Adjusts the curve at the end of cubic lines
+    open var cubicTrailingEntry: ChartDataEntry?
     
     // MARK: NSCopying
     
