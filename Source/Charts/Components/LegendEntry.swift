@@ -12,10 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 @objc(ChartLegendEntry)
 open class LegendEntry: NSObject
 {

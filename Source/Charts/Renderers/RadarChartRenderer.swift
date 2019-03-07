@@ -12,11 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
-
 open class RadarChartRenderer: LineRadarRenderer
 {
     private lazy var accessibilityXLabels: [String] = {

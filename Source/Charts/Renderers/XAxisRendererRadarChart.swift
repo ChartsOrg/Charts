@@ -12,10 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 open class XAxisRendererRadarChart: XAxisRenderer
 {
     @objc open weak var chart: RadarChartView?

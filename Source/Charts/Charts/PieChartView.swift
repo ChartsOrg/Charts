@@ -12,10 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 /// View that represents a pie chart. Draws cake like slices.
 open class PieChartView: PieRadarChartViewBase
 {
@@ -387,20 +383,15 @@ open class PieChartView: PieRadarChartViewBase
             }
             else
             {
-                #if os(OSX)
-                    let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
-                    paragraphStyle.lineBreakMode = NSLineBreakMode.byTruncatingTail
-                #else
-                    let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
-                    paragraphStyle.lineBreakMode = NSLineBreakMode.byTruncatingTail
-                #endif
+                let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+                paragraphStyle.lineBreakMode = .byTruncatingTail
                 paragraphStyle.alignment = .center
                 
                 attrString = NSMutableAttributedString(string: newValue!)
                 attrString?.setAttributes([
-                    NSAttributedString.Key.foregroundColor: NSUIColor.black,
-                    NSAttributedString.Key.font: NSUIFont.systemFont(ofSize: 12.0),
-                    NSAttributedString.Key.paragraphStyle: paragraphStyle
+                    .foregroundColor: NSUIColor.black,
+                    .font: NSUIFont.systemFont(ofSize: 12.0),
+                    .paragraphStyle: paragraphStyle
                     ], range: NSMakeRange(0, attrString!.length))
             }
             self.centerAttributedText = attrString

@@ -13,10 +13,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 @objc
 public protocol ChartViewDelegate
 {
@@ -171,7 +167,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     internal func initialize()
     {
         #if os(iOS)
-            self.backgroundColor = NSUIColor.clear
+        self.backgroundColor = NSUIColor.clear
         #endif
 
         _animator = Animator()

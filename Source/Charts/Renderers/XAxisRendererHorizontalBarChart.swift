@@ -12,10 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 open class XAxisRendererHorizontalBarChart: XAxisRenderer
 {
     internal weak var chart: BarChartView?

@@ -12,10 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 /// Base class of PieChartView and RadarChartView.
 open class PieRadarChartViewBase: ChartViewBase
 {
@@ -63,9 +59,9 @@ open class PieRadarChartViewBase: ChartViewBase
         self.addGestureRecognizer(_tapGestureRecognizer)
 
         #if !os(tvOS)
-            _rotationGestureRecognizer = NSUIRotationGestureRecognizer(target: self, action: #selector(rotationGestureRecognized(_:)))
-            self.addGestureRecognizer(_rotationGestureRecognizer)
-            _rotationGestureRecognizer.isEnabled = rotationWithTwoFingers
+        _rotationGestureRecognizer = NSUIRotationGestureRecognizer(target: self, action: #selector(rotationGestureRecognized(_:)))
+        self.addGestureRecognizer(_rotationGestureRecognizer)
+        _rotationGestureRecognizer.isEnabled = rotationWithTwoFingers
         #endif
     }
     
@@ -407,7 +403,7 @@ open class PieRadarChartViewBase: ChartViewBase
         {
             _rotationWithTwoFingers = newValue
             #if !os(tvOS)
-                _rotationGestureRecognizer.isEnabled = _rotationWithTwoFingers
+            _rotationGestureRecognizer.isEnabled = _rotationWithTwoFingers
             #endif
         }
     }

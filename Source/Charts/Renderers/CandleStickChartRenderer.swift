@@ -12,11 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
-
 open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
 {
     @objc open weak var dataProvider: CandleChartDataProvider?

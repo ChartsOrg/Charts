@@ -12,10 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 open class AnimatedViewPortJob: ViewPortJob
 {
     internal var phase: CGFloat = 1.0
