@@ -468,7 +468,7 @@ open class PieChartRenderer: DataRenderer
                     if drawXOutside && drawYOutside // x和y 都在外部需要两端对齐
                     {
                         
-                        let valueAttr = [NSAttributedStringKey.font: valueFont, NSAttributedStringKey.foregroundColor: valueTextColor]
+                        let valueAttr = [NSAttributedString.Key.font: valueFont, NSAttributedString.Key.foregroundColor: valueTextColor]
                         var valuePoint = CGPoint(x: labelPoint.x + NSString(string:valueText).size(withAttributes: valueAttr).width, y: labelPoint.y)
                         if !isLeftPart {
                            valuePoint = CGPoint(x: labelPoint.x - NSString(string:valueText).size(withAttributes: valueAttr).width, y: labelPoint.y)
@@ -483,8 +483,8 @@ open class PieChartRenderer: DataRenderer
 
                         if j < data.entryCount && pe?.label != nil
                         {
-                            let labelAtrr = [ NSAttributedStringKey.font: entryLabelFont ?? valueFont,
-                                              NSAttributedStringKey.foregroundColor: entryLabelColor ?? valueTextColor]
+                            let labelAtrr = [ NSAttributedString.Key.font: entryLabelFont ?? valueFont,
+                                              NSAttributedString.Key.foregroundColor: entryLabelColor ?? valueTextColor]
                             var lbPoint = CGPoint(x: labelPoint.x + NSString(string:pe!.label!).size(withAttributes: labelAtrr).width, y: labelPoint.y + lineHeight)
                             if !isLeftPart {
                                 lbPoint = CGPoint(x: labelPoint.x - NSString(string:pe!.label!).size(withAttributes: labelAtrr).width, y: labelPoint.y + lineHeight)
