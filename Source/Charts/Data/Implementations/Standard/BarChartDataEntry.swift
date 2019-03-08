@@ -109,13 +109,13 @@ open class BarChartDataEntry: ChartDataEntry
         return remainder
     }
     
-    /// - returns: The sum of all negative values this entry (if stacked) contains. (this is a positive number)
+    /// The sum of all negative values this entry (if stacked) contains. (this is a positive number)
     @objc open var negativeSum: Double
     {
         return _negativeSum
     }
     
-    /// - returns: The sum of all positive values this entry (if stacked) contains.
+    /// The sum of all positive values this entry (if stacked) contains.
     @objc open var positiveSum: Double
     {
         return _positiveSum
@@ -150,8 +150,10 @@ open class BarChartDataEntry: ChartDataEntry
     }
     
     /// Splits up the stack-values of the given bar-entry into Range objects.
-    /// - parameter entry:
-    /// - returns:
+    ///
+    /// - Parameters:
+    ///   - entry:
+    /// - Returns:
     @objc open func calcRanges()
     {
         let values = yValues
@@ -209,7 +211,7 @@ open class BarChartDataEntry: ChartDataEntry
         }
     }
     
-    /// - returns: The ranges of the individual stack-entries. Will return null if this entry is not stacked.
+    /// The ranges of the individual stack-entries. Will return null if this entry is not stacked.
     @objc open var ranges: [Range]?
     {
         return _ranges
@@ -217,19 +219,21 @@ open class BarChartDataEntry: ChartDataEntry
     
     // MARK: NSCopying
     
-    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    open override func copy(with zone: NSZone? = nil) -> Any
     {
-        let copy = super.copyWithZone(zone) as! BarChartDataEntry
+        let copy = super.copy(with: zone) as! BarChartDataEntry
         copy._yVals = _yVals
         copy.y = y
         copy._negativeSum = _negativeSum
+        copy._positiveSum = _positiveSum
         return copy
     }
     
     /// Calculates the sum across all values of the given stack.
     ///
-    /// - parameter vals:
-    /// - returns:
+    /// - Parameters:
+    ///   - vals:
+    /// - Returns:
     private static func calcSum(values: [Double]?) -> Double
     {
         guard let values = values

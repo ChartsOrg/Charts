@@ -21,7 +21,7 @@ class CandleStickChartViewController: DemoBaseViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        self.title = "Bubble Chart"
+        self.title = "Candle Stick Chart"
         self.options = [.toggleValues,
                         .toggleIcons,
                         .toggleHighlight,
@@ -32,6 +32,7 @@ class CandleStickChartViewController: DemoBaseViewController {
                         .togglePinchZoom,
                         .toggleAutoScaleMinMax,
                         .toggleShadowColorSameAsCandle,
+                        .toggleShowCandleBar,
                         .toggleData]
         
         chartView.delegate = self
@@ -86,7 +87,7 @@ class CandleStickChartViewController: DemoBaseViewController {
             return CandleChartDataEntry(x: Double(i), shadowH: val + high, shadowL: val - low, open: even ? val + open : val - open, close: even ? val - close : val + close, icon: UIImage(named: "icon")!)
         }
         
-        let set1 = CandleChartDataSet(values: yVals1, label: "Data Set")
+        let set1 = CandleChartDataSet(entries: yVals1, label: "Data Set")
         set1.axisDependency = .left
         set1.setColor(UIColor(white: 80/255, alpha: 1))
         set1.drawIconsEnabled = false
@@ -103,12 +104,18 @@ class CandleStickChartViewController: DemoBaseViewController {
     }
     
     override func optionTapped(_ option: Option) {
-        if .toggleShadowColorSameAsCandle ~= option {
+        switch option {
+        case .toggleShadowColorSameAsCandle:
             for set in chartView.data!.dataSets as! [CandleChartDataSet] {
                 set.shadowColorSameAsCandle = !set.shadowColorSameAsCandle
             }
             chartView.notifyDataSetChanged()
-        } else {
+        case .toggleShowCandleBar:
+            for set in chartView.data!.dataSets as! [CandleChartDataSet] {
+                set.showCandleBar = !set.showCandleBar
+            }
+            chartView.notifyDataSetChanged()
+        default:
             super.handleOption(option, forChartView: chartView)
         }
     }

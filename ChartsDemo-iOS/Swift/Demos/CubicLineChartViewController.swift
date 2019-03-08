@@ -89,7 +89,7 @@ class CubicLineChartViewController: DemoBaseViewController {
             return ChartDataEntry(x: Double(i), y: val)
         }
 
-        let set1 = LineChartDataSet(values: yVals1, label: "DataSet 1")
+        let set1 = LineChartDataSet(entries: yVals1, label: "DataSet 1")
         set1.mode = .cubicBezier
         set1.drawCirclesEnabled = false
         set1.lineWidth = 1.8

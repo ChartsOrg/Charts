@@ -155,10 +155,10 @@
         set2 = (BarChartDataSet *)_chartView.data.dataSets[1];
         set3 = (BarChartDataSet *)_chartView.data.dataSets[2];
         set4 = (BarChartDataSet *)_chartView.data.dataSets[3];
-        set1.values = yVals1;
-        set2.values = yVals2;
-        set3.values = yVals3;
-        set4.values = yVals4;
+        [set1 replaceEntries:yVals1];
+        [set2 replaceEntries:yVals2];
+        [set3 replaceEntries:yVals3];
+        [set4 replaceEntries:yVals4];
         
         BarChartData *data = _chartView.barData;
         
@@ -171,16 +171,16 @@
     }
     else
     {
-        set1 = [[BarChartDataSet alloc] initWithValues:yVals1 label:@"Company A"];
+        set1 = [[BarChartDataSet alloc] initWithEntries:yVals1 label:@"Company A"];
         [set1 setColor:[UIColor colorWithRed:104/255.f green:241/255.f blue:175/255.f alpha:1.f]];
         
-        set2 = [[BarChartDataSet alloc] initWithValues:yVals2 label:@"Company B"];
+        set2 = [[BarChartDataSet alloc] initWithEntries:yVals2 label:@"Company B"];
         [set2 setColor:[UIColor colorWithRed:164/255.f green:228/255.f blue:251/255.f alpha:1.f]];
         
-        set3 = [[BarChartDataSet alloc] initWithValues:yVals3 label:@"Company C"];
+        set3 = [[BarChartDataSet alloc] initWithEntries:yVals3 label:@"Company C"];
         [set3 setColor:[UIColor colorWithRed:242/255.f green:247/255.f blue:158/255.f alpha:1.f]];
         
-        set4 = [[BarChartDataSet alloc] initWithValues:yVals4 label:@"Company D"];
+        set4 = [[BarChartDataSet alloc] initWithEntries:yVals4 label:@"Company D"];
         [set4 setColor:[UIColor colorWithRed:255/255.f green:102/255.f blue:0/255.f alpha:1.f]];
         
         NSMutableArray *dataSets = [[NSMutableArray alloc] init];

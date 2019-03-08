@@ -98,6 +98,7 @@
 		9400725714D0DA707DDECD2E /* ViewPortJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7BDB22C97F39A4B33E38A7 /* ViewPortJob.swift */; };
 		95B6D6F35684292A62DBEA74 /* LineChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5A75AA73C5AA381DA517959 /* LineChartDataSet.swift */; };
 		967EE2EDDE3337C5C4337C59 /* IndexAxisValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DD0A02E3CF611BD11EBA9B /* IndexAxisValueFormatter.swift */; };
+		97AD2D4620AF917100F9C24A /* Platform+Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AD2D4520AF917100F9C24A /* Platform+Accessibility.swift */; };
 		97E033CC0ABEF0F448DAFA8E /* DataApproximator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EF9709CF635BEE70D1ABC5 /* DataApproximator.swift */; };
 		98E2EEF45E8933E4AD182D58 /* ChartViewBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EFAD7920F76360ADB3B5F5 /* ChartViewBase.swift */; };
 		9A26C8DB1F87B01700367599 /* DataApproximator+N.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A26C8DA1F87B01700367599 /* DataApproximator+N.swift */; };
@@ -257,6 +258,7 @@
 		923206233CA89FD03565FF87 /* LineScatterCandleRadarRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LineScatterCandleRadarRenderer.swift; path = Source/Charts/Renderers/LineScatterCandleRadarRenderer.swift; sourceTree = "<group>"; };
 		9249AD9AEC8C85772365A128 /* ILineScatterCandleRadarChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ILineScatterCandleRadarChartDataSet.swift; path = Source/Charts/Data/Interfaces/ILineScatterCandleRadarChartDataSet.swift; sourceTree = "<group>"; };
 		93EF9709CF635BEE70D1ABC5 /* DataApproximator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DataApproximator.swift; path = Source/Charts/Filters/DataApproximator.swift; sourceTree = "<group>"; };
+		97AD2D4520AF917100F9C24A /* Platform+Accessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Platform+Accessibility.swift"; path = "Source/Charts/Utils/Platform+Accessibility.swift"; sourceTree = "<group>"; };
 		998F2BFE318471AFC05B50AC /* IHighlighter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IHighlighter.swift; path = Source/Charts/Highlight/IHighlighter.swift; sourceTree = "<group>"; };
 		9A26C8DA1F87B01700367599 /* DataApproximator+N.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DataApproximator+N.swift"; path = "Source/Charts/Filters/DataApproximator+N.swift"; sourceTree = "<group>"; };
 		9D7184C8A5A60A3522AB9B05 /* BarChartDataProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BarChartDataProvider.swift; path = Source/Charts/Interfaces/BarChartDataProvider.swift; sourceTree = "<group>"; };
@@ -584,6 +586,7 @@
 				3FDA09EF973925A110506799 /* ChartUtils.swift */,
 				5A4CFFFB65819121595F06F1 /* Fill.swift */,
 				3ED23C354AFE81818D78E645 /* Platform.swift */,
+				97AD2D4520AF917100F9C24A /* Platform+Accessibility.swift */,
 				FF475B9593B9898853814340 /* Transformer.swift */,
 				324C9127B53A8D39C8B49277 /* TransformerHorizontalBarChart.swift */,
 				72EAEBB7CF73E33565FC2896 /* ViewPortHandler.swift */,
@@ -923,6 +926,7 @@
 				24151B0729D77251A8494D70 /* LineRadarRenderer.swift in Sources */,
 				B6DCC229615EFE706F64A37D /* LineScatterCandleRadarRenderer.swift in Sources */,
 				795E100895C24049509F1EDE /* PieChartRenderer.swift in Sources */,
+				97AD2D4620AF917100F9C24A /* Platform+Accessibility.swift in Sources */,
 				69EA073EDF75D49ABE1715D6 /* RadarChartRenderer.swift in Sources */,
 				CEF68F42A5390A73113F3663 /* Renderer.swift in Sources */,
 				796D3E63A37A95FD9D1AB9A1 /* ChevronDownShapeRenderer.swift in Sources */,
@@ -1003,7 +1007,7 @@
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1176,7 +1180,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";

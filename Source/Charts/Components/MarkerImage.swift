@@ -12,10 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 @objc(ChartMarkerImage)
 open class MarkerImage: NSObject, IMarker
 {

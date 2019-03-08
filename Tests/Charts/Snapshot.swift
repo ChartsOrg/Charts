@@ -2,20 +2,17 @@ import CoreGraphics
 
 public struct Snapshot
 {
-    public static let tolerance: CGFloat = 0.03
+    public static let tolerance: CGFloat = 0.01
     
     public static func identifier(_ size: CGSize) -> String {
-        
-        let identifier: String
-        
         #if os(tvOS)
-            identifier = "tvOS"
+        let identifier = "tvOS"
         #elseif os(iOS)
-            identifier = "iOS"
+        let identifier = "iOS"
         #elseif os(OSX)
-            identifier = "macOS"
+        let identifier = "macOS"
         #else
-            identifier = ""
+        let identifier = ""
         #endif
         
         return "\(identifier)_\(size.width)_\(size.height)"

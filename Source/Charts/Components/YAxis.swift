@@ -12,10 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 
 /// Class representing the y-axis labels settings and its entries.
 /// Be aware that not all features the YLabels class provides are suitable for the RadarChart.
@@ -72,6 +68,12 @@ open class YAxis: AxisBase
     
     /// the position of the y-labels relative to the chart
     @objc open var labelPosition = LabelPosition.outsideChart
+
+    /// the alignment of the text in the y-label
+    @objc open var labelAlignment: NSTextAlignment = .left
+
+    /// the horizontal offset of the y-label
+    @objc open var labelXOffset: CGFloat = 10.0
     
     /// the side this axis object represents
     private var _axisDependency = AxisDependency.left
@@ -111,7 +113,7 @@ open class YAxis: AxisBase
     @objc open func requiredSize() -> CGSize
     {
         let label = getLongestLabel() as NSString
-        var size = label.size(withAttributes: [NSAttributedStringKey.font: labelFont])
+        var size = label.size(withAttributes: [NSAttributedString.Key.font: labelFont])
         size.width += xOffset * 2.0
         size.height += yOffset * 2.0
         size.width = max(minWidth, min(size.width, maxWidth > 0.0 ? maxWidth : size.width))
@@ -123,7 +125,7 @@ open class YAxis: AxisBase
         return requiredSize().height
     }
     
-    /// - returns: `true` if this axis needs horizontal offset, `false` ifno offset is needed.
+    /// `true` if this axis needs horizontal offset, `false` ifno offset is needed.
     @objc open var needsOffset: Bool
     {
         if isEnabled && isDrawLabelsEnabled && labelPosition == .outsideChart
@@ -143,6 +145,23 @@ open class YAxis: AxisBase
         // if custom, use value as is, else use data value
         var min = _customAxisMin ? _axisMinimum : dataMin
         var max = _customAxisMax ? _axisMaximum : dataMax
+        
+        // Make sure max is greater than min
+        // Discussion: https://github.com/danielgindi/Charts/pull/3650#discussion_r221409991
+        if min > max
+        {
+            switch(_customAxisMax, _customAxisMin)
+            {
+            case(true, true):
+                (min, max) = (max, min)
+            case(true, false):
+                min = max < 0 ? max * 1.5 : max * 0.5
+            case(false, true):
+                max = min < 0 ? min * 0.5 : min * 1.5
+            case(false, false):
+                break
+            }
+        }
         
         // temporary range (before calculations)
         let range = abs(max - min)

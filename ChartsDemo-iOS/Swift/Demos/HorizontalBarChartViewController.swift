@@ -100,7 +100,7 @@ class HorizontalBarChartViewController: DemoBaseViewController {
             return BarChartDataEntry(x: Double(i)*spaceForBar, y: val, icon: #imageLiteral(resourceName: "icon"))
         }
         
-        let set1 = BarChartDataSet(values: yVals, label: "DataSet")
+        let set1 = BarChartDataSet(entries: yVals, label: "DataSet")
         set1.drawIconsEnabled = false
         
         let data = BarChartData(dataSet: set1)

@@ -21,7 +21,7 @@ class PiePolylineChartViewController: DemoBaseViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        self.title = "Pie Bar Chart"
+        self.title = "Pie Poly Line Chart"
         
         self.options = [.toggleValues,
                         .toggleXValues,
@@ -66,7 +66,7 @@ class PiePolylineChartViewController: DemoBaseViewController {
             return entry
         }
         
-        let set = PieChartDataSet(values: entries, label: "Election Results")
+        let set = PieChartDataSet(entries: entries, label: "Election Results")
         set.sliceSpace = 2
         
         

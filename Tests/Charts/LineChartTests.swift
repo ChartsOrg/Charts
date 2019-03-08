@@ -27,7 +27,7 @@ class LineChartTests: FBSnapshotTestCase
             entries.append(ChartDataEntry(x: Double(i), y: value, icon: UIImage(named: "icon", in: Bundle(for: self.classForCoder), compatibleWith: nil)))
         }
         
-        dataSet = LineChartDataSet(values: entries, label: "First unit test data")
+        dataSet = LineChartDataSet(entries: entries, label: "First unit test data")
         dataSet.drawIconsEnabled = false
         dataSet.iconsOffset = CGPoint(x: 0, y: 20.0)
 

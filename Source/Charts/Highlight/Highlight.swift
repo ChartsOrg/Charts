@@ -52,14 +52,15 @@ open class Highlight: NSObject
         super.init()
     }
     
-    /// - parameter x: the x-value of the highlighted value
-    /// - parameter y: the y-value of the highlighted value
-    /// - parameter xPx: the x-pixel of the highlighted value
-    /// - parameter yPx: the y-pixel of the highlighted value
-    /// - parameter dataIndex: the index of the Data the highlighted value belongs to
-    /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
-    /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
-    /// - parameter axis: the axis the highlighted value belongs to
+    /// - Parameters:
+    ///   - x: the x-value of the highlighted value
+    ///   - y: the y-value of the highlighted value
+    ///   - xPx: the x-pixel of the highlighted value
+    ///   - yPx: the y-pixel of the highlighted value
+    ///   - dataIndex: the index of the Data the highlighted value belongs to
+    ///   - dataSetIndex: the index of the DataSet the highlighted value belongs to
+    ///   - stackIndex: references which value of a stacked-bar entry has been selected
+    ///   - axis: the axis the highlighted value belongs to
     @objc public init(
         x: Double, y: Double,
         xPx: CGFloat, yPx: CGFloat,
@@ -80,13 +81,14 @@ open class Highlight: NSObject
         _axis = axis
     }
     
-    /// - parameter x: the x-value of the highlighted value
-    /// - parameter y: the y-value of the highlighted value
-    /// - parameter xPx: the x-pixel of the highlighted value
-    /// - parameter yPx: the y-pixel of the highlighted value
-    /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
-    /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
-    /// - parameter axis: the axis the highlighted value belongs to
+    /// - Parameters:
+    ///   - x: the x-value of the highlighted value
+    ///   - y: the y-value of the highlighted value
+    ///   - xPx: the x-pixel of the highlighted value
+    ///   - yPx: the y-pixel of the highlighted value
+    ///   - dataSetIndex: the index of the DataSet the highlighted value belongs to
+    ///   - stackIndex: references which value of a stacked-bar entry has been selected
+    ///   - axis: the axis the highlighted value belongs to
     @objc public convenience init(
         x: Double, y: Double,
         xPx: CGFloat, yPx: CGFloat,
@@ -101,14 +103,15 @@ open class Highlight: NSObject
                   axis: axis)
     }
     
-    /// - parameter x: the x-value of the highlighted value
-    /// - parameter y: the y-value of the highlighted value
-    /// - parameter xPx: the x-pixel of the highlighted value
-    /// - parameter yPx: the y-pixel of the highlighted value
-    /// - parameter dataIndex: the index of the Data the highlighted value belongs to
-    /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
-    /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
-    /// - parameter axis: the axis the highlighted value belongs to
+    /// - Parameters:
+    ///   - x: the x-value of the highlighted value
+    ///   - y: the y-value of the highlighted value
+    ///   - xPx: the x-pixel of the highlighted value
+    ///   - yPx: the y-pixel of the highlighted value
+    ///   - dataIndex: the index of the Data the highlighted value belongs to
+    ///   - dataSetIndex: the index of the DataSet the highlighted value belongs to
+    ///   - stackIndex: references which value of a stacked-bar entry has been selected
+    ///   - axis: the axis the highlighted value belongs to
     @objc public init(
         x: Double, y: Double,
         xPx: CGFloat, yPx: CGFloat,
@@ -125,10 +128,11 @@ open class Highlight: NSObject
         _axis = axis
     }
     
-    /// - parameter x: the x-value of the highlighted value
-    /// - parameter y: the y-value of the highlighted value
-    /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
-    /// - parameter dataIndex: The data index to search in (only used in CombinedChartView currently)
+    /// - Parameters:
+    ///   - x: the x-value of the highlighted value
+    ///   - y: the y-value of the highlighted value
+    ///   - dataSetIndex: the index of the DataSet the highlighted value belongs to
+    ///   - dataIndex: The data index to search in (only used in CombinedChartView currently)
     @objc public init(x: Double, y: Double, dataSetIndex: Int, dataIndex: Int = -1)
     {
         _x = x
@@ -137,9 +141,10 @@ open class Highlight: NSObject
         self.dataIndex = dataIndex
     }
     
-    /// - parameter x: the x-value of the highlighted value
-    /// - parameter dataSetIndex: the index of the DataSet the highlighted value belongs to
-    /// - parameter stackIndex: references which value of a stacked-bar entry has been selected
+    /// - Parameters:
+    ///   - x: the x-value of the highlighted value
+    ///   - dataSetIndex: the index of the DataSet the highlighted value belongs to
+    ///   - stackIndex: references which value of a stacked-bar entry has been selected
     @objc public convenience init(x: Double, dataSetIndex: Int, stackIndex: Int)
     {
         self.init(x: x, y: Double.nan, dataSetIndex: dataSetIndex)

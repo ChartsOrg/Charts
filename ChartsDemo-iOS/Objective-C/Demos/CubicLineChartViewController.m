@@ -126,13 +126,13 @@
     if (_chartView.data.dataSetCount > 0)
     {
         set1 = (LineChartDataSet *)_chartView.data.dataSets[0];
-        set1.values = yVals1;
+        [set1 replaceEntries:yVals1];
         [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
     }
     else
     {
-        set1 = [[LineChartDataSet alloc] initWithValues:yVals1 label:@"DataSet 1"];
+        set1 = [[LineChartDataSet alloc] initWithEntries:yVals1 label:@"DataSet 1"];
         set1.mode = LineChartModeCubicBezier;
         set1.cubicIntensity = 0.2;
         set1.drawCirclesEnabled = NO;

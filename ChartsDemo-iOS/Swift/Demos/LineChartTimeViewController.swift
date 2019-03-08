@@ -18,7 +18,7 @@ class LineChartTimeViewController: DemoBaseViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        self.title = "Line Chart 2"
+        self.title = "Time Line Chart"
         self.options = [.toggleValues,
                         .toggleFilled,
                         .toggleCircles,
@@ -99,7 +99,7 @@ class LineChartTimeViewController: DemoBaseViewController {
             return ChartDataEntry(x: x, y: Double(y))
         }
         
-        let set1 = LineChartDataSet(values: values, label: "DataSet 1")
+        let set1 = LineChartDataSet(entries: values, label: "DataSet 1")
         set1.axisDependency = .left
         set1.setColor(UIColor(red: 51/255, green: 181/255, blue: 229/255, alpha: 1))
         set1.lineWidth = 1.5

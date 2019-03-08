@@ -102,7 +102,7 @@ class LineChart2ViewController: DemoBaseViewController {
             return ChartDataEntry(x: Double(i), y: val)
         }
 
-        let set1 = LineChartDataSet(values: yVals1, label: "DataSet 1")
+        let set1 = LineChartDataSet(entries: yVals1, label: "DataSet 1")
         set1.axisDependency = .left
         set1.setColor(UIColor(red: 51/255, green: 181/255, blue: 229/255, alpha: 1))
         set1.setCircleColor(.white)
@@ -113,7 +113,7 @@ class LineChart2ViewController: DemoBaseViewController {
         set1.highlightColor = UIColor(red: 244/255, green: 117/255, blue: 117/255, alpha: 1)
         set1.drawCircleHoleEnabled = false
         
-        let set2 = LineChartDataSet(values: yVals2, label: "DataSet 2")
+        let set2 = LineChartDataSet(entries: yVals2, label: "DataSet 2")
         set2.axisDependency = .right
         set2.setColor(.red)
         set2.setCircleColor(.white)
@@ -124,7 +124,7 @@ class LineChart2ViewController: DemoBaseViewController {
         set2.highlightColor = UIColor(red: 244/255, green: 117/255, blue: 117/255, alpha: 1)
         set2.drawCircleHoleEnabled = false
 
-        let set3 = LineChartDataSet(values: yVals3, label: "DataSet 3")
+        let set3 = LineChartDataSet(entries: yVals3, label: "DataSet 3")
         set3.axisDependency = .right
         set3.setColor(.yellow)
         set3.setCircleColor(.white)

@@ -12,11 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
-
 open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
 {
     @objc open weak var dataProvider: CandleChartDataProvider?
@@ -31,6 +26,17 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
     open override func drawData(context: CGContext)
     {
         guard let dataProvider = dataProvider, let candleData = dataProvider.candleData else { return }
+
+        // If we redraw the data, remove and repopulate accessible elements to update label values and frames
+        accessibleChartElements.removeAll()
+
+        // Make the chart header the first element in the accessible elements array
+        if let chart = dataProvider as? CandleStickChartView {
+            let element = createAccessibleHeader(usingChart: chart,
+                                                 andData: candleData,
+                                                 withDefaultDescription: "CandleStick Chart")
+            accessibleChartElements.append(element)
+        }
 
         for set in candleData.dataSets as! [ICandleChartDataSet]
         {
@@ -50,7 +56,9 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
     
     @objc open func drawDataSet(context: CGContext, dataSet: ICandleChartDataSet)
     {
-        guard let dataProvider = dataProvider else { return }
+        guard
+            let dataProvider = dataProvider
+            else { return }
 
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
         
@@ -63,8 +71,8 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
         context.saveGState()
         
         context.setLineWidth(dataSet.shadowWidth)
-        
-        for j in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
+
+        for j in _xBounds
         {
             // get the entry
             guard let e = dataSet.entryForIndex(j) as? CandleChartDataEntry else { continue }
@@ -76,6 +84,14 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
             let high = e.high
             let low = e.low
             
+            let doesContainMultipleDataSets = (dataProvider.candleData?.dataSets.count ?? 1) > 1
+            var accessibilityMovementDescription = "neutral"
+            var accessibilityRect = CGRect(x: CGFloat(xPos) + 0.5 - barSpace,
+                                           y: CGFloat(low * phaseY),
+                                           width: (2 * barSpace) - 1.0,
+                                           height: (CGFloat(abs(high - low) * phaseY)))
+            trans.rectValueToPixel(&accessibilityRect)
+
             if showCandleBar
             {
                 // calculate the shadow
@@ -146,9 +162,11 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 trans.rectValueToPixel(&_bodyRect)
                 
                 // draw body differently for increasing and decreasing entry
-                
+
                 if open > close
                 {
+                    accessibilityMovementDescription = "decreasing"
+
                     let color = dataSet.decreasingColor ?? dataSet.color(atIndex: j)
                     
                     if dataSet.isDecreasingFilled
@@ -164,6 +182,8 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 }
                 else if open < close
                 {
+                    accessibilityMovementDescription = "increasing"
+
                     let color = dataSet.increasingColor ?? dataSet.color(atIndex: j)
                     
                     if dataSet.isIncreasingFilled
@@ -208,13 +228,15 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 
                 // draw the ranges
                 var barColor: NSUIColor! = nil
-                
+
                 if open > close
                 {
+                    accessibilityMovementDescription = "decreasing"
                     barColor = dataSet.decreasingColor ?? dataSet.color(atIndex: j)
                 }
                 else if open < close
                 {
+                    accessibilityMovementDescription = "increasing"
                     barColor = dataSet.increasingColor ?? dataSet.color(atIndex: j)
                 }
                 else
@@ -227,8 +249,22 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 context.strokeLineSegments(between: _openPoints)
                 context.strokeLineSegments(between: _closePoints)
             }
+
+            let axElement = createAccessibleElement(withIndex: j,
+                                                    container: dataProvider,
+                                                    dataSet: dataSet)
+            { (element) in
+                element.accessibilityLabel = "\(doesContainMultipleDataSets ? "\(dataSet.label ?? "Dataset")" : "") " + "\(xPos) - \(accessibilityMovementDescription). low: \(low), high: \(high), opening: \(open), closing: \(close)"
+                element.accessibilityFrame = accessibilityRect
+            }
+
+            accessibleChartElements.append(axElement)
+
         }
-        
+
+        // Post this notification to let VoiceOver account for the redrawn frames
+        accessibilityPostLayoutChangedNotification()
+
         context.restoreGState()
     }
     
@@ -272,7 +308,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 let lineHeight = valueFont.lineHeight
                 let yOffset: CGFloat = lineHeight + 5.0
                 
-                for j in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
+                for j in _xBounds
                 {
                     guard let e = dataSet.entryForIndex(j) as? CandleChartDataEntry else { break }
                     
@@ -303,7 +339,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                                 x: pt.x,
                                 y: pt.y - yOffset),
                             align: .center,
-                            attributes: [NSAttributedStringKey.font: valueFont, NSAttributedStringKey.foregroundColor: dataSet.valueTextColorAt(j)])
+                            attributes: [NSAttributedString.Key.font: valueFont, NSAttributedString.Key.foregroundColor: dataSet.valueTextColorAt(j)])
                     }
                     
                     if let icon = e.icon, dataSet.isDrawIconsEnabled
@@ -373,5 +409,18 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
         }
         
         context.restoreGState()
+    }
+
+    private func createAccessibleElement(withIndex idx: Int,
+                                         container: CandleChartDataProvider,
+                                         dataSet: ICandleChartDataSet,
+                                         modifier: (NSUIAccessibilityElement) -> ()) -> NSUIAccessibilityElement {
+
+        let element = NSUIAccessibilityElement(accessibilityContainer: container)
+
+        // The modifier allows changing of traits and frame depending on highlight, rotation, etc
+        modifier(element)
+
+        return element
     }
 }

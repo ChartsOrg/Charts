@@ -12,10 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 @objc(ChartLegendEntry)
 open class LegendEntry: NSObject
 {
@@ -24,14 +20,15 @@ open class LegendEntry: NSObject
         super.init()
     }
     
-    /// - parameter label:                  The legend entry text.
+    /// - Parameters:
+    ///   - label:                  The legend entry text.
     ///                                     A `nil` label will start a group.
-    /// - parameter form:                   The form to draw for this entry.
-    /// - parameter formSize:               Set to NaN to use the legend's default.
-    /// - parameter formLineWidth:          Set to NaN to use the legend's default.
-    /// - parameter formLineDashPhase:      Line dash configuration.
-    /// - parameter formLineDashLengths:    Line dash configurationas NaN to use the legend's default.
-    /// - parameter formColor:              The color for drawing the form.
+    ///   - form:                   The form to draw for this entry.
+    ///   - formSize:               Set to NaN to use the legend's default.
+    ///   - formLineWidth:          Set to NaN to use the legend's default.
+    ///   - formLineDashPhase:      Line dash configuration.
+    ///   - formLineDashLengths:    Line dash configurationas NaN to use the legend's default.
+    ///   - formColor:              The color for drawing the form.
     @objc public init(label: String?,
                 form: Legend.Form,
                 formSize: CGFloat,

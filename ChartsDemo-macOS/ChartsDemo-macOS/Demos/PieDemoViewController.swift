@@ -26,7 +26,7 @@ open class PieDemoViewController: NSViewController
         let yse1 = ys1.enumerated().map { x, y in return PieChartDataEntry(value: y, label: String(x)) }
         
         let data = PieChartData()
-        let ds1 = PieChartDataSet(values: yse1, label: "Hello")
+        let ds1 = PieChartDataSet(entries: yse1, label: "Hello")
         
         ds1.colors = ChartColorTemplates.vordiplom()
         
@@ -36,9 +36,9 @@ open class PieDemoViewController: NSViewController
         paragraphStyle.lineBreakMode = .byTruncatingTail
         paragraphStyle.alignment = .center
         let centerText: NSMutableAttributedString = NSMutableAttributedString(string: "Charts\nby Daniel Cohen Gindi")
-        centerText.setAttributes([NSAttributedStringKey.font: NSFont(name: "HelveticaNeue-Light", size: 15.0)!, NSAttributedStringKey.paragraphStyle: paragraphStyle], range: NSMakeRange(0, centerText.length))
-        centerText.addAttributes([NSAttributedStringKey.font: NSFont(name: "HelveticaNeue-Light", size: 13.0)!, NSAttributedStringKey.foregroundColor: NSColor.gray], range: NSMakeRange(10, centerText.length - 10))
-        centerText.addAttributes([NSAttributedStringKey.font: NSFont(name: "HelveticaNeue-LightItalic", size: 13.0)!, NSAttributedStringKey.foregroundColor: NSColor(red: 51 / 255.0, green: 181 / 255.0, blue: 229 / 255.0, alpha: 1.0)], range: NSMakeRange(centerText.length - 19, 19))
+        centerText.setAttributes([NSAttributedString.Key.font: NSFont(name: "HelveticaNeue-Light", size: 15.0)!, NSAttributedString.Key.paragraphStyle: paragraphStyle], range: NSMakeRange(0, centerText.length))
+        centerText.addAttributes([NSAttributedString.Key.font: NSFont(name: "HelveticaNeue-Light", size: 13.0)!, NSAttributedString.Key.foregroundColor: NSColor.gray], range: NSMakeRange(10, centerText.length - 10))
+        centerText.addAttributes([NSAttributedString.Key.font: NSFont(name: "HelveticaNeue-LightItalic", size: 13.0)!, NSAttributedString.Key.foregroundColor: NSColor(red: 51 / 255.0, green: 181 / 255.0, blue: 229 / 255.0, alpha: 1.0)], range: NSMakeRange(centerText.length - 19, 19))
         
         self.pieChartView.centerAttributedText = centerText
         

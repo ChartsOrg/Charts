@@ -126,7 +126,7 @@ class CombinedChartViewController: DemoBaseViewController {
             return ChartDataEntry(x: Double(i) + 0.5, y: Double(arc4random_uniform(15) + 5))
         }
         
-        let set = LineChartDataSet(values: entries, label: "Line DataSet")
+        let set = LineChartDataSet(entries: entries, label: "Line DataSet")
         set.setColor(UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1))
         set.lineWidth = 2.5
         set.setCircleColor(UIColor(red: 240/255, green: 238/255, blue: 70/255, alpha: 1))
@@ -151,13 +151,13 @@ class CombinedChartViewController: DemoBaseViewController {
             return BarChartDataEntry(x: 0, yValues: [Double(arc4random_uniform(13) + 12), Double(arc4random_uniform(13) + 12)])
         }
         
-        let set1 = BarChartDataSet(values: entries1, label: "Bar 1")
+        let set1 = BarChartDataSet(entries: entries1, label: "Bar 1")
         set1.setColor(UIColor(red: 60/255, green: 220/255, blue: 78/255, alpha: 1))
         set1.valueTextColor = UIColor(red: 60/255, green: 220/255, blue: 78/255, alpha: 1)
         set1.valueFont = .systemFont(ofSize: 10)
         set1.axisDependency = .left
         
-        let set2 = BarChartDataSet(values: entries2, label: "")
+        let set2 = BarChartDataSet(entries: entries2, label: "")
         set2.stackLabels = ["Stack 1", "Stack 2"]
         set2.colors = [UIColor(red: 61/255, green: 165/255, blue: 255/255, alpha: 1),
                        UIColor(red: 23/255, green: 197/255, blue: 255/255, alpha: 1)
@@ -185,7 +185,7 @@ class CombinedChartViewController: DemoBaseViewController {
             return ChartDataEntry(x: i+0.25, y: Double(arc4random_uniform(10) + 55))
         }
         
-        let set = ScatterChartDataSet(values: entries, label: "Scatter DataSet")
+        let set = ScatterChartDataSet(entries: entries, label: "Scatter DataSet")
         set.colors = ChartColorTemplates.material()
         set.scatterShapeSize = 4.5
         set.drawValuesEnabled = false
@@ -199,7 +199,7 @@ class CombinedChartViewController: DemoBaseViewController {
             return CandleChartDataEntry(x: Double(i+1), shadowH: 90, shadowL: 70, open: 85, close: 75)
         }
         
-        let set = CandleChartDataSet(values: entries, label: "Candle DataSet")
+        let set = CandleChartDataSet(entries: entries, label: "Candle DataSet")
         set.setColor(UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1))
         set.decreasingColor = UIColor(red: 142/255, green: 150/255, blue: 175/255, alpha: 1)
         set.shadowColor = .darkGray
@@ -216,7 +216,7 @@ class CombinedChartViewController: DemoBaseViewController {
                                         size: CGFloat(arc4random_uniform(50) + 105))
         }
         
-        let set = BubbleChartDataSet(values: entries, label: "Bubble DataSet")
+        let set = BubbleChartDataSet(entries: entries, label: "Bubble DataSet")
         set.setColors(ChartColorTemplates.vordiplom(), alpha: 1)
         set.valueTextColor = .white
         set.valueFont = .systemFont(ofSize: 10)

@@ -17,7 +17,7 @@ class HalfPieChartViewController: DemoBaseViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.title = "Half Pie Bar Chart"
+        self.title = "Half Pie Chart"
         
         self.options = [.toggleValues,
                         .toggleXValues,
@@ -80,7 +80,7 @@ class HalfPieChartViewController: DemoBaseViewController {
                                      label: parties[i % parties.count])
         }
         
-        let set = PieChartDataSet(values: entries, label: "Election Results")
+        let set = PieChartDataSet(entries: entries, label: "Election Results")
         set.sliceSpace = 3
         set.selectionShift = 5
         set.colors = ChartColorTemplates.material()
