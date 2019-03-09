@@ -92,8 +92,8 @@ public class LayerFill: NSObject, Fill {
     }
 }
 
-@objc(ChartLinearGradient)
-public class LinearGradient: NSObject, Fill {
+@objc(ChartLinearGradientFill)
+public class LinearGradientFill: NSObject, Fill {
 
     @objc public let gradient: CGGradient
     @objc public let angle: CGFloat
@@ -131,8 +131,8 @@ public class LinearGradient: NSObject, Fill {
     }
 }
 
-@objc(ChartRadialGradient)
-public class RadialGradient: NSObject, Fill {
+@objc(ChartRadialGradientFill)
+public class RadialGradientFill: NSObject, Fill {
 
     @objc public let gradient: CGGradient
     @objc public let startOffsetPercent: CGPoint

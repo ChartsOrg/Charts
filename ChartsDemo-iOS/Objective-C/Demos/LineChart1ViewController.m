@@ -174,7 +174,7 @@
         CGGradientRef gradient = CGGradientCreateWithColors(nil, (CFArrayRef)gradientColors, nil);
         
         set1.fillAlpha = 1.f;
-        set1.fill = [ChartFill fillWithLinearGradient:gradient angle:90.f];
+        set1.fill = [[ChartLinearGradientFill alloc] initWithGradient:gradient angle:90.0f];
         set1.drawFilledEnabled = YES;
         
         CGGradientRelease(gradient);
