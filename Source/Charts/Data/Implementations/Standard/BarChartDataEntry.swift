@@ -122,30 +122,13 @@ open class BarChartDataEntry: ChartDataEntry
 
     @objc open func calcPosNegSum()
     {
-        guard let _yVals = _yVals else
-        {
-            _positiveSum = 0.0
-            _negativeSum = 0.0
-            return
-        }
-        
-        var sumNeg: Double = 0.0
-        var sumPos: Double = 0.0
-        
-        for f in _yVals
-        {
-            if f < 0.0
-            {
-                sumNeg += -f
+        (_negativeSum, _positiveSum) = _yVals?.reduce(into: (0,0)) { (result, y) in
+            if y < 0 {
+                result.0 += -y
+            } else {
+                result.1 += y
             }
-            else
-            {
-                sumPos += f
-            }
-        }
-        
-        _negativeSum = sumNeg
-        _positiveSum = sumPos
+        } ?? (0,0)
     }
     
     /// Splits up the stack-values of the given bar-entry into Range objects.
@@ -155,38 +138,34 @@ open class BarChartDataEntry: ChartDataEntry
     /// - Returns:
     @objc open func calcRanges()
     {
-        let values = yValues
-        if values?.isEmpty != false
-        {
+        guard let values = yValues, !values.isEmpty else {
             return
         }
-        
+
         if _ranges == nil
         {
             _ranges = [Range]()
         }
         else
         {
-            _ranges?.removeAll()
+            _ranges!.removeAll()
         }
         
-        _ranges?.reserveCapacity(values!.count)
+        _ranges!.reserveCapacity(values.count)
         
         var negRemain = -negativeSum
         var posRemain: Double = 0.0
         
-        for i in 0 ..< values!.count
+        for value in values
         {
-            let value = values![i]
-            
             if value < 0
             {
-                _ranges?.append(Range(from: negRemain, to: negRemain - value))
+                _ranges!.append(Range(from: negRemain, to: negRemain - value))
                 negRemain -= value
             }
             else
             {
-                _ranges?.append(Range(from: posRemain, to: posRemain + value))
+                _ranges!.append(Range(from: posRemain, to: posRemain + value))
                 posRemain += value
             }
         }
