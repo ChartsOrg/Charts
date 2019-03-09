@@ -102,22 +102,18 @@ extension BarLineScatterCandleBubbleRenderer.XBounds: RangeExpression {
 
 extension BarLineScatterCandleBubbleRenderer.XBounds: Sequence {
     public struct Iterator: IteratorProtocol {
-        private let bounds: BarLineScatterCandleBubbleRenderer.XBounds
-        private var value: Int
-
-        fileprivate init(bounds: BarLineScatterCandleBubbleRenderer.XBounds) {
-            self.bounds = bounds
-            self.value = bounds.min
+        private var iterator: IndexingIterator<ClosedRange<Int>>
+        
+        fileprivate init(min: Int, max: Int) {
+            self.iterator = (min...max).makeIterator()
         }
-
+        
         public mutating func next() -> Int? {
-            guard value < bounds.max else { return  nil }
-            value += 1
-            return value
+            return self.iterator.next()
         }
     }
-
+    
     public func makeIterator() -> Iterator {
-        return Iterator(bounds: self)
+        return Iterator(min: self.min, max: self.max)
     }
 }
