@@ -168,21 +168,9 @@ open class RadarChartView: PieRadarChartViewBase
         let sliceAngle = self.sliceAngle
         
         let max = _data?.maxEntryCountSet?.entryCount ?? 0
-        
-        var index = 0
-        
-        for i in 0..<max
-        {
-            let referenceAngle = sliceAngle * CGFloat(i + 1) - sliceAngle / 2.0
-            
-            if referenceAngle > a
-            {
-                index = i
-                break
-            }
-        }
-        
-        return index
+        return (0..<max).firstIndex {
+            sliceAngle * CGFloat($0 + 1) - sliceAngle / 2.0 > a
+        } ?? max
     }
 
     /// The object that represents all y-labels of the RadarChart.

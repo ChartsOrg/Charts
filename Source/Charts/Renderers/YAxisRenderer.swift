@@ -143,7 +143,8 @@ open class YAxisRenderer: AxisRendererBase
                 text: text,
                 point: CGPoint(x: fixedPosition, y: positions[i].y + offset),
                 align: textAlign,
-                attributes: [NSAttributedString.Key.font: labelFont, NSAttributedString.Key.foregroundColor: labelTextColor])
+                attributes: [.font: labelFont, .foregroundColor: labelTextColor]
+            )
         }
     }
     
@@ -182,10 +183,7 @@ open class YAxisRenderer: AxisRendererBase
             }
             
             // draw the grid
-            for i in 0 ..< positions.count
-            {
-                drawGridLine(context: context, position: positions[i])
-            }
+            positions.forEach { drawGridLine(context: context, position: $0) }
         }
 
         if yAxis.drawZeroLineEnabled

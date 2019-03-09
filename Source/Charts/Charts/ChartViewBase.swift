@@ -402,7 +402,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - Returns: `true` if there are values to highlight, `false` ifthere are no values to highlight.
     @objc open func valuesToHighlight() -> Bool
     {
-        return _indicesToHighlight.count > 0
+        return !_indicesToHighlight.isEmpty
     }
 
     /// Highlights the values at the given indices in the given DataSets. Provide
