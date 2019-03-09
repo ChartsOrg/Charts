@@ -680,7 +680,7 @@ open class PieRadarChartViewBase: ChartViewBase
         }
         velocitySamples.append(currentSample)
     }
-    
+
     private func calculateVelocity() -> CGFloat
     {
         guard var firstSample = velocitySamples.first,
@@ -714,12 +714,12 @@ open class PieRadarChartViewBase: ChartViewBase
         {
             lastSample.angle += 360.0
         }
-        
+
         // The velocity
         let velocity = abs((lastSample.angle - firstSample.angle) / timeDelta)
         return isClockwise ? velocity : -velocity
     }
-    
+
     /// sets the starting angle of the rotation, this is only used by the touch listener, x and y is the touch position
     private func setGestureStartAngle(x: CGFloat, y: CGFloat)
     {
