@@ -319,6 +319,19 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             paragraphStyle.lineBreakMode = .byWordWrapping
             paragraphStyle.alignment = noDataTextAlignment
 
+            #if compiler(>=5.0)
+            ChartUtils.drawMultilineText(
+                context: context,
+                text: noDataText,
+                point: CGPoint(x: frame.width / 2.0, y: frame.height / 2.0),
+                attributes:
+                [.font: noDataFont as Any,
+                 .foregroundColor: noDataTextColor,
+                 .paragraphStyle: paragraphStyle],
+                constrainedToSize: self.bounds.size,
+                anchor: CGPoint(x: 0.5, y: 0.5),
+                angleRadians: 0.0)
+            #else
             ChartUtils.drawMultilineText(
                 context: context,
                 text: noDataText,
@@ -330,6 +343,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
                 constrainedToSize: self.bounds.size,
                 anchor: CGPoint(x: 0.5, y: 0.5),
                 angleRadians: 0.0)
+            #endif
             
             return
         }
@@ -917,10 +931,17 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     @objc open func removeViewportJob(_ job: ViewPortJob)
     {
+        #if compiler(>=5.0)
+        if let index = _viewportJobs.firstIndex(where: { $0 === job })
+        {
+            _viewportJobs.remove(at: index)
+        }
+        #else
         if let index = _viewportJobs.index(where: { $0 === job })
         {
             _viewportJobs.remove(at: index)
         }
+        #endif
     }
     
     @objc open func clearAllViewportJobs()
