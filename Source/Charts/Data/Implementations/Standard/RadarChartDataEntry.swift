@@ -19,16 +19,14 @@ open class RadarChartDataEntry: ChartDataEntry
         super.init()
     }
     
-    /// - Parameters:
-    ///   - value: The value on the y-axis.
-    ///   - data: Spot for additional data this Entry represents.
+    /// - parameter value: The value on the y-axis.
+    /// - parameter data: Spot for additional data this Entry represents.
     @objc public init(value: Double, data: AnyObject?)
     {
         super.init(x: 0.0, y: value, data: data)
     }
     
-    /// - Parameters:
-    ///   - value: The value on the y-axis.
+    /// - parameter value: The value on the y-axis.
     @objc public convenience init(value: Double)
     {
         self.init(value: value, data: nil)
@@ -44,9 +42,9 @@ open class RadarChartDataEntry: ChartDataEntry
     
     // MARK: NSCopying
     
-    open override func copy(with zone: NSZone? = nil) -> Any
+    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
-        let copy = super.copy(with: zone) as! RadarChartDataEntry
+        let copy = super.copyWithZone(zone) as! RadarChartDataEntry
         
         return copy
     }

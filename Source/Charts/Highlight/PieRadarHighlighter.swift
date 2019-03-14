@@ -49,11 +49,10 @@ open class PieRadarHighlighter: ChartHighlighter
 
     }
     
-    /// - Parameters:
-    ///   - index:
-    ///   - x:
-    ///   - y:
-    /// - Returns: The closest Highlight object of the given objects based on the touch position inside the chart.
+    /// - returns: The closest Highlight object of the given objects based on the touch position inside the chart.
+    /// - parameter index:
+    /// - parameter x:
+    /// - parameter y:
     @objc open func closestHighlight(index: Int, x: CGFloat, y: CGFloat) -> Highlight?
     {
         fatalError("closestHighlight(index, x, y) cannot be called on PieRadarChartHighlighter")

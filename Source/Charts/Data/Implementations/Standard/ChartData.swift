@@ -235,13 +235,13 @@ open class ChartData: NSObject
         }
     }
     
-    /// The number of LineDataSets this object contains
+    /// - returns: The number of LineDataSets this object contains
     @objc open var dataSetCount: Int
     {
         return _dataSets.count
     }
     
-    /// The smallest y-value the data object contains.
+    /// - returns: The smallest y-value the data object contains.
     @objc open var yMin: Double
     {
         return _yMin
@@ -279,7 +279,7 @@ open class ChartData: NSObject
         }
     }
     
-    /// The greatest y-value the data object contains.
+    /// - returns: The greatest y-value the data object contains.
     @objc open var yMax: Double
     {
         return _yMax
@@ -317,18 +317,18 @@ open class ChartData: NSObject
         }
     }
     
-    /// The minimum x-value the data object contains.
+    /// - returns: The minimum x-value the data object contains.
     @objc open var xMin: Double
     {
         return _xMin
     }
-    /// The maximum x-value the data object contains.
+    /// - returns: The maximum x-value the data object contains.
     @objc open var xMax: Double
     {
         return _xMax
     }
     
-    /// All DataSet objects this ChartData object holds.
+    /// - returns: All DataSet objects this ChartData object holds.
     @objc open var dataSets: [IChartDataSet]
     {
         get
@@ -346,11 +346,10 @@ open class ChartData: NSObject
     /// 
     /// **IMPORTANT: This method does calculations at runtime, do not over-use in performance critical situations.**
     ///
-    /// - Parameters:
-    ///   - dataSets: the DataSet array to search
-    ///   - type:
-    ///   - ignorecase: if true, the search is not case-sensitive
-    /// - Returns: The index of the DataSet Object with the given label. Sensitive or not.
+    /// - parameter dataSets: the DataSet array to search
+    /// - parameter type:
+    /// - parameter ignorecase: if true, the search is not case-sensitive
+    /// - returns: The index of the DataSet Object with the given label. Sensitive or not.
     internal func getDataSetIndexByLabel(_ label: String, ignorecase: Bool) -> Int
     {
         if ignorecase
@@ -381,7 +380,7 @@ open class ChartData: NSObject
         return -1
     }
     
-    /// - Returns: The labels of all DataSets as a string array.
+    /// - returns: The labels of all DataSets as a string array.
     internal func dataSetLabels() -> [String]
     {
         var types = [String]()
@@ -401,9 +400,8 @@ open class ChartData: NSObject
     
     /// Get the Entry for a corresponding highlight object
     ///
-    /// - Parameters:
-    ///   - highlight:
-    /// - Returns: The entry that is highlighted
+    /// - parameter highlight:
+    /// - returns: The entry that is highlighted
     @objc open func entryForHighlight(_ highlight: Highlight) -> ChartDataEntry?
     {
         if highlight.dataSetIndex >= dataSets.count
@@ -418,10 +416,9 @@ open class ChartData: NSObject
     
     /// **IMPORTANT: This method does calculations at runtime. Use with care in performance critical situations.**
     ///
-    /// - Parameters:
-    ///   - label:
-    ///   - ignorecase:
-    /// - Returns: The DataSet Object with the given label. Sensitive or not.
+    /// - parameter label:
+    /// - parameter ignorecase:
+    /// - returns: The DataSet Object with the given label. Sensitive or not.
     @objc open func getDataSetByLabel(_ label: String, ignorecase: Bool) -> IChartDataSet?
     {
         let index = getDataSetIndexByLabel(label, ignorecase: ignorecase)
@@ -456,7 +453,7 @@ open class ChartData: NSObject
     /// Removes the given DataSet from this data object.
     /// Also recalculates all minimum and maximum values.
     ///
-    /// - Returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
+    /// - returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
     @objc @discardableResult open func removeDataSet(_ dataSet: IChartDataSet!) -> Bool
     {
         if dataSet === nil
@@ -478,7 +475,7 @@ open class ChartData: NSObject
     /// Removes the DataSet at the given index in the DataSet array from the data object. 
     /// Also recalculates all minimum and maximum values. 
     ///
-    /// - Returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
+    /// - returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
     @objc @discardableResult open func removeDataSetByIndex(_ index: Int) -> Bool
     {
         if index >= _dataSets.count || index < 0
@@ -532,8 +529,7 @@ open class ChartData: NSObject
     
     /// Removes the Entry object closest to the given xIndex from the ChartDataSet at the
     /// specified index. 
-    ///
-    /// - Returns: `true` if an entry was removed, `false` ifno Entry was found that meets the specified requirements.
+    /// - returns: `true` if an entry was removed, `false` ifno Entry was found that meets the specified requirements.
     @objc @discardableResult open func removeEntry(xValue: Double, dataSetIndex: Int) -> Bool
     {
         if dataSetIndex >= _dataSets.count
@@ -549,7 +545,7 @@ open class ChartData: NSObject
         return false
     }
     
-    /// - Returns: The DataSet that contains the provided Entry, or null, if no DataSet contains this entry.
+    /// - returns: The DataSet that contains the provided Entry, or null, if no DataSet contains this entry.
     @objc open func getDataSetForEntry(_ e: ChartDataEntry!) -> IChartDataSet?
     {
         if e == nil
@@ -570,7 +566,7 @@ open class ChartData: NSObject
         return nil
     }
 
-    /// - Returns: The index of the provided DataSet in the DataSet array of this data object, or -1 if it does not exist.
+    /// - returns: The index of the provided DataSet in the DataSet array of this data object, or -1 if it does not exist.
     @objc open func indexOfDataSet(_ dataSet: IChartDataSet) -> Int
     {
         for i in 0 ..< _dataSets.count
@@ -584,7 +580,7 @@ open class ChartData: NSObject
         return -1
     }
     
-    /// - Returns: The first DataSet from the datasets-array that has it's dependency on the left axis. Returns null if no DataSet with left dependency could be found.
+    /// - returns: The first DataSet from the datasets-array that has it's dependency on the left axis. Returns null if no DataSet with left dependency could be found.
     @objc open func getFirstLeft(dataSets: [IChartDataSet]) -> IChartDataSet?
     {
         for dataSet in dataSets
@@ -598,7 +594,7 @@ open class ChartData: NSObject
         return nil
     }
     
-    /// - Returns: The first DataSet from the datasets-array that has it's dependency on the right axis. Returns null if no DataSet with right dependency could be found.
+    /// - returns: The first DataSet from the datasets-array that has it's dependency on the right axis. Returns null if no DataSet with right dependency could be found.
     @objc open func getFirstRight(dataSets: [IChartDataSet]) -> IChartDataSet?
     {
         for dataSet in _dataSets
@@ -612,7 +608,7 @@ open class ChartData: NSObject
         return nil
     }
     
-    /// - Returns: All colors used across all DataSet objects this object represents.
+    /// - returns: All colors used across all DataSet objects this object represents.
     @objc open func getColors() -> [NSUIColor]?
     {
         var clrcnt = 0
@@ -713,8 +709,7 @@ open class ChartData: NSObject
     }
     
     /// Checks if this data object contains the specified DataSet. 
-    ///
-    /// - Returns: `true` if so, `false` ifnot.
+    /// - returns: `true` if so, `false` ifnot.
     @objc open func contains(dataSet: IChartDataSet) -> Bool
     {
         for set in dataSets
@@ -728,7 +723,7 @@ open class ChartData: NSObject
         return false
     }
     
-    /// The total entry count across all DataSet objects this data object contains.
+    /// - returns: The total entry count across all DataSet objects this data object contains.
     @objc open var entryCount: Int
     {
         var count = 0
@@ -741,7 +736,7 @@ open class ChartData: NSObject
         return count
     }
 
-    /// The DataSet object with the maximum number of entries or null if there are no DataSets.
+    /// - returns: The DataSet object with the maximum number of entries or null if there are no DataSets.
     @objc open var maxEntryCountSet: IChartDataSet?
     {
         if _dataSets.count == 0

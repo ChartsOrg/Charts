@@ -33,10 +33,9 @@ open class BarChartData: BarLineScatterCandleBubbleChartData
     /// Previously set x-values of entries will be overwritten. Leaves space between bars and groups as specified by the parameters.
     /// Do not forget to call notifyDataSetChanged() on your BarChart object after calling this method.
     ///
-    /// - Parameters:
-    ///   - fromX: the starting point on the x-axis where the grouping should begin
-    ///   - groupSpace: The space between groups of bars in values (not pixels) e.g. 0.8f for bar width 1f
-    ///   - barSpace: The space between individual bars in values (not pixels) e.g. 0.1f for bar width 1f
+    /// - parameter the starting point on the x-axis where the grouping should begin
+    /// - parameter groupSpace: The space between groups of bars in values (not pixels) e.g. 0.8f for bar width 1f
+    /// - parameter barSpace: The space between individual bars in values (not pixels) e.g. 0.1f for bar width 1f
     @objc open func groupBars(fromX: Double, groupSpace: Double, barSpace: Double)
     {
         let setCount = _dataSets.count
@@ -96,9 +95,8 @@ open class BarChartData: BarLineScatterCandleBubbleChartData
     
     /// In case of grouped bars, this method returns the space an individual group of bar needs on the x-axis.
     ///
-    /// - Parameters:
-    ///   - groupSpace:
-    ///   - barSpace:
+    /// - parameter groupSpace:
+    /// - parameter barSpace:
     @objc open func groupWidth(groupSpace: Double, barSpace: Double) -> Double
     {
         return Double(_dataSets.count) * (self.barWidth + barSpace) + groupSpace

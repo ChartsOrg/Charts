@@ -15,7 +15,7 @@ internal func accessibilityPostScreenChangedNotification(withElement element: An
 /// A simple abstraction over UIAccessibilityElement and NSAccessibilityElement.
 open class NSUIAccessibilityElement: UIAccessibilityElement
 {
-    private weak var containerView: UIView?
+    private let containerView: UIView
 
     final var isHeader: Bool = false
     {
@@ -33,10 +33,10 @@ open class NSUIAccessibilityElement: UIAccessibilityElement
         }
     }
 
-    override public init(accessibilityContainer container: Any)
+    override init(accessibilityContainer container: Any)
     {
         // We can force unwrap since all chart views are subclasses of UIView
-        containerView = (container as! UIView)
+        containerView = container as! UIView
         super.init(accessibilityContainer: container)
     }
 
@@ -49,7 +49,6 @@ open class NSUIAccessibilityElement: UIAccessibilityElement
 
         set
         {
-            guard let containerView = containerView else { return }
             super.accessibilityFrame = containerView.convert(newValue, to: UIScreen.main.coordinateSpace)
         }
     }
@@ -105,7 +104,7 @@ internal func accessibilityPostScreenChangedNotification(withElement element: An
 /// A simple abstraction over UIAccessibilityElement and NSAccessibilityElement.
 open class NSUIAccessibilityElement: NSAccessibilityElement
 {
-    private weak var containerView: NSView?
+    private let containerView: NSView
 
     final var isHeader: Bool = false
     {
@@ -145,8 +144,6 @@ open class NSUIAccessibilityElement: NSAccessibilityElement
 
         set
         {
-            guard let containerView = containerView else { return }
-
             let bounds = NSAccessibility.screenRect(fromView: containerView, rect: newValue)
 
             // This works, but won't auto update if the window is resized or moved.
@@ -167,10 +164,10 @@ open class NSUIAccessibilityElement: NSAccessibilityElement
         }
     }
 
-    public init(accessibilityContainer container: Any)
+    init(accessibilityContainer container: Any)
     {
         // We can force unwrap since all chart views are subclasses of NSView
-        containerView = (container as! NSView)
+        containerView = container as! NSView
 
         super.init()
 
@@ -179,7 +176,7 @@ open class NSUIAccessibilityElement: NSAccessibilityElement
     }
 }
 
-/// - Note: setAccessibilityRole(.list) is called at init. See Platform.swift.
+/// NOTE: setAccessibilityRole(.list) is called at init. See Platform.swift.
 extension NSUIView: NSAccessibilityGroup
 {
     open override func accessibilityLabel() -> String?

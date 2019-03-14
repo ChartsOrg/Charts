@@ -22,7 +22,7 @@ public protocol ILineRadarChartDataSet: ILineScatterCandleRadarChartDataSet
     /// The color that is used for filling the line surface area.
     var fillColor: NSUIColor { get set }
 
-    /// - Returns: The object that is used for filling the area below the line.
+    /// - returns: The object that is used for filling the area below the line.
     /// **default**: nil
     var fill: Fill? { get set }
     
@@ -40,6 +40,6 @@ public protocol ILineRadarChartDataSet: ILineScatterCandleRadarChartDataSet
     /// Please note that this method uses the path clipping for drawing the filled area (with images, gradients and layers).
     var drawFilledEnabled: Bool { get set }
     
-    /// `true` if filled drawing is enabled, `false` if not
+    /// - returns: `true` if filled drawing is enabled, `false` if not
     var isDrawFilledEnabled: Bool { get }
 }

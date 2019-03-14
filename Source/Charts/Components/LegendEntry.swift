@@ -24,15 +24,14 @@ open class LegendEntry: NSObject
         super.init()
     }
     
-    /// - Parameters:
-    ///   - label:                  The legend entry text.
+    /// - parameter label:                  The legend entry text.
     ///                                     A `nil` label will start a group.
-    ///   - form:                   The form to draw for this entry.
-    ///   - formSize:               Set to NaN to use the legend's default.
-    ///   - formLineWidth:          Set to NaN to use the legend's default.
-    ///   - formLineDashPhase:      Line dash configuration.
-    ///   - formLineDashLengths:    Line dash configurationas NaN to use the legend's default.
-    ///   - formColor:              The color for drawing the form.
+    /// - parameter form:                   The form to draw for this entry.
+    /// - parameter formSize:               Set to NaN to use the legend's default.
+    /// - parameter formLineWidth:          Set to NaN to use the legend's default.
+    /// - parameter formLineDashPhase:      Line dash configuration.
+    /// - parameter formLineDashLengths:    Line dash configurationas NaN to use the legend's default.
+    /// - parameter formColor:              The color for drawing the form.
     @objc public init(label: String?,
                 form: Legend.Form,
                 formSize: CGFloat,

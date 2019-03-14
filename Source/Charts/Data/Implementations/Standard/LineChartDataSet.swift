@@ -76,7 +76,7 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     
     open var circleColors = [NSUIColor]()
     
-    /// - Returns: The color at the given index of the DataSet's circle-color array.
+    /// - returns: The color at the given index of the DataSet's circle-color array.
     /// Performs a IndexOutOfBounds check by modulus.
     open func getCircleColor(atIndex index: Int) -> NSUIColor?
     {
@@ -112,7 +112,7 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     /// If true, drawing circles is enabled
     open var drawCirclesEnabled = true
     
-    /// `true` if drawing circles for this DataSet is enabled, `false` ifnot
+    /// - returns: `true` if drawing circles for this DataSet is enabled, `false` ifnot
     open var isDrawCirclesEnabled: Bool { return drawCirclesEnabled }
     
     /// The color of the inner circle (the circle-hole).
@@ -121,7 +121,7 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     /// `true` if drawing circles for this DataSet is enabled, `false` ifnot
     open var drawCircleHoleEnabled = true
     
-    /// `true` if drawing the circle-holes is enabled, `false` ifnot.
+    /// - returns: `true` if drawing the circle-holes is enabled, `false` ifnot.
     open var isDrawCircleHoleEnabled: Bool { return drawCircleHoleEnabled }
     
     /// This is how much (in pixels) into the dash pattern are we starting from.
@@ -151,15 +151,15 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         }
     }
     
+    open var boundedFill = false
+    
     // MARK: NSCopying
     
-    open override func copy(with zone: NSZone? = nil) -> Any
+    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
-        let copy = super.copy(with: zone) as! LineChartDataSet
+        let copy = super.copyWithZone(zone) as! LineChartDataSet
         copy.circleColors = circleColors
-        copy.circleHoleColor = circleHoleColor
         copy.circleRadius = circleRadius
-        copy.circleHoleRadius = circleHoleRadius
         copy.cubicIntensity = cubicIntensity
         copy.lineDashPhase = lineDashPhase
         copy.lineDashLengths = lineDashLengths
@@ -167,7 +167,6 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         copy.drawCirclesEnabled = drawCirclesEnabled
         copy.drawCircleHoleEnabled = drawCircleHoleEnabled
         copy.mode = mode
-        copy._fillFormatter = _fillFormatter
         return copy
     }
 }

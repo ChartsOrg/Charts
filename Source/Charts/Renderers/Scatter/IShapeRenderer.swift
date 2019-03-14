@@ -17,12 +17,11 @@ public protocol IShapeRenderer: class
 {
     /// Renders the provided ScatterDataSet with a shape.
     ///
-    /// - Parameters:
-    ///   - context:         CGContext for drawing on
-    ///   - dataSet:         The DataSet to be drawn
-    ///   - viewPortHandler: Contains information about the current state of the view
-    ///   - point:           Position to draw the shape at
-    ///   - color:           Color to draw the shape
+    /// - parameter context:         CGContext for drawing on
+    /// - parameter dataSet:         The DataSet to be drawn
+    /// - parameter viewPortHandler: Contains information about the current state of the view
+    /// - parameter point:           Position to draw the shape at
+    /// - parameter color:           Color to draw the shape
     func renderShape(
         context: CGContext,
         dataSet: IScatterChartDataSet,
