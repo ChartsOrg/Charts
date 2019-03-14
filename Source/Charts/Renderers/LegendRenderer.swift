@@ -52,21 +52,12 @@ open class LegendRenderer: Renderer
                 {
                     let bds = dataSet as! IBarChartDataSet
                     var sLabels = bds.stackLabels
-                    let minEntries = min(clrs.count, bds.stackSize)
-
-                    for j in 0..<minEntries
+                    
+                    for j in 0..<min(clrs.count, bds.stackSize)
                     {
-                        let label: String?
-                        if (sLabels.count > 0 && minEntries > 0) {
-                            let labelIndex = j % minEntries
-                            label = sLabels.indices.contains(labelIndex) ? sLabels[labelIndex] : nil
-                        } else {
-                            label = nil
-                        }
-
                         entries.append(
                             LegendEntry(
-                                label: label,
+                                label: sLabels[j % sLabels.count],
                                 form: dataSet.form,
                                 formSize: dataSet.formSize,
                                 formLineWidth: dataSet.formLineWidth,

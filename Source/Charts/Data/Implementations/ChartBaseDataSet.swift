@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 
-open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
+open class ChartBaseDataSet: NSObject, IChartDataSet
 {
     public required override init()
     {
@@ -198,7 +198,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     /// The axis this DataSet should be plotted against.
     open var axisDependency = YAxis.AxisDependency.left
     
-    /// - Returns: The color at the given index of the DataSet's color array.
+    /// - returns: The color at the given index of the DataSet's color array.
     /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
     open func color(atIndex index: Int) -> NSUIColor
     {
@@ -217,9 +217,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     }
     
     /// Adds a new color to the colors array of the DataSet.
-    ///
-    /// - Parameters:
-    ///   - color: the color to add
+    /// - parameter color: the color to add
     open func addColor(_ color: NSUIColor)
     {
         colors.append(color)
@@ -227,9 +225,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     
     /// Sets the one and **only** color that should be used for this DataSet.
     /// Internally, this recreates the colors array and adds the specified color.
-    ///
-    /// - Parameters:
-    ///   - color: the color to set
+    /// - parameter color: the color to set
     open func setColor(_ color: NSUIColor)
     {
         colors.removeAll(keepingCapacity: false)
@@ -237,20 +233,16 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     }
     
     /// Sets colors to a single color a specific alpha value.
-    ///
-    /// - Parameters:
-    ///   - color: the color to set
-    ///   - alpha: alpha to apply to the set `color`
+    /// - parameter color: the color to set
+    /// - parameter alpha: alpha to apply to the set `color`
     @objc open func setColor(_ color: NSUIColor, alpha: CGFloat)
     {
         setColor(color.withAlphaComponent(alpha))
     }
     
     /// Sets colors with a specific alpha value.
-    ///
-    /// - Parameters:
-    ///   - colors: the colors to set
-    ///   - alpha: alpha to apply to the set `colors`
+    /// - parameter colors: the colors to set
+    /// - parameter alpha: alpha to apply to the set `colors`
     @objc open func setColors(_ colors: [NSUIColor], alpha: CGFloat)
     {
         var colorsWithAlpha = colors
@@ -264,10 +256,8 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     }
     
     /// Sets colors with a specific alpha value.
-    ///
-    /// - Parameters:
-    ///   - colors: the colors to set
-    ///   - alpha: alpha to apply to the set `colors`
+    /// - parameter colors: the colors to set
+    /// - parameter alpha: alpha to apply to the set `colors`
     open func setColors(_ colors: NSUIColor...)
     {
         self.colors = colors
@@ -276,7 +266,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     /// if true, value highlighting is enabled
     open var highlightEnabled = true
     
-    /// `true` if value highlighting is enabled for this dataset
+    /// - returns: `true` if value highlighting is enabled for this dataset
     open var isHighlightEnabled: Bool { return highlightEnabled }
     
     /// Custom formatter that is used instead of the auto-formatter if set
@@ -323,7 +313,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
         }
     }
     
-    /// - Returns: The color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
+    /// - returns: The color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
     open func valueTextColorAt(_ index: Int) -> NSUIColor
     {
         var index = index
@@ -364,10 +354,10 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     
     /// Set this to true to draw y-values on the chart.
     ///
-    /// - Note: For bar and line charts: if `maxVisibleCount` is reached, no values will be drawn even if this is enabled.
+    /// - note: For bar and line charts: if `maxVisibleCount` is reached, no values will be drawn even if this is enabled.
     open var drawValuesEnabled = true
     
-    /// `true` if y-value drawing is enabled, `false` ifnot
+    /// - returns: `true` if y-value drawing is enabled, `false` ifnot
     open var isDrawValuesEnabled: Bool
     {
         return drawValuesEnabled
@@ -375,7 +365,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
 
     /// Set this to true to draw y-icons on the chart.
     ///
-    /// - Note: For bar and line charts: if `maxVisibleCount` is reached, no icons will be drawn even if this is enabled.
+    /// - note: For bar and line charts: if `maxVisibleCount` is reached, no icons will be drawn even if this is enabled.
     open var drawIconsEnabled = true
     
     /// Returns true if y-icon drawing is enabled, false if not
@@ -394,7 +384,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     /// Set the visibility of this DataSet. If not visible, the DataSet will not be drawn to the chart upon refreshing it.
     open var visible = true
     
-    /// `true` if this DataSet is visible inside the chart, or `false` ifit is currently hidden.
+    /// - returns: `true` if this DataSet is visible inside the chart, or `false` ifit is currently hidden.
     open var isVisible: Bool
     {
         return visible
@@ -421,26 +411,13 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     
     // MARK: - NSCopying
     
-    open func copy(with zone: NSZone? = nil) -> Any 
+    @objc open func copyWithZone(_ zone: NSZone?) -> AnyObject
     {
         let copy = type(of: self).init()
         
         copy.colors = colors
         copy.valueColors = valueColors
         copy.label = label
-        copy.axisDependency = axisDependency
-        copy.highlightEnabled = highlightEnabled
-        copy._valueFormatter = _valueFormatter
-        copy.valueFont = valueFont
-        copy.form = form
-        copy.formSize = formSize
-        copy.formLineWidth = formLineWidth
-        copy.formLineDashPhase = formLineDashPhase
-        copy.formLineDashLengths = formLineDashLengths
-        copy.drawValuesEnabled = drawValuesEnabled
-        copy.drawValuesEnabled = drawValuesEnabled
-        copy.iconsOffset = iconsOffset
-        copy.visible = visible
         
         return copy
     }

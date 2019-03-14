@@ -143,7 +143,7 @@ open class AxisBase: ComponentBase
         return longest
     }
     
-    /// - Returns: The formatted label at the specified index. This will either use the auto-formatter or the custom formatter (if one is set).
+    /// - returns: The formatted label at the specified index. This will either use the auto-formatter or the custom formatter (if one is set).
     @objc open func getFormattedLabel(_ index: Int) -> String
     {
         if index < 0 || index >= entries.count
@@ -220,7 +220,7 @@ open class AxisBase: ComponentBase
     
     /// The maximum number of labels on the axis
     @objc open var axisMaxLabels = Int(25) {
-        didSet { axisMaxLabels = axisMaxLabels > 0 ? axisMaxLabels : oldValue }
+        didSet { axisMinLabels = axisMaxLabels > 0 ? axisMaxLabels : oldValue }
     }
     
     /// the number of label entries the axis should have
@@ -249,7 +249,7 @@ open class AxisBase: ComponentBase
         forceLabelsEnabled = force
     }
     
-    /// `true` if focing the y-label count is enabled. Default: false
+    /// - returns: `true` if focing the y-label count is enabled. Default: false
     @objc open var isForceLabelsEnabled: Bool { return forceLabelsEnabled }
     
     /// Adds a new ChartLimitLine to this axis.
@@ -277,7 +277,7 @@ open class AxisBase: ComponentBase
         _limitLines.removeAll(keepingCapacity: false)
     }
     
-    /// The LimitLines of this axis.
+    /// - returns: The LimitLines of this axis.
     @objc open var limitLines : [ChartLimitLine]
     {
         return _limitLines
@@ -336,10 +336,8 @@ open class AxisBase: ComponentBase
     }
     
     /// Calculates the minimum, maximum and range values of the YAxis with the given minimum and maximum values from the chart data.
-    ///
-    /// - Parameters:
-    ///   - dataMin: the y-min value according to chart data
-    ///   - dataMax: the y-max value according to chart
+    /// - parameter dataMin: the y-min value according to chart data
+    /// - parameter dataMax: the y-max value according to chart
     @objc open func calculate(min dataMin: Double, max dataMax: Double)
     {
         // if custom, use value as is, else use data value

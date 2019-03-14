@@ -40,7 +40,7 @@ open class RadarChartDataSet: LineRadarChartDataSet, IRadarChartDataSet
     /// **default**: false
     open var drawHighlightCircleEnabled: Bool = false
     
-    /// `true` if highlight circle should be drawn, `false` ifnot
+    /// - returns: `true` if highlight circle should be drawn, `false` ifnot
     open var isDrawHighlightCircleEnabled: Bool { return drawHighlightCircleEnabled }
     
     open var highlightCircleFillColor: NSUIColor? = NSUIColor.white

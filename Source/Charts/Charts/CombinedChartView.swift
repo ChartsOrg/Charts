@@ -76,7 +76,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         }
     }
     
-    /// - Returns: The Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the CombinedChart.
+    /// - returns: The Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the CombinedChart.
     open override func getHighlightByTouchPoint(_ pt: CGPoint) -> Highlight?
     {
         if _data === nil
@@ -176,10 +176,10 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         set { (renderer as! CombinedChartRenderer).drawBarShadowEnabled = newValue }
     }
     
-    /// `true` if drawing values above bars is enabled, `false` ifnot
+    /// - returns: `true` if drawing values above bars is enabled, `false` ifnot
     open var isDrawValueAboveBarEnabled: Bool { return (renderer as! CombinedChartRenderer).drawValueAboveBarEnabled }
     
-    /// `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
+    /// - returns: `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
     open var isDrawBarShadowEnabled: Bool { return (renderer as! CombinedChartRenderer).drawBarShadowEnabled }
     
     /// the order in which the provided data objects should be drawn.
@@ -200,7 +200,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     /// Set this to `true` to make the highlight operation full-bar oriented, `false` to make it highlight single values
     @objc open var highlightFullBarEnabled: Bool = false
     
-    /// `true` the highlight is be full-bar oriented, `false` ifsingle-value
+    /// - returns: `true` the highlight is be full-bar oriented, `false` ifsingle-value
     open var isHighlightFullBarEnabled: Bool { return highlightFullBarEnabled }
     
     // MARK: - ChartViewBase

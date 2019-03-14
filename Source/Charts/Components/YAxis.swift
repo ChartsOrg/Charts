@@ -129,7 +129,7 @@ open class YAxis: AxisBase
         return requiredSize().height
     }
     
-    /// `true` if this axis needs horizontal offset, `false` ifno offset is needed.
+    /// - returns: `true` if this axis needs horizontal offset, `false` ifno offset is needed.
     @objc open var needsOffset: Bool
     {
         if isEnabled && isDrawLabelsEnabled && labelPosition == .outsideChart
@@ -149,23 +149,6 @@ open class YAxis: AxisBase
         // if custom, use value as is, else use data value
         var min = _customAxisMin ? _axisMinimum : dataMin
         var max = _customAxisMax ? _axisMaximum : dataMax
-        
-        // Make sure max is greater than min
-        // Discussion: https://github.com/danielgindi/Charts/pull/3650#discussion_r221409991
-        if min > max
-        {
-            switch(_customAxisMax, _customAxisMin)
-            {
-            case(true, true):
-                (min, max) = (max, min)
-            case(true, false):
-                min = max < 0 ? max * 1.5 : max * 0.5
-            case(false, true):
-                max = min < 0 ? min * 0.5 : min * 1.5
-            case(false, false):
-                break
-            }
-        }
         
         // temporary range (before calculations)
         let range = abs(max - min)

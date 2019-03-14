@@ -54,10 +54,8 @@ open class AxisRendererBase: Renderer
     }
     
     /// Computes the axis values.
-    ///
-    /// - Parameters:
-    ///   - min: the minimum value in the data object for this axis
-    ///   - max: the maximum value in the data object for this axis
+    /// - parameter min: the minimum value in the data object for this axis
+    /// - parameter max: the maximum value in the data object for this axis
     @objc open func computeAxis(min: Double, max: Double, inverted: Bool)
     {
         var min = min, max = max
@@ -97,7 +95,7 @@ open class AxisRendererBase: Renderer
         let labelCount = axis.labelCount
         let range = abs(yMax - yMin)
         
-        if labelCount == 0 || range <= 0 || range.isInfinite
+        if labelCount == 0 || range <= 0 || range.isInfinite || range.isNaN
         {
             axis.entries = [Double]()
             axis.centeredEntries = [Double]()

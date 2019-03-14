@@ -168,7 +168,7 @@ open class CombinedChartRenderer: DataRenderer
         }
     }
 
-    /// - Returns: The sub-renderer object at the specified index.
+    /// - returns: The sub-renderer object at the specified index.
     @objc open func getSubRenderer(index: Int) -> DataRenderer?
     {
         if index >= _renderers.count || index < 0
@@ -181,7 +181,7 @@ open class CombinedChartRenderer: DataRenderer
         }
     }
 
-    /// All sub-renderers.
+    /// - returns: All sub-renderers.
     @objc open var subRenderers: [DataRenderer]
     {
         get { return _renderers }
@@ -190,10 +190,10 @@ open class CombinedChartRenderer: DataRenderer
     
     // MARK: Accessors
     
-    /// `true` if drawing values above bars is enabled, `false` ifnot
+    /// - returns: `true` if drawing values above bars is enabled, `false` ifnot
     @objc open var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled }
     
-    /// `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
+    /// - returns: `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
     @objc open var isDrawBarShadowEnabled: Bool { return drawBarShadowEnabled }
     
     /// the order in which the provided data objects should be drawn.

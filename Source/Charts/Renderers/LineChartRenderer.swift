@@ -486,16 +486,32 @@ open class LineChartRenderer: LineRadarRenderer
                 guard let ePrev = dataSet.entryForIndex(x-1) else { continue }
                 filled.addLine(to: CGPoint(x: CGFloat(e.x), y: CGFloat(ePrev.y * phaseY)), transform: matrix)
             }
-            
+
             filled.addLine(to: CGPoint(x: CGFloat(e.x), y: CGFloat(e.y * phaseY)), transform: matrix)
         }
         
         // close up
-        e = dataSet.entryForIndex(bounds.range + bounds.min)
-        if e != nil
-        {
-            filled.addLine(to: CGPoint(x: CGFloat(e.x), y: fillMin), transform: matrix)
+        if dataSet.boundedFill {
+            for x in stride(from: (bounds.range + bounds.min), through: bounds.min, by: -1)
+            {
+                guard let e = dataSet.entryForIndex(x) else { continue }
+                
+                // if isDrawSteppedEnabled
+                // {
+                //     guard let ePrev = dataSet.entryForIndex(x-1) else { continue }
+                //     filled.addLine(to: CGPoint(x: CGFloat(e.x), y: CGFloat(ePrev.y * phaseY)), transform: matrix)
+                // }
+
+                filled.addLine(to: CGPoint(x: CGFloat(e.x), y: CGFloat(e.y2 * phaseY)), transform: matrix)
+            }
+        } else {
+             e = dataSet.entryForIndex(bounds.range + bounds.min)
+             if e != nil
+             {
+                 filled.addLine(to: CGPoint(x: CGFloat(e.x), y: fillMin), transform: matrix)
+             }
         }
+
         filled.closeSubpath()
         
         return filled

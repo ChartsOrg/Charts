@@ -15,9 +15,9 @@ import CoreGraphics
 @objc(IChartHighlighter)
 public protocol IHighlighter: class
 {
-    /// - Parameters:
-    ///   - x:
-    ///   - y:
-    /// - Returns: A Highlight object corresponding to the given x- and y- touch positions in pixels.
+    /// - returns: A Highlight object corresponding to the given x- and y- touch positions in pixels.
+    /// - parameter x:
+    /// - parameter y:
+    /// - returns:
     func getHighlight(x: CGFloat, y: CGFloat) -> Highlight?
 }
