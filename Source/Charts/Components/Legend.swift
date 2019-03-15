@@ -267,11 +267,7 @@ open class Legend: ComponentBase
                     }
                     
                     width += size.width
-                    
-                    if i < entryCount - 1
-                    {
-                        maxHeight += labelLineHeight + yEntrySpace
-                    }
+                    maxHeight += labelLineHeight + yEntrySpace
                 }
                 else
                 {
