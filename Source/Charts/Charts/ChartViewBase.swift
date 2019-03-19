@@ -40,7 +40,7 @@ public protocol ChartViewDelegate
     @objc optional func chartTranslated(_ chartView: ChartViewBase, dX: CGFloat, dY: CGFloat)
 
     // Callbacks when Animator stops animating
-    @objc optional func chartViewDidEndAnimate(_ chartView: ChartViewBase)
+    @objc optional func chartView(_ chartView: ChartViewBase, animatorDidStop animator: Animator)
 }
 
 open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
@@ -999,7 +999,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     open func animatorStopped(_ chartAnimator: Animator)
     {
-        delegate?.chartViewDidEndAnimate?(self)
+        delegate?.chartView?(self, animatorDidStop: chartAnimator)
     }
     
     // MARK: - Touches
