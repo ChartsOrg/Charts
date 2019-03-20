@@ -332,7 +332,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             {
                 guard let dataSet = dataSets[dataSetIndex] as? IBarChartDataSet else { continue }
                 
-                if !shouldDrawValues(forDataSet: dataSet) || !(dataSet.isDrawIconsEnabled && dataSet.isVisible)
+                if !shouldDrawValues(forDataSet: dataSet)
                 {
                     continue
                 }

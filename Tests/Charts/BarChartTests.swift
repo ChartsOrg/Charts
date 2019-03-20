@@ -225,6 +225,16 @@ class BarChartTests: FBSnapshotTestCase
         chart.notifyDataSetChanged()
         FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
     }
+
+    func testNotDrawValueAboveBars()
+    {
+        let dataEntries = setupDefaultValuesDataEntries()
+        let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
+        let chart = setupDefaultChart(dataSets: [dataSet])
+        chart.drawValueAboveBarEnabled = false
+        chart.notifyDataSetChanged()
+        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+    }
     
     func testHideLeftAxis()
     {
