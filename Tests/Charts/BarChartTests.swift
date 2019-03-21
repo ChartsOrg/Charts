@@ -59,7 +59,7 @@ class BarChartTests: FBSnapshotTestCase
         return setupCustomValuesDataEntries(values: values)
     }
 
-    func setupStackedvaluesDataEntries() -> [ChartDataEntry]
+    func setupStackedValuesDataEntries() -> [ChartDataEntry]
     {
         var entries: [ChartDataEntry] = Array()
         entries.append(BarChartDataEntry(x: 0, yValues: [28, 50, 60, 30, 42], icon: UIImage(named: "icon")))
@@ -262,7 +262,7 @@ class BarChartTests: FBSnapshotTestCase
 
     func testStackedDrawValues()
     {
-        let dataEntries = setupStackedvaluesDataEntries()
+        let dataEntries = setupStackedValuesDataEntries()
         let dataSet = setupDefaultStackedDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
         chart.notifyDataSetChanged()
@@ -271,7 +271,7 @@ class BarChartTests: FBSnapshotTestCase
 
     func testStackedNotDrawValues()
     {
-        let dataEntries = setupStackedvaluesDataEntries()
+        let dataEntries = setupStackedValuesDataEntries()
         let dataSet = setupDefaultStackedDataSet(chartDataEntries: dataEntries)
         dataSet.drawValuesEnabled = false
         let chart = setupDefaultChart(dataSets: [dataSet])
@@ -281,7 +281,7 @@ class BarChartTests: FBSnapshotTestCase
 
     func testStackedNotDrawValuesAboveBars()
     {
-        let dataEntries = setupStackedvaluesDataEntries()
+        let dataEntries = setupStackedValuesDataEntries()
         let dataSet = setupDefaultStackedDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
         chart.drawValueAboveBarEnabled = false
