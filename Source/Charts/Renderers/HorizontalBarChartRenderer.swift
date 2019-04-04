@@ -259,6 +259,8 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 continue
             }
             
+            drawBar(context: context, dataSet: dataSet, index: j, barRect: barRect)
+        
             if !isSingleColor
             {
                 // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.

@@ -661,5 +661,5 @@ public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
     {
 		return NSUIScreen.main
 	}
-    
+
 #endif
