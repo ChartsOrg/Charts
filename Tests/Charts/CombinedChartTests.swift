@@ -80,7 +80,7 @@ class CombinedChartTests: FBSnapshotTestCase
 
     func testDefaultAxisDependency()
     {
-        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
     func testLeftRightAxisDependency()
@@ -89,7 +89,7 @@ class CombinedChartTests: FBSnapshotTestCase
         barDataSet.axisDependency = .right
         chart.data?.notifyDataChanged()
         chart.notifyDataSetChanged()
-        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
     func testAllRightAxisDependency()
@@ -98,7 +98,7 @@ class CombinedChartTests: FBSnapshotTestCase
         barDataSet.axisDependency = .right
         chart.data?.notifyDataChanged()
         chart.notifyDataSetChanged()
-        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 }
 
