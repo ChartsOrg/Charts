@@ -166,6 +166,28 @@ extension CGContext {
             drawText(text, at: drawPoint, anchor: anchor, angleRadians: angleRadians, attributes: attributes)
         }
     }
+
+	open func drawLabelBorder(_ text: String, at point: CGPoint, align: NSTextAlignment, anchor: CGPoint = CGPoint(x: 0.5, y: 0.5), angleRadians: CGFloat = 0.0, attributes: [NSAttributedString.Key : Any]?, labelBorderColor: NSUIColor, labelBackgroundColor: NSUIColor, labelBorderWidth: CGFloat, drawLabelBackgroundEnabled: Bool)
+	{
+		let drawPoint = getDrawPoint(text: text, point: point, align: align, attributes: attributes)
+		let size = (text as NSString).size(withAttributes: attributes)
+
+		if angleRadians == 0.0, drawLabelBackgroundEnabled == true
+		{
+			NSUIGraphicsPushContext(self)
+			let fillRect = CGRect(x: drawPoint.x - 6, y: drawPoint.y - 3.5, width: size.width + 11, height: size.height + 6)
+			let fillPath = UIBezierPath(roundedRect: fillRect, cornerRadius: fillRect.height/2)
+			fillPath.lineWidth = labelBorderWidth
+			self.setStrokeColor(labelBorderColor.cgColor)
+			fillPath.stroke()
+			self.setFillColor(labelBackgroundColor.cgColor)
+			self.addPath(fillPath.cgPath)
+			self.closePath()
+			self.fillPath()
+
+			NSUIGraphicsPopContext()
+		}
+	}
     
     open func drawText(_ text: String, at point: CGPoint, anchor: CGPoint = CGPoint(x: 0.5, y: 0.5), angleRadians: CGFloat, attributes: [NSAttributedString.Key : Any]?)
     {

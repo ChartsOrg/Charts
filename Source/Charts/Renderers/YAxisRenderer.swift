@@ -324,6 +324,8 @@ open class YAxisRenderer: NSObject, AxisRenderer
                                 y: position.y + yOffset - labelLineHeight)
             }
 
+			context.drawLabelBorder(label, at: point, align: align, attributes: [.font: l.valueFont, .foregroundColor: l.valueTextColor], labelBorderColor: l.labelBorderColor, labelBackgroundColor: l.labelBackgroundColor, labelBorderWidth: l.labelBorderWidth, drawLabelBackgroundEnabled: l.drawLabelBackgroundEnabled)
+
             context.drawText(label,
                              at: point,
                              align: align,

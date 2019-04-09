@@ -36,7 +36,12 @@ open class ChartLimitLine: ComponentBase
     
     @objc open var valueTextColor = NSUIColor.black
     @objc open var valueFont = NSUIFont.systemFont(ofSize: 13.0)
-    
+
+	@objc open var drawLabelBackgroundEnabled = false
+	@objc open var labelBorderColor = NSUIColor.black
+	@objc open var labelBackgroundColor = NSUIColor.white
+	@objc open var labelBorderWidth: CGFloat = 1.0
+
     @objc open var drawLabelEnabled = true
     @objc open var label = ""
     @objc open var labelPosition = LabelPosition.rightTop
