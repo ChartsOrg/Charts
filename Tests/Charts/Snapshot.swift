@@ -1,4 +1,5 @@
 import CoreGraphics
+import FBSnapshotTestCase
 
 public struct Snapshot
 {
@@ -16,5 +17,13 @@ public struct Snapshot
         #endif
         
         return "\(identifier)_\(size.width)_\(size.height)"
+    }
+}
+
+public extension FBSnapshotTestCase
+{
+    func ChartsSnapshotVerifyView(_ view: UIView, identifier: String = "", suffixes: NSOrderedSet = NSOrderedSet(object: "_64"), perPixelTolerance: CGFloat = 0, overallTolerance: CGFloat = 0, file: StaticString = #file, line: UInt = #line)
+    {
+        FBSnapshotVerifyView(view, identifier: identifier, suffixes: suffixes, perPixelTolerance: perPixelTolerance, overallTolerance: overallTolerance, file: file, line: line)
     }
 }
