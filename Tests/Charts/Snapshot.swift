@@ -3,7 +3,7 @@ import FBSnapshotTestCase
 
 public struct Snapshot
 {
-    public static let tolerance: CGFloat = 0.01
+    public static let tolerance: CGFloat = 0.001
     
     public static func identifier(_ size: CGSize) -> String {
         #if os(tvOS)
