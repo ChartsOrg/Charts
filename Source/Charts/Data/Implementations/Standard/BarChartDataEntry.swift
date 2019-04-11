@@ -123,9 +123,12 @@ open class BarChartDataEntry: ChartDataEntry
     @objc open func calcPosNegSum()
     {
         (_negativeSum, _positiveSum) = _yVals?.reduce(into: (0,0)) { (result, y) in
-            if y < 0 {
+            if y < 0
+            {
                 result.0 += -y
-            } else {
+            }
+            else
+            {
                 result.1 += y
             }
         } ?? (0,0)
@@ -138,9 +141,7 @@ open class BarChartDataEntry: ChartDataEntry
     /// - Returns:
     @objc open func calcRanges()
     {
-        guard let values = yValues, !values.isEmpty else {
-            return
-        }
+        guard let values = yValues, !values.isEmpty else { return }
 
         if _ranges == nil
         {
