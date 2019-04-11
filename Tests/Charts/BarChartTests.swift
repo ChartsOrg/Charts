@@ -109,6 +109,7 @@ class BarChartTests: FBSnapshotTestCase
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
         chart.leftAxis.axisMaximum = 50
+        chart.clipValuesToContentEnabled = true
         chart.notifyDataSetChanged()
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
