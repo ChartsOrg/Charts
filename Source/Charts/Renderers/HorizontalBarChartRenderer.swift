@@ -330,12 +330,10 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             
             for dataSetIndex in 0 ..< barData.dataSetCount
             {
-                guard let dataSet = dataSets[dataSetIndex] as? IBarChartDataSet else { continue }
-                
-                if !shouldDrawValues(forDataSet: dataSet)
-                {
-                    continue
-                }
+                guard let
+                    dataSet = dataSets[dataSetIndex] as? IBarChartDataSet,
+                    shouldDrawValues(forDataSet: dataSet)
+                    else { continue }
                 
                 let isInverted = dataProvider.isInverted(axis: dataSet.axisDependency)
                 

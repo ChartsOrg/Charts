@@ -126,15 +126,12 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
             for i in 0 ..< scatterData.dataSetCount
             {
                 let dataSet = dataSets[i]
-                
-                if !shouldDrawValues(forDataSet: dataSet)
-                {
-                    continue
-                }
+                guard let
+                    formatter = dataSet.valueFormatter,
+                    shouldDrawValues(forDataSet: dataSet)
+                    else { continue }
                 
                 let valueFont = dataSet.valueFont
-                
-                guard let formatter = dataSet.valueFormatter else { continue }
                 
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix
