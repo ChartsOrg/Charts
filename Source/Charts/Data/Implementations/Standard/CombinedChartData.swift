@@ -201,7 +201,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     
     open func dataIndex(_ data: ChartData) -> Int?
     {
-        return allData.index(of: data)
+        return allData.firstIndex(of: data)
     }
     
     open override func removeDataSet(_ dataSet: IChartDataSet) -> Bool
