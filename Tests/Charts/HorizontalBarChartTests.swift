@@ -93,7 +93,7 @@ class HorizontalBarChartTests: FBSnapshotTestCase
         let dataEntries = setupDefaultValuesDataEntries()
         let dataSet = setupDefaultDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
-        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
     func testHidesValues()
@@ -103,7 +103,7 @@ class HorizontalBarChartTests: FBSnapshotTestCase
         let chart = setupDefaultChart(dataSets: [dataSet])
         dataSet.drawValuesEnabled = false
         chart.notifyDataSetChanged()
-        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
     func testNotDrawValueAboveBars()
@@ -113,7 +113,7 @@ class HorizontalBarChartTests: FBSnapshotTestCase
         let chart = setupDefaultChart(dataSets: [dataSet])
         chart.drawValueAboveBarEnabled = false
         chart.notifyDataSetChanged()
-        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
     func testStackedDrawValues()
@@ -122,7 +122,7 @@ class HorizontalBarChartTests: FBSnapshotTestCase
         let dataSet = setupDefaultStackedDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
         chart.notifyDataSetChanged()
-        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
     func testStackedNotDrawValues()
@@ -132,7 +132,7 @@ class HorizontalBarChartTests: FBSnapshotTestCase
         dataSet.drawValuesEnabled = false
         let chart = setupDefaultChart(dataSets: [dataSet])
         chart.notifyDataSetChanged()
-        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
     func testStackedNotDrawValuesAboveBars()
@@ -142,6 +142,6 @@ class HorizontalBarChartTests: FBSnapshotTestCase
         let chart = setupDefaultChart(dataSets: [dataSet])
         chart.drawValueAboveBarEnabled = false
         chart.notifyDataSetChanged()
-        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 }

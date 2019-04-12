@@ -258,7 +258,7 @@ class BarChartTests: FBSnapshotTestCase
         let chart = setupDefaultChart(dataSets: [dataSet])
         chart.drawValueAboveBarEnabled = false
         chart.notifyDataSetChanged()
-        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
     func testStackedDrawValues()
@@ -267,7 +267,7 @@ class BarChartTests: FBSnapshotTestCase
         let dataSet = setupDefaultStackedDataSet(chartDataEntries: dataEntries)
         let chart = setupDefaultChart(dataSets: [dataSet])
         chart.notifyDataSetChanged()
-        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
     func testStackedNotDrawValues()
@@ -277,7 +277,7 @@ class BarChartTests: FBSnapshotTestCase
         dataSet.drawValuesEnabled = false
         let chart = setupDefaultChart(dataSets: [dataSet])
         chart.notifyDataSetChanged()
-        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
     func testStackedNotDrawValuesAboveBars()
@@ -287,7 +287,7 @@ class BarChartTests: FBSnapshotTestCase
         let chart = setupDefaultChart(dataSets: [dataSet])
         chart.drawValueAboveBarEnabled = false
         chart.notifyDataSetChanged()
-        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
     
     func testHideLeftAxis()
