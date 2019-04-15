@@ -213,12 +213,10 @@ open class RadarChartRenderer: LineRadarRenderer
         
         for i in 0 ..< data.dataSetCount
         {
-            let dataSet = data.getDataSetByIndex(i) as! IRadarChartDataSet
-            
-            if !shouldDrawValues(forDataSet: dataSet)
-            {
-                continue
-            }
+            guard let
+                dataSet = data.getDataSetByIndex(i) as? IRadarChartDataSet,
+                shouldDrawValues(forDataSet: dataSet)
+                else { continue }
             
             let entryCount = dataSet.entryCount
             

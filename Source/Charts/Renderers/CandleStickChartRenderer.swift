@@ -283,13 +283,10 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
             
             for i in 0 ..< dataSets.count
             {
-                guard let dataSet = dataSets[i] as? IBarLineScatterCandleBubbleChartDataSet
+                guard let
+                    dataSet = dataSets[i] as? IBarLineScatterCandleBubbleChartDataSet,
+                    shouldDrawValues(forDataSet: dataSet)
                     else { continue }
-                
-                if !shouldDrawValues(forDataSet: dataSet)
-                {
-                    continue
-                }
                 
                 let valueFont = dataSet.valueFont
                 
