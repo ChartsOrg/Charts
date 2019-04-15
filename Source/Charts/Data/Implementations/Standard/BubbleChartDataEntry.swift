@@ -38,7 +38,7 @@ open class BubbleChartDataEntry: ChartDataEntry
     ///   - y: The value on the y-axis.
     ///   - size: The size of the bubble.
     ///   - data: Spot for additional data this Entry represents.
-    @objc public convenience init(x: Double, y: Double, size: CGFloat, data: AnyObject?)
+    @objc public convenience init(x: Double, y: Double, size: CGFloat, data: Any?)
     {
         self.init(x: x, y: y, size: size)
         self.data = data
@@ -61,7 +61,7 @@ open class BubbleChartDataEntry: ChartDataEntry
     ///   - size: The size of the bubble.
     ///   - icon: icon image
     ///   - data: Spot for additional data this Entry represents.
-    @objc public convenience init(x: Double, y: Double, size: CGFloat, icon: NSUIImage?, data: AnyObject?)
+    @objc public convenience init(x: Double, y: Double, size: CGFloat, icon: NSUIImage?, data: Any?)
     {
         self.init(x: x, y: y, size: size)
         self.icon = icon
