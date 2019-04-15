@@ -20,10 +20,10 @@ open class ChartLimitLine: ComponentBase
     @objc(ChartLimitLabelPosition)
     public enum LabelPosition: Int
     {
-        case leftTop
-        case leftBottom
-        case rightTop
-        case rightBottom
+        case topLeft
+        case topRight
+        case bottomLeft
+        case bottomRight
     }
     
     /// limit / maximum (the y-value or xIndex)
@@ -39,7 +39,7 @@ open class ChartLimitLine: ComponentBase
     
     @objc open var drawLabelEnabled = true
     @objc open var label = ""
-    @objc open var labelPosition = LabelPosition.rightTop
+    @objc open var labelPosition = LabelPosition.topRight
     
     public override init()
     {
@@ -68,18 +68,7 @@ open class ChartLimitLine: ComponentBase
         }
         set
         {
-            if newValue < 0.2
-            {
-                _lineWidth = 0.2
-            }
-            else if newValue > 12.0
-            {
-                _lineWidth = 12.0
-            }
-            else
-            {
-                _lineWidth = newValue
-            }
+            _lineWidth = newValue.clamped(to: 0.2...12)
         }
     }
 }

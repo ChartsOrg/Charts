@@ -19,8 +19,8 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
     {
         self.highlightColor = NSUIColor.black
         
-        self.calcStackSize(entries: values as! [BarChartDataEntry])
-        self.calcEntryCountIncludingStacks(entries: values as! [BarChartDataEntry])
+        self.calcStackSize(entries: entries as! [BarChartDataEntry])
+        self.calcEntryCountIncludingStacks(entries: entries as! [BarChartDataEntry])
     }
     
     public required init()
@@ -29,9 +29,9 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
         initialize()
     }
     
-    public override init(values: [ChartDataEntry]?, label: String?)
+    public override init(entries: [ChartDataEntry]?, label: String?)
     {
-        super.init(values: values, label: label)
+        super.init(entries: entries, label: label)
         initialize()
     }
 
@@ -114,26 +114,26 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
         }
     }
     
-    /// - returns: The maximum number of bars that can be stacked upon another in this DataSet.
+    /// The maximum number of bars that can be stacked upon another in this DataSet.
     open var stackSize: Int
     {
         return _stackSize
     }
     
-    /// - returns: `true` if this DataSet is stacked (stacksize > 1) or not.
+    /// `true` if this DataSet is stacked (stacksize > 1) or not.
     open var isStacked: Bool
     {
         return _stackSize > 1 ? true : false
     }
     
-    /// - returns: The overall entry count, including counting each stack-value individually
+    /// The overall entry count, including counting each stack-value individually
     @objc open var entryCountStacks: Int
     {
         return _entryCountStacks
     }
     
     /// array of labels used to describe the different values of the stacked bars
-    open var stackLabels: [String] = ["Stack"]
+    open var stackLabels: [String] = []
     
     // MARK: - Styling functions and accessors
     
@@ -151,14 +151,16 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
     
     // MARK: - NSCopying
     
-    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    open override func copy(with zone: NSZone? = nil) -> Any
     {
-        let copy = super.copyWithZone(zone) as! BarChartDataSet
+        let copy = super.copy(with: zone) as! BarChartDataSet
         copy._stackSize = _stackSize
         copy._entryCountStacks = _entryCountStacks
         copy.stackLabels = stackLabels
 
         copy.barShadowColor = barShadowColor
+        copy.barBorderWidth = barBorderWidth
+        copy.barBorderColor = barBorderColor
         copy.highlightAlpha = highlightAlpha
         return copy
     }

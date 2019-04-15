@@ -21,9 +21,9 @@ open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChartD
         super.init()
     }
     
-    public override init(values: [ChartDataEntry]?, label: String?)
+    public override init(entries: [ChartDataEntry]?, label: String?)
     {
-        super.init(values: values, label: label)
+        super.init(entries: entries, label: label)
     }
     
     // MARK: - Data functions and accessors
@@ -81,24 +81,13 @@ open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChartD
     /// **default**: 0.1 (10%), max 0.45, min 0.0
     open var barSpace: CGFloat
     {
-        set
-        {
-            if newValue < 0.0
-            {
-                _barSpace = 0.0
-            }
-            else if newValue > 0.45
-            {
-                _barSpace = 0.45
-            }
-            else
-            {
-                _barSpace = newValue
-            }
-        }
         get
         {
             return _barSpace
+        }
+        set
+        {
+            _barSpace = newValue.clamped(to: 0...0.45)
         }
     }
     

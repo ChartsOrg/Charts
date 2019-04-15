@@ -12,10 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 open class XAxisRendererHorizontalBarChart: XAxisRenderer
 {
     internal weak var chart: BarChartView?
@@ -64,7 +60,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
        
         let longest = xAxis.getLongestLabel() as NSString
         
-        let labelSize = longest.size(withAttributes: [NSAttributedStringKey.font: xAxis.labelFont])
+        let labelSize = longest.size(withAttributes: [NSAttributedString.Key.font: xAxis.labelFont])
         
         let labelWidth = floor(labelSize.width + xAxis.xOffset * 3.5)
         let labelHeight = labelSize.height
@@ -155,7 +151,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
                         formattedLabel: label,
                         x: pos,
                         y: position.y,
-                        attributes: [NSAttributedStringKey.font: labelFont, NSAttributedStringKey.foregroundColor: labelTextColor],
+                        attributes: [NSAttributedString.Key.font: labelFont, NSAttributedString.Key.foregroundColor: labelTextColor],
                         anchor: anchor,
                         angleRadians: labelRotationAngleRadians)
                 }
@@ -168,7 +164,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
         formattedLabel: String,
         x: CGFloat,
         y: CGFloat,
-        attributes: [NSAttributedStringKey : Any],
+        attributes: [NSAttributedString.Key : Any],
         anchor: CGPoint,
         angleRadians: CGFloat)
     {
@@ -314,7 +310,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
                 let xOffset: CGFloat = 4.0 + l.xOffset
                 let yOffset: CGFloat = l.lineWidth + labelLineHeight + l.yOffset
                 
-                if l.labelPosition == .rightTop
+                if l.labelPosition == .topRight
                 {
                     ChartUtils.drawText(context: context,
                         text: label,
@@ -322,9 +318,9 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
                             x: viewPortHandler.contentRight - xOffset,
                             y: position.y - yOffset),
                         align: .right,
-                        attributes: [NSAttributedStringKey.font: l.valueFont, NSAttributedStringKey.foregroundColor: l.valueTextColor])
+                        attributes: [NSAttributedString.Key.font: l.valueFont, NSAttributedString.Key.foregroundColor: l.valueTextColor])
                 }
-                else if l.labelPosition == .rightBottom
+                else if l.labelPosition == .bottomRight
                 {
                     ChartUtils.drawText(context: context,
                         text: label,
@@ -332,9 +328,9 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
                             x: viewPortHandler.contentRight - xOffset,
                             y: position.y + yOffset - labelLineHeight),
                         align: .right,
-                        attributes: [NSAttributedStringKey.font: l.valueFont, NSAttributedStringKey.foregroundColor: l.valueTextColor])
+                        attributes: [NSAttributedString.Key.font: l.valueFont, NSAttributedString.Key.foregroundColor: l.valueTextColor])
                 }
-                else if l.labelPosition == .leftTop
+                else if l.labelPosition == .topLeft
                 {
                     ChartUtils.drawText(context: context,
                         text: label,
@@ -342,7 +338,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
                             x: viewPortHandler.contentLeft + xOffset,
                             y: position.y - yOffset),
                         align: .left,
-                        attributes: [NSAttributedStringKey.font: l.valueFont, NSAttributedStringKey.foregroundColor: l.valueTextColor])
+                        attributes: [NSAttributedString.Key.font: l.valueFont, NSAttributedString.Key.foregroundColor: l.valueTextColor])
                 }
                 else
                 {
@@ -352,7 +348,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
                             x: viewPortHandler.contentLeft + xOffset,
                             y: position.y + yOffset - labelLineHeight),
                         align: .left,
-                        attributes: [NSAttributedStringKey.font: l.valueFont, NSAttributedStringKey.foregroundColor: l.valueTextColor])
+                        attributes: [NSAttributedString.Key.font: l.valueFont, NSAttributedString.Key.foregroundColor: l.valueTextColor])
                 }
             }
         }

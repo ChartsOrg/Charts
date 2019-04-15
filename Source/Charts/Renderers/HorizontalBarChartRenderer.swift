@@ -12,11 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
-
 open class HorizontalBarChartRenderer: BarChartRenderer
 {
     private class Buffer
@@ -240,7 +235,11 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         {
             context.setFillColor(dataSet.color(atIndex: 0).cgColor)
         }
-        
+
+        // In case the chart is stacked, we need to accomodate individual bars within accessibilityOrdereredElements
+        let isStacked = dataSet.isStacked
+        let stackSize = isStacked ? dataSet.stackSize : 1
+
         for j in stride(from: 0, to: buffer.rects.count, by: 1)
         {
             let barRect = buffer.rects[j]
@@ -260,14 +259,29 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
-            
+
             context.fill(barRect)
-            
+
             if drawBorder
             {
                 context.setStrokeColor(borderColor.cgColor)
                 context.setLineWidth(borderWidth)
                 context.stroke(barRect)
+            }
+
+            // Create and append the corresponding accessibility element to accessibilityOrderedElements (see BarChartRenderer)
+            if let chart = dataProvider as? BarChartView
+            {
+                let element = createAccessibleElement(withIndex: j,
+                                                      container: chart,
+                                                      dataSet: dataSet,
+                                                      dataSetIndex: index,
+                                                      stackSize: stackSize)
+                { (element) in
+                    element.accessibilityFrame = barRect
+                }
+
+                accessibilityOrderedElements[j/stackSize].append(element)
             }
         }
         
@@ -316,12 +330,10 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             
             for dataSetIndex in 0 ..< barData.dataSetCount
             {
-                guard let dataSet = dataSets[dataSetIndex] as? IBarChartDataSet else { continue }
-                
-                if !shouldDrawValues(forDataSet: dataSet) || !(dataSet.isDrawIconsEnabled && dataSet.isVisible)
-                {
-                    continue
-                }
+                guard let
+                    dataSet = dataSets[dataSetIndex] as? IBarChartDataSet,
+                    shouldDrawValues(forDataSet: dataSet)
+                    else { continue }
                 
                 let isInverted = dataProvider.isInverted(axis: dataSet.axisDependency)
                 
@@ -372,9 +384,9 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                             viewPortHandler: viewPortHandler)
                         
                         // calculate the correct offset depending on the draw position of the value
-                        let valueTextWidth = valueText.size(withAttributes: [NSAttributedStringKey.font: valueFont]).width
+                        let valueTextWidth = valueText.size(withAttributes: [NSAttributedString.Key.font: valueFont]).width
                         posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
-                        negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
+                        negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus) - rect.size.width
                         
                         if isInverted
                         {
@@ -453,7 +465,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                 viewPortHandler: viewPortHandler)
                             
                             // calculate the correct offset depending on the draw position of the value
-                            let valueTextWidth = valueText.size(withAttributes: [NSAttributedStringKey.font: valueFont]).width
+                            let valueTextWidth = valueText.size(withAttributes: [NSAttributedString.Key.font: valueFont]).width
                             posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
                             negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
                             
@@ -537,7 +549,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                     viewPortHandler: viewPortHandler)
                                 
                                 // calculate the correct offset depending on the draw position of the value
-                                let valueTextWidth = valueText.size(withAttributes: [NSAttributedStringKey.font: valueFont]).width
+                                let valueTextWidth = valueText.size(withAttributes: [NSAttributedString.Key.font: valueFont]).width
                                 posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
                                 negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
                                 

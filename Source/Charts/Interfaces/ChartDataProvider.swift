@@ -15,16 +15,16 @@ import CoreGraphics
 @objc
 public protocol ChartDataProvider
 {
-    /// - returns: The minimum x-value of the chart, regardless of zoom or translation.
+    /// The minimum x-value of the chart, regardless of zoom or translation.
     var chartXMin: Double { get }
     
-    /// - returns: The maximum x-value of the chart, regardless of zoom or translation.
+    /// The maximum x-value of the chart, regardless of zoom or translation.
     var chartXMax: Double { get }
     
-    /// - returns: The minimum y-value of the chart, regardless of zoom or translation.
+    /// The minimum y-value of the chart, regardless of zoom or translation.
     var chartYMin: Double { get }
     
-    /// - returns: The maximum y-value of the chart, regardless of zoom or translation.
+    /// The maximum y-value of the chart, regardless of zoom or translation.
     var chartYMax: Double { get }
     
     var maxHighlightDistance: CGFloat { get }

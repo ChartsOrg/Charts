@@ -25,7 +25,7 @@ class PieChartTests: FBSnapshotTestCase
             entries.append(PieChartDataEntry(value: value, icon: UIImage(named: "icon", in: Bundle(for: self.classForCoder), compatibleWith: nil)))
         }
         
-        dataSet = PieChartDataSet(values: entries, label: "First unit test data")
+        dataSet = PieChartDataSet(entries: entries, label: "First unit test data")
         dataSet.drawIconsEnabled = false
         dataSet.iconsOffset = CGPoint(x: 0, y: 20.0)
         
@@ -50,24 +50,24 @@ class PieChartTests: FBSnapshotTestCase
     
     func testDefaultValues()
     {
-        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
     
     func testHidesValues()
     {
         dataSet.drawValuesEnabled = false
-        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
     
     func testDrawIcons()
     {
         dataSet.drawIconsEnabled = true
-        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
     
     func testHideCenterLabel()
     {
         chart.drawCenterTextEnabled = false
-        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 }
