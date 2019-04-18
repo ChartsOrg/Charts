@@ -49,6 +49,7 @@ open class CombinedChartRenderer: DataRenderer
             case .bar:
                 if chart.barData !== nil
                 {
+                    // new render for combined bar chart
                     _renderers.append(CustomCombinedChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                     //_renderers.append(BarChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
@@ -128,9 +129,17 @@ open class CombinedChartRenderer: DataRenderer
         {
             var data: ChartData?
             
-            if renderer is BarChartRenderer
+            
+            // old combined bar chart renderer
+            //            if renderer is BarChartRenderer
+            //            {
+            //                data = (renderer as! BarChartRenderer).dataProvider?.barData
+            //            }
+            // new combined bar chart renderer
+            
+            if renderer is CustomCombinedChartRenderer
             {
-                data = (renderer as! BarChartRenderer).dataProvider?.barData
+                data = (renderer as! CustomCombinedChartRenderer).dataProvider?.barData
             }
             else if renderer is LineChartRenderer
             {
