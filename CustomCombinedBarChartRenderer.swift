@@ -15,7 +15,9 @@ import CoreGraphics
 #if !os(OSX)
 import UIKit
 #endif
-
+/**
+ Custom Combined Bar Chart Renderer 
+ */
 open class CustomCombinedBarChartRenderer: BarLineScatterCandleBubbleRenderer
 {
     /// A nested array of elements ordered logically (i.e not in visual/drawing order) for use with VoiceOver
