@@ -1,12 +1,8 @@
 //
-//  BarChartRenderer.swift
+//  CustomCombinedBarChartRenderer.swift
 //  Charts
 //
-//  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
-//  A port of MPAndroidChart for iOS
-//  Licensed under Apache License 2.0
-//
-//  https://github.com/danielgindi/Charts
+//  Created by Oussama Ayed on 4/18/19.
 //
 
 import Foundation
@@ -16,7 +12,7 @@ import CoreGraphics
 import UIKit
 #endif
 /**
- Custom Combined Bar Chart Renderer 
+ Custom Combined Bar Chart Renderer
  */
 open class CustomCombinedBarChartRenderer: BarLineScatterCandleBubbleRenderer
 {
