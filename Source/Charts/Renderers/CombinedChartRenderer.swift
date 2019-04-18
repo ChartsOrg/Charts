@@ -49,7 +49,7 @@ open class CombinedChartRenderer: DataRenderer
             case .bar:
                 if chart.barData !== nil
                 {
-                    _renderers.append(CustomCombinedBarChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
+                    _renderers.append(CustomCombinedChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                     //_renderers.append(BarChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
                 break

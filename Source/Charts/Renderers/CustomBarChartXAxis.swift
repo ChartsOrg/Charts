@@ -7,7 +7,6 @@
 //
 import Foundation
 import CoreGraphics
-import Charts
 #if !os(OSX)
 import UIKit
 #endif
