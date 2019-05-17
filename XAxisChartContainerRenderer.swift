@@ -68,37 +68,37 @@ public class XAxisChartContainerRenderer : XAxisRenderer {
             if isCombinedChart {
                 if let index = self.indexXAxis ,(i == index){
                     labelAttrs = [NSAttributedString.Key.font: NSUIFont(name: "Helvetica-Bold", size: 10)!,
-                                  NSAttributedString.Key.foregroundColor: UIColor.white,
+                                  NSAttributedString.Key.foregroundColor: NSUIColor.white,
                                   NSAttributedString.Key.paragraphStyle: paraStyle]
                     // var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.425) , y: -0.63 , width: 0.9 , height: 0.55)
                     var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.25) , y: -3 , width: 0.5 , height: 1.85)
                     transformer.rectValueToPixel(&rect)
-                    context.setFillColor(UIColor(red:0.04, green:0.35, blue:0.95, alpha:1).cgColor)
-                    let bezierPath = UIBezierPath(roundedRect: rect, byRoundingCorners: [.topLeft , .topRight], cornerRadii: CGSize(width: 5, height: 5))
-                    context.addPath(bezierPath.cgPath)
+                    context.setFillColor(NSUIColor(red:0.04, green:0.35, blue:0.95, alpha:1).cgColor)
+//                    let bezierPath = UIBezierPath(roundedRect: rect, byRoundingCorners: [.topLeft , .topRight], cornerRadii: CGSize(width: 5, height: 5))
+//                    context.addPath(bezierPath.cgPath)
                     
                     context.drawPath(using: .fill)
                 }else{
                     labelAttrs = [NSAttributedString.Key.font: xAxis.labelFont,
-                                  NSAttributedString.Key.foregroundColor: UIColor(red:0.28, green:0.33, blue:0.4, alpha:1).cgColor,
+                                  NSAttributedString.Key.foregroundColor: NSUIColor(red:0.28, green:0.33, blue:0.4, alpha:1).cgColor,
                                   NSAttributedString.Key.paragraphStyle: paraStyle]
                 }
             }else{
                 if let index = self.indexXAxis ,(i == index){
                     labelAttrs = [NSAttributedString.Key.font: NSUIFont(name: "Helvetica-Bold", size: 10)!,
-                                  NSAttributedString.Key.foregroundColor: UIColor.white,
+                                  NSAttributedString.Key.foregroundColor: NSUIColor.white,
                                   NSAttributedString.Key.paragraphStyle: paraStyle]
                     var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.25) , y: -1.8 , width: 0.5 , height: 1.5)
                     transformer.rectValueToPixel(&rect)
-                    context.setFillColor(UIColor(red:0.04, green:0.35, blue:0.95, alpha:1).cgColor)
-                    let bezierPath = UIBezierPath(roundedRect: rect, cornerRadius: 5)
-                    context.addPath(bezierPath.cgPath)
+                    context.setFillColor(NSUIColor(red:0.04, green:0.35, blue:0.95, alpha:1).cgColor)
+//                    let bezierPath = UIBezierPath(roundedRect: rect, cornerRadius: 5)
+//                    context.addPath(bezierPath.cgPath)
                     
                     context.drawPath(using: .fill)
                     
                 }else{
                     labelAttrs = [NSAttributedString.Key.font: xAxis.labelFont,
-                                  NSAttributedString.Key.foregroundColor: UIColor(red:0.28, green:0.33, blue:0.4, alpha:1).cgColor,
+                                  NSAttributedString.Key.foregroundColor: NSUIColor(red:0.28, green:0.33, blue:0.4, alpha:1).cgColor,
                                   NSAttributedString.Key.paragraphStyle: paraStyle]
                 }
             }
