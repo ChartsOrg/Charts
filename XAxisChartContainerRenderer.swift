@@ -9,7 +9,7 @@ import CoreGraphics
 #if !os(OSX)
 import UIKit
 #endif
-
+///XAxis
 public class XAxisChartContainerRenderer : XAxisRenderer {
     public var highlight:Highlight?
     
