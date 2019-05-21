@@ -240,20 +240,23 @@ public class CustomBarChartRenderer: BarChartRenderer {
 
                 context.setFillColor(dataSet.barShadowColor.cgColor)
                 // Corner Radius for the bar charts
-                 if (j % 4 == 0) {
+                #if !os(OSX)
+                if (j % 4 == 0) {
                     // bottom of the bar chart
                     let bezierPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: [.bottomRight, .bottomLeft], cornerRadii: CGSize(width: 5.0, height: 0.0))
                     context.addPath(bezierPath.cgPath)
                 }else if (j % 4 == 3 ){
                     //middle of the bar chart
                     let bezierPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 5.0, height: 0.0))
-
+                    
                     context.addPath(bezierPath.cgPath)
                 }else  {
                     //top of the bar chart
                     let bezierPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: [.bottomRight, .bottomLeft], cornerRadii: CGSize(width: 0.0, height: 0.0))
                     context.addPath(bezierPath.cgPath)
                 }
+                #endif
+              
 
 
 
@@ -292,6 +295,8 @@ public class CustomBarChartRenderer: BarChartRenderer {
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
             // Corner Radius for the bar charts
+            #if !os(OSX)
+            
             if (j % 4 == 0) {
                 // bottom of the bar chart
                 let bezierPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: [.bottomRight, .bottomLeft], cornerRadii: CGSize(width: 5.0, height: 0.0))
@@ -306,6 +311,7 @@ public class CustomBarChartRenderer: BarChartRenderer {
                 let bezierPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: [.bottomRight, .bottomLeft], cornerRadii: CGSize(width: 0.0, height: 0.0))
                 context.addPath(bezierPath.cgPath)
             }
+            #endif
 
             context.drawPath(using: .fill)
 
@@ -660,9 +666,10 @@ public class CustomBarChartRenderer: BarChartRenderer {
                 setHighlightDrawPos(highlight: high, barRect: barRect)
                 context.setStrokeColor(set.highlightColor.cgColor)
 
+                #if !os(OSX)
                 let bezierPath = UIBezierPath(roundedRect: barRect, cornerRadius: 5)
                 context.addPath(bezierPath.cgPath)
-
+                #endif
                 context.drawPath(using: .stroke)
             }
         }

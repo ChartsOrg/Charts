@@ -393,10 +393,10 @@ open class CustomCombinedBarChartRenderer: BarLineScatterCandleBubbleRenderer
                 
                 context.setFillColor(dataSet.barShadowColor.cgColor)
                 // Corner Radius for the bar charts
-                
+                #if !os(OSX)
                 let bezierPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: [.bottomRight, .bottomLeft], cornerRadii: CGSize(width: 5.0, height: 0.0))
                 context.addPath(bezierPath.cgPath)
-                
+                #endif
                 
                 
                 
@@ -435,9 +435,10 @@ open class CustomCombinedBarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
             // Corner Radius for the bar charts
+            #if !os(OSX)
             let bezierPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: [.bottomRight, .bottomLeft], cornerRadii: CGSize(width: 5.0, height: 0.0))
             context.addPath(bezierPath.cgPath)
-            
+            #endif
             
             context.drawPath(using: .fill)
             
@@ -824,9 +825,10 @@ open class CustomCombinedBarChartRenderer: BarLineScatterCandleBubbleRenderer
                 setHighlightDrawPos(highlight: high, barRect: barRect)
                 context.setStrokeColor(set.highlightColor.cgColor)
                 
+                #if !os(OSX)
                 let bezierPath = UIBezierPath(roundedRect: barRect, cornerRadius: barCornerRadius)
                 context.addPath(bezierPath.cgPath)
-                
+                #endif
                 context.drawPath(using: .fill)
             }
         }

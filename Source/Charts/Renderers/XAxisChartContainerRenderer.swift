@@ -64,18 +64,19 @@ public class XAxisChartContainerRenderer : XAxisRenderer {
         for i in stride(from: 0, to: entries.count, by: 1)
         {
             
-            
             if isCombinedChart {
                 if let index = self.indexXAxis ,(i == index){
                     labelAttrs = [NSAttributedString.Key.font: NSUIFont(name: "Helvetica-Bold", size: 10)!,
                                   NSAttributedString.Key.foregroundColor: NSUIColor.white,
                                   NSAttributedString.Key.paragraphStyle: paraStyle]
                     // var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.425) , y: -0.63 , width: 0.9 , height: 0.55)
-                    var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.25) , y: -3 , width: 0.5 , height: 1.85)
+                    var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.25) , y: -2.6 , width: 0.5 , height: 1.85)
                     transformer.rectValueToPixel(&rect)
                     context.setFillColor(NSUIColor(red:0.04, green:0.35, blue:0.95, alpha:1).cgColor)
+                    #if !os(OSX)
                     let bezierPath = UIBezierPath(roundedRect: rect, byRoundingCorners: [.topLeft , .topRight], cornerRadii: CGSize(width: 5, height: 5))
                     context.addPath(bezierPath.cgPath)
+                    #endif
                     
                     context.drawPath(using: .fill)
                 }else{
@@ -88,11 +89,13 @@ public class XAxisChartContainerRenderer : XAxisRenderer {
                     labelAttrs = [NSAttributedString.Key.font: NSUIFont(name: "Helvetica-Bold", size: 10)!,
                                   NSAttributedString.Key.foregroundColor: NSUIColor.white,
                                   NSAttributedString.Key.paragraphStyle: paraStyle]
-                    var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.25) , y: -1.8 , width: 0.5 , height: 1.5)
+                    var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.25) , y: -2.2 , width: 0.5 , height: 1.5)
                     transformer.rectValueToPixel(&rect)
                     context.setFillColor(NSUIColor(red:0.04, green:0.35, blue:0.95, alpha:1).cgColor)
+                    #if !os(OSX)
                     let bezierPath = UIBezierPath(roundedRect: rect, cornerRadius: 5)
                     context.addPath(bezierPath.cgPath)
+                    #endif
                     
                     context.drawPath(using: .fill)
                     
@@ -102,7 +105,7 @@ public class XAxisChartContainerRenderer : XAxisRenderer {
                                   NSAttributedString.Key.paragraphStyle: paraStyle]
                 }
             }
-            
+           
             
             if centeringEnabled
             {
