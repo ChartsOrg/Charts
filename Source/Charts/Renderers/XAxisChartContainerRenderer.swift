@@ -89,7 +89,7 @@ public class XAxisChartContainerRenderer : XAxisRenderer {
                     labelAttrs = [NSAttributedString.Key.font: NSUIFont(name: "Helvetica-Bold", size: 10)!,
                                   NSAttributedString.Key.foregroundColor: NSUIColor.white,
                                   NSAttributedString.Key.paragraphStyle: paraStyle]
-                    var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.25) , y: -2.2 , width: 0.5 , height: 1.5)
+                    var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.25) , y: -2.1 , width: 0.5 , height: 1.5)
                     transformer.rectValueToPixel(&rect)
                     context.setFillColor(NSUIColor(red:0.04, green:0.35, blue:0.95, alpha:1).cgColor)
                     #if !os(OSX)
