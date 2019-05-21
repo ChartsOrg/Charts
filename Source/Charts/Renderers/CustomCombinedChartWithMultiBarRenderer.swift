@@ -226,9 +226,9 @@ public class CustomCombinedChartWithMultiBarRenderer : BarChartRenderer{
                     _barShadowRectBuffer.size.height = viewPortHandler.contentHeight
                     
                     context.setFillColor(dataSet.barShadowColor.cgColor)
-//                    let bezierPath = UIBezierPath(roundedRect: _barShadowRectBuffer, cornerRadius: 10)
-//                    context.addPath(bezierPath.cgPath)
-//
+                    let bezierPath = UIBezierPath(roundedRect: _barShadowRectBuffer, cornerRadius: 10)
+                    context.addPath(bezierPath.cgPath)
+
                     context.drawPath(using: .fill)
                 }
             }
@@ -253,9 +253,9 @@ public class CustomCombinedChartWithMultiBarRenderer : BarChartRenderer{
                     }
                     
                     context.setFillColor(dataSet.barShadowColor.cgColor)
-//                    let bezierPath = UIBezierPath(roundedRect: barRect, cornerRadius: 10)
-//                    context.addPath(bezierPath.cgPath)
-//
+                    let bezierPath = UIBezierPath(roundedRect: barRect, cornerRadius: 10)
+                    context.addPath(bezierPath.cgPath)
+
                     context.drawPath(using: .fill)
                 }
             }
@@ -287,8 +287,8 @@ public class CustomCombinedChartWithMultiBarRenderer : BarChartRenderer{
                     context.setFillColor(dataSet.color(atIndex: j).cgColor)
                 }
                 
-//                let bezierPath = UIBezierPath(roundedRect: barRect, cornerRadius: 10)
-//                context.addPath(bezierPath.cgPath)
+                let bezierPath = UIBezierPath(roundedRect: barRect, cornerRadius: 10)
+                context.addPath(bezierPath.cgPath)
                 
                 context.drawPath(using: .fill)
                 if drawBorder
@@ -365,18 +365,18 @@ public class CustomCombinedChartWithMultiBarRenderer : BarChartRenderer{
                 trans.rectValueToPixel(&rect)
                 context.setLineWidth(2)
                 context.setStrokeColor(set.highlightColor.cgColor)
-//                let bezierPath = UIBezierPath(roundedRect: rect, cornerRadius: 10)
-//                context.addPath(bezierPath.cgPath)
+                let bezierPath = UIBezierPath(roundedRect: rect, cornerRadius: 10)
+                context.addPath(bezierPath.cgPath)
                 
                 context.drawPath(using: .stroke)
                 prepareBarHighlight(x: e.x, y1: y1+(12-y1), y2: y2-0.5, barWidthHalf: barData.barWidth / 0.9, trans: trans, rect: &barRect)
                 
                 setHighlightDrawPos(highlight: high, barRect: barRect)
                 context.setStrokeColor(set.highlightColor.cgColor)
-                //
-//                let bezierPathHolder = UIBezierPath(roundedRect: barRect, cornerRadius: 10)
-//                context.addPath(bezierPathHolder.cgPath)
-                //
+                
+                let bezierPathHolder = UIBezierPath(roundedRect: barRect, cornerRadius: 10)
+                context.addPath(bezierPathHolder.cgPath)
+                
                 context.drawPath(using: .fill)
                 
                 
