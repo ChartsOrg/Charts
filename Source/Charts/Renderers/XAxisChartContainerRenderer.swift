@@ -74,8 +74,8 @@ public class XAxisChartContainerRenderer : XAxisRenderer {
                     var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.25) , y: -3 , width: 0.5 , height: 1.85)
                     transformer.rectValueToPixel(&rect)
                     context.setFillColor(NSUIColor(red:0.04, green:0.35, blue:0.95, alpha:1).cgColor)
-                    let bezierPath = UIBezierPath(roundedRect: rect, byRoundingCorners: [.topLeft , .topRight], cornerRadii: CGSize(width: 5, height: 5))
-                    context.addPath(bezierPath.cgPath)
+//                    let bezierPath = UIBezierPath(roundedRect: rect, byRoundingCorners: [.topLeft , .topRight], cornerRadii: CGSize(width: 5, height: 5))
+//                    context.addPath(bezierPath.cgPath)
                     
                     context.drawPath(using: .fill)
                 }else{
@@ -91,8 +91,8 @@ public class XAxisChartContainerRenderer : XAxisRenderer {
                     var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.25) , y: -1.8 , width: 0.5 , height: 1.5)
                     transformer.rectValueToPixel(&rect)
                     context.setFillColor(NSUIColor(red:0.04, green:0.35, blue:0.95, alpha:1).cgColor)
-                    let bezierPath = UIBezierPath(roundedRect: rect, cornerRadius: 5)
-                    context.addPath(bezierPath.cgPath)
+//                    let bezierPath = UIBezierPath(roundedRect: rect, cornerRadius: 5)
+//                    context.addPath(bezierPath.cgPath)
                     
                     context.drawPath(using: .fill)
                     

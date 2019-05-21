@@ -50,7 +50,7 @@ open class CombinedChartRenderer: DataRenderer
                 if chart.barData !== nil
                 {
                     // new render for combined bar chart
-                    _renderers.append(CustomCombinedChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
+                    _renderers.append(CustomCombinedChartWithMultiBarRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                     //_renderers.append(BarChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
                 break
@@ -137,9 +137,9 @@ open class CombinedChartRenderer: DataRenderer
             //            }
             // new combined bar chart renderer
             
-            if renderer is CustomCombinedChartRenderer
+            if renderer is CustomCombinedChartWithMultiBarRenderer
             {
-                data = (renderer as! CustomCombinedChartRenderer).dataProvider?.barData
+                data = (renderer as! CustomCombinedChartWithMultiBarRenderer).dataProvider?.barData
             }
             else if renderer is LineChartRenderer
             {
