@@ -880,7 +880,9 @@ open class PieChartRenderer: DataRenderer
 
         // Prepend selected slices before the already rendered unselected ones.
         // NOTE: - This relies on drawDataSet() being called before drawHighlighted in PieChartView.
-        accessibleChartElements.insert(contentsOf: highlightedAccessibleElements, at: 1)
+        if !accessibleChartElements.isEmpty {
+            accessibleChartElements.insert(contentsOf: highlightedAccessibleElements, at: 1)
+        }
 
         context.restoreGState()
     }
