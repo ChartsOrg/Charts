@@ -26,10 +26,10 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
     open override func drawData(context: CGContext)
     {
         guard let dataProvider = dataProvider, let candleData = dataProvider.candleData else { return }
-
+        
         // If we redraw the data, remove and repopulate accessible elements to update label values and frames
         accessibleChartElements.removeAll()
-
+        
         // Make the chart header the first element in the accessible elements array
         if let chart = dataProvider as? CandleStickChartView {
             let element = createAccessibleHeader(usingChart: chart,
@@ -37,7 +37,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                                                  withDefaultDescription: "CandleStick Chart")
             accessibleChartElements.append(element)
         }
-
+        
         for set in candleData.dataSets as! [ICandleChartDataSet] where set.isVisible
         {
             drawDataSet(context: context, dataSet: set)
@@ -56,7 +56,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
         guard
             let dataProvider = dataProvider
             else { return }
-
+        
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
         
         let phaseY = animator.phaseY
@@ -68,7 +68,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
         context.saveGState()
         
         context.setLineWidth(dataSet.shadowWidth)
-
+        
         for j in _xBounds
         {
             // get the entry
@@ -80,6 +80,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
             let close = e.close
             let high = e.high
             let low = e.low
+            
             var rect:CGRect = CGRect(x: e.x - 0.15  , y: low  , width: 0.3 , height: high   )
             trans.rectValueToPixel(&rect)
             context.setFillColor(NSUIColor(red:0.91, green:0.92, blue:0.93, alpha:1).cgColor)
@@ -89,6 +90,17 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
             #endif
             context.drawPath(using: .fill)
             
+            //            var rectStroke:CGRect = CGRect(x: e.x - 0.19  , y: -0.315  , width: 0.3 + 0.08 , height: 1.22 + 0.11  )
+            //            trans.rectValueToPixel(&rectStroke)
+            //            context.setLineWidth(2)
+            //            context.setStrokeColor(NSUIColor(red:0.91, green:0.92, blue:0.93, alpha:1).cgColor)
+            //            #if !os(OSX)
+            //            let bezierPathRectStroke = UIBezierPath(roundedRect: rectStroke, cornerRadius: 15)
+            //            context.addPath(bezierPathRectStroke.cgPath)
+            //            #endif
+            //            context.drawPath(using: .stroke)
+            
+            
             let doesContainMultipleDataSets = (dataProvider.candleData?.dataSets.count ?? 1) > 1
             var accessibilityMovementDescription = "neutral"
             var accessibilityRect = CGRect(x: CGFloat(xPos) + 0.5 - barSpace,
@@ -96,7 +108,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                                            width: (2 * barSpace) - 1.0,
                                            height: (CGFloat(abs(high - low) * phaseY)))
             trans.rectValueToPixel(&accessibilityRect)
-
+            
             if showCandleBar
             {
                 // calculate the shadow
@@ -154,24 +166,26 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                     shadowColor = dataSet.shadowColor ?? dataSet.color(atIndex: j)
                 }
                 
-                context.setStrokeColor(shadowColor.cgColor)
+                context.setFillColor(shadowColor.cgColor)
                 context.strokeLineSegments(between: _shadowPoints)
                 
                 // calculate the body
                 
-                _bodyRect.origin.x = CGFloat(xPos) - 0.5 + barSpace
+                _bodyRect.origin.x = CGFloat(xPos) - 0.53 + barSpace
                 _bodyRect.origin.y = CGFloat(close * phaseY)
-                _bodyRect.size.width = (CGFloat(xPos) + 0.5 - barSpace) - _bodyRect.origin.x
+                _bodyRect.size.width = (CGFloat(xPos) + 0.53 - barSpace) - _bodyRect.origin.x
                 _bodyRect.size.height = CGFloat(open * phaseY) - _bodyRect.origin.y
                 
                 trans.rectValueToPixel(&_bodyRect)
                 
+                
+                
                 // draw body differently for increasing and decreasing entry
-
+                
                 if open > close
                 {
                     accessibilityMovementDescription = "decreasing"
-
+                    
                     let color = dataSet.decreasingColor ?? dataSet.color(atIndex: j)
                     
                     if dataSet.isDecreasingFilled
@@ -188,7 +202,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 else if open < close
                 {
                     accessibilityMovementDescription = "increasing"
-
+                    
                     let color = dataSet.increasingColor ?? dataSet.color(atIndex: j)
                     
                     if dataSet.isIncreasingFilled
@@ -221,12 +235,12 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 _rangePoints[0].y = CGFloat(high * phaseY)
                 _rangePoints[1].x = CGFloat(xPos)
                 _rangePoints[1].y = CGFloat(low * phaseY)
-
+                
                 _openPoints[0].x = CGFloat(xPos) - 0.5 + barSpace
                 _openPoints[0].y = CGFloat(open * phaseY)
                 _openPoints[1].x = CGFloat(xPos)
                 _openPoints[1].y = CGFloat(open * phaseY)
-
+                
                 _closePoints[0].x = CGFloat(xPos) + 0.5 - barSpace
                 _closePoints[0].y = CGFloat(close * phaseY)
                 _closePoints[1].x = CGFloat(xPos)
@@ -238,7 +252,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 
                 // draw the ranges
                 var barColor: NSUIColor! = NSUIColor(red:0.91, green:0.92, blue:0.93, alpha:1)
-
+                
                 if open > close
                 {
                     accessibilityMovementDescription = "decreasing"
@@ -259,7 +273,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 context.strokeLineSegments(between: _openPoints)
                 context.strokeLineSegments(between: _closePoints)
             }
-
+            
             let axElement = createAccessibleElement(withIndex: j,
                                                     container: dataProvider,
                                                     dataSet: dataSet)
@@ -267,14 +281,14 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 element.accessibilityLabel = "\(doesContainMultipleDataSets ? "\(dataSet.label ?? "Dataset")" : "") " + "\(xPos) - \(accessibilityMovementDescription). low: \(low), high: \(high), opening: \(open), closing: \(close)"
                 element.accessibilityFrame = accessibilityRect
             }
-
+            
             accessibleChartElements.append(axElement)
-
+            
         }
-
+        
         // Post this notification to let VoiceOver account for the redrawn frames
         accessibilityPostLayoutChangedNotification()
-
+        
         context.restoreGState()
     }
     
@@ -420,17 +434,17 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
         
         context.restoreGState()
     }
-
+    
     private func createAccessibleElement(withIndex idx: Int,
                                          container: CandleChartDataProvider,
                                          dataSet: ICandleChartDataSet,
                                          modifier: (NSUIAccessibilityElement) -> ()) -> NSUIAccessibilityElement {
-
+        
         let element = NSUIAccessibilityElement(accessibilityContainer: container)
-
+        
         // The modifier allows changing of traits and frame depending on highlight, rotation, etc
         modifier(element)
-
+        
         return element
     }
 }
