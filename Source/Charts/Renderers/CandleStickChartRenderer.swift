@@ -80,6 +80,14 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
             let close = e.close
             let high = e.high
             let low = e.low
+            var rect:CGRect = CGRect(x: e.x - 0.15  , y: low  , width: 0.3 , height: high   )
+            trans.rectValueToPixel(&rect)
+            context.setFillColor(NSUIColor(red:0.91, green:0.92, blue:0.93, alpha:1).cgColor)
+            #if !os(OSX)
+            let bezierPath = UIBezierPath(roundedRect: rect, cornerRadius: 15)
+            context.addPath(bezierPath.cgPath)
+            #endif
+            context.drawPath(using: .fill)
             
             let doesContainMultipleDataSets = (dataProvider.candleData?.dataSets.count ?? 1) > 1
             var accessibilityMovementDescription = "neutral"
@@ -201,6 +209,11 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                     context.setStrokeColor(color.cgColor)
                     context.stroke(_bodyRect)
                 }
+                #if !os(OSX)
+                let bezierPathRect = UIBezierPath(roundedRect: _bodyRect, cornerRadius: 5.0)
+                context.addPath(bezierPathRect.cgPath)
+                #endif
+                context.drawPath(using: .fill)
             }
             else
             {
@@ -224,7 +237,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 trans.pointValuesToPixel(&_closePoints)
                 
                 // draw the ranges
-                var barColor: NSUIColor! = nil
+                var barColor: NSUIColor! = NSUIColor(red:0.91, green:0.92, blue:0.93, alpha:1)
 
                 if open > close
                 {
