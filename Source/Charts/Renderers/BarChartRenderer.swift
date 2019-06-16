@@ -869,7 +869,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             }
 
             elementValueText = dataSet.valueFormatter?.stringForValue(
-                vals[idx % stackSize],
+                vals[idx % vals.count],
                 entry: e,
                 dataSetIndex: dataSetIndex,
                 viewPortHandler: viewPortHandler) ?? "\(e.y)"
