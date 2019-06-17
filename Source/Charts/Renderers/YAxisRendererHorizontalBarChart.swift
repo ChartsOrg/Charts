@@ -316,8 +316,10 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             {
                 let labelLineHeight = l.valueFont.lineHeight
                 
+                let drawAttributes = [NSAttributedString.Key.font: l.valueFont, NSAttributedString.Key.foregroundColor: UIColor.white]
                 let xOffset: CGFloat = l.lineWidth + l.xOffset
                 let yOffset: CGFloat = 2.0 + l.yOffset
+                let textSize = (label as NSString).size(withAttributes: drawAttributes)
 
                 if l.labelPosition == .rightTop
                 {
@@ -346,8 +348,10 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
                         point: CGPoint(
                             x: position.x - xOffset,
                             y: viewPortHandler.contentTop + yOffset),
+                        textSize: textSize,
+                        backgroundColor: l.valueTextColor,
                         align: .right,
-                        attributes: [NSAttributedString.Key.font: l.valueFont, NSAttributedString.Key.foregroundColor: l.valueTextColor])
+                        attributes: drawAttributes)
                 }
                 else
                 {
