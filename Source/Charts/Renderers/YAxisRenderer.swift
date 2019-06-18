@@ -353,8 +353,10 @@ open class YAxisRenderer: AxisRendererBase
                         point: CGPoint(
                             x: viewPortHandler.contentRight - xOffset,
                             y: position.y - yOffset),
+                        textSize: textSize,
+                        backgroundColor: l.valueTextColor,
                         align: .right,
-                        attributes: [NSAttributedString.Key.font: l.valueFont, NSAttributedString.Key.foregroundColor: l.valueTextColor])
+                        attributes: drawAttributes)
                 }
                 else if l.labelPosition == .rightBottom
                 {
@@ -363,19 +365,21 @@ open class YAxisRenderer: AxisRendererBase
                         point: CGPoint(
                             x: viewPortHandler.contentRight - xOffset,
                             y: position.y + yOffset - labelLineHeight),
+                        textSize: textSize,
+                        backgroundColor: l.valueTextColor,
                         align: .right,
-                        attributes: [NSAttributedString.Key.font: l.valueFont, NSAttributedString.Key.foregroundColor: l.valueTextColor])
+                        attributes: drawAttributes)
                 }
                 else if l.labelPosition == .leftTop
                 {
                     ChartUtils.drawText(context: context,
                         text: label,
                         point: CGPoint(
-                            x: position.x - xOffset,
-                            y: viewPortHandler.contentTop + yOffset),
+                            x: viewPortHandler.contentLeft + xOffset,
+                            y: position.y - yOffset),
                         textSize: textSize,
                         backgroundColor: l.valueTextColor,
-                        align: .right,
+                        align: .left,
                         attributes: drawAttributes)
                 }
                 else
@@ -385,8 +389,10 @@ open class YAxisRenderer: AxisRendererBase
                         point: CGPoint(
                             x: viewPortHandler.contentLeft + xOffset,
                             y: position.y + yOffset - labelLineHeight),
+                        textSize: textSize,
+                        backgroundColor: l.valueTextColor,
                         align: .left,
-                        attributes: [NSAttributedString.Key.font: l.valueFont, NSAttributedString.Key.foregroundColor: l.valueTextColor])
+                        attributes: drawAttributes)
                 }
             }
         }
