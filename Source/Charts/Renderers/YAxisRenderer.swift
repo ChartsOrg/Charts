@@ -341,6 +341,8 @@ open class YAxisRenderer: AxisRendererBase
             {
                 let labelLineHeight = l.valueFont.lineHeight
                 
+                let drawAttributes = [NSAttributedString.Key.font: l.valueFont, NSAttributedString.Key.foregroundColor: UIColor.white]
+                let textSize = (label as NSString).size(withAttributes: drawAttributes)
                 let xOffset: CGFloat = 4.0 + l.xOffset
                 let yOffset: CGFloat = l.lineWidth + labelLineHeight + l.yOffset
                 
@@ -369,10 +371,12 @@ open class YAxisRenderer: AxisRendererBase
                     ChartUtils.drawText(context: context,
                         text: label,
                         point: CGPoint(
-                            x: viewPortHandler.contentLeft + xOffset,
-                            y: position.y - yOffset),
-                        align: .left,
-                        attributes: [NSAttributedString.Key.font: l.valueFont, NSAttributedString.Key.foregroundColor: l.valueTextColor])
+                            x: position.x - xOffset,
+                            y: viewPortHandler.contentTop + yOffset),
+                        textSize: textSize,
+                        backgroundColor: l.valueTextColor,
+                        align: .right,
+                        attributes: drawAttributes)
                 }
                 else
                 {
