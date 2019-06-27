@@ -11,7 +11,12 @@
 
 import Foundation
 import CoreGraphics
-
+#if canImport(UIKit)
+import UIKit
+#endif
+#if canImport(AppKit)
+import AppKit
+#endif
 extension Comparable {
     func clamped(to range: ClosedRange<Self>) -> Self {
         if self > range.upperBound {
@@ -255,7 +260,11 @@ open class ChartUtils
             context.translateBy(x: translate.x, y: translate.y)
             context.rotate(by: angleRadians)
             
-            (text as NSString).draw(with: rect, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+            if #available(OSX 10.11, *) {
+                (text as NSString).draw(with: rect, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+            } else {
+                // Fallback on earlier versions
+            }
             
             context.restoreGState()
         }
@@ -270,7 +279,11 @@ open class ChartUtils
             rect.origin.x += point.x
             rect.origin.y += point.y
             
-            (text as NSString).draw(with: rect, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+            if #available(OSX 10.11, *) {
+                (text as NSString).draw(with: rect, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+            } else {
+                // Fallback on earlier versions
+            }
         }
         
         NSUIGraphicsPopContext()
@@ -278,7 +291,7 @@ open class ChartUtils
     
     internal class func drawMultilineText(context: CGContext, text: String, point: CGPoint, attributes: [NSAttributedString.Key : Any]?, constrainedToSize: CGSize, anchor: CGPoint, angleRadians: CGFloat)
     {
-        let rect = text.boundingRect(with: constrainedToSize, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+         let rect = text.boundingRect(with: constrainedToSize, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
         drawMultilineText(context: context, text: text, knownTextSize: rect.size, point: point, attributes: attributes, constrainedToSize: constrainedToSize, anchor: anchor, angleRadians: angleRadians)
     }
 

@@ -11,7 +11,12 @@
 
 import Foundation
 import CoreGraphics
-
+#if canImport(UIKit)
+import UIKit
+#endif
+#if canImport(AppKit)
+import AppKit
+#endif
 open class PieChartRenderer: DataRenderer
 {
     @objc open weak var chart: PieChartView?
@@ -112,7 +117,7 @@ open class PieChartRenderer: DataRenderer
         let phaseY = animator.phaseY
 
         let entryCount = dataSet.entryCount
-        var drawAngles = chart.drawAngles
+        let drawAngles = chart.drawAngles
         let center = chart.centerCircleBox
         let radius = chart.radius
         let drawInnerArc = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled
@@ -707,8 +712,8 @@ open class PieChartRenderer: DataRenderer
         var angle: CGFloat = 0.0
         let rotationAngle = chart.rotationAngle
 
-        var drawAngles = chart.drawAngles
-        var absoluteAngles = chart.absoluteAngles
+        let drawAngles = chart.drawAngles
+        let absoluteAngles = chart.absoluteAngles
         let center = chart.centerCircleBox
         let radius = chart.radius
         let drawInnerArc = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled
