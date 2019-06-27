@@ -260,11 +260,7 @@ open class ChartUtils
             context.translateBy(x: translate.x, y: translate.y)
             context.rotate(by: angleRadians)
             
-            if #available(OSX 10.11, *) {
-                (text as NSString).draw(with: rect, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
-            } else {
-                // Fallback on earlier versions
-            }
+            (text as NSString).draw(with: rect, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
             
             context.restoreGState()
         }
@@ -279,11 +275,7 @@ open class ChartUtils
             rect.origin.x += point.x
             rect.origin.y += point.y
             
-            if #available(OSX 10.11, *) {
-                (text as NSString).draw(with: rect, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
-            } else {
-                // Fallback on earlier versions
-            }
+            (text as NSString).draw(with: rect, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
         }
         
         NSUIGraphicsPopContext()
