@@ -12,6 +12,13 @@
 import Foundation
 import CoreGraphics
 
+#if canImport(AppKit)
+import AppKit
+#else
+import UIKit
+#endif
+
+
 @objc(ChartMarkerView)
 open class MarkerView: NSUIView, IMarker
 {

@@ -12,6 +12,12 @@
 import Foundation
 import CoreGraphics
 
+#if canImport(AppKit)
+import AppKit
+#else
+import UIKit
+#endif
+
 /// View that represents a pie chart. Draws cake like slices.
 open class PieChartView: PieRadarChartViewBase
 {

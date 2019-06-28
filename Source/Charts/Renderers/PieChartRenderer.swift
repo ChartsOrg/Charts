@@ -12,6 +12,12 @@
 import Foundation
 import CoreGraphics
 
+#if canImport(AppKit)
+import AppKit
+#else
+import UIKit
+#endif
+
 open class PieChartRenderer: DataRenderer
 {
     @objc open weak var chart: PieChartView?

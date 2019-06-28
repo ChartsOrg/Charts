@@ -12,6 +12,12 @@
 import Foundation
 import CoreGraphics
 
+#if canImport(AppKit)
+import AppKit
+#else
+import UIKit
+#endif
+
 @objc(ChartYAxisRenderer)
 open class YAxisRenderer: AxisRendererBase
 {

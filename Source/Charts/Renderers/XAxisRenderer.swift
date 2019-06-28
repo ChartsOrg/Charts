@@ -12,6 +12,12 @@
 import Foundation
 import CoreGraphics
 
+#if canImport(AppKit)
+import AppKit
+#else
+import UIKit
+#endif
+
 @objc(ChartXAxisRenderer)
 open class XAxisRenderer: AxisRendererBase
 {
