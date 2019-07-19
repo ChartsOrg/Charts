@@ -74,7 +74,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     open var chartDescription: Description?
     
     /// This property is deprecated - Use `chartDescription.text` instead.
-    @available(*, deprecated: 1.0, message: "Use `chartDescription.text` instead.")
+	@available(*, deprecated, message: "Use `chartDescription.text` instead.")
     open var descriptionText: String
     {
         get { return chartDescription?.text ?? "" }
@@ -82,7 +82,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     }
     
     /// This property is deprecated - Use `chartDescription.font` instead.
-    @available(*, deprecated: 1.0, message: "Use `chartDescription.font` instead.")
+	@available(*, deprecated, message: "Use `chartDescription.font` instead.")
     open var descriptionFont: NSUIFont?
     {
         get { return chartDescription?.font }
@@ -96,7 +96,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     }
     
     /// This property is deprecated - Use `chartDescription.textColor` instead.
-    @available(*, deprecated: 1.0, message: "Use `chartDescription.textColor` instead.")
+	@available(*, deprecated, message: "Use `chartDescription.textColor` instead.")
     open var descriptionTextColor: NSUIColor?
     {
         get { return chartDescription?.textColor }
@@ -110,7 +110,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     }
     
     /// This property is deprecated - Use `chartDescription.textAlign` instead.
-    @available(*, deprecated: 1.0, message: "Use `chartDescription.textAlign` instead.")
+	@available(*, deprecated, message: "Use `chartDescription.textAlign` instead.")
     open var descriptionTextAlign: NSTextAlignment
     {
         get { return chartDescription?.textAlign ?? NSTextAlignment.right }
@@ -118,7 +118,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     }
     
     /// This property is deprecated - Use `chartDescription.position` instead.
-    @available(*, deprecated: 1.0, message: "Use `chartDescription.position` instead.")
+	@available(*, deprecated, message: "Use `chartDescription.position` instead.")
     open var descriptionTextPosition: CGPoint?
     {
         get { return chartDescription?.position }
@@ -924,7 +924,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     open func removeViewportJob(_ job: ViewPortJob)
     {
-        if let index = _viewportJobs.index(where: { $0 === job })
+		if let index = _viewportJobs.firstIndex(where: { $0 === job })
         {
             _viewportJobs.remove(at: index)
         }

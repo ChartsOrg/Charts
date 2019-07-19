@@ -148,7 +148,7 @@ open class CombinedChartRenderer: DataRenderer
                 data = (renderer as! BubbleChartRenderer).dataProvider?.bubbleData
             }
             
-            let dataIndex = data == nil ? nil : (chart?.data as? CombinedChartData)?.allData.index(of: data!)
+			let dataIndex = data == nil ? nil : (chart?.data as? CombinedChartData)?.allData.firstIndex(of: data!)
             
             let dataIndices = indices.filter{ $0.dataIndex == dataIndex || $0.dataIndex == -1 }
             

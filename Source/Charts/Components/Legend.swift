@@ -20,7 +20,7 @@ import CoreGraphics
 open class Legend: ComponentBase
 {
     /// This property is deprecated - Use `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.
-    @available(*, deprecated: 1.0, message: "Use `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.")
+	@available(*, deprecated, message: "Use `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.")
     @objc(ChartLegendPosition)
     public enum Position: Int
     {
@@ -104,7 +104,7 @@ open class Legend: ComponentBase
     fileprivate var _isLegendCustom = false
     
     /// This property is deprecated - Use `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.
-    @available(*, deprecated: 1.0, message: "Use `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.")
+	@available(*, deprecated, message: "Use `horizontalAlignment`, `verticalAlignment`, `orientation`, `drawInside`, `direction`.")
     open var position: Position
     {
         get
@@ -524,7 +524,7 @@ open class Legend: ComponentBase
     // MARK: - Deprecated stuff
     
     /// This property is deprecated - Use `entries`.
-    @available(*, deprecated: 1.0, message: "Use `entries`.")
+	@available(*, deprecated, message: "Use `entries`.")
     open var colors: [NSUIColor?]
     {
         get
@@ -562,7 +562,7 @@ open class Legend: ComponentBase
     }
     
     /// This property is deprecated - Use `entries`.
-    @available(*, deprecated: 1.0, message: "Use `entries`.")
+	@available(*, deprecated, message: "Use `entries`.")
     open var labels: [String?]
     {
         get
@@ -589,7 +589,7 @@ open class Legend: ComponentBase
     
     
     /// This property is deprecated - Use `extraEntries`.
-    @available(*, deprecated: 1.0, message: "Use `extraEntries`.")
+	@available(*, deprecated, message: "Use `extraEntries`.")
     open var extraColors: [NSUIColor?]
     {
         get
@@ -628,7 +628,7 @@ open class Legend: ComponentBase
     }
     
     /// This property is deprecated - Use `extraEntries`.
-    @available(*, deprecated: 1.0, message: "Use `extraEntries`.")
+	@available(*, deprecated, message: "Use `extraEntries`.")
     open var extraLabels: [String?]
     {
         get
@@ -655,7 +655,7 @@ open class Legend: ComponentBase
     }
     
     /// This constructor is deprecated - Use `init(entries:)`
-    @available(*, deprecated: 1.0, message: "Use `init(entries:)`")
+	@available(*, deprecated, message: "Use `init(entries:)`")
     public init(colors: [NSUIColor?], labels: [String?])
     {
         super.init()
@@ -684,7 +684,7 @@ open class Legend: ComponentBase
     }
     
     /// This constructor is deprecated - Use `init(entries:)`
-    @available(*, deprecated: 1.0, message: "Use `init(entries:)`")
+	@available(*, deprecated, message: "Use `init(entries:)`")
     public init(colors: [NSObject], labels: [NSObject])
     {
         super.init()
@@ -713,21 +713,21 @@ open class Legend: ComponentBase
     }
     
     /// This property is deprecated - Use `extraEntries`
-    @available(*, deprecated: 1.0, message: "Use `extraEntries`")
+	@available(*, deprecated, message: "Use `extraEntries`")
     open var extraColorsObjc: [NSObject]
     {
         return ChartUtils.bridgedObjCGetNSUIColorArray(swift: extraColors)
     }
     
     /// This property is deprecated - Use `extraLabels`
-    @available(*, deprecated: 1.0, message: "Use `extraLabels`")
+	@available(*, deprecated, message: "Use `extraLabels`")
     open var extraLabelsObjc: [NSObject]
     {
         return ChartUtils.bridgedObjCGetStringArray(swift: extraLabels)
     }
     
     /// This property is deprecated - Use `colors`
-    @available(*, deprecated: 1.0, message: "Use `colors`")
+	@available(*, deprecated, message: "Use `colors`")
     open var colorsObjc: [NSObject]
     {
         get { return ChartUtils.bridgedObjCGetNSUIColorArray(swift: colors) }
@@ -735,7 +735,7 @@ open class Legend: ComponentBase
     }
     
     /// This property is deprecated - Use `labels`
-    @available(*, deprecated: 1.0, message: "Use `labels`")
+	@available(*, deprecated, message: "Use `labels`")
     open var labelsObjc: [NSObject]
     {
         get { return ChartUtils.bridgedObjCGetStringArray(swift: labels) }
@@ -743,14 +743,14 @@ open class Legend: ComponentBase
     }
     
     /// This function is deprecated - Use `entries`
-    @available(*, deprecated: 1.0, message: "Use `entries`")
+	@available(*, deprecated, message: "Use `entries`")
     open func getLabel(_ index: Int) -> String?
     {
         return entries[index].label
     }
     
     /// This function is deprecated - Use `Use `extra(entries:)`
-    @available(*, deprecated: 1.0, message: "Use `extra(entries:)`")
+	@available(*, deprecated, message: "Use `extra(entries:)`")
     open func setExtra(colors: [NSUIColor?], labels: [String?])
     {
         var entries = [LegendEntry]()
@@ -777,7 +777,7 @@ open class Legend: ComponentBase
     }
     
     /// This function is deprecated - Use `Use `extra(entries:)`
-    @available(*, deprecated: 1.0, message: "Use `extra(entries:)`")
+	@available(*, deprecated, message: "Use `extra(entries:)`")
     open func setExtra(colors: [NSObject], labels: [NSObject])
     {
         var entries = [LegendEntry]()
@@ -804,7 +804,7 @@ open class Legend: ComponentBase
     }
     
     /// This function is deprecated - Use `Use `setCustom(entries:)`
-    @available(*, deprecated: 1.0, message: "Use `setCustom(entries:)`")
+	@available(*, deprecated, message: "Use `setCustom(entries:)`")
     open func setCustom(colors: [NSUIColor?], labels: [String?])
     {
         var entries = [LegendEntry]()
@@ -831,7 +831,7 @@ open class Legend: ComponentBase
     }
     
     /// This function is deprecated - Use `Use `setCustom(entries:)`
-    @available(*, deprecated: 1.0, message: "Use `setCustom(entries:)`")
+	@available(*, deprecated, message: "Use `setCustom(entries:)`")
     open func setCustom(colors: [NSObject], labels: [NSObject])
     {
         var entries = [LegendEntry]()

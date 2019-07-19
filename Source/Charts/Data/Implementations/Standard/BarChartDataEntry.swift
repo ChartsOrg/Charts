@@ -64,7 +64,7 @@ open class BarChartDataEntry: ChartDataEntry
     }
     
     /// This constructor is misleading, please use the `data` argument instead of `label`.
-    @available(*, deprecated: 1.0, message: "Use `data` argument instead of `label`.")
+	@available(*, deprecated, message: "Use `data` argument instead of `label`.")
     public init(x: Double, yValues: [Double], label: String)
     {
         super.init(x: x, y: BarChartDataEntry.calcSum(values: yValues), data: label as AnyObject?)

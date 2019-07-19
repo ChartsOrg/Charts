@@ -395,7 +395,7 @@ open class GearChartView: PieRadarChartViewBase
     }
     
     /// set this to true to draw the enrty labels into the pie slices
-    @available(*, deprecated: 1.0, message: "Use `drawEntryLabelsEnabled` instead.")
+	@available(*, deprecated, message: "Use `drawEntryLabelsEnabled` instead.")
     open var drawSliceTextEnabled: Bool
     {
         get
@@ -409,7 +409,7 @@ open class GearChartView: PieRadarChartViewBase
     }
     
     /// - returns: `true` if drawing entry labels is enabled, `false` ifnot
-    @available(*, deprecated: 1.0, message: "Use `isDrawEntryLabelsEnabled` instead.")
+	@available(*, deprecated, message: "Use `isDrawEntryLabelsEnabled` instead.")
     open var isDrawSliceTextEnabled: Bool
     {
         get

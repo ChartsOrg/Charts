@@ -76,7 +76,7 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         }
     }
     
-    @available(*, deprecated: 1.0, message: "Use `mode` instead.")
+	@available(*, deprecated, message: "Use `mode` instead.")
     open var drawCubicEnabled: Bool
     {
         get
@@ -89,10 +89,10 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         }
     }
     
-    @available(*, deprecated: 1.0, message: "Use `mode` instead.")
+	@available(*, deprecated, message: "Use `mode` instead.")
     open var isDrawCubicEnabled: Bool { return drawCubicEnabled }
     
-    @available(*, deprecated: 1.0, message: "Use `mode` instead.")
+	@available(*, deprecated, message: "Use `mode` instead.")
     open var drawSteppedEnabled: Bool
     {
         get
@@ -105,7 +105,7 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         }
     }
     
-    @available(*, deprecated: 1.0, message: "Use `mode` instead.")
+	@available(*, deprecated, message: "Use `mode` instead.")
     open var isDrawSteppedEnabled: Bool { return drawSteppedEnabled }
     
     /// The radius of the drawn circles.

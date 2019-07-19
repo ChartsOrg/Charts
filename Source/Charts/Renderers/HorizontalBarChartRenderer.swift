@@ -285,7 +285,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             else if(dataSet.isStackedWithRoundedCorners){
                 
                 var roundedCorners : UIRectCorner = UIRectCorner()
-                let rectIndex = buffer.rects.index(of: barRect) ?? 0
+				let rectIndex = buffer.rects.firstIndex(of: barRect) ?? 0
                 
                 //Se il valore non è 0 >> se è il primo valore oppure se il valore precente è 0, arrotonda gli angoli di sinistra
                 if(barRect.width > 0  && (rectIndex == 0 || (rectIndex > 0 && buffer.rects[rectIndex-1].width == 0))){

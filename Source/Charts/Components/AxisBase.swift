@@ -300,7 +300,7 @@ open class AxisBase: ComponentBase
     open var isAxisMaxCustom: Bool { return _customAxisMax }
     
     /// This property is deprecated - Use `axisMinimum` instead.
-    @available(*, deprecated: 1.0, message: "Use axisMinimum instead.")
+	@available(*, deprecated, message: "Use axisMinimum instead.")
     open var axisMinValue: Double
     {
         get { return axisMinimum }
@@ -308,7 +308,7 @@ open class AxisBase: ComponentBase
     }
     
     /// This property is deprecated - Use `axisMaximum` instead.
-    @available(*, deprecated: 1.0, message: "Use axisMaximum instead.")
+	@available(*, deprecated, message: "Use axisMaximum instead.")
     open var axisMaxValue: Double
     {
         get { return axisMaximum }

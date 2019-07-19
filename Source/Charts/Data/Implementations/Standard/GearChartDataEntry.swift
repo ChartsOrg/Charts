@@ -91,7 +91,7 @@ open class GearChartDataEntry: ChartDataEntry
         set { y = value }
     }
     
-    @available(*, deprecated: 1.0, message: "Pie entries do not have x values")
+	@available(*, deprecated, message: "Pie entries do not have x values")
     open override var x: Double
     {
         get
