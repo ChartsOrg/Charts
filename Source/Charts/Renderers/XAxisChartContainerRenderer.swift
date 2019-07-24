@@ -9,21 +9,25 @@ import CoreGraphics
 #if !os(OSX)
 import UIKit
 #endif
-///XAxis updates 
+///XAxis updates
 public class XAxisChartContainerRenderer : XAxisRenderer {
     public var highlight:Highlight?
     
     public var indexXAxis:Int?
+    public var xAxisCount:Int?
     public var isCombinedChart:Bool = false
     
-    public init(viewPortHandler: ViewPortHandler, xAxis: XAxis?, transformer: Transformer? , indexXAxis: Int? , isCombinedChart : Bool ) {
+    public init(viewPortHandler: ViewPortHandler, xAxis: XAxis?, transformer: Transformer? , indexXAxis: Int? ,xAxisCount:Int, isCombinedChart : Bool ) {
         super.init(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: transformer)
         if let indexXaxis  = indexXAxis {
             self.indexXAxis = indexXaxis
         }
+        self.xAxisCount = xAxisCount
         self.isCombinedChart = isCombinedChart
     }
-    
+    public func setSelectedValueIndex(index:Int) {
+        self.indexXAxis = index
+    }
     /// draws the x-labels on the specified y-position
     override public func drawLabels(context: CGContext, pos: CGFloat, anchor: CGPoint) {
         guard
@@ -36,7 +40,7 @@ public class XAxisChartContainerRenderer : XAxisRenderer {
         #else
         let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         #endif
-        paraStyle.alignment = .left
+        paraStyle.alignment = .center
         
         var labelAttrs: [NSAttributedString.Key : Any] = [NSAttributedString.Key.font: xAxis.labelFont,
                                                           NSAttributedString.Key.foregroundColor: xAxis.labelTextColor,
@@ -60,8 +64,9 @@ public class XAxisChartContainerRenderer : XAxisRenderer {
         }
         
         let entries = xAxis.entries
-        
-        for i in stride(from: 0, to: entries.count, by: 1)
+        //stride(from: 0, to: entries.count, by: 1)
+        for i in 0...xAxisCount!
+            
         {
             
             if isCombinedChart {
@@ -70,7 +75,7 @@ public class XAxisChartContainerRenderer : XAxisRenderer {
                                   NSAttributedString.Key.foregroundColor: NSUIColor.white,
                                   NSAttributedString.Key.paragraphStyle: paraStyle]
                     // var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.425) , y: -0.63 , width: 0.9 , height: 0.55)
-                    var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.25) , y: -2.6 , width: 0.5 , height: 1.85)
+                    var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.35) , y: -2.4 , width: 0.7 , height: 1.65)
                     transformer.rectValueToPixel(&rect)
                     context.setFillColor(NSUIColor(red:0.04, green:0.35, blue:0.95, alpha:1).cgColor)
                     #if !os(OSX)
@@ -79,6 +84,8 @@ public class XAxisChartContainerRenderer : XAxisRenderer {
                     #endif
                     
                     context.drawPath(using: .fill)
+                    
+                    
                 }else{
                     labelAttrs = [NSAttributedString.Key.font: xAxis.labelFont,
                                   NSAttributedString.Key.foregroundColor: NSUIColor(red:0.28, green:0.33, blue:0.4, alpha:1).cgColor,
@@ -89,7 +96,7 @@ public class XAxisChartContainerRenderer : XAxisRenderer {
                     labelAttrs = [NSAttributedString.Key.font: NSUIFont(name: "Helvetica-Bold", size: 10)!,
                                   NSAttributedString.Key.foregroundColor: NSUIColor.white,
                                   NSAttributedString.Key.paragraphStyle: paraStyle]
-                    var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.25) , y: -2.1 , width: 0.5 , height: 1.5)
+                    var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.35) , y: -1.4 , width: 0.7 , height: 1.2)
                     transformer.rectValueToPixel(&rect)
                     context.setFillColor(NSUIColor(red:0.04, green:0.35, blue:0.95, alpha:1).cgColor)
                     #if !os(OSX)
@@ -109,11 +116,11 @@ public class XAxisChartContainerRenderer : XAxisRenderer {
             
             if centeringEnabled
             {
-                position.x = CGFloat(xAxis.centeredEntries[i])
+                position.x = CGFloat(i)
             }
             else
             {
-                position.x = CGFloat(entries[i])
+                position.x = CGFloat(i)
             }
             
             position.y = 0.0
@@ -121,7 +128,7 @@ public class XAxisChartContainerRenderer : XAxisRenderer {
             
             if viewPortHandler.isInBoundsX(position.x)
             {
-                let label = xAxis.valueFormatter?.stringForValue(xAxis.entries[i], axis: xAxis) ?? ""
+                let label = xAxis.valueFormatter?.stringForValue(Double(i), axis: xAxis) ?? ""
                 
                 
                 let labelns = label as NSString
@@ -129,7 +136,7 @@ public class XAxisChartContainerRenderer : XAxisRenderer {
                 if xAxis.isAvoidFirstLastClippingEnabled
                 {
                     // avoid clipping of the last
-                    if i == xAxis.entryCount - 1 && xAxis.entryCount > 1
+                    if i == xAxisCount! - 1 && xAxisCount! > 1
                     {
                         let width = labelns.boundingRect(with: labelMaxSize, options: .usesLineFragmentOrigin, attributes: labelAttrs, context: nil).size.width
                         
