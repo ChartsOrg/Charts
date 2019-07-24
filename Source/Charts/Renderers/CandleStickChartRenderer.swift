@@ -81,7 +81,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
             let high = e.high
             let low = e.low
             
-            var rect:CGRect = CGRect(x: e.x - 0.15  , y: low  , width: 0.3 , height: high   )
+            var rect:CGRect = CGRect(x: e.x - (Double(barSpace)/2)  , y: low  , width: Double(barSpace)  , height: high   )
             trans.rectValueToPixel(&rect)
             context.setFillColor(NSUIColor(red:0.91, green:0.92, blue:0.93, alpha:1).cgColor)
             #if !os(OSX)
@@ -103,7 +103,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
             
             let doesContainMultipleDataSets = (dataProvider.candleData?.dataSets.count ?? 1) > 1
             var accessibilityMovementDescription = "neutral"
-            var accessibilityRect = CGRect(x: CGFloat(xPos) + 0.5 - barSpace,
+            var accessibilityRect = CGRect(x: CGFloat(xPos) + 1.0 - barSpace,
                                            y: CGFloat(low * phaseY),
                                            width: (2 * barSpace) - 1.0,
                                            height: (CGFloat(abs(high - low) * phaseY)))
@@ -171,9 +171,9 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 
                 // calculate the body
                 
-                _bodyRect.origin.x = CGFloat(xPos) - 0.53 + barSpace
+                _bodyRect.origin.x = CGFloat(xPos) - 0.5 + barSpace
                 _bodyRect.origin.y = CGFloat(close * phaseY)
-                _bodyRect.size.width = (CGFloat(xPos) + 0.53 - barSpace) - _bodyRect.origin.x
+                _bodyRect.size.width = (CGFloat(xPos) + 0.5 - barSpace) - _bodyRect.origin.x
                 _bodyRect.size.height = CGFloat(open * phaseY) - _bodyRect.origin.y
                 
                 trans.rectValueToPixel(&_bodyRect)
@@ -426,10 +426,29 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
             
             let pt = trans.pixelForValues(x: e.x, y: y)
             
+            var rect:CGRect = CGRect(x: e.x - (Double(set.barSpace)/2)  , y: lowValue  , width: Double(set.barSpace)  , height: highValue   )
+            trans.rectValueToPixel(&rect)
+            context.setFillColor(NSUIColor(red:0.87, green:0.95, blue:1, alpha:0.5).cgColor)
+            #if !os(OSX)
+            let bezierPath = UIBezierPath(roundedRect: rect, cornerRadius: 15)
+            context.addPath(bezierPath.cgPath)
+            #endif
+            context.drawPath(using: .fill)
+            
+            var rectStroke:CGRect = CGRect(x: e.x - (Double(set.barSpace + 0.1)/2)  , y: lowValue - 0.1 , width: Double(set.barSpace + 0.1)  , height: highValue + 0.2   )
+            
+            trans.rectValueToPixel(&rectStroke)
+            context.setLineWidth(2)
+            context.setStrokeColor(NSUIColor(red:0.87, green:0.95, blue:1, alpha:0.5).cgColor)
+            #if !os(OSX)
+            let bezierPathRectStroke = UIBezierPath(roundedRect: rectStroke, cornerRadius: 15)
+            context.addPath(bezierPathRectStroke.cgPath)
+            #endif
+            context.drawPath(using: .stroke)
             high.setDraw(pt: pt)
             
             // draw the lines
-            drawHighlightLines(context: context, point: pt, set: set)
+            // drawHighlightLines(context: context, point: pt, set: set)
         }
         
         context.restoreGState()
@@ -448,3 +467,4 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
         return element
     }
 }
+
