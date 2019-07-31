@@ -60,5 +60,7 @@ public protocol IPieChartDataSet: IChartDataSet
 
     /// get/sets the color for the highlighted sector
     var highlightColor: NSUIColor? { get set }
-
+    
+    /// When onlyShowHighlightValue is true ,only show what you choose. default is false
+    var onlyShowHighlightValue: Bool { get set }
 }

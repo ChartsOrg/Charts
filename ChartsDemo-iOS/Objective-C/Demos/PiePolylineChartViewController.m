@@ -102,7 +102,7 @@
     dataSet.valueLinePart2Length = 0.4;
     //dataSet.xValuePosition = PieChartValuePositionOutsideSlice;
     dataSet.yValuePosition = PieChartValuePositionOutsideSlice;
-    
+//    dataSet.onlyShowHighlightValue = true;
     PieChartData *data = [[PieChartData alloc] initWithDataSet:dataSet];
     
     NSNumberFormatter *pFormatter = [[NSNumberFormatter alloc] init];

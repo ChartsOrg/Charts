@@ -110,7 +110,9 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
 
     /// the color for the highlighted sector
     open var highlightColor: NSUIColor? = nil
-
+    
+    /// When onlyShowHighlightValue is true ,only show what you choose. default is false
+    open var onlyShowHighlightValue : Bool = false
     // MARK: - NSCopying
 
     open override func copy(with zone: NSZone? = nil) -> Any
@@ -130,6 +132,7 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
         copy.entryLabelFont = entryLabelFont
         copy.entryLabelColor = entryLabelColor
         copy.highlightColor = highlightColor
+        copy.onlyShowHighlightValue = onlyShowHighlightValue
         return copy
     }
 }

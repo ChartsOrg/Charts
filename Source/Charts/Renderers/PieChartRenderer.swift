@@ -345,6 +345,11 @@ open class PieChartRenderer: DataRenderer
 
             for j in 0 ..< dataSet.entryCount
             {
+                if !chart.needsHighlight(index: j) && dataSet.onlyShowHighlightValue{
+                    xIndex += 1
+                    continue
+                }
+                
                 guard let e = dataSet.entryForIndex(j) else { continue }
                 let pe = e as? PieChartDataEntry
 
