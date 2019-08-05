@@ -435,7 +435,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
             #endif
             context.drawPath(using: .fill)
             
-            var rectStroke:CGRect = CGRect(x: e.x - (Double(set.barSpace + 0.1)/2)  , y: lowValue - 0.1 , width: Double(set.barSpace + 0.1)  , height: highValue + 0.2   )
+            var rectStroke:CGRect = CGRect(x: e.x - (Double(set.barSpace + 0.1)/2)  , y: lowValue - 0.02 , width: Double(set.barSpace + 0.1)  , height: highValue + 0.02   )
             
             trans.rectValueToPixel(&rectStroke)
             context.setLineWidth(2)
