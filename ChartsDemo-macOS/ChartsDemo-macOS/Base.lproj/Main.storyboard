@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14105" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14105"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -642,7 +643,7 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="ChartsDemo_OSX" customModuleProvider="target"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="ChartsDemo_macOS" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
@@ -651,7 +652,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
@@ -671,12 +672,13 @@
         <!--Tab View Controller-->
         <scene sceneID="D8r-LN-ETo">
             <objects>
-                <tabViewController selectedTabViewItemIndex="3" id="MdU-M1-yR2" sceneMemberID="viewController">
+                <tabViewController selectedTabViewItemIndex="4" id="MdU-M1-yR2" sceneMemberID="viewController">
                     <tabViewItems>
                         <tabViewItem label="Bar" identifier="" id="75m-u6-Lg4"/>
                         <tabViewItem identifier="" id="Yby-Hr-Gbs"/>
                         <tabViewItem id="1nR-kL-Mxb"/>
                         <tabViewItem id="WOB-FI-izp"/>
+                        <tabViewItem id="PVD-Fs-Moi"/>
                     </tabViewItems>
                     <tabView key="tabView" type="noTabsNoBorder" id="4aI-t7-jgI">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
@@ -692,6 +694,7 @@
                         <segue destination="vkP-1b-D8k" kind="relationship" relationship="tabItems" id="gGD-RY-5OB"/>
                         <segue destination="CQR-9h-gXY" kind="relationship" relationship="tabItems" id="rqo-tR-9a7"/>
                         <segue destination="KI5-K5-PrY" kind="relationship" relationship="tabItems" id="pWA-3O-1hN"/>
+                        <segue destination="aty-3C-qL7" kind="relationship" relationship="tabItems" id="EMP-IH-5hs"/>
                     </connections>
                 </tabViewController>
                 <customObject id="VRA-wT-PQh" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -701,7 +704,7 @@
         <!--Bar Demo View Controller-->
         <scene sceneID="A6I-3s-knM">
             <objects>
-                <viewController title="Bar Demo View Controller" id="4fu-uG-om0" customClass="BarDemoViewController" customModule="ChartsDemo_OSX" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Bar Demo View Controller" id="4fu-uG-om0" customClass="BarDemoViewController" customModule="ChartsDemo_macOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="U2J-4p-9ti">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -740,7 +743,7 @@
         <!--Line-->
         <scene sceneID="IGh-XR-taX">
             <objects>
-                <viewController title="Line" id="vkP-1b-D8k" customClass="LineDemoViewController" customModule="ChartsDemo_OSX" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Line" id="vkP-1b-D8k" customClass="LineDemoViewController" customModule="ChartsDemo_macOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="bwI-de-txf">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -767,7 +770,7 @@
         <!--Radar-->
         <scene sceneID="jjT-Es-ofe">
             <objects>
-                <viewController title="Radar" id="CQR-9h-gXY" customClass="RadarDemoViewController" customModule="ChartsDemo_OSX" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Radar" id="CQR-9h-gXY" customClass="RadarDemoViewController" customModule="ChartsDemo_macOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="fep-JV-rhs">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -789,12 +792,12 @@
                 </viewController>
                 <customObject id="cEj-Lv-uAd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="571" y="1068"/>
+            <point key="canvasLocation" x="571" y="1088"/>
         </scene>
         <!--Pie-->
         <scene sceneID="zCq-mS-JMX">
             <objects>
-                <viewController title="Pie" id="KI5-K5-PrY" customClass="PieDemoViewController" customModule="ChartsDemo_OSX" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Pie" id="KI5-K5-PrY" customClass="PieDemoViewController" customModule="ChartsDemo_macOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="6Bd-GB-Gqp">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -817,6 +820,33 @@
                 <customObject id="nwz-zo-FQ4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1060" y="1088"/>
+        </scene>
+        <!--Block-->
+        <scene sceneID="f4Z-Sj-sh7">
+            <objects>
+                <viewController title="Block" id="aty-3C-qL7" customClass="BlockDemoViewController" customModule="ChartsDemo_macOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="Sbl-9r-fRE">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="Koa-PW-gTl" customClass="BlockChartView" customModule="Charts">
+                                <rect key="frame" x="5" y="5" width="440" height="290"/>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="Koa-PW-gTl" firstAttribute="leading" secondItem="Sbl-9r-fRE" secondAttribute="leading" constant="5" id="KVk-FK-IZy"/>
+                            <constraint firstItem="Koa-PW-gTl" firstAttribute="top" secondItem="Sbl-9r-fRE" secondAttribute="top" constant="5" id="dhb-73-eMi"/>
+                            <constraint firstAttribute="trailing" secondItem="Koa-PW-gTl" secondAttribute="trailing" constant="5" id="eob-W8-FdQ"/>
+                            <constraint firstAttribute="bottom" secondItem="Koa-PW-gTl" secondAttribute="bottom" constant="5" id="sjI-ZP-oCQ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="BlockChartView" destination="Koa-PW-gTl" id="6lI-xN-YhW"/>
+                    </connections>
+                </viewController>
+                <customObject id="SrZ-hM-bB8" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="60" y="1088"/>
         </scene>
     </scenes>
 </document>
