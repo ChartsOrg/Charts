@@ -135,6 +135,10 @@
 		5BEAED3C1ABC199F0013F194 /* ColoredLineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED3A1ABC199F0013F194 /* ColoredLineChartViewController.xib */; };
 		5BEAED401ABC1AC60013F194 /* SinusBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BEAED3E1ABC1AC60013F194 /* SinusBarChartViewController.m */; };
 		5BEAED411ABC1AC60013F194 /* SinusBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED3F1ABC1AC60013F194 /* SinusBarChartViewController.xib */; };
+		A72190FB22F95C1E004AAEC6 /* BlockChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A72190F922F95C1E004AAEC6 /* BlockChartViewController.xib */; };
+		A72190FC22F95C1E004AAEC6 /* BlockChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A72190F922F95C1E004AAEC6 /* BlockChartViewController.xib */; };
+		A72190FF22F95C61004AAEC6 /* BlockChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A72190FD22F95C61004AAEC6 /* BlockChartViewController.swift */; };
+		A721910222F95D73004AAEC6 /* BlockChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A721910122F95D72004AAEC6 /* BlockChartViewController.m */; };
 		B64D06EB1FB199130067418D /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B64D06EA1FB199130067418D /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -324,6 +328,10 @@
 		5BEAED3D1ABC1AC60013F194 /* SinusBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinusBarChartViewController.h; sourceTree = "<group>"; };
 		5BEAED3E1ABC1AC60013F194 /* SinusBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SinusBarChartViewController.m; sourceTree = "<group>"; };
 		5BEAED3F1ABC1AC60013F194 /* SinusBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SinusBarChartViewController.xib; sourceTree = "<group>"; };
+		A72190F922F95C1E004AAEC6 /* BlockChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BlockChartViewController.xib; sourceTree = "<group>"; };
+		A72190FD22F95C61004AAEC6 /* BlockChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockChartViewController.swift; sourceTree = "<group>"; };
+		A721910022F95D72004AAEC6 /* BlockChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlockChartViewController.h; sourceTree = "<group>"; };
+		A721910122F95D72004AAEC6 /* BlockChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlockChartViewController.m; sourceTree = "<group>"; };
 		B64D06EA1FB199130067418D /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -395,6 +403,7 @@
 			children = (
 				225B36511F6EBA410005B3D5 /* AnotherBarChartViewController.swift */,
 				225B36581F6EBA410005B3D5 /* BarChartViewController.swift */,
+				A72190FD22F95C61004AAEC6 /* BlockChartViewController.swift */,
 				225B364E1F6EBA410005B3D5 /* BubbleChartViewController.swift */,
 				225B365A1F6EBA410005B3D5 /* CandleStickChartViewController.swift */,
 				225B36481F6EBA410005B3D5 /* ColoredLineChartViewController.swift */,
@@ -435,6 +444,7 @@
 			children = (
 				5BEAED111ABBFB2B0013F194 /* AnotherBarChartViewController.xib */,
 				5BD47E641ABB424E008FCEC6 /* BarChartViewController.xib */,
+				A72190F922F95C1E004AAEC6 /* BlockChartViewController.xib */,
 				55E3564D1ADC638F00A57971 /* BubbleChartViewController.xib */,
 				5BEAED2B1ABC160F0013F194 /* CandleStickChartViewController.xib */,
 				5BEAED3A1ABC199F0013F194 /* ColoredLineChartViewController.xib */,
@@ -544,6 +554,8 @@
 				5BEAED101ABBFB2B0013F194 /* AnotherBarChartViewController.m */,
 				5BD47E621ABB424E008FCEC6 /* BarChartViewController.h */,
 				5BD47E631ABB424E008FCEC6 /* BarChartViewController.m */,
+				A721910022F95D72004AAEC6 /* BlockChartViewController.h */,
+				A721910122F95D72004AAEC6 /* BlockChartViewController.m */,
 				55E3564E1ADC638F00A57971 /* BubbleChartViewController.h */,
 				55E3564F1ADC638F00A57971 /* BubbleChartViewController.m */,
 				5BEAED291ABC160F0013F194 /* CandleStickChartViewController.h */,
@@ -744,6 +756,7 @@
 				225B36861F6EBA640005B3D5 /* PositiveNegativeBarChartViewController.xib in Resources */,
 				225B36831F6EBA640005B3D5 /* NegativeStackedBarChartViewController.xib in Resources */,
 				225B36761F6EBA640005B3D5 /* BubbleChartViewController.xib in Resources */,
+				A72190FC22F95C1E004AAEC6 /* BlockChartViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -780,6 +793,7 @@
 				5BEAED1E1ABBFB340013F194 /* StackedBarChartViewController.xib in Resources */,
 				5B1B5DAB1E911A15006D1375 /* RealmDemosViewController.xib in Resources */,
 				55E356501ADC638F00A57971 /* BubbleChartViewController.xib in Resources */,
+				A72190FB22F95C1E004AAEC6 /* BlockChartViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -821,6 +835,7 @@
 				225B365D1F6EBA470005B3D5 /* HalfPieChartViewController.swift in Sources */,
 				225B36701F6EBA470005B3D5 /* SinusBarChartViewController.swift in Sources */,
 				225B36681F6EBA470005B3D5 /* AnotherBarChartViewController.swift in Sources */,
+				A72190FF22F95C61004AAEC6 /* BlockChartViewController.swift in Sources */,
 				225B36621F6EBA470005B3D5 /* NegativeStackedBarChartViewController.swift in Sources */,
 				225B363B1F6EBA040005B3D5 /* LargeValueFormatter.swift in Sources */,
 			);
@@ -858,6 +873,7 @@
 				5BEAED3B1ABC199F0013F194 /* ColoredLineChartViewController.m in Sources */,
 				5BDEDC411ABB7F73007D3A60 /* HorizontalBarChartViewController.m in Sources */,
 				5BEAED121ABBFB2B0013F194 /* AnotherBarChartViewController.m in Sources */,
+				A721910222F95D73004AAEC6 /* BlockChartViewController.m in Sources */,
 				5BEAED311ABC18F00013F194 /* CubicLineChartViewController.m in Sources */,
 				5BEAED1D1ABBFB340013F194 /* StackedBarChartViewController.m in Sources */,
 				5BD47E601ABB3C91008FCEC6 /* LineChart2ViewController.m in Sources */,

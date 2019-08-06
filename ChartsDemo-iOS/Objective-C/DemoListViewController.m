@@ -14,6 +14,7 @@
 #import "LineChart2ViewController.h"
 #import "BarChartViewController.h"
 #import "HorizontalBarChartViewController.h"
+#import "BlockChartViewController.h"
 #import "CombinedChartViewController.h"
 #import "PieChartViewController.h"
 #import "PiePolylineChartViewController.h"
@@ -68,6 +69,11 @@
                           @"title": @"Horizontal Bar Chart",
                           @"subtitle": @"A simple demonstration of the horizontal bar chart.",
                           @"class": HorizontalBarChartViewController.class
+                          },
+                      @{
+                          @"title": @"Block Chart",
+                          @"subtitle": @"A simple demonstration of the block chart.",
+                          @"class": BlockChartViewController.class
                           },
                       @{
                           @"title": @"Combined Chart",
