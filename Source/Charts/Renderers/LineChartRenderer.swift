@@ -711,8 +711,8 @@ open class LineChartRenderer: LineRadarRenderer
                 context.setLineDash(phase: 0.0, lengths: [])
             }
             
-            let x = high.x // get the x-position
-            let y = high.y * Double(animator.phaseY)
+            let x = e.x // get the x-position
+            let y = e.y * Double(animator.phaseY)
             
             if x > chartXMax * animator.phaseX
             {
