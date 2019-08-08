@@ -416,6 +416,11 @@ open class ViewPortHandler: NSObject
         return isInBoundsTop(y) && isInBoundsBottom(y)
     }
     
+    @objc open func isInBounds(point: CGPoint) -> Bool
+    {
+        return isInBounds(x: point.x, y: point.y)
+    }
+    
     @objc open func isInBounds(x: CGFloat, y: CGFloat) -> Bool
     {
         return isInBoundsX(x) && isInBoundsY(y)
@@ -441,6 +446,37 @@ open class ViewPortHandler: NSObject
     {
         let normalizedY = floor(y * 100.0) / 100.0
         return (_contentRect.origin.y + _contentRect.size.height) >= normalizedY
+    }
+    
+    /**
+     A method to check whether a line between two coordinates intersects with the view port.
+     
+     - Parameters:
+        - startPoint: the start coordinate of the line.
+        - endPoint: the end coordinate of the line.
+     */
+    @objc open func isIntersectingLine(from startPoint: CGPoint, to endPoint: CGPoint) -> Bool
+    {
+        // If the start or endpoint fall within the viewport, bail out early.
+        if isInBounds(point: startPoint) || isInBounds(point: endPoint) { return true }
+        
+        // Calculate the slope of the line.
+        let slope = (endPoint.y - startPoint.y) / (endPoint.x - startPoint.x)
+
+        // Check for colission with left edge of the view port.
+        if isInBoundsY((slope * (contentRect.minX - startPoint.x)) + startPoint.y) { return true }
+        
+        // Check for colission with right edge of the view port.
+        if isInBoundsY((slope * (contentRect.maxX - startPoint.x)) + startPoint.y) { return true }
+        
+        // Check for colission with top edge of the view port.
+        if isInBoundsX(((contentRect.minY - startPoint.y) / slope) + startPoint.x) { return true }
+        
+        // Check for colission with bottom edge of the viewport.
+        if isInBoundsX(((contentRect.maxY - startPoint.y) / slope) + startPoint.x) { return true }
+
+        // This line does not intersect view the view port.
+        return false
     }
     
     /// The current x-scale factor
