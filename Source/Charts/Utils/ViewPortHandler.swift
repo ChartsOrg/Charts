@@ -416,6 +416,12 @@ open class ViewPortHandler: NSObject
         return isInBoundsTop(y) && isInBoundsBottom(y)
     }
     
+    /**
+     A method to check whether coordinate lies within the viewport.
+     
+     - Parameters:
+         - point: a coordinate.
+     */
     @objc open func isInBounds(point: CGPoint) -> Bool
     {
         return isInBounds(x: point.x, y: point.y)
@@ -463,19 +469,19 @@ open class ViewPortHandler: NSObject
         // Calculate the slope of the line.
         let slope = (endPoint.y - startPoint.y) / (endPoint.x - startPoint.x)
 
-        // Check for colission with left edge of the view port.
+        // Check for colission with the left edge of the view port.
         if isInBoundsY((slope * (contentRect.minX - startPoint.x)) + startPoint.y) { return true }
         
-        // Check for colission with right edge of the view port.
+        // Check for colission with the right edge of the view port.
         if isInBoundsY((slope * (contentRect.maxX - startPoint.x)) + startPoint.y) { return true }
         
-        // Check for colission with top edge of the view port.
+        // Check for colission with the top edge of the view port.
         if isInBoundsX(((contentRect.minY - startPoint.y) / slope) + startPoint.x) { return true }
         
-        // Check for colission with bottom edge of the viewport.
+        // Check for colission with the bottom edge of the viewport.
         if isInBoundsX(((contentRect.maxY - startPoint.y) / slope) + startPoint.x) { return true }
 
-        // This line does not intersect view the view port.
+        // This line does not intersect the view port.
         return false
     }
     
