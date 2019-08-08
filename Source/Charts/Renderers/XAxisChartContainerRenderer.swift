@@ -96,7 +96,17 @@ public class XAxisChartContainerRenderer : XAxisRenderer {
                     labelAttrs = [NSAttributedString.Key.font: NSUIFont(name: "Helvetica-Bold", size: 10)!,
                                   NSAttributedString.Key.foregroundColor: NSUIColor.white,
                                   NSAttributedString.Key.paragraphStyle: paraStyle]
-                    var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.35) , y: -0.26 , width: 0.7 , height: 0.22)
+                    var rect:CGRect = CGRect(x: 0 , y: 0 , width: 0 , height: 0)
+                    switch i {
+                    case 1 :
+                        rect = CGRect(x: CGFloat(Double(i) - 0.35) , y: -0.26 , width: 0.7 , height: 0.22)
+                    case 2 :
+                        rect = CGRect(x: CGFloat(Double(i) - 0.35) , y: -0.5 , width: 0.7 , height: 0.45)
+                    case 3 :
+                        rect = CGRect(x: CGFloat(Double(i) - 0.35) , y: -0.8 , width: 0.7 , height: 0.75)
+                    default:
+                        rect = CGRect(x: CGFloat(Double(i) - 0.35) , y: -0.9 , width: 0.7 , height: 0.85)
+                    }
                     transformer.rectValueToPixel(&rect)
                     context.setFillColor(NSUIColor(red:0.04, green:0.35, blue:0.95, alpha:1).cgColor)
                     #if !os(OSX)
