@@ -728,11 +728,6 @@ open class PieChartRenderer: DataRenderer
 
             guard let set = data.getDataSetByIndex(indices[i].dataSetIndex) as? IPieChartDataSet else { continue }
 
-            if !set.isHighlightEnabled
-            {
-                continue
-            }
-
             let entryCount = set.entryCount
             var visibleAngleCount = 0
             for j in 0 ..< entryCount
@@ -758,7 +753,7 @@ open class PieChartRenderer: DataRenderer
             let sliceAngle = drawAngles[index]
             var innerRadius = userInnerRadius
 
-            let shift = set.selectionShift
+            let shift = set.isHighlightEnabled ? set.selectionShift : 0.0
             let highlightedRadius = radius + shift
 
             let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
