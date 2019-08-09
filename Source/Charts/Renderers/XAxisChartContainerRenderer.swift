@@ -97,7 +97,7 @@ public class XAxisChartContainerRenderer : XAxisRenderer {
                                   NSAttributedString.Key.foregroundColor: NSUIColor.white,
                                   NSAttributedString.Key.paragraphStyle: paraStyle]
                     var rect:CGRect = CGRect(x: 0 , y: 0 , width: 0 , height: 0)
-                    switch i {
+                    switch xAxisCount {
                     case 1 :
                         rect = CGRect(x: CGFloat(Double(i) - 0.35) , y: -0.26 , width: 0.7 , height: 0.22)
                     case 2 :
