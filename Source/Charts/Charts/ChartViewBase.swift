@@ -139,6 +139,9 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// An extra offset to be appended to the viewport's left
     @objc open var extraLeftOffset: CGFloat = 0.0
     
+    ///Choice for fatigue chart
+    internal var _isForFatigue = false
+    
     @objc open func setExtraOffsets(left: CGFloat, top: CGFloat, right: CGFloat, bottom: CGFloat)
     {
         extraLeftOffset = left

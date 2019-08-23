@@ -25,12 +25,15 @@ open class CombinedChartRenderer: DataRenderer
     internal var _renderers = [DataRenderer]()
     
     internal var _drawOrder: [CombinedChartView.DrawOrder] = [.bar, .bubble, .line, .candle, .scatter]
+    var isForFatigue = false
     
-    @objc public init(chart: CombinedChartView, animator: Animator, viewPortHandler: ViewPortHandler)
+    @objc public init(chart: CombinedChartView, animator: Animator, viewPortHandler: ViewPortHandler,isForFatigue : Bool)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
         self.chart = chart
+        
+        self.isForFatigue = isForFatigue
         
         createRenderers()
     }
@@ -41,7 +44,7 @@ open class CombinedChartRenderer: DataRenderer
         _renderers = [DataRenderer]()
         
         guard let chart = chart else { return }
-
+        
         for order in drawOrder
         {
             switch (order)
@@ -50,7 +53,14 @@ open class CombinedChartRenderer: DataRenderer
                 if chart.barData !== nil
                 {
                     // new render for combined bar chart
-                    _renderers.append(CustomCombinedChartWithMultiBarRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
+                    if isForFatigue {
+                        
+                        _renderers.append(CustomCombinedChartBarForFatigueRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
+                        
+                    }else{
+                        
+                        _renderers.append(CustomCombinedChartWithMultiBarRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
+                    }
                     //_renderers.append(BarChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
                 break
@@ -58,7 +68,13 @@ open class CombinedChartRenderer: DataRenderer
             case .line:
                 if chart.lineData !== nil
                 {
-                    _renderers.append(LineChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
+                    if isForFatigue {
+                        _renderers.append(CustomLineChartForFatigueRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
+                        
+                    }else{
+                        _renderers.append(LineChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
+                        
+                    }
                 }
                 break
                 
@@ -84,7 +100,7 @@ open class CombinedChartRenderer: DataRenderer
                 break
             }
         }
-
+        
     }
     
     open override func initBuffers()
@@ -96,7 +112,7 @@ open class CombinedChartRenderer: DataRenderer
     {
         // If we redraw the data, remove and repopulate accessible elements to update label values and frames
         accessibleChartElements.removeAll()
-
+        
         if
             let combinedChart = chart,
             let data = combinedChart.data {
@@ -106,7 +122,7 @@ open class CombinedChartRenderer: DataRenderer
                                                  withDefaultDescription: "Combined Chart")
             accessibleChartElements.append(element)
         }
-
+        
         // TODO: Due to the potential complexity of data presented in Combined charts, a more usable way
         // for VO accessibility would be to use axis based traversal rather than by dataset.
         // Hence, accessibleChartElements is not populated below. (Individual renderers guard against dataSource being their respective views)
@@ -136,16 +152,30 @@ open class CombinedChartRenderer: DataRenderer
             //                data = (renderer as! BarChartRenderer).dataProvider?.barData
             //            }
             // new combined bar chart renderer
+            if isForFatigue {
+                if renderer is CustomCombinedChartBarForFatigueRenderer
+                {
+                    data = (renderer as! CustomCombinedChartBarForFatigueRenderer).dataProvider?.barData
+                }
+            }else{
+                if renderer is CustomCombinedChartWithMultiBarRenderer
+                {
+                    data = (renderer as! CustomCombinedChartWithMultiBarRenderer).dataProvider?.barData
+                }
+            }
+            if isForFatigue {
+                if renderer is CustomLineChartForFatigueRenderer
+                {
+                    data = (renderer as! CustomLineChartForFatigueRenderer).dataProvider?.lineData
+                }
+            }else{
+                if renderer is LineChartRenderer
+                {
+                    data = (renderer as! LineChartRenderer).dataProvider?.lineData
+                }
+            }
             
-            if renderer is CustomCombinedChartWithMultiBarRenderer
-            {
-                data = (renderer as! CustomCombinedChartWithMultiBarRenderer).dataProvider?.barData
-            }
-            else if renderer is LineChartRenderer
-            {
-                data = (renderer as! LineChartRenderer).dataProvider?.lineData
-            }
-            else if renderer is CandleStickChartRenderer
+            if renderer is CandleStickChartRenderer
             {
                 data = (renderer as! CandleStickChartRenderer).dataProvider?.candleData
             }
