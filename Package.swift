@@ -1,15 +1,18 @@
-// swift-tools-version:4.0
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version:5.1
 import PackageDescription
 
 let package = Package(
     name: "Charts",
+    platforms: [
+       .iOS(.v8),
+       .tvOS(.v9),
+       .macOS(.v10_11),
+    ],
     products: [
         .library(name: "Charts", type: .dynamic, targets: ["Charts"])
     ],
     dependencies: [],
     targets: [
-        .target(name: "Charts", dependencies: [])
-    ],
-    swiftLanguageVersions: [5]
+        .target(name: "Charts", dependencies: [], path: "./Source", publicHeadersPath: "./Source/Supporting Files")
+    ]
 )

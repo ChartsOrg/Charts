@@ -11,6 +11,9 @@
 
 import Foundation
 import CoreGraphics
+#if canImport(UIKit)
+    import UIKit
+#endif
 
 @objc(ChartDataApproximator)
 open class DataApproximator: NSObject

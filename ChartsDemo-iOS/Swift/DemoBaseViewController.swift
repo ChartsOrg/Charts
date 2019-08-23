@@ -6,8 +6,9 @@
 //  Copyright © 2017 jc. All rights reserved.
 //
 
-import UIKit
+
 import Charts
+import UIKit
 
 enum Option {
     case toggleValues

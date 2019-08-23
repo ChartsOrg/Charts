@@ -12,6 +12,9 @@
 
 import Foundation
 import CoreGraphics
+#if canImport(UIKit)
+    import UIKit
+#endif
 
 @objc
 public protocol ChartViewDelegate
