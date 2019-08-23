@@ -8,7 +8,7 @@
 
 import Foundation
 import CoreGraphics
-
+/// Custom Line Chart For Fatigue
 open class CustomLineChartForFatigueRenderer : LineRadarRenderer
 {
     // TODO: Currently, this nesting isn't necessary for LineCharts. However, it will make it much easier to add a custom rotor

@@ -7,8 +7,10 @@
 
 
 import Foundation
-
+/// custom Combined Chart Bar For Fatigue
 public class CustomCombinedChartBarForFatigueRenderer : BarChartRenderer {
+  
+    
     fileprivate var _barShadowRectBuffer: CGRect = CGRect()
     fileprivate var _buffers = [Buffer]()
     fileprivate class Buffer
