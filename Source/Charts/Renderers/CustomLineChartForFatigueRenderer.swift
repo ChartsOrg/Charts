@@ -95,16 +95,14 @@ open class CustomLineChartForFatigueRenderer : LineRadarRenderer
         _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
         
         // get the color that is specified for this position from the DataSet
-        let drawingColor = dataSet.colors
         
         let intensity = dataSet.cubicIntensity
         
         // the path for the cubic-spline
-        let cubicPath = CGMutablePath()
+        //        let cubicPath = CGMutablePath()
         
         let valueToPixelMatrix = trans.valueToPixelMatrix
         
-        context.saveGState()
         
         if _xBounds.range >= 1
         {
@@ -130,10 +128,15 @@ open class CustomLineChartForFatigueRenderer : LineRadarRenderer
             if cur == nil { return }
             
             // let the spline start
-            cubicPath.move(to: CGPoint(x: CGFloat(cur.x), y: CGFloat(cur.y * phaseY)), transform: valueToPixelMatrix)
+            //            cubicPath.move(to: CGPoint(x: CGFloat(cur.x), y: CGFloat(cur.y * phaseY)), transform: valueToPixelMatrix)
             
-            for j in stride(from: firstIndex, through: lastIndex, by: 1)
+            for j in 0 ..< dataSet.entryCount
+                //stride(from: firstIndex, through: lastIndex, by: 1)
             {
+                
+                context.saveGState()
+                let cubicPath = CGMutablePath()
+                
                 prevPrev = prev
                 prev = cur
                 cur = nextIndex == j ? next : dataSet.entryForIndex(j)
@@ -147,7 +150,8 @@ open class CustomLineChartForFatigueRenderer : LineRadarRenderer
                 prevDy = CGFloat(cur.y - prevPrev.y) * intensity
                 curDx = CGFloat(next.x - prev.x) * intensity
                 curDy = CGFloat(next.y - prev.y) * intensity
-                
+                // let the spline start
+                cubicPath.move(to: CGPoint(x: CGFloat(prev.x), y: CGFloat(prev.y * phaseY)), transform: valueToPixelMatrix)
                 cubicPath.addCurve(
                     to: CGPoint(
                         x: CGFloat(cur.x),
@@ -167,15 +171,16 @@ open class CustomLineChartForFatigueRenderer : LineRadarRenderer
                     
                     drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, bounds: _xBounds)
                 }
-                
                 context.beginPath()
                 context.addPath(cubicPath)
-                context.setStrokeColor(dataSet.colors[j].cgColor)
+                context.setStrokeColor(dataSet.getCircleColor(atIndex: j)!.cgColor)
                 context.strokePath()
+                context.clip()
+                context.restoreGState()
+                
             }
         }
         
-        context.restoreGState()
         
         
         
@@ -195,7 +200,7 @@ open class CustomLineChartForFatigueRenderer : LineRadarRenderer
         let drawingColor = dataSet.colors.first!
         
         // the path for the cubic-spline
-        let cubicPath = CGMutablePath()
+        
         
         let valueToPixelMatrix = trans.valueToPixelMatrix
         
@@ -206,13 +211,17 @@ open class CustomLineChartForFatigueRenderer : LineRadarRenderer
             
             if cur == nil { return }
             
-            // let the spline start
-            cubicPath.move(to: CGPoint(x: CGFloat(cur.x), y: CGFloat(cur.y * phaseY)), transform: valueToPixelMatrix)
+            
             
             for j in _xBounds.dropFirst()
             {
+                context.saveGState()
+                let cubicPath = CGMutablePath()
                 prev = cur
                 cur = dataSet.entryForIndex(j)
+                cubicPath.move(to: CGPoint(x: CGFloat(prev.x), y: CGFloat(prev.y * phaseY)), transform: valueToPixelMatrix)
+                
+                
                 
                 let cpx = CGFloat(prev.x + (cur.x - prev.x) / 2.0)
                 
@@ -227,25 +236,29 @@ open class CustomLineChartForFatigueRenderer : LineRadarRenderer
                         x: cpx,
                         y: CGFloat(cur.y * phaseY)),
                     transform: valueToPixelMatrix)
+                
+                //Modifies the current clipping path.
+                // draw the gradient
+                context.beginPath()
+                context.addPath(cubicPath)
+                context.setStrokeColor(dataSet.getCircleColor(atIndex: j)!.cgColor)
+                context.strokePath()
+                context.clip()
+                
+                context.restoreGState()
             }
         }
         
-        context.saveGState()
         
-        if dataSet.isDrawFilledEnabled
-        {
-            // Copy this path because we make changes to it
-            let fillPath = cubicPath.mutableCopy()
-            
-            drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, bounds: _xBounds)
-        }
+        //        if dataSet.isDrawFilledEnabled
+        //        {
+        //            // Copy this path because we make changes to it
+        //            let fillPath = cubicPath.mutableCopy()
+        //
+        //            drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, bounds: _xBounds)
+        //        }
         
-        context.beginPath()
-        context.addPath(cubicPath)
-        context.setStrokeColor(drawingColor.cgColor)
-        context.strokePath()
         
-        context.restoreGState()
     }
     
     open func drawCubicFill(
@@ -628,7 +641,7 @@ open class CustomLineChartForFatigueRenderer : LineRadarRenderer
                     continue
                 }
                 
-                context.setFillColor(dataSet.getCircleColor(atIndex: j)!.cgColor)
+                context.setFillColor(UIColor.white.cgColor)
                 
                 rect.origin.x = pt.x - circleRadius
                 rect.origin.y = pt.y - circleRadius
@@ -657,7 +670,7 @@ open class CustomLineChartForFatigueRenderer : LineRadarRenderer
                     
                     if drawCircleHole
                     {
-                        context.setFillColor(dataSet.circleHoleColor!.cgColor)
+                        context.setFillColor(dataSet.getCircleColor(atIndex: j)!.cgColor)
                         
                         // The hole rect
                         rect.origin.x = pt.x - circleHoleRadius
@@ -668,6 +681,7 @@ open class CustomLineChartForFatigueRenderer : LineRadarRenderer
                         context.fillEllipse(in: rect)
                     }
                 }
+                
             }
         }
         

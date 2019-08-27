@@ -9,7 +9,16 @@
 import Foundation
 /// custom Combined Chart Bar For Fatigue Renderer
 public class CustomCombinedChartBarForFatigueRenderer : BarChartRenderer {
-  
+    
+    
+    let gradientColor = [
+        UIColor(red:0.12, green:0.7, blue:0.16, alpha:1).withAlphaComponent(0.3).cgColor,
+        UIColor(red:0.42, green:0.63, blue:0.16, alpha:1).withAlphaComponent(0.3).cgColor,
+        UIColor(red:0.93, green:0.5, blue:0.15, alpha:1).withAlphaComponent(0.3).cgColor,
+        UIColor(red:0.93, green:0.5, blue:0.15, alpha:1).withAlphaComponent(0.3).cgColor,
+        UIColor(red:0.93, green:0.27, blue:0.25, alpha:1).withAlphaComponent(0.3).cgColor
+    ]
+    var barColors = [CGColor]()
     
     fileprivate var _barShadowRectBuffer: CGRect = CGRect()
     fileprivate var _buffers = [Buffer]()
@@ -344,6 +353,15 @@ public class CustomCombinedChartBarForFatigueRenderer : BarChartRenderer {
             
             for j in stride(from: 0, to: buffer.rects.count, by: 1)
             {
+                context.saveGState()
+                
+                var e: ChartDataEntry! = dataSet.entryForIndex(j)
+                
+                barColors.removeAll()
+                for i in 0..<Int(e.y){
+                    barColors.append(gradientColor[i])
+                }
+                let reversedBarColors = barColors.reversed().filter{$0.alpha == 0.3}
                 let barRect = buffer.rects[j]
                 
                 if (!viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width))
@@ -358,20 +376,66 @@ public class CustomCombinedChartBarForFatigueRenderer : BarChartRenderer {
                 
                 if !isSingleColor
                 {
+                    
+                    context.addRect(barRect)
+                    //                    #if !os(OSX)
+                    //                    let bezierPath = UIBezierPath(roundedRect: barRect , cornerRadius: 10)
+                    //
+                    //                    context.addPath(bezierPath.cgPath)
+                    //                    #endif
+                    
+                    // corner radius for bar chart
+                    #if !os(OSX)
+                    let path = UIBezierPath(roundedRect: barRect,
+                                            byRoundingCorners: .allCorners,
+                                            cornerRadii: CGSize(width: 10, height: 0))
+                    path.addClip()
+                    
+                    context.addPath(path.cgPath)
+                    #endif
+                    
+                    // gradient config
+                    var locations  = [CGFloat]()
+                    
+                    locations = [0, 0.3106059, 0.58429635, 0.72057116, 1]
+                    
+                    
+                    let colors = reversedBarColors
+                    
+                    let colorspace = CGColorSpaceCreateDeviceRGB()
+                    
+                    let gradient = CGGradient(colorsSpace: colorspace,
+                                              colors: colors as CFArray, locations: locations)
+                    
+                    
+                    var startPoint = CGPoint()
+                    var endPoint =  CGPoint()
+                    
+                    startPoint.x = barRect.midX
+                    startPoint.y = barRect.minY
+                    endPoint.x = barRect.midX
+                    endPoint.y = barRect.maxY
+                    //Modifies the current clipping path.
+                    context.clip()
+                    // draw the gradient
+                    context.drawLinearGradient(gradient!, start: startPoint, end: endPoint, options: .drawsBeforeStartLocation)
+                    
                     // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
-                    context.setFillColor(dataSet.color(atIndex: j).cgColor)
+                    //                    context.setFillColor(dataSet.color(atIndex: j).cgColor)
                 }
-                #if !os(OSX)
-                let bezierPath = UIBezierPath(roundedRect: barRect, cornerRadius: 10)
-                context.addPath(bezierPath.cgPath)
-                #endif
+                
+                
+                
                 context.drawPath(using: .fill)
+                
                 if drawBorder
                 {
                     context.setStrokeColor(borderColor.cgColor)
                     context.setLineWidth(borderWidth)
                     context.stroke(barRect)
                 }
+                context.restoreGState()
+                
             }
             
             context.restoreGState()
