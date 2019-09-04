@@ -75,7 +75,7 @@ public class XAxisChartContainerRenderer : XAxisRenderer {
                                   NSAttributedString.Key.foregroundColor: NSUIColor.white,
                                   NSAttributedString.Key.paragraphStyle: paraStyle]
                     // var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.425) , y: -0.63 , width: 0.9 , height: 0.55)
-                    var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.35) , y: -2.4 , width: 0.7 , height: 1.65)
+                    var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.4) , y: -0.4 , width: 0.8 , height: 0.375)
                     transformer.rectValueToPixel(&rect)
                     context.setFillColor(NSUIColor(red:0.04, green:0.35, blue:0.95, alpha:1).cgColor)
                     #if !os(OSX)
@@ -122,7 +122,7 @@ public class XAxisChartContainerRenderer : XAxisRenderer {
                                   NSAttributedString.Key.paragraphStyle: paraStyle]
                 }
             }
-           
+            
             
             if centeringEnabled
             {

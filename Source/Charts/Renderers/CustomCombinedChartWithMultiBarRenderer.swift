@@ -198,7 +198,7 @@ public class CustomCombinedChartWithMultiBarRenderer : BarChartRenderer{
                     else { return }
                 
                 let barWidth = barData.barWidth
-                let barWidthHalf = barWidth / 0.9
+                let barWidthHalf = barWidth / 2
                 var x: Double = 0.0
                 
                 for i in stride(from: 0, to: min(Int(ceil(Double(dataSet.entryCount) * animator.phaseX)), dataSet.entryCount), by: 1)
@@ -207,8 +207,8 @@ public class CustomCombinedChartWithMultiBarRenderer : BarChartRenderer{
                     
                     x = e.x
                     
-                    _barShadowRectBuffer.origin.x = CGFloat(x - barWidthHalf)
-                    _barShadowRectBuffer.size.width = CGFloat(barWidth) + 0.25
+                    _barShadowRectBuffer.origin.x = CGFloat(x - barWidthHalf) - 0.25
+                    _barShadowRectBuffer.size.width = CGFloat(barWidth) + 0.5
                     
                     trans.rectValueToPixel(&_barShadowRectBuffer)
                     
@@ -318,7 +318,7 @@ public class CustomCombinedChartWithMultiBarRenderer : BarChartRenderer{
         
         for high in indices
         {
-            
+            context.saveGState()
             guard
                 let set = barData.getDataSetByIndex(high.dataSetIndex) as? IBarChartDataSet,
                 set.isHighlightEnabled
@@ -363,16 +363,17 @@ public class CustomCombinedChartWithMultiBarRenderer : BarChartRenderer{
                     y2 = 0.0
                 }
                 
-                var rect:CGRect = CGRect(x: e.x-0.25  , y: -0.6 , width: (barData.barWidth / 0.9) * 2.25 , height: y1+(12-y1)+0.6)
+                var rect:CGRect = CGRect(x: e.x-0.5  , y: 0 , width: ((barData.barWidth / 2) * 2.2) + 0.6  , height: y1+(barData._leftAxisMax-y1) )
                 trans.rectValueToPixel(&rect)
                 context.setLineWidth(2)
                 context.setStrokeColor(set.highlightColor.cgColor)
+                context.clip()
                 #if !os(OSX)
                 let bezierPath = UIBezierPath(roundedRect: rect, cornerRadius: 10)
                 context.addPath(bezierPath.cgPath)
                 #endif
                 context.drawPath(using: .stroke)
-                prepareBarHighlight(x: e.x, y1: y1+(12-y1), y2: y2-0.5, barWidthHalf: barData.barWidth / 0.9, trans: trans, rect: &barRect)
+                prepareBarHighlight(x: e.x , y1: y1+(barData._leftAxisMax-y1)  , y2: y2, barWidthHalf: (barData.barWidth / 2) * 2.2 , trans: trans, rect: &barRect)
                 
                 setHighlightDrawPos(highlight: high, barRect: barRect)
                 context.setStrokeColor(set.highlightColor.cgColor)
@@ -382,6 +383,7 @@ public class CustomCombinedChartWithMultiBarRenderer : BarChartRenderer{
                 #endif
                 context.drawPath(using: .fill)
                 
+                context.restoreGState()
                 
             }
         }
