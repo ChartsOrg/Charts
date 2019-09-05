@@ -39,12 +39,24 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         self.highlightFullBarEnabled = true
         
         _fillFormatter = DefaultFillFormatter()
-        
-        renderer = CombinedChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler, isForFatigue: _isForFatigue)
+        if _isForFatigue {
+            
+            renderer = CombinedChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler, isForFatigue: _isForFatigue)
+            
+        }
+        if _isForPhysicalActivity{
+            
+            renderer = CombinedChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler, isForPhysicalActivity: _isForPhysicalActivity)
+            
+        }else{
+
+            renderer = CombinedChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler, isForFatigue: _isForFatigue)
+            
+        }
     }
     
     open override var data: ChartData?
-    {
+        {
         get
         {
             return super.data
@@ -61,7 +73,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     }
     
     @objc open var fillFormatter: IFillFormatter
-    {
+        {
         get
         {
             return _fillFormatter
@@ -103,7 +115,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     // MARK: - CombinedChartDataProvider
     
     open var combinedData: CombinedChartData?
-    {
+        {
         get
         {
             return _data as? CombinedChartData
@@ -113,7 +125,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     // MARK: - LineChartDataProvider
     
     open var lineData: LineChartData?
-    {
+        {
         get
         {
             return combinedData?.lineData
@@ -123,7 +135,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     // MARK: - BarChartDataProvider
     
     open var barData: BarChartData?
-    {
+        {
         get
         {
             return combinedData?.barData
@@ -133,7 +145,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     // MARK: - ScatterChartDataProvider
     
     open var scatterData: ScatterChartData?
-    {
+        {
         get
         {
             return combinedData?.scatterData
@@ -143,7 +155,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     // MARK: - CandleChartDataProvider
     
     open var candleData: CandleChartData?
-    {
+        {
         get
         {
             return combinedData?.candleData
@@ -153,7 +165,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     // MARK: - BubbleChartDataProvider
     
     open var bubbleData: BubbleChartData?
-    {
+        {
         get
         {
             return combinedData?.bubbleData
@@ -171,7 +183,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     @objc open var drawBarShadowEnabled: Bool
-    {
+        {
         get { return (renderer as! CombinedChartRenderer).drawBarShadowEnabled }
         set { (renderer as! CombinedChartRenderer).drawBarShadowEnabled = newValue }
     }
@@ -183,10 +195,10 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     open var isDrawBarShadowEnabled: Bool { return (renderer as! CombinedChartRenderer).drawBarShadowEnabled }
     
     /// the order in which the provided data objects should be drawn.
-    /// The earlier you place them in the provided array, the further they will be in the background. 
+    /// The earlier you place them in the provided array, the further they will be in the background.
     /// e.g. if you provide [DrawOrder.Bar, DrawOrder.Line], the bars will be drawn behind the lines.
     @objc open var drawOrder: [Int]
-    {
+        {
         get
         {
             return (renderer as! CombinedChartRenderer).drawOrder.map { $0.rawValue }
@@ -209,7 +221,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     override func drawMarkers(context: CGContext)
     {
         guard
-            let marker = marker, 
+            let marker = marker,
             isDrawMarkersEnabled && valuesToHighlight()
             else { return }
         
@@ -217,7 +229,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         {
             let highlight = _indicesToHighlight[i]
             
-            guard 
+            guard
                 let set = combinedData?.getDataSetByHighlight(highlight),
                 let e = _data?.entryForHighlight(highlight)
                 else { continue }

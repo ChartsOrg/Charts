@@ -24,7 +24,7 @@ public class CustomBarChartRenderer: BarChartRenderer {
         
         if index < _buffers.count {
             guard let dataProvider = dataProvider, let barData = dataProvider.barData
-            else { return }
+                else { return }
             
             let barWidthHalf = barData.barWidth / 2.0
             
@@ -167,183 +167,139 @@ public class CustomBarChartRenderer: BarChartRenderer {
     
     
     public override func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int) {
-
-        guard let dataProvider = dataProvider else { return }
-
-        let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
-
-        prepareBuffer(dataSet: dataSet, index: index)
-        trans.rectValuesToPixel(&_buffers[index].rects)
-
-        let borderWidth = dataSet.barBorderWidth
-        let borderColor = dataSet.barBorderColor
-        let drawBorder = borderWidth > 0.0
-
-        context.saveGState()
-
-        // draw the bar shadow before the values
-        if dataProvider.isDrawBarShadowEnabled
-        {
-            guard let barData = dataProvider.barData else { return }
-
-            let barWidth = barData.barWidth
-            let barWidthHalf = barWidth / 2.0
-            var x: Double = 0.0
-
-            for i in stride(from: 0, to: min(Int(ceil(Double(dataSet.entryCount) * animator.phaseX)), dataSet.entryCount), by: 1)
+        
+        if index < _buffers.count {
+            
+            guard
+                let dataProvider = dataProvider
+                else { return }
+            
+            let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
+            
+            prepareBuffer(dataSet: dataSet, index: index)
+            trans.rectValuesToPixel(&_buffers[index].rects)
+            
+            let borderWidth = dataSet.barBorderWidth
+            let borderColor = dataSet.barBorderColor
+            let drawBorder = borderWidth > 0.0
+            
+            context.saveGState()
+            
+            // draw the bar shadow before the values
+            if dataProvider.isDrawBarShadowEnabled
             {
-                guard let e = dataSet.entryForIndex(i) as? BarChartDataEntry else { continue }
-
-                x = e.x
-
-                _barShadowRectBuffer.origin.x = CGFloat(x - barWidthHalf)
-                _barShadowRectBuffer.size.width = CGFloat(barWidth)
-
-                trans.rectValueToPixel(&_barShadowRectBuffer)
-
-                if !viewPortHandler.isInBoundsLeft(_barShadowRectBuffer.origin.x + _barShadowRectBuffer.size.width)
+                guard
+                    let animator : Animator = animator,
+                    let barData = dataProvider.barData
+                    else { return }
+                
+                let barWidth = barData.barWidth
+                let barWidthHalf = barWidth / 2.0
+                var x: Double = 0.0
+                
+                for i in stride(from: 0, to: min(Int(ceil(Double(dataSet.entryCount) * animator.phaseX)), dataSet.entryCount), by: 1)
                 {
-                    continue
+                    guard let e = dataSet.entryForIndex(i) as? BarChartDataEntry else { continue }
+                    
+                    x = e.x
+                    
+                    _barShadowRectBuffer.origin.x = CGFloat(x - barWidthHalf)
+                    _barShadowRectBuffer.size.width = CGFloat(barWidth)
+                    
+                    trans.rectValueToPixel(&_barShadowRectBuffer)
+                    
+                    if !viewPortHandler.isInBoundsLeft(_barShadowRectBuffer.origin.x + _barShadowRectBuffer.size.width)
+                    {
+                        continue
+                    }
+                    
+                    if !viewPortHandler.isInBoundsRight(_barShadowRectBuffer.origin.x)
+                    {
+                        break
+                    }
+                    
+                    _barShadowRectBuffer.origin.y = viewPortHandler.contentTop
+                    _barShadowRectBuffer.size.height = viewPortHandler.contentHeight
+                    
+                    context.setFillColor(dataSet.barShadowColor.cgColor)
+                    let bezierPath = UIBezierPath(roundedRect: _barShadowRectBuffer, cornerRadius: 10)
+                    context.addPath(bezierPath.cgPath)
+                    
+                    context.drawPath(using: .fill)
                 }
-
-                if !viewPortHandler.isInBoundsRight(_barShadowRectBuffer.origin.x)
-                {
-                    break
-                }
-
-                _barShadowRectBuffer.origin.y = viewPortHandler.contentTop
-                _barShadowRectBuffer.size.height = viewPortHandler.contentHeight
-
-                context.setFillColor(dataSet.barShadowColor.cgColor)
-                context.fill(_barShadowRectBuffer)
             }
-        }
-
-        let buffer = _buffers[index]
-
-        // draw the bar shadow before the values
-        if dataProvider.isDrawBarShadowEnabled
-        {
+            
+            let buffer = _buffers[index]
+            
+            // draw the bar shadow before the values
+            if dataProvider.isDrawBarShadowEnabled
+            {
+                for j in stride(from: 0, to: buffer.rects.count, by: 1)
+                {
+                    let barRect = buffer.rects[j]
+                    
+                    if (!viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width))
+                    {
+                        continue
+                    }
+                    
+                    if (!viewPortHandler.isInBoundsRight(barRect.origin.x))
+                    {
+                        break
+                    }
+                    
+                    context.setFillColor(dataSet.barShadowColor.cgColor)
+                    let bezierPath = UIBezierPath(roundedRect: barRect, cornerRadius: 10)
+                    context.addPath(bezierPath.cgPath)
+                    
+                    context.drawPath(using: .fill)
+                }
+            }
+            
+            let isSingleColor = dataSet.colors.count == 1
+            
+            if isSingleColor
+            {
+                context.setFillColor(dataSet.color(atIndex: 0).cgColor)
+            }
+            
             for j in stride(from: 0, to: buffer.rects.count, by: 1)
             {
                 let barRect = buffer.rects[j]
-
+                
                 if (!viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width))
                 {
                     continue
                 }
-
+                
                 if (!viewPortHandler.isInBoundsRight(barRect.origin.x))
                 {
                     break
                 }
-
-                context.setFillColor(dataSet.barShadowColor.cgColor)
-                // Corner Radius for the bar charts
-                #if !os(OSX)
-                if (j % 4 == 0) {
-                    // bottom of the bar chart
-                    let bezierPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: [.bottomRight, .bottomLeft], cornerRadii: CGSize(width: 5.0, height: 0.0))
-                    context.addPath(bezierPath.cgPath)
-                }else if (j % 4 == 3 ){
-                    //middle of the bar chart
-                    let bezierPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 5.0, height: 0.0))
-                    
-                    context.addPath(bezierPath.cgPath)
-                }else  {
-                    //top of the bar chart
-                    let bezierPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: [.bottomRight, .bottomLeft], cornerRadii: CGSize(width: 0.0, height: 0.0))
-                    context.addPath(bezierPath.cgPath)
+                
+                if !isSingleColor
+                {
+                    // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
+                    context.setFillColor(dataSet.color(atIndex: j).cgColor)
                 }
-                #endif
-              
-
-
-
+                
+                let bezierPath = UIBezierPath(roundedRect: barRect, cornerRadius: 10)
+                context.addPath(bezierPath.cgPath)
+                
                 context.drawPath(using: .fill)
-            }
-        }
-
-        let isSingleColor = dataSet.colors.count == 1
-
-        if isSingleColor
-        {
-            context.setFillColor(dataSet.color(atIndex: 0).cgColor)
-        }
-
-        // In case the chart is stacked, we need to accomodate individual bars within accessibilityOrdereredElements
-        let isStacked = dataSet.isStacked
-        let stackSize = isStacked ? dataSet.stackSize : 1
-
-        for j in stride(from: 0, to: buffer.rects.count, by: 1)
-        {
-            let barRect = buffer.rects[j]
-
-            if (!viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width))
-            {
-                continue
-            }
-
-            if (!viewPortHandler.isInBoundsRight(barRect.origin.x))
-            {
-                break
-            }
-
-            if !isSingleColor
-            {
-                // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
-                context.setFillColor(dataSet.color(atIndex: j).cgColor)
-            }
-            // Corner Radius for the bar charts
-            #if !os(OSX)
-            
-            if (j % 4 == 0) {
-                // bottom of the bar chart
-                let bezierPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: [.bottomRight, .bottomLeft], cornerRadii: CGSize(width: 5.0, height: 0.0))
-                context.addPath(bezierPath.cgPath)
-            }else if (j % 4 == 3 ){
-                //middle of the bar chart
-                let bezierPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 5.0, height: 0.0))
-
-                context.addPath(bezierPath.cgPath)
-            }else{
-                //top of the bar chart
-                let bezierPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: [.bottomRight, .bottomLeft], cornerRadii: CGSize(width: 0.0, height: 0.0))
-                context.addPath(bezierPath.cgPath)
-            }
-            #endif
-
-            context.drawPath(using: .fill)
-
-            if drawBorder
-            {
-                context.setStrokeColor(borderColor.cgColor)
-                context.setLineWidth(borderWidth)
-                context.stroke(barRect)
-            }
-
-
-            // Create and append the corresponding accessibility element to accessibilityOrderedElements
-            if let chart = dataProvider as? BarChartView
-            {
-                let element = createAccessibleElement(withIndex: j,
-                                                      container: chart,
-                                                      dataSet: dataSet,
-                                                      dataSetIndex: index,
-                                                      stackSize: stackSize)
-                { (element) in
-                    element.accessibilityFrame = barRect
+                if drawBorder
+                {
+                    context.setStrokeColor(borderColor.cgColor)
+                    context.setLineWidth(borderWidth)
+                    context.stroke(barRect)
                 }
-
-               accessibilityOrderedElements[j/stackSize].append(element)
             }
+            
+            context.restoreGState()
         }
-
-
-
-        context.restoreGState()
-
     }
+    
+    
     public override func drawValues(context: CGContext)
     {
         // if values are drawn
@@ -611,36 +567,36 @@ public class CustomBarChartRenderer: BarChartRenderer {
             let dataProvider = dataProvider,
             let barData = dataProvider.barData
             else { return }
-
+        
         context.saveGState()
-
+        
         var barRect = CGRect()
-
+        
         for high in indices
         {
-
+            
             guard
                 let set = barData.getDataSetByIndex(high.dataSetIndex) as? IBarChartDataSet,
                 set.isHighlightEnabled
                 else { continue }
-
+            
             if let e = set.entryForXValue(high.x, closestToY: high.y) as? BarChartDataEntry
             {
                 if !isInBoundsX(entry: e, dataSet: set)
                 {
                     continue
                 }
-
+                
                 let trans = dataProvider.getTransformer(forAxis: set.axisDependency)
                 context.setLineWidth(set.highlightLineWidth)
                 context.setFillColor(set.highlightColor.cgColor)
                 context.setAlpha(set.highlightAlpha)
-
+                
                 let isStack = high.stackIndex >= 0 && e.isStacked
-
+                
                 let y1: Double
                 let y2: Double
-
+                
                 if isStack
                 {
                     if dataProvider.isHighlightFullBarEnabled
@@ -651,7 +607,7 @@ public class CustomBarChartRenderer: BarChartRenderer {
                     else
                     {
                         let range = e.ranges?[high.stackIndex]
-
+                        
                         y1 = range?.from ?? 0.0
                         y2 = range?.to ?? 0.0
                     }
@@ -662,10 +618,10 @@ public class CustomBarChartRenderer: BarChartRenderer {
                     y2 = 0.0
                 }
                 prepareBarHighlight(x: e.x, y1: y1+(100-y1)+3, y2: y2-3, barWidthHalf: barData.barWidth / 1.25, trans: trans, rect: &barRect)
-
+                
                 setHighlightDrawPos(highlight: high, barRect: barRect)
                 context.setStrokeColor(set.highlightColor.cgColor)
-
+                
                 #if !os(OSX)
                 let bezierPath = UIBezierPath(roundedRect: barRect, cornerRadius: 5)
                 context.addPath(bezierPath.cgPath)
@@ -674,8 +630,8 @@ public class CustomBarChartRenderer: BarChartRenderer {
             }
         }
         context.restoreGState()
-
+        
     }
-   
+    
     
 }

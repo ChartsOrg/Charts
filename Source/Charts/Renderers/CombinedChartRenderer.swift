@@ -26,6 +26,7 @@ open class CombinedChartRenderer: DataRenderer
     
     internal var _drawOrder: [CombinedChartView.DrawOrder] = [.bar, .bubble, .line, .candle, .scatter]
     var isForFatigue = false
+    var isForPhysicalActivity = false
     
     @objc public init(chart: CombinedChartView, animator: Animator, viewPortHandler: ViewPortHandler,isForFatigue : Bool)
     {
@@ -34,6 +35,16 @@ open class CombinedChartRenderer: DataRenderer
         self.chart = chart
         
         self.isForFatigue = isForFatigue
+        
+        createRenderers()
+    }
+    @objc public init(chart: CombinedChartView, animator: Animator, viewPortHandler: ViewPortHandler,isForPhysicalActivity : Bool)
+    {
+        super.init(animator: animator, viewPortHandler: viewPortHandler)
+        
+        self.chart = chart
+        
+        self.isForPhysicalActivity = isForPhysicalActivity
         
         createRenderers()
     }
@@ -53,13 +64,17 @@ open class CombinedChartRenderer: DataRenderer
                 if chart.barData !== nil
                 {
                     // new render for combined bar chart
-                    if isForFatigue {
+                    if isForPhysicalActivity {
+                        
+                        _renderers.append(CustomCombinedChartWithMultiBarRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
+                        
+                    }else if isForFatigue {
                         
                         _renderers.append(CustomCombinedChartBarForFatigueRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                         
                     }else{
                         
-                        _renderers.append(CustomCombinedChartWithMultiBarRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
+                        _renderers.append(CustomBarChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                     }
                     //_renderers.append(BarChartRenderer(dataProvider: chart, animator: animator, viewPortHandler: viewPortHandler))
                 }
@@ -152,15 +167,20 @@ open class CombinedChartRenderer: DataRenderer
             //                data = (renderer as! BarChartRenderer).dataProvider?.barData
             //            }
             // new combined bar chart renderer
-            if isForFatigue {
+            if isForPhysicalActivity {
+                if renderer is CustomCombinedChartWithMultiBarRenderer
+                {
+                    data = (renderer as! CustomCombinedChartWithMultiBarRenderer).dataProvider?.barData
+                }
+            } else if isForFatigue {
                 if renderer is CustomCombinedChartBarForFatigueRenderer
                 {
                     data = (renderer as! CustomCombinedChartBarForFatigueRenderer).dataProvider?.barData
                 }
             }else{
-                if renderer is CustomCombinedChartWithMultiBarRenderer
+                if renderer is CustomBarChartRenderer
                 {
-                    data = (renderer as! CustomCombinedChartWithMultiBarRenderer).dataProvider?.barData
+                    data = (renderer as! CustomBarChartRenderer).dataProvider?.barData
                 }
             }
             if isForFatigue {
@@ -195,7 +215,7 @@ open class CombinedChartRenderer: DataRenderer
             renderer.drawHighlighted(context: context, indices: dataIndices)
         }
     }
-
+    
     /// - Returns: The sub-renderer object at the specified index.
     @objc open func getSubRenderer(index: Int) -> DataRenderer?
     {
@@ -208,10 +228,10 @@ open class CombinedChartRenderer: DataRenderer
             return _renderers[index]
         }
     }
-
+    
     /// All sub-renderers.
     @objc open var subRenderers: [DataRenderer]
-    {
+        {
         get { return _renderers }
         set { _renderers = newValue }
     }
@@ -228,7 +248,7 @@ open class CombinedChartRenderer: DataRenderer
     /// The earlier you place them in the provided array, the further they will be in the background.
     /// e.g. if you provide [DrawOrder.Bar, DrawOrder.Line], the bars will be drawn behind the lines.
     open var drawOrder: [CombinedChartView.DrawOrder]
-    {
+        {
         get
         {
             return _drawOrder
