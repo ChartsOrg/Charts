@@ -520,6 +520,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         }
         else
         {
+            self.lastHighlighted = highlight
+            
             // set the indices to highlight
             entry = _data?.entryForHighlight(h!)
             if entry == nil
