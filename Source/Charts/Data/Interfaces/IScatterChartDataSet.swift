@@ -19,18 +19,18 @@ public protocol IScatterChartDataSet: ILineScatterCandleRadarChartDataSet
     
     // MARK: - Styling functions and accessors
     
-    /// - returns: The size the scatter shape will have
+    /// The size the scatter shape will have
     var scatterShapeSize: CGFloat { get }
     
-    /// - returns: The radius of the hole in the shape (applies to Square, Circle and Triangle)
+    /// - Returns: The radius of the hole in the shape (applies to Square, Circle and Triangle)
     /// Set this to <= 0 to remove holes.
     /// **default**: 0.0
     var scatterShapeHoleRadius: CGFloat { get }
     
-    /// - returns: Color for the hole in the shape. Setting to `nil` will behave as transparent.
+    /// - Returns: Color for the hole in the shape. Setting to `nil` will behave as transparent.
     /// **default**: nil
     var scatterShapeHoleColor: NSUIColor? { get }
     
-    /// - returns: The IShapeRenderer responsible for rendering this DataSet.
+    /// The IShapeRenderer responsible for rendering this DataSet.
     var shapeRenderer: IShapeRenderer? { get }
 }

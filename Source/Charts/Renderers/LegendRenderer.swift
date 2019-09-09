@@ -12,17 +12,13 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 @objc(ChartLegendRenderer)
 open class LegendRenderer: Renderer
 {
     /// the legend object this renderer renders
-    open var legend: Legend?
+    @objc open var legend: Legend?
 
-    public init(viewPortHandler: ViewPortHandler?, legend: Legend?)
+    @objc public init(viewPortHandler: ViewPortHandler, legend: Legend?)
     {
         super.init(viewPortHandler: viewPortHandler)
         
@@ -30,12 +26,9 @@ open class LegendRenderer: Renderer
     }
 
     /// Prepares the legend and calculates all needed forms, labels and colors.
-    open func computeLegend(data: ChartData)
+    @objc open func computeLegend(data: ChartData)
     {
-        guard
-            let legend = legend,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let legend = legend else { return }
         
         if !legend.isLegendCustom
         {
@@ -44,7 +37,7 @@ open class LegendRenderer: Renderer
             // loop for building up the colors and labels used in the legend
             for i in 0..<data.dataSetCount
             {
-                let dataSet = data.getDataSetByIndex(i)!
+                guard let dataSet = data.getDataSetByIndex(i) else { continue }
                 
                 var clrs: [NSUIColor] = dataSet.colors
                 let entryCount = dataSet.entryCount
@@ -55,12 +48,21 @@ open class LegendRenderer: Renderer
                 {
                     let bds = dataSet as! IBarChartDataSet
                     var sLabels = bds.stackLabels
-                    
-                    for j in 0..<min(clrs.count, bds.stackSize)
+                    let minEntries = min(clrs.count, bds.stackSize)
+
+                    for j in 0..<minEntries
                     {
+                        let label: String?
+                        if (sLabels.count > 0 && minEntries > 0) {
+                            let labelIndex = j % minEntries
+                            label = sLabels.indices.contains(labelIndex) ? sLabels[labelIndex] : nil
+                        } else {
+                            label = nil
+                        }
+
                         entries.append(
                             LegendEntry(
-                                label: sLabels[j % sLabels.count],
+                                label: label,
                                 form: dataSet.form,
                                 formSize: dataSet.formSize,
                                 formLineWidth: dataSet.formLineWidth,
@@ -192,12 +194,9 @@ open class LegendRenderer: Renderer
         legend.calculateDimensions(labelFont: legend.font, viewPortHandler: viewPortHandler)
     }
     
-    open func renderLegend(context: CGContext)
+    @objc open func renderLegend(context: CGContext)
     {
-        guard
-            let legend = legend,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let legend = legend else { return }
         
         if !legend.enabled
         {
@@ -468,7 +467,7 @@ open class LegendRenderer: Renderer
                     
                     if direction == .rightToLeft
                     {
-                        posX -= NSString(string: e.label!).size(withAttributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.font): labelFont])).width
+                        posX -= (e.label! as NSString).size(withAttributes: [.font: labelFont]).width
                     }
                     
                     if !wasStacked
@@ -494,10 +493,10 @@ open class LegendRenderer: Renderer
         }
     }
 
-    fileprivate var _formLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _formLineSegmentsBuffer = [CGPoint](repeating: CGPoint(), count: 2)
     
     /// Draws the Legend-form at the given position with the color at the given index.
-    open func drawForm(
+    @objc open func drawForm(
         context: CGContext,
         x: CGFloat,
         y: CGFloat,
@@ -569,19 +568,8 @@ open class LegendRenderer: Renderer
     }
 
     /// Draws the provided label at the given position.
-    open func drawLabel(context: CGContext, x: CGFloat, y: CGFloat, label: String, font: NSUIFont, textColor: NSUIColor)
+    @objc open func drawLabel(context: CGContext, x: CGFloat, y: CGFloat, label: String, font: NSUIFont, textColor: NSUIColor)
     {
-        ChartUtils.drawText(context: context, text: label, point: CGPoint(x: x, y: y), align: .left, attributes: [convertFromNSAttributedStringKey(NSAttributedString.Key.font): font, convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): textColor])
+        ChartUtils.drawText(context: context, text: label, point: CGPoint(x: x, y: y), align: .left, attributes: [NSAttributedString.Key.font: font, NSAttributedString.Key.foregroundColor: textColor])
     }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
-	guard let input = input else { return nil }
-	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
-	return input.rawValue
 }

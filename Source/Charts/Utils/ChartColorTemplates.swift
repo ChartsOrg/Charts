@@ -12,14 +12,9 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
-
 open class ChartColorTemplates: NSObject
 {
-    open class func liberty () -> [NSUIColor]
+    @objc open class func liberty () -> [NSUIColor]
     {
         return [
             NSUIColor(red: 207/255.0, green: 248/255.0, blue: 246/255.0, alpha: 1.0),
@@ -30,7 +25,7 @@ open class ChartColorTemplates: NSObject
         ]
     }
     
-    open class func joyful () -> [NSUIColor]
+    @objc open class func joyful () -> [NSUIColor]
     {
         return [
             NSUIColor(red: 217/255.0, green: 80/255.0, blue: 138/255.0, alpha: 1.0),
@@ -41,7 +36,7 @@ open class ChartColorTemplates: NSObject
         ]
     }
     
-    open class func pastel () -> [NSUIColor]
+    @objc open class func pastel () -> [NSUIColor]
     {
         return [
             NSUIColor(red: 64/255.0, green: 89/255.0, blue: 128/255.0, alpha: 1.0),
@@ -52,7 +47,7 @@ open class ChartColorTemplates: NSObject
         ]
     }
     
-    open class func colorful () -> [NSUIColor]
+    @objc open class func colorful () -> [NSUIColor]
     {
         return [
             NSUIColor(red: 193/255.0, green: 37/255.0, blue: 82/255.0, alpha: 1.0),
@@ -63,7 +58,7 @@ open class ChartColorTemplates: NSObject
         ]
     }
     
-    open class func vordiplom () -> [NSUIColor]
+    @objc open class func vordiplom () -> [NSUIColor]
     {
         return [
             NSUIColor(red: 192/255.0, green: 255/255.0, blue: 140/255.0, alpha: 1.0),
@@ -74,7 +69,7 @@ open class ChartColorTemplates: NSObject
         ]
     }
     
-    open class func material () -> [NSUIColor]
+    @objc open class func material () -> [NSUIColor]
     {
         return [
             NSUIColor(red: 46/255.0, green: 204/255.0, blue: 113/255.0, alpha: 1.0),
@@ -84,7 +79,7 @@ open class ChartColorTemplates: NSObject
         ]
     }
     
-    open class func colorFromString(_ colorString: String) -> NSUIColor
+    @objc open class func colorFromString(_ colorString: String) -> NSUIColor
     {
         let leftParenCharset: CharacterSet = CharacterSet(charactersIn: "( ")
         let commaCharset: CharacterSet = CharacterSet(charactersIn: ", ")

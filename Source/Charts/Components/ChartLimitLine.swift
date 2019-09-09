@@ -20,39 +20,39 @@ open class ChartLimitLine: ComponentBase
     @objc(ChartLimitLabelPosition)
     public enum LabelPosition: Int
     {
-        case leftTop
-        case leftBottom
-        case rightTop
-        case rightBottom
+        case topLeft
+        case topRight
+        case bottomLeft
+        case bottomRight
     }
     
     /// limit / maximum (the y-value or xIndex)
-    open var limit = Double(0.0)
+    @objc open var limit = Double(0.0)
     
-    fileprivate var _lineWidth = CGFloat(2.0)
-    open var lineColor = NSUIColor(red: 237.0/255.0, green: 91.0/255.0, blue: 91.0/255.0, alpha: 1.0)
-    open var lineDashPhase = CGFloat(0.0)
-    open var lineDashLengths: [CGFloat]?
+    private var _lineWidth = CGFloat(2.0)
+    @objc open var lineColor = NSUIColor(red: 237.0/255.0, green: 91.0/255.0, blue: 91.0/255.0, alpha: 1.0)
+    @objc open var lineDashPhase = CGFloat(0.0)
+    @objc open var lineDashLengths: [CGFloat]?
     
-    open var valueTextColor = NSUIColor.black
-    open var valueFont = NSUIFont.systemFont(ofSize: 13.0)
+    @objc open var valueTextColor = NSUIColor.black
+    @objc open var valueFont = NSUIFont.systemFont(ofSize: 13.0)
     
-    open var drawLabelEnabled = true
-    open var label = ""
-    open var labelPosition = LabelPosition.rightTop
+    @objc open var drawLabelEnabled = true
+    @objc open var label = ""
+    @objc open var labelPosition = LabelPosition.topRight
     
     public override init()
     {
         super.init()
     }
     
-    public init(limit: Double)
+    @objc public init(limit: Double)
     {
         super.init()
         self.limit = limit
     }
     
-    public init(limit: Double, label: String)
+    @objc public init(limit: Double, label: String)
     {
         super.init()
         self.limit = limit
@@ -60,7 +60,7 @@ open class ChartLimitLine: ComponentBase
     }
     
     /// set the line width of the chart (min = 0.2, max = 12); default 2
-    open var lineWidth: CGFloat
+    @objc open var lineWidth: CGFloat
     {
         get
         {
@@ -68,18 +68,7 @@ open class ChartLimitLine: ComponentBase
         }
         set
         {
-            if newValue < 0.2
-            {
-                _lineWidth = 0.2
-            }
-            else if newValue > 12.0
-            {
-                _lineWidth = 12.0
-            }
-            else
-            {
-                _lineWidth = newValue
-            }
+            _lineWidth = newValue.clamped(to: 0.2...12)
         }
     }
 }

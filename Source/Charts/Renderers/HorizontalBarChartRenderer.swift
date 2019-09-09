@@ -11,26 +11,22 @@
 
 import Foundation
 import CoreGraphics
-
-#if !os(OSX)
-    import UIKit
-#endif
-
+import UIKit
 
 open class HorizontalBarChartRenderer: BarChartRenderer
 {
-    fileprivate class Buffer
+    private class Buffer
     {
         var rects = [CGRect]()
     }
     
-    public override init(dataProvider: BarChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    public override init(dataProvider: BarChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(dataProvider: dataProvider, animator: animator, viewPortHandler: viewPortHandler)
     }
     
     // [CGRect] per dataset
-    fileprivate var _buffers = [Buffer]()
+    private var _buffers = [Buffer]()
     
     open override func initBuffers()
     {
@@ -65,12 +61,11 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         }
     }
     
-    fileprivate func prepareBuffer(dataSet: IBarChartDataSet, index: Int)
+    private func prepareBuffer(dataSet: IBarChartDataSet, index: Int)
     {
         guard let
             dataProvider = dataProvider,
-            let barData = dataProvider.barData,
-            let animator = animator
+            let barData = dataProvider.barData
             else { return }
         
         let barWidthHalf = barData.barWidth / 2.0
@@ -178,14 +173,11 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         }
     }
     
-    fileprivate var _barShadowRectBuffer: CGRect = CGRect()
+    private var _barShadowRectBuffer: CGRect = CGRect()
     
     open override func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int)
     {
-        guard let
-            dataProvider = dataProvider,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let dataProvider = dataProvider else { return }
         
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
         
@@ -193,7 +185,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         trans.rectValuesToPixel(&_buffers[index].rects)
         
         let borderWidth = dataSet.barBorderWidth
-        _ = dataSet.barBorderColor
+		_ = dataSet.barBorderColor
         let drawBorder = borderWidth > 0.0
         
         context.saveGState()
@@ -201,10 +193,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         // draw the bar shadow before the values
         if dataProvider.isDrawBarShadowEnabled
         {
-            guard
-                let animator = animator,
-                let barData = dataProvider.barData
-                else { return }
+            guard let barData = dataProvider.barData else { return }
             
             let barWidth = barData.barWidth
             let barWidthHalf = barWidth / 2.0
@@ -247,7 +236,11 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         {
             context.setFillColor(dataSet.color(atIndex: 0).cgColor)
         }
-        
+
+        // In case the chart is stacked, we need to accomodate individual bars within accessibilityOrdereredElements
+        let isStacked = dataSet.isStacked
+        let stackSize = isStacked ? dataSet.stackSize : 1
+
         for j in stride(from: 0, to: buffer.rects.count, by: 1)
         {
             let barRect = buffer.rects[j]
@@ -267,61 +260,76 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
-            
-            
-            if (dataSet.hasRoundedCorners)
-            {
-               let path = UIBezierPath.init(roundedRect: barRect, byRoundingCorners: UIRectCorner.bottomRight.union(UIRectCorner.topRight), cornerRadii: CGSize(width: dataSet.barCornerRadius, height: dataSet.barCornerRadius))
 
-                path.fill()
-                
-                if drawBorder
-                {
-                    path.stroke()
-                }
-                
-                
-            }
-            else if(dataSet.isStackedWithRoundedCorners){
-                
-                var roundedCorners : UIRectCorner = UIRectCorner()
+			if (dataSet.hasRoundedCorners)
+			{
+				let path = UIBezierPath.init(roundedRect: barRect, byRoundingCorners: UIRectCorner.bottomRight.union(UIRectCorner.topRight), cornerRadii: CGSize(width: dataSet.barCornerRadius, height: dataSet.barCornerRadius))
+				path.fill()
+				
+				if drawBorder
+				{
+					path.stroke()
+				}
+			}
+			else if(dataSet.isStackedWithRoundedCorners){
+				
+				var roundedCorners : UIRectCorner = UIRectCorner()
 				let rectIndex = buffer.rects.firstIndex(of: barRect) ?? 0
-                
-                //Se il valore non è 0 >> se è il primo valore oppure se il valore precente è 0, arrotonda gli angoli di sinistra
-                if(barRect.width > 0  && (rectIndex == 0 || (rectIndex > 0 && buffer.rects[rectIndex-1].width == 0))){
-                    roundedCorners = UIRectCorner.topLeft.union(UIRectCorner.bottomLeft)
-                }
-                
-                //Se è l'ultimo valore, oppure se è l'ultimo maggiore di 0, arrotonda gli angoli di destra
-                var moreValues = false
-                for n in stride(from: rectIndex+1, to: buffer.rects.count, by: 1){
-                    let remainingVal:CGRect = buffer.rects[n]
-                    if(remainingVal.width > 0){
-                        moreValues = true
-                        break
-                    }
-                }
-                if(!moreValues || (rectIndex == buffer.rects.count-1 && barRect.width > 0)){
-                    roundedCorners = roundedCorners.union(UIRectCorner.topRight).union(UIRectCorner.bottomRight)
-                }
-                
-                
-                let path : UIBezierPath = UIBezierPath.init(roundedRect: barRect, byRoundingCorners: roundedCorners, cornerRadii: CGSize(width: dataSet.barCornerRadius, height: dataSet.barCornerRadius))
-                path.fill()
-                
-                if drawBorder
-                {
-                    path.stroke()
-                }
-            }
-            else
+				
+				//Se il valore non è 0 >> se è il primo valore oppure se il valore precente è 0, arrotonda gli angoli di sinistra
+				if(barRect.width > 0  && (rectIndex == 0 || (rectIndex > 0 && buffer.rects[rectIndex-1].width == 0))){
+					roundedCorners = UIRectCorner.topLeft.union(UIRectCorner.bottomLeft)
+
+				}
+				//Se è l'ultimo valore, oppure se è l'ultimo maggiore di 0, arrotonda gli angoli di destra
+				var moreValues = false
+				for n in stride(from: rectIndex+1, to: buffer.rects.count, by: 1){
+					let remainingVal:CGRect = buffer.rects[n]
+					if(remainingVal.width > 0){
+						moreValues = true
+						break
+
+					}
+				}
+				
+				if(!moreValues || (rectIndex == buffer.rects.count-1 && barRect.width > 0)){
+					roundedCorners = roundedCorners.union(UIRectCorner.topRight).union(UIRectCorner.bottomRight)
+				}
+				
+				
+				let path : UIBezierPath = UIBezierPath.init(roundedRect: barRect, byRoundingCorners: roundedCorners, cornerRadii: CGSize(width: dataSet.barCornerRadius, height: dataSet.barCornerRadius))
+				path.fill()
+				
+				if drawBorder
+				{
+					path.stroke()
+				}
+
+			}
+			else
+
             {
-                context.fill(barRect)
-                
-                if drawBorder
-                {
-                    context.stroke(barRect)
+				context.fill(barRect)
+				
+				if drawBorder
+				{
+					context.stroke(barRect)
+				}
+            }
+
+            // Create and append the corresponding accessibility element to accessibilityOrderedElements (see BarChartRenderer)
+            if let chart = dataProvider as? BarChartView
+            {
+                let element = createAccessibleElement(withIndex: j,
+                                                      container: chart,
+                                                      dataSet: dataSet,
+                                                      dataSetIndex: index,
+                                                      stackSize: stackSize)
+                { (element) in
+                    element.accessibilityFrame = barRect
                 }
+
+                accessibilityOrderedElements[j/stackSize].append(element)
             }
         }
         
@@ -346,7 +354,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         rect.size.width = CGFloat(right - left)
         rect.size.height = CGFloat(bottom - top)
         
-        trans.rectValueToPixelHorizontal(&rect, phaseY: animator?.phaseY ?? 1.0)
+        trans.rectValueToPixelHorizontal(&rect, phaseY: animator.phaseY)
     }
     
     open override func drawValues(context: CGContext)
@@ -356,9 +364,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         {
             guard
                 let dataProvider = dataProvider,
-                let barData = dataProvider.barData,
-                let animator = animator,
-                let viewPortHandler = self.viewPortHandler
+                let barData = dataProvider.barData
                 else { return }
             
             var dataSets = barData.dataSets
@@ -372,12 +378,10 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             
             for dataSetIndex in 0 ..< barData.dataSetCount
             {
-                guard let dataSet = dataSets[dataSetIndex] as? IBarChartDataSet else { continue }
-                
-                if !shouldDrawValues(forDataSet: dataSet) || !(dataSet.isDrawIconsEnabled && dataSet.isVisible)
-                {
-                    continue
-                }
+                guard let
+                    dataSet = dataSets[dataSetIndex] as? IBarChartDataSet,
+                    shouldDrawValues(forDataSet: dataSet)
+                    else { continue }
                 
                 let isInverted = dataProvider.isInverted(axis: dataSet.axisDependency)
                 
@@ -395,7 +399,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 let buffer = _buffers[dataSetIndex]
                 
                 // if only single values are drawn (sum)
-                if (!dataSet.isStacked || dataSet.entryCount == 1)
+                if !dataSet.isStacked || dataSet.entryCount == 1
                 {
                     for j in 0 ..< Int(ceil(Double(dataSet.entryCount) * animator.phaseX))
                     {
@@ -428,9 +432,9 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                             viewPortHandler: viewPortHandler)
                         
                         // calculate the correct offset depending on the draw position of the value
-                        let valueTextWidth = valueText.size(withAttributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.font): valueFont])).width
+                        let valueTextWidth = valueText.size(withAttributes: [NSAttributedString.Key.font: valueFont]).width
                         posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
-                        negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
+                        negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus) - rect.size.width
                         
                         if isInverted
                         {
@@ -509,7 +513,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                 viewPortHandler: viewPortHandler)
                             
                             // calculate the correct offset depending on the draw position of the value
-                            let valueTextWidth = valueText.size(withAttributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.font): valueFont])).width
+                            let valueTextWidth = valueText.size(withAttributes: [NSAttributedString.Key.font: valueFont]).width
                             posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
                             negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
                             
@@ -593,7 +597,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                     viewPortHandler: viewPortHandler)
                                 
                                 // calculate the correct offset depending on the draw position of the value
-                                let valueTextWidth = valueText.size(withAttributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.font): valueFont])).width
+                                let valueTextWidth = valueText.size(withAttributes: [NSAttributedString.Key.font: valueFont]).width
                                 posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
                                 negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
                                 
@@ -657,8 +661,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
     {
         guard let data = dataProvider?.data
             else { return false }
-        
-        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * (viewPortHandler?.scaleY ?? 1.0))
+        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * self.viewPortHandler.scaleY)
     }
     
     /// Sets the drawing position of the highlight object based on the riven bar-rect.
@@ -666,15 +669,4 @@ open class HorizontalBarChartRenderer: BarChartRenderer
     {
         high.setDraw(x: barRect.midY, y: barRect.origin.x + barRect.size.width)
     }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
-	guard let input = input else { return nil }
-	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
-	return input.rawValue
 }

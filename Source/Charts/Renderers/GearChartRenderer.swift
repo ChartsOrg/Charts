@@ -12,6 +12,7 @@
 import Foundation
 import CoreGraphics
 
+
 #if !os(OSX)
     import UIKit
 #endif
@@ -21,9 +22,9 @@ open class GearChartRenderer: DataRenderer
 {
     open weak var chart: GearChartView?
     
-    public init(chart: GearChartView?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    public init(chart: GearChartView?, animator: Animator, viewPortHandler: ViewPortHandler)
     {
-        super.init(animator: animator, viewPortHandler: viewPortHandler)
+		super.init(animator: animator, viewPortHandler: viewPortHandler)
         
         self.chart = chart
     }
@@ -58,12 +59,12 @@ open class GearChartRenderer: DataRenderer
         let angleMiddle = startAngle + sweepAngle / 2.0
         
         // Other point of the arc
-        let arcEndPointX = center.x + radius * cos((startAngle + sweepAngle) * ChartUtils.Math.FDEG2RAD)
-        let arcEndPointY = center.y + radius * sin((startAngle + sweepAngle) * ChartUtils.Math.FDEG2RAD)
+        let arcEndPointX = center.x + radius * cos((startAngle + sweepAngle).DEG2RAD)
+        let arcEndPointY = center.y + radius * sin((startAngle + sweepAngle).DEG2RAD)
         
         // Middle point on the arc
-        let arcMidPointX = center.x + radius * cos(angleMiddle * ChartUtils.Math.FDEG2RAD)
-        let arcMidPointY = center.y + radius * sin(angleMiddle * ChartUtils.Math.FDEG2RAD)
+        let arcMidPointX = center.x + radius * cos(angleMiddle.DEG2RAD)
+        let arcMidPointY = center.y + radius * sin(angleMiddle.DEG2RAD)
         
         // This is the base of the contained triangle
         let basePointsDistance = sqrt(
@@ -74,7 +75,7 @@ open class GearChartRenderer: DataRenderer
         //   the angle of the contained triangle should stay the same.
         // So let's find out the height of that triangle.
         let containedTriangleHeight = (basePointsDistance / 2.0 *
-            tan((180.0 - angle) / 2.0 * ChartUtils.Math.FDEG2RAD))
+            tan(((180.0 - angle) / 2.0).DEG2RAD))
         
         // Now we subtract that from the radius
         var spacedRadius = radius - containedTriangleHeight
@@ -91,7 +92,7 @@ open class GearChartRenderer: DataRenderer
     {
         guard
             let chart = chart,
-            let animator = animator
+			let animator: Animator = animator
             else {return }
         
         let angle: CGFloat = 0.0
@@ -116,13 +117,13 @@ open class GearChartRenderer: DataRenderer
         context.saveGState()
         
         let startAngleOuter = rotationAngle + angle * CGFloat(phaseY)
-        let arcStartPointX = center.x + radius * cos(startAngleOuter * ChartUtils.Math.FDEG2RAD)
-        let arcStartPointY = center.y + radius * sin(startAngleOuter * ChartUtils.Math.FDEG2RAD)
+        let arcStartPointX = center.x + radius * cos(startAngleOuter.DEG2RAD)
+        let arcStartPointY = center.y + radius * sin(startAngleOuter.DEG2RAD)
         
         //draw backgound circle
         let bgPath = CGMutablePath()
         bgPath.move(to: CGPoint(x: arcStartPointX, y: arcStartPointY))
-        bgPath.addRelativeArc(center: center, radius: radius, startAngle: startAngleOuter * ChartUtils.Math.FDEG2RAD, delta: 360 * ChartUtils.Math.FDEG2RAD)
+        bgPath.addRelativeArc(center: center, radius: radius, startAngle: startAngleOuter.DEG2RAD, delta: CGFloat(360).DEG2RAD)
         
         context.beginPath()
         context.addPath(bgPath)
@@ -149,7 +150,7 @@ open class GearChartRenderer: DataRenderer
             
             let path = CGMutablePath()
             path.move(to: CGPoint(x: arcStartPointX, y: arcStartPointY))
-            path.addRelativeArc(center: center, radius: radius, startAngle: startAngleOuter * ChartUtils.Math.FDEG2RAD, delta: sweepAngleOuter * ChartUtils.Math.FDEG2RAD)
+            path.addRelativeArc(center: center, radius: radius, startAngle: startAngleOuter.DEG2RAD, delta: sweepAngleOuter.DEG2RAD)
             
             context.beginPath()
             context.addPath(path)
@@ -171,7 +172,7 @@ open class GearChartRenderer: DataRenderer
         guard
             let chart = chart,
             let data = chart.data,
-            let animator = animator
+			let animator: Animator = animator
             else { return }
         
         let center = chart.centerCircleBox
@@ -246,8 +247,8 @@ open class GearChartRenderer: DataRenderer
                 dataSetIndex: 0,
                 viewPortHandler: viewPortHandler)
             
-            let sliceXBase = cos(transformedAngle * ChartUtils.Math.FDEG2RAD)
-            let sliceYBase = sin(transformedAngle * ChartUtils.Math.FDEG2RAD)
+            let sliceXBase = cos(transformedAngle.DEG2RAD)
+            let sliceYBase = sin(transformedAngle.DEG2RAD)
             
             let drawXOutside = drawEntryLabels && xValuePosition == .outsideSlice
             let drawYOutside = drawValues && yValuePosition == .outsideSlice
@@ -271,7 +272,7 @@ open class GearChartRenderer: DataRenderer
                 
                 
                 let polyline2Length = dataSet.valueLineVariableLength
-                    ? labelRadius * valueLineLength2 * abs(sin(transformedAngle * ChartUtils.Math.FDEG2RAD))
+                    ? labelRadius * valueLineLength2 * abs(sin(transformedAngle.DEG2RAD))
                     : labelRadius * valueLineLength2
                 
                 let pt0 = CGPoint(
@@ -314,7 +315,7 @@ open class GearChartRenderer: DataRenderer
                         text: valueText,
                         point: labelPoint,
                         align: align,
-                        attributes: [convertFromNSAttributedStringKey(NSAttributedString.Key.font): valueFont, convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): valueTextColor]
+						attributes: [NSAttributedString.Key(rawValue: convertFromNSAttributedStringKey(NSAttributedString.Key.font)): valueFont, NSAttributedString.Key(rawValue: convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)): valueTextColor]
                     )
                 }
                 else if drawYOutside
@@ -324,7 +325,7 @@ open class GearChartRenderer: DataRenderer
                         text: valueText,
                         point: CGPoint(x: labelPoint.x, y: labelPoint.y + lineHeight / 2.0),
                         align: align,
-                        attributes: [convertFromNSAttributedStringKey(NSAttributedString.Key.font): valueFont, convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): valueTextColor]
+						attributes: [NSAttributedString.Key(rawValue: convertFromNSAttributedStringKey(NSAttributedString.Key.font)): valueFont, NSAttributedString.Key(rawValue: convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)): valueTextColor]
                     )
                 }
             }
@@ -342,7 +343,7 @@ open class GearChartRenderer: DataRenderer
                         text: valueText,
                         point: CGPoint(x: x, y: y),
                         align: .center,
-                        attributes: [convertFromNSAttributedStringKey(NSAttributedString.Key.font): valueFont, convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): valueTextColor]
+						attributes: [NSAttributedString.Key(rawValue: convertFromNSAttributedStringKey(NSAttributedString.Key.font)): valueFont, NSAttributedString.Key(rawValue: convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)): valueTextColor]
                     )
                 }
                 else if drawYInside
@@ -352,7 +353,7 @@ open class GearChartRenderer: DataRenderer
                         text: valueText,
                         point: CGPoint(x: x, y: y + lineHeight / 2.0),
                         align: .center,
-                        attributes: [convertFromNSAttributedStringKey(NSAttributedString.Key.font): valueFont, convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): valueTextColor]
+						attributes: [NSAttributedString.Key(rawValue: convertFromNSAttributedStringKey(NSAttributedString.Key.font)): valueFont, NSAttributedString.Key(rawValue: convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor)): valueTextColor]
                     )
                 }
             }
@@ -438,7 +439,7 @@ open class GearChartRenderer: DataRenderer
         guard
             let chart = chart,
             let data = chart.data,
-            let animator = animator
+			let animator: Animator = animator
             else { return }
         
         context.saveGState()
@@ -512,11 +513,11 @@ open class GearChartRenderer: DataRenderer
             
             let path = CGMutablePath()
             
-            path.move(to: CGPoint(x: center.x + highlightedRadius * cos(startAngleShifted * ChartUtils.Math.FDEG2RAD),
-                                  y: center.y + highlightedRadius * sin(startAngleShifted * ChartUtils.Math.FDEG2RAD)))
+            path.move(to: CGPoint(x: center.x + highlightedRadius * cos(startAngleShifted.DEG2RAD),
+                                  y: center.y + highlightedRadius * sin(startAngleShifted.DEG2RAD)))
             
-            path.addRelativeArc(center: center, radius: highlightedRadius, startAngle: startAngleShifted * ChartUtils.Math.FDEG2RAD,
-                                delta: sweepAngleShifted * ChartUtils.Math.FDEG2RAD)
+            path.addRelativeArc(center: center, radius: highlightedRadius, startAngle: startAngleShifted.DEG2RAD,
+                                delta: sweepAngleShifted.DEG2RAD)
             
             context.beginPath()
             context.addPath(path)

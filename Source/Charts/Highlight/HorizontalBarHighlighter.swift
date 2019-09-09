@@ -17,25 +17,21 @@ open class HorizontalBarHighlighter: BarHighlighter
 {
     open override func getHighlight(x: CGFloat, y: CGFloat) -> Highlight?
     {
-        if let barData = self.chart?.data as? BarChartData
+        guard let barData = self.chart?.data as? BarChartData else { return nil }
+
+        let pos = getValsForTouch(x: y, y: x)
+        guard let high = getHighlight(xValue: Double(pos.y), x: y, y: x) else { return nil }
+
+        if let set = barData.getDataSetByIndex(high.dataSetIndex) as? IBarChartDataSet,
+            set.isStacked
         {
-            let pos = getValsForTouch(x: y, y: x)
-            
-            guard let high = getHighlight(xValue: Double(pos.y), x: y, y: x)
-                else { return nil }
-            
-            if let set = barData.getDataSetByIndex(high.dataSetIndex) as? IBarChartDataSet,
-                set.isStacked
-            {
-                return getStackedHighlight(high: high,
-                                           set: set,
-                                           xValue: Double(pos.y),
-                                           yValue: Double(pos.x))
-            }
-            
-            return high
+            return getStackedHighlight(high: high,
+                                       set: set,
+                                       xValue: Double(pos.y),
+                                       yValue: Double(pos.x))
         }
-        return nil
+
+        return high
     }
     
     internal override func buildHighlights(
@@ -44,29 +40,20 @@ open class HorizontalBarHighlighter: BarHighlighter
         xValue: Double,
         rounding: ChartDataSetRounding) -> [Highlight]
     {
-        var highlights = [Highlight]()
-        
-        guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider
-            else { return highlights }
+        guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider else { return [] }
         
         var entries = set.entriesForXValue(xValue)
-        if entries.count == 0
+        if entries.count == 0, let closest = set.entryForXValue(xValue, closestToY: .nan, rounding: rounding)
         {
             // Try to find closest x-value and take all entries for that x-value
-            if let closest = set.entryForXValue(xValue, closestToY: Double.nan, rounding: rounding)
-            {
-                entries = set.entriesForXValue(closest.x)
-            }
+            entries = set.entriesForXValue(closest.x)
         }
-        
-        for e in entries
-        {
-            let px = chart.getTransformer(forAxis: set.axisDependency).pixelForValues(x: e.y, y: e.x)
-            
-            highlights.append(Highlight(x: e.x, y: e.y, xPx: px.x, yPx: px.y, dataSetIndex: dataSetIndex, axis: set.axisDependency))
+
+        return entries.map { e in
+            let px = chart.getTransformer(forAxis: set.axisDependency)
+                .pixelForValues(x: e.y, y: e.x)
+            return Highlight(x: e.x, y: e.y, xPx: px.x, yPx: px.y, dataSetIndex: dataSetIndex, axis: set.axisDependency)
         }
-        
-        return highlights
     }
     
     internal override func getDistance(x1: CGFloat, y1: CGFloat, x2: CGFloat, y2: CGFloat) -> CGFloat

@@ -19,98 +19,100 @@ open class PieChartDataEntry: ChartDataEntry
         super.init()
     }
     
-    /// - parameter value: The value on the y-axis
-    /// - parameter label: The label for the x-axis
-    public convenience init(value: Double, label: String?)
+
+    /// - Parameters:
+    ///   - value: The value on the y-axis
+    @objc public init(value: Double)
     {
-        self.init(value: value, label: label, icon: nil, data: nil)
+        super.init(x: .nan, y: value)
+    }
+
+    /// - Parameters:
+    ///   - value: The value on the y-axis
+    ///   - label: The label for the x-axis
+    @objc public convenience init(value: Double, label: String?)
+    {
+        self.init(value: value)
+        self.label = label
     }
     
-    /// - parameter value: The value on the y-axis
-    /// - parameter label: The label for the x-axis
-    /// - parameter data: Spot for additional data this Entry represents
-    public convenience init(value: Double, label: String?, data: AnyObject?)
+    /// - Parameters:
+    ///   - value: The value on the y-axis
+    ///   - label: The label for the x-axis
+    ///   - data: Spot for additional data this Entry represents
+    @objc public convenience init(value: Double, label: String?, data: Any?)
     {
         self.init(value: value, label: label, icon: nil, data: data)
     }
     
-    /// - parameter value: The value on the y-axis
-    /// - parameter label: The label for the x-axis
-    /// - parameter icon: icon image
-    public convenience init(value: Double, label: String?, icon: NSUIImage?)
+    /// - Parameters:
+    ///   - value: The value on the y-axis
+    ///   - label: The label for the x-axis
+    ///   - icon: icon image
+    @objc public convenience init(value: Double, label: String?, icon: NSUIImage?)
     {
-        self.init(value: value, label: label, icon: icon, data: nil)
-    }
-    
-    /// - parameter value: The value on the y-axis
-    /// - parameter label: The label for the x-axis
-    /// - parameter icon: icon image
-    /// - parameter data: Spot for additional data this Entry represents
-    public init(value: Double, label: String?, icon: NSUIImage?, data: AnyObject?)
-    {
-        super.init(x: 0.0, y: value, icon: icon, data: data)
-        
+        self.init(value: value)
         self.label = label
+        self.icon = icon
     }
     
-    /// - parameter value: The value on the y-axis
-    public convenience init(value: Double)
+    /// - Parameters:
+    ///   - value: The value on the y-axis
+    ///   - label: The label for the x-axis
+    ///   - icon: icon image
+    ///   - data: Spot for additional data this Entry represents
+    @objc public convenience init(value: Double, label: String?, icon: NSUIImage?, data: Any?)
     {
-        self.init(value: value, label: nil, icon: nil, data: nil)
+        self.init(value: value)
+        self.label = label
+        self.icon = icon
+        self.data = data
+    }
+
+    /// - Parameters:
+    ///   - value: The value on the y-axis
+    ///   - data: Spot for additional data this Entry represents
+    @objc public convenience init(value: Double, data: Any?)
+    {
+        self.init(value: value)
+        self.data = data
     }
     
-    /// - parameter value: The value on the y-axis
-    /// - parameter data: Spot for additional data this Entry represents
-    public convenience init(value: Double, data: AnyObject?)
+    /// - Parameters:
+    ///   - value: The value on the y-axis
+    ///   - icon: icon image
+    @objc public convenience init(value: Double, icon: NSUIImage?)
     {
-        self.init(value: value, label: nil, icon: nil, data: data)
+        self.init(value: value)
+        self.icon = icon
     }
     
-    /// - parameter value: The value on the y-axis
-    /// - parameter icon: icon image
-    public convenience init(value: Double, icon: NSUIImage?)
+    /// - Parameters:
+    ///   - value: The value on the y-axis
+    ///   - icon: icon image
+    ///   - data: Spot for additional data this Entry represents
+    @objc public convenience init(value: Double, icon: NSUIImage?, data: Any?)
     {
-        self.init(value: value, label: nil, icon: icon, data: nil)
-    }
-    
-    /// - parameter value: The value on the y-axis
-    /// - parameter icon: icon image
-    /// - parameter data: Spot for additional data this Entry represents
-    public convenience init(value: Double, icon: NSUIImage?, data: AnyObject?)
-    {
-        self.init(value: value, label: nil, icon: icon, data: data)
+        self.init(value: value)
+        self.icon = icon
+        self.data = data
     }
     
     // MARK: Data property accessors
     
-    open var label: String?
+    @objc open var label: String?
     
-    open var value: Double
+    @objc open var value: Double
     {
         get { return y }
-        set { y = value }
+        set { y = newValue }
     }
-    
-	@available(*, deprecated, message: "Pie entries do not have x values")
-    open override var x: Double
-    {
-        get
-        {
-            print("Pie entries do not have x values")
-            return super.x
-        }
-        set
-        {
-            super.x = newValue
-            print("Pie entries do not have x values")
-        }
-    }
-    
+        
     // MARK: NSCopying
     
-    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    open override func copy(with zone: NSZone? = nil) -> Any
     {
-        let copy = super.copyWithZone(zone) as! PieChartDataEntry
+        let copy = super.copy(with: zone) as! PieChartDataEntry
         copy.label = label
         return copy
     }

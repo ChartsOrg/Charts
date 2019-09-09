@@ -20,7 +20,7 @@ open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadar
     // MARK: - Styling functions and accessors
     
     /// The color that is used for filling the line surface area.
-    fileprivate var _fillColor = NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0)
+    private var _fillColor = NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0)
     
     /// The color that is used for filling the line surface area.
     open var fillColor: NSUIColor
@@ -41,9 +41,9 @@ open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadar
     /// **default**: 0.33
     open var fillAlpha = CGFloat(0.33)
     
-    fileprivate var _lineWidth = CGFloat(1.0)
+    private var _lineWidth = CGFloat(1.0)
     
-    /// line width of the chart (min = 0.2, max = 10)
+    /// line width of the chart (min = 0.0, max = 10)
     ///
     /// **default**: 1
     open var lineWidth: CGFloat
@@ -54,18 +54,7 @@ open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadar
         }
         set
         {
-            if newValue < 0.2
-            {
-                _lineWidth = 0.2
-            }
-            else if newValue > 10.0
-            {
-                _lineWidth = 10.0
-            }
-            else
-            {
-                _lineWidth = newValue
-            }
+            _lineWidth = newValue.clamped(to: 0...10)
         }
     }
     
@@ -74,7 +63,7 @@ open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadar
     /// Please note that this method uses the path clipping for drawing the filled area (with images, gradients and layers).
     open var drawFilledEnabled = false
     
-    /// - returns: `true` if filled drawing is enabled, `false` ifnot
+    /// `true` if filled drawing is enabled, `false` ifnot
     open var isDrawFilledEnabled: Bool
     {
         return drawFilledEnabled
@@ -82,10 +71,12 @@ open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadar
     
     // MARK: NSCopying
     
-    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    open override func copy(with zone: NSZone? = nil) -> Any
     {
-        let copy = super.copyWithZone(zone) as! LineRadarChartDataSet
-        copy.fillColor = fillColor
+        let copy = super.copy(with: zone) as! LineRadarChartDataSet
+        copy.fill = fill
+        copy.fillAlpha = fillAlpha
+        copy._fillColor = _fillColor
         copy._lineWidth = _lineWidth
         copy.drawFilledEnabled = drawFilledEnabled
         return copy

@@ -12,26 +12,35 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
-
 open class ScatterChartRenderer: LineScatterCandleRadarRenderer
 {
-    open weak var dataProvider: ScatterChartDataProvider?
+    @objc open weak var dataProvider: ScatterChartDataProvider?
     
-    public init(dataProvider: ScatterChartDataProvider?, animator: Animator?, viewPortHandler: ViewPortHandler?)
+    @objc public init(dataProvider: ScatterChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
         
         self.dataProvider = dataProvider
     }
-    
+
     open override func drawData(context: CGContext)
     {
         guard let scatterData = dataProvider?.scatterData else { return }
+
+        // If we redraw the data, remove and repopulate accessible elements to update label values and frames
+        accessibleChartElements.removeAll()
         
+        if let chart = dataProvider as? ScatterChartView {
+            // Make the chart header the first element in the accessible elements array
+            let element = createAccessibleHeader(usingChart: chart,
+                                                 andData: scatterData,
+                                                 withDefaultDescription: "Scatter Chart")
+            accessibleChartElements.append(element)
+        }
+
+        // TODO: Due to the potential complexity of data presented in Scatter charts, a more usable way
+        // for VO accessibility would be to use axis based traversal rather than by dataset.
+        // Hence, accessibleChartElements is not populated below. (Individual renderers guard against dataSource being their respective views)
         for i in 0 ..< scatterData.dataSetCount
         {
             guard let set = scatterData.getDataSetByIndex(i) else { continue }
@@ -48,15 +57,11 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         }
     }
     
-    fileprivate var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
+    private var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)
     
-    open func drawDataSet(context: CGContext, dataSet: IScatterChartDataSet)
+    @objc open func drawDataSet(context: CGContext, dataSet: IScatterChartDataSet)
     {
-        guard
-            let dataProvider = dataProvider,
-            let animator = animator,
-            let viewPortHandler = self.viewPortHandler
-            else { return }
+        guard let dataProvider = dataProvider else { return }
         
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
         
@@ -106,9 +111,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let scatterData = dataProvider.scatterData,
-            let animator = animator,
-            let viewPortHandler = self.viewPortHandler
+            let scatterData = dataProvider.scatterData
             else { return }
         
         // if values are drawn
@@ -123,15 +126,12 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
             for i in 0 ..< scatterData.dataSetCount
             {
                 let dataSet = dataSets[i]
-                
-                if !shouldDrawValues(forDataSet: dataSet)
-                {
-                    continue
-                }
+                guard let
+                    formatter = dataSet.valueFormatter,
+                    shouldDrawValues(forDataSet: dataSet)
+                    else { continue }
                 
                 let valueFont = dataSet.valueFont
-                
-                guard let formatter = dataSet.valueFormatter else { continue }
                 
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 let valueToPixelMatrix = trans.valueToPixelMatrix
@@ -143,7 +143,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                 
                 _xBounds.set(chart: dataProvider, dataSet: dataSet, animator: animator)
                 
-                for j in stride(from: _xBounds.min, through: _xBounds.range + _xBounds.min, by: 1)
+                for j in _xBounds
                 {
                     guard let e = dataSet.entryForIndex(j) else { break }
                     
@@ -178,7 +178,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                                 x: pt.x,
                                 y: pt.y - shapeSize - lineHeight),
                             align: .center,
-                            attributes: [convertFromNSAttributedStringKey(NSAttributedString.Key.font): valueFont, convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): dataSet.valueTextColorAt(j)]
+                            attributes: [NSAttributedString.Key.font: valueFont, NSAttributedString.Key.foregroundColor: dataSet.valueTextColorAt(j)]
                         )
                     }
                     
@@ -204,8 +204,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
     {
         guard
             let dataProvider = dataProvider,
-            let scatterData = dataProvider.scatterData,
-            let animator = animator
+            let scatterData = dataProvider.scatterData
             else { return }
         
         context.saveGState()
@@ -247,9 +246,4 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         
         context.restoreGState()
     }
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
-	return input.rawValue
 }

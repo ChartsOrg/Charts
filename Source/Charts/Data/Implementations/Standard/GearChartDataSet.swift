@@ -33,9 +33,9 @@ open class GearChartDataSet: ChartDataSet, IGearChartDataSet
         initialize()
     }
     
-    public override init(values: [ChartDataEntry]?, label: String?)
+	public override init(entries values: [ChartDataEntry]?, label: String?)
     {
-        super.init(values: values, label: label)
+		super.init(entries: values, label: label)
         initialize()
     }
     
@@ -118,11 +118,11 @@ open class GearChartDataSet: ChartDataSet, IGearChartDataSet
     
     
     // MARK: - NSCopying
-    
-    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
-    {
-        let copy = super.copyWithZone(zone) as! GearChartDataSet
-        copy.selectionShift = selectionShift
-        return copy
-    }
+	
+	override open func copy(with zone: NSZone? = nil) -> Any {
+		let copy = super.copy(with: zone) as! GearChartDataSet
+		copy.selectionShift = selectionShift
+		return copy
+	}
+	
 }

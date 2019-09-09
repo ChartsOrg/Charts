@@ -40,7 +40,7 @@ open class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterChar
     
     /// Sets the ScatterShape this DataSet should be drawn with.
     /// This will search for an available IShapeRenderer and set this renderer for the DataSet
-    open func setScatterShape(_ shape: Shape)
+    @objc open func setScatterShape(_ shape: Shape)
     {
         self.shapeRenderer = ScatterChartDataSet.renderer(forShape: shape)
     }
@@ -50,7 +50,7 @@ open class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterChar
     /// **default**: `SquareShapeRenderer`
     open var shapeRenderer: IShapeRenderer? = SquareShapeRenderer()
     
-    open class func renderer(forShape shape: Shape) -> IShapeRenderer
+    @objc open class func renderer(forShape shape: Shape) -> IShapeRenderer
     {
         switch shape
         {
@@ -66,9 +66,9 @@ open class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterChar
     
     // MARK: NSCopying
     
-    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    open override func copy(with zone: NSZone? = nil) -> Any
     {
-        let copy = super.copyWithZone(zone) as! ScatterChartDataSet
+        let copy = super.copy(with: zone) as! ScatterChartDataSet
         copy.scatterShapeSize = scatterShapeSize
         copy.scatterShapeHoleRadius = scatterShapeHoleRadius
         copy.scatterShapeHoleColor = scatterShapeHoleColor

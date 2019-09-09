@@ -9,6 +9,7 @@
 //  https://github.com/danielgindi/Charts
 //
 import Foundation
+import CoreGraphics
 
 open class SquareShapeRenderer : NSObject, IShapeRenderer
 {

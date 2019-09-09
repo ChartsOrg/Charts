@@ -50,10 +50,10 @@ open class DistributionBarChartView: BarLineChartViewBase, BarChartDataProvider
         }
         
         // calculate axis range (min / max) according to provided data
-        _leftAxis.calculate(
+		leftAxis.calculate(
             min: data.getYMin(axis: .left),
             max: data.getYMax(axis: .left))
-        _rightAxis.calculate(
+		rightAxis.calculate(
             min: data.getYMin(axis: .right),
             max: data.getYMax(axis: .right))
     }

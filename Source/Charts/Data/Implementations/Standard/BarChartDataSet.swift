@@ -15,14 +15,12 @@ import CoreGraphics
 
 open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDataSet
 {
-    
-
-    fileprivate func initialize()
+    private func initialize()
     {
         self.highlightColor = NSUIColor.black
         
-        self.calcStackSize(entries: values as! [BarChartDataEntry])
-        self.calcEntryCountIncludingStacks(entries: values as! [BarChartDataEntry])
+        self.calcStackSize(entries: entries as! [BarChartDataEntry])
+        self.calcEntryCountIncludingStacks(entries: entries as! [BarChartDataEntry])
     }
     
     public required init()
@@ -31,9 +29,9 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
         initialize()
     }
     
-    public override init(values: [ChartDataEntry]?, label: String?)
+    public override init(entries: [ChartDataEntry]?, label: String?)
     {
-        super.init(values: values, label: label)
+        super.init(entries: entries, label: label)
         initialize()
     }
 
@@ -41,14 +39,14 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
     
     /// the maximum number of bars that are stacked upon each other, this value
     /// is calculated from the Entries that are added to the DataSet
-    fileprivate var _stackSize = 1
+    private var _stackSize = 1
     
     /// the overall entry count, including counting each stack-value individually
-    fileprivate var _entryCountStacks = 0
+    private var _entryCountStacks = 0
     
     /// Calculates the total number of entries this DataSet represents, including
     /// stacks. All values belonging to a stack are calculated separately.
-    fileprivate func calcEntryCountIncludingStacks(entries: [BarChartDataEntry])
+    private func calcEntryCountIncludingStacks(entries: [BarChartDataEntry])
     {
         _entryCountStacks = 0
         
@@ -66,7 +64,7 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
     }
     
     /// calculates the maximum stacksize that occurs in the Entries array of this DataSet
-    fileprivate func calcStackSize(entries: [BarChartDataEntry])
+    private func calcStackSize(entries: [BarChartDataEntry])
     {
         for i in 0 ..< entries.count
         {
@@ -116,26 +114,26 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
         }
     }
     
-    /// - returns: The maximum number of bars that can be stacked upon another in this DataSet.
+    /// The maximum number of bars that can be stacked upon another in this DataSet.
     open var stackSize: Int
     {
         return _stackSize
     }
     
-    /// - returns: `true` if this DataSet is stacked (stacksize > 1) or not.
+    /// `true` if this DataSet is stacked (stacksize > 1) or not.
     open var isStacked: Bool
     {
         return _stackSize > 1 ? true : false
     }
     
-    /// - returns: The overall entry count, including counting each stack-value individually
-    open var entryCountStacks: Int
+    /// The overall entry count, including counting each stack-value individually
+    @objc open var entryCountStacks: Int
     {
         return _entryCountStacks
     }
     
     /// array of labels used to describe the different values of the stacked bars
-    open var stackLabels: [String] = ["Stack"]
+    open var stackLabels: [String] = []
     
     // MARK: - Styling functions and accessors
     
@@ -151,53 +149,52 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
     /// the alpha value (transparency) that is used for drawing the highlight indicator bar. min = 0.0 (fully transparent), max = 1.0 (fully opaque)
     open var highlightAlpha = CGFloat(120.0 / 255.0)
     
-    /// - returns: 'true' if the bars have rounded corners
-    open var hasRoundedCorners : Bool = false
-    
-    
-    /// - returns: 'true' if the bars of the stacked chart have rounded corners
-    open var isStackedWithRoundedCorners : Bool = false
-    
-    /// - returns: The corner radius is used for drawing the bars with rounded corners (only used if 'hasRoundedCorners' is true)
-    open var barCornerRadius : CGFloat = 20.0
-    
-    
-    
-    
-    // MARK: - Gradient
-    
-    /// - returns: 'true' if the chart is gradient filled
-    open var isGradientFill: Bool = false
-    
-    /// - returns: The start point for the gradient fill
-    open var gradientStartPoint : CGFloat = 0.25
-    
-    /// - returns: The end point for the gradient fill
-    open var gradientEndPoint : CGFloat = 1.0
-    
-    /// array of colors used for gradient filling
-    open var gradientColors = [NSUIColor]()
-    
-    public /// - returns: The gradient color at the given index of the DataSet's gradientColors array
-    func gradientColor(atIndex index: Int) -> NSUIColor {
-        var index = index
-        if index < 0
-        {
-            index = 0
-        }
-        return gradientColors[index % colors.count]
-    }
-    
+	/// - returns: 'true' if the bars have rounded corners
+	open var hasRoundedCorners : Bool = false
+	
+	/// - returns: 'true' if the bars of the stacked chart have rounded corners
+	open var isStackedWithRoundedCorners : Bool = false
+	
+	/// - returns: The corner radius is used for drawing the bars with rounded corners (only used if 'hasRoundedCorners' is true)
+	open var barCornerRadius : CGFloat = 20.0
+
+	// MARK: - Gradient
+	
+	/// - returns: 'true' if the chart is gradient filled
+	open var isGradientFill: Bool = false
+	
+	/// - returns: The start point for the gradient fill
+	open var gradientStartPoint : CGFloat = 0.25
+	
+	/// - returns: The end point for the gradient fill
+	open var gradientEndPoint : CGFloat = 1.0
+	
+	/// array of colors used for gradient filling
+	open var gradientColors = [NSUIColor]()
+	
+	public /// - returns: The gradient color at the given index of the DataSet's gradientColors array
+	func gradientColor(atIndex index: Int) -> NSUIColor {
+		var index = index
+		if index < 0
+		{
+			index = 0
+		}
+		return gradientColors[index % colors.count]
+	}
+
+	
     // MARK: - NSCopying
     
-    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    open override func copy(with zone: NSZone? = nil) -> Any
     {
-        let copy = super.copyWithZone(zone) as! BarChartDataSet
+        let copy = super.copy(with: zone) as! BarChartDataSet
         copy._stackSize = _stackSize
         copy._entryCountStacks = _entryCountStacks
         copy.stackLabels = stackLabels
 
         copy.barShadowColor = barShadowColor
+        copy.barBorderWidth = barBorderWidth
+        copy.barBorderColor = barBorderColor
         copy.highlightAlpha = highlightAlpha
         return copy
     }

@@ -12,28 +12,9 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 @objc(MoveChartViewJob)
 open class MoveViewJob: ViewPortJob
-{
-    public override init(
-        viewPortHandler: ViewPortHandler,
-        xValue: Double,
-        yValue: Double,
-        transformer: Transformer,
-        view: ChartViewBase)
-    {
-        super.init(
-            viewPortHandler: viewPortHandler,
-            xValue: xValue,
-            yValue: yValue,
-            transformer: transformer,
-            view: view)
-    }
-    
+{    
     open override func doJob()
     {
         guard
@@ -43,8 +24,8 @@ open class MoveViewJob: ViewPortJob
             else { return }
         
         var pt = CGPoint(
-            x: CGFloat(xValue),
-            y: CGFloat(yValue)
+            x: xValue,
+            y: yValue
         )
         
         transformer.pointValueToPixel(&pt)

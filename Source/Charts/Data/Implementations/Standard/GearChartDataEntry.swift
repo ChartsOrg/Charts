@@ -48,8 +48,9 @@ open class GearChartDataEntry: ChartDataEntry
     /// - parameter data: Spot for additional data this Entry represents
     public init(value: Double, label: String?, icon: NSUIImage?, data: AnyObject?)
     {
-        super.init(x: 0.0, y: value, icon: icon, data: data)
-        
+		super.init(x: 0.0, y: value)
+		self.icon = icon
+		self.data = data
         self.label = label
     }
     
@@ -107,11 +108,10 @@ open class GearChartDataEntry: ChartDataEntry
     }
     
     // MARK: NSCopying
-    
-    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
-    {
-        let copy = super.copyWithZone(zone) as! PieChartDataEntry
-        copy.label = label
-        return copy
-    }
+	open override func copy(with zone: NSZone? = nil) -> Any {
+		let copy = super.copy(with: zone) as! PieChartDataEntry
+		copy.label = label
+		return copy
+	}
+	
 }
