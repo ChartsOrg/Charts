@@ -207,8 +207,8 @@ public class CustomCombinedChartWithMultiBarRenderer : BarChartRenderer{
                     
                     x = e.x
                     
-                    _barShadowRectBuffer.origin.x = CGFloat(x - barWidthHalf) - 0.25
-                    _barShadowRectBuffer.size.width = CGFloat(barWidth) + 0.5
+                    _barShadowRectBuffer.origin.x = CGFloat(x - barWidthHalf) - 0.15
+                    _barShadowRectBuffer.size.width = CGFloat(barWidth) + 0.30
                     
                     trans.rectValueToPixel(&_barShadowRectBuffer)
                     
@@ -363,7 +363,7 @@ public class CustomCombinedChartWithMultiBarRenderer : BarChartRenderer{
                     y2 = 0.0
                 }
                 
-                var rect:CGRect = CGRect(x: e.x-0.4  , y: 0 , width: ((barData.barWidth / 2) * 2.2) + 0.6  , height: y1+(barData._leftAxisMax-y1) )
+                var rect:CGRect = CGRect(x: e.x-0.3  , y: 0 , width: ((barData.barWidth / 2) ) + 0.525  , height: y1+(barData._leftAxisMax-y1) )
                 trans.rectValueToPixel(&rect)
                 context.setLineWidth(2)
                 context.setStrokeColor(set.highlightColor.cgColor)
