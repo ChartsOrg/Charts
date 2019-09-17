@@ -10,11 +10,12 @@ let package = Package(
           .macOS(.v10_11),
     ],
     products: [
-        .library(name: "Charts", type: .dynamic, targets: ["Charts"])
+        .library(
+            name: "Charts",
+            targets: ["Charts"]),
     ],
-    dependencies: [],
     targets: [
-        .target(name: "Charts", dependencies: [])
+        .target(name: "Charts")
     ],
     swiftLanguageVersions: [.v5]
 )
