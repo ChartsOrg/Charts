@@ -363,7 +363,7 @@ public class CustomCombinedChartWithMultiBarRenderer : BarChartRenderer{
                     y2 = 0.0
                 }
                 
-                var rect:CGRect = CGRect(x: e.x-0.3  , y: 0 , width: ((barData.barWidth / 2) ) + 0.5  , height: y1+(barData._leftAxisMax-y1) )
+                var rect:CGRect = CGRect(x: e.x-0.3  , y: 0 , width: ((barData.barWidth / 2) ) + 0.5  , height: (dataProvider.data?._leftAxisMax)! )
                 trans.rectValueToPixel(&rect)
                 context.setLineWidth(2)
                 context.setStrokeColor(set.highlightColor.cgColor)
@@ -373,7 +373,7 @@ public class CustomCombinedChartWithMultiBarRenderer : BarChartRenderer{
                 context.addPath(bezierPath.cgPath)
                 #endif
                 context.drawPath(using: .stroke)
-                prepareBarHighlight(x: e.x , y1: y1+(barData._leftAxisMax-y1)  , y2: y2, barWidthHalf: (barData.barWidth / 2) * 2.5 , trans: trans, rect: &barRect)
+                prepareBarHighlight(x: e.x , y1: (dataProvider.data?._leftAxisMax)!  , y2: y2, barWidthHalf: (barData.barWidth / 2) * 2.5 , trans: trans, rect: &barRect)
                 
                 setHighlightDrawPos(highlight: high, barRect: barRect)
                 context.setStrokeColor(set.highlightColor.cgColor)
