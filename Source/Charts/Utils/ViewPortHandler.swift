@@ -466,7 +466,7 @@ open class ViewPortHandler: NSObject
         // If the start or endpoint fall within the viewport, bail out early.
         if isInBounds(point: startPoint) || isInBounds(point: endPoint) { return true }
         
-        // Calculate the slope of the line.
+        // Calculate the slope of the line for use in a linear formula: `y = ax + b` (where `a` is `slope`).
         let slope = (endPoint.y - startPoint.y) / (endPoint.x - startPoint.x)
 
         // Check for colission with the left edge of the view port.

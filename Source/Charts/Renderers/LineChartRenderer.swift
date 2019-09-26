@@ -361,10 +361,10 @@ open class LineChartRenderer: LineRadarRenderer
                 firstCoordinate != lastCoordinate else { continue }
             
             // If both points lie left of viewport, skip stroking.
-            if !viewPortHandler.isInBoundsLeft(firstCoordinate.x) && !viewPortHandler.isInBoundsLeft(lastCoordinate.x) { continue }
+            if !viewPortHandler.isInBoundsLeft(lastCoordinate.x) { continue }
             
             // If both points lie right of the viewport, break out early.
-            if !viewPortHandler.isInBoundsRight(firstCoordinate.x) && !viewPortHandler.isInBoundsRight(lastCoordinate.x) { break }
+            if !viewPortHandler.isInBoundsRight(firstCoordinate.x) { break }
             
             // Only stroke the line if it intersects with the viewport.
             guard viewPortHandler.isIntersectingLine(from: firstCoordinate, to: lastCoordinate) else { continue }
