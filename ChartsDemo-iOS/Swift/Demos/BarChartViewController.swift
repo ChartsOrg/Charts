@@ -130,10 +130,10 @@ class BarChartViewController: DemoBaseViewController {
             chartView.data?.notifyDataChanged()
             chartView.notifyDataSetChanged()
         } else {
-            set1 = BarChartDataSet(entries: yVals, label: "The year 2017")
+            set1 = BarChartDataSet(entries: yVals, label: "The year 2018")
             set1.colors = ChartColorTemplates.material()
             set1.drawValuesEnabled = false
-            
+            set1.gradientColors = [UIColor.red , UIColor.green]
             let data = BarChartData(dataSet: set1)
             data.setValueFont(UIFont(name: "HelveticaNeue-Light", size: 10)!)
             data.barWidth = 0.9
