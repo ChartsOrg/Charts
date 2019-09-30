@@ -455,7 +455,12 @@ open class ViewPortHandler: NSObject
     }
     
     /**
-     A method to check whether a line between two coordinates intersects with the view port.
+     A method to check whether a line between two coordinates intersects with the view port  by using a linear function.
+     
+        Linear function: `y = ax + b`
+            
+        This method will not check colission with the right edge of the view port, as we assume lines run from left
+        to right (e.g. `startPoint < endPoint`).
      
      - Parameters:
         - startPoint: the start coordinate of the line.
@@ -466,20 +471,28 @@ open class ViewPortHandler: NSObject
         // If the start or endpoint fall within the viewport, bail out early.
         if isInBounds(point: startPoint) || isInBounds(point: endPoint) { return true }
         
-        // Calculate the slope of the line for use in a linear formula: `y = ax + b` (where `a` is `slope`).
-        let slope = (endPoint.y - startPoint.y) / (endPoint.x - startPoint.x)
+        // Calculate the slope (`a`) of the line (e.g. `a = (y2 - y1) / (x2 - x1)`).
+        let a = (endPoint.y - startPoint.y) / (endPoint.x - startPoint.x)
+        // Calculate the y-correction (`b`) of the line (e.g. `b = y1 - (a * x1)`).
+        let b = startPoint.y - (a * startPoint.x)
+        
+        // Check for colission with the left edge of the view port (e.g. `y = (a * minX) + b`).
+        if isInBoundsY((a * contentRect.minX) + b) { return true }
 
-        // Check for colission with the left edge of the view port.
-        if isInBoundsY((slope * (contentRect.minX - startPoint.x)) + startPoint.y) { return true }
+        // We can skip checking colission with the right edge of the view port
+        // (e.g. `y = (a * maxX) + b`), as such a line will either begin inside the view port,
+        // or intersect the left, top or bottom edges of the view port. Leaving this logic in
+        // here for clarity sake:
+        // if isInBoundsY((a * contentRect.maxX) + b) { return true }
         
-        // Check for colission with the right edge of the view port.
-        if isInBoundsY((slope * (contentRect.maxX - startPoint.x)) + startPoint.y) { return true }
+        // While the slope `a` should never be `0`, we should protect against division by zero.
+        guard a != 0 else { return false }
         
-        // Check for colission with the top edge of the view port.
-        if isInBoundsX(((contentRect.minY - startPoint.y) / slope) + startPoint.x) { return true }
+        // Check for colission with the bottom edge of the view port (e.g. `x = (maxY - b) / a`).
+        if isInBoundsX((contentRect.maxY - b) / a) { return true }
         
-        // Check for colission with the bottom edge of the viewport.
-        if isInBoundsX(((contentRect.maxY - startPoint.y) / slope) + startPoint.x) { return true }
+        // Check for colission with the top edge of the view port (e.g. `x = (minY - b) / a`).
+        if isInBoundsX((contentRect.minY - b) / a) { return true }
 
         // This line does not intersect the view port.
         return false
