@@ -361,6 +361,11 @@ public class CustomCombinedChartBarForFatigueRenderer : BarChartRenderer {
                 for i in 0..<Int(e.y){
                     barColors.append(gradientColor[i])
                 }
+                
+                if e.y == 0 {
+                    barColors.append(gradientColor.first!)
+                }
+                
                 let reversedBarColors = barColors.reversed().filter{$0.alpha == 0.3}
                 let barRect = buffer.rects[j]
                 
