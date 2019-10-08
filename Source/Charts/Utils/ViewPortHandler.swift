@@ -470,6 +470,8 @@ open class ViewPortHandler: NSObject
     {
         // If start- and/or endpoint fall within the viewport, bail out early.
         if isInBounds(point: startPoint) || isInBounds(point: endPoint) { return true }
+        // check if x in bound when it's a vertical line
+        if startPoint.x == endPoint.x { return isInBoundsX(startPoint.x) }
         
         // Calculate the slope (`a`) of the line (e.g. `a = (y2 - y1) / (x2 - x1)`).
         let a = (endPoint.y - startPoint.y) / (endPoint.x - startPoint.x)
@@ -477,12 +479,12 @@ open class ViewPortHandler: NSObject
         let b = startPoint.y - (a * startPoint.x)
         
         // Check for colission with the left edge of the view port (e.g. `y = (a * minX) + b`).
+        // if a is 0, it's a horizontal line; checking b here is still valid, as b is `point.y` all the time
         if isInBoundsY((a * contentRect.minX) + b) { return true }
 
         // Skip unnecessary check for collision with the right edge of the view port
         // (e.g. `y = (a * maxX) + b`), as such a line will either begin inside the view port,
-        // or intersect the left, top or bottom edges of the view port. Leaving this logic in
-        // here for clarity's sake:
+        // or intersect the left, top or bottom edges of the view port. Leaving this logic here for clarity's sake:
         // if isInBoundsY((a * contentRect.maxX) + b) { return true }
         
         // While slope `a` can theoretically never be `0`, we should protect against division by zero.
