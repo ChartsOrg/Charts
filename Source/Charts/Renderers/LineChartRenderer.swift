@@ -354,17 +354,20 @@ open class LineChartRenderer: LineRadarRenderer
                 _lineSegments[i] = _lineSegments[i].applying(valueToPixelMatrix)
             }
             
-            if (!viewPortHandler.isInBoundsRight(_lineSegments[0].x))
-            {
-                break
-            }
+            // Determine the start and end coordinates of the line, and make sure they differ.
+            guard
+                let firstCoordinate = _lineSegments.first,
+                let lastCoordinate = _lineSegments.last,
+                firstCoordinate != lastCoordinate else { continue }
             
-            // make sure the lines don't do shitty things outside bounds
-            if !viewPortHandler.isInBoundsLeft(_lineSegments[1].x)
-                || (!viewPortHandler.isInBoundsTop(_lineSegments[0].y) && !viewPortHandler.isInBoundsBottom(_lineSegments[1].y))
-            {
-                continue
-            }
+            // If both points lie left of viewport, skip stroking.
+            if !viewPortHandler.isInBoundsLeft(lastCoordinate.x) { continue }
+            
+            // If both points lie right of the viewport, break out early.
+            if !viewPortHandler.isInBoundsRight(firstCoordinate.x) { break }
+            
+            // Only stroke the line if it intersects with the viewport.
+            guard viewPortHandler.isIntersectingLine(from: firstCoordinate, to: lastCoordinate) else { continue }
             
             // get the color that is set for this line-segment
             context.setStrokeColor(dataSet.color(atIndex: j).cgColor)
