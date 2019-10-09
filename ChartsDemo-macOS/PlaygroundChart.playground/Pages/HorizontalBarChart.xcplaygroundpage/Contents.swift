@@ -28,19 +28,19 @@ chartView.drawBarShadowEnabled = false
 chartView.drawValueAboveBarEnabled = true
 chartView.maxVisibleCount = 60
 chartView.fitBars = true
-chartView.gridBackgroundColor = NSUIColor.white
+chartView.gridBackgroundColor = .white
 chartView.drawGridBackgroundEnabled = true
 //: ### xAxis
 let xAxis = chartView.xAxis
 xAxis.labelPosition = .bothSided
 xAxis.labelTextColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
-xAxis.labelFont = NSUIFont.systemFont(ofSize: CGFloat(12.0))
+xAxis.labelFont = .systemFont(ofSize: 12.0)
 xAxis.drawAxisLineEnabled = true
 xAxis.drawGridLinesEnabled = true
 xAxis.granularity = 10.0
 //: ### LeftAxis
 let leftAxis = chartView.leftAxis
-leftAxis.labelFont = NSUIFont.systemFont(ofSize: CGFloat(12.0))
+leftAxis.labelFont = .systemFont(ofSize: 12.0)
 leftAxis.labelTextColor = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
 leftAxis.drawAxisLineEnabled = true
 leftAxis.drawGridLinesEnabled = true
@@ -48,8 +48,8 @@ leftAxis.axisMinimum = 0.0
 leftAxis.enabled = true
 //: ### RightAxis
 let rightAxis                  = chartView.rightAxis
-rightAxis.labelFont            = NSUIFont.systemFont(ofSize: CGFloat(12.0))
-rightAxis.labelTextColor        = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
+rightAxis.labelFont            = .systemFont(ofSize: 12.0)
+rightAxis.labelTextColor       = #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)
 rightAxis.drawAxisLineEnabled  = true
 rightAxis.drawGridLinesEnabled = false
 rightAxis.axisMinimum          = 0.0
@@ -62,7 +62,7 @@ legend.orientation = .horizontal
 legend.drawInside = false
 legend.form = .square
 legend.formSize = 8.0
-legend.font = NSUIFont(name: "HelveticaNeue-Light", size: CGFloat(11.0))!
+legend.font = NSFont(name: "HelveticaNeue-Light", size: 11.0)!
 legend.xEntrySpace = 4.0
 
 //: ### Description
@@ -87,12 +87,12 @@ set1.colors = ChartColorTemplates.vordiplom()
 
 //: ### BarChartData
 let data            = BarChartData(dataSets: [set1])
-data.setValueFont(NSUIFont(name: "HelveticaNeue-Light", size: CGFloat(10.0)))
+data.setValueFont(NSFont(name: "HelveticaNeue-Light", size: 10.0))
 data.barWidth       = barWidth
 chartView.data = data
 
 chartView.animate(xAxisDuration: 1.0, yAxisDuration: 1.0)
-/*:---*/
+
 //: ### Setup for the live view
 PlaygroundPage.current.liveView = chartView
 

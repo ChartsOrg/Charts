@@ -17,14 +17,12 @@
  */
 
 //: # Bar Chart
-//#-hidden-code
+
 import Cocoa
 import Charts
 import PlaygroundSupport
-//#-end-hidden-code
 
 
-let months = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 let values : [Double] = [28800, 32400, 36000, 34000, 30000, 42000, 45000]
 
 let r = CGRect(x: 0, y: 0, width: 600, height: 600)
@@ -36,14 +34,9 @@ chartView.doubleTapToZoomEnabled    = false
 chartView.drawGridBackgroundEnabled = true
 chartView.fitBars                   = true
 //: ### BarChartDataEntry
-var yVals = [BarChartDataEntry]()
-for i in 0..<7
-{
-    yVals.append(BarChartDataEntry(x: Double(i), y: values[i]))
-}
+var yVals = (1..<values.count).map { BarChartDataEntry(x: Double($0), y: values[$0]) }
 //: ### BarChartDataSet
-var set1 = BarChartDataSet()
-set1 = BarChartDataSet(values: yVals, label: "DataSet")
+let set1 = BarChartDataSet(values: yVals, label: "DataSet")
 set1.colors = ChartColorTemplates.vordiplom()
 set1.drawValuesEnabled = true
 
@@ -54,7 +47,7 @@ let data = BarChartData(dataSets: dataSets)
 chartView.data = data
 
 chartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInBounce)
-/*:---*/
+
 //: ### Setup for the live view
 PlaygroundPage.current.liveView = chartView
 /*:

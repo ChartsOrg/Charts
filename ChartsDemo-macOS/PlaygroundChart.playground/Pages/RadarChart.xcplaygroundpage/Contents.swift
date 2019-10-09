@@ -26,18 +26,18 @@ var chartView = RadarChartView(frame: r)
 chartView.backgroundColor = #colorLiteral(red: 0.2605174184, green: 0.2605243921, blue: 0.260520637, alpha: 1)
 chartView.webLineWidth = 1.0
 chartView.innerWebLineWidth = 1.0
-chartView.webColor = NSUIColor.lightGray
-chartView.innerWebColor = NSUIColor.lightGray
+chartView.webColor = .lightGray
+chartView.innerWebColor = .lightGray
 chartView.webAlpha = 1.0
 //: ### xAxis
 let xAxis = chartView.xAxis
-xAxis.labelFont = NSUIFont(name: "HelveticaNeue-Light", size: CGFloat(9.0))!
+xAxis.labelFont = NSFont(name: "HelveticaNeue-Light", size: 9.0)!
 xAxis.xOffset = 0.0
 xAxis.yOffset = 0.0
-xAxis.labelTextColor = NSUIColor.white
+xAxis.labelTextColor = .white
 //: ### yAxis
 let yAxis = chartView.yAxis
-yAxis.labelFont = NSUIFont(name: "HelveticaNeue-Light", size: CGFloat(9.0))!
+yAxis.labelFont = NSFont(name: "HelveticaNeue-Light", size: 9.0)!
 yAxis.labelCount = 5
 yAxis.axisMinimum = 0.0
 yAxis.axisMaximum = 80.0
@@ -48,10 +48,10 @@ legend.horizontalAlignment = .center
 legend.verticalAlignment = .top
 legend.orientation = .horizontal
 legend.drawInside = false
-legend.font = NSUIFont(name: "HelveticaNeue-Light", size: CGFloat(10.0))!
+legend.font = NSFont(name: "HelveticaNeue-Light", size: 10.0)!
 legend.xEntrySpace = 7.0
 legend.yEntrySpace = 5.0
-legend.textColor = NSUIColor.white
+legend.textColor = .white
 //: ### Description
 chartView.chartDescription?.enabled = true
 chartView.chartDescription?.text = "Radar demo"
@@ -73,8 +73,8 @@ for _ in 0..<cnt
 }
 //: ### RadarChartDataSet
 let set1 = RadarChartDataSet(values: entries1, label: "Last Week")
-set1.colors = [NSUIColor(red: CGFloat(103 / 255.0), green: CGFloat(110 / 255.0), blue: CGFloat(129 / 255.0), alpha: 1.0)]
-set1.fillColor = NSUIColor(red: CGFloat(103 / 255.0), green: CGFloat(110 / 255.0), blue: CGFloat(129 / 255.0), alpha: 1.0)
+set1.colors = [#colorLiteral(red: 0.4039215686, green: 0.431372549, blue: 0.5058823529, alpha: 1)]
+set1.fillColor = #colorLiteral(red: 0.4039215686, green: 0.431372549, blue: 0.5058823529, alpha: 1)
 set1.drawFilledEnabled = true
 set1.fillAlpha = 0.7
 set1.lineWidth = 2.0
@@ -82,8 +82,8 @@ set1.drawHighlightCircleEnabled = true
 set1.setDrawHighlightIndicators(false)
 
 let set2 = RadarChartDataSet(values: entries2, label: "This Week")
-set2.colors = [NSUIColor(red: CGFloat(121 / 255.0), green: CGFloat(162 / 255.0), blue: CGFloat(175 / 255.0), alpha: 1.0)]
-set2.fillColor = NSUIColor(red: CGFloat(121 / 255.0), green: CGFloat(162 / 255.0), blue: CGFloat(175 / 255.0), alpha: 1.0)
+set2.colors = [#colorLiteral(red: 0.4745098039, green: 0.6352941176, blue: 0.6862745098, alpha: 1)]
+set2.fillColor = #colorLiteral(red: 0.4745098039, green: 0.6352941176, blue: 0.6862745098, alpha: 1)
 set2.drawFilledEnabled = true
 set2.fillAlpha = 0.7
 set2.lineWidth = 2.0
@@ -91,14 +91,13 @@ set2.drawHighlightCircleEnabled = true
 set2.setDrawHighlightIndicators(false)
 //: ### RadarChartData
 let data = RadarChartData(dataSets: [set1, set2])
-data.setValueFont ( NSUIFont(name: "HelveticaNeue-Light", size: CGFloat(8.0)))
-data.setDrawValues ( false )
-data.setValueTextColor(  NSUIColor.white)
+data.setValueFont(NSFont(name: "HelveticaNeue-Light", size: 8.0))
+data.setDrawValues(false)
+data.setValueTextColor(.white)
 chartView.data = data
 
 chartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInBounce)
 
-/*:---*/
 //: ### Setup for the live view
 PlaygroundPage.current.liveView = chartView
 
