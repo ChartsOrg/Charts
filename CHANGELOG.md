@@ -1,18 +1,11 @@
 # Change Log
 
-## [Unreleased](https://github.com/danielgindi/Charts/tree/HEAD)
-
-[Full Changelog](https://github.com/danielgindi/Charts/compare/3.4.0...HEAD)
+## [v3.4.0](https://github.com/danielgindi/Charts/tree/v3.4.0) (2019-10-09)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/v3.3.0...v3.4.0)
 
 **Fixed bugs:**
 
 - Line charts: Line sections disappear when zoomed in \(has PR\). [\#4099](https://github.com/danielgindi/Charts/issues/4099)
-
-## [3.4.0](https://github.com/danielgindi/Charts/tree/3.4.0) (2019-10-09)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/v3.3.0...3.4.0)
-
-**Fixed bugs:**
-
 - Line chart x axis animation is broken [\#4093](https://github.com/danielgindi/Charts/issues/4093)
 - LineChartView.highlightValue causes CoreGraphics API errors [\#4043](https://github.com/danielgindi/Charts/issues/4043)
 - Horizontal Bezier Line Graph Not Drawing Through All Points [\#3960](https://github.com/danielgindi/Charts/issues/3960)
@@ -889,7 +882,7 @@
 [Full Changelog](https://github.com/danielgindi/Charts/compare/v3.0.5...3.0.5)
 
 ## [v3.0.5](https://github.com/danielgindi/Charts/tree/v3.0.5) (2018-01-08)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/3.0.4...v3.0.5)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/v3.0.4...v3.0.5)
 
 **Implemented enhancements:**
 
@@ -1162,11 +1155,11 @@
 - add example playground [\#2364](https://github.com/danielgindi/Charts/pull/2364) ([thierryH91200](https://github.com/thierryH91200))
 - Compatibility with swift playgrounds [\#2335](https://github.com/danielgindi/Charts/pull/2335) ([macteo](https://github.com/macteo))
 
-## [3.0.4](https://github.com/danielgindi/Charts/tree/3.0.4) (2017-09-21)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/v3.0.4...3.0.4)
-
 ## [v3.0.4](https://github.com/danielgindi/Charts/tree/v3.0.4) (2017-09-21)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/v3.0.3...v3.0.4)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/3.0.4...v3.0.4)
+
+## [3.0.4](https://github.com/danielgindi/Charts/tree/3.0.4) (2017-09-21)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/v3.0.3...3.0.4)
 
 **Closed issues:**
 
@@ -1200,7 +1193,7 @@
 [Full Changelog](https://github.com/danielgindi/Charts/compare/3.0.3...v3.0.3)
 
 ## [3.0.3](https://github.com/danielgindi/Charts/tree/3.0.3) (2017-09-08)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/3.0.2...3.0.3)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/v3.0.2...3.0.3)
 
 **Implemented enhancements:**
 
@@ -1567,11 +1560,11 @@
 - fix \#2222 move default backgroundColor to initialize\(\) [\#2228](https://github.com/danielgindi/Charts/pull/2228) ([liuxuan30](https://github.com/liuxuan30))
 - Fix \#1879. Similar cut in half issue in scatter chart like others [\#1891](https://github.com/danielgindi/Charts/pull/1891) ([liuxuan30](https://github.com/liuxuan30))
 
-## [3.0.2](https://github.com/danielgindi/Charts/tree/3.0.2) (2017-04-02)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/v3.0.2...3.0.2)
-
 ## [v3.0.2](https://github.com/danielgindi/Charts/tree/v3.0.2) (2017-04-02)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/3.0.1...v3.0.2)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/3.0.2...v3.0.2)
+
+## [3.0.2](https://github.com/danielgindi/Charts/tree/3.0.2) (2017-04-02)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/3.0.1...3.0.2)
 
 **Implemented enhancements:**
 
@@ -1990,7 +1983,7 @@
 [Full Changelog](https://github.com/danielgindi/Charts/compare/v2.3.1...2.3.1)
 
 ## [v2.3.1](https://github.com/danielgindi/Charts/tree/v2.3.1) (2016-11-04)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/v3.0.0...v2.3.1)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/3.0.0...v2.3.1)
 
 **Fixed bugs:**
 
@@ -2095,11 +2088,11 @@
 - Updated Width Constraints - Fixes \#1770 [\#1771](https://github.com/danielgindi/Charts/pull/1771) ([SumoSimo](https://github.com/SumoSimo))
 - update cocoapods [\#1684](https://github.com/danielgindi/Charts/pull/1684) ([petester42](https://github.com/petester42))
 
-## [v3.0.0](https://github.com/danielgindi/Charts/tree/v3.0.0) (2016-10-19)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/3.0.0...v3.0.0)
-
 ## [3.0.0](https://github.com/danielgindi/Charts/tree/3.0.0) (2016-10-19)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/v2.3.0...3.0.0)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/v3.0.0...3.0.0)
+
+## [v3.0.0](https://github.com/danielgindi/Charts/tree/v3.0.0) (2016-10-19)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/2.3.0...v3.0.0)
 
 **Implemented enhancements:**
 
@@ -2295,11 +2288,11 @@
 - Attempt to make CI more stable [\#1510](https://github.com/danielgindi/Charts/pull/1510) ([petester42](https://github.com/petester42))
 - Fix Cocoapods setup being broken [\#1509](https://github.com/danielgindi/Charts/pull/1509) ([petester42](https://github.com/petester42))
 
-## [v2.3.0](https://github.com/danielgindi/Charts/tree/v2.3.0) (2016-09-21)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/2.3.0...v2.3.0)
-
 ## [2.3.0](https://github.com/danielgindi/Charts/tree/2.3.0) (2016-09-21)
-[Full Changelog](https://github.com/danielgindi/Charts/compare/v2.2.5...2.3.0)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/v2.3.0...2.3.0)
+
+## [v2.3.0](https://github.com/danielgindi/Charts/tree/v2.3.0) (2016-09-21)
+[Full Changelog](https://github.com/danielgindi/Charts/compare/v2.2.5...v2.3.0)
 
 **Implemented enhancements:**
 
