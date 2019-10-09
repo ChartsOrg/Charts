@@ -157,6 +157,10 @@ open class PieChartRenderer: DataRenderer
         element.isHeader = true
         accessibleChartElements.append(element)
 
+        let borderWidth = dataSet.sliceBorderWidth
+        let borderColor = dataSet.sliceBorderColor
+        let drawBorder = borderWidth > 0.0
+        
         for j in 0 ..< entryCount
         {
             let sliceAngle = drawAngles[j]
@@ -266,6 +270,15 @@ open class PieChartRenderer: DataRenderer
                     context.beginPath()
                     context.addPath(path)
                     context.fillPath(using: .evenOdd)
+                    
+                    if drawBorder
+                    {
+                        context.setStrokeColor(borderColor.cgColor)
+                        context.setLineWidth(borderWidth)
+                        context.beginPath()
+                        context.addPath(path)
+                        context.strokePath()
+                    }
 
                     let axElement = createAccessibleElement(withIndex: j,
                                                             container: chart,
