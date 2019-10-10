@@ -47,6 +47,13 @@ class LineChart1ViewController: DemoBaseViewController {
         chartView.setScaleEnabled(true)
         chartView.pinchZoomEnabled = true
         
+        let gradientColors = [UIColor.red.cgColor,
+                              UIColor.yellow.cgColor]
+        let gradient = CGGradient(colorsSpace: nil, colors: gradientColors as CFArray, locations: nil)!
+        
+        chartView.drawGridBackgroundEnabled = true
+        chartView.gridFill = Fill(linearGradient: gradient, angle: -90) //.linearGradient(gradient, angle: 90)
+//        chartView.gridBackgroundColor = UIColor.purple
         // x-axis limit line
         let llXAxis = ChartLimitLine(limit: 10, label: "Index 10")
         llXAxis.lineWidth = 4
@@ -97,6 +104,7 @@ class LineChart1ViewController: DemoBaseViewController {
         sliderY.value = 100
         slidersValueChanged(nil)
         
+        
         chartView.animate(xAxisDuration: 2.5)
     }
 
@@ -135,7 +143,7 @@ class LineChart1ViewController: DemoBaseViewController {
         let gradient = CGGradient(colorsSpace: nil, colors: gradientColors as CFArray, locations: nil)!
         
         set1.fillAlpha = 1
-        set1.fill = Fill(linearGradient: gradient, angle: 90) //.linearGradient(gradient, angle: 90)
+        set1.fill = Fill(linearGradient: gradient, angle: 190) //.linearGradient(gradient, angle: 90)
         set1.drawFilledEnabled = true
         
         let data = LineChartData(dataSet: set1)

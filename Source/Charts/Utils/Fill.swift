@@ -320,4 +320,23 @@ open class Fill: NSObject
         context.restoreGState()
     }
     
+    func fillLinearPath(
+    context: CGContext,
+    rect: CGRect) {
+        context.clip(to: rect)
+        let radians = (360.0 - _gradientAngle).DEG2RAD
+        let centerPoint = CGPoint(x: rect.midX, y: rect.midY)
+        let xAngleDelta = cos(radians) * rect.width / 2.0
+        let yAngleDelta = sin(radians) * rect.height / 2.0
+        let startPoint = CGPoint(
+            x: centerPoint.x - xAngleDelta,
+            y: centerPoint.y - yAngleDelta
+        )
+        let endPoint = CGPoint(
+            x: centerPoint.x + xAngleDelta,
+            y: centerPoint.y + yAngleDelta
+        )
+        context.drawLinearGradient(_gradient!, start: startPoint, end: endPoint, options: .init(rawValue: 0))
+    }
+    
 }
