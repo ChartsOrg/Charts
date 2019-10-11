@@ -542,7 +542,7 @@ private func fetchLabelColor() -> NSColor
 {
     if #available(macOS 10.14, *)
     {
-        return .label
+        return .labelColor
     }
     else
     {
