@@ -9,7 +9,6 @@ import Foundation
 #endif
 
 public typealias NSUIFont = UIFont
-public typealias NSUIColor = UIColor
 public typealias NSUIEvent = UIEvent
 public typealias NSUITouch = UITouch
 public typealias NSUIImage = UIImage
@@ -218,7 +217,6 @@ import Cocoa
 import Quartz
 
 public typealias NSUIFont = NSFont
-public typealias NSUIColor = NSColor
 public typealias NSUIEvent = NSEvent
 public typealias NSUITouch = NSTouch
 public typealias NSUIImage = NSImage

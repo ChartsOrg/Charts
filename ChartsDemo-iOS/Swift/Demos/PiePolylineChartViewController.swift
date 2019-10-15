@@ -93,7 +93,7 @@ class PiePolylineChartViewController: DemoBaseViewController {
         pFormatter.percentSymbol = " %"
         data.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
         data.setValueFont(.systemFont(ofSize: 11, weight: .light))
-        data.setValueTextColor(.black)
+        data.setValueTextColor(.label)
         
         chartView.data = data
         chartView.highlightValues(nil)
