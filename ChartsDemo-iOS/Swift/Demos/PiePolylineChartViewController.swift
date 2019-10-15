@@ -6,9 +6,7 @@
 //  Copyright © 2017 jc. All rights reserved.
 //
 
-#if canImport(UIKit)
-    import UIKit
-#endif
+import UIKit
 import Charts
 
 class PiePolylineChartViewController: DemoBaseViewController {
@@ -93,7 +91,7 @@ class PiePolylineChartViewController: DemoBaseViewController {
         pFormatter.percentSymbol = " %"
         data.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
         data.setValueFont(.systemFont(ofSize: 11, weight: .light))
-        data.setValueTextColor(.label)
+        data.setValueTextColor(.black)
         
         chartView.data = data
         chartView.highlightValues(nil)
