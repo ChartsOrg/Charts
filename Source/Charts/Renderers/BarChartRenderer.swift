@@ -511,8 +511,10 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                     posOffset = -posOffset - valueTextHeight
                     negOffset = -negOffset - valueTextHeight
                 }
-                
-                let buffer = _buffers[dataSetIndex]
+                var buffer = BarChartRenderer.Buffer()
+                if _buffers.count > dataSetIndex {
+                     buffer = _buffers[dataSetIndex]
+                }
                 
                 guard let formatter = dataSet.valueFormatter else { continue }
                 

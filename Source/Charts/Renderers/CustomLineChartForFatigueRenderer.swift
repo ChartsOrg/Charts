@@ -241,7 +241,13 @@ open class CustomLineChartForFatigueRenderer : LineRadarRenderer
                 // draw the gradient
                 context.beginPath()
                 context.addPath(cubicPath)
-                context.setStrokeColor(dataSet.getCircleColor(atIndex: j)!.cgColor)
+                if prev.y == 0 {
+                    context.setStrokeColor(UIColor.clear.cgColor)
+                } else if cur.y > 0 {
+                    context.setStrokeColor(dataSet.getCircleColor(atIndex: j)!.cgColor)
+                }else{
+                    context.setStrokeColor(UIColor.clear.cgColor)
+                }
                 context.strokePath()
                 context.clip()
                 
@@ -641,7 +647,11 @@ open class CustomLineChartForFatigueRenderer : LineRadarRenderer
                     continue
                 }
                 
-                context.setFillColor(UIColor.white.cgColor)
+                if e.y > 0 {
+                    context.setFillColor(UIColor.white.cgColor)
+                }else{
+                    context.setFillColor(UIColor.clear.cgColor)
+                }
                 
                 rect.origin.x = pt.x - circleRadius
                 rect.origin.y = pt.y - circleRadius
