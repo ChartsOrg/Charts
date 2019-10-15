@@ -241,13 +241,9 @@ open class CustomLineChartForFatigueRenderer : LineRadarRenderer
                 // draw the gradient
                 context.beginPath()
                 context.addPath(cubicPath)
-                if prev.y == 0 {
-                    context.setStrokeColor(UIColor.clear.cgColor)
-                } else if cur.y > 0 {
-                    context.setStrokeColor(dataSet.getCircleColor(atIndex: j)!.cgColor)
-                }else{
-                    context.setStrokeColor(UIColor.clear.cgColor)
-                }
+                
+                context.setStrokeColor(dataSet.getCircleColor(atIndex: j)!.cgColor)
+                
                 context.strokePath()
                 context.clip()
                 
