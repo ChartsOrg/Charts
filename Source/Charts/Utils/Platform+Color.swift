@@ -12,7 +12,6 @@ public typealias NSUIColor = UIColor
 
 #if canImport(AppKit)
 import AppKit
-
 public typealias NSUIColor = NSColor
 
 @available(macOS 10.14, *)
