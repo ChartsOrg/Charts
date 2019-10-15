@@ -20,7 +20,7 @@ open class AnimatedViewPortJob: ViewPortJob
     internal var yOrigin: CGFloat = 0.0
     
     private var _startTime: TimeInterval = 0.0
-    private var _displayLink: NSUIDisplayLink!
+    private var _displayLink: DisplayLink!
     private var _duration: TimeInterval = 0.0
     private var _endTime: TimeInterval = 0.0
     
@@ -67,7 +67,7 @@ open class AnimatedViewPortJob: ViewPortJob
         
         updateAnimationPhase(_startTime)
         
-        _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
+        _displayLink = DisplayLink(target: self, selector: #selector(animationLoop))
         _displayLink.add(to: .main, forMode: RunLoop.Mode.common)
     }
     

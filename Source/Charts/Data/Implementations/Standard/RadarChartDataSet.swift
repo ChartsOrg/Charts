@@ -17,7 +17,7 @@ open class RadarChartDataSet: LineRadarChartDataSet, IRadarChartDataSet
 {
     private func initialize()
     {
-        self.valueFont = NSUIFont.systemFont(ofSize: 13.0)
+        self.valueFont = Font.systemFont(ofSize: 13.0)
     }
     
     public required init()
@@ -43,11 +43,11 @@ open class RadarChartDataSet: LineRadarChartDataSet, IRadarChartDataSet
     /// `true` if highlight circle should be drawn, `false` ifnot
     open var isDrawHighlightCircleEnabled: Bool { return drawHighlightCircleEnabled }
     
-    open var highlightCircleFillColor: NSUIColor? = NSUIColor.white
+    open var highlightCircleFillColor: Color? = Color.white
     
     /// The stroke color for highlight circle.
     /// If `nil`, the color of the dataset is taken.
-    open var highlightCircleStrokeColor: NSUIColor?
+    open var highlightCircleStrokeColor: Color?
     
     open var highlightCircleStrokeAlpha: CGFloat = 0.3
     

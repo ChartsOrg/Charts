@@ -55,7 +55,7 @@ open class YAxis: AxisBase
     @objc open var drawZeroLineEnabled = false
     
     /// Color of the zero line
-    @objc open var zeroLineColor: NSUIColor? = NSUIColor.gray
+    @objc open var zeroLineColor: Color? = Color.gray
     
     /// Width of the zero line
     @objc open var zeroLineWidth: CGFloat = 1.0

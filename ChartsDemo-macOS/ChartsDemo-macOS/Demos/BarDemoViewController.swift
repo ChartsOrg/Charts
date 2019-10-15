@@ -30,11 +30,11 @@ open class BarDemoViewController: NSViewController
         
         let data = BarChartData()
         let ds1 = BarChartDataSet(entries: yse1, label: "Hello")
-        ds1.colors = [NSUIColor.red]
+        ds1.colors = [Color.red]
         data.addDataSet(ds1)
 
         let ds2 = BarChartDataSet(entries: yse2, label: "World")
-        ds2.colors = [NSUIColor.blue]
+        ds2.colors = [Color.blue]
         data.addDataSet(ds2)
 
         let barWidth = 0.4
@@ -49,7 +49,7 @@ open class BarDemoViewController: NSViewController
 
         self.barChartView.data = data
         
-        self.barChartView.gridBackgroundColor = NSUIColor.white
+        self.barChartView.gridBackgroundColor = Color.white
         
         self.barChartView.chartDescription?.text = "Barchart Demo"
     }

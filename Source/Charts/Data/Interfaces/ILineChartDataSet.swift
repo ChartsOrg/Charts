@@ -36,15 +36,15 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     /// The hole radius of the drawn circles.
     var circleHoleRadius: CGFloat { get set }
     
-    var circleColors: [NSUIColor] { get set }
+    var circleColors: [Color] { get set }
     
     /// - Returns: The color at the given index of the DataSet's circle-color array.
     /// Performs a IndexOutOfBounds check by modulus.
-    func getCircleColor(atIndex: Int) -> NSUIColor?
+    func getCircleColor(atIndex: Int) -> Color?
     
     /// Sets the one and ONLY color that should be used for this DataSet.
     /// Internally, this recreates the colors array and adds the specified color.
-    func setCircleColor(_ color: NSUIColor)
+    func setCircleColor(_ color: Color)
     
     /// Resets the circle-colors array and creates a new one
     func resetCircleColors(_ index: Int)
@@ -56,7 +56,7 @@ public protocol ILineChartDataSet: ILineRadarChartDataSet
     var isDrawCirclesEnabled: Bool { get }
     
     /// The color of the inner circle (the circle-hole).
-    var circleHoleColor: NSUIColor? { get set }
+    var circleHoleColor: Color? { get set }
     
     /// `true` if drawing circles for this DataSet is enabled, `false` ifnot
     var drawCircleHoleEnabled: Bool { get set }

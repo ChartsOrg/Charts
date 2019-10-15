@@ -14,7 +14,7 @@ func NSUIGraphicsGetCurrentContext() -> CGContext?
     return UIGraphicsGetCurrentContext()
 }
 
-func NSUIGraphicsGetImageFromCurrentImageContext() -> NSUIImage!
+func NSUIGraphicsGetImageFromCurrentImageContext() -> Image!
 {
     return UIGraphicsGetImageFromCurrentImageContext()
 }
@@ -34,12 +34,12 @@ func NSUIGraphicsEndImageContext()
     UIGraphicsEndImageContext()
 }
 
-func NSUIImagePNGRepresentation(_ image: NSUIImage) -> Data?
+func ImagePNGRepresentation(_ image: Image) -> Data?
 {
     return image.pngData()
 }
 
-func NSUIImageJPEGRepresentation(_ image: NSUIImage, _ quality: CGFloat = 0.8) -> Data?
+func ImageJPEGRepresentation(_ image: Image, _ quality: CGFloat = 0.8) -> Data?
 {
     return image.jpegData(compressionQuality: quality)
 }
@@ -71,7 +71,7 @@ func NSUIGraphicsPopContext()
     NSGraphicsContext.restoreGraphicsState()
 }
 
-func NSUIImagePNGRepresentation(_ image: NSUIImage) -> Data?
+func ImagePNGRepresentation(_ image: Image) -> Data?
 {
     image.lockFocus()
     let rep = NSBitmapImageRep(focusedViewRect: NSMakeRect(0, 0, image.size.width, image.size.height))
@@ -79,7 +79,7 @@ func NSUIImagePNGRepresentation(_ image: NSUIImage) -> Data?
     return rep?.representation(using: .png, properties: [:])
 }
 
-func NSUIImageJPEGRepresentation(_ image: NSUIImage, _ quality: CGFloat = 0.9) -> Data?
+func ImageJPEGRepresentation(_ image: Image, _ quality: CGFloat = 0.9) -> Data?
 {
     image.lockFocus()
     let rep = NSBitmapImageRep(focusedViewRect: NSMakeRect(0, 0, image.size.width, image.size.height))
@@ -115,7 +115,7 @@ func NSUIGraphicsBeginImageContextWithOptions(_ size: CGSize, _ opaque: Bool, _ 
     }
 }
 
-func NSUIGraphicsGetImageFromCurrentImageContext() -> NSUIImage?
+func NSUIGraphicsGetImageFromCurrentImageContext() -> Image?
 {
     if !imageContextStack.isEmpty
     {

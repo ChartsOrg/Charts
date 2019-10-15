@@ -124,7 +124,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 
                 // draw the shadows
                 
-                var shadowColor: NSUIColor! = nil
+                var shadowColor: Color! = nil
                 if dataSet.shadowColorSameAsCandle
                 {
                     if open > close
@@ -224,7 +224,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
                 trans.pointValuesToPixel(&_closePoints)
                 
                 // draw the ranges
-                var barColor: NSUIColor! = nil
+                var barColor: Color! = nil
 
                 if open > close
                 {

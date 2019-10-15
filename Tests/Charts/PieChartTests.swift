@@ -37,7 +37,7 @@ class PieChartTests: FBSnapshotTestCase
             + [UIColor(red: 51/255, green: 181/255, blue: 229/255, alpha: 1)]
         
         chart = PieChartView(frame: CGRect(x: 0, y: 0, width: 480, height: 350))
-        chart.backgroundColor = NSUIColor.clear
+        chart.backgroundColor = Color.clear
         chart.centerText = "PieChart Unit Test"
         chart.data = PieChartData(dataSet: dataSet)
     }

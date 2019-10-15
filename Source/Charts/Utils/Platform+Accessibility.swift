@@ -46,7 +46,7 @@ open class NSUIAccessibilityElement: UIAccessibilityElement
     }
 }
 
-extension NSUIView
+extension View
 {
     /// An array of accessibilityElements that is used to implement UIAccessibilityContainer internally.
     /// Subclasses **MUST** override this with an array of such elements.
@@ -154,7 +154,7 @@ open class NSUIAccessibilityElement: NSAccessibilityElement
 }
 
 /// - Note: setAccessibilityRole(.list) is called at init. See Platform.swift.
-extension NSUIView: NSAccessibilityGroup
+extension View: NSAccessibilityGroup
 {
     open override func accessibilityLabel() -> String?
     {

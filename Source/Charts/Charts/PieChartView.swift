@@ -38,13 +38,13 @@ open class PieChartView: PieRadarChartViewBase
     /// if true, the hole inside the chart will be drawn
     private var _drawHoleEnabled = true
     
-    private var _holeColor: NSUIColor? = NSUIColor.white
+    private var _holeColor: Color? = Color.white
     
     /// Sets the color the entry labels are drawn with.
-    private var _entryLabelColor: NSUIColor? = NSUIColor.white
+    private var _entryLabelColor: Color? = Color.white
     
     /// Sets the font the entry labels are drawn with.
-    private var _entryLabelFont: NSUIFont? = NSUIFont(name: "HelveticaNeue", size: 13.0)
+    private var _entryLabelFont: Font? = Font(name: "HelveticaNeue", size: 13.0)
     
     /// if true, the hole will see-through to the inner tips of the slices
     private var _drawSlicesUnderHoleEnabled = false
@@ -63,7 +63,7 @@ open class PieChartView: PieRadarChartViewBase
     /// **default**: `0.5`
     private var _holeRadiusPercent = CGFloat(0.5)
     
-    private var _transparentCircleColor: NSUIColor? = NSUIColor(white: 1.0, alpha: 105.0/255.0)
+    private var _transparentCircleColor: Color? = Color(white: 1.0, alpha: 105.0/255.0)
     
     /// the radius of the transparent circle next to the chart-hole in the center
     private var _transparentCircleRadiusPercent = CGFloat(0.55)
@@ -283,7 +283,7 @@ open class PieChartView: PieRadarChartViewBase
     /// The color for the hole that is drawn in the center of the PieChart (if enabled).
     /// 
     /// - Note: Use holeTransparent with holeColor = nil to make the hole transparent.*
-    @objc open var holeColor: NSUIColor?
+    @objc open var holeColor: Color?
     {
         get
         {
@@ -363,8 +363,8 @@ open class PieChartView: PieRadarChartViewBase
                 
                 attrString = NSMutableAttributedString(string: newValue!)
                 attrString?.setAttributes([
-                    .foregroundColor: NSUIColor.labelOrBlack,
-                    .font: NSUIFont.systemFont(ofSize: 12.0),
+                    .foregroundColor: Color.black,
+                    .font: Font.systemFont(ofSize: 12.0),
                     .paragraphStyle: paragraphStyle
                     ], range: NSMakeRange(0, attrString!.length))
             }
@@ -469,7 +469,7 @@ open class PieChartView: PieRadarChartViewBase
     /// The color that the transparent-circle should have.
     ///
     /// **default**: `nil`
-    @objc open var transparentCircleColor: NSUIColor?
+    @objc open var transparentCircleColor: Color?
     {
         get
         {
@@ -499,7 +499,7 @@ open class PieChartView: PieRadarChartViewBase
     }
         
     /// The color the entry labels are drawn with.
-    @objc open var entryLabelColor: NSUIColor?
+    @objc open var entryLabelColor: Color?
     {
         get { return _entryLabelColor }
         set
@@ -510,7 +510,7 @@ open class PieChartView: PieRadarChartViewBase
     }
     
     /// The font the entry labels are drawn with.
-    @objc open var entryLabelFont: NSUIFont?
+    @objc open var entryLabelFont: Font?
     {
         get { return _entryLabelFont }
         set

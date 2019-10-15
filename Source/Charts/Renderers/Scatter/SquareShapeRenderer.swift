@@ -18,7 +18,7 @@ open class SquareShapeRenderer : NSObject, IShapeRenderer
         dataSet: IScatterChartDataSet,
         viewPortHandler: ViewPortHandler,
         point: CGPoint,
-        color: NSUIColor)
+        color: Color)
     {
         let shapeSize = dataSet.scatterShapeSize
         let shapeHalf = shapeSize / 2.0

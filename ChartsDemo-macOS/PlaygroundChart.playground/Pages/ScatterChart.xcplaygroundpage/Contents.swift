@@ -28,11 +28,11 @@ chartView.setScaleEnabled ( true)
 chartView.maxVisibleCount = 200
 //: ### xAxis
 let xAxis = chartView.xAxis
-xAxis.labelFont = NSUIFont(name: "HelveticaNeue-Light", size: 10.0)!
+xAxis.labelFont = Font(name: "HelveticaNeue-Light", size: 10.0)!
 xAxis.drawGridLinesEnabled = true
 //: ### LeftAxis
 let leftAxis = chartView.leftAxis
-leftAxis.labelFont = NSUIFont(name: "HelveticaNeue-Light", size: 10.0)!
+leftAxis.labelFont = Font(name: "HelveticaNeue-Light", size: 10.0)!
 leftAxis.axisMinimum = 0.0
 //: ### RightAxis
 chartView.rightAxis.enabled = false
@@ -42,7 +42,7 @@ legend.horizontalAlignment = .right
 legend.verticalAlignment = .top
 legend.orientation = .vertical
 legend.drawInside = false
-legend.font = NSUIFont(name: "HelveticaNeue-Light", size: 10.0)!
+legend.font = Font(name: "HelveticaNeue-Light", size: 10.0)!
 legend.xOffset = 5.0
 //: ### Description
 chartView.chartDescription?.enabled = false
@@ -71,14 +71,14 @@ set1.scatterShapeSize = 10.0
 
 let set2 = ScatterChartDataSet(values: yVals2, label: "DS 2")
 set2.setScatterShape( .circle)
-set2.scatterShapeHoleColor = NSUIColor.blue
+set2.scatterShapeHoleColor = Color.blue
 set2.scatterShapeHoleRadius = 3.5
 set2.colors = ChartColorTemplates.material()
 set2.scatterShapeSize = 10.0
 
 let set3 = ScatterChartDataSet(values: yVals3, label: "DS 3")
 set3.setScatterShape(.triangle)
-set3.colors = [NSUIColor.orange] //ChartColorTemplates.pastel()
+set3.colors = [Color.orange] //ChartColorTemplates.pastel()
 set3.scatterShapeSize = 10.0
 
 var dataSets = [ScatterChartDataSet]()
@@ -87,7 +87,7 @@ dataSets.append(set2)
 dataSets.append(set3)
 //: ### ScatterChartData
 let data = ScatterChartData(dataSets: dataSets)
-data.setValueFont( NSUIFont(name: "HelveticaNeue-Light", size: CGFloat(7.0)))
+data.setValueFont( Font(name: "HelveticaNeue-Light", size: CGFloat(7.0)))
 chartView.data = data
 
 chartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeInBounce)

@@ -29,7 +29,7 @@ open class Description: ComponentBase
         // 23 is the smallest recommended font size on the TV
         font = .systemFont(ofSize: 23)
         #elseif os(OSX)
-        font = .systemFont(ofSize: NSUIFont.systemFontSize)
+        font = .systemFont(ofSize: Font.systemFontSize)
         #else
         font = .systemFont(ofSize: 8.0)
         #endif
@@ -47,8 +47,8 @@ open class Description: ComponentBase
     @objc open var textAlign: NSTextAlignment = NSTextAlignment.right
     
     /// Font object used for drawing the description text.
-    @objc open var font: NSUIFont
+    @objc open var font: Font
     
     /// Text color used for drawing the description text
-    @objc open var textColor = NSUIColor.labelOrBlack
+    @objc open var textColor = Color.label
 }

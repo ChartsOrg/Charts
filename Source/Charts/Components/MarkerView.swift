@@ -17,7 +17,7 @@ import AppKit
 #endif
 
 @objc(ChartMarkerView)
-open class MarkerView: NSUIView, IMarker
+open class MarkerView: View, IMarker
 {
     open var offset: CGPoint = CGPoint()
     

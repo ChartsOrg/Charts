@@ -38,7 +38,7 @@ class HalfPieChartViewController: DemoBaseViewController {
         chartView.delegate = self
         
         chartView.holeColor = .white
-        chartView.transparentCircleColor = NSUIColor.white.withAlphaComponent(0.43)
+        chartView.transparentCircleColor = Color.white.withAlphaComponent(0.43)
         chartView.holeRadiusPercent = 0.58
         chartView.rotationEnabled = false
         chartView.highlightPerTapEnabled = true

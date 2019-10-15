@@ -24,11 +24,11 @@ public protocol IRadarChartDataSet: ILineRadarChartDataSet
     
     var isDrawHighlightCircleEnabled: Bool { get }
     
-    var highlightCircleFillColor: NSUIColor? { get set }
+    var highlightCircleFillColor: Color? { get set }
     
     /// The stroke color for highlight circle.
     /// If `nil`, the color of the dataset is taken.
-    var highlightCircleStrokeColor: NSUIColor? { get set }
+    var highlightCircleStrokeColor: Color? { get set }
     
     var highlightCircleStrokeAlpha: CGFloat { get set }
     

@@ -123,7 +123,7 @@ open class ChartUtils
     
     open class func drawImage(
         context: CGContext,
-        image: NSUIImage,
+        image: Image,
         x: CGFloat,
         y: CGFloat,
         size: CGSize)
@@ -139,7 +139,7 @@ open class ChartUtils
             let key = "resized_\(size.width)_\(size.height)"
             
             // Try to take scaled image from cache of this image
-            var scaledImage = objc_getAssociatedObject(image, key) as? NSUIImage
+            var scaledImage = objc_getAssociatedObject(image, key) as? Image
             if scaledImage == nil
             {
                 // Scale the image

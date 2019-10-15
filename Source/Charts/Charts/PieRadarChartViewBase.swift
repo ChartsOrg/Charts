@@ -36,9 +36,9 @@ open class PieRadarChartViewBase: ChartViewBase
     /// iOS && OSX only: Enabled multi-touch rotation using two fingers.
     private var _rotationWithTwoFingers = false
     
-    private var _tapGestureRecognizer: NSUITapGestureRecognizer!
+    private var _tapGestureRecognizer: TapGestureRecognizer!
     #if !os(tvOS)
-    private var _rotationGestureRecognizer: NSUIRotationGestureRecognizer!
+    private var _rotationGestureRecognizer: RotationGestureRecognizer!
     #endif
     
     public override init(frame: CGRect)
@@ -60,12 +60,12 @@ open class PieRadarChartViewBase: ChartViewBase
     {
         super.initialize()
         
-        _tapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: #selector(tapGestureRecognized(_:)))
+        _tapGestureRecognizer = TapGestureRecognizer(target: self, action: #selector(tapGestureRecognized(_:)))
         
         self.addGestureRecognizer(_tapGestureRecognizer)
 
         #if !os(tvOS)
-        _rotationGestureRecognizer = NSUIRotationGestureRecognizer(target: self, action: #selector(rotationGestureRecognized(_:)))
+        _rotationGestureRecognizer = RotationGestureRecognizer(target: self, action: #selector(rotationGestureRecognized(_:)))
         self.addGestureRecognizer(_rotationGestureRecognizer)
         _rotationGestureRecognizer.isEnabled = rotationWithTwoFingers
         #endif
@@ -480,7 +480,7 @@ open class PieRadarChartViewBase: ChartViewBase
     private var velocitySamples = [AngularVelocitySample]()
     
     private var _decelerationLastTime: TimeInterval = 0.0
-    private var _decelerationDisplayLink: NSUIDisplayLink!
+    private var _decelerationDisplayLink: DisplayLink!
     private var _decelerationAngularVelocity: CGFloat = 0.0
     
     internal final func processRotationGestureBegan(location: CGPoint)
@@ -533,7 +533,7 @@ open class PieRadarChartViewBase: ChartViewBase
             if _decelerationAngularVelocity != 0.0
             {
                 _decelerationLastTime = CACurrentMediaTime()
-                _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(PieRadarChartViewBase.decelerationLoop))
+                _decelerationDisplayLink = DisplayLink(target: self, selector: #selector(PieRadarChartViewBase.decelerationLoop))
                 _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
             }
         }
@@ -548,7 +548,7 @@ open class PieRadarChartViewBase: ChartViewBase
     }
     
     #if !os(OSX)
-    open override func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    open override func nsuiTouchesBegan(_ touches: Set<Touch>, withEvent event: Event?)
     {
         // if rotation by touch is enabled
         if rotationEnabled
@@ -567,7 +567,7 @@ open class PieRadarChartViewBase: ChartViewBase
         }
     }
     
-    open override func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    open override func nsuiTouchesMoved(_ touches: Set<Touch>, withEvent event: Event?)
     {
         if rotationEnabled && !rotationWithTwoFingers, let touch = touches.first
         {
@@ -581,7 +581,7 @@ open class PieRadarChartViewBase: ChartViewBase
         }
     }
     
-    open override func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    open override func nsuiTouchesEnded(_ touches: Set<Touch>, withEvent event: Event?)
     {
         if !_isRotating
         {
@@ -600,7 +600,7 @@ open class PieRadarChartViewBase: ChartViewBase
         }
     }
     
-    open override func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
+    open override func nsuiTouchesCancelled(_ touches: Set<Touch>?, withEvent event: Event?)
     {
         super.nsuiTouchesCancelled(touches, withEvent: event)
         
@@ -787,9 +787,9 @@ open class PieRadarChartViewBase: ChartViewBase
     /// reference to the last highlighted object
     private var _lastHighlight: Highlight!
     
-    @objc private func tapGestureRecognized(_ recognizer: NSUITapGestureRecognizer)
+    @objc private func tapGestureRecognized(_ recognizer: TapGestureRecognizer)
     {
-        if recognizer.state == NSUIGestureRecognizerState.ended
+        if recognizer.state == GestureRecognizerState.ended
         {
             if !self.isHighLightPerTapEnabled { return }
             
@@ -801,23 +801,23 @@ open class PieRadarChartViewBase: ChartViewBase
     }
     
     #if !os(tvOS)
-    @objc private func rotationGestureRecognized(_ recognizer: NSUIRotationGestureRecognizer)
+    @objc private func rotationGestureRecognized(_ recognizer: RotationGestureRecognizer)
     {
-        if recognizer.state == NSUIGestureRecognizerState.began
+        if recognizer.state == GestureRecognizerState.began
         {
             stopDeceleration()
             
             _startAngle = self.rawRotationAngle
         }
         
-        if recognizer.state == NSUIGestureRecognizerState.began || recognizer.state == NSUIGestureRecognizerState.changed
+        if recognizer.state == GestureRecognizerState.began || recognizer.state == GestureRecognizerState.changed
         {
             let angle = recognizer.nsuiRotation.RAD2DEG
             
             self.rotationAngle = _startAngle + angle
             setNeedsDisplay()
         }
-        else if recognizer.state == NSUIGestureRecognizerState.ended
+        else if recognizer.state == GestureRecognizerState.ended
         {
             let angle = recognizer.nsuiRotation.RAD2DEG
             
@@ -833,7 +833,7 @@ open class PieRadarChartViewBase: ChartViewBase
                 if _decelerationAngularVelocity != 0.0
                 {
                     _decelerationLastTime = CACurrentMediaTime()
-                    _decelerationDisplayLink = NSUIDisplayLink(target: self, selector: #selector(PieRadarChartViewBase.decelerationLoop))
+                    _decelerationDisplayLink = DisplayLink(target: self, selector: #selector(PieRadarChartViewBase.decelerationLoop))
                     _decelerationDisplayLink.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
                 }
             }

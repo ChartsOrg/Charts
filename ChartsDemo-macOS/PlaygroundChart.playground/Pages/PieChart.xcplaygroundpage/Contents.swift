@@ -29,9 +29,9 @@ paragraphStyle.lineBreakMode = .byTruncatingTail
 paragraphStyle.alignment = .center
 
 let centerText: NSMutableAttributedString = NSMutableAttributedString(string: "Charts\nby Daniel Cohen Gindi")
-centerText.setAttributes([NSFontAttributeName: NSUIFont(name: "HelveticaNeue-Light", size: 15.0)!, NSParagraphStyleAttributeName: paragraphStyle], range: NSMakeRange(0, centerText.length))
-centerText.addAttributes([NSFontAttributeName: NSUIFont(name: "HelveticaNeue-Light", size: 13.0)!, NSForegroundColorAttributeName: NSUIColor.gray], range: NSMakeRange(10, centerText.length - 10))
-centerText.addAttributes([NSFontAttributeName: NSUIFont(name: "HelveticaNeue-LightItalic", size: 13.0)!, NSForegroundColorAttributeName: NSUIColor(red: 51 / 255.0, green: 181 / 255.0, blue: 229 / 255.0, alpha: 1.0)], range: NSMakeRange(centerText.length - 19, 19))
+centerText.setAttributes([NSFontAttributeName: Font(name: "HelveticaNeue-Light", size: 15.0)!, NSParagraphStyleAttributeName: paragraphStyle], range: NSMakeRange(0, centerText.length))
+centerText.addAttributes([NSFontAttributeName: Font(name: "HelveticaNeue-Light", size: 13.0)!, NSForegroundColorAttributeName: Color.gray], range: NSMakeRange(10, centerText.length - 10))
+centerText.addAttributes([NSFontAttributeName: Font(name: "HelveticaNeue-LightItalic", size: 13.0)!, NSForegroundColorAttributeName: Color(red: 51 / 255.0, green: 181 / 255.0, blue: 229 / 255.0, alpha: 1.0)], range: NSMakeRange(centerText.length - 19, 19))
 
 chartView.centerAttributedText = centerText
 chartView.chartDescription?.text = "Pie Chart"

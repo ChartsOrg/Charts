@@ -6,35 +6,32 @@ import Foundation
 #if canImport(UIKit)
 import UIKit
 
-public typealias NSUIFont = UIFont
-public typealias NSUIImage = UIImage
-public typealias NSUIScrollView = UIScrollView
-public typealias NSUIScreen = UIScreen
-public typealias NSUIDisplayLink = CADisplayLink
+public typealias Font = UIFont
+public typealias Image = UIImage
+public typealias ScrollView = UIScrollView
+public typealias Screen = UIScreen
+public typealias DisplayLink = CADisplayLink
 
-open class NSUIView: UIView
+open class View: UIView
 {
     @objc
     var nsuiLayer: CALayer? { self.layer }
 }
 
-func NSUIMainScreen() -> NSUIScreen?
-{
-    return NSUIScreen.main
-}
+func NSUIMainScreen() -> Screen? { Screen.main }
 
 #endif
 
 #if canImport(AppKit)
 import AppKit
 
-public typealias NSUIFont = NSFont
-public typealias NSUIImage = NSImage
-public typealias NSUIScrollView = NSScrollView
-public typealias NSUIScreen = NSScreen
+public typealias Font = NSFont
+public typealias Image = NSImage
+public typealias ScrollView = NSScrollView
+public typealias Screen = NSScreen
 
 /** On OS X there is no CADisplayLink. Use a 60 fps timer to render the animations. */
-public class NSUIDisplayLink
+public class DisplayLink
 {
     private var timer: Timer?
     private var displayLink: CVDisplayLink?
@@ -58,7 +55,7 @@ public class NSUIDisplayLink
 
             CVDisplayLinkSetOutputCallback(displayLink!, { (displayLink, inNow, inOutputTime, flagsIn, flagsOut, userData) -> CVReturn in
 
-                let _self = unsafeBitCast(userData, to: NSUIDisplayLink.self)
+                let _self = unsafeBitCast(userData, to: DisplayLink.self)
                     
                 _self._timestamp = CFAbsoluteTimeGetCurrent()
                 _self._target?.performSelector(onMainThread: _self._selector, with: _self, waitUntilDone: false)
@@ -117,7 +114,7 @@ extension NSScrollView
     }
 }
 
-open class NSUIView: NSView
+open class View: NSView
 {
     /// A private constant to set the accessibility role during initialization.
     /// It ensures parity with the iOS element ordering as well as numbered counts of chart components.
@@ -144,18 +141,13 @@ open class NSUIView: NSView
     }
 
 
-    open var backgroundColor: NSUIColor?
+    open var backgroundColor: Color?
     {
-        get
-        {
-            self.layer?.backgroundColor == nil
-                ? nil
-                : NSColor(cgColor: self.layer!.backgroundColor!)
-        }
+        get { layer?.backgroundColor.flatMap(NSColor.init) }
         set
         {
             self.wantsLayer = true
-            self.layer?.backgroundColor = newValue.map { $0.cgColor }
+            self.layer?.backgroundColor = newValue?.cgColor
         }
     }
 
@@ -184,9 +176,6 @@ extension NSImage
     }
 }
 
-func NSUIMainScreen() -> NSUIScreen?
-{
-    NSUIScreen.main
-}
+func NSUIMainScreen() -> Screen? { Screen.main }
 
 #endif

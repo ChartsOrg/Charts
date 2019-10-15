@@ -37,7 +37,7 @@ open class LineRadarRenderer: LineScatterCandleRadarRenderer
     }
     
     /// Draws the provided path in filled mode with the provided color and alpha.
-    @objc open func drawFilledPath(context: CGContext, path: CGPath, fillColor: NSUIColor, fillAlpha: CGFloat)
+    @objc open func drawFilledPath(context: CGContext, path: CGPath, fillColor: Color, fillAlpha: CGFloat)
     {
         context.saveGState()
         context.beginPath()

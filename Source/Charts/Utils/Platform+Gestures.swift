@@ -9,26 +9,26 @@
 #if canImport(UIKit)
 import UIKit
 
-public typealias NSUIGestureRecognizer = UIGestureRecognizer
-public typealias NSUIGestureRecognizerState = UIGestureRecognizer.State
-public typealias NSUIGestureRecognizerDelegate = UIGestureRecognizerDelegate
-public typealias NSUITapGestureRecognizer = UITapGestureRecognizer
-public typealias NSUIPanGestureRecognizer = UIPanGestureRecognizer
+public typealias GestureRecognizer = UIGestureRecognizer
+public typealias GestureRecognizerState = UIGestureRecognizer.State
+public typealias GestureRecognizerDelegate = UIGestureRecognizerDelegate
+public typealias TapGestureRecognizer = UITapGestureRecognizer
+public typealias PanGestureRecognizer = UIPanGestureRecognizer
 
 extension UIView
 {
     @objc
-    final var nsuiGestureRecognizers: [NSUIGestureRecognizer]?
+    final var nsuiGestureRecognizers: [GestureRecognizer]?
     {
         self.gestureRecognizers
     }
 }
 
 #if !os(tvOS)
-public typealias NSUIPinchGestureRecognizer = UIPinchGestureRecognizer
-public typealias NSUIRotationGestureRecognizer = UIRotationGestureRecognizer
+public typealias PinchGestureRecognizer = UIPinchGestureRecognizer
+public typealias RotationGestureRecognizer = UIRotationGestureRecognizer
 
-extension NSUIRotationGestureRecognizer
+extension RotationGestureRecognizer
 {
     @objc final var nsuiRotation: CGFloat
     {
@@ -43,13 +43,13 @@ extension NSUIRotationGestureRecognizer
 #if canImport(AppKit)
 import AppKit
 
-public typealias NSUIGestureRecognizer = NSGestureRecognizer
-public typealias NSUIGestureRecognizerState = NSGestureRecognizer.State
-public typealias NSUIGestureRecognizerDelegate = NSGestureRecognizerDelegate
-public typealias NSUITapGestureRecognizer = NSClickGestureRecognizer
-public typealias NSUIPanGestureRecognizer = NSPanGestureRecognizer
-public typealias NSUIPinchGestureRecognizer = NSMagnificationGestureRecognizer
-public typealias NSUIRotationGestureRecognizer = NSRotationGestureRecognizer
+public typealias GestureRecognizer = NSGestureRecognizer
+public typealias GestureRecognizerState = NSGestureRecognizer.State
+public typealias GestureRecognizerDelegate = NSGestureRecognizerDelegate
+public typealias TapGestureRecognizer = NSClickGestureRecognizer
+public typealias PanGestureRecognizer = NSPanGestureRecognizer
+public typealias PinchGestureRecognizer = NSMagnificationGestureRecognizer
+public typealias RotationGestureRecognizer = NSRotationGestureRecognizer
 
 extension NSView
 {
@@ -61,7 +61,7 @@ extension NSView
 }
 
 /** The 'tap' gesture is mapped to clicks. */
-extension NSUITapGestureRecognizer
+extension TapGestureRecognizer
 {
     final var numberOfTapsRequired: Int
     {
@@ -70,7 +70,7 @@ extension NSUITapGestureRecognizer
     }
 }
 
-extension NSUIPanGestureRecognizer
+extension PanGestureRecognizer
 {
     final var numberOfTouches: Int { 1 }
 
@@ -81,7 +81,7 @@ extension NSUIPanGestureRecognizer
     }
 }
 
-extension NSUIRotationGestureRecognizer
+extension RotationGestureRecognizer
 {
     /// FIXME: Currently there are no velocities in OSX gestures, and not way to create custom touch gestures.
     final var velocity: CGFloat
@@ -96,7 +96,7 @@ extension NSUIRotationGestureRecognizer
     }
 }
 
-extension NSUIPinchGestureRecognizer
+extension PinchGestureRecognizer
 {
     final var scale: CGFloat
     {

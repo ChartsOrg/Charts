@@ -16,7 +16,7 @@ import CoreGraphics
 open class MarkerImage: NSObject, IMarker
 {
     /// The marker image to render
-    @objc open var image: NSUIImage?
+    @objc open var image: Image?
     
     open var offset: CGPoint = CGPoint()
     

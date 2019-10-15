@@ -17,7 +17,7 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
 {
     private func initialize()
     {
-        self.highlightColor = NSUIColor.black
+        self.highlightColor = Color.black
         
         self.calcStackSize(entries: entries as! [BarChartDataEntry])
         self.calcEntryCountIncludingStacks(entries: entries as! [BarChartDataEntry])
@@ -138,13 +138,13 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
     // MARK: - Styling functions and accessors
     
     /// the color used for drawing the bar-shadows. The bar shadows is a surface behind the bar that indicates the maximum value
-    open var barShadowColor = NSUIColor(red: 215.0/255.0, green: 215.0/255.0, blue: 215.0/255.0, alpha: 1.0)
+    open var barShadowColor = Color(red: 215.0/255.0, green: 215.0/255.0, blue: 215.0/255.0, alpha: 1.0)
 
     /// the width used for drawing borders around the bars. If borderWidth == 0, no border will be drawn.
     open var barBorderWidth : CGFloat = 0.0
 
     /// the color drawing borders around the bars.
-    open var barBorderColor = NSUIColor.black
+    open var barBorderColor = Color.black
 
     /// the alpha value (transparency) that is used for drawing the highlight indicator bar. min = 0.0 (fully transparent), max = 1.0 (fully opaque)
     open var highlightAlpha = CGFloat(120.0 / 255.0)

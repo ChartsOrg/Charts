@@ -38,7 +38,7 @@ open class Animator: NSObject
     
     private var _startTimeX: TimeInterval = 0.0
     private var _startTimeY: TimeInterval = 0.0
-    private var _displayLink: NSUIDisplayLink?
+    private var _displayLink: DisplayLink?
     
     private var _durationX: TimeInterval = 0.0
     private var _durationY: TimeInterval = 0.0
@@ -161,7 +161,7 @@ open class Animator: NSObject
         
         if _enabledX || _enabledY
         {
-            _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
+            _displayLink = DisplayLink(target: self, selector: #selector(animationLoop))
             _displayLink?.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
         }
     }
@@ -225,7 +225,7 @@ open class Animator: NSObject
         if _enabledX || _enabledY,
             _displayLink == nil
         {
-            _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
+            _displayLink = DisplayLink(target: self, selector: #selector(animationLoop))
             _displayLink?.add(to: .main, forMode: RunLoop.Mode.common)
         }
     }
@@ -263,7 +263,7 @@ open class Animator: NSObject
         if _enabledX || _enabledY,
             _displayLink == nil
         {
-            _displayLink = NSUIDisplayLink(target: self, selector: #selector(animationLoop))
+            _displayLink = DisplayLink(target: self, selector: #selector(animationLoop))
             _displayLink?.add(to: .main, forMode: RunLoop.Mode.common)
         }
     }

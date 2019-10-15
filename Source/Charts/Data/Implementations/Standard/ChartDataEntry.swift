@@ -52,7 +52,7 @@ open class ChartDataEntry: ChartDataEntryBase, NSCopying
     ///   - y: the y value (the actual value of the entry)
     ///   - icon: icon image
     
-    @objc public convenience init(x: Double, y: Double, icon: NSUIImage?)
+    @objc public convenience init(x: Double, y: Double, icon: Image?)
     {
         self.init(x: x, y: y)
         self.icon = icon
@@ -66,7 +66,7 @@ open class ChartDataEntry: ChartDataEntryBase, NSCopying
     ///   - icon: icon image
     ///   - data: Space for additional data this Entry represents.
     
-    @objc public convenience init(x: Double, y: Double, icon: NSUIImage?, data: Any?)
+    @objc public convenience init(x: Double, y: Double, icon: Image?, data: Any?)
     {
         self.init(x: x, y: y)
         self.icon = icon

@@ -36,7 +36,7 @@ open class ScatterChartDataSet: LineScatterCandleRadarChartDataSet, IScatterChar
     
     /// Color for the hole in the shape. Setting to `nil` will behave as transparent.
     /// **default**: nil
-    open var scatterShapeHoleColor: NSUIColor? = nil
+    open var scatterShapeHoleColor: Color? = nil
     
     /// Sets the ScatterShape this DataSet should be drawn with.
     /// This will search for an available IShapeRenderer and set this renderer for the DataSet

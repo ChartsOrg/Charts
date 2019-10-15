@@ -20,8 +20,8 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
         super.init()
         
         // default color
-        colors.append(NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
-        valueColors.append(.labelOrBlack)
+        colors.append(Color(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
+        valueColors.append(.label)
     }
     
     @objc public init(label: String?)
@@ -29,8 +29,8 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
         super.init()
         
         // default color
-        colors.append(NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
-        valueColors.append(.labelOrBlack)
+        colors.append(Color(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
+        valueColors.append(.label)
         
         self.label = label
     }
@@ -187,10 +187,10 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     
     /// All the colors that are used for this DataSet.
     /// Colors are reused as soon as the number of Entries the DataSet represents is higher than the size of the colors array.
-    open var colors = [NSUIColor]()
+    open var colors = [Color]()
     
     /// List representing all colors that are used for drawing the actual values for this DataSet
-    open var valueColors = [NSUIColor]()
+    open var valueColors = [Color]()
 
     /// The label string that describes the DataSet.
     open var label: String? = "DataSet"
@@ -200,7 +200,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     
     /// - Returns: The color at the given index of the DataSet's color array.
     /// This prevents out-of-bounds by performing a modulus on the color index, so colours will repeat themselves.
-    open func color(atIndex index: Int) -> NSUIColor
+    open func color(atIndex index: Int) -> Color
     {
         var index = index
         if index < 0
@@ -220,7 +220,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     ///
     /// - Parameters:
     ///   - color: the color to add
-    open func addColor(_ color: NSUIColor)
+    open func addColor(_ color: Color)
     {
         colors.append(color)
     }
@@ -230,7 +230,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     ///
     /// - Parameters:
     ///   - color: the color to set
-    open func setColor(_ color: NSUIColor)
+    open func setColor(_ color: Color)
     {
         colors.removeAll(keepingCapacity: false)
         colors.append(color)
@@ -241,7 +241,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     /// - Parameters:
     ///   - color: the color to set
     ///   - alpha: alpha to apply to the set `color`
-    @objc open func setColor(_ color: NSUIColor, alpha: CGFloat)
+    @objc open func setColor(_ color: Color, alpha: CGFloat)
     {
         setColor(color.withAlphaComponent(alpha))
     }
@@ -251,7 +251,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     /// - Parameters:
     ///   - colors: the colors to set
     ///   - alpha: alpha to apply to the set `colors`
-    @objc open func setColors(_ colors: [NSUIColor], alpha: CGFloat)
+    @objc open func setColors(_ colors: [Color], alpha: CGFloat)
     {
         self.colors = colors.map { $0.withAlphaComponent(alpha) }
     }
@@ -261,7 +261,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     /// - Parameters:
     ///   - colors: the colors to set
     ///   - alpha: alpha to apply to the set `colors`
-    open func setColors(_ colors: NSUIColor...)
+    open func setColors(_ colors: Color...)
     {
         self.colors = colors
     }
@@ -303,7 +303,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     /// Sets/get a single color for value text.
     /// Setting the color clears the colors array and adds a single color.
     /// Getting will return the first color in the array.
-    open var valueTextColor: NSUIColor
+    open var valueTextColor: Color
     {
         get
         {
@@ -317,7 +317,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     }
     
     /// - Returns: The color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
-    open func valueTextColorAt(_ index: Int) -> NSUIColor
+    open func valueTextColorAt(_ index: Int) -> Color
     {
         var index = index
         if index < 0
@@ -328,7 +328,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     }
     
     /// the font for the value-text labels
-    open var valueFont: NSUIFont = NSUIFont.systemFont(ofSize: 7.0)
+    open var valueFont: Font = Font.systemFont(ofSize: 7.0)
     
     /// The form to draw for this dataset in the legend.
     open var form = Legend.Form.default

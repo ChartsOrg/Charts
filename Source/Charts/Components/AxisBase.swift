@@ -24,15 +24,15 @@ open class AxisBase: ComponentBase
     /// Custom formatter that is used instead of the auto-formatter if set
     private var _axisValueFormatter: IAxisValueFormatter?
     
-    @objc open var labelFont = NSUIFont.systemFont(ofSize: 10.0)
-    @objc open var labelTextColor = NSUIColor.labelOrBlack
+    @objc open var labelFont = Font.systemFont(ofSize: 10.0)
+    @objc open var labelTextColor = Color.label
     
-    @objc open var axisLineColor = NSUIColor.gray
+    @objc open var axisLineColor = Color.gray
     @objc open var axisLineWidth = CGFloat(0.5)
     @objc open var axisLineDashPhase = CGFloat(0.0)
     @objc open var axisLineDashLengths: [CGFloat]!
     
-    @objc open var gridColor = NSUIColor.gray.withAlphaComponent(0.9)
+    @objc open var gridColor = Color.gray.withAlphaComponent(0.9)
     @objc open var gridLineWidth = CGFloat(0.5)
     @objc open var gridLineDashPhase = CGFloat(0.0)
     @objc open var gridLineDashLengths: [CGFloat]!

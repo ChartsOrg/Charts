@@ -428,8 +428,8 @@ open class RadarChartRenderer: LineRadarRenderer
         atPoint point: CGPoint,
         innerRadius: CGFloat,
         outerRadius: CGFloat,
-        fillColor: NSUIColor?,
-        strokeColor: NSUIColor?,
+        fillColor: Color?,
+        strokeColor: Color?,
         strokeWidth: CGFloat)
     {
         context.saveGState()

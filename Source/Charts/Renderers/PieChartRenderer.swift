@@ -610,7 +610,7 @@ open class PieChartRenderer: DataRenderer
 
             if let holeColor = chart.holeColor
             {
-                if holeColor != NSUIColor.clear
+                if holeColor != Color.clear
                 {
                     // draw the hole-circle
                     context.setFillColor(chart.holeColor!.cgColor)
@@ -621,7 +621,7 @@ open class PieChartRenderer: DataRenderer
             // only draw the circle if it can be seen (not covered by the hole)
             if let transparentCircleColor = chart.transparentCircleColor
             {
-                if transparentCircleColor != NSUIColor.clear &&
+                if transparentCircleColor != Color.clear &&
                     chart.transparentCircleRadiusPercent > chart.holeRadiusPercent
                 {
                     let alpha = animator.phaseX * animator.phaseY

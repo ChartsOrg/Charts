@@ -35,7 +35,7 @@ public protocol ICandleChartDataSet: ILineScatterCandleRadarChartDataSet
     var shadowWidth: CGFloat { get set }
     
     /// the color of the shadow line
-    var shadowColor: NSUIColor? { get set }
+    var shadowColor: Color? { get set }
     
     /// use candle color for the shadow
     var shadowColorSameAsCandle: Bool { get set }
@@ -44,13 +44,13 @@ public protocol ICandleChartDataSet: ILineScatterCandleRadarChartDataSet
     var isShadowColorSameAsCandle: Bool { get }
     
     /// color for open == close
-    var neutralColor: NSUIColor? { get set }
+    var neutralColor: Color? { get set }
     
     /// color for open > close
-    var increasingColor: NSUIColor? { get set }
+    var increasingColor: Color? { get set }
     
     /// color for open < close
-    var decreasingColor: NSUIColor? { get set }
+    var decreasingColor: Color? { get set }
     
     /// Are increasing values drawn as filled?
     var increasingFilled: Bool { get set }

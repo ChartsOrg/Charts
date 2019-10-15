@@ -7,7 +7,7 @@
 
 #if canImport(UIKit)
 import UIKit
-public typealias NSUIColor = UIColor
+public typealias Color = UIColor
 #endif
 
 #if canImport(AppKit)
@@ -33,4 +33,3 @@ extension NSUIColor
             return .black
         }
     }
-}

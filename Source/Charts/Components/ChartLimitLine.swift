@@ -30,12 +30,12 @@ open class ChartLimitLine: ComponentBase
     @objc open var limit = Double(0.0)
     
     private var _lineWidth = CGFloat(2.0)
-    @objc open var lineColor = NSUIColor(red: 237.0/255.0, green: 91.0/255.0, blue: 91.0/255.0, alpha: 1.0)
+    @objc open var lineColor = Color(red: 237.0/255.0, green: 91.0/255.0, blue: 91.0/255.0, alpha: 1.0)
     @objc open var lineDashPhase = CGFloat(0.0)
     @objc open var lineDashLengths: [CGFloat]?
     
-    @objc open var valueTextColor = NSUIColor.labelOrBlack
-    @objc open var valueFont = NSUIFont.systemFont(ofSize: 13.0)
+    @objc open var valueTextColor = Color.label
+    @objc open var valueFont = Font.systemFont(ofSize: 13.0)
     
     @objc open var drawLabelEnabled = true
     @objc open var label = ""

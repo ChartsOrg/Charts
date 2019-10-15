@@ -44,14 +44,14 @@ open class BarChartDataEntry: ChartDataEntry
     }
     
     /// Constructor for normal bars (not stacked).
-    public convenience init(x: Double, y: Double, icon: NSUIImage?)
+    public convenience init(x: Double, y: Double, icon: Image?)
     {
         self.init(x: x, y: y)
         self.icon = icon
     }
     
     /// Constructor for normal bars (not stacked).
-    public convenience init(x: Double, y: Double, icon: NSUIImage?, data: Any?)
+    public convenience init(x: Double, y: Double, icon: Image?, data: Any?)
     {
         self.init(x: x, y: y)
         self.icon = icon
@@ -68,7 +68,7 @@ open class BarChartDataEntry: ChartDataEntry
     }
 
     /// Constructor for stacked bar entries. One data object for whole stack
-    @objc public convenience init(x: Double, yValues: [Double], icon: NSUIImage?)
+    @objc public convenience init(x: Double, yValues: [Double], icon: Image?)
     {
         self.init(x: x, yValues: yValues)
         self.icon = icon
@@ -82,7 +82,7 @@ open class BarChartDataEntry: ChartDataEntry
     }
 
     /// Constructor for stacked bar entries. One data object for whole stack
-    @objc public convenience init(x: Double, yValues: [Double], icon: NSUIImage?, data: Any?)
+    @objc public convenience init(x: Double, yValues: [Double], icon: Image?, data: Any?)
     {
         self.init(x: x, yValues: yValues)
         self.icon = icon

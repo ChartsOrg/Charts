@@ -40,7 +40,7 @@ open class CandleChartDataEntry: ChartDataEntry
         self.close = close
     }
 
-    @objc public convenience init(x: Double, shadowH: Double, shadowL: Double, open: Double, close: Double, icon: NSUIImage?)
+    @objc public convenience init(x: Double, shadowH: Double, shadowL: Double, open: Double, close: Double, icon: Image?)
     {
         self.init(x: x, shadowH: shadowH, shadowL: shadowL, open: open, close: close)
         self.icon = icon
@@ -52,7 +52,7 @@ open class CandleChartDataEntry: ChartDataEntry
         self.data = data
     }
 
-    @objc public convenience init(x: Double, shadowH: Double, shadowL: Double, open: Double, close: Double, icon: NSUIImage?, data: Any?)
+    @objc public convenience init(x: Double, shadowH: Double, shadowL: Double, open: Double, close: Double, icon: Image?, data: Any?)
     {
         self.init(x: x, shadowH: shadowH, shadowL: shadowL, open: open, close: close)
         self.icon = icon

@@ -47,7 +47,7 @@ public protocol ChartViewDelegate
     @objc optional func chartView(_ chartView: ChartViewBase, animatorDidStop animator: Animator)
 }
 
-open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
+open class ChartViewBase: View, ChartDataProvider, AnimatorDelegate
 {
     // MARK: - Properties
     
@@ -95,10 +95,10 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     @objc open var noDataText = "No chart data available."
     
     /// Font to be used for the no data text.
-    @objc open var noDataFont = NSUIFont.systemFont(ofSize: 12)
+    @objc open var noDataFont = Font.systemFont(ofSize: 12)
     
     /// color of the no data text
-    @objc open var noDataTextColor: NSUIColor = .labelOrBlack
+    @objc open var noDataTextColor: Color = .label
 
     /// alignment of the no data text
     @objc open var noDataTextAlignment: NSTextAlignment = .left
@@ -178,7 +178,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     internal func initialize()
     {
         #if os(iOS)
-        self.backgroundColor = NSUIColor.clear
+        self.backgroundColor = Color.clear
         #endif
 
         _animator = Animator()
@@ -826,7 +826,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     }
     
     /// - Returns: The bitmap that represents the chart.
-    @objc open func getChartImage(transparent: Bool) -> NSUIImage?
+    @objc open func getChartImage(transparent: Bool) -> Image?
     {
         NSUIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque || !transparent, NSUIMainScreen()?.scale ?? 1.0)
         
@@ -838,7 +838,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         if isOpaque || !transparent
         {
             // Background color may be partially transparent, we must fill with white if we want to output an opaque image
-            context.setFillColor(NSUIColor.white.cgColor)
+            context.setFillColor(Color.white.cgColor)
             context.fill(rect)
             
             if let backgroundColor = self.backgroundColor
@@ -880,8 +880,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         let imageData: Data?
         switch (format)
         {
-        case .png: imageData = NSUIImagePNGRepresentation(image)
-        case .jpeg: imageData = NSUIImageJPEGRepresentation(image, CGFloat(compressionQuality))
+        case .png: imageData = ImagePNGRepresentation(image)
+        case .jpeg: imageData = ImageJPEGRepresentation(image, CGFloat(compressionQuality))
         }
         
         guard let data = imageData else { return false }
@@ -1008,7 +1008,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     // MARK: - Touches
     
-    open override func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    open override func nsuiTouchesBegan(_ touches: Set<Touch>, withEvent event: Event?)
     {
         if !_interceptTouchEvents
         {
@@ -1016,7 +1016,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         }
     }
     
-    open override func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    open override func nsuiTouchesMoved(_ touches: Set<Touch>, withEvent event: Event?)
     {
         if !_interceptTouchEvents
         {
@@ -1024,7 +1024,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         }
     }
     
-    open override func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    open override func nsuiTouchesEnded(_ touches: Set<Touch>, withEvent event: Event?)
     {
         if !_interceptTouchEvents
         {
@@ -1032,7 +1032,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         }
     }
     
-    open override func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
+    open override func nsuiTouchesCancelled(_ touches: Set<Touch>?, withEvent event: Event?)
     {
         if !_interceptTouchEvents
         {

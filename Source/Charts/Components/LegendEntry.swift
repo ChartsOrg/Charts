@@ -35,7 +35,7 @@ open class LegendEntry: NSObject
                 formLineWidth: CGFloat,
                 formLineDashPhase: CGFloat,
                 formLineDashLengths: [CGFloat]?,
-                formColor: NSUIColor?)
+                formColor: Color?)
     {
         self.label = label
         self.form = form
@@ -84,5 +84,5 @@ open class LegendEntry: NSObject
     @objc open var formLineDashLengths: [CGFloat]?
     
     /// The color for drawing the form
-    @objc open var formColor: NSUIColor?
+    @objc open var formColor: Color?
 }

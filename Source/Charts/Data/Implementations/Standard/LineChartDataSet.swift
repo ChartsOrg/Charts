@@ -27,7 +27,7 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     private func initialize()
     {
         // default color
-        circleColors.append(NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
+        circleColors.append(Color(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
     }
     
     public required init()
@@ -74,11 +74,11 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     /// The hole radius of the drawn circles
     open var circleHoleRadius = CGFloat(4.0)
     
-    open var circleColors = [NSUIColor]()
+    open var circleColors = [Color]()
     
     /// - Returns: The color at the given index of the DataSet's circle-color array.
     /// Performs a IndexOutOfBounds check by modulus.
-    open func getCircleColor(atIndex index: Int) -> NSUIColor?
+    open func getCircleColor(atIndex index: Int) -> Color?
     {
         let size = circleColors.count
         let index = index % size
@@ -91,13 +91,13 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     
     /// Sets the one and ONLY color that should be used for this DataSet.
     /// Internally, this recreates the colors array and adds the specified color.
-    open func setCircleColor(_ color: NSUIColor)
+    open func setCircleColor(_ color: Color)
     {
         circleColors.removeAll(keepingCapacity: false)
         circleColors.append(color)
     }
     
-    open func setCircleColors(_ colors: NSUIColor...)
+    open func setCircleColors(_ colors: Color...)
     {
         circleColors.removeAll(keepingCapacity: false)
         circleColors.append(contentsOf: colors)
@@ -116,7 +116,7 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     open var isDrawCirclesEnabled: Bool { return drawCirclesEnabled }
     
     /// The color of the inner circle (the circle-hole).
-    open var circleHoleColor: NSUIColor? = NSUIColor.white
+    open var circleHoleColor: Color? = Color.white
     
     /// `true` if drawing circles for this DataSet is enabled, `false` ifnot
     open var drawCircleHoleEnabled = true

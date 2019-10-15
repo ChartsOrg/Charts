@@ -23,8 +23,8 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
 
     private func initialize()
     {
-        self.valueTextColor = NSUIColor.white
-        self.valueFont = NSUIFont.systemFont(ofSize: 13.0)
+        self.valueTextColor = Color.white
+        self.valueFont = Font.systemFont(ofSize: 13.0)
     }
 
     public required init()
@@ -82,7 +82,7 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
     open var yValuePosition: ValuePosition = .insideSlice
 
     /// When valuePosition is OutsideSlice, indicates line color
-    open var valueLineColor: NSUIColor? = NSUIColor.black
+    open var valueLineColor: Color? = Color.black
 
     /// When valuePosition is OutsideSlice and enabled, line will have the same color as the slice
     open var useValueColorForLine: Bool = false
@@ -103,13 +103,13 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
     open var valueLineVariableLength: Bool = true
 
     /// the font for the slice-text labels
-    open var entryLabelFont: NSUIFont? = nil
+    open var entryLabelFont: Font? = nil
 
     /// the color for the slice-text labels
-    open var entryLabelColor: NSUIColor? = nil
+    open var entryLabelColor: Color? = nil
 
     /// the color for the highlighted sector
-    open var highlightColor: NSUIColor? = nil
+    open var highlightColor: Color? = nil
 
     // MARK: - NSCopying
 

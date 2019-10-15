@@ -28,5 +28,5 @@ public protocol IShapeRenderer: class
         dataSet: IScatterChartDataSet,
         viewPortHandler: ViewPortHandler,
         point: CGPoint,
-        color: NSUIColor)
+        color: Color)
 }

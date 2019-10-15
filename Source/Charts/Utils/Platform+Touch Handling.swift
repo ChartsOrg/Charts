@@ -8,47 +8,47 @@
 #if canImport(UIKit)
 import UIKit
 
-public typealias NSUIEvent = UIEvent
-public typealias NSUITouch = UITouch
+public typealias Event = UIEvent
+public typealias Touch = UITouch
 
 @objc
-extension NSUIView {
-    public final override func touchesBegan(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
+extension View {
+    public final override func touchesBegan(_ touches: Set<Touch>, with event: Event?)
     {
         self.nsuiTouchesBegan(touches, withEvent: event)
     }
 
-    public final override func touchesMoved(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
+    public final override func touchesMoved(_ touches: Set<Touch>, with event: Event?)
     {
         self.nsuiTouchesMoved(touches, withEvent: event)
     }
 
-    public final override func touchesEnded(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
+    public final override func touchesEnded(_ touches: Set<Touch>, with event: Event?)
     {
         self.nsuiTouchesEnded(touches, withEvent: event)
     }
 
-    public final override func touchesCancelled(_ touches: Set<NSUITouch>, with event: NSUIEvent?)
+    public final override func touchesCancelled(_ touches: Set<Touch>, with event: Event?)
     {
         self.nsuiTouchesCancelled(touches, withEvent: event)
     }
 
-    open func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    open func nsuiTouchesBegan(_ touches: Set<Touch>, withEvent event: Event?)
     {
         super.touchesBegan(touches, with: event!)
     }
 
-    open func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    open func nsuiTouchesMoved(_ touches: Set<Touch>, withEvent event: Event?)
     {
         super.touchesMoved(touches, with: event!)
     }
 
-    open func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    open func nsuiTouchesEnded(_ touches: Set<Touch>, withEvent event: Event?)
     {
         super.touchesEnded(touches, with: event!)
     }
 
-    open func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
+    open func nsuiTouchesCancelled(_ touches: Set<Touch>?, withEvent event: Event?)
     {
         super.touchesCancelled(touches!, with: event!)
     }
@@ -59,11 +59,11 @@ extension NSUIView {
 #if canImport(AppKit)
 import AppKit
 
-public typealias NSUIEvent = NSEvent
-public typealias NSUITouch = NSTouch
+public typealias Event = NSEvent
+public typealias Touch = NSTouch
 
 @objc
-extension NSUIView
+extension View
 {
     public final override func touchesBegan(with event: NSEvent)
     {
@@ -85,22 +85,22 @@ extension NSUIView
         self.nsuiTouchesCancelled(event.touches(matching: .any, in: self), withEvent: event)
     }
 
-    open func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    open func nsuiTouchesBegan(_ touches: Set<Touch>, withEvent event: Event?)
     {
         super.touchesBegan(with: event!)
     }
 
-    open func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    open func nsuiTouchesMoved(_ touches: Set<Touch>, withEvent event: Event?)
     {
         super.touchesMoved(with: event!)
     }
 
-    open func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
+    open func nsuiTouchesEnded(_ touches: Set<Touch>, withEvent event: Event?)
     {
         super.touchesEnded(with: event!)
     }
 
-    open func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
+    open func nsuiTouchesCancelled(_ touches: Set<Touch>?, withEvent event: Event?)
     {
         super.touchesCancelled(with: event!)
     }
