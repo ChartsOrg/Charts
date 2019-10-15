@@ -125,7 +125,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         _tapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: #selector(tapGestureRecognized(_:)))
         _doubleTapGestureRecognizer = NSUITapGestureRecognizer(target: self, action: #selector(doubleTapGestureRecognized(_:)))
-        _doubleTapGestureRecognizer.nsuiNumberOfTapsRequired = 2
+        _doubleTapGestureRecognizer.numberOfTapsRequired = 2
         _panGestureRecognizer = NSUIPanGestureRecognizer(target: self, action: #selector(panGestureRecognized(_:)))
         
         _panGestureRecognizer.delegate = self
@@ -605,8 +605,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 }
                 else
                 {
-                    let x = abs(recognizer.location(in: self).x - recognizer.nsuiLocationOfTouch(1, inView: self).x)
-                    let y = abs(recognizer.location(in: self).y - recognizer.nsuiLocationOfTouch(1, inView: self).y)
+                    let touchLocation = recognizer.location(ofTouch: 1, in: self)
+                    let x = abs(recognizer.location(in: self).x - touchLocation.x)
+                    let y = abs(recognizer.location(in: self).y - touchLocation.y)
                     
                     if _scaleXEnabled != _scaleYEnabled
                     {
@@ -633,7 +634,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         }
         else if recognizer.state == NSUIGestureRecognizerState.changed
         {
-            let isZoomingOut = (recognizer.nsuiScale < 1)
+            let isZoomingOut = (recognizer.scale < 1)
             var canZoomMoreX = isZoomingOut ? _viewPortHandler.canZoomOutMoreX : _viewPortHandler.canZoomInMoreX
             var canZoomMoreY = isZoomingOut ? _viewPortHandler.canZoomOutMoreY : _viewPortHandler.canZoomInMoreY
             
@@ -655,8 +656,8 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                         location.y = -(_viewPortHandler.chartHeight - location.y - _viewPortHandler.offsetBottom)
                     }
                     
-                    let scaleX = canZoomMoreX ? recognizer.nsuiScale : 1.0
-                    let scaleY = canZoomMoreY ? recognizer.nsuiScale : 1.0
+                    let scaleX = canZoomMoreX ? recognizer.scale : 1.0
+                    let scaleY = canZoomMoreY ? recognizer.scale : 1.0
                     
                     var matrix = CGAffineTransform(translationX: location.x, y: location.y)
                     matrix = matrix.scaledBy(x: scaleX, y: scaleY)
@@ -672,7 +673,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                     }
                 }
                 
-                recognizer.nsuiScale = 1.0
+                recognizer.scale = 1.0
             }
         }
     }
@@ -680,7 +681,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     
     @objc private func panGestureRecognized(_ recognizer: NSUIPanGestureRecognizer)
     {
-        if recognizer.state == NSUIGestureRecognizerState.began && recognizer.nsuiNumberOfTouches() > 0
+        if recognizer.state == .began && recognizer.numberOfTouches > 0
         {
             stopDeceleration()
             
@@ -696,7 +697,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             {
                 _isDragging = true
                 
-                _closestDataSetToTouch = getDataSetByTouchPoint(point: recognizer.nsuiLocationOfTouch(0, inView: self))
+                _closestDataSetToTouch = getDataSetByTouchPoint(point: recognizer.location(ofTouch: 0, in: self))
                 
                 var translation = recognizer.translation(in: self)
                 if !self.dragXEnabled
@@ -725,7 +726,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                     if _outerScrollView !== nil
                     {
                         // Prevent the parent scroll view from scrolling
-                        _outerScrollView?.nsuiIsScrollEnabled = false
+                        _outerScrollView?.isScrollEnabled = false
                     }
                 }
                 
@@ -791,7 +792,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
             
             if _outerScrollView !== nil
             {
-                _outerScrollView?.nsuiIsScrollEnabled = true
+                _outerScrollView?.isScrollEnabled = true
                 _outerScrollView = nil
             }
             
@@ -958,7 +959,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
             var foundScrollView = scrollView as? NSUIScrollView
             
-            if !(foundScrollView?.nsuiIsScrollEnabled ?? true)
+            if !(foundScrollView?.isScrollEnabled ?? true)
             {
                 foundScrollView = nil
             }

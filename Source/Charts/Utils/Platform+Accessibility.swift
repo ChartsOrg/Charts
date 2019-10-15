@@ -1,9 +1,7 @@
 import Foundation
 
-#if os(iOS) || os(tvOS)
 #if canImport(UIKit)
-    import UIKit
-#endif
+import UIKit
 
 internal func accessibilityPostLayoutChangedNotification(withElement element: Any? = nil)
 {
@@ -22,18 +20,12 @@ open class NSUIAccessibilityElement: UIAccessibilityElement
 
     final var isHeader: Bool = false
     {
-        didSet
-        {
-            accessibilityTraits = isHeader ? UIAccessibilityTraits.header : UIAccessibilityTraits.none
-        }
+        didSet { accessibilityTraits = isHeader ? .header : .none }
     }
 
     final var isSelected: Bool = false
-        {
-        didSet
-        {
-            accessibilityTraits = isSelected ? UIAccessibilityTraits.selected : UIAccessibilityTraits.none
-        }
+    {
+        didSet { accessibilityTraits = isSelected ? .selected : .none }
     }
 
     override public init(accessibilityContainer container: Any)
@@ -45,11 +37,7 @@ open class NSUIAccessibilityElement: UIAccessibilityElement
 
     override open var accessibilityFrame: CGRect
     {
-        get
-        {
-            return super.accessibilityFrame
-        }
-
+        get { super.accessibilityFrame }
         set
         {
             guard let containerView = containerView else { return }
@@ -62,10 +50,8 @@ extension NSUIView
 {
     /// An array of accessibilityElements that is used to implement UIAccessibilityContainer internally.
     /// Subclasses **MUST** override this with an array of such elements.
-    @objc open func accessibilityChildren() -> [Any]?
-    {
-        return nil
-    }
+    @objc
+    open func accessibilityChildren() -> [Any]? { nil }
 
     public final override var isAccessibilityElement: Bool
     {
@@ -75,12 +61,12 @@ extension NSUIView
 
     open override func accessibilityElementCount() -> Int
     {
-        return accessibilityChildren()?.count ?? 0
+        accessibilityChildren()?.count ?? 0
     }
 
     open override func accessibilityElement(at index: Int) -> Any?
     {
-        return accessibilityChildren()?[index]
+        accessibilityChildren()?[index]
     }
 
     open override func index(ofAccessibilityElement element: Any) -> Int
@@ -93,11 +79,8 @@ extension NSUIView
 
 #endif
 
-#if os(OSX)
-
 #if canImport(AppKit)
 import AppKit
-#endif
 
 internal func accessibilityPostLayoutChangedNotification(withElement element: Any? = nil)
 {
@@ -117,40 +100,23 @@ open class NSUIAccessibilityElement: NSAccessibilityElement
 
     final var isHeader: Bool = false
     {
-        didSet
-        {
-            setAccessibilityRole(isHeader ? .staticText : .none)
-        }
+        didSet { setAccessibilityRole(isHeader ? .staticText : .none) }
     }
 
     final var isSelected: Bool = false
     {
-        didSet
-        {
-            setAccessibilitySelected(isSelected)
-        }
+        didSet { setAccessibilitySelected(isSelected) }
     }
 
     open var accessibilityLabel: String
     {
-        get
-        {
-            return accessibilityLabel() ?? ""
-        }
-
-        set
-        {
-            setAccessibilityLabel(newValue)
-        }
+        get { accessibilityLabel() ?? "" }
+        set { setAccessibilityLabel(newValue) }
     }
 
     open var accessibilityFrame: NSRect
     {
-        get
-        {
-            return accessibilityFrame()
-        }
-
+        get { accessibilityFrame() }
         set
         {
             guard let containerView = containerView else { return }
@@ -192,12 +158,12 @@ extension NSUIView: NSAccessibilityGroup
 {
     open override func accessibilityLabel() -> String?
     {
-        return "Chart View"
+        "Chart View"
     }
 
     open override func accessibilityRows() -> [Any]?
     {
-        return accessibilityChildren()
+        accessibilityChildren()
     }
 }
 

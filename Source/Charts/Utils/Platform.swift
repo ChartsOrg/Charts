@@ -3,10 +3,8 @@ import Foundation
 /** This file provides a thin abstraction layer atop of UIKit (iOS, tvOS) and Cocoa (OS X). The two APIs are very much 
  alike, and for the chart library's usage of the APIs it is often sufficient to typealias one to the other. The NSUI*
  types are aliased to either their UI* implementation (on iOS) or their NS* implementation (on OS X). */
-#if os(iOS) || os(tvOS)
 #if canImport(UIKit)
-    import UIKit
-#endif
+import UIKit
 
 public typealias NSUIFont = UIFont
 public typealias NSUIImage = UIImage
@@ -16,27 +14,8 @@ public typealias NSUIDisplayLink = CADisplayLink
 
 open class NSUIView: UIView
 {
-    @objc var nsuiLayer: CALayer?
-    {
-        return self.layer
-    }
-}
-
-extension UIScrollView
-{
-    @objc var nsuiIsScrollEnabled: Bool
-        {
-        get { return isScrollEnabled }
-        set { isScrollEnabled = newValue }
-    }
-}
-
-extension UIScreen
-{
-    @objc final var nsuiScale: CGFloat
-    {
-        return self.scale
-    }
+    @objc
+    var nsuiLayer: CALayer? { self.layer }
 }
 
 func NSUIMainScreen() -> NSUIScreen?
@@ -46,9 +25,8 @@ func NSUIMainScreen() -> NSUIScreen?
 
 #endif
 
-#if os(OSX)
-import Cocoa
-import Quartz
+#if canImport(AppKit)
+import AppKit
 
 public typealias NSUIFont = NSFont
 public typealias NSUIImage = NSImage
@@ -129,20 +107,13 @@ public class NSUIDisplayLink
     }
 }
 
-extension NSView
-{
-    final var nsuiGestureRecognizers: [NSGestureRecognizer]?
-    {
-        return self.gestureRecognizers
-    }
-}
-
 extension NSScrollView
 {
-    var nsuiIsScrollEnabled: Bool
+    /// NOTE: Unable to disable scrolling in macOS
+    var isScrollEnabled: Bool
     {
-        get { return scrollEnabled }
-        set { scrollEnabled = newValue }
+        get { true }
+        set { }
     }
 }
 
@@ -165,10 +136,7 @@ open class NSUIView: NSView
         setAccessibilityRole(role)
     }
 
-    public final override var isFlipped: Bool
-    {
-        return true
-    }
+    public final override var isFlipped: Bool { true }
 
     func setNeedsDisplay()
     {
@@ -177,24 +145,21 @@ open class NSUIView: NSView
 
 
     open var backgroundColor: NSUIColor?
-        {
+    {
         get
         {
-            return self.layer?.backgroundColor == nil
+            self.layer?.backgroundColor == nil
                 ? nil
                 : NSColor(cgColor: self.layer!.backgroundColor!)
         }
         set
         {
             self.wantsLayer = true
-            self.layer?.backgroundColor = newValue == nil ? nil : newValue!.cgColor
+            self.layer?.backgroundColor = newValue.map { $0.cgColor }
         }
     }
 
-    final var nsuiLayer: CALayer?
-    {
-        return self.layer
-    }
+    final var nsuiLayer: CALayer? { self.layer }
 }
 
 extension NSFont
@@ -202,44 +167,26 @@ extension NSFont
     var lineHeight: CGFloat
     {
         // Not sure if this is right, but it looks okay
-        return self.boundingRectForFont.size.height
+        self.boundingRectForFont.size.height
     }
 }
 
 extension NSScreen
 {
-    final var nsuiScale: CGFloat
-    {
-        return self.backingScaleFactor
-    }
+    final var scale: CGFloat { self.backingScaleFactor }
 }
 
 extension NSImage
 {
     var cgImage: CGImage?
     {
-        return self.cgImage(forProposedRect: nil, context: nil, hints: nil)
-    }
-}
-
-extension NSScrollView
-{
-    /// NOTE: Unable to disable scrolling in macOS
-    var scrollEnabled: Bool
-    {
-        get
-        {
-            return true
-        }
-        set
-        {
-        }
+        self.cgImage(forProposedRect: nil, context: nil, hints: nil)
     }
 }
 
 func NSUIMainScreen() -> NSUIScreen?
 {
-    return NSUIScreen.main
+    NSUIScreen.main
 }
 
 #endif

@@ -15,36 +15,12 @@ public typealias NSUIGestureRecognizerDelegate = UIGestureRecognizerDelegate
 public typealias NSUITapGestureRecognizer = UITapGestureRecognizer
 public typealias NSUIPanGestureRecognizer = UIPanGestureRecognizer
 
-extension NSUITapGestureRecognizer
+extension UIView
 {
-    @objc final func nsuiNumberOfTouches() -> Int
+    @objc
+    final var nsuiGestureRecognizers: [NSUIGestureRecognizer]?
     {
-        return numberOfTouches
-    }
-
-    @objc final var nsuiNumberOfTapsRequired: Int
-        {
-        get
-        {
-            return self.numberOfTapsRequired
-        }
-        set
-        {
-            self.numberOfTapsRequired = newValue
-        }
-    }
-}
-
-extension NSUIPanGestureRecognizer
-{
-    @objc final func nsuiNumberOfTouches() -> Int
-    {
-        return numberOfTouches
-    }
-
-    @objc final func nsuiLocationOfTouch(_ touch: Int, inView: UIView?) -> CGPoint
-    {
-        return super.location(ofTouch: touch, in: inView)
+        self.gestureRecognizers
     }
 }
 
@@ -55,29 +31,9 @@ public typealias NSUIRotationGestureRecognizer = UIRotationGestureRecognizer
 extension NSUIRotationGestureRecognizer
 {
     @objc final var nsuiRotation: CGFloat
-        {
+    {
         get { return rotation }
         set { rotation = newValue }
-    }
-}
-
-extension NSUIPinchGestureRecognizer
-{
-    @objc final var nsuiScale: CGFloat
-        {
-        get
-        {
-            return scale
-        }
-        set
-        {
-            scale = newValue
-        }
-    }
-
-    @objc final func nsuiLocationOfTouch(_ touch: Int, inView: UIView?) -> CGPoint
-    {
-        return super.location(ofTouch: touch, in: inView)
     }
 }
 #endif
@@ -95,38 +51,33 @@ public typealias NSUIPanGestureRecognizer = NSPanGestureRecognizer
 public typealias NSUIPinchGestureRecognizer = NSMagnificationGestureRecognizer
 public typealias NSUIRotationGestureRecognizer = NSRotationGestureRecognizer
 
+extension NSView
+{
+    @objc
+    final var nsuiGestureRecognizers: [NSGestureRecognizer]?
+    {
+        self.gestureRecognizers
+    }
+}
+
 /** The 'tap' gesture is mapped to clicks. */
 extension NSUITapGestureRecognizer
 {
-    final func nsuiNumberOfTouches() -> Int
+    final var numberOfTapsRequired: Int
     {
-        return 1
-    }
-
-    final var nsuiNumberOfTapsRequired: Int
-        {
-        get
-        {
-            return self.numberOfClicksRequired
-        }
-        set
-        {
-            self.numberOfClicksRequired = newValue
-        }
+        get { numberOfClicksRequired }
+        set { numberOfClicksRequired = newValue }
     }
 }
 
 extension NSUIPanGestureRecognizer
 {
-    final func nsuiNumberOfTouches() -> Int
-    {
-        return 1
-    }
+    final var numberOfTouches: Int { 1 }
 
     /// FIXME: Currently there are no more than 1 touch in OSX gestures, and not way to create custom touch gestures.
-    final func nsuiLocationOfTouch(_ touch: Int, inView: NSView?) -> NSPoint
+    final func location(ofTouch touch: Int, in view: NSView?) -> CGPoint
     {
-        return super.location(in: inView)
+        location(in: view)
     }
 }
 
@@ -139,7 +90,7 @@ extension NSUIRotationGestureRecognizer
     }
 
     final var nsuiRotation: CGFloat
-        {
+    {
         get { return -rotation }
         set { rotation = -newValue }
     }
@@ -147,22 +98,16 @@ extension NSUIRotationGestureRecognizer
 
 extension NSUIPinchGestureRecognizer
 {
-    final var nsuiScale: CGFloat
-        {
-        get
-        {
-            return magnification + 1.0
-        }
-        set
-        {
-            magnification = newValue - 1.0
-        }
+    final var scale: CGFloat
+    {
+        get { magnification + 1.0 }
+        set { magnification = newValue - 1.0 }
     }
 
     /// FIXME: Currently there are no more than 1 touch in OSX gestures, and not way to create custom touch gestures.
-    final func nsuiLocationOfTouch(_ touch: Int, inView view: NSView?) -> NSPoint
+    final func location(ofTouch touch: Int, in view: NSView?) -> CGPoint
     {
-        return super.location(in: view)
+        location(in: view)
     }
 }
 #endif
