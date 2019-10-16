@@ -101,17 +101,17 @@ public class XAxisCombinedChartRenderer : XAxisRenderer {
                     labelAttrs = [NSAttributedString.Key.font: NSUIFont(name: "Helvetica-Bold", size: 10)!,
                                   NSAttributedString.Key.foregroundColor: NSUIColor.white,
                                   NSAttributedString.Key.paragraphStyle: paraStyle]
-                    var rect:CGRect = CGRect(x: 0 , y: 0 , width: 0 , height: 0)
-                    switch xAxisCount {
-                    case 1 :
-                        rect = CGRect(x: CGFloat(Double(i) - 0.35) , y: -0.4 , width: 0.7 , height: 0.35)
-                    case 2 :
-                        rect = CGRect(x: CGFloat(Double(i) - 0.35) , y: -0.8 , width: 0.7 , height: 0.7)
-                    case 3 :
-                        rect = CGRect(x: CGFloat(Double(i) - 0.35) , y: -1.1 , width: 0.7 , height: 1.0)
-                    default:
-                        rect = CGRect(x: CGFloat(Double(i) - 0.35) , y: -1.4 , width: 0.7 , height: 1.2)
-                    }
+                    var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.4) , y: CGFloat(-((yAxisMax!)/100)-0.04) - CGFloat((yAxisMax!)/10) , width: 0.8 , height:  CGFloat((yAxisMax!)/10)+0.02)
+                    //                    switch xAxisCount {
+                    //                    case 1 :
+                    //                        rect = CGRect(x: CGFloat(Double(i) - 0.35) , y: -0.4 , width: 0.7 , height: 0.35)
+                    //                    case 2 :
+                    //                        rect = CGRect(x: CGFloat(Double(i) - 0.35) , y: -0.8 , width: 0.7 , height: 0.7)
+                    //                    case 3 :
+                    //                        rect = CGRect(x: CGFloat(Double(i) - 0.35) , y: -1.1 , width: 0.7 , height: 1.0)
+                    //                    default:
+                    //                        rect = CGRect(x: CGFloat(Double(i) - 0.35) , y: -1.4 , width: 0.7 , height: 1.2)
+                    //                    }
                     transformer.rectValueToPixel(&rect)
                     context.setFillColor(NSUIColor(red:0.04, green:0.35, blue:0.95, alpha:1).cgColor)
                     #if !os(OSX)
