@@ -9,7 +9,7 @@
 import UIKit
 
 public typealias NSUIColor = UIColor
-extension UIColor 
+extension UIColor
 {
     @available(iOS, introduced: 8.0, obsoleted: 13.0)
     @available(tvOS, introduced: 9.0, obsoleted: 13.0)
@@ -22,7 +22,7 @@ extension UIColor
 import AppKit
 
 public typealias NSUIColor = NSColor
-extension NSColor 
+extension NSColor
 {
     @available(macOS, introduced: 10.11, obsoleted: 10.14)
     static var label: NSColor { .black }
