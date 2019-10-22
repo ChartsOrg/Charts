@@ -47,8 +47,8 @@ public class XAxisCombinedChartRenderer : XAxisRenderer {
         #endif
         paraStyle.alignment = .center
         
-        var labelAttrs: [NSAttributedString.Key : Any] = [NSAttributedString.Key.font: xAxis.labelFont,
-                                                          NSAttributedString.Key.foregroundColor: xAxis.labelTextColor,
+        var labelAttrs: [NSAttributedString.Key : Any] = [NSAttributedString.Key.font: NSUIFont(name: "Helvetica-Bold", size: 10)!,
+                                                          NSAttributedString.Key.foregroundColor: NSUIColor(red:0.28, green:0.33, blue:0.4, alpha:1).cgColor ,
                                                           NSAttributedString.Key.paragraphStyle: paraStyle]
         let labelRotationAngleRadians = xAxis.labelRotationAngle.DEG2RAD
         
@@ -60,7 +60,7 @@ public class XAxisCombinedChartRenderer : XAxisRenderer {
         
         var labelMaxSize = CGSize()
         
-        context.saveGState()
+        //        context.saveGState()
         
         
         if xAxis.isWordWrapEnabled
@@ -76,6 +76,7 @@ public class XAxisCombinedChartRenderer : XAxisRenderer {
             
             if isCombinedChart {
                 if let index = self.indexXAxis ,(i == index){
+                    
                     labelAttrs = [NSAttributedString.Key.font: NSUIFont(name: "Helvetica-Bold", size: 10)!,
                                   NSAttributedString.Key.foregroundColor: NSUIColor.white,
                                   NSAttributedString.Key.paragraphStyle: paraStyle]
@@ -87,12 +88,12 @@ public class XAxisCombinedChartRenderer : XAxisRenderer {
                     let bezierPath = UIBezierPath(roundedRect: rect, byRoundingCorners: [.topLeft , .topRight], cornerRadii: CGSize(width: 5, height: 5))
                     context.addPath(bezierPath.cgPath)
                     #endif
-                    
+                    //                    context.clip()
                     context.drawPath(using: .fill)
                     
                     
                 }else{
-                    labelAttrs = [NSAttributedString.Key.font: xAxis.labelFont,
+                    labelAttrs = [NSAttributedString.Key.font: NSUIFont(name: "Helvetica", size: 10)!,
                                   NSAttributedString.Key.foregroundColor: NSUIColor(red:0.28, green:0.33, blue:0.4, alpha:1).cgColor,
                                   NSAttributedString.Key.paragraphStyle: paraStyle]
                 }
@@ -101,6 +102,7 @@ public class XAxisCombinedChartRenderer : XAxisRenderer {
                     labelAttrs = [NSAttributedString.Key.font: NSUIFont(name: "Helvetica-Bold", size: 10)!,
                                   NSAttributedString.Key.foregroundColor: NSUIColor.white,
                                   NSAttributedString.Key.paragraphStyle: paraStyle]
+                    
                     var rect:CGRect = CGRect(x: CGFloat(Double(i) - 0.4) , y: CGFloat(-((yAxisMax!)/100)-0.04) - CGFloat((yAxisMax!)/10) , width: 0.8 , height:  CGFloat((yAxisMax!)/10)+0.02)
                     //                    switch xAxisCount {
                     //                    case 1 :
@@ -118,11 +120,11 @@ public class XAxisCombinedChartRenderer : XAxisRenderer {
                     let bezierPath = UIBezierPath(roundedRect: rect, cornerRadius: 5)
                     context.addPath(bezierPath.cgPath)
                     #endif
-                    
+                    //                    context.clip()
                     context.drawPath(using: .fill)
                     
                 }else{
-                    labelAttrs = [NSAttributedString.Key.font: xAxis.labelFont,
+                    labelAttrs = [NSAttributedString.Key.font: NSUIFont(name: "Helvetica", size: 10)!,
                                   NSAttributedString.Key.foregroundColor: NSUIColor(red:0.28, green:0.33, blue:0.4, alpha:1).cgColor,
                                   NSAttributedString.Key.paragraphStyle: paraStyle]
                 }

@@ -100,6 +100,7 @@
 		95147AB7228EC1D0004E032C /* XAxisChartContainerRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95147AB6228EC1CF004E032C /* XAxisChartContainerRenderer.swift */; };
 		9515A48A2310475D00FD5FB0 /* CustomCombinedChartBarForFatigueRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9515A4882310475C00FD5FB0 /* CustomCombinedChartBarForFatigueRenderer.swift */; };
 		9515A48B2310475D00FD5FB0 /* CustomLineChartForFatigueRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9515A4892310475D00FD5FB0 /* CustomLineChartForFatigueRenderer.swift */; };
+		954B35A2235F4DA100CF85DF /* CustomNewBarChartRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954B35A1235F4DA100CF85DF /* CustomNewBarChartRenderer.swift */; };
 		95B6D6F35684292A62DBEA74 /* LineChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5A75AA73C5AA381DA517959 /* LineChartDataSet.swift */; };
 		95F85FF72293FEF700339564 /* CustomCombinedChartWithMultiBarRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F85FF62293FEF700339564 /* CustomCombinedChartWithMultiBarRenderer.swift */; };
 		967EE2EDDE3337C5C4337C59 /* IndexAxisValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DD0A02E3CF611BD11EBA9B /* IndexAxisValueFormatter.swift */; };
@@ -272,6 +273,7 @@
 		95147AB6228EC1CF004E032C /* XAxisChartContainerRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XAxisChartContainerRenderer.swift; path = Source/Charts/Renderers/XAxisChartContainerRenderer.swift; sourceTree = "<group>"; };
 		9515A4882310475C00FD5FB0 /* CustomCombinedChartBarForFatigueRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomCombinedChartBarForFatigueRenderer.swift; path = Source/Charts/Renderers/CustomCombinedChartBarForFatigueRenderer.swift; sourceTree = "<group>"; };
 		9515A4892310475D00FD5FB0 /* CustomLineChartForFatigueRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomLineChartForFatigueRenderer.swift; path = Source/Charts/Renderers/CustomLineChartForFatigueRenderer.swift; sourceTree = "<group>"; };
+		954B35A1235F4DA100CF85DF /* CustomNewBarChartRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomNewBarChartRenderer.swift; path = Source/Charts/Renderers/CustomNewBarChartRenderer.swift; sourceTree = "<group>"; };
 		95F85FF62293FEF700339564 /* CustomCombinedChartWithMultiBarRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomCombinedChartWithMultiBarRenderer.swift; path = Source/Charts/Renderers/CustomCombinedChartWithMultiBarRenderer.swift; sourceTree = "<group>"; };
 		97AD2D4520AF917100F9C24A /* Platform+Accessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Platform+Accessibility.swift"; path = "Source/Charts/Utils/Platform+Accessibility.swift"; sourceTree = "<group>"; };
 		998F2BFE318471AFC05B50AC /* IHighlighter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IHighlighter.swift; path = Source/Charts/Highlight/IHighlighter.swift; sourceTree = "<group>"; };
@@ -677,6 +679,7 @@
 				D55554C3226881A100577143 /* CustomCombinedChartRenderer.swift */,
 				95F85FF62293FEF700339564 /* CustomCombinedChartWithMultiBarRenderer.swift */,
 				9510823223350C2F00935FA7 /* XAxisCombinedChartRenderer.swift */,
+				954B35A1235F4DA100CF85DF /* CustomNewBarChartRenderer.swift */,
 			);
 			name = Renderers;
 			sourceTree = "<group>";
@@ -929,6 +932,7 @@
 				3CBE95F1E9394FA08CDCF31E /* BarHighlighter.swift in Sources */,
 				D326491E8BCDE54A0921E137 /* ChartHighlighter.swift in Sources */,
 				64FA1EDB4DC1F65727D52D10 /* CombinedHighlighter.swift in Sources */,
+				954B35A2235F4DA100CF85DF /* CustomNewBarChartRenderer.swift in Sources */,
 				758EB1C75063ED3373542F3B /* Highlight.swift in Sources */,
 				4E98788ABEF6496C23F3E6C6 /* HorizontalBarHighlighter.swift in Sources */,
 				203A39685CC96FC625F616E4 /* IHighlighter.swift in Sources */,
