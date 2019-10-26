@@ -85,6 +85,7 @@ enum Option {
         case .toggleYLabels: return "Toggle Y-Labels"
         case .toggleRotate: return "Toggle Rotate"
         case .toggleHighlightCircle: return "Toggle highlight circle"
+        default : "No Value"
         }
     }
 }
@@ -346,7 +347,8 @@ extension DemoBaseViewController: UITableViewDelegate, UITableViewDataSource {
             cell?.backgroundColor = .clear
             cell?.textLabel?.textColor = .white
         }
-        cell?.textLabel?.text = self.options[indexPath.row].label
+        
+        cell?.textLabel?.text = self.options[indexPath.row].label ?? "No Label"
         
         return cell!
     }

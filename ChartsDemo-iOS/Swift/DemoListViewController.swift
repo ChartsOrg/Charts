@@ -19,6 +19,7 @@ private struct ItemDef {
 class DemoListViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
+    
     private var itemDefs = [ItemDef(title: "Line Chart",
                             subtitle: "A simple demonstration of the linechart.",
                             class: LineChart1ViewController.self),
@@ -92,11 +93,15 @@ class DemoListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        refreshAllCharts()
         self.title = "Charts Demonstration"
         self.tableView.rowHeight = 70
         //FIXME: Add TimeLineChart
-        
+        self.tableView.reloadData()
+    }
+    
+    func refreshAllCharts() {
+        self.tableView.reloadData()
     }
 }
 
@@ -111,7 +116,7 @@ extension DemoListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let def = self.itemDefs[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") ?? UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") ?? UITableViewCell(style: .value1, reuseIdentifier: "Cell")
         cell.textLabel?.text = def.title
         cell.detailTextLabel?.text = def.subtitle
         cell.detailTextLabel?.numberOfLines = 0
