@@ -7,47 +7,31 @@
 
 #if canImport(UIKit)
 import UIKit
-
 public typealias NSUIColor = UIColor
-private func fetchLabelColor() -> UIColor
-{
-    if #available(iOS 13, tvOS 13, *)
-    {
-        return .label
-    }
-    else
-    {
-        return .black
-    }
-}
-private let labelColor: UIColor = fetchLabelColor()
-
-extension UIColor
-{
-    static var labelOrBlack: UIColor { labelColor }
-}
 #endif
 
 #if canImport(AppKit)
-
 import AppKit
 
 public typealias NSUIColor = NSColor
-private func fetchLabelColor() -> NSColor
-{
-    if #available(macOS 10.14, *)
-    {
-        return .labelColor
-    }
-    else
-    {
-        return .black
-    }
-}
-private let labelColor: NSColor = fetchLabelColor()
 
-extension NSColor
+@available(macOS 10.14, *)
+private extension NSColor
 {
-    static var labelOrBlack: NSColor { labelColor }
+    static var label: NSColor { .labelColor }
 }
 #endif
+
+extension NSUIColor
+{
+    static var labelOrBlack: NSUIColor {
+        if #available(iOS 13, tvOS 13, *), #available(macOS 10.14, *)
+        {
+            return .label
+        }
+        else
+        {
+            return .black
+        }
+    }
+}
