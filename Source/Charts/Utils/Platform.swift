@@ -14,6 +14,24 @@ public typealias NSUIScrollView = UIScrollView
 public typealias NSUIScreen = UIScreen
 public typealias NSUIDisplayLink = CADisplayLink
 
+private func fetchLabelColor() -> UIColor
+{
+    if #available(iOS 13, tvOS 13, *)
+    {
+        return .label
+    }
+    else
+    {
+        return .black
+    }
+}
+private let labelColor: UIColor = fetchLabelColor()
+
+extension UIColor
+{
+    static var labelOrBlack: UIColor { labelColor }
+}
+
 open class NSUIView: UIView
 {
     @objc var nsuiLayer: CALayer?
@@ -220,6 +238,24 @@ extension NSImage
     {
         return self.cgImage(forProposedRect: nil, context: nil, hints: nil)
     }
+}
+
+private func fetchLabelColor() -> NSColor
+{
+    if #available(macOS 10.14, *)
+    {
+        return .labelColor
+    }
+    else
+    {
+        return .black
+    }
+}
+private let labelColor: NSColor = fetchLabelColor()
+
+extension NSColor
+{
+    static var labelOrBlack: NSColor { labelColor }
 }
 
 extension NSScrollView
