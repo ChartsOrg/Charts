@@ -12,7 +12,7 @@ public typealias Color = UIColor
 
 #if canImport(AppKit)
 import AppKit
-public typealias NSUIColor = NSColor
+public typealias Color = NSColor
 
 @available(macOS 10.14, *)
 private extension NSColor
@@ -21,9 +21,9 @@ private extension NSColor
 }
 #endif
 
-extension NSUIColor
+extension Color
 {
-    static var labelOrBlack: NSUIColor {
+    static var labelOrBlack: Color {
         if #available(iOS 13, tvOS 13, *), #available(macOS 10.14, *)
         {
             return .label
@@ -33,3 +33,4 @@ extension NSUIColor
             return .black
         }
     }
+}

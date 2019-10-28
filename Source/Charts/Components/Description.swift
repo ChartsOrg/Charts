@@ -50,5 +50,5 @@ open class Description: ComponentBase
     @objc open var font: Font
     
     /// Text color used for drawing the description text
-    @objc open var textColor = Color.label
+    @objc open var textColor = Color.labelOrBlack
 }

@@ -25,7 +25,7 @@ open class AxisBase: ComponentBase
     private var _axisValueFormatter: IAxisValueFormatter?
     
     @objc open var labelFont = Font.systemFont(ofSize: 10.0)
-    @objc open var labelTextColor = Color.label
+    @objc open var labelTextColor = Color.labelOrBlack
     
     @objc open var axisLineColor = Color.gray
     @objc open var axisLineWidth = CGFloat(0.5)

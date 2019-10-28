@@ -34,7 +34,7 @@ open class ChartLimitLine: ComponentBase
     @objc open var lineDashPhase = CGFloat(0.0)
     @objc open var lineDashLengths: [CGFloat]?
     
-    @objc open var valueTextColor = Color.label
+    @objc open var valueTextColor = Color.labelOrBlack
     @objc open var valueFont = Font.systemFont(ofSize: 13.0)
     
     @objc open var drawLabelEnabled = true

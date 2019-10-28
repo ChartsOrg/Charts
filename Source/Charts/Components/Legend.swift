@@ -97,8 +97,8 @@ open class Legend: ComponentBase
     /// The text direction of the legend
     @objc open var direction: Direction = Direction.leftToRight
 
-    @objc open var font: Font = Font.systemFont(ofSize: 10.0)
-    @objc open var textColor = Color.label
+    @objc open var font = Font.systemFont(ofSize: 10.0)
+    @objc open var textColor = Color.labelOrBlack
 
     /// The form/shape of the legend forms
     @objc open var form = Form.square
