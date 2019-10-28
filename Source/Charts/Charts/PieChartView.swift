@@ -363,7 +363,7 @@ open class PieChartView: PieRadarChartViewBase
                 
                 attrString = NSMutableAttributedString(string: newValue!)
                 attrString?.setAttributes([
-                    .foregroundColor: NSUIColor.black,
+                    .foregroundColor: NSUIColor.labelOrBlack,
                     .font: NSUIFont.systemFont(ofSize: 12.0),
                     .paragraphStyle: paragraphStyle
                     ], range: NSMakeRange(0, attrString!.length))

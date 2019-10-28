@@ -27,6 +27,24 @@ public typealias NSUIScreen = UIScreen
 
 public typealias NSUIDisplayLink = CADisplayLink
 
+private func fetchLabelColor() -> UIColor
+{
+    if #available(iOS 13, tvOS 13, *)
+    {
+        return .label
+    }
+    else
+    {
+        return .black
+    }
+}
+private let labelColor: UIColor = fetchLabelColor()
+
+extension UIColor
+{
+    static var labelOrBlack: UIColor { labelColor }
+}
+
 extension NSUITapGestureRecognizer
 {
     @objc final func nsuiNumberOfTouches() -> Int
@@ -518,6 +536,24 @@ extension NSTouch
         let b = view.bounds
         return NSPoint(x: b.origin.x + b.size.width * n.x, y: b.origin.y + b.size.height * n.y)
     }
+}
+
+private func fetchLabelColor() -> NSColor
+{
+    if #available(macOS 10.14, *)
+    {
+        return .labelColor
+    }
+    else
+    {
+        return .black
+    }
+}
+private let labelColor: NSColor = fetchLabelColor()
+
+extension NSColor
+{
+    static var labelOrBlack: NSColor { labelColor }
 }
 
 extension NSScrollView
