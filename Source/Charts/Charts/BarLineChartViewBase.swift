@@ -181,7 +181,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
         // execute all drawing commands
         drawGridBackground(context: context)
-        
+        renderer.drawData(context: context)
 
         if _autoScaleMinMaxEnabled
         {
@@ -232,7 +232,6 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         if clipDataToContentEnabled {
             context.clip(to: _viewPortHandler.contentRect)
         }
-        renderer.drawData(context: context)
         
         // if highlighting is enabled
         if (valuesToHighlight())
