@@ -125,7 +125,7 @@ open class YAxisRenderer: AxisRendererBase
     }
     
     /// draws the y-labels on the specified x-position
-    internal func drawYLabels(
+    open func drawYLabels(
         context: CGContext,
         fixedPosition: CGFloat,
         positions: [CGPoint],
