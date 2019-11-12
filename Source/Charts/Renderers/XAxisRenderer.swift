@@ -62,10 +62,7 @@ open class XAxisRenderer: AxisRendererBase
             xAxis = self.axis as? XAxis
             else { return }
         
-        let longest = xAxis.getLongestLabel()
-        
-        let labelSize = longest.size(withAttributes: [NSAttributedString.Key.font: xAxis.labelFont])
-        
+        let labelSize = xAxis.getLongestLabelSize()
         let labelWidth = labelSize.width
         let labelHeight = labelSize.height
         
