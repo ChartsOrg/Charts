@@ -1,12 +1,12 @@
 language: objective-c
-osx_image: xcode11
+osx_image: xcode11.2
 matrix:
   include:
-    - osx_image: xcode11
+    - osx_image: xcode11.2
       env: PLATFORM="iOS"
-    - osx_image: xcode11
+    - osx_image: xcode11.2
       env: PLATFORM="tvOS"
-    - osx_image: xcode11
+    - osx_image: xcode11.2
       env: PLATFORM="macOS"
 env:
   global:
