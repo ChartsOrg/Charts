@@ -663,7 +663,19 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                     matrix = matrix.translatedBy(x: -location.x, y: -location.y)
                     
                     matrix = _viewPortHandler.touchMatrix.concatenating(matrix)
-                    
+                    // Fix bug https://github.com/danielgindi/Charts/issues/3939#issuecomment-549259844
+                    if matrix.a > _viewPortHandler.maxScaleX {
+                        matrix.a = _viewPortHandler.maxScaleX
+                    }
+                    if matrix.a < _viewPortHandler.minScaleX {
+                        matrix.a = _viewPortHandler.minScaleX
+                    }
+                    if matrix.d > _viewPortHandler.maxScaleY {
+                        matrix.d = _viewPortHandler.maxScaleY
+                    }
+                    if matrix.d < _viewPortHandler.minScaleY {
+                        matrix.d = _viewPortHandler.minScaleY
+                    }
                     _viewPortHandler.refresh(newMatrix: matrix, chart: self, invalidate: true)
                     
                     if delegate !== nil
