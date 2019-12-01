@@ -167,7 +167,19 @@ open class YAxis: AxisBase
             case(false, true):
                 max = min < 0 ? min * 0.5 : min * 1.5
             case(false, false):
-                break
+                /*
+                 Is this case possible when everything is correct?
+                 If it is possible, here should not return
+                 getYMin and getYMax of ChartData will pass value to dataMin and dataMax
+                 when there is no data
+                 getYMin will return +Double.greatestFiniteMagnitude and min is +Inf
+                 getYMax will reutrn -Double.greatestFiniteMagnitude nad max is -Inf
+                 and this method comes to this case
+                 max - min becomes meaningless here
+                 +Inf and -Inf should not be involved in calculation
+                 https://github.com/danielgindi/Charts/issues/3352 looks the same problem
+                 */
+                return
             }
         }
         

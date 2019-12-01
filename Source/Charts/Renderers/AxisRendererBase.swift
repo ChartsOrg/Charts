@@ -115,6 +115,13 @@ open class AxisRendererBase: Renderer
             interval = interval < axis.granularity ? axis.granularity : interval
         }
         
+        // As discussed in https://github.com/danielgindi/Charts/pull/1558
+        // It is still necesssary to add a safety check, but it is likely to hide the real problem
+        if (interval.isNaN || interval.isInfinite) {
+            print("Charts: Interval should be a valid number")
+            return
+        }
+        
         // Normalize interval
         let intervalMagnitude = pow(10.0, Double(Int(log10(interval)))).roundedToNextSignficant()
         let intervalSigDigit = Int(interval / intervalMagnitude)
