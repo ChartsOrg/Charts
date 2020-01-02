@@ -84,7 +84,7 @@ extension NSUIPinchGestureRecognizer
 #endif
 
 // MARK: - AppKit
-#if canImport(AppKit)
+#if canImport(AppKit) && !targetEnvironment(macCatalyst)
 import AppKit
 
 public typealias NSUIGestureRecognizer = NSGestureRecognizer
