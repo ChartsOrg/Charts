@@ -107,7 +107,7 @@ open class ChartDataSet: ChartBaseDataSet
         let indexFrom = entryIndex(x: fromX, closestToY: Double.nan, rounding: .down)
         let indexTo = entryIndex(x: toX, closestToY: Double.nan, rounding: .up)
         
-        guard !(indexTo < indexFrom) else { return }
+        guard !(indexTo <= indexFrom) else { return }
         // only recalculate y
         self[indexFrom...indexTo].forEach(calcMinMaxY)
     }
