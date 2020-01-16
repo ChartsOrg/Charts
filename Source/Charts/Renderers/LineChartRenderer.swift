@@ -562,12 +562,12 @@ open class LineChartRenderer: LineRadarRenderer
 
         for i in 0 ..< dataSets.count
         {
-            guard let dataSet = lineData.getDataSetByIndex(i) as? ILineChartDataSet else { continue }
-            
-            if !dataSet.isVisible || dataSet.entryCount == 0
-            {
-                continue
-            }
+            guard
+                let dataSet = lineData.getDataSetByIndex(i) as? ILineChartDataSet,
+                dataSet.drawCirclesEnabled,
+                dataSet.isVisible,
+                dataSet.entryCount > 0
+            else { continue }
             
             let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
             let valueToPixelMatrix = trans.valueToPixelMatrix
