@@ -64,7 +64,7 @@ extension UIView
 #endif
 
 
-#if canImport(AppKit)
+#if canImport(AppKit) && !targetEnvironment(macCatalyst)
 import AppKit
 
 public typealias NSUIEvent = NSEvent

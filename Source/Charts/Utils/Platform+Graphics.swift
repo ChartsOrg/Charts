@@ -51,7 +51,7 @@ func NSUIGraphicsBeginImageContextWithOptions(_ size: CGSize, _ opaque: Bool, _ 
 #endif
 
 // MARK: - AppKit
-#if canImport(AppKit)
+#if canImport(AppKit) && !targetEnvironment(macCatalyst)
 import AppKit
 
 func NSUIGraphicsGetCurrentContext() -> CGContext?
