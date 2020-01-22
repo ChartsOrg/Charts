@@ -312,7 +312,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         
         let frame = self.bounds
 
-        if _data === nil && noDataText.count > 0
+        if (_data === nil || _data?.dataSets[0].entryCount == 0) && noDataText.count > 0
         {
             context.saveGState()
             defer { context.restoreGState() }
