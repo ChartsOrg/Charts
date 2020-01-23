@@ -167,7 +167,7 @@ open class PieChartRenderer: DataRenderer
             // draw only if the value is greater than zero
             if (abs(e.y) > Double.ulpOfOne)
             {
-                if !chart.needsHighlight(index: j)
+                if !dataSet.isHighlightEnabled || !chart.needsHighlight(index: j)
                 {
                     let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
 
@@ -735,6 +735,8 @@ open class PieChartRenderer: DataRenderer
             }
 
             guard let set = data.getDataSetByIndex(indices[i].dataSetIndex) as? IPieChartDataSet else { continue }
+            
+            if !set.isHighlightEnabled { continue }
 
             let entryCount = set.entryCount
             var visibleAngleCount = 0
@@ -761,7 +763,7 @@ open class PieChartRenderer: DataRenderer
             let sliceAngle = drawAngles[index]
             var innerRadius = userInnerRadius
 
-            let shift = set.isHighlightEnabled ? set.selectionShift : 0.0
+            let shift = set.selectionShift
             let highlightedRadius = radius + shift
 
             let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
