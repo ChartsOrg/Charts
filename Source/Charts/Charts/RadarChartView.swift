@@ -59,6 +59,7 @@ open class RadarChartView: PieRadarChartViewBase
         super.initialize()
         
         _yAxis = YAxis(position: .left)
+        _yAxis.labelXOffset = 10.0
         
         renderer = RadarChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
         
