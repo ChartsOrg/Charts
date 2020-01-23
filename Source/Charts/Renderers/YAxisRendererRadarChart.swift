@@ -187,7 +187,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
         let to = yAxis.isDrawTopYLabelEntryEnabled ? yAxis.entryCount : (yAxis.entryCount - 1)
 
         let alignment: NSTextAlignment = yAxis.labelAlignment
-        let xOffset: CGFloat = yAxis.labelXOffset
+        let xOffset = yAxis.labelXOffset
         
         for j in stride(from: from, to: to, by: 1)
         {

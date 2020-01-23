@@ -81,7 +81,7 @@ open class YAxis: AxisBase
     @objc open var labelAlignment: NSTextAlignment = .left
 
     /// the horizontal offset of the y-label
-    @objc open var labelXOffset: CGFloat = 10.0
+    @objc open var labelXOffset: CGFloat = 0.0
     
     /// the side this axis object represents
     private var _axisDependency = AxisDependency.left
