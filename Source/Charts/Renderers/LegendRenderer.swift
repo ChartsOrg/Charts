@@ -53,10 +53,13 @@ open class LegendRenderer: Renderer
                     for j in 0..<minEntries
                     {
                         let label: String?
-                        if (sLabels.count > 0 && minEntries > 0) {
+                        if (sLabels.count > 0)
+                        {
                             let labelIndex = j % minEntries
                             label = sLabels.indices.contains(labelIndex) ? sLabels[labelIndex] : nil
-                        } else {
+                        }
+                        else
+                        {
                             label = nil
                         }
 

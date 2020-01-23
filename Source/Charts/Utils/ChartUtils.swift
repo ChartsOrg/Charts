@@ -20,13 +20,20 @@ import CoreGraphics
 import Cocoa
 #endif
 
-extension Comparable {
-    func clamped(to range: ClosedRange<Self>) -> Self {
-        if self > range.upperBound {
+extension Comparable
+{
+    func clamped(to range: ClosedRange<Self>) -> Self
+    {
+        if self > range.upperBound
+        {
             return range.upperBound
-        } else if self < range.lowerBound {
+        }
+        else if self < range.lowerBound
+        {
             return range.lowerBound
-        } else {
+        }
+        else
+        {
             return self
         }
     }
