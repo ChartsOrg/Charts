@@ -119,10 +119,14 @@ open class PieChartRenderer: DataRenderer
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
 
+        let borderWidth = dataSet.sliceBorderWidth
+        let borderColor = dataSet.sliceBorderColor
+        let drawBorder = borderWidth > 0.0
+        
         let entryCount = dataSet.entryCount
         let drawAngles = chart.drawAngles
         let center = chart.centerCircleBox
-        let radius = chart.radius
+        let radius = chart.radius - borderWidth
         let drawInnerArc = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled
         let userInnerRadius = drawInnerArc ? radius * chart.holeRadiusPercent : 0.0
 
@@ -156,7 +160,7 @@ open class PieChartRenderer: DataRenderer
         element.accessibilityFrame = chart.bounds
         element.isHeader = true
         accessibleChartElements.append(element)
-
+        
         for j in 0 ..< entryCount
         {
             let sliceAngle = drawAngles[j]
@@ -266,6 +270,15 @@ open class PieChartRenderer: DataRenderer
                     context.beginPath()
                     context.addPath(path)
                     context.fillPath(using: .evenOdd)
+                    
+                    if drawBorder
+                    {
+                        context.setStrokeColor(borderColor.cgColor)
+                        context.setLineWidth(borderWidth)
+                        context.beginPath()
+                        context.addPath(path)
+                        context.strokePath()
+                    }
 
                     let axElement = createAccessibleElement(withIndex: j,
                                                             container: chart,
