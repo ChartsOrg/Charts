@@ -349,10 +349,8 @@ open class ChartData: NSObject
         // TODO: Return nil instead of -1
         if ignorecase
         {
-            return dataSets.firstIndex {
-                guard let label = $0.label else { return false }
-                return label.caseInsensitiveCompare(label) == .orderedSame
-            } ?? -1
+            return dataSets.firstIndex { $0.label?.caseInsensitiveCompare(label) == .orderedSame }
+                ?? -1
         }
         else
         {
