@@ -677,13 +677,25 @@ open class PieRadarChartViewBase: ChartViewBase
         }()
 
         // Remove samples older than our sample time - 1 seconds
-        // while keeping at least one samples
-        let index = velocitySamples
-            .dropLast()
-            .lastIndex { $0.time < currentSample.time - 1 }
-        if let index = index {
-            velocitySamples.remove(at: index)
+        // while keeping at least one sample
+        
+        var i = 0, count = velocitySamples.count
+        while (i < count - 2)
+        {
+            if currentSample.time - velocitySamples[i].time > 1.0
+            {
+                velocitySamples.remove(at: 0)
+                i -= 1
+                count -= 1
+            }
+            else
+            {
+                break
+            }
+
+            i += 1
         }
+
         velocitySamples.append(currentSample)
     }
 
