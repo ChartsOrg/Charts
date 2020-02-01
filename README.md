@@ -197,6 +197,13 @@ Special Thanks
 
 Goes to [@liuxuan30](https://github.com/liuxuan30), [@petester42](https://github.com/petester42) and  [@AlBirdie](https://github.com/AlBirdie) for new features, bugfixes, and lots and lots of involvement in our open-sourced community! You guys are a huge help to all of those coming here with questions and issues, and I couldn't respond to all of those without you.
 
+### Our amazing sponsors
+
+[Debricked](https://debricked.com/): Use open source securely
+
+[![debricked](https://user-images.githubusercontent.com/4375169/73585544-25bfa800-44dd-11ea-9661-82519a125302.jpg)](https://debricked.com/)
+
+
 License
 =======
 Copyright 2016 Daniel Cohen Gindi & Philipp Jahoda
