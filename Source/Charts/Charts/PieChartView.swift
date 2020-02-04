@@ -12,8 +12,12 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
+#if canImport(UIKit)
     import UIKit
+#endif
+
+#if canImport(Cocoa)
+import Cocoa
 #endif
 
 /// View that represents a pie chart. Draws cake like slices.
@@ -195,17 +199,12 @@ open class PieChartView: PieRadarChartViewBase
         _absoluteAngles.reserveCapacity(entryCount)
         
         let yValueSum = (_data as! PieChartData).yValueSum
-        
-        var dataSets = data.dataSets
 
         var cnt = 0
 
-        for i in 0 ..< data.dataSetCount
+        for set in data.dataSets
         {
-            let set = dataSets[i]
-            let entryCount = set.entryCount
-
-            for j in 0 ..< entryCount
+            for j in 0 ..< set.entryCount
             {
                 guard let e = set.entryForIndex(j) else { continue }
                 
@@ -228,22 +227,7 @@ open class PieChartView: PieRadarChartViewBase
     /// Checks if the given index is set to be highlighted.
     @objc open func needsHighlight(index: Int) -> Bool
     {
-        // no highlight
-        if !valuesToHighlight()
-        {
-            return false
-        }
-        
-        for i in 0 ..< _indicesToHighlight.count
-        {
-            // check if the xvalue for the given dataset needs highlight
-            if Int(_indicesToHighlight[i].x) == index
-            {
-                return true
-            }
-        }
-        
-        return false
+        return _indicesToHighlight.contains { Int($0.x) == index }
     }
     
     /// calculates the needed angle for a given value
@@ -263,36 +247,22 @@ open class PieChartView: PieRadarChartViewBase
     {
         fatalError("PieChart has no XAxis")
     }
-    
+
     open override func indexForAngle(_ angle: CGFloat) -> Int
     {
+        // TODO: Return nil instead of -1
         // take the current angle of the chart into consideration
         let a = (angle - self.rotationAngle).normalizedAngle
-        for i in 0 ..< _absoluteAngles.count
-        {
-            if _absoluteAngles[i] > a
-            {
-                return i
-            }
-        }
-        
-        return -1 // return -1 if no index found
+        return _absoluteAngles.firstIndex { $0 > a } ?? -1
     }
     
     /// - returns: The index of the DataSet this x-index belongs to.
     @objc open func dataSetIndexForIndex(_ xValue: Double) -> Int
     {
-        var dataSets = _data?.dataSets ?? []
-        
-        for i in 0 ..< dataSets.count
-        {
-            if (dataSets[i].entryForXValue(xValue, closestToY: Double.nan) !== nil)
-            {
-                return i
-            }
-        }
-        
-        return -1
+        // TODO: Return nil instead of -1
+        return _data?.dataSets.firstIndex {
+            $0.entryForXValue(xValue, closestToY: .nan) != nil
+        } ?? -1
     }
     
     /// - returns: An integer array of all the different angles the chart slices
@@ -387,20 +357,15 @@ open class PieChartView: PieRadarChartViewBase
             }
             else
             {
-                #if os(OSX)
-                    let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
-                    paragraphStyle.lineBreakMode = NSLineBreakMode.byTruncatingTail
-                #else
-                    let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
-                    paragraphStyle.lineBreakMode = NSLineBreakMode.byTruncatingTail
-                #endif
+                let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+                paragraphStyle.lineBreakMode = .byTruncatingTail
                 paragraphStyle.alignment = .center
                 
                 attrString = NSMutableAttributedString(string: newValue!)
                 attrString?.setAttributes([
-                    NSAttributedString.Key.foregroundColor: NSUIColor.black,
-                    NSAttributedString.Key.font: NSUIFont.systemFont(ofSize: 12.0),
-                    NSAttributedString.Key.paragraphStyle: paragraphStyle
+                    .foregroundColor: NSUIColor.labelOrBlack,
+                    .font: NSUIFont.systemFont(ofSize: 12.0),
+                    .paragraphStyle: paragraphStyle
                     ], range: NSMakeRange(0, attrString!.length))
             }
             self.centerAttributedText = attrString

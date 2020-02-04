@@ -115,17 +115,17 @@
         [yVals3 addObject:[[BubbleChartDataEntry alloc] initWithX:i y:val size:size]];
     }
     
-    BubbleChartDataSet *set1 = [[BubbleChartDataSet alloc] initWithValues:yVals1 label:@"DS 1"];
+    BubbleChartDataSet *set1 = [[BubbleChartDataSet alloc] initWithEntries:yVals1 label:@"DS 1"];
     set1.drawIconsEnabled = NO;
     [set1 setColor:ChartColorTemplates.colorful[0] alpha:0.50f];
     [set1 setDrawValuesEnabled:YES];
     
-    BubbleChartDataSet *set2 = [[BubbleChartDataSet alloc] initWithValues:yVals2 label:@"DS 2"];
+    BubbleChartDataSet *set2 = [[BubbleChartDataSet alloc] initWithEntries:yVals2 label:@"DS 2"];
     set2.iconsOffset = CGPointMake(0, 15);
     [set2 setColor:ChartColorTemplates.colorful[1] alpha:0.50f];
     [set2 setDrawValuesEnabled:YES];
     
-    BubbleChartDataSet *set3 = [[BubbleChartDataSet alloc] initWithValues:yVals3 label:@"DS 3"];
+    BubbleChartDataSet *set3 = [[BubbleChartDataSet alloc] initWithEntries:yVals3 label:@"DS 3"];
     [set3 setColor:ChartColorTemplates.colorful[2] alpha:0.50f];
     [set3 setDrawValuesEnabled:YES];
     

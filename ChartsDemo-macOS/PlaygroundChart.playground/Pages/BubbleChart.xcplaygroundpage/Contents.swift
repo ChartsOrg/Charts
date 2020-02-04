@@ -59,7 +59,7 @@ for index in 0..<ITEM_COUNT
 //: ### BubbleChartDataSet
 let set = BubbleChartDataSet(values: entries, label: "Bubble DataSet")
 set.colors = ChartColorTemplates.vordiplom()
-set.valueTextColor = NSUIColor.black
+set.valueTextColor = NSUIColor.labelOrBlack
 set.valueFont = NSUIFont.systemFont(ofSize: CGFloat(10.0))
 set.drawValuesEnabled = true
 set.normalizeSizeEnabled = false

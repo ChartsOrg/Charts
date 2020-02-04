@@ -12,10 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 /// BarChart with horizontal bar orientation. In this implementation, x- and y-axis are switched.
 open class HorizontalBarChartView: BarChartView
 {
@@ -39,7 +35,7 @@ open class HorizontalBarChartView: BarChartView
         guard
             let legend = _legend,
             legend.isEnabled,
-            legend.drawInside
+            !legend.drawInside
         else { return }
         
         // setup offsets for legend

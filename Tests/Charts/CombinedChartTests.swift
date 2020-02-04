@@ -46,7 +46,7 @@ class CombinedChartTests: FBSnapshotTestCase
             entries.append(BarChartDataEntry(x: Double(i), y: value, icon: UIImage(named: "icon", in: Bundle(for: self.classForCoder), compatibleWith: nil)))
         }
 
-        barDataSet = BarChartDataSet(values: entries, label: "Bar chart unit test data")
+        barDataSet = BarChartDataSet(entries: entries, label: "Bar chart unit test data")
         barDataSet.drawIconsEnabled = false
 
         let data = BarChartData(dataSet: barDataSet)
@@ -67,7 +67,7 @@ class CombinedChartTests: FBSnapshotTestCase
             entries.append(ChartDataEntry(x: Double(i), y: value, icon: UIImage(named: "icon", in: Bundle(for: self.classForCoder), compatibleWith: nil)))
         }
 
-        lineDataSet = LineChartDataSet(values: entries, label: "Line chart unit test data")
+        lineDataSet = LineChartDataSet(entries: entries, label: "Line chart unit test data")
         lineDataSet.drawIconsEnabled = false
         return LineChartData(dataSet: lineDataSet)
     }
@@ -80,7 +80,7 @@ class CombinedChartTests: FBSnapshotTestCase
 
     func testDefaultAxisDependency()
     {
-        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
     func testLeftRightAxisDependency()
@@ -89,7 +89,7 @@ class CombinedChartTests: FBSnapshotTestCase
         barDataSet.axisDependency = .right
         chart.data?.notifyDataChanged()
         chart.notifyDataSetChanged()
-        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 
     func testAllRightAxisDependency()
@@ -98,7 +98,7 @@ class CombinedChartTests: FBSnapshotTestCase
         barDataSet.axisDependency = .right
         chart.data?.notifyDataChanged()
         chart.notifyDataSetChanged()
-        FBSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), tolerance: Snapshot.tolerance)
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
 }
 

@@ -12,10 +12,13 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
+#if canImport(UIKit)
     import UIKit
 #endif
 
+#if canImport(Cocoa)
+import Cocoa
+#endif
 
 open class HorizontalBarChartRenderer: BarChartRenderer
 {
@@ -324,7 +327,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 let barData = dataProvider.barData
                 else { return }
             
-            var dataSets = barData.dataSets
+            let dataSets = barData.dataSets
             
             let textAlign = NSTextAlignment.left
             
@@ -335,12 +338,10 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             
             for dataSetIndex in 0 ..< barData.dataSetCount
             {
-                guard let dataSet = dataSets[dataSetIndex] as? IBarChartDataSet else { continue }
-                
-                if !shouldDrawValues(forDataSet: dataSet) || !(dataSet.isDrawIconsEnabled && dataSet.isVisible)
-                {
-                    continue
-                }
+                guard let
+                    dataSet = dataSets[dataSetIndex] as? IBarChartDataSet,
+                    shouldDrawValues(forDataSet: dataSet)
+                    else { continue }
                 
                 let isInverted = dataProvider.isInverted(axis: dataSet.axisDependency)
                 
@@ -393,7 +394,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                         // calculate the correct offset depending on the draw position of the value
                         let valueTextWidth = valueText.size(withAttributes: [NSAttributedString.Key.font: valueFont]).width
                         posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
-                        negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
+                        negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus) - rect.size.width
                         
                         if isInverted
                         {

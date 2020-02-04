@@ -6,7 +6,9 @@
 //  Copyright © 2017 jc. All rights reserved.
 //
 
-import UIKit
+#if canImport(UIKit)
+    import UIKit
+#endif
 import Charts
 
 class PositiveNegativeBarChartViewController: DemoBaseViewController {
@@ -93,7 +95,7 @@ class PositiveNegativeBarChartViewController: DemoBaseViewController {
             return entry.y > 0 ? red : green
         }
         
-        let set = BarChartDataSet(values: yVals, label: "Values")
+        let set = BarChartDataSet(entries: yVals, label: "Values")
         set.colors = colors
         set.valueColors = colors
         

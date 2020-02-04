@@ -82,7 +82,7 @@
         [entries addObject:[[PieChartDataEntry alloc] initWithValue:(arc4random_uniform(mult) + mult / 5) label:parties[i % parties.count]]];
     }
     
-    PieChartDataSet *dataSet = [[PieChartDataSet alloc] initWithValues:entries label:@"Election Results"];
+    PieChartDataSet *dataSet = [[PieChartDataSet alloc] initWithEntries:entries label:@"Election Results"];
     dataSet.sliceSpace = 2.0;
     
     // add a lot of colors

@@ -97,13 +97,13 @@
     if (_chartView.data.dataSetCount > 0)
     {
         set1 = (BarChartDataSet *)_chartView.data.dataSets[0];
-        set1.values = yVals;
+        [set1 replaceEntries:yVals];
         [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
     }
     else
     {
-        set1 = [[BarChartDataSet alloc] initWithValues:yVals label:@"DataSet"];
+        set1 = [[BarChartDataSet alloc] initWithEntries:yVals label:@"DataSet"];
         set1.colors = ChartColorTemplates.vordiplom;
         set1.drawValuesEnabled = NO;
         

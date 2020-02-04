@@ -19,8 +19,8 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
     {
         self.highlightColor = NSUIColor.black
         
-        self.calcStackSize(entries: values as! [BarChartDataEntry])
-        self.calcEntryCountIncludingStacks(entries: values as! [BarChartDataEntry])
+        self.calcStackSize(entries: entries as! [BarChartDataEntry])
+        self.calcEntryCountIncludingStacks(entries: entries as! [BarChartDataEntry])
     }
     
     public required init()
@@ -29,9 +29,9 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
         initialize()
     }
     
-    public override init(values: [ChartDataEntry]?, label: String?)
+    public override init(entries: [ChartDataEntry]?, label: String?)
     {
-        super.init(values: values, label: label)
+        super.init(entries: entries, label: label)
         initialize()
     }
 

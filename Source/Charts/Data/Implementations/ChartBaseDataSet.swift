@@ -21,7 +21,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
         
         // default color
         colors.append(NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
-        valueColors.append(NSUIColor.black)
+        valueColors.append(.labelOrBlack)
     }
     
     @objc public init(label: String?)
@@ -30,7 +30,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
         
         // default color
         colors.append(NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
-        valueColors.append(NSUIColor.black)
+        valueColors.append(.labelOrBlack)
         
         self.label = label
     }
@@ -245,14 +245,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     /// - parameter alpha: alpha to apply to the set `colors`
     @objc open func setColors(_ colors: [NSUIColor], alpha: CGFloat)
     {
-        var colorsWithAlpha = colors
-        
-        for i in 0 ..< colorsWithAlpha.count
-        {
-            colorsWithAlpha[i] = colorsWithAlpha[i] .withAlphaComponent(alpha)
-        }
-        
-        self.colors = colorsWithAlpha
+        self.colors = colors.map { $0.withAlphaComponent(alpha) }
     }
     
     /// Sets colors with a specific alpha value.
@@ -399,14 +392,9 @@ open class ChartBaseDataSet: NSObject, IChartDataSet
     
     open override var debugDescription: String
     {
-        var desc = description + ":"
-        
-        for i in 0 ..< self.entryCount
-        {
-            desc += "\n" + (self.entryForIndex(i)?.description ?? "")
+        return (0..<entryCount).reduce(description + ":") {
+            $0 + "\n" + (self.entryForIndex($1)?.description ?? "")
         }
-        
-        return desc
     }
     
     // MARK: - NSCopying

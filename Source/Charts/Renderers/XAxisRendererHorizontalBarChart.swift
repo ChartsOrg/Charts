@@ -12,10 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 open class XAxisRendererHorizontalBarChart: XAxisRenderer
 {
     internal weak var chart: BarChartView?
@@ -314,7 +310,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
                 let xOffset: CGFloat = 4.0 + l.xOffset
                 let yOffset: CGFloat = l.lineWidth + labelLineHeight + l.yOffset
                 
-                if l.labelPosition == .rightTop
+                if l.labelPosition == .topRight
                 {
                     ChartUtils.drawText(context: context,
                         text: label,
@@ -324,7 +320,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
                         align: .right,
                         attributes: [NSAttributedString.Key.font: l.valueFont, NSAttributedString.Key.foregroundColor: l.valueTextColor])
                 }
-                else if l.labelPosition == .rightBottom
+                else if l.labelPosition == .bottomRight
                 {
                     ChartUtils.drawText(context: context,
                         text: label,
@@ -334,7 +330,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
                         align: .right,
                         attributes: [NSAttributedString.Key.font: l.valueFont, NSAttributedString.Key.foregroundColor: l.valueTextColor])
                 }
-                else if l.labelPosition == .leftTop
+                else if l.labelPosition == .topLeft
                 {
                     ChartUtils.drawText(context: context,
                         text: label,

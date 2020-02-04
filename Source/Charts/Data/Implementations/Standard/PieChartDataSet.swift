@@ -33,9 +33,9 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
         initialize()
     }
 
-    public override init(values: [ChartDataEntry]?, label: String?)
+    public override init(entries: [ChartDataEntry]?, label: String?)
     {
-        super.init(values: values, label: label)
+        super.init(entries: entries, label: label)
         initialize()
     }
 
@@ -83,6 +83,9 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
 
     /// When valuePosition is OutsideSlice, indicates line color
     open var valueLineColor: NSUIColor? = NSUIColor.black
+
+    /// When valuePosition is OutsideSlice and enabled, line will have the same color as the slice
+    open var useValueColorForLine: Bool = false
 
     /// When valuePosition is OutsideSlice, indicates line width
     open var valueLineWidth: CGFloat = 1.0

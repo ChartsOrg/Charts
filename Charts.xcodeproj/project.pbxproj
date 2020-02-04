@@ -111,11 +111,13 @@
 		B0D28C68BB9A958DC56EB214 /* DefaultValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107D8F8163EE54D6D9E916B0 /* DefaultValueFormatter.swift */; };
 		B13C74B4FF705D7B595D01EF /* IAxisValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD9DF16AF59680A3BB49452 /* IAxisValueFormatter.swift */; };
 		B539114951455C35BADAE3F3 /* PieChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4FB5E3761EF8B4D1E1E1014 /* PieChartDataSet.swift */; };
+		B66817462241E3CC00017CF1 /* HorizontalBarChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B66817452241E3CC00017CF1 /* HorizontalBarChartTests.swift */; };
 		B6BF9A561F91993A00E62A5D /* CombinedChartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BF9A551F91993A00E62A5D /* CombinedChartTests.swift */; };
 		B6C9F450D937B87224D29D5C /* IFillFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818AC6B12505B7C0A53D62F9 /* IFillFormatter.swift */; };
 		B6DCC229615EFE706F64A37D /* LineScatterCandleRadarRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923206233CA89FD03565FF87 /* LineScatterCandleRadarRenderer.swift */; };
 		B85DEB06B4C1AFFC8A0E3295 /* CircleShapeRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE1B1623D3AF69CECAE8562 /* CircleShapeRenderer.swift */; };
 		BEFD9518F3A74ACF8FA33308 /* Charts.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F9922F0641F7955DC6CD324 /* Charts.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C03E6D8123DAAB2600083010 /* ChartDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03E6D8023DAAB2600083010 /* ChartDataTests.swift */; };
 		C04D269AD4A373FD2B621C43 /* LineChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C978F31F23C7D21197DC2A1 /* LineChartData.swift */; };
 		C09E91F67A4AC43C277E7D82 /* BubbleChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8ED233775EEC31243A6919 /* BubbleChartDataEntry.swift */; };
 		C20A62D8CB9120523D5FB650 /* LegendEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7C673B9ED4340F550A9283 /* LegendEntry.swift */; };
@@ -123,6 +125,10 @@
 		C33E1AF5471A60BA42DAF52E /* RadarHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F368CF209744D8F3B85B1028 /* RadarHighlighter.swift */; };
 		C3F0DDB7F0A922F0BB7EDB8A /* IBarChartDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A53A9E42FC07FFDACA937C1 /* IBarChartDataSet.swift */; };
 		C7B150D740255670DEB9F455 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65AD9E95D9ED4DC0BD73A743 /* Charts.framework */; };
+		C9AA360A2355F01F00C97D93 /* Platform+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AA36092355F01F00C97D93 /* Platform+Color.swift */; };
+		C9F3DC262355F791000C3215 /* Platform+Graphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3DC242355F791000C3215 /* Platform+Graphics.swift */; };
+		C9F3DC272355F791000C3215 /* Platform+Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3DC252355F791000C3215 /* Platform+Gestures.swift */; };
+		C9F3DC292355FA2F000C3215 /* Platform+Touch Handling.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F3DC282355FA2F000C3215 /* Platform+Touch Handling.swift */; };
 		CB785FE9B6B312408D17BC3B /* ChartUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDA09EF973925A110506799 /* ChartUtils.swift */; };
 		CC7F8198A13249B5DEBBF25E /* AnimatedViewPortJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710D7C9B2F1DB4A331EE405A /* AnimatedViewPortJob.swift */; };
 		CEF68F42A5390A73113F3663 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F66B32AD8A878CBD6DB6ED2 /* Renderer.swift */; };
@@ -273,6 +279,7 @@
 		B137428B41C143D5115726C4 /* Description.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Description.swift; path = Source/Charts/Components/Description.swift; sourceTree = "<group>"; };
 		B1BA6B21CBDF77A15848994F /* RadarChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RadarChartDataSet.swift; path = Source/Charts/Data/Implementations/Standard/RadarChartDataSet.swift; sourceTree = "<group>"; };
 		B44829AF0ADA583F1F0279B7 /* BubbleChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BubbleChartDataSet.swift; path = Source/Charts/Data/Implementations/Standard/BubbleChartDataSet.swift; sourceTree = "<group>"; };
+		B66817452241E3CC00017CF1 /* HorizontalBarChartTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HorizontalBarChartTests.swift; path = Tests/Charts/HorizontalBarChartTests.swift; sourceTree = "<group>"; };
 		B6BF9A551F91993A00E62A5D /* CombinedChartTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CombinedChartTests.swift; path = Tests/Charts/CombinedChartTests.swift; sourceTree = "<group>"; };
 		BA157EFF2F952192C11DF937 /* AnimatedMoveViewJob.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AnimatedMoveViewJob.swift; path = Source/Charts/Jobs/AnimatedMoveViewJob.swift; sourceTree = "<group>"; };
 		BA1A58428DC4780BAB4EAADC /* CandleStickChartView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CandleStickChartView.swift; path = Source/Charts/Charts/CandleStickChartView.swift; sourceTree = "<group>"; };
@@ -280,6 +287,7 @@
 		BD02157CF8CEE1189BF681DA /* PieChartDataEntry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PieChartDataEntry.swift; path = Source/Charts/Data/Implementations/Standard/PieChartDataEntry.swift; sourceTree = "<group>"; };
 		BD5C6D20243EC2F19069AACD /* CandleStickChartRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CandleStickChartRenderer.swift; path = Source/Charts/Renderers/CandleStickChartRenderer.swift; sourceTree = "<group>"; };
 		BFABD027DAF6851088F002AC /* LineChartDataProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LineChartDataProvider.swift; path = Source/Charts/Interfaces/LineChartDataProvider.swift; sourceTree = "<group>"; };
+		C03E6D8023DAAB2600083010 /* ChartDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataTests.swift; sourceTree = "<group>"; };
 		C31AA65EA27776F8C653C7E8 /* BarChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BarChartDataSet.swift; path = Source/Charts/Data/Implementations/Standard/BarChartDataSet.swift; sourceTree = "<group>"; };
 		C52E8344160B5E689DA3C25C /* ChevronDownShapeRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ChevronDownShapeRenderer.swift; path = Source/Charts/Renderers/Scatter/ChevronDownShapeRenderer.swift; sourceTree = "<group>"; };
 		C574E1BC7E12D937A5471EF8 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Tests/Supporting Files/Info.plist"; sourceTree = "<group>"; };
@@ -287,6 +295,10 @@
 		C75935E899183DDFA181E2CC /* AxisRendererBase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AxisRendererBase.swift; path = Source/Charts/Renderers/AxisRendererBase.swift; sourceTree = "<group>"; };
 		C8C9A105A7DB64F39DDA648B /* ComponentBase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ComponentBase.swift; path = Source/Charts/Components/ComponentBase.swift; sourceTree = "<group>"; };
 		C8FB6219B143F8F7DA762950 /* TriangleShapeRenderer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TriangleShapeRenderer.swift; path = Source/Charts/Renderers/Scatter/TriangleShapeRenderer.swift; sourceTree = "<group>"; };
+		C9AA36092355F01F00C97D93 /* Platform+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Platform+Color.swift"; path = "Source/Charts/Utils/Platform+Color.swift"; sourceTree = "<group>"; };
+		C9F3DC242355F791000C3215 /* Platform+Graphics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Platform+Graphics.swift"; path = "Source/Charts/Utils/Platform+Graphics.swift"; sourceTree = "<group>"; };
+		C9F3DC252355F791000C3215 /* Platform+Gestures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Platform+Gestures.swift"; path = "Source/Charts/Utils/Platform+Gestures.swift"; sourceTree = "<group>"; };
+		C9F3DC282355FA2F000C3215 /* Platform+Touch Handling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Platform+Touch Handling.swift"; path = "Source/Charts/Utils/Platform+Touch Handling.swift"; sourceTree = "<group>"; };
 		C9FE42E868A225C116537368 /* ChartBaseDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ChartBaseDataSet.swift; path = Source/Charts/Data/Implementations/ChartBaseDataSet.swift; sourceTree = "<group>"; };
 		CB1DD1A0F64266A10EE94194 /* ScatterChartDataSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ScatterChartDataSet.swift; path = Source/Charts/Data/Implementations/Standard/ScatterChartDataSet.swift; sourceTree = "<group>"; };
 		D2E1819D72CD7B6C4A4E8048 /* LineChartTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LineChartTests.swift; path = Tests/Charts/LineChartTests.swift; sourceTree = "<group>"; };
@@ -520,12 +532,14 @@
 			isa = PBXGroup;
 			children = (
 				5C3F5E1A69EC06E86505F7B1 /* BarChartTests.swift */,
+				B66817452241E3CC00017CF1 /* HorizontalBarChartTests.swift */,
 				224EFF981FBAAC4700CF9B3B /* EquatableTests.swift */,
 				7AB9062A28AAB9469752A954 /* ChartUtilsTests.swift */,
 				B6BF9A551F91993A00E62A5D /* CombinedChartTests.swift */,
 				D2E1819D72CD7B6C4A4E8048 /* LineChartTests.swift */,
 				135F11CD20425AF600D655A3 /* PieChartTests.swift */,
 				064989451F5C99C7006E8BB3 /* Snapshot.swift */,
+				C03E6D8023DAAB2600083010 /* ChartDataTests.swift */,
 			);
 			name = Charts;
 			sourceTree = "<group>";
@@ -587,6 +601,10 @@
 				5A4CFFFB65819121595F06F1 /* Fill.swift */,
 				3ED23C354AFE81818D78E645 /* Platform.swift */,
 				97AD2D4520AF917100F9C24A /* Platform+Accessibility.swift */,
+				C9AA36092355F01F00C97D93 /* Platform+Color.swift */,
+				C9F3DC252355F791000C3215 /* Platform+Gestures.swift */,
+				C9F3DC242355F791000C3215 /* Platform+Graphics.swift */,
+				C9F3DC282355FA2F000C3215 /* Platform+Touch Handling.swift */,
 				FF475B9593B9898853814340 /* Transformer.swift */,
 				324C9127B53A8D39C8B49277 /* TransformerHorizontalBarChart.swift */,
 				72EAEBB7CF73E33565FC2896 /* ViewPortHandler.swift */,
@@ -734,7 +752,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1020;
 				TargetAttributes = {
 					A58A4ED274A941CA248EA921 = {
 						LastSwiftMigration = 0900;
@@ -746,10 +764,11 @@
 			};
 			buildConfigurationList = 493FF4FB1D40FC7C51DDDA6B /* Build configuration list for PBXProject "Charts" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 865A1CF149F52850CAB7F177;
 			productRefGroup = AB2D554102718F209377399E /* Products */;
@@ -835,6 +854,7 @@
 				DBC9DB402CC9BB84B76968C4 /* Description.swift in Sources */,
 				03960E8148C6AEDACE4B77CC /* IMarker.swift in Sources */,
 				ECE7EAE7179A7F57CE9BBD8F /* Legend.swift in Sources */,
+				C9F3DC272355F791000C3215 /* Platform+Gestures.swift in Sources */,
 				C20A62D8CB9120523D5FB650 /* LegendEntry.swift in Sources */,
 				369DEB23452CB436A3A1A644 /* MarkerImage.swift in Sources */,
 				9360348A04723E653FBC8B18 /* MarkerView.swift in Sources */,
@@ -844,6 +864,7 @@
 				3395682A1E27756651FF6F4D /* BarChartData.swift in Sources */,
 				45C459FA25DFCBE62FA6A06C /* BarChartDataEntry.swift in Sources */,
 				17E994DA88777AA1D8CCFC58 /* BarChartDataSet.swift in Sources */,
+				C9AA360A2355F01F00C97D93 /* Platform+Color.swift in Sources */,
 				7C9CE6718D18859A35146098 /* BarLineScatterCandleBubbleChartData.swift in Sources */,
 				53A91F6F86740E26FE733639 /* BarLineScatterCandleBubbleChartDataSet.swift in Sources */,
 				E68CA3DC66EB638C956E09B8 /* BubbleChartData.swift in Sources */,
@@ -889,6 +910,7 @@
 				B6C9F450D937B87224D29D5C /* IFillFormatter.swift in Sources */,
 				967EE2EDDE3337C5C4337C59 /* IndexAxisValueFormatter.swift in Sources */,
 				A40ACF0CCE96EEE104B0463D /* IValueFormatter.swift in Sources */,
+				C9F3DC262355F791000C3215 /* Platform+Graphics.swift in Sources */,
 				3CBE95F1E9394FA08CDCF31E /* BarHighlighter.swift in Sources */,
 				D326491E8BCDE54A0921E137 /* ChartHighlighter.swift in Sources */,
 				64FA1EDB4DC1F65727D52D10 /* CombinedHighlighter.swift in Sources */,
@@ -904,6 +926,7 @@
 				4272DA5D44AF7DA05A5A8287 /* BubbleChartDataProvider.swift in Sources */,
 				30DCC4BAA5601B154ABADA13 /* CandleChartDataProvider.swift in Sources */,
 				FD37AAC0270F390FFC470A65 /* ChartDataProvider.swift in Sources */,
+				C9F3DC292355FA2F000C3215 /* Platform+Touch Handling.swift in Sources */,
 				65EA404AE098EBCE8D5DE04B /* CombinedChartDataProvider.swift in Sources */,
 				2BA03CEC36BADCF682F1328B /* LineChartDataProvider.swift in Sources */,
 				0511E43EF3FD2CDE7F7F15DB /* ScatterChartDataProvider.swift in Sources */,
@@ -962,8 +985,10 @@
 				8E1192F7A7152E9DA92C56A9 /* ChartUtilsTests.swift in Sources */,
 				B6BF9A561F91993A00E62A5D /* CombinedChartTests.swift in Sources */,
 				2BF85BEA981B359A65E9BF67 /* LineChartTests.swift in Sources */,
+				B66817462241E3CC00017CF1 /* HorizontalBarChartTests.swift in Sources */,
 				135F11CE20425AF600D655A3 /* PieChartTests.swift in Sources */,
 				064989461F5C99C7006E8BB3 /* Snapshot.swift in Sources */,
+				C03E6D8123DAAB2600083010 /* ChartDataTests.swift in Sources */,
 				224EFF991FBAAC4700CF9B3B /* EquatableTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -996,9 +1021,10 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Source/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MARKETING_VERSION = 3.4.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.Charts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1007,7 +1033,7 @@
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1030,7 +1056,7 @@
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Tests/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1040,7 +1066,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator appletvos appletvsimulator";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
@@ -1049,6 +1075,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1090,7 +1117,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1100,6 +1127,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1149,7 +1177,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
 			};
 			name = Debug;
@@ -1170,9 +1198,10 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Source/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MARKETING_VERSION = 3.4.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.Charts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1180,7 +1209,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1203,7 +1232,7 @@
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Tests/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -1212,7 +1241,7 @@
 				SDKROOT = macosx;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator appletvos appletvsimulator";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
