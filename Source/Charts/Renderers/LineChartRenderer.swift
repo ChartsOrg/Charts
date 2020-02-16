@@ -354,20 +354,24 @@ open class LineChartRenderer: LineRadarRenderer
                 _lineSegments[i] = _lineSegments[i].applying(valueToPixelMatrix)
             }
             
+            if !viewPortHandler.isInBoundsRight(_lineSegments[0].x)
+            {
+                break
+            }
+            
             // Determine the start and end coordinates of the line, and make sure they differ.
             guard
                 let firstCoordinate = _lineSegments.first,
                 let lastCoordinate = _lineSegments.last,
                 firstCoordinate != lastCoordinate else { continue }
             
-            // If both points lie left of viewport, skip stroking.
-            if !viewPortHandler.isInBoundsLeft(lastCoordinate.x) { continue }
-            
-            // If both points lie right of the viewport, break out early.
-            if !viewPortHandler.isInBoundsRight(firstCoordinate.x) { break }
-            
-            // Only stroke the line if it intersects with the viewport.
-            guard viewPortHandler.isIntersectingLine(from: firstCoordinate, to: lastCoordinate) else { continue }
+            // make sure the lines don't do shitty things outside bounds
+            if !viewPortHandler.isInBoundsLeft(lastCoordinate.x) ||
+                !viewPortHandler.isInBoundsTop(max(firstCoordinate.y, lastCoordinate.y)) ||
+                !viewPortHandler.isInBoundsBottom(min(firstCoordinate.y, lastCoordinate.y))
+            {
+                continue
+            }
             
             // get the color that is set for this line-segment
             context.setStrokeColor(dataSet.color(atIndex: j).cgColor)
@@ -605,6 +609,14 @@ open class LineChartRenderer: LineRadarRenderer
                     continue
                 }
                 
+                
+                // Skip Circles and Accessibility if not enabled,
+                // reduces CPU significantly if not needed
+                if !dataSet.isDrawCirclesEnabled
+                {
+                    continue
+                }
+                
                 // Accessibility element geometry
                 let scaleFactor: CGFloat = 3
                 let accessibilityRect = CGRect(x: pt.x - (scaleFactor * circleRadius),
@@ -623,11 +635,6 @@ open class LineChartRenderer: LineRadarRenderer
                     }
 
                     accessibilityOrderedElements[i].append(element)
-                }
-
-                if !dataSet.isDrawCirclesEnabled
-                {
-                    continue
                 }
 
                 context.setFillColor(dataSet.getCircleColor(atIndex: j)!.cgColor)

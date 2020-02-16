@@ -25,7 +25,7 @@ open class AxisBase: ComponentBase
     private var _axisValueFormatter: IAxisValueFormatter?
     
     @objc open var labelFont = NSUIFont.systemFont(ofSize: 10.0)
-    @objc open var labelTextColor = NSUIColor.black
+    @objc open var labelTextColor = NSUIColor.labelOrBlack
     
     @objc open var axisLineColor = NSUIColor.gray
     @objc open var axisLineWidth = CGFloat(0.5)
@@ -63,9 +63,14 @@ open class AxisBase: ComponentBase
     private var _limitLines = [ChartLimitLine]()
     
     /// Are the LimitLines drawn behind the data or in front of the data?
-    /// 
+    ///
     /// **default**: false
     @objc open var drawLimitLinesBehindDataEnabled = false
+    
+    /// Are the grid lines drawn behind the data or in front of the data?
+    ///
+    /// **default**: true
+    @objc open var drawGridLinesBehindDataEnabled = true
 
     /// the flag can be used to turn off the antialias for grid lines
     @objc open var gridAntialiasEnabled = true
@@ -187,6 +192,11 @@ open class AxisBase: ComponentBase
     /// 
     /// **default**: false
     @objc open var isDrawLimitLinesBehindDataEnabled: Bool { return drawLimitLinesBehindDataEnabled }
+    
+    /// Are the grid lines drawn behind the data or in front of the data?
+    ///
+    /// **default**: true
+    @objc open var isDrawGridLinesBehindDataEnabled: Bool { return drawGridLinesBehindDataEnabled }
     
     /// Extra spacing for `axisMinimum` to be added to automatically calculated `axisMinimum`
     @objc open var spaceMin: Double = 0.0

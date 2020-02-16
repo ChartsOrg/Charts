@@ -60,7 +60,7 @@ rightAxis.granularityEnabled = false
 //: ### Legend
 let legend = chartView.legend
 legend.font = NSUIFont(name: "HelveticaNeue-Light", size: CGFloat(12.0))!
-legend.textColor = NSUIColor.black
+legend.textColor = NSUIColor.labelOrBlack
 legend.form = .square
 legend.drawInside = false
 legend.orientation = .horizontal

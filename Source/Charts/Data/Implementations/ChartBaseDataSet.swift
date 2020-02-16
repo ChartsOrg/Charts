@@ -21,7 +21,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
         
         // default color
         colors.append(NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
-        valueColors.append(NSUIColor.black)
+        valueColors.append(.labelOrBlack)
     }
     
     @objc public init(label: String?)
@@ -30,7 +30,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
         
         // default color
         colors.append(NSUIColor(red: 140.0/255.0, green: 234.0/255.0, blue: 255.0/255.0, alpha: 1.0))
-        valueColors.append(NSUIColor.black)
+        valueColors.append(.labelOrBlack)
         
         self.label = label
     }
