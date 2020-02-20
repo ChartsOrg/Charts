@@ -118,7 +118,15 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
         let labelRotationAngleRadians = xAxis.labelRotationAngle.DEG2RAD
         
         let centeringEnabled = xAxis.isCenterAxisLabelsEnabled
-        
+        let align: NSTextAlignment
+        switch xAxis.labelPosition {
+        case .bottom, .topInside: align = .right
+        default: align = .left
+        }
+        let labelParagraphStyle = NSMutableParagraphStyle()
+        labelParagraphStyle.alignment = align
+
+
         // pre allocate to save performance (dont allocate in loop)
         var position = CGPoint(x: 0.0, y: 0.0)
         
@@ -148,7 +156,11 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
                         formattedLabel: label,
                         x: pos,
                         y: position.y,
-                        attributes: [NSAttributedString.Key.font: labelFont, NSAttributedString.Key.foregroundColor: labelTextColor],
+                        attributes: [
+                            NSAttributedString.Key.font: labelFont,
+                            NSAttributedString.Key.foregroundColor: labelTextColor,
+                            NSAttributedString.Key.paragraphStyle: labelParagraphStyle
+                        ],
                         anchor: anchor,
                         angleRadians: labelRotationAngleRadians)
                 }
