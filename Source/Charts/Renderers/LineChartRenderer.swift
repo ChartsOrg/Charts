@@ -605,14 +605,6 @@ open class LineChartRenderer: LineRadarRenderer
                     continue
                 }
                 
-                
-                // Skip Circles and Accessibility if not enabled,
-                // reduces CPU significantly if not needed
-                if !dataSet.isDrawCirclesEnabled
-                {
-                    continue
-                }
-                
                 // Accessibility element geometry
                 let scaleFactor: CGFloat = 3
                 let accessibilityRect = CGRect(x: pt.x - (scaleFactor * circleRadius),
