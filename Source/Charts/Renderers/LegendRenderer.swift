@@ -590,7 +590,7 @@ open class LegendRenderer: Renderer
     ///   - context: the drawing context.
     ///   - entry: the legend entry.
     ///   - legend: the legend.
-    @objc open func renderCircle(with color: UIColor, for rect: CGRect, in context: CGContext, entry: LegendEntry, legend: Legend) {
+    @objc open func renderCircle(with color: NSUIColor, for rect: CGRect, in context: CGContext, entry: LegendEntry, legend: Legend) {
         context.saveGState()
         context.setFillColor(color.cgColor)
         context.fillEllipse(in: rect)
@@ -605,7 +605,7 @@ open class LegendRenderer: Renderer
     ///   - context: the drawing context.
     ///   - entry: the legend entry.
     ///   - legend: the legend.
-    @objc open func renderSquare(with color: UIColor, for rect: CGRect, in context: CGContext, entry: LegendEntry, legend: Legend) {
+    @objc open func renderSquare(with color: NSUIColor, for rect: CGRect, in context: CGContext, entry: LegendEntry, legend: Legend) {
         context.saveGState()
         context.setFillColor(color.cgColor)
         context.fill(rect)
@@ -623,7 +623,7 @@ open class LegendRenderer: Renderer
     ///   - context: the drawing context.
     ///   - entry: the legend entry.
     ///   - legend: the legend.
-    @objc open func renderLine(with color: UIColor,
+    @objc open func renderLine(with color: NSUIColor,
                                lineWidth: CGFloat,
                                dashPhase: CGFloat,
                                dashLengths: [CGFloat],

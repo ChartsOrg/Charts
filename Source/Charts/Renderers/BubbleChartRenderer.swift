@@ -362,7 +362,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
     
     // MARK: - Rendering override points -
 
-    @objc open func renderFill(with color: UIColor,
+    @objc open func renderFill(with color: NSUIColor,
                                for rect: CGRect,
                                in context: CGContext,
                                dataSet: IBubbleChartDataSet,
@@ -374,7 +374,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
     }
     
     @objc open func render(highlight: Highlight,
-                           with color: UIColor,
+                           with color: NSUIColor,
                            for rect: CGRect,
                            lineWidth: CGFloat,
                            in context: CGContext,

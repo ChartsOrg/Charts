@@ -945,7 +945,7 @@ open class PieChartRenderer: DataRenderer
     ///   - context: the drawing context.
     ///   - dataSet: the dataset that is being rendered.
     ///   - entry: the data entry that is being filled.
-    @objc open func renderFill(with color: UIColor, for path: CGPath, in context: CGContext, dataSet: IPieChartDataSet, entry: ChartDataEntry) {
+    @objc open func renderFill(with color: NSUIColor, for path: CGPath, in context: CGContext, dataSet: IPieChartDataSet, entry: ChartDataEntry) {
         context.saveGState()
         context.beginPath()
         context.addPath(path)
@@ -963,7 +963,7 @@ open class PieChartRenderer: DataRenderer
     ///   - context: the drawing context.
     ///   - dataSet: the dataset that is being rendered.
     ///   - entry: the data entry that is being highlighted.
-    @objc open func render(highlight: Highlight, with color: UIColor, for path: CGPath, in context: CGContext, dataSet: IPieChartDataSet, entry: ChartDataEntry?) {
+    @objc open func render(highlight: Highlight, with color: NSUIColor, for path: CGPath, in context: CGContext, dataSet: IPieChartDataSet, entry: ChartDataEntry?) {
         context.saveGState()
         context.beginPath()
         context.addPath(path)

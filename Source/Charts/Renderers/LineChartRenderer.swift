@@ -782,7 +782,7 @@ open class LineChartRenderer: LineRadarRenderer
     
     // MARK: - Rendering override points -
     
-    @objc open func renderLine(with path: CGPath, color: UIColor, in context: CGContext, dataSet: ILineChartDataSet) {
+    @objc open func renderLine(with path: CGPath, color: NSUIColor, in context: CGContext, dataSet: ILineChartDataSet) {
         context.saveGState()
         context.beginPath()
         context.addPath(path)
@@ -791,7 +791,7 @@ open class LineChartRenderer: LineRadarRenderer
         context.restoreGState()
     }
     
-    @objc open func renderLine(between points: [CGPoint], color: UIColor, in context: CGContext, dataSet: ILineChartDataSet) {
+    @objc open func renderLine(between points: [CGPoint], color: NSUIColor, in context: CGContext, dataSet: ILineChartDataSet) {
         context.saveGState()
         context.setStrokeColor(color.cgColor)
         context.strokeLineSegments(between: points)

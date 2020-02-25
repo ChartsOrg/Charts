@@ -892,7 +892,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     ///   - rect: the rectangle of the (stacked) bar.
     ///   - context: the drawing context.
     ///   - dataset: the dataset that is rendered.
-    @objc open func renderFill(with color: UIColor, for rect: CGRect, in context: CGContext,  dataSet: IBarChartDataSet) {
+    @objc open func renderFill(with color: NSUIColor, for rect: CGRect, in context: CGContext, dataSet: IBarChartDataSet) {
         context.saveGState()
         context.setFillColor(color.cgColor)
         context.fill(rect)
@@ -907,7 +907,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     ///   - rect: the rectangle of the (stacked) bar.
     ///   - context: the drawing context.
     ///   - dataset: the dataset that is being rendered.
-    @objc open func renderBorder(with color: UIColor, width lineWidth: CGFloat, for rect: CGRect, in context: CGContext, dataSet: IBarChartDataSet) {
+    @objc open func renderBorder(with color: NSUIColor, width lineWidth: CGFloat, for rect: CGRect, in context: CGContext, dataSet: IBarChartDataSet) {
         guard lineWidth > 0 else { return }
         
         context.saveGState()
@@ -939,7 +939,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     ///   - rect: the rectangle of the (stacked) bar.
     ///   - context: the drawing context.
     ///   - dataset: the dataset that is being rendered.
-    @objc open func renderShadow(with color: UIColor, for rect: CGRect, in context: CGContext, dataSet: IBarChartDataSet) {
+    @objc open func renderShadow(with color: NSUIColor, for rect: CGRect, in context: CGContext, dataSet: IBarChartDataSet) {
         context.saveGState()
         context.setFillColor(color.cgColor)
         context.fill(rect)
