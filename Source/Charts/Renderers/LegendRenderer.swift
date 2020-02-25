@@ -535,38 +535,42 @@ open class LegendRenderer: Renderer
         case .default: fallthrough
         case .circle:
             
-            context.setFillColor(formColor.cgColor)
-            context.fillEllipse(in: CGRect(x: x, y: y - formSize / 2.0, width: formSize, height: formSize))
+            renderCircle(with: formColor,
+                         for: CGRect(x: x, y: y - formSize / 2.0, width: formSize, height: formSize),
+                         in: context,
+                         entry: entry,
+                         legend: legend)
             
         case .square:
             
-            context.setFillColor(formColor.cgColor)
-            context.fill(CGRect(x: x, y: y - formSize / 2.0, width: formSize, height: formSize))
+            renderSquare(with: formColor,
+                         for: CGRect(x: x, y: y - formSize / 2.0, width: formSize, height: formSize),
+                         in: context,
+                         entry: entry,
+                         legend: legend)
             
         case .line:
             
             let formLineWidth = entry.formLineWidth.isNaN ? legend.formLineWidth : entry.formLineWidth
             let formLineDashPhase = entry.formLineDashPhase.isNaN ? legend.formLineDashPhase : entry.formLineDashPhase
             let formLineDashLengths = entry.formLineDashLengths == nil ? legend.formLineDashLengths : entry.formLineDashLengths
-            
-            context.setLineWidth(formLineWidth)
-            
-            if formLineDashLengths != nil && formLineDashLengths!.count > 0
-            {
-                context.setLineDash(phase: formLineDashPhase, lengths: formLineDashLengths!)
-            }
-            else
-            {
-                context.setLineDash(phase: 0.0, lengths: [])
-            }
-            
-            context.setStrokeColor(formColor.cgColor)
-            
+
             _formLineSegmentsBuffer[0].x = x
             _formLineSegmentsBuffer[0].y = y
             _formLineSegmentsBuffer[1].x = x + formSize
             _formLineSegmentsBuffer[1].y = y
-            context.strokeLineSegments(between: _formLineSegmentsBuffer)
+            
+            let dashLengths = formLineDashLengths ?? []
+            let dashPhase = !dashLengths.isEmpty ? formLineDashPhase : 0
+            
+            renderLine(with: formColor,
+                       lineWidth: formLineWidth,
+                       dashPhase: dashPhase,
+                       dashLengths: dashLengths,
+                       between: _formLineSegmentsBuffer,
+                       in: context,
+                       entry: entry,
+                       legend: legend)
         }
     }
 
@@ -574,5 +578,64 @@ open class LegendRenderer: Renderer
     @objc open func drawLabel(context: CGContext, x: CGFloat, y: CGFloat, label: String, font: NSUIFont, textColor: NSUIColor)
     {
         ChartUtils.drawText(context: context, text: label, point: CGPoint(x: x, y: y), align: .left, attributes: [NSAttributedString.Key.font: font, NSAttributedString.Key.foregroundColor: textColor])
+    }
+    
+    // MARK: - Rendering override points -
+    
+    /// Render a round legend.
+    ///
+    /// - Parameters:
+    ///   - color: the fill color of the legend.
+    ///   - rect: the rectangle for which to render the circle.
+    ///   - context: the drawing context.
+    ///   - entry: the legend entry.
+    ///   - legend: the legend.
+    @objc open func renderCircle(with color: UIColor, for rect: CGRect, in context: CGContext, entry: LegendEntry, legend: Legend) {
+        context.saveGState()
+        context.setFillColor(color.cgColor)
+        context.fillEllipse(in: rect)
+        context.restoreGState()
+    }
+    
+    /// Render a square legend
+    ///
+    /// - Parameters:
+    ///   - color: the fill color of the legend.
+    ///   - rect: the rectangle of the square to render.
+    ///   - context: the drawing context.
+    ///   - entry: the legend entry.
+    ///   - legend: the legend.
+    @objc open func renderSquare(with color: UIColor, for rect: CGRect, in context: CGContext, entry: LegendEntry, legend: Legend) {
+        context.saveGState()
+        context.setFillColor(color.cgColor)
+        context.fill(rect)
+        context.restoreGState()
+    }
+    
+    /// Render a line legend.
+    ///
+    /// - Parameters:
+    ///   - color: the line color.
+    ///   - lineWidth: the width of the line.
+    ///   - dashPhase: the dash phase pattern for dashed lines.
+    ///   - dashLengths: the pattern for dashed lines.
+    ///   - between: stroke a sequence of line segments.
+    ///   - context: the drawing context.
+    ///   - entry: the legend entry.
+    ///   - legend: the legend.
+    @objc open func renderLine(with color: UIColor,
+                               lineWidth: CGFloat,
+                               dashPhase: CGFloat,
+                               dashLengths: [CGFloat],
+                               between: [CGPoint],
+                               in context: CGContext,
+                               entry: LegendEntry,
+                               legend: Legend) {
+        context.saveGState()
+        context.setLineWidth(lineWidth)
+        context.setLineDash(phase: dashPhase, lengths: dashLengths)
+        context.setStrokeColor(color.cgColor)
+        context.strokeLineSegments(between: _formLineSegmentsBuffer)
+        context.restoreGState()
     }
 }

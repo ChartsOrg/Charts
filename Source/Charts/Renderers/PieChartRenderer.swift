@@ -139,6 +139,7 @@ open class PieChartRenderer: DataRenderer
         let sliceSpace = visibleAngleCount <= 1 ? 0.0 : getSliceSpace(dataSet: dataSet)
 
         context.saveGState()
+        defer { context.restoreGState() }
 
         // Make the chart header the first element in the accessible elements array
         // We can do this in drawDataSet, since we know PieChartView can have only 1 dataSet
@@ -181,9 +182,6 @@ open class PieChartRenderer: DataRenderer
             }
         
             let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
-
-            context.setFillColor(dataSet.color(atIndex: j).cgColor)
-
             let sliceSpaceAngleOuter = visibleAngleCount == 1 ?
                 0.0 :
                 sliceSpace / radius.DEG2RAD
@@ -274,9 +272,7 @@ open class PieChartRenderer: DataRenderer
 
             path.closeSubpath()
 
-            context.beginPath()
-            context.addPath(path)
-            context.fillPath(using: .evenOdd)
+            renderFill(with: dataSet.color(atIndex: j), for: path, in: context, dataSet: dataSet, entry: e)
 
             let axElement = createAccessibleElement(withIndex: j,
                                                     container: chart,
@@ -290,8 +286,6 @@ open class PieChartRenderer: DataRenderer
 
         // Post this notification to let VoiceOver account for the redrawn frames
         accessibilityPostLayoutChangedNotification()
-
-        context.restoreGState()
     }
 
     open override func drawValues(context: CGContext)
@@ -715,6 +709,7 @@ open class PieChartRenderer: DataRenderer
             else { return }
 
         context.saveGState()
+        defer { context.restoreGState() }
 
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
@@ -774,8 +769,6 @@ open class PieChartRenderer: DataRenderer
             let highlightedRadius = radius + shift
 
             let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
-
-            context.setFillColor(set.highlightColor?.cgColor ?? set.color(atIndex: index).cgColor)
 
             let sliceSpaceAngleOuter = visibleAngleCount == 1 ?
                 0.0 :
@@ -875,9 +868,12 @@ open class PieChartRenderer: DataRenderer
 
             path.closeSubpath()
 
-            context.beginPath()
-            context.addPath(path)
-            context.fillPath(using: .evenOdd)
+            render(highlight: indices[i],
+                   with: set.highlightColor ?? set.color(atIndex: index),
+                   for: path,
+                   in: context,
+                   dataSet: set,
+                   entry: set.entryForIndex(index))
 
             let axElement = createAccessibleElement(withIndex: index,
                                                     container: chart,
@@ -895,8 +891,6 @@ open class PieChartRenderer: DataRenderer
         if !accessibleChartElements.isEmpty {
             accessibleChartElements.insert(contentsOf: highlightedAccessibleElements, at: 1)
         }
-
-        context.restoreGState()
     }
 
     /// Creates an NSUIAccessibilityElement representing a slice of the PieChart.
@@ -939,5 +933,42 @@ open class PieChartRenderer: DataRenderer
         modifier(element)
 
         return element
+    }
+    
+    // MARK: - Rendering override points -
+    
+    /// Render the fill of a pie segment.
+    ///
+    /// - Parameters:
+    ///   - color: the fill color.
+    ///   - path: the path of pie segment.
+    ///   - context: the drawing context.
+    ///   - dataSet: the dataset that is being rendered.
+    ///   - entry: the data entry that is being filled.
+    @objc open func renderFill(with color: UIColor, for path: CGPath, in context: CGContext, dataSet: IPieChartDataSet, entry: ChartDataEntry) {
+        context.saveGState()
+        context.beginPath()
+        context.addPath(path)
+        context.setFillColor(color.cgColor)
+        context.fillPath(using: .evenOdd)
+        context.restoreGState()
+    }
+    
+    /// Render the higlighted pie segment.
+    ///
+    /// - Parameters:
+    ///   - highlight: the highlight to render.
+    ///   - color: the highlight color.
+    ///   - path: the path of pie segment.
+    ///   - context: the drawing context.
+    ///   - dataSet: the dataset that is being rendered.
+    ///   - entry: the data entry that is being highlighted.
+    @objc open func render(highlight: Highlight, with color: UIColor, for path: CGPath, in context: CGContext, dataSet: IPieChartDataSet, entry: ChartDataEntry?) {
+        context.saveGState()
+        context.beginPath()
+        context.addPath(path)
+        context.setFillColor(color.cgColor)
+        context.fillPath(using: .evenOdd)
+        context.restoreGState()
     }
 }

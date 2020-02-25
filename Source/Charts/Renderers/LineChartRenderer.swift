@@ -162,6 +162,7 @@ open class LineChartRenderer: LineRadarRenderer
         }
         
         context.saveGState()
+        defer { context.restoreGState() }
         
         if dataSet.isDrawFilledEnabled
         {
@@ -171,12 +172,7 @@ open class LineChartRenderer: LineRadarRenderer
             drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, bounds: _xBounds)
         }
         
-        context.beginPath()
-        context.addPath(cubicPath)
-        context.setStrokeColor(drawingColor.cgColor)
-        context.strokePath()
-        
-        context.restoreGState()
+        renderLine(with: cubicPath, color: drawingColor, in: context, dataSet: dataSet)
     }
     
     @objc open func drawHorizontalBezier(context: CGContext, dataSet: ILineChartDataSet)
@@ -229,6 +225,7 @@ open class LineChartRenderer: LineRadarRenderer
         }
         
         context.saveGState()
+        defer { context.restoreGState() }
         
         if dataSet.isDrawFilledEnabled
         {
@@ -237,13 +234,8 @@ open class LineChartRenderer: LineRadarRenderer
             
             drawCubicFill(context: context, dataSet: dataSet, spline: fillPath!, matrix: valueToPixelMatrix, bounds: _xBounds)
         }
-        
-        context.beginPath()
-        context.addPath(cubicPath)
-        context.setStrokeColor(drawingColor.cgColor)
-        context.strokePath()
-        
-        context.restoreGState()
+
+        renderLine(with: cubicPath, color: drawingColor, in: context, dataSet: dataSet)
     }
     
     open func drawCubicFill(
@@ -308,12 +300,13 @@ open class LineChartRenderer: LineRadarRenderer
         }
         
         context.saveGState()
+        defer { context.restoreGState() }
 
-            if _lineSegments.count != pointsPerEntryPair
-            {
-                // Allocate once in correct size
-                _lineSegments = [CGPoint](repeating: CGPoint(), count: pointsPerEntryPair)
-            }
+        if _lineSegments.count != pointsPerEntryPair
+        {
+            // Allocate once in correct size
+            _lineSegments = [CGPoint](repeating: CGPoint(), count: pointsPerEntryPair)
+        }
 
         for j in _xBounds.dropLast()
         {
@@ -374,11 +367,8 @@ open class LineChartRenderer: LineRadarRenderer
             }
             
             // get the color that is set for this line-segment
-            context.setStrokeColor(dataSet.color(atIndex: j).cgColor)
-            context.strokeLineSegments(between: _lineSegments)
+            renderLine(between: _lineSegments, color: dataSet.color(atIndex: j), in: context, dataSet: dataSet)
         }
-        
-        context.restoreGState()
     }
     
     open func drawLinearFill(context: CGContext, dataSet: ILineChartDataSet, trans: Transformer, bounds: XBounds)
@@ -788,5 +778,23 @@ open class LineChartRenderer: LineRadarRenderer
         modifier(element)
 
         return element
+    }
+    
+    // MARK: - Rendering override points -
+    
+    @objc open func renderLine(with path: CGPath, color: UIColor, in context: CGContext, dataSet: ILineChartDataSet) {
+        context.saveGState()
+        context.beginPath()
+        context.addPath(path)
+        context.setStrokeColor(color.cgColor)
+        context.strokePath()
+        context.restoreGState()
+    }
+    
+    @objc open func renderLine(between points: [CGPoint], color: UIColor, in context: CGContext, dataSet: ILineChartDataSet) {
+        context.saveGState()
+        context.setStrokeColor(color.cgColor)
+        context.strokeLineSegments(between: points)
+        context.restoreGState()
     }
 }

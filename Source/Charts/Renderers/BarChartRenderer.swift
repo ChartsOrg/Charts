@@ -322,7 +322,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     }
 
     private var _barShadowRectBuffer: CGRect = CGRect()
-
+    
     @objc open func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int)
     {
         guard let dataProvider = dataProvider else { return }
@@ -334,9 +334,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
         let borderWidth = dataSet.barBorderWidth
         let borderColor = dataSet.barBorderColor
-        let drawBorder = borderWidth > 0.0
         
         context.saveGState()
+        defer { context.restoreGState() }
         
         // draw the bar shadow before the values
         if dataProvider.isDrawBarShadowEnabled
@@ -371,8 +371,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 _barShadowRectBuffer.origin.y = viewPortHandler.contentTop
                 _barShadowRectBuffer.size.height = viewPortHandler.contentHeight
                 
-                context.setFillColor(dataSet.barShadowColor.cgColor)
-                context.fill(_barShadowRectBuffer)
+                renderShadow(with: dataSet.barShadowColor, for: _barShadowRectBuffer, in: context, dataSet: dataSet)
             }
         }
 
@@ -395,17 +394,11 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                     break
                 }
                 
-                context.setFillColor(dataSet.barShadowColor.cgColor)
-                context.fill(barRect)
+                renderShadow(with: dataSet.barShadowColor, for: barRect, in: context, dataSet: dataSet)
             }
         }
         
         let isSingleColor = dataSet.colors.count == 1
-        
-        if isSingleColor
-        {
-            context.setFillColor(dataSet.color(atIndex: 0).cgColor)
-        }
 
         // In case the chart is stacked, we need to accomodate individual bars within accessibilityOrdereredElements
         let isStacked = dataSet.isStacked
@@ -425,20 +418,16 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 break
             }
             
-            if !isSingleColor
-            {
-                // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
-                context.setFillColor(dataSet.color(atIndex: j).cgColor)
-            }
+            renderFill(with: dataSet.color(atIndex: isSingleColor ? 0 : j),
+                       for: barRect,
+                       in: context,
+                       dataSet: dataSet)
             
-            context.fill(barRect)
-            
-            if drawBorder
-            {
-                context.setStrokeColor(borderColor.cgColor)
-                context.setLineWidth(borderWidth)
-                context.stroke(barRect)
-            }
+            renderBorder(with: borderColor,
+                         width: borderWidth,
+                         for: barRect,
+                         in: context,
+                         dataSet: dataSet)
 
             // Create and append the corresponding accessibility element to accessibilityOrderedElements
             if let chart = dataProvider as? BarChartView
@@ -455,8 +444,6 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 accessibilityOrderedElements[j/stackSize].append(element)
             }
         }
-        
-        context.restoreGState()
     }
     
     open func prepareBarHighlight(
@@ -777,10 +764,6 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 }
                 
                 let trans = dataProvider.getTransformer(forAxis: set.axisDependency)
-                
-                context.setFillColor(set.highlightColor.cgColor)
-                context.setAlpha(set.highlightAlpha)
-                
                 let isStack = high.stackIndex >= 0 && e.isStacked
                 
                 let y1: Double
@@ -808,10 +791,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 }
                 
                 prepareBarHighlight(x: e.x, y1: y1, y2: y2, barWidthHalf: barData.barWidth / 2.0, trans: trans, rect: &barRect)
-                
                 setHighlightDrawPos(highlight: high, barRect: barRect)
-                
-                context.fill(barRect)
+                render(highlight: high, with: barRect, in: context, dataSet: set)
             }
         }
         
@@ -900,5 +881,68 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         modifier(element)
 
         return element
+    }
+
+    // MARK: - Rendering override points -
+
+    /// Render the fill of a (stacked) bar.
+    ///
+    /// - Parameters:
+    ///   - color: the color to fill the bar with.
+    ///   - rect: the rectangle of the (stacked) bar.
+    ///   - context: the drawing context.
+    ///   - dataset: the dataset that is rendered.
+    @objc open func renderFill(with color: UIColor, for rect: CGRect, in context: CGContext,  dataSet: IBarChartDataSet) {
+        context.saveGState()
+        context.setFillColor(color.cgColor)
+        context.fill(rect)
+        context.restoreGState()
+    }
+
+    /// Render the border of a (stacked) bar.
+    ///
+    /// - Parameters:
+    ///   - color: the border color.
+    ///   - lineWidth: the line width width of the border.
+    ///   - rect: the rectangle of the (stacked) bar.
+    ///   - context: the drawing context.
+    ///   - dataset: the dataset that is being rendered.
+    @objc open func renderBorder(with color: UIColor, width lineWidth: CGFloat, for rect: CGRect, in context: CGContext, dataSet: IBarChartDataSet) {
+        guard lineWidth > 0 else { return }
+        
+        context.saveGState()
+        context.setStrokeColor(color.cgColor)
+        context.setLineWidth(lineWidth)
+        context.stroke(rect)
+        context.restoreGState()
+    }
+
+    /// Render the (stacked) highlight.
+    ///
+    /// - Parameters:
+    ///   - highlight: the highlight to render.
+    ///   - rect: the rectangle of the (stacked) bar.
+    ///   - context: the drawing context.
+    ///   - dataset: the dataset that is being rendered.
+    @objc open func render(highlight: Highlight, with rect: CGRect, in context: CGContext, dataSet: IBarChartDataSet) {
+        context.saveGState()
+        context.setFillColor(dataSet.highlightColor.cgColor)
+        context.setAlpha(dataSet.highlightAlpha)
+        context.fill(rect)
+        context.restoreGState()
+    }
+    
+    /// Render the (stacked) shadow.
+    ///
+    /// - Parameters:
+    ///   - color: the shadow color.
+    ///   - rect: the rectangle of the (stacked) bar.
+    ///   - context: the drawing context.
+    ///   - dataset: the dataset that is being rendered.
+    @objc open func renderShadow(with color: UIColor, for rect: CGRect, in context: CGContext, dataSet: IBarChartDataSet) {
+        context.saveGState()
+        context.setFillColor(color.cgColor)
+        context.fill(rect)
+        context.restoreGState()
     }
 }
