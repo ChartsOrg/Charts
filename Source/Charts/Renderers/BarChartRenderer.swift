@@ -371,7 +371,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 _barShadowRectBuffer.origin.y = viewPortHandler.contentTop
                 _barShadowRectBuffer.size.height = viewPortHandler.contentHeight
                 
-                renderShadow(with: dataSet.barShadowColor, for: _barShadowRectBuffer, in: context, dataSet: dataSet)
+                renderShadow(with: dataSet.barShadowColor, for: _barShadowRectBuffer, in: context, dataSet: dataSet, entry: e)
             }
         }
 
@@ -394,7 +394,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                     break
                 }
                 
-                renderShadow(with: dataSet.barShadowColor, for: barRect, in: context, dataSet: dataSet)
+                renderShadow(with: dataSet.barShadowColor, for: barRect, in: context, dataSet: dataSet, entry: dataSet.entryForIndex(j) as? BarChartDataEntry)
             }
         }
         
@@ -421,13 +421,15 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             renderFill(with: dataSet.color(atIndex: isSingleColor ? 0 : j),
                        for: barRect,
                        in: context,
-                       dataSet: dataSet)
+                       dataSet: dataSet,
+                       entry: dataSet.entryForIndex(j) as? BarChartDataEntry)
             
             renderBorder(with: borderColor,
                          width: borderWidth,
                          for: barRect,
                          in: context,
-                         dataSet: dataSet)
+                         dataSet: dataSet,
+                         entry: dataSet.entryForIndex(j) as? BarChartDataEntry)
 
             // Create and append the corresponding accessibility element to accessibilityOrderedElements
             if let chart = dataProvider as? BarChartView
@@ -792,7 +794,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 
                 prepareBarHighlight(x: e.x, y1: y1, y2: y2, barWidthHalf: barData.barWidth / 2.0, trans: trans, rect: &barRect)
                 setHighlightDrawPos(highlight: high, barRect: barRect)
-                render(highlight: high, with: barRect, in: context, dataSet: set)
+                render(highlight: high, with: barRect, in: context, dataSet: set, entry: e)
             }
         }
         
@@ -891,8 +893,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     ///   - color: the color to fill the bar with.
     ///   - rect: the rectangle of the (stacked) bar.
     ///   - context: the drawing context.
-    ///   - dataset: the dataset that is rendered.
-    @objc open func renderFill(with color: NSUIColor, for rect: CGRect, in context: CGContext, dataSet: IBarChartDataSet) {
+    ///   - dataset: the dataset that is being rendered.
+    ///   - entry: the entry that is being rendered.
+    @objc open func renderFill(with color: NSUIColor, for rect: CGRect, in context: CGContext, dataSet: IBarChartDataSet, entry: BarChartDataEntry?) {
         context.saveGState()
         context.setFillColor(color.cgColor)
         context.fill(rect)
@@ -907,7 +910,13 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     ///   - rect: the rectangle of the (stacked) bar.
     ///   - context: the drawing context.
     ///   - dataset: the dataset that is being rendered.
-    @objc open func renderBorder(with color: NSUIColor, width lineWidth: CGFloat, for rect: CGRect, in context: CGContext, dataSet: IBarChartDataSet) {
+    ///   - entry: the entry that is being rendered.
+    @objc open func renderBorder(with color: NSUIColor,
+                                 width lineWidth: CGFloat,
+                                 for rect: CGRect,
+                                 in context: CGContext,
+                                 dataSet: IBarChartDataSet,
+                                 entry: BarChartDataEntry?) {
         guard lineWidth > 0 else { return }
         
         context.saveGState()
@@ -924,7 +933,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     ///   - rect: the rectangle of the (stacked) bar.
     ///   - context: the drawing context.
     ///   - dataset: the dataset that is being rendered.
-    @objc open func render(highlight: Highlight, with rect: CGRect, in context: CGContext, dataSet: IBarChartDataSet) {
+    ///   - entry: the entry that is being rendered.
+    @objc open func render(highlight: Highlight, with rect: CGRect, in context: CGContext, dataSet: IBarChartDataSet, entry: BarChartDataEntry) {
         context.saveGState()
         context.setFillColor(dataSet.highlightColor.cgColor)
         context.setAlpha(dataSet.highlightAlpha)
@@ -939,7 +949,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     ///   - rect: the rectangle of the (stacked) bar.
     ///   - context: the drawing context.
     ///   - dataset: the dataset that is being rendered.
-    @objc open func renderShadow(with color: NSUIColor, for rect: CGRect, in context: CGContext, dataSet: IBarChartDataSet) {
+    ///   - entry: the entry that is being rendered.
+    @objc open func renderShadow(with color: NSUIColor, for rect: CGRect, in context: CGContext, dataSet: IBarChartDataSet, entry: BarChartDataEntry?) {
         context.saveGState()
         context.setFillColor(color.cgColor)
         context.fill(rect)
