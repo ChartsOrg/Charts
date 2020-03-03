@@ -334,7 +334,6 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             let valueOffsetPlus: CGFloat = 5.0
             var posOffset: CGFloat
             var negOffset: CGFloat
-            let drawValueAboveBar = dataProvider.isDrawValueAboveBarEnabled
             
             for dataSetIndex in 0 ..< barData.dataSetCount
             {
@@ -365,6 +364,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                     {
                         guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
                         
+                        let drawValueAboveBar = dataSet.drawValueAboveBarAt(j)
                         let rect = buffer.rects[j]
                         
                         let y = rect.origin.y + rect.size.height / 2.0
@@ -442,6 +442,8 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                     for index in 0 ..< Int(ceil(Double(dataSet.entryCount) * animator.phaseX))
                     {
                         guard let e = dataSet.entryForIndex(index) as? BarChartDataEntry else { continue }
+                        
+                        let drawValueAboveBar = dataSet.drawValueAboveBarAt(index)
                         
                         let rect = buffer.rects[bufferIndex]
                         

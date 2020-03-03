@@ -185,6 +185,9 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     
     // MARK: - Styling functions and accessors
     
+    /// List representing all drawValueAboveBar config that are used for drawing the actual values for this DataSet
+    open var drawValueAboveBarPerValue = [Bool]()
+    
     /// All the colors that are used for this DataSet.
     /// Colors are reused as soon as the number of Entries the DataSet represents is higher than the size of the colors array.
     open var colors = [NSUIColor]()
@@ -325,6 +328,17 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
             index = 0
         }
         return valueColors[index % valueColors.count]
+    }
+    
+    /// - Returns: The color at the specified index that is used for drawing the values inside the chart. Uses modulus internally.
+    open func drawValueAboveBarAt(_ index: Int) -> Bool
+    {
+        var index = index
+        if index < 0
+        {
+            index = 0
+        }
+        return drawValueAboveBarPerValue[index % drawValueAboveBarPerValue.count]
     }
     
     /// the font for the value-text labels

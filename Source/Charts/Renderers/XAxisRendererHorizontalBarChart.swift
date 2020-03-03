@@ -58,10 +58,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
             xAxis = self.axis as? XAxis
             else { return }
        
-        let longest = xAxis.getLongestLabel() as NSString
-        
-        let labelSize = longest.size(withAttributes: [NSAttributedString.Key.font: xAxis.labelFont])
-        
+        let labelSize = xAxis.getLongestLabelSize()
         let labelWidth = floor(labelSize.width + xAxis.xOffset * 3.5)
         let labelHeight = labelSize.height
         let labelRotatedSize = CGSize(width: labelSize.width, height: labelHeight).rotatedBy(degrees: xAxis.labelRotationAngle)
@@ -121,7 +118,15 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
         let labelRotationAngleRadians = xAxis.labelRotationAngle.DEG2RAD
         
         let centeringEnabled = xAxis.isCenterAxisLabelsEnabled
-        
+        let align: NSTextAlignment
+        switch xAxis.labelPosition {
+        case .bottom, .topInside: align = .right
+        default: align = .left
+        }
+        let labelParagraphStyle = NSMutableParagraphStyle()
+        labelParagraphStyle.alignment = align
+
+
         // pre allocate to save performance (dont allocate in loop)
         var position = CGPoint(x: 0.0, y: 0.0)
         
@@ -151,7 +156,11 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
                         formattedLabel: label,
                         x: pos,
                         y: position.y,
-                        attributes: [NSAttributedString.Key.font: labelFont, NSAttributedString.Key.foregroundColor: labelTextColor],
+                        attributes: [
+                            NSAttributedString.Key.font: labelFont,
+                            NSAttributedString.Key.foregroundColor: labelTextColor,
+                            NSAttributedString.Key.paragraphStyle: labelParagraphStyle
+                        ],
                         anchor: anchor,
                         angleRadians: labelRotationAngleRadians)
                 }
