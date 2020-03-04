@@ -326,7 +326,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             let valueOffsetPlus: CGFloat = 5.0
             var posOffset: CGFloat
             var negOffset: CGFloat
-            
+            var xPos : CGFloat
             for dataSetIndex in 0 ..< barData.dataSetCount
             {
                 guard let
@@ -356,7 +356,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                     {
                         guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
                         
-                        let drawValueAboveBar = dataSet.drawValueAboveBarAt(j)
+                        var drawValueAboveBar = dataSet.drawValueAboveBarAt(j)
                         let rect = buffer.rects[j]
                         
                         let y = rect.origin.y + rect.size.height / 2.0
@@ -385,8 +385,19 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                         
                         // calculate the correct offset depending on the draw position of the value
                         let valueTextWidth = valueText.size(withAttributes: [NSAttributedString.Key.font: valueFont]).width
-                        posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
+
+                        posOffset = valueOffsetPlus
                         negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus) - rect.size.width
+                        
+                        xPos = (rect.origin.x + rect.size.width)
+                        + (val >= 0.0 ? posOffset : negOffset)
+                        var color = dataSet.valueTextColorAt(j)
+                        
+                        
+                        if !drawValueAboveBar || !(viewPortHandler.contentWidth > xPos + valueTextWidth) {
+                            posOffset =  -(valueTextWidth + valueOffsetPlus)
+                            color = .white
+                        }
                         
                         if isInverted
                         {
@@ -404,7 +415,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                 yPos: y + yOffset,
                                 font: valueFont,
                                 align: textAlign,
-                                color: dataSet.valueTextColorAt(j))
+                                color: color)
                         }
                         
                         if let icon = e.icon, dataSet.isDrawIconsEnabled
@@ -468,8 +479,18 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                             
                             // calculate the correct offset depending on the draw position of the value
                             let valueTextWidth = valueText.size(withAttributes: [NSAttributedString.Key.font: valueFont]).width
-                            posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
-                            negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
+                            
+                            posOffset = valueOffsetPlus
+                            negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus) - rect.size.width
+                            
+                            xPos = (rect.origin.x + rect.size.width)
+                            + (val >= 0.0 ? posOffset : negOffset)
+                            
+                            var color = dataSet.valueTextColorAt(index)
+                            if !drawValueAboveBar || !(viewPortHandler.contentWidth > xPos + valueTextWidth) {
+                                posOffset =  -(valueTextWidth + valueOffsetPlus)
+                                color = .white
+                            }
                             
                             if isInverted
                             {
@@ -487,7 +508,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                     yPos: rect.origin.y + yOffset,
                                     font: valueFont,
                                     align: textAlign,
-                                    color: dataSet.valueTextColorAt(index))
+                                    color: color)
                             }
                             
                             if let icon = e.icon, dataSet.isDrawIconsEnabled
