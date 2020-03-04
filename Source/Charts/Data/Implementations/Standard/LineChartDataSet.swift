@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 
-open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
+open class LineChartDataSet: LineRadarChartDataSet, LineChartDataSetProtocol
 {
     @objc(LineChartMode)
     public enum Mode: Int
@@ -36,7 +36,7 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         initialize()
     }
     
-    public override init(values: [ChartDataEntry]?, label: String?)
+    public override init(values: [ChartDataEntry], label: String)
     {
         super.init(values: values, label: label)
         initialize()
@@ -64,18 +64,14 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
         }
         set
         {
-            _cubicIntensity = newValue
-            if _cubicIntensity > 1.0
-            {
-                _cubicIntensity = 1.0
-            }
-            if _cubicIntensity < 0.05
-            {
-                _cubicIntensity = 0.05
-            }
+            _cubicIntensity = newValue.clamped(to: 0.05...1)
         }
     }
-        
+
+    open var isDrawLineWithGradientEnabled = false
+
+    open var gradientPositions: [CGFloat]?
+    
     /// The radius of the drawn circles.
     open var circleRadius = CGFloat(8.0)
     
@@ -144,10 +140,10 @@ open class LineChartDataSet: LineRadarChartDataSet, ILineChartDataSet
     open var lineCapType = CGLineCap.butt
     
     /// formatter for customizing the position of the fill-line
-    private var _fillFormatter: IFillFormatter = DefaultFillFormatter()
+    private var _fillFormatter: FillFormatter = DefaultFillFormatter()
     
-    /// Sets a custom IFillFormatter to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
-    open var fillFormatter: IFillFormatter?
+    /// Sets a custom FillFormatterProtocol to the chart that handles the position of the filled-line for each DataSet. Set this to null to use the default logic.
+    open var fillFormatter: FillFormatter?
     {
         get
         {
