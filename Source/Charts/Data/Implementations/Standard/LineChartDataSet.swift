@@ -70,6 +70,8 @@ open class LineChartDataSet: LineRadarChartDataSet, LineChartDataSetProtocol
 
     open var isDrawLineWithGradientEnabled = false
 
+    open var drawHorizontalGradientEnabled = false
+
     open var gradientPositions: [CGFloat]?
     
     /// The radius of the drawn circles.

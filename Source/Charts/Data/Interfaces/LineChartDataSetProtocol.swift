@@ -33,6 +33,9 @@ public protocol LineChartDataSetProtocol: LineRadarChartDataSetProtocol
     /// If true, gradient lines are drawn instead of solid
     var isDrawLineWithGradientEnabled: Bool { get set }
 
+    /// If true when `isDrawLineWithGradientEnabled` is also true, the gradient will be drawn horizontally
+    var drawHorizontalGradientEnabled: Bool { get set }
+
     /// The points where gradient should change color
     var gradientPositions: [CGFloat]? { get set }
 
