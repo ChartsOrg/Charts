@@ -1,12 +1,12 @@
 language: objective-c
-osx_image: xcode9
+osx_image: xcode9.3beta
 matrix:
   include:
-    - osx_image: xcode9
+    - osx_image: xcode9.3beta
       env: PLATFORM="iOS"
-    - osx_image: xcode9
+    - osx_image: xcode9.3beta
       env: PLATFORM="tvOS"
-    - osx_image: xcode9
+    - osx_image: xcode9.3beta
       env: PLATFORM="macOS"
 env:
   global:
