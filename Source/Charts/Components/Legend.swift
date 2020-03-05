@@ -167,7 +167,7 @@ open class Legend: ComponentBase
             guard let label = entry.label
                 else { continue }
             
-            let size = (label as NSString).size(withAttributes: [.font: font])
+            let size = (label as NSString!).size(withAttributes: [NSAttributedStringKey.font: font])
             
             if size.width > maxW
             {
@@ -238,7 +238,8 @@ open class Legend: ComponentBase
                 let e = entries[i]
                 let drawingForm = e.form != .none
                 let formSize = e.formSize.isNaN ? defaultFormSize : e.formSize
-
+                let label = e.label
+                
                 if !wasStacked
                 {
                     width = 0.0
@@ -253,10 +254,10 @@ open class Legend: ComponentBase
                     width += formSize
                 }
                 
-                if let label = e.label
+                if label != nil
                 {
-                    let size = (label as NSString).size(withAttributes: [.font: labelFont])
-
+                    let size = (label as NSString!).size(withAttributes: [NSAttributedStringKey.font: labelFont])
+                    
                     if drawingForm && !wasStacked
                     {
                         width += formToTextSpace
@@ -314,6 +315,7 @@ open class Legend: ComponentBase
             
             // Start calculating layout
             
+            let labelAttrs = [NSAttributedStringKey.font: labelFont]
             var maxLineWidth: CGFloat = 0.0
             var currentLineWidth: CGFloat = 0.0
             var requiredWidth: CGFloat = 0.0
@@ -339,9 +341,9 @@ open class Legend: ComponentBase
                 }
                 
                 // grouped forms have null labels
-                if let label = label
+                if label != nil
                 {
-                    calculatedLabelSizes[i] = (label as NSString).size(withAttributes: [.font: labelFont])
+                    calculatedLabelSizes[i] = (label as NSString!).size(withAttributes: labelAttrs)
                     requiredWidth += drawingForm ? formToTextSpace + formSize : 0.0
                     requiredWidth += calculatedLabelSizes[i].width
                 }

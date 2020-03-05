@@ -14,18 +14,13 @@ import Foundation
 /// Data object that encapsulates all data associated with a LineChart.
 open class LineChartData: ChartData
 {
-    public required init()
+    public override init()
     {
         super.init()
     }
     
-    public override init(dataSets: [ChartDataSetProtocol])
+    public override init(dataSets: [IChartDataSet]?)
     {
         super.init(dataSets: dataSets)
-    }
-
-    public required init(arrayLiteral elements: ChartDataSetProtocol...)
-    {
-        super.init(dataSets: elements)
     }
 }

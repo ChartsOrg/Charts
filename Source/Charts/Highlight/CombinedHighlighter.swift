@@ -48,9 +48,13 @@ open class CombinedHighlighter: ChartHighlighter
             }
             else
             {
-                for (j, set) in zip(dataObject.indices, dataObject) where set.isHighlightEnabled
+                for j in 0..<dataObject.dataSetCount
                 {
-                    let highs = buildHighlights(dataSet: set, dataSetIndex: j, xValue: xValue, rounding: .closest)
+                    guard let dataSet = dataObject.getDataSetByIndex(j),
+                        dataSet.isHighlightEnabled      // don't include datasets that cannot be highlighted
+                        else { continue }
+
+                    let highs = buildHighlights(dataSet: dataSet, dataSetIndex: j, xValue: xValue, rounding: .closest)
 
                     for high in highs
                     {

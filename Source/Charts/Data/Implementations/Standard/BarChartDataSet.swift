@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 
-open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartDataSetProtocol
+open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDataSet
 {
     private func initialize()
     {
@@ -29,7 +29,7 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
         initialize()
     }
     
-    public override init(values: [ChartDataEntry], label: String)
+    public override init(values: [ChartDataEntry]?, label: String?)
     {
         super.init(values: values, label: label)
         initialize()
@@ -50,36 +50,68 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
     {
         _entryCountStacks = 0
         
-        entries.forEach { _entryCountStacks += $0.yValues?.count ?? 1 }
+        for i in 0 ..< entries.count
+        {
+            if let vals = entries[i].yValues
+            {
+                _entryCountStacks += vals.count
+            }
+            else
+            {
+                _entryCountStacks += 1
+            }
+        }
     }
     
     /// calculates the maximum stacksize that occurs in the Entries array of this DataSet
     private func calcStackSize(entries: [BarChartDataEntry])
     {
-        for e in entries where (e.yValues?.count ?? 0) > _stackSize
+        for i in 0 ..< entries.count
         {
-            _stackSize = e.yValues!.count
+            if let vals = entries[i].yValues
+            {
+                if vals.count > _stackSize
+                {
+                    _stackSize = vals.count
+                }
+            }
         }
     }
     
     open override func calcMinMax(entry e: ChartDataEntry)
     {
-        guard let e = e as? BarChartDataEntry,
-            !e.y.isNaN
+        guard let e = e as? BarChartDataEntry
             else { return }
         
-        if e.yValues == nil
+        if !e.y.isNaN
         {
-            _yMin = min(e.y, _yMin)
-            _yMax = max(e.y, _yMax)
+            if e.yValues == nil
+            {
+                if e.y < _yMin
+                {
+                    _yMin = e.y
+                }
+                
+                if e.y > _yMax
+                {
+                    _yMax = e.y
+                }
+            }
+            else
+            {
+                if -e.negativeSum < _yMin
+                {
+                    _yMin = -e.negativeSum
+                }
+                
+                if e.positiveSum > _yMax
+                {
+                    _yMax = e.positiveSum
+                }
+            }
+            
+            calcMinMaxX(entry: e)
         }
-        else
-        {
-            _yMin = min(-e.negativeSum, _yMin)
-            _yMax = max(e.positiveSum, _yMax)
-        }
-
-        calcMinMaxX(entry: e)
     }
     
     /// - returns: The maximum number of bars that can be stacked upon another in this DataSet.

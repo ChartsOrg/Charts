@@ -12,14 +12,8 @@
 import Foundation
 import CoreGraphics
 
-open class CombinedChartRenderer: NSObject, DataRenderer
+open class CombinedChartRenderer: DataRenderer
 {
-    public let viewPortHandler: ViewPortHandler
-
-    public final var accessibleChartElements: [NSUIAccessibilityElement] = []
-
-    public let animator: Animator
-
     @objc open weak var chart: CombinedChartView?
     
     /// if set to true, all values are drawn above their bars, instead of below their top
@@ -34,11 +28,9 @@ open class CombinedChartRenderer: NSObject, DataRenderer
     
     @objc public init(chart: CombinedChartView, animator: Animator, viewPortHandler: ViewPortHandler)
     {
+        super.init(animator: animator, viewPortHandler: viewPortHandler)
+        
         self.chart = chart
-        self.viewPortHandler = viewPortHandler
-        self.animator = animator
-
-        super.init()
         
         createRenderers()
     }
@@ -93,7 +85,7 @@ open class CombinedChartRenderer: NSObject, DataRenderer
 
     }
     
-    open func initBuffers()
+    open override func initBuffers()
     {
         for renderer in _renderers
         {
@@ -101,31 +93,15 @@ open class CombinedChartRenderer: NSObject, DataRenderer
         }
     }
     
-    open func drawData(context: CGContext)
+    open override func drawData(context: CGContext)
     {
-        // If we redraw the data, remove and repopulate accessible elements to update label values and frames
-        accessibleChartElements.removeAll()
-
-        if
-            let combinedChart = chart,
-            let data = combinedChart.data {
-            // Make the chart header the first element in the accessible elements array
-            let element = createAccessibleHeader(usingChart: combinedChart,
-                                                 andData: data,
-                                                 withDefaultDescription: "Combined Chart")
-            accessibleChartElements.append(element)
-        }
-
-        // TODO: Due to the potential complexity of data presented in Combined charts, a more usable way
-        // for VO accessibility would be to use axis based traversal rather than by dataset.
-        // Hence, accessibleChartElements is not populated below. (Individual renderers guard against dataSource being their respective views)
         for renderer in _renderers
         {
             renderer.drawData(context: context)
         }
     }
     
-    open func drawValues(context: CGContext)
+    open override func drawValues(context: CGContext)
     {
         for renderer in _renderers
         {
@@ -133,7 +109,7 @@ open class CombinedChartRenderer: NSObject, DataRenderer
         }
     }
     
-    open func drawExtras(context: CGContext)
+    open override func drawExtras(context: CGContext)
     {
         for renderer in _renderers
         {
@@ -141,7 +117,7 @@ open class CombinedChartRenderer: NSObject, DataRenderer
         }
     }
     
-    open func drawHighlighted(context: CGContext, indices: [Highlight])
+    open override func drawHighlighted(context: CGContext, indices: [Highlight])
     {
         for renderer in _renderers
         {
@@ -174,12 +150,6 @@ open class CombinedChartRenderer: NSObject, DataRenderer
             
             renderer.drawHighlighted(context: context, indices: dataIndices)
         }
-    }
-
-    open func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
-    {
-        guard let data = dataProvider?.data else { return false }
-        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
     }
 
     /// - returns: The sub-renderer object at the specified index.
@@ -226,9 +196,5 @@ open class CombinedChartRenderer: NSObject, DataRenderer
                 _drawOrder = newValue
             }
         }
-    }
-    
-    public func createAccessibleHeader(usingChart chart: ChartViewBase, andData data: ChartData, withDefaultDescription defaultDescription: String) -> NSUIAccessibilityElement {
-        return AccessibleHeader.create(usingChart: chart, andData: data, withDefaultDescription: defaultDescription)
     }
 }

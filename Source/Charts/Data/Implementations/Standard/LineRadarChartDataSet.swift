@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 
-open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, LineRadarChartDataSetProtocol
+open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, ILineRadarChartDataSet
 {
     // MARK: - Data functions and accessors
     
@@ -54,7 +54,18 @@ open class LineRadarChartDataSet: LineScatterCandleRadarChartDataSet, LineRadarC
         }
         set
         {
-            _lineWidth = newValue.clamped(to: 0...10)
+            if newValue < 0.0
+            {
+                _lineWidth = 0.0
+            }
+            else if newValue > 10.0
+            {
+                _lineWidth = 10.0
+            }
+            else
+            {
+                _lineWidth = newValue
+            }
         }
     }
     

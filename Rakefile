@@ -3,11 +3,11 @@ def type
 end
 
 def project_name
-  'ChartsDemo-iOS/ChartsDemo-iOS.xcodeproj'
+  'ChartsDemo/ChartsDemo.xcodeproj'
 end
 
 def macos_project_name
-  'ChartsDemo-macOS/ChartsDemo-macOS.xcodeproj'
+  'ChartsDemo-OSX/ChartsDemo-OSX.xcodeproj'
 end
 
 def configuration
@@ -35,14 +35,14 @@ end
 
 def build_demo_schemes
   %i[
-    ChartsDemo-iOS
-    ChartsDemo-iOS-Swift
+    ChartsDemo
+    ChartsDemo-Swift
   ]
 end
 
 def build_macos_demo_schemes
   [
-    'ChartsDemo-macOS'
+    'ChartsDemo-OSX'
   ]
 end
 
@@ -66,8 +66,8 @@ def devices
     },
     tvOS: {
       sdk: 'appletvsimulator',
-      device: "name='Apple TV'",
-      name: 'Apple TV'
+      device: "name='Apple TV 1080p'",
+      name: 'Apple TV 1080p'
     }
   }
 end

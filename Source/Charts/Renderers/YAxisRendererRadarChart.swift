@@ -20,15 +20,19 @@ open class YAxisRendererRadarChart: YAxisRenderer
 {
     private weak var chart: RadarChartView?
     
-    @objc public init(viewPortHandler: ViewPortHandler, axis: YAxis, chart: RadarChartView)
+    @objc public init(viewPortHandler: ViewPortHandler, yAxis: YAxis?, chart: RadarChartView)
     {
-        super.init(viewPortHandler: viewPortHandler, axis: axis, transformer: nil)
+        super.init(viewPortHandler: viewPortHandler, yAxis: yAxis, transformer: nil)
         
         self.chart = chart
     }
     
     open override func computeAxisValues(min yMin: Double, max yMax: Double)
     {
+        guard let
+            axis = axis as? YAxis
+            else { return }
+        
         let labelCount = axis.labelCount
         let range = abs(yMax - yMin)
         
@@ -41,8 +45,8 @@ open class YAxisRendererRadarChart: YAxisRenderer
         
         // Find out how much spacing (in yValue space) between axis values
         let rawInterval = range / Double(labelCount)
-        var interval = rawInterval.roundedToNextSignificant()
-
+        var interval = rawInterval.roundedToNextSignficant()
+        
         // If granularity is enabled, then do not allow the interval to go below specified granularity.
         // This is used to avoid repeated values when rounding values for display.
         if axis.isGranularityEnabled
@@ -51,7 +55,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
         }
         
         // Normalize interval
-        let intervalMagnitude = pow(10.0, floor(log10(interval))).roundedToNextSignificant()
+        let intervalMagnitude = pow(10.0, floor(log10(interval))).roundedToNextSignficant()
         let intervalSigDigit = Int(interval / intervalMagnitude)
         
         if intervalSigDigit > 5
@@ -157,51 +161,56 @@ open class YAxisRendererRadarChart: YAxisRenderer
     
     open override func renderAxisLabels(context: CGContext)
     {
-        guard let chart = chart else { return }
+        guard let
+            yAxis = axis as? YAxis,
+            let chart = chart
+            else { return }
         
-        if !axis.isEnabled || !axis.isDrawLabelsEnabled
+        if !yAxis.isEnabled || !yAxis.isDrawLabelsEnabled
         {
             return
         }
         
-        let labelFont = axis.labelFont
-        let labelTextColor = axis.labelTextColor
+        let labelFont = yAxis.labelFont
+        let labelTextColor = yAxis.labelTextColor
         
         let center = chart.centerOffsets
         let factor = chart.factor
         
-        let labelLineHeight = axis.labelFont.lineHeight
+        let labelLineHeight = yAxis.labelFont.lineHeight
         
-        let from = axis.isDrawBottomYLabelEntryEnabled ? 0 : 1
-        let to = axis.isDrawTopYLabelEntryEnabled ? axis.entryCount : (axis.entryCount - 1)
-
-        let alignment = axis.labelAlignment
-        let xOffset = axis.labelXOffset
+        let from = yAxis.isDrawBottomYLabelEntryEnabled ? 0 : 1
+        let to = yAxis.isDrawTopYLabelEntryEnabled ? yAxis.entryCount : (yAxis.entryCount - 1)
         
         for j in stride(from: from, to: to, by: 1)
         {
-            let r = CGFloat(axis.entries[j] - axis._axisMinimum) * factor
+            let r = CGFloat(yAxis.entries[j] - yAxis._axisMinimum) * factor
             
             let p = center.moving(distance: r, atAngle: chart.rotationAngle)
             
-            let label = axis.getFormattedLabel(j)
+            let label = yAxis.getFormattedLabel(j)
             
-            context.drawText(label,
-                             at: CGPoint(x: p.x + xOffset, y: p.y - labelLineHeight),
-                             align: alignment,
-                             attributes: [.font: labelFont,
-                                          .foregroundColor: labelTextColor])
+            ChartUtils.drawText(
+                context: context,
+                text: label,
+                point: CGPoint(x: p.x + 10.0, y: p.y - labelLineHeight),
+                align: .left,
+                attributes: [
+                    NSAttributedStringKey.font: labelFont,
+                    NSAttributedStringKey.foregroundColor: labelTextColor
+                ])
         }
     }
     
     open override func renderLimitLines(context: CGContext)
     {
         guard
+            let yAxis = axis as? YAxis,
             let chart = chart,
             let data = chart.data
             else { return }
         
-        var limitLines = axis.limitLines
+        var limitLines = yAxis.limitLines
         
         if limitLines.count == 0
         {

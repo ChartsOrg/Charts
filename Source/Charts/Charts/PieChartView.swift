@@ -86,8 +86,9 @@ open class PieChartView: PieRadarChartViewBase
     {
         super.initialize()
         
-        renderer = PieChartRenderer(chart: self, animator: chartAnimator, viewPortHandler: viewPortHandler)
-
+        renderer = PieChartRenderer(chart: self, animator: _animator, viewPortHandler: _viewPortHandler)
+        _xAxis = nil
+        
         self.highlighter = PieHighlighter(chart: self)
     }
     
@@ -95,7 +96,7 @@ open class PieChartView: PieRadarChartViewBase
     {
         super.draw(rect)
         
-        if data === nil
+        if _data === nil
         {
             return
         }
@@ -110,7 +111,7 @@ open class PieChartView: PieRadarChartViewBase
         
         if (valuesToHighlight())
         {
-            renderer.drawHighlighted(context: context, indices: highlighted)
+            renderer.drawHighlighted(context: context, indices: _indicesToHighlight)
         }
         
         renderer.drawExtras(context: context)
@@ -119,7 +120,7 @@ open class PieChartView: PieRadarChartViewBase
         
         legendRenderer.renderLegend(context: context)
         
-        drawDescription(in: context)
+        drawDescription(context: context)
         
         drawMarkers(context: context)
     }
@@ -129,7 +130,7 @@ open class PieChartView: PieRadarChartViewBase
         super.calculateOffsets()
         
         // prevent nullpointer when no data set
-        if data === nil
+        if _data === nil
         {
             return
         }
@@ -174,9 +175,9 @@ open class PieChartView: PieRadarChartViewBase
         let offset = drawAngles[entryIndex] / 2.0
         
         // calculate the text position
-        let x = (r * cos(((rotationAngle + absoluteAngles[entryIndex] - offset) * CGFloat(chartAnimator.phaseY)).DEG2RAD) + center.x)
-        let y = (r * sin(((rotationAngle + absoluteAngles[entryIndex] - offset) * CGFloat(chartAnimator.phaseY)).DEG2RAD) + center.y)
-
+        let x: CGFloat = (r * cos(((rotationAngle + absoluteAngles[entryIndex] - offset) * CGFloat(_animator.phaseY)).DEG2RAD) + center.x)
+        let y: CGFloat = (r * sin(((rotationAngle + absoluteAngles[entryIndex] - offset) * CGFloat(_animator.phaseY)).DEG2RAD) + center.y)
+        
         return CGPoint(x: x, y: y)
     }
     
@@ -186,19 +187,22 @@ open class PieChartView: PieRadarChartViewBase
         _drawAngles = [CGFloat]()
         _absoluteAngles = [CGFloat]()
         
-        guard let data = data else { return }
+        guard let data = _data else { return }
 
         let entryCount = data.entryCount
         
         _drawAngles.reserveCapacity(entryCount)
         _absoluteAngles.reserveCapacity(entryCount)
         
-        let yValueSum = (data as! PieChartData).yValueSum
+        let yValueSum = (_data as! PieChartData).yValueSum
+        
+        var dataSets = data.dataSets
 
         var cnt = 0
 
-        for set in data
+        for i in 0 ..< data.dataSetCount
         {
+            let set = dataSets[i]
             let entryCount = set.entryCount
 
             for j in 0 ..< entryCount
@@ -230,10 +234,10 @@ open class PieChartView: PieRadarChartViewBase
             return false
         }
         
-        for i in 0 ..< highlighted.count
+        for i in 0 ..< _indicesToHighlight.count
         {
             // check if the xvalue for the given dataset needs highlight
-            if Int(highlighted[i].x) == index
+            if Int(_indicesToHighlight[i].x) == index
             {
                 return true
             }
@@ -245,7 +249,7 @@ open class PieChartView: PieRadarChartViewBase
     /// calculates the needed angle for a given value
     private func calcAngle(_ value: Double) -> CGFloat
     {
-        return calcAngle(value: value, yValueSum: (data as! PieChartData).yValueSum)
+        return calcAngle(value: value, yValueSum: (_data as! PieChartData).yValueSum)
     }
     
     /// calculates the needed angle for a given value
@@ -257,8 +261,7 @@ open class PieChartView: PieRadarChartViewBase
     /// This will throw an exception, PieChart has no XAxis object.
     open override var xAxis: XAxis
     {
-        get { fatalError("PieChart has no XAxis") }
-        set { fatalError("PieChart has no XAxis") }
+        fatalError("PieChart has no XAxis")
     }
     
     open override func indexForAngle(_ angle: CGFloat) -> Int
@@ -279,7 +282,7 @@ open class PieChartView: PieRadarChartViewBase
     /// - returns: The index of the DataSet this x-index belongs to.
     @objc open func dataSetIndexForIndex(_ xValue: Double) -> Int
     {
-        var dataSets = data?.dataSets ?? []
+        var dataSets = _data?.dataSets ?? []
         
         for i in 0 ..< dataSets.count
         {
@@ -394,10 +397,11 @@ open class PieChartView: PieRadarChartViewBase
                 paragraphStyle.alignment = .center
                 
                 attrString = NSMutableAttributedString(string: newValue!)
-                attrString?.setAttributes([.foregroundColor: NSUIColor.black,
-                                           .font: NSUIFont.systemFont(ofSize: 12.0),
-                                           .paragraphStyle: paragraphStyle],
-                                          range: NSMakeRange(0, attrString!.length))
+                attrString?.setAttributes([
+                    NSAttributedStringKey.foregroundColor: NSUIColor.black,
+                    NSAttributedStringKey.font: NSUIFont.systemFont(ofSize: 12.0),
+                    NSAttributedStringKey.paragraphStyle: paragraphStyle
+                    ], range: NSMakeRange(0, attrString!.length))
             }
             self.centerAttributedText = attrString
         }
@@ -456,7 +460,7 @@ open class PieChartView: PieRadarChartViewBase
     
     internal override var requiredLegendOffset: CGFloat
     {
-        return legend.font.pointSize * 2.0
+        return _legend.font.pointSize * 2.0
     }
     
     internal override var requiredBaseOffset: CGFloat
@@ -633,14 +637,6 @@ open class PieChartView: PieRadarChartViewBase
             {
                 _maxAngle = 90.0
             }
-        }
-    }
-    
-    /// smallest pie slice angle that will have a label drawn in degrees, 0 by default
-    @objc open var sliceTextDrawingThreshold: CGFloat = 0.0
-    {
-        didSet {
-            setNeedsDisplay()
         }
     }
 }

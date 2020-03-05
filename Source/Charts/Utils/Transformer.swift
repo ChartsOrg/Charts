@@ -17,37 +17,37 @@ import CoreGraphics
 open class Transformer: NSObject
 {
     /// matrix to map the values to the screen pixels
-    internal var matrixValueToPx = CGAffineTransform.identity
+    internal var _matrixValueToPx = CGAffineTransform.identity
 
     /// matrix for handling the different offsets of the chart
-    internal var matrixOffset = CGAffineTransform.identity
+    internal var _matrixOffset = CGAffineTransform.identity
 
-    internal var viewPortHandler: ViewPortHandler
+    internal var _viewPortHandler: ViewPortHandler
 
     @objc public init(viewPortHandler: ViewPortHandler)
     {
-        self.viewPortHandler = viewPortHandler
+        _viewPortHandler = viewPortHandler
     }
 
     /// Prepares the matrix that transforms values to pixels. Calculates the scale factors from the charts size and offsets.
     @objc open func prepareMatrixValuePx(chartXMin: Double, deltaX: CGFloat, deltaY: CGFloat, chartYMin: Double)
     {
-        var scaleX = (viewPortHandler.contentWidth / deltaX)
-        var scaleY = (viewPortHandler.contentHeight / deltaY)
+        var scaleX = (_viewPortHandler.contentWidth / deltaX)
+        var scaleY = (_viewPortHandler.contentHeight / deltaY)
         
-        if .infinity == scaleX
+        if CGFloat.infinity == scaleX
         {
             scaleX = 0.0
         }
-        if .infinity == scaleY
+        if CGFloat.infinity == scaleY
         {
             scaleY = 0.0
         }
 
         // setup all matrices
-        matrixValueToPx = CGAffineTransform.identity
-            .scaledBy(x: scaleX, y: -scaleY)
-            .translatedBy(x: CGFloat(-chartXMin), y: CGFloat(-chartYMin))
+        _matrixValueToPx = CGAffineTransform.identity
+        _matrixValueToPx = _matrixValueToPx.scaledBy(x: scaleX, y: -scaleY)
+        _matrixValueToPx = _matrixValueToPx.translatedBy(x: CGFloat(-chartXMin), y: CGFloat(-chartYMin))
     }
 
     /// Prepares the matrix that contains all offsets.
@@ -55,12 +55,12 @@ open class Transformer: NSObject
     {
         if !inverted
         {
-            matrixOffset = CGAffineTransform(translationX: viewPortHandler.offsetLeft, y: viewPortHandler.chartHeight - viewPortHandler.offsetBottom)
+            _matrixOffset = CGAffineTransform(translationX: _viewPortHandler.offsetLeft, y: _viewPortHandler.chartHeight - _viewPortHandler.offsetBottom)
         }
         else
         {
-            matrixOffset = CGAffineTransform(scaleX: 1.0, y: -1.0)
-                .translatedBy(x: viewPortHandler.offsetLeft, y: -viewPortHandler.offsetTop)
+            _matrixOffset = CGAffineTransform(scaleX: 1.0, y: -1.0)
+            _matrixOffset = _matrixOffset.translatedBy(x: _viewPortHandler.offsetLeft, y: -_viewPortHandler.offsetTop)
         }
     }
 
@@ -69,7 +69,10 @@ open class Transformer: NSObject
     open func pointValuesToPixel(_ points: inout [CGPoint])
     {
         let trans = valueToPixelMatrix
-        points = points.map { $0.applying(trans) }
+        for i in 0 ..< points.count
+        {
+            points[i] = points[i].applying(trans)
+        }
     }
     
     open func pointValueToPixel(_ point: inout CGPoint)
@@ -123,14 +126,22 @@ open class Transformer: NSObject
     open func rectValuesToPixel(_ rects: inout [CGRect])
     {
         let trans = valueToPixelMatrix
-        rects = rects.map { $0.applying(trans) }
+        
+        for i in 0 ..< rects.count
+        {
+            rects[i] = rects[i].applying(trans)
+        }
     }
     
     /// Transforms the given array of touch points (pixels) into values on the chart.
     open func pixelsToValues(_ pixels: inout [CGPoint])
     {
         let trans = pixelToValueMatrix
-        pixels = pixels.map { $0.applying(trans) }
+        
+        for i in 0 ..< pixels.count
+        {
+            pixels[i] = pixels[i].applying(trans)
+        }
     }
     
     /// Transforms the given touch point (pixels) into a value on the chart.
@@ -158,8 +169,8 @@ open class Transformer: NSObject
     @objc open var valueToPixelMatrix: CGAffineTransform
     {
         return
-            matrixValueToPx.concatenating(viewPortHandler.touchMatrix)
-                .concatenating(matrixOffset
+            _matrixValueToPx.concatenating(_viewPortHandler.touchMatrix
+                ).concatenating(_matrixOffset
         )
     }
     

@@ -37,21 +37,21 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         if let barData = dataProvider?.barData
         {
             // Matche buffers count to dataset count
-            if _buffers.count != barData.count
+            if _buffers.count != barData.dataSetCount
             {
-                while _buffers.count < barData.count
+                while _buffers.count < barData.dataSetCount
                 {
                     _buffers.append(Buffer())
                 }
-                while _buffers.count > barData.count
+                while _buffers.count > barData.dataSetCount
                 {
                     _buffers.removeLast()
                 }
             }
             
-            for i in barData.indices
+            for i in stride(from: 0, to: barData.dataSetCount, by: 1)
             {
-                let set = barData.dataSets[i] as! BarChartDataSetProtocol
+                let set = barData.dataSets[i] as! IBarChartDataSet
                 let size = set.entryCount * (set.isStacked ? set.stackSize : 1)
                 if _buffers[i].rects.count != size
                 {
@@ -65,7 +65,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         }
     }
     
-    private func prepareBuffer(dataSet: BarChartDataSetProtocol, index: Int)
+    private func prepareBuffer(dataSet: IBarChartDataSet, index: Int)
     {
         guard let
             dataProvider = dataProvider,
@@ -179,7 +179,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
     
     private var _barShadowRectBuffer: CGRect = CGRect()
     
-    open override func drawDataSet(context: CGContext, dataSet: BarChartDataSetProtocol, index: Int)
+    open override func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int)
     {
         guard let dataProvider = dataProvider else { return }
         
@@ -240,11 +240,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         {
             context.setFillColor(dataSet.color(atIndex: 0).cgColor)
         }
-
-        // In case the chart is stacked, we need to accomodate individual bars within accessibilityOrdereredElements
-        let isStacked = dataSet.isStacked
-        let stackSize = isStacked ? dataSet.stackSize : 1
-
+        
         for j in stride(from: 0, to: buffer.rects.count, by: 1)
         {
             let barRect = buffer.rects[j]
@@ -264,29 +260,14 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
-
+            
             context.fill(barRect)
-
+            
             if drawBorder
             {
                 context.setStrokeColor(borderColor.cgColor)
                 context.setLineWidth(borderWidth)
                 context.stroke(barRect)
-            }
-
-            // Create and append the corresponding accessibility element to accessibilityOrderedElements (see BarChartRenderer)
-            if let chart = dataProvider as? BarChartView
-            {
-                let element = createAccessibleElement(withIndex: j,
-                                                      container: chart,
-                                                      dataSet: dataSet,
-                                                      dataSetIndex: index,
-                                                      stackSize: stackSize)
-                { (element) in
-                    element.accessibilityFrame = barRect
-                }
-
-                accessibilityOrderedElements[j/stackSize].append(element)
             }
         }
         
@@ -333,11 +314,9 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             var negOffset: CGFloat
             let drawValueAboveBar = dataProvider.isDrawValueAboveBarEnabled
             
-            for dataSetIndex in barData.indices
+            for dataSetIndex in 0 ..< barData.dataSetCount
             {
-                guard let dataSet = dataSets[dataSetIndex] as? BarChartDataSetProtocol else { continue }
-                
-                let angleRadians = dataSet.valueLabelAngle.DEG2RAD
+                guard let dataSet = dataSets[dataSetIndex] as? IBarChartDataSet else { continue }
                 
                 if !shouldDrawValues(forDataSet: dataSet) || !(dataSet.isDrawIconsEnabled && dataSet.isVisible)
                 {
@@ -349,7 +328,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 let valueFont = dataSet.valueFont
                 let yOffset = -valueFont.lineHeight / 2.0
                 
-                let formatter = dataSet.valueFormatter
+                guard let formatter = dataSet.valueFormatter else { continue }
                 
                 let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
                 
@@ -393,7 +372,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                             viewPortHandler: viewPortHandler)
                         
                         // calculate the correct offset depending on the draw position of the value
-                        let valueTextWidth = valueText.size(withAttributes: [.font: valueFont]).width
+                        let valueTextWidth = valueText.size(withAttributes: [NSAttributedStringKey.font: valueFont]).width
                         posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
                         negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
                         
@@ -413,9 +392,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                 yPos: y + yOffset,
                                 font: valueFont,
                                 align: textAlign,
-                                color: dataSet.valueTextColorAt(j),
-                                anchor: CGPoint.zero,
-                                angleRadians: angleRadians)
+                                color: dataSet.valueTextColorAt(j))
                         }
                         
                         if let icon = e.icon, dataSet.isDrawIconsEnabled
@@ -427,9 +404,12 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                             px += iconsOffset.x
                             py += iconsOffset.y
                             
-                            context.drawImage(icon,
-                                              atCenter: CGPoint(x: px, y: py),
-                                              size: icon.size)
+                            ChartUtils.drawImage(
+                                context: context,
+                                image: icon,
+                                x: px,
+                                y: py,
+                                size: icon.size)
                         }
                     }
                 }
@@ -493,9 +473,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                     yPos: rect.origin.y + yOffset,
                                     font: valueFont,
                                     align: textAlign,
-                                    color: dataSet.valueTextColorAt(index),
-                                    anchor: CGPoint.zero,
-                                    angleRadians: angleRadians)
+                                    color: dataSet.valueTextColorAt(index))
                             }
                             
                             if let icon = e.icon, dataSet.isDrawIconsEnabled
@@ -507,9 +485,12 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                 px += iconsOffset.x
                                 py += iconsOffset.y
                                 
-                                context.drawImage(icon,
-                                                  atCenter: CGPoint(x: px, y: py),
-                                                  size: icon.size)
+                                ChartUtils.drawImage(
+                                    context: context,
+                                    image: icon,
+                                    x: px,
+                                    y: py,
+                                    size: icon.size)
                             }
                         }
                         else
@@ -556,7 +537,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                     viewPortHandler: viewPortHandler)
                                 
                                 // calculate the correct offset depending on the draw position of the value
-                                let valueTextWidth = valueText.size(withAttributes: [.font: valueFont]).width
+                                let valueTextWidth = valueText.size(withAttributes: [NSAttributedStringKey.font: valueFont]).width
                                 posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
                                 negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
                                 
@@ -589,22 +570,22 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                 if dataSet.isDrawValuesEnabled
                                 {
                                     drawValue(context: context,
-                                              value: valueText,
-                                              xPos: x,
-                                              yPos: y + yOffset,
-                                              font: valueFont,
-                                              align: textAlign,
-                                              color: dataSet.valueTextColorAt(index),
-                                              anchor: CGPoint.zero,
-                                              angleRadians: angleRadians)
+                                        value: valueText,
+                                        xPos: x,
+                                        yPos: y + yOffset,
+                                        font: valueFont,
+                                        align: textAlign,
+                                        color: dataSet.valueTextColorAt(index))
                                 }
                                 
                                 if let icon = e.icon, dataSet.isDrawIconsEnabled
                                 {
-                                    context.drawImage(icon,
-                                                      atCenter: CGPoint(x: x + iconsOffset.x,
-                                                                      y: y + iconsOffset.y),
-                                                      size: icon.size)
+                                    ChartUtils.drawImage(
+                                        context: context,
+                                        image: icon,
+                                        x: x + iconsOffset.x,
+                                        y: y + iconsOffset.y,
+                                        size: icon.size)
                                 }
                             }
                         }

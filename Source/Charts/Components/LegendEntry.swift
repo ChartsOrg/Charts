@@ -23,21 +23,36 @@ open class LegendEntry: NSObject
     {
         super.init()
     }
-
+    
     /// - parameter label:                  The legend entry text.
     ///                                     A `nil` label will start a group.
-    @objc public init(label: String?)
+    /// - parameter form:                   The form to draw for this entry.
+    /// - parameter formSize:               Set to NaN to use the legend's default.
+    /// - parameter formLineWidth:          Set to NaN to use the legend's default.
+    /// - parameter formLineDashPhase:      Line dash configuration.
+    /// - parameter formLineDashLengths:    Line dash configurationas NaN to use the legend's default.
+    /// - parameter formColor:              The color for drawing the form.
+    @objc public init(label: String?,
+                form: Legend.Form,
+                formSize: CGFloat,
+                formLineWidth: CGFloat,
+                formLineDashPhase: CGFloat,
+                formLineDashLengths: [CGFloat]?,
+                formColor: NSUIColor?)
     {
         self.label = label
+        self.form = form
+        self.formSize = formSize
+        self.formLineWidth = formLineWidth
+        self.formLineDashPhase = formLineDashPhase
+        self.formLineDashLengths = formLineDashLengths
+        self.formColor = formColor
     }
-
+    
     /// The legend entry text.
     /// A `nil` label will start a group.
     @objc open var label: String?
-
-    /// The color for drawing the label
-    @objc open var labelColor: NSUIColor?
-
+    
     /// The form to draw for this entry.
     ///
     /// `None` will avoid drawing a form, and any related space.

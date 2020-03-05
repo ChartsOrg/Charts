@@ -13,7 +13,7 @@ import Foundation
 
 /// This formatter is used for passing an array of x-axis labels, on whole x steps.
 @objc(ChartIndexAxisValueFormatter)
-open class IndexAxisValueFormatter: NSObject, AxisValueFormatter
+open class IndexAxisValueFormatter: NSObject, IAxisValueFormatter
 {
     private var _values: [String] = [String]()
     private var _valueCount: Int = 0

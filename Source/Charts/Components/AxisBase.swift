@@ -22,7 +22,7 @@ open class AxisBase: ComponentBase
     }
     
     /// Custom formatter that is used instead of the auto-formatter if set
-    private lazy var _axisValueFormatter: AxisValueFormatter = DefaultAxisValueFormatter(decimals: decimals)
+    private var _axisValueFormatter: IAxisValueFormatter?
     
     @objc open var labelFont = NSUIFont.systemFont(ofSize: 10.0)
     @objc open var labelTextColor = NSUIColor.black
@@ -157,13 +157,14 @@ open class AxisBase: ComponentBase
     /// Sets the formatter to be used for formatting the axis labels.
     /// If no formatter is set, the chart will automatically determine a reasonable formatting (concerning decimals) for all the values that are drawn inside the chart.
     /// Use `nil` to use the formatter calculated by the chart.
-    @objc open var valueFormatter: AxisValueFormatter?
+    @objc open var valueFormatter: IAxisValueFormatter?
     {
         get
         {
-            if _axisValueFormatter is DefaultAxisValueFormatter,
-                (_axisValueFormatter as! DefaultAxisValueFormatter).hasAutoDecimals,
-                (_axisValueFormatter as! DefaultAxisValueFormatter).decimals != decimals
+            if _axisValueFormatter == nil ||
+                (_axisValueFormatter is DefaultAxisValueFormatter &&
+                    (_axisValueFormatter as! DefaultAxisValueFormatter).hasAutoDecimals &&
+                    (_axisValueFormatter as! DefaultAxisValueFormatter).decimals != decimals)
             {
                 _axisValueFormatter = DefaultAxisValueFormatter(decimals: decimals)
             }
@@ -235,9 +236,17 @@ open class AxisBase: ComponentBase
         }
         set
         {
-            let range = axisMinLabels...axisMaxLabels as ClosedRange
-            _labelCount = newValue.clamped(to: range)
-                        
+            _labelCount = newValue
+            
+            if _labelCount > axisMaxLabels
+            {
+                _labelCount = axisMaxLabels
+            }
+            if _labelCount < axisMinLabels
+            {
+                _labelCount = axisMinLabels
+            }
+            
             forceLabelsEnabled = false
         }
     }
