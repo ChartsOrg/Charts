@@ -445,12 +445,20 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             let entry = data?.entry(for: h)
             else
         {
+                let shouldRedraw = !highlighted.isEmpty
                 high = nil
                 highlighted.removeAll(keepingCapacity: false)
                 if callDelegate
                 {
                     delegate?.chartValueNothingSelected?(self)
                 }
+
+                // redraw the chart if necessary, i.e. drew marker before
+                if shouldRedraw
+                {
+                    setNeedsDisplay()
+                }
+
                 return
         }
 
