@@ -356,7 +356,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                     {
                         guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
                         
-                        var drawValueAboveBar = dataSet.drawValueAboveBarAt(j)
+                        let drawValueAboveBar = dataSet.drawValueAboveBarAt(j)
                         let rect = buffer.rects[j]
                         
                         let y = rect.origin.y + rect.size.height / 2.0
@@ -387,7 +387,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                         let valueTextWidth = valueText.size(withAttributes: [NSAttributedString.Key.font: valueFont]).width
 
                         posOffset = valueOffsetPlus
-                        negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus) - rect.size.width
+                        negOffset = -(valueTextWidth + valueOffsetPlus) - rect.size.width
                         
                         xPos = (rect.origin.x + rect.size.width)
                         + (val >= 0.0 ? posOffset : negOffset)
@@ -396,6 +396,11 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                         
                         if !drawValueAboveBar || !(viewPortHandler.contentWidth > xPos + valueTextWidth) {
                             posOffset =  -(valueTextWidth + valueOffsetPlus)
+                            color = .white
+                        }
+                        
+                        if !drawValueAboveBar || !(viewPortHandler.contentLeft < abs(xPos)) {
+                            negOffset =  valueOffsetPlus - rect.size.width
                             color = .white
                         }
                         
@@ -481,14 +486,20 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                             let valueTextWidth = valueText.size(withAttributes: [NSAttributedString.Key.font: valueFont]).width
                             
                             posOffset = valueOffsetPlus
-                            negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus) - rect.size.width
+                            negOffset = -(valueTextWidth + valueOffsetPlus) - rect.size.width
                             
                             xPos = (rect.origin.x + rect.size.width)
                             + (val >= 0.0 ? posOffset : negOffset)
-                            
                             var color = dataSet.valueTextColorAt(index)
+                            
+                            
                             if !drawValueAboveBar || !(viewPortHandler.contentWidth > xPos + valueTextWidth) {
                                 posOffset =  -(valueTextWidth + valueOffsetPlus)
+                                color = .white
+                            }
+                            
+                            if !drawValueAboveBar || !(viewPortHandler.contentLeft < abs(xPos)) {
+                                negOffset =  valueOffsetPlus - rect.size.width
                                 color = .white
                             }
                             
