@@ -136,6 +136,9 @@ open class ViewPortHandler: NSObject
         return _contentRect.origin.y + _contentRect.size.height
     }
     
+    @objc open var leftOffset: CGFloat = 0.0
+    @objc open var rightOffset: CGFloat = 0.0
+    
     @objc open var contentWidth: CGFloat
     {
         return _contentRect.size.width

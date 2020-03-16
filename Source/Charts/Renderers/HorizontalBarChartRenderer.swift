@@ -394,12 +394,12 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                         var color = dataSet.valueTextColorAt(j)
                         
                         
-                        if !drawValueAboveBar || !(viewPortHandler.contentWidth > xPos + valueTextWidth) {
+                        if (drawValueAboveBar || !((viewPortHandler.contentRight + viewPortHandler.rightOffset) > xPos + valueTextWidth)) &&  valueTextWidth < rect.size.width {
                             posOffset =  -(valueTextWidth + valueOffsetPlus)
                             color = .white
                         }
                         
-                        if !drawValueAboveBar || !(viewPortHandler.contentLeft < abs(xPos)) {
+                        if (drawValueAboveBar || !((viewPortHandler.contentLeft - viewPortHandler.leftOffset) < abs(xPos))) &&  valueTextWidth < rect.size.width {
                             negOffset =  valueOffsetPlus - rect.size.width
                             color = .white
                         }
@@ -493,12 +493,12 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                             var color = dataSet.valueTextColorAt(index)
                             
                             
-                            if !drawValueAboveBar || !(viewPortHandler.contentWidth > xPos + valueTextWidth) {
+                            if (drawValueAboveBar || !((viewPortHandler.contentRight + viewPortHandler.rightOffset) > xPos + valueTextWidth)) &&  valueTextWidth < rect.size.width {
                                 posOffset =  -(valueTextWidth + valueOffsetPlus)
                                 color = .white
                             }
                             
-                            if !drawValueAboveBar || !(viewPortHandler.contentLeft < abs(xPos)) {
+                            if (drawValueAboveBar || !((viewPortHandler.contentLeft - viewPortHandler.leftOffset) < abs(xPos))) &&  valueTextWidth < rect.size.width {
                                 negOffset =  valueOffsetPlus - rect.size.width
                                 color = .white
                             }
@@ -584,8 +584,23 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                                 
                                 // calculate the correct offset depending on the draw position of the value
                                 let valueTextWidth = valueText.size(withAttributes: [NSAttributedString.Key.font: valueFont]).width
-                                posOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextWidth + valueOffsetPlus))
-                                negOffset = (drawValueAboveBar ? -(valueTextWidth + valueOffsetPlus) : valueOffsetPlus)
+                                posOffset = valueOffsetPlus
+                                negOffset = -(valueTextWidth + valueOffsetPlus) - rect.size.width
+                                
+                                xPos = (rect.origin.x + rect.size.width)
+                                + (val >= 0.0 ? posOffset : negOffset)
+                                var color = dataSet.valueTextColorAt(k)
+                                
+                                
+                                if (drawValueAboveBar || !((viewPortHandler.contentRight + viewPortHandler.rightOffset) > xPos + valueTextWidth)) &&  valueTextWidth < rect.size.width {
+                                    posOffset =  -(valueTextWidth + valueOffsetPlus)
+                                    color = .white
+                                }
+                                
+                                if (drawValueAboveBar || !((viewPortHandler.contentLeft - viewPortHandler.leftOffset) < abs(xPos))) &&  valueTextWidth < rect.size.width {
+                                    negOffset =  valueOffsetPlus - rect.size.width
+                                    color = .white
+                                }
                                 
                                 if isInverted
                                 {

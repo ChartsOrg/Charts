@@ -103,6 +103,8 @@ open class HorizontalBarChartView: BarChartView
                                offsetRight: &offsetRight,
                                offsetBottom: &offsetBottom)
         
+        let labelOffsets = calculateLabelsOffsets()
+        
         // offsets for y-labels
         if leftAxis.needsOffset
         {
@@ -135,9 +137,9 @@ open class HorizontalBarChartView: BarChartView
         }
         
         offsetTop += self.extraTopOffset
-        offsetRight += self.extraRightOffset
+        offsetRight += self.extraRightOffset + labelOffsets.right
         offsetBottom += self.extraBottomOffset
-        offsetLeft += self.extraLeftOffset
+        offsetLeft += self.extraLeftOffset + labelOffsets.left
 
         _viewPortHandler.restrainViewPort(
             offsetLeft: max(self.minOffset, offsetLeft),
@@ -145,8 +147,68 @@ open class HorizontalBarChartView: BarChartView
             offsetRight: max(self.minOffset, offsetRight),
             offsetBottom: max(self.minOffset, offsetBottom))
         
+        _viewPortHandler.leftOffset = labelOffsets.left
+        _viewPortHandler.rightOffset = labelOffsets.right
+
         prepareOffsetMatrix()
         prepareValuePxMatrix()
+    }
+    
+    func calculateLabelsOffsets() -> (left: CGFloat, right: CGFloat) {
+        var left : CGFloat = 0.0
+        var right : CGFloat = 0.0
+        var maxLeftValWithWiderText = 0.0
+        var maxRightValWithWiderText = 0.0
+        var maxLeftValInsideBar : Double = 0.0
+        var maxRightValInsideBar: Double = 0.0
+        for dataSetIndex in 0 ..< (barData?.dataSetCount ?? 0) {
+            guard let dataSets = barData?.dataSets, let
+            dataSet = dataSets[dataSetIndex] as? IBarChartDataSet
+            else { continue }
+            let valueFont = dataSet.valueFont
+            guard let formatter = dataSet.valueFormatter else { continue }
+            
+            for i in 0 ..< Int(ceil(Double(dataSet.entryCount) * _animator.phaseX))
+            {
+                guard let e = dataSet.entryForIndex(i) as? BarChartDataEntry else { continue }
+                
+                let val = e.y
+                let valueText = formatter.stringForValue(
+                    val,
+                    entry: e,
+                    dataSetIndex: dataSetIndex,
+                    viewPortHandler: viewPortHandler)
+                
+                let valueTextWidth = valueText.size(withAttributes: [NSAttributedString.Key.font: valueFont]).width
+                
+                
+                let drawValueAboveBar = dataSet.drawValueAboveBarAt(i)
+                
+                if !drawValueAboveBar {
+                    if val > 0 {
+                        right = max(right, valueTextWidth)
+                        maxRightValWithWiderText = max(maxRightValWithWiderText, abs(val))
+                    } else {
+                        left = max(left, valueTextWidth)
+                        maxLeftValWithWiderText = max(maxLeftValWithWiderText, abs(val))
+                    }
+                } else {
+                    if val > 0 {
+                        maxRightValInsideBar = max(maxRightValInsideBar, abs(val))
+                    } else {
+                        maxLeftValInsideBar = max(maxLeftValInsideBar, abs(val))
+                    }
+                }
+            }
+        }
+        //Or check for a tracehold.
+        if maxLeftValInsideBar > maxLeftValWithWiderText {
+            left = 0
+        }
+        if maxRightValInsideBar > maxRightValWithWiderText {
+            right = 0
+        }
+        return (left: left, right: right)
     }
     
     internal override func prepareValuePxMatrix()
