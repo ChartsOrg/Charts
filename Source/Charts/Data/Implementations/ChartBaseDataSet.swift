@@ -403,7 +403,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     open override var debugDescription: String
     {
         return (0..<entryCount).reduce(description + ":") {
-            $0 + "\n" + (self.entryForIndex($1)?.description ?? "")
+            "\($0)\n\(self.entryForIndex($1)?.description ?? "")"
         }
     }
     
