@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-open class ChartHighlighter : NSObject, IHighlighter
+open class ChartHighlighter : NSObject, Highlighter
 {
     /// instance of the data-provider
     @objc open weak var chart: ChartDataProvider?
@@ -73,17 +73,11 @@ open class ChartHighlighter : NSObject, IHighlighter
         
         guard let data = self.data else { return vals }
         
-        for i in 0 ..< data.dataSetCount
-        {
-            guard
-                let dataSet = data.getDataSetByIndex(i),
-                dataSet.isHighlightEnabled      // don't include datasets that cannot be highlighted
-                else { continue }
-            
-
+        for (i, set) in zip(data.indices, data) where set.isHighlightEnabled
+        {            
             // extract all y-values from all DataSets at the given x-value.
             // some datasets (i.e bubble charts) make sense to have multiple values for an x-value. We'll have to find a way to handle that later on. It's more complicated now when x-indices are floating point.
-            vals.append(contentsOf: buildHighlights(dataSet: dataSet, dataSetIndex: i, xValue: xValue, rounding: .closest))
+            vals.append(contentsOf: buildHighlights(dataSet: set, dataSetIndex: i, xValue: xValue, rounding: .closest))
         }
         
         return vals
@@ -91,7 +85,7 @@ open class ChartHighlighter : NSObject, IHighlighter
     
     /// - returns: An array of `Highlight` objects corresponding to the selected xValue and dataSetIndex.
     internal func buildHighlights(
-        dataSet set: IChartDataSet,
+        dataSet set: ChartDataSetProtocol,
         dataSetIndex: Int,
         xValue: Double,
         rounding: ChartDataSetRounding) -> [Highlight]

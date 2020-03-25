@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 
-open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChartDataSet
+open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, CandleChartDataSetProtocol
 {
     
     public required init()
@@ -21,7 +21,7 @@ open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChartD
         super.init()
     }
     
-    public override init(values: [ChartDataEntry]?, label: String?)
+    public override init(values: [ChartDataEntry], label: String)
     {
         super.init(values: values, label: label)
     }
@@ -32,17 +32,10 @@ open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChartD
     {
         guard let e = e as? CandleChartDataEntry
             else { return }
-        
-        if e.low < _yMin
-        {
-            _yMin = e.low
-        }
-        
-        if e.high > _yMax
-        {
-            _yMax = e.high
-        }
-        
+
+        _yMin = min(e.low, _yMin)
+        _yMax = max(e.high, _yMax)
+
         calcMinMaxX(entry: e)
     }
     
@@ -50,24 +43,12 @@ open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChartD
     {
         guard let e = e as? CandleChartDataEntry
             else { return }
-        
-        if e.high < _yMin
-        {
-            _yMin = e.high
-        }
-        if e.high > _yMax
-        {
-            _yMax = e.high
-        }
-        
-        if e.low < _yMin
-        {
-            _yMin = e.low
-        }
-        if e.low > _yMax
-        {
-            _yMax = e.low
-        }
+
+        _yMin = min(e.low, _yMin)
+        _yMax = max(e.high, _yMin)
+
+        _yMin = min(e.low, _yMax)
+        _yMax = max(e.high, _yMax)
     }
     
     // MARK: - Styling functions and accessors
@@ -75,30 +56,19 @@ open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChartD
     /// the space between the candle entries
     ///
     /// **default**: 0.1 (10%)
-    private var _barSpace = CGFloat(0.1)
-    
+    private var _barSpace: CGFloat = 0.1
+
     /// the space that is left out on the left and right side of each candle,
     /// **default**: 0.1 (10%), max 0.45, min 0.0
     open var barSpace: CGFloat
     {
-        set
-        {
-            if newValue < 0.0
-            {
-                _barSpace = 0.0
-            }
-            else if newValue > 0.45
-            {
-                _barSpace = 0.45
-            }
-            else
-            {
-                _barSpace = newValue
-            }
-        }
         get
         {
             return _barSpace
+        }
+        set
+        {
+            _barSpace = newValue.clamped(to: 0...0.45)
         }
     }
     
