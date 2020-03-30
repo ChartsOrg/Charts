@@ -306,8 +306,8 @@ open class PieChartRenderer: DataRenderer
         // get whole the radius
         let radius = chart.radius
         let rotationAngle = chart.rotationAngle
-        var drawAngles = chart.drawAngles
-        var absoluteAngles = chart.absoluteAngles
+        let drawAngles = chart.drawAngles
+        let absoluteAngles = chart.absoluteAngles
 
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
@@ -321,14 +321,12 @@ open class PieChartRenderer: DataRenderer
 
         let labelRadius = radius - labelRadiusOffset
 
-        var dataSets = data.dataSets
+        let dataSets = data.dataSets
 
         let yValueSum = (data as! PieChartData).yValueSum
 
         let drawEntryLabels = chart.isDrawEntryLabelsEnabled
         let usePercentValuesEnabled = chart.usePercentValuesEnabled
-        let entryLabelColor = chart.entryLabelColor
-        let entryLabelFont = chart.entryLabelFont
 
         var angle: CGFloat = 0.0
         var xIndex = 0
@@ -353,7 +351,7 @@ open class PieChartRenderer: DataRenderer
             let yValuePosition = dataSet.yValuePosition
 
             let valueFont = dataSet.valueFont
-            let entryLabelFont = dataSet.entryLabelFont
+            let entryLabelFont = dataSet.entryLabelFont ?? chart.entryLabelFont
             let lineHeight = valueFont.lineHeight
 
             guard let formatter = dataSet.valueFormatter else { continue }
@@ -399,7 +397,7 @@ open class PieChartRenderer: DataRenderer
                 let drawYInside = drawValues && yValuePosition == .insideSlice
 
                 let valueTextColor = dataSet.valueTextColorAt(j)
-                let entryLabelColor = dataSet.entryLabelColor
+                let entryLabelColor = dataSet.entryLabelColor ?? chart.entryLabelColor
 
                 if drawXOutside || drawYOutside
                 {
