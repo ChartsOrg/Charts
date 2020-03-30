@@ -132,7 +132,7 @@ open class PieChartView: PieRadarChartViewBase
     /// if width is larger than height
     private var widthLarger: Bool
     {
-        return _viewPortHandler.contentRect.size.width > _viewPortHandler.contentRect.size.height
+        return _viewPortHandler.contentRect.orientation == .landscape
     }
 
     /// adjusted radius. Use diameter when it's half pie and width is larger

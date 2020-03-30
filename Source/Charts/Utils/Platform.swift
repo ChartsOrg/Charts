@@ -39,6 +39,21 @@ extension UIScreen
     }
 }
 
+enum Orientation
+{
+    case portrait, landscape
+}
+
+extension CGSize
+{
+    var orientation: Orientation { return width > height ? .landscape : .portrait }
+}
+
+extension CGRect
+{
+    var orientation: Orientation { size.orientation }
+}
+
 func NSUIMainScreen() -> NSUIScreen?
 {
     return NSUIScreen.main
