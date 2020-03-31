@@ -23,7 +23,7 @@ open class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubbleCh
     @objc open var normalizeSizeEnabled: Bool = true
     open var isNormalizeSizeEnabled: Bool { return normalizeSizeEnabled }
     
-    open override func calcMinMax(entry e: ChartDataEntry)
+    internal override func calcMinMax(entry e: ChartDataEntry)
     {
         guard let e = e as? BubbleChartDataEntry
             else { return }

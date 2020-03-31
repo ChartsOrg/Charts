@@ -7,7 +7,9 @@
 
 ## Build generated
 build/
+archive/
 DerivedData/
+Charts.xcframework*
 
 ## Various settings
 *.pbxuser

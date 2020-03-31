@@ -14,7 +14,7 @@ import CoreGraphics
 
 open class BubbleChartView: BarLineChartViewBase, BubbleChartDataProvider
 {
-    open override func initialize()
+    internal override func initialize()
     {
         super.initialize()
         

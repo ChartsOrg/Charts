@@ -78,7 +78,7 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
         }
     }
     
-    open override func calcMinMax(entry e: ChartDataEntry)
+    internal override func calcMinMax(entry e: ChartDataEntry)
     {
         guard let e = e as? BarChartDataEntry
             else { return }

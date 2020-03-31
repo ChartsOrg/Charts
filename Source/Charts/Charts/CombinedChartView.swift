@@ -29,7 +29,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         case scatter
     }
     
-    open override func initialize()
+    internal override func initialize()
     {
         super.initialize()
         

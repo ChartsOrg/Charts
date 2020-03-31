@@ -28,7 +28,7 @@ open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, ICandleChartD
     
     // MARK: - Data functions and accessors
     
-    open override func calcMinMax(entry e: ChartDataEntry)
+    internal override func calcMinMax(entry e: ChartDataEntry)
     {
         guard let e = e as? CandleChartDataEntry
             else { return }
