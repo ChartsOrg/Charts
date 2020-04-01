@@ -234,7 +234,7 @@ extension NSScrollView
 
 #endif
 
-func NSUIMainScreen() -> NSUIScreen?
+extension NSUIScreen
 {
-    return NSUIScreen.main
+    class var nsuiMain: NSUIScreen? { .main }
 }
