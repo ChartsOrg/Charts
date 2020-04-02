@@ -502,17 +502,20 @@ open class LineChartRenderer: LineRadarRenderer
                     if dataSet.isDrawValuesEnabled {
                         if (j == dataSet.entryCount-1) {
                             ChartUtils.drawText(
-                            context: context,
-                            text: formatter.stringForValue(
-                                e.y,
-                                entry: e,
-                                dataSetIndex: i,
-                                viewPortHandler: viewPortHandler),
-                            point: CGPoint(
-                                x: pt.x,
-                                y: pt.y - CGFloat(valOffset) - (valueFont.lineHeight * 2.3)),
-                            align: .center,
-                            attributes: [NSAttributedString.Key.font: valueFont.withSize(valueFont.pointSize * 2.3), NSAttributedString.Key.foregroundColor: dataSet.valueTextColorAt(j)])
+                                context: context,
+                                text: formatter.stringForValue(
+                                    e.y,
+                                    entry: e,
+                                    dataSetIndex: i,
+                                    viewPortHandler: viewPortHandler),
+                                subText: e.subValueY,
+                                point: CGPoint(
+                                    x: pt.x,
+                                    y: pt.y - CGFloat(valOffset) - (valueFont.lineHeight * 2.5)),
+                                align: .center,
+                                attributes: [NSAttributedString.Key.font: valueFont.withSize(valueFont.pointSize * 2.5), NSAttributedString.Key.foregroundColor: dataSet.valueTextColorAt(j)],
+                                subTextAttributes: [NSAttributedString.Key.font: valueFont.withSize(valueFont.pointSize * 0.7),
+                                    NSAttributedString.Key.foregroundColor: dataSet.valueTextColorAt(j)])
                         } else {
                             ChartUtils.drawText(
                             context: context,
