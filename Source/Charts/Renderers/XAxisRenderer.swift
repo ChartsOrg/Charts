@@ -179,7 +179,7 @@ open class XAxisRenderer: AxisRendererBase
         let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         paraStyle.alignment = .center
         
-        let labelAttrs: [NSAttributedString.Key : Any] = [
+        var labelAttrs: [NSAttributedString.Key : Any] = [
             .font: xAxis.labelFont,
             .foregroundColor: xAxis.labelTextColor,
             .paragraphStyle: paraStyle
@@ -220,6 +220,14 @@ open class XAxisRenderer: AxisRendererBase
                 let label = xAxis.valueFormatter?.stringForValue(xAxis.entries[i], axis: xAxis) ?? ""
 
                 let labelns = label as NSString
+                
+                if i == entries.count-1 {
+                    labelAttrs = [
+                        .font: xAxis.labelFont,
+                        .foregroundColor: xAxis.labelTextColorLastValue,
+                        .paragraphStyle: paraStyle
+                    ]
+                }
                 
                 if xAxis.isAvoidFirstLastClippingEnabled
                 {
