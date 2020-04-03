@@ -15,7 +15,6 @@ open class ChartDataEntry: ChartDataEntryBase, NSCopying
 {
     /// the x value
     @objc open var x = 0.0
-    @objc open var subValueY: String = ""
     
     public required init()
     {
