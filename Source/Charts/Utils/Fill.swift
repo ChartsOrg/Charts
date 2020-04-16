@@ -13,33 +13,39 @@ import Foundation
 import CoreGraphics
 
 @objc(ChartFill)
-public protocol Fill {
+public protocol Fill
+{
 
     /// Draws the provided path in filled mode with the provided area
     @objc func fillPath(context: CGContext, rect: CGRect)
 }
 
 @objc(ChartEmptyFill)
-public class EmptyFill: NSObject, Fill {
+public class EmptyFill: NSObject, Fill
+{
 
     public func fillPath(context: CGContext, rect: CGRect) { }
 }
 
 @objc(ChartColorFill)
-public class ColorFill: NSObject, Fill {
+public class ColorFill: NSObject, Fill
+{
 
     @objc public let color: CGColor
 
-    @objc public init(cgColor: CGColor) {
+    @objc public init(cgColor: CGColor)
+    {
         self.color = cgColor
         super.init()
     }
 
-    @objc public convenience init(color: NSUIColor) {
+    @objc public convenience init(color: NSUIColor)
+    {
         self.init(cgColor: color.cgColor)
     }
 
-    public func fillPath(context: CGContext, rect: CGRect) {
+    public func fillPath(context: CGContext, rect: CGRect)
+    {
         context.saveGState()
         defer { context.restoreGState() }
 
@@ -49,22 +55,26 @@ public class ColorFill: NSObject, Fill {
 }
 
 @objc(ChartImageFill)
-public class ImageFill: NSObject, Fill {
+public class ImageFill: NSObject, Fill
+{
 
     @objc public let image: CGImage
     @objc public let isTiled: Bool
 
-    @objc public init(cgImage: CGImage, isTiled: Bool = false) {
+    @objc public init(cgImage: CGImage, isTiled: Bool = false)
+    {
         image = cgImage
         self.isTiled = isTiled
         super.init()
     }
 
-    @objc public convenience init(image: NSUIImage, isTiled: Bool = false) {
+    @objc public convenience init(image: NSUIImage, isTiled: Bool = false)
+    {
         self.init(cgImage: image.cgImage!, isTiled: isTiled)
     }
 
-    public func fillPath(context: CGContext, rect: CGRect) {
+    public func fillPath(context: CGContext, rect: CGRect)
+    {
         context.saveGState()
         defer { context.restoreGState() }
 
@@ -74,16 +84,19 @@ public class ImageFill: NSObject, Fill {
 }
 
 @objc(ChartLayerFill)
-public class LayerFill: NSObject, Fill {
+public class LayerFill: NSObject, Fill
+{
 
     @objc public let layer: CGLayer
 
-    @objc public init(layer: CGLayer) {
+    @objc public init(layer: CGLayer)
+    {
         self.layer = layer
         super.init()
     }
 
-    public func fillPath(context: CGContext, rect: CGRect) {
+    public func fillPath(context: CGContext, rect: CGRect)
+    {
         context.saveGState()
         defer { context.restoreGState() }
 
@@ -93,18 +106,21 @@ public class LayerFill: NSObject, Fill {
 }
 
 @objc(ChartLinearGradientFill)
-public class LinearGradientFill: NSObject, Fill {
+public class LinearGradientFill: NSObject, Fill
+{
 
     @objc public let gradient: CGGradient
     @objc public let angle: CGFloat
 
-    @objc public init(gradient: CGGradient, angle: CGFloat = 0) {
+    @objc public init(gradient: CGGradient, angle: CGFloat = 0)
+    {
         self.gradient = gradient
         self.angle = angle
         super.init()
     }
 
-    public func fillPath(context: CGContext, rect: CGRect) {
+    public func fillPath(context: CGContext, rect: CGRect)
+    {
         context.saveGState()
         defer { context.restoreGState() }
 
@@ -132,7 +148,8 @@ public class LinearGradientFill: NSObject, Fill {
 }
 
 @objc(ChartRadialGradientFill)
-public class RadialGradientFill: NSObject, Fill {
+public class RadialGradientFill: NSObject, Fill
+{
 
     @objc public let gradient: CGGradient
     @objc public let startOffsetPercent: CGPoint
@@ -145,8 +162,8 @@ public class RadialGradientFill: NSObject, Fill {
         startOffsetPercent: CGPoint,
         endOffsetPercent: CGPoint,
         startRadiusPercent: CGFloat,
-        endRadiusPercent: CGFloat
-    ) {
+        endRadiusPercent: CGFloat)
+    {
         self.gradient = gradient
         self.startOffsetPercent = startOffsetPercent
         self.endOffsetPercent = endOffsetPercent
@@ -155,7 +172,8 @@ public class RadialGradientFill: NSObject, Fill {
         super.init()
     }
 
-    @objc public convenience init(gradient: CGGradient) {
+    @objc public convenience init(gradient: CGGradient)
+    {
         self.init(
             gradient: gradient,
             startOffsetPercent: .zero,
@@ -165,7 +183,8 @@ public class RadialGradientFill: NSObject, Fill {
         )
     }
 
-    @objc public func fillPath(context: CGContext, rect: CGRect) {
+    @objc public func fillPath(context: CGContext, rect: CGRect)
+    {
         context.saveGState()
         defer { context.restoreGState() }
 
