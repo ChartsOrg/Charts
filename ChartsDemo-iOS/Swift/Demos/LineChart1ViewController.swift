@@ -123,7 +123,7 @@ class LineChart1ViewController: DemoBaseViewController {
         let gradient = CGGradient(colorsSpace: nil, colors: gradientColors as CFArray, locations: nil)!
 
         set1.fillAlpha = 1
-        set1.fill = Fill(linearGradient: gradient, angle: 90) //.linearGradient(gradient, angle: 90)
+        set1.fill = LinearGradientFill(gradient: gradient, angle: 90)
         set1.drawFilledEnabled = true
 
         let data = LineChartData(dataSet: set1)
