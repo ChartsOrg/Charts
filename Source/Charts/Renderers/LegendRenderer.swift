@@ -558,6 +558,10 @@ open class LegendRenderer: Renderer
             }
             
             context.setStrokeColor(formColor.cgColor)
+            if (legend.formLineRoundedCap)
+            {
+                context.setLineCap(.round)
+            }
             
             _formLineSegmentsBuffer[0].x = x
             _formLineSegmentsBuffer[0].y = y

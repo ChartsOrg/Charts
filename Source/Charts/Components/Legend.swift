@@ -109,6 +109,9 @@ open class Legend: ComponentBase
     /// The line width for forms that consist of lines
     @objc open var formLineWidth = CGFloat(3.0)
     
+    /// Flag indicating whether forms that consist of lines will draw rounded cap
+    @objc open var formLineRoundedCap = false
+    
     /// Line dash configuration for shapes that consist of lines.
     ///
     /// This is how much (in pixels) into the dash pattern are we starting from.
