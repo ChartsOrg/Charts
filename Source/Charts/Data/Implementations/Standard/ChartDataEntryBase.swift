@@ -14,10 +14,10 @@ import Foundation
 open class ChartDataEntryBase: NSObject
 {
     /// the y value
-    @objc open var y = Double(0.0)
+    @objc open var y = 0.0
     
     /// optional spot for additional data this Entry represents
-    @objc open var data: AnyObject?
+    @objc open var data: Any?
     
     /// optional icon image
     @objc open var icon: NSUIImage?
@@ -28,7 +28,9 @@ open class ChartDataEntryBase: NSObject
     }
     
     /// An Entry represents one single entry in the chart.
-    /// - parameter y: the y value (the actual value of the entry)
+    ///
+    /// - Parameters:
+    ///   - y: the y value (the actual value of the entry)
     @objc public init(y: Double)
     {
         super.init()
@@ -36,37 +38,37 @@ open class ChartDataEntryBase: NSObject
         self.y = y
     }
     
-    /// - parameter y: the y value (the actual value of the entry)
-    /// - parameter data: Space for additional data this Entry represents.
+    /// - Parameters:
+    ///   - y: the y value (the actual value of the entry)
+    ///   - data: Space for additional data this Entry represents.
     
-    @objc public init(y: Double, data: AnyObject?)
+    @objc public convenience init(y: Double, data: Any?)
     {
-        super.init()
+        self.init(y: y)
         
-        self.y = y
         self.data = data
     }
     
-    /// - parameter y: the y value (the actual value of the entry)
-    /// - parameter icon: icon image
+    /// - Parameters:
+    ///   - y: the y value (the actual value of the entry)
+    ///   - icon: icon image
     
-    @objc public init(y: Double, icon: NSUIImage?)
+    @objc public convenience init(y: Double, icon: NSUIImage?)
     {
-        super.init()
-        
-        self.y = y
+        self.init(y: y)
+
         self.icon = icon
     }
     
-    /// - parameter y: the y value (the actual value of the entry)
-    /// - parameter icon: icon image
-    /// - parameter data: Space for additional data this Entry represents.
+    /// - Parameters:
+    ///   - y: the y value (the actual value of the entry)
+    ///   - icon: icon image
+    ///   - data: Space for additional data this Entry represents.
     
-    @objc public init(y: Double, icon: NSUIImage?, data: AnyObject?)
+    @objc public convenience init(y: Double, icon: NSUIImage?, data: Any?)
     {
-        super.init()
-        
-        self.y = y
+        self.init(y: y)
+
         self.icon = icon
         self.data = data
     }
@@ -89,7 +91,6 @@ extension ChartDataEntryBase/*: Equatable*/ {
             return true
         }
 
-        return ((data == nil && object.data == nil) || (data?.isEqual(object.data) ?? false))
-            && y == object.y
+        return y == object.y
     }
 }

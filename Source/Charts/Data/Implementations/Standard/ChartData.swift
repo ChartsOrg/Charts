@@ -59,11 +59,7 @@ open class ChartData: NSObject
     
     @objc open func calcMinMaxY(fromX: Double, toX: Double)
     {
-        for set in _dataSets
-        {
-            set.calcMinMaxY(fromX: fromX, toX: toX)
-        }
-        
+        _dataSets.forEach { $0.calcMinMaxY(fromX: fromX, toX: toX) }
         // apply the new data
         calcMinMax()
     }
@@ -76,10 +72,7 @@ open class ChartData: NSObject
         _xMax = -Double.greatestFiniteMagnitude
         _xMin = Double.greatestFiniteMagnitude
         
-        for set in _dataSets
-        {
-            calcMinMax(dataSet: set)
-        }
+        _dataSets.forEach { calcMinMax(dataSet: $0) }
         
         _leftAxisMax = -Double.greatestFiniteMagnitude
         _leftAxisMin = Double.greatestFiniteMagnitude
@@ -235,13 +228,13 @@ open class ChartData: NSObject
         }
     }
     
-    /// - returns: The number of LineDataSets this object contains
+    /// The number of LineDataSets this object contains
     @objc open var dataSetCount: Int
     {
         return _dataSets.count
     }
     
-    /// - returns: The smallest y-value the data object contains.
+    /// The smallest y-value the data object contains.
     @objc open var yMin: Double
     {
         return _yMin
@@ -279,7 +272,7 @@ open class ChartData: NSObject
         }
     }
     
-    /// - returns: The greatest y-value the data object contains.
+    /// The greatest y-value the data object contains.
     @objc open var yMax: Double
     {
         return _yMax
@@ -317,18 +310,18 @@ open class ChartData: NSObject
         }
     }
     
-    /// - returns: The minimum x-value the data object contains.
+    /// The minimum x-value the data object contains.
     @objc open var xMin: Double
     {
         return _xMin
     }
-    /// - returns: The maximum x-value the data object contains.
+    /// The maximum x-value the data object contains.
     @objc open var xMax: Double
     {
         return _xMax
     }
     
-    /// - returns: All DataSet objects this ChartData object holds.
+    /// All DataSet objects this ChartData object holds.
     @objc open var dataSets: [IChartDataSet]
     {
         get
@@ -346,62 +339,31 @@ open class ChartData: NSObject
     /// 
     /// **IMPORTANT: This method does calculations at runtime, do not over-use in performance critical situations.**
     ///
-    /// - parameter dataSets: the DataSet array to search
-    /// - parameter type:
-    /// - parameter ignorecase: if true, the search is not case-sensitive
-    /// - returns: The index of the DataSet Object with the given label. Sensitive or not.
+    /// - Parameters:
+    ///   - dataSets: the DataSet array to search
+    ///   - type:
+    ///   - ignorecase: if true, the search is not case-sensitive
+    /// - Returns: The index of the DataSet Object with the given label. Sensitive or not.
     internal func getDataSetIndexByLabel(_ label: String, ignorecase: Bool) -> Int
     {
+        // TODO: Return nil instead of -1
         if ignorecase
         {
-            for i in 0 ..< dataSets.count
-            {
-                if dataSets[i].label == nil
-                {
-                    continue
-                }
-                if (label.caseInsensitiveCompare(dataSets[i].label!) == ComparisonResult.orderedSame)
-                {
-                    return i
-                }
-            }
+            return dataSets.firstIndex { $0.label?.caseInsensitiveCompare(label) == .orderedSame }
+                ?? -1
         }
         else
         {
-            for i in 0 ..< dataSets.count
-            {
-                if label == dataSets[i].label
-                {
-                    return i
-                }
-            }
+            return dataSets.firstIndex { $0.label == label }
+                ?? -1
         }
-        
-        return -1
     }
-    
-    /// - returns: The labels of all DataSets as a string array.
-    internal func dataSetLabels() -> [String]
-    {
-        var types = [String]()
-        
-        for i in 0 ..< _dataSets.count
-        {
-            if dataSets[i].label == nil
-            {
-                continue
-            }
-            
-            types[i] = _dataSets[i].label!
-        }
-        
-        return types
-    }
-    
+
     /// Get the Entry for a corresponding highlight object
     ///
-    /// - parameter highlight:
-    /// - returns: The entry that is highlighted
+    /// - Parameters:
+    ///   - highlight:
+    /// - Returns: The entry that is highlighted
     @objc open func entryForHighlight(_ highlight: Highlight) -> ChartDataEntry?
     {
         if highlight.dataSetIndex >= dataSets.count
@@ -416,9 +378,10 @@ open class ChartData: NSObject
     
     /// **IMPORTANT: This method does calculations at runtime. Use with care in performance critical situations.**
     ///
-    /// - parameter label:
-    /// - parameter ignorecase:
-    /// - returns: The DataSet Object with the given label. Sensitive or not.
+    /// - Parameters:
+    ///   - label:
+    ///   - ignorecase:
+    /// - Returns: The DataSet Object with the given label. Sensitive or not.
     @objc open func getDataSetByLabel(_ label: String, ignorecase: Bool) -> IChartDataSet?
     {
         let index = getDataSetIndexByLabel(label, ignorecase: ignorecase)
@@ -453,29 +416,17 @@ open class ChartData: NSObject
     /// Removes the given DataSet from this data object.
     /// Also recalculates all minimum and maximum values.
     ///
-    /// - returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
-    @objc @discardableResult open func removeDataSet(_ dataSet: IChartDataSet!) -> Bool
+    /// - Returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
+    @objc @discardableResult open func removeDataSet(_ dataSet: IChartDataSet) -> Bool
     {
-        if dataSet === nil
-        {
-            return false
-        }
-        
-        for i in 0 ..< _dataSets.count
-        {
-            if _dataSets[i] === dataSet
-            {
-                return removeDataSetByIndex(i)
-            }
-        }
-        
-        return false
+        guard let i = _dataSets.firstIndex(where: { $0 === dataSet }) else { return false }
+        return removeDataSetByIndex(i)
     }
     
     /// Removes the DataSet at the given index in the DataSet array from the data object. 
     /// Also recalculates all minimum and maximum values. 
     ///
-    /// - returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
+    /// - Returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
     @objc @discardableResult open func removeDataSetByIndex(_ index: Int) -> Bool
     {
         if index >= _dataSets.count || index < 0
@@ -529,7 +480,8 @@ open class ChartData: NSObject
     
     /// Removes the Entry object closest to the given xIndex from the ChartDataSet at the
     /// specified index. 
-    /// - returns: `true` if an entry was removed, `false` ifno Entry was found that meets the specified requirements.
+    ///
+    /// - Returns: `true` if an entry was removed, `false` ifno Entry was found that meets the specified requirements.
     @objc @discardableResult open func removeEntry(xValue: Double, dataSetIndex: Int) -> Bool
     {
         if dataSetIndex >= _dataSets.count
@@ -545,156 +497,68 @@ open class ChartData: NSObject
         return false
     }
     
-    /// - returns: The DataSet that contains the provided Entry, or null, if no DataSet contains this entry.
-    @objc open func getDataSetForEntry(_ e: ChartDataEntry!) -> IChartDataSet?
+    /// - Returns: The DataSet that contains the provided Entry, or null, if no DataSet contains this entry.
+    @objc open func getDataSetForEntry(_ e: ChartDataEntry) -> IChartDataSet?
     {
-        if e == nil
-        {
-            return nil
-        }
-        
-        for i in 0 ..< _dataSets.count
-        {
-            let set = _dataSets[i]
-            
-            if e === set.entryForXValue(e.x, closestToY: e.y)
-            {
-                return set
-            }
-        }
-        
-        return nil
+        return _dataSets.first { $0.entryForXValue(e.x, closestToY: e.y) === e }
     }
 
-    /// - returns: The index of the provided DataSet in the DataSet array of this data object, or -1 if it does not exist.
+    /// - Returns: The index of the provided DataSet in the DataSet array of this data object, or -1 if it does not exist.
     @objc open func indexOfDataSet(_ dataSet: IChartDataSet) -> Int
     {
-        for i in 0 ..< _dataSets.count
-        {
-            if _dataSets[i] === dataSet
-            {
-                return i
-            }
-        }
-        
-        return -1
+        // TODO: Return nil instead of -1
+        return _dataSets.firstIndex { $0 === dataSet } ?? -1
     }
     
-    /// - returns: The first DataSet from the datasets-array that has it's dependency on the left axis. Returns null if no DataSet with left dependency could be found.
+    /// - Returns: The first DataSet from the datasets-array that has it's dependency on the left axis. Returns null if no DataSet with left dependency could be found.
     @objc open func getFirstLeft(dataSets: [IChartDataSet]) -> IChartDataSet?
     {
-        for dataSet in dataSets
-        {
-            if dataSet.axisDependency == .left
-            {
-                return dataSet
-            }
-        }
-        
-        return nil
+        return dataSets.first { $0.axisDependency == .left }
     }
     
-    /// - returns: The first DataSet from the datasets-array that has it's dependency on the right axis. Returns null if no DataSet with right dependency could be found.
+    /// - Returns: The first DataSet from the datasets-array that has it's dependency on the right axis. Returns null if no DataSet with right dependency could be found.
     @objc open func getFirstRight(dataSets: [IChartDataSet]) -> IChartDataSet?
     {
-        for dataSet in _dataSets
-        {
-            if dataSet.axisDependency == .right
-            {
-                return dataSet
-            }
-        }
-        
-        return nil
+        return dataSets.first { $0.axisDependency == .right }
     }
     
-    /// - returns: All colors used across all DataSet objects this object represents.
+    /// - Returns: All colors used across all DataSet objects this object represents.
     @objc open func getColors() -> [NSUIColor]?
     {
-        var clrcnt = 0
-        
-        for i in 0 ..< _dataSets.count
-        {
-            clrcnt += _dataSets[i].colors.count
-        }
-        
-        var colors = [NSUIColor]()
-        
-        for i in 0 ..< _dataSets.count
-        {
-            let clrs = _dataSets[i].colors
-            
-            for clr in clrs
-            {
-                colors.append(clr)
-            }
-        }
-        
-        return colors
+        // TODO: Don't return nil
+        return _dataSets.flatMap { $0.colors }
     }
     
     /// Sets a custom IValueFormatter for all DataSets this data object contains.
-    @objc open func setValueFormatter(_ formatter: IValueFormatter?)
+    @objc open func setValueFormatter(_ formatter: IValueFormatter)
     {
-        guard let formatter = formatter
-            else { return }
-        
-        for set in dataSets
-        {
-            set.valueFormatter = formatter
-        }
+        dataSets.forEach { $0.valueFormatter = formatter }
     }
     
     /// Sets the color of the value-text (color in which the value-labels are drawn) for all DataSets this data object contains.
-    @objc open func setValueTextColor(_ color: NSUIColor!)
+    @objc open func setValueTextColor(_ color: NSUIColor)
     {
-        for set in dataSets
-        {
-            set.valueTextColor = color ?? set.valueTextColor
-        }
+        dataSets.forEach { $0.valueTextColor = color }
     }
     
     /// Sets the font for all value-labels for all DataSets this data object contains.
-    @objc open func setValueFont(_ font: NSUIFont!)
+    @objc open func setValueFont(_ font: NSUIFont)
     {
-        for set in dataSets
-        {
-            set.valueFont = font ?? set.valueFont
-        }
+        dataSets.forEach { $0.valueFont = font }
     }
-    
+
     /// Enables / disables drawing values (value-text) for all DataSets this data object contains.
     @objc open func setDrawValues(_ enabled: Bool)
     {
-        for set in dataSets
-        {
-            set.drawValuesEnabled = enabled
-        }
+        dataSets.forEach { $0.drawValuesEnabled = enabled }
     }
     
     /// Enables / disables highlighting values for all DataSets this data object contains.
     /// If set to true, this means that values can be highlighted programmatically or by touch gesture.
     @objc open var highlightEnabled: Bool
     {
-        get
-        {
-            for set in dataSets
-            {
-                if !set.highlightEnabled
-                {
-                    return false
-                }
-            }
-            
-            return true
-        }
-        set
-        {
-            for set in dataSets
-            {
-                set.highlightEnabled = newValue
-            }
-        }
+        get { return dataSets.allSatisfy { $0.highlightEnabled } }
+        set { dataSets.forEach { $0.highlightEnabled = newValue } }
     }
     
     /// if true, value highlightning is enabled
@@ -709,52 +573,23 @@ open class ChartData: NSObject
     }
     
     /// Checks if this data object contains the specified DataSet. 
-    /// - returns: `true` if so, `false` ifnot.
+    ///
+    /// - Returns: `true` if so, `false` ifnot.
     @objc open func contains(dataSet: IChartDataSet) -> Bool
     {
-        for set in dataSets
-        {
-            if set === dataSet
-            {
-                return true
-            }
-        }
-        
-        return false
+        return dataSets.contains { $0 === dataSet }
     }
     
-    /// - returns: The total entry count across all DataSet objects this data object contains.
+    /// The total entry count across all DataSet objects this data object contains.
     @objc open var entryCount: Int
     {
-        var count = 0
-        
-        for set in _dataSets
-        {
-            count += set.entryCount
-        }
-        
-        return count
+        return _dataSets.reduce(0) { $0 + $1.entryCount }
     }
 
-    /// - returns: The DataSet object with the maximum number of entries or null if there are no DataSets.
+    /// The DataSet object with the maximum number of entries or null if there are no DataSets.
     @objc open var maxEntryCountSet: IChartDataSet?
     {
-        if _dataSets.count == 0
-        {
-            return nil
-        }
-        
-        var max = _dataSets[0]
-        
-        for set in _dataSets
-        {
-            if set.entryCount > max.entryCount
-            {
-                max = set
-            }
-        }
-        
-        return max
+        return dataSets.max { $0.entryCount < $1.entryCount }
     }
 
     // MARK: - Accessibility

@@ -12,6 +12,14 @@
 import Foundation
 import CoreGraphics
 
+#if canImport(UIKit)
+    import UIKit
+#endif
+
+#if canImport(Cocoa)
+import Cocoa
+#endif
+
 @objc(ChartDataRendererBase)
 open class DataRenderer: Renderer
 {
@@ -50,7 +58,8 @@ open class DataRenderer: Renderer
     
     /// Draws all highlight indicators for the values that are currently highlighted.
     ///
-    /// - parameter indices: the highlighted values
+    /// - Parameters:
+    ///   - indices: the highlighted values
     @objc open func drawHighlighted(context: CGContext, indices: [Highlight])
     {
         fatalError("drawHighlighted() cannot be called on DataRenderer")

@@ -12,26 +12,16 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
-
 open class RadarChartRenderer: LineRadarRenderer
 {
     private lazy var accessibilityXLabels: [String] = {
-        var labels: [String] = []
-
         guard let chart = chart else { return [] }
         guard let formatter = chart.xAxis.valueFormatter else { return [] }
 
         let maxEntryCount = chart.data?.maxEntryCountSet?.entryCount ?? 0
-        for i in stride(from: 0, to: maxEntryCount, by: 1)
-        {
-            labels.append(formatter.stringForValue(Double(i), axis: chart.xAxis))
+        return stride(from: 0, to: maxEntryCount, by: 1).map {
+            formatter.stringForValue(Double($0), axis: chart.xAxis)
         }
-
-        return labels
     }()
 
     @objc open weak var chart: RadarChartView?
@@ -64,21 +54,19 @@ open class RadarChartRenderer: LineRadarRenderer
                 self.accessibleChartElements.append(element)
             }
 
-            for set in radarData!.dataSets as! [IRadarChartDataSet]
+            for set in radarData!.dataSets as! [IRadarChartDataSet] where set.isVisible
             {
-                if set.isVisible
-                {
-                    drawDataSet(context: context, dataSet: set, mostEntries: mostEntries)
-                }
+                drawDataSet(context: context, dataSet: set, mostEntries: mostEntries)
             }
         }
     }
     
     /// Draws the RadarDataSet
     ///
-    /// - parameter context:
-    /// - parameter dataSet:
-    /// - parameter mostEntries: the entry count of the dataset with the most entries
+    /// - Parameters:
+    ///   - context:
+    ///   - dataSet:
+    ///   - mostEntries: the entry count of the dataset with the most entries
     internal func drawDataSet(context: CGContext, dataSet: IRadarChartDataSet, mostEntries: Int)
     {
         guard let chart = chart else { return }
@@ -225,12 +213,10 @@ open class RadarChartRenderer: LineRadarRenderer
         
         for i in 0 ..< data.dataSetCount
         {
-            let dataSet = data.getDataSetByIndex(i) as! IRadarChartDataSet
-            
-            if !shouldDrawValues(forDataSet: dataSet)
-            {
-                continue
-            }
+            guard let
+                dataSet = data.getDataSetByIndex(i) as? IRadarChartDataSet,
+                shouldDrawValues(forDataSet: dataSet)
+                else { continue }
             
             let entryCount = dataSet.entryCount
             

@@ -45,12 +45,13 @@ open class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBubbleCh
     
     // MARK: - NSCopying
     
-    open override func copyWithZone(_ zone: NSZone?) -> AnyObject
+    open override func copy(with zone: NSZone? = nil) -> Any
     {
-        let copy = super.copyWithZone(zone) as! BubbleChartDataSet
+        let copy = super.copy(with: zone) as! BubbleChartDataSet
         copy._xMin = _xMin
         copy._xMax = _xMax
         copy._maxSize = _maxSize
+        copy.normalizeSizeEnabled = normalizeSizeEnabled
         copy.highlightCircleWidth = highlightCircleWidth
         return copy
     }

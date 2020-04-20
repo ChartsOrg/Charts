@@ -148,13 +148,13 @@
     if (_chartView.data.dataSetCount > 0)
     {
         set1 = (BarChartDataSet *)_chartView.data.dataSets[0];
-        set1.values = yVals;
+        [set1 replaceEntries: yVals];
         [_chartView.data notifyDataChanged];
         [_chartView notifyDataSetChanged];
     }
     else
     {
-        set1 = [[BarChartDataSet alloc] initWithValues:yVals label:@"The year 2017"];
+        set1 = [[BarChartDataSet alloc] initWithEntries:yVals label:@"The year 2017"];
         [set1 setColors:ChartColorTemplates.material];
         set1.drawIconsEnabled = NO;
         

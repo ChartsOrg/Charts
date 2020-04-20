@@ -11,7 +11,9 @@
 
 import Foundation
 import Charts
-
+#if canImport(UIKit)
+    import UIKit
+#endif
 
 open class BalloonMarker: MarkerImage
 {
@@ -25,7 +27,7 @@ open class BalloonMarker: MarkerImage
     fileprivate var label: String?
     fileprivate var _labelSize: CGSize = CGSize()
     fileprivate var _paragraphStyle: NSMutableParagraphStyle?
-    fileprivate var _drawAttributes = [NSAttributedString.Key : AnyObject]()
+    fileprivate var _drawAttributes = [NSAttributedString.Key : Any]()
     
     @objc public init(color: UIColor, font: UIFont, textColor: UIColor, insets: UIEdgeInsets)
     {

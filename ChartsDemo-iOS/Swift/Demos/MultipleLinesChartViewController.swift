@@ -6,7 +6,9 @@
 //  Copyright © 2017 jc. All rights reserved.
 //
 
-import UIKit
+#if canImport(UIKit)
+    import UIKit
+#endif
 import Charts
 
 class MultipleLinesChartViewController: DemoBaseViewController {
@@ -78,7 +80,7 @@ class MultipleLinesChartViewController: DemoBaseViewController {
         }
         let dataSets = (0..<3).map { i -> LineChartDataSet in
             let yVals = (0..<count).map(block)
-            let set = LineChartDataSet(values: yVals, label: "DataSet \(i)")
+            let set = LineChartDataSet(entries: yVals, label: "DataSet \(i)")
             set.lineWidth = 2.5
             set.circleRadius = 4
             set.circleHoleRadius = 2
