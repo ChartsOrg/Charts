@@ -39,11 +39,6 @@ extension UIScreen
     }
 }
 
-func NSUIMainScreen() -> NSUIScreen?
-{
-    return NSUIScreen.main
-}
-
 #endif
 
 #if os(OSX)
@@ -237,9 +232,9 @@ extension NSScrollView
     }
 }
 
-func NSUIMainScreen() -> NSUIScreen?
-{
-    return NSUIScreen.main
-}
-
 #endif
+
+extension NSUIScreen
+{
+    class var nsuiMain: NSUIScreen? { .main }
+}

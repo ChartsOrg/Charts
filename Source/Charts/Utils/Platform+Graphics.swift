@@ -9,6 +9,21 @@
 //  https://github.com/danielgindi/Charts
 //
 
+enum Orientation
+{
+    case portrait, landscape
+}
+
+extension CGSize
+{
+    var orientation: Orientation { return width > height ? .landscape : .portrait }
+}
+
+extension CGRect
+{
+    var orientation: Orientation { size.orientation }
+}
+
 // MARK: - UIKit
 #if canImport(UIKit)
 import UIKit

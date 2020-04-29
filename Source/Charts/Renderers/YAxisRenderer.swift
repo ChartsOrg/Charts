@@ -287,7 +287,7 @@ open class YAxisRenderer: AxisRendererBase
             let transformer = self.transformer
             else { return }
         
-        var limitLines = yAxis.limitLines
+        let limitLines = yAxis.limitLines
         
         if limitLines.count == 0
         {

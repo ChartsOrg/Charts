@@ -128,6 +128,26 @@ open class PieChartView: PieRadarChartViewBase
         
         drawMarkers(context: context)
     }
+
+    /// if width is larger than height
+    private var widthLarger: Bool
+    {
+        return _viewPortHandler.contentRect.orientation == .landscape
+    }
+
+    /// adjusted radius. Use diameter when it's half pie and width is larger
+    private var adjustedRadius: CGFloat
+    {
+        return maxAngle <= 180 && widthLarger ? diameter : diameter / 2.0
+    }
+
+    /// true centerOffsets considering half pie & width is larger
+    private func adjustedCenterOffsets() -> CGPoint
+    {
+        var c = self.centerOffsets
+        c.y = maxAngle <= 180 && widthLarger ? c.y + adjustedRadius / 2 : c.y
+        return c
+    }
     
     internal override func calculateOffsets()
     {
@@ -138,25 +158,88 @@ open class PieChartView: PieRadarChartViewBase
         {
             return
         }
+
+        let radius = adjustedRadius
         
-        let radius = diameter / 2.0
-        
-        let c = self.centerOffsets
+        let c = adjustedCenterOffsets()
         
         let shift = (data as? PieChartData)?.dataSet?.selectionShift ?? 0.0
         
         // create the circle box that will contain the pie-chart (the bounds of the pie-chart)
         _circleBox.origin.x = (c.x - radius) + shift
         _circleBox.origin.y = (c.y - radius) + shift
-        _circleBox.size.width = diameter - shift * 2.0
-        _circleBox.size.height = diameter - shift * 2.0
+        _circleBox.size.width = radius * 2 - shift * 2.0
+        _circleBox.size.height = radius * 2 - shift * 2.0
+
     }
-    
+
     internal override func calcMinMax()
     {
         calcAngles()
     }
-    
+
+    @objc open override func angleForPoint(x: CGFloat, y: CGFloat) -> CGFloat
+    {
+        let c = adjustedCenterOffsets()
+
+        let tx = Double(x - c.x)
+        let ty = Double(y - c.y)
+        let length = sqrt(tx * tx + ty * ty)
+        let r = acos(ty / length)
+
+        var angle = r.RAD2DEG
+
+        if x > c.x
+        {
+            angle = 360.0 - angle
+        }
+
+        // add 90° because chart starts EAST
+        angle = angle + 90.0
+
+        // neutralize overflow
+        if angle > 360.0
+        {
+            angle = angle - 360.0
+        }
+
+        return CGFloat(angle)
+    }
+
+    /// - Returns: The distance of a certain point on the chart to the center of the chart.
+    @objc open override func distanceToCenter(x: CGFloat, y: CGFloat) -> CGFloat
+    {
+        let c = adjustedCenterOffsets()
+
+        var dist = CGFloat(0.0)
+
+        var xDist = CGFloat(0.0)
+        var yDist = CGFloat(0.0)
+
+        if x > c.x
+        {
+            xDist = x - c.x
+        }
+        else
+        {
+            xDist = c.x - x
+        }
+
+        if y > c.y
+        {
+            yDist = y - c.y
+        }
+        else
+        {
+            yDist = c.y - y
+        }
+
+        // pythagoras
+        dist = sqrt(pow(xDist, 2.0) + pow(yDist, 2.0))
+
+        return dist
+    }
+
     open override func getMarkerPosition(highlight: Highlight) -> CGPoint
     {
         let center = self.centerCircleBox
