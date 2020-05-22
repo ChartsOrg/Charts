@@ -411,6 +411,36 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         let isStacked = dataSet.isStacked
         let stackSize = isStacked ? dataSet.stackSize : 1
 
+        func getIndicesOfTopBar() -> Set<Int>
+        {
+            
+            if !(dataSet.roundRadiusWidthMultiplier > 0.0)
+            {
+                return Set()
+            }
+            
+            var indices = Set<Int>()
+            for i in stride(from: 0, to: buffer.rects.count, by: stackSize)
+            {
+                let rects = Array(buffer.rects[i...i+stackSize - 1])
+                
+                for index in (0..<rects.count).reversed()
+                {
+                    let rect = rects[index]
+                    
+                    if rect.height > 0 || index == 0
+                    {
+                        indices.insert(i + index)
+                        break
+                    }
+                }
+            }
+            
+            return indices
+        }
+        
+        let topRectIndices = Set(getIndicesOfTopBar())
+        
         for j in stride(from: 0, to: buffer.rects.count, by: 1)
         {
             let barRect = buffer.rects[j]
@@ -431,7 +461,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
             
-            if dataSet.roundRadiusWidthMultiplier > 0.0, j % stackSize == stackSize - 1 {
+            if topRectIndices.contains(j) {
                 var radius: CGFloat = barRect.width * dataSet.roundRadiusWidthMultiplier
                 if radius > barRect.height {
                     radius = barRect.height * dataSet.roundRadiusWidthMultiplier
