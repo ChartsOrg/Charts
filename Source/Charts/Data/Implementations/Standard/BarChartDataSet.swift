@@ -148,7 +148,8 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
 
     /// the alpha value (transparency) that is used for drawing the highlight indicator bar. min = 0.0 (fully transparent), max = 1.0 (fully opaque)
     open var highlightAlpha = CGFloat(120.0 / 255.0)
-        
+    
+    /// The multiplier to generate a corner radius for the bar. 0.0 means no round radius.
     open var roundRadiusWidthMultiplier: CGFloat = 0.0
     
     // MARK: - NSCopying
