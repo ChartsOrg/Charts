@@ -431,7 +431,29 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
             
-            context.fill(barRect)
+            if dataSet.roundRadiusWidthMultiplier > 0.0, j % stackSize == stackSize - 1 {
+                var radius: CGFloat = barRect.width * dataSet.roundRadiusWidthMultiplier
+                if radius > barRect.height {
+                    radius = barRect.height * dataSet.roundRadiusWidthMultiplier
+                }
+                
+                let path = CGMutablePath()
+                path.move(to: CGPoint(x: barRect.minX, y: barRect.maxY))
+                path.addArc(tangent1End: CGPoint(x: barRect.minX, y: barRect.minY),
+                            tangent2End: CGPoint(x: barRect.maxX, y: barRect.minY),
+                            radius: radius)
+                path.addArc(tangent1End: CGPoint(x: barRect.maxX, y: barRect.minY),
+                            tangent2End: CGPoint(x: barRect.maxX, y: barRect.maxY),
+                            radius: radius)
+                path.addLine(to: CGPoint(x: barRect.maxX, y: barRect.maxY))
+                
+                context.addPath(path)
+                context.fillPath()
+            }
+            else {
+                context.fill(barRect)
+            }
+            
             
             if drawBorder
             {
