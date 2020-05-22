@@ -461,10 +461,12 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
             
-            if topRectIndices.contains(j) {
+            if topRectIndices.contains(j)
+            {
                 var radius: CGFloat = barRect.width * dataSet.roundRadiusWidthMultiplier
-                if radius > barRect.height {
-                    radius = barRect.height * dataSet.roundRadiusWidthMultiplier
+                if radius > barRect.height, barRect.height > 0
+                {
+                    radius = barRect.height * 0.999
                 }
                 
                 let path = CGMutablePath()
