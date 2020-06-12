@@ -201,26 +201,12 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     
     open func dataIndex(_ data: ChartData) -> Int?
     {
-        return allData.index(of: data)
+        return allData.firstIndex(of: data)
     }
     
-    open override func removeDataSet(_ dataSet: IChartDataSet!) -> Bool
+    open override func removeDataSet(_ dataSet: IChartDataSet) -> Bool
     {
-        let datas = allData
-        
-        var success = false
-        
-        for data in datas
-        {
-            success = data.removeDataSet(dataSet)
-            
-            if success
-            {
-                break
-            }
-        }
-        
-        return success
+        return allData.contains { $0.removeDataSet(dataSet) }
     }
     
     open override func removeDataSetByIndex(_ index: Int) -> Bool
@@ -288,14 +274,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         
         // The value of the highlighted entry could be NaN - if we are not interested in highlighting a specific value.
         let entries = data.getDataSetByIndex(highlight.dataSetIndex).entriesForXValue(highlight.x)
-        for e in entries
-        {
-            if e.y == highlight.y || highlight.y.isNaN
-            {
-                return e
-            }
-        }
-        return nil
+        return entries.first { $0.y == highlight.y || highlight.y.isNaN }
     }
     
     /// Get dataset for highlight

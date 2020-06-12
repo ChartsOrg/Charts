@@ -12,8 +12,12 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
+#if canImport(UIKit)
     import UIKit
+#endif
+
+#if canImport(Cocoa)
+import Cocoa
 #endif
 
 @objc(ChartDescription)
@@ -22,12 +26,12 @@ open class Description: ComponentBase
     public override init()
     {
         #if os(tvOS)
-            // 23 is the smallest recommended font size on the TV
-            font = NSUIFont.systemFont(ofSize: 23)
+        // 23 is the smallest recommended font size on the TV
+        font = .systemFont(ofSize: 23)
         #elseif os(OSX)
-            font = NSUIFont.systemFont(ofSize: NSUIFont.systemFontSize)
+        font = .systemFont(ofSize: NSUIFont.systemFontSize)
         #else
-            font = NSUIFont.systemFont(ofSize: 8.0)
+        font = .systemFont(ofSize: 8.0)
         #endif
         
         super.init()
@@ -46,5 +50,5 @@ open class Description: ComponentBase
     @objc open var font: NSUIFont
     
     /// Text color used for drawing the description text
-    @objc open var textColor = NSUIColor.black
+    @objc open var textColor = NSUIColor.labelOrBlack
 }

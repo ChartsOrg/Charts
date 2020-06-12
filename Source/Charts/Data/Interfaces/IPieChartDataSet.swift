@@ -12,10 +12,6 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
-    import UIKit
-#endif
-
 @objc
 public protocol IPieChartDataSet: IChartDataSet
 {
@@ -37,6 +33,9 @@ public protocol IPieChartDataSet: IChartDataSet
 
     /// When valuePosition is OutsideSlice, indicates line color
     var valueLineColor: NSUIColor? { get set }
+
+    /// When valuePosition is OutsideSlice and enabled, line will have the same color as the slice
+    var useValueColorForLine: Bool { get set }
 
     /// When valuePosition is OutsideSlice, indicates line width
     var valueLineWidth: CGFloat { get set }

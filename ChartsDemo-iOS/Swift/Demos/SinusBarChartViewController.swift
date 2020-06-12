@@ -6,7 +6,9 @@
 //  Copyright © 2017 jc. All rights reserved.
 //
 
-import UIKit
+#if canImport(UIKit)
+    import UIKit
+#endif
 import Charts
 
 class SinusBarChartViewController: DemoBaseViewController {
@@ -86,7 +88,7 @@ class SinusBarChartViewController: DemoBaseViewController {
             BarChartDataEntry(x: Double($0), y: sin(.pi * Double($0%128) / 64))
         }
         
-        let set = BarChartDataSet(values: entries, label: "Sinus Function")
+        let set = BarChartDataSet(entries: entries, label: "Sinus Function")
         set.setColor(UIColor(red: 240/255, green: 120/255, blue: 123/255, alpha: 1))
         
         let data = BarChartData(dataSet: set)

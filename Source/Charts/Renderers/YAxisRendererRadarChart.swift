@@ -12,8 +12,12 @@
 import Foundation
 import CoreGraphics
 
-#if !os(OSX)
+#if canImport(UIKit)
     import UIKit
+#endif
+
+#if canImport(Cocoa)
+import Cocoa
 #endif
 
 open class YAxisRendererRadarChart: YAxisRenderer
@@ -183,7 +187,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
         let to = yAxis.isDrawTopYLabelEntryEnabled ? yAxis.entryCount : (yAxis.entryCount - 1)
 
         let alignment: NSTextAlignment = yAxis.labelAlignment
-        let xOffset: CGFloat = yAxis.labelXOffset
+        let xOffset = yAxis.labelXOffset
         
         for j in stride(from: from, to: to, by: 1)
         {
@@ -213,7 +217,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
             let data = chart.data
             else { return }
         
-        var limitLines = yAxis.limitLines
+        let limitLines = yAxis.limitLines
         
         if limitLines.count == 0
         {

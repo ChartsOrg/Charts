@@ -6,7 +6,9 @@
 //  Copyright © 2017 jc. All rights reserved.
 //
 
-import UIKit
+#if canImport(UIKit)
+    import UIKit
+#endif
 import Charts
 
 class NegativeStackedBarChartViewController: DemoBaseViewController {
@@ -103,7 +105,7 @@ class NegativeStackedBarChartViewController: DemoBaseViewController {
                      BarChartDataEntry(x: 105, yValues: [-1, 2])
         ]
         
-        let set = BarChartDataSet(values: yVals, label: "Age Distribution")
+        let set = BarChartDataSet(entries: yVals, label: "Age Distribution")
         set.drawIconsEnabled = false
         set.valueFormatter = DefaultValueFormatter(formatter: customFormatter)
         set.valueFont = .systemFont(ofSize: 7)

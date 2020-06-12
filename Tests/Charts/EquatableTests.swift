@@ -23,7 +23,7 @@ class EquatableTests: XCTestCase {
         let data1 = NSObject()
         let data2 = NSObject()
         let entry1 = ChartDataEntry(x: 5, y: 3, icon: image, data: data1)
-        let entry2 = ChartDataEntry(x: 5, y: 3, icon: image, data: data2)
+        let entry2 = ChartDataEntry(x: 5, y: 9, icon: image, data: data2)
 
         XCTAssertFalse(entry1 == entry2)
     }

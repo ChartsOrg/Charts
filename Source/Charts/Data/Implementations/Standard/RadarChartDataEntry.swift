@@ -18,20 +18,21 @@ open class RadarChartDataEntry: ChartDataEntry
     {
         super.init()
     }
-    
+
+    /// - Parameters:
+    ///   - value: The value on the y-axis.
+    @objc public init(value: Double)
+    {
+        super.init(x: .nan, y: value)
+    }
+
     /// - Parameters:
     ///   - value: The value on the y-axis.
     ///   - data: Spot for additional data this Entry represents.
-    @objc public init(value: Double, data: AnyObject?)
+    @objc public convenience init(value: Double, data: Any?)
     {
-        super.init(x: 0.0, y: value, data: data)
-    }
-    
-    /// - Parameters:
-    ///   - value: The value on the y-axis.
-    @objc public convenience init(value: Double)
-    {
-        self.init(value: value, data: nil)
+        self.init(value: value)
+        self.data = data
     }
     
     // MARK: Data property accessors
@@ -39,7 +40,7 @@ open class RadarChartDataEntry: ChartDataEntry
     @objc open var value: Double
     {
         get { return y }
-        set { y = value }
+        set { y = newValue }
     }
     
     // MARK: NSCopying

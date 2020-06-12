@@ -12,13 +12,28 @@
 import Foundation
 import CoreGraphics
 
-extension Comparable {
-    func clamped(to range: ClosedRange<Self>) -> Self {
-        if self > range.upperBound {
+#if canImport(UIKit)
+    import UIKit
+#endif
+
+#if canImport(Cocoa)
+import Cocoa
+#endif
+
+extension Comparable
+{
+    func clamped(to range: ClosedRange<Self>) -> Self
+    {
+        if self > range.upperBound
+        {
             return range.upperBound
-        } else if self < range.lowerBound {
+        }
+        else if self < range.lowerBound
+        {
             return range.lowerBound
-        } else {
+        }
+        else
+        {
             return self
         }
     }

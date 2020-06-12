@@ -39,35 +39,24 @@ open class CandleChartDataEntry: ChartDataEntry
         self.open = open
         self.close = close
     }
-    
-    @objc public init(x: Double, shadowH: Double, shadowL: Double, open: Double, close: Double, data: AnyObject?)
+
+    @objc public convenience init(x: Double, shadowH: Double, shadowL: Double, open: Double, close: Double, icon: NSUIImage?)
     {
-        super.init(x: x, y: (shadowH + shadowL) / 2.0, data: data)
-        
-        self.high = shadowH
-        self.low = shadowL
-        self.open = open
-        self.close = close
+        self.init(x: x, shadowH: shadowH, shadowL: shadowL, open: open, close: close)
+        self.icon = icon
     }
-    
-    @objc public init(x: Double, shadowH: Double, shadowL: Double, open: Double, close: Double, icon: NSUIImage?)
+
+    @objc public convenience init(x: Double, shadowH: Double, shadowL: Double, open: Double, close: Double, data: Any?)
     {
-        super.init(x: x, y: (shadowH + shadowL) / 2.0, icon: icon)
-        
-        self.high = shadowH
-        self.low = shadowL
-        self.open = open
-        self.close = close
+        self.init(x: x, shadowH: shadowH, shadowL: shadowL, open: open, close: close)
+        self.data = data
     }
-    
-    @objc public init(x: Double, shadowH: Double, shadowL: Double, open: Double, close: Double, icon: NSUIImage?, data: AnyObject?)
+
+    @objc public convenience init(x: Double, shadowH: Double, shadowL: Double, open: Double, close: Double, icon: NSUIImage?, data: Any?)
     {
-        super.init(x: x, y: (shadowH + shadowL) / 2.0, icon: icon, data: data)
-        
-        self.high = shadowH
-        self.low = shadowL
-        self.open = open
-        self.close = close
+        self.init(x: x, shadowH: shadowH, shadowL: shadowL, open: open, close: close)
+        self.icon = icon
+        self.data = data
     }
     
     /// The overall range (difference) between shadow-high and shadow-low.
