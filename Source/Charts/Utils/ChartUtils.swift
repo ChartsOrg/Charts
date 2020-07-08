@@ -124,6 +124,14 @@ extension Double
 
 extension CGPoint
 {
+    static var infinite: CGPoint {
+        return CGPoint(x: CGFloat.infinity, y: CGFloat.infinity)
+    }
+
+    var isInfinite: Bool {
+        return x.isInfinite || y.isInfinite
+    }
+
     /// Calculates the position around a center point, depending on the distance from the center, and the angle of the position around the center.
     func moving(distance: CGFloat, atAngle angle: CGFloat) -> CGPoint
     {
