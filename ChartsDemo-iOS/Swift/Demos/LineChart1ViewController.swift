@@ -32,6 +32,7 @@ class LineChart1ViewController: DemoBaseViewController {
                         .toggleIcons,
                         .toggleStepped,
                         .toggleHighlight,
+                        .toggleGradient,
                         .animateX,
                         .animateY,
                         .animateXY,
@@ -170,6 +171,11 @@ class LineChart1ViewController: DemoBaseViewController {
             chartView.setNeedsDisplay()
             
         case .toggleHorizontalCubic:
+            for set in chartView.data!.dataSets as! [LineChartDataSet] {
+                set.mode = (set.mode == .cubicBezier) ? .horizontalBezier : .cubicBezier
+            }
+            chartView.setNeedsDisplay()
+        case .toggleGradient:
             for set in chartView.data!.dataSets as! [LineChartDataSet] {
                 set.mode = (set.mode == .cubicBezier) ? .horizontalBezier : .cubicBezier
             }
