@@ -397,18 +397,18 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             }
         }
 
-        if dataSet.drawBarGradientEnabled {
+        if dataSet.drawBarGradientEnabled
+        {
             drawGradientBars(context: context, dataSet: dataSet, buffer: buffer, matrix: valueToPixelMatrix)
-        } else {
+        }
+        else
+        {
             drawDefaultBars(context: context, dataSet: dataSet, dateSetIndex: index, buffer: buffer)
         }
     }
 
-    private func drawGradientBars(
-        context: CGContext,
-        dataSet: IBarChartDataSet,
-        buffer: BarChartRenderer.Buffer,
-        matrix: CGAffineTransform) {
+    private func drawGradientBars(context: CGContext, dataSet: IBarChartDataSet, buffer: BarChartRenderer.Buffer, matrix: CGAffineTransform)
+    {
 
         guard let gradientPositions = dataSet.gradientPositions else
         {
@@ -417,9 +417,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         }
 
         guard let boundingBox = buffer.rects.union() else { return }
-        guard !boundingBox.isNull, !boundingBox.isInfinite, !boundingBox.isEmpty else {
-            return
-        }
+        guard !boundingBox.isNull, !boundingBox.isInfinite, !boundingBox.isEmpty else { return }
 
         let drawBorder = dataSet.barBorderWidth > 0
 
@@ -491,11 +489,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         }
     }
 
-    private func drawDefaultBars(
-        context: CGContext,
-        dataSet: IBarChartDataSet,
-        dateSetIndex index: Int,
-        buffer: BarChartRenderer.Buffer) {
+    private func drawDefaultBars(context: CGContext, dataSet: IBarChartDataSet, dateSetIndex index: Int, buffer: BarChartRenderer.Buffer)
+    {
         let drawBorder = dataSet.barBorderWidth > 0
         let isSingleColor = dataSet.colors.count == 1
 
