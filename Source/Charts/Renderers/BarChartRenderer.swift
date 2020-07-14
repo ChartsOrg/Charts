@@ -693,7 +693,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                             {
                                 let val = vals[k]
                                 let drawBelow = (val == 0.0 && negY == 0.0 && posY > 0.0) || val < 0.0
-                                let y = transformed[k].y + (drawBelow ? negOffset : posOffset)
+                                let offset = (drawBelow ? negOffset : posOffset)
+                                let y = transformed[k].y + offset
                                 
                                 if !viewPortHandler.isInBoundsRight(x)
                                 {
@@ -705,20 +706,37 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                     continue
                                 }
                                 
+                                if k > 0 {
+                                    let delta = (transformed[k - 1].y - transformed[k].y)
+
+                                    // Check that value won't write on top of another value above the bar
+                                    if drawValueAboveBar && vals[k - 1] != 0 && ((delta + posOffset) < 0) {
+                                        continue
+                                    }
+                                
+                                    // Ensure that the value is contained within the bar
+                                    if !drawValueAboveBar {
+                                        if (delta + negOffset) < 0 {
+                                            continue
+                                        }
+                                    }
+                                }
                                 if dataSet.isDrawValuesEnabled
                                 {
-                                    drawValue(
-                                        context: context,
-                                        value: formatter.stringForValue(
-                                            vals[k],
-                                            entry: e,
-                                            dataSetIndex: dataSetIndex,
-                                            viewPortHandler: viewPortHandler),
-                                        xPos: x,
-                                        yPos: y,
-                                        font: valueFont,
-                                        align: .center,
-                                        color: dataSet.valueTextColorAt(index))
+                                    if vals[k] != 0 {
+                                        drawValue(
+                                            context: context,
+                                            value: formatter.stringForValue(
+                                                vals[k],
+                                                entry: e,
+                                                dataSetIndex: dataSetIndex,
+                                                viewPortHandler: viewPortHandler),
+                                            xPos: x,
+                                            yPos: y,
+                                            font: valueFont,
+                                            align: .center,
+                                            color: dataSet.valueTextColorAt(index))
+                                    }
                                 }
                                 
                                 if let icon = e.icon, dataSet.isDrawIconsEnabled
