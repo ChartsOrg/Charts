@@ -38,7 +38,7 @@ open class ChartDataSet: ChartBaseDataSet
     
     @objc public init(entries: [ChartDataEntry]?, label: String?)
     {
-        self.entries = entries ?? []
+        self.entries = entries?.sorted { $0.x < $1.x } ?? []
 
         super.init(label: label)
 
@@ -60,7 +60,11 @@ open class ChartDataSet: ChartBaseDataSet
     open var values: [ChartDataEntry] { return entries }
 
     @objc
-    open private(set) var entries: [ChartDataEntry]
+    open private(set) var entries: [ChartDataEntry] {
+        didSet {
+            entries.sort { $0.x < $1.x }
+        }
+    }
 
     /// Used to replace all entries of a data set while retaining styling properties.
     /// This is a separate method from a setter on `entries` to encourage usage
