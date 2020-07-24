@@ -18,6 +18,12 @@ open class CombinedChartRenderer: DataRenderer
     
     /// if set to true, all values are drawn above their bars, instead of below their top
     @objc open var drawValueAboveBarEnabled = true
+
+    /// if set to true and drawValueAboveBarEnabled is false, values those do not fit into the value bar are drawn above their bars, instead of below their top
+    @objc open var isDrawValueInsideBarSoft = false
+
+    /// distance from top (bottom in negative) for values drawn outside/inside the bar
+    @objc open var valuesOffset: CGFloat = 4.5
     
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     @objc open var drawBarShadowEnabled = false

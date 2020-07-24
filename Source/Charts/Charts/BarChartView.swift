@@ -18,6 +18,11 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     /// if set to true, all values are drawn above their bars, instead of below their top
     private var _drawValueAboveBarEnabled = true
 
+    /// if set to true and _drawValueAboveBarEnabled is false, values those do not fit into the value bar are drawn above their bars, instead of below their top
+    private var _drawValueInsideBarSoft = false
+    
+    /// Distance fo the values from the bars top
+    private var _valuesOffset: CGFloat = 4.5
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     private var _drawBarShadowEnabled = false
     
@@ -152,6 +157,34 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
         }
     }
     
+    @objc open var isDrawValueInsideBarSoft: Bool
+        {
+        get { return _drawValueInsideBarSoft }
+        set
+        {
+            _drawValueInsideBarSoft = newValue
+            if _drawValueInsideBarSoft {
+                //these offsets are not needed as the value labels do not "cross" zero edge
+                //default values (0.1) provide gap if min/max value are close to the edges, no need the gap to fit in content
+                leftAxis.spaceTop = 0
+                leftAxis.spaceBottom = 0
+                rightAxis.spaceTop = 0
+                rightAxis.spaceBottom = 0
+            }
+            setNeedsDisplay()
+        }
+    }
+
+    @objc open var valuesOffset: CGFloat
+        {
+        get { return _valuesOffset }
+        set
+        {
+            _valuesOffset = newValue
+            setNeedsDisplay()
+        }
+    }
+
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     @objc open var drawBarShadowEnabled: Bool
     {

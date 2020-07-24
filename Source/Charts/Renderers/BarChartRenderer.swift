@@ -492,9 +492,11 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
             let dataSets = barData.dataSets
 
-            let valueOffsetPlus: CGFloat = 4.5
+            let valueOffsetPlus: CGFloat = dataProvider.valuesOffset
             var posOffset: CGFloat
             var negOffset: CGFloat
+			var posOffsetSoftFallback: CGFloat
+            var negOffsetSoftFallback: CGFloat
             let drawValueAboveBar = dataProvider.isDrawValueAboveBarEnabled
             
             for dataSetIndex in 0 ..< barData.dataSetCount
@@ -510,12 +512,16 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 let valueFont = dataSet.valueFont
                 let valueTextHeight = valueFont.lineHeight
                 posOffset = (drawValueAboveBar ? -(valueTextHeight + valueOffsetPlus) : valueOffsetPlus)
+				posOffsetSoftFallback = (!drawValueAboveBar ? -(valueTextHeight + valueOffsetPlus) : valueOffsetPlus)
                 negOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextHeight + valueOffsetPlus))
+                negOffsetSoftFallback = (!drawValueAboveBar ? valueOffsetPlus : -(valueTextHeight + valueOffsetPlus))
                 
                 if isInverted
                 {
                     posOffset = -posOffset - valueTextHeight
+					posOffsetSoftFallback = -posOffsetSoftFallback - valueTextHeight
                     negOffset = -negOffset - valueTextHeight
+                    negOffsetSoftFallback = -negOffsetSoftFallback - valueTextHeight
                 }
                 
                 let buffer = _buffers[dataSetIndex]
@@ -554,6 +560,17 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                         
                         if dataSet.isDrawValuesEnabled
                         {
+							var color = dataSet.valueTextColorAt(j)
+							var yPos = val >= 0.0
+								? (rect.origin.y + posOffset)
+								: (rect.origin.y + rect.size.height + negOffset)
+
+                            if (yPos + valueTextHeight > rect.maxY || yPos < rect.minY) && !drawValueAboveBar && dataProvider.isDrawValueInsideBarSoft {
+								yPos = val >= 0.0
+									? (rect.origin.y + posOffsetSoftFallback)
+									: (rect.origin.y + rect.size.height + negOffsetSoftFallback)
+                                color = dataSet.color(atIndex: j)   //change color as value color is usually not visible on the chart background
+							}
                             drawValue(
                                 context: context,
                                 value: formatter.stringForValue(
@@ -562,12 +579,10 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                     dataSetIndex: dataSetIndex,
                                     viewPortHandler: viewPortHandler),
                                 xPos: x,
-                                yPos: val >= 0.0
-                                    ? (rect.origin.y + posOffset)
-                                    : (rect.origin.y + rect.size.height + negOffset),
+                                yPos: yPos,
                                 font: valueFont,
                                 align: .center,
-                                color: dataSet.valueTextColorAt(j))
+                                color: color)
                         }
                         
                         if let icon = e.icon, dataSet.isDrawIconsEnabled
