@@ -20,6 +20,15 @@ import CoreGraphics
 import Cocoa
 #endif
 
+extension Array where Element == CGRect
+{
+    func union() -> Element?
+    {
+        guard !isEmpty else { return nil }
+        return reduce(nil, { $0?.union($1) ?? $1 })
+    }
+}
+
 extension Comparable
 {
     func clamped(to range: ClosedRange<Self>) -> Self
@@ -116,6 +125,16 @@ extension Double
 
 extension CGPoint
 {
+    static var infinite: CGPoint
+    {
+        return CGPoint(x: CGFloat.infinity, y: CGFloat.infinity)
+    }
+
+    var isInfinite: Bool
+    {
+        return x.isInfinite || y.isInfinite
+    }
+
     /// Calculates the position around a center point, depending on the distance from the center, and the angle of the position around the center.
     func moving(distance: CGFloat, atAngle angle: CGFloat) -> CGPoint
     {

@@ -443,7 +443,7 @@ open class LineChartRenderer: LineRadarRenderer
         
         return filled
     }
-    
+
     open override func drawValues(context: CGContext)
     {
         guard

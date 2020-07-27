@@ -166,14 +166,17 @@ open class AxisBase: ComponentBase
     {
         get
         {
-            if _axisValueFormatter == nil ||
-                (_axisValueFormatter is DefaultAxisValueFormatter &&
-                    (_axisValueFormatter as! DefaultAxisValueFormatter).hasAutoDecimals &&
-                    (_axisValueFormatter as! DefaultAxisValueFormatter).decimals != decimals)
+            if _axisValueFormatter == nil
             {
                 _axisValueFormatter = DefaultAxisValueFormatter(decimals: decimals)
             }
-            
+            else if _axisValueFormatter is DefaultAxisValueFormatter &&
+            (_axisValueFormatter as! DefaultAxisValueFormatter).hasAutoDecimals &&
+                (_axisValueFormatter as! DefaultAxisValueFormatter).decimals != decimals
+            {
+                (self._axisValueFormatter as! DefaultAxisValueFormatter).decimals = self.decimals
+            }
+
             return _axisValueFormatter
         }
         set
