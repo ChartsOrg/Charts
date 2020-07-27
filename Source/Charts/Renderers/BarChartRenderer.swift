@@ -399,7 +399,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
         if dataSet.drawBarGradientEnabled
         {
-            drawGradientBars(context: context, dataSet: dataSet, buffer: buffer, matrix: valueToPixelMatrix)
+            drawGradientBars(context: context, dataSet: dataSet, dateSetIndex: index, buffer: buffer, matrix: valueToPixelMatrix)
         }
         else
         {
@@ -407,7 +407,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         }
     }
 
-    private func drawGradientBars(context: CGContext, dataSet: IBarChartDataSet, buffer: BarChartRenderer.Buffer, matrix: CGAffineTransform)
+    private func drawGradientBars(context: CGContext, dataSet: IBarChartDataSet, dateSetIndex index: Int, buffer: BarChartRenderer.Buffer, matrix: CGAffineTransform)
     {
 
         guard let gradientPositions = dataSet.gradientPositions else
@@ -467,7 +467,11 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 return
         }
 
-        for barRect in buffer.rects
+        // In case the chart is stacked, we need to accomodate individual bars within accessibilityOrdereredElements
+        let isStacked = dataSet.isStacked
+        let stackSize = isStacked ? dataSet.stackSize : 1
+
+        for (barIndex, barRect) in buffer.rects.enumerated()
         {
             context.saveGState()
             defer { context.restoreGState() }
@@ -485,6 +489,21 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setStrokeColor(dataSet.barBorderColor.cgColor)
                 context.setLineWidth(dataSet.barBorderWidth)
                 context.stroke(barRect)
+            }
+
+            // Create and append the corresponding accessibility element to accessibilityOrderedElements
+            if let chart = dataProvider as? BarChartView
+            {
+                let element = createAccessibleElement(withIndex: barIndex,
+                                                      container: chart,
+                                                      dataSet: dataSet,
+                                                      dataSetIndex: index,
+                                                      stackSize: stackSize)
+                { (element) in
+                    element.accessibilityFrame = barRect
+                }
+
+                accessibilityOrderedElements[barIndex/stackSize].append(element)
             }
         }
     }
