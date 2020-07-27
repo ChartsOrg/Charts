@@ -206,7 +206,7 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
     {
         guard let transformer = self.transformer else { return }
         
-        var limitLines = axis.limitLines
+        let limitLines = axis.limitLines
         
         guard !limitLines.isEmpty else { return }
 

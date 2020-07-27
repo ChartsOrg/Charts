@@ -171,7 +171,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
             let data = chart.data
             else { return }
         
-        var limitLines = axis.limitLines
+        let limitLines = axis.limitLines
         
         guard !limitLines.isEmpty else { return }
 

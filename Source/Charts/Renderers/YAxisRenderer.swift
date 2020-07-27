@@ -246,7 +246,7 @@ open class YAxisRenderer: NSObject, AxisRenderer
     {
         guard let transformer = self.transformer else { return }
         
-        var limitLines = axis.limitLines
+        let limitLines = axis.limitLines
         
         guard !limitLines.isEmpty else { return }
 

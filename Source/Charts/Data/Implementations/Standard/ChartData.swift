@@ -285,7 +285,7 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
     /// - returns: `true` if a DataSet was removed, `false` ifno DataSet could be removed.
     @objc @discardableResult open func removeDataSet(_ dataSet: Element) -> Element?
     {
-        guard let index = index(where: { $0 === dataSet }) else { return nil }
+        guard let index = firstIndex(where: { $0 === dataSet }) else { return nil }
         return remove(at: index)
     }
 
@@ -340,7 +340,7 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
     /// - returns: The index of the provided DataSet in the DataSet array of this data object, or -1 if it does not exist.
     @objc open func index(of dataSet: Element) -> Index
     {
-        return index(where: { $0 === dataSet }) ?? -1
+        return firstIndex(where: { $0 === dataSet }) ?? -1
     }
     
     /// - returns: The first DataSet from the datasets-array that has it's dependency on the left axis. Returns null if no DataSet with left dependency could be found.
@@ -548,8 +548,8 @@ extension ChartData
     public func index(forLabel label: String, ignoreCase: Bool) -> Index?
     {
         return ignoreCase
-            ? index { $0.label?.caseInsensitiveCompare(label) == .orderedSame }
-            : index { $0.label == label }
+            ? firstIndex { $0.label?.caseInsensitiveCompare(label) == .orderedSame }
+            : firstIndex { $0.label == label }
     }
 
     public subscript(label label: String, ignoreCase ignoreCase: Bool) -> Element?
@@ -562,7 +562,7 @@ extension ChartData
     {
         assert(!(self is CombinedChartData), "\(#function) not supported for CombinedData")
 
-        guard let index = index(where: { $0.entryForXValue(entry.x, closestToY: entry.y) === entry }) else { return nil }
+        guard let index = firstIndex(where: { $0.entryForXValue(entry.x, closestToY: entry.y) === entry }) else { return nil }
         return self[index]
     }
 }

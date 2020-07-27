@@ -80,7 +80,7 @@ open class DefaultValueFormatter: NSObject, ValueFormatter
 
     /// This function is deprecated - Use `init(block:)` instead.
     // DEC 11, 2017
-    @available(*, deprecated: 3.0, message: "Use `init(block:)` instead.")
+    @available(*, deprecated, message: "Use `init(block:)` instead.")
     @objc public static func with(block: @escaping Block) -> DefaultValueFormatter
     {
         return DefaultValueFormatter(block: block)

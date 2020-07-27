@@ -44,7 +44,7 @@ open class LegendRenderer: NSObject, Renderer
             // loop for building up the colors and labels used in the legend
             for dataSet in data
             {                
-                var clrs: [NSUIColor] = dataSet.colors
+                let clrs: [NSUIColor] = dataSet.colors
                 let entryCount = dataSet.entryCount
                 
                 // if we have a barchart with stacked bars
@@ -52,7 +52,7 @@ open class LegendRenderer: NSObject, Renderer
                     (dataSet as! BarChartDataSetProtocol).isStacked
                 {
                     let bds = dataSet as! BarChartDataSetProtocol
-                    var sLabels = bds.stackLabels
+                    let sLabels = bds.stackLabels
                     let minEntries = min(clrs.count, bds.stackSize)
 
                     for j in 0..<minEntries
@@ -187,7 +187,7 @@ open class LegendRenderer: NSObject, Renderer
         let labelLineHeight = labelFont.lineHeight
         let formYOffset = labelLineHeight / 2.0
 
-        var entries = legend.entries
+        let entries = legend.entries
         
         let defaultFormSize = legend.formSize
         let formToTextSpace = legend.formToTextSpace
@@ -275,9 +275,9 @@ open class LegendRenderer: NSObject, Renderer
         {
         case .horizontal:
             
-            var calculatedLineSizes = legend.calculatedLineSizes
-            var calculatedLabelSizes = legend.calculatedLabelSizes
-            var calculatedLabelBreakPoints = legend.calculatedLabelBreakPoints
+            let calculatedLineSizes = legend.calculatedLineSizes
+            let calculatedLabelSizes = legend.calculatedLabelSizes
+            let calculatedLabelBreakPoints = legend.calculatedLabelBreakPoints
             
             var posX: CGFloat = originPosX
             var posY: CGFloat

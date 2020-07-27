@@ -355,7 +355,7 @@ open class ChartDataSet: ChartBaseDataSet
     // TODO: Should be returning `nil` to follow Swift convention
     open override func entryIndex(entry e: ChartDataEntry) -> Int
     {
-        return values.index { $0 === e } ?? -1
+        return values.firstIndex { $0 === e } ?? -1
     }
     
     /// Adds an Entry to the DataSet dynamically.
@@ -409,7 +409,7 @@ open class ChartDataSet: ChartBaseDataSet
     // TODO: This should return the removed entry to follow Swift convention.
     open override func removeEntry(_ entry: ChartDataEntry) -> Bool
     {
-        guard let i = values.index(where: { $0 === entry }) else { return false }
+        guard let i = values.firstIndex(where: { $0 === entry }) else { return false }
 
         isIndirectValuesCall = true
         values.remove(at: i)

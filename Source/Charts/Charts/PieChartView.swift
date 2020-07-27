@@ -279,7 +279,7 @@ open class PieChartView: PieRadarChartViewBase
     /// - returns: The index of the DataSet this x-index belongs to.
     @objc open func dataSetIndexForIndex(_ xValue: Double) -> Int
     {
-        var dataSets = data?.dataSets ?? []
+        let dataSets = data?.dataSets ?? []
         
         for i in 0 ..< dataSets.count
         {
