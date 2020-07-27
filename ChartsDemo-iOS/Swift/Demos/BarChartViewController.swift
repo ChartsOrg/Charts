@@ -125,7 +125,7 @@ class BarChartViewController: DemoBaseViewController {
         }
         
         if let set = chartView.data?.dataSets.first as? BarChartDataSet {
-            setup(set)
+            setupBarGradient(set)
             set.replaceEntries(yVals)
             chartView.data?.notifyDataChanged()
             chartView.notifyDataSetChanged()
@@ -134,7 +134,7 @@ class BarChartViewController: DemoBaseViewController {
             set.colors = ChartColorTemplates.material()
             set.drawValuesEnabled = false
 
-            setup(set)
+            setupBarGradient(set)
 
             let data = BarChartData(dataSet: set)
             data.setValueFont(UIFont(name: "HelveticaNeue-Light", size: 10)!)
@@ -145,7 +145,7 @@ class BarChartViewController: DemoBaseViewController {
 //        chartView.setNeedsDisplay()
     }
 
-    private func setup(_ dataSet: BarChartDataSet) {
+    private func setupBarGradient(_ dataSet: BarChartDataSet) {
         if dataSet.drawBarGradientEnabled {
             dataSet.colors = [.black, .red, .white]
             dataSet.gradientPositions = [0, 40, 100]
@@ -163,7 +163,7 @@ class BarChartViewController: DemoBaseViewController {
                 .compactMap { $0 as? BarChartDataSet }
                 .forEach { (set) in
                     set.drawBarGradientEnabled = !set.drawBarGradientEnabled
-                    setup(set)
+                    setupBarGradient(set)
                 }
             chartView.setNeedsDisplay()
         default:
