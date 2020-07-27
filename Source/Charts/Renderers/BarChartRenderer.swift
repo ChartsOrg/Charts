@@ -403,7 +403,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         }
         else
         {
-            drawDefaultBars(context: context, dataSet: dataSet, dateSetIndex: index, buffer: buffer)
+            drawNormalBars(context: context, dataSet: dataSet, dateSetIndex: index, buffer: buffer)
         }
     }
 
@@ -489,7 +489,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         }
     }
 
-    private func drawDefaultBars(context: CGContext, dataSet: IBarChartDataSet, dateSetIndex index: Int, buffer: BarChartRenderer.Buffer)
+    private func drawNormalBars(context: CGContext, dataSet: IBarChartDataSet, dateSetIndex index: Int, buffer: BarChartRenderer.Buffer)
     {
         let drawBorder = dataSet.barBorderWidth > 0
         let isSingleColor = dataSet.colors.count == 1
