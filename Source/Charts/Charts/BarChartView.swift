@@ -18,11 +18,15 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     /// if set to true, all values are drawn above their bars, instead of below their top
     private var _drawValueAboveBarEnabled = true
 
-    /// if set to true and _drawValueAboveBarEnabled is false, values those do not fit into the value bar are drawn above their bars, instead of below their top
-    private var _drawValueInsideBarSoft = false
+    /// if set to true values those do not fit into the value bar/placed outside of visible area are drawn above/inside their bars
+    /// side effect - vertical bars offset (top/bottom) are set to 0 to prevent chart placement adjustment for low/big values
+    private var _drawValueSideFlexible = false
     
     /// Distance fo the values from the bars top
     private var _valuesOffset: CGFloat = 4.5
+    
+    private var _valueColorsAdjustment = false
+
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     private var _drawBarShadowEnabled = false
     
@@ -157,14 +161,14 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
         }
     }
     
-    @objc open var isDrawValueInsideBarSoft: Bool
+    @objc open var isDrawValueSideFlexible: Bool
         {
-        get { return _drawValueInsideBarSoft }
+        get { return _drawValueSideFlexible }
         set
         {
-            _drawValueInsideBarSoft = newValue
-            if _drawValueInsideBarSoft {
-                //these offsets are not needed as the value labels do not "cross" zero edge
+            _drawValueSideFlexible = newValue
+            if _drawValueSideFlexible {
+                //these offsets are not needed as the value labels do not "cross" zero or chart min/max edges
                 //default values (0.1) provide gap if min/max value are close to the edges, no need the gap to fit in content
                 leftAxis.spaceTop = 0
                 leftAxis.spaceBottom = 0
@@ -182,6 +186,16 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
         {
             _valuesOffset = newValue
             setNeedsDisplay()
+        }
+    }
+
+    @objc open var valueColorsAdjustment: Bool
+        {
+        get { return _valueColorsAdjustment }
+        set
+        {
+            _valueColorsAdjustment = newValue
+            notifyDataSetChanged()
         }
     }
 

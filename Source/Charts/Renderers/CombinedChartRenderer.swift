@@ -20,7 +20,7 @@ open class CombinedChartRenderer: DataRenderer
     @objc open var drawValueAboveBarEnabled = true
 
     /// if set to true and drawValueAboveBarEnabled is false, values those do not fit into the value bar are drawn above their bars, instead of below their top
-    @objc open var isDrawValueInsideBarSoft = false
+    @objc open var isDrawValueSideFlexible = false
 
     /// distance from top (bottom in negative) for values drawn outside/inside the bar
     @objc open var valuesOffset: CGFloat = 4.5

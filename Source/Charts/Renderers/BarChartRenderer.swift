@@ -495,8 +495,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             let valueOffsetPlus: CGFloat = dataProvider.valuesOffset
             var posOffset: CGFloat
             var negOffset: CGFloat
-			var posOffsetSoftFallback: CGFloat
-            var negOffsetSoftFallback: CGFloat
+			var posOffsetSideFallback: CGFloat
+            var negOffsetSideFallback: CGFloat
             let drawValueAboveBar = dataProvider.isDrawValueAboveBarEnabled
             
             for dataSetIndex in 0 ..< barData.dataSetCount
@@ -512,16 +512,16 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 let valueFont = dataSet.valueFont
                 let valueTextHeight = valueFont.lineHeight
                 posOffset = (drawValueAboveBar ? -(valueTextHeight + valueOffsetPlus) : valueOffsetPlus)
-				posOffsetSoftFallback = (!drawValueAboveBar ? -(valueTextHeight + valueOffsetPlus) : valueOffsetPlus)
+				posOffsetSideFallback = (!drawValueAboveBar ? -(valueTextHeight + valueOffsetPlus) : valueOffsetPlus)
                 negOffset = (drawValueAboveBar ? valueOffsetPlus : -(valueTextHeight + valueOffsetPlus))
-                negOffsetSoftFallback = (!drawValueAboveBar ? valueOffsetPlus : -(valueTextHeight + valueOffsetPlus))
+                negOffsetSideFallback = (!drawValueAboveBar ? valueOffsetPlus : -(valueTextHeight + valueOffsetPlus))
                 
                 if isInverted
                 {
                     posOffset = -posOffset - valueTextHeight
-					posOffsetSoftFallback = -posOffsetSoftFallback - valueTextHeight
+					posOffsetSideFallback = -posOffsetSideFallback - valueTextHeight
                     negOffset = -negOffset - valueTextHeight
-                    negOffsetSoftFallback = -negOffsetSoftFallback - valueTextHeight
+                    negOffsetSideFallback = -negOffsetSideFallback - valueTextHeight
                 }
                 
                 let buffer = _buffers[dataSetIndex]
@@ -550,8 +550,18 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                             break
                         }
                         
-                        if !viewPortHandler.isInBoundsY(rect.origin.y)
-                            || !viewPortHandler.isInBoundsLeft(x)
+                        if !viewPortHandler.isInBoundsLeft(x)
+                        {
+                            continue
+                        }
+
+                        let y = rect.origin.y
+                        //allow to draw a value even is bar is slightly out of bounds but value should be inside bar
+                        if !(viewPortHandler.isInBoundsY(y) || ((dataProvider.isDrawValueSideFlexible || !drawValueAboveBar) && (
+                            viewPortHandler.isInBoundsY(y - dataProvider.valuesOffset) ||
+                                viewPortHandler.isInBoundsY(y + dataProvider.valuesOffset)
+                            )
+                            ))
                         {
                             continue
                         }
@@ -560,17 +570,57 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                         
                         if dataSet.isDrawValuesEnabled
                         {
-							var color = dataSet.valueTextColorAt(j)
-							var yPos = val >= 0.0
-								? (rect.origin.y + posOffset)
-								: (rect.origin.y + rect.size.height + negOffset)
+                            var color = dataSet.valueTextColorAt(j)
+                            var backgroundColor = NSUIColor.white //TODO: get the actual chart background color
+                            var yPos = y + (val >= 0.0
+                                ? posOffset
+                                : rect.size.height + negOffset)
 
-                            if (yPos + valueTextHeight > rect.maxY || yPos < rect.minY) && !drawValueAboveBar && dataProvider.isDrawValueInsideBarSoft {
-								yPos = val >= 0.0
-									? (rect.origin.y + posOffsetSoftFallback)
-									: (rect.origin.y + rect.size.height + negOffsetSoftFallback)
-                                color = dataSet.color(atIndex: j)   //change color as value color is usually not visible on the chart background
-							}
+                            if drawValueAboveBar
+                            {
+                                if dataProvider.isDrawValueSideFlexible && (!viewPortHandler.isInBoundsY(yPos) || !viewPortHandler.isInBoundsY(yPos + valueTextHeight))
+                                {
+                                    yPos = y + (val >= 0.0
+                                        ? posOffsetSideFallback
+                                        : rect.size.height + negOffsetSideFallback)
+
+                                    color = dataSet.valueTextColorSecondaryAt(j)
+                                    backgroundColor = dataSet.color(atIndex: j)
+                                }
+                                else
+                                {
+                                    if dataProvider.isDrawBarShadowEnabled
+                                    {
+                                        backgroundColor = dataSet.barShadowColor
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if dataProvider.isDrawValueSideFlexible && (yPos + valueTextHeight > rect.maxY || yPos < rect.minY)
+                                {
+                                    yPos = y + (val >= 0.0
+                                        ? posOffsetSideFallback
+                                        : rect.size.height + negOffsetSideFallback)
+
+                                    color = dataSet.valueTextColorSecondaryAt(j)
+                                    if dataProvider.isDrawBarShadowEnabled
+                                    {
+                                        backgroundColor = dataSet.barShadowColor
+                                    }
+                                }
+                                else
+                                {
+                                    backgroundColor = dataSet.color(atIndex: j)
+                                }
+                            }
+                            if dataSet.valueColorsAdjustment
+                            {
+                                if color.distance(from: backgroundColor) < 0.2
+                                {
+                                    color = backgroundColor.inverseColor()
+                                }
+                            }
                             drawValue(
                                 context: context,
                                 value: formatter.stringForValue(

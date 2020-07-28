@@ -169,10 +169,10 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         set { (renderer as! CombinedChartRenderer).drawValueAboveBarEnabled = newValue }
     }
     
-    @objc open var isDrawValueInsideBarSoft: Bool
+    @objc open var isDrawValueSideFlexible: Bool
         {
-        get { return (renderer as! CombinedChartRenderer).isDrawValueInsideBarSoft }
-        set { (renderer as! CombinedChartRenderer).isDrawValueInsideBarSoft = newValue }
+        get { return (renderer as! CombinedChartRenderer).isDrawValueSideFlexible }
+        set { (renderer as! CombinedChartRenderer).isDrawValueSideFlexible = newValue }
     }
 
     @objc open var valuesOffset: CGFloat
