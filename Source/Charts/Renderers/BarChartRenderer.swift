@@ -401,7 +401,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         }
         
         let isSingleColor = dataSet.colors.count == 1
-		var barFillColor: UIColor
+		var barFillColor: NSUIColor
         
         if isSingleColor
         {
@@ -438,7 +438,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
 			context.saveGState()
 
-            var maxEdgeInset: UIEdgeInsets = .zero
+            var maxEdgeInset: NSUIEdgeInsets = .zero
 
             for outline in dataSet.barValueOutlines
             {
@@ -449,7 +449,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.fill(outlineRect)
 
                 let shadowInset = outline.insets
-                maxEdgeInset = UIEdgeInsets(top: maxEdgeInset.top + shadowInset.top,
+                maxEdgeInset = NSUIEdgeInsets(top: maxEdgeInset.top + shadowInset.top,
                                             left: maxEdgeInset.left + shadowInset.left,
                                             bottom: maxEdgeInset.bottom + shadowInset.bottom,
                                             right: maxEdgeInset.right + shadowInset.right)
@@ -563,9 +563,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                     {
                         guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
                         
-                        var maxEdgeInset: UIEdgeInsets = .zero
-                        maxEdgeInset = dataSet.barValueOutlines.reduce(UIEdgeInsets.zero, {
-                            UIEdgeInsets(top: $0.top + $1.insets.top,
+                        var maxEdgeInset: NSUIEdgeInsets = .zero
+                        maxEdgeInset = dataSet.barValueOutlines.reduce(NSUIEdgeInsets.zero, {
+                            NSUIEdgeInsets(top: $0.top + $1.insets.top,
                                          left: $0.left + $1.insets.left,
                                          bottom: $0.bottom + $1.insets.bottom,
                                          right: $0.right + $1.insets.right)
