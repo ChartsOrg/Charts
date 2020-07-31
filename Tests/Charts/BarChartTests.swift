@@ -501,4 +501,52 @@ class BarChartTests: FBSnapshotTestCase
         chart.notifyDataSetChanged()
         ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
     }
+
+    func testOutlinesStacked()
+    {
+        let dataEntries = setupStackedValuesDataEntries()
+        let dataSet = setupDefaultStackedDataSet(chartDataEntries: dataEntries)
+
+        let outline1 = BarChartBarValueOutline(color: .magenta)
+        outline1.insets.top = 5
+        outline1.insets.left = 2
+        outline1.insets.bottom = 2
+        outline1.insets.right = 5
+        let outline2 = BarChartBarValueOutline(color: .brown)
+        outline2.insets.top = 4
+        outline2.insets.left = 2
+        outline2.insets.bottom = 6
+        outline2.insets.right = 8
+        dataSet.barValueOutlines = [outline1, outline2]
+
+        let chart = setupDefaultChart(dataSets: [dataSet])
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
+    }
+
+    func testOutlinesStackedBordered()
+    {
+        let dataEntries = setupStackedValuesDataEntries()
+        let dataSet = setupDefaultStackedDataSet(chartDataEntries: dataEntries)
+
+        let outline1 = BarChartBarValueOutline(color: .magenta)
+        outline1.insets.top = 5
+        outline1.insets.left = 2
+        outline1.insets.bottom = 2
+        outline1.insets.right = 5
+        let outline2 = BarChartBarValueOutline(color: .brown)
+        outline2.insets.top = 4
+        outline2.insets.left = 2
+        outline2.insets.bottom = 6
+        outline2.insets.right = 8
+        dataSet.barValueOutlines = [outline1, outline2]
+
+        dataSet.barBorderWidth = 3
+        dataSet.barBorderColor = .white
+
+        let chart = setupDefaultChart(dataSets: [dataSet])
+        chart.drawBordersEnabled = true
+        chart.notifyDataSetChanged()
+        ChartsSnapshotVerifyView(chart, identifier: Snapshot.identifier(UIScreen.main.bounds.size), overallTolerance: Snapshot.tolerance)
+    }
+
 }
