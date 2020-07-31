@@ -531,7 +531,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                 
                 let iconsOffset = dataSet.iconsOffset
 
-                func drawValueAndIconAndContinue(for e:BarChartDataEntry, in rect: CGRect, index j: Int, drawAbove: Bool, value: Double, backgroundColor outerColor: UIColor) -> Bool
+                func drawValueAndIconAndContinue(for e:BarChartDataEntry, in rect: CGRect, index j: Int, drawAbove: Bool, value: Double, backgroundColor outerColor: NSUIColor) -> Bool
                 {
                     let x = rect.origin.x + rect.size.width / 2.0
 
