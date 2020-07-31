@@ -456,15 +456,16 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             }
 
             let barRectInsideOutline = barRect.inset(by: maxEdgeInset)
+
+            context.setFillColor(barFillColor.cgColor)
+            context.fill(barRectInsideOutline)
+
             if drawBorder
             {
                 context.setStrokeColor(borderColor.cgColor)
                 context.setLineWidth(borderWidth)
                 context.stroke(barRectInsideOutline)
             }
-
-            context.setFillColor(barFillColor.cgColor)
-            context.fill(barRectInsideOutline)
 
 			context.restoreGState()
 
