@@ -14,10 +14,10 @@ import CoreGraphics
 
 @objc open class BarChartBarValueOutline: NSObject
 {
-    public var color: NSUIColor
-    public var insets: NSUIEdgeInsets
+    @objc public var color: NSUIColor
+    @objc public var insets: NSUIEdgeInsets
 
-    public init(color: NSUIColor = .black, insets: NSUIEdgeInsets = .zero)
+    @objc public init(color: NSUIColor = .black, insets: NSUIEdgeInsets = .zero)
     {
         self.color = color
         self.insets = insets

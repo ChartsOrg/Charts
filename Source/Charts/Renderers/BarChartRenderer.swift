@@ -442,17 +442,17 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
             for outline in dataSet.barValueOutlines
             {
+                let newMaxEdgeInset = maxEdgeInset + outline.insets
+                let nextRectSize = barRect.inset(by: newMaxEdgeInset).size  //if access width/height of the rect - always positive values
+                if nextRectSize.width < 1 || nextRectSize.height < 1
+                {
+                    break
+                }
                 let outlineRect = barRect.inset(by: maxEdgeInset)
-
                 context.setFillColor(outline.color.cgColor)
-
                 context.fill(outlineRect)
 
-                let shadowInset = outline.insets
-                maxEdgeInset = NSUIEdgeInsets(top: maxEdgeInset.top + shadowInset.top,
-                                            left: maxEdgeInset.left + shadowInset.left,
-                                            bottom: maxEdgeInset.bottom + shadowInset.bottom,
-                                            right: maxEdgeInset.right + shadowInset.right)
+                maxEdgeInset = newMaxEdgeInset
             }
 
             let barRectInsideOutline = barRect.inset(by: maxEdgeInset)
@@ -564,14 +564,20 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                         guard let e = dataSet.entryForIndex(j) as? BarChartDataEntry else { continue }
                         
                         var maxEdgeInset: NSUIEdgeInsets = .zero
-                        maxEdgeInset = dataSet.barValueOutlines.reduce(NSUIEdgeInsets.zero, {
-                            NSUIEdgeInsets(top: $0.top + $1.insets.top,
-                                         left: $0.left + $1.insets.left,
-                                         bottom: $0.bottom + $1.insets.bottom,
-                                         right: $0.right + $1.insets.right)
-                        })
-                        
-                        let rect = buffer.rects[j].inset(by:maxEdgeInset) //apply insets so the text is centered in the bar
+                        let barRect = buffer.rects[j]
+                        for outline in dataSet.barValueOutlines
+                        {
+                            let newMaxEdgeInset = maxEdgeInset + outline.insets
+                            let nextRectSize = barRect.inset(by: newMaxEdgeInset).size  //if access width/height of the rect - always positive values
+                            if nextRectSize.width < 1 || nextRectSize.height < 1
+                            {
+                                break
+                            }
+
+                            maxEdgeInset = newMaxEdgeInset
+                        }
+
+                        let rect = barRect.inset(by:maxEdgeInset) //apply insets so the text is centered in the bar
 
                         let x = rect.origin.x + rect.size.width / 2.0
                         
