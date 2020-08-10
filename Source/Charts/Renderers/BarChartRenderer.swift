@@ -869,7 +869,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 
                 setHighlightDrawPos(highlight: high, barRect: barRect)
                 
-                if high.stackIndex == (e.yValues?.count ?? 0) - 1 {
+                if set.roundRadiusWidthMultiplier > 0.0 && (high.stackIndex == (e.yValues?.count ?? 0) - 1 || high.stackIndex == -1) {
                     drawRoundedBar(barRect: barRect, roundRadiusWidthMultiplier: set.roundRadiusWidthMultiplier, context: context)
                 }
                 else {
