@@ -129,19 +129,39 @@ open class ChartColorTemplates: NSObject
         else if colorString.hasPrefix("rgba")
         {
             var a: Float = 1.0
-            var r: Int32 = 0
-            var g: Int32 = 0
-            var b: Int32 = 0
-            let scanner: Scanner = Scanner(string: colorString)
-            scanner.scanString("rgba", into: nil)
-            scanner.scanCharacters(from: leftParenCharset, into: nil)
-            scanner.scanInt32(&r)
-            scanner.scanCharacters(from: commaCharset, into: nil)
-            scanner.scanInt32(&g)
-            scanner.scanCharacters(from: commaCharset, into: nil)
-            scanner.scanInt32(&b)
-            scanner.scanCharacters(from: commaCharset, into: nil)
-            scanner.scanFloat(&a)
+            var r: Int64 = 0
+            var g: Int64 = 0
+            var b: Int64 = 0
+            
+            // Some scanner functionality has been deprecated and replaced in iOS 13
+            
+            if #available(iOS 13.0, *)
+            {
+                let scanner = Scanner(string: colorString)
+                _ = scanner.scanString("rgba")
+                _ = scanner.scanCharacters(from: leftParenCharset)
+                scanner.scanInt64(&r)
+                _ = scanner.scanCharacters(from: commaCharset)
+                scanner.scanInt64(&g)
+                _ = scanner.scanCharacters(from: commaCharset)
+                scanner.scanInt64(&b)
+                _ = scanner.scanCharacters(from: commaCharset)
+                a = scanner.scanFloat(representation: .decimal) ?? a
+            }
+            else
+            {
+                let scanner: Scanner = Scanner(string: colorString)
+                scanner.scanString("rgba", into: nil)
+                scanner.scanCharacters(from: leftParenCharset, into: nil)
+                scanner.scanInt64(&r)
+                scanner.scanCharacters(from: commaCharset, into: nil)
+                scanner.scanInt64(&g)
+                scanner.scanCharacters(from: commaCharset, into: nil)
+                scanner.scanInt64(&b)
+                scanner.scanCharacters(from: commaCharset, into: nil)
+                scanner.scanFloat(&a)
+            }
+
             return NSUIColor(
                 red: CGFloat(r) / 255.0,
                 green: CGFloat(g) / 255.0,
@@ -152,19 +172,39 @@ open class ChartColorTemplates: NSObject
         else if colorString.hasPrefix("argb")
         {
             var a: Float = 1.0
-            var r: Int32 = 0
-            var g: Int32 = 0
-            var b: Int32 = 0
-            let scanner: Scanner = Scanner(string: colorString)
-            scanner.scanString("argb", into: nil)
-            scanner.scanCharacters(from: leftParenCharset, into: nil)
-            scanner.scanFloat(&a)
-            scanner.scanCharacters(from: commaCharset, into: nil)
-            scanner.scanInt32(&r)
-            scanner.scanCharacters(from: commaCharset, into: nil)
-            scanner.scanInt32(&g)
-            scanner.scanCharacters(from: commaCharset, into: nil)
-            scanner.scanInt32(&b)
+            var r: Int64 = 0
+            var g: Int64 = 0
+            var b: Int64 = 0
+            
+            // Some scanner functionality has been deprecated and replaced in iOS 13
+            
+            if #available(iOS 13.0, *)
+            {
+                let scanner = Scanner(string: colorString)
+                _ = scanner.scanString("argb")
+                _ = scanner.scanCharacters(from: leftParenCharset)
+                a = scanner.scanFloat(representation: .decimal) ?? a
+                _ = scanner.scanCharacters(from: commaCharset)
+                scanner.scanInt64(&r)
+                _ = scanner.scanCharacters(from: commaCharset)
+                scanner.scanInt64(&g)
+                _ = scanner.scanCharacters(from: commaCharset)
+                scanner.scanInt64(&b)
+            }
+            else
+            {
+                let scanner: Scanner = Scanner(string: colorString)
+                scanner.scanString("argb", into: nil)
+                scanner.scanCharacters(from: leftParenCharset, into: nil)
+                scanner.scanFloat(&a)
+                scanner.scanCharacters(from: commaCharset, into: nil)
+                scanner.scanInt64(&r)
+                scanner.scanCharacters(from: commaCharset, into: nil)
+                scanner.scanInt64(&g)
+                scanner.scanCharacters(from: commaCharset, into: nil)
+                scanner.scanInt64(&b)
+            }
+            
             return NSUIColor(
                 red: CGFloat(r) / 255.0,
                 green: CGFloat(g) / 255.0,
@@ -174,17 +214,35 @@ open class ChartColorTemplates: NSObject
         }
         else if colorString.hasPrefix("rgb")
         {
-            var r: Int32 = 0
-            var g: Int32 = 0
-            var b: Int32 = 0
-            let scanner: Scanner = Scanner(string: colorString)
-            scanner.scanString("rgb", into: nil)
-            scanner.scanCharacters(from: leftParenCharset, into: nil)
-            scanner.scanInt32(&r)
-            scanner.scanCharacters(from: commaCharset, into: nil)
-            scanner.scanInt32(&g)
-            scanner.scanCharacters(from: commaCharset, into: nil)
-            scanner.scanInt32(&b)
+            var r: Int64 = 0
+            var g: Int64 = 0
+            var b: Int64 = 0
+            
+            // Some scanner functionality has been deprecated and replaced in iOS 13
+            
+            if #available(iOS 13.0, *)
+            {
+                let scanner = Scanner(string: colorString)
+                _ = scanner.scanString("rgb")
+                _ = scanner.scanCharacters(from: leftParenCharset)
+                scanner.scanInt64(&r)
+                _ = scanner.scanCharacters(from: commaCharset)
+                scanner.scanInt64(&g)
+                _ = scanner.scanCharacters(from: commaCharset)
+                scanner.scanInt64(&b)
+            }
+            else
+            {
+                let scanner: Scanner = Scanner(string: colorString)
+                scanner.scanString("rgb", into: nil)
+                scanner.scanCharacters(from: leftParenCharset, into: nil)
+                scanner.scanInt64(&r)
+                scanner.scanCharacters(from: commaCharset, into: nil)
+                scanner.scanInt64(&g)
+                scanner.scanCharacters(from: commaCharset, into: nil)
+                scanner.scanInt64(&b)
+            }
+            
             return NSUIColor(
                 red: CGFloat(r) / 255.0,
                 green: CGFloat(g) / 255.0,
