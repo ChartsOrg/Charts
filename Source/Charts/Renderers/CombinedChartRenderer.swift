@@ -12,8 +12,14 @@
 import Foundation
 import CoreGraphics
 
-open class CombinedChartRenderer: DataRenderer
+open class CombinedChartRenderer: NSObject, DataRenderer
 {
+    public let viewPortHandler: ViewPortHandler
+
+    public final var accessibleChartElements: [NSUIAccessibilityElement] = []
+
+    public let animator: Animator
+
     @objc open weak var chart: CombinedChartView?
     
     /// if set to true, all values are drawn above their bars, instead of below their top
@@ -28,9 +34,11 @@ open class CombinedChartRenderer: DataRenderer
     
     @objc public init(chart: CombinedChartView, animator: Animator, viewPortHandler: ViewPortHandler)
     {
-        super.init(animator: animator, viewPortHandler: viewPortHandler)
-        
         self.chart = chart
+        self.viewPortHandler = viewPortHandler
+        self.animator = animator
+
+        super.init()
         
         createRenderers()
     }
@@ -85,12 +93,12 @@ open class CombinedChartRenderer: DataRenderer
 
     }
     
-    open override func initBuffers()
+    open func initBuffers()
     {
         _renderers.forEach { $0.initBuffers() }
     }
     
-    open override func drawData(context: CGContext)
+    open func drawData(context: CGContext)
     {
         // If we redraw the data, remove and repopulate accessible elements to update label values and frames
         accessibleChartElements.removeAll()
@@ -111,17 +119,17 @@ open class CombinedChartRenderer: DataRenderer
         _renderers.forEach { $0.drawData(context: context) }
     }
     
-    open override func drawValues(context: CGContext)
+    open func drawValues(context: CGContext)
     {
         _renderers.forEach { $0.drawValues(context: context) }
     }
     
-    open override func drawExtras(context: CGContext)
+    open func drawExtras(context: CGContext)
     {
         _renderers.forEach { $0.drawExtras(context: context) }
     }
     
-    open override func drawHighlighted(context: CGContext, indices: [Highlight])
+    open func drawHighlighted(context: CGContext, indices: [Highlight])
     {
         for renderer in _renderers
         {
@@ -148,17 +156,18 @@ open class CombinedChartRenderer: DataRenderer
                 data = (renderer as! BubbleChartRenderer).dataProvider?.bubbleData
             }
             
-            let dataIndex: Int? = {
-                guard let data = data else { return nil }
-                return (chart?.data as? CombinedChartData)?
-                    .allData
-                    .firstIndex(of: data)
-            }()
+            let dataIndex = data == nil ? nil : (chart?.data as? CombinedChartData)?.allData.firstIndex(of: data!)
             
             let dataIndices = indices.filter{ $0.dataIndex == dataIndex || $0.dataIndex == -1 }
             
             renderer.drawHighlighted(context: context, indices: dataIndices)
         }
+    }
+
+    open func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
+    {
+        guard let data = dataProvider?.data else { return false }
+        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
     }
 
     /// - Returns: The sub-renderer object at the specified index.
@@ -205,5 +214,9 @@ open class CombinedChartRenderer: DataRenderer
                 _drawOrder = newValue
             }
         }
+    }
+    
+    public func createAccessibleHeader(usingChart chart: ChartViewBase, andData data: ChartData, withDefaultDescription defaultDescription: String) -> NSUIAccessibilityElement {
+        return AccessibleHeader.create(usingChart: chart, andData: data, withDefaultDescription: defaultDescription)
     }
 }

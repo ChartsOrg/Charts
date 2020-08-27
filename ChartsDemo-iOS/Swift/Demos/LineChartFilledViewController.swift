@@ -33,7 +33,7 @@ class LineChartFilledViewController: DemoBaseViewController {
         
         chartView.drawBordersEnabled = true
         
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
         
         chartView.pinchZoomEnabled = false
         chartView.dragEnabled = true
@@ -104,7 +104,7 @@ class LineChartFilledViewController: DemoBaseViewController {
             return CGFloat(self.chartView.leftAxis.axisMaximum)
         }
 
-        let data = LineChartData(dataSets: [set1, set2])
+        let data: LineChartData = [set1, set2]
         data.setDrawValues(false)
         
         chartView.data = data

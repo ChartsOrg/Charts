@@ -12,9 +12,7 @@
 import Foundation
 
 #if os(iOS) || os(tvOS)
-#if canImport(UIKit)
-    import UIKit
-#endif
+import UIKit
 
 internal func accessibilityPostLayoutChangedNotification(withElement element: Any? = nil)
 {
@@ -50,7 +48,7 @@ open class NSUIAccessibilityElement: UIAccessibilityElement
     override public init(accessibilityContainer container: Any)
     {
         // We can force unwrap since all chart views are subclasses of UIView
-        containerView = (container as! UIView)
+        containerView = container as! UIView
         super.init(accessibilityContainer: container)
     }
 
@@ -97,18 +95,15 @@ extension NSUIView
     open override func index(ofAccessibilityElement element: Any) -> Int
     {
         guard let axElement = element as? NSUIAccessibilityElement else { return NSNotFound }
-        return (accessibilityChildren() as? [NSUIAccessibilityElement])?
-            .firstIndex(of: axElement) ?? NSNotFound
+        return (accessibilityChildren() as? [NSUIAccessibilityElement])?.firstIndex(of: axElement) ?? NSNotFound
     }
 }
 
 #endif
 
 #if os(OSX)
-
-#if canImport(AppKit)
 import AppKit
-#endif
+
 
 internal func accessibilityPostLayoutChangedNotification(withElement element: Any? = nil)
 {

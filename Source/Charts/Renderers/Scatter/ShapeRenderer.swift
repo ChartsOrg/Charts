@@ -1,5 +1,5 @@
 //
-//  IShapeRenderer.swift
+//  ShapeRenderer.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 @objc
-public protocol IShapeRenderer: class
+public protocol ShapeRenderer: class
 {
     /// Renders the provided ScatterDataSet with a shape.
     ///
@@ -25,7 +25,7 @@ public protocol IShapeRenderer: class
     ///   - color:           Color to draw the shape
     func renderShape(
         context: CGContext,
-        dataSet: IScatterChartDataSet,
+        dataSet: ScatterChartDataSetProtocol,
         viewPortHandler: ViewPortHandler,
         point: CGPoint,
         color: NSUIColor)
