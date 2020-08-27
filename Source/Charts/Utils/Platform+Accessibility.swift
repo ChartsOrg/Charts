@@ -48,7 +48,7 @@ open class NSUIAccessibilityElement: UIAccessibilityElement
     override public init(accessibilityContainer container: Any)
     {
         // We can force unwrap since all chart views are subclasses of UIView
-        containerView = container as! UIView
+        containerView = container as? UIView
         super.init(accessibilityContainer: container)
     }
 

@@ -394,14 +394,14 @@ open class XAxisRenderer: NSObject, AxisRenderer
     {
         guard
             let transformer = self.transformer,
-            !xAxis.limitLines.isEmpty
+            !axis.limitLines.isEmpty
             else { return }
         
         let trans = transformer.valueToPixelMatrix
         
         var position = CGPoint.zero
         
-        for l in xAxis.limitLines where l.isEnabled
+        for l in axis.limitLines where l.isEnabled
         {
             context.saveGState()
             defer { context.restoreGState() }

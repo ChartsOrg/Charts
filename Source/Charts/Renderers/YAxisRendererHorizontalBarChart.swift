@@ -128,7 +128,7 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
         let from = axis.isDrawBottomYLabelEntryEnabled ? 0 : 1
         let to = axis.isDrawTopYLabelEntryEnabled ? axis.entryCount : (axis.entryCount - 1)
         
-        let xOffset = yAxis.labelXOffset
+        let xOffset = axis.labelXOffset
         
         for i in from..<to
         {

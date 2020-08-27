@@ -788,11 +788,11 @@
 			};
 			buildConfigurationList = 493FF4FB1D40FC7C51DDDA6B /* Build configuration list for PBXProject "Charts" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
+				Base,
 			);
 			mainGroup = 865A1CF149F52850CAB7F177;
 			productRefGroup = AB2D554102718F209377399E /* Products */;
@@ -1048,7 +1048,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 3.5.0;
+				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.Charts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1225,7 +1225,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 3.5.0;
+				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.Charts;
 				PRODUCT_NAME = "$(TARGET_NAME)";

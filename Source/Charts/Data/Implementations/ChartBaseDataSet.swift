@@ -396,7 +396,7 @@ open class ChartBaseDataSet: NSObject, ChartDataSetProtocol, NSCopying
         copy.label = label
         copy.axisDependency = axisDependency
         copy.highlightEnabled = highlightEnabled
-        copy._valueFormatter = _valueFormatter
+        copy.valueFormatter = valueFormatter
         copy.valueFont = valueFont
         copy.form = form
         copy.formSize = formSize

@@ -31,14 +31,15 @@ open class ChartDataSet: ChartBaseDataSet
         super.init()
     }
     
-    public override convenience init(label: String)
+    public override init(label: String)
     {
-        self.init(entries: nil, label: label)
+        entries = []
+        super.init(label: label)
     }
     
     @objc public init(entries: [ChartDataEntry], label: String)
     {
-        self.entries = entries ?? []
+        self.entries = entries 
 
         super.init(label: label)
 
@@ -55,9 +56,8 @@ open class ChartDataSet: ChartBaseDataSet
     /// - Note: Calls `notifyDataSetChanged()` after setting a new value.
     /// - Returns: The array of y-values that this DataSet represents.
     /// the entries that this dataset represents / holds together
-    @available(*, unavailable, renamed: "entries")
     @objc
-    open var values: [ChartDataEntry] { return entries }
+    open private(set) var entries: [ChartDataEntry]
     {
         didSet
         {
@@ -68,9 +68,6 @@ open class ChartDataSet: ChartBaseDataSet
             notifyDataSetChanged()
         }
     }
-
-    @objc
-    open private(set) var entries: [ChartDataEntry]
 
     /// Used to replace all entries of a data set while retaining styling properties.
     /// This is a separate method from a setter on `entries` to encourage usage
@@ -126,14 +123,14 @@ open class ChartDataSet: ChartBaseDataSet
     
     @objc open func calcMinMaxX(entry e: ChartDataEntry)
     {
-        _xMin = min(e.x, _xMin)
-        _xMax = max(e.x, _xMax)
+        _xMin = Swift.min(e.x, _xMin)
+        _xMax = Swift.max(e.x, _xMax)
     }
     
     @objc open func calcMinMaxY(entry e: ChartDataEntry)
     {
-        _yMin = min(e.y, _yMin)
-        _yMax = max(e.y, _yMax)
+        _yMin = Swift.min(e.y, _yMin)
+        _yMax = Swift.max(e.y, _yMax)
     }
     
     /// Updates the min and max x and y value of this DataSet based on the given Entry.

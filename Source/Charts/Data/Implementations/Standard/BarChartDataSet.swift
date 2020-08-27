@@ -70,13 +70,13 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
         
         if e.yValues == nil
         {
-            _yMin = min(e.y, _yMin)
-            _yMax = max(e.y, _yMax)
+            _yMin = Swift.min(e.y, _yMin)
+            _yMax = Swift.max(e.y, _yMax)
         }
         else
         {
-            _yMin = min(-e.negativeSum, _yMin)
-            _yMax = max(e.positiveSum, _yMax)
+            _yMin = Swift.min(-e.negativeSum, _yMin)
+            _yMax = Swift.max(e.positiveSum, _yMax)
         }
 
         calcMinMaxX(entry: e)

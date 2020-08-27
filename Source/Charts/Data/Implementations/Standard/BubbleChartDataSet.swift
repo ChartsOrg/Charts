@@ -30,7 +30,7 @@ open class BubbleChartDataSet: BarLineScatterCandleBubbleChartDataSet, BubbleCha
         
         super.calcMinMax(entry: e)
         
-        _maxSize = max(e.size, maxSize)
+        _maxSize = Swift.max(e.size, maxSize)
     }
     
     // MARK: - Styling functions and accessors

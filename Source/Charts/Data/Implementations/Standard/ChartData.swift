@@ -140,40 +140,40 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
     /// Adjusts the current minimum and maximum values based on the provided Entry object.
     @objc open func calcMinMax(entry e: ChartDataEntry, axis: YAxis.AxisDependency)
     {
-        xMax = max(xMax, e.x)
-        xMin = min(xMin, e.x)
-        yMax = max(yMax, e.y)
-        yMin = min(yMin, e.y)
+        xMax = Swift.max(xMax, e.x)
+        xMin = Swift.min(xMin, e.x)
+        yMax = Swift.max(yMax, e.y)
+        yMin = Swift.min(yMin, e.y)
 
         switch axis
         {
         case .left:
-            leftAxisMax = max(leftAxisMax, e.y)
-            leftAxisMin = min(leftAxisMin, e.y)
+            leftAxisMax = Swift.max(leftAxisMax, e.y)
+            leftAxisMin = Swift.min(leftAxisMin, e.y)
 
         case .right:
-            rightAxisMax = max(rightAxisMax, e.y)
-            rightAxisMin = min(rightAxisMin, e.y)
+            rightAxisMax = Swift.max(rightAxisMax, e.y)
+            rightAxisMin = Swift.min(rightAxisMin, e.y)
         }
     }
     
     /// Adjusts the minimum and maximum values based on the given DataSet.
     @objc open func calcMinMax(dataSet d: Element)
     {
-        xMax = max(xMax, d.xMax)
-        xMin = min(xMin, d.xMin)
-        yMax = max(yMax, d.yMax)
-        yMin = min(yMin, d.yMin)
+        xMax = Swift.max(xMax, d.xMax)
+        xMin = Swift.min(xMin, d.xMin)
+        yMax = Swift.max(yMax, d.yMax)
+        yMin = Swift.min(yMin, d.yMin)
 
         switch d.axisDependency
         {
         case .left:
-            leftAxisMax = max(leftAxisMax, d.yMax)
-            leftAxisMin = min(leftAxisMin, d.yMin)
+            leftAxisMax = Swift.max(leftAxisMax, d.yMax)
+            leftAxisMin = Swift.min(leftAxisMin, d.yMin)
 
         case .right:
-            rightAxisMax = max(rightAxisMax, d.yMax)
-            rightAxisMin = min(rightAxisMin, d.yMin)
+            rightAxisMax = Swift.max(rightAxisMax, d.yMax)
+            rightAxisMin = Swift.min(rightAxisMin, d.yMin)
         }
     }
     

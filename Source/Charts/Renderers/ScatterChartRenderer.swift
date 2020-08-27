@@ -122,10 +122,10 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
             
             for i in scatterData.indices
             {
+                let dataSet = dataSets[i]
+
                 guard shouldDrawValues(forDataSet: dataSet)
                     else { continue }
-                
-                let dataSet = dataSets[i]
                 
                 let valueFont = dataSet.valueFont
                 

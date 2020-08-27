@@ -336,7 +336,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             for dataSetIndex in barData.indices
             {
                 guard let
-                    dataSet = dataSets[dataSetIndex] as? IBarChartDataSet,
+                    dataSet = dataSets[dataSetIndex] as? BarChartDataSetProtocol,
                     shouldDrawValues(forDataSet: dataSet)
                     else { continue }
                 
