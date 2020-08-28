@@ -28,6 +28,11 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
         super.init()
         initialize()
     }
+
+    public override convenience init(label: String)
+    {
+        self.init(entries:[], label: label)
+    }
     
     public override init(entries: [ChartDataEntry], label: String)
     {
