@@ -590,6 +590,7 @@ open class LineChartRenderer: LineRadarRenderer
                                                                   viewPortHandler: viewPortHandler),
                                          at: CGPoint(x: pt.x,
                                                      y: pt.y - CGFloat(valOffset) - valueFont.lineHeight),
+                                         align: .center,
                                          angleRadians: angleRadians,
                                          attributes: [.font: valueFont,
                                                       .foregroundColor: dataSet.valueTextColorAt(j)])
