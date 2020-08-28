@@ -320,7 +320,7 @@ open class PieChartView: PieRadarChartViewBase
     @objc open func dataSetIndexForIndex(_ xValue: Double) -> Int
     {
         // TODO: Return nil instead of -1
-        return data?.dataSets.firstIndex {
+        return data?.firstIndex {
             $0.entryForXValue(xValue, closestToY: .nan) != nil
         } ?? -1
     }

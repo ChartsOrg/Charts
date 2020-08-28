@@ -38,20 +38,15 @@ open class PieChartRenderer: NSObject, DataRenderer
     
     open func drawData(context: CGContext)
     {
-        guard let chart = chart else { return }
+        guard let chart = chart, let pieData = chart.data else { return }
 
-        let pieData = chart.data
+        // If we redraw the data, remove and repopulate accessible elements to update label values and frames
+        accessibleChartElements.removeAll()
 
-        if pieData != nil
+        for case let set as PieChartDataSetProtocol in pieData where
+            set.isVisible && set.entryCount > 0
         {
-            // If we redraw the data, remove and repopulate accessible elements to update label values and frames
-            accessibleChartElements.removeAll()
-
-            for set in pieData!.dataSets as! [PieChartDataSetProtocol]
-                where set.isVisible && set.entryCount > 0
-            {
-                drawDataSet(context: context, dataSet: set)
-            }
+            drawDataSet(context: context, dataSet: set)
         }
     }
 
@@ -326,8 +321,6 @@ open class PieChartRenderer: NSObject, DataRenderer
 
         let labelRadius = radius - labelRadiusOffset
 
-        let dataSets = data.dataSets
-
         let yValueSum = (data as! PieChartData).yValueSum
 
         let drawEntryLabels = chart.isDrawEntryLabelsEnabled
@@ -340,9 +333,9 @@ open class PieChartRenderer: NSObject, DataRenderer
         context.saveGState()
         defer { context.restoreGState() }
 
-        for i in dataSets.indices
+        for i in data.indices
         {
-            guard let dataSet = dataSets[i] as? PieChartDataSetProtocol else { continue }
+            guard let dataSet = data[i] as? PieChartDataSetProtocol else { continue }
             
             let drawValues = dataSet.isDrawValuesEnabled
 

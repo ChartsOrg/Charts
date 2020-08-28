@@ -375,7 +375,7 @@ open class ChartDataSet: ChartBaseDataSet
     ///   - e: the entry to add
     /// - Returns: True
     // TODO: This should return `Void` to follow Swift convention
-    @available(*, deprecated, message: "Use `append(_:)` instead")
+    @available(*, deprecated, message: "Use `append(_:)` instead", renamed: "append(_:)")
     open override func addEntry(_ e: ChartDataEntry) -> Bool
     {
         append(e)

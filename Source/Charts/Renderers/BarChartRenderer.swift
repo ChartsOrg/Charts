@@ -71,7 +71,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             }
         }
 
-        _buffers = zip(_buffers, barData.dataSets).map { buffer, set -> Buffer in
+        _buffers = zip(_buffers, barData).map { buffer, set -> Buffer in
             let set = set as! BarChartDataSetProtocol
             let size = set.entryCount * (set.isStacked ? set.stackSize : 1)
             return buffer.count == size
@@ -436,17 +436,15 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 let barData = dataProvider.barData
                 else { return }
 
-            let dataSets = barData.dataSets
-
             let valueOffsetPlus: CGFloat = 4.5
             var posOffset: CGFloat
             var negOffset: CGFloat
             let drawValueAboveBar = dataProvider.isDrawValueAboveBarEnabled
             
-            for dataSetIndex in barData.dataSets.indices
+            for dataSetIndex in barData.indices
             {
                 guard
-                    let dataSet = dataSets[dataSetIndex] as? BarChartDataSetProtocol,
+                    let dataSet = barData[dataSetIndex] as? BarChartDataSetProtocol,
                     shouldDrawValues(forDataSet: dataSet)
                     else { continue }
                 
