@@ -25,20 +25,29 @@ open class DefaultValueFormatter: NSObject, ValueFormatter
     
     @objc open var hasAutoDecimals: Bool
     
-    @objc open var formatter: NumberFormatter? {
-        willSet {
+    @objc open var formatter: NumberFormatter?
+    {
+        willSet
+        {
             hasAutoDecimals = false
         }
     }
     
-    open var decimals: Int? {
-        didSet {
-            if let digits = decimals
-            {
-                formatter?.minimumFractionDigits = digits
-                formatter?.maximumFractionDigits = digits
-                formatter?.usesGroupingSeparator = true
-            }
+    open var decimals: Int?
+    {
+        didSet
+        {
+            setupDecimals(decimals: decimals)
+        }
+    }
+
+    private func setupDecimals(decimals: Int?)
+    {
+        if let digits = decimals
+        {
+            formatter?.minimumFractionDigits = digits
+            formatter?.maximumFractionDigits = digits
+            formatter?.usesGroupingSeparator = true
         }
     }
     
@@ -50,6 +59,7 @@ open class DefaultValueFormatter: NSObject, ValueFormatter
         hasAutoDecimals = true
 
         super.init()
+        setupDecimals(decimals: decimals)
     }
     
     @objc public init(formatter: NumberFormatter)
@@ -68,6 +78,7 @@ open class DefaultValueFormatter: NSObject, ValueFormatter
         hasAutoDecimals = true
 
         super.init()
+        setupDecimals(decimals: decimals)
     }
     
     @objc public init(block: @escaping Block)

@@ -64,7 +64,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
 
             for set in data.dataSets
             {
-                if set.valueFormatter === defaultValueFormatter
+                if set.valueFormatter is DefaultValueFormatter
                 {
                     set.valueFormatter = defaultValueFormatter
                 }
