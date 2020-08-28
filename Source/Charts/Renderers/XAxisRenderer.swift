@@ -127,7 +127,9 @@ open class XAxisRenderer: NSObject, AxisRenderer
             axis.entries.reserveCapacity(labelCount)
 
             let start = first, end = first + Double(n) * interval
-            let values = stride(from: start, to: end, by: interval)
+
+            // Fix for IEEE negative zero case (Where value == -0.0, and 0.0 == -0.0)
+            let values = stride(from: start, to: end, by: interval).map { $0 == 0.0 ? 0.0 : $0 }
             axis.entries.append(contentsOf: values)
         }
 

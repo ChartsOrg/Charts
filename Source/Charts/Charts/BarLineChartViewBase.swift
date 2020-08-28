@@ -405,17 +405,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 {
                 case .top:
                     offsetTop += min(legend.neededHeight, viewPortHandler.chartHeight * legend.maxSizePercent) + legend.yOffset
-                    if xAxis.isEnabled && xAxis.isDrawLabelsEnabled
-                    {
-                        offsetTop += xAxis.labelRotatedHeight
-                    }
                     
                 case .bottom:
                     offsetBottom += min(legend.neededHeight, viewPortHandler.chartHeight * legend.maxSizePercent) + legend.yOffset
-                    if xAxis.isEnabled && xAxis.isDrawLabelsEnabled
-                    {
-                        offsetBottom += xAxis.labelRotatedHeight
-                    }
                     
                 default:
                     break

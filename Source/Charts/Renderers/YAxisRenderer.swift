@@ -429,7 +429,8 @@ open class YAxisRenderer: NSObject, AxisRenderer
             axis.entries.removeAll(keepingCapacity: true)
             axis.entries.reserveCapacity(labelCount)
 
-            let values = stride(from: first, to: Double(n) * interval + first, by: interval)
+            // Fix for IEEE negative zero case (Where value == -0.0, and 0.0 == -0.0)
+            let values = stride(from: first, to: Double(n) * interval + first, by: interval).map { $0 == 0.0 ? 0.0 : $0 }
             axis.entries.append(contentsOf: values)
         }
 
