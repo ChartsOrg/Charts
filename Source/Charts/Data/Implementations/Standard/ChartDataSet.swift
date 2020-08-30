@@ -57,16 +57,6 @@ open class ChartDataSet: ChartBaseDataSet
     /// the entries that this dataset represents / holds together
     @objc
     open private(set) var entries: [ChartDataEntry]
-    {
-        didSet
-        {
-            if isIndirectValuesCall {
-                isIndirectValuesCall = false
-                return
-            }
-            notifyDataSetChanged()
-        }
-    }
 
     /// Used to replace all entries of a data set while retaining styling properties.
     /// This is a separate method from a setter on `entries` to encourage usage
@@ -78,8 +68,6 @@ open class ChartDataSet: ChartBaseDataSet
         self.entries = entries
         notifyDataSetChanged()
     }
-    // TODO: Temporary fix for performance. Will be removed in 4.0
-    private var isIndirectValuesCall = false
 
     /// maximum y-value in the value array
     internal var _yMax: Double = -Double.greatestFiniteMagnitude
@@ -164,7 +152,7 @@ open class ChartDataSet: ChartBaseDataSet
     @available(*, deprecated, message: "Use `subscript(index:)` instead.")
     open override func entryForIndex(_ i: Int) -> ChartDataEntry?
     {
-        guard i >= startIndex, i < endIndex else {
+        guard indices.contains(i) else {
             return nil
         }
         return self[i]
@@ -390,9 +378,6 @@ open class ChartDataSet: ChartBaseDataSet
     @available(*, deprecated, message: "Use `append(_:)` instead")
     open override func addEntry(_ e: ChartDataEntry) -> Bool
     {
-        calcMinMax(entry: e)
-
-        isIndirectValuesCall = true
         append(e)
         return true
     }
@@ -407,16 +392,12 @@ open class ChartDataSet: ChartBaseDataSet
     // TODO: This should return `Void` to follow Swift convention
     open override func addEntryOrdered(_ e: ChartDataEntry) -> Bool
     {
-        calcMinMax(entry: e)
-        
-        isIndirectValuesCall = true
         if let last = last, last.x > e.x
         {
-            var closestIndex = entryIndex(x: e.x, closestToY: e.y, rounding: .up)
-            while self[closestIndex].x < e.x
-            {
-                closestIndex += 1
-            }
+            let startIndex = entryIndex(x: e.x, closestToY: e.y, rounding: .up)
+            let closestIndex = self[startIndex...].lastIndex { $0.x < e.x }
+                ?? startIndex
+            calcMinMax(entry: e)
             entries.insert(e, at: closestIndex)
         }
         else
@@ -430,10 +411,7 @@ open class ChartDataSet: ChartBaseDataSet
     @available(*, renamed: "remove(_:)")
     open override func removeEntry(_ entry: ChartDataEntry) -> Bool
     {
-        isIndirectValuesCall = true
-        let r = remove(entry)
-        notifyDataSetChanged()
-        return r
+        remove(entry)
     }
 
     /// Removes an Entry from the DataSet dynamically.
@@ -444,10 +422,8 @@ open class ChartDataSet: ChartBaseDataSet
     /// - Returns: `true` if the entry was removed successfully, else if the entry does not exist
     open func remove(_ entry: ChartDataEntry) -> Bool
     {
-        isIndirectValuesCall = true
         guard let index = firstIndex(of: entry) else { return false }
         _ = remove(at: index)
-        notifyDataSetChanged()
         return true
     }
 
@@ -458,9 +434,7 @@ open class ChartDataSet: ChartBaseDataSet
     @available(*, deprecated, message: "Use `func removeFirst() -> ChartDataEntry` instead.")
     open override func removeFirst() -> Bool
     {
-        isIndirectValuesCall = true
         let entry: ChartDataEntry? = isEmpty ? nil : removeFirst()
-        notifyDataSetChanged()
         return entry != nil
     }
     
@@ -471,9 +445,7 @@ open class ChartDataSet: ChartBaseDataSet
     @available(*, deprecated, message: "Use `func removeLast() -> ChartDataEntry` instead.")
     open override func removeLast() -> Bool
     {
-        isIndirectValuesCall = true
         let entry: ChartDataEntry? = isEmpty ? nil : removeLast()
-        notifyDataSetChanged()
         return entry != nil
     }
 
