@@ -135,7 +135,7 @@ open class AxisBase: ComponentBase
     {
         var longest = ""
         
-        for i in 0 ..< entries.count
+        for i in entries.indices
         {
             let text = getFormattedLabel(i)
             
@@ -151,10 +151,7 @@ open class AxisBase: ComponentBase
     /// - Returns: The formatted label at the specified index. This will either use the auto-formatter or the custom formatter (if one is set).
     @objc open func getFormattedLabel(_ index: Int) -> String
     {
-        if index < 0 || index >= entries.count
-        {
-            return ""
-        }
+        guard entries.indices.contains(index) else { return "" }
         
         return valueFormatter?.stringForValue(entries[index], axis: self) ?? ""
     }

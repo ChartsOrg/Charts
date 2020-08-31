@@ -69,7 +69,7 @@ open class PieChartData: ChartData
     
     open override func dataSet(forLabel label: String, ignorecase: Bool) -> ChartDataSetProtocol?
     {
-        if dataSets.count == 0 || dataSets[0].label == nil
+        if dataSets.first?.label == nil
         {
             return nil
         }

@@ -93,7 +93,7 @@ open class ChartHighlighter : NSObject, Highlighter
         guard let chart = self.chart as? BarLineScatterCandleBubbleChartDataProvider else { return [] }
         
         var entries = set.entriesForXValue(xValue)
-        if entries.count == 0, let closest = set.entryForXValue(xValue, closestToY: .nan, rounding: rounding)
+        if entries.isEmpty, let closest = set.entryForXValue(xValue, closestToY: .nan, rounding: rounding)
         {
             // Try to find closest x-value and take all entries for that x-value
             entries = set.entriesForXValue(closest.x)

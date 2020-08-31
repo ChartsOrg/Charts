@@ -281,7 +281,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
             
             var pt = CGPoint()
             
-            for i in 0 ..< dataSets.count
+            for i in dataSets.indices
             {
                 guard let
                     dataSet = dataSets[i] as? BarLineScatterCandleBubbleChartDataSetProtocol,

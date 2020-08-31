@@ -678,7 +678,6 @@ open class PieRadarChartViewBase: ChartViewBase
 
         // Remove samples older than our sample time - 1 seconds
         // while keeping at least one sample
-        
         var i = 0, count = velocitySamples.count
         while (i < count - 2)
         {

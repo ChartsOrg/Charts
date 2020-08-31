@@ -312,7 +312,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         guard
             description.isEnabled,
             let descriptionText = description.text,
-            descriptionText.count > 0
+            !descriptionText.isEmpty
             else { return }
         
         let position = description.position ?? CGPoint(x: bounds.width - viewPortHandler.offsetRight - description.xOffset,
