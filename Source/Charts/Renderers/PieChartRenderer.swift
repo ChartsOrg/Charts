@@ -704,7 +704,7 @@ open class PieChartRenderer: NSObject, DataRenderer
         }
     }
     
-    open func drawHighlighted(context: CGContext, highlights: [Highlight])
+    open func drawHighlighted(context: CGContext, indices highlights: [Highlight])
     {
         guard
             let chart = chart,
