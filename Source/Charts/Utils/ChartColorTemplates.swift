@@ -86,6 +86,8 @@ open class ChartColorTemplates: NSObject
 
         let colorString = colorString.lowercased()
         
+        let fallbackColor = NSUIColor(red: CGFloat(argb[1]) / 255.0, green: CGFloat(argb[2]) / 255.0, blue: CGFloat(argb[3]) / 255.0, alpha: CGFloat(argb[0]) / 255.0)
+        
         if colorString.hasPrefix("#")
         {
             var argb: [UInt] = [255, 0, 0, 0]
@@ -94,7 +96,7 @@ open class ChartColorTemplates: NSObject
             var index = colorString.startIndex
             let endIndex = colorString.endIndex
 
-            guard [3, 6, 8].contains(length) else { return .black }
+            guard [3, 6, 8].contains(length) else { return fallbackColor }
 
             var i = length == 8 ? 0 : 1
             while index < endIndex
@@ -120,7 +122,7 @@ open class ChartColorTemplates: NSObject
                 i += 1
             }
 
-            return NSUIColor(red: CGFloat(argb[1]) / 255.0, green: CGFloat(argb[2]) / 255.0, blue: CGFloat(argb[3]) / 255.0, alpha: CGFloat(argb[0]) / 255.0)
+            return fallbackColor
         }
         else if colorString.hasPrefix("rgba")
         {
