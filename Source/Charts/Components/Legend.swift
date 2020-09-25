@@ -229,7 +229,7 @@ open class Legend: ComponentBase
             
             var wasStacked = false
             
-            for i in 0 ..< entryCount
+            for i in entries.indices
             {
                 let e = entries[i]
                 let drawingForm = e.form != .none
@@ -311,7 +311,7 @@ open class Legend: ComponentBase
             var requiredWidth: CGFloat = 0.0
             var stackedStartIndex: Int = -1
             
-            for i in 0 ..< entryCount
+            for i in entries.indices
             {
                 let e = entries[i]
                 let drawingForm = e.form != .none
@@ -384,7 +384,7 @@ open class Legend: ComponentBase
             
             neededWidth = maxLineWidth
             neededHeight = labelLineHeight * CGFloat(calculatedLineSizes.count) +
-                yEntrySpace * CGFloat(calculatedLineSizes.count == 0 ? 0 : (calculatedLineSizes.count - 1))
+                yEntrySpace * CGFloat(calculatedLineSizes.isEmpty ? 0 : (calculatedLineSizes.count - 1))
         }
         
         neededWidth += xOffset

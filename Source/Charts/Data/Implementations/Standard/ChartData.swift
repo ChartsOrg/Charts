@@ -258,7 +258,7 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
     /// - Returns: The entry that is highlighted
     @objc open func entry(for highlight: Highlight) -> ChartDataEntry?
     {
-        guard highlight.dataSetIndex < dataSets.count else { return nil }
+        guard highlight.dataSetIndex < dataSets.endIndex else { return nil }
         return self[highlight.dataSetIndex].entryForXValue(highlight.x, closestToY: highlight.y)
     }
     
@@ -277,7 +277,7 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
     @objc(dataSetAtIndex:)
     open func dataSet(at index: Index) -> Element?
     {
-        guard index >= 0 && index < dataSets.count else { return nil }
+        guard dataSets.indices.contains(index) else { return nil }
         return self[index]
     }
 
@@ -295,7 +295,7 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
     @objc(addEntry:dataSetIndex:)
     open func appendEntry(_ e: ChartDataEntry, toDataSet dataSetIndex: Index)
     {
-        guard dataSets.count > dataSetIndex && dataSetIndex >= 0 else {
+        guard dataSets.indices.contains(dataSetIndex) else {
             return print("ChartData.addEntry() - Cannot add Entry because dataSetIndex too high or too low.", terminator: "\n")
         }
 
@@ -307,7 +307,7 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
     /// Removes the given Entry object from the DataSet at the specified index.
     @objc @discardableResult open func removeEntry(_ entry: ChartDataEntry, dataSetIndex: Index) -> Bool
     {
-        guard dataSetIndex < dataSets.count else { return false }
+        guard dataSets.indices.contains(dataSetIndex) else { return false }
 
         // remove the entry from the dataset
         let removed = self[dataSetIndex].removeEntry(entry)
@@ -327,7 +327,7 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
     @objc @discardableResult open func removeEntry(xValue: Double, dataSetIndex: Index) -> Bool
     {
         guard
-            dataSetIndex < dataSets.count,
+            dataSets.indices.contains(dataSetIndex),
             let entry = self[dataSetIndex].entryForXValue(xValue, closestToY: .nan)
             else { return false }
 

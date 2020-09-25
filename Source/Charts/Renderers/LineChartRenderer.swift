@@ -367,11 +367,8 @@ open class LineChartRenderer: LineRadarRenderer
                     _lineSegments[1] = _lineSegments[0]
                 }
 
-                for i in 0..<_lineSegments.count
-                {
-                    _lineSegments[i] = _lineSegments[i].applying(valueToPixelMatrix)
-                }
-                
+                _lineSegments = _lineSegments.map { $0.applying(valueToPixelMatrix) }
+
                 if (!viewPortHandler.isInBoundsRight(_lineSegments[0].x))
                 {
                     break
@@ -536,7 +533,7 @@ open class LineChartRenderer: LineRadarRenderer
             
             var pt = CGPoint()
             
-            for i in 0 ..< dataSets.count
+            for i in dataSets.indices
             {
                 guard let
                     dataSet = dataSets[i] as? LineChartDataSetProtocol,
@@ -641,7 +638,7 @@ open class LineChartRenderer: LineRadarRenderer
 
         context.saveGState()
 
-        for i in 0 ..< dataSets.count
+        for i in dataSets.indices
         {
             guard let dataSet = lineData[i] as? LineChartDataSetProtocol else { continue }
 

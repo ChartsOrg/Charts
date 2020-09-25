@@ -340,7 +340,7 @@ open class PieChartRenderer: NSObject, DataRenderer
         context.saveGState()
         defer { context.restoreGState() }
 
-        for i in 0 ..< dataSets.count
+        for i in dataSets.indices
         {
             guard let dataSet = dataSets[i] as? PieChartDataSetProtocol else { continue }
             
@@ -704,7 +704,7 @@ open class PieChartRenderer: NSObject, DataRenderer
         }
     }
     
-    open func drawHighlighted(context: CGContext, indices: [Highlight])
+    open func drawHighlighted(context: CGContext, indices highlights: [Highlight])
     {
         guard
             let chart = chart,
@@ -729,18 +729,17 @@ open class PieChartRenderer: NSObject, DataRenderer
         // Append highlighted accessibility slices into this array, so we can prioritize them over unselected slices
         var highlightedAccessibleElements: [NSUIAccessibilityElement] = []
 
-        for i in 0 ..< indices.count
+        for hightlight in highlights
         {
             // get the index to highlight
-            let index = Int(indices[i].x)
-            if index >= drawAngles.count
+            let index = Int(hightlight.x)
+            guard index < drawAngles.count,
+                  let set = data[hightlight.dataSetIndex] as? PieChartDataSetProtocol,
+                  set.isHighlightEnabled
+            else
             {
                 continue
             }
-            
-            guard let set = data[indices[i].dataSetIndex] as? PieChartDataSetProtocol else { continue }
-            
-            if !set.isHighlightEnabled { continue }
 
             let entryCount = set.entryCount
             var visibleAngleCount = 0

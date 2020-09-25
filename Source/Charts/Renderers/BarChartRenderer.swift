@@ -58,7 +58,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     {
         guard let barData = dataProvider?.barData else { return _buffers.removeAll() }
 
-        // Matche buffers count to dataset count
+        // Match buffers count to dataset count
         if _buffers.count != barData.count
         {
             while _buffers.count < barData.count
@@ -558,7 +558,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                             var posY = 0.0
                             var negY = -e.negativeSum
 
-                            for k in 0 ..< vals.count
+                            for k in vals.indices
                             {
                                 let value = vals[k]
                                 var y: Double
@@ -661,7 +661,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                             }
                         }
 
-                        bufferIndex = vals == nil ? (bufferIndex + 1) : (bufferIndex + vals!.count)
+                        bufferIndex += vals?.count ?? 1
                     }
                 }
             }
@@ -801,7 +801,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             let labelCount = min(dataSet.colors.count, stackSize)
 
             let stackLabel: String?
-            if (dataSet.stackLabels.count > 0 && labelCount > 0) {
+            if (!dataSet.stackLabels.isEmpty && labelCount > 0) {
                 let labelIndex = idx % labelCount
                 stackLabel = dataSet.stackLabels.indices.contains(labelIndex) ? dataSet.stackLabels[labelIndex] : nil
             } else {

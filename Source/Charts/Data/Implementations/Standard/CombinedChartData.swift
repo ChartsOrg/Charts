@@ -252,20 +252,8 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     /// - Returns: The entry that is highlighted
     @objc override open func entry(for highlight: Highlight) -> ChartDataEntry?
     {
-        if highlight.dataIndex >= allData.count
-        {
-            return nil
-        }
-        
-        let data = dataByIndex(highlight.dataIndex)
-        
-        if highlight.dataSetIndex >= data.endIndex
-        {
-            return nil
-        }
-        
         // The value of the highlighted entry could be NaN - if we are not interested in highlighting a specific value.
-        return data[highlight.dataSetIndex]
+        getDataSetByHighlight(highlight)?
             .entriesForXValue(highlight.x)
             .first { $0.y == highlight.y || highlight.y.isNaN }
     }
@@ -276,20 +264,21 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     ///   - highlight: current highlight
     /// - Returns: dataset related to highlight
     @objc open func getDataSetByHighlight(_ highlight: Highlight) -> ChartDataSetProtocol!
-    {  
-        if highlight.dataIndex >= allData.count
+    {
+        guard allData.indices.contains(highlight.dataIndex) else
         {
             return nil
         }
-        
+
         let data = dataByIndex(highlight.dataIndex)
-        
-        if highlight.dataSetIndex >= data.endIndex
+
+        guard data.indices.contains(highlight.dataSetIndex) else
         {
             return nil
         }
-        
-        return data.dataSets[highlight.dataSetIndex]
+
+        // The value of the highlighted entry could be NaN - if we are not interested in highlighting a specific value.
+        return data[highlight.dataSetIndex]
     }
 
     // MARK: Unsupported Collection Methods

@@ -74,7 +74,7 @@ open class BarHighlighter: ChartHighlighter
         
         guard
             let ranges = entry.ranges,
-            ranges.count > 0
+            !ranges.isEmpty
             else { return nil }
 
         let stackIndex = getClosestStackIndex(ranges: ranges, value: yValue)
@@ -101,7 +101,7 @@ open class BarHighlighter: ChartHighlighter
         if let stackIndex = ranges.firstIndex(where: { $0.contains(value) }) {
             return stackIndex
         } else {
-            let length = max(ranges.count - 1, 0)
+            let length = max(ranges.endIndex - 1, 0)
             return (value > ranges[length].to) ? length : 0
         }
     }

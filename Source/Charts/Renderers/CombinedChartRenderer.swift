@@ -170,19 +170,6 @@ open class CombinedChartRenderer: NSObject, DataRenderer
         return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
     }
 
-    /// - Returns: The sub-renderer object at the specified index.
-    @objc open func getSubRenderer(index: Int) -> DataRenderer?
-    {
-        if index >= _renderers.count || index < 0
-        {
-            return nil
-        }
-        else
-        {
-            return _renderers[index]
-        }
-    }
-
     /// All sub-renderers.
     @objc open var subRenderers: [DataRenderer]
     {
@@ -209,7 +196,7 @@ open class CombinedChartRenderer: NSObject, DataRenderer
         }
         set
         {
-            if newValue.count > 0
+            if !newValue.isEmpty
             {
                 _drawOrder = newValue
             }

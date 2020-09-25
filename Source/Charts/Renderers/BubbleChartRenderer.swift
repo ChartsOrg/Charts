@@ -162,7 +162,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
 
         var pt = CGPoint()
 
-        for i in 0..<dataSets.count
+        for i in dataSets.indices
         {
             let dataSet = dataSets[i]
 

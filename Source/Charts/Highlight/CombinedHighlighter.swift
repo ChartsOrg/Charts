@@ -35,7 +35,7 @@ open class CombinedHighlighter: ChartHighlighter
             let dataObjects = chart.combinedData?.allData
             else { return vals }
         
-        for i in 0..<dataObjects.count
+        for i in dataObjects.indices
         {
             let dataObject = dataObjects[i]
 

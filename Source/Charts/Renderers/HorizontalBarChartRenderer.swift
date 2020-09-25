@@ -129,7 +129,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 var yStart = 0.0
                 
                 // fill the stack
-                for k in 0 ..< vals!.count
+                for k in vals!.indices
                 {
                     let value = vals![k]
                     
@@ -245,7 +245,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         let isStacked = dataSet.isStacked
         let stackSize = isStacked ? dataSet.stackSize : 1
 
-        for j in stride(from: 0, to: buffer.rects.count, by: 1)
+        for j in buffer.rects.indices
         {
             let barRect = buffer.rects[j]
             
@@ -518,7 +518,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                             var posY = 0.0
                             var negY = -e.negativeSum
                             
-                            for k in 0 ..< vals.count
+                            for k in vals.indices
                             {
                                 let value = vals[k]
                                 var y: Double
@@ -544,7 +544,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                             
                             trans.pointValuesToPixel(&transformed)
                             
-                            for k in 0 ..< transformed.count
+                            for k in transformed.indices
                             {
                                 let val = vals[k]
                                 let valueText = formatter.stringForValue(
@@ -607,7 +607,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                             }
                         }
                         
-                        bufferIndex = vals == nil ? (bufferIndex + 1) : (bufferIndex + vals!.count)
+                        bufferIndex += vals?.count ?? 1
                     }
                 }
             }
