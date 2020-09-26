@@ -40,7 +40,7 @@ open class YAxisRendererRadarChart: YAxisRenderer
         let labelCount = axis.labelCount
         let range = abs(yMax - yMin)
         
-        if labelCount == 0 || range <= 0 || range.isInfinite
+        if labelCount == 0 || range <= 0 || range.isInfinite || range.isNaN
         {
             axis.entries = [Double]()
             axis.centeredEntries = [Double]()
