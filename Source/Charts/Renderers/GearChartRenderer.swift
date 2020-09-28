@@ -91,8 +91,7 @@ open class GearChartRenderer: DataRenderer
     open func drawDataSet(context: CGContext, dataSet: IGearChartDataSet)
     {
         guard
-            let chart = chart,
-			let animator: Animator = animator
+            let chart = chart
             else {return }
         
         let angle: CGFloat = 0.0
@@ -100,7 +99,7 @@ open class GearChartRenderer: DataRenderer
         let phaseY = animator.phaseY
         
         let entryCount = dataSet.entryCount
-        var drawAngles = chart.drawAngles
+		let drawAngles = chart.drawAngles
         let center = chart.centerCircleBox
         let radius = chart.radius
         
@@ -171,8 +170,7 @@ open class GearChartRenderer: DataRenderer
     {
         guard
             let chart = chart,
-            let data = chart.data,
-			let animator: Animator = animator
+            let data = chart.data
             else { return }
         
         let center = chart.centerCircleBox
@@ -180,23 +178,23 @@ open class GearChartRenderer: DataRenderer
         // get whole the radius
         let radius = chart.radius
         let rotationAngle = chart.rotationAngle
-        var drawAngles = chart.drawAngles
-        var absoluteAngles = chart.absoluteAngles
+		let drawAngles = chart.drawAngles
+		let absoluteAngles = chart.absoluteAngles
         
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
         
-        var labelRadiusOffset = radius / 10.0 * 3.0
+		let labelRadiusOffset = radius / 10.0 * 3.0
         let labelRadius = radius - labelRadiusOffset
         
-        var dataSets = data.dataSets
+		let dataSets = data.dataSets
         
-        let yValueSum = (data as! GearChartData).yValueSum
+		_ = (data as! GearChartData).yValueSum
         
         let drawEntryLabels = chart.isDrawEntryLabelsEnabled
-        let usePercentValuesEnabled = chart.usePercentValuesEnabled
-        let entryLabelColor = chart.entryLabelColor
-        let entryLabelFont = chart.entryLabelFont
+		_ = chart.usePercentValuesEnabled
+		_ = chart.entryLabelColor
+		_ = chart.entryLabelFont
         
         var angle: CGFloat = 0.0
         var xIndex = 0
@@ -438,8 +436,7 @@ open class GearChartRenderer: DataRenderer
     {
         guard
             let chart = chart,
-            let data = chart.data,
-			let animator: Animator = animator
+            let data = chart.data
             else { return }
         
         context.saveGState()
@@ -450,8 +447,8 @@ open class GearChartRenderer: DataRenderer
         var angle: CGFloat = 0.0
         let rotationAngle = chart.rotationAngle
         
-        var drawAngles = chart.drawAngles
-        var absoluteAngles = chart.absoluteAngles
+		let drawAngles = chart.drawAngles
+		let absoluteAngles = chart.absoluteAngles
         let center = chart.centerCircleBox
         let radius = chart.radius
         
