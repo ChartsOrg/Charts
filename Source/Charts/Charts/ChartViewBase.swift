@@ -537,7 +537,15 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             }
             else
             {
-                _indicesToHighlight = [h!]
+                if (_indicesToHighlight == [h!])
+                {
+                    h = nil
+                    _indicesToHighlight.removeAll(keepingCapacity: false)
+                }
+                else
+                {
+                    _indicesToHighlight = [h!]
+                }
             }
         }
         
