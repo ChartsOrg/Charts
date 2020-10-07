@@ -16,7 +16,7 @@ let package = Package(
         .library(
             name: "ChartsDynamic",
             type: .dynamic,
-            targets: ["Charts"]),
+            targets: ["Charts"])
     ],
     targets: [
         .target(name: "Charts")
