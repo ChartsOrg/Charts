@@ -13,6 +13,10 @@ let package = Package(
         .library(
             name: "Charts",
             targets: ["Charts"]),
+        .library(
+            name: "ChartsDynamic",
+            type: .dynamic,
+            targets: ["Charts"])
     ],
     targets: [
         .target(name: "Charts")
