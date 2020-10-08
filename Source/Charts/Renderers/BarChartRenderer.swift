@@ -326,7 +326,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     @objc open func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int)
     {
         guard let dataProvider = dataProvider else { return }
-
+        
         let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
 
         prepareBuffer(dataSet: dataSet, index: index)
@@ -431,7 +431,30 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
             
-            context.fill(barRect)
+            if dataSet.gradientColors.count == 2 {
+                
+                let fillColors = dataSet.gradientColors.map {$0.cgColor}
+                let locations:[CGFloat] = [0.0, 1.0]
+                context.saveGState()
+                context.clip(to: barRect)
+                let gradient:CGGradient
+                let colorspace:CGColorSpace
+                colorspace = CGColorSpaceCreateDeviceRGB()
+                
+                gradient = CGGradient(colorsSpace: colorspace, colors: fillColors as CFArray, locations: locations)!
+                
+                //Vertical Gradient
+                let startPoint:CGPoint = CGPoint(x: 0.0, y: viewPortHandler.contentBottom)
+                let endPoint:CGPoint = CGPoint(x: 0.0, y: viewPortHandler.contentTop)
+                
+                context.drawLinearGradient(gradient, start: startPoint, end: endPoint, options: .init(rawValue: 0))
+                context.restoreGState()
+            } else {
+                    context.fill(barRect)
+            }
+            
+            
+
             
             if drawBorder
             {

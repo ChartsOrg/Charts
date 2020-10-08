@@ -47,6 +47,10 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// flag indicating if the grid background should be drawn or not
     @objc open var drawGridBackgroundEnabled = false
     
+    
+    /// the grid fill property will apply gradient in grid background
+    @objc open var gridFill : Fill?
+    
     /// When enabled, the borders rectangle will be rendered.
     /// If this is enabled, there is no point drawing the axis-lines of x- and y-axis.
     @objc open var drawBordersEnabled = false
@@ -492,9 +496,14 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         if drawGridBackgroundEnabled
         {
-            // draw the grid background
-            context.setFillColor(gridBackgroundColor.cgColor)
-            context.fill(_viewPortHandler.contentRect)
+            if gridFill != nil {
+                //Draws gradient in graph Background
+                gridFill?.fillLinearPath(context: context, rect: viewPortHandler.contentRect)
+            } else {
+                // draw the grid background
+                context.setFillColor(gridBackgroundColor.cgColor)
+                context.fill(_viewPortHandler.contentRect)
+            }
         }
         
         if drawBordersEnabled
