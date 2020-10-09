@@ -566,12 +566,12 @@ open class LineChartRenderer: LineRadarRenderer
 
         for i in 0 ..< dataSets.count
         {
-            guard let dataSet = lineData.getDataSetByIndex(i) as? ILineChartDataSet else { continue }
-            
-            if !dataSet.isVisible || dataSet.entryCount == 0
-            {
-                continue
-            }
+            guard
+                let dataSet = lineData.getDataSetByIndex(i) as? ILineChartDataSet,
+                dataSet.drawCirclesEnabled,
+                dataSet.isVisible,
+                dataSet.entryCount > 0
+            else { continue }
             
             let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
             let valueToPixelMatrix = trans.valueToPixelMatrix
@@ -605,14 +605,6 @@ open class LineChartRenderer: LineRadarRenderer
                 
                 // make sure the circles don't do shitty things outside bounds
                 if (!viewPortHandler.isInBoundsLeft(pt.x) || !viewPortHandler.isInBoundsY(pt.y))
-                {
-                    continue
-                }
-                
-                
-                // Skip Circles and Accessibility if not enabled,
-                // reduces CPU significantly if not needed
-                if !dataSet.isDrawCirclesEnabled
                 {
                     continue
                 }
