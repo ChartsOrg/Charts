@@ -18,7 +18,7 @@ before_install:
   - brew update
   - brew upgrade carthage || true
   - carthage version
-  - carthage bootstrap --platform $PLATFORM --no-use-binaries
+  - ./carthage.sh bootstrap --platform $PLATFORM --no-use-binaries
 script:
   - bundle exec rake ci[$PLATFORM]
 after_success:
