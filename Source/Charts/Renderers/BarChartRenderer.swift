@@ -411,6 +411,36 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         let isStacked = dataSet.isStacked
         let stackSize = isStacked ? dataSet.stackSize : 1
 
+        func getIndicesOfTopBar() -> Set<Int>
+        {
+            
+            if !(dataSet.roundRadiusWidthMultiplier > 0.0)
+            {
+                return Set()
+            }
+            
+            var indices = Set<Int>()
+            for i in stride(from: 0, to: buffer.rects.count, by: stackSize)
+            {
+                let rects = Array(buffer.rects[i...i+stackSize - 1])
+                
+                for index in (0..<rects.count).reversed()
+                {
+                    let rect = rects[index]
+                    
+                    if rect.height > 0 || index == 0
+                    {
+                        indices.insert(i + index)
+                        break
+                    }
+                }
+            }
+            
+            return indices
+        }
+        
+        let topRectIndices = Set(getIndicesOfTopBar())
+        
         for j in stride(from: 0, to: buffer.rects.count, by: 1)
         {
             let barRect = buffer.rects[j]
@@ -431,7 +461,14 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
             
-            context.fill(barRect)
+            if topRectIndices.contains(j)
+            {
+                drawRoundedBar(barRect: barRect, roundRadiusWidthMultiplier: dataSet.roundRadiusWidthMultiplier, context: context)
+            }
+            else {
+                context.fill(barRect)
+            }
+            
             
             if drawBorder
             {
@@ -457,6 +494,27 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         }
         
         context.restoreGState()
+    }
+    
+    private func drawRoundedBar(barRect: CGRect, roundRadiusWidthMultiplier: CGFloat, context: CGContext) {
+        var radius: CGFloat = barRect.width * roundRadiusWidthMultiplier
+        if radius > barRect.height, barRect.height > 0
+        {
+            radius = barRect.height * 0.999
+        }
+
+        let path = CGMutablePath()
+        path.move(to: CGPoint(x: barRect.minX, y: barRect.maxY))
+        path.addArc(tangent1End: CGPoint(x: barRect.minX, y: barRect.minY),
+                    tangent2End: CGPoint(x: barRect.maxX, y: barRect.minY),
+                    radius: radius)
+        path.addArc(tangent1End: CGPoint(x: barRect.maxX, y: barRect.minY),
+                    tangent2End: CGPoint(x: barRect.maxX, y: barRect.maxY),
+                    radius: radius)
+        path.addLine(to: CGPoint(x: barRect.maxX, y: barRect.maxY))
+
+        context.addPath(path)
+        context.fillPath()
     }
     
     open func prepareBarHighlight(
@@ -811,7 +869,12 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 
                 setHighlightDrawPos(highlight: high, barRect: barRect)
                 
-                context.fill(barRect)
+                if set.roundRadiusWidthMultiplier > 0.0 && (high.stackIndex == (e.yValues?.count ?? 0) - 1 || high.stackIndex == -1) {
+                    drawRoundedBar(barRect: barRect, roundRadiusWidthMultiplier: set.roundRadiusWidthMultiplier, context: context)
+                }
+                else {
+                    context.fill(barRect)
+                }
             }
         }
         

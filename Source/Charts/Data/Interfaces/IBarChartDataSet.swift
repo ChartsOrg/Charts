@@ -39,4 +39,7 @@ public protocol IBarChartDataSet: IBarLineScatterCandleBubbleChartDataSet
     
     /// array of labels used to describe the different values of the stacked bars
     var stackLabels: [String] { get set }
+    
+    /// The multiplier to generate a corner radius for the bar. 0.0 means no round radius.
+    var roundRadiusWidthMultiplier: CGFloat { get set }
 }
