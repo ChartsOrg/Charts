@@ -91,7 +91,7 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
     /// `true` if this DataSet is stacked (stacksize > 1) or not.
     open var isStacked: Bool
     {
-        return _stackSize > 1 ? true : false
+        return _stackSize > 1
     }
     
     /// The overall entry count, including counting each stack-value individually
