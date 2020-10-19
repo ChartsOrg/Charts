@@ -64,10 +64,8 @@ internal struct AccessibleHeader {
         let chartDescriptionText = chart.chartDescription.text ?? defaultDescription
         let dataSetDescriptions = data.map { $0.label ?? "" }
         let dataSetDescriptionText = dataSetDescriptions.joined(separator: ", ")
-        let dataSetCount = data.count
-        
-        let
-        element = NSUIAccessibilityElement(accessibilityContainer: chart)
+
+        let element = NSUIAccessibilityElement(accessibilityContainer: chart)
         element.accessibilityLabel = chartDescriptionText + ". \(data.count) dataset\(data.count == 1 ? "" : "s"). \(dataSetDescriptionText)"
         element.accessibilityFrame = chart.bounds
         element.isHeader = true
