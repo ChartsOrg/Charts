@@ -14,6 +14,7 @@
 		22F037F22546D9D400C219E2 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 22F037F02546D9D400C219E2 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		22F037FE2546DFB800C219E2 /* CHRTBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F037FD2546DFB800C219E2 /* CHRTBarChartView.swift */; };
 		22F038072546E67F00C219E2 /* CHRTHorizontalBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F038062546E67F00C219E2 /* CHRTHorizontalBarChartView.swift */; };
+		22F0380A2546E9CC00C219E2 /* CHRTLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F038092546E9CC00C219E2 /* CHRTLineChartView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		22F037F02546D9D400C219E2 /* Charts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Charts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		22F037FD2546DFB800C219E2 /* CHRTBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHRTBarChartView.swift; sourceTree = "<group>"; };
 		22F038062546E67F00C219E2 /* CHRTHorizontalBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHRTHorizontalBarChartView.swift; sourceTree = "<group>"; };
+		22F038092546E9CC00C219E2 /* CHRTLineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHRTLineChartView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +125,7 @@
 			children = (
 				22F037FD2546DFB800C219E2 /* CHRTBarChartView.swift */,
 				22F038062546E67F00C219E2 /* CHRTHorizontalBarChartView.swift */,
+				22F038092546E9CC00C219E2 /* CHRTLineChartView.swift */,
 			);
 			path = Charts;
 			sourceTree = "<group>";
@@ -238,6 +241,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				22F038072546E67F00C219E2 /* CHRTHorizontalBarChartView.swift in Sources */,
+				22F0380A2546E9CC00C219E2 /* CHRTLineChartView.swift in Sources */,
 				22F037FE2546DFB800C219E2 /* CHRTBarChartView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

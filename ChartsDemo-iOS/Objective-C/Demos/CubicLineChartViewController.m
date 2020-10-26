@@ -9,8 +9,8 @@
 //  https://github.com/danielgindi/Charts
 //
 
+@import Charts_Objc;
 #import "CubicLineChartViewController.h"
-#import "ChartsDemo_iOS-Swift.h"
 
 @interface CubicLineSampleFillFormatter : NSObject <ChartFillFormatter>
 {
@@ -28,7 +28,7 @@
 
 @interface CubicLineChartViewController () <ChartViewDelegate>
 
-@property (nonatomic, strong) IBOutlet LineChartView *chartView;
+@property (nonatomic, strong) IBOutlet CHRTLineChartView *chartView;
 @property (nonatomic, strong) IBOutlet UISlider *sliderX;
 @property (nonatomic, strong) IBOutlet UISlider *sliderY;
 @property (nonatomic, strong) IBOutlet UITextField *sliderTextX;

@@ -10,12 +10,12 @@
 //
 
 #import "LineChartTimeViewController.h"
-#import "ChartsDemo_iOS-Swift.h"
+@import Charts_Objc;
 #import "DateValueFormatter.h"
 
 @interface LineChartTimeViewController () <ChartViewDelegate>
 
-@property (nonatomic, strong) IBOutlet LineChartView *chartView;
+@property (nonatomic, strong) IBOutlet CHRTLineChartView *chartView;
 @property (nonatomic, strong) IBOutlet UISlider *sliderX;
 @property (nonatomic, strong) IBOutlet UITextField *sliderTextX;
 

@@ -9,12 +9,12 @@
 //  https://github.com/danielgindi/Charts
 //
 
+@import Charts_Objc;
 #import "LineChartFilledViewController.h"
-#import "ChartsDemo_iOS-Swift.h"
 
 @interface LineChartFilledViewController () <ChartViewDelegate>
 
-@property (nonatomic, strong) IBOutlet LineChartView *chartView;
+@property (nonatomic, strong) IBOutlet CHRTLineChartView *chartView;
 @property (nonatomic, strong) IBOutlet UISlider *sliderX;
 @property (nonatomic, strong) IBOutlet UISlider *sliderY;
 @property (nonatomic, strong) IBOutlet UITextField *sliderTextX;
