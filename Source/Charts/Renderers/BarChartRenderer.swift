@@ -322,6 +322,159 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     }
 
     private var _barShadowRectBuffer: CGRect = CGRect()
+    
+    @objc open func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int, cornerRadius: CGFloat, roundedCorners: UIRectCorner) {
+        guard let dataProvider = dataProvider else { return }
+
+        let trans = dataProvider.getTransformer(forAxis: dataSet.axisDependency)
+
+        prepareBuffer(dataSet: dataSet, index: index)
+        trans.rectValuesToPixel(&_buffers[index].rects)
+
+        let borderWidth = dataSet.barBorderWidth
+        let borderColor = dataSet.barBorderColor
+        let drawBorder = borderWidth > 0.0
+        
+        context.saveGState()
+        
+        // draw the bar shadow before the values
+        if dataProvider.isDrawBarShadowEnabled
+        {
+            guard let barData = dataProvider.barData else { return }
+            
+            let barWidth = barData.barWidth
+            let barWidthHalf = barWidth / 2.0
+            var x: Double = 0.0
+            
+            for i in stride(from: 0, to: min(Int(ceil(Double(dataSet.entryCount) * animator.phaseX)), dataSet.entryCount), by: 1)
+            {
+                guard let e = dataSet.entryForIndex(i) as? BarChartDataEntry else { continue }
+                
+                x = e.x
+                
+                _barShadowRectBuffer.origin.x = CGFloat(x - barWidthHalf)
+                _barShadowRectBuffer.size.width = CGFloat(barWidth)
+                
+                trans.rectValueToPixel(&_barShadowRectBuffer)
+                
+                if !viewPortHandler.isInBoundsLeft(_barShadowRectBuffer.origin.x + _barShadowRectBuffer.size.width)
+                {
+                    continue
+                }
+                
+                if !viewPortHandler.isInBoundsRight(_barShadowRectBuffer.origin.x)
+                {
+                    break
+                }
+                
+                _barShadowRectBuffer.origin.y = viewPortHandler.contentTop
+                _barShadowRectBuffer.size.height = viewPortHandler.contentHeight
+                
+                context.setFillColor(dataSet.barShadowColor.cgColor)
+                context.fill(_barShadowRectBuffer)
+            }
+        }
+
+        let buffer = _buffers[index]
+        
+        // draw the bar shadow before the values
+        if dataProvider.isDrawBarShadowEnabled
+        {
+            for j in stride(from: 0, to: buffer.rects.count, by: 1)
+            {
+                let barRect = buffer.rects[j]
+                
+                let maskPath = UIBezierPath(roundedRect: barRect,
+                                            byRoundingCorners: [.topLeft, .topRight],
+                            cornerRadii: CGSize(width: 10.0, height: 10.0))
+                 
+                let cgPath = maskPath.cgPath
+                context.addPath(cgPath)
+                context.setFillColor(dataSet.color(atIndex: j).cgColor)
+                
+                if (!viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width))
+                {
+                    continue
+                }
+                
+                if (!viewPortHandler.isInBoundsRight(barRect.origin.x))
+                {
+                    break
+                }
+                
+                context.setFillColor(dataSet.barShadowColor.cgColor)
+                context.fillPath()
+            }
+        }
+        
+        let isSingleColor = dataSet.colors.count == 1
+        
+        if isSingleColor
+        {
+            context.setFillColor(dataSet.color(atIndex: 0).cgColor)
+        }
+
+        // In case the chart is stacked, we need to accomodate individual bars within accessibilityOrdereredElements
+        let isStacked = dataSet.isStacked
+        let stackSize = isStacked ? dataSet.stackSize : 1
+
+        for j in stride(from: 0, to: buffer.rects.count, by: 1)
+        {
+            let barRect = buffer.rects[j]
+            
+            let maskPath = UIBezierPath(roundedRect: barRect,
+                                        byRoundingCorners: [.topLeft, .topRight],
+                        cornerRadii: CGSize(width: 10.0, height: 10.0))
+             
+            let cgPath = maskPath.cgPath
+            context.addPath(cgPath)
+            context.setFillColor(dataSet.color(atIndex: j).cgColor)
+
+            if (!viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width))
+            {
+                continue
+            }
+            
+            if (!viewPortHandler.isInBoundsRight(barRect.origin.x))
+            {
+                break
+            }
+            
+            if !isSingleColor
+            {
+                // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
+                context.setFillColor(dataSet.color(atIndex: j).cgColor)
+            }
+            
+            context.fillPath()
+
+            if drawBorder
+            {
+                context.setStrokeColor(borderColor.cgColor)
+                context.setLineWidth(borderWidth)
+                context.strokePath()
+            }
+
+            // Create and append the corresponding accessibility element to accessibilityOrderedElements
+            if let chart = dataProvider as? BarChartView
+            {
+                let element = createAccessibleElement(withIndex: j,
+                                                      container: chart,
+                                                      dataSet: dataSet,
+                                                      dataSetIndex: index,
+                                                      stackSize: stackSize)
+                { (element) in
+                    element.accessibilityFrame = barRect
+                }
+
+                accessibilityOrderedElements[j/stackSize].append(element)
+            }
+        }
+        
+        context.restoreGState()
+
+    }
+
 
     @objc open func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int)
     {
