@@ -170,8 +170,6 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
                 continue
             }
 
-            guard shouldDrawValues(forDataSet: dataSet) else { continue }
-
             let formatter = dataSet.valueFormatter
             let alpha = phaseX == 1 ? phaseY : phaseX
 
