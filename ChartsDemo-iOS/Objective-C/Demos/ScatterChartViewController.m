@@ -10,11 +10,11 @@
 //
 
 #import "ScatterChartViewController.h"
-#import "ChartsDemo_iOS-Swift.h"
+@import Charts_Objc;
 
 @interface ScatterChartViewController () <ChartViewDelegate>
 
-@property (nonatomic, strong) IBOutlet ScatterChartView *chartView;
+@property (nonatomic, strong) IBOutlet CHRTScatterChartView *chartView;
 @property (nonatomic, strong) IBOutlet UISlider *sliderX;
 @property (nonatomic, strong) IBOutlet UISlider *sliderY;
 @property (nonatomic, strong) IBOutlet UITextField *sliderTextX;
