@@ -9,12 +9,12 @@
 //  https://github.com/danielgindi/Charts
 //
 
+@import Charts_Objc;
 #import "NegativeStackedBarChartViewController.h"
-#import "ChartsDemo_iOS-Swift.h"
 
 @interface NegativeStackedBarChartViewController () <ChartViewDelegate, ChartAxisValueFormatter>
 
-@property (nonatomic, strong) IBOutlet HorizontalBarChartView *chartView;
+@property (nonatomic, strong) IBOutlet CHRTHorizontalBarChartView *chartView;
 
 @end
 

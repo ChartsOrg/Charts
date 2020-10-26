@@ -83,7 +83,8 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     }
         
     /// - Returns: The bounding box of the specified Entry in the specified DataSet. Returns null if the Entry could not be found in the charts data.
-    @objc open func getBarBounds(entry e: BarChartDataEntry) -> CGRect
+    @nonobjc
+    open func getBarBounds(entry e: BarChartDataEntry) -> CGRect
     {
         guard let
             data = data as? BarChartData,
@@ -115,7 +116,8 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     ///   - fromX: the starting point on the x-axis where the grouping should begin
     ///   - groupSpace: the space between groups of bars in values (not pixels) e.g. 0.8f for bar width 1f
     ///   - barSpace: the space between individual bars in values (not pixels) e.g. 0.1f for bar width 1f
-    @objc open func groupBars(fromX: Double, groupSpace: Double, barSpace: Double)
+    @nonobjc
+    open func groupBars(fromX: Double, groupSpace: Double, barSpace: Double)
     {
         guard let barData = self.barData
             else
@@ -134,7 +136,8 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     ///   - x:
     ///   - dataSetIndex:
     ///   - stackIndex: the index inside the stack - only relevant for stacked entries
-    @objc open func highlightValue(x: Double, dataSetIndex: Int, stackIndex: Int)
+    @nonobjc
+    open func highlightValue(x: Double, dataSetIndex: Int, stackIndex: Int)
     {
         highlightValue(Highlight(x: x, dataSetIndex: dataSetIndex, stackIndex: stackIndex))
     }
@@ -142,7 +145,8 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     // MARK: Accessors
     
     /// if set to true, all values are drawn above their bars, instead of below their top
-    @objc open var drawValueAboveBarEnabled: Bool
+    @nonobjc
+    open var drawValueAboveBarEnabled: Bool
     {
         get { return _drawValueAboveBarEnabled }
         set
@@ -153,7 +157,8 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     }
     
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
-    @objc open var drawBarShadowEnabled: Bool
+    @nonobjc
+    open var drawBarShadowEnabled: Bool
     {
         get { return _drawBarShadowEnabled }
         set
@@ -165,14 +170,14 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     
     /// Adds half of the bar width to each side of the x-axis range in order to allow the bars of the barchart to be fully displayed.
     /// **default**: false
-    @objc open var fitBars = false
+    @nonobjc open var fitBars = false
     
     /// Set this to `true` to make the highlight operation full-bar oriented, `false` to make it highlight single values (relevant only for stacked).
     /// If enabled, highlighting operations will highlight the whole bar, even if only a single stack entry was tapped.
-    @objc open var highlightFullBarEnabled: Bool = false
+    @nonobjc open var highlightFullBarEnabled = false
     
     /// `true` the highlight is be full-bar oriented, `false` ifsingle-value
-    open var isHighlightFullBarEnabled: Bool { return highlightFullBarEnabled }
+    open var isHighlightFullBarEnabled: Bool { highlightFullBarEnabled }
     
     // MARK: - BarChartDataProvider
     

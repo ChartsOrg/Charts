@@ -9,13 +9,13 @@
 //  https://github.com/danielgindi/Charts
 //
 
-#import "MultipleBarChartViewController.h"
-#import "ChartsDemo_iOS-Swift.h"
+@import Charts_Objc;
 #import "IntAxisValueFormatter.h"
+#import "MultipleBarChartViewController.h"
 
 @interface MultipleBarChartViewController () <ChartViewDelegate>
 
-@property (nonatomic, strong) IBOutlet BarChartView *chartView;
+@property (nonatomic, strong) IBOutlet CHRTBarChartView *chartView;
 @property (nonatomic, strong) IBOutlet UISlider *sliderX;
 @property (nonatomic, strong) IBOutlet UISlider *sliderY;
 @property (nonatomic, strong) IBOutlet UITextField *sliderTextX;

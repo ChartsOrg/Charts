@@ -10,11 +10,11 @@
 //
 
 #import "SinusBarChartViewController.h"
-#import "ChartsDemo_iOS-Swift.h"
+@import Charts_Objc;
 
 @interface SinusBarChartViewController () <ChartViewDelegate>
 
-@property (nonatomic, strong) IBOutlet BarChartView *chartView;
+@property (nonatomic, strong) IBOutlet CHRTBarChartView *chartView;
 @property (nonatomic, strong) IBOutlet UISlider *sliderX;
 @property (nonatomic, strong) IBOutlet UITextField *sliderTextX;
 

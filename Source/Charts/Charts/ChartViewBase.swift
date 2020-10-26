@@ -489,7 +489,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// - Returns: The Highlight object (contains x-index and DataSet index) of the
     /// selected value at the given touch point inside the Line-, Scatter-, or
     /// CandleStick-Chart.
-    @objc open func getHighlightByTouchPoint(_ pt: CGPoint) -> Highlight?
+    @nonobjc open func getHighlightByTouchPoint(_ pt: CGPoint) -> Highlight?
     {
         guard data != nil else
         {

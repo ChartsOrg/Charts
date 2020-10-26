@@ -9,15 +9,15 @@
 //  https://github.com/danielgindi/Charts
 //
 
+@import Charts_Objc;
 #import "PositiveNegativeBarChartViewController.h"
-#import "ChartsDemo_iOS-Swift.h"
 
 @interface PositiveNegativeBarChartViewController () <ChartViewDelegate, ChartAxisValueFormatter>
 {
     NSArray<NSDictionary *> *dataList;
 }
 
-@property (nonatomic, strong) IBOutlet BarChartView *chartView;
+@property (nonatomic, strong) IBOutlet CHRTBarChartView *chartView;
 
 @end
 

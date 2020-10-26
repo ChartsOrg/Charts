@@ -11,6 +11,7 @@
 
 import Foundation
 
+@objc
 open class BarChartDataEntry: ChartDataEntry
 {
     /// the values the stacked barchart holds

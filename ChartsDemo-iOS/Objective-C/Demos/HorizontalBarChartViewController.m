@@ -10,11 +10,11 @@
 //
 
 #import "HorizontalBarChartViewController.h"
-#import "ChartsDemo_iOS-Swift.h"
+@import Charts_Objc;
 
 @interface HorizontalBarChartViewController () <ChartViewDelegate>
 
-@property (nonatomic, strong) IBOutlet HorizontalBarChartView *chartView;
+@property (nonatomic, strong) IBOutlet CHRTHorizontalBarChartView *chartView;
 @property (nonatomic, strong) IBOutlet UISlider *sliderX;
 @property (nonatomic, strong) IBOutlet UISlider *sliderY;
 @property (nonatomic, strong) IBOutlet UITextField *sliderTextX;

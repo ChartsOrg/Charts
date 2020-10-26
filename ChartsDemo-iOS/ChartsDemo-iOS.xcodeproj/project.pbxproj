@@ -74,6 +74,8 @@
 		225B368B1F6EBA640005B3D5 /* StackedBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED1A1ABBFB340013F194 /* StackedBarChartViewController.xib */; };
 		225B368C1F6EBBB00005B3D5 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0630AE411D8126C0008859B0 /* Charts.framework */; };
 		225B368D1F6EBBB00005B3D5 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0630AE411D8126C0008859B0 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		22F038022546E58600C219E2 /* Charts_Objc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22F038012546E58600C219E2 /* Charts_Objc.framework */; };
+		22F038032546E58600C219E2 /* Charts_Objc.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 22F038012546E58600C219E2 /* Charts_Objc.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		55E356501ADC638F00A57971 /* BubbleChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55E3564D1ADC638F00A57971 /* BubbleChartViewController.xib */; };
 		55E356511ADC638F00A57971 /* BubbleChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E3564F1ADC638F00A57971 /* BubbleChartViewController.m */; };
 		5B0CC7851ABB875400665592 /* PieChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0CC7831ABB875400665592 /* PieChartViewController.m */; };
@@ -188,6 +190,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				0630AE521D81271B008859B0 /* Charts.framework in Embed Frameworks */,
+				22F038032546E58600C219E2 /* Charts_Objc.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -232,6 +235,7 @@
 		225B36581F6EBA410005B3D5 /* BarChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartViewController.swift; sourceTree = "<group>"; };
 		225B36591F6EBA410005B3D5 /* SinusBarChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinusBarChartViewController.swift; sourceTree = "<group>"; };
 		225B365A1F6EBA410005B3D5 /* CandleStickChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleStickChartViewController.swift; sourceTree = "<group>"; };
+		22F038012546E58600C219E2 /* Charts_Objc.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Charts_Objc.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		55E3564D1ADC638F00A57971 /* BubbleChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BubbleChartViewController.xib; sourceTree = "<group>"; };
 		55E3564E1ADC638F00A57971 /* BubbleChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BubbleChartViewController.h; sourceTree = "<group>"; };
 		55E3564F1ADC638F00A57971 /* BubbleChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BubbleChartViewController.m; sourceTree = "<group>"; };
@@ -340,6 +344,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0630AE511D81271B008859B0 /* Charts.framework in Frameworks */,
+				22F038022546E58600C219E2 /* Charts_Objc.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,6 +465,14 @@
 			path = Demos;
 			sourceTree = "<group>";
 		};
+		22F038002546E58600C219E2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				22F038012546E58600C219E2 /* Charts_Objc.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5B57BBA61A9B26AA0036A6CC = {
 			isa = PBXGroup;
 			children = (
@@ -470,6 +483,7 @@
 				5B57BBB21A9B26AA0036A6CC /* Supporting Files */,
 				5B57BBB01A9B26AA0036A6CC /* Products */,
 				0630AE391D8126C0008859B0 /* Charts.xcodeproj */,
+				22F038002546E58600C219E2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
