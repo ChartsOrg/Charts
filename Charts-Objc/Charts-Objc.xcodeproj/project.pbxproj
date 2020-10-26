@@ -18,6 +18,7 @@
 		22F0380D2546EAF400C219E2 /* CHRTBubbleChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F0380C2546EAF400C219E2 /* CHRTBubbleChartView.swift */; };
 		22F038102546EBD200C219E2 /* CHRTCandleStickChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F0380F2546EBD200C219E2 /* CHRTCandleStickChartView.swift */; };
 		22F038142546EC8C00C219E2 /* CHRTScatterChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F038132546EC8C00C219E2 /* CHRTScatterChartView.swift */; };
+		22F038172546ED4800C219E2 /* CHRTCombinedChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F038162546ED4800C219E2 /* CHRTCombinedChartView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		22F0380C2546EAF400C219E2 /* CHRTBubbleChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHRTBubbleChartView.swift; sourceTree = "<group>"; };
 		22F0380F2546EBD200C219E2 /* CHRTCandleStickChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHRTCandleStickChartView.swift; sourceTree = "<group>"; };
 		22F038132546EC8C00C219E2 /* CHRTScatterChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHRTScatterChartView.swift; sourceTree = "<group>"; };
+		22F038162546ED4800C219E2 /* CHRTCombinedChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHRTCombinedChartView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 				22F037FD2546DFB800C219E2 /* CHRTBarChartView.swift */,
 				22F0380C2546EAF400C219E2 /* CHRTBubbleChartView.swift */,
 				22F0380F2546EBD200C219E2 /* CHRTCandleStickChartView.swift */,
+				22F038162546ED4800C219E2 /* CHRTCombinedChartView.swift */,
 				22F038092546E9CC00C219E2 /* CHRTLineChartView.swift */,
 				22F038062546E67F00C219E2 /* CHRTHorizontalBarChartView.swift */,
 				22F038132546EC8C00C219E2 /* CHRTScatterChartView.swift */,
@@ -250,6 +253,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				22F038072546E67F00C219E2 /* CHRTHorizontalBarChartView.swift in Sources */,
+				22F038172546ED4800C219E2 /* CHRTCombinedChartView.swift in Sources */,
 				22F0380A2546E9CC00C219E2 /* CHRTLineChartView.swift in Sources */,
 				22F0380D2546EAF400C219E2 /* CHRTBubbleChartView.swift in Sources */,
 				22F037FE2546DFB800C219E2 /* CHRTBarChartView.swift in Sources */,

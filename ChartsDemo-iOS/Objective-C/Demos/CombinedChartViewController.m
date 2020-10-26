@@ -10,7 +10,7 @@
 //
 
 #import "CombinedChartViewController.h"
-#import "ChartsDemo_iOS-Swift.h"
+@import Charts_Objc;
 
 #define ITEM_COUNT 12
 
@@ -19,7 +19,7 @@
     NSArray<NSString *> *months;
 }
 
-@property (nonatomic, strong) IBOutlet CombinedChartView *chartView;
+@property (nonatomic, strong) IBOutlet CHRTCombinedChartView *chartView;
 
 @end
 
