@@ -10,11 +10,11 @@
 //
 
 #import "CandleStickChartViewController.h"
-#import "ChartsDemo_iOS-Swift.h"
+@import Charts_Objc;
 
 @interface CandleStickChartViewController () <ChartViewDelegate>
 
-@property (nonatomic, strong) IBOutlet CandleStickChartView *chartView;
+@property (nonatomic, strong) IBOutlet CHRTCandleStickChartView *chartView;
 @property (nonatomic, strong) IBOutlet UISlider *sliderX;
 @property (nonatomic, strong) IBOutlet UISlider *sliderY;
 @property (nonatomic, strong) IBOutlet UITextField *sliderTextX;
