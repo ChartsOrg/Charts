@@ -15,6 +15,7 @@
 		22F037FE2546DFB800C219E2 /* CHRTBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F037FD2546DFB800C219E2 /* CHRTBarChartView.swift */; };
 		22F038072546E67F00C219E2 /* CHRTHorizontalBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F038062546E67F00C219E2 /* CHRTHorizontalBarChartView.swift */; };
 		22F0380A2546E9CC00C219E2 /* CHRTLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F038092546E9CC00C219E2 /* CHRTLineChartView.swift */; };
+		22F0380D2546EAF400C219E2 /* CHRTBubbleChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F0380C2546EAF400C219E2 /* CHRTBubbleChartView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		22F037FD2546DFB800C219E2 /* CHRTBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHRTBarChartView.swift; sourceTree = "<group>"; };
 		22F038062546E67F00C219E2 /* CHRTHorizontalBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHRTHorizontalBarChartView.swift; sourceTree = "<group>"; };
 		22F038092546E9CC00C219E2 /* CHRTLineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHRTLineChartView.swift; sourceTree = "<group>"; };
+		22F0380C2546EAF400C219E2 /* CHRTBubbleChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHRTBubbleChartView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 				22F037FD2546DFB800C219E2 /* CHRTBarChartView.swift */,
 				22F038062546E67F00C219E2 /* CHRTHorizontalBarChartView.swift */,
 				22F038092546E9CC00C219E2 /* CHRTLineChartView.swift */,
+				22F0380C2546EAF400C219E2 /* CHRTBubbleChartView.swift */,
 			);
 			path = Charts;
 			sourceTree = "<group>";
@@ -242,6 +245,7 @@
 			files = (
 				22F038072546E67F00C219E2 /* CHRTHorizontalBarChartView.swift in Sources */,
 				22F0380A2546E9CC00C219E2 /* CHRTLineChartView.swift in Sources */,
+				22F0380D2546EAF400C219E2 /* CHRTBubbleChartView.swift in Sources */,
 				22F037FE2546DFB800C219E2 /* CHRTBarChartView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,11 +10,11 @@
 //
 
 #import "BubbleChartViewController.h"
-#import "ChartsDemo_iOS-Swift.h"
+@import Charts_Objc;
 
 @interface BubbleChartViewController () <ChartViewDelegate>
 
-@property (nonatomic, strong) IBOutlet BubbleChartView *chartView;
+@property (nonatomic, strong) IBOutlet CHRTBubbleChartView *chartView;
 @property (nonatomic, strong) IBOutlet UISlider *sliderX;
 @property (nonatomic, strong) IBOutlet UISlider *sliderY;
 @property (nonatomic, strong) IBOutlet UITextField *sliderTextX;
