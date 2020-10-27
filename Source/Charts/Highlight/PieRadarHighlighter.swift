@@ -21,12 +21,12 @@ open class PieRadarHighlighter: ChartHighlighter
         
         let touchDistanceToCenter = chart.distanceToCenter(x: x, y: y)
         
-        // check if a slice was touched
-        guard touchDistanceToCenter <= chart.radius else
-        {
-            // if no slice was touched, highlight nothing
-            return nil
-        }
+//        // check if a slice was touched
+//        guard touchDistanceToCenter <= chart.radius else
+//        {
+//            // if no slice was touched, highlight nothing
+//            return nil
+//        }
 
         var angle = chart.angleForPoint(x: x ,y: y)
 

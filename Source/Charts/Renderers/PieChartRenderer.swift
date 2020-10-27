@@ -773,8 +773,11 @@ open class PieChartRenderer: DataRenderer
 
             let accountForSliceSpacing = sliceSpace > 0.0 && sliceAngle <= 180.0
 
-            context.setFillColor(set.highlightColor?.cgColor ?? set.color(atIndex: index).cgColor)
-
+            context.setFillColor(set.color(atIndex: index).cgColor)
+            if let highlightColor = set.highlightColor?.cgColor {
+                context.setStrokeColor(highlightColor)
+                context.setLineWidth(set.highlightBorderWidth)
+            }
             let sliceSpaceAngleOuter = visibleAngleCount == 1 ?
                 0.0 :
                 sliceSpace / radius.DEG2RAD
@@ -875,7 +878,7 @@ open class PieChartRenderer: DataRenderer
 
             context.beginPath()
             context.addPath(path)
-            context.fillPath(using: .evenOdd)
+            context.drawPath(using: CGPathDrawingMode.eoFillStroke)
 
             let axElement = createAccessibleElement(withIndex: index,
                                                     container: chart,

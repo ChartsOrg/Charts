@@ -61,4 +61,7 @@ public protocol IPieChartDataSet: IChartDataSet
     /// get/sets the color for the highlighted sector
     var highlightColor: NSUIColor? { get set }
 
+    /// gets/sets the border width for the highlighted sector
+    var highlightBorderWidth: CGFloat { get set }
+
 }
