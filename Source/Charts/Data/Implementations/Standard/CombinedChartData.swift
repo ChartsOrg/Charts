@@ -119,8 +119,7 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
         {
             data.calcMinMax()
             
-            let sets = data.dataSets
-            _dataSets.append(contentsOf: sets)
+            _dataSets.append(contentsOf: data)
             
             if data.yMax > yMax
             {
@@ -142,28 +141,28 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
                 xMin = data.xMin
             }
 
-            for dataset in sets
+            for set in data
             {
-                if dataset.axisDependency == .left
+                if set.axisDependency == .left
                 {
-                    if dataset.yMax > leftAxisMax
+                    if set.yMax > leftAxisMax
                     {
-                        leftAxisMax = dataset.yMax
+                        leftAxisMax = set.yMax
                     }
-                    if dataset.yMin < leftAxisMin
+                    if set.yMin < leftAxisMin
                     {
-                        leftAxisMin = dataset.yMin
+                        leftAxisMin = set.yMin
                     }
                 }
                 else
                 {
-                    if dataset.yMax > rightAxisMax
+                    if set.yMax > rightAxisMax
                     {
-                        rightAxisMax = dataset.yMax
+                        rightAxisMax = set.yMax
                     }
-                    if dataset.yMin < rightAxisMin
+                    if set.yMin < rightAxisMin
                     {
-                        rightAxisMin = dataset.yMin
+                        rightAxisMin = set.yMin
                     }
                 }
             }

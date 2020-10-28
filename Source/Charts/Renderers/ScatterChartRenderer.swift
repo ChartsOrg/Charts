@@ -113,18 +113,15 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         
         // if values are drawn
         if isDrawingValuesAllowed(dataProvider: dataProvider)
-        {
-            guard let dataSets = scatterData.dataSets as? [ScatterChartDataSetProtocol] else { return }
-            
+        {            
             let phaseY = animator.phaseY
             
             var pt = CGPoint()
             
             for i in scatterData.indices
             {
-                let dataSet = dataSets[i]
-
-                guard shouldDrawValues(forDataSet: dataSet)
+                guard let dataSet = scatterData[i] as? ScatterChartDataSetProtocol,
+                      shouldDrawValues(forDataSet: dataSet)
                     else { continue }
                 
                 let valueFont = dataSet.valueFont

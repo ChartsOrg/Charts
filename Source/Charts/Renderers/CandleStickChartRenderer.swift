@@ -38,7 +38,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
             accessibleChartElements.append(element)
         }
 
-        for set in candleData.dataSets as! [CandleChartDataSetProtocol] where set.isVisible
+        for case let set as CandleChartDataSetProtocol in candleData where set.isVisible
         {
             drawDataSet(context: context, dataSet: set)
         }
@@ -81,7 +81,7 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
             let high = e.high
             let low = e.low
             
-            let doesContainMultipleDataSets = (dataProvider.candleData?.dataSets.count ?? 1) > 1
+            let doesContainMultipleDataSets = (dataProvider.candleData?.count ?? 1) > 1
             var accessibilityMovementDescription = "neutral"
             var accessibilityRect = CGRect(x: CGFloat(xPos) + 0.5 - barSpace,
                                            y: CGFloat(low * phaseY),
@@ -275,16 +275,14 @@ open class CandleStickChartRenderer: LineScatterCandleRadarRenderer
         // if values are drawn
         if isDrawingValuesAllowed(dataProvider: dataProvider)
         {
-            let dataSets = candleData.dataSets
-            
             let phaseY = animator.phaseY
             
             var pt = CGPoint()
             
-            for i in dataSets.indices
+            for i in candleData.indices
             {
                 guard let
-                    dataSet = dataSets[i] as? BarLineScatterCandleBubbleChartDataSetProtocol,
+                    dataSet = candleData[i] as? BarLineScatterCandleBubbleChartDataSetProtocol,
                     shouldDrawValues(forDataSet: dataSet)
                     else { continue }
                 

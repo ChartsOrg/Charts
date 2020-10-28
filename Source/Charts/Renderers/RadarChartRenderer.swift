@@ -35,29 +35,26 @@ open class RadarChartRenderer: LineRadarRenderer
     
     open override func drawData(context: CGContext)
     {
-        guard let chart = chart else { return }
-        
-        let radarData = chart.data
-        
-        if radarData != nil
+        guard let chart = chart,
+              let radarData = chart.data as? RadarChartData else
         {
-            let mostEntries = radarData?.maxEntryCountSet?.entryCount ?? 0
+            return
+        }
+        
+        let mostEntries = radarData.maxEntryCountSet?.entryCount ?? 0
 
-            // If we redraw the data, remove and repopulate accessible elements to update label values and frames
-            self.accessibleChartElements.removeAll()
+        // If we redraw the data, remove and repopulate accessible elements to update label values and frames
+        self.accessibleChartElements.removeAll()
 
-            // Make the chart header the first element in the accessible elements array
-            if let accessibilityHeaderData = radarData as? RadarChartData {
-                let element = createAccessibleHeader(usingChart: chart,
-                                                     andData: accessibilityHeaderData,
-                                                     withDefaultDescription: "Radar Chart")
-                self.accessibleChartElements.append(element)
-            }
+        // Make the chart header the first element in the accessible elements array
+        let element = createAccessibleHeader(usingChart: chart,
+                                             andData: radarData,
+                                             withDefaultDescription: "Radar Chart")
+        self.accessibleChartElements.append(element)
 
-            for set in radarData!.dataSets as! [RadarChartDataSetProtocol] where set.isVisible
-            {
-                drawDataSet(context: context, dataSet: set, mostEntries: mostEntries)
-            }
+        for case let set as RadarChartDataSetProtocol in radarData where set.isVisible
+        {
+            drawDataSet(context: context, dataSet: set, mostEntries: mostEntries)
         }
     }
     

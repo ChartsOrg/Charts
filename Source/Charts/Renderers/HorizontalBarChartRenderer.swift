@@ -51,7 +51,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             
             for i in barData.indices
             {
-                let set = barData.dataSets[i] as! BarChartDataSetProtocol
+                let set = barData[i] as! BarChartDataSetProtocol
                 let size = set.entryCount * (set.isStacked ? set.stackSize : 1)
                 if _buffers[i].rects.count != size
                 {
@@ -323,9 +323,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 let dataProvider = dataProvider,
                 let barData = dataProvider.barData
                 else { return }
-            
-            let dataSets = barData.dataSets
-            
+
             let textAlign = NSTextAlignment.left
             
             let valueOffsetPlus: CGFloat = 5.0
@@ -336,7 +334,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             for dataSetIndex in barData.indices
             {
                 guard let
-                    dataSet = dataSets[dataSetIndex] as? BarChartDataSetProtocol,
+                    dataSet = barData[dataSetIndex] as? BarChartDataSetProtocol,
                     shouldDrawValues(forDataSet: dataSet)
                     else { continue }
                 

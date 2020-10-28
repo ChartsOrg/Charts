@@ -45,7 +45,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
             accessibleChartElements.append(element)
         }
 
-        for (i, set) in (bubbleData.dataSets as! [BubbleChartDataSetProtocol]).enumerated() where set.isVisible
+        for case let (i, set) as (Int, BubbleChartDataSetProtocol) in bubbleData.enumerated() where set.isVisible
         {
             drawDataSet(context: context, dataSet: set, dataSetIndex: i)
         }
@@ -153,8 +153,7 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         guard let
             dataProvider = dataProvider,
             let bubbleData = dataProvider.bubbleData,
-            isDrawingValuesAllowed(dataProvider: dataProvider),
-            let dataSets = bubbleData.dataSets as? [BubbleChartDataSetProtocol]
+            isDrawingValuesAllowed(dataProvider: dataProvider)
             else { return }
 
         let phaseX = max(0.0, min(1.0, animator.phaseX))
@@ -162,11 +161,14 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
 
         var pt = CGPoint()
 
-        for i in dataSets.indices
+        for i in bubbleData.indices
         {
-            let dataSet = dataSets[i]
-
-            guard shouldDrawValues(forDataSet: dataSet) else { continue }
+            guard let dataSet = bubbleData[i] as? BubbleChartDataSetProtocol,
+                  shouldDrawValues(forDataSet: dataSet)
+            else
+            {
+                continue
+            }
 
             let formatter = dataSet.valueFormatter
             let alpha = phaseX == 1 ? phaseY : phaseX
