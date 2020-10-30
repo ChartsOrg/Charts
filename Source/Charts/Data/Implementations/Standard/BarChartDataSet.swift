@@ -48,18 +48,17 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
     /// stacks. All values belonging to a stack are calculated separately.
     private func calcEntryCountIncludingStacks(entries: [BarChartDataEntry])
     {
-        _entryCountStacks = 0
-        
-        entries.forEach { _entryCountStacks += $0.yValues?.count ?? 1 }
+        _entryCountStacks = entries.lazy
+            .map(\.stackSize)
+            .reduce(into: 0, +=)
     }
     
     /// calculates the maximum stacksize that occurs in the Entries array of this DataSet
     private func calcStackSize(entries: [BarChartDataEntry])
     {
-        for e in entries where (e.yValues?.count ?? 0) > _stackSize
-        {
-            _stackSize = e.yValues!.count
-        }
+        _stackSize = entries.lazy
+            .map(\.stackSize)
+            .max(by: \.self) ?? 1
     }
     
     open override func calcMinMax(entry e: ChartDataEntry)

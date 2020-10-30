@@ -41,17 +41,13 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         // TODO: Due to the potential complexity of data presented in Scatter charts, a more usable way
         // for VO accessibility would be to use axis based traversal rather than by dataset.
         // Hence, accessibleChartElements is not populated below. (Individual renderers guard against dataSource being their respective views)
-        for i in scatterData.indices
-        {
-            guard let set = scatterData[i] as? ScatterChartDataSetProtocol else
-            {
-                fatalError("Datasets for ScatterChartRenderer must conform to ScatterChartDataSetProtocol")
-            }
-
-            guard set.isVisible else { continue }
-
-            drawDataSet(context: context, dataSet: set)
-        }
+        let sets = scatterData.dataSets as? [ScatterChartDataSet]
+        assert(sets != nil, "Datasets for ScatterChartRenderer must conform to IScatterChartDataSet")
+        
+        let drawDataSet = { self.drawDataSet(context: context, dataSet: $0) }
+        sets!.lazy
+            .filter(\.isVisible)
+            .forEach(drawDataSet)
     }
     
     private var _lineSegments = [CGPoint](repeating: CGPoint(), count: 2)

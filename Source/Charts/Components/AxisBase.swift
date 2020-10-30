@@ -12,6 +12,12 @@
 import Foundation
 import CoreGraphics
 
+extension Sequence {
+    func max<T: Comparable>(by keyPath: KeyPath<Element, T>) -> Element? {
+        self.max { $0[keyPath: keyPath] < $1[keyPath: keyPath] }
+    }
+}
+
 /// Base class for all axes
 @objc(ChartAxisBase)
 open class AxisBase: ComponentBase
@@ -133,19 +139,12 @@ open class AxisBase: ComponentBase
     
     @objc open func getLongestLabel() -> String
     {
-        var longest = ""
-        
-        for i in entries.indices
-        {
-            let text = getFormattedLabel(i)
-            
-            if longest.count < text.count
-            {
-                longest = text
-            }
-        }
-        
-        return longest
+        let longest = entries.indices
+            .lazy
+            .map(getFormattedLabel(_:))
+            .max(by: \.count)
+
+        return longest ?? ""
     }
     
     /// - Returns: The formatted label at the specified index. This will either use the auto-formatter or the custom formatter (if one is set).
