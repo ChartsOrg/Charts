@@ -29,18 +29,23 @@ open class RadarChartData: ChartData
         self.labels = labels
     }
     
-    public override init()
+    public required init()
     {
         super.init()
     }
     
-    public override init(dataSets: [IChartDataSet]?)
+    public override init(dataSets: [ChartDataSetProtocol])
     {
         super.init(dataSets: dataSets)
     }
-    
-    open override func entryForHighlight(_ highlight: Highlight) -> ChartDataEntry?
+
+    public required init(arrayLiteral elements: ChartDataSetProtocol...)
     {
-        return getDataSetByIndex(highlight.dataSetIndex)?.entryForIndex(Int(highlight.x))
+        super.init(dataSets: elements)
+    }
+
+    @objc open override func entry(for highlight: Highlight) -> ChartDataEntry?
+    {
+        return self[highlight.dataSetIndex].entryForIndex(Int(highlight.x))
     }
 }
