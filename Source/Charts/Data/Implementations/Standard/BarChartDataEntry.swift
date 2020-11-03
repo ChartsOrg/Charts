@@ -89,22 +89,14 @@ open class BarChartDataEntry: ChartDataEntry
         self.data = data
     }
     
-    @objc open func sumBelow(stackIndex :Int) -> Double
+    @objc open func sumBelow(stackIndex: Int) -> Double
     {
-        guard let yVals = _yVals else
+        guard let yVals = _yVals, yVals.indices.contains(stackIndex) else
         {
             return 0
         }
-        
-        var remainder: Double = 0.0
-        var index = yVals.count - 1
-        
-        while (index > stackIndex && index >= 0)
-        {
-            remainder += yVals[index]
-            index -= 1
-        }
-        
+
+        let remainder = yVals[stackIndex...].reduce(into: 0.0) { $0 += $1 }
         return remainder
     }
     

@@ -61,7 +61,7 @@
     ChartLimitLine *llXAxis = [[ChartLimitLine alloc] initWithLimit:10.0 label:@"Index 10"];
     llXAxis.lineWidth = 4.0;
     llXAxis.lineDashLengths = @[@(10.f), @(10.f), @(0.f)];
-    llXAxis.labelPosition = ChartLimitLabelPositionBottomRight;
+    llXAxis.labelPosition = ChartLimitLabelPositionRightBottom;
     llXAxis.valueFont = [UIFont systemFontOfSize:10.f];
     
     //[_chartView.xAxis addLimitLine:llXAxis];
@@ -72,13 +72,13 @@
     ChartLimitLine *ll1 = [[ChartLimitLine alloc] initWithLimit:150.0 label:@"Upper Limit"];
     ll1.lineWidth = 4.0;
     ll1.lineDashLengths = @[@5.f, @5.f];
-    ll1.labelPosition = ChartLimitLabelPositionTopRight;
+    ll1.labelPosition = ChartLimitLabelPositionRightTop;
     ll1.valueFont = [UIFont systemFontOfSize:10.0];
     
     ChartLimitLine *ll2 = [[ChartLimitLine alloc] initWithLimit:-30.0 label:@"Lower Limit"];
     ll2.lineWidth = 4.0;
     ll2.lineDashLengths = @[@5.f, @5.f];
-    ll2.labelPosition = ChartLimitLabelPositionBottomRight;
+    ll2.labelPosition = ChartLimitLabelPositionRightBottom;
     ll2.valueFont = [UIFont systemFontOfSize:10.0];
     
     ChartYAxis *leftAxis = _chartView.leftAxis;
@@ -174,7 +174,7 @@
         CGGradientRef gradient = CGGradientCreateWithColors(nil, (CFArrayRef)gradientColors, nil);
         
         set1.fillAlpha = 1.f;
-        set1.fill = [ChartFill fillWithLinearGradient:gradient angle:90.f];
+        set1.fill = [[ChartLinearGradientFill alloc] initWithGradient:gradient angle:90.0f];
         set1.drawFilledEnabled = YES;
         
         CGGradientRelease(gradient);
@@ -192,7 +192,7 @@
 {
     if ([key isEqualToString:@"toggleFilled"])
     {
-        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
+        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
         {
             set.drawFilledEnabled = !set.isDrawFilledEnabled;
         }
@@ -203,7 +203,7 @@
     
     if ([key isEqualToString:@"toggleCircles"])
     {
-        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
+        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
         {
             set.drawCirclesEnabled = !set.isDrawCirclesEnabled;
         }
@@ -214,7 +214,7 @@
     
     if ([key isEqualToString:@"toggleCubic"])
     {
-        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
+        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
         {
             set.mode = set.mode == LineChartModeCubicBezier ? LineChartModeLinear : LineChartModeCubicBezier;
         }
@@ -225,7 +225,7 @@
 
     if ([key isEqualToString:@"toggleStepped"])
     {
-        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
+        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
         {
             switch (set.mode) {
                 case LineChartModeLinear:
@@ -242,7 +242,7 @@
     
     if ([key isEqualToString:@"toggleHorizontalCubic"])
     {
-        for (id<ILineChartDataSet> set in _chartView.data.dataSets)
+        for (id<LineChartDataSetProtocol> set in _chartView.data.dataSets)
         {
             set.mode = set.mode == LineChartModeHorizontalBezier ? LineChartModeCubicBezier : LineChartModeHorizontalBezier;
         }
