@@ -1,13 +1,14 @@
 import Foundation
 
+#if os(iOS)
 open class RoundedCornersBarChatRenderer: BarChartRenderer {
     
     open var cornerRadius: CGFloat = 0.0
     
     open var corners: UIRectCorner = [.allCorners]
         
-    open override func drawDataSet(context: CGContext, dataSet: IBarChartDataSet, index: Int) {
-        drawDataSet(context: context, dataSet: dataSet, index: index, cornerRadius: cornerRadius, roundedCorners: corners)
+    open override func drawDataSet(context: CGContext, dataSet: BarChartDataSetProtocol, index: Int) {
+        drawDataSet(context: context, dataSet: dataSet, index: index, cornerRadius: corners, roundedCorners: cornerRadius)
     }
 
     init?(renderer: DataRenderer?) {
@@ -16,3 +17,4 @@ open class RoundedCornersBarChatRenderer: BarChartRenderer {
         super.init(dataProvider: dataProvider, animator: renderer.animator, viewPortHandler: renderer.viewPortHandler)
     }
 }
+#endif
