@@ -293,7 +293,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     private var _barShadowRectBuffer: CGRect = CGRect()
     
     #if os(iOS)
-    @objc open func drawDataSet(context: CGContext, dataSet: BarChartDataSetProtocol, index: Int, cornerRadius: UIRectCorner, roundedCorners: CGFloat)
+    @objc open func drawDataSet(context: CGContext, dataSet: BarChartDataSetProtocol, index: Int, cornerRadius: CGFloat, roundedCorners: UIRectCorner)
     {
         guard let dataProvider = dataProvider else { return }
 
@@ -372,8 +372,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             let barRect = buffer[j]
             
             let maskPath = UIBezierPath(roundedRect: barRect,
-                                        byRoundingCorners: [.topLeft, .topRight],
-                        cornerRadii: CGSize(width: 10.0, height: 10.0))
+                                        byRoundingCorners: roundedCorners,
+                        cornerRadii: CGSize(width: cornerRadius, height: cornerRadius)
+            )
              
             let cgPath = maskPath.cgPath
             context.addPath(cgPath)
