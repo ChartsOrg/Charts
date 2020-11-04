@@ -11,7 +11,7 @@ open class RoundedCornersBarChatRenderer: BarChartRenderer {
         drawDataSet(context: context, dataSet: dataSet, index: index, cornerRadius: corners, roundedCorners: cornerRadius)
     }
 
-    init?(renderer: DataRenderer?) {
+    public init?(renderer: DataRenderer?) {
         guard let renderer = renderer as? BarChartRenderer, let dataProvider = renderer.dataProvider else { return nil }
 
         super.init(dataProvider: dataProvider, animator: renderer.animator, viewPortHandler: renderer.viewPortHandler)
