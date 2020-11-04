@@ -12,7 +12,7 @@
 import Foundation
 import CoreGraphics
 
-open class PieChartDataSet: ChartDataSet, IPieChartDataSet
+open class PieChartDataSet: ChartDataSet, PieChartDataSetProtocol
 {
     @objc(PieChartValuePosition)
     public enum ValuePosition: Int
@@ -33,7 +33,7 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
         initialize()
     }
 
-    public override init(entries: [ChartDataEntry]?, label: String?)
+    public override init(entries: [ChartDataEntry], label: String)
     {
         super.init(entries: entries, label: label)
         initialize()
@@ -59,16 +59,11 @@ open class PieChartDataSet: ChartDataSet, IPieChartDataSet
         }
         set
         {
-            var space = newValue
-            if space > 20.0
-            {
-                space = 20.0
+            switch newValue {
+            case ..<0.0: _sliceSpace = 0.0
+            case 20.0...: _sliceSpace = 20.0
+            default: _sliceSpace = newValue
             }
-            if space < 0.0
-            {
-                space = 0.0
-            }
-            _sliceSpace = space
         }
     }
 
