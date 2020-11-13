@@ -24,6 +24,8 @@ open class HorizontalBarChartRenderer: BarChartRenderer
     {
         super.init(dataProvider: dataProvider, animator: animator, viewPortHandler: viewPortHandler)
     }
+	
+	private let normalizeFactor: CGFloat = CGFloat(0.04)
     
     // [CGRect] per dataset
     private var _buffers = [Buffer]()
@@ -243,7 +245,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
 
         for j in stride(from: 0, to: buffer.rects.count, by: 1)
         {
-            let barRect = buffer.rects[j]
+			let barRect = buffer.rects[j]
             
             if (!viewPortHandler.isInBoundsTop(barRect.origin.y + barRect.size.height))
             {
@@ -272,6 +274,8 @@ open class HorizontalBarChartRenderer: BarChartRenderer
 				}
 			}
 			else if(dataSet.isStackedWithRoundedCorners){
+				
+				self.normalizeRects(buffer: buffer)
 				
 				var roundedCorners : UIRectCorner = UIRectCorner()
 				let rectIndex = buffer.rects.firstIndex(of: barRect) ?? 0
@@ -335,6 +339,30 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         
         context.restoreGState()
     }
+	
+	private func normalizeRects(buffer: Buffer) {
+		
+		let minimumWidth = (buffer.rects.map({ $0.width}).reduce(0, +) * normalizeFactor)
+		
+		var totalUpgrade: CGFloat = .zero
+		for i in 0..<buffer.rects.count {
+			let rect = buffer.rects[i]
+			if rect.width < minimumWidth && rect.width != 0 {
+				totalUpgrade += (minimumWidth - rect.width)
+				buffer.rects[i].size.width = minimumWidth
+			}
+		}
+		let sortedArray = buffer.rects.sorted(by: { $0.width > $1.width })
+		var bigValue = sortedArray.first
+		if bigValue?.width ?? 0 > minimumWidth {
+			bigValue?.size.width -= totalUpgrade
+		}
+		
+		if let width = bigValue?.width, let row = buffer.rects.firstIndex(where: {$0.width == sortedArray.first?.width}) {
+			buffer.rects[row].size.width = width
+		}
+		
+	}
     
     open override func prepareBarHighlight(
         x: Double,
