@@ -19,68 +19,69 @@ open class GearChartDataEntry: ChartDataEntry
 		super.init()
 	}
 	
-	/// - parameter value: The value on the y-axis
-	/// - parameter label: The label for the x-axis
-	public convenience init(value: Double, label: String?)
-	{
-		self.init(value: value, label: label, icon: nil, data: nil)
-	}
+//	/// - parameter value: The value on the y-axis
+//	/// - parameter label: The label for the x-axis
+//	public convenience init(value: Double, label: String?)
+//	{
+//		self.init(value: value, label: label, icon: nil, data: nil)
+//	}
 	
-	/// - parameter value: The value on the y-axis
-	/// - parameter label: The label for the x-axis
-	/// - parameter data: Spot for additional data this Entry represents
-	public convenience init(value: Double, label: String?, data: AnyObject?)
-	{
-		self.init(value: value, label: label, icon: nil, data: data)
-	}
+//	/// - parameter value: The value on the y-axis
+//	/// - parameter label: The label for the x-axis
+//	/// - parameter data: Spot for additional data this Entry represents
+//	public convenience init(value: Double, label: String?, data: AnyObject?)
+//	{
+//		self.init(value: value, label: label, icon: nil, data: data)
+//	}
+	
+//	/// - parameter value: The value on the y-axis
+//	/// - parameter label: The label for the x-axis
+//	/// - parameter icon: icon image
+//	@objc public convenience init(value: Double, label: String, icon: NSUIImage?)
+//	{
+//		self.init(value: value, label: label, icon: icon, data: nil)
+//	}
 	
 	/// - parameter value: The value on the y-axis
 	/// - parameter label: The label for the x-axis
 	/// - parameter icon: icon image
-	@objc public convenience init(value: Double, label: String?, icon: NSUIImage?)
-	{
-		self.init(value: value, label: label, icon: icon, data: nil)
-	}
-	
-	/// - parameter value: The value on the y-axis
-	/// - parameter label: The label for the x-axis
-	/// - parameter icon: icon image
 	/// - parameter data: Spot for additional data this Entry represents
-	public convenience init(value: Double, label: String?, icon: NSUIImage?, data: AnyObject?)
+	public convenience init(value: Double, label: String, icon: NSUIImage?, data: AnyObject?)
 	{
-		self.init(value: value)
-		self.label = label
+        self.init()
+        self.y = value
+        self.label = label
 		self.icon = icon
 		self.data = data
 	}
 	
-	/// - parameter value: The value on the y-axis
-	public convenience init(value: Double)
-	{
-		self.init(value: value, label: nil, icon: nil, data: nil)
-	}
+//	/// - parameter value: The value on the y-axis
+//	public convenience init(value: Double)
+//	{
+//		self.init(value: value, label: nil, icon: nil, data: nil)
+//	}
 	
-	/// - parameter value: The value on the y-axis
-	/// - parameter data: Spot for additional data this Entry represents
-	public convenience init(value: Double, data: AnyObject?)
-	{
-		self.init(value: value, label: nil, icon: nil, data: data)
-	}
+//	/// - parameter value: The value on the y-axis
+//	/// - parameter data: Spot for additional data this Entry represents
+//	public convenience init(value: Double, data: AnyObject?)
+//	{
+//		self.init(value: value, label: nil, icon: nil, data: data)
+//	}
 	
-	/// - parameter value: The value on the y-axis
-	/// - parameter icon: icon image
-	public convenience init(value: Double, icon: NSUIImage?)
-	{
-		self.init(value: value, label: nil, icon: icon, data: nil)
-	}
-	
-	/// - parameter value: The value on the y-axis
-	/// - parameter icon: icon image
-	/// - parameter data: Spot for additional data this Entry represents
-	public convenience init(value: Double, icon: NSUIImage?, data: AnyObject?)
-	{
-		self.init(value: value, label: nil, icon: icon, data: data)
-	}
+//	/// - parameter value: The value on the y-axis
+//	/// - parameter icon: icon image
+//	public convenience init(value: Double, icon: NSUIImage?)
+//	{
+//		self.init(value: value, label: nil, icon: icon, data: nil)
+//	}
+//
+//	/// - parameter value: The value on the y-axis
+//	/// - parameter icon: icon image
+//	/// - parameter data: Spot for additional data this Entry represents
+//	public convenience init(value: Double, icon: NSUIImage?, data: AnyObject?)
+//	{
+//		self.init(value: value, label: nil, icon: icon, data: data)
+//	}
 	
 	// MARK: Data property accessors
 	

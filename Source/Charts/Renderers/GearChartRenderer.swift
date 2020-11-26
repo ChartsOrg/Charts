@@ -55,7 +55,7 @@ open class GearChartRenderer: NSObject, DataRenderer
 		
 		if pieData != nil
 		{
-			for set in pieData!.dataSets as! [GearChartDataSetProtocol]
+			for set in pieData!.dataSets as! [GearChartDataSet]
 			{
 				if set.isVisible && set.entryCount > 0
 				{
@@ -106,7 +106,7 @@ open class GearChartRenderer: NSObject, DataRenderer
 		return spacedRadius
 	}
 
-	open func drawDataSet(context: CGContext, dataSet: GearChartDataSetProtocol)
+	open func drawDataSet(context: CGContext, dataSet: GearChartDataSet)
 	{
 		guard
 			let chart = chart
@@ -116,7 +116,7 @@ open class GearChartRenderer: NSObject, DataRenderer
 		let rotationAngle = chart.rotationAngle
 		let phaseY = animator.phaseY
 		
-		let entryCount = dataSet.entryCount
+		let entryCount = dataSet.count
 		let drawAngles = chart.drawAngles
 		let center = chart.centerCircleBox
 		let radius = chart.radius
@@ -216,7 +216,7 @@ open class GearChartRenderer: NSObject, DataRenderer
 		defer { context.restoreGState() }
 		
 		
-		let dataSet = dataSets[0] as! GearChartDataSetProtocol
+		let dataSet = dataSets[0] as! GearChartDataSet
 		
 		let drawValues = dataSet.isDrawValuesEnabled
 		let iconsOffset = dataSet.iconsOffset
