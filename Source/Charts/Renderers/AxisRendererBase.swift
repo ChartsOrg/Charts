@@ -12,9 +12,12 @@
 import Foundation
 import CoreGraphics
 
+
 @objc(ChartAxisRendererBase)
-open class AxisRendererBase: Renderer
+open class AxisRendererBase: NSObject, Renderer
 {
+    public var viewPortHandler: ViewPortHandler
+    
     /// base axis this axis renderer works with
     @objc open var axis: AxisBase?
     
@@ -23,8 +26,7 @@ open class AxisRendererBase: Renderer
 
     @objc public init(viewPortHandler: ViewPortHandler, transformer: Transformer?, axis: AxisBase?)
     {
-        super.init(viewPortHandler: viewPortHandler)
-        
+        self.viewPortHandler = viewPortHandler
         self.transformer = transformer
         self.axis = axis
     }
@@ -106,7 +108,8 @@ open class AxisRendererBase: Renderer
         
         // Find out how much spacing (in y value space) between axis values
         let rawInterval = range / Double(labelCount)
-        var interval = rawInterval.roundedToNextSignficant()
+        var interval:Double = rawInterval.roundedToNextSignificant()
+
         
         // If granularity is enabled, then do not allow the interval to go below specified granularity.
         // This is used to avoid repeated values when rounding values for display.
@@ -116,7 +119,7 @@ open class AxisRendererBase: Renderer
         }
         
         // Normalize interval
-        let intervalMagnitude = pow(10.0, Double(Int(log10(interval)))).roundedToNextSignficant()
+        let intervalMagnitude = pow(10.0, Double(Int(log10(interval)))).roundedToNextSignificant()
         let intervalSigDigit = Int(interval / intervalMagnitude)
         if intervalSigDigit > 5
         {
