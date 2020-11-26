@@ -108,6 +108,10 @@ open class BarLineScatterCandleBubbleRenderer: NSObject, DataRenderer
             
             self.min = entryFrom == nil ? 0 : dataSet.entryIndex(entry: entryFrom!)
             self.max = entryTo == nil ? 0 : dataSet.entryIndex(entry: entryTo!)
+			if self.min > self.max {
+				self.min = 0
+				self.max = 0
+			}
             range = Int(Double(self.max - self.min) * phaseX)
         }
     }
