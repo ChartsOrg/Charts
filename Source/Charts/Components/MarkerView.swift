@@ -12,8 +12,12 @@
 import Foundation
 import CoreGraphics
 
+#if canImport(AppKit)
+import AppKit
+#endif
+
 @objc(ChartMarkerView)
-open class MarkerView: NSUIView, IMarker
+open class MarkerView: NSUIView, Marker
 {
     open var offset: CGPoint = CGPoint()
     
@@ -71,6 +75,7 @@ open class MarkerView: NSUIView, IMarker
     open class func viewFromXib(in bundle: Bundle = .main) -> MarkerView?
     {
         #if !os(OSX)
+        
         return bundle.loadNibNamed(
             String(describing: self),
             owner: nil,

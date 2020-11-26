@@ -12,6 +12,14 @@
 import Foundation
 import CoreGraphics
 
+#if canImport(UIKit)
+    import UIKit
+#endif
+
+#if canImport(Cocoa)
+import Cocoa
+#endif
+
 @objc(ChartDescription)
 open class Description: ComponentBase
 {
@@ -42,5 +50,5 @@ open class Description: ComponentBase
     @objc open var font: NSUIFont
     
     /// Text color used for drawing the description text
-    @objc open var textColor = NSUIColor.black
+    @objc open var textColor = NSUIColor.labelOrBlack
 }

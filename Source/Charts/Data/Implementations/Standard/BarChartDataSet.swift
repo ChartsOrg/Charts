@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 
-open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDataSet
+open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartDataSetProtocol
 {
     private func initialize()
     {
@@ -29,7 +29,7 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
         initialize()
     }
     
-    public override init(entries: [ChartDataEntry]?, label: String?)
+    public override init(entries: [ChartDataEntry], label: String)
     {
         super.init(entries: entries, label: label)
         initialize()
@@ -50,68 +50,36 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
     {
         _entryCountStacks = 0
         
-        for i in 0 ..< entries.count
-        {
-            if let vals = entries[i].yValues
-            {
-                _entryCountStacks += vals.count
-            }
-            else
-            {
-                _entryCountStacks += 1
-            }
-        }
+        entries.forEach { _entryCountStacks += $0.yValues?.count ?? 1 }
     }
     
     /// calculates the maximum stacksize that occurs in the Entries array of this DataSet
     private func calcStackSize(entries: [BarChartDataEntry])
     {
-        for i in 0 ..< entries.count
+        for e in entries where (e.yValues?.count ?? 0) > _stackSize
         {
-            if let vals = entries[i].yValues
-            {
-                if vals.count > _stackSize
-                {
-                    _stackSize = vals.count
-                }
-            }
+            _stackSize = e.yValues!.count
         }
     }
     
     open override func calcMinMax(entry e: ChartDataEntry)
     {
-        guard let e = e as? BarChartDataEntry
+        guard let e = e as? BarChartDataEntry,
+            !e.y.isNaN
             else { return }
         
-        if !e.y.isNaN
+        if e.yValues == nil
         {
-            if e.yValues == nil
-            {
-                if e.y < _yMin
-                {
-                    _yMin = e.y
-                }
-                
-                if e.y > _yMax
-                {
-                    _yMax = e.y
-                }
-            }
-            else
-            {
-                if -e.negativeSum < _yMin
-                {
-                    _yMin = -e.negativeSum
-                }
-                
-                if e.positiveSum > _yMax
-                {
-                    _yMax = e.positiveSum
-                }
-            }
-            
-            calcMinMaxX(entry: e)
+            _yMin = Swift.min(e.y, _yMin)
+            _yMax = Swift.max(e.y, _yMax)
         }
+        else
+        {
+            _yMin = Swift.min(-e.negativeSum, _yMin)
+            _yMax = Swift.max(e.positiveSum, _yMax)
+        }
+
+        calcMinMaxX(entry: e)
     }
     
     /// The maximum number of bars that can be stacked upon another in this DataSet.
@@ -123,7 +91,7 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
     /// `true` if this DataSet is stacked (stacksize > 1) or not.
     open var isStacked: Bool
     {
-        return _stackSize > 1 ? true : false
+        return _stackSize > 1
     }
     
     /// The overall entry count, including counting each stack-value individually
@@ -148,41 +116,14 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
 
     /// the alpha value (transparency) that is used for drawing the highlight indicator bar. min = 0.0 (fully transparent), max = 1.0 (fully opaque)
     open var highlightAlpha = CGFloat(120.0 / 255.0)
-    
+	
 	/// - returns: 'true' if the bars have rounded corners
 	open var hasRoundedCorners : Bool = false
-	
-	/// - returns: 'true' if the bars of the stacked chart have rounded corners
-	open var isStackedWithRoundedCorners : Bool = false
 	
 	/// - returns: The corner radius is used for drawing the bars with rounded corners (only used if 'hasRoundedCorners' is true)
 	open var barCornerRadius : CGFloat = 20.0
 
-	// MARK: - Gradient
-	
-	/// - returns: 'true' if the chart is gradient filled
-	open var isGradientFill: Bool = false
-	
-	/// - returns: The start point for the gradient fill
-	open var gradientStartPoint : CGFloat = 0.25
-	
-	/// - returns: The end point for the gradient fill
-	open var gradientEndPoint : CGFloat = 1.0
-	
-	/// array of colors used for gradient filling
-	open var gradientColors = [NSUIColor]()
-	
-	public /// - returns: The gradient color at the given index of the DataSet's gradientColors array
-	func gradientColor(atIndex index: Int) -> NSUIColor {
-		var index = index
-		if index < 0
-		{
-			index = 0
-		}
-		return gradientColors[index % colors.count]
-	}
-
-	
+    
     // MARK: - NSCopying
     
     open override func copy(with zone: NSZone? = nil) -> Any

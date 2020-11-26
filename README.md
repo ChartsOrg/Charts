@@ -1,17 +1,19 @@
-**Version 3.0.1**, synced to [MPAndroidChart #345b4bc](https://github.com/PhilJay/MPAndroidChart/commit/345b4bc)
+**Version 4.0.0**, synced to [MPAndroidChart #f6a398b](https://github.com/PhilJay/MPAndroidChart/commit/f6a398b)
 
 ![alt tag](https://raw.github.com/danielgindi/Charts/master/Assets/feature_graphic.png)
   ![Supported Platforms](https://img.shields.io/cocoapods/p/Charts.svg) [![Releases](https://img.shields.io/github/release/danielgindi/Charts.svg)](https://github.com/danielgindi/Charts/releases) [![Latest pod release](https://img.shields.io/cocoapods/v/Charts.svg)](http://cocoapods.org/pods/charts) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Build Status](https://travis-ci.org/danielgindi/Charts.svg?branch=master)](https://travis-ci.org/danielgindi/Charts) [![codecov](https://codecov.io/gh/danielgindi/Charts/branch/master/graph/badge.svg)](https://codecov.io/gh/danielgindi/Charts)
 [![Join the chat at https://gitter.im/danielgindi/Charts](https://badges.gitter.im/danielgindi/Charts.svg)](https://gitter.im/danielgindi/Charts?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ### Just a heads up: Charts 3.0 has some breaking changes. Please read [the release/migration notes](https://github.com/danielgindi/Charts/releases/tag/v3.0.0). 
+### Another heads up: ChartsRealm is now in a [separate repo](https://github.com/danielgindi/ChartsRealm). Pods is also now `Charts` and `ChartsRealm`, instead of ~`Charts/Core`~ and ~`Charts/Realm`~
+### One more heads up: As Swift evolves, if you are not using the latest Swift compiler, you shouldn't check out the master branch. Instead, you should go to the release page and pick up whatever suits you.
 
-* Xcode 8.0 / Swift 3.0 (For Swift 2.3 support please use [Charts 2.3.0](https://github.com/danielgindi/Charts/tree/v2.3.0))
+* Xcode 11 / Swift 5 (master branch)
 * iOS >= 8.0 (Use as an **Embedded** Framework)
 * tvOS >= 9.0
 * macOS >= 10.11
 
-Okay so there's this beautiful library called [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) by [Philipp Jahoda](https://www.linkedin.com/in/philippjahoda) which has become very popular amongst Android developers, and in the meanwhile there's no decent charting solution for iOS.
+Okay so there's this beautiful library called [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) by [Philipp Jahoda](https://www.linkedin.com/in/philippjahoda) which has become very popular amongst Android developers, but there was no decent solution to create charts for iOS.
 
 I've chosen to write it in `Swift` as it can be highly optimized by the compiler, and can be used in both `Swift` and `ObjC` project. The demo project is written in `ObjC` to demonstrate how it works.
 
@@ -24,9 +26,8 @@ I've chosen to write it in `Swift` as it can be highly optimized by the compiler
 * Make sure you are running a supported version of Xcode.
   * Usually it is specified here a few lines above.
   * In most cases it will be the latest Xcode version.
-* Make sure that your project supports Swift 3.0
-* Run `carthage checkout` in the project folder, to fetch dependencies (i.e Realm).
-  * Realm is not required for using Charts - it is just a feature. But as the demo demonstrates Realm - you have to have it when running the demo.
+* Make sure that your project supports Swift 5.0
+* Optional: Run `carthage checkout` in the project folder, to fetch dependencies (i.e testing dependencies).
   * If you don't have Carthage - you can get it [here](https://github.com/Carthage/Carthage/releases).
 
 
@@ -43,19 +44,27 @@ In order to correctly compile:
    - (Xcode 8.2+) Under "Build Options", mark "Always Embed Swift Standard Libraries"
 5. When using [Realm.io](https://realm.io/):
    - Note that the Realm framework is not linked with Charts - it is only there for *optional* bindings. Which means that you need to have the framework in your project, and in a compatible version to whatever is compiled with Charts. We will do our best to always compile against the latest version.
+   - You'll need to add `ChartsRealm` as a dependency too.
 
 ## 3rd party tutorials
+#### Video tutorials
 
+* [Chart in Swift - Setting Up a Basic Line Chart Using iOS Charts(Alex Nagy)](https://www.youtube.com/watch?v=mWhwe_tLNE8&list=PL_csAAO9PQ8bjzg-wxEff1Fr0Y5W1hrum&index=5)
+
+#### Blog posts
 * [Using Realm and Charts with Swift 3 in iOS 10 (Sami Korpela)](https://medium.com/@skoli/using-realm-and-charts-with-swift-3-in-ios-10-40c42e3838c0#.2gyymwfh8)
-* Want your tutorial to show here? Create a PR!
+* [Creating a Line Chart in Swift 3 and iOS 10 (Osian Smith)](https://medium.com/@OsianSmith/creating-a-line-chart-in-swift-3-and-ios-10-2f647c95392e)
+* [Beginning Set-up and Example Using Charts with Swift 3](https://github.com/annalizhaz/ChartsForSwiftBasic)
+* [Creating a Radar Chart in Swift (David Piper)](https://medium.com/@HeyDaveTheDev/creating-a-radar-chart-in-swift-5791afcf92f0)
+* [Plotting in IOS using Charts framework with SwiftUI (Evgeny Basisty)](https://medium.com/@zzzzbh/plotting-in-ios-using-charts-framework-with-swiftui-222034a2bea6)
+
+Want your tutorial to show here? Create a PR!
 
 ## Troubleshooting
 
 #### Can't compile?
 
 * Please note the difference between installing a compiled framework from CocoaPods or Carthage, and copying the source code.
-* If you are using [Realm](https://realm.io/), please also `#import <ChartsRealm/ChartsRealm.h>`
-* If you are compiling the source code and want to use Realm, please make sure to include the code from `ChartsRealm` project.
 * Please read the **Usage** section again.
 * Search in the issues
 * Try to politely ask in the issues section
@@ -68,11 +77,7 @@ In order to correctly compile:
 ## CocoaPods Install
 
 Add `pod 'Charts'` to your Podfile. "Charts" is the name of the library.  
-
-For [Realm](https://realm.io/) support you can specify the subspec in your Podfile as follows:
-```
-pod 'Charts/Realm'
-```
+For [Realm](https://realm.io/) support, please add `pod 'ChartsRealm'` too.
 
 **Note:** ~~`pod 'ios-charts'`~~ is not the correct library, and refers to a different project by someone else.
 
@@ -81,11 +86,11 @@ pod 'Charts/Realm'
 Charts now include Carthage prebuilt binaries.
 
 ```carthage
-github "danielgindi/Charts" == 3.0.1
-github "danielgindi/Charts" ~> 3.0.1
+github "danielgindi/Charts" == 4.0.0
+github "danielgindi/Charts" ~> 4.0.0
 ```
 
-In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts && carthage archive ChartsRealm`.
+In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts`.
 
 ## 3rd party bindings
 
@@ -130,7 +135,7 @@ Features
  - Animations (build up animations, on both x- and y-axis)
  - Limit lines (providing additional information, maximums, ...)
  - Fully customizable (paints, typefaces, legends, colors, background, gestures, dashed lines, ...)
- - Plotting data directly from [**Realm.io**](https://realm.io) mobile database
+ - Plotting data directly from [**Realm.io**](https://realm.io) mobile database ([here](https://github.com/danielgindi/ChartsRealm))
 
 **Chart types:**
 
@@ -190,13 +195,20 @@ Documentation
 Currently there's no need for documentation for the iOS/tvOS/macOS version, as the API is **95% the same** as on Android.  
 You can read the official [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) documentation here: [**Wiki**](https://github.com/PhilJay/MPAndroidChart/wiki)
 
-Or you can see the [**ChartsDemo**](https://github.com/danielgindi/Charts/tree/master/ChartsDemo) project and learn the how-tos from it.
+Or you can see the Charts Demo project in both Objective-C and Swift ([**ChartsDemo-iOS**](https://github.com/danielgindi/Charts/tree/master/ChartsDemo-iOS), as well as macOS [**ChartsDemo-macOS**](https://github.com/danielgindi/Charts/tree/master/ChartsDemo-macOS)) and learn the how-tos from it.
 
 
 Special Thanks
 =======
 
 Goes to [@liuxuan30](https://github.com/liuxuan30), [@petester42](https://github.com/petester42) and  [@AlBirdie](https://github.com/AlBirdie) for new features, bugfixes, and lots and lots of involvement in our open-sourced community! You guys are a huge help to all of those coming here with questions and issues, and I couldn't respond to all of those without you.
+
+### Our amazing sponsors
+
+[Debricked](https://debricked.com/): Use open source securely
+
+[![debricked](https://user-images.githubusercontent.com/4375169/73585544-25bfa800-44dd-11ea-9661-82519a125302.jpg)](https://debricked.com/)
+
 
 License
 =======
