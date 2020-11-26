@@ -29,6 +29,8 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         super.init(dataProvider: dataProvider, animator: animator, viewPortHandler: viewPortHandler)
     }
     
+    private let normalizeFactor: CGFloat = CGFloat(0.04)
+
     // [CGRect] per dataset
     private var _buffers = [Buffer]()
     
@@ -279,6 +281,9 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 var roundedCorners : UIRectCorner = UIRectCorner()
                 let rectIndex = buffer.rects.index(of: barRect) ?? 0
                 
+                self.normalizeRects(buffer: buffer)
+
+                
                 //Se il valore non è 0 >> se è il primo valore oppure se il valore precente è 0, arrotonda gli angoli di sinistra
                 if(barRect.width > 0  && (rectIndex == 0 || (rectIndex > 0 && buffer.rects[rectIndex-1].width == 0))){
                     roundedCorners = UIRectCorner.topLeft.union(UIRectCorner.bottomLeft)
@@ -335,6 +340,31 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         
         context.restoreGState()
     }
+    
+    private func normalizeRects(buffer: Buffer) {
+        
+        let minimumWidth = (buffer.rects.map({ $0.width}).reduce(0, +) * normalizeFactor)
+        
+        var totalUpgrade: CGFloat = .zero
+        for i in 0..<buffer.rects.count {
+            let rect = buffer.rects[i]
+            if rect.width < minimumWidth && rect.width != 0 {
+                totalUpgrade += (minimumWidth - rect.width)
+                buffer.rects[i].size.width = minimumWidth
+            }
+        }
+        let sortedArray = buffer.rects.sorted(by: { $0.width > $1.width })
+        var bigValue = sortedArray.first
+        if bigValue?.width ?? 0 > minimumWidth {
+            bigValue?.size.width -= totalUpgrade
+        }
+        
+        if let width = bigValue?.width, let row = buffer.rects.firstIndex(where: {$0.width == sortedArray.first?.width}) {
+            buffer.rects[row].size.width = width
+        }
+        
+    }
+
     
     open override func prepareBarHighlight(
         x: Double,
