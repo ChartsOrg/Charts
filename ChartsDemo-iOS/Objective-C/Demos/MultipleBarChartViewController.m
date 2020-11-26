@@ -183,6 +183,16 @@
         set4 = [[BarChartDataSet alloc] initWithEntries:yVals4 label:@"Company D"];
         [set4 setColor:[UIColor colorWithRed:255/255.f green:102/255.f blue:0/255.f alpha:1.f]];
         
+		set1.hasRoundedCorners = YES;
+		set2.hasRoundedCorners = YES;
+		set3.hasRoundedCorners = YES;
+		set4.hasRoundedCorners = YES;
+		
+		set1.barCornerRadius = 40.0;
+		set2.barCornerRadius = 40.0;
+		set3.barCornerRadius = 40.0;
+		set4.barCornerRadius = 40.0;
+
         NSMutableArray *dataSets = [[NSMutableArray alloc] init];
         [dataSets addObject:set1];
         [dataSets addObject:set2];

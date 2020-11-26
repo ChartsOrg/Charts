@@ -353,7 +353,12 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setFillColor(dataSet.barShadowColor.cgColor)
 				if (dataSet.hasRoundedCorners)
 				{
-					let path = UIBezierPath.init(roundedRect: barRect, byRoundingCorners: UIRectCorner.topLeft.union(UIRectCorner.topRight), cornerRadii: CGSize(width: dataSet.barCornerRadius, height: dataSet.barCornerRadius))
+					let yValue = dataSet.entriesForXValue(Double(j))[0].y
+					var corners = UIRectCorner.topLeft.union(UIRectCorner.topRight)
+					if yValue < 0.0{
+						corners = UIRectCorner.bottomLeft.union(UIRectCorner.bottomRight)
+					}
+					let path = UIBezierPath.init(roundedRect: barRect, byRoundingCorners: corners, cornerRadii: CGSize(width: dataSet.barCornerRadius, height: dataSet.barCornerRadius))
 					path.fill()
 				}
 				else
@@ -393,8 +398,20 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             
 			if (dataSet.hasRoundedCorners)
 			{
-				let path = UIBezierPath.init(roundedRect: barRect, byRoundingCorners: UIRectCorner.topLeft.union(UIRectCorner.topRight), cornerRadii: CGSize(width: dataSet.barCornerRadius, height: dataSet.barCornerRadius))
+				let yValue = dataSet.entriesForXValue(Double(j))[0].y
+				var corners = UIRectCorner.topLeft.union(UIRectCorner.topRight)
+				if yValue < 0.0{
+					corners = UIRectCorner.bottomLeft.union(UIRectCorner.bottomRight)
+				}
+
+				let path = UIBezierPath.init(roundedRect: barRect, byRoundingCorners: corners, cornerRadii: CGSize(width: dataSet.barCornerRadius, height: dataSet.barCornerRadius))
 				path.fill()
+				
+				context.saveGState()
+				let gradientColors = [dataSet.color(atIndex: j).cgColor, dataSet.gradientColor(atIndex: j).cgColor] as CFArray
+				drawGradient(path: path, gradientColors: gradientColors, context: context, dataSet: dataSet)
+				context.restoreGState();
+
 				
 				if drawBorder
 				{
@@ -409,8 +426,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 					context.stroke(barRect)
 				}
 			}
-
-
+			
             // Create and append the corresponding accessibility element to accessibilityOrderedElements
             if let chart = dataProvider as? BarChartView
             {
@@ -427,6 +443,24 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             }
         }
     }
+	
+	func drawGradient(path: UIBezierPath, gradientColors: CFArray, context: CGContext, dataSet: BarChartDataSetProtocol)
+	{
+		let shapeMask = CAShapeLayer()
+		shapeMask.path = path.cgPath
+		
+		let colorSpace = CGColorSpaceCreateDeviceRGB()
+		let locations = [dataSet.gradientStartPoint, dataSet.gradientEndPoint]
+		let gradient = CGGradient(colorsSpace: colorSpace, colors: gradientColors, locations: locations)
+		
+		let startPoint = CGPoint.init(x: path.bounds.midX, y: path.bounds.minY)
+		let endPoint = CGPoint.init(x: path.bounds.midX, y: path.bounds.maxY)
+		
+		context.addPath(path.cgPath)
+		context.clip()
+		context.drawLinearGradient(gradient!, start: startPoint, end: endPoint, options: CGGradientDrawingOptions(rawValue: 0))
+	}
+
     
     open func prepareBarHighlight(
         x: Double,

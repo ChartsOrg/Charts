@@ -120,10 +120,38 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
 	/// - returns: 'true' if the bars have rounded corners
 	open var hasRoundedCorners : Bool = false
 	
+	/// - returns: 'true' if the bars of the stacked chart have rounded corners
+	open var isStackedWithRoundedCorners : Bool = false
+	
 	/// - returns: The corner radius is used for drawing the bars with rounded corners (only used if 'hasRoundedCorners' is true)
 	open var barCornerRadius : CGFloat = 20.0
 
     
+	// MARK: - Gradient
+	
+	/// - returns: 'true' if the chart is gradient filled
+	open var isGradientFill: Bool = false
+	
+	/// - returns: The start point for the gradient fill
+	open var gradientStartPoint : CGFloat = 0.25
+	
+	/// - returns: The end point for the gradient fill
+	open var gradientEndPoint : CGFloat = 1.0
+	
+	/// array of colors used for gradient filling
+	open var gradientColors = [NSUIColor]()
+	
+	public /// - returns: The gradient color at the given index of the DataSet's gradientColors array
+	func gradientColor(atIndex index: Int) -> NSUIColor {
+		var index = index
+		if index < 0
+		{
+			index = 0
+		}
+		return gradientColors[index % colors.count]
+	}
+
+	
     // MARK: - NSCopying
     
     open override func copy(with zone: NSZone? = nil) -> Any

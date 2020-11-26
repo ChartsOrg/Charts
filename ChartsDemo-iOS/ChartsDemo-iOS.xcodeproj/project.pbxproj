@@ -137,6 +137,10 @@
 		5BEAED411ABC1AC60013F194 /* SinusBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BEAED3F1ABC1AC60013F194 /* SinusBarChartViewController.xib */; };
 		7A8AC130256F9EC600C08142 /* RoundedBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A8AC12E256F9EC600C08142 /* RoundedBarChartViewController.m */; };
 		7A8AC131256F9EC600C08142 /* RoundedBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A8AC12F256F9EC600C08142 /* RoundedBarChartViewController.xib */; };
+		7A8AC136256FAB1A00C08142 /* GearChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A8AC134256FAB1A00C08142 /* GearChartViewController.m */; };
+		7A8AC137256FAB1A00C08142 /* GearChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A8AC135256FAB1A00C08142 /* GearChartViewController.xib */; };
+		7A8AC153256FDB8C00C08142 /* DistributionBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A8AC151256FDB8C00C08142 /* DistributionBarChartViewController.m */; };
+		7A8AC154256FDB8C00C08142 /* DistributionBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A8AC152256FDB8C00C08142 /* DistributionBarChartViewController.xib */; };
 		B64D06EB1FB199130067418D /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B64D06EA1FB199130067418D /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -328,6 +332,12 @@
 		7A8AC12D256F9EC600C08142 /* RoundedBarChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoundedBarChartViewController.h; sourceTree = "<group>"; };
 		7A8AC12E256F9EC600C08142 /* RoundedBarChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RoundedBarChartViewController.m; sourceTree = "<group>"; };
 		7A8AC12F256F9EC600C08142 /* RoundedBarChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RoundedBarChartViewController.xib; sourceTree = "<group>"; };
+		7A8AC133256FAB1A00C08142 /* GearChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GearChartViewController.h; sourceTree = "<group>"; };
+		7A8AC134256FAB1A00C08142 /* GearChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GearChartViewController.m; sourceTree = "<group>"; };
+		7A8AC135256FAB1A00C08142 /* GearChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GearChartViewController.xib; sourceTree = "<group>"; };
+		7A8AC150256FDB8C00C08142 /* DistributionBarChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DistributionBarChartViewController.h; sourceTree = "<group>"; };
+		7A8AC151256FDB8C00C08142 /* DistributionBarChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DistributionBarChartViewController.m; sourceTree = "<group>"; };
+		7A8AC152256FDB8C00C08142 /* DistributionBarChartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DistributionBarChartViewController.xib; sourceTree = "<group>"; };
 		B64D06EA1FB199130067418D /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -592,6 +602,12 @@
 				7A8AC12D256F9EC600C08142 /* RoundedBarChartViewController.h */,
 				7A8AC12E256F9EC600C08142 /* RoundedBarChartViewController.m */,
 				7A8AC12F256F9EC600C08142 /* RoundedBarChartViewController.xib */,
+				7A8AC133256FAB1A00C08142 /* GearChartViewController.h */,
+				7A8AC134256FAB1A00C08142 /* GearChartViewController.m */,
+				7A8AC135256FAB1A00C08142 /* GearChartViewController.xib */,
+				7A8AC150256FDB8C00C08142 /* DistributionBarChartViewController.h */,
+				7A8AC151256FDB8C00C08142 /* DistributionBarChartViewController.m */,
+				7A8AC152256FDB8C00C08142 /* DistributionBarChartViewController.xib */,
 			);
 			path = Demos;
 			sourceTree = "<group>";
@@ -757,6 +773,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B8EAF301AB32E15009697AA /* Images.xcassets in Resources */,
+				7A8AC137256FAB1A00C08142 /* GearChartViewController.xib in Resources */,
 				7A8AC131256F9EC600C08142 /* RoundedBarChartViewController.xib in Resources */,
 				5BE673931D5B4E0900A87BA2 /* LineChartFilledViewController.xib in Resources */,
 				5BEAED2D1ABC160F0013F194 /* CandleStickChartViewController.xib in Resources */,
@@ -784,6 +801,7 @@
 				5BDEDC481ABB871E007D3A60 /* CombinedChartViewController.xib in Resources */,
 				5BE673951D5B4E0900A87BA2 /* LineChartTimeViewController.xib in Resources */,
 				5BEAED1E1ABBFB340013F194 /* StackedBarChartViewController.xib in Resources */,
+				7A8AC154256FDB8C00C08142 /* DistributionBarChartViewController.xib in Resources */,
 				5B1B5DAB1E911A15006D1375 /* RealmDemosViewController.xib in Resources */,
 				55E356501ADC638F00A57971 /* BubbleChartViewController.xib in Resources */,
 			);
@@ -846,12 +864,14 @@
 				5B442CD323D9B0AB00B1F801 /* BalloonMarker.swift in Sources */,
 				5BE377F21D47FDF1006EB34F /* IntAxisValueFormatter.m in Sources */,
 				5BD8F0741AB89CE500566E05 /* LineChart1ViewController.m in Sources */,
+				7A8AC153256FDB8C00C08142 /* DistributionBarChartViewController.m in Sources */,
 				5BE377DE1D425151006EB34F /* DayAxisValueFormatter.m in Sources */,
 				5BEAED401ABC1AC60013F194 /* SinusBarChartViewController.m in Sources */,
 				5BE7E7621C693098000A0377 /* PositiveNegativeBarChartViewController.m in Sources */,
 				5B613DB31D526DED000F1E98 /* RadarMarkerView.swift in Sources */,
 				5BEAED251ABC0BE20013F194 /* MultipleBarChartViewController.m in Sources */,
 				5B57BBB81A9B26AA0036A6CC /* AppDelegate.m in Sources */,
+				7A8AC136256FAB1A00C08142 /* GearChartViewController.m in Sources */,
 				55E356511ADC638F00A57971 /* BubbleChartViewController.m in Sources */,
 				5BEAED2C1ABC160F0013F194 /* CandleStickChartViewController.m in Sources */,
 				5BEAED271ABC0BE20013F194 /* MultipleLinesChartViewController.m in Sources */,

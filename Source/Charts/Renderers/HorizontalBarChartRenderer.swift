@@ -189,7 +189,7 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         trans.rectValuesToPixel(&_buffers[index].rects)
         
         let borderWidth = dataSet.barBorderWidth
-        let borderColor = dataSet.barBorderColor
+		_ = dataSet.barBorderColor
         let drawBorder = borderWidth > 0.0
         
         context.saveGState()
@@ -273,6 +273,29 @@ open class HorizontalBarChartRenderer: BarChartRenderer
 				if drawBorder
 				{
 					path.stroke()
+				}
+			}
+			else if(dataSet.isStackedWithRoundedCorners){
+				
+				if(barRect == buffer.rects[0]){
+					let path = UIBezierPath.init(roundedRect: barRect, byRoundingCorners: UIRectCorner.bottomLeft.union(UIRectCorner.topLeft), cornerRadii: CGSize(width: dataSet.barCornerRadius, height: dataSet.barCornerRadius))
+					
+					path.fill()
+					
+					if drawBorder
+					{
+						path.stroke()
+					}
+				}
+				if(barRect == buffer.rects[buffer.rects.count.advanced(by: -1)]){
+					let path = UIBezierPath.init(roundedRect: barRect, byRoundingCorners: UIRectCorner.bottomRight.union(UIRectCorner.topRight), cornerRadii: CGSize(width: dataSet.barCornerRadius, height: dataSet.barCornerRadius))
+					
+					path.fill()
+					
+					if drawBorder
+					{
+						path.stroke()
+					}
 				}
 			}
 			else

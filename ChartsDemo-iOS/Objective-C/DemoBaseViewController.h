@@ -30,5 +30,7 @@
 - (void)setupPieChartView:(PieChartView *)chartView;
 - (void)setupRadarChartView:(RadarChartView *)chartView;
 - (void)setupBarLineChartView:(BarLineChartViewBase *)chartView;
+- (void)setupGearChartView:(GearChartView *)chartView;
+
 
 @end
