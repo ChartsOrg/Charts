@@ -353,7 +353,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setFillColor(dataSet.barShadowColor.cgColor)
 				if (dataSet.hasRoundedCorners)
 				{
-					let yValue = dataSet.entriesForXValue(Double(j))[0].y
+                    
+					let yValue = dataSet.entriesForXValue(Double(index))[0].y
 					var corners = UIRectCorner.topLeft.union(UIRectCorner.topRight)
 					if yValue < 0.0{
 						corners = UIRectCorner.bottomLeft.union(UIRectCorner.bottomRight)
