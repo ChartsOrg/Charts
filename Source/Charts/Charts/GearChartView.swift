@@ -120,7 +120,7 @@ open class GearChartView: PieRadarChartViewBase
 		
 		let c = self.centerOffsets
 		
-		let shift = (data as? GearChartData)?.dataSet?.selectionShift ?? 0.0
+		let shift = ((data as? GearChartData)?.dataSets.first as? GearChartDataSet)?.selectionShift ?? 0.0
 		
 		// create the circle box that will contain the pie-chart (the bounds of the pie-chart)
 		_circleBox.origin.x = (c.x - radius) + shift
