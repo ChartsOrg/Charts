@@ -23,6 +23,8 @@ enum Option {
     case toggleAutoScaleMinMax
     case toggleData
     case toggleBarBorders
+    // LineChart
+    case toggleGradientLine
     // CandleChart
     case toggleShadowColorSameAsCandle
     case toggleShowCandleBar
@@ -42,6 +44,7 @@ enum Option {
     case toggleHole
     case spin
     case drawCenter
+    case toggleLabelsMinimumAngle
     // RadarChart
     case toggleXLabels
     case toggleYLabels
@@ -63,6 +66,8 @@ enum Option {
         case .toggleAutoScaleMinMax: return "Toggle auto scale min/max"
         case .toggleData: return "Toggle Data"
         case .toggleBarBorders: return "Toggle Bar Borders"
+        // LineChart
+        case .toggleGradientLine: return "Toggle Gradient Line"
         // CandleChart
         case .toggleShadowColorSameAsCandle: return "Toggle shadow same color"
         case .toggleShowCandleBar: return "Toggle show candle bar"
@@ -82,6 +87,7 @@ enum Option {
         case .toggleHole: return "Toggle Hole"
         case .spin: return "Spin"
         case .drawCenter: return "Draw CenterText"
+        case .toggleLabelsMinimumAngle: return "Toggle Labels Minimum Angle"
         // RadarChart
         case .toggleXLabels: return "Toggle X-Labels"
         case .toggleYLabels: return "Toggle Y-Labels"
@@ -125,19 +131,19 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
     func handleOption(_ option: Option, forChartView chartView: ChartViewBase) {
         switch option {
         case .toggleValues:
-            for set in chartView.data!.dataSets {
+            for set in chartView.data! {
                 set.drawValuesEnabled = !set.drawValuesEnabled
             }
             chartView.setNeedsDisplay()
             
         case .toggleIcons:
-            for set in chartView.data!.dataSets {
+            for set in chartView.data! {
                 set.drawIconsEnabled = !set.drawIconsEnabled
             }
             chartView.setNeedsDisplay()
             
         case .toggleHighlight:
-            chartView.data!.highlightEnabled = !chartView.data!.isHighlightEnabled
+            chartView.data!.isHighlightEnabled = !chartView.data!.isHighlightEnabled
             chartView.setNeedsDisplay()
             
         case .animateX:
@@ -167,7 +173,7 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
             updateChartData()
             
         case .toggleBarBorders:
-            for set in chartView.data!.dataSets {
+            for set in chartView.data! {
                 if let set = set as? BarChartDataSet {
                     set.barBorderWidth = set.barBorderWidth == 1.0 ? 0.0 : 1.0
                 }
@@ -262,7 +268,7 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
         chartView.drawSlicesUnderHoleEnabled = false
         chartView.holeRadiusPercent = 0.58
         chartView.transparentCircleRadiusPercent = 0.61
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
         chartView.setExtraOffsets(left: 5, top: 10, right: 5, bottom: 5)
         
         chartView.drawCenterTextEnabled = true
@@ -297,11 +303,11 @@ class DemoBaseViewController: UIViewController, ChartViewDelegate {
     }
     
     func setup(radarChartView chartView: RadarChartView) {
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
     }
     
     func setup(barLineChartView chartView: BarLineChartViewBase) {
-        chartView.chartDescription?.enabled = false
+        chartView.chartDescription.enabled = false
                 
         chartView.dragEnabled = true
         chartView.setScaleEnabled(true)

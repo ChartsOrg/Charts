@@ -1,12 +1,12 @@
 language: objective-c
-osx_image: xcode11
+osx_image: xcode12
 matrix:
   include:
-    - osx_image: xcode11
+    - osx_image: xcode12
       env: PLATFORM="iOS"
-    - osx_image: xcode11
+    - osx_image: xcode12
       env: PLATFORM="tvOS"
-    - osx_image: xcode11
+    - osx_image: xcode12
       env: PLATFORM="macOS"
 env:
   global:
@@ -18,7 +18,7 @@ before_install:
   - brew update
   - brew upgrade carthage || true
   - carthage version
-  - carthage bootstrap --platform $PLATFORM
+  - ./carthage.sh bootstrap --platform $PLATFORM --no-use-binaries
 script:
   - bundle exec rake ci[$PLATFORM]
 after_success:

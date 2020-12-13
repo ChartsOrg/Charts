@@ -32,6 +32,20 @@ extension NSUIEdgeInsets: AdditiveArithmetic
                               bottom: lhs.bottom + rhs.bottom,
                               right: lhs.right + rhs.right)
     }
+
+	public static func -= (lhs: inout UIEdgeInsets, rhs: UIEdgeInsets) {
+		lhs.top -= rhs.top
+		lhs.left -= rhs.left
+		lhs.bottom -= rhs.bottom
+		lhs.right -= rhs.right
+	}
+
+	public static func += (lhs: inout UIEdgeInsets, rhs: UIEdgeInsets) {
+		lhs.top += rhs.top
+		lhs.left += rhs.left
+		lhs.bottom += rhs.bottom
+		lhs.right += rhs.right
+	}
 }
 
 #endif
@@ -71,6 +85,20 @@ extension NSUIEdgeInsets: AdditiveArithmetic
                               bottom: lhs.bottom + rhs.bottom,
                               right: lhs.right + rhs.right)
     }
+
+	public static func -= (lhs: inout NSEdgeInsets, rhs: NSEdgeInsets) {
+		lhs.top -= rhs.top
+		lhs.left -= rhs.left
+		lhs.bottom -= rhs.bottom
+		lhs.right -= rhs.right
+	}
+
+	public static func += (lhs: inout NSEdgeInsets, rhs: NSEdgeInsets) {
+		lhs.top += rhs.top
+		lhs.left += rhs.left
+		lhs.bottom += rhs.bottom
+		lhs.right += rhs.right
+	}
 }
 
 extension CGRect {
