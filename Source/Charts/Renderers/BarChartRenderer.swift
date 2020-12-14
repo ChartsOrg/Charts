@@ -343,18 +343,6 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
         let buffer = _buffers[index]
         
-        // draw the bar shadow before the values
-        if dataProvider.isDrawBarShadowEnabled
-        {
-            for barRect in buffer where viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width)
-            {
-                guard viewPortHandler.isInBoundsRight(barRect.origin.x) else { break }
-
-                context.setFillColor(dataSet.barShadowColor.cgColor)
-                context.fill(barRect)
-            }
-        }
-        
         let isSingleColor = dataSet.colors.count == 1
         
         if isSingleColor
