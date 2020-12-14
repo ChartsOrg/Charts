@@ -75,7 +75,7 @@
 {
     if ([key isEqualToString:@"toggleValues"])
     {
-        for (id<IChartDataSet> set in chartView.data.dataSets)
+        for (id<ChartDataSetProtocol> set in chartView.data.dataSets)
         {
             set.drawValuesEnabled = !set.isDrawValuesEnabled;
         }
@@ -85,7 +85,7 @@
     
     if ([key isEqualToString:@"toggleIcons"])
     {
-        for (id<IChartDataSet> set in chartView.data.dataSets)
+        for (id<ChartDataSetProtocol> set in chartView.data.dataSets)
         {
             set.drawIconsEnabled = !set.isDrawIconsEnabled;
         }
@@ -95,7 +95,7 @@
     
     if ([key isEqualToString:@"toggleHighlight"])
     {
-        chartView.data.highlightEnabled = !chartView.data.isHighlightEnabled;
+        chartView.data.isHighlightEnabled = !chartView.data.isHighlightEnabled;
         [chartView setNeedsDisplay];
     }
     
@@ -143,9 +143,9 @@
     
     if ([key isEqualToString:@"toggleBarBorders"])
     {
-        for (id<IBarChartDataSet, NSObject> set in chartView.data.dataSets)
+        for (id<BarChartDataSetProtocol, NSObject> set in chartView.data.dataSets)
         {
-            if ([set conformsToProtocol:@protocol(IBarChartDataSet)])
+            if ([set conformsToProtocol:@protocol(BarChartDataSetProtocol)])
             {
                 set.barBorderWidth = set.barBorderWidth == 1.0 ? 0.0 : 1.0;
             }
@@ -172,9 +172,9 @@
 
     if ([key isEqualToString:@"toggleValueColorsAdjustment"])
     {
-        for (id<IBarChartDataSet, NSObject> set in chartView.data.dataSets)
+        for (id<BarChartDataSetProtocol, NSObject> set in chartView.data.dataSets)
         {
-            if ([set conformsToProtocol:@protocol(IBarChartDataSet)])
+            if ([set conformsToProtocol:@protocol(BarChartDataSetProtocol)])
             {
                 set.valueColorsAdjustment = !set.valueColorsAdjustment;
             }
@@ -185,9 +185,9 @@
 
     if ([key isEqualToString:@"toggleValueColorsSecondary"])
     {
-        for (id<IBarChartDataSet, NSObject> set in chartView.data.dataSets)
+        for (id<BarChartDataSetProtocol, NSObject> set in chartView.data.dataSets)
         {
-            if ([set conformsToProtocol:@protocol(IBarChartDataSet)])
+            if ([set conformsToProtocol:@protocol(BarChartDataSetProtocol)])
             {
                 if (set.valueColorsSecondary.count == 0)
                 {

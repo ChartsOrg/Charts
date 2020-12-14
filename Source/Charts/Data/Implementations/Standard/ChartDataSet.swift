@@ -27,25 +27,25 @@ open class ChartDataSet: ChartBaseDataSet
     public required init()
     {
         entries = []
-
+        
         super.init()
     }
     
-    public override convenience init(label: String?)
+    public override convenience init(label: String)
     {
-        self.init(entries: nil, label: label)
+        self.init(entries: [], label: label)
     }
     
-    @objc public init(entries: [ChartDataEntry]?, label: String?)
+    @objc public init(entries: [ChartDataEntry], label: String)
     {
-        self.entries = entries ?? []
+        self.entries = entries 
 
         super.init(label: label)
 
         self.calcMinMax()
     }
     
-    @objc public convenience init(entries: [ChartDataEntry]?)
+    @objc public convenience init(entries: [ChartDataEntry])
     {
         self.init(entries: entries, label: "DataSet")
     }
@@ -55,10 +55,6 @@ open class ChartDataSet: ChartBaseDataSet
     /// - Note: Calls `notifyDataSetChanged()` after setting a new value.
     /// - Returns: The array of y-values that this DataSet represents.
     /// the entries that this dataset represents / holds together
-    @available(*, unavailable, renamed: "entries")
-    @objc
-    open var values: [ChartDataEntry] { return entries }
-
     @objc
     open private(set) var entries: [ChartDataEntry]
 
@@ -104,36 +100,24 @@ open class ChartDataSet: ChartBaseDataSet
 
         guard !isEmpty else { return }
         
-        let indexFrom = entryIndex(x: fromX, closestToY: Double.nan, rounding: .down)
-        let indexTo = entryIndex(x: toX, closestToY: Double.nan, rounding: .up)
+        let indexFrom = entryIndex(x: fromX, closestToY: .nan, rounding: .down)
+        let indexTo = entryIndex(x: toX, closestToY: .nan, rounding: .up)
         
-        guard !(indexTo < indexFrom) else { return }
+        guard indexTo >= indexFrom else { return }
         // only recalculate y
         self[indexFrom...indexTo].forEach(calcMinMaxY)
     }
     
     @objc open func calcMinMaxX(entry e: ChartDataEntry)
     {
-        if e.x < _xMin
-        {
-            _xMin = e.x
-        }
-        if e.x > _xMax
-        {
-            _xMax = e.x
-        }
+        _xMin = Swift.min(e.x, _xMin)
+        _xMax = Swift.max(e.x, _xMax)
     }
     
     @objc open func calcMinMaxY(entry e: ChartDataEntry)
     {
-        if e.y < _yMin
-        {
-            _yMin = e.y
-        }
-        if e.y > _yMax
-        {
-            _yMax = e.y
-        }
+        _yMin = Swift.min(e.y, _yMin)
+        _yMax = Swift.max(e.y, _yMax)
     }
     
     /// Updates the min and max x and y value of this DataSet based on the given Entry.
@@ -147,16 +131,16 @@ open class ChartDataSet: ChartBaseDataSet
     }
     
     /// The minimum y-value this DataSet holds
-    open override var yMin: Double { return _yMin }
+    @objc open override var yMin: Double { return _yMin }
     
     /// The maximum y-value this DataSet holds
-    open override var yMax: Double { return _yMax }
+    @objc open override var yMax: Double { return _yMax }
     
     /// The minimum x-value this DataSet holds
-    open override var xMin: Double { return _xMin }
+    @objc open override var xMin: Double { return _xMin }
     
     /// The maximum x-value this DataSet holds
-    open override var xMax: Double { return _xMax }
+    @objc open override var xMax: Double { return _xMax }
     
     /// The number of y-values this DataSet represents
     @available(*, deprecated, message: "Use `count` instead")
@@ -168,7 +152,7 @@ open class ChartDataSet: ChartBaseDataSet
     @available(*, deprecated, message: "Use `subscript(index:)` instead.")
     open override func entryForIndex(_ i: Int) -> ChartDataEntry?
     {
-        guard i >= startIndex, i < endIndex else {
+        guard indices.contains(i) else {
             return nil
         }
         return self[i]
@@ -376,6 +360,7 @@ open class ChartDataSet: ChartBaseDataSet
     /// - Parameters:
     ///   - e: the entry to search for
     /// - Returns: The array-index of the specified entry
+    // TODO: Should be returning `nil` to follow Swift convention
     @available(*, deprecated, message: "Use `firstIndex(of:)` or `lastIndex(of:)`")
     open override func entryIndex(entry e: ChartDataEntry) -> Int
     {
@@ -389,7 +374,8 @@ open class ChartDataSet: ChartBaseDataSet
     /// - Parameters:
     ///   - e: the entry to add
     /// - Returns: True
-    @available(*, deprecated, message: "Use `append(_:)` instead")
+    // TODO: This should return `Void` to follow Swift convention
+    @available(*, deprecated, message: "Use `append(_:)` instead", renamed: "append(_:)")
     open override func addEntry(_ e: ChartDataEntry) -> Bool
     {
         append(e)
@@ -403,17 +389,15 @@ open class ChartDataSet: ChartBaseDataSet
     /// - Parameters:
     ///   - e: the entry to add
     /// - Returns: True
+    // TODO: This should return `Void` to follow Swift convention
     open override func addEntryOrdered(_ e: ChartDataEntry) -> Bool
     {
-        calcMinMax(entry: e)
-        
         if let last = last, last.x > e.x
         {
-            var closestIndex = entryIndex(x: e.x, closestToY: e.y, rounding: .up)
-            while self[closestIndex].x < e.x
-            {
-                closestIndex += 1
-            }
+            let startIndex = entryIndex(x: e.x, closestToY: e.y, rounding: .up)
+            let closestIndex = self[startIndex...].lastIndex { $0.x < e.x }
+                ?? startIndex
+            calcMinMax(entry: e)
             entries.insert(e, at: closestIndex)
         }
         else
@@ -427,7 +411,7 @@ open class ChartDataSet: ChartBaseDataSet
     @available(*, renamed: "remove(_:)")
     open override func removeEntry(_ entry: ChartDataEntry) -> Bool
     {
-        return remove(entry)
+        remove(entry)
     }
 
     /// Removes an Entry from the DataSet dynamically.
@@ -446,6 +430,7 @@ open class ChartDataSet: ChartBaseDataSet
     /// Removes the first Entry (at index 0) of this DataSet from the entries array.
     ///
     /// - Returns: `true` if successful, `false` if not.
+    // TODO: This should return the removed entry to follow Swift convention.
     @available(*, deprecated, message: "Use `func removeFirst() -> ChartDataEntry` instead.")
     open override func removeFirst() -> Bool
     {
@@ -456,6 +441,7 @@ open class ChartDataSet: ChartBaseDataSet
     /// Removes the last Entry (at index size-1) of this DataSet from the entries array.
     ///
     /// - Returns: `true` if successful, `false` if not.
+    // TODO: This should return the removed entry to follow Swift convention.
     @available(*, deprecated, message: "Use `func removeLast() -> ChartDataEntry` instead.")
     open override func removeLast() -> Bool
     {
@@ -471,7 +457,7 @@ open class ChartDataSet: ChartBaseDataSet
     }
     
     // MARK: - Data functions and accessors
-
+    
     // MARK: - NSCopying
     
     open override func copy(with zone: NSZone? = nil) -> Any
