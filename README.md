@@ -92,6 +92,16 @@ github "danielgindi/Charts" ~> 4.0.0
 
 In order to build the binaries for a new release, use `carthage build --no-skip-current && carthage archive Charts`.
 
+## Swift Package Manager Install
+
+Swift Package Manager
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/danielgindi/Charts.git", .upToNextMajor(from: "4.0.0"))
+]
+```
+
 ## 3rd party bindings
 
 Xamarin (by @Flash3001): *iOS* - [GitHub](https://github.com/Flash3001/iOSCharts.Xamarin)/[NuGet](https://www.nuget.org/packages/iOSCharts/). *Android* - [GitHub](https://github.com/Flash3001/MPAndroidChart.Xamarin)/[NuGet](https://www.nuget.org/packages/MPAndroidChart/).
