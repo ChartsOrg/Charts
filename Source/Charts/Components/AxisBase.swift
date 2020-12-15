@@ -134,14 +134,17 @@ open class AxisBase: ComponentBase
     @objc open func getLongestLabel() -> String
     {
         var longest = ""
+        var currentWidth: CGFloat = 0
         
         for i in entries.indices
         {
             let text = getFormattedLabel(i)
+            let textWidth = text.size(withAttributes: [NSAttributedString.Key.font: labelFont]).width
             
-            if longest.count < text.count
+            if longest.count <= text.count, currentWidth < textWidth
             {
                 longest = text
+                currentWidth = textWidth
             }
         }
         
