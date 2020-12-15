@@ -303,7 +303,6 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         
         let borderWidth = dataSet.barBorderWidth
         let borderColor = dataSet.barBorderColor
-        let drawBorder = borderWidth > 0.0
         
         context.saveGState()
         defer { context.restoreGState() }
@@ -376,14 +375,12 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                        dataSet: dataSet,
                        entry: dataSet.entryForIndex(j) as? BarChartDataEntry)
             
-            if drawBorder {
-                renderBorder(with: borderColor,
-                             width: borderWidth,
-                             for: barRect,
-                             in: context,
-                             dataSet: dataSet,
-                             entry: dataSet.entryForIndex(j) as? BarChartDataEntry)
-            }
+            renderBorder(with: borderColor,
+                         width: borderWidth,
+                         for: barRect,
+                         in: context,
+                         dataSet: dataSet,
+                         entry: dataSet.entryForIndex(j) as? BarChartDataEntry)
 
             // Create and append the corresponding accessibility element to accessibilityOrderedElements
             if let chart = dataProvider as? BarChartView
