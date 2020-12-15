@@ -108,17 +108,22 @@ class CandleStickChartViewController: DemoBaseViewController {
     override func optionTapped(_ option: Option) {
         switch option {
         case .toggleShadowColorSameAsCandle:
-            for case let set as CandleChartDataSet in chartView.data! {
-                set.shadowColorSameAsCandle = !set.shadowColorSameAsCandle
+            if let datasets = chartView.data?.dataSets as? [CandleChartDataSet] {
+                for set in datasets {
+                    set.shadowColorSameAsCandle.toggle()
+                }
+                
+                chartView.notifyDataSetChanged()
             }
-            chartView.notifyDataSetChanged()
+            
         case .toggleShowCandleBar:
             if let datasets = chartView.data?.dataSets as? [CandleChartDataSet] {
                 for set in datasets {
                     set.showCandleBar.toggle()
                 }
+                
+                chartView.notifyDataSetChanged()
             }
-            chartView.notifyDataSetChanged()
         default:
             super.handleOption(option, forChartView: chartView)
         }
