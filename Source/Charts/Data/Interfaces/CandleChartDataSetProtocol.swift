@@ -1,5 +1,5 @@
 //
-//  ICandleChartDataSet.swift
+//  CandleChartDataSetProtocol.swift
 //  Charts
 //
 //  Copyright 2015 Daniel Cohen Gindi & Philipp Jahoda
@@ -13,7 +13,7 @@ import Foundation
 import CoreGraphics
 
 @objc
-public protocol ICandleChartDataSet: ILineScatterCandleRadarChartDataSet
+public protocol CandleChartDataSetProtocol: LineScatterCandleRadarChartDataSetProtocol
 {
     // MARK: - Data functions and accessors
     

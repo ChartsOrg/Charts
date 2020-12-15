@@ -18,7 +18,7 @@ open class ZoomViewJob: ViewPortJob
     internal var scaleX: CGFloat = 0.0
     internal var scaleY: CGFloat = 0.0
     internal var axisDependency: YAxis.AxisDependency = .left
-    
+
     @objc public init(
         viewPortHandler: ViewPortHandler,
         scaleX: CGFloat,
@@ -29,26 +29,21 @@ open class ZoomViewJob: ViewPortJob
         axis: YAxis.AxisDependency,
         view: ChartViewBase)
     {
+        self.scaleX = scaleX
+        self.scaleY = scaleY
+        self.axisDependency = axis
+
         super.init(
             viewPortHandler: viewPortHandler,
             xValue: xValue,
             yValue: yValue,
             transformer: transformer,
             view: view)
-        
-        self.scaleX = scaleX
-        self.scaleY = scaleY
-        self.axisDependency = axis
+
     }
     
     open override func doJob()
     {
-        guard
-            let viewPortHandler = viewPortHandler,
-            let transformer = transformer,
-            let view = view
-            else { return }
-        
         var matrix = viewPortHandler.setZoom(scaleX: scaleX, scaleY: scaleY)
         viewPortHandler.refresh(newMatrix: matrix, chart: view, invalidate: false)
         

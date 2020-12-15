@@ -7,7 +7,7 @@
 #import <UIKit/UIKit.h>
 #import "ChartsDemo_iOS-Swift.h"
 
-@interface DayAxisValueFormatter : NSObject <IChartAxisValueFormatter>
+@interface DayAxisValueFormatter : NSObject <ChartAxisValueFormatter>
 
 - (id)initForChart:(BarLineChartViewBase *)chart;
 

@@ -25,7 +25,7 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     {
         super.initialize()
         
-        renderer = BarChartRenderer(dataProvider: self, animator: _animator, viewPortHandler: _viewPortHandler)
+        renderer = BarChartRenderer(dataProvider: self, animator: chartAnimator, viewPortHandler: viewPortHandler)
         
         self.highlighter = BarHighlighter(chart: self)
         
@@ -40,13 +40,13 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
         
         if fitBars
         {
-            _xAxis.calculate(
+            xAxis.calculate(
                 min: data.xMin - data.barWidth / 2.0,
                 max: data.xMax + data.barWidth / 2.0)
         }
         else
         {
-            _xAxis.calculate(min: data.xMin, max: data.xMax)
+            xAxis.calculate(min: data.xMin, max: data.xMax)
         }
         
         // calculate axis range (min / max) according to provided data
@@ -61,7 +61,7 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     /// - Returns: The Highlight object (contains x-index and DataSet index) of the selected value at the given touch point inside the BarChart.
     open override func getHighlightByTouchPoint(_ pt: CGPoint) -> Highlight?
     {
-        if _data === nil
+        if data === nil
         {
             Swift.print("Can't select by touch. No data set.")
             return nil
@@ -86,9 +86,9 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     @objc open func getBarBounds(entry e: BarChartDataEntry) -> CGRect
     {
         guard let
-            data = _data as? BarChartData,
-            let set = data.getDataSetForEntry(e) as? IBarChartDataSet
-            else { return CGRect.null }
+            data = data as? BarChartData,
+            let set = data.getDataSetForEntry(e) as? BarChartDataSetProtocol
+            else { return .null }
         
         let y = e.y
         let x = e.x
@@ -176,7 +176,7 @@ open class BarChartView: BarLineChartViewBase, BarChartDataProvider
     
     // MARK: - BarChartDataProvider
     
-    open var barData: BarChartData? { return _data as? BarChartData }
+    open var barData: BarChartData? { return data as? BarChartData }
     
     /// `true` if drawing values above bars is enabled, `false` ifnot
     open var isDrawValueAboveBarEnabled: Bool { return drawValueAboveBarEnabled }
