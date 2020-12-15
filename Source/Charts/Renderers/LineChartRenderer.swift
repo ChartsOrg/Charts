@@ -892,6 +892,13 @@ open class LineChartRenderer: LineRadarRenderer
     
     // MARK: - Rendering override points -
     
+    /// Render a line.
+    ///
+    /// - Parameters:
+    ///   - path: the path that should be rendered.
+    ///   - color: the color of the line.
+    ///   - context: the drawing context.
+    ///   - dataSet: the dataset that is being rendered.
     @objc open func renderLine(with path: CGPath, color: NSUIColor, in context: CGContext, dataSet: LineChartDataSetProtocol) {
         context.saveGState()
         context.beginPath()
@@ -901,6 +908,15 @@ open class LineChartRenderer: LineRadarRenderer
         context.restoreGState()
     }
 
+    /// Render a line with a gradient.
+    ///
+    /// - Parameters:
+    ///   - path: the path that should be rendered.
+    ///   - gradient: the gradient.
+    ///   - startPoint: the gradient's start point.
+    ///   - endPoint: the gradient's end point.
+    ///   - context: the drawing context.
+    ///   - dataSet: the dataset that is being rendered.
     @objc open func renderGradientLine(with path: CGPath,
                                        linearGradient gradient: CGGradient,
                                        startingAt startPoint: CGPoint,
@@ -916,6 +932,13 @@ open class LineChartRenderer: LineRadarRenderer
         context.restoreGState()
     }
     
+    /// Render a line between points.
+    ///
+    /// - Parameters:
+    ///   - points: the collection of points to draw the line between.
+    ///   - color: the color of the line.
+    ///   - context: the drawing context.
+    ///   - dataSet: the dataset that is being rendered.
     @objc open func renderLine(between points: [CGPoint], color: NSUIColor, in context: CGContext, dataSet: LineChartDataSetProtocol) {
         context.saveGState()
         context.setStrokeColor(color.cgColor)

@@ -362,6 +362,14 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
     
     // MARK: - Rendering override points -
 
+    /// Render bubble fill.
+    ///
+    /// - Parameters:
+    ///   - color: the fill color of the bubble.
+    ///   - rect: the rectangle for which to render the bubble.
+    ///   - context: the drawing context.
+    ///   - dataSet: the dataset that is being rendered.
+    ///   - dataEntry: the entry that is being rendered.
     @objc open func renderFill(with color: NSUIColor,
                                for rect: CGRect,
                                in context: CGContext,
@@ -373,6 +381,17 @@ open class BubbleChartRenderer: BarLineScatterCandleBubbleRenderer
         context.restoreGState()
     }
     
+    
+    /// Render a highlighted bubble.
+    ///
+    /// - Parameters:
+    ///   - highlight: the hightligh to render.
+    ///   - color: the color of the highlighted bubble.
+    ///   - rect: the rectangle for which to render the bubble.
+    ///   - lineWidth: the width of the border.
+    ///   - context: the drawing context.
+    ///   - dataSet: the dataset dat is being rendered.
+    ///   - entry: the entry that is being rendered.
     @objc open func render(highlight: Highlight,
                            with color: NSUIColor,
                            for rect: CGRect,
