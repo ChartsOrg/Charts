@@ -58,7 +58,7 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
     {
         _stackSize = entries.lazy
             .map(\.stackSize)
-            .max(by: \.self) ?? 1
+            .max() ?? 1
     }
     
     open override func calcMinMax(entry e: ChartDataEntry)

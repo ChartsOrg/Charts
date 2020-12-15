@@ -12,12 +12,6 @@
 import Foundation
 import CoreGraphics
 
-extension Sequence {
-    func max<T: Comparable>(by keyPath: KeyPath<Element, T>) -> Element? {
-        self.max { $0[keyPath: keyPath] < $1[keyPath: keyPath] }
-    }
-}
-
 /// Base class for all axes
 @objc(ChartAxisBase)
 open class AxisBase: ComponentBase
