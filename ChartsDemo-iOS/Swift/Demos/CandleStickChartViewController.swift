@@ -113,8 +113,10 @@ class CandleStickChartViewController: DemoBaseViewController {
             }
             chartView.notifyDataSetChanged()
         case .toggleShowCandleBar:
-            for set in chartView.data!.dataSets as! [CandleChartDataSet] {
-                set.showCandleBar = !set.showCandleBar
+            if let datasets = chartView.data?.dataSets as? [CandleChartDataSet] {
+                for set in datasets {
+                    set.showCandleBar.toggle()
+                }
             }
             chartView.notifyDataSetChanged()
         default:
