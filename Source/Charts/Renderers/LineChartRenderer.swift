@@ -32,18 +32,14 @@ open class LineChartRenderer: LineRadarRenderer
     open override func drawData(context: CGContext)
     {
         guard let lineData = dataProvider?.lineData else { return }
-        
-        for i in lineData.indices
-        {
-            guard let set = lineData[i] as? LineChartDataSetProtocol else
-            {
-                fatalError("Datasets for LineChartRenderer must conform to LineChartDataSetProtocol")
-            }
 
-            guard set.isVisible else { continue }
+        let sets = lineData.dataSets as? [LineChartDataSet]
+        assert(sets != nil, "Datasets for LineChartRenderer must conform to ILineChartDataSet")
 
-            drawDataSet(context: context, dataSet: set)
-        }
+        let drawDataSet = { self.drawDataSet(context: context, dataSet: $0) }
+        sets!.lazy
+            .filter(\.isVisible)
+            .forEach(drawDataSet)
     }
     
     @objc open func drawDataSet(context: CGContext, dataSet: LineChartDataSetProtocol)
@@ -269,7 +265,7 @@ open class LineChartRenderer: LineRadarRenderer
     {
         guard
             let dataProvider = dataProvider
-            else { return }
+        else { return }
         
         if bounds.range <= 0
         {
@@ -373,7 +369,7 @@ open class LineChartRenderer: LineRadarRenderer
                 {
                     break
                 }
-            
+
                 // Determine the start and end coordinates of the line, and make sure they differ.
                 guard
                     let firstCoordinate = _lineSegments.first,
@@ -381,9 +377,9 @@ open class LineChartRenderer: LineRadarRenderer
                     firstCoordinate != lastCoordinate else { continue }
                 
                 // make sure the lines don't do shitty things outside bounds
-            if !viewPortHandler.isInBoundsLeft(lastCoordinate.x) ||
-                !viewPortHandler.isInBoundsTop(max(firstCoordinate.y, lastCoordinate.y)) ||
-                !viewPortHandler.isInBoundsBottom(min(firstCoordinate.y, lastCoordinate.y))
+                if !viewPortHandler.isInBoundsLeft(lastCoordinate.x) ||
+                    !viewPortHandler.isInBoundsTop(max(firstCoordinate.y, lastCoordinate.y)) ||
+                    !viewPortHandler.isInBoundsBottom(min(firstCoordinate.y, lastCoordinate.y))
                 {
                     continue
                 }
@@ -523,7 +519,7 @@ open class LineChartRenderer: LineRadarRenderer
         guard
             let dataProvider = dataProvider,
             let lineData = dataProvider.lineData
-            else { return }
+        else { return }
 
         if isDrawingValuesAllowed(dataProvider: dataProvider)
         {
@@ -534,9 +530,9 @@ open class LineChartRenderer: LineRadarRenderer
             for i in lineData.indices
             {
                 guard let
-                    dataSet = lineData[i] as? LineChartDataSetProtocol,
-                    shouldDrawValues(forDataSet: dataSet)
-                    else { continue }
+                        dataSet = lineData[i] as? LineChartDataSetProtocol,
+                      shouldDrawValues(forDataSet: dataSet)
+                else { continue }
                 
                 let valueFont = dataSet.valueFont
                 
@@ -595,7 +591,7 @@ open class LineChartRenderer: LineRadarRenderer
                     {
                         context.drawImage(icon,
                                           atCenter: CGPoint(x: pt.x + iconsOffset.x,
-                                                          y: pt.y + iconsOffset.y),
+                                                            y: pt.y + iconsOffset.y),
                                           size: icon.size)
                     }
                 }
@@ -613,7 +609,7 @@ open class LineChartRenderer: LineRadarRenderer
         guard
             let dataProvider = dataProvider,
             let lineData = dataProvider.lineData
-            else { return }
+        else { return }
         
         let phaseY = animator.phaseY
         
@@ -756,7 +752,7 @@ open class LineChartRenderer: LineRadarRenderer
         guard
             let dataProvider = dataProvider,
             let lineData = dataProvider.lineData
-            else { return }
+        else { return }
         
         let chartXMax = dataProvider.chartXMax
         
@@ -765,8 +761,8 @@ open class LineChartRenderer: LineRadarRenderer
         for high in indices
         {
             guard let set = lineData[high.dataSetIndex] as? LineChartDataSetProtocol,
-                set.isHighlightEnabled
-                else { continue }
+                  set.isHighlightEnabled
+            else { continue }
             
             guard let e = set.entryForXValue(high.x, closestToY: high.y) else { continue }
             
@@ -835,7 +831,7 @@ open class LineChartRenderer: LineRadarRenderer
                     return
                 }
                 components += [r, g, b, a]
-        }
+            }
         let gradientLocations: [CGFloat] = gradientPositions.reversed()
             .map { (position) in
                 let location = CGPoint(x: boundingBox.minX, y: position)
@@ -843,14 +839,14 @@ open class LineChartRenderer: LineRadarRenderer
                 let normalizedLocation = (location.y - boundingBox.minY)
                     / (boundingBox.maxY - boundingBox.minY)
                 return normalizedLocation.clamped(to: 0...1)
-        }
+            }
 
         let baseColorSpace = CGColorSpaceCreateDeviceRGB()
         guard let gradient = CGGradient(
-            colorSpace: baseColorSpace,
-            colorComponents: gradientColorComponents,
-            locations: gradientLocations,
-            count: gradientLocations.count) else {
+                colorSpace: baseColorSpace,
+                colorComponents: gradientColorComponents,
+                locations: gradientLocations,
+                count: gradientLocations.count) else {
             return
         }
 
@@ -880,10 +876,10 @@ open class LineChartRenderer: LineRadarRenderer
     /// i.e. in case of a stacked chart, this returns each stack, not the combined bar.
     /// Note that it is marked internal to support subclass modification in the HorizontalBarChart.
     private func createAccessibleElement(withIndex idx: Int,
-                                          container: LineChartView,
-                                          dataSet: LineChartDataSetProtocol,
-                                          dataSetIndex: Int,
-                                          modifier: (NSUIAccessibilityElement) -> ()) -> NSUIAccessibilityElement
+                                         container: LineChartView,
+                                         dataSet: LineChartDataSetProtocol,
+                                         dataSetIndex: Int,
+                                         modifier: (NSUIAccessibilityElement) -> ()) -> NSUIAccessibilityElement
     {
         let element = NSUIAccessibilityElement(accessibilityContainer: container)
         let xAxis = container.xAxis
@@ -897,9 +893,9 @@ open class LineChartRenderer: LineRadarRenderer
         let label = xAxis.valueFormatter?.stringForValue(e.x, axis: xAxis) ?? "\(e.x)"
 
         let elementValueText = dataSet.valueFormatter.stringForValue(e.y,
-                                                                      entry: e,
-                                                                      dataSetIndex: dataSetIndex,
-                                                                      viewPortHandler: viewPortHandler)
+                                                                     entry: e,
+                                                                     dataSetIndex: dataSetIndex,
+                                                                     viewPortHandler: viewPortHandler)
 
         let dataSetCount = dataProvider.lineData?.dataSetCount ?? -1
         let doesContainMultipleDataSets = dataSetCount > 1
