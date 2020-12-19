@@ -349,10 +349,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         // set the indices to highlight
         highlighted = highs ?? []
 
-        lastHighlighted = highlighted.isEmpty
-            ? nil
-            : highlighted[0]
-
+        lastHighlighted = highlighted.first
 
         // redraw the chart
         setNeedsDisplay()
