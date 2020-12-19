@@ -238,13 +238,11 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         
         if let data = data , data.entryCount >= 2
         {
-            reference = fabs(max - min)
+            reference = abs(max - min)
         }
         else
         {
-            let absMin = fabs(min)
-            let absMax = fabs(max)
-            reference = absMin > absMax ? absMin : absMax
+            reference = Swift.max(abs(min), abs(max))
         }
         
     
