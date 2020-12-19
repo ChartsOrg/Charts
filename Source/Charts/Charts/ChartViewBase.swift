@@ -256,8 +256,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     open override func draw(_ rect: CGRect)
     {
-        let optionalContext = NSUIGraphicsGetCurrentContext()
-        guard let context = optionalContext else { return }
+        guard let context = NSUIGraphicsGetCurrentContext() else { return }
 
         if data === nil && !noDataText.isEmpty
         {
