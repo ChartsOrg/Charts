@@ -681,7 +681,6 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// The center point of the chart (the whole View) in pixels.
     @objc open var midPoint: CGPoint
     {
-        let bounds = self.bounds
         return CGPoint(x: bounds.origin.x + bounds.size.width / 2.0, y: bounds.origin.y + bounds.size.height / 2.0)
     }
     
