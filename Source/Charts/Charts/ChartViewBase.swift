@@ -838,12 +838,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         }
         set
         {
-            switch newValue
-            {
-            case ..<0.0: _dragDecelerationFrictionCoef = 0
-            case 1.0...: _dragDecelerationFrictionCoef = 0.999
-            default: _dragDecelerationFrictionCoef = newValue
-            }
+            _dragDecelerationFrictionCoef = max(0, min(newValue, 0.999))
         }
     }
     private var _dragDecelerationFrictionCoef: CGFloat = 0.9
