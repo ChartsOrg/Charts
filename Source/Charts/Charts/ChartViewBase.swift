@@ -75,10 +75,6 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// If set to true, chart continues to scroll after touch up
     @objc open var dragDecelerationEnabled = true
 
-    /// if true, units are drawn next to the values in the chart
-    // TODO: This is used nowhere and can't be used by a consumer. Can we remove this property?
-    internal var _drawUnitInChart = false
-
     /// The object representing the labels on the x-axis
     @objc open internal(set) lazy var xAxis = XAxis()
     
