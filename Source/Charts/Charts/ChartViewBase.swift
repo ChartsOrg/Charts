@@ -135,9 +135,6 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// The marker that is displayed when a value is clicked on the chart
     @objc open var marker: Marker?
 
-    // TODO: There is no way to modify this value. Should it exist?
-    private let interceptTouchEvents = false
-
     /// An extra offset to be appended to the viewport's top
     @objc open var extraTopOffset: CGFloat = 0.0
     
@@ -884,33 +881,21 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     open override func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
     {
-        if !interceptTouchEvents
-        {
-            super.nsuiTouchesBegan(touches, withEvent: event)
-        }
+        super.nsuiTouchesBegan(touches, withEvent: event)
     }
     
     open override func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
     {
-        if !interceptTouchEvents
-        {
-            super.nsuiTouchesMoved(touches, withEvent: event)
-        }
+        super.nsuiTouchesMoved(touches, withEvent: event)
     }
     
     open override func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
     {
-        if !interceptTouchEvents
-        {
-            super.nsuiTouchesEnded(touches, withEvent: event)
-        }
+        super.nsuiTouchesEnded(touches, withEvent: event)
     }
     
     open override func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
     {
-        if !interceptTouchEvents
-        {
-            super.nsuiTouchesCancelled(touches, withEvent: event)
-        }
+        super.nsuiTouchesCancelled(touches, withEvent: event)
     }
 }
