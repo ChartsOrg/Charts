@@ -10,11 +10,11 @@
 //
 //  Based on https://github.com/PhilJay/MPAndroidChart/commit/c42b880
 
-import Foundation
-import CoreGraphics
-
 #if !os(OSX)
     import UIKit
+#else
+import Foundation
+import CoreGraphics
 #endif
 
 @objc

@@ -9,11 +9,11 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
-import CoreGraphics
-
 #if !os(OSX)
     import UIKit
+#else
+	import Foundation
+	import CoreGraphics
 #endif
 
 open class BarChartRenderer: BarLineScatterCandleBubbleRenderer

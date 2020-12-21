@@ -9,11 +9,11 @@
 //  https://github.com/danielgindi/Charts
 //
 
+#if !os(OSX)
+import UIKit
+#else
 import Foundation
 import CoreGraphics
-
-#if !os(OSX)
-    import UIKit
 #endif
 
 
