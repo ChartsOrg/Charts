@@ -23,7 +23,10 @@ let package = Package(
          .package(url: "https://github.com/apple/swift-algorithms", from: "0.0.2")
     ],
     targets: [
-        .target(name: "Charts")
+        .target(
+			name: "Charts",
+			dependencies: [.product(name: "Algorithms", package: "swift-algorithms")]
+		)
     ],
     swiftLanguageVersions: [.v5]
 )
