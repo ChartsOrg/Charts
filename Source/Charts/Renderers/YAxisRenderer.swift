@@ -9,9 +9,12 @@
 //  https://github.com/danielgindi/Charts
 //
 
+#if !os(OSX)
+import UIKit
+#else
 import Foundation
 import CoreGraphics
-
+#endif
 
 @objc(ChartYAxisRenderer)
 open class YAxisRenderer: NSObject, AxisRenderer
