@@ -12,6 +12,12 @@
 import Foundation
 import CoreGraphics
 
+#if os(iOS) || os(tvOS)
+import UIKit
+#elseif os(macOS)
+import AppKit
+#endif
+
 extension Comparable
 {
     func clamped(to range: ClosedRange<Self>) -> Self
