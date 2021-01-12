@@ -104,7 +104,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     @objc open var noDataTextColor: NSUIColor = .labelOrBlack
 
     /// alignment of the no data text
-    @objc open var noDataTextAlignment: NSTextAlignment = .left
+    @objc open var noDataTextAlignment: TextAlignment = .left
 
     /// The renderer object responsible for rendering / drawing the Legend.
     @objc open lazy var legendRenderer = LegendRenderer(viewPortHandler: viewPortHandler, legend: legend)
@@ -276,7 +276,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             context.saveGState()
             defer { context.restoreGState() }
 
-            let paragraphStyle = NSMutableParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+            let paragraphStyle = MutableParagraphStyle.default.mutableCopy() as! MutableParagraphStyle
             paragraphStyle.minimumLineHeight = noDataFont.lineHeight
             paragraphStyle.lineBreakMode = .byWordWrapping
             paragraphStyle.alignment = noDataTextAlignment

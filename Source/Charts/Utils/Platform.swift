@@ -5,7 +5,11 @@ alike, and for the chart library's usage of the APIs it is often sufficient to t
 types are aliased to either their UI* implementation (on iOS) or their NS* implementation (on OS X). */
 #if os(iOS) || os(tvOS)
 	import UIKit
-	
+
+
+    public typealias ParagraphStyle = NSParagraphStyle
+    public typealias MutableParagraphStyle = NSMutableParagraphStyle
+    public typealias TextAlignment = NSTextAlignment
 	public typealias NSUIFont = UIFont
 	public typealias NSUIImage = UIImage
 	public typealias NSUIScrollView = UIScrollView
@@ -64,6 +68,9 @@ types are aliased to either their UI* implementation (on iOS) or their NS* imple
 	import Cocoa
 	import Quartz
 
+    public typealias ParagraphStyle = NSParagraphStyle
+    public typealias MutableParagraphStyle = NSMutableParagraphStyle
+    public typealias TextAlignment = NSTextAlignment
     public typealias NSUIFont = NSFont
     public typealias NSUIImage = NSImage
     public typealias NSUIScrollView = NSScrollView
