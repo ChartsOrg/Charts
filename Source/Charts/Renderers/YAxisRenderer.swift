@@ -44,7 +44,7 @@ open class YAxisRenderer: NSObject, AxisRenderer
         let labelPosition = axis.labelPosition
         
         let xPos: CGFloat
-        let textAlign: NSTextAlignment
+        let textAlign: TextAlignment
         
         if dependency == .left
         {
@@ -123,7 +123,7 @@ open class YAxisRenderer: NSObject, AxisRenderer
         fixedPosition: CGFloat,
         positions: [CGPoint],
         offset: CGFloat,
-        textAlign: NSTextAlignment)
+        textAlign: TextAlignment)
     {
         let labelFont = axis.labelFont
         let labelTextColor = axis.labelTextColor
@@ -300,7 +300,7 @@ open class YAxisRenderer: NSObject, AxisRenderer
             let xOffset = 4.0 + l.xOffset
             let yOffset = l.lineWidth + labelLineHeight + l.yOffset
 
-            let align: NSTextAlignment
+            let align: TextAlignment
             let point: CGPoint
 
             switch l.labelPosition

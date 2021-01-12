@@ -9,11 +9,13 @@
 //  https://github.com/danielgindi/Charts
 //
 
-import Foundation
 import CoreGraphics
+import Foundation
 
-#if !os(OSX)
-    import UIKit
+#if canImport(UIKit)
+import UIKit
+#elseif canImport(AppKit)
+import AppKit
 #endif
 
 /// Base-class of LineChart, BarChart, ScatterChart and CandleStickChart.
@@ -905,7 +907,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     }
     
     #if !os(OSX)
-    open override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool
+    open override func gestureRecognizerShouldBegin(_ gestureRecognizer: NSUIGestureRecognizer) -> Bool
     {
         if !super.gestureRecognizerShouldBegin(gestureRecognizer)
         {
@@ -917,7 +919,7 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     #endif
     
     #if os(OSX)
-    public func gestureRecognizerShouldBegin(gestureRecognizer: NSGestureRecognizer) -> Bool
+    public func gestureRecognizerShouldBegin(gestureRecognizer: NSUIGestureRecognizer) -> Bool
     {
         return nsuiGestureRecognizerShouldBegin(gestureRecognizer)
     }

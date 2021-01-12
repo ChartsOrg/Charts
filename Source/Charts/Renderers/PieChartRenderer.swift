@@ -408,7 +408,7 @@ open class PieChartRenderer: NSObject, DataRenderer
 
                     var pt2: CGPoint
                     var labelPoint: CGPoint
-                    var align: NSTextAlignment
+                    var align: TextAlignment
 
                     var line1Radius: CGFloat
 

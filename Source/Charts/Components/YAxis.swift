@@ -78,7 +78,7 @@ open class YAxis: AxisBase
     @objc open var labelPosition = LabelPosition.outsideChart
 
     /// the alignment of the text in the y-label
-    @objc open var labelAlignment: NSTextAlignment = .left
+    @objc open var labelAlignment: TextAlignment = .left
 
     /// the horizontal offset of the y-label
     @objc open var labelXOffset: CGFloat = 0.0
