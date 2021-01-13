@@ -668,7 +668,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     }
     
     /// Draws a value at the specified x and y position.
-    @objc open func drawValue(context: CGContext, value: String, xPos: CGFloat, yPos: CGFloat, font: NSUIFont, align: NSTextAlignment, color: NSUIColor, anchor: CGPoint, angleRadians: CGFloat)
+    @objc open func drawValue(context: CGContext, value: String, xPos: CGFloat, yPos: CGFloat, font: NSUIFont, align: TextAlignment, color: NSUIColor, anchor: CGPoint, angleRadians: CGFloat)
     {
         if (angleRadians == 0.0)
         {

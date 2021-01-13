@@ -249,7 +249,7 @@ open class XAxisRenderer: NSObject, AxisRenderer
     {
         guard let transformer = self.transformer else { return }
         
-        let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        let paraStyle = ParagraphStyle.default.mutableCopy() as! MutableParagraphStyle
         paraStyle.alignment = .center
         
         let labelAttrs: [NSAttributedString.Key : Any] = [.font: axis.labelFont,
@@ -453,7 +453,7 @@ open class XAxisRenderer: NSObject, AxisRenderer
 
         let xOffset: CGFloat = limitLine.lineWidth + limitLine.xOffset
 
-        let align: NSTextAlignment
+        let align: TextAlignment
         let point: CGPoint
 
         switch limitLine.labelPosition
