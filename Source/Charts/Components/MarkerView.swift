@@ -62,13 +62,15 @@ open class MarkerView: NSUIView, Marker
     {
         let offset = self.offsetForDrawing(atPoint: point)
         
-        context.saveGState()
-        context.translateBy(x: point.x + offset.x,
-                              y: point.y + offset.y)
-        NSUIGraphicsPushContext(context)
-        self.nsuiLayer?.render(in: context)
-        NSUIGraphicsPopContext()
-        context.restoreGState()
+        context.perform {
+            context.translateBy(
+                x: point.x + offset.x,
+                y: point.y + offset.y
+            )
+            NSUIGraphicsPushContext(context)
+            self.nsuiLayer?.render(in: context)
+            NSUIGraphicsPopContext()
+        }
     }
     
     @objc

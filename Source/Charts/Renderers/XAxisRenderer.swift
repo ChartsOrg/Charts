@@ -207,40 +207,39 @@ open class XAxisRenderer: NSObject, AxisRenderer
             axis.isDrawAxisLineEnabled
             else { return }
 
-        context.saveGState()
-        defer { context.restoreGState() }
-        
-        context.setStrokeColor(axis.axisLineColor.cgColor)
-        context.setLineWidth(axis.axisLineWidth)
-        if axis.axisLineDashLengths != nil
-        {
-            context.setLineDash(phase: axis.axisLineDashPhase, lengths: axis.axisLineDashLengths)
-        }
-        else
-        {
-            context.setLineDash(phase: 0.0, lengths: [])
-        }
-        
-        if axis.labelPosition == .top
-            || axis.labelPosition == .topInside
-            || axis.labelPosition == .bothSided
-        {
-            axisLineSegmentsBuffer[0].x = viewPortHandler.contentLeft
-            axisLineSegmentsBuffer[0].y = viewPortHandler.contentTop
-            axisLineSegmentsBuffer[1].x = viewPortHandler.contentRight
-            axisLineSegmentsBuffer[1].y = viewPortHandler.contentTop
-            context.strokeLineSegments(between: axisLineSegmentsBuffer)
-        }
-        
-        if axis.labelPosition == .bottom
-            || axis.labelPosition == .bottomInside
-            || axis.labelPosition == .bothSided
-        {
-            axisLineSegmentsBuffer[0].x = viewPortHandler.contentLeft
-            axisLineSegmentsBuffer[0].y = viewPortHandler.contentBottom
-            axisLineSegmentsBuffer[1].x = viewPortHandler.contentRight
-            axisLineSegmentsBuffer[1].y = viewPortHandler.contentBottom
-            context.strokeLineSegments(between: axisLineSegmentsBuffer)
+        context.perform {
+            context.setStrokeColor(axis.axisLineColor.cgColor)
+            context.setLineWidth(axis.axisLineWidth)
+            if axis.axisLineDashLengths != nil
+            {
+                context.setLineDash(phase: axis.axisLineDashPhase, lengths: axis.axisLineDashLengths)
+            }
+            else
+            {
+                context.setLineDash(phase: 0.0, lengths: [])
+            }
+
+            if axis.labelPosition == .top
+                || axis.labelPosition == .topInside
+                || axis.labelPosition == .bothSided
+            {
+                axisLineSegmentsBuffer[0].x = viewPortHandler.contentLeft
+                axisLineSegmentsBuffer[0].y = viewPortHandler.contentTop
+                axisLineSegmentsBuffer[1].x = viewPortHandler.contentRight
+                axisLineSegmentsBuffer[1].y = viewPortHandler.contentTop
+                context.strokeLineSegments(between: axisLineSegmentsBuffer)
+            }
+
+            if axis.labelPosition == .bottom
+                || axis.labelPosition == .bottomInside
+                || axis.labelPosition == .bothSided
+            {
+                axisLineSegmentsBuffer[0].x = viewPortHandler.contentLeft
+                axisLineSegmentsBuffer[0].y = viewPortHandler.contentBottom
+                axisLineSegmentsBuffer[1].x = viewPortHandler.contentRight
+                axisLineSegmentsBuffer[1].y = viewPortHandler.contentBottom
+                context.strokeLineSegments(between: axisLineSegmentsBuffer)
+            }
         }
     }
     
@@ -338,38 +337,37 @@ open class XAxisRenderer: NSObject, AxisRenderer
             axis.isDrawGridLinesEnabled
             else { return }
         
-        context.saveGState()
-        defer { context.restoreGState() }
+        context.perform {
+            context.clip(to: self.gridClippingRect)
 
-        context.clip(to: self.gridClippingRect)
-        
-        context.setShouldAntialias(axis.gridAntialiasEnabled)
-        context.setStrokeColor(axis.gridColor.cgColor)
-        context.setLineWidth(axis.gridLineWidth)
-        context.setLineCap(axis.gridLineCap)
-        
-        if axis.gridLineDashLengths != nil
-        {
-            context.setLineDash(phase: axis.gridLineDashPhase, lengths: axis.gridLineDashLengths)
-        }
-        else
-        {
-            context.setLineDash(phase: 0.0, lengths: [])
-        }
-        
-        let valueToPixelMatrix = transformer.valueToPixelMatrix
-        
-        var position = CGPoint.zero
-        
-        let entries = axis.entries
-        
-        for entry in entries
-        {
-            position.x = CGFloat(entry)
-            position.y = CGFloat(entry)
-            position = position.applying(valueToPixelMatrix)
-            
-            drawGridLine(context: context, x: position.x, y: position.y)
+            context.setShouldAntialias(axis.gridAntialiasEnabled)
+            context.setStrokeColor(axis.gridColor.cgColor)
+            context.setLineWidth(axis.gridLineWidth)
+            context.setLineCap(axis.gridLineCap)
+
+            if axis.gridLineDashLengths != nil
+            {
+                context.setLineDash(phase: axis.gridLineDashPhase, lengths: axis.gridLineDashLengths)
+            }
+            else
+            {
+                context.setLineDash(phase: 0.0, lengths: [])
+            }
+
+            let valueToPixelMatrix = transformer.valueToPixelMatrix
+
+            var position = CGPoint.zero
+
+            let entries = axis.entries
+
+            for entry in entries
+            {
+                position.x = CGFloat(entry)
+                position.y = CGFloat(entry)
+                position = position.applying(valueToPixelMatrix)
+
+                drawGridLine(context: context, x: position.x, y: position.y)
+            }
         }
     }
     
@@ -405,20 +403,19 @@ open class XAxisRenderer: NSObject, AxisRenderer
         
         for l in axis.limitLines where l.isEnabled
         {
-            context.saveGState()
-            defer { context.restoreGState() }
-            
-            var clippingRect = viewPortHandler.contentRect
-            clippingRect.origin.x -= l.lineWidth / 2.0
-            clippingRect.size.width += l.lineWidth
-            context.clip(to: clippingRect)
-            
-            position.x = CGFloat(l.limit)
-            position.y = 0.0
-            position = position.applying(trans)
-            
-            renderLimitLineLine(context: context, limitLine: l, position: position)
-            renderLimitLineLabel(context: context, limitLine: l, position: position, yOffset: 2.0 + l.yOffset)
+            context.perform {
+                var clippingRect = viewPortHandler.contentRect
+                clippingRect.origin.x -= l.lineWidth / 2.0
+                clippingRect.size.width += l.lineWidth
+                context.clip(to: clippingRect)
+
+                position.x = CGFloat(l.limit)
+                position.y = 0.0
+                position = position.applying(trans)
+
+                renderLimitLineLine(context: context, limitLine: l, position: position)
+                renderLimitLineLabel(context: context, limitLine: l, position: position, yOffset: 2.0 + l.yOffset)
+            }
         }
     }
     

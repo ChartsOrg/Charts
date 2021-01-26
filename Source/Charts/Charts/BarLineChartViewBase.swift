@@ -227,32 +227,30 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         {
             rightYAxisRenderer.renderLimitLines(context: context)
         }
-        
-        context.saveGState()
 
-        // make sure the data cannot be drawn outside the content-rect
-        if clipDataToContentEnabled {
-            context.clip(to: viewPortHandler.contentRect)
+        context.perform {
+            // make sure the data cannot be drawn outside the content-rect
+            if clipDataToContentEnabled {
+                context.clip(to: viewPortHandler.contentRect)
+            }
+
+            renderer.drawData(context: context)
+
+            // The renderers are responsible for clipping, to account for line-width center etc.
+            if !xAxis.drawGridLinesBehindDataEnabled
+            {
+                xAxisRenderer.renderGridLines(context: context)
+                leftYAxisRenderer.renderGridLines(context: context)
+                rightYAxisRenderer.renderGridLines(context: context)
+            }
+
+            // if highlighting is enabled
+            if (valuesToHighlight())
+            {
+                renderer.drawHighlighted(context: context, indices: highlighted)
+            }
         }
 
-        renderer.drawData(context: context)
-        
-        // The renderers are responsible for clipping, to account for line-width center etc.
-        if !xAxis.drawGridLinesBehindDataEnabled
-        {
-            xAxisRenderer.renderGridLines(context: context)
-            leftYAxisRenderer.renderGridLines(context: context)
-            rightYAxisRenderer.renderGridLines(context: context)
-        }
-        
-        // if highlighting is enabled
-        if (valuesToHighlight())
-        {
-            renderer.drawHighlighted(context: context, indices: highlighted)
-        }
-        
-        context.restoreGState()
-        
         renderer.drawExtras(context: context)
         
         if xAxis.isEnabled && !xAxis.isDrawLimitLinesBehindDataEnabled
@@ -276,12 +274,10 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
         if clipValuesToContentEnabled
         {
-            context.saveGState()
-            context.clip(to: viewPortHandler.contentRect)
-            
-            renderer.drawValues(context: context)
-            
-            context.restoreGState()
+            context.perform {
+                context.clip(to: viewPortHandler.contentRect)
+                renderer.drawValues(context: context)
+            }
         }
         else
         {
@@ -482,28 +478,22 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
     /// draws the grid background
     internal func drawGridBackground(context: CGContext)
     {
-        if drawGridBackgroundEnabled || drawBordersEnabled
-        {
-            context.saveGState()
-        }
+        guard drawGridBackgroundEnabled || drawBordersEnabled else { return }
         
-        if drawGridBackgroundEnabled
-        {
-            // draw the grid background
-            context.setFillColor(gridBackgroundColor.cgColor)
-            context.fill(viewPortHandler.contentRect)
-        }
-        
-        if drawBordersEnabled
-        {
-            context.setLineWidth(borderLineWidth)
-            context.setStrokeColor(borderColor.cgColor)
-            context.stroke(viewPortHandler.contentRect)
-        }
-        
-        if drawGridBackgroundEnabled || drawBordersEnabled
-        {
-            context.restoreGState()
+        context.perform {
+            if drawGridBackgroundEnabled
+            {
+                // draw the grid background
+                context.setFillColor(gridBackgroundColor.cgColor)
+                context.fill(viewPortHandler.contentRect)
+            }
+
+            if drawBordersEnabled
+            {
+                context.setLineWidth(borderLineWidth)
+                context.setStrokeColor(borderColor.cgColor)
+                context.stroke(viewPortHandler.contentRect)
+            }
         }
     }
     

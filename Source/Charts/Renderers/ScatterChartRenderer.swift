@@ -22,11 +22,11 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         
         self.dataProvider = dataProvider
     }
-
+    
     open override func drawData(context: CGContext)
     {
         guard let scatterData = dataProvider?.scatterData else { return }
-
+        
         // If we redraw the data, remove and repopulate accessible elements to update label values and frames
         accessibleChartElements.removeAll()
         
@@ -37,7 +37,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                                                  withDefaultDescription: "Scatter Chart")
             accessibleChartElements.append(element)
         }
-
+        
         // TODO: Due to the potential complexity of data presented in Scatter charts, a more usable way
         // for VO accessibility would be to use axis based traversal rather than by dataset.
         // Hence, accessibleChartElements is not populated below. (Individual renderers guard against dataSource being their respective views)
@@ -68,31 +68,29 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         
         if let renderer = dataSet.shapeRenderer
         {
-            context.saveGState()
-            
-            for j in 0 ..< Int(min(ceil(Double(entryCount) * animator.phaseX), Double(entryCount)))
-            {
-                guard let e = dataSet.entryForIndex(j) else { continue }
-                
-                point.x = CGFloat(e.x)
-                point.y = CGFloat(e.y * phaseY)
-                point = point.applying(valueToPixelMatrix)
-                
-                if !viewPortHandler.isInBoundsRight(point.x)
+            context.perform {
+                for j in 0 ..< Int(min(ceil(Double(entryCount) * animator.phaseX), Double(entryCount)))
                 {
-                    break
+                    guard let e = dataSet.entryForIndex(j) else { continue }
+                    
+                    point.x = CGFloat(e.x)
+                    point.y = CGFloat(e.y * phaseY)
+                    point = point.applying(valueToPixelMatrix)
+                    
+                    if !viewPortHandler.isInBoundsRight(point.x)
+                    {
+                        break
+                    }
+                    
+                    if !viewPortHandler.isInBoundsLeft(point.x) ||
+                        !viewPortHandler.isInBoundsY(point.y)
+                    {
+                        continue
+                    }
+                    
+                    renderer.renderShape(context: context, dataSet: dataSet, viewPortHandler: viewPortHandler, point: point, color: dataSet.color(atIndex: j))
                 }
-                
-                if !viewPortHandler.isInBoundsLeft(point.x) ||
-                    !viewPortHandler.isInBoundsY(point.y)
-                {
-                    continue
-                }
-                
-                renderer.renderShape(context: context, dataSet: dataSet, viewPortHandler: viewPortHandler, point: point, color: dataSet.color(atIndex: j))
             }
-            
-            context.restoreGState()
         }
         else
         {
@@ -105,7 +103,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         guard
             let dataProvider = dataProvider,
             let scatterData = dataProvider.scatterData
-            else { return }
+        else { return }
         
         // if values are drawn
         if isDrawingValuesAllowed(dataProvider: dataProvider)
@@ -118,7 +116,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
             {
                 guard let dataSet = scatterData[i] as? ScatterChartDataSetProtocol,
                       shouldDrawValues(forDataSet: dataSet)
-                    else { continue }
+                else { continue }
                 
                 let valueFont = dataSet.valueFont
                 
@@ -151,7 +149,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                     
                     // make sure the lines don't do shitty things outside bounds
                     if (!viewPortHandler.isInBoundsLeft(pt.x)
-                        || !viewPortHandler.isInBoundsY(pt.y))
+                            || !viewPortHandler.isInBoundsY(pt.y))
                     {
                         continue
                     }
@@ -178,7 +176,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
                     {
                         context.drawImage(icon,
                                           atCenter: CGPoint(x: pt.x + iconsOffset.x,
-                                                          y: pt.y + iconsOffset.y),
+                                                            y: pt.y + iconsOffset.y),
                                           size: icon.size)
                     }
                 }
@@ -196,45 +194,43 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         guard
             let dataProvider = dataProvider,
             let scatterData = dataProvider.scatterData
-            else { return }
+        else { return }
         
-        context.saveGState()
-        
-        for high in indices
-        {
-            guard
-                let set = scatterData[high.dataSetIndex] as? ScatterChartDataSetProtocol,
-                set.isHighlightEnabled
+        context.perform {
+            for high in indices
+            {
+                guard
+                    let set = scatterData[high.dataSetIndex] as? ScatterChartDataSetProtocol,
+                    set.isHighlightEnabled
                 else { continue }
-            
-            guard let entry = set.entryForXValue(high.x, closestToY: high.y) else { continue }
-            
-            if !isInBoundsX(entry: entry, dataSet: set) { continue }
-            
-            context.setStrokeColor(set.highlightColor.cgColor)
-            context.setLineWidth(set.highlightLineWidth)
-            if set.highlightLineDashLengths != nil
-            {
-                context.setLineDash(phase: set.highlightLineDashPhase, lengths: set.highlightLineDashLengths!)
+                
+                guard let entry = set.entryForXValue(high.x, closestToY: high.y) else { continue }
+                
+                if !isInBoundsX(entry: entry, dataSet: set) { continue }
+                
+                context.setStrokeColor(set.highlightColor.cgColor)
+                context.setLineWidth(set.highlightLineWidth)
+                if set.highlightLineDashLengths != nil
+                {
+                    context.setLineDash(phase: set.highlightLineDashPhase, lengths: set.highlightLineDashLengths!)
+                }
+                else
+                {
+                    context.setLineDash(phase: 0.0, lengths: [])
+                }
+                
+                let x = entry.x // get the x-position
+                let y = entry.y * Double(animator.phaseY)
+                
+                let trans = dataProvider.getTransformer(forAxis: set.axisDependency)
+                
+                let pt = trans.pixelForValues(x: x, y: y)
+                
+                high.setDraw(pt: pt)
+                
+                // draw the lines
+                drawHighlightLines(context: context, point: pt, set: set)
             }
-            else
-            {
-                context.setLineDash(phase: 0.0, lengths: [])
-            }
-            
-            let x = entry.x // get the x-position
-            let y = entry.y * Double(animator.phaseY)
-            
-            let trans = dataProvider.getTransformer(forAxis: set.axisDependency)
-            
-            let pt = trans.pixelForValues(x: x, y: y)
-            
-            high.setDraw(pt: pt)
-            
-            // draw the lines
-            drawHighlightLines(context: context, point: pt, set: set)
         }
-        
-        context.restoreGState()
     }
 }

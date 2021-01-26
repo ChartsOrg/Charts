@@ -192,105 +192,103 @@ open class HorizontalBarChartRenderer: BarChartRenderer
         let borderColor = dataSet.barBorderColor
         let drawBorder = borderWidth > 0.0
         
-        context.saveGState()
-        
-        // draw the bar shadow before the values
-        if dataProvider.isDrawBarShadowEnabled
-        {
-            guard let barData = dataProvider.barData else { return }
-            
-            let barWidth = barData.barWidth
-            let barWidthHalf = barWidth / 2.0
-            var x: Double = 0.0
-            
-            for i in stride(from: 0, to: min(Int(ceil(Double(dataSet.entryCount) * animator.phaseX)), dataSet.entryCount), by: 1)
+        context.perform {
+            // draw the bar shadow before the values
+            if dataProvider.isDrawBarShadowEnabled
             {
-                guard let e = dataSet.entryForIndex(i) as? BarChartDataEntry else { continue }
-                
-                x = e.x
-                
-                _barShadowRectBuffer.origin.y = CGFloat(x - barWidthHalf)
-                _barShadowRectBuffer.size.height = CGFloat(barWidth)
-                
-                trans.rectValueToPixel(&_barShadowRectBuffer)
-                
-                if !viewPortHandler.isInBoundsTop(_barShadowRectBuffer.origin.y + _barShadowRectBuffer.size.height)
+                guard let barData = dataProvider.barData else { return }
+
+                let barWidth = barData.barWidth
+                let barWidthHalf = barWidth / 2.0
+                var x: Double = 0.0
+
+                for i in stride(from: 0, to: min(Int(ceil(Double(dataSet.entryCount) * animator.phaseX)), dataSet.entryCount), by: 1)
+                {
+                    guard let e = dataSet.entryForIndex(i) as? BarChartDataEntry else { continue }
+
+                    x = e.x
+
+                    _barShadowRectBuffer.origin.y = CGFloat(x - barWidthHalf)
+                    _barShadowRectBuffer.size.height = CGFloat(barWidth)
+
+                    trans.rectValueToPixel(&_barShadowRectBuffer)
+
+                    if !viewPortHandler.isInBoundsTop(_barShadowRectBuffer.origin.y + _barShadowRectBuffer.size.height)
+                    {
+                        break
+                    }
+
+                    if !viewPortHandler.isInBoundsBottom(_barShadowRectBuffer.origin.y)
+                    {
+                        continue
+                    }
+
+                    _barShadowRectBuffer.origin.x = viewPortHandler.contentLeft
+                    _barShadowRectBuffer.size.width = viewPortHandler.contentWidth
+
+                    context.setFillColor(dataSet.barShadowColor.cgColor)
+                    context.fill(_barShadowRectBuffer)
+                }
+            }
+
+            let buffer = _buffers[index]
+
+            let isSingleColor = dataSet.colors.count == 1
+
+            if isSingleColor
+            {
+                context.setFillColor(dataSet.color(atIndex: 0).cgColor)
+            }
+
+            // In case the chart is stacked, we need to accomodate individual bars within accessibilityOrdereredElements
+            let isStacked = dataSet.isStacked
+            let stackSize = isStacked ? dataSet.stackSize : 1
+
+            for j in buffer.rects.indices
+            {
+                let barRect = buffer.rects[j]
+
+                if (!viewPortHandler.isInBoundsTop(barRect.origin.y + barRect.size.height))
                 {
                     break
                 }
-                
-                if !viewPortHandler.isInBoundsBottom(_barShadowRectBuffer.origin.y)
+
+                if (!viewPortHandler.isInBoundsBottom(barRect.origin.y))
                 {
                     continue
                 }
-                
-                _barShadowRectBuffer.origin.x = viewPortHandler.contentLeft
-                _barShadowRectBuffer.size.width = viewPortHandler.contentWidth
-                
-                context.setFillColor(dataSet.barShadowColor.cgColor)
-                context.fill(_barShadowRectBuffer)
-            }
-        }
-        
-        let buffer = _buffers[index]
-        
-        let isSingleColor = dataSet.colors.count == 1
-        
-        if isSingleColor
-        {
-            context.setFillColor(dataSet.color(atIndex: 0).cgColor)
-        }
 
-        // In case the chart is stacked, we need to accomodate individual bars within accessibilityOrdereredElements
-        let isStacked = dataSet.isStacked
-        let stackSize = isStacked ? dataSet.stackSize : 1
-
-        for j in buffer.rects.indices
-        {
-            let barRect = buffer.rects[j]
-            
-            if (!viewPortHandler.isInBoundsTop(barRect.origin.y + barRect.size.height))
-            {
-                break
-            }
-            
-            if (!viewPortHandler.isInBoundsBottom(barRect.origin.y))
-            {
-                continue
-            }
-            
-            if !isSingleColor
-            {
-                // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
-                context.setFillColor(dataSet.color(atIndex: j).cgColor)
-            }
-
-            context.fill(barRect)
-
-            if drawBorder
-            {
-                context.setStrokeColor(borderColor.cgColor)
-                context.setLineWidth(borderWidth)
-                context.stroke(barRect)
-            }
-
-            // Create and append the corresponding accessibility element to accessibilityOrderedElements (see BarChartRenderer)
-            if let chart = dataProvider as? BarChartView
-            {
-                let element = createAccessibleElement(withIndex: j,
-                                                      container: chart,
-                                                      dataSet: dataSet,
-                                                      dataSetIndex: index,
-                                                      stackSize: stackSize)
-                { (element) in
-                    element.accessibilityFrame = barRect
+                if !isSingleColor
+                {
+                    // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
+                    context.setFillColor(dataSet.color(atIndex: j).cgColor)
                 }
 
-                accessibilityOrderedElements[j/stackSize].append(element)
+                context.fill(barRect)
+
+                if drawBorder
+                {
+                    context.setStrokeColor(borderColor.cgColor)
+                    context.setLineWidth(borderWidth)
+                    context.stroke(barRect)
+                }
+
+                // Create and append the corresponding accessibility element to accessibilityOrderedElements (see BarChartRenderer)
+                if let chart = dataProvider as? BarChartView
+                {
+                    let element = createAccessibleElement(withIndex: j,
+                                                          container: chart,
+                                                          dataSet: dataSet,
+                                                          dataSetIndex: index,
+                                                          stackSize: stackSize)
+                    { (element) in
+                        element.accessibilityFrame = barRect
+                    }
+
+                    accessibilityOrderedElements[j/stackSize].append(element)
+                }
             }
         }
-        
-        context.restoreGState()
     }
     
     open override func prepareBarHighlight(

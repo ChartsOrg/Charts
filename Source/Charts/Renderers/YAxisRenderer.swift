@@ -87,33 +87,32 @@ open class YAxisRenderer: NSObject, AxisRenderer
             axis.drawAxisLineEnabled
             else { return }
 
-        context.saveGState()
-        defer { context.restoreGState() }
+        context.perform {
+            context.setStrokeColor(axis.axisLineColor.cgColor)
+            context.setLineWidth(axis.axisLineWidth)
+            if axis.axisLineDashLengths != nil
+            {
+                context.setLineDash(phase: axis.axisLineDashPhase, lengths: axis.axisLineDashLengths)
+            }
+            else
+            {
+                context.setLineDash(phase: 0.0, lengths: [])
+            }
 
-        context.setStrokeColor(axis.axisLineColor.cgColor)
-        context.setLineWidth(axis.axisLineWidth)
-        if axis.axisLineDashLengths != nil
-        {
-            context.setLineDash(phase: axis.axisLineDashPhase, lengths: axis.axisLineDashLengths)
-        }
-        else
-        {
-            context.setLineDash(phase: 0.0, lengths: [])
-        }
-        
-        if axis.axisDependency == .left
-        {
-            context.beginPath()
-            context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
-            context.addLine(to: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom))
-            context.strokePath()
-        }
-        else
-        {
-            context.beginPath()
-            context.move(to: CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentTop))
-            context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentBottom))
-            context.strokePath()
+            if axis.axisDependency == .left
+            {
+                context.beginPath()
+                context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
+                context.addLine(to: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom))
+                context.strokePath()
+            }
+            else
+            {
+                context.beginPath()
+                context.move(to: CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentTop))
+                context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentBottom))
+                context.strokePath()
+            }
         }
     }
     
@@ -151,26 +150,26 @@ open class YAxisRenderer: NSObject, AxisRenderer
         {
             let positions = transformedPositions()
             
-            context.saveGState()
-            defer { context.restoreGState() }
-            context.clip(to: self.gridClippingRect)
-            
-            context.setShouldAntialias(axis.gridAntialiasEnabled)
-            context.setStrokeColor(axis.gridColor.cgColor)
-            context.setLineWidth(axis.gridLineWidth)
-            context.setLineCap(axis.gridLineCap)
-            
-            if axis.gridLineDashLengths != nil
-            {
-                context.setLineDash(phase: axis.gridLineDashPhase, lengths: axis.gridLineDashLengths)
+            context.perform {
+                context.clip(to: self.gridClippingRect)
+
+                context.setShouldAntialias(axis.gridAntialiasEnabled)
+                context.setStrokeColor(axis.gridColor.cgColor)
+                context.setLineWidth(axis.gridLineWidth)
+                context.setLineCap(axis.gridLineCap)
+
+                if axis.gridLineDashLengths != nil
+                {
+                    context.setLineDash(phase: axis.gridLineDashPhase, lengths: axis.gridLineDashLengths)
+                }
+                else
+                {
+                    context.setLineDash(phase: 0.0, lengths: [])
+                }
+
+                // draw the grid
+                positions.forEach { drawGridLine(context: context, position: $0) }
             }
-            else
-            {
-                context.setLineDash(phase: 0.0, lengths: [])
-            }
-            
-            // draw the grid
-            positions.forEach { drawGridLine(context: context, position: $0) }
         }
 
         if axis.drawZeroLineEnabled
@@ -217,31 +216,30 @@ open class YAxisRenderer: NSObject, AxisRenderer
             let zeroLineColor = axis.zeroLineColor
             else { return }
         
-        context.saveGState()
-        defer { context.restoreGState() }
-        
-        var clippingRect = viewPortHandler.contentRect
-        clippingRect.origin.y -= axis.zeroLineWidth / 2.0
-        clippingRect.size.height += axis.zeroLineWidth
-        context.clip(to: clippingRect)
+        context.perform {
+            var clippingRect = viewPortHandler.contentRect
+            clippingRect.origin.y -= axis.zeroLineWidth / 2.0
+            clippingRect.size.height += axis.zeroLineWidth
+            context.clip(to: clippingRect)
 
-        context.setStrokeColor(zeroLineColor.cgColor)
-        context.setLineWidth(axis.zeroLineWidth)
-        
-        let pos = transformer.pixelForValues(x: 0.0, y: 0.0)
+            context.setStrokeColor(zeroLineColor.cgColor)
+            context.setLineWidth(axis.zeroLineWidth)
 
-        if axis.zeroLineDashLengths != nil
-        {
-            context.setLineDash(phase: axis.zeroLineDashPhase, lengths: axis.zeroLineDashLengths!)
+            let pos = transformer.pixelForValues(x: 0.0, y: 0.0)
+
+            if axis.zeroLineDashLengths != nil
+            {
+                context.setLineDash(phase: axis.zeroLineDashPhase, lengths: axis.zeroLineDashLengths!)
+            }
+            else
+            {
+                context.setLineDash(phase: 0.0, lengths: [])
+            }
+
+            context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: pos.y))
+            context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: pos.y))
+            context.drawPath(using: .stroke)
         }
-        else
-        {
-            context.setLineDash(phase: 0.0, lengths: [])
-        }
-        
-        context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: pos.y))
-        context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: pos.y))
-        context.drawPath(using: CGPathDrawingMode.stroke)
     }
     
     open func renderLimitLines(context: CGContext)
@@ -252,84 +250,82 @@ open class YAxisRenderer: NSObject, AxisRenderer
         
         guard !limitLines.isEmpty else { return }
 
-        context.saveGState()
-        defer { context.restoreGState() }
+        context.perform {
+            let trans = transformer.valueToPixelMatrix
 
-        let trans = transformer.valueToPixelMatrix
-        
-        var position = CGPoint(x: 0.0, y: 0.0)
-        
-        for l in limitLines where l.isEnabled
-        {
-            context.saveGState()
-            defer { context.restoreGState() }
-            
-            var clippingRect = viewPortHandler.contentRect
-            clippingRect.origin.y -= l.lineWidth / 2.0
-            clippingRect.size.height += l.lineWidth
-            context.clip(to: clippingRect)
-            
-            position.x = 0.0
-            position.y = CGFloat(l.limit)
-            position = position.applying(trans)
-            
-            context.beginPath()
-            context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: position.y))
-            context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: position.y))
-            
-            context.setStrokeColor(l.lineColor.cgColor)
-            context.setLineWidth(l.lineWidth)
-            if l.lineDashLengths != nil
+            var position = CGPoint(x: 0.0, y: 0.0)
+
+            for l in limitLines where l.isEnabled
             {
-                context.setLineDash(phase: l.lineDashPhase, lengths: l.lineDashLengths!)
+                context.perform {
+                    var clippingRect = viewPortHandler.contentRect
+                    clippingRect.origin.y -= l.lineWidth / 2.0
+                    clippingRect.size.height += l.lineWidth
+                    context.clip(to: clippingRect)
+                    
+                    position.x = 0.0
+                    position.y = CGFloat(l.limit)
+                    position = position.applying(trans)
+                    
+                    context.beginPath()
+                    context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: position.y))
+                    context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: position.y))
+                    
+                    context.setStrokeColor(l.lineColor.cgColor)
+                    context.setLineWidth(l.lineWidth)
+                    if l.lineDashLengths != nil
+                    {
+                        context.setLineDash(phase: l.lineDashPhase, lengths: l.lineDashLengths!)
+                    }
+                    else
+                    {
+                        context.setLineDash(phase: 0.0, lengths: [])
+                    }
+                    
+                    context.strokePath()
+                    
+                    let label = l.label
+                    
+                    // if drawing the limit-value label is enabled
+                    guard l.drawLabelEnabled, !label.isEmpty else { return }
+                    
+                    let labelLineHeight = l.valueFont.lineHeight
+                    
+                    let xOffset = 4.0 + l.xOffset
+                    let yOffset = l.lineWidth + labelLineHeight + l.yOffset
+                    
+                    let align: TextAlignment
+                    let point: CGPoint
+                    
+                    switch l.labelPosition
+                    {
+                    case .rightTop:
+                        align = .right
+                        point = CGPoint(x: viewPortHandler.contentRight - xOffset,
+                                        y: position.y - yOffset)
+                        
+                    case .rightBottom:
+                        align = .right
+                        point = CGPoint(x: viewPortHandler.contentRight - xOffset,
+                                        y: position.y + yOffset - labelLineHeight)
+                        
+                    case .leftTop:
+                        align = .left
+                        point = CGPoint(x: viewPortHandler.contentLeft + xOffset,
+                                        y: position.y - yOffset)
+                        
+                    case .leftBottom:
+                        align = .left
+                        point = CGPoint(x: viewPortHandler.contentLeft + xOffset,
+                                        y: position.y + yOffset - labelLineHeight)
+                    }
+                    
+                    context.drawText(label,
+                                     at: point,
+                                     align: align,
+                                     attributes: [.font: l.valueFont, .foregroundColor: l.valueTextColor])
+                }
             }
-            else
-            {
-                context.setLineDash(phase: 0.0, lengths: [])
-            }
-            
-            context.strokePath()
-            
-            let label = l.label
-            
-            // if drawing the limit-value label is enabled
-            guard l.drawLabelEnabled, !label.isEmpty else { return }
-
-            let labelLineHeight = l.valueFont.lineHeight
-
-            let xOffset = 4.0 + l.xOffset
-            let yOffset = l.lineWidth + labelLineHeight + l.yOffset
-
-            let align: TextAlignment
-            let point: CGPoint
-
-            switch l.labelPosition
-            {
-            case .rightTop:
-                align = .right
-                point = CGPoint(x: viewPortHandler.contentRight - xOffset,
-                                y: position.y - yOffset)
-
-            case .rightBottom:
-                align = .right
-                point = CGPoint(x: viewPortHandler.contentRight - xOffset,
-                                y: position.y + yOffset - labelLineHeight)
-
-            case .leftTop:
-                align = .left
-                point = CGPoint(x: viewPortHandler.contentLeft + xOffset,
-                                y: position.y - yOffset)
-
-            case .leftBottom:
-                align = .left
-                point = CGPoint(x: viewPortHandler.contentLeft + xOffset,
-                                y: position.y + yOffset - labelLineHeight)
-            }
-
-            context.drawText(label,
-                             at: point,
-                             align: align,
-                             attributes: [.font: l.valueFont, .foregroundColor: l.valueTextColor])
         }
     }
 
