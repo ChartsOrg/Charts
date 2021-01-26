@@ -29,7 +29,6 @@ open class ChartLimitLine: ComponentBase
     /// limit / maximum (the y-value or xIndex)
     @objc open var limit = Double(0.0)
     
-    private var _lineWidth = CGFloat(2.0)
     @objc open var lineColor = NSUIColor(red: 237.0/255.0, green: 91.0/255.0, blue: 91.0/255.0, alpha: 1.0)
     @objc open var lineDashPhase = CGFloat(0.0)
     @objc open var lineDashLengths: [CGFloat]?
@@ -60,15 +59,12 @@ open class ChartLimitLine: ComponentBase
     }
     
     /// set the line width of the chart (min = 0.2, max = 12); default 2
-    @objc open var lineWidth: CGFloat
-    {
-        get
-        {
-            return _lineWidth
-        }
-        set
-        {
-            _lineWidth = newValue.clamped(to: 0.2...12)
-        }
+    @objc
+    open var lineWidth: CGFloat {
+        get { _lineWidth }
+        set { _lineWidth = newValue }
     }
+
+    @Clamped(0.2...12)
+    private var _lineWidth: CGFloat = 2.0
 }

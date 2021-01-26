@@ -229,10 +229,7 @@ open class AxisBase: ComponentBase
     /// be aware that this number is not fixed and can only be approximated
     @objc open var labelCount: Int
     {
-        get
-        {
-            return _labelCount
-        }
+        get { _labelCount }
         set
         {
             let range = axisMinLabels...axisMaxLabels as ClosedRange

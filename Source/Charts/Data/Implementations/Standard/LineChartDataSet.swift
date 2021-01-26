@@ -50,23 +50,17 @@ open class LineChartDataSet: LineRadarChartDataSet, LineChartDataSetProtocol
     ///
     /// **default**: Linear
     open var mode: Mode = Mode.linear
-    
-    private var _cubicIntensity = CGFloat(0.2)
-    
+
     /// Intensity for cubic lines (min = 0.05, max = 1)
     ///
     /// **default**: 0.2
-    open var cubicIntensity: CGFloat
-    {
-        get
-        {
-            return _cubicIntensity
-        }
-        set
-        {
-            _cubicIntensity = newValue.clamped(to: 0.05...1)
-        }
+    open var cubicIntensity: CGFloat {
+        get { _cubicIntensity }
+        set { _cubicIntensity = newValue }
     }
+
+    @Clamped(0.05...1)
+    private var _cubicIntensity = CGFloat(0.2)
 
     open var isDrawLineWithGradientEnabled = false
 

@@ -53,25 +53,17 @@ open class CandleChartDataSet: LineScatterCandleRadarChartDataSet, CandleChartDa
     
     // MARK: - Styling functions and accessors
     
-    /// the space between the candle entries
-    ///
-    /// **default**: 0.1 (10%)
-    private var _barSpace: CGFloat = 0.1
-
     /// the space that is left out on the left and right side of each candle,
     /// **default**: 0.1 (10%), max 0.45, min 0.0
-    open var barSpace: CGFloat
-    {
-        get
-        {
-            return _barSpace
-        }
-        set
-        {
-            _barSpace = newValue.clamped(to: 0...0.45)
-        }
+    @objc
+    open var barSpace: CGFloat {
+        get { _barSpace }
+        set { _barSpace = newValue }
     }
     
+    @Clamped(0...0.45)
+    private var _barSpace: CGFloat = 0.1
+
     /// should the candle bars show?
     /// when false, only "ticks" will show
     ///
