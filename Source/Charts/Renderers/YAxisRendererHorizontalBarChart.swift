@@ -87,32 +87,31 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             axis.drawAxisLineEnabled
             else { return }
 
-        context.saveGState()
-        defer { context.restoreGState() }
-        
-        context.setStrokeColor(axis.axisLineColor.cgColor)
-        context.setLineWidth(axis.axisLineWidth)
-        if axis.axisLineDashLengths != nil
-        {
-            context.setLineDash(phase: axis.axisLineDashPhase, lengths: axis.axisLineDashLengths)
-        }
-        else
-        {
-            context.setLineDash(phase: 0.0, lengths: [])
-        }
+        context.perform {
+            context.setStrokeColor(axis.axisLineColor.cgColor)
+            context.setLineWidth(axis.axisLineWidth)
+            if axis.axisLineDashLengths != nil
+            {
+                context.setLineDash(phase: axis.axisLineDashPhase, lengths: axis.axisLineDashLengths)
+            }
+            else
+            {
+                context.setLineDash(phase: 0.0, lengths: [])
+            }
 
-        context.beginPath()
-        if axis.axisDependency == .left
-        {
-            context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
-            context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentTop))
+            context.beginPath()
+            if axis.axisDependency == .left
+            {
+                context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
+                context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentTop))
+            }
+            else
+            {
+                context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom))
+                context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentBottom))
+            }
+            context.strokePath()
         }
-        else
-        {
-            context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom))
-            context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentBottom))
-        }
-        context.strokePath()
     }
 
     /// draws the y-labels on the specified x-position
@@ -177,31 +176,30 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
             let zeroLineColor = axis.zeroLineColor
             else { return }
         
-        context.saveGState()
-        defer { context.restoreGState() }
-        
-        var clippingRect = viewPortHandler.contentRect
-        clippingRect.origin.x -= axis.zeroLineWidth / 2.0
-        clippingRect.size.width += axis.zeroLineWidth
-        context.clip(to: clippingRect)
-        
-        context.setStrokeColor(zeroLineColor.cgColor)
-        context.setLineWidth(axis.zeroLineWidth)
-        
-        let pos = transformer.pixelForValues(x: 0.0, y: 0.0)
-        
-        if axis.zeroLineDashLengths != nil
-        {
-            context.setLineDash(phase: axis.zeroLineDashPhase, lengths: axis.zeroLineDashLengths!)
+        context.perform {
+            var clippingRect = viewPortHandler.contentRect
+            clippingRect.origin.x -= axis.zeroLineWidth / 2.0
+            clippingRect.size.width += axis.zeroLineWidth
+            context.clip(to: clippingRect)
+            
+            context.setStrokeColor(zeroLineColor.cgColor)
+            context.setLineWidth(axis.zeroLineWidth)
+            
+            let pos = transformer.pixelForValues(x: 0.0, y: 0.0)
+            
+            if axis.zeroLineDashLengths != nil
+            {
+                context.setLineDash(phase: axis.zeroLineDashPhase, lengths: axis.zeroLineDashLengths!)
+            }
+            else
+            {
+                context.setLineDash(phase: 0.0, lengths: [])
+            }
+
+            context.move(to: CGPoint(x: pos.x - 1.0, y: viewPortHandler.contentTop))
+            context.addLine(to: CGPoint(x: pos.x - 1.0, y: viewPortHandler.contentBottom))
+            context.drawPath(using: .stroke)
         }
-        else
-        {
-            context.setLineDash(phase: 0.0, lengths: [])
-        }
-        
-        context.move(to: CGPoint(x: pos.x - 1.0, y: viewPortHandler.contentTop))
-        context.addLine(to: CGPoint(x: pos.x - 1.0, y: viewPortHandler.contentBottom))
-        context.drawPath(using: .stroke)
     }
         
     open override func renderLimitLines(context: CGContext)
@@ -212,82 +210,78 @@ open class YAxisRendererHorizontalBarChart: YAxisRenderer
 
         guard !limitLines.isEmpty else { return }
 
-        context.saveGState()
-        defer { context.restoreGState() }
-
         let trans = transformer.valueToPixelMatrix
         var position = CGPoint.zero
 
         for l in limitLines where l.isEnabled
         {
-            context.saveGState()
-            defer { context.restoreGState() }
-
-            var clippingRect = viewPortHandler.contentRect
-            clippingRect.origin.x -= l.lineWidth / 2.0
-            clippingRect.size.width += l.lineWidth
-            context.clip(to: clippingRect)
-
-            position = CGPoint(x: l.limit, y: 0)
-                .applying(trans)
-
-            context.beginPath()
-            context.move(to: CGPoint(x: position.x, y: viewPortHandler.contentTop))
-            context.addLine(to: CGPoint(x: position.x, y: viewPortHandler.contentBottom))
-            
-            context.setStrokeColor(l.lineColor.cgColor)
-            context.setLineWidth(l.lineWidth)
-            if l.lineDashLengths != nil
-            {
-                context.setLineDash(phase: l.lineDashPhase, lengths: l.lineDashLengths!)
-            }
-            else
-            {
-                context.setLineDash(phase: 0.0, lengths: [])
-            }
-            
-            context.strokePath()
-            
-            let label = l.label
-
-            // if drawing the limit-value label is enabled
-            if l.drawLabelEnabled, !label.isEmpty
-            {
-                let labelLineHeight = l.valueFont.lineHeight
+            context.perform {
+                var clippingRect = viewPortHandler.contentRect
+                clippingRect.origin.x -= l.lineWidth / 2.0
+                clippingRect.size.width += l.lineWidth
+                context.clip(to: clippingRect)
                 
-                let xOffset = l.lineWidth + l.xOffset
-                let yOffset = 2.0 + l.yOffset
-
-                let align: TextAlignment
-                let point: CGPoint
-
-                switch l.labelPosition
+                position = CGPoint(x: l.limit, y: 0)
+                    .applying(trans)
+                
+                context.beginPath()
+                context.move(to: CGPoint(x: position.x, y: viewPortHandler.contentTop))
+                context.addLine(to: CGPoint(x: position.x, y: viewPortHandler.contentBottom))
+                
+                context.setStrokeColor(l.lineColor.cgColor)
+                context.setLineWidth(l.lineWidth)
+                if l.lineDashLengths != nil
                 {
-                case .rightTop:
-                    align = .left
-                    point = CGPoint(x: position.x + xOffset,
-                                    y: viewPortHandler.contentTop + yOffset)
-
-                case .rightBottom:
-                    align = .left
-                    point = CGPoint(x: position.x + xOffset,
-                                    y: viewPortHandler.contentBottom - labelLineHeight - yOffset)
-
-                case .leftTop:
-                    align = .right
-                    point = CGPoint(x: position.x - xOffset,
-                                    y: viewPortHandler.contentTop + yOffset)
-
-                case .leftBottom:
-                    align = .right
-                    point = CGPoint(x: position.x - xOffset,
-                                    y: viewPortHandler.contentBottom - labelLineHeight - yOffset)
+                    context.setLineDash(phase: l.lineDashPhase, lengths: l.lineDashLengths!)
                 }
-
-                context.drawText(label,
-                                 at: point,
-                                 align: align,
-                                 attributes: [.font: l.valueFont, .foregroundColor: l.valueTextColor])
+                else
+                {
+                    context.setLineDash(phase: 0.0, lengths: [])
+                }
+                
+                context.strokePath()
+                
+                let label = l.label
+                
+                // if drawing the limit-value label is enabled
+                if l.drawLabelEnabled, !label.isEmpty
+                {
+                    let labelLineHeight = l.valueFont.lineHeight
+                    
+                    let xOffset = l.lineWidth + l.xOffset
+                    let yOffset = 2.0 + l.yOffset
+                    
+                    let align: TextAlignment
+                    let point: CGPoint
+                    
+                    switch l.labelPosition
+                    {
+                    case .rightTop:
+                        align = .left
+                        point = CGPoint(x: position.x + xOffset,
+                                        y: viewPortHandler.contentTop + yOffset)
+                        
+                    case .rightBottom:
+                        align = .left
+                        point = CGPoint(x: position.x + xOffset,
+                                        y: viewPortHandler.contentBottom - labelLineHeight - yOffset)
+                        
+                    case .leftTop:
+                        align = .right
+                        point = CGPoint(x: position.x - xOffset,
+                                        y: viewPortHandler.contentTop + yOffset)
+                        
+                    case .leftBottom:
+                        align = .right
+                        point = CGPoint(x: position.x - xOffset,
+                                        y: viewPortHandler.contentBottom - labelLineHeight - yOffset)
+                    }
+                    
+                    context.drawText(label,
+                                     at: point,
+                                     align: align,
+                                     attributes: [.font: l.valueFont, .foregroundColor: l.valueTextColor])
+                }
             }
         }
     }

@@ -166,38 +166,37 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
             axis.isDrawAxisLineEnabled
             else { return }
 
-        context.saveGState()
-        defer { context.restoreGState() }
+        context.perform {
+            context.setStrokeColor(axis.axisLineColor.cgColor)
+            context.setLineWidth(axis.axisLineWidth)
+            if axis.axisLineDashLengths != nil
+            {
+                context.setLineDash(phase: axis.axisLineDashPhase, lengths: axis.axisLineDashLengths)
+            }
+            else
+            {
+                context.setLineDash(phase: 0.0, lengths: [])
+            }
 
-        context.setStrokeColor(axis.axisLineColor.cgColor)
-        context.setLineWidth(axis.axisLineWidth)
-        if axis.axisLineDashLengths != nil
-        {
-            context.setLineDash(phase: axis.axisLineDashPhase, lengths: axis.axisLineDashLengths)
-        }
-        else
-        {
-            context.setLineDash(phase: 0.0, lengths: [])
-        }
-        
-        if axis.labelPosition == .top ||
-            axis.labelPosition == .topInside ||
-            axis.labelPosition == .bothSided
-        {
-            context.beginPath()
-            context.move(to: CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentTop))
-            context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentBottom))
-            context.strokePath()
-        }
-        
-        if axis.labelPosition == .bottom ||
-            axis.labelPosition == .bottomInside ||
-            axis.labelPosition == .bothSided
-        {
-            context.beginPath()
-            context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
-            context.addLine(to: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom))
-            context.strokePath()
+            if axis.labelPosition == .top ||
+                axis.labelPosition == .topInside ||
+                axis.labelPosition == .bothSided
+            {
+                context.beginPath()
+                context.move(to: CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentTop))
+                context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: viewPortHandler.contentBottom))
+                context.strokePath()
+            }
+
+            if axis.labelPosition == .bottom ||
+                axis.labelPosition == .bottomInside ||
+                axis.labelPosition == .bothSided
+            {
+                context.beginPath()
+                context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentTop))
+                context.addLine(to: CGPoint(x: viewPortHandler.contentLeft, y: viewPortHandler.contentBottom))
+                context.strokePath()
+            }
         }
     }
     
@@ -215,75 +214,74 @@ open class XAxisRendererHorizontalBarChart: XAxisRenderer
         
         for l in limitLines where l.isEnabled
         {
-            context.saveGState()
-            defer { context.restoreGState() }
-            
-            var clippingRect = viewPortHandler.contentRect
-            clippingRect.origin.y -= l.lineWidth / 2.0
-            clippingRect.size.height += l.lineWidth
-            context.clip(to: clippingRect)
+            context.perform {
+                var clippingRect = viewPortHandler.contentRect
+                clippingRect.origin.y -= l.lineWidth / 2.0
+                clippingRect.size.height += l.lineWidth
+                context.clip(to: clippingRect)
 
-            position.x = 0.0
-            position.y = CGFloat(l.limit)
-            position = position.applying(trans)
-            
-            context.beginPath()
-            context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: position.y))
-            context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: position.y))
-            
-            context.setStrokeColor(l.lineColor.cgColor)
-            context.setLineWidth(l.lineWidth)
-            if l.lineDashLengths != nil
-            {
-                context.setLineDash(phase: l.lineDashPhase, lengths: l.lineDashLengths!)
-            }
-            else
-            {
-                context.setLineDash(phase: 0.0, lengths: [])
-            }
-            
-            context.strokePath()
-            
-            let label = l.label
-            
-            // if drawing the limit-value label is enabled
-            if l.drawLabelEnabled, !label.isEmpty
-            {
-                let labelLineHeight = l.valueFont.lineHeight
-                
-                let xOffset = 4.0 + l.xOffset
-                let yOffset = l.lineWidth + labelLineHeight + l.yOffset
+                position.x = 0.0
+                position.y = CGFloat(l.limit)
+                position = position.applying(trans)
 
-                let align: TextAlignment
-                let point: CGPoint
+                context.beginPath()
+                context.move(to: CGPoint(x: viewPortHandler.contentLeft, y: position.y))
+                context.addLine(to: CGPoint(x: viewPortHandler.contentRight, y: position.y))
 
-                switch l.labelPosition
+                context.setStrokeColor(l.lineColor.cgColor)
+                context.setLineWidth(l.lineWidth)
+                if l.lineDashLengths != nil
                 {
-                case .rightTop:
-                    align = .right
-                    point = CGPoint(x: viewPortHandler.contentRight - xOffset,
-                                    y: position.y - yOffset)
-
-                case .rightBottom:
-                    align = .right
-                    point = CGPoint(x: viewPortHandler.contentRight - xOffset,
-                                    y: position.y + yOffset - labelLineHeight)
-
-                case .leftTop:
-                    align = .left
-                    point = CGPoint(x: viewPortHandler.contentLeft + xOffset,
-                                    y: position.y - yOffset)
-
-                case .leftBottom:
-                    align = .left
-                    point = CGPoint(x: viewPortHandler.contentLeft + xOffset,
-                                    y: position.y + yOffset - labelLineHeight)
+                    context.setLineDash(phase: l.lineDashPhase, lengths: l.lineDashLengths!)
+                }
+                else
+                {
+                    context.setLineDash(phase: 0.0, lengths: [])
                 }
 
-                context.drawText(label,
-                                 at: point,
-                                 align: align,
-                                 attributes: [.font: l.valueFont, .foregroundColor: l.valueTextColor])
+                context.strokePath()
+
+                let label = l.label
+
+                // if drawing the limit-value label is enabled
+                if l.drawLabelEnabled, !label.isEmpty
+                {
+                    let labelLineHeight = l.valueFont.lineHeight
+
+                    let xOffset = 4.0 + l.xOffset
+                    let yOffset = l.lineWidth + labelLineHeight + l.yOffset
+
+                    let align: TextAlignment
+                    let point: CGPoint
+
+                    switch l.labelPosition
+                    {
+                    case .rightTop:
+                        align = .right
+                        point = CGPoint(x: viewPortHandler.contentRight - xOffset,
+                                        y: position.y - yOffset)
+
+                    case .rightBottom:
+                        align = .right
+                        point = CGPoint(x: viewPortHandler.contentRight - xOffset,
+                                        y: position.y + yOffset - labelLineHeight)
+
+                    case .leftTop:
+                        align = .left
+                        point = CGPoint(x: viewPortHandler.contentLeft + xOffset,
+                                        y: position.y - yOffset)
+
+                    case .leftBottom:
+                        align = .left
+                        point = CGPoint(x: viewPortHandler.contentLeft + xOffset,
+                                        y: position.y + yOffset - labelLineHeight)
+                    }
+
+                    context.drawText(label,
+                                     at: point,
+                                     align: align,
+                                     attributes: [.font: l.valueFont, .foregroundColor: l.valueTextColor])
+                }
             }
         }
     }

@@ -494,54 +494,53 @@ open class LegendRenderer: NSObject, Renderer
         
         let formSize = entry.formSize.isNaN ? legend.formSize : entry.formSize
         
-        context.saveGState()
-        defer { context.restoreGState() }
-        
-        switch form
-        {
-        case .none:
-            // Do nothing
-            break
-            
-        case .empty:
-            // Do not draw, but keep space for the form
-            break
-            
-        case .default: fallthrough
-        case .circle:
-            
-            context.setFillColor(formColor.cgColor)
-            context.fillEllipse(in: CGRect(x: x, y: y - formSize / 2.0, width: formSize, height: formSize))
-            
-        case .square:
-            
-            context.setFillColor(formColor.cgColor)
-            context.fill(CGRect(x: x, y: y - formSize / 2.0, width: formSize, height: formSize))
-            
-        case .line:
-            
-            let formLineWidth = entry.formLineWidth.isNaN ? legend.formLineWidth : entry.formLineWidth
-            let formLineDashPhase = entry.formLineDashPhase.isNaN ? legend.formLineDashPhase : entry.formLineDashPhase
-            let formLineDashLengths = entry.formLineDashLengths == nil ? legend.formLineDashLengths : entry.formLineDashLengths
-            
-            context.setLineWidth(formLineWidth)
-            
-            if formLineDashLengths != nil && !formLineDashLengths!.isEmpty
+        context.perform {
+            switch form
             {
-                context.setLineDash(phase: formLineDashPhase, lengths: formLineDashLengths!)
+            case .none:
+                // Do nothing
+                break
+
+            case .empty:
+                // Do not draw, but keep space for the form
+                break
+
+            case .default: fallthrough
+            case .circle:
+
+                context.setFillColor(formColor.cgColor)
+                context.fillEllipse(in: CGRect(x: x, y: y - formSize / 2.0, width: formSize, height: formSize))
+
+            case .square:
+
+                context.setFillColor(formColor.cgColor)
+                context.fill(CGRect(x: x, y: y - formSize / 2.0, width: formSize, height: formSize))
+
+            case .line:
+
+                let formLineWidth = entry.formLineWidth.isNaN ? legend.formLineWidth : entry.formLineWidth
+                let formLineDashPhase = entry.formLineDashPhase.isNaN ? legend.formLineDashPhase : entry.formLineDashPhase
+                let formLineDashLengths = entry.formLineDashLengths == nil ? legend.formLineDashLengths : entry.formLineDashLengths
+
+                context.setLineWidth(formLineWidth)
+
+                if formLineDashLengths != nil && !formLineDashLengths!.isEmpty
+                {
+                    context.setLineDash(phase: formLineDashPhase, lengths: formLineDashLengths!)
+                }
+                else
+                {
+                    context.setLineDash(phase: 0.0, lengths: [])
+                }
+
+                context.setStrokeColor(formColor.cgColor)
+
+                _formLineSegmentsBuffer[0].x = x
+                _formLineSegmentsBuffer[0].y = y
+                _formLineSegmentsBuffer[1].x = x + formSize
+                _formLineSegmentsBuffer[1].y = y
+                context.strokeLineSegments(between: _formLineSegmentsBuffer)
             }
-            else
-            {
-                context.setLineDash(phase: 0.0, lengths: [])
-            }
-            
-            context.setStrokeColor(formColor.cgColor)
-            
-            _formLineSegmentsBuffer[0].x = x
-            _formLineSegmentsBuffer[0].y = y
-            _formLineSegmentsBuffer[1].x = x + formSize
-            _formLineSegmentsBuffer[1].y = y
-            context.strokeLineSegments(between: _formLineSegmentsBuffer)
         }
     }
 

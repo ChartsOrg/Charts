@@ -176,45 +176,44 @@ open class YAxisRendererRadarChart: YAxisRenderer
         
         guard !limitLines.isEmpty else { return }
 
-        context.saveGState()
-        defer { context.restoreGState() }
+        context.perform {
+            let sliceangle = chart.sliceAngle
 
-        let sliceangle = chart.sliceAngle
-        
-        // calculate the factor that is needed for transforming the value to pixels
-        let factor = chart.factor
-        
-        let center = chart.centerOffsets
-        
-        for l in limitLines where l.isEnabled
-        {
-            context.setStrokeColor(l.lineColor.cgColor)
-            context.setLineWidth(l.lineWidth)
-            if l.lineDashLengths != nil
-            {
-                context.setLineDash(phase: l.lineDashPhase, lengths: l.lineDashLengths!)
-            }
-            else
-            {
-                context.setLineDash(phase: 0.0, lengths: [])
-            }
-            
-            let r = CGFloat(l.limit - chart.chartYMin) * factor
-            
-            context.beginPath()
-            
-            for i in 0 ..< (data.maxEntryCountSet?.entryCount ?? 0)
-            {
-                let p = center.moving(
-                    distance: r,
-                    atAngle: sliceangle * CGFloat(i) + chart.rotationAngle
-                )
+            // calculate the factor that is needed for transforming the value to pixels
+            let factor = chart.factor
 
-                i == 0 ? context.move(to: p) : context.addLine(to: p)
+            let center = chart.centerOffsets
+
+            for l in limitLines where l.isEnabled
+            {
+                context.setStrokeColor(l.lineColor.cgColor)
+                context.setLineWidth(l.lineWidth)
+                if l.lineDashLengths != nil
+                {
+                    context.setLineDash(phase: l.lineDashPhase, lengths: l.lineDashLengths!)
+                }
+                else
+                {
+                    context.setLineDash(phase: 0.0, lengths: [])
+                }
+
+                let r = CGFloat(l.limit - chart.chartYMin) * factor
+
+                context.beginPath()
+
+                for i in 0 ..< (data.maxEntryCountSet?.entryCount ?? 0)
+                {
+                    let p = center.moving(
+                        distance: r,
+                        atAngle: sliceangle * CGFloat(i) + chart.rotationAngle
+                    )
+
+                    i == 0 ? context.move(to: p) : context.addLine(to: p)
+                }
+
+                context.closePath()
+                context.strokePath()
             }
-            
-            context.closePath()
-            context.strokePath()
         }
     }
 }

@@ -305,103 +305,102 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         let borderColor = dataSet.barBorderColor
         let drawBorder = borderWidth > 0.0
         
-        context.saveGState()
-        defer { context.restoreGState() }
-        
-        // draw the bar shadow before the values
-        if dataProvider.isDrawBarShadowEnabled
-        {
-            guard let barData = dataProvider.barData else { return }
-            
-            let barWidth = barData.barWidth
-            let barWidthHalf = barWidth / 2.0
-            var x: Double = 0.0
-
-            let range = (0..<dataSet.entryCount).clamped(to: 0..<Int(ceil(Double(dataSet.entryCount) * animator.phaseX)))
-            for i in range
+        context.perform {
+            // draw the bar shadow before the values
+            if dataProvider.isDrawBarShadowEnabled
             {
-                guard let e = dataSet.entryForIndex(i) as? BarChartDataEntry else { continue }
-                
-                x = e.x
-                
-                _barShadowRectBuffer.origin.x = CGFloat(x - barWidthHalf)
-                _barShadowRectBuffer.size.width = CGFloat(barWidth)
-                
-                trans.rectValueToPixel(&_barShadowRectBuffer)
-                
-                guard viewPortHandler.isInBoundsLeft(_barShadowRectBuffer.origin.x + _barShadowRectBuffer.size.width) else { continue }
-                
-                guard viewPortHandler.isInBoundsRight(_barShadowRectBuffer.origin.x) else { break }
-                
-                _barShadowRectBuffer.origin.y = viewPortHandler.contentTop
-                _barShadowRectBuffer.size.height = viewPortHandler.contentHeight
-                
-                context.setFillColor(dataSet.barShadowColor.cgColor)
-                context.fill(_barShadowRectBuffer)
+                guard let barData = dataProvider.barData else { return }
+
+                let barWidth = barData.barWidth
+                let barWidthHalf = barWidth / 2.0
+                var x: Double = 0.0
+
+                let range = (0..<dataSet.entryCount).clamped(to: 0..<Int(ceil(Double(dataSet.entryCount) * animator.phaseX)))
+                for i in range
+                {
+                    guard let e = dataSet.entryForIndex(i) as? BarChartDataEntry else { continue }
+
+                    x = e.x
+
+                    _barShadowRectBuffer.origin.x = CGFloat(x - barWidthHalf)
+                    _barShadowRectBuffer.size.width = CGFloat(barWidth)
+
+                    trans.rectValueToPixel(&_barShadowRectBuffer)
+
+                    guard viewPortHandler.isInBoundsLeft(_barShadowRectBuffer.origin.x + _barShadowRectBuffer.size.width) else { continue }
+
+                    guard viewPortHandler.isInBoundsRight(_barShadowRectBuffer.origin.x) else { break }
+
+                    _barShadowRectBuffer.origin.y = viewPortHandler.contentTop
+                    _barShadowRectBuffer.size.height = viewPortHandler.contentHeight
+
+                    context.setFillColor(dataSet.barShadowColor.cgColor)
+                    context.fill(_barShadowRectBuffer)
+                }
             }
-        }
 
-        let buffer = _buffers[index]
-        
-        // draw the bar shadow before the values
-        if dataProvider.isDrawBarShadowEnabled
-        {
-            for barRect in buffer where viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width)
+            let buffer = _buffers[index]
+
+            // draw the bar shadow before the values
+            if dataProvider.isDrawBarShadowEnabled
             {
+                for barRect in buffer where viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width)
+                {
+                    guard viewPortHandler.isInBoundsRight(barRect.origin.x) else { break }
+
+                    context.setFillColor(dataSet.barShadowColor.cgColor)
+                    context.fill(barRect)
+                }
+            }
+
+            let isSingleColor = dataSet.colors.count == 1
+
+            if isSingleColor
+            {
+                context.setFillColor(dataSet.color(atIndex: 0).cgColor)
+            }
+
+            // In case the chart is stacked, we need to accomodate individual bars within accessibilityOrdereredElements
+            let isStacked = dataSet.isStacked
+            let stackSize = isStacked ? dataSet.stackSize : 1
+
+            for j in buffer.indices
+            {
+                let barRect = buffer[j]
+
+                guard viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width) else { continue }
                 guard viewPortHandler.isInBoundsRight(barRect.origin.x) else { break }
 
-                context.setFillColor(dataSet.barShadowColor.cgColor)
-                context.fill(barRect)
-            }
-        }
-        
-        let isSingleColor = dataSet.colors.count == 1
-        
-        if isSingleColor
-        {
-            context.setFillColor(dataSet.color(atIndex: 0).cgColor)
-        }
-        
-        // In case the chart is stacked, we need to accomodate individual bars within accessibilityOrdereredElements
-        let isStacked = dataSet.isStacked
-        let stackSize = isStacked ? dataSet.stackSize : 1
-
-        for j in buffer.indices
-        {
-            let barRect = buffer[j]
-            
-            guard viewPortHandler.isInBoundsLeft(barRect.origin.x + barRect.size.width) else { continue }
-            guard viewPortHandler.isInBoundsRight(barRect.origin.x) else { break }
-
-            if !isSingleColor
-            {
-                // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
-                context.setFillColor(dataSet.color(atIndex: j).cgColor)
-            }
-            
-            context.fill(barRect)
-            
-            if drawBorder
-            {
-                context.setStrokeColor(borderColor.cgColor)
-                context.setLineWidth(borderWidth)
-                context.stroke(barRect)
-            }
-
-            // Create and append the corresponding accessibility element to accessibilityOrderedElements
-            if let chart = dataProvider as? BarChartView
-            {
-                let element = createAccessibleElement(
-                    withIndex: j,
-                    container: chart,
-                    dataSet: dataSet,
-                    dataSetIndex: index,
-                    stackSize: stackSize
-                ) { (element) in
-                    element.accessibilityFrame = barRect
+                if !isSingleColor
+                {
+                    // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
+                    context.setFillColor(dataSet.color(atIndex: j).cgColor)
                 }
 
-                accessibilityOrderedElements[j/stackSize].append(element)
+                context.fill(barRect)
+
+                if drawBorder
+                {
+                    context.setStrokeColor(borderColor.cgColor)
+                    context.setLineWidth(borderWidth)
+                    context.stroke(barRect)
+                }
+
+                // Create and append the corresponding accessibility element to accessibilityOrderedElements
+                if let chart = dataProvider as? BarChartView
+                {
+                    let element = createAccessibleElement(
+                        withIndex: j,
+                        container: chart,
+                        dataSet: dataSet,
+                        dataSetIndex: index,
+                        stackSize: stackSize
+                    ) { (element) in
+                        element.accessibilityFrame = barRect
+                    }
+
+                    accessibilityOrderedElements[j/stackSize].append(element)
+                }
             }
         }
     }
@@ -694,57 +693,57 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             let barData = dataProvider.barData
             else { return }
         
-        context.saveGState()
-        defer { context.restoreGState() }
-        var barRect = CGRect()
-        
-        for high in indices
-        {
-            guard
-                let set = barData[high.dataSetIndex] as? BarChartDataSetProtocol,
-                set.isHighlightEnabled
-                else { continue }
+        context.perform {
+            var barRect = CGRect()
             
-            if let e = set.entryForXValue(high.x, closestToY: high.y) as? BarChartDataEntry
+            for high in indices
             {
-                guard isInBoundsX(entry: e, dataSet: set) else { continue }
+                guard
+                    let set = barData[high.dataSetIndex] as? BarChartDataSetProtocol,
+                    set.isHighlightEnabled
+                else { continue }
                 
-                let trans = dataProvider.getTransformer(forAxis: set.axisDependency)
-                
-                context.setFillColor(set.highlightColor.cgColor)
-                context.setAlpha(set.highlightAlpha)
-                
-                let isStack = high.stackIndex >= 0 && e.isStacked
-                
-                let y1: Double
-                let y2: Double
-                
-                if isStack
+                if let e = set.entryForXValue(high.x, closestToY: high.y) as? BarChartDataEntry
                 {
-                    if dataProvider.isHighlightFullBarEnabled
+                    guard isInBoundsX(entry: e, dataSet: set) else { continue }
+                    
+                    let trans = dataProvider.getTransformer(forAxis: set.axisDependency)
+                    
+                    context.setFillColor(set.highlightColor.cgColor)
+                    context.setAlpha(set.highlightAlpha)
+                    
+                    let isStack = high.stackIndex >= 0 && e.isStacked
+                    
+                    let y1: Double
+                    let y2: Double
+                    
+                    if isStack
                     {
-                        y1 = e.positiveSum
-                        y2 = -e.negativeSum
+                        if dataProvider.isHighlightFullBarEnabled
+                        {
+                            y1 = e.positiveSum
+                            y2 = -e.negativeSum
+                        }
+                        else
+                        {
+                            let range = e.ranges?[high.stackIndex]
+                            
+                            y1 = range?.from ?? 0.0
+                            y2 = range?.to ?? 0.0
+                        }
                     }
                     else
                     {
-                        let range = e.ranges?[high.stackIndex]
-                        
-                        y1 = range?.from ?? 0.0
-                        y2 = range?.to ?? 0.0
+                        y1 = e.y
+                        y2 = 0.0
                     }
+                    
+                    prepareBarHighlight(x: e.x, y1: y1, y2: y2, barWidthHalf: barData.barWidth / 2.0, trans: trans, rect: &barRect)
+                    
+                    setHighlightDrawPos(highlight: high, barRect: barRect)
+                    
+                    context.fill(barRect)
                 }
-                else
-                {
-                    y1 = e.y
-                    y2 = 0.0
-                }
-                
-                prepareBarHighlight(x: e.x, y1: y1, y2: y2, barWidthHalf: barData.barWidth / 2.0, trans: trans, rect: &barRect)
-                
-                setHighlightDrawPos(highlight: high, barRect: barRect)
-                
-                context.fill(barRect)
             }
         }
     }

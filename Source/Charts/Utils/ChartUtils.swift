@@ -200,13 +200,12 @@ extension CGContext
                 translate.y -= rotatedSize.height * (anchor.y - 0.5)
             }
 
-            saveGState()
-            translateBy(x: translate.x, y: translate.y)
-            rotate(by: angleRadians)
+            perform {
+                translateBy(x: translate.x, y: translate.y)
+                rotate(by: angleRadians)
 
-            (text as NSString).draw(at: drawOffset, withAttributes: attributes)
-
-            restoreGState()
+                (text as NSString).draw(at: drawOffset, withAttributes: attributes)
+            }
         }
         else
         {
@@ -265,13 +264,12 @@ extension CGContext
                 translate.y -= rotatedSize.height * (anchor.y - 0.5)
             }
 
-            saveGState()
-            translateBy(x: translate.x, y: translate.y)
-            rotate(by: angleRadians)
-
-            (text as NSString).draw(with: rect, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
-
-            restoreGState()
+            perform {
+                translateBy(x: translate.x, y: translate.y)
+                rotate(by: angleRadians)
+                
+                (text as NSString).draw(with: rect, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+            }
         }
         else
         {

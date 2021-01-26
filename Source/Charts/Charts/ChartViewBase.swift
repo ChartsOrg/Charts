@@ -260,23 +260,25 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
 
         if data === nil && !noDataText.isEmpty
         {
-            context.saveGState()
-            defer { context.restoreGState() }
+            context.perform {
+                let paragraphStyle = MutableParagraphStyle.default.mutableCopy() as! MutableParagraphStyle
+                paragraphStyle.minimumLineHeight = noDataFont.lineHeight
+                paragraphStyle.lineBreakMode = .byWordWrapping
+                paragraphStyle.alignment = noDataTextAlignment
 
-            let paragraphStyle = MutableParagraphStyle.default.mutableCopy() as! MutableParagraphStyle
-            paragraphStyle.minimumLineHeight = noDataFont.lineHeight
-            paragraphStyle.lineBreakMode = .byWordWrapping
-            paragraphStyle.alignment = noDataTextAlignment
-
-            context.drawMultilineText(noDataText,
-                                      at: CGPoint(x: bounds.width / 2.0, y: bounds.height / 2.0),
-                                      constrainedTo: bounds.size,
-                                      anchor: CGPoint(x: 0.5, y: 0.5),
-                                      angleRadians: 0.0,
-                                      attributes: [.font: noDataFont,
-                                                   .foregroundColor: noDataTextColor,
-                                                   .paragraphStyle: paragraphStyle])
-
+                context.drawMultilineText(
+                    noDataText,
+                    at: CGPoint(x: bounds.width / 2.0, y: bounds.height / 2.0),
+                    constrainedTo: bounds.size,
+                    anchor: CGPoint(x: 0.5, y: 0.5),
+                    angleRadians: 0.0,
+                    attributes: [
+                        .font: noDataFont,
+                        .foregroundColor: noDataTextColor,
+                        .paragraphStyle: paragraphStyle
+                    ]
+                )
+            }
             return
         }
         
