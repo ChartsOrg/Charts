@@ -823,35 +823,22 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// **default**: true
     /// `true` if chart continues to scroll after touch up, `false` ifnot.
-    @objc open var isDragDecelerationEnabled: Bool
-        {
-            return dragDecelerationEnabled
-    }
+    @objc open var isDragDecelerationEnabled: Bool { dragDecelerationEnabled }
     
     /// Deceleration friction coefficient in [0 ; 1] interval, higher values indicate that speed will decrease slowly, for example if it set to 0, it will stop immediately.
     /// 1 is an invalid value, and will be converted to 0.999 automatically.
-    @objc open var dragDecelerationFrictionCoef: CGFloat
-    {
-        get
-        {
-            return _dragDecelerationFrictionCoef
-        }
-        set
-        {
-            _dragDecelerationFrictionCoef = max(0, min(newValue, 0.999))
-        }
-    }
-    private var _dragDecelerationFrictionCoef: CGFloat = 0.9
-    
+
+    @objc
+    @Clamped(0...0.999)
+    open var dragDecelerationFrictionCoef: CGFloat = 0.9
+
+    //
     /// The maximum distance in screen pixels away from an entry causing it to highlight.
     /// **default**: 500.0
     open var maxHighlightDistance: CGFloat = 500.0
     
     /// the number of maximum visible drawn values on the chart only active when `drawValuesEnabled` is enabled
-    open var maxVisibleCount: Int
-    {
-        return .max
-    }
+    open var maxVisibleCount: Int { .max }
     
     // MARK: - AnimatorDelegate
     
