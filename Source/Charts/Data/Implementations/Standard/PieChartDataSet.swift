@@ -49,8 +49,14 @@ open class PieChartDataSet: ChartDataSet, PieChartDataSetProtocol
     /// the space in pixels between the pie-slices
     /// **default**: 0
     /// **maximum**: 20
+    @objc
+    open var sliceSpace: CGFloat {
+        get { _sliceSpace }
+        set { _sliceSpace = newValue }
+    }
+
     @Clamped(0...20)
-    open var sliceSpace: CGFloat = 0
+    private var _sliceSpace: CGFloat = 0
 
     /// When enabled, slice spacing will be 0.0 when the smallest value is going to be smaller than the slice spacing itself.
     open var automaticallyDisableSliceSpacing: Bool = false

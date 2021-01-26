@@ -829,8 +829,13 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// 1 is an invalid value, and will be converted to 0.999 automatically.
 
     @objc
+    open var dragDecelerationFrictionCoef: CGFloat {
+        get { _dragDecelerationFrictionCoef }
+        set { _dragDecelerationFrictionCoef = newValue }
+    }
+    
     @Clamped(0...0.999)
-    open var dragDecelerationFrictionCoef: CGFloat = 0.9
+    private var _dragDecelerationFrictionCoef: CGFloat = 0.9
 
     //
     /// The maximum distance in screen pixels away from an entry causing it to highlight.
