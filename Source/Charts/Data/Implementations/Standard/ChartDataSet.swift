@@ -260,6 +260,7 @@ open class ChartDataSet: ChartBaseDataSet
         closestToY yValue: Double,
         rounding: ChartDataSetRounding) -> Int
     {
+        guard xValue.isFinite else { return -1 }
         var low = startIndex
         var high = endIndex - 1
         var closest = high
