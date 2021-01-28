@@ -417,7 +417,7 @@ open class PieChartView: PieRadarChartViewBase
             }
             else
             {
-                let paragraphStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+                let paragraphStyle = ParagraphStyle.default.mutableCopy() as! MutableParagraphStyle
                 paragraphStyle.lineBreakMode = .byTruncatingTail
                 paragraphStyle.alignment = .center
                 
