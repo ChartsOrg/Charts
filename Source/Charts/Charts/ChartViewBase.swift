@@ -62,12 +62,9 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
             // calculate how many digits are needed
             setupDefaultFormatter(min: data.yMin, max: data.yMax)
 
-            for set in data
+            for set in data where set.valueFormatter is DefaultValueFormatter
             {
-                if set.valueFormatter is DefaultValueFormatter
-                {
-                    set.valueFormatter = defaultValueFormatter
-                }
+                set.valueFormatter = defaultValueFormatter
             }
 
             // let the chart know there is new data
@@ -75,15 +72,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         }
     }
 
-    /// Flag that indicates if highlighting per tap (touch) is enabled
-    private var _highlightPerTapEnabled = true
-    
     /// If set to true, chart continues to scroll after touch up
     @objc open var dragDecelerationEnabled = true
-
-    /// if true, units are drawn next to the values in the chart
-    // TODO: This is used nowhere and can't be used by a consumer. Can we remove this property?
-    internal var _drawUnitInChart = false
 
     /// The object representing the labels on the x-axis
     @objc open internal(set) lazy var xAxis = XAxis()
@@ -107,7 +97,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     @objc open var noDataTextColor: NSUIColor = .labelOrBlack
 
     /// alignment of the no data text
-    @objc open var noDataTextAlignment: NSTextAlignment = .left
+    @objc open var noDataTextAlignment: TextAlignment = .left
 
     /// The renderer object responsible for rendering / drawing the Legend.
     @objc open lazy var legendRenderer = LegendRenderer(viewPortHandler: viewPortHandler, legend: legend)
@@ -144,9 +134,6 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     /// The marker that is displayed when a value is clicked on the chart
     @objc open var marker: Marker?
-
-    // TODO: There is no way to modify this value. Should it exist?
-    private let interceptTouchEvents = false
 
     /// An extra offset to be appended to the viewport's top
     @objc open var extraTopOffset: CGFloat = 0.0
@@ -251,13 +238,11 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         
         if let data = data , data.entryCount >= 2
         {
-            reference = fabs(max - min)
+            reference = abs(max - min)
         }
         else
         {
-            let absMin = fabs(min)
-            let absMax = fabs(max)
-            reference = absMin > absMax ? absMin : absMax
+            reference = Swift.max(abs(min), abs(max))
         }
         
     
@@ -271,15 +256,14 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     open override func draw(_ rect: CGRect)
     {
-        let optionalContext = NSUIGraphicsGetCurrentContext()
-        guard let context = optionalContext else { return }
+        guard let context = NSUIGraphicsGetCurrentContext() else { return }
 
         if data === nil && !noDataText.isEmpty
         {
             context.saveGState()
             defer { context.restoreGState() }
 
-            let paragraphStyle = NSMutableParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+            let paragraphStyle = MutableParagraphStyle.default.mutableCopy() as! MutableParagraphStyle
             paragraphStyle.minimumLineHeight = noDataFont.lineHeight
             paragraphStyle.lineBreakMode = .byWordWrapping
             paragraphStyle.alignment = noDataTextAlignment
@@ -340,12 +324,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// Set this to false to prevent values from being highlighted by tap gesture.
     /// Values can still be highlighted via drag or programmatically.
     /// **default**: true
-    @objc open var highlightPerTapEnabled: Bool
-    {
-        get { return _highlightPerTapEnabled }
-        set { _highlightPerTapEnabled = newValue }
-    }
-    
+    @objc open var highlightPerTapEnabled: Bool = true
+
     /// `true` if values can be highlighted via tap gesture, `false` ifnot.
     @objc open var isHighLightPerTapEnabled: Bool
     {
@@ -369,10 +349,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         // set the indices to highlight
         highlighted = highs ?? []
 
-        lastHighlighted = highlighted.isEmpty
-            ? nil
-            : highlighted[0]
-
+        lastHighlighted = highlighted.first
 
         // redraw the chart
         setNeedsDisplay()
@@ -704,7 +681,6 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// The center point of the chart (the whole View) in pixels.
     @objc open var midPoint: CGPoint
     {
-        let bounds = self.bounds
         return CGPoint(x: bounds.origin.x + bounds.size.width / 2.0, y: bounds.origin.y + bounds.size.height / 2.0)
     }
     
@@ -862,12 +838,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
         }
         set
         {
-            switch newValue
-            {
-            case ..<0.0: _dragDecelerationFrictionCoef = 0
-            case 1.0...: _dragDecelerationFrictionCoef = 0.999
-            default: _dragDecelerationFrictionCoef = newValue
-            }
+            _dragDecelerationFrictionCoef = max(0, min(newValue, 0.999))
         }
     }
     private var _dragDecelerationFrictionCoef: CGFloat = 0.9
@@ -898,33 +869,21 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     
     open override func nsuiTouchesBegan(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
     {
-        if !interceptTouchEvents
-        {
-            super.nsuiTouchesBegan(touches, withEvent: event)
-        }
+        super.nsuiTouchesBegan(touches, withEvent: event)
     }
     
     open override func nsuiTouchesMoved(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
     {
-        if !interceptTouchEvents
-        {
-            super.nsuiTouchesMoved(touches, withEvent: event)
-        }
+        super.nsuiTouchesMoved(touches, withEvent: event)
     }
     
     open override func nsuiTouchesEnded(_ touches: Set<NSUITouch>, withEvent event: NSUIEvent?)
     {
-        if !interceptTouchEvents
-        {
-            super.nsuiTouchesEnded(touches, withEvent: event)
-        }
+        super.nsuiTouchesEnded(touches, withEvent: event)
     }
     
     open override func nsuiTouchesCancelled(_ touches: Set<NSUITouch>?, withEvent event: NSUIEvent?)
     {
-        if !interceptTouchEvents
-        {
-            super.nsuiTouchesCancelled(touches, withEvent: event)
-        }
+        super.nsuiTouchesCancelled(touches, withEvent: event)
     }
 }

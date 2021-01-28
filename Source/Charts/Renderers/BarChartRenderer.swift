@@ -391,12 +391,13 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             // Create and append the corresponding accessibility element to accessibilityOrderedElements
             if let chart = dataProvider as? BarChartView
             {
-                let element = createAccessibleElement(withIndex: j,
-                                                      container: chart,
-                                                      dataSet: dataSet,
-                                                      dataSetIndex: index,
-                                                      stackSize: stackSize)
-                { (element) in
+                let element = createAccessibleElement(
+                    withIndex: j,
+                    container: chart,
+                    dataSet: dataSet,
+                    dataSetIndex: index,
+                    stackSize: stackSize
+                ) { (element) in
                     element.accessibilityFrame = barRect
                 }
 
@@ -633,7 +634,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                     var bufferIndex = 0
 //index for the colors to count each bar even when move across stacks
                     
-                    for index in 0 ..< Int(ceil(Double(dataSet.entryCount) * animator.phaseX))
+                    let lastIndex = ceil(Double(dataSet.entryCount) * animator.phaseX)
+
+                    for index in 0 ..< Int(lastIndex)
                     {
                         guard let e = dataSet.entryForIndex(index) as? BarChartDataEntry else { continue }
                         
@@ -726,7 +729,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     }
     
     /// Draws a value at the specified x and y position.
-    @objc open func drawValue(context: CGContext, value: String, xPos: CGFloat, yPos: CGFloat, font: NSUIFont, align: NSTextAlignment, color: NSUIColor, anchor: CGPoint, angleRadians: CGFloat)
+    @objc open func drawValue(context: CGContext, value: String, xPos: CGFloat, yPos: CGFloat, font: NSUIFont, align: TextAlignment, color: NSUIColor, anchor: CGPoint, angleRadians: CGFloat)
     {
         if (angleRadians == 0.0)
         {
