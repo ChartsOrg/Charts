@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -29,6 +29,7 @@
 		219192CA6B4895319AB49DCA /* BarLineScatterCandleBubbleRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1C588E9DF6FFD56D7ADF8E /* BarLineScatterCandleBubbleRenderer.swift */; };
 		221CA2922588FCBC00C2DD1E /* Sequence+KeyPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221CA2912588FCBC00C2DD1E /* Sequence+KeyPath.swift */; };
 		2243BBFD1FF156EC00B49D0B /* EquatableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2243BBFB1FF156D000B49D0B /* EquatableTests.swift */; };
+		228D56232554F27A00BEE75E /* Algorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 228D56222554F27A00BEE75E /* Algorithms */; };
 		23649EFC635A76022F07FFA6 /* PieChartDataEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD02157CF8CEE1189BF681DA /* PieChartDataEntry.swift */; };
 		23FA50B2730D8C7ACA091C4F /* BarChartRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F279974FE650E57A061B09 /* BarChartRenderer.swift */; };
 		24151B0729D77251A8494D70 /* LineRadarRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 105FFC9D3773A9C7A60A897F /* LineRadarRenderer.swift */; };
@@ -344,6 +345,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				228D56232554F27A00BEE75E /* Algorithms in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -748,6 +750,9 @@
 			dependencies = (
 			);
 			name = Charts;
+			packageProductDependencies = (
+				228D56222554F27A00BEE75E /* Algorithms */,
+			);
 			productName = Charts;
 			productReference = 65AD9E95D9ED4DC0BD73A743 /* Charts.framework */;
 			productType = "com.apple.product-type.framework";
@@ -798,6 +803,9 @@
 				Base,
 			);
 			mainGroup = 865A1CF149F52850CAB7F177;
+			packageReferences = (
+				228D56212554F27A00BEE75E /* XCRemoteSwiftPackageReference "swift-algorithms" */,
+			);
 			productRefGroup = AB2D554102718F209377399E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1050,7 +1058,11 @@
 				INFOPLIST_FILE = "Source/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1085,8 +1097,16 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Tests/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.ChartsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1145,7 +1165,8 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				SDKROOT = macosx;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
 				VALIDATE_PRODUCT = YES;
@@ -1206,7 +1227,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
 			};
@@ -1229,7 +1251,11 @@
 				INFOPLIST_FILE = "Source/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MARKETING_VERSION = 4.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -1238,7 +1264,8 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1263,14 +1290,23 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Tests/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dcg.ChartsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator appletvos appletvsimulator";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
@@ -1307,6 +1343,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		228D56212554F27A00BEE75E /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-algorithms";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		228D56222554F27A00BEE75E /* Algorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 228D56212554F27A00BEE75E /* XCRemoteSwiftPackageReference "swift-algorithms" */;
+			productName = Algorithms;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 193FC8DF32D250560C5F5D77 /* Project object */;
 }
